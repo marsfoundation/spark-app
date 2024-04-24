@@ -1,0 +1,413 @@
+import { WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@storybook/decorators'
+import { Meta, StoryObj } from '@storybook/react'
+import { tokens } from '@storybook/tokens'
+import { getMobileStory, getTabletStory } from '@storybook/viewports'
+import BigNumber from 'bignumber.js'
+import { useRef } from 'react'
+import { useForm } from 'react-hook-form'
+import { withRouter } from 'storybook-addon-react-router-v6'
+import { zeroAddress } from 'viem'
+
+import { TokenWithBalance, TokenWithFormValue } from '@/domain/common/types'
+import { UserPositionSummary } from '@/domain/market-info/marketInfo'
+import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { Objective } from '@/features/actions/logic/types'
+
+import { EasyBorrowFormSchema } from '../logic/form/validation'
+import { ExistingPosition, PageState } from '../logic/types'
+import { EasyBorrowView } from './EasyBorrowView'
+
+interface EasyBorrowViewStoryProps {
+  assetsToDeposit: TokenWithFormValue[]
+  assetsToBorrow: TokenWithFormValue[]
+  alreadyDeposited: ExistingPosition
+  alreadyBorrowed: ExistingPosition
+  pageState: PageState
+  allAssets: TokenWithBalance[]
+  assetToMaxValue: Record<TokenSymbol, NormalizedUnitNumber>
+  updatedPositionSummary: UserPositionSummary
+  actions: Objective[]
+  guestMode: boolean
+  assetToBorrow: {
+    symbol: TokenSymbol
+    borrowRate: Percentage
+  }
+}
+
+function EasyBorrowViewStory(props: EasyBorrowViewStoryProps) {
+  const {
+    assetsToBorrow,
+    assetsToDeposit,
+    alreadyDeposited,
+    alreadyBorrowed,
+    pageState,
+    allAssets,
+    assetToMaxValue,
+    updatedPositionSummary,
+    actions,
+    guestMode,
+    assetToBorrow,
+  } = props
+  const form = useForm<EasyBorrowFormSchema>({
+    defaultValues: {
+      assetsToBorrow,
+      assetsToDeposit,
+    },
+  })
+
+  const assetsToDepositFields = {
+    selectedAssets: assetsToDeposit,
+    addAsset: () => {},
+    removeAsset: () => {},
+    allAssets,
+    assetToMaxValue,
+    changeAsset: () => {},
+  }
+  const assetsToBorrowFields = {
+    selectedAssets: assetsToBorrow,
+    addAsset: () => {},
+    removeAsset: () => {},
+    allAssets,
+    assetToMaxValue,
+    changeAsset: () => {},
+  }
+
+  /* eslint-disable func-style */
+  const setDesiredLoanToValue = () => {}
+  const openConnectModal = () => {}
+  /* eslint-enable func-style */
+
+  const pageStatus = {
+    state: pageState,
+    onProceedToForm: () => {},
+    goToSuccessScreen: () => {},
+    submitForm: () => {},
+  }
+  const healthFactorPanelRef = useRef<HTMLDivElement>(null)
+
+  return (
+    <EasyBorrowView
+      pageStatus={pageStatus}
+      form={form}
+      assetsToBorrowFields={assetsToBorrowFields}
+      assetsToDepositFields={assetsToDepositFields}
+      alreadyDeposited={alreadyDeposited}
+      alreadyBorrowed={alreadyBorrowed}
+      updatedPositionSummary={updatedPositionSummary}
+      setDesiredLoanToValue={setDesiredLoanToValue}
+      objectives={actions}
+      assetToBorrow={assetToBorrow}
+      guestMode={guestMode}
+      openConnectModal={openConnectModal}
+      healthFactorPanelRef={healthFactorPanelRef}
+    />
+  )
+}
+
+const meta: Meta<typeof EasyBorrowViewStory> = {
+  title: 'Features/EasyBorrow/Views/EasyBorrowView',
+  component: EasyBorrowViewStory,
+  decorators: [withRouter, WithTooltipProvider(), ZeroAllowanceWagmiDecorator()],
+  args: {
+    pageState: 'form',
+    allAssets: [
+      {
+        token: tokens['ETH'],
+        balance: NormalizedUnitNumber(1),
+      },
+      {
+        token: tokens['wstETH'],
+        balance: NormalizedUnitNumber(1),
+      },
+      {
+        token: tokens['rETH'],
+        balance: NormalizedUnitNumber(1),
+      },
+      {
+        token: tokens['GNO'],
+        balance: NormalizedUnitNumber(1),
+      },
+    ],
+    assetToMaxValue: {
+      [TokenSymbol('ETH')]: NormalizedUnitNumber(1),
+      [TokenSymbol('wstETH')]: NormalizedUnitNumber(1),
+      [TokenSymbol('rETH')]: NormalizedUnitNumber(1),
+      [TokenSymbol('GNO')]: NormalizedUnitNumber(1),
+    },
+    assetsToBorrow: [
+      {
+        token: tokens['DAI'],
+        balance: NormalizedUnitNumber(1000),
+        value: '',
+      },
+    ],
+    assetsToDeposit: [
+      {
+        token: tokens['ETH'],
+        balance: NormalizedUnitNumber(10),
+        value: '',
+      },
+    ],
+    alreadyDeposited: {
+      tokens: [],
+      totalValueUSD: NormalizedUnitNumber(0),
+    },
+    alreadyBorrowed: {
+      tokens: [],
+      totalValueUSD: NormalizedUnitNumber(0),
+    },
+    updatedPositionSummary: {
+      availableBorrowsUSD: NormalizedUnitNumber(0),
+      currentLiquidationThreshold: Percentage(0.8),
+      loanToValue: Percentage(0),
+      healthFactor: undefined,
+      maxLoanToValue: Percentage(0.8),
+      totalBorrowsUSD: NormalizedUnitNumber(0),
+      totalCollateralUSD: NormalizedUnitNumber(0),
+      totalLiquidityUSD: NormalizedUnitNumber(0),
+    },
+    guestMode: false,
+    assetToBorrow: { symbol: tokens.DAI.symbol, borrowRate: Percentage(0.0553) },
+    actions: [],
+  },
+}
+
+export default meta
+type Story = StoryObj<typeof EasyBorrowView>
+
+export const InitialViewDesktop: Story = {
+  name: 'Initial View Desktop',
+}
+
+export const InitialViewMobile = getMobileStory(InitialViewDesktop)
+export const InitialViewTablet = getTabletStory(InitialViewDesktop)
+
+const depositETHArgs: Partial<EasyBorrowViewStoryProps> = {
+  assetsToBorrow: [
+    {
+      token: tokens['DAI'],
+      balance: NormalizedUnitNumber(1000),
+      value: '1000',
+    },
+  ],
+  assetsToDeposit: [
+    {
+      token: tokens['ETH'],
+      balance: NormalizedUnitNumber(10),
+      value: '1',
+    },
+  ],
+  updatedPositionSummary: {
+    availableBorrowsUSD: NormalizedUnitNumber(1000),
+    currentLiquidationThreshold: Percentage(0.8),
+    loanToValue: Percentage(0.5),
+    healthFactor: new BigNumber(1.5),
+    maxLoanToValue: Percentage(0.8),
+    totalBorrowsUSD: NormalizedUnitNumber(10),
+    totalCollateralUSD: NormalizedUnitNumber(1000),
+    totalLiquidityUSD: NormalizedUnitNumber(1000),
+  },
+}
+
+export const DepositETHDesktop: Story = {
+  name: 'Deposit ETH desktop',
+  args: depositETHArgs,
+}
+
+export const DepositETHMobile = getMobileStory(DepositETHDesktop)
+export const DepositETHTablet = getTabletStory(DepositETHDesktop)
+
+const depositETHWithExistingPositionArgs: Partial<EasyBorrowViewStoryProps> = {
+  assetsToBorrow: [
+    {
+      token: tokens['DAI'],
+      balance: NormalizedUnitNumber(1000),
+      value: '1000',
+    },
+  ],
+  assetsToDeposit: [
+    {
+      token: tokens['ETH'],
+      balance: NormalizedUnitNumber(10),
+      value: '1',
+    },
+  ],
+  alreadyDeposited: {
+    tokens: [tokens['ETH'], tokens['wstETH'], tokens['rETH'], tokens['GNO'], tokens['WBTC']],
+    totalValueUSD: NormalizedUnitNumber(1000),
+  },
+  alreadyBorrowed: {
+    tokens: [tokens['DAI']],
+    totalValueUSD: NormalizedUnitNumber(500),
+  },
+  updatedPositionSummary: {
+    availableBorrowsUSD: NormalizedUnitNumber(2000),
+    currentLiquidationThreshold: Percentage(0.8),
+    loanToValue: Percentage(0.5),
+    healthFactor: new BigNumber(1.5),
+    maxLoanToValue: Percentage(0.8),
+    totalBorrowsUSD: NormalizedUnitNumber(10),
+    totalCollateralUSD: NormalizedUnitNumber(2000),
+    totalLiquidityUSD: NormalizedUnitNumber(2000),
+  },
+}
+
+export const DepositETHWithExistingPositionDesktop: Story = {
+  name: 'Deposit ETH with existing position desktop',
+  args: depositETHWithExistingPositionArgs,
+}
+
+export const DepositETHWithExistingPositionMobile = getMobileStory(DepositETHWithExistingPositionDesktop)
+export const DepositETHWithExistingPositionTablet = getTabletStory(DepositETHWithExistingPositionDesktop)
+
+const depositETHActionsArgs: Partial<EasyBorrowViewStoryProps> = {
+  pageState: 'confirmation',
+  assetsToBorrow: [
+    {
+      token: tokens['DAI'],
+      balance: NormalizedUnitNumber(1000),
+      value: '1000',
+    },
+  ],
+  assetsToDeposit: [
+    {
+      token: tokens['ETH'],
+      balance: NormalizedUnitNumber(10),
+      value: '1',
+    },
+  ],
+  updatedPositionSummary: {
+    availableBorrowsUSD: NormalizedUnitNumber(2000),
+    currentLiquidationThreshold: Percentage(0.8),
+    loanToValue: Percentage(0.5),
+    healthFactor: new BigNumber(1.5),
+    maxLoanToValue: Percentage(0.8),
+    totalBorrowsUSD: NormalizedUnitNumber(10),
+    totalCollateralUSD: NormalizedUnitNumber(2000),
+    totalLiquidityUSD: NormalizedUnitNumber(2000),
+  },
+  actions: [
+    {
+      type: 'deposit',
+      lendingPool: CheckedAddress(zeroAddress),
+      value: NormalizedUnitNumber(1),
+      token: tokens['ETH'],
+    },
+    {
+      type: 'borrow',
+      value: NormalizedUnitNumber(1000),
+      token: tokens['DAI'],
+      debtTokenAddress: CheckedAddress(zeroAddress),
+    },
+  ],
+}
+
+export const DepositETHActionDesktop: Story = {
+  name: 'Deposit ETH with actions desktop',
+  args: depositETHActionsArgs,
+}
+
+export const DepositETHActionMobile = getMobileStory(DepositETHActionDesktop)
+export const DepositETHActionTablet = getTabletStory(DepositETHActionDesktop)
+
+const depositErc20ActionArgs: Partial<EasyBorrowViewStoryProps> = {
+  pageState: 'confirmation',
+  assetsToBorrow: [
+    {
+      token: tokens['DAI'],
+      balance: NormalizedUnitNumber(1000),
+      value: '1000',
+    },
+  ],
+  assetsToDeposit: [
+    {
+      token: tokens['wstETH'],
+      balance: NormalizedUnitNumber(10),
+      value: '1',
+    },
+  ],
+  updatedPositionSummary: {
+    availableBorrowsUSD: NormalizedUnitNumber(2000),
+    currentLiquidationThreshold: Percentage(0.8),
+    loanToValue: Percentage(0.5),
+    healthFactor: new BigNumber(1.5),
+    maxLoanToValue: Percentage(0.8),
+    totalBorrowsUSD: NormalizedUnitNumber(10),
+    totalCollateralUSD: NormalizedUnitNumber(2000),
+    totalLiquidityUSD: NormalizedUnitNumber(2000),
+  },
+  actions: [
+    {
+      type: 'deposit',
+      lendingPool: CheckedAddress(zeroAddress),
+      value: NormalizedUnitNumber(1),
+      token: tokens['wstETH'],
+    },
+    {
+      type: 'borrow',
+      value: NormalizedUnitNumber(1000),
+      token: tokens['DAI'],
+      debtTokenAddress: CheckedAddress(zeroAddress),
+    },
+  ],
+}
+
+export const DepositErc20ActionDesktop: Story = {
+  name: 'Deposit ERC20 with actions desktop',
+  args: depositErc20ActionArgs,
+}
+
+export const DepositErc20ActionMobile = getMobileStory(DepositErc20ActionDesktop)
+export const DepositErc20ActionTablet = getTabletStory(DepositErc20ActionDesktop)
+
+const depositMultipleArgs: Partial<EasyBorrowViewStoryProps> = {
+  assetsToBorrow: [
+    {
+      token: tokens['DAI'],
+      balance: NormalizedUnitNumber(1000),
+      value: '1000',
+    },
+  ],
+  assetsToDeposit: [
+    {
+      token: tokens['ETH'],
+      balance: NormalizedUnitNumber(10),
+      value: '1',
+    },
+    {
+      token: tokens['wstETH'],
+      balance: NormalizedUnitNumber(10),
+      value: '1',
+    },
+    {
+      token: tokens['rETH'],
+      balance: NormalizedUnitNumber(10),
+      value: '1',
+    },
+    {
+      token: tokens['GNO'],
+      balance: NormalizedUnitNumber(10),
+      value: '1',
+    },
+  ],
+  updatedPositionSummary: {
+    availableBorrowsUSD: NormalizedUnitNumber(2000),
+    currentLiquidationThreshold: Percentage(0.8),
+    loanToValue: Percentage(0.5),
+    healthFactor: new BigNumber(1.5),
+    maxLoanToValue: Percentage(0.8),
+    totalBorrowsUSD: NormalizedUnitNumber(10),
+    totalCollateralUSD: NormalizedUnitNumber(2000),
+    totalLiquidityUSD: NormalizedUnitNumber(2000),
+  },
+}
+
+export const DepositMultipleDesktop: Story = {
+  name: 'Deposit multiple desktop',
+  args: depositMultipleArgs,
+}
+
+export const DepositMultipleMobile = getMobileStory(DepositMultipleDesktop)
+export const DepositMultipleTablet = getTabletStory(DepositMultipleDesktop)

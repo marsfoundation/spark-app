@@ -1,0 +1,8 @@
+@font-face {
+  font-family: 'Inter var';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: block;
+  font-named-instance: 'Regular';
+  src: url('../fonts/InterVariable.woff2') format('woff2');
+}

@@ -1,0 +1,80 @@
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { useAccount, useChainId, useConfig } from 'wagmi'
+
+import { useMarketInfo } from '../market-info/useMarketInfo'
+import { CheckedAddress } from '../types/CheckedAddress'
+import { NormalizedUnitNumber } from '../types/NumericValues'
+import { Token } from '../types/Token'
+import { TokenSymbol } from '../types/TokenSymbol'
+import { balances } from './balances'
+
+export interface WalletBalance {
+  balance: NormalizedUnitNumber
+  token: Token
+}
+
+export interface WalletInfo {
+  isConnected: boolean
+  walletBalances: WalletBalance[]
+
+  findWalletBalanceForToken: (token: Token) => NormalizedUnitNumber
+  findWalletBalanceForSymbol: (symbol: TokenSymbol) => NormalizedUnitNumber
+}
+
+export function useWalletInfo(): WalletInfo {
+  const { address, isConnected } = useAccount()
+  const chainId = useChainId()
+  const wagmiConfig = useConfig()
+  const { marketInfo } = useMarketInfo()
+
+  const { data: balanceData } = useSuspenseQuery({
+    ...balances({
+      wagmiConfig,
+      account: address && CheckedAddress(address),
+      chainId,
+    }),
+  })
+
+  const walletBalances: WalletBalance[] = balanceData
+    .map((balanceItem) => {
+      const token = marketInfo.findReserveByUnderlyingAsset(balanceItem.address)?.token
+      if (!token) {
+        return {
+          balance: undefined,
+          token: undefined,
+        }
+      }
+
+      return {
+        balance: token.fromBaseUnit(balanceItem.balanceBaseUnit),
+        token,
+      }
+    })
+    .filter((r) => r.token)
+    // @note: this map is here only to make TS happy :(
+    .map((r) => ({
+      balance: r.balance!,
+      token: r.token!,
+    }))
+
+  /* eslint-disable func-style */
+  const findWalletBalanceForToken = (token: Token): NormalizedUnitNumber => {
+    return findWalletBalanceForSymbol(token.symbol)
+  }
+  const findWalletBalanceForSymbol = (symbol: TokenSymbol): NormalizedUnitNumber => {
+    const aTokenReserve = marketInfo.findReserveByATokenSymbol(symbol)
+    if (aTokenReserve) {
+      return aTokenReserve.aTokenBalance
+    }
+
+    return walletBalances.find((wb) => wb.token.symbol === symbol)?.balance ?? NormalizedUnitNumber(0)
+  }
+  /* eslint-enable func-style */
+
+  return {
+    walletBalances,
+    isConnected,
+    findWalletBalanceForToken,
+    findWalletBalanceForSymbol,
+  }
+}

@@ -1,0 +1,131 @@
+import { useQueryClient } from '@tanstack/react-query'
+import { Abi, Address } from 'viem'
+import { useAccount, useChainId, useConfig, UseSimulateContractParameters } from 'wagmi'
+
+import { poolAbi } from '@/config/abis/poolAbi'
+import { NATIVE_ASSET_MOCK_ADDRESS } from '@/config/consts'
+import { lendingPoolAddress, wethGatewayConfig } from '@/config/contracts-generated'
+import { ensureConfigTypes, useWrite } from '@/domain/hooks/useWrite'
+import { BaseUnitNumber } from '@/domain/types/NumericValues'
+import { Permit } from '@/features/actions/logic/permits'
+import { toBigInt } from '@/utils/bigNumber'
+import { getTimestampInSeconds } from '@/utils/time'
+
+import { useContractAddress } from '../hooks/useContractAddress'
+import { aaveDataLayer } from '../market-info/aave-data-layer/query'
+import { balances } from '../wallet/balances'
+import { allowance } from './allowance/query'
+
+export type UseDepositArgs = {
+  asset: Address
+  value: BaseUnitNumber
+  permit?: Permit
+  onTransactionSettled?: () => void
+  enabled?: boolean
+}
+
+export function useDeposit({
+  asset,
+  value: _value,
+  permit,
+  onTransactionSettled,
+  enabled = true,
+}: UseDepositArgs): ReturnType<typeof useWrite> {
+  const client = useQueryClient()
+
+  const { address: userAddress } = useAccount()
+  const lendingPool = useContractAddress(lendingPoolAddress)
+  const wethGateway = useContractAddress(wethGatewayConfig.address)
+  const wagmiConfig = useConfig()
+
+  const chainId = useChainId()
+  const referralCode = 0
+  const value = toBigInt(_value)
+
+  const config = getDepositWriteConfig({
+    asset,
+    value,
+    userAddress,
+    lendingPool,
+    wethGateway,
+    referralCode,
+    permit,
+  })
+
+  return useWrite(
+    {
+      ...config,
+      enabled: !!userAddress && value > 0n && enabled,
+    },
+    {
+      onTransactionSettled: async () => {
+        void client.invalidateQueries({
+          queryKey: aaveDataLayer({ wagmiConfig, chainId, account: userAddress }).queryKey,
+        })
+        void client.invalidateQueries({
+          queryKey: balances({ wagmiConfig, chainId, account: userAddress }).queryKey,
+        })
+        void client.invalidateQueries({
+          queryKey: allowance({ wagmiConfig, chainId, token: asset, account: userAddress!, spender: lendingPool })
+            .queryKey,
+        })
+
+        onTransactionSettled?.()
+      },
+    },
+  )
+}
+
+interface GetDepositWriteConfigArgs {
+  asset: Address
+  value: bigint
+  userAddress?: Address
+  lendingPool: Address
+  wethGateway: Address
+  referralCode: number
+  permit?: Permit
+}
+function getDepositWriteConfig({
+  asset,
+  value,
+  userAddress,
+  lendingPool,
+  wethGateway,
+  referralCode,
+  permit,
+}: GetDepositWriteConfigArgs): UseSimulateContractParameters<Abi, string> {
+  if (asset === NATIVE_ASSET_MOCK_ADDRESS) {
+    return ensureConfigTypes({
+      abi: wethGatewayConfig.abi,
+      address: wethGateway,
+      functionName: 'depositETH',
+      value,
+      args: [lendingPool, userAddress!, referralCode],
+    })
+  }
+
+  if (permit) {
+    return ensureConfigTypes({
+      address: lendingPool,
+      abi: poolAbi,
+      functionName: 'supplyWithPermit',
+      args: [
+        asset,
+        value,
+        userAddress!,
+        referralCode,
+        toBigInt(getTimestampInSeconds(permit.deadline)),
+        Number(permit.signature.v),
+        permit.signature.r,
+        permit.signature.s,
+      ],
+    })
+  }
+
+  return ensureConfigTypes({
+    address: lendingPool,
+    abi: poolAbi,
+    functionName: 'deposit',
+    args: [asset, value, userAddress!, referralCode],
+  })
+}

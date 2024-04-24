@@ -1,0 +1,43 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`initializes store 1`] = `
+{
+  "actionsSettings": {
+    "exchangeMaxSlippage": "0.005",
+    "preferPermits": true,
+    "setPreferPermits": [Function],
+  },
+  "appConfig": {
+    "sandbox": undefined,
+  },
+  "compliance": {
+    "addAgreedToToSAddress": [Function],
+    "agreedToToSAdresses": [],
+  },
+  "dialogs": {
+    "closeDialog": [Function],
+    "openDialog": [Function],
+    "openedDialog": undefined,
+  },
+  "sandbox": {
+    "network": undefined,
+    "setNetwork": [Function],
+  },
+}
+`;
+
+exports[`persists state 1`] = `
+{
+  "state": {
+    "actionsSettings": {
+      "exchangeMaxSlippage": "0.005",
+      "preferPermits": true,
+    },
+    "compliance": {
+      "agreedToToSAdresses": [],
+    },
+    "sandbox": {},
+  },
+  "version": 1,
+}
+`;

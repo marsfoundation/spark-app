@@ -1,0 +1,39 @@
+import { useSuspenseQuery } from '@tanstack/react-query'
+
+interface UseTimestampOptions {
+  refreshIntervalInMs?: number
+}
+
+export interface UseTimestampResults {
+  timestamp: number
+  timestampInMs: number
+}
+
+const now = Date.now()
+
+// returns the current timestamp that does not change during the component lifecycle
+// can be used to make calculations that depend on the current timestamp consistent over the whole app
+export function useTimestamp({ refreshIntervalInMs }: UseTimestampOptions = {}): UseTimestampResults {
+  const { data } = useSuspenseQuery({
+    queryKey: ['timestamp', refreshIntervalInMs],
+    queryFn: () => {
+      const timestampInMs = Date.now()
+      return {
+        timestampInMs,
+        timestamp: Math.floor(timestampInMs / 1000),
+      }
+    },
+    initialData: {
+      timestamp: Math.floor(now / 1000),
+      timestampInMs: now,
+    },
+    refetchOnWindowFocus: true, // recalculate timestamp when user returns to the app
+    staleTime: 1000 * 60 * 2, // 2 minutes
+    refetchInterval: refreshIntervalInMs,
+  })
+
+  return {
+    timestamp: data.timestamp,
+    timestampInMs: data.timestampInMs,
+  }
+}

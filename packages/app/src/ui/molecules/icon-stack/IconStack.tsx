@@ -1,0 +1,70 @@
+import { cva } from 'class-variance-authority'
+
+import { Typography } from '@/ui/atoms/typography/Typography'
+import { cn } from '@/ui/utils/style'
+
+interface IconStackProps {
+  paths: string[]
+  maxIcons?: number
+  size?: 'base' | 'lg'
+  stackingOrder?: 'first-on-top' | 'last-on-top'
+  className?: string
+}
+
+export function IconStack({
+  paths: srcs,
+  maxIcons = Number.MAX_SAFE_INTEGER,
+  size = 'base',
+  stackingOrder = 'last-on-top',
+  className,
+}: IconStackProps) {
+  if (maxIcons + 1 === srcs.length) {
+    // let's make sure we show +2 minimum
+    maxIcons = srcs.length
+  }
+
+  const slicedIcons = srcs.slice(0, maxIcons)
+  const omittedLength = srcs.length - slicedIcons.length
+
+  return (
+    <div className={cn(stackVariants({ size }), className)}>
+      {slicedIcons.map((src, index, srcs) => (
+        <img
+          key={src}
+          src={src}
+          className={iconVariants({ size })}
+          style={stackingOrder === 'first-on-top' ? { zIndex: srcs.length - index } : undefined}
+        />
+      ))}
+      {omittedLength > 0 && (
+        <Typography
+          className={cn(
+            'bg-light-blue flex items-center justify-center rounded-full font-semibold text-white',
+            iconVariants({ size }),
+          )}
+          variant={size === 'base' ? 'prompt' : 'h4'}
+        >
+          +{omittedLength}
+        </Typography>
+      )}
+    </div>
+  )
+}
+
+const iconVariants = cva('rounded-full', {
+  variants: {
+    size: {
+      base: 'h-6 w-6',
+      lg: 'h-10 w-10',
+    },
+  },
+})
+
+const stackVariants = cva('isolate flex flex-row', {
+  variants: {
+    size: {
+      base: '-space-x-2',
+      lg: '-space-x-3',
+    },
+  },
+})

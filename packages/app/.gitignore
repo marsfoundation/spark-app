@@ -1,0 +1,8 @@
+node_modules/
+/test-results/
+/playwright-report/
+/playwright/.cache/
+storybook-static
+__screenshots__
+__screenshots-e2e__
+coverage
