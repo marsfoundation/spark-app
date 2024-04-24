@@ -12,7 +12,7 @@ import { Token } from '@/domain/types/Token'
 import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
 import { Objective } from '@/features/actions/logic/types'
 
-import { AssetInputSchema, getActionAsset } from '../../common/logic/form'
+import { AssetInputSchema, useDebouncedDialogFormValues } from '../../common/logic/form'
 import { useUpdateFormMaxValue } from '../../common/logic/useUpdateFormMaxValue'
 import { FormFieldsForDialog, PageState, PageStatus } from '../../common/types'
 import { getTokenSupply, getWithdrawOptions } from './assets'
@@ -63,10 +63,16 @@ export function useWithdrawDialog({ initialToken }: UseWithdrawDialogOptions): U
     nativeAssetInfo,
   })
 
-  const withdrawAsset = useConditionalFreeze(
-    getActionAsset(form, marketInfo, maxWithdrawValue),
-    pageStatus === 'success',
-  )
+  const {
+    debouncedFormValues: formValues,
+    isDebouncing,
+    isFormValid,
+  } = useDebouncedDialogFormValues({
+    form,
+    marketInfo,
+    capValue: maxWithdrawValue,
+  })
+  const withdrawAsset = useConditionalFreeze(formValues, pageStatus === 'success')
 
   const assetsToWithdrawFields = getFormFieldsForWithdrawDialog(form, marketInfo, walletInfo, maxWithdrawValue)
 
@@ -101,7 +107,7 @@ export function useWithdrawDialog({ initialToken }: UseWithdrawDialogOptions): U
     objectives,
     pageStatus: {
       state: pageStatus,
-      actionsEnabled: withdrawAsset.value.gt(0) && form.formState.isValid,
+      actionsEnabled: withdrawAsset.value.gt(0) && isFormValid && !isDebouncing,
       goToSuccessScreen: () => setPageStatus('success'),
     },
     currentPositionOverview,

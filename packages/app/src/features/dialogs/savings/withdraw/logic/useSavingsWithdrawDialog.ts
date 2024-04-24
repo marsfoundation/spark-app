@@ -11,7 +11,7 @@ import { makeAssetsInWalletList } from '@/domain/savings/makeAssetsInWalletList'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
 import { Objective } from '@/features/actions/logic/types'
-import { AssetInputSchema, normalizeDialogFormValues } from '@/features/dialogs/common/logic/form'
+import { AssetInputSchema, useDebouncedDialogFormValues } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
 
 import { getFormFieldsForWithdrawDialog } from './form'
@@ -51,8 +51,15 @@ export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
     },
     mode: 'onChange',
   })
-  const formValues = normalizeDialogFormValues(form.watch(), marketInfo)
 
+  const {
+    debouncedFormValues: formValues,
+    isDebouncing,
+    isFormValid,
+  } = useDebouncedDialogFormValues({
+    form,
+    marketInfo,
+  })
   const { swapInfo, swapParams } = useSwap({ formValues, marketInfo, walletInfo })
 
   const objectives = createObjectives({
@@ -82,7 +89,7 @@ export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
     tokenToWithdraw,
     pageStatus: {
       state: pageStatus,
-      actionsEnabled: (formValues.value.gt(0) && form.formState.isValid) || formValues.isMaxSelected,
+      actionsEnabled: ((formValues.value.gt(0) && isFormValid) || formValues.isMaxSelected) && !isDebouncing,
       goToSuccessScreen: () => setPageStatus('success'),
     },
     txOverview,
