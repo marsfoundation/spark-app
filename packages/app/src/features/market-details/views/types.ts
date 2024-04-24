@@ -1,14 +1,8 @@
 import { OpenDialogFunction } from '@/domain/state/dialogs'
-import { Token } from '@/domain/types/Token'
 
-import { MarketOverview, WalletOverview } from '../types'
+import { UseMarketDetailsResult } from '../logic/useMarketDetails'
 
-export interface MarketDetailsViewProps {
-  token: Token
-  chainName: string
-  chainId: number
-  marketOverview: MarketOverview
-  walletOverview: WalletOverview
+export interface MarketDetailsViewProps extends UseMarketDetailsResult {
   openConnectModal: () => void
   openDialog: OpenDialogFunction
 }

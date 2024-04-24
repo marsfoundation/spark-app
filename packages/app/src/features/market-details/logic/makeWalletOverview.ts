@@ -44,7 +44,6 @@ function makeGuestModeOverview({ reserve, walletInfo }: MakeWalletOverviewParams
 
   return {
     guestMode: true,
-    chainMismatch: false,
     token,
     tokenBalance: walletInfo.findWalletBalanceForToken(token),
     deposit: {
@@ -72,7 +71,6 @@ function makeChainMismatchOverview({
 
   return {
     guestMode: false,
-    chainMismatch: true,
     token,
     tokenBalance: walletInfo.findWalletBalanceForToken(token),
     deposit: {
@@ -118,7 +116,6 @@ function makeBaseWalletOverview({ reserve, marketInfo, walletInfo }: MakeWalletO
 
   return {
     guestMode: false,
-    chainMismatch: false,
     token,
     tokenBalance,
     deposit: {

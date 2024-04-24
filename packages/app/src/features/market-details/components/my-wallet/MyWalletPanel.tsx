@@ -6,17 +6,18 @@ import { MyWalletChainMismatch } from './MyWalletChainMismatch'
 import { MyWalletDisconnected } from './MyWalletDisconnected'
 
 interface MyWalletPanelProps {
+  chainMismatch: boolean
   openDialog: OpenDialogFunction
   walletOverview: WalletOverview
   openConnectModal: () => void
 }
 
-export function MyWalletPanel({ openDialog, walletOverview, openConnectModal }: MyWalletPanelProps) {
+export function MyWalletPanel({ openDialog, walletOverview, openConnectModal, chainMismatch }: MyWalletPanelProps) {
   if (walletOverview.guestMode) {
     return <MyWalletDisconnected openConnectModal={openConnectModal} />
   }
 
-  if (walletOverview.chainMismatch) {
+  if (chainMismatch) {
     return <MyWalletChainMismatch />
   }
 
