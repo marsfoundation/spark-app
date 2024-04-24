@@ -76,7 +76,6 @@ export interface MarketOverview {
 
 export interface WalletOverview {
   guestMode: boolean
-  chainMismatch: boolean
   token: Token
   tokenBalance: NormalizedUnitNumber
   lend?: {

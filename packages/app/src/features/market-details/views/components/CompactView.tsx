@@ -15,6 +15,7 @@ export function CompactView({
   token,
   chainName,
   chainId,
+  chainMismatch,
   marketOverview,
   walletOverview,
   openConnectModal,
@@ -23,7 +24,7 @@ export function CompactView({
   return (
     <div className="w-full pb-8 pt-5">
       <BackNav chainId={chainId} chainName={chainName} />
-      <Header token={token} />
+      <Header token={token} chainName={chainName} chainMismatch={chainMismatch} />
       <Tabs defaultValue="overview">
         <TabsList className="bg-body sticky top-0 z-10 pt-2">
           <TabsTrigger value="overview">Overview</TabsTrigger>
@@ -38,7 +39,12 @@ export function CompactView({
           <BorrowStatusPanel token={token} {...marketOverview.borrow} />
         </TabsContent>
         <TabsContent value="actions" className="px-3">
-          <MyWalletPanel openDialog={openDialog} walletOverview={walletOverview} openConnectModal={openConnectModal} />
+          <MyWalletPanel
+            openDialog={openDialog}
+            walletOverview={walletOverview}
+            openConnectModal={openConnectModal}
+            chainMismatch={chainMismatch}
+          />
         </TabsContent>
       </Tabs>
     </div>

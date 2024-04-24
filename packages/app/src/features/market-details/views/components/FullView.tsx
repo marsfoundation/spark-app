@@ -13,6 +13,7 @@ export function FullView({
   token,
   chainId,
   chainName,
+  chainMismatch,
   marketOverview,
   walletOverview,
   openConnectModal,
@@ -21,7 +22,7 @@ export function FullView({
   return (
     <div className="w-full max-w-5xl pb-8 pt-12 sm:mx-3 lg:mx-auto">
       <BackNav chainId={chainId} chainName={chainName} />
-      <Header token={token} />
+      <Header token={token} chainName={chainName} chainMismatch={chainMismatch} />
       <div className="grid grid-cols-[2fr_1fr] gap-5 md:gap-10">
         <div className="flex flex-col gap-6">
           {marketOverview.supply && <SupplyStatusPanel token={token} {...marketOverview.supply} />}
@@ -32,7 +33,12 @@ export function FullView({
         </div>
         <div className="flex flex-col gap-6">
           <MarketOverviewPanel token={token} {...marketOverview.summary} />
-          <MyWalletPanel openDialog={openDialog} walletOverview={walletOverview} openConnectModal={openConnectModal} />
+          <MyWalletPanel
+            openDialog={openDialog}
+            walletOverview={walletOverview}
+            openConnectModal={openConnectModal}
+            chainMismatch={chainMismatch}
+          />
         </div>
       </div>
     </div>

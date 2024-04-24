@@ -16,12 +16,13 @@ import { makeMarketOverview } from './makeMarketOverview'
 import { makeWalletOverview } from './makeWalletOverview'
 import { useMarketDetailsParams } from './useMarketDetailsParams'
 
-interface UseMarketDetailsResult {
+export interface UseMarketDetailsResult {
   token: Token
   chainName: string
   chainId: number
   marketOverview: MarketOverview
   walletOverview: WalletOverview
+  chainMismatch: boolean
 }
 
 export function useMarketDetails(): UseMarketDetailsResult {
@@ -29,8 +30,10 @@ export function useMarketDetails(): UseMarketDetailsResult {
   const { marketInfo } = useMarketInfo({ chainId })
   const { makerInfo } = useMakerInfo({ chainId })
   const walletInfo = useWalletInfo()
-  const connectedChainId = useChainId()
   const { meta: chainMeta } = getChainConfigEntry(chainId)
+  const connectedChainId = useChainId()
+
+  const chainMismatch = connectedChainId !== chainId
 
   const reserve = marketInfo.findReserveByUnderlyingAsset(CheckedAddress(asset)) ?? raise(new NotFoundError())
 
@@ -59,5 +62,6 @@ export function useMarketDetails(): UseMarketDetailsResult {
     chainId,
     marketOverview,
     walletOverview,
+    chainMismatch,
   }
 }

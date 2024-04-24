@@ -1,4 +1,3 @@
-import { SUPPORTED_CHAIN_IDS } from '@/config/chain/constants'
 import { Airdrop } from '@/config/chain/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
@@ -14,10 +13,6 @@ export interface AirdropsData {
   borrow: AirdropEntry[]
 }
 export function getAirdropsData(chainId: number, tokenSymbol: TokenSymbol): AirdropsData {
-  if (!SUPPORTED_CHAIN_IDS.includes(chainId)) {
-    return { deposit: [], borrow: [] }
-  }
-
   const { airdrop } = getChainConfigEntry(chainId)
 
   return {
