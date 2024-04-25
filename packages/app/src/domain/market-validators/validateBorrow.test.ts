@@ -39,7 +39,6 @@ describe(validateBorrow.name, () => {
           borrowingEnabled: true,
           availableLiquidity: NormalizedUnitNumber(100),
           totalDebt: NormalizedUnitNumber(0),
-
           isSiloed: false,
           borrowableInIsolation: false,
           eModeCategory: 0,
