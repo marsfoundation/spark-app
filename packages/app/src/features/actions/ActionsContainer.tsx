@@ -1,9 +1,8 @@
 import { withSuspense } from '@/ui/utils/withSuspense'
 import { RequireKeys } from '@/utils/types'
-import { useDebounce } from '@/utils/useDebounce'
 
 import { ActionsSkeleton } from './components/skeleton/ActionsSkeleton'
-import { stringifyObjectivesDeep, stringifyObjectivesToStableActions } from './logic/stringifyObjectives'
+import { stringifyObjectivesToStableActions } from './logic/stringifyObjectives'
 import { Objective } from './logic/types'
 import { useActionHandlers } from './logic/useActionHandlers'
 import { ActionsView } from './views/ActionsView'
@@ -39,16 +38,11 @@ function ActionsContainer({
 
 // @note: rerenders ActionsContainer when actions change. This is needed to not break the rule of hooks
 function ActionsContainerWithKey(props: ActionsContainerProps) {
-  const instantKey = stringifyObjectivesDeep(props.objectives)
-  const { debouncedValue: debouncedActions, isDebouncing } = useDebounce(props.objectives, instantKey)
-  const enabled = (props.enabled ?? true) && !isDebouncing
-
   return (
     <ActionsContainer
       {...props}
-      objectives={debouncedActions}
-      enabled={enabled}
-      key={stringifyObjectivesToStableActions(debouncedActions)}
+      key={stringifyObjectivesToStableActions(props.objectives)}
+      enabled={props.enabled ?? true}
     />
   )
 }

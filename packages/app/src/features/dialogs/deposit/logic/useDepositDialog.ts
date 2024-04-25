@@ -11,7 +11,7 @@ import { Token } from '@/domain/types/Token'
 import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
 import { Objective } from '@/features/actions/logic/types'
 
-import { AssetInputSchema, normalizeDialogFormValues } from '../../common/logic/form'
+import { AssetInputSchema, useDebouncedDialogFormValues } from '../../common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '../../common/types'
 import { getDepositOptions } from './assets'
 import { getCollateralType } from './collateralization'
@@ -55,7 +55,14 @@ export function useDepositDialog({ initialToken }: UseDepositDialogOptions): Use
     marketInfo,
     walletInfo,
   })
-  const tokenToDeposit = normalizeDialogFormValues(form.watch(), marketInfo)
+  const {
+    debouncedFormValues: tokenToDeposit,
+    isDebouncing,
+    isFormValid,
+  } = useDebouncedDialogFormValues({
+    form,
+    marketInfo,
+  })
 
   const depositableAssets = getDepositOptions({
     token: initialToken,
@@ -97,7 +104,7 @@ export function useDepositDialog({ initialToken }: UseDepositDialogOptions): Use
     objectives,
     pageStatus: {
       state: pageStatus,
-      actionsEnabled: tokenToDeposit.value.gt(0) && form.formState.isValid,
+      actionsEnabled: tokenToDeposit.value.gt(0) && isFormValid && !isDebouncing,
       goToSuccessScreen: () => setPageStatus('success'),
     },
     form,
