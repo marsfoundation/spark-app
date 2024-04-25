@@ -220,6 +220,53 @@ test.describe('Repay dialog', () => {
     })
   })
 
+  test.describe('Position when borrowed asset was not in user wallet before', () => {
+    const initialDeposits = {
+      wstETH: 1000,
+    } as const
+    const daiToBorrow = 1_000_000
+
+    test.beforeEach(async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'easyBorrow',
+        account: {
+          type: 'connected',
+          assetBalances: { wstETH: 10_000 },
+        },
+      })
+
+      const borrowPage = new BorrowPageObject(page)
+      await borrowPage.depositAssetsActions(initialDeposits, daiToBorrow)
+      await borrowPage.viewInDashboardAction()
+
+      const dashboardPage = new DashboardPageObject(page)
+      await dashboardPage.expectAssetToBeInDepositTable('wstETH')
+    })
+
+    test('can repay using whole wallet balance of an asset', async ({ page }) => {
+      const repay = {
+        asset: 'DAI',
+        amount: daiToBorrow,
+      } as const
+
+      const dashboardPage = new DashboardPageObject(page)
+
+      await dashboardPage.clickRepayButtonAction(repay.asset)
+
+      const repayDialog = new DialogPageObject(page, headerRegExp)
+      await repayDialog.clickMaxAmountAction()
+      const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
+      await actionsContainer.acceptAllActionsAction(2)
+      await repayDialog.expectSuccessPage([repay], fork)
+
+      await screenshot(repayDialog.getDialog(), 'repay-dialog-whole-balance-dai-success')
+
+      await repayDialog.viewInDashboardAction()
+
+      await dashboardPage.expectNonZeroAmountInBorrowTable(repay.asset)
+    })
+  })
+
   test.describe('Position with multiple borrowed assets', () => {
     const initialDeposits = {
       wstETH: initialBalances.wstETH, // deposit whole balance
