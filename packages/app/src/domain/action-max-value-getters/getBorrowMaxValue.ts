@@ -5,6 +5,8 @@ import { NormalizedUnitNumber } from '../types/NumericValues'
 interface GetBorrowMaxValueParams {
   asset: {
     availableLiquidity: NormalizedUnitNumber
+    totalDebt: NormalizedUnitNumber
+    borrowCap?: NormalizedUnitNumber
   }
   user: {
     maxBorrowBasedOnCollateral: NormalizedUnitNumber
@@ -26,13 +28,17 @@ export function getBorrowMaxValue({ asset, user, validationIssue }: GetBorrowMax
   ) {
     return NormalizedUnitNumber(0)
   }
-
   const ceilings = [asset.availableLiquidity, user.maxBorrowBasedOnCollateral]
+
+  if (asset.borrowCap) {
+    ceilings.push(NormalizedUnitNumber(asset.borrowCap.minus(asset.totalDebt)))
+  }
+
   const { inIsolationMode, isolationModeCollateralTotalDebt, isolationModeCollateralDebtCeiling } = user
 
   if (inIsolationMode && isolationModeCollateralTotalDebt && isolationModeCollateralDebtCeiling) {
     ceilings.push(NormalizedUnitNumber(isolationModeCollateralDebtCeiling.minus(isolationModeCollateralTotalDebt)))
   }
 
-  return NormalizedUnitNumber(BigNumber.min(...ceilings))
+  return NormalizedUnitNumber(BigNumber.max(BigNumber.min(...ceilings), 0))
 }
