@@ -11,7 +11,7 @@ export function MarketOverviewChart({ data, children }: MarketOverviewChartProps
   return (
     <div className="flex w-[174px] items-center justify-center justify-self-center">
       <div className="absolute">{children}</div>
-      <DoughnutChart outerRadius={174} innerRadius={156} data={data} />
+      <DoughnutChart outerRadius={174} innerRadius={156} data={data} className="grow" />
     </div>
   )
 }
