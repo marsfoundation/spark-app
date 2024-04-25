@@ -13,6 +13,7 @@ describe(validateBorrow.name, () => {
           status: 'active',
           borrowingEnabled: true,
           availableLiquidity: NormalizedUnitNumber(100),
+          totalDebt: NormalizedUnitNumber(0),
           isSiloed: false,
           borrowableInIsolation: false,
           eModeCategory: 0,
@@ -37,6 +38,8 @@ describe(validateBorrow.name, () => {
           status: 'frozen',
           borrowingEnabled: true,
           availableLiquidity: NormalizedUnitNumber(100),
+          totalDebt: NormalizedUnitNumber(0),
+
           isSiloed: false,
           borrowableInIsolation: false,
           eModeCategory: 0,
@@ -61,6 +64,8 @@ describe(validateBorrow.name, () => {
           status: 'active',
           borrowingEnabled: false,
           availableLiquidity: NormalizedUnitNumber(100),
+          totalDebt: NormalizedUnitNumber(0),
+
           isSiloed: false,
           borrowableInIsolation: false,
           eModeCategory: 0,
@@ -85,6 +90,8 @@ describe(validateBorrow.name, () => {
           status: 'active',
           borrowingEnabled: true,
           availableLiquidity: NormalizedUnitNumber(100),
+          totalDebt: NormalizedUnitNumber(0),
+
           isSiloed: false,
           borrowableInIsolation: false,
           eModeCategory: 0,
@@ -100,6 +107,86 @@ describe(validateBorrow.name, () => {
     ).toStrictEqual('exceeds-liquidity')
   })
 
+  it('takes into account total debt when validating liquidity', () => {
+    expect(
+      validateBorrow({
+        value: NormalizedUnitNumber(98),
+        asset: {
+          address: testAddresses.token,
+          status: 'active',
+          borrowingEnabled: true,
+          availableLiquidity: NormalizedUnitNumber(102),
+          totalDebt: NormalizedUnitNumber(5),
+
+          isSiloed: false,
+          borrowableInIsolation: false,
+          eModeCategory: 0,
+        },
+        user: {
+          maxBorrowBasedOnCollateral: NormalizedUnitNumber(200),
+          totalBorrowedUSD: NormalizedUnitNumber(0),
+          isInSiloMode: false,
+          inIsolationMode: false,
+          eModeCategory: 0,
+        },
+      }),
+    ).toStrictEqual('exceeds-liquidity')
+  })
+
+  it('validates borrow cap', () => {
+    expect(
+      validateBorrow({
+        value: NormalizedUnitNumber(101),
+        asset: {
+          address: testAddresses.token,
+          status: 'active',
+          borrowingEnabled: true,
+          availableLiquidity: NormalizedUnitNumber(102),
+          borrowCap: NormalizedUnitNumber(100),
+          totalDebt: NormalizedUnitNumber(0),
+
+          isSiloed: false,
+          borrowableInIsolation: false,
+          eModeCategory: 0,
+        },
+        user: {
+          maxBorrowBasedOnCollateral: NormalizedUnitNumber(200),
+          totalBorrowedUSD: NormalizedUnitNumber(0),
+          isInSiloMode: false,
+          inIsolationMode: false,
+          eModeCategory: 0,
+        },
+      }),
+    ).toStrictEqual('borrow-cap-reached')
+  })
+
+  it('takes into account total debt when validating borrow cap', () => {
+    expect(
+      validateBorrow({
+        value: NormalizedUnitNumber(96),
+        asset: {
+          address: testAddresses.token,
+          status: 'active',
+          borrowingEnabled: true,
+          availableLiquidity: NormalizedUnitNumber(102),
+          borrowCap: NormalizedUnitNumber(100),
+          totalDebt: NormalizedUnitNumber(5),
+
+          isSiloed: false,
+          borrowableInIsolation: false,
+          eModeCategory: 0,
+        },
+        user: {
+          maxBorrowBasedOnCollateral: NormalizedUnitNumber(200),
+          totalBorrowedUSD: NormalizedUnitNumber(0),
+          isInSiloMode: false,
+          inIsolationMode: false,
+          eModeCategory: 0,
+        },
+      }),
+    ).toStrictEqual('borrow-cap-reached')
+  })
+
   it('validates collateralization', () => {
     expect(
       validateBorrow({
@@ -109,6 +196,8 @@ describe(validateBorrow.name, () => {
           status: 'active',
           borrowingEnabled: true,
           availableLiquidity: NormalizedUnitNumber(101),
+          totalDebt: NormalizedUnitNumber(0),
+
           isSiloed: false,
           borrowableInIsolation: false,
           eModeCategory: 0,
@@ -133,6 +222,8 @@ describe(validateBorrow.name, () => {
           status: 'active',
           borrowingEnabled: true,
           availableLiquidity: NormalizedUnitNumber(100),
+          totalDebt: NormalizedUnitNumber(0),
+
           isSiloed: true,
           borrowableInIsolation: false,
           eModeCategory: 0,
@@ -157,6 +248,8 @@ describe(validateBorrow.name, () => {
           status: 'active',
           borrowingEnabled: true,
           availableLiquidity: NormalizedUnitNumber(100),
+          totalDebt: NormalizedUnitNumber(0),
+
           isSiloed: true,
           borrowableInIsolation: false,
           eModeCategory: 0,
@@ -183,6 +276,8 @@ describe(validateBorrow.name, () => {
             status: 'active',
             borrowingEnabled: true,
             availableLiquidity: NormalizedUnitNumber(100),
+            totalDebt: NormalizedUnitNumber(0),
+
             isSiloed: false,
             borrowableInIsolation: false,
             eModeCategory: 0,
@@ -210,6 +305,8 @@ describe(validateBorrow.name, () => {
             status: 'active',
             borrowingEnabled: true,
             availableLiquidity: NormalizedUnitNumber(100),
+            totalDebt: NormalizedUnitNumber(0),
+
             isSiloed: false,
             borrowableInIsolation: true,
             eModeCategory: 0,
@@ -236,6 +333,8 @@ describe(validateBorrow.name, () => {
             status: 'active',
             borrowingEnabled: true,
             availableLiquidity: NormalizedUnitNumber(100),
+            totalDebt: NormalizedUnitNumber(0),
+
             isSiloed: false,
             borrowableInIsolation: true,
             eModeCategory: 0,
@@ -264,6 +363,8 @@ describe(validateBorrow.name, () => {
             status: 'active',
             borrowingEnabled: true,
             availableLiquidity: NormalizedUnitNumber(100),
+            totalDebt: NormalizedUnitNumber(0),
+
             isSiloed: false,
             borrowableInIsolation: true,
             eModeCategory: 1,
@@ -290,6 +391,8 @@ describe(validateBorrow.name, () => {
             status: 'active',
             borrowingEnabled: true,
             availableLiquidity: NormalizedUnitNumber(100),
+            totalDebt: NormalizedUnitNumber(0),
+
             isSiloed: false,
             borrowableInIsolation: true,
             eModeCategory: 2,

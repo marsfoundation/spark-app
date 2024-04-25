@@ -8,6 +8,7 @@ describe(getBorrowMaxValue.name, () => {
         getBorrowMaxValue({
           asset: {
             availableLiquidity: NormalizedUnitNumber(Infinity),
+            totalDebt: NormalizedUnitNumber(0),
           },
           user: {
             maxBorrowBasedOnCollateral: NormalizedUnitNumber(0),
@@ -21,12 +22,28 @@ describe(getBorrowMaxValue.name, () => {
         getBorrowMaxValue({
           asset: {
             availableLiquidity: NormalizedUnitNumber(Infinity),
+            totalDebt: NormalizedUnitNumber(0),
           },
           user: {
             maxBorrowBasedOnCollateral: NormalizedUnitNumber(100),
           },
         }),
       ).toEqual(NormalizedUnitNumber(100))
+    })
+
+    it('returns borrow cap based borrow limit', () => {
+      expect(
+        getBorrowMaxValue({
+          asset: {
+            availableLiquidity: NormalizedUnitNumber(Infinity),
+            totalDebt: NormalizedUnitNumber(50),
+            borrowCap: NormalizedUnitNumber(100),
+          },
+          user: {
+            maxBorrowBasedOnCollateral: NormalizedUnitNumber(Infinity),
+          },
+        }),
+      ).toEqual(NormalizedUnitNumber(50))
     })
   })
 
@@ -36,6 +53,7 @@ describe(getBorrowMaxValue.name, () => {
         getBorrowMaxValue({
           asset: {
             availableLiquidity: NormalizedUnitNumber(10),
+            totalDebt: NormalizedUnitNumber(0),
           },
           user: {
             maxBorrowBasedOnCollateral: NormalizedUnitNumber(0),
@@ -44,17 +62,18 @@ describe(getBorrowMaxValue.name, () => {
       ).toEqual(NormalizedUnitNumber(0))
     })
 
-    it('returns available liquidity value when smaller than borrow limit', () => {
+    it('returns available liquidity based value when smaller than borrow limit', () => {
       expect(
         getBorrowMaxValue({
           asset: {
             availableLiquidity: NormalizedUnitNumber(10),
+            totalDebt: NormalizedUnitNumber(5),
           },
           user: {
             maxBorrowBasedOnCollateral: NormalizedUnitNumber(100),
           },
         }),
-      ).toEqual(NormalizedUnitNumber(10))
+      ).toEqual(NormalizedUnitNumber(5))
     })
   })
 
@@ -70,6 +89,7 @@ describe(getBorrowMaxValue.name, () => {
           },
           asset: {
             availableLiquidity: NormalizedUnitNumber(Infinity),
+            totalDebt: NormalizedUnitNumber(0),
           },
         }),
       ).toEqual(NormalizedUnitNumber(0))
@@ -86,6 +106,7 @@ describe(getBorrowMaxValue.name, () => {
           },
           asset: {
             availableLiquidity: NormalizedUnitNumber(Infinity),
+            totalDebt: NormalizedUnitNumber(0),
           },
         }),
       ).toEqual(NormalizedUnitNumber(100))
@@ -103,6 +124,7 @@ describe(getBorrowMaxValue.name, () => {
 
           asset: {
             availableLiquidity: NormalizedUnitNumber(Infinity),
+            totalDebt: NormalizedUnitNumber(0),
           },
         }),
       ).toEqual(NormalizedUnitNumber(50))
@@ -116,6 +138,7 @@ describe(getBorrowMaxValue.name, () => {
       },
       asset: {
         availableLiquidity: NormalizedUnitNumber(100),
+        totalDebt: NormalizedUnitNumber(0),
       },
     }
 
