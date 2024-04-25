@@ -14,7 +14,7 @@ const meta: Meta<typeof WalletComposition> = {
   decorators: [withRouter, WithClassname('max-w-5xl'), WithTooltipProvider()],
   args: {
     chainId: 1,
-    hasDeposits: true,
+    hasCollaterals: true,
     includeDeposits: true,
     setIncludeDeposits: () => {},
   },
@@ -89,7 +89,7 @@ export const NoDeposits: Story = {
   name: 'No Deposits',
   args: {
     assets: [...assets.slice(4, 6)],
-    hasDeposits: false,
+    hasCollaterals: false,
     includeDeposits: false,
     setIncludeDeposits: () => {},
   },
@@ -101,7 +101,7 @@ export const NoAssets: Story = {
   name: 'No Assets',
   args: {
     assets: [],
-    hasDeposits: false,
+    hasCollaterals: false,
   },
 }
 export const NoAssetsMobile = getMobileStory(NoAssets)
@@ -111,7 +111,7 @@ export const OneAsset: Story = {
   name: 'One Asset',
   args: {
     assets: [assets[0]!],
-    hasDeposits: false,
+    hasCollaterals: false,
   },
 }
 export const OneAssetMobile = getMobileStory(OneAsset)

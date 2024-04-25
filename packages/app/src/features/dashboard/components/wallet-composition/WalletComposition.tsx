@@ -18,7 +18,7 @@ export function WalletComposition({
   chainId,
   includeDeposits,
   setIncludeDeposits,
-  hasDeposits,
+  hasCollaterals,
 }: WalletCompositionProps) {
   const chartData = assets.map((asset) => ({
     value: asset.token.toUSD(asset.value).toNumber(),
@@ -31,7 +31,7 @@ export function WalletComposition({
       <Panel.Header>
         <Panel.Title>Your wallet</Panel.Title>
         <Info>List of assets in your wallet supported by Spark.</Info>
-        {hasDeposits && (
+        {hasCollaterals && (
           <div className="ml-5 flex items-center gap-2">
             <Checkbox
               id="checkbox-include-deposit"
