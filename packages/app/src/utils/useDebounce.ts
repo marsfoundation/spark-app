@@ -4,7 +4,7 @@ export interface UseDebounceOptions {
   delay?: number
 }
 
-export interface UseDebounceResultType<T> {
+export interface UseDebounceResult<T> {
   debouncedValue: T
   isDebouncing: boolean
 }
@@ -12,11 +12,7 @@ export interface UseDebounceResultType<T> {
 /**
  * Since value might be a complex object and we don't want to do deep eq checks, we introduce key to indicate when value has changed.
  */
-export function useDebounce<T>(
-  value: T,
-  key: string,
-  { delay = 300 }: UseDebounceOptions = {},
-): UseDebounceResultType<T> {
+export function useDebounce<T>(value: T, key: string, { delay = 300 }: UseDebounceOptions = {}): UseDebounceResult<T> {
   const [debouncedValue, setDebouncedValue] = useState(value)
   const [isDebouncing, setIsDebouncing] = useState(false)
   const firstRender = useRef(true)

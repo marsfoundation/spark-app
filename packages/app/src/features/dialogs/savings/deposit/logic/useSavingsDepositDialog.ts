@@ -9,7 +9,7 @@ import { makeAssetsInWalletList } from '@/domain/savings/makeAssetsInWalletList'
 import { Token } from '@/domain/types/Token'
 import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
 import { Objective } from '@/features/actions/logic/types'
-import { AssetInputSchema, normalizeDialogFormValues } from '@/features/dialogs/common/logic/form'
+import { AssetInputSchema, useDebouncedDialogFormValues } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
 
 import { getFormFieldsForDepositDialog } from './form'
@@ -52,7 +52,14 @@ export function useSavingsDepositDialog({
     mode: 'onChange',
   })
 
-  const formValues = normalizeDialogFormValues(form.watch(), marketInfo)
+  const {
+    debouncedFormValues: formValues,
+    isDebouncing,
+    isFormValid,
+  } = useDebouncedDialogFormValues({
+    form,
+    marketInfo,
+  })
   const { swapInfo, swapParams } = useSwap({ formValues, marketInfo, walletInfo })
 
   const objectives = createObjectives({
@@ -82,7 +89,7 @@ export function useSavingsDepositDialog({
     txOverview,
     pageStatus: {
       state: pageStatus,
-      actionsEnabled: formValues.value.gt(0) && form.formState.isValid,
+      actionsEnabled: formValues.value.gt(0) && isFormValid && !isDebouncing,
       goToSuccessScreen: () => setPageStatus('success'),
     },
   }

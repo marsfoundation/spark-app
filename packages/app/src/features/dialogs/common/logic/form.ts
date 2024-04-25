@@ -6,6 +6,7 @@ import { MarketInfo, Reserve, UserPosition } from '@/domain/market-info/marketIn
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { useDebounce } from '@/utils/useDebounce'
 
 export const AssetInputSchema = z.object({
   symbol: z.string().transform(TokenSymbol),
@@ -49,13 +50,40 @@ export function isMaxValue(value: string, maxValue: NormalizedUnitNumber): boole
   return normalizedValue.eq(maxValue)
 }
 
-export function getActionAsset(
-  form: UseFormReturn<AssetInputSchema>,
-  marketInfo: MarketInfo,
-  maxValue: NormalizedUnitNumber,
-): DialogFormNormalizedData {
-  const formValue = form.watch()
-  const formAsset = normalizeDialogFormValues(formValue, marketInfo)
-  const assetValue = NormalizedUnitNumber(BigNumber.min(formAsset.value, maxValue))
-  return { ...formAsset, value: assetValue }
+function getNormalizedDialogFormValuesKey(values: DialogFormNormalizedData): string {
+  return [values.token.address, values.value.toFixed(), values.isMaxSelected].join('-')
+}
+
+export interface UseDebouncedDialogFormValuesArgs {
+  form: UseFormReturn<AssetInputSchema>
+  marketInfo: MarketInfo
+  capValue?: NormalizedUnitNumber
+}
+export interface UseDebouncedDialogFormValuesResult {
+  debouncedFormValues: DialogFormNormalizedData
+  isFormValid: boolean
+  isDebouncing: boolean
+}
+export function useDebouncedDialogFormValues({
+  form,
+  marketInfo,
+  capValue,
+}: UseDebouncedDialogFormValuesArgs): UseDebouncedDialogFormValuesResult {
+  const formValues = normalizeDialogFormValues(form.watch(), marketInfo)
+  const { debouncedValue, isDebouncing } = useDebounce(
+    { formValues, form },
+    getNormalizedDialogFormValuesKey(formValues),
+  )
+  const cappedValue = capValue
+    ? NormalizedUnitNumber(BigNumber.min(debouncedValue.formValues.value, capValue))
+    : debouncedValue.formValues.value
+
+  return {
+    debouncedFormValues: {
+      ...debouncedValue.formValues,
+      value: cappedValue,
+    },
+    isFormValid: debouncedValue.form.formState.isValid,
+    isDebouncing,
+  }
 }

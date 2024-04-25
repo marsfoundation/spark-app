@@ -12,7 +12,7 @@ import { Token } from '@/domain/types/Token'
 import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
 import { Objective } from '@/features/actions/logic/types'
 
-import { AssetInputSchema, normalizeDialogFormValues } from '../../common/logic/form'
+import { AssetInputSchema, useDebouncedDialogFormValues } from '../../common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '../../common/types'
 import { getBorrowOptions } from './assets'
 import { createBorrowObjectives } from './createBorrowObjectives'
@@ -57,7 +57,14 @@ export function useBorrowDialog({ initialToken }: UseBorrowDialogOptions): UseBo
     nativeAssetInfo,
   })
   const assetsToBorrowFields = getFormFieldsForBorrowDialog(form, marketInfo, walletInfo)
-  const tokenToBorrow = normalizeDialogFormValues(form.watch(), marketInfo)
+  const {
+    debouncedFormValues: tokenToBorrow,
+    isDebouncing,
+    isFormValid,
+  } = useDebouncedDialogFormValues({
+    form,
+    marketInfo,
+  })
   const actions = createBorrowObjectives(tokenToBorrow)
 
   const updatedUserSummary = updatePositionSummary({
@@ -77,7 +84,7 @@ export function useBorrowDialog({ initialToken }: UseBorrowDialogOptions): UseBo
     objectives: actions,
     pageStatus: {
       state: pageStatus,
-      actionsEnabled: tokenToBorrow.value.gt(0) && form.formState.isValid,
+      actionsEnabled: tokenToBorrow.value.gt(0) && isFormValid && !isDebouncing,
       goToSuccessScreen: () => setPageStatus('success'),
     },
     form,

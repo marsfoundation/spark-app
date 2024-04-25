@@ -12,7 +12,7 @@ import { Token } from '@/domain/types/Token'
 import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
 import { Objective } from '@/features/actions/logic/types'
 
-import { AssetInputSchema, getActionAsset } from '../../common/logic/form'
+import { AssetInputSchema, useDebouncedDialogFormValues } from '../../common/logic/form'
 import { useUpdateFormMaxValue } from '../../common/logic/useUpdateFormMaxValue'
 import { FormFieldsForDialog, PageState, PageStatus } from '../../common/types'
 import { getRepayOptions, getTokenDebt } from './assets'
@@ -64,7 +64,16 @@ export function useRepayDialog({ initialToken }: UseRepayDialogOptions): UseRepa
     nativeAssetInfo,
   })
 
-  const repaymentAsset = useConditionalFreeze(getActionAsset(form, marketInfo, maxRepayValue), pageStatus === 'success')
+  const {
+    debouncedFormValues: formValues,
+    isDebouncing,
+    isFormValid,
+  } = useDebouncedDialogFormValues({
+    form,
+    marketInfo,
+    capValue: maxRepayValue,
+  })
+  const repaymentAsset = useConditionalFreeze(formValues, pageStatus === 'success')
 
   const assetsToRepayFields = getFormFieldsForRepayDialog(form, marketInfo, walletInfo, maxRepayValue)
 
@@ -99,7 +108,7 @@ export function useRepayDialog({ initialToken }: UseRepayDialogOptions): UseRepa
     objectives,
     pageStatus: {
       state: pageStatus,
-      actionsEnabled: repaymentAsset.value.gt(0) && form.formState.isValid,
+      actionsEnabled: repaymentAsset.value.gt(0) && isFormValid && !isDebouncing,
       goToSuccessScreen: () => setPageStatus('success'),
     },
     currentPositionOverview,
