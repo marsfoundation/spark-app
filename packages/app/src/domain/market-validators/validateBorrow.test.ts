@@ -65,7 +65,6 @@ describe(validateBorrow.name, () => {
           borrowingEnabled: false,
           availableLiquidity: NormalizedUnitNumber(100),
           totalDebt: NormalizedUnitNumber(0),
-
           isSiloed: false,
           borrowableInIsolation: false,
           eModeCategory: 0,
@@ -91,7 +90,6 @@ describe(validateBorrow.name, () => {
           borrowingEnabled: true,
           availableLiquidity: NormalizedUnitNumber(100),
           totalDebt: NormalizedUnitNumber(0),
-
           isSiloed: false,
           borrowableInIsolation: false,
           eModeCategory: 0,
@@ -117,7 +115,6 @@ describe(validateBorrow.name, () => {
           borrowingEnabled: true,
           availableLiquidity: NormalizedUnitNumber(102),
           totalDebt: NormalizedUnitNumber(5),
-
           isSiloed: false,
           borrowableInIsolation: false,
           eModeCategory: 0,
@@ -144,7 +141,6 @@ describe(validateBorrow.name, () => {
           availableLiquidity: NormalizedUnitNumber(102),
           borrowCap: NormalizedUnitNumber(100),
           totalDebt: NormalizedUnitNumber(0),
-
           isSiloed: false,
           borrowableInIsolation: false,
           eModeCategory: 0,
@@ -171,7 +167,6 @@ describe(validateBorrow.name, () => {
           availableLiquidity: NormalizedUnitNumber(102),
           borrowCap: NormalizedUnitNumber(100),
           totalDebt: NormalizedUnitNumber(5),
-
           isSiloed: false,
           borrowableInIsolation: false,
           eModeCategory: 0,
@@ -197,7 +192,6 @@ describe(validateBorrow.name, () => {
           borrowingEnabled: true,
           availableLiquidity: NormalizedUnitNumber(101),
           totalDebt: NormalizedUnitNumber(0),
-
           isSiloed: false,
           borrowableInIsolation: false,
           eModeCategory: 0,
@@ -223,7 +217,6 @@ describe(validateBorrow.name, () => {
           borrowingEnabled: true,
           availableLiquidity: NormalizedUnitNumber(100),
           totalDebt: NormalizedUnitNumber(0),
-
           isSiloed: true,
           borrowableInIsolation: false,
           eModeCategory: 0,
@@ -249,7 +242,6 @@ describe(validateBorrow.name, () => {
           borrowingEnabled: true,
           availableLiquidity: NormalizedUnitNumber(100),
           totalDebt: NormalizedUnitNumber(0),
-
           isSiloed: true,
           borrowableInIsolation: false,
           eModeCategory: 0,
@@ -277,7 +269,6 @@ describe(validateBorrow.name, () => {
             borrowingEnabled: true,
             availableLiquidity: NormalizedUnitNumber(100),
             totalDebt: NormalizedUnitNumber(0),
-
             isSiloed: false,
             borrowableInIsolation: false,
             eModeCategory: 0,
@@ -306,7 +297,6 @@ describe(validateBorrow.name, () => {
             borrowingEnabled: true,
             availableLiquidity: NormalizedUnitNumber(100),
             totalDebt: NormalizedUnitNumber(0),
-
             isSiloed: false,
             borrowableInIsolation: true,
             eModeCategory: 0,
@@ -334,7 +324,6 @@ describe(validateBorrow.name, () => {
             borrowingEnabled: true,
             availableLiquidity: NormalizedUnitNumber(100),
             totalDebt: NormalizedUnitNumber(0),
-
             isSiloed: false,
             borrowableInIsolation: true,
             eModeCategory: 0,
@@ -364,7 +353,6 @@ describe(validateBorrow.name, () => {
             borrowingEnabled: true,
             availableLiquidity: NormalizedUnitNumber(100),
             totalDebt: NormalizedUnitNumber(0),
-
             isSiloed: false,
             borrowableInIsolation: true,
             eModeCategory: 1,
@@ -392,7 +380,6 @@ describe(validateBorrow.name, () => {
             borrowingEnabled: true,
             availableLiquidity: NormalizedUnitNumber(100),
             totalDebt: NormalizedUnitNumber(0),
-
             isSiloed: false,
             borrowableInIsolation: true,
             eModeCategory: 2,
