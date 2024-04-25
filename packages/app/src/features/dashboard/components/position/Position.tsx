@@ -92,11 +92,11 @@ interface CollateralBarProps {
 }
 
 function CollateralBar({ positionSummary }: CollateralBarProps) {
-  if (!positionSummary?.hasDeposits) {
+  if (!positionSummary?.hasCollaterals) {
     return <EmptyBar />
   }
 
-  const collateralWithPercentages = positionSummary.deposits.map((c) => ({
+  const collateralWithPercentages = positionSummary.collaterals.map((c) => ({
     ...c,
     x: c.token.toUSD(c.value).dividedBy(positionSummary.totalCollateralUSD).multipliedBy(100),
   }))
@@ -111,7 +111,7 @@ function CollateralBar({ positionSummary }: CollateralBarProps) {
               style={{
                 width: i === 0 ? `${c.x}%` : `calc(${c.x}% + 1rem)`,
                 marginLeft: i === 0 ? 0 : '-1rem',
-                backgroundColor: tokenColors[positionSummary.deposits[i]!.token.symbol] ?? getRandomColor(),
+                backgroundColor: tokenColors[positionSummary.collaterals[i]!.token.symbol] ?? getRandomColor(),
                 zIndex: collateralWithPercentages.length - i,
               }}
             />
@@ -150,7 +150,7 @@ interface BorrowBarProps {
 }
 
 function BorrowBar({ positionSummary }: BorrowBarProps) {
-  if (!positionSummary?.hasDeposits || positionSummary.borrow.max.eq(0)) {
+  if (!positionSummary?.hasCollaterals || positionSummary.borrow.max.eq(0)) {
     return <EmptyBar />
   }
   const { borrow } = positionSummary

@@ -61,7 +61,7 @@ export interface WalletCompositionInfo {
   chainId: number
   includeDeposits: boolean
   setIncludeDeposits: (includeDeposits: boolean) => void
-  hasDeposits: boolean
+  hasCollaterals: boolean
 }
 
 export function makeWalletComposition({
@@ -72,7 +72,7 @@ export function makeWalletComposition({
   nativeAssetInfo,
 }: MakeWalletCompositionParams): WalletCompositionInfo {
   return {
-    hasDeposits: marketInfo.userPositionSummary.totalCollateralUSD.gt(0),
+    hasCollaterals: marketInfo.userPositionSummary.totalCollateralUSD.gt(0),
     assets: makeAssetList({
       marketInfo,
       walletInfo,

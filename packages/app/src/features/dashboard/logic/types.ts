@@ -4,7 +4,8 @@ import { TokenWithValue } from '@/domain/common/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 
 export interface PositionSummary {
-  deposits: TokenWithValue[]
+  collaterals: TokenWithValue[]
+  hasCollaterals: boolean
   hasDeposits: boolean
   totalCollateralUSD: NormalizedUnitNumber
   healthFactor: BigNumber | undefined
