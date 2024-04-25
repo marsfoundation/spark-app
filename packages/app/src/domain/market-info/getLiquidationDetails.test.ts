@@ -1,7 +1,7 @@
 import { describe } from 'vitest'
 
 import { MarketInfo } from '@/domain/market-info/marketInfo'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { testAddresses } from '@/test/integration/constants'
@@ -9,284 +9,170 @@ import { testAddresses } from '@/test/integration/constants'
 import { getLiquidationDetails } from './getLiquidationDetails'
 
 describe(getLiquidationDetails.name, () => {
-  describe('no existing deposits and debt', () => {
-    const alreadyDeposited = {
-      tokens: [],
-      totalValueUSD: NormalizedUnitNumber(0),
-    }
-    const alreadyBorrowed = {
-      tokens: [],
-      totalValueUSD: NormalizedUnitNumber(0),
-    }
-    const tokensToBorrow = [{ token: daiLike, value: NormalizedUnitNumber(1000) }]
-    const marketInfo = getMockedMarketInfo({})
+  it('returns undefined when no collaterals and no borrows', () => {
+    const marketInfo = getMockedMarketInfo()
 
-    it('returns undefined when no tokens to deposit', () => {
-      const result = getLiquidationDetails({
-        alreadyDeposited,
-        alreadyBorrowed,
-        tokensToBorrow,
-        marketInfo,
-        tokensToDeposit: [],
-      })
-
-      expect(result).toBeUndefined()
+    const result = getLiquidationDetails({
+      collaterals: [],
+      borrows: [],
+      marketInfo,
+      liquidationThreshold: Percentage(0.8),
     })
+    expect(result).toBeUndefined()
+  })
 
-    it('returns undefined when multiple tokens to deposit', () => {
-      const result = getLiquidationDetails({
-        alreadyDeposited,
-        alreadyBorrowed,
-        tokensToBorrow,
-        marketInfo,
-        tokensToDeposit: [
-          { token: ethLike, value: NormalizedUnitNumber(1) },
-          { token: btcLike, value: NormalizedUnitNumber(1) },
-        ],
-      })
+  it('returns undefined when no borrows', () => {
+    const marketInfo = getMockedMarketInfo()
+    const collaterals = [{ token: ethLike, value: NormalizedUnitNumber(1) }]
 
-      expect(result).toBeUndefined()
+    const result = getLiquidationDetails({
+      collaterals,
+      borrows: [],
+      marketInfo,
+      liquidationThreshold: Percentage(0.8),
     })
+    expect(result).toBeUndefined()
+  })
 
-    it('returns correct data for a single deposit', () => {
-      const result = getLiquidationDetails({
-        alreadyDeposited,
-        alreadyBorrowed,
-        tokensToBorrow,
-        tokensToDeposit: [{ token: ethLike, value: NormalizedUnitNumber(1) }],
-        marketInfo: getMockedMarketInfo({ depositToken: ethLike }),
-      })
+  it('returns undefined when borrow is not dai', () => {
+    const marketInfo = getMockedMarketInfo()
+    const collaterals = [{ token: ethLike, value: NormalizedUnitNumber(1) }]
+    const borrows = [{ token: wstETHLike, value: NormalizedUnitNumber(0.5) }]
 
-      expect(result).toStrictEqual({
-        liquidationPrice: NormalizedUnitNumber(1250),
-        tokenWithPrice: {
-          priceInUSD: NormalizedUnitNumber(2000),
-          symbol: ethLike.symbol,
-        },
-      })
+    const result = getLiquidationDetails({
+      collaterals,
+      borrows,
+      marketInfo,
+      liquidationThreshold: Percentage(0.8),
+    })
+    expect(result).toBeUndefined()
+  })
+
+  it('returns undefined when multiple borrows', () => {
+    const marketInfo = getMockedMarketInfo()
+    const collaterals = [{ token: ethLike, value: NormalizedUnitNumber(1) }]
+    const borrows = [
+      { token: daiLike, value: NormalizedUnitNumber(20000) },
+      { token: btcLike, value: NormalizedUnitNumber(1) },
+    ]
+
+    const result = getLiquidationDetails({
+      collaterals,
+      borrows,
+      marketInfo,
+      liquidationThreshold: Percentage(0.8),
+    })
+    expect(result).toBeUndefined()
+  })
+
+  it('returns undefined when mixed collaterals', () => {
+    const marketInfo = getMockedMarketInfo()
+    const collaterals = [
+      { token: btcLike, value: NormalizedUnitNumber(1) },
+      { token: ethLike, value: NormalizedUnitNumber(1) },
+    ]
+    const borrows = [{ token: daiLike, value: NormalizedUnitNumber(20000) }]
+
+    const result = getLiquidationDetails({
+      collaterals,
+      borrows,
+      marketInfo,
+      liquidationThreshold: Percentage(0.8),
+    })
+    expect(result).toBeUndefined()
+  })
+
+  it('calculates liquidation price for btc like', () => {
+    const marketInfo = getMockedMarketInfo()
+    const collaterals = [{ token: btcLike, value: NormalizedUnitNumber(1) }]
+    const borrows = [{ token: daiLike, value: NormalizedUnitNumber(20000) }]
+
+    const result = getLiquidationDetails({
+      collaterals,
+      borrows,
+      marketInfo,
+      liquidationThreshold: Percentage(0.8),
+    })
+    expect(result).toStrictEqual({
+      liquidationPrice: NormalizedUnitNumber(25000),
+      tokenWithPrice: {
+        priceInUSD: NormalizedUnitNumber(40000),
+        symbol: TokenSymbol('BTC'),
+      },
     })
   })
 
-  describe('existing single deposit, no debt', () => {
-    const alreadyDeposited = {
-      tokens: [ethLike],
-      totalValueUSD: NormalizedUnitNumber(2000),
-    }
-    const alreadyBorrowed = {
-      tokens: [],
-      totalValueUSD: NormalizedUnitNumber(0),
-    }
-    const tokensToBorrow = [{ token: daiLike, value: NormalizedUnitNumber(1000) }]
-    const marketInfo = getMockedMarketInfo({ collateralToken: ethLike, collateralBalance: '1' })
+  it('calculates liquidation price for eth correlated assets', () => {
+    const marketInfo = getMockedMarketInfo()
+    const collaterals = [
+      { token: ethLike, value: NormalizedUnitNumber(2) },
+      { token: wstETHLike, value: NormalizedUnitNumber(2) },
+    ]
+    const borrows = [{ token: daiLike, value: NormalizedUnitNumber(4000) }]
 
-    it('returns undefined when multiple tokens to deposit', () => {
-      const result = getLiquidationDetails({
-        alreadyDeposited,
-        alreadyBorrowed,
-        tokensToBorrow,
-        marketInfo,
-        tokensToDeposit: [
-          { token: ethLike, value: NormalizedUnitNumber(1) },
-          { token: btcLike, value: NormalizedUnitNumber(1) },
-        ],
-      })
-
-      expect(result).toBeUndefined()
+    const result = getLiquidationDetails({
+      collaterals,
+      borrows,
+      marketInfo,
+      liquidationThreshold: Percentage(0.8),
     })
-
-    it('returns correct data for a single deposit', () => {
-      const result = getLiquidationDetails({
-        alreadyDeposited,
-        alreadyBorrowed,
-        tokensToBorrow,
-        marketInfo,
-        tokensToDeposit: [{ token: ethLike, value: NormalizedUnitNumber(1) }],
-      })
-
-      expect(result).toStrictEqual({
-        liquidationPrice: NormalizedUnitNumber(625),
-        tokenWithPrice: {
-          priceInUSD: NormalizedUnitNumber(2000),
-          symbol: ethLike.symbol,
-        },
-      })
-    })
-
-    it('returns correct data when no new deposit', () => {
-      const result = getLiquidationDetails({
-        alreadyDeposited,
-        alreadyBorrowed,
-        tokensToBorrow,
-        marketInfo,
-        tokensToDeposit: [],
-      })
-
-      expect(result).toStrictEqual({
-        liquidationPrice: NormalizedUnitNumber(1250),
-        tokenWithPrice: {
-          priceInUSD: NormalizedUnitNumber(2000),
-          symbol: ethLike.symbol,
-        },
-      })
-    })
-  })
-
-  describe('existing multiple deposits, no debt', () => {
-    const alreadyDeposited = {
-      tokens: [ethLike, btcLike],
-      totalValueUSD: NormalizedUnitNumber(42000),
-    }
-    const alreadyBorrowed = {
-      tokens: [],
-      totalValueUSD: NormalizedUnitNumber(0),
-    }
-    const tokensToBorrow = [{ token: daiLike, value: NormalizedUnitNumber(1000) }]
-    const marketInfo = getMockedMarketInfo({})
-
-    it('returns undefined when multiple deposits', () => {
-      const result = getLiquidationDetails({
-        alreadyDeposited,
-        alreadyBorrowed,
-        tokensToBorrow,
-        marketInfo,
-        tokensToDeposit: [{ token: ethLike, value: NormalizedUnitNumber(1) }],
-      })
-
-      expect(result).toBeUndefined()
-    })
-  })
-
-  describe('existing multiple asset debt', () => {
-    const alreadyDeposited = {
-      tokens: [],
-      totalValueUSD: NormalizedUnitNumber(0),
-    }
-    const alreadyBorrowed = {
-      tokens: [daiLike, ethLike],
-      totalValueUSD: NormalizedUnitNumber(1000),
-    }
-    const tokensToBorrow = [{ token: daiLike, value: NormalizedUnitNumber(1000) }]
-    const marketInfo = getMockedMarketInfo({})
-
-    it('returns undefined when debt in multiple assets', () => {
-      const result = getLiquidationDetails({
-        alreadyDeposited,
-        alreadyBorrowed,
-        tokensToBorrow,
-        marketInfo,
-        tokensToDeposit: [{ token: ethLike, value: NormalizedUnitNumber(1) }],
-      })
-
-      expect(result).toBeUndefined()
-    })
-  })
-
-  describe('existing single deposit, has debt in dai', () => {
-    const alreadyDeposited = {
-      tokens: [ethLike],
-      totalValueUSD: NormalizedUnitNumber(2000),
-    }
-    const alreadyBorrowed = {
-      tokens: [daiLike],
-      totalValueUSD: NormalizedUnitNumber(1000),
-    }
-    const tokensToBorrow = [{ token: daiLike, value: NormalizedUnitNumber(500) }]
-    const marketInfo = getMockedMarketInfo({ collateralToken: ethLike, collateralBalance: '1' })
-
-    it('returns undefined when multiple tokens to deposit', () => {
-      const result = getLiquidationDetails({
-        alreadyDeposited,
-        alreadyBorrowed,
-        tokensToBorrow,
-        marketInfo,
-        tokensToDeposit: [
-          { token: ethLike, value: NormalizedUnitNumber(1) },
-          { token: btcLike, value: NormalizedUnitNumber(1) },
-        ],
-      })
-
-      expect(result).toBeUndefined()
-    })
-
-    it('returns undefined when new single deposit is different than already deposited', () => {
-      const result = getLiquidationDetails({
-        alreadyDeposited,
-        alreadyBorrowed,
-        tokensToBorrow,
-        marketInfo,
-        tokensToDeposit: [{ token: btcLike, value: NormalizedUnitNumber(1) }],
-      })
-
-      expect(result).toBeUndefined()
-    })
-
-    it('returns correct data if no new deposit', () => {
-      const result = getLiquidationDetails({
-        alreadyDeposited,
-        alreadyBorrowed,
-        tokensToBorrow,
-        marketInfo,
-        tokensToDeposit: [],
-      })
-
-      expect(result).toStrictEqual({
-        liquidationPrice: NormalizedUnitNumber(1875),
-        tokenWithPrice: {
-          priceInUSD: NormalizedUnitNumber(2000),
-          symbol: ethLike.symbol,
-        },
-      })
-    })
-
-    it('returns correct data if new deposit same as already deposited', () => {
-      const result = getLiquidationDetails({
-        alreadyDeposited,
-        alreadyBorrowed,
-        tokensToBorrow,
-        marketInfo,
-        tokensToDeposit: [{ token: ethLike, value: NormalizedUnitNumber(1) }],
-      })
-
-      expect(result).toStrictEqual({
-        liquidationPrice: NormalizedUnitNumber(937.5),
-        tokenWithPrice: {
-          priceInUSD: NormalizedUnitNumber(2000),
-          symbol: ethLike.symbol,
-        },
-      })
+    expect(result).toStrictEqual({
+      liquidationPrice: NormalizedUnitNumber(1000),
+      tokenWithPrice: {
+        priceInUSD: NormalizedUnitNumber(2000),
+        symbol: TokenSymbol('ETH'),
+      },
     })
   })
 })
 
-interface GetMockedMarketInfoOptions {
-  collateralBalance?: string
-  collateralToken?: Token
-  liquidationThreshold?: string
-  depositToken?: Token
-}
+function getMockedMarketInfo(): MarketInfo {
+  function findReserveBySymbol(symbol: string): { token: Token; eModeCategory?: { id: number } } {
+    if (['ETH', 'WETH'].includes(symbol)) {
+      return {
+        token: ethLike,
+        eModeCategory: {
+          id: 1, // ETH Correlated
+        },
+      }
+    }
 
-function getMockedMarketInfo({
-  collateralBalance = '0',
-  liquidationThreshold = '0.8',
-  depositToken = ethLike,
-  collateralToken = ethLike,
-}: GetMockedMarketInfoOptions): MarketInfo {
+    if (symbol === 'wstETH') {
+      return {
+        token: wstETHLike,
+        eModeCategory: {
+          id: 1, // ETH Correlated
+        },
+      }
+    }
+
+    if (symbol === 'DAI') {
+      return {
+        token: daiLike,
+        eModeCategory: undefined,
+      }
+    }
+
+    if (symbol === 'BTC') {
+      return {
+        token: btcLike,
+        eModeCategory: undefined,
+      }
+    }
+
+    throw new Error(`Unknown symbol: ${symbol}`)
+  }
+
+  function findTokenBySymbol(symbol: string): Token {
+    return findReserveBySymbol(symbol).token
+  }
+
   return {
-    // used to get data about existing deposits
-    findOnePositionBySymbol: () => ({
-      collateralBalance: NormalizedUnitNumber(collateralBalance),
-      reserve: {
-        liquidationThreshold: NormalizedUnitNumber(liquidationThreshold),
-        priceInUSD: NormalizedUnitNumber(depositToken.unitPriceUsd),
-        token: depositToken,
-      },
-    }),
-    // used to get data about the token to deposit
-    findOneReserveBySymbol: () => ({
-      liquidationThreshold: NormalizedUnitNumber(liquidationThreshold),
-      priceInUSD: NormalizedUnitNumber(collateralToken.unitPriceUsd),
-      token: collateralToken,
-    }),
+    findOneReserveBySymbol: findReserveBySymbol,
+    findReserveBySymbol,
+    findOneTokenBySymbol: findTokenBySymbol,
+    findTokenBySymbol,
+    chainId: 1,
   } as unknown as MarketInfo
 }
 
@@ -297,6 +183,13 @@ const ethLike = new Token({
   decimals: 18,
   name: 'ETH Token',
   unitPriceUsd: '2000',
+})
+const wstETHLike = new Token({
+  address,
+  symbol: TokenSymbol('wstETH'),
+  decimals: 18,
+  name: 'Lido',
+  unitPriceUsd: '3000',
 })
 const btcLike = new Token({
   address,

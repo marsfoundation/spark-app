@@ -8,7 +8,7 @@ import { getChainConfigEntry } from '@/config/chain'
 import { TokenWithValue } from '@/domain/common/types'
 import { useConditionalFreeze } from '@/domain/hooks/useConditionalFreeze'
 import { useAaveDataLayer } from '@/domain/market-info/aave-data-layer/useAaveDataLayer'
-import { getLiquidationDetails, LiquidationDetails } from '@/domain/market-info/getLiquidationDetails'
+import { LiquidationDetails } from '@/domain/market-info/getLiquidationDetails'
 import { UserPositionSummary } from '@/domain/market-info/marketInfo'
 import { updatePositionSummary } from '@/domain/market-info/updatePositionSummary'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
@@ -28,6 +28,7 @@ import { normalizeFormValues } from './form/normalization'
 import { EasyBorrowFormSchema, getEasyBorrowFormValidator } from './form/validation'
 import { ExistingPosition, PageState, PageStatus } from './types'
 import { useCreateObjectives } from './useCreateObjectives'
+import { useLiquidationDetails } from './useLiquidationDetails'
 
 export interface UseEasyBorrowResults {
   pageStatus: PageStatus
@@ -150,16 +151,13 @@ export function useEasyBorrow(): UseEasyBorrowResults {
       value: reserveWithValue.value,
     }))
 
-  const liquidationDetails = useConditionalFreeze(
-    getLiquidationDetails({
-      alreadyDeposited,
-      alreadyBorrowed,
-      marketInfo,
-      tokensToBorrow,
-      tokensToDeposit,
-    }),
-    pageStatus === 'confirmation',
-  )
+  const liquidationDetails = useLiquidationDetails({
+    marketInfo,
+    tokensToDeposit,
+    tokensToBorrow,
+    liquidationThreshold: updatedUserSummary.currentLiquidationThreshold,
+    freeze: pageStatus === 'confirmation',
+  })
 
   const assetToBorrow = {
     symbol: defaultAssetToBorrow,
