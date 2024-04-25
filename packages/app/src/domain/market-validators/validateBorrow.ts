@@ -71,7 +71,6 @@ export function validateBorrow({
   },
 }: ValidateBorrowParams): BorrowValidationIssue | undefined {
   const borrowedAnythingBefore = !totalBorrowedUSD.isEqualTo(0)
-  const totalDebtAfterBorrow = totalDebt.plus(value)
 
   if (value.isLessThanOrEqualTo(0)) {
     return 'value-not-positive'
@@ -85,11 +84,11 @@ export function validateBorrow({
     return 'reserve-borrowing-disabled'
   }
 
-  if (availableLiquidity.lt(totalDebtAfterBorrow)) {
+  if (availableLiquidity.lt(value)) {
     return 'exceeds-liquidity'
   }
 
-  if (borrowCap?.lt(totalDebtAfterBorrow)) {
+  if (borrowCap?.lt(totalDebt.plus(value))) {
     return 'borrow-cap-reached'
   }
 

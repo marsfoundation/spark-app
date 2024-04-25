@@ -28,10 +28,12 @@ export function getBorrowMaxValue({ asset, user, validationIssue }: GetBorrowMax
   ) {
     return NormalizedUnitNumber(0)
   }
-  const ceilings = [asset.availableLiquidity, asset.borrowCap]
-    .filter(Boolean)
-    .map((value) => value.minus(asset.totalDebt))
-  ceilings.push(user.maxBorrowBasedOnCollateral)
+  const ceilings = [asset.availableLiquidity, user.maxBorrowBasedOnCollateral]
+
+  if (asset.borrowCap) {
+    ceilings.push(NormalizedUnitNumber(asset.borrowCap.minus(asset.totalDebt)))
+  }
+
   const { inIsolationMode, isolationModeCollateralTotalDebt, isolationModeCollateralDebtCeiling } = user
 
   if (inIsolationMode && isolationModeCollateralTotalDebt && isolationModeCollateralDebtCeiling) {

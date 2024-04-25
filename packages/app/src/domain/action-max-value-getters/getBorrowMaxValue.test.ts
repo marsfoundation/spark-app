@@ -73,7 +73,7 @@ describe(getBorrowMaxValue.name, () => {
             maxBorrowBasedOnCollateral: NormalizedUnitNumber(100),
           },
         }),
-      ).toEqual(NormalizedUnitNumber(5))
+      ).toEqual(NormalizedUnitNumber(10))
     })
   })
 
