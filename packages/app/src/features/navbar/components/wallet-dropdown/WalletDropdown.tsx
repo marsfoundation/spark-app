@@ -29,7 +29,7 @@ export function WalletDropdown({ connectedWalletInfo, onConnect }: WalletDropdow
         <DropdownMenuTrigger asChild>
           <ConnectedButton open={open} {...connectedWalletInfo.dropdownTriggerInfo} />
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
+        <DropdownMenuContent align="end">
           <WalletDropdownContent
             {...connectedWalletInfo.dropdownContentInfo}
             onDisconnect={() => {

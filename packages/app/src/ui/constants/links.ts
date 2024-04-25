@@ -15,4 +15,5 @@ export const links = {
   aaveTechnicalPaper: 'https://github.com/aave/aave-v3-core/blob/master/techpaper/Aave_V3_Technical_Paper.pdf',
   termsOfUse: 'https://spark.fi/terms-of-use.html',
   privacyPolicy: 'https://spark.fi/privacy-policy.html',
+  github: 'https://github.com/marsfoundation/spark-app',
 } as const
