@@ -14,6 +14,8 @@ export interface ValidateBorrowParams {
     status: ReserveStatus
     borrowingEnabled: boolean
     availableLiquidity: NormalizedUnitNumber
+    totalDebt: NormalizedUnitNumber
+    borrowCap?: NormalizedUnitNumber
     isSiloed: boolean
     borrowableInIsolation: boolean
     eModeCategory: number
@@ -36,6 +38,7 @@ export type BorrowValidationIssue =
   | 'reserve-not-active'
   | 'reserve-borrowing-disabled'
   | 'exceeds-liquidity'
+  | 'borrow-cap-reached'
   | 'insufficient-collateral'
   | 'siloed-mode-cannot-enable'
   | 'siloed-mode-enabled'
@@ -50,6 +53,8 @@ export function validateBorrow({
     status,
     borrowingEnabled,
     availableLiquidity,
+    totalDebt,
+    borrowCap,
     isSiloed,
     borrowableInIsolation,
     eModeCategory: assetEModeCategory,
@@ -81,6 +86,10 @@ export function validateBorrow({
 
   if (availableLiquidity.lt(value)) {
     return 'exceeds-liquidity'
+  }
+
+  if (borrowCap?.lt(totalDebt.plus(value))) {
+    return 'borrow-cap-reached'
   }
 
   if (value.gt(maxBorrowBasedOnCollateral)) {
@@ -122,6 +131,7 @@ export function validateBorrow({
 export const borrowValidationIssueToMessage: Record<BorrowValidationIssue, string> = {
   'value-not-positive': 'Borrow value should be positive',
   'exceeds-liquidity': 'Borrow value exceeds liquidity',
+  'borrow-cap-reached': 'Borrow cap reached',
   'insufficient-collateral': 'Not enough collateral to borrow this amount',
   'siloed-mode-enabled': 'Siloed borrowing enabled. Borrowing other assets is not allowed.',
   'siloed-mode-cannot-enable':
@@ -148,6 +158,8 @@ export function getValidateBorrowArgs(
       status: reserve.status,
       borrowingEnabled: reserve.borrowEligibilityStatus !== 'no',
       availableLiquidity: reserve.availableLiquidity,
+      totalDebt: reserve.totalDebt,
+      borrowCap: reserve.borrowCap,
       isSiloed: reserve.isSiloedBorrowing,
       borrowableInIsolation: reserve.isBorrowableInIsolation,
       eModeCategory: reserve.eModeCategory?.id ?? 0,

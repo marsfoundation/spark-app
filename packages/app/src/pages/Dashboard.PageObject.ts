@@ -187,6 +187,13 @@ export class DashboardPageObject extends BasePageObject {
       table.getByRole('row').filter({ has: this.page.getByRole('cell', { name: asset, exact: true }) }),
     ).toBeVisible()
   }
+
+  async expectNonZeroAmountInBorrowTable(asset: string): Promise<void> {
+    const table = this.locatePanelByHeader('Borrow')
+    const row = table.getByRole('row').filter({ has: this.page.getByRole('cell', { name: asset, exact: true }) })
+    const amount = row.getByRole('cell').nth(2)
+    await expect(amount).not.toHaveText('—')
+  }
   // #endregion
 }
 

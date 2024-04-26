@@ -55,9 +55,10 @@ export interface MakePositionSummaryParams {
 }
 
 export function makePositionSummary({ marketInfo }: MakePositionSummaryParams): PositionSummary {
-  const deposits = getDeposits(marketInfo.userPositions)
+  const collaterals = getCollaterals(marketInfo.userPositions)
   const totalCollateralUSD = marketInfo.userPositionSummary.totalCollateralUSD
-  const hasDeposits = totalCollateralUSD.gt(0)
+  const hasCollaterals = totalCollateralUSD.gt(0)
+  const hasDeposits = marketInfo.userPositions.some((position) => position.collateralBalance.gt(0))
 
   const currentBorrow = marketInfo.userPositionSummary.totalBorrowsUSD
   const maxBorrow = NormalizedUnitNumber(
@@ -67,7 +68,8 @@ export function makePositionSummary({ marketInfo }: MakePositionSummaryParams): 
 
   return {
     healthFactor: marketInfo.userPositionSummary.healthFactor,
-    deposits,
+    collaterals,
+    hasCollaterals,
     hasDeposits,
     totalCollateralUSD,
     borrow: {
@@ -82,7 +84,7 @@ export function makePositionSummary({ marketInfo }: MakePositionSummaryParams): 
   }
 }
 
-function getDeposits(userPositions: UserPosition[]): TokenWithValue[] {
+function getCollaterals(userPositions: UserPosition[]): TokenWithValue[] {
   return userPositions
     .filter((position) => position.reserve.usageAsCollateralEnabledOnUser)
     .map((position) => ({

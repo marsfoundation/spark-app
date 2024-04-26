@@ -15,9 +15,10 @@ const meta: Meta<typeof PositionView> = {
   args: {
     positionSummary: {
       totalCollateralUSD: NormalizedUnitNumber(167_600),
+      hasCollaterals: true,
       hasDeposits: true,
       healthFactor: undefined,
-      deposits: [
+      collaterals: [
         {
           token: tokens['ETH'],
           value: NormalizedUnitNumber(50),
@@ -118,7 +119,7 @@ const meta: Meta<typeof PositionView> = {
     ],
     eModeCategoryId: 0,
     walletComposition: {
-      hasDeposits: true,
+      hasCollaterals: true,
       assets: [
         {
           token: tokens['ETH'],

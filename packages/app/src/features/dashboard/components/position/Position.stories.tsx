@@ -20,9 +20,10 @@ export const RoundValues: Story = {
   args: {
     positionSummary: {
       totalCollateralUSD: NormalizedUnitNumber(167_600),
+      hasCollaterals: true,
       hasDeposits: true,
       healthFactor: undefined,
-      deposits: [
+      collaterals: [
         {
           token: tokens['ETH'],
           value: NormalizedUnitNumber(50),
@@ -50,9 +51,10 @@ export const RealValues: Story = {
   args: {
     positionSummary: {
       totalCollateralUSD: NormalizedUnitNumber(110_412),
+      hasCollaterals: true,
       hasDeposits: true,
       healthFactor: undefined,
-      deposits: [
+      collaterals: [
         {
           token: tokens['ETH'],
           value: NormalizedUnitNumber(32),
@@ -80,9 +82,10 @@ export const SmallValues: Story = {
   args: {
     positionSummary: {
       totalCollateralUSD: NormalizedUnitNumber(51.6),
+      hasCollaterals: true,
       hasDeposits: true,
       healthFactor: undefined,
-      deposits: [
+      collaterals: [
         {
           token: tokens['ETH'],
           value: NormalizedUnitNumber(0.0001),
@@ -110,9 +113,10 @@ export const BigValues: Story = {
   args: {
     positionSummary: {
       totalCollateralUSD: NormalizedUnitNumber(335_260_080),
+      hasCollaterals: true,
       hasDeposits: true,
       healthFactor: undefined,
-      deposits: [
+      collaterals: [
         {
           token: tokens['ETH'],
           value: NormalizedUnitNumber(50000),
@@ -140,9 +144,10 @@ export const ZeroBorrow: Story = {
   args: {
     positionSummary: {
       totalCollateralUSD: NormalizedUnitNumber(110_412),
+      hasCollaterals: true,
       hasDeposits: true,
       healthFactor: undefined,
-      deposits: [
+      collaterals: [
         {
           token: tokens['ETH'],
           value: NormalizedUnitNumber(32),
@@ -170,9 +175,10 @@ export const SmallBorrow: Story = {
   args: {
     positionSummary: {
       totalCollateralUSD: NormalizedUnitNumber(110_412),
+      hasCollaterals: true,
       hasDeposits: true,
       healthFactor: undefined,
-      deposits: [
+      collaterals: [
         {
           token: tokens['ETH'],
           value: NormalizedUnitNumber(32),
@@ -200,9 +206,10 @@ export const BigDifference: Story = {
   args: {
     positionSummary: {
       totalCollateralUSD: NormalizedUnitNumber(71_522),
+      hasCollaterals: true,
       hasDeposits: true,
       healthFactor: undefined,
-      deposits: [
+      collaterals: [
         {
           token: tokens['ETH'],
           value: NormalizedUnitNumber(32),
@@ -230,9 +237,10 @@ export const Empty: Story = {
   args: {
     positionSummary: {
       totalCollateralUSD: NormalizedUnitNumber(0),
+      hasCollaterals: false,
       hasDeposits: false,
       healthFactor: undefined,
-      deposits: [],
+      collaterals: [],
       borrow: {
         current: NormalizedUnitNumber(0),
         max: NormalizedUnitNumber(0),
@@ -251,9 +259,10 @@ export const FourTokens: Story = {
   args: {
     positionSummary: {
       totalCollateralUSD: NormalizedUnitNumber(94_878),
+      hasCollaterals: true,
       hasDeposits: true,
       healthFactor: undefined,
-      deposits: [
+      collaterals: [
         {
           token: tokens['ETH'],
           value: NormalizedUnitNumber(16),

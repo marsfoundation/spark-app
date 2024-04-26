@@ -5,7 +5,7 @@ import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { WalletInfo } from '@/domain/wallet/useWalletInfo'
 
-import { AssetInputSchema, isMaxValue } from '../../common/logic/form'
+import { AssetInputSchema } from '../../common/logic/form'
 
 interface UseRepayInFullOptionsResult {
   repayInFull: boolean
@@ -30,12 +30,20 @@ export function getRepayInFullOptions(
     },
   })
 
-  const repayInFull = isMaxRepay(form, maxRepayValue)
+  const repayInFull = isFullRepay(form, position.borrowBalance, maxRepayValue)
 
   return { repayInFull, maxRepayValue }
 }
 
-function isMaxRepay(form: UseFormReturn<AssetInputSchema>, maxValue: NormalizedUnitNumber): boolean {
+function isFullRepay(
+  form: UseFormReturn<AssetInputSchema>,
+  debt: NormalizedUnitNumber,
+  maxRepayValue: NormalizedUnitNumber,
+): boolean {
   const { value } = form.getValues()
-  return isMaxValue(value, maxValue)
+  const normalizedInputValue = NormalizedUnitNumber(value === '' ? '0' : value)
+  if (normalizedInputValue.lt(debt)) {
+    return false
+  }
+  return normalizedInputValue.eq(maxRepayValue)
 }
