@@ -41,12 +41,8 @@ export function getLiquidationDetails({
   const allCollateralsETHCorrelated = collateralEModeIds.every(
     (id) => eModeCategoryIdToName[id as keyof typeof eModeCategoryIdToName] === 'ETH Correlated',
   )
-  if (allCollateralsETHCorrelated) {
-    const WETHPrice = marketInfo.findTokenBySymbol(TokenSymbol('WETH'))?.unitPriceUsd
-    if (!WETHPrice) {
-      return undefined
-    }
-
+  const WETHPrice = marketInfo.findTokenBySymbol(TokenSymbol('WETH'))?.unitPriceUsd
+  if (allCollateralsETHCorrelated && WETHPrice) {
     const totalCollateralInWETH = collaterals.reduce((sum, collateral) => {
       const collateralPrice = marketInfo.findOneTokenBySymbol(collateral.token.symbol).unitPriceUsd
       return NormalizedUnitNumber(sum.plus(collateral.value.multipliedBy(collateralPrice).dividedBy(WETHPrice)))
