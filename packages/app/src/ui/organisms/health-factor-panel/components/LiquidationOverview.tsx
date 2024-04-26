@@ -60,14 +60,16 @@ function LiquidationPrices({ liquidationDetails, variant, className }: Liquidati
       <DetailsRow variant={variant}>
         <div className="flex flex-row items-center gap-1">
           Liquidation Price
-          <Info>Price of the collateral asset at which the position will be liquidated.</Info>
+          <Info>
+            Estimated price of {liquidationDetails.tokenWithPrice.symbol} at which the position may be liquidated.
+          </Info>
         </div>
         <div>{USD_MOCK_TOKEN.formatUSD(liquidationDetails.liquidationPrice)}</div>
       </DetailsRow>
       <DetailsRow variant={variant}>
         <div className="flex flex-row items-center gap-1">
           Current {liquidationDetails.tokenWithPrice.symbol} Price
-          <Info>Current price of the collateral asset.</Info>
+          <Info>Current price of {liquidationDetails.tokenWithPrice.symbol}.</Info>
         </div>
         <div>{USD_MOCK_TOKEN.formatUSD(liquidationDetails.tokenWithPrice.priceInUSD)}</div>
       </DetailsRow>

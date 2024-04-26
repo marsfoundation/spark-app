@@ -1,11 +1,12 @@
 import BigNumber from 'bignumber.js'
 
+import { getChainConfigEntry } from '@/config/chain'
 import { TokenWithValue } from '@/domain/common/types'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 
-import { Token } from '../types/Token'
+import { eModeCategoryIdToName } from '../e-mode/constants'
 
 export interface LiquidationDetails {
   liquidationPrice: NormalizedUnitNumber
@@ -15,112 +16,71 @@ export interface LiquidationDetails {
   }
 }
 
-interface ExistingPosition {
-  tokens: Token[]
-  totalValueUSD: NormalizedUnitNumber
-}
-
-interface GetLiquidationDetailsParams {
-  alreadyDeposited: ExistingPosition
-  alreadyBorrowed: ExistingPosition
-  tokensToDeposit: TokenWithValue[]
-  tokensToBorrow: TokenWithValue[]
+export interface GetLiquidationDetailsParams {
+  collaterals: TokenWithValue[]
+  borrows: TokenWithValue[]
   marketInfo: MarketInfo
+  liquidationThreshold: Percentage
 }
 
 export function getLiquidationDetails({
-  alreadyDeposited,
-  alreadyBorrowed,
-  tokensToDeposit,
-  tokensToBorrow,
+  collaterals,
+  borrows,
   marketInfo,
+  liquidationThreshold,
 }: GetLiquidationDetailsParams): LiquidationDetails | undefined {
-  const depositsCount = tokensToDeposit.length
-  const alreadyBorrowedCount = alreadyBorrowed.tokens.length
-  const alreadyDepositedCount = alreadyDeposited.tokens.length
-  const depositTokenSymbol = tokensToDeposit[0]?.token.symbol
+  const defaultAssetToBorrow = getChainConfigEntry(marketInfo.chainId).meta.defaultAssetToBorrow
+  if (borrows.length !== 1 || borrows[0]!.token.symbol !== defaultAssetToBorrow) {
+    return undefined
+  }
+  const borrowInUSD = borrows[0]!.value.multipliedBy(marketInfo.findOneTokenBySymbol(defaultAssetToBorrow).unitPriceUsd)
 
-  // collateral checks
-  const hasDepositOrCollateral = depositsCount !== 0 || alreadyDepositedCount !== 0
-  const hasNoDepositButSingleCollateral = depositsCount === 0 && alreadyDepositedCount === 1
-  const hasSingleDepositButNoCollateral = depositsCount === 1 && alreadyDepositedCount === 0
-  const hasSingleDepositSameAsSingleCollateral =
-    depositsCount === 1 && alreadyDepositedCount === 1 && depositTokenSymbol === alreadyDeposited.tokens[0]?.symbol
+  const collateralEModeIds = collaterals.map(
+    (collateral) => marketInfo.findOneReserveBySymbol(collateral.token.symbol).eModeCategory?.id,
+  )
+  const allCollateralsETHCorrelated = collateralEModeIds.every(
+    (id) => eModeCategoryIdToName[id as keyof typeof eModeCategoryIdToName] === 'ETH Correlated',
+  )
+  const WETHPrice = marketInfo.findTokenBySymbol(TokenSymbol('WETH'))?.unitPriceUsd
+  if (allCollateralsETHCorrelated && WETHPrice) {
+    const totalCollateralInWETH = collaterals.reduce((sum, collateral) => {
+      const collateralPrice = marketInfo.findOneTokenBySymbol(collateral.token.symbol).unitPriceUsd
+      return NormalizedUnitNumber(sum.plus(collateral.value.multipliedBy(collateralPrice).dividedBy(WETHPrice)))
+    }, NormalizedUnitNumber(0))
+    const liquidationPrice = calculateLiquidationPrice({
+      borrowInUSD,
+      depositAmount: totalCollateralInWETH,
+      liquidationThreshold,
+    })
 
-  const depositCheck =
-    hasDepositOrCollateral ||
-    hasNoDepositButSingleCollateral ||
-    hasSingleDepositButNoCollateral ||
-    hasSingleDepositSameAsSingleCollateral
+    return {
+      liquidationPrice,
+      tokenWithPrice: {
+        priceInUSD: NormalizedUnitNumber(WETHPrice),
+        symbol: TokenSymbol('ETH'),
+      },
+    }
+  }
 
-  // checking that debt is Dai or there is no debt
-  const hasNoDebt = alreadyBorrowedCount === 0
-  const hasOnlyDaiDebt = alreadyBorrowedCount === 1 && alreadyBorrowed.tokens[0]?.symbol === TokenSymbol('DAI')
-  const borrowCheck = hasNoDebt || hasOnlyDaiDebt
-
-  if (!depositCheck || !borrowCheck) {
+  if (collaterals.length !== 1) {
     return undefined
   }
 
-  // From here we have conditions that are viable to calculate liquidation price
+  const collateral = collaterals[0]!
+  const collateralPrice = collateral.token.unitPriceUsd
 
-  const tokenToBorrowUSDValue = tokensToBorrow[0]?.value.multipliedBy(tokensToBorrow[0].token.unitPriceUsd) ?? 0
-  const borrowInUSD = NormalizedUnitNumber(alreadyBorrowed.totalValueUSD.plus(tokenToBorrowUSDValue))
+  const liquidationPrice = calculateLiquidationPrice({
+    borrowInUSD,
+    depositAmount: collateral.value,
+    liquidationThreshold,
+  })
 
-  if (hasNoDepositButSingleCollateral) {
-    const collateralToken = alreadyDeposited.tokens[0]!
-    const collateralPosition = marketInfo.findOnePositionBySymbol(collateralToken.symbol)
-    const liquidationPrice = calculateLiquidationPrice({
-      borrowInUSD,
-      depositAmount: collateralPosition.collateralBalance,
-      liquidationThreshold: collateralPosition.reserve.liquidationThreshold,
-    })
-
-    return {
-      liquidationPrice,
-      tokenWithPrice: {
-        priceInUSD: NormalizedUnitNumber(collateralPosition.reserve.priceInUSD),
-        symbol: collateralPosition.reserve.token.symbol,
-      },
-    }
-  }
-
-  if (hasSingleDepositButNoCollateral) {
-    const deposit = tokensToDeposit[0]!
-    const depositReserve = marketInfo.findOneReserveBySymbol(depositTokenSymbol!)
-    const liquidationPrice = calculateLiquidationPrice({
-      borrowInUSD,
-      depositAmount: deposit.value,
-      liquidationThreshold: depositReserve.liquidationThreshold,
-    })
-
-    return {
-      liquidationPrice,
-      tokenWithPrice: {
-        priceInUSD: NormalizedUnitNumber(depositReserve.priceInUSD),
-        symbol: depositReserve.token.symbol,
-      },
-    }
-  }
-
-  if (hasSingleDepositSameAsSingleCollateral) {
-    const deposit = tokensToDeposit[0]!
-    const collateralToken = alreadyDeposited.tokens[0]!
-    const collateral = marketInfo.findOnePositionBySymbol(collateralToken.symbol)
-    const totalDepositValue = deposit.value.plus(collateral.collateralBalance)
-    const liquidationPrice = calculateLiquidationPrice({
-      borrowInUSD,
-      depositAmount: totalDepositValue,
-      liquidationThreshold: collateral.reserve.liquidationThreshold,
-    })
-
-    return {
-      liquidationPrice,
-      tokenWithPrice: {
-        priceInUSD: NormalizedUnitNumber(collateral.reserve.priceInUSD),
-        symbol: collateral.reserve.token.symbol,
-      },
-    }
+  return {
+    liquidationPrice,
+    tokenWithPrice: {
+      priceInUSD: NormalizedUnitNumber(collateralPrice),
+      symbol: collateral.token.symbol,
+    },
   }
 }
 
