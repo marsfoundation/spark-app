@@ -17,7 +17,7 @@ export function SlippageForm({ fieldType, fieldValue, error }: SlippageFormProps
   const formattedValue = formatPercentage(fieldValue, { skipSign: true })
 
   return (
-    <div className="grid grid-cols-[repeat(3,auto)_1fr] gap-2.5">
+    <div className="col-span-full col-start-1 grid grid-cols-[repeat(3,auto)_1fr] gap-1.5 sm:h-14 sm:gap-2.5">
       {PREDEFINED_SLIPPAGES.map((slippage) => (
         <SlippageButton isActive={fieldType === 'button' && fieldValue.eq(slippage)} key={slippage.toString()}>
           {formatPercentage(slippage, { minimumFractionDigits: 0 })}

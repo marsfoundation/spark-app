@@ -12,20 +12,20 @@ export function SlippageInput({ value, error, ...rest }: SlippageInputProps) {
   return (
     <div
       className={cn(
-        'border-basics-border text-basics-dark-grey relative flex h-[56px]',
-        'w-full flex-grow items-center rounded-xl border',
+        'border-basics-border text-basics-dark-grey relative flex',
+        'w-full flex-grow items-center rounded-xl border text-sm sm:text-base',
         value !== '' && 'border-main-blue text-basics-black',
         error && 'border-error bg-error/10 text-error',
       )}
     >
       <DecimalInput
-        className={cn('flex h-full w-full pl-4 focus:outline-none')}
+        className={cn('flex h-full w-full pl-3 focus:outline-none sm:pl-4')}
         maxLength={6}
         placeholder="Custom"
         value={value}
         {...rest}
       />
-      <div className="absolute right-0 mr-4 cursor-default">%</div>
+      <div className="absolute right-0 mr-3 cursor-default sm:mr-4">%</div>
     </div>
   )
 }
