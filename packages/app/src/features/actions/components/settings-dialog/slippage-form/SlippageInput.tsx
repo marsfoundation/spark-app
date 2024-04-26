@@ -1,6 +1,5 @@
 import { InputHTMLAttributes } from 'react'
 
-import { DecimalInput } from '@/ui/atoms/decimal-input/DecimalInput'
 import { cn } from '@/ui/utils/style'
 
 interface SlippageInputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -8,7 +7,9 @@ interface SlippageInputProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: string
 }
 
-export function SlippageInput({ value, error, ...rest }: SlippageInputProps) {
+const decimalNumberRegex = /^\d+\.?\d*$/
+
+export function SlippageInput({ value, error, onChange, ...rest }: SlippageInputProps) {
   return (
     <div
       className={cn(
@@ -18,12 +19,20 @@ export function SlippageInput({ value, error, ...rest }: SlippageInputProps) {
         error && 'border-error bg-error/10 text-error',
       )}
     >
-      <DecimalInput
+      <input
         className={cn('flex h-full w-full pl-3 focus:outline-none sm:pl-4')}
         maxLength={6}
         placeholder="Custom"
         value={value}
+        type="text"
+        inputMode="decimal"
         {...rest}
+        onChange={(e) => {
+          if (decimalNumberRegex.test(e.target.value)) {
+            e.target.value = e.target.value.replace(/,/g, '.')
+            onChange?.(e)
+          }
+        }}
       />
       <div className="absolute right-0 mr-3 cursor-default sm:mr-4">%</div>
     </div>
