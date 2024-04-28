@@ -12,7 +12,6 @@ import { ChainConfig, ChainConfigEntry, ChainMeta } from './types'
 
 const commonTokenSymbolToReplacedName = {
   [TokenSymbol('DAI')]: { name: 'DAI Stablecoin', symbol: TokenSymbol('DAI') },
-  [TokenSymbol('sDAI')]: { name: 'DAI Stablecoin', symbol: TokenSymbol('DAI') },
   [TokenSymbol('USDC')]: { name: 'Circle USD', symbol: TokenSymbol('USDC') },
   [TokenSymbol('wstETH')]: { name: 'Lido Staked ETH', symbol: TokenSymbol('wstETH') },
   [TokenSymbol('rETH')]: { name: 'Rocket Pool Staked ETH', symbol: TokenSymbol('rETH') },
@@ -87,6 +86,7 @@ const chainConfig: ChainConfig = {
     tokenSymbolToReplacedName: {
       ...commonTokenSymbolToReplacedName,
       [TokenSymbol('WXDAI')]: { name: 'DAI Stablecoin', symbol: TokenSymbol('XDAI') },
+      [TokenSymbol('sDAI')]: { name: 'Savings DAI', symbol: TokenSymbol('sDAI') },
       [TokenSymbol('USDC')]: { name: 'Circle USD (Bridged)', symbol: TokenSymbol('USDC') },
       [TokenSymbol('USDT')]: { name: 'Tether USD (Bridged)', symbol: TokenSymbol('USDT') },
       [TokenSymbol('EURe')]: { name: 'Monerium EURO', symbol: TokenSymbol('EURe') },
