@@ -37,6 +37,7 @@ import success from './success.svg'
 import threeDots from './three-dots.svg'
 import dai from './tokens/dai.svg'
 import eth from './tokens/eth.svg'
+import eure from './tokens/eure.svg'
 import gno from './tokens/gno.svg'
 import mkr from './tokens/mkr.svg'
 import reth from './tokens/reth.svg'
@@ -123,6 +124,7 @@ export const assets = {
     wsteth,
     wxdai,
     xdai,
+    eure,
     unknown,
   },
   walletIcons: {
