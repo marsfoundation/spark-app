@@ -1,4 +1,5 @@
 import { generatePath } from 'react-router-dom'
+import { mainnet } from 'viem/chains'
 
 import { getChainConfigEntry } from '@/config/chain'
 import { getAirdropsData } from '@/config/chain/utils/airdrops'
@@ -54,9 +55,10 @@ function mergeDaiMarkets(
   allReserves: Reserve[],
 ): MarketEntryRowData | undefined | null {
   const sDAIMarket = allReserves.find((r) => r.token.symbol === 'sDAI')
-  const { tokenSymbolToReplacedName } = getChainConfigEntry(chainId)
+  const { tokenSymbolToReplacedName, id: originChainId } = getChainConfigEntry(chainId)
   // @note: this can happen on some domains when DAI rollout is not yet complete
-  if (!sDAIMarket) return
+  // Maker info is only available on mainnet now, so we don't merge DAI markets on other chains
+  if (!sDAIMarket || originChainId !== mainnet.id) return
 
   if (reserve.token.symbol === 'DAI') {
     return makeMarketEntry(chainId, {
