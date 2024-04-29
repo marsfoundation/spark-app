@@ -1,4 +1,4 @@
-import { getDefaultConfig, getDefaultWallets } from '@rainbow-me/rainbowkit'
+import { getDefaultConfig } from '@rainbow-me/rainbowkit'
 import { Chain, http, Transport, webSocket } from 'viem'
 import { gnosis, goerli, mainnet } from 'viem/chains'
 import { Config } from 'wagmi'
@@ -9,8 +9,9 @@ import { raise } from '@/utils/raise'
 import { SUPPORTED_CHAINS } from '../chain/constants'
 import { SupportedChainId } from '../chain/types'
 import { VIEM_TIMEOUT_ON_FORKS } from './config.e2e'
+import { getWallets } from './getWallets'
 
-const { wallets } = getDefaultWallets()
+const wallets = getWallets()
 
 const ALCHEMY_API_KEY = 'WVOCPHOxAVE1R9PySEqcO7WX2b9_V-9L'
 
