@@ -5,7 +5,7 @@ export type WalletType = 'gnosis-safe' | 'universal'
 
 export function useWalletType(): WalletType | undefined {
   const { address, connector } = useAccount()
-  const canBeGnosisSafe = connector?.name === 'WalletConnect' // avoids querying bytecode if not needed
+  const canBeGnosisSafe = connector?.name === 'WalletConnect' || connector?.name === 'Safe' // avoids querying bytecode if not needed
   const isSmartContract = useIsSmartContract(canBeGnosisSafe ? address : undefined)
 
   if (!address) {
