@@ -3,11 +3,11 @@ import { Settings } from 'lucide-react'
 import { Button } from '@/ui/atoms/button/Button'
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/ui/atoms/dialog/Dialog'
 
-interface ActionSettingsProps {
+interface SettingsDialogProps {
   openSettings: () => void
 }
 
-export function ActionSettings({ openSettings }: ActionSettingsProps) {
+export function SettingsDialog({ openSettings }: SettingsDialogProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>
