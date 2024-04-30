@@ -1,30 +1,37 @@
-import { InputHTMLAttributes } from 'react'
+import { UseFormReturn } from 'react-hook-form'
 
 import { formatPercentage } from '@/domain/common/format'
 import { Percentage } from '@/domain/types/NumericValues'
-import { PREDEFINED_SLIPPAGES } from '@/features/actions/constants'
+import { PREDEFINED_SLIPPAGES } from '@/features/actions/settings-dialog/constants'
 
+import { SlippageInputSchema } from '../../logic/form'
+import { UseSlippageFormResult } from '../../logic/useSlippageForm'
+import { ControlledSlippageInput } from './ControlledSlippageInput'
 import { SlippageButton } from './SlippageButton'
-import { SlippageInput } from './SlippageInput'
 
-interface SlippageFormProps extends InputHTMLAttributes<HTMLInputElement> {
-  fieldType: 'button' | 'input'
-  fieldValue: Percentage
+interface SlippageFormProps {
+  form: UseFormReturn<SlippageInputSchema>
+  onSlippageChange: UseSlippageFormResult['onSlippageChange']
+  type: 'input' | 'button'
+  value: Percentage
   error?: string
 }
 
-export function SlippageForm({ fieldType, fieldValue, error }: SlippageFormProps) {
-  const formattedValue = formatPercentage(fieldValue, { skipSign: true })
-
+export function SlippageForm({ form, onSlippageChange, type, value, error }: SlippageFormProps) {
   return (
     <div className="cols-start-1 col-span-full flex-col">
       <div className="flex gap-1.5 sm:h-14 sm:gap-2.5">
         {PREDEFINED_SLIPPAGES.map((slippage) => (
-          <SlippageButton isActive={fieldType === 'button' && fieldValue.eq(slippage)} key={slippage.toString()}>
+          <SlippageButton isActive={type === 'button' && value.eq(slippage)} key={slippage.toString()}>
             {formatPercentage(slippage, { minimumFractionDigits: 0 })}
           </SlippageButton>
         ))}
-        <SlippageInput value={fieldType === 'input' ? formattedValue : ''} onChange={() => {}} error={error} />
+        <ControlledSlippageInput
+          form={form}
+          onSlippageChange={onSlippageChange}
+          isActive={type === 'input'}
+          error={error}
+        />
       </div>
       {error && <div className="text-error mt-2 flex justify-end text-xs">{error}</div>}
     </div>
