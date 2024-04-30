@@ -9,8 +9,8 @@ import { LabeledSwitch } from '@/ui/molecules/labeled-switch/LabeledSwitch'
 import { cn } from '@/ui/utils/style'
 
 import { ActionsGrid } from '../components/actions-grid/ActionsGrid'
-import { ActionSettings } from '../components/settings-dialog/ActionSettings'
 import { ActionHandler } from '../logic/types'
+import { ActionSettings } from '../settings-dialog/components/ActionSettings'
 import { formatGasPrice } from '../utils/formatGasPrice'
 
 const actionsPanelVariants = cva('', {
