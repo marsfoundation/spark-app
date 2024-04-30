@@ -1,13 +1,12 @@
-import { ReactNode } from 'react'
+import { HTMLAttributes } from 'react'
 
 import { cn } from '@/ui/utils/style'
 
-interface SlippageButtonProps {
-  children: ReactNode
+interface SlippageButtonProps extends HTMLAttributes<HTMLButtonElement> {
   isActive: boolean
 }
 
-export function SlippageButton({ children, isActive }: SlippageButtonProps) {
+export function SlippageButton({ children, isActive, ...rest }: SlippageButtonProps) {
   return (
     <button
       className={cn(
@@ -17,6 +16,7 @@ export function SlippageButton({ children, isActive }: SlippageButtonProps) {
         'text-basics-dark-grey hover:shadow-sm',
         isActive && 'border-main-blue text-basics-black',
       )}
+      {...rest}
     >
       {children}
     </button>

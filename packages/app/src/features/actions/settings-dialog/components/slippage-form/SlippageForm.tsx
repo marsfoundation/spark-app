@@ -12,20 +12,27 @@ import { SlippageButton } from './SlippageButton'
 interface SlippageFormProps {
   form: UseFormReturn<SlippageInputSchema>
   onSlippageChange: UseSlippageFormResult['onSlippageChange']
-  type: 'input' | 'button'
-  value: Percentage
+  type: SlippageInputSchema['type']
+  slippage: Percentage
   error?: string
 }
 
-export function SlippageForm({ form, onSlippageChange, type, value, error }: SlippageFormProps) {
+export function SlippageForm({ form, onSlippageChange, type, slippage, error }: SlippageFormProps) {
   return (
     <div className="cols-start-1 col-span-full flex-col">
       <div className="flex gap-1.5 sm:h-14 sm:gap-2.5">
-        {PREDEFINED_SLIPPAGES.map((slippage) => (
-          <SlippageButton isActive={type === 'button' && value.eq(slippage)} key={slippage.toString()}>
-            {formatPercentage(slippage, { minimumFractionDigits: 0 })}
-          </SlippageButton>
-        ))}
+        {PREDEFINED_SLIPPAGES.map((predefinedSlippage) => {
+          const formSlippage = formatPercentage(predefinedSlippage, { minimumFractionDigits: 0, skipSign: true })
+          return (
+            <SlippageButton
+              isActive={type === 'button' && slippage.eq(predefinedSlippage)}
+              key={predefinedSlippage.toString()}
+              onClick={() => onSlippageChange(formSlippage, 'button')}
+            >
+              {formSlippage}
+            </SlippageButton>
+          )
+        })}
         <ControlledSlippageInput
           form={form}
           onSlippageChange={onSlippageChange}

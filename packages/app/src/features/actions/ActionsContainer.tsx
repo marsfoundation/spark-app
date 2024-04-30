@@ -5,6 +5,7 @@ import { ActionsSkeleton } from './components/skeleton/ActionsSkeleton'
 import { stringifyObjectivesToStableActions } from './logic/stringifyObjectives'
 import { Objective } from './logic/types'
 import { useActionHandlers } from './logic/useActionHandlers'
+import { useSettingsDialog } from './settings-dialog/logic/useSettingsDialog'
 import { ActionsView } from './views/ActionsView'
 
 export interface ActionsContainerProps {
@@ -24,6 +25,7 @@ function ActionsContainer({
     enabled,
     onFinish,
   })
+  const settingsDialogProps = useSettingsDialog()
 
   return (
     <ActionsView
@@ -32,6 +34,7 @@ function ActionsContainer({
       actionsSettings={actionsSettings}
       settingsDisabled={settingsDisabled}
       gasPrice={gasPrice}
+      settingsDialogProps={settingsDialogProps}
     />
   )
 }

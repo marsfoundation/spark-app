@@ -15,10 +15,11 @@ export function ControlledSlippageInput({ form, onSlippageChange, isActive, erro
   return (
     <Controller
       control={form.control}
-      name="value"
+      name="slippage"
       render={({ field }) => (
         <SlippageInput
           {...field}
+          value={isActive ? field.value : ''}
           isActive={isActive}
           error={error}
           onChange={(e) => {

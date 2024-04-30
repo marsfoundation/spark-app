@@ -11,6 +11,7 @@ import { cn } from '@/ui/utils/style'
 import { ActionsGrid } from '../components/actions-grid/ActionsGrid'
 import { ActionHandler } from '../logic/types'
 import { SettingsDialog } from '../settings-dialog/components/SettingsDialog'
+import { UseSettingsDialogResult } from '../settings-dialog/logic/useSettingsDialog'
 import { formatGasPrice } from '../utils/formatGasPrice'
 
 const actionsPanelVariants = cva('', {
@@ -37,6 +38,7 @@ export interface ActionsViewProps {
   settingsDisabled: boolean
   variant: 'default' | 'dialog'
   gasPrice?: NormalizedUnitNumber
+  settingsDialogProps: UseSettingsDialogResult
 }
 
 export function ActionsView({
@@ -45,6 +47,7 @@ export function ActionsView({
   variant,
   gasPrice,
   settingsDisabled,
+  settingsDialogProps,
 }: ActionsViewProps) {
   const { preferPermits, setPreferPermits } = actionsSettings
 
@@ -58,7 +61,7 @@ export function ActionsView({
         >
           Actions
         </Panel.Title>
-        {import.meta.env.VITE_DEV_ACTIONS_SETTINGS === '1' && <SettingsDialog openSettings={() => {}} />}
+        {import.meta.env.VITE_DEV_ACTIONS_SETTINGS === '1' && <SettingsDialog {...settingsDialogProps} />}
       </Panel.Header>
       <Panel.Content className="flex flex-col gap-6">
         <ActionsGrid actionHandlers={actionHandlers} variant={variant === 'default' ? 'extended' : 'compact'} />

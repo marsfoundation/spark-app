@@ -2,27 +2,27 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, UseFormReturn } from 'react-hook-form'
 
 import { formatPercentage } from '@/domain/common/format'
-import { useActionsSettings } from '@/domain/state'
 
+import { DEFAULT_SLIPPAGE } from '../constants'
 import { SlippageInputSchema } from './form'
 
 export interface UseSlippageFormResult {
   form: UseFormReturn<SlippageInputSchema>
-  onSlippageChange: (value: string, type: 'input' | 'button') => void
+  onSlippageChange: (slippage: string, type: 'input' | 'button') => void
 }
 
 export function useSlippageForm(): UseSlippageFormResult {
-  const { exchangeMaxSlippage } = useActionsSettings()
   const form = useForm<SlippageInputSchema>({
     resolver: zodResolver(SlippageInputSchema),
     defaultValues: {
-      type: 'input',
-      value: formatPercentage(exchangeMaxSlippage, { minimumFractionDigits: 0 }),
+      type: 'button',
+      slippage: formatPercentage(DEFAULT_SLIPPAGE, { minimumFractionDigits: 0, skipSign: true }),
     },
+    mode: 'onChange',
   })
 
-  function onSlippageChange(value: string, type: 'input' | 'button'): void {
-    form.setValue('value', value)
+  function onSlippageChange(slippage: string, type: 'input' | 'button'): void {
+    form.setValue('slippage', slippage)
     form.setValue('type', type)
   }
 
