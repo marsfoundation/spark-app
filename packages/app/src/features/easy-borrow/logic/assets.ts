@@ -5,7 +5,7 @@ import { WalletInfo } from '@/domain/wallet/useWalletInfo'
 const blacklistedDepositableAssets = ['USDC', 'USDT', 'DAI', 'sDAI', 'XDAI']
 export function getDepositableAssets(reserves: Reserve[]): Reserve[] {
   return reserves
-    .filter((r) => r.status === 'active' && !r.isIsolated)
+    .filter((r) => r.status === 'active' && !r.isIsolated && r.usageAsCollateralEnabled)
     .filter((r) => !blacklistedDepositableAssets.includes(r.token.symbol))
 }
 
