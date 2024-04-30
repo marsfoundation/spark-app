@@ -12,12 +12,13 @@ const meta: Meta<typeof SlippageForm> = {
   component: (args) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const form = useForm() as any
-    return <SlippageForm {...args} form={form} onSlippageChange={() => {}} />
+    return <SlippageForm {...args} form={form} />
   },
   decorators: [WithClassname('max-w-xl')],
   args: {
     type: 'button',
-    value: Percentage(0.005),
+    slippage: Percentage(0.005),
+    onSlippageChange: () => {},
   },
 }
 
@@ -31,7 +32,7 @@ export const Tablet = getTabletStory(Desktop)
 export const Error: Story = {
   args: {
     type: 'input',
-    value: Percentage(0.6),
+    slippage: Percentage(0.6),
     error: 'Value have to be greater than 0 and less than 50.',
   },
 }
@@ -41,7 +42,7 @@ export const ErrorTablet = getTabletStory(Error)
 export const CustomSlippage: Story = {
   args: {
     type: 'input',
-    value: Percentage(0.3),
+    slippage: Percentage(0.3),
   },
 }
 export const CustomSlippageMobile = getMobileStory(CustomSlippage)

@@ -22,7 +22,7 @@ export function useSlippageForm(): UseSlippageFormResult {
   })
 
   function onSlippageChange(slippage: string, type: 'input' | 'button'): void {
-    form.setValue('slippage', slippage)
+    form.setValue('slippage', slippage, { shouldValidate: true })
     form.setValue('type', type)
   }
 

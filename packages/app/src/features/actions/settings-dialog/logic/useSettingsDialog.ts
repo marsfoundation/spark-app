@@ -26,7 +26,7 @@ export function useSettingsDialog(): UseSettingsDialogResult {
   const actionsSettings = useActionsSettings()
   const [preferPermits, setPreferPermits] = useState(actionsSettings.preferPermits)
   const { form, onSlippageChange } = useSlippageForm()
-  const slippage = Percentage(Number(form.watch().slippage) / 100)
+  const slippage = Percentage(Number(form.watch().slippage) / 100, true)
 
   function onConfirm(): void {
     const formSlippage = form.getValues('slippage')

@@ -21,7 +21,7 @@ export const SlippageInput = forwardRef<HTMLInputElement, SlippageInputProps>(
         )}
       >
         <input
-          className={cn('flex h-full w-full rounded-xl pl-3 sm:pl-4')}
+          className={cn('flex h-full w-full rounded-xl pl-3 sm:pl-4', error && 'outline-error')}
           maxLength={6}
           ref={ref}
           placeholder="Custom"
@@ -29,8 +29,8 @@ export const SlippageInput = forwardRef<HTMLInputElement, SlippageInputProps>(
           inputMode="decimal"
           {...rest}
           onChange={(e) => {
-            if (decimalNumberRegex.test(e.target.value)) {
-              e.target.value = e.target.value.replace(/,/g, '.')
+            e.target.value = e.target.value.replace(/,/g, '.')
+            if (!e.target.value || decimalNumberRegex.test(e.target.value)) {
               onChange?.(e)
             }
           }}
