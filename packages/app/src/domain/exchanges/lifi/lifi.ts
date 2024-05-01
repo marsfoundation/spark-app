@@ -26,7 +26,7 @@ interface QuoteRequestParams {
   toToken: CheckedAddress
   integrator: string
   fee: string
-  maxSlippage: string
+  slippage: string
 }
 
 interface ReverseQuoteRequestParams {
@@ -70,7 +70,7 @@ export class LiFi {
       toToken,
       integrator: meta.integratorKey,
       fee: meta.fee.toFixed(),
-      maxSlippage: maxSlippage.toFixed(),
+      slippage: maxSlippage.toFixed(),
     } satisfies QuoteRequestParams
     url.search = new URLSearchParams(params).toString()
     return url

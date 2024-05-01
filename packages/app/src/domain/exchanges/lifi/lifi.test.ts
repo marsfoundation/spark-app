@@ -78,7 +78,7 @@ describe('LiFi', () => {
       expect(calledUrlObj.searchParams.get('fromToken')).toBe(USDC)
       expect(calledUrlObj.searchParams.get('fromAmount')).toBe(amount.toString())
       expect(calledUrlObj.searchParams.get('toToken')).toBe(sDAI)
-      expect(calledUrlObj.searchParams.get('maxSlippage')).toBe(maxSlippageAsString)
+      expect(calledUrlObj.searchParams.get('slippage')).toBe(maxSlippageAsString)
       expect(calledUrlObj.origin).toBe('https://li.quest')
       expect(calledUrlObj.pathname).toBe('/v1/quote')
     })
