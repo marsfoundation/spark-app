@@ -1,7 +1,8 @@
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { Percentage } from '@/domain/types/NumericValues'
 import { testAddresses } from '@/test/integration/constants'
 
-import { LifiQuoteMeta } from '.'
+import { EvaluateResult } from '.'
 import {
   LIFI_DEFAULT_FEE,
   LIFI_DEFAULT_FEE_INTEGRATOR_KEY,
@@ -21,7 +22,7 @@ function evaluate(params: {
   dai?: CheckedAddress
   sdai?: CheckedAddress
   usdc?: CheckedAddress
-}): LifiQuoteMeta {
+}): EvaluateResult {
   return new RealLifiQueryMetaEvaluator({ dai, sdai, usdc }).evaluate({
     fromToken: params.fromToken,
     toToken: params.toToken,
@@ -38,7 +39,10 @@ describe(RealLifiQueryMetaEvaluator.name, () => {
         fromToken: usdt,
         toToken: dai,
       }),
-    ).toEqual({ fee: LIFI_DEFAULT_FEE, integratorKey: LIFI_DEFAULT_FEE_INTEGRATOR_KEY })
+    ).toEqual({
+      meta: { fee: LIFI_DEFAULT_FEE, integratorKey: LIFI_DEFAULT_FEE_INTEGRATOR_KEY },
+      paramOverrides: {},
+    })
   })
 
   it('returns waived fee and integrator key for sdai to dai route', () => {
@@ -50,7 +54,12 @@ describe(RealLifiQueryMetaEvaluator.name, () => {
         fromToken: sdai,
         toToken: dai,
       }),
-    ).toEqual({ fee: LIFI_WAIVED_FEE, integratorKey: LIFI_WAIVED_FEE_INTEGRATOR_KEY })
+    ).toEqual({
+      meta: { fee: LIFI_WAIVED_FEE, integratorKey: LIFI_WAIVED_FEE_INTEGRATOR_KEY },
+      paramOverrides: {
+        maxSlippage: Percentage('0'),
+      },
+    })
   })
 
   it('returns waived fee and integrator key for dai to sdai route', () => {
@@ -62,6 +71,11 @@ describe(RealLifiQueryMetaEvaluator.name, () => {
         fromToken: dai,
         toToken: sdai,
       }),
-    ).toEqual({ fee: LIFI_WAIVED_FEE, integratorKey: LIFI_WAIVED_FEE_INTEGRATOR_KEY })
+    ).toEqual({
+      meta: { fee: LIFI_WAIVED_FEE, integratorKey: LIFI_WAIVED_FEE_INTEGRATOR_KEY },
+      paramOverrides: {
+        maxSlippage: Percentage('0'),
+      },
+    })
   })
 })

@@ -5,6 +5,8 @@ export * from './useLifiQueryMetaEvaluator'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { Percentage } from '@/domain/types/NumericValues'
 
+import { GetQuoteOptions } from '../lifi'
+
 export interface LifiQuoteMeta {
   integratorKey: string
   fee: Percentage
@@ -15,9 +17,14 @@ export interface EvaluateParams {
   toToken: CheckedAddress
 }
 
+export interface EvaluateResult {
+  meta: LifiQuoteMeta
+  paramOverrides: Partial<Pick<GetQuoteOptions, 'maxSlippage'>>
+}
+
 /**
  * Evaluates the meta parameters (fee, integrator string) for a given query
  */
 export interface LifiQueryMetaEvaluator {
-  evaluate(params: EvaluateParams): LifiQuoteMeta
+  evaluate(params: EvaluateParams): EvaluateResult
 }

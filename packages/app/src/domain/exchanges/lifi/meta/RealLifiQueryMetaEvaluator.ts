@@ -1,7 +1,7 @@
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { Percentage } from '@/domain/types/NumericValues'
 
-import { EvaluateParams, LifiQueryMetaEvaluator, LifiQuoteMeta } from '.'
+import { EvaluateParams, EvaluateResult, LifiQueryMetaEvaluator } from '.'
 
 export const LIFI_DEFAULT_FEE_INTEGRATOR_KEY = 'spark_fee'
 export const LIFI_DEFAULT_FEE = Percentage('0.002')
@@ -23,18 +23,26 @@ export class RealLifiQueryMetaEvaluator implements LifiQueryMetaEvaluator {
       .filter(Boolean) as any
   }
 
-  evaluate({ fromToken, toToken }: EvaluateParams): LifiQuoteMeta {
+  evaluate({ fromToken, toToken }: EvaluateParams): EvaluateResult {
     const isWaivedRoute = this.whitelistedRoutes.some((route) => route.includes(fromToken) && route.includes(toToken))
     if (isWaivedRoute) {
       return {
-        fee: LIFI_WAIVED_FEE,
-        integratorKey: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
+        meta: {
+          fee: LIFI_WAIVED_FEE,
+          integratorKey: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
+        },
+        paramOverrides: {
+          maxSlippage: Percentage('0'),
+        },
       }
     }
 
     return {
-      fee: LIFI_DEFAULT_FEE,
-      integratorKey: LIFI_DEFAULT_FEE_INTEGRATOR_KEY,
+      meta: {
+        fee: LIFI_DEFAULT_FEE,
+        integratorKey: LIFI_DEFAULT_FEE_INTEGRATOR_KEY,
+      },
+      paramOverrides: {},
     }
   }
 }
