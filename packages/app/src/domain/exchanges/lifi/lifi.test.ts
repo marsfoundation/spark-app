@@ -34,6 +34,7 @@ const rawResponse: QuoteResponseRaw = {
   action: {
     fromToken: { address: USDC },
     toToken: { address: sDAI },
+    slippage: maxSlippage.toNumber(),
   },
 }
 
@@ -145,6 +146,7 @@ describe('LiFi', () => {
         action: {
           fromToken: { address: USDC },
           toToken: { address: sDAI },
+          slippage: maxSlippage,
         },
       })
     })
@@ -295,6 +297,7 @@ describe('LiFi', () => {
         action: {
           fromToken: { address: USDC },
           toToken: { address: sDAI },
+          slippage: maxSlippage,
         },
       })
     })
