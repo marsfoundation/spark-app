@@ -230,7 +230,7 @@ describe('LiFi', () => {
         fromToken: sDAI,
         toToken: USDC,
         toAmount: amount.toString(),
-        maxSlippage: maxSlippageAsString,
+        slippage: maxSlippageAsString,
         contractCalls: [],
       })
     })
