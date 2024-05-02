@@ -87,6 +87,11 @@ export function fetchLiFiTxData({
           meta,
         })
 
+        invariant(
+          response.action.slippage.eq(paramOverrides.maxSlippage ?? maxSlippage),
+          'slippage should eq maxSlippage',
+        )
+
         return {
           txRequest: response.transactionRequest,
           fromToken: CheckedAddress(response.action.fromToken.address),

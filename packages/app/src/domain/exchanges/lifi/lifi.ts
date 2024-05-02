@@ -36,7 +36,7 @@ interface ReverseQuoteRequestParams {
   fromToken: CheckedAddress
   toToken: CheckedAddress
   toAmount: string
-  maxSlippage?: string
+  slippage: string
   contractCalls: []
 }
 
@@ -106,7 +106,7 @@ export class LiFi {
       fromToken,
       toToken,
       toAmount: amount.toFixed(),
-      maxSlippage: maxSlippage.toFixed(),
+      slippage: maxSlippage.toFixed(),
       contractCalls: [],
     } satisfies ReverseQuoteRequestParams
     return {
