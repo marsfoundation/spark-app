@@ -60,10 +60,7 @@ export function fetchLiFiTxData({
         const response = await client.getQuote({ fromToken, toToken, amount, maxSlippage, ...paramOverrides, meta })
         const fromAmount = BaseUnitNumber(response.estimate.fromAmount)
         invariant(amount.eq(fromAmount), 'amount should eq fromAmount')
-        invariant(
-          response.action.slippage.eq(paramOverrides.maxSlippage ?? maxSlippage),
-          'slippage should eq maxSlippage',
-        )
+        invariant(response.action.slippage.eq(maxSlippage), 'slippage should eq maxSlippage')
 
         return {
           txRequest: response.transactionRequest,

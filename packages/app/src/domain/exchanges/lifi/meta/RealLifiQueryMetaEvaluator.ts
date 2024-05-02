@@ -31,9 +31,7 @@ export class RealLifiQueryMetaEvaluator implements LifiQueryMetaEvaluator {
           fee: LIFI_WAIVED_FEE,
           integratorKey: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
         },
-        paramOverrides: {
-          maxSlippage: Percentage('0'),
-        },
+        paramOverrides: {},
       }
     }
 
