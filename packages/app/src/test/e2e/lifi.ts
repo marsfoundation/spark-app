@@ -39,7 +39,7 @@ function matchUrl(expectedUrl: string, expectedParams: Record<string, string>): 
   }
 }
 
-const expectedSlippage = 0 // we only e2e test waived routes for now so we expect 0 slippage
+const expectedSlippage = 0.001
 
 const lifiResponses = {
   '100-dai-to-sdai': {
