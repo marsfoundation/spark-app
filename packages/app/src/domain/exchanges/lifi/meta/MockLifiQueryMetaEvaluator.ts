@@ -1,12 +1,15 @@
 import { Percentage } from '@/domain/types/NumericValues'
 
-import { LifiQueryMetaEvaluator, LifiQuoteMeta } from '.'
+import { EvaluateResult, LifiQueryMetaEvaluator } from '.'
 
 export class MockLifiQueryMetaEvaluator implements LifiQueryMetaEvaluator {
-  evaluate(): LifiQuoteMeta {
+  evaluate(): EvaluateResult {
     return {
-      fee: Percentage(0),
-      integratorKey: 'spark_test',
+      meta: {
+        fee: Percentage(0),
+        integratorKey: 'spark_test',
+      },
+      paramOverrides: {},
     }
   }
 }

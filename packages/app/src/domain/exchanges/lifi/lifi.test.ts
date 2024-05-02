@@ -34,6 +34,7 @@ const rawResponse: QuoteResponseRaw = {
   action: {
     fromToken: { address: USDC },
     toToken: { address: sDAI },
+    slippage: maxSlippage.toNumber(),
   },
 }
 
@@ -78,7 +79,7 @@ describe('LiFi', () => {
       expect(calledUrlObj.searchParams.get('fromToken')).toBe(USDC)
       expect(calledUrlObj.searchParams.get('fromAmount')).toBe(amount.toString())
       expect(calledUrlObj.searchParams.get('toToken')).toBe(sDAI)
-      expect(calledUrlObj.searchParams.get('maxSlippage')).toBe(maxSlippageAsString)
+      expect(calledUrlObj.searchParams.get('slippage')).toBe(maxSlippageAsString)
       expect(calledUrlObj.origin).toBe('https://li.quest')
       expect(calledUrlObj.pathname).toBe('/v1/quote')
     })
@@ -145,6 +146,7 @@ describe('LiFi', () => {
         action: {
           fromToken: { address: USDC },
           toToken: { address: sDAI },
+          slippage: maxSlippage,
         },
       })
     })
@@ -228,7 +230,7 @@ describe('LiFi', () => {
         fromToken: sDAI,
         toToken: USDC,
         toAmount: amount.toString(),
-        maxSlippage: maxSlippageAsString,
+        slippage: maxSlippageAsString,
         contractCalls: [],
       })
     })
@@ -295,6 +297,7 @@ describe('LiFi', () => {
         action: {
           fromToken: { address: USDC },
           toToken: { address: sDAI },
+          slippage: maxSlippage,
         },
       })
     })

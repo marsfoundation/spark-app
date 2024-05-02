@@ -3,6 +3,7 @@ import { create } from 'zustand'
 import { ZUSTAND_APP_STORE_LOCAL_STORAGE_KEY } from '@/config/consts'
 import { makeFunctionsComparisonStable } from '@/test/integration/object-utils'
 
+import { Percentage } from '../types/NumericValues'
 import { storeImplementation, StoreState } from '.'
 
 describe(storeImplementation.name, () => {
@@ -32,7 +33,7 @@ describe(storeImplementation.name, () => {
       store.setState(() => ({})) // triggers state persistence into local storage
     }
 
-    // seconds store creation should deserialize persisted state from local storage
+    // second store creation should deserialize persisted state from local storage
     expect(localStorage.getItem(ZUSTAND_APP_STORE_LOCAL_STORAGE_KEY)).not.toBeNull()
     const store = create(storeImplementation)
     const stateDeserializedFromLocalStorage = store.getState()
@@ -65,8 +66,64 @@ describe(storeImplementation.name, () => {
       expectedState = store.getState() // extract whole state which should be always fully correct
     }
 
-    // seconds store creation should deserialize persisted state from local storage
+    // second store creation should deserialize persisted state from local storage
     expect(localStorage.getItem(ZUSTAND_APP_STORE_LOCAL_STORAGE_KEY)).not.toBeNull()
+    const store = create(storeImplementation)
+    const stateDeserializedFromLocalStorage = store.getState()
+
+    expect(makeFunctionsComparisonStable(stateDeserializedFromLocalStorage)).toEqual(
+      makeFunctionsComparisonStable(expectedState),
+    )
+  })
+
+  it('deserializes modified state back from the local storage', () => {
+    expect(localStorage.getItem(ZUSTAND_APP_STORE_LOCAL_STORAGE_KEY)).toBeNull()
+
+    let expectedState: StoreState
+    {
+      const store = create(storeImplementation)
+      // modify maxSlippage and trigger state persistence into local storage
+      store.setState((s) => ({
+        actionsSettings: {
+          ...s.actionsSettings,
+          exchangeMaxSlippage: Percentage(0.1),
+        },
+      }))
+      expectedState = store.getState()
+    }
+
+    // second store creation should deserialize persisted state from local storage
+    expect(localStorage.getItem(ZUSTAND_APP_STORE_LOCAL_STORAGE_KEY)).not.toBeNull()
+    const store = create(storeImplementation)
+    const stateDeserializedFromLocalStorage = store.getState()
+
+    expect(makeFunctionsComparisonStable(stateDeserializedFromLocalStorage)).toEqual(
+      makeFunctionsComparisonStable(expectedState),
+    )
+  })
+
+  it('ignores previous version of the persisted store', () => {
+    expect(localStorage.getItem(ZUSTAND_APP_STORE_LOCAL_STORAGE_KEY)).toBeNull()
+
+    let expectedState: StoreState // initial state without any modification is expected
+    {
+      const store = create(storeImplementation)
+      expectedState = store.getState()
+      // modify maxSlippage and trigger state persistence into local storage
+      store.setState((s) => ({
+        actionsSettings: {
+          ...s.actionsSettings,
+          exchangeMaxSlippage: Percentage(0.1),
+        },
+      }))
+    }
+
+    // modify "version" parameter stored inside local storage to make it obsolete
+    const rawPersistedState = localStorage.getItem(ZUSTAND_APP_STORE_LOCAL_STORAGE_KEY)
+    const persistedState = ((JSON.parse(rawPersistedState!) as any).version = 0)
+    localStorage.setItem(ZUSTAND_APP_STORE_LOCAL_STORAGE_KEY, JSON.stringify(persistedState))
+
+    // second store creation should deserialize persisted state from local storage
     const store = create(storeImplementation)
     const stateDeserializedFromLocalStorage = store.getState()
 
