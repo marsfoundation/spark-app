@@ -16,6 +16,7 @@ export interface GetQuoteOptions {
   amount: BaseUnitNumber
   meta: LifiQuoteMeta
   maxSlippage: Percentage
+  maxPriceImpact?: Percentage
   allowExchanges?: string[]
 }
 
@@ -29,6 +30,7 @@ interface QuoteRequestParams {
   integrator: string
   fee: string
   slippage: string
+  maxPriceImpact?: string
   allowExchanges?: string[]
 }
 
@@ -40,6 +42,7 @@ interface ReverseQuoteRequestParams {
   toToken: CheckedAddress
   toAmount: string
   slippage: string
+  maxPriceImpact?: string
   allowExchanges?: string[]
   contractCalls: []
 }
@@ -62,7 +65,15 @@ export class LiFi {
     return quoteResponseSchema.parse(response)
   }
 
-  private buildQuoteUrl({ fromToken, toToken, amount, meta, maxSlippage, allowExchanges }: GetQuoteOptions): URL {
+  private buildQuoteUrl({
+    fromToken,
+    toToken,
+    amount,
+    meta,
+    maxSlippage,
+    allowExchanges,
+    maxPriceImpact,
+  }: GetQuoteOptions): URL {
     const url = new URL(this.baseUrl)
     url.pathname = '/v1/quote'
     const params = {
@@ -75,6 +86,7 @@ export class LiFi {
       integrator: meta.integratorKey,
       fee: meta.fee.toFixed(),
       slippage: maxSlippage.toFixed(),
+      ...(maxPriceImpact ? { maxPriceImpact: maxPriceImpact.toFixed() } : {}),
       ...(allowExchanges ? { allowExchanges } : {}),
     } satisfies QuoteRequestParams
 
@@ -87,10 +99,11 @@ export class LiFi {
     toToken,
     amount,
     maxSlippage,
+    maxPriceImpact,
     allowExchanges,
     meta,
   }: GetQuoteOptions): Promise<QuoteResponse> {
-    const url = this.buildQuoteUrl({ fromToken, toToken, amount, meta, maxSlippage, allowExchanges })
+    const url = this.buildQuoteUrl({ fromToken, toToken, amount, meta, maxSlippage, maxPriceImpact, allowExchanges })
 
     const response = await fetch(url)
     if (!response.ok) {
@@ -116,6 +129,7 @@ export class LiFi {
     toToken,
     amount,
     maxSlippage,
+    maxPriceImpact,
     allowExchanges,
   }: GetQuoteOptions): RequestInit {
     const params = {
@@ -126,6 +140,7 @@ export class LiFi {
       toToken,
       toAmount: amount.toFixed(),
       slippage: maxSlippage.toFixed(),
+      ...(maxPriceImpact ? { maxPriceImpact: maxPriceImpact.toFixed() } : {}),
       ...(allowExchanges ? { allowExchanges } : {}),
       contractCalls: [],
     } satisfies ReverseQuoteRequestParams
@@ -142,6 +157,7 @@ export class LiFi {
     amount,
     meta,
     maxSlippage,
+    maxPriceImpact,
     allowExchanges,
   }: GetQuoteOptions): Promise<ReverseQuoteResponse> {
     const url = this.buildReverseQuoteUrl()
@@ -151,6 +167,7 @@ export class LiFi {
       amount,
       meta,
       maxSlippage,
+      maxPriceImpact,
       allowExchanges,
     })
 

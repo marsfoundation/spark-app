@@ -8,6 +8,7 @@ import {
   LIFI_WAIVED_ALLOWED_EXCHANGES,
   LIFI_WAIVED_FEE,
   LIFI_WAIVED_FEE_INTEGRATOR_KEY,
+  LIFI_WAIVED_MAX_PRICE_IMPACT,
   RealLifiQueryMetaEvaluator,
 } from './RealLifiQueryMetaEvaluator'
 
@@ -58,6 +59,7 @@ describe(RealLifiQueryMetaEvaluator.name, () => {
       meta: { fee: LIFI_WAIVED_FEE, integratorKey: LIFI_WAIVED_FEE_INTEGRATOR_KEY },
       paramOverrides: {
         allowExchanges: LIFI_WAIVED_ALLOWED_EXCHANGES,
+        maxPriceImpact: LIFI_WAIVED_MAX_PRICE_IMPACT,
       },
     })
   })
@@ -75,6 +77,7 @@ describe(RealLifiQueryMetaEvaluator.name, () => {
       meta: { fee: LIFI_WAIVED_FEE, integratorKey: LIFI_WAIVED_FEE_INTEGRATOR_KEY },
       paramOverrides: {
         allowExchanges: LIFI_WAIVED_ALLOWED_EXCHANGES,
+        maxPriceImpact: LIFI_WAIVED_MAX_PRICE_IMPACT,
       },
     })
   })
