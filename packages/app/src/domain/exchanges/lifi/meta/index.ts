@@ -19,7 +19,7 @@ export interface EvaluateParams {
 
 export interface EvaluateResult {
   meta: LifiQuoteMeta
-  paramOverrides: Partial<Pick<GetQuoteOptions, 'maxSlippage'>>
+  paramOverrides: Partial<Pick<GetQuoteOptions, 'allowExchanges'>>
 }
 
 /**

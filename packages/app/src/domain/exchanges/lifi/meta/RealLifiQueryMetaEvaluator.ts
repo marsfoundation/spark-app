@@ -9,6 +9,8 @@ export const LIFI_DEFAULT_FEE = Percentage('0.002')
 export const LIFI_WAIVED_FEE_INTEGRATOR_KEY = 'spark_waivefee'
 export const LIFI_WAIVED_FEE = Percentage('0')
 
+export const LIFI_WAIVED_ALLOWED_EXCHANGES = ['odos', 'enso', '1inch']
+
 export class RealLifiQueryMetaEvaluator implements LifiQueryMetaEvaluator {
   // all routes are bi-directional
   private readonly whitelistedRoutes: [CheckedAddress, CheckedAddress][]
@@ -31,7 +33,9 @@ export class RealLifiQueryMetaEvaluator implements LifiQueryMetaEvaluator {
           fee: LIFI_WAIVED_FEE,
           integratorKey: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
         },
-        paramOverrides: {},
+        paramOverrides: {
+          allowExchanges: LIFI_WAIVED_ALLOWED_EXCHANGES,
+        },
       }
     }
 

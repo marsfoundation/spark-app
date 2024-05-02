@@ -16,6 +16,7 @@ export interface FetchLiFiTxDataParams {
   toToken: CheckedAddress
   amount: BaseUnitNumber
   maxSlippage: Percentage
+  allowExchanges?: string[]
   queryMetaEvaluator: LifiQueryMetaEvaluator
 }
 

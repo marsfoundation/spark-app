@@ -6,6 +6,7 @@ import { EvaluateResult } from '.'
 import {
   LIFI_DEFAULT_FEE,
   LIFI_DEFAULT_FEE_INTEGRATOR_KEY,
+  LIFI_WAIVED_ALLOWED_EXCHANGES,
   LIFI_WAIVED_FEE,
   LIFI_WAIVED_FEE_INTEGRATOR_KEY,
   RealLifiQueryMetaEvaluator,
@@ -57,7 +58,7 @@ describe(RealLifiQueryMetaEvaluator.name, () => {
     ).toEqual({
       meta: { fee: LIFI_WAIVED_FEE, integratorKey: LIFI_WAIVED_FEE_INTEGRATOR_KEY },
       paramOverrides: {
-        maxSlippage: Percentage('0'),
+        allowExchanges: LIFI_WAIVED_ALLOWED_EXCHANGES,
       },
     })
   })
@@ -74,7 +75,7 @@ describe(RealLifiQueryMetaEvaluator.name, () => {
     ).toEqual({
       meta: { fee: LIFI_WAIVED_FEE, integratorKey: LIFI_WAIVED_FEE_INTEGRATOR_KEY },
       paramOverrides: {
-        maxSlippage: Percentage('0'),
+        allowExchanges: LIFI_WAIVED_ALLOWED_EXCHANGES,
       },
     })
   })
