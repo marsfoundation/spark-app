@@ -3,7 +3,7 @@
 exports[`initializes store 1`] = `
 {
   "actionsSettings": {
-    "exchangeMaxSlippage": "0.0005",
+    "exchangeMaxSlippage": "0.001",
     "preferPermits": true,
     "setPreferPermits": [Function],
   },
@@ -30,7 +30,7 @@ exports[`persists state 1`] = `
 {
   "state": {
     "actionsSettings": {
-      "exchangeMaxSlippage": "0.0005",
+      "exchangeMaxSlippage": "0.001",
       "preferPermits": true,
     },
     "compliance": {
