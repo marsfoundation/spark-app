@@ -1,5 +1,4 @@
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
-import { Percentage } from '@/domain/types/NumericValues'
 import { testAddresses } from '@/test/integration/constants'
 
 import { EvaluateResult } from '.'

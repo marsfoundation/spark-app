@@ -6,6 +6,6 @@ export function preprocessSearchParams(params: Record<string, string | string[]>
     if (Array.isArray(value)) {
       return value.map((v) => [key, v])
     }
-    return [[key, value] as const]
+    return [[key, value]]
   })
 }
