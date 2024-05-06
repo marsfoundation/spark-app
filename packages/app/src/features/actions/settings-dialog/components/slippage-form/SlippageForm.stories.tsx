@@ -5,9 +5,8 @@ import { useForm } from 'react-hook-form'
 
 import { Percentage } from '@/domain/types/NumericValues'
 
-import { SlippageForm } from './SlippageForm'
-import { formatPercentage } from '@/domain/common/format'
 import { formatPercentageFormValue } from '../../logic/form'
+import { SlippageForm } from './SlippageForm'
 
 const meta: Meta<typeof SlippageForm> = {
   title: 'Features/Actions/SlippageForm',
