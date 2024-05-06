@@ -1,12 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, UseFormReturn } from 'react-hook-form'
 
-import { formatPercentage } from '@/domain/common/format'
 import { useStore } from '@/domain/state'
 import { Percentage } from '@/domain/types/NumericValues'
 
 import { PREDEFINED_SLIPPAGES } from '../constants'
-import { ActionSettingsSchema } from './form'
+import { ActionSettingsSchema, formatPercentageFormValue } from './form'
 
 export interface UseSlippageFormResult {
   form: UseFormReturn<ActionSettingsSchema>
@@ -21,7 +20,7 @@ export function useSlippageForm(): UseSlippageFormResult {
     resolver: zodResolver(ActionSettingsSchema),
     defaultValues: {
       slippage: {
-        value: formatPercentage(initialSlippage, { minimumFractionDigits: 0, skipSign: true }),
+        value: formatPercentageFormValue(initialSlippage),
         type: initialSlippageType,
       },
     },
@@ -29,8 +28,7 @@ export function useSlippageForm(): UseSlippageFormResult {
   })
 
   function onSlippageChange(value: string | Percentage, type: 'input' | 'button'): void {
-    const stringifiedValue =
-      typeof value === 'string' ? value : formatPercentage(value, { minimumFractionDigits: 0, skipSign: true })
+    const stringifiedValue = typeof value === 'string' ? value : formatPercentageFormValue(value)
 
     form.setValue(
       'slippage',

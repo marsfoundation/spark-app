@@ -1,5 +1,8 @@
 import { z } from 'zod'
 
+import { formatPercentage } from '@/domain/common/format'
+import { Percentage } from '@/domain/types/NumericValues'
+
 export const SlippageInputType = z.enum(['button', 'input'])
 export type SlippageInputType = z.infer<typeof SlippageInputType>
 
@@ -18,3 +21,7 @@ export const ActionSettingsSchema = z.object({
   }),
 })
 export type ActionSettingsSchema = z.infer<typeof ActionSettingsSchema>
+
+export function formatPercentageFormValue(value: Percentage): string {
+  return formatPercentage(value, { minimumFractionDigits: 0, skipSign: true })
+}

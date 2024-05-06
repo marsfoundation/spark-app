@@ -6,12 +6,20 @@ import { useForm } from 'react-hook-form'
 import { Percentage } from '@/domain/types/NumericValues'
 
 import { SlippageForm } from './SlippageForm'
+import { formatPercentage } from '@/domain/common/format'
+import { formatPercentageFormValue } from '../../logic/form'
 
 const meta: Meta<typeof SlippageForm> = {
   title: 'Features/Actions/SlippageForm',
   component: (args) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const form = useForm() as any
+    const form = useForm({
+      defaultValues: {
+        slippage: {
+          value: formatPercentageFormValue(args.slippage),
+        },
+      },
+    }) as any
     return <SlippageForm {...args} form={form} />
   },
   decorators: [WithClassname('max-w-xl')],
