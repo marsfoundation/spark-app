@@ -1,11 +1,11 @@
 import { Controller, UseFormReturn } from 'react-hook-form'
 
-import { SlippageInputSchema } from '../../logic/form'
+import { ActionSettingsSchema } from '../../logic/form'
 import { UseSlippageFormResult } from '../../logic/useSlippageForm'
 import { SlippageInput } from './SlippageInput'
 
 interface ControlledSlippageInputProps {
-  form: UseFormReturn<SlippageInputSchema>
+  form: UseFormReturn<ActionSettingsSchema>
   onSlippageChange: UseSlippageFormResult['onSlippageChange']
   isActive: boolean
   error?: string
@@ -15,7 +15,7 @@ export function ControlledSlippageInput({ form, onSlippageChange, isActive, erro
   return (
     <Controller
       control={form.control}
-      name="slippage"
+      name="slippage.value"
       render={({ field }) => (
         <SlippageInput
           {...field}

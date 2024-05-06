@@ -4,7 +4,8 @@ import { UseFormReturn } from 'react-hook-form'
 import { useActionsSettings } from '@/domain/state'
 import { Percentage } from '@/domain/types/NumericValues'
 
-import { SlippageInputSchema } from './form'
+import { ActionSettingsSchema, SlippageInputType } from './form'
+import { normalizeFormValues } from './normalizeFormValues'
 import { useSlippageForm, UseSlippageFormResult } from './useSlippageForm'
 
 export interface UseSettingsDialogResult {
@@ -13,8 +14,8 @@ export interface UseSettingsDialogResult {
     togglePreferPermits: () => void
   }
   slippageSettings: {
-    form: UseFormReturn<SlippageInputSchema>
-    type: SlippageInputSchema['type']
+    form: UseFormReturn<ActionSettingsSchema>
+    type: SlippageInputType
     slippage: Percentage
     onSlippageChange: UseSlippageFormResult['onSlippageChange']
     error?: string
@@ -26,12 +27,10 @@ export function useSettingsDialog(): UseSettingsDialogResult {
   const actionsSettings = useActionsSettings()
   const [preferPermits, setPreferPermits] = useState(actionsSettings.preferPermits)
   const { form, onSlippageChange } = useSlippageForm()
-  const slippage = Percentage(Number(form.watch().slippage) / 100, true)
+  const normalizedFormValues = normalizeFormValues(form.watch())
 
   function onConfirm(): void {
-    const formSlippage = form.getValues('slippage')
-    const slippage = Percentage(Number(formSlippage) / 100)
-    actionsSettings.setExchangeMaxSlippage(slippage)
+    actionsSettings.setExchangeMaxSlippage(normalizedFormValues.slippage.value)
     actionsSettings.setPreferPermits(preferPermits)
   }
 
@@ -43,9 +42,9 @@ export function useSettingsDialog(): UseSettingsDialogResult {
     slippageSettings: {
       form,
       onSlippageChange,
-      type: form.getValues('type'),
+      type: normalizedFormValues.slippage.type,
       error: form.formState.errors.slippage?.message,
-      slippage,
+      slippage: normalizedFormValues.slippage.value,
     },
     onConfirm,
   }

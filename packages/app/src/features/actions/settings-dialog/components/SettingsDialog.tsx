@@ -8,7 +8,14 @@ import { SettingsDialogContent } from './SettingsDialogContent'
 
 export function SettingsDialog(props: UseSettingsDialogResult) {
   return (
-    <Dialog>
+    <Dialog
+      onOpenChange={(open) => {
+        if (!open) {
+          // save if dialog is closed
+          props.onConfirm()
+        }
+      }}
+    >
       <DialogTrigger asChild>
         <Button
           variant="secondary"

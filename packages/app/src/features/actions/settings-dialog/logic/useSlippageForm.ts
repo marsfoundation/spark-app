@@ -2,28 +2,44 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, UseFormReturn } from 'react-hook-form'
 
 import { formatPercentage } from '@/domain/common/format'
+import { useStore } from '@/domain/state'
+import { Percentage } from '@/domain/types/NumericValues'
 
-import { DEFAULT_SLIPPAGE } from '../constants'
-import { SlippageInputSchema } from './form'
+import { PREDEFINED_SLIPPAGES } from '../constants'
+import { ActionSettingsSchema } from './form'
 
 export interface UseSlippageFormResult {
-  form: UseFormReturn<SlippageInputSchema>
-  onSlippageChange: (slippage: string, type: 'input' | 'button') => void
+  form: UseFormReturn<ActionSettingsSchema>
+  onSlippageChange: (value: string | Percentage, type: 'input' | 'button') => void
 }
 
 export function useSlippageForm(): UseSlippageFormResult {
-  const form = useForm<SlippageInputSchema>({
-    resolver: zodResolver(SlippageInputSchema),
+  const initialSlippage = useStore((state) => state.actionsSettings.exchangeMaxSlippage)
+  const initialSlippageType = PREDEFINED_SLIPPAGES.some((slippage) => slippage.eq(initialSlippage)) ? 'button' : 'input'
+
+  const form = useForm<ActionSettingsSchema>({
+    resolver: zodResolver(ActionSettingsSchema),
     defaultValues: {
-      type: 'button',
-      slippage: formatPercentage(DEFAULT_SLIPPAGE, { minimumFractionDigits: 0, skipSign: true }),
+      slippage: {
+        value: formatPercentage(initialSlippage, { minimumFractionDigits: 0, skipSign: true }),
+        type: initialSlippageType,
+      },
     },
     mode: 'onChange',
   })
 
-  function onSlippageChange(slippage: string, type: 'input' | 'button'): void {
-    form.setValue('slippage', slippage, { shouldValidate: true })
-    form.setValue('type', type)
+  function onSlippageChange(value: string | Percentage, type: 'input' | 'button'): void {
+    const stringifiedValue =
+      typeof value === 'string' ? value : formatPercentage(value, { minimumFractionDigits: 0, skipSign: true })
+
+    form.setValue(
+      'slippage',
+      {
+        value: stringifiedValue,
+        type,
+      },
+      { shouldValidate: true },
+    )
   }
 
   return {
