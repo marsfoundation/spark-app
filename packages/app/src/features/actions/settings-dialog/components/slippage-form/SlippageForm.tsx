@@ -22,7 +22,7 @@ export function SlippageForm({ form, onSlippageChange, type, slippage, error }: 
     <div className="cols-start-1 col-span-full flex-col">
       <div className="flex gap-1.5 sm:h-14 sm:gap-2.5">
         {PREDEFINED_SLIPPAGES.map((predefinedSlippage) => {
-          const formSlippage = formatPercentage(predefinedSlippage, { minimumFractionDigits: 0, skipSign: true })
+          const formSlippage = formatPercentage(predefinedSlippage, { minimumFractionDigits: 0 })
           return (
             <SlippageButton
               isActive={type === 'button' && slippage.eq(predefinedSlippage)}
