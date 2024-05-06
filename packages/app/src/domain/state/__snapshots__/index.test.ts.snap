@@ -5,6 +5,7 @@ exports[`initializes store 1`] = `
   "actionsSettings": {
     "exchangeMaxSlippage": "0.001",
     "preferPermits": true,
+    "setExchangeMaxSlippage": [Function],
     "setPreferPermits": [Function],
   },
   "appConfig": {

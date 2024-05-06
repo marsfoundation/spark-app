@@ -1,3 +1,4 @@
+import { expect } from 'vitest'
 import { create } from 'zustand'
 
 import { ZUSTAND_APP_STORE_LOCAL_STORAGE_KEY } from '@/config/consts'

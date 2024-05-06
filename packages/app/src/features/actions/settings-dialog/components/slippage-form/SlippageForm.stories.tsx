@@ -1,18 +1,31 @@
 import { WithClassname } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
+import { useForm } from 'react-hook-form'
 
 import { Percentage } from '@/domain/types/NumericValues'
 
+import { formatPercentageFormValue } from '../../logic/form'
 import { SlippageForm } from './SlippageForm'
 
 const meta: Meta<typeof SlippageForm> = {
   title: 'Features/Actions/SlippageForm',
-  component: SlippageForm,
+  component: (args) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const form = useForm({
+      defaultValues: {
+        slippage: {
+          value: formatPercentageFormValue(args.slippage),
+        },
+      },
+    }) as any
+    return <SlippageForm {...args} form={form} />
+  },
   decorators: [WithClassname('max-w-xl')],
   args: {
-    fieldType: 'button',
-    fieldValue: Percentage(0.005),
+    type: 'button',
+    slippage: Percentage(0.005),
+    onSlippageChange: () => {},
   },
 }
 
@@ -25,8 +38,8 @@ export const Tablet = getTabletStory(Desktop)
 
 export const Error: Story = {
   args: {
-    fieldType: 'input',
-    fieldValue: Percentage(0.6),
+    type: 'input',
+    slippage: Percentage(0.6),
     error: 'Value have to be greater than 0 and less than 50.',
   },
 }
@@ -35,8 +48,8 @@ export const ErrorTablet = getTabletStory(Error)
 
 export const CustomSlippage: Story = {
   args: {
-    fieldType: 'input',
-    fieldValue: Percentage(0.3),
+    type: 'input',
+    slippage: Percentage(0.3),
   },
 }
 export const CustomSlippageMobile = getMobileStory(CustomSlippage)

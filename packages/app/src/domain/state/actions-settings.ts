@@ -10,6 +10,7 @@ export interface ActionsSettings {
   preferPermits: boolean
   setPreferPermits: (preferPermits: boolean) => void
   exchangeMaxSlippage: Percentage
+  setExchangeMaxSlippage: (exchangeMaxSlippage: Percentage) => void
 }
 
 export interface ActionsSettingsSlice {
@@ -25,6 +26,8 @@ export const initActionsSettingsSlice: StateCreator<StoreState, [], [], ActionsS
     setPreferPermits: (preferPermits: boolean) =>
       set((state) => ({ actionsSettings: { ...state.actionsSettings, preferPermits } })),
     exchangeMaxSlippage: defaultExchangeMaxSlippage,
+    setExchangeMaxSlippage: (exchangeMaxSlippage: Percentage) =>
+      set((state) => ({ actionsSettings: { ...state.actionsSettings, exchangeMaxSlippage } })),
   },
 })
 

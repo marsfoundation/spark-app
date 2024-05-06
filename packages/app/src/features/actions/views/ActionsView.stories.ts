@@ -66,6 +66,7 @@ const meta: Meta<typeof ActionsView> = {
     ],
     actionsSettings: {
       exchangeMaxSlippage: Percentage(0.005),
+      setExchangeMaxSlippage: () => {},
       preferPermits: true,
       setPreferPermits: () => {},
     },
