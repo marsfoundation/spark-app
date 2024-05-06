@@ -38,6 +38,7 @@ const rawResponse: QuoteResponseRaw = {
   action: {
     fromToken: { address: fromToken.address },
     toToken: { address: toToken.address },
+    slippage: maxSlippage.toNumber(),
   },
 }
 

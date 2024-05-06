@@ -16,6 +16,7 @@ export interface FetchLiFiTxDataParams {
   toToken: CheckedAddress
   amount: BaseUnitNumber
   maxSlippage: Percentage
+  allowExchanges?: string[]
   queryMetaEvaluator: LifiQueryMetaEvaluator
 }
 
@@ -54,12 +55,13 @@ export function fetchLiFiTxData({
         }
       }
 
-      const meta = queryMetaEvaluator.evaluate({ fromToken, toToken })
+      const { meta, paramOverrides } = queryMetaEvaluator.evaluate({ fromToken, toToken })
 
       if (type === 'direct') {
-        const response = await client.getQuote({ fromToken, toToken, amount, meta, maxSlippage })
+        const response = await client.getQuote({ fromToken, toToken, amount, maxSlippage, ...paramOverrides, meta })
         const fromAmount = BaseUnitNumber(response.estimate.fromAmount)
         invariant(amount.eq(fromAmount), 'amount should eq fromAmount')
+        invariant(response.action.slippage.eq(maxSlippage), 'slippage should eq maxSlippage')
 
         return {
           txRequest: response.transactionRequest,
@@ -74,7 +76,16 @@ export function fetchLiFiTxData({
           },
         }
       } else {
-        const response = await client.getReverseQuote({ fromToken, toToken, amount, meta, maxSlippage })
+        const response = await client.getReverseQuote({
+          fromToken,
+          toToken,
+          amount,
+          maxSlippage,
+          ...paramOverrides,
+          meta,
+        })
+
+        invariant(response.action.slippage.eq(maxSlippage), 'slippage should eq maxSlippage')
 
         return {
           txRequest: response.transactionRequest,

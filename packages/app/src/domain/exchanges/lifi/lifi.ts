@@ -1,6 +1,7 @@
 import { CheckedAddress } from '../../types/CheckedAddress'
 import { BaseUnitNumber, Percentage } from '../../types/NumericValues'
 import { LifiQuoteMeta } from './meta'
+import { preprocessSearchParams } from './preprocessSearchParams'
 import { QuoteResponse, ReverseQuoteResponse } from './types'
 import { quoteResponseSchema, reverseQuoteResponseSchema } from './validation'
 
@@ -15,6 +16,8 @@ export interface GetQuoteOptions {
   amount: BaseUnitNumber
   meta: LifiQuoteMeta
   maxSlippage: Percentage
+  maxPriceImpact?: Percentage
+  allowExchanges?: string[]
 }
 
 interface QuoteRequestParams {
@@ -26,7 +29,9 @@ interface QuoteRequestParams {
   toToken: CheckedAddress
   integrator: string
   fee: string
-  maxSlippage: string
+  slippage: string
+  maxPriceImpact?: string
+  allowExchanges?: string[]
 }
 
 interface ReverseQuoteRequestParams {
@@ -36,7 +41,9 @@ interface ReverseQuoteRequestParams {
   fromToken: CheckedAddress
   toToken: CheckedAddress
   toAmount: string
-  maxSlippage?: string
+  slippage: string
+  maxPriceImpact?: string
+  allowExchanges?: string[]
   contractCalls: []
 }
 
@@ -58,7 +65,15 @@ export class LiFi {
     return quoteResponseSchema.parse(response)
   }
 
-  private buildQuoteUrl({ fromToken, toToken, amount, meta, maxSlippage }: GetQuoteOptions): URL {
+  private buildQuoteUrl({
+    fromToken,
+    toToken,
+    amount,
+    meta,
+    maxSlippage,
+    allowExchanges,
+    maxPriceImpact,
+  }: GetQuoteOptions): URL {
     const url = new URL(this.baseUrl)
     url.pathname = '/v1/quote'
     const params = {
@@ -70,14 +85,25 @@ export class LiFi {
       toToken,
       integrator: meta.integratorKey,
       fee: meta.fee.toFixed(),
-      maxSlippage: maxSlippage.toFixed(),
+      slippage: maxSlippage.toFixed(),
+      ...(maxPriceImpact ? { maxPriceImpact: maxPriceImpact.toFixed() } : {}),
+      ...(allowExchanges ? { allowExchanges } : {}),
     } satisfies QuoteRequestParams
-    url.search = new URLSearchParams(params).toString()
+
+    url.search = new URLSearchParams(preprocessSearchParams(params)).toString()
     return url
   }
 
-  async getQuote({ fromToken, toToken, amount, maxSlippage, meta }: GetQuoteOptions): Promise<QuoteResponse> {
-    const url = this.buildQuoteUrl({ fromToken, toToken, amount, meta, maxSlippage })
+  async getQuote({
+    fromToken,
+    toToken,
+    amount,
+    maxSlippage,
+    maxPriceImpact,
+    allowExchanges,
+    meta,
+  }: GetQuoteOptions): Promise<QuoteResponse> {
+    const url = this.buildQuoteUrl({ fromToken, toToken, amount, meta, maxSlippage, maxPriceImpact, allowExchanges })
 
     const response = await fetch(url)
     if (!response.ok) {
@@ -98,7 +124,14 @@ export class LiFi {
     return url
   }
 
-  private buildReverseQuoteRequestOptions({ fromToken, toToken, amount, maxSlippage }: GetQuoteOptions): RequestInit {
+  private buildReverseQuoteRequestOptions({
+    fromToken,
+    toToken,
+    amount,
+    maxSlippage,
+    maxPriceImpact,
+    allowExchanges,
+  }: GetQuoteOptions): RequestInit {
     const params = {
       fromChain: this.chainId.toString(),
       toChain: this.chainId.toString(),
@@ -106,7 +139,9 @@ export class LiFi {
       fromToken,
       toToken,
       toAmount: amount.toFixed(),
-      maxSlippage: maxSlippage.toFixed(),
+      slippage: maxSlippage.toFixed(),
+      ...(maxPriceImpact ? { maxPriceImpact: maxPriceImpact.toFixed() } : {}),
+      ...(allowExchanges ? { allowExchanges } : {}),
       contractCalls: [],
     } satisfies ReverseQuoteRequestParams
     return {
@@ -122,9 +157,19 @@ export class LiFi {
     amount,
     meta,
     maxSlippage,
+    maxPriceImpact,
+    allowExchanges,
   }: GetQuoteOptions): Promise<ReverseQuoteResponse> {
     const url = this.buildReverseQuoteUrl()
-    const options = this.buildReverseQuoteRequestOptions({ fromToken, toToken, amount, meta, maxSlippage })
+    const options = this.buildReverseQuoteRequestOptions({
+      fromToken,
+      toToken,
+      amount,
+      meta,
+      maxSlippage,
+      maxPriceImpact,
+      allowExchanges,
+    })
 
     const response = await fetch(url, options)
     if (!response.ok) {
