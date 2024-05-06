@@ -1,5 +1,5 @@
-import { create } from 'zustand'
 import { expect } from 'vitest'
+import { create } from 'zustand'
 
 import { ZUSTAND_APP_STORE_LOCAL_STORAGE_KEY } from '@/config/consts'
 import { makeFunctionsComparisonStable } from '@/test/integration/object-utils'
