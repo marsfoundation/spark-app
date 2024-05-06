@@ -91,10 +91,7 @@ export function useEasyBorrow(): UseEasyBorrowResults {
     pageStatus === 'confirmation',
   )
 
-  const depositableAssets = sortByDecreasingBalances(
-    getDepositableAssets(userPositions.map((p) => p.reserve)),
-    walletInfo,
-  )
+  const depositableAssets = sortByDecreasingBalances(getDepositableAssets(userPositions), walletInfo)
   const borrowableAssets = getBorrowableAssets(marketInfo.reserves)
 
   invariant(depositableAssets.length > 0, 'No depositable assets')
