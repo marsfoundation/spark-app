@@ -1,19 +1,19 @@
 import { WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 
-import { EModeSwitch } from './EModeSwitch'
+import { EModeIndicator } from './EModeIndicator'
 
-const meta: Meta<typeof EModeSwitch> = {
-  title: 'Features/Dashboard/Components/BorrowTable/Components/EModeSwitch',
+const meta: Meta<typeof EModeIndicator> = {
+  title: 'Features/Dashboard/Components/BorrowTable/Components/EModeIndicator',
   decorators: [WithTooltipProvider()],
-  component: EModeSwitch,
+  component: EModeIndicator,
   args: {
-    onSwitchClick: () => {},
+    onButtonClick: () => {},
   },
 }
 
 export default meta
-type Story = StoryObj<typeof EModeSwitch>
+type Story = StoryObj<typeof EModeIndicator>
 
 export const EModeOff: Story = {
   name: 'E-Mode Off',

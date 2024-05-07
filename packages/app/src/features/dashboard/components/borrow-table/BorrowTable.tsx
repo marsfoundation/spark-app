@@ -14,7 +14,7 @@ import { TokenWithLogo } from '@/ui/molecules/data-table/components/TokenWithLog
 import { ResponsiveDataTable } from '@/ui/organisms/responsive-data-table/ResponsiveDataTable'
 
 import { Borrow } from '../../logic/assets'
-import { EModeSwitch } from './components/EModeSwitch'
+import { EModeIndicator } from './components/EModeIndicator'
 
 export interface BorrowTableProps {
   assets: Borrow[]
@@ -27,9 +27,9 @@ export function BorrowTable({ assets, openDialog, eModeCategoryId }: BorrowTable
     <Panel collapsibleOptions={{ collapsible: true, collapsibleAbove: 'md' }}>
       <Panel.Header>
         <Panel.Title>Borrow</Panel.Title>
-        <EModeSwitch
+        <EModeIndicator
           eModeCategoryId={eModeCategoryId}
-          onSwitchClick={() => {
+          onButtonClick={() => {
             openDialog(EModeDialog, { userEModeCategoryId: eModeCategoryId })
           }}
         />

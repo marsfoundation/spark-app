@@ -29,19 +29,3 @@ export const Stablecoins: Story = {
     categoryId: 2,
   },
 }
-
-export const NoEModeAsButton: Story = {
-  name: 'No E-Mode as button',
-  args: {
-    categoryId: 0,
-    asButton: true,
-  },
-}
-
-export const ETHCorrelatedAsButton: Story = {
-  name: 'ETH Correlated as button',
-  args: {
-    categoryId: 1,
-    asButton: true,
-  },
-}
