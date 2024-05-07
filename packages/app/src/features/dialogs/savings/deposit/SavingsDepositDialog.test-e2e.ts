@@ -29,7 +29,11 @@ test.describe('Savings deposit dialog', () => {
           },
         },
       })
-      await overrideLiFiRoute(page, account, '100-dai-to-sdai', blockNumber)
+      await overrideLiFiRoute(page, {
+        receiver: account,
+        preset: '100-dai-to-sdai',
+        expectedBlockNumber: blockNumber,
+      })
 
       const savingsPage = new SavingsPageObject(page)
 
@@ -60,7 +64,11 @@ test.describe('Savings deposit dialog', () => {
           },
         },
       })
-      await overrideLiFiRoute(page, account, '100-usdc-to-sdai', blockNumber)
+      await overrideLiFiRoute(page, {
+        receiver: account,
+        preset: '100-usdc-to-sdai',
+        expectedBlockNumber: blockNumber,
+      })
 
       const savingsPage = new SavingsPageObject(page)
 

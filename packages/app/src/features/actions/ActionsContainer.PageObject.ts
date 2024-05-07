@@ -17,20 +17,31 @@ export class ActionsPageObject extends BasePageObject {
     }
   }
 
+  getSettingsDialog(): Locator {
+    return this.locateDialogByHeader('Settings')
+  }
+
+  getActionButtons({ disabled }: { disabled?: boolean } = {}): Locator {
+    return this.region.getByRole('button', { name: actionButtonRegex, disabled })
+  }
+
   // #region actions
   async acceptAllActionsAction(expectedNumberOfActions: number): Promise<void> {
-    await this.region.getByRole('button').first().waitFor({ state: 'visible' }) // waits for any button to appear
+    await this.getActionButtons().first().waitFor({ state: 'visible' }) // waits for any button to appear
     for (let i = 0; i < expectedNumberOfActions; i++) {
-      await this.region.getByRole('button', { disabled: false }).click()
+      await this.getActionButtons({ disabled: false }).click()
     }
   }
 
   async acceptNextActionAction(): Promise<void> {
-    await this.region.getByRole('button', { disabled: false }).click()
+    await this.getActionButtons({ disabled: false }).click()
   }
 
   async switchPreferPermitsAction(): Promise<void> {
-    await this.region.getByRole('switch', { disabled: false }).click()
+    await this.region.getByTestId(testIds.actions.settings).click()
+    const settingsDialog = this.getSettingsDialog()
+    await settingsDialog.getByRole('switch', { disabled: false }).click()
+    await settingsDialog.getByRole('button').filter({ hasText: 'Close' }).click()
   }
   // #endregion actions
 
@@ -52,7 +63,7 @@ export class ActionsPageObject extends BasePageObject {
   }
 
   async expectNextActionEnabled(): Promise<void> {
-    await expect(this.region.getByRole('button', { disabled: false })).not.toBeDisabled()
+    await expect(this.region.getByRole('button', { name: actionButtonRegex, disabled: false })).not.toBeDisabled()
   }
 
   async expectActionsDisabled(): Promise<void> {
@@ -89,6 +100,9 @@ function actionToTitle(action: SimplifiedAction, shortForm: boolean): string {
   // this is quite naive and might require improving in the future
   return `${prefix} ${formatter.format(action.amount)} ${action.asset}`
 }
+
+const actionVerbs = ['Approve', 'Deposit', 'Withdraw', 'Borrow', 'Permit', 'Repay', 'Enable', 'Disable']
+const actionButtonRegex = new RegExp(`^(${actionVerbs.join('|')})$`)
 
 function getActionTitlePrefix(action: SimplifiedAction): string {
   switch (action.type) {

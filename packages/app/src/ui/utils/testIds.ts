@@ -48,6 +48,9 @@ export const testIds = makeTestIds({
     },
     success: true,
   },
+  actions: {
+    settings: true,
+  },
 })
 
 function makeTestIds<T extends Object>(obj: T, prefix?: string): MapValuesToString<T> {

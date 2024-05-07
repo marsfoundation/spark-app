@@ -2,11 +2,23 @@ import { Page } from '@playwright/test'
 import assert from 'assert'
 import { Address } from 'viem'
 
+export interface LiFiParams {
+  slippage: number
+}
+
+export const defaultLiFiParams: LiFiParams = {
+  slippage: 0.001,
+}
+export interface OverrideLiFiRouteOptions {
+  receiver: Address
+  preset: keyof typeof lifiResponses
+  expectedBlockNumber: bigint
+  expectedParams?: LiFiParams
+}
+
 export async function overrideLiFiRoute(
   page: Page,
-  receiver: Address,
-  preset: keyof typeof lifiResponses,
-  expectedBlockNumber: bigint,
+  { receiver, preset, expectedBlockNumber, expectedParams }: OverrideLiFiRouteOptions,
 ): Promise<void> {
   const presetValue = lifiResponses[preset]
 
@@ -14,10 +26,12 @@ export async function overrideLiFiRoute(
     presetValue.block === expectedBlockNumber,
     `preset ${preset}(${presetValue.block}) is not available at block ${expectedBlockNumber}`,
   )
+  const params = expectedParams ?? defaultLiFiParams
+  const endpoint = matchUrl(presetValue.endpoint, lifiParamsToUrl(params))
 
-  await page.route(presetValue.endpoint, async (route) => {
+  await page.route(endpoint, async (route) => {
     await route.fulfill({
-      json: presetValue.response(receiver),
+      json: presetValue.response(receiver, params.slippage),
     })
   })
 }
@@ -39,7 +53,11 @@ function matchUrl(expectedUrl: string, expectedParams: Record<string, string>): 
   }
 }
 
-const expectedSlippage = 0.001
+function lifiParamsToUrl(params: LiFiParams): Record<string, string> {
+  return {
+    slippage: params.slippage.toString(),
+  }
+}
 
 const lifiResponses = {
   '100-dai-to-sdai': {
@@ -47,8 +65,8 @@ const lifiResponses = {
     //  --url 'https://li.quest/v1/quote?fromChain=1&toChain=1&fromToken=0x6B175474E89094C44Da98b954EedeAC495271d0F&toToken=0x83f20f44975d03b1b09e64809b757c47f942beea&fromAddress=0x68F6148E28Ded21f92bBA55Ab1d2b39DBa0726b2&fromAmount=100000000000000000000' \
     //  --header 'accept: application/json'
     block: 19519583n,
-    endpoint: matchUrl('https://li.quest/v1/quote', { slippage: expectedSlippage.toString() }),
-    response: (receiver: Address) => ({
+    endpoint: 'https://li.quest/v1/quote',
+    response: (receiver, slippage) => ({
       type: 'lifi',
       id: 'f5532701-e8b5-4456-a932-7bdf313bd31f',
       tool: '0x',
@@ -83,7 +101,7 @@ const lifiResponses = {
         },
         fromChainId: 1,
         toChainId: 1,
-        slippage: expectedSlippage,
+        slippage,
         fromAddress: receiver,
         toAddress: receiver,
       },
@@ -149,7 +167,7 @@ const lifiResponses = {
                 'https://static.debank.com/image/eth_token/logo_url/0x83f20f44975d03b1b09e64809b757c47f942beea/ba710cd443d1995d6b4781ee6d5904c0.png',
               priceUSD: '1.0655224570504276',
             },
-            slippage: expectedSlippage,
+            slippage,
             fromAddress: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
             toAddress: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
           },
@@ -210,8 +228,8 @@ const lifiResponses = {
     //  --url 'https://li.quest/v1/quote?fromChain=1&toChain=1&fromToken=0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48&toToken=0x83F20F44975D03b1b09e64809B757c47f942BEeA&fromAddress=0x68F6148E28Ded21f92bBA55Ab1d2b39DBa0726b2&fromAmount=100000000' \
     //  --header 'accept: application/json'
     block: 19519583n,
-    endpoint: matchUrl('https://li.quest/v1/quote', { slippage: expectedSlippage.toString() }),
-    response: (receiver: Address) => ({
+    endpoint: 'https://li.quest/v1/quote',
+    response: (receiver, slippage) => ({
       type: 'lifi',
       id: 'd17517a7-7d84-4fe8-9247-bf2b2e982649',
       tool: '0x',
@@ -246,7 +264,7 @@ const lifiResponses = {
         },
         fromChainId: 1,
         toChainId: 1,
-        slippage: expectedSlippage,
+        slippage,
         fromAddress: receiver,
         toAddress: receiver,
       },
@@ -312,7 +330,7 @@ const lifiResponses = {
                 'https://static.debank.com/image/eth_token/logo_url/0x83f20f44975d03b1b09e64809b757c47f942beea/ba710cd443d1995d6b4781ee6d5904c0.png',
               priceUSD: '1.0655224570504276',
             },
-            slippage: expectedSlippage,
+            slippage,
             fromAddress: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
             toAddress: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
           },
@@ -386,7 +404,7 @@ const lifiResponses = {
     // '
     block: 19532848n,
     endpoint: 'https://li.quest/v1/quote/contractCalls',
-    response: (receiver: Address) => ({
+    response: (receiver, slippage) => ({
       type: 'lifi',
       id: 'd9b0de53-c14e-4d06-8493-fa72fbdf10a5',
       tool: '0x',
@@ -421,7 +439,7 @@ const lifiResponses = {
         },
         fromChainId: 1,
         toChainId: 1,
-        slippage: expectedSlippage,
+        slippage,
         fromAddress: receiver,
         toAddress: receiver,
       },
@@ -487,7 +505,7 @@ const lifiResponses = {
                 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png',
               priceUSD: '0.99985',
             },
-            slippage: expectedSlippage,
+            slippage,
             fromAddress: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
             toAddress: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
           },
@@ -560,7 +578,7 @@ const lifiResponses = {
     // '
     block: 19532848n,
     endpoint: 'https://li.quest/v1/quote/contractCalls',
-    response: (receiver: Address) => ({
+    response: (receiver: Address, slippage: number) => ({
       type: 'lifi',
       id: 'e77c69b1-f5ff-41e5-9e48-767cf0d9553b',
       tool: '0x',
@@ -595,7 +613,7 @@ const lifiResponses = {
         },
         fromChainId: 1,
         toChainId: 1,
-        slippage: expectedSlippage,
+        slippage,
         fromAddress: receiver,
         toAddress: receiver,
       },
@@ -661,7 +679,7 @@ const lifiResponses = {
                 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/logo.png',
               priceUSD: '1',
             },
-            slippage: expectedSlippage,
+            slippage,
             fromAddress: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
             toAddress: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
           },
@@ -720,7 +738,7 @@ const lifiResponses = {
     //curl 'https://li.quest/v1/quote?fromChain=1&toChain=1&fromAddress=0x8Ae54247ABee903Ea866b012394919112668b93f&fromToken=0x83F20F44975D03b1b09e64809B757c47f942BEeA&fromAmount=100000000000000000000&toToken=0x6B175474E89094C44Da98b954EedeAC495271d0F&integrator=spark_waivefee&fee=0'
     endpoint: 'https://li.quest/v1/quote?*',
     block: 19609252n,
-    response(receiver) {
+    response(receiver, slippage) {
       return {
         type: 'lifi',
         id: '63342924-24ac-49cf-ba3f-75f1bd696794',
@@ -756,7 +774,7 @@ const lifiResponses = {
           },
           fromChainId: 1,
           toChainId: 1,
-          slippage: expectedSlippage,
+          slippage,
           fromAddress: receiver,
           toAddress: receiver,
         },
@@ -822,7 +840,7 @@ const lifiResponses = {
                   'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png',
                 priceUSD: '0.99985',
               },
-              slippage: expectedSlippage,
+              slippage,
               fromAddress: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
               toAddress: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
             },
@@ -883,7 +901,7 @@ const lifiResponses = {
     // curl 'https://li.quest/v1/quote?fromChain=1&toChain=1&fromAddress=0x908901d03233B43109fBbbc8D3b91C66e2a8867F&fromToken=0x83F20F44975D03b1b09e64809B757c47f942BEeA&fromAmount=100000000000000000000&toToken=0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48&integrator=spark_waivefee&fee=0'
     endpoint: 'https://li.quest/v1/quote?*',
     block: 19609941n,
-    response(receiver) {
+    response(receiver, slippage) {
       return {
         type: 'lifi',
         id: '7d94822b-ede1-4697-90c2-54c271289270',
@@ -919,7 +937,7 @@ const lifiResponses = {
           },
           fromChainId: 1,
           toChainId: 1,
-          slippage: expectedSlippage,
+          slippage,
           fromAddress: receiver,
           toAddress: receiver,
         },
@@ -985,7 +1003,7 @@ const lifiResponses = {
                   'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/logo.png',
                 priceUSD: '1',
               },
-              slippage: expectedSlippage,
+              slippage,
               fromAddress: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
               toAddress: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
             },
@@ -1047,7 +1065,7 @@ const lifiResponses = {
 interface LifiResponse {
   block: bigint
   endpoint: string | ((url: URL) => boolean)
-  response: (receiver: Address) => Object
+  response: (receiver: Address, slippage: number) => Object
 }
 
 export async function blockLifiApiCalls(page: Page): Promise<void> {
