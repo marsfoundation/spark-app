@@ -63,22 +63,22 @@ export class ActionsPageObject extends BasePageObject {
   }
 
   async expectNextActionEnabled(): Promise<void> {
-    await expect(this.region.getByRole('button', { name: actionButtonRegex, disabled: false })).not.toBeDisabled()
+    await expect(this.getActionButtons({ disabled: false })).not.toBeDisabled()
   }
 
   async expectActionsDisabled(): Promise<void> {
-    await expect(this.region.getByRole('button', { disabled: true })).toBeDisabled()
+    await expect(this.getActionButtons({ disabled: true })).toBeDisabled()
   }
 
   async expectNextAction(expectedAction: SimplifiedAction, shortForm = false): Promise<void> {
     await expect(async () => {
-      const buttons = await this.region.getByRole('button').all()
+      const buttons = await this.getActionButtons().all()
       const titles = await this.region.getByTestId(testIds.component.Action.title).all()
       // when action is complete, the action button is removed from the DOM
       const index = titles.length - buttons.length
       const title = await titles[index]?.textContent()
       expect(title).toEqual(actionToTitle(expectedAction, shortForm))
-    }).toPass()
+    }).toPass({ timeout: 10000 })
   }
   // #endregion assertions
 }
