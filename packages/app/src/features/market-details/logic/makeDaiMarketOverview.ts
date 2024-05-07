@@ -1,4 +1,3 @@
-import { eModeCategoryIdToName } from '@/domain/e-mode/constants'
 import { MakerInfo } from '@/domain/maker-info/types'
 import { MarketInfo, Reserve } from '@/domain/market-info/marketInfo'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
@@ -61,7 +60,7 @@ export function makeDaiMarketOverview({ reserve, marketInfo, makerInfo }: MakeDa
           maxLtv: sDai.eModeCategory.ltv,
           liquidationThreshold: sDai.eModeCategory.liquidationThreshold,
           liquidationPenalty: sDai.eModeCategory.liquidationBonus,
-          category: eModeCategoryIdToName[sDai.eModeCategory.id],
+          categoryId: sDai.eModeCategory.id,
           token: sDai.token,
           eModeCategoryTokens: sDaiOverview.eMode!.eModeCategoryTokens,
         },

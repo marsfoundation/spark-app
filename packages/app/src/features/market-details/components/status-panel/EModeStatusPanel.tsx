@@ -1,5 +1,7 @@
 import { paths } from '@/config/paths'
 import { formatPercentage } from '@/domain/common/format'
+import { eModeCategoryIdToName } from '@/domain/e-mode/constants'
+import { EModeCategoryId } from '@/domain/e-mode/types'
 import { Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
@@ -7,9 +9,9 @@ import { assets } from '@/ui/assets'
 import { Link, LinkProps } from '@/ui/atoms/link/Link'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { links } from '@/ui/constants/links'
+import { EModeBadge } from '@/ui/molecules/e-mode-badge/EModeBadge'
 import { cn } from '@/ui/utils/style'
 
-import { EModeBadge, EnabledEModeCategory } from './components/emode-badge/EModeBadge'
 import { Header } from './components/Header'
 import { InfoTile } from './components/info-tile/InfoTile'
 import { InfoTilesGrid } from './components/info-tile/InfoTilesGrid'
@@ -21,7 +23,7 @@ export interface EModeStatusPanelProps {
   maxLtv: Percentage
   liquidationThreshold: Percentage
   liquidationPenalty: Percentage
-  category: EnabledEModeCategory
+  categoryId: EModeCategoryId
   eModeCategoryTokens: TokenSymbol[]
   token?: Token
 }
@@ -30,10 +32,12 @@ export function EModeStatusPanel({
   maxLtv,
   liquidationThreshold,
   liquidationPenalty,
-  category,
+  categoryId,
   eModeCategoryTokens,
   token,
 }: EModeStatusPanelProps) {
+  const categoryName = eModeCategoryIdToName[categoryId]
+
   return (
     <Panel.Wrapper>
       <StatusPanelGrid>
@@ -62,12 +66,12 @@ export function EModeStatusPanel({
           <InfoTile>
             <InfoTile.Label>Category</InfoTile.Label>
             <InfoTile.Value>
-              <EModeBadge category={category} />
+              <EModeBadge categoryId={categoryId} />
             </InfoTile.Value>
           </InfoTile>
           <p className="col-span-1 text-xs text-slate-500 sm:col-span-3">
-            E-Mode for {category} assets increases your LTV within the {category} category. This means that when E-Mode
-            is enabled, you will have higher borrowing power for assets in this category:{' '}
+            E-Mode for {categoryName} assets increases your LTV within the {categoryName} category. This means that when
+            E-Mode is enabled, you will have higher borrowing power for assets in this category:{' '}
             {eModeCategoryTokens.join(', ')}. You can enter E-Mode from your{' '}
             <DocsLink to={paths.dashboard}>Dashboard</DocsLink>. To learn more about E-Mode and its applied
             restrictions, visit the{' '}
