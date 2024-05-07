@@ -3,6 +3,7 @@ import { expect } from '@playwright/test'
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { expectAssets, TestTokenWithValue } from '@/test/e2e/assertions'
 import { BasePageObject } from '@/test/e2e/BasePageObject'
+import { buildUrl } from '@/test/e2e/setup'
 import { ForkContext } from '@/test/e2e/setupFork'
 import { calculateAssetsWorth } from '@/test/e2e/utils'
 import { testIds } from '@/ui/utils/testIds'
@@ -65,6 +66,10 @@ export class BorrowPageObject extends BasePageObject {
     await actionsContainer.acceptAllActionsAction(2 * index) // omitting the borrow action
     await actionsContainer.expectNextActionEnabled()
   }
+
+  async goToEasyBorrowAction(): Promise<void> {
+    await this.page.goto(buildUrl('easyBorrow'))
+  }
   // #endregion actions
 
   // #region assertions
@@ -80,6 +85,15 @@ export class BorrowPageObject extends BasePageObject {
   async expectAssetInputInvalid(errorText: string): Promise<void> {
     const locator = this.page.getByTestId(testIds.component.AssetInput.error)
     await expect(locator).toHaveText(errorText)
+  }
+
+  async expectAssetNotListedInDepositSelector(asset: string): Promise<void> {
+    const depositSelector = this.page
+      .getByTestId(testIds.easyBorrow.form.deposits)
+      .getByTestId(testIds.component.MultiAssetSelector.group)
+      .getByTestId(testIds.component.AssetSelector)
+    await depositSelector.click()
+    await expect(this.page.getByRole('listbox')).not.toHaveText(asset)
   }
 
   async expectBorrowButtonActive(): Promise<void> {

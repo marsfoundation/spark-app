@@ -2,6 +2,7 @@ import { Page, test } from '@playwright/test'
 
 import { borrowValidationIssueToMessage } from '@/domain/market-validators/validateBorrow'
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
+import { CollateralDialogPageObject } from '@/features/dialogs/collateral/CollateralDialog.PageObject'
 import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setup } from '@/test/e2e/setup'
 import { setupFork } from '@/test/e2e/setupFork'
@@ -472,6 +473,42 @@ test.describe('Borrow page', () => {
     test('is invalid when breaching supply cap', async () => {
       await borrowPage.fillDepositAssetAction(0, 'WBTC', 10_000)
       await borrowPage.expectAssetInputInvalid('Deposit cap reached')
+    })
+  })
+
+  test.describe('depositable assets', () => {
+    test.beforeEach(async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'easyBorrow',
+        account: {
+          type: 'connected',
+          assetBalances: { wstETH: 10 },
+        },
+      })
+    })
+
+    test('deposit asset, turn off usage as collateral, try to deposit again', async ({ page }) => {
+      const collateral = 'wstETH'
+
+      // Only depositing asset
+      const borrowPage = new BorrowPageObject(page)
+      await borrowPage.depositWithoutBorrowActions({ [collateral]: 5 })
+      const dashboardPage = new DashboardPageObject(page)
+      await dashboardPage.goToDashboardAction()
+
+      // Turning off usage as collateral at dashboard
+      await dashboardPage.expectCollateralSwitch(collateral, true)
+      await dashboardPage.clickCollateralSwitchAction(collateral)
+      const collateralDialog = new CollateralDialogPageObject(page)
+      await collateralDialog.expectDialogHeader('Collateral')
+      await collateralDialog.expectHealthFactorNotVisible()
+      const actionsContainer = new ActionsPageObject(collateralDialog.locatePanelByHeader('Actions'))
+      await actionsContainer.acceptAllActionsAction(1)
+      await collateralDialog.expectSetUseAsCollateralSuccessPage(collateral, 'disabled')
+
+      // Expecting asset not listed in deposit selector after turning off usage as collateral
+      await borrowPage.goToEasyBorrowAction()
+      await borrowPage.expectAssetNotListedInDepositSelector(collateral)
     })
   })
 })
