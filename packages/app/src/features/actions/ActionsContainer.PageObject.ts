@@ -101,7 +101,7 @@ function actionToTitle(action: SimplifiedAction, shortForm: boolean): string {
   return `${prefix} ${formatter.format(action.amount)} ${action.asset}`
 }
 
-const actionVerbs = ['Approve', 'Deposit', 'Withdraw', 'Borrow', 'Permit', 'Repay', 'Enable', 'Disable']
+const actionVerbs = ['Approve', 'Deposit', 'Withdraw', 'Borrow', 'Permit', 'Repay', 'Enable', 'Disable', 'Convert']
 const actionButtonRegex = new RegExp(`^(${actionVerbs.join('|')})$`)
 
 function getActionTitlePrefix(action: SimplifiedAction): string {

@@ -27,9 +27,10 @@ export async function overrideLiFiRoute(
     `preset ${preset}(${presetValue.block}) is not available at block ${expectedBlockNumber}`,
   )
   const params = expectedParams ?? defaultLiFiParams
-  const endpoint = matchUrl(presetValue.endpoint, lifiParamsToUrl(params))
+  const endpoint = matchUrl(presetValue.endpoint, presetValue.method === 'GET' ? lifiParamsToUrl(params) : {})
 
   await page.route(endpoint, async (route) => {
+    // @todo: parse body of POST request and check if it matches the expected params
     await route.fulfill({
       json: presetValue.response(receiver, params.slippage),
     })
@@ -66,6 +67,7 @@ const lifiResponses = {
     //  --header 'accept: application/json'
     block: 19519583n,
     endpoint: 'https://li.quest/v1/quote',
+    method: 'GET',
     response: (receiver, slippage) => ({
       type: 'lifi',
       id: 'f5532701-e8b5-4456-a932-7bdf313bd31f',
@@ -229,6 +231,7 @@ const lifiResponses = {
     //  --header 'accept: application/json'
     block: 19519583n,
     endpoint: 'https://li.quest/v1/quote',
+    method: 'GET',
     response: (receiver, slippage) => ({
       type: 'lifi',
       id: 'd17517a7-7d84-4fe8-9247-bf2b2e982649',
@@ -404,6 +407,7 @@ const lifiResponses = {
     // '
     block: 19532848n,
     endpoint: 'https://li.quest/v1/quote/contractCalls',
+    method: 'POST',
     response: (receiver, slippage) => ({
       type: 'lifi',
       id: 'd9b0de53-c14e-4d06-8493-fa72fbdf10a5',
@@ -578,6 +582,7 @@ const lifiResponses = {
     // '
     block: 19532848n,
     endpoint: 'https://li.quest/v1/quote/contractCalls',
+    method: 'POST',
     response: (receiver: Address, slippage: number) => ({
       type: 'lifi',
       id: 'e77c69b1-f5ff-41e5-9e48-767cf0d9553b',
@@ -736,8 +741,9 @@ const lifiResponses = {
   },
   '100-sdai-to-dai': {
     //curl 'https://li.quest/v1/quote?fromChain=1&toChain=1&fromAddress=0x8Ae54247ABee903Ea866b012394919112668b93f&fromToken=0x83F20F44975D03b1b09e64809B757c47f942BEeA&fromAmount=100000000000000000000&toToken=0x6B175474E89094C44Da98b954EedeAC495271d0F&integrator=spark_waivefee&fee=0'
-    endpoint: 'https://li.quest/v1/quote?*',
+    endpoint: 'https://li.quest/v1/quote',
     block: 19609252n,
+    method: 'GET',
     response(receiver, slippage) {
       return {
         type: 'lifi',
@@ -899,8 +905,9 @@ const lifiResponses = {
   },
   '100-sdai-to-usdc': {
     // curl 'https://li.quest/v1/quote?fromChain=1&toChain=1&fromAddress=0x908901d03233B43109fBbbc8D3b91C66e2a8867F&fromToken=0x83F20F44975D03b1b09e64809B757c47f942BEeA&fromAmount=100000000000000000000&toToken=0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48&integrator=spark_waivefee&fee=0'
-    endpoint: 'https://li.quest/v1/quote?*',
+    endpoint: 'https://li.quest/v1/quote',
     block: 19609941n,
+    method: 'GET',
     response(receiver, slippage) {
       return {
         type: 'lifi',
@@ -1065,6 +1072,7 @@ const lifiResponses = {
 interface LifiResponse {
   block: bigint
   endpoint: string | ((url: URL) => boolean)
+  method: 'GET' | 'POST'
   response: (receiver: Address, slippage: number) => Object
 }
 
