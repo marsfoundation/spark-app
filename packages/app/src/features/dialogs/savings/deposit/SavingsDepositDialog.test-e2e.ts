@@ -84,4 +84,113 @@ test.describe('Savings deposit dialog', () => {
       await savingsPage.expectCurrentWorth('105.3563')
     })
   })
+
+  test.describe('Default slippage', () => {
+    const fork = setupFork(blockNumber)
+
+    test('default', async ({ page }) => {
+      const { account } = await setup(page, fork, {
+        initialPage: 'savings',
+        account: {
+          type: 'connected',
+          assetBalances: {
+            ETH: 1,
+            USDC: 100,
+          },
+        },
+      })
+      const expectedDefaultSlippage = 0.001
+
+      await overrideLiFiRoute(page, {
+        receiver: account,
+        preset: '100-usdc-to-sdai',
+        expectedBlockNumber: blockNumber,
+        expectedParams: {
+          slippage: expectedDefaultSlippage,
+        },
+      })
+
+      const savingsPage = new SavingsPageObject(page)
+
+      await savingsPage.clickDepositButtonAction('USDC')
+
+      const depositDialog = new SavingsDepositDialogPageObject(page)
+      const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
+
+      await actionsContainer.setSlippageAction(expectedDefaultSlippage, 'button')
+      await depositDialog.fillAmountAction(100)
+
+      await actionsContainer.expectSlippage(expectedDefaultSlippage)
+    })
+
+    test('changes using button', async ({ page }) => {
+      const { account } = await setup(page, fork, {
+        initialPage: 'savings',
+        account: {
+          type: 'connected',
+          assetBalances: {
+            ETH: 1,
+            USDC: 100,
+          },
+        },
+      })
+      const newSlippage = 0.005
+
+      await overrideLiFiRoute(page, {
+        receiver: account,
+        preset: '100-usdc-to-sdai',
+        expectedBlockNumber: blockNumber,
+        expectedParams: {
+          slippage: newSlippage,
+        },
+      })
+
+      const savingsPage = new SavingsPageObject(page)
+
+      await savingsPage.clickDepositButtonAction('USDC')
+
+      const depositDialog = new SavingsDepositDialogPageObject(page)
+      const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
+
+      await actionsContainer.setSlippageAction(newSlippage, 'button')
+      await depositDialog.fillAmountAction(100)
+
+      await actionsContainer.expectSlippage(newSlippage)
+    })
+
+    test('changes using custom input', async ({ page }) => {
+      const { account } = await setup(page, fork, {
+        initialPage: 'savings',
+        account: {
+          type: 'connected',
+          assetBalances: {
+            ETH: 1,
+            USDC: 100,
+          },
+        },
+      })
+      const newSlippage = 0.007
+
+      await overrideLiFiRoute(page, {
+        receiver: account,
+        preset: '100-usdc-to-sdai',
+        expectedBlockNumber: blockNumber,
+        expectedParams: {
+          slippage: newSlippage,
+        },
+      })
+
+      const savingsPage = new SavingsPageObject(page)
+
+      await savingsPage.clickDepositButtonAction('USDC')
+
+      const depositDialog = new SavingsDepositDialogPageObject(page)
+      const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
+
+      await actionsContainer.setSlippageAction(newSlippage, 'input')
+      await depositDialog.fillAmountAction(100)
+
+      await actionsContainer.expectSlippage(newSlippage)
+    })
+  })
 })

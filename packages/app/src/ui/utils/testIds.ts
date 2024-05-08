@@ -50,6 +50,7 @@ export const testIds = makeTestIds({
   },
   actions: {
     settings: true,
+    slippage: true,
   },
 })
 

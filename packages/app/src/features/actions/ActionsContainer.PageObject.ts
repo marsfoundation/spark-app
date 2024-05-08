@@ -1,6 +1,8 @@
 import { expect, Locator, Page } from '@playwright/test'
 import invariant from 'tiny-invariant'
 
+import { formatPercentage } from '@/domain/common/format'
+import { Percentage } from '@/domain/types/NumericValues'
 import { BasePageObject } from '@/test/e2e/BasePageObject'
 import { isPage } from '@/test/e2e/utils'
 import { testIds } from '@/ui/utils/testIds'
@@ -43,6 +45,19 @@ export class ActionsPageObject extends BasePageObject {
     await settingsDialog.getByRole('switch', { disabled: false }).click()
     await settingsDialog.getByRole('button').filter({ hasText: 'Close' }).click()
   }
+
+  async setSlippageAction(slippage: number, type: 'button' | 'input'): Promise<void> {
+    await this.region.getByTestId(testIds.actions.settings).click()
+    const settingsDialog = this.getSettingsDialog()
+    if (type === 'button') {
+      await settingsDialog
+        .getByRole('button', { name: formatPercentage(Percentage(slippage), { minimumFractionDigits: 0 }) })
+        .click()
+    } else {
+      await settingsDialog.getByRole('textbox').fill(formatPercentage(Percentage(slippage), { skipSign: true }))
+    }
+    await settingsDialog.getByRole('button').filter({ hasText: 'Close' }).click()
+  }
   // #endregion actions
 
   // #region assertions
@@ -79,6 +94,12 @@ export class ActionsPageObject extends BasePageObject {
       const title = await titles[index]?.textContent()
       expect(title).toEqual(actionToTitle(expectedAction, shortForm))
     }).toPass({ timeout: 10000 })
+  }
+
+  async expectSlippage(slippage: number): Promise<void> {
+    await expect(this.region.getByTestId(testIds.actions.slippage)).toHaveText(
+      formatPercentage(Percentage(slippage), { minimumFractionDigits: 1 }),
+    )
   }
   // #endregion assertions
 }
