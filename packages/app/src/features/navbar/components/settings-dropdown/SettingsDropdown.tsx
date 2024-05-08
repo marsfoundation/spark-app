@@ -79,7 +79,7 @@ function DropdownWrapper({ children }: { children: React.ReactNode }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="secondary" className="px-3">
+        <Button variant="secondary" className="bg-white px-3">
           <MoreIcon />
         </Button>
       </DropdownMenuTrigger>
