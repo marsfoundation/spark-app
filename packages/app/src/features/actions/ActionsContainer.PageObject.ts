@@ -19,36 +19,36 @@ export class ActionsPageObject extends BasePageObject {
     }
   }
 
-  getSettingsDialog(): Locator {
+  locateSettingsDialog(): Locator {
     return this.locateDialogByHeader('Settings')
   }
 
-  getActionButtons({ disabled }: { disabled?: boolean } = {}): Locator {
+  locateActionButtons({ disabled }: { disabled?: boolean } = {}): Locator {
     return this.region.getByRole('button', { name: actionButtonRegex, disabled })
   }
 
   // #region actions
   async acceptAllActionsAction(expectedNumberOfActions: number): Promise<void> {
-    await this.getActionButtons().first().waitFor({ state: 'visible' }) // waits for any button to appear
+    await this.locateActionButtons().first().waitFor({ state: 'visible' }) // waits for any button to appear
     for (let i = 0; i < expectedNumberOfActions; i++) {
-      await this.getActionButtons({ disabled: false }).click()
+      await this.locateActionButtons({ disabled: false }).click()
     }
   }
 
   async acceptNextActionAction(): Promise<void> {
-    await this.getActionButtons({ disabled: false }).click()
+    await this.locateActionButtons({ disabled: false }).click()
   }
 
   async switchPreferPermitsAction(): Promise<void> {
     await this.region.getByTestId(testIds.actions.settings).click()
-    const settingsDialog = this.getSettingsDialog()
+    const settingsDialog = this.locateSettingsDialog()
     await settingsDialog.getByRole('switch', { disabled: false }).click()
     await settingsDialog.getByRole('button').filter({ hasText: 'Close' }).click()
   }
 
   async setSlippageAction(slippage: number, type: 'button' | 'input'): Promise<void> {
     await this.region.getByTestId(testIds.actions.settings).click()
-    const settingsDialog = this.getSettingsDialog()
+    const settingsDialog = this.locateSettingsDialog()
     if (type === 'button') {
       await settingsDialog
         .getByRole('button', { name: formatPercentage(Percentage(slippage), { minimumFractionDigits: 0 }) })
@@ -78,16 +78,16 @@ export class ActionsPageObject extends BasePageObject {
   }
 
   async expectNextActionEnabled(): Promise<void> {
-    await expect(this.getActionButtons({ disabled: false })).not.toBeDisabled()
+    await expect(this.locateActionButtons({ disabled: false })).not.toBeDisabled()
   }
 
   async expectActionsDisabled(): Promise<void> {
-    await expect(this.getActionButtons({ disabled: true })).toBeDisabled()
+    await expect(this.locateActionButtons({ disabled: true })).toBeDisabled()
   }
 
   async expectNextAction(expectedAction: SimplifiedAction, shortForm = false): Promise<void> {
     await expect(async () => {
-      const buttons = await this.getActionButtons().all()
+      const buttons = await this.locateActionButtons().all()
       const titles = await this.region.getByTestId(testIds.component.Action.title).all()
       // when action is complete, the action button is removed from the DOM
       const index = titles.length - buttons.length
