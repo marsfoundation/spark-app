@@ -1,3 +1,4 @@
+import { EModeCategoryId } from '@/domain/e-mode/types'
 import {
   BorrowEligibilityStatus,
   CollateralEligibilityStatus,
@@ -8,7 +9,6 @@ import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 
 import { InterestYieldChartProps } from './components/charts/interest-yield/InterestYieldChart'
-import { EnabledEModeCategory } from './components/status-panel/components/emode-badge/EModeBadge'
 
 export interface SupplyReplacementInfo {
   token: Token
@@ -51,7 +51,7 @@ export interface MarketOverview {
     maxLtv: Percentage
     liquidationThreshold: Percentage
     liquidationPenalty: Percentage
-    category: EnabledEModeCategory
+    categoryId: EModeCategoryId
     eModeCategoryTokens: TokenSymbol[]
     token?: Token
   }

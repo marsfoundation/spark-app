@@ -1,4 +1,3 @@
-import { eModeCategoryIdToName } from '@/domain/e-mode/constants'
 import { MarketInfo, Reserve } from '@/domain/market-info/marketInfo'
 
 import { MarketOverview } from '../types'
@@ -56,7 +55,7 @@ export function makeMarketOverview({ reserve, marketInfo }: MakeMarketOverviewPa
             maxLtv: reserve.eModeCategory!.ltv,
             liquidationThreshold: reserve.eModeCategory!.liquidationThreshold,
             liquidationPenalty: reserve.eModeCategory!.liquidationBonus,
-            category: eModeCategoryIdToName[eModeCategoryId],
+            categoryId: eModeCategoryId,
             eModeCategoryTokens,
           },
         }

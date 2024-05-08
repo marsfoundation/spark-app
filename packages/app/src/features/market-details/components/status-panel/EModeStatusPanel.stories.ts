@@ -16,7 +16,7 @@ const meta: Meta<typeof EModeStatusPanel> = {
     maxLtv: Percentage(0.95),
     liquidationThreshold: Percentage(0.9),
     liquidationPenalty: Percentage(0.02),
-    category: 'ETH Correlated',
+    categoryId: 1,
     eModeCategoryTokens: [tokens.WETH.symbol, tokens.wstETH.symbol, tokens.rETH.symbol],
   },
 }
@@ -39,7 +39,7 @@ export const ETHTablet: Story = {
 export const DAIDesktop: Story = {
   name: 'DAI Correlated',
   args: {
-    category: 'Stablecoins',
+    categoryId: 2,
     token: tokens.sDAI,
     eModeCategoryTokens: [tokens.sDAI.symbol, tokens.USDC.symbol, tokens.USDT.symbol],
   },
