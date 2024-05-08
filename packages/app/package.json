@@ -28,7 +28,6 @@
   "dependencies": {
     "@aave/math-utils": "^1.20.0",
     "@hookform/resolvers": "^3.3.2",
-    "@jetstreamgg/hooks": "^1.0.6",
     "@lingui/core": "^4.5.0",
     "@lingui/macro": "^4.5.0",
     "@lingui/react": "^4.5.0",

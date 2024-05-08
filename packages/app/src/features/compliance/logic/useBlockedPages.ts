@@ -1,9 +1,8 @@
-import { useVpnCheck } from '@jetstreamgg/hooks'
-
 import { apiUrl } from '@/config/consts'
 import { paths } from '@/config/paths'
 
 import { blockedPagesByCountryCode } from './consts'
+import { useVpnCheck } from './useVpnCheck'
 
 export function useBlockedPages(): (keyof typeof paths)[] {
   if (import.meta.env.VITE_FEATURE_AUTH_IP_AND_ADDRESS_CHECKS !== '1') {
