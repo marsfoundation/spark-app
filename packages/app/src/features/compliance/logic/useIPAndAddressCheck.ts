@@ -1,10 +1,11 @@
-import { useRestrictedAddressCheck, useVpnCheck } from '@jetstreamgg/hooks'
 import { useAccount } from 'wagmi'
 
 import { apiUrl } from '@/config/consts'
 
 import { blockedCountryCodes } from './consts'
 import { useIsCurrentPageBlocked } from './useIsCurrentPageBlocked'
+import { useRestrictedAddressCheck } from './useRestrictedAddressCheck'
+import { useVpnCheck } from './useVpnCheck'
 
 export type UseIPAndAddressCheck =
   | { blocked: false }
