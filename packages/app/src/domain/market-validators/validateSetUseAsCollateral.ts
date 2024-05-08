@@ -23,7 +23,7 @@ export interface ValidateSetUseAsCollateralParams {
 export type SetUseAsCollateralValidationIssue =
   | 'collateral-already-enabled'
   | 'collateral-already-disabled'
-  | 'zero-balance-asset'
+  | 'zero-deposit-asset'
   | 'reserve-not-active'
   | 'zero-ltv-asset'
   | 'isolation-mode-active'
@@ -43,7 +43,7 @@ export function validateSetUseAsCollateral({
   }
 
   if (asset.balance.isZero()) {
-    return 'zero-balance-asset'
+    return 'zero-deposit-asset'
   }
 
   if (asset.status !== 'active') {
@@ -75,7 +75,7 @@ export function validateSetUseAsCollateral({
 export const setUseAsCollateralValidationIssueToMessage: Record<SetUseAsCollateralValidationIssue, string> = {
   'collateral-already-enabled': 'Collateral setting for this asset is already enabled',
   'collateral-already-disabled': 'Collateral setting for this asset is already disabled',
-  'zero-balance-asset': 'Cannot use zero balance asset as collateral',
+  'zero-deposit-asset': 'Cannot use not deposited asset as collateral',
   'reserve-not-active': 'Cannot change collateral setting for inactive reserve',
   'zero-ltv-asset': 'This asset cannot be used as collateral',
   'isolation-mode-active': 'Cannot use other asset as collateral when in isolation mode',

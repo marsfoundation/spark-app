@@ -125,7 +125,7 @@ test.describe('Collateral dialog', () => {
       const collateralDialog = new CollateralDialogPageObject(page)
       await collateralDialog.expectDialogHeader('Collateral')
       await collateralDialog.expectHealthFactorNotVisible()
-      await collateralDialog.expectAlertMessage(setUseAsCollateralValidationIssueToMessage['zero-balance-asset'])
+      await collateralDialog.expectAlertMessage(setUseAsCollateralValidationIssueToMessage['zero-deposit-asset'])
       const actionsContainer = new ActionsPageObject(collateralDialog.locatePanelByHeader('Actions'))
       await actionsContainer.expectActionsDisabled()
 

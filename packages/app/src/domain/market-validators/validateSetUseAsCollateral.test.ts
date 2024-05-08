@@ -56,7 +56,7 @@ describe(validateSetUseAsCollateral.name, () => {
           hasZeroLtvAssetsInCollateral: false,
         },
       }),
-    ).toBe('zero-balance-asset')
+    ).toBe('zero-deposit-asset')
   })
 
   it('validates that reserve is active', () => {

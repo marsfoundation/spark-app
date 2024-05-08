@@ -7,8 +7,10 @@ export function getDepositableAssets(positions: UserPosition[]): Reserve[] {
   return (
     positions
       .filter((p) => p.reserve.status === 'active' && !p.reserve.isIsolated)
-      // if user has deposited any amount, usage as collateral should be enabled
-      .filter((p) => p.collateralBalance.eq(0) || p.reserve.usageAsCollateralEnabled)
+      // Filter out reserves that cannot be used as collateral
+      .filter((p) => p.reserve.usageAsCollateralEnabled)
+      // Filter out positions that have deposit, but usage as collateral is turned off by user
+      .filter((p) => p.collateralBalance.eq(0) || p.reserve.usageAsCollateralEnabledOnUser)
       .filter((p) => !blacklistedDepositableAssets.includes(p.reserve.token.symbol))
       .map((p) => p.reserve)
   )
