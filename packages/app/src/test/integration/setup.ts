@@ -1,3 +1,4 @@
+import './setupTestEnvironmentCompatibility' // This MUST be the first import
 import './mocks/install-mocks'
 
 import matchers from '@testing-library/jest-dom/matchers'

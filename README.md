@@ -51,7 +51,7 @@ forked) blockchain node. We mock networking on viem's transport layer.
 
 ```sh
 pnpm test
-pnpm run test --coverage # to get coverage report
+pnpm run test
 ```
 
 ### E2E tests
