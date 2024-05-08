@@ -29,6 +29,7 @@ export default {
           red: 'rgba(var(--basics-red) / <alpha-value>)',
           border: 'var(--basics-border)',
           'dark-grey': 'rgba(var(--basics-dark-grey) / <alpha-value>)',
+          grey: 'rgba(var(--basics-grey) / <alpha-value>)',
           'light-grey': 'rgba(var(--basics-light-grey) / <alpha-value>)',
         },
         main: {
