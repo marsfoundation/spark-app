@@ -1,9 +1,9 @@
-import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { assets } from '@/ui/assets'
 import { Skeleton } from '@/ui/atoms/skeleton/Skeleton'
 import { Tooltip, TooltipContentLong, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 
 import { AirdropInfo } from '../../types'
+import { formatCompact } from '../../utils/formatCompact'
 import { NavbarActionWrapper } from '../NavbarActionWrapper'
 import { AirdropDetails } from './AirdropDetails'
 
@@ -18,7 +18,7 @@ export function AirdropBadge({ amount, isLoading }: AirdropInfo) {
               {isLoading ? (
                 <Skeleton className="h-5 w-7" />
               ) : (
-                <div className="font-semibold">{USD_MOCK_TOKEN.format(amount, { style: 'compact' })}</div>
+                <div className="font-semibold">{formatCompact(amount)}</div>
               )}
             </div>
           </button>

@@ -4,7 +4,7 @@ import { z } from 'zod'
 import { CheckedAddress } from '../types/CheckedAddress'
 
 const airdropInfoResponseSchema = z.object({
-  tokenReward: z.string(),
+  token_reward: z.string(),
 })
 export type AirdropInfoResponse = z.infer<typeof airdropInfoResponseSchema>
 

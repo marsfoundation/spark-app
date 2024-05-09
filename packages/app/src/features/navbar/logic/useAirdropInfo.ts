@@ -10,11 +10,9 @@ import { AirdropInfo } from '../types'
 export function useAirdropInfo(): AirdropInfo {
   const { address } = useAccount()
 
-  const result = useQuery({
-    ...airdropInfo(address && CheckedAddress(address)),
-  })
+  const result = useQuery(airdropInfo(address && CheckedAddress(address)))
 
-  const amount = NormalizedUnitNumber(result.data?.tokenReward ?? 0)
+  const amount = NormalizedUnitNumber(result.data?.token_reward ?? 0)
   const isLoading = result.isLoading
 
   return {
