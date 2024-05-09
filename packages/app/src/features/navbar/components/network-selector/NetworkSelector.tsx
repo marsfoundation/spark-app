@@ -28,7 +28,12 @@ export function NetworkSelector({ currentChain, supportedChains, onNetworkChange
     <NavbarActionWrapper label="Network">
       <DropdownMenu onOpenChange={setOpen} open={open}>
         <DropdownMenuTrigger asChild>
-          <Button variant="secondary" size="md" className="h-auto px-2 lg:h-10" postfixIcon={<Chevron open={open} />}>
+          <Button
+            variant="secondary"
+            size="md"
+            className="h-auto bg-white px-2 lg:h-10"
+            postfixIcon={<Chevron open={open} />}
+          >
             <div className="flex flex-row items-center gap-3">
               <img src={chainImage} className="h-7 w-7 lg:h-5 lg:w-5" />
               <div className="lg:hidden">{currentChain.name}</div>
