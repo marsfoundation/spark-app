@@ -41,6 +41,8 @@ interface ReverseQuoteRequestParams {
   fromToken: CheckedAddress
   toToken: CheckedAddress
   toAmount: string
+  integrator: string
+  fee: string
   slippage: string
   maxPriceImpact?: string
   allowExchanges?: string[]
@@ -128,6 +130,7 @@ export class LiFi {
     fromToken,
     toToken,
     amount,
+    meta,
     maxSlippage,
     maxPriceImpact,
     allowExchanges,
@@ -139,6 +142,8 @@ export class LiFi {
       fromToken,
       toToken,
       toAmount: amount.toFixed(),
+      integrator: meta.integratorKey,
+      fee: meta.fee.toFixed(),
       slippage: maxSlippage.toFixed(),
       ...(maxPriceImpact ? { maxPriceImpact: maxPriceImpact.toFixed() } : {}),
       ...(allowExchanges ? { allowExchanges } : {}),
