@@ -418,9 +418,10 @@ test.describe('Repay dialog', () => {
       await dashboardPage.clickRepayButtonAction(repay.asset)
 
       const repayDialog = new DialogPageObject(page, headerRegExp)
-      await repayDialog.fillAmountAction(repay.amount)
       const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
       await actionsContainer.switchPreferPermitsAction()
+
+      await repayDialog.fillAmountAction(repay.amount)
       await actionsContainer.expectActions(
         [
           {
@@ -476,9 +477,9 @@ test.describe('Repay dialog', () => {
       await dashboardPage.clickRepayButtonAction(repay.asset)
 
       const repayDialog = new DialogPageObject(page, headerRegExp)
-      await repayDialog.fillAmountAction(repay.amount)
       const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
       await actionsContainer.switchPreferPermitsAction()
+      await repayDialog.fillAmountAction(repay.amount)
       await actionsContainer.acceptAllActionsAction(2)
       await repayDialog.expectSuccessPage([repay], fork)
 

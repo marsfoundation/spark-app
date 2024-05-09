@@ -5,6 +5,7 @@ import { Token, USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { ActionRow } from '@/features/actions/components/action-row/ActionRow'
 import { assets, getTokenImage } from '@/ui/assets'
 import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
+import { testIds } from '@/ui/utils/testIds'
 
 import { ActionRowBaseProps } from '../../components/action-row/types'
 import { UpDownMarker } from '../../components/action-row/UpDownMarker'
@@ -89,7 +90,9 @@ function RowSummary({ maxSlippage, toToken, estimate, actionStatus, formatAsDAIV
           {USD_MOCK_TOKEN.formatUSD(estimate.feeCostsUSD)}
           <br />
           <span className="text-basics-dark-grey">Slippage: </span>
-          {formatPercentage(maxSlippage, { minimumFractionDigits: 1 })}
+          <span data-testid={testIds.actions.slippage}>
+            {formatPercentage(maxSlippage, { minimumFractionDigits: 1 })}
+          </span>
         </p>
       </div>
       <p className="text-basics-dark-grey text-xs">
