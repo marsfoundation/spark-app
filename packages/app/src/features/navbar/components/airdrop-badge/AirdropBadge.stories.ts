@@ -1,5 +1,5 @@
 import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
-import { Meta } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react'
 import { getHoveredStory } from '@storybook/utils'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 
@@ -14,8 +14,19 @@ const meta: Meta<typeof AirdropBadge> = {
 }
 
 export default meta
+type Story = StoryObj<typeof AirdropBadge>
 
-export const Desktop = getHoveredStory({ args: { amount: NormalizedUnitNumber(1_200_345.568) } }, 'button')
-
+export const Desktop = getHoveredStory<Story>(
+  { args: { amount: NormalizedUnitNumber(1_200_345.568), isLoading: false } },
+  'button',
+)
 export const Mobile = getMobileStory(Desktop)
 export const Tablet = getTabletStory(Desktop)
+
+export const Loading = getHoveredStory<Story>({ args: { amount: NormalizedUnitNumber(0), isLoading: true } }, 'button')
+export const LoadingMobile = getMobileStory(Loading)
+export const LoadingTablet = getTabletStory(Loading)
+
+export const Zero = getHoveredStory<Story>({ args: { amount: NormalizedUnitNumber(0), isLoading: false } }, 'button')
+export const ZeroMobile = getMobileStory(Zero)
+export const ZeroTablet = getTabletStory(Zero)

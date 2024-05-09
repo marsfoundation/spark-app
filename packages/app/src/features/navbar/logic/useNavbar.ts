@@ -13,9 +13,10 @@ import { EnsName } from '@/domain/types/EnsName'
 import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
 import { raise } from '@/utils/raise'
 
-import { ConnectedWalletInfo, MakerInfoQueryResults, SupportedChain } from '../types'
+import { AirdropInfo, ConnectedWalletInfo, MakerInfoQueryResults, SupportedChain } from '../types'
 import { generateWalletAvatar } from './generateWalletAvatar'
 import { getWalletIcon } from './getWalletIcon'
+import { useAirdropInfo } from './useAirdropInfo'
 import { useDisconnect } from './useDisconnect'
 import { useNetworkChange } from './useNetworkChange'
 import { useTotalBalance } from './useTotalBalance'
@@ -31,6 +32,7 @@ export interface UseNavbarResults {
   isDevSandboxEnabled: boolean
   makerInfo: MakerInfoQueryResults
   connectedWalletInfo: ConnectedWalletInfo | undefined
+  airdropInfo: AirdropInfo
 }
 
 export function useNavbar(): UseNavbarResults {
@@ -56,6 +58,7 @@ export function useNavbar(): UseNavbarResults {
   })
 
   const balanceInfo = useTotalBalance()
+  const airdropInfo = useAirdropInfo()
   const { isInSandbox, isSandboxEnabled, isDevSandboxEnabled, isEphemeralAccount, deleteSandbox } = useSandboxState()
   const { changeNetwork, changeNetworkAsync } = useNetworkChange()
   const { disconnect } = useDisconnect({
@@ -118,6 +121,7 @@ export function useNavbar(): UseNavbarResults {
       ...makerInfo,
     },
     connectedWalletInfo,
+    airdropInfo,
     openSandboxDialog,
     openDevSandboxDialog,
     isSandboxEnabled,

@@ -7,7 +7,7 @@ import { airdropInfo } from '@/domain/wallet/airdropInfo'
 
 import { AirdropInfo } from '../types'
 
-export function useAirdropAmount(): AirdropInfo {
+export function useAirdropInfo(): AirdropInfo {
   const { address } = useAccount()
 
   const result = useQuery({
