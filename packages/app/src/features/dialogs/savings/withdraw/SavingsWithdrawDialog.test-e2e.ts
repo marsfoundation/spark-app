@@ -26,7 +26,11 @@ test.describe('Savings withdraw dialog', () => {
           },
         },
       })
-      await overrideLiFiRoute(page, account, 'sdai-to-100-dai', blockNumber)
+      await overrideLiFiRoute(page, {
+        receiver: account,
+        preset: 'sdai-to-100-dai',
+        expectedBlockNumber: blockNumber,
+      })
 
       const savingsPage = new SavingsPageObject(page)
 
@@ -58,7 +62,11 @@ test.describe('Savings withdraw dialog', () => {
             },
           },
         })
-        await overrideLiFiRoute(page, account, '100-sdai-to-dai', blockNumber)
+        await overrideLiFiRoute(page, {
+          receiver: account,
+          preset: '100-sdai-to-dai',
+          expectedBlockNumber: blockNumber,
+        })
 
         const savingsPage = new SavingsPageObject(page)
 
@@ -90,7 +98,11 @@ test.describe('Savings withdraw dialog', () => {
           },
         },
       })
-      await overrideLiFiRoute(page, account, 'sdai-to-100-usdc', blockNumber)
+      await overrideLiFiRoute(page, {
+        receiver: account,
+        preset: 'sdai-to-100-usdc',
+        expectedBlockNumber: blockNumber,
+      })
 
       const savingsPage = new SavingsPageObject(page)
 
@@ -123,7 +135,11 @@ test.describe('Savings withdraw dialog', () => {
             },
           },
         })
-        await overrideLiFiRoute(page, account, '100-sdai-to-usdc', blockNumber)
+        await overrideLiFiRoute(page, {
+          receiver: account,
+          preset: '100-sdai-to-usdc',
+          expectedBlockNumber: blockNumber,
+        })
 
         const savingsPage = new SavingsPageObject(page)
 

@@ -131,7 +131,27 @@ test.describe('Deposit dialog', () => {
       const depositDialog = new DialogPageObject(page, headerRegExp)
       await depositDialog.fillAmountAction(1)
       const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
+
+      await actionsContainer.expectNextActionEnabled()
+      await actionsContainer.expectActions(
+        [
+          {
+            type: 'permit',
+            asset: 'wstETH',
+            amount: 1,
+          },
+          {
+            type: 'deposit',
+            asset: 'wstETH',
+            amount: 1,
+          },
+        ],
+        true,
+      )
+
       await actionsContainer.switchPreferPermitsAction()
+
+      await actionsContainer.expectNextActionEnabled()
       await actionsContainer.expectActions(
         [
           {
