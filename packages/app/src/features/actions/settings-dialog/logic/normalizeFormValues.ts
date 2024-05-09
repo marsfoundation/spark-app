@@ -1,3 +1,5 @@
+import BigNumber from 'bignumber.js'
+
 import { Percentage } from '@/domain/types/NumericValues'
 
 import { ActionSettingsSchema, SlippageInputType } from './form'
@@ -13,7 +15,7 @@ export function normalizeFormValues(values: ActionSettingsSchema): ActionSetting
   return {
     slippage: {
       type: values.slippage.type,
-      value: Percentage(Number(values.slippage.value) / 100),
+      value: Percentage(BigNumber(values.slippage.value).div(100)),
     },
   }
 }
