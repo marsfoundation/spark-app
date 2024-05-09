@@ -1,4 +1,3 @@
-import { resolve } from 'path'
 import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react-swc'
 import { lingui } from '@lingui/vite-plugin'
@@ -22,14 +21,6 @@ export default defineConfig({
     lingui(),
     svgr(),
   ],
-  resolve: {
-    alias: {
-      /**
-       * This is related to problems with jsbi in production build: https://github.com/GoogleChromeLabs/jsbi/issues/70
-       */
-      jsbi: resolve(__dirname, '.', 'node_modules', 'jsbi', 'dist', 'jsbi-cjs.js'),
-    },
-  },
   server: {
     proxy: {
       '/api': {
