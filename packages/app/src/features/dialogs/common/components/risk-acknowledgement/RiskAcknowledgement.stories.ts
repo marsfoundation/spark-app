@@ -10,7 +10,7 @@ const meta: Meta<typeof RiskAcknowledgement> = {
   decorators: [WithClassname('max-w-xl')],
   args: {
     children: 'Borrowing such a large amount makes you liable to be liquidated in no time and lose your collateral.',
-    onRiskAcknowledged: () => {},
+    onStatusChanged: () => {},
   },
 }
 
