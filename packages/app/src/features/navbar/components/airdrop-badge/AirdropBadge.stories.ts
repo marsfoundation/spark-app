@@ -1,5 +1,6 @@
 import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
-import { Meta, StoryObj } from '@storybook/react'
+import { Meta } from '@storybook/react'
+import { getHoveredStory } from '@storybook/utils'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
@@ -13,9 +14,8 @@ const meta: Meta<typeof AirdropBadge> = {
 }
 
 export default meta
-type Story = StoryObj<typeof AirdropBadge>
 
-export const Desktop: Story = { args: { amount: NormalizedUnitNumber(1_200_345.568) } }
+export const Desktop = getHoveredStory({ args: { amount: NormalizedUnitNumber(1_200_345.568) } }, 'button')
 
 export const Mobile = getMobileStory(Desktop)
 export const Tablet = getTabletStory(Desktop)

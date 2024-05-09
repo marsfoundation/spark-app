@@ -99,7 +99,7 @@ export default {
       },
       boxShadow: {
         nav: '0px 20px 40px 0px var(--nav-shadow)',
-        tooltip: '0px 10px 40px 5px var(--tooltip-shadow)',
+        tooltip: '0px 4px 30px 7px var(--tooltip-shadow)',
       },
       borderRadius: {
         '3xl': 'calc(var(--radius) + 16px)',
