@@ -19,7 +19,7 @@ export function WalletDropdownContent({
 }: WalletDropdownContentProps) {
   return (
     <div className="flex flex-col">
-      <div className="border-x-basics-dark-grey/30 flex w-[calc(100vw-48px)] flex-col gap-4 border-b p-4 lg:w-64">
+      <div className="border-basics-grey/50 flex w-[calc(100vw-48px)] flex-col gap-4 border-b p-4 lg:w-64">
         <div className="flex items-center gap-3">
           <img src={walletIcon} alt="Wallet icon" className="h-5 w-5" />
           <div className="text-basics-black">{isEphemeralAccount ? 'Ephemeral account' : shortenAddress(address)}</div>

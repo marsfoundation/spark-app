@@ -37,7 +37,7 @@
     --nav-primary: 63 102 239;
     --nav-shadow: rgba(11, 33, 64, 0.08);
 
-    --tooltip-shadow: rgba(9, 24, 44, 0.15);
+    --tooltip-shadow: rgba(9, 24, 44, 0.07);
 
     --ring: 240 5% 64.9%;
 
@@ -63,6 +63,7 @@
     --basics-white: 255 255 255;
     --basics-border: rgba(35, 66, 84, 0.1);
     --basics-dark-grey: 106 118 146;
+    --basics-grey: 217 217 217;
     --basics-light-grey: 249 249 251;
     --basics-green: 51 190 39;
     --basics-red: 220 38 38;
