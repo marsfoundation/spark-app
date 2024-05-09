@@ -61,7 +61,7 @@ jobs:
 
       - run: pnpm lint
       - run: pnpm format
-      - run: pnpm run test --coverage
+      - run: pnpm run test
       - run: pnpm typecheck
 
   storybook-visual-regression:
