@@ -231,6 +231,8 @@ describe('LiFi', () => {
         toToken: USDC,
         toAmount: amount.toString(),
         slippage: maxSlippageAsString,
+        integrator: meta.integratorKey,
+        fee: meta.fee.toString(),
         contractCalls: [],
       })
     })

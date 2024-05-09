@@ -30,19 +30,6 @@ describe(fetchLiFiTxData.name, () => {
       }
     }
 
-    function assertRequestBody(request: RequestInit, expectedParams: Record<string, any>): void {
-      expect(request.body).toBeDefined()
-      const parsedBody = JSON.parse(request!.body as any) as any
-
-      for (const [key, value] of Object.entries(expectedParams)) {
-        expect(parsedBody[key], `Non-matching key: ${key}`).toStrictEqual(value)
-      }
-
-      for (const key of Object.keys(parsedBody)) {
-        expect(expectedParams[key], `Key ${key} was present in body but not in expected params`).toBeDefined()
-      }
-    }
-
     afterEach(() => {
       vi.unstubAllGlobals()
     })
@@ -150,7 +137,10 @@ describe(fetchLiFiTxData.name, () => {
         fee: queryMetaEvaluator.evaluate().meta.fee.toFixed(),
         contractCalls: [],
       }
-      assertRequestBody(request!, expectedBody)
+
+      expect(request?.body).toBeDefined()
+      const parsedBody = JSON.parse(request!.body as any) as any
+      expect(parsedBody).toStrictEqual(expectedBody)
     })
   })
 
