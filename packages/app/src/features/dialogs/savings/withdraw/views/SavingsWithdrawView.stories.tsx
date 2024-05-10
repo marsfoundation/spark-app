@@ -75,6 +75,12 @@ const meta: Meta<typeof SavingsWithdrawView> = {
       actionsEnabled: true,
       goToSuccessScreen: () => {},
     },
+    riskAcknowledgement: {
+      acknowledged: false,
+      isRiskAcknowledgedOrNotRequired: true,
+      onStatusChanged: () => {},
+      text: undefined,
+    },
   },
 }
 

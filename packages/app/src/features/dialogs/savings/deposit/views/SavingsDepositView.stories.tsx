@@ -85,6 +85,12 @@ const meta: Meta<typeof SavingsDepositView> = {
       sDaiBalanceBefore: NormalizedUnitNumber(5000),
       sDaiBalanceAfter: NormalizedUnitNumber(10000),
     },
+    riskAcknowledgement: {
+      acknowledged: false,
+      isRiskAcknowledgedOrNotRequired: true,
+      onStatusChanged: () => {},
+      text: undefined,
+    },
   },
 }
 
