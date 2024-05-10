@@ -12,7 +12,7 @@ export function useAirdropInfo(): AirdropInfo {
 
   const result = useQuery(airdropInfo(address && CheckedAddress(address)))
 
-  const amount = NormalizedUnitNumber(result.data?.token_reward ?? 0)
+  const amount = result.data?.tokenReward ?? NormalizedUnitNumber(0)
   const isLoading = result.isLoading
 
   return {

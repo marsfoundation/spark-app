@@ -2,10 +2,15 @@ import { queryOptions, skipToken } from '@tanstack/react-query'
 import { z } from 'zod'
 
 import { CheckedAddress } from '../types/CheckedAddress'
+import { NormalizedUnitNumber } from '../types/NumericValues'
 
-const airdropInfoResponseSchema = z.object({
-  token_reward: z.string(),
-})
+const airdropInfoResponseSchema = z
+  .object({
+    token_reward: z.string(),
+  })
+  .transform((o) => ({
+    tokenReward: NormalizedUnitNumber(o.token_reward),
+  }))
 export type AirdropInfoResponse = z.infer<typeof airdropInfoResponseSchema>
 
 const baseUrl = 'https://spark-api.blockanalitica.com/api/airdrop'
