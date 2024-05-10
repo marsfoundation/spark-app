@@ -29,31 +29,55 @@ describe(fetchLiFiTxData.name, () => {
     vi.unstubAllGlobals()
   })
 
-  describe('direct', () => {
-    test('waives fee for dai to sdai conversion', async () => {
-      const amount = BaseUnitNumber(1)
-      const maxSlippage = Percentage(0.005)
+  test('waives fee for dai to sdai conversion', async () => {
+    const amount = BaseUnitNumber(1)
+    const maxSlippage = Percentage(0.005)
 
-      await queryClient
-        .fetchQuery(
-          fetchLiFiTxData({
-            client: lifiClient,
-            fromToken: dai,
-            toToken: sdai,
-            maxSlippage,
-            amount,
-            type: 'direct',
-            queryMetaEvaluator,
-          }),
-        )
-        .catch(() => {}) // ignore errors
+    await queryClient
+      .fetchQuery(
+        fetchLiFiTxData({
+          client: lifiClient,
+          fromToken: dai,
+          toToken: sdai,
+          maxSlippage,
+          amount,
+          type: 'direct',
+          queryMetaEvaluator,
+        }),
+      )
+      .catch(() => {}) // ignore errors
 
-      expect(mockFetch).toHaveBeenCalledWithURLParams({
-        integrator: 'spark_waivefee',
-        fee: '0',
-        fromToken: dai,
-        toToken: sdai,
-      })
+    expect(mockFetch).toHaveBeenCalledWithURLParams({
+      integrator: 'spark_waivefee',
+      fee: '0',
+      fromToken: dai,
+      toToken: sdai,
+    })
+  })
+
+  test('waives fee for sdai to dai conversion', async () => {
+    const amount = BaseUnitNumber(1)
+    const maxSlippage = Percentage(0.005)
+
+    await queryClient
+      .fetchQuery(
+        fetchLiFiTxData({
+          client: lifiClient,
+          fromToken: sdai,
+          toToken: dai,
+          maxSlippage,
+          amount,
+          type: 'reverse',
+          queryMetaEvaluator,
+        }),
+      )
+      .catch(() => {}) // ignore errors
+
+    expect(mockFetch).toHaveBeenCalledWithBodyParams({
+      integrator: 'spark_waivefee',
+      fee: '0',
+      fromToken: sdai,
+      toToken: dai,
     })
   })
 })
@@ -74,6 +98,35 @@ expect.extend({
         return {
           pass: false,
           message: () => `fetch was called with ${key}=${url.searchParams.get(key)}, expected ${key}=${value}`,
+        }
+      }
+    }
+
+    return {
+      pass: true,
+      message: () => '',
+    }
+  },
+  toHaveBeenCalledWithBodyParams(mockFetch, expected) {
+    const lastCall = mockFetch?.mock?.lastCall
+    if (!Array.isArray(lastCall)) {
+      return {
+        pass: false,
+        message: () => 'mock fetch was not called',
+      }
+    }
+    if (typeof (lastCall[1] as any)?.body !== 'string') {
+      return {
+        pass: false,
+        message: () => 'mock fetch was not called with a body',
+      }
+    }
+    const body = JSON.parse((lastCall[1] as any)?.body) as any
+    for (const [key, value] of Object.entries(expected)) {
+      if (body[key] !== value) {
+        return {
+          pass: false,
+          message: () => `fetch was called with ${key}=${body[key]}, expected ${key}=${value}`,
         }
       }
     }
