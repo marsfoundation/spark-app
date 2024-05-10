@@ -8,7 +8,11 @@ import { AirdropInfo } from '../../types'
 import { NavbarActionWrapper } from '../NavbarActionWrapper'
 import { AirdropDetails } from './AirdropDetails'
 
-export function AirdropBadge({ amount, isLoading }: AirdropInfo) {
+export function AirdropBadge({ amount, isLoading, isError }: AirdropInfo) {
+  if (isError) {
+    return null
+  }
+
   return (
     <NavbarActionWrapper label="Airdrop info">
       <Tooltip>

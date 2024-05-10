@@ -33,12 +33,26 @@ test.describe('Navbar', () => {
         },
       })
 
-      await overrideAirdropInfoRoute(page, account)
+      await overrideAirdropInfoRoute(page, { account })
 
       const navbar = new NavbarPageObject(page)
       await navbar.expectAirdropCompactValue('3.734M')
       await navbar.hoverOverAirdropBadge()
       await navbar.expectAirdropPreciseValue('3,733,867.039 SPK')
+    })
+
+    test('Api error', async ({ page }) => {
+      const { account } = await setup(page, fork, {
+        initialPage: 'easyBorrow',
+        account: {
+          type: 'connected',
+        },
+      })
+
+      await overrideAirdropInfoRoute(page, { account, shouldFail: true })
+
+      const navbar = new NavbarPageObject(page)
+      await navbar.expectAirdropBadgeNotVisible()
     })
   })
 })

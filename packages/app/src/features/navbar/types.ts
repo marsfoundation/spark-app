@@ -44,4 +44,5 @@ export interface MakerInfoQueryResults {
 export interface AirdropInfo {
   amount: NormalizedUnitNumber
   isLoading: boolean
+  isError: boolean
 }

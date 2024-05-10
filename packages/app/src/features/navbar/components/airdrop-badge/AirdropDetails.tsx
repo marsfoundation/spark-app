@@ -7,7 +7,7 @@ import { links } from '@/ui/constants/links'
 
 import { AirdropInfo } from '../../types'
 
-export function AirdropDetails({ amount, isLoading }: AirdropInfo) {
+export function AirdropDetails({ amount, isLoading }: Omit<AirdropInfo, 'isError'>) {
   return (
     <div className="text-basics-dark-grey flex flex-col text-xs">
       <div className="border-basics-grey/50 flex flex-col gap-1 border-b p-4">

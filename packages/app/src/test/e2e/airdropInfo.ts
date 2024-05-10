@@ -1,12 +1,24 @@
 import { Page } from '@playwright/test'
 import { Address } from 'viem'
 
-export async function overrideAirdropInfoRoute(page: Page, account: Address): Promise<void> {
+export interface OverrideAirdropInfoRouteOptions {
+  account: Address
+  shouldFail?: boolean
+}
+
+export async function overrideAirdropInfoRoute(
+  page: Page,
+  { account, shouldFail }: OverrideAirdropInfoRouteOptions,
+): Promise<void> {
   const endpoint = matchUrl(`${airdropApi.endpoint}${account}/`)
   await page.route(endpoint, async (route) => {
-    await route.fulfill({
-      json: airdropApi.response,
-    })
+    await route.fulfill(
+      shouldFail
+        ? { status: 500 }
+        : {
+            json: airdropApi.response,
+          },
+    )
   })
 }
 

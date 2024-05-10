@@ -28,5 +28,9 @@ export class NavbarPageObject extends BasePageObject {
   async expectAirdropPreciseValue(value: string): Promise<void> {
     await expect(this.locateAirdropPreciseAmount()).toHaveText(value)
   }
+
+  async expectAirdropBadgeNotVisible(): Promise<void> {
+    await expect(this.locateAirdropBadge()).not.toBeVisible()
+  }
   // #endregion
 }
