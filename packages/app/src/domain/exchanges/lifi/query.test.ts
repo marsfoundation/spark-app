@@ -67,14 +67,8 @@ expect.extend({
         message: () => 'mock fetch was not called',
       }
     }
-    if (typeof lastCall[0] !== 'string') {
-      return {
-        pass: false,
-        message: () => `fetch was called with ${typeof lastCall[0]}, expected URL`,
-      }
-    }
 
-    const url = new URL(lastCall[0])
+    const url = new URL(lastCall[0] as any)
     for (const [key, value] of Object.entries(expected)) {
       if (url.searchParams.get(key) !== value) {
         return {
@@ -82,7 +76,6 @@ expect.extend({
           message: () => `fetch was called with ${key}=${url.searchParams.get(key)}, expected ${key}=${value}`,
         }
       }
-      expect(url.searchParams.get(key), `Non-matching key: ${key}`).toStrictEqual(value)
     }
 
     return {
