@@ -5,10 +5,10 @@ import { useAccountEffect } from 'wagmi'
 
 import { NotConnectedError } from '@/domain/errors/not-connected'
 import { NotFoundError } from '@/domain/errors/not-found'
-import { captureError } from '@/sentry'
 import { Button } from '@/ui/atoms/button/Button'
 import { Typography } from '@/ui/atoms/typography/Typography'
 import { ErrorLayout } from '@/ui/layouts/ErrorLayout'
+import { captureError } from '@/utils/sentry'
 
 import { NotFound } from './NotFound'
 

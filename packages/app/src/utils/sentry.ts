@@ -8,11 +8,11 @@ if (import.meta.env.VITE_FEATURE_SENTRY_DSN) {
 Sentry.init({
   dsn: import.meta.env.VITE_FEATURE_SENTRY_DSN,
   environment: import.meta.env.VITE_ENV_NAME,
-  integrations: [Sentry.browserTracingIntegration(), Sentry.replayIntegration()],
+  integrations: [],
   tracesSampleRate: 0,
-  tracePropagationTargets: ['localhost'],
   replaysSessionSampleRate: 0,
-  replaysOnErrorSampleRate: 1.0,
+  replaysOnErrorSampleRate: 0,
+  tracePropagationTargets: [],
 })
 
 export function captureError(error: Error): void {
