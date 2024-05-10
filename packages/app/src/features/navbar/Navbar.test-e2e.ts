@@ -54,5 +54,21 @@ test.describe('Navbar', () => {
       const navbar = new NavbarPageObject(page)
       await navbar.expectAirdropBadgeNotVisible()
     })
+
+    test('Wallet with no airdrop', async ({ page }) => {
+      const { account } = await setup(page, fork, {
+        initialPage: 'easyBorrow',
+        account: {
+          type: 'connected',
+        },
+      })
+
+      await overrideAirdropInfoRoute(page, { account, noAirdrop: true })
+
+      const navbar = new NavbarPageObject(page)
+      await navbar.expectAirdropCompactValue('0')
+      await navbar.hoverOverAirdropBadge()
+      await navbar.expectAirdropPreciseValue('0.00 SPK')
+    })
   })
 })

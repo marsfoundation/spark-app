@@ -11,6 +11,9 @@ const airdropInfoResponseSchema = z
   .transform((o) => ({
     tokenReward: NormalizedUnitNumber(o.token_reward),
   }))
+  // @note: Api is returning empty object for addresses without airdrop
+  .or(z.object({}).transform(() => ({ tokenReward: NormalizedUnitNumber(0) })))
+
 export type AirdropInfoResponse = z.infer<typeof airdropInfoResponseSchema>
 
 const baseUrl = 'https://spark-api.blockanalitica.com/api/airdrop'
