@@ -12,6 +12,7 @@ import { fetchLiFiTxData } from './query'
 const dai = testAddresses.token
 const sdai = testAddresses.token2
 const usdc = testAddresses.token3
+const usdt = testAddresses.token4
 const userAddress = testAddresses.alice
 const chainId = mainnet.id
 
@@ -56,6 +57,52 @@ describe(fetchLiFiTxData.name, () => {
     })
   })
 
+  test('waives fee for USDC to sDAI conversion', async () => {
+    const amount = BaseUnitNumber(1)
+    const maxSlippage = Percentage(0.005)
+
+    await triggerLiFiCall({
+      client: lifiClient,
+      fromToken: usdc,
+      toToken: sdai,
+      maxSlippage,
+      amount,
+      type: 'direct',
+      queryMetaEvaluator,
+    })
+
+    expect(mockFetch).toHaveBeenCalledWithURL('https://li.quest/v1/quote')
+    expect(mockFetch).toHaveBeenCalledWithURLParams({
+      integrator: 'spark_waivefee',
+      fee: '0',
+      fromToken: usdc,
+      toToken: sdai,
+    })
+  })
+
+  test("doesn't waive fee for USDT to sDAI conversion", async () => {
+    const amount = BaseUnitNumber(1)
+    const maxSlippage = Percentage(0.005)
+
+    await triggerLiFiCall({
+      client: lifiClient,
+      fromToken: usdt,
+      toToken: sdai,
+      maxSlippage,
+      amount,
+      type: 'direct',
+      queryMetaEvaluator,
+    })
+
+    expect(mockFetch).toHaveBeenCalledWithURL('https://li.quest/v1/quote')
+    expect(mockFetch).toHaveBeenCalledWithURLParams({
+      integrator: 'spark_fee',
+      fee: '0.002',
+      fromToken: usdt,
+      toToken: sdai,
+    })
+  })
+
   test('waives fee for sDAI to DAI conversion', async () => {
     const amount = BaseUnitNumber(1)
     const maxSlippage = Percentage(0.005)
@@ -76,6 +123,52 @@ describe(fetchLiFiTxData.name, () => {
       fee: '0',
       fromToken: sdai,
       toToken: dai,
+    })
+  })
+
+  test('waives fee for sDAI to USDC conversion', async () => {
+    const amount = BaseUnitNumber(1)
+    const maxSlippage = Percentage(0.005)
+
+    await triggerLiFiCall({
+      client: lifiClient,
+      fromToken: sdai,
+      toToken: usdc,
+      maxSlippage,
+      amount,
+      type: 'reverse',
+      queryMetaEvaluator,
+    })
+
+    expect(mockFetch).toHaveBeenCalledWithURL('https://li.quest/v1/quote/contractCalls')
+    expect(mockFetch).toHaveBeenCalledWithBodyParams({
+      integrator: 'spark_waivefee',
+      fee: '0',
+      fromToken: sdai,
+      toToken: usdc,
+    })
+  })
+
+  test("doesn't waive fee for sDAI to USDT conversion", async () => {
+    const amount = BaseUnitNumber(1)
+    const maxSlippage = Percentage(0.005)
+
+    await triggerLiFiCall({
+      client: lifiClient,
+      fromToken: sdai,
+      toToken: usdt,
+      maxSlippage,
+      amount,
+      type: 'reverse',
+      queryMetaEvaluator,
+    })
+
+    expect(mockFetch).toHaveBeenCalledWithURL('https://li.quest/v1/quote/contractCalls')
+    expect(mockFetch).toHaveBeenCalledWithBodyParams({
+      integrator: 'spark_fee',
+      fee: '0.002',
+      fromToken: sdai,
+      toToken: usdt,
     })
   })
 })
