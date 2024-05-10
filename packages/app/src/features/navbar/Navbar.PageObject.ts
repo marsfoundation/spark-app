@@ -1,11 +1,12 @@
 import { expect, Locator } from '@playwright/test'
 
 import { BasePageObject } from '@/test/e2e/BasePageObject'
+import { testIds } from '@/ui/utils/testIds'
 
 export class NavbarPageObject extends BasePageObject {
   // #region locators
   locateAirdropBadge(): Locator {
-    return this.page.getByRole('navigation').getByRole('button').first()
+    return this.page.getByTestId(testIds.navbar.airdropBadge)
   }
 
   locateAirdropPreciseAmount(): Locator {

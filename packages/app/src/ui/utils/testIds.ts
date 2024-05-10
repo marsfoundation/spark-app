@@ -52,6 +52,9 @@ export const testIds = makeTestIds({
     settings: true,
     slippage: true,
   },
+  navbar: {
+    airdropBadge: true,
+  },
 })
 
 function makeTestIds<T extends Object>(obj: T, prefix?: string): MapValuesToString<T> {
