@@ -135,6 +135,14 @@ export const USD_MOCK_TOKEN = new Token({
   unitPriceUsd: '1',
 })
 
+export const SPK_MOCK_TOKEN = new Token({
+  address: CheckedAddress(zeroAddress),
+  symbol: TokenSymbol('SPK'),
+  name: 'Spark Token',
+  decimals: 18,
+  unitPriceUsd: '10',
+})
+
 function formatAuto(value: NormalizedUnitNumber, unitPriceUsd: NormalizedUnitNumber): string {
   const precision = findSignificantPrecision(unitPriceUsd)
   const leastSignificantValue = BigNumber(1).shiftedBy(-precision)
@@ -155,15 +163,9 @@ function formatCompact(value: NormalizedUnitNumber): string {
   const n = value.toNumber()
   if (n === 0) return '0'
   if (n < 0.001) return '<0.001'
-  if (n < 1) return getNumberFormatter({ maximumFractionDigits: 3 }).format(n)
 
-  const significantDigits = countSignificantDigits(n)
-  const fractionDigits = Math.max(0, 4 - significantDigits)
-
-  return getNumberFormatter({
-    maximumFractionDigits: fractionDigits,
-    notation: 'compact',
-  }).format(n)
+  const formatterOptions = getFormatterOptions(n)
+  return getNumberFormatter(formatterOptions).format(n)
 }
 
 function countSignificantDigits(n: number): number {
@@ -174,4 +176,19 @@ function countSignificantDigits(n: number): number {
 
 function getNumberFormatter(options: Intl.NumberFormatOptions): Intl.NumberFormat {
   return new Intl.NumberFormat('en-US', options)
+}
+
+function getFormatterOptions(n: number): Intl.NumberFormatOptions {
+  if (n < 1) {
+    return { maximumFractionDigits: 3 }
+  }
+  if (n >= 1000 && n < 10_000) {
+    return {
+      maximumFractionDigits: 0,
+    }
+  }
+  return {
+    notation: 'compact',
+    maximumFractionDigits: Math.max(0, 4 - countSignificantDigits(n)),
+  }
 }

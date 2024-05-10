@@ -68,7 +68,7 @@ describe(Token.name, () => {
       expect(token.formatUSD(NormalizedUnitNumber(0), { compact: true })).toEqual(`$0.00`)
       expect(token.formatUSD(NormalizedUnitNumber(0.0001), { compact: true })).toEqual('<$0.01')
       expect(token.formatUSD(NormalizedUnitNumber(823.2345), { compact: true })).toEqual('$823.23')
-      expect(token.formatUSD(NormalizedUnitNumber(1234), { compact: true })).toEqual('$1.234K')
+      expect(token.formatUSD(NormalizedUnitNumber(1234), { compact: true })).toEqual('$1,234')
       expect(token.formatUSD(NormalizedUnitNumber(100000), { compact: true })).toEqual('$100K')
       expect(token.formatUSD(NormalizedUnitNumber(1000000), { compact: true })).toEqual('$1M')
       expect(token.formatUSD(NormalizedUnitNumber(1000000000), { compact: true })).toEqual('$1B')
@@ -124,7 +124,11 @@ describe(Token.name, () => {
         expect(token.format(NormalizedUnitNumber(123.45), { style: 'compact' })).toEqual('123.5')
         expect(token.format(NormalizedUnitNumber(123.456), { style: 'compact' })).toEqual('123.5')
 
-        expect(token.format(NormalizedUnitNumber(1234), { style: 'compact' })).toEqual('1.234K')
+        expect(token.format(NormalizedUnitNumber(1000), { style: 'compact' })).toEqual('1,000')
+        expect(token.format(NormalizedUnitNumber(1000.99), { style: 'compact' })).toEqual('1,001')
+        expect(token.format(NormalizedUnitNumber(1234), { style: 'compact' })).toEqual('1,234')
+        expect(token.format(NormalizedUnitNumber(9999), { style: 'compact' })).toEqual('9,999')
+
         expect(token.format(NormalizedUnitNumber(12345), { style: 'compact' })).toEqual('12.35K')
         expect(token.format(NormalizedUnitNumber(123456), { style: 'compact' })).toEqual('123.5K')
         expect(token.format(NormalizedUnitNumber(1234567), { style: 'compact' })).toEqual('1.235M')
@@ -134,7 +138,6 @@ describe(Token.name, () => {
         expect(token.format(NormalizedUnitNumber(12345678900), { style: 'compact' })).toEqual('12.35B')
         expect(token.format(NormalizedUnitNumber(123456789000), { style: 'compact' })).toEqual('123.5B')
 
-        expect(token.format(NormalizedUnitNumber(1000), { style: 'compact' })).toEqual('1K')
         expect(token.format(NormalizedUnitNumber(10000), { style: 'compact' })).toEqual('10K')
         expect(token.format(NormalizedUnitNumber(100000), { style: 'compact' })).toEqual('100K')
         expect(token.format(NormalizedUnitNumber(1000000), { style: 'compact' })).toEqual('1M')
