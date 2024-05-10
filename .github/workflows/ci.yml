@@ -33,19 +33,9 @@ jobs:
 
       - run: pnpm build
         env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
-
-      - name: Create Sentry release
-        uses: getsentry/action-release@v1
-        if: github.ref == 'refs/heads/main'
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
-        with:
-          ignore_missing: true
+          SENTRY_AUTH_TOKEN: ${{ github.ref == 'refs/heads/main' && secrets.SENTRY_AUTH_TOKEN || '' }}
+          SENTRY_ORG: ${{ github.ref == 'refs/heads/main' && secrets.SENTRY_ORG || '' }}
+          SENTRY_PROJECT: ${{ github.ref == 'refs/heads/main' && secrets.SENTRY_PROJECT || '' }}
 
       - uses: krzkaczor/size-limit-action@master
         if: github.ref != 'refs/heads/main'
