@@ -6,3 +6,5 @@ storybook-static
 __screenshots__
 __screenshots-e2e__
 coverage
+# Sentry Config File
+.env.sentry-build-plugin

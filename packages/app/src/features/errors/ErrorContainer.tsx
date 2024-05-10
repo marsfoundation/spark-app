@@ -1,9 +1,11 @@
 import { useConnectModal } from '@rainbow-me/rainbowkit'
+import { useEffect } from 'react'
 import { useNavigate, useRouteError } from 'react-router-dom'
 import { useAccountEffect } from 'wagmi'
 
 import { NotConnectedError } from '@/domain/errors/not-connected'
 import { NotFoundError } from '@/domain/errors/not-found'
+import { captureError } from '@/sentry'
 import { Button } from '@/ui/atoms/button/Button'
 import { Typography } from '@/ui/atoms/typography/Typography'
 import { ErrorLayout } from '@/ui/layouts/ErrorLayout'
@@ -21,7 +23,7 @@ export function ErrorContainer() {
     return <NotFound />
   }
 
-  return <UnknownError />
+  return <UnknownError error={error} />
 }
 
 export function NotConnected() {
@@ -41,8 +43,13 @@ export function NotConnected() {
   )
 }
 
-export function UnknownError() {
+export function UnknownError({ error }: { error: unknown }) {
   const navigate = useNavigate()
+
+  useEffect(() => {
+    captureError(error as any)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <ErrorLayout>
