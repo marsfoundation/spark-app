@@ -17,16 +17,22 @@ export default meta
 type Story = StoryObj<typeof AirdropBadge>
 
 export const Desktop = getHoveredStory<Story>(
-  { args: { amount: NormalizedUnitNumber(1_200_345.568), isLoading: false } },
+  { args: { amount: NormalizedUnitNumber(1_200_345.568), isLoading: false, isError: false } },
   'button',
 )
 export const Mobile = getMobileStory(Desktop)
 export const Tablet = getTabletStory(Desktop)
 
-export const Loading = getHoveredStory<Story>({ args: { amount: NormalizedUnitNumber(0), isLoading: true } }, 'button')
+export const Loading = getHoveredStory<Story>(
+  { args: { amount: NormalizedUnitNumber(0), isLoading: true, isError: false } },
+  'button',
+)
 export const LoadingMobile = getMobileStory(Loading)
 export const LoadingTablet = getTabletStory(Loading)
 
-export const Zero = getHoveredStory<Story>({ args: { amount: NormalizedUnitNumber(0), isLoading: false } }, 'button')
+export const Zero = getHoveredStory<Story>(
+  { args: { amount: NormalizedUnitNumber(0), isLoading: false, isError: false } },
+  'button',
+)
 export const ZeroMobile = getMobileStory(Zero)
 export const ZeroTablet = getTabletStory(Zero)

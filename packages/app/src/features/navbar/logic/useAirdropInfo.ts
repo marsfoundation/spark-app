@@ -14,9 +14,11 @@ export function useAirdropInfo(): AirdropInfo {
 
   const amount = result.data?.tokenReward ?? NormalizedUnitNumber(0)
   const isLoading = result.isLoading
+  const isError = result.isError
 
   return {
     amount,
     isLoading,
+    isError,
   }
 }
