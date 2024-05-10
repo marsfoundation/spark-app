@@ -32,6 +32,11 @@ jobs:
       - run: pnpm install
 
       - run: pnpm build
+        env:
+          # at the end of the build, upload sourcemaps to sentry but only on main branch
+          SENTRY_AUTH_TOKEN: ${{ github.ref == 'refs/heads/main' && secrets.SENTRY_AUTH_TOKEN || '' }}
+          SENTRY_ORG: ${{ github.ref == 'refs/heads/main' && secrets.SENTRY_ORG || '' }}
+          SENTRY_PROJECT: ${{ github.ref == 'refs/heads/main' && secrets.SENTRY_PROJECT || '' }}
 
       - uses: krzkaczor/size-limit-action@master
         if: github.ref != 'refs/heads/main'

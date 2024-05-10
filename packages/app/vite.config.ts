@@ -1,3 +1,4 @@
+import { sentryVitePlugin } from '@sentry/vite-plugin'
 import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react-swc'
 import { lingui } from '@lingui/vite-plugin'
@@ -13,6 +14,7 @@ export default defineConfig({
     __BUILD_SHA__: JSON.stringify(buildSha),
     __BUILD_TIME__: JSON.stringify(buildTime),
   },
+
   plugins: [
     react({
       plugins: [['@lingui/swc-plugin', {}]],
@@ -20,7 +22,12 @@ export default defineConfig({
     tsconfigPaths(),
     lingui(),
     svgr(),
+    sentryVitePlugin({
+      org: process.env.SENTRY_ORG,
+      project: process.env.SENTRY_PROJECT,
+    }),
   ],
+
   server: {
     proxy: {
       '/api': {
@@ -30,9 +37,14 @@ export default defineConfig({
       },
     },
   },
+
   test: {
     environment: 'jsdom',
     setupFiles: ['./src/test/integration/setup.ts'],
     globals: true,
+  },
+
+  build: {
+    sourcemap: true,
   },
 })
