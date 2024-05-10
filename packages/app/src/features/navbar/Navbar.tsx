@@ -24,6 +24,7 @@ export function Navbar({ mobileMenuCollapsed, setMobileMenuCollapsed }: NavbarPr
     openSandboxDialog,
     makerInfo,
     connectedWalletInfo,
+    airdropInfo,
     isSandboxEnabled,
     isDevSandboxEnabled,
   } = useNavbar()
@@ -66,6 +67,7 @@ export function Navbar({ mobileMenuCollapsed, setMobileMenuCollapsed }: NavbarPr
         openDevSandboxDialog={openDevSandboxDialog}
         openSandboxDialog={openSandboxDialog}
         connectedWalletInfo={connectedWalletInfo}
+        airdropInfo={airdropInfo}
         isSandboxEnabled={isSandboxEnabled}
         isDevSandboxEnabled={isDevSandboxEnabled}
       />

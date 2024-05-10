@@ -40,3 +40,8 @@ export interface MakerInfoQueryResults {
   isLoading: boolean
   isChainSupported: boolean
 }
+
+export interface AirdropInfo {
+  amount: NormalizedUnitNumber
+  isLoading: boolean
+}

@@ -1,7 +1,6 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { cn } from '@/ui/utils/style'
 
-import { ConnectedWalletInfo, SupportedChain } from '../types'
+import { AirdropInfo, ConnectedWalletInfo, SupportedChain } from '../types'
 import { AirdropBadge } from './airdrop-badge/AirdropBadge'
 import { NetworkSelector } from './network-selector/NetworkSelector'
 import { SettingsDropdown } from './settings-dropdown/SettingsDropdown'
@@ -14,6 +13,7 @@ export interface NavbarActionsProps {
   onNetworkChange: (chainId: number) => void
   openConnectModal: () => void
   connectedWalletInfo: ConnectedWalletInfo | undefined
+  airdropInfo: AirdropInfo
   openSandboxDialog: () => void
   openDevSandboxDialog: () => void
   isSandboxEnabled: boolean
@@ -27,6 +27,7 @@ export function NavbarActions({
   onNetworkChange,
   openConnectModal,
   connectedWalletInfo,
+  airdropInfo,
   openSandboxDialog,
   openDevSandboxDialog,
   isSandboxEnabled,
@@ -40,10 +41,7 @@ export function NavbarActions({
         mobileMenuCollapsed ? 'hidden lg:flex' : 'flex',
       )}
     >
-      {import.meta.env.VITE_DEV_AIRDROP_BADGE === '1' && (
-        // @todo: Use real data for amount
-        <AirdropBadge amount={NormalizedUnitNumber(1_234_567.89)} />
-      )}
+      {import.meta.env.VITE_DEV_AIRDROP_BADGE === '1' && <AirdropBadge {...airdropInfo} />}
       <NetworkSelector
         currentChain={currentChain}
         supportedChains={supportedChains}
