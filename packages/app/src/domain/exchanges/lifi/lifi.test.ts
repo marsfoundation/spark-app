@@ -30,6 +30,7 @@ const rawResponse: QuoteResponseRaw = {
     feeCosts: [{ amountUSD: 1 }],
     fromAmount: '1000000000000000000',
     toAmount: '943000000000000000',
+    toAmountMin: '943000000000000000',
   },
   action: {
     fromToken: { address: USDC },
@@ -142,6 +143,7 @@ describe('LiFi', () => {
           feeCosts: [{ amountUSD: 1 }],
           fromAmount: 1000000000000000000n,
           toAmount: 943000000000000000n,
+          toAmountMin: 943000000000000000n,
         },
         action: {
           fromToken: { address: USDC },
@@ -295,6 +297,7 @@ describe('LiFi', () => {
           feeCosts: [{ amountUSD: 1 }],
           fromAmount: 1000000000000000000n,
           toAmount: 943000000000000000n,
+          toAmountMin: 943000000000000000n,
         },
         action: {
           fromToken: { address: USDC },

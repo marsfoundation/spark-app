@@ -64,6 +64,7 @@ const meta: Meta<typeof SavingsWithdrawView> = {
               feeCostsUSD: NormalizedUnitNumber(0),
               fromAmount: BaseUnitNumber(5000),
               toAmount: BaseUnitNumber(5000),
+              toAmountMin: BaseUnitNumber(5000),
             },
           },
         },

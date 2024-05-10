@@ -67,6 +67,7 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
             feeCostsUSD: NormalizedUnitNumber(0),
             fromAmount: BaseUnitNumber(1e6),
             toAmount: BaseUnitNumber(1e18),
+            toAmountMin: BaseUnitNumber(1e18),
           },
         },
         error: null,
@@ -150,6 +151,7 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
             feeCostsUSD: NormalizedUnitNumber(3.33),
             fromAmount: BaseUnitNumber(1e6),
             toAmount: BaseUnitNumber(1e18),
+            toAmountMin: BaseUnitNumber(1e18),
           },
           txRequest: {
             data: '0x',

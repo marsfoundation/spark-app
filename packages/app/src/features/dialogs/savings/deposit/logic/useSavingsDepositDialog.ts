@@ -14,6 +14,7 @@ import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/c
 
 import { getFormFieldsForDepositDialog } from './form'
 import { createObjectives } from './objectives'
+import { RiskAcknowledgementInfo, useRiskAcknowledgement } from './useRiskAcknowledgement'
 import { useSwap } from './useSwap'
 import { SavingsDialogTxOverview, useTxOverview } from './useTransactionOverview'
 import { getSavingsDepositDialogFormValidator } from './validation'
@@ -31,6 +32,7 @@ export interface UseSavingsDepositDialogResults {
   tokenToDeposit: TokenWithValue
   pageStatus: PageStatus
   txOverview: SavingsDialogTxOverview | undefined
+  riskAcknowledgement: RiskAcknowledgementInfo
 }
 
 export function useSavingsDepositDialog({
@@ -62,6 +64,13 @@ export function useSavingsDepositDialog({
   })
   const { swapInfo, swapParams } = useSwap({ formValues, marketInfo, walletInfo })
 
+  const riskAcknowledgement = useRiskAcknowledgement({
+    swapInfo,
+    marketInfo,
+    potParams: makerInfo.potParameters,
+    inputValues: formValues,
+  })
+
   const objectives = createObjectives({
     swapInfo,
     swapParams,
@@ -89,8 +98,10 @@ export function useSavingsDepositDialog({
     txOverview,
     pageStatus: {
       state: pageStatus,
-      actionsEnabled: formValues.value.gt(0) && isFormValid && !isDebouncing,
+      actionsEnabled:
+        formValues.value.gt(0) && isFormValid && !isDebouncing && riskAcknowledgement.isRiskAcknowledgedOrNotRequired,
       goToSuccessScreen: () => setPageStatus('success'),
     },
+    riskAcknowledgement,
   }
 }

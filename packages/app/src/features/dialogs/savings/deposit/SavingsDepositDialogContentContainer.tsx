@@ -14,11 +14,19 @@ export interface SavingsDepositContainerProps {
 }
 
 function SavingsDepositDialogContentContainer({ initialToken, makerInfo, closeDialog }: SavingsDepositContainerProps) {
-  const { selectableAssets, assetsFields, form, tokenToDeposit, objectives, pageStatus, txOverview } =
-    useSavingsDepositDialog({
-      initialToken,
-      makerInfo,
-    })
+  const {
+    selectableAssets,
+    assetsFields,
+    form,
+    tokenToDeposit,
+    objectives,
+    pageStatus,
+    txOverview,
+    riskAcknowledgement,
+  } = useSavingsDepositDialog({
+    initialToken,
+    makerInfo,
+  })
 
   if (pageStatus.state === 'success') {
     return (
@@ -39,6 +47,7 @@ function SavingsDepositDialogContentContainer({ initialToken, makerInfo, closeDi
       objectives={objectives}
       pageStatus={pageStatus}
       txOverview={txOverview}
+      riskAcknowledgement={riskAcknowledgement}
     />
   )
 }

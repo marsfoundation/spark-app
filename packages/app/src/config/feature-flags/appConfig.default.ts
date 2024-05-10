@@ -14,7 +14,7 @@ export function getDefaultAppConfig(): AppConfig {
 
       mintBalances: {
         etherAmt: NormalizedUnitNumber(10_000),
-        tokenAmt: NormalizedUnitNumber(10_000),
+        tokenAmt: NormalizedUnitNumber(10_000_000),
         tokens: {
           DAI: {
             address: '0x6B175474E89094C44Da98b954EedeAC495271d0F',

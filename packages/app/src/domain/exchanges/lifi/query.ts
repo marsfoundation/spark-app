@@ -50,6 +50,7 @@ export function fetchLiFiTxData({
           estimate: {
             fromAmount: BaseUnitNumber(1n),
             toAmount: BaseUnitNumber(1n),
+            toAmountMin: BaseUnitNumber(1n),
             feeCostsUSD: NormalizedUnitNumber(1),
           },
         }
@@ -72,6 +73,7 @@ export function fetchLiFiTxData({
           estimate: {
             fromAmount,
             toAmount: BaseUnitNumber(response.estimate.toAmount),
+            toAmountMin: BaseUnitNumber(response.estimate.toAmountMin),
             feeCostsUSD: calculateFees(response.estimate.feeCosts),
           },
         }
@@ -96,6 +98,7 @@ export function fetchLiFiTxData({
           estimate: {
             fromAmount: BaseUnitNumber(response.estimate.fromAmount),
             toAmount: BaseUnitNumber(response.estimate.toAmount),
+            toAmountMin: BaseUnitNumber(response.estimate.toAmountMin),
             feeCostsUSD: calculateFees(response.estimate.feeCosts),
           },
         }
