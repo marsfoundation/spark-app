@@ -50,6 +50,11 @@ describe(fetchLiFiTxData.name, () => {
 
     expect(mockFetch).toHaveBeenCalledWithURL('https://li.quest/v1/quote')
     expect(mockFetch).toHaveBeenCalledWithURLParams({
+      fromChain: chainId.toString(),
+      toChain: chainId.toString(),
+      fromAddress: userAddress,
+      fromAmount: amount.toString(),
+      slippage: maxSlippage.toString(),
       integrator: 'spark_waivefee',
       fee: '0',
       fromToken: dai,
@@ -58,8 +63,8 @@ describe(fetchLiFiTxData.name, () => {
   })
 
   test('waives fee for USDC to sDAI conversion', async () => {
-    const amount = BaseUnitNumber(1)
-    const maxSlippage = Percentage(0.005)
+    const amount = BaseUnitNumber(2)
+    const maxSlippage = Percentage(0.006)
 
     await triggerLiFiCall({
       client: lifiClient,
@@ -73,6 +78,11 @@ describe(fetchLiFiTxData.name, () => {
 
     expect(mockFetch).toHaveBeenCalledWithURL('https://li.quest/v1/quote')
     expect(mockFetch).toHaveBeenCalledWithURLParams({
+      fromChain: chainId.toString(),
+      toChain: chainId.toString(),
+      fromAddress: userAddress,
+      fromAmount: amount.toString(),
+      slippage: maxSlippage.toString(),
       integrator: 'spark_waivefee',
       fee: '0',
       fromToken: usdc,
@@ -81,8 +91,8 @@ describe(fetchLiFiTxData.name, () => {
   })
 
   test("doesn't waive fee for USDT to sDAI conversion", async () => {
-    const amount = BaseUnitNumber(1)
-    const maxSlippage = Percentage(0.005)
+    const amount = BaseUnitNumber(3)
+    const maxSlippage = Percentage(0.007)
 
     await triggerLiFiCall({
       client: lifiClient,
@@ -96,6 +106,11 @@ describe(fetchLiFiTxData.name, () => {
 
     expect(mockFetch).toHaveBeenCalledWithURL('https://li.quest/v1/quote')
     expect(mockFetch).toHaveBeenCalledWithURLParams({
+      fromChain: chainId.toString(),
+      toChain: chainId.toString(),
+      fromAddress: userAddress,
+      fromAmount: amount.toString(),
+      slippage: maxSlippage.toString(),
       integrator: 'spark_fee',
       fee: '0.002',
       fromToken: usdt,
@@ -104,8 +119,8 @@ describe(fetchLiFiTxData.name, () => {
   })
 
   test('waives fee for sDAI to DAI conversion', async () => {
-    const amount = BaseUnitNumber(1)
-    const maxSlippage = Percentage(0.005)
+    const amount = BaseUnitNumber(4)
+    const maxSlippage = Percentage(0.008)
 
     await triggerLiFiCall({
       client: lifiClient,
@@ -119,6 +134,11 @@ describe(fetchLiFiTxData.name, () => {
 
     expect(mockFetch).toHaveBeenCalledWithURL('https://li.quest/v1/quote/contractCalls')
     expect(mockFetch).toHaveBeenCalledWithBodyParams({
+      fromChain: chainId.toString(),
+      toChain: chainId.toString(),
+      fromAddress: userAddress,
+      toAmount: amount.toString(),
+      slippage: maxSlippage.toString(),
       integrator: 'spark_waivefee',
       fee: '0',
       fromToken: sdai,
@@ -127,8 +147,8 @@ describe(fetchLiFiTxData.name, () => {
   })
 
   test('waives fee for sDAI to USDC conversion', async () => {
-    const amount = BaseUnitNumber(1)
-    const maxSlippage = Percentage(0.005)
+    const amount = BaseUnitNumber(5)
+    const maxSlippage = Percentage(0.009)
 
     await triggerLiFiCall({
       client: lifiClient,
@@ -142,6 +162,11 @@ describe(fetchLiFiTxData.name, () => {
 
     expect(mockFetch).toHaveBeenCalledWithURL('https://li.quest/v1/quote/contractCalls')
     expect(mockFetch).toHaveBeenCalledWithBodyParams({
+      fromChain: chainId.toString(),
+      toChain: chainId.toString(),
+      fromAddress: userAddress,
+      toAmount: amount.toString(),
+      slippage: maxSlippage.toString(),
       integrator: 'spark_waivefee',
       fee: '0',
       fromToken: sdai,
@@ -150,8 +175,8 @@ describe(fetchLiFiTxData.name, () => {
   })
 
   test("doesn't waive fee for sDAI to USDT conversion", async () => {
-    const amount = BaseUnitNumber(1)
-    const maxSlippage = Percentage(0.005)
+    const amount = BaseUnitNumber(6)
+    const maxSlippage = Percentage(0.01)
 
     await triggerLiFiCall({
       client: lifiClient,
@@ -165,6 +190,11 @@ describe(fetchLiFiTxData.name, () => {
 
     expect(mockFetch).toHaveBeenCalledWithURL('https://li.quest/v1/quote/contractCalls')
     expect(mockFetch).toHaveBeenCalledWithBodyParams({
+      fromChain: chainId.toString(),
+      toChain: chainId.toString(),
+      fromAddress: userAddress,
+      toAmount: amount.toString(),
+      slippage: maxSlippage.toString(),
       integrator: 'spark_fee',
       fee: '0.002',
       fromToken: sdai,
