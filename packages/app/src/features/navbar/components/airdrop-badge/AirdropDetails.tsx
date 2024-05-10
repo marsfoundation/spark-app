@@ -1,4 +1,4 @@
-import { USD_MOCK_TOKEN } from '@/domain/types/Token'
+import { SPK_MOCK_TOKEN } from '@/domain/types/Token'
 import { assets } from '@/ui/assets'
 import BoxArrowTopRight from '@/ui/assets/box-arrow-top-right.svg?react'
 import { Link } from '@/ui/atoms/link/Link'
@@ -18,7 +18,7 @@ export function AirdropDetails({ amount, isLoading }: AirdropInfo) {
             <Skeleton className="h-5 w-7" />
           ) : (
             <div className="text-basics-black text-base font-semibold">
-              {USD_MOCK_TOKEN.format(amount, { style: 'auto' })} SPK
+              {SPK_MOCK_TOKEN.format(amount, { style: 'auto' })} {SPK_MOCK_TOKEN.symbol}
             </div>
           )}
         </div>
