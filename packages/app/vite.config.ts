@@ -23,8 +23,8 @@ export default defineConfig({
     lingui(),
     svgr(),
     sentryVitePlugin({
-      org: 'phoenixlabs',
-      project: 'javascript-react',
+      org: process.env.SENTRY_ORG,
+      project: process.env.SENTRY_PROJECT,
     }),
   ],
 
