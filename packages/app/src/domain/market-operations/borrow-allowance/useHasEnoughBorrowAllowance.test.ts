@@ -22,7 +22,7 @@ const hookRenderer = setupHookRenderer({
 })
 
 describe(useHasEnoughBorrowAllowance.name, () => {
-  it('returns true if borrow allowance is greater than value', async () => {
+  test('returns true if borrow allowance is greater than value', async () => {
     const { result } = hookRenderer({
       extraHandlers: [
         handlers.contractCall({
@@ -39,7 +39,7 @@ describe(useHasEnoughBorrowAllowance.name, () => {
     expect(result.current.data).toBe(true)
   })
 
-  it('returns true if borrow allowance is equal to value', async () => {
+  test('returns true if borrow allowance is equal to value', async () => {
     const { result } = hookRenderer({
       extraHandlers: [
         handlers.contractCall({
@@ -57,7 +57,7 @@ describe(useHasEnoughBorrowAllowance.name, () => {
     expect(result.current.data).toBe(true)
   })
 
-  it('returns false if borrow allowance is less than value', async () => {
+  test('returns false if borrow allowance is less than value', async () => {
     const { result } = hookRenderer({
       extraHandlers: [
         handlers.contractCall({

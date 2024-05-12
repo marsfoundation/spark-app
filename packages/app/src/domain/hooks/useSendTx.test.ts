@@ -10,7 +10,7 @@ import { getTestTrigger } from '@/test/integration/trigger'
 import { useSendTx } from './useSendTx'
 
 describe(useSendTx.name, () => {
-  it('simulates the transaction', async () => {
+  test('simulates the transaction', async () => {
     const { trigger, release } = getTestTrigger()
     const { result } = hookRenderer({ handlers: [balanceCall, handlers.triggerHandler(simulateCallHandler, trigger)] })
 
@@ -21,7 +21,7 @@ describe(useSendTx.name, () => {
     await waitFor(() => expect(result.current.status.kind).toBe('ready'))
   })
 
-  it('sends the transaction and waits for it to be mined', async () => {
+  test('sends the transaction and waits for it to be mined', async () => {
     const { result } = hookRenderer({ extraHandlers: [handlers.mineTransaction()] })
 
     await waitFor(() => expect(result.current.status.kind).toBe('ready'))
@@ -31,7 +31,7 @@ describe(useSendTx.name, () => {
     await waitFor(() => expect(result.current.status.kind).toBe('success'))
   })
 
-  it('propagates simulation errors', async () => {
+  test('propagates simulation errors', async () => {
     const expectedError = 'forced error'
     const { result } = hookRenderer({
       handlers: [balanceCall, handlers.forceCallErrorHandler(simulateCallHandler, expectedError)],
@@ -42,7 +42,7 @@ describe(useSendTx.name, () => {
     expect((result.current.status as any).error).toBeInstanceOf(Error)
   })
 
-  it('propagates tx-submission errors', async () => {
+  test('propagates tx-submission errors', async () => {
     const { result } = hookRenderer({
       handlers: [chainIdCall, balanceCall, simulateCallHandler, handlers.rejectSubmittedTransaction()],
     })
@@ -56,7 +56,7 @@ describe(useSendTx.name, () => {
     expect((result.current.status as any).error.shortMessage).toBe('An unknown RPC error occurred.') // @todo this is due to rejectSubmittedTransaction not being perfect
   })
 
-  it('propagates tx-reverted errors', async () => {
+  test('propagates tx-reverted errors', async () => {
     const { result } = hookRenderer({
       handlers: [chainIdCall, balanceCall, simulateCallHandler, handlers.mineRevertedTransaction()],
     })
@@ -70,7 +70,7 @@ describe(useSendTx.name, () => {
     expect((result.current.status as any).error.shortMessage).toBe('An unknown RPC error occurred.') // @todo this is due to mineRejectedTransaction not being perfect
   })
 
-  it('does not propagate simulation errors if disabled', async () => {
+  test('does not propagate simulation errors if disabled', async () => {
     const expectedError = 'forced error'
     const { result, rerender } = hookRenderer({
       handlers: [balanceCall, handlers.forceCallErrorHandler(simulateCallHandler, expectedError)],

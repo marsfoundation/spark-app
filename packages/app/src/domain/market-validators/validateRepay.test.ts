@@ -2,7 +2,7 @@ import { NormalizedUnitNumber } from '../types/NumericValues'
 import { validateRepay } from './validateRepay'
 
 describe(validateRepay.name, () => {
-  it('validates that value is positive', () => {
+  test('validates that value is positive', () => {
     expect(
       validateRepay({
         value: NormalizedUnitNumber(0),
@@ -12,7 +12,7 @@ describe(validateRepay.name, () => {
     ).toBe('value-not-positive')
   })
 
-  it('works with active reserves', () => {
+  test('works with active reserves', () => {
     expect(
       validateRepay({
         value: NormalizedUnitNumber(10),
@@ -22,7 +22,7 @@ describe(validateRepay.name, () => {
     ).toBe(undefined)
   })
 
-  it('works with frozen reserves', () => {
+  test('works with frozen reserves', () => {
     expect(
       validateRepay({
         value: NormalizedUnitNumber(10),
@@ -32,7 +32,7 @@ describe(validateRepay.name, () => {
     ).toBe(undefined)
   })
 
-  it('validates that reserve is not paused', () => {
+  test('validates that reserve is not paused', () => {
     expect(
       validateRepay({
         value: NormalizedUnitNumber(10),
@@ -42,7 +42,7 @@ describe(validateRepay.name, () => {
     ).toBe('reserve-paused')
   })
 
-  it('validates that reserve is active', () => {
+  test('validates that reserve is active', () => {
     expect(
       validateRepay({
         value: NormalizedUnitNumber(10),
@@ -52,7 +52,7 @@ describe(validateRepay.name, () => {
     ).toBe('reserve-not-active')
   })
 
-  it('validates debt', () => {
+  test('validates debt', () => {
     expect(
       validateRepay({
         value: NormalizedUnitNumber(10),
@@ -62,7 +62,7 @@ describe(validateRepay.name, () => {
     ).toBe('exceeds-debt')
   })
 
-  it('validates balance', () => {
+  test('validates balance', () => {
     expect(
       validateRepay({
         value: NormalizedUnitNumber(10),

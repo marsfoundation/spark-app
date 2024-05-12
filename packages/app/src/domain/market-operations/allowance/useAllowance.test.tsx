@@ -21,7 +21,7 @@ const hookRenderer = setupHookRenderer({
 })
 
 describe(useAllowance.name, () => {
-  it('returns max allowance for native asset', async () => {
+  test('returns max allowance for native asset', async () => {
     const { result } = hookRenderer({
       args: { token: NATIVE_ASSET_MOCK_ADDRESS, spender },
     })
@@ -30,7 +30,7 @@ describe(useAllowance.name, () => {
     expect(result.current.data).toBe(MAX_INT)
   })
 
-  it('returns proper allowance from chain', async () => {
+  test('returns proper allowance from chain', async () => {
     const { result } = hookRenderer({
       extraHandlers: [
         handlers.contractCall({
@@ -47,7 +47,7 @@ describe(useAllowance.name, () => {
     expect(result.current.data).toBe(mockedAllowance)
   })
 
-  it('propagates errors', async () => {
+  test('propagates errors', async () => {
     const expectedError = 'Not allowed!'
     const { result } = hookRenderer({
       extraHandlers: [

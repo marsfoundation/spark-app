@@ -2,7 +2,7 @@ import { NormalizedUnitNumber } from '../types/NumericValues'
 import { getWithdrawMaxValue } from './getWithdrawMaxValue'
 
 describe(getWithdrawMaxValue.name, () => {
-  it('returns 0 for paused reserve', () => {
+  test('returns 0 for paused reserve', () => {
     expect(
       getWithdrawMaxValue({
         user: { deposited: NormalizedUnitNumber(100) },
@@ -11,7 +11,7 @@ describe(getWithdrawMaxValue.name, () => {
     ).toEqual(NormalizedUnitNumber(0))
   })
 
-  it('returns deposited amount', () => {
+  test('returns deposited amount', () => {
     expect(
       getWithdrawMaxValue({
         user: { deposited: NormalizedUnitNumber(100) },

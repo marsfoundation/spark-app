@@ -23,7 +23,7 @@ const hookRenderer = setupHookRenderer({
 })
 
 describe(useApproveDelegation.name, () => {
-  it('is not enabled if wrong value', async () => {
+  test('is not enabled if wrong value', async () => {
     const { result } = hookRenderer({ args: { value: BaseUnitNumber(0), delegatee, debtTokenAddress } })
 
     await waitFor(() => {
@@ -31,7 +31,7 @@ describe(useApproveDelegation.name, () => {
     })
   })
 
-  it('respects enabled flag', async () => {
+  test('respects enabled flag', async () => {
     const { result } = hookRenderer({
       args: { enabled: false, value: defaultValue, delegatee, debtTokenAddress },
     })
@@ -41,7 +41,7 @@ describe(useApproveDelegation.name, () => {
     })
   })
 
-  it('approves delegation', async () => {
+  test('approves delegation', async () => {
     const { result } = hookRenderer({
       args: { value: defaultValue, delegatee, debtTokenAddress },
       extraHandlers: [

@@ -4,7 +4,7 @@ import { Percentage } from '../types/NumericValues'
 import { healthFactorToLtv } from './math'
 
 describe(healthFactorToLtv.name, () => {
-  it('calculates ltv', () => {
+  test('calculates ltv', () => {
     const healthFactor = bigNumberify(10)
     const liquidationThreshold = Percentage(0.8)
 

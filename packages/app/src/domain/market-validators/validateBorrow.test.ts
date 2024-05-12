@@ -4,7 +4,7 @@ import { NormalizedUnitNumber } from '../types/NumericValues'
 import { validateBorrow } from './validateBorrow'
 
 describe(validateBorrow.name, () => {
-  it('validates if the value is positive', () => {
+  test('validates if the value is positive', () => {
     expect(
       validateBorrow({
         value: NormalizedUnitNumber(0),
@@ -29,7 +29,7 @@ describe(validateBorrow.name, () => {
     ).toStrictEqual('value-not-positive')
   })
 
-  it('validates if the asset is active', () => {
+  test('validates if the asset is active', () => {
     expect(
       validateBorrow({
         value: NormalizedUnitNumber(100),
@@ -54,7 +54,7 @@ describe(validateBorrow.name, () => {
     ).toStrictEqual('reserve-not-active')
   })
 
-  it('validates if the asset is borrowable', () => {
+  test('validates if the asset is borrowable', () => {
     expect(
       validateBorrow({
         value: NormalizedUnitNumber(100),
@@ -79,7 +79,7 @@ describe(validateBorrow.name, () => {
     ).toStrictEqual('reserve-borrowing-disabled')
   })
 
-  it('validates liquidity', () => {
+  test('validates liquidity', () => {
     expect(
       validateBorrow({
         value: NormalizedUnitNumber(101),
@@ -104,7 +104,7 @@ describe(validateBorrow.name, () => {
     ).toStrictEqual('exceeds-liquidity')
   })
 
-  it('validates borrow cap', () => {
+  test('validates borrow cap', () => {
     expect(
       validateBorrow({
         value: NormalizedUnitNumber(101),
@@ -130,7 +130,7 @@ describe(validateBorrow.name, () => {
     ).toStrictEqual('borrow-cap-reached')
   })
 
-  it('takes into account total debt when validating borrow cap', () => {
+  test('takes into account total debt when validating borrow cap', () => {
     expect(
       validateBorrow({
         value: NormalizedUnitNumber(96),
@@ -156,7 +156,7 @@ describe(validateBorrow.name, () => {
     ).toStrictEqual('borrow-cap-reached')
   })
 
-  it('validates collateralization', () => {
+  test('validates collateralization', () => {
     expect(
       validateBorrow({
         value: NormalizedUnitNumber(101),
@@ -181,7 +181,7 @@ describe(validateBorrow.name, () => {
     ).toStrictEqual('insufficient-collateral')
   })
 
-  it('if borrowing a siloed asset, validates that it is the first asset to borrow', () => {
+  test('if borrowing a siloed asset, validates that it is the first asset to borrow', () => {
     expect(
       validateBorrow({
         value: NormalizedUnitNumber(100),
@@ -206,7 +206,7 @@ describe(validateBorrow.name, () => {
     ).toStrictEqual('siloed-mode-cannot-enable')
   })
 
-  it('if in silo mode, validates against borrowing anything else', () => {
+  test('if in silo mode, validates against borrowing anything else', () => {
     expect(
       validateBorrow({
         value: NormalizedUnitNumber(100),
@@ -233,7 +233,7 @@ describe(validateBorrow.name, () => {
   })
 
   describe('isolation mode', () => {
-    it('if user in isolation mode, validates against borrowing something not available in isolation mode', () => {
+    test('if user in isolation mode, validates against borrowing something not available in isolation mode', () => {
       expect(
         validateBorrow({
           value: NormalizedUnitNumber(100),
@@ -260,7 +260,7 @@ describe(validateBorrow.name, () => {
       ).toStrictEqual('asset-not-borrowable-in-isolation')
     })
 
-    it('if user in isolation mode, validates against borrowing above debt ceiling', () => {
+    test('if user in isolation mode, validates against borrowing above debt ceiling', () => {
       expect(
         validateBorrow({
           value: NormalizedUnitNumber(21),
@@ -288,7 +288,7 @@ describe(validateBorrow.name, () => {
       ).toStrictEqual('isolation-mode-debt-ceiling-exceeded')
     })
 
-    it('if user in isolation mode, can match debt ceiling', () => {
+    test('if user in isolation mode, can match debt ceiling', () => {
       expect(
         validateBorrow({
           value: NormalizedUnitNumber(20),
@@ -317,7 +317,7 @@ describe(validateBorrow.name, () => {
   })
 
   describe('eMode', () => {
-    it('if user eMode category is 0, asset category doesnt matter', () => {
+    test('if user eMode category is 0, asset category doesnt matter', () => {
       expect(
         validateBorrow({
           value: NormalizedUnitNumber(20),
@@ -344,7 +344,7 @@ describe(validateBorrow.name, () => {
       ).toStrictEqual(undefined)
     })
 
-    it('validates if eMode category is consistent', () => {
+    test('validates if eMode category is consistent', () => {
       expect(
         validateBorrow({
           value: NormalizedUnitNumber(20),

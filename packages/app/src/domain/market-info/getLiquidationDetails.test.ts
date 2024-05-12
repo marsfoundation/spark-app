@@ -1,4 +1,4 @@
-import { describe } from 'vitest'
+import { describe } from 'bun:test'
 
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
@@ -9,7 +9,7 @@ import { testAddresses } from '@/test/integration/constants'
 import { getLiquidationDetails } from './getLiquidationDetails'
 
 describe(getLiquidationDetails.name, () => {
-  it('returns undefined when no collaterals and no borrows', () => {
+  test('returns undefined when no collaterals and no borrows', () => {
     const marketInfo = getMockedMarketInfo()
 
     const result = getLiquidationDetails({
@@ -21,7 +21,7 @@ describe(getLiquidationDetails.name, () => {
     expect(result).toBeUndefined()
   })
 
-  it('returns undefined when no borrows', () => {
+  test('returns undefined when no borrows', () => {
     const marketInfo = getMockedMarketInfo()
     const collaterals = [{ token: ethLike, value: NormalizedUnitNumber(1) }]
 
@@ -34,7 +34,7 @@ describe(getLiquidationDetails.name, () => {
     expect(result).toBeUndefined()
   })
 
-  it('returns undefined when borrow is not dai', () => {
+  test('returns undefined when borrow is not dai', () => {
     const marketInfo = getMockedMarketInfo()
     const collaterals = [{ token: ethLike, value: NormalizedUnitNumber(1) }]
     const borrows = [{ token: wstETHLike, value: NormalizedUnitNumber(0.5) }]
@@ -48,7 +48,7 @@ describe(getLiquidationDetails.name, () => {
     expect(result).toBeUndefined()
   })
 
-  it('returns undefined when multiple borrows', () => {
+  test('returns undefined when multiple borrows', () => {
     const marketInfo = getMockedMarketInfo()
     const collaterals = [{ token: ethLike, value: NormalizedUnitNumber(1) }]
     const borrows = [
@@ -65,7 +65,7 @@ describe(getLiquidationDetails.name, () => {
     expect(result).toBeUndefined()
   })
 
-  it('returns undefined when mixed collaterals', () => {
+  test('returns undefined when mixed collaterals', () => {
     const marketInfo = getMockedMarketInfo()
     const collaterals = [
       { token: btcLike, value: NormalizedUnitNumber(1) },
@@ -82,7 +82,7 @@ describe(getLiquidationDetails.name, () => {
     expect(result).toBeUndefined()
   })
 
-  it('calculates liquidation price for btc like', () => {
+  test('calculates liquidation price for btc like', () => {
     const marketInfo = getMockedMarketInfo()
     const collaterals = [{ token: btcLike, value: NormalizedUnitNumber(1) }]
     const borrows = [{ token: daiLike, value: NormalizedUnitNumber(20000) }]
@@ -102,7 +102,7 @@ describe(getLiquidationDetails.name, () => {
     })
   })
 
-  it('calculates liquidation price for eth correlated assets', () => {
+  test('calculates liquidation price for eth correlated assets', () => {
     const marketInfo = getMockedMarketInfo()
     const collaterals = [
       { token: ethLike, value: NormalizedUnitNumber(2) },

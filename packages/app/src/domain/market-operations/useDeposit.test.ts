@@ -32,7 +32,7 @@ const hookRenderer = setupHookRenderer({
 })
 
 describe(useDeposit.name, () => {
-  it('is not enabled for guest ', async () => {
+  test('is not enabled for guest ', async () => {
     const { result } = hookRenderer({ account: undefined })
 
     await waitFor(() => {
@@ -40,7 +40,7 @@ describe(useDeposit.name, () => {
     })
   })
 
-  it('is not enabled for 0 value', async () => {
+  test('is not enabled for 0 value', async () => {
     const { result } = hookRenderer({ args: { asset, value: BaseUnitNumber(0) } })
 
     await waitFor(() => {
@@ -48,7 +48,7 @@ describe(useDeposit.name, () => {
     })
   })
 
-  it('is not enabled when explicitly disabled', async () => {
+  test('is not enabled when explicitly disabled', async () => {
     const { result } = hookRenderer({ args: { asset, value, enabled: false } })
 
     await waitFor(() => {
@@ -56,7 +56,7 @@ describe(useDeposit.name, () => {
     })
   })
 
-  it('deposits native asset', async () => {
+  test('deposits native asset', async () => {
     const { result } = hookRenderer({
       args: { asset: NATIVE_ASSET_MOCK_ADDRESS, value },
       extraHandlers: [
@@ -78,7 +78,7 @@ describe(useDeposit.name, () => {
     expect((result.current as any).error).toBeUndefined()
   })
 
-  it('deposits any token', async () => {
+  test('deposits any token', async () => {
     const { result } = hookRenderer({
       extraHandlers: [
         handlers.contractCall({
@@ -98,7 +98,7 @@ describe(useDeposit.name, () => {
     expect((result.current as any).error).toBeUndefined()
   })
 
-  it('deposits with permit', async () => {
+  test('deposits with permit', async () => {
     const random32Bytes = generatePrivateKey()
     const permitDeadline = new Date()
 

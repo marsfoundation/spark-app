@@ -3,7 +3,7 @@ import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { formatGasPrice } from './formatGasPrice'
 
 describe(formatGasPrice.name, () => {
-  it('formats', () => {
+  test('formats', () => {
     const tests: [number, string][] = [
       [0, '0'],
       [0.000000001, '1'],

@@ -35,7 +35,7 @@ const hookRenderer = setupHookRenderer({
 })
 
 describe(useRepay.name, () => {
-  it('is not enabled for guest', async () => {
+  test('is not enabled for guest', async () => {
     const { result } = hookRenderer({ account: undefined })
 
     await waitFor(() => {
@@ -43,7 +43,7 @@ describe(useRepay.name, () => {
     })
   })
 
-  it('is not enabled for 0 value', async () => {
+  test('is not enabled for 0 value', async () => {
     const { result } = hookRenderer({ args: { ...initialArgs, value: BaseUnitNumber(0) } })
 
     await waitFor(() => {
@@ -51,7 +51,7 @@ describe(useRepay.name, () => {
     })
   })
 
-  it('is not enabled when explicitly disabled', async () => {
+  test('is not enabled when explicitly disabled', async () => {
     const { result } = hookRenderer({ args: { ...initialArgs, enabled: false } })
 
     await waitFor(() => {
@@ -59,7 +59,7 @@ describe(useRepay.name, () => {
     })
   })
 
-  it('repays with aToken', async () => {
+  test('repays with aToken', async () => {
     const { result } = hookRenderer({
       args: {
         ...initialArgs,
@@ -89,7 +89,7 @@ describe(useRepay.name, () => {
     })
   })
 
-  it('repays with a native token', async () => {
+  test('repays with a native token', async () => {
     const { result } = hookRenderer({
       args: {
         ...initialArgs,
@@ -120,7 +120,7 @@ describe(useRepay.name, () => {
     })
   })
 
-  it('repays with a not aToken', async () => {
+  test('repays with a not aToken', async () => {
     const { result } = hookRenderer({
       args: {
         ...initialArgs,
@@ -150,7 +150,7 @@ describe(useRepay.name, () => {
     })
   })
 
-  it('repays with permit', async () => {
+  test('repays with permit', async () => {
     const random32Bytes = generatePrivateKey()
     const permitDeadline = new Date()
 

@@ -27,7 +27,7 @@ const hookRenderer = setupHookRenderer({
 })
 
 describe(useWithdraw.name, () => {
-  it('is not enabled for guest ', async () => {
+  test('is not enabled for guest ', async () => {
     const { result } = hookRenderer({ account: undefined })
 
     await waitFor(() => {
@@ -35,7 +35,7 @@ describe(useWithdraw.name, () => {
     })
   })
 
-  it('is not enabled for 0 value', async () => {
+  test('is not enabled for 0 value', async () => {
     const { result } = hookRenderer({ args: { asset, value: BaseUnitNumber(0) } })
 
     await waitFor(() => {
@@ -43,7 +43,7 @@ describe(useWithdraw.name, () => {
     })
   })
 
-  it('is not enabled when explicitly disabled', async () => {
+  test('is not enabled when explicitly disabled', async () => {
     const { result } = hookRenderer({ args: { asset, value, enabled: false } })
 
     await waitFor(() => {
@@ -51,7 +51,7 @@ describe(useWithdraw.name, () => {
     })
   })
 
-  it('withdraws native asset', async () => {
+  test('withdraws native asset', async () => {
     const { result } = hookRenderer({
       args: {
         asset: NATIVE_ASSET_MOCK_ADDRESS,
@@ -82,7 +82,7 @@ describe(useWithdraw.name, () => {
     })
   })
 
-  it('withdraws non native asset', async () => {
+  test('withdraws non native asset', async () => {
     const { result } = hookRenderer({
       args: {
         asset,
@@ -113,7 +113,7 @@ describe(useWithdraw.name, () => {
     })
   })
 
-  it('uses proper config if other asset', async () => {
+  test('uses proper config if other asset', async () => {
     const { result } = hookRenderer({
       extraHandlers: [
         handlers.contractCall({

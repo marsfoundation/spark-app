@@ -3,7 +3,7 @@ import { getBorrowMaxValue } from './getBorrowMaxValue'
 
 describe(getBorrowMaxValue.name, () => {
   describe('unlimited liquidity', () => {
-    it('returns 0 when no collateral based borrow limit', () => {
+    test('returns 0 when no collateral based borrow limit', () => {
       expect(
         getBorrowMaxValue({
           asset: {
@@ -17,7 +17,7 @@ describe(getBorrowMaxValue.name, () => {
       ).toEqual(NormalizedUnitNumber(0))
     })
 
-    it('returns collateral based borrow limit', () => {
+    test('returns collateral based borrow limit', () => {
       expect(
         getBorrowMaxValue({
           asset: {
@@ -31,7 +31,7 @@ describe(getBorrowMaxValue.name, () => {
       ).toEqual(NormalizedUnitNumber(100))
     })
 
-    it('returns borrow cap based borrow limit', () => {
+    test('returns borrow cap based borrow limit', () => {
       expect(
         getBorrowMaxValue({
           asset: {
@@ -48,7 +48,7 @@ describe(getBorrowMaxValue.name, () => {
   })
 
   describe('limited liquidity', () => {
-    it('returns 0 when collateral based borrow limit 0', () => {
+    test('returns 0 when collateral based borrow limit 0', () => {
       expect(
         getBorrowMaxValue({
           asset: {
@@ -62,7 +62,7 @@ describe(getBorrowMaxValue.name, () => {
       ).toEqual(NormalizedUnitNumber(0))
     })
 
-    it('returns available liquidity based value when smaller than borrow limit', () => {
+    test('returns available liquidity based value when smaller than borrow limit', () => {
       expect(
         getBorrowMaxValue({
           asset: {
@@ -78,7 +78,7 @@ describe(getBorrowMaxValue.name, () => {
   })
 
   describe('isolation mode', () => {
-    it('returns 0 when no collateral based borrow limit', () => {
+    test('returns 0 when no collateral based borrow limit', () => {
       expect(
         getBorrowMaxValue({
           user: {
@@ -95,7 +95,7 @@ describe(getBorrowMaxValue.name, () => {
       ).toEqual(NormalizedUnitNumber(0))
     })
 
-    it('returns collateral based borrow limit', () => {
+    test('returns collateral based borrow limit', () => {
       expect(
         getBorrowMaxValue({
           user: {
@@ -112,7 +112,7 @@ describe(getBorrowMaxValue.name, () => {
       ).toEqual(NormalizedUnitNumber(100))
     })
 
-    it('returns correct value when isolation mode collateral debt and ceiling present', () => {
+    test('returns correct value when isolation mode collateral debt and ceiling present', () => {
       expect(
         getBorrowMaxValue({
           user: {
@@ -142,7 +142,7 @@ describe(getBorrowMaxValue.name, () => {
       },
     }
 
-    it('returns 0 when reserve not active', () => {
+    test('returns 0 when reserve not active', () => {
       expect(
         getBorrowMaxValue({
           ...userAndAsset,
@@ -151,7 +151,7 @@ describe(getBorrowMaxValue.name, () => {
       ).toEqual(NormalizedUnitNumber(0))
     })
 
-    it('returns 0 when reserve borrowing disabled', () => {
+    test('returns 0 when reserve borrowing disabled', () => {
       expect(
         getBorrowMaxValue({
           ...userAndAsset,
@@ -160,7 +160,7 @@ describe(getBorrowMaxValue.name, () => {
       ).toEqual(NormalizedUnitNumber(0))
     })
 
-    it('returns 0 when asset not borrowable in isolation', () => {
+    test('returns 0 when asset not borrowable in isolation', () => {
       expect(
         getBorrowMaxValue({
           ...userAndAsset,
@@ -169,7 +169,7 @@ describe(getBorrowMaxValue.name, () => {
       ).toEqual(NormalizedUnitNumber(0))
     })
 
-    it('returns 0 when siloed mode cannot enable', () => {
+    test('returns 0 when siloed mode cannot enable', () => {
       expect(
         getBorrowMaxValue({
           ...userAndAsset,
@@ -178,7 +178,7 @@ describe(getBorrowMaxValue.name, () => {
       ).toEqual(NormalizedUnitNumber(0))
     })
 
-    it('returns 0 when siloed mode enabled', () => {
+    test('returns 0 when siloed mode enabled', () => {
       expect(
         getBorrowMaxValue({
           ...userAndAsset,
@@ -187,7 +187,7 @@ describe(getBorrowMaxValue.name, () => {
       ).toEqual(NormalizedUnitNumber(0))
     })
 
-    it('returns 0 when emode category mismatch', () => {
+    test('returns 0 when emode category mismatch', () => {
       expect(
         getBorrowMaxValue({
           ...userAndAsset,

@@ -2,7 +2,7 @@ import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
 import { validateWithdraw } from './validateWithdraw'
 
 describe(validateWithdraw.name, () => {
-  it('validates that value is positive', () => {
+  test('validates that value is positive', () => {
     expect(
       validateWithdraw({
         value: NormalizedUnitNumber(0),
@@ -12,7 +12,7 @@ describe(validateWithdraw.name, () => {
     ).toBe('value-not-positive')
   })
 
-  it('works with active reserves', () => {
+  test('works with active reserves', () => {
     expect(
       validateWithdraw({
         value: NormalizedUnitNumber(10),
@@ -22,7 +22,7 @@ describe(validateWithdraw.name, () => {
     ).toBe(undefined)
   })
 
-  it('works with frozen reserves', () => {
+  test('works with frozen reserves', () => {
     expect(
       validateWithdraw({
         value: NormalizedUnitNumber(10),
@@ -32,7 +32,7 @@ describe(validateWithdraw.name, () => {
     ).toBe(undefined)
   })
 
-  it('validates that reserve is not paused', () => {
+  test('validates that reserve is not paused', () => {
     expect(
       validateWithdraw({
         value: NormalizedUnitNumber(10),
@@ -42,7 +42,7 @@ describe(validateWithdraw.name, () => {
     ).toBe('reserve-paused')
   })
 
-  it('validates that reserve is active', () => {
+  test('validates that reserve is active', () => {
     expect(
       validateWithdraw({
         value: NormalizedUnitNumber(10),
@@ -52,7 +52,7 @@ describe(validateWithdraw.name, () => {
     ).toBe('reserve-not-active')
   })
 
-  it('validates balance', () => {
+  test('validates balance', () => {
     expect(
       validateWithdraw({
         value: NormalizedUnitNumber(10),
@@ -62,7 +62,7 @@ describe(validateWithdraw.name, () => {
     ).toBe('exceeds-balance')
   })
 
-  it('work with matching balance', () => {
+  test('work with matching balance', () => {
     expect(
       validateWithdraw({
         value: NormalizedUnitNumber(10),
@@ -72,7 +72,7 @@ describe(validateWithdraw.name, () => {
     ).toBe(undefined)
   })
 
-  it('validates health factor', () => {
+  test('validates health factor', () => {
     expect(
       validateWithdraw({
         value: NormalizedUnitNumber(10),

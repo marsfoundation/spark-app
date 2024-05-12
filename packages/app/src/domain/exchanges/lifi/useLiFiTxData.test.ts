@@ -2,7 +2,7 @@ import { tokens } from '@storybook/tokens'
 import { QueryClient } from '@tanstack/react-query'
 import { waitFor } from '@testing-library/react'
 import { mainnet } from 'viem/chains'
-import { afterEach, describe, expect, test, vi } from 'vitest'
+import { afterEach, describe, expect, test, vi } from 'bun:test'
 
 import { testAddresses } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'

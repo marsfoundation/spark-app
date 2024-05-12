@@ -2,7 +2,7 @@ import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
 import { calculateMaxBorrowBasedOnCollateral } from './calculateMaxBorrowBasedOnCollateral'
 
 describe(calculateMaxBorrowBasedOnCollateral.name, () => {
-  it('calculates max borrow for an asset', () => {
+  test('calculates max borrow for an asset', () => {
     expect(
       calculateMaxBorrowBasedOnCollateral({
         totalCollateralUSD: NormalizedUnitNumber(5000),

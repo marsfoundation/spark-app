@@ -17,7 +17,7 @@ describe(determineSiloBorrowingState.name, () => {
     isSiloedBorrowing: true,
   })
 
-  it('is not siloed when no borrows from siloed reserve', () => {
+  test('is not siloed when no borrows from siloed reserve', () => {
     const userPositions = [
       getMockUserPosition({ reserve: siloedReserve }),
       getMockUserPosition({ borrowBalance: NormalizedUnitNumber('10') }),
@@ -28,7 +28,7 @@ describe(determineSiloBorrowingState.name, () => {
     })
   })
 
-  it('is siloed when borrows from siloed reserve', () => {
+  test('is siloed when borrows from siloed reserve', () => {
     const userPositions = [
       getMockUserPosition({ reserve: siloedReserve, borrowBalance: NormalizedUnitNumber('100') }),
       getMockUserPosition({ borrowBalance: NormalizedUnitNumber('0') }),

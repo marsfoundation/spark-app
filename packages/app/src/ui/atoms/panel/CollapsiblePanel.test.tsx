@@ -5,7 +5,7 @@ import { expectRenderingError } from '@/test/integration/renderError'
 import { CollapsiblePanel } from './CollapsiblePanel'
 
 describe(CollapsiblePanel.name, () => {
-  it('renders correctly', async () => {
+  test('renders correctly', async () => {
     render(
       <CollapsiblePanel>
         <CollapsiblePanel.Header>
@@ -19,7 +19,7 @@ describe(CollapsiblePanel.name, () => {
     expect(await screen.findByText('Content')).toBeVisible()
   })
 
-  it('closes', async () => {
+  test('closes', async () => {
     render(
       <CollapsiblePanel>
         <CollapsiblePanel.Header>
@@ -35,7 +35,7 @@ describe(CollapsiblePanel.name, () => {
     expect(screen.queryByText('Content')).not.toBeInTheDocument()
   })
 
-  it('throws on missing header', async () => {
+  test('throws on missing header', async () => {
     expectRenderingError(
       <CollapsiblePanel>
         <CollapsiblePanel.Title>Hello!</CollapsiblePanel.Title>
@@ -45,7 +45,7 @@ describe(CollapsiblePanel.name, () => {
     )
   })
 
-  it('throws on missing content', async () => {
+  test('throws on missing content', async () => {
     expectRenderingError(
       <CollapsiblePanel>
         <CollapsiblePanel.Header>

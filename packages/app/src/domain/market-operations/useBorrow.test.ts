@@ -29,7 +29,7 @@ const hookRenderer = setupHookRenderer({
 })
 
 describe(useBorrow.name, () => {
-  it('is not enabled for guest ', async () => {
+  test('is not enabled for guest ', async () => {
     const { result } = hookRenderer({ account: undefined })
 
     await waitFor(() => {
@@ -37,7 +37,7 @@ describe(useBorrow.name, () => {
     })
   })
 
-  it('is not enabled for 0 value', async () => {
+  test('is not enabled for 0 value', async () => {
     const { result } = hookRenderer({ args: { asset, value: BaseUnitNumber(0) } })
 
     await waitFor(() => {
@@ -45,7 +45,7 @@ describe(useBorrow.name, () => {
     })
   })
 
-  it('is not enabled when explicitly disabled', async () => {
+  test('is not enabled when explicitly disabled', async () => {
     const { result } = hookRenderer({ args: { asset, value, enabled: false } })
 
     await waitFor(() => {
@@ -53,7 +53,7 @@ describe(useBorrow.name, () => {
     })
   })
 
-  it('borrows native asset', async () => {
+  test('borrows native asset', async () => {
     const { result } = hookRenderer({
       args: {
         asset: NATIVE_ASSET_MOCK_ADDRESS,
@@ -84,7 +84,7 @@ describe(useBorrow.name, () => {
     })
   })
 
-  it('borrows non native asset', async () => {
+  test('borrows non native asset', async () => {
     const { result } = hookRenderer({
       args: {
         asset,
@@ -115,7 +115,7 @@ describe(useBorrow.name, () => {
     })
   })
 
-  it('uses proper config if other asset', async () => {
+  test('uses proper config if other asset', async () => {
     const { result } = hookRenderer({
       extraHandlers: [
         handlers.contractCall({

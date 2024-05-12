@@ -10,7 +10,7 @@ import { getTestTrigger } from '@/test/integration/trigger'
 import { useWrite } from './useWrite'
 
 describe(useWrite.name, () => {
-  it('simulates the transaction', async () => {
+  test('simulates the transaction', async () => {
     const { trigger, release } = getTestTrigger()
     const { result } = hookRenderer({ handlers: [balanceCall, handlers.triggerHandler(simulateCallHandler, trigger)] })
 
@@ -21,7 +21,7 @@ describe(useWrite.name, () => {
     await waitFor(() => expect(result.current.status.kind).toBe('ready'))
   })
 
-  it('sends the transaction and waits for it to be mined', async () => {
+  test('sends the transaction and waits for it to be mined', async () => {
     const { result } = hookRenderer({ extraHandlers: [handlers.mineTransaction()] })
 
     await waitFor(() => expect(result.current.status.kind).toBe('ready'))
@@ -31,7 +31,7 @@ describe(useWrite.name, () => {
     await waitFor(() => expect(result.current.status.kind).toBe('success'))
   })
 
-  it('propagates simulation errors', async () => {
+  test('propagates simulation errors', async () => {
     const expectedError = 'forced error'
     const { result } = hookRenderer({
       handlers: [balanceCall, handlers.forceCallErrorHandler(simulateCallHandler, expectedError)],
@@ -44,7 +44,7 @@ describe(useWrite.name, () => {
     )
   })
 
-  it('propagates tx-submission errors', async () => {
+  test('propagates tx-submission errors', async () => {
     const { result } = hookRenderer({
       handlers: [chainIdCall, balanceCall, simulateCallHandler, handlers.rejectSubmittedTransaction()],
     })
@@ -58,7 +58,7 @@ describe(useWrite.name, () => {
     expect((result.current.status as any).error.shortMessage).toBe('An unknown RPC error occurred.') // @todo this is due to rejectSubmittedTransaction not being perfect
   })
 
-  it('propagates tx-reverted errors', async () => {
+  test('propagates tx-reverted errors', async () => {
     const { result } = hookRenderer({
       handlers: [chainIdCall, balanceCall, simulateCallHandler, handlers.mineRevertedTransaction()],
     })
@@ -72,7 +72,7 @@ describe(useWrite.name, () => {
     expect((result.current.status as any).error.shortMessage).toBe('An unknown RPC error occurred.') // @todo this is due to mineRejectedTransaction not being perfect
   })
 
-  it('resets the write state when the args change', async () => {
+  test('resets the write state when the args change', async () => {
     // for some reason this test doesn't work and is stuck in the "disabled" state (write function is not recreated properly by wagmi)
     const { result, rerender } = hookRenderer({
       extraHandlers: [
@@ -105,7 +105,7 @@ describe(useWrite.name, () => {
     await waitFor(() => expect(result.current.status.kind).toBe('ready'))
   })
 
-  it('does not propagate simulation errors if disabled', async () => {
+  test('does not propagate simulation errors if disabled', async () => {
     const expectedError = 'forced error'
     const { result, rerender } = hookRenderer({
       handlers: [balanceCall, handlers.forceCallErrorHandler(simulateCallHandler, expectedError)],

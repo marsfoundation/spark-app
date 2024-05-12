@@ -1,5 +1,5 @@
 import { mainnet } from 'viem/chains'
-import { afterEach, describe, expect, test, vi } from 'vitest'
+import { afterEach, describe, expect, test, vi } from 'bun:test'
 
 import { BaseUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { testAddresses } from '@/test/integration/constants'

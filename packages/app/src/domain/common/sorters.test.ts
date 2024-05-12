@@ -4,7 +4,7 @@ import { NormalizedUnitNumber } from '../types/NumericValues'
 import { sortByUsdValue } from './sorters'
 
 describe(sortByUsdValue, () => {
-  it('should sort by increasing usd value', () => {
+  test('should sort by increasing usd value', () => {
     const balances = [
       { token: tokens.DAI, balance: NormalizedUnitNumber('4000') },
       { token: tokens.USDC, balance: NormalizedUnitNumber('100') },

@@ -24,7 +24,7 @@ const hookRenderer = setupHookRenderer({
 })
 
 describe(useApprove.name, () => {
-  it('is not enabled if wrong value', async () => {
+  test('is not enabled if wrong value', async () => {
     const { result } = hookRenderer({ args: { value: BaseUnitNumber(0), token, spender } })
 
     await waitFor(() => {
@@ -32,7 +32,7 @@ describe(useApprove.name, () => {
     })
   })
 
-  it('is not enabled if address is a native asset', async () => {
+  test('is not enabled if address is a native asset', async () => {
     const { result } = hookRenderer({
       args: { value: defaultValue, token: NATIVE_ASSET_MOCK_ADDRESS, spender },
     })
@@ -42,7 +42,7 @@ describe(useApprove.name, () => {
     })
   })
 
-  it('respects enabled flag', async () => {
+  test('respects enabled flag', async () => {
     const { result } = hookRenderer({
       args: { enabled: false, value: defaultValue, token, spender },
     })
@@ -52,7 +52,7 @@ describe(useApprove.name, () => {
     })
   })
 
-  it('approves', async () => {
+  test('approves', async () => {
     const { result } = hookRenderer({
       args: { value: defaultValue, token, spender },
       extraHandlers: [

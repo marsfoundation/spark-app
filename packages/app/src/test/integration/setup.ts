@@ -3,7 +3,7 @@ import './mocks/install-mocks'
 
 import matchers from '@testing-library/jest-dom/matchers'
 import { cleanup } from '@testing-library/react'
-import { afterEach, expect, vitest } from 'vitest'
+import { afterEach, expect, vitest } from 'bun:test'
 
 import { queryClient } from './query-client'
 

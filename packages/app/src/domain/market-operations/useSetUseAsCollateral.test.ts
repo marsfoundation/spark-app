@@ -25,7 +25,7 @@ const hookRenderer = setupHookRenderer({
 })
 
 describe(useSetUseAsCollateral.name, () => {
-  it('is not enabled for guest', async () => {
+  test('is not enabled for guest', async () => {
     const { result } = hookRenderer({ account: undefined })
 
     await waitFor(() => {
@@ -33,7 +33,7 @@ describe(useSetUseAsCollateral.name, () => {
     })
   })
 
-  it('is not enabled when explicitly disabled', async () => {
+  test('is not enabled when explicitly disabled', async () => {
     const { result } = hookRenderer({ args: { ...initialArgs, enabled: false } })
 
     await waitFor(() => {
@@ -41,7 +41,7 @@ describe(useSetUseAsCollateral.name, () => {
     })
   })
 
-  it('enables asset as collateral', async () => {
+  test('enables asset as collateral', async () => {
     const { result } = hookRenderer({
       args: {
         ...initialArgs,
@@ -70,7 +70,7 @@ describe(useSetUseAsCollateral.name, () => {
     })
   })
 
-  it('disables asset as collateral', async () => {
+  test('disables asset as collateral', async () => {
     const { result } = hookRenderer({
       args: {
         ...initialArgs,

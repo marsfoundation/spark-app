@@ -3,7 +3,7 @@ import { validateSetUserEMode } from './validateSetUserEMode'
 
 describe(validateSetUserEMode.name, () => {
   describe('returns validation issue', () => {
-    it('validates that requested eMode category has correct liquidation threshold', () => {
+    test('validates that requested eMode category has correct liquidation threshold', () => {
       expect(
         validateSetUserEMode({
           requestedEModeCategory: {
@@ -18,7 +18,7 @@ describe(validateSetUserEMode.name, () => {
       ).toBe('inconsistent-liquidation-threshold')
     })
 
-    it('validates that user has no borrows with different eMode category', () => {
+    test('validates that user has no borrows with different eMode category', () => {
       const requestedEModeCategory = {
         id: 1,
         liquidationThreshold: Percentage(0.1),
@@ -48,7 +48,7 @@ describe(validateSetUserEMode.name, () => {
       ).toBe('borrowed-assets-emode-category-mismatch')
     })
 
-    it('validates that user health factor after changing eMode category is greater than 1', () => {
+    test('validates that user health factor after changing eMode category is greater than 1', () => {
       expect(
         validateSetUserEMode({
           requestedEModeCategory: {
@@ -66,7 +66,7 @@ describe(validateSetUserEMode.name, () => {
   })
 
   describe('returns undefined', () => {
-    it('validates that requested eMode category has correct liquidation threshold', () => {
+    test('validates that requested eMode category has correct liquidation threshold', () => {
       expect(
         validateSetUserEMode({
           requestedEModeCategory: {
@@ -81,7 +81,7 @@ describe(validateSetUserEMode.name, () => {
       ).toBe(undefined)
     })
 
-    it('validates that user has no borrows with different eMode category', () => {
+    test('validates that user has no borrows with different eMode category', () => {
       const requestedEModeCategory = {
         id: 1,
         liquidationThreshold: Percentage(0.1),
@@ -102,7 +102,7 @@ describe(validateSetUserEMode.name, () => {
       ).toBe(undefined)
     })
 
-    it('validates when user changes eMode to 0 category', () => {
+    test('validates when user changes eMode to 0 category', () => {
       const requestedEModeCategory = {
         id: 0,
         liquidationThreshold: undefined,
@@ -122,7 +122,7 @@ describe(validateSetUserEMode.name, () => {
       ).toBe(undefined)
     })
 
-    it('validates that user health factor after changing eMode category is greater than 1', () => {
+    test('validates that user health factor after changing eMode category is greater than 1', () => {
       expect(
         validateSetUserEMode({
           requestedEModeCategory: {

@@ -11,19 +11,19 @@ const hookRenderer = setupHookRenderer({
 })
 
 describe('useTimestamp', () => {
-  it('should return the current timestamp', async () => {
+  test('should return the current timestamp', async () => {
     const { result } = hookRenderer()
 
     await waitFor(() => expect(result.current.timestamp).toBeGreaterThan(0))
   })
 
-  it('should return the current timestamp in milliseconds', async () => {
+  test('should return the current timestamp in milliseconds', async () => {
     const { result } = hookRenderer()
 
     await waitFor(() => expect(result.current.timestampInMs).toBeGreaterThan(0))
   })
 
-  it('should not change the timestamp during the component lifecycle', async () => {
+  test('should not change the timestamp during the component lifecycle', async () => {
     const { result, rerender } = hookRenderer()
 
     await waitFor(() => expect(result.current).toBeDefined())
@@ -39,7 +39,7 @@ describe('useTimestamp', () => {
     })
   })
 
-  it('should update the timestamp after the specified refresh interval', async () => {
+  test('should update the timestamp after the specified refresh interval', async () => {
     const refreshIntervalInMs = 10
     const { result } = hookRenderer({ args: { refreshIntervalInMs } })
 

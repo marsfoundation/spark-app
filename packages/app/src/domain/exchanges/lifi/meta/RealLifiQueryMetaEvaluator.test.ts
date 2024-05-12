@@ -31,7 +31,7 @@ function evaluate(params: {
 }
 
 describe(RealLifiQueryMetaEvaluator.name, () => {
-  it('should return the default fee and integrator key when the route is not waived', () => {
+  test('should return the default fee and integrator key when the route is not waived', () => {
     expect(
       evaluate({
         dai,
@@ -46,7 +46,7 @@ describe(RealLifiQueryMetaEvaluator.name, () => {
     })
   })
 
-  it('returns waived fee and integrator key for sdai to dai route', () => {
+  test('returns waived fee and integrator key for sdai to dai route', () => {
     expect(
       evaluate({
         dai,
@@ -64,7 +64,7 @@ describe(RealLifiQueryMetaEvaluator.name, () => {
     })
   })
 
-  it('returns waived fee and integrator key for dai to sdai route', () => {
+  test('returns waived fee and integrator key for dai to sdai route', () => {
     expect(
       evaluate({
         dai,

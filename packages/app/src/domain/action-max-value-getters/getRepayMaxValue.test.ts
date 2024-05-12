@@ -1,10 +1,10 @@
-import { describe } from 'vitest'
+import { describe, test, expect } from 'bun:test'
 
 import { NormalizedUnitNumber } from '../types/NumericValues'
 import { getRepayMaxValue } from './getRepayMaxValue'
 
 describe(getRepayMaxValue.name, () => {
-  it('returns 0 for paused reserve', () => {
+  test('returns 0 for paused reserve', () => {
     expect(
       getRepayMaxValue({
         user: {
@@ -18,7 +18,7 @@ describe(getRepayMaxValue.name, () => {
     ).toEqual(NormalizedUnitNumber(0))
   })
 
-  it('returns 0 when no debt', () => {
+  test('returns 0 when no debt', () => {
     expect(
       getRepayMaxValue({
         user: {
@@ -32,7 +32,7 @@ describe(getRepayMaxValue.name, () => {
     ).toEqual(NormalizedUnitNumber(0))
   })
 
-  it('returns 0 when no balance', () => {
+  test('returns 0 when no balance', () => {
     expect(
       getRepayMaxValue({
         user: {
@@ -46,7 +46,7 @@ describe(getRepayMaxValue.name, () => {
     ).toEqual(NormalizedUnitNumber(0))
   })
 
-  it('returns debt when balance is greater', () => {
+  test('returns debt when balance is greater', () => {
     expect(
       getRepayMaxValue({
         user: {
@@ -60,7 +60,7 @@ describe(getRepayMaxValue.name, () => {
     ).toEqual(NormalizedUnitNumber(100))
   })
 
-  it('returns balance when debt is greater', () => {
+  test('returns balance when debt is greater', () => {
     expect(
       getRepayMaxValue({
         user: {

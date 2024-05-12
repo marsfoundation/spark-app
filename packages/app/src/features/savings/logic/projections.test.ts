@@ -4,7 +4,7 @@ import { bigNumberify } from '@/utils/bigNumber'
 import { convertDaiToShares, convertSharesToDai } from './projections'
 
 describe(convertSharesToDai.name, () => {
-  it('accounts for dsr', () => {
+  test('accounts for dsr', () => {
     const timestamp = 1000
     const shares = NormalizedUnitNumber(100)
     const fivePercentYield = convertSharesToDai({
@@ -30,7 +30,7 @@ describe(convertSharesToDai.name, () => {
     expect(tenPercentYield.minus(NormalizedUnitNumber(110)).abs().lt(1e-18)).toEqual(true)
   })
 
-  it('accounts for chi', () => {
+  test('accounts for chi', () => {
     const timestamp = 1000
     const shares = NormalizedUnitNumber(100)
     const fivePercentYield = convertSharesToDai({
@@ -58,7 +58,7 @@ describe(convertSharesToDai.name, () => {
 })
 
 describe(convertDaiToShares.name, () => {
-  it('accounts for dsr', () => {
+  test('accounts for dsr', () => {
     const timestamp = 1000
     const dai = NormalizedUnitNumber(105)
     const result = convertDaiToShares({
@@ -73,7 +73,7 @@ describe(convertDaiToShares.name, () => {
     expect(result.minus(NormalizedUnitNumber(100)).abs().lt(1e-18)).toEqual(true)
   })
 
-  it('accounts for chi', () => {
+  test('accounts for chi', () => {
     const timestamp = 1000
     const dai = NormalizedUnitNumber(110.25)
     const result = convertDaiToShares({

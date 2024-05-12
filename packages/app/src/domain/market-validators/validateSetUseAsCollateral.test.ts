@@ -4,7 +4,7 @@ import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
 import { validateSetUseAsCollateral, ValidateSetUseAsCollateralParams } from './validateSetUseAsCollateral'
 
 describe(validateSetUseAsCollateral.name, () => {
-  it('validates that value is not the same as existing setting', () => {
+  test('validates that value is not the same as existing setting', () => {
     expect(
       validateSetUseAsCollateral({
         useAsCollateral: true,
@@ -40,7 +40,7 @@ describe(validateSetUseAsCollateral.name, () => {
     ).toBe('collateral-already-disabled')
   })
 
-  it('validates that asset balance is positive', () => {
+  test('validates that asset balance is positive', () => {
     expect(
       validateSetUseAsCollateral({
         useAsCollateral: true,
@@ -59,7 +59,7 @@ describe(validateSetUseAsCollateral.name, () => {
     ).toBe('zero-deposit-asset')
   })
 
-  it('validates that reserve is active', () => {
+  test('validates that reserve is active', () => {
     const args: ValidateSetUseAsCollateralParams = {
       useAsCollateral: true,
       asset: {
@@ -98,7 +98,7 @@ describe(validateSetUseAsCollateral.name, () => {
   })
 
   describe('enabling collateral', () => {
-    it('validates that maxLtv is not zero', () => {
+    test('validates that maxLtv is not zero', () => {
       expect(
         validateSetUseAsCollateral({
           useAsCollateral: true,
@@ -117,7 +117,7 @@ describe(validateSetUseAsCollateral.name, () => {
       ).toBe('zero-ltv-asset')
     })
 
-    it('validates that isolation mode is not active', () => {
+    test('validates that isolation mode is not active', () => {
       expect(
         validateSetUseAsCollateral({
           useAsCollateral: true,
@@ -138,7 +138,7 @@ describe(validateSetUseAsCollateral.name, () => {
   })
 
   describe('disabling collateral', () => {
-    it('validates that ltv is not exceeded', () => {
+    test('validates that ltv is not exceeded', () => {
       expect(
         validateSetUseAsCollateral({
           useAsCollateral: false,
@@ -157,7 +157,7 @@ describe(validateSetUseAsCollateral.name, () => {
       ).toBe('exceeds-ltv')
     })
 
-    it('validates that there are no zero ltv assets used as collateral', () => {
+    test('validates that there are no zero ltv assets used as collateral', () => {
       expect(
         validateSetUseAsCollateral({
           useAsCollateral: false,

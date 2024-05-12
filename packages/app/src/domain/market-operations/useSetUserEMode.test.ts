@@ -23,7 +23,7 @@ const hookRenderer = setupHookRenderer({
 })
 
 describe(useSetUserEMode.name, () => {
-  it('is not enabled for guest', async () => {
+  test('is not enabled for guest', async () => {
     const { result } = hookRenderer({ account: undefined })
 
     await waitFor(() => {
@@ -31,7 +31,7 @@ describe(useSetUserEMode.name, () => {
     })
   })
 
-  it('is not enabled when explicitly disabled', async () => {
+  test('is not enabled when explicitly disabled', async () => {
     const { result } = hookRenderer({ args: { ...initialArgs, enabled: false } })
 
     await waitFor(() => {
@@ -39,7 +39,7 @@ describe(useSetUserEMode.name, () => {
     })
   })
 
-  it('changes eMode category', async () => {
+  test('changes eMode category', async () => {
     const { result } = hookRenderer({
       args: {
         categoryId: 1,

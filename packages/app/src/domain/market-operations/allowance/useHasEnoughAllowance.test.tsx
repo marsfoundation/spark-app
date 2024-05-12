@@ -24,14 +24,14 @@ const hookRenderer = setupHookRenderer({
 })
 
 describe(useHasEnoughAllowance.name, () => {
-  it('returns undefined if no data', async () => {
+  test('returns undefined if no data', async () => {
     const { result } = hookRenderer({ extraHandlers: [() => sleep(2000)] })
 
     await expectToStayUndefined(() => result.current.data)
     expect(result.current.error).toBeNull()
   })
 
-  it('properly returns based on allowance', async () => {
+  test('properly returns based on allowance', async () => {
     const args = { token, spender, value: BaseUnitNumber(mockedAllowance.plus(1)) }
     const { result, rerender } = hookRenderer({
       args,

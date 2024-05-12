@@ -2,7 +2,7 @@ import { NormalizedUnitNumber } from '../types/NumericValues'
 import { validateDeposit } from './validateDeposit'
 
 describe(validateDeposit.name, () => {
-  it('validates that value is positive', () => {
+  test('validates that value is positive', () => {
     expect(
       validateDeposit({
         value: NormalizedUnitNumber(0),
@@ -12,7 +12,7 @@ describe(validateDeposit.name, () => {
     ).toBe('value-not-positive')
   })
 
-  it('works with 0 value if deposited already', () => {
+  test('works with 0 value if deposited already', () => {
     expect(
       validateDeposit({
         value: NormalizedUnitNumber(0),
@@ -22,7 +22,7 @@ describe(validateDeposit.name, () => {
     ).toBe(undefined)
   })
 
-  it('validates that reserve is active', () => {
+  test('validates that reserve is active', () => {
     expect(
       validateDeposit({
         value: NormalizedUnitNumber(10),
@@ -32,7 +32,7 @@ describe(validateDeposit.name, () => {
     ).toBe('reserve-not-active')
   })
 
-  it('validates balance', () => {
+  test('validates balance', () => {
     expect(
       validateDeposit({
         value: NormalizedUnitNumber(10),
@@ -42,7 +42,7 @@ describe(validateDeposit.name, () => {
     ).toBe('exceeds-balance')
   })
 
-  it('validates deposit cap', () => {
+  test('validates deposit cap', () => {
     expect(
       validateDeposit({
         value: NormalizedUnitNumber(1),
@@ -52,7 +52,7 @@ describe(validateDeposit.name, () => {
     ).toBe('deposit-cap-reached')
   })
 
-  it('works when no errors', () => {
+  test('works when no errors', () => {
     expect(
       validateDeposit({
         value: NormalizedUnitNumber(1),

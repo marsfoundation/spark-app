@@ -1,4 +1,4 @@
-import { describe } from 'vitest'
+import { describe, test, expect } from 'bun:test'
 
 import { bigNumberify } from '@/utils/bigNumber'
 
@@ -6,7 +6,7 @@ import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
 import { findSignificantPrecision, formatHealthFactor, formatPercentage, formFormat } from './format'
 
 describe(formatPercentage.name, () => {
-  it('formats whole numbers', () => {
+  test('formats whole numbers', () => {
     const tests: [number, string][] = [
       [0, '0.00%'],
       [1, '100.00%'],
@@ -20,7 +20,7 @@ describe(formatPercentage.name, () => {
     })
   })
 
-  it('formats numbers with fractional part', () => {
+  test('formats numbers with fractional part', () => {
     const tests: [number, string][] = [
       [0.1, '10.00%'],
       [0.2, '20.00%'],
@@ -42,7 +42,7 @@ describe(formatPercentage.name, () => {
     })
   })
 
-  it('formats small numbers', () => {
+  test('formats small numbers', () => {
     const tests: [number, string][] = [
       [0.0001, '0.01%'],
       [0.00001, '<0.01%'],
@@ -58,11 +58,11 @@ describe(formatPercentage.name, () => {
 })
 
 describe(formatHealthFactor.name, () => {
-  it('handles undefined', () => {
+  test('handles undefined', () => {
     expect(formatHealthFactor(undefined)).toEqual('0.0')
   })
 
-  it('formats whole numbers', () => {
+  test('formats whole numbers', () => {
     const tests: [number, string][] = [
       [0, '0'],
       [1, '1'],
@@ -76,7 +76,7 @@ describe(formatHealthFactor.name, () => {
     })
   })
 
-  it('formats numbers with fractional part', () => {
+  test('formats numbers with fractional part', () => {
     const tests: [number, string][] = [
       [0.1, '0.1'],
       [0.2, '0.2'],
@@ -94,38 +94,38 @@ describe(formatHealthFactor.name, () => {
 })
 
 describe(formFormat.name, () => {
-  it('formats bigger numbers', () => {
+  test('formats bigger numbers', () => {
     expect(formFormat(bigNumberify(100.2), 18)).toBe('100.2')
   })
 
-  it('avoids unnecessary zeroes', () => {
+  test('avoids unnecessary zeroes', () => {
     expect(formFormat(bigNumberify(0), 10)).toBe('0')
     expect(formFormat(bigNumberify(1), 10)).toBe('1')
   })
 
-  it('rounds down', () => {
+  test('rounds down', () => {
     expect(formFormat(bigNumberify(0.9999), 2)).toBe('0.99')
   })
 })
 
 describe(findSignificantPrecision.name, () => {
-  it('finds precision for stablecoins', () => {
+  test('finds precision for stablecoins', () => {
     expect(findSignificantPrecision(bigNumberify(1), 2)).toBe(2)
   })
 
-  it('finds precision for BTC like', () => {
+  test('finds precision for BTC like', () => {
     expect(findSignificantPrecision(bigNumberify(48_000), 2)).toBe(6)
   })
 
-  it('finds precision for ETH like', () => {
+  test('finds precision for ETH like', () => {
     expect(findSignificantPrecision(bigNumberify(2_500), 2)).toBe(5)
   })
 
-  it('finds precision for coins with tiny prices', () => {
+  test('finds precision for coins with tiny prices', () => {
     expect(findSignificantPrecision(bigNumberify(0.0001), 2)).toBe(0)
   })
 
-  it('finds precision for BTC like and whole dollars', () => {
+  test('finds precision for BTC like and whole dollars', () => {
     expect(findSignificantPrecision(bigNumberify(48_000), 0)).toBe(4)
   })
 })

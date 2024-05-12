@@ -3,7 +3,7 @@ import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { iterateAirdropData } from './airdrops'
 
 describe(iterateAirdropData.name, () => {
-  it('works for real config', () => {
+  test('works for real config', () => {
     const airdrops = {
       SPK: {
         ETH: {
@@ -18,7 +18,7 @@ describe(iterateAirdropData.name, () => {
     expect(iterateAirdropData(airdrops, TokenSymbol('ETH'), 'deposit')).toEqual([{ id: 'SPK', amount: 6_000_000 }])
     expect(iterateAirdropData(airdrops, TokenSymbol('DAI'), 'borrow')).toEqual([{ id: 'SPK', amount: 24_000_000 }])
   })
-  it('works with both deposit and borrow specified', () => {
+  test('works with both deposit and borrow specified', () => {
     const airdrops = {
       SPK: {
         ETH: {
@@ -38,7 +38,7 @@ describe(iterateAirdropData.name, () => {
     expect(iterateAirdropData(airdrops, TokenSymbol('DAI'), 'borrow')).toEqual([{ id: 'SPK', amount: 24_000_000 }])
   })
 
-  it('works for multiple airdrops', () => {
+  test('works for multiple airdrops', () => {
     const airdrops = {
       SPK: {
         ETH: {

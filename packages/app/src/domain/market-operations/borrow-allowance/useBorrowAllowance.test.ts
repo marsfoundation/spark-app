@@ -21,7 +21,7 @@ const hookRenderer = setupHookRenderer({
 })
 
 describe(useBorrowAllowance.name, () => {
-  it('returns proper allowance from chain', async () => {
+  test('returns proper allowance from chain', async () => {
     const { result } = hookRenderer({
       extraHandlers: [
         handlers.contractCall({
@@ -38,7 +38,7 @@ describe(useBorrowAllowance.name, () => {
     expect(result.current.data).toBe(mockedBorrowAllowance)
   })
 
-  it('propagates errors', async () => {
+  test('propagates errors', async () => {
     const expectedError = 'Not allowed!'
     const { result } = hookRenderer({
       extraHandlers: [

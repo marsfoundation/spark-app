@@ -1,9 +1,9 @@
-import { describe } from 'vitest'
+import { describe } from 'bun:test'
 
 import { preprocessSearchParams } from './preprocessSearchParams'
 
 describe(preprocessSearchParams.name, () => {
-  it('unwinds object without array into a array of keys and values', () => {
+  test('unwinds object without array into a array of keys and values', () => {
     const input = {
       a: '1',
       b: '2',
@@ -17,7 +17,7 @@ describe(preprocessSearchParams.name, () => {
     ])
   })
 
-  it('unwinds object with an array into a array with entry for each array item', () => {
+  test('unwinds object with an array into a array with entry for each array item', () => {
     const input = {
       a: ['1', '2', '3'],
       b: 'B',
@@ -31,7 +31,7 @@ describe(preprocessSearchParams.name, () => {
     ])
   })
 
-  it('returns empty object', () => {
+  test('returns empty object', () => {
     const input = {}
 
     expect(preprocessSearchParams(input)).toEqual([])

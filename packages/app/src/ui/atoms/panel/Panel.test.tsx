@@ -8,7 +8,7 @@ import { Panel } from './Panel'
 const queryClient = new QueryClient()
 
 describe(Panel.name, () => {
-  it('renders correctly', async () => {
+  test('renders correctly', async () => {
     render(
       <QueryClientProvider client={queryClient}>
         <Panel>
@@ -23,7 +23,7 @@ describe(Panel.name, () => {
     expect(await screen.findByText('Hello!')).toBeVisible()
   })
 
-  it('throws on missing header', async () => {
+  test('throws on missing header', async () => {
     expectRenderingError(
       <QueryClientProvider client={queryClient}>
         <Panel>
@@ -35,7 +35,7 @@ describe(Panel.name, () => {
     )
   })
 
-  it('throws on missing content', async () => {
+  test('throws on missing content', async () => {
     expectRenderingError(
       <QueryClientProvider client={queryClient}>
         <Panel>

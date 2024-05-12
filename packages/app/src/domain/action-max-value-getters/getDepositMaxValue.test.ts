@@ -12,7 +12,7 @@ const assetParams = {
 
 describe(getDepositMaxValue.name, () => {
   describe('not active reserve', () => {
-    it('returns 0 for frozen reserve', () => {
+    test('returns 0 for frozen reserve', () => {
       expect(
         getDepositMaxValue({
           user: { balance: NormalizedUnitNumber(100) },
@@ -27,7 +27,7 @@ describe(getDepositMaxValue.name, () => {
       ).toEqual(NormalizedUnitNumber(0))
     })
 
-    it('returns 0 for paused reserve', () => {
+    test('returns 0 for paused reserve', () => {
       expect(
         getDepositMaxValue({
           user: { balance: NormalizedUnitNumber(100) },
@@ -44,7 +44,7 @@ describe(getDepositMaxValue.name, () => {
   })
 
   describe('no supply cap', () => {
-    it('returns 0 when no balance', () => {
+    test('returns 0 when no balance', () => {
       expect(
         getDepositMaxValue({
           user: { balance: NormalizedUnitNumber(0) },
@@ -59,7 +59,7 @@ describe(getDepositMaxValue.name, () => {
       ).toEqual(NormalizedUnitNumber(0))
     })
 
-    it('returns balance', () => {
+    test('returns balance', () => {
       expect(
         getDepositMaxValue({
           user: { balance: NormalizedUnitNumber(100) },
@@ -76,7 +76,7 @@ describe(getDepositMaxValue.name, () => {
   })
 
   describe('supply cap', () => {
-    it('returns 0 when no balance', () => {
+    test('returns 0 when no balance', () => {
       expect(
         getDepositMaxValue({
           user: { balance: NormalizedUnitNumber(0) },
@@ -92,7 +92,7 @@ describe(getDepositMaxValue.name, () => {
       ).toEqual(NormalizedUnitNumber(0))
     })
 
-    it('returns 0 when supply cap reached', () => {
+    test('returns 0 when supply cap reached', () => {
       expect(
         getDepositMaxValue({
           user: { balance: NormalizedUnitNumber(100) },
@@ -108,7 +108,7 @@ describe(getDepositMaxValue.name, () => {
       ).toEqual(NormalizedUnitNumber(0))
     })
 
-    it('returns supply cap when balance is greater than supply cap', () => {
+    test('returns supply cap when balance is greater than supply cap', () => {
       expect(
         getDepositMaxValue({
           user: { balance: NormalizedUnitNumber(100) },
@@ -124,7 +124,7 @@ describe(getDepositMaxValue.name, () => {
       ).toEqual(NormalizedUnitNumber(50))
     })
 
-    it('returns available to supply value', () => {
+    test('returns available to supply value', () => {
       expect(
         getDepositMaxValue({
           user: { balance: NormalizedUnitNumber(100) },
@@ -141,7 +141,7 @@ describe(getDepositMaxValue.name, () => {
       ).toEqual(NormalizedUnitNumber(25))
     })
 
-    it('returns available to supply value for growing liquidity', () => {
+    test('returns available to supply value for growing liquidity', () => {
       expect(
         getDepositMaxValue({
           user: { balance: NormalizedUnitNumber(100) },

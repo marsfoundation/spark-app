@@ -1,4 +1,4 @@
-import { expect } from 'vitest'
+import { expect } from 'bun:test'
 import { create } from 'zustand'
 
 import { ZUSTAND_APP_STORE_LOCAL_STORAGE_KEY } from '@/config/consts'
@@ -10,12 +10,12 @@ import { storeImplementation, StoreState } from '.'
 describe(storeImplementation.name, () => {
   afterEach(() => localStorage.clear())
 
-  it('initializes store', () => {
+  test('initializes store', () => {
     const store = create(storeImplementation)
     expect(store.getState()).toMatchSnapshot()
   })
 
-  it('persists state', () => {
+  test('persists state', () => {
     expect(localStorage.getItem(ZUSTAND_APP_STORE_LOCAL_STORAGE_KEY)).toBeNull()
 
     const store = create(storeImplementation)
@@ -24,7 +24,7 @@ describe(storeImplementation.name, () => {
     expect(JSON.parse(localStorage.getItem(ZUSTAND_APP_STORE_LOCAL_STORAGE_KEY) as any)).toMatchSnapshot()
   })
 
-  it('deserializes initial state back from the local storage', () => {
+  test('deserializes initial state back from the local storage', () => {
     expect(localStorage.getItem(ZUSTAND_APP_STORE_LOCAL_STORAGE_KEY)).toBeNull()
 
     let expectedState: StoreState
@@ -44,7 +44,7 @@ describe(storeImplementation.name, () => {
     )
   })
 
-  it('deserializes sandbox slice correctly', () => {
+  test('deserializes sandbox slice correctly', () => {
     expect(localStorage.getItem(ZUSTAND_APP_STORE_LOCAL_STORAGE_KEY)).toBeNull()
 
     let expectedState: StoreState
@@ -77,7 +77,7 @@ describe(storeImplementation.name, () => {
     )
   })
 
-  it('deserializes modified state back from the local storage', () => {
+  test('deserializes modified state back from the local storage', () => {
     expect(localStorage.getItem(ZUSTAND_APP_STORE_LOCAL_STORAGE_KEY)).toBeNull()
 
     let expectedState: StoreState
@@ -103,7 +103,7 @@ describe(storeImplementation.name, () => {
     )
   })
 
-  it('ignores previous version of the persisted store', () => {
+  test('ignores previous version of the persisted store', () => {
     expect(localStorage.getItem(ZUSTAND_APP_STORE_LOCAL_STORAGE_KEY)).toBeNull()
 
     let expectedState: StoreState // initial state without any modification is expected
