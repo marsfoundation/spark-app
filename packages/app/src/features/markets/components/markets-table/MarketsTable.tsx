@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { generatePath } from 'react-router-dom'
 
 import { paths } from '@/config/paths'
@@ -6,7 +7,7 @@ import { LinkButton } from '@/ui/atoms/button/Button'
 import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
 import { ActionsCell } from '@/ui/molecules/data-table/components/ActionsCell'
 import { CompactValueCell } from '@/ui/molecules/data-table/components/CompactValueCell'
-import { ResponsiveDataTable } from '@/ui/organisms/responsive-data-table/ResponsiveDataTable'
+import { ResponsiveDataTable, ResponsiveDataTableProps } from '@/ui/organisms/responsive-data-table/ResponsiveDataTable'
 
 import { MarketEntry } from '../../types'
 import { AssetStatusBadge } from '../asset-status-badge/AssetStatusBadge'
@@ -20,11 +21,7 @@ export interface MarketsTableProps {
 }
 
 export function MarketsTable({ entries, chainId, hideTableHeader }: MarketsTableProps) {
-  return (
-    <ResponsiveDataTable
-      gridTemplateColumnsClassName="grid-cols-[_repeat(6,minmax(0,1fr))_minmax(0,70px)] lg:grid-cols-[_minmax(0,5fr)_repeat(5,minmax(0,3fr))_minmax(0,70px)]"
-      hideTableHeader={hideTableHeader}
-      columnDefinition={{
+  const columnDef = useMemo<ResponsiveDataTableProps<MarketEntry>['columnDefinition']>(() => ({
         asset: {
           header: 'Assets',
           renderCell: ({ token, reserveStatus }) => <AssetNameCell token={token} reserveStatus={reserveStatus} />,
@@ -120,7 +117,13 @@ export function MarketsTable({ entries, chainId, hideTableHeader }: MarketsTable
             )
           },
         },
-      }}
+      }), [chainId])
+
+  return (
+    <ResponsiveDataTable
+      gridTemplateColumnsClassName="grid-cols-[_repeat(6,minmax(0,1fr))_minmax(0,70px)] lg:grid-cols-[_minmax(0,5fr)_repeat(5,minmax(0,3fr))_minmax(0,70px)]"
+      hideTableHeader={hideTableHeader}
+      columnDefinition={columnDef}
       data={entries}
     />
   )
