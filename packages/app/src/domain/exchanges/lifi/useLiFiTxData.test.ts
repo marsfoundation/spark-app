@@ -2,7 +2,7 @@ import { tokens } from '@storybook/tokens'
 import { QueryClient } from '@tanstack/react-query'
 import { waitFor } from '@testing-library/react'
 import { mainnet } from 'viem/chains'
-import { afterEach, describe, expect, test, vi } from 'bun:test'
+import { afterEach, describe, expect, test } from 'bun:test'
 
 import { testAddresses } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
@@ -13,6 +13,7 @@ import { SwapRequest } from '../types'
 import { MockLifiQueryMetaEvaluator } from './meta'
 import { QuoteResponseRaw } from './types'
 import { useLiFiTxData } from './useLiFiTxData'
+import { vi } from '@/test/integration/vi-adapter'
 
 const account = testAddresses.alice
 const fromToken = tokens.USDC

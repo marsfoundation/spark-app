@@ -11,6 +11,7 @@ import { toBigInt } from '@/utils/bigNumber'
 import { TxRequest } from '../exchanges/types'
 import { BaseUnitNumber, NormalizedUnitNumber } from '../types/NumericValues'
 import { useExchange } from './useExchange'
+import { vi } from '@/test/integration/vi-adapter'
 
 const account = testAddresses.alice
 const fromToken = testAddresses.token

@@ -8,6 +8,7 @@ import { queryClient } from '@/test/integration/query-client'
 import { LiFi } from './lifi'
 import { RealLifiQueryMetaEvaluator } from './meta'
 import { fetchLiFiTxData } from './query'
+import { vi } from '@/test/integration/vi-adapter'
 
 const dai = testAddresses.token
 const sdai = testAddresses.token2
@@ -27,7 +28,7 @@ describe(fetchLiFiTxData.name, () => {
   const lifiClient = new LiFi({ chainId, userAddress })
 
   beforeEach(() => {
-    mockFetch = vi.fn()
+    mockFetch = mock()
     vi.stubGlobal('fetch', mockFetch)
   })
   afterEach(() => {
