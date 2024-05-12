@@ -1,10 +1,12 @@
+import {describe, test, expect} from 'bun:test'
+
 import { act, fireEvent, render, screen } from '@testing-library/react'
 
 import { expectRenderingError } from '@/test/integration/renderError'
 
 import { CollapsiblePanel } from './CollapsiblePanel'
 
-describe(CollapsiblePanel.name, () => {
+describe(CollapsiblePanel.displayName!, () => {
   test('renders correctly', async () => {
     render(
       <CollapsiblePanel>

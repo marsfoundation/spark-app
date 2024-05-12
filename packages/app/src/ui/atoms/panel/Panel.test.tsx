@@ -1,3 +1,4 @@
+import {describe, test, expect} from 'bun:test'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { render, screen } from '@testing-library/react'
 
@@ -7,7 +8,7 @@ import { Panel } from './Panel'
 
 const queryClient = new QueryClient()
 
-describe(Panel.name, () => {
+describe(Panel.displayName!, () => {
   test('renders correctly', async () => {
     render(
       <QueryClientProvider client={queryClient}>

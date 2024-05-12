@@ -1,5 +1,5 @@
 import { mainnet } from 'viem/chains'
-import { afterEach, describe, expect, test, vi } from 'bun:test'
+import { afterEach, describe, expect, test, beforeEach, mock } from 'bun:test'
 
 import { BaseUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { testAddresses } from '@/test/integration/constants'
@@ -16,7 +16,7 @@ const usdt = testAddresses.token4
 const userAddress = testAddresses.alice
 const chainId = mainnet.id
 
-let mockFetch = vi.fn()
+let mockFetch = mock()
 
 async function triggerLiFiCall(...args: Parameters<typeof fetchLiFiTxData>): Promise<void> {
   await queryClient.fetchQuery(fetchLiFiTxData(...args)).catch(() => {}) // ignore errors

@@ -1,7 +1,7 @@
 import { waitFor } from '@testing-library/react'
 import { encodeFunctionData, erc20Abi } from 'viem'
 import { mainnet } from 'viem/chains'
-import { describe, expect, test, vi } from 'bun:test'
+import { describe, expect, test, afterEach } from 'bun:test'
 
 import { testAddresses } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'

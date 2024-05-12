@@ -87,6 +87,7 @@
     "zustand": "^4.4.1"
   },
   "devDependencies": {
+    "@happy-dom/global-registrator": "^14.10.1",
     "@lingui/cli": "^4.5.0",
     "@lingui/conf": "^4.5.0",
     "@lingui/swc-plugin": "^4.0.4",

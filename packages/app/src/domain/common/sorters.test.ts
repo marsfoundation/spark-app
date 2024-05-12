@@ -3,7 +3,7 @@ import { tokens } from '@storybook/tokens'
 import { NormalizedUnitNumber } from '../types/NumericValues'
 import { sortByUsdValue } from './sorters'
 
-describe(sortByUsdValue, () => {
+describe(sortByUsdValue.name, () => {
   test('should sort by increasing usd value', () => {
     const balances = [
       { token: tokens.DAI, balance: NormalizedUnitNumber('4000') },

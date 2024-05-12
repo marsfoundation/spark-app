@@ -3,7 +3,7 @@ import './mocks/install-mocks'
 
 import matchers from '@testing-library/jest-dom/matchers'
 import { cleanup } from '@testing-library/react'
-import { afterEach, expect, vitest } from 'bun:test'
+import { afterEach, expect } from 'bun:test'
 
 import { queryClient } from './query-client'
 
@@ -99,19 +99,19 @@ afterEach(async () => {
 })
 
 // mock matchMedia
-Object.defineProperty(window, 'matchMedia', {
-  writable: true,
-  value: vitest.fn().mockImplementation((query) => ({
-    matches: false,
-    media: query,
-    onchange: null,
-    addListener: vitest.fn(), // deprecated
-    removeListener: vitest.fn(), // deprecated
-    addEventListener: vitest.fn(),
-    removeEventListener: vitest.fn(),
-    dispatchEvent: vitest.fn(),
-  })),
-})
+// Object.defineProperty(window, 'matchMedia', {
+//   writable: true,
+//   value: vitest.fn().mockImplementation((query) => ({
+//     matches: false,
+//     media: query,
+//     onchange: null,
+//     addListener: vitest.fn(), // deprecated
+//     removeListener: vitest.fn(), // deprecated
+//     addEventListener: vitest.fn(),
+//     removeEventListener: vitest.fn(),
+//     dispatchEvent: vitest.fn(),
+//   })),
+// })
 
 // sometimes it's useful to increase the timeout for async tests
 // configure({ asyncUtilTimeout: 60_000 })

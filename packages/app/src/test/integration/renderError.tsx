@@ -1,6 +1,7 @@
 import { StorybookErrorBoundary } from '@storybook/ErrorBoundary'
 import { render } from '@testing-library/react'
 import { ReactNode } from 'react'
+import { expect } from 'bun:test'
 
 /**
  * Expecting a rendering error is a bit tricky. We need to use error boundaries and even then normal matchers don't work. This function is a helper to make it easier.

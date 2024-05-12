@@ -1,5 +1,5 @@
 import { mainnet } from 'viem/chains'
-import { afterEach, describe, expect, test } from 'bun:test'
+import { afterEach, describe, expect, test, mock } from 'bun:test'
 
 import { testAddresses } from '@/test/integration/constants'
 
@@ -38,15 +38,16 @@ const rawResponse: QuoteResponseRaw = {
   },
 }
 
-describe('LiFi', () => {
+
+describe.only('LiFi', () => {
   afterEach(() => {
-    vi.unstubAllGlobals()
+    // jest.unstubAllGlobals()
   })
 
   describe(LiFi.prototype.getQuote.name, () => {
     test('calls fetch with the correct URL', async () => {
       let calledUrl: URL | string | undefined
-      vi.stubGlobal('fetch', async (...args: any[]) => {
+      globalThis.fetch = mock(async (...args: any[]) => {
         calledUrl = args[0]
 
         return {
@@ -85,7 +86,7 @@ describe('LiFi', () => {
     })
 
     test('throws error if fetch fails', async () => {
-      vi.stubGlobal('fetch', async () => {
+      globalThis.fetch = mock(async (...args: any[]) => {
         return {
           ok: false,
           json: async () => ({}),
@@ -109,7 +110,7 @@ describe('LiFi', () => {
     })
 
     test('parses response', async () => {
-      vi.stubGlobal('fetch', async () => {
+      globalThis.fetch = mock(async (...args: any[]) => {
         return {
           ok: true,
           json: async () => rawResponse,
@@ -162,7 +163,7 @@ describe('LiFi', () => {
         chainId: 1,
       }
 
-      vi.stubGlobal('fetch', async () => {
+      globalThis.fetch = mock(async (...args: any[]) => {
         return {
           ok: true,
           json: async () => ({
@@ -193,7 +194,7 @@ describe('LiFi', () => {
       let calledUrl: URL | string | undefined
       let calledOptions: RequestInit | undefined
 
-      vi.stubGlobal('fetch', async (...args: any[]) => {
+      globalThis.fetch = mock(async (...args: any[]) => {
         calledUrl = args[0]
         calledOptions = args[1]
 
@@ -238,7 +239,7 @@ describe('LiFi', () => {
     })
 
     test('throws error if fetch fails', async () => {
-      vi.stubGlobal('fetch', async () => {
+      globalThis.fetch = mock(async (...args: any[]) => {
         return {
           ok: false,
           json: async () => ({}),
@@ -262,7 +263,7 @@ describe('LiFi', () => {
     })
 
     test('parses response', async () => {
-      vi.stubGlobal('fetch', async () => {
+      globalThis.fetch = mock(async (...args: any[]) => {
         return {
           ok: true,
           json: async () => rawResponse,
@@ -315,7 +316,7 @@ describe('LiFi', () => {
         chainId: 1,
       }
 
-      vi.stubGlobal('fetch', async () => {
+      globalThis.fetch = mock(async (...args: any[]) => {
         return {
           ok: true,
           json: async () => ({

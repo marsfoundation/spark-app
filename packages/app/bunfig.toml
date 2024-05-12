@@ -1,0 +1,7 @@
+[test]
+# Load these modules before running tests.
+preload = [
+  "./src/test/integration/preloads/mock-translations.ts",
+  "./src/test/integration/preloads/happy-dom.ts",
+  "./src/test/integration/setup.ts",
+]

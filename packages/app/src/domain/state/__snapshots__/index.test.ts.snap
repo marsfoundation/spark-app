@@ -1,9 +1,15 @@
-// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+// Bun Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`initializes store 1`] = `
 {
   "actionsSettings": {
-    "exchangeMaxSlippage": "0.001",
+    "exchangeMaxSlippage": BigNumber BigNumber {
+      "c": [
+        100000000000,
+      ],
+      "e": -3,
+      "s": 1,
+    },
     "preferPermits": true,
     "setExchangeMaxSlippage": [Function],
     "setPreferPermits": [Function],
