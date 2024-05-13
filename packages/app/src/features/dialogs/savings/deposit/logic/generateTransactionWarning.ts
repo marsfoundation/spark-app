@@ -6,6 +6,8 @@ import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { DialogFormNormalizedData } from '@/features/dialogs/common/logic/form'
 import { convertSharesToDai } from '@/features/savings/logic/projections'
 
+const WARNING_DISCREPANCY_THRESHOLD = 100
+
 export interface GenerateTransactionWarningArgs {
   swapInfo: SwapInfo
   inputValues: DialogFormNormalizedData
@@ -41,9 +43,9 @@ export function generateTransactionWarning({
   })
 
   const discrepancy = NormalizedUnitNumber(inputValues.value.minus(toAmountMinDAI))
-  if (discrepancy.gte(100)) {
+  if (discrepancy.gte(WARNING_DISCREPANCY_THRESHOLD)) {
     return {
-      text: `Market fluctuations can impact your transaction value, and the final amount received may be less than the deposit amount by ${DAI.format(discrepancy, { style: 'auto' })} DAI.`,
+      text: `Market fluctuations can impact your transaction value. The final amount received may be less than the deposit amount by up to ${DAI.format(discrepancy, { style: 'auto' })} DAI.`,
       acknowledgementRequired: true,
     }
   }
