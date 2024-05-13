@@ -21,16 +21,3 @@ export function useRiskAcknowledgement({ required }: useRiskAcknowledgementArgs)
     onStatusChange: setAcknowledged,
   }
 }
-
-export interface WarningGenerator {
-  generate: (args: GenerateWarningArgs) => GenerateWarningResults
-}
-
-export interface GenerateWarningArgs {
-  timestamp: number
-}
-
-export interface GenerateWarningResults {
-  text?: string
-  acknowledgementRequired: boolean
-}
