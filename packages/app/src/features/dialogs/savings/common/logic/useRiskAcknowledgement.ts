@@ -1,35 +1,24 @@
 import { useState } from 'react'
 
-import { useTimestamp } from '@/utils/useTimestamp'
-
 export interface useRiskAcknowledgementArgs {
-  transactionWarningGenerator: WarningGenerator
+  required: boolean
 }
 
-export interface RiskAcknowledgementInfo {
+export interface RiskAcknowledgement {
   acknowledged: boolean
   isRiskAcknowledgedOrNotRequired: boolean
   onStatusChange: (acknowledged: boolean) => void
-  text?: string
 }
 
-export function useRiskAcknowledgement({
-  transactionWarningGenerator,
-}: useRiskAcknowledgementArgs): RiskAcknowledgementInfo {
+export function useRiskAcknowledgement({ required }: useRiskAcknowledgementArgs): RiskAcknowledgement {
   const [acknowledged, setAcknowledged] = useState(false)
-  const { timestamp } = useTimestamp()
 
-  const { text, acknowledgementRequired } = transactionWarningGenerator.generate({
-    timestamp,
-  })
-
-  const isRiskAcknowledgedOrNotRequired = !acknowledgementRequired || acknowledged
+  const isRiskAcknowledgedOrNotRequired = !required || acknowledged
 
   return {
     acknowledged,
     isRiskAcknowledgedOrNotRequired,
     onStatusChange: setAcknowledged,
-    text,
   }
 }
 

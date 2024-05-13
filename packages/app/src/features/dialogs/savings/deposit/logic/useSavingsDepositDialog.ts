@@ -9,20 +9,26 @@ import { makeAssetsInWalletList } from '@/domain/savings/makeAssetsInWalletList'
 import { Token } from '@/domain/types/Token'
 import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
 import { Objective } from '@/features/actions/logic/types'
+import { RiskWarning } from '@/features/dialogs/common/components/risk-acknowledgement/RiskAcknowledgement'
 import { AssetInputSchema, useDebouncedDialogFormValues } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
+import { useTimestamp } from '@/utils/useTimestamp'
 
-import { RiskAcknowledgementInfo, useRiskAcknowledgement } from '../../common/logic/useRiskAcknowledgement'
+import { RiskAcknowledgement, useRiskAcknowledgement } from '../../common/logic/useRiskAcknowledgement'
 import { getFormFieldsForDepositDialog } from './form'
+import { generateWarning } from './generateWarning'
 import { createObjectives } from './objectives'
 import { useSwap } from './useSwap'
 import { SavingsDialogTxOverview, useTxOverview } from './useTransactionOverview'
 import { getSavingsDepositDialogFormValidator } from './validation'
-import { DepositWarningGenerator } from './warningGenerator'
 
 export interface UseSavingsDepositDialogParams {
   initialToken: Token
   makerInfo: MakerInfo
+}
+
+export interface RiskAcknowledgementInfo extends RiskAcknowledgement {
+  warning?: RiskWarning
 }
 
 export interface UseSavingsDepositDialogResults {
@@ -65,14 +71,16 @@ export function useSavingsDepositDialog({
   })
   const { swapInfo, swapParams } = useSwap({ formValues, marketInfo, walletInfo })
 
-  const transactionWarningGenerator = new DepositWarningGenerator({
-    marketInfo,
-    potParams: makerInfo.potParameters,
+  const { timestamp } = useTimestamp()
+  const { warning } = generateWarning({
     swapInfo,
     inputValues: formValues,
+    marketInfo,
+    potParams: makerInfo.potParameters,
+    timestamp,
   })
   const riskAcknowledgement = useRiskAcknowledgement({
-    transactionWarningGenerator,
+    required: !!warning,
   })
 
   const objectives = createObjectives({
@@ -108,6 +116,9 @@ export function useSavingsDepositDialog({
       actionsEnabled,
       goToSuccessScreen: () => setPageStatus('success'),
     },
-    riskAcknowledgement,
+    riskAcknowledgement: {
+      ...riskAcknowledgement,
+      warning,
+    },
   }
 }

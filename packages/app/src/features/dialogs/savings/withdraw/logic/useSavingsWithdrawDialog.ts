@@ -11,18 +11,23 @@ import { makeAssetsInWalletList } from '@/domain/savings/makeAssetsInWalletList'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
 import { Objective } from '@/features/actions/logic/types'
+import { RiskWarning } from '@/features/dialogs/common/components/risk-acknowledgement/RiskAcknowledgement'
 import { AssetInputSchema, useDebouncedDialogFormValues } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
+import { useTimestamp } from '@/utils/useTimestamp'
 
-import { RiskAcknowledgementInfo, useRiskAcknowledgement } from '../../common/logic/useRiskAcknowledgement'
+import { RiskAcknowledgement, useRiskAcknowledgement } from '../../common/logic/useRiskAcknowledgement'
 import { getFormFieldsForWithdrawDialog } from './form'
+import { generateWarning } from './generateWarning'
 import { getSDaiWithBalance } from './getSDaiWithBalance'
 import { createObjectives } from './objectives'
 import { useSwap } from './useSwap'
 import { SavingsDialogTxOverview, useTxOverview } from './useTransactionOverview'
 import { getSavingsWithdrawDialogFormValidator } from './validation'
-import { WithdrawWarningGenerator } from './warningGenerator'
 
+export interface RiskAcknowledgementInfo extends RiskAcknowledgement {
+  warning?: RiskWarning
+}
 export interface UseSavingsWithdrawDialogResults {
   selectableAssets: TokenWithBalance[]
   assetsFields: FormFieldsForDialog
@@ -84,14 +89,16 @@ export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
     pageStatus === 'success',
   )
 
-  const transactionWarningGenerator = new WithdrawWarningGenerator({
-    marketInfo,
-    potParams: makerInfo.potParameters,
+  const { timestamp } = useTimestamp()
+  const { warning } = generateWarning({
     swapInfo,
     inputValues: formValues,
+    marketInfo,
+    potParams: makerInfo.potParameters,
+    timestamp,
   })
   const riskAcknowledgement = useRiskAcknowledgement({
-    transactionWarningGenerator,
+    required: !!warning,
   })
 
   const actionsEnabled =
@@ -111,6 +118,9 @@ export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
       goToSuccessScreen: () => setPageStatus('success'),
     },
     txOverview,
-    riskAcknowledgement,
+    riskAcknowledgement: {
+      ...riskAcknowledgement,
+      warning,
+    },
   }
 }

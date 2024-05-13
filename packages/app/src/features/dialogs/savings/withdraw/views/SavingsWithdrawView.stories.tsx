@@ -79,7 +79,7 @@ const meta: Meta<typeof SavingsWithdrawView> = {
       acknowledged: false,
       isRiskAcknowledgedOrNotRequired: true,
       onStatusChange: () => {},
-      text: undefined,
+      warning: undefined,
     },
   },
 }

@@ -12,7 +12,7 @@ import { FormFieldsForDialog, PageStatus } from '@/features/dialogs/common/types
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
 
 import { DepositOverviewPanel } from '../../common/components/DepositOverviewPanel'
-import { RiskAcknowledgementInfo } from '../../common/logic/useRiskAcknowledgement'
+import { RiskAcknowledgementInfo } from '../logic/useSavingsWithdrawDialog'
 import { SavingsDialogTxOverview } from '../logic/useTransactionOverview'
 
 export interface SavingsWithdrawViewProps {
@@ -53,10 +53,11 @@ export function SavingsWithdrawView({
           />
         )}
       </FormAndOverviewWrapper>
-      {riskAcknowledgement.text && (
-        <RiskAcknowledgement onStatusChange={riskAcknowledgement.onStatusChange}>
-          {riskAcknowledgement.text}
-        </RiskAcknowledgement>
+      {riskAcknowledgement.warning && (
+        <RiskAcknowledgement
+          onStatusChange={riskAcknowledgement.onStatusChange}
+          warning={riskAcknowledgement.warning}
+        />
       )}
 
       <DialogActionsPanel
