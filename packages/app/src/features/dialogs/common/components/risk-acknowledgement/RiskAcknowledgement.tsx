@@ -1,6 +1,7 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { LabeledSwitch } from '@/ui/molecules/labeled-switch/LabeledSwitch'
+import { testIds } from '@/ui/utils/testIds'
 
 import { Alert } from '../alert/Alert'
 
@@ -33,7 +34,7 @@ export function RiskAcknowledgement({ warning, onStatusChange }: RiskAcknowledge
               `${warning.token.format(warning.discrepancy, { style: 'auto' })} ${warning.token.symbol}.`}
         </div>
       </Alert>
-      <LabeledSwitch onCheckedChange={onStatusChange}>
+      <LabeledSwitch onCheckedChange={onStatusChange} data-testid={testIds.dialog.acknowledgeRiskSwitch}>
         <div className="text-basics-black text-sm font-semibold">I acknowledge risks involved</div>
       </LabeledSwitch>
     </div>
