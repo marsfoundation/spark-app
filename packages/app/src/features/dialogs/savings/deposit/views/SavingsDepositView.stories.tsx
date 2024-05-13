@@ -88,7 +88,7 @@ const meta: Meta<typeof SavingsDepositView> = {
     riskAcknowledgement: {
       acknowledged: false,
       isRiskAcknowledgedOrNotRequired: true,
-      onStatusChanged: () => {},
+      onStatusChange: () => {},
       text: undefined,
     },
   },

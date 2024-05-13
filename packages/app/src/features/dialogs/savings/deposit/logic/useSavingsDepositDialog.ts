@@ -12,12 +12,13 @@ import { Objective } from '@/features/actions/logic/types'
 import { AssetInputSchema, useDebouncedDialogFormValues } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
 
+import { RiskAcknowledgementInfo, useRiskAcknowledgement } from '../../common/logic/useRiskAcknowledgement'
 import { getFormFieldsForDepositDialog } from './form'
 import { createObjectives } from './objectives'
-import { RiskAcknowledgementInfo, useRiskAcknowledgement } from './useRiskAcknowledgement'
 import { useSwap } from './useSwap'
 import { SavingsDialogTxOverview, useTxOverview } from './useTransactionOverview'
 import { getSavingsDepositDialogFormValidator } from './validation'
+import { DepositWarningGenerator } from './warningGenerator'
 
 export interface UseSavingsDepositDialogParams {
   initialToken: Token
@@ -64,11 +65,14 @@ export function useSavingsDepositDialog({
   })
   const { swapInfo, swapParams } = useSwap({ formValues, marketInfo, walletInfo })
 
-  const riskAcknowledgement = useRiskAcknowledgement({
-    swapInfo,
+  const transactionWarningGenerator = new DepositWarningGenerator({
     marketInfo,
     potParams: makerInfo.potParameters,
+    swapInfo,
     inputValues: formValues,
+  })
+  const riskAcknowledgement = useRiskAcknowledgement({
+    transactionWarningGenerator,
   })
 
   const objectives = createObjectives({
@@ -84,10 +88,13 @@ export function useSavingsDepositDialog({
     swapParams,
     makerInfo,
   })
+
   const tokenToDeposit: TokenWithValue = {
     token: formValues.token,
     value: formValues.value,
   }
+  const actionsEnabled =
+    formValues.value.gt(0) && isFormValid && !isDebouncing && riskAcknowledgement.isRiskAcknowledgedOrNotRequired
 
   return {
     selectableAssets: depositOptions,
@@ -98,8 +105,7 @@ export function useSavingsDepositDialog({
     txOverview,
     pageStatus: {
       state: pageStatus,
-      actionsEnabled:
-        formValues.value.gt(0) && isFormValid && !isDebouncing && riskAcknowledgement.isRiskAcknowledgedOrNotRequired,
+      actionsEnabled,
       goToSuccessScreen: () => setPageStatus('success'),
     },
     riskAcknowledgement,

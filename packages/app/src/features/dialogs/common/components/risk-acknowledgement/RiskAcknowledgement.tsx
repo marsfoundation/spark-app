@@ -6,16 +6,16 @@ import { Alert } from '../alert/Alert'
 
 export interface RiskAcknowledgementProps {
   children: ReactNode
-  onStatusChanged: (acknowledged: boolean) => void
+  onStatusChange: (acknowledged: boolean) => void
 }
 
-export function RiskAcknowledgement({ children, onStatusChanged }: RiskAcknowledgementProps) {
+export function RiskAcknowledgement({ children, onStatusChange }: RiskAcknowledgementProps) {
   return (
     <div className="flex flex-col gap-2">
       <Alert variant="danger">
         <div className="text-basics-black text-sm">{children}</div>
       </Alert>
-      <LabeledSwitch onCheckedChange={onStatusChanged}>
+      <LabeledSwitch onCheckedChange={onStatusChange}>
         <div className="text-basics-black text-sm font-semibold">I acknowledge risks involved</div>
       </LabeledSwitch>
     </div>

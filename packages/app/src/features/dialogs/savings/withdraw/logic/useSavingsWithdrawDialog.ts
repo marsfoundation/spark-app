@@ -14,13 +14,14 @@ import { Objective } from '@/features/actions/logic/types'
 import { AssetInputSchema, useDebouncedDialogFormValues } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
 
+import { RiskAcknowledgementInfo, useRiskAcknowledgement } from '../../common/logic/useRiskAcknowledgement'
 import { getFormFieldsForWithdrawDialog } from './form'
 import { getSDaiWithBalance } from './getSDaiWithBalance'
 import { createObjectives } from './objectives'
-import { RiskAcknowledgementInfo, useRiskAcknowledgement } from './useRiskAcknowledgement'
 import { useSwap } from './useSwap'
 import { SavingsDialogTxOverview, useTxOverview } from './useTransactionOverview'
 import { getSavingsWithdrawDialogFormValidator } from './validation'
+import { WithdrawWarningGenerator } from './warningGenerator'
 
 export interface UseSavingsWithdrawDialogResults {
   selectableAssets: TokenWithBalance[]
@@ -83,12 +84,20 @@ export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
     pageStatus === 'success',
   )
 
-  const riskAcknowledgement = useRiskAcknowledgement({
-    swapInfo,
+  const transactionWarningGenerator = new WithdrawWarningGenerator({
     marketInfo,
     potParams: makerInfo.potParameters,
+    swapInfo,
     inputValues: formValues,
   })
+  const riskAcknowledgement = useRiskAcknowledgement({
+    transactionWarningGenerator,
+  })
+
+  const actionsEnabled =
+    ((formValues.value.gt(0) && isFormValid) || formValues.isMaxSelected) &&
+    !isDebouncing &&
+    riskAcknowledgement.isRiskAcknowledgedOrNotRequired
 
   return {
     selectableAssets: withdrawOptions,
@@ -98,10 +107,7 @@ export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
     tokenToWithdraw,
     pageStatus: {
       state: pageStatus,
-      actionsEnabled:
-        ((formValues.value.gt(0) && isFormValid) || formValues.isMaxSelected) &&
-        !isDebouncing &&
-        riskAcknowledgement.isRiskAcknowledgedOrNotRequired,
+      actionsEnabled,
       goToSuccessScreen: () => setPageStatus('success'),
     },
     txOverview,
