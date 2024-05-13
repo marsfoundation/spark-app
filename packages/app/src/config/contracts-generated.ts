@@ -3,8 +3,7 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdA0Ab1e0017DEbCd72Be8599041a2aa3bA7e740F)
- * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0xdA0Ab1e0017DEbCd72Be8599041a2aa3bA7e740F)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdA0Ab1e0017DEbCd72Be8599041a2aa3bA7e740F)
  */
 export const chainlogAbi = [
   { type: 'constructor', inputs: [], stateMutability: 'nonpayable' },
@@ -174,17 +173,14 @@ export const chainlogAbi = [
 ] as const
 
 /**
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdA0Ab1e0017DEbCd72Be8599041a2aa3bA7e740F)
- * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0xdA0Ab1e0017DEbCd72Be8599041a2aa3bA7e740F)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdA0Ab1e0017DEbCd72Be8599041a2aa3bA7e740F)
  */
 export const chainlogAddress = {
   1: '0xdA0Ab1e0017DEbCd72Be8599041a2aa3bA7e740F',
-  5: '0xdA0Ab1e0017DEbCd72Be8599041a2aa3bA7e740F',
 } as const
 
 /**
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdA0Ab1e0017DEbCd72Be8599041a2aa3bA7e740F)
- * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0xdA0Ab1e0017DEbCd72Be8599041a2aa3bA7e740F)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdA0Ab1e0017DEbCd72Be8599041a2aa3bA7e740F)
  */
 export const chainlogConfig = { address: chainlogAddress, abi: chainlogAbi } as const
 
@@ -194,7 +190,7 @@ export const chainlogConfig = { address: chainlogAddress, abi: chainlogAbi } as 
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xb137E7d16564c81ae2b0C8ee6B55De81dd46ECe5)
- * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x0D56700c90a690D8795D6C148aCD94b12932f4E3)
+ * - [__View Contract on Gnosis Gnosisscan__](https://gnosisscan.io/address/0xb9E6DBFa4De19CCed908BcbFe1d015190678AB5f)
  */
 export const collectorAbi = [
   {
@@ -276,104 +272,25 @@ export const collectorAbi = [
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xb137E7d16564c81ae2b0C8ee6B55De81dd46ECe5)
- * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x0D56700c90a690D8795D6C148aCD94b12932f4E3)
+ * - [__View Contract on Gnosis Gnosisscan__](https://gnosisscan.io/address/0xb9E6DBFa4De19CCed908BcbFe1d015190678AB5f)
  */
 export const collectorAddress = {
   1: '0xb137E7d16564c81ae2b0C8ee6B55De81dd46ECe5',
-  5: '0x0D56700c90a690D8795D6C148aCD94b12932f4E3',
   100: '0xb9E6DBFa4De19CCed908BcbFe1d015190678AB5f',
 } as const
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xb137E7d16564c81ae2b0C8ee6B55De81dd46ECe5)
- * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x0D56700c90a690D8795D6C148aCD94b12932f4E3)
+ * - [__View Contract on Gnosis Gnosisscan__](https://gnosisscan.io/address/0xb9E6DBFa4De19CCed908BcbFe1d015190678AB5f)
  */
 export const collectorConfig = { address: collectorAddress, abi: collectorAbi } as const
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Faucet
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/**
- * [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0xe2bE5BfdDbA49A86e27f3Dd95710B528D43272C2)
- */
-export const faucetAbi = [
-  {
-    type: 'constructor',
-    inputs: [
-      { name: '_makerFaucet', internalType: 'address', type: 'address' },
-      { name: '_psm', internalType: 'address', type: 'address' },
-      { name: '_sDai', internalType: 'address', type: 'address' },
-    ],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'dai',
-    outputs: [{ name: '', internalType: 'contract TokenLike', type: 'address' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'gem',
-    outputs: [{ name: '', internalType: 'contract TokenLike', type: 'address' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'makerFaucet',
-    outputs: [{ name: '', internalType: 'contract MakerFaucetLike', type: 'address' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'token', internalType: 'address', type: 'address' },
-      { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'mint',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'psm',
-    outputs: [{ name: '', internalType: 'contract PsmLike', type: 'address' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'sDai',
-    outputs: [{ name: '', internalType: 'contract TokenLike', type: 'address' }],
-    stateMutability: 'view',
-  },
-] as const
-
-/**
- * [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0xe2bE5BfdDbA49A86e27f3Dd95710B528D43272C2)
- */
-export const faucetAddress = {
-  5: '0xe2bE5BfdDbA49A86e27f3Dd95710B528D43272C2',
-} as const
-
-/**
- * [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0xe2bE5BfdDbA49A86e27f3Dd95710B528D43272C2)
- */
-export const faucetConfig = { address: faucetAddress, abi: faucetAbi } as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // IAMAutoLine
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xC7Bdd1F2B16447dcf3dE045C4a039A60EC2f0ba3)
- * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x21DaD87779D9FfA8Ed3E1036cBEA8784cec4fB83)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xC7Bdd1F2B16447dcf3dE045C4a039A60EC2f0ba3)
  */
 export const iamAutoLineAbi = [
   {
@@ -490,17 +407,14 @@ export const iamAutoLineAbi = [
 ] as const
 
 /**
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xC7Bdd1F2B16447dcf3dE045C4a039A60EC2f0ba3)
- * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x21DaD87779D9FfA8Ed3E1036cBEA8784cec4fB83)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xC7Bdd1F2B16447dcf3dE045C4a039A60EC2f0ba3)
  */
 export const iamAutoLineAddress = {
   1: '0xC7Bdd1F2B16447dcf3dE045C4a039A60EC2f0ba3',
-  5: '0x21DaD87779D9FfA8Ed3E1036cBEA8784cec4fB83',
 } as const
 
 /**
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xC7Bdd1F2B16447dcf3dE045C4a039A60EC2f0ba3)
- * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x21DaD87779D9FfA8Ed3E1036cBEA8784cec4fB83)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xC7Bdd1F2B16447dcf3dE045C4a039A60EC2f0ba3)
  */
 export const iamAutoLineConfig = { address: iamAutoLineAddress, abi: iamAutoLineAbi } as const
 
@@ -510,7 +424,7 @@ export const iamAutoLineConfig = { address: iamAutoLineAddress, abi: iamAutoLine
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xC13e21B648A5Ee794902342038FF3aDAB66BE987)
- * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x26ca51Af4506DE7a6f0785D20CD776081a05fF6d)
+ * - [__View Contract on Gnosis Gnosisscan__](https://gnosisscan.io/address/0x2Dae5307c5E3FD1CF5A72Cb6F698f915860607e0)
  */
 export const lendingPoolAbi = [
   {
@@ -570,17 +484,16 @@ export const lendingPoolAbi = [
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xC13e21B648A5Ee794902342038FF3aDAB66BE987)
- * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x26ca51Af4506DE7a6f0785D20CD776081a05fF6d)
+ * - [__View Contract on Gnosis Gnosisscan__](https://gnosisscan.io/address/0x2Dae5307c5E3FD1CF5A72Cb6F698f915860607e0)
  */
 export const lendingPoolAddress = {
   1: '0xC13e21B648A5Ee794902342038FF3aDAB66BE987',
-  5: '0x26ca51Af4506DE7a6f0785D20CD776081a05fF6d',
   100: '0x2Dae5307c5E3FD1CF5A72Cb6F698f915860607e0',
 } as const
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xC13e21B648A5Ee794902342038FF3aDAB66BE987)
- * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x26ca51Af4506DE7a6f0785D20CD776081a05fF6d)
+ * - [__View Contract on Gnosis Gnosisscan__](https://gnosisscan.io/address/0x2Dae5307c5E3FD1CF5A72Cb6F698f915860607e0)
  */
 export const lendingPoolConfig = { address: lendingPoolAddress, abi: lendingPoolAbi } as const
 
@@ -590,7 +503,7 @@ export const lendingPoolConfig = { address: lendingPoolAddress, abi: lendingPool
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x02C3eA4e34C0cBd694D2adFa2c690EECbC1793eE)
- * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x026a5B6114431d8F3eF2fA0E1B2EDdDccA9c540E)
+ * - [__View Contract on Gnosis Gnosisscan__](https://gnosisscan.io/address/0xA98DaCB3fC964A6A0d2ce3B77294241585EAbA6d)
  */
 export const lendingPoolAddressProviderAbi = [
   {
@@ -871,17 +784,16 @@ export const lendingPoolAddressProviderAbi = [
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x02C3eA4e34C0cBd694D2adFa2c690EECbC1793eE)
- * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x026a5B6114431d8F3eF2fA0E1B2EDdDccA9c540E)
+ * - [__View Contract on Gnosis Gnosisscan__](https://gnosisscan.io/address/0xA98DaCB3fC964A6A0d2ce3B77294241585EAbA6d)
  */
 export const lendingPoolAddressProviderAddress = {
   1: '0x02C3eA4e34C0cBd694D2adFa2c690EECbC1793eE',
-  5: '0x026a5B6114431d8F3eF2fA0E1B2EDdDccA9c540E',
   100: '0xA98DaCB3fC964A6A0d2ce3B77294241585EAbA6d',
 } as const
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x02C3eA4e34C0cBd694D2adFa2c690EECbC1793eE)
- * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x026a5B6114431d8F3eF2fA0E1B2EDdDccA9c540E)
+ * - [__View Contract on Gnosis Gnosisscan__](https://gnosisscan.io/address/0xA98DaCB3fC964A6A0d2ce3B77294241585EAbA6d)
  */
 export const lendingPoolAddressProviderConfig = {
   address: lendingPoolAddressProviderAddress,
@@ -893,8 +805,7 @@ export const lendingPoolAddressProviderConfig = {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x197E90f9FAD81970bA7976f33CbD77088E5D7cf7)
- * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x50672F0a14B40051B65958818a7AcA3D54Bd81Af)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x197E90f9FAD81970bA7976f33CbD77088E5D7cf7)
  */
 export const potAbi = [
   {
@@ -1077,17 +988,14 @@ export const potAbi = [
 ] as const
 
 /**
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x197E90f9FAD81970bA7976f33CbD77088E5D7cf7)
- * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x50672F0a14B40051B65958818a7AcA3D54Bd81Af)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x197E90f9FAD81970bA7976f33CbD77088E5D7cf7)
  */
 export const potAddress = {
   1: '0x197E90f9FAD81970bA7976f33CbD77088E5D7cf7',
-  5: '0x50672F0a14B40051B65958818a7AcA3D54Bd81Af',
 } as const
 
 /**
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x197E90f9FAD81970bA7976f33CbD77088E5D7cf7)
- * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x50672F0a14B40051B65958818a7AcA3D54Bd81Af)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x197E90f9FAD81970bA7976f33CbD77088E5D7cf7)
  */
 export const potConfig = { address: potAddress, abi: potAbi } as const
 
@@ -1096,8 +1004,7 @@ export const potConfig = { address: potAddress, abi: potAbi } as const
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x83f20f44975d03b1b09e64809b757c47f942beea)
- * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0xd8134205b0328f5676aaefb3b2a0dc15f4029d8c)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x83f20f44975d03b1b09e64809b757c47f942beea)
  */
 export const savingsDaiAbi = [
   {
@@ -1467,19 +1374,156 @@ export const savingsDaiAbi = [
 ] as const
 
 /**
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x83f20f44975d03b1b09e64809b757c47f942beea)
- * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0xd8134205b0328f5676aaefb3b2a0dc15f4029d8c)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x83f20f44975d03b1b09e64809b757c47f942beea)
  */
 export const savingsDaiAddress = {
   1: '0x83F20F44975D03b1b09e64809B757c47f942BEeA',
-  5: '0xD8134205b0328F5676aaeFb3B2a0DC15f4029d8C',
 } as const
 
 /**
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x83f20f44975d03b1b09e64809b757c47f942beea)
- * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0xd8134205b0328f5676aaefb3b2a0dc15f4029d8c)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x83f20f44975d03b1b09e64809b757c47f942beea)
  */
 export const savingsDaiConfig = { address: savingsDaiAddress, abi: savingsDaiAbi } as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// SavingsXDaiAdapter
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * [__View Contract on Gnosis Gnosisscan__](https://gnosisscan.io/address/0xD499b51fcFc66bd31248ef4b28d656d67E591A94)
+ */
+export const savingsXDaiAdapterAbi = [
+  {
+    type: 'constructor',
+    inputs: [
+      { name: 'interestReceiver_', internalType: 'address', type: 'address' },
+      { name: 'sDAI_', internalType: 'address payable', type: 'address' },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'assets', internalType: 'uint256', type: 'uint256' },
+      { name: 'receiver', internalType: 'address', type: 'address' },
+    ],
+    name: 'deposit',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'receiver', internalType: 'address', type: 'address' }],
+    name: 'depositXDAI',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'payable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'interestReceiver',
+    outputs: [{ name: '', internalType: 'contract IBridgeInterestReceiver', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'shares', internalType: 'uint256', type: 'uint256' },
+      { name: 'receiver', internalType: 'address', type: 'address' },
+    ],
+    name: 'mint',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'shares', internalType: 'uint256', type: 'uint256' },
+      { name: 'receiver', internalType: 'address', type: 'address' },
+    ],
+    name: 'redeem',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'receiver', internalType: 'address', type: 'address' }],
+    name: 'redeemAll',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'receiver', internalType: 'address', type: 'address' }],
+    name: 'redeemAllXDAI',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'payable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'shares', internalType: 'uint256', type: 'uint256' },
+      { name: 'receiver', internalType: 'address', type: 'address' },
+    ],
+    name: 'redeemXDAI',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'payable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'sDAI',
+    outputs: [{ name: '', internalType: 'contract SavingsXDai', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'vaultAPY',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'assets', internalType: 'uint256', type: 'uint256' },
+      { name: 'receiver', internalType: 'address', type: 'address' },
+    ],
+    name: 'withdraw',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'assets', internalType: 'uint256', type: 'uint256' },
+      { name: 'receiver', internalType: 'address', type: 'address' },
+    ],
+    name: 'withdrawXDAI',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'payable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'wxdai',
+    outputs: [{ name: '', internalType: 'contract IWXDAI', type: 'address' }],
+    stateMutability: 'view',
+  },
+  { type: 'receive', stateMutability: 'payable' },
+] as const
+
+/**
+ * [__View Contract on Gnosis Gnosisscan__](https://gnosisscan.io/address/0xD499b51fcFc66bd31248ef4b28d656d67E591A94)
+ */
+export const savingsXDaiAdapterAddress = {
+  100: '0xD499b51fcFc66bd31248ef4b28d656d67E591A94',
+} as const
+
+/**
+ * [__View Contract on Gnosis Gnosisscan__](https://gnosisscan.io/address/0xD499b51fcFc66bd31248ef4b28d656d67E591A94)
+ */
+export const savingsXDaiAdapterConfig = { address: savingsXDaiAdapterAddress, abi: savingsXDaiAdapterAbi } as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // UiIncentiveDataProvider
@@ -1487,7 +1531,7 @@ export const savingsDaiConfig = { address: savingsDaiAddress, abi: savingsDaiAbi
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xA7F8A757C4f7696c015B595F51B2901AC0121B18)
- * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x1472B7d120ab62D60f60e1D804B3858361c3C475)
+ * - [__View Contract on Gnosis Gnosisscan__](https://gnosisscan.io/address/0xA7F8A757C4f7696c015B595F51B2901AC0121B18)
  */
 export const uiIncentiveDataProviderAbi = [
   {
@@ -1862,17 +1906,16 @@ export const uiIncentiveDataProviderAbi = [
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xA7F8A757C4f7696c015B595F51B2901AC0121B18)
- * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x1472B7d120ab62D60f60e1D804B3858361c3C475)
+ * - [__View Contract on Gnosis Gnosisscan__](https://gnosisscan.io/address/0xA7F8A757C4f7696c015B595F51B2901AC0121B18)
  */
 export const uiIncentiveDataProviderAddress = {
   1: '0xA7F8A757C4f7696c015B595F51B2901AC0121B18',
-  5: '0x1472B7d120ab62D60f60e1D804B3858361c3C475',
   100: '0xA7F8A757C4f7696c015B595F51B2901AC0121B18',
 } as const
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xA7F8A757C4f7696c015B595F51B2901AC0121B18)
- * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x1472B7d120ab62D60f60e1D804B3858361c3C475)
+ * - [__View Contract on Gnosis Gnosisscan__](https://gnosisscan.io/address/0xA7F8A757C4f7696c015B595F51B2901AC0121B18)
  */
 export const uiIncentiveDataProviderConfig = {
   address: uiIncentiveDataProviderAddress,
@@ -1885,7 +1928,7 @@ export const uiIncentiveDataProviderConfig = {
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xF028c2F4b19898718fD0F77b9b881CbfdAa5e8Bb)
- * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x36eddc380C7f370e5f05Da5Bd7F970a27f063e39)
+ * - [__View Contract on Gnosis Gnosisscan__](https://gnosisscan.io/address/0xF028c2F4b19898718fD0F77b9b881CbfdAa5e8Bb)
  */
 export const uiPoolDataProviderAbi = [
   {
@@ -2056,17 +2099,16 @@ export const uiPoolDataProviderAbi = [
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xF028c2F4b19898718fD0F77b9b881CbfdAa5e8Bb)
- * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x36eddc380C7f370e5f05Da5Bd7F970a27f063e39)
+ * - [__View Contract on Gnosis Gnosisscan__](https://gnosisscan.io/address/0xF028c2F4b19898718fD0F77b9b881CbfdAa5e8Bb)
  */
 export const uiPoolDataProviderAddress = {
   1: '0xF028c2F4b19898718fD0F77b9b881CbfdAa5e8Bb',
-  5: '0x36eddc380C7f370e5f05Da5Bd7F970a27f063e39',
   100: '0xF028c2F4b19898718fD0F77b9b881CbfdAa5e8Bb',
 } as const
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xF028c2F4b19898718fD0F77b9b881CbfdAa5e8Bb)
- * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x36eddc380C7f370e5f05Da5Bd7F970a27f063e39)
+ * - [__View Contract on Gnosis Gnosisscan__](https://gnosisscan.io/address/0xF028c2F4b19898718fD0F77b9b881CbfdAa5e8Bb)
  */
 export const uiPoolDataProviderConfig = { address: uiPoolDataProviderAddress, abi: uiPoolDataProviderAbi } as const
 
@@ -2288,8 +2330,7 @@ export const v3MigratorConfig = { address: v3MigratorAddress, abi: v3MigratorAbi
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x35D1b3F3D7966A1DFe207aa4514C12a259A0492B)
- * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0xB966002DDAa2Baf48369f5015329750019736031)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x35D1b3F3D7966A1DFe207aa4514C12a259A0492B)
  */
 export const vatAbi = [
   { payable: false, type: 'constructor', inputs: [], stateMutability: 'nonpayable' },
@@ -2626,17 +2667,14 @@ export const vatAbi = [
 ] as const
 
 /**
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x35D1b3F3D7966A1DFe207aa4514C12a259A0492B)
- * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0xB966002DDAa2Baf48369f5015329750019736031)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x35D1b3F3D7966A1DFe207aa4514C12a259A0492B)
  */
 export const vatAddress = {
   1: '0x35D1b3F3D7966A1DFe207aa4514C12a259A0492B',
-  5: '0xB966002DDAa2Baf48369f5015329750019736031',
 } as const
 
 /**
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x35D1b3F3D7966A1DFe207aa4514C12a259A0492B)
- * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0xB966002DDAa2Baf48369f5015329750019736031)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x35D1b3F3D7966A1DFe207aa4514C12a259A0492B)
  */
 export const vatConfig = { address: vatAddress, abi: vatAbi } as const
 
@@ -2646,7 +2684,7 @@ export const vatConfig = { address: vatAddress, abi: vatAbi } as const
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBD7D6a9ad7865463DE44B05F04559f65e3B11704)
- * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0xe6fC577E87F7c977c4393300417dCC592D90acF8)
+ * - [__View Contract on Gnosis Gnosisscan__](https://gnosisscan.io/address/0xBD7D6a9ad7865463DE44B05F04559f65e3B11704)
  */
 export const wethGatewayAbi = [
   {
@@ -2777,17 +2815,16 @@ export const wethGatewayAbi = [
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBD7D6a9ad7865463DE44B05F04559f65e3B11704)
- * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0xe6fC577E87F7c977c4393300417dCC592D90acF8)
+ * - [__View Contract on Gnosis Gnosisscan__](https://gnosisscan.io/address/0xBD7D6a9ad7865463DE44B05F04559f65e3B11704)
  */
 export const wethGatewayAddress = {
   1: '0xBD7D6a9ad7865463DE44B05F04559f65e3B11704',
-  5: '0xe6fC577E87F7c977c4393300417dCC592D90acF8',
   100: '0xBD7D6a9ad7865463DE44B05F04559f65e3B11704',
 } as const
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBD7D6a9ad7865463DE44B05F04559f65e3B11704)
- * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0xe6fC577E87F7c977c4393300417dCC592D90acF8)
+ * - [__View Contract on Gnosis Gnosisscan__](https://gnosisscan.io/address/0xBD7D6a9ad7865463DE44B05F04559f65e3B11704)
  */
 export const wethGatewayConfig = { address: wethGatewayAddress, abi: wethGatewayAbi } as const
 
@@ -2797,7 +2834,7 @@ export const wethGatewayConfig = { address: wethGatewayAddress, abi: wethGateway
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd2AeF86F51F92E8e49F42454c287AE4879D1BeDc)
- * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x261135877A92B42183c998bFB8580558a28377a6)
+ * - [__View Contract on Gnosis Gnosisscan__](https://gnosisscan.io/address/0xd2AeF86F51F92E8e49F42454c287AE4879D1BeDc)
  */
 export const walletBalanceProviderAbi = [
   {
@@ -2838,17 +2875,16 @@ export const walletBalanceProviderAbi = [
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd2AeF86F51F92E8e49F42454c287AE4879D1BeDc)
- * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x261135877A92B42183c998bFB8580558a28377a6)
+ * - [__View Contract on Gnosis Gnosisscan__](https://gnosisscan.io/address/0xd2AeF86F51F92E8e49F42454c287AE4879D1BeDc)
  */
 export const walletBalanceProviderAddress = {
   1: '0xd2AeF86F51F92E8e49F42454c287AE4879D1BeDc',
-  5: '0x261135877A92B42183c998bFB8580558a28377a6',
   100: '0xd2AeF86F51F92E8e49F42454c287AE4879D1BeDc',
 } as const
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd2AeF86F51F92E8e49F42454c287AE4879D1BeDc)
- * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x261135877A92B42183c998bFB8580558a28377a6)
+ * - [__View Contract on Gnosis Gnosisscan__](https://gnosisscan.io/address/0xd2AeF86F51F92E8e49F42454c287AE4879D1BeDc)
  */
 export const walletBalanceProviderConfig = {
   address: walletBalanceProviderAddress,
