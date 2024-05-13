@@ -115,8 +115,8 @@ jobs:
           cache: 'pnpm'
       - run: pnpm install
 
-      - run: pnpm exec playwright install --with-deps chromium replay-chromium
-        working-directory: ./packages/app
+      # - run: pnpm exec playwright install --with-deps chromium
+      #   working-directory: ./packages/app
       - run: pnpm run test-e2e
         working-directory: ./packages/app
         env:
