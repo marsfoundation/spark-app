@@ -14,7 +14,6 @@ import { AssetInputSchema, useDebouncedDialogFormValues } from '@/features/dialo
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
 import { useTimestamp } from '@/utils/useTimestamp'
 
-import { RiskAcknowledgement, useRiskAcknowledgement } from '../../common/logic/useRiskAcknowledgement'
 import { getFormFieldsForDepositDialog } from './form'
 import { generateWarning } from './generateWarning'
 import { createObjectives } from './objectives'
@@ -27,7 +26,8 @@ export interface UseSavingsDepositDialogParams {
   makerInfo: MakerInfo
 }
 
-export interface RiskAcknowledgementInfo extends RiskAcknowledgement {
+export interface RiskAcknowledgementInfo {
+  onStatusChange: (acknowledged: boolean) => void
   warning?: RiskWarning
 }
 
@@ -79,9 +79,7 @@ export function useSavingsDepositDialog({
     potParams: makerInfo.potParameters,
     timestamp,
   })
-  const riskAcknowledgement = useRiskAcknowledgement({
-    required: !!warning,
-  })
+  const [riskAcknowledged, setRiskAcknowledged] = useState(false)
 
   const objectives = createObjectives({
     swapInfo,
@@ -101,8 +99,7 @@ export function useSavingsDepositDialog({
     token: formValues.token,
     value: formValues.value,
   }
-  const actionsEnabled =
-    formValues.value.gt(0) && isFormValid && !isDebouncing && riskAcknowledgement.isRiskAcknowledgedOrNotRequired
+  const actionsEnabled = formValues.value.gt(0) && isFormValid && !isDebouncing && (!warning || riskAcknowledged)
 
   return {
     selectableAssets: depositOptions,
@@ -117,7 +114,7 @@ export function useSavingsDepositDialog({
       goToSuccessScreen: () => setPageStatus('success'),
     },
     riskAcknowledgement: {
-      ...riskAcknowledgement,
+      onStatusChange: setRiskAcknowledged,
       warning,
     },
   }

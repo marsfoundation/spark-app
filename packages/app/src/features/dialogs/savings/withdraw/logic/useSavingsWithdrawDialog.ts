@@ -16,7 +16,6 @@ import { AssetInputSchema, useDebouncedDialogFormValues } from '@/features/dialo
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
 import { useTimestamp } from '@/utils/useTimestamp'
 
-import { RiskAcknowledgement, useRiskAcknowledgement } from '../../common/logic/useRiskAcknowledgement'
 import { getFormFieldsForWithdrawDialog } from './form'
 import { generateWarning } from './generateWarning'
 import { getSDaiWithBalance } from './getSDaiWithBalance'
@@ -25,7 +24,8 @@ import { useSwap } from './useSwap'
 import { SavingsDialogTxOverview, useTxOverview } from './useTransactionOverview'
 import { getSavingsWithdrawDialogFormValidator } from './validation'
 
-export interface RiskAcknowledgementInfo extends RiskAcknowledgement {
+export interface RiskAcknowledgementInfo {
+  onStatusChange: (acknowledged: boolean) => void
   warning?: RiskWarning
 }
 export interface UseSavingsWithdrawDialogResults {
@@ -97,14 +97,12 @@ export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
     potParams: makerInfo.potParameters,
     timestamp,
   })
-  const riskAcknowledgement = useRiskAcknowledgement({
-    required: !!warning,
-  })
+  const [riskAcknowledged, setRiskAcknowledged] = useState(false)
 
   const actionsEnabled =
     ((formValues.value.gt(0) && isFormValid) || formValues.isMaxSelected) &&
     !isDebouncing &&
-    riskAcknowledgement.isRiskAcknowledgedOrNotRequired
+    (!warning || riskAcknowledged)
 
   return {
     selectableAssets: withdrawOptions,
@@ -119,7 +117,7 @@ export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
     },
     txOverview,
     riskAcknowledgement: {
-      ...riskAcknowledgement,
+      onStatusChange: setRiskAcknowledged,
       warning,
     },
   }

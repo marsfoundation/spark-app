@@ -86,8 +86,6 @@ const meta: Meta<typeof SavingsDepositView> = {
       sDaiBalanceAfter: NormalizedUnitNumber(10000),
     },
     riskAcknowledgement: {
-      acknowledged: false,
-      isRiskAcknowledgedOrNotRequired: true,
       onStatusChange: () => {},
       warning: undefined,
     },
