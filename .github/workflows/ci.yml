@@ -115,11 +115,6 @@ jobs:
           cache: 'pnpm'
       - run: pnpm install
 
-      - name: TMP fix MS repos
-        run: |
-          sudo rm /etc/apt/sources.list.d/microsoft-prod.list
-          sudo apt-get update
-
       - run: pnpm exec playwright install --with-deps chromium
         working-directory: ./packages/app
       - run: pnpm run test-e2e
@@ -128,14 +123,7 @@ jobs:
           TENDERLY_API_KEY: '${{ secrets.TENDERLY_API_KEY }}'
           TENDERLY_ACCOUNT: phoenixlabs
           TENDERLY_PROJECT: sparklend
-          PLAYWRIGHT_TRACE: 1
-      - name: Upload report to GitHub Actions Artifacts
-        if: failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-e2e-report
-          path: packages/app/playwright-report
-          retention-days: 3
+          REPLAY_API_KEY: ${{ secrets.REPLAY_API_KEY }}
 
       - uses: krzkaczor/reg-actions@action-v2
         with:
