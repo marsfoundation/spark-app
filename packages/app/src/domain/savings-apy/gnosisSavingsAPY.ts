@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js'
 import { gnosis } from 'viem/chains'
 import { readContract } from 'wagmi/actions'
 
@@ -29,4 +30,10 @@ export function gnosisSavingsAPY({ wagmiConfig }: SavingsAPYParams): SavingsAPYQ
       return Percentage(bigNumberify(vaultAPY).div(1e18), true)
     },
   }
+}
+
+export interface ConversionParams {
+  totalSupply: BigNumber
+  totalAssets: BigNumber
+  vaultAPY: BigNumber
 }
