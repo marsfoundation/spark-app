@@ -1,4 +1,3 @@
-import { SavingsAPYQueryOptionsFactory } from '@/domain/savings-apy/types'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
@@ -42,7 +41,6 @@ export interface ChainConfigEntry {
   erc20TokensWithApproveFnMalformed: Erc20TokensWithApproveFnMalformed
   tokenSymbolToReplacedName: TokenSymbolToReplacedName
   airdrop: Airdrop
-  savingsAPYQueryOptionsFactory: SavingsAPYQueryOptionsFactory
 }
 
 export type ChainConfig = Record<SupportedChainId, ChainConfigEntry>

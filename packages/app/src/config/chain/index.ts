@@ -1,8 +1,6 @@
 import { gnosis, mainnet } from 'viem/chains'
 
 import { getOriginChainId } from '@/domain/hooks/useOriginChainId'
-import { gnosisSavingsAPY } from '@/domain/savings-apy/gnosisSavingsAPY'
-import { mainnetSavingsAPY } from '@/domain/savings-apy/mainnetSavingsAPY'
 import { useStore } from '@/domain/state'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
@@ -29,7 +27,6 @@ const chainConfig: ChainConfig = {
       logo: assets.chain.ethereum,
       defaultAssetToBorrow: TokenSymbol('DAI'),
     },
-    savingsAPYQueryOptionsFactory: mainnetSavingsAPY,
     nativeAssetInfo: {
       nativeAssetName: 'Ethereum',
       wrappedNativeAssetSymbol: TokenSymbol('WETH'),
@@ -69,7 +66,6 @@ const chainConfig: ChainConfig = {
       logo: assets.chain.gnosis,
       defaultAssetToBorrow: TokenSymbol('WXDAI'),
     },
-    savingsAPYQueryOptionsFactory: gnosisSavingsAPY,
     nativeAssetInfo: {
       nativeAssetName: 'XDAI',
       wrappedNativeAssetSymbol: TokenSymbol('WXDAI'),

@@ -99,13 +99,19 @@ export default defineConfig({
       ],
     }),
     etherscan({
-      apiKey: z.string().parse(process.env.ETHERSCAN_API_KEY),
+      apiKey: z.string().parse(process.env.GNOSISCAN_API_KEY),
       chainId: gnosis.id,
       contracts: [
         {
           name: 'SavingsXDaiAdapter',
           address: {
             [gnosis.id]: '0xD499b51fcFc66bd31248ef4b28d656d67E591A94',
+          },
+        },
+        {
+          name: 'SavingsXDai',
+          address: {
+            [gnosis.id]: '0xaf204776c7245bF4147c2612BF6e5972Ee483701',
           },
         },
       ],

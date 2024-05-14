@@ -1,5 +1,5 @@
 import { MarketInfo } from '@/domain/market-info/marketInfo'
-import { ConversionParams } from '@/domain/savings-apy/gnosisSavingsAPY'
+import { ConversionParams } from '@/domain/savings-info/gnosisSavingsInfo'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { WalletInfo } from '@/domain/wallet/useWalletInfo'
 
