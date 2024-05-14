@@ -48,6 +48,7 @@ const hookRenderer = setupHookRenderer({
           feeCostsUSD: NormalizedUnitNumber(0),
           fromAmount: amount,
           toAmount: BaseUnitNumber('943000000000000000'),
+          toAmountMin: BaseUnitNumber('943000000000000000'),
         },
         type: 'direct',
       },

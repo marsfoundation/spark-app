@@ -26,6 +26,7 @@ export const quoteResponseSchema = z.object({
     feeCosts: feesSchema,
     fromAmount: bigIntSchema,
     toAmount: bigIntSchema,
+    toAmountMin: bigIntSchema,
   }),
   action: z.object({
     toToken: lifiTokenSchema,
