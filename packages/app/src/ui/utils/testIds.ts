@@ -47,6 +47,7 @@ export const testIds = makeTestIds({
       after: true,
     },
     success: true,
+    acknowledgeRiskSwitch: true,
   },
   actions: {
     settings: true,

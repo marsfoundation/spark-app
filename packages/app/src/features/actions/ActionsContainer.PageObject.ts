@@ -78,11 +78,11 @@ export class ActionsPageObject extends BasePageObject {
   }
 
   async expectNextActionEnabled(): Promise<void> {
-    await expect(this.locateActionButtons({ disabled: false })).not.toBeDisabled()
+    await expect(this.locateActionButtons({ disabled: false })).toBeVisible()
   }
 
   async expectActionsDisabled(): Promise<void> {
-    await expect(this.locateActionButtons({ disabled: true })).toBeDisabled()
+    await expect(this.locateActionButtons({ disabled: false })).not.toBeVisible()
   }
 
   async expectNextAction(expectedAction: SimplifiedAction, shortForm = false): Promise<void> {
