@@ -22,7 +22,7 @@ export function Navbar({ mobileMenuCollapsed, setMobileMenuCollapsed }: NavbarPr
     openConnectModal,
     openDevSandboxDialog,
     openSandboxDialog,
-    makerInfo,
+    savingsInfo,
     connectedWalletInfo,
     airdropInfo,
     isSandboxEnabled,
@@ -55,7 +55,7 @@ export function Navbar({ mobileMenuCollapsed, setMobileMenuCollapsed }: NavbarPr
         closeMobileMenu={closeMobileMenu}
         mobileMenuCollapsed={mobileMenuCollapsed}
         blockedPages={blockedPages}
-        makerInfo={makerInfo}
+        savingsInfo={savingsInfo}
       />
 
       <NavbarActions

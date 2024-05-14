@@ -1,13 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { useForm, UseFormReturn } from 'react-hook-form'
-import invariant from 'tiny-invariant'
 
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
 import { useConditionalFreeze } from '@/domain/hooks/useConditionalFreeze'
-import { useMakerInfo } from '@/domain/maker-info/useMakerInfo'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { makeAssetsInWalletList } from '@/domain/savings/makeAssetsInWalletList'
+import { useSavingsInfo } from '@/domain/savings-info/useSavingsInfo'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
 import { Objective } from '@/features/actions/logic/types'
@@ -33,8 +32,7 @@ export interface UseSavingsWithdrawDialogResults {
 
 export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
   const { marketInfo } = useMarketInfo()
-  const { makerInfo } = useMakerInfo()
-  invariant(makerInfo, 'Maker info is not available')
+  const { savingsManager } = useSavingsInfo()
   const walletInfo = useWalletInfo()
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')
@@ -70,7 +68,7 @@ export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
     formValues,
     marketInfo,
     walletInfo,
-    makerInfo,
+    savingsManager,
     swapInfo,
   })
   const tokenToWithdraw = useConditionalFreeze<TokenWithValue>(

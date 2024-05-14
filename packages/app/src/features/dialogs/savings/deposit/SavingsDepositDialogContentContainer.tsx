@@ -1,4 +1,3 @@
-import { MakerInfo } from '@/domain/maker-info/types'
 import { Token } from '@/domain/types/Token'
 import { withSuspense } from '@/ui/utils/withSuspense'
 
@@ -9,15 +8,13 @@ import { SavingsDepositView } from './views/SavingsDepositView'
 
 export interface SavingsDepositContainerProps {
   initialToken: Token
-  makerInfo: MakerInfo
   closeDialog: () => void
 }
 
-function SavingsDepositDialogContentContainer({ initialToken, makerInfo, closeDialog }: SavingsDepositContainerProps) {
+function SavingsDepositDialogContentContainer({ initialToken, closeDialog }: SavingsDepositContainerProps) {
   const { selectableAssets, assetsFields, form, tokenToDeposit, objectives, pageStatus, txOverview } =
     useSavingsDepositDialog({
       initialToken,
-      makerInfo,
     })
 
   if (pageStatus.state === 'success') {

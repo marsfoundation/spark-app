@@ -4,17 +4,17 @@ import { paths } from '@/config/paths'
 import { DSRBadge } from '@/features/savings/components/navbar-item/DSRBadge'
 import { cn } from '@/ui/utils/style'
 
-import { MakerInfoQueryResults } from '../types'
+import { SavingsInfoQueryResults } from '../types'
 import { NavLink } from './nav-link/NavLink'
 
 export interface PageLinksProps {
   mobileMenuCollapsed: boolean
   closeMobileMenu: () => void
-  makerInfo: MakerInfoQueryResults
+  savingsInfo: SavingsInfoQueryResults
   blockedPages: (keyof typeof paths)[]
 }
 
-export function PageLinks({ mobileMenuCollapsed, closeMobileMenu, makerInfo, blockedPages }: PageLinksProps) {
+export function PageLinks({ mobileMenuCollapsed, closeMobileMenu, savingsInfo, blockedPages }: PageLinksProps) {
   return (
     <div
       className={cn(
@@ -34,11 +34,7 @@ export function PageLinks({ mobileMenuCollapsed, closeMobileMenu, makerInfo, blo
         <NavLink
           to={paths.savings}
           onClick={closeMobileMenu}
-          postfix={
-            makerInfo.isChainSupported ? (
-              <DSRBadge dsr={makerInfo.data?.DSR} isLoading={makerInfo.isLoading} />
-            ) : undefined
-          }
+          postfix={<DSRBadge dsr={savingsInfo.data?.apy} isLoading={savingsInfo.isLoading} />}
         >
           <Trans>Cash & Savings</Trans>
         </NavLink>

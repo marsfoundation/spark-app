@@ -1,7 +1,6 @@
 import { useMemo } from 'react'
 
 import { TokenWithBalance } from '@/domain/common/types'
-import { MakerInfo } from '@/domain/maker-info/types'
 import { OpenDialogFunction } from '@/domain/state/dialogs'
 import { SavingsDepositDialog } from '@/features/dialogs/savings/deposit/SavingsDepositDialog'
 import { Button } from '@/ui/atoms/button/Button'
@@ -10,12 +9,11 @@ import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 import { DataTable, DataTableProps } from '@/ui/molecules/data-table/DataTable'
 
 export interface CashInWalletProps {
-  makerInfo: MakerInfo
   assets: TokenWithBalance[]
   openDialog: OpenDialogFunction
 }
 
-export function CashInWallet({ makerInfo, assets, openDialog }: CashInWalletProps) {
+export function CashInWallet({ assets, openDialog }: CashInWalletProps) {
   const columnDef: DataTableProps<TokenWithBalance>['columnDef'] = useMemo(
     () => ({
       token: {
@@ -47,7 +45,7 @@ export function CashInWallet({ makerInfo, assets, openDialog }: CashInWalletProp
                 variant="secondary"
                 size="sm"
                 disabled={balance.eq(0)}
-                onClick={() => openDialog(SavingsDepositDialog, { initialToken: token, makerInfo })}
+                onClick={() => openDialog(SavingsDepositDialog, { initialToken: token })}
               >
                 Deposit
               </Button>
@@ -56,7 +54,7 @@ export function CashInWallet({ makerInfo, assets, openDialog }: CashInWalletProp
         },
       },
     }),
-    [openDialog, makerInfo],
+    [openDialog],
   )
 
   return (

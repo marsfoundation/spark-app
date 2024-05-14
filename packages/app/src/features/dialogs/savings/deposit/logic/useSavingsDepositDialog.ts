@@ -3,9 +3,9 @@ import { useState } from 'react'
 import { useForm, UseFormReturn } from 'react-hook-form'
 
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
-import { MakerInfo } from '@/domain/maker-info/types'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { makeAssetsInWalletList } from '@/domain/savings/makeAssetsInWalletList'
+import { useSavingsInfo } from '@/domain/savings-info/useSavingsInfo'
 import { Token } from '@/domain/types/Token'
 import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
 import { Objective } from '@/features/actions/logic/types'
@@ -20,7 +20,6 @@ import { getSavingsDepositDialogFormValidator } from './validation'
 
 export interface UseSavingsDepositDialogParams {
   initialToken: Token
-  makerInfo: MakerInfo
 }
 
 export interface UseSavingsDepositDialogResults {
@@ -35,9 +34,9 @@ export interface UseSavingsDepositDialogResults {
 
 export function useSavingsDepositDialog({
   initialToken,
-  makerInfo,
 }: UseSavingsDepositDialogParams): UseSavingsDepositDialogResults {
   const { marketInfo } = useMarketInfo()
+  const { savingsManager } = useSavingsInfo()
   const walletInfo = useWalletInfo()
   const { assets: depositOptions } = makeAssetsInWalletList({ walletInfo })
 
@@ -66,14 +65,14 @@ export function useSavingsDepositDialog({
     swapInfo,
     swapParams,
     marketInfo,
-    makerInfo,
+    savingsManager,
   })
   const txOverview = useTxOverview({
     marketInfo,
+    savingsManager,
     swapInfo,
     walletInfo,
     swapParams,
-    makerInfo,
   })
   const tokenToDeposit: TokenWithValue = {
     token: formValues.token,

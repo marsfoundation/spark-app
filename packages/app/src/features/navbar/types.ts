@@ -1,4 +1,4 @@
-import { MakerInfo } from '@/domain/maker-info/types'
+import { SavingsManager } from '@/domain/savings-info/types'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { EnsName } from '@/domain/types/EnsName'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
@@ -35,10 +35,9 @@ export interface BalanceInfo {
   isLoading: boolean
 }
 
-export interface MakerInfoQueryResults {
-  data: MakerInfo | null | undefined
+export interface SavingsInfoQueryResults {
+  data: SavingsManager | undefined
   isLoading: boolean
-  isChainSupported: boolean
 }
 
 export interface AirdropInfo {

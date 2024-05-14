@@ -3,7 +3,7 @@ import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { WalletInfo } from '@/domain/wallet/useWalletInfo'
 import { bigNumberify } from '@/utils/bigNumber'
 
-export const whitelistedAssets = ['DAI', 'USDC', 'USDT']
+export const whitelistedAssets = ['DAI', 'USDC', 'USDT', 'XDAI']
 
 export interface MakeAssetsInWalletListParams {
   walletInfo: WalletInfo

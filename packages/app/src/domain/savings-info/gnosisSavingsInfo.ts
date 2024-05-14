@@ -1,4 +1,6 @@
+import { QueryKey } from '@tanstack/react-query'
 import { gnosis } from 'viem/chains'
+import { Config } from 'wagmi'
 import { multicall } from 'wagmi/actions'
 
 import {
@@ -9,12 +11,10 @@ import {
 } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { bigNumberify } from '@/utils/bigNumber'
+import { fromWad } from '@/utils/math'
 
 import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
-import { QueryKey } from '@tanstack/react-query'
-import { Config } from 'wagmi'
-import { fromWad } from '@/utils/math'
-import { Savings } from './types'
+import { SavingsManager } from './types'
 
 export interface GnosisSavingsInfoParams {
   wagmiConfig: Config
@@ -29,7 +29,7 @@ export interface GnosisSavingsInfoResult {
 
 export interface GnosisSavingsInfoQueryOptions {
   queryKey: QueryKey
-  queryFn: () => Promise<Savings>
+  queryFn: () => Promise<SavingsManager>
 }
 
 export function gnosisSavingsInfo({ wagmiConfig, timestamp }: GnosisSavingsInfoParams): GnosisSavingsInfoQueryOptions {
@@ -78,14 +78,14 @@ export function gnosisSavingsInfo({ wagmiConfig, timestamp }: GnosisSavingsInfoP
   }
 }
 
-interface GnosisSavingsParams {
+export interface GnosisSavingsParams {
   vaultAPY: Percentage
   totalSupply: NormalizedUnitNumber
   totalAssets: NormalizedUnitNumber
   currentTimestamp: number
 }
 
-class GnosisSavings implements Savings {
+export class GnosisSavings implements SavingsManager {
   private vaultAPY: Percentage
   private totalSupply: NormalizedUnitNumber
   private totalAssets: NormalizedUnitNumber
@@ -98,30 +98,30 @@ class GnosisSavings implements Savings {
     this.currentTimestamp = params.currentTimestamp
   }
 
-  apy(): Percentage {
+  get apy(): Percentage {
     return this.vaultAPY
   }
 
-  convertDaiToSDai({ sdai }: { sdai: NormalizedUnitNumber }): NormalizedUnitNumber {
-    return NormalizedUnitNumber(sdai.multipliedBy(this.totalSupply.plus(1)).dividedBy(this.totalAssets.plus(1)))
+  get supportsRealTimeInterestAccrual(): boolean {
+    return false
   }
 
-  convertSDaiToDai({ dai }: { dai: NormalizedUnitNumber }): NormalizedUnitNumber {
+  convertDaiToShares({ dai }: { dai: NormalizedUnitNumber }): NormalizedUnitNumber {
     return NormalizedUnitNumber(dai.multipliedBy(this.totalAssets.plus(1)).dividedBy(this.totalSupply.plus(1)))
   }
 
-  predictSDaiValue({ timestamp, sdai }: { timestamp: number; sdai: NormalizedUnitNumber }): NormalizedUnitNumber {
+  convertSharesToDai({ shares }: { shares: NormalizedUnitNumber }): NormalizedUnitNumber {
+    return NormalizedUnitNumber(shares.multipliedBy(this.totalSupply.plus(1)).dividedBy(this.totalAssets.plus(1)))
+  }
+
+  predictSharesValue({ timestamp, shares }: { timestamp: number; shares: NormalizedUnitNumber }): NormalizedUnitNumber {
     return NormalizedUnitNumber(
-      sdai.multipliedBy(
+      this.convertSharesToDai({ shares }).multipliedBy(
         this.vaultAPY
           .dividedBy(365 * 24 * 60 * 60)
           .multipliedBy(timestamp - this.currentTimestamp)
           .plus(1),
       ),
     )
-  }
-
-  get supportsRealTimeInterestAccrual(): boolean {
-    return false
   }
 }
