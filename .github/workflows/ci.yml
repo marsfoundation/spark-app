@@ -125,7 +125,14 @@ jobs:
           TENDERLY_API_KEY: '${{ secrets.TENDERLY_API_KEY }}'
           TENDERLY_ACCOUNT: phoenixlabs
           TENDERLY_PROJECT: sparklend
-          REPLAY_API_KEY: ${{ secrets.REPLAY_API_KEY }}
+          REPLAY_ENABLED: 1
+
+      - name: Upload to replay.io
+        if: ${{ always() }}
+        uses: replayio/action-upload@v0.5.1
+        with:
+          api-key: ${{ secrets.REPLAY_API_KEY }}
+          filter: ${{ 'function($v) { $v.metadata.test.result = "failed" }' }}
 
       - uses: krzkaczor/reg-actions@action-v2
         with:

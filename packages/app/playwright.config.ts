@@ -2,7 +2,7 @@ import 'dotenv/config'
 import { defineConfig, devices } from '@playwright/test'
 import { createReplayReporterConfig, devices as replayDevices } from '@replayio/playwright'
 
-const replayEnabled = process.env.REPLAY_API_KEY !== undefined
+const replayEnabled = process.env.REPLAY_ENABLED === '1'
 
 console.log('Replay enabled?', replayEnabled)
 
@@ -16,15 +16,7 @@ export default defineConfig({
   retries: process.env.CI ? 3 : 0,
   // CI will use all available cores
   workers: process.env.CI || process.env.PLAYWRIGHT_PARALLEL ? '100%' : 1,
-  reporter: replayEnabled
-    ? [
-        createReplayReporterConfig({
-          apiKey: process.env.REPLAY_API_KEY,
-          upload: true,
-        }),
-        ['line'],
-      ]
-    : [['html']],
+  reporter: replayEnabled ? [createReplayReporterConfig({}), ['line']] : [['html']],
   use: {
     baseURL: 'http://127.0.0.1:4000',
     trace: process.env.PLAYWRIGHT_TRACE === '1' ? 'on' : 'off',
