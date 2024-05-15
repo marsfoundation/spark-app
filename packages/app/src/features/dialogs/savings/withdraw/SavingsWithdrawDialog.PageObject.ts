@@ -25,10 +25,7 @@ export class SavingsWithdrawDialogPageObject extends DialogPageObject {
   // #region assertions
   async expectDiscrepancyWarning(discrepancy: string): Promise<void> {
     await expect(
-      this.region.getByText(
-        'Market fluctuations can impact your transaction value. You may be charged more than the withdraw amount by up to ' +
-          discrepancy,
-      ),
+      this.region.getByText('Swap value might be significantly lower than expected. Difference is ' + discrepancy),
     ).toBeVisible()
   }
 

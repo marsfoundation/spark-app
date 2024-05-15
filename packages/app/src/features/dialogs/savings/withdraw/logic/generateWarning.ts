@@ -41,13 +41,13 @@ export function generateWarning({
     timestamp,
     potParams,
   })
-  const toAmountMinDAI = inputToken.fromBaseUnit(swapInfo.data.estimate.toAmountMin)
+  const toAmountMinDAI = inputToken.fromBaseUnit(swapInfo.data.estimate.toAmount)
 
   const discrepancy = NormalizedUnitNumber(fromAmountDAI.minus(toAmountMinDAI))
   if (discrepancy.gte(WARNING_DISCREPANCY_THRESHOLD)) {
     return {
       warning: {
-        type: 'savings-withdraw-discrepancy-threshold-hit',
+        type: 'savings-discrepancy-threshold-hit',
         token: DAI,
         discrepancy,
       },

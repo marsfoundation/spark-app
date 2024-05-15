@@ -1118,7 +1118,7 @@ const lifiResponses = {
           tool: 'enso',
           approvalAddress: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
           toAmountMin: '8320604955114542838902',
-          toAmount: '9245116616793936487669',
+          toAmount: '8320604955114542838902',
           fromAmount: '10000000000000000000000',
           feeCosts: [],
           gasCosts: [
@@ -1279,7 +1279,7 @@ const lifiResponses = {
           tool: 'enso',
           approvalAddress: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
           toAmountMin: '10004999999999999999920',
-          toAmount: '11116666666666666666578',
+          toAmount: '10004999999999999999920',
           fromAmount: '10277276260680656857010',
           feeCosts: [],
           gasCosts: [

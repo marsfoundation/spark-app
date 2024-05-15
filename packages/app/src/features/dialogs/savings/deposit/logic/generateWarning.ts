@@ -35,7 +35,7 @@ export function generateWarning({
   const sDAI = marketInfo.findOneTokenBySymbol(TokenSymbol('sDAI'))
   const DAI = marketInfo.findOneTokenBySymbol(TokenSymbol('DAI'))
   const toAmountMinDAI = convertSharesToDai({
-    shares: sDAI.fromBaseUnit(swapInfo.data.estimate.toAmountMin),
+    shares: sDAI.fromBaseUnit(swapInfo.data.estimate.toAmount),
     timestamp,
     potParams,
   })
@@ -44,7 +44,7 @@ export function generateWarning({
   if (discrepancy.gte(WARNING_DISCREPANCY_THRESHOLD)) {
     return {
       warning: {
-        type: 'savings-deposit-discrepancy-threshold-hit',
+        type: 'savings-discrepancy-threshold-hit',
         token: DAI,
         discrepancy,
       },
