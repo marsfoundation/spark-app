@@ -1,5 +1,5 @@
+import { PotParams } from '@/domain/d3m-info/types'
 import { SwapInfo } from '@/domain/exchanges/types'
-import { PotParams } from '@/domain/maker-info/types'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'

@@ -1,4 +1,4 @@
-import { MakerInfo } from '@/domain/maker-info/types'
+import { D3MInfo } from '@/domain/d3m-info/types'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
@@ -11,7 +11,7 @@ export interface MarketStats {
   totalBorrowsUSD: NormalizedUnitNumber
 }
 
-export function aggregateStats(marketInfo: MarketInfo, makerInfo: MakerInfo | undefined): MarketStats {
+export function aggregateStats(marketInfo: MarketInfo, D3MInfo: D3MInfo | undefined): MarketStats {
   const aggregatedValues = marketInfo.reserves.reduce(
     (acc, reserve) => {
       acc.totalDebtUSD = acc.totalDebtUSD.plus(reserve.totalDebtUSD)
@@ -26,10 +26,8 @@ export function aggregateStats(marketInfo: MarketInfo, makerInfo: MakerInfo | un
   const totalAvailableUSD = aggregatedValues.totalLiquidityUSD.minus(aggregatedValues.totalDebtUSD)
   const daiReserve = marketInfo.findReserveBySymbol(TokenSymbol('DAI'))
   const totalValueLockedUSD =
-    makerInfo && daiReserve
-      ? NormalizedUnitNumber(
-          totalAvailableUSD.minus(makerInfo.D3MCurrentDebtUSD.minus(daiReserve.totalVariableDebtUSD)),
-        )
+    D3MInfo && daiReserve
+      ? NormalizedUnitNumber(totalAvailableUSD.minus(D3MInfo.D3MCurrentDebtUSD.minus(daiReserve.totalVariableDebtUSD)))
       : undefined
 
   return {

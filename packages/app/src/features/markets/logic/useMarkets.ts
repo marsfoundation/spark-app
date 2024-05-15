@@ -1,5 +1,5 @@
 import { getChainConfigEntry } from '@/config/chain'
-import { useMakerInfo } from '@/domain/maker-info/useMakerInfo'
+import { useD3MInfo } from '@/domain/d3m-info/useD3MInfo'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 
 import { MarketEntry } from '../types'
@@ -16,7 +16,7 @@ export interface UseMarketsResults {
 
 export function useMarkets(): UseMarketsResults {
   const { marketInfo } = useMarketInfo()
-  const { makerInfo } = useMakerInfo()
+  const { D3MInfo } = useD3MInfo()
   const { meta: chainMeta } = getChainConfigEntry(marketInfo.chainId)
 
   const marketEntries = transformReserves(marketInfo)
@@ -24,7 +24,7 @@ export function useMarkets(): UseMarketsResults {
   const frozenMarketEntries = marketEntries.filter((entry) => entry.reserveStatus === 'frozen')
 
   return {
-    marketStats: aggregateStats(marketInfo, makerInfo),
+    marketStats: aggregateStats(marketInfo, D3MInfo),
     activeAndPausedMarketEntries,
     frozenMarketEntries,
     chainName: chainMeta.name,

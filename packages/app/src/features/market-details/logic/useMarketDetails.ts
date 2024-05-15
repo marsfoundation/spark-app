@@ -1,8 +1,8 @@
 import { useChainId } from 'wagmi'
 
 import { getChainConfigEntry } from '@/config/chain'
+import { useD3MInfo } from '@/domain/d3m-info/useD3MInfo'
 import { NotFoundError } from '@/domain/errors/not-found'
-import { useMakerInfo } from '@/domain/maker-info/useMakerInfo'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { Token } from '@/domain/types/Token'
@@ -28,7 +28,7 @@ export interface UseMarketDetailsResult {
 export function useMarketDetails(): UseMarketDetailsResult {
   const { asset, chainId } = useMarketDetailsParams()
   const { marketInfo } = useMarketInfo({ chainId })
-  const { makerInfo } = useMakerInfo({ chainId })
+  const { D3MInfo } = useD3MInfo({ chainId })
   const walletInfo = useWalletInfo()
   const { meta: chainMeta } = getChainConfigEntry(chainId)
   const connectedChainId = useChainId()
@@ -37,13 +37,13 @@ export function useMarketDetails(): UseMarketDetailsResult {
 
   const reserve = marketInfo.findReserveByUnderlyingAsset(CheckedAddress(asset)) ?? raise(new NotFoundError())
 
-  const isDaiOverview = reserve.token.symbol === TokenSymbol('DAI') && makerInfo
+  const isDaiOverview = reserve.token.symbol === TokenSymbol('DAI') && D3MInfo
 
   const marketOverview = isDaiOverview
     ? makeDaiMarketOverview({
         reserve,
         marketInfo,
-        makerInfo,
+        D3MInfo,
       })
     : makeMarketOverview({
         reserve,

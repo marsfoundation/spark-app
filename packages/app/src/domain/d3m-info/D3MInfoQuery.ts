@@ -10,15 +10,15 @@ import { fromRad, fromWad } from '@/utils/math'
 
 import { NormalizedUnitNumber } from '../types/NumericValues'
 import { getIsChainSupported } from './getIsChainSupported'
-import { MakerInfo } from './types'
+import { D3MInfo } from './types'
 
-interface MakerInfoQueryParams {
+interface D3MInfoQueryParams {
   wagmiConfig: Config
   chainId: number
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function makerInfoQuery({ wagmiConfig, chainId }: MakerInfoQueryParams) {
+export function D3MInfoQuery({ wagmiConfig, chainId }: D3MInfoQueryParams) {
   const queryKey = ['maker-info', chainId]
 
   const isChainSupported = getIsChainSupported(chainId)
@@ -30,7 +30,7 @@ export function makerInfoQuery({ wagmiConfig, chainId }: MakerInfoQueryParams) {
   const makerIamAutoLineAddress = getContractAddress(iamAutoLineAddress, chainId)
   const sparkIlkId = stringToHex('DIRECT-SPARK-DAI', { size: 32 })
 
-  async function queryFn(): Promise<MakerInfo> {
+  async function queryFn(): Promise<D3MInfo> {
     const [[vatArt, vatRate], [IAMLine]] = await multicall(wagmiConfig, {
       allowFailure: false,
       chainId,

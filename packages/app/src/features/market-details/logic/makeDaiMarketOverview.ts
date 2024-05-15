@@ -1,4 +1,4 @@
-import { MakerInfo } from '@/domain/maker-info/types'
+import { D3MInfo } from '@/domain/d3m-info/types'
 import { MarketInfo, Reserve } from '@/domain/market-info/marketInfo'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
@@ -9,14 +9,14 @@ import { makeMarketOverview } from './makeMarketOverview'
 export interface MakeDaiMarketOverviewParams {
   reserve: Reserve
   marketInfo: MarketInfo
-  makerInfo: MakerInfo
+  D3MInfo: D3MInfo
 }
 
-export function makeDaiMarketOverview({ reserve, marketInfo, makerInfo }: MakeDaiMarketOverviewParams): MarketOverview {
+export function makeDaiMarketOverview({ reserve, marketInfo, D3MInfo }: MakeDaiMarketOverviewParams): MarketOverview {
   const baseOverview = makeMarketOverview({ reserve, marketInfo })
   const sDai = marketInfo.findOneReserveBySymbol(TokenSymbol('sDAI'))
   const sDaiOverview = makeMarketOverview({ reserve: sDai, marketInfo })
-  const makerDaoCapacity = NormalizedUnitNumber(makerInfo.maxDebtCeiling.minus(makerInfo.D3MCurrentDebtUSD))
+  const makerDaoCapacity = NormalizedUnitNumber(D3MInfo.maxDebtCeiling.minus(D3MInfo.D3MCurrentDebtUSD))
   const marketSize = NormalizedUnitNumber(reserve.totalLiquidity.plus(makerDaoCapacity))
   const totalAvailable = NormalizedUnitNumber(marketSize.minus(reserve.totalDebt))
   const utilizationRate = Percentage(reserve.totalDebt.div(marketSize))
