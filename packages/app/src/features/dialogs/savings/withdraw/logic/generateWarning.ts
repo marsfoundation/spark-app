@@ -1,11 +1,10 @@
 import { SwapInfo } from '@/domain/exchanges/types'
-import { PotParams } from '@/domain/maker-info/types'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
+import { SavingsInfo } from '@/domain/savings-info/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { RiskWarning } from '@/features/dialogs/common/components/risk-acknowledgement/RiskAcknowledgement'
 import { DialogFormNormalizedData } from '@/features/dialogs/common/logic/form'
-import { convertSharesToDai } from '@/features/savings/logic/projections'
 
 const WARNING_DISCREPANCY_THRESHOLD = 100
 
@@ -13,8 +12,7 @@ export interface GenerateWarningArgs {
   swapInfo: SwapInfo
   inputValues: DialogFormNormalizedData
   marketInfo: MarketInfo
-  potParams: PotParams
-  timestamp: number
+  savingsInfo: SavingsInfo
 }
 
 export interface GenerateWarningResults {
@@ -25,8 +23,7 @@ export function generateWarning({
   swapInfo,
   inputValues,
   marketInfo,
-  potParams,
-  timestamp,
+  savingsInfo,
 }: GenerateWarningArgs): GenerateWarningResults {
   if (!swapInfo.data) {
     return {}
@@ -36,10 +33,8 @@ export function generateWarning({
   const DAI = marketInfo.findOneTokenBySymbol(TokenSymbol('DAI'))
   const inputToken = inputValues.token
 
-  const fromAmountDAI = convertSharesToDai({
+  const fromAmountDAI = savingsInfo.convertSharesToDai({
     shares: sDAI.fromBaseUnit(swapInfo.data.estimate.fromAmount),
-    timestamp,
-    potParams,
   })
   const toAmountMinDAI = inputToken.fromBaseUnit(swapInfo.data.estimate.toAmountMin)
 

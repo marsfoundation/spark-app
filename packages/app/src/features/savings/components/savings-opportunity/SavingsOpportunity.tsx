@@ -1,6 +1,5 @@
 import { formatPercentage } from '@/domain/common/format'
 import { TokenWithBalance } from '@/domain/common/types'
-import { MakerInfo } from '@/domain/maker-info/types'
 import { OpenDialogFunction } from '@/domain/state/dialogs'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
@@ -14,7 +13,6 @@ import { DSRLabel } from './components/DSRLabel'
 import { Explainer } from './components/Explainer'
 
 export interface SavingsDAIProps {
-  makerInfo: MakerInfo
   DSR: Percentage
   projections: Projections
   maxBalanceToken: TokenWithBalance
@@ -23,7 +21,6 @@ export interface SavingsDAIProps {
 }
 
 export function SavingsOpportunity({
-  makerInfo,
   DSR,
   projections,
   maxBalanceToken,
@@ -33,7 +30,7 @@ export function SavingsOpportunity({
   const compactProjections = projections.thirtyDays.gt(1_000)
   const savingsTileSizeVariant = getValueSizeVariant(projections.oneYear, compactProjections)
   function openDepositDialog(): void {
-    openDialog(SavingsDepositDialog, { initialToken: maxBalanceToken.token, makerInfo })
+    openDialog(SavingsDepositDialog, { initialToken: maxBalanceToken.token })
   }
 
   return (

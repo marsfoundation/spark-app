@@ -1,17 +1,17 @@
 import { TokenWithBalance } from '@/domain/common/types'
-import { PotParams } from '@/domain/maker-info/types'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
+import { SavingsInfo } from '@/domain/savings-info/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { WalletInfo } from '@/domain/wallet/useWalletInfo'
 
-import { convertDaiToShares, convertSharesToDai } from './projections'
+const DEFAULT_PRECISION = 6
 
 export interface MakeSavingsOverviewParams {
   marketInfo: MarketInfo
   walletInfo: WalletInfo
   eligibleCashUSD: NormalizedUnitNumber
-  potParams: PotParams
+  savingsInfo: SavingsInfo
   timestampInMs: number
   stepInMs: number
 }
@@ -27,27 +27,21 @@ export function makeSavingsOverview({
   marketInfo,
   walletInfo,
   eligibleCashUSD,
+  savingsInfo,
   timestampInMs,
   stepInMs,
-  potParams,
 }: MakeSavingsOverviewParams): SavingsOverview {
-  const timestamp = Math.floor(timestampInMs / 1000)
   const sDAI = marketInfo.findOneTokenBySymbol(TokenSymbol('sDAI'))
-  const DAI = marketInfo.findOneTokenBySymbol(TokenSymbol('DAI'))
   const shares = walletInfo.findWalletBalanceForToken(sDAI)
 
   const [depositedUSD, precision] = calculateSharesToDaiWithPrecision({
     shares,
-    potParams,
+    savingsInfo,
     timestampInMs,
     stepInMs,
   })
 
-  const potentialShares = convertDaiToShares({
-    dai: NormalizedUnitNumber(eligibleCashUSD.dividedBy(DAI.unitPriceUsd)),
-    timestamp,
-    potParams,
-  })
+  const potentialShares = savingsInfo.convertDaiToShares({ dai: eligibleCashUSD })
 
   const sDAIBalance = { token: sDAI, balance: walletInfo.findWalletBalanceForToken(sDAI) }
 
@@ -62,18 +56,22 @@ export function makeSavingsOverview({
 
 interface CalculateSharesToDaiWithPrecisionParams {
   shares: NormalizedUnitNumber
-  potParams: PotParams
+  savingsInfo: SavingsInfo
   timestampInMs: number
   stepInMs: number
 }
 function calculateSharesToDaiWithPrecision({
   shares,
-  potParams,
+  savingsInfo,
   timestampInMs,
   stepInMs,
 }: CalculateSharesToDaiWithPrecisionParams): [NormalizedUnitNumber, number] {
-  const current = interpolateSharesToDai({ shares, potParams, timestampInMs })
-  const next = interpolateSharesToDai({ shares, potParams, timestampInMs: timestampInMs + stepInMs })
+  if (!savingsInfo.supportsRealTimeInterestAccrual) {
+    return [savingsInfo.convertSharesToDai({ shares }), DEFAULT_PRECISION]
+  }
+
+  const current = interpolateSharesToDai({ shares, savingsInfo, timestampInMs })
+  const next = interpolateSharesToDai({ shares, savingsInfo, timestampInMs: timestampInMs + stepInMs })
 
   const precision = calculatePrecision({ current, next })
 
@@ -82,19 +80,19 @@ function calculateSharesToDaiWithPrecision({
 
 interface InterpolateSharesToDaiParams {
   shares: NormalizedUnitNumber
-  potParams: PotParams
+  savingsInfo: SavingsInfo
   timestampInMs: number
 }
 
 function interpolateSharesToDai({
   shares,
-  potParams,
+  savingsInfo,
   timestampInMs,
 }: InterpolateSharesToDaiParams): NormalizedUnitNumber {
   const timestamp = Math.floor(timestampInMs / 1000)
 
-  const now = convertSharesToDai({ timestamp, shares, potParams })
-  const inASecond = convertSharesToDai({ timestamp: timestamp + 1, shares, potParams })
+  const now = savingsInfo.predictSharesValue({ timestamp, shares })
+  const inASecond = savingsInfo.predictSharesValue({ timestamp: timestamp + 1, shares })
 
   const linearApproximation = NormalizedUnitNumber(now.plus(inASecond.minus(now).times((timestampInMs % 1000) / 1000)))
   return linearApproximation

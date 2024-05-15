@@ -4,16 +4,15 @@ import { useAccount, useChainId, useChains, useConfig, useEnsAvatar, useEnsName 
 
 import { getChainConfigEntry } from '@/config/chain'
 import { useBlockExplorerAddressLink } from '@/domain/hooks/useBlockExplorerAddressLink'
-import { getIsChainSupported } from '@/domain/maker-info/getIsChainSupported'
-import { makerInfoQuery } from '@/domain/maker-info/makerInfoQuery'
 import { useSandboxState } from '@/domain/sandbox/useSandboxState'
 import { useOpenDialog } from '@/domain/state/dialogs'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { EnsName } from '@/domain/types/EnsName'
 import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
 import { raise } from '@/utils/raise'
+import { useTimestamp } from '@/utils/useTimestamp'
 
-import { AirdropInfo, ConnectedWalletInfo, MakerInfoQueryResults, SupportedChain } from '../types'
+import { AirdropInfo, ConnectedWalletInfo, SavingsInfoQueryResults, SupportedChain } from '../types'
 import { generateWalletAvatar } from './generateWalletAvatar'
 import { getWalletIcon } from './getWalletIcon'
 import { useAirdropInfo } from './useAirdropInfo'
@@ -30,7 +29,7 @@ export interface UseNavbarResults {
   openDevSandboxDialog: () => void
   isSandboxEnabled: boolean
   isDevSandboxEnabled: boolean
-  makerInfo: MakerInfoQueryResults
+  savingsInfo: SavingsInfoQueryResults
   connectedWalletInfo: ConnectedWalletInfo | undefined
   airdropInfo: AirdropInfo
 }
@@ -48,14 +47,9 @@ export function useNavbar(): UseNavbarResults {
   const openDialog = useOpenDialog()
 
   const wagmiConfig = useConfig()
-  const isChainSupported = getIsChainSupported(currentChainId)
-  const makerInfo = useQuery({
-    ...makerInfoQuery({
-      wagmiConfig,
-      chainId: currentChainId,
-    }),
-    enabled: isChainSupported,
-  })
+  const { timestamp } = useTimestamp()
+  const savingsInfoQueryOptions = getChainConfigEntry(currentChainId).savingsInfoQuery
+  const savingsInfo = useQuery(savingsInfoQueryOptions({ wagmiConfig, chainId: currentChainId, timestamp }))
 
   const balanceInfo = useTotalBalance()
   const airdropInfo = useAirdropInfo()
@@ -116,10 +110,7 @@ export function useNavbar(): UseNavbarResults {
     supportedChains,
     onNetworkChange: changeNetwork,
     openConnectModal,
-    makerInfo: {
-      isChainSupported,
-      ...makerInfo,
-    },
+    savingsInfo,
     connectedWalletInfo,
     airdropInfo,
     openSandboxDialog,

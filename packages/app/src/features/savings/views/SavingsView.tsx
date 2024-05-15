@@ -1,5 +1,4 @@
 import { TokenWithBalance } from '@/domain/common/types'
-import { MakerInfo } from '@/domain/maker-info/types'
 import { OpenDialogFunction } from '@/domain/state/dialogs'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 
@@ -12,7 +11,6 @@ import { SavingsOpportunityNoCash } from '../components/savings-opportunity/Savi
 import { Projections } from '../types'
 
 export interface SavingsViewProps {
-  makerInfo: MakerInfo
   DSR: Percentage
   depositedUSD: NormalizedUnitNumber
   depositedUSDPrecision: number
@@ -26,7 +24,6 @@ export interface SavingsViewProps {
 }
 
 export function SavingsView({
-  makerInfo,
   DSR,
   depositedUSD,
   depositedUSDPrecision,
@@ -61,7 +58,6 @@ export function SavingsView({
         {displaySavingsOpportunity && (
           <div className="first:sm:col-span-2">
             <SavingsOpportunity
-              makerInfo={makerInfo}
               DSR={DSR}
               projections={opportunityProjections}
               maxBalanceToken={maxBalanceToken}
@@ -76,7 +72,7 @@ export function SavingsView({
           </div>
         )}
       </div>
-      <CashInWallet assets={assetsInWallet} openDialog={openDialog} makerInfo={makerInfo} />
+      <CashInWallet assets={assetsInWallet} openDialog={openDialog} />
     </PageLayout>
   )
 }

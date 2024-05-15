@@ -1,18 +1,18 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { useForm, UseFormReturn } from 'react-hook-form'
+import invariant from 'tiny-invariant'
 
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
-import { MakerInfo } from '@/domain/maker-info/types'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { makeAssetsInWalletList } from '@/domain/savings/makeAssetsInWalletList'
+import { useSavingsInfo } from '@/domain/savings-info/useSavingsInfo'
 import { Token } from '@/domain/types/Token'
 import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
 import { Objective } from '@/features/actions/logic/types'
 import { RiskWarning } from '@/features/dialogs/common/components/risk-acknowledgement/RiskAcknowledgement'
 import { AssetInputSchema, useDebouncedDialogFormValues } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
-import { useTimestamp } from '@/utils/useTimestamp'
 
 import { getFormFieldsForDepositDialog } from './form'
 import { generateWarning } from './generateWarning'
@@ -23,7 +23,6 @@ import { getSavingsDepositDialogFormValidator } from './validation'
 
 export interface UseSavingsDepositDialogParams {
   initialToken: Token
-  makerInfo: MakerInfo
 }
 
 export interface RiskAcknowledgementInfo {
@@ -44,9 +43,10 @@ export interface UseSavingsDepositDialogResults {
 
 export function useSavingsDepositDialog({
   initialToken,
-  makerInfo,
 }: UseSavingsDepositDialogParams): UseSavingsDepositDialogResults {
   const { marketInfo } = useMarketInfo()
+  const { savingsInfo } = useSavingsInfo()
+  invariant(savingsInfo, 'Savings info is not available')
   const walletInfo = useWalletInfo()
   const { assets: depositOptions } = makeAssetsInWalletList({ walletInfo })
 
@@ -71,13 +71,11 @@ export function useSavingsDepositDialog({
   })
   const { swapInfo, swapParams } = useSwap({ formValues, marketInfo, walletInfo })
 
-  const { timestamp } = useTimestamp()
   const { warning } = generateWarning({
     swapInfo,
     inputValues: formValues,
     marketInfo,
-    potParams: makerInfo.potParameters,
-    timestamp,
+    savingsInfo,
   })
   const [riskAcknowledged, setRiskAcknowledged] = useState(false)
 
@@ -85,14 +83,14 @@ export function useSavingsDepositDialog({
     swapInfo,
     swapParams,
     marketInfo,
-    makerInfo,
+    savingsInfo,
   })
   const txOverview = useTxOverview({
     marketInfo,
+    savingsInfo,
     swapInfo,
     walletInfo,
     swapParams,
-    makerInfo,
   })
 
   const tokenToDeposit: TokenWithValue = {

@@ -20,7 +20,6 @@ function SavingsContainer() {
   }
 
   const {
-    makerInfo,
     DSR,
     depositedUSD,
     depositedUSDPrecision,
@@ -38,7 +37,6 @@ function SavingsContainer() {
 
   return (
     <SavingsView
-      makerInfo={makerInfo}
       DSR={DSR}
       depositedUSD={depositedUSD}
       depositedUSDPrecision={depositedUSDPrecision}

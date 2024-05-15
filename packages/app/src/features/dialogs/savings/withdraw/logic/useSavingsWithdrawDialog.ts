@@ -5,16 +5,15 @@ import invariant from 'tiny-invariant'
 
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
 import { useConditionalFreeze } from '@/domain/hooks/useConditionalFreeze'
-import { useMakerInfo } from '@/domain/maker-info/useMakerInfo'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { makeAssetsInWalletList } from '@/domain/savings/makeAssetsInWalletList'
+import { useSavingsInfo } from '@/domain/savings-info/useSavingsInfo'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
 import { Objective } from '@/features/actions/logic/types'
 import { RiskWarning } from '@/features/dialogs/common/components/risk-acknowledgement/RiskAcknowledgement'
 import { AssetInputSchema, useDebouncedDialogFormValues } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
-import { useTimestamp } from '@/utils/useTimestamp'
 
 import { getFormFieldsForWithdrawDialog } from './form'
 import { generateWarning } from './generateWarning'
@@ -41,8 +40,8 @@ export interface UseSavingsWithdrawDialogResults {
 
 export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
   const { marketInfo } = useMarketInfo()
-  const { makerInfo } = useMakerInfo()
-  invariant(makerInfo, 'Maker info is not available')
+  const { savingsInfo } = useSavingsInfo()
+  invariant(savingsInfo, 'Savings info is not available')
   const walletInfo = useWalletInfo()
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')
@@ -78,7 +77,7 @@ export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
     formValues,
     marketInfo,
     walletInfo,
-    makerInfo,
+    savingsInfo,
     swapInfo,
   })
   const tokenToWithdraw = useConditionalFreeze<TokenWithValue>(
@@ -89,13 +88,11 @@ export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
     pageStatus === 'success',
   )
 
-  const { timestamp } = useTimestamp()
   const { warning } = generateWarning({
     swapInfo,
     inputValues: formValues,
     marketInfo,
-    potParams: makerInfo.potParameters,
-    timestamp,
+    savingsInfo,
   })
   const [riskAcknowledged, setRiskAcknowledged] = useState(false)
 

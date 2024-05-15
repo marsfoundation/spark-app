@@ -1,8 +1,7 @@
 import { TokenWithBalance } from '@/domain/common/types'
-import { MakerInfo } from '@/domain/maker-info/types'
-import { useMakerInfo } from '@/domain/maker-info/useMakerInfo'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { makeAssetsInWalletList } from '@/domain/savings/makeAssetsInWalletList'
+import { useSavingsInfo } from '@/domain/savings-info/useSavingsInfo'
 import { OpenDialogFunction, useOpenDialog } from '@/domain/state/dialogs'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
@@ -20,7 +19,6 @@ export interface UseSavingsResults {
   savingsDetails:
     | {
         state: 'supported'
-        makerInfo: MakerInfo
         DSR: Percentage
         depositedUSD: NormalizedUnitNumber
         depositedUSDPrecision: number
@@ -34,15 +32,16 @@ export interface UseSavingsResults {
     | { state: 'unsupported' }
 }
 export function useSavings(): UseSavingsResults {
-  const { makerInfo } = useMakerInfo()
+  const { savingsInfo } = useSavingsInfo()
   const walletInfo = useWalletInfo()
   const guestMode = !walletInfo.isConnected
   const { marketInfo } = useMarketInfo()
-  const { timestamp, timestampInMs } = useTimestamp({ refreshIntervalInMs: stepInMs })
-
+  const { timestamp, timestampInMs } = useTimestamp({
+    refreshIntervalInMs: savingsInfo?.supportsRealTimeInterestAccrual ? stepInMs : undefined,
+  })
   const openDialog = useOpenDialog()
 
-  if (!makerInfo) {
+  if (!savingsInfo) {
     return { guestMode, openDialog, savingsDetails: { state: 'unsupported' } }
   }
 
@@ -54,17 +53,17 @@ export function useSavings(): UseSavingsResults {
   const { shares, potentialShares, depositedUSD, depositedUSDPrecision, sDAIBalance } = makeSavingsOverview({
     marketInfo,
     walletInfo,
-    potParams: makerInfo.potParameters,
+    savingsInfo,
     eligibleCashUSD: totalEligibleCashUSD,
     timestampInMs,
     stepInMs,
   })
 
-  const currentProjections = calculateProjections({ timestamp, shares, potParams: makerInfo.potParameters })
+  const currentProjections = calculateProjections({ timestamp, shares, savingsInfo })
   const opportunityProjections = calculateProjections({
     timestamp,
     shares: potentialShares,
-    potParams: makerInfo.potParameters,
+    savingsInfo,
   })
 
   return {
@@ -72,8 +71,7 @@ export function useSavings(): UseSavingsResults {
     openDialog,
     savingsDetails: {
       state: 'supported',
-      makerInfo,
-      DSR: makerInfo.DSR,
+      DSR: savingsInfo.apy,
       depositedUSD,
       depositedUSDPrecision,
       sDAIBalance,
