@@ -36,8 +36,7 @@ export interface BalanceInfo {
 }
 
 export interface SavingsInfoQueryResults {
-  data: SavingsInfo | undefined
-  error: Error | null
+  data: SavingsInfo | null | undefined
   isLoading: boolean
 }
 

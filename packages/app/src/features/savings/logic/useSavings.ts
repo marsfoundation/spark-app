@@ -16,18 +16,20 @@ const stepInMs = 50
 export interface UseSavingsResults {
   guestMode: boolean
   openDialog: OpenDialogFunction
-  savingsDetails: {
-    state: 'supported'
-    DSR: Percentage
-    depositedUSD: NormalizedUnitNumber
-    depositedUSDPrecision: number
-    sDAIBalance: TokenWithBalance
-    currentProjections: Projections
-    opportunityProjections: Projections
-    assetsInWallet: TokenWithBalance[]
-    totalEligibleCashUSD: NormalizedUnitNumber
-    maxBalanceToken: TokenWithBalance
-  }
+  savingsDetails:
+    | {
+        state: 'supported'
+        DSR: Percentage
+        depositedUSD: NormalizedUnitNumber
+        depositedUSDPrecision: number
+        sDAIBalance: TokenWithBalance
+        currentProjections: Projections
+        opportunityProjections: Projections
+        assetsInWallet: TokenWithBalance[]
+        totalEligibleCashUSD: NormalizedUnitNumber
+        maxBalanceToken: TokenWithBalance
+      }
+    | { state: 'unsupported' }
 }
 export function useSavings(): UseSavingsResults {
   const { savingsInfo } = useSavingsInfo()
@@ -35,10 +37,13 @@ export function useSavings(): UseSavingsResults {
   const guestMode = !walletInfo.isConnected
   const { marketInfo } = useMarketInfo()
   const { timestamp, timestampInMs } = useTimestamp({
-    refreshIntervalInMs: savingsInfo.supportsRealTimeInterestAccrual ? stepInMs : undefined,
+    refreshIntervalInMs: savingsInfo?.supportsRealTimeInterestAccrual ? stepInMs : undefined,
   })
-
   const openDialog = useOpenDialog()
+
+  if (!savingsInfo) {
+    return { guestMode, openDialog, savingsDetails: { state: 'unsupported' } }
+  }
 
   const {
     assets: assetsInWallet,

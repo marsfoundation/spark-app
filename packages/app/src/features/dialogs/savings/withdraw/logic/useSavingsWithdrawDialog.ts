@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { useForm, UseFormReturn } from 'react-hook-form'
+import invariant from 'tiny-invariant'
 
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
 import { useConditionalFreeze } from '@/domain/hooks/useConditionalFreeze'
@@ -40,6 +41,7 @@ export interface UseSavingsWithdrawDialogResults {
 export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
   const { marketInfo } = useMarketInfo()
   const { savingsInfo } = useSavingsInfo()
+  invariant(savingsInfo, 'Savings info is not available')
   const walletInfo = useWalletInfo()
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')

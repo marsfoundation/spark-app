@@ -19,5 +19,5 @@ export interface SavingsInfoQueryParams {
 
 export interface SavingsInfoQueryOptions {
   queryKey: QueryKey
-  queryFn: () => Promise<SavingsInfo | undefined>
+  queryFn: () => Promise<SavingsInfo | null>
 }

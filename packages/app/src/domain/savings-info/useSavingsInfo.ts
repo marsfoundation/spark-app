@@ -9,7 +9,7 @@ import { useOriginChainId } from '../hooks/useOriginChainId'
 import { SavingsInfo } from './types'
 
 export type UseSavingsInfoResult = SuspenseQueryWith<{
-  savingsInfo: SavingsInfo | undefined
+  savingsInfo: SavingsInfo | null
 }>
 
 export function useSavingsInfo(): UseSavingsInfoResult {

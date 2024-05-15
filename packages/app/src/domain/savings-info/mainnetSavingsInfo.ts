@@ -10,17 +10,6 @@ import { fromRay, pow } from '@/utils/math'
 import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
 import { SavingsInfo, SavingsInfoQueryOptions, SavingsInfoQueryParams } from './types'
 
-export interface PotParams {
-  dsr: BigNumber
-  rho: BigNumber
-  chi: BigNumber
-}
-
-export interface MainnetSavingsInfoQueryResult {
-  DSR: Percentage
-  potParams: PotParams
-}
-
 export function mainnetSavingsInfoQuery({ wagmiConfig, timestamp }: SavingsInfoQueryParams): SavingsInfoQueryOptions {
   const makerPotAddress = getContractAddress(potAddress, mainnet.id)
   return {
@@ -63,6 +52,11 @@ export function mainnetSavingsInfoQuery({ wagmiConfig, timestamp }: SavingsInfoQ
   }
 }
 
+export interface PotParams {
+  dsr: BigNumber
+  rho: BigNumber
+  chi: BigNumber
+}
 export interface MainnetSavingsInfoParams {
   potParams: PotParams
   currentTimestamp: number

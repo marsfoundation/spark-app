@@ -1,4 +1,4 @@
-import { useConnectModal } from '@rainbow-me/rainbowkit'
+import { useChainModal, useConnectModal } from '@rainbow-me/rainbowkit'
 
 import { withSuspense } from '@/ui/utils/withSuspense'
 
@@ -6,10 +6,18 @@ import { SavingsSkeleton } from './components/skeleton/SavingsSkeleton'
 import { useSavings } from './logic/useSavings'
 import { GuestView } from './views/GuestView'
 import { SavingsView } from './views/SavingsView'
+import { UnsupportedChainView } from './views/UnsupportedChainView'
 
 function SavingsContainer() {
   const { guestMode, openDialog, savingsDetails } = useSavings()
   const { openConnectModal = () => {} } = useConnectModal()
+  const { openChainModal = () => {} } = useChainModal()
+
+  if (savingsDetails.state === 'unsupported') {
+    return (
+      <UnsupportedChainView openChainModal={openChainModal} openConnectModal={openConnectModal} guestMode={guestMode} />
+    )
+  }
 
   const {
     DSR,
