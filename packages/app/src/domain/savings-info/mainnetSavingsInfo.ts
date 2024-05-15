@@ -10,9 +10,9 @@ import { bigNumberify } from '@/utils/bigNumber'
 import { fromRay, pow } from '@/utils/math'
 
 import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
-import { SavingsManager } from './types'
+import { SavingsInfo } from './types'
 
-export interface MainnetSavingsInfoParams {
+export interface MainnetSavingsInfoQueryParams {
   wagmiConfig: Config
   timestamp: number
 }
@@ -23,20 +23,20 @@ export interface PotParams {
   chi: BigNumber
 }
 
-export interface MainnetSavingsInfoResult {
+export interface MainnetSavingsInfoQueryResult {
   DSR: Percentage
   potParams: PotParams
 }
 
 export interface MainnetSavingsInfoQueryOptions {
   queryKey: QueryKey
-  queryFn: () => Promise<SavingsManager>
+  queryFn: () => Promise<SavingsInfo>
 }
 
-export function mainnetSavingsInfo({
+export function mainnetSavingsInfoQuery({
   wagmiConfig,
   timestamp,
-}: MainnetSavingsInfoParams): MainnetSavingsInfoQueryOptions {
+}: MainnetSavingsInfoQueryParams): MainnetSavingsInfoQueryOptions {
   const makerPotAddress = getContractAddress(potAddress, mainnet.id)
   return {
     queryKey: ['mainnet-savings-info'],
@@ -66,7 +66,7 @@ export function mainnetSavingsInfo({
         ],
       })
 
-      return new MainnetSavings({
+      return new MainnetSavingsInfo({
         potParams: {
           dsr: bigNumberify(dsr),
           rho: bigNumberify(rho),
@@ -78,17 +78,17 @@ export function mainnetSavingsInfo({
   }
 }
 
-export interface MainnetSavingsParams {
+export interface MainnetSavingsInfoParams {
   potParams: PotParams
   currentTimestamp: number
 }
 
-export class MainnetSavings implements SavingsManager {
+export class MainnetSavingsInfo implements SavingsInfo {
   readonly DSR: Percentage
   readonly potParams: PotParams
   readonly currentTimestamp: number
 
-  constructor({ potParams, currentTimestamp }: MainnetSavingsParams) {
+  constructor({ potParams, currentTimestamp }: MainnetSavingsInfoParams) {
     this.potParams = potParams
     this.currentTimestamp = currentTimestamp
     this.DSR = Percentage(pow(fromRay(potParams.dsr), 60 * 60 * 24 * 365).minus(1), true)

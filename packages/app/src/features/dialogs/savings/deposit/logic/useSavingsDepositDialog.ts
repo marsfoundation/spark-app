@@ -45,7 +45,7 @@ export function useSavingsDepositDialog({
   initialToken,
 }: UseSavingsDepositDialogParams): UseSavingsDepositDialogResults {
   const { marketInfo } = useMarketInfo()
-  const { savingsManager } = useSavingsInfo()
+  const { savingsInfo } = useSavingsInfo()
   const walletInfo = useWalletInfo()
   const { assets: depositOptions } = makeAssetsInWalletList({ walletInfo })
 
@@ -84,11 +84,11 @@ export function useSavingsDepositDialog({
     swapInfo,
     swapParams,
     marketInfo,
-    savingsManager,
+    savingsInfo,
   })
   const txOverview = useTxOverview({
     marketInfo,
-    savingsManager,
+    savingsInfo,
     swapInfo,
     walletInfo,
     swapParams,

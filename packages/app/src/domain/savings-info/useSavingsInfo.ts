@@ -6,12 +6,12 @@ import { SuspenseQueryWith } from '@/utils/types'
 import { useTimestamp } from '@/utils/useTimestamp'
 
 import { useOriginChainId } from '../hooks/useOriginChainId'
-import { gnosisSavingsInfo } from './gnosisSavingsInfo'
-import { mainnetSavingsInfo } from './mainnetSavingsInfo'
-import { SavingsManager } from './types'
+import { gnosisSavingsInfoQuery } from './gnosisSavingsInfo'
+import { mainnetSavingsInfoQuery } from './mainnetSavingsInfo'
+import { SavingsInfo } from './types'
 
 export type UseSavingsInfoResult = SuspenseQueryWith<{
-  savingsManager: SavingsManager
+  savingsInfo: SavingsInfo
 }>
 
 export function useSavingsInfo(): UseSavingsInfoResult {
@@ -28,7 +28,7 @@ export function useSavingsInfo(): UseSavingsInfoResult {
 
   return {
     ...result,
-    savingsManager: result.data,
+    savingsInfo: result.data,
   }
 }
 
@@ -41,10 +41,10 @@ export interface GetSavingsInfoQueryOptionsParams {
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function getSavingsInfoQueryOptions({ wagmiConfig, chainId, timestamp }: GetSavingsInfoQueryOptionsParams) {
   if (chainId === mainnet.id) {
-    return mainnetSavingsInfo({ wagmiConfig, timestamp })
+    return mainnetSavingsInfoQuery({ wagmiConfig, timestamp })
   }
   if (chainId === gnosis.id) {
-    return gnosisSavingsInfo({ wagmiConfig, timestamp })
+    return gnosisSavingsInfoQuery({ wagmiConfig, timestamp })
   }
 
   throw new Error(`Unsupported chainId: ${chainId}`)

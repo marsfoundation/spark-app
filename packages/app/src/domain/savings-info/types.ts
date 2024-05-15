@@ -1,6 +1,6 @@
 import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
 
-export interface SavingsManager {
+export interface SavingsInfo {
   predictSharesValue({ timestamp, shares }: { timestamp: number; shares: NormalizedUnitNumber }): NormalizedUnitNumber
   convertDaiToShares({ dai }: { dai: NormalizedUnitNumber }): NormalizedUnitNumber
   convertSharesToDai({ shares }: { shares: NormalizedUnitNumber }): NormalizedUnitNumber

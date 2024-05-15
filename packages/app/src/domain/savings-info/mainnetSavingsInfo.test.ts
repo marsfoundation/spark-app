@@ -3,14 +3,14 @@ import { describe, test } from 'vitest'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { bigNumberify } from '@/utils/bigNumber'
 
-import { MainnetSavings } from './mainnetSavingsInfo'
+import { MainnetSavingsInfo } from './mainnetSavingsInfo'
 
-describe(MainnetSavings.name, () => {
-  describe(MainnetSavings.prototype.convertSharesToDai.name, () => {
+describe(MainnetSavingsInfo.name, () => {
+  describe(MainnetSavingsInfo.prototype.convertSharesToDai.name, () => {
     test('accounts for dsr with 5% yield', () => {
       const timestamp = 1000
       const shares = NormalizedUnitNumber(100)
-      const savingsManager = new MainnetSavings({
+      const savingsInfo = new MainnetSavingsInfo({
         potParams: {
           dsr: bigNumberify('1000000564701133626865910626'), // 5% / day
           rho: bigNumberify(timestamp),
@@ -18,7 +18,7 @@ describe(MainnetSavings.name, () => {
         },
         currentTimestamp: timestamp + 24 * 60 * 60,
       })
-      const fivePercentYield = savingsManager.convertSharesToDai({
+      const fivePercentYield = savingsInfo.convertSharesToDai({
         shares,
       })
       expect(fivePercentYield.minus(NormalizedUnitNumber(105)).abs().lt(1e-18)).toEqual(true)
@@ -27,7 +27,7 @@ describe(MainnetSavings.name, () => {
     test('accounts for dsr with 10% yield', () => {
       const timestamp = 1000
       const shares = NormalizedUnitNumber(100)
-      const savingsManager = new MainnetSavings({
+      const savingsInfo = new MainnetSavingsInfo({
         potParams: {
           dsr: bigNumberify('1000001103127689513476993127'), // 10% / day
           rho: bigNumberify(timestamp),
@@ -35,7 +35,7 @@ describe(MainnetSavings.name, () => {
         },
         currentTimestamp: timestamp + 24 * 60 * 60,
       })
-      const tenPercentYield = savingsManager.convertSharesToDai({
+      const tenPercentYield = savingsInfo.convertSharesToDai({
         shares,
       })
       expect(tenPercentYield.minus(NormalizedUnitNumber(110)).abs().lt(1e-18)).toEqual(true)
@@ -44,7 +44,7 @@ describe(MainnetSavings.name, () => {
     test('accounts for chi with 5% yield', () => {
       const timestamp = 1000
       const shares = NormalizedUnitNumber(100)
-      const savingsManager = new MainnetSavings({
+      const savingsInfo = new MainnetSavingsInfo({
         potParams: {
           dsr: bigNumberify('1000000564701133626865910626'), // 5% / day
           rho: bigNumberify(timestamp),
@@ -53,7 +53,7 @@ describe(MainnetSavings.name, () => {
         currentTimestamp: timestamp + 24 * 60 * 60,
       })
 
-      const fivePercentYield = savingsManager.convertSharesToDai({
+      const fivePercentYield = savingsInfo.convertSharesToDai({
         shares,
       })
       expect(fivePercentYield.minus(NormalizedUnitNumber(110.25)).abs().lt(1e-18)).toEqual(true)
@@ -62,7 +62,7 @@ describe(MainnetSavings.name, () => {
     test('accounts for chi with 10% yield', () => {
       const timestamp = 1000
       const shares = NormalizedUnitNumber(100)
-      const savingsManager = new MainnetSavings({
+      const savingsInfo = new MainnetSavingsInfo({
         potParams: {
           dsr: bigNumberify('1000001103127689513476993127'), // 10% / day
           rho: bigNumberify(timestamp),
@@ -70,18 +70,18 @@ describe(MainnetSavings.name, () => {
         },
         currentTimestamp: timestamp + 24 * 60 * 60,
       })
-      const tenPercentYield = savingsManager.convertSharesToDai({
+      const tenPercentYield = savingsInfo.convertSharesToDai({
         shares,
       })
       expect(tenPercentYield.minus(NormalizedUnitNumber(115.5)).abs().lt(1e-18)).toEqual(true)
     })
   })
 
-  describe(MainnetSavings.prototype.convertDaiToShares.name, () => {
+  describe(MainnetSavingsInfo.prototype.convertDaiToShares.name, () => {
     test('accounts for dsr', () => {
       const timestamp = 1000
       const dai = NormalizedUnitNumber(105)
-      const savingsManager = new MainnetSavings({
+      const savingsInfo = new MainnetSavingsInfo({
         potParams: {
           dsr: bigNumberify('1000000564701133626865910626'), // 5% / day
           rho: bigNumberify(timestamp),
@@ -89,7 +89,7 @@ describe(MainnetSavings.name, () => {
         },
         currentTimestamp: timestamp + 24 * 60 * 60,
       })
-      const result = savingsManager.convertDaiToShares({
+      const result = savingsInfo.convertDaiToShares({
         dai,
       })
       expect(result.minus(NormalizedUnitNumber(100)).abs().lt(1e-18)).toEqual(true)
@@ -98,7 +98,7 @@ describe(MainnetSavings.name, () => {
     test('accounts for chi', () => {
       const timestamp = 1000
       const dai = NormalizedUnitNumber(110.25)
-      const savingsManager = new MainnetSavings({
+      const savingsInfo = new MainnetSavingsInfo({
         potParams: {
           dsr: bigNumberify('1000000564701133626865910626'), // 5% / day
           rho: bigNumberify(timestamp),
@@ -106,7 +106,7 @@ describe(MainnetSavings.name, () => {
         },
         currentTimestamp: timestamp + 24 * 60 * 60,
       })
-      const result = savingsManager.convertDaiToShares({
+      const result = savingsInfo.convertDaiToShares({
         dai,
       })
       expect(result.minus(NormalizedUnitNumber(100)).abs().lt(1e-18)).toEqual(true)

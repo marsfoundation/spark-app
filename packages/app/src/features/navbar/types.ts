@@ -1,4 +1,4 @@
-import { SavingsManager } from '@/domain/savings-info/types'
+import { SavingsInfo } from '@/domain/savings-info/types'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { EnsName } from '@/domain/types/EnsName'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
@@ -36,7 +36,7 @@ export interface BalanceInfo {
 }
 
 export interface SavingsInfoQueryResults {
-  data: SavingsManager | undefined
+  data: SavingsInfo | undefined
   isLoading: boolean
 }
 

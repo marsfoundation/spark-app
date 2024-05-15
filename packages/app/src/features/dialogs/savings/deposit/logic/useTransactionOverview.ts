@@ -1,6 +1,6 @@
 import { SwapInfo, SwapParams } from '@/domain/exchanges/types'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
-import { SavingsManager } from '@/domain/savings-info/types'
+import { SavingsInfo } from '@/domain/savings-info/types'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
@@ -8,7 +8,7 @@ import { WalletInfo } from '@/domain/wallet/useWalletInfo'
 
 interface UseTxOverviewParams {
   marketInfo: MarketInfo
-  savingsManager: SavingsManager
+  savingsInfo: SavingsInfo
   swapInfo: SwapInfo
   swapParams: SwapParams
   walletInfo: WalletInfo
@@ -27,7 +27,7 @@ export interface SavingsDialogTxOverview {
 export function useTxOverview({
   marketInfo,
   walletInfo,
-  savingsManager,
+  savingsInfo,
   swapInfo,
   swapParams,
 }: UseTxOverviewParams): SavingsDialogTxOverview | undefined {
@@ -43,7 +43,7 @@ export function useTxOverview({
   const otherTokenAmountBaseUnit = swapInfo.data.estimate.fromAmount
   const otherTokenAmount = swapParams.fromToken.fromBaseUnit(otherTokenAmountBaseUnit)
 
-  const daiAmountNormalized = savingsManager.convertSharesToDai({
+  const daiAmountNormalized = savingsInfo.convertSharesToDai({
     shares: sDaiAmount,
   })
   const tokenToDaiRatio = NormalizedUnitNumber(daiAmountNormalized.dividedBy(otherTokenAmount))
@@ -58,6 +58,6 @@ export function useTxOverview({
     exchangeRatio: tokenToDaiRatio,
     sDaiBalanceBefore,
     sDaiBalanceAfter,
-    DSR: savingsManager.apy,
+    DSR: savingsInfo.apy,
   }
 }

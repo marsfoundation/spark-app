@@ -14,25 +14,22 @@ import { bigNumberify } from '@/utils/bigNumber'
 import { fromWad } from '@/utils/math'
 
 import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
-import { SavingsManager } from './types'
+import { SavingsInfo } from './types'
 
-export interface GnosisSavingsInfoParams {
+export interface GnosisSavingsInfoQueryParams {
   wagmiConfig: Config
   timestamp: number
 }
 
-export interface GnosisSavingsInfoResult {
-  vaultAPY: Percentage
-  totalSupply: NormalizedUnitNumber
-  totalAssets: NormalizedUnitNumber
-}
-
 export interface GnosisSavingsInfoQueryOptions {
   queryKey: QueryKey
-  queryFn: () => Promise<SavingsManager>
+  queryFn: () => Promise<SavingsInfo>
 }
 
-export function gnosisSavingsInfo({ wagmiConfig, timestamp }: GnosisSavingsInfoParams): GnosisSavingsInfoQueryOptions {
+export function gnosisSavingsInfoQuery({
+  wagmiConfig,
+  timestamp,
+}: GnosisSavingsInfoQueryParams): GnosisSavingsInfoQueryOptions {
   const sDaiAdapterAddress = getContractAddress(savingsXDaiAdapterAddress, gnosis.id)
   const sDaiAddress = getContractAddress(savingsXDaiAddress, gnosis.id)
   return {
@@ -68,7 +65,7 @@ export function gnosisSavingsInfo({ wagmiConfig, timestamp }: GnosisSavingsInfoP
         allowFailure: false,
       })
 
-      return new GnosisSavings({
+      return new GnosisSavingsInfo({
         vaultAPY: Percentage(fromWad(bigNumberify(vaultAPY))),
         totalAssets: NormalizedUnitNumber(bigNumberify(totalAssets).shiftedBy(-decimals)),
         totalSupply: NormalizedUnitNumber(bigNumberify(totalSupply).shiftedBy(-decimals)),
@@ -78,20 +75,20 @@ export function gnosisSavingsInfo({ wagmiConfig, timestamp }: GnosisSavingsInfoP
   }
 }
 
-export interface GnosisSavingsParams {
+export interface GnosisSavingsInfoParams {
   vaultAPY: Percentage
   totalSupply: NormalizedUnitNumber
   totalAssets: NormalizedUnitNumber
   currentTimestamp: number
 }
 
-export class GnosisSavings implements SavingsManager {
+export class GnosisSavingsInfo implements SavingsInfo {
   private vaultAPY: Percentage
   private totalSupply: NormalizedUnitNumber
   private totalAssets: NormalizedUnitNumber
   private currentTimestamp: number
 
-  constructor(params: GnosisSavingsParams) {
+  constructor(params: GnosisSavingsInfoParams) {
     this.vaultAPY = params.vaultAPY
     this.totalSupply = params.totalSupply
     this.totalAssets = params.totalAssets

@@ -30,12 +30,12 @@ export interface UseSavingsResults {
   }
 }
 export function useSavings(): UseSavingsResults {
-  const { savingsManager } = useSavingsInfo()
+  const { savingsInfo } = useSavingsInfo()
   const walletInfo = useWalletInfo()
   const guestMode = !walletInfo.isConnected
   const { marketInfo } = useMarketInfo()
   const { timestamp, timestampInMs } = useTimestamp({
-    refreshIntervalInMs: savingsManager.supportsRealTimeInterestAccrual ? stepInMs : undefined,
+    refreshIntervalInMs: savingsInfo.supportsRealTimeInterestAccrual ? stepInMs : undefined,
   })
 
   const openDialog = useOpenDialog()
@@ -48,17 +48,17 @@ export function useSavings(): UseSavingsResults {
   const { shares, potentialShares, depositedUSD, depositedUSDPrecision, sDAIBalance } = makeSavingsOverview({
     marketInfo,
     walletInfo,
-    savingsManager,
+    savingsInfo,
     eligibleCashUSD: totalEligibleCashUSD,
     timestampInMs,
     stepInMs,
   })
 
-  const currentProjections = calculateProjections({ timestamp, shares, savingsManager })
+  const currentProjections = calculateProjections({ timestamp, shares, savingsInfo })
   const opportunityProjections = calculateProjections({
     timestamp,
     shares: potentialShares,
-    savingsManager,
+    savingsInfo,
   })
 
   return {
@@ -66,7 +66,7 @@ export function useSavings(): UseSavingsResults {
     openDialog,
     savingsDetails: {
       state: 'supported',
-      DSR: savingsManager.apy,
+      DSR: savingsInfo.apy,
       depositedUSD,
       depositedUSDPrecision,
       sDAIBalance,

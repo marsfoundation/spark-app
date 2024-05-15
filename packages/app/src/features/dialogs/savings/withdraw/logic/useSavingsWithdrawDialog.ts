@@ -40,7 +40,7 @@ export interface UseSavingsWithdrawDialogResults {
 
 export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
   const { marketInfo } = useMarketInfo()
-  const { savingsManager } = useSavingsInfo()
+  const { savingsInfo } = useSavingsInfo()
   const walletInfo = useWalletInfo()
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')
@@ -76,7 +76,7 @@ export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
     formValues,
     marketInfo,
     walletInfo,
-    savingsManager,
+    savingsInfo,
     swapInfo,
   })
   const tokenToWithdraw = useConditionalFreeze<TokenWithValue>(
