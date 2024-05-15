@@ -2,7 +2,6 @@ import { SwapInfo } from '@/domain/exchanges/types'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { SavingsInfo } from '@/domain/savings-info/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { RiskWarning } from '@/features/dialogs/common/components/risk-acknowledgement/RiskAcknowledgement'
 import { DialogFormNormalizedData } from '@/features/dialogs/common/logic/form'
 
@@ -29,8 +28,8 @@ export function generateWarning({
     return {}
   }
 
-  const sDAI = marketInfo.findOneTokenBySymbol(TokenSymbol('sDAI'))
-  const DAI = marketInfo.findOneTokenBySymbol(TokenSymbol('DAI'))
+  const sDAI = marketInfo.sDAI
+  const DAI = marketInfo.DAI
   const toAmountMinDAI = savingsInfo.convertSharesToDai({
     shares: sDAI.fromBaseUnit(swapInfo.data.estimate.toAmountMin),
   })

@@ -5,7 +5,6 @@ import { getDepositMaxValue } from '@/domain/action-max-value-getters/getDeposit
 import { MarketInfo, Reserve } from '@/domain/market-info/marketInfo'
 import { getValidateBorrowArgs, validateBorrow } from '@/domain/market-validators/validateBorrow'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { WalletInfo } from '@/domain/wallet/useWalletInfo'
 import { applyTransformers } from '@/utils/applyTransformers'
 
@@ -130,12 +129,12 @@ function makeBaseWalletOverview({ reserve, marketInfo, walletInfo }: MakeWalletO
 }
 
 function makeDaiOverview({ reserve, marketInfo, ...rest }: MakeWalletOverviewParams): WalletOverview | undefined {
-  if (reserve.token.symbol !== 'DAI') {
+  if (reserve.token.symbol !== marketInfo.DAI.symbol) {
     return undefined
   }
 
   const baseOverview = makeBaseWalletOverview({ reserve, marketInfo, ...rest })
-  const sDaiReserve = marketInfo.findOneReserveBySymbol(TokenSymbol('sDAI'))
+  const sDaiReserve = marketInfo.findOneReserveByToken(marketInfo.sDAI)
   const sDaiOverview = makeBaseWalletOverview({ reserve: sDaiReserve, marketInfo, ...rest })
 
   return {

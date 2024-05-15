@@ -14,9 +14,9 @@ export function useLifiQueryMetaEvaluator(): LifiQueryMetaEvaluator {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { marketInfo } = useMarketInfo()
 
-  const dai = marketInfo.findReserveBySymbol(TokenSymbol('DAI'))?.token.address
-  const sdai = marketInfo.findReserveBySymbol(TokenSymbol('sDAI'))?.token.address
-  const usdc = marketInfo.findReserveBySymbol(TokenSymbol('USDC'))?.token.address
+  const dai = marketInfo.DAI.address
+  const sdai = marketInfo.sDAI.address
+  const usdc = marketInfo.findTokenBySymbol(TokenSymbol('USDC'))?.address
 
   return new RealLifiQueryMetaEvaluator({ dai, sdai, usdc })
 }

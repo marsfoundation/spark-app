@@ -43,6 +43,8 @@ export interface ChainConfigEntry {
   tokenSymbolToReplacedName: TokenSymbolToReplacedName
   airdrop: Airdrop
   savingsInfoQuery: (args: SavingsInfoQueryParams) => SavingsInfoQueryOptions
+  daiSymbol: TokenSymbol
+  sDaiSymbol: TokenSymbol
 }
 
 export type ChainConfig = Record<SupportedChainId, ChainConfigEntry>

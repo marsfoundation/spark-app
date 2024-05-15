@@ -2,7 +2,6 @@ import { TokenWithBalance } from '@/domain/common/types'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { SavingsInfo } from '@/domain/savings-info/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { WalletInfo } from '@/domain/wallet/useWalletInfo'
 
 const DEFAULT_PRECISION = 6
@@ -31,7 +30,7 @@ export function makeSavingsOverview({
   timestampInMs,
   stepInMs,
 }: MakeSavingsOverviewParams): SavingsOverview {
-  const sDAI = marketInfo.findOneTokenBySymbol(TokenSymbol('sDAI'))
+  const sDAI = marketInfo.sDAI
   const shares = walletInfo.findWalletBalanceForToken(sDAI)
 
   const [depositedUSD, precision] = calculateSharesToDaiWithPrecision({

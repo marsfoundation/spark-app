@@ -1,7 +1,6 @@
 import { D3MInfo } from '@/domain/d3m-info/types'
 import { MarketInfo, Reserve } from '@/domain/market-info/marketInfo'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
 
 import { MarketOverview } from '../types'
 import { makeMarketOverview } from './makeMarketOverview'
@@ -14,8 +13,8 @@ export interface MakeDaiMarketOverviewParams {
 
 export function makeDaiMarketOverview({ reserve, marketInfo, D3MInfo }: MakeDaiMarketOverviewParams): MarketOverview {
   const baseOverview = makeMarketOverview({ reserve, marketInfo })
-  const sDai = marketInfo.findOneReserveBySymbol(TokenSymbol('sDAI'))
-  const sDaiOverview = makeMarketOverview({ reserve: sDai, marketInfo })
+  const sDAI = marketInfo.findOneReserveByToken(marketInfo.sDAI)
+  const sDaiOverview = makeMarketOverview({ reserve: sDAI, marketInfo })
   const makerDaoCapacity = NormalizedUnitNumber(D3MInfo.maxDebtCeiling.minus(D3MInfo.D3MCurrentDebtUSD))
   const marketSize = NormalizedUnitNumber(reserve.totalLiquidity.plus(makerDaoCapacity))
   const totalAvailable = NormalizedUnitNumber(marketSize.minus(reserve.totalDebt))
@@ -36,9 +35,9 @@ export function makeDaiMarketOverview({ reserve, marketInfo, D3MInfo }: MakeDaiM
       ...sDaiOverview.collateral,
       status: 'yes',
       supplyReplacement: {
-        token: sDai.token,
-        totalSupplied: sDai.totalLiquidity,
-        supplyAPY: sDai.supplyAPY,
+        token: sDAI.token,
+        totalSupplied: sDAI.totalLiquidity,
+        supplyAPY: sDAI.supplyAPY,
       },
     },
     borrow: {
@@ -54,14 +53,14 @@ export function makeDaiMarketOverview({ reserve, marketInfo, D3MInfo }: MakeDaiM
       totalAvailable,
       utilizationRate,
     },
-    ...(sDai.eModeCategory &&
-      (sDai.eModeCategory.id === 1 || sDai.eModeCategory.id === 2) && {
+    ...(sDAI.eModeCategory &&
+      (sDAI.eModeCategory.id === 1 || sDAI.eModeCategory.id === 2) && {
         eMode: {
-          maxLtv: sDai.eModeCategory.ltv,
-          liquidationThreshold: sDai.eModeCategory.liquidationThreshold,
-          liquidationPenalty: sDai.eModeCategory.liquidationBonus,
-          categoryId: sDai.eModeCategory.id,
-          token: sDai.token,
+          maxLtv: sDAI.eModeCategory.ltv,
+          liquidationThreshold: sDAI.eModeCategory.liquidationThreshold,
+          liquidationPenalty: sDAI.eModeCategory.liquidationBonus,
+          categoryId: sDAI.eModeCategory.id,
+          token: sDAI.token,
           eModeCategoryTokens: sDaiOverview.eMode!.eModeCategoryTokens,
         },
       }),

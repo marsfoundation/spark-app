@@ -8,7 +8,6 @@ import { useConditionalFreeze } from '@/domain/hooks/useConditionalFreeze'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { makeAssetsInWalletList } from '@/domain/savings/makeAssetsInWalletList'
 import { useSavingsInfo } from '@/domain/savings-info/useSavingsInfo'
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
 import { Objective } from '@/features/actions/logic/types'
 import { RiskWarning } from '@/features/dialogs/common/components/risk-acknowledgement/RiskAcknowledgement'
@@ -17,7 +16,6 @@ import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/c
 
 import { getFormFieldsForWithdrawDialog } from './form'
 import { generateWarning } from './generateWarning'
-import { getSDaiWithBalance } from './getSDaiWithBalance'
 import { createObjectives } from './objectives'
 import { useSwap } from './useSwap'
 import { SavingsDialogTxOverview, useTxOverview } from './useTransactionOverview'
@@ -47,12 +45,15 @@ export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
   const [pageStatus, setPageStatus] = useState<PageState>('form')
 
   const { assets: withdrawOptions } = makeAssetsInWalletList({ walletInfo })
-  const sDaiWithBalance = getSDaiWithBalance(walletInfo)
+  const sDaiWithBalance: TokenWithBalance = {
+    token: marketInfo.sDAI,
+    balance: walletInfo.findWalletBalanceForToken(marketInfo.sDAI),
+  }
 
   const form = useForm<AssetInputSchema>({
     resolver: zodResolver(getSavingsWithdrawDialogFormValidator(sDaiWithBalance)),
     defaultValues: {
-      symbol: TokenSymbol('DAI'),
+      symbol: marketInfo.DAI.symbol,
       value: '',
       isMaxSelected: false,
     },

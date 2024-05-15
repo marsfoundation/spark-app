@@ -6,7 +6,6 @@ import { NotFoundError } from '@/domain/errors/not-found'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { Token } from '@/domain/types/Token'
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
 import { raise } from '@/utils/raise'
 
@@ -37,7 +36,7 @@ export function useMarketDetails(): UseMarketDetailsResult {
 
   const reserve = marketInfo.findReserveByUnderlyingAsset(CheckedAddress(asset)) ?? raise(new NotFoundError())
 
-  const isDaiOverview = reserve.token.symbol === TokenSymbol('DAI') && D3MInfo
+  const isDaiOverview = reserve.token.symbol === marketInfo.DAI.symbol && D3MInfo
 
   const marketOverview = isDaiOverview
     ? makeDaiMarketOverview({

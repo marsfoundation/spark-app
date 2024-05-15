@@ -1,7 +1,6 @@
 import { D3MInfo } from '@/domain/d3m-info/types'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { bigNumberify } from '@/utils/bigNumber'
 
 export interface MarketStats {
@@ -24,7 +23,7 @@ export function aggregateStats(marketInfo: MarketInfo, D3MInfo: D3MInfo | undefi
     },
   )
   const totalAvailableUSD = aggregatedValues.totalLiquidityUSD.minus(aggregatedValues.totalDebtUSD)
-  const daiReserve = marketInfo.findReserveBySymbol(TokenSymbol('DAI'))
+  const daiReserve = marketInfo.findReserveByToken(marketInfo.DAI)
   const totalValueLockedUSD =
     D3MInfo && daiReserve
       ? NormalizedUnitNumber(totalAvailableUSD.minus(D3MInfo.D3MCurrentDebtUSD.minus(daiReserve.totalVariableDebtUSD)))
