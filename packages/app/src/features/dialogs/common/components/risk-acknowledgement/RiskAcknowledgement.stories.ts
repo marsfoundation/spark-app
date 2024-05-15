@@ -13,7 +13,7 @@ const meta: Meta<typeof RiskAcknowledgement> = {
   decorators: [WithClassname('max-w-xl')],
   args: {
     warning: {
-      type: 'savings-deposit-discrepancy-threshold-hit',
+      type: 'savings-discrepancy-threshold-hit',
       discrepancy: NormalizedUnitNumber(100),
       token: tokens['DAI'],
     },
