@@ -13,7 +13,6 @@ import { Objective } from '@/features/actions/logic/types'
 import { RiskWarning } from '@/features/dialogs/common/components/risk-acknowledgement/RiskAcknowledgement'
 import { AssetInputSchema, useDebouncedDialogFormValues } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
-import { useTimestamp } from '@/utils/useTimestamp'
 
 import { getFormFieldsForWithdrawDialog } from './form'
 import { generateWarning } from './generateWarning'
@@ -87,13 +86,11 @@ export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
     pageStatus === 'success',
   )
 
-  const { timestamp } = useTimestamp()
   const { warning } = generateWarning({
     swapInfo,
     inputValues: formValues,
     marketInfo,
-    potParams: makerInfo.potParameters,
-    timestamp,
+    savingsInfo,
   })
   const [riskAcknowledged, setRiskAcknowledged] = useState(false)
 
