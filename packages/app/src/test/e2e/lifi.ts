@@ -1067,6 +1067,330 @@ const lifiResponses = {
       }
     },
   },
+  '10000-dai-to-sdai': {
+    // curl --request GET \
+    //  --url 'https://li.quest/v1/quote?fromChain=1&toChain=1&fromToken=0x6B175474E89094C44Da98b954EedeAC495271d0F&toToken=0x83f20f44975d03b1b09e64809b757c47f942beea&fromAddress=0x${receiver.slice(2).toLowerCase()}&fromAmount=10000000000000000000000&slippage=0.1' \
+    //  --header 'accept: application/json'
+    block: 19519583n,
+    endpoint: 'https://li.quest/v1/quote',
+    method: 'GET',
+    response(receiver, slippage) {
+      return {
+        type: 'lifi',
+        id: '706aebd2-832d-4a86-b119-d8e298d8b088',
+        tool: 'enso',
+        toolDetails: {
+          key: 'enso',
+          name: 'Enso',
+          logoURI: 'https://www.enso.finance/favicon.ico',
+        },
+        action: {
+          fromToken: {
+            address: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
+            chainId: 1,
+            symbol: 'DAI',
+            decimals: 18,
+            name: 'DAI Stablecoin',
+            coinKey: 'DAI',
+            logoURI:
+              'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png',
+            priceUSD: '0.99985',
+          },
+          fromAmount: '10000000000000000000000',
+          toToken: {
+            address: '0x83F20F44975D03b1b09e64809B757c47f942BEeA',
+            chainId: 1,
+            symbol: 'sDAI',
+            decimals: 18,
+            name: 'Savings Dai',
+            coinKey: 'sDAI',
+            logoURI:
+              'https://static.debank.com/image/eth_token/logo_url/0x83f20f44975d03b1b09e64809b757c47f942beea/ba710cd443d1995d6b4781ee6d5904c0.png',
+            priceUSD: '1.0814717527682474',
+          },
+          fromChainId: 1,
+          toChainId: 1,
+          slippage,
+          fromAddress: receiver,
+          toAddress: receiver,
+        },
+        estimate: {
+          tool: 'enso',
+          approvalAddress: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
+          toAmountMin: '8320604955114542838902',
+          toAmount: '9245116616793936487669',
+          fromAmount: '10000000000000000000000',
+          feeCosts: [],
+          gasCosts: [
+            {
+              type: 'SEND',
+              price: '11565219039',
+              estimate: '346765',
+              limit: '450795',
+              amount: '4010413180058835',
+              amountUSD: '11.93',
+              token: {
+                address: '0x0000000000000000000000000000000000000000',
+                chainId: 1,
+                symbol: 'ETH',
+                decimals: 18,
+                name: 'ETH',
+                coinKey: 'ETH',
+                logoURI:
+                  'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png',
+                priceUSD: '2974.78',
+              },
+            },
+          ],
+          executionDuration: 30,
+          fromAmountUSD: '9998.50',
+          toAmountUSD: '9998.33',
+        },
+        includedSteps: [
+          {
+            id: 'c04edde2-43b1-4541-8d77-049abdb395e0',
+            type: 'swap',
+            action: {
+              fromChainId: 1,
+              fromAmount: '10000000000000000000000',
+              fromToken: {
+                address: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
+                chainId: 1,
+                symbol: 'DAI',
+                decimals: 18,
+                name: 'DAI Stablecoin',
+                coinKey: 'DAI',
+                logoURI:
+                  'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png',
+                priceUSD: '0.99985',
+              },
+              toChainId: 1,
+              toToken: {
+                address: '0x83F20F44975D03b1b09e64809B757c47f942BEeA',
+                chainId: 1,
+                symbol: 'sDAI',
+                decimals: 18,
+                name: 'Savings Dai',
+                coinKey: 'sDAI',
+                logoURI:
+                  'https://static.debank.com/image/eth_token/logo_url/0x83f20f44975d03b1b09e64809b757c47f942beea/ba710cd443d1995d6b4781ee6d5904c0.png',
+                priceUSD: '1.0814717527682474',
+              },
+              slippage,
+              fromAddress: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
+              toAddress: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
+            },
+            estimate: {
+              tool: 'enso',
+              fromAmount: '10000000000000000000000',
+              toAmount: '9245116616793936487669',
+              toAmountMin: '8320604955114542838902',
+              approvalAddress: '0x80EbA3855878739F4710233A8a19d89Bdd2ffB8E',
+              executionDuration: 30,
+              feeCosts: [],
+              gasCosts: [
+                {
+                  type: 'SEND',
+                  price: '11565219039',
+                  estimate: '233087',
+                  limit: '303013',
+                  amount: '2695702210143393',
+                  amountUSD: '8.02',
+                  token: {
+                    address: '0x0000000000000000000000000000000000000000',
+                    chainId: 1,
+                    symbol: 'ETH',
+                    decimals: 18,
+                    name: 'ETH',
+                    coinKey: 'ETH',
+                    logoURI:
+                      'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png',
+                    priceUSD: '2974.78',
+                  },
+                },
+              ],
+            },
+            tool: 'enso',
+            toolDetails: {
+              key: 'enso',
+              name: 'Enso',
+              logoURI: 'https://www.enso.finance/favicon.ico',
+            },
+          },
+        ],
+        integrator: 'lifi-api',
+        transactionRequest: {
+          data: `0x878863a4df2632c2ad0e8b58f0c977670dec013c2b488d74182ff67b0cda9405057e6dd100000000000000000000000000000000000000000000000000000000000000c00000000000000000000000000000000000000000000000000000000000000100000000000000000000000000${receiver.slice(2).toLowerCase()}0000000000000000000000000000000000000000000001c30f970a38e561b476000000000000000000000000000000000000000000000000000000000000016000000000000000000000000000000000000000000000000000000000000000086c6966692d617069000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002a3078303030303030303030303030303030303030303030303030303030303030303030303030303030300000000000000000000000000000000000000000000000000000000000000000000080eba3855878739f4710233a8a19d89bdd2ffb8e00000000000000000000000080eba3855878739f4710233a8a19d89bdd2ffb8e0000000000000000000000006b175474e89094c44da98b954eedeac495271d0f00000000000000000000000083f20f44975d03b1b09e64809b757c47f942beea00000000000000000000000000000000000000000000021e19e0c9bab240000000000000000000000000000000000000000000000000000000000000000000e0000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000002c4b35d7e730000000000000000000000006b175474e89094c44da98b954eedeac495271d0f00000000000000000000000000000000000000000000021e19e0c9bab2400000000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000001200000000000000000000000000000000000000000000000000000000000000004095ea7b3010001ffffffffff6b175474e89094c44da98b954eedeac495271d0f6e553f65010102ffffffff0283f20f44975d03b1b09e64809b757c47f942beea6e7a43a3010203ffffffff027e7d64d987cab6eed08a191c4c2459daf2f8ed0b241c59120102ffffffffffff7e7d64d987cab6eed08a191c4c2459daf2f8ed0b0000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000c000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000140000000000000000000000000000000000000000000000000000000000000002000000000000000000000000083f20f44975d03b1b09e64809b757c47f942beea000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000021e19e0c9bab240000000000000000000000000000000000000000000000000000000000000000000200000000000000000000000001231deb6f5749ef6ce6943a275a1d3e7486f4eae00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000001c30f970a38e561b47600000000000000000000000000000000000000000000000000000000`,
+          to: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
+          value: '0x0',
+          gasPrice: '0x2b1573cdf',
+          gasLimit: '0x6e0eb',
+          from: receiver,
+          chainId: 1,
+        },
+      }
+    },
+  },
+  'sdai-to-10000-dai': {
+    block: 19862032n,
+    endpoint: 'https://li.quest/v1/quote/contractCalls',
+    method: 'POST',
+    response(receiver, slippage) {
+      return {
+        type: 'lifi',
+        id: '4d83433e-2359-45ee-8c67-fd85e01412d1',
+        tool: 'enso',
+        toolDetails: {
+          key: 'enso',
+          name: 'Enso',
+          logoURI: 'https://www.enso.finance/favicon.ico',
+        },
+        action: {
+          fromToken: {
+            address: '0x83F20F44975D03b1b09e64809B757c47f942BEeA',
+            chainId: 1,
+            symbol: 'sDAI',
+            decimals: 18,
+            name: 'Savings Dai',
+            coinKey: 'sDAI',
+            logoURI:
+              'https://static.debank.com/image/eth_token/logo_url/0x83f20f44975d03b1b09e64809b757c47f942beea/ba710cd443d1995d6b4781ee6d5904c0.png',
+            priceUSD: '1.081499326145947',
+          },
+          fromAmount: '10277276260680656857010',
+          toToken: {
+            address: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
+            chainId: 1,
+            symbol: 'DAI',
+            decimals: 18,
+            name: 'DAI Stablecoin',
+            coinKey: 'DAI',
+            logoURI:
+              'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png',
+            priceUSD: '0.99985',
+          },
+          fromChainId: 1,
+          toChainId: 1,
+          slippage,
+          fromAddress: receiver,
+          toAddress: receiver,
+        },
+        estimate: {
+          tool: 'enso',
+          approvalAddress: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
+          toAmountMin: '10004999999999999999920',
+          toAmount: '11116666666666666666578',
+          fromAmount: '10277276260680656857010',
+          feeCosts: [],
+          gasCosts: [
+            {
+              type: 'SEND',
+              price: '21002754684',
+              estimate: '440312',
+              limit: '572406',
+              amount: '9247764920421408',
+              amountUSD: '27.36',
+              token: {
+                address: '0x0000000000000000000000000000000000000000',
+                chainId: 1,
+                symbol: 'ETH',
+                decimals: 18,
+                name: 'ETH',
+                coinKey: 'ETH',
+                logoURI:
+                  'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png',
+                priceUSD: '2958.61',
+              },
+            },
+          ],
+          executionDuration: 30,
+          fromAmountUSD: '11114.87',
+          toAmountUSD: '11115.00',
+        },
+        includedSteps: [
+          {
+            id: 'a58b45c8-668e-4e93-9b4d-13061541cb44',
+            type: 'swap',
+            action: {
+              fromChainId: 1,
+              fromAmount: '10277276260680656857010',
+              fromToken: {
+                address: '0x83F20F44975D03b1b09e64809B757c47f942BEeA',
+                chainId: 1,
+                symbol: 'sDAI',
+                decimals: 18,
+                name: 'Savings Dai',
+                coinKey: 'sDAI',
+                logoURI:
+                  'https://static.debank.com/image/eth_token/logo_url/0x83f20f44975d03b1b09e64809b757c47f942beea/ba710cd443d1995d6b4781ee6d5904c0.png',
+                priceUSD: '1.081499326145947',
+              },
+              toChainId: 1,
+              toToken: {
+                address: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
+                chainId: 1,
+                symbol: 'DAI',
+                decimals: 18,
+                name: 'DAI Stablecoin',
+                coinKey: 'DAI',
+                logoURI:
+                  'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png',
+                priceUSD: '0.99985',
+              },
+              slippage,
+              fromAddress: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
+              toAddress: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
+            },
+            estimate: {
+              tool: 'enso',
+              fromAmount: '10277276260680656857010',
+              toAmount: '11116666666666666666578',
+              toAmountMin: '10004999999999999999920',
+              approvalAddress: '0x80EbA3855878739F4710233A8a19d89Bdd2ffB8E',
+              executionDuration: 30,
+              feeCosts: [],
+              gasCosts: [
+                {
+                  type: 'SEND',
+                  price: '21002754684',
+                  estimate: '197312',
+                  limit: '256506',
+                  amount: '4144095532209408',
+                  amountUSD: '12.26',
+                  token: {
+                    address: '0x0000000000000000000000000000000000000000',
+                    chainId: 1,
+                    symbol: 'ETH',
+                    decimals: 18,
+                    name: 'ETH',
+                    coinKey: 'ETH',
+                    logoURI:
+                      'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png',
+                    priceUSD: '2958.61',
+                  },
+                },
+              ],
+            },
+            tool: 'enso',
+            toolDetails: {
+              key: 'enso',
+              name: 'Enso',
+              logoURI: 'https://www.enso.finance/favicon.ico',
+            },
+          },
+        ],
+        transactionRequest: {
+          data: `0x878863a4c7155db8084f763d1c67640cab806da1ee252085d2d12e70922126a3a8fadd8800000000000000000000000000000000000000000000000000000000000000c00000000000000000000000000000000000000000000000000000000000000100000000000000000000000000${receiver.slice(2).toLowerCase()}00000000000000000000000000000000000000000000021e5f445b3cf733ffb0000000000000000000000000000000000000000000000000000000000000016000000000000000000000000000000000000000000000000000000000000000086c6966692d617069000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002a3078303030303030303030303030303030303030303030303030303030303030303030303030303030300000000000000000000000000000000000000000000000000000000000000000000080eba3855878739f4710233a8a19d89bdd2ffb8e00000000000000000000000080eba3855878739f4710233a8a19d89bdd2ffb8e00000000000000000000000083f20f44975d03b1b09e64809b757c47f942beea0000000000000000000000006b175474e89094c44da98b954eedeac495271d0f00000000000000000000000000000000000000000000022d21dbf3bee969a7b200000000000000000000000000000000000000000000000000000000000000e0000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000002a4b35d7e7300000000000000000000000083f20f44975d03b1b09e64809b757c47f942beea00000000000000000000000000000000000000000000022d21dbf3bee969a7b2000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000003ba08765201000102ffffff0283f20f44975d03b1b09e64809b757c47f942beea6e7a43a3010203ffffffff027e7d64d987cab6eed08a191c4c2459daf2f8ed0b241c59120102ffffffffffff7e7d64d987cab6eed08a191c4c2459daf2f8ed0b0000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000c000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000140000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000022d21dbf3bee969a7b200000000000000000000000000000000000000000000000000000000000000200000000000000000000000001231deb6f5749ef6ce6943a275a1d3e7486f4eae00000000000000000000000000000000000000000000000000000000000000200000000000000000000000007d585b0e27bbb3d981b7757115ec11f47c476994000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000021e5f445b3cf733ffb000000000000000000000000000000000000000000000000000000000`,
+          to: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
+          value: '0x0',
+          gasPrice: '0x4e3dc9a7c',
+          gasLimit: '0x8bbf6',
+          from: receiver,
+          chainId: 1,
+        },
+      }
+    },
+  },
 } satisfies Record<string, LifiResponse>
 
 interface LifiResponse {

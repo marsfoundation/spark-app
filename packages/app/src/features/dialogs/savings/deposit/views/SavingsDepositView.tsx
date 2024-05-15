@@ -6,11 +6,13 @@ import { DialogActionsPanel } from '@/features/dialogs/common/components/DialogA
 import { DialogForm } from '@/features/dialogs/common/components/form/DialogForm'
 import { FormAndOverviewWrapper } from '@/features/dialogs/common/components/FormAndOverviewWrapper'
 import { MultiPanelDialog } from '@/features/dialogs/common/components/MultiPanelDialog'
+import { RiskAcknowledgement } from '@/features/dialogs/common/components/risk-acknowledgement/RiskAcknowledgement'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageStatus } from '@/features/dialogs/common/types'
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
 
 import { DepositOverviewPanel } from '../../common/components/DepositOverviewPanel'
+import { RiskAcknowledgementInfo } from '../logic/useSavingsDepositDialog'
 import { SavingsDialogTxOverview } from '../logic/useTransactionOverview'
 
 export interface SavingsDepositViewProps {
@@ -20,6 +22,7 @@ export interface SavingsDepositViewProps {
   objectives: Objective[]
   pageStatus: PageStatus
   txOverview: SavingsDialogTxOverview | undefined
+  riskAcknowledgement: RiskAcknowledgementInfo
 }
 
 export function SavingsDepositView({
@@ -29,6 +32,7 @@ export function SavingsDepositView({
   objectives,
   pageStatus,
   txOverview,
+  riskAcknowledgement,
 }: SavingsDepositViewProps) {
   return (
     <MultiPanelDialog>
@@ -43,6 +47,12 @@ export function SavingsDepositView({
           />
         )}
       </FormAndOverviewWrapper>
+      {riskAcknowledgement.warning && (
+        <RiskAcknowledgement
+          onStatusChange={riskAcknowledgement.onStatusChange}
+          warning={riskAcknowledgement.warning}
+        />
+      )}
 
       <DialogActionsPanel
         objectives={objectives}

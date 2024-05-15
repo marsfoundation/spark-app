@@ -10,8 +10,16 @@ export interface SavingsWithdrawContainerProps {
 }
 
 function SavingsWithdrawDialogContentContainer({ closeDialog }: SavingsWithdrawContainerProps) {
-  const { selectableAssets, assetsFields, form, tokenToWithdraw, objectives, pageStatus, txOverview } =
-    useSavingsWithdrawDialog()
+  const {
+    selectableAssets,
+    assetsFields,
+    form,
+    tokenToWithdraw,
+    objectives,
+    pageStatus,
+    txOverview,
+    riskAcknowledgement,
+  } = useSavingsWithdrawDialog()
 
   if (pageStatus.state === 'success') {
     return (
@@ -32,6 +40,7 @@ function SavingsWithdrawDialogContentContainer({ closeDialog }: SavingsWithdrawC
       objectives={objectives}
       pageStatus={pageStatus}
       txOverview={txOverview}
+      riskAcknowledgement={riskAcknowledgement}
     />
   )
 }

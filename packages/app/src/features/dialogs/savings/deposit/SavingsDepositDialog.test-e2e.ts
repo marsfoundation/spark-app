@@ -85,7 +85,7 @@ test.describe('Savings deposit dialog', () => {
     })
   })
 
-  test.describe('Default slippage', () => {
+  test.describe('Slippage', () => {
     const fork = setupFork(blockNumber)
 
     test('default', async ({ page }) => {
@@ -191,6 +191,71 @@ test.describe('Savings deposit dialog', () => {
       await depositDialog.fillAmountAction(100)
 
       await actionsContainer.expectSlippage(newSlippage)
+    })
+  })
+
+  test.describe('Risk warning', () => {
+    const fork = setupFork(19861465n)
+
+    test('displays warning when discrepancy is bigger than 100 DAI', async ({ page }) => {
+      const { account } = await setup(page, fork, {
+        initialPage: 'savings',
+        account: {
+          type: 'connected',
+          assetBalances: {
+            ETH: 1,
+            DAI: 10000,
+          },
+        },
+      })
+
+      await overrideLiFiRoute(page, {
+        receiver: account,
+        preset: '10000-dai-to-sdai',
+        expectedBlockNumber: blockNumber,
+      })
+
+      const savingsPage = new SavingsPageObject(page)
+
+      await savingsPage.clickDepositButtonAction('DAI')
+
+      const depositDialog = new SavingsDepositDialogPageObject(page)
+      await depositDialog.fillAmountAction(10000)
+
+      await depositDialog.expectDiscrepancyWarning('948.48 DAI')
+    })
+
+    test('actions stay disabled until risk is acknowledged', async ({ page }) => {
+      const { account } = await setup(page, fork, {
+        initialPage: 'savings',
+        account: {
+          type: 'connected',
+          assetBalances: {
+            ETH: 1,
+            DAI: 10000,
+          },
+        },
+      })
+
+      await overrideLiFiRoute(page, {
+        receiver: account,
+        preset: '10000-dai-to-sdai',
+        expectedBlockNumber: blockNumber,
+      })
+
+      const savingsPage = new SavingsPageObject(page)
+
+      await savingsPage.clickDepositButtonAction('DAI')
+
+      const depositDialog = new SavingsDepositDialogPageObject(page)
+      await depositDialog.fillAmountAction(10000)
+      await depositDialog.expectTransactionOverviewToBeVisible() // wait for lifi to load
+
+      const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
+      await actionsContainer.expectActionsDisabled()
+
+      await depositDialog.clickAcknowledgeRisk()
+      await actionsContainer.expectNextActionEnabled()
     })
   })
 })

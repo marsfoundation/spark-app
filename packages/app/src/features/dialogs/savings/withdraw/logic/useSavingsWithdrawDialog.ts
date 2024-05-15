@@ -10,16 +10,23 @@ import { useSavingsInfo } from '@/domain/savings-info/useSavingsInfo'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
 import { Objective } from '@/features/actions/logic/types'
+import { RiskWarning } from '@/features/dialogs/common/components/risk-acknowledgement/RiskAcknowledgement'
 import { AssetInputSchema, useDebouncedDialogFormValues } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
+import { useTimestamp } from '@/utils/useTimestamp'
 
 import { getFormFieldsForWithdrawDialog } from './form'
+import { generateWarning } from './generateWarning'
 import { getSDaiWithBalance } from './getSDaiWithBalance'
 import { createObjectives } from './objectives'
 import { useSwap } from './useSwap'
 import { SavingsDialogTxOverview, useTxOverview } from './useTransactionOverview'
 import { getSavingsWithdrawDialogFormValidator } from './validation'
 
+export interface RiskAcknowledgementInfo {
+  onStatusChange: (acknowledged: boolean) => void
+  warning?: RiskWarning
+}
 export interface UseSavingsWithdrawDialogResults {
   selectableAssets: TokenWithBalance[]
   assetsFields: FormFieldsForDialog
@@ -28,6 +35,7 @@ export interface UseSavingsWithdrawDialogResults {
   tokenToWithdraw: TokenWithValue
   pageStatus: PageStatus
   txOverview: SavingsDialogTxOverview | undefined
+  riskAcknowledgement: RiskAcknowledgementInfo
 }
 
 export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
@@ -79,6 +87,21 @@ export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
     pageStatus === 'success',
   )
 
+  const { timestamp } = useTimestamp()
+  const { warning } = generateWarning({
+    swapInfo,
+    inputValues: formValues,
+    marketInfo,
+    potParams: makerInfo.potParameters,
+    timestamp,
+  })
+  const [riskAcknowledged, setRiskAcknowledged] = useState(false)
+
+  const actionsEnabled =
+    ((formValues.value.gt(0) && isFormValid) || formValues.isMaxSelected) &&
+    !isDebouncing &&
+    (!warning || riskAcknowledged)
+
   return {
     selectableAssets: withdrawOptions,
     assetsFields: getFormFieldsForWithdrawDialog({ form, marketInfo, sDaiWithBalance }),
@@ -87,9 +110,13 @@ export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
     tokenToWithdraw,
     pageStatus: {
       state: pageStatus,
-      actionsEnabled: ((formValues.value.gt(0) && isFormValid) || formValues.isMaxSelected) && !isDebouncing,
+      actionsEnabled,
       goToSuccessScreen: () => setPageStatus('success'),
     },
     txOverview,
+    riskAcknowledgement: {
+      onStatusChange: setRiskAcknowledged,
+      warning,
+    },
   }
 }

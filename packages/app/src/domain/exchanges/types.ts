@@ -27,6 +27,7 @@ export interface SwapRequest {
     feeCostsUSD: NormalizedUnitNumber
     fromAmount: BaseUnitNumber
     toAmount: BaseUnitNumber
+    toAmountMin: BaseUnitNumber
   }
 
   txRequest: TxRequest

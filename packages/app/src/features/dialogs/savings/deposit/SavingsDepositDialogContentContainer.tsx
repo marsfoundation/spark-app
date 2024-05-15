@@ -12,10 +12,18 @@ export interface SavingsDepositContainerProps {
 }
 
 function SavingsDepositDialogContentContainer({ initialToken, closeDialog }: SavingsDepositContainerProps) {
-  const { selectableAssets, assetsFields, form, tokenToDeposit, objectives, pageStatus, txOverview } =
-    useSavingsDepositDialog({
-      initialToken,
-    })
+  const {
+    selectableAssets,
+    assetsFields,
+    form,
+    tokenToDeposit,
+    objectives,
+    pageStatus,
+    txOverview,
+    riskAcknowledgement,
+  } = useSavingsDepositDialog({
+    initialToken,
+  })
 
   if (pageStatus.state === 'success') {
     return (
@@ -36,6 +44,7 @@ function SavingsDepositDialogContentContainer({ initialToken, closeDialog }: Sav
       objectives={objectives}
       pageStatus={pageStatus}
       txOverview={txOverview}
+      riskAcknowledgement={riskAcknowledgement}
     />
   )
 }

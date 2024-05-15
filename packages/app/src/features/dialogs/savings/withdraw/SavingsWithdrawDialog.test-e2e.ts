@@ -157,4 +157,70 @@ test.describe('Savings withdraw dialog', () => {
       })
     })
   })
+
+  test.describe('Risk warning', () => {
+    const blockNumber = 19862032n
+    const fork = setupFork(blockNumber)
+
+    test('displays warning when discrepancy is bigger than 100 DAI', async ({ page }) => {
+      const { account } = await setup(page, fork, {
+        initialPage: 'savings',
+        account: {
+          type: 'connected',
+          assetBalances: {
+            ETH: 1,
+            sDAI: 100000,
+          },
+        },
+      })
+
+      await overrideLiFiRoute(page, {
+        receiver: account,
+        preset: 'sdai-to-10000-dai',
+        expectedBlockNumber: blockNumber,
+      })
+
+      const savingsPage = new SavingsPageObject(page)
+
+      await savingsPage.clickWithdrawButtonAction()
+
+      const depositDialog = new SavingsWithdrawDialogPageObject(page)
+      await depositDialog.fillAmountAction(10000)
+
+      await depositDialog.expectDiscrepancyWarning('1,175.07 DAI')
+    })
+
+    test('actions stay disabled until risk is acknowledged', async ({ page }) => {
+      const { account } = await setup(page, fork, {
+        initialPage: 'savings',
+        account: {
+          type: 'connected',
+          assetBalances: {
+            ETH: 1,
+            sDAI: 100000,
+          },
+        },
+      })
+
+      await overrideLiFiRoute(page, {
+        receiver: account,
+        preset: 'sdai-to-10000-dai',
+        expectedBlockNumber: blockNumber,
+      })
+
+      const savingsPage = new SavingsPageObject(page)
+
+      await savingsPage.clickWithdrawButtonAction()
+
+      const depositDialog = new SavingsWithdrawDialogPageObject(page)
+      await depositDialog.fillAmountAction(10000)
+      await depositDialog.expectTransactionOverviewToBeVisible() // wait for lifi to load
+
+      const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
+      await actionsContainer.expectActionsDisabled()
+
+      await depositDialog.clickAcknowledgeRisk()
+      await actionsContainer.expectNextActionEnabled()
+    })
+  })
 })

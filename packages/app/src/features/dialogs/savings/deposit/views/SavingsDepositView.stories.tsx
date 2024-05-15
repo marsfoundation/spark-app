@@ -65,6 +65,7 @@ const meta: Meta<typeof SavingsDepositView> = {
               feeCostsUSD: NormalizedUnitNumber(0),
               fromAmount: BaseUnitNumber(5000),
               toAmount: BaseUnitNumber(5000),
+              toAmountMin: BaseUnitNumber(5000),
             },
           },
         },
@@ -83,6 +84,10 @@ const meta: Meta<typeof SavingsDepositView> = {
       exchangeRatio: NormalizedUnitNumber(0.9996),
       sDaiBalanceBefore: NormalizedUnitNumber(5000),
       sDaiBalanceAfter: NormalizedUnitNumber(10000),
+    },
+    riskAcknowledgement: {
+      onStatusChange: () => {},
+      warning: undefined,
     },
   },
 }
