@@ -1,7 +1,5 @@
-import { QueryKey } from '@tanstack/react-query'
 import BigNumber from 'bignumber.js'
 import { mainnet } from 'viem/chains'
-import { Config } from 'wagmi'
 import { multicall } from 'wagmi/actions'
 
 import { potAbi, potAddress } from '@/config/contracts-generated'
@@ -10,12 +8,7 @@ import { bigNumberify } from '@/utils/bigNumber'
 import { fromRay, pow } from '@/utils/math'
 
 import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
-import { SavingsInfo } from './types'
-
-export interface MainnetSavingsInfoQueryParams {
-  wagmiConfig: Config
-  timestamp: number
-}
+import { SavingsInfo, SavingsInfoQueryOptions, SavingsInfoQueryParams } from './types'
 
 export interface PotParams {
   dsr: BigNumber
@@ -28,15 +21,7 @@ export interface MainnetSavingsInfoQueryResult {
   potParams: PotParams
 }
 
-export interface MainnetSavingsInfoQueryOptions {
-  queryKey: QueryKey
-  queryFn: () => Promise<SavingsInfo>
-}
-
-export function mainnetSavingsInfoQuery({
-  wagmiConfig,
-  timestamp,
-}: MainnetSavingsInfoQueryParams): MainnetSavingsInfoQueryOptions {
+export function mainnetSavingsInfoQuery({ wagmiConfig, timestamp }: SavingsInfoQueryParams): SavingsInfoQueryOptions {
   const makerPotAddress = getContractAddress(potAddress, mainnet.id)
   return {
     queryKey: ['mainnet-savings-info'],

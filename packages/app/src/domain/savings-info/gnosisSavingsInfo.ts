@@ -1,6 +1,4 @@
-import { QueryKey } from '@tanstack/react-query'
 import { gnosis } from 'viem/chains'
-import { Config } from 'wagmi'
 import { multicall } from 'wagmi/actions'
 
 import {
@@ -14,22 +12,9 @@ import { bigNumberify } from '@/utils/bigNumber'
 import { fromWad } from '@/utils/math'
 
 import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
-import { SavingsInfo } from './types'
+import { SavingsInfo, SavingsInfoQueryOptions, SavingsInfoQueryParams } from './types'
 
-export interface GnosisSavingsInfoQueryParams {
-  wagmiConfig: Config
-  timestamp: number
-}
-
-export interface GnosisSavingsInfoQueryOptions {
-  queryKey: QueryKey
-  queryFn: () => Promise<SavingsInfo>
-}
-
-export function gnosisSavingsInfoQuery({
-  wagmiConfig,
-  timestamp,
-}: GnosisSavingsInfoQueryParams): GnosisSavingsInfoQueryOptions {
+export function gnosisSavingsInfoQuery({ wagmiConfig, timestamp }: SavingsInfoQueryParams): SavingsInfoQueryOptions {
   const sDaiAdapterAddress = getContractAddress(savingsXDaiAdapterAddress, gnosis.id)
   const sDaiAddress = getContractAddress(savingsXDaiAddress, gnosis.id)
   return {

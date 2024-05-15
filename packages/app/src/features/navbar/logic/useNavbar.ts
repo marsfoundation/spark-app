@@ -4,9 +4,7 @@ import { useAccount, useChainId, useChains, useConfig, useEnsAvatar, useEnsName 
 
 import { getChainConfigEntry } from '@/config/chain'
 import { useBlockExplorerAddressLink } from '@/domain/hooks/useBlockExplorerAddressLink'
-import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
 import { useSandboxState } from '@/domain/sandbox/useSandboxState'
-import { getSavingsInfoQueryOptions } from '@/domain/savings-info/useSavingsInfo'
 import { useOpenDialog } from '@/domain/state/dialogs'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { EnsName } from '@/domain/types/EnsName'
@@ -50,8 +48,8 @@ export function useNavbar(): UseNavbarResults {
 
   const wagmiConfig = useConfig()
   const { timestamp } = useTimestamp()
-  const originChainId = useOriginChainId()
-  const savingsInfo = useQuery(getSavingsInfoQueryOptions({ wagmiConfig, chainId: originChainId, timestamp }))
+  const savingsInfoQueryOptions = getChainConfigEntry(currentChainId).savingsInfoQuery
+  const savingsInfo = useQuery(savingsInfoQueryOptions({ wagmiConfig, chainId: currentChainId, timestamp }))
 
   const balanceInfo = useTotalBalance()
   const airdropInfo = useAirdropInfo()

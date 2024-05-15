@@ -34,7 +34,9 @@ export function PageLinks({ mobileMenuCollapsed, closeMobileMenu, savingsInfo, b
         <NavLink
           to={paths.savings}
           onClick={closeMobileMenu}
-          postfix={<DSRBadge dsr={savingsInfo.data?.apy} isLoading={savingsInfo.isLoading} />}
+          postfix={
+            savingsInfo.error ? undefined : <DSRBadge dsr={savingsInfo.data?.apy} isLoading={savingsInfo.isLoading} />
+          }
         >
           <Trans>Cash & Savings</Trans>
         </NavLink>
