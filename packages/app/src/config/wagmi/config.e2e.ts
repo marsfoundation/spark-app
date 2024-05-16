@@ -1,6 +1,6 @@
-import { Address, createWalletClient, http, isAddress, Transport } from 'viem'
+import { Address, Chain, createWalletClient, http, isAddress, Transport } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
-import { mainnet } from 'viem/chains'
+import { gnosis, mainnet } from 'viem/chains'
 import { Config, createConfig } from 'wagmi'
 import { z } from 'zod'
 
@@ -9,6 +9,7 @@ import { createMockConnector } from '@/domain/wallet/createMockConnector'
 
 import { getConfig } from './config.default'
 
+export const PLAYWRIGHT_CHAIN_ID = '__PLAYWRIGHT_CHAIN_ID' as const
 export const PLAYWRIGHT_WALLET_ADDRESS_KEY = '__PLAYWRIGHT_WALLET_ADDRESS' as const
 export const PLAYWRIGHT_WALLET_PRIVATE_KEY_KEY = '__PLAYWRIGHT_WALLET_PRIVATE_KEY' as const
 export const PLAYWRIGHT_WALLET_FORK_URL_KEY = '__PLAYWRIGHT_WALLET_FORK_URL_KEY' as const
@@ -29,7 +30,7 @@ export function getInjectedTransport(): Transport {
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function getMockConnectors() {
+export function getMockConnectors(chain: Chain) {
   // Injects a mock connector if a wallet address or private key are injected into window object.
   // Private key takes precedence over address.
   const savedAddressSafeParse = addressSchema.safeParse((window as any)[PLAYWRIGHT_WALLET_ADDRESS_KEY])
@@ -44,7 +45,7 @@ export function getMockConnectors() {
 
   const walletClient = createWalletClient({
     transport: getInjectedTransport(),
-    chain: mainnet,
+    chain,
     pollingInterval: 100,
     account,
   })
@@ -62,13 +63,19 @@ export function getMockConfig(sandboxNetwork?: SandboxNetwork): Config {
     return getConfig(sandboxNetwork)
   }
 
-  const connectors = getMockConnectors()
+  const chain = chainIdToChain[(window as any)[PLAYWRIGHT_CHAIN_ID] as number]!
+  const connectors = getMockConnectors(chain)
 
   const config = createConfig({
-    chains: [mainnet],
-    transports: { [mainnet.id]: getInjectedTransport() },
+    chains: [chain],
+    transports: { [chain.id]: getInjectedTransport() },
     connectors,
   })
 
   return config
+}
+
+const chainIdToChain: Record<number, Chain> = {
+  [gnosis.id]: gnosis,
+  [mainnet.id]: mainnet,
 }

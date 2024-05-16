@@ -1,6 +1,7 @@
 import { Page } from '@playwright/test'
 
 import {
+  PLAYWRIGHT_CHAIN_ID,
   PLAYWRIGHT_WALLET_ADDRESS_KEY,
   PLAYWRIGHT_WALLET_FORK_URL_KEY,
   PLAYWRIGHT_WALLET_PRIVATE_KEY_KEY,
@@ -28,14 +29,17 @@ export async function injectWalletConfiguration(page: Page, wallet: InjectableWa
   )
 }
 
-export async function injectNetworkConfiguration(page: Page, rpcUrl: string): Promise<void> {
+export async function injectNetworkConfiguration(page: Page, rpcUrl: string, chainId: number): Promise<void> {
   await page.addInitScript(
-    ({ PLAYWRIGHT_WALLET_FORK_URL_KEY, rpcUrl }) => {
+    ({ PLAYWRIGHT_WALLET_FORK_URL_KEY, PLAYWRIGHT_CHAIN_ID, rpcUrl, chainId }) => {
       ;(window as any)[PLAYWRIGHT_WALLET_FORK_URL_KEY] = rpcUrl
+      ;(window as any)[PLAYWRIGHT_CHAIN_ID] = chainId
     },
     {
       PLAYWRIGHT_WALLET_FORK_URL_KEY,
+      PLAYWRIGHT_CHAIN_ID,
       rpcUrl,
+      chainId,
     },
   )
 }

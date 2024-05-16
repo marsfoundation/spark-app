@@ -1,6 +1,6 @@
 import { getDefaultConfig } from '@rainbow-me/rainbowkit'
 import { Chain, http, Transport, webSocket } from 'viem'
-import { gnosis, goerli, mainnet } from 'viem/chains'
+import { gnosis, mainnet } from 'viem/chains'
 import { Config } from 'wagmi'
 
 import { SandboxNetwork } from '@/domain/state/sandbox'
@@ -45,8 +45,8 @@ function getForkChainFromSandboxConfig(sandboxNetwork?: SandboxNetwork): Chain |
     if (sandboxNetwork.originChainId === mainnet.id) {
       return mainnet
     }
-    if (sandboxNetwork.originChainId === goerli.id) {
-      return goerli
+    if (sandboxNetwork.originChainId === gnosis.id) {
+      return gnosis
     }
     throw new Error(`Unsupported origin chain = ${sandboxNetwork.originChainId}!`)
   })()
