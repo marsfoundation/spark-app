@@ -38,7 +38,7 @@ export interface UseExchangeResult {
   status: ExchangeStatus
 }
 
-export function useExchange({ swapInfo, enabled, onTransactionSettled }: UseExchangeParams): UseExchangeResult {
+export function useExchange({ swapInfo, enabled = true, onTransactionSettled }: UseExchangeParams): UseExchangeResult {
   const client = useQueryClient()
   const wagmiConfig = useConfig()
   const { address: userAddress } = useAccount()
