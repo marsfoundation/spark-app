@@ -1,5 +1,4 @@
 import { Meta, StoryObj } from '@storybook/react'
-import { getHoveredStory } from '@storybook/utils'
 
 import { SparkInfoPanel } from './SparkInfoPanel'
 
@@ -23,5 +22,3 @@ type Story = StoryObj<typeof SparkInfoPanel>
 export const Default: Story = {
   name: 'Default',
 }
-
-export const Hovered = getHoveredStory(Default, 'button')
