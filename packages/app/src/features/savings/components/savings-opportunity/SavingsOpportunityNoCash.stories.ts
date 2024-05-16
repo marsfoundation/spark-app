@@ -1,6 +1,7 @@
 import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
+import { mainnet } from 'viem/chains'
 
 import { Percentage } from '@/domain/types/NumericValues'
 
@@ -11,7 +12,8 @@ const meta: Meta<typeof SavingsOpportunityNoCash> = {
   component: SavingsOpportunityNoCash,
   decorators: [WithTooltipProvider(), WithClassname('max-w-5xl')],
   args: {
-    DSR: Percentage(0.05),
+    APY: Percentage(0.05),
+    chainId: mainnet.id,
   },
 }
 

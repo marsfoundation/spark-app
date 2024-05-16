@@ -2,6 +2,7 @@ import { WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
+import { mainnet } from 'viem/chains'
 
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 
@@ -15,7 +16,8 @@ const meta: Meta<typeof SavingsView> = {
     layout: 'fullscreen',
   },
   args: {
-    DSR: Percentage(0.05),
+    APY: Percentage(0.05),
+    chainId: mainnet.id,
     depositedUSD: NormalizedUnitNumber(20765.7654),
     sDAIBalance: { balance: NormalizedUnitNumber(20000.0), token: tokens['sDAI'] },
     currentProjections: {
@@ -139,7 +141,7 @@ export const BigNumbersDesktop: Story = {
     depositedUSD: NormalizedUnitNumber(134395765.123482934245),
     depositedUSDPrecision: 0,
     sDAIBalance: { balance: NormalizedUnitNumber(134000000.0), token: tokens['sDAI'] },
-    DSR: Percentage(0.05),
+    APY: Percentage(0.05),
     currentProjections: {
       thirtyDays: NormalizedUnitNumber(1224300.923423423),
       oneYear: NormalizedUnitNumber(6345543.32945601),

@@ -1,3 +1,4 @@
+import { SupportedChainId } from '@/config/chain/types'
 import { Percentage } from '@/domain/types/NumericValues'
 import { assets } from '@/ui/assets'
 import { WalletActionPanel } from '@/ui/organisms/wallet-action-panel/WalletActionPanel'
@@ -7,15 +8,16 @@ import { PageLayout } from '../components/PageLayout'
 import { SavingsOpportunityGuestMode } from '../components/savings-opportunity/SavingsOpportunityGuestMode'
 
 interface GuestViewProps {
-  DSR: Percentage
+  APY: Percentage
+  chainId: SupportedChainId
   openConnectModal: () => void
 }
 
-export function GuestView({ DSR, openConnectModal }: GuestViewProps) {
+export function GuestView({ APY, chainId, openConnectModal }: GuestViewProps) {
   return (
     <PageLayout>
       <PageHeader />
-      <SavingsOpportunityGuestMode DSR={DSR} openConnectModal={openConnectModal} />
+      <SavingsOpportunityGuestMode APY={APY} chainId={chainId} openConnectModal={openConnectModal} />
       <WalletActionPanel
         callToAction="Connect your wallet and start saving!"
         iconPaths={TOKEN_ICONS}

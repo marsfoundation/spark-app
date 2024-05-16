@@ -13,7 +13,7 @@ export interface DepositOverviewPanelProps {
 }
 export function DepositOverviewPanel({
   txOverview: {
-    DSR,
+    APY,
     sDaiBalanceAfter,
     sDaiBalanceBefore,
     exchangeRatio,
@@ -27,7 +27,7 @@ export function DepositOverviewPanel({
     <DialogPanel>
       <DialogPanelTitle>Transaction overview</DialogPanelTitle>
 
-      <TransactionOverviewDetailsItem label="DSR">{formatPercentage(DSR)}</TransactionOverviewDetailsItem>
+      <TransactionOverviewDetailsItem label="APY">{formatPercentage(APY)}</TransactionOverviewDetailsItem>
       {showExchangeRate && (
         <TransactionOverviewExchangeRateDetail fromToken={inputToken} toToken={outputToken} ratio={exchangeRatio} />
       )}
