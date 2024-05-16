@@ -1,3 +1,4 @@
+import { SupportedChainId } from '@/config/chain/types'
 import { TokenWithBalance } from '@/domain/common/types'
 import { OpenDialogFunction } from '@/domain/state/dialogs'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
@@ -11,7 +12,8 @@ import { SavingsOpportunityNoCash } from '../components/savings-opportunity/Savi
 import { Projections } from '../types'
 
 export interface SavingsViewProps {
-  DSR: Percentage
+  APY: Percentage
+  chainId: SupportedChainId
   depositedUSD: NormalizedUnitNumber
   depositedUSDPrecision: number
   sDAIBalance: TokenWithBalance
@@ -24,7 +26,8 @@ export interface SavingsViewProps {
 }
 
 export function SavingsView({
-  DSR,
+  APY,
+  chainId,
   depositedUSD,
   depositedUSDPrecision,
   sDAIBalance,
@@ -46,7 +49,8 @@ export function SavingsView({
         {displaySavingsDai && (
           <div className="last:sm:col-span-2">
             <SavingsDAI
-              DSR={DSR}
+              APY={APY}
+              chainId={chainId}
               depositedUSD={depositedUSD}
               projections={currentProjections}
               depositedUSDPrecision={depositedUSDPrecision}
@@ -58,7 +62,8 @@ export function SavingsView({
         {displaySavingsOpportunity && (
           <div className="first:sm:col-span-2">
             <SavingsOpportunity
-              DSR={DSR}
+              APY={APY}
+              chainId={chainId}
               projections={opportunityProjections}
               maxBalanceToken={maxBalanceToken}
               openDialog={openDialog}
@@ -68,7 +73,7 @@ export function SavingsView({
         )}
         {displaySavingsNoCash && (
           <div className="sm:col-span-2">
-            <SavingsOpportunityNoCash DSR={DSR} />
+            <SavingsOpportunityNoCash APY={APY} chainId={chainId} />
           </div>
         )}
       </div>

@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { withRouter } from 'storybook-addon-react-router-v6'
 
 import { Percentage } from '@/domain/types/NumericValues'
-import { DSRBadge } from '@/features/savings/components/navbar-item/DSRBadge'
+import { SavingsAPYBadge } from '@/features/savings/components/navbar-item/SavingsAPYBadge'
 
 import { NavLinkComponent } from './NavLink'
 
@@ -40,7 +40,7 @@ export const NavItemComponentSavings: Story = {
     selected: false,
     to: '/',
     children: 'Cash & Savings',
-    postfix: <DSRBadge dsr={Percentage(0.05)} isLoading={false} />,
+    postfix: <SavingsAPYBadge APY={Percentage(0.05)} isLoading={false} />,
   },
 }
 
@@ -50,6 +50,6 @@ export const NavItemComponentSavingsLoading: Story = {
     selected: false,
     to: '/',
     children: 'Cash & Savings',
-    postfix: <DSRBadge dsr={Percentage(0.05)} isLoading={true} />,
+    postfix: <SavingsAPYBadge APY={Percentage(0.05)} isLoading={true} />,
   },
 }

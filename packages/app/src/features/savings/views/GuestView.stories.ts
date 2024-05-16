@@ -1,6 +1,7 @@
 import { WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
+import { mainnet } from 'viem/chains'
 
 import { Percentage } from '@/domain/types/NumericValues'
 
@@ -14,7 +15,8 @@ const meta: Meta<typeof GuestView> = {
     layout: 'fullscreen',
   },
   args: {
-    DSR: Percentage(0.05),
+    APY: Percentage(0.05),
+    chainId: mainnet.id,
     openConnectModal: () => {},
   },
 }

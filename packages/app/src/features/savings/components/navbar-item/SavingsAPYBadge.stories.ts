@@ -2,11 +2,11 @@ import { Meta, StoryObj } from '@storybook/react'
 
 import { Percentage } from '@/domain/types/NumericValues'
 
-import { DSRBadge } from './DSRBadge'
+import { SavingsAPYBadge } from './SavingsAPYBadge'
 
-const meta: Meta<typeof DSRBadge> = {
-  title: 'Features/Savings/Components/NavbarItem/DSRBadge',
-  component: DSRBadge,
+const meta: Meta<typeof SavingsAPYBadge> = {
+  title: 'Features/Savings/Components/NavbarItem/SavingsAPYBadge',
+  component: SavingsAPYBadge,
 }
 
 export default meta
@@ -14,7 +14,7 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    dsr: Percentage(0.05),
+    APY: Percentage(0.05),
   },
 }
 
@@ -27,6 +27,6 @@ export const Loading: Story = {
 export const TwoDecimals: Story = {
   name: 'Two decimals',
   args: {
-    dsr: Percentage(0.0497),
+    APY: Percentage(0.0497),
   },
 }

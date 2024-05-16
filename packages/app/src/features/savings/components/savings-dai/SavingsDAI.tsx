@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js'
 
+import { SupportedChainId } from '@/config/chain/types'
 import { formatPercentage } from '@/domain/common/format'
 import { TokenWithBalance } from '@/domain/common/types'
 import { OpenDialogFunction } from '@/domain/state/dialogs'
@@ -11,13 +12,14 @@ import { Panel } from '@/ui/atoms/panel/Panel'
 
 import { Projections } from '../../types'
 import { SavingsInfoTile } from '../savings-info-tile/SavingsInfoTile'
-import { DSRLabel } from '../savings-opportunity/components/DSRLabel'
+import { APYLabel } from '../savings-opportunity/components/APYLabel'
 
 export interface SavingsDAIProps {
   depositedUSD: NormalizedUnitNumber
   depositedUSDPrecision: number
   sDAIBalance: TokenWithBalance
-  DSR: Percentage
+  APY: Percentage
+  chainId: SupportedChainId
   projections: Projections
   openDialog: OpenDialogFunction
 }
@@ -26,7 +28,8 @@ export function SavingsDAI({
   depositedUSD,
   depositedUSDPrecision,
   sDAIBalance,
-  DSR,
+  APY,
+  chainId,
   projections,
   openDialog,
 }: SavingsDAIProps) {
@@ -85,9 +88,9 @@ export function SavingsDAI({
           </SavingsInfoTile.Value>
         </SavingsInfoTile>
         <SavingsInfoTile>
-          <DSRLabel />
+          <APYLabel chainId={chainId} />
           <SavingsInfoTile.Value color="green">
-            {formatPercentage(DSR, { minimumFractionDigits: 0 })}
+            {formatPercentage(APY, { minimumFractionDigits: 0 })}
           </SavingsInfoTile.Value>
         </SavingsInfoTile>
       </div>
