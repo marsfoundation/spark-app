@@ -35,13 +35,17 @@ const chainIdToApyDetails: Record<SupportedChainId, ReactNode> = {
   [gnosis.id]: (
     <>
       <p>All interest from the xDAI Bridge on the Ethereum mainnet is being redirected to Gnosis sDAI.</p>
-      <p>
-        The bridge converts its DAI deposits into Savings DAI on the mainnet, which then accumulates the DSR. The DSR
-        (Dai Savings Rate) is the payout rate provided by the Maker Protocol to its depositors.
-      </p>
+      <p>The bridge converts its DAI deposits into Savings DAI on the mainnet, which then accumulates the DSR.</p>
       <p>
         The DSR is set on mainnet by MakerDAO and can be adjusted through MakerDAO's governance mechanisms. Keep in mind
         that these protocol mechanisms are subject to change.
+      </p>
+      <p>
+        For more information about DSR, you can visit{' '}
+        <Link to={links.docs.dsr} external>
+          docs
+        </Link>
+        .
       </p>
     </>
   ),
