@@ -46,9 +46,10 @@ interface ReverseQuoteRequestParams {
   contractCalls: []
 }
 
-export class LiFi {
+export class LiFiClient {
   private readonly baseUrl = 'https://li.quest'
-  private readonly pathName = 'v1/quote/contractCalls'
+  private readonly reverseQuotePath = 'v1/quote/contractCalls'
+  private readonly quotePath = 'v1/quote'
 
   async getReverseQuote(getQuoteOptions: GetQuoteOptions): Promise<ReverseQuoteResponse> {
     const url = this.buildReverseQuoteUrl()
@@ -75,10 +76,6 @@ export class LiFi {
     return this.parseQuoteResponse(result)
   }
 
-  getKey(chainId: number, userAddress: CheckedAddress): string {
-    return `lifi-${chainId}-${userAddress}`
-  }
-
   private parseReverseQuoteResponse(response: unknown): ReverseQuoteResponse {
     return reverseQuoteResponseSchema.parse(response)
   }
@@ -99,7 +96,7 @@ export class LiFi {
     userAddress,
   }: GetQuoteOptions): URL {
     const url = new URL(this.baseUrl)
-    url.pathname = '/v1/quote'
+    url.pathname = this.quotePath
     const params = {
       fromChain: chainId.toString(),
       toChain: chainId.toString(),
@@ -120,7 +117,7 @@ export class LiFi {
 
   private buildReverseQuoteUrl(): URL {
     const url = new URL(this.baseUrl)
-    url.pathname = this.pathName
+    url.pathname = this.reverseQuotePath
     return url
   }
 

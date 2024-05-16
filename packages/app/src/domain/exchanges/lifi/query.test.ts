@@ -5,7 +5,7 @@ import { BaseUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { testAddresses } from '@/test/integration/constants'
 import { queryClient } from '@/test/integration/query-client'
 
-import { LiFi } from './lifi'
+import { LiFiClient } from './lifi'
 import { RealLifiQueryMetaEvaluator } from './meta'
 import { fetchLiFiTxData } from './query'
 
@@ -24,7 +24,7 @@ async function triggerLiFiCall(...args: Parameters<typeof fetchLiFiTxData>): Pro
 
 describe(fetchLiFiTxData.name, () => {
   const queryMetaEvaluator = new RealLifiQueryMetaEvaluator({ dai, sdai, usdc })
-  const lifiClient = new LiFi()
+  const lifiClient = new LiFiClient()
 
   beforeEach(() => {
     mockFetch = vi.fn()

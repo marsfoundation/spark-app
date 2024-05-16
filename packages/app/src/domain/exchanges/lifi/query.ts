@@ -5,12 +5,12 @@ import { zeroAddress } from 'viem'
 import { CheckedAddress } from '../../types/CheckedAddress'
 import { BaseUnitNumber, NormalizedUnitNumber, Percentage } from '../../types/NumericValues'
 import { SwapRequest } from '../types'
-import { LiFi } from './lifi'
+import { LiFiClient } from './lifi'
 import { LifiQueryMetaEvaluator } from './meta'
 import { QuoteResponse } from './types'
 
 export interface FetchLiFiTxDataParams {
-  client: LiFi
+  client: LiFiClient
   type: 'direct' | 'reverse'
   fromToken: CheckedAddress
   toToken: CheckedAddress
@@ -35,7 +35,7 @@ export function fetchLiFiTxData({
   chainId,
 }: FetchLiFiTxDataParams) {
   return queryOptions<SwapRequest>({
-    queryKey: ['liFiTxData', client.getKey(chainId, userAddress), type, fromToken, toToken, amount, maxSlippage],
+    queryKey: ['liFiTxData', chainId, userAddress, type, fromToken, toToken, amount, maxSlippage],
     queryFn: async (): Promise<SwapRequest> => {
       if (import.meta.env.STORYBOOK_PREVIEW) {
         return {

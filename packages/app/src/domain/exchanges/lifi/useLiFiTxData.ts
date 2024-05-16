@@ -5,7 +5,7 @@ import { useConnectedAddress } from '@/domain/wallet/useConnectedAddress'
 
 import { useOriginChainId } from '../../hooks/useOriginChainId'
 import { SwapInfo, SwapParams } from '../types'
-import { LiFi } from './lifi'
+import { LiFiClient } from './lifi'
 import { LifiQueryMetaEvaluator } from './meta'
 import { fetchLiFiTxData } from './query'
 
@@ -19,7 +19,7 @@ export function useLiFiTxData({ swapParams, enabled = true, queryMetaEvaluator }
   const { account } = useConnectedAddress()
   const chainId = useOriginChainId()
 
-  const client = useMemo(() => new LiFi(), [])
+  const client = useMemo(() => new LiFiClient(), [])
 
   const amount =
     swapParams.type === 'direct'
