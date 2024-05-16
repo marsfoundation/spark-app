@@ -133,7 +133,7 @@ export class LiFi {
     maxPriceImpact,
     allowExchanges,
     chainId,
-    userAddress
+    userAddress,
   }: GetQuoteOptions): RequestInit {
     const params = {
       fromChain: chainId.toString(),

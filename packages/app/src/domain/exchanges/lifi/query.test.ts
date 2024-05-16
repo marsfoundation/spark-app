@@ -5,7 +5,6 @@ import { BaseUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { testAddresses } from '@/test/integration/constants'
 import { queryClient } from '@/test/integration/query-client'
 
-import { LiFi } from './lifi'
 import { RealLifiQueryMetaEvaluator } from './meta'
 import { fetchLiFiTxData } from './query'
 

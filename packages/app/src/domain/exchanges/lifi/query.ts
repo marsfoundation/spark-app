@@ -23,7 +23,6 @@ export interface FetchLiFiTxDataParams {
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function fetchLiFiTxData({
-
   type,
   fromToken,
   toToken,
@@ -62,15 +61,15 @@ export function fetchLiFiTxData({
       const { meta, paramOverrides } = queryMetaEvaluator.evaluate({ fromToken, toToken })
 
       if (type === 'direct') {
-        const response = await LiFi.getQuote({ 
-          fromToken, 
-          toToken, 
-          amount, 
+        const response = await LiFi.getQuote({
+          fromToken,
+          toToken,
+          amount,
           maxSlippage,
           userAddress,
           chainId,
-          ...paramOverrides, 
-          meta
+          ...paramOverrides,
+          meta,
         })
         const fromAmount = BaseUnitNumber(response.estimate.fromAmount)
         invariant(amount.eq(fromAmount), 'amount should eq fromAmount')

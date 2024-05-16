@@ -56,17 +56,15 @@ describe('LiFi', () => {
         }
       })
 
-      await LiFi
-        .getQuote({
-          fromToken: USDC,
-          toToken: sDAI,
-          amount,
-          meta,
-          maxSlippage,
-          chainId,
-          userAddress
-        })
-        .catch(() => {}) // ignore error
+      await LiFi.getQuote({
+        fromToken: USDC,
+        toToken: sDAI,
+        amount,
+        meta,
+        maxSlippage,
+        chainId,
+        userAddress,
+      }).catch(() => {}) // ignore error
 
       expect(calledUrl).toBeDefined()
       const calledUrlObj = new URL(calledUrl!.toString())
@@ -193,17 +191,15 @@ describe('LiFi', () => {
         }
       })
 
-      await LiFi
-        .getReverseQuote({
-          fromToken: sDAI,
-          toToken: USDC,
-          amount,
-          meta,
-          maxSlippage,
-          chainId,
-          userAddress,
-        })
-        .catch(() => {}) // ignore error
+      await LiFi.getReverseQuote({
+        fromToken: sDAI,
+        toToken: USDC,
+        amount,
+        meta,
+        maxSlippage,
+        chainId,
+        userAddress,
+      }).catch(() => {}) // ignore error
 
       expect(calledUrl).toBeDefined()
       expect(calledUrl?.toString()).toBe('https://li.quest/v1/quote/contractCalls')
