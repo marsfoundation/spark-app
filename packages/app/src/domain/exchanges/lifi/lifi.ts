@@ -5,11 +5,6 @@ import { preprocessSearchParams } from './preprocessSearchParams'
 import { QuoteResponse, ReverseQuoteResponse } from './types'
 import { quoteResponseSchema, reverseQuoteResponseSchema } from './validation'
 
-export interface LiFiConfig {
-  chainId: number
-  userAddress: CheckedAddress
-}
-
 export interface GetQuoteOptions {
   fromToken: CheckedAddress
   toToken: CheckedAddress
@@ -18,6 +13,8 @@ export interface GetQuoteOptions {
   maxSlippage: Percentage
   maxPriceImpact?: Percentage
   allowExchanges?: string[]
+  chainId: number
+  userAddress: CheckedAddress
 }
 
 interface QuoteRequestParams {
@@ -49,63 +46,26 @@ interface ReverseQuoteRequestParams {
   contractCalls: []
 }
 
-export class LiFi {
-  private baseUrl = 'https://li.quest'
-  private chainId: number
-  private userAddress: CheckedAddress
+export class LiFiClient {
+  private readonly baseUrl = 'https://li.quest'
+  private readonly reverseQuotePath = 'v1/quote/contractCalls'
+  private readonly quotePath = 'v1/quote'
 
-  constructor(config: LiFiConfig) {
-    this.chainId = config.chainId
-    this.userAddress = config.userAddress
+  async getReverseQuote(getQuoteOptions: GetQuoteOptions): Promise<ReverseQuoteResponse> {
+    const url = this.buildReverseQuoteUrl()
+    const options = this.buildReverseQuoteRequestOptions(getQuoteOptions)
+
+    const response = await fetch(url, options)
+    if (!response.ok) {
+      throw new Error(`Failed to get LiFi reverse quote: ${response.statusText}`)
+    }
+    const result = await response.json()
+
+    return this.parseReverseQuoteResponse(result)
   }
 
-  getKey(): string {
-    return `lifi-${this.chainId}-${this.userAddress}`
-  }
-
-  private parseQuoteResponse(response: unknown): QuoteResponse {
-    return quoteResponseSchema.parse(response)
-  }
-
-  private buildQuoteUrl({
-    fromToken,
-    toToken,
-    amount,
-    meta,
-    maxSlippage,
-    allowExchanges,
-    maxPriceImpact,
-  }: GetQuoteOptions): URL {
-    const url = new URL(this.baseUrl)
-    url.pathname = '/v1/quote'
-    const params = {
-      fromChain: this.chainId.toString(),
-      toChain: this.chainId.toString(),
-      fromAddress: this.userAddress,
-      fromToken,
-      fromAmount: amount.toFixed(),
-      toToken,
-      integrator: meta.integratorKey,
-      fee: meta.fee.toFixed(),
-      slippage: maxSlippage.toFixed(),
-      ...(maxPriceImpact ? { maxPriceImpact: maxPriceImpact.toFixed() } : {}),
-      ...(allowExchanges ? { allowExchanges } : {}),
-    } satisfies QuoteRequestParams
-
-    url.search = new URLSearchParams(preprocessSearchParams(params)).toString()
-    return url
-  }
-
-  async getQuote({
-    fromToken,
-    toToken,
-    amount,
-    maxSlippage,
-    maxPriceImpact,
-    allowExchanges,
-    meta,
-  }: GetQuoteOptions): Promise<QuoteResponse> {
-    const url = this.buildQuoteUrl({ fromToken, toToken, amount, meta, maxSlippage, maxPriceImpact, allowExchanges })
+  async getQuote(getQuoteOptions: GetQuoteOptions): Promise<QuoteResponse> {
+    const url = this.buildQuoteUrl(getQuoteOptions)
 
     const response = await fetch(url)
     if (!response.ok) {
@@ -120,9 +80,44 @@ export class LiFi {
     return reverseQuoteResponseSchema.parse(response)
   }
 
+  private parseQuoteResponse(response: unknown): QuoteResponse {
+    return quoteResponseSchema.parse(response)
+  }
+
+  private buildQuoteUrl({
+    fromToken,
+    toToken,
+    amount,
+    meta,
+    maxSlippage,
+    allowExchanges,
+    maxPriceImpact,
+    chainId,
+    userAddress,
+  }: GetQuoteOptions): URL {
+    const url = new URL(this.baseUrl)
+    url.pathname = this.quotePath
+    const params = {
+      fromChain: chainId.toString(),
+      toChain: chainId.toString(),
+      fromAddress: userAddress,
+      fromToken,
+      fromAmount: amount.toFixed(),
+      toToken,
+      integrator: meta.integratorKey,
+      fee: meta.fee.toFixed(),
+      slippage: maxSlippage.toFixed(),
+      ...(maxPriceImpact ? { maxPriceImpact: maxPriceImpact.toFixed() } : {}),
+      ...(allowExchanges ? { allowExchanges } : {}),
+    } satisfies QuoteRequestParams
+
+    url.search = new URLSearchParams(preprocessSearchParams(params)).toString()
+    return url
+  }
+
   private buildReverseQuoteUrl(): URL {
     const url = new URL(this.baseUrl)
-    url.pathname = 'v1/quote/contractCalls'
+    url.pathname = this.reverseQuotePath
     return url
   }
 
@@ -134,11 +129,13 @@ export class LiFi {
     maxSlippage,
     maxPriceImpact,
     allowExchanges,
+    chainId,
+    userAddress,
   }: GetQuoteOptions): RequestInit {
     const params = {
-      fromChain: this.chainId.toString(),
-      toChain: this.chainId.toString(),
-      fromAddress: this.userAddress,
+      fromChain: chainId.toString(),
+      toChain: chainId.toString(),
+      fromAddress: userAddress,
       fromToken,
       toToken,
       toAmount: amount.toFixed(),
@@ -154,34 +151,5 @@ export class LiFi {
       headers: { accept: 'application/json', 'content-type': 'application/json' },
       body: JSON.stringify(params),
     }
-  }
-
-  async getReverseQuote({
-    fromToken,
-    toToken,
-    amount,
-    meta,
-    maxSlippage,
-    maxPriceImpact,
-    allowExchanges,
-  }: GetQuoteOptions): Promise<ReverseQuoteResponse> {
-    const url = this.buildReverseQuoteUrl()
-    const options = this.buildReverseQuoteRequestOptions({
-      fromToken,
-      toToken,
-      amount,
-      meta,
-      maxSlippage,
-      maxPriceImpact,
-      allowExchanges,
-    })
-
-    const response = await fetch(url, options)
-    if (!response.ok) {
-      throw new Error(`Failed to get LiFi reverse quote: ${response.statusText}`)
-    }
-    const result = await response.json()
-
-    return this.parseReverseQuoteResponse(result)
   }
 }

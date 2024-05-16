@@ -5,17 +5,19 @@ import { zeroAddress } from 'viem'
 import { CheckedAddress } from '../../types/CheckedAddress'
 import { BaseUnitNumber, NormalizedUnitNumber, Percentage } from '../../types/NumericValues'
 import { SwapRequest } from '../types'
-import { LiFi } from './lifi'
+import { LiFiClient } from './lifi'
 import { LifiQueryMetaEvaluator } from './meta'
 import { QuoteResponse } from './types'
 
 export interface FetchLiFiTxDataParams {
-  client: LiFi
+  client: LiFiClient
   type: 'direct' | 'reverse'
   fromToken: CheckedAddress
   toToken: CheckedAddress
   amount: BaseUnitNumber
   maxSlippage: Percentage
+  userAddress: CheckedAddress
+  chainId: number
   allowExchanges?: string[]
   queryMetaEvaluator: LifiQueryMetaEvaluator
 }
@@ -29,9 +31,11 @@ export function fetchLiFiTxData({
   amount,
   maxSlippage,
   queryMetaEvaluator,
+  userAddress,
+  chainId,
 }: FetchLiFiTxDataParams) {
   return queryOptions<SwapRequest>({
-    queryKey: ['liFiTxData', client.getKey(), type, fromToken, toToken, amount, maxSlippage],
+    queryKey: ['liFiTxData', chainId, userAddress, type, fromToken, toToken, amount, maxSlippage],
     queryFn: async (): Promise<SwapRequest> => {
       if (import.meta.env.STORYBOOK_PREVIEW) {
         return {
@@ -59,7 +63,16 @@ export function fetchLiFiTxData({
       const { meta, paramOverrides } = queryMetaEvaluator.evaluate({ fromToken, toToken })
 
       if (type === 'direct') {
-        const response = await client.getQuote({ fromToken, toToken, amount, maxSlippage, ...paramOverrides, meta })
+        const response = await client.getQuote({
+          fromToken,
+          toToken,
+          amount,
+          maxSlippage,
+          userAddress,
+          chainId,
+          ...paramOverrides,
+          meta,
+        })
         const fromAmount = BaseUnitNumber(response.estimate.fromAmount)
         invariant(amount.eq(fromAmount), 'amount should eq fromAmount')
         invariant(response.action.slippage.eq(maxSlippage), 'slippage should eq maxSlippage')
@@ -83,6 +96,8 @@ export function fetchLiFiTxData({
           toToken,
           amount,
           maxSlippage,
+          userAddress,
+          chainId,
           ...paramOverrides,
           meta,
         })
