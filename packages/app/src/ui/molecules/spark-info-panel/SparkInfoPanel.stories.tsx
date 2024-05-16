@@ -1,4 +1,3 @@
-import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { getHoveredStory } from '@storybook/utils'
 
@@ -9,8 +8,13 @@ const meta: Meta<typeof SparkInfoPanel> = {
   component: SparkInfoPanel,
   args: {
     title: <>Title</>,
-    content: <>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non ex in nibh ullamcorper eleifend quis tincidunt velit. Cras mollis tincidunt porta. Donec justo augue,</>,
-  }
+    content: (
+      <>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non ex in nibh ullamcorper eleifend quis
+        tincidunt velit. Cras mollis tincidunt porta. Donec justo augue.{' '}
+      </>
+    ),
+  },
 }
 
 export default meta
