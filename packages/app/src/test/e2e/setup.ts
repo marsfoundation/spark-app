@@ -67,9 +67,11 @@ export async function setup<K extends keyof typeof paths, T extends 'not-connect
         } else {
           await publicTenderlyActions.setTokenBalance(
             forkContext.forkUrl,
-            (TOKENS_ON_FORK as any)[tokenName].address,
+            (TOKENS_ON_FORK as any)[forkContext.chainId][tokenName].address,
             account.address,
-            BaseUnitNumber(parseUnits(balance.toString(), (TOKENS_ON_FORK as any)[tokenName].decimals)),
+            BaseUnitNumber(
+              parseUnits(balance.toString(), (TOKENS_ON_FORK as any)[forkContext.chainId][tokenName].decimals),
+            ),
           )
         }
       }
