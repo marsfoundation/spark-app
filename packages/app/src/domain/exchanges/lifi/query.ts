@@ -63,15 +63,15 @@ export function fetchLiFiTxData({
       const { meta, paramOverrides } = queryMetaEvaluator.evaluate({ fromToken, toToken })
 
       if (type === 'direct') {
-        const response = await client.getQuote({ 
-          fromToken, 
-          toToken, 
-          amount, 
+        const response = await client.getQuote({
+          fromToken,
+          toToken,
+          amount,
           maxSlippage,
           userAddress,
           chainId,
-          ...paramOverrides, 
-          meta
+          ...paramOverrides,
+          meta,
         })
         const fromAmount = BaseUnitNumber(response.estimate.fromAmount)
         invariant(amount.eq(fromAmount), 'amount should eq fromAmount')

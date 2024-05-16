@@ -66,7 +66,7 @@ describe('LiFi', () => {
           meta,
           maxSlippage,
           chainId,
-          userAddress
+          userAddress,
         })
         .catch(() => {}) // ignore error
 
