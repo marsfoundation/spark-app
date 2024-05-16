@@ -5,7 +5,7 @@ import { BaseUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { testAddresses } from '@/test/integration/constants'
 import { queryClient } from '@/test/integration/query-client'
 
-import { LiFi } from './lifi'
+import { LiFiClient } from './lifi'
 import { RealLifiQueryMetaEvaluator } from './meta'
 import { fetchLiFiTxData } from './query'
 
@@ -24,7 +24,7 @@ async function triggerLiFiCall(...args: Parameters<typeof fetchLiFiTxData>): Pro
 
 describe(fetchLiFiTxData.name, () => {
   const queryMetaEvaluator = new RealLifiQueryMetaEvaluator({ dai, sdai, usdc })
-  const lifiClient = new LiFi({ chainId, userAddress })
+  const lifiClient = new LiFiClient()
 
   beforeEach(() => {
     mockFetch = vi.fn()
@@ -46,6 +46,8 @@ describe(fetchLiFiTxData.name, () => {
       amount,
       type: 'direct',
       queryMetaEvaluator,
+      chainId,
+      userAddress,
     })
 
     expect(mockFetch).toHaveBeenCalledWithURL('https://li.quest/v1/quote')
@@ -74,6 +76,8 @@ describe(fetchLiFiTxData.name, () => {
       amount,
       type: 'direct',
       queryMetaEvaluator,
+      chainId,
+      userAddress,
     })
 
     expect(mockFetch).toHaveBeenCalledWithURL('https://li.quest/v1/quote')
@@ -102,6 +106,8 @@ describe(fetchLiFiTxData.name, () => {
       amount,
       type: 'direct',
       queryMetaEvaluator,
+      chainId,
+      userAddress,
     })
 
     expect(mockFetch).toHaveBeenCalledWithURL('https://li.quest/v1/quote')
@@ -130,6 +136,8 @@ describe(fetchLiFiTxData.name, () => {
       amount,
       type: 'reverse',
       queryMetaEvaluator,
+      chainId,
+      userAddress,
     })
 
     expect(mockFetch).toHaveBeenCalledWithURL('https://li.quest/v1/quote/contractCalls')
@@ -158,6 +166,8 @@ describe(fetchLiFiTxData.name, () => {
       amount,
       type: 'reverse',
       queryMetaEvaluator,
+      chainId,
+      userAddress,
     })
 
     expect(mockFetch).toHaveBeenCalledWithURL('https://li.quest/v1/quote/contractCalls')
@@ -186,6 +196,8 @@ describe(fetchLiFiTxData.name, () => {
       amount,
       type: 'reverse',
       queryMetaEvaluator,
+      chainId,
+      userAddress,
     })
 
     expect(mockFetch).toHaveBeenCalledWithURL('https://li.quest/v1/quote/contractCalls')
