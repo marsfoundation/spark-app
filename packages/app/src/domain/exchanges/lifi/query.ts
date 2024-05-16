@@ -3,10 +3,9 @@ import invariant from 'tiny-invariant'
 import { zeroAddress } from 'viem'
 
 import { CheckedAddress } from '../../types/CheckedAddress'
-import { BaseUnitNumber, NormalizedUnitNumber, Percentage } from '../../types/NumericValues'
-import { SwapRequest } from '../types'
-import { LiFiClient } from './lifi'
-import { LifiQueryMetaEvaluator } from './meta'
+import { BaseUnitNumber, NormalizedUnitNumber } from '../../types/NumericValues'
+import { SwapMeta, SwapRequest } from '../types'
+import { LiFiClient } from './LifiClient'
 import { QuoteResponse } from './types'
 
 export interface FetchLiFiTxDataParams {
@@ -15,11 +14,9 @@ export interface FetchLiFiTxDataParams {
   fromToken: CheckedAddress
   toToken: CheckedAddress
   amount: BaseUnitNumber
-  maxSlippage: Percentage
   userAddress: CheckedAddress
   chainId: number
-  allowExchanges?: string[]
-  queryMetaEvaluator: LifiQueryMetaEvaluator
+  meta: SwapMeta
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -29,13 +26,12 @@ export function fetchLiFiTxData({
   fromToken,
   toToken,
   amount,
-  maxSlippage,
-  queryMetaEvaluator,
   userAddress,
   chainId,
+  meta,
 }: FetchLiFiTxDataParams) {
   return queryOptions<SwapRequest>({
-    queryKey: ['liFiTxData', chainId, userAddress, type, fromToken, toToken, amount, maxSlippage],
+    queryKey: ['liFiTxData', chainId, userAddress, type, fromToken, toToken, amount],
     queryFn: async (): Promise<SwapRequest> => {
       if (import.meta.env.STORYBOOK_PREVIEW) {
         return {
@@ -60,22 +56,11 @@ export function fetchLiFiTxData({
         }
       }
 
-      const { meta, paramOverrides } = queryMetaEvaluator.evaluate({ fromToken, toToken })
-
       if (type === 'direct') {
-        const response = await client.getQuote({
-          fromToken,
-          toToken,
-          amount,
-          maxSlippage,
-          userAddress,
-          chainId,
-          ...paramOverrides,
-          meta,
-        })
+        const response = await client.getQuote({ userAddress, chainId, fromToken, toToken, amount, ...meta })
         const fromAmount = BaseUnitNumber(response.estimate.fromAmount)
         invariant(amount.eq(fromAmount), 'amount should eq fromAmount')
-        invariant(response.action.slippage.eq(maxSlippage), 'slippage should eq maxSlippage')
+        invariant(response.action.slippage.eq(meta.maxSlippage), 'slippage should eq maxSlippage')
 
         return {
           txRequest: response.transactionRequest,
@@ -92,17 +77,15 @@ export function fetchLiFiTxData({
         }
       } else {
         const response = await client.getReverseQuote({
+          userAddress,
+          chainId,
           fromToken,
           toToken,
           amount,
-          maxSlippage,
-          userAddress,
-          chainId,
-          ...paramOverrides,
-          meta,
+          ...meta,
         })
 
-        invariant(response.action.slippage.eq(maxSlippage), 'slippage should eq maxSlippage')
+        invariant(response.action.slippage.eq(meta.maxSlippage), 'slippage should eq maxSlippage')
 
         return {
           txRequest: response.transactionRequest,

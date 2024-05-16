@@ -7,12 +7,23 @@ import { CheckedAddress } from '../types/CheckedAddress'
 import { BaseUnitNumber, NormalizedUnitNumber, Percentage } from '../types/NumericValues'
 import { Token } from '../types/Token'
 
-export interface SwapParams {
+export interface SwapParamsBase {
   type: SwapType
   fromToken: Token
   toToken: Token
   value: NormalizedUnitNumber
+}
+
+export interface SwapMeta {
   maxSlippage: Percentage
+  fee: Percentage
+  integratorKey: string
+  maxPriceImpact?: Percentage
+  allowedExchanges?: string[]
+}
+
+export interface SwapParams extends SwapParamsBase {
+  meta: SwapMeta
 }
 
 export type SwapType =

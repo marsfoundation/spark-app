@@ -17,7 +17,7 @@ import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/c
 import { getFormFieldsForDepositDialog } from './form'
 import { generateWarning } from './generateWarning'
 import { createObjectives } from './objectives'
-import { useSwap } from './useSwap'
+import { useDepositIntoSavings } from './useDepositIntoSavings'
 import { SavingsDialogTxOverview, useTxOverview } from './useTransactionOverview'
 import { getSavingsDepositDialogFormValidator } from './validation'
 
@@ -69,7 +69,7 @@ export function useSavingsDepositDialog({
     form,
     marketInfo,
   })
-  const { swapInfo, swapParams } = useSwap({ formValues, marketInfo, walletInfo })
+  const { swapInfo, swapParams } = useDepositIntoSavings({ formValues, marketInfo })
 
   const { warning } = generateWarning({
     swapInfo,

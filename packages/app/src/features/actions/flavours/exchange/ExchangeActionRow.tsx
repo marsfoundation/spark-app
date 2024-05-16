@@ -51,7 +51,7 @@ export function ExchangeActionRow({ index, action, actionHandlerState, onAction,
       <RowSummary
         toToken={toToken}
         estimate={action.swapInfo.data?.estimate}
-        maxSlippage={action.swapParams.maxSlippage}
+        maxSlippage={action.swapParams.meta.maxSlippage}
         formatAsDAIValue={action.formatAsDAIValue}
         actionStatus={status}
       />

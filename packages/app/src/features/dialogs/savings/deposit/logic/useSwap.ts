@@ -1,11 +1,12 @@
-import { useLifiQueryMetaEvaluator } from '@/domain/exchanges/lifi/meta'
 import { useLiFiTxData } from '@/domain/exchanges/lifi/useLiFiTxData'
-import { SwapInfo, SwapParams } from '@/domain/exchanges/types'
+import { SwapInfo, SwapParams, SwapParamsBase } from '@/domain/exchanges/types'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { useActionsSettings } from '@/domain/state'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { WalletInfo } from '@/domain/wallet/useWalletInfo'
 import { DialogFormNormalizedData } from '@/features/dialogs/common/logic/form'
+
+import { evaluateSwap } from './evaluateSwap'
 
 interface UseSwapParams {
   formValues: DialogFormNormalizedData
@@ -17,21 +18,22 @@ export function useSwap({ formValues, marketInfo }: UseSwapParams): {
   swapInfo: SwapInfo
   swapParams: SwapParams
 } {
-  const queryMetaEvaluator = useLifiQueryMetaEvaluator()
   const settings = useActionsSettings()
   const sDAI = marketInfo.sDAI
 
-  const swapParams: SwapParams = {
+  const swapParamsBase: SwapParamsBase = {
     type: 'direct',
     fromToken: formValues.token,
     toToken: sDAI,
     value: NormalizedUnitNumber(formValues.value),
-    maxSlippage: settings.exchangeMaxSlippage,
+  }
+  const swapParams: SwapParams = {
+    ...swapParamsBase,
+    meta: evaluateSwap(swapParamsBase, { maxSlippage: settings.exchangeMaxSlippage }),
   }
 
   const swapInfo = useLiFiTxData({
     swapParams,
-    queryMetaEvaluator,
   })
 
   return { swapParams, swapInfo }

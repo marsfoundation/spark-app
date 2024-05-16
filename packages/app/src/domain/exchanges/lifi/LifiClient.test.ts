@@ -5,7 +5,7 @@ import { testAddresses } from '@/test/integration/constants'
 
 import { CheckedAddress } from '../../types/CheckedAddress'
 import { BaseUnitNumber, Percentage } from '../../types/NumericValues'
-import { LiFiClient } from './lifi'
+import { LiFiClient } from './LifiClient'
 import { QuoteResponseRaw } from './types'
 
 const userAddress = testAddresses.alice
@@ -63,7 +63,7 @@ describe('LiFi', () => {
           fromToken: USDC,
           toToken: sDAI,
           amount,
-          meta,
+          ...meta,
           maxSlippage,
           chainId,
           userAddress,
@@ -99,7 +99,7 @@ describe('LiFi', () => {
           fromToken: USDC,
           toToken: sDAI,
           amount,
-          meta,
+          ...meta,
           maxSlippage,
           chainId,
           userAddress,
@@ -121,7 +121,7 @@ describe('LiFi', () => {
         fromToken: USDC,
         toToken: sDAI,
         amount,
-        meta,
+        ...meta,
         maxSlippage,
         chainId,
         userAddress,
@@ -177,7 +177,7 @@ describe('LiFi', () => {
           fromToken: USDC,
           toToken: sDAI,
           amount,
-          meta,
+          ...meta,
           maxSlippage,
           chainId,
           userAddress,
@@ -208,7 +208,7 @@ describe('LiFi', () => {
           fromToken: sDAI,
           toToken: USDC,
           amount,
-          meta,
+          ...meta,
           maxSlippage,
           chainId,
           userAddress,
@@ -249,7 +249,7 @@ describe('LiFi', () => {
           fromToken: sDAI,
           toToken: USDC,
           amount,
-          meta,
+          ...meta,
           maxSlippage,
           chainId,
           userAddress,
@@ -271,7 +271,7 @@ describe('LiFi', () => {
         fromToken: sDAI,
         toToken: USDC,
         amount,
-        meta,
+        ...meta,
         maxSlippage,
         chainId,
         userAddress,
@@ -327,7 +327,7 @@ describe('LiFi', () => {
           fromToken: sDAI,
           toToken: USDC,
           amount,
-          meta,
+          ...meta,
           maxSlippage,
           chainId,
           userAddress,

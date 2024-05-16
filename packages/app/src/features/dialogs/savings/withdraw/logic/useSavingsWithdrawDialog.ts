@@ -17,8 +17,8 @@ import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/c
 import { getFormFieldsForWithdrawDialog } from './form'
 import { generateWarning } from './generateWarning'
 import { createObjectives } from './objectives'
-import { useSwap } from './useSwap'
 import { SavingsDialogTxOverview, useTxOverview } from './useTransactionOverview'
+import { useWithdrawFromSavings } from './useWithdrawFromSavings'
 import { getSavingsWithdrawDialogFormValidator } from './validation'
 
 export interface RiskAcknowledgementInfo {
@@ -68,7 +68,7 @@ export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
     form,
     marketInfo,
   })
-  const { swapInfo, swapParams } = useSwap({ formValues, marketInfo, walletInfo })
+  const { swapInfo, swapParams } = useWithdrawFromSavings({ formValues, marketInfo, walletInfo })
 
   const objectives = createObjectives({
     swapInfo,

@@ -10,7 +10,6 @@ import { setupHookRenderer } from '@/test/integration/setupHookRenderer'
 
 import { BaseUnitNumber, NormalizedUnitNumber, Percentage } from '../../types/NumericValues'
 import { SwapRequest } from '../types'
-import { MockLifiQueryMetaEvaluator } from './meta'
 import { QuoteResponseRaw } from './types'
 import { useLiFiTxData } from './useLiFiTxData'
 
@@ -21,6 +20,7 @@ const amount = BaseUnitNumber(10_000_000_000)
 const amountNormalized = fromToken.fromBaseUnit(amount)
 const chainId = mainnet.id
 const maxSlippage = Percentage(0.005)
+const defaultMeta = { fee: Percentage(0), integratorKey: 'test', maxSlippage }
 const rawResponse: QuoteResponseRaw = {
   transactionRequest: {
     data: '0x4630a0d8', // just a sighash
@@ -48,8 +48,7 @@ const hookRenderer = setupHookRenderer({
   account,
   handlers: [handlers.chainIdCall({ chainId })],
   args: {
-    swapParams: { fromToken, toToken, value: amountNormalized, type: 'direct', maxSlippage },
-    queryMetaEvaluator: new MockLifiQueryMetaEvaluator(),
+    swapParams: { fromToken, toToken, value: amountNormalized, type: 'direct', meta: defaultMeta },
   },
 })
 
@@ -117,8 +116,7 @@ describe(useLiFiTxData.name, () => {
 
     const { result } = hookRenderer({
       args: {
-        swapParams: { fromToken, toToken, value: amountNormalized, type: 'reverse', maxSlippage },
-        queryMetaEvaluator: new MockLifiQueryMetaEvaluator(),
+        swapParams: { fromToken, toToken, value: amountNormalized, type: 'reverse', meta: defaultMeta },
       },
     })
 
