@@ -7,6 +7,7 @@ import { Panel } from '@/ui/atoms/panel/Panel'
 import { links } from '@/ui/constants/links'
 import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
 import { getNativeTokenSymbolIfWrapped } from '@/utils/getDisplyTokenSymbol'
+import { SparkInfoPanel } from '@/ui/molecules/spark-info-panel/SparkInfoPanel'
 
 import { InterestYieldChart, InterestYieldChartProps } from '../charts/interest-yield/InterestYieldChart'
 import { EmptyStatusPanel } from './components/EmptyStatusPanel'
@@ -17,7 +18,6 @@ import { StatusIcon } from './components/status-icon/StatusIcon'
 import { StatusPanelGrid } from './components/StatusPanelGrid'
 import { Subheader } from './components/Subheader'
 import { TokenBadge } from './components/token-badge/TokenBadge'
-import { SparkInfoPanel } from './SparkInfoPanel'
 
 interface BorrowStatusPanelProps {
   status: BorrowEligibilityStatus
