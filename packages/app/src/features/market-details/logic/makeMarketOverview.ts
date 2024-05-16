@@ -1,5 +1,5 @@
-import { MarketInfo, Reserve } from '@/domain/market-info/marketInfo'
 import { getAirdropsData } from '@/config/chain/utils/airdrops'
+import { MarketInfo, Reserve } from '@/domain/market-info/marketInfo'
 import { getNativeTokenSymbolIfWrapped } from '@/utils/getDisplyTokenSymbol'
 
 import { MarketOverview } from '../types'
@@ -15,7 +15,7 @@ export function makeMarketOverview({ reserve, marketInfo }: MakeMarketOverviewPa
   const eModeCategoryTokens = getReserveEModeCategoryTokens(marketInfo, reserve)
 
   const assetSymbol = getNativeTokenSymbolIfWrapped(marketInfo.chainId, reserve.token.symbol)
-  
+
   const airdropData = getAirdropsData(marketInfo.chainId, assetSymbol)
 
   return {
