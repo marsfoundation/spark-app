@@ -1,5 +1,5 @@
 import { test } from '@playwright/test'
-import { mainnet } from 'viem/chains'
+import { gnosis, mainnet } from 'viem/chains'
 
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
@@ -9,11 +9,10 @@ import { setupFork } from '@/test/e2e/setupFork'
 
 import { SavingsWithdrawDialogPageObject } from './SavingsWithdrawDialog.PageObject'
 
-// Block number has to be as close as possible to the block number when query was executed
-const blockNumber = 19532848n
-
 test.describe('Savings withdraw dialog', () => {
   test.describe('DAI', () => {
+    // Block number has to be as close as possible to the block number when query was executed
+    const blockNumber = 19532848n
     const fork = setupFork({ blockNumber, chainId: mainnet.id })
 
     test('unwraps sDAI to DAI', async ({ page }) => {
@@ -85,7 +84,46 @@ test.describe('Savings withdraw dialog', () => {
     })
   })
 
+  test.describe('xDAI', () => {
+    // Block number has to be as close as possible to the block number when query was executed
+    const blockNumber = 33976095n
+    const fork = setupFork({ blockNumber, chainId: gnosis.id })
+
+    test('unwraps sDAI to xDAI', async ({ page }) => {
+      const { account } = await setup(page, fork, {
+        initialPage: 'savings',
+        account: {
+          type: 'connected',
+          assetBalances: {
+            XDAI: 100,
+            sDAI: 1000,
+          },
+        },
+      })
+      await overrideLiFiRoute(page, {
+        receiver: account,
+        preset: 'sdai-to-100-xdai',
+        expectedBlockNumber: blockNumber,
+      })
+
+      const savingsPage = new SavingsPageObject(page)
+
+      await savingsPage.clickWithdrawButtonAction()
+
+      const withdrawDialog = new SavingsWithdrawDialogPageObject(page)
+      await withdrawDialog.fillAmountAction(100)
+
+      const actionsContainer = new ActionsPageObject(withdrawDialog.locatePanelByHeader('Actions'))
+      await actionsContainer.acceptAllActionsAction(2)
+      await withdrawDialog.clickBackToSavingsButton()
+
+      await savingsPage.expectCurrentWorth('900')
+      await savingsPage.expectCashInWalletAssetBalance('XDAI', '200')
+    })
+  })
+
   test.describe('USDC', () => {
+    const blockNumber = 19532848n
     const fork = setupFork({ blockNumber, chainId: mainnet.id })
 
     test('unwraps sDAI to USDC', async ({ page }) => {

@@ -47,6 +47,10 @@ export const TOKENS_ON_FORK = {
       address: '0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d',
       decimals: 18,
     },
+    USDC: {
+      address: '0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83',
+      decimals: 6,
+    },
     EURe: {
       address: '0xcB444e90D8198415266c6a2724b7900fb12FC56E',
       decimals: 18,
