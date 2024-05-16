@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useAccount, useEstimateGas, UseEstimateGasParameters, useSendTransaction } from 'wagmi'
 
 import { sanityCheckTx } from './sanityChecks'
+import { useOriginChainId } from './useOriginChainId'
 import { useWaitForTransactionReceiptUniversal } from './useWaitForTransactionReceiptUniversal'
 import { WriteStatus } from './useWrite'
 
@@ -23,6 +24,7 @@ export function useSendTx(
   args: UseEstimateGasParameters & { enabled?: boolean },
   callbacks: UseeSendTxCallbacks = {},
 ): UseSendTxResult {
+  const chainId = useOriginChainId()
   const enabled = args.enabled ?? !!(args.to && (args.data || args.value))
 
   const { address: account } = useAccount()
@@ -97,7 +99,7 @@ export function useSendTx(
   const finalSend =
     gasEstimate && enabled
       ? () => {
-          sanityCheckTx({ address: args.to ?? undefined, value: args.value })
+          sanityCheckTx({ address: args.to ?? undefined, value: args.value }, chainId)
 
           sendTransaction({
             to: args.to!,
