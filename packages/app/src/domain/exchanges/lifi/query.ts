@@ -10,7 +10,6 @@ import { LifiQueryMetaEvaluator } from './meta'
 import { QuoteResponse } from './types'
 
 export interface FetchLiFiTxDataParams {
-  client: LiFi
   type: 'direct' | 'reverse'
   fromToken: CheckedAddress
   toToken: CheckedAddress
@@ -24,7 +23,7 @@ export interface FetchLiFiTxDataParams {
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function fetchLiFiTxData({
-  client,
+
   type,
   fromToken,
   toToken,
@@ -35,7 +34,7 @@ export function fetchLiFiTxData({
   chainId,
 }: FetchLiFiTxDataParams) {
   return queryOptions<SwapRequest>({
-    queryKey: ['liFiTxData', client.getKey(chainId, userAddress), type, fromToken, toToken, amount, maxSlippage],
+    queryKey: ['liFiTxData', LiFi.getKey(chainId, userAddress), type, fromToken, toToken, amount, maxSlippage],
     queryFn: async (): Promise<SwapRequest> => {
       if (import.meta.env.STORYBOOK_PREVIEW) {
         return {
@@ -63,7 +62,7 @@ export function fetchLiFiTxData({
       const { meta, paramOverrides } = queryMetaEvaluator.evaluate({ fromToken, toToken })
 
       if (type === 'direct') {
-        const response = await client.getQuote({ 
+        const response = await LiFi.getQuote({ 
           fromToken, 
           toToken, 
           amount, 
@@ -91,7 +90,7 @@ export function fetchLiFiTxData({
           },
         }
       } else {
-        const response = await client.getReverseQuote({
+        const response = await LiFi.getReverseQuote({
           fromToken,
           toToken,
           amount,

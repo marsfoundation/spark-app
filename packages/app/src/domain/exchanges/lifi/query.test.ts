@@ -24,7 +24,6 @@ async function triggerLiFiCall(...args: Parameters<typeof fetchLiFiTxData>): Pro
 
 describe(fetchLiFiTxData.name, () => {
   const queryMetaEvaluator = new RealLifiQueryMetaEvaluator({ dai, sdai, usdc })
-  const lifiClient = new LiFi()
 
   beforeEach(() => {
     mockFetch = vi.fn()
@@ -39,7 +38,6 @@ describe(fetchLiFiTxData.name, () => {
     const maxSlippage = Percentage(0.005)
 
     await triggerLiFiCall({
-      client: lifiClient,
       fromToken: dai,
       toToken: sdai,
       maxSlippage,

@@ -44,7 +44,7 @@ describe('LiFi', () => {
     vi.unstubAllGlobals()
   })
 
-  describe(LiFi.prototype.getQuote.name, () => {
+  describe(LiFi.getQuote.name, () => {
     test('calls fetch with the correct URL', async () => {
       let calledUrl: URL | string | undefined
       vi.stubGlobal('fetch', async (...args: any[]) => {
@@ -56,9 +56,7 @@ describe('LiFi', () => {
         }
       })
 
-      const lifi = new LiFi()
-
-      await lifi
+      await LiFi
         .getQuote({
           fromToken: USDC,
           toToken: sDAI,
@@ -92,10 +90,8 @@ describe('LiFi', () => {
         }
       })
 
-      const lifi = new LiFi()
-
       await expect(
-        lifi.getQuote({
+        LiFi.getQuote({
           fromToken: USDC,
           toToken: sDAI,
           amount,
@@ -115,9 +111,7 @@ describe('LiFi', () => {
         }
       })
 
-      const lifi = new LiFi()
-
-      const response = await lifi.getQuote({
+      const response = await LiFi.getQuote({
         fromToken: USDC,
         toToken: sDAI,
         amount,
@@ -170,10 +164,8 @@ describe('LiFi', () => {
         }
       })
 
-      const lifi = new LiFi()
-
       await expect(
-        lifi.getQuote({
+        LiFi.getQuote({
           fromToken: USDC,
           toToken: sDAI,
           amount,
@@ -186,7 +178,7 @@ describe('LiFi', () => {
     })
   })
 
-  describe(LiFi.prototype.getReverseQuote.name, () => {
+  describe(LiFi.getReverseQuote.name, () => {
     test('calls fetch witch correct url, method and options', async () => {
       let calledUrl: URL | string | undefined
       let calledOptions: RequestInit | undefined
@@ -201,9 +193,7 @@ describe('LiFi', () => {
         }
       })
 
-      const lifi = new LiFi()
-
-      await lifi
+      await LiFi
         .getReverseQuote({
           fromToken: sDAI,
           toToken: USDC,
@@ -242,10 +232,8 @@ describe('LiFi', () => {
         }
       })
 
-      const lifi = new LiFi()
-
       await expect(
-        lifi.getReverseQuote({
+        LiFi.getReverseQuote({
           fromToken: sDAI,
           toToken: USDC,
           amount,
@@ -265,9 +253,7 @@ describe('LiFi', () => {
         }
       })
 
-      const lifi = new LiFi()
-
-      const response = await lifi.getReverseQuote({
+      const response = await LiFi.getReverseQuote({
         fromToken: sDAI,
         toToken: USDC,
         amount,
@@ -320,10 +306,8 @@ describe('LiFi', () => {
         }
       })
 
-      const lifi = new LiFi()
-
       await expect(
-        lifi.getReverseQuote({
+        LiFi.getReverseQuote({
           fromToken: sDAI,
           toToken: USDC,
           amount,

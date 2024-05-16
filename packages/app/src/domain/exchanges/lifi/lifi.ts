@@ -47,10 +47,10 @@ interface ReverseQuoteRequestParams {
 }
 
 export class LiFi {
-  private readonly baseUrl = 'https://li.quest'
-  private readonly pathName = 'v1/quote/contractCalls'
+  private static readonly baseUrl = 'https://li.quest'
+  private static readonly pathName = 'v1/quote/contractCalls'
 
-  async getReverseQuote(getQuoteOptions: GetQuoteOptions): Promise<ReverseQuoteResponse> {
+  static async getReverseQuote(getQuoteOptions: GetQuoteOptions): Promise<ReverseQuoteResponse> {
     const url = this.buildReverseQuoteUrl()
     const options = this.buildReverseQuoteRequestOptions(getQuoteOptions)
 
@@ -63,7 +63,7 @@ export class LiFi {
     return this.parseReverseQuoteResponse(result)
   }
 
-  async getQuote(getQuoteOptions: GetQuoteOptions): Promise<QuoteResponse> {
+  static async getQuote(getQuoteOptions: GetQuoteOptions): Promise<QuoteResponse> {
     const url = this.buildQuoteUrl(getQuoteOptions)
 
     const response = await fetch(url)
@@ -75,19 +75,19 @@ export class LiFi {
     return this.parseQuoteResponse(result)
   }
 
-  getKey(chainId: number, userAddress: CheckedAddress): string {
+  static getKey(chainId: number, userAddress: CheckedAddress): string {
     return `lifi-${chainId}-${userAddress}`
   }
 
-  private parseReverseQuoteResponse(response: unknown): ReverseQuoteResponse {
+  private static parseReverseQuoteResponse(response: unknown): ReverseQuoteResponse {
     return reverseQuoteResponseSchema.parse(response)
   }
 
-  private parseQuoteResponse(response: unknown): QuoteResponse {
+  private static parseQuoteResponse(response: unknown): QuoteResponse {
     return quoteResponseSchema.parse(response)
   }
 
-  private buildQuoteUrl({
+  private static buildQuoteUrl({
     fromToken,
     toToken,
     amount,
@@ -118,13 +118,13 @@ export class LiFi {
     return url
   }
 
-  private buildReverseQuoteUrl(): URL {
+  private static buildReverseQuoteUrl(): URL {
     const url = new URL(this.baseUrl)
     url.pathname = this.pathName
     return url
   }
 
-  private buildReverseQuoteRequestOptions({
+  private static buildReverseQuoteRequestOptions({
     fromToken,
     toToken,
     amount,
