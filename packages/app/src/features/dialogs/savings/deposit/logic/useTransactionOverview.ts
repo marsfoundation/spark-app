@@ -20,7 +20,7 @@ export interface SavingsDialogTxOverview {
   sDaiToken: Token
   sDaiBalanceBefore: NormalizedUnitNumber
   sDaiBalanceAfter: NormalizedUnitNumber
-  DSR: Percentage
+  APY: Percentage
 }
 
 export function useTxOverview({
@@ -57,6 +57,6 @@ export function useTxOverview({
     exchangeRatio: tokenToDaiRatio,
     sDaiBalanceBefore,
     sDaiBalanceAfter,
-    DSR: savingsInfo.apy,
+    APY: savingsInfo.apy,
   }
 }

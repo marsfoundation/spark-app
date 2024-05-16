@@ -34,7 +34,7 @@ export class SavingsPageObject extends BasePageObject {
   // #endregion
 
   // #region assertions
-  async expectDSR(value: string): Promise<void> {
+  async expectAPY(value: string): Promise<void> {
     await expect(this.locateSavingsOpportunityPanel().getByRole('paragraph').filter({ hasText: value })).toBeVisible()
   }
 
