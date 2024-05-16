@@ -1,4 +1,5 @@
 import { test } from '@playwright/test'
+import { mainnet } from 'viem/chains'
 
 import { DialogPageObject } from '@/features/dialogs/common/Dialog.PageObject'
 import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
@@ -13,7 +14,7 @@ const DAI = '0x6B175474E89094C44Da98b954EedeAC495271d0F'
 const WETH = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'
 
 test.describe('Market details', () => {
-  const fork = setupFork(DEFAULT_BLOCK_NUMBER)
+  const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id })
 
   test.describe('Market overview', () => {
     test('DAI', async ({ page }) => {

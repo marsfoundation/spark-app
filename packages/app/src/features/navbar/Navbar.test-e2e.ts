@@ -1,4 +1,5 @@
 import { test } from '@playwright/test'
+import { mainnet } from 'viem/chains'
 
 import { overrideAirdropInfoRoute } from '@/test/e2e/airdropInfo'
 import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
@@ -8,7 +9,7 @@ import { setupFork } from '@/test/e2e/setupFork'
 import { NavbarPageObject } from './Navbar.PageObject'
 
 test.describe('Navbar', () => {
-  const fork = setupFork(DEFAULT_BLOCK_NUMBER)
+  const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id })
 
   test.describe('Airdrop counter', () => {
     test('Disconnected', async ({ page }) => {

@@ -1,4 +1,5 @@
 import { test } from '@playwright/test'
+import { mainnet } from 'viem/chains'
 
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
@@ -16,7 +17,7 @@ test.describe('Savings deposit dialog', () => {
   // My guess is that reverting to snapshots in tenderly does not work properly - but for now couldn't debug that.
   // For now tests use different forks.
   test.describe('DAI', () => {
-    const fork = setupFork(blockNumber)
+    const fork = setupFork({ blockNumber, chainId: mainnet.id })
 
     test('wraps DAI', async ({ page }) => {
       const { account } = await setup(page, fork, {
@@ -51,7 +52,7 @@ test.describe('Savings deposit dialog', () => {
   })
 
   test.describe('USDC', () => {
-    const fork = setupFork(blockNumber)
+    const fork = setupFork({ blockNumber, chainId: mainnet.id })
 
     test('wraps USDC', async ({ page }) => {
       const { account } = await setup(page, fork, {
@@ -86,7 +87,7 @@ test.describe('Savings deposit dialog', () => {
   })
 
   test.describe('Slippage', () => {
-    const fork = setupFork(blockNumber)
+    const fork = setupFork({ blockNumber, chainId: mainnet.id })
 
     test('default', async ({ page }) => {
       const { account } = await setup(page, fork, {
@@ -195,7 +196,7 @@ test.describe('Savings deposit dialog', () => {
   })
 
   test.describe('Risk warning', () => {
-    const fork = setupFork(19861465n)
+    const fork = setupFork({ blockNumber: 19861465n, chainId: mainnet.id })
 
     test('displays warning when discrepancy is bigger than 100 DAI', async ({ page }) => {
       const { account } = await setup(page, fork, {

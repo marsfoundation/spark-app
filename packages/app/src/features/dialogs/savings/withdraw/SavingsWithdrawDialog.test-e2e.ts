@@ -1,4 +1,5 @@
 import { test } from '@playwright/test'
+import { mainnet } from 'viem/chains'
 
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
@@ -13,7 +14,7 @@ const blockNumber = 19532848n
 
 test.describe('Savings withdraw dialog', () => {
   test.describe('DAI', () => {
-    const fork = setupFork(blockNumber)
+    const fork = setupFork({ blockNumber, chainId: mainnet.id })
 
     test('unwraps sDAI to DAI', async ({ page }) => {
       const { account } = await setup(page, fork, {
@@ -49,7 +50,7 @@ test.describe('Savings withdraw dialog', () => {
 
     test.describe('on fork', () => {
       const blockNumber = 19609252n
-      const fork = setupFork(blockNumber)
+      const fork = setupFork({ blockNumber, chainId: mainnet.id })
 
       test('unwraps ALL sDAI to DAI', async ({ page }) => {
         const { account } = await setup(page, fork, {
@@ -85,7 +86,7 @@ test.describe('Savings withdraw dialog', () => {
   })
 
   test.describe('USDC', () => {
-    const fork = setupFork(blockNumber)
+    const fork = setupFork({ blockNumber, chainId: mainnet.id })
 
     test('unwraps sDAI to USDC', async ({ page }) => {
       const { account } = await setup(page, fork, {
@@ -122,7 +123,7 @@ test.describe('Savings withdraw dialog', () => {
 
     test.describe('on fork', () => {
       const blockNumber = 19609941n
-      const fork = setupFork(blockNumber)
+      const fork = setupFork({ blockNumber, chainId: mainnet.id })
 
       test('unwraps ALL sDAI to USDC', async ({ page }) => {
         const { account } = await setup(page, fork, {
@@ -160,7 +161,7 @@ test.describe('Savings withdraw dialog', () => {
 
   test.describe('Risk warning', () => {
     const blockNumber = 19862032n
-    const fork = setupFork(blockNumber)
+    const fork = setupFork({ blockNumber, chainId: mainnet.id })
 
     test('displays warning when discrepancy is bigger than 100 DAI', async ({ page }) => {
       const { account } = await setup(page, fork, {

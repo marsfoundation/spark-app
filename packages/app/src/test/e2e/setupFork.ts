@@ -13,8 +13,6 @@ export interface ForkContext {
   chainId: number
 }
 
-const forkChainId = 1
-
 // @note: https://github.com/marsfoundation/app#deterministic-time-in-e2e-tests
 export const simulationDate = new Date('2024-06-04T10:21:19Z')
 
@@ -22,7 +20,12 @@ export const simulationDate = new Date('2024-06-04T10:21:19Z')
  * Fork is shared across the whole test file and is fixed to a single block number.
  * It's created once and deleted after all tests are finished but after each test it's reverted to the initial state.
  */
-export function setupFork(blockNumber: bigint): ForkContext {
+export interface SetupForkOptions {
+  blockNumber: bigint
+  chainId: number
+}
+
+export function setupFork({ blockNumber, chainId }: SetupForkOptions): ForkContext {
   const apiKey = processEnv('TENDERLY_API_KEY')
   const tenderlyAccount = processEnv('TENDERLY_ACCOUNT')
   const tenderlyProject = processEnv('TENDERLY_PROJECT')
@@ -35,15 +38,15 @@ export function setupFork(blockNumber: bigint): ForkContext {
     forkUrl: undefined as any,
     initialSnapshotId: undefined as any,
     simulationDate,
-    chainId: forkChainId,
+    chainId,
   }
 
   test.beforeAll(async () => {
     forkContext.forkUrl = await tenderlyClient.createFork({
       namePrefix: 'e2e_test',
       blockNumber,
-      originChainId: 1,
-      forkChainId,
+      originChainId: chainId,
+      forkChainId: chainId,
     })
 
     const deltaTimeForward = Math.floor((simulationDate.getTime() - Date.now()) / 1000)

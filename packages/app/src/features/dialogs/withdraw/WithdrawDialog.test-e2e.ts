@@ -1,4 +1,5 @@
 import { test } from '@playwright/test'
+import { mainnet } from 'viem/chains'
 
 import { withdrawalValidationIssueToMessage } from '@/domain/market-validators/validateWithdraw'
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
@@ -14,7 +15,7 @@ import { DialogPageObject } from '../common/Dialog.PageObject'
 const headerRegExp = /Withdr*/
 
 test.describe('Withdraw dialog', () => {
-  const fork = setupFork(DEFAULT_BLOCK_NUMBER)
+  const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id })
   const initialBalances = {
     wstETH: 100,
     rETH: 100,
