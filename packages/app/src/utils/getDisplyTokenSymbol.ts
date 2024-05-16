@@ -1,5 +1,5 @@
-import { getChainConfigEntry } from '@/config/chain';
-import { TokenSymbol } from '@/domain/types/TokenSymbol';
+import { getChainConfigEntry } from '@/config/chain'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 
 /**
  * Returns the native token symbol if the token is wrapped.
@@ -7,10 +7,10 @@ import { TokenSymbol } from '@/domain/types/TokenSymbol';
  * @param tokenSymbol The token symbol.
  * @returns The native token symbol if the token is wrapped.
  */
-export function getNativeTokenSymbolIfWrapped(chainId: number, tokenSymbol: TokenSymbol) {
-  const chainConfig = getChainConfigEntry(chainId);
+export function getNativeTokenSymbolIfWrapped(chainId: number, tokenSymbol: TokenSymbol): TokenSymbol {
+  const chainConfig = getChainConfigEntry(chainId)
 
   return tokenSymbol === chainConfig.nativeAssetInfo.wrappedNativeAssetSymbol
     ? chainConfig.nativeAssetInfo.nativeAssetSymbol
-    : tokenSymbol;
+    : tokenSymbol
 }

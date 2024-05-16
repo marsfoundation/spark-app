@@ -29,7 +29,7 @@ export function FullView({
           {marketOverview.lend && <LendStatusPanel {...marketOverview.lend} />}
           <CollateralStatusPanel {...marketOverview.collateral} />
           {marketOverview.eMode && <EModeStatusPanel {...marketOverview.eMode} />}
-          <BorrowStatusPanel token={token} chainId={chainId}  {...marketOverview.borrow} />
+          <BorrowStatusPanel token={token} chainId={chainId} {...marketOverview.borrow} />
         </div>
         <div className="flex flex-col gap-6">
           <MarketOverviewPanel token={token} {...marketOverview.summary} />
