@@ -7,7 +7,7 @@ interface SparkInfoProps {
   content: JSX.Element
 }
 
-export function SparkInfo({ title, content }: SparkInfoProps) {
+export function SparkInfoPanel({ title, content }: SparkInfoProps) {
   return (
     <Panel.Wrapper
       className={cn(

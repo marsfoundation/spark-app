@@ -17,7 +17,7 @@ import { StatusIcon } from './components/status-icon/StatusIcon'
 import { StatusPanelGrid } from './components/StatusPanelGrid'
 import { Subheader } from './components/Subheader'
 import { TokenBadge } from './components/token-badge/TokenBadge'
-import { SparkInfo } from './SparkInfo'
+import { SparkInfoPanel } from './SparkInfoPanel'
 
 interface BorrowStatusPanelProps {
   status: BorrowEligibilityStatus
@@ -87,7 +87,7 @@ export function BorrowStatusPanel({
           <InterestYieldChart {...chartProps} />
         </div>
         {airdropEligible && (
-          <SparkInfo
+          <SparkInfoPanel
             title={<>Eligible for 24M Spark Airdrop</>}
             content={
               <>

@@ -15,7 +15,7 @@ import { InfoTilesGrid } from './components/info-tile/InfoTilesGrid'
 import { StatusIcon } from './components/status-icon/StatusIcon'
 import { StatusPanelGrid } from './components/StatusPanelGrid'
 import { Subheader } from './components/Subheader'
-import { SparkInfo } from './SparkInfo'
+import { SparkInfoPanel } from './SparkInfoPanel'
 
 interface SupplyStatusPanelProps {
   status: SupplyAvailabilityStatus
@@ -71,7 +71,7 @@ export function SupplyStatusPanel({
           )}
         </InfoTilesGrid>
         {airdropEligible && (
-          <SparkInfo
+          <SparkInfoPanel
             title={<>Eligible for 24M Spark Airdrop</>}
             content={
               <>
