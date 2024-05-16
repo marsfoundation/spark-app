@@ -1,5 +1,6 @@
 import invariant from 'tiny-invariant'
 import { Address, zeroAddress } from 'viem'
+import { gnosis } from 'viem/chains'
 
 import { NATIVE_ASSET_MOCK_ADDRESS } from '@/config/consts'
 import { wethGatewayAddress } from '@/config/contracts-generated'
@@ -16,7 +17,7 @@ export function sanityCheckTx(tx: { address?: Address; value?: bigint }, chainId
   )
   invariant(tx.address !== zeroAddress, 'Cannot interact with zero address')
 
-  if (tx.value) {
+  if (tx.value && chainId !== gnosis.id) {
     invariant(
       tx.address === (wethGatewayAddress as any)[chainId],
       'Sending the native asset is only allowed to gateway contracts',

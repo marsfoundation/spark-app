@@ -43,6 +43,9 @@ export interface ChainConfigEntry {
   tokenSymbolToReplacedName: TokenSymbolToReplacedName
   airdrop: Airdrop
   savingsInfoQuery: (args: SavingsInfoQueryParams) => SavingsInfoQueryOptions
+  daiSymbol: TokenSymbol
+  sDaiSymbol: TokenSymbol
+  supportsLifiWaivedFees: boolean
 }
 
 export type ChainConfig = Record<SupportedChainId, ChainConfigEntry>

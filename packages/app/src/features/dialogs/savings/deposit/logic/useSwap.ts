@@ -4,7 +4,6 @@ import { SwapInfo, SwapParams } from '@/domain/exchanges/types'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { useActionsSettings } from '@/domain/state'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { WalletInfo } from '@/domain/wallet/useWalletInfo'
 import { DialogFormNormalizedData } from '@/features/dialogs/common/logic/form'
 
@@ -20,12 +19,12 @@ export function useSwap({ formValues, marketInfo }: UseSwapParams): {
 } {
   const queryMetaEvaluator = useLifiQueryMetaEvaluator()
   const settings = useActionsSettings()
-  const sdai = marketInfo.findOneTokenBySymbol(TokenSymbol('sDAI'))
+  const sDAI = marketInfo.sDAI
 
   const swapParams: SwapParams = {
     type: 'direct',
     fromToken: formValues.token,
-    toToken: sdai,
+    toToken: sDAI,
     value: NormalizedUnitNumber(formValues.value),
     maxSlippage: settings.exchangeMaxSlippage,
   }

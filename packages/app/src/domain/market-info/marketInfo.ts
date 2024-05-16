@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js'
 
+import { getChainConfigEntry } from '@/config/chain'
 import { NativeAssetInfo } from '@/config/chain/types'
 import { NATIVE_ASSET_MOCK_ADDRESS } from '@/config/consts'
 import { fromRay } from '@/utils/math'
@@ -156,6 +157,14 @@ export class MarketInfo {
       ...wrappedNativeAssetPosition,
       reserve: nativeReserve,
     }
+  }
+
+  get DAI(): Token {
+    return this.findOneTokenBySymbol(getChainConfigEntry(this.chainId).daiSymbol)
+  }
+
+  get sDAI(): Token {
+    return this.findOneTokenBySymbol(getChainConfigEntry(this.chainId).sDaiSymbol)
   }
 
   findTokenBySymbol(symbol: TokenSymbol): Token | undefined {

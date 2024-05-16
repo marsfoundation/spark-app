@@ -3,7 +3,6 @@ import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { SavingsInfo } from '@/domain/savings-info/types'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { WalletInfo } from '@/domain/wallet/useWalletInfo'
 
 interface UseTxOverviewParams {
@@ -31,15 +30,15 @@ export function useTxOverview({
   swapInfo,
   swapParams,
 }: UseTxOverviewParams): SavingsDialogTxOverview | undefined {
-  const sdai = marketInfo.findOneTokenBySymbol(TokenSymbol('sDAI'))
-  const dai = marketInfo.findOneTokenBySymbol(TokenSymbol('DAI'))
+  const sDAI = marketInfo.sDAI
+  const DAI = marketInfo.DAI
 
   if (!swapInfo.data) {
     return undefined
   }
 
   const sDaiAmountBaseUnit = swapInfo.data.estimate.toAmount
-  const sDaiAmount = sdai.fromBaseUnit(sDaiAmountBaseUnit)
+  const sDaiAmount = sDAI.fromBaseUnit(sDaiAmountBaseUnit)
   const otherTokenAmountBaseUnit = swapInfo.data.estimate.fromAmount
   const otherTokenAmount = swapParams.fromToken.fromBaseUnit(otherTokenAmountBaseUnit)
 
@@ -48,13 +47,13 @@ export function useTxOverview({
   })
   const tokenToDaiRatio = NormalizedUnitNumber(daiAmountNormalized.dividedBy(otherTokenAmount))
 
-  const sDaiBalanceBefore = walletInfo.findWalletBalanceForSymbol(TokenSymbol('sDAI'))
+  const sDaiBalanceBefore = walletInfo.findWalletBalanceForToken(sDAI)
   const sDaiBalanceAfter = NormalizedUnitNumber(sDaiBalanceBefore.plus(sDaiAmount))
 
   return {
     exchangeRatioFromToken: swapParams.fromToken,
-    exchangeRatioToToken: dai,
-    sDaiToken: sdai,
+    exchangeRatioToToken: DAI,
+    sDaiToken: sDAI,
     exchangeRatio: tokenToDaiRatio,
     sDaiBalanceBefore,
     sDaiBalanceAfter,

@@ -1,5 +1,5 @@
 import { zeroAddress } from 'viem'
-import { mainnet } from 'viem/chains'
+import { gnosis, mainnet } from 'viem/chains'
 
 import { NATIVE_ASSET_MOCK_ADDRESS } from '@/config/consts'
 import { testAddresses } from '@/test/integration/constants'
@@ -18,5 +18,6 @@ describe(sanityCheckTx.name, () => {
     expect(() => sanityCheckTx({ address: testAddresses.alice, value: 1n }, mainnet.id)).toThrow(
       'Sending the native asset ',
     )
+    expect(() => sanityCheckTx({ address: testAddresses.alice, value: 1n }, gnosis.id)).not.toThrow()
   })
 })

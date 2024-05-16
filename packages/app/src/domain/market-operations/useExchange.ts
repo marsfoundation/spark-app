@@ -38,7 +38,7 @@ export interface UseExchangeResult {
   status: ExchangeStatus
 }
 
-export function useExchange({ swapInfo, enabled, onTransactionSettled }: UseExchangeParams): UseExchangeResult {
+export function useExchange({ swapInfo, enabled = true, onTransactionSettled }: UseExchangeParams): UseExchangeResult {
   const client = useQueryClient()
   const wagmiConfig = useConfig()
   const { address: userAddress } = useAccount()
@@ -74,12 +74,16 @@ export function useExchange({ swapInfo, enabled, onTransactionSettled }: UseExch
     },
   )
 
-  return extendExchangeRequest(request, swapInfo)
+  return extendExchangeRequest(request, swapInfo, enabled)
 }
 
-function extendExchangeRequest(request: UseSendTxResult, swapInfo: SwapInfoSimplified): UseExchangeResult {
+function extendExchangeRequest(
+  request: UseSendTxResult,
+  swapInfo: SwapInfoSimplified,
+  enabled?: boolean,
+): UseExchangeResult {
   const status = ((): ExchangeStatus => {
-    if (request.status.kind === 'disabled') {
+    if (!enabled) {
       return { kind: 'disabled' }
     }
 

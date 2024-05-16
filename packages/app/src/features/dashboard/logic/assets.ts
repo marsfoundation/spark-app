@@ -4,7 +4,6 @@ import { MarketInfo, UserPosition } from '@/domain/market-info/marketInfo'
 import { ReserveStatus } from '@/domain/market-info/reserve-status'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { WalletInfo } from '@/domain/wallet/useWalletInfo'
 import { applyTransformers } from '@/utils/applyTransformers'
 
@@ -80,8 +79,11 @@ function transformDefaultDeposit({ position, walletInfo }: DepositTransformerPar
   }
 }
 
-function hideDaiWhenLendingDisabled({ position }: DepositTransformerParams): null | undefined {
-  if (import.meta.env.VITE_FEATURE_DISABLE_DAI_LEND === '1' && position.reserve.token.symbol === TokenSymbol('DAI')) {
+function hideDaiWhenLendingDisabled({ position, marketInfo }: DepositTransformerParams): null | undefined {
+  if (
+    import.meta.env.VITE_FEATURE_DISABLE_DAI_LEND === '1' &&
+    position.reserve.token.symbol === marketInfo.DAI.symbol
+  ) {
     return null
   }
 }

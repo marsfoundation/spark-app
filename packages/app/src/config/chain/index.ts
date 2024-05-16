@@ -62,6 +62,9 @@ const chainConfig: ChainConfig = {
       },
     },
     savingsInfoQuery: mainnetSavingsInfoQuery,
+    daiSymbol: TokenSymbol('DAI'),
+    sDaiSymbol: TokenSymbol('sDAI'),
+    supportsLifiWaivedFees: true,
   },
   [gnosis.id]: {
     id: gnosis.id,
@@ -98,6 +101,9 @@ const chainConfig: ChainConfig = {
     airdrop: {},
     savingsInfoQuery:
       import.meta.env.VITE_DEV_GNOSIS_SAVINGS === '1' ? gnosisSavingsInfoQuery : unsupportedSavingsInfoQuery,
+    daiSymbol: TokenSymbol('XDAI'),
+    sDaiSymbol: TokenSymbol('sDAI'),
+    supportsLifiWaivedFees: false,
   },
 }
 
