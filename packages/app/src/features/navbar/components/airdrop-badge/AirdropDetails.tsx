@@ -26,7 +26,7 @@ export function AirdropDetails({ amount, isLoading }: Omit<AirdropInfo, 'isError
       <div className="flex max-w-60 flex-col gap-2 p-4">
         DAI borrowers with volatile assets and ETH depositors will be eligible for a future ⚡ SPK airdrop.
         <Link
-          to={links.sparkAirdropFormula}
+          to={links.docs.sparkAirdrop}
           external
           className="text-basics-dark-grey flex items-center gap-2.5 text-sm font-medium"
         >
