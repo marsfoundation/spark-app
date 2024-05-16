@@ -2,6 +2,7 @@ import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
 import type { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
+import { mainnet } from 'viem/chains'
 
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 
@@ -11,6 +12,10 @@ const meta: Meta<typeof SavingsOpportunity> = {
   title: 'Features/Savings/Components/SavingsOpportunity',
   component: SavingsOpportunity,
   decorators: [WithTooltipProvider(), WithClassname('max-w-lg')],
+  args: {
+    APY: Percentage(0.05),
+    chainId: mainnet.id,
+  },
 }
 
 export default meta
@@ -19,7 +24,6 @@ type Story = StoryObj<typeof SavingsOpportunity>
 export const Whale: Story = {
   name: 'Savings DAI Whale',
   args: {
-    DSR: Percentage(0.05),
     projections: {
       thirtyDays: NormalizedUnitNumber(500000),
       oneYear: NormalizedUnitNumber(2500000),
@@ -39,7 +43,6 @@ export const WhaleTablet: Story = {
 export const Dust: Story = {
   name: 'Savings DAI Dust',
   args: {
-    DSR: Percentage(0.05),
     projections: {
       thirtyDays: NormalizedUnitNumber(1.1),
       oneYear: NormalizedUnitNumber(5.5),
@@ -60,7 +63,6 @@ export const DustTablet: Story = {
 export const Normik: Story = {
   name: 'Savings DAI Normik',
   args: {
-    DSR: Percentage(0.05),
     projections: {
       thirtyDays: NormalizedUnitNumber(50.5),
       oneYear: NormalizedUnitNumber(2500),
@@ -86,7 +88,6 @@ export const NormikTablet: Story = {
 export const Degen: Story = {
   name: 'Savings DAI Degen',
   args: {
-    DSR: Percentage(0.05),
     projections: {
       thirtyDays: NormalizedUnitNumber(500.52),
       oneYear: NormalizedUnitNumber(2500.55),

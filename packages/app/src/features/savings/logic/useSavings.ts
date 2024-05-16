@@ -1,3 +1,5 @@
+import { getChainConfigEntry } from '@/config/chain'
+import { SupportedChainId } from '@/config/chain/types'
 import { TokenWithBalance } from '@/domain/common/types'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { makeAssetsInWalletList } from '@/domain/savings/makeAssetsInWalletList'
@@ -19,7 +21,7 @@ export interface UseSavingsResults {
   savingsDetails:
     | {
         state: 'supported'
-        DSR: Percentage
+        APY: Percentage
         depositedUSD: NormalizedUnitNumber
         depositedUSDPrecision: number
         sDAIBalance: TokenWithBalance
@@ -28,6 +30,7 @@ export interface UseSavingsResults {
         assetsInWallet: TokenWithBalance[]
         totalEligibleCashUSD: NormalizedUnitNumber
         maxBalanceToken: TokenWithBalance
+        chainId: SupportedChainId
       }
     | { state: 'unsupported' }
 }
@@ -36,6 +39,7 @@ export function useSavings(): UseSavingsResults {
   const walletInfo = useWalletInfo()
   const guestMode = !walletInfo.isConnected
   const { marketInfo } = useMarketInfo()
+  const chainId = getChainConfigEntry(marketInfo.chainId).id
   const { timestamp, timestampInMs } = useTimestamp({
     refreshIntervalInMs: savingsInfo?.supportsRealTimeInterestAccrual ? stepInMs : undefined,
   })
@@ -71,7 +75,7 @@ export function useSavings(): UseSavingsResults {
     openDialog,
     savingsDetails: {
       state: 'supported',
-      DSR: savingsInfo.apy,
+      APY: savingsInfo.apy,
       depositedUSD,
       depositedUSDPrecision,
       sDAIBalance,
@@ -80,6 +84,7 @@ export function useSavings(): UseSavingsResults {
       assetsInWallet,
       totalEligibleCashUSD,
       maxBalanceToken,
+      chainId,
     },
   }
 }

@@ -19,7 +19,7 @@ test.describe('Savings', () => {
 
     const savingsPage = new SavingsPageObject(page)
 
-    await savingsPage.expectDSR('5%')
+    await savingsPage.expectAPY('5%')
     await savingsPage.expectConnectWalletCTA()
   })
 

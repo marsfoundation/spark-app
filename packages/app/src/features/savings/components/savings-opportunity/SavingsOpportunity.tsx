@@ -1,3 +1,4 @@
+import { SupportedChainId } from '@/config/chain/types'
 import { formatPercentage } from '@/domain/common/format'
 import { TokenWithBalance } from '@/domain/common/types'
 import { OpenDialogFunction } from '@/domain/state/dialogs'
@@ -9,11 +10,12 @@ import { Panel } from '@/ui/atoms/panel/Panel'
 
 import { Projections } from '../../types'
 import { SavingsInfoTile, ValueProps } from '../savings-info-tile/SavingsInfoTile'
-import { DSRLabel } from './components/DSRLabel'
+import { APYLabel } from './components/APYLabel'
 import { Explainer } from './components/Explainer'
 
 export interface SavingsDAIProps {
-  DSR: Percentage
+  APY: Percentage
+  chainId: SupportedChainId
   projections: Projections
   maxBalanceToken: TokenWithBalance
   openDialog: OpenDialogFunction
@@ -21,7 +23,8 @@ export interface SavingsDAIProps {
 }
 
 export function SavingsOpportunity({
-  DSR,
+  APY,
+  chainId,
   projections,
   maxBalanceToken,
   openDialog,
@@ -66,9 +69,9 @@ export function SavingsOpportunity({
           </SavingsInfoTile.Value>
         </SavingsInfoTile>
         <SavingsInfoTile>
-          <DSRLabel />
+          <APYLabel chainId={chainId} />
           <SavingsInfoTile.Value size={savingsTileSizeVariant}>
-            {formatPercentage(DSR, { minimumFractionDigits: 0 })}
+            {formatPercentage(APY, { minimumFractionDigits: 0 })}
           </SavingsInfoTile.Value>
         </SavingsInfoTile>
       </div>

@@ -1,7 +1,7 @@
 import { Trans } from '@lingui/macro'
 
 import { paths } from '@/config/paths'
-import { DSRBadge } from '@/features/savings/components/navbar-item/DSRBadge'
+import { SavingsAPYBadge } from '@/features/savings/components/navbar-item/SavingsAPYBadge'
 import { cn } from '@/ui/utils/style'
 
 import { SavingsInfoQueryResults } from '../types'
@@ -36,7 +36,7 @@ export function PageLinks({ mobileMenuCollapsed, closeMobileMenu, savingsInfo, b
           onClick={closeMobileMenu}
           postfix={
             savingsInfo.data || savingsInfo.isLoading ? (
-              <DSRBadge dsr={savingsInfo.data?.apy} isLoading={savingsInfo.isLoading} />
+              <SavingsAPYBadge APY={savingsInfo.data?.apy} isLoading={savingsInfo.isLoading} />
             ) : undefined
           }
         >

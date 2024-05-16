@@ -77,7 +77,7 @@ const meta: Meta<typeof SavingsDepositView> = {
       goToSuccessScreen: () => {},
     },
     txOverview: {
-      DSR: Percentage(0.05),
+      APY: Percentage(0.05),
       exchangeRatioToToken: tokens['DAI'],
       sDaiToken: tokens['sDAI'],
       exchangeRatioFromToken: tokens['USDC'],

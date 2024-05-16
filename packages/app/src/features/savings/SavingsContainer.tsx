@@ -20,7 +20,8 @@ function SavingsContainer() {
   }
 
   const {
-    DSR,
+    APY,
+    chainId,
     depositedUSD,
     depositedUSDPrecision,
     sDAIBalance,
@@ -32,12 +33,13 @@ function SavingsContainer() {
   } = savingsDetails
 
   if (guestMode) {
-    return <GuestView DSR={DSR} openConnectModal={openConnectModal} />
+    return <GuestView APY={APY} chainId={chainId} openConnectModal={openConnectModal} />
   }
 
   return (
     <SavingsView
-      DSR={DSR}
+      APY={APY}
+      chainId={chainId}
       depositedUSD={depositedUSD}
       depositedUSDPrecision={depositedUSDPrecision}
       sDAIBalance={sDAIBalance}

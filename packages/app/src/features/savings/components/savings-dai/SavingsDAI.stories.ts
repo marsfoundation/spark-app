@@ -2,6 +2,7 @@ import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
 import type { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
+import { mainnet } from 'viem/chains'
 
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 
@@ -22,7 +23,8 @@ export const Desktop: Story = {
     depositedUSD: NormalizedUnitNumber(20765.7654),
     depositedUSDPrecision: 4,
     sDAIBalance: { balance: NormalizedUnitNumber(20000.0), token: tokens.sDAI },
-    DSR: Percentage(0.05),
+    APY: Percentage(0.05),
+    chainId: mainnet.id,
     projections: {
       thirtyDays: NormalizedUnitNumber(500),
       oneYear: NormalizedUnitNumber(2500),
