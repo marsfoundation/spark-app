@@ -143,17 +143,22 @@ export function useCreateActions(objectives: Objective[]): Action[] {
       }
 
       case 'exchange': {
-        const approveExchangeAction: ApproveExchangeAction = {
-          type: 'approveExchange',
-          swapParams: objective.swapParams,
-          swapInfo: objective.swapInfo,
-        }
         const exchangeAction: ExchangeAction = {
           type: 'exchange',
           value: objective.swapParams.value,
           swapParams: objective.swapParams,
           swapInfo: objective.swapInfo,
           formatAsDAIValue: objective.formatAsDAIValue,
+        }
+
+        if (objective.swapParams.fromToken.symbol === nativeAssetInfo.nativeAssetSymbol) {
+          return [exchangeAction]
+        }
+
+        const approveExchangeAction: ApproveExchangeAction = {
+          type: 'approveExchange',
+          swapParams: objective.swapParams,
+          swapInfo: objective.swapInfo,
         }
 
         return [approveExchangeAction, exchangeAction]

@@ -74,12 +74,16 @@ export function useExchange({ swapInfo, enabled, onTransactionSettled }: UseExch
     },
   )
 
-  return extendExchangeRequest(request, swapInfo)
+  return extendExchangeRequest(request, swapInfo, enabled)
 }
 
-function extendExchangeRequest(request: UseSendTxResult, swapInfo: SwapInfoSimplified): UseExchangeResult {
+function extendExchangeRequest(
+  request: UseSendTxResult,
+  swapInfo: SwapInfoSimplified,
+  enabled?: boolean,
+): UseExchangeResult {
   const status = ((): ExchangeStatus => {
-    if (request.status.kind === 'disabled') {
+    if (!enabled) {
       return { kind: 'disabled' }
     }
 
