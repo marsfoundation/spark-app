@@ -2,13 +2,14 @@ import { formatPercentage } from '@/domain/common/format'
 import { BorrowEligibilityStatus } from '@/domain/market-info/reserve-status'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { DocsLink } from '@/ui/atoms/docs-link/DocsLink'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { links } from '@/ui/constants/links'
 import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
-import { getNativeTokenSymbolIfWrapped } from '@/utils/getDisplyTokenSymbol'
 
 import { InterestYieldChart, InterestYieldChartProps } from '../charts/interest-yield/InterestYieldChart'
+import { SparkInfoPanel } from '../spark-info-panel/SparkInfoPanel'
 import { EmptyStatusPanel } from './components/EmptyStatusPanel'
 import { Header } from './components/Header'
 import { InfoTile } from './components/info-tile/InfoTile'
@@ -17,8 +18,6 @@ import { StatusIcon } from './components/status-icon/StatusIcon'
 import { StatusPanelGrid } from './components/StatusPanelGrid'
 import { Subheader } from './components/Subheader'
 import { TokenBadge } from './components/token-badge/TokenBadge'
-import { SparkInfoPanel } from '../spark-info-panel/SparkInfoPanel'
-import { cn } from '@/ui/utils/style'
 
 interface BorrowStatusPanelProps {
   status: BorrowEligibilityStatus
@@ -29,7 +28,7 @@ interface BorrowStatusPanelProps {
   reserveFactor: Percentage
   apy: Percentage
   chartProps: InterestYieldChartProps
-  chainId: number
+  airdropTokenSymbol: TokenSymbol
   showTokenBadge?: boolean
 }
 
@@ -41,7 +40,7 @@ export function BorrowStatusPanel({
   reserveFactor,
   apy,
   chartProps,
-  chainId,
+  airdropTokenSymbol,
   airdropEligible,
   showTokenBadge = false,
 }: BorrowStatusPanelProps) {
@@ -92,8 +91,8 @@ export function BorrowStatusPanel({
             title={<>Eligible for 24M Spark Airdrop</>}
             content={
               <div>
-                {getNativeTokenSymbolIfWrapped(chainId, token.symbol)} borrowers will be eligible for a future ⚡ SPK
-                airdrop. Please read the details <br />
+                {airdropTokenSymbol} borrowers will be eligible for a future ⚡ SPK airdrop. Please read the details{' '}
+                <br />
                 on the <DocsLink to={links.docs.sparkAirdrop}>Spark Docs</DocsLink>.
               </div>
             }

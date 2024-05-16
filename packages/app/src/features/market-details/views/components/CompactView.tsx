@@ -18,6 +18,7 @@ export function CompactView({
   chainMismatch,
   marketOverview,
   walletOverview,
+  airdropTokenSymbol,
   openConnectModal,
   openDialog,
 }: MarketDetailsViewProps) {
@@ -32,11 +33,13 @@ export function CompactView({
         </TabsList>
         <TabsContent value="overview" className="flex flex-col gap-4 px-3">
           <MarketOverviewPanel token={token} {...marketOverview.summary} />
-          {marketOverview.supply && <SupplyStatusPanel token={token} chainId={chainId} {...marketOverview.supply} />}
+          {marketOverview.supply && (
+            <SupplyStatusPanel token={token} airdropTokenSymbol={airdropTokenSymbol} {...marketOverview.supply} />
+          )}
           {marketOverview.lend && <LendStatusPanel {...marketOverview.lend} />}
           <CollateralStatusPanel {...marketOverview.collateral} />
           {marketOverview.eMode && <EModeStatusPanel {...marketOverview.eMode} />}
-          <BorrowStatusPanel token={token} chainId={chainId} {...marketOverview.borrow} />
+          <BorrowStatusPanel token={token} airdropTokenSymbol={airdropTokenSymbol} {...marketOverview.borrow} />
         </TabsContent>
         <TabsContent value="actions" className="px-3">
           <MyWalletPanel

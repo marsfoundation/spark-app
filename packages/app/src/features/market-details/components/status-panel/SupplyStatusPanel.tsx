@@ -2,12 +2,13 @@ import { formatPercentage } from '@/domain/common/format'
 import { SupplyAvailabilityStatus } from '@/domain/market-info/reserve-status'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { DocsLink } from '@/ui/atoms/docs-link/DocsLink'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { links } from '@/ui/constants/links'
 import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
-import { getNativeTokenSymbolIfWrapped } from '@/utils/getDisplyTokenSymbol'
 
+import { SparkInfoPanel } from '../spark-info-panel/SparkInfoPanel'
 import { EmptyStatusPanel } from './components/EmptyStatusPanel'
 import { Header } from './components/Header'
 import { InfoTile } from './components/info-tile/InfoTile'
@@ -15,7 +16,6 @@ import { InfoTilesGrid } from './components/info-tile/InfoTilesGrid'
 import { StatusIcon } from './components/status-icon/StatusIcon'
 import { StatusPanelGrid } from './components/StatusPanelGrid'
 import { Subheader } from './components/Subheader'
-import { SparkInfoPanel } from '../spark-info-panel/SparkInfoPanel'
 
 interface SupplyStatusPanelProps {
   status: SupplyAvailabilityStatus
@@ -24,7 +24,7 @@ interface SupplyStatusPanelProps {
   totalSupplied: NormalizedUnitNumber
   supplyCap?: NormalizedUnitNumber
   apy: Percentage
-  chainId: number
+  airdropTokenSymbol: TokenSymbol
 }
 
 export function SupplyStatusPanel({
@@ -34,7 +34,7 @@ export function SupplyStatusPanel({
   supplyCap,
   apy,
   airdropEligible,
-  chainId,
+  airdropTokenSymbol,
 }: SupplyStatusPanelProps) {
   if (status === 'no') {
     return <EmptyStatusPanel status={status} variant="supply" />
@@ -75,8 +75,8 @@ export function SupplyStatusPanel({
             title={<>Eligible for 24M Spark Airdrop</>}
             content={
               <>
-                {getNativeTokenSymbolIfWrapped(chainId, token.symbol)} depositors will be eligible for a future ⚡ SPK
-                airdrop. Please read the details <br />
+                {airdropTokenSymbol} depositors will be eligible for a future ⚡ SPK airdrop. Please read the details{' '}
+                <br />
                 on the <DocsLink to={links.docs.sparkAirdrop}>Spark Docs</DocsLink>.
               </>
             }

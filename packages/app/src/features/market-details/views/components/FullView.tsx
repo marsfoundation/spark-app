@@ -18,6 +18,7 @@ export function FullView({
   walletOverview,
   openConnectModal,
   openDialog,
+  airdropTokenSymbol,
 }: MarketDetailsViewProps) {
   return (
     <div className="w-full max-w-5xl pb-8 pt-12 sm:mx-3 lg:mx-auto">
@@ -25,11 +26,13 @@ export function FullView({
       <Header token={token} chainName={chainName} chainMismatch={chainMismatch} />
       <div className="grid grid-cols-[2fr_1fr] gap-5 md:gap-10">
         <div className="flex flex-col gap-6">
-          {marketOverview.supply && <SupplyStatusPanel token={token} chainId={chainId} {...marketOverview.supply} />}
+          {marketOverview.supply && (
+            <SupplyStatusPanel token={token} airdropTokenSymbol={airdropTokenSymbol} {...marketOverview.supply} />
+          )}
           {marketOverview.lend && <LendStatusPanel {...marketOverview.lend} />}
           <CollateralStatusPanel {...marketOverview.collateral} />
           {marketOverview.eMode && <EModeStatusPanel {...marketOverview.eMode} />}
-          <BorrowStatusPanel token={token} chainId={chainId} {...marketOverview.borrow} />
+          <BorrowStatusPanel token={token} airdropTokenSymbol={airdropTokenSymbol} {...marketOverview.borrow} />
         </div>
         <div className="flex flex-col gap-6">
           <MarketOverviewPanel token={token} {...marketOverview.summary} />
