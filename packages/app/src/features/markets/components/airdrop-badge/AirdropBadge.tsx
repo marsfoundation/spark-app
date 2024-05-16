@@ -30,8 +30,8 @@ export function AirdropBadge({ value }: AirdropBadgeProps) {
           <TooltipContentLayout.Body>
             DAI borrowers with volatile assets and ETH depositors will be eligible for a future ⚡ SPK airdrop. Please
             read the details on the{' '}
-            <Link to={links.sparkAirdropFormula} external>
-              Maker governance forum
+            <Link to={links.docs.sparkAirdrop} external>
+              Spark Docs
             </Link>
             .
           </TooltipContentLayout.Body>
