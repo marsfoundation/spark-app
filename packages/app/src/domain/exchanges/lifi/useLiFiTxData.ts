@@ -19,7 +19,7 @@ export function useLiFiTxData({ swapParams, enabled = true, queryMetaEvaluator }
   const { account } = useConnectedAddress()
   const chainId = useOriginChainId()
 
-  const client = useMemo(() => new LiFi({ chainId, userAddress: account }), [chainId, account])
+  const client = useMemo(() => new LiFi(), [])
 
   const amount =
     swapParams.type === 'direct'
@@ -35,6 +35,8 @@ export function useLiFiTxData({ swapParams, enabled = true, queryMetaEvaluator }
       amount,
       queryMetaEvaluator,
       maxSlippage: swapParams.maxSlippage,
+      chainId,
+      userAddress: account,
     }),
     enabled: enabled && amount.gt(0),
   })

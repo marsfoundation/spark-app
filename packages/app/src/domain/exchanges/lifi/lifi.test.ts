@@ -56,10 +56,7 @@ describe('LiFi', () => {
         }
       })
 
-      const lifi = new LiFi({
-        chainId,
-        userAddress,
-      })
+      const lifi = new LiFi()
 
       await lifi
         .getQuote({
@@ -68,6 +65,8 @@ describe('LiFi', () => {
           amount,
           meta,
           maxSlippage,
+          chainId,
+          userAddress
         })
         .catch(() => {}) // ignore error
 
@@ -93,10 +92,7 @@ describe('LiFi', () => {
         }
       })
 
-      const lifi = new LiFi({
-        chainId,
-        userAddress,
-      })
+      const lifi = new LiFi()
 
       await expect(
         lifi.getQuote({
@@ -105,6 +101,8 @@ describe('LiFi', () => {
           amount,
           meta,
           maxSlippage,
+          chainId,
+          userAddress,
         }),
       ).rejects.toThrow()
     })
@@ -117,10 +115,7 @@ describe('LiFi', () => {
         }
       })
 
-      const lifi = new LiFi({
-        chainId,
-        userAddress,
-      })
+      const lifi = new LiFi()
 
       const response = await lifi.getQuote({
         fromToken: USDC,
@@ -128,6 +123,8 @@ describe('LiFi', () => {
         amount,
         meta,
         maxSlippage,
+        chainId,
+        userAddress,
       })
 
       expect(response).toEqual({
@@ -173,10 +170,7 @@ describe('LiFi', () => {
         }
       })
 
-      const lifi = new LiFi({
-        chainId,
-        userAddress,
-      })
+      const lifi = new LiFi()
 
       await expect(
         lifi.getQuote({
@@ -185,6 +179,8 @@ describe('LiFi', () => {
           amount,
           meta,
           maxSlippage,
+          chainId,
+          userAddress,
         }),
       ).rejects.toThrow()
     })
@@ -205,10 +201,7 @@ describe('LiFi', () => {
         }
       })
 
-      const lifi = new LiFi({
-        chainId,
-        userAddress,
-      })
+      const lifi = new LiFi()
 
       await lifi
         .getReverseQuote({
@@ -217,6 +210,8 @@ describe('LiFi', () => {
           amount,
           meta,
           maxSlippage,
+          chainId,
+          userAddress,
         })
         .catch(() => {}) // ignore error
 
@@ -247,10 +242,7 @@ describe('LiFi', () => {
         }
       })
 
-      const lifi = new LiFi({
-        chainId,
-        userAddress,
-      })
+      const lifi = new LiFi()
 
       await expect(
         lifi.getReverseQuote({
@@ -259,6 +251,8 @@ describe('LiFi', () => {
           amount,
           meta,
           maxSlippage,
+          chainId,
+          userAddress,
         }),
       ).rejects.toThrow()
     })
@@ -271,10 +265,7 @@ describe('LiFi', () => {
         }
       })
 
-      const lifi = new LiFi({
-        chainId,
-        userAddress,
-      })
+      const lifi = new LiFi()
 
       const response = await lifi.getReverseQuote({
         fromToken: sDAI,
@@ -282,6 +273,8 @@ describe('LiFi', () => {
         amount,
         meta,
         maxSlippage,
+        chainId,
+        userAddress,
       })
 
       expect(response).toEqual({
@@ -327,10 +320,7 @@ describe('LiFi', () => {
         }
       })
 
-      const lifi = new LiFi({
-        chainId,
-        userAddress,
-      })
+      const lifi = new LiFi()
 
       await expect(
         lifi.getReverseQuote({
@@ -339,6 +329,8 @@ describe('LiFi', () => {
           amount,
           meta,
           maxSlippage,
+          chainId,
+          userAddress,
         }),
       ).rejects.toThrow()
     })
