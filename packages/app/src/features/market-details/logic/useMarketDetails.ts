@@ -41,14 +41,14 @@ export function useMarketDetails(): UseMarketDetailsResult {
 
   const marketOverview = isDaiOverview
     ? makeDaiMarketOverview({
-        reserve,
-        marketInfo,
-        D3MInfo,
-      })
+      reserve,
+      marketInfo,
+      D3MInfo,
+    })
     : makeMarketOverview({
-        reserve,
-        marketInfo,
-      })
+      reserve,
+      marketInfo,
+    })
   const walletOverview = makeWalletOverview({
     reserve,
     marketInfo,

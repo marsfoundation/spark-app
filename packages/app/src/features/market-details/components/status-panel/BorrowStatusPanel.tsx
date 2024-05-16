@@ -4,6 +4,7 @@ import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
+import { DocsLink } from '@/ui/atoms/docs-link/DocsLink'
 
 import { InterestYieldChart, InterestYieldChartProps } from '../charts/interest-yield/InterestYieldChart'
 import { EmptyStatusPanel } from './components/EmptyStatusPanel'
@@ -14,15 +15,20 @@ import { StatusIcon } from './components/status-icon/StatusIcon'
 import { StatusPanelGrid } from './components/StatusPanelGrid'
 import { Subheader } from './components/Subheader'
 import { TokenBadge } from './components/token-badge/TokenBadge'
+import { SparkInfo } from './SparkInfo'
+import { links } from '@/ui/constants/links'
+import { getNativeTokenSymbolIfWrapped } from '@/utils/getDisplyTokenSymbol'
 
 interface BorrowStatusPanelProps {
   status: BorrowEligibilityStatus
+  airdropEligible: boolean
   token: Token
   totalBorrowed: NormalizedUnitNumber
   borrowCap?: NormalizedUnitNumber
   reserveFactor: Percentage
   apy: Percentage
   chartProps: InterestYieldChartProps
+  chainId: number
   showTokenBadge?: boolean
 }
 
@@ -34,6 +40,8 @@ export function BorrowStatusPanel({
   reserveFactor,
   apy,
   chartProps,
+  chainId,
+  airdropEligible,
   showTokenBadge = false,
 }: BorrowStatusPanelProps) {
   if (status === 'no') {
@@ -78,6 +86,17 @@ export function BorrowStatusPanel({
         <div className="col-span-3 mt-6 sm:mt-10">
           <InterestYieldChart {...chartProps} />
         </div>
+        {airdropEligible && 
+          <SparkInfo 
+            title={<>Eligible for 24M Spark Airdrop</>}
+            content={<>
+              {getNativeTokenSymbolIfWrapped(chainId, token.symbol)}
+              {" "}
+              borrowers will be eligible for a future ⚡ SPK airdrop. Please read the details <br />on the
+              {" "}
+              {<DocsLink to={links.docs.sparkAirdrop}>Spark Docs</DocsLink>}.
+            </>}
+          />}
       </StatusPanelGrid>
     </Panel.Wrapper>
   )
