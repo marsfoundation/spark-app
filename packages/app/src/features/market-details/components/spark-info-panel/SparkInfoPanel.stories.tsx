@@ -3,7 +3,7 @@ import { Meta, StoryObj } from '@storybook/react'
 import { SparkInfoPanel } from './SparkInfoPanel'
 
 const meta: Meta<typeof SparkInfoPanel> = {
-  title: 'Components/Molecules/SparkInfoPanel',
+  title: 'Features/MarketDetails/Components/SparkInfoPanel',
   component: SparkInfoPanel,
   args: {
     title: <>Title</>,

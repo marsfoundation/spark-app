@@ -6,7 +6,6 @@ import { DocsLink } from '@/ui/atoms/docs-link/DocsLink'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { links } from '@/ui/constants/links'
 import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
-import { SparkInfoPanel } from '@/ui/molecules/spark-info-panel/SparkInfoPanel'
 import { getNativeTokenSymbolIfWrapped } from '@/utils/getDisplyTokenSymbol'
 
 import { InterestYieldChart, InterestYieldChartProps } from '../charts/interest-yield/InterestYieldChart'
@@ -18,6 +17,8 @@ import { StatusIcon } from './components/status-icon/StatusIcon'
 import { StatusPanelGrid } from './components/StatusPanelGrid'
 import { Subheader } from './components/Subheader'
 import { TokenBadge } from './components/token-badge/TokenBadge'
+import { SparkInfoPanel } from '../spark-info-panel/SparkInfoPanel'
+import { cn } from '@/ui/utils/style'
 
 interface BorrowStatusPanelProps {
   status: BorrowEligibilityStatus
@@ -90,11 +91,11 @@ export function BorrowStatusPanel({
           <SparkInfoPanel
             title={<>Eligible for 24M Spark Airdrop</>}
             content={
-              <>
+              <div>
                 {getNativeTokenSymbolIfWrapped(chainId, token.symbol)} borrowers will be eligible for a future ⚡ SPK
                 airdrop. Please read the details <br />
                 on the <DocsLink to={links.docs.sparkAirdrop}>Spark Docs</DocsLink>.
-              </>
+              </div>
             }
           />
         )}

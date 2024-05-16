@@ -6,7 +6,6 @@ import { DocsLink } from '@/ui/atoms/docs-link/DocsLink'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { links } from '@/ui/constants/links'
 import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
-import { SparkInfoPanel } from '@/ui/molecules/spark-info-panel/SparkInfoPanel'
 import { getNativeTokenSymbolIfWrapped } from '@/utils/getDisplyTokenSymbol'
 
 import { EmptyStatusPanel } from './components/EmptyStatusPanel'
@@ -16,6 +15,7 @@ import { InfoTilesGrid } from './components/info-tile/InfoTilesGrid'
 import { StatusIcon } from './components/status-icon/StatusIcon'
 import { StatusPanelGrid } from './components/StatusPanelGrid'
 import { Subheader } from './components/Subheader'
+import { SparkInfoPanel } from '../spark-info-panel/SparkInfoPanel'
 
 interface SupplyStatusPanelProps {
   status: SupplyAvailabilityStatus
