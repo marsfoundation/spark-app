@@ -6,7 +6,6 @@ import { Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { assets } from '@/ui/assets'
-import { Link, LinkProps } from '@/ui/atoms/link/Link'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { links } from '@/ui/constants/links'
 import { EModeBadge } from '@/ui/molecules/e-mode-badge/EModeBadge'
@@ -18,6 +17,7 @@ import { InfoTilesGrid } from './components/info-tile/InfoTilesGrid'
 import { StatusIcon } from './components/status-icon/StatusIcon'
 import { StatusPanelGrid } from './components/StatusPanelGrid'
 import { TokenBadge } from './components/token-badge/TokenBadge'
+import { DocsLink } from '@/ui/atoms/docs-link/DocsLink'
 
 export interface EModeStatusPanelProps {
   maxLtv: Percentage
@@ -87,14 +87,6 @@ export function EModeStatusPanel({
         </InfoTilesGrid>
       </StatusPanelGrid>
     </Panel.Wrapper>
-  )
-}
-
-function DocsLink({ to, children, ...rest }: LinkProps) {
-  return (
-    <Link to={to} external className="text-slate-500 underline hover:text-slate-700" {...rest}>
-      {children}
-    </Link>
   )
 }
 
