@@ -3,7 +3,6 @@ import { Abi, ContractFunctionName } from 'viem'
 import { useAccount, useSimulateContract, UseSimulateContractParameters, useWriteContract } from 'wagmi'
 
 import { sanityCheckTx } from './sanityChecks'
-import { useOriginChainId } from './useOriginChainId'
 import { useWaitForTransactionReceiptUniversal } from './useWaitForTransactionReceiptUniversal'
 
 export type WriteStatus =
@@ -37,7 +36,6 @@ export function useWrite<TAbi extends Abi, TFunctionName extends ContractFunctio
   args: UseSimulateContractParameters<TAbi, TFunctionName> & { enabled?: boolean },
   callbacks: UseWriteCallbacks = {},
 ): UseWriteResult {
-  const chainId = useOriginChainId()
   const enabled = args.enabled ?? true
   // used to reset the write state when the args change
 
@@ -113,7 +111,7 @@ export function useWrite<TAbi extends Abi, TFunctionName extends ContractFunctio
   const finalWrite =
     parameters && enabled
       ? () => {
-          sanityCheckTx(parameters.request, chainId)
+          sanityCheckTx(parameters.request)
 
           writeContract(parameters.request as any)
         }
