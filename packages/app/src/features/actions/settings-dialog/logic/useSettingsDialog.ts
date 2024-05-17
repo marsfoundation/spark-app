@@ -43,7 +43,7 @@ export function useSettingsDialog(): UseSettingsDialogResult {
       form,
       onSlippageChange,
       type: normalizedFormValues.slippage.type,
-      error: form.formState.errors.slippage?.message,
+      error: form.formState.errors.slippage?.value?.message,
       slippage: normalizedFormValues.slippage.value,
     },
     onConfirm,
