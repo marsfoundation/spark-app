@@ -1,4 +1,5 @@
 import { test } from '@playwright/test'
+import { mainnet } from 'viem/chains'
 
 import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setup } from '@/test/e2e/setup'
@@ -9,7 +10,7 @@ import { BorrowPageObject } from './Borrow.PageObject'
 import { DashboardPageObject } from './Dashboard.PageObject'
 
 test.describe('Dashboard', () => {
-  const fork = setupFork(DEFAULT_BLOCK_NUMBER)
+  const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id })
 
   test.skip('guest state', async ({ page }) => {
     await setup(page, fork, {

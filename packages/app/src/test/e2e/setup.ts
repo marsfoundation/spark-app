@@ -47,7 +47,7 @@ export async function setup<K extends keyof typeof paths, T extends 'not-connect
   forkContext: ForkContext,
   options: SetupOptions<K, T>,
 ): Promise<SetupReturn<T>> {
-  await injectNetworkConfiguration(page, forkContext.forkUrl)
+  await injectNetworkConfiguration(page, forkContext.forkUrl, forkContext.chainId)
   await injectFixedDate(page, forkContext.simulationDate)
   await blockLifiApiCalls(page)
   const account = await generateAccount()
@@ -58,7 +58,7 @@ export async function setup<K extends keyof typeof paths, T extends 'not-connect
 
     if (assetBalances) {
       for (const [tokenName, balance] of Object.entries(assetBalances)) {
-        if (tokenName === 'ETH') {
+        if (tokenName === 'ETH' || tokenName === 'XDAI') {
           await publicTenderlyActions.setBalance(
             forkContext.forkUrl,
             account.address,
@@ -67,9 +67,11 @@ export async function setup<K extends keyof typeof paths, T extends 'not-connect
         } else {
           await publicTenderlyActions.setTokenBalance(
             forkContext.forkUrl,
-            (TOKENS_ON_FORK as any)[tokenName].address,
+            (TOKENS_ON_FORK as any)[forkContext.chainId][tokenName].address,
             account.address,
-            BaseUnitNumber(parseUnits(balance.toString(), (TOKENS_ON_FORK as any)[tokenName].decimals)),
+            BaseUnitNumber(
+              parseUnits(balance.toString(), (TOKENS_ON_FORK as any)[forkContext.chainId][tokenName].decimals),
+            ),
           )
         }
       }

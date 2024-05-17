@@ -1,4 +1,5 @@
 import { test } from '@playwright/test'
+import { mainnet } from 'viem/chains'
 
 import { setUseAsCollateralValidationIssueToMessage } from '@/domain/market-validators/validateSetUseAsCollateral'
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
@@ -12,7 +13,7 @@ import { DialogPageObject } from '../common/Dialog.PageObject'
 import { CollateralDialogPageObject } from './CollateralDialog.PageObject'
 
 test.describe('Collateral dialog', () => {
-  const fork = setupFork(DEFAULT_BLOCK_NUMBER)
+  const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id })
   const initialBalances = {
     wstETH: 100,
     rETH: 100,
@@ -250,7 +251,7 @@ test.describe('Collateral dialog', () => {
   })
 
   test.describe('Isolation mode', () => {
-    const fork = setupFork(GNO_ACTIVE_BLOCK_NUMBER)
+    const fork = setupFork({ blockNumber: GNO_ACTIVE_BLOCK_NUMBER, chainId: mainnet.id })
     const isolatedAsset = 'GNO'
     const regularAsset = 'rETH'
     const initialDeposits = {

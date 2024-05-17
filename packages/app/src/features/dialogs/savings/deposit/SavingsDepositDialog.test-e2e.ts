@@ -1,4 +1,5 @@
 import { test } from '@playwright/test'
+import { gnosis, mainnet } from 'viem/chains'
 
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
@@ -8,15 +9,14 @@ import { setupFork } from '@/test/e2e/setupFork'
 
 import { SavingsDepositDialogPageObject } from './SavingsDepositDialog.PageObject'
 
-// Block number has to be as close as possible to the block number when query was executed
-const blockNumber = 19519583n
-
 test.describe('Savings deposit dialog', () => {
   // The tests here are not independent.
   // My guess is that reverting to snapshots in tenderly does not work properly - but for now couldn't debug that.
   // For now tests use different forks.
   test.describe('DAI', () => {
-    const fork = setupFork(blockNumber)
+    // Block number has to be as close as possible to the block number when query was executed
+    const blockNumber = 19519583n
+    const fork = setupFork({ blockNumber, chainId: mainnet.id })
 
     test('wraps DAI', async ({ page }) => {
       const { account } = await setup(page, fork, {
@@ -50,8 +50,45 @@ test.describe('Savings deposit dialog', () => {
     })
   })
 
+  test.describe('xDAI', () => {
+    // Block number has to be as close as possible to the block number when query was executed
+    const blockNumber = 33975724n
+    const fork = setupFork({ blockNumber, chainId: gnosis.id })
+
+    test('wraps xDAI', async ({ page }) => {
+      const { account } = await setup(page, fork, {
+        initialPage: 'savings',
+        account: {
+          type: 'connected',
+          assetBalances: {
+            XDAI: 1000,
+          },
+        },
+      })
+      await overrideLiFiRoute(page, {
+        receiver: account,
+        preset: '100-xdai-to-sdai',
+        expectedBlockNumber: blockNumber,
+      })
+
+      const savingsPage = new SavingsPageObject(page)
+
+      await savingsPage.clickStartSavingButtonAction()
+
+      const depositDialog = new SavingsDepositDialogPageObject(page)
+      await depositDialog.fillAmountAction(100)
+
+      const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
+      await actionsContainer.acceptAllActionsAction(1)
+      await depositDialog.clickBackToSavingsButton()
+
+      await savingsPage.expectCurrentWorth('99.800000')
+    })
+  })
+
   test.describe('USDC', () => {
-    const fork = setupFork(blockNumber)
+    const blockNumber = 19519583n
+    const fork = setupFork({ blockNumber, chainId: mainnet.id })
 
     test('wraps USDC', async ({ page }) => {
       const { account } = await setup(page, fork, {
@@ -85,8 +122,46 @@ test.describe('Savings deposit dialog', () => {
     })
   })
 
+  test.describe('USDC on Gnosis', () => {
+    // Block number has to be as close as possible to the block number when query was executed
+    const blockNumber = 33975851n
+    const fork = setupFork({ blockNumber, chainId: gnosis.id })
+
+    test('wraps USDC', async ({ page }) => {
+      const { account } = await setup(page, fork, {
+        initialPage: 'savings',
+        account: {
+          type: 'connected',
+          assetBalances: {
+            XDAI: 1000,
+            USDC: 100,
+          },
+        },
+      })
+      await overrideLiFiRoute(page, {
+        receiver: account,
+        preset: '100-usdc-to-sdai-on-gnosis',
+        expectedBlockNumber: blockNumber,
+      })
+
+      const savingsPage = new SavingsPageObject(page)
+
+      await savingsPage.clickDepositButtonAction('USDC')
+
+      const depositDialog = new SavingsDepositDialogPageObject(page)
+      await depositDialog.fillAmountAction(100)
+
+      const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
+      await actionsContainer.acceptAllActionsAction(2)
+      await depositDialog.clickBackToSavingsButton()
+
+      await savingsPage.expectCurrentWorth('99.773941')
+    })
+  })
+
   test.describe('Slippage', () => {
-    const fork = setupFork(blockNumber)
+    const blockNumber = 19519583n
+    const fork = setupFork({ blockNumber, chainId: mainnet.id })
 
     test('default', async ({ page }) => {
       const { account } = await setup(page, fork, {
@@ -195,7 +270,8 @@ test.describe('Savings deposit dialog', () => {
   })
 
   test.describe('Risk warning', () => {
-    const fork = setupFork(19861465n)
+    const blockNumber = 19861465n
+    const fork = setupFork({ blockNumber, chainId: mainnet.id })
 
     test('displays warning when discrepancy is bigger than 100 DAI', async ({ page }) => {
       const { account } = await setup(page, fork, {

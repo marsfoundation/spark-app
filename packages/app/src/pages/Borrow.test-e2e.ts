@@ -1,4 +1,5 @@
 import { Page, test } from '@playwright/test'
+import { mainnet } from 'viem/chains'
 
 import { borrowValidationIssueToMessage } from '@/domain/market-validators/validateBorrow'
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
@@ -12,7 +13,7 @@ import { BorrowPageObject } from './Borrow.PageObject'
 import { DashboardPageObject } from './Dashboard.PageObject'
 
 test.describe('Borrow page', () => {
-  const fork = setupFork(DEFAULT_BLOCK_NUMBER)
+  const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id })
 
   test.describe('deposit ETH, borrow DAI', () => {
     let borrowPage: BorrowPageObject

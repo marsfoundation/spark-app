@@ -1,4 +1,5 @@
 import { test } from '@playwright/test'
+import { mainnet } from 'viem/chains'
 
 import { publicTenderlyActions } from '@/domain/sandbox/publicTenderlyActions'
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
@@ -14,7 +15,7 @@ import { DialogPageObject } from '../common/Dialog.PageObject'
 const headerRegExp = /Deposit */
 
 test.describe('Deposit dialog', () => {
-  const fork = setupFork(DEFAULT_BLOCK_NUMBER)
+  const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id })
   const initialBalances = {
     wstETH: 100,
     rETH: 100,
@@ -442,7 +443,7 @@ test.describe('Deposit dialog', () => {
   })
 
   test.describe('No position', () => {
-    const fork = setupFork(19588510n) // block number with WBTC supply close to cap
+    const fork = setupFork({ blockNumber: 19588510n, chainId: mainnet.id }) // block number with WBTC supply close to cap
 
     test('can deposit up to max cap', async ({ page }) => {
       const initialBalances = {
