@@ -87,16 +87,18 @@ export function BorrowStatusPanel({
           <InterestYieldChart {...chartProps} />
         </div>
         {airdropEligible && (
-          <SparkInfoPanel
-            title={<>Eligible for 24M Spark Airdrop</>}
-            content={
-              <div>
-                {airdropTokenSymbol} borrowers will be eligible for a future ⚡ SPK airdrop. Please read the details{' '}
-                <br />
-                on the <DocsLink to={links.docs.sparkAirdrop}>Spark Docs</DocsLink>.
-              </div>
-            }
-          />
+          <div className="col-span-3 mt-6 sm:mt-10">
+            <SparkInfoPanel
+              title={<>Eligible for 24M Spark Airdrop</>}
+              content={
+                <div>
+                  {airdropTokenSymbol} borrowers will be eligible for a future ⚡ SPK airdrop. Please read the details{' '}
+                  <br />
+                  on the <DocsLink to={links.docs.sparkAirdrop}>Spark Docs</DocsLink>.
+                </div>
+              }
+            />
+          </div>
         )}
       </StatusPanelGrid>
     </Panel.Wrapper>

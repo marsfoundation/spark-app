@@ -71,16 +71,18 @@ export function SupplyStatusPanel({
           )}
         </InfoTilesGrid>
         {airdropEligible && (
-          <SparkInfoPanel
-            title={<>Eligible for 24M Spark Airdrop</>}
-            content={
-              <>
-                {airdropTokenSymbol} depositors will be eligible for a future ⚡ SPK airdrop. Please read the details{' '}
-                <br />
-                on the <DocsLink to={links.docs.sparkAirdrop}>Spark Docs</DocsLink>.
-              </>
-            }
-          />
+          <div className="col-span-3 mt-3 sm:mt-10">
+            <SparkInfoPanel
+              title={<>Eligible for 24M Spark Airdrop</>}
+              content={
+                <>
+                  {airdropTokenSymbol} depositors will be eligible for a future ⚡ SPK airdrop. Please read the details{' '}
+                  <br />
+                  on the <DocsLink to={links.docs.sparkAirdrop}>Spark Docs</DocsLink>.
+                </>
+              }
+            />
+          </div>
         )}
       </StatusPanelGrid>
     </Panel.Wrapper>
