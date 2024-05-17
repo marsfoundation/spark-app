@@ -45,7 +45,6 @@ export interface ChainConfigEntry {
   savingsInfoQuery: (args: SavingsInfoQueryParams) => SavingsInfoQueryOptions
   daiSymbol: TokenSymbol
   sDaiSymbol: TokenSymbol
-  supportsLifiWaivedFees: boolean
 }
 
 export type ChainConfig = Record<SupportedChainId, ChainConfigEntry>
