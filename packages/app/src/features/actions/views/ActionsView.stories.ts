@@ -64,7 +64,6 @@ const meta: Meta<typeof ActionsView> = {
         onAction: () => {},
       },
     ],
-    gasPrice: NormalizedUnitNumber(0.000000000000000001),
   },
 }
 

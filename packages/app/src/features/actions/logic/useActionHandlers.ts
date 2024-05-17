@@ -2,7 +2,6 @@
 import { useMemo, useRef } from 'react'
 
 import { useActionsSettings } from '@/domain/state'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 
 import { useCreateApproveOrPermitHandler } from '../flavours/approve/logic/useCreateApproveOrPermitHandler'
 import { useCreateApproveDelegationHandler } from '../flavours/approve-delegation/useCreateApproveDelegationHandler'
@@ -17,7 +16,6 @@ import { useCreateWithdrawHandler } from '../flavours/withdraw/useCreateWithdraw
 import { createPermitStore, PermitStore } from './permits'
 import { Action, ActionHandler, Objective } from './types'
 import { useCreateActions } from './useCreateActions'
-import { useGasPrice } from './useGasPrice'
 
 export interface UseActionHandlersOptions {
   onFinish?: () => void
@@ -27,7 +25,6 @@ export interface UseActionHandlersOptions {
 export interface UseActionHandlersResult {
   handlers: ActionHandler[]
   settingsDisabled: boolean // @note: after first interaction, we don't enable for settings to change
-  gasPrice?: NormalizedUnitNumber
 }
 
 export function useActionHandlers(
@@ -36,7 +33,6 @@ export function useActionHandlers(
 ): UseActionHandlersResult {
   const actions = useCreateActions(objectives)
   const permitStore = useMemo(() => createPermitStore(), [])
-  const gasPrice = useGasPrice()
   const actionsSettings = useActionsSettings()
 
   // @note: we call react hooks in a loop but this is fine as actions should never change
@@ -69,7 +65,6 @@ export function useActionHandlers(
 
   return {
     handlers,
-    gasPrice,
     settingsDisabled,
   }
 }
