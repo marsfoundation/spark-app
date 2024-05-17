@@ -21,15 +21,17 @@ export function SettingsDialogContent({
         </div>
         <Switch className="ml-auto" checked={preferPermits} onClick={togglePreferPermits} />
       </DialogPanel>
-      <DialogPanel className="col-span-full grid grid-cols-subgrid gap-y-3.5">
-        <div className="flex flex-col gap-2">
-          <h3 className="text-basics-black">Slippage</h3>
-          <p className="text-basics-dark-grey text-xs">
-            Your swap transaction will revert if the price changes unfavourably by more than this percentage.
-          </p>
-        </div>
-        <SlippageForm {...slippageSettings} />
-      </DialogPanel>
+      {import.meta.env.VITE_FEATURE_CONFIGURABLE_SLIPPAGE === '1' && (
+        <DialogPanel className="col-span-full grid grid-cols-subgrid gap-y-3.5">
+          <div className="flex flex-col gap-2">
+            <h3 className="text-basics-black">Slippage</h3>
+            <p className="text-basics-dark-grey text-xs">
+              Your swap transaction will revert if the price changes unfavorably by more than this percentage.
+            </p>
+          </div>
+          <SlippageForm {...slippageSettings} />
+        </DialogPanel>
+      )}
     </div>
   )
 }

@@ -2,7 +2,6 @@
 import { useMemo, useRef } from 'react'
 
 import { useActionsSettings } from '@/domain/state'
-import { ActionsSettings } from '@/domain/state/actions-settings'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 
 import { useCreateApproveOrPermitHandler } from '../flavours/approve/logic/useCreateApproveOrPermitHandler'
@@ -27,7 +26,6 @@ export interface UseActionHandlersOptions {
 
 export interface UseActionHandlersResult {
   handlers: ActionHandler[]
-  actionsSettings: ActionsSettings
   settingsDisabled: boolean // @note: after first interaction, we don't enable for settings to change
   gasPrice?: NormalizedUnitNumber
 }
@@ -71,7 +69,6 @@ export function useActionHandlers(
 
   return {
     handlers,
-    actionsSettings,
     gasPrice,
     settingsDisabled,
   }
