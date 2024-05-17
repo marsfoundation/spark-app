@@ -34,6 +34,8 @@ export interface TokenToAirdropAmounts {
 }
 export type Airdrop = Record<TokenSymbol, TokenToAirdropAmounts>
 
+export type LifiWaivedRoutes = [TokenSymbol, TokenSymbol][]
+
 export interface ChainConfigEntry {
   id: SupportedChainId
   meta: ChainMeta
@@ -43,6 +45,7 @@ export interface ChainConfigEntry {
   tokenSymbolToReplacedName: TokenSymbolToReplacedName
   airdrop: Airdrop
   savingsInfoQuery: (args: SavingsInfoQueryParams) => SavingsInfoQueryOptions
+  lifiRoutesWithWaivedFees: LifiWaivedRoutes
   daiSymbol: TokenSymbol
   sDaiSymbol: TokenSymbol
 }

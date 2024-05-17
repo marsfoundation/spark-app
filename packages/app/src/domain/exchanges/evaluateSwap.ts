@@ -1,14 +1,9 @@
+import { getChainConfigEntry } from '@/config/chain'
 import { SwapMeta, SwapParamsBase } from '@/domain/exchanges/types'
 import { Percentage } from '@/domain/types/NumericValues'
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
 
-// move to chain config
-const nativeRoutes = [
-  [TokenSymbol('DAI'), TokenSymbol('sDAI')],
-  [TokenSymbol('USDC'), TokenSymbol('sDAI')],
-]
-
-export function evaluateSwap(swap: SwapParamsBase, defaults: Pick<SwapMeta, 'maxSlippage'>): SwapMeta {
+export function evaluateSwap(swap: SwapParamsBase, defaults: Pick<SwapMeta, 'maxSlippage'>, chainId: number): SwapMeta {
+  const nativeRoutes = getChainConfigEntry(chainId).lifiRoutesWithWaivedFees
   const isNativeSwap = nativeRoutes.some(
     (route) => route.includes(swap.fromToken.symbol) && route.includes(swap.toToken.symbol),
   )

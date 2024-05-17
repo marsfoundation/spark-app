@@ -1,3 +1,4 @@
+import { useOriginChainId } from '../hooks/useOriginChainId'
 import { Percentage } from '../types/NumericValues'
 import { evaluateSwap } from './evaluateSwap'
 import { useLiFiTxData } from './lifi/useLiFiTxData'
@@ -12,9 +13,10 @@ export function useSwap({ swapParamsBase, defaults }: UseSwapArgs): {
   swapInfo: SwapInfo
   swapParams: SwapParams
 } {
+  const chainId = useOriginChainId()
   const swapParams: SwapParams = {
     ...swapParamsBase,
-    meta: evaluateSwap(swapParamsBase, { maxSlippage: defaults.defaultMaxSlippage }),
+    meta: evaluateSwap(swapParamsBase, { maxSlippage: defaults.defaultMaxSlippage }, chainId),
   }
   const swapInfo = useLiFiTxData({
     swapParams,
