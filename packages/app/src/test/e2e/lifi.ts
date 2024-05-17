@@ -1938,9 +1938,12 @@ const lifiResponses = {
     },
   },
   'sdai-to-100-xdai': {
+    // curl 'https://li.quest/v1/quote/contractCalls' \
+    //   -H 'content-type: application/json' \
+    //   --data-raw '{"fromChain":"100","toChain":"100","fromAddress":"0x${receiver.slice(2).toLowerCase()}","fromToken":"0xaf204776c7245bF4147c2612BF6e5972Ee483701","toToken":"0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE","toAmount":"100000000000000000000","integrator":"spark_fee","fee":"0.002","slippage":"0.001","contractCalls":[]}'
     block: 33976095n,
-    endpoint: 'https://li.quest/v1/quote',
-    method: 'GET',
+    endpoint: 'https://li.quest/v1/quote/contractCalls',
+    method: 'POST',
     response(receiver) {
       return {
         type: 'lifi',
@@ -2203,6 +2206,281 @@ const lifiResponses = {
           value: '0x0',
           gasPrice: '0x874d7380',
           gasLimit: '0xbe5ec',
+          from: receiver,
+          chainId: 100,
+        },
+      }
+    },
+  },
+  'sdai-to-100-usdc-on-gnosis': {
+    // curl 'https://li.quest/v1/quote/contractCalls' \
+    //   -H 'content-type: application/json' \
+    //   --data-raw '{"fromChain":"100","toChain":"100","fromAddress":"0x${receiver.slice(2).toLowerCase()}","fromToken":"0xaf204776c7245bF4147c2612BF6e5972Ee483701","toToken":"0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83","toAmount":"100000000","integrator":"spark_fee","fee":"0.002","slippage":"0.001","contractCalls":[]}'
+    block: 33988883n,
+    endpoint: 'https://li.quest/v1/quote/contractCalls',
+    method: 'POST',
+    response(receiver) {
+      return {
+        type: 'lifi',
+        id: '267ef4a7-023d-4ff2-98ff-032fb1e4d211',
+        tool: 'enso',
+        toolDetails: {
+          key: 'enso',
+          name: 'Enso',
+          logoURI: 'https://www.enso.finance/favicon.ico',
+        },
+        action: {
+          fromToken: {
+            address: '0xaf204776c7245bF4147c2612BF6e5972Ee483701',
+            chainId: 100,
+            symbol: 'sDAI',
+            decimals: 18,
+            name: 'Savings xDAI',
+            coinKey: 'sDAI',
+            logoURI:
+              'https://static.debank.com/image/xdai_token/logo_url/0xaf204776c7245bf4147c2612bf6e5972ee483701/8230d73bf3b22b0b095a61c79f1815cb.png',
+            priceUSD: '1.0770827108399679',
+          },
+          fromAmount: '93111748509835469317',
+          toToken: {
+            address: '0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83',
+            chainId: 100,
+            symbol: 'USDC',
+            decimals: 6,
+            name: 'USD Coin',
+            coinKey: 'USDC',
+            logoURI:
+              'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/logo.png',
+            priceUSD: '1',
+          },
+          fromChainId: 100,
+          toChainId: 100,
+          slippage: 0.001,
+          fromAddress: receiver,
+          toAddress: receiver,
+        },
+        estimate: {
+          tool: 'enso',
+          approvalAddress: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
+          toAmountMin: '100049999',
+          toAmount: '100150149',
+          fromAmount: '93111748509835469317',
+          feeCosts: [
+            {
+              name: 'LIFI Fixed Fee',
+              description: 'Fixed LIFI fee, independent of any other fee',
+              token: {
+                address: '0xaf204776c7245bF4147c2612BF6e5972Ee483701',
+                chainId: 100,
+                symbol: 'sDAI',
+                decimals: 18,
+                name: 'Savings xDAI',
+                coinKey: 'sDAI',
+                logoURI:
+                  'https://static.debank.com/image/xdai_token/logo_url/0xaf204776c7245bf4147c2612bf6e5972ee483701/8230d73bf3b22b0b095a61c79f1815cb.png',
+                priceUSD: '1.0770827108399679',
+              },
+              amount: '186223497019670938',
+              amountUSD: '0.20',
+              percentage: '0.0020',
+              included: true,
+            },
+          ],
+          gasCosts: [
+            {
+              type: 'SEND',
+              price: '1610000000',
+              estimate: '900008',
+              limit: '1170010',
+              amount: '1449012880000000',
+              amountUSD: '0.01',
+              token: {
+                address: '0x0000000000000000000000000000000000000000',
+                chainId: 100,
+                symbol: 'xDAI',
+                decimals: 18,
+                name: 'xDAI Native Token',
+                coinKey: 'DAI',
+                logoURI:
+                  'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png',
+                priceUSD: '0.99945',
+              },
+            },
+          ],
+          executionDuration: 30,
+          fromAmountUSD: '100.29',
+          toAmountUSD: '100.15',
+        },
+        includedSteps: [
+          {
+            id: '80651eec-5e1b-4b7a-a677-ceb9416be1ea',
+            type: 'protocol',
+            action: {
+              fromChainId: 100,
+              fromAmount: '93111748509835469317',
+              fromToken: {
+                address: '0xaf204776c7245bF4147c2612BF6e5972Ee483701',
+                chainId: 100,
+                symbol: 'sDAI',
+                decimals: 18,
+                name: 'Savings xDAI',
+                coinKey: 'sDAI',
+                logoURI:
+                  'https://static.debank.com/image/xdai_token/logo_url/0xaf204776c7245bf4147c2612bf6e5972ee483701/8230d73bf3b22b0b095a61c79f1815cb.png',
+                priceUSD: '1.0770827108399679',
+              },
+              toChainId: 100,
+              toToken: {
+                address: '0xaf204776c7245bF4147c2612BF6e5972Ee483701',
+                chainId: 100,
+                symbol: 'sDAI',
+                decimals: 18,
+                name: 'Savings xDAI',
+                coinKey: 'sDAI',
+                logoURI:
+                  'https://static.debank.com/image/xdai_token/logo_url/0xaf204776c7245bf4147c2612bf6e5972ee483701/8230d73bf3b22b0b095a61c79f1815cb.png',
+                priceUSD: '1.0770827108399679',
+              },
+              slippage: 0.001,
+              fromAddress: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
+              toAddress: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
+            },
+            estimate: {
+              fromAmount: '93111748509835469317',
+              toAmount: '92925525012815798379',
+              toAmountMin: '92925525012815798379',
+              tool: 'feeCollection',
+              approvalAddress: '0xbD6C7B0d2f68c2b7805d88388319cfB6EcB50eA9',
+              gasCosts: [
+                {
+                  type: 'SEND',
+                  price: '1610000000',
+                  estimate: '130000',
+                  limit: '169000',
+                  amount: '209300000000000',
+                  amountUSD: '0.01',
+                  token: {
+                    address: '0x0000000000000000000000000000000000000000',
+                    chainId: 100,
+                    symbol: 'xDAI',
+                    decimals: 18,
+                    name: 'xDAI Native Token',
+                    coinKey: 'DAI',
+                    logoURI:
+                      'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png',
+                    priceUSD: '0.99945',
+                  },
+                },
+              ],
+              feeCosts: [
+                {
+                  name: 'LIFI Fixed Fee',
+                  description: 'Fixed LIFI fee, independent of any other fee',
+                  token: {
+                    address: '0xaf204776c7245bF4147c2612BF6e5972Ee483701',
+                    chainId: 100,
+                    symbol: 'sDAI',
+                    decimals: 18,
+                    name: 'Savings xDAI',
+                    coinKey: 'sDAI',
+                    logoURI:
+                      'https://static.debank.com/image/xdai_token/logo_url/0xaf204776c7245bf4147c2612bf6e5972ee483701/8230d73bf3b22b0b095a61c79f1815cb.png',
+                    priceUSD: '1.0770827108399679',
+                  },
+                  amount: '186223497019670938',
+                  amountUSD: '0.20',
+                  percentage: '0.0020',
+                  included: true,
+                },
+              ],
+              executionDuration: 0,
+            },
+            tool: 'feeCollection',
+            toolDetails: {
+              key: 'feeCollection',
+              name: 'Integrator Fee',
+              logoURI:
+                'https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/protocols/feeCollection.png',
+            },
+          },
+          {
+            id: '787e4cdc-b4bd-449c-a1f1-25162f4deb09',
+            type: 'swap',
+            action: {
+              fromChainId: 100,
+              fromAmount: '92925525012815798379',
+              fromToken: {
+                address: '0xaf204776c7245bF4147c2612BF6e5972Ee483701',
+                chainId: 100,
+                symbol: 'sDAI',
+                decimals: 18,
+                name: 'Savings xDAI',
+                coinKey: 'sDAI',
+                logoURI:
+                  'https://static.debank.com/image/xdai_token/logo_url/0xaf204776c7245bf4147c2612bf6e5972ee483701/8230d73bf3b22b0b095a61c79f1815cb.png',
+                priceUSD: '1.0770827108399679',
+              },
+              toChainId: 100,
+              toToken: {
+                address: '0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83',
+                chainId: 100,
+                symbol: 'USDC',
+                decimals: 6,
+                name: 'USD Coin',
+                coinKey: 'USDC',
+                logoURI:
+                  'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/logo.png',
+                priceUSD: '1',
+              },
+              slippage: 0.001,
+              fromAddress: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
+              toAddress: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
+            },
+            estimate: {
+              tool: 'enso',
+              fromAmount: '92925525012815798379',
+              toAmount: '100150149',
+              toAmountMin: '100049999',
+              approvalAddress: '0x80EbA3855878739F4710233A8a19d89Bdd2ffB8E',
+              executionDuration: 30,
+              feeCosts: [],
+              gasCosts: [
+                {
+                  type: 'SEND',
+                  price: '1610000000',
+                  estimate: '427008',
+                  limit: '555110',
+                  amount: '687482880000000',
+                  amountUSD: '0.01',
+                  token: {
+                    address: '0x0000000000000000000000000000000000000000',
+                    chainId: 100,
+                    symbol: 'xDAI',
+                    decimals: 18,
+                    name: 'xDAI Native Token',
+                    coinKey: 'DAI',
+                    logoURI:
+                      'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png',
+                    priceUSD: '0.99945',
+                  },
+                },
+              ],
+            },
+            tool: 'enso',
+            toolDetails: {
+              key: 'enso',
+              name: 'Enso',
+              logoURI: 'https://www.enso.finance/favicon.ico',
+            },
+          },
+        ],
+        integrator: 'spark_fee',
+        transactionRequest: {
+          data: `0x4630a0d8152ce0069954588d37bfe2fd13cf898bf23da3d160e17330cb33d6a21f45dbb900000000000000000000000000000000000000000000000000000000000000c00000000000000000000000000000000000000000000000000000000000000100000000000000000000000000${receiver.slice(2).toLowerCase()}0000000000000000000000000000000000000000000000000000000005f6a44f00000000000000000000000000000000000000000000000000000000000001600000000000000000000000000000000000000000000000000000000000000009737061726b5f6665650000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002a307830303030303030303030303030303030303030303030303030303030303030303030303030303030000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000001e0000000000000000000000000bd6c7b0d2f68c2b7805d88388319cfb6ecb50ea9000000000000000000000000bd6c7b0d2f68c2b7805d88388319cfb6ecb50ea9000000000000000000000000af204776c7245bf4147c2612bf6e5972ee483701000000000000000000000000af204776c7245bf4147c2612bf6e5972ee4837010000000000000000000000000000000000000000000000050c2f61f14840220500000000000000000000000000000000000000000000000000000000000000e000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000084eedd56e1000000000000000000000000af204776c7245bf4147c2612bf6e5972ee483701000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002959948acb0419a00000000000000000000000029dacdf7ccadf4ee67c923b4c22255a4b2494ed70000000000000000000000000000000000000000000000000000000000000000000000000000000080eba3855878739f4710233a8a19d89bdd2ffb8e00000000000000000000000080eba3855878739f4710233a8a19d89bdd2ffb8e000000000000000000000000af204776c7245bf4147c2612bf6e5972ee483701000000000000000000000000ddafbb505ad214d7b80b1f830fccc89b60fb7a830000000000000000000000000000000000000000000000050999c8a89b8fe06b00000000000000000000000000000000000000000000000000000000000000e0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000007e4b35d7e73000000000000000000000000af204776c7245bf4147c2612bf6e5972ee4837010000000000000000000000000000000000000000000000050999c8a89b8fe06b000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000001a00000000000000000000000000000000000000000000000000000000000000008ba08765201000101ffffff01af204776c7245bf4147c2612bf6e5972ee4837012e1a7d4d0101ffffffffffffe91d153e0b41518a2ce8dd3d7944fa863463a97d83d1eb8443000000000000819857a929f9317c593739968f00117204f536dfd60102030401058687ffffffffffffffffffffffffffffffffffffffffffffffff9bd3b227018108ffffffff016675a323dedb77822fcf39eaa9d682f6abe72555ddcd52200101ffffffffff017e7d64d987cab6eed08a191c4c2459daf2f8ed0b6e7a43a3010109ffffffff017e7d64d987cab6eed08a191c4c2459daf2f8ed0b241c59120101ffffffffffff7e7d64d987cab6eed08a191c4c2459daf2f8ed0b000000000000000000000000000000000000000000000000000000000000000a0000000000000000000000000000000000000000000000000000000000000140000000000000000000000000000000000000000000000000000000000000018000000000000000000000000000000000000000000000000000000000000001c000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000240000000000000000000000000000000000000000000000000000000000000028000000000000000000000000000000000000000000000000000000000000002c0000000000000000000000000000000000000000000000000000000000000054000000000000000000000000000000000000000000000000000000000000005a000000000000000000000000000000000000000000000000000000000000005e000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000050999c8a89b8fe06b00000000000000000000000000000000000000000000000000000000000000200000000000000000000000007d585b0e27bbb3d981b7757115ec11f47c4769940000000000000000000000000000000000000000000000000000000000000020000000000000000000000000111111125421ca6dc452d289314280a0f8842a650000000000000000000000000000000000000000000000000000000000000020000000000000000000000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000ddafbb505ad214d7b80b1f830fccc89b60fb7a8300000000000000000000000000000000000000000000000000000000000000200000000000000000000000001231deb6f5749ef6ce6943a275a1d3e7486f4eae0000000000000000000000000000000000000000000000000000000000000260000000000000000000000000000000000000000000000000000000000000022807ed2379000000000000000000000000f5ab9bf279284fb8e3de1c3bf0b0b4a6fb0bb538000000000000000000000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee000000000000000000000000ddafbb505ad214d7b80b1f830fccc89b60fb7a83000000000000000000000000f5ab9bf279284fb8e3de1c3bf0b0b4a6fb0bb5380000000000000000000000009857a929f9317c593739968f00117204f536dfd60000000000000000000000000000000000000000000000056bf9b47afdafa29a0000000000000000000000000000000000000000000000000000000002fb31c80000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000012000000000000000000000000000000000000000000000000000000000000000c90000000000000000000000000000000000000000000000ab00007d00001a4041e91d153e0b41518a2ce8dd3d7944fa863463a97dd0e30db000a0fbb7cd06802086f52651837600180de173b09470f54ef7491000000000000000000000004fe91d153e0b41518a2ce8dd3d7944fa863463a97dddafbb505ad214d7b80b1f830fccc89b60fb7a83111111125421ca6dc452d289314280a0f8842a650020d6bdbf78ddafbb505ad214d7b80b1f830fccc89b60fb7a83111111125421ca6dc452d289314280a0f8842a65000000000000000000000000000000000000000000000097864b910000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000005f6a44e00000000000000000000000000000000000000000000000000000000`,
+          to: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
+          value: '0x0',
+          gasPrice: '0x5ff6a680',
+          gasLimit: '0x11da5a',
           from: receiver,
           chainId: 100,
         },

@@ -85,7 +85,6 @@ test.describe('Savings withdraw dialog', () => {
   })
 
   test.describe('xDAI', () => {
-    // Block number has to be as close as possible to the block number when query was executed
     const blockNumber = 33976095n
     const fork = setupFork({ blockNumber, chainId: gnosis.id })
 
@@ -117,8 +116,8 @@ test.describe('Savings withdraw dialog', () => {
       await actionsContainer.acceptAllActionsAction(2)
       await withdrawDialog.clickBackToSavingsButton()
 
-      await savingsPage.expectCurrentWorth('900')
-      await savingsPage.expectCashInWalletAssetBalance('XDAI', '200')
+      await savingsPage.expectCurrentWorth('977.124814')
+      await savingsPage.expectCashInWalletAssetBalance('XDAI', '200.15')
     })
   })
 
@@ -194,6 +193,44 @@ test.describe('Savings withdraw dialog', () => {
 
         await savingsPage.expectCashInWalletAssetBalance('USDC', '107.35')
       })
+    })
+  })
+
+  test.describe('USDC on Gnosis', () => {
+    const blockNumber = 33988883n
+    const fork = setupFork({ blockNumber, chainId: gnosis.id })
+
+    test('unwraps sDAI to USDC', async ({ page }) => {
+      const { account } = await setup(page, fork, {
+        initialPage: 'savings',
+        account: {
+          type: 'connected',
+          assetBalances: {
+            XDAI: 100,
+            sDAI: 1000,
+          },
+        },
+      })
+      await overrideLiFiRoute(page, {
+        receiver: account,
+        preset: 'sdai-to-100-usdc-on-gnosis',
+        expectedBlockNumber: blockNumber,
+      })
+
+      const savingsPage = new SavingsPageObject(page)
+
+      await savingsPage.clickWithdrawButtonAction()
+
+      const withdrawDialog = new SavingsWithdrawDialogPageObject(page)
+      await withdrawDialog.selectAssetAction('USDC')
+      await withdrawDialog.fillAmountAction(100)
+
+      const actionsContainer = new ActionsPageObject(withdrawDialog.locatePanelByHeader('Actions'))
+      await actionsContainer.acceptAllActionsAction(2)
+      await withdrawDialog.clickBackToSavingsButton()
+
+      await savingsPage.expectCurrentWorth('977.402830')
+      await savingsPage.expectCashInWalletAssetBalance('USDC', '100.15')
     })
   })
 
