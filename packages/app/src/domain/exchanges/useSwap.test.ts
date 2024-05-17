@@ -2,7 +2,7 @@ import { waitFor } from '@testing-library/react'
 import { gnosis, mainnet } from 'viem/chains'
 import { vi } from 'vitest'
 
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { daiLikeReserve, testAddresses, testTokens } from '@/test/integration/constants'
 import { setupHookRenderer } from '@/test/integration/setupHookRenderer'
 
@@ -155,6 +155,7 @@ describe(useSwap, () => {
         toToken: DAI.address,
       } satisfies Omit<LifiReverseQuoteRequestParams, 'contractCalls'>)
     })
+
     it('sDAI to USDC', async () => {
       hookRenderer({
         args: {
@@ -184,6 +185,7 @@ describe(useSwap, () => {
         toToken: USDC.address,
       } satisfies Omit<LifiReverseQuoteRequestParams, 'contractCalls'>)
     })
+
     it('sDAI to USDT', async () => {
       hookRenderer({
         args: {
@@ -240,5 +242,34 @@ describe(useSwap, () => {
   })
 
   // it('selects dynamic max slippage for waived routes')
-  // it('respects defaultMaxSlippage')
+  it('respects defaultMaxSlippage', async () => {
+    const defaultMaxSlippage = Percentage(0.1)
+    hookRenderer({
+      args: {
+        swapParamsBase: {
+          type: 'direct',
+          fromToken: DAI,
+          toToken: sDAI,
+          value: amount,
+        },
+        defaults: { defaultMaxSlippage },
+      },
+    })
+
+    await waitFor(() => {
+      expect(mockFetch).toHaveBeenCalledWithURL('https://li.quest/v1/quote')
+    })
+
+    expect(mockFetch).toHaveBeenCalledWithURLParams({
+      fromChain: mainnet.id.toString(),
+      toChain: mainnet.id.toString(),
+      fromAddress: account,
+      fromAmount: daiLikeReserve.token.toBaseUnit(amount).toString(),
+      slippage: defaultMaxSlippage.toString(),
+      integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
+      fee: LIFI_WAIVED_FEE.toString(),
+      fromToken: DAI.address,
+      toToken: sDAI.address,
+    } satisfies LifiQuoteRequestParams)
+  })
 })
