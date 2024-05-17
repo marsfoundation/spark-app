@@ -1,4 +1,3 @@
-import { getChainConfigEntry } from '@/config/chain'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 
@@ -15,16 +14,9 @@ export function useLifiQueryMetaEvaluator(): LifiQueryMetaEvaluator {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { marketInfo } = useMarketInfo()
 
-  const waivedTokens = (() => {
-    if (!getChainConfigEntry(marketInfo.chainId).supportsLifiWaivedFees) {
-      return {}
-    }
-    const dai = marketInfo.DAI.address
-    const sdai = marketInfo.sDAI.address
-    const usdc = marketInfo.findTokenBySymbol(TokenSymbol('USDC'))?.address
+  const dai = marketInfo.DAI.address
+  const sdai = marketInfo.sDAI.address
+  const usdc = marketInfo.findTokenBySymbol(TokenSymbol('USDC'))?.address
 
-    return { dai, sdai, usdc }
-  })()
-
-  return new RealLifiQueryMetaEvaluator(waivedTokens)
+  return new RealLifiQueryMetaEvaluator({ dai, sdai, usdc })
 }
