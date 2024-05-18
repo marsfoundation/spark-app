@@ -423,4 +423,32 @@ export const testTokens = {
   USDC: usdcLikeReserve.token,
   USDT: usdtLikeReserve.token,
   WETH: wethLikeReserve.token,
+  token1: new Token({
+    address: testAddresses.token,
+    symbol: TokenSymbol('TKN1'),
+    name: 'Token 1',
+    decimals: 18,
+    unitPriceUsd: '1',
+  }),
+  token2: new Token({
+    address: testAddresses.token2,
+    symbol: TokenSymbol('TKN2'),
+    name: 'Token 2',
+    decimals: 18,
+    unitPriceUsd: '1',
+  }),
+  token3: new Token({
+    address: testAddresses.token3,
+    symbol: TokenSymbol('TKN3'),
+    name: 'Token 3',
+    decimals: 18,
+    unitPriceUsd: '1',
+  }),
+  token4: new Token({
+    address: testAddresses.token3,
+    symbol: TokenSymbol('TKN4'),
+    name: 'Token 4',
+    decimals: 18,
+    unitPriceUsd: '1',
+  }),
 }

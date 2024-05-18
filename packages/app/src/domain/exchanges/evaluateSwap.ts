@@ -1,9 +1,14 @@
-import { getChainConfigEntry } from '@/config/chain'
-import { SwapMeta, SwapParamsBase } from '@/domain/exchanges/types'
-import { Percentage } from '@/domain/types/NumericValues'
+import BigNumber from 'bignumber.js'
 
-export function evaluateSwap(swap: SwapParamsBase, defaults: Pick<SwapMeta, 'maxSlippage'>, chainId: number): SwapMeta {
-  const nativeRoutes = getChainConfigEntry(chainId).lifiRoutesWithWaivedFees
+import { LifiWaivedRoutes } from '@/config/chain/types'
+import { SwapMeta, SwapParamsBase } from '@/domain/exchanges/types'
+import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
+
+export function evaluateSwap(
+  swap: SwapParamsBase,
+  defaults: Pick<SwapMeta, 'maxSlippage'>,
+  nativeRoutes: LifiWaivedRoutes,
+): SwapMeta {
   const isNativeSwap = nativeRoutes.some(
     (route) => route.includes(swap.fromToken.symbol) && route.includes(swap.toToken.symbol),
   )
@@ -16,8 +21,12 @@ export function evaluateSwap(swap: SwapParamsBase, defaults: Pick<SwapMeta, 'max
     }
   }
 
+  const maxSlippage = Percentage(
+    BigNumber.min(new BigNumber(LIFI_MAX_ALLOWED_SLIPPAGE_IN_USD).dividedBy(swap.value), defaults.maxSlippage),
+  )
+
   return {
-    maxSlippage: defaults.maxSlippage,
+    maxSlippage,
     maxPriceImpact: LIFI_WAIVED_MAX_PRICE_IMPACT,
     fee: LIFI_WAIVED_FEE,
     integratorKey: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
@@ -33,3 +42,4 @@ export const LIFI_WAIVED_FEE = Percentage('0')
 
 export const LIFI_WAIVED_ALLOWED_EXCHANGES = ['odos', 'enso', '1inch']
 export const LIFI_WAIVED_MAX_PRICE_IMPACT = Percentage(0.005)
+export const LIFI_MAX_ALLOWED_SLIPPAGE_IN_USD = NormalizedUnitNumber(100)

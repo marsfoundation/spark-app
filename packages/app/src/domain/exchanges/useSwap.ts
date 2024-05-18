@@ -1,3 +1,5 @@
+import { getChainConfigEntry } from '@/config/chain'
+
 import { useOriginChainId } from '../hooks/useOriginChainId'
 import { Percentage } from '../types/NumericValues'
 import { evaluateSwap } from './evaluateSwap'
@@ -14,9 +16,11 @@ export function useSwap({ swapParamsBase, defaults }: UseSwapArgs): {
   swapParams: SwapParams
 } {
   const chainId = useOriginChainId()
+  const nativeRoutes = getChainConfigEntry(chainId).lifiRoutesWithWaivedFees
+
   const swapParams: SwapParams = {
     ...swapParamsBase,
-    meta: evaluateSwap(swapParamsBase, { maxSlippage: defaults.defaultMaxSlippage }, chainId),
+    meta: evaluateSwap(swapParamsBase, { maxSlippage: defaults.defaultMaxSlippage }, nativeRoutes),
   }
   const swapInfo = useLiFiTxData({
     swapParams,
