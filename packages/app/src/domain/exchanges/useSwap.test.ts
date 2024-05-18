@@ -3,7 +3,7 @@ import { gnosis, mainnet } from 'viem/chains'
 import { vi } from 'vitest'
 
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
-import { daiLikeReserve, testAddresses, testTokens } from '@/test/integration/constants'
+import { testAddresses, testTokens } from '@/test/integration/constants'
 import { setupHookRenderer } from '@/test/integration/setupHookRenderer'
 
 import { defaultExchangeMaxSlippage } from '../state/actions-settings'
@@ -46,7 +46,7 @@ describe(useSwap, () => {
   })
 
   describe('mainnet', () => {
-    it('DAI to sDAI', async () => {
+    it('DAI to sDAI is waived', async () => {
       hookRenderer()
 
       await waitFor(() => {
@@ -57,7 +57,7 @@ describe(useSwap, () => {
         fromChain: mainnet.id.toString(),
         toChain: mainnet.id.toString(),
         fromAddress: account,
-        fromAmount: daiLikeReserve.token.toBaseUnit(amount).toString(),
+        fromAmount: DAI.toBaseUnit(amount).toString(),
         slippage: defaultExchangeMaxSlippage.toString(),
         integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
         fee: LIFI_WAIVED_FEE.toString(),
@@ -66,7 +66,7 @@ describe(useSwap, () => {
       } satisfies LifiQuoteRequestParams)
     })
 
-    it('USDC to sDAI', async () => {
+    it('USDC to sDAI is waived', async () => {
       hookRenderer({
         args: {
           swapParamsBase: {
@@ -96,7 +96,7 @@ describe(useSwap, () => {
       } satisfies LifiQuoteRequestParams)
     })
 
-    it('USDT to sDAI', async () => {
+    it('USDT to sDAI is not waived', async () => {
       hookRenderer({
         args: {
           swapParamsBase: {
@@ -126,7 +126,7 @@ describe(useSwap, () => {
       } satisfies LifiQuoteRequestParams)
     })
 
-    it('sDAI to DAI', async () => {
+    it('sDAI to DAI is waived', async () => {
       hookRenderer({
         args: {
           swapParamsBase: {
@@ -156,7 +156,7 @@ describe(useSwap, () => {
       } satisfies Omit<LifiReverseQuoteRequestParams, 'contractCalls'>)
     })
 
-    it('sDAI to USDC', async () => {
+    it('sDAI to USDC is waived', async () => {
       hookRenderer({
         args: {
           swapParamsBase: {
@@ -186,7 +186,7 @@ describe(useSwap, () => {
       } satisfies Omit<LifiReverseQuoteRequestParams, 'contractCalls'>)
     })
 
-    it('sDAI to USDT', async () => {
+    it('sDAI to USDT is not waived', async () => {
       hookRenderer({
         args: {
           swapParamsBase: {
@@ -218,7 +218,7 @@ describe(useSwap, () => {
   })
 
   describe('gnosis', () => {
-    it('DAI to SDAI', async () => {
+    it('DAI to SDAI is waived', async () => {
       hookRenderer({
         chain: gnosis,
       })
@@ -231,7 +231,7 @@ describe(useSwap, () => {
         fromChain: gnosis.id.toString(),
         toChain: gnosis.id.toString(),
         fromAddress: account,
-        fromAmount: daiLikeReserve.token.toBaseUnit(amount).toString(),
+        fromAmount: DAI.toBaseUnit(amount).toString(),
         slippage: defaultExchangeMaxSlippage.toString(),
         integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
         fee: LIFI_WAIVED_FEE.toString(),
@@ -239,9 +239,194 @@ describe(useSwap, () => {
         toToken: sDAI.address,
       } satisfies LifiQuoteRequestParams)
     })
+
+    it('USDC to SDAI is not waived', async () => {
+      hookRenderer({
+        chain: gnosis,
+        args: {
+          swapParamsBase: {
+            type: 'direct',
+            fromToken: USDC,
+            toToken: sDAI,
+            value: amount,
+          },
+          defaults: { defaultMaxSlippage: defaultExchangeMaxSlippage },
+        },
+      })
+
+      await waitFor(() => {
+        expect(mockFetch).toHaveBeenCalledWithURL('https://li.quest/v1/quote')
+      })
+
+      expect(mockFetch).toHaveBeenCalledWithURLParams({
+        fromChain: gnosis.id.toString(),
+        toChain: gnosis.id.toString(),
+        fromAddress: account,
+        fromAmount: USDC.toBaseUnit(amount).toString(),
+        slippage: defaultExchangeMaxSlippage.toString(),
+        integrator: LIFI_DEFAULT_FEE_INTEGRATOR_KEY,
+        fee: LIFI_DEFAULT_FEE.toString(),
+        fromToken: USDC.address,
+        toToken: sDAI.address,
+      } satisfies LifiQuoteRequestParams)
+    })
+
+    it('USDT to SDAI is not waived', async () => {
+      hookRenderer({
+        chain: gnosis,
+        args: {
+          swapParamsBase: {
+            type: 'direct',
+            fromToken: USDT,
+            toToken: sDAI,
+            value: amount,
+          },
+          defaults: { defaultMaxSlippage: defaultExchangeMaxSlippage },
+        },
+      })
+
+      await waitFor(() => {
+        expect(mockFetch).toHaveBeenCalledWithURL('https://li.quest/v1/quote')
+      })
+
+      expect(mockFetch).toHaveBeenCalledWithURLParams({
+        fromChain: gnosis.id.toString(),
+        toChain: gnosis.id.toString(),
+        fromAddress: account,
+        fromAmount: USDT.toBaseUnit(amount).toString(),
+        slippage: defaultExchangeMaxSlippage.toString(),
+        integrator: LIFI_DEFAULT_FEE_INTEGRATOR_KEY,
+        fee: LIFI_DEFAULT_FEE.toString(),
+        fromToken: USDT.address,
+        toToken: sDAI.address,
+      } satisfies LifiQuoteRequestParams)
+    })
+
+    it('sDAI to DAI is waived', async () => {
+      hookRenderer({
+        chain: gnosis,
+        args: {
+          swapParamsBase: {
+            type: 'reverse',
+            fromToken: sDAI,
+            toToken: DAI,
+            value: amount,
+          },
+          defaults: { defaultMaxSlippage: defaultExchangeMaxSlippage },
+        },
+      })
+
+      await waitFor(() => {
+        expect(mockFetch).toHaveBeenCalledWithURL('https://li.quest/v1/quote/contractCalls')
+      })
+
+      expect(mockFetch).toHaveBeenCalledWithBodyParams({
+        fromChain: gnosis.id.toString(),
+        toChain: gnosis.id.toString(),
+        fromAddress: account,
+        toAmount: DAI.toBaseUnit(amount).toString(),
+        slippage: defaultExchangeMaxSlippage.toString(),
+        integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
+        fee: LIFI_WAIVED_FEE.toString(),
+        fromToken: sDAI.address,
+        toToken: DAI.address,
+      } satisfies Omit<LifiReverseQuoteRequestParams, 'contractCalls'>)
+    })
+
+    it('sDAI to USDC is not waived', async () => {
+      hookRenderer({
+        chain: gnosis,
+        args: {
+          swapParamsBase: {
+            type: 'reverse',
+            fromToken: sDAI,
+            toToken: USDC,
+            value: amount,
+          },
+          defaults: { defaultMaxSlippage: defaultExchangeMaxSlippage },
+        },
+      })
+
+      await waitFor(() => {
+        expect(mockFetch).toHaveBeenCalledWithURL('https://li.quest/v1/quote/contractCalls')
+      })
+
+      expect(mockFetch).toHaveBeenCalledWithBodyParams({
+        fromChain: gnosis.id.toString(),
+        toChain: gnosis.id.toString(),
+        fromAddress: account,
+        toAmount: USDC.toBaseUnit(amount).toString(),
+        slippage: defaultExchangeMaxSlippage.toString(),
+        integrator: LIFI_DEFAULT_FEE_INTEGRATOR_KEY,
+        fee: LIFI_DEFAULT_FEE.toString(),
+        fromToken: sDAI.address,
+        toToken: USDC.address,
+      } satisfies Omit<LifiReverseQuoteRequestParams, 'contractCalls'>)
+    })
+
+    it('sDAI to USDT is not waived', async () => {
+      hookRenderer({
+        chain: gnosis,
+        args: {
+          swapParamsBase: {
+            type: 'reverse',
+            fromToken: sDAI,
+            toToken: USDT,
+            value: amount,
+          },
+          defaults: { defaultMaxSlippage: defaultExchangeMaxSlippage },
+        },
+      })
+
+      await waitFor(() => {
+        expect(mockFetch).toHaveBeenCalledWithURL('https://li.quest/v1/quote/contractCalls')
+      })
+
+      expect(mockFetch).toHaveBeenCalledWithBodyParams({
+        fromChain: gnosis.id.toString(),
+        toChain: gnosis.id.toString(),
+        fromAddress: account,
+        toAmount: USDT.toBaseUnit(amount).toString(),
+        slippage: defaultExchangeMaxSlippage.toString(),
+        integrator: LIFI_DEFAULT_FEE_INTEGRATOR_KEY,
+        fee: LIFI_DEFAULT_FEE.toString(),
+        fromToken: sDAI.address,
+        toToken: USDT.address,
+      } satisfies Omit<LifiReverseQuoteRequestParams, 'contractCalls'>)
+    })
   })
 
-  // it('selects dynamic max slippage for waived routes')
+  it('uses dynamic max slippage for waived routes', async () => {
+    const amount = NormalizedUnitNumber(10_000_000)
+    hookRenderer({
+      args: {
+        swapParamsBase: {
+          type: 'direct',
+          fromToken: DAI,
+          toToken: sDAI,
+          value: amount,
+        },
+        defaults: { defaultMaxSlippage: defaultExchangeMaxSlippage },
+      },
+    })
+
+    await waitFor(() => {
+      expect(mockFetch).toHaveBeenCalledWithURL('https://li.quest/v1/quote')
+    })
+
+    expect(mockFetch).toHaveBeenCalledWithURLParams({
+      fromChain: mainnet.id.toString(),
+      toChain: mainnet.id.toString(),
+      fromAddress: account,
+      fromAmount: DAI.toBaseUnit(amount).toFixed(),
+      slippage: Percentage(0.00001).toString(),
+      integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
+      fee: LIFI_WAIVED_FEE.toString(),
+      fromToken: DAI.address,
+      toToken: sDAI.address,
+    } satisfies LifiQuoteRequestParams)
+  })
+
   it('respects defaultMaxSlippage', async () => {
     const defaultMaxSlippage = Percentage(0.1)
     hookRenderer({
@@ -264,7 +449,7 @@ describe(useSwap, () => {
       fromChain: mainnet.id.toString(),
       toChain: mainnet.id.toString(),
       fromAddress: account,
-      fromAmount: daiLikeReserve.token.toBaseUnit(amount).toString(),
+      fromAmount: DAI.toBaseUnit(amount).toString(),
       slippage: defaultMaxSlippage.toString(),
       integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
       fee: LIFI_WAIVED_FEE.toString(),
