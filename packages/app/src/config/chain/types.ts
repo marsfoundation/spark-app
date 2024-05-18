@@ -34,6 +34,7 @@ export interface TokenToAirdropAmounts {
 }
 export type Airdrop = Record<TokenSymbol, TokenToAirdropAmounts>
 
+// routes are always bidirectional
 export type LifiWaivedRoutes = [TokenSymbol, TokenSymbol][]
 
 export interface ChainConfigEntry {

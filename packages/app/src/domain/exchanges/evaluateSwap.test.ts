@@ -53,7 +53,7 @@ describe(evaluateSwap.name, () => {
       assertIsNativeRoute({ fromToken: token3, toToken: token1 })
     })
 
-    it('returns dynamic max slippage for dynamic routes', () => {
+    it('returns dynamic max slippage for native routes', () => {
       function assertMaxSlippage(value: number, expectedMaxSlippage: Percentage): void {
         const result = evaluateSwap(
           {
@@ -98,6 +98,7 @@ describe(evaluateSwap.name, () => {
       assertIsNotNativeRoute({ fromToken: token1, toToken: token4 })
       assertIsNotNativeRoute({ fromToken: token4, toToken: token1 })
       assertIsNotNativeRoute({ fromToken: token2, toToken: token4 })
+      assertIsNotNativeRoute({ fromToken: token2, toToken: token3 })
     })
 
     it('doesnt change default max slippage', () => {

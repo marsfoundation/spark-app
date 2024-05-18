@@ -31,7 +31,7 @@ export function fetchLiFiTxData({
   meta,
 }: FetchLiFiTxDataParams) {
   return queryOptions<SwapRequest>({
-    queryKey: ['liFiTxData', chainId, userAddress, type, fromToken, toToken, amount],
+    queryKey: ['liFiTxData', chainId, userAddress, type, fromToken, toToken, amount, meta.maxSlippage],
     queryFn: async (): Promise<SwapRequest> => {
       if (import.meta.env.STORYBOOK_PREVIEW) {
         return {
