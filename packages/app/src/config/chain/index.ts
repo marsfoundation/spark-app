@@ -108,7 +108,7 @@ const chainConfig: ChainConfig = {
     sDaiSymbol: TokenSymbol('sDAI'),
     lifiRoutesWithWaivedFees: [
       // without PSMs only DAI to sDAI route is has waived fees
-      [TokenSymbol('DAI'), TokenSymbol('sDAI')],
+      [TokenSymbol('XDAI'), TokenSymbol('sDAI')],
     ],
   },
 }

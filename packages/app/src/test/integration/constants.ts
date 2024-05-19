@@ -419,6 +419,10 @@ const wethLikeReserve = getMockReserve({
 
 export const testTokens = {
   DAI: daiLikeReserve.token,
+  XDAI: daiLikeReserve.token.clone({
+    name: 'XDAI',
+    symbol: TokenSymbol('XDAI'),
+  }),
   sDAI: sDaiLikeReserve.token,
   USDC: usdcLikeReserve.token,
   USDT: usdtLikeReserve.token,

@@ -17,7 +17,7 @@ import { LifiQuoteRequestParams, LifiReverseQuoteRequestParams } from './lifi/Li
 import { useSwap } from './useSwap'
 
 const account = testAddresses.alice
-const { DAI, USDC, USDT, sDAI } = testTokens
+const { DAI, USDC, USDT, sDAI, XDAI } = testTokens
 const amount = NormalizedUnitNumber(1)
 
 const hookRenderer = setupHookRenderer({
@@ -218,9 +218,18 @@ describe(useSwap, () => {
   })
 
   describe('gnosis', () => {
-    it('DAI to SDAI is waived', async () => {
+    it('XDAI to SDAI is waived', async () => {
       hookRenderer({
         chain: gnosis,
+        args: {
+          swapParamsBase: {
+            type: 'direct',
+            fromToken: XDAI,
+            toToken: sDAI,
+            value: amount,
+          },
+          defaults: { defaultMaxSlippage: defaultExchangeMaxSlippage },
+        },
       })
 
       await waitFor(() => {
@@ -231,11 +240,11 @@ describe(useSwap, () => {
         fromChain: gnosis.id.toString(),
         toChain: gnosis.id.toString(),
         fromAddress: account,
-        fromAmount: DAI.toBaseUnit(amount).toString(),
+        fromAmount: XDAI.toBaseUnit(amount).toString(),
         slippage: defaultExchangeMaxSlippage.toString(),
         integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
         fee: LIFI_WAIVED_FEE.toString(),
-        fromToken: DAI.address,
+        fromToken: XDAI.address,
         toToken: sDAI.address,
       } satisfies LifiQuoteRequestParams)
     })
@@ -302,14 +311,14 @@ describe(useSwap, () => {
       } satisfies LifiQuoteRequestParams)
     })
 
-    it('sDAI to DAI is waived', async () => {
+    it('sDAI to XDAI is waived', async () => {
       hookRenderer({
         chain: gnosis,
         args: {
           swapParamsBase: {
             type: 'reverse',
             fromToken: sDAI,
-            toToken: DAI,
+            toToken: XDAI,
             value: amount,
           },
           defaults: { defaultMaxSlippage: defaultExchangeMaxSlippage },
@@ -324,12 +333,12 @@ describe(useSwap, () => {
         fromChain: gnosis.id.toString(),
         toChain: gnosis.id.toString(),
         fromAddress: account,
-        toAmount: DAI.toBaseUnit(amount).toString(),
+        toAmount: XDAI.toBaseUnit(amount).toString(),
         slippage: defaultExchangeMaxSlippage.toString(),
         integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
         fee: LIFI_WAIVED_FEE.toString(),
         fromToken: sDAI.address,
-        toToken: DAI.address,
+        toToken: XDAI.address,
       } satisfies Omit<LifiReverseQuoteRequestParams, 'contractCalls'>)
     })
 
