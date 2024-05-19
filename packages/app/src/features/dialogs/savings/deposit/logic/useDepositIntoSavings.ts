@@ -3,7 +3,6 @@ import { useSwap } from '@/domain/exchanges/useSwap'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { useActionsSettings } from '@/domain/state'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { DialogFormNormalizedData } from '@/features/dialogs/common/logic/form'
 
 interface UseSwapParams {
@@ -16,7 +15,7 @@ export function useDepositIntoSavings({ formValues, marketInfo }: UseSwapParams)
   swapParams: SwapParams
 } {
   const settings = useActionsSettings()
-  const sdai = marketInfo.findOneTokenBySymbol(TokenSymbol('sDAI'))
+  const sdai = marketInfo.sDAI
 
   return useSwap({
     swapParamsBase: {

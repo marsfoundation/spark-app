@@ -7,13 +7,13 @@ import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 export function evaluateSwap(
   swap: SwapParamsBase,
   defaults: Pick<SwapMeta, 'maxSlippage'>,
-  nativeRoutes: LifiWaivedRoutes,
+  waivedRoutes: LifiWaivedRoutes,
 ): SwapMeta {
-  const isNativeSwap = nativeRoutes.some(
+  const isWaivedSwap = waivedRoutes.some(
     (route) => route.includes(swap.fromToken.symbol) && route.includes(swap.toToken.symbol),
   )
 
-  if (!isNativeSwap) {
+  if (!isWaivedSwap) {
     return {
       maxSlippage: defaults.maxSlippage,
       fee: LIFI_DEFAULT_FEE,

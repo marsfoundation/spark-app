@@ -23,19 +23,19 @@ const baseSwap: SwapParamsBase = {
   type: 'direct',
 }
 
-const nativeRoutes = [
+const waivedRoutes = [
   [token1.symbol, token2.symbol],
   [token1.symbol, token3.symbol],
 ] as LifiWaivedRoutes
 
 describe(evaluateSwap.name, () => {
-  describe('native routes', () => {
-    it('detects native routes', () => {
-      function assertIsNativeRoute(swapOverrides: Partial<SwapParamsBase>): void {
+  describe('waived routes', () => {
+    it('detects waived routes', () => {
+      function assertIsWaivedRoute(swapOverrides: Partial<SwapParamsBase>): void {
         const result = evaluateSwap(
           { ...baseSwap, ...swapOverrides },
           { maxSlippage: defaultExchangeMaxSlippage },
-          nativeRoutes,
+          waivedRoutes,
         )
 
         expect(result).toEqual({
@@ -47,10 +47,10 @@ describe(evaluateSwap.name, () => {
         } satisfies SwapMeta)
       }
 
-      assertIsNativeRoute({ fromToken: token1, toToken: token2 })
-      assertIsNativeRoute({ fromToken: token2, toToken: token1 })
-      assertIsNativeRoute({ fromToken: token1, toToken: token3 })
-      assertIsNativeRoute({ fromToken: token3, toToken: token1 })
+      assertIsWaivedRoute({ fromToken: token1, toToken: token2 })
+      assertIsWaivedRoute({ fromToken: token2, toToken: token1 })
+      assertIsWaivedRoute({ fromToken: token1, toToken: token3 })
+      assertIsWaivedRoute({ fromToken: token3, toToken: token1 })
     })
 
     it('returns dynamic max slippage for native routes', () => {
@@ -63,7 +63,7 @@ describe(evaluateSwap.name, () => {
             value: NormalizedUnitNumber(value),
           },
           { maxSlippage: defaultExchangeMaxSlippage },
-          nativeRoutes,
+          waivedRoutes,
         )
         expect(result.maxSlippage).toEqual(expectedMaxSlippage)
       }
@@ -79,13 +79,13 @@ describe(evaluateSwap.name, () => {
     })
   })
 
-  describe('non-native routes', () => {
-    it('detects non-native routes', () => {
-      function assertIsNotNativeRoute(swapOverrides: Partial<SwapParamsBase>): void {
+  describe('not waived routes', () => {
+    it('detects not waived routes', () => {
+      function assertIsNotWaivedRoute(swapOverrides: Partial<SwapParamsBase>): void {
         const result = evaluateSwap(
           { ...baseSwap, ...swapOverrides },
           { maxSlippage: defaultExchangeMaxSlippage },
-          nativeRoutes,
+          waivedRoutes,
         )
 
         expect(result).toEqual({
@@ -95,10 +95,10 @@ describe(evaluateSwap.name, () => {
         } satisfies SwapMeta)
       }
 
-      assertIsNotNativeRoute({ fromToken: token1, toToken: token4 })
-      assertIsNotNativeRoute({ fromToken: token4, toToken: token1 })
-      assertIsNotNativeRoute({ fromToken: token2, toToken: token4 })
-      assertIsNotNativeRoute({ fromToken: token2, toToken: token3 })
+      assertIsNotWaivedRoute({ fromToken: token1, toToken: token4 })
+      assertIsNotWaivedRoute({ fromToken: token4, toToken: token1 })
+      assertIsNotWaivedRoute({ fromToken: token2, toToken: token4 })
+      assertIsNotWaivedRoute({ fromToken: token2, toToken: token3 })
     })
 
     it('doesnt change default max slippage', () => {
@@ -111,7 +111,7 @@ describe(evaluateSwap.name, () => {
             value: NormalizedUnitNumber(value),
           },
           { maxSlippage: defaultExchangeMaxSlippage },
-          nativeRoutes,
+          waivedRoutes,
         )
         expect(result.maxSlippage).toEqual(expectedMaxSlippage)
       }

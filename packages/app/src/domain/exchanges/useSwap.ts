@@ -16,11 +16,11 @@ export function useSwap({ swapParamsBase, defaults }: UseSwapArgs): {
   swapParams: SwapParams
 } {
   const chainId = useOriginChainId()
-  const nativeRoutes = getChainConfigEntry(chainId).lifiRoutesWithWaivedFees
+  const waivedRoutes = getChainConfigEntry(chainId).lifiRoutesWithWaivedFees
 
   const swapParams: SwapParams = {
     ...swapParamsBase,
-    meta: evaluateSwap(swapParamsBase, { maxSlippage: defaults.defaultMaxSlippage }, nativeRoutes),
+    meta: evaluateSwap(swapParamsBase, { maxSlippage: defaults.defaultMaxSlippage }, waivedRoutes),
   }
   const swapInfo = useLiFiTxData({
     swapParams,
