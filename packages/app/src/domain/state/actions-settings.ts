@@ -17,7 +17,7 @@ export interface ActionsSettingsSlice {
   actionsSettings: ActionsSettings
 }
 
-const defaultExchangeMaxSlippage = Percentage(0.001)
+export const defaultExchangeMaxSlippage = Percentage(0.001)
 
 // eslint-disable-next-line func-style
 export const initActionsSettingsSlice: StateCreator<StoreState, [], [], ActionsSettingsSlice> = (set) => ({

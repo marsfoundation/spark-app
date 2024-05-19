@@ -44,7 +44,11 @@ const meta: Meta<typeof SavingsWithdrawView> = {
           toToken: tokens['USDC'],
           type: 'reverse',
           value: NormalizedUnitNumber(5000),
-          maxSlippage: Percentage(0.005),
+          meta: {
+            fee: Percentage(0),
+            integratorKey: 'spark_waivefee',
+            maxSlippage: Percentage(0.005),
+          },
         },
         swapInfo: {
           status: 'success',

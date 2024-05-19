@@ -5,7 +5,7 @@ import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { RiskWarning } from '@/features/dialogs/common/components/risk-acknowledgement/RiskAcknowledgement'
 import { DialogFormNormalizedData } from '@/features/dialogs/common/logic/form'
 
-const WARNING_DISCREPANCY_THRESHOLD = 100
+const WARNING_DISCREPANCY_THRESHOLD = 101
 
 export interface GenerateWarningArgs {
   swapInfo: SwapInfo
@@ -38,7 +38,7 @@ export function generateWarning({
   const toAmountMinDAI = inputToken.fromBaseUnit(swapInfo.data.estimate.toAmountMin)
 
   const discrepancy = NormalizedUnitNumber(fromAmountDAI.minus(toAmountMinDAI))
-  if (discrepancy.gte(WARNING_DISCREPANCY_THRESHOLD)) {
+  if (discrepancy.gt(WARNING_DISCREPANCY_THRESHOLD)) {
     return {
       warning: {
         type: 'savings-withdraw-discrepancy-threshold-hit',

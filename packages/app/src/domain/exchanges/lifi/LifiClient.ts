@@ -1,23 +1,23 @@
 import { CheckedAddress } from '../../types/CheckedAddress'
 import { BaseUnitNumber, Percentage } from '../../types/NumericValues'
-import { LifiQuoteMeta } from './meta'
 import { preprocessSearchParams } from './preprocessSearchParams'
 import { QuoteResponse, ReverseQuoteResponse } from './types'
 import { quoteResponseSchema, reverseQuoteResponseSchema } from './validation'
 
 export interface GetQuoteOptions {
+  chainId: number
+  userAddress: CheckedAddress
   fromToken: CheckedAddress
   toToken: CheckedAddress
   amount: BaseUnitNumber
-  meta: LifiQuoteMeta
+  integratorKey: string
+  fee: Percentage
   maxSlippage: Percentage
   maxPriceImpact?: Percentage
   allowExchanges?: string[]
-  chainId: number
-  userAddress: CheckedAddress
 }
 
-interface QuoteRequestParams {
+export interface LifiQuoteRequestParams {
   fromChain: string
   toChain: string
   fromAddress: CheckedAddress
@@ -31,7 +31,7 @@ interface QuoteRequestParams {
   allowExchanges?: string[]
 }
 
-interface ReverseQuoteRequestParams {
+export interface LifiReverseQuoteRequestParams {
   fromChain: string
   toChain: string
   fromAddress: CheckedAddress
@@ -51,6 +51,18 @@ export class LiFiClient {
   private readonly reverseQuotePath = 'v1/quote/contractCalls'
   private readonly quotePath = 'v1/quote'
 
+  async getQuote(getQuoteOptions: GetQuoteOptions): Promise<QuoteResponse> {
+    const url = this.buildQuoteUrl(getQuoteOptions)
+
+    const response = await fetch(url)
+    if (!response.ok) {
+      throw new Error('Error fetching exchange quote')
+    }
+    const result = await response.json()
+
+    return quoteResponseSchema.parse(result)
+  }
+
   async getReverseQuote(getQuoteOptions: GetQuoteOptions): Promise<ReverseQuoteResponse> {
     const url = this.buildReverseQuoteUrl()
     const options = this.buildReverseQuoteRequestOptions(getQuoteOptions)
@@ -61,34 +73,15 @@ export class LiFiClient {
     }
     const result = await response.json()
 
-    return this.parseReverseQuoteResponse(result)
-  }
-
-  async getQuote(getQuoteOptions: GetQuoteOptions): Promise<QuoteResponse> {
-    const url = this.buildQuoteUrl(getQuoteOptions)
-
-    const response = await fetch(url)
-    if (!response.ok) {
-      throw new Error('Error fetching exchange quote')
-    }
-    const result = await response.json()
-
-    return this.parseQuoteResponse(result)
-  }
-
-  private parseReverseQuoteResponse(response: unknown): ReverseQuoteResponse {
-    return reverseQuoteResponseSchema.parse(response)
-  }
-
-  private parseQuoteResponse(response: unknown): QuoteResponse {
-    return quoteResponseSchema.parse(response)
+    return reverseQuoteResponseSchema.parse(result)
   }
 
   private buildQuoteUrl({
     fromToken,
     toToken,
     amount,
-    meta,
+    fee,
+    integratorKey,
     maxSlippage,
     allowExchanges,
     maxPriceImpact,
@@ -104,12 +97,12 @@ export class LiFiClient {
       fromToken,
       fromAmount: amount.toFixed(),
       toToken,
-      integrator: meta.integratorKey,
-      fee: meta.fee.toFixed(),
+      integrator: integratorKey,
+      fee: fee.toFixed(),
       slippage: maxSlippage.toFixed(),
       ...(maxPriceImpact ? { maxPriceImpact: maxPriceImpact.toFixed() } : {}),
       ...(allowExchanges ? { allowExchanges } : {}),
-    } satisfies QuoteRequestParams
+    } satisfies LifiQuoteRequestParams
 
     url.search = new URLSearchParams(preprocessSearchParams(params)).toString()
     return url
@@ -125,7 +118,8 @@ export class LiFiClient {
     fromToken,
     toToken,
     amount,
-    meta,
+    fee,
+    integratorKey,
     maxSlippage,
     maxPriceImpact,
     allowExchanges,
@@ -139,13 +133,13 @@ export class LiFiClient {
       fromToken,
       toToken,
       toAmount: amount.toFixed(),
-      integrator: meta.integratorKey,
-      fee: meta.fee.toFixed(),
+      integrator: integratorKey,
+      fee: fee.toFixed(),
       slippage: maxSlippage.toFixed(),
       ...(maxPriceImpact ? { maxPriceImpact: maxPriceImpact.toFixed() } : {}),
       ...(allowExchanges ? { allowExchanges } : {}),
       contractCalls: [],
-    } satisfies ReverseQuoteRequestParams
+    } satisfies LifiReverseQuoteRequestParams
     return {
       method: 'POST',
       headers: { accept: 'application/json', 'content-type': 'application/json' },

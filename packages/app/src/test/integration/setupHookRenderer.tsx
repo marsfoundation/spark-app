@@ -1,5 +1,6 @@
 import { QueryClient } from '@tanstack/react-query'
 import { renderHook, RenderHookResult } from '@testing-library/react'
+import { Chain } from 'wagmi/chains'
 
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 
@@ -11,10 +12,11 @@ import { createWagmiTestConfig } from './wagmi-config'
 interface SetupHookRendererArgs<HOOK extends (args: any) => any> {
   hook: HOOK
   account?: CheckedAddress
-  handlers: RpcHandler[]
+  handlers?: RpcHandler[]
   extraHandlers?: RpcHandler[]
   args: Parameters<HOOK>[0]
   queryClient?: QueryClient
+  chain?: Chain
 }
 
 export function setupHookRenderer<HOOK extends (args: any) => any>(defaultArgs: SetupHookRendererArgs<HOOK>) {
@@ -28,8 +30,9 @@ export function setupHookRenderer<HOOK extends (args: any) => any>(defaultArgs: 
       wrapper: ({ children }) => (
         <TestingWrapper
           config={createWagmiTestConfig({
-            transport: makeMockTransport([...final.handlers, ...(final.extraHandlers ?? [])]),
+            transport: makeMockTransport([...(final.handlers ?? []), ...(final.extraHandlers ?? [])]),
             wallet: final.account ? { address: final.account } : undefined,
+            chain: final.chain,
           })}
           queryClient={final.queryClient}
         >

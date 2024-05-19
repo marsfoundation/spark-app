@@ -1,6 +1,9 @@
 import { test } from '@playwright/test'
 import { gnosis, mainnet } from 'viem/chains'
 
+import { LIFI_DEFAULT_FEE_INTEGRATOR_KEY, LIFI_WAIVED_FEE_INTEGRATOR_KEY } from '@/domain/exchanges/evaluateSwap'
+import { defaultExchangeMaxSlippage } from '@/domain/state/actions-settings'
+import { Percentage } from '@/domain/types/NumericValues'
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
 import { overrideLiFiRoute } from '@/test/e2e/lifi'
@@ -33,6 +36,10 @@ test.describe('Savings deposit dialog', () => {
         receiver: account,
         preset: '100-dai-to-sdai',
         expectedBlockNumber: blockNumber,
+        expectedParams: {
+          slippage: defaultExchangeMaxSlippage,
+          integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
+        },
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -69,6 +76,10 @@ test.describe('Savings deposit dialog', () => {
         receiver: account,
         preset: '100-xdai-to-sdai',
         expectedBlockNumber: blockNumber,
+        expectedParams: {
+          integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
+          slippage: defaultExchangeMaxSlippage,
+        },
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -105,6 +116,10 @@ test.describe('Savings deposit dialog', () => {
         receiver: account,
         preset: '100-usdc-to-sdai',
         expectedBlockNumber: blockNumber,
+        expectedParams: {
+          slippage: defaultExchangeMaxSlippage,
+          integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
+        },
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -142,6 +157,10 @@ test.describe('Savings deposit dialog', () => {
         receiver: account,
         preset: '100-usdc-to-sdai-on-gnosis',
         expectedBlockNumber: blockNumber,
+        expectedParams: {
+          slippage: defaultExchangeMaxSlippage,
+          integrator: LIFI_DEFAULT_FEE_INTEGRATOR_KEY,
+        },
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -181,7 +200,8 @@ test.describe('Savings deposit dialog', () => {
         preset: '100-usdc-to-sdai',
         expectedBlockNumber: blockNumber,
         expectedParams: {
-          slippage: expectedDefaultSlippage,
+          slippage: Percentage(expectedDefaultSlippage),
+          integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
         },
       })
 
@@ -216,7 +236,8 @@ test.describe('Savings deposit dialog', () => {
         preset: '100-usdc-to-sdai',
         expectedBlockNumber: blockNumber,
         expectedParams: {
-          slippage: newSlippage,
+          slippage: Percentage(newSlippage),
+          integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
         },
       })
 
@@ -251,7 +272,8 @@ test.describe('Savings deposit dialog', () => {
         preset: '100-usdc-to-sdai',
         expectedBlockNumber: blockNumber,
         expectedParams: {
-          slippage: newSlippage,
+          slippage: Percentage(newSlippage),
+          integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
         },
       })
 
@@ -289,6 +311,10 @@ test.describe('Savings deposit dialog', () => {
         receiver: account,
         preset: '10000-dai-to-sdai',
         expectedBlockNumber: blockNumber,
+        expectedParams: {
+          slippage: defaultExchangeMaxSlippage,
+          integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
+        },
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -317,6 +343,10 @@ test.describe('Savings deposit dialog', () => {
         receiver: account,
         preset: '10000-dai-to-sdai',
         expectedBlockNumber: blockNumber,
+        expectedParams: {
+          slippage: defaultExchangeMaxSlippage,
+          integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
+        },
       })
 
       const savingsPage = new SavingsPageObject(page)

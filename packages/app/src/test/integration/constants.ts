@@ -302,6 +302,68 @@ export const daiLikeReserve = getMockReserve({
   incentives: { deposit: [], borrow: [] },
 })
 
+export const usdcLikeReserve = {
+  ...daiLikeReserve,
+  token: new Token({
+    symbol: TokenSymbol('USDC'),
+    name: 'USD Coin',
+    decimals: 6,
+    address: CheckedAddress('0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48'),
+    unitPriceUsd: '1',
+  }),
+}
+
+export const usdtLikeReserve = {
+  ...daiLikeReserve,
+  token: new Token({
+    symbol: TokenSymbol('USDT'),
+    name: 'Tether USD',
+    decimals: 6,
+    address: CheckedAddress('0xdac17f958d2ee523a2206206994597c13d831ec7'),
+    unitPriceUsd: '1',
+  }),
+}
+
+export const sDaiLikeReserve = getMockReserve({
+  token: new Token({
+    symbol: TokenSymbol('sDAI'),
+    name: 'Dai Stablecoin',
+    decimals: 18,
+    address: CheckedAddress('0x83F20F44975D03b1b09e64809B757c47f942BEeA'),
+    unitPriceUsd: '1.1',
+  }),
+  status: 'active',
+  supplyAvailabilityStatus: 'yes',
+  collateralEligibilityStatus: 'no',
+  borrowEligibilityStatus: 'no',
+  isIsolated: false,
+  isBorrowableInIsolation: true,
+  eModeCategory: undefined,
+  isSiloedBorrowing: false,
+  availableLiquidity: NormalizedUnitNumber('24662247.809387867477416918'),
+  availableLiquidityUSD: NormalizedUnitNumber('24662247.809387867477416918'),
+  totalLiquidity: NormalizedUnitNumber('1022367834.197032800423989866'),
+  totalLiquidityUSD: NormalizedUnitNumber('1022367834.197032800423989866'),
+  totalDebt: NormalizedUnitNumber('997705586.387644932946572948'),
+  totalDebtUSD: NormalizedUnitNumber('997705586.387644932946572948'),
+  totalVariableDebt: NormalizedUnitNumber('997705586.387644932946572948'),
+  totalVariableDebtUSD: NormalizedUnitNumber('997705586.387644932946572948'),
+  isolationModeTotalDebt: NormalizedUnitNumber('0'),
+  debtCeiling: NormalizedUnitNumber('0'),
+  supplyAPY: Percentage('0.06299360148523566431'),
+  maxLtv: Percentage('0'),
+  variableBorrowApy: Percentage('0.06459999999999999996'),
+  lastUpdateTimestamp: 1708334846,
+  variableBorrowIndex: new BigNumber('1.035736103938278845101422738e+27'),
+  variableBorrowRate: new BigNumber('6.2599141818649791361008e+25'),
+  liquidityIndex: new BigNumber('1.028914737353923264312907136e+27'),
+  liquidityRate: new BigNumber('6.1089080101931682768749404e+25'),
+  priceInUSD: NormalizedUnitNumber('1'),
+  usageAsCollateralEnabled: false,
+  usageAsCollateralEnabledOnUser: false,
+  incentives: { deposit: [], borrow: [] },
+})
+
 const wethLikeReserve = getMockReserve({
   token: new Token({
     symbol: TokenSymbol('WETH'),
@@ -354,3 +416,43 @@ const wethLikeReserve = getMockReserve({
     borrow: [],
   },
 })
+
+export const testTokens = {
+  DAI: daiLikeReserve.token,
+  XDAI: daiLikeReserve.token.clone({
+    name: 'XDAI',
+    symbol: TokenSymbol('XDAI'),
+  }),
+  sDAI: sDaiLikeReserve.token,
+  USDC: usdcLikeReserve.token,
+  USDT: usdtLikeReserve.token,
+  WETH: wethLikeReserve.token,
+  token1: new Token({
+    address: testAddresses.token,
+    symbol: TokenSymbol('TKN1'),
+    name: 'Token 1',
+    decimals: 18,
+    unitPriceUsd: '1',
+  }),
+  token2: new Token({
+    address: testAddresses.token2,
+    symbol: TokenSymbol('TKN2'),
+    name: 'Token 2',
+    decimals: 18,
+    unitPriceUsd: '1',
+  }),
+  token3: new Token({
+    address: testAddresses.token3,
+    symbol: TokenSymbol('TKN3'),
+    name: 'Token 3',
+    decimals: 18,
+    unitPriceUsd: '1',
+  }),
+  token4: new Token({
+    address: testAddresses.token3,
+    symbol: TokenSymbol('TKN4'),
+    name: 'Token 4',
+    decimals: 18,
+    unitPriceUsd: '1',
+  }),
+}

@@ -45,7 +45,11 @@ const meta: Meta<typeof SavingsDepositView> = {
           toToken: tokens['sDAI'],
           type: 'direct',
           value: NormalizedUnitNumber(5000),
-          maxSlippage: Percentage(0.005),
+          meta: {
+            fee: Percentage(0),
+            integratorKey: 'spark_waivefee',
+            maxSlippage: Percentage(0.005),
+          },
         },
         swapInfo: {
           status: 'success',

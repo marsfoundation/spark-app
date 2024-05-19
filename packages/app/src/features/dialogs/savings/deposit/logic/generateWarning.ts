@@ -5,7 +5,8 @@ import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { RiskWarning } from '@/features/dialogs/common/components/risk-acknowledgement/RiskAcknowledgement'
 import { DialogFormNormalizedData } from '@/features/dialogs/common/logic/form'
 
-const WARNING_DISCREPANCY_THRESHOLD = 100
+// note: this won't work with "100" and condition "gt" because of precision issues
+const WARNING_DISCREPANCY_THRESHOLD = 101
 
 export interface GenerateWarningArgs {
   swapInfo: SwapInfo

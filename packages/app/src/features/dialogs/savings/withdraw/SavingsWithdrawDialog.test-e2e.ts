@@ -1,6 +1,8 @@
 import { test } from '@playwright/test'
 import { gnosis, mainnet } from 'viem/chains'
 
+import { LIFI_DEFAULT_FEE_INTEGRATOR_KEY, LIFI_WAIVED_FEE_INTEGRATOR_KEY } from '@/domain/exchanges/evaluateSwap'
+import { defaultExchangeMaxSlippage } from '@/domain/state/actions-settings'
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
 import { overrideLiFiRoute } from '@/test/e2e/lifi'
@@ -30,6 +32,10 @@ test.describe('Savings withdraw dialog', () => {
         receiver: account,
         preset: 'sdai-to-100-dai',
         expectedBlockNumber: blockNumber,
+        expectedParams: {
+          slippage: defaultExchangeMaxSlippage,
+          integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
+        },
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -66,6 +72,10 @@ test.describe('Savings withdraw dialog', () => {
           receiver: account,
           preset: '100-sdai-to-dai',
           expectedBlockNumber: blockNumber,
+          expectedParams: {
+            slippage: defaultExchangeMaxSlippage,
+            integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
+          },
         })
 
         const savingsPage = new SavingsPageObject(page)
@@ -103,6 +113,10 @@ test.describe('Savings withdraw dialog', () => {
         receiver: account,
         preset: 'sdai-to-100-xdai',
         expectedBlockNumber: blockNumber,
+        expectedParams: {
+          slippage: defaultExchangeMaxSlippage,
+          integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
+        },
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -140,6 +154,10 @@ test.describe('Savings withdraw dialog', () => {
         receiver: account,
         preset: 'sdai-to-100-usdc',
         expectedBlockNumber: blockNumber,
+        expectedParams: {
+          slippage: defaultExchangeMaxSlippage,
+          integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
+        },
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -177,6 +195,10 @@ test.describe('Savings withdraw dialog', () => {
           receiver: account,
           preset: '100-sdai-to-usdc',
           expectedBlockNumber: blockNumber,
+          expectedParams: {
+            slippage: defaultExchangeMaxSlippage,
+            integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
+          },
         })
 
         const savingsPage = new SavingsPageObject(page)
@@ -215,6 +237,10 @@ test.describe('Savings withdraw dialog', () => {
         receiver: account,
         preset: 'sdai-to-100-usdc-on-gnosis',
         expectedBlockNumber: blockNumber,
+        expectedParams: {
+          slippage: defaultExchangeMaxSlippage,
+          integrator: LIFI_DEFAULT_FEE_INTEGRATOR_KEY,
+        },
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -254,6 +280,10 @@ test.describe('Savings withdraw dialog', () => {
         receiver: account,
         preset: 'sdai-to-10000-dai',
         expectedBlockNumber: blockNumber,
+        expectedParams: {
+          slippage: defaultExchangeMaxSlippage,
+          integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
+        },
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -282,6 +312,10 @@ test.describe('Savings withdraw dialog', () => {
         receiver: account,
         preset: 'sdai-to-10000-dai',
         expectedBlockNumber: blockNumber,
+        expectedParams: {
+          slippage: defaultExchangeMaxSlippage,
+          integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
+        },
       })
 
       const savingsPage = new SavingsPageObject(page)

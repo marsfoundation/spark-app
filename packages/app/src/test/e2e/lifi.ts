@@ -2,18 +2,18 @@ import { Page } from '@playwright/test'
 import assert from 'assert'
 import { Address } from 'viem'
 
+import { Percentage } from '@/domain/types/NumericValues'
+
 export interface LiFiParams {
-  slippage: number
+  slippage: Percentage
+  integrator: string
 }
 
-export const defaultLiFiParams: LiFiParams = {
-  slippage: 0.001,
-}
 export interface OverrideLiFiRouteOptions {
   receiver: Address
   preset: keyof typeof lifiResponses
   expectedBlockNumber: bigint
-  expectedParams?: LiFiParams
+  expectedParams: LiFiParams
 }
 
 export async function overrideLiFiRoute(
@@ -26,13 +26,13 @@ export async function overrideLiFiRoute(
     presetValue.block === expectedBlockNumber,
     `preset ${preset}(${presetValue.block}) is not available at block ${expectedBlockNumber}`,
   )
-  const params = expectedParams ?? defaultLiFiParams
+  const params = expectedParams
   const endpoint = matchUrl(presetValue.endpoint, presetValue.method === 'GET' ? lifiParamsToUrl(params) : {})
 
   await page.route(endpoint, async (route) => {
     // @todo: parse body of POST request and check if it matches the expected params
     await route.fulfill({
-      json: presetValue.response(receiver, params.slippage),
+      json: presetValue.response(receiver, params.slippage.toNumber()),
     })
   })
 }
@@ -57,6 +57,7 @@ function matchUrl(expectedUrl: string, expectedParams: Record<string, string>): 
 function lifiParamsToUrl(params: LiFiParams): Record<string, string> {
   return {
     slippage: params.slippage.toString(),
+    integrator: params.integrator,
   }
 }
 

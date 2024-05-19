@@ -64,6 +64,10 @@ const chainConfig: ChainConfig = {
     savingsInfoQuery: mainnetSavingsInfoQuery,
     daiSymbol: TokenSymbol('DAI'),
     sDaiSymbol: TokenSymbol('sDAI'),
+    lifiRoutesWithWaivedFees: [
+      [TokenSymbol('DAI'), TokenSymbol('sDAI')],
+      [TokenSymbol('USDC'), TokenSymbol('sDAI')],
+    ],
   },
   [gnosis.id]: {
     id: gnosis.id,
@@ -102,6 +106,10 @@ const chainConfig: ChainConfig = {
       import.meta.env.VITE_DEV_GNOSIS_SAVINGS === '1' ? gnosisSavingsInfoQuery : unsupportedSavingsInfoQuery,
     daiSymbol: TokenSymbol('XDAI'),
     sDaiSymbol: TokenSymbol('sDAI'),
+    lifiRoutesWithWaivedFees: [
+      // without PSMs only DAI to sDAI route has waived fees
+      [TokenSymbol('XDAI'), TokenSymbol('sDAI')],
+    ],
   },
 }
 
