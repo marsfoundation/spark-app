@@ -17,6 +17,9 @@ export function stringifyObjectivesToStableActions(objectives: Objective[]): str
       // values are stringified to reload actions when inputs change (and for example new approval value is needed)
       o?.value,
       o?.swapParams?.value,
+      o?.swapParams?.toToken?.address,
+      o?.swapParams?.fromToken?.address,
+      o?.swapParams?.type,
     ]),
   )
 }
