@@ -9,8 +9,8 @@
   "scripts": {
     "dev": "pnpm run --filter './packages/app' dev",
     "storybook": "pnpm run --filter './packages/app' storybook",
-    "format": "prettier --check \"./**/*.{js,ts,tsx}\" README.md",
-    "format:fix": "prettier --write \"./**/*.{js,ts,tsx}\" README.md",
+    "format": "biome format .",
+    "format:fix": "biome format --write .",
     "lint": "pnpm run --parallel --aggregate-output --reporter append-only --filter './packages/**' lint",
     "lint:fix": "pnpm --parallel --aggregate-output --reporter append-only --filter './packages/**' lint:fix",
     "typecheck": "pnpm --parallel --aggregate-output --reporter append-only --filter './packages/**' typecheck",
@@ -19,6 +19,7 @@
     "fix": "pnpm lint:fix && pnpm format:fix && pnpm test && pnpm typecheck"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.7.3",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
     "@typescript-eslint/parser": "^5.61.0",
     "eslint": "^8.44.0",
@@ -31,8 +32,6 @@
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "eslint-plugin-sonarjs": "^0.19.0",
     "eslint-plugin-unused-imports": "^2.0.0",
-    "prettier": "^3.2.5",
-    "prettier-plugin-tailwindcss": "^0.5.13",
     "typescript": "^5.0.2"
   }
 }
