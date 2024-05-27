@@ -1,13 +1,22 @@
+import { Slot } from '@radix-ui/react-slot'
 import { Settings } from 'lucide-react'
+import React from 'react'
 
 import { Button } from '@/ui/atoms/button/Button'
 import { Dialog, DialogContent, DialogTrigger } from '@/ui/atoms/dialog/Dialog'
+import { Tooltip, TooltipContentShort, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 import { testIds } from '@/ui/utils/testIds'
 
 import { UseSettingsDialogResult } from '../logic/useSettingsDialog'
 import { SettingsDialogContent } from './SettingsDialogContent'
 
-export function SettingsDialog(props: UseSettingsDialogResult) {
+export interface SettingsDialogProps extends UseSettingsDialogResult {
+  disabled?: boolean
+}
+
+export function SettingsDialog(props: SettingsDialogProps) {
+  const Wrapper = props.disabled ? DisabledTooltip : Slot
+
   return (
     <Dialog
       onOpenChange={(open) => {
@@ -18,16 +27,31 @@ export function SettingsDialog(props: UseSettingsDialogResult) {
       }}
     >
       <DialogTrigger asChild>
-        <Button
-          variant="secondary"
-          className="text-basics-dark-grey h-[30px] w-[30px] bg-white p-0"
-          prefixIcon={<Settings size={18} />}
-          data-testid={testIds.actions.settings}
-        />
+        <Wrapper>
+          <Button
+            variant="secondary"
+            className="text-basics-dark-grey h-[30px] w-[30px] bg-white p-0"
+            prefixIcon={<Settings size={18} />}
+            data-testid={testIds.actions.settings.dialog}
+            disabled={props.disabled}
+          />
+        </Wrapper>
       </DialogTrigger>
       <DialogContent>
         <SettingsDialogContent {...props} />
       </DialogContent>
     </Dialog>
+  )
+}
+
+interface DisabledTooltipProps {
+  children: React.ReactNode
+}
+function DisabledTooltip({ children }: DisabledTooltipProps) {
+  return (
+    <Tooltip>
+      <TooltipTrigger>{children}</TooltipTrigger>
+      <TooltipContentShort>Settings are disabled while actions are in progress.</TooltipContentShort>
+    </Tooltip>
   )
 }

@@ -5,7 +5,7 @@ import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { zeroAddress } from 'viem'
 
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 
 import { ActionsView } from './ActionsView'
 
@@ -64,13 +64,6 @@ const meta: Meta<typeof ActionsView> = {
         onAction: () => {},
       },
     ],
-    actionsSettings: {
-      exchangeMaxSlippage: Percentage(0.005),
-      setExchangeMaxSlippage: () => {},
-      preferPermits: true,
-      setPreferPermits: () => {},
-    },
-    gasPrice: NormalizedUnitNumber(0.000000000000000001),
   },
 }
 

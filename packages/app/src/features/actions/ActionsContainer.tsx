@@ -21,7 +21,7 @@ function ActionsContainer({
   variant = 'default',
   enabled,
 }: RequireKeys<ActionsContainerProps, 'enabled'>) {
-  const { handlers, actionsSettings, gasPrice, settingsDisabled } = useActionHandlers(objectives, {
+  const { handlers, settingsDisabled } = useActionHandlers(objectives, {
     enabled,
     onFinish,
   })
@@ -31,9 +31,7 @@ function ActionsContainer({
     <ActionsView
       variant={variant}
       actionHandlers={handlers}
-      actionsSettings={actionsSettings}
       settingsDisabled={settingsDisabled}
-      gasPrice={gasPrice}
       settingsDialogProps={settingsDialogProps}
     />
   )

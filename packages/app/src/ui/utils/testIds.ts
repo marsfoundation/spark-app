@@ -50,7 +50,12 @@ export const testIds = makeTestIds({
     acknowledgeRiskSwitch: true,
   },
   actions: {
-    settings: true,
+    settings: {
+      dialog: true,
+      slippage: {
+        error: true,
+      },
+    },
     slippage: true,
   },
   navbar: {

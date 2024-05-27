@@ -15,7 +15,7 @@ export function normalizeFormValues(values: ActionSettingsSchema): ActionSetting
   return {
     slippage: {
       type: values.slippage.type,
-      value: Percentage(BigNumber(values.slippage.value).div(100)),
+      value: Percentage(BigNumber(values.slippage.value === '' ? 0 : values.slippage.value).div(100)),
     },
   }
 }

@@ -3,6 +3,7 @@ import { UseFormReturn } from 'react-hook-form'
 import { formatPercentage } from '@/domain/common/format'
 import { Percentage } from '@/domain/types/NumericValues'
 import { PREDEFINED_SLIPPAGES } from '@/features/actions/settings-dialog/constants'
+import { testIds } from '@/ui/utils/testIds'
 
 import { ActionSettingsSchema } from '../../logic/form'
 import { UseSlippageFormResult } from '../../logic/useSlippageForm'
@@ -40,7 +41,11 @@ export function SlippageForm({ form, onSlippageChange, type, slippage, error }: 
           error={error}
         />
       </div>
-      {error && <div className="text-error mt-2 flex justify-end text-xs">{error}</div>}
+      {error && (
+        <div className="text-error mt-2 flex justify-end text-xs" data-testid={testIds.actions.settings.slippage.error}>
+          {error}
+        </div>
+      )}
     </div>
   )
 }

@@ -30,7 +30,9 @@ export function useSettingsDialog(): UseSettingsDialogResult {
   const normalizedFormValues = normalizeFormValues(form.watch())
 
   function onConfirm(): void {
-    actionsSettings.setExchangeMaxSlippage(normalizedFormValues.slippage.value)
+    if (form.formState.isValid) {
+      actionsSettings.setExchangeMaxSlippage(normalizedFormValues.slippage.value)
+    }
     actionsSettings.setPreferPermits(preferPermits)
   }
 
@@ -43,7 +45,7 @@ export function useSettingsDialog(): UseSettingsDialogResult {
       form,
       onSlippageChange,
       type: normalizedFormValues.slippage.type,
-      error: form.formState.errors.slippage?.message,
+      error: form.formState.errors.slippage?.value?.message,
       slippage: normalizedFormValues.slippage.value,
     },
     onConfirm,
