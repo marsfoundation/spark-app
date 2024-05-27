@@ -10,7 +10,6 @@ const buildSha = execSync('git rev-parse --short HEAD').toString().trimEnd()
 const buildTime = new Date().toLocaleString('en-gb')
 
 // disable sentry integration on preview deployments
-console.log('process.env.VERCEL_ENV', process.env.VERCEL_ENV)
 if (process.env.VERCEL_ENV === 'preview') {
   process.env.VITE_SENTRY_DSN = ''
 }
