@@ -1,7 +1,7 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.7.3/schema.json",
   "files": {
-    "include": ["**/*.ts", "**/*.tsx", "**/*.js", "README.md"],
+    "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.json", "README.md"],
     "ignore": [
       "**/node_modules",
       "**/.vscode",
@@ -22,7 +22,20 @@
     "attributePosition": "auto"
   },
   "organizeImports": { "enabled": false },
-  "linter": { "enabled": false, "rules": { "recommended": true } },
+  "linter": {
+    "enabled": false,
+    "rules": {
+      "recommended": true,
+      "nursery": {
+        "useSortedClasses": {
+          "level": "error",
+          "options": {
+            "functions": ["cn", "cva", "clsx"]
+          }
+        }
+      }
+    }
+  },
   "javascript": {
     "formatter": {
       "jsxQuoteStyle": "double",
