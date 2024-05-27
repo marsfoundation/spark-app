@@ -1,7 +1,0 @@
-node_modules
-.vscode
-package.json
-**/dist/**
-.vite
-packages/app/storybook-static
-packages/app/__screenshots__
