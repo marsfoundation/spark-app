@@ -16,7 +16,8 @@ export function SettingsDialogContent({
         <div className="flex flex-col gap-2">
           <h3 className="text-basics-black">Use permits when available</h3>
           <p className="text-basics-dark-grey text-xs">
-            Permits are a way to save gas by allowing a contract to execute multiple actions in a single transaction.
+            Permits are a way to save gas by avoiding on-chain approve transactions. Instead signed permits are bundled
+            with another transactions such as deposit or borrow.
           </p>
         </div>
         <Switch className="ml-auto" checked={preferPermits} onClick={togglePreferPermits} />
