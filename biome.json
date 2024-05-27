@@ -1,13 +1,7 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.7.3/schema.json",
-  "formatter": {
-    "enabled": true,
-    "formatWithErrors": false,
-    "indentStyle": "space",
-    "indentWidth": 2,
-    "lineEnding": "lf",
-    "lineWidth": 120,
-    "attributePosition": "auto",
+  "files": {
+    "include": ["**/*.ts", "**/*.tsx", "**/*.js", "README.md"],
     "ignore": [
       "**/node_modules",
       "**/.vscode",
@@ -18,7 +12,16 @@
       "packages/app/__screenshots__"
     ]
   },
-  "organizeImports": { "enabled": true },
+  "formatter": {
+    "enabled": true,
+    "formatWithErrors": false,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineEnding": "lf",
+    "lineWidth": 120,
+    "attributePosition": "auto"
+  },
+  "organizeImports": { "enabled": false },
   "linter": { "enabled": false, "rules": { "recommended": true } },
   "javascript": {
     "formatter": {
