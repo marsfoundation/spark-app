@@ -9,8 +9,8 @@
   "scripts": {
     "dev": "pnpm run --filter './packages/app' dev",
     "storybook": "pnpm run --filter './packages/app' storybook",
-    "format": "biome format --write .",
-    "format:fix": "biome check --apply .",
+    "format": "biome format .",
+    "format:fix": "biome format --write .",
     "lint": "pnpm run --parallel --aggregate-output --reporter append-only --filter './packages/**' lint",
     "lint:fix": "pnpm --parallel --aggregate-output --reporter append-only --filter './packages/**' lint:fix",
     "typecheck": "pnpm --parallel --aggregate-output --reporter append-only --filter './packages/**' typecheck",

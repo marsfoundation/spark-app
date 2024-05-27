@@ -176,7 +176,9 @@ export class DashboardPageObject extends BasePageObject {
     const table = this.locatePanelByHeader('Deposit')
     await expect(
       // @note For some reason you can't do table.getByRole('cell', ...)
-      table.getByRole('row').filter({ has: this.page.getByRole('cell', { name: asset, exact: true }) }),
+      table
+        .getByRole('row')
+        .filter({ has: this.page.getByRole('cell', { name: asset, exact: true }) }),
     ).toBeVisible()
   }
 
@@ -184,7 +186,9 @@ export class DashboardPageObject extends BasePageObject {
     const table = this.locatePanelByHeader('Borrow')
     await expect(
       // @note For some reason you can't do table.getByRole('cell', ...)
-      table.getByRole('row').filter({ has: this.page.getByRole('cell', { name: asset, exact: true }) }),
+      table
+        .getByRole('row')
+        .filter({ has: this.page.getByRole('cell', { name: asset, exact: true }) }),
     ).toBeVisible()
   }
 
