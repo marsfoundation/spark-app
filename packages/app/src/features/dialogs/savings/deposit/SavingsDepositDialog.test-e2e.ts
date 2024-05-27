@@ -310,7 +310,8 @@ test.describe('Savings deposit dialog', () => {
           preset: '100-usdc-to-sdai',
           expectedBlockNumber: blockNumber,
           expectedParams: {
-            slippage: expectedDefaultSlippage,
+            slippage: Percentage(expectedDefaultSlippage),
+            integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
           },
         })
 
@@ -352,7 +353,8 @@ test.describe('Savings deposit dialog', () => {
           preset: '100-usdc-to-sdai',
           expectedBlockNumber: blockNumber,
           expectedParams: {
-            slippage: expectedDefaultSlippage,
+            slippage: Percentage(expectedDefaultSlippage),
+            integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
           },
         })
 
@@ -393,7 +395,8 @@ test.describe('Savings deposit dialog', () => {
           preset: '100-usdc-to-sdai',
           expectedBlockNumber: blockNumber,
           expectedParams: {
-            slippage: expectedDefaultSlippage,
+            slippage: Percentage(expectedDefaultSlippage),
+            integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
           },
         })
 
