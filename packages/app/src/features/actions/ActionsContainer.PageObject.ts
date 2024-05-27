@@ -40,14 +40,14 @@ export class ActionsPageObject extends BasePageObject {
   }
 
   async switchPreferPermitsAction(): Promise<void> {
-    await this.region.getByTestId(testIds.actions.settings).click()
+    await this.region.getByTestId(testIds.actions.settings.dialog).click()
     const settingsDialog = this.locateSettingsDialog()
     await settingsDialog.getByRole('switch', { disabled: false }).click()
     await settingsDialog.getByRole('button').filter({ hasText: 'Close' }).click()
   }
 
   async setSlippageAction(slippage: number, type: 'button' | 'input'): Promise<void> {
-    await this.region.getByTestId(testIds.actions.settings).click()
+    await this.region.getByTestId(testIds.actions.settings.dialog).click()
     const settingsDialog = this.locateSettingsDialog()
     if (type === 'button') {
       await settingsDialog
@@ -57,6 +57,21 @@ export class ActionsPageObject extends BasePageObject {
       await settingsDialog.getByRole('textbox').fill(formatPercentage(Percentage(slippage), { skipSign: true }))
     }
     await settingsDialog.getByRole('button').filter({ hasText: 'Close' }).click()
+  }
+
+  async openSettingsDialogAction(): Promise<void> {
+    await this.region.getByTestId(testIds.actions.settings.dialog).click()
+  }
+
+  async closeSettingsDialogAction(): Promise<void> {
+    await this.locateSettingsDialog().getByRole('button').filter({ hasText: 'Close' }).click()
+  }
+
+  async fillSlippageAction(slippage: string | number): Promise<void> {
+    if (typeof slippage === 'number') {
+      slippage = formatPercentage(Percentage(slippage), { skipSign: true })
+    }
+    await this.locateSettingsDialog().getByRole('textbox').fill(slippage)
   }
   // #endregion actions
 
@@ -100,6 +115,10 @@ export class ActionsPageObject extends BasePageObject {
     await expect(this.region.getByTestId(testIds.actions.slippage)).toHaveText(
       formatPercentage(Percentage(slippage), { minimumFractionDigits: 1 }),
     )
+  }
+
+  async expectSlippageValidationError(error: string): Promise<void> {
+    await expect(this.locateSettingsDialog().getByTestId(testIds.actions.settings.slippage.error)).toHaveText(error)
   }
   // #endregion assertions
 }

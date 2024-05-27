@@ -289,6 +289,135 @@ test.describe('Savings deposit dialog', () => {
 
       await actionsContainer.expectSlippage(newSlippage)
     })
+
+    test.describe('Validation', () => {
+      test('reverts to default if value is bigger than max', async ({ page }) => {
+        const { account } = await setup(page, fork, {
+          initialPage: 'savings',
+          account: {
+            type: 'connected',
+            assetBalances: {
+              ETH: 1,
+              USDC: 100,
+            },
+          },
+        })
+        const newSlippage = 0.5
+        const expectedDefaultSlippage = 0.001
+
+        await overrideLiFiRoute(page, {
+          receiver: account,
+          preset: '100-usdc-to-sdai',
+          expectedBlockNumber: blockNumber,
+          expectedParams: {
+            slippage: expectedDefaultSlippage,
+          },
+        })
+
+        const savingsPage = new SavingsPageObject(page)
+
+        await savingsPage.clickDepositButtonAction('USDC')
+
+        const depositDialog = new SavingsDepositDialogPageObject(page)
+        const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
+
+        await actionsContainer.openSettingsDialogAction()
+        await actionsContainer.fillSlippageAction(newSlippage)
+
+        await actionsContainer.expectSlippageValidationError('Value has to be greater than 0 and less than 50')
+
+        await actionsContainer.closeSettingsDialogAction()
+
+        await depositDialog.fillAmountAction(100)
+
+        await actionsContainer.expectSlippage(expectedDefaultSlippage)
+      })
+
+      test('reverts to default if value is 0', async ({ page }) => {
+        const { account } = await setup(page, fork, {
+          initialPage: 'savings',
+          account: {
+            type: 'connected',
+            assetBalances: {
+              ETH: 1,
+              USDC: 100,
+            },
+          },
+        })
+        const newSlippage = 0
+        const expectedDefaultSlippage = 0.001
+
+        await overrideLiFiRoute(page, {
+          receiver: account,
+          preset: '100-usdc-to-sdai',
+          expectedBlockNumber: blockNumber,
+          expectedParams: {
+            slippage: expectedDefaultSlippage,
+          },
+        })
+
+        const savingsPage = new SavingsPageObject(page)
+
+        await savingsPage.clickDepositButtonAction('USDC')
+
+        const depositDialog = new SavingsDepositDialogPageObject(page)
+        const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
+
+        await actionsContainer.openSettingsDialogAction()
+        await actionsContainer.fillSlippageAction(newSlippage)
+
+        await actionsContainer.expectSlippageValidationError('Value has to be greater than 0 and less than 50')
+
+        await actionsContainer.closeSettingsDialogAction()
+
+        await depositDialog.fillAmountAction(100)
+
+        await actionsContainer.expectSlippage(expectedDefaultSlippage)
+      })
+
+      test('reverts to default if value is empty', async ({ page }) => {
+        const { account } = await setup(page, fork, {
+          initialPage: 'savings',
+          account: {
+            type: 'connected',
+            assetBalances: {
+              ETH: 1,
+              USDC: 100,
+            },
+          },
+        })
+        const expectedDefaultSlippage = 0.001
+
+        await overrideLiFiRoute(page, {
+          receiver: account,
+          preset: '100-usdc-to-sdai',
+          expectedBlockNumber: blockNumber,
+          expectedParams: {
+            slippage: expectedDefaultSlippage,
+          },
+        })
+
+        const savingsPage = new SavingsPageObject(page)
+
+        await savingsPage.clickDepositButtonAction('USDC')
+
+        const depositDialog = new SavingsDepositDialogPageObject(page)
+        const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
+
+        await actionsContainer.openSettingsDialogAction()
+        // input something to trigger switch from button
+        await actionsContainer.fillSlippageAction(0.001)
+        await actionsContainer.fillSlippageAction('')
+
+        await actionsContainer.expectSlippageValidationError('Value has to be greater than 0 and less than 50')
+
+        await actionsContainer.closeSettingsDialogAction()
+
+        await depositDialog.fillAmountAction(100)
+
+        await actionsContainer.expectSlippage(expectedDefaultSlippage)
+      })
+    })
   })
 
   test.describe('Risk warning', () => {

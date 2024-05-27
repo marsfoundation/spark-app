@@ -32,7 +32,7 @@ export function SettingsDialog(props: SettingsDialogProps) {
             variant="secondary"
             className="text-basics-dark-grey h-[30px] w-[30px] bg-white p-0"
             prefixIcon={<Settings size={18} />}
-            data-testid={testIds.actions.settings}
+            data-testid={testIds.actions.settings.dialog}
             disabled={props.disabled}
           />
         </Wrapper>
