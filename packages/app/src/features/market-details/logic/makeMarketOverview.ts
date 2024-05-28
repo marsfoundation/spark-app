@@ -1,28 +1,28 @@
-import { getAirdropsData } from '@/config/chain/utils/airdrops'
 import { MarketInfo, Reserve } from '@/domain/market-info/marketInfo'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 
 import { MarketOverview } from '../types'
 import { getReserveEModeCategoryTokens } from './getReserveEModeCategoryTokens'
+import { getSparkAirdropDetails } from './getSparkAirdropDetails'
 
 export interface MakeMarketOverviewParams {
   marketInfo: MarketInfo
   reserve: Reserve
-  airdropTokenSymbol: TokenSymbol
+  airdropEligibleToken: TokenSymbol
 }
 
 export function makeMarketOverview({
   reserve,
   marketInfo,
-  airdropTokenSymbol,
+  airdropEligibleToken,
 }: MakeMarketOverviewParams): MarketOverview {
   const eModeCategoryId = reserve.eModeCategory?.id
   const eModeCategoryTokens = getReserveEModeCategoryTokens(marketInfo, reserve)
-  const airdropData = getAirdropsData(marketInfo.chainId, airdropTokenSymbol)
+  const sparkAirdrop = getSparkAirdropDetails({ marketInfo, airdropEligibleToken })
 
   return {
     supply: {
-      airdropEligible: airdropData.deposit.length > 0,
+      sparkAirdrop: sparkAirdrop.deposit,
       status: reserve.supplyAvailabilityStatus,
       totalSupplied: reserve.totalLiquidity,
       supplyCap: reserve.supplyCap,
@@ -38,7 +38,7 @@ export function makeMarketOverview({
       liquidationPenalty: reserve.liquidationBonus,
     },
     borrow: {
-      airdropEligible: airdropData.borrow.length > 0,
+      sparkAirdrop: sparkAirdrop.borrow,
       status: reserve.borrowEligibilityStatus,
       totalBorrowed: reserve.totalDebt,
       borrowCap: reserve.borrowCap,

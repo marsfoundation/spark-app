@@ -24,7 +24,7 @@ export interface UseMarketDetailsResult {
   marketOverview: MarketOverview
   walletOverview: WalletOverview
   chainMismatch: boolean
-  airdropTokenSymbol: TokenSymbol
+  airdropEligibleToken: TokenSymbol
 }
 
 export function useMarketDetails(): UseMarketDetailsResult {
@@ -41,7 +41,7 @@ export function useMarketDetails(): UseMarketDetailsResult {
 
   const isDaiOverview = reserve.token.symbol === marketInfo.DAI.symbol && D3MInfo
 
-  const airdropTokenSymbol = getNativeTokenSymbolIfWrapped(marketInfo.chainId, reserve.token.symbol)
+  const airdropEligibleToken = getNativeTokenSymbolIfWrapped(marketInfo.chainId, reserve.token.symbol)
 
   const marketOverview = isDaiOverview
     ? makeDaiMarketOverview({
@@ -52,7 +52,7 @@ export function useMarketDetails(): UseMarketDetailsResult {
     : makeMarketOverview({
         reserve,
         marketInfo,
-        airdropTokenSymbol,
+        airdropEligibleToken,
       })
   const walletOverview = makeWalletOverview({
     reserve,
@@ -68,6 +68,6 @@ export function useMarketDetails(): UseMarketDetailsResult {
     marketOverview,
     walletOverview,
     chainMismatch,
-    airdropTokenSymbol,
+    airdropEligibleToken,
   }
 }
