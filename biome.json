@@ -44,6 +44,9 @@
       "complexity": {
         "noBannedTypes": "off"
       },
+      "a11y": {
+        "all": false
+      },
       "nursery": {
         "useSortedClasses": {
           "level": "error",
