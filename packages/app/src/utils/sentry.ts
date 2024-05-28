@@ -13,6 +13,12 @@ Sentry.init({
   replaysSessionSampleRate: 0,
   replaysOnErrorSampleRate: 0,
   tracePropagationTargets: [],
+  ignoreErrors: [
+    'User rejected methods',
+    'User disapproved requested methods',
+    'WebSocket request failed',
+    'WebSocket connection failed',
+  ],
 })
 
 export function captureError(error: Error): void {
