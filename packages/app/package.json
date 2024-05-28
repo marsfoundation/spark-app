@@ -13,7 +13,7 @@
     "build:staging": "pnpm run build --mode staging",
     "format": "cd ../.. && pnpm run format",
     "format:fix": "cd ../.. && pnpm run format:fix",
-    "lint": "eslint --max-warnings=0 --ext ts,tsx --report-unused-disable-directives src",
+    "lint": "eslint src",
     "lint:fix": "pnpm lint --fix",
     "test": "DEBUG_PRINT_LIMIT=100000 vitest --run",
     "test-e2e": "playwright test",
