@@ -1,7 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom'
 
 import { paths } from './config/paths'
-import { ErrorContainer } from './features/errors/ErrorContainer'
 import { NotFound } from './features/errors/NotFound'
 import { EasyBorrowPage } from './pages/Borrow'
 import { DashboardPage } from './pages/Dashboard'
@@ -16,7 +15,6 @@ export const rootRouter = createBrowserRouter([
     element: <RootRoute />,
     children: [
       {
-        errorElement: <ErrorContainer />,
         children: [
           {
             path: paths.easyBorrow,

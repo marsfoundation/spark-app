@@ -1,6 +1,7 @@
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { useEffect } from 'react'
-import { useNavigate, useRouteError } from 'react-router-dom'
+import { FallbackProps } from 'react-error-boundary'
+import { useNavigate } from 'react-router-dom'
 import { useAccountEffect } from 'wagmi'
 
 import { NotConnectedError } from '@/domain/errors/not-connected'
@@ -12,9 +13,7 @@ import { captureError } from '@/utils/sentry'
 
 import { NotFound } from './NotFound'
 
-export function ErrorContainer() {
-  const error = useRouteError()
-
+export function ErrorContainer({ error }: FallbackProps) {
   if (error instanceof NotConnectedError) {
     return <NotConnected />
   }
@@ -43,11 +42,11 @@ export function NotConnected() {
   )
 }
 
-export function UnknownError({ error }: { error: unknown }) {
+export function UnknownError({ error }: { error: any }) {
   const navigate = useNavigate()
 
   useEffect(() => {
-    captureError(error as any)
+    captureError(error)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
