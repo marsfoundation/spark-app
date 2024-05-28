@@ -10,14 +10,16 @@ import { FallbackLayout } from '@/ui/layouts/FallbackLayout'
 
 export function RootRoute() {
   return (
-    <Suspense fallback={<FallbackLayout />}>
-      <AppLayout>
-        <ErrorBoundary FallbackComponent={ErrorContainer}>
-          <Outlet />
-          <DialogDispatcherContainer />
-          <ComplianceContainer />
-        </ErrorBoundary>
-      </AppLayout>
-    </Suspense>
+    <ErrorBoundary FallbackComponent={ErrorContainer}>
+      <Suspense fallback={<FallbackLayout />}>
+        <AppLayout>
+          <ErrorBoundary FallbackComponent={ErrorContainer}>
+            <Outlet />
+            <DialogDispatcherContainer />
+            <ComplianceContainer />
+          </ErrorBoundary>
+        </AppLayout>
+      </Suspense>
+    </ErrorBoundary>
   )
 }
