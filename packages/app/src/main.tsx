@@ -6,9 +6,12 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 
 import App from './App.tsx'
+import { TopLevelErrorBoundary } from './features/errors/TopLevelErrorBoundary.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <App />
+    <TopLevelErrorBoundary>
+      <App />
+    </TopLevelErrorBoundary>
   </React.StrictMode>,
 )
