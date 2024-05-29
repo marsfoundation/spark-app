@@ -5,7 +5,7 @@ import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import BigNumber from 'bignumber.js'
 import { useRef } from 'react'
 import { useForm } from 'react-hook-form'
-import { withRouter } from 'storybook-addon-react-router-v6'
+import { withRouter } from 'storybook-addon-remix-react-router'
 import { zeroAddress } from 'viem'
 
 import { TokenWithBalance, TokenWithFormValue } from '@/domain/common/types'

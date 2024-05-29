@@ -1,6 +1,6 @@
 import { WithClassname } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
-import { within } from '@storybook/testing-library'
+import { within } from '@storybook/test'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './Accordion'

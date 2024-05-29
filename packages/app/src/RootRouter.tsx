@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom'
 
 import { paths } from './config/paths'
-import { ErrorContainer } from './features/errors/ErrorContainer'
+import { RouterErrorFallback } from './features/errors'
 import { NotFound } from './features/errors/NotFound'
 import { EasyBorrowPage } from './pages/Borrow'
 import { DashboardPage } from './pages/Dashboard'
@@ -14,9 +14,9 @@ export const rootRouter = createBrowserRouter([
   {
     path: '/',
     element: <RootRoute />,
+    errorElement: <RouterErrorFallback fullScreen />,
     children: [
       {
-        errorElement: <ErrorContainer />,
         children: [
           {
             path: paths.easyBorrow,

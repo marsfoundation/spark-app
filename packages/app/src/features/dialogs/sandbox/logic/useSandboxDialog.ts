@@ -5,6 +5,7 @@ import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts'
 import { useAccount, useConfig } from 'wagmi'
 import { connect, getChains, switchChain } from 'wagmi/actions'
 
+import { createSandboxConnector } from '@/domain/sandbox/createSandboxConnector'
 import { useSandboxState } from '@/domain/sandbox/useSandboxState'
 import { useStore } from '@/domain/state'
 import { NotRetryableError, retry } from '@/utils/promises'
@@ -12,7 +13,6 @@ import { getTimestampInSeconds } from '@/utils/time'
 
 import { SandboxMode } from '../types'
 import { createSandbox, getChainIdWithPrefix } from './createSandbox'
-import { createSandboxConnector } from './createSandboxConnector'
 
 export type UseSandboxMutationResult = Omit<UseMutationResult<void, Error, void, unknown>, 'mutate'> & {
   startSandbox: () => void
