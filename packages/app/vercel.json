@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://api.spark.fi/v2/:path*"
+      "destination": "https://api-v2.spark.fi/api/v1/:path*"
     },
     {
       "source": "/(.*)",

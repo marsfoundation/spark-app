@@ -4,7 +4,6 @@ import { ReadHookParams } from './types'
 
 type VpnResponse = {
   isConnectedToVpn: boolean
-  isRestrictedRegion: boolean
   countryCode: string
 }
 
@@ -14,7 +13,6 @@ async function checkVpn(authUrl: string): Promise<VpnResponse> {
   }
 
   let isConnectedToVpn = false
-  let isRestrictedRegion = false
   let countryCode = ''
   // TODO is this the best way to get a user's IP address?
   const ipRes = await fetch('https://api.ipify.org/?format=json')
@@ -28,13 +26,12 @@ async function checkVpn(authUrl: string): Promise<VpnResponse> {
     throw new Error('Could not fetch VPN status')
   }
 
-  const { country_code, is_vpn, is_restricted_region } = (await vpnRes.json()) as any
+  const { country_code, is_vpn } = (await vpnRes.json()) as any
 
   countryCode = country_code
   isConnectedToVpn = is_vpn
-  isRestrictedRegion = is_restricted_region
 
-  return { countryCode, isConnectedToVpn, isRestrictedRegion }
+  return { countryCode, isConnectedToVpn }
 }
 
 type Props = ReadHookParams<VpnResponse> & { authUrl: string }
