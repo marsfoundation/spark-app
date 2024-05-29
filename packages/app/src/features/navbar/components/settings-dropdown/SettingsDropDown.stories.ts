@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from '@storybook/react'
-import { userEvent, within } from '@storybook/testing-library'
+import { userEvent, within } from '@storybook/test'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { withRouter } from 'storybook-addon-react-router-v6'
 
