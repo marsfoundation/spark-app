@@ -14,7 +14,8 @@ Sentry.init({
   replaysOnErrorSampleRate: 0,
   tracePropagationTargets: [],
   ignoreErrors: [
-    'User rejected methods',
+    'User rejected the request', // Rejecting a request using browser wallet
+    'User rejected methods', // Happens sometimes with mobile wallets
     'User disapproved requested methods', // Happens when user rejects transaction using mobile wallet (connected by WalletConnect)
   ],
 })
