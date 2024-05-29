@@ -7,7 +7,8 @@ export const queryClient = new QueryClient({
     queries: {
       gcTime: 1_000 * 60 * 60 * 24, // 24 hours
       refetchOnWindowFocus: true,
-      retry: 0,
+      retry: 3,
+      retryDelay: (attemptIndex) => Math.min(150 * 2 ** attemptIndex, 10_000), // reduce the base delay to 150ms
       staleTime: 1_000 * 60, // 1 minute
     },
   },
