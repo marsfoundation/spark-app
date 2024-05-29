@@ -15,6 +15,7 @@ describe(formatPercentage.name, () => {
       [999_999, '99,999,900.00%'],
     ]
 
+    // biome-ignore lint/complexity/noForEach: <explanation>
     tests.forEach(([value, expected]) => {
       expect(formatPercentage(Percentage(value, true))).toEqual(expected)
     })
@@ -37,6 +38,7 @@ describe(formatPercentage.name, () => {
       [0.99999, '100.00%'],
     ]
 
+    // biome-ignore lint/complexity/noForEach: <explanation>
     tests.forEach(([value, expected]) => {
       expect(formatPercentage(Percentage(value, true))).toEqual(expected)
     })
@@ -51,6 +53,7 @@ describe(formatPercentage.name, () => {
       [0.00009999999, '<0.01%'],
     ]
 
+    // biome-ignore lint/complexity/noForEach: <explanation>
     tests.forEach(([value, expected]) => {
       expect(formatPercentage(Percentage(value, true))).toEqual(expected)
     })
@@ -71,6 +74,7 @@ describe(formatHealthFactor.name, () => {
       [999, '999'],
     ]
 
+    // biome-ignore lint/complexity/noForEach: <explanation>
     tests.forEach(([value, expected]) => {
       expect(formatHealthFactor(NormalizedUnitNumber(value))).toEqual(expected)
     })
@@ -87,6 +91,7 @@ describe(formatHealthFactor.name, () => {
       [9.99, '9.99'],
     ]
 
+    // biome-ignore lint/complexity/noForEach: <explanation>
     tests.forEach(([value, expected]) => {
       expect(formatHealthFactor(NormalizedUnitNumber(value))).toEqual(expected)
     })

@@ -21,6 +21,7 @@ export function encodeRpcUnformattedData(value: string): string {
 
 // removes undefined values from object to make comparison easier
 export function cleanObject(obj: any): any {
+  // biome-ignore lint/complexity/noForEach: <explanation>
   Object.keys(obj).forEach((key) => obj[key] === undefined && delete obj[key])
   return obj
 }

@@ -120,6 +120,7 @@ export const PredefinedSize: Story = {
   },
 }
 
+// biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
 export const Error: Story = {
   name: 'Error',
   args: {

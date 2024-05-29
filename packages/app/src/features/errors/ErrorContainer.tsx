@@ -46,9 +46,9 @@ export function NotConnected() {
 export function UnknownError({ error }: { error: unknown }) {
   const navigate = useNavigate()
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     captureError(error as any)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

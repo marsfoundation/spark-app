@@ -73,6 +73,7 @@ export function useWrite<TAbi extends Abi, TFunctionName extends ContractFunctio
   })
   const txSubmissionError = enabled ? _txSubmissionError : undefined
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (txReceipt) {
       callbacks.onTransactionSettled?.()

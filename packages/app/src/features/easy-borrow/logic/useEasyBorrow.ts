@@ -161,12 +161,12 @@ export function useEasyBorrow(): UseEasyBorrowResults {
     borrowRate: marketInfo.findOneReserveBySymbol(defaultAssetToBorrow).variableBorrowApy,
   }
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(
     function revalidateFormOnNetworkChange() {
       // eslint-disable-next-line no-console
       easyBorrowForm.trigger().catch(console.error)
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [account.chainId],
   )
   useEffect(() => {

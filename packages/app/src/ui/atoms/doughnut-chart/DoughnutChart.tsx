@@ -53,6 +53,7 @@ function getArcs(outerRadius: number, innerRadius: number, data: DoughnutChartPr
   const sums = data.map(
     (
       (sum) => (value) =>
+        // biome-ignore lint/suspicious/noAssignInExpressions: <explanation>
         (sum += value.value)
     )(0),
   )

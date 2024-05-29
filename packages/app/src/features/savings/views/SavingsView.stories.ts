@@ -138,7 +138,7 @@ export const NoDepositNoCashTablet = {
 export const BigNumbersDesktop: Story = {
   name: 'Big numbers',
   args: {
-    depositedUSD: NormalizedUnitNumber(134395765.123482934245),
+    depositedUSD: NormalizedUnitNumber('134395765.123482934245'),
     depositedUSDPrecision: 0,
     sDAIBalance: { balance: NormalizedUnitNumber(134000000.0), token: tokens.sDAI },
     APY: Percentage(0.05),

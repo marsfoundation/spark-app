@@ -216,7 +216,7 @@ describe(Token.name, () => {
 
         it('formats numbers with thousands separators', () => {
           expect(token.format(NormalizedUnitNumber(123456789), { style: 'auto' })).toEqual('123,456,789.00')
-          expect(token.format(NormalizedUnitNumber(123456789.123456789), { style: 'auto' })).toEqual(
+          expect(token.format(NormalizedUnitNumber('123456789.123456789'), { style: 'auto' })).toEqual(
             '123,456,789.123457',
           )
         })
