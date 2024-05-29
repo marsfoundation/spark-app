@@ -78,7 +78,6 @@ export function useWrite<TAbi extends Abi, TFunctionName extends ContractFunctio
     if (txReceipt) {
       callbacks.onTransactionSettled?.()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [txReceipt])
 
   const status = ((): WriteStatus => {

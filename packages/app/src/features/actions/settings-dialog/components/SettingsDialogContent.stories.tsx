@@ -12,7 +12,7 @@ const meta: Meta<typeof SettingsDialogContent> = {
   component: SettingsDialogContent,
   decorators: [WithClassname('max-w-xl')],
   render: () => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+    
     const form = useForm() as any
     return (
       <SettingsDialogContent

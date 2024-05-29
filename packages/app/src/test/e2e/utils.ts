@@ -120,7 +120,6 @@ export async function calculateAssetsWorth(
   const uiPoolDataProvider = uiPoolDataProviderAddress[chainId as keyof typeof uiPoolDataProviderAddress]
   const lendingPoolAddressProvider =
     lendingPoolAddressProviderAddress[chainId as keyof typeof lendingPoolAddressProviderAddress]
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (!uiPoolDataProvider || !lendingPoolAddressProvider) {
     throw new Error(`Couldn't find addresses for chain ${chainId}`)
   }

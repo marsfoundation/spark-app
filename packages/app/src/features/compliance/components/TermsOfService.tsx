@@ -60,7 +60,6 @@ const points = [
     maintenance of the Site.
   </p>,
 ]
-/* eslint-enable react/jsx-key */
 
 export interface TermsOfServiceProps {
   onAgree?: () => void

@@ -10,7 +10,7 @@ const meta: Meta<typeof SettingsDialog> = {
   title: 'Features/Actions/SettingsDialog',
   component: SettingsDialog,
   render: () => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+    
     const form = useForm() as any
     return (
       <SettingsDialog

@@ -135,7 +135,6 @@ export function ControlledMultiSelectorAssetInput({
                 })
               }
               // always trigger validation of the whole form
-              // eslint-disable-next-line no-console
               trigger().catch(console.error)
             }}
           />

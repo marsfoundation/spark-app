@@ -16,7 +16,6 @@ export function useIPAndAddressCheck(): UseIPAndAddressCheck {
     return { blocked: false }
   }
 
-  /* eslint-disable react-hooks/rules-of-hooks */
   const { address } = useAccount()
   const addressCheck = useRestrictedAddressCheck({
     address,
@@ -26,7 +25,6 @@ export function useIPAndAddressCheck(): UseIPAndAddressCheck {
   })
   const vpnCheck = useVpnCheck({ authUrl: apiUrl })
   const isCurrentPageBlocked = useIsCurrentPageBlocked()
-  /* eslint-enable react-hooks/rules-of-hooks */
 
   if (vpnCheck.data?.isConnectedToVpn) {
     return { blocked: true, reason: 'vpn-detected' }

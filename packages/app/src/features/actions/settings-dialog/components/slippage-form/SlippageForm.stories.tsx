@@ -11,7 +11,7 @@ import { SlippageForm } from './SlippageForm'
 const meta: Meta<typeof SlippageForm> = {
   title: 'Features/Actions/SlippageForm',
   component: (args) => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+    
     const form = useForm({
       defaultValues: {
         slippage: {

@@ -14,7 +14,7 @@ import { BorrowView } from './BorrowView'
 const meta: Meta<typeof BorrowView> = {
   title: 'Features/Dialogs/Views/Borrow',
   component: (args) => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+    
     const form = useForm() as any
     return <BorrowView {...args} form={form} />
   },

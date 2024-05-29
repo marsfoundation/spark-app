@@ -20,11 +20,9 @@ function App() {
   const sandboxNetwork = useStore((state) => state.sandbox.network)
   const config = getConfig(sandboxNetwork)
   if (import.meta.env.VITE_PLAYWRIGHT || import.meta.env.MODE === 'development') {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     useAutoConnect({ config })
   }
   if (import.meta.env.MODE === 'development') {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     useViteErrorOverlay()
   }
 

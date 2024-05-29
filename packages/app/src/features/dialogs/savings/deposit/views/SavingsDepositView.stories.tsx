@@ -13,7 +13,7 @@ import { SavingsDepositView } from './SavingsDepositView'
 const meta: Meta<typeof SavingsDepositView> = {
   title: 'Features/Dialogs/Views/Savings/Deposit',
   component: (args) => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+    
     const form = useForm() as any
     return <SavingsDepositView {...args} form={form} />
   },

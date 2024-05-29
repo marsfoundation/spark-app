@@ -13,7 +13,7 @@ import { WithdrawView } from './WithdrawView'
 const meta: Meta<typeof WithdrawView> = {
   title: 'Features/Dialogs/Views/Withdraw',
   component: (args) => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+    
     const form = useForm() as any
     return <WithdrawView {...args} form={form} />
   },

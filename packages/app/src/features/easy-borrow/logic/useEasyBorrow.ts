@@ -164,7 +164,7 @@ export function useEasyBorrow(): UseEasyBorrowResults {
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(
     function revalidateFormOnNetworkChange() {
-      // eslint-disable-next-line no-console
+      // biome-ignore lint/suspicious/noConsoleLog: <explanation>
       easyBorrowForm.trigger().catch(console.error)
     },
     [account.chainId],

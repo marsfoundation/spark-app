@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { useMemo, useRef } from 'react'
 
 import { useActionsSettings } from '@/domain/state'
