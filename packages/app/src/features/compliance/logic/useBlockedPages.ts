@@ -8,6 +8,7 @@ export function useBlockedPages(): (keyof typeof paths)[] {
   if (import.meta.env.VITE_FEATURE_AUTH_IP_AND_ADDRESS_CHECKS !== '1') {
     return []
   }
+  // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
   const vpnCheck = useVpnCheck({ authUrl: apiUrl })
 
   if (vpnCheck.data && blockedPagesByCountryCode[vpnCheck.data.countryCode] !== undefined) {

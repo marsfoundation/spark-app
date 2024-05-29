@@ -27,6 +27,9 @@
     "enabled": true,
     "rules": {
       "recommended": true,
+      "correctness": {
+        "useHookAtTopLevel": "error"
+      },
       "style": {
         "useImportType": "off",
         "noNonNullAssertion": "off",

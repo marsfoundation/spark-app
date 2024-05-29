@@ -16,14 +16,18 @@ export function useIPAndAddressCheck(): UseIPAndAddressCheck {
     return { blocked: false }
   }
 
+  // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
   const { address } = useAccount()
+  // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
   const addressCheck = useRestrictedAddressCheck({
     address,
     authUrl: apiUrl,
     enabled: !!address,
     refetchInterval: 5 * 60 * 1_000, // recheck every 5 minutes
   })
+  // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
   const vpnCheck = useVpnCheck({ authUrl: apiUrl })
+  // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
   const isCurrentPageBlocked = useIsCurrentPageBlocked()
 
   if (vpnCheck.data?.isConnectedToVpn) {

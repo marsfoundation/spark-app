@@ -20,9 +20,11 @@ function App() {
   const sandboxNetwork = useStore((state) => state.sandbox.network)
   const config = getConfig(sandboxNetwork)
   if (import.meta.env.VITE_PLAYWRIGHT || import.meta.env.MODE === 'development') {
+    // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
     useAutoConnect({ config })
   }
   if (import.meta.env.MODE === 'development') {
+    // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
     useViteErrorOverlay()
   }
 

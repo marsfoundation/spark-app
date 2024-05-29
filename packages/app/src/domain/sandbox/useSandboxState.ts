@@ -26,8 +26,11 @@ export function useSandboxState(): UseSandboxStateResult {
     }
   }
 
+  // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
   const chainId = useChainId()
+  // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
   const { network, setNetwork } = useStore((state) => state.sandbox)
+  // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
   const ephemeralAccountAddress = useMemo(
     () => network?.ephemeralAccountPrivateKey && privateKeyToAccount(network.ephemeralAccountPrivateKey).address,
     [network?.ephemeralAccountPrivateKey],
