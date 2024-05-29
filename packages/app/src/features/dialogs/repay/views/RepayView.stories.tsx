@@ -12,26 +12,25 @@ import { RepayView } from './RepayView'
 const meta: Meta<typeof RepayView> = {
   title: 'Features/Dialogs/Views/Repay',
   component: (args) => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const form = useForm() as any
     return <RepayView {...args} form={form} />
   },
   decorators: [ZeroAllowanceWagmiDecorator(), WithClassname('max-w-xl'), WithTooltipProvider()],
   args: {
-    debtAsset: tokens['DAI'],
+    debtAsset: tokens.DAI,
     repayOptions: [
       {
-        token: tokens['DAI'],
+        token: tokens.DAI,
         balance: NormalizedUnitNumber(50000),
       },
       {
-        token: tokens['ETH'],
+        token: tokens.ETH,
         balance: NormalizedUnitNumber(10),
       },
     ],
     assetsToRepayFields: {
       selectedAsset: {
-        token: tokens['DAI'],
+        token: tokens.DAI,
         balance: NormalizedUnitNumber(50000),
         value: '2000',
       },

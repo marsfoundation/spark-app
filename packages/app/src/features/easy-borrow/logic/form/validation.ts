@@ -29,8 +29,8 @@ export const AssetInputSchema = BaseAssetInputSchema.extend({
     .min(1, { message: 'Value is required' }) // @todo improve error messages
     .refine(
       (data) => {
-        const value = parseFloat(data)
-        return !isNaN(value) && value > 0
+        const value = Number.parseFloat(data)
+        return !Number.isNaN(value) && value > 0
       },
       {
         message: 'Value must be greater than zero',

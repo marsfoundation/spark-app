@@ -12,7 +12,7 @@ export function LabeledSwitch({ children, ...props }: LabeledSwitchProps) {
   return (
     <div className="flex items-center gap-3">
       <Switch {...props} id={id} />
-      <Label htmlFor={id} className="text-base font-normal">
+      <Label htmlFor={id} className="font-normal text-base">
         {children}
       </Label>
     </div>

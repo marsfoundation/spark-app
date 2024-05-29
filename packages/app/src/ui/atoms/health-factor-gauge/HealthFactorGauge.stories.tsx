@@ -51,6 +51,6 @@ export const Liquidation: Story = {
 export const NoDebt: Story = {
   name: 'No debt',
   args: {
-    value: new BigNumber(Infinity),
+    value: new BigNumber(Number.POSITIVE_INFINITY),
   },
 }

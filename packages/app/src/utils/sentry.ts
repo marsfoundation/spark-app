@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/react'
 
 if (import.meta.env.VITE_SENTRY_DSN) {
-  // eslint-disable-next-line no-console
+  // biome-ignore lint/suspicious/noConsoleLog: <explanation>
   console.log('Sentry integration enabled', { env: import.meta.env.VITE_ENV_NAME })
 }
 

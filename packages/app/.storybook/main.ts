@@ -1,7 +1,7 @@
 import type { StorybookConfig } from '@storybook/react-vite'
 import { mergeConfig } from 'vite'
 import svgr from 'vite-plugin-svgr'
-import { join } from 'path'
+import { join } from 'node:path'
 import dotenv from 'dotenv'
 
 const config: StorybookConfig = {

@@ -121,7 +121,8 @@ describe(storeImplementation.name, () => {
 
     // modify "version" parameter stored inside local storage to make it obsolete
     const rawPersistedState = localStorage.getItem(ZUSTAND_APP_STORE_LOCAL_STORAGE_KEY)
-    const persistedState = ((JSON.parse(rawPersistedState!) as any).version = 0)
+    const persistedState = JSON.parse(rawPersistedState!) as any
+    persistedState.version = 0
     localStorage.setItem(ZUSTAND_APP_STORE_LOCAL_STORAGE_KEY, JSON.stringify(persistedState))
 
     // second store creation should deserialize persisted state from local storage

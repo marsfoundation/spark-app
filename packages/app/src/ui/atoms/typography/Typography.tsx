@@ -8,12 +8,12 @@ export type BaseElement = 'h1' | 'h2' | 'h3' | 'h4' | 'p' | 'span'
 const typographyVariants = cva('text-primary', {
   variants: {
     variant: {
-      h1: 'text-5xl font-semibold leading-none tracking-tight',
-      h2: 'text-3xl font-semibold leading-none tracking-tight',
-      h3: 'text-2xl font-semibold leading-none tracking-tight',
-      h4: 'text-base font-semibold leading-none tracking-tight',
-      p: 'text-base font-normal',
-      span: 'text-base font-normal',
+      h1: 'font-semibold text-5xl leading-none tracking-tight',
+      h2: 'font-semibold text-3xl leading-none tracking-tight',
+      h3: 'font-semibold text-2xl leading-none tracking-tight',
+      h4: 'font-semibold text-base leading-none tracking-tight',
+      p: 'font-normal text-base',
+      span: 'font-normal text-base',
       prompt: 'text-prompt-foreground text-xs leading-none tracking-tight',
     },
   },

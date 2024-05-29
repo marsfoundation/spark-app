@@ -58,7 +58,6 @@ export function getMockConnectors(chain: Chain) {
 export function getMockConfig(sandboxNetwork?: SandboxNetwork): Config {
   // if not configured properly assume just fallback to default config
   if (!(window as any)[PLAYWRIGHT_WALLET_FORK_URL_KEY]) {
-    // eslint-disable-next-line no-console
     console.warn('Mock config not found. Loading default config.')
     return getConfig(sandboxNetwork)
   }

@@ -21,7 +21,7 @@ export const CanBeLent: Story = {
   name: 'Can be lent',
   args: {
     status: 'yes',
-    token: tokens['DAI'],
+    token: tokens.DAI,
     totalLent: NormalizedUnitNumber(72_000),
     apy: Percentage(0.05),
   },

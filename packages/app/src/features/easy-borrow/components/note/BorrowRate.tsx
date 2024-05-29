@@ -15,7 +15,7 @@ export function BorrowRate({ borrowRate }: BorrowRateProps) {
         {formatPercentage(borrowRate, { skipSign: true })}
         <Typography
           element="span"
-          className="text-primary xl:text-prompt-foreground ml-2 text-base font-normal xl:text-2xl"
+          className="ml-2 font-normal text-base text-primary xl:text-2xl xl:text-prompt-foreground"
         >
           %
         </Typography>

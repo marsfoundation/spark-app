@@ -14,7 +14,7 @@ export const SlippageInput = forwardRef<HTMLInputElement, SlippageInputProps>(
     return (
       <div
         className={cn(
-          'border-basics-border text-basics-dark-grey relative flex',
+          'relative flex border-basics-border text-basics-dark-grey',
           'w-full flex-grow items-center rounded-xl border text-sm sm:text-base',
           isActive && 'border-main-blue text-basics-black',
           error && 'border-error bg-error/10 text-error',

@@ -17,6 +17,7 @@ export function useDebounce<T>(value: T, key: string, { delay = 300 }: UseDeboun
   const [isDebouncing, setIsDebouncing] = useState(false)
   const firstRender = useRef(true)
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (firstRender.current) {
       firstRender.current = false
@@ -31,7 +32,6 @@ export function useDebounce<T>(value: T, key: string, { delay = 300 }: UseDeboun
     return () => {
       clearTimeout(handler)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key, delay])
 
   return {

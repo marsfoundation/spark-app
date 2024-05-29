@@ -7,7 +7,7 @@ export interface DialogSectionTitleProps {
 export function DialogPanelTitle({ children }: DialogSectionTitleProps) {
   return (
     <div className="mb-1">
-      <Typography variant="prompt" element="h3" className="text-primary font-semibold">
+      <Typography variant="prompt" element="h3" className="font-semibold text-primary">
         {children}
       </Typography>
     </div>

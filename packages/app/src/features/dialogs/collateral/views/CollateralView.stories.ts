@@ -14,7 +14,7 @@ const meta: Meta<typeof CollateralView> = {
   component: CollateralView,
   args: {
     collateral: {
-      token: tokens['ETH'],
+      token: tokens.ETH,
       balance: NormalizedUnitNumber(10),
     },
     pageStatus: {
@@ -36,7 +36,7 @@ export const Enable: Story = {
     objectives: [
       {
         type: 'setUseAsCollateral',
-        token: tokens['ETH'],
+        token: tokens.ETH,
         useAsCollateral: true,
       },
     ],
@@ -51,7 +51,7 @@ export const Disable: Story = {
     objectives: [
       {
         type: 'setUseAsCollateral',
-        token: tokens['ETH'],
+        token: tokens.ETH,
         useAsCollateral: false,
       },
     ],
@@ -66,7 +66,7 @@ export const DisableLiquidation: Story = {
     objectives: [
       {
         type: 'setUseAsCollateral',
-        token: tokens['ETH'],
+        token: tokens.ETH,
         useAsCollateral: false,
       },
     ],

@@ -15,7 +15,7 @@ function BannerContent({ children }: { children: React.ReactNode }) {
 }
 
 function BannerHeader({ children }: { children: React.ReactNode }) {
-  return <h2 className="text-2xl font-semibold text-black">{children}</h2>
+  return <h2 className="font-semibold text-2xl text-black">{children}</h2>
 }
 
 function BannerDescription({ children }: { children: React.ReactNode }) {

@@ -15,7 +15,7 @@ function ToSLink({ className }: ToSLinkProps) {
   return (
     <Link
       to={links.termsOfUse}
-      className={cn('text-basics-black hover:text-basics-black underline', className)}
+      className={cn('text-basics-black underline hover:text-basics-black', className)}
       external
     >
       Terms of Service
@@ -23,8 +23,8 @@ function ToSLink({ className }: ToSLinkProps) {
   )
 }
 
-/* eslint-disable react/jsx-key */
 const points = [
+  // biome-ignore lint/correctness/useJsxKeyInIterable: <explanation>
   <p>
     I am not the person or entities who reside in, are citizens of, are incorporated in, or have a registered office in
     the United States of America or any Prohibited Localities, as defined in the <ToSLink />. I will not in the future
@@ -33,6 +33,7 @@ const points = [
     lawfully permitted to access this site and use its services under the laws of the jurisdiction in which I reside and
     am located.
   </p>,
+  // biome-ignore lint/correctness/useJsxKeyInIterable: <explanation>
   <p>
     The Site displays information publicly available on blockchain systems related to third party protocols, including
     Spark, and may offer interaction methods for use with a third-party wallet application or device based on such
@@ -46,6 +47,7 @@ const points = [
     asset value pricing, and you are responsible for understanding the risks of the third party protocols you interact
     with and keeping up to date with protocol or governance changes for such protocols.
   </p>,
+  // biome-ignore lint/correctness/useJsxKeyInIterable: <explanation>
   <p>
     Your use of the Site is conditioned on your acknowledgement and understanding of the potential risks and regulatory
     issues as further described in the <ToSLink />, and you agree to hold the Site Operator harmless from such risks.
@@ -58,7 +60,6 @@ const points = [
     maintenance of the Site.
   </p>,
 ]
-/* eslint-enable react/jsx-key */
 
 export interface TermsOfServiceProps {
   onAgree?: () => void
@@ -67,7 +68,7 @@ export interface TermsOfServiceProps {
 export function TermsOfService({ onAgree }: TermsOfServiceProps) {
   return (
     <MultiPanelDialog>
-      <div className="text-xl font-semibold">Terms of Service and Disclaimer</div>
+      <div className="font-semibold text-xl">Terms of Service and Disclaimer</div>
       <div>
         By using this site, I represent that I have read and agree to the <ToSLink className="text-blue-600" /> and{' '}
         <Link to={links.privacyPolicy} className="underline" external>
@@ -75,7 +76,7 @@ export function TermsOfService({ onAgree }: TermsOfServiceProps) {
         </Link>
         . Undefined terms used below are in reference to definitions in the Terms of Service.
       </div>
-      <ScrollArea className="border-light-grey h-64 rounded-md border pl-2 pr-3" type="always">
+      <ScrollArea className="h-64 rounded-md border border-light-grey pr-3 pl-2" type="always">
         <div className="grid grid-cols-[auto_1fr] gap-4">
           {points.map((point, index) => (
             <React.Fragment key={index}>

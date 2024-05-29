@@ -12,7 +12,7 @@ export function TokenBadge({ symbol }: TokenBadgeProps) {
   return (
     <div
       className={cn(
-        'text-prompt-foreground flex w-fit flex-row',
+        'flex w-fit flex-row text-prompt-foreground',
         'items-center gap-2 rounded-xl p-1.5 sm:p-2.5',
         getTokenBgColor(symbol),
       )}

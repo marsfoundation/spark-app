@@ -23,7 +23,7 @@ interface LabelProps {
 function Label({ children, tooltipContent: tooltipText }: LabelProps) {
   return (
     <div className="flex items-center gap-1">
-      <p className="text-basics-dark-grey text-xs font-semibold leading-none tracking-wide">{children}</p>
+      <p className="font-semibold text-basics-dark-grey text-xs leading-none tracking-wide">{children}</p>
       {tooltipText && <Info>{tooltipText}</Info>}
     </div>
   )
@@ -49,7 +49,7 @@ const savingsInfoTileVariants = cva('inline-flex flex-col gap-1', {
   },
 })
 
-const valueVariants = cva('text-basics-black font-semibold', {
+const valueVariants = cva('font-semibold text-basics-black', {
   variants: {
     size: {
       base: 'text-sm md:text-base',

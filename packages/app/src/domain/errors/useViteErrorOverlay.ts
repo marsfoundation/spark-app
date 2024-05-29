@@ -20,7 +20,7 @@ function showErrorOverlay(err: Error): void {
   if (!ErrorOverlay) {
     return
   }
-  // eslint-disable-next-line no-console
+  // biome-ignore lint/suspicious/noConsoleLog: <explanation>
   console.log(err)
   const overlay = new ErrorOverlay(err)
   document.body.appendChild(overlay)

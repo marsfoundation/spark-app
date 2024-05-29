@@ -114,9 +114,8 @@ export function useSandboxDialog(mode: SandboxMode): UseSandboxDialogResult {
           } catch (e: any) {
             if (e.message.includes('Chain not configured')) {
               throw e
-            } else {
-              throw new NotRetryableError(e)
             }
+            throw new NotRetryableError(e)
           }
         },
         { retries: 5, delay: 200 },
@@ -128,7 +127,6 @@ export function useSandboxDialog(mode: SandboxMode): UseSandboxDialogResult {
     try {
       await startSandboxAsync()
     } catch (e: any) {
-      // eslint-disable-next-line no-console
       console.error(e)
       throw new Error(`Could not enter sandbox mode: ${e.message}`)
     }

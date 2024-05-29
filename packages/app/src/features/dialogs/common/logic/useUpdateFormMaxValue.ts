@@ -19,6 +19,7 @@ export function useUpdateFormMaxValue({ isMaxSet, maxValue, form, token }: useUp
   const prevMaxSet = usePrevious(isMaxSet)
   const prevMaxValue = usePrevious(maxValue)
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(
     function updateFormValue() {
       if (prevMaxSet && prevMaxValue && !maxValue.isEqualTo(prevMaxValue)) {

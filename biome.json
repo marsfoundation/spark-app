@@ -9,7 +9,8 @@
       "**/dist/**",
       "**/.vite",
       "packages/app/storybook-static",
-      "packages/app/__screenshots__"
+      "packages/app/__screenshots__",
+      "packages/app/playwright-report"
     ]
   },
   "formatter": {
@@ -23,9 +24,34 @@
   },
   "organizeImports": { "enabled": false },
   "linter": {
-    "enabled": false,
+    "enabled": true,
     "rules": {
       "recommended": true,
+      "correctness": {
+        "useHookAtTopLevel": "error"
+      },
+      "style": {
+        "useImportType": "off",
+        "noNonNullAssertion": "off",
+        "useFilenamingConvention": "off",
+        "noParameterProperties": "off",
+        "noParameterAssign": "off"
+      },
+      "suspicious": {
+        "noSkippedTests": "off",
+        "noExplicitAny": "off",
+        "noArrayIndexKey": "off",
+        "noConsoleLog": "error"
+      },
+      "performance": {
+        "noAccumulatingSpread": "off"
+      },
+      "complexity": {
+        "noBannedTypes": "off"
+      },
+      "a11y": {
+        "all": false
+      },
       "nursery": {
         "useSortedClasses": {
           "level": "error",

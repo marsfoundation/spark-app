@@ -15,8 +15,8 @@ export interface TileProps {
 export function Tile({ icon, title, USDValue, description }: TileProps) {
   return (
     <div className="flex items-center gap-2 md:gap-3">
-      <div className="flex rounded-lg border bg-white p-1.5 md:rounded-xl md:p-3 lg:rounded-2xl lg:p-4">
-        <img src={icon} alt={title} className="w-6 md:w-7 lg:w-8" />
+      <div className="flex rounded-lg border bg-white p-1.5 lg:rounded-2xl md:rounded-xl lg:p-4 md:p-3">
+        <img src={icon} alt={title} className="w-6 lg:w-8 md:w-7" />
       </div>
       <div className="flex flex-col">
         <div className="flex items-center gap-1">
@@ -31,8 +31,8 @@ export function Tile({ icon, title, USDValue, description }: TileProps) {
           )}
         </div>
         <div className="flex gap-1 md:gap-2">
-          <p className="text-base font-semibold text-black/30 md:text-xl lg:text-2xl">$</p>
-          <p className="text-base font-semibold text-black md:text-xl lg:text-2xl">
+          <p className="font-semibold text-base text-black/30 lg:text-2xl md:text-xl">$</p>
+          <p className="font-semibold text-base text-black lg:text-2xl md:text-xl">
             {USD_MOCK_TOKEN.format(USDValue, { style: 'compact' })}
           </p>
         </div>

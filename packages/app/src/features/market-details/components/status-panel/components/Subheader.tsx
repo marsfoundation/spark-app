@@ -67,7 +67,7 @@ interface ContentProps extends VariantProps<typeof variants> {
 }
 
 function Content({ children, variant }: ContentProps) {
-  return <p className={cn(variants({ variant }), 'col-span-2 col-start-2 mb-3 mt-1.5')}>{children}</p>
+  return <p className={cn(variants({ variant }), 'col-span-2 col-start-2 mt-1.5 mb-3')}>{children}</p>
 }
 
 const variants = cva('text-xs leading-none', {

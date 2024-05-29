@@ -11,19 +11,19 @@ import { AssetSelectorWithInput } from './AssetSelectorWithInput'
 
 const assets: TokenWithBalance[] = [
   {
-    token: tokens['ETH'],
+    token: tokens.ETH,
     balance: NormalizedUnitNumber('1'),
   },
   {
-    token: tokens['DAI'],
+    token: tokens.DAI,
     balance: NormalizedUnitNumber('500'),
   },
   {
-    token: tokens['wstETH'],
+    token: tokens.wstETH,
     balance: NormalizedUnitNumber('7'),
   },
   {
-    token: tokens['USDC'],
+    token: tokens.USDC,
     balance: NormalizedUnitNumber('300'),
   },
 ]

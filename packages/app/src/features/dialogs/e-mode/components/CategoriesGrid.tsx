@@ -6,8 +6,8 @@ interface CategoriesGridProps {
 
 export function CategoriesGrid({ children }: CategoriesGridProps) {
   return (
-    <div className="mb-2 mt-4 flex flex-col gap-2">
-      <h3 className="text-basics-black text-xs font-semibold">Category</h3>
+    <div className="mt-4 mb-2 flex flex-col gap-2">
+      <h3 className="font-semibold text-basics-black text-xs">Category</h3>
       <div className="grid grid-cols-3 gap-2">{children}</div>
     </div>
   )

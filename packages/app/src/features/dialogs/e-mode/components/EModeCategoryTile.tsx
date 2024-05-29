@@ -22,9 +22,9 @@ export function EModeCategoryTile({ eModeCategory }: EModeCategoryTileProps) {
     <button
       onClick={eModeCategory.onSelect}
       className={cn(
-        'border-basics-border flex w-full flex-col items-start text-start',
-        'bg-basics-white h-28 justify-between rounded-xl border p-2 sm:h-32 sm:p-4',
-        'hover:bg-basics-light-grey transition-colors duration-200 hover:shadow-sm',
+        'flex w-full flex-col items-start border-basics-border text-start',
+        'h-28 justify-between rounded-xl border bg-basics-white p-2 sm:h-32 sm:p-4',
+        'transition-colors duration-200 hover:bg-basics-light-grey hover:shadow-sm',
         eModeCategory.isSelected && 'border-main-blue',
       )}
     >
@@ -39,7 +39,7 @@ function ActivityBadge({ variant }: { variant: 'active' | 'inactive' }) {
   return <div className={activityBadgeVariants({ variant })}>{variant === 'active' ? 'Active' : 'Inactive'}</div>
 }
 
-const activityBadgeVariants = cva('rounded-lg px-2.5 py-1.5 text-xs font-semibold leading-none tracking-wide', {
+const activityBadgeVariants = cva('rounded-lg px-2.5 py-1.5 font-semibold text-xs leading-none tracking-wide', {
   variants: {
     variant: {
       inactive: 'bg-basics-dark-grey/10 text-basics-dark-grey',
@@ -48,7 +48,7 @@ const activityBadgeVariants = cva('rounded-lg px-2.5 py-1.5 text-xs font-semibol
   },
 })
 
-const headerVariants = cva('text-xs font-semibold sm:text-base', {
+const headerVariants = cva('font-semibold text-xs sm:text-base', {
   variants: {
     variant: {
       active: 'text-basics-black',

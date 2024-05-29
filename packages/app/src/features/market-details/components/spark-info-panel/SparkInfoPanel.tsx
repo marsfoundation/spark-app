@@ -8,7 +8,7 @@ interface SparkInfoProps {
 
 export function SparkInfoPanel({ title, content }: SparkInfoProps) {
   return (
-    <div className="bg-spark/10 flex flex-row items-center gap-3.5 rounded-lg p-[15px]">
+    <div className="flex flex-row items-center gap-3.5 rounded-lg bg-spark/10 p-[15px]">
       <img src={assets.sparkIcon} alt="Spark logo" className="h-[2.75rem]" />
       <div className="flex flex-col gap-1">
         <Typography variant="h4">{title}</Typography>

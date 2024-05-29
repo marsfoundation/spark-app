@@ -19,7 +19,7 @@ const meta: Meta<typeof ActionsView> = {
       {
         action: {
           type: 'approve',
-          token: tokens['WETH'],
+          token: tokens.WETH,
           spender: CheckedAddress(zeroAddress),
           value: NormalizedUnitNumber(1),
         },
@@ -29,7 +29,7 @@ const meta: Meta<typeof ActionsView> = {
       {
         action: {
           type: 'deposit',
-          token: tokens['ETH'],
+          token: tokens.ETH,
           value: NormalizedUnitNumber(1),
         },
         state: { status: 'loading' },
@@ -38,7 +38,7 @@ const meta: Meta<typeof ActionsView> = {
       {
         action: {
           type: 'approve',
-          token: tokens['wstETH'],
+          token: tokens.wstETH,
           spender: CheckedAddress(zeroAddress),
           value: NormalizedUnitNumber(1),
         },
@@ -48,7 +48,7 @@ const meta: Meta<typeof ActionsView> = {
       {
         action: {
           type: 'deposit',
-          token: tokens['wstETH'],
+          token: tokens.wstETH,
           value: NormalizedUnitNumber(1),
         },
         state: { status: 'ready' },
@@ -57,7 +57,7 @@ const meta: Meta<typeof ActionsView> = {
       {
         action: {
           type: 'borrow',
-          token: tokens['DAI'],
+          token: tokens.DAI,
           value: NormalizedUnitNumber(1),
         },
         state: { status: 'ready' },

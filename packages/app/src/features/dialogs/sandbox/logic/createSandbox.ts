@@ -39,5 +39,5 @@ export async function createSandbox(opts: {
  * @returns string concatenated prefix and timestamp
  */
 export function getChainIdWithPrefix(prefix: number, timestampSeconds: number): number {
-  return parseInt(prefix.toString() + timestampSeconds.toString())
+  return Number.parseInt(prefix.toString() + timestampSeconds.toString())
 }

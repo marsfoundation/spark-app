@@ -16,23 +16,23 @@ type Story = StoryObj<typeof meta>
 
 export const DAI: Story = {
   args: {
-    token: tokens['DAI'],
+    token: tokens.DAI,
   },
 }
 export const aDAI: Story = {
   name: 'aDAI',
   args: {
-    token: tokens['DAI'].createAToken(tokens['DAI'].address),
+    token: tokens.DAI.createAToken(tokens.DAI.address),
   },
 }
 export const WETH: Story = {
   args: {
-    token: tokens['WETH'],
+    token: tokens.WETH,
   },
 }
 export const aWETH: Story = {
   name: 'aWETH',
   args: {
-    token: tokens['WETH'].createAToken(tokens['WETH'].address),
+    token: tokens.WETH.createAToken(tokens.WETH.address),
   },
 }

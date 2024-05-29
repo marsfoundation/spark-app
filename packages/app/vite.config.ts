@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react-swc'
 import { lingui } from '@lingui/vite-plugin'
 import svgr from 'vite-plugin-svgr'
 import tsconfigPaths from 'vite-tsconfig-paths'
-import { execSync } from 'child_process'
+import { execSync } from 'node:child_process'
 
 const buildSha = execSync('git rev-parse --short HEAD').toString().trimEnd()
 const buildTime = new Date().toLocaleString('en-gb')

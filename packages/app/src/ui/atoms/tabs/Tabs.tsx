@@ -11,7 +11,7 @@ const TabsList = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <TabsPrimitive.List
     ref={ref}
-    className={cn('border-panel-border inline-flex w-full items-center justify-center border-b', className)}
+    className={cn('inline-flex w-full items-center justify-center border-panel-border border-b', className)}
     {...props}
   />
 ))
@@ -24,15 +24,15 @@ const TabsTrigger = React.forwardRef<
   <TabsPrimitive.Trigger
     ref={ref}
     className={cn(
-      'inline-flex w-full flex-grow flex-col items-center justify-center whitespace-nowrap px-0.5 text-base font-semibold opacity-50 transition-opacity duration-200 ease-in-out',
-      'hover:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 data-[state=active]:opacity-100',
+      'inline-flex w-full flex-grow flex-col items-center justify-center whitespace-nowrap px-0.5 font-semibold text-base opacity-50 transition-opacity duration-200 ease-in-out',
+      'data-[state=active]:opacity-100 hover:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
       '[&>*]:data-[state=active]:opacity-100', // shows the blue bar for the active tab
       className,
     )}
     {...props}
   >
     {children}
-    <div className="bg-nav-primary mt-2 h-1 w-[calc(100%-1.5rem)] rounded-t-lg opacity-0" />
+    <div className="mt-2 h-1 w-[calc(100%-1.5rem)] rounded-t-lg bg-nav-primary opacity-0" />
   </TabsPrimitive.Trigger>
 ))
 TabsTrigger.displayName = TabsPrimitive.Trigger.displayName
@@ -44,7 +44,7 @@ const TabsContent = React.forwardRef<
   <TabsPrimitive.Content
     ref={ref}
     className={cn(
-      'ring-offset-background focus-visible:ring-ring focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 data-[state=active]:mt-3',
+      'ring-offset-background data-[state=active]:mt-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
       className,
     )}
     {...props}

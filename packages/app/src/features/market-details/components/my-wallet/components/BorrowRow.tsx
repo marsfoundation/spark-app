@@ -12,8 +12,8 @@ interface BorrowRowProps {
 export function BorrowRow({ token, availableToBorrow, onAction }: BorrowRowProps) {
   if (availableToBorrow.isZero()) {
     return (
-      <div className="grid grid-cols-1 border-t border-slate-700/10 py-4">
-        <p className="text-xs leading-none text-slate-500">To borrow you need to deposit any other asset first.</p>
+      <div className="grid grid-cols-1 border-slate-700/10 border-t py-4">
+        <p className="text-slate-500 text-xs leading-none">To borrow you need to deposit any other asset first.</p>
       </div>
     )
   }

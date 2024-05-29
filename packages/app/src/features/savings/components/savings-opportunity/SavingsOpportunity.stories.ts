@@ -68,7 +68,7 @@ export const Normik: Story = {
       oneYear: NormalizedUnitNumber(2500),
     },
     maxBalanceToken: {
-      token: tokens['DAI'],
+      token: tokens.DAI,
       balance: NormalizedUnitNumber(22727),
     },
     openDialog: () => {},

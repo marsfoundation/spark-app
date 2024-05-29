@@ -42,7 +42,7 @@ export function SlippageForm({ form, onSlippageChange, type, slippage, error }: 
         />
       </div>
       {error && (
-        <div className="text-error mt-2 flex justify-end text-xs" data-testid={testIds.actions.settings.slippage.error}>
+        <div className="mt-2 flex justify-end text-error text-xs" data-testid={testIds.actions.settings.slippage.error}>
           {error}
         </div>
       )}

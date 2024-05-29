@@ -14,7 +14,7 @@ export function SuccessView({ eModeCategoryName, onProceed }: SuccessViewProps) 
     <SuccessViewContent>
       <SuccessViewCheckmark />
       <SuccessViewSummaryPanel>
-        <strong className="text-basics-black font-semibold">{eModeCategoryName}</strong>
+        <strong className="font-semibold text-basics-black">{eModeCategoryName}</strong>
         <h3 className="text-basics-black">Option activated</h3>
       </SuccessViewSummaryPanel>
       <SuccessViewProceedButton onProceed={onProceed}>Back to Dashboard</SuccessViewProceedButton>

@@ -13,7 +13,6 @@ import { SavingsDepositView } from './SavingsDepositView'
 const meta: Meta<typeof SavingsDepositView> = {
   title: 'Features/Dialogs/Views/Savings/Deposit',
   component: (args) => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const form = useForm() as any
     return <SavingsDepositView {...args} form={form} />
   },
@@ -21,17 +20,17 @@ const meta: Meta<typeof SavingsDepositView> = {
   args: {
     selectableAssets: [
       {
-        token: tokens['USDC'],
+        token: tokens.USDC,
         balance: NormalizedUnitNumber(50000),
       },
       {
-        token: tokens['ETH'],
+        token: tokens.ETH,
         balance: NormalizedUnitNumber(1),
       },
     ],
     assetsFields: {
       selectedAsset: {
-        token: tokens['USDC'],
+        token: tokens.USDC,
         balance: NormalizedUnitNumber(50000),
         value: '2000',
       },
@@ -41,8 +40,8 @@ const meta: Meta<typeof SavingsDepositView> = {
       {
         type: 'exchange',
         swapParams: {
-          fromToken: tokens['USDC'],
-          toToken: tokens['sDAI'],
+          fromToken: tokens.USDC,
+          toToken: tokens.sDAI,
           type: 'direct',
           value: NormalizedUnitNumber(5000),
           meta: {
@@ -54,8 +53,8 @@ const meta: Meta<typeof SavingsDepositView> = {
         swapInfo: {
           status: 'success',
           data: {
-            fromToken: tokens['USDC'].address,
-            toToken: tokens['sDAI'].address,
+            fromToken: tokens.USDC.address,
+            toToken: tokens.sDAI.address,
             type: 'direct',
             txRequest: {
               data: '0x',
@@ -82,9 +81,9 @@ const meta: Meta<typeof SavingsDepositView> = {
     },
     txOverview: {
       APY: Percentage(0.05),
-      exchangeRatioToToken: tokens['DAI'],
-      sDaiToken: tokens['sDAI'],
-      exchangeRatioFromToken: tokens['USDC'],
+      exchangeRatioToToken: tokens.DAI,
+      sDaiToken: tokens.sDAI,
+      exchangeRatioFromToken: tokens.USDC,
       exchangeRatio: NormalizedUnitNumber(0.9996),
       sDaiBalanceBefore: NormalizedUnitNumber(5000),
       sDaiBalanceAfter: NormalizedUnitNumber(10000),

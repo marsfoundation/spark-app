@@ -51,9 +51,9 @@ export const AssetInput = forwardRef<HTMLInputElement, AssetInputProps>(
       <div className="flex-1">
         <div
           className={cn(
-            'bg-input-background flex h-14 min-w-[10rem] flex-row rounded-xl border py-2 pl-4 pr-2',
+            'flex h-14 min-w-[10rem] flex-row rounded-xl border bg-input-background py-2 pr-2 pl-4',
             disabled && 'opacity-70',
-            error && 'border-error bg-error/10 mb-1',
+            error && 'mb-1 border-error bg-error/10',
             className,
           )}
         >
@@ -113,7 +113,7 @@ export const AssetInput = forwardRef<HTMLInputElement, AssetInputProps>(
             {onRemove && (
               <Button
                 onClick={disabled ? undefined : onRemove}
-                className={cn('text-icon-foreground p-1')}
+                className={cn('p-1 text-icon-foreground')}
                 variant="text"
               >
                 <X />

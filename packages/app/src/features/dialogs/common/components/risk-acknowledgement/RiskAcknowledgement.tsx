@@ -27,15 +27,19 @@ export function RiskAcknowledgement({ warning, onStatusChange }: RiskAcknowledge
       <Alert variant="danger">
         <div className="text-basics-black text-sm">
           {warning.type === 'savings-deposit-discrepancy-threshold-hit' &&
-            'Market fluctuations can impact your transaction value. The final amount received may be less than the deposit amount by up to ' +
-              `${warning.token.format(warning.discrepancy, { style: 'auto' })} ${warning.token.symbol}.`}
+            `Market fluctuations can impact your transaction value. The final amount received may be less than the deposit amount by up to ${warning.token.format(
+              warning.discrepancy,
+              { style: 'auto' },
+            )} ${warning.token.symbol}.`}
           {warning.type === 'savings-withdraw-discrepancy-threshold-hit' &&
-            'Market fluctuations can impact your transaction value. You may be charged more than the withdraw amount by up to ' +
-              `${warning.token.format(warning.discrepancy, { style: 'auto' })} ${warning.token.symbol}.`}
+            `Market fluctuations can impact your transaction value. You may be charged more than the withdraw amount by up to ${warning.token.format(
+              warning.discrepancy,
+              { style: 'auto' },
+            )} ${warning.token.symbol}.`}
         </div>
       </Alert>
       <LabeledSwitch onCheckedChange={onStatusChange} data-testid={testIds.dialog.acknowledgeRiskSwitch}>
-        <div className="text-basics-black text-sm font-semibold">I acknowledge risks involved</div>
+        <div className="font-semibold text-basics-black text-sm">I acknowledge risks involved</div>
       </LabeledSwitch>
     </div>
   )

@@ -53,7 +53,7 @@ export function LoanToValueSlider({
           <div
             key={step.label}
             className={cn(
-              `absolute flex h-full items-center justify-center transition-colors duration-300`,
+              'absolute flex h-full items-center justify-center transition-colors duration-300',
               (value / maxSliderValue) * 100 >= step.from &&
                 (step.noUpperLimit || (value / maxSliderValue) * 100 < step.from + step.width)
                 ? step.colorActive
@@ -65,32 +65,32 @@ export function LoanToValueSlider({
               left: `${step.from}%`,
             }}
           >
-            <Typography variant="prompt" className={cn('text-primary absolute -bottom-6')}>
+            <Typography variant="prompt" className={cn('-bottom-6 absolute text-primary')}>
               {step.label}
             </Typography>
           </div>
         ))}
 
         <div
-          className="bg-primary-bg absolute h-full w-1"
+          className="absolute h-full w-1 bg-primary-bg"
           style={{
             left: `${(maxSelectableValue / maxSliderValue) * 100}%`,
           }}
         />
 
         <div
-          className="bg-product-red absolute flex h-full w-1 items-center justify-center"
+          className="absolute flex h-full w-1 items-center justify-center bg-product-red"
           style={{
             left: `${liquidationValue}%`,
           }}
         >
           <Typography
             variant="prompt"
-            className={cn('text-product-red absolute ', liquidationValue < 70 ? '-bottom-14' : '-bottom-6')}
+            className={cn('absolute text-product-red', liquidationValue < 70 ? '-bottom-14' : '-bottom-6')}
           >
             Liquidation
           </Typography>
-          <Typography className={cn('text-product-red absolute bottom-8')} variant="prompt">
+          <Typography className={cn('absolute bottom-8 text-product-red')} variant="prompt">
             {formatPercentage(liquidationLtv)}
           </Typography>
         </div>
@@ -98,7 +98,7 @@ export function LoanToValueSlider({
         <SliderPrimitive.Range className="absolute h-full bg-transparent" />
       </SliderPrimitive.Track>
 
-      <SliderPrimitive.Thumb className="blockshadow transition-colors focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 ">
+      <SliderPrimitive.Thumb className="blockshadow transition-colors disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none">
         <img
           className={cn('transform transition-transform', !disabled && 'hover:scale-125')}
           src={assets.sliderThumb}

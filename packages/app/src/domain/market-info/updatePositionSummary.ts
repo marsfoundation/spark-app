@@ -79,7 +79,7 @@ function getUserPositionMapper(
   nativeAssetInfo: NativeAssetInfo,
   type: 'deposit' | 'withdraw' | 'borrow' | 'repay',
 ) {
-  return function (userPosition: UserPosition): UserPosition {
+  return (userPosition: UserPosition): UserPosition => {
     const value = getValueForUserPosition(userPosition, reserves, nativeAssetInfo)
     if (!value) {
       return userPosition

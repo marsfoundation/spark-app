@@ -8,7 +8,7 @@ export type TransformerResult<TResult> =
 export type Transformer<TData extends any[], TResult> = (...data: TData) => TransformerResult<TResult>
 
 export function applyTransformers<TData extends any[]>(...data: TData) {
-  return function <TResult>(transformers: Transformer<TData, TResult>[]): TResult | null {
+  return <TResult>(transformers: Transformer<TData, TResult>[]): TResult | null => {
     for (const transformer of transformers) {
       const result = transformer(...data)
       if (result !== undefined) {
@@ -16,6 +16,6 @@ export function applyTransformers<TData extends any[]>(...data: TData) {
       }
     }
 
-    invariant(false, `No transformer match for data.`)
+    invariant(false, 'No transformer match for data.')
   }
 }

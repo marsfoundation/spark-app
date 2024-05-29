@@ -11,19 +11,19 @@ import { MultiAssetSelector } from './MultiSelector'
 
 const assets: TokenWithBalance[] = [
   {
-    token: tokens['ETH'],
+    token: tokens.ETH,
     balance: NormalizedUnitNumber('1'),
   },
   {
-    token: tokens['DAI'],
+    token: tokens.DAI,
     balance: NormalizedUnitNumber('500'),
   },
   {
-    token: tokens['wstETH'],
+    token: tokens.wstETH,
     balance: NormalizedUnitNumber('7'),
   },
   {
-    token: tokens['USDC'],
+    token: tokens.USDC,
     balance: NormalizedUnitNumber('300'),
   },
 ]
@@ -37,12 +37,12 @@ const assetToMaxValue: Record<TokenSymbol, NormalizedUnitNumber> = {
 
 const selectedAssets: TokenWithFormValue[] = [
   {
-    token: tokens['ETH'],
+    token: tokens.ETH,
     balance: NormalizedUnitNumber('1'),
     value: '1',
   },
   {
-    token: tokens['DAI'],
+    token: tokens.DAI,
     balance: NormalizedUnitNumber('500'),
     value: '10',
   },

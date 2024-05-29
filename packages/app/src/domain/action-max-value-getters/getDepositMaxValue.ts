@@ -46,6 +46,6 @@ export function getDepositMaxValue({ user, asset, timestamp }: GetDepositMaxValu
 
   const marketMaxDeposit = asset.supplyCap
     ? BigNumber.max(asset.supplyCap.minus(totalLiquidityIn10Minutes), 0)
-    : Infinity
+    : Number.POSITIVE_INFINITY
   return NormalizedUnitNumber(BigNumber.min(user.balance, marketMaxDeposit))
 }

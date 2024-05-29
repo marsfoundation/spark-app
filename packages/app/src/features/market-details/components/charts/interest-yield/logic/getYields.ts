@@ -56,5 +56,5 @@ export function getYields({
 const SECONDS_PER_YEAR = 60 * 60 * 24 * 365
 
 function rateToYield(rate: number): number {
-  return Math.pow(1 + rate / SECONDS_PER_YEAR, SECONDS_PER_YEAR) - 1
+  return (1 + rate / SECONDS_PER_YEAR) ** SECONDS_PER_YEAR - 1
 }
