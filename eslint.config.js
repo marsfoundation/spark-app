@@ -23,7 +23,7 @@ module.exports = tseslint.config(
   },
   {
     files: ['**/*.tsx'],
-		ignores: ['node_modules/**/*', '**/node_modules/**/*'],
+    ignores: ['node_modules/**/*', '**/node_modules/**/*'],
     languageOptions: {
       parserOptions: {
         parser: '@typescript-eslint/parser',
@@ -31,8 +31,8 @@ module.exports = tseslint.config(
       },
     },
     rules: {
-			'@typescript-eslint/no-floating-promises': 'error',
-			'func-style': ['error', 'declaration'],
+      '@typescript-eslint/no-floating-promises': 'error',
+      'func-style': ['error', 'declaration'],
     },
   },
 )

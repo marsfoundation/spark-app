@@ -16,7 +16,7 @@ export function DetailsGridItem({ title, token, value, type, titleVariant }: Det
   return (
     <div className="flex justify-between sm:flex-col sm:justify-normal" role="listitem">
       <p className={titleVariants({ titleVariant })}>{title}</p>
-      <p className='text-sky-950 text-sm leading-none sm:text-base'>
+      <p className="text-sky-950 text-sm leading-none sm:text-base">
         {type === 'monetary' ? token.formatUSD(value, { compact: true }) : formatPercentage(value)}
       </p>
     </div>

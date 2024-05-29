@@ -28,7 +28,7 @@ export function AssetNameCell({ token, reserveStatus }: AssetNameCellProps) {
       {tokenImage && (
         <div className="flex shrink-0">
           <ColorFilter variant={isPaused ? 'red' : 'none'}>
-            <TokenIcon token={token} className='flex h-6 w-6 lg:h-6 md:h-5 lg:w-6 md:w-5' />
+            <TokenIcon token={token} className="flex h-6 w-6 lg:h-6 md:h-5 lg:w-6 md:w-5" />
           </ColorFilter>
         </div>
       )}

@@ -23,7 +23,7 @@ interface LabelProps {
 function Label({ children, tooltipContent: tooltipText }: LabelProps) {
   return (
     <div className="flex items-center gap-1">
-      <p className='font-semibold text-basics-dark-grey text-xs leading-none tracking-wide'>{children}</p>
+      <p className="font-semibold text-basics-dark-grey text-xs leading-none tracking-wide">{children}</p>
       {tooltipText && <Info>{tooltipText}</Info>}
     </div>
   )

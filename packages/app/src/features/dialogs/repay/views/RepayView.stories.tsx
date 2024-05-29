@@ -12,7 +12,6 @@ import { RepayView } from './RepayView'
 const meta: Meta<typeof RepayView> = {
   title: 'Features/Dialogs/Views/Repay',
   component: (args) => {
-    
     const form = useForm() as any
     return <RepayView {...args} form={form} />
   },

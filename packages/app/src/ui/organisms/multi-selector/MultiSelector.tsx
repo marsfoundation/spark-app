@@ -93,14 +93,13 @@ export function ControlledMultiSelectorAssetInput({
         showError = showError ?? (isTouched || isDirty)
         const isMaxSelected = (control as any)?._formValues?.isMaxSelected // as any & ?. are needed to make storybook happy
 
-        const setMaxValue =
-          max?.gt(0)
-            ? () => {
-                setValue(fieldName, formFormat(max, token.decimals), {
-                  shouldValidate: true,
-                })
-              }
-            : undefined
+        const setMaxValue = max?.gt(0)
+          ? () => {
+              setValue(fieldName, formFormat(max, token.decimals), {
+                shouldValidate: true,
+              })
+            }
+          : undefined
 
         const setMaxSelectedField = maxSelectedFieldName
           ? () => {

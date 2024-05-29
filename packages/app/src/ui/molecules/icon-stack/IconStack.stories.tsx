@@ -24,9 +24,7 @@ export const Default: Story = {
 export const ManyIcons: Story = {
   name: 'Many icons',
   args: {
-    paths: [tokens.ETH, tokens.DAI, tokens.USDC, tokens.USDT, tokens.GNO].map(({ symbol }) =>
-      getTokenImage(symbol),
-    ),
+    paths: [tokens.ETH, tokens.DAI, tokens.USDC, tokens.USDT, tokens.GNO].map(({ symbol }) => getTokenImage(symbol)),
     maxIcons: 3,
   },
 }
@@ -34,9 +32,7 @@ export const ManyIcons: Story = {
 export const Large: Story = {
   name: 'Larger icons',
   args: {
-    paths: [tokens.ETH, tokens.DAI, tokens.USDC, tokens.USDT, tokens.GNO].map(({ symbol }) =>
-      getTokenImage(symbol),
-    ),
+    paths: [tokens.ETH, tokens.DAI, tokens.USDC, tokens.USDT, tokens.GNO].map(({ symbol }) => getTokenImage(symbol)),
     size: 'lg',
   },
 }
@@ -45,9 +41,7 @@ export const FirstOnTop: Story = {
   name: 'First on top',
   args: {
     stackingOrder: 'first-on-top',
-    paths: [tokens.DAI, tokens.ETH, tokens.USDC, tokens.USDT, tokens.GNO].map(({ symbol }) =>
-      getTokenImage(symbol),
-    ),
+    paths: [tokens.DAI, tokens.ETH, tokens.USDC, tokens.USDT, tokens.GNO].map(({ symbol }) => getTokenImage(symbol)),
     size: 'lg',
   },
 }

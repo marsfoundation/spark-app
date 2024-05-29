@@ -72,12 +72,12 @@ function PanelHeader({ className, ...rest }: JSX.IntrinsicElements['div']) {
               {open ? (
                 <>
                   Hide
-                  <ChevronUp className='-translate-y-[1px] ml-1 inline-block' size={16} />
+                  <ChevronUp className="-translate-y-[1px] ml-1 inline-block" size={16} />
                 </>
               ) : (
                 <>
                   Show
-                  <ChevronDown className='-translate-y-[1px] ml-1 inline-block' size={16} />
+                  <ChevronDown className="-translate-y-[1px] ml-1 inline-block" size={16} />
                 </>
               )}
             </Typography>

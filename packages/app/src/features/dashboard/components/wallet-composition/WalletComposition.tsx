@@ -40,7 +40,7 @@ export function WalletComposition({
             />
             <label
               htmlFor="checkbox-include-deposit"
-              className='font-light text-xs leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
+              className="font-light text-xs leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             >
               include my deposits
             </label>

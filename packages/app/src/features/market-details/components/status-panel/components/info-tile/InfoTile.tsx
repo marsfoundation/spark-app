@@ -10,12 +10,12 @@ export function InfoTile({ children }: InfoTileProps) {
 }
 
 function Label({ children }: InfoTileProps) {
-  return <div className='my-auto text-slate-500 text-sm leading-none sm:text-xs sm:leading-none'>{children}</div>
+  return <div className="my-auto text-slate-500 text-sm leading-none sm:text-xs sm:leading-none">{children}</div>
 }
 
 function Value({ children }: InfoTileProps) {
   return (
-    <div className='justify-self-end text-sky-950 text-sm leading-none sm:justify-self-start sm:text-base sm:leading-none'>
+    <div className="justify-self-end text-sky-950 text-sm leading-none sm:justify-self-start sm:text-base sm:leading-none">
       {children}
     </div>
   )

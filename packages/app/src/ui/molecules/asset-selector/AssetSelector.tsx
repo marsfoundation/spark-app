@@ -33,13 +33,13 @@ export function AssetSelector({
   if ((assets.length === 1 && selectedAsset?.symbol === assets[0]!.token.symbol) || assets.length === 0) {
     return (
       <div
-        className='flex h-14 w-36 flex-row items-center justify-center rounded-xl border border-input bg-input-background ring-offset-background'
+        className="flex h-14 w-36 flex-row items-center justify-center rounded-xl border border-input bg-input-background ring-offset-background"
         data-testid={testIds.component.AssetSelector}
       >
         {selectedAsset ? (
           <>
             <TokenIcon token={selectedAsset} className="h-6 w-6" />
-            <Typography className='ml-2 text-prompt-foreground'>{selectedAsset.symbol}</Typography>
+            <Typography className="ml-2 text-prompt-foreground">{selectedAsset.symbol}</Typography>
           </>
         ) : (
           '-'

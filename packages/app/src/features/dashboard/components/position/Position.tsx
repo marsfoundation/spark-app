@@ -58,8 +58,8 @@ function Ticks({ ticks }: TicksProps) {
   return (
     <div className="relative h-8">
       {ticks.map(({ label, x }) => (
-        <div className='-translate-x-[50%] absolute flex flex-col items-center' style={{ left: `${x}%` }} key={x}>
-          <div className='h-2 w-[1px] bg-icon-foreground' />
+        <div className="-translate-x-[50%] absolute flex flex-col items-center" style={{ left: `${x}%` }} key={x}>
+          <div className="h-2 w-[1px] bg-icon-foreground" />
           <div>{label && <Typography variant="prompt">{label}</Typography>}</div>
         </div>
       ))}
@@ -161,7 +161,7 @@ function BorrowBar({ positionSummary }: BorrowBarProps) {
         <Tooltip>
           <TooltipTrigger asChild>
             <div
-              className='z-[1] rounded-lg bg-product-orange'
+              className="z-[1] rounded-lg bg-product-orange"
               style={{
                 width: `${borrow.percents.borrowed}%`,
               }}
@@ -174,7 +174,7 @@ function BorrowBar({ positionSummary }: BorrowBarProps) {
       )}
       {borrow.percents.rest !== 0 && (
         <div
-          className='rounded-lg border bg-muted'
+          className="rounded-lg border bg-muted"
           style={{
             width: borrow.percents.rest === 100 ? '100%' : `calc(${borrow.percents.rest}% + 1rem)`,
             marginLeft: borrow.percents.rest === 100 ? '0' : '-1rem',
@@ -184,7 +184,7 @@ function BorrowBar({ positionSummary }: BorrowBarProps) {
       <Tooltip>
         <TooltipTrigger asChild>
           <div
-            className='-translate-x-[1px] absolute z-[2] h-7 border-primary border-l-2 pl-2'
+            className="-translate-x-[1px] absolute z-[2] h-7 border-primary border-l-2 pl-2"
             style={{ left: `${borrow.percents.max}%` }}
           >
             <div className="flex min-h-full flex-col justify-center">max</div>
@@ -201,7 +201,7 @@ function BorrowBar({ positionSummary }: BorrowBarProps) {
 function EmptyBar() {
   return (
     <div className="relative flex h-7 flex-row">
-      <div className='w-full rounded-lg border bg-muted' />
+      <div className="w-full rounded-lg border bg-muted" />
     </div>
   )
 }

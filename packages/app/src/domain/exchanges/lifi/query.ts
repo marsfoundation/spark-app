@@ -76,30 +76,30 @@ export function fetchLiFiTxData({
           },
         }
       }
-        const response = await client.getReverseQuote({
-          userAddress,
-          chainId,
-          fromToken,
-          toToken,
-          amount,
-          ...meta,
-        })
+      const response = await client.getReverseQuote({
+        userAddress,
+        chainId,
+        fromToken,
+        toToken,
+        amount,
+        ...meta,
+      })
 
-        invariant(response.action.slippage.eq(meta.maxSlippage), 'slippage should eq maxSlippage')
+      invariant(response.action.slippage.eq(meta.maxSlippage), 'slippage should eq maxSlippage')
 
-        return {
-          txRequest: response.transactionRequest,
-          fromToken: CheckedAddress(response.action.fromToken.address),
-          toToken: CheckedAddress(response.action.toToken.address),
-          type: 'reverse',
+      return {
+        txRequest: response.transactionRequest,
+        fromToken: CheckedAddress(response.action.fromToken.address),
+        toToken: CheckedAddress(response.action.toToken.address),
+        type: 'reverse',
 
-          estimate: {
-            fromAmount: BaseUnitNumber(response.estimate.fromAmount),
-            toAmount: BaseUnitNumber(response.estimate.toAmount),
-            toAmountMin: BaseUnitNumber(response.estimate.toAmountMin),
-            feeCostsUSD: calculateFees(response.estimate.feeCosts),
-          },
-        }
+        estimate: {
+          fromAmount: BaseUnitNumber(response.estimate.fromAmount),
+          toAmount: BaseUnitNumber(response.estimate.toAmount),
+          toAmountMin: BaseUnitNumber(response.estimate.toAmountMin),
+          feeCostsUSD: calculateFees(response.estimate.feeCosts),
+        },
+      }
     },
   })
 }

@@ -12,7 +12,6 @@ const meta: Meta<typeof SettingsDialogContent> = {
   component: SettingsDialogContent,
   decorators: [WithClassname('max-w-xl')],
   render: () => {
-    
     const form = useForm() as any
     return (
       <SettingsDialogContent

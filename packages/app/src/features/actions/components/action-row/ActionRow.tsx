@@ -79,7 +79,7 @@ function Description({
   // success row message
   if (actionStatus === 'success') {
     return (
-      <div className='col-span-full col-start-3 text-basics-dark-grey text-sm md:col-span-1 md:ml-10'>
+      <div className="col-span-full col-start-3 text-basics-dark-grey text-sm md:col-span-1 md:ml-10">
         {successMessage}
       </div>
     )
@@ -88,7 +88,7 @@ function Description({
   // description
   if (['disabled', 'ready', 'loading'].includes(actionStatus)) {
     return (
-      <div className='col-span-full col-start-3 text-basics-dark-grey text-sm md:col-span-1 md:ml-10'>{children}</div>
+      <div className="col-span-full col-start-3 text-basics-dark-grey text-sm md:col-span-1 md:ml-10">{children}</div>
     )
   }
 
@@ -120,8 +120,8 @@ function ErrorWarningExtended({ actionHandlerState }: { actionHandlerState: Acti
         <div className="col-span-full col-start-3 inline-flex min-w-0 md:col-span-1 md:ml-10">
           <div className="mr-auto flex w-full items-center">
             <img src={assets.warning} alt="warning" className="h-5 w-5" />
-            <strong className='ml-0.5 font-semibold text-product-red text-xs'>Error:</strong>
-            <p className='ml-1 truncate text-basics-dark-grey text-xs' ref={errorTextRef}>
+            <strong className="ml-0.5 font-semibold text-product-red text-xs">Error:</strong>
+            <p className="ml-1 truncate text-basics-dark-grey text-xs" ref={errorTextRef}>
               {actionHandlerState.message}
             </p>
           </div>
@@ -140,9 +140,9 @@ function ErrorWarningCompact({ actionHandlerState }: { actionHandlerState: Actio
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <div className='col-span-full col-start-3 inline-flex items-center md:col-span-1 md:mr-2 md:ml-auto'>
+        <div className="col-span-full col-start-3 inline-flex items-center md:col-span-1 md:mr-2 md:ml-auto">
           <img src={assets.warning} alt="warning" className="h-5 w-5" />
-          <strong className='ml-0.5 font-semibold text-product-red text-xs'>Error</strong>
+          <strong className="ml-0.5 font-semibold text-product-red text-xs">Error</strong>
         </div>
       </TooltipTrigger>
       <TooltipContentShort>{actionHandlerState.message}</TooltipContentShort>

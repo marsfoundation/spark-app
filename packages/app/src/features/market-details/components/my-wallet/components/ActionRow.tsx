@@ -14,7 +14,7 @@ interface ActionRowProps {
 
 export function ActionRow({ token, value, label, buttonText, onAction }: ActionRowProps) {
   return (
-    <div className='grid grid-cols-[_1fr,_70px] border-slate-700/10 border-t py-4'>
+    <div className="grid grid-cols-[_1fr,_70px] border-slate-700/10 border-t py-4">
       <ActionDetails label={label} token={token} value={value} />
       <Button disabled={value.isZero()} size="sm" onClick={onAction}>
         {buttonText}

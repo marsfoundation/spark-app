@@ -10,10 +10,10 @@ interface HeaderProps {
 
 export function Header({ token, chainName, chainMismatch }: HeaderProps) {
   return (
-    <div className='mt-6 mb-4 flex flex-col gap-4 sm:mt-8 sm:mb-10'>
+    <div className="mt-6 mb-4 flex flex-col gap-4 sm:mt-8 sm:mb-10">
       <div className="flex items-center gap-3 px-3 md:ml-5 lg:px-0">
         <TokenIcon token={token} className="h-8 w-8" />
-        <h1 className='font-semibold text-4xl text-sky-950'>{token.symbol}</h1>
+        <h1 className="font-semibold text-4xl text-sky-950">{token.symbol}</h1>
       </div>
       {chainMismatch && (
         <Alert variant="warning">

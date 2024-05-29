@@ -12,7 +12,6 @@ import { SavingsWithdrawView } from './SavingsWithdrawView'
 const meta: Meta<typeof SavingsWithdrawView> = {
   title: 'Features/Dialogs/Views/Savings/Withdraw',
   component: (args) => {
-    
     const form = useForm() as any
     return <SavingsWithdrawView {...args} form={form} />
   },

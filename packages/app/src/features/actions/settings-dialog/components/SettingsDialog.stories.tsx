@@ -10,7 +10,6 @@ const meta: Meta<typeof SettingsDialog> = {
   title: 'Features/Actions/SettingsDialog',
   component: SettingsDialog,
   render: () => {
-    
     const form = useForm() as any
     return (
       <SettingsDialog

@@ -18,7 +18,7 @@ export const ConnectedButton = forwardRef<HTMLButtonElement, ConnectedButtonProp
     if (mode === 'sandbox') {
       return (
         <WalletButton ref={ref} {...buttonProps}>
-          <MagicWand className='h-7 w-7 text-basics-dark-grey lg:h-5 lg:w-5' />
+          <MagicWand className="h-7 w-7 text-basics-dark-grey lg:h-5 lg:w-5" />
           Sandbox mode
           <Chevron open={open} />
         </WalletButton>
@@ -28,7 +28,7 @@ export const ConnectedButton = forwardRef<HTMLButtonElement, ConnectedButtonProp
     if (mode === 'read-only') {
       return (
         <WalletButton ref={ref} {...buttonProps}>
-          <Eye className='h-7 w-7 text-basics-dark-grey lg:h-5 lg:w-5' />
+          <Eye className="h-7 w-7 text-basics-dark-grey lg:h-5 lg:w-5" />
           Read-only mode
           <Chevron open={open} />
         </WalletButton>
@@ -48,7 +48,7 @@ ConnectedButton.displayName = 'ConnectedButton'
 
 function Chevron({ open }: { open: boolean }) {
   if (open) {
-    return <ChevronUp size={16} className='ml-auto text-basics-dark-grey' />
+    return <ChevronUp size={16} className="ml-auto text-basics-dark-grey" />
   }
-  return <ChevronDown size={16} className='ml-auto text-basics-dark-grey' />
+  return <ChevronDown size={16} className="ml-auto text-basics-dark-grey" />
 }

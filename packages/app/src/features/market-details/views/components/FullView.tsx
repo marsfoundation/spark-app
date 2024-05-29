@@ -21,7 +21,7 @@ export function FullView({
   airdropTokenSymbol,
 }: MarketDetailsViewProps) {
   return (
-    <div className='w-full max-w-5xl pt-12 pb-8 lg:mx-auto sm:mx-3'>
+    <div className="w-full max-w-5xl pt-12 pb-8 lg:mx-auto sm:mx-3">
       <BackNav chainId={chainId} chainName={chainName} />
       <Header token={token} chainName={chainName} chainMismatch={chainMismatch} />
       <div className="grid grid-cols-[2fr_1fr] gap-5 md:gap-10">

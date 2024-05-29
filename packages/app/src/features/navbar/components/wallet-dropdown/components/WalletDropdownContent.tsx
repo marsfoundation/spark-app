@@ -19,7 +19,7 @@ export function WalletDropdownContent({
 }: WalletDropdownContentProps) {
   return (
     <div className="flex flex-col">
-      <div className='flex w-[calc(100vw-48px)] flex-col gap-4 border-basics-grey/50 border-b p-4 lg:w-64'>
+      <div className="flex w-[calc(100vw-48px)] flex-col gap-4 border-basics-grey/50 border-b p-4 lg:w-64">
         <div className="flex items-center gap-3">
           <img src={walletIcon} alt="Wallet icon" className="h-5 w-5" />
           <div className="text-basics-black">{isEphemeralAccount ? 'Ephemeral account' : shortenAddress(address)}</div>
@@ -34,7 +34,7 @@ export function WalletDropdownContent({
           {balanceInfo.isLoading ? (
             <Skeleton className="h-6 w-12" />
           ) : (
-            <div className='font-semibold text-basics-black text-xl leading-relaxed tracking-wide'>
+            <div className="font-semibold text-basics-black text-xl leading-relaxed tracking-wide">
               {USD_MOCK_TOKEN.formatUSD(balanceInfo.totalBalanceUSD)}
             </div>
           )}
@@ -45,7 +45,7 @@ export function WalletDropdownContent({
           <Link
             to={blockExplorerAddressLink}
             external
-            className='flex items-center gap-2.5 font-medium text-basics-dark-grey text-sm'
+            className="flex items-center gap-2.5 font-medium text-basics-dark-grey text-sm"
           >
             <BoxArrowTopRight className="h-4 w-4" />
             View on Explorer

@@ -19,7 +19,7 @@ function Title({ children }: ChildrenProps) {
 }
 
 function Body({ children }: ChildrenProps) {
-  return <p className='max-w-[32ch] text-prompt-foreground'>{children}</p>
+  return <p className="max-w-[32ch] text-prompt-foreground">{children}</p>
 }
 
 TooltipContentLayout.Header = Header

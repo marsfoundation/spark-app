@@ -57,11 +57,7 @@ export const OneAsset: Story = {
   name: 'One asset',
   render: () => {
     return (
-      <AssetSelectorComponent
-        setSelectedAsset={() => {}}
-        selectedAsset={tokens.DAI}
-        assets={[{ token: tokens.DAI }]}
-      />
+      <AssetSelectorComponent setSelectedAsset={() => {}} selectedAsset={tokens.DAI} assets={[{ token: tokens.DAI }]} />
     )
   },
   args: {},

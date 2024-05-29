@@ -72,14 +72,14 @@ export function LoanToValueSlider({
         ))}
 
         <div
-          className='absolute h-full w-1 bg-primary-bg'
+          className="absolute h-full w-1 bg-primary-bg"
           style={{
             left: `${(maxSelectableValue / maxSliderValue) * 100}%`,
           }}
         />
 
         <div
-          className='absolute flex h-full w-1 items-center justify-center bg-product-red'
+          className="absolute flex h-full w-1 items-center justify-center bg-product-red"
           style={{
             left: `${liquidationValue}%`,
           }}
@@ -98,7 +98,7 @@ export function LoanToValueSlider({
         <SliderPrimitive.Range className="absolute h-full bg-transparent" />
       </SliderPrimitive.Track>
 
-      <SliderPrimitive.Thumb className='blockshadow transition-colors disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none'>
+      <SliderPrimitive.Thumb className="blockshadow transition-colors disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none">
         <img
           className={cn('transform transition-transform', !disabled && 'hover:scale-125')}
           src={assets.sliderThumb}

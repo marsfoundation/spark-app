@@ -13,7 +13,6 @@ import { WithdrawView } from './WithdrawView'
 const meta: Meta<typeof WithdrawView> = {
   title: 'Features/Dialogs/Views/Withdraw',
   component: (args) => {
-    
     const form = useForm() as any
     return <WithdrawView {...args} form={form} />
   },

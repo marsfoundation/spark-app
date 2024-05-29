@@ -31,7 +31,7 @@ export function SandboxDialogView({
     <div className="flex max-w-xl flex-col gap-5">
       <DialogTitle>
         <div className="flex items-center gap-2">
-          <MagicWand className='h-5 w-5 text-basics-dark-grey' />
+          <MagicWand className="h-5 w-5 text-basics-dark-grey" />
           Sandbox mode
         </div>
       </DialogTitle>
@@ -46,7 +46,7 @@ export function SandboxDialogView({
           'No real assets involved',
           'Fast – no need to sign transactions',
         ].map((item, index) => (
-          <li key={index} className='flex items-center gap-2.5 text-basics-dark-grey text-sm'>
+          <li key={index} className="flex items-center gap-2.5 text-basics-dark-grey text-sm">
             <img src={assets.success} alt="success-icon" className="h-5" />
             {item}
           </li>

@@ -14,7 +14,6 @@ import { DepositView } from './DepositView'
 const meta: Meta<typeof DepositView> = {
   title: 'Features/Dialogs/Views/Deposit',
   component: (args) => {
-    
     const form = useForm() as any
     return <DepositView {...args} form={form} />
   },

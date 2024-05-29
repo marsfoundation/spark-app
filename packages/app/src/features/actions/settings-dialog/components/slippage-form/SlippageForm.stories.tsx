@@ -11,7 +11,6 @@ import { SlippageForm } from './SlippageForm'
 const meta: Meta<typeof SlippageForm> = {
   title: 'Features/Actions/SlippageForm',
   component: (args) => {
-    
     const form = useForm({
       defaultValues: {
         slippage: {

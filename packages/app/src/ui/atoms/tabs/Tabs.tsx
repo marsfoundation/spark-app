@@ -32,7 +32,7 @@ const TabsTrigger = React.forwardRef<
     {...props}
   >
     {children}
-    <div className='mt-2 h-1 w-[calc(100%-1.5rem)] rounded-t-lg bg-nav-primary opacity-0' />
+    <div className="mt-2 h-1 w-[calc(100%-1.5rem)] rounded-t-lg bg-nav-primary opacity-0" />
   </TabsPrimitive.Trigger>
 ))
 TabsTrigger.displayName = TabsPrimitive.Trigger.displayName

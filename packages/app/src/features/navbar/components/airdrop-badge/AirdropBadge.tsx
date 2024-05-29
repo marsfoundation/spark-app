@@ -18,7 +18,7 @@ export function AirdropBadge({ amount, isLoading, isError }: AirdropInfo) {
       <Tooltip>
         <TooltipTrigger asChild>
           <button
-            className='rounded-[9px] bg-gradient-to-t from-product-orange to-basics-grey/50 p-[1px]'
+            className="rounded-[9px] bg-gradient-to-t from-product-orange to-basics-grey/50 p-[1px]"
             data-testid={testIds.navbar.airdropBadge}
           >
             <div className="flex h-11 items-center gap-1.5 rounded-lg bg-white p-2 lg:h-[38px]">
