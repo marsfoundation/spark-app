@@ -2,8 +2,8 @@ import { assets } from '@/ui/assets'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 
 import { ActionRow } from '../../components/action-row/ActionRow'
-import { ActionRowBaseProps } from '../../components/action-row/types'
 import { UpDownMarker } from '../../components/action-row/UpDownMarker'
+import { ActionRowBaseProps } from '../../components/action-row/types'
 import { getFormattedValue } from '../../components/action-row/utils'
 import { DepositAction } from './types'
 

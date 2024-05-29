@@ -1,4 +1,4 @@
-import { useQuery, UseQueryResult } from '@tanstack/react-query'
+import { UseQueryResult, useQuery } from '@tanstack/react-query'
 import { useConfig } from 'wagmi'
 
 import { BaseUnitNumber } from '@/domain/types/NumericValues'

@@ -1,4 +1,4 @@
-import { cva, VariantProps } from 'class-variance-authority'
+import { VariantProps, cva } from 'class-variance-authority'
 import { ComponentProps } from 'react'
 
 import { DropdownMenuItem } from '@/ui/atoms/dropdown/DropdownMenu'

@@ -1,4 +1,4 @@
-import { useMutation, UseMutationResult } from '@tanstack/react-query'
+import { UseMutationResult, useMutation } from '@tanstack/react-query'
 import { mainnet } from 'viem/chains'
 import { useAccount, useDisconnect as useWagmiDisconnect } from 'wagmi'
 

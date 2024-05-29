@@ -13,17 +13,17 @@ import { Token } from '../types/Token'
 import { TokenSymbol } from '../types/TokenSymbol'
 import { AaveData } from './aave-data-layer/query'
 import { determineEModeState, extractEmodeInfoFromReserves } from './emode'
-import { getIncentivesData, IncentivesData } from './incentives'
+import { IncentivesData, getIncentivesData } from './incentives'
 import { parseRawPercentage } from './math'
 import {
   BorrowEligibilityStatus,
   CollateralEligibilityStatus,
+  ReserveStatus,
+  SupplyAvailabilityStatus,
   getBorrowEligibilityStatus,
   getCollateralEligibilityStatus,
   getReserveStatus,
   getSupplyAvailabilityStatus,
-  ReserveStatus,
-  SupplyAvailabilityStatus,
 } from './reserve-status'
 import {
   determineIsolationModeState,

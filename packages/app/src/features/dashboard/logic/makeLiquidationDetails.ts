@@ -1,4 +1,4 @@
-import { getLiquidationDetails, LiquidationDetails } from '@/domain/market-info/getLiquidationDetails'
+import { LiquidationDetails, getLiquidationDetails } from '@/domain/market-info/getLiquidationDetails'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 
 export function makeLiquidationDetails(marketInfo: MarketInfo): LiquidationDetails | undefined {

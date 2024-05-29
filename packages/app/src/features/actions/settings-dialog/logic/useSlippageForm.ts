@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm, UseFormReturn } from 'react-hook-form'
+import { UseFormReturn, useForm } from 'react-hook-form'
 
 import { useStore } from '@/domain/state'
 import { Percentage } from '@/domain/types/NumericValues'

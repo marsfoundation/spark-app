@@ -3,7 +3,7 @@ import { describe } from 'vitest'
 import { bigNumberify } from '@/utils/bigNumber'
 
 import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
-import { findSignificantPrecision, formatHealthFactor, formatPercentage, formFormat } from './format'
+import { findSignificantPrecision, formFormat, formatHealthFactor, formatPercentage } from './format'
 
 describe(formatPercentage.name, () => {
   it('formats whole numbers', () => {

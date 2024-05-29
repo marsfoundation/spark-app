@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useAccount, useEstimateGas, UseEstimateGasParameters, useSendTransaction } from 'wagmi'
+import { UseEstimateGasParameters, useAccount, useEstimateGas, useSendTransaction } from 'wagmi'
 
 import { sanityCheckTx } from './sanityChecks'
 import { useOriginChainId } from './useOriginChainId'

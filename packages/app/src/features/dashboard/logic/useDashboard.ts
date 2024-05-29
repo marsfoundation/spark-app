@@ -10,7 +10,7 @@ import { Borrow, Deposit, getBorrows, getDeposits } from './assets'
 import { makeLiquidationDetails } from './makeLiquidationDetails'
 import { makePositionSummary } from './position'
 import { PositionSummary } from './types'
-import { makeWalletComposition, WalletCompositionInfo } from './wallet-composition'
+import { WalletCompositionInfo, makeWalletComposition } from './wallet-composition'
 
 export interface UseDashboardResults {
   positionSummary: PositionSummary

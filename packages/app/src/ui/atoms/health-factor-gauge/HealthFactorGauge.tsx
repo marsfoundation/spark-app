@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 
-import { healthFactorToRiskLevel, RiskLevel, riskLevelToTitle } from '@/domain/common/risk'
+import { RiskLevel, healthFactorToRiskLevel, riskLevelToTitle } from '@/domain/common/risk'
 
 export interface HealthFactorGaugeProps {
   value: BigNumber | undefined

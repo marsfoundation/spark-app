@@ -11,18 +11,18 @@ import { AppConfig, getAppConfig } from '../../config/feature-flags'
 import {
   ActionsSettings,
   ActionsSettingsSlice,
+  PersistedActionsSettingsSlice,
   initActionsSettingsSlice,
   persistActionsSettingsSlice,
-  PersistedActionsSettingsSlice,
   unPersistActionsSettingsSlice,
 } from './actions-settings'
-import { ComplianceSlice, initComplianceSlice, persistComplianceSlice, PersistedComplianceSlice } from './compliance'
+import { ComplianceSlice, PersistedComplianceSlice, initComplianceSlice, persistComplianceSlice } from './compliance'
 import { DialogSlice, initDialogSlice } from './dialogs'
 import {
-  initSandboxSlice,
   PersistedSandboxSlice,
-  persistSandboxSlice,
   SandboxSlice,
+  initSandboxSlice,
+  persistSandboxSlice,
   unPersistSandboxSlice,
 } from './sandbox'
 

@@ -1,4 +1,4 @@
-import { expect, Locator } from '@playwright/test'
+import { Locator, expect } from '@playwright/test'
 
 import { BasePageObject } from '@/test/e2e/BasePageObject'
 import { testIds } from '@/ui/utils/testIds'

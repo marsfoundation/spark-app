@@ -1,7 +1,7 @@
-import { expect, Locator, Page } from '@playwright/test'
+import { Locator, Page, expect } from '@playwright/test'
 
-import { expectAssets, TestTokenWithValue } from '@/test/e2e/assertions'
 import { BasePageObject } from '@/test/e2e/BasePageObject'
+import { TestTokenWithValue, expectAssets } from '@/test/e2e/assertions'
 import { ForkContext } from '@/test/e2e/setupFork'
 import { calculateAssetsWorth, isPage } from '@/test/e2e/utils'
 import { testIds } from '@/ui/utils/testIds'

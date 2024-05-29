@@ -1,4 +1,4 @@
-import { useExchange, UseExchangeResult } from '@/domain/market-operations/useExchange'
+import { UseExchangeResult, useExchange } from '@/domain/market-operations/useExchange'
 
 import { ActionHandler, ActionHandlerState } from '../../logic/types'
 import { parseWriteErrorMessage } from '../../logic/utils'

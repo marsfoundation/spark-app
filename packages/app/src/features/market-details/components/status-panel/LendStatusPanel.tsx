@@ -4,10 +4,10 @@ import { Token } from '@/domain/types/Token'
 import { Panel } from '@/ui/atoms/panel/Panel'
 
 import { Header } from './components/Header'
+import { StatusPanelGrid } from './components/StatusPanelGrid'
 import { InfoTile } from './components/info-tile/InfoTile'
 import { InfoTilesGrid } from './components/info-tile/InfoTilesGrid'
 import { StatusIcon } from './components/status-icon/StatusIcon'
-import { StatusPanelGrid } from './components/StatusPanelGrid'
 import { TokenBadge } from './components/token-badge/TokenBadge'
 
 interface LendStatusPanelProps {

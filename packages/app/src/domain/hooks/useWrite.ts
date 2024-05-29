@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { Abi, ContractFunctionName } from 'viem'
-import { useAccount, useSimulateContract, UseSimulateContractParameters, useWriteContract } from 'wagmi'
+import { UseSimulateContractParameters, useAccount, useSimulateContract, useWriteContract } from 'wagmi'
 
 import { sanityCheckTx } from './sanityChecks'
 import { useOriginChainId } from './useOriginChainId'

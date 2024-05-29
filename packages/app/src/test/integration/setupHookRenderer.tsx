@@ -1,12 +1,12 @@
 import { QueryClient } from '@tanstack/react-query'
-import { renderHook, RenderHookResult } from '@testing-library/react'
+import { RenderHookResult, renderHook } from '@testing-library/react'
 import { Chain } from 'wagmi/chains'
 
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 
+import { TestingWrapper } from './TestingWrapper'
 import { makeMockTransport } from './mockTransport'
 import { RpcHandler } from './mockTransport/types'
-import { TestingWrapper } from './TestingWrapper'
 import { createWagmiTestConfig } from './wagmi-config'
 
 interface SetupHookRendererArgs<HOOK extends (args: any) => any> {

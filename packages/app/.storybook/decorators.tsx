@@ -7,10 +7,10 @@ import { WagmiProvider, createConfig, useAccount, useConnect } from 'wagmi'
 import { I18nAppProvider } from '@/domain/i18n/I18nAppProvider'
 import { TooltipProvider } from '@/ui/atoms/tooltip/Tooltip'
 
-import { DevContainer } from './DevContainer'
 import { erc20Abi } from 'viem'
 import { mainnet } from 'viem/chains'
 import { mock } from 'wagmi/connectors'
+import { DevContainer } from './DevContainer'
 
 export function WithTooltipProvider() {
   return function WithTooltipProvider(Story: StoryFn) {

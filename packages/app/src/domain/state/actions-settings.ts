@@ -3,8 +3,8 @@ import { StateCreator } from 'zustand'
 
 import { tryOrDefault } from '@/utils/tryOrDefault'
 
-import { Percentage } from '../types/NumericValues'
 import { type StoreState } from '.'
+import { Percentage } from '../types/NumericValues'
 
 export interface ActionsSettings {
   preferPermits: boolean

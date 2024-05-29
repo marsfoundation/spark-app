@@ -1,6 +1,6 @@
 import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
 import { ApproveAction } from '@/features/actions/flavours/approve/types'
-import { isPermitSupported, PermitStore } from '@/features/actions/logic/permits'
+import { PermitStore, isPermitSupported } from '@/features/actions/logic/permits'
 import { ActionHandler } from '@/features/actions/logic/types'
 
 import { useCreateApproveHandler } from './useCreateApproveHandler'
