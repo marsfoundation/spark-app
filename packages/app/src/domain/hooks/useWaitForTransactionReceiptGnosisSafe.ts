@@ -2,10 +2,10 @@ import { useState } from 'react'
 import invariant from 'tiny-invariant'
 import { parseAbi } from 'viem'
 import {
-  useAccount,
-  useWaitForTransactionReceipt,
   UseWaitForTransactionReceiptParameters,
   UseWaitForTransactionReceiptReturnType,
+  useAccount,
+  useWaitForTransactionReceipt,
   useWatchContractEvent,
 } from 'wagmi'
 

@@ -1,4 +1,4 @@
-import { Address, Chain, createWalletClient, http, isAddress, Transport } from 'viem'
+import { http, Address, Chain, Transport, createWalletClient, isAddress } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 import { gnosis, mainnet } from 'viem/chains'
 import { Config, createConfig } from 'wagmi'

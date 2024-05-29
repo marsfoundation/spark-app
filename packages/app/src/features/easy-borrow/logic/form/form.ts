@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { useFieldArray, UseFormReturn } from 'react-hook-form'
+import { UseFormReturn, useFieldArray } from 'react-hook-form'
 
 import { getDepositMaxValue } from '@/domain/action-max-value-getters/getDepositMaxValue'
 import { formFormat } from '@/domain/common/format'

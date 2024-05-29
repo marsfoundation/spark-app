@@ -1,4 +1,4 @@
-import { custom, CustomTransport } from 'viem'
+import { CustomTransport, custom } from 'viem'
 
 import { MockError } from './handlers'
 import { RpcHandler, RpcResponse } from './types'

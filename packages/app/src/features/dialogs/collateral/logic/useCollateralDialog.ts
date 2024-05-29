@@ -6,8 +6,8 @@ import { TokenWithBalance } from '@/domain/common/types'
 import { useAaveDataLayer } from '@/domain/market-info/aave-data-layer/useAaveDataLayer'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import {
-  getValidateSetUseAsCollateralArgs,
   SetUseAsCollateralValidationIssue,
+  getValidateSetUseAsCollateralArgs,
   validateSetUseAsCollateral,
 } from '@/domain/market-validators/validateSetUseAsCollateral'
 import { Token } from '@/domain/types/Token'

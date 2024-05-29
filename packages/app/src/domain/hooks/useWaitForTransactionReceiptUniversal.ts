@@ -1,7 +1,7 @@
 import {
-  useWaitForTransactionReceipt,
   UseWaitForTransactionReceiptParameters,
   UseWaitForTransactionReceiptReturnType,
+  useWaitForTransactionReceipt,
 } from 'wagmi'
 
 import { useWaitForTransactionReceiptGnosisSafe } from './useWaitForTransactionReceiptGnosisSafe'

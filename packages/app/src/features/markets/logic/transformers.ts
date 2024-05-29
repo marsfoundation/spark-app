@@ -7,7 +7,7 @@ import { paths } from '@/config/paths'
 import { MarketInfo, Reserve } from '@/domain/market-info/marketInfo'
 import { Percentage } from '@/domain/types/NumericValues'
 import { RowClickOptions } from '@/ui/molecules/data-table/DataTable'
-import { applyTransformers, Transformer, TransformerResult } from '@/utils/applyTransformers'
+import { Transformer, TransformerResult, applyTransformers } from '@/utils/applyTransformers'
 
 import { MarketEntry } from '../types'
 

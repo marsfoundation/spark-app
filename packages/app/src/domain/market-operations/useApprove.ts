@@ -3,7 +3,7 @@ import { Address } from 'viem'
 import { useConfig } from 'wagmi'
 
 import { NATIVE_ASSET_MOCK_ADDRESS } from '@/config/consts'
-import { useWrite, UseWriteCallbacks } from '@/domain/hooks/useWrite'
+import { UseWriteCallbacks, useWrite } from '@/domain/hooks/useWrite'
 
 import { toBigInt } from '../../utils/bigNumber'
 import { BaseUnitNumber } from '../types/NumericValues'

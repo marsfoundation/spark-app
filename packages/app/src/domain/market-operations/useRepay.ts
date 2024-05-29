@@ -1,6 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { Abi, Address } from 'viem'
-import { useAccount, useChainId, useConfig, UseSimulateContractParameters } from 'wagmi'
+import { UseSimulateContractParameters, useAccount, useChainId, useConfig } from 'wagmi'
 
 import { poolAbi } from '@/config/abis/poolAbi'
 import { InterestRate, NATIVE_ASSET_MOCK_ADDRESS } from '@/config/consts'

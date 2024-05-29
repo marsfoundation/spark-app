@@ -1,8 +1,8 @@
 import { expect } from '@playwright/test'
 
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
-import { expectAssets, TestTokenWithValue } from '@/test/e2e/assertions'
 import { BasePageObject } from '@/test/e2e/BasePageObject'
+import { TestTokenWithValue, expectAssets } from '@/test/e2e/assertions'
 import { buildUrl } from '@/test/e2e/setup'
 import { ForkContext } from '@/test/e2e/setupFork'
 import { calculateAssetsWorth } from '@/test/e2e/utils'

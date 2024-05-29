@@ -15,7 +15,7 @@ import { formatPercentage } from '@/domain/common/format'
 import { Percentage } from '@/domain/types/NumericValues'
 
 import { colors } from '../../colors'
-import { defaultMargins, Margins } from '../../defaults'
+import { Margins, defaultMargins } from '../../defaults'
 import { GraphDataPoint } from '../types'
 
 export interface ChartProps {

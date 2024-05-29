@@ -1,5 +1,5 @@
 import { Account, Chain, Transport, WalletClient } from 'viem'
-import { createConnector, CreateConnectorFn } from 'wagmi'
+import { CreateConnectorFn, createConnector } from 'wagmi'
 import { mock } from 'wagmi/connectors'
 
 export interface CreateMockConnectorOverrides {

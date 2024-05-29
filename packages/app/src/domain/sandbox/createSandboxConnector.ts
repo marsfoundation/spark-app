@@ -1,4 +1,4 @@
-import { createWalletClient, http } from 'viem'
+import { http, createWalletClient } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 import { mainnet } from 'viem/chains'
 import { CreateConnectorFn } from 'wagmi'

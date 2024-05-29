@@ -1,8 +1,8 @@
+import { join } from 'node:path'
 import type { StorybookConfig } from '@storybook/react-vite'
+import dotenv from 'dotenv'
 import { mergeConfig } from 'vite'
 import svgr from 'vite-plugin-svgr'
-import { join } from 'node:path'
-import dotenv from 'dotenv'
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],

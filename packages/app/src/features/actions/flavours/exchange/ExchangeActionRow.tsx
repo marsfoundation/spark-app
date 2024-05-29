@@ -7,8 +7,8 @@ import { assets, getTokenImage } from '@/ui/assets'
 import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
 import { testIds } from '@/ui/utils/testIds'
 
-import { ActionRowBaseProps } from '../../components/action-row/types'
 import { UpDownMarker } from '../../components/action-row/UpDownMarker'
+import { ActionRowBaseProps } from '../../components/action-row/types'
 import { ActionHandlerState } from '../../logic/types'
 import { ExchangeAction } from './types'
 

@@ -1,5 +1,5 @@
 import { Address, isAddress } from 'viem'
-import { z, ZodBigIntDef, ZodType } from 'zod'
+import { ZodBigIntDef, ZodType, z } from 'zod'
 
 import { Percentage } from '@/domain/types/NumericValues'
 

@@ -1,4 +1,4 @@
-import { useQuery, UseQueryResult } from '@tanstack/react-query'
+import { UseQueryResult, useQuery } from '@tanstack/react-query'
 import { useRef } from 'react'
 import { hexToSignature } from 'viem'
 import { useChainId, useConfig, useSignTypedData } from 'wagmi'

@@ -5,8 +5,8 @@ import { getMobileStory, getTabletStory } from '@storybook/viewports'
 
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 
-import { Legend } from './components/Legend'
 import { MarketOverviewChart } from './MarketOverviewChart'
+import { Legend } from './components/Legend'
 
 const meta: Meta<typeof MarketOverviewChart> = {
   title: 'Features/MarketDetails/Components/Charts/MarketOverview',

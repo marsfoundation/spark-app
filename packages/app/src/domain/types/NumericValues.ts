@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import invariant from 'tiny-invariant'
 
-import { bigNumberify, NumberLike } from '../../utils/bigNumber'
+import { NumberLike, bigNumberify } from '../../utils/bigNumber'
 import { Opaque } from './types'
 
 /**

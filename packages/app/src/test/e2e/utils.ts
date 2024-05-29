@@ -1,5 +1,5 @@
 import { Locator, Page } from '@playwright/test'
-import { createPublicClient, http } from 'viem'
+import { http, createPublicClient } from 'viem'
 import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts'
 
 import {

@@ -6,8 +6,8 @@ import { EModeCategoryId, EModeCategoryName } from '@/domain/e-mode/types'
 import { useAaveDataLayer } from '@/domain/market-info/aave-data-layer/useAaveDataLayer'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import {
-  getValidateSetUserEModeArgs,
   SetUserEModeValidationIssue,
+  getValidateSetUserEModeArgs,
   validateSetUserEMode,
 } from '@/domain/market-validators/validateSetUserEMode'
 import { Objective } from '@/features/actions/logic/types'

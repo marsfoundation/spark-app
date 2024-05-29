@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useRef, useState } from 'react'
-import { useForm, UseFormReturn } from 'react-hook-form'
+import { UseFormReturn, useForm } from 'react-hook-form'
 import invariant from 'tiny-invariant'
 import { useAccount } from 'wagmi'
 

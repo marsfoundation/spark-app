@@ -1,4 +1,4 @@
-import { cva, VariantProps } from 'class-variance-authority'
+import { VariantProps, cva } from 'class-variance-authority'
 
 interface ErrorLayoutProps extends VariantProps<typeof variants> {
   children: React.ReactNode

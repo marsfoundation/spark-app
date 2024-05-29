@@ -1,4 +1,4 @@
-import { useMutation, UseMutationResult } from '@tanstack/react-query'
+import { UseMutationResult, useMutation } from '@tanstack/react-query'
 import { useChainId, useConnect, useConnections, useDisconnect, useSwitchAccount, useSwitchChain } from 'wagmi'
 
 import { createSandboxConnector } from '@/domain/sandbox/createSandboxConnector'

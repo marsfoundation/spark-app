@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { useAccount, WagmiProvider } from 'wagmi'
+import { WagmiProvider, useAccount } from 'wagmi'
 
 import { I18nTestProvider } from '@/domain/i18n/I18nTestProvider'
 import { useAutoConnect } from '@/domain/wallet/useAutoConnect'

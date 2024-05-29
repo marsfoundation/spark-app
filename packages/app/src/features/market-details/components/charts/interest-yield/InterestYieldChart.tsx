@@ -5,7 +5,7 @@ import { Percentage } from '@/domain/types/NumericValues'
 import { useParentSize } from '@/ui/utils/useParentSize'
 
 import { colors } from '../colors'
-import { defaultMargins, Margins } from '../defaults'
+import { Margins, defaultMargins } from '../defaults'
 import { Chart } from './components/Chart'
 import { getYields } from './logic/getYields'
 
