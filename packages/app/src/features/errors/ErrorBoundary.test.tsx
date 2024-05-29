@@ -33,5 +33,5 @@ function ToThrowOrNotToThrow({ children, shouldThrow }: { children: ReactNode; s
   if (shouldThrow) {
     throw new Error('Test error')
   }
-  return children
+  return <>{children}</>
 }
