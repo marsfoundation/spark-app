@@ -12,7 +12,7 @@
     "format": "biome format .",
     "format:fix": "biome format --write .",
     "biome-lint": "biome lint .",
-    "biome-lint:fix": "biome lint --apply-unsafe .",
+    "biome-lint:fix": "biome check --apply-unsafe .",
     "lint": "pnpm run biome-lint && pnpm run --parallel --aggregate-output --reporter append-only --filter './packages/**' lint",
     "lint:fix": "pnpm run biome-lint:fix && pnpm --parallel --aggregate-output --reporter append-only --filter './packages/**' lint:fix",
     "typecheck": "pnpm --parallel --aggregate-output --reporter append-only --filter './packages/**' typecheck",
