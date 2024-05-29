@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from '@storybook/react'
-import { withRouter } from 'storybook-addon-react-router-v6'
+import { withRouter } from 'storybook-addon-remix-react-router'
 
 import { RegionBlocked } from './RegionBlocked'
 
