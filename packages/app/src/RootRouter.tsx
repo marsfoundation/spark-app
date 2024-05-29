@@ -1,8 +1,8 @@
 import { createBrowserRouter } from 'react-router-dom'
 
 import { paths } from './config/paths'
+import { RouterErrorFallback } from './features/errors'
 import { NotFound } from './features/errors/NotFound'
-import { RouterErrorFallback } from './features/errors/RouterErrorFallback'
 import { EasyBorrowPage } from './pages/Borrow'
 import { DashboardPage } from './pages/Dashboard'
 import { MarketDetails } from './pages/MarketDetails'
