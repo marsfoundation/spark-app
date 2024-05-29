@@ -31,7 +31,8 @@
         "useImportType": "off",
         "noNonNullAssertion": "off",
         "useFilenamingConvention": "off",
-        "noParameterProperties": "off"
+        "noParameterProperties": "off",
+        "noParameterAssign": "off"
       },
       "suspicious": {
         "noSkippedTests": "off",
