@@ -16,7 +16,7 @@ export async function createSandbox(opts: {
     namePrefix: 'sandbox',
     originChainId: opts.originChainId,
     forkChainId: opts.forkChainId,
-    apiUrl: `${apiUrl}/playground/create`,
+    apiUrl: `${apiUrl}/sandbox/create`,
   })
 
   await publicTenderlyActions.setBalance(

@@ -32,7 +32,7 @@ export async function createTenderlyFork({
 }: CreateTenderlyForkArgs): Promise<CreateTenderlyForkResult> {
   const response = await solidFetch(apiUrl, {
     method: 'post',
-    headers,
+    headers: { ...headers, 'Content-Type': 'application/json' },
     body: JSON.stringify({
       network_id: originChainId,
       block_number: blockNumber ? Number(blockNumber) : undefined,
