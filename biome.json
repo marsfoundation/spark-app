@@ -37,7 +37,8 @@
       "suspicious": {
         "noSkippedTests": "off",
         "noExplicitAny": "off",
-        "noArrayIndexKey": "off"
+        "noArrayIndexKey": "off",
+        "noConsoleLog": "error"
       },
       "performance": {
         "noAccumulatingSpread": "off"
