@@ -1,6 +1,6 @@
 import { WithClassname } from '@storybook/decorators'
 import type { Meta, StoryObj } from '@storybook/react'
-import { withRouter } from 'storybook-addon-react-router-v6'
+import { withRouter } from 'storybook-addon-remix-react-router'
 
 import { Percentage } from '@/domain/types/NumericValues'
 import { SavingsAPYBadge } from '@/features/savings/components/navbar-item/SavingsAPYBadge'
