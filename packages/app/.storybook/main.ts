@@ -11,8 +11,8 @@ const config: StorybookConfig = {
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
-    '@storybook/addon-styling',
-    'storybook-addon-react-router-v6',
+    '@storybook/addon-themes',
+    'storybook-addon-remix-react-router',
     '@chromatic-com/storybook',
   ],
 
