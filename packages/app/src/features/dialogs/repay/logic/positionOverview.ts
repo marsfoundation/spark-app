@@ -14,7 +14,7 @@ export function makeUpdatedPositionOverview({
 }: MakeUpdatedPositionOverviewParams): PositionOverview {
   return {
     // @todo: change 1e-8 when repaying max is handled properly
-    healthFactor: !healthFactor && debt.lt(1e-8) ? new BigNumber(Infinity) : healthFactor,
+    healthFactor: !healthFactor && debt.lt(1e-8) ? new BigNumber(Number.POSITIVE_INFINITY) : healthFactor,
     debt,
   }
 }

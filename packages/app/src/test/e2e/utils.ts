@@ -18,7 +18,7 @@ export async function screenshot(pageOrLocator: Page | Locator, name: string): P
   // note: hide entirely elements that can change in size
   const selectorsToHide = [
     `[data-testid="wallet-button"]`, // hide address because it can change
-    `.toast-notifications`, // hide notifications because sometimes they are fast to disappear and can't be captured deterministically
+    '.toast-notifications', // hide notifications because sometimes they are fast to disappear and can't be captured deterministically
     `[data-testid="react-confetti"]`,
   ]
   // note: mask elements that can change but not in size
@@ -32,7 +32,7 @@ export async function screenshot(pageOrLocator: Page | Locator, name: string): P
         continue // skip if element not found
       }
 
-      element['__oldDisplay'] = element.style.display
+      element.__oldDisplay = element.style.display
       element.style.display = 'none'
     }
   }, selectorsToHide)
@@ -51,7 +51,7 @@ export async function screenshot(pageOrLocator: Page | Locator, name: string): P
         return
       }
 
-      element.style.display = element['__oldDisplay']
+      element.style.display = element.__oldDisplay
     }
   }, selectorsToHide)
 }

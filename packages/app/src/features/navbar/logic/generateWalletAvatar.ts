@@ -18,7 +18,7 @@ export function generateWalletAvatar(address: Address): string {
 
   function pseudoRandomColor(index: number): string {
     const char = hash[index % hash.length]!
-    const x = parseInt(char, 16)
+    const x = Number.parseInt(char, 16)
     return x > 7 ? '#FFF' : '#88F'
   }
 

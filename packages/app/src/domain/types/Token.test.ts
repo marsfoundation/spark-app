@@ -65,7 +65,7 @@ describe(Token.name, () => {
     })
 
     it('formats in compact mode', () => {
-      expect(token.formatUSD(NormalizedUnitNumber(0), { compact: true })).toEqual(`$0.00`)
+      expect(token.formatUSD(NormalizedUnitNumber(0), { compact: true })).toEqual('$0.00')
       expect(token.formatUSD(NormalizedUnitNumber(0.0001), { compact: true })).toEqual('<$0.01')
       expect(token.formatUSD(NormalizedUnitNumber(823.2345), { compact: true })).toEqual('$823.23')
       expect(token.formatUSD(NormalizedUnitNumber(1234), { compact: true })).toEqual('$1,234')
@@ -77,21 +77,21 @@ describe(Token.name, () => {
     })
 
     it('formats with display cents set to never', () => {
-      expect(token.formatUSD(NormalizedUnitNumber(0), { showCents: 'never' })).toEqual(`$0`)
+      expect(token.formatUSD(NormalizedUnitNumber(0), { showCents: 'never' })).toEqual('$0')
       expect(token.formatUSD(NormalizedUnitNumber(0.0001), { showCents: 'never' })).toEqual('<$0.01')
       expect(token.formatUSD(NormalizedUnitNumber(1234), { showCents: 'never' })).toEqual('$1,234')
       expect(token.formatUSD(NormalizedUnitNumber(1234.56), { showCents: 'never' })).toEqual('$1,235')
     })
 
     it('formats with display cents set to always', () => {
-      expect(token.formatUSD(NormalizedUnitNumber(0), { showCents: 'always' })).toEqual(`$0.00`)
+      expect(token.formatUSD(NormalizedUnitNumber(0), { showCents: 'always' })).toEqual('$0.00')
       expect(token.formatUSD(NormalizedUnitNumber(0.0001), { showCents: 'always' })).toEqual('<$0.01')
       expect(token.formatUSD(NormalizedUnitNumber(1234), { showCents: 'always' })).toEqual('$1,234.00')
       expect(token.formatUSD(NormalizedUnitNumber(1234.56), { showCents: 'always' })).toEqual('$1,234.56')
     })
 
     it('formats with display cents set to when-not-round', () => {
-      expect(token.formatUSD(NormalizedUnitNumber(0), { showCents: 'when-not-round' })).toEqual(`$0`)
+      expect(token.formatUSD(NormalizedUnitNumber(0), { showCents: 'when-not-round' })).toEqual('$0')
       expect(token.formatUSD(NormalizedUnitNumber(0.0001), { showCents: 'when-not-round' })).toEqual('<$0.01')
       expect(token.formatUSD(NormalizedUnitNumber(1234), { showCents: 'when-not-round' })).toEqual('$1,234')
       expect(token.formatUSD(NormalizedUnitNumber(1234.56), { showCents: 'when-not-round' })).toEqual('$1,234.56')

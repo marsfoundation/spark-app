@@ -40,7 +40,7 @@ export function WalletComposition({
             />
             <label
               htmlFor="checkbox-include-deposit"
-              className="text-xs font-light leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              className='font-light text-xs leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
             >
               include my deposits
             </label>
@@ -51,7 +51,7 @@ export function WalletComposition({
       <Panel.Content className="flex flex-col gap-8 sm:flex-row md:gap-10">
         {assets.length > 1 && <DoughnutChart data={chartData} className="shrink-0 sm:max-h-64" />}
         <div className="w-full sm:max-h-64">
-          {assets.length != 0 ? (
+          {assets.length !== 0 ? (
             <AssetTable assets={assets} chainId={chainId} scroll={sm ? { height: 256 } : undefined} />
           ) : (
             <div className="flex w-full flex-col items-center justify-center gap-2 sm:my-10 sm:flex-row">

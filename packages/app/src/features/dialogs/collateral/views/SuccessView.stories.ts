@@ -10,7 +10,7 @@ const meta: Meta<typeof SuccessView> = {
   component: SuccessView,
   decorators: [WithClassname('max-w-xl')],
   args: {
-    token: tokens['ETH'],
+    token: tokens.ETH,
   },
 }
 

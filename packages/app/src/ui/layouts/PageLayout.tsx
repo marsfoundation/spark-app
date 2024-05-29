@@ -7,6 +7,6 @@ export interface PageLayoutProps {
 
 export function PageLayout({ children, className }: PageLayoutProps) {
   return (
-    <div className={cn('mx-auto flex w-full max-w-4xl flex-1 flex-col gap-4 pb-16 pt-12', className)}>{children}</div>
+    <div className={cn('mx-auto flex w-full max-w-4xl flex-1 flex-col gap-4 pt-12 pb-16', className)}>{children}</div>
   )
 }

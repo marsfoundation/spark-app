@@ -15,7 +15,7 @@ function ToSLink({ className }: ToSLinkProps) {
   return (
     <Link
       to={links.termsOfUse}
-      className={cn('text-basics-black hover:text-basics-black underline', className)}
+      className={cn('text-basics-black underline hover:text-basics-black', className)}
       external
     >
       Terms of Service
@@ -67,7 +67,7 @@ export interface TermsOfServiceProps {
 export function TermsOfService({ onAgree }: TermsOfServiceProps) {
   return (
     <MultiPanelDialog>
-      <div className="text-xl font-semibold">Terms of Service and Disclaimer</div>
+      <div className='font-semibold text-xl'>Terms of Service and Disclaimer</div>
       <div>
         By using this site, I represent that I have read and agree to the <ToSLink className="text-blue-600" /> and{' '}
         <Link to={links.privacyPolicy} className="underline" external>
@@ -75,7 +75,7 @@ export function TermsOfService({ onAgree }: TermsOfServiceProps) {
         </Link>
         . Undefined terms used below are in reference to definitions in the Terms of Service.
       </div>
-      <ScrollArea className="border-light-grey h-64 rounded-md border pl-2 pr-3" type="always">
+      <ScrollArea className='h-64 rounded-md border border-light-grey pr-3 pl-2' type="always">
         <div className="grid grid-cols-[auto_1fr] gap-4">
           {points.map((point, index) => (
             <React.Fragment key={index}>

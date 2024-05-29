@@ -49,7 +49,7 @@ export function NetworkSelector({ currentChain, supportedChains, onNetworkChange
               >
                 <div className="flex items-center gap-2">
                   <img src={getChainConfigEntry(chain.id).meta.logo} className="h-5 w-5" />
-                  <span className="text-basics-black font-semibold lg:text-xs">{chain.name}</span>
+                  <span className='font-semibold text-basics-black lg:text-xs'>{chain.name}</span>
                 </div>
               </DropdownMenuItem>
               <DropdownMenuSeparator className="last:hidden" />
@@ -63,7 +63,7 @@ export function NetworkSelector({ currentChain, supportedChains, onNetworkChange
 
 function Chevron({ open }: { open: boolean }) {
   if (open) {
-    return <ChevronUp size={16} className="text-basics-dark-grey ml-auto" />
+    return <ChevronUp size={16} className='ml-auto text-basics-dark-grey' />
   }
-  return <ChevronDown size={16} className="text-basics-dark-grey ml-auto" />
+  return <ChevronDown size={16} className='ml-auto text-basics-dark-grey' />
 }

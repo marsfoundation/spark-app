@@ -13,7 +13,7 @@ const meta: Meta<typeof SuccessView> = {
   decorators: [WithClassname('max-w-xl')],
   args: {
     tokenWithValue: {
-      token: tokens['DAI'],
+      token: tokens.DAI,
       value: NormalizedUnitNumber(2000),
     },
     onProceed: () => {},

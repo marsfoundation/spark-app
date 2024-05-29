@@ -10,12 +10,12 @@ export function InfoTile({ children }: InfoTileProps) {
 }
 
 function Label({ children }: InfoTileProps) {
-  return <div className="my-auto text-sm leading-none text-slate-500 sm:text-xs sm:leading-none">{children}</div>
+  return <div className='my-auto text-slate-500 text-sm leading-none sm:text-xs sm:leading-none'>{children}</div>
 }
 
 function Value({ children }: InfoTileProps) {
   return (
-    <div className="justify-self-end text-sm leading-none text-sky-950 sm:justify-self-start sm:text-base sm:leading-none">
+    <div className='justify-self-end text-sky-950 text-sm leading-none sm:justify-self-start sm:text-base sm:leading-none'>
       {children}
     </div>
   )
@@ -26,7 +26,7 @@ function ComplementaryLine({ children }: InfoTileProps) {
     <p
       className={cn(
         'col-start-2 row-start-2 justify-self-end',
-        'text-xs leading-none text-slate-500',
+        'text-slate-500 text-xs leading-none',
         'sm:col-start-1 sm:row-start-3',
         'sm:justify-self-start sm:leading-none',
       )}

@@ -22,17 +22,17 @@ const meta: Meta<typeof BorrowView> = {
   args: {
     selectableAssets: [
       {
-        token: tokens['DAI'],
+        token: tokens.DAI,
         balance: NormalizedUnitNumber(50000),
       },
       {
-        token: tokens['ETH'],
+        token: tokens.ETH,
         balance: NormalizedUnitNumber(10),
       },
     ],
     assetsFields: {
       selectedAsset: {
-        token: tokens['DAI'],
+        token: tokens.DAI,
         balance: NormalizedUnitNumber(50000),
         value: '2000',
       },
@@ -41,13 +41,13 @@ const meta: Meta<typeof BorrowView> = {
     objectives: [
       {
         type: 'borrow',
-        token: tokens['DAI'],
+        token: tokens.DAI,
         value: NormalizedUnitNumber(2000),
         debtTokenAddress: CheckedAddress(zeroAddress),
       },
     ],
     borrowAsset: {
-      token: tokens['DAI'],
+      token: tokens.DAI,
       value: NormalizedUnitNumber(2000),
     },
     pageStatus: {

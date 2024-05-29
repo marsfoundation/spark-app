@@ -18,20 +18,20 @@ const meta: Meta<typeof RepayView> = {
   },
   decorators: [ZeroAllowanceWagmiDecorator(), WithClassname('max-w-xl'), WithTooltipProvider()],
   args: {
-    debtAsset: tokens['DAI'],
+    debtAsset: tokens.DAI,
     repayOptions: [
       {
-        token: tokens['DAI'],
+        token: tokens.DAI,
         balance: NormalizedUnitNumber(50000),
       },
       {
-        token: tokens['ETH'],
+        token: tokens.ETH,
         balance: NormalizedUnitNumber(10),
       },
     ],
     assetsToRepayFields: {
       selectedAsset: {
-        token: tokens['DAI'],
+        token: tokens.DAI,
         balance: NormalizedUnitNumber(50000),
         value: '2000',
       },

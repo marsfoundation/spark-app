@@ -11,7 +11,7 @@ const meta: Meta<typeof MyWallet> = {
   title: 'Features/MarketDetails/Components/MyWallet',
   component: MyWallet,
   args: {
-    token: tokens['wstETH'],
+    token: tokens.wstETH,
   },
   decorators: [WithClassname('max-w-xs')],
 }
@@ -24,11 +24,11 @@ export const Default: Story = {
   args: {
     tokenBalance: NormalizedUnitNumber(10000),
     borrow: {
-      token: tokens['wstETH'],
+      token: tokens.wstETH,
       available: NormalizedUnitNumber(20000),
     },
     deposit: {
-      token: tokens['wstETH'],
+      token: tokens.wstETH,
       available: NormalizedUnitNumber(40000),
     },
   },
@@ -42,11 +42,11 @@ export const NoDeposits: Story = {
   args: {
     tokenBalance: NormalizedUnitNumber(10000),
     borrow: {
-      token: tokens['wstETH'],
+      token: tokens.wstETH,
       available: NormalizedUnitNumber(0),
     },
     deposit: {
-      token: tokens['wstETH'],
+      token: tokens.wstETH,
       available: NormalizedUnitNumber(40000),
     },
   },
@@ -57,11 +57,11 @@ export const ZeroBalance: Story = {
   args: {
     tokenBalance: NormalizedUnitNumber(0),
     borrow: {
-      token: tokens['wstETH'],
+      token: tokens.wstETH,
       available: NormalizedUnitNumber(2000),
     },
     deposit: {
-      token: tokens['wstETH'],
+      token: tokens.wstETH,
       available: NormalizedUnitNumber(0),
     },
   },
@@ -72,11 +72,11 @@ export const NoDepositsZeroBalance: Story = {
   args: {
     tokenBalance: NormalizedUnitNumber(0),
     borrow: {
-      token: tokens['wstETH'],
+      token: tokens.wstETH,
       available: NormalizedUnitNumber(0),
     },
     deposit: {
-      token: tokens['wstETH'],
+      token: tokens.wstETH,
       available: NormalizedUnitNumber(0),
     },
   },
@@ -85,18 +85,18 @@ export const NoDepositsZeroBalance: Story = {
 export const Dai: Story = {
   name: 'DAI',
   args: {
-    token: tokens['DAI'],
+    token: tokens.DAI,
     tokenBalance: NormalizedUnitNumber(10000),
     deposit: {
-      token: tokens['DAI'],
+      token: tokens.DAI,
       available: NormalizedUnitNumber(10000),
     },
     borrow: {
-      token: tokens['DAI'],
+      token: tokens.DAI,
       available: NormalizedUnitNumber(20000),
     },
     lend: {
-      token: tokens['DAI'],
+      token: tokens.DAI,
       available: NormalizedUnitNumber(10000),
     },
     openDialog: () => {},
@@ -115,19 +115,19 @@ export const DaiTablet: Story = {
 export const DaiNoDeposits: Story = {
   name: 'DAI no deposits',
   args: {
-    token: tokens['DAI'],
+    token: tokens.DAI,
 
     tokenBalance: NormalizedUnitNumber(10000),
     deposit: {
-      token: tokens['DAI'],
+      token: tokens.DAI,
       available: NormalizedUnitNumber(10000),
     },
     borrow: {
-      token: tokens['DAI'],
+      token: tokens.DAI,
       available: NormalizedUnitNumber(10000),
     },
     lend: {
-      token: tokens['DAI'],
+      token: tokens.DAI,
       available: NormalizedUnitNumber(0),
     },
     openDialog: () => {},
@@ -137,19 +137,19 @@ export const DaiNoDeposits: Story = {
 export const DaiZeroBalance: Story = {
   name: 'DAI zero balance',
   args: {
-    token: tokens['DAI'],
+    token: tokens.DAI,
 
     tokenBalance: NormalizedUnitNumber(0),
     deposit: {
-      token: tokens['DAI'],
+      token: tokens.DAI,
       available: NormalizedUnitNumber(0),
     },
     borrow: {
-      token: tokens['DAI'],
+      token: tokens.DAI,
       available: NormalizedUnitNumber(2000),
     },
     lend: {
-      token: tokens['DAI'],
+      token: tokens.DAI,
       available: NormalizedUnitNumber(0),
     },
     openDialog: () => {},
@@ -159,18 +159,18 @@ export const DaiZeroBalance: Story = {
 export const DaiNoDepositsZeroBalance: Story = {
   name: 'DAI no deposits zero balance',
   args: {
-    token: tokens['DAI'],
+    token: tokens.DAI,
     tokenBalance: NormalizedUnitNumber(0),
     deposit: {
-      token: tokens['DAI'],
+      token: tokens.DAI,
       available: NormalizedUnitNumber(0),
     },
     borrow: {
-      token: tokens['DAI'],
+      token: tokens.DAI,
       available: NormalizedUnitNumber(0),
     },
     lend: {
-      token: tokens['DAI'],
+      token: tokens.DAI,
       available: NormalizedUnitNumber(0),
     },
     openDialog: () => {},

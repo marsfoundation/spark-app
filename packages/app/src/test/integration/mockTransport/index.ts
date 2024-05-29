@@ -28,7 +28,7 @@ export function makeMockTransport(matchers: RpcHandler[]): CustomTransport {
         // eslint-disable-next-line no-console
         console.error('RPC request not handled:', method, params)
         // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-        throw new Error('RPC request not handled: ' + method)
+        throw new Error(`RPC request not handled: ${method}`)
       },
     },
     { retryCount: 0 },

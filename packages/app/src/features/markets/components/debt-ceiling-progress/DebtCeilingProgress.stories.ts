@@ -19,7 +19,7 @@ type Story = StoryObj<typeof DebtCeilingProgress>
 
 export const Default: Story = {
   args: {
-    token: tokens['GNO'],
+    token: tokens.GNO,
     debt: NormalizedUnitNumber(123),
     debtCeiling: NormalizedUnitNumber(200),
   },

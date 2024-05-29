@@ -114,9 +114,8 @@ export function useSandboxDialog(mode: SandboxMode): UseSandboxDialogResult {
           } catch (e: any) {
             if (e.message.includes('Chain not configured')) {
               throw e
-            } else {
-              throw new NotRetryableError(e)
             }
+              throw new NotRetryableError(e)
           }
         },
         { retries: 5, delay: 200 },

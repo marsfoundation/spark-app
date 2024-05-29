@@ -19,7 +19,7 @@ type Story = StoryObj<typeof DefaultMarketOverview>
 export const Default: Story = {
   name: 'Default',
   args: {
-    token: tokens['USDC'],
+    token: tokens.USDC,
     marketSize: NormalizedUnitNumber(1_243_000_000),
     borrowed: NormalizedUnitNumber(823_000_000),
     available: NormalizedUnitNumber(420_000_000),
@@ -32,7 +32,7 @@ export const Tablet = getTabletStory(Default)
 export const FullUtilization: Story = {
   name: 'Full Utilization',
   args: {
-    token: tokens['USDC'],
+    token: tokens.USDC,
     marketSize: NormalizedUnitNumber(1_000_000_000),
     borrowed: NormalizedUnitNumber(1_000_000_000),
     available: NormalizedUnitNumber(0),
@@ -45,7 +45,7 @@ export const FullUtilizationTablet = getTabletStory(FullUtilization)
 export const ZeroUtilization: Story = {
   name: 'Zero Utilization',
   args: {
-    token: tokens['USDC'],
+    token: tokens.USDC,
     marketSize: NormalizedUnitNumber(1_000_000_000),
     borrowed: NormalizedUnitNumber(0),
     available: NormalizedUnitNumber(1_000_000_000),

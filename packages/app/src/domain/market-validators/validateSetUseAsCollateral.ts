@@ -63,7 +63,7 @@ export function validateSetUseAsCollateral({
   // Disabling collateral
   else {
     // @todo: use actual LTV instead of health factor
-    if (user.healthFactorAfterWithdrawal && user.healthFactorAfterWithdrawal.lt(1)) {
+    if (user.healthFactorAfterWithdrawal?.lt(1)) {
       return 'exceeds-ltv'
     }
     if (user.hasZeroLtvAssetsInCollateral && asset.maxLtv.isGreaterThan(0)) {

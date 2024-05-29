@@ -14,7 +14,7 @@ function ActionRow({ children, className }: { children: ReactNode; className?: s
   return (
     <div
       className={cn(
-        'border-basics-dark-grey/20 col-span-full grid min-h-[65px] grid-cols-subgrid items-center gap-y-2 border-b py-4 last:border-none',
+        'col-span-full grid min-h-[65px] grid-cols-subgrid items-center gap-y-2 border-basics-dark-grey/20 border-b py-4 last:border-none',
         className,
       )}
     >
@@ -51,7 +51,7 @@ function Title({
       {icon && <div className="order-2 md:order-1">{icon}</div>}
       <p
         className={cn(
-          'text-basics-black order-1 text-base md:order-2',
+          'order-1 text-base text-basics-black md:order-2',
           actionStatus === 'success' && 'text-basics-dark-grey',
         )}
       >
@@ -79,7 +79,7 @@ function Description({
   // success row message
   if (actionStatus === 'success') {
     return (
-      <div className="text-basics-dark-grey col-span-full col-start-3 text-sm md:col-span-1 md:ml-10">
+      <div className='col-span-full col-start-3 text-basics-dark-grey text-sm md:col-span-1 md:ml-10'>
         {successMessage}
       </div>
     )
@@ -88,7 +88,7 @@ function Description({
   // description
   if (['disabled', 'ready', 'loading'].includes(actionStatus)) {
     return (
-      <div className="text-basics-dark-grey col-span-full col-start-3 text-sm md:col-span-1 md:ml-10">{children}</div>
+      <div className='col-span-full col-start-3 text-basics-dark-grey text-sm md:col-span-1 md:ml-10'>{children}</div>
     )
   }
 
@@ -120,8 +120,8 @@ function ErrorWarningExtended({ actionHandlerState }: { actionHandlerState: Acti
         <div className="col-span-full col-start-3 inline-flex min-w-0 md:col-span-1 md:ml-10">
           <div className="mr-auto flex w-full items-center">
             <img src={assets.warning} alt="warning" className="h-5 w-5" />
-            <strong className="text-product-red ml-0.5 text-xs font-semibold">Error:</strong>
-            <p className="text-basics-dark-grey ml-1 truncate text-xs" ref={errorTextRef}>
+            <strong className='ml-0.5 font-semibold text-product-red text-xs'>Error:</strong>
+            <p className='ml-1 truncate text-basics-dark-grey text-xs' ref={errorTextRef}>
               {actionHandlerState.message}
             </p>
           </div>
@@ -140,9 +140,9 @@ function ErrorWarningCompact({ actionHandlerState }: { actionHandlerState: Actio
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <div className="col-span-full col-start-3 inline-flex items-center md:col-span-1 md:ml-auto md:mr-2">
+        <div className='col-span-full col-start-3 inline-flex items-center md:col-span-1 md:mr-2 md:ml-auto'>
           <img src={assets.warning} alt="warning" className="h-5 w-5" />
-          <strong className="text-product-red ml-0.5 text-xs font-semibold">Error</strong>
+          <strong className='ml-0.5 font-semibold text-product-red text-xs'>Error</strong>
         </div>
       </TooltipTrigger>
       <TooltipContentShort>{actionHandlerState.message}</TooltipContentShort>

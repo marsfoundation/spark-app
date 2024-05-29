@@ -9,7 +9,7 @@ const meta: Meta<typeof AssetNameCell> = {
   component: AssetNameCell,
   decorators: [WithTooltipProvider()],
   args: {
-    token: tokens['rETH'],
+    token: tokens.rETH,
     reserveStatus: 'active',
   },
 }
@@ -24,7 +24,7 @@ export const Default: Story = {
 export const Frozen: Story = {
   name: 'Frozen',
   args: {
-    token: tokens['rETH'],
+    token: tokens.rETH,
     reserveStatus: 'frozen',
   },
 }

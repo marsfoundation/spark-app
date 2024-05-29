@@ -65,7 +65,7 @@ export const HealthyToLiquidation: Story = {
 export const RiskyToNoDebt: Story = {
   args: {
     currentHealthFactor: BigNumber(1.5),
-    updatedHealthFactor: BigNumber(Infinity),
+    updatedHealthFactor: BigNumber(Number.POSITIVE_INFINITY),
   },
 }
 

@@ -42,14 +42,14 @@ const settingsDropdownItemVariants = cva('group min-w-[240px] last:mb-0', {
 
 function SettingsDropdownItemTitle({ children }: { children: React.ReactNode }) {
   return (
-    <div className="lg:text-basics-dark-grey group-hover:text-nav-primary flex flex-row items-center gap-2.5 font-semibold lg:gap-1 lg:text-xs lg:font-normal">
+    <div className='flex flex-row items-center gap-2.5 font-semibold lg:gap-1 lg:font-normal group-hover:text-nav-primary lg:text-basics-dark-grey lg:text-xs'>
       {children}
     </div>
   )
 }
 
 function SettingsDropdownItemContent({ children }: { children: React.ReactNode }) {
-  return <div className="text-basics-black hidden font-semibold first:block lg:block">{children}</div>
+  return <div className='hidden font-semibold text-basics-black first:block lg:block'>{children}</div>
 }
 
 SettingsDropdownItem.Title = SettingsDropdownItemTitle

@@ -24,8 +24,8 @@ export function ColumnHeader<T>({ column, columnDefinition }: ColumnHeaderProps<
       <Button
         variant="text"
         className={cn(
-          'text-primary h-4 cursor-auto p-0 text-xs font-bold',
-          sortable && 'hover:text-secondary-foreground cursor-pointer',
+          'h-4 cursor-auto p-0 font-bold text-primary text-xs',
+          sortable && 'cursor-pointer hover:text-secondary-foreground',
         )}
         onClick={() => sortable && column.toggleSorting(column.getIsSorted() === 'asc')}
         postfixIcon={

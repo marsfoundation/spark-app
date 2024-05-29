@@ -28,13 +28,13 @@ export function AssetNameCell({ token, reserveStatus }: AssetNameCellProps) {
       {tokenImage && (
         <div className="flex shrink-0">
           <ColorFilter variant={isPaused ? 'red' : 'none'}>
-            <TokenIcon token={token} className="flex h-6 w-6 md:h-5 md:w-5 lg:h-6 lg:w-6" />
+            <TokenIcon token={token} className='flex h-6 w-6 lg:h-6 md:h-5 lg:w-6 md:w-5' />
           </ColorFilter>
         </div>
       )}
       <div className="flex min-w-0 flex-col">
         <TokenName token={token} className={cn(isPaused && 'text-red-600')} />
-        <p className={cn('text-sx leading-none text-slate-500', isPaused && 'text-red-300')}>{token.symbol}</p>
+        <p className={cn('text-slate-500 text-sx leading-none', isPaused && 'text-red-300')}>{token.symbol}</p>
       </div>
       {isFrozen && <FrozenPill />}
       {isPaused && <PausedPill />}
@@ -53,7 +53,7 @@ export function TokenName({ token, className }: TokenNameProps) {
   return (
     <Tooltip open={!isTruncated ? false : undefined}>
       <TooltipTrigger asChild>
-        <p className={cn('truncate text-base font-semibold md:text-sm lg:text-base', className)} ref={tokenNameRef}>
+        <p className={cn('truncate font-semibold text-base lg:text-base md:text-sm', className)} ref={tokenNameRef}>
           {token.name}
         </p>
       </TooltipTrigger>

@@ -1,6 +1,6 @@
 import type { Config } from 'tailwindcss'
 import defaultTheme from 'tailwindcss/defaultTheme'
-import { join } from 'path'
+import { join } from 'node:path'
 
 export default {
   darkMode: ['class'],

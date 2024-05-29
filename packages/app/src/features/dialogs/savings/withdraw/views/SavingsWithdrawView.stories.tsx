@@ -20,17 +20,17 @@ const meta: Meta<typeof SavingsWithdrawView> = {
   args: {
     selectableAssets: [
       {
-        token: tokens['USDC'],
+        token: tokens.USDC,
         balance: NormalizedUnitNumber(50000),
       },
       {
-        token: tokens['ETH'],
+        token: tokens.ETH,
         balance: NormalizedUnitNumber(1),
       },
     ],
     assetsFields: {
       selectedAsset: {
-        token: tokens['USDC'],
+        token: tokens.USDC,
         balance: NormalizedUnitNumber(50000),
         value: '2000',
       },
@@ -40,8 +40,8 @@ const meta: Meta<typeof SavingsWithdrawView> = {
       {
         type: 'exchange',
         swapParams: {
-          fromToken: tokens['sDAI'],
-          toToken: tokens['USDC'],
+          fromToken: tokens.sDAI,
+          toToken: tokens.USDC,
           type: 'reverse',
           value: NormalizedUnitNumber(5000),
           meta: {
@@ -53,8 +53,8 @@ const meta: Meta<typeof SavingsWithdrawView> = {
         swapInfo: {
           status: 'success',
           data: {
-            fromToken: tokens['sDAI'].address,
-            toToken: tokens['USDC'].address,
+            fromToken: tokens.sDAI.address,
+            toToken: tokens.USDC.address,
             type: 'reverse',
             txRequest: {
               data: '0x',

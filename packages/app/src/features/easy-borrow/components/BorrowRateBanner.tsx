@@ -14,9 +14,9 @@ export function BorrowRateBanner({ symbol, borrowRate }: BorrowRateBannerProps) 
       <Typography variant="h1" className="text-4xl md:text-5xl">
         Spark your DeFi
       </Typography>
-      <Typography variant="h3" className="text-prompt-foreground mt-6 text-center text-lg md:text-2xl">
+      <Typography variant="h3" className='mt-6 text-center text-lg text-prompt-foreground md:text-2xl'>
         Borrow {symbol} at{' '}
-        <span className="bg-primary text-background rounded p-1">{formatPercentage(borrowRate)}</span> directly from
+        <span className='rounded bg-primary p-1 text-background'>{formatPercentage(borrowRate)}</span> directly from
         Maker
       </Typography>
     </div>

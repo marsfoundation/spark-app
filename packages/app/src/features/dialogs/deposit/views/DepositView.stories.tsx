@@ -20,20 +20,20 @@ const meta: Meta<typeof DepositView> = {
   },
   decorators: [ZeroAllowanceWagmiDecorator(), WithClassname('max-w-xl'), WithTooltipProvider()],
   args: {
-    initialToken: tokens['USDC'],
+    initialToken: tokens.USDC,
     selectableAssets: [
       {
-        token: tokens['USDC'],
+        token: tokens.USDC,
         balance: NormalizedUnitNumber(50000),
       },
       {
-        token: tokens['ETH'],
+        token: tokens.ETH,
         balance: NormalizedUnitNumber(1),
       },
     ],
     assetsFields: {
       selectedAsset: {
-        token: tokens['USDC'],
+        token: tokens.USDC,
         balance: NormalizedUnitNumber(50000),
         value: '2000',
       },
@@ -42,7 +42,7 @@ const meta: Meta<typeof DepositView> = {
     objectives: [
       {
         type: 'deposit',
-        token: tokens['USDC'],
+        token: tokens.USDC,
         value: NormalizedUnitNumber(50000),
         lendingPool: CheckedAddress(zeroAddress),
       },

@@ -39,7 +39,7 @@ export function SavingsDAI({
     <Panel.Wrapper className="flex min-h-[260px] w-full flex-1 flex-col justify-between self-stretch px-6 py-6 md:px-[32px]">
       <div className="flex w-full flex-row items-center justify-between">
         <div className="flex flex-row items-center gap-1">
-          <h2 className="text-basics-black whitespace-nowrap text-base font-semibold sm:text-xl">Savings DAI</h2>
+          <h2 className='whitespace-nowrap font-semibold text-base text-basics-black sm:text-xl'>Savings DAI</h2>
         </div>
         <div className="flex flex-row gap-2">
           <Button variant="secondary" size="sm" onClick={() => openDialog(SavingsWithdrawDialog, {})}>
@@ -49,14 +49,14 @@ export function SavingsDAI({
       </div>
       <div className="flex flex-col items-center gap-1 sm:gap-2">
         <div className="flex flex-row items-end justify-center slashed-zero tabular-nums">
-          <div className="text-3xl font-semibold md:text-5xl">{getWholePart(depositedUSD)}</div>
+          <div className='font-semibold text-3xl md:text-5xl'>{getWholePart(depositedUSD)}</div>
           {depositedUSDPrecision > 0 && (
-            <div className="text-lg font-semibold md:text-2xl">
+            <div className='font-semibold text-lg md:text-2xl'>
               {getFractionalPart(depositedUSD, depositedUSDPrecision)}
             </div>
           )}
         </div>
-        <div className="text-basics-dark-grey text-xs font-semibold tracking-wide">
+        <div className='font-semibold text-basics-dark-grey text-xs tracking-wide'>
           ={sDAIBalance.token.format(sDAIBalance.balance, { style: 'auto' })} {sDAIBalance.token.symbol}
         </div>
       </div>

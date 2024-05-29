@@ -28,9 +28,9 @@ export function NavLinkComponent({ children, selected, to, postfix, onClick }: N
         <div className="flex flex-row items-center justify-center gap-1">
           <div
             className={cn(
-              'text-primary text-xl font-semibold lg:text-base',
+              'font-semibold text-primary text-xl lg:text-base',
               selected && 'text-nav-primary',
-              selected ? 'lg:text-primary' : 'lg:opacity-50 lg:hover:opacity-100',
+              selected ? 'lg:text-primary' : 'lg:hover:opacity-100 lg:opacity-50',
             )}
           >
             {children}

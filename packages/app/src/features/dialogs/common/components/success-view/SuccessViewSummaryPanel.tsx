@@ -12,7 +12,7 @@ interface SuccessViewSummaryPanelProps {
 
 export function SuccessViewSummaryPanel({ title, children }: SuccessViewSummaryPanelProps) {
   return (
-    <Panel.Wrapper className="bg-panel-bg mt-8 flex w-full flex-col gap-4 p-4">
+    <Panel.Wrapper className='mt-8 flex w-full flex-col gap-4 bg-panel-bg p-4'>
       {title && <DialogPanelTitle>{title}</DialogPanelTitle>}
       <div className="flex items-center justify-between" data-testid={testIds.dialog.success}>
         {children}

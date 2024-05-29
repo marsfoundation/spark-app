@@ -23,11 +23,11 @@ export function CompactView({
   openDialog,
 }: MarketDetailsViewProps) {
   return (
-    <div className="w-full pb-8 pt-5">
+    <div className='w-full pt-5 pb-8'>
       <BackNav chainId={chainId} chainName={chainName} />
       <Header token={token} chainName={chainName} chainMismatch={chainMismatch} />
       <Tabs defaultValue="overview">
-        <TabsList className="bg-body sticky top-0 z-10 pt-2">
+        <TabsList className='sticky top-0 z-10 bg-body pt-2'>
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="actions">Actions</TabsTrigger>
         </TabsList>

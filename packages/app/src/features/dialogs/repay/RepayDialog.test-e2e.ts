@@ -372,7 +372,7 @@ test.describe('Repay dialog', () => {
       await repayDialog.viewInDashboardAction()
 
       await dashboardPage.expectBorrowTable({
-        ['wstETH']: wstETHBorrow.amount - repay.amount,
+        wstETH: wstETHBorrow.amount - repay.amount,
       })
     })
 

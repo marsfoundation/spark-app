@@ -46,7 +46,7 @@ export const Unknown: Story = {
 export const NoDebt: Story = {
   name: 'No debt',
   args: {
-    hf: new BigNumber(Infinity),
+    hf: new BigNumber(Number.POSITIVE_INFINITY),
   },
 }
 

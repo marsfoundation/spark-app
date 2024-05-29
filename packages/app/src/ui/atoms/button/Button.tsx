@@ -6,13 +6,13 @@ import { Link, LinkProps } from 'react-router-dom'
 import { cn } from '@/ui/utils/style'
 
 const buttonVariants = cva(
-  'ring-offset-background focus-visible:ring-ring inline-flex items-center justify-center whitespace-nowrap rounded-md border border-slate-700 border-opacity-10 text-base font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:bg-slate-700 disabled:bg-opacity-10 disabled:text-slate-500 disabled:opacity-50',
+  'inline-flex items-center justify-center whitespace-nowrap rounded-md border border-slate-700 border-opacity-10 font-semibold text-base ring-offset-background transition-colors disabled:pointer-events-none disabled:bg-slate-700 disabled:bg-opacity-10 disabled:text-slate-500 disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
   {
     variants: {
       variant: {
         primary: 'bg-primary-bg text-primary-foreground hover:bg-primary-hover',
         secondary: 'bg-secondary text-secondary-foreground hover:text-blue-700',
-        text: 'text-primary-bg border-none disabled:bg-transparent',
+        text: 'border-none text-primary-bg disabled:bg-transparent',
         icon: 'border-none',
         green: 'bg-sec-green text-basics-white hover:bg-green-700',
       },

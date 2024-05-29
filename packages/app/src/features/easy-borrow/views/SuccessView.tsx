@@ -38,7 +38,7 @@ export function SuccessView({ deposited, borrowed, runConfetti }: SuccessViewPro
             <div className={cn('mt-4 flex flex-col gap-9', 'md:flex-row')}>
               {deposited.length > 0 && (
                 <div className="flex grow flex-col" data-testid={testIds.easyBorrow.success.deposited}>
-                  <Typography variant="prompt" className="text-primary mb-2 font-semibold">
+                  <Typography variant="prompt" className='mb-2 font-semibold text-primary'>
                     Deposited
                   </Typography>
                   {deposited.map((tokenWithValue) => (
@@ -48,7 +48,7 @@ export function SuccessView({ deposited, borrowed, runConfetti }: SuccessViewPro
               )}
 
               <div className="flex grow flex-col" data-testid={testIds.easyBorrow.success.borrowed}>
-                <Typography variant="prompt" className="text-primary mb-2 font-semibold">
+                <Typography variant="prompt" className='mb-2 font-semibold text-primary'>
                   Borrowed
                 </Typography>
                 {borrowed.map((tokenWithValue) => (
@@ -72,10 +72,10 @@ function Item({ token, value }: TokenWithValue) {
     <div className="flex items-center border-t">
       <TokenIcon token={token} className="h-6 w-6" />
 
-      <Typography className="font-primary ml-2">{token.symbol}</Typography>
+      <Typography className='ml-2 font-primary'>{token.symbol}</Typography>
 
       <div className="flex grow flex-col py-3 pr-4">
-        <Typography className="font-primary text-right">{token.format(value, { style: 'auto' })}</Typography>
+        <Typography className='text-right font-primary'>{token.format(value, { style: 'auto' })}</Typography>
         <Typography variant="prompt" className="text-right">
           {token.formatUSD(value)}
         </Typography>

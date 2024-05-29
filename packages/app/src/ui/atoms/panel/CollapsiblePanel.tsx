@@ -45,7 +45,7 @@ export const CollapsiblePanel: CollapsiblePanelType = forwardRef<HTMLDivElement,
       <CollapsiblePrimitive.Root open={open} onOpenChange={setOpen}>
         <section
           className={cn(
-            'border-panel-border flex flex-col gap-6 rounded-lg border bg-inherit bg-white px-6 py-4 shadow-sm',
+            'flex flex-col gap-6 rounded-lg border border-panel-border bg-inherit bg-white px-6 py-4 shadow-sm',
             className,
           )}
           ref={ref}
@@ -72,12 +72,12 @@ function PanelHeader({ className, ...rest }: JSX.IntrinsicElements['div']) {
               {open ? (
                 <>
                   Hide
-                  <ChevronUp className="ml-1 inline-block -translate-y-[1px]" size={16} />
+                  <ChevronUp className='-translate-y-[1px] ml-1 inline-block' size={16} />
                 </>
               ) : (
                 <>
                   Show
-                  <ChevronDown className="ml-1 inline-block -translate-y-[1px]" size={16} />
+                  <ChevronDown className='-translate-y-[1px] ml-1 inline-block' size={16} />
                 </>
               )}
             </Typography>

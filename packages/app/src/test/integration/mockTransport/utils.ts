@@ -6,7 +6,7 @@ export function normalizeNumber(value: bigint | number): bigint {
 }
 
 export function encodeRpcQuantity(value: bigint | number): string {
-  return '0x' + normalizeNumber(value).toString(16)
+  return `0x${normalizeNumber(value).toString(16)}`
 }
 
 export function encodeRpcUnformattedData(value: string): string {

@@ -39,7 +39,7 @@ function DetailsRow({ children, variant }: DetailsRowProps) {
   return (
     <div
       className={cn(
-        'border-basics-dark-grey/20 flex flex-row justify-between border-t py-1',
+        'flex flex-row justify-between border-basics-dark-grey/20 border-t py-1',
         variant === 'full-details' && 'py-3',
       )}
     >

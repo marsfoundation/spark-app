@@ -10,7 +10,7 @@ export function InfoPill({ text, tooltip }: { text: string; tooltip: string }) {
   return (
     <Tooltip open={open} onOpenChange={setOpen}>
       <TooltipTrigger asChild onClick={() => setOpen(true)}>
-        <div className="bg-background inline-flex flex-row items-center gap-2 rounded-md p-2 shadow">
+        <div className='inline-flex flex-row items-center gap-2 rounded-md bg-background p-2 shadow'>
           <Typography variant="prompt">{text}</Typography>
           <img src={assets.circleInfo} alt="info" />
         </div>

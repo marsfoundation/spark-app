@@ -52,7 +52,7 @@ export class Token {
     }
 
     if (compact && USDValue.gte(1000)) {
-      return '$' + formatCompact(USDValue)
+      return `$${formatCompact(USDValue)}`
     }
 
     const fractionDigitsConfig = {

@@ -25,35 +25,35 @@ type Story = StoryObj<typeof WalletComposition>
 
 const assets = [
   {
-    token: tokens['ETH'],
+    token: tokens.ETH,
     value: NormalizedUnitNumber(132.28),
   },
   {
-    token: tokens['stETH'],
+    token: tokens.stETH,
     value: NormalizedUnitNumber(48.32),
   },
   {
-    token: tokens['USDC'],
+    token: tokens.USDC,
     value: NormalizedUnitNumber(90000),
   },
   {
-    token: tokens['WBTC'],
+    token: tokens.WBTC,
     value: NormalizedUnitNumber(2),
   },
   {
-    token: tokens['sDAI'],
+    token: tokens.sDAI,
     value: NormalizedUnitNumber(50000),
   },
   {
-    token: tokens['DAI'],
+    token: tokens.DAI,
     value: NormalizedUnitNumber(50000),
   },
   {
-    token: tokens['MKR'],
+    token: tokens.MKR,
     value: NormalizedUnitNumber(15),
   },
   {
-    token: tokens['USDT'],
+    token: tokens.USDT,
     value: NormalizedUnitNumber(7000),
   },
 ]

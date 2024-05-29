@@ -12,7 +12,7 @@ const actionsPanelVariants = cva('', {
   variants: {
     variant: {
       default: '',
-      dialog: 'bg-panel-bg gap-0 p-4 md:p-4',
+      dialog: 'gap-0 bg-panel-bg p-4 md:p-4',
     },
   },
 })
@@ -21,7 +21,7 @@ const actionsTitleVariants = cva('', {
   variants: {
     variant: {
       default: '',
-      dialog: 'text-primary mb-1 font-semibold',
+      dialog: 'mb-1 font-semibold text-primary',
     },
   },
 })

@@ -75,7 +75,7 @@ export function fetchLiFiTxData({
             feeCostsUSD: calculateFees(response.estimate.feeCosts),
           },
         }
-      } else {
+      }
         const response = await client.getReverseQuote({
           userAddress,
           chainId,
@@ -100,7 +100,6 @@ export function fetchLiFiTxData({
             feeCostsUSD: calculateFees(response.estimate.feeCosts),
           },
         }
-      }
     },
   })
 }

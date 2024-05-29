@@ -12,8 +12,8 @@ export const AssetInputSchema = z.object({
   symbol: z.string().transform(TokenSymbol),
   value: z.string().refine(
     (data) => {
-      const value = parseFloat(data)
-      return data === '' || !isNaN(value)
+      const value = Number.parseFloat(data)
+      return data === '' || !Number.isNaN(value)
     },
     {
       message: 'Value must be a valid number',

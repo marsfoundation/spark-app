@@ -12,6 +12,6 @@ export const solidFetch = fetchRetry(fetch, {
     return retry
   },
   retryDelay(attempt) {
-    return Math.pow(2, attempt) * 150
+    return 2 ** attempt * 150
   },
 })

@@ -35,7 +35,7 @@ export const Healthy: Story = {
 export const NoDebt: Story = {
   name: 'No debt',
   args: {
-    healthFactor: new BigNumber(Infinity),
+    healthFactor: new BigNumber(Number.POSITIVE_INFINITY),
   },
 }
 

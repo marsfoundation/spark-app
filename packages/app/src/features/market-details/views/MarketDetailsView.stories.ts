@@ -23,21 +23,21 @@ export default meta
 type Story = StoryObj<typeof MarketDetailsView>
 
 const args: MarketDetailsViewProps = {
-  token: tokens['rETH'],
+  token: tokens.rETH,
   chainName: 'Ethereum Mainnet',
   chainId: 1,
   chainMismatch: false,
-  airdropTokenSymbol: tokens['rETH'].symbol,
+  airdropTokenSymbol: tokens.rETH.symbol,
   walletOverview: {
     guestMode: false,
-    token: tokens['rETH'],
+    token: tokens.rETH,
     tokenBalance: NormalizedUnitNumber(10),
     deposit: {
-      token: tokens['rETH'],
+      token: tokens.rETH,
       available: NormalizedUnitNumber(10),
     },
     borrow: {
-      token: tokens['rETH'],
+      token: tokens.rETH,
       available: NormalizedUnitNumber(10),
     },
   },
@@ -51,7 +51,7 @@ const args: MarketDetailsViewProps = {
     },
     collateral: {
       status: 'yes',
-      token: tokens['rETH'],
+      token: tokens.rETH,
       debt: NormalizedUnitNumber(1000),
       debtCeiling: NormalizedUnitNumber(0),
       maxLtv: Percentage(0.8),
