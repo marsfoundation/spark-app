@@ -13,9 +13,9 @@ interface UnknownErrorProps {
 export function UnknownError({ error, fullScreen }: UnknownErrorProps) {
   const navigate = useNavigate()
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     captureError(error)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return <ErrorFallback onReload={() => navigate(0)} fullScreen={fullScreen} />
