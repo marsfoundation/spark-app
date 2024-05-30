@@ -1,4 +1,4 @@
-import { expect, Page } from '@playwright/test'
+import { Page, expect } from '@playwright/test'
 
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { testIds } from '@/ui/utils/testIds'

@@ -1,10 +1,11 @@
-import { useMutation, UseMutationResult } from '@tanstack/react-query'
+import { UseMutationResult, useMutation } from '@tanstack/react-query'
 import { useRef } from 'react'
 import invariant from 'tiny-invariant'
 import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts'
 import { useAccount, useConfig } from 'wagmi'
 import { connect, getChains, switchChain } from 'wagmi/actions'
 
+import { createSandboxConnector } from '@/domain/sandbox/createSandboxConnector'
 import { useSandboxState } from '@/domain/sandbox/useSandboxState'
 import { useStore } from '@/domain/state'
 import { NotRetryableError, retry } from '@/utils/promises'
@@ -12,7 +13,6 @@ import { getTimestampInSeconds } from '@/utils/time'
 
 import { SandboxMode } from '../types'
 import { createSandbox, getChainIdWithPrefix } from './createSandbox'
-import { createSandboxConnector } from './createSandboxConnector'
 
 export type UseSandboxMutationResult = Omit<UseMutationResult<void, Error, void, unknown>, 'mutate'> & {
   startSandbox: () => void
@@ -114,9 +114,8 @@ export function useSandboxDialog(mode: SandboxMode): UseSandboxDialogResult {
           } catch (e: any) {
             if (e.message.includes('Chain not configured')) {
               throw e
-            } else {
-              throw new NotRetryableError(e)
             }
+            throw new NotRetryableError(e)
           }
         },
         { retries: 5, delay: 200 },
@@ -128,7 +127,6 @@ export function useSandboxDialog(mode: SandboxMode): UseSandboxDialogResult {
     try {
       await startSandboxAsync()
     } catch (e: any) {
-      // eslint-disable-next-line no-console
       console.error(e)
       throw new Error(`Could not enter sandbox mode: ${e.message}`)
     }

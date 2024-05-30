@@ -1,4 +1,4 @@
-import { forwardRef, SVGProps } from 'react'
+import { SVGProps, forwardRef } from 'react'
 
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'

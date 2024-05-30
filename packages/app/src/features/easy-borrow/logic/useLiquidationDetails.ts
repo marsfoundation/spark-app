@@ -1,6 +1,6 @@
 import { TokenWithValue } from '@/domain/common/types'
 import { useConditionalFreeze } from '@/domain/hooks/useConditionalFreeze'
-import { getLiquidationDetails, LiquidationDetails } from '@/domain/market-info/getLiquidationDetails'
+import { LiquidationDetails, getLiquidationDetails } from '@/domain/market-info/getLiquidationDetails'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 

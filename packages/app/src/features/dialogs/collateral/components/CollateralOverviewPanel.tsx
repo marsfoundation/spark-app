@@ -22,7 +22,7 @@ export function CollateralOverviewPanel({
       <DialogPanelTitle>Transaction overview</DialogPanelTitle>
       <TransactionOverviewDetailsItem label="Deposit balance">
         <div className="flex flex-col items-end gap-0.5">
-          <p className="text-basics-black text-base">
+          <p className="text-base text-basics-black">
             {token.format(balance, { style: 'auto' })} {token.symbol}
           </p>
           <div className="text-basics-dark-grey text-xs">{token.formatUSD(balance)}</div>

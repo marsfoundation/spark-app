@@ -1,9 +1,9 @@
 import { WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
-import { within } from '@storybook/testing-library'
+import { within } from '@storybook/test'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
-import { withRouter } from 'storybook-addon-react-router-v6'
+import { withRouter } from 'storybook-addon-remix-react-router'
 
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { raise } from '@/utils/raise'
@@ -13,7 +13,7 @@ import { DepositTable } from './DepositTable'
 
 const assets: Deposit[] = [
   {
-    token: tokens['ETH'],
+    token: tokens.ETH,
     balance: NormalizedUnitNumber('84.330123431'),
     deposit: NormalizedUnitNumber('13.74'),
     supplyAPY: Percentage(0.0145),
@@ -21,7 +21,7 @@ const assets: Deposit[] = [
     reserveStatus: 'active',
   },
   {
-    token: tokens['stETH'],
+    token: tokens.stETH,
     balance: NormalizedUnitNumber('16.76212348'),
     deposit: NormalizedUnitNumber('34.21'),
     supplyAPY: Percentage(0.0145),
@@ -29,7 +29,7 @@ const assets: Deposit[] = [
     reserveStatus: 'active',
   },
   {
-    token: tokens['DAI'],
+    token: tokens.DAI,
     balance: NormalizedUnitNumber('48.9234234'),
     deposit: NormalizedUnitNumber('9.37'),
     supplyAPY: Percentage(0.0145),
@@ -37,7 +37,7 @@ const assets: Deposit[] = [
     reserveStatus: 'active',
   },
   {
-    token: tokens['GNO'],
+    token: tokens.GNO,
     balance: NormalizedUnitNumber('299.9234234'),
     deposit: NormalizedUnitNumber('1.37'),
     supplyAPY: Percentage(0.0345),
@@ -45,7 +45,7 @@ const assets: Deposit[] = [
     reserveStatus: 'frozen',
   },
   {
-    token: tokens['wstETH'],
+    token: tokens.wstETH,
     balance: NormalizedUnitNumber('89.923'),
     deposit: NormalizedUnitNumber('5.37'),
     supplyAPY: Percentage(0.012),

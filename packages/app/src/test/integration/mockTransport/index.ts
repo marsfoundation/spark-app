@@ -1,4 +1,4 @@
-import { custom, CustomTransport } from 'viem'
+import { CustomTransport, custom } from 'viem'
 
 import { MockError } from './handlers'
 import { RpcHandler, RpcResponse } from './types'
@@ -22,13 +22,10 @@ export function makeMockTransport(matchers: RpcHandler[]): CustomTransport {
           if (e instanceof MockError) {
             throw e
           }
-          // eslint-disable-next-line no-console
           console.error('Error while mocking RPC call:', e)
         }
-        // eslint-disable-next-line no-console
         console.error('RPC request not handled:', method, params)
-        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-        throw new Error('RPC request not handled: ' + method)
+        throw new Error(`RPC request not handled: ${method}`)
       },
     },
     { retryCount: 0 },

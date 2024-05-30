@@ -26,14 +26,15 @@ export function useSandboxState(): UseSandboxStateResult {
     }
   }
 
-  /* eslint-disable react-hooks/rules-of-hooks */
+  // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
   const chainId = useChainId()
+  // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
   const { network, setNetwork } = useStore((state) => state.sandbox)
+  // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
   const ephemeralAccountAddress = useMemo(
     () => network?.ephemeralAccountPrivateKey && privateKeyToAccount(network.ephemeralAccountPrivateKey).address,
     [network?.ephemeralAccountPrivateKey],
   )
-  /* eslint-enable react-hooks/rules-of-hooks */
 
   return {
     isSandboxEnabled,

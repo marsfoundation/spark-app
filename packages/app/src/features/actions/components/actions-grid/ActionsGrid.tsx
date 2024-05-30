@@ -1,6 +1,6 @@
-import { ApproveActionRow } from '../../flavours/approve/ApproveActionRow'
 import { ApproveDelegationActionRow } from '../../flavours/approve-delegation/ApproveDelegationActionRow'
 import { ApproveExchangeActionRow } from '../../flavours/approve-exchange/ApproveExchangeActionRow'
+import { ApproveActionRow } from '../../flavours/approve/ApproveActionRow'
 import { BorrowActionRow } from '../../flavours/borrow/BorrowActionRow'
 import { DepositActionRow } from '../../flavours/deposit/DepositActionRow'
 import { ExchangeActionRow } from '../../flavours/exchange/ExchangeActionRow'

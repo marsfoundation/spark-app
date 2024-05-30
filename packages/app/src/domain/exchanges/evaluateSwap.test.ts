@@ -4,13 +4,13 @@ import { testTokens } from '@/test/integration/constants'
 import { defaultExchangeMaxSlippage } from '../state/actions-settings'
 import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
 import {
-  evaluateSwap,
   LIFI_DEFAULT_FEE,
   LIFI_DEFAULT_FEE_INTEGRATOR_KEY,
   LIFI_WAIVED_ALLOWED_EXCHANGES,
   LIFI_WAIVED_FEE,
   LIFI_WAIVED_FEE_INTEGRATOR_KEY,
   LIFI_WAIVED_MAX_PRICE_IMPACT,
+  evaluateSwap,
 } from './evaluateSwap'
 import { SwapMeta, SwapParamsBase } from './types'
 

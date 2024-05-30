@@ -9,9 +9,8 @@ export function withSuspense<T extends {}>(
   if (import.meta.env.MODE === 'development') {
     const FallbackComponentOriginal = FallbackComponent
 
-    // eslint-disable-next-line react/display-name
     FallbackComponent = () => {
-      // eslint-disable-next-line no-console
+      // biome-ignore lint/suspicious/noConsoleLog: <explanation>
       console.log('Rendering fallback component...')
       return <FallbackComponentOriginal />
     }

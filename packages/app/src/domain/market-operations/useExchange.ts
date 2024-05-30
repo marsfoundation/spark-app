@@ -1,10 +1,10 @@
 import { useQueryClient } from '@tanstack/react-query'
-import { useAccount, useChainId, useConfig, UseEstimateGasParameters } from 'wagmi'
+import { UseEstimateGasParameters, useAccount, useChainId, useConfig } from 'wagmi'
 
 import { SimplifiedQueryResult } from '@/features/actions/logic/simplifyQueryResult'
 
 import { SwapInfoSimplified, SwapRequest } from '../exchanges/types'
-import { useSendTx, UseSendTxResult } from '../hooks/useSendTx'
+import { UseSendTxResult, useSendTx } from '../hooks/useSendTx'
 import { WriteStatus } from '../hooks/useWrite'
 import { aaveDataLayer } from '../market-info/aave-data-layer/query'
 import { BaseUnitNumber, NormalizedUnitNumber } from '../types/NumericValues'

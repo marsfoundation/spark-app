@@ -11,8 +11,8 @@ export const ActionSettingsSchema = z.object({
     type: SlippageInputType,
     value: z.string().refine(
       (value) => {
-        const slippage = parseFloat(value)
-        return !isNaN(slippage) && slippage > 0 && slippage < 50
+        const slippage = Number.parseFloat(value)
+        return !Number.isNaN(slippage) && slippage > 0 && slippage < 50
       },
       {
         message: 'Value has to be greater than 0 and less than 50',

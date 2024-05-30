@@ -43,6 +43,7 @@ function useMediaQuery(query: string): boolean {
     staleTime: 0,
   })
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     return subscribe(() => {
       void refetch()

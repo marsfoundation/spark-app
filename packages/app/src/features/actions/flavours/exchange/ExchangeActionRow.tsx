@@ -7,8 +7,8 @@ import { assets, getTokenImage } from '@/ui/assets'
 import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
 import { testIds } from '@/ui/utils/testIds'
 
-import { ActionRowBaseProps } from '../../components/action-row/types'
 import { UpDownMarker } from '../../components/action-row/UpDownMarker'
+import { ActionRowBaseProps } from '../../components/action-row/types'
 import { ActionHandlerState } from '../../logic/types'
 import { ExchangeAction } from './types'
 
@@ -106,7 +106,7 @@ function RowSummary({ maxSlippage, toToken, estimate, actionStatus, formatAsDAIV
 
 function LiFiBadge() {
   return (
-    <p className="bg-basics-dark-grey/20 text-basics-black mr-auto flex items-center gap-1.5 rounded px-1.5 py-0.5 text-[9px] font-semibold tracking-wide">
+    <p className="mr-auto flex items-center gap-1.5 rounded bg-basics-dark-grey/20 px-1.5 py-0.5 font-semibold text-[9px] text-basics-black tracking-wide">
       <img src={assets.lifiLogo} alt="LI.FI logo" className="h-3" />
       <span className="hidden md:block">POWERED</span> BY LI.FI
     </p>

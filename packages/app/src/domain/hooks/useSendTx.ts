@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useAccount, useEstimateGas, UseEstimateGasParameters, useSendTransaction } from 'wagmi'
+import { UseEstimateGasParameters, useAccount, useEstimateGas, useSendTransaction } from 'wagmi'
 
 import { sanityCheckTx } from './sanityChecks'
 import { useOriginChainId } from './useOriginChainId'
@@ -59,11 +59,11 @@ export function useSendTx(
   })
   const txSubmissionError = enabled ? _txSubmissionError : undefined
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (txReceipt) {
       callbacks.onTransactionSettled?.()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [txReceipt])
 
   const status = ((): WriteStatus => {

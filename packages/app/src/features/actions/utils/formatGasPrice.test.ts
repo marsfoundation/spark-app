@@ -13,6 +13,7 @@ describe(formatGasPrice.name, () => {
       [1.23, '1,230,000,000'],
     ]
 
+    // biome-ignore lint/complexity/noForEach: <explanation>
     tests.forEach(([value, expected]) => {
       expect(formatGasPrice(NormalizedUnitNumber(value))).toEqual(expected)
     })

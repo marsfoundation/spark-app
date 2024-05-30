@@ -1,7 +1,7 @@
 import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
-import { withRouter } from 'storybook-addon-react-router-v6'
+import { withRouter } from 'storybook-addon-remix-react-router'
 
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 
@@ -17,7 +17,7 @@ const meta: Meta<typeof ApyWithRewardsCell> = {
       incentives: [],
       airdrops: [],
     },
-    incentivizedReserve: tokens['ETH'],
+    incentivizedReserve: tokens.ETH,
     reserveStatus: 'active',
   },
 }
@@ -45,7 +45,7 @@ export const WithRewards: Story = {
   args: {
     apyDetails: {
       apy: Percentage(0.157),
-      incentives: [{ token: tokens['stETH'], APR: Percentage(0.1) }],
+      incentives: [{ token: tokens.stETH, APR: Percentage(0.1) }],
       airdrops: [],
     },
   },
@@ -57,7 +57,7 @@ export const WithAirdropAndRewards: Story = {
     apyDetails: {
       apy: Percentage(0.157),
       airdrops: [{ id: 'SPK', amount: NormalizedUnitNumber(24_000_000) }],
-      incentives: [{ token: tokens['stETH'], APR: Percentage(0.1) }],
+      incentives: [{ token: tokens.stETH, APR: Percentage(0.1) }],
     },
   },
 }

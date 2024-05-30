@@ -25,11 +25,11 @@ export const RoundValues: Story = {
       healthFactor: undefined,
       collaterals: [
         {
-          token: tokens['ETH'],
+          token: tokens.ETH,
           value: NormalizedUnitNumber(50),
         },
         {
-          token: tokens['stETH'],
+          token: tokens.stETH,
           value: NormalizedUnitNumber(25),
         },
       ],
@@ -56,11 +56,11 @@ export const RealValues: Story = {
       healthFactor: undefined,
       collaterals: [
         {
-          token: tokens['ETH'],
+          token: tokens.ETH,
           value: NormalizedUnitNumber(32),
         },
         {
-          token: tokens['stETH'],
+          token: tokens.stETH,
           value: NormalizedUnitNumber(17.4),
         },
       ],
@@ -87,11 +87,11 @@ export const SmallValues: Story = {
       healthFactor: undefined,
       collaterals: [
         {
-          token: tokens['ETH'],
+          token: tokens.ETH,
           value: NormalizedUnitNumber(0.0001),
         },
         {
-          token: tokens['stETH'],
+          token: tokens.stETH,
           value: NormalizedUnitNumber(0.023),
         },
       ],
@@ -118,11 +118,11 @@ export const BigValues: Story = {
       healthFactor: undefined,
       collaterals: [
         {
-          token: tokens['ETH'],
+          token: tokens.ETH,
           value: NormalizedUnitNumber(50000),
         },
         {
-          token: tokens['stETH'],
+          token: tokens.stETH,
           value: NormalizedUnitNumber(100000),
         },
       ],
@@ -149,11 +149,11 @@ export const ZeroBorrow: Story = {
       healthFactor: undefined,
       collaterals: [
         {
-          token: tokens['ETH'],
+          token: tokens.ETH,
           value: NormalizedUnitNumber(32),
         },
         {
-          token: tokens['stETH'],
+          token: tokens.stETH,
           value: NormalizedUnitNumber(17.4),
         },
       ],
@@ -180,11 +180,11 @@ export const SmallBorrow: Story = {
       healthFactor: undefined,
       collaterals: [
         {
-          token: tokens['ETH'],
+          token: tokens.ETH,
           value: NormalizedUnitNumber(32),
         },
         {
-          token: tokens['stETH'],
+          token: tokens.stETH,
           value: NormalizedUnitNumber(17.4),
         },
       ],
@@ -211,11 +211,11 @@ export const BigDifference: Story = {
       healthFactor: undefined,
       collaterals: [
         {
-          token: tokens['ETH'],
+          token: tokens.ETH,
           value: NormalizedUnitNumber(32),
         },
         {
-          token: tokens['stETH'],
+          token: tokens.stETH,
           value: NormalizedUnitNumber(0.01),
         },
       ],
@@ -264,19 +264,19 @@ export const FourTokens: Story = {
       healthFactor: undefined,
       collaterals: [
         {
-          token: tokens['ETH'],
+          token: tokens.ETH,
           value: NormalizedUnitNumber(16),
         },
         {
-          token: tokens['stETH'],
+          token: tokens.stETH,
           value: NormalizedUnitNumber(17.4),
         },
         {
-          token: tokens['DAI'],
+          token: tokens.DAI,
           value: NormalizedUnitNumber(12000),
         },
         {
-          token: tokens['sDAI'],
+          token: tokens.sDAI,
           value: NormalizedUnitNumber(8000),
         },
       ],

@@ -1,4 +1,4 @@
-import { expect, Page } from '@playwright/test'
+import { Page, expect } from '@playwright/test'
 
 import { testIds } from '@/ui/utils/testIds'
 
@@ -26,8 +26,7 @@ export class SavingsDepositDialogPageObject extends DialogPageObject {
   async expectDiscrepancyWarning(discrepancy: string): Promise<void> {
     await expect(
       this.region.getByText(
-        'Market fluctuations can impact your transaction value. The final amount received may be less than the deposit amount by up to ' +
-          discrepancy,
+        `Market fluctuations can impact your transaction value. The final amount received may be less than the deposit amount by up to ${discrepancy}`,
       ),
     ).toBeVisible()
   }

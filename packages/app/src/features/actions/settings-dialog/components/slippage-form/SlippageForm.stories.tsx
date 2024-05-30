@@ -11,7 +11,6 @@ import { SlippageForm } from './SlippageForm'
 const meta: Meta<typeof SlippageForm> = {
   title: 'Features/Actions/SlippageForm',
   component: (args) => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const form = useForm({
       defaultValues: {
         slippage: {
@@ -36,6 +35,7 @@ export const Desktop: Story = {}
 export const Mobile = getMobileStory(Desktop)
 export const Tablet = getTabletStory(Desktop)
 
+// biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
 export const Error: Story = {
   args: {
     type: 'input',

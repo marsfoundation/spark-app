@@ -5,7 +5,7 @@ import { Percentage } from '@/domain/types/NumericValues'
 import { useParentSize } from '@/ui/utils/useParentSize'
 
 import { colors } from '../colors'
-import { defaultMargins, Margins } from '../defaults'
+import { Margins, defaultMargins } from '../defaults'
 import { Chart } from './components/Chart'
 import { getYields } from './logic/getYields'
 
@@ -57,11 +57,11 @@ export function InterestYieldChart({
       <div className="ml-10 flex items-center gap-4">
         <div className="flex items-center gap-1.5">
           <Circle size={4} fill={colors.primary} stroke="0" />
-          <div className="text-xs text-slate-500">Borrow APY</div>
+          <div className="text-slate-500 text-xs">Borrow APY</div>
         </div>
         <div className="flex items-center gap-1.5">
           <Circle size={4} fill={colors.secondary} stroke="0" />
-          <div className="text-xs text-slate-500">Utilization Rate</div>
+          <div className="text-slate-500 text-xs">Utilization Rate</div>
         </div>
       </div>
       <Chart {...chartProps} />

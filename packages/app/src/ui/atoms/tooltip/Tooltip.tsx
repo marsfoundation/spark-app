@@ -14,12 +14,12 @@ const TooltipTrigger = RadixPrimitive.Trigger
 const baseTooltipContentClassList = cn(
   'z-50 overflow-hidden',
   'outline outline-1 outline-black/5',
-  'shadow-tooltip rounded-md bg-popover',
+  'rounded-md bg-popover shadow-tooltip',
 )
 
 const tooltipContentShortClassList = cn(
   baseTooltipContentClassList,
-  'text-sm text-slate-500 max-w-[80vw] sm:max-w-[32ch] px-3 py-1.5 space-y-2',
+  'max-w-[80vw] space-y-2 px-3 py-1.5 text-slate-500 text-sm sm:max-w-[32ch]',
 )
 const tooltipContentLongClassList = cn(baseTooltipContentClassList, 'px-5 py-4')
 

@@ -3,7 +3,7 @@ import { useD3MInfo } from '@/domain/d3m-info/useD3MInfo'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 
 import { MarketEntry } from '../types'
-import { aggregateStats, MarketStats } from './aggregate-stats'
+import { MarketStats, aggregateStats } from './aggregate-stats'
 import { transformReserves } from './transformers'
 
 export interface UseMarketsResults {

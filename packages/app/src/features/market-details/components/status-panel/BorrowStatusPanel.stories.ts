@@ -2,7 +2,7 @@ import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
-import { withRouter } from 'storybook-addon-react-router-v6'
+import { withRouter } from 'storybook-addon-remix-react-router'
 
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { bigNumberify } from '@/utils/bigNumber'
@@ -30,7 +30,7 @@ export const CanBeBorrowed: Story = {
   name: 'Can be borrowed',
   args: {
     status: 'yes',
-    token: tokens['WBTC'],
+    token: tokens.WBTC,
     totalBorrowed: NormalizedUnitNumber(1244),
     apy: Percentage(0.01),
     reserveFactor: Percentage(0.05),
@@ -52,7 +52,7 @@ export const OnlyInSiloedMode: Story = {
   name: 'Only in siloed mode',
   args: {
     status: 'only-in-siloed-mode',
-    token: tokens['WBTC'],
+    token: tokens.WBTC,
     totalBorrowed: NormalizedUnitNumber(1244),
     apy: Percentage(0.01),
     reserveFactor: Percentage(0.05),
@@ -65,7 +65,7 @@ export const BorrowCapReached: Story = {
   name: 'Borrow cap reached',
   args: {
     status: 'borrow-cap-reached',
-    token: tokens['WBTC'],
+    token: tokens.WBTC,
     totalBorrowed: NormalizedUnitNumber(2244),
     apy: Percentage(0.01),
     reserveFactor: Percentage(0.05),
@@ -78,7 +78,7 @@ export const CannotBeBorrowed: Story = {
   name: 'Cannot be borrowed',
   args: {
     status: 'no',
-    token: tokens['WBTC'],
+    token: tokens.WBTC,
     totalBorrowed: NormalizedUnitNumber(0),
     apy: Percentage(0),
     reserveFactor: Percentage(0.05),
@@ -90,7 +90,7 @@ export const DAI: Story = {
   name: 'DAI',
   args: {
     status: 'yes',
-    token: tokens['DAI'],
+    token: tokens.DAI,
     totalBorrowed: NormalizedUnitNumber(1244),
     apy: Percentage(0.01),
     reserveFactor: Percentage(0.05),

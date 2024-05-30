@@ -1,4 +1,4 @@
-import { getDefaultWallets, WalletList } from '@rainbow-me/rainbowkit'
+import { WalletList, getDefaultWallets } from '@rainbow-me/rainbowkit'
 import {
   coinbaseWallet,
   metaMaskWallet,

@@ -1,11 +1,11 @@
-import { isDeepStrictEqual } from 'util'
+import { isDeepStrictEqual } from 'node:util'
 import {
   Abi,
   ContractFunctionName,
-  encodeFunctionData,
   EncodeFunctionDataParameters,
-  encodeFunctionResult,
   EncodeFunctionResultParameters,
+  encodeFunctionData,
+  encodeFunctionResult,
 } from 'viem'
 
 import { TestTrigger } from '../trigger'

@@ -13,10 +13,10 @@ import { EModeBadge } from '@/ui/molecules/e-mode-badge/EModeBadge'
 import { cn } from '@/ui/utils/style'
 
 import { Header } from './components/Header'
+import { StatusPanelGrid } from './components/StatusPanelGrid'
 import { InfoTile } from './components/info-tile/InfoTile'
 import { InfoTilesGrid } from './components/info-tile/InfoTilesGrid'
 import { StatusIcon } from './components/status-icon/StatusIcon'
-import { StatusPanelGrid } from './components/StatusPanelGrid'
 import { TokenBadge } from './components/token-badge/TokenBadge'
 
 export interface EModeStatusPanelProps {
@@ -69,7 +69,7 @@ export function EModeStatusPanel({
               <EModeBadge categoryId={categoryId} />
             </InfoTile.Value>
           </InfoTile>
-          <p className="col-span-1 text-xs text-slate-500 sm:col-span-3">
+          <p className="col-span-1 text-slate-500 text-xs sm:col-span-3">
             E-Mode for {categoryName} assets increases your LTV within the {categoryName} category. This means that when
             E-Mode is enabled, you will have higher borrowing power for assets in this category:{' '}
             {eModeCategoryTokens.join(', ')}. You can enter E-Mode from your{' '}

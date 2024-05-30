@@ -2,8 +2,8 @@ import { SupplyAvailabilityStatus } from '@/domain/market-info/reserve-status'
 import { Panel } from '@/ui/atoms/panel/Panel'
 
 import { Header, Variant } from './Header'
-import { StatusIcon } from './status-icon/StatusIcon'
 import { StatusPanelGrid } from './StatusPanelGrid'
+import { StatusIcon } from './status-icon/StatusIcon'
 
 interface EmptyStatusPanelProps {
   status: SupplyAvailabilityStatus

@@ -19,7 +19,7 @@ type Story = StoryObj<typeof DaiMarketOverview>
 export const Default: Story = {
   name: 'Default',
   args: {
-    token: tokens['DAI'],
+    token: tokens.DAI,
     borrowed: NormalizedUnitNumber(823_000_000),
     marketSize: NormalizedUnitNumber(1_243_000_000),
     totalAvailable: NormalizedUnitNumber(420_000_000),

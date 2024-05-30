@@ -15,7 +15,7 @@ const meta: Meta<typeof RiskAcknowledgement> = {
     warning: {
       type: 'savings-deposit-discrepancy-threshold-hit',
       discrepancy: NormalizedUnitNumber(100),
-      token: tokens['DAI'],
+      token: tokens.DAI,
     },
     onStatusChange: () => {},
   },

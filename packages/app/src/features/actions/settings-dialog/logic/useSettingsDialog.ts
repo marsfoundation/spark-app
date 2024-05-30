@@ -6,7 +6,7 @@ import { Percentage } from '@/domain/types/NumericValues'
 
 import { ActionSettingsSchema, SlippageInputType } from './form'
 import { normalizeFormValues } from './normalizeFormValues'
-import { useSlippageForm, UseSlippageFormResult } from './useSlippageForm'
+import { UseSlippageFormResult, useSlippageForm } from './useSlippageForm'
 
 export interface UseSettingsDialogResult {
   permitsSettings: {

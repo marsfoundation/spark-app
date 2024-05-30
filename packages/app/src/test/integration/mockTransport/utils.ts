@@ -6,7 +6,7 @@ export function normalizeNumber(value: bigint | number): bigint {
 }
 
 export function encodeRpcQuantity(value: bigint | number): string {
-  return '0x' + normalizeNumber(value).toString(16)
+  return `0x${normalizeNumber(value).toString(16)}`
 }
 
 export function encodeRpcUnformattedData(value: string): string {
@@ -21,6 +21,7 @@ export function encodeRpcUnformattedData(value: string): string {
 
 // removes undefined values from object to make comparison easier
 export function cleanObject(obj: any): any {
+  // biome-ignore lint/complexity/noForEach: <explanation>
   Object.keys(obj).forEach((key) => obj[key] === undefined && delete obj[key])
   return obj
 }

@@ -28,8 +28,8 @@ export function bigNumberify(value: NumberLike): BigNumber {
 export function parseBigNumber(value: NumberLike | undefined, defaultValue?: number): BigNumber {
   invariant(value !== undefined || defaultValue !== undefined, 'At least one argument must be defined.')
 
-  const valueResult = BigNumber(value !== undefined ? value.toString() : NaN)
-  const defaultValueResult = BigNumber(defaultValue !== undefined ? defaultValue.toString() : NaN)
+  const valueResult = BigNumber(value !== undefined ? value.toString() : Number.NaN)
+  const defaultValueResult = BigNumber(defaultValue !== undefined ? defaultValue.toString() : Number.NaN)
 
   invariant(!valueResult.isNaN() || !defaultValueResult.isNaN(), 'Value cannot be parsed to BigNumber.')
 

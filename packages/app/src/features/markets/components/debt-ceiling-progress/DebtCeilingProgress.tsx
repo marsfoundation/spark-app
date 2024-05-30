@@ -15,7 +15,7 @@ interface DebtCeilingProgressProps {
 export function DebtCeilingProgress({ token, debt, debtCeiling }: DebtCeilingProgressProps) {
   const value = debt.dividedBy(debtCeiling).multipliedBy(100).toNumber()
   return (
-    <div className="border-basics-border col-span-3 mt-6 flex flex-col gap-4 rounded-2xl border p-4 sm:col-span-2 sm:col-start-2 sm:mt-8">
+    <div className="col-span-3 mt-6 flex flex-col gap-4 rounded-2xl border border-basics-border p-4 sm:col-span-2 sm:col-start-2 sm:mt-8">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1">
           <p className="text-basics-dark-grey text-xs leading-none">Isolated Debt Ceiling</p>

@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { chromatic } from '@storybook/viewports'
-import { withRouter } from 'storybook-addon-react-router-v6'
+import { withRouter } from 'storybook-addon-remix-react-router'
 
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 
@@ -14,17 +14,17 @@ const meta: Meta<typeof SuccessView> = {
   args: {
     deposited: [
       {
-        token: tokens['ETH'],
+        token: tokens.ETH,
         value: NormalizedUnitNumber(13.74),
       },
       {
-        token: tokens['stETH'],
+        token: tokens.stETH,
         value: NormalizedUnitNumber(34.21),
       },
     ],
     borrowed: [
       {
-        token: tokens['DAI'],
+        token: tokens.DAI,
         value: NormalizedUnitNumber(50000),
       },
     ],

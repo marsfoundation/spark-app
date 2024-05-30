@@ -11,8 +11,8 @@ export function SlippageButton({ children, isActive, ...rest }: SlippageButtonPr
     <button
       className={cn(
         'flex h-[46px] w-[50px] flex-shrink-0 items-center justify-center sm:h-[56px] sm:w-[60px]',
-        'border-basics-border rounded-xl border bg-white text-sm sm:text-base',
-        'hover:bg-basics-light-grey transition-colors duration-200',
+        'rounded-xl border border-basics-border bg-white text-sm sm:text-base',
+        'transition-colors duration-200 hover:bg-basics-light-grey',
         'text-basics-dark-grey hover:shadow-sm',
         isActive && 'border-main-blue text-basics-black',
       )}

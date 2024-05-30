@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useRef, useState } from 'react'
-import { useForm, UseFormReturn } from 'react-hook-form'
+import { UseFormReturn, useForm } from 'react-hook-form'
 import invariant from 'tiny-invariant'
 import { useAccount } from 'wagmi'
 
@@ -161,12 +161,11 @@ export function useEasyBorrow(): UseEasyBorrowResults {
     borrowRate: marketInfo.findOneReserveBySymbol(defaultAssetToBorrow).variableBorrowApy,
   }
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(
     function revalidateFormOnNetworkChange() {
-      // eslint-disable-next-line no-console
       easyBorrowForm.trigger().catch(console.error)
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [account.chainId],
   )
   useEffect(() => {

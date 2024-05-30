@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 
 import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
-import { validateSetUseAsCollateral, ValidateSetUseAsCollateralParams } from './validateSetUseAsCollateral'
+import { ValidateSetUseAsCollateralParams, validateSetUseAsCollateral } from './validateSetUseAsCollateral'
 
 describe(validateSetUseAsCollateral.name, () => {
   it('validates that value is not the same as existing setting', () => {

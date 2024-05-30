@@ -34,7 +34,7 @@ export function MarketsView({
         <Typography variant="h2">Markets</Typography>
         <div className="flex translate-y-0.5 flex-row items-center gap-1">
           <img src={chainImage} className="h-5 w-5" />
-          <Typography className="text-primary text-xs font-semibold">{chainName}</Typography>
+          <Typography className="font-semibold text-primary text-xs">{chainName}</Typography>
         </div>
       </div>
       <SummaryTiles marketStats={marketStats} />

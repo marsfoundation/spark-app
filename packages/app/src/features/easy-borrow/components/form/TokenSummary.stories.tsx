@@ -10,7 +10,7 @@ const meta: Meta<typeof TokenSummary> = {
   component: TokenSummary,
   args: {
     position: {
-      tokens: [tokens['ETH'], tokens['DAI'], tokens['USDC']],
+      tokens: [tokens.ETH, tokens.DAI, tokens.USDC],
       totalValueUSD: NormalizedUnitNumber(100_000),
     },
   },
@@ -28,7 +28,7 @@ export const ManySymbols: Story = {
   name: 'Many symbols',
   args: {
     position: {
-      tokens: [tokens['ETH'], tokens['DAI'], tokens['USDC'], tokens['USDT'], tokens['GNO']],
+      tokens: [tokens.ETH, tokens.DAI, tokens.USDC, tokens.USDT, tokens.GNO],
       totalValueUSD: NormalizedUnitNumber(100_000),
     },
   },

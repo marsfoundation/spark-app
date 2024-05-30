@@ -5,8 +5,8 @@ import { getMobileStory, getTabletStory } from '@storybook/viewports'
 
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 
-import { Legend } from './components/Legend'
 import { MarketOverviewChart } from './MarketOverviewChart'
+import { Legend } from './components/Legend'
 
 const meta: Meta<typeof MarketOverviewChart> = {
   title: 'Features/MarketDetails/Components/Charts/MarketOverview',
@@ -26,7 +26,7 @@ export const Default: Story = {
     ],
     children: (
       <Legend
-        token={tokens['USDC']}
+        token={tokens.USDC}
         utilized={NormalizedUnitNumber(800_000_000)}
         total={NormalizedUnitNumber(1_000_000_000)}
         utilizationRate={Percentage(0.66)}
@@ -47,7 +47,7 @@ export const ZeroUtilization: Story = {
     ],
     children: (
       <Legend
-        token={tokens['USDC']}
+        token={tokens.USDC}
         utilized={NormalizedUnitNumber(0)}
         total={NormalizedUnitNumber(1_000_000_000)}
         utilizationRate={Percentage(0)}
@@ -67,7 +67,7 @@ export const FullUtilization: Story = {
     ],
     children: (
       <Legend
-        token={tokens['USDC']}
+        token={tokens.USDC}
         utilized={NormalizedUnitNumber(1_000_000_000)}
         total={NormalizedUnitNumber(1_000_000_000)}
         utilizationRate={Percentage(1)}

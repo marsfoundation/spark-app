@@ -27,7 +27,7 @@ export const testAddresses = {
 function createDummyAddress(prefix: string): CheckedAddress {
   const address = prefix + '0'.repeat(40 - prefix.length)
 
-  return CheckedAddress('0x' + address)
+  return CheckedAddress(`0x${address}`)
 }
 
 export function getMockAaveUserReserve(overrides: Partial<AaveUserReserve> = {}): AaveUserReserve {

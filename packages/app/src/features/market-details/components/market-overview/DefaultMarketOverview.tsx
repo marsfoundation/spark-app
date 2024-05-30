@@ -2,9 +2,9 @@ import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { Panel } from '@/ui/atoms/panel/Panel'
 
+import { MarketOverviewChart } from '../charts/market-overview/MarketOverviewChart'
 import { colors } from '../charts/market-overview/colors'
 import { Legend } from '../charts/market-overview/components/Legend'
-import { MarketOverviewChart } from '../charts/market-overview/MarketOverviewChart'
 import { DetailsGrid } from './components/DetailsGrid'
 import { DetailsGridItem } from './components/DetailsGridItem'
 import { MarketOverviewContent } from './components/MarketOvierviewContent'
@@ -32,7 +32,7 @@ export function DefaultMarketOverview({
   return (
     <Panel.Wrapper>
       <MarketOverviewContent>
-        <h4 className="text-base font-semibold text-sky-950 md:text-xl">Market Overview</h4>
+        <h4 className="font-semibold text-base text-sky-950 md:text-xl">Market Overview</h4>
         <MarketOverviewChart data={chartData}>
           <Legend token={token} utilized={borrowed} total={marketSize} utilizationRate={utilizationRate} />
         </MarketOverviewChart>

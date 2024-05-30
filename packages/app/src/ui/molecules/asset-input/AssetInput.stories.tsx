@@ -25,7 +25,7 @@ export const WithUSD: Story = {
   name: 'With USD',
   args: {
     value: '100',
-    token: tokens['ETH'],
+    token: tokens.ETH,
   },
 }
 
@@ -39,7 +39,7 @@ export const WithMaxButton: Story = {
 export const WithMaxAndBalance: Story = {
   name: 'With max and balance',
   args: {
-    token: tokens['ETH'],
+    token: tokens.ETH,
     setMax: () => {},
     balance: NormalizedUnitNumber(200),
   },
@@ -48,7 +48,7 @@ export const WithMaxAndBalance: Story = {
 export const WithMaxAndZeroBalance: Story = {
   name: 'With max and zero balance',
   args: {
-    token: tokens['ETH'],
+    token: tokens.ETH,
     setMax: () => {},
     balance: NormalizedUnitNumber(0),
   },
@@ -64,7 +64,7 @@ export const WithRemoveButton: Story = {
 export const WithRemoveButtonAndZeroBalance: Story = {
   name: 'With remove and zero balance',
   args: {
-    token: tokens['ETH'],
+    token: tokens.ETH,
     onRemove: () => {},
     balance: NormalizedUnitNumber(0),
   },
@@ -73,7 +73,7 @@ export const WithRemoveButtonAndZeroBalance: Story = {
 export const WithAll: Story = {
   name: 'With all enabled',
   args: {
-    token: tokens['ETH'],
+    token: tokens.ETH,
     setMax: () => {},
     onRemove: () => {},
     balance: NormalizedUnitNumber(200),
@@ -120,6 +120,7 @@ export const PredefinedSize: Story = {
   },
 }
 
+// biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
 export const Error: Story = {
   name: 'Error',
   args: {

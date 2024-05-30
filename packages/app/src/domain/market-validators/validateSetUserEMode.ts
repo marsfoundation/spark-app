@@ -41,7 +41,7 @@ export function validateSetUserEMode({
   }
 
   if (user.eModeCategoryId !== 0) {
-    if (user.healthFactorAfterChangingEMode && user.healthFactorAfterChangingEMode.isLessThan(1)) {
+    if (user.healthFactorAfterChangingEMode?.isLessThan(1)) {
       return 'exceeds-ltv'
     }
   }

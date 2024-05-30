@@ -1,4 +1,4 @@
-import { cva, VariantProps } from 'class-variance-authority'
+import { VariantProps, cva } from 'class-variance-authority'
 
 import { formatPercentage } from '@/domain/common/format'
 import { ReserveStatus } from '@/domain/market-info/reserve-status'

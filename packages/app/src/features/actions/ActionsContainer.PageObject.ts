@@ -1,4 +1,4 @@
-import { expect, Locator, Page } from '@playwright/test'
+import { Locator, Page, expect } from '@playwright/test'
 import invariant from 'tiny-invariant'
 
 import { formatPercentage } from '@/domain/common/format'

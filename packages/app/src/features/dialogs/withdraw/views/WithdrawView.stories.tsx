@@ -13,7 +13,6 @@ import { WithdrawView } from './WithdrawView'
 const meta: Meta<typeof WithdrawView> = {
   title: 'Features/Dialogs/Views/Withdraw',
   component: (args) => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const form = useForm() as any
     return <WithdrawView {...args} form={form} />
   },
@@ -21,31 +20,31 @@ const meta: Meta<typeof WithdrawView> = {
   args: {
     withdrawOptions: [
       {
-        token: tokens['DAI'],
+        token: tokens.DAI,
         balance: NormalizedUnitNumber(50000),
       },
       {
-        token: tokens['ETH'],
+        token: tokens.ETH,
         balance: NormalizedUnitNumber(10),
       },
     ],
     assetsToWithdrawFields: {
       selectedAsset: {
-        token: tokens['DAI'],
+        token: tokens.DAI,
         balance: NormalizedUnitNumber(50000),
         value: '2000',
       },
       changeAsset: () => {},
     },
     withdrawAsset: {
-      token: tokens['DAI'],
+      token: tokens.DAI,
       value: NormalizedUnitNumber(2000),
     },
     objectives: [
       {
         type: 'withdraw',
         reserve: getMockReserve({
-          token: tokens['DAI'],
+          token: tokens.DAI,
         }),
         value: NormalizedUnitNumber(2000),
         all: false,

@@ -1,4 +1,4 @@
-import { cva, VariantProps } from 'class-variance-authority'
+import { VariantProps, cva } from 'class-variance-authority'
 import { ReactNode } from 'react'
 
 import { MarketAssetStatus } from '@/domain/market-info/reserve-status'
@@ -67,7 +67,7 @@ interface ContentProps extends VariantProps<typeof variants> {
 }
 
 function Content({ children, variant }: ContentProps) {
-  return <p className={cn(variants({ variant }), 'col-span-2 col-start-2 mb-3 mt-1.5')}>{children}</p>
+  return <p className={cn(variants({ variant }), 'col-span-2 col-start-2 mt-1.5 mb-3')}>{children}</p>
 }
 
 const variants = cva('text-xs leading-none', {

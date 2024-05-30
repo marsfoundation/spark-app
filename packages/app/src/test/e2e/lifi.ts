@@ -1,5 +1,5 @@
+import assert from 'node:assert'
 import { Page } from '@playwright/test'
-import assert from 'assert'
 import { Address } from 'viem'
 
 import { Percentage } from '@/domain/types/NumericValues'

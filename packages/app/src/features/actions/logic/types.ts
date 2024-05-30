@@ -1,8 +1,8 @@
 import { WriteErrorKind } from '@/domain/hooks/useWrite'
 
-import { ApproveAction } from '../flavours/approve/types'
 import { ApproveDelegationAction } from '../flavours/approve-delegation/types'
 import { ApproveExchangeAction } from '../flavours/approve-exchange/types'
+import { ApproveAction } from '../flavours/approve/types'
 import { BorrowAction, BorrowObjective } from '../flavours/borrow/types'
 import { DepositAction, DepositObjective } from '../flavours/deposit/types'
 import { ExchangeAction, ExchangeObjective } from '../flavours/exchange/types'

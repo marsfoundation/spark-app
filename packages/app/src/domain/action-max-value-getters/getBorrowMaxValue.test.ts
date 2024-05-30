@@ -7,7 +7,7 @@ describe(getBorrowMaxValue.name, () => {
       expect(
         getBorrowMaxValue({
           asset: {
-            availableLiquidity: NormalizedUnitNumber(Infinity),
+            availableLiquidity: NormalizedUnitNumber(Number.POSITIVE_INFINITY),
             totalDebt: NormalizedUnitNumber(0),
           },
           user: {
@@ -21,7 +21,7 @@ describe(getBorrowMaxValue.name, () => {
       expect(
         getBorrowMaxValue({
           asset: {
-            availableLiquidity: NormalizedUnitNumber(Infinity),
+            availableLiquidity: NormalizedUnitNumber(Number.POSITIVE_INFINITY),
             totalDebt: NormalizedUnitNumber(0),
           },
           user: {
@@ -35,12 +35,12 @@ describe(getBorrowMaxValue.name, () => {
       expect(
         getBorrowMaxValue({
           asset: {
-            availableLiquidity: NormalizedUnitNumber(Infinity),
+            availableLiquidity: NormalizedUnitNumber(Number.POSITIVE_INFINITY),
             totalDebt: NormalizedUnitNumber(50),
             borrowCap: NormalizedUnitNumber(100),
           },
           user: {
-            maxBorrowBasedOnCollateral: NormalizedUnitNumber(Infinity),
+            maxBorrowBasedOnCollateral: NormalizedUnitNumber(Number.POSITIVE_INFINITY),
           },
         }),
       ).toEqual(NormalizedUnitNumber(50))
@@ -88,7 +88,7 @@ describe(getBorrowMaxValue.name, () => {
             isolationModeCollateralDebtCeiling: NormalizedUnitNumber(100),
           },
           asset: {
-            availableLiquidity: NormalizedUnitNumber(Infinity),
+            availableLiquidity: NormalizedUnitNumber(Number.POSITIVE_INFINITY),
             totalDebt: NormalizedUnitNumber(0),
           },
         }),
@@ -105,7 +105,7 @@ describe(getBorrowMaxValue.name, () => {
             isolationModeCollateralDebtCeiling: NormalizedUnitNumber(100),
           },
           asset: {
-            availableLiquidity: NormalizedUnitNumber(Infinity),
+            availableLiquidity: NormalizedUnitNumber(Number.POSITIVE_INFINITY),
             totalDebt: NormalizedUnitNumber(0),
           },
         }),
@@ -123,7 +123,7 @@ describe(getBorrowMaxValue.name, () => {
           },
 
           asset: {
-            availableLiquidity: NormalizedUnitNumber(Infinity),
+            availableLiquidity: NormalizedUnitNumber(Number.POSITIVE_INFINITY),
             totalDebt: NormalizedUnitNumber(0),
           },
         }),

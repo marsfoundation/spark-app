@@ -1,4 +1,4 @@
-import { Address, type Chain, createWalletClient, type Transport } from 'viem'
+import { Address, type Chain, type Transport, createWalletClient } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 import { mainnet } from 'viem/chains'
 import { createConfig } from 'wagmi'

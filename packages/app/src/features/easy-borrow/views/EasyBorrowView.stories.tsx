@@ -5,7 +5,7 @@ import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import BigNumber from 'bignumber.js'
 import { useRef } from 'react'
 import { useForm } from 'react-hook-form'
-import { withRouter } from 'storybook-addon-react-router-v6'
+import { withRouter } from 'storybook-addon-remix-react-router'
 import { zeroAddress } from 'viem'
 
 import { TokenWithBalance, TokenWithFormValue } from '@/domain/common/types'
@@ -114,19 +114,19 @@ const meta: Meta<typeof EasyBorrowViewStory> = {
     pageState: 'form',
     allAssets: [
       {
-        token: tokens['ETH'],
+        token: tokens.ETH,
         balance: NormalizedUnitNumber(1),
       },
       {
-        token: tokens['wstETH'],
+        token: tokens.wstETH,
         balance: NormalizedUnitNumber(1),
       },
       {
-        token: tokens['rETH'],
+        token: tokens.rETH,
         balance: NormalizedUnitNumber(1),
       },
       {
-        token: tokens['GNO'],
+        token: tokens.GNO,
         balance: NormalizedUnitNumber(1),
       },
     ],
@@ -138,14 +138,14 @@ const meta: Meta<typeof EasyBorrowViewStory> = {
     },
     assetsToBorrow: [
       {
-        token: tokens['DAI'],
+        token: tokens.DAI,
         balance: NormalizedUnitNumber(1000),
         value: '',
       },
     ],
     assetsToDeposit: [
       {
-        token: tokens['ETH'],
+        token: tokens.ETH,
         balance: NormalizedUnitNumber(10),
         value: '',
       },
@@ -187,14 +187,14 @@ export const InitialViewTablet = getTabletStory(InitialViewDesktop)
 const depositETHArgs: Partial<EasyBorrowViewStoryProps> = {
   assetsToBorrow: [
     {
-      token: tokens['DAI'],
+      token: tokens.DAI,
       balance: NormalizedUnitNumber(1000),
       value: '1000',
     },
   ],
   assetsToDeposit: [
     {
-      token: tokens['ETH'],
+      token: tokens.ETH,
       balance: NormalizedUnitNumber(10),
       value: '1',
     },
@@ -222,24 +222,24 @@ export const DepositETHTablet = getTabletStory(DepositETHDesktop)
 const depositETHWithExistingPositionArgs: Partial<EasyBorrowViewStoryProps> = {
   assetsToBorrow: [
     {
-      token: tokens['DAI'],
+      token: tokens.DAI,
       balance: NormalizedUnitNumber(1000),
       value: '1000',
     },
   ],
   assetsToDeposit: [
     {
-      token: tokens['ETH'],
+      token: tokens.ETH,
       balance: NormalizedUnitNumber(10),
       value: '1',
     },
   ],
   alreadyDeposited: {
-    tokens: [tokens['ETH'], tokens['wstETH'], tokens['rETH'], tokens['GNO'], tokens['WBTC']],
+    tokens: [tokens.ETH, tokens.wstETH, tokens.rETH, tokens.GNO, tokens.WBTC],
     totalValueUSD: NormalizedUnitNumber(1000),
   },
   alreadyBorrowed: {
-    tokens: [tokens['DAI']],
+    tokens: [tokens.DAI],
     totalValueUSD: NormalizedUnitNumber(500),
   },
   updatedPositionSummary: {
@@ -266,14 +266,14 @@ const depositETHActionsArgs: Partial<EasyBorrowViewStoryProps> = {
   pageState: 'confirmation',
   assetsToBorrow: [
     {
-      token: tokens['DAI'],
+      token: tokens.DAI,
       balance: NormalizedUnitNumber(1000),
       value: '1000',
     },
   ],
   assetsToDeposit: [
     {
-      token: tokens['ETH'],
+      token: tokens.ETH,
       balance: NormalizedUnitNumber(10),
       value: '1',
     },
@@ -293,12 +293,12 @@ const depositETHActionsArgs: Partial<EasyBorrowViewStoryProps> = {
       type: 'deposit',
       lendingPool: CheckedAddress(zeroAddress),
       value: NormalizedUnitNumber(1),
-      token: tokens['ETH'],
+      token: tokens.ETH,
     },
     {
       type: 'borrow',
       value: NormalizedUnitNumber(1000),
-      token: tokens['DAI'],
+      token: tokens.DAI,
       debtTokenAddress: CheckedAddress(zeroAddress),
     },
   ],
@@ -316,14 +316,14 @@ const depositErc20ActionArgs: Partial<EasyBorrowViewStoryProps> = {
   pageState: 'confirmation',
   assetsToBorrow: [
     {
-      token: tokens['DAI'],
+      token: tokens.DAI,
       balance: NormalizedUnitNumber(1000),
       value: '1000',
     },
   ],
   assetsToDeposit: [
     {
-      token: tokens['wstETH'],
+      token: tokens.wstETH,
       balance: NormalizedUnitNumber(10),
       value: '1',
     },
@@ -343,12 +343,12 @@ const depositErc20ActionArgs: Partial<EasyBorrowViewStoryProps> = {
       type: 'deposit',
       lendingPool: CheckedAddress(zeroAddress),
       value: NormalizedUnitNumber(1),
-      token: tokens['wstETH'],
+      token: tokens.wstETH,
     },
     {
       type: 'borrow',
       value: NormalizedUnitNumber(1000),
-      token: tokens['DAI'],
+      token: tokens.DAI,
       debtTokenAddress: CheckedAddress(zeroAddress),
     },
   ],
@@ -365,29 +365,29 @@ export const DepositErc20ActionTablet = getTabletStory(DepositErc20ActionDesktop
 const depositMultipleArgs: Partial<EasyBorrowViewStoryProps> = {
   assetsToBorrow: [
     {
-      token: tokens['DAI'],
+      token: tokens.DAI,
       balance: NormalizedUnitNumber(1000),
       value: '1000',
     },
   ],
   assetsToDeposit: [
     {
-      token: tokens['ETH'],
+      token: tokens.ETH,
       balance: NormalizedUnitNumber(10),
       value: '1',
     },
     {
-      token: tokens['wstETH'],
+      token: tokens.wstETH,
       balance: NormalizedUnitNumber(10),
       value: '1',
     },
     {
-      token: tokens['rETH'],
+      token: tokens.rETH,
       balance: NormalizedUnitNumber(10),
       value: '1',
     },
     {
-      token: tokens['GNO'],
+      token: tokens.GNO,
       balance: NormalizedUnitNumber(10),
       value: '1',
     },

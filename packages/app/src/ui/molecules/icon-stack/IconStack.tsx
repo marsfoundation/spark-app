@@ -39,7 +39,7 @@ export function IconStack({
       {omittedLength > 0 && (
         <Typography
           className={cn(
-            'bg-light-blue flex items-center justify-center rounded-full font-semibold text-white',
+            'flex items-center justify-center rounded-full bg-light-blue font-semibold text-white',
             iconVariants({ size }),
           )}
           variant={size === 'base' ? 'prompt' : 'h4'}

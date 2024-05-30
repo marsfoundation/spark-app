@@ -19,15 +19,15 @@ export const Desktop: Story = {
   args: {
     assets: [
       {
-        token: tokens['DAI'],
+        token: tokens.DAI,
         balance: NormalizedUnitNumber(22727),
       },
       {
-        token: tokens['USDT'],
+        token: tokens.USDT,
         balance: NormalizedUnitNumber(22727),
       },
       {
-        token: tokens['USDC'],
+        token: tokens.USDC,
         balance: NormalizedUnitNumber(0),
       },
     ],

@@ -19,7 +19,7 @@ export function SuccessView({ collateralSetting, token, onProceed }: SuccessView
       <SuccessViewSummaryPanel>
         <div className="flex items-center gap-2">
           <TokenIcon token={token} className="h-6" />
-          <strong className="text-basics-black font-semibold">{token.symbol}</strong>
+          <strong className="font-semibold text-basics-black">{token.symbol}</strong>
         </div>
         <h3 className="text-basics-black">Collateral {collateralActionToVerb[collateralSetting]}</h3>
       </SuccessViewSummaryPanel>

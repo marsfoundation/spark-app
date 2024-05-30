@@ -19,7 +19,7 @@ const meta: Meta<typeof SavingsView> = {
     APY: Percentage(0.05),
     chainId: mainnet.id,
     depositedUSD: NormalizedUnitNumber(20765.7654),
-    sDAIBalance: { balance: NormalizedUnitNumber(20000.0), token: tokens['sDAI'] },
+    sDAIBalance: { balance: NormalizedUnitNumber(20000.0), token: tokens.sDAI },
     currentProjections: {
       thirtyDays: NormalizedUnitNumber(500),
       oneYear: NormalizedUnitNumber(2500),
@@ -30,20 +30,20 @@ const meta: Meta<typeof SavingsView> = {
     },
     assetsInWallet: [
       {
-        token: tokens['DAI'],
+        token: tokens.DAI,
         balance: NormalizedUnitNumber(22727),
       },
       {
-        token: tokens['USDT'],
+        token: tokens.USDT,
         balance: NormalizedUnitNumber(22727),
       },
       {
-        token: tokens['USDC'],
+        token: tokens.USDC,
         balance: NormalizedUnitNumber(0),
       },
     ],
     maxBalanceToken: {
-      token: tokens['DAI'],
+      token: tokens.DAI,
       balance: NormalizedUnitNumber(22727),
     },
     totalEligibleCashUSD: NormalizedUnitNumber(45454),
@@ -63,7 +63,7 @@ export const NoDeposit: Story = {
   name: 'No deposit',
   args: {
     depositedUSD: NormalizedUnitNumber(0),
-    sDAIBalance: { balance: NormalizedUnitNumber(0), token: tokens['sDAI'] },
+    sDAIBalance: { balance: NormalizedUnitNumber(0), token: tokens.sDAI },
     currentProjections: {
       thirtyDays: NormalizedUnitNumber(0),
       oneYear: NormalizedUnitNumber(0),
@@ -101,7 +101,7 @@ export const NoDepositNoCash: Story = {
   name: 'No deposit, no cash',
   args: {
     depositedUSD: NormalizedUnitNumber(0),
-    sDAIBalance: { balance: NormalizedUnitNumber(0), token: tokens['sDAI'] },
+    sDAIBalance: { balance: NormalizedUnitNumber(0), token: tokens.sDAI },
     currentProjections: {
       thirtyDays: NormalizedUnitNumber(0),
       oneYear: NormalizedUnitNumber(0),
@@ -112,15 +112,15 @@ export const NoDepositNoCash: Story = {
     },
     assetsInWallet: [
       {
-        token: tokens['DAI'],
+        token: tokens.DAI,
         balance: NormalizedUnitNumber(0),
       },
       {
-        token: tokens['USDT'],
+        token: tokens.USDT,
         balance: NormalizedUnitNumber(0),
       },
       {
-        token: tokens['USDC'],
+        token: tokens.USDC,
         balance: NormalizedUnitNumber(0),
       },
     ],
@@ -138,9 +138,9 @@ export const NoDepositNoCashTablet = {
 export const BigNumbersDesktop: Story = {
   name: 'Big numbers',
   args: {
-    depositedUSD: NormalizedUnitNumber(134395765.123482934245),
+    depositedUSD: NormalizedUnitNumber('134395765.123482934245'),
     depositedUSDPrecision: 0,
-    sDAIBalance: { balance: NormalizedUnitNumber(134000000.0), token: tokens['sDAI'] },
+    sDAIBalance: { balance: NormalizedUnitNumber(134000000.0), token: tokens.sDAI },
     APY: Percentage(0.05),
     currentProjections: {
       thirtyDays: NormalizedUnitNumber(1224300.923423423),
@@ -152,15 +152,15 @@ export const BigNumbersDesktop: Story = {
     },
     assetsInWallet: [
       {
-        token: tokens['DAI'],
+        token: tokens.DAI,
         balance: NormalizedUnitNumber(232134925.90911123),
       },
       {
-        token: tokens['USDT'],
+        token: tokens.USDT,
         balance: NormalizedUnitNumber(601234014.134234),
       },
       {
-        token: tokens['USDC'],
+        token: tokens.USDC,
         balance: NormalizedUnitNumber(12312.90345),
       },
     ],

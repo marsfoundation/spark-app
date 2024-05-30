@@ -1,11 +1,10 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { useMemo, useRef } from 'react'
 
 import { useActionsSettings } from '@/domain/state'
 
-import { useCreateApproveOrPermitHandler } from '../flavours/approve/logic/useCreateApproveOrPermitHandler'
 import { useCreateApproveDelegationHandler } from '../flavours/approve-delegation/useCreateApproveDelegationHandler'
 import { useCreateApproveExchangeActionHandler } from '../flavours/approve-exchange/useCreateApproveExchangeHandler'
+import { useCreateApproveOrPermitHandler } from '../flavours/approve/logic/useCreateApproveOrPermitHandler'
 import { useCreateBorrowActionHandler } from '../flavours/borrow/useCreateBorrowHandler'
 import { useCreateDepositHandler } from '../flavours/deposit/useCreateDepositHandler'
 import { useCreateExchangeHandler } from '../flavours/exchange/useCreateExchangeHandler'
@@ -13,7 +12,7 @@ import { useCreateRepayHandler } from '../flavours/repay/useCreateRepayHandler'
 import { useCreateSetUseAsCollateralHandler } from '../flavours/set-use-as-collateral/useCreateSetUseAsCollateralHandler'
 import { useCreateSetUserEModeHandler } from '../flavours/set-user-e-mode/useCreateSetUserEModeHandler'
 import { useCreateWithdrawHandler } from '../flavours/withdraw/useCreateWithdrawHandler'
-import { createPermitStore, PermitStore } from './permits'
+import { PermitStore, createPermitStore } from './permits'
 import { Action, ActionHandler, Objective } from './types'
 import { useCreateActions } from './useCreateActions'
 
@@ -39,11 +38,13 @@ export function useActionHandlers(
   const handlers = actions.reduce((acc, action, index) => {
     const nextOneToExecute = index > 0 ? acc[acc.length - 1]!.state.status === 'success' : true
     // If succeeded once, don't try again. Further actions can invalidate previous actions (for example deposit will invalidate previous approvals)
+    // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
     const alreadySucceeded = useRef(false)
 
     const isLast = index === actions.length - 1
     const onFinish = isLast ? _onFinish : undefined
 
+    // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
     const handler = useCreateActionHandler(action, {
       enabled: enabled && alreadySucceeded.current === false && nextOneToExecute,
       permitStore: actionsSettings.preferPermits ? permitStore : undefined,
@@ -81,24 +82,34 @@ function useCreateActionHandler(
   switch (action.type) {
     case 'approve':
     case 'permit':
+      // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
       return useCreateApproveOrPermitHandler(action, { permitStore, enabled })
     case 'deposit':
+      // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
       return useCreateDepositHandler(action, { permitStore, enabled, onFinish })
     case 'approveDelegation':
+      // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
       return useCreateApproveDelegationHandler(action, { enabled })
     case 'borrow':
+      // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
       return useCreateBorrowActionHandler(action, { enabled, onFinish })
     case 'withdraw':
+      // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
       return useCreateWithdrawHandler(action, { enabled, onFinish })
     case 'repay':
+      // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
       return useCreateRepayHandler(action, { permitStore, enabled, onFinish })
     case 'setUseAsCollateral':
+      // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
       return useCreateSetUseAsCollateralHandler(action, { enabled, onFinish })
     case 'setUserEMode':
+      // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
       return useCreateSetUserEModeHandler(action, { enabled, onFinish })
     case 'approveExchange':
+      // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
       return useCreateApproveExchangeActionHandler(action, { enabled })
     case 'exchange':
+      // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
       return useCreateExchangeHandler(action, { enabled, onFinish })
   }
 }

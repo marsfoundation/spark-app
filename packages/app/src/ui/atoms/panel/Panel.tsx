@@ -1,5 +1,5 @@
-import { cva, VariantProps } from 'class-variance-authority'
-import { ComponentProps, createContext, forwardRef, ReactNode, useContext } from 'react'
+import { VariantProps, cva } from 'class-variance-authority'
+import { ComponentProps, ReactNode, createContext, forwardRef, useContext } from 'react'
 import invariant from 'tiny-invariant'
 
 import { cn } from '@/ui/utils/style'
@@ -56,7 +56,7 @@ export const Panel = forwardRef<HTMLDivElement, PanelProps>(
 
     return (
       <PanelContext.Provider value={{ collapse: false }}>
-        <Panel.Wrapper className={cn('flex flex-col gap-6 p-4 md:px-8 md:py-6 ', className)} ref={ref}>
+        <Panel.Wrapper className={cn('flex flex-col gap-6 p-4 md:px-8 md:py-6', className)} ref={ref}>
           {children}
         </Panel.Wrapper>
       </PanelContext.Provider>
@@ -79,7 +79,7 @@ const panelWrapperVariants = cva('rounded-lg border shadow-sm', {
   variants: {
     variant: {
       white: 'border-basics-border bg-white',
-      green: 'bg-basics-green/5 border-[#6DC275]',
+      green: 'border-[#6DC275] bg-basics-green/5',
     },
   },
   defaultVariants: {

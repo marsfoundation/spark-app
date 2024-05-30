@@ -11,11 +11,11 @@ import { InterestYieldChart, InterestYieldChartProps } from '../charts/interest-
 import { SparkInfoPanel } from '../spark-info-panel/SparkInfoPanel'
 import { EmptyStatusPanel } from './components/EmptyStatusPanel'
 import { Header } from './components/Header'
+import { StatusPanelGrid } from './components/StatusPanelGrid'
+import { Subheader } from './components/Subheader'
 import { InfoTile } from './components/info-tile/InfoTile'
 import { InfoTilesGrid } from './components/info-tile/InfoTilesGrid'
 import { StatusIcon } from './components/status-icon/StatusIcon'
-import { StatusPanelGrid } from './components/StatusPanelGrid'
-import { Subheader } from './components/Subheader'
 import { TokenBadge } from './components/token-badge/TokenBadge'
 
 interface BorrowStatusPanelProps {

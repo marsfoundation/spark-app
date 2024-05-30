@@ -2,7 +2,7 @@ import { WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
-import { withRouter } from 'storybook-addon-react-router-v6'
+import { withRouter } from 'storybook-addon-remix-react-router'
 
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 
@@ -31,13 +31,13 @@ export const Desktop: Story = {
     chainName: 'Ethereum Mainnet',
     activeAndPausedMarketEntries: [
       {
-        token: tokens['ETH'],
+        token: tokens.ETH,
         reserveStatus: 'active',
         borrowAPYDetails: { apy: Percentage(0.11), incentives: [], airdrops: [] },
         depositAPYDetails: {
           apy: Percentage(0.157),
           airdrops: [{ id: 'SPK', amount: NormalizedUnitNumber(6_000_000) }],
-          incentives: [{ token: tokens['stETH'], APR: Percentage(0.1) }],
+          incentives: [{ token: tokens.stETH, APR: Percentage(0.1) }],
         },
         totalBorrowed: NormalizedUnitNumber(0),
         totalSupplied: NormalizedUnitNumber(11.99),
@@ -48,7 +48,7 @@ export const Desktop: Story = {
         },
       },
       {
-        token: tokens['DAI'],
+        token: tokens.DAI,
         reserveStatus: 'active',
         borrowAPYDetails: {
           apy: Percentage(0.11),
@@ -69,7 +69,7 @@ export const Desktop: Story = {
         },
       },
       {
-        token: tokens['USDT'],
+        token: tokens.USDT,
         reserveStatus: 'paused',
         borrowAPYDetails: {
           apy: Percentage(0),
@@ -92,7 +92,7 @@ export const Desktop: Story = {
     ],
     frozenMarketEntries: [
       {
-        token: tokens['GNO'],
+        token: tokens.GNO,
         reserveStatus: 'frozen',
         borrowAPYDetails: { apy: Percentage(0.11), incentives: [], airdrops: [] },
         depositAPYDetails: { apy: Percentage(0.157), incentives: [], airdrops: [] },
@@ -105,7 +105,7 @@ export const Desktop: Story = {
         },
       },
       {
-        token: tokens['USDC'],
+        token: tokens.USDC,
         reserveStatus: 'frozen',
         borrowAPYDetails: { apy: Percentage(0.11), incentives: [], airdrops: [] },
         depositAPYDetails: { apy: Percentage(0.157), incentives: [], airdrops: [] },

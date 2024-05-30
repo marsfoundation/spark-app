@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import invariant from 'tiny-invariant'
 
-import { bigNumberify, NumberLike } from '../../utils/bigNumber'
+import { NumberLike, bigNumberify } from '../../utils/bigNumber'
 import { Opaque } from './types'
 
 /**
@@ -29,7 +29,7 @@ export function NormalizedUnitNumber(value: NumberLike): NormalizedUnitNumber {
  * Percentages can be often greater that 1 (100%) so we need to allow that.
  */
 export type Percentage = Opaque<BigNumber, 'Percentage'>
-export function Percentage(_value: NumberLike, allowMoreThan1: boolean = false): Percentage {
+export function Percentage(_value: NumberLike, allowMoreThan1 = false): Percentage {
   const value = bigNumberify(_value)
   invariant(value.gte(0), 'Percentage value should be greater than or equal to 0.')
   if (!allowMoreThan1) {

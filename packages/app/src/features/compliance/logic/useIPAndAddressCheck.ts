@@ -16,17 +16,19 @@ export function useIPAndAddressCheck(): UseIPAndAddressCheck {
     return { blocked: false }
   }
 
-  /* eslint-disable react-hooks/rules-of-hooks */
+  // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
   const { address } = useAccount()
+  // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
   const addressCheck = useRestrictedAddressCheck({
     address,
     authUrl: apiUrl,
     enabled: !!address,
     refetchInterval: 5 * 60 * 1_000, // recheck every 5 minutes
   })
+  // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
   const vpnCheck = useVpnCheck({ authUrl: apiUrl })
+  // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
   const isCurrentPageBlocked = useIsCurrentPageBlocked()
-  /* eslint-enable react-hooks/rules-of-hooks */
 
   if (vpnCheck.data?.isConnectedToVpn) {
     return { blocked: true, reason: 'vpn-detected' }

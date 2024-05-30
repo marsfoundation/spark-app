@@ -23,9 +23,9 @@ export function CollapsibleCell({ children }: CollapsibleCellProps) {
               <button role="switch">
                 <Typography variant="prompt">
                   {open ? (
-                    <ChevronUp className="ml-1 inline-block -translate-y-[1px]" size={16} />
+                    <ChevronUp className="-translate-y-[1px] ml-1 inline-block" size={16} />
                   ) : (
-                    <ChevronDown className="ml-1 inline-block -translate-y-[1px]" size={16} />
+                    <ChevronDown className="-translate-y-[1px] ml-1 inline-block" size={16} />
                   )}
                 </Typography>
               </button>

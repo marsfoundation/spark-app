@@ -1,5 +1,5 @@
 import { getDefaultConfig } from '@rainbow-me/rainbowkit'
-import { Chain, http, Transport, webSocket } from 'viem'
+import { http, Chain, Transport, webSocket } from 'viem'
 import { gnosis, mainnet } from 'viem/chains'
 import { Config } from 'wagmi'
 
