@@ -43,10 +43,7 @@ const args: MarketDetailsViewProps = {
   },
   marketOverview: {
     supply: {
-      sparkAirdrop: {
-        id: 'SPK',
-        amount: NormalizedUnitNumber(100000000),
-      },
+      hasSparkAirdrop: true,
       status: 'yes',
       totalSupplied: NormalizedUnitNumber(72_000),
       supplyCap: NormalizedUnitNumber(112_000),
@@ -62,10 +59,7 @@ const args: MarketDetailsViewProps = {
       liquidationPenalty: Percentage(0.05),
     },
     borrow: {
-      sparkAirdrop: {
-        id: 'SPK',
-        amount: NormalizedUnitNumber(200000000),
-      },
+      hasSparkAirdrop: true,
       status: 'yes',
       totalBorrowed: NormalizedUnitNumber(1244),
       apy: Percentage(0.01),

@@ -1,4 +1,3 @@
-import { AirdropEntry } from '@/config/chain/utils/airdrops'
 import { formatPercentage } from '@/domain/common/format'
 import { BorrowEligibilityStatus } from '@/domain/market-info/reserve-status'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
@@ -8,7 +7,7 @@ import { Panel } from '@/ui/atoms/panel/Panel'
 import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
 
 import { InterestYieldChart, InterestYieldChartProps } from '../charts/interest-yield/InterestYieldChart'
-import { SparkInfoPanel } from '../spark-info-panel/SparkInfoPanel'
+import { SparkAirdropInfoPanel } from '../spark-airdrop-info-panel/SparkAirdropInfoPanel'
 import { EmptyStatusPanel } from './components/EmptyStatusPanel'
 import { Header } from './components/Header'
 import { StatusPanelGrid } from './components/StatusPanelGrid'
@@ -27,7 +26,7 @@ interface BorrowStatusPanelProps {
   apy: Percentage
   chartProps: InterestYieldChartProps
   showTokenBadge?: boolean
-  sparkAirdrop?: AirdropEntry
+  hasSparkAirdrop: boolean
   airdropEligibleToken: TokenSymbol
 }
 
@@ -40,7 +39,7 @@ export function BorrowStatusPanel({
   apy,
   chartProps,
   showTokenBadge = false,
-  sparkAirdrop,
+  hasSparkAirdrop,
   airdropEligibleToken,
 }: BorrowStatusPanelProps) {
   if (status === 'no') {
@@ -85,9 +84,7 @@ export function BorrowStatusPanel({
         <div className="col-span-3 mt-6 sm:mt-10">
           <InterestYieldChart {...chartProps} />
         </div>
-        {sparkAirdrop && (
-          <SparkInfoPanel variant="borrow" eligibleToken={airdropEligibleToken} amount={sparkAirdrop.amount} />
-        )}
+        {hasSparkAirdrop && <SparkAirdropInfoPanel variant="borrow" eligibleToken={airdropEligibleToken} />}
       </StatusPanelGrid>
     </Panel.Wrapper>
   )

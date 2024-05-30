@@ -1,4 +1,3 @@
-import { AirdropEntry } from '@/config/chain/utils/airdrops'
 import { EModeCategoryId } from '@/domain/e-mode/types'
 import {
   BorrowEligibilityStatus,
@@ -18,7 +17,7 @@ export interface SupplyReplacementInfo {
 }
 export interface MarketOverview {
   supply?: {
-    sparkAirdrop?: AirdropEntry
+    hasSparkAirdrop: boolean
     status: SupplyAvailabilityStatus
     totalSupplied: NormalizedUnitNumber
     supplyCap?: NormalizedUnitNumber
@@ -35,7 +34,7 @@ export interface MarketOverview {
     supplyReplacement?: SupplyReplacementInfo
   }
   borrow: {
-    sparkAirdrop?: AirdropEntry
+    hasSparkAirdrop: boolean
     status: BorrowEligibilityStatus
     totalBorrowed: NormalizedUnitNumber
     borrowCap?: NormalizedUnitNumber

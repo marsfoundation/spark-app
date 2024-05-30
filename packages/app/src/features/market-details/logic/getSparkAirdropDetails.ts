@@ -1,4 +1,4 @@
-import { AirdropEntry, getAirdropsData } from '@/config/chain/utils/airdrops'
+import { getAirdropsData } from '@/config/chain/utils/airdrops'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 
@@ -8,8 +8,8 @@ export interface getSparkAirdropDetailsParams {
 }
 
 export interface SparkAirdropDetails {
-  deposit?: AirdropEntry
-  borrow?: AirdropEntry
+  hasAirdropForSupplying: boolean
+  hasAirdropForBorrowing: boolean
 }
 
 export function getSparkAirdropDetails({
@@ -18,8 +18,8 @@ export function getSparkAirdropDetails({
 }: getSparkAirdropDetailsParams): SparkAirdropDetails {
   const airdropData = getAirdropsData(marketInfo.chainId, airdropEligibleToken)
   return {
-    deposit: airdropData.deposit.find(isSparkAirdrop),
-    borrow: airdropData.borrow.find(isSparkAirdrop),
+    hasAirdropForSupplying: airdropData.deposit.some(isSparkAirdrop),
+    hasAirdropForBorrowing: airdropData.borrow.some(isSparkAirdrop),
   }
 }
 

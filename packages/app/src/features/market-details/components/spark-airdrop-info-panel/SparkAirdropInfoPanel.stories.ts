@@ -1,21 +1,16 @@
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { Meta, StoryObj } from '@storybook/react'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { SparkAirdropInfoPanel } from './SparkAirdropInfoPanel'
 
-import { SparkInfoPanel } from './SparkInfoPanel'
-
-const meta: Meta<typeof SparkInfoPanel> = {
-  title: 'Features/MarketDetails/Components/SparkInfoPanel',
-  component: SparkInfoPanel,
-  args: {
-    amount: NormalizedUnitNumber(1234567890),
-  },
+const meta: Meta<typeof SparkAirdropInfoPanel> = {
+  title: 'Features/MarketDetails/Components/SparkAirdropInfoPanel',
+  component: SparkAirdropInfoPanel,
 }
 
 export default meta
-type Story = StoryObj<typeof SparkInfoPanel>
+type Story = StoryObj<typeof SparkAirdropInfoPanel>
 
 export const Supply: Story = {
   args: {

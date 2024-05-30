@@ -1,4 +1,3 @@
-import { AirdropEntry } from '@/config/chain/utils/airdrops'
 import { formatPercentage } from '@/domain/common/format'
 import { SupplyAvailabilityStatus } from '@/domain/market-info/reserve-status'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
@@ -7,7 +6,7 @@ import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
 
-import { SparkInfoPanel } from '../spark-info-panel/SparkInfoPanel'
+import { SparkAirdropInfoPanel } from '../spark-airdrop-info-panel/SparkAirdropInfoPanel'
 import { EmptyStatusPanel } from './components/EmptyStatusPanel'
 import { Header } from './components/Header'
 import { StatusPanelGrid } from './components/StatusPanelGrid'
@@ -22,7 +21,7 @@ interface SupplyStatusPanelProps {
   totalSupplied: NormalizedUnitNumber
   supplyCap?: NormalizedUnitNumber
   apy: Percentage
-  sparkAirdrop?: AirdropEntry
+  hasSparkAirdrop: boolean
   airdropEligibleToken: TokenSymbol
 }
 
@@ -32,7 +31,7 @@ export function SupplyStatusPanel({
   totalSupplied,
   supplyCap,
   apy,
-  sparkAirdrop,
+  hasSparkAirdrop,
   airdropEligibleToken,
 }: SupplyStatusPanelProps) {
   if (status === 'no') {
@@ -69,9 +68,7 @@ export function SupplyStatusPanel({
             </InfoTile>
           )}
         </InfoTilesGrid>
-        {sparkAirdrop && (
-          <SparkInfoPanel variant="deposit" eligibleToken={airdropEligibleToken} amount={sparkAirdrop.amount} />
-        )}
+        {hasSparkAirdrop && <SparkAirdropInfoPanel variant="deposit" eligibleToken={airdropEligibleToken} />}
       </StatusPanelGrid>
     </Panel.Wrapper>
   )

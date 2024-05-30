@@ -18,11 +18,14 @@ export function makeMarketOverview({
 }: MakeMarketOverviewParams): MarketOverview {
   const eModeCategoryId = reserve.eModeCategory?.id
   const eModeCategoryTokens = getReserveEModeCategoryTokens(marketInfo, reserve)
-  const sparkAirdrop = getSparkAirdropDetails({ marketInfo, airdropEligibleToken })
+  const { hasAirdropForBorrowing, hasAirdropForSupplying } = getSparkAirdropDetails({
+    marketInfo,
+    airdropEligibleToken,
+  })
 
   return {
     supply: {
-      sparkAirdrop: sparkAirdrop.deposit,
+      hasSparkAirdrop: hasAirdropForSupplying,
       status: reserve.supplyAvailabilityStatus,
       totalSupplied: reserve.totalLiquidity,
       supplyCap: reserve.supplyCap,
@@ -38,7 +41,7 @@ export function makeMarketOverview({
       liquidationPenalty: reserve.liquidationBonus,
     },
     borrow: {
-      sparkAirdrop: sparkAirdrop.borrow,
+      hasSparkAirdrop: hasAirdropForBorrowing,
       status: reserve.borrowEligibilityStatus,
       totalBorrowed: reserve.totalDebt,
       borrowCap: reserve.borrowCap,
