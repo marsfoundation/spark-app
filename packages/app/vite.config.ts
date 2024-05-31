@@ -36,7 +36,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://api.spark.fi/v2',
+        target: 'https://api-v2.spark.fi/api/v1/',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
