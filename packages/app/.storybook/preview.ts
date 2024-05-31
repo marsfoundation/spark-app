@@ -13,7 +13,6 @@ const preview: Preview = {
         date: /Date$/,
       },
     },
-    chromatic: { pauseAnimationAtEnd: false },
     viewport: {
       viewports: {
         mobile: {
