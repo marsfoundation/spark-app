@@ -1,6 +1,5 @@
 import { Locator, Page } from '@playwright/test'
 import { http, createPublicClient } from 'viem'
-import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts'
 
 import {
   lendingPoolAddressProviderAddress,
