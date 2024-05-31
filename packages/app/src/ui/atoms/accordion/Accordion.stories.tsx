@@ -37,7 +37,7 @@ export const MultipleOpenable: Story = {
       </Accordion>
     )
   },
-  play: async ({ canvasElement }) => (await within(canvasElement).findByText('Item number one')).click(),
+  play: async ({ canvasElement }) => (await within(canvasElement).findByText('Item number two')).click(),
 }
 
 export const SingleOpenable: Story = {
