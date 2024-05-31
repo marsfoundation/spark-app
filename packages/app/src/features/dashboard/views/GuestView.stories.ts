@@ -1,6 +1,6 @@
 import { WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
-import { chromatic } from '@storybook/viewports'
+import { chromatic, getMobileStory, getTabletStory } from '@storybook/viewports'
 
 import { GuestView } from './GuestView'
 
@@ -17,11 +17,5 @@ export default meta
 type Story = StoryObj<typeof GuestView>
 
 export const Desktop: Story = {}
-export const Mobile: Story = {
-  parameters: {
-    viewport: {
-      defaultViewport: 'mobile',
-    },
-    chromatic: { viewports: [chromatic.mobile] },
-  },
-}
+export const Mobile = getMobileStory(Desktop)
+export const Tablet = getTabletStory(Desktop)

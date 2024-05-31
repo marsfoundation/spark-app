@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
-import { chromatic } from '@storybook/viewports'
+import { chromatic, getMobileStory, getTabletStory } from '@storybook/viewports'
 import { withRouter } from 'storybook-addon-remix-react-router'
 
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
@@ -36,29 +36,13 @@ export default meta
 type Story = StoryObj<typeof SuccessView>
 
 export const Desktop: Story = {}
-export const Mobile: Story = {
-  parameters: {
-    viewport: {
-      defaultViewport: 'mobile',
-    },
-    chromatic: { viewports: [chromatic.mobile] },
-  },
-}
+export const Mobile = getMobileStory(Desktop)
+export const Tablet = getTabletStory(Desktop)
 
 export const OnlyBorrowed: Story = {
   args: {
     deposited: [],
   },
 }
-
-export const OnlyBorrowedMobile: Story = {
-  args: {
-    deposited: [],
-  },
-  parameters: {
-    viewport: {
-      defaultViewport: 'mobile',
-    },
-    chromatic: { viewports: [chromatic.mobile] },
-  },
-}
+export const OnlyBorrowedMobile = getMobileStory(OnlyBorrowed)
+export const OnlyBorrowedTablet = getTabletStory(OnlyBorrowed)

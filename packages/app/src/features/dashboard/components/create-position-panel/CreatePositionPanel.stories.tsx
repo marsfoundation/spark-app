@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from '@storybook/react'
-import { chromatic } from '@storybook/viewports'
+import { chromatic, getMobileStory, getTabletStory } from '@storybook/viewports'
 import { withRouter } from 'storybook-addon-remix-react-router'
 
 import { CreatePositionPanel } from './CreatePositionPanel'
@@ -14,11 +14,5 @@ export default meta
 type Story = StoryObj<typeof CreatePositionPanel>
 
 export const Desktop: Story = {}
-export const Mobile: Story = {
-  parameters: {
-    viewport: {
-      defaultViewport: 'mobile',
-    },
-    chromatic: { viewports: [chromatic.mobile] },
-  },
-}
+export const Mobile = getMobileStory(Desktop)
+export const Tablet = getTabletStory(Desktop)
