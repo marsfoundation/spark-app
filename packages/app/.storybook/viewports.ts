@@ -14,7 +14,6 @@ export function getMobileStory<T>(story: StoryObj<T>): StoryObj<T> {
       },
       chromatic: {
         viewports: [chromatic.mobile],
-        delay: 300, // Some components use hook for media queries, and chromatic might take a screenshot to early
       },
     },
   }
@@ -29,7 +28,6 @@ export function getTabletStory<T>(story: StoryObj<T>): StoryObj<T> {
       },
       chromatic: {
         viewports: [chromatic.tablet],
-        delay: 300,
       },
     },
   }

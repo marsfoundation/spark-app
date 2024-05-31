@@ -7,6 +7,9 @@ import { Preview } from '@storybook/react'
 
 const preview: Preview = {
   parameters: {
+    chromatic: {
+      delay: 100,
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,
