@@ -45,8 +45,8 @@ function CellContent({ apyDetails, reserveStatus, incentivizedReserve, bold }: C
 
   return (
     <div className="flex items-center justify-end gap-1 lg:gap-1.5">
-      {apyDetails.airdrops.map((airdrop, index) => (
-        <AirdropBadge key={index} value={airdrop.amount} />
+      {apyDetails.airdrops.map((airdroppedToken) => (
+        <AirdropBadge key={airdroppedToken} />
       ))}
       {apyDetails.incentives.map((reward, index) => (
         <RewardBadge

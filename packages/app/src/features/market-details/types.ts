@@ -17,7 +17,7 @@ export interface SupplyReplacementInfo {
 }
 export interface MarketOverview {
   supply?: {
-    airdropEligible: boolean
+    hasSparkAirdrop: boolean
     status: SupplyAvailabilityStatus
     totalSupplied: NormalizedUnitNumber
     supplyCap?: NormalizedUnitNumber
@@ -34,7 +34,7 @@ export interface MarketOverview {
     supplyReplacement?: SupplyReplacementInfo
   }
   borrow: {
-    airdropEligible: boolean
+    hasSparkAirdrop: boolean
     status: BorrowEligibilityStatus
     totalBorrowed: NormalizedUnitNumber
     borrowCap?: NormalizedUnitNumber

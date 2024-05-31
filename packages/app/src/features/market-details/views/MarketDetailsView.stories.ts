@@ -27,7 +27,6 @@ const args: MarketDetailsViewProps = {
   chainName: 'Ethereum Mainnet',
   chainId: 1,
   chainMismatch: false,
-  airdropTokenSymbol: tokens.rETH.symbol,
   walletOverview: {
     guestMode: false,
     token: tokens.rETH,
@@ -43,7 +42,7 @@ const args: MarketDetailsViewProps = {
   },
   marketOverview: {
     supply: {
-      airdropEligible: true,
+      hasSparkAirdrop: true,
       status: 'yes',
       totalSupplied: NormalizedUnitNumber(72_000),
       supplyCap: NormalizedUnitNumber(112_000),
@@ -59,7 +58,7 @@ const args: MarketDetailsViewProps = {
       liquidationPenalty: Percentage(0.05),
     },
     borrow: {
-      airdropEligible: false,
+      hasSparkAirdrop: true,
       status: 'yes',
       totalBorrowed: NormalizedUnitNumber(1244),
       apy: Percentage(0.01),

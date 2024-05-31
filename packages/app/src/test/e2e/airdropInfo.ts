@@ -32,7 +32,7 @@ function getMockResponse(shouldFail?: boolean, noAirdrop?: boolean) {
 const airdropApi = {
   endpoint: 'https://spark-api.blockanalitica.com/api/airdrop/',
   response: {
-    token_reward: '3733867.039334103969968393',
+    token_reward_total: '3733867.039334103969968393',
   },
   emptyResponse: {},
 }

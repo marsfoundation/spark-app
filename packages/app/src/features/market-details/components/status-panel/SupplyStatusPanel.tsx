@@ -2,13 +2,10 @@ import { formatPercentage } from '@/domain/common/format'
 import { SupplyAvailabilityStatus } from '@/domain/market-info/reserve-status'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { DocsLink } from '@/ui/atoms/docs-link/DocsLink'
 import { Panel } from '@/ui/atoms/panel/Panel'
-import { links } from '@/ui/constants/links'
 import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
 
-import { SparkInfoPanel } from '../spark-info-panel/SparkInfoPanel'
+import { SparkAirdropInfoPanel } from '../spark-airdrop-info-panel/SparkAirdropInfoPanel'
 import { EmptyStatusPanel } from './components/EmptyStatusPanel'
 import { Header } from './components/Header'
 import { StatusPanelGrid } from './components/StatusPanelGrid'
@@ -19,12 +16,11 @@ import { StatusIcon } from './components/status-icon/StatusIcon'
 
 interface SupplyStatusPanelProps {
   status: SupplyAvailabilityStatus
-  airdropEligible: boolean
   token: Token
   totalSupplied: NormalizedUnitNumber
   supplyCap?: NormalizedUnitNumber
   apy: Percentage
-  airdropTokenSymbol: TokenSymbol
+  hasSparkAirdrop: boolean
 }
 
 export function SupplyStatusPanel({
@@ -33,8 +29,7 @@ export function SupplyStatusPanel({
   totalSupplied,
   supplyCap,
   apy,
-  airdropEligible,
-  airdropTokenSymbol,
+  hasSparkAirdrop,
 }: SupplyStatusPanelProps) {
   if (status === 'no') {
     return <EmptyStatusPanel status={status} variant="supply" />
@@ -70,20 +65,7 @@ export function SupplyStatusPanel({
             </InfoTile>
           )}
         </InfoTilesGrid>
-        {airdropEligible && (
-          <div className="col-span-3 mt-3 sm:mt-10">
-            <SparkInfoPanel
-              title={<>Eligible for 24M Spark Airdrop</>}
-              content={
-                <>
-                  {airdropTokenSymbol} depositors will be eligible for a future ⚡ SPK airdrop. Please read the details{' '}
-                  <br />
-                  on the <DocsLink to={links.docs.sparkAirdrop}>Spark Docs</DocsLink>.
-                </>
-              }
-            />
-          </div>
-        )}
+        {hasSparkAirdrop && <SparkAirdropInfoPanel variant="deposit" eligibleToken={token.symbol} />}
       </StatusPanelGrid>
     </Panel.Wrapper>
   )

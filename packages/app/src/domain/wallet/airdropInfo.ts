@@ -6,10 +6,10 @@ import { NormalizedUnitNumber } from '../types/NumericValues'
 
 const airdropInfoResponseSchema = z
   .object({
-    token_reward: z.string(),
+    token_reward_total: z.string(),
   })
   .transform((o) => ({
-    tokenReward: NormalizedUnitNumber(o.token_reward),
+    tokenReward: NormalizedUnitNumber(o.token_reward_total),
   }))
   // @note: Api is returning empty object for addresses without airdrop
   .or(z.object({}).transform(() => ({ tokenReward: NormalizedUnitNumber(0) })))

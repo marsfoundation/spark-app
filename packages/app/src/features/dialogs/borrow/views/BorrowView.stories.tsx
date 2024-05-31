@@ -1,7 +1,7 @@
 import { WithClassname, WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
-import { chromatic, getMobileStory, getTabletStory } from '@storybook/viewports'
+import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import BigNumber from 'bignumber.js'
 import { useForm } from 'react-hook-form'
 import { zeroAddress } from 'viem'
