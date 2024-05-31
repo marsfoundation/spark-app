@@ -1,7 +1,7 @@
 import { WithClassname, WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
-import { chromatic } from '@storybook/viewports'
+import { chromatic, getMobileStory, getTabletStory } from '@storybook/viewports'
 import BigNumber from 'bignumber.js'
 import { useForm } from 'react-hook-form'
 
@@ -57,21 +57,5 @@ export default meta
 type Story = StoryObj<typeof RepayView>
 
 export const Desktop: Story = {}
-
-export const Mobile: Story = {
-  parameters: {
-    viewport: {
-      defaultViewport: 'mobile',
-    },
-    chromatic: { viewports: [chromatic.mobile] },
-  },
-}
-
-export const Tablet: Story = {
-  parameters: {
-    viewport: {
-      defaultViewport: 'tablet',
-    },
-    chromatic: { viewports: [chromatic.tablet] },
-  },
-}
+export const Mobile = getMobileStory(Desktop)
+export const Tablet = getTabletStory(Desktop)

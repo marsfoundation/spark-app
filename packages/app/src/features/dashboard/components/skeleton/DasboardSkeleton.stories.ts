@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from '@storybook/react'
-import { chromatic } from '@storybook/viewports'
+import { chromatic, getMobileStory, getTabletStory } from '@storybook/viewports'
 
 import { DashboardSkeleton } from './DashboardSkeleton'
 
@@ -12,12 +12,5 @@ export default meta
 type Story = StoryObj<typeof DashboardSkeleton>
 
 export const Desktop: Story = {}
-
-export const Mobile: Story = {
-  parameters: {
-    viewport: {
-      defaultViewport: 'mobile',
-    },
-    chromatic: { viewports: [chromatic.mobile] },
-  },
-}
+export const Mobile = getMobileStory(Desktop)
+export const Tablet = getTabletStory(Desktop)
