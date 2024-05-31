@@ -13,6 +13,7 @@ const preview: Preview = {
         date: /Date$/,
       },
     },
+    chromatic: { pauseAnimationAtEnd: false },
     viewport: {
       viewports: {
         mobile: {
@@ -25,7 +26,7 @@ const preview: Preview = {
         tablet: {
           name: 'Tablet',
           styles: {
-            width: '767px',
+            width: '760px',
             height: '1024px',
           },
         },
