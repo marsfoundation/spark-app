@@ -3,6 +3,7 @@ import { z } from 'zod'
 
 import { CheckedAddress } from '../types/CheckedAddress'
 import { NormalizedUnitNumber } from '../types/NumericValues'
+import { blockAnaliticaApiUrl } from '@/config/consts'
 
 const airdropInfoResponseSchema = z
   .object({
@@ -16,7 +17,7 @@ const airdropInfoResponseSchema = z
 
 export type AirdropInfoResponse = z.infer<typeof airdropInfoResponseSchema>
 
-const baseUrl = 'https://spark-api.blockanalitica.com/api/airdrop'
+const baseUrl = blockAnaliticaApiUrl + '/airdrop'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function airdropInfo(account?: CheckedAddress) {
