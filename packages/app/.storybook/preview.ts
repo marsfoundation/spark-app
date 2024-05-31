@@ -8,7 +8,8 @@ import { Preview } from '@storybook/react'
 const preview: Preview = {
   parameters: {
     chromatic: {
-      delay: 100,
+      delay: 50,
+      pauseAnimationAtEnd: false,
     },
     controls: {
       matchers: {
