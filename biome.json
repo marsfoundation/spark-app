@@ -28,7 +28,8 @@
     "rules": {
       "recommended": true,
       "correctness": {
-        "useHookAtTopLevel": "error"
+        "useHookAtTopLevel": "error",
+        "noUnusedImports": "error"
       },
       "style": {
         "useImportType": "off",

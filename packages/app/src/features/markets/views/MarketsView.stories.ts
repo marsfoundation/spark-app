@@ -6,6 +6,7 @@ import { withRouter } from 'storybook-addon-remix-react-router'
 
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { MarketsView } from './MarketsView'
 
 const meta: Meta<typeof MarketsView> = {
@@ -36,7 +37,7 @@ export const Desktop: Story = {
         borrowAPYDetails: { apy: Percentage(0.11), incentives: [], airdrops: [] },
         depositAPYDetails: {
           apy: Percentage(0.157),
-          airdrops: [{ id: 'SPK', amount: NormalizedUnitNumber(6_000_000) }],
+          airdrops: [TokenSymbol('SPK')],
           incentives: [{ token: tokens.stETH, APR: Percentage(0.1) }],
         },
         totalBorrowed: NormalizedUnitNumber(0),
@@ -53,7 +54,7 @@ export const Desktop: Story = {
         borrowAPYDetails: {
           apy: Percentage(0.11),
           incentives: [],
-          airdrops: [{ id: 'SPK', amount: NormalizedUnitNumber(24_000_000) }],
+          airdrops: [TokenSymbol('SPK')],
         },
         depositAPYDetails: {
           apy: Percentage(0.157),

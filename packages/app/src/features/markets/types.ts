@@ -1,4 +1,3 @@
-import { AirdropEntry } from '@/config/chain/utils/airdrops'
 import { Incentive } from '@/domain/market-info/incentives'
 import {
   BorrowEligibilityStatus,
@@ -8,6 +7,7 @@ import {
 } from '@/domain/market-info/reserve-status'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 
 export interface MarketStatus {
   supplyAvailabilityStatus: SupplyAvailabilityStatus
@@ -28,5 +28,5 @@ export interface MarketEntry {
 export interface APYDetails {
   apy: Percentage
   incentives: Incentive[]
-  airdrops: AirdropEntry[]
+  airdrops: TokenSymbol[]
 }

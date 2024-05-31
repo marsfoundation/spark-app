@@ -3,8 +3,9 @@ import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { withRouter } from 'storybook-addon-remix-react-router'
 
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
+import { Percentage } from '@/domain/types/NumericValues'
 
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { ApyWithRewardsCell } from './ApyWithRewardsCell'
 
 const meta: Meta<typeof ApyWithRewardsCell> = {
@@ -35,7 +36,7 @@ export const WithAirdrop: Story = {
     apyDetails: {
       apy: Percentage(0.157),
       incentives: [],
-      airdrops: [{ id: 'SPK', amount: NormalizedUnitNumber(24_000_000) }],
+      airdrops: [TokenSymbol('SPK')],
     },
   },
 }
@@ -56,7 +57,7 @@ export const WithAirdropAndRewards: Story = {
   args: {
     apyDetails: {
       apy: Percentage(0.157),
-      airdrops: [{ id: 'SPK', amount: NormalizedUnitNumber(24_000_000) }],
+      airdrops: [TokenSymbol('SPK')],
       incentives: [{ token: tokens.stETH, APR: Percentage(0.1) }],
     },
   },

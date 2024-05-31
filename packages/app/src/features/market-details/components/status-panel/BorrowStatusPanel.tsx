@@ -2,14 +2,11 @@ import { formatPercentage } from '@/domain/common/format'
 import { BorrowEligibilityStatus } from '@/domain/market-info/reserve-status'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { DocsLink } from '@/ui/atoms/docs-link/DocsLink'
 import { Panel } from '@/ui/atoms/panel/Panel'
-import { links } from '@/ui/constants/links'
 import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
 
 import { InterestYieldChart, InterestYieldChartProps } from '../charts/interest-yield/InterestYieldChart'
-import { SparkInfoPanel } from '../spark-info-panel/SparkInfoPanel'
+import { SparkAirdropInfoPanel } from '../spark-airdrop-info-panel/SparkAirdropInfoPanel'
 import { EmptyStatusPanel } from './components/EmptyStatusPanel'
 import { Header } from './components/Header'
 import { StatusPanelGrid } from './components/StatusPanelGrid'
@@ -21,15 +18,14 @@ import { TokenBadge } from './components/token-badge/TokenBadge'
 
 interface BorrowStatusPanelProps {
   status: BorrowEligibilityStatus
-  airdropEligible: boolean
   token: Token
   totalBorrowed: NormalizedUnitNumber
   borrowCap?: NormalizedUnitNumber
   reserveFactor: Percentage
   apy: Percentage
   chartProps: InterestYieldChartProps
-  airdropTokenSymbol: TokenSymbol
   showTokenBadge?: boolean
+  hasSparkAirdrop: boolean
 }
 
 export function BorrowStatusPanel({
@@ -40,9 +36,8 @@ export function BorrowStatusPanel({
   reserveFactor,
   apy,
   chartProps,
-  airdropTokenSymbol,
-  airdropEligible,
   showTokenBadge = false,
+  hasSparkAirdrop,
 }: BorrowStatusPanelProps) {
   if (status === 'no') {
     return <EmptyStatusPanel status={status} variant="borrow" />
@@ -86,20 +81,7 @@ export function BorrowStatusPanel({
         <div className="col-span-3 mt-6 sm:mt-10">
           <InterestYieldChart {...chartProps} />
         </div>
-        {airdropEligible && (
-          <div className="col-span-3 mt-6 sm:mt-10">
-            <SparkInfoPanel
-              title={<>Eligible for 24M Spark Airdrop</>}
-              content={
-                <div>
-                  {airdropTokenSymbol} borrowers will be eligible for a future ⚡ SPK airdrop. Please read the details{' '}
-                  <br />
-                  on the <DocsLink to={links.docs.sparkAirdrop}>Spark Docs</DocsLink>.
-                </div>
-              }
-            />
-          </div>
-        )}
+        {hasSparkAirdrop && <SparkAirdropInfoPanel variant="borrow" eligibleToken={token.symbol} />}
       </StatusPanelGrid>
     </Panel.Wrapper>
   )

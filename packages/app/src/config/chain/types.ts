@@ -32,7 +32,12 @@ export interface TokenToAirdropAmounts {
     borrow?: NormalizedUnitNumber
   }
 }
-export type Airdrop = Record<TokenSymbol, TokenToAirdropAmounts>
+
+export interface AirdropsPerAction {
+  deposit: TokenSymbol[]
+  borrow: TokenSymbol[]
+}
+export type Airdrop = Record<TokenSymbol, AirdropsPerAction>
 
 // routes are always bidirectional
 export type LifiWaivedRoutes = [TokenSymbol, TokenSymbol][]

@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from '@storybook/react'
-import { chromatic, getMobileStory, getTabletStory } from '@storybook/viewports'
+import { getMobileStory, getTabletStory } from '@storybook/viewports'
 
 import { DialogContentSkeleton } from './DialogContentSkeleton'
 
