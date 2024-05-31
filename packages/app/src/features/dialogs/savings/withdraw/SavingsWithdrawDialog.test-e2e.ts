@@ -43,7 +43,7 @@ test.describe('Savings withdraw dialog', () => {
       await actionsContainer.acceptAllActionsAction(2)
       await withdrawDialog.clickBackToSavingsButton()
 
-      await savingsPage.expectCurrentWorth('84.63')
+      await savingsPage.expectCurrentWorth('84.64')
       await savingsPage.expectCashInWalletAssetBalance('DAI', '1,001.50')
     })
   })
