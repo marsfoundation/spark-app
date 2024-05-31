@@ -68,14 +68,6 @@ export async function waitForButtonEnabled(page: Page, name: string): Promise<vo
   }, name)
 }
 
-export async function generateAccount(): Promise<{ address: `0x${string}`; privateKey: `0x${string}` }> {
-  const privateKey = generatePrivateKey()
-  return {
-    address: privateKeyToAccount(privateKey).address,
-    privateKey,
-  }
-}
-
 export async function getTimestampFromBlockNumber(blockNumber: bigint, forkUrl: string): Promise<number> {
   const client = createPublicClient({
     transport: http(forkUrl, {

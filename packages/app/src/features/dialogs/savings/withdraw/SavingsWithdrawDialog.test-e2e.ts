@@ -1,11 +1,9 @@
 import { test } from '@playwright/test'
 import { gnosis, mainnet } from 'viem/chains'
 
-import { LIFI_DEFAULT_FEE_INTEGRATOR_KEY, LIFI_WAIVED_FEE_INTEGRATOR_KEY } from '@/domain/exchanges/evaluateSwap'
-import { defaultExchangeMaxSlippage } from '@/domain/state/actions-settings'
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { overrideLiFiRoute } from '@/test/e2e/lifi'
+import { overrideLiFiRouteWithHAR } from '@/test/e2e/lifi'
 import { setup } from '@/test/e2e/setup'
 import { setupFork } from '@/test/e2e/setupFork'
 
@@ -14,11 +12,11 @@ import { SavingsWithdrawDialogPageObject } from './SavingsWithdrawDialog.PageObj
 test.describe('Savings withdraw dialog', () => {
   test.describe('DAI', () => {
     // Block number has to be as close as possible to the block number when query was executed
-    const blockNumber = 19532848n
+    const blockNumber = 19990800n
     const fork = setupFork({ blockNumber, chainId: mainnet.id })
 
     test('unwraps sDAI to DAI', async ({ page }) => {
-      const { account } = await setup(page, fork, {
+      await setup(page, fork, {
         initialPage: 'savings',
         account: {
           type: 'connected',
@@ -28,14 +26,10 @@ test.describe('Savings withdraw dialog', () => {
           },
         },
       })
-      await overrideLiFiRoute(page, {
-        receiver: account,
-        preset: 'sdai-to-100-dai',
-        expectedBlockNumber: blockNumber,
-        expectedParams: {
-          slippage: defaultExchangeMaxSlippage,
-          integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
-        },
+      await overrideLiFiRouteWithHAR({
+        page,
+        key: 'sdai-to-1000-dai',
+        update: false,
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -43,80 +37,72 @@ test.describe('Savings withdraw dialog', () => {
       await savingsPage.clickWithdrawButtonAction()
 
       const withdrawDialog = new SavingsWithdrawDialogPageObject(page)
-      await withdrawDialog.fillAmountAction(100)
+      await withdrawDialog.fillAmountAction(1000)
 
       const actionsContainer = new ActionsPageObject(withdrawDialog.locatePanelByHeader('Actions'))
       await actionsContainer.acceptAllActionsAction(2)
       await withdrawDialog.clickBackToSavingsButton()
 
-      await savingsPage.expectCurrentWorth('991.352')
-      await savingsPage.expectCashInWalletAssetBalance('DAI', '100.55')
+      await savingsPage.expectCurrentWorth('84.63')
+      await savingsPage.expectCashInWalletAssetBalance('DAI', '1,001.50')
     })
+  })
 
-    test.describe('on fork', () => {
-      const blockNumber = 19609252n
-      const fork = setupFork({ blockNumber, chainId: mainnet.id })
+  test.describe('Max DAI', () => {
+    const blockNumber = 19990836n
+    const fork = setupFork({ blockNumber, chainId: mainnet.id })
 
-      test('unwraps ALL sDAI to DAI', async ({ page }) => {
-        const { account } = await setup(page, fork, {
-          initialPage: 'savings',
-          account: {
-            type: 'connected',
-            assetBalances: {
-              ETH: 1,
-              sDAI: 100,
-            },
+    test('unwraps all sDAI to DAI', async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'savings',
+        account: {
+          type: 'connected',
+          assetBalances: {
+            ETH: 1,
+            sDAI: 1000,
           },
-        })
-        await overrideLiFiRoute(page, {
-          receiver: account,
-          preset: '100-sdai-to-dai',
-          expectedBlockNumber: blockNumber,
-          expectedParams: {
-            slippage: defaultExchangeMaxSlippage,
-            integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
-          },
-        })
-
-        const savingsPage = new SavingsPageObject(page)
-
-        await savingsPage.clickWithdrawButtonAction()
-
-        const withdrawDialog = new SavingsWithdrawDialogPageObject(page)
-        await withdrawDialog.clickMaxAmountAction()
-
-        const actionsContainer = new ActionsPageObject(withdrawDialog.locatePanelByHeader('Actions'))
-        await actionsContainer.acceptAllActionsAction(2)
-        await withdrawDialog.clickBackToSavingsButton()
-
-        await savingsPage.expectCashInWalletAssetBalance('DAI', '106.94')
+        },
       })
+      await overrideLiFiRouteWithHAR({
+        page,
+        key: '1000-sdai-to-dai',
+        update: false,
+      })
+
+      const savingsPage = new SavingsPageObject(page)
+
+      await savingsPage.clickWithdrawButtonAction()
+
+      const withdrawDialog = new SavingsWithdrawDialogPageObject(page)
+      await withdrawDialog.clickMaxAmountAction()
+
+      const actionsContainer = new ActionsPageObject(withdrawDialog.locatePanelByHeader('Actions'))
+      await actionsContainer.acceptAllActionsAction(2)
+      await withdrawDialog.clickBackToSavingsButton()
+
+      await savingsPage.expectCashInWalletAssetBalance('DAI', '1,086.07')
     })
   })
 
   test.describe('xDAI', () => {
-    const blockNumber = 33976095n
+    const blockNumber = 34227971n
     const fork = setupFork({ blockNumber, chainId: gnosis.id })
 
     test('unwraps sDAI to xDAI', async ({ page }) => {
-      const { account } = await setup(page, fork, {
+      await setup(page, fork, {
         initialPage: 'savings',
         account: {
           type: 'connected',
           assetBalances: {
             XDAI: 100,
-            sDAI: 1000,
+            sDAI: 2000,
           },
         },
       })
-      await overrideLiFiRoute(page, {
-        receiver: account,
-        preset: 'sdai-to-100-xdai',
-        expectedBlockNumber: blockNumber,
-        expectedParams: {
-          slippage: defaultExchangeMaxSlippage,
-          integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
-        },
+      await overrideLiFiRouteWithHAR({
+        page,
+        key: 'sdai-to-1000-xdai',
+        update: false,
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -124,23 +110,23 @@ test.describe('Savings withdraw dialog', () => {
       await savingsPage.clickWithdrawButtonAction()
 
       const withdrawDialog = new SavingsWithdrawDialogPageObject(page)
-      await withdrawDialog.fillAmountAction(100)
+      await withdrawDialog.fillAmountAction(1000)
 
       const actionsContainer = new ActionsPageObject(withdrawDialog.locatePanelByHeader('Actions'))
       await actionsContainer.acceptAllActionsAction(2)
       await withdrawDialog.clickBackToSavingsButton()
 
-      await savingsPage.expectCurrentWorth('977.124814')
-      await savingsPage.expectCashInWalletAssetBalance('XDAI', '200.15')
+      await savingsPage.expectCurrentWorth('1,163.09')
+      await savingsPage.expectCashInWalletAssetBalance('XDAI', '1,101.50')
     })
   })
 
   test.describe('USDC', () => {
-    const blockNumber = 19532848n
+    const blockNumber = 19990874n
     const fork = setupFork({ blockNumber, chainId: mainnet.id })
 
     test('unwraps sDAI to USDC', async ({ page }) => {
-      const { account } = await setup(page, fork, {
+      await setup(page, fork, {
         initialPage: 'savings',
         account: {
           type: 'connected',
@@ -150,14 +136,10 @@ test.describe('Savings withdraw dialog', () => {
           },
         },
       })
-      await overrideLiFiRoute(page, {
-        receiver: account,
-        preset: 'sdai-to-100-usdc',
-        expectedBlockNumber: blockNumber,
-        expectedParams: {
-          slippage: defaultExchangeMaxSlippage,
-          integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
-        },
+      await overrideLiFiRouteWithHAR({
+        page,
+        key: 'sdai-to-1000-usdc',
+        update: false,
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -166,64 +148,60 @@ test.describe('Savings withdraw dialog', () => {
 
       const withdrawDialog = new SavingsWithdrawDialogPageObject(page)
       await withdrawDialog.selectAssetAction('USDC')
-      await withdrawDialog.fillAmountAction(100)
+      await withdrawDialog.fillAmountAction(1000)
 
       const actionsContainer = new ActionsPageObject(withdrawDialog.locatePanelByHeader('Actions'))
       await actionsContainer.acceptAllActionsAction(2)
       await withdrawDialog.clickBackToSavingsButton()
 
-      await savingsPage.expectCurrentWorth('991.375')
-      await savingsPage.expectCashInWalletAssetBalance('USDC', '100.54')
+      await savingsPage.expectCurrentWorth('83.04')
+      await savingsPage.expectCashInWalletAssetBalance('USDC', '1,002.30')
     })
+  })
 
-    test.describe('on fork', () => {
-      const blockNumber = 19609941n
-      const fork = setupFork({ blockNumber, chainId: mainnet.id })
+  test.describe('Max USDC', () => {
+    const blockNumber = 19990888n
+    const fork = setupFork({ blockNumber, chainId: mainnet.id })
 
-      test('unwraps ALL sDAI to USDC', async ({ page }) => {
-        const { account } = await setup(page, fork, {
-          initialPage: 'savings',
-          account: {
-            type: 'connected',
-            assetBalances: {
-              ETH: 1,
-              sDAI: 100,
-            },
+    test('unwraps all sDAI to USDC', async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'savings',
+        account: {
+          type: 'connected',
+          assetBalances: {
+            ETH: 1,
+            sDAI: 1000,
           },
-        })
-        await overrideLiFiRoute(page, {
-          receiver: account,
-          preset: '100-sdai-to-usdc',
-          expectedBlockNumber: blockNumber,
-          expectedParams: {
-            slippage: defaultExchangeMaxSlippage,
-            integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
-          },
-        })
-
-        const savingsPage = new SavingsPageObject(page)
-
-        await savingsPage.clickWithdrawButtonAction()
-
-        const withdrawDialog = new SavingsWithdrawDialogPageObject(page)
-        await withdrawDialog.selectAssetAction('USDC')
-        await withdrawDialog.clickMaxAmountAction()
-
-        const actionsContainer = new ActionsPageObject(withdrawDialog.locatePanelByHeader('Actions'))
-        await actionsContainer.acceptAllActionsAction(2)
-        await withdrawDialog.clickBackToSavingsButton()
-
-        await savingsPage.expectCashInWalletAssetBalance('USDC', '107.35')
+        },
       })
+      await overrideLiFiRouteWithHAR({
+        page,
+        key: '1000-sdai-to-usdc',
+        update: false,
+      })
+
+      const savingsPage = new SavingsPageObject(page)
+
+      await savingsPage.clickWithdrawButtonAction()
+
+      const withdrawDialog = new SavingsWithdrawDialogPageObject(page)
+      await withdrawDialog.selectAssetAction('USDC')
+      await withdrawDialog.clickMaxAmountAction()
+
+      const actionsContainer = new ActionsPageObject(withdrawDialog.locatePanelByHeader('Actions'))
+      await actionsContainer.acceptAllActionsAction(2)
+      await withdrawDialog.clickBackToSavingsButton()
+
+      await savingsPage.expectCashInWalletAssetBalance('USDC', '1,085.21')
     })
   })
 
   test.describe('USDC on Gnosis', () => {
-    const blockNumber = 33988883n
+    const blockNumber = 34228121n
     const fork = setupFork({ blockNumber, chainId: gnosis.id })
 
     test('unwraps sDAI to USDC', async ({ page }) => {
-      const { account } = await setup(page, fork, {
+      await setup(page, fork, {
         initialPage: 'savings',
         account: {
           type: 'connected',
@@ -233,14 +211,10 @@ test.describe('Savings withdraw dialog', () => {
           },
         },
       })
-      await overrideLiFiRoute(page, {
-        receiver: account,
-        preset: 'sdai-to-100-usdc-on-gnosis',
-        expectedBlockNumber: blockNumber,
-        expectedParams: {
-          slippage: defaultExchangeMaxSlippage,
-          integrator: LIFI_DEFAULT_FEE_INTEGRATOR_KEY,
-        },
+      await overrideLiFiRouteWithHAR({
+        page,
+        key: 'sdai-to-1000-gnosis-usdc',
+        update: false,
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -249,23 +223,23 @@ test.describe('Savings withdraw dialog', () => {
 
       const withdrawDialog = new SavingsWithdrawDialogPageObject(page)
       await withdrawDialog.selectAssetAction('USDC')
-      await withdrawDialog.fillAmountAction(100)
+      await withdrawDialog.fillAmountAction(1000)
 
       const actionsContainer = new ActionsPageObject(withdrawDialog.locatePanelByHeader('Actions'))
       await actionsContainer.acceptAllActionsAction(2)
       await withdrawDialog.clickBackToSavingsButton()
 
-      await savingsPage.expectCurrentWorth('977.402830')
-      await savingsPage.expectCashInWalletAssetBalance('USDC', '100.15')
+      await savingsPage.expectCurrentWorth('78.20')
+      await savingsPage.expectCashInWalletAssetBalance('USDC', '1,001.56')
     })
   })
 
   test.describe('Risk warning', () => {
-    const blockNumber = 19862032n
+    const blockNumber = 19990930n
     const fork = setupFork({ blockNumber, chainId: mainnet.id })
 
     test('displays warning when discrepancy is bigger than 100 DAI', async ({ page }) => {
-      const { account } = await setup(page, fork, {
+      await setup(page, fork, {
         initialPage: 'savings',
         account: {
           type: 'connected',
@@ -276,14 +250,10 @@ test.describe('Savings withdraw dialog', () => {
         },
       })
 
-      await overrideLiFiRoute(page, {
-        receiver: account,
-        preset: 'sdai-to-10000-dai',
-        expectedBlockNumber: blockNumber,
-        expectedParams: {
-          slippage: defaultExchangeMaxSlippage,
-          integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
-        },
+      await overrideLiFiRouteWithHAR({
+        page,
+        key: '10277.276260680656857010-sdai-to-10000-dai',
+        update: false,
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -293,11 +263,11 @@ test.describe('Savings withdraw dialog', () => {
       const depositDialog = new SavingsWithdrawDialogPageObject(page)
       await depositDialog.fillAmountAction(10000)
 
-      await depositDialog.expectDiscrepancyWarning('1,175.07 DAI')
+      await depositDialog.expectDiscrepancyWarning('1,165.75 DAI')
     })
 
     test('actions stay disabled until risk is acknowledged', async ({ page }) => {
-      const { account } = await setup(page, fork, {
+      await setup(page, fork, {
         initialPage: 'savings',
         account: {
           type: 'connected',
@@ -308,14 +278,10 @@ test.describe('Savings withdraw dialog', () => {
         },
       })
 
-      await overrideLiFiRoute(page, {
-        receiver: account,
-        preset: 'sdai-to-10000-dai',
-        expectedBlockNumber: blockNumber,
-        expectedParams: {
-          slippage: defaultExchangeMaxSlippage,
-          integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
-        },
+      await overrideLiFiRouteWithHAR({
+        page,
+        key: '10277.276260680656857010-sdai-to-10000-dai',
+        update: false,
       })
 
       const savingsPage = new SavingsPageObject(page)

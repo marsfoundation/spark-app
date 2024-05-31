@@ -1,12 +1,9 @@
 import { test } from '@playwright/test'
 import { gnosis, mainnet } from 'viem/chains'
 
-import { LIFI_DEFAULT_FEE_INTEGRATOR_KEY, LIFI_WAIVED_FEE_INTEGRATOR_KEY } from '@/domain/exchanges/evaluateSwap'
-import { defaultExchangeMaxSlippage } from '@/domain/state/actions-settings'
-import { Percentage } from '@/domain/types/NumericValues'
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { overrideLiFiRoute } from '@/test/e2e/lifi'
+import { overrideLiFiRouteWithHAR } from '@/test/e2e/lifi'
 import { setup } from '@/test/e2e/setup'
 import { setupFork } from '@/test/e2e/setupFork'
 
@@ -18,11 +15,11 @@ test.describe('Savings deposit dialog', () => {
   // For now tests use different forks.
   test.describe('DAI', () => {
     // Block number has to be as close as possible to the block number when query was executed
-    const blockNumber = 19519583n
+    const blockNumber = 19990683n
     const fork = setupFork({ blockNumber, chainId: mainnet.id })
 
     test('wraps DAI', async ({ page }) => {
-      const { account } = await setup(page, fork, {
+      await setup(page, fork, {
         initialPage: 'savings',
         account: {
           type: 'connected',
@@ -32,14 +29,10 @@ test.describe('Savings deposit dialog', () => {
           },
         },
       })
-      await overrideLiFiRoute(page, {
-        receiver: account,
-        preset: '100-dai-to-sdai',
-        expectedBlockNumber: blockNumber,
-        expectedParams: {
-          slippage: defaultExchangeMaxSlippage,
-          integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
-        },
+      await overrideLiFiRouteWithHAR({
+        page,
+        key: '100-dai-to-sdai',
+        update: false,
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -53,17 +46,17 @@ test.describe('Savings deposit dialog', () => {
       await actionsContainer.acceptAllActionsAction(2)
       await depositDialog.clickBackToSavingsButton()
 
-      await savingsPage.expectCurrentWorth('105.3742')
+      await savingsPage.expectCurrentWorth('99.96')
     })
   })
 
   test.describe('xDAI', () => {
     // Block number has to be as close as possible to the block number when query was executed
-    const blockNumber = 33975724n
+    const blockNumber = 34227645n
     const fork = setupFork({ blockNumber, chainId: gnosis.id })
 
     test('wraps xDAI', async ({ page }) => {
-      const { account } = await setup(page, fork, {
+      await setup(page, fork, {
         initialPage: 'savings',
         account: {
           type: 'connected',
@@ -72,14 +65,10 @@ test.describe('Savings deposit dialog', () => {
           },
         },
       })
-      await overrideLiFiRoute(page, {
-        receiver: account,
-        preset: '100-xdai-to-sdai',
-        expectedBlockNumber: blockNumber,
-        expectedParams: {
-          integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
-          slippage: defaultExchangeMaxSlippage,
-        },
+      await overrideLiFiRouteWithHAR({
+        page,
+        key: '1000-xdai-to-sdai',
+        update: false,
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -93,16 +82,16 @@ test.describe('Savings deposit dialog', () => {
       await actionsContainer.acceptAllActionsAction(1)
       await depositDialog.clickBackToSavingsButton()
 
-      await savingsPage.expectCurrentWorth('99.800000')
+      await savingsPage.expectCurrentWorth('99.00')
     })
   })
 
   test.describe('USDC', () => {
-    const blockNumber = 19519583n
+    const blockNumber = 19990683n
     const fork = setupFork({ blockNumber, chainId: mainnet.id })
 
     test('wraps USDC', async ({ page }) => {
-      const { account } = await setup(page, fork, {
+      await setup(page, fork, {
         initialPage: 'savings',
         account: {
           type: 'connected',
@@ -112,14 +101,10 @@ test.describe('Savings deposit dialog', () => {
           },
         },
       })
-      await overrideLiFiRoute(page, {
-        receiver: account,
-        preset: '100-usdc-to-sdai',
-        expectedBlockNumber: blockNumber,
-        expectedParams: {
-          slippage: defaultExchangeMaxSlippage,
-          integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
-        },
+      await overrideLiFiRouteWithHAR({
+        page,
+        key: '100-usdc-to-sdai',
+        update: false,
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -133,17 +118,17 @@ test.describe('Savings deposit dialog', () => {
       await actionsContainer.acceptAllActionsAction(2)
       await depositDialog.clickBackToSavingsButton()
 
-      await savingsPage.expectCurrentWorth('105.3563')
+      await savingsPage.expectCurrentWorth('99.85')
     })
   })
 
   test.describe('USDC on Gnosis', () => {
     // Block number has to be as close as possible to the block number when query was executed
-    const blockNumber = 33975851n
+    const blockNumber = 34227645n
     const fork = setupFork({ blockNumber, chainId: gnosis.id })
 
     test('wraps USDC', async ({ page }) => {
-      const { account } = await setup(page, fork, {
+      await setup(page, fork, {
         initialPage: 'savings',
         account: {
           type: 'connected',
@@ -153,14 +138,10 @@ test.describe('Savings deposit dialog', () => {
           },
         },
       })
-      await overrideLiFiRoute(page, {
-        receiver: account,
-        preset: '100-usdc-to-sdai-on-gnosis',
-        expectedBlockNumber: blockNumber,
-        expectedParams: {
-          slippage: defaultExchangeMaxSlippage,
-          integrator: LIFI_DEFAULT_FEE_INTEGRATOR_KEY,
-        },
+      await overrideLiFiRouteWithHAR({
+        page,
+        key: '100-gnosis-usdc-to-sdai',
+        update: false,
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -174,7 +155,7 @@ test.describe('Savings deposit dialog', () => {
       await actionsContainer.acceptAllActionsAction(2)
       await depositDialog.clickBackToSavingsButton()
 
-      await savingsPage.expectCurrentWorth('99.773941')
+      await savingsPage.expectCurrentWorth('99.83')
     })
   })
 
@@ -183,7 +164,7 @@ test.describe('Savings deposit dialog', () => {
     const fork = setupFork({ blockNumber, chainId: mainnet.id })
 
     test('default', async ({ page }) => {
-      const { account } = await setup(page, fork, {
+      await setup(page, fork, {
         initialPage: 'savings',
         account: {
           type: 'connected',
@@ -195,14 +176,10 @@ test.describe('Savings deposit dialog', () => {
       })
       const expectedDefaultSlippage = 0.001
 
-      await overrideLiFiRoute(page, {
-        receiver: account,
-        preset: '100-usdc-to-sdai',
-        expectedBlockNumber: blockNumber,
-        expectedParams: {
-          slippage: Percentage(expectedDefaultSlippage),
-          integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
-        },
+      await overrideLiFiRouteWithHAR({
+        page,
+        key: '100-usdc-to-sdai-slippage-0.001',
+        update: false,
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -219,7 +196,7 @@ test.describe('Savings deposit dialog', () => {
     })
 
     test('changes using button', async ({ page }) => {
-      const { account } = await setup(page, fork, {
+      await setup(page, fork, {
         initialPage: 'savings',
         account: {
           type: 'connected',
@@ -231,14 +208,10 @@ test.describe('Savings deposit dialog', () => {
       })
       const newSlippage = 0.005
 
-      await overrideLiFiRoute(page, {
-        receiver: account,
-        preset: '100-usdc-to-sdai',
-        expectedBlockNumber: blockNumber,
-        expectedParams: {
-          slippage: Percentage(newSlippage),
-          integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
-        },
+      await overrideLiFiRouteWithHAR({
+        page,
+        key: '100-usdc-to-sdai-slippage-0.005',
+        update: false,
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -255,7 +228,7 @@ test.describe('Savings deposit dialog', () => {
     })
 
     test('changes using custom input', async ({ page }) => {
-      const { account } = await setup(page, fork, {
+      await setup(page, fork, {
         initialPage: 'savings',
         account: {
           type: 'connected',
@@ -267,14 +240,10 @@ test.describe('Savings deposit dialog', () => {
       })
       const newSlippage = 0.007
 
-      await overrideLiFiRoute(page, {
-        receiver: account,
-        preset: '100-usdc-to-sdai',
-        expectedBlockNumber: blockNumber,
-        expectedParams: {
-          slippage: Percentage(newSlippage),
-          integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
-        },
+      await overrideLiFiRouteWithHAR({
+        page,
+        key: '100-usdc-to-sdai-slippage-0.007',
+        update: false,
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -292,7 +261,7 @@ test.describe('Savings deposit dialog', () => {
 
     test.describe('Validation', () => {
       test('reverts to default if value is bigger than max', async ({ page }) => {
-        const { account } = await setup(page, fork, {
+        await setup(page, fork, {
           initialPage: 'savings',
           account: {
             type: 'connected',
@@ -305,14 +274,10 @@ test.describe('Savings deposit dialog', () => {
         const newSlippage = 0.5
         const expectedDefaultSlippage = 0.001
 
-        await overrideLiFiRoute(page, {
-          receiver: account,
-          preset: '100-usdc-to-sdai',
-          expectedBlockNumber: blockNumber,
-          expectedParams: {
-            slippage: Percentage(expectedDefaultSlippage),
-            integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
-          },
+        await overrideLiFiRouteWithHAR({
+          page,
+          key: '100-usdc-to-sdai-slippage-0.001',
+          update: false,
         })
 
         const savingsPage = new SavingsPageObject(page)
@@ -335,7 +300,7 @@ test.describe('Savings deposit dialog', () => {
       })
 
       test('reverts to default if value is 0', async ({ page }) => {
-        const { account } = await setup(page, fork, {
+        await setup(page, fork, {
           initialPage: 'savings',
           account: {
             type: 'connected',
@@ -348,14 +313,10 @@ test.describe('Savings deposit dialog', () => {
         const newSlippage = 0
         const expectedDefaultSlippage = 0.001
 
-        await overrideLiFiRoute(page, {
-          receiver: account,
-          preset: '100-usdc-to-sdai',
-          expectedBlockNumber: blockNumber,
-          expectedParams: {
-            slippage: Percentage(expectedDefaultSlippage),
-            integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
-          },
+        await overrideLiFiRouteWithHAR({
+          page,
+          key: '100-usdc-to-sdai-slippage-0.001',
+          update: false,
         })
 
         const savingsPage = new SavingsPageObject(page)
@@ -390,14 +351,10 @@ test.describe('Savings deposit dialog', () => {
         })
         const expectedDefaultSlippage = 0.001
 
-        await overrideLiFiRoute(page, {
-          receiver: account,
-          preset: '100-usdc-to-sdai',
-          expectedBlockNumber: blockNumber,
-          expectedParams: {
-            slippage: Percentage(expectedDefaultSlippage),
-            integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
-          },
+        await overrideLiFiRouteWithHAR({
+          page,
+          key: '100-usdc-to-sdai-slippage-0.001',
+          update: false,
         })
 
         const savingsPage = new SavingsPageObject(page)
@@ -428,7 +385,7 @@ test.describe('Savings deposit dialog', () => {
     const fork = setupFork({ blockNumber, chainId: mainnet.id })
 
     test('displays warning when discrepancy is bigger than 100 DAI', async ({ page }) => {
-      const { account } = await setup(page, fork, {
+      await setup(page, fork, {
         initialPage: 'savings',
         account: {
           type: 'connected',
@@ -439,14 +396,10 @@ test.describe('Savings deposit dialog', () => {
         },
       })
 
-      await overrideLiFiRoute(page, {
-        receiver: account,
-        preset: '10000-dai-to-sdai',
-        expectedBlockNumber: blockNumber,
-        expectedParams: {
-          slippage: defaultExchangeMaxSlippage,
-          integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
-        },
+      await overrideLiFiRouteWithHAR({
+        page,
+        key: '10000-dai-to-8320.604955114542838902-sdai',
+        update: false,
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -460,7 +413,7 @@ test.describe('Savings deposit dialog', () => {
     })
 
     test('actions stay disabled until risk is acknowledged', async ({ page }) => {
-      const { account } = await setup(page, fork, {
+      await setup(page, fork, {
         initialPage: 'savings',
         account: {
           type: 'connected',
@@ -471,14 +424,10 @@ test.describe('Savings deposit dialog', () => {
         },
       })
 
-      await overrideLiFiRoute(page, {
-        receiver: account,
-        preset: '10000-dai-to-sdai',
-        expectedBlockNumber: blockNumber,
-        expectedParams: {
-          slippage: defaultExchangeMaxSlippage,
-          integrator: LIFI_WAIVED_FEE_INTEGRATOR_KEY,
-        },
+      await overrideLiFiRouteWithHAR({
+        page,
+        key: '10000-dai-to-8320.604955114542838902-sdai',
+        update: false,
       })
 
       const savingsPage = new SavingsPageObject(page)
