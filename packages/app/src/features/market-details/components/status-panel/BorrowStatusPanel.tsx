@@ -2,7 +2,6 @@ import { formatPercentage } from '@/domain/common/format'
 import { BorrowEligibilityStatus } from '@/domain/market-info/reserve-status'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
 
@@ -27,7 +26,6 @@ interface BorrowStatusPanelProps {
   chartProps: InterestYieldChartProps
   showTokenBadge?: boolean
   hasSparkAirdrop: boolean
-  airdropEligibleToken: TokenSymbol
 }
 
 export function BorrowStatusPanel({
@@ -40,7 +38,6 @@ export function BorrowStatusPanel({
   chartProps,
   showTokenBadge = false,
   hasSparkAirdrop,
-  airdropEligibleToken,
 }: BorrowStatusPanelProps) {
   if (status === 'no') {
     return <EmptyStatusPanel status={status} variant="borrow" />
@@ -84,7 +81,7 @@ export function BorrowStatusPanel({
         <div className="col-span-3 mt-6 sm:mt-10">
           <InterestYieldChart {...chartProps} />
         </div>
-        {hasSparkAirdrop && <SparkAirdropInfoPanel variant="borrow" eligibleToken={airdropEligibleToken} />}
+        {hasSparkAirdrop && <SparkAirdropInfoPanel variant="borrow" eligibleToken={token.symbol} />}
       </StatusPanelGrid>
     </Panel.Wrapper>
   )

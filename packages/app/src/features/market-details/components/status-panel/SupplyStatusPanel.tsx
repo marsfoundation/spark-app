@@ -2,7 +2,6 @@ import { formatPercentage } from '@/domain/common/format'
 import { SupplyAvailabilityStatus } from '@/domain/market-info/reserve-status'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
 
@@ -22,7 +21,6 @@ interface SupplyStatusPanelProps {
   supplyCap?: NormalizedUnitNumber
   apy: Percentage
   hasSparkAirdrop: boolean
-  airdropEligibleToken: TokenSymbol
 }
 
 export function SupplyStatusPanel({
@@ -32,7 +30,6 @@ export function SupplyStatusPanel({
   supplyCap,
   apy,
   hasSparkAirdrop,
-  airdropEligibleToken,
 }: SupplyStatusPanelProps) {
   if (status === 'no') {
     return <EmptyStatusPanel status={status} variant="supply" />
@@ -68,7 +65,7 @@ export function SupplyStatusPanel({
             </InfoTile>
           )}
         </InfoTilesGrid>
-        {hasSparkAirdrop && <SparkAirdropInfoPanel variant="deposit" eligibleToken={airdropEligibleToken} />}
+        {hasSparkAirdrop && <SparkAirdropInfoPanel variant="deposit" eligibleToken={token.symbol} />}
       </StatusPanelGrid>
     </Panel.Wrapper>
   )

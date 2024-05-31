@@ -1,5 +1,4 @@
 import { MarketInfo, Reserve } from '@/domain/market-info/marketInfo'
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
 
 import { MarketOverview } from '../types'
 import { getReserveEModeCategoryTokens } from './getReserveEModeCategoryTokens'
@@ -8,19 +7,14 @@ import { getSparkAirdropDetails } from './getSparkAirdropDetails'
 export interface MakeMarketOverviewParams {
   marketInfo: MarketInfo
   reserve: Reserve
-  airdropEligibleToken: TokenSymbol
 }
 
-export function makeMarketOverview({
-  reserve,
-  marketInfo,
-  airdropEligibleToken,
-}: MakeMarketOverviewParams): MarketOverview {
+export function makeMarketOverview({ reserve, marketInfo }: MakeMarketOverviewParams): MarketOverview {
   const eModeCategoryId = reserve.eModeCategory?.id
   const eModeCategoryTokens = getReserveEModeCategoryTokens(marketInfo, reserve)
   const { hasAirdropForBorrowing, hasAirdropForSupplying } = getSparkAirdropDetails({
     marketInfo,
-    airdropEligibleToken,
+    token: reserve.token.symbol,
   })
 
   return {

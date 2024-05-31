@@ -4,7 +4,7 @@ import { TokenSymbol } from '@/domain/types/TokenSymbol'
 
 export interface getSparkAirdropDetailsParams {
   marketInfo: MarketInfo
-  airdropEligibleToken: TokenSymbol
+  token: TokenSymbol
 }
 
 export interface SparkAirdropDetails {
@@ -12,17 +12,14 @@ export interface SparkAirdropDetails {
   hasAirdropForBorrowing: boolean
 }
 
-export function getSparkAirdropDetails({
-  marketInfo,
-  airdropEligibleToken,
-}: getSparkAirdropDetailsParams): SparkAirdropDetails {
-  const airdropData = getAirdropsData(marketInfo.chainId, airdropEligibleToken)
+export function getSparkAirdropDetails({ marketInfo, token }: getSparkAirdropDetailsParams): SparkAirdropDetails {
+  const airdropData = getAirdropsData(marketInfo.chainId, token)
   return {
     hasAirdropForSupplying: airdropData.deposit.some(isSparkAirdrop),
     hasAirdropForBorrowing: airdropData.borrow.some(isSparkAirdrop),
   }
 }
 
-function isSparkAirdrop({ id }: { id: string }): boolean {
-  return id === 'SPK'
+function isSparkAirdrop(token: TokenSymbol): boolean {
+  return token === TokenSymbol('SPK')
 }

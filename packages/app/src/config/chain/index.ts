@@ -6,10 +6,8 @@ import { mainnetSavingsInfoQuery } from '@/domain/savings-info/mainnetSavingsInf
 import { unsupportedSavingsInfoQuery } from '@/domain/savings-info/unsupportedSavingsInfo'
 import { useStore } from '@/domain/state'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { assets } from '@/ui/assets'
-
 import { AppConfig } from '../feature-flags'
 import { ChainConfig, ChainConfigEntry, ChainMeta } from './types'
 
@@ -52,13 +50,17 @@ const chainConfig: ChainConfig = {
       ...commonTokenSymbolToReplacedName,
     },
     airdrop: {
-      [TokenSymbol('SPK')]: {
-        [TokenSymbol('ETH')]: {
-          deposit: NormalizedUnitNumber(6_000_000),
-        },
-        [TokenSymbol('DAI')]: {
-          borrow: NormalizedUnitNumber(24_000_000),
-        },
+      [TokenSymbol('ETH')]: {
+        deposit: [TokenSymbol('SPK')],
+        borrow: [],
+      },
+      [TokenSymbol('WETH')]: {
+        deposit: [TokenSymbol('SPK')],
+        borrow: [],
+      },
+      [TokenSymbol('DAI')]: {
+        deposit: [],
+        borrow: [TokenSymbol('SPK')],
       },
     },
     savingsInfoQuery: mainnetSavingsInfoQuery,

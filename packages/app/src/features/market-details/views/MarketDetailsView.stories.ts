@@ -27,7 +27,6 @@ const args: MarketDetailsViewProps = {
   chainName: 'Ethereum Mainnet',
   chainId: 1,
   chainMismatch: false,
-  airdropEligibleToken: tokens.rETH.symbol,
   walletOverview: {
     guestMode: false,
     token: tokens.rETH,

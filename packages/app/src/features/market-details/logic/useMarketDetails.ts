@@ -6,9 +6,7 @@ import { NotFoundError } from '@/domain/errors/not-found'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { Token } from '@/domain/types/Token'
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
-import { getNativeTokenSymbolIfWrapped } from '@/utils/getDisplyTokenSymbol'
 import { raise } from '@/utils/raise'
 
 import { MarketOverview, WalletOverview } from '../types'
@@ -24,7 +22,6 @@ export interface UseMarketDetailsResult {
   marketOverview: MarketOverview
   walletOverview: WalletOverview
   chainMismatch: boolean
-  airdropEligibleToken: TokenSymbol
 }
 
 export function useMarketDetails(): UseMarketDetailsResult {
@@ -41,8 +38,6 @@ export function useMarketDetails(): UseMarketDetailsResult {
 
   const isDaiOverview = reserve.token.symbol === marketInfo.DAI.symbol && D3MInfo
 
-  const airdropEligibleToken = getNativeTokenSymbolIfWrapped(marketInfo.chainId, reserve.token.symbol)
-
   const marketOverview = isDaiOverview
     ? makeDaiMarketOverview({
         reserve,
@@ -52,7 +47,6 @@ export function useMarketDetails(): UseMarketDetailsResult {
     : makeMarketOverview({
         reserve,
         marketInfo,
-        airdropEligibleToken,
       })
   const walletOverview = makeWalletOverview({
     reserve,
@@ -68,6 +62,5 @@ export function useMarketDetails(): UseMarketDetailsResult {
     marketOverview,
     walletOverview,
     chainMismatch,
-    airdropEligibleToken,
   }
 }
