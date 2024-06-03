@@ -4,7 +4,6 @@ import { getChainConfigEntry } from '@/config/chain'
 import { useD3MInfo } from '@/domain/d3m-info/useD3MInfo'
 import { NotFoundError } from '@/domain/errors/not-found'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { Token } from '@/domain/types/Token'
 import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
 import { raise } from '@/utils/raise'
@@ -34,7 +33,7 @@ export function useMarketDetails(): UseMarketDetailsResult {
 
   const chainMismatch = connectedChainId !== chainId
 
-  const reserve = marketInfo.findReserveByUnderlyingAsset(CheckedAddress(asset)) ?? raise(new NotFoundError())
+  const reserve = marketInfo.findReserveByUnderlyingAsset(asset) ?? raise(new NotFoundError())
 
   const isDaiOverview = reserve.token.symbol === marketInfo.DAI.symbol && D3MInfo
 

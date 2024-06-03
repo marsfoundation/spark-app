@@ -1,13 +1,13 @@
-import { Address, isAddress } from 'viem'
 import { useChains } from 'wagmi'
 import { z } from 'zod'
 
+import { checkedAddressSchema } from '@/domain/common/validation'
 import { NotFoundError } from '@/domain/errors/not-found'
 import { useValidatedParams } from '@/utils/useValidatedParams'
 
 const marketDetailsUrlSchema = z.object({
   chainId: z.coerce.number(),
-  asset: z.custom<Address>((address) => isAddress(address as string)),
+  asset: checkedAddressSchema,
 })
 
 export function useMarketDetailsParams(): z.infer<typeof marketDetailsUrlSchema> {
