@@ -1,12 +1,1 @@
-{
-  "fromChain": "100",
-  "toChain": "100",
-  "fromAddress": "0xbf7cD9cE9068BcA77C190F2A767513e8b8F31439",
-  "fromToken": "0xaf204776c7245bF4147c2612BF6e5972Ee483701",
-  "toToken": "0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83",
-  "toAmount": "1000000000",
-  "integrator": "spark_fee",
-  "fee": "0.002",
-  "slippage": "0.001",
-  "contractCalls": []
-}
+{"fromChain":"100","toChain":"100","fromAddress":"0xbf7cD9cE9068BcA77C190F2A767513e8b8F31439","fromToken":"0xaf204776c7245bF4147c2612BF6e5972Ee483701","toToken":"0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83","toAmount":"1000000000","integrator":"spark_fee","fee":"0.002","slippage":"0.001","contractCalls":[]}
