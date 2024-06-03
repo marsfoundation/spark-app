@@ -1,0 +1,148 @@
+{
+  "type": "lifi",
+  "id": "647b6316-df74-45bb-b227-1d12ff30c699",
+  "tool": "enso",
+  "toolDetails": {
+    "key": "enso",
+    "name": "Enso",
+    "logoURI": "https://www.enso.finance/favicon.ico"
+  },
+  "action": {
+    "fromToken": {
+      "address": "0x83F20F44975D03b1b09e64809B757c47f942BEeA",
+      "chainId": 1,
+      "symbol": "sDAI",
+      "decimals": 18,
+      "name": "Savings Dai",
+      "coinKey": "sDAI",
+      "logoURI": "https://static.debank.com/image/eth_token/logo_url/0x83f20f44975d03b1b09e64809b757c47f942beea/ba710cd443d1995d6b4781ee6d5904c0.png",
+      "priceUSD": "1.0858976942421905"
+    },
+    "fromAmount": "9221273283291359763118",
+    "toToken": {
+      "address": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+      "chainId": 1,
+      "symbol": "DAI",
+      "decimals": 18,
+      "name": "DAI Stablecoin",
+      "coinKey": "DAI",
+      "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png",
+      "priceUSD": "1.00005"
+    },
+    "fromChainId": 1,
+    "toChainId": 1,
+    "slippage": 0.001,
+    "fromAddress": "0xbf7cD9cE9068BcA77C190F2A767513e8b8F31439",
+    "toAddress": "0xbf7cD9cE9068BcA77C190F2A767513e8b8F31439"
+  },
+  "estimate": {
+    "tool": "enso",
+    "approvalAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE",
+    "toAmountMin": "10004999999999999999920",
+    "toAmount": "11116666666666666666578",
+    "fromAmount": "10277276260680656857010",
+    "feeCosts": [],
+    "gasCosts": [
+      {
+        "type": "SEND",
+        "price": "25308336126",
+        "estimate": "456494",
+        "limit": "593442",
+        "amount": "11553103591502244",
+        "amountUSD": "43.48",
+        "token": {
+          "address": "0x0000000000000000000000000000000000000000",
+          "chainId": 1,
+          "symbol": "ETH",
+          "decimals": 18,
+          "name": "ETH",
+          "coinKey": "ETH",
+          "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+          "priceUSD": "3763.29"
+        }
+      }
+    ],
+    "executionDuration": 30,
+    "fromAmountUSD": "10013.36",
+    "toAmountUSD": "10015.52"
+  },
+  "includedSteps": [
+    {
+      "id": "14da352b-302b-4b98-be58-43a8372eac80",
+      "type": "swap",
+      "action": {
+        "fromChainId": 1,
+        "fromAmount": "9221273283291359763118",
+        "fromToken": {
+          "address": "0x83F20F44975D03b1b09e64809B757c47f942BEeA",
+          "chainId": 1,
+          "symbol": "sDAI",
+          "decimals": 18,
+          "name": "Savings Dai",
+          "coinKey": "sDAI",
+          "logoURI": "https://static.debank.com/image/eth_token/logo_url/0x83f20f44975d03b1b09e64809b757c47f942beea/ba710cd443d1995d6b4781ee6d5904c0.png",
+          "priceUSD": "1.0858976942421905"
+        },
+        "toChainId": 1,
+        "toToken": {
+          "address": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+          "chainId": 1,
+          "symbol": "DAI",
+          "decimals": 18,
+          "name": "DAI Stablecoin",
+          "coinKey": "DAI",
+          "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png",
+          "priceUSD": "1.00005"
+        },
+        "slippage": 0.001,
+        "fromAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE",
+        "toAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE"
+      },
+      "estimate": {
+        "tool": "enso",
+        "fromAmount": "9221273283291359763118",
+        "toAmount": "10015015015015015015017",
+        "toAmountMin": "10005000000000000000002",
+        "approvalAddress": "0x80EbA3855878739F4710233A8a19d89Bdd2ffB8E",
+        "executionDuration": 30,
+        "feeCosts": [],
+        "gasCosts": [
+          {
+            "type": "SEND",
+            "price": "25308336126",
+            "estimate": "213494",
+            "limit": "277542",
+            "amount": "5403177912884244",
+            "amountUSD": "20.33",
+            "token": {
+              "address": "0x0000000000000000000000000000000000000000",
+              "chainId": 1,
+              "symbol": "ETH",
+              "decimals": 18,
+              "name": "ETH",
+              "coinKey": "ETH",
+              "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+              "priceUSD": "3763.29"
+            }
+          }
+        ]
+      },
+      "tool": "enso",
+      "toolDetails": {
+        "key": "enso",
+        "name": "Enso",
+        "logoURI": "https://www.enso.finance/favicon.ico"
+      }
+    }
+  ],
+  "integrator": "spark_waivefee",
+  "transactionRequest": {
+    "data": "0x878863a47df7392d9137d2f36519ea2646e91e0b1cc09ee99ab4ee6508f8c853199c265100000000000000000000000000000000000000000000000000000000000000c00000000000000000000000000000000000000000000000000000000000000100000000000000000000000000bf7cd9ce9068bca77c190f2a767513e8b8f3143900000000000000000000000000000000000000000000021e5f445b3cf73400020000000000000000000000000000000000000000000000000000000000000160000000000000000000000000000000000000000000000000000000000000000e737061726b5f7761697665666565000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002a3078303030303030303030303030303030303030303030303030303030303030303030303030303030300000000000000000000000000000000000000000000000000000000000000000000080eba3855878739f4710233a8a19d89bdd2ffb8e00000000000000000000000080eba3855878739f4710233a8a19d89bdd2ffb8e00000000000000000000000083f20f44975d03b1b09e64809b757c47f942beea0000000000000000000000006b175474e89094c44da98b954eedeac495271d0f0000000000000000000000000000000000000000000001f3e2dfbac0f5805aae00000000000000000000000000000000000000000000000000000000000000e0000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000002a4b35d7e7300000000000000000000000083f20f44975d03b1b09e64809b757c47f942beea0000000000000000000000000000000000000000000001f3e2dfbac0f5805aae000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000003ba08765201000102ffffff0283f20f44975d03b1b09e64809b757c47f942beea6e7a43a3010203ffffffff027e7d64d987cab6eed08a191c4c2459daf2f8ed0b241c59120102ffffffffffff7e7d64d987cab6eed08a191c4c2459daf2f8ed0b0000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000c00000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000014000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000001f3e2dfbac0f5805aae00000000000000000000000000000000000000000000000000000000000000200000000000000000000000001231deb6f5749ef6ce6943a275a1d3e7486f4eae00000000000000000000000000000000000000000000000000000000000000200000000000000000000000007d585b0e27bbb3d981b7757115ec11f47c476994000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000021e5f445b3cf734000100000000000000000000000000000000000000000000000000000000",
+    "to": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE",
+    "value": "0x0",
+    "gasPrice": "0x5e47e8ffe",
+    "gasLimit": "0x90e22",
+    "from": "0xbf7cD9cE9068BcA77C190F2A767513e8b8F31439",
+    "chainId": 1
+  }
+}
