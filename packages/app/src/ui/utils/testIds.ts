@@ -56,7 +56,16 @@ export const testIds = makeTestIds({
         error: true,
       },
     },
-    slippage: true,
+    flavours: {
+      exchangeActionRow: {
+        wrapper: true,
+        lifiBadge: true,
+        slippage: true,
+        fee: true,
+        finalDAIAmount: true,
+        finalSDAIAmount: true,
+      },
+    },
   },
   navbar: {
     airdropBadge: true,

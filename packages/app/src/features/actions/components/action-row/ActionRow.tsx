@@ -10,13 +10,14 @@ import { useIsTruncated } from '@/ui/utils/useIsTruncated'
 import { ActionHandlerState } from '../../logic/types'
 import { ActionRowVariant } from './types'
 
-function ActionRow({ children, className }: { children: ReactNode; className?: string }) {
+function ActionRow({ children, className, "data-testid": dataTestId }: { children: ReactNode; className?: string, "data-testid"?: string }) {
   return (
     <div
       className={cn(
         'col-span-full grid min-h-[65px] grid-cols-subgrid items-center gap-y-2 border-basics-dark-grey/20 border-b py-4 last:border-none',
         className,
       )}
+      data-testid={dataTestId}
     >
       {children}
     </div>

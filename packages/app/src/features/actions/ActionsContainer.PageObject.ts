@@ -112,7 +112,7 @@ export class ActionsPageObject extends BasePageObject {
   }
 
   async expectSlippage(slippage: number): Promise<void> {
-    await expect(this.region.getByTestId(testIds.actions.slippage)).toHaveText(
+    await expect(this.region.getByTestId(testIds.actions.flavours.exchangeActionRow.slippage)).toHaveText(
       formatPercentage(Percentage(slippage), { minimumFractionDigits: 1 }),
     )
   }
