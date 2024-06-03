@@ -7,6 +7,10 @@ import { Preview } from '@storybook/react'
 
 const preview: Preview = {
   parameters: {
+    chromatic: {
+      delay: 50, // Some components use hook for media queries, and chromatic might take a screenshot too early
+      pauseAnimationAtEnd: false, // stops css animations at first frame
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,
@@ -25,7 +29,7 @@ const preview: Preview = {
         tablet: {
           name: 'Tablet',
           styles: {
-            width: '767px',
+            width: '760px',
             height: '1024px',
           },
         },
