@@ -9,6 +9,7 @@ import { BaseUnitNumber } from '@/domain/types/NumericValues'
 import { AssetsInTests, TOKENS_ON_FORK } from './constants'
 import { injectFixedDate, injectNetworkConfiguration, injectWalletConfiguration } from './injectSetup'
 import { ForkContext } from './setupFork'
+import { generateAccount } from './utils'
 
 export type InjectableWallet = { address: Address } | { privateKey: string }
 
@@ -17,12 +18,14 @@ export function buildUrl<T extends keyof typeof paths>(key: T, pathParams?: Path
   return `http://localhost:4000${generatePath(paths[key], pathParams)}`
 }
 
-export type AccountOptions<T extends 'not-connected' | 'connected'> = T extends 'connected'
+export type AccountOptions<T extends 'not-connected' | 'connected'> = (T extends 'connected'
   ? {
       type: T
       assetBalances?: Partial<Record<AssetsInTests, number>>
     }
-  : { type: T }
+  : { type: T }) & {
+  privateKey?: `0x${string}`
+}
 
 export interface SetupOptions<K extends keyof typeof paths, T extends 'not-connected' | 'connected'> {
   initialPage: K
@@ -47,10 +50,7 @@ export async function setup<K extends keyof typeof paths, T extends 'not-connect
 ): Promise<SetupReturn<T>> {
   await injectNetworkConfiguration(page, forkContext.forkUrl, forkContext.chainId)
   await injectFixedDate(page, forkContext.simulationDate)
-  const account = {
-    address: '0xbf7cD9cE9068BcA77C190F2A767513e8b8F31439',
-    privateKey: '0x3bbbecd9e46fb806696ec2e75bcdad290158609fd4eefb3eaa8c9010ee87fc4d',
-  }
+  const account = generateAccount({ privateKey: options.account.privateKey })
 
   if (options.account.type === 'connected') {
     const { assetBalances } = options.account

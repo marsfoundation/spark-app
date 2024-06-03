@@ -11,3 +11,5 @@ export async function overrideLiFiRouteWithHAR({ page, key, update }: OverrideLi
     update,
   })
 }
+
+export const LIFI_TEST_USER_PRIVATE_KEY = '0x3bbbecd9e46fb806696ec2e75bcdad290158609fd4eefb3eaa8c9010ee87fc4d'

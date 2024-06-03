@@ -3,7 +3,7 @@ import { gnosis, mainnet } from 'viem/chains'
 
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { overrideLiFiRouteWithHAR } from '@/test/e2e/lifi'
+import { LIFI_TEST_USER_PRIVATE_KEY, overrideLiFiRouteWithHAR } from '@/test/e2e/lifi'
 import { setup } from '@/test/e2e/setup'
 import { setupFork } from '@/test/e2e/setupFork'
 
@@ -27,6 +27,7 @@ test.describe('Savings deposit dialog', () => {
             ETH: 1,
             DAI: 100,
           },
+          privateKey: LIFI_TEST_USER_PRIVATE_KEY,
         },
       })
       await overrideLiFiRouteWithHAR({
@@ -62,6 +63,7 @@ test.describe('Savings deposit dialog', () => {
           assetBalances: {
             XDAI: 1000,
           },
+          privateKey: LIFI_TEST_USER_PRIVATE_KEY,
         },
       })
       await overrideLiFiRouteWithHAR({
@@ -97,6 +99,7 @@ test.describe('Savings deposit dialog', () => {
             ETH: 1,
             USDC: 100,
           },
+          privateKey: LIFI_TEST_USER_PRIVATE_KEY,
         },
       })
       await overrideLiFiRouteWithHAR({
@@ -133,6 +136,7 @@ test.describe('Savings deposit dialog', () => {
             XDAI: 1000,
             USDC: 100,
           },
+          privateKey: LIFI_TEST_USER_PRIVATE_KEY,
         },
       })
       await overrideLiFiRouteWithHAR({
@@ -168,6 +172,7 @@ test.describe('Savings deposit dialog', () => {
             ETH: 1,
             USDC: 100,
           },
+          privateKey: LIFI_TEST_USER_PRIVATE_KEY,
         },
       })
       const expectedDefaultSlippage = 0.001
@@ -199,6 +204,7 @@ test.describe('Savings deposit dialog', () => {
             ETH: 1,
             USDC: 100,
           },
+          privateKey: LIFI_TEST_USER_PRIVATE_KEY,
         },
       })
       const newSlippage = 0.005
@@ -230,6 +236,7 @@ test.describe('Savings deposit dialog', () => {
             ETH: 1,
             USDC: 100,
           },
+          privateKey: LIFI_TEST_USER_PRIVATE_KEY,
         },
       })
       const newSlippage = 0.007
@@ -262,6 +269,7 @@ test.describe('Savings deposit dialog', () => {
               ETH: 1,
               USDC: 100,
             },
+            privateKey: LIFI_TEST_USER_PRIVATE_KEY,
           },
         })
         const newSlippage = 0.5
@@ -300,6 +308,7 @@ test.describe('Savings deposit dialog', () => {
               ETH: 1,
               USDC: 100,
             },
+            privateKey: LIFI_TEST_USER_PRIVATE_KEY,
           },
         })
         const newSlippage = 0
@@ -330,7 +339,7 @@ test.describe('Savings deposit dialog', () => {
       })
 
       test('reverts to default if value is empty', async ({ page }) => {
-        const { account } = await setup(page, fork, {
+        await setup(page, fork, {
           initialPage: 'savings',
           account: {
             type: 'connected',
@@ -338,6 +347,7 @@ test.describe('Savings deposit dialog', () => {
               ETH: 1,
               USDC: 100,
             },
+            privateKey: LIFI_TEST_USER_PRIVATE_KEY,
           },
         })
         const expectedDefaultSlippage = 0.001
@@ -383,6 +393,7 @@ test.describe('Savings deposit dialog', () => {
             ETH: 1,
             DAI: 10000,
           },
+          privateKey: LIFI_TEST_USER_PRIVATE_KEY,
         },
       })
 
@@ -410,6 +421,7 @@ test.describe('Savings deposit dialog', () => {
             ETH: 1,
             DAI: 10000,
           },
+          privateKey: LIFI_TEST_USER_PRIVATE_KEY,
         },
       })
 

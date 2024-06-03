@@ -6,6 +6,7 @@ import {
   uiPoolDataProviderAbi,
   uiPoolDataProviderAddress,
 } from '@/config/contracts-generated'
+import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts'
 
 /**
  *  Helper function to take deterministic screenshots.
@@ -65,6 +66,17 @@ export async function waitForButtonEnabled(page: Page, name: string): Promise<vo
 
     return button && !button.disabled
   }, name)
+}
+
+export interface GenerateAccountOptions {
+  privateKey?: `0x${string}`
+}
+export function generateAccount(opts: GenerateAccountOptions): { address: `0x${string}`; privateKey: `0x${string}` } {
+  const privateKey = opts.privateKey ?? generatePrivateKey()
+  return {
+    address: privateKeyToAccount(privateKey).address,
+    privateKey,
+  }
 }
 
 export async function getTimestampFromBlockNumber(blockNumber: bigint, forkUrl: string): Promise<number> {

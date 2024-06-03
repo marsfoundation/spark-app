@@ -3,7 +3,7 @@ import { gnosis, mainnet } from 'viem/chains'
 
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { overrideLiFiRouteWithHAR } from '@/test/e2e/lifi'
+import { LIFI_TEST_USER_PRIVATE_KEY, overrideLiFiRouteWithHAR } from '@/test/e2e/lifi'
 import { setup } from '@/test/e2e/setup'
 import { setupFork } from '@/test/e2e/setupFork'
 
@@ -24,6 +24,7 @@ test.describe('Savings withdraw dialog', () => {
             ETH: 1,
             sDAI: 1000,
           },
+          privateKey: LIFI_TEST_USER_PRIVATE_KEY,
         },
       })
       await overrideLiFiRouteWithHAR({
@@ -60,6 +61,7 @@ test.describe('Savings withdraw dialog', () => {
             ETH: 1,
             sDAI: 1000,
           },
+          privateKey: LIFI_TEST_USER_PRIVATE_KEY,
         },
       })
       await overrideLiFiRouteWithHAR({
@@ -95,6 +97,7 @@ test.describe('Savings withdraw dialog', () => {
             XDAI: 100,
             sDAI: 2000,
           },
+          privateKey: LIFI_TEST_USER_PRIVATE_KEY,
         },
       })
       await overrideLiFiRouteWithHAR({
@@ -131,6 +134,7 @@ test.describe('Savings withdraw dialog', () => {
             ETH: 1,
             sDAI: 1000,
           },
+          privateKey: LIFI_TEST_USER_PRIVATE_KEY,
         },
       })
       await overrideLiFiRouteWithHAR({
@@ -168,6 +172,7 @@ test.describe('Savings withdraw dialog', () => {
             ETH: 1,
             sDAI: 1000,
           },
+          privateKey: LIFI_TEST_USER_PRIVATE_KEY,
         },
       })
       await overrideLiFiRouteWithHAR({
@@ -204,6 +209,7 @@ test.describe('Savings withdraw dialog', () => {
             XDAI: 100,
             sDAI: 1000,
           },
+          privateKey: LIFI_TEST_USER_PRIVATE_KEY,
         },
       })
       await overrideLiFiRouteWithHAR({
@@ -241,6 +247,7 @@ test.describe('Savings withdraw dialog', () => {
             ETH: 1,
             sDAI: 100000,
           },
+          privateKey: LIFI_TEST_USER_PRIVATE_KEY,
         },
       })
 
@@ -268,6 +275,7 @@ test.describe('Savings withdraw dialog', () => {
             ETH: 1,
             sDAI: 100000,
           },
+          privateKey: LIFI_TEST_USER_PRIVATE_KEY,
         },
       })
 
