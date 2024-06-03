@@ -1,15 +1,17 @@
 import { useState } from 'react'
 import invariant from 'tiny-invariant'
-import { parseAbi } from 'viem'
+import { parseAbiItem } from 'viem'
+import { getLogs } from 'viem/actions'
 import {
   UseWaitForTransactionReceiptParameters,
   UseWaitForTransactionReceiptReturnType,
   useAccount,
+  useClient,
   useWaitForTransactionReceipt,
-  useWatchContractEvent,
+  useWatchBlockNumber,
 } from 'wagmi'
 
-const gnosisAbi = parseAbi(['event ExecutionSuccess(bytes32 txHash, uint256 payment)'])
+const executionSuccessEvent = parseAbiItem('event ExecutionSuccess(bytes32 txHash, uint256 payment)')
 
 /**
  * Like `useWaitForTransactionReceipt`, but works with Gnosis Safe "subtransaction" hashes.
@@ -24,16 +26,22 @@ export function useWaitForTransactionReceiptGnosisSafe(
   const enabled = args.query?.enabled ?? true
   const subTxHash = args.hash
 
+  const client = useClient()
   const [gnosisTxHash, setGnosisTxHash] = useState<`0x${string}` | undefined>()
-  useWatchContractEvent({
-    abi: gnosisAbi,
-    address,
-    eventName: 'ExecutionSuccess',
-    enabled: enabled && !!address && !!subTxHash && gnosisTxHash === undefined,
-    onLogs: (logs) => {
-      if (gnosisTxHash) {
+  useWatchBlockNumber({
+    emitOnBegin: true,
+    enabled,
+    async onBlockNumber(blockNumber) {
+      if (!client) {
         return
       }
+
+      const logs = await getLogs(client, {
+        address,
+        event: executionSuccessEvent,
+        fromBlock: blockNumber - 10n,
+        toBlock: blockNumber,
+      })
 
       for (const log of logs) {
         if (log.args.txHash === subTxHash) {
