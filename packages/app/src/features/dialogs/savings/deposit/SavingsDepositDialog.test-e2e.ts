@@ -32,7 +32,6 @@ test.describe('Savings deposit dialog', () => {
       await overrideLiFiRouteWithHAR({
         page,
         key: '100-dai-to-sdai',
-        update: false,
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -68,7 +67,6 @@ test.describe('Savings deposit dialog', () => {
       await overrideLiFiRouteWithHAR({
         page,
         key: '1000-xdai-to-sdai',
-        update: false,
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -104,7 +102,6 @@ test.describe('Savings deposit dialog', () => {
       await overrideLiFiRouteWithHAR({
         page,
         key: '100-usdc-to-sdai',
-        update: false,
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -141,7 +138,6 @@ test.describe('Savings deposit dialog', () => {
       await overrideLiFiRouteWithHAR({
         page,
         key: '100-gnosis-usdc-to-sdai',
-        update: false,
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -179,7 +175,6 @@ test.describe('Savings deposit dialog', () => {
       await overrideLiFiRouteWithHAR({
         page,
         key: '100-usdc-to-sdai-slippage-0.001',
-        update: false,
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -211,7 +206,6 @@ test.describe('Savings deposit dialog', () => {
       await overrideLiFiRouteWithHAR({
         page,
         key: '100-usdc-to-sdai-slippage-0.005',
-        update: false,
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -243,7 +237,6 @@ test.describe('Savings deposit dialog', () => {
       await overrideLiFiRouteWithHAR({
         page,
         key: '100-usdc-to-sdai-slippage-0.007',
-        update: false,
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -277,7 +270,6 @@ test.describe('Savings deposit dialog', () => {
         await overrideLiFiRouteWithHAR({
           page,
           key: '100-usdc-to-sdai-slippage-0.001',
-          update: false,
         })
 
         const savingsPage = new SavingsPageObject(page)
@@ -316,7 +308,6 @@ test.describe('Savings deposit dialog', () => {
         await overrideLiFiRouteWithHAR({
           page,
           key: '100-usdc-to-sdai-slippage-0.001',
-          update: false,
         })
 
         const savingsPage = new SavingsPageObject(page)
@@ -354,7 +345,6 @@ test.describe('Savings deposit dialog', () => {
         await overrideLiFiRouteWithHAR({
           page,
           key: '100-usdc-to-sdai-slippage-0.001',
-          update: false,
         })
 
         const savingsPage = new SavingsPageObject(page)
@@ -399,7 +389,6 @@ test.describe('Savings deposit dialog', () => {
       await overrideLiFiRouteWithHAR({
         page,
         key: '10000-dai-to-8320.604955114542838902-sdai',
-        update: false,
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -427,7 +416,6 @@ test.describe('Savings deposit dialog', () => {
       await overrideLiFiRouteWithHAR({
         page,
         key: '10000-dai-to-8320.604955114542838902-sdai',
-        update: false,
       })
 
       const savingsPage = new SavingsPageObject(page)

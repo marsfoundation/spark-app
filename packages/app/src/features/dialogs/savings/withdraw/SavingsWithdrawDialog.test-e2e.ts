@@ -29,7 +29,6 @@ test.describe('Savings withdraw dialog', () => {
       await overrideLiFiRouteWithHAR({
         page,
         key: 'sdai-to-1000-dai',
-        update: false,
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -66,7 +65,6 @@ test.describe('Savings withdraw dialog', () => {
       await overrideLiFiRouteWithHAR({
         page,
         key: '1000-sdai-to-dai',
-        update: false,
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -102,7 +100,6 @@ test.describe('Savings withdraw dialog', () => {
       await overrideLiFiRouteWithHAR({
         page,
         key: 'sdai-to-1000-xdai',
-        update: false,
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -139,7 +136,6 @@ test.describe('Savings withdraw dialog', () => {
       await overrideLiFiRouteWithHAR({
         page,
         key: 'sdai-to-1000-usdc',
-        update: false,
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -177,7 +173,6 @@ test.describe('Savings withdraw dialog', () => {
       await overrideLiFiRouteWithHAR({
         page,
         key: '1000-sdai-to-usdc',
-        update: false,
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -214,7 +209,6 @@ test.describe('Savings withdraw dialog', () => {
       await overrideLiFiRouteWithHAR({
         page,
         key: 'sdai-to-1000-gnosis-usdc',
-        update: false,
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -253,7 +247,6 @@ test.describe('Savings withdraw dialog', () => {
       await overrideLiFiRouteWithHAR({
         page,
         key: '10277.276260680656857010-sdai-to-10000-dai',
-        update: false,
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -281,7 +274,6 @@ test.describe('Savings withdraw dialog', () => {
       await overrideLiFiRouteWithHAR({
         page,
         key: '10277.276260680656857010-sdai-to-10000-dai',
-        update: false,
       })
 
       const savingsPage = new SavingsPageObject(page)
