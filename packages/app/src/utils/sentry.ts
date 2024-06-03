@@ -18,6 +18,7 @@ Sentry.init({
     'User rejected methods', // Happens sometimes with mobile wallets
     'User disapproved requested methods', // Happens when user rejects transaction using mobile wallet (connected by WalletConnect)
   ],
+  autoSessionTracking: false, // do not use sentry for analytics
 })
 
 export function captureError(error: Error): void {

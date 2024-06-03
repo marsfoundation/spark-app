@@ -1,6 +1,7 @@
 import { queryOptions, skipToken } from '@tanstack/react-query'
 import { z } from 'zod'
 
+import { blockAnaliticaApiUrl } from '@/config/consts'
 import { CheckedAddress } from '../types/CheckedAddress'
 import { NormalizedUnitNumber } from '../types/NumericValues'
 
@@ -16,7 +17,7 @@ const airdropInfoResponseSchema = z
 
 export type AirdropInfoResponse = z.infer<typeof airdropInfoResponseSchema>
 
-const baseUrl = 'https://spark-api.blockanalitica.com/api/airdrop'
+const baseUrl = `${blockAnaliticaApiUrl}/airdrop`
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function airdropInfo(account?: CheckedAddress) {

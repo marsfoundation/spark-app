@@ -40,6 +40,11 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
+      '/ba-api': {
+        target: 'https://spark-api.blockanalitica.com/api/',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/ba-api/, ''),
+      },
     },
   },
 
