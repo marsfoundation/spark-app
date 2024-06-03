@@ -1,4 +1,4 @@
-import { http, Address, Chain, Transport, createWalletClient, isAddress } from 'viem'
+import { http, Chain, Transport, createWalletClient } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 import { gnosis, mainnet } from 'viem/chains'
 import { Config, createConfig } from 'wagmi'
@@ -7,6 +7,7 @@ import { z } from 'zod'
 import { SandboxNetwork } from '@/domain/state/sandbox'
 import { createMockConnector } from '@/domain/wallet/createMockConnector'
 
+import { viemAddressSchema } from '@/domain/common/validation'
 import { getConfig } from './config.default'
 
 export const PLAYWRIGHT_CHAIN_ID = '__PLAYWRIGHT_CHAIN_ID' as const
@@ -15,8 +16,6 @@ export const PLAYWRIGHT_WALLET_PRIVATE_KEY_KEY = '__PLAYWRIGHT_WALLET_PRIVATE_KE
 export const PLAYWRIGHT_WALLET_FORK_URL_KEY = '__PLAYWRIGHT_WALLET_FORK_URL_KEY' as const
 
 export const VIEM_TIMEOUT_ON_FORKS = 60_000 // forks tend to be slow. This improves reliability/performance. Default is 10_000
-
-const addressSchema = z.custom<Address>((address) => isAddress(address as string))
 
 type PrivateKey = `0x${string}`
 const privateKeySchema = z.custom<PrivateKey>((privateKey) => {
@@ -33,7 +32,7 @@ export function getInjectedTransport(): Transport {
 export function getMockConnectors(chain: Chain) {
   // Injects a mock connector if a wallet address or private key are injected into window object.
   // Private key takes precedence over address.
-  const savedAddressSafeParse = addressSchema.safeParse((window as any)[PLAYWRIGHT_WALLET_ADDRESS_KEY])
+  const savedAddressSafeParse = viemAddressSchema.safeParse((window as any)[PLAYWRIGHT_WALLET_ADDRESS_KEY])
   const savedAddress = savedAddressSafeParse.success ? savedAddressSafeParse.data : undefined
   const savedPrivateKeySafeParse = privateKeySchema.safeParse((window as any)[PLAYWRIGHT_WALLET_PRIVATE_KEY_KEY])
   const savedPrivateKey = savedPrivateKeySafeParse.success ? savedPrivateKeySafeParse.data : undefined
