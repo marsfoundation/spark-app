@@ -16,7 +16,11 @@ export function useCreateApproveDelegationHandler(
   action: ApproveDelegationAction,
   { enabled }: UseCreateApproveDelegationHandlerOptions,
 ): ActionHandler {
-  const { data: hasEnoughAllowance, fetchStatus: hasEnoughAllowanceFetchStatus } = useHasEnoughBorrowAllowance({
+  const {
+    data: hasEnoughAllowance,
+    fetchStatus: hasEnoughAllowanceFetchStatus,
+    error: hasEnoughAllowanceError,
+  } = useHasEnoughBorrowAllowance({
     debtTokenAddress: action.debtTokenAddress,
     toUser: action.delegatee,
     value: action.token.toBaseUnit(action.value),
@@ -30,7 +34,13 @@ export function useCreateApproveDelegationHandler(
     enabled: enabled && hasEnoughAllowance === false,
   })
 
-  const state = mapStatusesToActionState(hasEnoughAllowance, hasEnoughAllowanceFetchStatus, approve, enabled)
+  const state = mapStatusesToActionState(
+    hasEnoughAllowance,
+    hasEnoughAllowanceFetchStatus,
+    hasEnoughAllowanceError,
+    approve,
+    enabled,
+  )
 
   return {
     action,
@@ -42,11 +52,16 @@ export function useCreateApproveDelegationHandler(
 function mapStatusesToActionState(
   hasEnoughBorrowAllowance: boolean | undefined,
   hasEnoughBorrowAllowanceFetchStatus: FetchStatus,
+  hasEnoughAllowanceError: Error | null,
   approve: UseWriteResult,
   enabled: boolean,
 ): ActionHandlerState {
   if (!enabled) {
     return { status: 'disabled' }
+  }
+
+  if (hasEnoughAllowanceError) {
+    return { status: 'error', errorKind: 'simulation', message: hasEnoughAllowanceError.message }
   }
 
   // user already has allowance
