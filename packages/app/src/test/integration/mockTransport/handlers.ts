@@ -133,7 +133,7 @@ function getLogsCall<TAbiEvent extends AbiEvent>({
     }
 
     if (!isAddressEqual(params.address, address)) {
-      return []
+      return undefined
     }
 
     const topics = encodeEventTopics({
@@ -153,9 +153,9 @@ function getLogsCall<TAbiEvent extends AbiEvent>({
         data,
         blockNumber: toHex(blockNumber),
         transactionHash,
-        // the rest of the parameters are not important for us
-        transactionIndex: '0x41',
-        blockHash: '0x8e8c3f7f1b1d8d6b5b1f6e7a8c9c7d8e7f1b8e7c1b8f7a8e7f1b8e7a8f1b8e7c',
+        // the rest of the parameters is not important for us
+        transactionIndex: getEmptyTxReceipt().transactionIndex,
+        blockHash: getEmptyTxReceipt().blockHash,
         logIndex: '0x1',
         removed: false,
       },
