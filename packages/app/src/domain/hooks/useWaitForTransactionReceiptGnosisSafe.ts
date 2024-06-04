@@ -38,7 +38,7 @@ export function useWaitForTransactionReceiptGnosisSafe(
     queryFn:
       !subTxHash || !client
         ? skipToken
-        : async () => {
+        : async ({ signal }) => {
             const gnosisTxHash = await new Promise<`0x${string}`>((resolve, reject) => {
               const unwatch = watchBlockNumber(client, {
                 emitOnBegin: true,
@@ -69,6 +69,10 @@ export function useWaitForTransactionReceiptGnosisSafe(
                   unwatch()
                   reject(error)
                 },
+              })
+
+              signal?.addEventListener('abort', () => {
+                unwatch()
               })
             })
 
