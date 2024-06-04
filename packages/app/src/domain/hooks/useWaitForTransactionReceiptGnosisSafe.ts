@@ -28,10 +28,13 @@ export function useWaitForTransactionReceiptGnosisSafe(
   const enabled = Boolean(subTxHash && (args.query?.enabled ?? true))
 
   return useQuery({
-    queryKey: waitForTransactionReceiptQueryKey({
-      ...args,
-      chainId: args.chainId ?? chainId,
-    }),
+    queryKey: [
+      'gnosis-safe',
+      ...waitForTransactionReceiptQueryKey({
+        ...args,
+        chainId: args.chainId ?? chainId,
+      }),
+    ],
     queryFn:
       !subTxHash || !client
         ? skipToken
@@ -71,8 +74,7 @@ export function useWaitForTransactionReceiptGnosisSafe(
 
             return getTransactionReceipt(client, { ...args, hash: gnosisTxHash })
           },
-
-    enabled,
     ...(args.query as any),
+    enabled,
   }) as UseWaitForTransactionReceiptReturnType
 }
