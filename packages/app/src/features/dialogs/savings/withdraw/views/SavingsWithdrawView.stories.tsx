@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form'
 
 import { BaseUnitNumber, NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 
+import { testAddresses } from '@/test/integration/constants'
 import { SavingsWithdrawView } from './SavingsWithdrawView'
 
 const meta: Meta<typeof SavingsWithdrawView> = {
@@ -57,10 +58,10 @@ const meta: Meta<typeof SavingsWithdrawView> = {
             type: 'reverse',
             txRequest: {
               data: '0x',
-              from: '0x',
+              from: testAddresses.bob,
               gasLimit: fakeBigInt,
               gasPrice: fakeBigInt,
-              to: '0x',
+              to: testAddresses.alice,
               value: fakeBigInt,
             },
             estimate: {
