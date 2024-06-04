@@ -3,7 +3,6 @@ import { gnosis, mainnet } from 'viem/chains'
 import { getOriginChainId } from '@/domain/hooks/useOriginChainId'
 import { gnosisSavingsInfoQuery } from '@/domain/savings-info/gnosisSavingsInfo'
 import { mainnetSavingsInfoQuery } from '@/domain/savings-info/mainnetSavingsInfo'
-import { unsupportedSavingsInfoQuery } from '@/domain/savings-info/unsupportedSavingsInfo'
 import { useStore } from '@/domain/state'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
@@ -104,8 +103,7 @@ const chainConfig: ChainConfig = {
       [TokenSymbol('EURe')]: { name: 'Monerium EURO', symbol: TokenSymbol('EURe') },
     },
     airdrop: {},
-    savingsInfoQuery:
-      import.meta.env.VITE_DEV_GNOSIS_SAVINGS === '1' ? gnosisSavingsInfoQuery : unsupportedSavingsInfoQuery,
+    savingsInfoQuery: gnosisSavingsInfoQuery,
     daiSymbol: TokenSymbol('XDAI'),
     sDaiSymbol: TokenSymbol('sDAI'),
     lifiRoutesWithWaivedFees: [
