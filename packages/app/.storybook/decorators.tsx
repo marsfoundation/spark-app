@@ -106,7 +106,21 @@ export function WithI18n() {
 }
 
 export function WithQueryClient(config?: QueryClientConfig) {
-  const queryClient = new QueryClient(config)
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { retry: false }, mutations: { retry: false }, ...config },
+  })
+
+  // stories with errors should explicitly fail
+  queryClient.getQueryCache().subscribe(({ query }) => {
+    if (query.state.status === 'error') {
+      throw query.state.error
+    }
+  })
+  queryClient.getMutationCache().subscribe(({ mutation }) => {
+    if (mutation && mutation.state.status === 'error') {
+      throw mutation.state.error
+    }
+  })
 
   return function WithQueryClient(Story: StoryFn) {
     return (
