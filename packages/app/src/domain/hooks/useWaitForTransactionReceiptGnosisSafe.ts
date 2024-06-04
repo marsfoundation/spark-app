@@ -1,15 +1,15 @@
-import { useState } from 'react'
+import { skipToken, useQuery } from '@tanstack/react-query'
 import invariant from 'tiny-invariant'
 import { parseAbiItem } from 'viem'
-import { getLogs } from 'viem/actions'
+import { getLogs, getTransactionReceipt, watchBlockNumber } from 'viem/actions'
 import {
   UseWaitForTransactionReceiptParameters,
   UseWaitForTransactionReceiptReturnType,
   useAccount,
+  useChainId,
   useClient,
-  useWaitForTransactionReceipt,
-  useWatchBlockNumber,
 } from 'wagmi'
+import { waitForTransactionReceiptQueryKey } from 'wagmi/query'
 
 const executionSuccessEvent = parseAbiItem('event ExecutionSuccess(bytes32 txHash, uint256 payment)')
 
@@ -19,48 +19,60 @@ const executionSuccessEvent = parseAbiItem('event ExecutionSuccess(bytes32 txHas
  */
 export function useWaitForTransactionReceiptGnosisSafe(
   args: UseWaitForTransactionReceiptParameters = {},
-): UseWaitForTransactionReceiptReturnType & {
-  txHash: `0x${string}` | undefined
-} {
+): UseWaitForTransactionReceiptReturnType {
   const { address } = useAccount()
-  const enabled = args.query?.enabled ?? true
-  const subTxHash = args.hash
-
   const client = useClient()
-  const [gnosisTxHash, setGnosisTxHash] = useState<`0x${string}` | undefined>()
-  useWatchBlockNumber({
-    emitOnBegin: true,
+  const chainId = useChainId()
+
+  const subTxHash = args.hash
+  const enabled = Boolean(subTxHash && (args.query?.enabled ?? true))
+
+  return useQuery({
+    queryKey: waitForTransactionReceiptQueryKey({
+      ...args,
+      chainId: args.chainId ?? chainId,
+    }),
+    queryFn:
+      !subTxHash || !client
+        ? skipToken
+        : async () => {
+            const gnosisTxHash = await new Promise<`0x${string}`>((resolve, reject) => {
+              const unwatch = watchBlockNumber(client, {
+                emitOnBegin: true,
+                async onBlockNumber(blockNumber) {
+                  try {
+                    const logs = await getLogs(client, {
+                      address,
+                      event: executionSuccessEvent,
+                      fromBlock: blockNumber - 10n,
+                      toBlock: blockNumber,
+                    })
+
+                    for (const log of logs) {
+                      if (log.args.txHash === subTxHash) {
+                        invariant(log.transactionHash, 'Transaction hash not found')
+
+                        unwatch()
+                        resolve(log.transactionHash)
+                        return
+                      }
+                    }
+                  } catch (error) {
+                    unwatch()
+                    reject(error)
+                  }
+                },
+                async onError(error) {
+                  unwatch()
+                  reject(error)
+                },
+              })
+            })
+
+            return getTransactionReceipt(client, { ...args, hash: gnosisTxHash })
+          },
+
     enabled,
-    async onBlockNumber(blockNumber) {
-      if (!client) {
-        return
-      }
-
-      const logs = await getLogs(client, {
-        address,
-        event: executionSuccessEvent,
-        fromBlock: blockNumber - 10n,
-        toBlock: blockNumber,
-      })
-
-      for (const log of logs) {
-        if (log.args.txHash === subTxHash) {
-          invariant(log.transactionHash, 'Transaction hash not found')
-
-          setGnosisTxHash(log.transactionHash)
-          return
-        }
-      }
-    },
-  })
-
-  const chainTx = useWaitForTransactionReceipt({
-    ...args,
-    hash: gnosisTxHash,
-  })
-
-  return {
-    ...chainTx,
-    txHash: gnosisTxHash,
-  }
+    ...(args.query as any),
+  }) as UseWaitForTransactionReceiptReturnType
 }

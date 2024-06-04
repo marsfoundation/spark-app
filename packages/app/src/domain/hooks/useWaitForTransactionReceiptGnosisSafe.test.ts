@@ -15,9 +15,9 @@ const hookRenderer = setupHookRenderer({
 })
 
 describe(useWaitForTransactionReceiptGnosisSafe.name, () => {
-  test('waits until event is emitted', async () => {
-    const gnosisTxHash = '0xb1ec3f7f1b1d8d6b5b1f6e7a8c9c7d8e7f1b8e7c1b8f7a8e7f1b8e7a8f1b8e7c'
-    const subTxHash = '0x8e8c3f7f1b1d8d6b5b1f6e7a8c9c7d8e7f1b8e7c1b8f7a8e7f1b8e7a8f1b8e7c'
+  test('waits until gnosis transaction is mined', async () => {
+    const gnosisTxHash = '0x58f52e5a4a58653a43edb53e3a5ebf436fb698223029b46210d1b232aed02e08'
+    const subTxHash = '0x3083360cd4dded67c00d98ae6fd4ef25a4adfb77eebfa4e6679e6e2f3000021a'
     const initialBlockNumber = 1000n
 
     const { handler: blockNumberHandler, incrementBlockNumber } = createBlockNumberCallHandler(initialBlockNumber)
@@ -25,7 +25,7 @@ describe(useWaitForTransactionReceiptGnosisSafe.name, () => {
       address: testAddresses.alice,
       event: parseAbiItem('event ExecutionSuccess(bytes32 txHash, uint256 payment)'),
       args: {
-        txHash: gnosisTxHash,
+        txHash: subTxHash,
         payment: 0n,
       },
       blockNumber: initialBlockNumber + 2n,
@@ -47,23 +47,128 @@ describe(useWaitForTransactionReceiptGnosisSafe.name, () => {
 
     await waitFor(() => expect(result.current).not.toBeNull())
 
-    expect(result.current.txHash).toBe(undefined)
+    expect(result.current.data).toBe(undefined)
 
-    expectToStayUndefined(() => result.current.data)
+    await expectToStayUndefined(() => result.current.data)
     expect(result.current.isLoading).toBe(true)
     expect(result.current.status).toBe('pending')
 
     incrementBlockNumber()
-    expectToStayUndefined(() => result.current.data)
+    await expectToStayUndefined(() => result.current.data)
     expect(result.current.isLoading).toBe(true)
     expect(result.current.status).toBe('pending')
 
     setLogsHandlerEnabled(true)
-    expectToStayUndefined(() => result.current.data)
+    await expectToStayUndefined(() => result.current.data)
     expect(result.current.isLoading).toBe(true)
     expect(result.current.status).toBe('pending')
 
     incrementBlockNumber()
     await waitFor(() => expect(result.current.data).toBeDefined())
+    expect(result.current.isLoading).toBe(false)
+    expect(result.current.data?.transactionHash).toBe(gnosisTxHash)
+  })
+
+  test('returns transaction without waiting if mined immediately', async () => {
+    const gnosisTxHash = '0x58f52e5a4a58653a43edb53e3a5ebf436fb698223029b46210d1b232aed02e08'
+    const subTxHash = '0x3083360cd4dded67c00d98ae6fd4ef25a4adfb77eebfa4e6679e6e2f3000021a'
+    const blockNumber = 1000n
+
+    const { handler: logsHandler, setEnabled: setLogsHandlerEnabled } = createGetLogsHandler({
+      address: testAddresses.alice,
+      event: parseAbiItem('event ExecutionSuccess(bytes32 txHash, uint256 payment)'),
+      args: {
+        txHash: subTxHash,
+        payment: 0n,
+      },
+      blockNumber: blockNumber,
+      transactionHash: gnosisTxHash,
+    })
+    setLogsHandlerEnabled(true)
+
+    const { result } = hookRenderer({
+      handlers: [
+        handlers.blockNumberCall(blockNumber),
+        logsHandler,
+        handlers.mineTransaction({
+          txHash: gnosisTxHash,
+        }),
+      ],
+      args: {
+        hash: subTxHash,
+      },
+    })
+
+    await waitFor(() => expect(result.current).not.toBeNull())
+
+    await waitFor(() => expect(result.current.data).toBeDefined())
+    expect(result.current.isLoading).toBe(false)
+    expect(result.current.data?.transactionHash).toBe(gnosisTxHash)
+  })
+
+  test("returns error if can't fetch transaction", async () => {
+    const gnosisTxHash = '0x58f52e5a4a58653a43edb53e3a5ebf436fb698223029b46210d1b232aed02e08'
+    const subTxHash = '0x3083360cd4dded67c00d98ae6fd4ef25a4adfb77eebfa4e6679e6e2f3000021a'
+    const blockNumber = 1000n
+
+    const { handler: logsHandler, setEnabled: setLogsHandlerEnabled } = createGetLogsHandler({
+      address: testAddresses.alice,
+      event: parseAbiItem('event ExecutionSuccess(bytes32 txHash, uint256 payment)'),
+      args: {
+        txHash: subTxHash,
+        payment: 0n,
+      },
+      blockNumber: blockNumber,
+      transactionHash: gnosisTxHash,
+    })
+    setLogsHandlerEnabled(true)
+
+    const { result } = hookRenderer({
+      handlers: [handlers.blockNumberCall(blockNumber), logsHandler],
+      args: {
+        hash: subTxHash,
+      },
+    })
+
+    await waitFor(() => expect(result.current).not.toBeNull())
+
+    await waitFor(() => expect(result.current.error).toBeDefined())
+    expect(result.current.data).toBeUndefined()
+    expect(result.current.error?.name).toBe('UnknownRpcError')
+  })
+
+  test("returns error if can't fetch logs", async () => {
+    const subTxHash = '0x3083360cd4dded67c00d98ae6fd4ef25a4adfb77eebfa4e6679e6e2f3000021a'
+    const blockNumber = 1000n
+
+    const { result } = hookRenderer({
+      handlers: [handlers.blockNumberCall(blockNumber)],
+      args: {
+        hash: subTxHash,
+      },
+    })
+
+    await waitFor(() => expect(result.current).not.toBeNull())
+
+    await waitFor(() => expect(result.current.error).toBeDefined())
+    expect(result.current.data).toBeUndefined()
+    expect(result.current.error?.name).toBe('UnknownRpcError')
+  })
+
+  test("returns error if can't fetch new blocks", async () => {
+    const subTxHash = '0x3083360cd4dded67c00d98ae6fd4ef25a4adfb77eebfa4e6679e6e2f3000021a'
+
+    const { result } = hookRenderer({
+      handlers: [],
+      args: {
+        hash: subTxHash,
+      },
+    })
+
+    await waitFor(() => expect(result.current).not.toBeNull())
+
+    await waitFor(() => expect(result.current.error).toBeDefined())
+    expect(result.current.data).toBeUndefined()
+    expect(result.current.error?.name).toBe('UnknownRpcError')
   })
 })

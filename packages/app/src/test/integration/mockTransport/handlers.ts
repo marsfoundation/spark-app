@@ -176,7 +176,7 @@ function mineTransaction(opts: { blockNumber?: number; txHash?: string } = {}): 
       return {
         ...getEmptyTxData(),
         blockNumber: encodeRpcQuantity(blockNumber),
-        txHash,
+        transactionHash: txHash,
       }
     }
 
@@ -184,7 +184,7 @@ function mineTransaction(opts: { blockNumber?: number; txHash?: string } = {}): 
       return {
         ...getEmptyTxReceipt(),
         blockNumber: encodeRpcQuantity(blockNumber),
-        txHash,
+        transactionHash: txHash,
       }
     }
 
@@ -302,10 +302,11 @@ export interface CreateBlockNumberCallHandlerResult {
 export function createBlockNumberCallHandler(initialBlockNumber: bigint): CreateBlockNumberCallHandlerResult {
   let blockNumber = initialBlockNumber
 
-  const incrementBlockNumber = () => {
+  function incrementBlockNumber(): void {
     blockNumber++
   }
 
+  // eslint-disable-next-line func-style
   const handler: RpcHandler = (method, params) => {
     return blockNumberCall(blockNumber)(method, params)
   }
@@ -320,10 +321,11 @@ export interface CreateGetLogsHandlerResult {
 export function createGetLogsHandler(opts: GetLogsCallOptions<AbiEvent>): CreateGetLogsHandlerResult {
   let enabled = false
 
-  const setEnabled = (value: boolean) => {
+  function setEnabled(value: boolean): void {
     enabled = value
   }
 
+  // eslint-disable-next-line func-style
   const handler: RpcHandler = (method, params) => {
     if (!enabled) {
       if (method === 'eth_getLogs') {
