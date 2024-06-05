@@ -474,6 +474,4 @@ test.describe('Savings deposit dialog', () => {
       await actionsContainer.expectNextActionEnabled()
     })
   })
-
-  test.describe('', () => {})
 })
