@@ -11,10 +11,7 @@ import { useVaultWithdraw } from './useVaultWithdraw'
 
 const account = testAddresses.alice
 const assetsAmount = BaseUnitNumber(10)
-const vault = {
-  address: testAddresses.token,
-  abi: erc4626Abi,
-}
+const vault = testAddresses.token
 
 const hookRenderer = setupHookRenderer({
   hook: useVaultWithdraw,
@@ -56,8 +53,8 @@ describe(useVaultWithdraw.name, () => {
       },
       extraHandlers: [
         handlers.contractCall({
-          to: vault.address,
-          abi: vault.abi,
+          to: vault,
+          abi: erc4626Abi,
           functionName: 'withdraw',
           args: [toBigInt(assetsAmount), account, account],
           from: account,

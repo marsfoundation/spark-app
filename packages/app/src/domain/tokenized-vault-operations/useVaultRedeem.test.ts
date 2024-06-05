@@ -11,10 +11,7 @@ import { useVaultRedeem } from './useVaultRedeem'
 
 const account = testAddresses.alice
 const sharesAmount = BaseUnitNumber(10)
-const vault = {
-  address: testAddresses.token,
-  abi: erc4626Abi,
-}
+const vault = testAddresses.token
 
 const hookRenderer = setupHookRenderer({
   hook: useVaultRedeem,
@@ -56,8 +53,8 @@ describe(useVaultRedeem.name, () => {
       },
       extraHandlers: [
         handlers.contractCall({
-          to: vault.address,
-          abi: vault.abi,
+          to: vault,
+          abi: erc4626Abi,
           functionName: 'redeem',
           args: [toBigInt(sharesAmount), account, account],
           from: account,

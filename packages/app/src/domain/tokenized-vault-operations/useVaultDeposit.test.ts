@@ -12,10 +12,7 @@ import { useVaultDeposit } from './useVaultDeposit'
 const assetToken = testAddresses.token
 const account = testAddresses.alice
 const assetsAmount = BaseUnitNumber(1)
-const vault = {
-  address: testAddresses.token,
-  abi: erc4626Abi,
-}
+const vault = testAddresses.token2
 
 const hookRenderer = setupHookRenderer({
   hook: useVaultDeposit,
@@ -62,8 +59,8 @@ describe(useVaultDeposit.name, () => {
       },
       extraHandlers: [
         handlers.contractCall({
-          to: vault.address,
-          abi: vault.abi,
+          to: vault,
+          abi: erc4626Abi,
           functionName: 'deposit',
           args: [toBigInt(assetsAmount), account],
           from: account,

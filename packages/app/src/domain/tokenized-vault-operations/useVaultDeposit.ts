@@ -1,25 +1,25 @@
 import { toBigInt } from '@/utils/bigNumber'
 import { useQueryClient } from '@tanstack/react-query'
+import { erc4626Abi } from 'viem'
 import { useAccount, useChainId, useConfig } from 'wagmi'
 import { ensureConfigTypes, useWrite } from '../hooks/useWrite'
 import { allowance } from '../market-operations/allowance/query'
 import { CheckedAddress } from '../types/CheckedAddress'
 import { BaseUnitNumber } from '../types/NumericValues'
 import { balances } from '../wallet/balances'
-import { Vault } from './types'
 
 export interface UseVaultDepositArgs {
+  vault: CheckedAddress
   assetToken: CheckedAddress
   assetsAmount: BaseUnitNumber
-  vault: Vault
   onTransactionSettled?: () => void
   enabled?: boolean
 }
 
 export function useVaultDeposit({
+  vault,
   assetToken,
   assetsAmount,
-  vault,
   onTransactionSettled,
   enabled = true,
 }: UseVaultDepositArgs): ReturnType<typeof useWrite> {
@@ -30,8 +30,8 @@ export function useVaultDeposit({
   const { address: receiver } = useAccount()
 
   const config = ensureConfigTypes({
-    address: vault.address,
-    abi: vault.abi,
+    address: vault,
+    abi: erc4626Abi,
     functionName: 'deposit',
     args: [toBigInt(assetsAmount), receiver!],
   })
@@ -47,8 +47,7 @@ export function useVaultDeposit({
           queryKey: balances({ wagmiConfig, chainId, account: receiver }).queryKey,
         })
         void client.invalidateQueries({
-          queryKey: allowance({ wagmiConfig, chainId, token: assetToken, account: receiver!, spender: vault.address })
-            .queryKey,
+          queryKey: allowance({ wagmiConfig, chainId, token: assetToken, account: receiver!, spender: vault }).queryKey,
         })
 
         onTransactionSettled?.()
