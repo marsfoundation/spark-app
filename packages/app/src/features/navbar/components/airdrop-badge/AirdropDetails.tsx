@@ -6,6 +6,7 @@ import { Skeleton } from '@/ui/atoms/skeleton/Skeleton'
 import { links } from '@/ui/constants/links'
 
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { formatWithPrecision } from './utils/formatWithPrecision'
 
 interface AirdropDetailsProps {
   amount: NormalizedUnitNumber
@@ -22,8 +23,8 @@ export function AirdropDetails({ amount, isLoading }: AirdropDetailsProps) {
           {isLoading ? (
             <Skeleton className="h-5 w-7" />
           ) : (
-            <div className="font-semibold text-base text-basics-black">
-              {SPK_MOCK_TOKEN.format(amount, { style: 'auto' })} {SPK_MOCK_TOKEN.symbol}
+            <div className="font-semibold text-base text-basics-black tabular-nums">
+              {formatWithPrecision(amount)} {SPK_MOCK_TOKEN.symbol}
             </div>
           )}
         </div>
