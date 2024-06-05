@@ -4,17 +4,20 @@ import { z } from 'zod'
 import { blockAnaliticaApiUrl } from '@/config/consts'
 import { normalizedUnitNumberSchema } from '../common/validation'
 import { CheckedAddress } from '../types/CheckedAddress'
-import { NormalizedUnitNumber } from '../types/NumericValues'
 
 const airdropInfoResponseSchema = z
   .object({
     token_reward_total: normalizedUnitNumberSchema,
+    token_rate: normalizedUnitNumberSchema,
+    timestamp: z.number(),
   })
   .transform((o) => ({
     tokenReward: o.token_reward_total,
+    tokenRate: o.token_rate,
+    timestamp: o.timestamp,
   }))
   // @note: Api is returning empty object for addresses without airdrop
-  .or(z.object({}).transform(() => ({ tokenReward: NormalizedUnitNumber(0) })))
+  .or(z.object({}).transform(() => undefined))
 
 export type AirdropInfoResponse = z.infer<typeof airdropInfoResponseSchema>
 

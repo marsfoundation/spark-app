@@ -40,8 +40,13 @@ export interface SavingsInfoQueryResults {
   isLoading: boolean
 }
 
+export interface Airdrop {
+  tokenReward: NormalizedUnitNumber
+  tokenRate: NormalizedUnitNumber
+  timestamp: number
+}
 export interface AirdropInfo {
-  amount: NormalizedUnitNumber
+  airdrop: Airdrop | undefined
   isLoading: boolean
   isError: boolean
 }
