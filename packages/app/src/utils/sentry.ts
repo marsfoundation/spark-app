@@ -20,6 +20,20 @@ Sentry.init({
     'User rejected methods', // Happens sometimes with mobile wallets
     'User disapproved requested methods', // Happens when user rejects transaction using mobile wallet (connected by WalletConnect)
   ],
+  beforeSend(event, hint) {
+    const error = hint.originalException
+    if (error) {
+      // ignore errors based on stack trace
+      if (error instanceof Error && error.stack) {
+        // wallet connect error handling is crazy, we ignore all errors https://github.com/WalletConnect/walletconnect-monorepo/issues/3065
+        if (error.stack.includes('@walletconnect')) {
+          return null
+        }
+      }
+    }
+
+    return event
+  },
   autoSessionTracking: false, // do not use sentry for analytics
 })
 
