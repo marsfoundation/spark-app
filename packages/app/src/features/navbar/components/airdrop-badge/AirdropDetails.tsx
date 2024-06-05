@@ -5,9 +5,14 @@ import { Link } from '@/ui/atoms/link/Link'
 import { Skeleton } from '@/ui/atoms/skeleton/Skeleton'
 import { links } from '@/ui/constants/links'
 
-import { AirdropInfo } from '../../types'
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 
-export function AirdropDetails({ amount, isLoading }: Omit<AirdropInfo, 'isError'>) {
+interface AirdropDetailsProps {
+  amount: NormalizedUnitNumber
+  isLoading?: boolean
+}
+
+export function AirdropDetails({ amount, isLoading }: AirdropDetailsProps) {
   return (
     <div className="flex flex-col text-basics-dark-grey text-xs">
       <div className="flex flex-col gap-1 border-basics-grey/50 border-b p-4">
