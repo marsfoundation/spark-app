@@ -1,12 +1,12 @@
 import { Locator, Page } from '@playwright/test'
 import { http, createPublicClient } from 'viem'
-import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts'
 
 import {
   lendingPoolAddressProviderAddress,
   uiPoolDataProviderAbi,
   uiPoolDataProviderAddress,
 } from '@/config/contracts-generated'
+import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts'
 
 /**
  *  Helper function to take deterministic screenshots.
@@ -68,8 +68,11 @@ export async function waitForButtonEnabled(page: Page, name: string): Promise<vo
   }, name)
 }
 
-export async function generateAccount(): Promise<{ address: `0x${string}`; privateKey: `0x${string}` }> {
-  const privateKey = generatePrivateKey()
+export interface GenerateAccountOptions {
+  privateKey?: `0x${string}`
+}
+export function generateAccount(opts: GenerateAccountOptions): { address: `0x${string}`; privateKey: `0x${string}` } {
+  const privateKey = opts.privateKey ?? generatePrivateKey()
   return {
     address: privateKeyToAccount(privateKey).address,
     privateKey,

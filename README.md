@@ -85,6 +85,27 @@ environment and on the forked blockchain. This approach is vital for accurately 
 LTV checks or fluctuating aToken values. We've chosen an arbitrary future date due to the current lack of more dynamic
 time control methods on tenderly forks with idea that in near future we'll refactor to more robust solution.
 
+#### Mocking external HTTP requests in E2E tests
+
+Savings page E2E tests require mocking requests to LiFi API. To do so, we use `overrideLiFiRouteWithHAR` utility function 
+that leverages playwright's HAR recording feature. To create new or modify existing E2E tests that require mocking LiFi API,
+follow these steps:
+- Get the latest block number on the appropriate network (e.g. mainnet, gnosis).
+- Set test's tenderly fork block number to the fetched block number. This is necessary because LiFi supports only requests
+to the current block, not to the past blocks. It is generally safe to have a small discrepancy between the block number set in
+tests and block number that LiFi request is recorded for, although be aware that this might be a potential source of issues.
+- In `overrideLiFiRouteWithHAR` utility function, set `update` parameter to `true`. This will record requests to LiFi API and
+save them to HAR file. When `update` is set to `true`, the network requests are always carried out even if the HAR file is present.
+If you want to add a new test, pass a new unique key to the `overrideLiFiRouteWithHAR` function. The key should be descriptive
+of the request that is being mocked.
+- Ensure that the test user address is fixed - pass `privateKey` option in the account options object to the `setup` function in the test file.
+We follow the convention to pass `LIFI_TEST_USER_PRIVATE_KEY` constant.
+- Run the test. The test might fail some assertions, but the requests will still be recorded.
+- Now we can make the data used in the test fixed. Set `update` parameter to `false` in `overrideLiFiRouteWithHAR` utility function.
+This will stop recording requests and use the HAR file instead.
+- You can now run the test again and potentially fix assertions that failed in the previous run.
+- If necessary, you can modify the HAR file manually. This might be useful when you need to test rare edge cases.
+
 ### Visual regression
 
 Storybook and e2e tests are visually tested. Every story is automatically tested. In E2E tests screenshots are made
