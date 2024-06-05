@@ -17,9 +17,17 @@ const vault = testAddresses.token2
 const hookRenderer = setupHookRenderer({
   hook: useVaultDeposit,
   account,
-  handlers: [handlers.chainIdCall({ chainId: mainnet.id }), handlers.balanceCall({ balance: 0n, address: account })],
+  handlers: [
+    handlers.chainIdCall({ chainId: mainnet.id }),
+    handlers.balanceCall({ balance: 0n, address: account }),
+    handlers.contractCall({
+      to: vault,
+      abi: erc4626Abi,
+      functionName: 'asset',
+      result: assetToken,
+    }),
+  ],
   args: {
-    assetToken,
     assetsAmount,
     vault,
   },
@@ -35,7 +43,7 @@ describe(useVaultDeposit.name, () => {
   })
 
   it('is not enabled for 0 assets value', async () => {
-    const { result } = hookRenderer({ args: { assetsAmount: BaseUnitNumber(0), assetToken, vault } })
+    const { result } = hookRenderer({ args: { assetsAmount: BaseUnitNumber(0), vault } })
 
     await waitFor(() => {
       expect(result.current.status.kind).toBe('disabled')
@@ -43,7 +51,7 @@ describe(useVaultDeposit.name, () => {
   })
 
   it('is not enabled when explicitly disabled', async () => {
-    const { result } = hookRenderer({ args: { enabled: false, assetsAmount, assetToken, vault } })
+    const { result } = hookRenderer({ args: { enabled: false, assetsAmount, vault } })
 
     await waitFor(() => {
       expect(result.current.status.kind).toBe('disabled')
@@ -53,7 +61,6 @@ describe(useVaultDeposit.name, () => {
   it('deposits into vault', async () => {
     const { result } = hookRenderer({
       args: {
-        assetToken,
         assetsAmount,
         vault,
       },
