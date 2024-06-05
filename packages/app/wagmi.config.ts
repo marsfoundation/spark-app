@@ -70,6 +70,7 @@ export default defineConfig({
           name: 'SavingsDai',
           address: {
             [mainnet.id]: '0x83f20f44975d03b1b09e64809b757c47f942beea',
+            [gnosis.id]: '0xaf204776c7245bF4147c2612BF6e5972Ee483701',
           },
         },
         {
@@ -106,12 +107,6 @@ export default defineConfig({
           name: 'SavingsXDaiAdapter',
           address: {
             [gnosis.id]: '0xD499b51fcFc66bd31248ef4b28d656d67E591A94',
-          },
-        },
-        {
-          name: 'SavingsXDai',
-          address: {
-            [gnosis.id]: '0xaf204776c7245bF4147c2612BF6e5972Ee483701',
           },
         },
       ],
