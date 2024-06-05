@@ -10,138 +10,98 @@ import { mainnet } from 'viem/chains'
 import { useVaultWithdraw } from './useVaultWithdraw'
 
 const account = testAddresses.alice
-const assets = BaseUnitNumber(10)
-const shares = BaseUnitNumber(11)
-const baseHandlers = [
-  handlers.chainIdCall({ chainId: mainnet.id }),
-  handlers.balanceCall({ balance: 0n, address: account }),
-]
+const value = BaseUnitNumber(10)
 
-const withdrawHookRenderer = setupHookRenderer({
+const hookRenderer = setupHookRenderer({
   hook: useVaultWithdraw,
   account,
-  handlers: baseHandlers,
-  args: { assets },
-})
-
-const withdrawMaxHookRenderer = setupHookRenderer({
-  hook: useVaultWithdraw,
-  account,
-  handlers: baseHandlers,
-  args: { max: true, shares },
+  handlers: [handlers.chainIdCall({ chainId: mainnet.id }), handlers.balanceCall({ balance: 0n, address: account })],
+  args: { value },
 })
 
 describe(useVaultWithdraw.name, () => {
-  describe('withdraw', () => {
-    it('is not enabled for guest ', async () => {
-      const { result } = withdrawHookRenderer({ account: undefined })
+  it('is not enabled for guest ', async () => {
+    const { result } = hookRenderer({ account: undefined })
 
-      await waitFor(() => {
-        expect(result.current.status.kind).toBe('disabled')
-      })
-    })
-
-    it('is not enabled for 0 assets value', async () => {
-      const { result } = withdrawHookRenderer({ args: { assets: BaseUnitNumber(0) } })
-
-      await waitFor(() => {
-        expect(result.current.status.kind).toBe('disabled')
-      })
-    })
-
-    it('is not enabled when explicitly disabled', async () => {
-      const { result } = withdrawHookRenderer({ args: { enabled: false, assets } })
-
-      await waitFor(() => {
-        expect(result.current.status.kind).toBe('disabled')
-      })
-    })
-
-    it('withdraws from vault', async () => {
-      const { result } = withdrawHookRenderer({
-        args: {
-          assets,
-        },
-        extraHandlers: [
-          handlers.contractCall({
-            to: savingsDaiAddress[mainnet.id],
-            abi: savingsDaiAbi,
-            functionName: 'withdraw',
-            args: [toBigInt(assets), account, account],
-            from: account,
-            result: 1n,
-          }),
-          handlers.mineTransaction(),
-        ],
-      })
-
-      await waitFor(() => {
-        expect(result.current.status.kind).toBe('ready')
-      })
-      expect((result.current as any).error).toBeUndefined()
-
-      result.current.write()
-
-      await waitFor(() => {
-        expect(result.current.status.kind).toBe('success')
-      })
+    await waitFor(() => {
+      expect(result.current.status.kind).toBe('disabled')
     })
   })
 
-  describe('withdraw max', () => {
-    it('is not enabled for guest ', async () => {
-      const { result } = withdrawMaxHookRenderer({ account: undefined })
+  it('is not enabled for 0 value', async () => {
+    const { result } = hookRenderer({ args: { value: BaseUnitNumber(0) } })
 
-      await waitFor(() => {
-        expect(result.current.status.kind).toBe('disabled')
-      })
+    await waitFor(() => {
+      expect(result.current.status.kind).toBe('disabled')
+    })
+  })
+
+  it('is not enabled when explicitly disabled', async () => {
+    const { result } = hookRenderer({ args: { enabled: false, value } })
+
+    await waitFor(() => {
+      expect(result.current.status.kind).toBe('disabled')
+    })
+  })
+
+  it('withdraws from vault', async () => {
+    const { result } = hookRenderer({
+      args: {
+        value,
+      },
+      extraHandlers: [
+        handlers.contractCall({
+          to: savingsDaiAddress[mainnet.id],
+          abi: savingsDaiAbi,
+          functionName: 'withdraw',
+          args: [toBigInt(value), account, account],
+          from: account,
+          result: 1n,
+        }),
+        handlers.mineTransaction(),
+      ],
     })
 
-    it('is not enabled for 0 shares value', async () => {
-      const { result } = withdrawMaxHookRenderer({ args: { shares: BaseUnitNumber(0), max: true } })
+    await waitFor(() => {
+      expect(result.current.status.kind).toBe('ready')
+    })
+    expect((result.current as any).error).toBeUndefined()
 
-      await waitFor(() => {
-        expect(result.current.status.kind).toBe('disabled')
-      })
+    result.current.write()
+
+    await waitFor(() => {
+      expect(result.current.status.kind).toBe('success')
+    })
+  })
+
+  it('withdraws max from vault', async () => {
+    const { result } = hookRenderer({
+      args: {
+        value,
+        max: true,
+      },
+      extraHandlers: [
+        handlers.contractCall({
+          to: savingsDaiAddress[mainnet.id],
+          abi: savingsDaiAbi,
+          functionName: 'redeem',
+          args: [toBigInt(value), account, account],
+          from: account,
+          result: 1n,
+        }),
+        handlers.mineTransaction(),
+      ],
     })
 
-    it('is not enabled when explicitly disabled', async () => {
-      const { result } = withdrawMaxHookRenderer({ args: { enabled: false, shares, max: true } })
-
-      await waitFor(() => {
-        expect(result.current.status.kind).toBe('disabled')
-      })
+    await waitFor(() => {
+      expect(result.current.status.kind).toBe('ready')
     })
+    expect((result.current as any).error).toBeUndefined()
 
-    it('withdraws max from vault', async () => {
-      const { result } = withdrawMaxHookRenderer({
-        args: {
-          max: true,
-          shares,
-        },
-        extraHandlers: [
-          handlers.contractCall({
-            to: savingsDaiAddress[mainnet.id],
-            abi: savingsDaiAbi,
-            functionName: 'redeem',
-            args: [toBigInt(shares), account, account],
-            from: account,
-            result: 1n,
-          }),
-          handlers.mineTransaction(),
-        ],
-      })
+    result.current.write()
 
-      await waitFor(() => {
-        expect(result.current.status.kind).toBe('ready')
-      })
-      expect((result.current as any).error).toBeUndefined()
-
-      result.current.write()
-
-      await waitFor(() => {
-        expect(result.current.status.kind).toBe('success')
-      })
+    await waitFor(() => {
+      expect(result.current.status.kind).toBe('success')
     })
   })
 })

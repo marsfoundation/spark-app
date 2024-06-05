@@ -10,18 +10,18 @@ import { CheckedAddress } from '../types/CheckedAddress'
 import { BaseUnitNumber } from '../types/NumericValues'
 import { balances } from '../wallet/balances'
 
-export type UseVaultWithdrawArgs =
-  | {
-      assets: BaseUnitNumber
-      onTransactionSettled?: () => void
-      enabled?: boolean
-    }
-  | { max: true; shares: BaseUnitNumber; onTransactionSettled?: () => void; enabled?: boolean }
+interface UseVaultWithdrawArgs {
+  value: BaseUnitNumber
+  max?: boolean
+  onTransactionSettled?: () => void
+  enabled?: boolean
+}
 
 export function useVaultWithdraw({
+  value,
+  max,
   onTransactionSettled,
   enabled = true,
-  ...rest
 }: UseVaultWithdrawArgs): ReturnType<typeof useWrite> {
   const client = useQueryClient()
   const wagmiConfig = useConfig()
@@ -30,13 +30,12 @@ export function useVaultWithdraw({
   const { address: userAddress } = useAccount()
   const vault = useContractAddress(savingsDaiConfig.address)
 
-  const config = getConfig({ receiver: userAddress!, vault, ...rest })
-  const hasWithdrawAmount = ('assets' in rest && rest.assets.gt(0)) || ('shares' in rest && rest.shares.gt(0))
+  const config = getConfig({ receiver: userAddress!, vault, value, max })
 
   return useWrite(
     {
       ...config,
-      enabled: !!userAddress && enabled && hasWithdrawAmount,
+      enabled: !!userAddress && enabled && value.gt(0),
     },
     {
       onTransactionSettled: async () => {
@@ -53,27 +52,27 @@ export function useVaultWithdraw({
   )
 }
 
-type GetConfigParams =
-  | { assets: BaseUnitNumber; receiver: Address; vault: CheckedAddress }
-  | { max: boolean; shares: BaseUnitNumber; receiver: Address; vault: CheckedAddress }
+interface GetConfigParams {
+  value: BaseUnitNumber
+  receiver: Address
+  vault: CheckedAddress
+  max?: boolean
+}
 
-function getConfig(params: GetConfigParams): UseSimulateContractParameters<Abi, string> {
-  const { vault, receiver } = params
-  if ('max' in params) {
-    const { shares } = params
+function getConfig({ value, receiver, vault, max }: GetConfigParams): UseSimulateContractParameters<Abi, string> {
+  if (max) {
     return ensureConfigTypes({
       address: vault,
       abi: savingsDaiConfig.abi,
       functionName: 'redeem',
-      args: [toBigInt(shares), receiver, receiver],
+      args: [toBigInt(value), receiver, receiver],
     })
   }
 
-  const { assets } = params
   return ensureConfigTypes({
     address: vault,
     abi: savingsDaiConfig.abi,
     functionName: 'withdraw',
-    args: [toBigInt(assets), receiver, receiver],
+    args: [toBigInt(value), receiver, receiver],
   })
 }
