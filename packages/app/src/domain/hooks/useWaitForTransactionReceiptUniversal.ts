@@ -14,9 +14,7 @@ import { useWalletType } from './useWalletType'
  */
 export function useWaitForTransactionReceiptUniversal(
   args: UseWaitForTransactionReceiptParameters = {},
-): UseWaitForTransactionReceiptReturnType & {
-  txHash: `0x${string}` | undefined
-} {
+): UseWaitForTransactionReceiptReturnType {
   const walletType = useWalletType()
 
   const gnosisTxReceipt = useWaitForTransactionReceiptGnosisSafe({
@@ -38,5 +36,5 @@ export function useWaitForTransactionReceiptUniversal(
     return gnosisTxReceipt
   }
 
-  return { ...receipt, txHash: args.hash }
+  return receipt
 }

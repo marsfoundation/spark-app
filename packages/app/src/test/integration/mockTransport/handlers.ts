@@ -1,11 +1,18 @@
 import { isDeepStrictEqual } from 'node:util'
 import {
   Abi,
+  AbiEvent,
+  Address,
   ContractFunctionName,
+  DecodeEventLogReturnType,
   EncodeFunctionDataParameters,
   EncodeFunctionResultParameters,
+  encodeAbiParameters,
+  encodeEventTopics,
   encodeFunctionData,
   encodeFunctionResult,
+  isAddressEqual,
+  toHex,
 } from 'viem'
 
 import { TestTrigger } from '../trigger'
@@ -106,6 +113,56 @@ function contractCallError<
   }
 }
 
+export interface GetLogsCallOptions<TAbiEvent extends AbiEvent> {
+  address: Address
+  event: TAbiEvent
+  args: DecodeEventLogReturnType<[TAbiEvent]>['args']
+  blockNumber: bigint
+  transactionHash: string
+}
+function getLogsCall<TAbiEvent extends AbiEvent>({
+  address,
+  event,
+  args,
+  blockNumber,
+  transactionHash,
+}: GetLogsCallOptions<TAbiEvent>): RpcHandler {
+  return (method, [params]) => {
+    if (method !== 'eth_getLogs') {
+      return undefined
+    }
+
+    if (!isAddressEqual(params.address, address)) {
+      return undefined
+    }
+
+    const topics = encodeEventTopics({
+      abi: [event] as any,
+      eventName: event.name,
+    })
+
+    const data = encodeAbiParameters(
+      event.inputs,
+      event.inputs.map((input) => (args as any)[input.name!]),
+    )
+
+    return [
+      {
+        address,
+        topics,
+        data,
+        blockNumber: toHex(blockNumber),
+        transactionHash,
+        // the rest of the parameters is not important for us
+        transactionIndex: getEmptyTxReceipt().transactionIndex,
+        blockHash: getEmptyTxReceipt().blockHash,
+        logIndex: '0x1',
+        removed: false,
+      },
+    ]
+  }
+}
+
 function mineTransaction(opts: { blockNumber?: number; txHash?: string } = {}): RpcHandler {
   const blockNumber = opts.blockNumber ?? 0
   const txHash = opts.txHash ?? '0xdeadbeef'
@@ -119,7 +176,7 @@ function mineTransaction(opts: { blockNumber?: number; txHash?: string } = {}): 
       return {
         ...getEmptyTxData(),
         blockNumber: encodeRpcQuantity(blockNumber),
-        txHash,
+        transactionHash: txHash,
       }
     }
 
@@ -127,7 +184,7 @@ function mineTransaction(opts: { blockNumber?: number; txHash?: string } = {}): 
       return {
         ...getEmptyTxReceipt(),
         blockNumber: encodeRpcQuantity(blockNumber),
-        txHash,
+        transactionHash: txHash,
       }
     }
 
@@ -229,10 +286,57 @@ export const handlers = {
   chainIdCall,
   balanceCall,
   contractCall,
+  getLogsCall,
   contractCallError,
   mineTransaction,
   mineRevertedTransaction,
   rejectSubmittedTransaction,
   triggerHandler,
   forceCallErrorHandler,
+}
+
+export interface CreateBlockNumberCallHandlerResult {
+  handler: RpcHandler
+  incrementBlockNumber: () => void
+}
+export function createBlockNumberCallHandler(initialBlockNumber: bigint): CreateBlockNumberCallHandlerResult {
+  let blockNumber = initialBlockNumber
+
+  function incrementBlockNumber(): void {
+    blockNumber++
+  }
+
+  // eslint-disable-next-line func-style
+  const handler: RpcHandler = (method, params) => {
+    return blockNumberCall(blockNumber)(method, params)
+  }
+
+  return { handler, incrementBlockNumber }
+}
+
+export interface CreateGetLogsHandlerResult {
+  handler: RpcHandler
+  setEnabled: (enabled: boolean) => void
+}
+export function createGetLogsHandler(opts: GetLogsCallOptions<AbiEvent>): CreateGetLogsHandlerResult {
+  let enabled = false
+
+  function setEnabled(value: boolean): void {
+    enabled = value
+  }
+
+  // eslint-disable-next-line func-style
+  const handler: RpcHandler = (method, params) => {
+    if (!enabled) {
+      if (method === 'eth_getLogs') {
+        return []
+      }
+
+      return undefined
+    }
+
+    return getLogsCall(opts)(method, params)
+  }
+
+  return { handler, setEnabled }
 }

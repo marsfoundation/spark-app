@@ -28,6 +28,7 @@ export function createWagmiTestConfig(options: CreateWagmiTestConfigOptions) {
     batch: {
       multicall: false,
     },
+    pollingInterval: 100,
   })
 }
 
