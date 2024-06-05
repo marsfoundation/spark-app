@@ -68,7 +68,7 @@ test.describe('Savings deposit dialog', () => {
       })
       await overrideLiFiRouteWithHAR({
         page,
-        key: '1000-xdai-to-sdai',
+        key: '100-xdai-to-sdai',
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -83,6 +83,35 @@ test.describe('Savings deposit dialog', () => {
       await depositDialog.clickBackToSavingsButton()
 
       await savingsPage.expectCurrentWorth('99.00')
+    })
+
+    test('can switch from USDC to xDAI', async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'savings',
+        account: {
+          type: 'connected',
+          assetBalances: {
+            XDAI: 100,
+            USDC: 100,
+          },
+          privateKey: LIFI_TEST_USER_PRIVATE_KEY,
+        },
+      })
+      await overrideLiFiRouteWithHAR({
+        page,
+        key: '100-xdai-to-sdai',
+      })
+
+      const savingsPage = new SavingsPageObject(page)
+
+      await savingsPage.clickDepositButtonAction('USDC')
+
+      const depositDialog = new SavingsDepositDialogPageObject(page)
+      await depositDialog.fillAmountAction(100)
+      await depositDialog.selectAssetAction('XDAI')
+      await depositDialog.fillAmountAction(100)
+
+      await depositDialog.expectTransactionOverviewToBeVisible()
     })
   })
 
@@ -445,4 +474,6 @@ test.describe('Savings deposit dialog', () => {
       await actionsContainer.expectNextActionEnabled()
     })
   })
+
+  test.describe('', () => {})
 })
