@@ -1,5 +1,5 @@
 import { getDefaultConfig } from '@rainbow-me/rainbowkit'
-import { http, Chain, Transport, webSocket } from 'viem'
+import { http, Chain, Transport } from 'viem'
 import { gnosis, mainnet } from 'viem/chains'
 import { Config } from 'wagmi'
 
@@ -19,7 +19,7 @@ export function getConfig(sandboxNetwork?: SandboxNetwork): Config {
   const forkChain = getForkChainFromSandboxConfig(sandboxNetwork)
 
   const transports: Record<SupportedChainId, Transport> = {
-    [mainnet.id]: webSocket(`wss://eth-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`),
+    [mainnet.id]: http(`https://eth-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`),
     [gnosis.id]: http('https://rpc.ankr.com/gnosis'),
   }
 
