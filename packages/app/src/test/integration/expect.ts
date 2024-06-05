@@ -1,4 +1,5 @@
 import { waitFor } from '@testing-library/react'
+import { expect } from 'vitest'
 
 export async function expectToStayUndefined(fn: () => any): Promise<void> {
   await expect(
