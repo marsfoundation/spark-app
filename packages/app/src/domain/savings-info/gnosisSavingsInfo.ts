@@ -2,10 +2,10 @@ import { gnosis } from 'viem/chains'
 import { multicall } from 'wagmi/actions'
 
 import {
-  savingsDaiAbi,
-  savingsDaiAddress,
+  savingsXDaiAbi,
   savingsXDaiAdapterAbi,
   savingsXDaiAdapterAddress,
+  savingsXDaiAddress,
 } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { bigNumberify } from '@/utils/bigNumber'
@@ -16,7 +16,7 @@ import { SavingsInfo, SavingsInfoQueryOptions, SavingsInfoQueryParams } from './
 
 export function gnosisSavingsInfoQuery({ wagmiConfig, timestamp }: SavingsInfoQueryParams): SavingsInfoQueryOptions {
   const sDaiAdapterAddress = getContractAddress(savingsXDaiAdapterAddress, gnosis.id)
-  const sDaiAddress = getContractAddress(savingsDaiAddress, gnosis.id)
+  const sDaiAddress = getContractAddress(savingsXDaiAddress, gnosis.id)
   return {
     queryKey: ['gnosis-savings-info'],
     queryFn: async () => {
@@ -32,19 +32,19 @@ export function gnosisSavingsInfoQuery({ wagmiConfig, timestamp }: SavingsInfoQu
             address: sDaiAddress,
             functionName: 'totalSupply',
             args: [],
-            abi: savingsDaiAbi,
+            abi: savingsXDaiAbi,
           },
           {
             address: sDaiAddress,
             functionName: 'totalAssets',
             args: [],
-            abi: savingsDaiAbi,
+            abi: savingsXDaiAbi,
           },
           {
             address: sDaiAddress,
             functionName: 'decimals',
             args: [],
-            abi: savingsDaiAbi,
+            abi: savingsXDaiAbi,
           },
         ],
         allowFailure: false,
