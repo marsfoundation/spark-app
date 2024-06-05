@@ -13,7 +13,7 @@ const airdropInfoResponseSchema = z
   })
   .transform((o) => ({
     tokenReward: o.token_reward_total,
-    tokenRate: o.token_rate,
+    tokenRatePerSecond: o.token_rate,
     timestamp: o.timestamp,
   }))
   // @note: Api is returning empty object for addresses without airdrop
