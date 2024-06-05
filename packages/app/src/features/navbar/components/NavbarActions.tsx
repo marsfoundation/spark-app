@@ -41,7 +41,7 @@ export function NavbarActions({
         mobileMenuCollapsed ? 'hidden lg:flex' : 'flex',
       )}
     >
-      {import.meta.env.VITE_DEV_AIRDROP_BADGE === '1' && <AirdropBadge {...airdropInfo} />}
+      <AirdropBadge {...airdropInfo} />
       <NetworkSelector
         currentChain={currentChain}
         supportedChains={supportedChains}
