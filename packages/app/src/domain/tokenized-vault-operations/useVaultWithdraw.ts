@@ -4,7 +4,6 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useAccount, useChainId, useConfig } from 'wagmi'
 import { useContractAddress } from '../hooks/useContractAddress'
 import { ensureConfigTypes, useWrite } from '../hooks/useWrite'
-import { aaveDataLayer } from '../market-info/aave-data-layer/query'
 import { BaseUnitNumber } from '../types/NumericValues'
 import { balances } from '../wallet/balances'
 
@@ -41,9 +40,6 @@ export function useVaultWithdraw({
     },
     {
       onTransactionSettled: async () => {
-        void client.invalidateQueries({
-          queryKey: aaveDataLayer({ wagmiConfig, chainId, account: receiver }).queryKey,
-        })
         void client.invalidateQueries({
           queryKey: balances({ wagmiConfig, chainId, account: receiver }).queryKey,
         })
