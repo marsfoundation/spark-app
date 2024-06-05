@@ -1,4 +1,3 @@
-import { savingsDaiAbi, savingsDaiAddress } from '@/config/contracts-generated'
 import { BaseUnitNumber } from '@/domain/types/NumericValues'
 import { testAddresses } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
@@ -7,16 +6,21 @@ import { toBigInt } from '@/utils/bigNumber'
 import { waitFor } from '@testing-library/react'
 import { mainnet } from 'viem/chains'
 
+import { erc4626Abi } from 'viem'
 import { useVaultRedeem } from './useVaultRedeem'
 
 const account = testAddresses.alice
-const shares = BaseUnitNumber(10)
+const sharesAmount = BaseUnitNumber(10)
+const vault = {
+  address: testAddresses.token,
+  abi: erc4626Abi,
+}
 
 const hookRenderer = setupHookRenderer({
   hook: useVaultRedeem,
   account,
   handlers: [handlers.chainIdCall({ chainId: mainnet.id }), handlers.balanceCall({ balance: 0n, address: account })],
-  args: { shares },
+  args: { sharesAmount, vault },
 })
 
 describe(useVaultRedeem.name, () => {
@@ -29,7 +33,7 @@ describe(useVaultRedeem.name, () => {
   })
 
   it('is not enabled for 0 value', async () => {
-    const { result } = hookRenderer({ args: { shares: BaseUnitNumber(0) } })
+    const { result } = hookRenderer({ args: { sharesAmount: BaseUnitNumber(0), vault } })
 
     await waitFor(() => {
       expect(result.current.status.kind).toBe('disabled')
@@ -37,7 +41,7 @@ describe(useVaultRedeem.name, () => {
   })
 
   it('is not enabled when explicitly disabled', async () => {
-    const { result } = hookRenderer({ args: { enabled: false, shares } })
+    const { result } = hookRenderer({ args: { enabled: false, sharesAmount, vault } })
 
     await waitFor(() => {
       expect(result.current.status.kind).toBe('disabled')
@@ -47,14 +51,15 @@ describe(useVaultRedeem.name, () => {
   it('redeems from vault', async () => {
     const { result } = hookRenderer({
       args: {
-        shares,
+        sharesAmount,
+        vault,
       },
       extraHandlers: [
         handlers.contractCall({
-          to: savingsDaiAddress[mainnet.id],
-          abi: savingsDaiAbi,
+          to: vault.address,
+          abi: vault.abi,
           functionName: 'redeem',
-          args: [toBigInt(shares), account, account],
+          args: [toBigInt(sharesAmount), account, account],
           from: account,
           result: 1n,
         }),

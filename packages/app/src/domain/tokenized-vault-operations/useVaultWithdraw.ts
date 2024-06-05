@@ -1,20 +1,24 @@
-import { savingsDaiConfig } from '@/config/contracts-generated'
 import { toBigInt } from '@/utils/bigNumber'
 import { useQueryClient } from '@tanstack/react-query'
 import { useAccount, useChainId, useConfig } from 'wagmi'
-import { useContractAddress } from '../hooks/useContractAddress'
 import { ensureConfigTypes, useWrite } from '../hooks/useWrite'
 import { BaseUnitNumber } from '../types/NumericValues'
 import { balances } from '../wallet/balances'
+import { Vault } from './types'
 
 interface UseVaultWithdrawArgs {
-  assets: BaseUnitNumber
+  assetsAmount: BaseUnitNumber
+  vault: Vault
   onTransactionSettled?: () => void
   enabled?: boolean
 }
 
+// @note: 'withdraw' vault function allows user to withdraw a specified amount
+// of the underlying asset from the vault by burning the corresponding shares.
+// Example: Withdraw X DAI by burning Y sDAI (useful is one want to withdraw exact number of DAI)
 export function useVaultWithdraw({
-  assets: _assets,
+  assetsAmount,
+  vault,
   onTransactionSettled,
   enabled = true,
 }: UseVaultWithdrawArgs): ReturnType<typeof useWrite> {
@@ -23,20 +27,18 @@ export function useVaultWithdraw({
   const chainId = useChainId()
 
   const { address: receiver } = useAccount()
-  const assets = toBigInt(_assets)
-  const vault = useContractAddress(savingsDaiConfig.address)
 
   const config = ensureConfigTypes({
-    address: vault,
-    abi: savingsDaiConfig.abi,
+    address: vault.address,
+    abi: vault.abi,
     functionName: 'withdraw',
-    args: [toBigInt(_assets), receiver!, receiver!],
+    args: [toBigInt(assetsAmount), receiver!, receiver!],
   })
 
   return useWrite(
     {
       ...config,
-      enabled: enabled && assets > 0n && !!receiver,
+      enabled: enabled && assetsAmount.gt(0) && !!receiver,
     },
     {
       onTransactionSettled: async () => {

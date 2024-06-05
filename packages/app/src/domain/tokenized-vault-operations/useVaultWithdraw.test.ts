@@ -1,4 +1,3 @@
-import { savingsDaiAbi, savingsDaiAddress } from '@/config/contracts-generated'
 import { BaseUnitNumber } from '@/domain/types/NumericValues'
 import { testAddresses } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
@@ -7,16 +6,21 @@ import { toBigInt } from '@/utils/bigNumber'
 import { waitFor } from '@testing-library/react'
 import { mainnet } from 'viem/chains'
 
+import { erc4626Abi } from 'viem'
 import { useVaultWithdraw } from './useVaultWithdraw'
 
 const account = testAddresses.alice
-const assets = BaseUnitNumber(10)
+const assetsAmount = BaseUnitNumber(10)
+const vault = {
+  address: testAddresses.token,
+  abi: erc4626Abi,
+}
 
 const hookRenderer = setupHookRenderer({
   hook: useVaultWithdraw,
   account,
   handlers: [handlers.chainIdCall({ chainId: mainnet.id }), handlers.balanceCall({ balance: 0n, address: account })],
-  args: { assets },
+  args: { assetsAmount, vault },
 })
 
 describe(useVaultWithdraw.name, () => {
@@ -29,7 +33,7 @@ describe(useVaultWithdraw.name, () => {
   })
 
   it('is not enabled for 0 value', async () => {
-    const { result } = hookRenderer({ args: { assets: BaseUnitNumber(0) } })
+    const { result } = hookRenderer({ args: { assetsAmount: BaseUnitNumber(0), vault } })
 
     await waitFor(() => {
       expect(result.current.status.kind).toBe('disabled')
@@ -37,7 +41,7 @@ describe(useVaultWithdraw.name, () => {
   })
 
   it('is not enabled when explicitly disabled', async () => {
-    const { result } = hookRenderer({ args: { enabled: false, assets } })
+    const { result } = hookRenderer({ args: { enabled: false, assetsAmount, vault } })
 
     await waitFor(() => {
       expect(result.current.status.kind).toBe('disabled')
@@ -47,14 +51,15 @@ describe(useVaultWithdraw.name, () => {
   it('withdraws from vault', async () => {
     const { result } = hookRenderer({
       args: {
-        assets,
+        assetsAmount,
+        vault,
       },
       extraHandlers: [
         handlers.contractCall({
-          to: savingsDaiAddress[mainnet.id],
-          abi: savingsDaiAbi,
+          to: vault.address,
+          abi: vault.abi,
           functionName: 'withdraw',
-          args: [toBigInt(assets), account, account],
+          args: [toBigInt(assetsAmount), account, account],
           from: account,
           result: 1n,
         }),

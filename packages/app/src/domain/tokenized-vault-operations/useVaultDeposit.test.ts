@@ -1,4 +1,3 @@
-import { savingsDaiAbi, savingsDaiAddress } from '@/config/contracts-generated'
 import { BaseUnitNumber } from '@/domain/types/NumericValues'
 import { testAddresses } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
@@ -7,19 +6,25 @@ import { toBigInt } from '@/utils/bigNumber'
 import { waitFor } from '@testing-library/react'
 import { mainnet } from 'viem/chains'
 
+import { erc4626Abi } from 'viem'
 import { useVaultDeposit } from './useVaultDeposit'
 
-const token = testAddresses.token
+const assetToken = testAddresses.token
 const account = testAddresses.alice
-const assets = BaseUnitNumber(1)
+const assetsAmount = BaseUnitNumber(1)
+const vault = {
+  address: testAddresses.token,
+  abi: erc4626Abi,
+}
 
 const hookRenderer = setupHookRenderer({
   hook: useVaultDeposit,
   account,
   handlers: [handlers.chainIdCall({ chainId: mainnet.id }), handlers.balanceCall({ balance: 0n, address: account })],
   args: {
-    token,
-    assets,
+    assetToken,
+    assetsAmount,
+    vault,
   },
 })
 
@@ -33,7 +38,7 @@ describe(useVaultDeposit.name, () => {
   })
 
   it('is not enabled for 0 assets value', async () => {
-    const { result } = hookRenderer({ args: { assets: BaseUnitNumber(0), token } })
+    const { result } = hookRenderer({ args: { assetsAmount: BaseUnitNumber(0), assetToken, vault } })
 
     await waitFor(() => {
       expect(result.current.status.kind).toBe('disabled')
@@ -41,7 +46,7 @@ describe(useVaultDeposit.name, () => {
   })
 
   it('is not enabled when explicitly disabled', async () => {
-    const { result } = hookRenderer({ args: { enabled: false, assets, token } })
+    const { result } = hookRenderer({ args: { enabled: false, assetsAmount, assetToken, vault } })
 
     await waitFor(() => {
       expect(result.current.status.kind).toBe('disabled')
@@ -51,15 +56,16 @@ describe(useVaultDeposit.name, () => {
   it('deposits into vault', async () => {
     const { result } = hookRenderer({
       args: {
-        token,
-        assets,
+        assetToken,
+        assetsAmount,
+        vault,
       },
       extraHandlers: [
         handlers.contractCall({
-          to: savingsDaiAddress[mainnet.id],
-          abi: savingsDaiAbi,
+          to: vault.address,
+          abi: vault.abi,
           functionName: 'deposit',
-          args: [toBigInt(assets), account],
+          args: [toBigInt(assetsAmount), account],
           from: account,
           result: 1n,
         }),

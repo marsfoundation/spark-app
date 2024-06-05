@@ -1,24 +1,25 @@
-import { savingsDaiConfig } from '@/config/contracts-generated'
 import { toBigInt } from '@/utils/bigNumber'
 import { useQueryClient } from '@tanstack/react-query'
 import { useAccount, useChainId, useConfig } from 'wagmi'
-import { useContractAddress } from '../hooks/useContractAddress'
 import { ensureConfigTypes, useWrite } from '../hooks/useWrite'
 import { allowance } from '../market-operations/allowance/query'
 import { CheckedAddress } from '../types/CheckedAddress'
 import { BaseUnitNumber } from '../types/NumericValues'
 import { balances } from '../wallet/balances'
+import { Vault } from './types'
 
 export interface UseVaultDepositArgs {
-  token: CheckedAddress
-  assets: BaseUnitNumber
+  assetToken: CheckedAddress
+  assetsAmount: BaseUnitNumber
+  vault: Vault
   onTransactionSettled?: () => void
   enabled?: boolean
 }
 
 export function useVaultDeposit({
-  token,
-  assets: _assets,
+  assetToken,
+  assetsAmount,
+  vault,
   onTransactionSettled,
   enabled = true,
 }: UseVaultDepositArgs): ReturnType<typeof useWrite> {
@@ -27,20 +28,18 @@ export function useVaultDeposit({
   const chainId = useChainId()
 
   const { address: receiver } = useAccount()
-  const assets = toBigInt(_assets)
-  const vault = useContractAddress(savingsDaiConfig.address)
 
   const config = ensureConfigTypes({
-    address: vault,
-    abi: savingsDaiConfig.abi,
+    address: vault.address,
+    abi: vault.abi,
     functionName: 'deposit',
-    args: [assets, receiver!],
+    args: [toBigInt(assetsAmount), receiver!],
   })
 
   return useWrite(
     {
       ...config,
-      enabled: enabled && assets > 0n && !!receiver,
+      enabled: enabled && assetsAmount.gt(0) && !!receiver,
     },
     {
       onTransactionSettled: async () => {
@@ -48,7 +47,8 @@ export function useVaultDeposit({
           queryKey: balances({ wagmiConfig, chainId, account: receiver }).queryKey,
         })
         void client.invalidateQueries({
-          queryKey: allowance({ wagmiConfig, chainId, token, account: receiver!, spender: vault }).queryKey,
+          queryKey: allowance({ wagmiConfig, chainId, token: assetToken, account: receiver!, spender: vault.address })
+            .queryKey,
         })
 
         onTransactionSettled?.()
