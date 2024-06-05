@@ -123,21 +123,36 @@ export class ActionsPageObject extends BasePageObject {
   // #endregion assertions
 }
 
-interface SimplifiedAction {
-  type: ActionType
-  asset: string
-  amount: number
-}
+type SimplifiedAction =
+  | {
+      type: Exclude<ActionType, 'exchange'>
+      asset: string
+      amount: number
+    }
+  | {
+      type: 'exchange'
+      inputAsset: string
+      outputAsset: string
+      amount: number
+    }
 
 function actionToTitle(action: SimplifiedAction, shortForm: boolean): string {
   const prefix = getActionTitlePrefix(action)
 
   if (shortForm) {
+    if (action.type === 'exchange') {
+      return `${prefix} ${action.inputAsset} to ${action.outputAsset}`
+    }
+
     return `${prefix} ${action.asset}`
   }
 
   const formatter = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
   // this is quite naive and might require improving in the future
+  if (action.type === 'exchange') {
+    return `${prefix} ${formatter.format(action.amount)} ${action.inputAsset} to ${action.outputAsset}`
+  }
+
   return `${prefix} ${formatter.format(action.amount)} ${action.asset}`
 }
 
@@ -167,6 +182,6 @@ function getActionTitlePrefix(action: SimplifiedAction): string {
     case 'approveExchange':
       return 'Approve exchange'
     case 'exchange':
-      return 'Exchange'
+      return 'Convert'
   }
 }
