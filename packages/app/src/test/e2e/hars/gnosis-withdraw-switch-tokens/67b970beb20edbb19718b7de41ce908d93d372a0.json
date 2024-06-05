@@ -1,0 +1,253 @@
+{
+  "type": "lifi",
+  "id": "fec4e97e-4a5e-4686-93de-8290cc25ee84",
+  "tool": "1inch",
+  "toolDetails": {
+    "key": "1inch",
+    "name": "1inch",
+    "logoURI": "https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/exchanges/oneinch.png"
+  },
+  "action": {
+    "fromToken": {
+      "address": "0xaf204776c7245bF4147c2612BF6e5972Ee483701",
+      "chainId": 100,
+      "symbol": "sDAI",
+      "decimals": 18,
+      "name": "Savings xDAI",
+      "coinKey": "sDAI",
+      "logoURI": "https://static.debank.com/image/xdai_token/logo_url/0xaf204776c7245bf4147c2612bf6e5972ee483701/8230d73bf3b22b0b095a61c79f1815cb.png",
+      "priceUSD": "1.0836982773019075"
+    },
+    "fromAmount": "925835278163137957211",
+    "toToken": {
+      "address": "0x4ECaBa5870353805a9F068101A40E0f32ed605C6",
+      "chainId": 100,
+      "symbol": "USDT",
+      "decimals": 6,
+      "name": "USDT",
+      "coinKey": "USDT",
+      "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xdAC17F958D2ee523a2206206994597C13D831ec7/logo.png",
+      "priceUSD": "0.99982"
+    },
+    "fromChainId": 100,
+    "toChainId": 100,
+    "slippage": 0.001,
+    "fromAddress": "0xbf7cD9cE9068BcA77C190F2A767513e8b8F31439",
+    "toAddress": "0xbf7cD9cE9068BcA77C190F2A767513e8b8F31439"
+  },
+  "estimate": {
+    "tool": "1inch",
+    "approvalAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE",
+    "toAmountMin": "1000499999",
+    "toAmount": "1001501501",
+    "fromAmount": "925835278163137957211",
+    "feeCosts": [
+      {
+        "name": "LIFI Fixed Fee",
+        "description": "Fixed LIFI fee, independent of any other fee",
+        "token": {
+          "address": "0xaf204776c7245bF4147c2612BF6e5972Ee483701",
+          "chainId": 100,
+          "symbol": "sDAI",
+          "decimals": 18,
+          "name": "Savings xDAI",
+          "coinKey": "sDAI",
+          "logoURI": "https://static.debank.com/image/xdai_token/logo_url/0xaf204776c7245bf4147c2612bf6e5972ee483701/8230d73bf3b22b0b095a61c79f1815cb.png",
+          "priceUSD": "1.0836982773019075"
+        },
+        "amount": "1851670556326275914",
+        "amountUSD": "2.01",
+        "percentage": "0.0020",
+        "included": true
+      }
+    ],
+    "gasCosts": [
+      {
+        "type": "SEND",
+        "price": "3060000000",
+        "estimate": "773000",
+        "limit": "1004900",
+        "amount": "2365380000000000",
+        "amountUSD": "0.01",
+        "token": {
+          "address": "0x0000000000000000000000000000000000000000",
+          "chainId": 100,
+          "symbol": "xDAI",
+          "decimals": 18,
+          "name": "xDAI Native Token",
+          "coinKey": "DAI",
+          "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png",
+          "priceUSD": "0.9998"
+        }
+      }
+    ],
+    "executionDuration": 30,
+    "fromAmountUSD": "1003.33",
+    "toAmountUSD": "1001.32"
+  },
+  "includedSteps": [
+    {
+      "id": "7b6b9f11-afcf-42c4-84ef-933bc243a597",
+      "type": "protocol",
+      "action": {
+        "fromChainId": 100,
+        "fromAmount": "925835278163137957211",
+        "fromToken": {
+          "address": "0xaf204776c7245bF4147c2612BF6e5972Ee483701",
+          "chainId": 100,
+          "symbol": "sDAI",
+          "decimals": 18,
+          "name": "Savings xDAI",
+          "coinKey": "sDAI",
+          "logoURI": "https://static.debank.com/image/xdai_token/logo_url/0xaf204776c7245bf4147c2612bf6e5972ee483701/8230d73bf3b22b0b095a61c79f1815cb.png",
+          "priceUSD": "1.0836982773019075"
+        },
+        "toChainId": 100,
+        "toToken": {
+          "address": "0xaf204776c7245bF4147c2612BF6e5972Ee483701",
+          "chainId": 100,
+          "symbol": "sDAI",
+          "decimals": 18,
+          "name": "Savings xDAI",
+          "coinKey": "sDAI",
+          "logoURI": "https://static.debank.com/image/xdai_token/logo_url/0xaf204776c7245bf4147c2612bf6e5972ee483701/8230d73bf3b22b0b095a61c79f1815cb.png",
+          "priceUSD": "1.0836982773019075"
+        },
+        "slippage": 0.001,
+        "fromAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE",
+        "toAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE"
+      },
+      "estimate": {
+        "fromAmount": "925835278163137957211",
+        "toAmount": "923983607606811681297",
+        "toAmountMin": "923983607606811681297",
+        "tool": "feeCollection",
+        "approvalAddress": "0xbD6C7B0d2f68c2b7805d88388319cfB6EcB50eA9",
+        "gasCosts": [
+          {
+            "type": "SEND",
+            "price": "3060000000",
+            "estimate": "130000",
+            "limit": "169000",
+            "amount": "397800000000000",
+            "amountUSD": "0.01",
+            "token": {
+              "address": "0x0000000000000000000000000000000000000000",
+              "chainId": 100,
+              "symbol": "xDAI",
+              "decimals": 18,
+              "name": "xDAI Native Token",
+              "coinKey": "DAI",
+              "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png",
+              "priceUSD": "0.9998"
+            }
+          }
+        ],
+        "feeCosts": [
+          {
+            "name": "LIFI Fixed Fee",
+            "description": "Fixed LIFI fee, independent of any other fee",
+            "token": {
+              "address": "0xaf204776c7245bF4147c2612BF6e5972Ee483701",
+              "chainId": 100,
+              "symbol": "sDAI",
+              "decimals": 18,
+              "name": "Savings xDAI",
+              "coinKey": "sDAI",
+              "logoURI": "https://static.debank.com/image/xdai_token/logo_url/0xaf204776c7245bf4147c2612bf6e5972ee483701/8230d73bf3b22b0b095a61c79f1815cb.png",
+              "priceUSD": "1.0836982773019075"
+            },
+            "amount": "1851670556326275914",
+            "amountUSD": "2.01",
+            "percentage": "0.0020",
+            "included": true
+          }
+        ],
+        "executionDuration": 0
+      },
+      "tool": "feeCollection",
+      "toolDetails": {
+        "key": "feeCollection",
+        "name": "Integrator Fee",
+        "logoURI": "https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/protocols/feeCollection.png"
+      }
+    },
+    {
+      "id": "482b21ff-a322-4bf2-8117-061af1572e9f",
+      "type": "swap",
+      "action": {
+        "fromChainId": 100,
+        "fromAmount": "923983607606811681297",
+        "fromToken": {
+          "address": "0xaf204776c7245bF4147c2612BF6e5972Ee483701",
+          "chainId": 100,
+          "symbol": "sDAI",
+          "decimals": 18,
+          "name": "Savings xDAI",
+          "coinKey": "sDAI",
+          "logoURI": "https://static.debank.com/image/xdai_token/logo_url/0xaf204776c7245bf4147c2612bf6e5972ee483701/8230d73bf3b22b0b095a61c79f1815cb.png",
+          "priceUSD": "1.0836982773019075"
+        },
+        "toChainId": 100,
+        "toToken": {
+          "address": "0x4ECaBa5870353805a9F068101A40E0f32ed605C6",
+          "chainId": 100,
+          "symbol": "USDT",
+          "decimals": 6,
+          "name": "USDT",
+          "coinKey": "USDT",
+          "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xdAC17F958D2ee523a2206206994597C13D831ec7/logo.png",
+          "priceUSD": "0.99982"
+        },
+        "slippage": 0.001,
+        "fromAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE",
+        "toAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE"
+      },
+      "estimate": {
+        "tool": "1inch",
+        "fromAmount": "923983607606811681297",
+        "toAmount": "1001501501",
+        "toAmountMin": "1000499999",
+        "approvalAddress": "0x1111111254eeb25477b68fb85ed929f73a960582",
+        "executionDuration": 30,
+        "feeCosts": [],
+        "gasCosts": [
+          {
+            "type": "SEND",
+            "price": "3060000000",
+            "estimate": "300000",
+            "limit": "390000",
+            "amount": "918000000000000",
+            "amountUSD": "0.01",
+            "token": {
+              "address": "0x0000000000000000000000000000000000000000",
+              "chainId": 100,
+              "symbol": "xDAI",
+              "decimals": 18,
+              "name": "xDAI Native Token",
+              "coinKey": "DAI",
+              "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png",
+              "priceUSD": "0.9998"
+            }
+          }
+        ]
+      },
+      "tool": "1inch",
+      "toolDetails": {
+        "key": "1inch",
+        "name": "1inch",
+        "logoURI": "https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/exchanges/oneinch.png"
+      }
+    }
+  ],
+  "integrator": "spark_fee",
+  "transactionRequest": {
+    "data": "0x4630a0d8007df817d4959ad9c6f2827c542c6cc7b7f1f4c35b7c2cc5a9750887fa5f29b300000000000000000000000000000000000000000000000000000000000000c00000000000000000000000000000000000000000000000000000000000000100000000000000000000000000bf7cd9ce9068bca77c190f2a767513e8b8f31439000000000000000000000000000000000000000000000000000000003ba26b1f00000000000000000000000000000000000000000000000000000000000001600000000000000000000000000000000000000000000000000000000000000009737061726b5f6665650000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002a307830303030303030303030303030303030303030303030303030303030303030303030303030303030000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000001e0000000000000000000000000bd6c7b0d2f68c2b7805d88388319cfb6ecb50ea9000000000000000000000000bd6c7b0d2f68c2b7805d88388319cfb6ecb50ea9000000000000000000000000af204776c7245bf4147c2612bf6e5972ee483701000000000000000000000000af204776c7245bf4147c2612bf6e5972ee483701000000000000000000000000000000000000000000000032308ba8342ece8d5b00000000000000000000000000000000000000000000000000000000000000e000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000084eedd56e1000000000000000000000000af204776c7245bf4147c2612bf6e5972ee483701000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000019b2748f76e0ab4a00000000000000000000000029dacdf7ccadf4ee67c923b4c22255a4b2494ed7000000000000000000000000000000000000000000000000000000000000000000000000000000001111111254eeb25477b68fb85ed929f73a9605820000000000000000000000001111111254eeb25477b68fb85ed929f73a960582000000000000000000000000af204776c7245bf4147c2612bf6e5972ee4837010000000000000000000000004ecaba5870353805a9f068101a40e0f32ed605c600000000000000000000000000000000000000000000003216d933a4b7ede21100000000000000000000000000000000000000000000000000000000000000e00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000022812aa3caf000000000000000000000000f5ab9bf279284fb8e3de1c3bf0b0b4a6fb0bb538000000000000000000000000af204776c7245bf4147c2612bf6e5972ee4837010000000000000000000000004ecaba5870353805a9f068101a40e0f32ed605c6000000000000000000000000f5ab9bf279284fb8e3de1c3bf0b0b4a6fb0bb5380000000000000000000000001231deb6f5749ef6ce6943a275a1d3e7486f4eae00000000000000000000000000000000000000000000003216d933a4b7ede211000000000000000000000000000000000000000000000000000000003ba26b1f0000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000014000000000000000000000000000000000000000000000000000000000000001600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008100000000000000000000000000000000000000000000000000000000006300a0fbb7cd06807644fa5d0ea14fcf3e813fdf93ca9544f8567655000000000000000000000066af204776c7245bf4147c2612bf6e5972ee4837014ecaba5870353805a9f068101a40e0f32ed605c61111111254eeb25477b68fb85ed929f73a960582000000000000000000000000000000000000000000000000000000000000002a94d114000000000000000000000000000000000000000000000000",
+    "to": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE",
+    "value": "0x0",
+    "gasPrice": "0xb663e500",
+    "gasLimit": "0xf5564",
+    "from": "0xbf7cD9cE9068BcA77C190F2A767513e8b8F31439",
+    "chainId": 100
+  }
+}

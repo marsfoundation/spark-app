@@ -299,4 +299,152 @@ test.describe('Savings withdraw dialog', () => {
       await actionsContainer.expectNextActionEnabled()
     })
   })
+
+  test.describe('Miscellaneous', () => {
+    test.describe('Mainnet', () => {
+      const blockNumber = 20025677n
+      const fork = setupFork({ blockNumber, chainId: mainnet.id })
+
+      test('can switch between tokens', async ({ page }) => {
+        await setup(page, fork, {
+          initialPage: 'savings',
+          account: {
+            type: 'connected',
+            assetBalances: {
+              ETH: 1,
+              sDAI: 1000,
+            },
+            privateKey: LIFI_TEST_USER_PRIVATE_KEY,
+          },
+        })
+        await overrideLiFiRouteWithHAR({
+          page,
+          key: 'mainnet-withdraw-switch-tokens',
+        })
+
+        const savingsPage = new SavingsPageObject(page)
+
+        await savingsPage.clickWithdrawButtonAction()
+
+        const depositDialog = new SavingsWithdrawDialogPageObject(page)
+        const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
+
+        await depositDialog.fillAmountAction(1000)
+        await actionsContainer.expectNextActionEnabled()
+        await actionsContainer.expectActions(
+          [
+            { type: 'approve', asset: 'sDAI', amount: 1000 },
+            { type: 'exchange', inputAsset: 'sDAI', outputAsset: 'DAI', amount: 1000 },
+          ],
+          true,
+        )
+
+        await depositDialog.selectAssetAction('USDC')
+        await depositDialog.fillAmountAction(1000)
+        await actionsContainer.expectNextActionEnabled()
+        await actionsContainer.expectActions(
+          [
+            { type: 'approve', asset: 'sDAI', amount: 1000 },
+            { type: 'exchange', inputAsset: 'sDAI', outputAsset: 'USDC', amount: 1000 },
+          ],
+          true,
+        )
+
+        await depositDialog.selectAssetAction('USDT')
+        await depositDialog.fillAmountAction(1000)
+        await actionsContainer.expectNextActionEnabled()
+        await actionsContainer.expectActions(
+          [
+            { type: 'approve', asset: 'sDAI', amount: 1000 },
+            { type: 'exchange', inputAsset: 'sDAI', outputAsset: 'USDT', amount: 1000 },
+          ],
+          true,
+        )
+
+        await depositDialog.selectAssetAction('DAI')
+        await depositDialog.fillAmountAction(1000)
+        await actionsContainer.expectNextActionEnabled()
+        await actionsContainer.expectActions(
+          [
+            { type: 'approve', asset: 'sDAI', amount: 1000 },
+            { type: 'exchange', inputAsset: 'sDAI', outputAsset: 'DAI', amount: 1000 },
+          ],
+          true,
+        )
+      })
+    })
+
+    test.describe('Gnosis', () => {
+      const blockNumber = 34309540n
+      const fork = setupFork({ blockNumber, chainId: gnosis.id })
+
+      test('can switch between tokens', async ({ page }) => {
+        await setup(page, fork, {
+          initialPage: 'savings',
+          account: {
+            type: 'connected',
+            assetBalances: {
+              XDAI: 100,
+              sDAI: 1000,
+            },
+            privateKey: LIFI_TEST_USER_PRIVATE_KEY,
+          },
+        })
+        await overrideLiFiRouteWithHAR({
+          page,
+          key: 'gnosis-withdraw-switch-tokens',
+        })
+
+        const savingsPage = new SavingsPageObject(page)
+
+        await savingsPage.clickWithdrawButtonAction()
+
+        const depositDialog = new SavingsWithdrawDialogPageObject(page)
+        const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
+
+        await depositDialog.fillAmountAction(1000)
+        await actionsContainer.expectNextActionEnabled()
+        await actionsContainer.expectActions(
+          [
+            { type: 'approve', asset: 'sDAI', amount: 1000 },
+            { type: 'exchange', inputAsset: 'sDAI', outputAsset: 'XDAI', amount: 1000 },
+          ],
+          true,
+        )
+
+        await depositDialog.selectAssetAction('USDC')
+        await depositDialog.fillAmountAction(1000)
+        await actionsContainer.expectNextActionEnabled()
+        await actionsContainer.expectActions(
+          [
+            { type: 'approve', asset: 'sDAI', amount: 1000 },
+            { type: 'exchange', inputAsset: 'sDAI', outputAsset: 'USDC', amount: 1000 },
+          ],
+          true,
+        )
+
+        await depositDialog.selectAssetAction('USDT')
+        await depositDialog.fillAmountAction(1000)
+        await actionsContainer.expectNextActionEnabled()
+        await actionsContainer.expectActions(
+          [
+            { type: 'approve', asset: 'sDAI', amount: 1000 },
+            { type: 'exchange', inputAsset: 'sDAI', outputAsset: 'USDT', amount: 1000 },
+          ],
+          true,
+        )
+
+        await depositDialog.selectAssetAction('XDAI')
+        await depositDialog.fillAmountAction(1000)
+        await actionsContainer.expectNextActionEnabled()
+        await actionsContainer.expectActions(
+          [
+            { type: 'approve', asset: 'sDAI', amount: 1000 },
+            { type: 'exchange', inputAsset: 'sDAI', outputAsset: 'XDAI', amount: 1000 },
+          ],
+          true,
+        )
+      })
+    })
+  })
 })
