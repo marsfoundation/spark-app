@@ -15,7 +15,7 @@ async function checkAddress(address?: string, authUrl?: string): Promise<AuthRes
   let addressAllowed = true
   if (address) {
     const res = await fetch(wholeUrl)
-    if (res.status === 200) {
+    if (res.ok) {
       const data = (await res.json()) as any
       addressAllowed = data.addressAllowed
     } else {
