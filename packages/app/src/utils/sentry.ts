@@ -1,3 +1,4 @@
+import { apiUrl } from '@/config/consts'
 import * as Sentry from '@sentry/react'
 
 if (import.meta.env.VITE_SENTRY_DSN) {
@@ -7,6 +8,7 @@ if (import.meta.env.VITE_SENTRY_DSN) {
 
 Sentry.init({
   dsn: import.meta.env.VITE_SENTRY_DSN,
+  tunnel: `${apiUrl}/sentry/tunnel`,
   environment: import.meta.env.VITE_ENV_NAME,
   integrations: [],
   tracesSampleRate: 0,
