@@ -5,43 +5,39 @@ import { useAccount, useChainId, useConfig } from 'wagmi'
 import { useContractAddress } from '../hooks/useContractAddress'
 import { ensureConfigTypes, useWrite } from '../hooks/useWrite'
 import { aaveDataLayer } from '../market-info/aave-data-layer/query'
-import { allowance } from '../market-operations/allowance/query'
-import { CheckedAddress } from '../types/CheckedAddress'
 import { BaseUnitNumber } from '../types/NumericValues'
 import { balances } from '../wallet/balances'
 
-export interface UseVaultDepositArgs {
-  token: CheckedAddress
-  assets: BaseUnitNumber
+interface UseVaultRedeemArgs {
+  shares: BaseUnitNumber
   onTransactionSettled?: () => void
   enabled?: boolean
 }
 
-export function useVaultDeposit({
-  token,
-  assets: _assets,
+export function useVaultRedeem({
+  shares: _shares,
   onTransactionSettled,
   enabled = true,
-}: UseVaultDepositArgs): ReturnType<typeof useWrite> {
+}: UseVaultRedeemArgs): ReturnType<typeof useWrite> {
   const client = useQueryClient()
   const wagmiConfig = useConfig()
   const chainId = useChainId()
 
   const { address: receiver } = useAccount()
-  const assets = toBigInt(_assets)
+  const shares = toBigInt(_shares)
   const vault = useContractAddress(savingsDaiConfig.address)
 
   const config = ensureConfigTypes({
     address: vault,
     abi: savingsDaiConfig.abi,
-    functionName: 'deposit',
-    args: [assets, receiver!],
+    functionName: 'redeem',
+    args: [toBigInt(_shares), receiver!, receiver!],
   })
 
   return useWrite(
     {
       ...config,
-      enabled: enabled && assets > 0n && !!receiver,
+      enabled: enabled && shares > 0 && !!receiver,
     },
     {
       onTransactionSettled: async () => {
@@ -50,9 +46,6 @@ export function useVaultDeposit({
         })
         void client.invalidateQueries({
           queryKey: balances({ wagmiConfig, chainId, account: receiver }).queryKey,
-        })
-        void client.invalidateQueries({
-          queryKey: allowance({ wagmiConfig, chainId, token, account: receiver!, spender: vault }).queryKey,
         })
 
         onTransactionSettled?.()

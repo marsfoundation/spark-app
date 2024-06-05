@@ -1,25 +1,21 @@
 import { savingsDaiConfig } from '@/config/contracts-generated'
 import { toBigInt } from '@/utils/bigNumber'
 import { useQueryClient } from '@tanstack/react-query'
-import { Abi, Address } from 'viem'
-import { UseSimulateContractParameters, useAccount, useChainId, useConfig } from 'wagmi'
+import { useAccount, useChainId, useConfig } from 'wagmi'
 import { useContractAddress } from '../hooks/useContractAddress'
 import { ensureConfigTypes, useWrite } from '../hooks/useWrite'
 import { aaveDataLayer } from '../market-info/aave-data-layer/query'
-import { CheckedAddress } from '../types/CheckedAddress'
 import { BaseUnitNumber } from '../types/NumericValues'
 import { balances } from '../wallet/balances'
 
 interface UseVaultWithdrawArgs {
-  value: BaseUnitNumber
-  max?: boolean
+  assets: BaseUnitNumber
   onTransactionSettled?: () => void
   enabled?: boolean
 }
 
 export function useVaultWithdraw({
-  value,
-  max,
+  assets: _assets,
   onTransactionSettled,
   enabled = true,
 }: UseVaultWithdrawArgs): ReturnType<typeof useWrite> {
@@ -27,52 +23,33 @@ export function useVaultWithdraw({
   const wagmiConfig = useConfig()
   const chainId = useChainId()
 
-  const { address: userAddress } = useAccount()
+  const { address: receiver } = useAccount()
+  const assets = toBigInt(_assets)
   const vault = useContractAddress(savingsDaiConfig.address)
 
-  const config = getConfig({ receiver: userAddress!, vault, value, max })
+  const config = ensureConfigTypes({
+    address: vault,
+    abi: savingsDaiConfig.abi,
+    functionName: 'withdraw',
+    args: [toBigInt(_assets), receiver!, receiver!],
+  })
 
   return useWrite(
     {
       ...config,
-      enabled: !!userAddress && enabled && value.gt(0),
+      enabled: enabled && assets > 0n && !!receiver,
     },
     {
       onTransactionSettled: async () => {
         void client.invalidateQueries({
-          queryKey: aaveDataLayer({ wagmiConfig, chainId, account: userAddress }).queryKey,
+          queryKey: aaveDataLayer({ wagmiConfig, chainId, account: receiver }).queryKey,
         })
         void client.invalidateQueries({
-          queryKey: balances({ wagmiConfig, chainId, account: userAddress }).queryKey,
+          queryKey: balances({ wagmiConfig, chainId, account: receiver }).queryKey,
         })
 
         onTransactionSettled?.()
       },
     },
   )
-}
-
-interface GetConfigParams {
-  value: BaseUnitNumber
-  receiver: Address
-  vault: CheckedAddress
-  max?: boolean
-}
-
-function getConfig({ value, receiver, vault, max }: GetConfigParams): UseSimulateContractParameters<Abi, string> {
-  if (max) {
-    return ensureConfigTypes({
-      address: vault,
-      abi: savingsDaiConfig.abi,
-      functionName: 'redeem',
-      args: [toBigInt(value), receiver, receiver],
-    })
-  }
-
-  return ensureConfigTypes({
-    address: vault,
-    abi: savingsDaiConfig.abi,
-    functionName: 'withdraw',
-    args: [toBigInt(value), receiver, receiver],
-  })
 }

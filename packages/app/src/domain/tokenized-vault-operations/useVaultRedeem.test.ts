@@ -7,19 +7,19 @@ import { toBigInt } from '@/utils/bigNumber'
 import { waitFor } from '@testing-library/react'
 import { mainnet } from 'viem/chains'
 
-import { useVaultWithdraw } from './useVaultWithdraw'
+import { useVaultRedeem } from './useVaultRedeem'
 
 const account = testAddresses.alice
-const assets = BaseUnitNumber(10)
+const shares = BaseUnitNumber(10)
 
 const hookRenderer = setupHookRenderer({
-  hook: useVaultWithdraw,
+  hook: useVaultRedeem,
   account,
   handlers: [handlers.chainIdCall({ chainId: mainnet.id }), handlers.balanceCall({ balance: 0n, address: account })],
-  args: { assets },
+  args: { shares },
 })
 
-describe(useVaultWithdraw.name, () => {
+describe(useVaultRedeem.name, () => {
   it('is not enabled for guest ', async () => {
     const { result } = hookRenderer({ account: undefined })
 
@@ -29,7 +29,7 @@ describe(useVaultWithdraw.name, () => {
   })
 
   it('is not enabled for 0 value', async () => {
-    const { result } = hookRenderer({ args: { assets: BaseUnitNumber(0) } })
+    const { result } = hookRenderer({ args: { shares: BaseUnitNumber(0) } })
 
     await waitFor(() => {
       expect(result.current.status.kind).toBe('disabled')
@@ -37,24 +37,24 @@ describe(useVaultWithdraw.name, () => {
   })
 
   it('is not enabled when explicitly disabled', async () => {
-    const { result } = hookRenderer({ args: { enabled: false, assets } })
+    const { result } = hookRenderer({ args: { enabled: false, shares } })
 
     await waitFor(() => {
       expect(result.current.status.kind).toBe('disabled')
     })
   })
 
-  it('withdraws from vault', async () => {
+  it('redeems from vault', async () => {
     const { result } = hookRenderer({
       args: {
-        assets,
+        shares,
       },
       extraHandlers: [
         handlers.contractCall({
           to: savingsDaiAddress[mainnet.id],
           abi: savingsDaiAbi,
-          functionName: 'withdraw',
-          args: [toBigInt(assets), account, account],
+          functionName: 'redeem',
+          args: [toBigInt(shares), account, account],
           from: account,
           result: 1n,
         }),
