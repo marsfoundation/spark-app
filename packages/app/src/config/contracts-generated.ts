@@ -10,25 +10,19 @@ export const chainlogAbi = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [
-      { name: 'usr', internalType: 'address', type: 'address', indexed: false },
-    ],
+    inputs: [{ name: 'usr', internalType: 'address', type: 'address', indexed: false }],
     name: 'Deny',
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [
-      { name: 'usr', internalType: 'address', type: 'address', indexed: false },
-    ],
+    inputs: [{ name: 'usr', internalType: 'address', type: 'address', indexed: false }],
     name: 'Rely',
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [
-      { name: 'key', internalType: 'bytes32', type: 'bytes32', indexed: false },
-    ],
+    inputs: [{ name: 'key', internalType: 'bytes32', type: 'bytes32', indexed: false }],
     name: 'RemoveAddress',
   },
   {
@@ -48,9 +42,7 @@ export const chainlogAbi = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [
-      { name: 'ipfs', internalType: 'string', type: 'string', indexed: false },
-    ],
+    inputs: [{ name: 'ipfs', internalType: 'string', type: 'string', indexed: false }],
     name: 'UpdateIPFS',
   },
   {
@@ -300,9 +292,7 @@ export const collectorAbi = [
   },
   {
     type: 'function',
-    inputs: [
-      { name: 'newImplementation', internalType: 'address', type: 'address' },
-    ],
+    inputs: [{ name: 'newImplementation', internalType: 'address', type: 'address' }],
     name: 'upgradeTo',
     outputs: [],
     stateMutability: 'nonpayable',
@@ -353,9 +343,7 @@ export const iamAutoLineAbi = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [
-      { name: 'usr', internalType: 'address', type: 'address', indexed: true },
-    ],
+    inputs: [{ name: 'usr', internalType: 'address', type: 'address', indexed: true }],
     name: 'Deny',
   },
   {
@@ -381,17 +369,13 @@ export const iamAutoLineAbi = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [
-      { name: 'usr', internalType: 'address', type: 'address', indexed: true },
-    ],
+    inputs: [{ name: 'usr', internalType: 'address', type: 'address', indexed: true }],
     name: 'Rely',
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [
-      { name: 'ilk', internalType: 'bytes32', type: 'bytes32', indexed: true },
-    ],
+    inputs: [{ name: 'ilk', internalType: 'bytes32', type: 'bytes32', indexed: true }],
     name: 'Remove',
   },
   {
@@ -548,9 +532,7 @@ export const lendingPoolAbi = [
   },
   {
     type: 'function',
-    inputs: [
-      { name: 'newImplementation', internalType: 'address', type: 'address' },
-    ],
+    inputs: [{ name: 'newImplementation', internalType: 'address', type: 'address' }],
     name: 'upgradeTo',
     outputs: [],
     stateMutability: 'nonpayable',
@@ -925,9 +907,7 @@ export const lendingPoolAddressProviderAbi = [
   },
   {
     type: 'function',
-    inputs: [
-      { name: 'newAclManager', internalType: 'address', type: 'address' },
-    ],
+    inputs: [{ name: 'newAclManager', internalType: 'address', type: 'address' }],
     name: 'setACLManager',
     outputs: [],
     stateMutability: 'nonpayable',
@@ -978,9 +958,7 @@ export const lendingPoolAddressProviderAbi = [
   },
   {
     type: 'function',
-    inputs: [
-      { name: 'newDataProvider', internalType: 'address', type: 'address' },
-    ],
+    inputs: [{ name: 'newDataProvider', internalType: 'address', type: 'address' }],
     name: 'setPoolDataProvider',
     outputs: [],
     stateMutability: 'nonpayable',
@@ -994,9 +972,7 @@ export const lendingPoolAddressProviderAbi = [
   },
   {
     type: 'function',
-    inputs: [
-      { name: 'newPriceOracle', internalType: 'address', type: 'address' },
-    ],
+    inputs: [{ name: 'newPriceOracle', internalType: 'address', type: 'address' }],
     name: 'setPriceOracle',
     outputs: [],
     stateMutability: 'nonpayable',
@@ -1438,9 +1414,7 @@ export const savingsDaiAbi = [
     type: 'function',
     inputs: [],
     name: 'daiJoin',
-    outputs: [
-      { name: '', internalType: 'contract DaiJoinLike', type: 'address' },
-    ],
+    outputs: [{ name: '', internalType: 'contract DaiJoinLike', type: 'address' }],
     stateMutability: 'view',
   },
   {
@@ -1794,9 +1768,7 @@ export const savingsXDaiAdapterAbi = [
     type: 'function',
     inputs: [],
     name: 'sDAI',
-    outputs: [
-      { name: '', internalType: 'contract SavingsXDai', type: 'address' },
-    ],
+    outputs: [{ name: '', internalType: 'contract SavingsXDai', type: 'address' }],
     stateMutability: 'view',
   },
   {
@@ -1874,8 +1846,7 @@ export const uiIncentiveDataProviderAbi = [
     outputs: [
       {
         name: '',
-        internalType:
-          'struct IUiIncentiveDataProviderV3.AggregatedReserveIncentiveData[]',
+        internalType: 'struct IUiIncentiveDataProviderV3.AggregatedReserveIncentiveData[]',
         type: 'tuple[]',
         components: [
           { name: 'underlyingAsset', internalType: 'address', type: 'address' },
@@ -2108,8 +2079,7 @@ export const uiIncentiveDataProviderAbi = [
       },
       {
         name: '',
-        internalType:
-          'struct IUiIncentiveDataProviderV3.UserReserveIncentiveData[]',
+        internalType: 'struct IUiIncentiveDataProviderV3.UserReserveIncentiveData[]',
         type: 'tuple[]',
         components: [
           { name: 'underlyingAsset', internalType: 'address', type: 'address' },
@@ -2130,8 +2100,7 @@ export const uiIncentiveDataProviderAbi = [
               },
               {
                 name: 'userRewardsInformation',
-                internalType:
-                  'struct IUiIncentiveDataProviderV3.UserRewardInfo[]',
+                internalType: 'struct IUiIncentiveDataProviderV3.UserRewardInfo[]',
                 type: 'tuple[]',
                 components: [
                   {
@@ -2195,8 +2164,7 @@ export const uiIncentiveDataProviderAbi = [
               },
               {
                 name: 'userRewardsInformation',
-                internalType:
-                  'struct IUiIncentiveDataProviderV3.UserRewardInfo[]',
+                internalType: 'struct IUiIncentiveDataProviderV3.UserRewardInfo[]',
                 type: 'tuple[]',
                 components: [
                   {
@@ -2260,8 +2228,7 @@ export const uiIncentiveDataProviderAbi = [
               },
               {
                 name: 'userRewardsInformation',
-                internalType:
-                  'struct IUiIncentiveDataProviderV3.UserRewardInfo[]',
+                internalType: 'struct IUiIncentiveDataProviderV3.UserRewardInfo[]',
                 type: 'tuple[]',
                 components: [
                   {
@@ -2326,8 +2293,7 @@ export const uiIncentiveDataProviderAbi = [
     outputs: [
       {
         name: '',
-        internalType:
-          'struct IUiIncentiveDataProviderV3.AggregatedReserveIncentiveData[]',
+        internalType: 'struct IUiIncentiveDataProviderV3.AggregatedReserveIncentiveData[]',
         type: 'tuple[]',
         components: [
           { name: 'underlyingAsset', internalType: 'address', type: 'address' },
@@ -2575,8 +2541,7 @@ export const uiIncentiveDataProviderAbi = [
     outputs: [
       {
         name: '',
-        internalType:
-          'struct IUiIncentiveDataProviderV3.UserReserveIncentiveData[]',
+        internalType: 'struct IUiIncentiveDataProviderV3.UserReserveIncentiveData[]',
         type: 'tuple[]',
         components: [
           { name: 'underlyingAsset', internalType: 'address', type: 'address' },
@@ -2597,8 +2562,7 @@ export const uiIncentiveDataProviderAbi = [
               },
               {
                 name: 'userRewardsInformation',
-                internalType:
-                  'struct IUiIncentiveDataProviderV3.UserRewardInfo[]',
+                internalType: 'struct IUiIncentiveDataProviderV3.UserRewardInfo[]',
                 type: 'tuple[]',
                 components: [
                   {
@@ -2662,8 +2626,7 @@ export const uiIncentiveDataProviderAbi = [
               },
               {
                 name: 'userRewardsInformation',
-                internalType:
-                  'struct IUiIncentiveDataProviderV3.UserRewardInfo[]',
+                internalType: 'struct IUiIncentiveDataProviderV3.UserRewardInfo[]',
                 type: 'tuple[]',
                 components: [
                   {
@@ -2727,8 +2690,7 @@ export const uiIncentiveDataProviderAbi = [
               },
               {
                 name: 'userRewardsInformation',
-                internalType:
-                  'struct IUiIncentiveDataProviderV3.UserRewardInfo[]',
+                internalType: 'struct IUiIncentiveDataProviderV3.UserRewardInfo[]',
                 type: 'tuple[]',
                 components: [
                   {
@@ -3217,9 +3179,7 @@ export const v3MigratorAbi = [
     type: 'function',
     inputs: [],
     name: 'DAI',
-    outputs: [
-      { name: '', internalType: 'contract IERC20WithPermit', type: 'address' },
-    ],
+    outputs: [{ name: '', internalType: 'contract IERC20WithPermit', type: 'address' }],
     stateMutability: 'view',
   },
   {
@@ -3240,27 +3200,21 @@ export const v3MigratorAbi = [
     type: 'function',
     inputs: [],
     name: 'STETH',
-    outputs: [
-      { name: '', internalType: 'contract IERC20WithPermit', type: 'address' },
-    ],
+    outputs: [{ name: '', internalType: 'contract IERC20WithPermit', type: 'address' }],
     stateMutability: 'view',
   },
   {
     type: 'function',
     inputs: [],
     name: 'USDC',
-    outputs: [
-      { name: '', internalType: 'contract IERC20WithPermit', type: 'address' },
-    ],
+    outputs: [{ name: '', internalType: 'contract IERC20WithPermit', type: 'address' }],
     stateMutability: 'view',
   },
   {
     type: 'function',
     inputs: [],
     name: 'V2_POOL',
-    outputs: [
-      { name: '', internalType: 'contract ILendingPool', type: 'address' },
-    ],
+    outputs: [{ name: '', internalType: 'contract ILendingPool', type: 'address' }],
     stateMutability: 'view',
   },
   {
@@ -3281,9 +3235,7 @@ export const v3MigratorAbi = [
     type: 'function',
     inputs: [{ name: '', internalType: 'address', type: 'address' }],
     name: 'aTokens',
-    outputs: [
-      { name: '', internalType: 'contract IERC20WithPermit', type: 'address' },
-    ],
+    outputs: [{ name: '', internalType: 'contract IERC20WithPermit', type: 'address' }],
     stateMutability: 'view',
   },
   {
@@ -3411,9 +3363,7 @@ export const v3MigratorAbi = [
     type: 'function',
     inputs: [{ name: '', internalType: 'address', type: 'address' }],
     name: 'sTokens',
-    outputs: [
-      { name: '', internalType: 'contract IERC20WithPermit', type: 'address' },
-    ],
+    outputs: [{ name: '', internalType: 'contract IERC20WithPermit', type: 'address' }],
     stateMutability: 'view',
   },
   {
@@ -3427,9 +3377,7 @@ export const v3MigratorAbi = [
     type: 'function',
     inputs: [{ name: '', internalType: 'address', type: 'address' }],
     name: 'vTokens',
-    outputs: [
-      { name: '', internalType: 'contract IERC20WithPermit', type: 'address' },
-    ],
+    outputs: [{ name: '', internalType: 'contract IERC20WithPermit', type: 'address' }],
     stateMutability: 'view',
   },
 ] as const
