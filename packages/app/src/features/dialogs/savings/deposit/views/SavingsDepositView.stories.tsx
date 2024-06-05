@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form'
 import { BaseUnitNumber, NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { ExchangeObjective } from '@/features/actions/flavours/exchange/types'
 
+import { testAddresses } from '@/test/integration/constants'
 import { SavingsDepositView } from './SavingsDepositView'
 
 const meta: Meta<typeof SavingsDepositView> = {
@@ -58,10 +59,10 @@ const meta: Meta<typeof SavingsDepositView> = {
             type: 'direct',
             txRequest: {
               data: '0x',
-              from: '0x',
+              from: testAddresses.bob,
               gasLimit: fakeBigInt,
               gasPrice: fakeBigInt,
-              to: '0x',
+              to: testAddresses.alice,
               value: fakeBigInt,
             },
             estimate: {

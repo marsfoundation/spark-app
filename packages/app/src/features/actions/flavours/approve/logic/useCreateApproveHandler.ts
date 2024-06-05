@@ -17,7 +17,11 @@ export function useCreateApproveHandler(
 ): ActionHandler {
   const token = action.token
   const requiredValue = token.toBaseUnit(action.requiredValue ?? action.value)
-  const { data: hasEnoughAllowance, fetchStatus: hasEnoughAllowanceFetchStatus } = useHasEnoughAllowance({
+  const {
+    data: hasEnoughAllowance,
+    fetchStatus: hasEnoughAllowanceFetchStatus,
+    error: hasEnoughAllowanceError,
+  } = useHasEnoughAllowance({
     token: token.address,
     spender: action.spender,
     value: requiredValue,
@@ -31,7 +35,13 @@ export function useCreateApproveHandler(
     enabled: enabled && hasEnoughAllowance === false,
   })
 
-  const state = mapStatusesToActionState(hasEnoughAllowance, hasEnoughAllowanceFetchStatus, approve, enabled)
+  const state = mapStatusesToActionState(
+    hasEnoughAllowance,
+    hasEnoughAllowanceFetchStatus,
+    hasEnoughAllowanceError,
+    approve,
+    enabled,
+  )
 
   return {
     action,
@@ -43,11 +53,16 @@ export function useCreateApproveHandler(
 function mapStatusesToActionState(
   hasEnoughAllowance: boolean | undefined,
   hasEnoughAllowanceFetchStatus: FetchStatus,
+  hasEnoughAllowanceError: Error | null,
   approve: UseWriteResult,
   enabled: boolean,
 ): ActionHandlerState {
   if (!enabled) {
     return { status: 'disabled' }
+  }
+
+  if (hasEnoughAllowanceError) {
+    return { status: 'error', errorKind: 'simulation', message: hasEnoughAllowanceError.message }
   }
 
   // user already has allowance
