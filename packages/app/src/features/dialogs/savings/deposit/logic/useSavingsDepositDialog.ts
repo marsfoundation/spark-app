@@ -14,6 +14,7 @@ import { RiskWarning } from '@/features/dialogs/common/components/risk-acknowled
 import { AssetInputSchema, useDebouncedDialogFormValues } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
 
+import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
 import { mainnet } from 'viem/chains'
 import { SavingsDialogTxOverview, createTxOverview } from './createTxOverview'
 import { getFormFieldsForDepositDialog } from './form'
@@ -49,6 +50,8 @@ export function useSavingsDepositDialog({
   const { savingsInfo } = useSavingsInfo()
   invariant(savingsInfo, 'Savings info is not available')
   const walletInfo = useWalletInfo()
+  const originChainId = useOriginChainId()
+
   const { assets: depositOptions } = makeAssetsInWalletList({ walletInfo })
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')
@@ -73,7 +76,7 @@ export function useSavingsDepositDialog({
 
   const useNativeRoutes =
     import.meta.env.VITE_DEV_NATIVE_ROUTES === '1' &&
-    marketInfo.chainId === mainnet.id &&
+    originChainId === mainnet.id &&
     formValues.token.address === marketInfo.DAI.address
 
   const { swapInfo, swapParams } = useDepositIntoSavings({

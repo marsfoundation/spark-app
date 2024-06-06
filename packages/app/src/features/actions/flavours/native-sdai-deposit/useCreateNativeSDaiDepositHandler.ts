@@ -1,19 +1,17 @@
 import { useVaultDeposit } from '@/domain/tokenized-vault-operations/useVaultDeposit'
 
-import { PermitStore } from '../../logic/permits'
 import { ActionHandler } from '../../logic/types'
 import { mapWriteResultToActionState } from '../../logic/utils'
 import { NativeSDaiDepositAction } from './types'
 
-export interface UseCreateDepositHandlerOptions {
+export interface UseCreateNativeSDaiDepositHandlerOptions {
   enabled: boolean
-  permitStore?: PermitStore
   onFinish?: () => void
 }
 
 export function useCreateNativeSDaiDepositHandler(
   action: NativeSDaiDepositAction,
-  options: UseCreateDepositHandlerOptions,
+  options: UseCreateNativeSDaiDepositHandlerOptions,
 ): ActionHandler {
   const { enabled, onFinish } = options
 
