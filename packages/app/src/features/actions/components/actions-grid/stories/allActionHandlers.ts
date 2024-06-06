@@ -177,4 +177,14 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
     state: { status: 'ready' },
     onAction: () => {},
   },
+  nativeSDaiDeposit: {
+    action: {
+      type: 'nativeSDaiDeposit',
+      token: tokens.sDAI,
+      value: NormalizedUnitNumber(1023),
+      sDai: tokens.sDAI,
+    },
+    state: { status: 'ready' },
+    onAction: () => {},
+  },
 }

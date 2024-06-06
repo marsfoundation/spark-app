@@ -30,10 +30,6 @@ test.describe('Savings deposit dialog', () => {
           privateKey: LIFI_TEST_USER_PRIVATE_KEY,
         },
       })
-      await overrideLiFiRouteWithHAR({
-        page,
-        key: '100-dai-to-sdai',
-      })
 
       const savingsPage = new SavingsPageObject(page)
 
@@ -46,7 +42,7 @@ test.describe('Savings deposit dialog', () => {
       await actionsContainer.acceptAllActionsAction(2)
       await depositDialog.clickBackToSavingsButton()
 
-      await savingsPage.expectCurrentWorth('99.96')
+      await savingsPage.expectCurrentWorth('100.00')
     })
   })
 
@@ -391,7 +387,7 @@ test.describe('Savings deposit dialog', () => {
           type: 'connected',
           assetBalances: {
             ETH: 1,
-            DAI: 10000,
+            USDT: 10000,
           },
           privateKey: LIFI_TEST_USER_PRIVATE_KEY,
         },
@@ -399,12 +395,12 @@ test.describe('Savings deposit dialog', () => {
 
       await overrideLiFiRouteWithHAR({
         page,
-        key: '10000-dai-to-8320.604955114542838902-sdai',
+        key: '10000-usdt-to-8320.604955114542838902-sdai',
       })
 
       const savingsPage = new SavingsPageObject(page)
 
-      await savingsPage.clickDepositButtonAction('DAI')
+      await savingsPage.clickDepositButtonAction('USDT')
 
       const depositDialog = new SavingsDepositDialogPageObject(page)
       await depositDialog.fillAmountAction(10000)
@@ -419,7 +415,7 @@ test.describe('Savings deposit dialog', () => {
           type: 'connected',
           assetBalances: {
             ETH: 1,
-            DAI: 10000,
+            USDT: 10000,
           },
           privateKey: LIFI_TEST_USER_PRIVATE_KEY,
         },
@@ -427,12 +423,12 @@ test.describe('Savings deposit dialog', () => {
 
       await overrideLiFiRouteWithHAR({
         page,
-        key: '10000-dai-to-8320.604955114542838902-sdai',
+        key: '10000-usdt-to-8320.604955114542838902-sdai',
       })
 
       const savingsPage = new SavingsPageObject(page)
 
-      await savingsPage.clickDepositButtonAction('DAI')
+      await savingsPage.clickDepositButtonAction('USDT')
 
       const depositDialog = new SavingsDepositDialogPageObject(page)
       await depositDialog.fillAmountAction(10000)
@@ -482,7 +478,7 @@ test.describe('Savings deposit dialog', () => {
         await actionsContainer.expectActions(
           [
             { type: 'approve', asset: 'DAI', amount: 100 },
-            { type: 'exchange', inputAsset: 'DAI', outputAsset: 'sDAI', amount: 100 },
+            { type: 'nativeSDaiDeposit', asset: 'DAI', amount: 100 },
           ],
           true,
         )
@@ -515,7 +511,7 @@ test.describe('Savings deposit dialog', () => {
         await actionsContainer.expectActions(
           [
             { type: 'approve', asset: 'DAI', amount: 100 },
-            { type: 'exchange', inputAsset: 'DAI', outputAsset: 'sDAI', amount: 100 },
+            { type: 'nativeSDaiDeposit', asset: 'DAI', amount: 100 },
           ],
           true,
         )

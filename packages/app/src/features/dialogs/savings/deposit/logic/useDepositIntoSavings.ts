@@ -8,9 +8,10 @@ import { DialogFormNormalizedData } from '@/features/dialogs/common/logic/form'
 interface UseSwapParams {
   formValues: DialogFormNormalizedData
   marketInfo: MarketInfo
+  enabled: boolean
 }
 
-export function useDepositIntoSavings({ formValues, marketInfo }: UseSwapParams): {
+export function useDepositIntoSavings({ formValues, marketInfo, enabled }: UseSwapParams): {
   swapInfo: SwapInfo
   swapParams: SwapParams
 } {
@@ -25,5 +26,6 @@ export function useDepositIntoSavings({ formValues, marketInfo }: UseSwapParams)
       value: NormalizedUnitNumber(formValues.value),
     },
     defaults: { defaultMaxSlippage: settings.exchangeMaxSlippage },
+    enabled,
   })
 }

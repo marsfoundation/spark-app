@@ -14,6 +14,7 @@ import { RiskWarning } from '@/features/dialogs/common/components/risk-acknowled
 import { AssetInputSchema, useDebouncedDialogFormValues } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
 
+import { mainnet } from 'viem/chains'
 import { getFormFieldsForDepositDialog } from './form'
 import { generateWarning } from './generateWarning'
 import { createObjectives } from './objectives'
@@ -69,7 +70,11 @@ export function useSavingsDepositDialog({
     form,
     marketInfo,
   })
-  const { swapInfo, swapParams } = useDepositIntoSavings({ formValues, marketInfo })
+  const { swapInfo, swapParams } = useDepositIntoSavings({
+    formValues,
+    marketInfo,
+    enabled: !(marketInfo.chainId === mainnet.id && formValues.token.address === marketInfo.DAI.address),
+  })
 
   const { warning } = generateWarning({
     swapInfo,
@@ -82,10 +87,12 @@ export function useSavingsDepositDialog({
   const objectives = createObjectives({
     swapInfo,
     swapParams,
+    formValues,
     marketInfo,
     savingsInfo,
   })
   const txOverview = useTxOverview({
+    formValues,
     marketInfo,
     savingsInfo,
     swapInfo,

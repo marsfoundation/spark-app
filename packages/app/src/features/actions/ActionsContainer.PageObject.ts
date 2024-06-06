@@ -144,6 +144,10 @@ function actionToTitle(action: SimplifiedAction, shortForm: boolean): string {
       return `${prefix} ${action.inputAsset} to ${action.outputAsset}`
     }
 
+    if (action.type === 'nativeSDaiDeposit') {
+      return `${prefix} ${action.asset} into sDAI`
+    }
+
     return `${prefix} ${action.asset}`
   }
 
@@ -153,10 +157,25 @@ function actionToTitle(action: SimplifiedAction, shortForm: boolean): string {
     return `${prefix} ${formatter.format(action.amount)} ${action.inputAsset} to ${action.outputAsset}`
   }
 
+  if (action.type === 'nativeSDaiDeposit') {
+    return `${prefix} ${formatter.format(action.amount)} ${action.asset} into sDAI`
+  }
+
   return `${prefix} ${formatter.format(action.amount)} ${action.asset}`
 }
 
-const actionVerbs = ['Approve', 'Deposit', 'Withdraw', 'Borrow', 'Permit', 'Repay', 'Enable', 'Disable', 'Convert']
+const actionVerbs = [
+  'Approve',
+  'Deposit',
+  'Withdraw',
+  'Borrow',
+  'Permit',
+  'Repay',
+  'Enable',
+  'Disable',
+  'Convert',
+  'Wrap',
+]
 const actionButtonRegex = new RegExp(`^(${actionVerbs.join('|')})$`)
 
 function getActionTitlePrefix(action: SimplifiedAction): string {
@@ -183,5 +202,7 @@ function getActionTitlePrefix(action: SimplifiedAction): string {
       return 'Approve exchange'
     case 'exchange':
       return 'Convert'
+    case 'nativeSDaiDeposit':
+      return 'Wrap'
   }
 }
