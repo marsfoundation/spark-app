@@ -41,7 +41,7 @@ describe(CollapsiblePanel.name, () => {
         <CollapsiblePanel.Title>Hello!</CollapsiblePanel.Title>
         <CollapsiblePanel.Content>Content</CollapsiblePanel.Content>
       </CollapsiblePanel>,
-      'Invariant failed: CollapsiblePanel.Header must be the first child of CollapsiblePanel',
+      'CollapsiblePanel.Header must be the first child of CollapsiblePanel',
     )
   })
 
@@ -53,7 +53,7 @@ describe(CollapsiblePanel.name, () => {
         </CollapsiblePanel.Header>
         Content
       </CollapsiblePanel>,
-      'Invariant failed: CollapsiblePanel.Content must be the second child of CollapsiblePanel',
+      'CollapsiblePanel.Content must be the second child of CollapsiblePanel',
     )
   })
 })

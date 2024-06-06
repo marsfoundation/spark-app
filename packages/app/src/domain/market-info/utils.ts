@@ -1,5 +1,5 @@
+import assert from 'node:assert'
 import { formatUserSummary } from '@aave/math-utils'
-import invariant from 'tiny-invariant'
 
 import { bigNumberify } from '../../utils/bigNumber'
 import { CheckedAddress } from '../types/CheckedAddress'
@@ -83,7 +83,7 @@ export function mergeUserPositionIntoRawUserReserve(
 export function determineSiloBorrowingState(userPositions: UserPosition[]): SiloBorrowingState {
   const siloedUserReserves = userPositions.filter((pos) => pos.borrowBalance.gt(0) && pos.reserve.isSiloedBorrowing)
 
-  invariant(siloedUserReserves.length <= 1, 'There should be at most one siloed reserve per user')
+  assert(siloedUserReserves.length <= 1, 'There should be at most one siloed reserve per user')
 
   if (siloedUserReserves.length === 0) {
     return { enabled: false }
@@ -98,11 +98,11 @@ export function determineIsolationModeState(userSummary: AaveUserSummary, reserv
   if (!userSummary.isInIsolationMode) {
     return { enabled: false }
   }
-  invariant(userSummary.isolatedReserve, 'Isolated borrowing reserve should be defined')
+  assert(userSummary.isolatedReserve, 'Isolated borrowing reserve should be defined')
   const isolatedBorrowingReserve = reserves.find(
     (r) => r.token.address === CheckedAddress(userSummary.isolatedReserve?.underlyingAsset!),
   )
-  invariant(isolatedBorrowingReserve, 'Isolated borrowing reserve should be found in reserves')
+  assert(isolatedBorrowingReserve, 'Isolated borrowing reserve should be found in reserves')
 
   return {
     enabled: true,

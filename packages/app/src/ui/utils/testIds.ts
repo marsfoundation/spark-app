@@ -1,4 +1,4 @@
-import invariant from 'tiny-invariant'
+import assert from 'node:assert'
 
 // @note: only allowed value here is 'true' or nested object
 // actual value of data test id (string) is generated based on a path in the object tree
@@ -70,7 +70,7 @@ function makeTestIds<T extends Object>(obj: T, prefix?: string): MapValuesToStri
       if (typeof value === 'object') {
         return [key, makeTestIds(value, newPrefix)]
       }
-      invariant(value === true, "testIds value map has to be 'true' or another nested object")
+      assert(value === true, "testIds value map has to be 'true' or another nested object")
       return [key, newPrefix]
     }),
   )

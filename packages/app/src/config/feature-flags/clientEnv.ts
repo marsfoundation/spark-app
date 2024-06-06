@@ -1,8 +1,8 @@
-import invariant from 'tiny-invariant'
+import assert from 'node:assert'
 
 export function clientEnv(key: string): string {
   const value = import.meta.env[key]
-  invariant(value, `${key} env not defined`)
+  assert(value, `${key} env not defined`)
 
   return value
 }

@@ -1,5 +1,5 @@
+import assert from 'node:assert'
 import BigNumber from 'bignumber.js'
-import invariant from 'tiny-invariant'
 
 import { NumberLike, bigNumberify } from '../../utils/bigNumber'
 import { Opaque } from './types'
@@ -10,7 +10,7 @@ import { Opaque } from './types'
 export type BaseUnitNumber = Opaque<BigNumber, 'BaseUnitNumber'>
 export function BaseUnitNumber(value: NumberLike): BaseUnitNumber {
   const result = bigNumberify(value)
-  invariant(!result.dp(), 'Value should not have decimal points in its representation.')
+  assert(!result.dp(), 'Value should not have decimal points in its representation.')
 
   return result as BaseUnitNumber
 }
@@ -31,9 +31,9 @@ export function NormalizedUnitNumber(value: NumberLike): NormalizedUnitNumber {
 export type Percentage = Opaque<BigNumber, 'Percentage'>
 export function Percentage(_value: NumberLike, allowMoreThan1 = false): Percentage {
   const value = bigNumberify(_value)
-  invariant(value.gte(0), 'Percentage value should be greater than or equal to 0.')
+  assert(value.gte(0), 'Percentage value should be greater than or equal to 0.')
   if (!allowMoreThan1) {
-    invariant(value.lte(1), 'Percentage value should be less than or equal to 1.')
+    assert(value.lte(1), 'Percentage value should be less than or equal to 1.')
   }
 
   return value as Percentage

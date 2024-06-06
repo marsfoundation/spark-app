@@ -1,5 +1,5 @@
+import assert from 'node:assert'
 import { skipToken, useQuery } from '@tanstack/react-query'
-import invariant from 'tiny-invariant'
 import { Address, Client, Hash, parseAbiItem } from 'viem'
 import { getLogs, getTransactionReceipt, watchBlockNumber } from 'viem/actions'
 import {
@@ -91,7 +91,7 @@ async function waitForGnosisTxHash({ subTxHash, client, address, signal }: WaitF
 
           for (const log of logs) {
             if (log.args.txHash === subTxHash) {
-              invariant(log.transactionHash, 'Transaction hash not found')
+              assert(log.transactionHash, 'Transaction hash not found')
 
               unwatch()
               resolve(log.transactionHash)

@@ -1,4 +1,4 @@
-import invariant from 'tiny-invariant'
+import assert from 'node:assert'
 import { Address, zeroAddress } from 'viem'
 import { gnosis } from 'viem/chains'
 
@@ -10,15 +10,12 @@ import { wethGatewayAddress } from '@/config/contracts-generated'
  * These checks should never fail in real life scenario but it's the final line of defense against bugs in the app.
  */
 export function sanityCheckTx(tx: { address?: Address; value?: bigint }, chainId: number): void {
-  invariant(tx.address, 'Address is required')
-  invariant(
-    tx.address.toLowerCase() !== NATIVE_ASSET_MOCK_ADDRESS.toLowerCase(),
-    'Cannot interact with ETH mock address',
-  )
-  invariant(tx.address !== zeroAddress, 'Cannot interact with zero address')
+  assert(tx.address, 'Address is required')
+  assert(tx.address.toLowerCase() !== NATIVE_ASSET_MOCK_ADDRESS.toLowerCase(), 'Cannot interact with ETH mock address')
+  assert(tx.address !== zeroAddress, 'Cannot interact with zero address')
 
   if (tx.value && chainId !== gnosis.id) {
-    invariant(
+    assert(
       tx.address === (wethGatewayAddress as any)[chainId],
       'Sending the native asset is only allowed to gateway contracts',
     )

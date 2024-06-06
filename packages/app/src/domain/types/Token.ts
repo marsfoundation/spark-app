@@ -1,5 +1,5 @@
+import assert from 'node:assert'
 import BigNumber from 'bignumber.js'
-import invariant from 'tiny-invariant'
 import { zeroAddress } from 'viem'
 
 import { findSignificantPrecision } from '../common/format'
@@ -31,8 +31,8 @@ export class Token {
     isAToken?: boolean
   }) {
     // sanity checks
-    invariant(decimals >= 2, 'decimals value should be greater than 2')
-    invariant(decimals <= 30, 'decimals value should be less than 30')
+    assert(decimals >= 2, 'decimals value should be greater than 2')
+    assert(decimals <= 30, 'decimals value should be less than 30')
 
     this.decimals = decimals
     this.symbol = symbol

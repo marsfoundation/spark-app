@@ -1,4 +1,4 @@
-import invariant from 'tiny-invariant'
+import assert from 'node:assert'
 
 import { Percentage } from '../types/NumericValues'
 import { AaveFormattedReserve } from './aave-data-layer/query'
@@ -36,7 +36,7 @@ export function determineEModeState(userEmodeCategoryId: number, emodeCategories
     return { enabled: false }
   }
   const userCategory = emodeCategories[userEmodeCategoryId]
-  invariant(userCategory, 'User emode category not found')
+  assert(userCategory, 'User emode category not found')
 
   return { enabled: true, category: userCategory }
 }

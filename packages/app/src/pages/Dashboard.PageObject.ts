@@ -1,5 +1,5 @@
+import assert from 'node:assert'
 import { expect } from '@playwright/test'
-import invariant from 'tiny-invariant'
 import { z } from 'zod'
 
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
@@ -120,7 +120,7 @@ export class DashboardPageObject extends BasePageObject {
       for (const [asset, expectedAmount] of Object.entries(assets)) {
         const row = depositTable.find((row) => row.asset === asset)
         expect(row, `Couldn't find asset ${asset}`).toBeDefined()
-        invariant(row)
+        assert(row)
         expect(expectedAmount, `Couldn't find asset ${row.asset}`).toBeDefined()
         expect(row.deposit).toBe(expectedAmount)
       }
@@ -143,7 +143,7 @@ export class DashboardPageObject extends BasePageObject {
       for (const [asset, expectedAmount] of Object.entries(assets)) {
         const row = borrowTable.find((row) => row.asset === asset)
         expect(row, `Couldn't find asset ${asset}`).toBeDefined()
-        invariant(row)
+        assert(row)
         expect(expectedAmount, `Couldn't find asset ${row.asset}`).toBeDefined()
         expect(row.yourBorrow).toBe(expectedAmount)
       }
@@ -162,7 +162,7 @@ export class DashboardPageObject extends BasePageObject {
           if (asset === 'ETH') {
             continue
           }
-          invariant(row)
+          assert(row)
           expect(expectedAmount, `Couldn't find asset ${row.asset}`).toBeDefined()
           expect(row.amount).toBe(expectedAmount)
         }

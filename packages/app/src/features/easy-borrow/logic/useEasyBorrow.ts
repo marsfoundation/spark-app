@@ -1,7 +1,7 @@
+import assert from 'node:assert'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useRef, useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
-import invariant from 'tiny-invariant'
 import { useAccount } from 'wagmi'
 
 import { getChainConfigEntry } from '@/config/chain'
@@ -94,8 +94,8 @@ export function useEasyBorrow(): UseEasyBorrowResults {
   const depositableAssets = sortByDecreasingBalances(getDepositableAssets(userPositions), walletInfo)
   const borrowableAssets = getBorrowableAssets(marketInfo.reserves)
 
-  invariant(depositableAssets.length > 0, 'No depositable assets')
-  invariant(borrowableAssets.length === 1, 'No borrowable assets')
+  assert(depositableAssets.length > 0, 'No depositable assets')
+  assert(borrowableAssets.length === 1, 'No borrowable assets')
 
   const easyBorrowForm = useForm<EasyBorrowFormSchema>({
     resolver: zodResolver(

@@ -1,5 +1,5 @@
+import assert from 'node:assert'
 import { queryOptions } from '@tanstack/react-query'
-import invariant from 'tiny-invariant'
 import { zeroAddress } from 'viem'
 
 import { CheckedAddress } from '../../types/CheckedAddress'
@@ -59,8 +59,8 @@ export function fetchLiFiTxData({
       if (type === 'direct') {
         const response = await client.getQuote({ userAddress, chainId, fromToken, toToken, amount, ...meta })
         const fromAmount = BaseUnitNumber(response.estimate.fromAmount)
-        invariant(amount.eq(fromAmount), 'amount should eq fromAmount')
-        invariant(response.action.slippage.eq(meta.maxSlippage), 'slippage should eq maxSlippage')
+        assert(amount.eq(fromAmount), 'amount should eq fromAmount')
+        assert(response.action.slippage.eq(meta.maxSlippage), 'slippage should eq maxSlippage')
 
         return {
           txRequest: response.transactionRequest,
@@ -85,7 +85,7 @@ export function fetchLiFiTxData({
         ...meta,
       })
 
-      invariant(response.action.slippage.eq(meta.maxSlippage), 'slippage should eq maxSlippage')
+      assert(response.action.slippage.eq(meta.maxSlippage), 'slippage should eq maxSlippage')
 
       return {
         txRequest: response.transactionRequest,

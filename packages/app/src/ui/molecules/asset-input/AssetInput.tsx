@@ -1,6 +1,6 @@
+import assert from 'node:assert'
 import { X } from 'lucide-react'
 import { forwardRef } from 'react'
-import invariant from 'tiny-invariant'
 
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
@@ -45,7 +45,7 @@ export const AssetInput = forwardRef<HTMLInputElement, AssetInputProps>(
     },
     ref,
   ) => {
-    invariant(!(balance && !token), 'token should be defined if balance is defined')
+    assert(!(balance && !token), 'token should be defined if balance is defined')
 
     return (
       <div className="flex-1">

@@ -31,7 +31,7 @@ describe(Panel.name, () => {
           <Panel.Content>Content</Panel.Content>
         </Panel>
       </QueryClientProvider>,
-      'Invariant failed: Panel.Header must be the first child of Panel',
+      'Panel.Header must be the first child of Panel',
     )
   })
 
@@ -45,7 +45,7 @@ describe(Panel.name, () => {
           Content
         </Panel>
       </QueryClientProvider>,
-      'Invariant failed: Panel.Content must be the second child of Panel',
+      'Panel.Content must be the second child of Panel',
     )
   })
 })
