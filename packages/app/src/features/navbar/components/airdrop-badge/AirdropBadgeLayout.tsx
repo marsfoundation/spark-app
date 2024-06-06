@@ -8,10 +8,15 @@ import { NavbarActionWrapper } from '../NavbarActionWrapper'
 import { AirdropDetails } from './AirdropDetails'
 
 interface AirdropBadgeLayoutProps {
-  amount: NormalizedUnitNumber
+  amount?: NormalizedUnitNumber
+  precision?: number
   isLoading?: boolean
 }
-export function AirdropBadgeLayout({ amount, isLoading }: AirdropBadgeLayoutProps) {
+export function AirdropBadgeLayout({
+  amount = NormalizedUnitNumber(0),
+  precision = 0,
+  isLoading,
+}: AirdropBadgeLayoutProps) {
   return (
     <NavbarActionWrapper label="Airdrop info">
       <Tooltip>
@@ -31,7 +36,7 @@ export function AirdropBadgeLayout({ amount, isLoading }: AirdropBadgeLayoutProp
           </button>
         </TooltipTrigger>
         <TooltipContentLong align="start" className="p-0">
-          <AirdropDetails amount={amount} isLoading={isLoading} />
+          <AirdropDetails amount={amount} precision={precision} isLoading={isLoading} />
         </TooltipContentLong>
       </Tooltip>
     </NavbarActionWrapper>

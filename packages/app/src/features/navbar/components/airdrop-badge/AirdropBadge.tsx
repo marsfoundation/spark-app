@@ -1,4 +1,3 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { AirdropInfo } from '../../types'
 import { AirdropBadgeLayout } from './AirdropBadgeLayout'
 import { DynamicAirdropBadge } from './DynamicAirdropBadge'
@@ -9,11 +8,11 @@ export function AirdropBadge({ airdrop, isLoading, isError }: AirdropInfo) {
   }
 
   if (isLoading) {
-    return <AirdropBadgeLayout amount={NormalizedUnitNumber(0)} isLoading />
+    return <AirdropBadgeLayout isLoading />
   }
 
   if (!airdrop) {
-    return <AirdropBadgeLayout amount={NormalizedUnitNumber(0)} />
+    return <AirdropBadgeLayout />
   }
 
   return <DynamicAirdropBadge airdrop={airdrop} />

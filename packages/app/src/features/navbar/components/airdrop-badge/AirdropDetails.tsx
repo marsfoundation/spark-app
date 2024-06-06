@@ -10,10 +10,11 @@ import { formatWithPrecision } from './utils/formatWithPrecision'
 
 interface AirdropDetailsProps {
   amount: NormalizedUnitNumber
+  precision: number
   isLoading?: boolean
 }
 
-export function AirdropDetails({ amount, isLoading }: AirdropDetailsProps) {
+export function AirdropDetails({ amount, precision, isLoading }: AirdropDetailsProps) {
   return (
     <div className="flex flex-col text-basics-dark-grey text-xs">
       <div className="flex flex-col gap-1 border-basics-grey/50 border-b p-4">
@@ -24,7 +25,7 @@ export function AirdropDetails({ amount, isLoading }: AirdropDetailsProps) {
             <Skeleton className="h-5 w-7" />
           ) : (
             <div className="font-semibold text-base text-basics-black tabular-nums">
-              {formatWithPrecision(amount)} {SPK_MOCK_TOKEN.symbol}
+              {formatWithPrecision(amount, precision)} {SPK_MOCK_TOKEN.symbol}
             </div>
           )}
         </div>

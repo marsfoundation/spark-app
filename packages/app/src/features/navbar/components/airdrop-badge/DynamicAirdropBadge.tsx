@@ -7,5 +7,5 @@ interface AirdropBadgeDynamicProps {
 }
 export function DynamicAirdropBadge({ airdrop }: AirdropBadgeDynamicProps) {
   const amount = useGrowingAirdropAmount(airdrop)
-  return <AirdropBadgeLayout amount={amount} />
+  return <AirdropBadgeLayout amount={amount} precision={airdrop.tokenRatePrecision} />
 }
