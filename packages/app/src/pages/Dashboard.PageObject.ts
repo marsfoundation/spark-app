@@ -1,4 +1,4 @@
-import assert from 'node:assert'
+import { assert } from '@/utils/assert'
 import { expect } from '@playwright/test'
 import { z } from 'zod'
 

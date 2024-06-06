@@ -9,7 +9,7 @@ import { useOpenDialog } from '@/domain/state/dialogs'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { EnsName } from '@/domain/types/EnsName'
 import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
-import { raise } from '@/utils/raise'
+import { raise } from '@/utils/assert'
 import { useTimestamp } from '@/utils/useTimestamp'
 
 import { AirdropInfo, ConnectedWalletInfo, SavingsInfoQueryResults, SupportedChain } from '../types'

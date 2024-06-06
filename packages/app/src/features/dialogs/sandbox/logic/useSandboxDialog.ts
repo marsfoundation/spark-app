@@ -1,4 +1,4 @@
-import assert from 'node:assert'
+import { assert } from '@/utils/assert'
 import { UseMutationResult, useMutation } from '@tanstack/react-query'
 import { useRef } from 'react'
 import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts'

@@ -1,4 +1,4 @@
-import assert from 'node:assert'
+import { assert } from '@/utils/assert'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'

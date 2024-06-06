@@ -1,4 +1,4 @@
-import assert from 'node:assert'
+import { assert } from '@/utils/assert'
 import * as CollapsiblePrimitive from '@radix-ui/react-collapsible'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 import React, { ComponentProps, forwardRef, ReactNode, useState } from 'react'

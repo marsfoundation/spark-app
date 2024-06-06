@@ -1,4 +1,4 @@
-import assert from 'node:assert'
+import { assert } from '@/utils/assert'
 
 export function clientEnv(key: string): string {
   const value = import.meta.env[key]

@@ -1,4 +1,4 @@
-import assert from 'node:assert'
+import { assert } from '@/utils/assert'
 import { Address, zeroAddress } from 'viem'
 import { gnosis } from 'viem/chains'
 

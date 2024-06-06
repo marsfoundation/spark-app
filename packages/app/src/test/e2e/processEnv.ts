@@ -1,4 +1,4 @@
-import assert from 'node:assert'
+import { assert } from '@/utils/assert'
 
 export function processEnv(key: string): string {
   const value = process.env[key]

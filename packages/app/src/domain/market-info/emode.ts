@@ -1,4 +1,4 @@
-import assert from 'node:assert'
+import { assert } from '@/utils/assert'
 
 import { Percentage } from '../types/NumericValues'
 import { AaveFormattedReserve } from './aave-data-layer/query'

@@ -1,4 +1,4 @@
-import assert from 'node:assert'
+import { assert } from '@/utils/assert'
 import BigNumber from 'bignumber.js'
 
 import { NumberLike, bigNumberify } from '../../utils/bigNumber'

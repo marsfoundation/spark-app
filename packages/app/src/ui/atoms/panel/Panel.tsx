@@ -1,4 +1,4 @@
-import assert from 'node:assert'
+import { assert } from '@/utils/assert'
 import { VariantProps, cva } from 'class-variance-authority'
 import { ComponentProps, ReactNode, createContext, forwardRef, useContext } from 'react'
 

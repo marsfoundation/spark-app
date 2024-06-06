@@ -1,4 +1,4 @@
-import assert from 'node:assert'
+import { assert } from '@/utils/assert'
 
 export function trimCharEnd(str: string, char: string): string {
   assert(char.length === 1, 'char has to be a single character')

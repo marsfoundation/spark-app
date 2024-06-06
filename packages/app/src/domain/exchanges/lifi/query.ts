@@ -1,4 +1,4 @@
-import assert from 'node:assert'
+import { assert } from '@/utils/assert'
 import { queryOptions } from '@tanstack/react-query'
 import { zeroAddress } from 'viem'
 

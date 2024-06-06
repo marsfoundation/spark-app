@@ -1,4 +1,4 @@
-import assert from 'node:assert'
+import { assert } from '@/utils/assert'
 
 // @note: only allowed value here is 'true' or nested object
 // actual value of data test id (string) is generated based on a path in the object tree

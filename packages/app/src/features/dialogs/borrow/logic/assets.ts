@@ -1,4 +1,4 @@
-import assert from 'node:assert'
+import { assert } from '@/utils/assert'
 
 import { NativeAssetInfo } from '@/config/chain/types'
 import { TokenWithBalance } from '@/domain/common/types'

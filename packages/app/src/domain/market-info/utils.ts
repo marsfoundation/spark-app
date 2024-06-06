@@ -1,4 +1,4 @@
-import assert from 'node:assert'
+import { assert } from '@/utils/assert'
 import { formatUserSummary } from '@aave/math-utils'
 
 import { bigNumberify } from '../../utils/bigNumber'

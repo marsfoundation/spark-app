@@ -1,4 +1,4 @@
-import assert from 'node:assert'
+import { assert } from '@/utils/assert'
 import { X } from 'lucide-react'
 import { forwardRef } from 'react'
 

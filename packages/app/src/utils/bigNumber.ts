@@ -1,4 +1,4 @@
-import assert from 'node:assert'
+import { assert } from '@/utils/assert'
 import BigNumber from 'bignumber.js'
 
 export type NumberLike = string | number | BigNumber | bigint

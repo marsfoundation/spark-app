@@ -1,4 +1,4 @@
-import assert from 'node:assert'
+import { assert } from '@/utils/assert'
 import { skipToken, useQuery } from '@tanstack/react-query'
 import { Address, Client, Hash, parseAbiItem } from 'viem'
 import { getLogs, getTransactionReceipt, watchBlockNumber } from 'viem/actions'

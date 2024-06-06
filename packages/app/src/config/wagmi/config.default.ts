@@ -4,7 +4,7 @@ import { gnosis, mainnet } from 'viem/chains'
 import { Config } from 'wagmi'
 
 import { SandboxNetwork } from '@/domain/state/sandbox'
-import { raise } from '@/utils/raise'
+import { raise } from '@/utils/assert'
 
 import { SUPPORTED_CHAINS } from '../chain/constants'
 import { SupportedChainId } from '../chain/types'

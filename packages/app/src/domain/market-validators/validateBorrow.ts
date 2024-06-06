@@ -1,4 +1,4 @@
-import assert from 'node:assert'
+import { assert } from '@/utils/assert'
 
 import { calculateMaxBorrowBasedOnCollateral } from '../action-max-value-getters/calculateMaxBorrowBasedOnCollateral'
 import { MarketInfo, Reserve, UserPositionSummary } from '../market-info/marketInfo'

@@ -1,4 +1,4 @@
-import assert from 'node:assert'
+import { assert } from '@/utils/assert'
 
 import { getBorrowMaxValue } from '@/domain/action-max-value-getters/getBorrowMaxValue'
 import { getDepositMaxValue } from '@/domain/action-max-value-getters/getDepositMaxValue'

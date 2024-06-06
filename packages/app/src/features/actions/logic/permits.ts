@@ -1,4 +1,4 @@
-import assert from 'node:assert'
+import { assert } from '@/utils/assert'
 import { Signature } from 'viem'
 
 import { getChainConfigEntry } from '@/config/chain'

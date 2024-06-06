@@ -1,4 +1,4 @@
-import assert from 'node:assert'
+import { assert } from '@/utils/assert'
 import { Locator, Page, expect } from '@playwright/test'
 
 import { formatPercentage } from '@/domain/common/format'
