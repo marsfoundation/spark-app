@@ -30,7 +30,9 @@ export function AirdropBadgeLayout({
               {isLoading ? (
                 <Skeleton className="h-5 w-7" />
               ) : (
-                <div className="font-semibold">{SPK_MOCK_TOKEN.format(amount, { style: 'compact' })}</div>
+                <div className="font-semibold" data-chromatic="ignore">
+                  {SPK_MOCK_TOKEN.format(amount, { style: 'compact' })}
+                </div>
               )}
             </div>
           </button>
