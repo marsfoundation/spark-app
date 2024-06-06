@@ -36,6 +36,10 @@ export class SavingsDepositDialogPageObject extends DialogPageObject {
     await expect(this.locatePanelByHeader('Transaction overview')).toBeVisible()
   }
 
+  async expectTransactionOverview({}: ): Promise<void> {
+    await expect(this.locatePanelByHeader('Transaction overview')).toBeVisible()
+  }
+
   async expectToUseLifiSwap(lifiSwapParams: LifiSwapParams): Promise<void> {
     const exchangeRow = this.locatePanelByHeader('Actions').getByTestId(
       testIds.actions.flavours.exchangeActionRow.wrapper,
@@ -64,4 +68,8 @@ interface LifiSwapParams {
   fee: string
   finalSDAIAmount: string
   finalDAIAmount: string
+}
+
+interface TransactionOverview {
+  [key: string]: [string]
 }
