@@ -1,0 +1,1 @@
+export const REFRESH_INTERVAL_IN_MS = 100

@@ -5,15 +5,19 @@ import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { airdropInfo } from '@/domain/wallet/airdropInfo'
 import { useTimestamp } from '@/utils/useTimestamp'
 import { AirdropInfo } from '../../types'
-import { adjustAirdropValue } from './adjustAirdropValue'
+import { extendAirdropResponse } from './utils/extendAirdropResponse'
+
+const refreshIntervalInMs = 100
 
 export function useAirdropInfo(): AirdropInfo {
   const { address } = useAccount()
-  const { timestamp } = useTimestamp()
+  const { timestamp: currentTimestamp } = useTimestamp()
 
   const result = useQuery(airdropInfo(address && CheckedAddress(address)))
 
-  const airdrop = result.data ? { ...result.data, tokenReward: adjustAirdropValue(result.data, timestamp) } : undefined
+  const airdrop = result.data
+    ? extendAirdropResponse({ ...result.data, refreshIntervalInMs, currentTimestamp })
+    : undefined
   const isLoading = result.isLoading
   const isError = result.isError
 

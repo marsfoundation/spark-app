@@ -14,8 +14,9 @@ const meta: Meta<typeof AirdropBadge> = {
   args: {
     airdrop: {
       tokenReward: NormalizedUnitNumber(1_200_345.568),
-      tokenRatePerSecond: NormalizedUnitNumber(128.248),
-      timestamp: Math.floor(Date.now() / 1000) - 30, // Airdrop snapshot is ofter few seconds behind
+      tokenRatePerInterval: NormalizedUnitNumber(128.248),
+      tokenRatePrecision: 4,
+      refreshIntervalInMs: 100,
     },
     isLoading: false,
     isError: false,
@@ -36,11 +37,7 @@ export const LoadingTablet = getTabletStory(Loading)
 export const Zero = getHoveredStory<Story>(
   {
     args: {
-      airdrop: {
-        tokenReward: NormalizedUnitNumber(0),
-        tokenRatePerSecond: NormalizedUnitNumber(0),
-        timestamp: meta.args?.airdrop?.timestamp!,
-      },
+      airdrop: undefined,
       isLoading: false,
       isError: false,
     },
