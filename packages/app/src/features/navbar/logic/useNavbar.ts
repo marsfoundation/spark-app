@@ -52,7 +52,7 @@ export function useNavbar(): UseNavbarResults {
   const savingsInfo = useQuery(savingsInfoQueryOptions({ wagmiConfig, chainId: currentChainId, timestamp }))
 
   const balanceInfo = useTotalBalance()
-  const airdropInfo = useAirdropInfo()
+  const airdropInfo = useAirdropInfo({ refreshIntervalInMs: 100 })
   const { isInSandbox, isSandboxEnabled, isDevSandboxEnabled, isEphemeralAccount, deleteSandbox } = useSandboxState()
   const { changeNetwork, changeNetworkAsync } = useNetworkChange()
   const { disconnect } = useDisconnect({

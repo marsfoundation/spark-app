@@ -7,9 +7,11 @@ import { useTimestamp } from '@/utils/useTimestamp'
 import { AirdropInfo } from '../../types'
 import { extendAirdropResponse } from './utils/extendAirdropResponse'
 
-const refreshIntervalInMs = 100
+interface UseAirdropInfoParams {
+  refreshIntervalInMs: number
+}
 
-export function useAirdropInfo(): AirdropInfo {
+export function useAirdropInfo({ refreshIntervalInMs }: UseAirdropInfoParams): AirdropInfo {
   const { address } = useAccount()
   const { timestamp: currentTimestamp } = useTimestamp()
 

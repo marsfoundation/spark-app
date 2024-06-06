@@ -1,6 +1,5 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Airdrop } from '@/features/navbar/types'
-import { REFRESH_INTERVAL_IN_MS } from '../config'
 import { adjustTokenReward } from './adjustTokenReward'
 import { getTokenRatePerInterval } from './getTokenRatePerInterval'
 import { getTokenRatePrecision } from './getTokenRatePrecision'
@@ -21,7 +20,7 @@ export function extendAirdropResponse(params: ExtendAirdropResponseParams): Aird
 
   return {
     tokenReward: tokenRewardAdjusted,
-    refreshIntervalInMs: REFRESH_INTERVAL_IN_MS,
+    refreshIntervalInMs,
     tokenRatePerInterval,
     tokenRatePrecision,
   }
