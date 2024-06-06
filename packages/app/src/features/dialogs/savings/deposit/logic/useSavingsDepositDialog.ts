@@ -15,11 +15,11 @@ import { AssetInputSchema, useDebouncedDialogFormValues } from '@/features/dialo
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
 
 import { mainnet } from 'viem/chains'
+import { SavingsDialogTxOverview, createTxOverview } from './createTxOverview'
 import { getFormFieldsForDepositDialog } from './form'
 import { generateWarning } from './generateWarning'
 import { createObjectives } from './objectives'
 import { useDepositIntoSavings } from './useDepositIntoSavings'
-import { SavingsDialogTxOverview, useTxOverview } from './useTransactionOverview'
 import { getSavingsDepositDialogFormValidator } from './validation'
 
 export interface UseSavingsDepositDialogParams {
@@ -62,6 +62,11 @@ export function useSavingsDepositDialog({
     mode: 'onChange',
   })
 
+  const useNativeRoutes =
+    import.meta.env.VITE_DEV_NATIVE_ROUTES === '1' &&
+    marketInfo.chainId === mainnet.id &&
+    initialToken.address === marketInfo.DAI.address
+
   const {
     debouncedFormValues: formValues,
     isDebouncing,
@@ -73,7 +78,7 @@ export function useSavingsDepositDialog({
   const { swapInfo, swapParams } = useDepositIntoSavings({
     formValues,
     marketInfo,
-    enabled: !(marketInfo.chainId === mainnet.id && formValues.token.address === marketInfo.DAI.address),
+    enabled: !useNativeRoutes,
   })
 
   const { warning } = generateWarning({
@@ -90,14 +95,16 @@ export function useSavingsDepositDialog({
     formValues,
     marketInfo,
     savingsInfo,
+    useNativeRoutes,
   })
-  const txOverview = useTxOverview({
+  const txOverview = createTxOverview({
     formValues,
     marketInfo,
     savingsInfo,
     swapInfo,
     walletInfo,
     swapParams,
+    useNativeRoutes,
   })
 
   const tokenToDeposit: TokenWithValue = {

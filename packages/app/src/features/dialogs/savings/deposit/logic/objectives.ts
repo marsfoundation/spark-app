@@ -6,7 +6,6 @@ import { ExchangeObjective } from '@/features/actions/flavours/exchange/types'
 import { NativeSDaiDepositObjective } from '@/features/actions/flavours/native-sdai-deposit/types'
 import { simplifyQueryResult } from '@/features/actions/logic/simplifyQueryResult'
 import { DialogFormNormalizedData } from '@/features/dialogs/common/logic/form'
-import { mainnet } from 'viem/chains'
 
 export interface CreateObjectivesParams {
   swapInfo: SwapInfo
@@ -14,6 +13,7 @@ export interface CreateObjectivesParams {
   formValues: DialogFormNormalizedData
   marketInfo: MarketInfo
   savingsInfo: SavingsInfo
+  useNativeRoutes: boolean
 }
 export function createObjectives({
   swapInfo,
@@ -21,9 +21,9 @@ export function createObjectives({
   formValues,
   marketInfo,
   savingsInfo,
+  useNativeRoutes,
 }: CreateObjectivesParams): (ExchangeObjective | NativeSDaiDepositObjective)[] {
-  const DAI = marketInfo.DAI
-  if (marketInfo.chainId === mainnet.id && formValues.token.address === DAI.address) {
+  if (useNativeRoutes) {
     return [
       {
         type: 'nativeSDaiDeposit',
@@ -33,6 +33,7 @@ export function createObjectives({
       },
     ]
   }
+  const DAI = marketInfo.DAI
 
   return [
     {

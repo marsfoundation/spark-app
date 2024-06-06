@@ -5,7 +5,6 @@ import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { WalletInfo } from '@/domain/wallet/useWalletInfo'
 import { DialogFormNormalizedData } from '@/features/dialogs/common/logic/form'
-import { mainnet } from 'viem/chains'
 
 interface UseTxOverviewParams {
   formValues: DialogFormNormalizedData
@@ -14,6 +13,7 @@ interface UseTxOverviewParams {
   swapInfo: SwapInfo
   swapParams: SwapParams
   walletInfo: WalletInfo
+  useNativeRoutes: boolean
 }
 
 export interface SavingsDialogTxOverview {
@@ -26,18 +26,19 @@ export interface SavingsDialogTxOverview {
   APY: Percentage
 }
 
-export function useTxOverview({
+export function createTxOverview({
   formValues,
   marketInfo,
   walletInfo,
   savingsInfo,
   swapInfo,
   swapParams,
+  useNativeRoutes,
 }: UseTxOverviewParams): SavingsDialogTxOverview | undefined {
   const sDAI = marketInfo.sDAI
   const DAI = marketInfo.DAI
 
-  if (marketInfo.chainId === mainnet.id && formValues.token.address === DAI.address) {
+  if (useNativeRoutes) {
     const sDaiAmount = NormalizedUnitNumber(formValues.value.div(sDAI.unitPriceUsd))
 
     const sDaiBalanceBefore = walletInfo.findWalletBalanceForToken(sDAI)
