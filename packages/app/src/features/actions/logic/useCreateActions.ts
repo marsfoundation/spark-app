@@ -166,17 +166,18 @@ export function useCreateActions(objectives: Objective[]): Action[] {
       }
 
       case 'nativeSDaiDeposit': {
-        const depositAction: NativeSDaiDepositAction = {
-          type: 'nativeSDaiDeposit',
-          token: objective.token,
-          value: objective.value,
-          sDai: objective.sDai,
-        }
         const approveAction: ApproveAction = {
           type: 'approve',
           token: objective.token,
           spender: objective.sDai.address,
           value: objective.value,
+        }
+
+        const depositAction: NativeSDaiDepositAction = {
+          type: 'nativeSDaiDeposit',
+          token: objective.token,
+          value: objective.value,
+          sDai: objective.sDai,
         }
         return [approveAction, depositAction]
       }
