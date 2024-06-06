@@ -11,6 +11,9 @@ export function getTokenRatePrecision({
   refreshIntervalInMs,
 }: ExtendAirdropResponseParams): number {
   const ratePerRefreshInterval = getTokenRatePerInterval({ tokenRatePerSecond, refreshIntervalInMs })
-  const mostSignificantDigitPosition = Math.floor(Math.log10(ratePerRefreshInterval.toNumber()))
+  if (ratePerRefreshInterval.isZero()) {
+    return 0
+  }
+  const mostSignificantDigitPosition = Math.min(Math.floor(Math.log10(ratePerRefreshInterval.toNumber())), 18)
   return mostSignificantDigitPosition < 0 ? Math.abs(mostSignificantDigitPosition) : 0
 }

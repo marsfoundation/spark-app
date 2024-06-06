@@ -17,7 +17,7 @@ const airdropInfoResponseSchema = z
     airdropTimestamp: o.timestamp,
   }))
   // @note: Api is returning empty object for addresses without airdrop
-  .or(z.object({}).transform(() => undefined))
+  .or(z.object({}).transform(() => null))
 
 export type AirdropInfoResponse = z.infer<typeof airdropInfoResponseSchema>
 

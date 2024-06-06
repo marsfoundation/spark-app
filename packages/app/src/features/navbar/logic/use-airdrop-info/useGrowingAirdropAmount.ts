@@ -7,6 +7,9 @@ export function useGrowingAirdropAmount(airdrop: Airdrop): NormalizedUnitNumber 
 
   useEffect(
     function updateAirdropAmount() {
+      if (airdrop.tokenRatePerInterval.isZero()) {
+        return
+      }
       const interval = setInterval(() => {
         setAmount((currentAmount) => NormalizedUnitNumber(currentAmount.plus(airdrop.tokenRatePerInterval)))
       }, airdrop.refreshIntervalInMs)
