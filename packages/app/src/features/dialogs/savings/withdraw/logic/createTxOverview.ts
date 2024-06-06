@@ -6,12 +6,13 @@ import { Token } from '@/domain/types/Token'
 import { WalletInfo } from '@/domain/wallet/useWalletInfo'
 import { DialogFormNormalizedData } from '@/features/dialogs/common/logic/form'
 
-interface UseTxOverviewParams {
+interface createTxOverviewParams {
   formValues: DialogFormNormalizedData
   marketInfo: MarketInfo
   walletInfo: WalletInfo
   savingsInfo: SavingsInfo
   swapInfo: SwapInfo
+  useNativeRoutes: boolean
 }
 
 export interface SavingsDialogTxOverview {
@@ -25,17 +26,35 @@ export interface SavingsDialogTxOverview {
   tokenWithdrew: NormalizedUnitNumber
 }
 
-export function useTxOverview({
+export function createTxOverview({
   marketInfo,
   formValues,
   savingsInfo,
   walletInfo,
   swapInfo,
-}: UseTxOverviewParams): SavingsDialogTxOverview | undefined {
+  useNativeRoutes,
+}: createTxOverviewParams): SavingsDialogTxOverview | undefined {
   const otherToken = formValues.token
   const sDAI = marketInfo.sDAI
   const DAI = marketInfo.DAI
-  const sDaiBalance = walletInfo.findWalletBalanceForToken(sDAI)
+  const sDaiBalanceBefore = walletInfo.findWalletBalanceForToken(sDAI)
+
+  if (useNativeRoutes) {
+    const sDaiAmount = NormalizedUnitNumber(formValues.value.div(sDAI.unitPriceUsd))
+
+    const sDaiBalanceAfter = NormalizedUnitNumber(sDaiBalanceBefore.minus(sDaiAmount))
+
+    return {
+      exchangeRatioFromToken: DAI,
+      exchangeRatioToToken: DAI,
+      exchangeRatio: NormalizedUnitNumber(1),
+      sDaiToken: sDAI,
+      sDaiBalanceBefore,
+      sDaiBalanceAfter,
+      APY: savingsInfo.apy,
+      tokenWithdrew: formValues.value,
+    }
+  }
 
   if (!swapInfo.data) {
     return undefined
@@ -51,14 +70,14 @@ export function useTxOverview({
   })
   const daiToTokenRatio = NormalizedUnitNumber(otherTokenAmount.dividedBy(daiAmountNormalized))
 
-  const sDaiBalanceAfter = NormalizedUnitNumber(sDaiBalance.minus(sDaiAmount))
+  const sDaiBalanceAfter = NormalizedUnitNumber(sDaiBalanceBefore.minus(sDaiAmount))
 
   return {
     exchangeRatioFromToken: DAI,
     exchangeRatioToToken: formValues.token,
     sDaiToken: sDAI,
     exchangeRatio: daiToTokenRatio,
-    sDaiBalanceBefore: sDaiBalance,
+    sDaiBalanceBefore: sDaiBalanceBefore,
     sDaiBalanceAfter,
     APY: savingsInfo.apy,
     tokenWithdrew: otherTokenAmount,

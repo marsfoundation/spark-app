@@ -14,10 +14,12 @@ import { RiskWarning } from '@/features/dialogs/common/components/risk-acknowled
 import { AssetInputSchema, useDebouncedDialogFormValues } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
 
+import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
+import { mainnet } from 'viem/chains'
+import { SavingsDialogTxOverview, createTxOverview } from './createTxOverview'
 import { getFormFieldsForWithdrawDialog } from './form'
 import { generateWarning } from './generateWarning'
 import { createObjectives } from './objectives'
-import { SavingsDialogTxOverview, useTxOverview } from './useTransactionOverview'
 import { useWithdrawFromSavings } from './useWithdrawFromSavings'
 import { getSavingsWithdrawDialogFormValidator } from './validation'
 
@@ -41,6 +43,7 @@ export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
   const { savingsInfo } = useSavingsInfo()
   invariant(savingsInfo, 'Savings info is not available')
   const walletInfo = useWalletInfo()
+  const originChainId = useOriginChainId()
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')
 
@@ -68,18 +71,34 @@ export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
     form,
     marketInfo,
   })
-  const { swapInfo, swapParams } = useWithdrawFromSavings({ formValues, marketInfo, walletInfo })
+
+  const useNativeRoutes =
+    import.meta.env.VITE_DEV_NATIVE_ROUTES === '1' &&
+    originChainId === mainnet.id &&
+    formValues.token.address === marketInfo.DAI.address
+
+  const { swapInfo, swapParams } = useWithdrawFromSavings({
+    formValues,
+    marketInfo,
+    walletInfo,
+    enabled: !useNativeRoutes,
+  })
 
   const objectives = createObjectives({
     swapInfo,
     swapParams,
+    formValues,
+    marketInfo,
+    walletInfo,
+    useNativeRoutes,
   })
-  const txOverview = useTxOverview({
+  const txOverview = createTxOverview({
     formValues,
     marketInfo,
     walletInfo,
     savingsInfo,
     swapInfo,
+    useNativeRoutes,
   })
   const tokenToWithdraw = useConditionalFreeze<TokenWithValue>(
     {
