@@ -180,7 +180,7 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
   nativeSDaiDeposit: {
     action: {
       type: 'nativeSDaiDeposit',
-      token: tokens.sDAI,
+      token: tokens.DAI,
       value: NormalizedUnitNumber(1023),
       sDai: tokens.sDAI,
     },
