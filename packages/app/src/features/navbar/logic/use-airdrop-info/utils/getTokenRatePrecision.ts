@@ -1,5 +1,4 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { getTokenRatePerInterval } from './getTokenRatePerInterval'
 
 export interface ExtendAirdropResponseParams {
   tokenRatePerSecond: NormalizedUnitNumber
@@ -10,7 +9,7 @@ export function getTokenRatePrecision({
   tokenRatePerSecond,
   refreshIntervalInMs,
 }: ExtendAirdropResponseParams): number {
-  const ratePerRefreshInterval = getTokenRatePerInterval({ tokenRatePerSecond, refreshIntervalInMs })
+  const ratePerRefreshInterval = NormalizedUnitNumber(tokenRatePerSecond.dividedBy(1000 / refreshIntervalInMs))
   if (ratePerRefreshInterval.isZero()) {
     return 0
   }

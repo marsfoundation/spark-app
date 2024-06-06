@@ -11,15 +11,17 @@ interface AirdropBadgeLayoutProps {
   amount?: NormalizedUnitNumber
   precision?: number
   isLoading?: boolean
+  setEnableCounter?: (value: boolean) => void
 }
 export function AirdropBadgeLayout({
   amount = NormalizedUnitNumber(0),
   precision = 0,
   isLoading,
+  setEnableCounter,
 }: AirdropBadgeLayoutProps) {
   return (
     <NavbarActionWrapper label="Airdrop info">
-      <Tooltip>
+      <Tooltip onOpenChange={(open) => setEnableCounter?.(open)}>
         <TooltipTrigger asChild>
           <button
             className="rounded-[9px] bg-gradient-to-t from-product-orange to-basics-grey/50 p-[1px]"

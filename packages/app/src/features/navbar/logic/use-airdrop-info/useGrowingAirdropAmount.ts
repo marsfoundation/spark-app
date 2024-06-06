@@ -1,22 +1,17 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { useEffect, useState } from 'react'
+import { useTimestamp } from '@/utils/useTimestamp'
 import { Airdrop } from '../../types'
+import { adjustTokenReward } from './utils/adjustTokenReward'
 
-export function useGrowingAirdropAmount(airdrop: Airdrop): NormalizedUnitNumber {
-  const [amount, setAmount] = useState(airdrop.tokenReward)
+export function useGrowingAirdropAmount(airdrop: Airdrop, enabled: boolean): NormalizedUnitNumber {
+  const { timestampInMs } = useTimestamp({
+    refreshIntervalInMs: enabled ? airdrop.refreshIntervalInMs : 0,
+  })
 
-  useEffect(
-    function updateAirdropAmount() {
-      if (airdrop.tokenRatePerInterval.isZero()) {
-        return
-      }
-      const interval = setInterval(() => {
-        setAmount((currentAmount) => NormalizedUnitNumber(currentAmount.plus(airdrop.tokenRatePerInterval)))
-      }, airdrop.refreshIntervalInMs)
-      return () => clearInterval(interval)
-    },
-    [airdrop],
-  )
-
-  return amount
+  return adjustTokenReward({
+    airdropTimestampInMs: airdrop.timestampInMs,
+    currentTimestampInMs: timestampInMs,
+    tokenRatePerSecond: airdrop.tokenRatePerSecond,
+    tokenReward: airdrop.tokenReward,
+  })
 }

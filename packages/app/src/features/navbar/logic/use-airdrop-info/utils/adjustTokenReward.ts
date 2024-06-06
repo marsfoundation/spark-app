@@ -1,19 +1,19 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 
 interface AdjustTokenRewardParams {
-  airdropTimestamp: number
-  currentTimestamp: number
+  airdropTimestampInMs: number
+  currentTimestampInMs: number
   tokenRatePerSecond: NormalizedUnitNumber
   tokenReward: NormalizedUnitNumber
 }
 
 export function adjustTokenReward({
-  airdropTimestamp,
-  currentTimestamp,
+  airdropTimestampInMs,
+  currentTimestampInMs,
   tokenRatePerSecond,
   tokenReward,
 }: AdjustTokenRewardParams): NormalizedUnitNumber {
-  const timeElapsed = currentTimestamp > airdropTimestamp ? currentTimestamp - airdropTimestamp : 0
-  const tokensFromSnapshot = tokenRatePerSecond.multipliedBy(timeElapsed)
-  return NormalizedUnitNumber(tokenReward.plus(tokensFromSnapshot))
+  const timeElapsedInMs = currentTimestampInMs > airdropTimestampInMs ? currentTimestampInMs - airdropTimestampInMs : 0
+  const tokensAccumulatedSinceSnapshot = tokenRatePerSecond.multipliedBy(timeElapsedInMs / 1000)
+  return NormalizedUnitNumber(tokenReward.plus(tokensAccumulatedSinceSnapshot))
 }

@@ -2,8 +2,8 @@ import { queryOptions, skipToken } from '@tanstack/react-query'
 import { z } from 'zod'
 
 import { blockAnaliticaApiUrl } from '@/config/consts'
-import { normalizedUnitNumberSchema } from '../common/validation'
-import { CheckedAddress } from '../types/CheckedAddress'
+import { normalizedUnitNumberSchema } from '../../../../domain/common/validation'
+import { CheckedAddress } from '../../../../domain/types/CheckedAddress'
 
 const airdropInfoResponseSchema = z
   .object({
@@ -14,7 +14,7 @@ const airdropInfoResponseSchema = z
   .transform((o) => ({
     tokenReward: o.token_reward_total,
     tokenRatePerSecond: o.token_rate,
-    airdropTimestamp: o.timestamp,
+    timestampInMs: o.timestamp * 1000,
   }))
   // @note: Api is returning empty object for addresses without airdrop
   .or(z.object({}).transform(() => null))

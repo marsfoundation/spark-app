@@ -42,7 +42,8 @@ export interface SavingsInfoQueryResults {
 
 export type Airdrop = {
   tokenReward: NormalizedUnitNumber
-  tokenRatePerInterval: NormalizedUnitNumber
+  tokenRatePerSecond: NormalizedUnitNumber
+  timestampInMs: number
   tokenRatePrecision: number
   refreshIntervalInMs: number
 }

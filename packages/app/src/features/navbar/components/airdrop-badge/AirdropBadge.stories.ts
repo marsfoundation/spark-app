@@ -7,6 +7,8 @@ import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 
 import { AirdropBadge } from './AirdropBadge'
 
+const timestampInMs = Date.now() - 30 * 1000 // timestamp snapshot is always bit stale
+
 const meta: Meta<typeof AirdropBadge> = {
   title: 'Features/Navbar/Components/AirdropBadge',
   decorators: [WithTooltipProvider(), WithClassname('flex')],
@@ -14,9 +16,10 @@ const meta: Meta<typeof AirdropBadge> = {
   args: {
     airdrop: {
       tokenReward: NormalizedUnitNumber(1_200_345.568),
-      tokenRatePerInterval: NormalizedUnitNumber(0.1),
+      tokenRatePerSecond: NormalizedUnitNumber(1),
       tokenRatePrecision: 1,
       refreshIntervalInMs: 100,
+      timestampInMs,
     },
     isLoading: false,
     isError: false,
@@ -39,9 +42,10 @@ export const LargeAirdrop = getHoveredStory<Story>(
     args: {
       airdrop: {
         tokenReward: NormalizedUnitNumber('7835102.158890800802961891'),
-        tokenRatePerInterval: NormalizedUnitNumber('0.0262135690260185551'),
+        tokenRatePerSecond: NormalizedUnitNumber('0.262135690260185551'),
         tokenRatePrecision: 2,
         refreshIntervalInMs: 100,
+        timestampInMs,
       },
     },
   },
@@ -53,9 +57,10 @@ export const SmallAirdrop = getHoveredStory<Story>(
     args: {
       airdrop: {
         tokenReward: NormalizedUnitNumber('0.005822830257558254'),
-        tokenRatePerInterval: NormalizedUnitNumber('2.37304339E-10'),
+        tokenRatePerSecond: NormalizedUnitNumber('2.37304339E-9'),
         tokenRatePrecision: 10,
         refreshIntervalInMs: 100,
+        timestampInMs,
       },
     },
   },
@@ -66,9 +71,10 @@ export const AlmostZero = getHoveredStory<Story>(
     args: {
       airdrop: {
         tokenReward: NormalizedUnitNumber('8.73949580999E-7'),
-        tokenRatePerInterval: NormalizedUnitNumber('2.8442E-14'),
+        tokenRatePerSecond: NormalizedUnitNumber('2.8442E-13'),
         tokenRatePrecision: 14,
         refreshIntervalInMs: 100,
+        timestampInMs,
       },
     },
   },
