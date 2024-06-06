@@ -62,11 +62,6 @@ export function useSavingsDepositDialog({
     mode: 'onChange',
   })
 
-  const useNativeRoutes =
-    import.meta.env.VITE_DEV_NATIVE_ROUTES === '1' &&
-    marketInfo.chainId === mainnet.id &&
-    initialToken.address === marketInfo.DAI.address
-
   const {
     debouncedFormValues: formValues,
     isDebouncing,
@@ -75,6 +70,12 @@ export function useSavingsDepositDialog({
     form,
     marketInfo,
   })
+
+  const useNativeRoutes =
+    import.meta.env.VITE_DEV_NATIVE_ROUTES === '1' &&
+    marketInfo.chainId === mainnet.id &&
+    formValues.token.address === marketInfo.DAI.address
+
   const { swapInfo, swapParams } = useDepositIntoSavings({
     formValues,
     marketInfo,
