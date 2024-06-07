@@ -23,7 +23,7 @@ test.describe('Navbar', () => {
       const navbar = new NavbarPageObject(page)
       await navbar.expectAirdropCompactValue('0')
       await navbar.hoverOverAirdropBadge()
-      await navbar.expectAirdropPreciseValue('0.00 SPK')
+      await navbar.expectAirdropPreciseValue('0 SPK')
     })
 
     test('Connected', async ({ page }) => {
@@ -37,9 +37,9 @@ test.describe('Navbar', () => {
       await overrideAirdropInfoRoute(page, { account })
 
       const navbar = new NavbarPageObject(page)
-      await navbar.expectAirdropCompactValue('3.734M')
+      await navbar.expectAirdropCompactValue('7.841M')
       await navbar.hoverOverAirdropBadge()
-      await navbar.expectAirdropPreciseValue('3,733,867.039 SPK')
+      await navbar.expectAirdropPreciseValue('7,840,591')
     })
 
     test('Api error', async ({ page }) => {
@@ -69,7 +69,7 @@ test.describe('Navbar', () => {
       const navbar = new NavbarPageObject(page)
       await navbar.expectAirdropCompactValue('0')
       await navbar.hoverOverAirdropBadge()
-      await navbar.expectAirdropPreciseValue('0.00 SPK')
+      await navbar.expectAirdropPreciseValue('0 SPK')
     })
   })
 })
