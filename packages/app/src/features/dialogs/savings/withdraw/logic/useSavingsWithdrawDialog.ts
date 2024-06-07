@@ -16,7 +16,7 @@ import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/c
 
 import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
 import { mainnet } from 'viem/chains'
-import { SavingsDialogTxOverview, createTxOverview } from './createTxOverview'
+import { SavingsDialogTxOverview, createMakerTxOverview, createTxOverview } from './createTxOverview'
 import { getFormFieldsForWithdrawDialog } from './form'
 import { generateWarning } from './generateWarning'
 import { createObjectives } from './objectives'
@@ -92,14 +92,20 @@ export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
     walletInfo,
     useNativeRoutes,
   })
-  const txOverview = createTxOverview({
-    formValues,
-    marketInfo,
-    walletInfo,
-    savingsInfo,
-    swapInfo,
-    useNativeRoutes,
-  })
+  const txOverview = useNativeRoutes
+    ? createMakerTxOverview({
+        formValues,
+        marketInfo,
+        savingsInfo,
+        walletInfo,
+      })
+    : createTxOverview({
+        formValues,
+        marketInfo,
+        walletInfo,
+        savingsInfo,
+        swapInfo,
+      })
   const tokenToWithdraw = useConditionalFreeze<TokenWithValue>(
     {
       token: formValues.token,

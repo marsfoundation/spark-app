@@ -16,7 +16,7 @@ import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/c
 
 import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
 import { mainnet } from 'viem/chains'
-import { SavingsDialogTxOverview, createTxOverview } from './createTxOverview'
+import { SavingsDialogTxOverview, createMakerTxOverview, createTxOverview } from './createTxOverview'
 import { getFormFieldsForDepositDialog } from './form'
 import { generateWarning } from './generateWarning'
 import { createObjectives } from './objectives'
@@ -101,15 +101,19 @@ export function useSavingsDepositDialog({
     savingsInfo,
     useNativeRoutes,
   })
-  const txOverview = createTxOverview({
-    formValues,
-    marketInfo,
-    savingsInfo,
-    swapInfo,
-    walletInfo,
-    swapParams,
-    useNativeRoutes,
-  })
+  const txOverview = useNativeRoutes
+    ? createMakerTxOverview({
+        formValues,
+        marketInfo,
+        savingsInfo,
+      })
+    : createTxOverview({
+        marketInfo,
+        savingsInfo,
+        swapInfo,
+        walletInfo,
+        swapParams,
+      })
 
   const tokenToDeposit: TokenWithValue = {
     token: formValues.token,

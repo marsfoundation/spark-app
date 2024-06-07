@@ -11,7 +11,8 @@ import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageStatus } from '@/features/dialogs/common/types'
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
 
-import { DepositOverviewPanel } from '../../common/components/DepositOverviewPanel'
+import { LiFiTransactionOverview } from '../../common/components/LiFiTransactionOverview'
+import { MakerTransactionOverview } from '../../common/components/MakerTransactionOverview'
 import { SavingsDialogTxOverview } from '../logic/createTxOverview'
 import { RiskAcknowledgementInfo } from '../logic/useSavingsWithdrawDialog'
 
@@ -46,12 +47,15 @@ export function SavingsWithdrawView({
           variant="usd"
           walletIconLabel="Savings"
         />
-        {txOverview && (
-          <DepositOverviewPanel
-            txOverview={txOverview}
-            showExchangeRate={txOverview.exchangeRatioToToken.symbol !== 'DAI'}
-          />
-        )}
+        {txOverview &&
+          (txOverview.type === 'lifi' ? (
+            <LiFiTransactionOverview
+              txOverview={txOverview}
+              showExchangeRate={txOverview.exchangeRatioToToken.symbol !== 'DAI'}
+            />
+          ) : (
+            <MakerTransactionOverview {...txOverview} />
+          ))}
       </FormAndOverviewWrapper>
       {riskAcknowledgement.warning && (
         <RiskAcknowledgement

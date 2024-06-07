@@ -3,15 +3,15 @@ import { DialogPanel } from '@/features/dialogs/common/components/DialogPanel'
 import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPanelTitle'
 import { TransactionOverviewDetailsItem } from '@/features/dialogs/common/components/TransactionOverviewDetailsItem'
 
-import { SavingsDialogTxOverview } from '../../deposit/logic/createTxOverview'
+import { SavingsDialogTxOverviewLiFi } from '../../deposit/logic/createTxOverview'
 import { TransactionOverviewBalanceChangeDetail } from './TransactionOverviewBalanceChangeDetail'
 import { TransactionOverviewExchangeRateDetail } from './TransactionOverviewExchangeRateDetail'
 
 export interface DepositOverviewPanelProps {
-  txOverview: SavingsDialogTxOverview
+  txOverview: SavingsDialogTxOverviewLiFi
   showExchangeRate: boolean
 }
-export function DepositOverviewPanel({
+export function LiFiTransactionOverview({
   txOverview: {
     APY,
     sDaiBalanceAfter,

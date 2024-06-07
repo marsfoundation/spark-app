@@ -81,6 +81,7 @@ const meta: Meta<typeof SavingsDepositView> = {
       goToSuccessScreen: () => {},
     },
     txOverview: {
+      type: 'lifi',
       APY: Percentage(0.05),
       exchangeRatioToToken: tokens.DAI,
       sDaiToken: tokens.sDAI,
