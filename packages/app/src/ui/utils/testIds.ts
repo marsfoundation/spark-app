@@ -48,6 +48,10 @@ export const testIds = makeTestIds({
     },
     success: true,
     acknowledgeRiskSwitch: true,
+    depositSavings: {
+      __transactionDetailsRow: true,
+      transactionDetailsRow: (index: number) => `${testIds.dialog.depositSavings.__transactionDetailsRow}-${index}`,
+    },
   },
   actions: {
     settings: {
@@ -79,10 +83,15 @@ function makeTestIds<T extends Object>(obj: T, prefix?: string): MapValuesToStri
       if (typeof value === 'object') {
         return [key, makeTestIds(value, newPrefix)]
       }
-      assert(value === true, "testIds value map has to be 'true' or another nested object")
+      if (value instanceof Function) {
+        return [key, value]
+      }
+      assert(value === true, "testIds value map has to be 'true', a function or another nested object")
       return [key, newPrefix]
     }),
-  )
+  ) as any
 }
 
-type MapValuesToString<T> = { [K in keyof T]: T[K] extends boolean ? string : MapValuesToString<T[K]> }
+type MapValuesToString<T> = {
+  [K in keyof T]: T[K] extends boolean ? string : T[K] extends Function ? T[K] : MapValuesToString<T[K]>
+}

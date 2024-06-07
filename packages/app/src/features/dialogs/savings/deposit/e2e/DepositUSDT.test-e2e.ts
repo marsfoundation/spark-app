@@ -1,4 +1,3 @@
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
 import { LIFI_TEST_USER_PRIVATE_KEY, overrideLiFiRouteWithHAR } from '@/test/e2e/lifi'
 import { setup } from '@/test/e2e/setup'
@@ -42,7 +41,7 @@ test.describe('Deposit USDT on Mainnet', () => {
     })
   })
 
-  test('displays transaction overview', async (page) => {
+  test('displays transaction overview', async ({ page }) => {
     await setup(page, fork, {
       initialPage: 'savings',
       account: {
@@ -72,5 +71,11 @@ test.describe('Deposit USDT on Mainnet', () => {
       finalDAIAmount: '$9,978.30 DAI',
       finalSDAIAmount: '9,180.20 sDAI',
     })
+
+    await depositDialog.expectTransactionOverview([
+      ['APY', '8.00%'],
+      ['Exchange Rate', '1.00 USDT 0.99783 DAI'],
+      ['sDAI Balance', '0.00 sDAI 9,180.20 sDAI'],
+    ])
   })
 })

@@ -10,7 +10,11 @@ import { useIsTruncated } from '@/ui/utils/useIsTruncated'
 import { ActionHandlerState } from '../../logic/types'
 import { ActionRowVariant } from './types'
 
-function ActionRow({ children, className, "data-testid": dataTestId }: { children: ReactNode; className?: string, "data-testid"?: string }) {
+function ActionRow({
+  children,
+  className,
+  'data-testid': dataTestId,
+}: { children: ReactNode; className?: string; 'data-testid'?: string }) {
   return (
     <div
       className={cn(

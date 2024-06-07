@@ -87,7 +87,9 @@ function RowSummary({ maxSlippage, toToken, estimate, actionStatus, formatAsDAIV
         <LiFiBadge />
         <p className="text-basics-black text-xs">
           <span className="text-basics-dark-grey">Extra fee: </span>
-          <span data-testid={testIds.actions.flavours.exchangeActionRow.fee}>{USD_MOCK_TOKEN.formatUSD(estimate.feeCostsUSD)}</span>
+          <span data-testid={testIds.actions.flavours.exchangeActionRow.fee}>
+            {USD_MOCK_TOKEN.formatUSD(estimate.feeCostsUSD)}
+          </span>
           <br />
           <span className="text-basics-dark-grey">Slippage: </span>
           <span data-testid={testIds.actions.flavours.exchangeActionRow.slippage}>
@@ -96,8 +98,16 @@ function RowSummary({ maxSlippage, toToken, estimate, actionStatus, formatAsDAIV
         </p>
       </div>
       <p className="text-basics-dark-grey text-xs">
-        <span className="hidden sm:inline">You'll get</span> ~<span data-testid={testIds.actions.flavours.exchangeActionRow.finalSDAIAmount}>{toToken.format(amount, { style: 'auto' })}{' '}{toToken.symbol}</span>
-        {formatAsDAIValue && <span data-testid={testIds.actions.flavours.exchangeActionRow.finalDAIAmount}> (${formatAsDAIValue(amount)} DAI)</span>}
+        <span className="hidden sm:inline">You'll get</span> ~
+        <span data-testid={testIds.actions.flavours.exchangeActionRow.finalSDAIAmount}>
+          {toToken.format(amount, { style: 'auto' })} {toToken.symbol}
+        </span>
+        {formatAsDAIValue && (
+          <span data-testid={testIds.actions.flavours.exchangeActionRow.finalDAIAmount}>
+            {' '}
+            (${formatAsDAIValue(amount)} DAI)
+          </span>
+        )}
       </p>
     </div>
   )
@@ -105,7 +115,10 @@ function RowSummary({ maxSlippage, toToken, estimate, actionStatus, formatAsDAIV
 
 function LiFiBadge() {
   return (
-    <p className="mr-auto flex items-center gap-1.5 rounded bg-basics-dark-grey/20 px-1.5 py-0.5 font-semibold text-[9px] text-basics-black tracking-wide" data-testid={testIds.actions.flavours.exchangeActionRow.lifiBadge}>
+    <p
+      className="mr-auto flex items-center gap-1.5 rounded bg-basics-dark-grey/20 px-1.5 py-0.5 font-semibold text-[9px] text-basics-black tracking-wide"
+      data-testid={testIds.actions.flavours.exchangeActionRow.lifiBadge}
+    >
       <img src={assets.lifiLogo} alt="LI.FI logo" className="h-3" />
       <span className="hidden md:block">POWERED</span> BY LI.FI
     </p>

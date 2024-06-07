@@ -1,8 +1,6 @@
 import { Page, expect } from '@playwright/test'
 
 import { testIds } from '@/ui/utils/testIds'
-
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { DialogPageObject } from '../../common/Dialog.PageObject'
 
 export class SavingsDepositDialogPageObject extends DialogPageObject {
@@ -36,8 +34,16 @@ export class SavingsDepositDialogPageObject extends DialogPageObject {
     await expect(this.locatePanelByHeader('Transaction overview')).toBeVisible()
   }
 
-  async expectTransactionOverview({}: ): Promise<void> {
-    await expect(this.locatePanelByHeader('Transaction overview')).toBeVisible()
+  async expectTransactionOverview(transactionOverview: TransactionOverview): Promise<void> {
+    const panel = this.locatePanelByHeader('Transaction overview')
+    await expect(panel).toBeVisible()
+
+    for (const [index, [label, value]] of transactionOverview.entries()) {
+      const row = panel.getByTestId(testIds.dialog.depositSavings.transactionDetailsRow(index))
+      await expect(row).toBeVisible()
+      await expect(row).toContainText(label)
+      await expect(row).toContainText(value)
+    }
   }
 
   async expectToUseLifiSwap(lifiSwapParams: LifiSwapParams): Promise<void> {
@@ -70,6 +76,4 @@ interface LifiSwapParams {
   finalDAIAmount: string
 }
 
-interface TransactionOverview {
-  [key: string]: [string]
-}
+type TransactionOverview = [string, string][]

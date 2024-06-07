@@ -9,15 +9,17 @@ export interface TransactionOverviewDetailsItemProps {
   toToken: Token
   fromToken: Token
   ratio: NormalizedUnitNumber
+  'data-testid'?: string
 }
 
 export function TransactionOverviewExchangeRateDetail({
   fromToken,
   toToken,
   ratio,
+  'data-testid': dataTestId,
 }: TransactionOverviewDetailsItemProps) {
   return (
-    <TransactionOverviewDetailsItem label="Exchange Rate">
+    <TransactionOverviewDetailsItem label="Exchange Rate" data-testid={dataTestId}>
       <div className="flex flex-row gap-2">
         <TokenValue token={fromToken} value={NormalizedUnitNumber(1)} variant="high-precision" />{' '}
         <img src={assets.arrowRight} />
