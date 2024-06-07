@@ -12,16 +12,14 @@ interface TxOverview {
   outTokenAmount: NormalizedUnitNumber
 }
 
-export type SavingsDialogTxOverview =
+export type SavingsDialogTxOverview = { showExchangeRate: boolean } & (
   | {
-      showExchangeRate: boolean
       status: 'loading'
     }
   | {
-      showExchangeRate: boolean
       status: 'no-overview'
     }
   | ({
-      showExchangeRate: boolean
       status: 'success'
     } & TxOverview)
+)
