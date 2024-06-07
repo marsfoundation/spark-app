@@ -12,8 +12,8 @@ import { FormFieldsForDialog, PageStatus } from '@/features/dialogs/common/types
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
 
 import { DepositOverviewPanel } from '../../common/components/DepositOverviewPanel'
+import { SavingsDialogTxOverview } from '../logic/createTxOverview'
 import { RiskAcknowledgementInfo } from '../logic/useSavingsDepositDialog'
-import { SavingsDialogTxOverview } from '../logic/useTransactionOverview'
 
 export interface SavingsDepositViewProps {
   selectableAssets: TokenWithBalance[]

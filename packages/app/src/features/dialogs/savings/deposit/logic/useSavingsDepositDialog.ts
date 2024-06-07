@@ -14,11 +14,13 @@ import { RiskWarning } from '@/features/dialogs/common/components/risk-acknowled
 import { AssetInputSchema, useDebouncedDialogFormValues } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
 
+import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
+import { mainnet } from 'viem/chains'
+import { SavingsDialogTxOverview, createTxOverview } from './createTxOverview'
 import { getFormFieldsForDepositDialog } from './form'
 import { generateWarning } from './generateWarning'
 import { createObjectives } from './objectives'
 import { useDepositIntoSavings } from './useDepositIntoSavings'
-import { SavingsDialogTxOverview, useTxOverview } from './useTransactionOverview'
 import { getSavingsDepositDialogFormValidator } from './validation'
 
 export interface UseSavingsDepositDialogParams {
@@ -48,6 +50,8 @@ export function useSavingsDepositDialog({
   const { savingsInfo } = useSavingsInfo()
   assert(savingsInfo, 'Savings info is not available')
   const walletInfo = useWalletInfo()
+  const originChainId = useOriginChainId()
+
   const { assets: depositOptions } = makeAssetsInWalletList({ walletInfo })
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')
@@ -69,7 +73,17 @@ export function useSavingsDepositDialog({
     form,
     marketInfo,
   })
-  const { swapInfo, swapParams } = useDepositIntoSavings({ formValues, marketInfo })
+
+  const useNativeRoutes =
+    import.meta.env.VITE_DEV_NATIVE_ROUTES === '1' &&
+    originChainId === mainnet.id &&
+    formValues.token.address === marketInfo.DAI.address
+
+  const { swapInfo, swapParams } = useDepositIntoSavings({
+    formValues,
+    marketInfo,
+    enabled: !useNativeRoutes,
+  })
 
   const { warning } = generateWarning({
     swapInfo,
@@ -82,15 +96,19 @@ export function useSavingsDepositDialog({
   const objectives = createObjectives({
     swapInfo,
     swapParams,
+    formValues,
     marketInfo,
     savingsInfo,
+    useNativeRoutes,
   })
-  const txOverview = useTxOverview({
+  const txOverview = createTxOverview({
+    formValues,
     marketInfo,
     savingsInfo,
     swapInfo,
     walletInfo,
     swapParams,
+    useNativeRoutes,
   })
 
   const tokenToDeposit: TokenWithValue = {

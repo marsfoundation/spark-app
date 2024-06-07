@@ -12,6 +12,8 @@ import { ApproveAction } from '../flavours/approve/types'
 import { BorrowAction } from '../flavours/borrow/types'
 import { DepositAction } from '../flavours/deposit/types'
 import { ExchangeAction } from '../flavours/exchange/types'
+import { NativeSDaiDepositAction } from '../flavours/native-sdai-deposit/types'
+import { NativeSDaiWithdrawAction } from '../flavours/native-sdai-withdraw/types'
 import { RepayAction } from '../flavours/repay/types'
 import { SetUseAsCollateralAction } from '../flavours/set-use-as-collateral/types'
 import { SetUserEModeAction } from '../flavours/set-user-e-mode/types'
@@ -162,6 +164,34 @@ export function useCreateActions(objectives: Objective[]): Action[] {
         }
 
         return [approveExchangeAction, exchangeAction]
+      }
+
+      case 'nativeSDaiDeposit': {
+        const approveAction: ApproveAction = {
+          type: 'approve',
+          token: objective.token,
+          spender: objective.sDai.address,
+          value: objective.value,
+        }
+
+        const depositAction: NativeSDaiDepositAction = {
+          type: 'nativeSDaiDeposit',
+          token: objective.token,
+          value: objective.value,
+          sDai: objective.sDai,
+        }
+        return [approveAction, depositAction]
+      }
+
+      case 'nativeSDaiWithdraw': {
+        const withdrawAction: NativeSDaiWithdrawAction = {
+          type: 'nativeSDaiWithdraw',
+          token: objective.token,
+          value: objective.value,
+          sDai: objective.sDai,
+          method: objective.method,
+        }
+        return [withdrawAction]
       }
     }
   })
