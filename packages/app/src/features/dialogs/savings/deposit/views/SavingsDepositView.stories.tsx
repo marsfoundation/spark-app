@@ -103,7 +103,27 @@ export default meta
 type Story = StoryObj<typeof SavingsDepositView>
 
 export const Desktop: Story = {}
-
 export const Mobile: Story = getMobileStory(Desktop)
-
 export const Tablet: Story = getTabletStory(Desktop)
+
+export const LoadingTxOverview: Story = {
+  args: {
+    txOverview: {
+      status: 'loading',
+      showExchangeRate: true,
+    },
+  },
+}
+export const MobileLoadingTxOverview = getMobileStory(LoadingTxOverview)
+export const TabletLoadingTxOverview = getTabletStory(LoadingTxOverview)
+
+export const NoTxOverview: Story = {
+  args: {
+    txOverview: {
+      status: 'no-overview',
+      showExchangeRate: true,
+    },
+  },
+}
+export const MobileNoTxOverview = getMobileStory(NoTxOverview)
+export const TabletNoTxOverview = getTabletStory(NoTxOverview)
