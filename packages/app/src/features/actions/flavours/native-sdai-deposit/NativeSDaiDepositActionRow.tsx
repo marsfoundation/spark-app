@@ -34,7 +34,7 @@ export function NativeSDaiDepositActionRow({
       </ActionRow.Title>
 
       <ActionRow.Description successMessage={successMessage} actionStatus={status} variant={variant}>
-        <UpDownMarker token={fromToken} value={action.value} direction={'up'} />
+        <UpDownMarker token={fromToken} value={action.value} direction="down" />
       </ActionRow.Description>
 
       <ActionRow.ErrorWarning variant={variant} actionHandlerState={actionHandlerState} />

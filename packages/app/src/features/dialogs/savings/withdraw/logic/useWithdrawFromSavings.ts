@@ -10,9 +10,10 @@ interface UseSwapParams {
   formValues: DialogFormNormalizedData
   marketInfo: MarketInfo
   walletInfo: WalletInfo
+  enabled: boolean
 }
 
-export function useWithdrawFromSavings({ formValues, marketInfo, walletInfo }: UseSwapParams): {
+export function useWithdrawFromSavings({ formValues, marketInfo, walletInfo, enabled }: UseSwapParams): {
   swapInfo: SwapInfo
   swapParams: SwapParams
 } {
@@ -37,5 +38,6 @@ export function useWithdrawFromSavings({ formValues, marketInfo, walletInfo }: U
   return useSwap({
     swapParamsBase,
     defaults: { defaultMaxSlippage: settings.exchangeMaxSlippage },
+    enabled,
   })
 }

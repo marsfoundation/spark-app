@@ -148,6 +148,10 @@ function actionToTitle(action: SimplifiedAction, shortForm: boolean): string {
       return `${prefix} ${action.asset} into sDAI`
     }
 
+    if (action.type === 'nativeSDaiWithdraw') {
+      return `${prefix} sDAI into ${action.asset}`
+    }
+
     return `${prefix} ${action.asset}`
   }
 
@@ -159,6 +163,10 @@ function actionToTitle(action: SimplifiedAction, shortForm: boolean): string {
 
   if (action.type === 'nativeSDaiDeposit') {
     return `${prefix} ${formatter.format(action.amount)} ${action.asset} into sDAI`
+  }
+
+  if (action.type === 'nativeSDaiWithdraw') {
+    return `${prefix} sDAI into ${formatter.format(action.amount)} ${action.asset}`
   }
 
   return `${prefix} ${formatter.format(action.amount)} ${action.asset}`
@@ -175,6 +183,7 @@ const actionVerbs = [
   'Disable',
   'Convert',
   'Wrap',
+  'Unwrap',
 ]
 const actionButtonRegex = new RegExp(`^(${actionVerbs.join('|')})$`)
 
@@ -204,5 +213,7 @@ function getActionTitlePrefix(action: SimplifiedAction): string {
       return 'Convert'
     case 'nativeSDaiDeposit':
       return 'Wrap'
+    case 'nativeSDaiWithdraw':
+      return 'Unwrap'
   }
 }
