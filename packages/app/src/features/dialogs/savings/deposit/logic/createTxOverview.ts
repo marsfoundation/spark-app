@@ -47,7 +47,7 @@ export function createTxOverview({
     }
   }
 
-  const showExchangeRate = swapParams.fromToken.symbol !== 'DAI'
+  const showExchangeRate = swapParams.fromToken.symbol !== marketInfo.DAI.symbol
 
   if (!swapInfo.isSuccess) {
     return swapInfo.isLoading ? { showExchangeRate, status: 'loading' } : { showExchangeRate, status: 'no-overview' }
