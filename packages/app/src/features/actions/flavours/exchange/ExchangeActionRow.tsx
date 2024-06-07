@@ -106,7 +106,7 @@ function RowSummary({ maxSlippage, toToken, estimate, actionStatus, formatAsDAIV
 
 function LiFiBadge() {
   return (
-    <div className="mr-auto flex h-5 items-center gap-1.5 rounded bg-basics-dark-grey/20 px-1.5 py-0.5 font-semibold text-[9px] text-basics-black tracking-wide">
+    <div className="mr-auto flex items-center gap-1.5 rounded bg-basics-dark-grey/20 px-1.5 py-0.5 font-semibold text-[9px] text-basics-black tracking-wide">
       <img src={assets.lifiLogo} alt="LI.FI logo" className="h-3" />
       <span className="hidden md:block">POWERED</span> BY LI.FI
     </div>

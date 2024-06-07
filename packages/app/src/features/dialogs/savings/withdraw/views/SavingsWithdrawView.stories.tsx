@@ -79,6 +79,18 @@ const meta: Meta<typeof SavingsWithdrawView> = {
       actionsEnabled: true,
       goToSuccessScreen: () => {},
     },
+    txOverview: {
+      status: 'success',
+      showExchangeRate: true,
+      APY: Percentage(0.05),
+      exchangeRatioToToken: tokens.USDC,
+      sDaiToken: tokens.sDAI,
+      exchangeRatioFromToken: tokens.DAI,
+      exchangeRatio: NormalizedUnitNumber(1.004),
+      sDaiBalanceBefore: NormalizedUnitNumber(10000),
+      sDaiBalanceAfter: NormalizedUnitNumber(5000),
+      outTokenAmount: NormalizedUnitNumber(5000),
+    },
     riskAcknowledgement: {
       onStatusChange: () => {},
       warning: undefined,
