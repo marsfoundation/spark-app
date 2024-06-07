@@ -15,7 +15,7 @@ import { useTimestamp } from '@/utils/useTimestamp'
 import { AirdropInfo, ConnectedWalletInfo, SavingsInfoQueryResults, SupportedChain } from '../types'
 import { generateWalletAvatar } from './generateWalletAvatar'
 import { getWalletIcon } from './getWalletIcon'
-import { useAirdropInfo } from './useAirdropInfo'
+import { useAirdropInfo } from './use-airdrop-info/useAirdropInfo'
 import { useDisconnect } from './useDisconnect'
 import { useNetworkChange } from './useNetworkChange'
 import { useTotalBalance } from './useTotalBalance'
@@ -52,7 +52,7 @@ export function useNavbar(): UseNavbarResults {
   const savingsInfo = useQuery(savingsInfoQueryOptions({ wagmiConfig, chainId: currentChainId, timestamp }))
 
   const balanceInfo = useTotalBalance()
-  const airdropInfo = useAirdropInfo()
+  const airdropInfo = useAirdropInfo({ refreshIntervalInMs: 100 })
   const { isInSandbox, isSandboxEnabled, isDevSandboxEnabled, isEphemeralAccount, deleteSandbox } = useSandboxState()
   const { changeNetwork, changeNetworkAsync } = useNetworkChange()
   const { disconnect } = useDisconnect({

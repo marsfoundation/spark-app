@@ -56,5 +56,6 @@ export const SingleOpenable: Story = {
   play: async ({ canvasElement }) => (await within(canvasElement).findByText('Item number one')).click(),
 }
 
-export const Mobile = getMobileStory(MultipleOpenable)
-export const Tablet = getTabletStory(MultipleOpenable)
+// @note: Disabling play function to prevent visual regression misleading reports
+export const Mobile: Story = { ...getMobileStory(MultipleOpenable), play: undefined }
+export const Tablet: Story = { ...getTabletStory(MultipleOpenable), play: undefined }
