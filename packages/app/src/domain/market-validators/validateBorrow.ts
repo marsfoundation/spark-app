@@ -1,4 +1,4 @@
-import invariant from 'tiny-invariant'
+import { assert } from '@/utils/assert'
 
 import { calculateMaxBorrowBasedOnCollateral } from '../action-max-value-getters/calculateMaxBorrowBasedOnCollateral'
 import { MarketInfo, Reserve, UserPositionSummary } from '../market-info/marketInfo'
@@ -101,7 +101,7 @@ export function validateBorrow({
       return 'asset-not-borrowable-in-isolation'
     }
 
-    invariant(
+    assert(
       isolationModeCollateralTotalDebt && isolationModeCollateralDebtCeiling,
       'Collateral total debt, ceiling and decimals should be defined',
     )

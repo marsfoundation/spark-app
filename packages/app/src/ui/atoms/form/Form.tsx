@@ -1,8 +1,8 @@
+import { assert } from '@/utils/assert'
 import * as LabelPrimitive from '@radix-ui/react-label'
 import { Slot } from '@radix-ui/react-slot'
 import * as React from 'react'
 import { Controller, ControllerProps, FieldPath, FieldValues, FormProvider, useFormContext } from 'react-hook-form'
-import invariant from 'tiny-invariant'
 
 import { cn } from '@/ui/utils/style'
 
@@ -37,7 +37,7 @@ function useFormField() {
 
   const fieldState = getFieldState(fieldContext.name, formState)
 
-  invariant(fieldContext, 'useFormField should be used within <FormField>')
+  assert(fieldContext, 'useFormField should be used within <FormField>')
 
   const { id } = itemContext
 

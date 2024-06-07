@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 
-import { raise } from '@/utils/raise'
+import { raise } from '@/utils/assert'
 
 import { MarketInfo } from '../market-info/marketInfo'
 import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'

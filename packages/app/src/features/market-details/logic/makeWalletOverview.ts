@@ -1,4 +1,4 @@
-import invariant from 'tiny-invariant'
+import { assert } from '@/utils/assert'
 
 import { getBorrowMaxValue } from '@/domain/action-max-value-getters/getBorrowMaxValue'
 import { getDepositMaxValue } from '@/domain/action-max-value-getters/getDepositMaxValue'
@@ -29,7 +29,7 @@ export function makeWalletOverview({
     makeDaiOverview,
     makeBaseWalletOverview,
   ])
-  invariant(overview, 'The only item was skipped by transformers.')
+  assert(overview, 'The only item was skipped by transformers.')
 
   return overview
 }

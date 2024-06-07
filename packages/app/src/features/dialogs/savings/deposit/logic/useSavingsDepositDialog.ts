@@ -1,7 +1,7 @@
+import { assert } from '@/utils/assert'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
-import invariant from 'tiny-invariant'
 
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
@@ -48,7 +48,7 @@ export function useSavingsDepositDialog({
 }: UseSavingsDepositDialogParams): UseSavingsDepositDialogResults {
   const { marketInfo } = useMarketInfo()
   const { savingsInfo } = useSavingsInfo()
-  invariant(savingsInfo, 'Savings info is not available')
+  assert(savingsInfo, 'Savings info is not available')
   const walletInfo = useWalletInfo()
   const originChainId = useOriginChainId()
 

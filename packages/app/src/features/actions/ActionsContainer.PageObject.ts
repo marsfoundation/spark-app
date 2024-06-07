@@ -1,5 +1,5 @@
+import { assert } from '@/utils/assert'
 import { Locator, Page, expect } from '@playwright/test'
-import invariant from 'tiny-invariant'
 
 import { formatPercentage } from '@/domain/common/format'
 import { Percentage } from '@/domain/types/NumericValues'
@@ -86,7 +86,7 @@ export class ActionsPageObject extends BasePageObject {
     for (const [index, actualAction] of actionLocators.entries()) {
       const actualTitle = await actualAction.textContent()
       const expectedAction = expectedActions[index]
-      invariant(expectedAction, `Expected action ${actualTitle} not found`)
+      assert(expectedAction, `Expected action ${actualTitle} not found`)
 
       expect(actualTitle).toEqual(actionToTitle(expectedAction, shortForm))
     }

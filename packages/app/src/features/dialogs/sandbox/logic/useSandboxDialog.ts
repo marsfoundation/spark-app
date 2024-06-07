@@ -1,6 +1,6 @@
+import { assert } from '@/utils/assert'
 import { UseMutationResult, useMutation } from '@tanstack/react-query'
 import { useRef } from 'react'
-import invariant from 'tiny-invariant'
 import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts'
 import { useAccount, useConfig } from 'wagmi'
 import { connect, getChains, switchChain } from 'wagmi/actions'
@@ -37,7 +37,7 @@ export function useSandboxDialog(mode: SandboxMode): UseSandboxDialogResult {
 
   const { isInSandbox } = useSandboxState()
 
-  invariant(sandboxConfig, 'It seems that sandbox feature is not enabled.')
+  assert(sandboxConfig, 'It seems that sandbox feature is not enabled.')
 
   // eslint-disable-next-line func-style
   const startSandboxAsync = async (): Promise<void> => {
@@ -90,7 +90,7 @@ export function useSandboxDialog(mode: SandboxMode): UseSandboxDialogResult {
         connector,
       })
     } else {
-      invariant(address, 'Address should be defined when not using ephemeral account.')
+      assert(address, 'Address should be defined when not using ephemeral account.')
       const forkUrl = await createSandbox({
         originChainId: sandboxConfig.originChainId,
         forkChainId,

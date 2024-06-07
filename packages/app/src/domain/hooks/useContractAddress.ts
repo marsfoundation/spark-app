@@ -1,6 +1,6 @@
 import { Address } from 'viem'
 
-import { raise } from '@/utils/raise'
+import { raise } from '@/utils/assert'
 
 import { useStore } from '../state'
 import { CheckedAddress } from '../types/CheckedAddress'

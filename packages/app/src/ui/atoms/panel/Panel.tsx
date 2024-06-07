@@ -1,6 +1,6 @@
+import { assert } from '@/utils/assert'
 import { VariantProps, cva } from 'class-variance-authority'
 import { ComponentProps, ReactNode, createContext, forwardRef, useContext } from 'react'
-import invariant from 'tiny-invariant'
 
 import { cn } from '@/ui/utils/style'
 import { BreakpointKey, useBreakpoint } from '@/ui/utils/useBreakpoint'
@@ -32,12 +32,12 @@ export const Panel = forwardRef<HTMLDivElement, PanelProps>(
       // runtime checks to ensure children structure
       // @note: we might decide not to enforce header existence in the future
       // @note: use name property for equality checks to make hot code reloading work
-      // rewrite to use invariant
-      invariant(
+      // rewrite to use assert
+      assert(
         Header && (Header as any).type?.name === Panel.Header.name,
         'Panel.Header must be the first child of Panel',
       )
-      invariant(
+      assert(
         Content && (Content as any).type?.name === Panel.Content.name,
         'Panel.Content must be the second child of Panel',
       )
