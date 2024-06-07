@@ -1,4 +1,4 @@
-import invariant from 'tiny-invariant'
+import { assert } from '@/utils/assert'
 import { Signature } from 'viem'
 
 import { getChainConfigEntry } from '@/config/chain'
@@ -25,7 +25,7 @@ export function createPermitStore(): PermitStore {
 
   const find = (token: Token): Permit | undefined => {
     const permitsForToken = permits.filter((permit) => permit.token.address === token.address)
-    invariant(permitsForToken.length <= 1, 'PermitStore: multiple permits for the same token')
+    assert(permitsForToken.length <= 1, 'PermitStore: multiple permits for the same token')
     return permitsForToken[0]
   }
   /* eslint-enable func-style */

@@ -1,7 +1,7 @@
+import { assert } from '@/utils/assert'
 import * as CollapsiblePrimitive from '@radix-ui/react-collapsible'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 import React, { ComponentProps, forwardRef, ReactNode, useState } from 'react'
-import invariant from 'tiny-invariant'
 
 import { cn } from '@/ui/utils/style'
 
@@ -31,11 +31,11 @@ export const CollapsiblePanel: CollapsiblePanelType = forwardRef<HTMLDivElement,
     if (!import.meta.env.PROD) {
       // Runtime checks for children structure in development
       const [Header, Content] = children
-      invariant(
+      assert(
         Header && (Header as any).type?.name === CollapsiblePanel.Header.name,
         'CollapsiblePanel.Header must be the first child of CollapsiblePanel',
       )
-      invariant(
+      assert(
         Content && (Content as any).type?.name === CollapsiblePanel.Content.name,
         'CollapsiblePanel.Content must be the second child of CollapsiblePanel',
       )

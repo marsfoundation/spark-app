@@ -8,7 +8,7 @@ import { Typography } from '@/ui/atoms/typography/Typography'
 import { AssetSelector } from '@/ui/molecules/asset-selector/AssetSelector'
 import { ControlledMultiSelectorAssetInput } from '@/ui/organisms/multi-selector/MultiSelector'
 import { testIds } from '@/ui/utils/testIds'
-import { raise } from '@/utils/raise'
+import { raise } from '@/utils/assert'
 
 import { EasyBorrowFormSchema } from '../../logic/form/validation'
 import { ExistingPosition } from '../../logic/types'

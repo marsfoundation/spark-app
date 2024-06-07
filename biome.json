@@ -60,6 +60,17 @@
           "options": {
             "functions": ["cn", "cva", "clsx"]
           }
+        },
+        "noRestrictedImports": {
+          "level": "error",
+          "options": {
+            "paths": {
+              "node:assert": "banned",
+              "assert": "banned",
+              "node:console": "banned",
+              "console": "banned"
+            }
+          }
         }
       }
     }

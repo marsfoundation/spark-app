@@ -1,4 +1,4 @@
-import invariant from 'tiny-invariant'
+import { assert } from '@/utils/assert'
 
 import { NativeAssetInfo } from '@/config/chain/types'
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
@@ -25,7 +25,7 @@ export function getRepayOptions({
     getNativeAssetRepayOptions,
     getDefaultRepayOptions,
   ])
-  invariant(options, `No deposit options found for token ${token.symbol}`)
+  assert(options, `No deposit options found for token ${token.symbol}`)
 
   return options
 }

@@ -6,7 +6,7 @@ import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { withRouter } from 'storybook-addon-remix-react-router'
 
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
-import { raise } from '@/utils/raise'
+import { raise } from '@/utils/assert'
 
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { MarketsTable } from './MarketsTable'

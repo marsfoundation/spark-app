@@ -1,4 +1,4 @@
-import invariant from 'tiny-invariant'
+import { assert } from '@/utils/assert'
 
 export type TransformerResult<TResult> =
   | TResult
@@ -16,6 +16,6 @@ export function applyTransformers<TData extends any[]>(...data: TData) {
       }
     }
 
-    invariant(false, 'No transformer match for data.')
+    assert(false, 'No transformer match for data.')
   }
 }

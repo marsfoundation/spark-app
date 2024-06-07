@@ -1,5 +1,5 @@
+import { assert } from '@/utils/assert'
 import BigNumber from 'bignumber.js'
-import invariant from 'tiny-invariant'
 
 export type NumberLike = string | number | BigNumber | bigint
 
@@ -12,7 +12,7 @@ export type NumberLike = string | number | BigNumber | bigint
  */
 export function bigNumberify(value: NumberLike): BigNumber {
   const result = new BigNumber(value.toString())
-  invariant(!result.isNaN(), `Value argument: ${value} cannot be converted to BigNumber.`)
+  assert(!result.isNaN(), `Value argument: ${value} cannot be converted to BigNumber.`)
 
   return result
 }
@@ -26,12 +26,12 @@ export function bigNumberify(value: NumberLike): BigNumber {
  * @throws If value argument cannot be converted to a BigNumber and no default value is provided
  */
 export function parseBigNumber(value: NumberLike | undefined, defaultValue?: number): BigNumber {
-  invariant(value !== undefined || defaultValue !== undefined, 'At least one argument must be defined.')
+  assert(value !== undefined || defaultValue !== undefined, 'At least one argument must be defined.')
 
   const valueResult = BigNumber(value !== undefined ? value.toString() : Number.NaN)
   const defaultValueResult = BigNumber(defaultValue !== undefined ? defaultValue.toString() : Number.NaN)
 
-  invariant(!valueResult.isNaN() || !defaultValueResult.isNaN(), 'Value cannot be parsed to BigNumber.')
+  assert(!valueResult.isNaN() || !defaultValueResult.isNaN(), 'Value cannot be parsed to BigNumber.')
 
   return valueResult.isNaN() ? defaultValueResult : valueResult
 }
