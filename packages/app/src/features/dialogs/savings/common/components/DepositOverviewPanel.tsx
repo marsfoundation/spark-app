@@ -3,7 +3,7 @@ import { DialogPanel } from '@/features/dialogs/common/components/DialogPanel'
 import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPanelTitle'
 import { TransactionOverviewDetailsItem } from '@/features/dialogs/common/components/TransactionOverviewDetailsItem'
 
-import { SavingsDialogTxOverview } from '../../deposit/logic/useTransactionOverview'
+import { SavingsDialogTxOverview } from '../../deposit/logic/createTxOverview'
 import { TransactionOverviewBalanceChangeDetail } from './TransactionOverviewBalanceChangeDetail'
 import { TransactionOverviewExchangeRateDetail } from './TransactionOverviewExchangeRateDetail'
 

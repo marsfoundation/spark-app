@@ -6,6 +6,7 @@ import { ApproveAction } from '../flavours/approve/types'
 import { BorrowAction, BorrowObjective } from '../flavours/borrow/types'
 import { DepositAction, DepositObjective } from '../flavours/deposit/types'
 import { ExchangeAction, ExchangeObjective } from '../flavours/exchange/types'
+import { NativeSDaiDepositAction, NativeSDaiDepositObjective } from '../flavours/native-sdai-deposit/types'
 import { RepayAction, RepayObjective } from '../flavours/repay/types'
 import { SetUseAsCollateralAction, SetUseAsCollateralObjective } from '../flavours/set-use-as-collateral/types'
 import { SetUserEModeAction, SetUserEModeObjective } from '../flavours/set-user-e-mode/types'
@@ -23,6 +24,7 @@ export type Objective =
   | SetUseAsCollateralObjective
   | SetUserEModeObjective
   | ExchangeObjective
+  | NativeSDaiDepositObjective
 export type ObjectiveType = Objective['type']
 
 export type Action =
@@ -36,6 +38,7 @@ export type Action =
   | SetUserEModeAction
   | ApproveExchangeAction
   | ExchangeAction
+  | NativeSDaiDepositAction
 export type ActionType = Action['type']
 
 export type ActionHandlerState =
