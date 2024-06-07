@@ -84,7 +84,7 @@ export type AssetsInTests = 'ETH' | 'XDAI' | NonNativeTokens
 // @note At this block number:
 // DAI oracle returns exactly 1
 // GNO is offboarded
-export const DEFAULT_BLOCK_NUMBER = 19092430n
+export const DEFAULT_BLOCK_NUMBER = 20020805n
 
 export const WBTC_SUPPLY_CAP_REACHED_BLOCK_NUMBER = 19034436n
 
