@@ -4,24 +4,24 @@ import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
 import { ActionRow } from '../../components/action-row/ActionRow'
 import { UpDownMarker } from '../../components/action-row/UpDownMarker'
 import { ActionRowBaseProps } from '../../components/action-row/types'
-import { NativeSDaiDepositAction } from './types'
+import { NativeSDaiWithdrawAction } from './types'
 
-export interface NativeSDaiDepositActionRowProps extends ActionRowBaseProps {
-  action: NativeSDaiDepositAction
+export interface NativeSDaiWithdrawActionRowProps extends ActionRowBaseProps {
+  action: NativeSDaiWithdrawAction
 }
 
-export function NativeSDaiDepositActionRow({
+export function NativeSDaiWithdrawActionRow({
   index,
   action,
   actionHandlerState,
   onAction,
   variant,
-}: NativeSDaiDepositActionRowProps) {
-  const fromToken = action.token
-  const toToken = action.sDai
+}: NativeSDaiWithdrawActionRowProps) {
+  const fromToken = action.sDai
+  const toToken = action.token
   const tokenIconPaths = [getTokenImage(fromToken.symbol), getTokenImage(toToken.symbol)]
   const status = actionHandlerState.status
-  const successMessage = `Wrapped ${fromToken.format(action.value, { style: 'auto' })} ${fromToken.symbol}!`
+  const successMessage = `Unwrapped ${fromToken.format(action.value, { style: 'auto' })} ${toToken.symbol}!`
 
   return (
     <ActionRow>
@@ -30,17 +30,17 @@ export function NativeSDaiDepositActionRow({
       <ActionRow.Icon path={assets.actions.exchange} actionStatus={status} />
 
       <ActionRow.Title icon={<IconStack paths={tokenIconPaths} stackingOrder="last-on-top" />} actionStatus={status}>
-        Wrap {fromToken.symbol} into {toToken.symbol}
+        Unwrap {fromToken.symbol} into {toToken.symbol}
       </ActionRow.Title>
 
       <ActionRow.Description successMessage={successMessage} actionStatus={status} variant={variant}>
-        <UpDownMarker token={fromToken} value={action.value} direction={'up'} />
+        <UpDownMarker token={toToken} value={action.value} direction="up" />
       </ActionRow.Description>
 
       <ActionRow.ErrorWarning variant={variant} actionHandlerState={actionHandlerState} />
 
       <ActionRow.Action onAction={onAction} status={status}>
-        Wrap
+        Unwrap
       </ActionRow.Action>
     </ActionRow>
   )
