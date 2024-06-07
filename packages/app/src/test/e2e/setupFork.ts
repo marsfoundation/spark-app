@@ -14,7 +14,7 @@ export interface ForkContext {
 }
 
 // @note: https://github.com/marsfoundation/app#deterministic-time-in-e2e-tests
-export const simulationDate = new Date('2024-06-04T10:21:19Z')
+export const simulationDate = new Date('2024-06-06T10:21:19Z')
 
 /**
  * Fork is shared across the whole test file and is fixed to a single block number.

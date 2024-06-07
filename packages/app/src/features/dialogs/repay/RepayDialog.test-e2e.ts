@@ -15,13 +15,13 @@ import { DialogPageObject } from '../common/Dialog.PageObject'
 const headerRegExp = /Repa*/
 
 test.describe('Repay approval issue', () => {
-  // For some reason, for block numbers above 20020000 many tests are failing
-  const fork = setupFork({ blockNumber: 20000000n, chainId: mainnet.id })
+  // incident block number
+  const fork = setupFork({ blockNumber: 20020805n, chainId: mainnet.id })
   const initialBalances = {
-    rETH: 0.50659,
+    ETH: 0.50659,
     DAI: 0.05,
   }
-  const initialDeposits = { rETH: 0.46097 }
+  const initialDeposits = { ETH: 0.46097 }
   const daiToBorrow = 407.898356
 
   test.beforeEach(async ({ page }) => {
@@ -34,7 +34,7 @@ test.describe('Repay approval issue', () => {
     })
 
     const borrowPage = new BorrowPageObject(page)
-    await borrowPage.depositEthActions(initialDeposits, daiToBorrow)
+    await borrowPage.depositEthAndBorrowDaiAction(initialDeposits.ETH, daiToBorrow)
     await borrowPage.viewInDashboardAction()
 
     const dashboardPage = new DashboardPageObject(page)

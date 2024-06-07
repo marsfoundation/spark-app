@@ -46,6 +46,18 @@ export class BorrowPageObject extends BasePageObject {
     await actionsContainer.acceptAllActionsAction(1) // borrow action
   }
 
+  async depositEthAndBorrowDaiAction(
+    ethToDeposit: number,
+    daiToBorrow: number,
+    _actionsContainer?: ActionsPageObject,
+  ): Promise<void> {
+    const actionsContainer = _actionsContainer ?? new ActionsPageObject(this.locatePanelByHeader('Actions'))
+    await this.fillDepositAssetAction(0, 'ETH', ethToDeposit)
+    await this.fillBorrowAssetAction(daiToBorrow)
+    await this.submitAction()
+    await actionsContainer.acceptAllActionsAction(2)
+  }
+
   async depositWithoutBorrowActions(
     assetsToDeposit: Record<string, number>,
     daiToBorrow?: number,
