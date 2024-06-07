@@ -2,6 +2,7 @@ import { assert } from '@/utils/assert'
 import { queryOptions } from '@tanstack/react-query'
 import { zeroAddress } from 'viem'
 
+import BigNumber from 'bignumber.js'
 import { CheckedAddress } from '../../types/CheckedAddress'
 import { BaseUnitNumber, NormalizedUnitNumber } from '../../types/NumericValues'
 import { SwapMeta, SwapRequest } from '../types'
@@ -55,12 +56,18 @@ export function fetchLiFiTxData({
           },
         }
       }
-
       if (type === 'direct') {
         const response = await client.getQuote({ userAddress, chainId, fromToken, toToken, amount, ...meta })
         const fromAmount = BaseUnitNumber(response.estimate.fromAmount)
         assert(amount.eq(fromAmount), 'amount should eq fromAmount')
-        assert(response.action.slippage.eq(meta.maxSlippage), 'slippage should eq maxSlippage')
+        assert(
+          // due to precision issues, these might not be exactly equal
+          response.action.slippage
+            .minus(meta.maxSlippage)
+            .abs()
+            .lte(new BigNumber('0.00000000000000000001')),
+          `slippage (${response.action.slippage}) should eq maxSlippage (${meta.maxSlippage})`,
+        )
 
         return {
           txRequest: response.transactionRequest,
@@ -85,7 +92,14 @@ export function fetchLiFiTxData({
         ...meta,
       })
 
-      assert(response.action.slippage.eq(meta.maxSlippage), 'slippage should eq maxSlippage')
+      assert(
+        // due to precision issues, these might not be exactly equal
+        response.action.slippage
+          .minus(meta.maxSlippage)
+          .abs()
+          .lte(new BigNumber('0.00000000000000000001')),
+        `slippage (${response.action.slippage}) should eq maxSlippage (${meta.maxSlippage})`,
+      )
 
       return {
         txRequest: response.transactionRequest,
