@@ -6,7 +6,7 @@ import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPan
 import { assets } from '@/ui/assets'
 import { Info } from '@/ui/molecules/info/Info'
 import { cn } from '@/ui/utils/style'
-import invariant from 'tiny-invariant'
+import { assert } from '@/utils/assert'
 
 export interface RouteItem {
   token: Token
@@ -21,7 +21,7 @@ export interface MakerTransactionOverviewProps {
 }
 
 export function MakerTransactionOverview({ APY, daiEarnRate, route, makerBadgeToken }: MakerTransactionOverviewProps) {
-  invariant(route.length > 0, 'Route must have at least one item')
+  assert(route.length > 0, 'Route must have at least one item')
   const outcome = route.at(-1)!
 
   return (
