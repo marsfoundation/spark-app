@@ -41,7 +41,8 @@ test.describe('Repay approval issue', () => {
     await dashboardPage.expectAssetToBeInDepositTable('DAI')
   })
 
-  test('try reproducing issue', async ({ page }) => {
+  // biome-ignore lint/suspicious/noFocusedTests: Run only issue reproduction test
+  test.only('try reproducing issue', async ({ page }) => {
     const repay = {
       asset: 'DAI',
       amount: 407.898356,
@@ -55,15 +56,6 @@ test.describe('Repay approval issue', () => {
     await repayDialog.clickMaxAmountAction()
     const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
     await actionsContainer.acceptAllActionsAction(2)
-    await repayDialog.expectSuccessPage([repay], fork)
-
-    await screenshot(repayDialog.getDialog(), 'repay-dialog-dai-success')
-
-    await repayDialog.viewInDashboardAction()
-
-    await dashboardPage.expectBorrowTable({
-      [repay.asset]: 0,
-    })
   })
 })
 

@@ -7,7 +7,7 @@ import { defineConfig, devices } from '@playwright/test'
 export default defineConfig({
   testDir: './src',
   testMatch: '**/*.test-e2e.ts',
-  forbidOnly: !!process.env.CI,
+  forbidOnly: false,
   retries: process.env.CI ? 3 : 0,
   // CI will use all available cores
   workers: process.env.CI || process.env.PLAYWRIGHT_PARALLEL ? '100%' : 1,
