@@ -1,7 +1,7 @@
 export function assert(condition: unknown, error?: string | Error): asserts condition {
   if (!condition) {
     if (error) {
-      raise(error instanceof String ? `assert failed: ${error}` : error)
+      raise(error instanceof String ? `assertion failed: ${error}` : error)
     } else {
       raise('assertion failed')
     }
