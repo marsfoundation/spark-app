@@ -14,6 +14,59 @@ import { DialogPageObject } from '../common/Dialog.PageObject'
 
 const headerRegExp = /Repa*/
 
+test.describe('Repay approval issue', () => {
+  // For some reason, for block numbers above 20020000 many tests are failing
+  const fork = setupFork({ blockNumber: 20000000n, chainId: mainnet.id })
+  const initialBalances = {
+    rETH: 0.50659,
+    DAI: 0.05,
+  }
+  const initialDeposits = { rETH: 0.46097 }
+  const daiToBorrow = 407.898356
+
+  test.beforeEach(async ({ page }) => {
+    await setup(page, fork, {
+      initialPage: 'easyBorrow',
+      account: {
+        type: 'connected',
+        assetBalances: { ...initialBalances },
+      },
+    })
+
+    const borrowPage = new BorrowPageObject(page)
+    await borrowPage.depositEthActions(initialDeposits, daiToBorrow)
+    await borrowPage.viewInDashboardAction()
+
+    const dashboardPage = new DashboardPageObject(page)
+    await dashboardPage.expectAssetToBeInDepositTable('DAI')
+  })
+
+  test('try reproducing issue', async ({ page }) => {
+    const repay = {
+      asset: 'DAI',
+      amount: 407.898356,
+    } as const
+
+    const dashboardPage = new DashboardPageObject(page)
+
+    await dashboardPage.clickRepayButtonAction(repay.asset)
+
+    const repayDialog = new DialogPageObject(page, headerRegExp)
+    await repayDialog.clickMaxAmountAction()
+    const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
+    await actionsContainer.acceptAllActionsAction(2)
+    await repayDialog.expectSuccessPage([repay], fork)
+
+    await screenshot(repayDialog.getDialog(), 'repay-dialog-dai-success')
+
+    await repayDialog.viewInDashboardAction()
+
+    await dashboardPage.expectBorrowTable({
+      [repay.asset]: 0,
+    })
+  })
+})
+
 test.describe('Repay dialog', () => {
   const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id })
   const initialBalances = {
