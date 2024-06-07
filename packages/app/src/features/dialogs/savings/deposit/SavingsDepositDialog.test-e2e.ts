@@ -391,7 +391,7 @@ test.describe('Savings deposit dialog', () => {
           type: 'connected',
           assetBalances: {
             ETH: 1,
-            DAI: 10000,
+            USDT: 10000,
           },
           privateKey: LIFI_TEST_USER_PRIVATE_KEY,
         },
@@ -399,12 +399,12 @@ test.describe('Savings deposit dialog', () => {
 
       await overrideLiFiRouteWithHAR({
         page,
-        key: '10000-dai-to-8320.604955114542838902-sdai',
+        key: '10000-usdt-to-8320.604955114542838902-sdai',
       })
 
       const savingsPage = new SavingsPageObject(page)
 
-      await savingsPage.clickDepositButtonAction('DAI')
+      await savingsPage.clickDepositButtonAction('USDT')
 
       const depositDialog = new SavingsDepositDialogPageObject(page)
       await depositDialog.fillAmountAction(10000)
@@ -419,7 +419,7 @@ test.describe('Savings deposit dialog', () => {
           type: 'connected',
           assetBalances: {
             ETH: 1,
-            DAI: 10000,
+            USDT: 10000,
           },
           privateKey: LIFI_TEST_USER_PRIVATE_KEY,
         },
@@ -427,12 +427,12 @@ test.describe('Savings deposit dialog', () => {
 
       await overrideLiFiRouteWithHAR({
         page,
-        key: '10000-dai-to-8320.604955114542838902-sdai',
+        key: '10000-usdt-to-8320.604955114542838902-sdai',
       })
 
       const savingsPage = new SavingsPageObject(page)
 
-      await savingsPage.clickDepositButtonAction('DAI')
+      await savingsPage.clickDepositButtonAction('USDT')
 
       const depositDialog = new SavingsDepositDialogPageObject(page)
       await depositDialog.fillAmountAction(10000)

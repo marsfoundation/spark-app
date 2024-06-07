@@ -177,4 +177,25 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
     state: { status: 'ready' },
     onAction: () => {},
   },
+  nativeSDaiDeposit: {
+    action: {
+      type: 'nativeSDaiDeposit',
+      token: tokens.DAI,
+      value: NormalizedUnitNumber(1023),
+      sDai: tokens.sDAI,
+    },
+    state: { status: 'ready' },
+    onAction: () => {},
+  },
+  nativeSDaiWithdraw: {
+    action: {
+      type: 'nativeSDaiWithdraw',
+      token: tokens.DAI,
+      value: NormalizedUnitNumber(1023),
+      sDai: tokens.sDAI,
+      method: 'withdraw',
+    },
+    state: { status: 'ready' },
+    onAction: () => {},
+  },
 }

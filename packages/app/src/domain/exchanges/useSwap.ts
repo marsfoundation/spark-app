@@ -9,9 +9,10 @@ import { SwapInfo, SwapParams, SwapParamsBase } from './types'
 interface UseSwapArgs {
   swapParamsBase: SwapParamsBase
   defaults: { defaultMaxSlippage: Percentage }
+  enabled?: boolean
 }
 
-export function useSwap({ swapParamsBase, defaults }: UseSwapArgs): {
+export function useSwap({ swapParamsBase, defaults, enabled }: UseSwapArgs): {
   swapInfo: SwapInfo
   swapParams: SwapParams
 } {
@@ -24,6 +25,7 @@ export function useSwap({ swapParamsBase, defaults }: UseSwapArgs): {
   }
   const swapInfo = useLiFiTxData({
     swapParams,
+    enabled,
   })
 
   return { swapParams, swapInfo }
