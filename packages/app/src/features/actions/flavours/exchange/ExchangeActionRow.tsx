@@ -73,7 +73,7 @@ function RowSummary({ maxSlippage, toToken, estimate, actionStatus, formatAsDAIV
   }
   if (estimate === undefined) {
     return (
-      <div className="col-span-full inline-flex">
+      <div className="col-span-full mt-1 inline-flex h-8 items-center">
         <LiFiBadge />
       </div>
     )
@@ -82,7 +82,7 @@ function RowSummary({ maxSlippage, toToken, estimate, actionStatus, formatAsDAIV
   const amount = toToken.fromBaseUnit(estimate.toAmount)
 
   return (
-    <div className="col-span-full mt-1 flex items-center justify-between">
+    <div className="col-span-full mt-1 flex h-8 items-center justify-between">
       <div className="flex items-center gap-2">
         <LiFiBadge />
         <p className="text-basics-black text-xs">
@@ -106,9 +106,9 @@ function RowSummary({ maxSlippage, toToken, estimate, actionStatus, formatAsDAIV
 
 function LiFiBadge() {
   return (
-    <p className="mr-auto flex items-center gap-1.5 rounded bg-basics-dark-grey/20 px-1.5 py-0.5 font-semibold text-[9px] text-basics-black tracking-wide">
+    <div className="mr-auto flex h-5 items-center gap-1.5 rounded bg-basics-dark-grey/20 px-1.5 py-0.5 font-semibold text-[9px] text-basics-black tracking-wide">
       <img src={assets.lifiLogo} alt="LI.FI logo" className="h-3" />
       <span className="hidden md:block">POWERED</span> BY LI.FI
-    </p>
+    </div>
   )
 }

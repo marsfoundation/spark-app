@@ -81,6 +81,8 @@ const meta: Meta<typeof SavingsDepositView> = {
       goToSuccessScreen: () => {},
     },
     txOverview: {
+      status: 'success',
+      showExchangeRate: true,
       APY: Percentage(0.05),
       exchangeRatioToToken: tokens.DAI,
       sDaiToken: tokens.sDAI,
@@ -88,6 +90,7 @@ const meta: Meta<typeof SavingsDepositView> = {
       exchangeRatio: NormalizedUnitNumber(0.9996),
       sDaiBalanceBefore: NormalizedUnitNumber(5000),
       sDaiBalanceAfter: NormalizedUnitNumber(10000),
+      outTokenAmount: NormalizedUnitNumber(5000),
     },
     riskAcknowledgement: {
       onStatusChange: () => {},
