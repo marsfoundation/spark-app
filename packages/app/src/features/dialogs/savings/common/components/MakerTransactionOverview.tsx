@@ -31,7 +31,7 @@ export function MakerTransactionOverview({ APY, daiEarnRate, route, makerBadgeTo
         <APYDetails APY={APY} daiEarnRate={daiEarnRate} />
       </MakerTransactionOverviewDetailsItem>
       <MakerTransactionOverviewDetailsItem label="Route">
-        <div className="flex flex-row items-start gap-2">
+        <div className="flex flex-col items-start gap-2 md:flex-row">
           {route.map((item, index) => (
             <RouteItem key={item.token.symbol} item={item} isLast={index === route.length - 1} />
           ))}
@@ -75,12 +75,16 @@ function APYDetails({ APY, daiEarnRate }: { APY: Percentage; daiEarnRate: Normal
 
 function RouteItem({ item, isLast }: { item: RouteItem; isLast: boolean }) {
   return (
-    <div className={cn('grid grid-cols-1 items-center gap-x-2 gap-y-0.5', !isLast && 'grid-cols-[auto_auto]')}>
+    <div className={cn('grid grid-cols-1 items-center gap-x-2 gap-y-0.5', !isLast && 'md:grid-cols-[auto_auto]')}>
       <div>
         {item.token.format(item.value, { style: 'auto' })} {item.token.symbol}
       </div>
-      {!isLast && <img src={assets.arrowRight} className="h-3.5 w-3.5" />}
-      <div className="justify-self-end text-basics-dark-grey text-sm">{item.token.formatUSD(item.value)}</div>
+      <div className="justify-self-end text-basics-dark-grey text-sm md:order-last">
+        {item.token.formatUSD(item.value)}
+      </div>
+      {!isLast && (
+        <img src={assets.arrowRight} className="mt-1.5 h-3.5 w-3.5 rotate-90 justify-self-center md:mt-0 md:rotate-0" />
+      )}
     </div>
   )
 }
@@ -90,7 +94,7 @@ function MakerBadge({ token }: { token: Token }) {
     <div className="flex flex-row items-center gap-1.5 rounded-lg bg-emerald-300/10 px-2.5 py-1.5 text-emerald-400 text-sm">
       <img src={assets.makerLogo} className="h-5 w-5" />
       <span>
-        <span className="font-medium"> Powered by Maker. </span>
+        <span className="hidden font-medium md:inline"> Powered by Maker. </span>
         <span className="font-light">No slippage & fees for {token.symbol}.</span>
       </span>
       <Info className="text-inherit">The transaction uses Maker infrastructure without any third-parties.</Info>
@@ -100,8 +104,11 @@ function MakerBadge({ token }: { token: Token }) {
 
 function MakerTransactionOutcome({ outcome }: { outcome: RouteItem }) {
   return (
-    <div>
-      {outcome.token.format(outcome.value, { style: 'auto' })} {outcome.token.symbol} worth{' '}
+    <div className="flex flex-col items-end gap-0.5 md:block">
+      <span>
+        {outcome.token.format(outcome.value, { style: 'auto' })} {outcome.token.symbol}
+      </span>
+      <span> worth </span>
       <span className="font-semibold">{outcome.token.formatUSD(outcome.value)}</span>
     </div>
   )

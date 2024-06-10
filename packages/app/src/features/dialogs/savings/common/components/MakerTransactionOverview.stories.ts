@@ -14,8 +14,8 @@ const meta: Meta<typeof MakerTransactionOverview> = {
     APY: Percentage(0.05),
     daiEarnRate: NormalizedUnitNumber(542),
     route: [
-      { token: tokens.DAI, value: NormalizedUnitNumber(1300.74) },
-      { token: tokens.sDAI, value: NormalizedUnitNumber(925.75) },
+      { token: tokens.DAI, value: NormalizedUnitNumber(1300000.74) },
+      { token: tokens.sDAI, value: NormalizedUnitNumber(925000.75) },
     ],
     makerBadgeToken: tokens.DAI,
   },

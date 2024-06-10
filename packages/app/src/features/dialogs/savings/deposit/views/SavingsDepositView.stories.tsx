@@ -131,7 +131,7 @@ export const DesktopMaker: Story = {
         token: tokens.DAI,
         sDai: tokens.sDAI,
         value: NormalizedUnitNumber(1300.74),
-      }
+      },
     ],
   },
 }
