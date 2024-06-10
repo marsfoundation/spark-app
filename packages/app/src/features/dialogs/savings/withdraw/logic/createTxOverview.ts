@@ -1,10 +1,10 @@
 import { SwapInfo } from '@/domain/exchanges/types'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { SavingsInfo } from '@/domain/savings-info/types'
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
-import { Token } from '@/domain/types/Token'
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { WalletInfo } from '@/domain/wallet/useWalletInfo'
 import { DialogFormNormalizedData } from '@/features/dialogs/common/logic/form'
+import { SavingsDialogTxOverview } from '../../common/types'
 
 interface createTxOverviewParams {
   formValues: DialogFormNormalizedData
@@ -15,17 +15,6 @@ interface createTxOverviewParams {
   useNativeRoutes: boolean
 }
 
-export interface SavingsDialogTxOverview {
-  exchangeRatioFromToken: Token
-  exchangeRatioToToken: Token
-  exchangeRatio: NormalizedUnitNumber
-  sDaiToken: Token
-  sDaiBalanceBefore: NormalizedUnitNumber
-  sDaiBalanceAfter: NormalizedUnitNumber
-  APY: Percentage
-  tokenWithdrew: NormalizedUnitNumber
-}
-
 export function createTxOverview({
   marketInfo,
   formValues,
@@ -33,8 +22,7 @@ export function createTxOverview({
   walletInfo,
   swapInfo,
   useNativeRoutes,
-}: createTxOverviewParams): SavingsDialogTxOverview | undefined {
-  const otherToken = formValues.token
+}: createTxOverviewParams): SavingsDialogTxOverview {
   const sDAI = marketInfo.sDAI
   const DAI = marketInfo.DAI
   const sDaiBalanceBefore = walletInfo.findWalletBalanceForToken(sDAI)
@@ -45,6 +33,8 @@ export function createTxOverview({
     const sDaiBalanceAfter = NormalizedUnitNumber(sDaiBalanceBefore.minus(sDaiAmount))
 
     return {
+      status: 'success',
+      showExchangeRate: false,
       exchangeRatioFromToken: DAI,
       exchangeRatioToToken: DAI,
       exchangeRatio: NormalizedUnitNumber(1),
@@ -52,14 +42,17 @@ export function createTxOverview({
       sDaiBalanceBefore,
       sDaiBalanceAfter,
       APY: savingsInfo.apy,
-      tokenWithdrew: formValues.value,
+      outTokenAmount: formValues.value,
     }
   }
 
-  if (!swapInfo.data) {
-    return undefined
+  const showExchangeRate = formValues.token.symbol !== marketInfo.DAI.symbol
+
+  if (!swapInfo.isSuccess) {
+    return swapInfo.isLoading ? { showExchangeRate, status: 'loading' } : { showExchangeRate, status: 'no-overview' }
   }
 
+  const otherToken = formValues.token
   const sDaiAmountBaseUnit = swapInfo.data.estimate.fromAmount
   const sDaiAmount = sDAI.fromBaseUnit(sDaiAmountBaseUnit)
   const otherTokenAmountBaseUnit = swapInfo.data.estimate.toAmount
@@ -73,6 +66,8 @@ export function createTxOverview({
   const sDaiBalanceAfter = NormalizedUnitNumber(sDaiBalanceBefore.minus(sDaiAmount))
 
   return {
+    status: 'success',
+    showExchangeRate,
     exchangeRatioFromToken: DAI,
     exchangeRatioToToken: formValues.token,
     sDaiToken: sDAI,
@@ -80,6 +75,6 @@ export function createTxOverview({
     sDaiBalanceBefore: sDaiBalanceBefore,
     sDaiBalanceAfter,
     APY: savingsInfo.apy,
-    tokenWithdrew: otherTokenAmount,
+    outTokenAmount: otherTokenAmount,
   }
 }

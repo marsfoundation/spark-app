@@ -10,9 +10,8 @@ import { RiskAcknowledgement } from '@/features/dialogs/common/components/risk-a
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageStatus } from '@/features/dialogs/common/types'
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
-
-import { DepositOverviewPanel } from '../../common/components/DepositOverviewPanel'
-import { SavingsDialogTxOverview } from '../logic/createTxOverview'
+import { SavingsOverviewPanel } from '../../common/components/SavingsOverviewPanel'
+import { SavingsDialogTxOverview } from '../../common/types'
 import { RiskAcknowledgementInfo } from '../logic/useSavingsDepositDialog'
 
 export interface SavingsDepositViewProps {
@@ -21,7 +20,7 @@ export interface SavingsDepositViewProps {
   form: UseFormReturn<AssetInputSchema>
   objectives: Objective[]
   pageStatus: PageStatus
-  txOverview: SavingsDialogTxOverview | undefined
+  txOverview: SavingsDialogTxOverview
   riskAcknowledgement: RiskAcknowledgementInfo
 }
 
@@ -40,12 +39,7 @@ export function SavingsDepositView({
 
       <FormAndOverviewWrapper>
         <DialogForm form={form} assetsFields={assetsFields} selectorAssets={selectableAssets} />
-        {txOverview && (
-          <DepositOverviewPanel
-            txOverview={txOverview}
-            showExchangeRate={txOverview.exchangeRatioFromToken.symbol !== 'DAI'}
-          />
-        )}
+        <SavingsOverviewPanel txOverview={txOverview} />
       </FormAndOverviewWrapper>
       {riskAcknowledgement.warning && (
         <RiskAcknowledgement

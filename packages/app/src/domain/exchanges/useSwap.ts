@@ -6,16 +6,18 @@ import { evaluateSwap } from './evaluateSwap'
 import { useLiFiTxData } from './lifi/useLiFiTxData'
 import { SwapInfo, SwapParams, SwapParamsBase } from './types'
 
-interface UseSwapArgs {
+export interface UseSwapArgs {
   swapParamsBase: SwapParamsBase
   defaults: { defaultMaxSlippage: Percentage }
   enabled?: boolean
 }
 
-export function useSwap({ swapParamsBase, defaults, enabled }: UseSwapArgs): {
+export interface UseSwapResult {
   swapInfo: SwapInfo
   swapParams: SwapParams
-} {
+}
+
+export function useSwap({ swapParamsBase, defaults, enabled }: UseSwapArgs): UseSwapResult {
   const chainId = useOriginChainId()
   const waivedRoutes = getChainConfigEntry(chainId).lifiRoutesWithWaivedFees
 

@@ -16,7 +16,8 @@ import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/c
 
 import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
 import { mainnet } from 'viem/chains'
-import { SavingsDialogTxOverview, createTxOverview } from './createTxOverview'
+import { SavingsDialogTxOverview } from '../../common/types'
+import { createTxOverview } from './createTxOverview'
 import { getFormFieldsForWithdrawDialog } from './form'
 import { generateWarning } from './generateWarning'
 import { createObjectives } from './objectives'
@@ -34,7 +35,7 @@ export interface UseSavingsWithdrawDialogResults {
   objectives: Objective[]
   tokenToWithdraw: TokenWithValue
   pageStatus: PageStatus
-  txOverview: SavingsDialogTxOverview | undefined
+  txOverview: SavingsDialogTxOverview
   riskAcknowledgement: RiskAcknowledgementInfo
 }
 
@@ -103,7 +104,7 @@ export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
   const tokenToWithdraw = useConditionalFreeze<TokenWithValue>(
     {
       token: formValues.token,
-      value: txOverview?.tokenWithdrew ?? formValues.value,
+      value: txOverview.status === 'success' ? txOverview.outTokenAmount : formValues.value,
     },
     pageStatus === 'success',
   )
