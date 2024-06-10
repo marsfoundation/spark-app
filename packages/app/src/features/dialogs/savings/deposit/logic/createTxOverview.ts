@@ -89,10 +89,12 @@ export function createMakerTxOverview({
     {
       token: marketInfo.DAI,
       value: daiValue,
+      usdValue: daiValue,
     },
     {
       token: marketInfo.sDAI,
       value: sDAIValue,
+      usdValue: savingsInfo.convertSharesToDai({ shares: sDAIValue }),
     },
   ]
 
