@@ -100,8 +100,46 @@ const meta: Meta<typeof SavingsDepositView> = {
 export default meta
 type Story = StoryObj<typeof SavingsDepositView>
 
-export const Desktop: Story = {}
+export const DesktopLiFi: Story = {
+  name: 'LiFi (Desktop)',
+}
+export const MobileLiFi: Story = {
+  ...getMobileStory(DesktopLiFi),
+  name: 'LiFi (Mobile)',
+}
+export const TabletLiFi: Story = {
+  ...getTabletStory(DesktopLiFi),
+  name: 'LiFi (Tablet)',
+}
 
-export const Mobile: Story = getMobileStory(Desktop)
-
-export const Tablet: Story = getTabletStory(Desktop)
+export const DesktopMaker: Story = {
+  name: 'Maker (Desktop)',
+  args: {
+    txOverview: {
+      type: 'maker',
+      APY: Percentage(0.05),
+      daiEarnRate: NormalizedUnitNumber(542),
+      route: [
+        { token: tokens.DAI, value: NormalizedUnitNumber(1300.74) },
+        { token: tokens.sDAI, value: NormalizedUnitNumber(925.75) },
+      ],
+      makerBadgeToken: tokens.DAI,
+    },
+    objectives: [
+      {
+        type: 'nativeSDaiDeposit',
+        token: tokens.DAI,
+        sDai: tokens.sDAI,
+        value: NormalizedUnitNumber(1300.74),
+      }
+    ],
+  },
+}
+export const MobileMaker: Story = {
+  ...getMobileStory(DesktopMaker),
+  name: 'Maker (Mobile)',
+}
+export const TabletMaker: Story = {
+  ...getTabletStory(DesktopMaker),
+  name: 'Maker (Tablet)',
+}
