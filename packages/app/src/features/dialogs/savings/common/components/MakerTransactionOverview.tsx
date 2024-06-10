@@ -32,7 +32,7 @@ export function MakerTransactionOverview({ APY, daiEarnRate, route, makerBadgeTo
         <APYDetails APY={APY} daiEarnRate={daiEarnRate} />
       </MakerTransactionOverviewDetailsItem>
       <MakerTransactionOverviewDetailsItem label="Route">
-        <div className="flex flex-col items-start gap-2 md:flex-row">
+        <div className="flex flex-col items-end gap-2 md:flex-row">
           {route.map((item, index) => (
             <RouteItem key={item.token.symbol} item={item} isLast={index === route.length - 1} />
           ))}
@@ -84,7 +84,7 @@ function RouteItem({ item, isLast }: { item: RouteItem; isLast: boolean }) {
         {USD_MOCK_TOKEN.formatUSD(item.usdValue)}
       </div>
       {!isLast && (
-        <img src={assets.arrowRight} className="mt-1.5 h-3.5 w-3.5 rotate-90 justify-self-center md:mt-0 md:rotate-0" />
+        <img src={assets.arrowRight} className="mt-1.5 h-3.5 w-3.5 rotate-90 justify-self-end md:mt-0 md:rotate-0" />
       )}
     </div>
   )
