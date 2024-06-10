@@ -16,7 +16,8 @@ import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/c
 
 import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
 import { mainnet } from 'viem/chains'
-import { SavingsDialogTxOverview, createTxOverview } from './createTxOverview'
+import { SavingsDialogTxOverview } from '../../common/types'
+import { createTxOverview } from './createTxOverview'
 import { getFormFieldsForDepositDialog } from './form'
 import { generateWarning } from './generateWarning'
 import { createObjectives } from './objectives'
@@ -39,7 +40,7 @@ export interface UseSavingsDepositDialogResults {
   objectives: Objective[]
   tokenToDeposit: TokenWithValue
   pageStatus: PageStatus
-  txOverview: SavingsDialogTxOverview | undefined
+  txOverview: SavingsDialogTxOverview
   riskAcknowledgement: RiskAcknowledgementInfo
 }
 
