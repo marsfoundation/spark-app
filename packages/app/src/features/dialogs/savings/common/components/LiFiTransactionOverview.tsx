@@ -3,35 +3,63 @@ import { DialogPanel } from '@/features/dialogs/common/components/DialogPanel'
 import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPanelTitle'
 import { TransactionOverviewDetailsItem } from '@/features/dialogs/common/components/TransactionOverviewDetailsItem'
 
-import { SavingsDialogTxOverviewLiFi } from '../../deposit/logic/createTxOverview'
+import { assets } from '@/ui/assets'
+import { SavingsDialogTxOverviewLiFi } from '../types'
 import { TransactionOverviewBalanceChangeDetail } from './TransactionOverviewBalanceChangeDetail'
 import { TransactionOverviewExchangeRateDetail } from './TransactionOverviewExchangeRateDetail'
 
-export interface DepositOverviewPanelProps {
+export interface LiFiTransactionOverviewProps {
   txOverview: SavingsDialogTxOverviewLiFi
-  showExchangeRate: boolean
 }
-export function LiFiTransactionOverview({
-  txOverview: {
-    APY,
-    sDaiBalanceAfter,
-    sDaiBalanceBefore,
-    exchangeRatio,
-    exchangeRatioFromToken: inputToken,
-    sDaiToken,
-    exchangeRatioToToken: outputToken,
-  },
-  showExchangeRate,
-}: DepositOverviewPanelProps) {
+export function LiFiTransactionOverview({ txOverview }: LiFiTransactionOverviewProps) {
+  if (txOverview.status !== 'success') {
+    return (
+      <LiFiTransactionOverviewPlaceholder
+        isLoading={txOverview.status === 'loading'}
+        showExchangeRate={txOverview.showExchangeRate}
+      />
+    )
+  }
+
   return (
     <DialogPanel>
       <DialogPanelTitle>Transaction overview</DialogPanelTitle>
 
-      <TransactionOverviewDetailsItem label="APY">{formatPercentage(APY)}</TransactionOverviewDetailsItem>
-      {showExchangeRate && (
-        <TransactionOverviewExchangeRateDetail fromToken={inputToken} toToken={outputToken} ratio={exchangeRatio} />
+      <TransactionOverviewDetailsItem label="APY">{formatPercentage(txOverview.APY)}</TransactionOverviewDetailsItem>
+      {txOverview.showExchangeRate && (
+        <TransactionOverviewExchangeRateDetail
+          fromToken={txOverview.exchangeRatioFromToken}
+          toToken={txOverview.exchangeRatioToToken}
+          ratio={txOverview.exchangeRatio}
+        />
       )}
-      <TransactionOverviewBalanceChangeDetail token={sDaiToken} before={sDaiBalanceBefore} after={sDaiBalanceAfter} />
+      <TransactionOverviewBalanceChangeDetail
+        token={txOverview.sDaiToken}
+        before={txOverview.sDaiBalanceBefore}
+        after={txOverview.sDaiBalanceAfter}
+      />
+    </DialogPanel>
+  )
+}
+
+interface LiFiTransactionOverviewPlaceholder {
+  isLoading: boolean
+  showExchangeRate: boolean
+}
+function LiFiTransactionOverviewPlaceholder({ isLoading, showExchangeRate }: LiFiTransactionOverviewPlaceholder) {
+  const placeholder = isLoading ? (
+    <img src={assets.threeDots} alt="loader" width={20} height={5} data-chromatic="ignore" />
+  ) : (
+    '-'
+  )
+  return (
+    <DialogPanel>
+      <DialogPanelTitle>Transaction overview</DialogPanelTitle>
+      <TransactionOverviewDetailsItem label="APY">{placeholder}</TransactionOverviewDetailsItem>
+      {showExchangeRate && (
+        <TransactionOverviewDetailsItem label="Exchange Rate">{placeholder}</TransactionOverviewDetailsItem>
+      )}
+      <TransactionOverviewDetailsItem label="sDAI balance">{placeholder}</TransactionOverviewDetailsItem>
     </DialogPanel>
   )
 }

@@ -1,30 +1,10 @@
 import { SwapInfo, SwapParams } from '@/domain/exchanges/types'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { SavingsInfo } from '@/domain/savings-info/types'
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
-import { Token } from '@/domain/types/Token'
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { WalletInfo } from '@/domain/wallet/useWalletInfo'
 import { DialogFormNormalizedData } from '@/features/dialogs/common/logic/form'
-import { RouteItem } from '../../common/components/MakerTransactionOverview'
-
-export interface SavingsDialogTxOverviewMaker {
-  type: 'maker'
-  APY: Percentage
-  daiEarnRate: NormalizedUnitNumber
-  route: RouteItem[]
-  makerBadgeToken: Token
-}
-export interface SavingsDialogTxOverviewLiFi {
-  type: 'lifi'
-  exchangeRatioFromToken: Token
-  exchangeRatioToToken: Token
-  exchangeRatio: NormalizedUnitNumber
-  sDaiToken: Token
-  sDaiBalanceBefore: NormalizedUnitNumber
-  sDaiBalanceAfter: NormalizedUnitNumber
-  APY: Percentage
-}
-export type SavingsDialogTxOverview = SavingsDialogTxOverviewMaker | SavingsDialogTxOverviewLiFi
+import { RouteItem, SavingsDialogTxOverview } from '../../common/types'
 
 export interface CreateTxOverviewParams {
   marketInfo: MarketInfo
@@ -39,12 +19,15 @@ export function createTxOverview({
   savingsInfo,
   swapInfo,
   swapParams,
-}: CreateTxOverviewParams): SavingsDialogTxOverview | undefined {
+}: CreateTxOverviewParams): SavingsDialogTxOverview {
   const sDAI = marketInfo.sDAI
   const DAI = marketInfo.DAI
+  const showExchangeRate = swapParams.fromToken.symbol !== marketInfo.DAI.symbol
 
   if (!swapInfo.data) {
-    return undefined
+    return swapInfo.isLoading
+      ? { type: 'lifi', showExchangeRate, status: 'loading' }
+      : { type: 'lifi', showExchangeRate, status: 'no-overview' }
   }
 
   const sDaiAmountBaseUnit = swapInfo.data.estimate.toAmount
@@ -62,6 +45,8 @@ export function createTxOverview({
 
   return {
     type: 'lifi',
+    status: 'success',
+    showExchangeRate,
     exchangeRatioFromToken: swapParams.fromToken,
     exchangeRatioToToken: DAI,
     sDaiToken: sDAI,
@@ -69,6 +54,7 @@ export function createTxOverview({
     sDaiBalanceBefore,
     sDaiBalanceAfter,
     APY: savingsInfo.apy,
+    outTokenAmount: otherTokenAmount,
   }
 }
 
@@ -81,8 +67,12 @@ export function createMakerTxOverview({
   formValues,
   marketInfo,
   savingsInfo,
-}: CreateMakerTxOverviewParams): SavingsDialogTxOverviewMaker {
+}: CreateMakerTxOverviewParams): SavingsDialogTxOverview {
   const daiValue = formValues.value
+  if (daiValue.eq(0)) {
+    return { type: 'maker', status: 'no-overview' }
+  }
+
   const sDAIValue = savingsInfo.convertDaiToShares({ dai: daiValue })
   const daiEarnRate = NormalizedUnitNumber(daiValue.multipliedBy(savingsInfo.apy))
   const route: RouteItem[] = [
@@ -100,9 +90,11 @@ export function createMakerTxOverview({
 
   return {
     type: 'maker',
+    status: 'success',
     APY: savingsInfo.apy,
     daiEarnRate,
     route,
     makerBadgeToken: marketInfo.DAI,
+    outTokenAmount: sDAIValue,
   }
 }

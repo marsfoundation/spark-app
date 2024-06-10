@@ -13,7 +13,7 @@ import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
 
 import { LiFiTransactionOverview } from '../../common/components/LiFiTransactionOverview'
 import { MakerTransactionOverview } from '../../common/components/MakerTransactionOverview'
-import { SavingsDialogTxOverview } from '../logic/createTxOverview'
+import { SavingsDialogTxOverview } from '../../common/types'
 import { RiskAcknowledgementInfo } from '../logic/useSavingsDepositDialog'
 
 export interface SavingsDepositViewProps {
@@ -22,7 +22,7 @@ export interface SavingsDepositViewProps {
   form: UseFormReturn<AssetInputSchema>
   objectives: Objective[]
   pageStatus: PageStatus
-  txOverview: SavingsDialogTxOverview | undefined
+  txOverview: SavingsDialogTxOverview
   riskAcknowledgement: RiskAcknowledgementInfo
 }
 
@@ -41,15 +41,8 @@ export function SavingsDepositView({
 
       <FormAndOverviewWrapper>
         <DialogForm form={form} assetsFields={assetsFields} selectorAssets={selectableAssets} />
-        {txOverview &&
-          (txOverview.type === 'lifi' ? (
-            <LiFiTransactionOverview
-              txOverview={txOverview}
-              showExchangeRate={txOverview.exchangeRatioFromToken.symbol !== 'DAI'}
-            />
-          ) : (
-            <MakerTransactionOverview {...txOverview} />
-          ))}
+        {txOverview.type === 'lifi' && <LiFiTransactionOverview txOverview={txOverview} />}
+        {txOverview.type === 'maker' && <MakerTransactionOverview txOverview={txOverview} />}
       </FormAndOverviewWrapper>
       {riskAcknowledgement.warning && (
         <RiskAcknowledgement

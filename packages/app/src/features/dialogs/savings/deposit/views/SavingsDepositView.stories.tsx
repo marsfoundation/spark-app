@@ -82,6 +82,8 @@ const meta: Meta<typeof SavingsDepositView> = {
     },
     txOverview: {
       type: 'lifi',
+      status: 'success',
+      showExchangeRate: true,
       APY: Percentage(0.05),
       exchangeRatioToToken: tokens.DAI,
       sDaiToken: tokens.sDAI,
@@ -89,6 +91,7 @@ const meta: Meta<typeof SavingsDepositView> = {
       exchangeRatio: NormalizedUnitNumber(0.9996),
       sDaiBalanceBefore: NormalizedUnitNumber(5000),
       sDaiBalanceAfter: NormalizedUnitNumber(10000),
+      outTokenAmount: NormalizedUnitNumber(5000),
     },
     riskAcknowledgement: {
       onStatusChange: () => {},
@@ -117,6 +120,7 @@ export const DesktopMaker: Story = {
   args: {
     txOverview: {
       type: 'maker',
+      status: 'success',
       APY: Percentage(0.05),
       daiEarnRate: NormalizedUnitNumber(542),
       route: [
@@ -124,6 +128,7 @@ export const DesktopMaker: Story = {
         { token: tokens.sDAI, value: NormalizedUnitNumber(925.75), usdValue: NormalizedUnitNumber(1300.74) },
       ],
       makerBadgeToken: tokens.DAI,
+      outTokenAmount: NormalizedUnitNumber(925.75),
     },
     objectives: [
       {
@@ -143,3 +148,30 @@ export const TabletMaker: Story = {
   ...getTabletStory(DesktopMaker),
   name: 'Maker (Tablet)',
 }
+export const Desktop: Story = {}
+export const Mobile: Story = getMobileStory(Desktop)
+export const Tablet: Story = getTabletStory(Desktop)
+
+export const LoadingTxOverview: Story = {
+  args: {
+    txOverview: {
+      type: 'lifi',
+      status: 'loading',
+      showExchangeRate: true,
+    },
+  },
+}
+export const MobileLoadingTxOverview = getMobileStory(LoadingTxOverview)
+export const TabletLoadingTxOverview = getTabletStory(LoadingTxOverview)
+
+export const NoTxOverview: Story = {
+  args: {
+    txOverview: {
+      type: 'lifi',
+      status: 'no-overview',
+      showExchangeRate: true,
+    },
+  },
+}
+export const MobileNoTxOverview = getMobileStory(NoTxOverview)
+export const TabletNoTxOverview = getTabletStory(NoTxOverview)

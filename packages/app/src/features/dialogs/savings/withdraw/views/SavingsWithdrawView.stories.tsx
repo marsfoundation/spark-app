@@ -79,6 +79,19 @@ const meta: Meta<typeof SavingsWithdrawView> = {
       actionsEnabled: true,
       goToSuccessScreen: () => {},
     },
+    txOverview: {
+      type: 'lifi',
+      status: 'success',
+      showExchangeRate: true,
+      APY: Percentage(0.05),
+      exchangeRatioToToken: tokens.USDC,
+      sDaiToken: tokens.sDAI,
+      exchangeRatioFromToken: tokens.DAI,
+      exchangeRatio: NormalizedUnitNumber(1.004),
+      sDaiBalanceBefore: NormalizedUnitNumber(10000),
+      sDaiBalanceAfter: NormalizedUnitNumber(5000),
+      outTokenAmount: NormalizedUnitNumber(5000),
+    },
     riskAcknowledgement: {
       onStatusChange: () => {},
       warning: undefined,
@@ -90,7 +103,29 @@ export default meta
 type Story = StoryObj<typeof SavingsWithdrawView>
 
 export const Desktop: Story = {}
+export const Mobile = getMobileStory(Desktop)
+export const Tablet = getTabletStory(Desktop)
 
-export const Mobile: Story = getMobileStory(Desktop)
+export const LoadingTxOverview: Story = {
+  args: {
+    txOverview: {
+      type: 'lifi',
+      status: 'loading',
+      showExchangeRate: true,
+    },
+  },
+}
+export const MobileLoadingTxOverview = getMobileStory(LoadingTxOverview)
+export const TabletLoadingTxOverview = getTabletStory(LoadingTxOverview)
 
-export const Tablet: Story = getTabletStory(Desktop)
+export const NoTxOverview: Story = {
+  args: {
+    txOverview: {
+      type: 'lifi',
+      status: 'no-overview',
+      showExchangeRate: true,
+    },
+  },
+}
+export const MobileNoTxOverview = getMobileStory(NoTxOverview)
+export const TabletNoTxOverview = getTabletStory(NoTxOverview)

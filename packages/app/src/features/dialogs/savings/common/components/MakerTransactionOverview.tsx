@@ -7,21 +7,18 @@ import { assets } from '@/ui/assets'
 import { Info } from '@/ui/molecules/info/Info'
 import { cn } from '@/ui/utils/style'
 import { assert } from '@/utils/assert'
-
-export interface RouteItem {
-  token: Token
-  value: NormalizedUnitNumber
-  usdValue: NormalizedUnitNumber
-}
+import { RouteItem as RouteItemType, SavingsDialogTxOverviewMaker } from '../types'
 
 export interface MakerTransactionOverviewProps {
-  APY: Percentage
-  daiEarnRate: NormalizedUnitNumber
-  route: RouteItem[]
-  makerBadgeToken: Token
+  txOverview: SavingsDialogTxOverviewMaker
 }
 
-export function MakerTransactionOverview({ APY, daiEarnRate, route, makerBadgeToken }: MakerTransactionOverviewProps) {
+export function MakerTransactionOverview({ txOverview }: MakerTransactionOverviewProps) {
+  if (txOverview.status !== 'success') {
+    return <MakerTransactionOverviewPlaceholder isLoading={txOverview.status === 'loading'} />
+  }
+  const { APY, daiEarnRate, route, makerBadgeToken } = txOverview
+
   assert(route.length > 0, 'Route must have at least one item')
   const outcome = route.at(-1)!
 
@@ -42,6 +39,25 @@ export function MakerTransactionOverview({ APY, daiEarnRate, route, makerBadgeTo
       <MakerTransactionOverviewDetailsItem label="Outcome">
         <MakerTransactionOutcome outcome={outcome} />
       </MakerTransactionOverviewDetailsItem>
+    </DialogPanel>
+  )
+}
+
+interface MakerTransactionOverviewPlaceholder {
+  isLoading: boolean
+}
+function MakerTransactionOverviewPlaceholder({ isLoading }: MakerTransactionOverviewPlaceholder) {
+  const placeholder = isLoading ? (
+    <img src={assets.threeDots} alt="loader" width={20} height={5} data-chromatic="ignore" />
+  ) : (
+    '-'
+  )
+  return (
+    <DialogPanel>
+      <DialogPanelTitle>Transaction overview</DialogPanelTitle>
+      <MakerTransactionOverviewDetailsItem label="APY">{placeholder}</MakerTransactionOverviewDetailsItem>
+      <MakerTransactionOverviewDetailsItem label="Route">{placeholder}</MakerTransactionOverviewDetailsItem>
+      <MakerTransactionOverviewDetailsItem label="Outcome">{placeholder}</MakerTransactionOverviewDetailsItem>
     </DialogPanel>
   )
 }
@@ -74,7 +90,7 @@ function APYDetails({ APY, daiEarnRate }: { APY: Percentage; daiEarnRate: Normal
   )
 }
 
-function RouteItem({ item, isLast }: { item: RouteItem; isLast: boolean }) {
+function RouteItem({ item, isLast }: { item: RouteItemType; isLast: boolean }) {
   return (
     <div className={cn('grid grid-cols-1 items-center gap-x-2 gap-y-0.5', !isLast && 'md:grid-cols-[auto_auto]')}>
       <div>
@@ -103,7 +119,7 @@ function MakerBadge({ token }: { token: Token }) {
   )
 }
 
-function MakerTransactionOutcome({ outcome }: { outcome: RouteItem }) {
+function MakerTransactionOutcome({ outcome }: { outcome: RouteItemType }) {
   return (
     <div className="flex flex-col items-end gap-0.5 md:block">
       <span>

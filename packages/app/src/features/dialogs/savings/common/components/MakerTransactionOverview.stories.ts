@@ -11,13 +11,18 @@ const meta: Meta<typeof MakerTransactionOverview> = {
   component: MakerTransactionOverview,
   decorators: [WithClassname('max-w-xl'), WithTooltipProvider()],
   args: {
-    APY: Percentage(0.05),
-    daiEarnRate: NormalizedUnitNumber(542),
-    route: [
-      { token: tokens.DAI, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },
-      { token: tokens.sDAI, value: NormalizedUnitNumber(925.75), usdValue: NormalizedUnitNumber(1300.74) },
-    ],
-    makerBadgeToken: tokens.DAI,
+    txOverview: {
+      type: 'maker',
+      status: 'success',
+      APY: Percentage(0.05),
+      daiEarnRate: NormalizedUnitNumber(542),
+      route: [
+        { token: tokens.DAI, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },
+        { token: tokens.sDAI, value: NormalizedUnitNumber(925.75), usdValue: NormalizedUnitNumber(1300.74) },
+      ],
+      makerBadgeToken: tokens.DAI,
+      outTokenAmount: NormalizedUnitNumber(925.75),
+    },
   },
 }
 
