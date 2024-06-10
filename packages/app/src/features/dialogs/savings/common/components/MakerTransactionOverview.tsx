@@ -11,11 +11,14 @@ import { RouteItem as RouteItemType, SavingsDialogTxOverviewMaker } from '../typ
 
 export interface MakerTransactionOverviewProps {
   txOverview: SavingsDialogTxOverviewMaker
+  selectedToken: Token
 }
 
-export function MakerTransactionOverview({ txOverview }: MakerTransactionOverviewProps) {
+export function MakerTransactionOverview({ txOverview, selectedToken }: MakerTransactionOverviewProps) {
   if (txOverview.status !== 'success') {
-    return <MakerTransactionOverviewPlaceholder isLoading={txOverview.status === 'loading'} />
+    return (
+      <MakerTransactionOverviewPlaceholder isLoading={txOverview.status === 'loading'} badgeToken={selectedToken} />
+    )
   }
   const { APY, daiEarnRate, route, makerBadgeToken } = txOverview
 
@@ -45,8 +48,9 @@ export function MakerTransactionOverview({ txOverview }: MakerTransactionOvervie
 
 interface MakerTransactionOverviewPlaceholder {
   isLoading: boolean
+  badgeToken: Token
 }
-function MakerTransactionOverviewPlaceholder({ isLoading }: MakerTransactionOverviewPlaceholder) {
+function MakerTransactionOverviewPlaceholder({ isLoading, badgeToken }: MakerTransactionOverviewPlaceholder) {
   const placeholder = isLoading ? (
     <img src={assets.threeDots} alt="loader" width={20} height={5} data-chromatic="ignore" />
   ) : (
@@ -55,8 +59,15 @@ function MakerTransactionOverviewPlaceholder({ isLoading }: MakerTransactionOver
   return (
     <DialogPanel>
       <DialogPanelTitle>Transaction overview</DialogPanelTitle>
-      <MakerTransactionOverviewDetailsItem label="APY">{placeholder}</MakerTransactionOverviewDetailsItem>
-      <MakerTransactionOverviewDetailsItem label="Route">{placeholder}</MakerTransactionOverviewDetailsItem>
+      <MakerTransactionOverviewDetailsItem label="APY">
+        <div className="min-h-[46px]">{placeholder}</div>
+      </MakerTransactionOverviewDetailsItem>
+      <MakerTransactionOverviewDetailsItem label="Route">
+        <div className="flex min-h-[92px] flex-col items-end justify-between">
+          <div>{placeholder}</div>
+          <MakerBadge token={badgeToken} />
+        </div>
+      </MakerTransactionOverviewDetailsItem>
       <MakerTransactionOverviewDetailsItem label="Outcome">{placeholder}</MakerTransactionOverviewDetailsItem>
     </DialogPanel>
   )

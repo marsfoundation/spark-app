@@ -42,7 +42,9 @@ export function SavingsDepositView({
       <FormAndOverviewWrapper>
         <DialogForm form={form} assetsFields={assetsFields} selectorAssets={selectableAssets} />
         {txOverview.type === 'lifi' && <LiFiTransactionOverview txOverview={txOverview} />}
-        {txOverview.type === 'maker' && <MakerTransactionOverview txOverview={txOverview} />}
+        {txOverview.type === 'maker' && (
+          <MakerTransactionOverview txOverview={txOverview} selectedToken={assetsFields.selectedAsset.token} />
+        )}
       </FormAndOverviewWrapper>
       {riskAcknowledgement.warning && (
         <RiskAcknowledgement

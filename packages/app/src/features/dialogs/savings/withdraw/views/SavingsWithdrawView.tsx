@@ -48,7 +48,9 @@ export function SavingsWithdrawView({
           walletIconLabel="Savings"
         />
         {txOverview.type === 'lifi' && <LiFiTransactionOverview txOverview={txOverview} />}
-        {txOverview.type === 'maker' && <MakerTransactionOverview txOverview={txOverview} />}
+        {txOverview.type === 'maker' && (
+          <MakerTransactionOverview txOverview={txOverview} selectedToken={assetsFields.selectedAsset.token} />
+        )}
       </FormAndOverviewWrapper>
       {riskAcknowledgement.warning && (
         <RiskAcknowledgement
