@@ -9,7 +9,7 @@ import { BaseUnitNumber } from '../types/NumericValues'
 
 export interface GemMinAmountOutKeyParams {
   psmActions: CheckedAddress
-  shares: BaseUnitNumber
+  sharesAmount: BaseUnitNumber
   chainId: number
 }
 
@@ -18,9 +18,14 @@ export interface GemMinAmountOutOptionsParams extends GemMinAmountOutKeyParams {
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function gemMinAmountOutQueryOptions({ psmActions, shares, chainId, config }: GemMinAmountOutOptionsParams) {
+export function gemMinAmountOutQueryOptions({
+  psmActions,
+  sharesAmount,
+  chainId,
+  config,
+}: GemMinAmountOutOptionsParams) {
   return queryOptions({
-    queryKey: gemMinAmountOutQueryKey({ psmActions, shares, chainId }),
+    queryKey: gemMinAmountOutQueryKey({ psmActions, sharesAmount, chainId }),
     queryFn: async () => {
       const vault = await readContract(config, {
         address: psmActions,
@@ -32,7 +37,7 @@ export function gemMinAmountOutQueryOptions({ psmActions, shares, chainId, confi
         address: vault,
         abi: erc4626Abi,
         functionName: 'convertToAssets',
-        args: [toBigInt(shares)],
+        args: [toBigInt(sharesAmount)],
       })
 
       return gemMinAmountOut
@@ -40,6 +45,6 @@ export function gemMinAmountOutQueryOptions({ psmActions, shares, chainId, confi
   })
 }
 
-export function gemMinAmountOutQueryKey({ psmActions, shares, chainId }: GemMinAmountOutKeyParams): unknown[] {
-  return ['convert-to-assets', chainId, psmActions, shares]
+export function gemMinAmountOutQueryKey({ psmActions, sharesAmount, chainId }: GemMinAmountOutKeyParams): unknown[] {
+  return ['convert-to-assets', chainId, psmActions, sharesAmount]
 }
