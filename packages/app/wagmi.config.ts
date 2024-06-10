@@ -96,6 +96,12 @@ export default defineConfig({
             [mainnet.id]: '0x197E90f9FAD81970bA7976f33CbD77088E5D7cf7',
           },
         },
+        {
+          name: 'PSMActionsUSDC',
+          address: {
+            [mainnet.id]: '0x52d298Ff9e77E71C2EB1992260520E7b15257d99',
+          },
+        },
       ],
     }),
     etherscan({
