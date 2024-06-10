@@ -118,6 +118,14 @@ export const TabletLiFi: Story = {
 export const DesktopMaker: Story = {
   name: 'Maker (Desktop)',
   args: {
+    assetsFields: {
+      selectedAsset: {
+        token: tokens.DAI,
+        balance: NormalizedUnitNumber(50000),
+        value: '2000',
+      },
+      changeAsset: () => {},
+    },
     txOverview: {
       type: 'maker',
       status: 'success',
