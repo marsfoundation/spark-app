@@ -68,4 +68,4 @@ export const psmActionsAbi = [
     outputs: [{ name: 'amountIn', internalType: 'uint256', type: 'uint256' }],
     stateMutability: 'nonpayable',
   },
-]
+] as const
