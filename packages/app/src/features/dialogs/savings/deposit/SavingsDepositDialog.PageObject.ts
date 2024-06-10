@@ -1,6 +1,5 @@
-import { Page, expect } from '@playwright/test'
-
 import { testIds } from '@/ui/utils/testIds'
+import { Page, expect } from '@playwright/test'
 import { DialogPageObject } from '../../common/Dialog.PageObject'
 
 export class SavingsDepositDialogPageObject extends DialogPageObject {
@@ -65,6 +64,12 @@ export class SavingsDepositDialogPageObject extends DialogPageObject {
       lifiSwapParams.finalSDAIAmount,
     )
   }
+
+  async expectSuccessPage(): Promise<void> {
+    // for now we only check if the success message is visible
+    await expect(this.page.getByText('Congrats! All done!')).toBeVisible()
+  }
+
   // #endregion
 }
 

@@ -41,6 +41,10 @@ export const testIds = makeTestIds({
       newUSDBalance: true,
     },
   },
+  savings: {
+    sDaiBalance: true,
+    sDaiBalanceInDai: true,
+  },
   dialog: {
     healthFactor: {
       before: true,
