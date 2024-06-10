@@ -10,7 +10,9 @@ import { RiskAcknowledgement } from '@/features/dialogs/common/components/risk-a
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageStatus } from '@/features/dialogs/common/types'
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
-import { SavingsOverviewPanel } from '../../common/components/SavingsOverviewPanel'
+
+import { LiFiTransactionOverview } from '../../common/components/LiFiTransactionOverview'
+import { MakerTransactionOverview } from '../../common/components/MakerTransactionOverview'
 import { SavingsDialogTxOverview } from '../../common/types'
 import { RiskAcknowledgementInfo } from '../logic/useSavingsWithdrawDialog'
 
@@ -45,7 +47,10 @@ export function SavingsWithdrawView({
           variant="usd"
           walletIconLabel="Savings"
         />
-        <SavingsOverviewPanel txOverview={txOverview} />
+        {txOverview.type === 'lifi' && <LiFiTransactionOverview txOverview={txOverview} />}
+        {txOverview.type === 'maker' && (
+          <MakerTransactionOverview txOverview={txOverview} selectedToken={assetsFields.selectedAsset.token} />
+        )}
       </FormAndOverviewWrapper>
       {riskAcknowledgement.warning && (
         <RiskAcknowledgement

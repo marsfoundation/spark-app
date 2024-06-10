@@ -22,6 +22,7 @@ import greenArrowUp from './green-arrow-up.svg'
 import lifiLogo from './lifi-logo.svg'
 import link from './link.svg'
 import magicWand from './magic-wand.svg'
+import makerLogo from './maker.svg'
 import chart from './markets/chart.svg'
 import inputOutput from './markets/input-output.svg'
 import lock from './markets/lock.svg'
@@ -89,6 +90,7 @@ export const assets = {
   eye,
   menu,
   close,
+  makerLogo,
   markets: {
     chart,
     inputOutput,

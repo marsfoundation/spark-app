@@ -4,15 +4,14 @@ import { SavingsInfo } from '@/domain/savings-info/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { WalletInfo } from '@/domain/wallet/useWalletInfo'
 import { DialogFormNormalizedData } from '@/features/dialogs/common/logic/form'
-import { SavingsDialogTxOverview } from '../../common/types'
+import { RouteItem, SavingsDialogTxOverviewLiFi, SavingsDialogTxOverviewMaker } from '../../common/types'
 
-interface createTxOverviewParams {
+export interface CreateTxOverviewParams {
   formValues: DialogFormNormalizedData
   marketInfo: MarketInfo
   walletInfo: WalletInfo
   savingsInfo: SavingsInfo
   swapInfo: SwapInfo
-  useNativeRoutes: boolean
 }
 
 export function createTxOverview({
@@ -21,38 +20,19 @@ export function createTxOverview({
   savingsInfo,
   walletInfo,
   swapInfo,
-  useNativeRoutes,
-}: createTxOverviewParams): SavingsDialogTxOverview {
+}: CreateTxOverviewParams): SavingsDialogTxOverviewLiFi {
+  const otherToken = formValues.token
   const sDAI = marketInfo.sDAI
   const DAI = marketInfo.DAI
   const sDaiBalanceBefore = walletInfo.findWalletBalanceForToken(sDAI)
-
-  if (useNativeRoutes) {
-    const sDaiAmount = NormalizedUnitNumber(formValues.value.div(sDAI.unitPriceUsd))
-
-    const sDaiBalanceAfter = NormalizedUnitNumber(sDaiBalanceBefore.minus(sDaiAmount))
-
-    return {
-      status: 'success',
-      showExchangeRate: false,
-      exchangeRatioFromToken: DAI,
-      exchangeRatioToToken: DAI,
-      exchangeRatio: NormalizedUnitNumber(1),
-      sDaiToken: sDAI,
-      sDaiBalanceBefore,
-      sDaiBalanceAfter,
-      APY: savingsInfo.apy,
-      outTokenAmount: formValues.value,
-    }
-  }
-
   const showExchangeRate = formValues.token.symbol !== marketInfo.DAI.symbol
 
-  if (!swapInfo.isSuccess) {
-    return swapInfo.isLoading ? { showExchangeRate, status: 'loading' } : { showExchangeRate, status: 'no-overview' }
+  if (!swapInfo.data) {
+    return swapInfo.isLoading
+      ? { type: 'lifi', showExchangeRate, status: 'loading' }
+      : { type: 'lifi', showExchangeRate, status: 'no-overview' }
   }
 
-  const otherToken = formValues.token
   const sDaiAmountBaseUnit = swapInfo.data.estimate.fromAmount
   const sDaiAmount = sDAI.fromBaseUnit(sDaiAmountBaseUnit)
   const otherTokenAmountBaseUnit = swapInfo.data.estimate.toAmount
@@ -66,6 +46,7 @@ export function createTxOverview({
   const sDaiBalanceAfter = NormalizedUnitNumber(sDaiBalanceBefore.minus(sDaiAmount))
 
   return {
+    type: 'lifi',
     status: 'success',
     showExchangeRate,
     exchangeRatioFromToken: DAI,
@@ -76,5 +57,58 @@ export function createTxOverview({
     sDaiBalanceAfter,
     APY: savingsInfo.apy,
     outTokenAmount: otherTokenAmount,
+  }
+}
+
+export interface CreateMakerTxOverviewParams {
+  formValues: DialogFormNormalizedData
+  marketInfo: MarketInfo
+  savingsInfo: SavingsInfo
+  walletInfo: WalletInfo
+}
+export function createMakerTxOverview({
+  formValues,
+  marketInfo,
+  savingsInfo,
+  walletInfo,
+}: CreateMakerTxOverviewParams): SavingsDialogTxOverviewMaker {
+  const [daiValue, sDAIValue] = (() => {
+    if (formValues.isMaxSelected) {
+      const sDAIValue = walletInfo.findWalletBalanceForToken(marketInfo.sDAI)
+      const daiValue = savingsInfo.convertSharesToDai({ shares: sDAIValue })
+
+      return [daiValue, sDAIValue]
+    }
+
+    const daiValue = formValues.value
+    const sDAIValue = savingsInfo.convertDaiToShares({ dai: daiValue })
+    return [daiValue, sDAIValue]
+  })()
+
+  if (daiValue.eq(0)) {
+    return { type: 'maker', status: 'no-overview' }
+  }
+  const daiEarnRate = NormalizedUnitNumber(daiValue.multipliedBy(savingsInfo.apy))
+  const route: RouteItem[] = [
+    {
+      token: marketInfo.sDAI,
+      value: sDAIValue,
+      usdValue: savingsInfo.convertSharesToDai({ shares: sDAIValue }),
+    },
+    {
+      token: marketInfo.DAI,
+      value: daiValue,
+      usdValue: daiValue,
+    },
+  ]
+
+  return {
+    type: 'maker',
+    status: 'success',
+    APY: savingsInfo.apy,
+    daiEarnRate,
+    route,
+    makerBadgeToken: marketInfo.DAI,
+    outTokenAmount: daiValue,
   }
 }

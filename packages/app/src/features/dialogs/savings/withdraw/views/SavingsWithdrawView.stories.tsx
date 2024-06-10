@@ -80,6 +80,7 @@ const meta: Meta<typeof SavingsWithdrawView> = {
       goToSuccessScreen: () => {},
     },
     txOverview: {
+      type: 'lifi',
       status: 'success',
       showExchangeRate: true,
       APY: Percentage(0.05),
@@ -108,6 +109,7 @@ export const Tablet = getTabletStory(Desktop)
 export const LoadingTxOverview: Story = {
   args: {
     txOverview: {
+      type: 'lifi',
       status: 'loading',
       showExchangeRate: true,
     },
@@ -119,6 +121,7 @@ export const TabletLoadingTxOverview = getTabletStory(LoadingTxOverview)
 export const NoTxOverview: Story = {
   args: {
     txOverview: {
+      type: 'lifi',
       status: 'no-overview',
       showExchangeRate: true,
     },
