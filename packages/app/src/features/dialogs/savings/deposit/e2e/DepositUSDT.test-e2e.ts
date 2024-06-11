@@ -36,7 +36,7 @@ test.describe('Deposit USDT on Mainnet', () => {
     await depositDialog.fillAmountAction(10_000)
   })
 
-  test('uses Lifi Swap', async ({ page }) => {
+  test('uses Lifi Swap', async () => {
     await depositDialog.expectToUseLifiSwap({
       title: 'Convert USDT to sDAI',
       fee: '$19.99',
@@ -46,7 +46,7 @@ test.describe('Deposit USDT on Mainnet', () => {
     })
   })
 
-  test('displays transaction overview', async ({ page }) => {
+  test('displays transaction overview', async () => {
     await depositDialog.expectTransactionOverview([
       ['APY', '8.00%'],
       ['Exchange Rate', '1.00 USDT 0.99783 DAI'],
@@ -54,7 +54,7 @@ test.describe('Deposit USDT on Mainnet', () => {
     ])
   })
 
-  test('executes swap', async ({ page }) => {
+  test('executes swap', async () => {
     const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
     await actionsContainer.acceptAllActionsAction(2)
 
