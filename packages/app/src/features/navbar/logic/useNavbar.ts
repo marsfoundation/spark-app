@@ -48,6 +48,11 @@ export function useNavbar(): UseNavbarResults {
 
   const wagmiConfig = useConfig()
   const { timestamp } = useTimestamp()
+  console.log({
+    chains,
+    wagmiConfig,
+    currentChainId,
+  })
   const savingsInfoQueryOptions = getChainConfigEntry(currentChainId).savingsInfoQuery
   const savingsInfo = useQuery(savingsInfoQueryOptions({ wagmiConfig, chainId: currentChainId, timestamp }))
 
