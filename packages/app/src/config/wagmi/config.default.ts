@@ -35,19 +35,11 @@ export function getConfig(sandboxNetwork?: SandboxNetwork): Config {
 
   // never start on a sandbox network
   const wagmiStoreState = config._internal.store.getState()
-  console.log({
-    SUPPORTED_CHAINS,
-    chainId: wagmiStoreState.chainId,
-    includes: SUPPORTED_CHAINS.includes(wagmiStoreState.chainId),
-  })
-  if (!SUPPORTED_CHAINS.includes(wagmiStoreState.chainId)) {
-    console.log('Setting chain to mainnet')
+  if (SUPPORTED_CHAINS.every((chain) => chain.id !== wagmiStoreState.chainId)) {
     config._internal.store.setState({
       ...wagmiStoreState,
       chainId: mainnet.id,
     })
-    console.log('Chain set to mainnet')
-    console.log(config._internal.store.getState())
   }
 
   return config
