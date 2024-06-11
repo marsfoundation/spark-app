@@ -4,6 +4,7 @@ import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPan
 import { TransactionOverviewDetailsItem } from '@/features/dialogs/common/components/TransactionOverviewDetailsItem'
 
 import { assets } from '@/ui/assets'
+import { testIds } from '@/ui/utils/testIds'
 import { SavingsDialogTxOverviewLiFi } from '../types'
 import { TransactionOverviewBalanceChangeDetail } from './TransactionOverviewBalanceChangeDetail'
 import { TransactionOverviewExchangeRateDetail } from './TransactionOverviewExchangeRateDetail'
@@ -20,23 +21,31 @@ export function LiFiTransactionOverview({ txOverview }: LiFiTransactionOverviewP
       />
     )
   }
+  let dataTestIdIndex = 0
 
   return (
     <DialogPanel>
       <DialogPanelTitle>Transaction overview</DialogPanelTitle>
 
-      <TransactionOverviewDetailsItem label="APY">{formatPercentage(txOverview.APY)}</TransactionOverviewDetailsItem>
+      <TransactionOverviewDetailsItem
+        label="APY"
+        data-testid={testIds.dialog.depositSavings.transactionDetailsRow(dataTestIdIndex++)}
+      >
+        {formatPercentage(txOverview.APY)}
+      </TransactionOverviewDetailsItem>
       {txOverview.showExchangeRate && (
         <TransactionOverviewExchangeRateDetail
           fromToken={txOverview.exchangeRatioFromToken}
           toToken={txOverview.exchangeRatioToToken}
           ratio={txOverview.exchangeRatio}
+          data-testid={testIds.dialog.depositSavings.transactionDetailsRow(dataTestIdIndex++)}
         />
       )}
       <TransactionOverviewBalanceChangeDetail
         token={txOverview.sDaiToken}
         before={txOverview.sDaiBalanceBefore}
         after={txOverview.sDaiBalanceAfter}
+        data-testid={testIds.dialog.depositSavings.transactionDetailsRow(dataTestIdIndex++)}
       />
     </DialogPanel>
   )

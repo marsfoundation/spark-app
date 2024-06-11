@@ -1,6 +1,7 @@
 import { Locator, expect } from '@playwright/test'
 
 import { BasePageObject } from '@/test/e2e/BasePageObject'
+import { testIds } from '@/ui/utils/testIds'
 
 export class SavingsPageObject extends BasePageObject {
   // #region locators
@@ -52,6 +53,18 @@ export class SavingsPageObject extends BasePageObject {
 
   async expectCurrentWorth(approximateValue: string): Promise<void> {
     await expect(this.locatePanelByHeader('Savings DAI').getByText(approximateValue)).toBeVisible()
+  }
+
+  async expectSavingsBalance({
+    sDaiBalance,
+    estimatedDaiValue,
+  }: { sDaiBalance: string; estimatedDaiValue: string }): Promise<void> {
+    await expect(this.locatePanelByHeader('Savings DAI').getByTestId(testIds.savings.sDaiBalance)).toHaveText(
+      sDaiBalance,
+    )
+    await expect(this.locatePanelByHeader('Savings DAI').getByTestId(testIds.savings.sDaiBalanceInDai)).toContainText(
+      estimatedDaiValue,
+    )
   }
 
   async expectCurrentProjection(value: string, type: '30-day' | '1-year'): Promise<void> {

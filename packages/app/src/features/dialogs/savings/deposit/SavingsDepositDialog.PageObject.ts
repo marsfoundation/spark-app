@@ -1,7 +1,5 @@
-import { Page, expect } from '@playwright/test'
-
 import { testIds } from '@/ui/utils/testIds'
-
+import { Page, expect } from '@playwright/test'
 import { DialogPageObject } from '../../common/Dialog.PageObject'
 
 export class SavingsDepositDialogPageObject extends DialogPageObject {
@@ -34,5 +32,53 @@ export class SavingsDepositDialogPageObject extends DialogPageObject {
   async expectTransactionOverviewToBeVisible(): Promise<void> {
     await expect(this.locatePanelByHeader('Transaction overview')).toBeVisible()
   }
+
+  async expectTransactionOverview(transactionOverview: TransactionOverview): Promise<void> {
+    const panel = this.locatePanelByHeader('Transaction overview')
+    await expect(panel).toBeVisible()
+
+    for (const [index, [label, value]] of transactionOverview.entries()) {
+      const row = panel.getByTestId(testIds.dialog.depositSavings.transactionDetailsRow(index))
+      await expect(row).toBeVisible()
+      await expect(row).toContainText(label)
+      await expect(row).toContainText(value)
+    }
+  }
+
+  async expectToUseLifiSwap(lifiSwapParams: LifiSwapParams): Promise<void> {
+    const exchangeRow = this.locatePanelByHeader('Actions').getByTestId(
+      testIds.actions.flavours.exchangeActionRow.wrapper,
+    )
+
+    await expect(exchangeRow).toBeVisible()
+    await expect(exchangeRow).toContainText(lifiSwapParams.title)
+    await expect(exchangeRow.getByTestId(testIds.actions.flavours.exchangeActionRow.lifiBadge)).toBeVisible()
+    await expect(exchangeRow.getByTestId(testIds.actions.flavours.exchangeActionRow.fee)).toHaveText(lifiSwapParams.fee)
+    await expect(exchangeRow.getByTestId(testIds.actions.flavours.exchangeActionRow.slippage)).toHaveText(
+      lifiSwapParams.slippage,
+    )
+    await expect(exchangeRow.getByTestId(testIds.actions.flavours.exchangeActionRow.finalDAIAmount)).toContainText(
+      lifiSwapParams.finalDAIAmount,
+    )
+    await expect(exchangeRow.getByTestId(testIds.actions.flavours.exchangeActionRow.finalSDAIAmount)).toHaveText(
+      lifiSwapParams.finalSDAIAmount,
+    )
+  }
+
+  async expectSuccessPage(): Promise<void> {
+    // for now we only check if the success message is visible
+    await expect(this.page.getByText('Congrats! All done!')).toBeVisible()
+  }
+
   // #endregion
 }
+
+interface LifiSwapParams {
+  title: string
+  slippage: string
+  fee: string
+  finalSDAIAmount: string
+  finalDAIAmount: string
+}
+
+type TransactionOverview = [string, string][]

@@ -10,6 +10,7 @@ import { SavingsWithdrawDialog } from '@/features/dialogs/savings/withdraw/Savin
 import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
 
+import { testIds } from '@/ui/utils/testIds'
 import { Projections } from '../../types'
 import { SavingsInfoTile } from '../savings-info-tile/SavingsInfoTile'
 import { APYLabel } from '../savings-opportunity/components/APYLabel'
@@ -48,7 +49,10 @@ export function SavingsDAI({
         </div>
       </div>
       <div className="flex flex-col items-center gap-1 sm:gap-2">
-        <div className="flex flex-row items-end justify-center slashed-zero tabular-nums">
+        <div
+          className="flex flex-row items-end justify-center slashed-zero tabular-nums"
+          data-testId={testIds.savings.sDaiBalanceInDai}
+        >
           <div className="font-semibold text-3xl md:text-5xl">{getWholePart(depositedUSD)}</div>
           {depositedUSDPrecision > 0 && (
             <div className="font-semibold text-lg md:text-2xl">
@@ -57,7 +61,10 @@ export function SavingsDAI({
           )}
         </div>
         <div className="font-semibold text-basics-dark-grey text-xs tracking-wide">
-          ={sDAIBalance.token.format(sDAIBalance.balance, { style: 'auto' })} {sDAIBalance.token.symbol}
+          =
+          <span data-testId={testIds.savings.sDaiBalance}>
+            {sDAIBalance.token.format(sDAIBalance.balance, { style: 'auto' })} {sDAIBalance.token.symbol}
+          </span>
         </div>
       </div>
       <div className="flex flex-row items-end justify-between border-t pt-6">
