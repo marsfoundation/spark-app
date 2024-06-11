@@ -1,7 +1,7 @@
 import { getDefaultConfig } from '@rainbow-me/rainbowkit'
 import { http, Chain, Transport } from 'viem'
 import { gnosis, mainnet } from 'viem/chains'
-import { Config } from 'wagmi'
+import { Config, createStorage, noopStorage } from 'wagmi'
 
 import { SandboxNetwork } from '@/domain/state/sandbox'
 import { raise } from '@/utils/assert'
@@ -23,6 +23,40 @@ export function getConfig(sandboxNetwork?: SandboxNetwork): Config {
     [gnosis.id]: http('https://rpc.ankr.com/gnosis'),
   }
 
+  const defaultStorage = createStorage({
+    storage: typeof window !== 'undefined' && window.localStorage ? window.localStorage : noopStorage,
+  })
+  const storage: typeof defaultStorage = {
+    ...defaultStorage,
+    getItem: async (key) => {
+      const originalValue = (await defaultStorage.getItem(key)) as any
+
+      if ((key as any) === 'store' && typeof originalValue === 'object') {
+        const persistedChainId = originalValue?.state?.chainId
+        const connections: Map<string, { chainId: number }> = originalValue?.state?.connections || new Map()
+
+        const filteredConnections = new Map(
+          [...connections.entries()].filter(([_, { chainId }]) => {
+            return SUPPORTED_CHAINS.some((chain) => chain.id === chainId)
+          }),
+        )
+        const newChainId = SUPPORTED_CHAINS.some((chain) => chain.id === persistedChainId)
+          ? persistedChainId
+          : mainnet.id
+
+        return {
+          ...originalValue,
+          state: {
+            ...originalValue?.state,
+            connections: filteredConnections,
+            chainId: newChainId,
+          },
+        } as any
+      }
+      return originalValue
+    },
+  }
+
   const config = getDefaultConfig({
     appName: 'Spark',
     projectId: import.meta.env.VITE_WALLET_CONNECT_ID || raise('Missing VITE_WALLET_CONNECT_ID'),
@@ -31,6 +65,7 @@ export function getConfig(sandboxNetwork?: SandboxNetwork): Config {
       ? { ...transports, [forkChain.id]: http(forkChain.rpcUrls.default.http[0], { timeout: VIEM_TIMEOUT_ON_FORKS }) }
       : transports,
     wallets,
+    storage,
   })
 
   return config
