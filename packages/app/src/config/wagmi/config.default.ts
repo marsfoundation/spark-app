@@ -10,7 +10,6 @@ import { SUPPORTED_CHAINS } from '../chain/constants'
 import { SupportedChainId } from '../chain/types'
 import { VIEM_TIMEOUT_ON_FORKS } from './config.e2e'
 import { getWallets } from './getWallets'
-import { getChainId } from 'wagmi/actions'
 
 const wallets = getWallets()
 
@@ -18,7 +17,6 @@ const ALCHEMY_API_KEY = 'WVOCPHOxAVE1R9PySEqcO7WX2b9_V-9L'
 
 export function getConfig(sandboxNetwork?: SandboxNetwork): Config {
   const forkChain = getForkChainFromSandboxConfig(sandboxNetwork)
-  console.log({ forkChain })
 
   const transports: Record<SupportedChainId, Transport> = {
     [mainnet.id]: http(`https://eth-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`),
@@ -34,10 +32,15 @@ export function getConfig(sandboxNetwork?: SandboxNetwork): Config {
       : transports,
     wallets,
   })
-  console.log({
-    chains: config.chains,
-    currentChain: getChainId(config),
-  })
+
+  // never start on a sandbox network
+  const wagmiStoreState = config._internal.store.getState()
+  if (!SUPPORTED_CHAINS.includes(wagmiStoreState.chainId)) {
+    config._internal.store.setState({
+      ...wagmiStoreState,
+      chainId: mainnet.id,
+    })
+  }
 
   return config
 }
