@@ -10,6 +10,7 @@ import { SUPPORTED_CHAINS } from '../chain/constants'
 import { SupportedChainId } from '../chain/types'
 import { VIEM_TIMEOUT_ON_FORKS } from './config.e2e'
 import { getWallets } from './getWallets'
+import { getChainId } from 'wagmi/actions'
 
 const wallets = getWallets()
 
@@ -17,6 +18,7 @@ const ALCHEMY_API_KEY = 'WVOCPHOxAVE1R9PySEqcO7WX2b9_V-9L'
 
 export function getConfig(sandboxNetwork?: SandboxNetwork): Config {
   const forkChain = getForkChainFromSandboxConfig(sandboxNetwork)
+  console.log({ forkChain })
 
   const transports: Record<SupportedChainId, Transport> = {
     [mainnet.id]: http(`https://eth-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`),
@@ -31,6 +33,10 @@ export function getConfig(sandboxNetwork?: SandboxNetwork): Config {
       ? { ...transports, [forkChain.id]: http(forkChain.rpcUrls.default.http[0], { timeout: VIEM_TIMEOUT_ON_FORKS }) }
       : transports,
     wallets,
+  })
+  console.log({
+    chains: config.chains,
+    currentChain: getChainId(config),
   })
 
   return config
