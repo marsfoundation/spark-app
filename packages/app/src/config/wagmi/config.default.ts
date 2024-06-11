@@ -35,6 +35,11 @@ export function getConfig(sandboxNetwork?: SandboxNetwork): Config {
 
   // never start on a sandbox network
   const wagmiStoreState = config._internal.store.getState()
+  console.log({
+    SUPPORTED_CHAINS,
+    wagmiStoreState,
+    every: SUPPORTED_CHAINS.every((chain) => chain.id !== wagmiStoreState.chainId),
+  })
   if (SUPPORTED_CHAINS.every((chain) => chain.id !== wagmiStoreState.chainId)) {
     config._internal.store.setState({
       ...wagmiStoreState,
