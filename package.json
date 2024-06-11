@@ -9,20 +9,15 @@
   "scripts": {
     "dev": "pnpm run --filter './packages/app' dev",
     "storybook": "pnpm run --filter './packages/app' storybook",
-    "format": "biome format .",
-    "format:fix": "biome format --write .",
-    "biome-lint": "biome lint .",
-    "biome-lint:fix": "biome check --apply-unsafe .",
-    "lint": "pnpm run biome-lint && pnpm run --parallel --aggregate-output --reporter append-only --filter './packages/**' lint",
-    "lint:fix": "pnpm run biome-lint:fix && pnpm --parallel --aggregate-output --reporter append-only --filter './packages/**' lint:fix",
-    "typecheck": "pnpm --parallel --aggregate-output --reporter append-only --filter './packages/**' typecheck",
-    "build": "pnpm run --parallel --aggregate-output --reporter append-only --filter './packages/**' build",
-    "test": "pnpm run --parallel --aggregate-output --reporter append-only --filter './packages/**' test",
-    "fix": "pnpm lint:fix && pnpm format:fix && pnpm test && pnpm typecheck"
+    "check": "biome check .",
+    "check:fix": "biome check --apply-unsafe .",
+    "verify": "pnpm run --parallel --aggregate-output --reporter append-only --filter './packages/**' verify",
+    "fix": "pnpm run check:fix && pnpm run verify"
   },
   "devDependencies": {
     "@biomejs/biome": "1.7.3",
     "@eslint/js": "^9.3.0",
+    "concurrently": "^8.2.2",
     "eslint": "^9.3.0",
     "typescript": "^5.0.2",
     "typescript-eslint": "^7.11.0"
