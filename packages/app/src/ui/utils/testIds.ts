@@ -73,6 +73,9 @@ export const testIds = makeTestIds({
         finalDAIAmount: true,
         finalSDAIAmount: true,
       },
+      nativeSDaiDepositActionRow: {
+        wrapper: true,
+      },
     },
   },
   navbar: {

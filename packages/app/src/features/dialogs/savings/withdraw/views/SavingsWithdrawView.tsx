@@ -12,7 +12,7 @@ import { FormFieldsForDialog, PageStatus } from '@/features/dialogs/common/types
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
 
 import { LiFiTransactionOverview } from '../../common/components/LiFiTransactionOverview'
-import { MakerTransactionOverview } from '../../common/components/MakerTransactionOverview'
+import { MakerTransactionOverview } from '../../common/components/maker-transaction-overview'
 import { SavingsDialogTxOverview } from '../../common/types'
 import { RiskAcknowledgementInfo } from '../logic/useSavingsWithdrawDialog'
 
