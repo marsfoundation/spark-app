@@ -23,33 +23,28 @@ export function MakerTransactionOverview({ txOverview, selectedToken }: MakerTra
   assert(route.length > 0, 'Route must have at least one item')
   const outcome = route.at(-1)!
 
-  let dataTestIdIndex = 0
-
   return (
     <DialogPanel>
       <DialogPanelTitle>Transaction overview</DialogPanelTitle>
-      <TransactionOverviewDetailsItem
-        label="APY"
-        data-testid={testIds.dialog.depositSavings.transactionDetailsRow(dataTestIdIndex++)}
-      >
+      <TransactionOverviewDetailsItem label="APY">
         <APYDetails APY={APY} daiEarnRate={daiEarnRate} />
       </TransactionOverviewDetailsItem>
-      <TransactionOverviewDetailsItem
-        label="Route"
-        data-testid={testIds.dialog.depositSavings.transactionDetailsRow(dataTestIdIndex++)}
-      >
+      <TransactionOverviewDetailsItem label="Route">
         <div className="flex flex-col items-end gap-2 md:flex-row">
           {route.map((item, index) => (
-            <RouteItem key={item.token.symbol} item={item} isLast={index === route.length - 1} />
+            <RouteItem key={item.token.symbol} item={item} index={index} isLast={index === route.length - 1} />
           ))}
         </div>
-        <MakerBadge token={makerBadgeToken} />
+        <MakerBadge
+          token={makerBadgeToken}
+          data-testid={testIds.dialog.savings.nativeRouteTransactionOverview.makerBadge}
+        />
       </TransactionOverviewDetailsItem>
-      <TransactionOverviewDetailsItem
-        label="Outcome"
-        data-testid={testIds.dialog.depositSavings.transactionDetailsRow(dataTestIdIndex++)}
-      >
-        <TransactionOutcome outcome={outcome} />
+      <TransactionOverviewDetailsItem label="Outcome">
+        <TransactionOutcome
+          outcome={outcome}
+          data-testid={testIds.dialog.savings.nativeRouteTransactionOverview.outcome}
+        />
       </TransactionOverviewDetailsItem>
     </DialogPanel>
   )

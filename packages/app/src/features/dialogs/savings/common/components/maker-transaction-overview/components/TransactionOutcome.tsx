@@ -3,11 +3,12 @@ import { RouteItem } from '../../../types'
 
 export interface TransactionOutcomeProps {
   outcome: RouteItem
+  'data-testid'?: string
 }
 
-export function TransactionOutcome({ outcome }: TransactionOutcomeProps) {
+export function TransactionOutcome({ outcome, 'data-testid': dataTestId }: TransactionOutcomeProps) {
   return (
-    <div className="flex flex-col items-end gap-0.5 md:block">
+    <div className="flex flex-col items-end gap-0.5 md:block" data-testid={dataTestId}>
       <span>
         {outcome.token.format(outcome.value, { style: 'auto' })} {outcome.token.symbol}
       </span>

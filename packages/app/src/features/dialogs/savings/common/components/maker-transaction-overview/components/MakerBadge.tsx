@@ -4,11 +4,15 @@ import { Info } from '@/ui/molecules/info/Info'
 
 export interface MakerBadgeProps {
   token: Token
+  'data-testid'?: string
 }
 
-export function MakerBadge({ token }: MakerBadgeProps) {
+export function MakerBadge({ token, 'data-testid': dataTestId }: MakerBadgeProps) {
   return (
-    <div className="flex flex-row items-center gap-1.5 rounded-lg bg-emerald-300/10 px-2.5 py-1.5 text-emerald-400 text-sm">
+    <div
+      className="flex flex-row items-center gap-1.5 rounded-lg bg-emerald-300/10 px-2.5 py-1.5 text-emerald-400 text-sm"
+      data-testid={dataTestId}
+    >
       <img src={assets.makerLogo} className="h-5 w-5" />
       <span>
         <span className="hidden font-medium md:inline"> Powered by Maker. </span>

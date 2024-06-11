@@ -45,6 +45,44 @@ export class SavingsDepositDialogPageObject extends DialogPageObject {
     }
   }
 
+  async expectNativeRouteTransactionOverview(transactionOverview: NativeRouteTransactionOverview): Promise<void> {
+    const panel = this.locatePanelByHeader('Transaction overview')
+    await expect(panel).toBeVisible()
+    const txOverviewTestIds = testIds.dialog.savings.nativeRouteTransactionOverview
+
+    const apyValue = panel.getByTestId(txOverviewTestIds.apy.value)
+    const apyDescription = panel.getByTestId(txOverviewTestIds.apy.description)
+    await expect(apyValue).toContainText(transactionOverview.apy.value)
+    await expect(apyDescription).toContainText(transactionOverview.apy.description)
+
+    for (const [index, { tokenAmount: tokenWithAmount, tokenUsdValue }] of transactionOverview.routeItems.entries()) {
+      const routeItem = panel.getByTestId(txOverviewTestIds.routeItem.tokenWithAmount(index))
+      const routeItemUSD = panel.getByTestId(txOverviewTestIds.routeItem.tokenUsdValue(index))
+      await expect(routeItem).toContainText(tokenWithAmount)
+      await expect(routeItemUSD).toContainText(tokenUsdValue)
+    }
+
+    const makerBadge = panel.getByTestId(txOverviewTestIds.makerBadge)
+    await expect(makerBadge).toBeVisible()
+
+    const outcome = panel.getByTestId(txOverviewTestIds.outcome)
+    await expect(outcome).toContainText(transactionOverview.outcome)
+  }
+
+  async expectToUseNativeSDaiAction(nativeSDaiDepositParams: {
+    title: string
+    type: 'deposit' | 'withdraw'
+  }): Promise<void> {
+    const testId =
+      nativeSDaiDepositParams.type === 'deposit'
+        ? testIds.actions.flavours.nativeSDaiDepositActionRow.wrapper
+        : testIds.actions.flavours.nativeSDaiWithdrawActionRow.wrapper
+    const depositRow = this.locatePanelByHeader('Actions').getByTestId(testId)
+
+    await expect(depositRow).toBeVisible()
+    await expect(depositRow).toContainText(nativeSDaiDepositParams.title)
+  }
+
   async expectToUseLifiSwap(lifiSwapParams: LifiSwapParams): Promise<void> {
     const exchangeRow = this.locatePanelByHeader('Actions').getByTestId(
       testIds.actions.flavours.exchangeActionRow.wrapper,
@@ -82,3 +120,15 @@ interface LifiSwapParams {
 }
 
 type TransactionOverview = [string, string][]
+
+interface NativeRouteTransactionOverview {
+  apy: {
+    value: string
+    description: string
+  }
+  routeItems: {
+    tokenAmount: string
+    tokenUsdValue: string
+  }[]
+  outcome: string
+}
