@@ -2,6 +2,7 @@ import { act, waitFor } from '@testing-library/react'
 
 import { setupHookRenderer } from '@/test/integration/setupHookRenderer'
 
+import { afterEach } from 'node:test'
 import { vi } from 'vitest'
 import { useTimestamp } from './useTimestamp'
 
@@ -51,7 +52,9 @@ describe('useTimestamp', () => {
 
     expect(result.current.timestampInMs).toBeGreaterThan(initialTimestampInMs)
     expect(result.current.timestamp).toBeGreaterThan(initialTimestamp)
+  })
 
+  afterEach(() => {
     vi.restoreAllMocks()
   })
 })
