@@ -11,6 +11,7 @@
     "storybook": "pnpm run --filter './packages/app' storybook",
     "check": "biome check .",
     "check:fix": "biome check --apply-unsafe .",
+    "build": "pnpm run --parallel --aggregate-output --reporter append-only --filter './packages/**' build",
     "verify": "pnpm run --parallel --aggregate-output --reporter append-only --filter './packages/**' verify",
     "fix": "pnpm run check:fix && pnpm run verify"
   },

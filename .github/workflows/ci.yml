@@ -65,7 +65,7 @@ jobs:
       - run: pnpm install
 
       - run: pnpm check
-      - run: pnpm run test
+      - run: pnpm verify # does linting, type checking, and tests in parallel
 
   storybook-visual-regression:
     strategy:
