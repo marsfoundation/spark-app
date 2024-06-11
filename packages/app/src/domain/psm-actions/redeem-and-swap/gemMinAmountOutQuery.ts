@@ -1,4 +1,4 @@
-import { psmActionsAbi } from '@/config/abis/psmActionsAbi'
+import { psmActionsAbi } from '@/config/contracts-generated'
 import { toBigInt } from '@/utils/bigNumber'
 import { queryOptions } from '@tanstack/react-query'
 import { erc4626Abi } from 'viem'

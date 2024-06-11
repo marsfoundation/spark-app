@@ -1,10 +1,10 @@
-import { psmActionsAbi } from '@/config/abis/psmActionsAbi'
+import { psmActionsConfig } from '@/config/contracts-generated'
 import { toBigInt } from '@/utils/bigNumber'
 import { useQueryClient } from '@tanstack/react-query'
 import { useAccount, useChainId, useConfig } from 'wagmi'
+import { useContractAddress } from '../hooks/useContractAddress'
 import { ensureConfigTypes, useWrite } from '../hooks/useWrite'
 import { allowance } from '../market-operations/allowance/query'
-import { CheckedAddress } from '../types/CheckedAddress'
 import { BaseUnitNumber } from '../types/NumericValues'
 import { Token } from '../types/Token'
 import { balances } from '../wallet/balances'
@@ -13,7 +13,6 @@ import { calculateGemConversionFactor } from './utils/calculateGemConversionFact
 export interface UseSwapAndDepositArgs {
   gem: Token
   assetsToken: Token
-  psmActions: CheckedAddress
   gemAmount: BaseUnitNumber
   onTransactionSettled?: () => void
   enabled?: boolean
@@ -24,26 +23,27 @@ export interface UseSwapAndDepositArgs {
 export function useSwapAndDeposit({
   gem,
   assetsToken,
-  psmActions,
   gemAmount: _gemAmount,
   onTransactionSettled,
   enabled: _enabled = true,
 }: UseSwapAndDepositArgs): ReturnType<typeof useWrite> {
-  const gemConversionFactor = calculateGemConversionFactor({
-    gemDecimals: gem.decimals,
-    assetsTokenDecimals: assetsToken.decimals,
-  })
   const client = useQueryClient()
   const wagmiConfig = useConfig()
   const chainId = useChainId()
 
+  const psmActions = useContractAddress(psmActionsConfig.address)
+
   const { address: receiver } = useAccount()
   const gemAmount = toBigInt(_gemAmount)
+  const gemConversionFactor = calculateGemConversionFactor({
+    gemDecimals: gem.decimals,
+    assetsTokenDecimals: assetsToken.decimals,
+  })
   const assetsMinAmountOut = toBigInt(_gemAmount.multipliedBy(gemConversionFactor))
 
   const config = ensureConfigTypes({
     address: psmActions,
-    abi: psmActionsAbi,
+    abi: psmActionsConfig.abi,
     functionName: 'swapAndDeposit',
     args: [receiver!, gemAmount, assetsMinAmountOut],
   })

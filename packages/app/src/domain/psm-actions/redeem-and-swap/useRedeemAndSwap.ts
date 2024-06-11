@@ -1,9 +1,9 @@
-import { psmActionsAbi } from '@/config/abis/psmActionsAbi'
+import { psmActionsConfig } from '@/config/contracts-generated'
+import { useContractAddress } from '@/domain/hooks/useContractAddress'
 import { toBigInt } from '@/utils/bigNumber'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useAccount, useChainId, useConfig } from 'wagmi'
 import { ensureConfigTypes, useWrite } from '../../hooks/useWrite'
-import { CheckedAddress } from '../../types/CheckedAddress'
 import { BaseUnitNumber } from '../../types/NumericValues'
 import { Token } from '../../types/Token'
 import { balances } from '../../wallet/balances'
@@ -12,7 +12,6 @@ import { gemMinAmountOutQueryOptions } from './gemMinAmountOutQuery'
 export interface UseRedeemAndSwapArgs {
   gem: Token
   assetsToken: Token
-  psmActions: CheckedAddress
   sharesAmount: BaseUnitNumber
   onTransactionSettled?: () => void
   enabled?: boolean
@@ -24,7 +23,6 @@ export interface UseRedeemAndSwapArgs {
 export function UseRedeemAndSwap({
   gem,
   assetsToken,
-  psmActions,
   sharesAmount: _sharesAmount,
   onTransactionSettled,
   enabled: _enabled = true,
@@ -32,6 +30,8 @@ export function UseRedeemAndSwap({
   const client = useQueryClient()
   const wagmiConfig = useConfig()
   const chainId = useChainId()
+
+  const psmActions = useContractAddress(psmActionsConfig.address)
 
   const { address: receiver } = useAccount()
   const sharesAmount = toBigInt(_sharesAmount)
@@ -48,7 +48,7 @@ export function UseRedeemAndSwap({
 
   const config = ensureConfigTypes({
     address: psmActions,
-    abi: psmActionsAbi,
+    abi: psmActionsConfig.abi,
     functionName: 'redeemAndSwap',
     args: [receiver!, sharesAmount, gemMinAmountOut!],
   })

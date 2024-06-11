@@ -1,4 +1,4 @@
-import { psmActionsAbi } from '@/config/abis/psmActionsAbi'
+import { psmActionsAbi, psmActionsAddress } from '@/config/contracts-generated'
 import { BaseUnitNumber } from '@/domain/types/NumericValues'
 import { getMockToken, testAddresses } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
@@ -12,13 +12,12 @@ const gem = getMockToken({ address: testAddresses.token, decimals: 6 })
 const assetsToken = getMockToken({ address: testAddresses.token2, decimals: 18 })
 const account = testAddresses.alice
 const gemAmount = BaseUnitNumber(1)
-const psmActions = testAddresses.token3
 
 const hookRenderer = setupHookRenderer({
   hook: useSwapAndDeposit,
   account,
   handlers: [handlers.chainIdCall({ chainId: mainnet.id }), handlers.balanceCall({ balance: 0n, address: account })],
-  args: { gem, assetsToken, gemAmount, psmActions },
+  args: { gem, assetsToken, gemAmount },
 })
 
 describe(useSwapAndDeposit.name, () => {
@@ -31,7 +30,7 @@ describe(useSwapAndDeposit.name, () => {
   })
 
   it('is not enabled for 0 gem value', async () => {
-    const { result } = hookRenderer({ args: { gemAmount: BaseUnitNumber(0), psmActions, gem, assetsToken } })
+    const { result } = hookRenderer({ args: { gemAmount: BaseUnitNumber(0), gem, assetsToken } })
 
     await waitFor(() => {
       expect(result.current.status.kind).toBe('disabled')
@@ -39,7 +38,7 @@ describe(useSwapAndDeposit.name, () => {
   })
 
   it('is not enabled when explicitly disabled', async () => {
-    const { result } = hookRenderer({ args: { enabled: false, gemAmount, psmActions, gem, assetsToken } })
+    const { result } = hookRenderer({ args: { enabled: false, gemAmount, gem, assetsToken } })
 
     await waitFor(() => {
       expect(result.current.status.kind).toBe('disabled')
@@ -48,10 +47,10 @@ describe(useSwapAndDeposit.name, () => {
 
   it('deposits using psm actions', async () => {
     const { result } = hookRenderer({
-      args: { gem, gemAmount, assetsToken, psmActions },
+      args: { gem, gemAmount, assetsToken },
       extraHandlers: [
         handlers.contractCall({
-          to: psmActions,
+          to: psmActionsAddress[mainnet.id],
           abi: psmActionsAbi,
           functionName: 'swapAndDeposit',
           args: [account, toBigInt(gemAmount), toBigInt(gemAmount.multipliedBy(1e12))],

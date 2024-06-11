@@ -1,4 +1,4 @@
-import { psmActionsAbi } from '@/config/abis/psmActionsAbi'
+import { psmActionsAbi, psmActionsAddress } from '@/config/contracts-generated'
 import { BaseUnitNumber } from '@/domain/types/NumericValues'
 import { getMockToken, testAddresses } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
@@ -14,7 +14,6 @@ const assetsToken = getMockToken({ address: testAddresses.token2, decimals: 18 }
 const account = testAddresses.alice
 const sharesAmount = BaseUnitNumber(1)
 const savingsToken = testAddresses.token3
-const psmActions = testAddresses.token4
 const assetsAmount = BaseUnitNumber(1e18)
 
 const hookRenderer = setupHookRenderer({
@@ -24,7 +23,7 @@ const hookRenderer = setupHookRenderer({
     handlers.chainIdCall({ chainId: mainnet.id }),
     handlers.balanceCall({ balance: 0n, address: account }),
     handlers.contractCall({
-      to: psmActions,
+      to: psmActionsAddress[mainnet.id],
       abi: psmActionsAbi,
       functionName: 'savingsToken',
       result: savingsToken,
@@ -37,12 +36,7 @@ const hookRenderer = setupHookRenderer({
       result: toBigInt(assetsAmount),
     }),
   ],
-  args: {
-    gem,
-    assetsToken,
-    sharesAmount,
-    psmActions,
-  },
+  args: { gem, assetsToken, sharesAmount },
 })
 
 describe(UseRedeemAndSwap.name, () => {
@@ -55,7 +49,7 @@ describe(UseRedeemAndSwap.name, () => {
   })
 
   it('is not enabled for 0 gem value', async () => {
-    const { result } = hookRenderer({ args: { sharesAmount: BaseUnitNumber(0), psmActions, gem, assetsToken } })
+    const { result } = hookRenderer({ args: { sharesAmount: BaseUnitNumber(0), gem, assetsToken } })
 
     await waitFor(() => {
       expect(result.current.status.kind).toBe('disabled')
@@ -63,7 +57,7 @@ describe(UseRedeemAndSwap.name, () => {
   })
 
   it('is not enabled when explicitly disabled', async () => {
-    const { result } = hookRenderer({ args: { enabled: false, sharesAmount, psmActions, gem, assetsToken } })
+    const { result } = hookRenderer({ args: { enabled: false, sharesAmount, gem, assetsToken } })
 
     await waitFor(() => {
       expect(result.current.status.kind).toBe('disabled')
@@ -76,11 +70,10 @@ describe(UseRedeemAndSwap.name, () => {
         gem,
         assetsToken,
         sharesAmount,
-        psmActions,
       },
       extraHandlers: [
         handlers.contractCall({
-          to: psmActions,
+          to: psmActionsAddress[mainnet.id],
           abi: psmActionsAbi,
           functionName: 'redeemAndSwap',
           args: [account, toBigInt(sharesAmount), toBigInt(assetsAmount.dividedBy(1e12))],

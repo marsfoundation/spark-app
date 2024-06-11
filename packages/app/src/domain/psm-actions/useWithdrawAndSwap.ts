@@ -1,9 +1,9 @@
-import { psmActionsAbi } from '@/config/abis/psmActionsAbi'
+import { psmActionsConfig } from '@/config/contracts-generated'
 import { toBigInt } from '@/utils/bigNumber'
 import { useQueryClient } from '@tanstack/react-query'
 import { useAccount, useChainId, useConfig } from 'wagmi'
+import { useContractAddress } from '../hooks/useContractAddress'
 import { ensureConfigTypes, useWrite } from '../hooks/useWrite'
-import { CheckedAddress } from '../types/CheckedAddress'
 import { BaseUnitNumber } from '../types/NumericValues'
 import { Token } from '../types/Token'
 import { balances } from '../wallet/balances'
@@ -12,7 +12,6 @@ import { calculateGemConversionFactor } from './utils/calculateGemConversionFact
 export interface UseWithdrawAndSwapArgs {
   gem: Token
   assetsToken: Token
-  psmActions: CheckedAddress
   gemAmountOut: BaseUnitNumber
   onTransactionSettled?: () => void
   enabled?: boolean
@@ -24,27 +23,27 @@ export interface UseWithdrawAndSwapArgs {
 export function UseWithdrawAndSwap({
   gem,
   assetsToken,
-  psmActions,
   gemAmountOut: _gemAmountOut,
   onTransactionSettled,
   enabled: _enabled = true,
 }: UseWithdrawAndSwapArgs): ReturnType<typeof useWrite> {
-  const gemConversionFactor = calculateGemConversionFactor({
-    gemDecimals: gem.decimals,
-    assetsTokenDecimals: assetsToken.decimals,
-  })
-
   const client = useQueryClient()
   const wagmiConfig = useConfig()
   const chainId = useChainId()
 
+  const psmActions = useContractAddress(psmActionsConfig.address)
+
   const { address: receiver } = useAccount()
   const gemAmountOut = toBigInt(_gemAmountOut)
+  const gemConversionFactor = calculateGemConversionFactor({
+    gemDecimals: gem.decimals,
+    assetsTokenDecimals: assetsToken.decimals,
+  })
   const assetsMaxAmountIn = toBigInt(_gemAmountOut.multipliedBy(gemConversionFactor))
 
   const config = ensureConfigTypes({
     address: psmActions,
-    abi: psmActionsAbi,
+    abi: psmActionsConfig.abi,
     functionName: 'withdrawAndSwap',
     args: [receiver!, gemAmountOut, assetsMaxAmountIn],
   })

@@ -1018,13 +1018,13 @@ export const lendingPoolAddressProviderConfig = {
 } as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// PSMActionsUSDC
+// PSMActions
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x52d298Ff9e77E71C2EB1992260520E7b15257d99)
  */
-export const psmActionsUsdcAbi = [
+export const psmActionsAbi = [
   {
     type: 'constructor',
     inputs: [
@@ -1099,16 +1099,16 @@ export const psmActionsUsdcAbi = [
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x52d298Ff9e77E71C2EB1992260520E7b15257d99)
  */
-export const psmActionsUsdcAddress = {
+export const psmActionsAddress = {
   1: '0x52d298Ff9e77E71C2EB1992260520E7b15257d99',
 } as const
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x52d298Ff9e77E71C2EB1992260520E7b15257d99)
  */
-export const psmActionsUsdcConfig = {
-  address: psmActionsUsdcAddress,
-  abi: psmActionsUsdcAbi,
+export const psmActionsConfig = {
+  address: psmActionsAddress,
+  abi: psmActionsAbi,
 } as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
