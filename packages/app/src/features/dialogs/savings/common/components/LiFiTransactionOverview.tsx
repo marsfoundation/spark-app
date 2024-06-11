@@ -5,17 +5,17 @@ import { TransactionOverviewDetailsItem } from '@/features/dialogs/common/compon
 
 import { assets } from '@/ui/assets'
 import { testIds } from '@/ui/utils/testIds'
-import { SavingsDialogTxOverview } from '../types'
+import { SavingsDialogTxOverviewLiFi } from '../types'
 import { TransactionOverviewBalanceChangeDetail } from './TransactionOverviewBalanceChangeDetail'
 import { TransactionOverviewExchangeRateDetail } from './TransactionOverviewExchangeRateDetail'
 
-export interface SavingsOverviewPanelProps {
-  txOverview: SavingsDialogTxOverview
+export interface LiFiTransactionOverviewProps {
+  txOverview: SavingsDialogTxOverviewLiFi
 }
-export function SavingsOverviewPanel({ txOverview }: SavingsOverviewPanelProps) {
+export function LiFiTransactionOverview({ txOverview }: LiFiTransactionOverviewProps) {
   if (txOverview.status !== 'success') {
     return (
-      <SavingsOverviewPanelPlaceholder
+      <LiFiTransactionOverviewPlaceholder
         isLoading={txOverview.status === 'loading'}
         showExchangeRate={txOverview.showExchangeRate}
       />
@@ -51,11 +51,11 @@ export function SavingsOverviewPanel({ txOverview }: SavingsOverviewPanelProps) 
   )
 }
 
-interface SavingsOverviewPanelPlaceholder {
+interface LiFiTransactionOverviewPlaceholder {
   isLoading: boolean
   showExchangeRate: boolean
 }
-function SavingsOverviewPanelPlaceholder({ isLoading, showExchangeRate }: SavingsOverviewPanelPlaceholder) {
+function LiFiTransactionOverviewPlaceholder({ isLoading, showExchangeRate }: LiFiTransactionOverviewPlaceholder) {
   const placeholder = isLoading ? (
     <img src={assets.threeDots} alt="loader" width={20} height={5} data-chromatic="ignore" />
   ) : (
