@@ -1,7 +1,8 @@
 import { assert } from '@/utils/assert'
 
-// @note: only allowed value here is 'true' or nested object
+// @note: only allowed value here is 'true' a function or nested object
 // actual value of data test id (string) is generated based on a path in the object tree
+// functions are automatically prefixed with a path in the object tree
 export const testIds = makeTestIds({
   component: {
     MultiAssetSelector: {
@@ -53,8 +54,7 @@ export const testIds = makeTestIds({
     success: true,
     acknowledgeRiskSwitch: true,
     depositSavings: {
-      __transactionDetailsRow: true,
-      transactionDetailsRow: (index: number) => `${testIds.dialog.depositSavings.__transactionDetailsRow}-${index}`,
+      transactionDetailsRow: (index: number) => index,
     },
   },
   actions: {
@@ -87,8 +87,8 @@ function makeTestIds<T extends Object>(obj: T, prefix?: string): MapValuesToStri
       if (typeof value === 'object') {
         return [key, makeTestIds(value, newPrefix)]
       }
-      if (value instanceof Function) {
-        return [key, value]
+      if (typeof value === 'function') {
+        return [key, (...args: any) => `${newPrefix}-${value(...args)}`]
       }
       assert(value === true, "testIds value map has to be 'true', a function or another nested object")
       return [key, newPrefix]
@@ -97,5 +97,9 @@ function makeTestIds<T extends Object>(obj: T, prefix?: string): MapValuesToStri
 }
 
 type MapValuesToString<T> = {
-  [K in keyof T]: T[K] extends boolean ? string : T[K] extends Function ? T[K] : MapValuesToString<T[K]>
+  [K in keyof T]: T[K] extends boolean
+    ? string
+    : T[K] extends (...args: any[]) => any
+      ? (...args: Parameters<T[K]>) => string
+      : MapValuesToString<T[K]>
 }
