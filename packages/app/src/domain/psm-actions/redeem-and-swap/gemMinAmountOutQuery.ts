@@ -6,13 +6,12 @@ import { Config } from 'wagmi'
 import { readContract } from 'wagmi/actions'
 import { CheckedAddress } from '../../types/CheckedAddress'
 import { BaseUnitNumber } from '../../types/NumericValues'
-import { Token } from '../../types/Token'
 import { calculateGemMinAmountOut } from './utils/calculateGemMinAmountOut'
 
 export interface GemMinAmountOutKeyParams {
   psmActions: CheckedAddress
-  gem: Token
-  assetsToken: Token
+  gemDecimals: number
+  assetsTokenDecimals: number
   sharesAmount: BaseUnitNumber
   chainId: number
 }
@@ -24,14 +23,14 @@ export interface GemMinAmountOutOptionsParams extends GemMinAmountOutKeyParams {
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function gemMinAmountOutQueryOptions({
   psmActions,
-  gem,
-  assetsToken,
+  gemDecimals,
+  assetsTokenDecimals,
   sharesAmount,
   chainId,
   config,
 }: GemMinAmountOutOptionsParams) {
   return queryOptions({
-    queryKey: gemMinAmountOutQueryKey({ psmActions, gem, assetsToken, sharesAmount, chainId }),
+    queryKey: gemMinAmountOutQueryKey({ psmActions, gemDecimals, assetsTokenDecimals, sharesAmount, chainId }),
     queryFn: async () => {
       const vault = await readContract(config, {
         address: psmActions,
@@ -46,17 +45,17 @@ export function gemMinAmountOutQueryOptions({
         args: [toBigInt(sharesAmount)],
       })
 
-      return calculateGemMinAmountOut({ gem, assetsToken, assetsAmount })
+      return calculateGemMinAmountOut({ gemDecimals, assetsTokenDecimals, assetsAmount })
     },
   })
 }
 
 export function gemMinAmountOutQueryKey({
-  gem,
-  assetsToken,
+  gemDecimals,
+  assetsTokenDecimals,
   psmActions,
   sharesAmount,
   chainId,
 }: GemMinAmountOutKeyParams): unknown[] {
-  return ['gem-min-amount-out', gem, assetsToken, psmActions, sharesAmount, chainId]
+  return ['gem-min-amount-out', gemDecimals, assetsTokenDecimals, psmActions, sharesAmount, chainId]
 }

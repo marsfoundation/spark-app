@@ -29,7 +29,10 @@ export function UseWithdrawAndSwap({
   onTransactionSettled,
   enabled: _enabled = true,
 }: UseWithdrawAndSwapArgs): ReturnType<typeof useWrite> {
-  const gemConversionFactor = calculateGemConversionFactor({ gem, assetsToken })
+  const gemConversionFactor = calculateGemConversionFactor({
+    gemDecimals: gem.decimals,
+    assetsTokenDecimals: assetsToken.decimals,
+  })
 
   const client = useQueryClient()
   const wagmiConfig = useConfig()

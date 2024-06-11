@@ -1,17 +1,20 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { Token } from '@/domain/types/Token'
 import { toBigInt } from '@/utils/bigNumber'
 import BigNumber from 'bignumber.js'
 import { calculateGemConversionFactor } from '../../utils/calculateGemConversionFactor'
 
 export interface CalculateGemMinAmountOutParams {
-  gem: Token
-  assetsToken: Token
+  gemDecimals: number
+  assetsTokenDecimals: number
   assetsAmount: bigint
 }
 
-export function calculateGemMinAmountOut({ gem, assetsToken, assetsAmount }: CalculateGemMinAmountOutParams): bigint {
-  const gemConversionFactor = calculateGemConversionFactor({ gem, assetsToken })
+export function calculateGemMinAmountOut({
+  gemDecimals,
+  assetsTokenDecimals,
+  assetsAmount,
+}: CalculateGemMinAmountOutParams): bigint {
+  const gemConversionFactor = calculateGemConversionFactor({ gemDecimals, assetsTokenDecimals })
   const gemMinAmountOut = NormalizedUnitNumber(assetsAmount)
     .dividedBy(gemConversionFactor)
     .integerValue(BigNumber.ROUND_DOWN)

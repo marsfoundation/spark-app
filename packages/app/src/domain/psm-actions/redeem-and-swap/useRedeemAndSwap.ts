@@ -37,8 +37,8 @@ export function UseRedeemAndSwap({
   const sharesAmount = toBigInt(_sharesAmount)
   const { data: gemMinAmountOut } = useQuery(
     gemMinAmountOutQueryOptions({
-      gem,
-      assetsToken,
+      gemDecimals: gem.decimals,
+      assetsTokenDecimals: assetsToken.decimals,
       psmActions,
       sharesAmount: _sharesAmount,
       chainId,

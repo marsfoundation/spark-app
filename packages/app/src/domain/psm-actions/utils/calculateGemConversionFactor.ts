@@ -1,11 +1,13 @@
 import BigNumber from 'bignumber.js'
-import { Token } from '../../types/Token'
 
 interface calculateGemConversionFactorParams {
-  gem: Token
-  assetsToken: Token
+  gemDecimals: number
+  assetsTokenDecimals: number
 }
 
-export function calculateGemConversionFactor({ gem, assetsToken }: calculateGemConversionFactorParams): BigNumber {
-  return BigNumber(10).pow(assetsToken.decimals - gem.decimals)
+export function calculateGemConversionFactor({
+  gemDecimals,
+  assetsTokenDecimals,
+}: calculateGemConversionFactorParams): BigNumber {
+  return BigNumber(10).pow(assetsTokenDecimals - gemDecimals)
 }
