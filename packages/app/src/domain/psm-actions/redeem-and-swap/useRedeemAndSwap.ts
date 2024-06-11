@@ -2,13 +2,16 @@ import { psmActionsAbi } from '@/config/abis/psmActionsAbi'
 import { toBigInt } from '@/utils/bigNumber'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useAccount, useChainId, useConfig } from 'wagmi'
-import { ensureConfigTypes, useWrite } from '../hooks/useWrite'
-import { CheckedAddress } from '../types/CheckedAddress'
-import { BaseUnitNumber } from '../types/NumericValues'
-import { balances } from '../wallet/balances'
+import { ensureConfigTypes, useWrite } from '../../hooks/useWrite'
+import { CheckedAddress } from '../../types/CheckedAddress'
+import { BaseUnitNumber } from '../../types/NumericValues'
+import { Token } from '../../types/Token'
+import { balances } from '../../wallet/balances'
 import { gemMinAmountOutQueryOptions } from './gemMinAmountOutQuery'
 
 export interface UseRedeemAndSwapArgs {
+  gem: Token
+  assetsToken: Token
   psmActions: CheckedAddress
   sharesAmount: BaseUnitNumber
   onTransactionSettled?: () => void
@@ -17,7 +20,10 @@ export interface UseRedeemAndSwapArgs {
 
 // @note: Redeem a specified amount of `savingsToken` from the `savingsToken`
 // for `dai` and swap for `gem` in the PSM. Use this if you want to withdraw everything.
+// @note: Assumes PSM swap rate between `dai` and `gem` is 1:1.
 export function UseRedeemAndSwap({
+  gem,
+  assetsToken,
   psmActions,
   sharesAmount: _sharesAmount,
   onTransactionSettled,
@@ -30,7 +36,14 @@ export function UseRedeemAndSwap({
   const { address: receiver } = useAccount()
   const sharesAmount = toBigInt(_sharesAmount)
   const { data: gemMinAmountOut } = useQuery(
-    gemMinAmountOutQueryOptions({ psmActions, sharesAmount: _sharesAmount, chainId, config: wagmiConfig }),
+    gemMinAmountOutQueryOptions({
+      gem,
+      assetsToken,
+      psmActions,
+      sharesAmount: _sharesAmount,
+      chainId,
+      config: wagmiConfig,
+    }),
   )
 
   const config = ensureConfigTypes({

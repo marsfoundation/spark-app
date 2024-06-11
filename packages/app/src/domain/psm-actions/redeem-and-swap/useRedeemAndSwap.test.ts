@@ -1,6 +1,6 @@
 import { psmActionsAbi } from '@/config/abis/psmActionsAbi'
 import { BaseUnitNumber } from '@/domain/types/NumericValues'
-import { testAddresses } from '@/test/integration/constants'
+import { getMockToken, testAddresses } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
 import { setupHookRenderer } from '@/test/integration/setupHookRenderer'
 import { toBigInt } from '@/utils/bigNumber'
@@ -9,11 +9,13 @@ import { erc4626Abi } from 'viem'
 import { mainnet } from 'viem/chains'
 import { UseRedeemAndSwap } from './useRedeemAndSwap'
 
+const gem = getMockToken({ address: testAddresses.token, decimals: 6 })
+const assetsToken = getMockToken({ address: testAddresses.token2, decimals: 18 })
 const account = testAddresses.alice
 const sharesAmount = BaseUnitNumber(1)
-const savingsToken = testAddresses.token2
-const psmActions = testAddresses.token
-const gemMinAmountOut = BaseUnitNumber(1)
+const savingsToken = testAddresses.token3
+const psmActions = testAddresses.token4
+const assetsAmount = BaseUnitNumber(1e18)
 
 const hookRenderer = setupHookRenderer({
   hook: UseRedeemAndSwap,
@@ -32,10 +34,12 @@ const hookRenderer = setupHookRenderer({
       abi: erc4626Abi,
       functionName: 'convertToAssets',
       args: [toBigInt(sharesAmount)],
-      result: toBigInt(gemMinAmountOut),
+      result: toBigInt(assetsAmount),
     }),
   ],
   args: {
+    gem,
+    assetsToken,
     sharesAmount,
     psmActions,
   },
@@ -51,7 +55,7 @@ describe(UseRedeemAndSwap.name, () => {
   })
 
   it('is not enabled for 0 gem value', async () => {
-    const { result } = hookRenderer({ args: { sharesAmount: BaseUnitNumber(0), psmActions } })
+    const { result } = hookRenderer({ args: { sharesAmount: BaseUnitNumber(0), psmActions, gem, assetsToken } })
 
     await waitFor(() => {
       expect(result.current.status.kind).toBe('disabled')
@@ -59,7 +63,7 @@ describe(UseRedeemAndSwap.name, () => {
   })
 
   it('is not enabled when explicitly disabled', async () => {
-    const { result } = hookRenderer({ args: { enabled: false, sharesAmount, psmActions } })
+    const { result } = hookRenderer({ args: { enabled: false, sharesAmount, psmActions, gem, assetsToken } })
 
     await waitFor(() => {
       expect(result.current.status.kind).toBe('disabled')
@@ -69,6 +73,8 @@ describe(UseRedeemAndSwap.name, () => {
   it('redeems using psm actions', async () => {
     const { result } = hookRenderer({
       args: {
+        gem,
+        assetsToken,
         sharesAmount,
         psmActions,
       },
@@ -77,7 +83,7 @@ describe(UseRedeemAndSwap.name, () => {
           to: psmActions,
           abi: psmActionsAbi,
           functionName: 'redeemAndSwap',
-          args: [account, toBigInt(sharesAmount), toBigInt(gemMinAmountOut)],
+          args: [account, toBigInt(sharesAmount), toBigInt(assetsAmount.dividedBy(1e12))],
           from: account,
           result: 1n,
         }),
