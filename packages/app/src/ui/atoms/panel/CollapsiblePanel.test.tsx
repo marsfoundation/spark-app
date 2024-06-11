@@ -4,7 +4,7 @@ import { expectRenderingError } from '@/test/integration/renderError'
 
 import { CollapsiblePanel } from './CollapsiblePanel'
 
-describe(CollapsiblePanel.name, () => {
+describe(CollapsiblePanel.displayName!, () => {
   it('renders correctly', async () => {
     render(
       <CollapsiblePanel>

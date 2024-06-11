@@ -7,7 +7,7 @@ import { Panel } from './Panel'
 
 const queryClient = new QueryClient()
 
-describe(Panel.name, () => {
+describe(Panel.displayName!, () => {
   it('renders correctly', async () => {
     render(
       <QueryClientProvider client={queryClient}>
