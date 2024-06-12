@@ -6,7 +6,7 @@ import { setup } from '@/test/e2e/setup'
 import { setupFork } from '@/test/e2e/setupFork'
 import { test } from '@playwright/test'
 import { gnosis, mainnet } from 'viem/chains'
-import { SavingsDepositDialogPageObject } from './SavingsDepositDialog.PageObject'
+import { SavingsDialogPageObject } from '../common/e2e/SavingsDialog.PageObject'
 
 test.describe('Savings deposit dialog', () => {
   // The tests here are not independent.
@@ -32,7 +32,7 @@ test.describe('Savings deposit dialog', () => {
 
       await savingsPage.clickStartSavingButtonAction()
 
-      const depositDialog = new SavingsDepositDialogPageObject(page)
+      const depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
       await depositDialog.fillAmountAction(100)
 
       const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
@@ -68,7 +68,7 @@ test.describe('Savings deposit dialog', () => {
 
       await savingsPage.clickStartSavingButtonAction()
 
-      const depositDialog = new SavingsDepositDialogPageObject(page)
+      const depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
       await depositDialog.fillAmountAction(100)
 
       const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
@@ -104,7 +104,7 @@ test.describe('Savings deposit dialog', () => {
 
       await savingsPage.clickDepositButtonAction('USDC')
 
-      const depositDialog = new SavingsDepositDialogPageObject(page)
+      const depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
       await depositDialog.fillAmountAction(100)
 
       const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
@@ -141,7 +141,7 @@ test.describe('Savings deposit dialog', () => {
 
       await savingsPage.clickDepositButtonAction('USDC')
 
-      const depositDialog = new SavingsDepositDialogPageObject(page)
+      const depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
       await depositDialog.fillAmountAction(100)
 
       const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
@@ -179,7 +179,7 @@ test.describe('Savings deposit dialog', () => {
 
       await savingsPage.clickDepositButtonAction('USDC')
 
-      const depositDialog = new SavingsDepositDialogPageObject(page)
+      const depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
       const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
 
       await actionsContainer.setSlippageAction(expectedDefaultSlippage, 'button')
@@ -211,7 +211,7 @@ test.describe('Savings deposit dialog', () => {
 
       await savingsPage.clickDepositButtonAction('USDC')
 
-      const depositDialog = new SavingsDepositDialogPageObject(page)
+      const depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
       const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
 
       await actionsContainer.setSlippageAction(newSlippage, 'button')
@@ -243,7 +243,7 @@ test.describe('Savings deposit dialog', () => {
 
       await savingsPage.clickDepositButtonAction('USDC')
 
-      const depositDialog = new SavingsDepositDialogPageObject(page)
+      const depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
       const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
 
       await actionsContainer.setSlippageAction(newSlippage, 'input')
@@ -277,7 +277,7 @@ test.describe('Savings deposit dialog', () => {
 
         await savingsPage.clickDepositButtonAction('USDC')
 
-        const depositDialog = new SavingsDepositDialogPageObject(page)
+        const depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
         const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
 
         await actionsContainer.openSettingsDialogAction()
@@ -316,7 +316,7 @@ test.describe('Savings deposit dialog', () => {
 
         await savingsPage.clickDepositButtonAction('USDC')
 
-        const depositDialog = new SavingsDepositDialogPageObject(page)
+        const depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
         const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
 
         await actionsContainer.openSettingsDialogAction()
@@ -354,7 +354,7 @@ test.describe('Savings deposit dialog', () => {
 
         await savingsPage.clickDepositButtonAction('USDC')
 
-        const depositDialog = new SavingsDepositDialogPageObject(page)
+        const depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
         const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
 
         await actionsContainer.openSettingsDialogAction()
@@ -399,7 +399,7 @@ test.describe('Savings deposit dialog', () => {
 
       await savingsPage.clickDepositButtonAction('USDT')
 
-      const depositDialog = new SavingsDepositDialogPageObject(page)
+      const depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
       await depositDialog.fillAmountAction(10000)
 
       await depositDialog.expectDiscrepancyWarning('948.48 DAI')
@@ -427,7 +427,7 @@ test.describe('Savings deposit dialog', () => {
 
       await savingsPage.clickDepositButtonAction('USDT')
 
-      const depositDialog = new SavingsDepositDialogPageObject(page)
+      const depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
       await depositDialog.fillAmountAction(10000)
       await depositDialog.expectTransactionOverviewToBeVisible() // wait for lifi to load
 
@@ -467,7 +467,7 @@ test.describe('Savings deposit dialog', () => {
 
         await savingsPage.clickDepositButtonAction('DAI')
 
-        const depositDialog = new SavingsDepositDialogPageObject(page)
+        const depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
         const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
 
         await depositDialog.fillAmountAction(100)
@@ -541,7 +541,7 @@ test.describe('Savings deposit dialog', () => {
 
         await savingsPage.clickDepositButtonAction('XDAI')
 
-        const depositDialog = new SavingsDepositDialogPageObject(page)
+        const depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
         const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
 
         await depositDialog.fillAmountAction(100)

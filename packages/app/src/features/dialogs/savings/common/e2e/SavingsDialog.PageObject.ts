@@ -1,10 +1,10 @@
 import { testIds } from '@/ui/utils/testIds'
 import { Page, expect } from '@playwright/test'
-import { DialogPageObject } from '../../common/Dialog.PageObject'
+import { DialogPageObject } from '../../../common/Dialog.PageObject'
 
-export class SavingsDepositDialogPageObject extends DialogPageObject {
-  constructor(page: Page) {
-    super(page, /Deposit to Savings/)
+export class SavingsDialogPageObject extends DialogPageObject {
+  constructor({ page, type }: { page: Page; type: 'deposit' | 'withdraw' }) {
+    super(page, new RegExp(`${type === 'deposit' ? 'Deposit to' : 'Withdraw from'} Savings`))
   }
 
   // #region actions
