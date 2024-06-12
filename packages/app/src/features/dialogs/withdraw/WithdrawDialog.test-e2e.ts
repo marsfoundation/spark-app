@@ -33,7 +33,7 @@ test.describe('Withdraw dialog', () => {
       await setup(page, fork, {
         initialPage: 'easyBorrow',
         account: {
-          type: 'connected',
+          type: 'connected-random',
           assetBalances: { ...initialBalances },
         },
       })
@@ -139,7 +139,7 @@ test.describe('Withdraw dialog', () => {
       await setup(page, fork, {
         initialPage: 'easyBorrow',
         account: {
-          type: 'connected',
+          type: 'connected-random',
           assetBalances: { ...initialBalances },
         },
       })
@@ -199,7 +199,7 @@ test.describe('Withdraw dialog', () => {
       await setup(page, fork, {
         initialPage: 'easyBorrow',
         account: {
-          type: 'connected',
+          type: 'connected-random',
           assetBalances: { ...initialBalances },
         },
       })
@@ -292,7 +292,7 @@ test.describe('Withdraw dialog', () => {
       await setup(page, fork, {
         initialPage: 'easyBorrow',
         account: {
-          type: 'connected',
+          type: 'connected-random',
           assetBalances: { ...initialBalances },
         },
       })

@@ -30,7 +30,7 @@ test.describe('Navbar', () => {
       const { account } = await setup(page, fork, {
         initialPage: 'easyBorrow',
         account: {
-          type: 'connected',
+          type: 'connected-random',
         },
       })
 
@@ -46,7 +46,7 @@ test.describe('Navbar', () => {
       const { account } = await setup(page, fork, {
         initialPage: 'easyBorrow',
         account: {
-          type: 'connected',
+          type: 'connected-random',
         },
       })
 
@@ -60,7 +60,7 @@ test.describe('Navbar', () => {
       const { account } = await setup(page, fork, {
         initialPage: 'easyBorrow',
         account: {
-          type: 'connected',
+          type: 'connected-random',
         },
       })
 

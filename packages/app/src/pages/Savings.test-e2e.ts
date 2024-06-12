@@ -28,7 +28,7 @@ test.describe('Savings', () => {
     await setup(page, fork, {
       initialPage: 'savings',
       account: {
-        type: 'connected',
+        type: 'connected-random',
         assetBalances: {
           sDAI: 100,
         },
@@ -44,7 +44,7 @@ test.describe('Savings', () => {
     await setup(page, fork, {
       initialPage: 'savings',
       account: {
-        type: 'connected',
+        type: 'connected-random',
         assetBalances: {
           sDAI: 100,
         },
@@ -61,7 +61,7 @@ test.describe('Savings', () => {
     await setup(page, fork, {
       initialPage: 'savings',
       account: {
-        type: 'connected',
+        type: 'connected-random',
         assetBalances: {
           DAI: 100,
           USDC: 100,

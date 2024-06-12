@@ -85,7 +85,7 @@ test.describe('Market details', () => {
         initialPage: 'marketDetails',
         initialPageParams: { asset: WETH, chainId: fork.chainId.toString() },
         account: {
-          type: 'connected',
+          type: 'connected-random',
         },
       })
 
@@ -101,7 +101,7 @@ test.describe('Market details', () => {
         initialPage: 'marketDetails',
         initialPageParams: { asset: DAI, chainId: fork.chainId.toString() },
         account: {
-          type: 'connected',
+          type: 'connected-random',
         },
       })
 
@@ -117,7 +117,7 @@ test.describe('Market details', () => {
         initialPage: 'marketDetails',
         initialPageParams: { asset: DAI, chainId: fork.chainId.toString() },
         account: {
-          type: 'connected',
+          type: 'connected-random',
         },
       })
 
@@ -133,7 +133,7 @@ test.describe('Market details', () => {
       await setup(page, fork, {
         initialPage: 'easyBorrow',
         account: {
-          type: 'connected',
+          type: 'connected-random',
           assetBalances: {
             ...initialDeposits,
             DAI: 1000,
@@ -169,7 +169,7 @@ test.describe('Market details', () => {
       await setup(page, fork, {
         initialPage: 'easyBorrow',
         account: {
-          type: 'connected',
+          type: 'connected-random',
           assetBalances: {
             ...initialDeposits,
             WETH: 10,

@@ -16,7 +16,7 @@ test.describe('Deposit USDT on Mainnet', () => {
     await setup(page, fork, {
       initialPage: 'savings',
       account: {
-        type: 'connected',
+        type: 'connected-pkey',
         assetBalances: {
           ETH: 1,
           USDT: 10_000,

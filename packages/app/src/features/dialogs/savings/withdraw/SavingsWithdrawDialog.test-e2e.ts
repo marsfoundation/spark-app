@@ -19,7 +19,7 @@ test.describe('Savings withdraw dialog', () => {
       await setup(page, fork, {
         initialPage: 'savings',
         account: {
-          type: 'connected',
+          type: 'connected-pkey',
           assetBalances: {
             ETH: 1,
             sDAI: 1000,
@@ -56,7 +56,7 @@ test.describe('Savings withdraw dialog', () => {
       await setup(page, fork, {
         initialPage: 'savings',
         account: {
-          type: 'connected',
+          type: 'connected-pkey',
           assetBalances: {
             ETH: 1,
             sDAI: 1000,
@@ -92,7 +92,7 @@ test.describe('Savings withdraw dialog', () => {
       await setup(page, fork, {
         initialPage: 'savings',
         account: {
-          type: 'connected',
+          type: 'connected-pkey',
           assetBalances: {
             XDAI: 100,
             sDAI: 2000,
@@ -129,7 +129,7 @@ test.describe('Savings withdraw dialog', () => {
       await setup(page, fork, {
         initialPage: 'savings',
         account: {
-          type: 'connected',
+          type: 'connected-pkey',
           assetBalances: {
             ETH: 1,
             sDAI: 1000,
@@ -167,7 +167,7 @@ test.describe('Savings withdraw dialog', () => {
       await setup(page, fork, {
         initialPage: 'savings',
         account: {
-          type: 'connected',
+          type: 'connected-pkey',
           assetBalances: {
             ETH: 1,
             sDAI: 1000,
@@ -204,7 +204,7 @@ test.describe('Savings withdraw dialog', () => {
       await setup(page, fork, {
         initialPage: 'savings',
         account: {
-          type: 'connected',
+          type: 'connected-pkey',
           assetBalances: {
             XDAI: 100,
             sDAI: 1000,
@@ -242,7 +242,7 @@ test.describe('Savings withdraw dialog', () => {
       await setup(page, fork, {
         initialPage: 'savings',
         account: {
-          type: 'connected',
+          type: 'connected-pkey',
           assetBalances: {
             ETH: 1,
             sDAI: 100000,
@@ -270,7 +270,7 @@ test.describe('Savings withdraw dialog', () => {
       await setup(page, fork, {
         initialPage: 'savings',
         account: {
-          type: 'connected',
+          type: 'connected-pkey',
           assetBalances: {
             ETH: 1,
             sDAI: 100000,
@@ -309,7 +309,7 @@ test.describe('Savings withdraw dialog', () => {
         await setup(page, fork, {
           initialPage: 'savings',
           account: {
-            type: 'connected',
+            type: 'connected-pkey',
             assetBalances: {
               ETH: 1,
               sDAI: 1000,
@@ -382,7 +382,7 @@ test.describe('Savings withdraw dialog', () => {
         await setup(page, fork, {
           initialPage: 'savings',
           account: {
-            type: 'connected',
+            type: 'connected-pkey',
             assetBalances: {
               XDAI: 100,
               sDAI: 1000,

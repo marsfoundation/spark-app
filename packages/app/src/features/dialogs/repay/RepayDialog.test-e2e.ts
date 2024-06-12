@@ -35,7 +35,7 @@ test.describe('Repay dialog', () => {
       await setup(page, fork, {
         initialPage: 'easyBorrow',
         account: {
-          type: 'connected',
+          type: 'connected-random',
           assetBalances: { ...initialBalances },
         },
       })
@@ -231,7 +231,7 @@ test.describe('Repay dialog', () => {
       await setup(page, fork, {
         initialPage: 'easyBorrow',
         account: {
-          type: 'connected',
+          type: 'connected-random',
           assetBalances: { wstETH: 10_000 },
         },
       })
@@ -287,7 +287,7 @@ test.describe('Repay dialog', () => {
       await setup(page, fork, {
         initialPage: 'easyBorrow',
         account: {
-          type: 'connected',
+          type: 'connected-random',
           assetBalances: { ...initialBalances },
         },
       })
@@ -516,7 +516,7 @@ test.describe('Repay dialog', () => {
       await setup(page, fork, {
         initialPage: 'easyBorrow',
         account: {
-          type: 'connected',
+          type: 'connected-random',
           assetBalances: { ...initialBalances },
         },
       })
@@ -586,7 +586,7 @@ test.describe('Repay dialog', () => {
       await setup(page, fork, {
         initialPage: 'easyBorrow',
         account: {
-          type: 'connected',
+          type: 'connected-random',
           assetBalances: { ...initialBalances },
         },
       })
