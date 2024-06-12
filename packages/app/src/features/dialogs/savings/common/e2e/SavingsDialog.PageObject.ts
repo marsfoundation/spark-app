@@ -1,10 +1,13 @@
+import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { testIds } from '@/ui/utils/testIds'
 import { Page, expect } from '@playwright/test'
 import { DialogPageObject } from '../../../common/Dialog.PageObject'
 
 export class SavingsDialogPageObject extends DialogPageObject {
+  private readonly type: 'deposit' | 'withdraw'
   constructor({ page, type }: { page: Page; type: 'deposit' | 'withdraw' }) {
     super(page, new RegExp(`${type === 'deposit' ? 'Deposit to' : 'Withdraw from'} Savings`))
+    this.type = type
   }
 
   // #region actions
@@ -22,10 +25,12 @@ export class SavingsDialogPageObject extends DialogPageObject {
 
   // #region assertions
   async expectDiscrepancyWarning(discrepancy: string): Promise<void> {
+    const explanation =
+      this.type === 'deposit'
+        ? 'The final amount received may be less than the deposit amount by up to'
+        : 'You may be charged more than the withdraw amount by up to'
     await expect(
-      this.region.getByText(
-        `Market fluctuations can impact your transaction value. The final amount received may be less than the deposit amount by up to ${discrepancy}`,
-      ),
+      this.region.getByText(`Market fluctuations can impact your transaction value. ${explanation} ${discrepancy}`),
     ).toBeVisible()
   }
 
@@ -69,18 +74,25 @@ export class SavingsDialogPageObject extends DialogPageObject {
     await expect(outcome).toContainText(transactionOverview.outcome)
   }
 
-  async expectToUseNativeSDaiAction(nativeSDaiDepositParams: {
-    title: string
-    type: 'deposit' | 'withdraw'
+  async expectToUseNativeSDaiAction({
+    asset,
+    amount,
+  }: {
+    asset: string
+    amount: number
   }): Promise<void> {
-    const testId =
-      nativeSDaiDepositParams.type === 'deposit'
-        ? testIds.actions.flavours.nativeSDaiDepositActionRow.wrapper
-        : testIds.actions.flavours.nativeSDaiWithdrawActionRow.wrapper
-    const depositRow = this.locatePanelByHeader('Actions').getByTestId(testId)
-
-    await expect(depositRow).toBeVisible()
-    await expect(depositRow).toContainText(nativeSDaiDepositParams.title)
+    const actionsContainer = new ActionsPageObject(this.locatePanelByHeader('Actions'))
+    if (this.type === 'deposit') {
+      await actionsContainer.expectActions(
+        [
+          { type: 'approve', asset, amount },
+          { type: 'nativeSDaiDeposit', asset, amount },
+        ],
+        true,
+      )
+    } else {
+      await actionsContainer.expectActions([{ type: 'nativeSDaiWithdraw', asset, amount }], true)
+    }
   }
 
   async expectToUseLifiSwap(lifiSwapParams: LifiSwapParams): Promise<void> {

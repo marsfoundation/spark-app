@@ -31,11 +31,8 @@ test.describe('Deposit DAI on Mainnet', () => {
     await depositDialog.fillAmountAction(10_000)
   })
 
-  test('uses native sDai deposit', async ({ page, browser }) => {
-    await depositDialog.expectToUseNativeSDaiAction({
-      title: 'Wrap DAI into sDAI',
-      type: 'deposit',
-    })
+  test('uses native sDai deposit', async () => {
+    await depositDialog.expectToUseNativeSDaiAction({ asset: 'DAI', amount: 10_000 })
   })
 
   test('displays transaction overview', async () => {
