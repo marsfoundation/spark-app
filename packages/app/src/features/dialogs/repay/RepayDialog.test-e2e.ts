@@ -603,4 +603,33 @@ test.describe('Repay dialog', () => {
       await screenshot(page, 'repay-dialog-nothing-to-repay')
     })
   })
+
+  test.describe('FRO-731 repro (repay whole debt issues)', () => {
+    const fork = setupFork({ blockNumber: 20020805n, chainId: mainnet.id })
+
+    test('test', async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'easyBorrow',
+        account: {
+          type: 'connected-address',
+          address: '0x546fe421e6076e9ef573f839ece24d903af5a2e7',
+        },
+      })
+
+      const dashboardPage = new DashboardPageObject(page)
+      const repayDialog = new DialogPageObject(page, headerRegExp)
+      const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
+
+      await dashboardPage.goToDashboardAction()
+      await dashboardPage.clickRepayButtonAction('DAI')
+
+      await repayDialog.clickMaxAmountAction()
+
+      await repayDialog.expectRiskLevelBefore('Healthy')
+      await repayDialog.expectRiskLevelAfter('No debt')
+
+      await actionsContainer.acceptAllActionsAction(2)
+      await repayDialog.expectSuccessPage([{ asset: 'DAI', amount: 407.6006549746828 }], fork)
+    })
+  })
 })
