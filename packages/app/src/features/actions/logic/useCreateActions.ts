@@ -6,6 +6,7 @@ import { useContractAddress } from '@/domain/hooks/useContractAddress'
 import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
 import { BaseUnitNumber, NormalizedUnitNumber } from '@/domain/types/NumericValues'
 
+import { mainnet } from 'viem/chains'
 import { ApproveDelegationAction } from '../flavours/approve-delegation/types'
 import { ApproveExchangeAction } from '../flavours/approve-exchange/types'
 import { ApproveAction } from '../flavours/approve/types'
@@ -24,7 +25,6 @@ export function useCreateActions(objectives: Objective[]): Action[] {
   const chainId = useOriginChainId()
   const nativeAssetInfo = getNativeAssetInfo(chainId)
   const wethGateway = useContractAddress(wethGatewayAddress)
-  const psmActions = useContractAddress(psmActionsConfig.address)
 
   return objectives.flatMap((objective): Action[] => {
     // @note: you can create hooks (actions) conditionally, but ensure that component will be re-mounted when condition changes
@@ -168,7 +168,8 @@ export function useCreateActions(objectives: Objective[]): Action[] {
       }
 
       case 'nativeSDaiDeposit': {
-        const spender = objective.token.symbol === 'USDC' ? psmActions : objective.sDai.address
+        const spender =
+          objective.token.symbol === 'USDC' ? psmActionsConfig.address[mainnet.id] : objective.sDai.address
 
         const approveAction: ApproveAction = {
           type: 'approve',
