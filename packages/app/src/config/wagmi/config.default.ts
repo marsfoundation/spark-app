@@ -1,7 +1,7 @@
 import { getDefaultConfig } from '@rainbow-me/rainbowkit'
 import { http, Chain, Transport } from 'viem'
 import { gnosis, mainnet } from 'viem/chains'
-import { Config, createStorage, noopStorage } from 'wagmi'
+import { Config } from 'wagmi'
 
 import { SandboxNetwork } from '@/domain/state/sandbox'
 import { raise } from '@/utils/assert'
@@ -10,6 +10,7 @@ import { SUPPORTED_CHAINS } from '../chain/constants'
 import { SupportedChainId } from '../chain/types'
 import { VIEM_TIMEOUT_ON_FORKS } from './config.e2e'
 import { getWallets } from './getWallets'
+import { createWagmiStorage } from './storage'
 
 const wallets = getWallets()
 
@@ -23,39 +24,7 @@ export function getConfig(sandboxNetwork?: SandboxNetwork): Config {
     [gnosis.id]: http('https://rpc.ankr.com/gnosis'),
   }
 
-  const defaultStorage = createStorage({
-    storage: typeof window !== 'undefined' && window.localStorage ? window.localStorage : noopStorage,
-  })
-  const storage: typeof defaultStorage = {
-    ...defaultStorage,
-    getItem: async (key) => {
-      const originalValue = (await defaultStorage.getItem(key)) as any
-
-      if ((key as any) === 'store' && typeof originalValue === 'object') {
-        const persistedChainId = originalValue?.state?.chainId
-        const connections: Map<string, { chainId: number }> = originalValue?.state?.connections || new Map()
-
-        const filteredConnections = new Map(
-          [...connections.entries()].filter(([_, { chainId }]) => {
-            return SUPPORTED_CHAINS.some((chain) => chain.id === chainId)
-          }),
-        )
-        const newChainId = SUPPORTED_CHAINS.some((chain) => chain.id === persistedChainId)
-          ? persistedChainId
-          : mainnet.id
-
-        return {
-          ...originalValue,
-          state: {
-            ...originalValue?.state,
-            connections: filteredConnections,
-            chainId: newChainId,
-          },
-        } as any
-      }
-      return originalValue
-    },
-  }
+  const storage = createWagmiStorage()
 
   const config = getDefaultConfig({
     appName: 'Spark',
