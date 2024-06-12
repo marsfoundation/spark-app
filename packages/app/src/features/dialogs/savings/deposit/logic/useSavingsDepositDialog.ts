@@ -76,9 +76,10 @@ export function useSavingsDepositDialog({
   })
 
   const useNativeRoutes =
-    import.meta.env.VITE_DEV_NATIVE_ROUTES === '1' &&
-    originChainId === mainnet.id &&
-    (formValues.token.address === marketInfo.DAI.address || formValues.token.symbol === 'USDC')
+    (originChainId === mainnet.id &&
+      import.meta.env.VITE_DEV_DAI_NATIVE_ROUTES === '1' &&
+      formValues.token.address === marketInfo.DAI.address) ||
+    (import.meta.env.VITE_DEV_USDC_NATIVE_ROUTES === '1' && formValues.token.symbol === 'USDC')
 
   const { swapInfo, swapParams } = useDepositIntoSavings({
     formValues,

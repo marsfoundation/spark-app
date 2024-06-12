@@ -74,7 +74,7 @@ export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
   })
 
   const useNativeRoutes =
-    import.meta.env.VITE_DEV_NATIVE_ROUTES === '1' &&
+    import.meta.env.VITE_DEV_DAI_NATIVE_ROUTES === '1' &&
     originChainId === mainnet.id &&
     formValues.token.address === marketInfo.DAI.address
 
