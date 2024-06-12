@@ -65,7 +65,7 @@ export function getConfig(sandboxNetwork?: SandboxNetwork): Config {
       ? { ...transports, [forkChain.id]: http(forkChain.rpcUrls.default.http[0], { timeout: VIEM_TIMEOUT_ON_FORKS }) }
       : transports,
     wallets,
-    // storage,
+    storage,
   })
 
   return config

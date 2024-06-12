@@ -80,16 +80,22 @@ test.describe('Navbar', () => {
         account: {
           type: 'not-connected',
         },
-        injectNetworkConfiguration: false,
+        skipInjectingNetwork: true,
       })
       await page.evaluate(() => {
-        localStorage.setItem('wagmi.recentConnectorId', 'mock');
-        localStorage.setItem('wagmi.io.metamask.disconnected', 'true');
-        localStorage.setItem('wagmi.io.rabby.disconnected', 'true');
-        localStorage.setItem('zustand-app-store', JSON.stringify({"state":{},"sandbox":{}}));
-        localStorage.setItem('actionSettings', JSON.stringify({"preferPermits":true,"exchangeMaxSlippage":"0.001"}));
-        localStorage.setItem('compliance', JSON.stringify({"agreedToSAdresses":[]}));
-        localStorage.setItem('wagmi.store', JSON.stringify({"state":{"connections":{"_type":"Map","value":[]},"chainId":"30301713953503","current":null},"version":2}));
+        localStorage.setItem('wagmi.recentConnectorId', 'mock')
+        localStorage.setItem('wagmi.io.metamask.disconnected', 'true')
+        localStorage.setItem('wagmi.io.rabby.disconnected', 'true')
+        localStorage.setItem('zustand-app-store', JSON.stringify({ state: {}, sandbox: {} }))
+        localStorage.setItem('actionSettings', JSON.stringify({ preferPermits: true, exchangeMaxSlippage: '0.001' }))
+        localStorage.setItem('compliance', JSON.stringify({ agreedToSAdresses: [] }))
+        localStorage.setItem(
+          'wagmi.store',
+          JSON.stringify({
+            state: { connections: { _type: 'Map', value: [] }, chainId: '30301713953503', current: null },
+            version: 2,
+          }),
+        )
       })
 
       await page.reload()
