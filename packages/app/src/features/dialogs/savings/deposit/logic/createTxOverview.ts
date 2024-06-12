@@ -79,11 +79,15 @@ export function createMakerTxOverview({
   const sDAIValue = savingsInfo.convertDaiToShares({ dai: daiValue })
   const daiEarnRate = NormalizedUnitNumber(daiValue.multipliedBy(savingsInfo.apy))
   const route: RouteItem[] = [
-    ...(!isDaiDeposit ? [({
-      token: formValues.token,
-      value: daiValue,
-      usdValue: daiValue,
-    })] : []),
+    ...(!isDaiDeposit
+      ? [
+          {
+            token: formValues.token,
+            value: daiValue,
+            usdValue: daiValue,
+          },
+        ]
+      : []),
     {
       token: marketInfo.DAI,
       value: daiValue,

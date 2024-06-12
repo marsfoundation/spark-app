@@ -1,9 +1,9 @@
 import { useVaultDeposit } from '@/domain/tokenized-vault-operations/useVaultDeposit'
 
+import { useSwapAndDeposit } from '@/domain/psm-actions/useSwapAndDeposit'
 import { ActionHandler } from '../../logic/types'
 import { mapWriteResultToActionState } from '../../logic/utils'
 import { NativeSDaiDepositAction } from './types'
-import { useSwapAndDeposit } from '@/domain/psm-actions/useSwapAndDeposit'
 
 export interface UseCreateNativeSDaiDepositHandlerOptions {
   enabled: boolean
