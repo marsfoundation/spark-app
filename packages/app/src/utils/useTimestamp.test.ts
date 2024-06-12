@@ -2,6 +2,8 @@ import { act, waitFor } from '@testing-library/react'
 
 import { setupHookRenderer } from '@/test/integration/setupHookRenderer'
 
+import { afterEach } from 'node:test'
+import { vi } from 'vitest'
 import { useTimestamp } from './useTimestamp'
 
 const hookRenderer = setupHookRenderer({
@@ -14,13 +16,13 @@ describe('useTimestamp', () => {
   it('should return the current timestamp', async () => {
     const { result } = hookRenderer()
 
-    await waitFor(() => expect(result.current.timestamp).toBeGreaterThan(0))
+    expect(result.current.timestamp).toBeGreaterThan(0)
   })
 
   it('should return the current timestamp in milliseconds', async () => {
     const { result } = hookRenderer()
 
-    await waitFor(() => expect(result.current.timestampInMs).toBeGreaterThan(0))
+    expect(result.current.timestampInMs).toBeGreaterThan(0)
   })
 
   it('should not change the timestamp during the component lifecycle', async () => {
@@ -40,15 +42,19 @@ describe('useTimestamp', () => {
   })
 
   it('should update the timestamp after the specified refresh interval', async () => {
+    vi.useFakeTimers()
+
     const refreshIntervalInMs = 10
     const { result } = hookRenderer({ args: { refreshIntervalInMs } })
-
-    await waitFor(() => expect(result.current).toBeDefined())
     const { timestampInMs: initialTimestampInMs, timestamp: initialTimestamp } = result.current
 
-    await waitFor(() => {
-      expect(result.current.timestampInMs).toBeGreaterThan(initialTimestampInMs)
-      expect(result.current.timestamp).toBeGreaterThan(initialTimestamp)
-    })
+    await vi.advanceTimersByTimeAsync(2_000)
+
+    expect(result.current.timestampInMs).toBeGreaterThan(initialTimestampInMs)
+    expect(result.current.timestamp).toBeGreaterThan(initialTimestamp)
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
   })
 })
