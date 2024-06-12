@@ -20,7 +20,7 @@ export interface UseWithdrawAndSwapArgs {
 // @note: Withdraw a specified amount of output `gem` with a maximum limit of `savingsToken` (in DAI units).
 // Use this if you want an exact amount of `gem` tokens out. IE pay someone 10k exactly.
 // @note: Assumes PSM swap rate between `dai` and `gem` is 1:1.
-export function UseWithdrawAndSwap({
+export function useWithdrawAndSwap({
   gem,
   assetsToken,
   gemAmountOut: _gemAmountOut,

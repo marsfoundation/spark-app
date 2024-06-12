@@ -1,6 +1,9 @@
 import { useVaultWithdraw } from '@/domain/tokenized-vault-operations/useVaultWithdraw'
 
+import { useRedeemAndSwap } from '@/domain/psm-actions/redeem-and-swap/useRedeemAndSwap'
+import { useWithdrawAndSwap } from '@/domain/psm-actions/useWithdrawAndSwap'
 import { useVaultRedeem } from '@/domain/tokenized-vault-operations/useVaultRedeem'
+import { BaseUnitNumber } from '@/domain/types/NumericValues'
 import { ActionHandler } from '../../logic/types'
 import { mapWriteResultToActionState } from '../../logic/utils'
 import { NativeSDaiWithdrawAction } from './types'
@@ -15,19 +18,38 @@ export function useCreateNativeSDaiWithdrawHandler(
   options: UseCreateNativeSDaiWithdrawHandlerOptions,
 ): ActionHandler {
   const { enabled, onFinish } = options
+  const isUSDCWithdraw = action.token.symbol === 'USDC'
 
-  const withdraw = useVaultWithdraw({
+  const daiWithdraw = useVaultWithdraw({
     vault: action.sDai.address,
-    assetsAmount: action.token.toBaseUnit(action.value),
-    enabled: enabled && action.method === 'withdraw',
+    assetsAmount: action.method === 'withdraw' ? action.token.toBaseUnit(action.value) : BaseUnitNumber(0),
+    enabled: enabled && action.method === 'withdraw' && !isUSDCWithdraw,
     onTransactionSettled: onFinish,
   })
-  const redeem = useVaultRedeem({
+  const daiRedeem = useVaultRedeem({
     vault: action.sDai.address,
-    sharesAmount: action.sDai.toBaseUnit(action.value),
-    enabled: enabled && action.method === 'redeem',
+    sharesAmount: action.method === 'redeem' ? action.sDai.toBaseUnit(action.value) : BaseUnitNumber(0),
+    enabled: enabled && action.method === 'redeem' && !isUSDCWithdraw,
     onTransactionSettled: onFinish,
   })
+
+  const usdcWithdraw = useWithdrawAndSwap({
+    assetsToken: action.sDai,
+    gem: action.token,
+    gemAmountOut: action.method === 'withdraw' ? action.token.toBaseUnit(action.value) : BaseUnitNumber(0),
+    enabled: enabled && action.method === 'withdraw' && isUSDCWithdraw,
+    onTransactionSettled: onFinish,
+  })
+  const usdcRedeem = useRedeemAndSwap({
+    assetsToken: action.sDai,
+    gem: action.token,
+    sharesAmount: action.method === 'redeem' ? action.sDai.toBaseUnit(action.value) : BaseUnitNumber(0),
+    enabled: enabled && action.method === 'redeem' && isUSDCWithdraw,
+    onTransactionSettled: onFinish,
+  })
+
+  const withdraw = isUSDCWithdraw ? usdcWithdraw : daiWithdraw
+  const redeem = isUSDCWithdraw ? usdcRedeem : daiRedeem
 
   const hookResult = action.method === 'withdraw' ? withdraw : redeem
 

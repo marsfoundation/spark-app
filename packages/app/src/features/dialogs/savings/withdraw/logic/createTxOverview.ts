@@ -72,6 +72,8 @@ export function createMakerTxOverview({
   savingsInfo,
   walletInfo,
 }: CreateMakerTxOverviewParams): SavingsDialogTxOverviewMaker {
+  const isDaiWithdraw = formValues.token.address === marketInfo.DAI.address
+
   const [daiValue, sDAIValue] = (() => {
     if (formValues.isMaxSelected) {
       const sDAIValue = walletInfo.findWalletBalanceForToken(marketInfo.sDAI)
@@ -100,6 +102,15 @@ export function createMakerTxOverview({
       value: daiValue,
       usdValue: daiValue,
     },
+    ...(!isDaiWithdraw
+      ? [
+          {
+            token: formValues.token,
+            value: daiValue,
+            usdValue: daiValue,
+          },
+        ]
+      : []),
   ]
 
   return {
