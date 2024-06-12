@@ -30,7 +30,12 @@ export const chainlogAbi = [
     anonymous: false,
     inputs: [
       { name: 'key', internalType: 'bytes32', type: 'bytes32', indexed: false },
-      { name: 'addr', internalType: 'address', type: 'address', indexed: false },
+      {
+        name: 'addr',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
     ],
     name: 'UpdateAddress',
   },
@@ -43,13 +48,27 @@ export const chainlogAbi = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'sha256sum', internalType: 'string', type: 'string', indexed: false }],
+    inputs: [
+      {
+        name: 'sha256sum',
+        internalType: 'string',
+        type: 'string',
+        indexed: false,
+      },
+    ],
     name: 'UpdateSha256sum',
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'version', internalType: 'string', type: 'string', indexed: false }],
+    inputs: [
+      {
+        name: 'version',
+        internalType: 'string',
+        type: 'string',
+        indexed: false,
+      },
+    ],
     name: 'UpdateVersion',
   },
   {
@@ -182,7 +201,10 @@ export const chainlogAddress = {
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdA0Ab1e0017DEbCd72Be8599041a2aa3bA7e740F)
  */
-export const chainlogConfig = { address: chainlogAddress, abi: chainlogAbi } as const
+export const chainlogConfig = {
+  address: chainlogAddress,
+  abi: chainlogAbi,
+} as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Collector
@@ -197,15 +219,32 @@ export const collectorAbi = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'previousAdmin', internalType: 'address', type: 'address', indexed: false },
-      { name: 'newAdmin', internalType: 'address', type: 'address', indexed: false },
+      {
+        name: 'previousAdmin',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+      {
+        name: 'newAdmin',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
     ],
     name: 'AdminChanged',
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'implementation', internalType: 'address', type: 'address', indexed: true }],
+    inputs: [
+      {
+        name: 'implementation',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
     name: 'Upgraded',
   },
   { type: 'fallback', stateMutability: 'payable' },
@@ -283,7 +322,10 @@ export const collectorAddress = {
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xb137E7d16564c81ae2b0C8ee6B55De81dd46ECe5)
  * - [__View Contract on Gnosis Gnosisscan__](https://gnosisscan.io/address/0xb9E6DBFa4De19CCed908BcbFe1d015190678AB5f)
  */
-export const collectorConfig = { address: collectorAddress, abi: collectorAbi } as const
+export const collectorConfig = {
+  address: collectorAddress,
+  abi: collectorAbi,
+} as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // IAMAutoLine
@@ -309,8 +351,18 @@ export const iamAutoLineAbi = [
     anonymous: false,
     inputs: [
       { name: 'ilk', internalType: 'bytes32', type: 'bytes32', indexed: true },
-      { name: 'line', internalType: 'uint256', type: 'uint256', indexed: false },
-      { name: 'lineNew', internalType: 'uint256', type: 'uint256', indexed: false },
+      {
+        name: 'line',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'lineNew',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
     ],
     name: 'Exec',
   },
@@ -331,7 +383,12 @@ export const iamAutoLineAbi = [
     anonymous: false,
     inputs: [
       { name: 'ilk', internalType: 'bytes32', type: 'bytes32', indexed: true },
-      { name: 'line', internalType: 'uint256', type: 'uint256', indexed: false },
+      {
+        name: 'line',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
       { name: 'gap', internalType: 'uint256', type: 'uint256', indexed: false },
       { name: 'ttl', internalType: 'uint256', type: 'uint256', indexed: false },
     ],
@@ -416,7 +473,10 @@ export const iamAutoLineAddress = {
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xC7Bdd1F2B16447dcf3dE045C4a039A60EC2f0ba3)
  */
-export const iamAutoLineConfig = { address: iamAutoLineAddress, abi: iamAutoLineAbi } as const
+export const iamAutoLineConfig = {
+  address: iamAutoLineAddress,
+  abi: iamAutoLineAbi,
+} as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // LendingPool
@@ -435,7 +495,14 @@ export const lendingPoolAbi = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'implementation', internalType: 'address', type: 'address', indexed: true }],
+    inputs: [
+      {
+        name: 'implementation',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
     name: 'Upgraded',
   },
   { type: 'fallback', stateMutability: 'payable' },
@@ -495,7 +562,10 @@ export const lendingPoolAddress = {
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xC13e21B648A5Ee794902342038FF3aDAB66BE987)
  * - [__View Contract on Gnosis Gnosisscan__](https://gnosisscan.io/address/0x2Dae5307c5E3FD1CF5A72Cb6F698f915860607e0)
  */
-export const lendingPoolConfig = { address: lendingPoolAddress, abi: lendingPoolAbi } as const
+export const lendingPoolConfig = {
+  address: lendingPoolAddress,
+  abi: lendingPoolAbi,
+} as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // LendingPoolAddressProvider
@@ -518,8 +588,18 @@ export const lendingPoolAddressProviderAbi = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'oldAddress', internalType: 'address', type: 'address', indexed: true },
-      { name: 'newAddress', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'oldAddress',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newAddress',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
     ],
     name: 'ACLAdminUpdated',
   },
@@ -527,8 +607,18 @@ export const lendingPoolAddressProviderAbi = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'oldAddress', internalType: 'address', type: 'address', indexed: true },
-      { name: 'newAddress', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'oldAddress',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newAddress',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
     ],
     name: 'ACLManagerUpdated',
   },
@@ -537,8 +627,18 @@ export const lendingPoolAddressProviderAbi = [
     anonymous: false,
     inputs: [
       { name: 'id', internalType: 'bytes32', type: 'bytes32', indexed: true },
-      { name: 'oldAddress', internalType: 'address', type: 'address', indexed: true },
-      { name: 'newAddress', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'oldAddress',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newAddress',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
     ],
     name: 'AddressSet',
   },
@@ -547,9 +647,24 @@ export const lendingPoolAddressProviderAbi = [
     anonymous: false,
     inputs: [
       { name: 'id', internalType: 'bytes32', type: 'bytes32', indexed: true },
-      { name: 'proxyAddress', internalType: 'address', type: 'address', indexed: true },
-      { name: 'oldImplementationAddress', internalType: 'address', type: 'address', indexed: false },
-      { name: 'newImplementationAddress', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'proxyAddress',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'oldImplementationAddress',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+      {
+        name: 'newImplementationAddress',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
     ],
     name: 'AddressSetAsProxy',
   },
@@ -557,8 +672,18 @@ export const lendingPoolAddressProviderAbi = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'oldMarketId', internalType: 'string', type: 'string', indexed: true },
-      { name: 'newMarketId', internalType: 'string', type: 'string', indexed: true },
+      {
+        name: 'oldMarketId',
+        internalType: 'string',
+        type: 'string',
+        indexed: true,
+      },
+      {
+        name: 'newMarketId',
+        internalType: 'string',
+        type: 'string',
+        indexed: true,
+      },
     ],
     name: 'MarketIdSet',
   },
@@ -566,8 +691,18 @@ export const lendingPoolAddressProviderAbi = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'previousOwner', internalType: 'address', type: 'address', indexed: true },
-      { name: 'newOwner', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'previousOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
     ],
     name: 'OwnershipTransferred',
   },
@@ -575,8 +710,18 @@ export const lendingPoolAddressProviderAbi = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'oldAddress', internalType: 'address', type: 'address', indexed: true },
-      { name: 'newAddress', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'oldAddress',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newAddress',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
     ],
     name: 'PoolConfiguratorUpdated',
   },
@@ -584,8 +729,18 @@ export const lendingPoolAddressProviderAbi = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'oldAddress', internalType: 'address', type: 'address', indexed: true },
-      { name: 'newAddress', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'oldAddress',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newAddress',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
     ],
     name: 'PoolDataProviderUpdated',
   },
@@ -593,8 +748,18 @@ export const lendingPoolAddressProviderAbi = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'oldAddress', internalType: 'address', type: 'address', indexed: true },
-      { name: 'newAddress', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'oldAddress',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newAddress',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
     ],
     name: 'PoolUpdated',
   },
@@ -602,8 +767,18 @@ export const lendingPoolAddressProviderAbi = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'oldAddress', internalType: 'address', type: 'address', indexed: true },
-      { name: 'newAddress', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'oldAddress',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newAddress',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
     ],
     name: 'PriceOracleSentinelUpdated',
   },
@@ -611,8 +786,18 @@ export const lendingPoolAddressProviderAbi = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'oldAddress', internalType: 'address', type: 'address', indexed: true },
-      { name: 'newAddress', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'oldAddress',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newAddress',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
     ],
     name: 'PriceOracleUpdated',
   },
@@ -621,8 +806,18 @@ export const lendingPoolAddressProviderAbi = [
     anonymous: false,
     inputs: [
       { name: 'id', internalType: 'bytes32', type: 'bytes32', indexed: true },
-      { name: 'proxyAddress', internalType: 'address', type: 'address', indexed: true },
-      { name: 'implementationAddress', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'proxyAddress',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'implementationAddress',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
     ],
     name: 'ProxyCreated',
   },
@@ -696,7 +891,13 @@ export const lendingPoolAddressProviderAbi = [
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
     stateMutability: 'view',
   },
-  { type: 'function', inputs: [], name: 'renounceOwnership', outputs: [], stateMutability: 'nonpayable' },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'renounceOwnership',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
   {
     type: 'function',
     inputs: [{ name: 'newAclAdmin', internalType: 'address', type: 'address' }],
@@ -725,7 +926,11 @@ export const lendingPoolAddressProviderAbi = [
     type: 'function',
     inputs: [
       { name: 'id', internalType: 'bytes32', type: 'bytes32' },
-      { name: 'newImplementationAddress', internalType: 'address', type: 'address' },
+      {
+        name: 'newImplementationAddress',
+        internalType: 'address',
+        type: 'address',
+      },
     ],
     name: 'setAddressAsProxy',
     outputs: [],
@@ -740,7 +945,13 @@ export const lendingPoolAddressProviderAbi = [
   },
   {
     type: 'function',
-    inputs: [{ name: 'newPoolConfiguratorImpl', internalType: 'address', type: 'address' }],
+    inputs: [
+      {
+        name: 'newPoolConfiguratorImpl',
+        internalType: 'address',
+        type: 'address',
+      },
+    ],
     name: 'setPoolConfiguratorImpl',
     outputs: [],
     stateMutability: 'nonpayable',
@@ -768,7 +979,13 @@ export const lendingPoolAddressProviderAbi = [
   },
   {
     type: 'function',
-    inputs: [{ name: 'newPriceOracleSentinel', internalType: 'address', type: 'address' }],
+    inputs: [
+      {
+        name: 'newPriceOracleSentinel',
+        internalType: 'address',
+        type: 'address',
+      },
+    ],
     name: 'setPriceOracleSentinel',
     outputs: [],
     stateMutability: 'nonpayable',
@@ -798,6 +1015,100 @@ export const lendingPoolAddressProviderAddress = {
 export const lendingPoolAddressProviderConfig = {
   address: lendingPoolAddressProviderAddress,
   abi: lendingPoolAddressProviderAbi,
+} as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// PSMActions
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x52d298Ff9e77E71C2EB1992260520E7b15257d99)
+ */
+export const psmActionsAbi = [
+  {
+    type: 'constructor',
+    inputs: [
+      { name: '_psm', internalType: 'address', type: 'address' },
+      { name: '_savingsToken', internalType: 'address', type: 'address' },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'dai',
+    outputs: [{ name: '', internalType: 'contract IERC20', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'gem',
+    outputs: [{ name: '', internalType: 'contract IERC20', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'psm',
+    outputs: [{ name: '', internalType: 'contract PSMVariant1Like', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'receiver', internalType: 'address', type: 'address' },
+      { name: 'shares', internalType: 'uint256', type: 'uint256' },
+      { name: 'minAmountOut', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'redeemAndSwap',
+    outputs: [{ name: 'amountOut', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'savingsToken',
+    outputs: [{ name: '', internalType: 'contract IERC4626', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'receiver', internalType: 'address', type: 'address' },
+      { name: 'amountIn', internalType: 'uint256', type: 'uint256' },
+      { name: 'minAmountOut', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'swapAndDeposit',
+    outputs: [{ name: 'amountOut', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'receiver', internalType: 'address', type: 'address' },
+      { name: 'amountOut', internalType: 'uint256', type: 'uint256' },
+      { name: 'maxAmountIn', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'withdrawAndSwap',
+    outputs: [{ name: 'amountIn', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+] as const
+
+/**
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x52d298Ff9e77E71C2EB1992260520E7b15257d99)
+ */
+export const psmActionsAddress = {
+  1: '0x52d298Ff9e77E71C2EB1992260520E7b15257d99',
+} as const
+
+/**
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x52d298Ff9e77E71C2EB1992260520E7b15257d99)
+ */
+export const psmActionsConfig = {
+  address: psmActionsAddress,
+  abi: psmActionsAbi,
 } as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1019,9 +1330,24 @@ export const savingsDaiAbi = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
-      { name: 'spender', internalType: 'address', type: 'address', indexed: true },
-      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false },
+      {
+        name: 'owner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'spender',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'value',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
     ],
     name: 'Approval',
   },
@@ -1029,10 +1355,30 @@ export const savingsDaiAbi = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'sender', internalType: 'address', type: 'address', indexed: true },
-      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
-      { name: 'assets', internalType: 'uint256', type: 'uint256', indexed: false },
-      { name: 'shares', internalType: 'uint256', type: 'uint256', indexed: false },
+      {
+        name: 'sender',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'owner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'assets',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'shares',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
     ],
     name: 'Deposit',
   },
@@ -1042,7 +1388,12 @@ export const savingsDaiAbi = [
     inputs: [
       { name: 'from', internalType: 'address', type: 'address', indexed: true },
       { name: 'to', internalType: 'address', type: 'address', indexed: true },
-      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false },
+      {
+        name: 'value',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
     ],
     name: 'Transfer',
   },
@@ -1050,11 +1401,36 @@ export const savingsDaiAbi = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'sender', internalType: 'address', type: 'address', indexed: true },
-      { name: 'receiver', internalType: 'address', type: 'address', indexed: true },
-      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
-      { name: 'assets', internalType: 'uint256', type: 'uint256', indexed: false },
-      { name: 'shares', internalType: 'uint256', type: 'uint256', indexed: false },
+      {
+        name: 'sender',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'receiver',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'owner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'assets',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'shares',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
     ],
     name: 'Withdraw',
   },
@@ -1383,7 +1759,10 @@ export const savingsDaiAddress = {
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x83f20f44975d03b1b09e64809b757c47f942beea)
  */
-export const savingsDaiConfig = { address: savingsDaiAddress, abi: savingsDaiAbi } as const
+export const savingsDaiConfig = {
+  address: savingsDaiAddress,
+  abi: savingsDaiAbi,
+} as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // SavingsXDai
@@ -1401,7 +1780,11 @@ export const savingsXDaiAbi = [
     ],
     stateMutability: 'nonpayable',
   },
-  { type: 'error', inputs: [{ name: 'target', internalType: 'address', type: 'address' }], name: 'AddressEmptyCode' },
+  {
+    type: 'error',
+    inputs: [{ name: 'target', internalType: 'address', type: 'address' }],
+    name: 'AddressEmptyCode',
+  },
   {
     type: 'error',
     inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
@@ -1444,7 +1827,11 @@ export const savingsXDaiAbi = [
     inputs: [{ name: 'receiver', internalType: 'address', type: 'address' }],
     name: 'ERC20InvalidReceiver',
   },
-  { type: 'error', inputs: [{ name: 'sender', internalType: 'address', type: 'address' }], name: 'ERC20InvalidSender' },
+  {
+    type: 'error',
+    inputs: [{ name: 'sender', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidSender',
+  },
   {
     type: 'error',
     inputs: [{ name: 'spender', internalType: 'address', type: 'address' }],
@@ -1515,14 +1902,33 @@ export const savingsXDaiAbi = [
     inputs: [{ name: 'token', internalType: 'address', type: 'address' }],
     name: 'SafeERC20FailedOperation',
   },
-  { type: 'error', inputs: [{ name: 'str', internalType: 'string', type: 'string' }], name: 'StringTooLong' },
+  {
+    type: 'error',
+    inputs: [{ name: 'str', internalType: 'string', type: 'string' }],
+    name: 'StringTooLong',
+  },
   {
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
-      { name: 'spender', internalType: 'address', type: 'address', indexed: true },
-      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false },
+      {
+        name: 'owner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'spender',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'value',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
     ],
     name: 'Approval',
   },
@@ -1530,10 +1936,30 @@ export const savingsXDaiAbi = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'sender', internalType: 'address', type: 'address', indexed: true },
-      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
-      { name: 'assets', internalType: 'uint256', type: 'uint256', indexed: false },
-      { name: 'shares', internalType: 'uint256', type: 'uint256', indexed: false },
+      {
+        name: 'sender',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'owner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'assets',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'shares',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
     ],
     name: 'Deposit',
   },
@@ -1544,7 +1970,12 @@ export const savingsXDaiAbi = [
     inputs: [
       { name: 'from', internalType: 'address', type: 'address', indexed: true },
       { name: 'to', internalType: 'address', type: 'address', indexed: true },
-      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false },
+      {
+        name: 'value',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
     ],
     name: 'Transfer',
   },
@@ -1552,11 +1983,36 @@ export const savingsXDaiAbi = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'sender', internalType: 'address', type: 'address', indexed: true },
-      { name: 'receiver', internalType: 'address', type: 'address', indexed: true },
-      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
-      { name: 'assets', internalType: 'uint256', type: 'uint256', indexed: false },
-      { name: 'shares', internalType: 'uint256', type: 'uint256', indexed: false },
+      {
+        name: 'sender',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'receiver',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'owner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'assets',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'shares',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
     ],
     name: 'Withdraw',
   },
@@ -1880,7 +2336,10 @@ export const savingsXDaiAddress = {
 /**
  * [__View Contract on Gnosis Gnosisscan__](https://gnosisscan.io/address/0xaf204776c7245bF4147c2612BF6e5972Ee483701)
  */
-export const savingsXDaiConfig = { address: savingsXDaiAddress, abi: savingsXDaiAbi } as const
+export const savingsXDaiConfig = {
+  address: savingsXDaiAddress,
+  abi: savingsXDaiAbi,
+} as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // SavingsXDaiAdapter
@@ -1919,7 +2378,13 @@ export const savingsXDaiAdapterAbi = [
     type: 'function',
     inputs: [],
     name: 'interestReceiver',
-    outputs: [{ name: '', internalType: 'contract IBridgeInterestReceiver', type: 'address' }],
+    outputs: [
+      {
+        name: '',
+        internalType: 'contract IBridgeInterestReceiver',
+        type: 'address',
+      },
+    ],
     stateMutability: 'view',
   },
   {
@@ -2020,7 +2485,10 @@ export const savingsXDaiAdapterAddress = {
 /**
  * [__View Contract on Gnosis Gnosisscan__](https://gnosisscan.io/address/0xD499b51fcFc66bd31248ef4b28d656d67E591A94)
  */
-export const savingsXDaiAdapterConfig = { address: savingsXDaiAdapterAddress, abi: savingsXDaiAdapterAbi } as const
+export const savingsXDaiAdapterConfig = {
+  address: savingsXDaiAdapterAddress,
+  abi: savingsXDaiAdapterAbi,
+} as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // UiIncentiveDataProvider
@@ -2034,7 +2502,11 @@ export const uiIncentiveDataProviderAbi = [
   {
     type: 'function',
     inputs: [
-      { name: 'provider', internalType: 'contract IPoolAddressesProvider', type: 'address' },
+      {
+        name: 'provider',
+        internalType: 'contract IPoolAddressesProvider',
+        type: 'address',
+      },
       { name: 'user', internalType: 'address', type: 'address' },
     ],
     name: 'getFullReservesIncentiveData',
@@ -2050,24 +2522,72 @@ export const uiIncentiveDataProviderAbi = [
             internalType: 'struct IUiIncentiveDataProviderV3.IncentiveData',
             type: 'tuple',
             components: [
-              { name: 'tokenAddress', internalType: 'address', type: 'address' },
-              { name: 'incentiveControllerAddress', internalType: 'address', type: 'address' },
+              {
+                name: 'tokenAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'incentiveControllerAddress',
+                internalType: 'address',
+                type: 'address',
+              },
               {
                 name: 'rewardsTokenInformation',
                 internalType: 'struct IUiIncentiveDataProviderV3.RewardInfo[]',
                 type: 'tuple[]',
                 components: [
-                  { name: 'rewardTokenSymbol', internalType: 'string', type: 'string' },
-                  { name: 'rewardTokenAddress', internalType: 'address', type: 'address' },
-                  { name: 'rewardOracleAddress', internalType: 'address', type: 'address' },
-                  { name: 'emissionPerSecond', internalType: 'uint256', type: 'uint256' },
-                  { name: 'incentivesLastUpdateTimestamp', internalType: 'uint256', type: 'uint256' },
-                  { name: 'tokenIncentivesIndex', internalType: 'uint256', type: 'uint256' },
-                  { name: 'emissionEndTimestamp', internalType: 'uint256', type: 'uint256' },
-                  { name: 'rewardPriceFeed', internalType: 'int256', type: 'int256' },
-                  { name: 'rewardTokenDecimals', internalType: 'uint8', type: 'uint8' },
+                  {
+                    name: 'rewardTokenSymbol',
+                    internalType: 'string',
+                    type: 'string',
+                  },
+                  {
+                    name: 'rewardTokenAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'rewardOracleAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'emissionPerSecond',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'incentivesLastUpdateTimestamp',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'tokenIncentivesIndex',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'emissionEndTimestamp',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'rewardPriceFeed',
+                    internalType: 'int256',
+                    type: 'int256',
+                  },
+                  {
+                    name: 'rewardTokenDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
                   { name: 'precision', internalType: 'uint8', type: 'uint8' },
-                  { name: 'priceFeedDecimals', internalType: 'uint8', type: 'uint8' },
+                  {
+                    name: 'priceFeedDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
                 ],
               },
             ],
@@ -2077,24 +2597,72 @@ export const uiIncentiveDataProviderAbi = [
             internalType: 'struct IUiIncentiveDataProviderV3.IncentiveData',
             type: 'tuple',
             components: [
-              { name: 'tokenAddress', internalType: 'address', type: 'address' },
-              { name: 'incentiveControllerAddress', internalType: 'address', type: 'address' },
+              {
+                name: 'tokenAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'incentiveControllerAddress',
+                internalType: 'address',
+                type: 'address',
+              },
               {
                 name: 'rewardsTokenInformation',
                 internalType: 'struct IUiIncentiveDataProviderV3.RewardInfo[]',
                 type: 'tuple[]',
                 components: [
-                  { name: 'rewardTokenSymbol', internalType: 'string', type: 'string' },
-                  { name: 'rewardTokenAddress', internalType: 'address', type: 'address' },
-                  { name: 'rewardOracleAddress', internalType: 'address', type: 'address' },
-                  { name: 'emissionPerSecond', internalType: 'uint256', type: 'uint256' },
-                  { name: 'incentivesLastUpdateTimestamp', internalType: 'uint256', type: 'uint256' },
-                  { name: 'tokenIncentivesIndex', internalType: 'uint256', type: 'uint256' },
-                  { name: 'emissionEndTimestamp', internalType: 'uint256', type: 'uint256' },
-                  { name: 'rewardPriceFeed', internalType: 'int256', type: 'int256' },
-                  { name: 'rewardTokenDecimals', internalType: 'uint8', type: 'uint8' },
+                  {
+                    name: 'rewardTokenSymbol',
+                    internalType: 'string',
+                    type: 'string',
+                  },
+                  {
+                    name: 'rewardTokenAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'rewardOracleAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'emissionPerSecond',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'incentivesLastUpdateTimestamp',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'tokenIncentivesIndex',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'emissionEndTimestamp',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'rewardPriceFeed',
+                    internalType: 'int256',
+                    type: 'int256',
+                  },
+                  {
+                    name: 'rewardTokenDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
                   { name: 'precision', internalType: 'uint8', type: 'uint8' },
-                  { name: 'priceFeedDecimals', internalType: 'uint8', type: 'uint8' },
+                  {
+                    name: 'priceFeedDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
                 ],
               },
             ],
@@ -2104,24 +2672,72 @@ export const uiIncentiveDataProviderAbi = [
             internalType: 'struct IUiIncentiveDataProviderV3.IncentiveData',
             type: 'tuple',
             components: [
-              { name: 'tokenAddress', internalType: 'address', type: 'address' },
-              { name: 'incentiveControllerAddress', internalType: 'address', type: 'address' },
+              {
+                name: 'tokenAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'incentiveControllerAddress',
+                internalType: 'address',
+                type: 'address',
+              },
               {
                 name: 'rewardsTokenInformation',
                 internalType: 'struct IUiIncentiveDataProviderV3.RewardInfo[]',
                 type: 'tuple[]',
                 components: [
-                  { name: 'rewardTokenSymbol', internalType: 'string', type: 'string' },
-                  { name: 'rewardTokenAddress', internalType: 'address', type: 'address' },
-                  { name: 'rewardOracleAddress', internalType: 'address', type: 'address' },
-                  { name: 'emissionPerSecond', internalType: 'uint256', type: 'uint256' },
-                  { name: 'incentivesLastUpdateTimestamp', internalType: 'uint256', type: 'uint256' },
-                  { name: 'tokenIncentivesIndex', internalType: 'uint256', type: 'uint256' },
-                  { name: 'emissionEndTimestamp', internalType: 'uint256', type: 'uint256' },
-                  { name: 'rewardPriceFeed', internalType: 'int256', type: 'int256' },
-                  { name: 'rewardTokenDecimals', internalType: 'uint8', type: 'uint8' },
+                  {
+                    name: 'rewardTokenSymbol',
+                    internalType: 'string',
+                    type: 'string',
+                  },
+                  {
+                    name: 'rewardTokenAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'rewardOracleAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'emissionPerSecond',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'incentivesLastUpdateTimestamp',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'tokenIncentivesIndex',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'emissionEndTimestamp',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'rewardPriceFeed',
+                    internalType: 'int256',
+                    type: 'int256',
+                  },
+                  {
+                    name: 'rewardTokenDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
                   { name: 'precision', internalType: 'uint8', type: 'uint8' },
-                  { name: 'priceFeedDecimals', internalType: 'uint8', type: 'uint8' },
+                  {
+                    name: 'priceFeedDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
                 ],
               },
             ],
@@ -2139,21 +2755,61 @@ export const uiIncentiveDataProviderAbi = [
             internalType: 'struct IUiIncentiveDataProviderV3.UserIncentiveData',
             type: 'tuple',
             components: [
-              { name: 'tokenAddress', internalType: 'address', type: 'address' },
-              { name: 'incentiveControllerAddress', internalType: 'address', type: 'address' },
+              {
+                name: 'tokenAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'incentiveControllerAddress',
+                internalType: 'address',
+                type: 'address',
+              },
               {
                 name: 'userRewardsInformation',
                 internalType: 'struct IUiIncentiveDataProviderV3.UserRewardInfo[]',
                 type: 'tuple[]',
                 components: [
-                  { name: 'rewardTokenSymbol', internalType: 'string', type: 'string' },
-                  { name: 'rewardOracleAddress', internalType: 'address', type: 'address' },
-                  { name: 'rewardTokenAddress', internalType: 'address', type: 'address' },
-                  { name: 'userUnclaimedRewards', internalType: 'uint256', type: 'uint256' },
-                  { name: 'tokenIncentivesUserIndex', internalType: 'uint256', type: 'uint256' },
-                  { name: 'rewardPriceFeed', internalType: 'int256', type: 'int256' },
-                  { name: 'priceFeedDecimals', internalType: 'uint8', type: 'uint8' },
-                  { name: 'rewardTokenDecimals', internalType: 'uint8', type: 'uint8' },
+                  {
+                    name: 'rewardTokenSymbol',
+                    internalType: 'string',
+                    type: 'string',
+                  },
+                  {
+                    name: 'rewardOracleAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'rewardTokenAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'userUnclaimedRewards',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'tokenIncentivesUserIndex',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'rewardPriceFeed',
+                    internalType: 'int256',
+                    type: 'int256',
+                  },
+                  {
+                    name: 'priceFeedDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                  {
+                    name: 'rewardTokenDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
                 ],
               },
             ],
@@ -2163,21 +2819,61 @@ export const uiIncentiveDataProviderAbi = [
             internalType: 'struct IUiIncentiveDataProviderV3.UserIncentiveData',
             type: 'tuple',
             components: [
-              { name: 'tokenAddress', internalType: 'address', type: 'address' },
-              { name: 'incentiveControllerAddress', internalType: 'address', type: 'address' },
+              {
+                name: 'tokenAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'incentiveControllerAddress',
+                internalType: 'address',
+                type: 'address',
+              },
               {
                 name: 'userRewardsInformation',
                 internalType: 'struct IUiIncentiveDataProviderV3.UserRewardInfo[]',
                 type: 'tuple[]',
                 components: [
-                  { name: 'rewardTokenSymbol', internalType: 'string', type: 'string' },
-                  { name: 'rewardOracleAddress', internalType: 'address', type: 'address' },
-                  { name: 'rewardTokenAddress', internalType: 'address', type: 'address' },
-                  { name: 'userUnclaimedRewards', internalType: 'uint256', type: 'uint256' },
-                  { name: 'tokenIncentivesUserIndex', internalType: 'uint256', type: 'uint256' },
-                  { name: 'rewardPriceFeed', internalType: 'int256', type: 'int256' },
-                  { name: 'priceFeedDecimals', internalType: 'uint8', type: 'uint8' },
-                  { name: 'rewardTokenDecimals', internalType: 'uint8', type: 'uint8' },
+                  {
+                    name: 'rewardTokenSymbol',
+                    internalType: 'string',
+                    type: 'string',
+                  },
+                  {
+                    name: 'rewardOracleAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'rewardTokenAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'userUnclaimedRewards',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'tokenIncentivesUserIndex',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'rewardPriceFeed',
+                    internalType: 'int256',
+                    type: 'int256',
+                  },
+                  {
+                    name: 'priceFeedDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                  {
+                    name: 'rewardTokenDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
                 ],
               },
             ],
@@ -2187,21 +2883,61 @@ export const uiIncentiveDataProviderAbi = [
             internalType: 'struct IUiIncentiveDataProviderV3.UserIncentiveData',
             type: 'tuple',
             components: [
-              { name: 'tokenAddress', internalType: 'address', type: 'address' },
-              { name: 'incentiveControllerAddress', internalType: 'address', type: 'address' },
+              {
+                name: 'tokenAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'incentiveControllerAddress',
+                internalType: 'address',
+                type: 'address',
+              },
               {
                 name: 'userRewardsInformation',
                 internalType: 'struct IUiIncentiveDataProviderV3.UserRewardInfo[]',
                 type: 'tuple[]',
                 components: [
-                  { name: 'rewardTokenSymbol', internalType: 'string', type: 'string' },
-                  { name: 'rewardOracleAddress', internalType: 'address', type: 'address' },
-                  { name: 'rewardTokenAddress', internalType: 'address', type: 'address' },
-                  { name: 'userUnclaimedRewards', internalType: 'uint256', type: 'uint256' },
-                  { name: 'tokenIncentivesUserIndex', internalType: 'uint256', type: 'uint256' },
-                  { name: 'rewardPriceFeed', internalType: 'int256', type: 'int256' },
-                  { name: 'priceFeedDecimals', internalType: 'uint8', type: 'uint8' },
-                  { name: 'rewardTokenDecimals', internalType: 'uint8', type: 'uint8' },
+                  {
+                    name: 'rewardTokenSymbol',
+                    internalType: 'string',
+                    type: 'string',
+                  },
+                  {
+                    name: 'rewardOracleAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'rewardTokenAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'userUnclaimedRewards',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'tokenIncentivesUserIndex',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'rewardPriceFeed',
+                    internalType: 'int256',
+                    type: 'int256',
+                  },
+                  {
+                    name: 'priceFeedDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                  {
+                    name: 'rewardTokenDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
                 ],
               },
             ],
@@ -2213,7 +2949,13 @@ export const uiIncentiveDataProviderAbi = [
   },
   {
     type: 'function',
-    inputs: [{ name: 'provider', internalType: 'contract IPoolAddressesProvider', type: 'address' }],
+    inputs: [
+      {
+        name: 'provider',
+        internalType: 'contract IPoolAddressesProvider',
+        type: 'address',
+      },
+    ],
     name: 'getReservesIncentivesData',
     outputs: [
       {
@@ -2227,24 +2969,72 @@ export const uiIncentiveDataProviderAbi = [
             internalType: 'struct IUiIncentiveDataProviderV3.IncentiveData',
             type: 'tuple',
             components: [
-              { name: 'tokenAddress', internalType: 'address', type: 'address' },
-              { name: 'incentiveControllerAddress', internalType: 'address', type: 'address' },
+              {
+                name: 'tokenAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'incentiveControllerAddress',
+                internalType: 'address',
+                type: 'address',
+              },
               {
                 name: 'rewardsTokenInformation',
                 internalType: 'struct IUiIncentiveDataProviderV3.RewardInfo[]',
                 type: 'tuple[]',
                 components: [
-                  { name: 'rewardTokenSymbol', internalType: 'string', type: 'string' },
-                  { name: 'rewardTokenAddress', internalType: 'address', type: 'address' },
-                  { name: 'rewardOracleAddress', internalType: 'address', type: 'address' },
-                  { name: 'emissionPerSecond', internalType: 'uint256', type: 'uint256' },
-                  { name: 'incentivesLastUpdateTimestamp', internalType: 'uint256', type: 'uint256' },
-                  { name: 'tokenIncentivesIndex', internalType: 'uint256', type: 'uint256' },
-                  { name: 'emissionEndTimestamp', internalType: 'uint256', type: 'uint256' },
-                  { name: 'rewardPriceFeed', internalType: 'int256', type: 'int256' },
-                  { name: 'rewardTokenDecimals', internalType: 'uint8', type: 'uint8' },
+                  {
+                    name: 'rewardTokenSymbol',
+                    internalType: 'string',
+                    type: 'string',
+                  },
+                  {
+                    name: 'rewardTokenAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'rewardOracleAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'emissionPerSecond',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'incentivesLastUpdateTimestamp',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'tokenIncentivesIndex',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'emissionEndTimestamp',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'rewardPriceFeed',
+                    internalType: 'int256',
+                    type: 'int256',
+                  },
+                  {
+                    name: 'rewardTokenDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
                   { name: 'precision', internalType: 'uint8', type: 'uint8' },
-                  { name: 'priceFeedDecimals', internalType: 'uint8', type: 'uint8' },
+                  {
+                    name: 'priceFeedDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
                 ],
               },
             ],
@@ -2254,24 +3044,72 @@ export const uiIncentiveDataProviderAbi = [
             internalType: 'struct IUiIncentiveDataProviderV3.IncentiveData',
             type: 'tuple',
             components: [
-              { name: 'tokenAddress', internalType: 'address', type: 'address' },
-              { name: 'incentiveControllerAddress', internalType: 'address', type: 'address' },
+              {
+                name: 'tokenAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'incentiveControllerAddress',
+                internalType: 'address',
+                type: 'address',
+              },
               {
                 name: 'rewardsTokenInformation',
                 internalType: 'struct IUiIncentiveDataProviderV3.RewardInfo[]',
                 type: 'tuple[]',
                 components: [
-                  { name: 'rewardTokenSymbol', internalType: 'string', type: 'string' },
-                  { name: 'rewardTokenAddress', internalType: 'address', type: 'address' },
-                  { name: 'rewardOracleAddress', internalType: 'address', type: 'address' },
-                  { name: 'emissionPerSecond', internalType: 'uint256', type: 'uint256' },
-                  { name: 'incentivesLastUpdateTimestamp', internalType: 'uint256', type: 'uint256' },
-                  { name: 'tokenIncentivesIndex', internalType: 'uint256', type: 'uint256' },
-                  { name: 'emissionEndTimestamp', internalType: 'uint256', type: 'uint256' },
-                  { name: 'rewardPriceFeed', internalType: 'int256', type: 'int256' },
-                  { name: 'rewardTokenDecimals', internalType: 'uint8', type: 'uint8' },
+                  {
+                    name: 'rewardTokenSymbol',
+                    internalType: 'string',
+                    type: 'string',
+                  },
+                  {
+                    name: 'rewardTokenAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'rewardOracleAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'emissionPerSecond',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'incentivesLastUpdateTimestamp',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'tokenIncentivesIndex',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'emissionEndTimestamp',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'rewardPriceFeed',
+                    internalType: 'int256',
+                    type: 'int256',
+                  },
+                  {
+                    name: 'rewardTokenDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
                   { name: 'precision', internalType: 'uint8', type: 'uint8' },
-                  { name: 'priceFeedDecimals', internalType: 'uint8', type: 'uint8' },
+                  {
+                    name: 'priceFeedDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
                 ],
               },
             ],
@@ -2281,24 +3119,72 @@ export const uiIncentiveDataProviderAbi = [
             internalType: 'struct IUiIncentiveDataProviderV3.IncentiveData',
             type: 'tuple',
             components: [
-              { name: 'tokenAddress', internalType: 'address', type: 'address' },
-              { name: 'incentiveControllerAddress', internalType: 'address', type: 'address' },
+              {
+                name: 'tokenAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'incentiveControllerAddress',
+                internalType: 'address',
+                type: 'address',
+              },
               {
                 name: 'rewardsTokenInformation',
                 internalType: 'struct IUiIncentiveDataProviderV3.RewardInfo[]',
                 type: 'tuple[]',
                 components: [
-                  { name: 'rewardTokenSymbol', internalType: 'string', type: 'string' },
-                  { name: 'rewardTokenAddress', internalType: 'address', type: 'address' },
-                  { name: 'rewardOracleAddress', internalType: 'address', type: 'address' },
-                  { name: 'emissionPerSecond', internalType: 'uint256', type: 'uint256' },
-                  { name: 'incentivesLastUpdateTimestamp', internalType: 'uint256', type: 'uint256' },
-                  { name: 'tokenIncentivesIndex', internalType: 'uint256', type: 'uint256' },
-                  { name: 'emissionEndTimestamp', internalType: 'uint256', type: 'uint256' },
-                  { name: 'rewardPriceFeed', internalType: 'int256', type: 'int256' },
-                  { name: 'rewardTokenDecimals', internalType: 'uint8', type: 'uint8' },
+                  {
+                    name: 'rewardTokenSymbol',
+                    internalType: 'string',
+                    type: 'string',
+                  },
+                  {
+                    name: 'rewardTokenAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'rewardOracleAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'emissionPerSecond',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'incentivesLastUpdateTimestamp',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'tokenIncentivesIndex',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'emissionEndTimestamp',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'rewardPriceFeed',
+                    internalType: 'int256',
+                    type: 'int256',
+                  },
+                  {
+                    name: 'rewardTokenDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
                   { name: 'precision', internalType: 'uint8', type: 'uint8' },
-                  { name: 'priceFeedDecimals', internalType: 'uint8', type: 'uint8' },
+                  {
+                    name: 'priceFeedDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
                 ],
               },
             ],
@@ -2311,7 +3197,11 @@ export const uiIncentiveDataProviderAbi = [
   {
     type: 'function',
     inputs: [
-      { name: 'provider', internalType: 'contract IPoolAddressesProvider', type: 'address' },
+      {
+        name: 'provider',
+        internalType: 'contract IPoolAddressesProvider',
+        type: 'address',
+      },
       { name: 'user', internalType: 'address', type: 'address' },
     ],
     name: 'getUserReservesIncentivesData',
@@ -2327,21 +3217,61 @@ export const uiIncentiveDataProviderAbi = [
             internalType: 'struct IUiIncentiveDataProviderV3.UserIncentiveData',
             type: 'tuple',
             components: [
-              { name: 'tokenAddress', internalType: 'address', type: 'address' },
-              { name: 'incentiveControllerAddress', internalType: 'address', type: 'address' },
+              {
+                name: 'tokenAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'incentiveControllerAddress',
+                internalType: 'address',
+                type: 'address',
+              },
               {
                 name: 'userRewardsInformation',
                 internalType: 'struct IUiIncentiveDataProviderV3.UserRewardInfo[]',
                 type: 'tuple[]',
                 components: [
-                  { name: 'rewardTokenSymbol', internalType: 'string', type: 'string' },
-                  { name: 'rewardOracleAddress', internalType: 'address', type: 'address' },
-                  { name: 'rewardTokenAddress', internalType: 'address', type: 'address' },
-                  { name: 'userUnclaimedRewards', internalType: 'uint256', type: 'uint256' },
-                  { name: 'tokenIncentivesUserIndex', internalType: 'uint256', type: 'uint256' },
-                  { name: 'rewardPriceFeed', internalType: 'int256', type: 'int256' },
-                  { name: 'priceFeedDecimals', internalType: 'uint8', type: 'uint8' },
-                  { name: 'rewardTokenDecimals', internalType: 'uint8', type: 'uint8' },
+                  {
+                    name: 'rewardTokenSymbol',
+                    internalType: 'string',
+                    type: 'string',
+                  },
+                  {
+                    name: 'rewardOracleAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'rewardTokenAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'userUnclaimedRewards',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'tokenIncentivesUserIndex',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'rewardPriceFeed',
+                    internalType: 'int256',
+                    type: 'int256',
+                  },
+                  {
+                    name: 'priceFeedDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                  {
+                    name: 'rewardTokenDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
                 ],
               },
             ],
@@ -2351,21 +3281,61 @@ export const uiIncentiveDataProviderAbi = [
             internalType: 'struct IUiIncentiveDataProviderV3.UserIncentiveData',
             type: 'tuple',
             components: [
-              { name: 'tokenAddress', internalType: 'address', type: 'address' },
-              { name: 'incentiveControllerAddress', internalType: 'address', type: 'address' },
+              {
+                name: 'tokenAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'incentiveControllerAddress',
+                internalType: 'address',
+                type: 'address',
+              },
               {
                 name: 'userRewardsInformation',
                 internalType: 'struct IUiIncentiveDataProviderV3.UserRewardInfo[]',
                 type: 'tuple[]',
                 components: [
-                  { name: 'rewardTokenSymbol', internalType: 'string', type: 'string' },
-                  { name: 'rewardOracleAddress', internalType: 'address', type: 'address' },
-                  { name: 'rewardTokenAddress', internalType: 'address', type: 'address' },
-                  { name: 'userUnclaimedRewards', internalType: 'uint256', type: 'uint256' },
-                  { name: 'tokenIncentivesUserIndex', internalType: 'uint256', type: 'uint256' },
-                  { name: 'rewardPriceFeed', internalType: 'int256', type: 'int256' },
-                  { name: 'priceFeedDecimals', internalType: 'uint8', type: 'uint8' },
-                  { name: 'rewardTokenDecimals', internalType: 'uint8', type: 'uint8' },
+                  {
+                    name: 'rewardTokenSymbol',
+                    internalType: 'string',
+                    type: 'string',
+                  },
+                  {
+                    name: 'rewardOracleAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'rewardTokenAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'userUnclaimedRewards',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'tokenIncentivesUserIndex',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'rewardPriceFeed',
+                    internalType: 'int256',
+                    type: 'int256',
+                  },
+                  {
+                    name: 'priceFeedDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                  {
+                    name: 'rewardTokenDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
                 ],
               },
             ],
@@ -2375,21 +3345,61 @@ export const uiIncentiveDataProviderAbi = [
             internalType: 'struct IUiIncentiveDataProviderV3.UserIncentiveData',
             type: 'tuple',
             components: [
-              { name: 'tokenAddress', internalType: 'address', type: 'address' },
-              { name: 'incentiveControllerAddress', internalType: 'address', type: 'address' },
+              {
+                name: 'tokenAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'incentiveControllerAddress',
+                internalType: 'address',
+                type: 'address',
+              },
               {
                 name: 'userRewardsInformation',
                 internalType: 'struct IUiIncentiveDataProviderV3.UserRewardInfo[]',
                 type: 'tuple[]',
                 components: [
-                  { name: 'rewardTokenSymbol', internalType: 'string', type: 'string' },
-                  { name: 'rewardOracleAddress', internalType: 'address', type: 'address' },
-                  { name: 'rewardTokenAddress', internalType: 'address', type: 'address' },
-                  { name: 'userUnclaimedRewards', internalType: 'uint256', type: 'uint256' },
-                  { name: 'tokenIncentivesUserIndex', internalType: 'uint256', type: 'uint256' },
-                  { name: 'rewardPriceFeed', internalType: 'int256', type: 'int256' },
-                  { name: 'priceFeedDecimals', internalType: 'uint8', type: 'uint8' },
-                  { name: 'rewardTokenDecimals', internalType: 'uint8', type: 'uint8' },
+                  {
+                    name: 'rewardTokenSymbol',
+                    internalType: 'string',
+                    type: 'string',
+                  },
+                  {
+                    name: 'rewardOracleAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'rewardTokenAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'userUnclaimedRewards',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'tokenIncentivesUserIndex',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'rewardPriceFeed',
+                    internalType: 'int256',
+                    type: 'int256',
+                  },
+                  {
+                    name: 'priceFeedDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                  {
+                    name: 'rewardTokenDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
                 ],
               },
             ],
@@ -2467,7 +3477,13 @@ export const uiPoolDataProviderAbi = [
   },
   {
     type: 'function',
-    inputs: [{ name: 'provider', internalType: 'contract IPoolAddressesProvider', type: 'address' }],
+    inputs: [
+      {
+        name: 'provider',
+        internalType: 'contract IPoolAddressesProvider',
+        type: 'address',
+      },
+    ],
     name: 'getReservesData',
     outputs: [
       {
@@ -2479,54 +3495,178 @@ export const uiPoolDataProviderAbi = [
           { name: 'name', internalType: 'string', type: 'string' },
           { name: 'symbol', internalType: 'string', type: 'string' },
           { name: 'decimals', internalType: 'uint256', type: 'uint256' },
-          { name: 'baseLTVasCollateral', internalType: 'uint256', type: 'uint256' },
-          { name: 'reserveLiquidationThreshold', internalType: 'uint256', type: 'uint256' },
-          { name: 'reserveLiquidationBonus', internalType: 'uint256', type: 'uint256' },
+          {
+            name: 'baseLTVasCollateral',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'reserveLiquidationThreshold',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'reserveLiquidationBonus',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
           { name: 'reserveFactor', internalType: 'uint256', type: 'uint256' },
-          { name: 'usageAsCollateralEnabled', internalType: 'bool', type: 'bool' },
+          {
+            name: 'usageAsCollateralEnabled',
+            internalType: 'bool',
+            type: 'bool',
+          },
           { name: 'borrowingEnabled', internalType: 'bool', type: 'bool' },
-          { name: 'stableBorrowRateEnabled', internalType: 'bool', type: 'bool' },
+          {
+            name: 'stableBorrowRateEnabled',
+            internalType: 'bool',
+            type: 'bool',
+          },
           { name: 'isActive', internalType: 'bool', type: 'bool' },
           { name: 'isFrozen', internalType: 'bool', type: 'bool' },
           { name: 'liquidityIndex', internalType: 'uint128', type: 'uint128' },
-          { name: 'variableBorrowIndex', internalType: 'uint128', type: 'uint128' },
+          {
+            name: 'variableBorrowIndex',
+            internalType: 'uint128',
+            type: 'uint128',
+          },
           { name: 'liquidityRate', internalType: 'uint128', type: 'uint128' },
-          { name: 'variableBorrowRate', internalType: 'uint128', type: 'uint128' },
-          { name: 'stableBorrowRate', internalType: 'uint128', type: 'uint128' },
-          { name: 'lastUpdateTimestamp', internalType: 'uint40', type: 'uint40' },
+          {
+            name: 'variableBorrowRate',
+            internalType: 'uint128',
+            type: 'uint128',
+          },
+          {
+            name: 'stableBorrowRate',
+            internalType: 'uint128',
+            type: 'uint128',
+          },
+          {
+            name: 'lastUpdateTimestamp',
+            internalType: 'uint40',
+            type: 'uint40',
+          },
           { name: 'aTokenAddress', internalType: 'address', type: 'address' },
-          { name: 'stableDebtTokenAddress', internalType: 'address', type: 'address' },
-          { name: 'variableDebtTokenAddress', internalType: 'address', type: 'address' },
-          { name: 'interestRateStrategyAddress', internalType: 'address', type: 'address' },
-          { name: 'availableLiquidity', internalType: 'uint256', type: 'uint256' },
-          { name: 'totalPrincipalStableDebt', internalType: 'uint256', type: 'uint256' },
-          { name: 'averageStableRate', internalType: 'uint256', type: 'uint256' },
-          { name: 'stableDebtLastUpdateTimestamp', internalType: 'uint256', type: 'uint256' },
-          { name: 'totalScaledVariableDebt', internalType: 'uint256', type: 'uint256' },
-          { name: 'priceInMarketReferenceCurrency', internalType: 'uint256', type: 'uint256' },
+          {
+            name: 'stableDebtTokenAddress',
+            internalType: 'address',
+            type: 'address',
+          },
+          {
+            name: 'variableDebtTokenAddress',
+            internalType: 'address',
+            type: 'address',
+          },
+          {
+            name: 'interestRateStrategyAddress',
+            internalType: 'address',
+            type: 'address',
+          },
+          {
+            name: 'availableLiquidity',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'totalPrincipalStableDebt',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'averageStableRate',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'stableDebtLastUpdateTimestamp',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'totalScaledVariableDebt',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'priceInMarketReferenceCurrency',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
           { name: 'priceOracle', internalType: 'address', type: 'address' },
-          { name: 'variableRateSlope1', internalType: 'uint256', type: 'uint256' },
-          { name: 'variableRateSlope2', internalType: 'uint256', type: 'uint256' },
-          { name: 'stableRateSlope1', internalType: 'uint256', type: 'uint256' },
-          { name: 'stableRateSlope2', internalType: 'uint256', type: 'uint256' },
-          { name: 'baseStableBorrowRate', internalType: 'uint256', type: 'uint256' },
-          { name: 'baseVariableBorrowRate', internalType: 'uint256', type: 'uint256' },
-          { name: 'optimalUsageRatio', internalType: 'uint256', type: 'uint256' },
+          {
+            name: 'variableRateSlope1',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'variableRateSlope2',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'stableRateSlope1',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'stableRateSlope2',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'baseStableBorrowRate',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'baseVariableBorrowRate',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'optimalUsageRatio',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
           { name: 'isPaused', internalType: 'bool', type: 'bool' },
           { name: 'isSiloedBorrowing', internalType: 'bool', type: 'bool' },
-          { name: 'accruedToTreasury', internalType: 'uint128', type: 'uint128' },
+          {
+            name: 'accruedToTreasury',
+            internalType: 'uint128',
+            type: 'uint128',
+          },
           { name: 'unbacked', internalType: 'uint128', type: 'uint128' },
-          { name: 'isolationModeTotalDebt', internalType: 'uint128', type: 'uint128' },
+          {
+            name: 'isolationModeTotalDebt',
+            internalType: 'uint128',
+            type: 'uint128',
+          },
           { name: 'flashLoanEnabled', internalType: 'bool', type: 'bool' },
           { name: 'debtCeiling', internalType: 'uint256', type: 'uint256' },
-          { name: 'debtCeilingDecimals', internalType: 'uint256', type: 'uint256' },
+          {
+            name: 'debtCeilingDecimals',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
           { name: 'eModeCategoryId', internalType: 'uint8', type: 'uint8' },
           { name: 'borrowCap', internalType: 'uint256', type: 'uint256' },
           { name: 'supplyCap', internalType: 'uint256', type: 'uint256' },
           { name: 'eModeLtv', internalType: 'uint16', type: 'uint16' },
-          { name: 'eModeLiquidationThreshold', internalType: 'uint16', type: 'uint16' },
-          { name: 'eModeLiquidationBonus', internalType: 'uint16', type: 'uint16' },
-          { name: 'eModePriceSource', internalType: 'address', type: 'address' },
+          {
+            name: 'eModeLiquidationThreshold',
+            internalType: 'uint16',
+            type: 'uint16',
+          },
+          {
+            name: 'eModeLiquidationBonus',
+            internalType: 'uint16',
+            type: 'uint16',
+          },
+          {
+            name: 'eModePriceSource',
+            internalType: 'address',
+            type: 'address',
+          },
           { name: 'eModeLabel', internalType: 'string', type: 'string' },
           { name: 'borrowableInIsolation', internalType: 'bool', type: 'bool' },
         ],
@@ -2536,10 +3676,26 @@ export const uiPoolDataProviderAbi = [
         internalType: 'struct IUiPoolDataProviderV3.BaseCurrencyInfo',
         type: 'tuple',
         components: [
-          { name: 'marketReferenceCurrencyUnit', internalType: 'uint256', type: 'uint256' },
-          { name: 'marketReferenceCurrencyPriceInUsd', internalType: 'int256', type: 'int256' },
-          { name: 'networkBaseTokenPriceInUsd', internalType: 'int256', type: 'int256' },
-          { name: 'networkBaseTokenPriceDecimals', internalType: 'uint8', type: 'uint8' },
+          {
+            name: 'marketReferenceCurrencyUnit',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'marketReferenceCurrencyPriceInUsd',
+            internalType: 'int256',
+            type: 'int256',
+          },
+          {
+            name: 'networkBaseTokenPriceInUsd',
+            internalType: 'int256',
+            type: 'int256',
+          },
+          {
+            name: 'networkBaseTokenPriceDecimals',
+            internalType: 'uint8',
+            type: 'uint8',
+          },
         ],
       },
     ],
@@ -2547,7 +3703,13 @@ export const uiPoolDataProviderAbi = [
   },
   {
     type: 'function',
-    inputs: [{ name: 'provider', internalType: 'contract IPoolAddressesProvider', type: 'address' }],
+    inputs: [
+      {
+        name: 'provider',
+        internalType: 'contract IPoolAddressesProvider',
+        type: 'address',
+      },
+    ],
     name: 'getReservesList',
     outputs: [{ name: '', internalType: 'address[]', type: 'address[]' }],
     stateMutability: 'view',
@@ -2555,7 +3717,11 @@ export const uiPoolDataProviderAbi = [
   {
     type: 'function',
     inputs: [
-      { name: 'provider', internalType: 'contract IPoolAddressesProvider', type: 'address' },
+      {
+        name: 'provider',
+        internalType: 'contract IPoolAddressesProvider',
+        type: 'address',
+      },
       { name: 'user', internalType: 'address', type: 'address' },
     ],
     name: 'getUserReservesData',
@@ -2566,12 +3732,36 @@ export const uiPoolDataProviderAbi = [
         type: 'tuple[]',
         components: [
           { name: 'underlyingAsset', internalType: 'address', type: 'address' },
-          { name: 'scaledATokenBalance', internalType: 'uint256', type: 'uint256' },
-          { name: 'usageAsCollateralEnabledOnUser', internalType: 'bool', type: 'bool' },
-          { name: 'stableBorrowRate', internalType: 'uint256', type: 'uint256' },
-          { name: 'scaledVariableDebt', internalType: 'uint256', type: 'uint256' },
-          { name: 'principalStableDebt', internalType: 'uint256', type: 'uint256' },
-          { name: 'stableBorrowLastUpdateTimestamp', internalType: 'uint256', type: 'uint256' },
+          {
+            name: 'scaledATokenBalance',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'usageAsCollateralEnabledOnUser',
+            internalType: 'bool',
+            type: 'bool',
+          },
+          {
+            name: 'stableBorrowRate',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'scaledVariableDebt',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'principalStableDebt',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'stableBorrowLastUpdateTimestamp',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
         ],
       },
       { name: '', internalType: 'uint8', type: 'uint8' },
@@ -2582,14 +3772,26 @@ export const uiPoolDataProviderAbi = [
     type: 'function',
     inputs: [],
     name: 'marketReferenceCurrencyPriceInUsdProxyAggregator',
-    outputs: [{ name: '', internalType: 'contract IEACAggregatorProxy', type: 'address' }],
+    outputs: [
+      {
+        name: '',
+        internalType: 'contract IEACAggregatorProxy',
+        type: 'address',
+      },
+    ],
     stateMutability: 'view',
   },
   {
     type: 'function',
     inputs: [],
     name: 'networkBaseTokenPriceInUsdProxyAggregator',
-    outputs: [{ name: '', internalType: 'contract IEACAggregatorProxy', type: 'address' }],
+    outputs: [
+      {
+        name: '',
+        internalType: 'contract IEACAggregatorProxy',
+        type: 'address',
+      },
+    ],
     stateMutability: 'view',
   },
 ] as const
@@ -2607,7 +3809,10 @@ export const uiPoolDataProviderAddress = {
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xF028c2F4b19898718fD0F77b9b881CbfdAa5e8Bb)
  * - [__View Contract on Gnosis Gnosisscan__](https://gnosisscan.io/address/0xF028c2F4b19898718fD0F77b9b881CbfdAa5e8Bb)
  */
-export const uiPoolDataProviderConfig = { address: uiPoolDataProviderAddress, abi: uiPoolDataProviderAbi } as const
+export const uiPoolDataProviderConfig = {
+  address: uiPoolDataProviderAddress,
+  abi: uiPoolDataProviderAbi,
+} as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // V3Migrator
@@ -2622,8 +3827,18 @@ export const v3MigratorAbi = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'previousOwner', internalType: 'address', type: 'address', indexed: true },
-      { name: 'newOwner', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'previousOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
     ],
     name: 'OwnershipTransferred',
   },
@@ -2690,7 +3905,13 @@ export const v3MigratorAbi = [
     outputs: [{ name: '', internalType: 'contract IERC20WithPermit', type: 'address' }],
     stateMutability: 'view',
   },
-  { type: 'function', inputs: [], name: 'cacheATokens', outputs: [], stateMutability: 'nonpayable' },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'cacheATokens',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
   {
     type: 'function',
     inputs: [
@@ -2735,7 +3956,11 @@ export const v3MigratorAbi = [
         internalType: 'struct IMigrationHelper.PermitInput[]',
         type: 'tuple[]',
         components: [
-          { name: 'aToken', internalType: 'contract IERC20WithPermit', type: 'address' },
+          {
+            name: 'aToken',
+            internalType: 'contract IERC20WithPermit',
+            type: 'address',
+          },
           { name: 'value', internalType: 'uint256', type: 'uint256' },
           { name: 'deadline', internalType: 'uint256', type: 'uint256' },
           { name: 'v', internalType: 'uint8', type: 'uint8' },
@@ -2748,7 +3973,11 @@ export const v3MigratorAbi = [
         internalType: 'struct IMigrationHelper.CreditDelegationInput[]',
         type: 'tuple[]',
         components: [
-          { name: 'debtToken', internalType: 'contract ICreditDelegationToken', type: 'address' },
+          {
+            name: 'debtToken',
+            internalType: 'contract ICreditDelegationToken',
+            type: 'address',
+          },
           { name: 'value', internalType: 'uint256', type: 'uint256' },
           { name: 'deadline', internalType: 'uint256', type: 'uint256' },
           { name: 'v', internalType: 'uint8', type: 'uint8' },
@@ -2768,7 +3997,13 @@ export const v3MigratorAbi = [
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
     stateMutability: 'view',
   },
-  { type: 'function', inputs: [], name: 'renounceOwnership', outputs: [], stateMutability: 'nonpayable' },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'renounceOwnership',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
   {
     type: 'function',
     inputs: [
@@ -2777,7 +4012,11 @@ export const v3MigratorAbi = [
         internalType: 'struct IMigrationHelper.EmergencyTransferInput[]',
         type: 'tuple[]',
         components: [
-          { name: 'asset', internalType: 'contract IERC20WithPermit', type: 'address' },
+          {
+            name: 'asset',
+            internalType: 'contract IERC20WithPermit',
+            type: 'address',
+          },
           { name: 'amount', internalType: 'uint256', type: 'uint256' },
           { name: 'to', internalType: 'address', type: 'address' },
         ],
@@ -2820,7 +4059,10 @@ export const v3MigratorAddress = {
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xe2a3C1ff038E14d401cA6dE0673a598C33168460)
  */
-export const v3MigratorConfig = { address: v3MigratorAddress, abi: v3MigratorAbi } as const
+export const v3MigratorConfig = {
+  address: v3MigratorAddress,
+  abi: v3MigratorAbi,
+} as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Vat
@@ -2830,7 +4072,12 @@ export const v3MigratorConfig = { address: v3MigratorAddress, abi: v3MigratorAbi
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x35D1b3F3D7966A1DFe207aa4514C12a259A0492B)
  */
 export const vatAbi = [
-  { payable: false, type: 'constructor', inputs: [], stateMutability: 'nonpayable' },
+  {
+    payable: false,
+    type: 'constructor',
+    inputs: [],
+    stateMutability: 'nonpayable',
+  },
   {
     type: 'event',
     anonymous: true,
@@ -3197,8 +4444,18 @@ export const wethGatewayAbi = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'previousOwner', internalType: 'address', type: 'address', indexed: true },
-      { name: 'newOwner', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'previousOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
     ],
     name: 'OwnershipTransferred',
   },
@@ -3261,7 +4518,13 @@ export const wethGatewayAbi = [
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
     stateMutability: 'view',
   },
-  { type: 'function', inputs: [], name: 'renounceOwnership', outputs: [], stateMutability: 'nonpayable' },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'renounceOwnership',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
   {
     type: 'function',
     inputs: [
@@ -3323,7 +4586,10 @@ export const wethGatewayAddress = {
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBD7D6a9ad7865463DE44B05F04559f65e3B11704)
  * - [__View Contract on Gnosis Gnosisscan__](https://gnosisscan.io/address/0xBD7D6a9ad7865463DE44B05F04559f65e3B11704)
  */
-export const wethGatewayConfig = { address: wethGatewayAddress, abi: wethGatewayAbi } as const
+export const wethGatewayConfig = {
+  address: wethGatewayAddress,
+  abi: wethGatewayAbi,
+} as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // WalletBalanceProvider

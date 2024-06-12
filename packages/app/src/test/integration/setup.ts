@@ -112,6 +112,3 @@ Object.defineProperty(window, 'matchMedia', {
     dispatchEvent: vitest.fn(),
   })),
 })
-
-// sometimes it's useful to increase the timeout for async tests
-// configure({ asyncUtilTimeout: 60_000 })
