@@ -31,6 +31,7 @@ export interface SetupOptions<K extends keyof typeof paths, T extends 'not-conne
   initialPage: K
   initialPageParams?: PathParams<K>
   account: AccountOptions<T>
+  injectNetworkConfiguration?: boolean
 }
 
 export type SetupReturn<T extends 'not-connected' | 'connected'> = T extends 'connected'
@@ -48,7 +49,13 @@ export async function setup<K extends keyof typeof paths, T extends 'not-connect
   forkContext: ForkContext,
   options: SetupOptions<K, T>,
 ): Promise<SetupReturn<T>> {
-  await injectNetworkConfiguration(page, forkContext.forkUrl, forkContext.chainId)
+  if (options.injectNetworkConfiguration === false) {
+    // if explicitly disabled, do not inject network config abort all network requests to RPC providers
+    await page.route(/alchemy/, (route) => route.abort())
+    await page.route(/rpc.ankr/, (route) => route.abort())
+  } else {
+    await injectNetworkConfiguration(page, forkContext.forkUrl, forkContext.chainId)
+  }
   await injectFixedDate(page, forkContext.simulationDate)
   const account = generateAccount({ privateKey: options.account.privateKey })
 

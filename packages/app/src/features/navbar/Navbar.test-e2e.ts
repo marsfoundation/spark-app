@@ -72,4 +72,30 @@ test.describe('Navbar', () => {
       await navbar.expectAirdropPreciseValue('0.00 SPK')
     })
   })
+
+  test.describe('Malformed localStorage', () => {
+    test('Sandbox info in wagmi.store but not in zustand-app-store', async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'easyBorrow',
+        account: {
+          type: 'not-connected',
+        },
+        injectNetworkConfiguration: false,
+      })
+      await page.evaluate(() => {
+        localStorage.setItem('wagmi.recentConnectorId', 'mock');
+        localStorage.setItem('wagmi.io.metamask.disconnected', 'true');
+        localStorage.setItem('wagmi.io.rabby.disconnected', 'true');
+        localStorage.setItem('zustand-app-store', JSON.stringify({"state":{},"sandbox":{}}));
+        localStorage.setItem('actionSettings', JSON.stringify({"preferPermits":true,"exchangeMaxSlippage":"0.001"}));
+        localStorage.setItem('compliance', JSON.stringify({"agreedToSAdresses":[]}));
+        localStorage.setItem('wagmi.store', JSON.stringify({"state":{"connections":{"_type":"Map","value":[]},"chainId":"30301713953503","current":null},"version":2}));
+      })
+
+      await page.reload()
+
+      const navbar = new NavbarPageObject(page)
+      await navbar.expectSavingsLinkVisible()
+    })
+  })
 })
