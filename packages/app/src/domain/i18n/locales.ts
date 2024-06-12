@@ -2,7 +2,6 @@ import { i18n } from '@lingui/core'
 
 export const locales = {
   en: 'English',
-  pl: 'Polski',
 }
 export type Locale = keyof typeof locales
 export const defaultLocale = 'en' satisfies Locale
