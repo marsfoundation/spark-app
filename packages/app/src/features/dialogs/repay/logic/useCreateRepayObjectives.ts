@@ -3,6 +3,8 @@ import { useContractAddress } from '@/domain/hooks/useContractAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { RepayObjective } from '@/features/actions/flavours/repay/types'
 
+import { WalletInfo } from '@/domain/wallet/useWalletInfo'
+import BigNumber from 'bignumber.js'
 import { DialogFormNormalizedData } from '../../common/logic/form'
 
 const FULL_REPAY_SCALE = 1.01
@@ -15,11 +17,19 @@ interface UseCreateRepayObjectivesOptions {
 export function useCreateRepayObjectives(
   formValues: DialogFormNormalizedData,
   { all = false }: UseCreateRepayObjectivesOptions,
+  walletInfo: WalletInfo,
 ): RepayObjective[] {
+  const maxAvailable = walletInfo.findWalletBalanceForSymbol(formValues.token.symbol)
   const lendingPool = useContractAddress(lendingPoolAddress)
-  const scaledFormValue = scaleFormValue(formValues.value, formValues.token.decimals, FULL_REPAY_SCALE)
-  // required approval has smaller gap then what we are sending to the contract that enables big time gap between approval and borrow txs
-  const requiredApproval = scaleFormValue(formValues.value, formValues.token.decimals, FULL_REPAY_APPROVAL_SCALE)
+  // we need to make sure that current repay value is not bigger than max available
+  const scaledFormValue = NormalizedUnitNumber(
+    BigNumber.min(scaleFormValue(formValues.value, formValues.token.decimals, FULL_REPAY_SCALE), maxAvailable),
+  )
+  // We request for full repay approval but actual, required approval is smaller.
+  // This enables big time gap between approval and borrow txs.
+  const requiredApproval = NormalizedUnitNumber(
+    BigNumber.min(scaleFormValue(formValues.value, formValues.token.decimals, FULL_REPAY_APPROVAL_SCALE), maxAvailable),
+  )
 
   return [
     {

@@ -14,7 +14,7 @@ export interface ForkContext {
 }
 
 // @note: https://github.com/marsfoundation/app#deterministic-time-in-e2e-tests
-export const simulationDate = new Date('2024-06-04T10:21:19Z')
+export const defaultSimulationDate = new Date('2024-06-04T10:21:19Z')
 
 /**
  * Fork is shared across the whole test file and is fixed to a single block number.
@@ -23,12 +23,14 @@ export const simulationDate = new Date('2024-06-04T10:21:19Z')
 export interface SetupForkOptions {
   blockNumber: bigint
   chainId: number
+  simulationDate?: Date
 }
 
-export function setupFork({ blockNumber, chainId }: SetupForkOptions): ForkContext {
+export function setupFork({ blockNumber, chainId, simulationDate: _simulationDate }: SetupForkOptions): ForkContext {
   const apiKey = processEnv('TENDERLY_API_KEY')
   const tenderlyAccount = processEnv('TENDERLY_ACCOUNT')
   const tenderlyProject = processEnv('TENDERLY_PROJECT')
+  const simulationDate = _simulationDate ?? defaultSimulationDate
 
   const tenderlyClient = new TestTenderlyClient({ apiKey, tenderlyAccount, tenderlyProject })
 

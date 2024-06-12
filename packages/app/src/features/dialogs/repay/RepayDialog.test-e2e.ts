@@ -605,7 +605,11 @@ test.describe('Repay dialog', () => {
   })
 
   test.describe('FRO-731 repro (repay whole debt issues)', () => {
-    const fork = setupFork({ blockNumber: 20020805n, chainId: mainnet.id })
+    const fork = setupFork({
+      blockNumber: 20020805n,
+      chainId: mainnet.id,
+      simulationDate: new Date('2024-06-10T10:21:19Z'),
+    })
 
     test('test', async ({ page }) => {
       await setup(page, fork, {
@@ -628,7 +632,7 @@ test.describe('Repay dialog', () => {
       await repayDialog.expectRiskLevelBefore('Healthy')
       await repayDialog.expectRiskLevelAfter('No debt')
 
-      await actionsContainer.acceptAllActionsAction(2)
+      await actionsContainer.acceptAllActionsAction(1)
       await repayDialog.expectSuccessPage([{ asset: 'DAI', amount: 407.6006549746828 }], fork)
     })
   })

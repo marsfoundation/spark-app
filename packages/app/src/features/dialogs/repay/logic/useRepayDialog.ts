@@ -79,7 +79,7 @@ export function useRepayDialog({ initialToken }: UseRepayDialogOptions): UseRepa
 
   const debt = getTokenDebt(marketInfo, repaymentAsset)
 
-  const objectives = useCreateRepayObjectives(repaymentAsset, { all: repayInFull })
+  const objectives = useCreateRepayObjectives(repaymentAsset, { all: repayInFull }, walletInfo)
 
   const currentPositionOverview = {
     healthFactor: marketInfo.userPositionSummary.healthFactor,
