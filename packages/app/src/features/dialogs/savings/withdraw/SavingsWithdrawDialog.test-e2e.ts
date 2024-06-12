@@ -1,19 +1,16 @@
-import { test } from '@playwright/test'
-import { gnosis, mainnet } from 'viem/chains'
-
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
+import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { LIFI_TEST_USER_PRIVATE_KEY, overrideLiFiRouteWithHAR } from '@/test/e2e/lifi'
 import { setup } from '@/test/e2e/setup'
 import { setupFork } from '@/test/e2e/setupFork'
-
+import { test } from '@playwright/test'
+import { gnosis, mainnet } from 'viem/chains'
 import { SavingsWithdrawDialogPageObject } from './SavingsWithdrawDialog.PageObject'
 
 test.describe('Savings withdraw dialog', () => {
   test.describe('DAI', () => {
-    // Block number has to be as close as possible to the block number when query was executed
-    const blockNumber = 19990800n
-    const fork = setupFork({ blockNumber, chainId: mainnet.id })
+    const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id })
 
     test('unwraps sDAI to DAI', async ({ page }) => {
       await setup(page, fork, {
@@ -27,10 +24,6 @@ test.describe('Savings withdraw dialog', () => {
           privateKey: LIFI_TEST_USER_PRIVATE_KEY,
         },
       })
-      await overrideLiFiRouteWithHAR({
-        page,
-        key: 'sdai-to-1000-dai',
-      })
 
       const savingsPage = new SavingsPageObject(page)
 
@@ -40,11 +33,11 @@ test.describe('Savings withdraw dialog', () => {
       await withdrawDialog.fillAmountAction(1000)
 
       const actionsContainer = new ActionsPageObject(withdrawDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.acceptAllActionsAction(2)
+      await actionsContainer.acceptAllActionsAction(1)
       await withdrawDialog.clickBackToSavingsButton()
 
-      await savingsPage.expectCurrentWorth('84.64')
-      await savingsPage.expectCashInWalletAssetBalance('DAI', '1,001.50')
+      await savingsPage.expectCurrentWorth('71.5')
+      await savingsPage.expectCashInWalletAssetBalance('DAI', '1,000.00')
     })
   })
 
@@ -64,10 +57,6 @@ test.describe('Savings withdraw dialog', () => {
           privateKey: LIFI_TEST_USER_PRIVATE_KEY,
         },
       })
-      await overrideLiFiRouteWithHAR({
-        page,
-        key: '1000-sdai-to-dai',
-      })
 
       const savingsPage = new SavingsPageObject(page)
 
@@ -77,10 +66,10 @@ test.describe('Savings withdraw dialog', () => {
       await withdrawDialog.clickMaxAmountAction()
 
       const actionsContainer = new ActionsPageObject(withdrawDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.acceptAllActionsAction(2)
+      await actionsContainer.acceptAllActionsAction(1)
       await withdrawDialog.clickBackToSavingsButton()
 
-      await savingsPage.expectCashInWalletAssetBalance('DAI', '1,086.07')
+      await savingsPage.expectCashInWalletAssetBalance('DAI', '1,086.94')
     })
   })
 
@@ -235,8 +224,12 @@ test.describe('Savings withdraw dialog', () => {
   })
 
   test.describe('Risk warning', () => {
-    const blockNumber = 19990930n
-    const fork = setupFork({ blockNumber, chainId: mainnet.id })
+    const blockNumber = 20073952n
+    const fork = setupFork({
+      blockNumber,
+      chainId: mainnet.id,
+      simulationDateOverride: new Date('2024-09-04T10:21:19Z'),
+    })
 
     test('displays warning when discrepancy is bigger than 100 DAI', async ({ page }) => {
       await setup(page, fork, {
@@ -253,7 +246,7 @@ test.describe('Savings withdraw dialog', () => {
 
       await overrideLiFiRouteWithHAR({
         page,
-        key: '10277.276260680656857010-sdai-to-10000-dai',
+        key: '9198.753133685380130125-sdai-to-10000-usdc',
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -261,9 +254,10 @@ test.describe('Savings withdraw dialog', () => {
       await savingsPage.clickWithdrawButtonAction()
 
       const depositDialog = new SavingsWithdrawDialogPageObject(page)
+      await depositDialog.selectAssetAction('USDC')
       await depositDialog.fillAmountAction(10000)
 
-      await depositDialog.expectDiscrepancyWarning('1,165.75 DAI')
+      await depositDialog.expectDiscrepancyWarning('189.30 DAI')
     })
 
     test('actions stay disabled until risk is acknowledged', async ({ page }) => {
@@ -281,7 +275,7 @@ test.describe('Savings withdraw dialog', () => {
 
       await overrideLiFiRouteWithHAR({
         page,
-        key: '10277.276260680656857010-sdai-to-10000-dai',
+        key: '9198.753133685380130125-sdai-to-10000-usdc',
       })
 
       const savingsPage = new SavingsPageObject(page)
@@ -289,6 +283,7 @@ test.describe('Savings withdraw dialog', () => {
       await savingsPage.clickWithdrawButtonAction()
 
       const depositDialog = new SavingsWithdrawDialogPageObject(page)
+      await depositDialog.selectAssetAction('USDC')
       await depositDialog.fillAmountAction(10000)
       await depositDialog.expectTransactionOverviewToBeVisible() // wait for lifi to load
 
@@ -331,13 +326,7 @@ test.describe('Savings withdraw dialog', () => {
 
         await depositDialog.fillAmountAction(1000)
         await actionsContainer.expectNextActionEnabled()
-        await actionsContainer.expectActions(
-          [
-            { type: 'approve', asset: 'sDAI', amount: 1000 },
-            { type: 'exchange', inputAsset: 'sDAI', outputAsset: 'DAI', amount: 1000 },
-          ],
-          true,
-        )
+        await actionsContainer.expectActions([{ type: 'nativeSDaiWithdraw', asset: 'DAI', amount: 1000 }], true)
 
         await depositDialog.selectAssetAction('USDC')
         await depositDialog.fillAmountAction(1000)
@@ -364,13 +353,7 @@ test.describe('Savings withdraw dialog', () => {
         await depositDialog.selectAssetAction('DAI')
         await depositDialog.fillAmountAction(1000)
         await actionsContainer.expectNextActionEnabled()
-        await actionsContainer.expectActions(
-          [
-            { type: 'approve', asset: 'sDAI', amount: 1000 },
-            { type: 'exchange', inputAsset: 'sDAI', outputAsset: 'DAI', amount: 1000 },
-          ],
-          true,
-        )
+        await actionsContainer.expectActions([{ type: 'nativeSDaiWithdraw', asset: 'DAI', amount: 1000 }], true)
       })
     })
 

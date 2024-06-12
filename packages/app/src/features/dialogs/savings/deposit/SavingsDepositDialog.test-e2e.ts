@@ -1,12 +1,11 @@
-import { test } from '@playwright/test'
-import { gnosis, mainnet } from 'viem/chains'
-
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
+import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { LIFI_TEST_USER_PRIVATE_KEY, overrideLiFiRouteWithHAR } from '@/test/e2e/lifi'
 import { setup } from '@/test/e2e/setup'
 import { setupFork } from '@/test/e2e/setupFork'
-
+import { test } from '@playwright/test'
+import { gnosis, mainnet } from 'viem/chains'
 import { SavingsDepositDialogPageObject } from './SavingsDepositDialog.PageObject'
 
 test.describe('Savings deposit dialog', () => {
@@ -14,9 +13,7 @@ test.describe('Savings deposit dialog', () => {
   // My guess is that reverting to snapshots in tenderly does not work properly - but for now couldn't debug that.
   // For now tests use different forks.
   test.describe('DAI', () => {
-    // Block number has to be as close as possible to the block number when query was executed
-    const blockNumber = 19990683n
-    const fork = setupFork({ blockNumber, chainId: mainnet.id })
+    const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id })
 
     test('wraps DAI', async ({ page }) => {
       await setup(page, fork, {
@@ -30,10 +27,6 @@ test.describe('Savings deposit dialog', () => {
           privateKey: LIFI_TEST_USER_PRIVATE_KEY,
         },
       })
-      await overrideLiFiRouteWithHAR({
-        page,
-        key: '100-dai-to-sdai',
-      })
 
       const savingsPage = new SavingsPageObject(page)
 
@@ -46,7 +39,7 @@ test.describe('Savings deposit dialog', () => {
       await actionsContainer.acceptAllActionsAction(2)
       await depositDialog.clickBackToSavingsButton()
 
-      await savingsPage.expectCurrentWorth('99.96')
+      await savingsPage.expectCurrentWorth('100')
     })
   })
 
@@ -482,7 +475,7 @@ test.describe('Savings deposit dialog', () => {
         await actionsContainer.expectActions(
           [
             { type: 'approve', asset: 'DAI', amount: 100 },
-            { type: 'exchange', inputAsset: 'DAI', outputAsset: 'sDAI', amount: 100 },
+            { type: 'nativeSDaiDeposit', asset: 'DAI', amount: 100 },
           ],
           true,
         )
@@ -515,7 +508,7 @@ test.describe('Savings deposit dialog', () => {
         await actionsContainer.expectActions(
           [
             { type: 'approve', asset: 'DAI', amount: 100 },
-            { type: 'exchange', inputAsset: 'DAI', outputAsset: 'sDAI', amount: 100 },
+            { type: 'nativeSDaiDeposit', asset: 'DAI', amount: 100 },
           ],
           true,
         )
