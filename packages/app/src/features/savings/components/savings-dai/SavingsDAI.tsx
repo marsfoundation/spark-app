@@ -51,7 +51,7 @@ export function SavingsDAI({
       <div className="flex flex-col items-center gap-1 sm:gap-2">
         <div
           className="flex flex-row items-end justify-center slashed-zero tabular-nums"
-          data-testId={testIds.savings.sDaiBalanceInDai}
+          data-testid={testIds.savings.sDaiBalanceInDai}
         >
           <div className="font-semibold text-3xl md:text-5xl">{getWholePart(depositedUSD)}</div>
           {depositedUSDPrecision > 0 && (
@@ -62,7 +62,7 @@ export function SavingsDAI({
         </div>
         <div className="font-semibold text-basics-dark-grey text-xs tracking-wide">
           =
-          <span data-testId={testIds.savings.sDaiBalance}>
+          <span data-testid={testIds.savings.sDaiBalance}>
             {sDAIBalance.token.format(sDAIBalance.balance, { style: 'auto' })} {sDAIBalance.token.symbol}
           </span>
         </div>

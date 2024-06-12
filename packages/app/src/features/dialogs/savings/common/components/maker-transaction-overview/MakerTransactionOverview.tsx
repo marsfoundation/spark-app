@@ -6,6 +6,8 @@ import { testIds } from '@/ui/utils/testIds'
 import { assert } from '@/utils/assert'
 import { SavingsDialogTxOverviewMaker } from '../../types'
 import { APYDetails, MakerBadge, RouteItem, TransactionOutcome, TransactionOverviewDetailsItem } from './components'
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { cn } from '@/ui/utils/style'
 
 export interface MakerTransactionOverviewProps {
   txOverview: SavingsDialogTxOverviewMaker
@@ -22,6 +24,7 @@ export function MakerTransactionOverview({ txOverview, selectedToken }: MakerTra
 
   assert(route.length > 0, 'Route must have at least one item')
   const outcome = route.at(-1)!
+  const verticalRouteDisplay = Boolean(route.length > 2 && route[0]?.value?.gte(NormalizedUnitNumber(1_000_000)))
 
   return (
     <DialogPanel>
@@ -30,9 +33,9 @@ export function MakerTransactionOverview({ txOverview, selectedToken }: MakerTra
         <APYDetails APY={APY} daiEarnRate={daiEarnRate} />
       </TransactionOverviewDetailsItem>
       <TransactionOverviewDetailsItem label="Route">
-        <div className="flex flex-col items-end gap-2 md:flex-row">
+        <div className={cn("flex flex-col items-end gap-2", !verticalRouteDisplay && "md:flex-row")}>
           {route.map((item, index) => (
-            <RouteItem key={item.token.symbol} item={item} index={index} isLast={index === route.length - 1} />
+            <RouteItem key={item.token.symbol} item={item} index={index} isLast={index === route.length - 1} verticalRouteDisplay={verticalRouteDisplay}/>
           ))}
         </div>
         <MakerBadge
