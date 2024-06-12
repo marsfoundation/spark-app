@@ -1,6 +1,7 @@
 import { assets, getTokenImage } from '@/ui/assets'
 
 import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
+import { testIds } from '@/ui/utils/testIds'
 import { ActionRow } from '../../components/action-row/ActionRow'
 import { UpDownMarker } from '../../components/action-row/UpDownMarker'
 import { ActionRowBaseProps } from '../../components/action-row/types'
@@ -24,7 +25,7 @@ export function NativeSDaiDepositActionRow({
   const successMessage = `Wrapped ${fromToken.format(action.value, { style: 'auto' })} ${fromToken.symbol}!`
 
   return (
-    <ActionRow>
+    <ActionRow data-testid={testIds.actions.flavours.nativeSDaiDepositActionRow.wrapper}>
       <ActionRow.Index index={index} />
 
       <ActionRow.Icon path={assets.actions.exchange} actionStatus={status} />

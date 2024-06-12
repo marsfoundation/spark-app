@@ -53,6 +53,20 @@ export const testIds = makeTestIds({
     },
     success: true,
     acknowledgeRiskSwitch: true,
+    savings: {
+      nativeRouteTransactionOverview: {
+        apy: {
+          value: true,
+          description: true,
+        },
+        routeItem: {
+          tokenWithAmount: (index: number) => index,
+          tokenUsdValue: (index: number) => index,
+        },
+        outcome: true,
+        makerBadge: true,
+      },
+    },
     depositSavings: {
       transactionDetailsRow: (index: number) => index,
     },
@@ -72,6 +86,12 @@ export const testIds = makeTestIds({
         fee: true,
         finalDAIAmount: true,
         finalSDAIAmount: true,
+      },
+      nativeSDaiDepositActionRow: {
+        wrapper: true,
+      },
+      nativeSDaiWithdrawActionRow: {
+        wrapper: true,
       },
     },
   },
