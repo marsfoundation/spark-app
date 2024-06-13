@@ -76,19 +76,33 @@ export class ActionsPageObject extends BasePageObject {
   // #endregion actions
 
   // #region assertions
-  async expectActions(expectedActions: SimplifiedAction[], shortForm = false): Promise<void> {
+  async expectActions(actions: SimplifiedAction[]): Promise<void> {
+    await this._expectActions({ actions, shortForm: true })
+  }
+
+  async expectExtendedActions(actions: SimplifiedActionWithAmount[]): Promise<void> {
+    await this._expectActions({ actions, shortForm: false })
+  }
+
+  private async _expectActions({ actions, shortForm }: ExpectedActions): Promise<void> {
     await this.expectNextActionEnabled()
 
     const actionLocators = await this.region.getByTestId(testIds.component.Action.title).all()
     expect(actionLocators.length, 'Number of expected actions does not equal to the number of actual actions').toEqual(
-      expectedActions.length,
+      actions.length,
     )
+
     for (const [index, actualAction] of actionLocators.entries()) {
       const actualTitle = await actualAction.textContent()
-      const expectedAction = expectedActions[index]
+      const expectedAction = actions[index]
       assert(expectedAction, `Expected action ${actualTitle} not found`)
-
-      expect(actualTitle).toEqual(actionToTitle(expectedAction, shortForm))
+      if (shortForm) {
+        expect(actualTitle).toEqual(actionToTitle({ action: expectedAction, shortForm: true }))
+      } else {
+        expect(actualTitle).toEqual(
+          actionToTitle({ action: expectedAction as SimplifiedActionWithAmount, shortForm: false }),
+        )
+      }
     }
   }
 
@@ -100,14 +114,18 @@ export class ActionsPageObject extends BasePageObject {
     await expect(this.locateActionButtons({ disabled: false })).not.toBeVisible()
   }
 
-  async expectNextAction(expectedAction: SimplifiedAction, shortForm = false): Promise<void> {
+  async expectNextAction(action: SimplifiedAction): Promise<void> {
+    await this._expectNextAction({ action, shortForm: true })
+  }
+
+  private async _expectNextAction(params: ExpectedAction): Promise<void> {
     await expect(async () => {
       const buttons = await this.locateActionButtons().all()
       const titles = await this.region.getByTestId(testIds.component.Action.title).all()
       // when action is complete, the action button is removed from the DOM
       const index = titles.length - buttons.length
       const title = await titles[index]?.textContent()
-      expect(title).toEqual(actionToTitle(expectedAction, shortForm))
+      expect(title).toEqual(actionToTitle(params))
     }).toPass({ timeout: 10000 })
   }
 
@@ -123,20 +141,28 @@ export class ActionsPageObject extends BasePageObject {
   // #endregion assertions
 }
 
+type ExpectedActions =
+  | { actions: SimplifiedAction[]; shortForm: true }
+  | { actions: SimplifiedActionWithAmount[]; shortForm: false }
+
+type ExpectedAction =
+  | { action: SimplifiedAction; shortForm: true }
+  | { action: SimplifiedActionWithAmount; shortForm: false }
+
+type SimplifiedActionWithAmount = SimplifiedAction & { amount: number }
+
 type SimplifiedAction =
   | {
       type: Exclude<ActionType, 'exchange'>
       asset: string
-      amount: number
     }
   | {
       type: 'exchange'
       inputAsset: string
       outputAsset: string
-      amount: number
     }
 
-function actionToTitle(action: SimplifiedAction, shortForm: boolean): string {
+function actionToTitle({ action, shortForm }: ExpectedAction): string {
   const prefix = getActionTitlePrefix(action)
 
   if (shortForm) {

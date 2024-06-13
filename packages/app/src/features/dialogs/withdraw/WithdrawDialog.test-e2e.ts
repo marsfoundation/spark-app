@@ -89,16 +89,7 @@ test.describe('Withdraw dialog', () => {
       const withdrawDialog = new DialogPageObject(page, headerRegExp)
       await withdrawDialog.fillAmountAction(1)
       const actionsContainer = new ActionsPageObject(withdrawDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectActions(
-        [
-          {
-            type: 'withdraw',
-            asset: 'rETH',
-            amount: 1,
-          },
-        ],
-        true,
-      )
+      await actionsContainer.expectActions([{ type: 'withdraw', asset: 'rETH' }])
     })
 
     test('can withdraw erc-20', async ({ page }) => {
@@ -230,21 +221,10 @@ test.describe('Withdraw dialog', () => {
       await withdrawDialog.fillAmountAction(1)
       await withdrawDialog.expectHealthFactorVisible()
       const actionsContainer = new ActionsPageObject(withdrawDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectActions(
-        [
-          {
-            type: 'approve',
-            asset: 'aWETH',
-            amount: 1,
-          },
-          {
-            type: 'withdraw',
-            asset: 'ETH',
-            amount: 1,
-          },
-        ],
-        true,
-      )
+      await actionsContainer.expectActions([
+        { type: 'approve', asset: 'aWETH' },
+        { type: 'withdraw', asset: 'ETH' },
+      ])
 
       await screenshot(withdrawDialog.getDialog(), 'withdraw-dialog-eth-action-plan')
     })
