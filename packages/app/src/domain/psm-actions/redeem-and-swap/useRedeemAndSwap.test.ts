@@ -7,7 +7,7 @@ import { toBigInt } from '@/utils/bigNumber'
 import { waitFor } from '@testing-library/react'
 import { erc4626Abi } from 'viem'
 import { mainnet } from 'viem/chains'
-import { UseRedeemAndSwap } from './useRedeemAndSwap'
+import { useRedeemAndSwap } from './useRedeemAndSwap'
 
 const gem = getMockToken({ address: testAddresses.token, decimals: 6 })
 const assetsToken = getMockToken({ address: testAddresses.token2, decimals: 18 })
@@ -17,7 +17,7 @@ const savingsToken = testAddresses.token3
 const assetsAmount = BaseUnitNumber(1e18)
 
 const hookRenderer = setupHookRenderer({
-  hook: UseRedeemAndSwap,
+  hook: useRedeemAndSwap,
   account,
   handlers: [
     handlers.chainIdCall({ chainId: mainnet.id }),
@@ -39,7 +39,7 @@ const hookRenderer = setupHookRenderer({
   args: { gem, assetsToken, sharesAmount },
 })
 
-describe(UseRedeemAndSwap.name, () => {
+describe(useRedeemAndSwap.name, () => {
   it('is not enabled for guest ', async () => {
     const { result } = hookRenderer({ account: undefined })
 

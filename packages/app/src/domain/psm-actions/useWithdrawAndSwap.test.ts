@@ -6,7 +6,7 @@ import { setupHookRenderer } from '@/test/integration/setupHookRenderer'
 import { toBigInt } from '@/utils/bigNumber'
 import { waitFor } from '@testing-library/react'
 import { mainnet } from 'viem/chains'
-import { UseWithdrawAndSwap } from './useWithdrawAndSwap'
+import { useWithdrawAndSwap } from './useWithdrawAndSwap'
 
 const gem = getMockToken({ address: testAddresses.token, decimals: 6 })
 const assetsToken = getMockToken({ address: testAddresses.token2, decimals: 18 })
@@ -14,13 +14,13 @@ const account = testAddresses.alice
 const gemAmountOut = BaseUnitNumber(10)
 
 const hookRenderer = setupHookRenderer({
-  hook: UseWithdrawAndSwap,
+  hook: useWithdrawAndSwap,
   account,
   handlers: [handlers.chainIdCall({ chainId: mainnet.id }), handlers.balanceCall({ balance: 0n, address: account })],
   args: { gem, assetsToken, gemAmountOut },
 })
 
-describe(UseWithdrawAndSwap.name, () => {
+describe(useWithdrawAndSwap.name, () => {
   it('is not enabled for guest ', async () => {
     const { result } = hookRenderer({ account: undefined })
 

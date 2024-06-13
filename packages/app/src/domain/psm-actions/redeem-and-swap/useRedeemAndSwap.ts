@@ -20,7 +20,7 @@ export interface UseRedeemAndSwapArgs {
 // @note: Redeem a specified amount of `savingsToken` from the `savingsToken`
 // for `dai` and swap for `gem` in the PSM. Use this if you want to withdraw everything.
 // @note: Assumes PSM swap rate between `dai` and `gem` is 1:1.
-export function UseRedeemAndSwap({
+export function useRedeemAndSwap({
   gem,
   assetsToken,
   sharesAmount: _sharesAmount,
