@@ -12,6 +12,10 @@ export class NavbarPageObject extends BasePageObject {
   locateAirdropPreciseAmount(): Locator {
     return this.page.getByRole('tooltip').getByText('SPK').first()
   }
+
+  locateSavingsLink(): Locator {
+    return this.page.getByRole('link', { name: 'Cash & Savings' })
+  }
   // #endregion
 
   // #region actions
@@ -31,6 +35,10 @@ export class NavbarPageObject extends BasePageObject {
 
   async expectAirdropBadgeNotVisible(): Promise<void> {
     await expect(this.locateAirdropBadge()).not.toBeVisible()
+  }
+
+  async expectSavingsLinkVisible(): Promise<void> {
+    await expect(this.locateSavingsLink()).toBeVisible()
   }
   // #endregion
 }

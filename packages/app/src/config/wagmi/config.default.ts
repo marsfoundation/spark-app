@@ -10,6 +10,7 @@ import { SUPPORTED_CHAINS } from '../chain/constants'
 import { SupportedChainId } from '../chain/types'
 import { VIEM_TIMEOUT_ON_FORKS } from './config.e2e'
 import { getWallets } from './getWallets'
+import { createWagmiStorage } from './storage'
 
 const wallets = getWallets()
 
@@ -23,6 +24,8 @@ export function getConfig(sandboxNetwork?: SandboxNetwork): Config {
     [gnosis.id]: http('https://rpc.ankr.com/gnosis'),
   }
 
+  const storage = createWagmiStorage()
+
   const config = getDefaultConfig({
     appName: 'Spark',
     projectId: import.meta.env.VITE_WALLET_CONNECT_ID || raise('Missing VITE_WALLET_CONNECT_ID'),
@@ -31,6 +34,7 @@ export function getConfig(sandboxNetwork?: SandboxNetwork): Config {
       ? { ...transports, [forkChain.id]: http(forkChain.rpcUrls.default.http[0], { timeout: VIEM_TIMEOUT_ON_FORKS }) }
       : transports,
     wallets,
+    storage,
   })
 
   return config
