@@ -39,7 +39,7 @@ test.describe('Withdraw max DAI on Mainnet', () => {
     await withdrawalDialog.expectNativeRouteTransactionOverview({
       apy: {
         value: '5.00%',
-        description: 'Earn ~535.75 DAI per year',
+        description: '~535.75 DAI per year',
       },
       routeItems: [
         {
