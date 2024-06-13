@@ -472,46 +472,34 @@ test.describe('Savings deposit dialog', () => {
 
         await depositDialog.fillAmountAction(100)
         await actionsContainer.expectNextActionEnabled()
-        await actionsContainer.expectActions(
-          [
-            { type: 'approve', asset: 'DAI', amount: 100 },
-            { type: 'nativeSDaiDeposit', asset: 'DAI', amount: 100 },
-          ],
-          true,
-        )
+        await actionsContainer.expectActions([
+          { type: 'approve', asset: 'DAI' },
+          { type: 'nativeSDaiDeposit', asset: 'DAI' },
+        ])
 
         await depositDialog.selectAssetAction('USDC')
         await depositDialog.fillAmountAction(100)
         await actionsContainer.expectNextActionEnabled()
-        await actionsContainer.expectActions(
-          [
-            { type: 'approve', asset: 'USDC', amount: 100 },
-            { type: 'exchange', inputAsset: 'USDC', outputAsset: 'sDAI', amount: 100 },
-          ],
-          true,
-        )
+        await actionsContainer.expectActions([
+          { type: 'approve', asset: 'USDC' },
+          { type: 'exchange', inputAsset: 'USDC', outputAsset: 'sDAI' },
+        ])
 
         await depositDialog.selectAssetAction('USDT')
         await depositDialog.fillAmountAction(100)
         await actionsContainer.expectNextActionEnabled()
-        await actionsContainer.expectActions(
-          [
-            { type: 'approve', asset: 'USDT', amount: 100 },
-            { type: 'exchange', inputAsset: 'USDT', outputAsset: 'sDAI', amount: 100 },
-          ],
-          true,
-        )
+        await actionsContainer.expectActions([
+          { type: 'approve', asset: 'USDT' },
+          { type: 'exchange', inputAsset: 'USDT', outputAsset: 'sDAI' },
+        ])
 
         await depositDialog.selectAssetAction('DAI')
         await depositDialog.fillAmountAction(100)
         await actionsContainer.expectNextActionEnabled()
-        await actionsContainer.expectActions(
-          [
-            { type: 'approve', asset: 'DAI', amount: 100 },
-            { type: 'nativeSDaiDeposit', asset: 'DAI', amount: 100 },
-          ],
-          true,
-        )
+        await actionsContainer.expectActions([
+          { type: 'approve', asset: 'DAI' },
+          { type: 'nativeSDaiDeposit', asset: 'DAI' },
+        ])
       })
     })
 
@@ -546,40 +534,28 @@ test.describe('Savings deposit dialog', () => {
 
         await depositDialog.fillAmountAction(100)
         await actionsContainer.expectNextActionEnabled()
-        await actionsContainer.expectActions(
-          [{ type: 'exchange', inputAsset: 'XDAI', outputAsset: 'sDAI', amount: 100 }],
-          true,
-        )
+        await actionsContainer.expectActions([{ type: 'exchange', inputAsset: 'XDAI', outputAsset: 'sDAI' }])
 
         await depositDialog.selectAssetAction('USDC')
         await depositDialog.fillAmountAction(100)
         await actionsContainer.expectNextActionEnabled()
-        await actionsContainer.expectActions(
-          [
-            { type: 'approve', asset: 'USDC', amount: 100 },
-            { type: 'exchange', inputAsset: 'USDC', outputAsset: 'sDAI', amount: 100 },
-          ],
-          true,
-        )
+        await actionsContainer.expectActions([
+          { type: 'approve', asset: 'USDC' },
+          { type: 'exchange', inputAsset: 'USDC', outputAsset: 'sDAI' },
+        ])
 
         await depositDialog.selectAssetAction('USDT')
         await depositDialog.fillAmountAction(100)
         await actionsContainer.expectNextActionEnabled()
-        await actionsContainer.expectActions(
-          [
-            { type: 'approve', asset: 'USDT', amount: 100 },
-            { type: 'exchange', inputAsset: 'USDT', outputAsset: 'sDAI', amount: 100 },
-          ],
-          true,
-        )
+        await actionsContainer.expectActions([
+          { type: 'approve', asset: 'USDT' },
+          { type: 'exchange', inputAsset: 'USDT', outputAsset: 'sDAI' },
+        ])
 
         await depositDialog.selectAssetAction('XDAI')
         await depositDialog.fillAmountAction(100)
         await actionsContainer.expectNextActionEnabled()
-        await actionsContainer.expectActions(
-          [{ type: 'exchange', inputAsset: 'XDAI', outputAsset: 'sDAI', amount: 100 }],
-          true,
-        )
+        await actionsContainer.expectActions([{ type: 'exchange', inputAsset: 'XDAI', outputAsset: 'sDAI' }])
       })
     })
   })

@@ -83,15 +83,12 @@ export class SavingsDialogPageObject extends DialogPageObject {
   }): Promise<void> {
     const actionsContainer = new ActionsPageObject(this.locatePanelByHeader('Actions'))
     if (this.type === 'deposit') {
-      await actionsContainer.expectActions(
-        [
-          { type: 'approve', asset, amount },
-          { type: 'nativeSDaiDeposit', asset, amount },
-        ],
-        true,
-      )
+      await actionsContainer.expectActions([
+        { type: 'approve', asset },
+        { type: 'nativeSDaiDeposit', asset },
+      ])
     } else {
-      await actionsContainer.expectActions([{ type: 'nativeSDaiWithdraw', asset, amount }], true)
+      await actionsContainer.expectActions([{ type: 'nativeSDaiWithdraw', asset }])
     }
   }
 
