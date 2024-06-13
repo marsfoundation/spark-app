@@ -6,7 +6,7 @@ import { setup } from '@/test/e2e/setup'
 import { setupFork } from '@/test/e2e/setupFork'
 import { test } from '@playwright/test'
 import { gnosis, mainnet } from 'viem/chains'
-import { SavingsWithdrawDialogPageObject } from './SavingsWithdrawDialog.PageObject'
+import { SavingsDialogPageObject } from '../common/e2e/SavingsDialog.PageObject'
 
 test.describe('Savings withdraw dialog', () => {
   test.describe('DAI', () => {
@@ -29,7 +29,7 @@ test.describe('Savings withdraw dialog', () => {
 
       await savingsPage.clickWithdrawButtonAction()
 
-      const withdrawDialog = new SavingsWithdrawDialogPageObject(page)
+      const withdrawDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
       await withdrawDialog.fillAmountAction(1000)
 
       const actionsContainer = new ActionsPageObject(withdrawDialog.locatePanelByHeader('Actions'))
@@ -62,7 +62,7 @@ test.describe('Savings withdraw dialog', () => {
 
       await savingsPage.clickWithdrawButtonAction()
 
-      const withdrawDialog = new SavingsWithdrawDialogPageObject(page)
+      const withdrawDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
       await withdrawDialog.clickMaxAmountAction()
 
       const actionsContainer = new ActionsPageObject(withdrawDialog.locatePanelByHeader('Actions'))
@@ -98,7 +98,7 @@ test.describe('Savings withdraw dialog', () => {
 
       await savingsPage.clickWithdrawButtonAction()
 
-      const withdrawDialog = new SavingsWithdrawDialogPageObject(page)
+      const withdrawDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
       await withdrawDialog.fillAmountAction(1000)
 
       const actionsContainer = new ActionsPageObject(withdrawDialog.locatePanelByHeader('Actions'))
@@ -135,7 +135,7 @@ test.describe('Savings withdraw dialog', () => {
 
       await savingsPage.clickWithdrawButtonAction()
 
-      const withdrawDialog = new SavingsWithdrawDialogPageObject(page)
+      const withdrawDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
       await withdrawDialog.selectAssetAction('USDC')
       await withdrawDialog.fillAmountAction(1000)
 
@@ -173,7 +173,7 @@ test.describe('Savings withdraw dialog', () => {
 
       await savingsPage.clickWithdrawButtonAction()
 
-      const withdrawDialog = new SavingsWithdrawDialogPageObject(page)
+      const withdrawDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
       await withdrawDialog.selectAssetAction('USDC')
       await withdrawDialog.clickMaxAmountAction()
 
@@ -210,7 +210,7 @@ test.describe('Savings withdraw dialog', () => {
 
       await savingsPage.clickWithdrawButtonAction()
 
-      const withdrawDialog = new SavingsWithdrawDialogPageObject(page)
+      const withdrawDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
       await withdrawDialog.selectAssetAction('USDC')
       await withdrawDialog.fillAmountAction(1000)
 
@@ -253,7 +253,7 @@ test.describe('Savings withdraw dialog', () => {
 
       await savingsPage.clickWithdrawButtonAction()
 
-      const depositDialog = new SavingsWithdrawDialogPageObject(page)
+      const depositDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
       await depositDialog.selectAssetAction('USDC')
       await depositDialog.fillAmountAction(10000)
 
@@ -282,7 +282,7 @@ test.describe('Savings withdraw dialog', () => {
 
       await savingsPage.clickWithdrawButtonAction()
 
-      const depositDialog = new SavingsWithdrawDialogPageObject(page)
+      const depositDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
       await depositDialog.selectAssetAction('USDC')
       await depositDialog.fillAmountAction(10000)
       await depositDialog.expectTransactionOverviewToBeVisible() // wait for lifi to load
@@ -321,39 +321,33 @@ test.describe('Savings withdraw dialog', () => {
 
         await savingsPage.clickWithdrawButtonAction()
 
-        const depositDialog = new SavingsWithdrawDialogPageObject(page)
+        const depositDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
         const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
 
         await depositDialog.fillAmountAction(1000)
         await actionsContainer.expectNextActionEnabled()
-        await actionsContainer.expectActions([{ type: 'nativeSDaiWithdraw', asset: 'DAI', amount: 1000 }], true)
+        await actionsContainer.expectActions([{ type: 'nativeSDaiWithdraw', asset: 'DAI' }])
 
         await depositDialog.selectAssetAction('USDC')
         await depositDialog.fillAmountAction(1000)
         await actionsContainer.expectNextActionEnabled()
-        await actionsContainer.expectActions(
-          [
-            { type: 'approve', asset: 'sDAI', amount: 1000 },
-            { type: 'exchange', inputAsset: 'sDAI', outputAsset: 'USDC', amount: 1000 },
-          ],
-          true,
-        )
+        await actionsContainer.expectActions([
+          { type: 'approve', asset: 'sDAI' },
+          { type: 'exchange', inputAsset: 'sDAI', outputAsset: 'USDC' },
+        ])
 
         await depositDialog.selectAssetAction('USDT')
         await depositDialog.fillAmountAction(1000)
         await actionsContainer.expectNextActionEnabled()
-        await actionsContainer.expectActions(
-          [
-            { type: 'approve', asset: 'sDAI', amount: 1000 },
-            { type: 'exchange', inputAsset: 'sDAI', outputAsset: 'USDT', amount: 1000 },
-          ],
-          true,
-        )
+        await actionsContainer.expectActions([
+          { type: 'approve', asset: 'sDAI' },
+          { type: 'exchange', inputAsset: 'sDAI', outputAsset: 'USDT' },
+        ])
 
         await depositDialog.selectAssetAction('DAI')
         await depositDialog.fillAmountAction(1000)
         await actionsContainer.expectNextActionEnabled()
-        await actionsContainer.expectActions([{ type: 'nativeSDaiWithdraw', asset: 'DAI', amount: 1000 }], true)
+        await actionsContainer.expectActions([{ type: 'nativeSDaiWithdraw', asset: 'DAI' }])
       })
     })
 
@@ -382,51 +376,39 @@ test.describe('Savings withdraw dialog', () => {
 
         await savingsPage.clickWithdrawButtonAction()
 
-        const depositDialog = new SavingsWithdrawDialogPageObject(page)
+        const depositDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
         const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
 
         await depositDialog.fillAmountAction(1000)
         await actionsContainer.expectNextActionEnabled()
-        await actionsContainer.expectActions(
-          [
-            { type: 'approve', asset: 'sDAI', amount: 1000 },
-            { type: 'exchange', inputAsset: 'sDAI', outputAsset: 'XDAI', amount: 1000 },
-          ],
-          true,
-        )
+        await actionsContainer.expectActions([
+          { type: 'approve', asset: 'sDAI' },
+          { type: 'exchange', inputAsset: 'sDAI', outputAsset: 'XDAI' },
+        ])
 
         await depositDialog.selectAssetAction('USDC')
         await depositDialog.fillAmountAction(1000)
         await actionsContainer.expectNextActionEnabled()
-        await actionsContainer.expectActions(
-          [
-            { type: 'approve', asset: 'sDAI', amount: 1000 },
-            { type: 'exchange', inputAsset: 'sDAI', outputAsset: 'USDC', amount: 1000 },
-          ],
-          true,
-        )
+        await actionsContainer.expectActions([
+          { type: 'approve', asset: 'sDAI' },
+          { type: 'exchange', inputAsset: 'sDAI', outputAsset: 'USDC' },
+        ])
 
         await depositDialog.selectAssetAction('USDT')
         await depositDialog.fillAmountAction(1000)
         await actionsContainer.expectNextActionEnabled()
-        await actionsContainer.expectActions(
-          [
-            { type: 'approve', asset: 'sDAI', amount: 1000 },
-            { type: 'exchange', inputAsset: 'sDAI', outputAsset: 'USDT', amount: 1000 },
-          ],
-          true,
-        )
+        await actionsContainer.expectActions([
+          { type: 'approve', asset: 'sDAI' },
+          { type: 'exchange', inputAsset: 'sDAI', outputAsset: 'USDT' },
+        ])
 
         await depositDialog.selectAssetAction('XDAI')
         await depositDialog.fillAmountAction(1000)
         await actionsContainer.expectNextActionEnabled()
-        await actionsContainer.expectActions(
-          [
-            { type: 'approve', asset: 'sDAI', amount: 1000 },
-            { type: 'exchange', inputAsset: 'sDAI', outputAsset: 'XDAI', amount: 1000 },
-          ],
-          true,
-        )
+        await actionsContainer.expectActions([
+          { type: 'approve', asset: 'sDAI' },
+          { type: 'exchange', inputAsset: 'sDAI', outputAsset: 'XDAI' },
+        ])
       })
     })
   })

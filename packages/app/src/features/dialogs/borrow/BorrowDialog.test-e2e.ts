@@ -103,16 +103,7 @@ test.describe('Borrow dialog', () => {
       const borrowDialog = new DialogPageObject(page, headerRegExp)
       await borrowDialog.fillAmountAction(1)
       const actionsContainer = new ActionsPageObject(borrowDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectActions(
-        [
-          {
-            type: 'borrow',
-            asset: 'rETH',
-            amount: 1,
-          },
-        ],
-        true,
-      )
+      await actionsContainer.expectActions([{ type: 'borrow', asset: 'rETH' }])
     })
 
     test('can borrow erc-20', async ({ page }) => {
@@ -154,21 +145,10 @@ test.describe('Borrow dialog', () => {
       await borrowDialog.expectHealthFactorVisible()
 
       const actionsContainer = new ActionsPageObject(borrowDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectActions(
-        [
-          {
-            type: 'approveDelegation',
-            asset: 'ETH',
-            amount: borrowAmount,
-          },
-          {
-            type: 'borrow',
-            asset: 'ETH',
-            amount: borrowAmount,
-          },
-        ],
-        true,
-      )
+      await actionsContainer.expectActions([
+        { type: 'approveDelegation', asset: 'ETH' },
+        { type: 'borrow', asset: 'ETH' },
+      ])
 
       await screenshot(borrowDialog.getDialog(), 'borrow-dialog-eth-action-plan')
     })

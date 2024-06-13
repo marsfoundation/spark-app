@@ -5,12 +5,12 @@ import { setup } from '@/test/e2e/setup'
 import { setupFork } from '@/test/e2e/setupFork'
 import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
-import { SavingsDepositDialogPageObject } from '../SavingsDepositDialog.PageObject'
+import { SavingsDialogPageObject } from '../../common/e2e/SavingsDialog.PageObject'
 
 test.describe('Deposit USDT on Mainnet', () => {
   const fork = setupFork({ blockNumber: 19990683n, chainId: mainnet.id })
   let savingsPage: SavingsPageObject
-  let depositDialog: SavingsDepositDialogPageObject
+  let depositDialog: SavingsDialogPageObject
 
   test.beforeEach(async ({ page }) => {
     await setup(page, fork, {
@@ -32,7 +32,7 @@ test.describe('Deposit USDT on Mainnet', () => {
     savingsPage = new SavingsPageObject(page)
     await savingsPage.clickDepositButtonAction('USDT')
 
-    depositDialog = new SavingsDepositDialogPageObject(page)
+    depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
     await depositDialog.fillAmountAction(10_000)
   })
 
