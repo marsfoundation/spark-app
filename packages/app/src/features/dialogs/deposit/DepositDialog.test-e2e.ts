@@ -402,5 +402,43 @@ test.describe('Deposit dialog', () => {
         WBTC: 507.527309,
       })
     })
+
+    test('can deposit asset that cannot be used as collateral', async ({ page }) => {
+      const initialBalances = {
+        ETH: 1,
+        USDT: 10000,
+      }
+
+      await setup(page, fork, {
+        initialPage: 'dashboard',
+        account: {
+          type: 'connected',
+          assetBalances: { ...initialBalances },
+        },
+      })
+
+      const dashboardPage = new DashboardPageObject(page)
+      await dashboardPage.clickDepositButtonAction('USDT')
+
+      const depositDialog = new DialogPageObject(page, headerRegExp)
+      await depositDialog.fillAmountAction(initialBalances.USDT)
+
+      const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
+      await actionsContainer.acceptAllActionsAction(2)
+      await depositDialog.expectSuccessPage(
+        [
+          {
+            asset: 'USDT',
+            amount: initialBalances.USDT,
+          },
+        ],
+        fork,
+      )
+
+      await depositDialog.viewInDashboardAction()
+      await dashboardPage.expectDepositTable({
+        USDT: initialBalances.USDT,
+      })
+    })
   })
 })
