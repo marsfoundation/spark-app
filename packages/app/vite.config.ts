@@ -28,6 +28,8 @@ export default defineConfig({
     lingui(),
     svgr(),
     sentryVitePlugin({
+      silent: true,
+      telemetry: false,
       org: process.env.SENTRY_ORG,
       project: process.env.SENTRY_PROJECT,
     }),
