@@ -19,39 +19,41 @@ export function useCreateNativeSDaiWithdrawHandler(
 ): ActionHandler {
   const { enabled, onFinish } = options
   const isUSDCWithdraw = action.token.symbol === 'USDC'
+  const isWithdraw = action.method === 'withdraw'
+  const isRedeem = action.method === 'redeem'
 
   const daiWithdraw = useVaultWithdraw({
     vault: action.sDai.address,
-    assetsAmount: action.method === 'withdraw' ? action.token.toBaseUnit(action.value) : BaseUnitNumber(0),
-    enabled: enabled && action.method === 'withdraw' && !isUSDCWithdraw,
+    assetsAmount: isWithdraw ? action.token.toBaseUnit(action.value) : BaseUnitNumber(0),
+    enabled: enabled && isWithdraw && !isUSDCWithdraw,
     onTransactionSettled: onFinish,
   })
   const daiRedeem = useVaultRedeem({
     vault: action.sDai.address,
-    sharesAmount: action.method === 'redeem' ? action.sDai.toBaseUnit(action.value) : BaseUnitNumber(0),
-    enabled: enabled && action.method === 'redeem' && !isUSDCWithdraw,
+    sharesAmount: isRedeem ? action.sDai.toBaseUnit(action.value) : BaseUnitNumber(0),
+    enabled: enabled && isRedeem && !isUSDCWithdraw,
     onTransactionSettled: onFinish,
   })
 
   const usdcWithdraw = useWithdrawAndSwap({
     assetsToken: action.sDai,
     gem: action.token,
-    gemAmountOut: action.method === 'withdraw' ? action.token.toBaseUnit(action.value) : BaseUnitNumber(0),
-    enabled: enabled && action.method === 'withdraw' && isUSDCWithdraw,
+    gemAmountOut: isWithdraw ? action.token.toBaseUnit(action.value) : BaseUnitNumber(0),
+    enabled: enabled && isWithdraw && isUSDCWithdraw,
     onTransactionSettled: onFinish,
   })
   const usdcRedeem = useRedeemAndSwap({
     assetsToken: action.sDai,
     gem: action.token,
-    sharesAmount: action.method === 'redeem' ? action.sDai.toBaseUnit(action.value) : BaseUnitNumber(0),
-    enabled: enabled && action.method === 'redeem' && isUSDCWithdraw,
+    sharesAmount: isRedeem ? action.sDai.toBaseUnit(action.value) : BaseUnitNumber(0),
+    enabled: enabled && isRedeem && isUSDCWithdraw,
     onTransactionSettled: onFinish,
   })
 
   const withdraw = isUSDCWithdraw ? usdcWithdraw : daiWithdraw
   const redeem = isUSDCWithdraw ? usdcRedeem : daiRedeem
 
-  const hookResult = action.method === 'withdraw' ? withdraw : redeem
+  const hookResult = isWithdraw ? withdraw : redeem
 
   return {
     action,
