@@ -93,6 +93,11 @@ jobs:
           buildScriptName: storybook:build
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           autoAcceptChanges: main
+          onlyChanged: true
+          externals: |
+            public/**
+            src/fonts/**
+            src/ui/assets/**
 
   test-e2e:
     strategy:
