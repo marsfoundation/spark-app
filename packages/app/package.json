@@ -12,7 +12,7 @@
     "build": "tsc && pnpm run lingui:extract && vite build",
     "build:staging": "pnpm run build --mode staging",
     "lint": "eslint src",
-    "verify": "concurrently --names \"LINT,TEST,TYPECHECK\" -c \"bgMagenta.bold,bgGreen.bold,bgBlue.bold\" \"pnpm run lint\" \"pnpm run test\" \"pnpm run typecheck\"",
+    "verify": "concurrently --names \"LINT,TEST,TYPECHECK\" -c \"bgMagenta.bold,bgGreen.bold,bgBlue.bold\" \"pnpm run lint\" \"pnpm run test --silent\" \"pnpm run typecheck\"",
     "fix": "cd ../../ && pnpm run check:fix && cd - && pnpm run verify",
     "test": "DEBUG_PRINT_LIMIT=100000 vitest --run",
     "test-e2e": "playwright test",
