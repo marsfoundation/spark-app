@@ -16,7 +16,7 @@ export function APYDetails({ APY, daiEarnRate }: APYDetailsProps) {
         className="text-basics-dark-grey text-sm"
         data-testid={testIds.dialog.savings.nativeRouteTransactionOverview.apy.description}
       >
-        Earn ~{USD_MOCK_TOKEN.format(daiEarnRate, { style: 'auto' })} DAI per year
+        ~{USD_MOCK_TOKEN.format(daiEarnRate, { style: 'auto' })} DAI per year
       </div>
     </div>
   )
