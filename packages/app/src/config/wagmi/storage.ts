@@ -14,6 +14,8 @@ export function createWagmiStorage(): ReturnType<typeof createStorage> {
   return storage
 }
 
+// explicitly removes unsupported connections and chainId from the store
+// this avoids auto reconnect to sandbox network
 function wrapGetItem(defaultStorage: ReturnType<typeof createStorage>): any {
   return async function getItem(key: 'recentConnectorId' | 'store'): Promise<any> {
     const originalValue = (await defaultStorage.getItem(key as any)) as any
