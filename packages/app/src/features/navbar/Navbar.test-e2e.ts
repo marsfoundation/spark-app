@@ -23,7 +23,7 @@ test.describe('Navbar', () => {
       const navbar = new NavbarPageObject(page)
       await navbar.expectAirdropCompactValue('0')
       await navbar.hoverOverAirdropBadge()
-      await navbar.expectAirdropPreciseValue('0 SPK')
+      await navbar.expectAirdropPreciseValue('0.00 SPK')
     })
 
     test('Connected', async ({ page }) => {
@@ -69,7 +69,7 @@ test.describe('Navbar', () => {
       const navbar = new NavbarPageObject(page)
       await navbar.expectAirdropCompactValue('0')
       await navbar.hoverOverAirdropBadge()
-      await navbar.expectAirdropPreciseValue('0 SPK')
+      await navbar.expectAirdropPreciseValue('0.00 SPK')
     })
   })
 })

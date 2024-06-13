@@ -9,7 +9,14 @@ interface AirdropBadgeDynamicProps {
 export function DynamicAirdropBadge({ airdrop }: AirdropBadgeDynamicProps) {
   const [enableCounter, setEnableCounter] = useState(false)
   const amount = useGrowingAirdropAmount(airdrop, enableCounter)
+  const isGrowing = airdrop.tokenRatePerSecond.gt(0)
+
   return (
-    <AirdropBadgeLayout amount={amount} precision={airdrop.tokenRatePrecision} setEnableCounter={setEnableCounter} />
+    <AirdropBadgeLayout
+      amount={amount}
+      precision={airdrop.tokenRatePrecision}
+      isGrowing={isGrowing}
+      setEnableCounter={setEnableCounter}
+    />
   )
 }
