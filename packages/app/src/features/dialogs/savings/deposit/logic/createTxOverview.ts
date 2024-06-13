@@ -106,7 +106,7 @@ export function createMakerTxOverview({
     APY: savingsInfo.apy,
     daiEarnRate,
     route,
-    makerBadgeToken: marketInfo.DAI,
+    makerBadgeToken: formValues.token,
     outTokenAmount: sDAIValue,
   }
 }

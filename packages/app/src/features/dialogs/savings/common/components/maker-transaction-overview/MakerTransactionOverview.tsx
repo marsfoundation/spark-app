@@ -24,7 +24,7 @@ export function MakerTransactionOverview({ txOverview, selectedToken }: MakerTra
 
   assert(route.length > 0, 'Route must have at least one item')
   const outcome = route.at(-1)!
-  const verticalRouteDisplay = Boolean(route.length > 2 && route[0]?.value?.gte(NormalizedUnitNumber(1_000_000)))
+  const displayRouteVertically = Boolean(route.length > 2 && route[0]?.value?.gte(NormalizedUnitNumber(1_000_000)))
 
   return (
     <DialogPanel>
@@ -33,14 +33,14 @@ export function MakerTransactionOverview({ txOverview, selectedToken }: MakerTra
         <APYDetails APY={APY} daiEarnRate={daiEarnRate} />
       </TransactionOverviewDetailsItem>
       <TransactionOverviewDetailsItem label="Route">
-        <div className={cn('flex flex-col items-end gap-2', !verticalRouteDisplay && 'md:flex-row')}>
+        <div className={cn('flex flex-col items-end gap-2', !displayRouteVertically && 'md:flex-row')}>
           {route.map((item, index) => (
             <RouteItem
               key={item.token.symbol}
               item={item}
               index={index}
               isLast={index === route.length - 1}
-              verticalRouteDisplay={verticalRouteDisplay}
+              displayRouteVertically={displayRouteVertically}
             />
           ))}
         </div>

@@ -8,5 +8,6 @@ export interface ApproveAction {
   token: Token
   spender: Address
   value: NormalizedUnitNumber
+  disallowPermit?: boolean // if true, permit is not allowed
   requiredValue?: NormalizedUnitNumber // if reached, no action is needed. Useful when value is approximation (and constantly accrues debt)
 }

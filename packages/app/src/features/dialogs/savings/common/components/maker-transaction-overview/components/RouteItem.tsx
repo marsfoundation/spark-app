@@ -8,21 +8,21 @@ export interface RouteItemProps {
   item: RouteItemType
   index: number
   isLast: boolean
-  verticalRouteDisplay: boolean
+  displayRouteVertically: boolean
 }
-export function RouteItem({ item, index, isLast, verticalRouteDisplay }: RouteItemProps) {
+export function RouteItem({ item, index, isLast, displayRouteVertically }: RouteItemProps) {
   return (
     <div
       className={cn(
         'grid grid-cols-1 items-center gap-x-2 gap-y-0.5',
-        !isLast && !verticalRouteDisplay && 'md:grid-cols-[auto_auto]',
+        !isLast && !displayRouteVertically && 'md:grid-cols-[auto_auto]',
       )}
     >
       <div data-testid={testIds.dialog.savings.nativeRouteTransactionOverview.routeItem.tokenWithAmount(index)}>
         {item.token.format(item.value, { style: 'auto' })} {item.token.symbol}
       </div>
       <div
-        className={cn('justify-self-end text-basics-dark-grey text-sm', !verticalRouteDisplay && 'md:order-last')}
+        className={cn('justify-self-end text-basics-dark-grey text-sm', !displayRouteVertically && 'md:order-last')}
         data-testid={testIds.dialog.savings.nativeRouteTransactionOverview.routeItem.tokenUsdValue(index)}
       >
         {USD_MOCK_TOKEN.formatUSD(item.usdValue)}
@@ -32,7 +32,7 @@ export function RouteItem({ item, index, isLast, verticalRouteDisplay }: RouteIt
           src={assets.arrowRight}
           className={cn(
             'mt-1.5 h-3.5 w-3.5 rotate-90 justify-self-end',
-            !verticalRouteDisplay && 'md:mt-0 md:rotate-0',
+            !displayRouteVertically && 'md:mt-0 md:rotate-0',
           )}
         />
       )}

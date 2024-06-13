@@ -6,6 +6,7 @@ import { useContractAddress } from '@/domain/hooks/useContractAddress'
 import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
 import { BaseUnitNumber, NormalizedUnitNumber } from '@/domain/types/NumericValues'
 
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { mainnet } from 'viem/chains'
 import { ApproveDelegationAction } from '../flavours/approve-delegation/types'
 import { ApproveExchangeAction } from '../flavours/approve-exchange/types'
@@ -169,13 +170,14 @@ export function useCreateActions(objectives: Objective[]): Action[] {
 
       case 'nativeSDaiDeposit': {
         const spender =
-          objective.token.symbol === 'USDC' ? psmActionsConfig.address[mainnet.id] : objective.sDai.address
+          objective.token.symbol === TokenSymbol('USDC') ? psmActionsConfig.address[mainnet.id] : objective.sDai.address
 
         const approveAction: ApproveAction = {
           type: 'approve',
           token: objective.token,
           spender,
           value: objective.value,
+          disallowPermit: true,
         }
 
         const depositAction: NativeSDaiDepositAction = {
