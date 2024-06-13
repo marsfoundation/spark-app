@@ -76,7 +76,6 @@ export class SavingsDialogPageObject extends DialogPageObject {
 
   async expectToUseNativeSDaiAction({
     asset,
-    amount,
   }: {
     asset: string
     amount: number

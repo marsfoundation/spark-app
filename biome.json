@@ -31,7 +31,8 @@
       "recommended": true,
       "correctness": {
         "useHookAtTopLevel": "error",
-        "noUnusedImports": "error"
+        "noUnusedImports": "error",
+        "noUnusedVariables": "error"
       },
       "style": {
         "useImportType": "off",
