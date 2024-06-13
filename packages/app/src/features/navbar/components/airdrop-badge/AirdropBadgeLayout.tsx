@@ -11,12 +11,14 @@ interface AirdropBadgeLayoutProps {
   amount?: NormalizedUnitNumber
   precision?: number
   isLoading?: boolean
+  isGrowing?: boolean
   setEnableCounter?: (value: boolean) => void
 }
 export function AirdropBadgeLayout({
   amount = NormalizedUnitNumber(0),
   precision = 0,
   isLoading,
+  isGrowing,
   setEnableCounter,
 }: AirdropBadgeLayoutProps) {
   return (
@@ -40,7 +42,7 @@ export function AirdropBadgeLayout({
           </button>
         </TooltipTrigger>
         <TooltipContentLong align="start" className="p-0">
-          <AirdropDetails amount={amount} precision={precision} isLoading={isLoading} />
+          <AirdropDetails amount={amount} precision={precision} isLoading={isLoading} isGrowing={isGrowing} />
         </TooltipContentLong>
       </Tooltip>
     </NavbarActionWrapper>

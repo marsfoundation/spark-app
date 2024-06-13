@@ -1,20 +1,20 @@
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { SPK_MOCK_TOKEN } from '@/domain/types/Token'
 import { assets } from '@/ui/assets'
 import BoxArrowTopRight from '@/ui/assets/box-arrow-top-right.svg?react'
 import { Link } from '@/ui/atoms/link/Link'
 import { Skeleton } from '@/ui/atoms/skeleton/Skeleton'
 import { links } from '@/ui/constants/links'
-
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { formatWithPrecision } from './utils/formatWithPrecision'
+import { formatAirdropAmount } from './utils/formatAirdropAmount'
 
 interface AirdropDetailsProps {
   amount: NormalizedUnitNumber
   precision: number
+  isGrowing?: boolean
   isLoading?: boolean
 }
 
-export function AirdropDetails({ amount, precision, isLoading }: AirdropDetailsProps) {
+export function AirdropDetails({ amount, precision, isLoading, isGrowing }: AirdropDetailsProps) {
   return (
     <div className="flex flex-col text-basics-dark-grey text-xs">
       <div className="flex flex-col gap-1 border-basics-grey/50 border-b p-4">
@@ -25,7 +25,7 @@ export function AirdropDetails({ amount, precision, isLoading }: AirdropDetailsP
             <Skeleton className="h-5 w-7" />
           ) : (
             <div className="font-semibold text-base text-basics-black tabular-nums" data-chromatic="ignore">
-              {formatWithPrecision(amount, precision)} {SPK_MOCK_TOKEN.symbol}
+              {formatAirdropAmount({ amount, precision, isGrowing })} {SPK_MOCK_TOKEN.symbol}
             </div>
           )}
         </div>

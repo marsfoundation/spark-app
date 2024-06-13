@@ -66,6 +66,7 @@ export const SmallAirdrop = getHoveredStory<Story>(
   },
   'button',
 )
+
 export const AlmostZero = getHoveredStory<Story>(
   {
     args: {
@@ -73,6 +74,36 @@ export const AlmostZero = getHoveredStory<Story>(
         tokenReward: NormalizedUnitNumber('8.73949580999E-7'),
         tokenRatePerSecond: NormalizedUnitNumber('2.8442E-13'),
         tokenRatePrecision: 14,
+        refreshIntervalInMs: 100,
+        timestampInMs,
+      },
+    },
+  },
+  'button',
+)
+
+export const NotGrowing = getHoveredStory<Story>(
+  {
+    args: {
+      airdrop: {
+        tokenReward: NormalizedUnitNumber('7835.158890800802961891'),
+        tokenRatePerSecond: NormalizedUnitNumber(0),
+        tokenRatePrecision: 2,
+        refreshIntervalInMs: 100,
+        timestampInMs,
+      },
+    },
+  },
+  'button',
+)
+
+export const NotGrowingSmall = getHoveredStory<Story>(
+  {
+    args: {
+      airdrop: {
+        tokenReward: NormalizedUnitNumber('0.000001'),
+        tokenRatePerSecond: NormalizedUnitNumber(0),
+        tokenRatePrecision: 2,
         refreshIntervalInMs: 100,
         timestampInMs,
       },

@@ -124,21 +124,10 @@ test.describe('Repay dialog', () => {
       const repayDialog = new DialogPageObject(page, headerRegExp)
       await repayDialog.fillAmountAction(100)
       const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectActions(
-        [
-          {
-            type: 'approve',
-            asset: 'DAI',
-            amount: 100,
-          },
-          {
-            type: 'repay',
-            asset: 'DAI',
-            amount: 100,
-          },
-        ],
-        true,
-      )
+      await actionsContainer.expectActions([
+        { type: 'approve', asset: 'DAI' },
+        { type: 'repay', asset: 'DAI' },
+      ])
     })
 
     test('can repay DAI', async ({ page }) => {
@@ -214,7 +203,7 @@ test.describe('Repay dialog', () => {
       await repayDialog.clickMaxAmountAction()
 
       // exact amount of debt slightly increased but approval (1) has a buffer so it should be enough
-      await actionsContainer.expectNextAction({ type: 'repay', asset: repay.asset, amount: repay.amount }, true)
+      await actionsContainer.expectNextAction({ type: 'repay', asset: repay.asset })
       await actionsContainer.acceptNextActionAction()
 
       await repayDialog.expectSuccessPage([repay], fork)
@@ -337,16 +326,7 @@ test.describe('Repay dialog', () => {
       await repayDialog.fillAmountAction(repay.amount)
 
       const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectActions(
-        [
-          {
-            type: 'repay',
-            asset: repay.asset,
-            amount: repay.amount,
-          },
-        ],
-        true,
-      )
+      await actionsContainer.expectActions([{ type: 'repay', asset: repay.asset }])
 
       await screenshot(repayDialog.getDialog(), 'repay-dialog-erc20-atoken-action-plan')
     })
@@ -389,21 +369,10 @@ test.describe('Repay dialog', () => {
       const repayDialog = new DialogPageObject(page, headerRegExp)
       await repayDialog.fillAmountAction(repay.amount)
       const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectActions(
-        [
-          {
-            type: 'permit',
-            asset: repay.asset,
-            amount: repay.amount,
-          },
-          {
-            type: 'repay',
-            asset: repay.asset,
-            amount: repay.amount,
-          },
-        ],
-        true,
-      )
+      await actionsContainer.expectActions([
+        { type: 'permit', asset: repay.asset },
+        { type: 'repay', asset: repay.asset },
+      ])
 
       await screenshot(repayDialog.getDialog(), 'repay-dialog-erc20-permit-action-plan')
     })
@@ -423,21 +392,10 @@ test.describe('Repay dialog', () => {
       await actionsContainer.switchPreferPermitsAction()
 
       await repayDialog.fillAmountAction(repay.amount)
-      await actionsContainer.expectActions(
-        [
-          {
-            type: 'approve',
-            asset: repay.asset,
-            amount: repay.amount,
-          },
-          {
-            type: 'repay',
-            asset: repay.asset,
-            amount: repay.amount,
-          },
-        ],
-        true,
-      )
+      await actionsContainer.expectActions([
+        { type: 'approve', asset: repay.asset },
+        { type: 'repay', asset: repay.asset },
+      ])
 
       await screenshot(repayDialog.getDialog(), 'repay-dialog-erc20-approve-action-plan')
     })

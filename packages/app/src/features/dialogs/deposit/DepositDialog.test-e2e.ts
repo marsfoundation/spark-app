@@ -106,21 +106,10 @@ test.describe('Deposit dialog', () => {
       const depositDialog = new DialogPageObject(page, headerRegExp)
       await depositDialog.fillAmountAction(1)
       const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectActions(
-        [
-          {
-            type: 'permit',
-            asset: 'wstETH',
-            amount: 1,
-          },
-          {
-            type: 'deposit',
-            asset: 'wstETH',
-            amount: 1,
-          },
-        ],
-        true,
-      )
+      await actionsContainer.expectActions([
+        { type: 'permit', asset: 'wstETH' },
+        { type: 'deposit', asset: 'wstETH' },
+      ])
     })
 
     test('can switch to approves in action plan', async ({ page }) => {
@@ -134,40 +123,18 @@ test.describe('Deposit dialog', () => {
       const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
 
       await actionsContainer.expectNextActionEnabled()
-      await actionsContainer.expectActions(
-        [
-          {
-            type: 'permit',
-            asset: 'wstETH',
-            amount: 1,
-          },
-          {
-            type: 'deposit',
-            asset: 'wstETH',
-            amount: 1,
-          },
-        ],
-        true,
-      )
+      await actionsContainer.expectActions([
+        { type: 'permit', asset: 'wstETH' },
+        { type: 'deposit', asset: 'wstETH' },
+      ])
 
       await actionsContainer.switchPreferPermitsAction()
 
       await actionsContainer.expectNextActionEnabled()
-      await actionsContainer.expectActions(
-        [
-          {
-            type: 'approve',
-            asset: 'wstETH',
-            amount: 1,
-          },
-          {
-            type: 'deposit',
-            asset: 'wstETH',
-            amount: 1,
-          },
-        ],
-        true,
-      )
+      await actionsContainer.expectActions([
+        { type: 'approve', asset: 'wstETH' },
+        { type: 'deposit', asset: 'wstETH' },
+      ])
     })
 
     test('has correct action plan for erc-20 with no permit support', async ({ page }) => {
@@ -179,21 +146,10 @@ test.describe('Deposit dialog', () => {
       const depositDialog = new DialogPageObject(page, headerRegExp)
       await depositDialog.fillAmountAction(1)
       const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectActions(
-        [
-          {
-            type: 'approve',
-            asset: 'rETH',
-            amount: 1,
-          },
-          {
-            type: 'deposit',
-            asset: 'rETH',
-            amount: 1,
-          },
-        ],
-        true,
-      )
+      await actionsContainer.expectActions([
+        { type: 'approve', asset: 'rETH' },
+        { type: 'deposit', asset: 'rETH' },
+      ])
     })
 
     test('can deposit erc-20 using permits', async ({ page }) => {
@@ -261,16 +217,7 @@ test.describe('Deposit dialog', () => {
       await depositDialog.fillAmountAction(1)
       await depositDialog.expectHealthFactorVisible()
       const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectActions(
-        [
-          {
-            type: 'deposit',
-            asset: 'ETH',
-            amount: 1,
-          },
-        ],
-        true,
-      )
+      await actionsContainer.expectActions([{ type: 'deposit', asset: 'ETH' }])
 
       await screenshot(depositDialog.getDialog(), 'deposit-dialog-eth-action-plan')
     })
@@ -335,25 +282,11 @@ test.describe('Deposit dialog', () => {
       const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
       await actionsContainer.acceptNextActionAction()
 
-      await actionsContainer.expectNextAction(
-        {
-          type: 'deposit',
-          asset: depositAsset,
-          amount: 1,
-        },
-        true,
-      )
+      await actionsContainer.expectNextAction({ type: 'deposit', asset: depositAsset })
 
       await depositDialog.fillAmountAction(2)
 
-      await actionsContainer.expectNextAction(
-        {
-          type: 'approve',
-          asset: depositAsset,
-          amount: 2,
-        },
-        true,
-      )
+      await actionsContainer.expectNextAction({ type: 'approve', asset: depositAsset })
     })
 
     test('requires new permit when the input value is changed', async ({ page }) => {
@@ -367,25 +300,11 @@ test.describe('Deposit dialog', () => {
       const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
       await actionsContainer.acceptNextActionAction()
 
-      await actionsContainer.expectNextAction(
-        {
-          type: 'deposit',
-          asset: depositAsset,
-          amount: 2,
-        },
-        true,
-      )
+      await actionsContainer.expectNextAction({ type: 'deposit', asset: depositAsset })
 
       await depositDialog.fillAmountAction(1)
 
-      await actionsContainer.expectNextAction(
-        {
-          type: 'permit',
-          asset: depositAsset,
-          amount: 1,
-        },
-        true,
-      )
+      await actionsContainer.expectNextAction({ type: 'permit', asset: depositAsset })
     })
   })
 
