@@ -18,7 +18,7 @@ export function useCreateApproveOrPermitHandler(
   const chainId = useOriginChainId()
   const supportsPermit = isPermitSupported(chainId, action.token)
 
-  const shouldUsePermit = permitStore !== undefined && !!supportsPermit
+  const shouldUsePermit = permitStore !== undefined && !!supportsPermit && !action.disallowPermit
   const approveEnabled = enabled && !shouldUsePermit
   const permitEnabled = enabled && shouldUsePermit
 

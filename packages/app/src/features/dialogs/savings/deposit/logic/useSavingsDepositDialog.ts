@@ -15,6 +15,7 @@ import { AssetInputSchema, useDebouncedDialogFormValues } from '@/features/dialo
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
 
 import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { mainnet } from 'viem/chains'
 import { SavingsDialogTxOverview } from '../../common/types'
 import { createMakerTxOverview, createTxOverview } from './createTxOverview'
@@ -76,9 +77,9 @@ export function useSavingsDepositDialog({
   })
 
   const useNativeRoutes =
-    import.meta.env.VITE_DEV_NATIVE_ROUTES === '1' &&
     originChainId === mainnet.id &&
-    formValues.token.address === marketInfo.DAI.address
+    ((import.meta.env.VITE_DEV_DAI_NATIVE_ROUTES === '1' && formValues.token.address === marketInfo.DAI.address) ||
+      (import.meta.env.VITE_DEV_USDC_NATIVE_ROUTES === '1' && formValues.token.symbol === TokenSymbol('USDC')))
 
   const { swapInfo, swapParams } = useDepositIntoSavings({
     formValues,

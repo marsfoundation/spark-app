@@ -68,7 +68,10 @@ export function createMakerTxOverview({
   marketInfo,
   savingsInfo,
 }: CreateMakerTxOverviewParams): SavingsDialogTxOverview {
+  // the value is normalized, so assuming 1 to 1 conversion rate for USDC
+  // value denominated in DAI equals to value denominated in USDC
   const daiValue = formValues.value
+  const isDaiDeposit = formValues.token.address === marketInfo.DAI.address
   if (daiValue.eq(0)) {
     return { type: 'maker', status: 'no-overview' }
   }
@@ -76,6 +79,15 @@ export function createMakerTxOverview({
   const sDAIValue = savingsInfo.convertDaiToShares({ dai: daiValue })
   const daiEarnRate = NormalizedUnitNumber(daiValue.multipliedBy(savingsInfo.apy))
   const route: RouteItem[] = [
+    ...(!isDaiDeposit
+      ? [
+          {
+            token: formValues.token,
+            value: daiValue,
+            usdValue: daiValue,
+          },
+        ]
+      : []),
     {
       token: marketInfo.DAI,
       value: daiValue,
@@ -94,7 +106,7 @@ export function createMakerTxOverview({
     APY: savingsInfo.apy,
     daiEarnRate,
     route,
-    makerBadgeToken: marketInfo.DAI,
+    makerBadgeToken: formValues.token,
     outTokenAmount: sDAIValue,
   }
 }

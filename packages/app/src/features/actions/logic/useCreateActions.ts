@@ -1,11 +1,13 @@
 import { maxUint256 } from 'viem'
 
 import { getNativeAssetInfo } from '@/config/chain/utils/getNativeAssetInfo'
-import { wethGatewayAddress } from '@/config/contracts-generated'
+import { psmActionsConfig, wethGatewayAddress } from '@/config/contracts-generated'
 import { useContractAddress } from '@/domain/hooks/useContractAddress'
 import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
 import { BaseUnitNumber, NormalizedUnitNumber } from '@/domain/types/NumericValues'
 
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { mainnet } from 'viem/chains'
 import { ApproveDelegationAction } from '../flavours/approve-delegation/types'
 import { ApproveExchangeAction } from '../flavours/approve-exchange/types'
 import { ApproveAction } from '../flavours/approve/types'
@@ -167,11 +169,15 @@ export function useCreateActions(objectives: Objective[]): Action[] {
       }
 
       case 'nativeSDaiDeposit': {
+        const spender =
+          objective.token.symbol === TokenSymbol('USDC') ? psmActionsConfig.address[mainnet.id] : objective.sDai.address
+
         const approveAction: ApproveAction = {
           type: 'approve',
           token: objective.token,
-          spender: objective.sDai.address,
+          spender,
           value: objective.value,
+          disallowPermit: true,
         }
 
         const depositAction: NativeSDaiDepositAction = {
