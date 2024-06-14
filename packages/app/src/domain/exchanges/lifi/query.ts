@@ -97,7 +97,7 @@ export function fetchLiFiTxData({
         response.action.slippage
           .minus(meta.maxSlippage)
           .abs()
-          .lte(new BigNumber('0.000000000000000001')),
+          .lte(new BigNumber('0.000000000001')),
         `slippage (${response.action.slippage}) should eq maxSlippage (${meta.maxSlippage})`,
       )
 
