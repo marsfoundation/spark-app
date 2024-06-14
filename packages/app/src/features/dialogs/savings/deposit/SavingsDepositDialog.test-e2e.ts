@@ -85,7 +85,7 @@ test.describe('Savings deposit dialog', () => {
   })
 
   test.describe('Slippage', () => {
-    const blockNumber = 19519583n
+    const blockNumber = 20089938n
     const fork = setupFork({ blockNumber, chainId: mainnet.id })
 
     test('default', async ({ page }) => {
@@ -95,7 +95,7 @@ test.describe('Savings deposit dialog', () => {
           type: 'connected',
           assetBalances: {
             ETH: 1,
-            USDC: 100,
+            USDT: 100,
           },
           privateKey: LIFI_TEST_USER_PRIVATE_KEY,
         },
@@ -104,12 +104,12 @@ test.describe('Savings deposit dialog', () => {
 
       await overrideLiFiRouteWithHAR({
         page,
-        key: '100-usdc-to-sdai-slippage-0.001',
+        key: '100-usdt-to-sdai-slippage-0.001',
       })
 
       const savingsPage = new SavingsPageObject(page)
 
-      await savingsPage.clickDepositButtonAction('USDC')
+      await savingsPage.clickDepositButtonAction('USDT')
 
       const depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
       const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
@@ -127,7 +127,7 @@ test.describe('Savings deposit dialog', () => {
           type: 'connected',
           assetBalances: {
             ETH: 1,
-            USDC: 100,
+            USDT: 100,
           },
           privateKey: LIFI_TEST_USER_PRIVATE_KEY,
         },
@@ -136,12 +136,12 @@ test.describe('Savings deposit dialog', () => {
 
       await overrideLiFiRouteWithHAR({
         page,
-        key: '100-usdc-to-sdai-slippage-0.005',
+        key: '100-usdt-to-sdai-slippage-0.005',
       })
 
       const savingsPage = new SavingsPageObject(page)
 
-      await savingsPage.clickDepositButtonAction('USDC')
+      await savingsPage.clickDepositButtonAction('USDT')
 
       const depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
       const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
@@ -159,7 +159,7 @@ test.describe('Savings deposit dialog', () => {
           type: 'connected',
           assetBalances: {
             ETH: 1,
-            USDC: 100,
+            USDT: 100,
           },
           privateKey: LIFI_TEST_USER_PRIVATE_KEY,
         },
@@ -168,12 +168,12 @@ test.describe('Savings deposit dialog', () => {
 
       await overrideLiFiRouteWithHAR({
         page,
-        key: '100-usdc-to-sdai-slippage-0.007',
+        key: '100-usdt-to-sdai-slippage-0.007',
       })
 
       const savingsPage = new SavingsPageObject(page)
 
-      await savingsPage.clickDepositButtonAction('USDC')
+      await savingsPage.clickDepositButtonAction('USDT')
 
       const depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
       const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
@@ -192,7 +192,7 @@ test.describe('Savings deposit dialog', () => {
             type: 'connected',
             assetBalances: {
               ETH: 1,
-              USDC: 100,
+              USDT: 100,
             },
             privateKey: LIFI_TEST_USER_PRIVATE_KEY,
           },
@@ -202,12 +202,12 @@ test.describe('Savings deposit dialog', () => {
 
         await overrideLiFiRouteWithHAR({
           page,
-          key: '100-usdc-to-sdai-slippage-0.001',
+          key: '100-usdt-to-sdai-slippage-0.001',
         })
 
         const savingsPage = new SavingsPageObject(page)
 
-        await savingsPage.clickDepositButtonAction('USDC')
+        await savingsPage.clickDepositButtonAction('USDT')
 
         const depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
         const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
@@ -231,7 +231,7 @@ test.describe('Savings deposit dialog', () => {
             type: 'connected',
             assetBalances: {
               ETH: 1,
-              USDC: 100,
+              USDT: 100,
             },
             privateKey: LIFI_TEST_USER_PRIVATE_KEY,
           },
@@ -241,12 +241,12 @@ test.describe('Savings deposit dialog', () => {
 
         await overrideLiFiRouteWithHAR({
           page,
-          key: '100-usdc-to-sdai-slippage-0.001',
+          key: '100-usdt-to-sdai-slippage-0.001',
         })
 
         const savingsPage = new SavingsPageObject(page)
 
-        await savingsPage.clickDepositButtonAction('USDC')
+        await savingsPage.clickDepositButtonAction('USDT')
 
         const depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
         const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
@@ -270,7 +270,7 @@ test.describe('Savings deposit dialog', () => {
             type: 'connected',
             assetBalances: {
               ETH: 1,
-              USDC: 100,
+              USDT: 100,
             },
             privateKey: LIFI_TEST_USER_PRIVATE_KEY,
           },
@@ -279,12 +279,12 @@ test.describe('Savings deposit dialog', () => {
 
         await overrideLiFiRouteWithHAR({
           page,
-          key: '100-usdc-to-sdai-slippage-0.001',
+          key: '100-usdt-to-sdai-slippage-0.001',
         })
 
         const savingsPage = new SavingsPageObject(page)
 
-        await savingsPage.clickDepositButtonAction('USDC')
+        await savingsPage.clickDepositButtonAction('USDT')
 
         const depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
         const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
