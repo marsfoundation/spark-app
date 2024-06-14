@@ -32,7 +32,7 @@ test.describe('Withdraw DAI on Mainnet', () => {
   })
 
   test('uses native sDai withdrawal', async () => {
-    await withdrawalDialog.expectToUseNativeSDaiAction({ asset: 'DAI', amount: 7000 })
+    await withdrawalDialog.expectToUseNativeSDaiAction({ asset: 'DAI' })
   })
 
   test('displays transaction overview', async () => {

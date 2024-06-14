@@ -36,7 +36,7 @@ test.describe('Deposit USDC on Mainnet', () => {
   })
 
   test('uses native sDai deposit', async () => {
-    await depositDialog.expectToUseNativeSDaiAction({ asset: 'USDC', amount: 10_000 })
+    await depositDialog.expectToUsePSMActionsAction({ asset: 'USDC' })
   })
 
   test('displays transaction overview', async () => {
