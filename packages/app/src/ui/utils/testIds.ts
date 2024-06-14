@@ -78,9 +78,9 @@ export const testIds = makeTestIds({
         error: true,
       },
     },
+    row: (index: number) => index,
     flavours: {
       exchangeActionRow: {
-        wrapper: true,
         lifiBadge: true,
         slippage: true,
         fee: true,

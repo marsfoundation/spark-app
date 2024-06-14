@@ -1,5 +1,6 @@
 import { assets } from '@/ui/assets'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
+import { testIds } from '@/ui/utils/testIds'
 import { ActionRow } from '../../components/action-row/ActionRow'
 import { ActionRowBaseProps } from '../../components/action-row/types'
 import { getFormattedValue } from '../../components/action-row/utils'
@@ -17,7 +18,7 @@ export function ApproveActionRow({ index, action, variant, actionHandlerState, o
   const successMessage = `${isApprove ? 'Approved' : 'Permitted'} for ${formattedValue}!`
 
   return (
-    <ActionRow>
+    <ActionRow data-testid={testIds.actions.row(index - 1)}>
       <ActionRow.Index index={index} />
 
       <ActionRow.Icon path={assets.actions.approve} actionStatus={status} />

@@ -1,5 +1,6 @@
 import { assets, getTokenImage } from '@/ui/assets'
 import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
+import { testIds } from '@/ui/utils/testIds'
 import { ActionRow } from '../../components/action-row/ActionRow'
 import { UpDownMarker } from '../../components/action-row/UpDownMarker'
 import { ActionRowBaseProps } from '../../components/action-row/types'
@@ -23,7 +24,7 @@ export function NativeSDaiWithdrawActionRow({
   const successMessage = `Unwrapped ${fromToken.format(action.value, { style: 'auto' })} ${toToken.symbol}!`
 
   return (
-    <ActionRow>
+    <ActionRow data-testid={testIds.actions.row(index - 1)}>
       <ActionRow.Index index={index} />
 
       <ActionRow.Icon path={assets.actions.exchange} actionStatus={status} />

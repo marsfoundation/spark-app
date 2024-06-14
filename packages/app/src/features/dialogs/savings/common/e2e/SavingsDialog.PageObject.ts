@@ -5,9 +5,12 @@ import { DialogPageObject } from '../../../common/Dialog.PageObject'
 
 export class SavingsDialogPageObject extends DialogPageObject {
   private readonly type: 'deposit' | 'withdraw'
+  public readonly actionsContainer: ActionsPageObject
+
   constructor({ page, type }: { page: Page; type: 'deposit' | 'withdraw' }) {
     super(page, new RegExp(`${type === 'deposit' ? 'Deposit to' : 'Withdraw from'} Savings`))
     this.type = type
+    this.actionsContainer = new ActionsPageObject(this.locatePanelByHeader('Actions'))
   }
 
   // #region actions
@@ -80,12 +83,7 @@ export class SavingsDialogPageObject extends DialogPageObject {
     asset: string
     amount: number
   }): Promise<void> {
-    const actionsContainer = new ActionsPageObject(this.locatePanelByHeader('Actions'))
     if (this.type === 'deposit') {
-      await actionsContainer.expectActions([
-        { type: 'approve', asset },
-        { type: 'nativeSDaiDeposit', asset },
-      ])
     } else {
       await actionsContainer.expectActions([{ type: 'nativeSDaiWithdraw', asset }])
     }
