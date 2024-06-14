@@ -25,9 +25,7 @@ export function ExchangeActionRow({ index, action, actionHandlerState, onAction,
   const successMessage = `Converted ${token.format(action.value, { style: 'auto' })} ${token.symbol}!`
 
   return (
-    <ActionRow data-testid={testIds.actions.row(index - 1)}>
-      <ActionRow.Index index={index} />
-
+    <ActionRow index={index}>
       <ActionRow.Icon path={assets.actions.exchange} actionStatus={status} />
 
       <ActionRow.Title icon={<IconStack paths={tokenIconPaths} stackingOrder="last-on-top" />} actionStatus={status}>

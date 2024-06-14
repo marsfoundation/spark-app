@@ -37,13 +37,18 @@ test.describe('Deposit USDT on Mainnet', () => {
   })
 
   test('uses Lifi Swap', async () => {
-    await depositDialog.expectToUseLifiSwap({
-      title: 'Convert USDT to sDAI',
-      fee: '$19.99',
-      slippage: '0.1%',
-      finalDAIAmount: '$9,978.30 DAI',
-      finalSDAIAmount: '9,180.20 sDAI',
-    })
+    await depositDialog.actionsContainer.expectActions([
+      { type: 'approve', asset: 'USDT' },
+      {
+        type: 'exchange',
+        inputAsset: 'USDT',
+        outputAsset: 'sDAI',
+        fee: '$19.99',
+        slippage: '0.1%',
+        finalDAIAmount: '$9,978.30 DAI',
+        finalSDAIAmount: '9,180.20 sDAI',
+      },
+    ])
   })
 
   test('displays transaction overview', async () => {

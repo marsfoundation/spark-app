@@ -81,6 +81,10 @@ export class ActionsPageObject extends BasePageObject {
     for (const [index, expectedAction] of actions.entries()) {
       const row = this.region.getByTestId(testIds.actions.row(index))
       await expect(row).toContainText(actionToTitle(expectedAction))
+
+      if (expectedAction.type === 'exchange') {
+        await expectExchangeActionRow(row, expectedAction)
+      }
     }
 
     await expect(this.region.getByTestId(testIds.actions.row(actions.length))).toBeHidden() // this ensures that there are no more rows
@@ -93,21 +97,6 @@ export class ActionsPageObject extends BasePageObject {
   async expectActionsDisabled(): Promise<void> {
     await expect(this.locateActionButtons({ disabled: false })).not.toBeVisible()
   }
-
-  // async expectNextAction(action: SimplifiedAction): Promise<void> {
-  //   await this._expectNextAction({ action, shortForm: true })
-  // }
-
-  // private async _expectNextAction(params: ExpectedAction): Promise<void> {
-  //   await expect(async () => {
-  //     const buttons = await this.locateActionButtons().all()
-  //     const titles = await this.region.getByTestId(testIds.component.Action.title).all()
-  //     // when action is complete, the action button is removed from the DOM
-  //     const index = titles.length - buttons.length
-  //     const title = await titles[index]?.textContent()
-  //     expect(title).toEqual(actionToTitle(params))
-  //   }).toPass({ timeout: 10000 })
-  // }
 
   async expectSlippage(slippage: number): Promise<void> {
     await expect(this.region.getByTestId(testIds.actions.flavours.exchangeActionRow.slippage)).toHaveText(
@@ -127,16 +116,22 @@ export class ActionsPageObject extends BasePageObject {
 
 // type SimplifiedActionWithAmount = SimplifiedAction & { amount: number }
 
+type SimplifiedExchangeAction = {
+  type: 'exchange'
+  inputAsset: string
+  outputAsset: string
+  fee: string
+  slippage: string
+  finalSDAIAmount: string
+  finalDAIAmount: string
+}
+
 type SimplifiedAction =
   | {
       type: Exclude<ActionType, 'exchange'>
       asset: string
     }
-  | {
-      type: 'exchange'
-      inputAsset: string
-      outputAsset: string
-    }
+  | SimplifiedExchangeAction
 
 function actionToTitle(action: SimplifiedAction): string {
   switch (action.type) {
@@ -183,3 +178,16 @@ const actionVerbs = [
   'Unwrap',
 ]
 const actionButtonRegex = new RegExp(`^(${actionVerbs.join('|')})$`)
+
+// exchange action deserves a special treatment as it's the only one with extra fields on UI
+async function expectExchangeActionRow(exchangeRow: Locator, action: SimplifiedExchangeAction): Promise<void> {
+  await expect(exchangeRow.getByTestId(testIds.actions.flavours.exchangeActionRow.lifiBadge)).toBeVisible()
+  await expect(exchangeRow.getByTestId(testIds.actions.flavours.exchangeActionRow.fee)).toHaveText(action.fee)
+  await expect(exchangeRow.getByTestId(testIds.actions.flavours.exchangeActionRow.slippage)).toHaveText(action.slippage)
+  await expect(exchangeRow.getByTestId(testIds.actions.flavours.exchangeActionRow.finalDAIAmount)).toContainText(
+    action.finalDAIAmount,
+  )
+  await expect(exchangeRow.getByTestId(testIds.actions.flavours.exchangeActionRow.finalSDAIAmount)).toHaveText(
+    action.finalSDAIAmount,
+  )
+}
