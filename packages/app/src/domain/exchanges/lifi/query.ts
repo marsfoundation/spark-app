@@ -9,6 +9,8 @@ import { SwapMeta, SwapRequest } from '../types'
 import { LiFiClient } from './LifiClient'
 import { QuoteResponse } from './types'
 
+const SLIPPAGE_EPSILON = new BigNumber('0.000000000001')
+
 export interface FetchLiFiTxDataParams {
   client: LiFiClient
   type: 'direct' | 'reverse'
@@ -65,7 +67,7 @@ export function fetchLiFiTxData({
           response.action.slippage
             .minus(meta.maxSlippage)
             .abs()
-            .lte(new BigNumber('0.00000000000000000001')),
+            .lte(SLIPPAGE_EPSILON),
           `slippage (${response.action.slippage}) should eq maxSlippage (${meta.maxSlippage})`,
         )
 
@@ -97,7 +99,7 @@ export function fetchLiFiTxData({
         response.action.slippage
           .minus(meta.maxSlippage)
           .abs()
-          .lte(new BigNumber('0.00000000000000000001')),
+          .lte(SLIPPAGE_EPSILON),
         `slippage (${response.action.slippage}) should eq maxSlippage (${meta.maxSlippage})`,
       )
 
