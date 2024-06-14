@@ -48,6 +48,7 @@ import unknown from './tokens/unknown.svg'
 import usdc from './tokens/usdc.svg'
 import usdt from './tokens/usdt.svg'
 import wbtc from './tokens/wbtc.svg'
+import weeth from './tokens/weeth.svg'
 import weth from './tokens/weth.svg'
 import wsteth from './tokens/wsteth.svg'
 import wxdai from './tokens/wxdai.svg'
@@ -127,6 +128,7 @@ export const assets = {
     wxdai,
     xdai,
     eure,
+    weeth,
     unknown,
   },
   walletIcons: {
@@ -164,4 +166,5 @@ export const tokenColors: Record<string, string> = {
   XDAI: '#FFC046',
   GNO: '#3E6957',
   EURe: '#0086C2',
+  weETH: '#5A44BE',
 }
