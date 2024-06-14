@@ -11,7 +11,7 @@ jobs:
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     # a safe guard to ensure that the workflow is only triggered on the main branch
-    # if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main'
     outputs:
       pinata_hash: '${{ steps.pinata.outputs.hash }}'
 
