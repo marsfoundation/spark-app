@@ -7,7 +7,7 @@ import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
 import { SavingsDialogPageObject } from '../../common/e2e/SavingsDialog.PageObject'
 
-test.describe('Withdraw USDC on Mainnet', () => {
+test.describe('Withdraw max USDC on Mainnet', () => {
   const fork = setupFork({
     blockNumber: PSM_ACTIONS_DEPLOYED,
     simulationDateOverride: PSM_ACTIONS_DEPLOYED_DATE,
@@ -33,7 +33,7 @@ test.describe('Withdraw USDC on Mainnet', () => {
 
     withdrawalDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
     await withdrawalDialog.selectAssetAction('USDC')
-    await withdrawalDialog.fillAmountAction(6969)
+    await withdrawalDialog.clickMaxAmountAction()
   })
 
   test('uses PSM actions native withdrawal', async () => {
@@ -44,34 +44,35 @@ test.describe('Withdraw USDC on Mainnet', () => {
     await withdrawalDialog.expectNativeRouteTransactionOverview({
       apy: {
         value: '8.00%',
-        description: '~557.52 DAI per year',
+        description: '~869.91 DAI per year',
       },
       routeItems: [
         {
-          tokenAmount: '6,408.90 sDAI',
-          tokenUsdValue: '$6,969.00',
+          tokenAmount: '10,000.00 sDAI',
+          tokenUsdValue: '$10,873.93',
         },
         {
-          tokenAmount: '6,969.00 DAI',
-          tokenUsdValue: '$6,969.00',
+          tokenAmount: '10,873.93 DAI',
+          tokenUsdValue: '$10,873.93',
         },
         {
-          tokenAmount: '6,969.00 USDC',
-          tokenUsdValue: '$6,969.00',
+          tokenAmount: '10,873.93 USDC',
+          tokenUsdValue: '$10,873.93',
         },
       ],
-      outcome: '6,969.00 USDC worth $6,969.00',
+      outcome: '10,873.93 USDC worth $10,873.93',
     })
   })
 
-  test('executes withdrawal', async () => {
+  test('executes max withdrawal', async () => {
     const actionsContainer = new ActionsPageObject(withdrawalDialog.locatePanelByHeader('Actions'))
     await actionsContainer.acceptAllActionsAction(2)
 
     await withdrawalDialog.expectSuccessPage()
     await withdrawalDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsBalance({ sDaiBalance: '3,591.10 sDAI', estimatedDaiValue: '3,904.93' })
-    await savingsPage.expectCashInWalletAssetBalance('USDC', '6,969.00')
+    await savingsPage.expectPotentialProjection('$69.00', '30-day')
+    await savingsPage.expectPotentialProjection('$869.92', '1-year')
+    await savingsPage.expectCashInWalletAssetBalance('USDC', '10,873.94')
   })
 })
