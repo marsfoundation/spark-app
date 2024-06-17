@@ -137,10 +137,10 @@ type SimplifiedExchangeAction = {
   type: 'exchange'
   inputAsset: string
   outputAsset: string
-  fee: string
-  slippage: string
-  finalSDAIAmount: string
-  finalDAIAmount: string
+  fee?: string
+  slippage?: string
+  finalSDAIAmount?: string
+  finalDAIAmount?: string
 }
 
 type SimplifiedAction =
@@ -199,14 +199,24 @@ const actionButtonRegex = new RegExp(`^(${actionVerbs.join('|')})$`)
 // exchange action deserves a special treatment as it's the only one with extra fields on UI
 async function expectExchangeActionRow(exchangeRow: Locator, action: SimplifiedExchangeAction): Promise<void> {
   await expect(exchangeRow.getByTestId(testIds.actions.flavours.exchangeActionRow.lifiBadge)).toBeVisible()
-  await expect(exchangeRow.getByTestId(testIds.actions.flavours.exchangeActionRow.fee)).toHaveText(action.fee)
-  await expect(exchangeRow.getByTestId(testIds.actions.flavours.exchangeActionRow.slippage)).toHaveText(action.slippage)
-  await expect(exchangeRow.getByTestId(testIds.actions.flavours.exchangeActionRow.finalDAIAmount)).toContainText(
-    action.finalDAIAmount,
-  )
-  await expect(exchangeRow.getByTestId(testIds.actions.flavours.exchangeActionRow.finalSDAIAmount)).toHaveText(
-    action.finalSDAIAmount,
-  )
+  if (action.fee) {
+    await expect(exchangeRow.getByTestId(testIds.actions.flavours.exchangeActionRow.fee)).toHaveText(action.fee)
+  }
+  if (action.slippage) {
+    await expect(exchangeRow.getByTestId(testIds.actions.flavours.exchangeActionRow.slippage)).toHaveText(
+      action.slippage,
+    )
+  }
+  if (action.finalDAIAmount) {
+    await expect(exchangeRow.getByTestId(testIds.actions.flavours.exchangeActionRow.finalDAIAmount)).toContainText(
+      action.finalDAIAmount,
+    )
+  }
+  if (action.finalSDAIAmount) {
+    await expect(exchangeRow.getByTestId(testIds.actions.flavours.exchangeActionRow.finalSDAIAmount)).toHaveText(
+      action.finalSDAIAmount,
+    )
+  }
 }
 
 type SimplifiedExtendedAction =

@@ -148,10 +148,10 @@ test.describe('Savings withdraw dialog', () => {
       await depositDialog.expectTransactionOverviewToBeVisible() // wait for lifi to load
 
       const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectActionsDisabled()
+      await actionsContainer.expectDisabledActionAtIndex(0)
 
       await depositDialog.clickAcknowledgeRisk()
-      await actionsContainer.expectNextActionEnabled()
+      await actionsContainer.expectEnabledActionAtIndex(0)
     })
   })
 
