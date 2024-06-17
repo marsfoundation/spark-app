@@ -1,13 +1,11 @@
-import { maxUint256 } from 'viem'
-
 import { getNativeAssetInfo } from '@/config/chain/utils/getNativeAssetInfo'
-import { psmActionsConfig, wethGatewayAddress } from '@/config/contracts-generated'
+import { psmActionsAddress, wethGatewayAddress } from '@/config/contracts-generated'
 import { useContractAddress } from '@/domain/hooks/useContractAddress'
 import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
 import { BaseUnitNumber, NormalizedUnitNumber } from '@/domain/types/NumericValues'
-
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import BigNumber from 'bignumber.js'
+import { maxUint256 } from 'viem'
 import { mainnet } from 'viem/chains'
 import { ApproveDelegationAction } from '../flavours/approve-delegation/types'
 import { ApproveExchangeAction } from '../flavours/approve-exchange/types'
@@ -15,8 +13,11 @@ import { ApproveAction } from '../flavours/approve/types'
 import { BorrowAction } from '../flavours/borrow/types'
 import { DepositAction } from '../flavours/deposit/types'
 import { ExchangeAction } from '../flavours/exchange/types'
+import { NativeDaiDepositAction } from '../flavours/native-dai-deposit/types'
 import { NativeSDaiDepositAction } from '../flavours/native-sdai-deposit/types'
 import { NativeSDaiWithdrawAction } from '../flavours/native-sdai-withdraw/types'
+import { NativeXDaiDepositAction } from '../flavours/native-sexy-dai-deposit/types'
+import { NativeUSDCDepositAction } from '../flavours/native-usdc-deposit/types'
 import { RepayAction } from '../flavours/repay/types'
 import { SetUseAsCollateralAction } from '../flavours/set-use-as-collateral/types'
 import { SetUserEModeAction } from '../flavours/set-user-e-mode/types'
@@ -171,7 +172,7 @@ export function useCreateActions(objectives: Objective[]): Action[] {
 
       case 'nativeSDaiDeposit': {
         const spender =
-          objective.token.symbol === TokenSymbol('USDC') ? psmActionsConfig.address[mainnet.id] : objective.sDai.address
+          objective.token.symbol === TokenSymbol('USDC') ? psmActionsAddress[mainnet.id] : objective.sDai.address
 
         const approveAction: ApproveAction = {
           type: 'approve',
@@ -206,7 +207,7 @@ export function useCreateActions(objectives: Objective[]): Action[] {
         const approveAction: ApproveAction = {
           type: 'approve',
           token: objective.sDai,
-          spender: psmActionsConfig.address[mainnet.id],
+          spender: psmActionsAddress[mainnet.id],
           value:
             objective.method === 'withdraw'
               ? NormalizedUnitNumber(objective.sDaiValueEstimate.toFixed(objective.sDai.decimals, BigNumber.ROUND_UP))
@@ -215,6 +216,52 @@ export function useCreateActions(objectives: Objective[]): Action[] {
         }
 
         return [approveAction, withdrawAction]
+      }
+
+      case 'nativeDaiDeposit': {
+        const approveAction: ApproveAction = {
+          type: 'approve',
+          token: objective.dai,
+          spender: objective.sDai.address,
+          value: objective.value,
+        }
+
+        const depositAction: NativeDaiDepositAction = {
+          type: 'nativeDaiDeposit',
+          value: objective.value,
+          dai: objective.dai,
+          sDai: objective.sDai,
+        }
+
+        return [approveAction, depositAction]
+      }
+
+      case 'nativeUSDCDeposit': {
+        const approveAction: ApproveAction = {
+          type: 'approve',
+          token: objective.usdc,
+          spender: psmActionsAddress[mainnet.id],
+          value: objective.value,
+          disallowPermit: true,
+        }
+
+        const depositAction: NativeUSDCDepositAction = {
+          type: 'nativeUSDCDeposit',
+          value: objective.value,
+          usdc: objective.usdc,
+          dai: objective.dai,
+        }
+
+        return [approveAction, depositAction]
+      }
+
+      case 'nativeXDaiDeposit': {
+        const depositAction: NativeXDaiDepositAction = {
+          type: 'nativeXDaiDeposit',
+          value: objective.value,
+        }
+
+        return [depositAction]
       }
     }
   })
