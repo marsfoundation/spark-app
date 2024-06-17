@@ -8,7 +8,7 @@ type VpnResponse = z.infer<typeof apiResponseSchema>
 const apiResponseSchema = z
   .object({
     is_vpn: z.boolean(),
-    country_code: z.string().optional(),
+    country_code: z.string().nullable(),
   })
   .transform(({ is_vpn, country_code }) => {
     return {
