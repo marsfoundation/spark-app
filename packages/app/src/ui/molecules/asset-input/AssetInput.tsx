@@ -37,7 +37,6 @@ export const AssetInput = forwardRef<HTMLInputElement, AssetInputProps>(
       disabled,
       error,
       value,
-      onChange,
       variant = 'crypto',
       walletIconLabel,
       isMaxSelected,
@@ -67,15 +66,8 @@ export const AssetInput = forwardRef<HTMLInputElement, AssetInputProps>(
               id="asset-input"
               disabled={disabled}
               size={1} // force minimum width
-              value={isMaxSelected ? 'MAX' : value}
+              value={isMaxSelected ? MAX_VALUE_PLACEHOLDER : value}
               {...rest}
-              onChange={(e) => {
-                e.target.value = e.target.value.replace(/,/g, '.')
-                const value = e.target.value
-                if (!value || (decimalNumberRegex.test(value) && (value.split('.')[1]?.length ?? 0) <= 6)) {
-                  onChange?.(e)
-                }
-              }}
             />
             {token && (
               <Typography variant="prompt" className="overflow-auto break-all">
@@ -131,6 +123,6 @@ export const AssetInput = forwardRef<HTMLInputElement, AssetInputProps>(
   },
 )
 
-const decimalNumberRegex = /^\d+\.?\d*$/
-
 AssetInput.displayName = 'AssetInput'
+
+export const MAX_VALUE_PLACEHOLDER = 'MAX'

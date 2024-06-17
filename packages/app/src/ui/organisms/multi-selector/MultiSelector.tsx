@@ -5,7 +5,7 @@ import { TokenWithBalance } from '@/domain/common/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { AssetInput, AssetInputProps } from '@/ui/molecules/asset-input/AssetInput'
+import { AssetInput, AssetInputProps, MAX_VALUE_PLACEHOLDER } from '@/ui/molecules/asset-input/AssetInput'
 import { testIds } from '@/ui/utils/testIds'
 
 import { AssetSelectorWithInput } from '../asset-selector-with-input/AssetSelectorWithInput'
@@ -108,7 +108,7 @@ export function ControlledMultiSelectorAssetInput({
               })
               if (!isMaxSelected) {
                 setValue(fieldName, '', {
-                  shouldValidate: false,
+                  shouldValidate: true,
                 })
               }
             }
@@ -127,6 +127,21 @@ export function ControlledMultiSelectorAssetInput({
             setMax={setMaxValue ?? setMaxSelectedField}
             isMaxSelected={maxSelectedFieldName && isMaxSelected}
             onChange={(e) => {
+              if (e.target.value === MAX_VALUE_PLACEHOLDER.slice(0, -1)) {
+                // backspace was pressed while MAX was selected
+                ;(setMaxValue ?? setMaxSelectedField)?.()
+                return
+              }
+
+              e.target.value = e.target.value.replace(/,/g, '.')
+              const value = e.target.value
+
+              const validNumberInput =
+                !value || (decimalNumberRegex.test(value) && (value.split('.')[1]?.length ?? 0) <= 6)
+              if (!validNumberInput) {
+                return
+              }
+
               field.onChange(e)
               if (maxSelectedFieldName) {
                 setValue(maxSelectedFieldName, false, {
@@ -142,3 +157,5 @@ export function ControlledMultiSelectorAssetInput({
     />
   )
 }
+
+const decimalNumberRegex = /^\d+\.?\d*$/
