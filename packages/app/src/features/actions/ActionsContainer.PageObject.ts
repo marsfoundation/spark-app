@@ -22,8 +22,8 @@ export class ActionsPageObject extends BasePageObject {
     return this.locateDialogByHeader('Settings')
   }
 
-  locateActionButtons({ disabled }: { disabled?: boolean } = {}): Locator {
-    return this.region.getByRole('button', { name: actionButtonRegex, disabled })
+  locateActionAtIndex(index: number): Locator {
+    return this.region.getByTestId(testIds.actions.row(index))
   }
 
   // #region actions
@@ -79,24 +79,37 @@ export class ActionsPageObject extends BasePageObject {
   // #region assertions
   async expectActions(actions: SimplifiedAction[]): Promise<void> {
     for (const [index, expectedAction] of actions.entries()) {
-      const row = this.region.getByTestId(testIds.actions.row(index))
-      await expect(row).toContainText(actionToTitle(expectedAction))
-
-      if (expectedAction.type === 'exchange') {
-        await expectExchangeActionRow(row, expectedAction)
-      }
+      await this.expectActionAtIndex(index, expectedAction)
     }
 
     await expect(this.region.getByTestId(testIds.actions.row(actions.length))).toBeHidden() // this ensures that there are no more rows
   }
 
-  async expectNextActionEnabled(): Promise<void> {
-    await expect(this.locateActionButtons({ disabled: false })).toBeVisible()
+  async expectActionAtIndex(index: number, expectedAction: SimplifiedAction): Promise<void> {
+    const row = this.locateActionAtIndex(index)
+    await expect(row).toContainText(actionToTitle(expectedAction))
+
+    if (expectedAction.type === 'exchange') {
+      await expectExchangeActionRow(row, expectedAction)
+    }
   }
 
-  async expectActionsDisabled(): Promise<void> {
-    await expect(this.locateActionButtons({ disabled: false })).not.toBeVisible()
+  async expectEnabledActionAtIndex(index: number, expectedAction?: SimplifiedAction): Promise<void> {
+    if (expectedAction) {
+      await this.expectActionAtIndex(index, expectedAction)
+    }
+
+    const row = this.locateActionAtIndex(index)
+    await expect(row.getByRole('button', { name: actionButtonRegex, disabled: false })).toBeVisible()
   }
+
+  // async expectNextActionEnabled(): Promise<void> {
+  //   await expect(this.locateActionButtons({ disabled: false })).toBeVisible()
+  // }
+
+  // async expectActionsDisabled(): Promise<void> {
+  //   await expect(this.locateActionButtons({ disabled: false })).not.toBeVisible()
+  // }
 
   async expectSlippage(slippage: number): Promise<void> {
     await expect(this.region.getByTestId(testIds.actions.flavours.exchangeActionRow.slippage)).toHaveText(
@@ -107,14 +120,21 @@ export class ActionsPageObject extends BasePageObject {
   async expectSlippageValidationError(error: string): Promise<void> {
     await expect(this.locateSettingsDialog().getByTestId(testIds.actions.settings.slippage.error)).toHaveText(error)
   }
+
+  async expectExtendedActions(actions: SimplifiedExtendedAction[]): Promise<void> {
+    for (const [index, expectedAction] of actions.entries()) {
+      await this.expectExtendedActionAtIndex(index, expectedAction)
+    }
+
+    await expect(this.locateActionAtIndex(actions.length)).toBeHidden() // this ensures that there are no more rows
+  }
+
+  async expectExtendedActionAtIndex(index: number, expectedAction: SimplifiedExtendedAction): Promise<void> {
+    const row = this.locateActionAtIndex(index)
+    await expect(row).toContainText(extendedActionToTitle(expectedAction))
+  }
   // #endregion assertions
 }
-
-// type ExpectedAction =
-//   | { action: SimplifiedAction; shortForm: true }
-//   | { action: SimplifiedActionWithAmount; shortForm: false }
-
-// type SimplifiedActionWithAmount = SimplifiedAction & { amount: number }
 
 type SimplifiedExchangeAction = {
   type: 'exchange'
@@ -190,4 +210,26 @@ async function expectExchangeActionRow(exchangeRow: Locator, action: SimplifiedE
   await expect(exchangeRow.getByTestId(testIds.actions.flavours.exchangeActionRow.finalSDAIAmount)).toHaveText(
     action.finalSDAIAmount,
   )
+}
+
+type SimplifiedExtendedAction =
+  | { type: 'approve'; asset: string; amount: number }
+  | { type: 'permit'; asset: string; amount: number }
+  | { type: 'deposit'; asset: string; amount: number }
+  | { type: 'borrow'; asset: string; amount: number }
+
+function extendedActionToTitle(action: SimplifiedExtendedAction): string {
+  const formatter = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+  const amountFormatted = formatter.format(action.amount)
+
+  switch (action.type) {
+    case 'approve':
+      return `Approve ${amountFormatted} ${action.asset}`
+    case 'deposit':
+      return `Deposit ${amountFormatted} ${action.asset}`
+    case 'borrow':
+      return `Borrow ${amountFormatted} ${action.asset}`
+    case 'permit':
+      return `Permit ${amountFormatted} ${action.asset}`
+  }
 }
