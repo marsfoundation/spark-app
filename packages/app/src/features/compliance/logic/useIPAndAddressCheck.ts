@@ -34,7 +34,7 @@ export function useIPAndAddressCheck(): UseIPAndAddressCheck {
     return { blocked: true, reason: 'vpn-detected' }
   }
 
-  if (vpnCheck.data && blockedCountryCodes.includes(vpnCheck.data.countryCode)) {
+  if (vpnCheck.data?.countryCode && blockedCountryCodes.includes(vpnCheck.data.countryCode)) {
     return { blocked: true, reason: 'region-blocked', data: { countryCode: vpnCheck.data.countryCode } }
   }
 
@@ -42,7 +42,7 @@ export function useIPAndAddressCheck(): UseIPAndAddressCheck {
     return { blocked: true, reason: 'address-not-allowed' }
   }
 
-  if (vpnCheck.data && isCurrentPageBlocked) {
+  if (vpnCheck.data?.countryCode && isCurrentPageBlocked) {
     return {
       blocked: true,
       reason: 'page-not-available-in-region',

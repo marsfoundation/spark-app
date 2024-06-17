@@ -7,6 +7,7 @@ import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
 import { BaseUnitNumber, NormalizedUnitNumber } from '@/domain/types/NumericValues'
 
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import BigNumber from 'bignumber.js'
 import { mainnet } from 'viem/chains'
 import { ApproveDelegationAction } from '../flavours/approve-delegation/types'
 import { ApproveExchangeAction } from '../flavours/approve-exchange/types'
@@ -197,7 +198,23 @@ export function useCreateActions(objectives: Objective[]): Action[] {
           sDai: objective.sDai,
           method: objective.method,
         }
-        return [withdrawAction]
+
+        if (objective.token.symbol !== 'USDC') {
+          return [withdrawAction]
+        }
+
+        const approveAction: ApproveAction = {
+          type: 'approve',
+          token: objective.sDai,
+          spender: psmActionsConfig.address[mainnet.id],
+          value:
+            objective.method === 'withdraw'
+              ? NormalizedUnitNumber(objective.sDaiValueEstimate.toFixed(objective.sDai.decimals, BigNumber.ROUND_UP))
+              : objective.value,
+          disallowPermit: true,
+        }
+
+        return [approveAction, withdrawAction]
       }
     }
   })

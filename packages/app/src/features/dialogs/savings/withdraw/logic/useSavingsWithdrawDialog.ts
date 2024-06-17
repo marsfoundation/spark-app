@@ -74,9 +74,9 @@ export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
   })
 
   const useNativeRoutes =
-    import.meta.env.VITE_DEV_DAI_NATIVE_ROUTES === '1' &&
     originChainId === mainnet.id &&
-    formValues.token.address === marketInfo.DAI.address
+    ((import.meta.env.VITE_DEV_DAI_NATIVE_ROUTES === '1' && formValues.token.address === marketInfo.DAI.address) ||
+      (import.meta.env.VITE_DEV_USDC_NATIVE_ROUTES === '1' && formValues.token.symbol === 'USDC'))
 
   const { swapInfo, swapParams } = useWithdrawFromSavings({
     formValues,
@@ -91,6 +91,7 @@ export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
     formValues,
     marketInfo,
     walletInfo,
+    savingsInfo,
     useNativeRoutes,
   })
   const txOverview = useNativeRoutes

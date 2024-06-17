@@ -1,5 +1,6 @@
 import { SwapInfo, SwapParams } from '@/domain/exchanges/types'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
+import { SavingsInfo } from '@/domain/savings-info/types'
 import { WalletInfo } from '@/domain/wallet/useWalletInfo'
 import { ExchangeObjective } from '@/features/actions/flavours/exchange/types'
 import { NativeSDaiWithdrawObjective } from '@/features/actions/flavours/native-sdai-withdraw/types'
@@ -12,6 +13,7 @@ export interface CreateObjectivesParams {
   formValues: DialogFormNormalizedData
   marketInfo: MarketInfo
   walletInfo: WalletInfo
+  savingsInfo: SavingsInfo
   useNativeRoutes: boolean
 }
 export function createObjectives({
@@ -20,12 +22,12 @@ export function createObjectives({
   formValues,
   marketInfo,
   walletInfo,
+  savingsInfo,
   useNativeRoutes,
 }: CreateObjectivesParams): (ExchangeObjective | NativeSDaiWithdrawObjective)[] {
   if (useNativeRoutes) {
     if (formValues.isMaxSelected) {
       const sDaiBalance = walletInfo.findWalletBalanceForToken(marketInfo.sDAI)
-
       return [
         {
           type: 'nativeSDaiWithdraw',
@@ -37,6 +39,9 @@ export function createObjectives({
       ]
     }
 
+    const sDaiValueEstimate = savingsInfo.convertDaiToShares({
+      dai: formValues.value,
+    })
     return [
       {
         type: 'nativeSDaiWithdraw',
@@ -44,6 +49,7 @@ export function createObjectives({
         value: formValues.value,
         sDai: marketInfo.sDAI,
         method: 'withdraw',
+        sDaiValueEstimate,
       },
     ]
   }

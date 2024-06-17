@@ -86,6 +86,9 @@ export type AssetsInTests = 'ETH' | 'XDAI' | NonNativeTokens
 // GNO is offboarded
 export const DEFAULT_BLOCK_NUMBER = 19092430n
 
+export const PSM_ACTIONS_DEPLOYED = 20026000n
+export const PSM_ACTIONS_DEPLOYED_DATE = new Date('2024-06-06T10:10:10Z')
+
 export const WBTC_SUPPLY_CAP_REACHED_BLOCK_NUMBER = 19034436n
 
 export const GNO_ACTIVE_BLOCK_NUMBER = 18365842n
