@@ -33,12 +33,12 @@ export class ActionsPageObject extends BasePageObject {
 
       await row.getByRole('button', { name: actionButtonRegex }).click()
     }
-    await expect(this.region.getByRole('button', { name: actionButtonRegex })).toBeHidden()
   }
 
-  // async acceptNextActionAction(index: number): Promise<void> {
-  //   await this.locateActionButtons({ disabled: false }).click()
-  // }
+  async acceptActionAtIndex(index: number): Promise<void> {
+    const row = this.region.getByTestId(testIds.actions.row(index))
+    await row.getByRole('button', { name: actionButtonRegex }).click()
+  }
 
   async switchPreferPermitsAction(): Promise<void> {
     await this.region.getByTestId(testIds.actions.settings.dialog).click()

@@ -132,8 +132,6 @@ test.describe('Borrow dialog', () => {
     })
 
     test('has correct action plan for native asset', async ({ page }) => {
-      const borrowAmount = 1
-
       const dashboardPage = new DashboardPageObject(page)
 
       await dashboardPage.clickBorrowButtonAction('WETH')
@@ -245,7 +243,7 @@ test.describe('Borrow dialog', () => {
 
       const actionsContainer = new ActionsPageObject(page)
       for (let i = 0; i < 4; i++) {
-        await actionsContainer.acceptNextActionAction()
+        await actionsContainer.acceptActionAtIndex(i)
       }
       await actionsContainer.expectNextActionEnabled()
 
