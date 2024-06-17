@@ -1,19 +1,23 @@
 import { useQuery } from '@tanstack/react-query'
 
+import { z } from 'zod'
 import { ReadHookParams } from './types'
 
 type VpnResponse = {
   isConnectedToVpn: boolean
-  countryCode: string
+  countryCode: string | null | undefined
 }
+
+const apiResponseSchema = z.object({
+  is_vpn: z.boolean(),
+  country_code: z.string().nullable().optional(),
+})
 
 async function checkVpn(authUrl: string): Promise<VpnResponse> {
   if (!authUrl) {
     throw new Error('Missing auth URL')
   }
 
-  let isConnectedToVpn = false
-  let countryCode = ''
   // TODO is this the best way to get a user's IP address?
   const ipRes = await fetch('https://api.ipify.org/?format=json')
   if (!ipRes.ok) {
@@ -26,12 +30,9 @@ async function checkVpn(authUrl: string): Promise<VpnResponse> {
     throw new Error('Could not fetch VPN status')
   }
 
-  const { country_code, is_vpn } = (await vpnRes.json()) as any
+  const { country_code, is_vpn } = apiResponseSchema.parse(await vpnRes.json())
 
-  countryCode = country_code
-  isConnectedToVpn = is_vpn
-
-  return { countryCode, isConnectedToVpn }
+  return { countryCode: country_code, isConnectedToVpn: is_vpn }
 }
 
 type Props = ReadHookParams<VpnResponse> & { authUrl: string }

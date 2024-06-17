@@ -11,7 +11,7 @@ export function useBlockedPages(): (keyof typeof paths)[] {
   // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
   const vpnCheck = useVpnCheck({ authUrl: apiUrl })
 
-  if (vpnCheck.data && blockedPagesByCountryCode[vpnCheck.data.countryCode] !== undefined) {
+  if (vpnCheck.data?.countryCode && blockedPagesByCountryCode[vpnCheck.data.countryCode] !== undefined) {
     return blockedPagesByCountryCode[vpnCheck.data.countryCode]!
   }
 
