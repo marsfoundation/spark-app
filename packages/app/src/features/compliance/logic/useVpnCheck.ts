@@ -3,15 +3,19 @@ import { useQuery } from '@tanstack/react-query'
 import { z } from 'zod'
 import { ReadHookParams } from './types'
 
-type VpnResponse = {
-  isConnectedToVpn: boolean
-  countryCode: string | null | undefined
-}
+type VpnResponse = z.infer<typeof apiResponseSchema>
 
-const apiResponseSchema = z.object({
-  is_vpn: z.boolean(),
-  country_code: z.string().nullable().optional(),
-})
+const apiResponseSchema = z
+  .object({
+    is_vpn: z.boolean(),
+    country_code: z.string().optional(),
+  })
+  .transform(({ is_vpn, country_code }) => {
+    return {
+      countryCode: country_code,
+      isConnectedToVpn: is_vpn,
+    }
+  })
 
 async function checkVpn(authUrl: string): Promise<VpnResponse> {
   if (!authUrl) {
@@ -30,9 +34,9 @@ async function checkVpn(authUrl: string): Promise<VpnResponse> {
     throw new Error('Could not fetch VPN status')
   }
 
-  const { country_code, is_vpn } = apiResponseSchema.parse(await vpnRes.json())
+  const { countryCode, isConnectedToVpn } = apiResponseSchema.parse(await vpnRes.json())
 
-  return { countryCode: country_code, isConnectedToVpn: is_vpn }
+  return { countryCode, isConnectedToVpn }
 }
 
 type Props = ReadHookParams<VpnResponse> & { authUrl: string }
