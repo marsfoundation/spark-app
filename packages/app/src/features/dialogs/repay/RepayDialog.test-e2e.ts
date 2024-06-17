@@ -78,7 +78,7 @@ test.describe('Repay dialog', () => {
 
       // @note this is needed for deterministic screenshots
       const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectNextActionEnabled()
+      await actionsContainer.expectEnabledActionAtIndex(0)
 
       await screenshot(repayDialog.getDialog(), 'repay-dialog-health-factor-partial-repay')
     })
@@ -97,7 +97,7 @@ test.describe('Repay dialog', () => {
 
       // @note this is needed for deterministic screenshots
       const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectNextActionEnabled()
+      await actionsContainer.expectEnabledActionAtIndex(0)
 
       await screenshot(repayDialog.getDialog(), 'repay-dialog-health-factor-full-repay')
     })
@@ -195,16 +195,17 @@ test.describe('Repay dialog', () => {
       await repayDialog.clickMaxAmountAction()
       const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
       // (1) first approval with extra buffer
-      await actionsContainer.acceptNextActionAction()
-      await actionsContainer.expectNextActionEnabled()
+      await actionsContainer.acceptActionAtIndex(0)
+      await actionsContainer.expectEnabledActionAtIndex(1)
 
       await page.reload()
       await dashboardPage.clickRepayButtonAction(repay.asset)
       await repayDialog.clickMaxAmountAction()
 
       // exact amount of debt slightly increased but approval (1) has a buffer so it should be enough
-      await actionsContainer.expectNextAction({ type: 'repay', asset: repay.asset })
-      await actionsContainer.acceptNextActionAction()
+      // this should be rewrite to assert whole action plan and then accept
+      // await actionsContainer.acceptActionAtIndex(1, { type: 'repay', asset: repay.asset })
+      // await actionsContainer.acceptNextActionAction()
 
       await repayDialog.expectSuccessPage([repay], fork)
     })

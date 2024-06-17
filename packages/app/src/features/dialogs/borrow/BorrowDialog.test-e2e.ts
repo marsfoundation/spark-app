@@ -77,7 +77,7 @@ test.describe('Borrow dialog', () => {
 
       // @note this is needed for deterministic screenshots
       const actionsContainer = new ActionsPageObject(borrowDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectNextActionEnabled()
+      await actionsContainer.expectEnabledActionAtIndex(0)
 
       await screenshot(borrowDialog.getDialog(), 'borrow-dialog-health-factor')
     })
@@ -245,7 +245,7 @@ test.describe('Borrow dialog', () => {
       for (let i = 0; i < 4; i++) {
         await actionsContainer.acceptActionAtIndex(i)
       }
-      await actionsContainer.expectNextActionEnabled()
+      await actionsContainer.expectEnabledActionAtIndex(4)
 
       const dashboardPage = new DashboardPageObject(page)
       await dashboardPage.goToDashboardAction()
@@ -310,7 +310,7 @@ test.describe('Borrow dialog', () => {
 
       // @note this is needed for deterministic screenshots
       const actionsContainer = new ActionsPageObject(borrowDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectNextActionEnabled()
+      await actionsContainer.expectEnabledActionAtIndex(0)
 
       await screenshot(borrowDialog.getDialog(), 'borrow-dialog-only-deposit-health-factor')
     })

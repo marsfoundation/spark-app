@@ -76,7 +76,7 @@ test.describe('Withdraw dialog', () => {
 
       // @note this is needed for deterministic screenshots
       const actionsContainer = new ActionsPageObject(withdrawDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectNextActionEnabled()
+      await actionsContainer.expectEnabledActionAtIndex(0)
 
       await screenshot(withdrawDialog.getDialog(), 'withdraw-dialog-health-factor')
     })
@@ -290,7 +290,7 @@ test.describe('Withdraw dialog', () => {
 
       const actionsContainer = new ActionsPageObject(page)
       await actionsContainer.acceptAllActionsAction(3)
-      await actionsContainer.expectNextActionEnabled()
+      await actionsContainer.expectEnabledActionAtIndex(3)
 
       const dashboardPage = new DashboardPageObject(page)
       await dashboardPage.goToDashboardAction()
@@ -357,7 +357,7 @@ test.describe('Withdraw dialog', () => {
 
       // @note this is needed for deterministic screenshots
       const actionsContainer = new ActionsPageObject(withdrawDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectNextActionEnabled()
+      await actionsContainer.expectEnabledActionAtIndex(3)
 
       await screenshot(withdrawDialog.getDialog(), 'withdraw-dialog-only-deposit-health-factor')
     })

@@ -1,6 +1,5 @@
 import { assets, getTokenImage } from '@/ui/assets'
 import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
-import { testIds } from '@/ui/utils/testIds'
 import { ActionRow } from '../../components/action-row/ActionRow'
 import { UpDownMarker } from '../../components/action-row/UpDownMarker'
 import { ActionRowBaseProps } from '../../components/action-row/types'

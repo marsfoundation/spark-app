@@ -103,13 +103,10 @@ export class ActionsPageObject extends BasePageObject {
     await expect(row.getByRole('button', { name: actionButtonRegex, disabled: false })).toBeVisible()
   }
 
-  // async expectNextActionEnabled(): Promise<void> {
-  //   await expect(this.locateActionButtons({ disabled: false })).toBeVisible()
-  // }
-
-  // async expectActionsDisabled(): Promise<void> {
-  //   await expect(this.locateActionButtons({ disabled: false })).not.toBeVisible()
-  // }
+  async expectDisabledActionAtIndex(index: number): Promise<void> {
+    const row = this.locateActionAtIndex(index)
+    await expect(row.getByRole('button', { name: actionButtonRegex, disabled: true })).toBeVisible()
+  }
 
   async expectSlippage(slippage: number): Promise<void> {
     await expect(this.region.getByTestId(testIds.actions.flavours.exchangeActionRow.slippage)).toHaveText(

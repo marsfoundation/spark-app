@@ -325,12 +325,12 @@ test.describe('Savings withdraw dialog', () => {
         const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
 
         await depositDialog.fillAmountAction(1000)
-        await actionsContainer.expectNextActionEnabled()
+        await actionsContainer.expectEnabledActionAtIndex(0)
         await actionsContainer.expectActions([{ type: 'nativeSDaiWithdraw', asset: 'DAI' }])
 
         await depositDialog.selectAssetAction('USDC')
         await depositDialog.fillAmountAction(1000)
-        await actionsContainer.expectNextActionEnabled()
+        await actionsContainer.expectEnabledActionAtIndex(0)
         await actionsContainer.expectActions([
           { type: 'approve', asset: 'sDAI' },
           { type: 'exchange', inputAsset: 'sDAI', outputAsset: 'USDC' },
@@ -338,7 +338,7 @@ test.describe('Savings withdraw dialog', () => {
 
         await depositDialog.selectAssetAction('USDT')
         await depositDialog.fillAmountAction(1000)
-        await actionsContainer.expectNextActionEnabled()
+        await actionsContainer.expectEnabledActionAtIndex(0)
         await actionsContainer.expectActions([
           { type: 'approve', asset: 'sDAI' },
           { type: 'exchange', inputAsset: 'sDAI', outputAsset: 'USDT' },
@@ -346,7 +346,7 @@ test.describe('Savings withdraw dialog', () => {
 
         await depositDialog.selectAssetAction('DAI')
         await depositDialog.fillAmountAction(1000)
-        await actionsContainer.expectNextActionEnabled()
+        await actionsContainer.expectEnabledActionAtIndex(0)
         await actionsContainer.expectActions([{ type: 'nativeSDaiWithdraw', asset: 'DAI' }])
       })
     })
@@ -380,7 +380,7 @@ test.describe('Savings withdraw dialog', () => {
         const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
 
         await depositDialog.fillAmountAction(1000)
-        await actionsContainer.expectNextActionEnabled()
+        await actionsContainer.expectEnabledActionAtIndex(0)
         await actionsContainer.expectActions([
           { type: 'approve', asset: 'sDAI' },
           { type: 'exchange', inputAsset: 'sDAI', outputAsset: 'XDAI' },
@@ -388,7 +388,7 @@ test.describe('Savings withdraw dialog', () => {
 
         await depositDialog.selectAssetAction('USDC')
         await depositDialog.fillAmountAction(1000)
-        await actionsContainer.expectNextActionEnabled()
+        await actionsContainer.expectEnabledActionAtIndex(0)
         await actionsContainer.expectActions([
           { type: 'approve', asset: 'sDAI' },
           { type: 'exchange', inputAsset: 'sDAI', outputAsset: 'USDC' },
@@ -396,7 +396,7 @@ test.describe('Savings withdraw dialog', () => {
 
         await depositDialog.selectAssetAction('USDT')
         await depositDialog.fillAmountAction(1000)
-        await actionsContainer.expectNextActionEnabled()
+        await actionsContainer.expectEnabledActionAtIndex(0)
         await actionsContainer.expectActions([
           { type: 'approve', asset: 'sDAI' },
           { type: 'exchange', inputAsset: 'sDAI', outputAsset: 'USDT' },
@@ -404,7 +404,7 @@ test.describe('Savings withdraw dialog', () => {
 
         await depositDialog.selectAssetAction('XDAI')
         await depositDialog.fillAmountAction(1000)
-        await actionsContainer.expectNextActionEnabled()
+        await actionsContainer.expectEnabledActionAtIndex(0)
         await actionsContainer.expectActions([
           { type: 'approve', asset: 'sDAI' },
           { type: 'exchange', inputAsset: 'sDAI', outputAsset: 'XDAI' },
