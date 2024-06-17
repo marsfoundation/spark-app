@@ -3,19 +3,19 @@ import { ActionHandler } from '../../logic/types'
 import { mapWriteResultToActionState } from '../../logic/utils'
 import { NativeXDaiDepositAction } from './types'
 
-export interface UseCreateNativeSexyDaiDepositHandlerOptions {
+export interface UseCreateNativeXDaiDepositHandlerOptions {
   enabled: boolean
   onFinish?: () => void
 }
 
-export function useCreateNativeSexyDaiDepositHandler(
+export function useCreateNativeXDaiDepositHandler(
   action: NativeXDaiDepositAction,
-  options: UseCreateNativeSexyDaiDepositHandlerOptions,
+  options: UseCreateNativeXDaiDepositHandlerOptions,
 ): ActionHandler {
   const { enabled, onFinish } = options
 
   const deposit = useSexyDaiDeposit({
-    value: action.value,
+    value: action.xDai.toBaseUnit(action.value),
     enabled,
     onTransactionSettled: onFinish,
   })

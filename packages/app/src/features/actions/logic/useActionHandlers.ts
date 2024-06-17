@@ -9,8 +9,8 @@ import { useCreateExchangeHandler } from '../flavours/exchange/useCreateExchange
 import { useCreateNativeDaiDepositHandler } from '../flavours/native-dai-deposit/useCreateNativeDaiDepositHandler'
 import { useCreateNativeSDaiDepositHandler } from '../flavours/native-sdai-deposit/useCreateNativeSDaiDepositHandler'
 import { useCreateNativeSDaiWithdrawHandler } from '../flavours/native-sdai-withdraw/useCreateNativeSDaiWithdrawHandler'
-import { useCreateNativeSexyDaiDepositHandler } from '../flavours/native-sexy-dai-deposit/useCreateNativeSexyDaiDepositHandler'
 import { useCreateNativeUSDCDepositHandler } from '../flavours/native-usdc-deposit/useCreateNativeUSDCDepositHandler'
+import { useCreateNativeXDaiDepositHandler } from '../flavours/native-xdai-deposit/useCreateNativeXDaiDepositHandler'
 import { useCreateRepayHandler } from '../flavours/repay/useCreateRepayHandler'
 import { useCreateSetUseAsCollateralHandler } from '../flavours/set-use-as-collateral/useCreateSetUseAsCollateralHandler'
 import { useCreateSetUserEModeHandler } from '../flavours/set-user-e-mode/useCreateSetUserEModeHandler'
@@ -128,6 +128,6 @@ function useCreateActionHandler(
       return useCreateNativeUSDCDepositHandler(action, { enabled, onFinish })
     case 'nativeXDaiDeposit':
       // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateNativeSexyDaiDepositHandler(action, { enabled, onFinish })
+      return useCreateNativeXDaiDepositHandler(action, { enabled, onFinish })
   }
 }
