@@ -357,7 +357,7 @@ test.describe('Withdraw dialog', () => {
 
       // @note this is needed for deterministic screenshots
       const actionsContainer = new ActionsPageObject(withdrawDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectEnabledActionAtIndex(3)
+      await actionsContainer.expectEnabledActionAtIndex(0)
 
       await screenshot(withdrawDialog.getDialog(), 'withdraw-dialog-only-deposit-health-factor')
     })

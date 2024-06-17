@@ -177,7 +177,7 @@ function actionToTitle(action: SimplifiedAction): string {
     case 'nativeSDaiDeposit':
       return `Wrap ${action.asset} into sDAI`
     case 'nativeSDaiWithdraw':
-      return `Unwrap ${action.asset} from sDAI`
+      return `Unwrap sDAI into ${action.asset}`
   }
 }
 
