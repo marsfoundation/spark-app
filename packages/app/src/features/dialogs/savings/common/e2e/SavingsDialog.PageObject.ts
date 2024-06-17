@@ -74,13 +74,7 @@ export class SavingsDialogPageObject extends DialogPageObject {
     await expect(outcome).toContainText(transactionOverview.outcome)
   }
 
-  async expectToUseNativeSDaiAction({
-    asset,
-    amount,
-  }: {
-    asset: string
-    amount: number
-  }): Promise<void> {
+  async expectToUseNativeSDaiAction({ asset }: { asset: string }): Promise<void> {
     const actionsContainer = new ActionsPageObject(this.locatePanelByHeader('Actions'))
     if (this.type === 'deposit') {
       await actionsContainer.expectActions([
@@ -89,6 +83,21 @@ export class SavingsDialogPageObject extends DialogPageObject {
       ])
     } else {
       await actionsContainer.expectActions([{ type: 'nativeSDaiWithdraw', asset }])
+    }
+  }
+
+  async expectToUsePSMActionsAction({ asset }: { asset: string }): Promise<void> {
+    const actionsContainer = new ActionsPageObject(this.locatePanelByHeader('Actions'))
+    if (this.type === 'deposit') {
+      await actionsContainer.expectActions([
+        { type: 'approve', asset },
+        { type: 'nativeSDaiDeposit', asset },
+      ])
+    } else {
+      await actionsContainer.expectActions([
+        { type: 'approve', asset: 'sDAI' },
+        { type: 'nativeSDaiWithdraw', asset },
+      ])
     }
   }
 
