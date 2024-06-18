@@ -37,8 +37,8 @@ export function Deposits(props: DepositsProps) {
         <div className="flex flex-row gap-1">
           <Typography variant="h4">Deposit required</Typography>
           <Info>
-            Some assets (ex. isolated assets) are only accessible via <Link to={paths.dashboard}>Dashboard</Link> at
-            this time.
+            Some assets (e.g., isolated assets) are only accessible via the <Link to={paths.dashboard}>Dashboard</Link>{' '}
+            at this time.
           </Info>
         </div>
 
