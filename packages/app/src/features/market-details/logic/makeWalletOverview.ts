@@ -52,6 +52,7 @@ function makeGuestModeOverview({ reserve, walletInfo }: MakeWalletOverviewParams
     borrow: {
       token,
       available: NormalizedUnitNumber(0),
+      eligibility: reserve.borrowEligibilityStatus,
     },
   }
 }
@@ -79,6 +80,7 @@ function makeChainMismatchOverview({
     borrow: {
       token,
       available: NormalizedUnitNumber(0),
+      eligibility: reserve.borrowEligibilityStatus,
     },
   }
 }
@@ -124,6 +126,7 @@ function makeBaseWalletOverview({ reserve, marketInfo, walletInfo }: MakeWalletO
     borrow: {
       token,
       available: availableToBorrow,
+      eligibility: reserve.borrowEligibilityStatus,
     },
   }
 }
