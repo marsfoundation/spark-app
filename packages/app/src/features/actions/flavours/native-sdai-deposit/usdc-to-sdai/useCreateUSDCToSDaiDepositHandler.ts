@@ -1,16 +1,16 @@
 import { useSwapAndDeposit } from '@/domain/psm-actions/useSwapAndDeposit'
-import { ActionHandler } from '../../logic/types'
-import { mapWriteResultToActionState } from '../../logic/utils'
-import { NativeUSDCDepositAction } from './types'
+import { ActionHandler } from '@/features/actions/logic/types'
+import { mapWriteResultToActionState } from '@/features/actions/logic/utils'
+import { USDCToSDaiDepositAction } from './types'
 
-export interface UseCreateNativeUSDCDepositHandlerOptions {
+export interface UseCreateUSDCToSDaiDepositHandlerOptions {
   enabled: boolean
   onFinish?: () => void
 }
 
-export function useCreateNativeUSDCDepositHandler(
-  action: NativeUSDCDepositAction,
-  options: UseCreateNativeUSDCDepositHandlerOptions,
+export function useCreateUSDCToSDaiDepositHandler(
+  action: USDCToSDaiDepositAction,
+  options: UseCreateUSDCToSDaiDepositHandlerOptions,
 ): ActionHandler {
   const { enabled, onFinish } = options
 

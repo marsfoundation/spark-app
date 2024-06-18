@@ -5,9 +5,9 @@ import { SavingsInfo } from '@/domain/savings-info/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { ExchangeObjective } from '@/features/actions/flavours/exchange/types'
-import { NativeDaiDepositObjective } from '@/features/actions/flavours/native-dai-deposit/types'
-import { NativeUSDCDepositObjective } from '@/features/actions/flavours/native-usdc-deposit/types'
-import { NativeXDaiDepositObjective } from '@/features/actions/flavours/native-xdai-deposit/types'
+import { DaiToSDaiDepositObjective } from '@/features/actions/flavours/native-sdai-deposit/dai-to-sdai/types'
+import { USDCToSDaiDepositObjective } from '@/features/actions/flavours/native-sdai-deposit/usdc-to-sdai/types'
+import { XDaiToSDaiDepositObjective } from '@/features/actions/flavours/native-sdai-deposit/xdai-to-sdai/types'
 import { simplifyQueryResult } from '@/features/actions/logic/simplifyQueryResult'
 import { DialogFormNormalizedData } from '@/features/dialogs/common/logic/form'
 import { gnosis, mainnet } from 'viem/chains'
@@ -29,9 +29,9 @@ export function createObjectives({
   chainId,
 }: CreateObjectivesParams): (
   | ExchangeObjective
-  | NativeDaiDepositObjective
-  | NativeUSDCDepositObjective
-  | NativeXDaiDepositObjective
+  | DaiToSDaiDepositObjective
+  | USDCToSDaiDepositObjective
+  | XDaiToSDaiDepositObjective
 )[] {
   const nativeObjectives = getNativeObjectivesByChainAndToken({ formValues, marketInfo, chainId })
 
@@ -64,7 +64,7 @@ function getNativeObjectivesByChainAndToken({
   formValues,
   chainId,
 }: GetNativeObjectivesByChainAndTokenParams):
-  | (NativeDaiDepositObjective | NativeUSDCDepositObjective | NativeXDaiDepositObjective)[]
+  | (DaiToSDaiDepositObjective | USDCToSDaiDepositObjective | XDaiToSDaiDepositObjective)[]
   | undefined {
   const tokenSymbol = formValues.token.symbol
   const { savingsNativeRouteTokens, id: originChainId } = getChainConfigEntry(chainId)
@@ -78,7 +78,7 @@ function getNativeObjectivesByChainAndToken({
     if (tokenSymbol === marketInfo.DAI.symbol) {
       return [
         {
-          type: 'nativeDaiDeposit',
+          type: 'daiToSDaiDeposit',
           value: formValues.value,
           dai: formValues.token,
           sDai: marketInfo.sDAI,
@@ -89,7 +89,7 @@ function getNativeObjectivesByChainAndToken({
     if (tokenSymbol === TokenSymbol('USDC')) {
       return [
         {
-          type: 'nativeUSDCDeposit',
+          type: 'usdcToSDaiDeposit',
           value: formValues.value,
           usdc: formValues.token,
           sDai: marketInfo.sDAI,
@@ -102,7 +102,7 @@ function getNativeObjectivesByChainAndToken({
     if (tokenSymbol === marketInfo.DAI.symbol) {
       return [
         {
-          type: 'nativeXDaiDeposit',
+          type: 'xDaiToSDaiDeposit',
           value: formValues.value,
           xDai: formValues.token,
           sDai: marketInfo.sDAI,

@@ -5,10 +5,10 @@ import { ApproveAction } from '../flavours/approve/types'
 import { BorrowAction, BorrowObjective } from '../flavours/borrow/types'
 import { DepositAction, DepositObjective } from '../flavours/deposit/types'
 import { ExchangeAction, ExchangeObjective } from '../flavours/exchange/types'
-import { NativeDaiDepositAction, NativeDaiDepositObjective } from '../flavours/native-dai-deposit/types'
+import { DaiToSDaiDepositAction, DaiToSDaiDepositObjective } from '../flavours/native-sdai-deposit/dai-to-sdai/types'
+import { USDCToSDaiDepositAction, USDCToSDaiDepositObjective } from '../flavours/native-sdai-deposit/usdc-to-sdai/types'
+import { XDaiToSDaiDepositAction, XDaiToSDaiDepositObjective } from '../flavours/native-sdai-deposit/xdai-to-sdai/types'
 import { NativeSDaiWithdrawAction, NativeSDaiWithdrawObjective } from '../flavours/native-sdai-withdraw/types'
-import { NativeUSDCDepositAction, NativeUSDCDepositObjective } from '../flavours/native-usdc-deposit/types'
-import { NativeXDaiDepositAction, NativeXDaiDepositObjective } from '../flavours/native-xdai-deposit/types'
 import { RepayAction, RepayObjective } from '../flavours/repay/types'
 import { SetUseAsCollateralAction, SetUseAsCollateralObjective } from '../flavours/set-use-as-collateral/types'
 import { SetUserEModeAction, SetUserEModeObjective } from '../flavours/set-user-e-mode/types'
@@ -27,9 +27,9 @@ export type Objective =
   | SetUserEModeObjective
   | ExchangeObjective
   | NativeSDaiWithdrawObjective
-  | NativeUSDCDepositObjective
-  | NativeDaiDepositObjective
-  | NativeXDaiDepositObjective
+  | USDCToSDaiDepositObjective
+  | DaiToSDaiDepositObjective
+  | XDaiToSDaiDepositObjective
 export type ObjectiveType = Objective['type']
 
 export type Action =
@@ -44,9 +44,9 @@ export type Action =
   | ApproveExchangeAction
   | ExchangeAction
   | NativeSDaiWithdrawAction
-  | NativeDaiDepositAction
-  | NativeUSDCDepositAction
-  | NativeXDaiDepositAction
+  | DaiToSDaiDepositAction
+  | USDCToSDaiDepositAction
+  | XDaiToSDaiDepositAction
 export type ActionType = Action['type']
 
 export type ActionHandlerState =

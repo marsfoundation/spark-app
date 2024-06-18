@@ -406,7 +406,7 @@ test.describe('Savings deposit dialog', () => {
         await actionsContainer.expectEnabledActionAtIndex(0)
         await actionsContainer.expectActions([
           { type: 'approve', asset: 'DAI' },
-          { type: 'nativeDaiDeposit', asset: 'DAI' },
+          { type: 'daiToSDaiDeposit', asset: 'DAI' },
         ])
 
         await depositDialog.selectAssetAction('USDC')
@@ -414,7 +414,7 @@ test.describe('Savings deposit dialog', () => {
         await actionsContainer.expectEnabledActionAtIndex(0)
         await actionsContainer.expectActions([
           { type: 'approve', asset: 'USDC' },
-          { type: 'nativeUSDCDeposit', asset: 'USDC' },
+          { type: 'usdcToSDaiDeposit', asset: 'USDC' },
         ])
 
         await depositDialog.selectAssetAction('USDT')
@@ -430,7 +430,7 @@ test.describe('Savings deposit dialog', () => {
         await actionsContainer.expectEnabledActionAtIndex(0)
         await actionsContainer.expectActions([
           { type: 'approve', asset: 'DAI' },
-          { type: 'nativeDaiDeposit', asset: 'DAI' },
+          { type: 'daiToSDaiDeposit', asset: 'DAI' },
         ])
       })
     })

@@ -6,10 +6,10 @@ import { useCreateApproveOrPermitHandler } from '../flavours/approve/logic/useCr
 import { useCreateBorrowActionHandler } from '../flavours/borrow/useCreateBorrowHandler'
 import { useCreateDepositHandler } from '../flavours/deposit/useCreateDepositHandler'
 import { useCreateExchangeHandler } from '../flavours/exchange/useCreateExchangeHandler'
-import { useCreateNativeDaiDepositHandler } from '../flavours/native-dai-deposit/useCreateNativeDaiDepositHandler'
+import { useCreateDaiToSDaiDepositHandler } from '../flavours/native-sdai-deposit/dai-to-sdai/useCreateDaiToSDaiDepositHandler'
+import { useCreateUSDCToSDaiDepositHandler } from '../flavours/native-sdai-deposit/usdc-to-sdai/useCreateUSDCToSDaiDepositHandler'
+import { useCreateXDaiToSDaiDepositHandler } from '../flavours/native-sdai-deposit/xdai-to-sdai/useCreateXDaiToSDaiDepositHandler'
 import { useCreateNativeSDaiWithdrawHandler } from '../flavours/native-sdai-withdraw/useCreateNativeSDaiWithdrawHandler'
-import { useCreateNativeUSDCDepositHandler } from '../flavours/native-usdc-deposit/useCreateNativeUSDCDepositHandler'
-import { useCreateNativeXDaiDepositHandler } from '../flavours/native-xdai-deposit/useCreateNativeXDaiDepositHandler'
 import { useCreateRepayHandler } from '../flavours/repay/useCreateRepayHandler'
 import { useCreateSetUseAsCollateralHandler } from '../flavours/set-use-as-collateral/useCreateSetUseAsCollateralHandler'
 import { useCreateSetUserEModeHandler } from '../flavours/set-user-e-mode/useCreateSetUserEModeHandler'
@@ -116,14 +116,14 @@ function useCreateActionHandler(
     case 'nativeSDaiWithdraw':
       // biome-ignore lint/correctness/useHookAtTopLevel:
       return useCreateNativeSDaiWithdrawHandler(action, { enabled, onFinish })
-    case 'nativeDaiDeposit':
+    case 'daiToSDaiDeposit':
       // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateNativeDaiDepositHandler(action, { enabled, onFinish })
-    case 'nativeUSDCDeposit':
+      return useCreateDaiToSDaiDepositHandler(action, { enabled, onFinish })
+    case 'usdcToSDaiDeposit':
       // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateNativeUSDCDepositHandler(action, { enabled, onFinish })
-    case 'nativeXDaiDeposit':
+      return useCreateUSDCToSDaiDepositHandler(action, { enabled, onFinish })
+    case 'xDaiToSDaiDeposit':
       // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateNativeXDaiDepositHandler(action, { enabled, onFinish })
+      return useCreateXDaiToSDaiDepositHandler(action, { enabled, onFinish })
   }
 }

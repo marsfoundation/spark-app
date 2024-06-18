@@ -12,10 +12,10 @@ import { ApproveAction } from '../flavours/approve/types'
 import { BorrowAction } from '../flavours/borrow/types'
 import { DepositAction } from '../flavours/deposit/types'
 import { ExchangeAction } from '../flavours/exchange/types'
-import { NativeDaiDepositAction } from '../flavours/native-dai-deposit/types'
+import { DaiToSDaiDepositAction } from '../flavours/native-sdai-deposit/dai-to-sdai/types'
+import { USDCToSDaiDepositAction } from '../flavours/native-sdai-deposit/usdc-to-sdai/types'
+import { XDaiToSDaiDepositAction } from '../flavours/native-sdai-deposit/xdai-to-sdai/types'
 import { NativeSDaiWithdrawAction } from '../flavours/native-sdai-withdraw/types'
-import { NativeUSDCDepositAction } from '../flavours/native-usdc-deposit/types'
-import { NativeXDaiDepositAction } from '../flavours/native-xdai-deposit/types'
 import { RepayAction } from '../flavours/repay/types'
 import { SetUseAsCollateralAction } from '../flavours/set-use-as-collateral/types'
 import { SetUserEModeAction } from '../flavours/set-user-e-mode/types'
@@ -195,7 +195,7 @@ export function useCreateActions(objectives: Objective[]): Action[] {
         return [approveAction, withdrawAction]
       }
 
-      case 'nativeDaiDeposit': {
+      case 'daiToSDaiDeposit': {
         const approveAction: ApproveAction = {
           type: 'approve',
           token: objective.dai,
@@ -203,8 +203,8 @@ export function useCreateActions(objectives: Objective[]): Action[] {
           value: objective.value,
         }
 
-        const depositAction: NativeDaiDepositAction = {
-          type: 'nativeDaiDeposit',
+        const depositAction: DaiToSDaiDepositAction = {
+          type: 'daiToSDaiDeposit',
           value: objective.value,
           dai: objective.dai,
           sDai: objective.sDai,
@@ -213,7 +213,7 @@ export function useCreateActions(objectives: Objective[]): Action[] {
         return [approveAction, depositAction]
       }
 
-      case 'nativeUSDCDeposit': {
+      case 'usdcToSDaiDeposit': {
         const approveAction: ApproveAction = {
           type: 'approve',
           token: objective.usdc,
@@ -222,8 +222,8 @@ export function useCreateActions(objectives: Objective[]): Action[] {
           disallowPermit: true,
         }
 
-        const depositAction: NativeUSDCDepositAction = {
-          type: 'nativeUSDCDeposit',
+        const depositAction: USDCToSDaiDepositAction = {
+          type: 'usdcToSDaiDeposit',
           value: objective.value,
           usdc: objective.usdc,
           sDai: objective.sDai,
@@ -232,9 +232,9 @@ export function useCreateActions(objectives: Objective[]): Action[] {
         return [approveAction, depositAction]
       }
 
-      case 'nativeXDaiDeposit': {
-        const depositAction: NativeXDaiDepositAction = {
-          type: 'nativeXDaiDeposit',
+      case 'xDaiToSDaiDeposit': {
+        const depositAction: XDaiToSDaiDepositAction = {
+          type: 'xDaiToSDaiDeposit',
           value: objective.value,
           xDai: objective.xDai,
           sDai: objective.sDai,

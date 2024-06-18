@@ -1,17 +1,16 @@
 import { useVaultDeposit } from '@/domain/tokenized-vault-operations/useVaultDeposit'
+import { ActionHandler } from '@/features/actions/logic/types'
+import { mapWriteResultToActionState } from '@/features/actions/logic/utils'
+import { DaiToSDaiDepositAction } from './types'
 
-import { ActionHandler } from '../../logic/types'
-import { mapWriteResultToActionState } from '../../logic/utils'
-import { NativeDaiDepositAction } from './types'
-
-export interface UseCreateNativeDaiDepositHandlerOptions {
+export interface UseCreateDaiToSDaiDepositHandlerOptions {
   enabled: boolean
   onFinish?: () => void
 }
 
-export function useCreateNativeDaiDepositHandler(
-  action: NativeDaiDepositAction,
-  options: UseCreateNativeDaiDepositHandlerOptions,
+export function useCreateDaiToSDaiDepositHandler(
+  action: DaiToSDaiDepositAction,
+  options: UseCreateDaiToSDaiDepositHandlerOptions,
 ): ActionHandler {
   const { enabled, onFinish } = options
 

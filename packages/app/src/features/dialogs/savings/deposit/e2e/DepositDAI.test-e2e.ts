@@ -34,7 +34,7 @@ test.describe('Deposit DAI on Mainnet', () => {
   test('uses native sDai deposit', async () => {
     await depositDialog.actionsContainer.expectActions([
       { type: 'approve', asset: 'DAI' },
-      { type: 'nativeDaiDeposit', asset: 'DAI' },
+      { type: 'daiToSDaiDeposit', asset: 'DAI' },
     ])
   })
 

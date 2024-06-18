@@ -177,9 +177,9 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
     state: { status: 'ready' },
     onAction: () => {},
   },
-  nativeDaiDeposit: {
+  daiToSDaiDeposit: {
     action: {
-      type: 'nativeDaiDeposit',
+      type: 'daiToSDaiDeposit',
       dai: tokens.DAI,
       value: NormalizedUnitNumber(1023),
       sDai: tokens.sDAI,
@@ -187,9 +187,9 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
     state: { status: 'ready' },
     onAction: () => {},
   },
-  nativeUSDCDeposit: {
+  usdcToSDaiDeposit: {
     action: {
-      type: 'nativeUSDCDeposit',
+      type: 'usdcToSDaiDeposit',
       usdc: tokens.USDC,
       value: NormalizedUnitNumber(1023),
       sDai: tokens.sDAI,
@@ -197,9 +197,9 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
     state: { status: 'ready' },
     onAction: () => {},
   },
-  nativeXDaiDeposit: {
+  xDaiToSDaiDeposit: {
     action: {
-      type: 'nativeXDaiDeposit',
+      type: 'xDaiToSDaiDeposit',
       xDai: tokens.XDAI,
       value: NormalizedUnitNumber(1023),
       sDai: tokens.sDAI,

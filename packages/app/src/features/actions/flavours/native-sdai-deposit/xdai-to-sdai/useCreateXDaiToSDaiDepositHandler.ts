@@ -1,16 +1,16 @@
 import { useSexyDaiDeposit } from '@/domain/tokenized-vault-operations/useSexyDaiDeposit'
-import { ActionHandler } from '../../logic/types'
-import { mapWriteResultToActionState } from '../../logic/utils'
-import { NativeXDaiDepositAction } from './types'
+import { ActionHandler } from '@/features/actions/logic/types'
+import { mapWriteResultToActionState } from '@/features/actions/logic/utils'
+import { XDaiToSDaiDepositAction } from './types'
 
-export interface UseCreateNativeXDaiDepositHandlerOptions {
+export interface UseCreateXDaiToSDaiDepositHandlerOptions {
   enabled: boolean
   onFinish?: () => void
 }
 
-export function useCreateNativeXDaiDepositHandler(
-  action: NativeXDaiDepositAction,
-  options: UseCreateNativeXDaiDepositHandlerOptions,
+export function useCreateXDaiToSDaiDepositHandler(
+  action: XDaiToSDaiDepositAction,
+  options: UseCreateXDaiToSDaiDepositHandlerOptions,
 ): ActionHandler {
   const { enabled, onFinish } = options
 
