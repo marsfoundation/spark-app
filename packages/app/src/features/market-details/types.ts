@@ -89,6 +89,7 @@ export interface WalletOverview {
     token: Token
   }
   borrow: {
+    eligibility: BorrowEligibilityStatus
     available: NormalizedUnitNumber
     token: Token
   }
