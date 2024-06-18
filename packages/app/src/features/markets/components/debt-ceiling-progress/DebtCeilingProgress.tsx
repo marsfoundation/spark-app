@@ -1,18 +1,18 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { Token } from '@/domain/types/Token'
+import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { Link } from '@/ui/atoms/link/Link'
 import { Progress } from '@/ui/atoms/progress/Progress'
 import { links } from '@/ui/constants/links'
 import { Info } from '@/ui/molecules/info/Info'
+import { testIds } from '@/ui/utils/testIds'
 
 interface DebtCeilingProgressProps {
-  token: Token
   debt: NormalizedUnitNumber
   debtCeiling: NormalizedUnitNumber
   className?: string
 }
 
-export function DebtCeilingProgress({ token, debt, debtCeiling }: DebtCeilingProgressProps) {
+export function DebtCeilingProgress({ debt, debtCeiling }: DebtCeilingProgressProps) {
   const value = debt.dividedBy(debtCeiling).multipliedBy(100).toNumber()
   return (
     <div className="col-span-3 mt-6 flex flex-col gap-4 rounded-2xl border border-basics-border p-4 sm:col-span-2 sm:col-start-2 sm:mt-8">
@@ -28,8 +28,16 @@ export function DebtCeilingProgress({ token, debt, debtCeiling }: DebtCeilingPro
           </Info>
         </div>
         <p className="text-xs leading-none">
-          <span className="text-basics-black">{token.formatUSD(debt, { compact: true })}</span>
-          <span className="text-basics-dark-grey"> of {token.formatUSD(debtCeiling, { compact: true })}</span>
+          <span className="text-basics-black" data-testid={testIds.marketDetails.collateralStatusPanel.debt}>
+            {USD_MOCK_TOKEN.formatUSD(debt, { compact: true })}
+          </span>
+          <span className="text-basics-dark-grey">
+            {' '}
+            of{' '}
+            <span data-testid={testIds.marketDetails.collateralStatusPanel.debtCeiling}>
+              {USD_MOCK_TOKEN.formatUSD(debtCeiling, { compact: true })}
+            </span>
+          </span>
         </p>
       </div>
       <Progress value={value} />

@@ -5,6 +5,7 @@ import { BorrowDialog } from '@/features/dialogs/borrow/BorrowDialog'
 import { DepositDialog } from '@/features/dialogs/deposit/DepositDialog'
 import { Panel } from '@/ui/atoms/panel/Panel'
 
+import { BorrowEligibilityStatus } from '@/domain/market-info/reserve-status'
 import { ActionRow } from './components/ActionRow'
 import { BorrowRow } from './components/BorrowRow'
 import { TokenBalance } from './components/TokenBalance'
@@ -24,6 +25,7 @@ export interface MyWalletProps {
   borrow: {
     available: NormalizedUnitNumber
     token: Token
+    eligibility: BorrowEligibilityStatus
   }
   openDialog: OpenDialogFunction
 }
@@ -54,6 +56,7 @@ export function MyWallet({ token, tokenBalance, lend, deposit, borrow, openDialo
           token={borrow.token}
           onAction={() => openDialog(BorrowDialog, { token: borrow.token })}
           availableToBorrow={borrow.available}
+          eligibility={borrow.eligibility}
         />
       </WalletPanelContent>
     </Panel.Wrapper>
