@@ -37,6 +37,7 @@ const args: MarketDetailsViewProps = {
     },
     borrow: {
       token: tokens.rETH,
+      eligibility: 'yes',
       available: NormalizedUnitNumber(10),
     },
   },

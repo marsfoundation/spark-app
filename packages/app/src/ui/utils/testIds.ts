@@ -92,6 +92,12 @@ export const testIds = makeTestIds({
   navbar: {
     airdropBadge: true,
   },
+  marketDetails: {
+    collateralStatusPanel: {
+      debt: true,
+      debtCeiling: true,
+    },
+  },
 })
 
 function makeTestIds<T extends Object>(obj: T, prefix?: string): MapValuesToString<T> {

@@ -25,6 +25,7 @@ export const Default: Story = {
     tokenBalance: NormalizedUnitNumber(10000),
     borrow: {
       token: tokens.wstETH,
+      eligibility: 'yes',
       available: NormalizedUnitNumber(20000),
     },
     deposit: {
@@ -43,6 +44,7 @@ export const NoDeposits: Story = {
     tokenBalance: NormalizedUnitNumber(10000),
     borrow: {
       token: tokens.wstETH,
+      eligibility: 'yes',
       available: NormalizedUnitNumber(0),
     },
     deposit: {
@@ -58,6 +60,7 @@ export const ZeroBalance: Story = {
     tokenBalance: NormalizedUnitNumber(0),
     borrow: {
       token: tokens.wstETH,
+      eligibility: 'yes',
       available: NormalizedUnitNumber(2000),
     },
     deposit: {
@@ -73,6 +76,23 @@ export const NoDepositsZeroBalance: Story = {
     tokenBalance: NormalizedUnitNumber(0),
     borrow: {
       token: tokens.wstETH,
+      eligibility: 'yes',
+      available: NormalizedUnitNumber(0),
+    },
+    deposit: {
+      token: tokens.wstETH,
+      available: NormalizedUnitNumber(0),
+    },
+  },
+}
+
+export const AssetCannotBeBorrowed: Story = {
+  name: 'Asset cannot be borrowed',
+  args: {
+    tokenBalance: NormalizedUnitNumber(0),
+    borrow: {
+      token: tokens.wstETH,
+      eligibility: 'no',
       available: NormalizedUnitNumber(0),
     },
     deposit: {
@@ -93,6 +113,7 @@ export const Dai: Story = {
     },
     borrow: {
       token: tokens.DAI,
+      eligibility: 'yes',
       available: NormalizedUnitNumber(20000),
     },
     lend: {
@@ -124,6 +145,7 @@ export const DaiNoDeposits: Story = {
     },
     borrow: {
       token: tokens.DAI,
+      eligibility: 'yes',
       available: NormalizedUnitNumber(10000),
     },
     lend: {
@@ -146,6 +168,7 @@ export const DaiZeroBalance: Story = {
     },
     borrow: {
       token: tokens.DAI,
+      eligibility: 'yes',
       available: NormalizedUnitNumber(2000),
     },
     lend: {
@@ -167,6 +190,7 @@ export const DaiNoDepositsZeroBalance: Story = {
     },
     borrow: {
       token: tokens.DAI,
+      eligibility: 'yes',
       available: NormalizedUnitNumber(0),
     },
     lend: {

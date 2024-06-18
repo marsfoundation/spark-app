@@ -17,7 +17,7 @@ const commonTokenSymbolToReplacedName = {
   [TokenSymbol('rETH')]: { name: 'Rocket Pool Staked ETH', symbol: TokenSymbol('rETH') },
   [TokenSymbol('GNO')]: { name: 'Gnosis Token', symbol: TokenSymbol('GNO') },
   [TokenSymbol('WETH')]: { name: 'Ethereum', symbol: TokenSymbol('ETH') },
-  [TokenSymbol('weETH')]: { name: 'Ether.fi staked ETH', symbol: TokenSymbol('weETH') },
+  [TokenSymbol('weETH')]: { name: 'Ether.fi Staked ETH', symbol: TokenSymbol('weETH') },
 }
 
 const chainConfig: ChainConfig = {
