@@ -18,8 +18,8 @@ type Story = StoryObj<typeof DebtCeilingProgress>
 
 export const Default: Story = {
   args: {
-    debt: NormalizedUnitNumber(123),
-    debtCeiling: NormalizedUnitNumber(200),
+    debt: NormalizedUnitNumber(37_896_154),
+    debtCeiling: NormalizedUnitNumber(50_000_000),
   },
 }
 

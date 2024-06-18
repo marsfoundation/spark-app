@@ -42,8 +42,8 @@ export const CanBeUsedAsCollateralInIsolationMode: Story = {
   name: 'Only in isolation Mode',
   args: {
     status: 'only-in-isolation-mode',
-    debtCeiling: NormalizedUnitNumber(1200),
-    debt: NormalizedUnitNumber(1000),
+    debtCeiling: NormalizedUnitNumber(50_000_000),
+    debt: NormalizedUnitNumber(37_896_154),
     maxLtv: Percentage(0.8),
     liquidationThreshold: Percentage(0.825),
     liquidationPenalty: Percentage(0.05),
