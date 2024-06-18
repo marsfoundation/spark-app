@@ -4,6 +4,7 @@ import { Link } from '@/ui/atoms/link/Link'
 import { Progress } from '@/ui/atoms/progress/Progress'
 import { links } from '@/ui/constants/links'
 import { Info } from '@/ui/molecules/info/Info'
+import { testIds } from '@/ui/utils/testIds'
 
 interface DebtCeilingProgressProps {
   debt: NormalizedUnitNumber
@@ -27,8 +28,16 @@ export function DebtCeilingProgress({ debt, debtCeiling }: DebtCeilingProgressPr
           </Info>
         </div>
         <p className="text-xs leading-none">
-          <span className="text-basics-black">{USD_MOCK_TOKEN.formatUSD(debt, { compact: true })}</span>
-          <span className="text-basics-dark-grey"> of {USD_MOCK_TOKEN.formatUSD(debtCeiling, { compact: true })}</span>
+          <span className="text-basics-black" data-testid={testIds.marketDetails.collateralStatusPanel.debt}>
+            {USD_MOCK_TOKEN.formatUSD(debt, { compact: true })}
+          </span>
+          <span className="text-basics-dark-grey">
+            {' '}
+            of{' '}
+            <span data-testid={testIds.marketDetails.collateralStatusPanel.debtCeiling}>
+              {USD_MOCK_TOKEN.formatUSD(debtCeiling, { compact: true })}
+            </span>
+          </span>
         </p>
       </div>
       <Progress value={value} />
