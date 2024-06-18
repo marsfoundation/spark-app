@@ -14,18 +14,12 @@ importers:
       '@eslint/js':
         specifier: ^9.3.0
         version: 9.3.0
-      '@types/globby':
-        specifier: ^9.1.0
-        version: 9.1.0
       concurrently:
         specifier: ^8.2.2
         version: 8.2.2
       eslint:
         specifier: ^9.3.0
         version: 9.3.0
-      globby:
-        specifier: ^14.0.1
-        version: 14.0.1
       tsx:
         specifier: ^4.15.6
         version: 4.15.6
@@ -273,6 +267,9 @@ importers:
       '@types/d3-array':
         specifier: ^3.2.1
         version: 3.2.1
+      '@types/globby':
+        specifier: ^9.1.0
+        version: 9.1.0
       '@types/jsdom':
         specifier: ^21.1.1
         version: 21.1.1
@@ -309,6 +306,9 @@ importers:
       dotenv:
         specifier: ^16.3.1
         version: 16.3.1
+      globby:
+        specifier: ^14.0.1
+        version: 14.0.1
       http-server:
         specifier: ^14.1.1
         version: 14.1.1

@@ -13,22 +13,25 @@ const __dirname = path.dirname(__filename)
 const assetsPath = path.join(__dirname, '../src/ui/assets')
 
 const paths = await globby(['**/*.svg'], { cwd: assetsPath, absolute: true })
-const erroredPaths: string[] = []
+const errors: {msg: string, file: string} [] = []
 
 // biome-ignore lint/suspicious/noConsoleLog: <explanation>
 console.log(`Verifying ${paths.length} SVGs...`)
 for (const p of paths) {
   const content = await readFileSync(p, 'utf8')
   if (content.includes('<?xml')) {
-    erroredPaths.push(p)
+    errors.push({file: p, msg: 'Found <?xml tag'})
+  }
+  if (content.startsWith('\n')) {
+    errors.push({file: p, msg: 'Starts with newline'})
   }
 }
 
-if (erroredPaths.length > 0) {
+if (errors.length > 0) {
   // biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
-  console.error(`Delete unnecessary <?xml tag from the following SVGs:`)
-  for (const p of erroredPaths) {
-    console.error(`  - ${p}`)
+  console.error(`${errors.length} problems found:`)
+  for (const p of errors) {
+    console.error(`  - ${p.file}: ${p.msg}`)
   }
   process.exit(1)
 }
