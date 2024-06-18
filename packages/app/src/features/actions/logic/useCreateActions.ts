@@ -1,11 +1,11 @@
 import { getNativeAssetInfo } from '@/config/chain/utils/getNativeAssetInfo'
-import { psmActionsAddress, wethGatewayAddress } from '@/config/contracts-generated'
+import { psmActionsAddress, savingsXDaiAdapterAddress, wethGatewayAddress } from '@/config/contracts-generated'
 import { useContractAddress } from '@/domain/hooks/useContractAddress'
 import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
 import { BaseUnitNumber, NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import BigNumber from 'bignumber.js'
 import { maxUint256 } from 'viem'
-import { mainnet } from 'viem/chains'
+import { gnosis, mainnet } from 'viem/chains'
 import { ApproveDelegationAction } from '../flavours/approve-delegation/types'
 import { ApproveExchangeAction } from '../flavours/approve-exchange/types'
 import { ApproveAction } from '../flavours/approve/types'
@@ -17,6 +17,7 @@ import { USDCToSDaiDepositAction } from '../flavours/native-sdai-deposit/usdc-to
 import { XDaiToSDaiDepositAction } from '../flavours/native-sdai-deposit/xdai-to-sdai/types'
 import { DaiFromSDaiWithdrawAction } from '../flavours/native-sdai-withdraw/dai-from-sdai/types'
 import { USDCFromSDaiWithdrawAction } from '../flavours/native-sdai-withdraw/usdc-from-sdai/types'
+import { XDaiFromSDaiWithdrawAction } from '../flavours/native-sdai-withdraw/xdai-from-sdai/types'
 import { RepayAction } from '../flavours/repay/types'
 import { SetUseAsCollateralAction } from '../flavours/set-use-as-collateral/types'
 import { SetUserEModeAction } from '../flavours/set-user-e-mode/types'
@@ -196,6 +197,28 @@ export function useCreateActions(objectives: Objective[]): Action[] {
         const withdrawAction: USDCFromSDaiWithdrawAction = {
           type: 'usdcFromSDaiWithdraw',
           usdc: objective.usdc,
+          sDai: objective.sDai,
+          value: objective.value,
+          method: objective.method,
+        }
+
+        return [approveAction, withdrawAction]
+      }
+
+      case 'xDaiFromSDaiWithdraw': {
+        const approveAction: ApproveAction = {
+          type: 'approve',
+          token: objective.sDai,
+          spender: savingsXDaiAdapterAddress[gnosis.id],
+          value:
+            objective.method === 'withdraw'
+              ? NormalizedUnitNumber(objective.sDaiValueEstimate.toFixed(objective.sDai.decimals, BigNumber.ROUND_UP))
+              : objective.value,
+        }
+
+        const withdrawAction: XDaiFromSDaiWithdrawAction = {
+          type: 'xDaiFromSDaiWithdraw',
+          xDai: objective.xDai,
           sDai: objective.sDai,
           value: objective.value,
           method: objective.method,

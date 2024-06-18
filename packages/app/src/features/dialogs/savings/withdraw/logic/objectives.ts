@@ -7,9 +7,10 @@ import { WalletInfo } from '@/domain/wallet/useWalletInfo'
 import { ExchangeObjective } from '@/features/actions/flavours/exchange/types'
 import { DaiFromSDaiWithdrawObjective } from '@/features/actions/flavours/native-sdai-withdraw/dai-from-sdai/types'
 import { USDCFromSDaiWithdrawObjective } from '@/features/actions/flavours/native-sdai-withdraw/usdc-from-sdai/types'
+import { XDaiFromSDaiWithdrawObjective } from '@/features/actions/flavours/native-sdai-withdraw/xdai-from-sdai/types'
 import { simplifyQueryResult } from '@/features/actions/logic/simplifyQueryResult'
 import { DialogFormNormalizedData } from '@/features/dialogs/common/logic/form'
-import { mainnet } from 'viem/chains'
+import { gnosis, mainnet } from 'viem/chains'
 
 export interface CreateObjectivesParams {
   swapInfo: SwapInfo
@@ -28,7 +29,12 @@ export function createObjectives({
   walletInfo,
   savingsInfo,
   chainId,
-}: CreateObjectivesParams): (ExchangeObjective | DaiFromSDaiWithdrawObjective | USDCFromSDaiWithdrawObjective)[] {
+}: CreateObjectivesParams): (
+  | ExchangeObjective
+  | DaiFromSDaiWithdrawObjective
+  | USDCFromSDaiWithdrawObjective
+  | XDaiFromSDaiWithdrawObjective
+)[] {
   const nativeObjectives = getNativeObjectivesByChainAndToken({
     formValues,
     marketInfo,
@@ -63,7 +69,7 @@ function getNativeObjectivesByChainAndToken({
   formValues,
   chainId,
 }: GetNativeObjectivesByChainAndTokenParams):
-  | (DaiFromSDaiWithdrawObjective | USDCFromSDaiWithdrawObjective)[]
+  | (DaiFromSDaiWithdrawObjective | USDCFromSDaiWithdrawObjective | XDaiFromSDaiWithdrawObjective)[]
   | undefined {
   const tokenSymbol = formValues.token.symbol
   const { savingsNativeRouteTokens, id: originChainId } = getChainConfigEntry(chainId)
@@ -96,7 +102,6 @@ function getNativeObjectivesByChainAndToken({
               value: formValues.value,
               sDai: marketInfo.sDAI,
               method: 'withdraw',
-              sDaiValueEstimate,
             },
           ]
     }
@@ -116,6 +121,31 @@ function getNativeObjectivesByChainAndToken({
             {
               type: 'usdcFromSDaiWithdraw',
               usdc: formValues.token,
+              value: formValues.value,
+              sDai: marketInfo.sDAI,
+              method: 'withdraw',
+              sDaiValueEstimate,
+            },
+          ]
+    }
+  }
+
+  if (originChainId === gnosis.id) {
+    if (tokenSymbol === marketInfo.DAI.symbol) {
+      return isMaxSelected
+        ? [
+            {
+              type: 'xDaiFromSDaiWithdraw',
+              xDai: formValues.token,
+              value: sDaiBalance,
+              sDai: marketInfo.sDAI,
+              method: 'redeem-all',
+            },
+          ]
+        : [
+            {
+              type: 'xDaiFromSDaiWithdraw',
+              xDai: formValues.token,
               value: formValues.value,
               sDai: marketInfo.sDAI,
               method: 'withdraw',

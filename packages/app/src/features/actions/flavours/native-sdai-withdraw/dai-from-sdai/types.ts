@@ -8,7 +8,6 @@ export type DaiFromSDaiWithdrawObjective =
       value: NormalizedUnitNumber
       sDai: Token
       method: 'withdraw'
-      sDaiValueEstimate: NormalizedUnitNumber
     }
   | {
       type: 'daiFromSDaiWithdraw'

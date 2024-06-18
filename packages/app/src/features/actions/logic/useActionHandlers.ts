@@ -11,6 +11,7 @@ import { useCreateUSDCToSDaiDepositHandler } from '../flavours/native-sdai-depos
 import { useCreateXDaiToSDaiDepositHandler } from '../flavours/native-sdai-deposit/xdai-to-sdai/useCreateXDaiToSDaiDepositHandler'
 import { useCreateDaiFromSDaiWithdrawHandler } from '../flavours/native-sdai-withdraw/dai-from-sdai/useCreateDaiFromSDaiWithdrawHandler'
 import { useCreateUSDCFromSDaiWithdrawHandler } from '../flavours/native-sdai-withdraw/usdc-from-sdai/useCreateUSDCFromSDaiWithdrawHandler'
+import { useCreateXDaiFromSDaiWithdrawHandler } from '../flavours/native-sdai-withdraw/xdai-from-sdai/useCreateXDaiFromSDaiWithdrawHandler'
 import { useCreateRepayHandler } from '../flavours/repay/useCreateRepayHandler'
 import { useCreateSetUseAsCollateralHandler } from '../flavours/set-use-as-collateral/useCreateSetUseAsCollateralHandler'
 import { useCreateSetUserEModeHandler } from '../flavours/set-user-e-mode/useCreateSetUserEModeHandler'
@@ -129,5 +130,8 @@ function useCreateActionHandler(
     case 'xDaiToSDaiDeposit':
       // biome-ignore lint/correctness/useHookAtTopLevel:
       return useCreateXDaiToSDaiDepositHandler(action, { enabled, onFinish })
+    case 'xDaiFromSDaiWithdraw':
+      // biome-ignore lint/correctness/useHookAtTopLevel:
+      return useCreateXDaiFromSDaiWithdrawHandler(action, { enabled, onFinish })
   }
 }

@@ -16,6 +16,10 @@ import {
   USDCFromSDaiWithdrawAction,
   USDCFromSDaiWithdrawObjective,
 } from '../flavours/native-sdai-withdraw/usdc-from-sdai/types'
+import {
+  XDaiFromSDaiWithdrawAction,
+  XDaiFromSDaiWithdrawObjective,
+} from '../flavours/native-sdai-withdraw/xdai-from-sdai/types'
 import { RepayAction, RepayObjective } from '../flavours/repay/types'
 import { SetUseAsCollateralAction, SetUseAsCollateralObjective } from '../flavours/set-use-as-collateral/types'
 import { SetUserEModeAction, SetUserEModeObjective } from '../flavours/set-user-e-mode/types'
@@ -38,6 +42,7 @@ export type Objective =
   | USDCToSDaiDepositObjective
   | USDCFromSDaiWithdrawObjective
   | XDaiToSDaiDepositObjective
+  | XDaiFromSDaiWithdrawObjective
 export type ObjectiveType = Objective['type']
 
 export type Action =
@@ -56,6 +61,7 @@ export type Action =
   | USDCToSDaiDepositAction
   | USDCFromSDaiWithdrawAction
   | XDaiToSDaiDepositAction
+  | XDaiFromSDaiWithdrawAction
 export type ActionType = Action['type']
 
 export type ActionHandlerState =

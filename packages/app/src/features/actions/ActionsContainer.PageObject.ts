@@ -180,6 +180,7 @@ function actionToTitle(action: SimplifiedAction): string {
       return `Wrap ${action.asset} into sDAI`
     case 'daiFromSDaiWithdraw':
     case 'usdcFromSDaiWithdraw':
+    case 'xDaiFromSDaiWithdraw':
       return `Unwrap sDAI into ${action.asset}`
   }
 }
