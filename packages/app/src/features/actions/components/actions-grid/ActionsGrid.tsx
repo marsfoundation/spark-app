@@ -4,8 +4,10 @@ import { ApproveActionRow } from '../../flavours/approve/ApproveActionRow'
 import { BorrowActionRow } from '../../flavours/borrow/BorrowActionRow'
 import { DepositActionRow } from '../../flavours/deposit/DepositActionRow'
 import { ExchangeActionRow } from '../../flavours/exchange/ExchangeActionRow'
-import { NativeSDaiDepositActionRow } from '../../flavours/native-sdai-deposit/NativeSDaiDepositActionRow'
+import { NativeDaiDepositActionRow } from '../../flavours/native-dai-deposit/NativeDaiDepositActionRow'
 import { NativeSDaiWithdrawActionRow } from '../../flavours/native-sdai-withdraw/NativeSDaiWithdrawActionRow'
+import { NativeUSDCDepositActionRow } from '../../flavours/native-usdc-deposit/NativeUSDCDepositActionRow'
+import { NativeXDaiDepositActionRow } from '../../flavours/native-xdai-deposit/NativeXDaiDepositActionRow'
 import { RepayActionRow } from '../../flavours/repay/RepayActionRow'
 import { SetUseAsCollateralActionRow } from '../../flavours/set-use-as-collateral/SetUseAsCollateralActionRow'
 import { SetUserEModeActionRow } from '../../flavours/set-user-e-mode/SetUserEModeActionRow'
@@ -53,8 +55,12 @@ export function ActionsGrid({ actionHandlers, variant }: ActionsGridProps) {
             return <SetUserEModeActionRow action={handler.action} {...props} />
           case 'withdraw':
             return <WithdrawActionRow action={handler.action} {...props} />
-          case 'nativeSDaiDeposit':
-            return <NativeSDaiDepositActionRow action={handler.action} {...props} />
+          case 'nativeDaiDeposit':
+            return <NativeDaiDepositActionRow action={handler.action} {...props} />
+          case 'nativeUSDCDeposit':
+            return <NativeUSDCDepositActionRow action={handler.action} {...props} />
+          case 'nativeXDaiDeposit':
+            return <NativeXDaiDepositActionRow action={handler.action} {...props} />
           case 'nativeSDaiWithdraw':
             return <NativeSDaiWithdrawActionRow action={handler.action} {...props} />
         }

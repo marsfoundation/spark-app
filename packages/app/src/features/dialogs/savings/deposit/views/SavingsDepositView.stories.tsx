@@ -140,8 +140,8 @@ export const DesktopMaker: Story = {
     },
     objectives: [
       {
-        type: 'nativeSDaiDeposit',
-        token: tokens.DAI,
+        type: 'nativeDaiDeposit',
+        dai: tokens.DAI,
         sDai: tokens.sDAI,
         value: NormalizedUnitNumber(1300.74),
       },

@@ -3,7 +3,6 @@ import { psmActionsAddress, wethGatewayAddress } from '@/config/contracts-genera
 import { useContractAddress } from '@/domain/hooks/useContractAddress'
 import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
 import { BaseUnitNumber, NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import BigNumber from 'bignumber.js'
 import { maxUint256 } from 'viem'
 import { mainnet } from 'viem/chains'
@@ -14,7 +13,6 @@ import { BorrowAction } from '../flavours/borrow/types'
 import { DepositAction } from '../flavours/deposit/types'
 import { ExchangeAction } from '../flavours/exchange/types'
 import { NativeDaiDepositAction } from '../flavours/native-dai-deposit/types'
-import { NativeSDaiDepositAction } from '../flavours/native-sdai-deposit/types'
 import { NativeSDaiWithdrawAction } from '../flavours/native-sdai-withdraw/types'
 import { NativeUSDCDepositAction } from '../flavours/native-usdc-deposit/types'
 import { NativeXDaiDepositAction } from '../flavours/native-xdai-deposit/types'
@@ -168,27 +166,6 @@ export function useCreateActions(objectives: Objective[]): Action[] {
         }
 
         return [approveExchangeAction, exchangeAction]
-      }
-
-      case 'nativeSDaiDeposit': {
-        const spender =
-          objective.token.symbol === TokenSymbol('USDC') ? psmActionsAddress[mainnet.id] : objective.sDai.address
-
-        const approveAction: ApproveAction = {
-          type: 'approve',
-          token: objective.token,
-          spender,
-          value: objective.value,
-          disallowPermit: true,
-        }
-
-        const depositAction: NativeSDaiDepositAction = {
-          type: 'nativeSDaiDeposit',
-          token: objective.token,
-          value: objective.value,
-          sDai: objective.sDai,
-        }
-        return [approveAction, depositAction]
       }
 
       case 'nativeSDaiWithdraw': {

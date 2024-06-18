@@ -7,7 +7,6 @@ import { useCreateBorrowActionHandler } from '../flavours/borrow/useCreateBorrow
 import { useCreateDepositHandler } from '../flavours/deposit/useCreateDepositHandler'
 import { useCreateExchangeHandler } from '../flavours/exchange/useCreateExchangeHandler'
 import { useCreateNativeDaiDepositHandler } from '../flavours/native-dai-deposit/useCreateNativeDaiDepositHandler'
-import { useCreateNativeSDaiDepositHandler } from '../flavours/native-sdai-deposit/useCreateNativeSDaiDepositHandler'
 import { useCreateNativeSDaiWithdrawHandler } from '../flavours/native-sdai-withdraw/useCreateNativeSDaiWithdrawHandler'
 import { useCreateNativeUSDCDepositHandler } from '../flavours/native-usdc-deposit/useCreateNativeUSDCDepositHandler'
 import { useCreateNativeXDaiDepositHandler } from '../flavours/native-xdai-deposit/useCreateNativeXDaiDepositHandler'
@@ -114,9 +113,6 @@ function useCreateActionHandler(
     case 'exchange':
       // biome-ignore lint/correctness/useHookAtTopLevel:
       return useCreateExchangeHandler(action, { enabled, onFinish })
-    case 'nativeSDaiDeposit':
-      // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateNativeSDaiDepositHandler(action, { enabled, onFinish })
     case 'nativeSDaiWithdraw':
       // biome-ignore lint/correctness/useHookAtTopLevel:
       return useCreateNativeSDaiWithdrawHandler(action, { enabled, onFinish })
