@@ -9,6 +9,7 @@ import { gnosis } from 'viem/chains'
 import { useSexyDaiWithdraw } from './useSexyDaiWithdraw'
 
 const account = testAddresses.alice
+const sDai = testAddresses.token
 const assetsAmount = BaseUnitNumber(1)
 
 const hookRenderer = setupHookRenderer({
@@ -16,9 +17,7 @@ const hookRenderer = setupHookRenderer({
   account,
   chain: gnosis,
   handlers: [handlers.chainIdCall({ chainId: gnosis.id }), handlers.balanceCall({ balance: 0n, address: account })],
-  args: {
-    assetsAmount,
-  },
+  args: { assetsAmount, sDai },
 })
 
 describe(useSexyDaiWithdraw.name, () => {
@@ -31,7 +30,7 @@ describe(useSexyDaiWithdraw.name, () => {
   })
 
   it('is not enabled for 0 assets amount', async () => {
-    const { result } = hookRenderer({ args: { assetsAmount: BaseUnitNumber(0) } })
+    const { result } = hookRenderer({ args: { assetsAmount: BaseUnitNumber(0), sDai } })
 
     await waitFor(() => {
       expect(result.current.status.kind).toBe('disabled')
@@ -39,7 +38,7 @@ describe(useSexyDaiWithdraw.name, () => {
   })
 
   it('is not enabled when explicitly disabled', async () => {
-    const { result } = hookRenderer({ args: { enabled: false, assetsAmount } })
+    const { result } = hookRenderer({ args: { enabled: false, assetsAmount, sDai } })
 
     await waitFor(() => {
       expect(result.current.status.kind).toBe('disabled')
@@ -48,9 +47,7 @@ describe(useSexyDaiWithdraw.name, () => {
 
   it('withdraws xDAI', async () => {
     const { result } = hookRenderer({
-      args: {
-        assetsAmount,
-      },
+      args: { assetsAmount, sDai },
       extraHandlers: [
         handlers.contractCall({
           to: savingsXDaiAdapterAddress[gnosis.id],
