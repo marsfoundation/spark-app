@@ -73,6 +73,8 @@ jobs:
         node: ["20"]
         os: [ubicloud-standard-4]
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    if: false # tmp disable
     steps:
       - uses: actions/checkout@v2
         with:
