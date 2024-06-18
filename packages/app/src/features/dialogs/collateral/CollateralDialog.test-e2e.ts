@@ -110,7 +110,7 @@ test.describe('Collateral dialog', () => {
       await collateralDialog.expectHealthFactorNotVisible()
       await collateralDialog.expectAlertMessage(setUseAsCollateralValidationIssueToMessage['zero-ltv-asset'])
       const actionsContainer = new ActionsPageObject(collateralDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectActionsDisabled()
+      await actionsContainer.expectDisabledActionAtIndex(0)
 
       await dashboardPage.goToDashboardAction()
       await dashboardPage.expectCollateralSwitch(asset, false)
@@ -128,7 +128,7 @@ test.describe('Collateral dialog', () => {
       await collateralDialog.expectHealthFactorNotVisible()
       await collateralDialog.expectAlertMessage(setUseAsCollateralValidationIssueToMessage['zero-deposit-asset'])
       const actionsContainer = new ActionsPageObject(collateralDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectActionsDisabled()
+      await actionsContainer.expectDisabledActionAtIndex(0)
 
       await dashboardPage.goToDashboardAction()
       await dashboardPage.expectCollateralSwitch(asset, false)
@@ -175,7 +175,7 @@ test.describe('Collateral dialog', () => {
       await collateralDialog.expectHealthFactorAfter('0')
       await collateralDialog.expectAlertMessage(setUseAsCollateralValidationIssueToMessage['exceeds-ltv'])
       const actionsContainer = new ActionsPageObject(collateralDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectActionsDisabled()
+      await actionsContainer.expectDisabledActionAtIndex(0)
 
       await dashboardPage.goToDashboardAction()
       await dashboardPage.expectCollateralSwitch(collateral, true)
@@ -243,7 +243,7 @@ test.describe('Collateral dialog', () => {
       await collateralDialog.expectHealthFactorAfter('0.02')
       await collateralDialog.expectAlertMessage(setUseAsCollateralValidationIssueToMessage['exceeds-ltv'])
       const actionsContainer = new ActionsPageObject(collateralDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectActionsDisabled()
+      await actionsContainer.expectDisabledActionAtIndex(0)
 
       await dashboardPage.goToDashboardAction()
       await dashboardPage.expectCollateralSwitch(collateral, true)
@@ -313,7 +313,7 @@ test.describe('Collateral dialog', () => {
       const collateralDialog = new CollateralDialogPageObject(page)
       await collateralDialog.expectAlertMessage(setUseAsCollateralValidationIssueToMessage['isolation-mode-active'])
       const actionsContainer = new ActionsPageObject(collateralDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectActionsDisabled()
+      await actionsContainer.expectDisabledActionAtIndex(0)
 
       await dashboardPage.goToDashboardAction()
       await dashboardPage.expectCollateralSwitch(collateral, false)

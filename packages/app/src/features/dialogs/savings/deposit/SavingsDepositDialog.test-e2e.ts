@@ -364,10 +364,10 @@ test.describe('Savings deposit dialog', () => {
       await depositDialog.expectTransactionOverviewToBeVisible() // wait for lifi to load
 
       const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectActionsDisabled()
+      await actionsContainer.expectDisabledActionAtIndex(0)
 
       await depositDialog.clickAcknowledgeRisk()
-      await actionsContainer.expectNextActionEnabled()
+      await actionsContainer.expectEnabledActionAtIndex(0)
     })
   })
 
@@ -403,7 +403,7 @@ test.describe('Savings deposit dialog', () => {
         const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
 
         await depositDialog.fillAmountAction(100)
-        await actionsContainer.expectNextActionEnabled()
+        await actionsContainer.expectEnabledActionAtIndex(0)
         await actionsContainer.expectActions([
           { type: 'approve', asset: 'DAI' },
           { type: 'nativeSDaiDeposit', asset: 'DAI' },
@@ -411,7 +411,7 @@ test.describe('Savings deposit dialog', () => {
 
         await depositDialog.selectAssetAction('USDC')
         await depositDialog.fillAmountAction(100)
-        await actionsContainer.expectNextActionEnabled()
+        await actionsContainer.expectEnabledActionAtIndex(0)
         await actionsContainer.expectActions([
           { type: 'approve', asset: 'USDC' },
           { type: 'nativeSDaiDeposit', asset: 'USDC' },
@@ -419,7 +419,7 @@ test.describe('Savings deposit dialog', () => {
 
         await depositDialog.selectAssetAction('USDT')
         await depositDialog.fillAmountAction(100)
-        await actionsContainer.expectNextActionEnabled()
+        await actionsContainer.expectEnabledActionAtIndex(0)
         await actionsContainer.expectActions([
           { type: 'approve', asset: 'USDT' },
           { type: 'exchange', inputAsset: 'USDT', outputAsset: 'sDAI' },
@@ -427,7 +427,7 @@ test.describe('Savings deposit dialog', () => {
 
         await depositDialog.selectAssetAction('DAI')
         await depositDialog.fillAmountAction(100)
-        await actionsContainer.expectNextActionEnabled()
+        await actionsContainer.expectEnabledActionAtIndex(0)
         await actionsContainer.expectActions([
           { type: 'approve', asset: 'DAI' },
           { type: 'nativeSDaiDeposit', asset: 'DAI' },
@@ -465,12 +465,12 @@ test.describe('Savings deposit dialog', () => {
         const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
 
         await depositDialog.fillAmountAction(100)
-        await actionsContainer.expectNextActionEnabled()
+        await actionsContainer.expectEnabledActionAtIndex(0)
         await actionsContainer.expectActions([{ type: 'exchange', inputAsset: 'XDAI', outputAsset: 'sDAI' }])
 
         await depositDialog.selectAssetAction('USDC')
         await depositDialog.fillAmountAction(100)
-        await actionsContainer.expectNextActionEnabled()
+        await actionsContainer.expectEnabledActionAtIndex(0)
         await actionsContainer.expectActions([
           { type: 'approve', asset: 'USDC' },
           { type: 'exchange', inputAsset: 'USDC', outputAsset: 'sDAI' },
@@ -478,7 +478,7 @@ test.describe('Savings deposit dialog', () => {
 
         await depositDialog.selectAssetAction('USDT')
         await depositDialog.fillAmountAction(100)
-        await actionsContainer.expectNextActionEnabled()
+        await actionsContainer.expectEnabledActionAtIndex(0)
         await actionsContainer.expectActions([
           { type: 'approve', asset: 'USDT' },
           { type: 'exchange', inputAsset: 'USDT', outputAsset: 'sDAI' },
@@ -486,7 +486,7 @@ test.describe('Savings deposit dialog', () => {
 
         await depositDialog.selectAssetAction('XDAI')
         await depositDialog.fillAmountAction(100)
-        await actionsContainer.expectNextActionEnabled()
+        await actionsContainer.expectEnabledActionAtIndex(0)
         await actionsContainer.expectActions([{ type: 'exchange', inputAsset: 'XDAI', outputAsset: 'sDAI' }])
       })
     })

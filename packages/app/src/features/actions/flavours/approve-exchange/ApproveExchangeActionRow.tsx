@@ -22,9 +22,7 @@ export function ApproveExchangeActionRow({
   const formattedValue = getFormattedValue(action.swapParams.value, fromToken, variant)
 
   return (
-    <ActionRow>
-      <ActionRow.Index index={index} />
-
+    <ActionRow index={index}>
       <ActionRow.Icon path={assets.actions.approve} actionStatus={status} />
 
       <ActionRow.Title icon={<TokenIcon token={fromToken} className="h-6" />} actionStatus={status}>

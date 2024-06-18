@@ -1,4 +1,3 @@
-import { assert } from '@/utils/assert'
 import { Locator, Page, expect } from '@playwright/test'
 
 import { formatPercentage } from '@/domain/common/format'
@@ -23,20 +22,22 @@ export class ActionsPageObject extends BasePageObject {
     return this.locateDialogByHeader('Settings')
   }
 
-  locateActionButtons({ disabled }: { disabled?: boolean } = {}): Locator {
-    return this.region.getByRole('button', { name: actionButtonRegex, disabled })
+  locateActionAtIndex(index: number): Locator {
+    return this.region.getByTestId(testIds.actions.row(index))
   }
 
   // #region actions
   async acceptAllActionsAction(expectedNumberOfActions: number): Promise<void> {
-    await this.locateActionButtons().first().waitFor({ state: 'visible' }) // waits for any button to appear
-    for (let i = 0; i < expectedNumberOfActions; i++) {
-      await this.locateActionButtons({ disabled: false }).click()
+    for (let index = 0; index < expectedNumberOfActions; index++) {
+      const row = this.region.getByTestId(testIds.actions.row(index))
+
+      await row.getByRole('button', { name: actionButtonRegex }).click()
     }
   }
 
-  async acceptNextActionAction(): Promise<void> {
-    await this.locateActionButtons({ disabled: false }).click()
+  async acceptActionAtIndex(index: number): Promise<void> {
+    const row = this.region.getByTestId(testIds.actions.row(index))
+    await row.getByRole('button', { name: actionButtonRegex }).click()
   }
 
   async switchPreferPermitsAction(): Promise<void> {
@@ -77,56 +78,34 @@ export class ActionsPageObject extends BasePageObject {
 
   // #region assertions
   async expectActions(actions: SimplifiedAction[]): Promise<void> {
-    await this._expectActions({ actions, shortForm: true })
+    for (const [index, expectedAction] of actions.entries()) {
+      await this.expectActionAtIndex(index, expectedAction)
+    }
+
+    await expect(this.region.getByTestId(testIds.actions.row(actions.length))).toBeHidden() // this ensures that there are no more rows
   }
 
-  async expectExtendedActions(actions: SimplifiedActionWithAmount[]): Promise<void> {
-    await this._expectActions({ actions, shortForm: false })
-  }
+  async expectActionAtIndex(index: number, expectedAction: SimplifiedAction): Promise<void> {
+    const row = this.locateActionAtIndex(index)
+    await expect(row).toContainText(actionToTitle(expectedAction))
 
-  private async _expectActions({ actions, shortForm }: ExpectedActions): Promise<void> {
-    await this.expectNextActionEnabled()
-
-    const actionLocators = await this.region.getByTestId(testIds.component.Action.title).all()
-    expect(actionLocators.length, 'Number of expected actions does not equal to the number of actual actions').toEqual(
-      actions.length,
-    )
-
-    for (const [index, actualAction] of actionLocators.entries()) {
-      const actualTitle = await actualAction.textContent()
-      const expectedAction = actions[index]
-      assert(expectedAction, `Expected action ${actualTitle} not found`)
-      if (shortForm) {
-        expect(actualTitle).toEqual(actionToTitle({ action: expectedAction, shortForm: true }))
-      } else {
-        expect(actualTitle).toEqual(
-          actionToTitle({ action: expectedAction as SimplifiedActionWithAmount, shortForm: false }),
-        )
-      }
+    if (expectedAction.type === 'exchange') {
+      await expectExchangeActionRow(row, expectedAction)
     }
   }
 
-  async expectNextActionEnabled(): Promise<void> {
-    await expect(this.locateActionButtons({ disabled: false })).toBeVisible()
+  async expectEnabledActionAtIndex(index: number, expectedAction?: SimplifiedAction): Promise<void> {
+    if (expectedAction) {
+      await this.expectActionAtIndex(index, expectedAction)
+    }
+
+    const row = this.locateActionAtIndex(index)
+    await expect(row.getByRole('button', { name: actionButtonRegex, disabled: false })).toBeVisible()
   }
 
-  async expectActionsDisabled(): Promise<void> {
-    await expect(this.locateActionButtons({ disabled: false })).not.toBeVisible()
-  }
-
-  async expectNextAction(action: SimplifiedAction): Promise<void> {
-    await this._expectNextAction({ action, shortForm: true })
-  }
-
-  private async _expectNextAction(params: ExpectedAction): Promise<void> {
-    await expect(async () => {
-      const buttons = await this.locateActionButtons().all()
-      const titles = await this.region.getByTestId(testIds.component.Action.title).all()
-      // when action is complete, the action button is removed from the DOM
-      const index = titles.length - buttons.length
-      const title = await titles[index]?.textContent()
-      expect(title).toEqual(actionToTitle(params))
-    }).toPass({ timeout: 10000 })
+  async expectDisabledActionAtIndex(index: number): Promise<void> {
+    const row = this.locateActionAtIndex(index)
+    await expect(row.getByRole('button', { name: actionButtonRegex, disabled: true })).toBeVisible()
   }
 
   async expectSlippage(slippage: number): Promise<void> {
@@ -138,64 +117,71 @@ export class ActionsPageObject extends BasePageObject {
   async expectSlippageValidationError(error: string): Promise<void> {
     await expect(this.locateSettingsDialog().getByTestId(testIds.actions.settings.slippage.error)).toHaveText(error)
   }
+
+  async expectExtendedActions(actions: SimplifiedExtendedAction[]): Promise<void> {
+    for (const [index, expectedAction] of actions.entries()) {
+      await this.expectExtendedActionAtIndex(index, expectedAction)
+    }
+
+    await expect(this.locateActionAtIndex(actions.length)).toBeHidden() // this ensures that there are no more rows
+  }
+
+  async expectExtendedActionAtIndex(index: number, expectedAction: SimplifiedExtendedAction): Promise<void> {
+    const row = this.locateActionAtIndex(index)
+    await expect(row).toContainText(extendedActionToTitle(expectedAction))
+  }
   // #endregion assertions
 }
 
-type ExpectedActions =
-  | { actions: SimplifiedAction[]; shortForm: true }
-  | { actions: SimplifiedActionWithAmount[]; shortForm: false }
-
-type ExpectedAction =
-  | { action: SimplifiedAction; shortForm: true }
-  | { action: SimplifiedActionWithAmount; shortForm: false }
-
-type SimplifiedActionWithAmount = SimplifiedAction & { amount: number }
+type SimplifiedExchangeAction = {
+  type: 'exchange'
+  inputAsset: string
+  outputAsset: string
+  fee?: string
+  slippage?: string
+  finalSDAIAmount?: string
+  finalDAIAmount?: string
+}
 
 type SimplifiedAction =
   | {
       type: Exclude<ActionType, 'exchange'>
       asset: string
     }
-  | {
-      type: 'exchange'
-      inputAsset: string
-      outputAsset: string
-    }
+  | SimplifiedExchangeAction
 
-function actionToTitle({ action, shortForm }: ExpectedAction): string {
-  const prefix = getActionTitlePrefix(action)
-
-  if (shortForm) {
-    if (action.type === 'exchange') {
-      return `${prefix} ${action.inputAsset} to ${action.outputAsset}`
-    }
-
-    if (action.type === 'nativeSDaiDeposit') {
-      return `${prefix} ${action.asset} into sDAI`
-    }
-
-    if (action.type === 'nativeSDaiWithdraw') {
-      return `${prefix} sDAI into ${action.asset}`
-    }
-
-    return `${prefix} ${action.asset}`
+function actionToTitle(action: SimplifiedAction): string {
+  switch (action.type) {
+    case 'approve':
+      return `Approve ${action.asset}`
+    case 'deposit':
+      return `Deposit ${action.asset}`
+    case 'withdraw':
+      return `Withdraw ${action.asset}`
+    case 'approveDelegation':
+      return `Approve delegation ${action.asset}`
+    case 'borrow':
+      return `Borrow ${action.asset}`
+    case 'permit':
+      return `Permit ${action.asset}`
+    case 'repay':
+      return `Repay with ${action.asset}`
+    case 'setUseAsCollateral':
+      return '' // not used in collateral dialog tests
+    case 'setUserEMode':
+      return '' // not used in e-mode dialog tests
+    case 'approveExchange':
+      return `Approve exchange ${action.asset}`
+    case 'exchange':
+      return `Convert ${action.inputAsset} to ${action.outputAsset}`
+    case 'nativeSDaiDeposit':
+    case 'nativeDaiDeposit':
+    case 'nativeUSDCDeposit':
+    case 'nativeXDaiDeposit':
+      return `Wrap ${action.asset} into sDAI`
+    case 'nativeSDaiWithdraw':
+      return `Unwrap sDAI into ${action.asset}`
   }
-
-  const formatter = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-  // this is quite naive and might require improving in the future
-  if (action.type === 'exchange') {
-    return `${prefix} ${formatter.format(action.amount)} ${action.inputAsset} to ${action.outputAsset}`
-  }
-
-  if (action.type === 'nativeSDaiDeposit') {
-    return `${prefix} ${formatter.format(action.amount)} ${action.asset} into sDAI`
-  }
-
-  if (action.type === 'nativeSDaiWithdraw') {
-    return `${prefix} sDAI into ${formatter.format(action.amount)} ${action.asset}`
-  }
-
-  return `${prefix} ${formatter.format(action.amount)} ${action.asset}`
 }
 
 const actionVerbs = [
@@ -213,36 +199,47 @@ const actionVerbs = [
 ]
 const actionButtonRegex = new RegExp(`^(${actionVerbs.join('|')})$`)
 
-function getActionTitlePrefix(action: SimplifiedAction): string {
+// exchange action deserves a special treatment as it's the only one with extra fields on UI
+async function expectExchangeActionRow(exchangeRow: Locator, action: SimplifiedExchangeAction): Promise<void> {
+  await expect(exchangeRow.getByTestId(testIds.actions.flavours.exchangeActionRow.lifiBadge)).toBeVisible()
+  if (action.fee) {
+    await expect(exchangeRow.getByTestId(testIds.actions.flavours.exchangeActionRow.fee)).toHaveText(action.fee)
+  }
+  if (action.slippage) {
+    await expect(exchangeRow.getByTestId(testIds.actions.flavours.exchangeActionRow.slippage)).toHaveText(
+      action.slippage,
+    )
+  }
+  if (action.finalDAIAmount) {
+    await expect(exchangeRow.getByTestId(testIds.actions.flavours.exchangeActionRow.finalDAIAmount)).toContainText(
+      action.finalDAIAmount,
+    )
+  }
+  if (action.finalSDAIAmount) {
+    await expect(exchangeRow.getByTestId(testIds.actions.flavours.exchangeActionRow.finalSDAIAmount)).toHaveText(
+      action.finalSDAIAmount,
+    )
+  }
+}
+
+type SimplifiedExtendedAction =
+  | { type: 'approve'; asset: string; amount: number }
+  | { type: 'permit'; asset: string; amount: number }
+  | { type: 'deposit'; asset: string; amount: number }
+  | { type: 'borrow'; asset: string; amount: number }
+
+function extendedActionToTitle(action: SimplifiedExtendedAction): string {
+  const formatter = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+  const amountFormatted = formatter.format(action.amount)
+
   switch (action.type) {
     case 'approve':
-      return 'Approve'
+      return `Approve ${amountFormatted} ${action.asset}`
     case 'deposit':
-      return 'Deposit'
-    case 'withdraw':
-      return 'Withdraw'
-    case 'approveDelegation':
-      return 'Approve delegation'
+      return `Deposit ${amountFormatted} ${action.asset}`
     case 'borrow':
-      return 'Borrow'
+      return `Borrow ${amountFormatted} ${action.asset}`
     case 'permit':
-      return 'Permit'
-    case 'repay':
-      return 'Repay with'
-    case 'setUseAsCollateral':
-      return '' // not used in collateral dialog tests
-    case 'setUserEMode':
-      return '' // not used in e-mode dialog tests
-    case 'approveExchange':
-      return 'Approve exchange'
-    case 'exchange':
-      return 'Convert'
-    case 'nativeSDaiDeposit':
-    case 'nativeDaiDeposit':
-    case 'nativeUSDCDeposit':
-    case 'nativeXDaiDeposit':
-      return 'Wrap'
-    case 'nativeSDaiWithdraw':
-      return 'Unwrap'
+      return `Permit ${amountFormatted} ${action.asset}`
   }
 }

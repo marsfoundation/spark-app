@@ -78,7 +78,7 @@ test.describe('Deposit dialog', () => {
 
       // @note this is needed for deterministic screenshots
       const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectNextActionEnabled()
+      await actionsContainer.expectEnabledActionAtIndex(0)
 
       await screenshot(depositDialog.getDialog(), 'deposit-dialog-health-factor')
     })
@@ -122,7 +122,7 @@ test.describe('Deposit dialog', () => {
       await depositDialog.fillAmountAction(1)
       const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
 
-      await actionsContainer.expectNextActionEnabled()
+      await actionsContainer.expectEnabledActionAtIndex(0)
       await actionsContainer.expectActions([
         { type: 'permit', asset: 'wstETH' },
         { type: 'deposit', asset: 'wstETH' },
@@ -130,7 +130,7 @@ test.describe('Deposit dialog', () => {
 
       await actionsContainer.switchPreferPermitsAction()
 
-      await actionsContainer.expectNextActionEnabled()
+      await actionsContainer.expectEnabledActionAtIndex(0)
       await actionsContainer.expectActions([
         { type: 'approve', asset: 'wstETH' },
         { type: 'deposit', asset: 'wstETH' },
@@ -280,13 +280,13 @@ test.describe('Deposit dialog', () => {
       await depositDialog.fillAmountAction(1)
 
       const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.acceptNextActionAction()
 
-      await actionsContainer.expectNextAction({ type: 'deposit', asset: depositAsset })
+      await actionsContainer.acceptActionAtIndex(0)
+      await actionsContainer.expectEnabledActionAtIndex(1, { type: 'deposit', asset: depositAsset })
 
       await depositDialog.fillAmountAction(2)
 
-      await actionsContainer.expectNextAction({ type: 'approve', asset: depositAsset })
+      await actionsContainer.expectEnabledActionAtIndex(0, { type: 'approve', asset: depositAsset })
     })
 
     test('requires new permit when the input value is changed', async ({ page }) => {
@@ -298,13 +298,13 @@ test.describe('Deposit dialog', () => {
       await depositDialog.fillAmountAction(2)
 
       const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.acceptNextActionAction()
 
-      await actionsContainer.expectNextAction({ type: 'deposit', asset: depositAsset })
+      await actionsContainer.acceptActionAtIndex(0)
+      await actionsContainer.expectEnabledActionAtIndex(1, { type: 'deposit', asset: depositAsset })
 
       await depositDialog.fillAmountAction(1)
 
-      await actionsContainer.expectNextAction({ type: 'permit', asset: depositAsset })
+      await actionsContainer.expectEnabledActionAtIndex(0, { type: 'permit', asset: depositAsset })
     })
   })
 
@@ -336,9 +336,9 @@ test.describe('Deposit dialog', () => {
 
       const actionsContainer = new ActionsPageObject(page)
       for (let i = 0; i < 4; i++) {
-        await actionsContainer.acceptNextActionAction()
+        await actionsContainer.acceptActionAtIndex(i)
       }
-      await actionsContainer.expectNextActionEnabled()
+      await actionsContainer.expectEnabledActionAtIndex(4)
 
       const dashboardPage = new DashboardPageObject(page)
       await dashboardPage.goToDashboardAction()
@@ -355,7 +355,7 @@ test.describe('Deposit dialog', () => {
 
       // @note this is needed for deterministic screenshots
       const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectNextActionEnabled()
+      await actionsContainer.expectEnabledActionAtIndex(0)
 
       await screenshot(depositDialog.getDialog(), 'deposit-dialog-only-deposit-health-factor')
     })

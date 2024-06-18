@@ -10,26 +10,25 @@ import { useIsTruncated } from '@/ui/utils/useIsTruncated'
 import { ActionHandlerState } from '../../logic/types'
 import { ActionRowVariant } from './types'
 
-function ActionRow({
-  children,
-  className,
-  'data-testid': dataTestId,
-}: { children: ReactNode; className?: string; 'data-testid'?: string }) {
+interface ActionRowProps {
+  children: ReactNode
+  className?: string
+  index: number
+}
+
+function ActionRow({ children, className, index }: ActionRowProps) {
   return (
     <div
       className={cn(
         'col-span-full grid min-h-[65px] grid-cols-subgrid items-center gap-y-2 border-basics-dark-grey/20 border-b py-4 last:border-none',
         className,
       )}
-      data-testid={dataTestId}
+      data-testid={testIds.actions.row(index - 1)}
     >
+      <div className="text-basics-dark-grey text-xs tabular-nums">{index}.</div>
       {children}
     </div>
   )
-}
-
-function Index({ index }: { index: number }) {
-  return <div className="text-basics-dark-grey text-xs tabular-nums">{index}.</div>
 }
 
 function Icon({ path, actionStatus }: { path: string; actionStatus?: ActionHandlerState['status'] }) {
@@ -180,7 +179,6 @@ function Action({
   )
 }
 
-ActionRow.Index = Index
 ActionRow.Icon = Icon
 ActionRow.Title = Title
 ActionRow.Description = Description
