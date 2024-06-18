@@ -9,6 +9,9 @@ import { Typography } from '@/ui/atoms/typography/Typography'
 import { MultiAssetSelector } from '@/ui/organisms/multi-selector/MultiSelector'
 import { testIds } from '@/ui/utils/testIds'
 
+import { paths } from '@/config/paths'
+import { Link } from '@/ui/atoms/link/Link'
+import { Info } from '@/ui/molecules/info/Info'
 import { EasyBorrowFormSchema } from '../../logic/form/validation'
 import { ExistingPosition } from '../../logic/types'
 import { TokenSummary } from './TokenSummary'
@@ -31,7 +34,14 @@ export function Deposits(props: DepositsProps) {
   return (
     <div className="flex flex-1 flex-col" data-testid={testIds.easyBorrow.form.deposits}>
       <div className="flex h-10 flex-row items-center justify-between">
-        <Typography variant="h4">Deposit required</Typography>
+        <div className="flex flex-row gap-1">
+          <Typography variant="h4">Deposit required</Typography>
+          <Info>
+            Some assets (e.g., isolated assets) are only accessible via the <Link to={paths.dashboard}>Dashboard</Link>{' '}
+            at this time.
+          </Info>
+        </div>
+
         <Button
           className="text-prompt-foreground"
           onClick={addAsset}
