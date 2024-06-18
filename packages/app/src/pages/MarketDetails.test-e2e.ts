@@ -12,6 +12,7 @@ import { MarketDetailsPageObject } from './MarketDetails.PageObject'
 
 const DAI = '0x6B175474E89094C44Da98b954EedeAC495271d0F'
 const WETH = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'
+const WEETH = '0xcd5fe23c85820f7b72d0926fc9b05b43e359b7ee'
 
 test.describe('Market details', () => {
   const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id })
@@ -193,6 +194,25 @@ test.describe('Market details', () => {
       const borrowDialog = new DialogPageObject(page, /Borrow/i)
       await borrowDialog.expectDialogHeader('Borrow WETH')
       await borrowDialog.closeDialog()
+    })
+  })
+
+  test.describe('Isolated assets', () => {
+    const BLOCK_NUMBER_WITH_WEETH = 20118125n
+    const fork = setupFork({ blockNumber: BLOCK_NUMBER_WITH_WEETH, chainId: mainnet.id })
+
+    test('Correctly displays debt ceiling', async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'marketDetails',
+        initialPageParams: { asset: WEETH, chainId: fork.chainId.toString() },
+        account: {
+          type: 'not-connected',
+        },
+      })
+
+      const marketDetailsPage = new MarketDetailsPageObject(page)
+      await marketDetailsPage.expectDebt('$0.00')
+      await marketDetailsPage.expectDebtCeiling('$50M')
     })
   })
 })

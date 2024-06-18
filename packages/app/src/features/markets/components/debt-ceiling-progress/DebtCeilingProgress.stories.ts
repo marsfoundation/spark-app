@@ -1,6 +1,5 @@
 import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
-import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { withRouter } from 'storybook-addon-remix-react-router'
 
@@ -19,9 +18,8 @@ type Story = StoryObj<typeof DebtCeilingProgress>
 
 export const Default: Story = {
   args: {
-    token: tokens.GNO,
-    debt: NormalizedUnitNumber(123),
-    debtCeiling: NormalizedUnitNumber(200),
+    debt: NormalizedUnitNumber(37_896_154),
+    debtCeiling: NormalizedUnitNumber(50_000_000),
   },
 }
 

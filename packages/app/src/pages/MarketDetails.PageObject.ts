@@ -1,6 +1,7 @@
 import { Locator, expect } from '@playwright/test'
 
 import { BasePageObject } from '@/test/e2e/BasePageObject'
+import { testIds } from '@/ui/utils/testIds'
 
 export type DialogType = 'Lend' | 'Deposit' | 'Borrow'
 
@@ -55,6 +56,14 @@ export class MarketDetailsPageObject extends BasePageObject {
   async expectToBeLoaded(): Promise<void> {
     await expect(this.locateMarketOverview()).toBeVisible()
     await expect(this.locateMyWallet()).toBeVisible()
+  }
+
+  async expectDebtCeiling(value: string): Promise<void> {
+    await expect(this.page.getByTestId(testIds.marketDetails.collateralStatusPanel.debtCeiling)).toHaveText(value)
+  }
+
+  async expectDebt(value: string): Promise<void> {
+    await expect(this.page.getByTestId(testIds.marketDetails.collateralStatusPanel.debt)).toHaveText(value)
   }
   // #endregion
 }
