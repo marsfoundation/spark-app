@@ -44,11 +44,9 @@ test.describe('Borrow dialog', () => {
       await borrowPage.viewInDashboardAction()
 
       const dashboardPage = new DashboardPageObject(page)
-      // @todo This waits for the refetch of the data after successful borrow transaction to happen.
-      // This is no ideal, probably we need to refactor expectDepositTable so it takes advantage from
-      // playwright's timeouts instead of parsing it's current state. Then we would be able to
-      // easily wait for the table to be updated.
-      await dashboardPage.expectAssetToBeInDepositTable('DAI')
+
+      // wait for all transactions to be executed
+      await dashboardPage.expectHealthFactor(expectedInitialHealthFactor)
     })
 
     test('opens dialog with selected asset', async ({ page }) => {
