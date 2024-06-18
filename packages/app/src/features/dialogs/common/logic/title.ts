@@ -9,5 +9,8 @@ export const objectiveTypeToVerb: Record<ObjectiveType, string> = {
   setUserEMode: 'Set',
   exchange: 'Deposited',
   nativeSDaiDeposit: 'Wrapped',
+  nativeDaiDeposit: 'Wrapped',
+  nativeUSDCDeposit: 'Wrapped',
+  nativeXDaiDeposit: 'Wrapped',
   nativeSDaiWithdraw: 'Unwrapped',
 }

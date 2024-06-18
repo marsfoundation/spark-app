@@ -87,4 +87,11 @@ export const tokens = {
     decimals: 18,
     address: CheckedAddress('0x62BC478FFC429161115A6E4090f819CE5C50A5d9'),
   }),
+  XDAI: new Token({
+    unitPriceUsd: '1',
+    symbol: TokenSymbol('XDAI'),
+    name: 'XDAI',
+    decimals: 18,
+    address: CheckedAddress('0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'),
+  }),
 }

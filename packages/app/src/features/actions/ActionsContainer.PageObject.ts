@@ -238,6 +238,9 @@ function getActionTitlePrefix(action: SimplifiedAction): string {
     case 'exchange':
       return 'Convert'
     case 'nativeSDaiDeposit':
+    case 'nativeDaiDeposit':
+    case 'nativeUSDCDeposit':
+    case 'nativeXDaiDeposit':
       return 'Wrap'
     case 'nativeSDaiWithdraw':
       return 'Unwrap'

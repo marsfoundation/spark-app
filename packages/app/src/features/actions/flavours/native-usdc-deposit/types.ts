@@ -5,12 +5,12 @@ export interface NativeUSDCDepositObjective {
   type: 'nativeUSDCDeposit'
   value: NormalizedUnitNumber
   usdc: Token
-  dai: Token
+  sDai: Token
 }
 
 export interface NativeUSDCDepositAction {
   type: 'nativeUSDCDeposit'
   value: NormalizedUnitNumber
   usdc: Token
-  dai: Token
+  sDai: Token
 }

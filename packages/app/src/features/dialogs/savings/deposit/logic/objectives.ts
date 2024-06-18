@@ -6,8 +6,8 @@ import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { ExchangeObjective } from '@/features/actions/flavours/exchange/types'
 import { NativeDaiDepositObjective } from '@/features/actions/flavours/native-dai-deposit/types'
-import { NativeXDaiDepositObjective } from '@/features/actions/flavours/native-sexy-dai-deposit/types'
 import { NativeUSDCDepositObjective } from '@/features/actions/flavours/native-usdc-deposit/types'
+import { NativeXDaiDepositObjective } from '@/features/actions/flavours/native-xdai-deposit/types'
 import { simplifyQueryResult } from '@/features/actions/logic/simplifyQueryResult'
 import { DialogFormNormalizedData } from '@/features/dialogs/common/logic/form'
 import { gnosis, mainnet } from 'viem/chains'
@@ -91,7 +91,7 @@ function getNativeObjectivesByChainAndToken({
           type: 'nativeUSDCDeposit',
           value: formValues.value,
           usdc: formValues.token,
-          dai: marketInfo.DAI,
+          sDai: marketInfo.sDAI,
         },
       ]
     }
@@ -104,6 +104,7 @@ function getNativeObjectivesByChainAndToken({
           type: 'nativeXDaiDeposit',
           value: formValues.value,
           xDai: formValues.token,
+          sDai: marketInfo.sDAI,
         },
       ]
     }

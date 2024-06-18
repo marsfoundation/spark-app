@@ -249,7 +249,7 @@ export function useCreateActions(objectives: Objective[]): Action[] {
           type: 'nativeUSDCDeposit',
           value: objective.value,
           usdc: objective.usdc,
-          dai: objective.dai,
+          sDai: objective.sDai,
         }
 
         return [approveAction, depositAction]
@@ -259,6 +259,8 @@ export function useCreateActions(objectives: Objective[]): Action[] {
         const depositAction: NativeXDaiDepositAction = {
           type: 'nativeXDaiDeposit',
           value: objective.value,
+          xDai: objective.xDai,
+          sDai: objective.sDai,
         }
 
         return [depositAction]

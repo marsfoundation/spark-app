@@ -15,7 +15,7 @@ export function useCreateNativeUSDCDepositHandler(
   const { enabled, onFinish } = options
 
   const deposit = useSwapAndDeposit({
-    assetsToken: action.dai,
+    assetsToken: action.sDai,
     gem: action.usdc,
     gemAmount: action.usdc.toBaseUnit(action.value),
     enabled,
