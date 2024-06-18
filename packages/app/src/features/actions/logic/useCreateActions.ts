@@ -15,7 +15,8 @@ import { ExchangeAction } from '../flavours/exchange/types'
 import { DaiToSDaiDepositAction } from '../flavours/native-sdai-deposit/dai-to-sdai/types'
 import { USDCToSDaiDepositAction } from '../flavours/native-sdai-deposit/usdc-to-sdai/types'
 import { XDaiToSDaiDepositAction } from '../flavours/native-sdai-deposit/xdai-to-sdai/types'
-import { NativeSDaiWithdrawAction } from '../flavours/native-sdai-withdraw/types'
+import { DaiFromSDaiWithdrawAction } from '../flavours/native-sdai-withdraw/dai-from-sdai/types'
+import { USDCFromSDaiWithdrawAction } from '../flavours/native-sdai-withdraw/usdc-from-sdai/types'
 import { RepayAction } from '../flavours/repay/types'
 import { SetUseAsCollateralAction } from '../flavours/set-use-as-collateral/types'
 import { SetUserEModeAction } from '../flavours/set-user-e-mode/types'
@@ -168,19 +169,19 @@ export function useCreateActions(objectives: Objective[]): Action[] {
         return [approveExchangeAction, exchangeAction]
       }
 
-      case 'nativeSDaiWithdraw': {
-        const withdrawAction: NativeSDaiWithdrawAction = {
-          type: 'nativeSDaiWithdraw',
-          token: objective.token,
-          value: objective.value,
+      case 'daiFromSDaiWithdraw': {
+        const withdrawAction: DaiFromSDaiWithdrawAction = {
+          type: 'daiFromSDaiWithdraw',
+          dai: objective.dai,
           sDai: objective.sDai,
+          value: objective.value,
           method: objective.method,
         }
 
-        if (objective.token.symbol !== 'USDC') {
-          return [withdrawAction]
-        }
+        return [withdrawAction]
+      }
 
+      case 'usdcFromSDaiWithdraw': {
         const approveAction: ApproveAction = {
           type: 'approve',
           token: objective.sDai,
@@ -190,6 +191,14 @@ export function useCreateActions(objectives: Objective[]): Action[] {
               ? NormalizedUnitNumber(objective.sDaiValueEstimate.toFixed(objective.sDai.decimals, BigNumber.ROUND_UP))
               : objective.value,
           disallowPermit: true,
+        }
+
+        const withdrawAction: USDCFromSDaiWithdrawAction = {
+          type: 'usdcFromSDaiWithdraw',
+          usdc: objective.usdc,
+          sDai: objective.sDai,
+          value: objective.value,
+          method: objective.method,
         }
 
         return [approveAction, withdrawAction]

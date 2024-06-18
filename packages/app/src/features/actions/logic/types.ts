@@ -8,7 +8,14 @@ import { ExchangeAction, ExchangeObjective } from '../flavours/exchange/types'
 import { DaiToSDaiDepositAction, DaiToSDaiDepositObjective } from '../flavours/native-sdai-deposit/dai-to-sdai/types'
 import { USDCToSDaiDepositAction, USDCToSDaiDepositObjective } from '../flavours/native-sdai-deposit/usdc-to-sdai/types'
 import { XDaiToSDaiDepositAction, XDaiToSDaiDepositObjective } from '../flavours/native-sdai-deposit/xdai-to-sdai/types'
-import { NativeSDaiWithdrawAction, NativeSDaiWithdrawObjective } from '../flavours/native-sdai-withdraw/types'
+import {
+  DaiFromSDaiWithdrawAction,
+  DaiFromSDaiWithdrawObjective,
+} from '../flavours/native-sdai-withdraw/dai-from-sdai/types'
+import {
+  USDCFromSDaiWithdrawAction,
+  USDCFromSDaiWithdrawObjective,
+} from '../flavours/native-sdai-withdraw/usdc-from-sdai/types'
 import { RepayAction, RepayObjective } from '../flavours/repay/types'
 import { SetUseAsCollateralAction, SetUseAsCollateralObjective } from '../flavours/set-use-as-collateral/types'
 import { SetUserEModeAction, SetUserEModeObjective } from '../flavours/set-user-e-mode/types'
@@ -26,9 +33,10 @@ export type Objective =
   | SetUseAsCollateralObjective
   | SetUserEModeObjective
   | ExchangeObjective
-  | NativeSDaiWithdrawObjective
-  | USDCToSDaiDepositObjective
   | DaiToSDaiDepositObjective
+  | DaiFromSDaiWithdrawObjective
+  | USDCToSDaiDepositObjective
+  | USDCFromSDaiWithdrawObjective
   | XDaiToSDaiDepositObjective
 export type ObjectiveType = Objective['type']
 
@@ -43,9 +51,10 @@ export type Action =
   | SetUserEModeAction
   | ApproveExchangeAction
   | ExchangeAction
-  | NativeSDaiWithdrawAction
   | DaiToSDaiDepositAction
+  | DaiFromSDaiWithdrawAction
   | USDCToSDaiDepositAction
+  | USDCFromSDaiWithdrawAction
   | XDaiToSDaiDepositAction
 export type ActionType = Action['type']
 

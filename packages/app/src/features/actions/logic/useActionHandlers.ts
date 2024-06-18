@@ -9,7 +9,8 @@ import { useCreateExchangeHandler } from '../flavours/exchange/useCreateExchange
 import { useCreateDaiToSDaiDepositHandler } from '../flavours/native-sdai-deposit/dai-to-sdai/useCreateDaiToSDaiDepositHandler'
 import { useCreateUSDCToSDaiDepositHandler } from '../flavours/native-sdai-deposit/usdc-to-sdai/useCreateUSDCToSDaiDepositHandler'
 import { useCreateXDaiToSDaiDepositHandler } from '../flavours/native-sdai-deposit/xdai-to-sdai/useCreateXDaiToSDaiDepositHandler'
-import { useCreateNativeSDaiWithdrawHandler } from '../flavours/native-sdai-withdraw/useCreateNativeSDaiWithdrawHandler'
+import { useCreateDaiFromSDaiWithdrawHandler } from '../flavours/native-sdai-withdraw/dai-from-sdai/useCreateDaiFromSDaiWithdrawHandler'
+import { useCreateUSDCFromSDaiWithdrawHandler } from '../flavours/native-sdai-withdraw/usdc-from-sdai/useCreateUSDCFromSDaiWithdrawHandler'
 import { useCreateRepayHandler } from '../flavours/repay/useCreateRepayHandler'
 import { useCreateSetUseAsCollateralHandler } from '../flavours/set-use-as-collateral/useCreateSetUseAsCollateralHandler'
 import { useCreateSetUserEModeHandler } from '../flavours/set-user-e-mode/useCreateSetUserEModeHandler'
@@ -113,15 +114,18 @@ function useCreateActionHandler(
     case 'exchange':
       // biome-ignore lint/correctness/useHookAtTopLevel:
       return useCreateExchangeHandler(action, { enabled, onFinish })
-    case 'nativeSDaiWithdraw':
-      // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateNativeSDaiWithdrawHandler(action, { enabled, onFinish })
     case 'daiToSDaiDeposit':
       // biome-ignore lint/correctness/useHookAtTopLevel:
       return useCreateDaiToSDaiDepositHandler(action, { enabled, onFinish })
+    case 'daiFromSDaiWithdraw':
+      // biome-ignore lint/correctness/useHookAtTopLevel:
+      return useCreateDaiFromSDaiWithdrawHandler(action, { enabled, onFinish })
     case 'usdcToSDaiDeposit':
       // biome-ignore lint/correctness/useHookAtTopLevel:
       return useCreateUSDCToSDaiDepositHandler(action, { enabled, onFinish })
+    case 'usdcFromSDaiWithdraw':
+      // biome-ignore lint/correctness/useHookAtTopLevel:
+      return useCreateUSDCFromSDaiWithdrawHandler(action, { enabled, onFinish })
     case 'xDaiToSDaiDeposit':
       // biome-ignore lint/correctness/useHookAtTopLevel:
       return useCreateXDaiToSDaiDepositHandler(action, { enabled, onFinish })
