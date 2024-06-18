@@ -140,7 +140,7 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
     action: {
       type: 'exchange',
       swapParams: {
-        fromToken: tokens.USDC,
+        fromToken: tokens.USDT,
         toToken: tokens.sDAI,
         type: 'direct',
         value: NormalizedUnitNumber(1023),
@@ -152,7 +152,7 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
       },
       swapInfo: {
         data: {
-          fromToken: tokens.USDC.address,
+          fromToken: tokens.USDT.address,
           toToken: tokens.sDAI.address,
           type: 'direct',
           estimate: {
