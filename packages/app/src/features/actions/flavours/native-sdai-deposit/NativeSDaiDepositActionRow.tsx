@@ -23,9 +23,7 @@ export function NativeSDaiDepositActionRow({
   const successMessage = `Wrapped ${fromToken.format(action.value, { style: 'auto' })} ${fromToken.symbol}!`
 
   return (
-    <ActionRow>
-      <ActionRow.Index index={index} />
-
+    <ActionRow index={index}>
       <ActionRow.Icon path={assets.actions.exchange} actionStatus={status} />
 
       <ActionRow.Title icon={<IconStack paths={tokenIconPaths} stackingOrder="last-on-top" />} actionStatus={status}>

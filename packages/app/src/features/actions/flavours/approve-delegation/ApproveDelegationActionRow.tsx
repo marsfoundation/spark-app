@@ -21,9 +21,7 @@ export function ApproveDelegationActionRow({
   const formattedValue = getFormattedValue(action.value, action.token, variant)
 
   return (
-    <ActionRow>
-      <ActionRow.Index index={index} />
-
+    <ActionRow index={index}>
       <ActionRow.Icon path={assets.actions.approve} actionStatus={status} />
 
       <ActionRow.Title icon={<TokenIcon token={action.token} className="h-6" />} actionStatus={status}>

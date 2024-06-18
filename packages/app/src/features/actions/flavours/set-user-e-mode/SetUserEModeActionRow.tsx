@@ -21,9 +21,7 @@ export function SetUserEModeActionRow({
   const successMessage = `E-Mode ${eModeEnabled ? 'enabled' : 'disabled'}!`
 
   return (
-    <ActionRow>
-      <ActionRow.Index index={index} />
-
+    <ActionRow index={index}>
       <ActionRow.Icon path={assets.actions.approve} actionStatus={status} />
 
       <ActionRow.Title actionStatus={status}>{actionTitle} E-Mode</ActionRow.Title>

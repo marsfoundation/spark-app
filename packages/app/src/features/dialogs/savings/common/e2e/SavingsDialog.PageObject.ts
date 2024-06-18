@@ -5,9 +5,12 @@ import { DialogPageObject } from '../../../common/Dialog.PageObject'
 
 export class SavingsDialogPageObject extends DialogPageObject {
   private readonly type: 'deposit' | 'withdraw'
+  public readonly actionsContainer: ActionsPageObject
+
   constructor({ page, type }: { page: Page; type: 'deposit' | 'withdraw' }) {
     super(page, new RegExp(`${type === 'deposit' ? 'Deposit to' : 'Withdraw from'} Savings`))
     this.type = type
+    this.actionsContainer = new ActionsPageObject(this.locatePanelByHeader('Actions'))
   }
 
   // #region actions
@@ -74,67 +77,12 @@ export class SavingsDialogPageObject extends DialogPageObject {
     await expect(outcome).toContainText(transactionOverview.outcome)
   }
 
-  async expectToUseNativeSDaiAction({ asset }: { asset: string }): Promise<void> {
-    const actionsContainer = new ActionsPageObject(this.locatePanelByHeader('Actions'))
-    if (this.type === 'deposit') {
-      await actionsContainer.expectActions([
-        { type: 'approve', asset },
-        { type: 'nativeSDaiDeposit', asset },
-      ])
-    } else {
-      await actionsContainer.expectActions([{ type: 'nativeSDaiWithdraw', asset }])
-    }
-  }
-
-  async expectToUsePSMActionsAction({ asset }: { asset: string }): Promise<void> {
-    const actionsContainer = new ActionsPageObject(this.locatePanelByHeader('Actions'))
-    if (this.type === 'deposit') {
-      await actionsContainer.expectActions([
-        { type: 'approve', asset },
-        { type: 'nativeSDaiDeposit', asset },
-      ])
-    } else {
-      await actionsContainer.expectActions([
-        { type: 'approve', asset: 'sDAI' },
-        { type: 'nativeSDaiWithdraw', asset },
-      ])
-    }
-  }
-
-  async expectToUseLifiSwap(lifiSwapParams: LifiSwapParams): Promise<void> {
-    const exchangeRow = this.locatePanelByHeader('Actions').getByTestId(
-      testIds.actions.flavours.exchangeActionRow.wrapper,
-    )
-
-    await expect(exchangeRow).toBeVisible()
-    await expect(exchangeRow).toContainText(lifiSwapParams.title)
-    await expect(exchangeRow.getByTestId(testIds.actions.flavours.exchangeActionRow.lifiBadge)).toBeVisible()
-    await expect(exchangeRow.getByTestId(testIds.actions.flavours.exchangeActionRow.fee)).toHaveText(lifiSwapParams.fee)
-    await expect(exchangeRow.getByTestId(testIds.actions.flavours.exchangeActionRow.slippage)).toHaveText(
-      lifiSwapParams.slippage,
-    )
-    await expect(exchangeRow.getByTestId(testIds.actions.flavours.exchangeActionRow.finalDAIAmount)).toContainText(
-      lifiSwapParams.finalDAIAmount,
-    )
-    await expect(exchangeRow.getByTestId(testIds.actions.flavours.exchangeActionRow.finalSDAIAmount)).toHaveText(
-      lifiSwapParams.finalSDAIAmount,
-    )
-  }
-
   async expectSuccessPage(): Promise<void> {
     // for now we only check if the success message is visible
     await expect(this.page.getByText('Congrats! All done!')).toBeVisible()
   }
 
   // #endregion
-}
-
-interface LifiSwapParams {
-  title: string
-  slippage: string
-  fee: string
-  finalSDAIAmount: string
-  finalDAIAmount: string
 }
 
 type TransactionOverview = [string, string][]

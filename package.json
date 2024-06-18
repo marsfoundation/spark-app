@@ -16,7 +16,7 @@
     "fix": "pnpm run check:fix && pnpm run verify"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.7.3",
+    "@biomejs/biome": "^1.8.1",
     "@eslint/js": "^9.3.0",
     "concurrently": "^8.2.2",
     "eslint": "^9.3.0",

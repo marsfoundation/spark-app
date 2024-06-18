@@ -17,9 +17,7 @@ export function RepayActionRow({ index, action, actionHandlerState, onAction, va
   const formattedValue = getFormattedValue(action.value, token, variant)
 
   return (
-    <ActionRow>
-      <ActionRow.Index index={index} />
-
+    <ActionRow index={index}>
       <ActionRow.Icon path={assets.actions.repay} actionStatus={status} />
 
       <ActionRow.Title icon={<TokenIcon token={token} className="h-6" />} actionStatus={status}>

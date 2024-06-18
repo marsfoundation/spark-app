@@ -43,7 +43,7 @@ export class BorrowPageObject extends BasePageObject {
   async depositAssetsActions(assetsToDeposit: Record<string, number>, daiToBorrow: number): Promise<void> {
     const actionsContainer = new ActionsPageObject(this.locatePanelByHeader('Actions'))
     await this.depositWithoutBorrowActions(assetsToDeposit, daiToBorrow, actionsContainer)
-    await actionsContainer.acceptAllActionsAction(1) // borrow action
+    await actionsContainer.acceptActionAtIndex(Object.entries(assetsToDeposit).length * 2) // accept final borrow action
   }
 
   async depositWithoutBorrowActions(
@@ -64,7 +64,7 @@ export class BorrowPageObject extends BasePageObject {
     await this.fillBorrowAssetAction(daiToBorrow ?? 1) // defaulted value won't matter, if only depositing
     await this.submitAction()
     await actionsContainer.acceptAllActionsAction(2 * index) // omitting the borrow action
-    await actionsContainer.expectNextActionEnabled()
+    await actionsContainer.expectEnabledActionAtIndex(2 * index)
   }
 
   async goToEasyBorrowAction(): Promise<void> {

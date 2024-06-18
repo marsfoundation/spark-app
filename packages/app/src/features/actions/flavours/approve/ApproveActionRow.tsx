@@ -17,9 +17,7 @@ export function ApproveActionRow({ index, action, variant, actionHandlerState, o
   const successMessage = `${isApprove ? 'Approved' : 'Permitted'} for ${formattedValue}!`
 
   return (
-    <ActionRow>
-      <ActionRow.Index index={index} />
-
+    <ActionRow index={index}>
       <ActionRow.Icon path={assets.actions.approve} actionStatus={status} />
 
       <ActionRow.Title icon={<TokenIcon token={action.token} className="h-6" />} actionStatus={status}>
