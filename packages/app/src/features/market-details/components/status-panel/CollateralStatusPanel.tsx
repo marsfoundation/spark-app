@@ -17,7 +17,6 @@ import { TokenBadge } from './components/token-badge/TokenBadge'
 
 export interface CollateralStatusPanelProps {
   status: CollateralEligibilityStatus
-  token: Token
   debtCeiling: NormalizedUnitNumber
   debt: NormalizedUnitNumber
   maxLtv: Percentage
@@ -32,7 +31,6 @@ export interface CollateralStatusPanelProps {
 
 export function CollateralStatusPanel({
   status,
-  token,
   debtCeiling,
   debt,
   maxLtv,
@@ -88,9 +86,7 @@ export function CollateralStatusPanel({
           </InfoTile>
         </InfoTilesGrid>
 
-        {status === 'only-in-isolation-mode' && (
-          <DebtCeilingProgress token={token} debt={debt} debtCeiling={debtCeiling} />
-        )}
+        {status === 'only-in-isolation-mode' && <DebtCeilingProgress debt={debt} debtCeiling={debtCeiling} />}
       </StatusPanelGrid>
     </Panel.Wrapper>
   )

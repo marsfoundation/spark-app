@@ -21,7 +21,6 @@ export const CanBeUsedAsCollateral: Story = {
   name: 'Can be used as collateral',
   args: {
     status: 'yes',
-    token: tokens.rETH,
     debtCeiling: NormalizedUnitNumber(0),
     debt: NormalizedUnitNumber(1000),
     maxLtv: Percentage(0.8),
@@ -43,7 +42,6 @@ export const CanBeUsedAsCollateralInIsolationMode: Story = {
   name: 'Only in isolation Mode',
   args: {
     status: 'only-in-isolation-mode',
-    token: tokens.rETH,
     debtCeiling: NormalizedUnitNumber(1200),
     debt: NormalizedUnitNumber(1000),
     maxLtv: Percentage(0.8),
@@ -64,7 +62,6 @@ export const CannotBeUsedAsCollateral: Story = {
   name: 'Cannot Be Used As Collateral',
   args: {
     status: 'no',
-    token: tokens.rETH,
     debtCeiling: NormalizedUnitNumber(0),
     debt: NormalizedUnitNumber(1000),
     maxLtv: Percentage(0),
