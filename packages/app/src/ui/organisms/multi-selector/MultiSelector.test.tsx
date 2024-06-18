@@ -11,17 +11,25 @@ import { ControlledMultiSelectorAssetInput } from './MultiSelector'
 
 const VALIDATION_ERROR = 'Value must be a valid number'
 
-const FormInputSchema = z.object({
-  value: z.string().refine(
-    (data) => {
-      return !Number.isNaN(Number.parseFloat(data))
-    },
-    {
-      message: VALIDATION_ERROR,
-    },
-  ),
-  isMaxSelected: z.boolean(),
-})
+const FormInputSchema = z
+  .object({
+    value: z.string(),
+    isMaxSelected: z.boolean(),
+  })
+  .superRefine((field, ctx) => {
+    if (field.isMaxSelected) {
+      return
+    }
+
+    const isValidNumber = !Number.isNaN(Number.parseFloat(field.value))
+    if (!isValidNumber) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: VALIDATION_ERROR,
+        path: ['value'],
+      })
+    }
+  })
 
 interface ControlledMultiSelectorAssetInputTestWrapperProps {
   max?: NormalizedUnitNumber
@@ -138,8 +146,7 @@ describe(ControlledMultiSelectorAssetInput.name, () => {
     await waitFor(() => expect(queryByTestId(testIds.component.AssetInput.error)).toBeNull())
   })
 
-  // doesn't work for now
-  test.skip('Clicking MAX triggers revalidation', async () => {
+  test('Clicking MAX triggers revalidation', async () => {
     const value = NormalizedUnitNumber(12345)
 
     const { getByRole, getByTestId, queryByTestId } = render(<ControlledMultiSelectorAssetInputTestWrapper />)
