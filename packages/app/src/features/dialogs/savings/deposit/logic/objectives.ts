@@ -67,13 +67,14 @@ function getNativeObjectivesByChainAndToken({
   | (NativeDaiDepositObjective | NativeUSDCDepositObjective | NativeXDaiDepositObjective)[]
   | undefined {
   const tokenSymbol = formValues.token.symbol
-  const isNativeRouteSupported = getChainConfigEntry(chainId).savingsNativeRouteTokens.includes(tokenSymbol)
+  const { savingsNativeRouteTokens, id: originChainId } = getChainConfigEntry(chainId)
+  const isNativeRouteSupported = savingsNativeRouteTokens.includes(tokenSymbol)
 
   if (!isNativeRouteSupported) {
     return
   }
 
-  if (chainId === mainnet.id) {
+  if (originChainId === mainnet.id) {
     if (tokenSymbol === marketInfo.DAI.symbol) {
       return [
         {
@@ -97,7 +98,7 @@ function getNativeObjectivesByChainAndToken({
     }
   }
 
-  if (chainId === gnosis.id) {
+  if (originChainId === gnosis.id) {
     if (tokenSymbol === marketInfo.DAI.symbol) {
       return [
         {
