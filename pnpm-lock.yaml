@@ -205,7 +205,7 @@ importers:
         version: 4.4.1(@types/react@18.2.14)(react@18.2.0)
     devDependencies:
       '@chromatic-com/storybook':
-        specifier: ^1
+        specifier: ^1.5.0
         version: 1.5.0(react@18.2.0)
       '@lingui/cli':
         specifier: ^4.5.0
@@ -295,8 +295,8 @@ importers:
         specifier: ^1.6.0
         version: 1.6.0
       chromatic:
-        specifier: ^10.1.0
-        version: 10.1.0
+        specifier: ^11.5.4
+        version: 11.5.4
       dotenv:
         specifier: ^16.3.1
         version: 16.3.1
@@ -3413,7 +3413,7 @@ packages:
     resolution: {integrity: sha512-LkLKv7SWu/6kGep1ft2HA1T/cm14wU0zoW71gE4cZRcgUoRQJtyhITFTLHrjqAxz6bVqNgqzQtd5oBZ2nK3L3g==}
     engines: {node: '>=16.0.0', yarn: '>=1.22.18'}
     dependencies:
-      chromatic: 11.4.1
+      chromatic: 11.5.4
       filesize: 10.1.2
       jsonfile: 6.1.0
       react-confetti: 6.1.0(react@18.2.0)
@@ -10583,13 +10583,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /chromatic@10.1.0:
-    resolution: {integrity: sha512-S+ztO8f1k/LckuzJKCqaTs6AfUQ0eLNT9kEoyCUwX7gkJnveQo5JStCfY55v30zogjRkHJpwqzEfSXl6AwO2tQ==}
-    hasBin: true
-    dev: true
-
-  /chromatic@11.4.1:
-    resolution: {integrity: sha512-f1Ud4EA7KvNKIIkO/qk/0epiCoyHjcyoejuncilSqC0KAHahmIgrWdZxEu+N8QfqqYbEBc5SrhAjiVWHePXTKw==}
+  /chromatic@11.5.4:
+    resolution: {integrity: sha512-+J+CopeUSyGUIQJsU6X7CfvSmeVBs0j6LZ9AgF4+XTjI4pFmUiUXsTc00rH9x9W1jCppOaqDXv2kqJJXGDK3mA==}
     hasBin: true
     peerDependencies:
       '@chromatic-com/cypress': ^0.*.* || ^1.0.0
