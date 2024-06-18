@@ -16,7 +16,7 @@ interface UseVaultRedeemArgs {
 
 // @note: 'redeem' vault function allows user to redeem a specified
 // amount of shares in exchange for the underlying asset.
-// Example: Redeem X sDAI to get Y DAI (useful if one want to withdraw all DAI)
+// Example: Redeem X sDAI to get Y DAI (useful if one wants to withdraw all DAI)
 export function useVaultRedeem({
   vault,
   sharesAmount,
