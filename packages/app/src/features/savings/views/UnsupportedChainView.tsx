@@ -1,24 +1,31 @@
 import { assets } from '@/ui/assets'
-import { WalletActionPanel } from '@/ui/organisms/wallet-action-panel/WalletActionPanel'
 
+import { CallToActionPanel } from '@/ui/organisms/call-to-action-panel/CallToActionPanel'
 import { PageHeader } from '../components/PageHeader'
 import { PageLayout } from '../components/PageLayout'
 
 interface UnsupportedChainViewProps {
   openChainModal: () => void
   openConnectModal: () => void
+  activateSandbox: () => void
   guestMode: boolean
 }
 
-export function UnsupportedChainView({ guestMode, openChainModal, openConnectModal }: UnsupportedChainViewProps) {
+export function UnsupportedChainView({
+  guestMode,
+  openChainModal,
+  openConnectModal,
+  activateSandbox,
+}: UnsupportedChainViewProps) {
   return (
     <PageLayout>
       <PageHeader />
-      <WalletActionPanel
-        callToAction={`${guestMode ? 'Connect' : 'Switch'} to Ethereum Mainnet and start saving!`}
+      <CallToActionPanel
+        callToAction={`${guestMode ? 'Connect' : 'Switch'} to supported chain and start saving!`}
         iconPaths={TOKEN_ICONS}
-        walletAction={guestMode ? openConnectModal : openChainModal}
-        actionButtonTitle={guestMode ? 'Connect wallet' : 'Switch network'}
+        action={guestMode ? openConnectModal : openChainModal}
+        actionButtonText={guestMode ? 'Connect wallet' : 'Switch network'}
+        activateSandbox={activateSandbox}
       />
     </PageLayout>
   )
