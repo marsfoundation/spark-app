@@ -8,10 +8,12 @@ import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 export function getSavingsWithdrawDialogFormValidator(sDaiBalance: TokenWithBalance) {
   return AssetInputSchema.superRefine((field, ctx) => {
     const value = NormalizedUnitNumber(field.value === '' ? '0' : field.value)
+    const isMaxSelected = field.isMaxSelected
     const usdBalance = sDaiBalance.token.toUSD(sDaiBalance.balance)
 
     const issue = validateWithdraw({
       value,
+      isMaxSelected,
       user: { balance: usdBalance },
     })
     if (issue) {
@@ -28,6 +30,7 @@ export type WithdrawValidationIssue = 'exceeds-balance' | 'value-not-positive'
 
 export interface ValidateWithdrawArgs {
   value: NormalizedUnitNumber
+  isMaxSelected: boolean
   user: {
     balance: NormalizedUnitNumber
   }
@@ -35,8 +38,13 @@ export interface ValidateWithdrawArgs {
 
 export function validateWithdraw({
   value,
+  isMaxSelected,
   user: { balance },
 }: ValidateWithdrawArgs): WithdrawValidationIssue | undefined {
+  if (isMaxSelected) {
+    return undefined
+  }
+
   if (value.isLessThanOrEqualTo(0)) {
     return 'value-not-positive'
   }

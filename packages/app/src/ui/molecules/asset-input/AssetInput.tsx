@@ -67,9 +67,15 @@ export const AssetInput = forwardRef<HTMLInputElement, AssetInputProps>(
               id="asset-input"
               disabled={disabled}
               size={1} // force minimum width
-              value={isMaxSelected ? 'MAX' : value}
+              value={isMaxSelected ? MAX_VALUE_PLACEHOLDER : value}
               {...rest}
               onChange={(e) => {
+                if (e.target.value === MAX_VALUE_PLACEHOLDER.slice(0, -1)) {
+                  // backspace was pressed while MAX was selected
+                  setMax?.()
+                  return
+                }
+
                 e.target.value = e.target.value.replace(/,/g, '.')
                 const value = e.target.value
                 if (!value || (decimalNumberRegex.test(value) && (value.split('.')[1]?.length ?? 0) <= 6)) {
@@ -131,6 +137,7 @@ export const AssetInput = forwardRef<HTMLInputElement, AssetInputProps>(
   },
 )
 
-const decimalNumberRegex = /^\d+\.?\d*$/
-
 AssetInput.displayName = 'AssetInput'
+
+export const MAX_VALUE_PLACEHOLDER = 'MAX'
+const decimalNumberRegex = /^\d+\.?\d*$/
