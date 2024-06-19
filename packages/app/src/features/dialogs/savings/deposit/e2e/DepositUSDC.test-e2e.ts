@@ -63,6 +63,7 @@ test.describe('Deposit USDC on Mainnet', () => {
         },
       ],
       outcome: '9,196.30 sDAI worth $10,000.00',
+      badgeToken: 'USDC',
     })
   })
 

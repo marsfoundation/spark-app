@@ -64,6 +64,7 @@ test.describe('Withdraw USDC on Mainnet', () => {
         },
       ],
       outcome: '6,969.00 USDC worth $6,969.00',
+      badgeToken: 'USDC',
     })
   })
 

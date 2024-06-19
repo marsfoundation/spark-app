@@ -55,6 +55,7 @@ test.describe('Deposit DAI on Mainnet', () => {
         },
       ],
       outcome: '9,332.66 sDAI worth $10,000.00',
+      badgeToken: 'DAI',
     })
   })
 
