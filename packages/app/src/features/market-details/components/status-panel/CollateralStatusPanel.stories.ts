@@ -21,8 +21,6 @@ export const CanBeUsedAsCollateral: Story = {
   name: 'Can be used as collateral',
   args: {
     status: 'yes',
-    debtCeiling: NormalizedUnitNumber(0),
-    debt: NormalizedUnitNumber(1000),
     maxLtv: Percentage(0.8),
     liquidationThreshold: Percentage(0.825),
     liquidationPenalty: Percentage(0.05),
@@ -30,11 +28,11 @@ export const CanBeUsedAsCollateral: Story = {
 }
 
 export const CanBeUsedAsCollateralMobile = {
-  ...getMobileStory(CanBeUsedAsCollateral),
+  ...getMobileStory(CanBeUsedAsCollateral as any),
   name: 'Can be used as collateral (Mobile)',
 }
 export const CanBeUsedAsCollateralTablet = {
-  ...getTabletStory(CanBeUsedAsCollateral),
+  ...getTabletStory(CanBeUsedAsCollateral as any),
   name: 'Can be used as collateral (Tablet)',
 }
 
@@ -42,19 +40,21 @@ export const CanBeUsedAsCollateralInIsolationMode: Story = {
   name: 'Only in isolation Mode',
   args: {
     status: 'only-in-isolation-mode',
-    debtCeiling: NormalizedUnitNumber(50_000_000),
-    debt: NormalizedUnitNumber(37_896_154),
+    isolationModeInfo: {
+      debtCeiling: NormalizedUnitNumber(50_000_000),
+      debt: NormalizedUnitNumber(37_896_154),
+    },
     maxLtv: Percentage(0.8),
     liquidationThreshold: Percentage(0.825),
     liquidationPenalty: Percentage(0.05),
   },
 }
 export const CanBeUsedAsCollateralInIsolationModeMobile = {
-  ...getMobileStory(CanBeUsedAsCollateralInIsolationMode),
+  ...getMobileStory(CanBeUsedAsCollateralInIsolationMode as any),
   name: 'Only in isolation Mode (Mobile)',
 }
 export const CanBeUsedAsCollateralInIsolationModeTablet = {
-  ...getTabletStory(CanBeUsedAsCollateralInIsolationMode),
+  ...getTabletStory(CanBeUsedAsCollateralInIsolationMode as any),
   name: 'Only in isolation Mode (Tablet)',
 }
 
@@ -62,19 +62,17 @@ export const CannotBeUsedAsCollateral: Story = {
   name: 'Cannot Be Used As Collateral',
   args: {
     status: 'no',
-    debtCeiling: NormalizedUnitNumber(0),
-    debt: NormalizedUnitNumber(1000),
     maxLtv: Percentage(0),
     liquidationThreshold: Percentage(0),
     liquidationPenalty: Percentage(0),
   },
 }
 export const CannotBeUsedAsCollateralMobile = {
-  ...getMobileStory(CannotBeUsedAsCollateral),
+  ...getMobileStory(CannotBeUsedAsCollateral as any),
   name: 'Cannot Be Used As Collateral (Mobile)',
 }
 export const CannotBeUsedAsCollateralTablet = {
-  ...getTabletStory(CannotBeUsedAsCollateral),
+  ...getTabletStory(CannotBeUsedAsCollateral as any),
   name: 'Cannot Be Used As Collateral (Tablet)',
 }
 
@@ -93,10 +91,10 @@ export const Dai: Story = {
   },
 }
 export const DaiMobile = {
-  ...getMobileStory(Dai),
+  ...getMobileStory(Dai as any),
   name: 'DAI (Mobile)',
 }
 export const DaiTablet = {
-  ...getTabletStory(Dai),
+  ...getTabletStory(Dai as any),
   name: 'DAI (Tablet)',
 }

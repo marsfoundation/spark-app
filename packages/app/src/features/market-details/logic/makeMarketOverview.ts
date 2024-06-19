@@ -1,6 +1,5 @@
 import { MarketInfo, Reserve } from '@/domain/market-info/marketInfo'
 
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { MarketOverview } from '../types'
 import { getReserveEModeCategoryTokens } from './getReserveEModeCategoryTokens'
 import { getSparkAirdropDetails } from './getSparkAirdropDetails'
@@ -17,10 +16,6 @@ export function makeMarketOverview({ reserve, marketInfo }: MakeMarketOverviewPa
     marketInfo,
     token: reserve.token.symbol,
   })
-  const debt =
-    reserve.collateralEligibilityStatus === 'only-in-isolation-mode'
-      ? reserve.isolationModeTotalDebt
-      : NormalizedUnitNumber(reserve.debtCeiling.minus(reserve.availableDebtCeilingUSD))
 
   return {
     supply: {
@@ -33,11 +28,10 @@ export function makeMarketOverview({ reserve, marketInfo }: MakeMarketOverviewPa
     collateral: {
       status: reserve.collateralEligibilityStatus,
       token: reserve.token,
-      debtCeiling: reserve.debtCeiling,
-      debt,
       maxLtv: reserve.maxLtv,
       liquidationThreshold: reserve.liquidationThreshold,
       liquidationPenalty: reserve.liquidationBonus,
+      isolationModeInfo: { debt: reserve.isolationModeTotalDebt, debtCeiling: reserve.debtCeiling },
     },
     borrow: {
       hasSparkAirdrop: hasAirdropForBorrowing,

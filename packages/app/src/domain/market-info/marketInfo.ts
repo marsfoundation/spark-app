@@ -51,7 +51,6 @@ export interface Reserve {
   // @note: available liquidity respects borrow cap, so it can be negative when the cap is reached and breached (interests)
   availableLiquidity: NormalizedUnitNumber
   availableLiquidityUSD: NormalizedUnitNumber
-  availableDebtCeilingUSD: NormalizedUnitNumber // @note: this is how much more can be borrowed against the reserve's asset as a collateral
   supplyCap?: NormalizedUnitNumber
   borrowCap?: NormalizedUnitNumber
   totalLiquidity: NormalizedUnitNumber // = supplied
@@ -274,7 +273,6 @@ export function marketInfo(rawAaveData: AaveData, nativeAssetInfo: NativeAssetIn
 
       availableLiquidity: NormalizedUnitNumber(r.reserve.formattedAvailableLiquidity), // @note: r.reserve.availableLiquidity doesn't respect borrow caps so we use formattedAvailableLiquidity which does
       availableLiquidityUSD: NormalizedUnitNumber(r.reserve.availableLiquidityUSD),
-      availableDebtCeilingUSD: NormalizedUnitNumber(r.reserve.availableDebtCeilingUSD),
       supplyCap: r.reserve.supplyCap !== '0' ? NormalizedUnitNumber(r.reserve.supplyCap) : undefined,
       borrowCap: r.reserve.borrowCap !== '0' ? NormalizedUnitNumber(r.reserve.borrowCap) : undefined,
       totalLiquidity: NormalizedUnitNumber(r.reserve.totalLiquidity),

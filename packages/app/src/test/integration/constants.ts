@@ -155,7 +155,6 @@ export function getMockReserve(overrides: Partial<Reserve> = {}): Reserve {
 
     availableLiquidity: NormalizedUnitNumber(100),
     availableLiquidityUSD: NormalizedUnitNumber(100 * priceInUsd),
-    availableDebtCeilingUSD: NormalizedUnitNumber(0),
     supplyCap: undefined,
     totalLiquidity: NormalizedUnitNumber(200),
     totalLiquidityUSD: NormalizedUnitNumber(200 * priceInUsd),
