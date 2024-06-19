@@ -26,7 +26,7 @@ export interface MarketEntry {
 }
 
 export interface APYDetails {
-  apy: Percentage
+  apy: Percentage | undefined
   incentives: Incentive[]
   airdrops: TokenSymbol[]
 }

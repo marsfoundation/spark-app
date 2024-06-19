@@ -22,7 +22,7 @@ interface BorrowStatusPanelProps {
   totalBorrowed: NormalizedUnitNumber
   borrowCap?: NormalizedUnitNumber
   reserveFactor: Percentage
-  apy: Percentage
+  apy: Percentage | undefined
   chartProps: InterestYieldChartProps
   showTokenBadge?: boolean
   hasSparkAirdrop: boolean

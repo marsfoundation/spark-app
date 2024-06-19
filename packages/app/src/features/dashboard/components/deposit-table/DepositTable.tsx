@@ -1,4 +1,4 @@
-import { sortByUsdValue } from '@/domain/common/sorters'
+import { sortByAPY, sortByUsdValue } from '@/domain/common/sorters'
 import { OpenDialogFunction } from '@/domain/state/dialogs'
 import { CollateralDialog } from '@/features/dialogs/collateral/CollateralDialog'
 import { DepositDialog } from '@/features/dialogs/deposit/DepositDialog'
@@ -57,7 +57,7 @@ export function DepositTable({ assets, openDialog }: DepositTableProps) {
               header: <ApyTooltip variant="supply">APY</ApyTooltip>,
               headerAlign: 'right',
               sortable: true,
-              sortingFn: (a, b) => a.original.supplyAPY.comparedTo(b.original.supplyAPY),
+              sortingFn: (a, b) => sortByAPY(a.original.supplyAPY, b.original.supplyAPY),
               renderCell: ({ supplyAPY }, mobileViewOptions) => (
                 <PercentageCell value={supplyAPY} mobileViewOptions={mobileViewOptions} />
               ),

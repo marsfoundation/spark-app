@@ -19,7 +19,7 @@ interface SupplyStatusPanelProps {
   token: Token
   totalSupplied: NormalizedUnitNumber
   supplyCap?: NormalizedUnitNumber
-  apy: Percentage
+  apy: Percentage | undefined
   hasSparkAirdrop: boolean
 }
 

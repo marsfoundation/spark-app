@@ -14,7 +14,7 @@ interface LendStatusPanelProps {
   status: 'yes' // only for dai
   token: Token
   totalLent: NormalizedUnitNumber
-  apy: Percentage
+  apy: Percentage | undefined
 }
 
 export function LendStatusPanel({ status, token, totalLent, apy }: LendStatusPanelProps) {

@@ -10,9 +10,13 @@ export interface FormatPercentageOptions {
   minimumFractionDigits?: number
 }
 export function formatPercentage(
-  percentage: Percentage,
+  percentage: Percentage | undefined,
   { skipSign, minimumFractionDigits = 2 }: FormatPercentageOptions = {},
 ): string {
+  if (percentage === undefined) {
+    return '—'
+  }
+
   if (percentage.gt(0) && percentage.lt(0.0001)) {
     return skipSign ? '<0.01' : '<0.01%'
   }

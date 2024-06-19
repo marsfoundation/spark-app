@@ -25,7 +25,7 @@ export interface CollateralStatusPanelProps {
   supplyReplacement?: {
     token: Token
     totalSupplied: NormalizedUnitNumber
-    supplyAPY: Percentage
+    supplyAPY: Percentage | undefined
   }
 }
 
