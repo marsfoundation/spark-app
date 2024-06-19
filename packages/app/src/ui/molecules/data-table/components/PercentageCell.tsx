@@ -5,7 +5,7 @@ import { Typography } from '@/ui/atoms/typography/Typography'
 import { MobileViewOptions } from '../types'
 
 interface PercentageCellProps {
-  value: Percentage
+  value: Percentage | undefined
   mobileViewOptions?: MobileViewOptions
 }
 

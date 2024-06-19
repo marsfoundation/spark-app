@@ -1,4 +1,4 @@
-import { assert } from '@/utils/assert'
+import { assert, raise } from '@/utils/assert'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useRef, useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
@@ -158,7 +158,7 @@ export function useEasyBorrow(): UseEasyBorrowResults {
 
   const assetToBorrow = {
     symbol: defaultAssetToBorrow,
-    borrowRate: marketInfo.findOneReserveBySymbol(defaultAssetToBorrow).variableBorrowApy,
+    borrowRate: marketInfo.findOneReserveBySymbol(defaultAssetToBorrow).variableBorrowApy ?? raise('No borrow rate'),
   }
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>

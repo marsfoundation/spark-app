@@ -12,7 +12,7 @@ export interface Deposit {
   reserveStatus: ReserveStatus
   balance: NormalizedUnitNumber
   deposit: NormalizedUnitNumber
-  supplyAPY: Percentage
+  supplyAPY: Percentage | undefined
   isUsedAsCollateral: boolean
 }
 
@@ -21,7 +21,7 @@ export interface Borrow {
   reserveStatus: ReserveStatus
   available: NormalizedUnitNumber
   debt: NormalizedUnitNumber
-  borrowAPY: Percentage
+  borrowAPY: Percentage | undefined
 }
 
 export interface GetDepositsParams {

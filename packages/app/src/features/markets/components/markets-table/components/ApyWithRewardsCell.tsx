@@ -38,7 +38,7 @@ function CellContent({ apyDetails, reserveStatus, incentivizedReserve, bold }: C
   if (reserveStatus !== 'active') {
     return (
       <div className="flex items-center justify-end gap-1.5">
-        <CellValue value={apyDetails.apy} dimmed hideEmpty bold={bold} />
+        <CellValue value={apyDetails.apy} dimmed bold={bold} />
       </div>
     )
   }
@@ -56,21 +56,18 @@ function CellContent({ apyDetails, reserveStatus, incentivizedReserve, bold }: C
           incentivizedReserve={incentivizedReserve.symbol}
         />
       ))}
-      <CellValue value={apyDetails.apy} hideEmpty bold={bold} />
+      <CellValue value={apyDetails.apy} bold={bold} />
     </div>
   )
 }
 
 interface CellValueProps extends VariantProps<typeof variants> {
-  value: Percentage
+  value: Percentage | undefined
   dimmed?: boolean
-  hideEmpty?: boolean
 }
 
-function CellValue({ value, hideEmpty, bold, dimmed }: CellValueProps) {
-  return (
-    <div className={cn(variants({ bold, dimmed }))}>{hideEmpty && value.isZero() ? '—' : formatPercentage(value)}</div>
-  )
+function CellValue({ value, bold, dimmed }: CellValueProps) {
+  return <div className={cn(variants({ bold: value && bold, dimmed }))}>{formatPercentage(value)}</div>
 }
 
 const variants = cva('', {

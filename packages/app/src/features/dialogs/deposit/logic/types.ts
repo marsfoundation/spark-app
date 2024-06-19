@@ -7,5 +7,5 @@ import { CollateralType } from './collateralization'
 export interface PositionOverview {
   healthFactor: BigNumber | undefined
   collateralization: CollateralType
-  supplyAPY: Percentage
+  supplyAPY: Percentage | undefined
 }

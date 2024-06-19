@@ -61,7 +61,7 @@ export interface Reserve {
   totalVariableDebtUSD: NormalizedUnitNumber
   isolationModeTotalDebt: NormalizedUnitNumber // @note: this is already divided by debtCeilingDecimals
   debtCeiling: NormalizedUnitNumber // @note: this is already divided by debtCeilingDecimals
-  supplyAPY: Percentage
+  supplyAPY: Percentage | undefined
   maxLtv: Percentage
   liquidationThreshold: Percentage
   liquidationBonus: Percentage
@@ -80,7 +80,7 @@ export interface Reserve {
   utilizationRate: Percentage
   baseVariableBorrowRate: BigNumber
 
-  variableBorrowApy: Percentage
+  variableBorrowApy: Percentage | undefined
 
   priceInUSD: BigNumber
 
@@ -247,6 +247,9 @@ export function marketInfo(rawAaveData: AaveData, nativeAssetInfo: NativeAssetIn
 
   const reserves = rawAaveData.userSummary.userReservesData.map((r): Reserve => {
     const token = findOneTokenBySymbol(TokenSymbol(r.reserve.symbol))
+    const supplyAvailabilityStatus = getSupplyAvailabilityStatus(r.reserve)
+    const collateralEligibilityStatus = getCollateralEligibilityStatus(r.reserve)
+    const borrowEligibilityStatus = getBorrowEligibilityStatus(r.reserve)
 
     return {
       token,
@@ -256,9 +259,9 @@ export function marketInfo(rawAaveData: AaveData, nativeAssetInfo: NativeAssetIn
 
       status: getReserveStatus(r.reserve),
 
-      supplyAvailabilityStatus: getSupplyAvailabilityStatus(r.reserve),
-      collateralEligibilityStatus: getCollateralEligibilityStatus(r.reserve),
-      borrowEligibilityStatus: getBorrowEligibilityStatus(r.reserve),
+      supplyAvailabilityStatus,
+      collateralEligibilityStatus,
+      borrowEligibilityStatus,
 
       isIsolated: r.reserve.isIsolated,
       eModeCategory:
@@ -280,13 +283,13 @@ export function marketInfo(rawAaveData: AaveData, nativeAssetInfo: NativeAssetIn
       totalVariableDebtUSD: NormalizedUnitNumber(r.reserve.totalVariableDebtUSD),
       isolationModeTotalDebt: NormalizedUnitNumber(r.reserve.isolationModeTotalDebtUSD),
       debtCeiling: NormalizedUnitNumber(r.reserve.debtCeilingUSD),
-      supplyAPY: Percentage(r.reserve.supplyAPY),
+      supplyAPY: supplyAvailabilityStatus === 'yes' ? Percentage(r.reserve.supplyAPY) : undefined,
       maxLtv: parseRawPercentage(r.reserve.baseLTVasCollateral),
       liquidationThreshold: parseRawPercentage(r.reserve.reserveLiquidationThreshold),
       liquidationBonus: bigNumberify(r.reserve.formattedReserveLiquidationBonus).gt(0)
         ? Percentage(r.reserve.formattedReserveLiquidationBonus)
         : Percentage(0),
-      variableBorrowApy: Percentage(r.reserve.variableBorrowAPY),
+      variableBorrowApy: borrowEligibilityStatus === 'yes' ? Percentage(r.reserve.variableBorrowAPY) : undefined,
       reserveFactor: Percentage(r.reserve.reserveFactor),
       aTokenBalance: NormalizedUnitNumber(r.underlyingBalance),
 
