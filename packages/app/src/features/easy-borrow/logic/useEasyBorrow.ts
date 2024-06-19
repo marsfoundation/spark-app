@@ -1,9 +1,3 @@
-import { assert, raise } from '@/utils/assert'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useEffect, useRef, useState } from 'react'
-import { UseFormReturn, useForm } from 'react-hook-form'
-import { useAccount } from 'wagmi'
-
 import { getChainConfigEntry } from '@/config/chain'
 import { TokenWithValue } from '@/domain/common/types'
 import { useConditionalFreeze } from '@/domain/hooks/useConditionalFreeze'
@@ -12,11 +6,17 @@ import { LiquidationDetails } from '@/domain/market-info/getLiquidationDetails'
 import { UserPositionSummary } from '@/domain/market-info/marketInfo'
 import { updatePositionSummary } from '@/domain/market-info/updatePositionSummary'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
+import { useOpenDialog } from '@/domain/state/dialogs'
 import { Percentage } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
 import { Objective } from '@/features/actions/logic/types'
-
+import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
+import { assert, raise } from '@/utils/assert'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useEffect, useRef, useState } from 'react'
+import { UseFormReturn, useForm } from 'react-hook-form'
+import { useAccount } from 'wagmi'
 import { getBorrowableAssets, getDepositableAssets, imputeNativeAsset, sortByDecreasingBalances } from './assets'
 import {
   FormFieldsForAssetClass,
@@ -52,6 +52,7 @@ export interface UseEasyBorrowResults {
     borrowRate: Percentage
   }
   guestMode: boolean
+  openSandboxModal: () => void
 
   healthFactorPanelRef: React.RefObject<HTMLDivElement>
 }
@@ -59,6 +60,7 @@ export interface UseEasyBorrowResults {
 export function useEasyBorrow(): UseEasyBorrowResults {
   const account = useAccount()
   const guestMode = !account.address
+  const openDialog = useOpenDialog()
   const { aaveData } = useAaveDataLayer()
   const { marketInfo } = useMarketInfo()
   const {
@@ -174,6 +176,10 @@ export function useEasyBorrow(): UseEasyBorrowResults {
     }
   }, [pageStatus])
 
+  function openSandboxModal(): void {
+    openDialog(SandboxDialog, { mode: 'ephemeral' } as const)
+  }
+
   return {
     form: easyBorrowForm,
     updatedPositionSummary: updatedUserSummary,
@@ -201,6 +207,7 @@ export function useEasyBorrow(): UseEasyBorrowResults {
     liquidationDetails,
     assetToBorrow,
     guestMode,
+    openSandboxModal,
     healthFactorPanelRef,
   }
 }

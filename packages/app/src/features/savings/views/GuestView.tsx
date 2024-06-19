@@ -19,10 +19,10 @@ export function GuestView({ APY, chainId, openConnectModal, openSandboxModal }: 
       <PageHeader />
       <SavingsOpportunityGuestMode APY={APY} chainId={chainId} openConnectModal={openConnectModal} />
       <CallToActionPanel
-        callToAction="Connect your wallet and start saving!"
+        header="Connect your wallet and start saving!"
         iconPaths={TOKEN_ICONS}
         action={openConnectModal}
-        actionButtonText="Connect wallet"
+        buttonText="Connect wallet"
         openSandboxModal={openSandboxModal}
       />
     </PageLayout>

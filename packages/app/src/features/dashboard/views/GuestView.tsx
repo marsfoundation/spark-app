@@ -11,10 +11,10 @@ export function GuestView({ openConnectModal, openSandboxModal }: GuestViewProps
   return (
     <PageLayout className="max-w-6xl">
       <CallToActionPanel
-        callToAction="Connect your wallet to use Spark"
+        header="Connect your wallet to use Spark"
         iconPaths={WALLET_ICONS_PATHS}
         action={openConnectModal}
-        actionButtonText="Connect wallet"
+        buttonText="Connect wallet"
         openSandboxModal={openSandboxModal}
       />
     </PageLayout>

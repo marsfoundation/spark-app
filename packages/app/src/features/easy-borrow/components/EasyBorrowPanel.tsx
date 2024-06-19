@@ -39,6 +39,7 @@ export interface EasyBorrowPanelProps {
 
   guestMode: boolean
   openConnectModal: () => void
+  openSandboxModal: () => void
 
   healthFactorPanelRef: React.RefObject<HTMLDivElement>
 }

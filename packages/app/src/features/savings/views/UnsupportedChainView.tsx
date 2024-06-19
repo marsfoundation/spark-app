@@ -21,10 +21,10 @@ export function UnsupportedChainView({
     <PageLayout>
       <PageHeader />
       <CallToActionPanel
-        callToAction={`${guestMode ? 'Connect' : 'Switch'} to supported chain and start saving!`}
+        header={`${guestMode ? 'Connect' : 'Switch'} to supported chain and start saving!`}
         iconPaths={TOKEN_ICONS}
         action={guestMode ? openConnectModal : openChainModal}
-        actionButtonText={guestMode ? 'Connect wallet' : 'Switch network'}
+        buttonText={guestMode ? 'Connect wallet' : 'Switch network'}
         openSandboxModal={openSandboxModal}
       />
     </PageLayout>

@@ -1,13 +1,12 @@
-import { Trans } from '@lingui/macro'
-import { UseFormReturn } from 'react-hook-form'
-
 import { UserPositionSummary } from '@/domain/market-info/marketInfo'
 import { Percentage } from '@/domain/types/NumericValues'
 import { assets } from '@/ui/assets'
 import { Button } from '@/ui/atoms/button/Button'
 import { Form } from '@/ui/atoms/form/Form'
+import { CallToActionButtonGroup } from '@/ui/molecules/call-to-action-button-group/CallToActionButtonGroup'
 import { nonZeroOrDefault } from '@/utils/bigNumber'
-
+import { Trans } from '@lingui/macro'
+import { UseFormReturn } from 'react-hook-form'
 import { FormFieldsForAssetClass } from '../../logic/form/form'
 import { EasyBorrowFormSchema } from '../../logic/form/validation'
 import { ExistingPosition } from '../../logic/types'
@@ -30,6 +29,7 @@ interface EasyBorrowFlowProps {
   borrowRate: Percentage
   guestMode: boolean
   openConnectModal: () => void
+  openSandboxModal: () => void
 }
 
 export function EasyBorrowForm(props: EasyBorrowFlowProps) {
@@ -46,6 +46,7 @@ export function EasyBorrowForm(props: EasyBorrowFlowProps) {
     borrowRate,
     guestMode,
     openConnectModal,
+    openSandboxModal,
   } = props
 
   return (
@@ -92,9 +93,12 @@ export function EasyBorrowForm(props: EasyBorrowFlowProps) {
         <EasyBorrowNote borrowRate={borrowRate} />
 
         {guestMode ? (
-          <Button className="mt-8" onClick={openConnectModal}>
-            <Trans>Connect your wallet</Trans>
-          </Button>
+          <CallToActionButtonGroup
+            className="mt-8"
+            buttonText="Connect wallet"
+            action={openConnectModal}
+            openSandboxModal={openSandboxModal}
+          />
         ) : (
           !disabled && (
             <Button type="submit" className="mt-8" disabled={!form.formState.isValid}>

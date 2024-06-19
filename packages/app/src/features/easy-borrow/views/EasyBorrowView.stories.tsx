@@ -77,6 +77,7 @@ function EasyBorrowViewStory(props: EasyBorrowViewStoryProps) {
   /* eslint-disable func-style */
   const setDesiredLoanToValue = () => {}
   const openConnectModal = () => {}
+  const openSandboxModal = () => {}
   /* eslint-enable func-style */
 
   const pageStatus = {
@@ -101,6 +102,7 @@ function EasyBorrowViewStory(props: EasyBorrowViewStoryProps) {
       assetToBorrow={assetToBorrow}
       guestMode={guestMode}
       openConnectModal={openConnectModal}
+      openSandboxModal={openSandboxModal}
       healthFactorPanelRef={healthFactorPanelRef}
     />
   )

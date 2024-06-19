@@ -1,8 +1,6 @@
+import { assets } from '@/ui/assets'
 import { Meta, StoryObj } from '@storybook/react'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
-
-import { assets } from '@/ui/assets'
-
 import { CallToActionPanel } from './CallToActionPanel'
 
 const icons = assets.walletIcons
@@ -12,8 +10,8 @@ const meta: Meta<typeof CallToActionPanel> = {
   title: 'Components/Organisms/CallToActionPanel',
   component: CallToActionPanel,
   args: {
-    callToAction: 'Connect your wallet to use Spark',
-    actionButtonText: 'Connect wallet',
+    header: 'Connect your wallet and start saving!',
+    buttonText: 'Connect wallet',
     iconPaths: WALLET_ICONS_PATHS,
     action: () => {},
     openSandboxModal: () => {},
