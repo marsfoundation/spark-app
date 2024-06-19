@@ -52,8 +52,6 @@ const args: MarketDetailsViewProps = {
     collateral: {
       status: 'yes',
       token: tokens.rETH,
-      debt: NormalizedUnitNumber(1000),
-      debtCeiling: NormalizedUnitNumber(0),
       maxLtv: Percentage(0.8),
       liquidationThreshold: Percentage(0.825),
       liquidationPenalty: Percentage(0.05),

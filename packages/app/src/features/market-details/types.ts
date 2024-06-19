@@ -15,6 +15,24 @@ export interface SupplyReplacementInfo {
   totalSupplied: NormalizedUnitNumber
   supplyAPY: Percentage | undefined
 }
+export type CollateralStatusInfo = (
+  | {
+      status: Extract<CollateralEligibilityStatus, 'only-in-isolation-mode'>
+      isolationModeInfo: {
+        debt: NormalizedUnitNumber
+        debtCeiling: NormalizedUnitNumber
+      }
+    }
+  | {
+      status: Exclude<CollateralEligibilityStatus, 'only-in-isolation-mode'>
+    }
+) & {
+  token: Token
+  maxLtv: Percentage
+  liquidationThreshold: Percentage
+  liquidationPenalty: Percentage
+  supplyReplacement?: SupplyReplacementInfo
+}
 export interface MarketOverview {
   supply?: {
     hasSparkAirdrop: boolean
@@ -23,16 +41,7 @@ export interface MarketOverview {
     supplyCap?: NormalizedUnitNumber
     apy: Percentage | undefined
   }
-  collateral: {
-    status: CollateralEligibilityStatus
-    token: Token
-    debtCeiling: NormalizedUnitNumber
-    debt: NormalizedUnitNumber
-    maxLtv: Percentage
-    liquidationThreshold: Percentage
-    liquidationPenalty: Percentage
-    supplyReplacement?: SupplyReplacementInfo
-  }
+  collateral: CollateralStatusInfo
   borrow: {
     hasSparkAirdrop: boolean
     status: BorrowEligibilityStatus
