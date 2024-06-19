@@ -16,7 +16,7 @@ const meta: Meta<typeof CallToActionPanel> = {
     actionButtonText: 'Connect wallet',
     iconPaths: WALLET_ICONS_PATHS,
     action: () => {},
-    activateSandbox: () => {},
+    openSandboxModal: () => {},
   },
 }
 

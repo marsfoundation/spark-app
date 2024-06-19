@@ -8,7 +8,7 @@ interface CallToActionPanelProps {
   callToAction: string
   actionButtonText: string
   action: () => void
-  activateSandbox: () => void
+  openSandboxModal: () => void
 }
 
 export function CallToActionPanel({
@@ -16,7 +16,7 @@ export function CallToActionPanel({
   callToAction,
   actionButtonText,
   action,
-  activateSandbox,
+  openSandboxModal,
 }: CallToActionPanelProps) {
   return (
     <Panel.Wrapper>
@@ -30,7 +30,7 @@ export function CallToActionPanel({
               header: callToAction,
             }}
             secondaryButton={{
-              onClickAction: activateSandbox,
+              onClickAction: openSandboxModal,
               text: 'Activate Sandbox Mode',
               header: 'or explore in Sandbox Mode with unlimited tokens',
               prefixIcon: <MagicWand className="h-5 w-5 text-basics-dark-grey" />,

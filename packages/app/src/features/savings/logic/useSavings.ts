@@ -9,6 +9,7 @@ import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
 import { useTimestamp } from '@/utils/useTimestamp'
 
+import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
 import { Projections } from '../types'
 import { makeSavingsOverview } from './makeSavingsOverview'
 import { calculateProjections } from './projections'
@@ -18,6 +19,7 @@ const stepInMs = 50
 export interface UseSavingsResults {
   guestMode: boolean
   openDialog: OpenDialogFunction
+  openSandboxModal: () => void
   savingsDetails:
     | {
         state: 'supported'
@@ -46,7 +48,7 @@ export function useSavings(): UseSavingsResults {
   const openDialog = useOpenDialog()
 
   if (!savingsInfo) {
-    return { guestMode, openDialog, savingsDetails: { state: 'unsupported' } }
+    return { guestMode, openDialog, openSandboxModal, savingsDetails: { state: 'unsupported' } }
   }
 
   const {
@@ -70,8 +72,13 @@ export function useSavings(): UseSavingsResults {
     savingsInfo,
   })
 
+  function openSandboxModal(): void {
+    openDialog(SandboxDialog, { mode: 'ephemeral' } as const)
+  }
+
   return {
     guestMode,
+    openSandboxModal,
     openDialog,
     savingsDetails: {
       state: 'supported',

@@ -7,7 +7,7 @@ import { PageLayout } from '../components/PageLayout'
 interface UnsupportedChainViewProps {
   openChainModal: () => void
   openConnectModal: () => void
-  activateSandbox: () => void
+  openSandboxModal: () => void
   guestMode: boolean
 }
 
@@ -15,7 +15,7 @@ export function UnsupportedChainView({
   guestMode,
   openChainModal,
   openConnectModal,
-  activateSandbox,
+  openSandboxModal,
 }: UnsupportedChainViewProps) {
   return (
     <PageLayout>
@@ -25,7 +25,7 @@ export function UnsupportedChainView({
         iconPaths={TOKEN_ICONS}
         action={guestMode ? openConnectModal : openChainModal}
         actionButtonText={guestMode ? 'Connect wallet' : 'Switch network'}
-        activateSandbox={activateSandbox}
+        openSandboxModal={openSandboxModal}
       />
     </PageLayout>
   )

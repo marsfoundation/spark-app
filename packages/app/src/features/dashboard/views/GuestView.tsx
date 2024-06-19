@@ -4,10 +4,10 @@ import { CallToActionPanel } from '@/ui/organisms/call-to-action-panel/CallToAct
 
 export interface GuestViewProps {
   openConnectModal: () => void
-  acitvateSandbox: () => void
+  openSandboxModal: () => void
 }
 
-export function GuestView({ openConnectModal, acitvateSandbox }: GuestViewProps) {
+export function GuestView({ openConnectModal, openSandboxModal }: GuestViewProps) {
   return (
     <PageLayout className="max-w-6xl">
       <CallToActionPanel
@@ -15,7 +15,7 @@ export function GuestView({ openConnectModal, acitvateSandbox }: GuestViewProps)
         iconPaths={WALLET_ICONS_PATHS}
         action={openConnectModal}
         actionButtonText="Connect wallet"
-        activateSandbox={acitvateSandbox}
+        openSandboxModal={openSandboxModal}
       />
     </PageLayout>
   )

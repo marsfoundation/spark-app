@@ -10,10 +10,10 @@ interface GuestViewProps {
   APY: Percentage
   chainId: SupportedChainId
   openConnectModal: () => void
-  activateSandbox: () => void
+  openSandboxModal: () => void
 }
 
-export function GuestView({ APY, chainId, openConnectModal, activateSandbox }: GuestViewProps) {
+export function GuestView({ APY, chainId, openConnectModal, openSandboxModal }: GuestViewProps) {
   return (
     <PageLayout>
       <PageHeader />
@@ -23,7 +23,7 @@ export function GuestView({ APY, chainId, openConnectModal, activateSandbox }: G
         iconPaths={TOKEN_ICONS}
         action={openConnectModal}
         actionButtonText="Connect wallet"
-        activateSandbox={activateSandbox}
+        openSandboxModal={openSandboxModal}
       />
     </PageLayout>
   )
