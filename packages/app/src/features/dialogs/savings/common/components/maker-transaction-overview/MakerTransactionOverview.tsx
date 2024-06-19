@@ -20,7 +20,7 @@ export function MakerTransactionOverview({ txOverview, selectedToken }: MakerTra
       <MakerTransactionOverviewPlaceholder isLoading={txOverview.status === 'loading'} badgeToken={selectedToken} />
     )
   }
-  const { APY, daiEarnRate, route, makerBadgeToken } = txOverview
+  const { APY, dai, daiEarnRate, route, makerBadgeToken } = txOverview
 
   assert(route.length > 0, 'Route must have at least one item')
   const outcome = route.at(-1)!
@@ -30,7 +30,7 @@ export function MakerTransactionOverview({ txOverview, selectedToken }: MakerTra
     <DialogPanel>
       <DialogPanelTitle>Transaction overview</DialogPanelTitle>
       <TransactionOverviewDetailsItem label="APY">
-        <APYDetails APY={APY} daiEarnRate={daiEarnRate} />
+        <APYDetails APY={APY} dai={dai} daiEarnRate={daiEarnRate} />
       </TransactionOverviewDetailsItem>
       <TransactionOverviewDetailsItem label="Route">
         <div className={cn('flex flex-col items-end gap-2', !displayRouteVertically && 'md:flex-row')}>

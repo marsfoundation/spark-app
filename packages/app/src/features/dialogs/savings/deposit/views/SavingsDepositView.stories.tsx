@@ -127,6 +127,7 @@ export const DesktopMaker: Story = {
       changeAsset: () => {},
     },
     txOverview: {
+      dai: tokens.DAI,
       type: 'maker',
       status: 'success',
       APY: Percentage(0.05),
