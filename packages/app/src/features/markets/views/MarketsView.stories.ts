@@ -73,12 +73,12 @@ export const Desktop: Story = {
         token: tokens.USDT,
         reserveStatus: 'paused',
         borrowAPYDetails: {
-          apy: Percentage(0),
+          apy: undefined,
           incentives: [],
           airdrops: [],
         },
         depositAPYDetails: {
-          apy: Percentage(0),
+          apy: undefined,
           incentives: [],
           airdrops: [],
         },
@@ -108,8 +108,8 @@ export const Desktop: Story = {
       {
         token: tokens.USDC,
         reserveStatus: 'frozen',
-        borrowAPYDetails: { apy: Percentage(0.11), incentives: [], airdrops: [] },
-        depositAPYDetails: { apy: Percentage(0.157), incentives: [], airdrops: [] },
+        borrowAPYDetails: { apy: undefined, incentives: [], airdrops: [] },
+        depositAPYDetails: { apy: undefined, incentives: [], airdrops: [] },
         totalBorrowed: NormalizedUnitNumber(1257),
         totalSupplied: NormalizedUnitNumber(0),
         marketStatus: {
