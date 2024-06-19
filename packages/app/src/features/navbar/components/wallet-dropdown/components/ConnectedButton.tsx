@@ -3,7 +3,7 @@ import { ButtonHTMLAttributes, forwardRef } from 'react'
 
 import { WalletDropdownTriggerInfo } from '@/features/navbar/types'
 import Eye from '@/ui/assets/eye.svg?react'
-import MagicWand from '@/ui/assets/magic-wand.svg?react'
+import MagicWandCircle from '@/ui/assets/magic-wand-circle.svg?react'
 import { shortenAddress } from '@/ui/utils/shortenAddress'
 
 import { WalletButton } from './WalletButton'
@@ -18,7 +18,7 @@ export const ConnectedButton = forwardRef<HTMLButtonElement, ConnectedButtonProp
     if (mode === 'sandbox') {
       return (
         <WalletButton ref={ref} {...buttonProps}>
-          <MagicWand className="h-7 w-7 text-basics-dark-grey lg:h-5 lg:w-5" />
+          <MagicWandCircle className="h-7 w-7 lg:h-5 lg:w-5" />
           Sandbox mode
           <Chevron open={open} />
         </WalletButton>
