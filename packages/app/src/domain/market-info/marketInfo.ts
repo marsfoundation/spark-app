@@ -283,13 +283,13 @@ export function marketInfo(rawAaveData: AaveData, nativeAssetInfo: NativeAssetIn
       totalVariableDebtUSD: NormalizedUnitNumber(r.reserve.totalVariableDebtUSD),
       isolationModeTotalDebt: NormalizedUnitNumber(r.reserve.isolationModeTotalDebtUSD),
       debtCeiling: NormalizedUnitNumber(r.reserve.debtCeilingUSD),
-      supplyAPY: supplyAvailabilityStatus === 'yes' ? Percentage(r.reserve.supplyAPY) : undefined,
+      supplyAPY: supplyAvailabilityStatus === 'no' ? undefined : Percentage(r.reserve.supplyAPY),
       maxLtv: parseRawPercentage(r.reserve.baseLTVasCollateral),
       liquidationThreshold: parseRawPercentage(r.reserve.reserveLiquidationThreshold),
       liquidationBonus: bigNumberify(r.reserve.formattedReserveLiquidationBonus).gt(0)
         ? Percentage(r.reserve.formattedReserveLiquidationBonus)
         : Percentage(0),
-      variableBorrowApy: borrowEligibilityStatus === 'yes' ? Percentage(r.reserve.variableBorrowAPY) : undefined,
+      variableBorrowApy: borrowEligibilityStatus === 'no' ? undefined : Percentage(r.reserve.variableBorrowAPY),
       reserveFactor: Percentage(r.reserve.reserveFactor),
       aTokenBalance: NormalizedUnitNumber(r.underlyingBalance),
 
