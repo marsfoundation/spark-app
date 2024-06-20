@@ -101,6 +101,7 @@ export function createMakerTxOverview({
   ]
 
   return {
+    dai: marketInfo.DAI,
     type: 'maker',
     status: 'success',
     APY: savingsInfo.apy,

@@ -8,43 +8,6 @@ import { gnosis, mainnet } from 'viem/chains'
 import { SavingsDialogPageObject } from '../common/e2e/SavingsDialog.PageObject'
 
 test.describe('Savings withdraw dialog', () => {
-  test.describe('xDAI', () => {
-    const blockNumber = 34227971n
-    const fork = setupFork({ blockNumber, chainId: gnosis.id })
-
-    test('unwraps sDAI to xDAI', async ({ page }) => {
-      await setup(page, fork, {
-        initialPage: 'savings',
-        account: {
-          type: 'connected',
-          assetBalances: {
-            XDAI: 100,
-            sDAI: 2000,
-          },
-          privateKey: LIFI_TEST_USER_PRIVATE_KEY,
-        },
-      })
-      await overrideLiFiRouteWithHAR({
-        page,
-        key: 'sdai-to-1000-xdai',
-      })
-
-      const savingsPage = new SavingsPageObject(page)
-
-      await savingsPage.clickWithdrawButtonAction()
-
-      const withdrawDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
-      await withdrawDialog.fillAmountAction(1000)
-
-      const actionsContainer = new ActionsPageObject(withdrawDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.acceptAllActionsAction(2)
-      await withdrawDialog.clickBackToSavingsButton()
-
-      await savingsPage.expectCurrentWorth('1,163.09')
-      await savingsPage.expectCashInWalletAssetBalance('XDAI', '1,101.50')
-    })
-  })
-
   test.describe('USDC on Gnosis', () => {
     const blockNumber = 34228121n
     const fork = setupFork({ blockNumber, chainId: gnosis.id })
@@ -213,7 +176,11 @@ test.describe('Savings withdraw dialog', () => {
 
     test.describe('Gnosis', () => {
       const blockNumber = 34309540n
-      const fork = setupFork({ blockNumber, chainId: gnosis.id })
+      const fork = setupFork({
+        blockNumber,
+        chainId: gnosis.id,
+        simulationDateOverride: new Date('2024-06-19T10:21:19Z'),
+      })
 
       test('can switch between tokens', async ({ page }) => {
         await setup(page, fork, {
@@ -243,7 +210,7 @@ test.describe('Savings withdraw dialog', () => {
         await actionsContainer.expectEnabledActionAtIndex(0)
         await actionsContainer.expectActions([
           { type: 'approve', asset: 'sDAI' },
-          { type: 'exchange', inputAsset: 'sDAI', outputAsset: 'XDAI' },
+          { type: 'xDaiFromSDaiWithdraw', asset: 'XDAI' },
         ])
 
         await depositDialog.selectAssetAction('USDC')
@@ -267,7 +234,7 @@ test.describe('Savings withdraw dialog', () => {
         await actionsContainer.expectEnabledActionAtIndex(0)
         await actionsContainer.expectActions([
           { type: 'approve', asset: 'sDAI' },
-          { type: 'exchange', inputAsset: 'sDAI', outputAsset: 'XDAI' },
+          { type: 'xDaiFromSDaiWithdraw', asset: 'XDAI' },
         ])
       })
     })

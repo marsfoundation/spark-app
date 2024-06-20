@@ -11,42 +11,6 @@ test.describe('Savings deposit dialog', () => {
   // The tests here are not independent.
   // My guess is that reverting to snapshots in tenderly does not work properly - but for now couldn't debug that.
   // For now tests use different forks.
-  test.describe('xDAI', () => {
-    // Block number has to be as close as possible to the block number when query was executed
-    const blockNumber = 34227645n
-    const fork = setupFork({ blockNumber, chainId: gnosis.id })
-
-    test('wraps xDAI', async ({ page }) => {
-      await setup(page, fork, {
-        initialPage: 'savings',
-        account: {
-          type: 'connected',
-          assetBalances: {
-            XDAI: 1000,
-          },
-          privateKey: LIFI_TEST_USER_PRIVATE_KEY,
-        },
-      })
-      await overrideLiFiRouteWithHAR({
-        page,
-        key: '100-xdai-to-sdai',
-      })
-
-      const savingsPage = new SavingsPageObject(page)
-
-      await savingsPage.clickStartSavingButtonAction()
-
-      const depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
-      await depositDialog.fillAmountAction(100)
-
-      const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.acceptAllActionsAction(1)
-      await depositDialog.clickBackToSavingsButton()
-
-      await savingsPage.expectCurrentWorth('99.00')
-    })
-  })
-
   test.describe('USDC on Gnosis', () => {
     // Block number has to be as close as possible to the block number when query was executed
     const blockNumber = 34227645n
@@ -437,7 +401,11 @@ test.describe('Savings deposit dialog', () => {
 
     test.describe('Gnosis', () => {
       const blockNumber = 34309540n
-      const fork = setupFork({ blockNumber, chainId: gnosis.id })
+      const fork = setupFork({
+        blockNumber,
+        chainId: gnosis.id,
+        simulationDateOverride: new Date('2024-06-19T10:21:19Z'),
+      })
 
       test('can switch between tokens', async ({ page }) => {
         await setup(page, fork, {
@@ -466,7 +434,7 @@ test.describe('Savings deposit dialog', () => {
 
         await depositDialog.fillAmountAction(100)
         await actionsContainer.expectEnabledActionAtIndex(0)
-        await actionsContainer.expectActions([{ type: 'exchange', inputAsset: 'XDAI', outputAsset: 'sDAI' }])
+        await actionsContainer.expectActions([{ type: 'xDaiToSDaiDeposit', asset: 'XDAI' }])
 
         await depositDialog.selectAssetAction('USDC')
         await depositDialog.fillAmountAction(100)
@@ -487,7 +455,7 @@ test.describe('Savings deposit dialog', () => {
         await depositDialog.selectAssetAction('XDAI')
         await depositDialog.fillAmountAction(100)
         await actionsContainer.expectEnabledActionAtIndex(0)
-        await actionsContainer.expectActions([{ type: 'exchange', inputAsset: 'XDAI', outputAsset: 'sDAI' }])
+        await actionsContainer.expectActions([{ type: 'xDaiToSDaiDeposit', asset: 'XDAI' }])
       })
     })
   })

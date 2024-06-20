@@ -12,6 +12,7 @@ const meta: Meta<typeof MakerTransactionOverview> = {
   decorators: [WithClassname('max-w-xl'), WithTooltipProvider()],
   args: {
     txOverview: {
+      dai: tokens.DAI,
       type: 'maker',
       status: 'success',
       APY: Percentage(0.05),

@@ -8,6 +8,7 @@ export interface RouteItem {
 }
 
 export interface TxOverviewMaker {
+  dai: Token
   APY: Percentage
   daiEarnRate: NormalizedUnitNumber
   route: RouteItem[]
