@@ -13,12 +13,11 @@ import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
 import { Objective } from '@/features/actions/logic/types'
 
 import { AssetInputSchema, useDebouncedDialogFormValues } from '../../common/logic/form'
-import { useUpdateFormMaxValue } from '../../common/logic/useUpdateFormMaxValue'
 import { FormFieldsForDialog, PageState, PageStatus } from '../../common/types'
 import { getRepayOptions, getTokenDebt } from './assets'
 import { getFormFieldsForRepayDialog, getRepayDialogFormValidator } from './form'
-import { getRepayInFullOptions } from './getRepayInFullOptions'
 import { makeUpdatedPositionOverview } from './positionOverview'
+import { processRepaymentAsset } from './processRepaymentAsset'
 import { PositionOverview } from './types'
 import { useCreateRepayObjectives } from './useCreateRepayObjectives'
 
@@ -50,12 +49,10 @@ export function useRepayDialog({ initialToken }: UseRepayDialogOptions): UseRepa
     defaultValues: {
       symbol: initialToken.symbol,
       value: '',
+      isMaxSelected: false,
     },
     mode: 'onChange',
   })
-
-  const { repayInFull, maxRepayValue } = getRepayInFullOptions(form, marketInfo, walletInfo)
-  useUpdateFormMaxValue({ isMaxSet: repayInFull, maxValue: maxRepayValue, token: initialToken, form })
 
   const repayOptions = getRepayOptions({
     token: initialToken,
@@ -71,15 +68,19 @@ export function useRepayDialog({ initialToken }: UseRepayDialogOptions): UseRepa
   } = useDebouncedDialogFormValues({
     form,
     marketInfo,
-    capValue: maxRepayValue,
   })
-  const repaymentAsset = useConditionalFreeze(formValues, pageStatus === 'success')
 
-  const assetsToRepayFields = getFormFieldsForRepayDialog(form, marketInfo, walletInfo, maxRepayValue)
-
+  const repaymentAsset = useConditionalFreeze(
+    processRepaymentAsset({
+      formValues,
+      marketInfo,
+      walletInfo,
+    }),
+    pageStatus === 'success',
+  )
+  const assetsToRepayFields = getFormFieldsForRepayDialog(form, marketInfo, walletInfo)
   const debt = getTokenDebt(marketInfo, repaymentAsset)
-
-  const objectives = useCreateRepayObjectives(repaymentAsset, { all: repayInFull })
+  const objectives = useCreateRepayObjectives(repaymentAsset, { all: formValues.isMaxSelected })
 
   const currentPositionOverview = {
     healthFactor: marketInfo.userPositionSummary.healthFactor,
