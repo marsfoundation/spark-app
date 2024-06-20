@@ -63,6 +63,7 @@ export function useEasyBorrow(): UseEasyBorrowResults {
   const openDialog = useOpenDialog()
   const { aaveData } = useAaveDataLayer()
   const { marketInfo } = useMarketInfo()
+  const { marketInfo: marketInfoIn1Epoch } = useMarketInfo({ timeAdvance: 10 * 60 })
   const {
     nativeAssetInfo,
     meta: { defaultAssetToBorrow },
@@ -115,7 +116,7 @@ export function useEasyBorrow(): UseEasyBorrowResults {
   })
   const assetsToDepositFields = useFormFieldsForAssetClass({
     form: easyBorrowForm,
-    marketInfo,
+    marketInfo: marketInfoIn1Epoch, // because we calculate max values based on the future state
     allPossibleReserves: depositableAssets,
     walletInfo,
     type: 'deposit',

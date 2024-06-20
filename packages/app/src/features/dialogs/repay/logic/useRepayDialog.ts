@@ -39,8 +39,12 @@ export interface UseRepayDialogResult {
 export function useRepayDialog({ initialToken }: UseRepayDialogOptions): UseRepayDialogResult {
   const { aaveData } = useAaveDataLayer()
   const { marketInfo } = useMarketInfo()
-  const nativeAssetInfo = getNativeAssetInfo(marketInfo.chainId)
+  const { marketInfo: marketInfoIn1Epoch } = useMarketInfo({ timeAdvance: 30 * 60 })
+  const { marketInfo: marketInfoIn2Epochs } = useMarketInfo({ timeAdvance: 2 * 30 * 60 })
+
   const walletInfo = useWalletInfo()
+
+  const nativeAssetInfo = getNativeAssetInfo(marketInfo.chainId)
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')
 
@@ -82,6 +86,8 @@ export function useRepayDialog({ initialToken }: UseRepayDialogOptions): UseRepa
   const debt = getTokenDebt(marketInfo, repaymentAsset)
   const objectives = useCreateRepayObjectives({
     repaymentAsset,
+    marketInfoIn1Epoch,
+    marketInfoIn2Epochs,
     walletInfo,
   })
 

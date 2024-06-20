@@ -37,6 +37,7 @@ export interface UseDepositDialogResult {
 export function useDepositDialog({ initialToken }: UseDepositDialogOptions): UseDepositDialogResult {
   const { aaveData } = useAaveDataLayer()
   const { marketInfo } = useMarketInfo()
+  const { marketInfo: marketInfoIn1Epoch } = useMarketInfo({ timeAdvance: 10 * 60 })
   const walletInfo = useWalletInfo()
   const nativeAssetInfo = getNativeAssetInfo(marketInfo.chainId)
 
@@ -52,7 +53,7 @@ export function useDepositDialog({ initialToken }: UseDepositDialogOptions): Use
   })
   const assetsToDepositFields = getFormFieldsForDepositDialog({
     form,
-    marketInfo,
+    marketInfo: marketInfoIn1Epoch,
     walletInfo,
   })
   const {

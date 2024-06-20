@@ -7,6 +7,7 @@ import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { WalletInfo } from '@/domain/wallet/useWalletInfo'
 
 import { getRepayMaxValue } from '@/domain/action-max-value-getters/getRepayMaxValue'
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { AssetInputSchema, normalizeDialogFormValues } from '../../common/logic/form'
 import { FormFieldsForDialog } from '../../common/types'
 
@@ -75,6 +76,7 @@ export function getFormFieldsForRepayDialog(
       balance: walletInfo.findWalletBalanceForSymbol(symbol),
     },
     changeAsset,
+    maxValue: NormalizedUnitNumber(10),
     maxSelectedFieldName: 'isMaxSelected',
   }
 }
