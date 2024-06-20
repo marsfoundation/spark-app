@@ -1,14 +1,14 @@
-import { useMemo, useRef } from 'react'
-
 import { useActionsSettings } from '@/domain/state'
-
+import { useMemo, useRef } from 'react'
 import { useCreateApproveDelegationHandler } from '../flavours/approve-delegation/useCreateApproveDelegationHandler'
 import { useCreateApproveExchangeActionHandler } from '../flavours/approve-exchange/useCreateApproveExchangeHandler'
 import { useCreateApproveOrPermitHandler } from '../flavours/approve/logic/useCreateApproveOrPermitHandler'
 import { useCreateBorrowActionHandler } from '../flavours/borrow/useCreateBorrowHandler'
 import { useCreateDepositHandler } from '../flavours/deposit/useCreateDepositHandler'
 import { useCreateExchangeHandler } from '../flavours/exchange/useCreateExchangeHandler'
-import { useCreateNativeSDaiDepositHandler } from '../flavours/native-sdai-deposit/useCreateNativeSDaiDepositHandler'
+import { useCreateDaiToSDaiDepositHandler } from '../flavours/native-sdai-deposit/dai-to-sdai/useCreateDaiToSDaiDepositHandler'
+import { useCreateUSDCToSDaiDepositHandler } from '../flavours/native-sdai-deposit/usdc-to-sdai/useCreateUSDCToSDaiDepositHandler'
+import { useCreateXDaiToSDaiDepositHandler } from '../flavours/native-sdai-deposit/xdai-to-sdai/useCreateXDaiToSDaiDepositHandler'
 import { useCreateNativeSDaiWithdrawHandler } from '../flavours/native-sdai-withdraw/useCreateNativeSDaiWithdrawHandler'
 import { useCreateRepayHandler } from '../flavours/repay/useCreateRepayHandler'
 import { useCreateSetUseAsCollateralHandler } from '../flavours/set-use-as-collateral/useCreateSetUseAsCollateralHandler'
@@ -40,13 +40,13 @@ export function useActionHandlers(
   const handlers = actions.reduce((acc, action, index) => {
     const nextOneToExecute = index > 0 ? acc[acc.length - 1]!.state.status === 'success' : true
     // If succeeded once, don't try again. Further actions can invalidate previous actions (for example deposit will invalidate previous approvals)
-    // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
+    // biome-ignore lint/correctness/useHookAtTopLevel:
     const alreadySucceeded = useRef(false)
 
     const isLast = index === actions.length - 1
     const onFinish = isLast ? _onFinish : undefined
 
-    // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
+    // biome-ignore lint/correctness/useHookAtTopLevel:
     const handler = useCreateActionHandler(action, {
       enabled: enabled && alreadySucceeded.current === false && nextOneToExecute,
       permitStore: actionsSettings.preferPermits ? permitStore : undefined,
@@ -84,40 +84,46 @@ function useCreateActionHandler(
   switch (action.type) {
     case 'approve':
     case 'permit':
-      // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
+      // biome-ignore lint/correctness/useHookAtTopLevel:
       return useCreateApproveOrPermitHandler(action, { permitStore, enabled })
     case 'deposit':
-      // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
+      // biome-ignore lint/correctness/useHookAtTopLevel:
       return useCreateDepositHandler(action, { permitStore, enabled, onFinish })
     case 'approveDelegation':
-      // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
+      // biome-ignore lint/correctness/useHookAtTopLevel:
       return useCreateApproveDelegationHandler(action, { enabled })
     case 'borrow':
-      // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
+      // biome-ignore lint/correctness/useHookAtTopLevel:
       return useCreateBorrowActionHandler(action, { enabled, onFinish })
     case 'withdraw':
-      // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
+      // biome-ignore lint/correctness/useHookAtTopLevel:
       return useCreateWithdrawHandler(action, { enabled, onFinish })
     case 'repay':
-      // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
+      // biome-ignore lint/correctness/useHookAtTopLevel:
       return useCreateRepayHandler(action, { permitStore, enabled, onFinish })
     case 'setUseAsCollateral':
-      // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
+      // biome-ignore lint/correctness/useHookAtTopLevel:
       return useCreateSetUseAsCollateralHandler(action, { enabled, onFinish })
     case 'setUserEMode':
-      // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
+      // biome-ignore lint/correctness/useHookAtTopLevel:
       return useCreateSetUserEModeHandler(action, { enabled, onFinish })
     case 'approveExchange':
-      // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
+      // biome-ignore lint/correctness/useHookAtTopLevel:
       return useCreateApproveExchangeActionHandler(action, { enabled })
     case 'exchange':
-      // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
+      // biome-ignore lint/correctness/useHookAtTopLevel:
       return useCreateExchangeHandler(action, { enabled, onFinish })
-    case 'nativeSDaiDeposit':
-      // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
-      return useCreateNativeSDaiDepositHandler(action, { enabled, onFinish })
     case 'nativeSDaiWithdraw':
-      // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
+      // biome-ignore lint/correctness/useHookAtTopLevel:
       return useCreateNativeSDaiWithdrawHandler(action, { enabled, onFinish })
+    case 'daiToSDaiDeposit':
+      // biome-ignore lint/correctness/useHookAtTopLevel:
+      return useCreateDaiToSDaiDepositHandler(action, { enabled, onFinish })
+    case 'usdcToSDaiDeposit':
+      // biome-ignore lint/correctness/useHookAtTopLevel:
+      return useCreateUSDCToSDaiDepositHandler(action, { enabled, onFinish })
+    case 'xDaiToSDaiDeposit':
+      // biome-ignore lint/correctness/useHookAtTopLevel:
+      return useCreateXDaiToSDaiDepositHandler(action, { enabled, onFinish })
   }
 }

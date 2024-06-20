@@ -140,7 +140,7 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
     action: {
       type: 'exchange',
       swapParams: {
-        fromToken: tokens.USDC,
+        fromToken: tokens.USDT,
         toToken: tokens.sDAI,
         type: 'direct',
         value: NormalizedUnitNumber(1023),
@@ -152,7 +152,7 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
       },
       swapInfo: {
         data: {
-          fromToken: tokens.USDC.address,
+          fromToken: tokens.USDT.address,
           toToken: tokens.sDAI.address,
           type: 'direct',
           estimate: {
@@ -177,10 +177,30 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
     state: { status: 'ready' },
     onAction: () => {},
   },
-  nativeSDaiDeposit: {
+  daiToSDaiDeposit: {
     action: {
-      type: 'nativeSDaiDeposit',
-      token: tokens.DAI,
+      type: 'daiToSDaiDeposit',
+      dai: tokens.DAI,
+      value: NormalizedUnitNumber(1023),
+      sDai: tokens.sDAI,
+    },
+    state: { status: 'ready' },
+    onAction: () => {},
+  },
+  usdcToSDaiDeposit: {
+    action: {
+      type: 'usdcToSDaiDeposit',
+      usdc: tokens.USDC,
+      value: NormalizedUnitNumber(1023),
+      sDai: tokens.sDAI,
+    },
+    state: { status: 'ready' },
+    onAction: () => {},
+  },
+  xDaiToSDaiDeposit: {
+    action: {
+      type: 'xDaiToSDaiDeposit',
+      xDai: tokens.XDAI,
       value: NormalizedUnitNumber(1023),
       sDai: tokens.sDAI,
     },

@@ -1,8 +1,4 @@
-import { assert } from '@/utils/assert'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useState } from 'react'
-import { UseFormReturn, useForm } from 'react-hook-form'
-
+import { getChainConfigEntry } from '@/config/chain'
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { useSavingsInfo } from '@/domain/savings-info/useSavingsInfo'
@@ -13,10 +9,11 @@ import { Objective } from '@/features/actions/logic/types'
 import { RiskWarning } from '@/features/dialogs/common/components/risk-acknowledgement/RiskAcknowledgement'
 import { AssetInputSchema, useDebouncedDialogFormValues } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
-
-import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { mainnet } from 'viem/chains'
+import { assert } from '@/utils/assert'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useState } from 'react'
+import { UseFormReturn, useForm } from 'react-hook-form'
+import { useChainId } from 'wagmi'
 import { SavingsDialogTxOverview } from '../../common/types'
 import { createMakerTxOverview, createTxOverview } from './createTxOverview'
 import { getFormFieldsForDepositDialog } from './form'
@@ -52,7 +49,7 @@ export function useSavingsDepositDialog({
   const { savingsInfo } = useSavingsInfo()
   assert(savingsInfo, 'Savings info is not available')
   const walletInfo = useWalletInfo()
-  const originChainId = useOriginChainId()
+  const chainId = useChainId()
 
   const { assets: depositOptions } = makeAssetsInWalletList({ walletInfo })
 
@@ -76,10 +73,7 @@ export function useSavingsDepositDialog({
     marketInfo,
   })
 
-  const useNativeRoutes =
-    originChainId === mainnet.id &&
-    ((import.meta.env.VITE_DEV_DAI_NATIVE_ROUTES === '1' && formValues.token.address === marketInfo.DAI.address) ||
-      (import.meta.env.VITE_DEV_USDC_NATIVE_ROUTES === '1' && formValues.token.symbol === TokenSymbol('USDC')))
+  const useNativeRoutes = getChainConfigEntry(chainId).savingsNativeRouteTokens.includes(formValues.token.symbol)
 
   const { swapInfo, swapParams } = useDepositIntoSavings({
     formValues,
@@ -101,7 +95,7 @@ export function useSavingsDepositDialog({
     formValues,
     marketInfo,
     savingsInfo,
-    useNativeRoutes,
+    chainId,
   })
   const txOverview = useNativeRoutes
     ? createMakerTxOverview({

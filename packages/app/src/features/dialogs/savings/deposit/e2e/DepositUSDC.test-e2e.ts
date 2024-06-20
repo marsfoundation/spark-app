@@ -38,7 +38,7 @@ test.describe('Deposit USDC on Mainnet', () => {
   test('uses PSM actions native deposit', async () => {
     await depositDialog.actionsContainer.expectActions([
       { type: 'approve', asset: 'USDC' },
-      { type: 'nativeSDaiDeposit', asset: 'USDC' },
+      { type: 'usdcToSDaiDeposit', asset: 'USDC' },
     ])
   })
 

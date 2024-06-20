@@ -42,6 +42,8 @@ export type Airdrop = Record<TokenSymbol, AirdropsPerAction>
 // routes are always bidirectional
 export type LifiWaivedRoutes = [TokenSymbol, TokenSymbol][]
 
+export type SavingsNativeRouteTokens = TokenSymbol[]
+
 export interface ChainConfigEntry {
   id: SupportedChainId
   meta: ChainMeta
@@ -54,6 +56,7 @@ export interface ChainConfigEntry {
   lifiRoutesWithWaivedFees: LifiWaivedRoutes
   daiSymbol: TokenSymbol
   sDaiSymbol: TokenSymbol
+  savingsNativeRouteTokens: SavingsNativeRouteTokens
 }
 
 export type ChainConfig = Record<SupportedChainId, ChainConfigEntry>

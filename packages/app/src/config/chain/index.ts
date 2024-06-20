@@ -70,6 +70,10 @@ const chainConfig: ChainConfig = {
       [TokenSymbol('DAI'), TokenSymbol('sDAI')],
       [TokenSymbol('USDC'), TokenSymbol('sDAI')],
     ],
+    savingsNativeRouteTokens: [
+      import.meta.env.VITE_DEV_DAI_NATIVE_ROUTES === '1' && TokenSymbol('DAI'),
+      import.meta.env.VITE_DEV_USDC_NATIVE_ROUTES === '1' && TokenSymbol('USDC'),
+    ].filter(Boolean),
   },
   [gnosis.id]: {
     id: gnosis.id,
@@ -111,6 +115,9 @@ const chainConfig: ChainConfig = {
       // without PSMs only DAI to sDAI route has waived fees
       [TokenSymbol('XDAI'), TokenSymbol('sDAI')],
     ],
+    savingsNativeRouteTokens: [import.meta.env.VITE_DEV_XDAI_NATIVE_ROUTES === '1' && TokenSymbol('XDAI')].filter(
+      Boolean,
+    ),
   },
 }
 

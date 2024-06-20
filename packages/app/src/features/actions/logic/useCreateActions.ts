@@ -1,13 +1,10 @@
-import { maxUint256 } from 'viem'
-
 import { getNativeAssetInfo } from '@/config/chain/utils/getNativeAssetInfo'
-import { psmActionsConfig, wethGatewayAddress } from '@/config/contracts-generated'
+import { psmActionsAddress, wethGatewayAddress } from '@/config/contracts-generated'
 import { useContractAddress } from '@/domain/hooks/useContractAddress'
 import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
 import { BaseUnitNumber, NormalizedUnitNumber } from '@/domain/types/NumericValues'
-
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import BigNumber from 'bignumber.js'
+import { maxUint256 } from 'viem'
 import { mainnet } from 'viem/chains'
 import { ApproveDelegationAction } from '../flavours/approve-delegation/types'
 import { ApproveExchangeAction } from '../flavours/approve-exchange/types'
@@ -15,7 +12,9 @@ import { ApproveAction } from '../flavours/approve/types'
 import { BorrowAction } from '../flavours/borrow/types'
 import { DepositAction } from '../flavours/deposit/types'
 import { ExchangeAction } from '../flavours/exchange/types'
-import { NativeSDaiDepositAction } from '../flavours/native-sdai-deposit/types'
+import { DaiToSDaiDepositAction } from '../flavours/native-sdai-deposit/dai-to-sdai/types'
+import { USDCToSDaiDepositAction } from '../flavours/native-sdai-deposit/usdc-to-sdai/types'
+import { XDaiToSDaiDepositAction } from '../flavours/native-sdai-deposit/xdai-to-sdai/types'
 import { NativeSDaiWithdrawAction } from '../flavours/native-sdai-withdraw/types'
 import { RepayAction } from '../flavours/repay/types'
 import { SetUseAsCollateralAction } from '../flavours/set-use-as-collateral/types'
@@ -169,27 +168,6 @@ export function useCreateActions(objectives: Objective[]): Action[] {
         return [approveExchangeAction, exchangeAction]
       }
 
-      case 'nativeSDaiDeposit': {
-        const spender =
-          objective.token.symbol === TokenSymbol('USDC') ? psmActionsConfig.address[mainnet.id] : objective.sDai.address
-
-        const approveAction: ApproveAction = {
-          type: 'approve',
-          token: objective.token,
-          spender,
-          value: objective.value,
-          disallowPermit: true,
-        }
-
-        const depositAction: NativeSDaiDepositAction = {
-          type: 'nativeSDaiDeposit',
-          token: objective.token,
-          value: objective.value,
-          sDai: objective.sDai,
-        }
-        return [approveAction, depositAction]
-      }
-
       case 'nativeSDaiWithdraw': {
         const withdrawAction: NativeSDaiWithdrawAction = {
           type: 'nativeSDaiWithdraw',
@@ -206,7 +184,7 @@ export function useCreateActions(objectives: Objective[]): Action[] {
         const approveAction: ApproveAction = {
           type: 'approve',
           token: objective.sDai,
-          spender: psmActionsConfig.address[mainnet.id],
+          spender: psmActionsAddress[mainnet.id],
           value:
             objective.method === 'withdraw'
               ? NormalizedUnitNumber(objective.sDaiValueEstimate.toFixed(objective.sDai.decimals, BigNumber.ROUND_UP))
@@ -215,6 +193,54 @@ export function useCreateActions(objectives: Objective[]): Action[] {
         }
 
         return [approveAction, withdrawAction]
+      }
+
+      case 'daiToSDaiDeposit': {
+        const approveAction: ApproveAction = {
+          type: 'approve',
+          token: objective.dai,
+          spender: objective.sDai.address,
+          value: objective.value,
+        }
+
+        const depositAction: DaiToSDaiDepositAction = {
+          type: 'daiToSDaiDeposit',
+          value: objective.value,
+          dai: objective.dai,
+          sDai: objective.sDai,
+        }
+
+        return [approveAction, depositAction]
+      }
+
+      case 'usdcToSDaiDeposit': {
+        const approveAction: ApproveAction = {
+          type: 'approve',
+          token: objective.usdc,
+          spender: psmActionsAddress[mainnet.id],
+          value: objective.value,
+          disallowPermit: true,
+        }
+
+        const depositAction: USDCToSDaiDepositAction = {
+          type: 'usdcToSDaiDeposit',
+          value: objective.value,
+          usdc: objective.usdc,
+          sDai: objective.sDai,
+        }
+
+        return [approveAction, depositAction]
+      }
+
+      case 'xDaiToSDaiDeposit': {
+        const depositAction: XDaiToSDaiDepositAction = {
+          type: 'xDaiToSDaiDeposit',
+          value: objective.value,
+          xDai: objective.xDai,
+          sDai: objective.sDai,
+        }
+
+        return [depositAction]
       }
     }
   })

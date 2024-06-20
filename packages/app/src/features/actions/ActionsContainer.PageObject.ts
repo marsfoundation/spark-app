@@ -174,7 +174,9 @@ function actionToTitle(action: SimplifiedAction): string {
       return `Approve exchange ${action.asset}`
     case 'exchange':
       return `Convert ${action.inputAsset} to ${action.outputAsset}`
-    case 'nativeSDaiDeposit':
+    case 'daiToSDaiDeposit':
+    case 'usdcToSDaiDeposit':
+    case 'xDaiToSDaiDeposit':
       return `Wrap ${action.asset} into sDAI`
     case 'nativeSDaiWithdraw':
       return `Unwrap sDAI into ${action.asset}`
