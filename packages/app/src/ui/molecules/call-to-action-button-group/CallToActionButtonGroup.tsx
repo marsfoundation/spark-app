@@ -24,7 +24,7 @@ export function CallToActionButtonGroup({
         <Button onClick={action}>{buttonText}</Button>
       </div>
       <div className="flex flex-col gap-3">
-        <p className="text-center text-basics-dark-grey text-sm sm:text-base">
+        <p className="text-center text-basics-dark-grey text-xs sm:text-base">
           or explore in Sandbox Mode with unlimited tokens
         </p>
         <Button
