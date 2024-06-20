@@ -3,9 +3,9 @@ import { generatePath } from 'react-router-dom'
 import { Address, Hash, parseEther, parseUnits } from 'viem'
 
 import { paths } from '@/config/paths'
-import { publicTenderlyActions } from '@/domain/sandbox/publicTenderlyActions'
 import { BaseUnitNumber } from '@/domain/types/NumericValues'
 
+import { tenderlyRpcActions } from '@/domain/tenderly/TenderlyRpcActions'
 import { AssetsInTests, TOKENS_ON_FORK } from './constants'
 import { injectFixedDate, injectNetworkConfiguration, injectWalletConfiguration } from './injectSetup'
 import { ForkContext } from './setupFork'
@@ -119,15 +119,11 @@ export async function injectFunds(
     return
   }
 
-  for (const [tokenName, balance] of Object.entries(assetBalances)) {
+  const promises = Object.entries(assetBalances).map(async ([tokenName, balance]) => {
     if (tokenName === 'ETH' || tokenName === 'XDAI') {
-      await publicTenderlyActions.setBalance(
-        forkContext.forkUrl,
-        address,
-        BaseUnitNumber(parseEther(balance.toString())),
-      )
+      await tenderlyRpcActions.setBalance(forkContext.forkUrl, address, BaseUnitNumber(parseEther(balance.toString())))
     } else {
-      await publicTenderlyActions.setTokenBalance(
+      await tenderlyRpcActions.setTokenBalance(
         forkContext.forkUrl,
         (TOKENS_ON_FORK as any)[forkContext.chainId][tokenName].address,
         address,
@@ -136,5 +132,6 @@ export async function injectFunds(
         ),
       )
     }
-  }
+  })
+  await Promise.all(promises)
 }
