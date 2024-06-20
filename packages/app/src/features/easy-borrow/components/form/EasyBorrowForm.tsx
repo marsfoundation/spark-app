@@ -3,7 +3,7 @@ import { Percentage } from '@/domain/types/NumericValues'
 import { assets } from '@/ui/assets'
 import { Button } from '@/ui/atoms/button/Button'
 import { Form } from '@/ui/atoms/form/Form'
-import { CallToActionButtonGroup } from '@/ui/molecules/call-to-action-button-group/CallToActionButtonGroup'
+import { ConnectOrSandboxCTAButtonGroup } from '@/ui/molecules/connect-or-sandbox-cta-button-group/ConnectOrSandboxCTAButtonGroup'
 import { nonZeroOrDefault } from '@/utils/bigNumber'
 import { Trans } from '@lingui/macro'
 import { UseFormReturn } from 'react-hook-form'
@@ -93,7 +93,7 @@ export function EasyBorrowForm(props: EasyBorrowFlowProps) {
         <EasyBorrowNote borrowRate={borrowRate} />
 
         {guestMode ? (
-          <CallToActionButtonGroup
+          <ConnectOrSandboxCTAButtonGroup
             className="mt-8"
             buttonText="Connect wallet"
             action={openConnectModal}

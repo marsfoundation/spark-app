@@ -1,8 +1,8 @@
 import { Panel } from '@/ui/atoms/panel/Panel'
-import { CallToActionButtonGroup } from '@/ui/molecules/call-to-action-button-group/CallToActionButtonGroup'
+import { ConnectOrSandboxCTAButtonGroup } from '@/ui/molecules/connect-or-sandbox-cta-button-group/ConnectOrSandboxCTAButtonGroup'
 import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
 
-interface CallToActionPanelProps {
+interface ConnectOrSandboxCTAPanelProps {
   iconPaths: string[]
   header: string
   buttonText: string
@@ -10,13 +10,19 @@ interface CallToActionPanelProps {
   openSandboxModal: () => void
 }
 
-export function CallToActionPanel({ iconPaths, header, buttonText, action, openSandboxModal }: CallToActionPanelProps) {
+export function ConnectOrSandboxCTAPanel({
+  iconPaths,
+  header,
+  buttonText,
+  action,
+  openSandboxModal,
+}: ConnectOrSandboxCTAPanelProps) {
   return (
     <Panel.Wrapper>
       <Panel.Content className="flex flex-col gap-6 p-6 text-center md:px-8">
         <div className="flex flex-col items-center gap-6">
           <IconStack paths={iconPaths} size="lg" stackingOrder="first-on-top" />
-          <CallToActionButtonGroup
+          <ConnectOrSandboxCTAButtonGroup
             header={header}
             action={action}
             buttonText={buttonText}

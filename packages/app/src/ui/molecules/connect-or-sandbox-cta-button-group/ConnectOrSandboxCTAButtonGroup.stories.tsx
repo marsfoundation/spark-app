@@ -1,10 +1,10 @@
 import { Meta, StoryObj } from '@storybook/react'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
-import { CallToActionButtonGroup } from './CallToActionButtonGroup'
+import { ConnectOrSandboxCTAButtonGroup } from './ConnectOrSandboxCTAButtonGroup'
 
-const meta: Meta<typeof CallToActionButtonGroup> = {
-  title: 'Components/Molecules/CallToActionButtonGroup',
-  component: CallToActionButtonGroup,
+const meta: Meta<typeof ConnectOrSandboxCTAButtonGroup> = {
+  title: 'Components/Molecules/ConnectOrSandboxCTAButtonGroup',
+  component: ConnectOrSandboxCTAButtonGroup,
   args: {
     header: 'Connect your wallet and start saving!',
     buttonText: 'Connect wallet',
@@ -14,7 +14,7 @@ const meta: Meta<typeof CallToActionButtonGroup> = {
 }
 
 export default meta
-type Story = StoryObj<typeof CallToActionButtonGroup>
+type Story = StoryObj<typeof ConnectOrSandboxCTAButtonGroup>
 
 export const Default: Story = {
   name: 'Default',

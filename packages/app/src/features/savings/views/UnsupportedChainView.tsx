@@ -1,6 +1,5 @@
 import { assets } from '@/ui/assets'
-
-import { CallToActionPanel } from '@/ui/organisms/call-to-action-panel/CallToActionPanel'
+import { ConnectOrSandboxCTAPanel } from '@/ui/organisms/connect-or-sandbox-cta-panel/ConnectOrSandboxCTAPanel'
 import { PageHeader } from '../components/PageHeader'
 import { PageLayout } from '../components/PageLayout'
 
@@ -20,7 +19,7 @@ export function UnsupportedChainView({
   return (
     <PageLayout>
       <PageHeader />
-      <CallToActionPanel
+      <ConnectOrSandboxCTAPanel
         header={`${guestMode ? 'Connect' : 'Switch'} to supported chain and start saving!`}
         iconPaths={TOKEN_ICONS}
         action={guestMode ? openConnectModal : openChainModal}

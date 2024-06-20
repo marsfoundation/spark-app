@@ -2,7 +2,7 @@ import MagicWand from '@/ui/assets/magic-wand.svg?react'
 import { Button } from '@/ui/atoms/button/Button'
 import { cn } from '@/ui/utils/style'
 
-export interface CallToActionButtonGroupProps {
+export interface ConnectOrSandboxCTAButtonGroupProps {
   header?: string
   buttonText: string
   action: () => void
@@ -10,13 +10,13 @@ export interface CallToActionButtonGroupProps {
   className?: string
 }
 
-export function CallToActionButtonGroup({
+export function ConnectOrSandboxCTAButtonGroup({
   header,
   action,
   buttonText,
   openSandboxModal,
   className,
-}: CallToActionButtonGroupProps) {
+}: ConnectOrSandboxCTAButtonGroupProps) {
   return (
     <div className={cn('flex w-full flex-col gap-6', className)}>
       <div className="flex flex-col gap-3">
