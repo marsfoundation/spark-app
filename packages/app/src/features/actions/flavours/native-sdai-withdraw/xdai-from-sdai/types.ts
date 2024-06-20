@@ -15,7 +15,7 @@ export type XDaiFromSDaiWithdrawObjective =
       xDai: Token
       value: NormalizedUnitNumber
       sDai: Token
-      method: 'redeem-all'
+      method: 'redeem'
     }
 
 export interface XDaiFromSDaiWithdrawAction {
@@ -23,5 +23,5 @@ export interface XDaiFromSDaiWithdrawAction {
   xDai: Token
   value: NormalizedUnitNumber
   sDai: Token
-  method: 'withdraw' | 'redeem-all'
+  method: 'withdraw' | 'redeem'
 }

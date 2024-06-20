@@ -139,7 +139,7 @@ function getNativeObjectivesByChainAndToken({
               xDai: formValues.token,
               value: sDaiBalance,
               sDai: marketInfo.sDAI,
-              method: 'redeem-all',
+              method: 'redeem',
             },
           ]
         : [
