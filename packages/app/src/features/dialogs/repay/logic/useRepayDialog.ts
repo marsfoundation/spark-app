@@ -80,7 +80,10 @@ export function useRepayDialog({ initialToken }: UseRepayDialogOptions): UseRepa
   )
   const assetsToRepayFields = getFormFieldsForRepayDialog(form, marketInfo, walletInfo)
   const debt = getTokenDebt(marketInfo, repaymentAsset)
-  const objectives = useCreateRepayObjectives(repaymentAsset, { all: formValues.isMaxSelected })
+  const objectives = useCreateRepayObjectives({
+    repaymentAsset,
+    walletInfo,
+  })
 
   const currentPositionOverview = {
     healthFactor: marketInfo.userPositionSummary.healthFactor,
