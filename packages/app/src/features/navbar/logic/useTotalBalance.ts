@@ -1,9 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
 import { useAccount, useChainId, useConfig } from 'wagmi'
 
-import { getNativeAssetInfo } from '@/config/chain/utils/getNativeAssetInfo'
 import { aaveDataLayer } from '@/domain/market-info/aave-data-layer/query'
-import { marketInfo as marketInfoSelect } from '@/domain/market-info/marketInfo'
+import { marketInfoSelectFn } from '@/domain/market-info/marketInfo'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { balances } from '@/domain/wallet/balances'
@@ -14,7 +13,6 @@ export function useTotalBalance(): BalanceInfo {
   const wagmiConfig = useConfig()
   const { address } = useAccount()
   const chainId = useChainId()
-  const nativeAssetInfo = getNativeAssetInfo(chainId)
 
   const walletInfo = useQuery({
     ...balances({
@@ -30,7 +28,7 @@ export function useTotalBalance(): BalanceInfo {
       account: address && CheckedAddress(address),
       chainId,
     }),
-    select: (aaveData) => marketInfoSelect(aaveData, nativeAssetInfo, chainId),
+    select: marketInfoSelectFn({}),
   })
 
   const balancesUSD = (walletInfo.data ?? []).map(({ address, balanceBaseUnit }) => {

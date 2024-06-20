@@ -11,33 +11,69 @@ import {
   uiPoolDataProviderAddress,
 } from '@/config/contracts-generated'
 
+import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { queryOptions } from '@tanstack/react-query'
 import { getContractAddress } from '../../hooks/useContractAddress'
 
-export interface AaveDataLayerArgs {
-  wagmiConfig: Config
+export interface AaveDataLayerQueryKeyArgs {
   chainId: number
   account?: Address
 }
+export function aaveDataLayerQueryKey({ chainId, account }: AaveDataLayerQueryKeyArgs): unknown[] {
+  return ['reserves', account, chainId]
+}
+export interface AaveDataLayerArgs extends AaveDataLayerQueryKeyArgs {
+  wagmiConfig: Config
+  timeAdvance?: number
+}
 
-export type AaveData = Awaited<ReturnType<ReturnType<typeof aaveDataLayer>['queryFn']>>
+export type AaveData = ReturnType<ReturnType<typeof aaveDataLayerSelectFn>>
 export type AaveUserSummary = AaveData['userSummary']
 export type AaveUserReserve = AaveUserSummary['userReservesData'][number]['reserve']
 export type RawAaveUserReserve = AaveData['rawUserReserves'][number]
 export type AaveFormattedReserve = AaveData['formattedReserves'][number]
 export type AaveBaseCurrency = AaveData['baseCurrency']
 export type AaveUserSummaryReservesData = AaveUserSummary['userReservesData']
+export type AaveDataLayerQueryReturnType = Awaited<ReturnType<ReturnType<typeof aaveDataLayerQueryFn>>>
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function aaveDataLayer({ wagmiConfig, chainId, account }: AaveDataLayerArgs) {
+export function aaveDataLayer({ wagmiConfig, chainId, account, timeAdvance }: AaveDataLayerArgs) {
   const uiPoolDataProvider = getContractAddress(uiPoolDataProviderAddress, chainId)
   const lendingPoolAddressProvider = getContractAddress(lendingPoolAddressProviderAddress, chainId)
   const uiIncentiveDataProvider = getContractAddress(uiIncentiveDataProviderAddress, chainId)
 
-  const queryKey = ['reserves', account, chainId]
+  return queryOptions({
+    queryKey: aaveDataLayerQueryKey({ chainId, account }),
+    queryFn: aaveDataLayerQueryFn({
+      uiPoolDataProvider,
+      lendingPoolAddressProvider,
+      uiIncentiveDataProvider,
+      wagmiConfig,
+      chainId,
+      account,
+    }),
+    select: aaveDataLayerSelectFnWithCache({ timeAdvance }),
+  })
+}
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  async function queryFn() {
-    const data = await multicall(wagmiConfig, {
+interface AaveDataLayerQueryFnArgs {
+  uiPoolDataProvider: CheckedAddress
+  lendingPoolAddressProvider: CheckedAddress
+  uiIncentiveDataProvider: CheckedAddress
+  wagmiConfig: Config
+  chainId: number
+  account?: Address
+}
+function aaveDataLayerQueryFn({
+  uiPoolDataProvider,
+  lendingPoolAddressProvider,
+  uiIncentiveDataProvider,
+  wagmiConfig,
+  chainId,
+  account,
+}: AaveDataLayerQueryFnArgs) {
+  return async () => {
+    const contractData = await multicall(wagmiConfig, {
       allowFailure: false,
       chainId,
       contracts: [
@@ -62,9 +98,38 @@ export function aaveDataLayer({ wagmiConfig, chainId, account }: AaveDataLayerAr
       ],
     })
 
-    const [[reserves, baseCurrencyInfo], reservesIncentiveData, [userReserves, userEmodeCategoryId]] = data
+    return {
+      contractData,
+      chainId,
+      lendingPoolAddressProvider,
+    }
+  }
+}
 
-    const currentTimestamp = Math.floor(Date.now() / 1000)
+const aaveDataLayerSelectFnCache = new Map<number, ReturnType<typeof aaveDataLayerSelectFn>>()
+export interface AaveDataLayerSelectFnParams {
+  timeAdvance?: number // time advance in seconds
+}
+function aaveDataLayerSelectFnWithCache({
+  timeAdvance,
+}: AaveDataLayerSelectFnParams = {}): ReturnType<typeof aaveDataLayerSelectFn> {
+  const key = timeAdvance ?? 0
+
+  if (aaveDataLayerSelectFnCache.has(key)) {
+    return aaveDataLayerSelectFnCache.get(key)!
+  }
+
+  const selectFn = aaveDataLayerSelectFn({ timeAdvance })
+  aaveDataLayerSelectFnCache.set(key, selectFn)
+  return selectFn
+}
+
+function aaveDataLayerSelectFn({ timeAdvance }: AaveDataLayerSelectFnParams) {
+  return (data: AaveDataLayerQueryReturnType) => {
+    const { contractData, chainId, lendingPoolAddressProvider } = data
+    const [[reserves, baseCurrencyInfo], reservesIncentiveData, [userReserves, userEmodeCategoryId]] = contractData
+
+    const currentTimestamp = Math.floor(Date.now() / 1000) + (timeAdvance ?? 0)
 
     const baseCurrency = {
       marketReferenceCurrencyDecimals: baseCurrencyInfo.marketReferenceCurrencyUnit.toString().length - 1,
@@ -176,9 +241,6 @@ export function aaveDataLayer({ wagmiConfig, chainId, account }: AaveDataLayerAr
       timestamp: currentTimestamp,
     }
   }
-
-  return {
-    queryKey,
-    queryFn,
-  }
 }
+
+export { aaveDataLayerSelectFnWithCache as aaveDataLayerSelectFn }
