@@ -9,13 +9,21 @@ import { GuestView } from './views/GuestView'
 import { PositionView } from './views/PositionView'
 
 function DashboardContainer() {
-  const { positionSummary, deposits, borrows, walletComposition, eModeCategoryId, guestMode, liquidationDetails } =
-    useDashboard()
+  const {
+    positionSummary,
+    deposits,
+    borrows,
+    walletComposition,
+    eModeCategoryId,
+    guestMode,
+    liquidationDetails,
+    openSandboxModal,
+  } = useDashboard()
   const { openConnectModal = () => {} } = useConnectModal()
   const openDialog = useOpenDialog()
 
   if (guestMode) {
-    return <GuestView openConnectModal={openConnectModal} />
+    return <GuestView openConnectModal={openConnectModal} openSandboxModal={openSandboxModal} />
   }
 
   return (

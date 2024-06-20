@@ -9,13 +9,18 @@ import { SavingsView } from './views/SavingsView'
 import { UnsupportedChainView } from './views/UnsupportedChainView'
 
 function SavingsContainer() {
-  const { guestMode, openDialog, savingsDetails } = useSavings()
+  const { guestMode, openDialog, savingsDetails, openSandboxModal } = useSavings()
   const { openConnectModal = () => {} } = useConnectModal()
   const { openChainModal = () => {} } = useChainModal()
 
   if (savingsDetails.state === 'unsupported') {
     return (
-      <UnsupportedChainView openChainModal={openChainModal} openConnectModal={openConnectModal} guestMode={guestMode} />
+      <UnsupportedChainView
+        openChainModal={openChainModal}
+        openConnectModal={openConnectModal}
+        openSandboxModal={openChainModal}
+        guestMode={guestMode}
+      />
     )
   }
 
@@ -33,7 +38,9 @@ function SavingsContainer() {
   } = savingsDetails
 
   if (guestMode) {
-    return <GuestView APY={APY} chainId={chainId} openConnectModal={openConnectModal} />
+    return (
+      <GuestView APY={APY} chainId={chainId} openConnectModal={openConnectModal} openSandboxModal={openSandboxModal} />
+    )
   }
 
   return (

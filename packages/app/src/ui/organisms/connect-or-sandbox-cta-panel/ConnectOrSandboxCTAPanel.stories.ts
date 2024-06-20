@@ -1,26 +1,25 @@
+import { assets } from '@/ui/assets'
 import { Meta, StoryObj } from '@storybook/react'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
-
-import { assets } from '@/ui/assets'
-
-import { WalletActionPanel } from './WalletActionPanel'
+import { ConnectOrSandboxCTAPanel } from './ConnectOrSandboxCTAPanel'
 
 const icons = assets.walletIcons
 const WALLET_ICONS_PATHS = [icons.metamask, icons.walletConnect, icons.coinbase, icons.enjin, icons.torus]
 
-const meta: Meta<typeof WalletActionPanel> = {
-  title: 'Components/Organisms/ConnectWalletPanel',
-  component: WalletActionPanel,
+const meta: Meta<typeof ConnectOrSandboxCTAPanel> = {
+  title: 'Components/Organisms/ConnectOrSandboxCTAPanel',
+  component: ConnectOrSandboxCTAPanel,
   args: {
-    callToAction: 'Connect your wallet to use Spark',
-    actionButtonTitle: 'Connect wallet',
+    header: 'Connect your wallet and start saving!',
+    buttonText: 'Connect wallet',
     iconPaths: WALLET_ICONS_PATHS,
-    walletAction: () => {},
+    action: () => {},
+    openSandboxModal: () => {},
   },
 }
 
 export default meta
-type Story = StoryObj<typeof WalletActionPanel>
+type Story = StoryObj<typeof ConnectOrSandboxCTAPanel>
 
 export const Desktop: Story = {}
 export const Mobile = getMobileStory(Desktop)

@@ -10,7 +10,7 @@ export function getDefaultAppConfig(): AppConfig {
     sandbox: featureFlag('VITE_FEATURE_SANDBOX') && {
       originChainId: mainnet.id,
       forkChainIdPrefix: 3030,
-      chainName: 'Spark Sandbox',
+      chainName: 'Sandbox Mode',
 
       mintBalances: {
         etherAmt: NormalizedUnitNumber(10_000),

@@ -140,6 +140,6 @@ function getSandboxChainMeta(originChainMeta: ChainMeta, sandboxConfig: AppConfi
   return {
     ...originChainMeta,
     name: sandboxConfig?.chainName || originChainMeta.name,
-    logo: assets.sparkIcon,
+    logo: assets.magicWandCircle,
   }
 }

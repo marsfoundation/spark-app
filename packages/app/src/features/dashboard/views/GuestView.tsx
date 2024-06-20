@@ -1,19 +1,21 @@
 import { assets } from '@/ui/assets'
 import { PageLayout } from '@/ui/layouts/PageLayout'
-import { WalletActionPanel } from '@/ui/organisms/wallet-action-panel/WalletActionPanel'
+import { ConnectOrSandboxCTAPanel } from '@/ui/organisms/connect-or-sandbox-cta-panel/ConnectOrSandboxCTAPanel'
 
 export interface GuestViewProps {
   openConnectModal: () => void
+  openSandboxModal: () => void
 }
 
-export function GuestView({ openConnectModal }: GuestViewProps) {
+export function GuestView({ openConnectModal, openSandboxModal }: GuestViewProps) {
   return (
     <PageLayout className="max-w-6xl">
-      <WalletActionPanel
-        callToAction="Connect your wallet to use Spark"
+      <ConnectOrSandboxCTAPanel
+        header="Connect your wallet to use Spark"
         iconPaths={WALLET_ICONS_PATHS}
-        walletAction={openConnectModal}
-        actionButtonTitle="Connect wallet"
+        action={openConnectModal}
+        buttonText="Connect wallet"
+        openSandboxModal={openSandboxModal}
       />
     </PageLayout>
   )

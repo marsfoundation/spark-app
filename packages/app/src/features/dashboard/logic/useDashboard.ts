@@ -1,11 +1,11 @@
-import { useState } from 'react'
-
 import { getNativeAssetInfo } from '@/config/chain/utils/getNativeAssetInfo'
 import { EModeCategoryId } from '@/domain/e-mode/types'
 import { LiquidationDetails } from '@/domain/market-info/getLiquidationDetails'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
+import { useOpenDialog } from '@/domain/state/dialogs'
 import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
-
+import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
+import { useState } from 'react'
 import { Borrow, Deposit, getBorrows, getDeposits } from './assets'
 import { makeLiquidationDetails } from './makeLiquidationDetails'
 import { makePositionSummary } from './position'
@@ -20,6 +20,7 @@ export interface UseDashboardResults {
   guestMode: boolean
   eModeCategoryId: EModeCategoryId
   liquidationDetails?: LiquidationDetails
+  openSandboxModal: () => void
 }
 
 export function useDashboard(): UseDashboardResults {
@@ -27,6 +28,7 @@ export function useDashboard(): UseDashboardResults {
   const walletInfo = useWalletInfo()
   const [compositionWithDeposits, setCompositionWithDeposits] = useState(true)
   const nativeAssetInfo = getNativeAssetInfo(marketInfo.chainId)
+  const openDialog = useOpenDialog()
 
   const deposits = getDeposits({
     marketInfo,
@@ -49,6 +51,10 @@ export function useDashboard(): UseDashboardResults {
 
   const liquidationDetails = makeLiquidationDetails(marketInfo)
 
+  function openSandboxModal(): void {
+    openDialog(SandboxDialog, { mode: 'ephemeral' } as const)
+  }
+
   return {
     positionSummary,
     deposits,
@@ -57,5 +63,6 @@ export function useDashboard(): UseDashboardResults {
     eModeCategoryId,
     guestMode: !walletInfo.isConnected,
     liquidationDetails,
+    openSandboxModal,
   }
 }

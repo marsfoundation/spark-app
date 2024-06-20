@@ -21,6 +21,7 @@ import flash from './flash.svg'
 import greenArrowUp from './green-arrow-up.svg'
 import lifiLogo from './lifi-logo.svg'
 import link from './link.svg'
+import magicWandCircle from './magic-wand-circle.svg'
 import magicWand from './magic-wand.svg'
 import makerLogo from './maker.svg'
 import chart from './markets/chart.svg'
@@ -87,6 +88,7 @@ export const assets = {
   greenArrowUp,
   boxArrowTopRight,
   magicWand,
+  magicWandCircle,
   moreIcon,
   eye,
   menu,
