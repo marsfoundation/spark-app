@@ -110,6 +110,12 @@ const aaveDataLayerSelectFnCache = new Map<number, ReturnType<typeof aaveDataLay
 export interface AaveDataLayerSelectFnParams {
   timeAdvance?: number // time advance in seconds
 }
+
+// The cache is needed to ensure referential stability of the select function.
+// This will create a new function for every timeAdvance value and store it in the cache.
+// This helps to avoid unnecessary invocations of the select function in the react-query.
+// If the select function is inlined, it will be invoked on every render because of the referential instability.
+// Using this wrapper function, we can ensure that the select function is stable and will be invoked only when the data changes.
 function aaveDataLayerSelectFnWithCache({
   timeAdvance,
 }: AaveDataLayerSelectFnParams = {}): ReturnType<typeof aaveDataLayerSelectFn> {
