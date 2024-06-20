@@ -28,11 +28,10 @@ export function makeMarketOverview({ reserve, marketInfo }: MakeMarketOverviewPa
     collateral: {
       status: reserve.collateralEligibilityStatus,
       token: reserve.token,
-      debtCeiling: reserve.debtCeiling,
-      debt: reserve.totalDebt,
       maxLtv: reserve.maxLtv,
       liquidationThreshold: reserve.liquidationThreshold,
       liquidationPenalty: reserve.liquidationBonus,
+      isolationModeInfo: { debt: reserve.isolationModeTotalDebt, debtCeiling: reserve.debtCeiling },
     },
     borrow: {
       hasSparkAirdrop: hasAirdropForBorrowing,

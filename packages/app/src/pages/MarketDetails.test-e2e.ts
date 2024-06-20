@@ -211,7 +211,7 @@ test.describe('Market details', () => {
       })
 
       const marketDetailsPage = new MarketDetailsPageObject(page)
-      await marketDetailsPage.expectDebt('$0.00')
+      await marketDetailsPage.expectDebt('$3.17M')
       await marketDetailsPage.expectDebtCeiling('$50M')
     })
   })

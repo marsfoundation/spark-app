@@ -108,7 +108,7 @@ export function ControlledMultiSelectorAssetInput({
               })
               if (!isMaxSelected) {
                 setValue(fieldName, '', {
-                  shouldValidate: false,
+                  shouldValidate: true,
                 })
               }
             }

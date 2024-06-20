@@ -13,7 +13,25 @@ import { InterestYieldChartProps } from './components/charts/interest-yield/Inte
 export interface SupplyReplacementInfo {
   token: Token
   totalSupplied: NormalizedUnitNumber
-  supplyAPY: Percentage
+  supplyAPY: Percentage | undefined
+}
+export type CollateralStatusInfo = (
+  | {
+      status: Extract<CollateralEligibilityStatus, 'only-in-isolation-mode'>
+      isolationModeInfo: {
+        debt: NormalizedUnitNumber
+        debtCeiling: NormalizedUnitNumber
+      }
+    }
+  | {
+      status: Exclude<CollateralEligibilityStatus, 'only-in-isolation-mode'>
+    }
+) & {
+  token: Token
+  maxLtv: Percentage
+  liquidationThreshold: Percentage
+  liquidationPenalty: Percentage
+  supplyReplacement?: SupplyReplacementInfo
 }
 export interface MarketOverview {
   supply?: {
@@ -21,24 +39,15 @@ export interface MarketOverview {
     status: SupplyAvailabilityStatus
     totalSupplied: NormalizedUnitNumber
     supplyCap?: NormalizedUnitNumber
-    apy: Percentage
+    apy: Percentage | undefined
   }
-  collateral: {
-    status: CollateralEligibilityStatus
-    token: Token
-    debtCeiling: NormalizedUnitNumber
-    debt: NormalizedUnitNumber
-    maxLtv: Percentage
-    liquidationThreshold: Percentage
-    liquidationPenalty: Percentage
-    supplyReplacement?: SupplyReplacementInfo
-  }
+  collateral: CollateralStatusInfo
   borrow: {
     hasSparkAirdrop: boolean
     status: BorrowEligibilityStatus
     totalBorrowed: NormalizedUnitNumber
     borrowCap?: NormalizedUnitNumber
-    apy: Percentage
+    apy: Percentage | undefined
     reserveFactor: Percentage
     chartProps: InterestYieldChartProps
     showTokenBadge?: boolean
@@ -47,7 +56,7 @@ export interface MarketOverview {
     status: 'yes' // only for dai
     token: Token
     totalLent: NormalizedUnitNumber
-    apy: Percentage
+    apy: Percentage | undefined
   }
   eMode?: {
     maxLtv: Percentage

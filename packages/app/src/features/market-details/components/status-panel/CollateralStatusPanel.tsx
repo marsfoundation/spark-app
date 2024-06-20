@@ -1,11 +1,9 @@
 import { formatPercentage } from '@/domain/common/format'
-import { CollateralEligibilityStatus } from '@/domain/market-info/reserve-status'
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
-import { Token } from '@/domain/types/Token'
 import { DebtCeilingProgress } from '@/features/markets/components/debt-ceiling-progress/DebtCeilingProgress'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
 
+import { CollateralStatusInfo } from '../../types'
 import { EmptyStatusPanel } from './components/EmptyStatusPanel'
 import { Header } from './components/Header'
 import { StatusPanelGrid } from './components/StatusPanelGrid'
@@ -15,29 +13,9 @@ import { InfoTilesGrid } from './components/info-tile/InfoTilesGrid'
 import { StatusIcon } from './components/status-icon/StatusIcon'
 import { TokenBadge } from './components/token-badge/TokenBadge'
 
-export interface CollateralStatusPanelProps {
-  status: CollateralEligibilityStatus
-  debtCeiling: NormalizedUnitNumber
-  debt: NormalizedUnitNumber
-  maxLtv: Percentage
-  liquidationThreshold: Percentage
-  liquidationPenalty: Percentage
-  supplyReplacement?: {
-    token: Token
-    totalSupplied: NormalizedUnitNumber
-    supplyAPY: Percentage
-  }
-}
+export function CollateralStatusPanel(props: CollateralStatusInfo) {
+  const { status, maxLtv, liquidationThreshold, liquidationPenalty, supplyReplacement } = props
 
-export function CollateralStatusPanel({
-  status,
-  debtCeiling,
-  debt,
-  maxLtv,
-  liquidationThreshold,
-  liquidationPenalty,
-  supplyReplacement,
-}: CollateralStatusPanelProps) {
   if (status === 'no') {
     return <EmptyStatusPanel status={status} variant="collateral" />
   }
@@ -86,7 +64,9 @@ export function CollateralStatusPanel({
           </InfoTile>
         </InfoTilesGrid>
 
-        {status === 'only-in-isolation-mode' && <DebtCeilingProgress debt={debt} debtCeiling={debtCeiling} />}
+        {props.status === 'only-in-isolation-mode' && (
+          <DebtCeilingProgress debt={props.isolationModeInfo.debt} debtCeiling={props.isolationModeInfo.debtCeiling} />
+        )}
       </StatusPanelGrid>
     </Panel.Wrapper>
   )

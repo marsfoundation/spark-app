@@ -1,7 +1,7 @@
 import { generatePath } from 'react-router-dom'
 
 import { paths } from '@/config/paths'
-import { sortByUsdValue } from '@/domain/common/sorters'
+import { sortByAPY, sortByUsdValue } from '@/domain/common/sorters'
 import { LinkButton } from '@/ui/atoms/button/Button'
 import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
 import { ActionsCell } from '@/ui/molecules/data-table/components/ActionsCell'
@@ -49,7 +49,7 @@ export function MarketsTable({ entries, chainId, hideTableHeader }: MarketsTable
           header: <ApyTooltip variant="supply">Deposit APY</ApyTooltip>,
           headerAlign: 'right',
           sortable: true,
-          sortingFn: (a, b) => a.original.depositAPYDetails.apy.comparedTo(b.original.depositAPYDetails.apy),
+          sortingFn: (a, b) => sortByAPY(a.original.depositAPYDetails.apy, b.original.depositAPYDetails.apy),
           renderCell: ({ depositAPYDetails, reserveStatus, token }, mobileViewOptions) => (
             <ApyWithRewardsCell
               reserveStatus={reserveStatus}
@@ -79,7 +79,7 @@ export function MarketsTable({ entries, chainId, hideTableHeader }: MarketsTable
           header: <ApyTooltip variant="borrow">Borrow APY</ApyTooltip>,
           headerAlign: 'right',
           sortable: true,
-          sortingFn: (a, b) => a.original.borrowAPYDetails.apy.comparedTo(b.original.borrowAPYDetails.apy),
+          sortingFn: (a, b) => sortByAPY(a.original.borrowAPYDetails.apy, b.original.borrowAPYDetails.apy),
           renderCell: ({ borrowAPYDetails, reserveStatus, token }, mobileViewOptions) => (
             <ApyWithRewardsCell
               reserveStatus={reserveStatus}

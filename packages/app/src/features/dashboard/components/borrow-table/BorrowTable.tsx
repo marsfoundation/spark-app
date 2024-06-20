@@ -1,4 +1,4 @@
-import { sortByUsdValue } from '@/domain/common/sorters'
+import { sortByAPY, sortByUsdValue } from '@/domain/common/sorters'
 import { EModeCategoryId } from '@/domain/e-mode/types'
 import { OpenDialogFunction } from '@/domain/state/dialogs'
 import { BorrowDialog } from '@/features/dialogs/borrow/BorrowDialog'
@@ -65,7 +65,7 @@ export function BorrowTable({ assets, openDialog, eModeCategoryId }: BorrowTable
               header: <ApyTooltip variant="borrow">APY</ApyTooltip>,
               headerAlign: 'right',
               sortable: true,
-              sortingFn: (a, b) => a.original.borrowAPY.comparedTo(b.original.borrowAPY),
+              sortingFn: (a, b) => sortByAPY(a.original.borrowAPY, b.original.borrowAPY),
               renderCell: ({ borrowAPY }, mobileViewOptions) => (
                 <PercentageCell value={borrowAPY} mobileViewOptions={mobileViewOptions} />
               ),
