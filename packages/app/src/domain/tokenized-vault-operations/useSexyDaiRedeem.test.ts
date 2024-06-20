@@ -2,22 +2,25 @@ import { savingsXDaiAdapterAbi, savingsXDaiAdapterAddress } from '@/config/contr
 import { testAddresses } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
 import { setupHookRenderer } from '@/test/integration/setupHookRenderer'
+import { toBigInt } from '@/utils/bigNumber'
 import { waitFor } from '@testing-library/react'
 import { gnosis } from 'viem/chains'
-import { useSexyDaiRedeemAll } from './useSexyDaiRedeemAll'
+import { BaseUnitNumber } from '../types/NumericValues'
+import { useSexyDaiRedeem } from './useSexyDaiRedeem'
 
 const account = testAddresses.alice
+const sharesAmount = BaseUnitNumber(10)
 const sDai = testAddresses.token
 
 const hookRenderer = setupHookRenderer({
-  hook: useSexyDaiRedeemAll,
+  hook: useSexyDaiRedeem,
   account,
   chain: gnosis,
   handlers: [handlers.chainIdCall({ chainId: gnosis.id }), handlers.balanceCall({ balance: 0n, address: account })],
-  args: { sDai },
+  args: { sDai, sharesAmount },
 })
 
-describe(useSexyDaiRedeemAll.name, () => {
+describe(useSexyDaiRedeem.name, () => {
   it('is not enabled for guest ', async () => {
     const { result } = hookRenderer({ account: undefined })
 
@@ -26,22 +29,30 @@ describe(useSexyDaiRedeemAll.name, () => {
     })
   })
 
-  it('is not enabled when explicitly disabled', async () => {
-    const { result } = hookRenderer({ args: { enabled: false, sDai } })
+  it('is not enabled for 0 value', async () => {
+    const { result } = hookRenderer({ args: { sharesAmount: BaseUnitNumber(0), sDai } })
 
     await waitFor(() => {
       expect(result.current.status.kind).toBe('disabled')
     })
   })
 
-  it('redeems all xDAI', async () => {
+  it('is not enabled when explicitly disabled', async () => {
+    const { result } = hookRenderer({ args: { enabled: false, sDai, sharesAmount } })
+
+    await waitFor(() => {
+      expect(result.current.status.kind).toBe('disabled')
+    })
+  })
+
+  it('redeems xDAI', async () => {
     const { result } = hookRenderer({
       extraHandlers: [
         handlers.contractCall({
           to: savingsXDaiAdapterAddress[gnosis.id],
           abi: savingsXDaiAdapterAbi,
-          functionName: 'redeemAllXDAI',
-          args: [account],
+          functionName: 'redeemXDAI',
+          args: [toBigInt(sharesAmount), account],
           from: account,
           result: 1n,
         }),

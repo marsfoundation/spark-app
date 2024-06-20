@@ -1,24 +1,29 @@
 import { savingsXDaiAdapterAbi, savingsXDaiAdapterAddress } from '@/config/contracts-generated'
+import { toBigInt } from '@/utils/bigNumber'
 import { useQueryClient } from '@tanstack/react-query'
 import { gnosis } from 'viem/chains'
 import { useAccount, useConfig } from 'wagmi'
 import { ensureConfigTypes, useWrite } from '../hooks/useWrite'
 import { allowance } from '../market-operations/allowance/query'
 import { CheckedAddress } from '../types/CheckedAddress'
+import { BaseUnitNumber } from '../types/NumericValues'
 import { balances } from '../wallet/balances'
 
-export interface UseSexyDaiRedeemAllArgs {
+export interface UseSexyDaiRedeemArgs {
   sDai: CheckedAddress
+  sharesAmount: BaseUnitNumber
   onTransactionSettled?: () => void
   enabled?: boolean
 }
 
-// @note: 'redeemAllXDAI' function allows user to redeem all xDAI in exchange for all sDAI.
-export function useSexyDaiRedeemAll({
+// @note: 'redeemXDAI' vault function allows user to redeem a specified amount of sDAI in exchange for the xDAI.
+// Example: Redeem X sDAI to get Y xDAI (useful if one wants to withdraw all xDAI)
+export function useSexyDaiRedeem({
   sDai,
+  sharesAmount,
   onTransactionSettled,
   enabled: _enabled = true,
-}: UseSexyDaiRedeemAllArgs): ReturnType<typeof useWrite> {
+}: UseSexyDaiRedeemArgs): ReturnType<typeof useWrite> {
   const client = useQueryClient()
   const wagmiConfig = useConfig()
 
@@ -27,10 +32,10 @@ export function useSexyDaiRedeemAll({
   const config = ensureConfigTypes({
     address: savingsXDaiAdapterAddress[gnosis.id],
     abi: savingsXDaiAdapterAbi,
-    functionName: 'redeemAllXDAI',
-    args: [receiver!],
+    functionName: 'redeemXDAI',
+    args: [toBigInt(sharesAmount), receiver!],
   })
-  const enabled = _enabled && !!receiver
+  const enabled = _enabled && sharesAmount.gt(0) && !!receiver
 
   return useWrite(
     {

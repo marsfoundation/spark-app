@@ -1,4 +1,4 @@
-import { useSexyDaiRedeemAll } from '@/domain/tokenized-vault-operations/useSexyDaiRedeemAll'
+import { useSexyDaiRedeem } from '@/domain/tokenized-vault-operations/useSexyDaiRedeem'
 import { useSexyDaiWithdraw } from '@/domain/tokenized-vault-operations/useSexyDaiWithdraw'
 import { BaseUnitNumber } from '@/domain/types/NumericValues'
 import { ActionHandler } from '@/features/actions/logic/types'
@@ -16,7 +16,7 @@ export function useCreateXDaiFromSDaiWithdrawHandler(
 ): ActionHandler {
   const { enabled, onFinish } = options
   const isWithdraw = action.method === 'withdraw'
-  const isRedeemAll = action.method === 'redeem-all'
+  const isRedeem = action.method === 'redeem'
 
   const withdraw = useSexyDaiWithdraw({
     assetsAmount: isWithdraw ? action.xDai.toBaseUnit(action.value) : BaseUnitNumber(0),
@@ -24,13 +24,14 @@ export function useCreateXDaiFromSDaiWithdrawHandler(
     enabled: enabled && isWithdraw,
     onTransactionSettled: onFinish,
   })
-  const redeemAll = useSexyDaiRedeemAll({
+  const redeem = useSexyDaiRedeem({
+    sharesAmount: isRedeem ? action.sDai.toBaseUnit(action.value) : BaseUnitNumber(0),
     sDai: action.sDai.address,
-    enabled: enabled && isRedeemAll,
+    enabled: enabled && isRedeem,
     onTransactionSettled: onFinish,
   })
 
-  const hookResult = isWithdraw ? withdraw : redeemAll
+  const hookResult = isWithdraw ? withdraw : redeem
 
   return {
     action,
