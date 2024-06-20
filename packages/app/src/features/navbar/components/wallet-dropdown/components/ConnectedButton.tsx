@@ -19,7 +19,7 @@ export const ConnectedButton = forwardRef<HTMLButtonElement, ConnectedButtonProp
       return (
         <WalletButton ref={ref} {...buttonProps}>
           <MagicWandCircle className="h-7 w-7 lg:h-5 lg:w-5" />
-          Sandbox mode
+          Sandbox Mode
           <Chevron open={open} />
         </WalletButton>
       )

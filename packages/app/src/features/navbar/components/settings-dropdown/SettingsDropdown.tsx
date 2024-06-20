@@ -34,7 +34,7 @@ export function SettingsDropdown({
           <SettingsDropdownItem onClick={onSandboxModeClick}>
             <SettingsDropdownItem.Title>
               <MagicWand className="h-5 w-5 lg:h-3 lg:w-3" />
-              Sandbox mode
+              Sandbox Mode
             </SettingsDropdownItem.Title>
             <SettingsDropdownItem.Content>
               Explore Spark <br /> with unlimited tokens
@@ -46,7 +46,7 @@ export function SettingsDropdown({
           <SettingsDropdownItem onClick={onDevSandBoxModeClick}>
             <SettingsDropdownItem.Title>
               <MagicWand className="h-5 w-5 lg:h-3 lg:w-3" />
-              Dev sandbox mode
+              Dev Sandbox Mode
             </SettingsDropdownItem.Title>
             <SettingsDropdownItem.Content>
               Debug Spark <br /> with unlimited tokens
