@@ -11,5 +11,7 @@ export const objectiveTypeToVerb: Record<ObjectiveType, string> = {
   daiToSDaiDeposit: 'Wrapped',
   usdcToSDaiDeposit: 'Wrapped',
   xDaiToSDaiDeposit: 'Wrapped',
-  nativeSDaiWithdraw: 'Unwrapped',
+  daiFromSDaiWithdraw: 'Unwrapped',
+  usdcFromSDaiWithdraw: 'Unwrapped',
+  xDaiFromSDaiWithdraw: 'Unwrapped',
 }

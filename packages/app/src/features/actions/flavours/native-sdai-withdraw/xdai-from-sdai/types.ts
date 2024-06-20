@@ -1,27 +1,27 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 
-export type NativeSDaiWithdrawObjective =
+export type XDaiFromSDaiWithdrawObjective =
   | {
-      type: 'nativeSDaiWithdraw'
-      token: Token
+      type: 'xDaiFromSDaiWithdraw'
+      xDai: Token
       value: NormalizedUnitNumber
       sDai: Token
-      method: 'withdraw'
       sDaiValueEstimate: NormalizedUnitNumber
+      method: 'withdraw'
     }
   | {
-      type: 'nativeSDaiWithdraw'
-      token: Token
+      type: 'xDaiFromSDaiWithdraw'
+      xDai: Token
       value: NormalizedUnitNumber
       sDai: Token
-      method: 'redeem'
+      method: 'redeem-all'
     }
 
-export interface NativeSDaiWithdrawAction {
-  type: 'nativeSDaiWithdraw'
-  token: Token
+export interface XDaiFromSDaiWithdrawAction {
+  type: 'xDaiFromSDaiWithdraw'
+  xDai: Token
   value: NormalizedUnitNumber
   sDai: Token
-  method: 'withdraw' | 'redeem'
+  method: 'withdraw' | 'redeem-all'
 }

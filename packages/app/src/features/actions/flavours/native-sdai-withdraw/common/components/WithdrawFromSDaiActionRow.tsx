@@ -1,26 +1,29 @@
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { Token } from '@/domain/types/Token'
+import { ActionRow } from '@/features/actions/components/action-row/ActionRow'
+import { UpDownMarker } from '@/features/actions/components/action-row/UpDownMarker'
+import { ActionRowBaseProps } from '@/features/actions/components/action-row/types'
 import { assets, getTokenImage } from '@/ui/assets'
 import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
-import { ActionRow } from '../../components/action-row/ActionRow'
-import { UpDownMarker } from '../../components/action-row/UpDownMarker'
-import { ActionRowBaseProps } from '../../components/action-row/types'
-import { NativeSDaiWithdrawAction } from './types'
 
-export interface NativeSDaiWithdrawActionRowProps extends ActionRowBaseProps {
-  action: NativeSDaiWithdrawAction
+export interface WithdrawFromSDaiActionRowProps extends ActionRowBaseProps {
+  fromToken: Token
+  toToken: Token
+  value: NormalizedUnitNumber
 }
 
-export function NativeSDaiWithdrawActionRow({
+export function WithdrawFromSDaiActionRow({
+  fromToken,
+  toToken,
+  value,
   index,
-  action,
   actionHandlerState,
   onAction,
   variant,
-}: NativeSDaiWithdrawActionRowProps) {
-  const fromToken = action.sDai
-  const toToken = action.token
+}: WithdrawFromSDaiActionRowProps) {
   const tokenIconPaths = [getTokenImage(fromToken.symbol), getTokenImage(toToken.symbol)]
   const status = actionHandlerState.status
-  const successMessage = `Unwrapped ${fromToken.format(action.value, { style: 'auto' })} ${toToken.symbol}!`
+  const successMessage = `Unwrapped ${fromToken.format(value, { style: 'auto' })} ${toToken.symbol}!`
 
   return (
     <ActionRow index={index}>
@@ -31,7 +34,7 @@ export function NativeSDaiWithdrawActionRow({
       </ActionRow.Title>
 
       <ActionRow.Description successMessage={successMessage} actionStatus={status} variant={variant}>
-        <UpDownMarker token={toToken} value={action.value} direction="up" />
+        <UpDownMarker token={toToken} value={value} direction="up" />
       </ActionRow.Description>
 
       <ActionRow.ErrorWarning variant={variant} actionHandlerState={actionHandlerState} />

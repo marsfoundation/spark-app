@@ -7,7 +7,9 @@ import { ExchangeActionRow } from '../../flavours/exchange/ExchangeActionRow'
 import { DaiToSDaiDepositActionRow } from '../../flavours/native-sdai-deposit/dai-to-sdai/DaiToSDaiDepositActionRow'
 import { USDCToSDaiDepositActionRow } from '../../flavours/native-sdai-deposit/usdc-to-sdai/USDCToSDaiDepositActionRow'
 import { XDaiToSDaiDepositActionRow } from '../../flavours/native-sdai-deposit/xdai-to-sdai/XDaiToSDaiDepositActionRow'
-import { NativeSDaiWithdrawActionRow } from '../../flavours/native-sdai-withdraw/NativeSDaiWithdrawActionRow'
+import { DaiFromSDaiWithdrawActionRow } from '../../flavours/native-sdai-withdraw/dai-from-sdai/DaiFromSDaiWithdrawActionRow'
+import { USDCFromSDaiWithdrawActionRow } from '../../flavours/native-sdai-withdraw/usdc-from-sdai/USDCFromSDaiWithdrawActionRow'
+import { XDaiFromSDaiWithdrawActionRow } from '../../flavours/native-sdai-withdraw/xdai-from-sdai/XDaiFromSDaiWithdrawActionRow'
 import { RepayActionRow } from '../../flavours/repay/RepayActionRow'
 import { SetUseAsCollateralActionRow } from '../../flavours/set-use-as-collateral/SetUseAsCollateralActionRow'
 import { SetUserEModeActionRow } from '../../flavours/set-user-e-mode/SetUserEModeActionRow'
@@ -57,12 +59,16 @@ export function ActionsGrid({ actionHandlers, variant }: ActionsGridProps) {
             return <WithdrawActionRow action={handler.action} {...props} />
           case 'daiToSDaiDeposit':
             return <DaiToSDaiDepositActionRow action={handler.action} {...props} />
+          case 'daiFromSDaiWithdraw':
+            return <DaiFromSDaiWithdrawActionRow action={handler.action} {...props} />
           case 'usdcToSDaiDeposit':
             return <USDCToSDaiDepositActionRow action={handler.action} {...props} />
+          case 'usdcFromSDaiWithdraw':
+            return <USDCFromSDaiWithdrawActionRow action={handler.action} {...props} />
           case 'xDaiToSDaiDeposit':
             return <XDaiToSDaiDepositActionRow action={handler.action} {...props} />
-          case 'nativeSDaiWithdraw':
-            return <NativeSDaiWithdrawActionRow action={handler.action} {...props} />
+          case 'xDaiFromSDaiWithdraw':
+            return <XDaiFromSDaiWithdrawActionRow action={handler.action} {...props} />
         }
       })}
     </div>

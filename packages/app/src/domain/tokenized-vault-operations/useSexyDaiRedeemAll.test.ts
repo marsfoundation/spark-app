@@ -7,13 +7,14 @@ import { gnosis } from 'viem/chains'
 import { useSexyDaiRedeemAll } from './useSexyDaiRedeemAll'
 
 const account = testAddresses.alice
+const sDai = testAddresses.token
 
 const hookRenderer = setupHookRenderer({
   hook: useSexyDaiRedeemAll,
   account,
   chain: gnosis,
   handlers: [handlers.chainIdCall({ chainId: gnosis.id }), handlers.balanceCall({ balance: 0n, address: account })],
-  args: {},
+  args: { sDai },
 })
 
 describe(useSexyDaiRedeemAll.name, () => {
@@ -26,7 +27,7 @@ describe(useSexyDaiRedeemAll.name, () => {
   })
 
   it('is not enabled when explicitly disabled', async () => {
-    const { result } = hookRenderer({ args: { enabled: false } })
+    const { result } = hookRenderer({ args: { enabled: false, sDai } })
 
     await waitFor(() => {
       expect(result.current.status.kind).toBe('disabled')

@@ -32,7 +32,7 @@ test.describe('Withdraw DAI on Mainnet', () => {
   })
 
   test('uses native sDai withdrawal', async () => {
-    await withdrawalDialog.actionsContainer.expectActions([{ type: 'nativeSDaiWithdraw', asset: 'DAI' }])
+    await withdrawalDialog.actionsContainer.expectActions([{ type: 'daiFromSDaiWithdraw', asset: 'DAI' }])
   })
 
   test('displays transaction overview', async () => {
@@ -52,6 +52,7 @@ test.describe('Withdraw DAI on Mainnet', () => {
         },
       ],
       outcome: '7,000.00 DAI worth $7,000.00',
+      badgeToken: 'DAI',
     })
   })
 

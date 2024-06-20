@@ -39,7 +39,7 @@ test.describe('Withdraw max USDC on Mainnet', () => {
   test('uses PSM actions native withdrawal', async () => {
     await withdrawalDialog.actionsContainer.expectActions([
       { type: 'approve', asset: 'sDAI' },
-      { type: 'nativeSDaiWithdraw', asset: 'USDC' },
+      { type: 'usdcFromSDaiWithdraw', asset: 'USDC' },
     ])
   })
 
@@ -64,6 +64,7 @@ test.describe('Withdraw max USDC on Mainnet', () => {
         },
       ],
       outcome: '10,873.93 USDC worth $10,873.93',
+      badgeToken: 'USDC',
     })
   })
 

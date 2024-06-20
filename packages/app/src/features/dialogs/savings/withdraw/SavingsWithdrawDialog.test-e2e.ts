@@ -186,14 +186,14 @@ test.describe('Savings withdraw dialog', () => {
 
         await depositDialog.fillAmountAction(1000)
         await actionsContainer.expectEnabledActionAtIndex(0)
-        await actionsContainer.expectActions([{ type: 'nativeSDaiWithdraw', asset: 'DAI' }])
+        await actionsContainer.expectActions([{ type: 'daiFromSDaiWithdraw', asset: 'DAI' }])
 
         await depositDialog.selectAssetAction('USDC')
         await depositDialog.fillAmountAction(1000)
         await actionsContainer.expectEnabledActionAtIndex(0)
         await actionsContainer.expectActions([
           { type: 'approve', asset: 'sDAI' },
-          { type: 'nativeSDaiWithdraw', asset: 'USDC' },
+          { type: 'usdcFromSDaiWithdraw', asset: 'USDC' },
         ])
 
         await depositDialog.selectAssetAction('USDT')
@@ -207,7 +207,7 @@ test.describe('Savings withdraw dialog', () => {
         await depositDialog.selectAssetAction('DAI')
         await depositDialog.fillAmountAction(1000)
         await actionsContainer.expectEnabledActionAtIndex(0)
-        await actionsContainer.expectActions([{ type: 'nativeSDaiWithdraw', asset: 'DAI' }])
+        await actionsContainer.expectActions([{ type: 'daiFromSDaiWithdraw', asset: 'DAI' }])
       })
     })
 

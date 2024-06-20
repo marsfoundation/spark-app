@@ -207,10 +207,32 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
     state: { status: 'ready' },
     onAction: () => {},
   },
-  nativeSDaiWithdraw: {
+  daiFromSDaiWithdraw: {
     action: {
-      type: 'nativeSDaiWithdraw',
-      token: tokens.DAI,
+      type: 'daiFromSDaiWithdraw',
+      dai: tokens.DAI,
+      value: NormalizedUnitNumber(1023),
+      sDai: tokens.sDAI,
+      method: 'withdraw',
+    },
+    state: { status: 'ready' },
+    onAction: () => {},
+  },
+  usdcFromSDaiWithdraw: {
+    action: {
+      type: 'usdcFromSDaiWithdraw',
+      usdc: tokens.USDC,
+      value: NormalizedUnitNumber(1023),
+      sDai: tokens.sDAI,
+      method: 'withdraw',
+    },
+    state: { status: 'ready' },
+    onAction: () => {},
+  },
+  xDaiFromSDaiWithdraw: {
+    action: {
+      type: 'xDaiFromSDaiWithdraw',
+      xDai: tokens.XDAI,
       value: NormalizedUnitNumber(1023),
       sDai: tokens.sDAI,
       method: 'withdraw',
