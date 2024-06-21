@@ -4,13 +4,13 @@ import { LIFI_TEST_USER_PRIVATE_KEY, overrideLiFiRouteWithHAR } from '@/test/e2e
 import { setup } from '@/test/e2e/setup'
 import { setupFork } from '@/test/e2e/setupFork'
 import { test } from '@playwright/test'
-import { gnosis } from 'viem/chains'
+import { mainnet } from 'viem/chains'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 
-test.describe('Withdraw USDC on Gnosis', () => {
+test.describe('Withdraw USDT on Mainnet', () => {
   const fork = setupFork({
-    blockNumber: 34572910n,
-    chainId: gnosis.id,
+    blockNumber: 20138171n,
+    chainId: mainnet.id,
     simulationDateOverride: new Date('2024-09-21T10:21:19Z'),
   })
   let savingsPage: SavingsPageObject
@@ -22,7 +22,7 @@ test.describe('Withdraw USDC on Gnosis', () => {
       account: {
         type: 'connected',
         assetBalances: {
-          XDAI: 100,
+          ETH: 1,
           sDAI: 10_000,
         },
         privateKey: LIFI_TEST_USER_PRIVATE_KEY,
@@ -30,14 +30,14 @@ test.describe('Withdraw USDC on Gnosis', () => {
     })
     await overrideLiFiRouteWithHAR({
       page,
-      key: '1_000-usdc-from-sdai-gnosis',
+      key: '1_000-usdt-from-sdai',
     })
 
     savingsPage = new SavingsPageObject(page)
     await savingsPage.clickWithdrawButtonAction()
 
     withdrawalDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
-    await withdrawalDialog.selectAssetAction('USDC')
+    await withdrawalDialog.selectAssetAction('USDT')
     await withdrawalDialog.fillAmountAction(1000)
   })
 
@@ -47,19 +47,19 @@ test.describe('Withdraw USDC on Gnosis', () => {
       {
         type: 'exchange',
         inputAsset: 'sDAI',
-        outputAsset: 'USDC',
+        outputAsset: 'USDT',
         fee: '$2.01',
         slippage: '0.1%',
-        finalToTokenAmount: '1,001.50 USDC',
+        finalToTokenAmount: '1,001.50 USDT',
       },
     ])
   })
 
   test('displays transaction overview', async () => {
     await withdrawalDialog.expectTransactionOverview([
-      ['APY', '10.55%'],
-      ['Exchange Rate', '1.00 XDAI 0.99772 USDC'],
-      ['sDAI Balance', '10,000.00 sDAI 9,077.64 sDAI'],
+      ['APY', '8.00%'],
+      ['Exchange Rate', '1.00 DAI 0.97777 USDT'],
+      ['sDAI Balance', '10,000.00 sDAI 9,079.06 sDAI'],
     ])
   })
 
@@ -70,7 +70,7 @@ test.describe('Withdraw USDC on Gnosis', () => {
     await withdrawalDialog.expectSuccessPage()
     await withdrawalDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsBalance({ sDaiBalance: '9,077.64 sDAI', estimatedDaiValue: '9,879.12' })
-    await savingsPage.expectCashInWalletAssetBalance('USDC', '1,001.50')
+    await savingsPage.expectSavingsBalance({ sDaiBalance: '9,079.06 sDAI', estimatedDaiValue: '10,097.80' })
+    await savingsPage.expectCashInWalletAssetBalance('USDT', '1,021.11')
   })
 })
