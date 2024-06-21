@@ -1,17 +1,17 @@
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { PSM_ACTIONS_DEPLOYED, PSM_ACTIONS_DEPLOYED_DATE } from '@/test/e2e/constants'
+import { GNOSIS_DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setup } from '@/test/e2e/setup'
 import { setupFork } from '@/test/e2e/setupFork'
 import { test } from '@playwright/test'
-import { mainnet } from 'viem/chains'
-import { SavingsDialogPageObject } from '../../common/e2e/SavingsDialog.PageObject'
+import { gnosis } from 'viem/chains'
+import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 
-test.describe('Withdraw max USDC on Mainnet', () => {
+test.describe('Withdraw max XDAI on Gnosis', () => {
   const fork = setupFork({
-    blockNumber: PSM_ACTIONS_DEPLOYED,
-    simulationDateOverride: PSM_ACTIONS_DEPLOYED_DATE,
-    chainId: mainnet.id,
+    blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER,
+    chainId: gnosis.id,
+    simulationDateOverride: new Date('2024-06-19T10:21:19Z'),
   })
   let savingsPage: SavingsPageObject
   let withdrawalDialog: SavingsDialogPageObject
@@ -22,7 +22,7 @@ test.describe('Withdraw max USDC on Mainnet', () => {
       account: {
         type: 'connected',
         assetBalances: {
-          ETH: 1,
+          XDAI: 100,
           sDAI: 10_000,
         },
       },
@@ -32,39 +32,34 @@ test.describe('Withdraw max USDC on Mainnet', () => {
     await savingsPage.clickWithdrawButtonAction()
 
     withdrawalDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
-    await withdrawalDialog.selectAssetAction('USDC')
     await withdrawalDialog.clickMaxAmountAction()
   })
 
-  test('uses PSM actions native withdrawal', async () => {
+  test('uses native sDai withdrawal', async () => {
     await withdrawalDialog.actionsContainer.expectActions([
       { type: 'approve', asset: 'sDAI' },
-      { type: 'usdcFromSDaiWithdraw', asset: 'USDC' },
+      { type: 'xDaiFromSDaiWithdraw', asset: 'XDAI' },
     ])
   })
 
   test('displays transaction overview', async () => {
     await withdrawalDialog.expectNativeRouteTransactionOverview({
       apy: {
-        value: '8.00%',
-        description: '~869.91 DAI per year',
+        value: '10.60%',
+        description: '~1,152.86 XDAI per year',
       },
       routeItems: [
         {
           tokenAmount: '10,000.00 sDAI',
-          tokenUsdValue: '$10,873.93',
+          tokenUsdValue: '$10,878.09',
         },
         {
-          tokenAmount: '10,873.93 DAI',
-          tokenUsdValue: '$10,873.93',
-        },
-        {
-          tokenAmount: '10,873.93 USDC',
-          tokenUsdValue: '$10,873.93',
+          tokenAmount: '10,878.09 XDAI',
+          tokenUsdValue: '$10,878.09',
         },
       ],
-      outcome: '10,873.93 USDC worth $10,873.93',
-      badgeToken: 'USDC',
+      outcome: '10,878.09 XDAI worth $10,878.09',
+      badgeToken: 'XDAI',
     })
   })
 
@@ -75,8 +70,8 @@ test.describe('Withdraw max USDC on Mainnet', () => {
     await withdrawalDialog.expectSuccessPage()
     await withdrawalDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectPotentialProjection('$69.00', '30-day')
-    await savingsPage.expectPotentialProjection('$869.92', '1-year')
-    await savingsPage.expectCashInWalletAssetBalance('USDC', '10,873.94')
+    await savingsPage.expectPotentialProjection('$95.63', '30-day')
+    await savingsPage.expectPotentialProjection('$1,163.46', '1-year')
+    await savingsPage.expectCashInWalletAssetBalance('XDAI', '10,978.09')
   })
 })

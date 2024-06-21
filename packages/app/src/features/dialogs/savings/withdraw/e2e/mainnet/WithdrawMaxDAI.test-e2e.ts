@@ -1,18 +1,14 @@
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { GNOSIS_DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
+import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setup } from '@/test/e2e/setup'
 import { setupFork } from '@/test/e2e/setupFork'
 import { test } from '@playwright/test'
-import { gnosis } from 'viem/chains'
-import { SavingsDialogPageObject } from '../../common/e2e/SavingsDialog.PageObject'
+import { mainnet } from 'viem/chains'
+import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 
-test.describe('Withdraw max XDAI on Gnosis', () => {
-  const fork = setupFork({
-    blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER,
-    chainId: gnosis.id,
-    simulationDateOverride: new Date('2024-06-19T10:21:19Z'),
-  })
+test.describe('Withdraw max DAI on Mainnet', () => {
+  const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id })
   let savingsPage: SavingsPageObject
   let withdrawalDialog: SavingsDialogPageObject
 
@@ -22,7 +18,7 @@ test.describe('Withdraw max XDAI on Gnosis', () => {
       account: {
         type: 'connected',
         assetBalances: {
-          XDAI: 100,
+          ETH: 1,
           sDAI: 10_000,
         },
       },
@@ -36,42 +32,39 @@ test.describe('Withdraw max XDAI on Gnosis', () => {
   })
 
   test('uses native sDai withdrawal', async () => {
-    await withdrawalDialog.actionsContainer.expectActions([
-      { type: 'approve', asset: 'sDAI' },
-      { type: 'xDaiFromSDaiWithdraw', asset: 'XDAI' },
-    ])
+    await withdrawalDialog.actionsContainer.expectActions([{ type: 'daiFromSDaiWithdraw', asset: 'DAI' }])
   })
 
   test('displays transaction overview', async () => {
     await withdrawalDialog.expectNativeRouteTransactionOverview({
       apy: {
-        value: '10.60%',
-        description: '~1,152.86 XDAI per year',
+        value: '5.00%',
+        description: '~535.75 DAI per year',
       },
       routeItems: [
         {
           tokenAmount: '10,000.00 sDAI',
-          tokenUsdValue: '$10,878.09',
+          tokenUsdValue: '$10,715.05',
         },
         {
-          tokenAmount: '10,878.09 XDAI',
-          tokenUsdValue: '$10,878.09',
+          tokenAmount: '10,715.05 DAI',
+          tokenUsdValue: '$10,715.05',
         },
       ],
-      outcome: '10,878.09 XDAI worth $10,878.09',
-      badgeToken: 'XDAI',
+      outcome: '10,715.05 DAI worth $10,715.05',
+      badgeToken: 'DAI',
     })
   })
 
   test('executes max withdrawal', async () => {
     const actionsContainer = new ActionsPageObject(withdrawalDialog.locatePanelByHeader('Actions'))
-    await actionsContainer.acceptAllActionsAction(2)
+    await actionsContainer.acceptAllActionsAction(1)
 
     await withdrawalDialog.expectSuccessPage()
     await withdrawalDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectPotentialProjection('$95.63', '30-day')
-    await savingsPage.expectPotentialProjection('$1,163.46', '1-year')
-    await savingsPage.expectCashInWalletAssetBalance('XDAI', '10,978.09')
+    await savingsPage.expectPotentialProjection('$43.06', '30-day')
+    await savingsPage.expectPotentialProjection('$535.75', '1-year')
+    await savingsPage.expectCashInWalletAssetBalance('DAI', '10,715.05')
   })
 })

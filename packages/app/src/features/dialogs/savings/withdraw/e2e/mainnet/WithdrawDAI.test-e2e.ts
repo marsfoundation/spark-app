@@ -5,7 +5,7 @@ import { setup } from '@/test/e2e/setup'
 import { setupFork } from '@/test/e2e/setupFork'
 import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
-import { SavingsDialogPageObject } from '../../common/e2e/SavingsDialog.PageObject'
+import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 
 test.describe('Withdraw DAI on Mainnet', () => {
   const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id })
