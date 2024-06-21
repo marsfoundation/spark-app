@@ -85,7 +85,7 @@ export const testIds = makeTestIds({
         slippage: true,
         fee: true,
         finalDAIAmount: true,
-        finalSDAIAmount: true,
+        finalToTokenAmount: true,
       },
     },
   },

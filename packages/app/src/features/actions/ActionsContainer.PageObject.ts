@@ -139,7 +139,7 @@ type SimplifiedExchangeAction = {
   outputAsset: string
   fee?: string
   slippage?: string
-  finalSDAIAmount?: string
+  finalToTokenAmount?: string
   finalDAIAmount?: string
 }
 
@@ -216,9 +216,9 @@ async function expectExchangeActionRow(exchangeRow: Locator, action: SimplifiedE
       action.finalDAIAmount,
     )
   }
-  if (action.finalSDAIAmount) {
-    await expect(exchangeRow.getByTestId(testIds.actions.flavours.exchangeActionRow.finalSDAIAmount)).toHaveText(
-      action.finalSDAIAmount,
+  if (action.finalToTokenAmount) {
+    await expect(exchangeRow.getByTestId(testIds.actions.flavours.exchangeActionRow.finalToTokenAmount)).toHaveText(
+      action.finalToTokenAmount,
     )
   }
 }
