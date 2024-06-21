@@ -8,44 +8,6 @@ import { gnosis, mainnet } from 'viem/chains'
 import { SavingsDialogPageObject } from '../common/e2e/SavingsDialog.PageObject'
 
 test.describe('Savings withdraw dialog', () => {
-  test.describe('USDC on Gnosis', () => {
-    const blockNumber = 34228121n
-    const fork = setupFork({ blockNumber, chainId: gnosis.id })
-
-    test('unwraps sDAI to USDC', async ({ page }) => {
-      await setup(page, fork, {
-        initialPage: 'savings',
-        account: {
-          type: 'connected',
-          assetBalances: {
-            XDAI: 100,
-            sDAI: 1000,
-          },
-          privateKey: LIFI_TEST_USER_PRIVATE_KEY,
-        },
-      })
-      await overrideLiFiRouteWithHAR({
-        page,
-        key: 'sdai-to-1000-gnosis-usdc',
-      })
-
-      const savingsPage = new SavingsPageObject(page)
-
-      await savingsPage.clickWithdrawButtonAction()
-
-      const withdrawDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
-      await withdrawDialog.selectAssetAction('USDC')
-      await withdrawDialog.fillAmountAction(1000)
-
-      const actionsContainer = new ActionsPageObject(withdrawDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.acceptAllActionsAction(2)
-      await withdrawDialog.clickBackToSavingsButton()
-
-      await savingsPage.expectCurrentWorth('78.20')
-      await savingsPage.expectCashInWalletAssetBalance('USDC', '1,001.56')
-    })
-  })
-
   test.describe('Risk warning', () => {
     const blockNumber = 20090065n
     const fork = setupFork({
@@ -76,11 +38,11 @@ test.describe('Savings withdraw dialog', () => {
 
       await savingsPage.clickWithdrawButtonAction()
 
-      const depositDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
-      await depositDialog.selectAssetAction('USDT')
-      await depositDialog.fillAmountAction(10000)
+      const withdrawalDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
+      await withdrawalDialog.selectAssetAction('USDT')
+      await withdrawalDialog.fillAmountAction(10000)
 
-      await depositDialog.expectDiscrepancyWarning('198.82 DAI')
+      await withdrawalDialog.expectDiscrepancyWarning('198.82 DAI')
     })
 
     test('actions stay disabled until risk is acknowledged', async ({ page }) => {
@@ -105,15 +67,15 @@ test.describe('Savings withdraw dialog', () => {
 
       await savingsPage.clickWithdrawButtonAction()
 
-      const depositDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
-      await depositDialog.selectAssetAction('USDT')
-      await depositDialog.fillAmountAction(10000)
-      await depositDialog.expectTransactionOverviewToBeVisible() // wait for lifi to load
+      const withdrawalDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
+      await withdrawalDialog.selectAssetAction('USDT')
+      await withdrawalDialog.fillAmountAction(10000)
+      await withdrawalDialog.expectTransactionOverviewToBeVisible() // wait for lifi to load
 
-      const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
+      const actionsContainer = new ActionsPageObject(withdrawalDialog.locatePanelByHeader('Actions'))
       await actionsContainer.expectDisabledActionAtIndex(0)
 
-      await depositDialog.clickAcknowledgeRisk()
+      await withdrawalDialog.clickAcknowledgeRisk()
       await actionsContainer.expectEnabledActionAtIndex(0)
     })
   })
@@ -144,31 +106,31 @@ test.describe('Savings withdraw dialog', () => {
 
         await savingsPage.clickWithdrawButtonAction()
 
-        const depositDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
-        const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
+        const withdrawalDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
+        const actionsContainer = new ActionsPageObject(withdrawalDialog.locatePanelByHeader('Actions'))
 
-        await depositDialog.fillAmountAction(1000)
+        await withdrawalDialog.fillAmountAction(1000)
         await actionsContainer.expectEnabledActionAtIndex(0)
         await actionsContainer.expectActions([{ type: 'daiFromSDaiWithdraw', asset: 'DAI' }])
 
-        await depositDialog.selectAssetAction('USDC')
-        await depositDialog.fillAmountAction(1000)
+        await withdrawalDialog.selectAssetAction('USDC')
+        await withdrawalDialog.fillAmountAction(1000)
         await actionsContainer.expectEnabledActionAtIndex(0)
         await actionsContainer.expectActions([
           { type: 'approve', asset: 'sDAI' },
           { type: 'usdcFromSDaiWithdraw', asset: 'USDC' },
         ])
 
-        await depositDialog.selectAssetAction('USDT')
-        await depositDialog.fillAmountAction(1000)
+        await withdrawalDialog.selectAssetAction('USDT')
+        await withdrawalDialog.fillAmountAction(1000)
         await actionsContainer.expectEnabledActionAtIndex(0)
         await actionsContainer.expectActions([
           { type: 'approve', asset: 'sDAI' },
           { type: 'exchange', inputAsset: 'sDAI', outputAsset: 'USDT' },
         ])
 
-        await depositDialog.selectAssetAction('DAI')
-        await depositDialog.fillAmountAction(1000)
+        await withdrawalDialog.selectAssetAction('DAI')
+        await withdrawalDialog.fillAmountAction(1000)
         await actionsContainer.expectEnabledActionAtIndex(0)
         await actionsContainer.expectActions([{ type: 'daiFromSDaiWithdraw', asset: 'DAI' }])
       })
@@ -203,34 +165,34 @@ test.describe('Savings withdraw dialog', () => {
 
         await savingsPage.clickWithdrawButtonAction()
 
-        const depositDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
-        const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
+        const withdrawalDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
+        const actionsContainer = new ActionsPageObject(withdrawalDialog.locatePanelByHeader('Actions'))
 
-        await depositDialog.fillAmountAction(1000)
+        await withdrawalDialog.fillAmountAction(1000)
         await actionsContainer.expectEnabledActionAtIndex(0)
         await actionsContainer.expectActions([
           { type: 'approve', asset: 'sDAI' },
           { type: 'xDaiFromSDaiWithdraw', asset: 'XDAI' },
         ])
 
-        await depositDialog.selectAssetAction('USDC')
-        await depositDialog.fillAmountAction(1000)
+        await withdrawalDialog.selectAssetAction('USDC')
+        await withdrawalDialog.fillAmountAction(1000)
         await actionsContainer.expectEnabledActionAtIndex(0)
         await actionsContainer.expectActions([
           { type: 'approve', asset: 'sDAI' },
           { type: 'exchange', inputAsset: 'sDAI', outputAsset: 'USDC' },
         ])
 
-        await depositDialog.selectAssetAction('USDT')
-        await depositDialog.fillAmountAction(1000)
+        await withdrawalDialog.selectAssetAction('USDT')
+        await withdrawalDialog.fillAmountAction(1000)
         await actionsContainer.expectEnabledActionAtIndex(0)
         await actionsContainer.expectActions([
           { type: 'approve', asset: 'sDAI' },
           { type: 'exchange', inputAsset: 'sDAI', outputAsset: 'USDT' },
         ])
 
-        await depositDialog.selectAssetAction('XDAI')
-        await depositDialog.fillAmountAction(1000)
+        await withdrawalDialog.selectAssetAction('XDAI')
+        await withdrawalDialog.fillAmountAction(1000)
         await actionsContainer.expectEnabledActionAtIndex(0)
         await actionsContainer.expectActions([
           { type: 'approve', asset: 'sDAI' },

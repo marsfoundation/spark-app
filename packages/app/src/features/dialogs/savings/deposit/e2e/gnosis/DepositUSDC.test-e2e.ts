@@ -4,11 +4,15 @@ import { LIFI_TEST_USER_PRIVATE_KEY, overrideLiFiRouteWithHAR } from '@/test/e2e
 import { setup } from '@/test/e2e/setup'
 import { setupFork } from '@/test/e2e/setupFork'
 import { test } from '@playwright/test'
-import { mainnet } from 'viem/chains'
-import { SavingsDialogPageObject } from '../../common/e2e/SavingsDialog.PageObject'
+import { gnosis } from 'viem/chains'
+import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 
-test.describe('Deposit USDT on Mainnet', () => {
-  const fork = setupFork({ blockNumber: 19990683n, chainId: mainnet.id })
+test.describe('Deposit USDC on Gnosis', () => {
+  const fork = setupFork({
+    blockNumber: 34572398n,
+    chainId: gnosis.id,
+    simulationDateOverride: new Date('2024-09-21T10:21:19Z'),
+  })
   let savingsPage: SavingsPageObject
   let depositDialog: SavingsDialogPageObject
 
@@ -18,19 +22,19 @@ test.describe('Deposit USDT on Mainnet', () => {
       account: {
         type: 'connected',
         assetBalances: {
-          ETH: 1,
-          USDT: 10_000,
+          XDAI: 100,
+          USDC: 10_000,
         },
         privateKey: LIFI_TEST_USER_PRIVATE_KEY,
       },
     })
     await overrideLiFiRouteWithHAR({
       page,
-      key: '10_000-usdt-to-sdai',
+      key: '10_000-usdc-to-sdai-gnosis',
     })
 
     savingsPage = new SavingsPageObject(page)
-    await savingsPage.clickDepositButtonAction('USDT')
+    await savingsPage.clickDepositButtonAction('USDC')
 
     depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
     await depositDialog.fillAmountAction(10_000)
@@ -38,24 +42,24 @@ test.describe('Deposit USDT on Mainnet', () => {
 
   test('uses Lifi Swap', async () => {
     await depositDialog.actionsContainer.expectActions([
-      { type: 'approve', asset: 'USDT' },
+      { type: 'approve', asset: 'USDC' },
       {
         type: 'exchange',
-        inputAsset: 'USDT',
+        inputAsset: 'USDC',
         outputAsset: 'sDAI',
-        fee: '$19.99',
+        fee: '$20.00',
         slippage: '0.1%',
-        finalDAIAmount: '$9,978.30 DAI',
-        finalSDAIAmount: '9,180.20 sDAI',
+        finalDAIAmount: '$9,980.72 DAI',
+        finalToTokenAmount: '9,170.99 sDAI',
       },
     ])
   })
 
   test('displays transaction overview', async () => {
     await depositDialog.expectTransactionOverview([
-      ['APY', '8.00%'],
-      ['Exchange Rate', '1.00 USDT 0.99783 DAI'],
-      ['sDAI Balance', '0.00 sDAI 9,180.20 sDAI'],
+      ['APY', '10.55%'],
+      ['Exchange Rate', '1.00 USDC 0.99807 XDAI'],
+      ['sDAI Balance', '0.00 sDAI 9,170.99 sDAI'],
     ])
   })
 
@@ -66,7 +70,7 @@ test.describe('Deposit USDT on Mainnet', () => {
     await depositDialog.expectSuccessPage()
     await depositDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsBalance({ sDaiBalance: '9,177.31 sDAI', estimatedDaiValue: '9,975' })
-    await savingsPage.expectCashInWalletAssetBalance('USDT', '-')
+    await savingsPage.expectSavingsBalance({ sDaiBalance: '9,170.99 sDAI', estimatedDaiValue: '9,980.71' })
+    await savingsPage.expectCashInWalletAssetBalance('USDC', '-')
   })
 })

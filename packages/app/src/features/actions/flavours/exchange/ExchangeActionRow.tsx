@@ -97,7 +97,7 @@ function RowSummary({ maxSlippage, toToken, estimate, actionStatus, formatAsDAIV
       </div>
       <p className="text-basics-dark-grey text-xs">
         <span className="hidden sm:inline">You'll get</span> ~
-        <span data-testid={testIds.actions.flavours.exchangeActionRow.finalSDAIAmount}>
+        <span data-testid={testIds.actions.flavours.exchangeActionRow.finalToTokenAmount}>
           {toToken.format(amount, { style: 'auto' })} {toToken.symbol}
         </span>
         {formatAsDAIValue && (

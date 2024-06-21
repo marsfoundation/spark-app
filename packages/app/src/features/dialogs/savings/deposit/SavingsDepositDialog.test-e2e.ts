@@ -8,46 +8,6 @@ import { gnosis, mainnet } from 'viem/chains'
 import { SavingsDialogPageObject } from '../common/e2e/SavingsDialog.PageObject'
 
 test.describe('Savings deposit dialog', () => {
-  // The tests here are not independent.
-  // My guess is that reverting to snapshots in tenderly does not work properly - but for now couldn't debug that.
-  // For now tests use different forks.
-  test.describe('USDC on Gnosis', () => {
-    // Block number has to be as close as possible to the block number when query was executed
-    const blockNumber = 34227645n
-    const fork = setupFork({ blockNumber, chainId: gnosis.id })
-
-    test('wraps USDC', async ({ page }) => {
-      await setup(page, fork, {
-        initialPage: 'savings',
-        account: {
-          type: 'connected',
-          assetBalances: {
-            XDAI: 1000,
-            USDC: 100,
-          },
-          privateKey: LIFI_TEST_USER_PRIVATE_KEY,
-        },
-      })
-      await overrideLiFiRouteWithHAR({
-        page,
-        key: '100-gnosis-usdc-to-sdai',
-      })
-
-      const savingsPage = new SavingsPageObject(page)
-
-      await savingsPage.clickDepositButtonAction('USDC')
-
-      const depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
-      await depositDialog.fillAmountAction(100)
-
-      const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.acceptAllActionsAction(2)
-      await depositDialog.clickBackToSavingsButton()
-
-      await savingsPage.expectCurrentWorth('99.83')
-    })
-  })
-
   test.describe('Slippage', () => {
     const blockNumber = 20089938n
     const fork = setupFork({ blockNumber, chainId: mainnet.id })
