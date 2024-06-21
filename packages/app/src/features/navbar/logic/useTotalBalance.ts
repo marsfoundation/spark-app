@@ -28,7 +28,7 @@ export function useTotalBalance(): BalanceInfo {
       account: address && CheckedAddress(address),
       chainId,
     }),
-    select: marketInfoSelectFn({}),
+    select: marketInfoSelectFn(),
   })
 
   const balancesUSD = (walletInfo.data ?? []).map(({ address, balanceBaseUnit }) => {

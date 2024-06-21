@@ -12,6 +12,7 @@ import { Token } from '@/domain/types/Token'
 import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
 import { Objective } from '@/features/actions/logic/types'
 
+import { EPOCH_LENGTH } from '@/domain/market-info/consts'
 import { AssetInputSchema, useDebouncedDialogFormValues } from '../../common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '../../common/types'
 import { getRepayOptions, getTokenDebt } from './assets'
@@ -39,8 +40,8 @@ export interface UseRepayDialogResult {
 export function useRepayDialog({ initialToken }: UseRepayDialogOptions): UseRepayDialogResult {
   const { aaveData } = useAaveDataLayer()
   const { marketInfo } = useMarketInfo()
-  const { marketInfo: marketInfoIn1Epoch } = useMarketInfo({ timeAdvance: 30 * 60 })
-  const { marketInfo: marketInfoIn2Epochs } = useMarketInfo({ timeAdvance: 2 * 30 * 60 })
+  const { marketInfo: marketInfoIn1Epoch } = useMarketInfo({ timeAdvance: EPOCH_LENGTH })
+  const { marketInfo: marketInfoIn2Epochs } = useMarketInfo({ timeAdvance: 2 * EPOCH_LENGTH })
 
   const walletInfo = useWalletInfo()
 
