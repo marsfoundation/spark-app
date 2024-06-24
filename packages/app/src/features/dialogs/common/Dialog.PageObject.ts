@@ -43,15 +43,20 @@ export class DialogPageObject extends BasePageObject {
   // #endregion actions
 
   // #region assertions
-  async expectSuccessPage(tokenWithValue: TestTokenWithValue[], fork: ForkContext): Promise<void> {
+  async expectSuccessPage(
+    tokenWithValue: TestTokenWithValue[],
+    fork: ForkContext,
+    assetWorthOverrides?: Record<string, number>,
+  ): Promise<void> {
     await expect(this.region.getByText('Congrats! All done!')).toBeVisible()
 
     const transformed = tokenWithValue.reduce((acc, { asset, amount: value }) => ({ ...acc, [asset]: value }), {})
 
     const { assetsWorth } = await calculateAssetsWorth(fork.forkUrl, transformed)
+    const mergedAssetsWorth = { ...assetsWorth, ...assetWorthOverrides }
 
     const summary = await this.region.getByTestId(testIds.dialog.success).textContent()
-    expectAssets(summary!, tokenWithValue, assetsWorth)
+    expectAssets(summary!, tokenWithValue, mergedAssetsWorth)
   }
 
   async expectRiskLevelBefore(riskLevel: string): Promise<void> {

@@ -2,6 +2,7 @@ import { getChainConfigEntry } from '@/config/chain'
 import { TokenWithValue } from '@/domain/common/types'
 import { useConditionalFreeze } from '@/domain/hooks/useConditionalFreeze'
 import { useAaveDataLayer } from '@/domain/market-info/aave-data-layer/useAaveDataLayer'
+import { EPOCH_LENGTH } from '@/domain/market-info/consts'
 import { LiquidationDetails } from '@/domain/market-info/getLiquidationDetails'
 import { UserPositionSummary } from '@/domain/market-info/marketInfo'
 import { updatePositionSummary } from '@/domain/market-info/updatePositionSummary'
@@ -63,6 +64,7 @@ export function useEasyBorrow(): UseEasyBorrowResults {
   const openDialog = useOpenDialog()
   const { aaveData } = useAaveDataLayer()
   const { marketInfo } = useMarketInfo()
+  const { marketInfo: marketInfoIn1Epoch } = useMarketInfo({ timeAdvance: EPOCH_LENGTH })
   const {
     nativeAssetInfo,
     meta: { defaultAssetToBorrow },
@@ -115,7 +117,7 @@ export function useEasyBorrow(): UseEasyBorrowResults {
   })
   const assetsToDepositFields = useFormFieldsForAssetClass({
     form: easyBorrowForm,
-    marketInfo,
+    marketInfo: marketInfoIn1Epoch, // because we calculate max values based on the future state
     allPossibleReserves: depositableAssets,
     walletInfo,
     type: 'deposit',

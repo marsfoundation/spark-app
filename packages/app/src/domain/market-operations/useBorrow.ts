@@ -7,7 +7,7 @@ import { InterestRate, NATIVE_ASSET_MOCK_ADDRESS } from '@/config/consts'
 import { lendingPoolAddress, wethGatewayConfig } from '@/config/contracts-generated'
 import { useContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes, useWrite } from '@/domain/hooks/useWrite'
-import { aaveDataLayer } from '@/domain/market-info/aave-data-layer/query'
+import { aaveDataLayerQueryKey } from '@/domain/market-info/aave-data-layer/query'
 import { BaseUnitNumber } from '@/domain/types/NumericValues'
 import { balances } from '@/domain/wallet/balances'
 import { toBigInt } from '@/utils/bigNumber'
@@ -58,7 +58,7 @@ export function useBorrow({
     {
       onTransactionSettled: async () => {
         void client.invalidateQueries({
-          queryKey: aaveDataLayer({ wagmiConfig, chainId, account: userAddress }).queryKey,
+          queryKey: aaveDataLayerQueryKey({ chainId, account: userAddress }),
         })
         void client.invalidateQueries({
           queryKey: balances({ wagmiConfig, chainId, account: userAddress }).queryKey,

@@ -89,18 +89,12 @@ export function useFormFieldsForAssetClass({
       const maxValue = getDepositMaxValue({
         asset: {
           status: position.reserve.status,
-          totalDebt: position.reserve.totalDebt,
-          decimals: position.reserve.token.decimals,
-          index: position.reserve.variableBorrowIndex,
-          rate: position.reserve.variableBorrowRate,
-          lastUpdateTimestamp: position.reserve.lastUpdateTimestamp,
           totalLiquidity: position.reserve.totalLiquidity,
           supplyCap: position.reserve.supplyCap,
         },
         user: {
           balance: walletInfo.findWalletBalanceForSymbol(asset.token.symbol),
         },
-        timestamp: marketInfo.timestamp,
       })
       acc[asset.token.symbol] = maxValue
       return acc

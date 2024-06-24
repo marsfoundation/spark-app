@@ -1,14 +1,5 @@
-import { bigNumberify } from '@/utils/bigNumber'
-
 import { NormalizedUnitNumber } from '../types/NumericValues'
 import { getDepositMaxValue } from './getDepositMaxValue'
-
-const assetParams = {
-  decimals: 8,
-  index: bigNumberify('1000184375813842487460564746'),
-  rate: bigNumberify('521468880203607399181048'),
-  lastUpdateTimestamp: 0,
-}
 
 describe(getDepositMaxValue.name, () => {
   describe('not active reserve', () => {
@@ -19,10 +10,7 @@ describe(getDepositMaxValue.name, () => {
           asset: {
             status: 'frozen',
             totalLiquidity: NormalizedUnitNumber(0),
-            totalDebt: NormalizedUnitNumber(0),
-            ...assetParams,
           },
-          timestamp: 0,
         }),
       ).toEqual(NormalizedUnitNumber(0))
     })
@@ -34,10 +22,7 @@ describe(getDepositMaxValue.name, () => {
           asset: {
             status: 'paused',
             totalLiquidity: NormalizedUnitNumber(0),
-            totalDebt: NormalizedUnitNumber(0),
-            ...assetParams,
           },
-          timestamp: 0,
         }),
       ).toEqual(NormalizedUnitNumber(0))
     })
@@ -51,10 +36,7 @@ describe(getDepositMaxValue.name, () => {
           asset: {
             status: 'active',
             totalLiquidity: NormalizedUnitNumber(10),
-            totalDebt: NormalizedUnitNumber(0),
-            ...assetParams,
           },
-          timestamp: 0,
         }),
       ).toEqual(NormalizedUnitNumber(0))
     })
@@ -66,10 +48,7 @@ describe(getDepositMaxValue.name, () => {
           asset: {
             status: 'active',
             totalLiquidity: NormalizedUnitNumber(0),
-            totalDebt: NormalizedUnitNumber(0),
-            ...assetParams,
           },
-          timestamp: 0,
         }),
       ).toEqual(NormalizedUnitNumber(100))
     })
@@ -84,10 +63,7 @@ describe(getDepositMaxValue.name, () => {
             status: 'active',
             totalLiquidity: NormalizedUnitNumber(0),
             supplyCap: NormalizedUnitNumber(100),
-            totalDebt: NormalizedUnitNumber(0),
-            ...assetParams,
           },
-          timestamp: 0,
         }),
       ).toEqual(NormalizedUnitNumber(0))
     })
@@ -100,10 +76,7 @@ describe(getDepositMaxValue.name, () => {
             status: 'active',
             totalLiquidity: NormalizedUnitNumber(100),
             supplyCap: NormalizedUnitNumber(100),
-            totalDebt: NormalizedUnitNumber(0),
-            ...assetParams,
           },
-          timestamp: 0,
         }),
       ).toEqual(NormalizedUnitNumber(0))
     })
@@ -116,10 +89,7 @@ describe(getDepositMaxValue.name, () => {
             status: 'active',
             totalLiquidity: NormalizedUnitNumber(0),
             supplyCap: NormalizedUnitNumber(50),
-            totalDebt: NormalizedUnitNumber(0),
-            ...assetParams,
           },
-          timestamp: 0,
         }),
       ).toEqual(NormalizedUnitNumber(50))
     })
@@ -132,16 +102,12 @@ describe(getDepositMaxValue.name, () => {
             status: 'active',
             totalLiquidity: NormalizedUnitNumber(25),
             supplyCap: NormalizedUnitNumber(50),
-            totalDebt: NormalizedUnitNumber(0),
-
-            ...assetParams,
           },
-          timestamp: 0,
         }),
       ).toEqual(NormalizedUnitNumber(25))
     })
 
-    it('returns available to supply value for growing liquidity', () => {
+    it('returns available to supply value for capped by liquidity', () => {
       expect(
         getDepositMaxValue({
           user: { balance: NormalizedUnitNumber(100) },
@@ -149,12 +115,9 @@ describe(getDepositMaxValue.name, () => {
             status: 'active',
             totalLiquidity: NormalizedUnitNumber(25),
             supplyCap: NormalizedUnitNumber(50),
-            totalDebt: NormalizedUnitNumber(20),
-            ...assetParams,
           },
-          timestamp: 10,
         }),
-      ).toEqual(NormalizedUnitNumber(24.9999998)) // 0.0000002 will grow over the next 10 minutes
+      ).toEqual(NormalizedUnitNumber(25))
     })
   })
 })

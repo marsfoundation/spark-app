@@ -92,18 +92,12 @@ function makeBaseWalletOverview({ reserve, marketInfo, walletInfo }: MakeWalletO
   const availableToDeposit = getDepositMaxValue({
     asset: {
       status: reserve.status,
-      totalDebt: reserve.totalDebt,
-      decimals: reserve.token.decimals,
-      index: reserve.variableBorrowIndex,
-      rate: reserve.variableBorrowRate,
-      lastUpdateTimestamp: reserve.lastUpdateTimestamp,
       totalLiquidity: reserve.totalLiquidity,
       supplyCap: reserve.supplyCap,
     },
     user: {
       balance: tokenBalance,
     },
-    timestamp: marketInfo.timestamp,
   })
 
   const borrowValidationArgs = getValidateBorrowArgs(NormalizedUnitNumber(0), reserve, marketInfo)

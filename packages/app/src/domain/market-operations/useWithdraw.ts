@@ -9,7 +9,7 @@ import { toBigInt } from '@/utils/bigNumber'
 
 import { useContractAddress } from '../hooks/useContractAddress'
 import { ensureConfigTypes, useWrite } from '../hooks/useWrite'
-import { aaveDataLayer } from '../market-info/aave-data-layer/query'
+import { aaveDataLayerQueryKey } from '../market-info/aave-data-layer/query'
 import { BaseUnitNumber } from '../types/NumericValues'
 import { balances } from '../wallet/balances'
 import { allowance } from './allowance/query'
@@ -60,7 +60,7 @@ export function useWithdraw({
     {
       onTransactionSettled: async () => {
         void client.invalidateQueries({
-          queryKey: aaveDataLayer({ wagmiConfig, chainId, account: userAddress }).queryKey,
+          queryKey: aaveDataLayerQueryKey({ chainId, account: userAddress }),
         })
         void client.invalidateQueries({
           queryKey: balances({ wagmiConfig, chainId, account: userAddress }).queryKey,

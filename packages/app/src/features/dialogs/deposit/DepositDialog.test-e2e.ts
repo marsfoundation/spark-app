@@ -391,15 +391,18 @@ test.describe('Deposit dialog', () => {
         [
           {
             asset: 'WBTC',
-            amount: 507.527309,
+            amount: 507.527307,
           },
         ],
         fork,
+        {
+          WBTC: 34_087_363.63,
+        },
       )
 
       await depositDialog.viewInDashboardAction()
       await dashboardPage.expectDepositTable({
-        WBTC: 507.527309,
+        WBTC: 507.527307,
       })
     })
 

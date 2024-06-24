@@ -11,7 +11,7 @@ import { CheckedAddress } from '../types/CheckedAddress'
 import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
 import { Token } from '../types/Token'
 import { TokenSymbol } from '../types/TokenSymbol'
-import { AaveData } from './aave-data-layer/query'
+import { AaveDataLayerQueryReturnType, aaveDataLayerSelectFn } from './aave-data-layer/query'
 import { determineEModeState, extractEmodeInfoFromReserves } from './emode'
 import { IncentivesData, getIncentivesData } from './incentives'
 import { parseRawPercentage } from './math'
@@ -225,127 +225,137 @@ export class MarketInfo {
   }
 }
 
-export function marketInfo(rawAaveData: AaveData, nativeAssetInfo: NativeAssetInfo, chainId: number): MarketInfo {
-  const tokens = rawAaveData.userSummary.userReservesData.map(
-    (r): Token =>
-      new Token({
-        address: CheckedAddress(r.reserve.underlyingAsset),
-        symbol: TokenSymbol(r.reserve.symbol),
-        name: r.reserve.name,
-        decimals: r.reserve.decimals,
-        unitPriceUsd: r.reserve.priceInUSD,
-      }),
-  )
+export interface MarketInfoSelectFnParams {
+  timeAdvance?: number // time advance in seconds
+}
 
-  /* eslint-disable func-style */
-  const findOneTokenBySymbol = (symbol: TokenSymbol): Token => {
-    return tokens.find((t) => t.symbol === symbol) ?? raise(`Token ${symbol} not found`)
-  }
-  /* eslint-enable func-style */
+export function marketInfoSelectFn({ timeAdvance }: MarketInfoSelectFnParams = {}) {
+  return (data: AaveDataLayerQueryReturnType) => {
+    const rawAaveData = aaveDataLayerSelectFn({ timeAdvance })(data)
+    const chainId = data.chainId
+    const nativeAssetInfo = getChainConfigEntry(chainId).nativeAssetInfo
 
-  const eModeCategories = extractEmodeInfoFromReserves(rawAaveData.formattedReserves)
+    const tokens = rawAaveData.userSummary.userReservesData.map(
+      (r): Token =>
+        new Token({
+          address: CheckedAddress(r.reserve.underlyingAsset),
+          symbol: TokenSymbol(r.reserve.symbol),
+          name: r.reserve.name,
+          decimals: r.reserve.decimals,
+          unitPriceUsd: r.reserve.priceInUSD,
+        }),
+    )
 
-  const reserves = rawAaveData.userSummary.userReservesData.map((r): Reserve => {
-    const token = findOneTokenBySymbol(TokenSymbol(r.reserve.symbol))
-    const supplyAvailabilityStatus = getSupplyAvailabilityStatus(r.reserve)
-    const collateralEligibilityStatus = getCollateralEligibilityStatus(r.reserve)
-    const borrowEligibilityStatus = getBorrowEligibilityStatus(r.reserve)
-
-    return {
-      token,
-
-      aToken: token.createAToken(CheckedAddress(r.reserve.aTokenAddress)),
-      variableDebtTokenAddress: CheckedAddress(r.reserve.variableDebtTokenAddress),
-
-      status: getReserveStatus(r.reserve),
-
-      supplyAvailabilityStatus,
-      collateralEligibilityStatus,
-      borrowEligibilityStatus,
-
-      isIsolated: r.reserve.isIsolated,
-      eModeCategory:
-        r.reserve.eModeCategoryId !== 0
-          ? eModeCategories[r.reserve.eModeCategoryId] ?? raise(`EMode category ${r.reserve.eModeCategoryId} not found`)
-          : undefined,
-      isSiloedBorrowing: r.reserve.isSiloedBorrowing,
-      isBorrowableInIsolation: r.reserve.borrowableInIsolation,
-
-      availableLiquidity: NormalizedUnitNumber(r.reserve.formattedAvailableLiquidity), // @note: r.reserve.availableLiquidity doesn't respect borrow caps so we use formattedAvailableLiquidity which does
-      availableLiquidityUSD: NormalizedUnitNumber(r.reserve.availableLiquidityUSD),
-      supplyCap: r.reserve.supplyCap !== '0' ? NormalizedUnitNumber(r.reserve.supplyCap) : undefined,
-      borrowCap: r.reserve.borrowCap !== '0' ? NormalizedUnitNumber(r.reserve.borrowCap) : undefined,
-      totalLiquidity: NormalizedUnitNumber(r.reserve.totalLiquidity),
-      totalLiquidityUSD: NormalizedUnitNumber(r.reserve.totalLiquidityUSD),
-      totalDebt: NormalizedUnitNumber(r.reserve.totalDebt),
-      totalDebtUSD: NormalizedUnitNumber(r.reserve.totalDebtUSD),
-      totalVariableDebt: NormalizedUnitNumber(r.reserve.totalVariableDebt),
-      totalVariableDebtUSD: NormalizedUnitNumber(r.reserve.totalVariableDebtUSD),
-      isolationModeTotalDebt: NormalizedUnitNumber(r.reserve.isolationModeTotalDebtUSD),
-      debtCeiling: NormalizedUnitNumber(r.reserve.debtCeilingUSD),
-      supplyAPY: supplyAvailabilityStatus === 'no' ? undefined : Percentage(r.reserve.supplyAPY), // when supplying is disabled, APY is not available
-      maxLtv: parseRawPercentage(r.reserve.baseLTVasCollateral),
-      liquidationThreshold: parseRawPercentage(r.reserve.reserveLiquidationThreshold),
-      liquidationBonus: bigNumberify(r.reserve.formattedReserveLiquidationBonus).gt(0)
-        ? Percentage(r.reserve.formattedReserveLiquidationBonus)
-        : Percentage(0),
-      variableBorrowApy: borrowEligibilityStatus === 'no' ? undefined : Percentage(r.reserve.variableBorrowAPY), // when borrowing is disabled, APY is not available
-      reserveFactor: Percentage(r.reserve.reserveFactor),
-      aTokenBalance: NormalizedUnitNumber(r.underlyingBalance),
-
-      lastUpdateTimestamp: r.reserve.lastUpdateTimestamp,
-
-      variableBorrowIndex: bigNumberify(r.reserve.variableBorrowIndex),
-      variableBorrowRate: bigNumberify(r.reserve.variableBorrowRate),
-      liquidityIndex: bigNumberify(r.reserve.liquidityIndex),
-      liquidityRate: bigNumberify(r.reserve.liquidityRate),
-      variableRateSlope1: bigNumberify(r.reserve.variableRateSlope1),
-      variableRateSlope2: bigNumberify(r.reserve.variableRateSlope2),
-      optimalUtilizationRate: Percentage(fromRay(r.reserve.optimalUsageRatio)),
-      utilizationRate: Percentage(r.reserve.borrowUsageRatio),
-      baseVariableBorrowRate: NormalizedUnitNumber(r.reserve.baseVariableBorrowRate),
-
-      priceInUSD: bigNumberify(r.reserve.priceInUSD),
-
-      usageAsCollateralEnabled: r.reserve.usageAsCollateralEnabled,
-      usageAsCollateralEnabledOnUser: r.usageAsCollateralEnabledOnUser,
-
-      // incentives are fetched from the blockchain
-      incentives: getIncentivesData(r.reserve, findOneTokenBySymbol),
+    /* eslint-disable func-style */
+    const findOneTokenBySymbol = (symbol: TokenSymbol): Token => {
+      return tokens.find((t) => t.symbol === symbol) ?? raise(`Token ${symbol} not found`)
     }
-  })
+    /* eslint-enable func-style */
 
-  const userPositions = rawAaveData.rawUserReserves.map((r): UserPosition => {
-    const reserve = reserves.find((res) => res.token.address === r.underlyingAsset)!
-    const formattedReserve = rawAaveData.userSummary.userReservesData.find(
-      (res) => res.underlyingAsset === r.underlyingAsset,
-    )!
+    const eModeCategories = extractEmodeInfoFromReserves(rawAaveData.formattedReserves)
 
-    return {
-      reserve,
-      scaledATokenBalance: bigNumberify(r.scaledATokenBalance),
-      scaledVariableDebt: bigNumberify(r.scaledVariableDebt),
-      collateralBalance: NormalizedUnitNumber(formattedReserve.underlyingBalance),
-      borrowBalance: NormalizedUnitNumber(formattedReserve.variableBorrows),
+    const reserves = rawAaveData.userSummary.userReservesData.map((r): Reserve => {
+      const token = findOneTokenBySymbol(TokenSymbol(r.reserve.symbol))
+      const supplyAvailabilityStatus = getSupplyAvailabilityStatus(r.reserve)
+      const collateralEligibilityStatus = getCollateralEligibilityStatus(r.reserve)
+      const borrowEligibilityStatus = getBorrowEligibilityStatus(r.reserve)
+
+      return {
+        token,
+
+        aToken: token.createAToken(CheckedAddress(r.reserve.aTokenAddress)),
+        variableDebtTokenAddress: CheckedAddress(r.reserve.variableDebtTokenAddress),
+
+        status: getReserveStatus(r.reserve),
+
+        supplyAvailabilityStatus,
+        collateralEligibilityStatus,
+        borrowEligibilityStatus,
+
+        isIsolated: r.reserve.isIsolated,
+        eModeCategory:
+          r.reserve.eModeCategoryId !== 0
+            ? eModeCategories[r.reserve.eModeCategoryId] ??
+              raise(`EMode category ${r.reserve.eModeCategoryId} not found`)
+            : undefined,
+        isSiloedBorrowing: r.reserve.isSiloedBorrowing,
+        isBorrowableInIsolation: r.reserve.borrowableInIsolation,
+
+        availableLiquidity: NormalizedUnitNumber(r.reserve.formattedAvailableLiquidity), // @note: r.reserve.availableLiquidity doesn't respect borrow caps so we use formattedAvailableLiquidity which does
+        availableLiquidityUSD: NormalizedUnitNumber(r.reserve.availableLiquidityUSD),
+        supplyCap: r.reserve.supplyCap !== '0' ? NormalizedUnitNumber(r.reserve.supplyCap) : undefined,
+        borrowCap: r.reserve.borrowCap !== '0' ? NormalizedUnitNumber(r.reserve.borrowCap) : undefined,
+        totalLiquidity: NormalizedUnitNumber(r.reserve.totalLiquidity),
+        totalLiquidityUSD: NormalizedUnitNumber(r.reserve.totalLiquidityUSD),
+        totalDebt: NormalizedUnitNumber(r.reserve.totalDebt),
+        totalDebtUSD: NormalizedUnitNumber(r.reserve.totalDebtUSD),
+        totalVariableDebt: NormalizedUnitNumber(r.reserve.totalVariableDebt),
+        totalVariableDebtUSD: NormalizedUnitNumber(r.reserve.totalVariableDebtUSD),
+        isolationModeTotalDebt: NormalizedUnitNumber(r.reserve.isolationModeTotalDebtUSD),
+        debtCeiling: NormalizedUnitNumber(r.reserve.debtCeilingUSD),
+        supplyAPY: supplyAvailabilityStatus === 'no' ? undefined : Percentage(r.reserve.supplyAPY), // when supplying is disabled, APY is not available
+        maxLtv: parseRawPercentage(r.reserve.baseLTVasCollateral),
+        liquidationThreshold: parseRawPercentage(r.reserve.reserveLiquidationThreshold),
+        liquidationBonus: bigNumberify(r.reserve.formattedReserveLiquidationBonus).gt(0)
+          ? Percentage(r.reserve.formattedReserveLiquidationBonus)
+          : Percentage(0),
+        variableBorrowApy: borrowEligibilityStatus === 'no' ? undefined : Percentage(r.reserve.variableBorrowAPY), // when borrowing is disabled, APY is not available
+        reserveFactor: Percentage(r.reserve.reserveFactor),
+        aTokenBalance: NormalizedUnitNumber(r.underlyingBalance),
+
+        lastUpdateTimestamp: r.reserve.lastUpdateTimestamp,
+
+        variableBorrowIndex: bigNumberify(r.reserve.variableBorrowIndex),
+        variableBorrowRate: bigNumberify(r.reserve.variableBorrowRate),
+        liquidityIndex: bigNumberify(r.reserve.liquidityIndex),
+        liquidityRate: bigNumberify(r.reserve.liquidityRate),
+        variableRateSlope1: bigNumberify(r.reserve.variableRateSlope1),
+        variableRateSlope2: bigNumberify(r.reserve.variableRateSlope2),
+        optimalUtilizationRate: Percentage(fromRay(r.reserve.optimalUsageRatio)),
+        utilizationRate: Percentage(r.reserve.borrowUsageRatio),
+        baseVariableBorrowRate: NormalizedUnitNumber(r.reserve.baseVariableBorrowRate),
+
+        priceInUSD: bigNumberify(r.reserve.priceInUSD),
+
+        usageAsCollateralEnabled: r.reserve.usageAsCollateralEnabled,
+        usageAsCollateralEnabledOnUser: r.usageAsCollateralEnabledOnUser,
+
+        // incentives are fetched from the blockchain
+        incentives: getIncentivesData(r.reserve, findOneTokenBySymbol),
+      }
+    })
+
+    const userPositions = rawAaveData.rawUserReserves.map((r): UserPosition => {
+      const reserve = reserves.find((res) => res.token.address === r.underlyingAsset)!
+      const formattedReserve = rawAaveData.userSummary.userReservesData.find(
+        (res) => res.underlyingAsset === r.underlyingAsset,
+      )!
+
+      return {
+        reserve,
+        scaledATokenBalance: bigNumberify(r.scaledATokenBalance),
+        scaledVariableDebt: bigNumberify(r.scaledVariableDebt),
+        collateralBalance: NormalizedUnitNumber(formattedReserve.underlyingBalance),
+        borrowBalance: NormalizedUnitNumber(formattedReserve.variableBorrows),
+      }
+    })
+
+    const userPositionSummary = normalizeUserPositionSummary(rawAaveData.userSummary)
+
+    const userConfiguration: UserConfiguration = {
+      eModeState: determineEModeState(rawAaveData.userEmodeCategoryId, eModeCategories),
+      isolationModeState: determineIsolationModeState(rawAaveData.userSummary, reserves),
+      siloBorrowingState: determineSiloBorrowingState(userPositions),
     }
-  })
-
-  const userPositionSummary = normalizeUserPositionSummary(rawAaveData.userSummary)
-
-  const userConfiguration: UserConfiguration = {
-    eModeState: determineEModeState(rawAaveData.userEmodeCategoryId, eModeCategories),
-    isolationModeState: determineIsolationModeState(rawAaveData.userSummary, reserves),
-    siloBorrowingState: determineSiloBorrowingState(userPositions),
+    return new MarketInfo(
+      reserves,
+      userPositions,
+      userPositionSummary,
+      userConfiguration,
+      eModeCategories,
+      rawAaveData.timestamp,
+      chainId,
+      nativeAssetInfo,
+    )
   }
-
-  return new MarketInfo(
-    reserves,
-    userPositions,
-    userPositionSummary,
-    userConfiguration,
-    eModeCategories,
-    rawAaveData.timestamp,
-    chainId,
-    nativeAssetInfo,
-  )
 }
