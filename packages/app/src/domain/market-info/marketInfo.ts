@@ -361,7 +361,7 @@ export function marketInfoSelectFn({ timeAdvance }: MarketInfoSelectFnParams = {
         (acc, [_, value]) => [
           ...acc,
           {
-            value: NormalizedUnitNumber(value.claimableRewards.shiftedBy(-value.rewardTokenDecimals)),
+            value: NormalizedUnitNumber(value.claimableRewards.dp(0).shiftedBy(-value.rewardTokenDecimals)),
             token: findOneTokenBySymbol(TokenSymbol(value.rewardTokenSymbol)),
             incentiveControllerAddress: CheckedAddress(value.incentiveControllerAddress),
             assets: value.assets.map((asset) => CheckedAddress(asset)),

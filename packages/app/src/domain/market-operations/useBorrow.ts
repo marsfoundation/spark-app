@@ -1,6 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { Address } from 'viem'
-import { useAccount, useChainId, useConfig } from 'wagmi'
+import { useAccount, useChainId } from 'wagmi'
 
 import { poolAbi } from '@/config/abis/poolAbi'
 import { InterestRate, NATIVE_ASSET_MOCK_ADDRESS } from '@/config/consts'
@@ -9,7 +9,7 @@ import { useContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes, useWrite } from '@/domain/hooks/useWrite'
 import { aaveDataLayerQueryKey } from '@/domain/market-info/aave-data-layer/query'
 import { BaseUnitNumber } from '@/domain/types/NumericValues'
-import { balances } from '@/domain/wallet/balances'
+import { balancesQueryKey } from '@/domain/wallet/balances'
 import { toBigInt } from '@/utils/bigNumber'
 
 export interface UseBorrowArgs {
@@ -31,7 +31,6 @@ export function useBorrow({
   const client = useQueryClient()
   const { address: userAddress } = useAccount()
   const chainId = useChainId()
-  const wagmiConfig = useConfig()
   const value = toBigInt(_value)
   const interestRateMode = BigInt(InterestRate.Variable)
 
@@ -61,7 +60,7 @@ export function useBorrow({
           queryKey: aaveDataLayerQueryKey({ chainId, account: userAddress }),
         })
         void client.invalidateQueries({
-          queryKey: balances({ wagmiConfig, chainId, account: userAddress }).queryKey,
+          queryKey: balancesQueryKey({ chainId, account: userAddress }),
         })
 
         onTransactionSettled?.()

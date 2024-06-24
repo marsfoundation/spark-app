@@ -6,7 +6,7 @@ import { useAccount, useChainId, useConfig } from 'wagmi'
 import { ensureConfigTypes, useWrite } from '../../hooks/useWrite'
 import { BaseUnitNumber } from '../../types/NumericValues'
 import { Token } from '../../types/Token'
-import { balances } from '../../wallet/balances'
+import { balancesQueryKey } from '../../wallet/balances'
 import { gemMinAmountOutQueryOptions } from './gemMinAmountOutQuery'
 
 export interface UseRedeemAndSwapArgs {
@@ -62,7 +62,7 @@ export function useRedeemAndSwap({
     {
       onTransactionSettled: async () => {
         void client.invalidateQueries({
-          queryKey: balances({ wagmiConfig, chainId, account: receiver }).queryKey,
+          queryKey: balancesQueryKey({ chainId, account: receiver }),
         })
 
         onTransactionSettled?.()

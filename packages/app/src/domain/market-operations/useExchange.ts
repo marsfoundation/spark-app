@@ -8,7 +8,7 @@ import { UseSendTxResult, useSendTx } from '../hooks/useSendTx'
 import { WriteStatus } from '../hooks/useWrite'
 import { aaveDataLayerQueryKey } from '../market-info/aave-data-layer/query'
 import { BaseUnitNumber, NormalizedUnitNumber } from '../types/NumericValues'
-import { balances } from '../wallet/balances'
+import { balancesQueryKey } from '../wallet/balances'
 import { allowance } from './allowance/query'
 
 export interface UseExchangeParams {
@@ -66,7 +66,7 @@ export function useExchange({ swapInfo, enabled = true, onTransactionSettled }: 
           queryKey: aaveDataLayerQueryKey({ chainId, account: userAddress }),
         })
         void client.invalidateQueries({
-          queryKey: balances({ wagmiConfig, chainId, account: userAddress }).queryKey,
+          queryKey: balancesQueryKey({ chainId, account: userAddress }),
         })
 
         onTransactionSettled?.()

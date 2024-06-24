@@ -1,11 +1,11 @@
 import { toBigInt } from '@/utils/bigNumber'
 import { useQueryClient } from '@tanstack/react-query'
 import { erc4626Abi } from 'viem'
-import { useAccount, useChainId, useConfig } from 'wagmi'
+import { useAccount, useChainId } from 'wagmi'
 import { ensureConfigTypes, useWrite } from '../hooks/useWrite'
 import { CheckedAddress } from '../types/CheckedAddress'
 import { BaseUnitNumber } from '../types/NumericValues'
-import { balances } from '../wallet/balances'
+import { balancesQueryKey } from '../wallet/balances'
 
 interface UseVaultWithdrawArgs {
   vault: CheckedAddress
@@ -24,7 +24,6 @@ export function useVaultWithdraw({
   enabled = true,
 }: UseVaultWithdrawArgs): ReturnType<typeof useWrite> {
   const client = useQueryClient()
-  const wagmiConfig = useConfig()
   const chainId = useChainId()
 
   const { address: receiver } = useAccount()
@@ -44,7 +43,7 @@ export function useVaultWithdraw({
     {
       onTransactionSettled: async () => {
         void client.invalidateQueries({
-          queryKey: balances({ wagmiConfig, chainId, account: receiver }).queryKey,
+          queryKey: balancesQueryKey({ chainId, account: receiver }),
         })
 
         onTransactionSettled?.()
