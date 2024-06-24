@@ -13,10 +13,12 @@ import { getContractAddress } from '../hooks/useContractAddress'
 import { CheckedAddress } from '../types/CheckedAddress'
 import { BaseUnitNumber } from '../types/NumericValues'
 
-export interface BalanceOptions {
-  wagmiConfig: Config
+export interface BalanceQueryKeyParams {
   account?: Address
   chainId: number
+}
+export interface BalanceParams extends BalanceQueryKeyParams {
+  wagmiConfig: Config
 }
 
 export interface BalanceItem {
@@ -25,18 +27,11 @@ export interface BalanceItem {
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function balances({ wagmiConfig, account, chainId }: BalanceOptions) {
+export function balances({ wagmiConfig, account, chainId }: BalanceParams) {
   const lendingPoolAddressProvider = getContractAddress(lendingPoolAddressProviderAddress, chainId)
 
   return queryOptions<BalanceItem[]>({
-    queryKey: [
-      {
-        functionName: 'getUserWalletBalances',
-      },
-      lendingPoolAddressProvider,
-      account,
-      chainId,
-    ],
+    queryKey: balancesQueryKey({ account, chainId }),
     queryFn: async () => {
       if (!account) {
         return []
@@ -59,4 +54,14 @@ export function balances({ wagmiConfig, account, chainId }: BalanceOptions) {
         .sort((a, b) => b.balanceBaseUnit.minus(a.balanceBaseUnit).toNumber())
     },
   })
+}
+
+export function balancesQueryKey({ account, chainId }: BalanceQueryKeyParams): unknown[] {
+  return [
+    {
+      functionName: 'getUserWalletBalances',
+    },
+    account,
+    chainId,
+  ]
 }

@@ -356,18 +356,20 @@ export function marketInfoSelectFn({ timeAdvance }: MarketInfoSelectFnParams = {
       siloBorrowingState: determineSiloBorrowingState(userPositions),
     }
 
-    const userRewards: UserReward[] = Object.entries(rawAaveData.userRewards).reduce(
-      (acc, [_, value]) => [
-        ...acc,
-        {
-          value: NormalizedUnitNumber(value.claimableRewards.shiftedBy(-value.rewardTokenDecimals)),
-          token: findOneTokenBySymbol(TokenSymbol(value.rewardTokenSymbol)),
-          incentiveControllerAddress: CheckedAddress(value.incentiveControllerAddress),
-          assets: value.assets.map((asset) => CheckedAddress(asset)),
-        },
-      ],
-      [] as UserReward[],
-    ).filter((r) => r.value.gt(0))
+    const userRewards: UserReward[] = Object.entries(rawAaveData.userRewards)
+      .reduce(
+        (acc, [_, value]) => [
+          ...acc,
+          {
+            value: NormalizedUnitNumber(value.claimableRewards.shiftedBy(-value.rewardTokenDecimals)),
+            token: findOneTokenBySymbol(TokenSymbol(value.rewardTokenSymbol)),
+            incentiveControllerAddress: CheckedAddress(value.incentiveControllerAddress),
+            assets: value.assets.map((asset) => CheckedAddress(asset)),
+          },
+        ],
+        [] as UserReward[],
+      )
+      .filter((r) => r.value.gt(0))
 
     return new MarketInfo(
       reserves,
