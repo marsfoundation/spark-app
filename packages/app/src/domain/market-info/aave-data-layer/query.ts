@@ -1,4 +1,4 @@
-import { formatReservesAndIncentives, formatUserSummary } from '@aave/math-utils'
+import { calculateAllUserIncentives, formatReservesAndIncentives, formatUserSummary } from '@aave/math-utils'
 import { Address } from 'viem'
 import { Config } from 'wagmi'
 import { multicall } from 'wagmi/actions'
@@ -30,6 +30,7 @@ export interface AaveDataLayerArgs extends AaveDataLayerQueryKeyArgs {
 export type AaveData = ReturnType<ReturnType<typeof aaveDataLayerSelectFn>>
 export type AaveUserSummary = AaveData['userSummary']
 export type AaveUserReserve = AaveUserSummary['userReservesData'][number]['reserve']
+export type AaveUserRewaed = AaveData['userRewards']
 export type RawAaveUserReserve = AaveData['rawUserReserves'][number]
 export type AaveFormattedReserve = AaveData['formattedReserves'][number]
 export type AaveBaseCurrency = AaveData['baseCurrency']
@@ -95,6 +96,12 @@ function aaveDataLayerQueryFn({
           functionName: 'getUserReservesData',
           args: [lendingPoolAddressProvider, account ?? uiPoolDataProvider], // little hack to support properly formatted data for guest
         },
+        {
+          address: uiIncentiveDataProvider,
+          abi: uiIncentiveDataProviderAbi,
+          functionName: 'getUserReservesIncentivesData',
+          args: [lendingPoolAddressProvider, account ?? uiPoolDataProvider],
+        },
       ],
     })
 
@@ -113,7 +120,12 @@ export interface AaveDataLayerSelectFnParams {
 export function aaveDataLayerSelectFn({ timeAdvance }: AaveDataLayerSelectFnParams = {}) {
   return (data: AaveDataLayerQueryReturnType) => {
     const { contractData, chainId, lendingPoolAddressProvider } = data
-    const [[reserves, baseCurrencyInfo], reservesIncentiveData, [userReserves, userEmodeCategoryId]] = contractData
+    const [
+      [reserves, baseCurrencyInfo],
+      reservesIncentiveData,
+      [userReserves, userEmodeCategoryId],
+      userReserveIncentivesData,
+    ] = contractData
 
     const currentTimestamp = Math.floor(Date.now() / 1000) + (timeAdvance ?? 0)
 
@@ -133,43 +145,76 @@ export function aaveDataLayerSelectFn({ timeAdvance }: AaveDataLayerSelectFnPara
       stableBorrowLastUpdateTimestamp: Number(r.stableBorrowLastUpdateTimestamp),
     }))
 
+    const reserveIncentives = reservesIncentiveData.map((r) => ({
+      ...r,
+      aIncentiveData: {
+        ...r.aIncentiveData,
+        rewardsTokenInformation: r.aIncentiveData.rewardsTokenInformation.map((rawRewardInfo) => ({
+          ...rawRewardInfo,
+          emissionPerSecond: rawRewardInfo.emissionPerSecond.toString(),
+          incentivesLastUpdateTimestamp: Number(rawRewardInfo.incentivesLastUpdateTimestamp),
+          tokenIncentivesIndex: rawRewardInfo.tokenIncentivesIndex.toString(),
+          emissionEndTimestamp: Number(rawRewardInfo.emissionEndTimestamp),
+          rewardPriceFeed: rawRewardInfo.rewardPriceFeed.toString(),
+        })),
+      },
+      vIncentiveData: {
+        ...r.vIncentiveData,
+        rewardsTokenInformation: r.vIncentiveData.rewardsTokenInformation.map((rawRewardInfo) => ({
+          ...rawRewardInfo,
+          emissionPerSecond: rawRewardInfo.emissionPerSecond.toString(),
+          incentivesLastUpdateTimestamp: Number(rawRewardInfo.incentivesLastUpdateTimestamp),
+          tokenIncentivesIndex: rawRewardInfo.tokenIncentivesIndex.toString(),
+          emissionEndTimestamp: Number(rawRewardInfo.emissionEndTimestamp),
+          rewardPriceFeed: rawRewardInfo.rewardPriceFeed.toString(),
+        })),
+      },
+      sIncentiveData: {
+        ...r.sIncentiveData,
+        rewardsTokenInformation: r.sIncentiveData.rewardsTokenInformation.map((rawRewardInfo) => ({
+          ...rawRewardInfo,
+          emissionPerSecond: rawRewardInfo.emissionPerSecond.toString(),
+          incentivesLastUpdateTimestamp: Number(rawRewardInfo.incentivesLastUpdateTimestamp),
+          tokenIncentivesIndex: rawRewardInfo.tokenIncentivesIndex.toString(),
+          emissionEndTimestamp: Number(rawRewardInfo.emissionEndTimestamp),
+          rewardPriceFeed: rawRewardInfo.rewardPriceFeed.toString(),
+        })),
+      },
+    }))
+
+    const userIncentives = userReserveIncentivesData.map((r) => ({
+      ...r,
+      aTokenIncentivesUserData: {
+        ...r.aTokenIncentivesUserData,
+        userRewardsInformation: r.aTokenIncentivesUserData.userRewardsInformation.map((rawRewardInfo) => ({
+          ...rawRewardInfo,
+          userUnclaimedRewards: rawRewardInfo.userUnclaimedRewards.toString(),
+          tokenIncentivesUserIndex: rawRewardInfo.tokenIncentivesUserIndex.toString(),
+          rewardPriceFeed: rawRewardInfo.rewardPriceFeed.toString(),
+        })),
+      },
+      vTokenIncentivesUserData: {
+        ...r.vTokenIncentivesUserData,
+        userRewardsInformation: r.vTokenIncentivesUserData.userRewardsInformation.map((rawRewardInfo) => ({
+          ...rawRewardInfo,
+          userUnclaimedRewards: rawRewardInfo.userUnclaimedRewards.toString(),
+          tokenIncentivesUserIndex: rawRewardInfo.tokenIncentivesUserIndex.toString(),
+          rewardPriceFeed: rawRewardInfo.rewardPriceFeed.toString(),
+        })),
+      },
+      sTokenIncentivesUserData: {
+        ...r.sTokenIncentivesUserData,
+        userRewardsInformation: r.sTokenIncentivesUserData.userRewardsInformation.map((rawRewardInfo) => ({
+          ...rawRewardInfo,
+          userUnclaimedRewards: rawRewardInfo.userUnclaimedRewards.toString(),
+          tokenIncentivesUserIndex: rawRewardInfo.tokenIncentivesUserIndex.toString(),
+          rewardPriceFeed: rawRewardInfo.rewardPriceFeed.toString(),
+        })),
+      },
+    }))
+
     const formattedReserves = formatReservesAndIncentives({
-      reserveIncentives: reservesIncentiveData.map((r) => ({
-        ...r,
-        aIncentiveData: {
-          ...r.aIncentiveData,
-          rewardsTokenInformation: r.aIncentiveData.rewardsTokenInformation.map((rawRewardInfo) => ({
-            ...rawRewardInfo,
-            emissionPerSecond: rawRewardInfo.emissionPerSecond.toString(),
-            incentivesLastUpdateTimestamp: Number(rawRewardInfo.incentivesLastUpdateTimestamp),
-            tokenIncentivesIndex: rawRewardInfo.tokenIncentivesIndex.toString(),
-            emissionEndTimestamp: Number(rawRewardInfo.emissionEndTimestamp),
-            rewardPriceFeed: rawRewardInfo.rewardPriceFeed.toString(),
-          })),
-        },
-        vIncentiveData: {
-          ...r.vIncentiveData,
-          rewardsTokenInformation: r.vIncentiveData.rewardsTokenInformation.map((rawRewardInfo) => ({
-            ...rawRewardInfo,
-            emissionPerSecond: rawRewardInfo.emissionPerSecond.toString(),
-            incentivesLastUpdateTimestamp: Number(rawRewardInfo.incentivesLastUpdateTimestamp),
-            tokenIncentivesIndex: rawRewardInfo.tokenIncentivesIndex.toString(),
-            emissionEndTimestamp: Number(rawRewardInfo.emissionEndTimestamp),
-            rewardPriceFeed: rawRewardInfo.rewardPriceFeed.toString(),
-          })),
-        },
-        sIncentiveData: {
-          ...r.sIncentiveData,
-          rewardsTokenInformation: r.sIncentiveData.rewardsTokenInformation.map((rawRewardInfo) => ({
-            ...rawRewardInfo,
-            emissionPerSecond: rawRewardInfo.emissionPerSecond.toString(),
-            incentivesLastUpdateTimestamp: Number(rawRewardInfo.incentivesLastUpdateTimestamp),
-            tokenIncentivesIndex: rawRewardInfo.tokenIncentivesIndex.toString(),
-            emissionEndTimestamp: Number(rawRewardInfo.emissionEndTimestamp),
-            rewardPriceFeed: rawRewardInfo.rewardPriceFeed.toString(),
-          })),
-        },
-      })),
+      reserveIncentives,
       currentTimestamp,
       marketReferencePriceInUsd: baseCurrency.marketReferenceCurrencyPriceInUsd,
       marketReferenceCurrencyDecimals: baseCurrency.marketReferenceCurrencyDecimals,
@@ -218,12 +263,20 @@ export function aaveDataLayerSelectFn({ timeAdvance }: AaveDataLayerSelectFnPara
       userEmodeCategoryId,
     })
 
+    const userRewards = calculateAllUserIncentives({
+      reserveIncentives,
+      userIncentives,
+      userReserves: userSummary.userReservesData,
+      currentTimestamp,
+    })
+
     return {
       rawUserReserves,
       baseCurrency,
       formattedReserves,
       userSummary,
       userEmodeCategoryId,
+      userRewards,
       timestamp: currentTimestamp,
     }
   }

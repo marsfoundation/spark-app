@@ -128,6 +128,13 @@ export interface EModeCategory {
 }
 export type EModeCategories = Record<number, EModeCategory>
 
+export interface UserReward {
+  assets: CheckedAddress[]
+  value: NormalizedUnitNumber
+  token: Token
+  incentiveControllerAddress: CheckedAddress
+}
+
 export class MarketInfo {
   private readonly nativePosition: UserPosition
 
@@ -139,6 +146,7 @@ export class MarketInfo {
     public readonly emodeCategories: EModeCategories,
     public readonly timestamp: number,
     public readonly chainId: number,
+    public readonly userRewards: UserReward[],
     private readonly nativeAssetInfo: NativeAssetInfo,
   ) {
     const wrappedNativeAssetPosition =
@@ -347,6 +355,20 @@ export function marketInfoSelectFn({ timeAdvance }: MarketInfoSelectFnParams = {
       isolationModeState: determineIsolationModeState(rawAaveData.userSummary, reserves),
       siloBorrowingState: determineSiloBorrowingState(userPositions),
     }
+
+    const userRewards: UserReward[] = Object.entries(rawAaveData.userRewards).reduce(
+      (acc, [_, value]) => [
+        ...acc,
+        {
+          value: NormalizedUnitNumber(value.claimableRewards.shiftedBy(-value.rewardTokenDecimals)),
+          token: findOneTokenBySymbol(TokenSymbol(value.rewardTokenSymbol)),
+          incentiveControllerAddress: CheckedAddress(value.incentiveControllerAddress),
+          assets: value.assets.map((asset) => CheckedAddress(asset)),
+        },
+      ],
+      [] as UserReward[],
+    ).filter((r) => r.value.gt(0))
+
     return new MarketInfo(
       reserves,
       userPositions,
@@ -355,6 +377,7 @@ export function marketInfoSelectFn({ timeAdvance }: MarketInfoSelectFnParams = {
       eModeCategories,
       rawAaveData.timestamp,
       chainId,
+      userRewards,
       nativeAssetInfo,
     )
   }
