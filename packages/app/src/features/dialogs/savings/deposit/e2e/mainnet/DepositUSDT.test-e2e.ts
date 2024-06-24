@@ -185,7 +185,7 @@ test.describe('Risk warning', () => {
   })
 })
 
-test.describe('General Validation', () => {
+test.describe('Validation', () => {
   const fork = setupFork({
     blockNumber: 20160798n,
     chainId: mainnet.id,
