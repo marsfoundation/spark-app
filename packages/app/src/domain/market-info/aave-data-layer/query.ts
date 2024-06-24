@@ -52,7 +52,7 @@ export function aaveDataLayer({ wagmiConfig, chainId, account, timeAdvance }: Aa
       chainId,
       account,
     }),
-    select: aaveDataLayerSelectFnWithCache({ timeAdvance }),
+    select: aaveDataLayerSelectFn({ timeAdvance }),
   })
 }
 
@@ -106,31 +106,11 @@ function aaveDataLayerQueryFn({
   }
 }
 
-const aaveDataLayerSelectFnCache = new Map<number, ReturnType<typeof aaveDataLayerSelectFn>>()
 export interface AaveDataLayerSelectFnParams {
   timeAdvance?: number // time advance in seconds
 }
 
-// The cache is needed to ensure referential stability of the select function.
-// This will create a new function for every timeAdvance value and store it in the cache.
-// This helps to avoid unnecessary invocations of the select function in the react-query.
-// If the select function is inlined, it will be invoked on every render because of the referential instability.
-// Using this wrapper function, we can ensure that the select function is stable and will be invoked only when the data changes.
-function aaveDataLayerSelectFnWithCache({
-  timeAdvance,
-}: AaveDataLayerSelectFnParams = {}): ReturnType<typeof aaveDataLayerSelectFn> {
-  const key = timeAdvance ?? 0
-
-  if (aaveDataLayerSelectFnCache.has(key)) {
-    return aaveDataLayerSelectFnCache.get(key)!
-  }
-
-  const selectFn = aaveDataLayerSelectFn({ timeAdvance })
-  aaveDataLayerSelectFnCache.set(key, selectFn)
-  return selectFn
-}
-
-function aaveDataLayerSelectFn({ timeAdvance }: AaveDataLayerSelectFnParams) {
+export function aaveDataLayerSelectFn({ timeAdvance }: AaveDataLayerSelectFnParams = {}) {
   return (data: AaveDataLayerQueryReturnType) => {
     const { contractData, chainId, lendingPoolAddressProvider } = data
     const [[reserves, baseCurrencyInfo], reservesIncentiveData, [userReserves, userEmodeCategoryId]] = contractData
@@ -248,5 +228,3 @@ function aaveDataLayerSelectFn({ timeAdvance }: AaveDataLayerSelectFnParams) {
     }
   }
 }
-
-export { aaveDataLayerSelectFnWithCache as aaveDataLayerSelectFn }

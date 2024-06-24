@@ -3,7 +3,8 @@ import { useAccount, useChainId, useConfig } from 'wagmi'
 
 import { SuspenseQueryWith } from '@/utils/types'
 
-import { AaveData, aaveDataLayer } from './query'
+import { useMemo } from 'react'
+import { AaveData, aaveDataLayer, aaveDataLayerSelectFn } from './query'
 
 export interface UseAaveDataLayerParams {
   chainId?: number
@@ -24,6 +25,7 @@ export function useAaveDataLayer(params: UseAaveDataLayerParams = {}): UseAaveDa
       chainId,
       account: address,
     }),
+    select: useMemo(() => aaveDataLayerSelectFn(), []),
   })
 
   return {

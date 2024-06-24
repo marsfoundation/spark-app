@@ -229,7 +229,7 @@ export interface MarketInfoSelectFnParams {
   timeAdvance?: number // time advance in seconds
 }
 
-function marketInfoSelectFn({ timeAdvance }: MarketInfoSelectFnParams = {}) {
+export function marketInfoSelectFn({ timeAdvance }: MarketInfoSelectFnParams = {}) {
   return (data: AaveDataLayerQueryReturnType) => {
     const rawAaveData = aaveDataLayerSelectFn({ timeAdvance })(data)
     const chainId = data.chainId
@@ -359,26 +359,3 @@ function marketInfoSelectFn({ timeAdvance }: MarketInfoSelectFnParams = {}) {
     )
   }
 }
-
-const marketInfoSelectFnCache = new Map<number, ReturnType<typeof marketInfoSelectFn>>()
-
-// The cache is needed to ensure referential stability of the select function.
-// This will create a new function for every timeAdvance value and store it in the cache.
-// This helps to avoid unnecessary invocations of the select function in the react-query.
-// If the select function is inlined, it will be invoked on every render because of the referential instability.
-// Using this wrapper function, we can ensure that the select function is stable and will be invoked only when the data changes.
-function marketInfoSelectFnWithCache({
-  timeAdvance,
-}: MarketInfoSelectFnParams = {}): ReturnType<typeof marketInfoSelectFn> {
-  const key = timeAdvance ?? 0
-
-  if (marketInfoSelectFnCache.has(key)) {
-    return marketInfoSelectFnCache.get(key)!
-  }
-
-  const selectFn = marketInfoSelectFn({ timeAdvance })
-  marketInfoSelectFnCache.set(key, selectFn)
-  return selectFn
-}
-
-export { marketInfoSelectFnWithCache as marketInfoSelectFn }

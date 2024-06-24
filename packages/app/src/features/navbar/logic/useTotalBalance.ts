@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
+import { useMemo } from 'react'
 import { useAccount, useChainId, useConfig } from 'wagmi'
 
 import { aaveDataLayer } from '@/domain/market-info/aave-data-layer/query'
@@ -28,7 +29,7 @@ export function useTotalBalance(): BalanceInfo {
       account: address && CheckedAddress(address),
       chainId,
     }),
-    select: marketInfoSelectFn(),
+    select: useMemo(() => marketInfoSelectFn(), []),
   })
 
   const balancesUSD = (walletInfo.data ?? []).map(({ address, balanceBaseUnit }) => {

@@ -3,6 +3,7 @@ import { useAccount, useChainId, useConfig } from 'wagmi'
 
 import { SuspenseQueryWith } from '@/utils/types'
 
+import { useMemo } from 'react'
 import { aaveDataLayer } from './aave-data-layer/query'
 import { MarketInfo, marketInfoSelectFn } from './marketInfo'
 
@@ -26,7 +27,7 @@ export function useMarketInfo(params: UseMarketInfoParams = {}): UseMarketInfoRe
       chainId,
       account: address,
     }),
-    select: marketInfoSelectFn({ timeAdvance: params.timeAdvance }),
+    select: useMemo(() => marketInfoSelectFn({ timeAdvance: params.timeAdvance }), [params.timeAdvance]),
   })
 
   return {
