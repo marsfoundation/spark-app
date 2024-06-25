@@ -2,10 +2,10 @@ import { savingsXDaiAdapterAbi, savingsXDaiAdapterAddress } from '@/config/contr
 import { toBigInt } from '@/utils/bigNumber'
 import { useQueryClient } from '@tanstack/react-query'
 import { gnosis } from 'viem/chains'
-import { useAccount, useConfig } from 'wagmi'
+import { useAccount } from 'wagmi'
 import { ensureConfigTypes, useWrite } from '../hooks/useWrite'
 import { BaseUnitNumber } from '../types/NumericValues'
-import { balances } from '../wallet/balances'
+import { balancesQueryKey } from '../wallet/balances'
 
 export interface UseSexyDaiDepositArgs {
   value: BaseUnitNumber
@@ -19,7 +19,6 @@ export function useSexyDaiDeposit({
   enabled: _enabled = true,
 }: UseSexyDaiDepositArgs): ReturnType<typeof useWrite> {
   const client = useQueryClient()
-  const wagmiConfig = useConfig()
 
   const { address: receiver } = useAccount()
   const value = toBigInt(_value)
@@ -41,7 +40,7 @@ export function useSexyDaiDeposit({
     {
       onTransactionSettled: async () => {
         void client.invalidateQueries({
-          queryKey: balances({ wagmiConfig, chainId: gnosis.id, account: receiver }).queryKey,
+          queryKey: balancesQueryKey({ chainId: gnosis.id, account: receiver }),
         })
 
         onTransactionSettled?.()

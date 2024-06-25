@@ -253,6 +253,7 @@ export function getMockMarketInfo(
     {},
     new Date('2024-06-04T10:21:19Z').getTime() / 1000,
     chainId ?? 1,
+    [], // no user rewards
     nativeAssetInfo ?? {
       nativeAssetName: 'Ethereum',
       wrappedNativeAssetSymbol: TokenSymbol('WETH'),

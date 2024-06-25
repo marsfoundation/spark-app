@@ -7,7 +7,7 @@ import { ensureConfigTypes, useWrite } from '../hooks/useWrite'
 import { allowance } from '../market-operations/allowance/query'
 import { CheckedAddress } from '../types/CheckedAddress'
 import { BaseUnitNumber } from '../types/NumericValues'
-import { balances } from '../wallet/balances'
+import { balancesQueryKey } from '../wallet/balances'
 
 export interface UseSexyDaiRedeemArgs {
   sDai: CheckedAddress
@@ -45,7 +45,7 @@ export function useSexyDaiRedeem({
     {
       onTransactionSettled: async () => {
         void client.invalidateQueries({
-          queryKey: balances({ wagmiConfig, chainId: gnosis.id, account: receiver }).queryKey,
+          queryKey: balancesQueryKey({ chainId: gnosis.id, account: receiver }),
         })
         void client.invalidateQueries({
           queryKey: allowance({

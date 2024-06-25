@@ -7,7 +7,7 @@ import { ensureConfigTypes, useWrite } from '../hooks/useWrite'
 import { allowance } from '../market-operations/allowance/query'
 import { BaseUnitNumber } from '../types/NumericValues'
 import { Token } from '../types/Token'
-import { balances } from '../wallet/balances'
+import { balancesQueryKey } from '../wallet/balances'
 import { calculateGemConversionFactor } from './utils/calculateGemConversionFactor'
 
 export interface UseSwapAndDepositArgs {
@@ -57,7 +57,7 @@ export function useSwapAndDeposit({
     {
       onTransactionSettled: async () => {
         void client.invalidateQueries({
-          queryKey: balances({ wagmiConfig, chainId, account: receiver }).queryKey,
+          queryKey: balancesQueryKey({ chainId, account: receiver }),
         })
         void client.invalidateQueries({
           queryKey: allowance({ wagmiConfig, chainId, token: gem.address, account: receiver!, spender: psmActions })
