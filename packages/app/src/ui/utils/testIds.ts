@@ -100,6 +100,7 @@ export const testIds = makeTestIds({
         value: (index: number) => index,
       },
     },
+    frozenAssetsSwitch: true,
   },
   marketDetails: {
     collateralStatusPanel: {

@@ -42,7 +42,11 @@ export function MarketsView({
         <MarketsTable entries={activeAndPausedMarketEntries} chainId={chainId} />
         {frozenMarketEntries.length > 0 && (
           <>
-            <LabeledSwitch checked={showFrozenAssets} onCheckedChange={setShowFrozenAssets}>
+            <LabeledSwitch
+              checked={showFrozenAssets}
+              onCheckedChange={setShowFrozenAssets}
+              data-testid={testIds.markets.frozenAssetsSwitch}
+            >
               Show Frozen Assets
             </LabeledSwitch>
             {showFrozenAssets && <MarketsTable entries={frozenMarketEntries} chainId={chainId} hideTableHeader />}
