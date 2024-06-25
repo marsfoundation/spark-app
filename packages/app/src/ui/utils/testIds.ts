@@ -92,6 +92,15 @@ export const testIds = makeTestIds({
   navbar: {
     airdropBadge: true,
   },
+  markets: {
+    summary: {
+      container: true,
+      tile: {
+        description: (index: number) => index,
+        value: (index: number) => index,
+      },
+    },
+  },
   marketDetails: {
     collateralStatusPanel: {
       debt: true,

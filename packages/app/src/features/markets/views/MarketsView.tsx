@@ -5,7 +5,7 @@ import { Panel } from '@/ui/atoms/panel/Panel'
 import { Typography } from '@/ui/atoms/typography/Typography'
 import { PageLayout } from '@/ui/layouts/PageLayout'
 import { LabeledSwitch } from '@/ui/molecules/labeled-switch/LabeledSwitch'
-
+import { testIds } from '@/ui/utils/testIds'
 import { MarketsTable } from '../components/markets-table/MarketsTable'
 import { SummaryTiles } from '../components/summary-tiles/SummaryTiles'
 import { MarketStats } from '../logic/aggregate-stats'
@@ -37,7 +37,7 @@ export function MarketsView({
           <Typography className="font-semibold text-primary text-xs">{chainName}</Typography>
         </div>
       </div>
-      <SummaryTiles marketStats={marketStats} />
+      <SummaryTiles marketStats={marketStats} data-testid={testIds.markets.summary.container} />
       <Panel.Wrapper className="flex flex-col gap-5 p-4 lg:p-8">
         <MarketsTable entries={activeAndPausedMarketEntries} chainId={chainId} />
         {frozenMarketEntries.length > 0 && (
