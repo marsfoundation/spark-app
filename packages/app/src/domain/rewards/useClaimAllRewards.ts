@@ -16,7 +16,7 @@ export interface UseClaimAllRewardsParams {
 export function useClaimAllRewards({
   assets,
   incentiveControllerAddress,
-  enabled,
+  enabled = true,
   onTransactionSettled,
 }: UseClaimAllRewardsParams): ReturnType<typeof useWrite> {
   const queryClient = useQueryClient()
@@ -29,7 +29,7 @@ export function useClaimAllRewards({
       abi: incentiveControllerAbi,
       functionName: 'claimAllRewards',
       args: [assets, account!],
-      enabled: Boolean((enabled ?? true) && account && assets.length > 0),
+      enabled: enabled && account && assets.length > 0,
     },
     {
       onTransactionSettled: async () => {
