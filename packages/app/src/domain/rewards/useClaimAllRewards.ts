@@ -29,7 +29,7 @@ export function useClaimAllRewards({
       abi: incentiveControllerAbi,
       functionName: 'claimAllRewards',
       args: [assets, account!],
-      enabled: enabled && account && assets.length > 0,
+      enabled: Boolean(enabled && account && assets.length > 0),
     },
     {
       onTransactionSettled: async () => {
