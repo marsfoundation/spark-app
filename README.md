@@ -44,6 +44,8 @@ VITE_FEATURE_X=1
 
 All feature flags are listed in `.env.example` file.
 
+## Testing
+
 ### Integration tests
 
 Integration tests focus on testing integration between different components within the app and don't hit real (or
@@ -87,7 +89,7 @@ time control methods on tenderly forks with idea that in near future we'll refac
 
 #### Mocking external HTTP requests in E2E tests
 
-Savings page E2E tests require mocking requests to LiFi API. To do so, we use `overrideLiFiRouteWithHAR` utility function 
+Savings page E2E tests require mocking requests to LiFi API. To do so, we use `overrideLiFiRouteWithHAR` utility function
 that leverages playwright's HAR recording feature. To create new or modify existing E2E tests that require mocking LiFi API,
 follow these steps:
 - Get the latest block number on the appropriate network (e.g. mainnet, gnosis).
@@ -105,6 +107,15 @@ We follow the convention to pass `LIFI_TEST_USER_PRIVATE_KEY` constant.
 This will stop recording requests and use the HAR file instead.
 - You can now run the test again and potentially fix assertions that failed in the previous run.
 - If necessary, you can modify the HAR file manually. This might be useful when you need to test rare edge cases.
+
+### Injecting rpc through url
+
+In development and staging environments, there is an option to inject custom `rpc` with `chainId` via url. It can be used for instrumenting the app to test fork environments etc.
+This functionality is guarded by the feature flag `VITE_FEATURE_RPC_INJECTION_VIA_URL`. Injected network details will be lost after the app is reloaded.
+```
+https://spark-app-staging.vercel.app/?rpc=https://rpc.example.com&chainId=1
+```
+
 
 ### Visual regression
 
