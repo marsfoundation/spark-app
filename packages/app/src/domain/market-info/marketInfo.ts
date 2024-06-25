@@ -8,7 +8,7 @@ import { fromRay } from '@/utils/math'
 
 import { bigNumberify } from '../../utils/bigNumber'
 import { CheckedAddress } from '../types/CheckedAddress'
-import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
+import { BaseUnitNumber, NormalizedUnitNumber, Percentage } from '../types/NumericValues'
 import { Token } from '../types/Token'
 import { TokenSymbol } from '../types/TokenSymbol'
 import { AaveDataLayerQueryReturnType, aaveDataLayerSelectFn } from './aave-data-layer/query'
@@ -356,19 +356,16 @@ export function marketInfoSelectFn({ timeAdvance }: MarketInfoSelectFnParams = {
       siloBorrowingState: determineSiloBorrowingState(userPositions),
     }
 
-    const userRewards: UserReward[] = Object.entries(rawAaveData.userRewards)
-      .reduce(
-        (acc, [_, value]) => [
-          ...acc,
-          {
-            value: NormalizedUnitNumber(value.claimableRewards.dp(0).shiftedBy(-value.rewardTokenDecimals)),
-            token: findOneTokenBySymbol(TokenSymbol(value.rewardTokenSymbol)),
-            incentiveControllerAddress: CheckedAddress(value.incentiveControllerAddress),
-            assets: value.assets.map((asset) => CheckedAddress(asset)),
-          },
-        ],
-        [] as UserReward[],
-      )
+    const userRewards: UserReward[] = Object.values(rawAaveData.userRewards)
+      .map((value) => {
+        const token = findOneTokenBySymbol(TokenSymbol(value.rewardTokenSymbol))
+        return {
+          value: token.fromBaseUnit(BaseUnitNumber(value.claimableRewards.dp(0))),
+          token,
+          incentiveControllerAddress: CheckedAddress(value.incentiveControllerAddress),
+          assets: value.assets.map((asset) => CheckedAddress(asset)),
+        }
+      })
       .filter((r) => r.value.gt(0))
 
     return new MarketInfo(

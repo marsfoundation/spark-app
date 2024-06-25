@@ -1,5 +1,5 @@
 import { calculateAllUserIncentives, formatReservesAndIncentives, formatUserSummary } from '@aave/math-utils'
-import { Address } from 'viem'
+import { Address, zeroAddress } from 'viem'
 import { Config } from 'wagmi'
 import { multicall } from 'wagmi/actions'
 
@@ -100,7 +100,7 @@ function aaveDataLayerQueryFn({
           address: uiIncentiveDataProvider,
           abi: uiIncentiveDataProviderAbi,
           functionName: 'getUserReservesIncentivesData',
-          args: [lendingPoolAddressProvider, account ?? uiPoolDataProvider],
+          args: [lendingPoolAddressProvider, account ?? zeroAddress],
         },
       ],
     })
