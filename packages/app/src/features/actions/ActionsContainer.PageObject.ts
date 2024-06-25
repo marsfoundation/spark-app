@@ -85,6 +85,15 @@ export class ActionsPageObject extends BasePageObject {
     await expect(this.region.getByTestId(testIds.actions.row(actions.length))).toBeHidden() // this ensures that there are no more rows
   }
 
+  async expectDisabledActions(actions: SimplifiedAction[]): Promise<void> {
+    for (const [index, expectedAction] of actions.entries()) {
+      await this.expectActionAtIndex(index, expectedAction)
+      await this.expectDisabledActionAtIndex(index)
+    }
+
+    await expect(this.region.getByTestId(testIds.actions.row(actions.length))).toBeHidden() // this ensures that there are no more rows
+  }
+
   async expectActionAtIndex(index: number, expectedAction: SimplifiedAction): Promise<void> {
     const row = this.locateActionAtIndex(index)
     await expect(row).toContainText(actionToTitle(expectedAction))

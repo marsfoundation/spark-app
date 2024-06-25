@@ -6,6 +6,7 @@ import { setupFork } from '@/test/e2e/setupFork'
 import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
+import { withdrawValidationIssueToMessage } from '../../logic/validation'
 
 test.describe('Withdraw DAI on Mainnet', () => {
   const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id })
@@ -65,5 +66,83 @@ test.describe('Withdraw DAI on Mainnet', () => {
 
     await savingsPage.expectSavingsBalance({ sDaiBalance: '3,467.14 sDAI', estimatedDaiValue: '3,715.05' })
     await savingsPage.expectCashInWalletAssetBalance('DAI', '7,000.00')
+  })
+})
+
+test.describe('Validation', () => {
+  const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id })
+  let savingsPage: SavingsPageObject
+  let withdrawalDialog: SavingsDialogPageObject
+
+  test.describe('Input value exceeds sDAI value', () => {
+    test.beforeEach(async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'savings',
+        account: {
+          type: 'connected',
+          assetBalances: {
+            ETH: 1,
+            sDAI: 100,
+          },
+        },
+      })
+
+      savingsPage = new SavingsPageObject(page)
+      await savingsPage.clickWithdrawButtonAction()
+
+      withdrawalDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
+      await withdrawalDialog.fillAmountAction(200)
+    })
+
+    test('displays validation error', async () => {
+      await withdrawalDialog.expectAssetInputError(withdrawValidationIssueToMessage['exceeds-balance'])
+    })
+
+    test('actions are disabled', async () => {
+      await withdrawalDialog.actionsContainer.expectDisabledActions([{ type: 'daiFromSDaiWithdraw', asset: 'DAI' }])
+    })
+
+    test('displays sensible tx overview', async () => {
+      await withdrawalDialog.expectNativeRouteTransactionOverview({
+        apy: {
+          value: '5.00%',
+          description: '~10.00 DAI per year',
+        },
+        routeItems: [
+          {
+            tokenAmount: '186.65 sDAI',
+            tokenUsdValue: '$200.00',
+          },
+          {
+            tokenAmount: '200.00 DAI',
+            tokenUsdValue: '$200.00',
+          },
+        ],
+        outcome: '200.00 DAI worth $200.00',
+        badgeToken: 'DAI',
+      })
+    })
+  })
+
+  test('displays validation error for dirty input with 0 value', async ({ page }) => {
+    await setup(page, fork, {
+      initialPage: 'savings',
+      account: {
+        type: 'connected',
+        assetBalances: {
+          ETH: 1,
+          sDAI: 100,
+        },
+      },
+    })
+
+    savingsPage = new SavingsPageObject(page)
+    await savingsPage.clickWithdrawButtonAction()
+    withdrawalDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
+
+    await withdrawalDialog.fillAmountAction(10)
+    await withdrawalDialog.fillAmountAction(0)
+
+    await withdrawalDialog.expectAssetInputError(withdrawValidationIssueToMessage['value-not-positive'])
   })
 })
