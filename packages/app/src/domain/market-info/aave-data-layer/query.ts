@@ -30,7 +30,7 @@ export interface AaveDataLayerArgs extends AaveDataLayerQueryKeyArgs {
 export type AaveData = ReturnType<ReturnType<typeof aaveDataLayerSelectFn>>
 export type AaveUserSummary = AaveData['userSummary']
 export type AaveUserReserve = AaveUserSummary['userReservesData'][number]['reserve']
-export type AaveUserRewaed = AaveData['userRewards']
+export type AaveUserRewards = AaveData['userRewards']
 export type RawAaveUserReserve = AaveData['rawUserReserves'][number]
 export type AaveFormattedReserve = AaveData['formattedReserves'][number]
 export type AaveBaseCurrency = AaveData['baseCurrency']
