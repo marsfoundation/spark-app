@@ -157,7 +157,53 @@ test.describe('Validation', () => {
   let savingsPage: SavingsPageObject
   let withdrawalDialog: SavingsDialogPageObject
 
-  test.beforeEach(async ({ page }) => {
+  test.describe('Input value exceeds sDAI value', () => {
+    test.beforeEach(async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'savings',
+        account: {
+          type: 'connected',
+          assetBalances: {
+            ETH: 1,
+            sDAI: 100,
+          },
+          privateKey: LIFI_TEST_USER_PRIVATE_KEY,
+        },
+      })
+      await overrideLiFiRouteWithHAR({
+        page,
+        key: '200-usdt-from-sdai',
+      })
+
+      savingsPage = new SavingsPageObject(page)
+      await savingsPage.clickWithdrawButtonAction()
+
+      withdrawalDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
+      await withdrawalDialog.selectAssetAction('USDT')
+      await withdrawalDialog.fillAmountAction(200)
+    })
+
+    test('displays validation error', async () => {
+      await withdrawalDialog.expectAssetInputError(withdrawValidationIssueToMessage['exceeds-balance'])
+    })
+
+    test('actions are disabled', async () => {
+      await withdrawalDialog.actionsContainer.expectDisabledActions([
+        { type: 'approve', asset: 'sDAI' },
+        { type: 'exchange', inputAsset: 'sDAI', outputAsset: 'USDT' },
+      ])
+    })
+
+    test('displays sensible tx overview', async () => {
+      await withdrawalDialog.expectTransactionOverview([
+        ['APY', '8.00%'],
+        ['Exchange Rate', '1.00 DAI 0.98686 USDT'],
+        ['sDAI Balance', '100.00 sDAI -85.92 sDAI'],
+      ])
+    })
+  })
+
+  test('displays validation error for dirty input with 0 value', async ({ page }) => {
     await setup(page, fork, {
       initialPage: 'savings',
       account: {
@@ -176,32 +222,12 @@ test.describe('Validation', () => {
 
     savingsPage = new SavingsPageObject(page)
     await savingsPage.clickWithdrawButtonAction()
-
     withdrawalDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
     await withdrawalDialog.selectAssetAction('USDT')
-  })
 
-  test('displays validation error', async () => {
-    await withdrawalDialog.fillAmountAction(200)
-    await withdrawalDialog.expectAssetInputError(withdrawValidationIssueToMessage['exceeds-balance'])
+    await withdrawalDialog.fillAmountAction(10)
     await withdrawalDialog.fillAmountAction(0)
+
     await withdrawalDialog.expectAssetInputError(withdrawValidationIssueToMessage['value-not-positive'])
-  })
-
-  test('actions are disabled', async () => {
-    await withdrawalDialog.fillAmountAction(200)
-    await withdrawalDialog.actionsContainer.expectDisabledActions([
-      { type: 'approve', asset: 'sDAI' },
-      { type: 'exchange', inputAsset: 'sDAI', outputAsset: 'USDT' },
-    ])
-  })
-
-  test('displays sensible tx overview', async () => {
-    await withdrawalDialog.fillAmountAction(200)
-    await withdrawalDialog.expectTransactionOverview([
-      ['APY', '8.00%'],
-      ['Exchange Rate', '1.00 DAI 0.98686 USDT'],
-      ['sDAI Balance', '100.00 sDAI -85.92 sDAI'],
-    ])
   })
 })

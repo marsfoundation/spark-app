@@ -77,7 +77,60 @@ test.describe('Validation', () => {
   let savingsPage: SavingsPageObject
   let depositDialog: SavingsDialogPageObject
 
-  test.beforeEach(async ({ page }) => {
+  test.describe('Input value exceeds balance', () => {
+    test.beforeEach(async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'savings',
+        account: {
+          type: 'connected',
+          assetBalances: {
+            ETH: 1,
+            DAI: 100,
+          },
+        },
+      })
+
+      savingsPage = new SavingsPageObject(page)
+      await savingsPage.clickDepositButtonAction('DAI')
+
+      depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
+      await depositDialog.fillAmountAction(10_000)
+    })
+
+    test('displays validation error', async () => {
+      await depositDialog.expectAssetInputError(depositValidationIssueToMessage['exceeds-balance'])
+    })
+
+    test('actions are disabled', async () => {
+      await depositDialog.actionsContainer.expectDisabledActions([
+        { type: 'approve', asset: 'DAI' },
+        { type: 'daiToSDaiDeposit', asset: 'DAI' },
+      ])
+    })
+
+    test('displays sensible tx overview', async () => {
+      await depositDialog.expectNativeRouteTransactionOverview({
+        apy: {
+          value: '5.00%',
+          description: '~500.00 DAI per year',
+        },
+        routeItems: [
+          {
+            tokenAmount: '10,000.00 DAI',
+            tokenUsdValue: '$10,000.00',
+          },
+          {
+            tokenAmount: '9,332.66 sDAI',
+            tokenUsdValue: '$10,000.00',
+          },
+        ],
+        outcome: '9,332.66 sDAI worth $10,000.00',
+        badgeToken: 'DAI',
+      })
+    })
+  })
+
+  test('displays validation error for dirty input with 0 value', async ({ page }) => {
     await setup(page, fork, {
       initialPage: 'savings',
       account: {
@@ -91,44 +144,11 @@ test.describe('Validation', () => {
 
     savingsPage = new SavingsPageObject(page)
     await savingsPage.clickDepositButtonAction('DAI')
-
     depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
-  })
 
-  test('displays validation error', async () => {
-    await depositDialog.fillAmountAction(200)
-    await depositDialog.expectAssetInputError(depositValidationIssueToMessage['exceeds-balance'])
+    await depositDialog.fillAmountAction(10)
     await depositDialog.fillAmountAction(0)
+
     await depositDialog.expectAssetInputError(depositValidationIssueToMessage['value-not-positive'])
-  })
-
-  test('actions are disabled', async () => {
-    await depositDialog.fillAmountAction(200)
-    await depositDialog.actionsContainer.expectDisabledActions([
-      { type: 'approve', asset: 'DAI' },
-      { type: 'daiToSDaiDeposit', asset: 'DAI' },
-    ])
-  })
-
-  test('displays sensible tx overview', async () => {
-    await depositDialog.fillAmountAction(10_000)
-    await depositDialog.expectNativeRouteTransactionOverview({
-      apy: {
-        value: '5.00%',
-        description: '~500.00 DAI per year',
-      },
-      routeItems: [
-        {
-          tokenAmount: '10,000.00 DAI',
-          tokenUsdValue: '$10,000.00',
-        },
-        {
-          tokenAmount: '9,332.66 sDAI',
-          tokenUsdValue: '$10,000.00',
-        },
-      ],
-      outcome: '9,332.66 sDAI worth $10,000.00',
-      badgeToken: 'DAI',
-    })
   })
 })

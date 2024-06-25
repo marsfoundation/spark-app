@@ -194,7 +194,52 @@ test.describe('Validation', () => {
   let savingsPage: SavingsPageObject
   let depositDialog: SavingsDialogPageObject
 
-  test.beforeEach(async ({ page }) => {
+  test.describe('Input value exceeds balance', () => {
+    test.beforeEach(async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'savings',
+        account: {
+          type: 'connected',
+          assetBalances: {
+            ETH: 1,
+            USDT: 100,
+          },
+          privateKey: LIFI_TEST_USER_PRIVATE_KEY,
+        },
+      })
+      await overrideLiFiRouteWithHAR({
+        page,
+        key: '200-usdt-to-sdai',
+      })
+
+      savingsPage = new SavingsPageObject(page)
+      await savingsPage.clickDepositButtonAction('USDT')
+
+      depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
+      await depositDialog.fillAmountAction(200)
+    })
+
+    test('displays validation error', async () => {
+      await depositDialog.expectAssetInputError(depositValidationIssueToMessage['exceeds-balance'])
+    })
+
+    test('actions are disabled', async () => {
+      await depositDialog.actionsContainer.expectDisabledActions([
+        { type: 'approve', asset: 'USDT' },
+        { type: 'exchange', inputAsset: 'USDT', outputAsset: 'sDAI' },
+      ])
+    })
+
+    test('displays sensible tx overview', async () => {
+      await depositDialog.expectTransactionOverview([
+        ['APY', '8.00%'],
+        ['Exchange Rate', '1.00 USDT 1.00398 DAI'],
+        ['sDAI Balance', '0.00 sDAI 183.96 sDAI'],
+      ])
+    })
+  })
+
+  test('displays validation error for dirty input with 0 value', async ({ page }) => {
     await setup(page, fork, {
       initialPage: 'savings',
       account: {
@@ -213,32 +258,12 @@ test.describe('Validation', () => {
 
     savingsPage = new SavingsPageObject(page)
     await savingsPage.clickDepositButtonAction('USDT')
-
     depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
-  })
 
-  test('displays validation error', async () => {
-    await depositDialog.fillAmountAction(200)
-    await depositDialog.expectAssetInputError(depositValidationIssueToMessage['exceeds-balance'])
+    await depositDialog.fillAmountAction(10)
     await depositDialog.fillAmountAction(0)
+
     await depositDialog.expectAssetInputError(depositValidationIssueToMessage['value-not-positive'])
-  })
-
-  test('actions are disabled', async () => {
-    await depositDialog.fillAmountAction(200)
-    await depositDialog.actionsContainer.expectDisabledActions([
-      { type: 'approve', asset: 'USDT' },
-      { type: 'exchange', inputAsset: 'USDT', outputAsset: 'sDAI' },
-    ])
-  })
-
-  test('displays sensible tx overview', async () => {
-    await depositDialog.fillAmountAction(200)
-    await depositDialog.expectTransactionOverview([
-      ['APY', '8.00%'],
-      ['Exchange Rate', '1.00 USDT 1.00398 DAI'],
-      ['sDAI Balance', '0.00 sDAI 183.96 sDAI'],
-    ])
   })
 })
 

@@ -74,7 +74,57 @@ test.describe('Validation', () => {
   let savingsPage: SavingsPageObject
   let withdrawalDialog: SavingsDialogPageObject
 
-  test.beforeEach(async ({ page }) => {
+  test.describe('Input value exceeds sDAI value', () => {
+    test.beforeEach(async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'savings',
+        account: {
+          type: 'connected',
+          assetBalances: {
+            ETH: 1,
+            sDAI: 100,
+          },
+        },
+      })
+
+      savingsPage = new SavingsPageObject(page)
+      await savingsPage.clickWithdrawButtonAction()
+
+      withdrawalDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
+      await withdrawalDialog.fillAmountAction(200)
+    })
+
+    test('displays validation error', async () => {
+      await withdrawalDialog.expectAssetInputError(withdrawValidationIssueToMessage['exceeds-balance'])
+    })
+
+    test('actions are disabled', async () => {
+      await withdrawalDialog.actionsContainer.expectDisabledActions([{ type: 'daiFromSDaiWithdraw', asset: 'DAI' }])
+    })
+
+    test('displays sensible tx overview', async () => {
+      await withdrawalDialog.expectNativeRouteTransactionOverview({
+        apy: {
+          value: '5.00%',
+          description: '~10.00 DAI per year',
+        },
+        routeItems: [
+          {
+            tokenAmount: '186.65 sDAI',
+            tokenUsdValue: '$200.00',
+          },
+          {
+            tokenAmount: '200.00 DAI',
+            tokenUsdValue: '$200.00',
+          },
+        ],
+        outcome: '200.00 DAI worth $200.00',
+        badgeToken: 'DAI',
+      })
+    })
+  })
+
+  test('displays validation error for dirty input with 0 value', async ({ page }) => {
     await setup(page, fork, {
       initialPage: 'savings',
       account: {
@@ -88,41 +138,11 @@ test.describe('Validation', () => {
 
     savingsPage = new SavingsPageObject(page)
     await savingsPage.clickWithdrawButtonAction()
-
     withdrawalDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
-  })
 
-  test('displays validation error', async () => {
-    await withdrawalDialog.fillAmountAction(200)
-    await withdrawalDialog.expectAssetInputError(withdrawValidationIssueToMessage['exceeds-balance'])
+    await withdrawalDialog.fillAmountAction(10)
     await withdrawalDialog.fillAmountAction(0)
+
     await withdrawalDialog.expectAssetInputError(withdrawValidationIssueToMessage['value-not-positive'])
-  })
-
-  test('actions are disabled', async () => {
-    await withdrawalDialog.fillAmountAction(200)
-    await withdrawalDialog.actionsContainer.expectDisabledActions([{ type: 'daiFromSDaiWithdraw', asset: 'DAI' }])
-  })
-
-  test('displays sensible tx overview', async () => {
-    await withdrawalDialog.fillAmountAction(200)
-    await withdrawalDialog.expectNativeRouteTransactionOverview({
-      apy: {
-        value: '5.00%',
-        description: '~10.00 DAI per year',
-      },
-      routeItems: [
-        {
-          tokenAmount: '186.65 sDAI',
-          tokenUsdValue: '$200.00',
-        },
-        {
-          tokenAmount: '200.00 DAI',
-          tokenUsdValue: '$200.00',
-        },
-      ],
-      outcome: '200.00 DAI worth $200.00',
-      badgeToken: 'DAI',
-    })
   })
 })
