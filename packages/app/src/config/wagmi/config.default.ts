@@ -1,4 +1,4 @@
-import { UseInjectedNetworkResult } from '@/domain/sandbox/useInjectedNetwork'
+import { InjectedNetwork } from '@/domain/sandbox/useInjectedNetwork'
 import { SandboxNetwork } from '@/domain/state/sandbox'
 import { raise } from '@/utils/assert'
 import { getDefaultConfig } from '@rainbow-me/rainbowkit'
@@ -14,7 +14,7 @@ const wallets = getWallets()
 
 export interface GetConfigOptions {
   sandboxNetwork?: SandboxNetwork
-  injectedNetwork?: UseInjectedNetworkResult
+  injectedNetwork?: InjectedNetwork
 }
 
 export function getConfig({ sandboxNetwork, injectedNetwork }: GetConfigOptions = {}): Config {

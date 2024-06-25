@@ -6,12 +6,9 @@ const injectedNetworkSchema = z.object({
   rpc: z.string().url(),
 })
 
-export interface UseInjectedNetworkResult {
-  chainId: SupportedChainId
-  rpc: string
-}
+export type InjectedNetwork = z.infer<typeof injectedNetworkSchema>
 
-export function useInjectedNetwork(): UseInjectedNetworkResult | undefined {
+export function useInjectedNetwork(): InjectedNetwork | undefined {
   const searchParams = new URLSearchParams(window.location.search)
   const chainId = searchParams.get('chainId')
   const rpc = searchParams.get('rpc')
