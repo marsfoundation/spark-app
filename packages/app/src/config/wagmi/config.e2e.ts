@@ -1,11 +1,14 @@
-import { viemAddressSchema } from '@/domain/common/validation'
-import { createMockConnector } from '@/domain/wallet/createMockConnector'
 import { http, Chain, Transport, createWalletClient } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 import { gnosis, mainnet } from 'viem/chains'
 import { Config, createConfig } from 'wagmi'
 import { z } from 'zod'
-import { GetConfigOptions, getConfig } from './config.default'
+
+import { SandboxNetwork } from '@/domain/state/sandbox'
+import { createMockConnector } from '@/domain/wallet/createMockConnector'
+
+import { viemAddressSchema } from '@/domain/common/validation'
+import { getConfig } from './config.default'
 
 export const PLAYWRIGHT_CHAIN_ID = '__PLAYWRIGHT_CHAIN_ID' as const
 export const PLAYWRIGHT_WALLET_ADDRESS_KEY = '__PLAYWRIGHT_WALLET_ADDRESS' as const
@@ -51,11 +54,11 @@ export function getMockConnectors(chain: Chain) {
   return [mockConnector]
 }
 
-export function getMockConfig({ sandboxNetwork, injectedNetwork }: GetConfigOptions = {}): Config {
+export function getMockConfig(sandboxNetwork?: SandboxNetwork): Config {
   // if not configured properly assume just fallback to default config
   if (!(window as any)[PLAYWRIGHT_WALLET_FORK_URL_KEY]) {
     console.warn('Mock config not found. Loading default config.')
-    return getConfig({ sandboxNetwork, injectedNetwork })
+    return getConfig(sandboxNetwork)
   }
 
   const chain = chainIdToChain[(window as any)[PLAYWRIGHT_CHAIN_ID] as number]!

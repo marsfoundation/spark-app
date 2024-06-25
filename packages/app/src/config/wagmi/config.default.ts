@@ -1,10 +1,11 @@
-import { InjectedNetwork } from '@/domain/sandbox/useInjectedNetwork'
-import { SandboxNetwork } from '@/domain/state/sandbox'
-import { raise } from '@/utils/assert'
 import { getDefaultConfig } from '@rainbow-me/rainbowkit'
 import { Chain } from 'viem'
 import { gnosis, mainnet } from 'viem/chains'
 import { Config } from 'wagmi'
+
+import { SandboxNetwork } from '@/domain/state/sandbox'
+import { raise } from '@/utils/assert'
+
 import { SUPPORTED_CHAINS } from '../chain/constants'
 import { getTransports } from './getTransports'
 import { getWallets } from './getWallets'
@@ -12,15 +13,9 @@ import { createWagmiStorage } from './storage'
 
 const wallets = getWallets()
 
-export interface GetConfigOptions {
-  sandboxNetwork?: SandboxNetwork
-  injectedNetwork?: InjectedNetwork
-}
-
-export function getConfig({ sandboxNetwork, injectedNetwork }: GetConfigOptions = {}): Config {
+export function getConfig(sandboxNetwork?: SandboxNetwork): Config {
   const forkChain = getForkChainFromSandboxConfig(sandboxNetwork)
-  const transports = getTransports({ injectedNetwork, forkChain })
-
+  const transports = getTransports({ forkChain })
   const storage = createWagmiStorage()
 
   const config = getDefaultConfig({

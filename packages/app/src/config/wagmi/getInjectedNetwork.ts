@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { SupportedChainId } from '../types/SupportedChainId'
+import { SupportedChainId } from '../../domain/types/SupportedChainId'
 
 const injectedNetworkSchema = z.object({
   chainId: z.string().transform((value) => SupportedChainId(value)),
@@ -8,7 +8,7 @@ const injectedNetworkSchema = z.object({
 
 export type InjectedNetwork = z.infer<typeof injectedNetworkSchema>
 
-export function useInjectedNetwork(): InjectedNetwork | undefined {
+export function getInjectedNetwork(): InjectedNetwork | undefined {
   const searchParams = new URLSearchParams(window.location.search)
   const chainId = searchParams.get('chainId')
   const rpc = searchParams.get('rpc')

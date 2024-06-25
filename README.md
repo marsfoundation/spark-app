@@ -110,7 +110,7 @@ This will stop recording requests and use the HAR file instead.
 
 ### Injecting rpc through url
 
-In development and staging environments, there is an option to inject custom `rpc` with `chainId` via url.
+In development and staging environments, there is an option to inject custom `rpc` with `chainId` via url. It can be used for instrumenting the app to test fork environments etc.
 This functionality is guarded by the feature flag `VITE_FEATURE_RPC_INJECTION_VIA_URL`. Injected network details will be lost after the app is reloaded.
 ```
 https://spark-app-staging.vercel.app/?rpc=https://rpc.example.com&chainId=1
