@@ -1,8 +1,9 @@
 import { cn } from '@/ui/utils/style'
 
-import { AirdropInfo, ConnectedWalletInfo, SupportedChain } from '../types'
+import { AirdropInfo, ConnectedWalletInfo, RewardsInfo, SupportedChain } from '../types'
 import { AirdropBadge } from './airdrop-badge/AirdropBadge'
 import { NetworkSelector } from './network-selector/NetworkSelector'
+import { RewardsBadge } from './rewards-badge/RewardsBadge'
 import { SettingsDropdown } from './settings-dropdown/SettingsDropdown'
 import { WalletDropdown } from './wallet-dropdown/WalletDropdown'
 
@@ -14,6 +15,7 @@ export interface NavbarActionsProps {
   openConnectModal: () => void
   connectedWalletInfo: ConnectedWalletInfo | undefined
   airdropInfo: AirdropInfo
+  rewardsInfo: RewardsInfo
   openSandboxDialog: () => void
   openDevSandboxDialog: () => void
   isSandboxEnabled: boolean
@@ -28,6 +30,7 @@ export function NavbarActions({
   openConnectModal,
   connectedWalletInfo,
   airdropInfo,
+  rewardsInfo,
   openSandboxDialog,
   openDevSandboxDialog,
   isSandboxEnabled,
@@ -41,6 +44,7 @@ export function NavbarActions({
         mobileMenuCollapsed ? 'hidden lg:flex' : 'flex',
       )}
     >
+      {import.meta.env.VITE_DEV_CLAIM_REWARDS_BADGE === '1' && <RewardsBadge {...rewardsInfo} />}
       <AirdropBadge {...airdropInfo} />
       <NetworkSelector
         currentChain={currentChain}

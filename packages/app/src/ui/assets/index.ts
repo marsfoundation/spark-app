@@ -18,6 +18,7 @@ import close from './close.svg'
 import down from './down.svg'
 import eye from './eye.svg'
 import flash from './flash.svg'
+import giftbox from './giftbox.svg'
 import greenArrowUp from './green-arrow-up.svg'
 import lifiLogo from './lifi-logo.svg'
 import link from './link.svg'
@@ -94,6 +95,7 @@ export const assets = {
   menu,
   close,
   makerLogo,
+  giftbox,
   markets: {
     chart,
     inputOutput,
