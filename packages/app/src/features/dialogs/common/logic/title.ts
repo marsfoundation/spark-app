@@ -14,4 +14,5 @@ export const objectiveTypeToVerb: Record<ObjectiveType, string> = {
   daiFromSDaiWithdraw: 'Unwrapped',
   usdcFromSDaiWithdraw: 'Unwrapped',
   xDaiFromSDaiWithdraw: 'Unwrapped',
+  claimRewards: 'Claimed',
 }

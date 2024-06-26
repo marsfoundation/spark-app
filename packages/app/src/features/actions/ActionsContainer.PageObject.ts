@@ -191,6 +191,8 @@ function actionToTitle(action: SimplifiedAction): string {
     case 'usdcFromSDaiWithdraw':
     case 'xDaiFromSDaiWithdraw':
       return `Unwrap sDAI into ${action.asset}`
+    case 'claimRewards':
+      return 'Claim'
   }
 }
 
@@ -206,6 +208,7 @@ const actionVerbs = [
   'Convert',
   'Wrap',
   'Unwrap',
+  'Claim',
 ]
 const actionButtonRegex = new RegExp(`^(${actionVerbs.join('|')})$`)
 

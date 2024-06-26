@@ -2,6 +2,7 @@ import { ApproveDelegationActionRow } from '../../flavours/approve-delegation/Ap
 import { ApproveExchangeActionRow } from '../../flavours/approve-exchange/ApproveExchangeActionRow'
 import { ApproveActionRow } from '../../flavours/approve/ApproveActionRow'
 import { BorrowActionRow } from '../../flavours/borrow/BorrowActionRow'
+import { ClaimRewardsActionRow } from '../../flavours/claim-rewards/ClaimRewardsActionRow'
 import { DepositActionRow } from '../../flavours/deposit/DepositActionRow'
 import { ExchangeActionRow } from '../../flavours/exchange/ExchangeActionRow'
 import { DaiToSDaiDepositActionRow } from '../../flavours/native-sdai-deposit/dai-to-sdai/DaiToSDaiDepositActionRow'
@@ -69,6 +70,8 @@ export function ActionsGrid({ actionHandlers, variant }: ActionsGridProps) {
             return <XDaiToSDaiDepositActionRow action={handler.action} {...props} />
           case 'xDaiFromSDaiWithdraw':
             return <XDaiFromSDaiWithdrawActionRow action={handler.action} {...props} />
+          case 'claimRewards':
+            return <ClaimRewardsActionRow action={handler.action} {...props} />
         }
       })}
     </div>

@@ -17,11 +17,11 @@ import { marketInfoSelectFn } from '@/domain/market-info/marketInfo'
 import { useMemo } from 'react'
 import { AirdropInfo, ConnectedWalletInfo, RewardsInfo, SavingsInfoQueryResults, SupportedChain } from '../types'
 import { generateWalletAvatar } from './generateWalletAvatar'
-import { getRewardsInfo } from './getRewardsInfo'
 import { getWalletIcon } from './getWalletIcon'
 import { useAirdropInfo } from './use-airdrop-info/useAirdropInfo'
 import { useDisconnect } from './useDisconnect'
 import { useNetworkChange } from './useNetworkChange'
+import { useRewardsInfo } from './useRewardsInfo'
 import { useTotalBalance } from './useTotalBalance'
 
 export interface UseNavbarResults {
@@ -73,8 +73,8 @@ export function useNavbar(): UseNavbarResults {
     deleteSandbox,
     isInSandbox,
   })
+  const rewardsInfo = useRewardsInfo(marketInfo)
 
-  const rewardsInfo = getRewardsInfo(marketInfo)
   const supportedChains: SupportedChain[] = chains.map((chain) => {
     const { meta } = getChainConfigEntry(chain.id)
     return {
