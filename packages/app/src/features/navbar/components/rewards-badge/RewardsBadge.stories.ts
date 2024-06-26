@@ -23,7 +23,6 @@ const meta: Meta<typeof RewardsBadge> = {
         amount: NormalizedUnitNumber(0.0003498),
       },
     ],
-    isLoading: false,
   },
 }
 
@@ -33,10 +32,3 @@ type Story = StoryObj<typeof RewardsBadge>
 export const Desktop = getHoveredStory<Story>({}, 'button')
 export const Mobile = getMobileStory(Desktop)
 export const Tablet = getTabletStory(Desktop)
-export const Loading: Story = {
-  ...Desktop,
-  args: {
-    isLoading: true,
-    rewards: [],
-  },
-}

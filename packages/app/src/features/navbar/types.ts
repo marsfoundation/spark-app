@@ -56,5 +56,4 @@ export interface AirdropInfo {
 
 export interface RewardsInfo {
   rewards: Reward[]
-  isLoading: boolean
 }
