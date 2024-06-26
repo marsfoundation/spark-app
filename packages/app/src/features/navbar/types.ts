@@ -2,6 +2,7 @@ import { SavingsInfo } from '@/domain/savings-info/types'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { EnsName } from '@/domain/types/EnsName'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { Reward } from './components/rewards-badge/types'
 
 export interface SupportedChain {
   id: number
@@ -51,4 +52,8 @@ export interface AirdropInfo {
   airdrop: Airdrop | undefined
   isLoading: boolean
   isError: boolean
+}
+
+export interface RewardsInfo {
+  rewards: Reward[]
 }

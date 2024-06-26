@@ -12,8 +12,12 @@ import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
 import { raise } from '@/utils/assert'
 import { useTimestamp } from '@/utils/useTimestamp'
 
-import { AirdropInfo, ConnectedWalletInfo, SavingsInfoQueryResults, SupportedChain } from '../types'
+import { aaveDataLayer } from '@/domain/market-info/aave-data-layer/query'
+import { marketInfoSelectFn } from '@/domain/market-info/marketInfo'
+import { useMemo } from 'react'
+import { AirdropInfo, ConnectedWalletInfo, RewardsInfo, SavingsInfoQueryResults, SupportedChain } from '../types'
 import { generateWalletAvatar } from './generateWalletAvatar'
+import { getRewardsInfo } from './getRewardsInfo'
 import { getWalletIcon } from './getWalletIcon'
 import { useAirdropInfo } from './use-airdrop-info/useAirdropInfo'
 import { useDisconnect } from './useDisconnect'
@@ -32,6 +36,7 @@ export interface UseNavbarResults {
   savingsInfo: SavingsInfoQueryResults
   connectedWalletInfo: ConnectedWalletInfo | undefined
   airdropInfo: AirdropInfo
+  rewardsInfo: RewardsInfo
 }
 
 export function useNavbar(): UseNavbarResults {
@@ -51,7 +56,15 @@ export function useNavbar(): UseNavbarResults {
   const savingsInfoQueryOptions = getChainConfigEntry(currentChainId).savingsInfoQuery
   const savingsInfo = useQuery(savingsInfoQueryOptions({ wagmiConfig, chainId: currentChainId, timestamp }))
 
-  const balanceInfo = useTotalBalance()
+  const marketInfo = useQuery({
+    ...aaveDataLayer({
+      wagmiConfig,
+      account: address && CheckedAddress(address),
+      chainId: currentChainId,
+    }),
+    select: useMemo(() => marketInfoSelectFn(), []),
+  })
+  const balanceInfo = useTotalBalance({ marketInfo })
   const airdropInfo = useAirdropInfo({ refreshIntervalInMs: 100 })
   const { isInSandbox, isSandboxEnabled, isDevSandboxEnabled, isEphemeralAccount, deleteSandbox } = useSandboxState()
   const { changeNetwork, changeNetworkAsync } = useNetworkChange()
@@ -61,6 +74,7 @@ export function useNavbar(): UseNavbarResults {
     isInSandbox,
   })
 
+  const rewardsInfo = getRewardsInfo(marketInfo)
   const supportedChains: SupportedChain[] = chains.map((chain) => {
     const { meta } = getChainConfigEntry(chain.id)
     return {
@@ -113,6 +127,7 @@ export function useNavbar(): UseNavbarResults {
     savingsInfo,
     connectedWalletInfo,
     airdropInfo,
+    rewardsInfo,
     openSandboxDialog,
     openDevSandboxDialog,
     isSandboxEnabled,
