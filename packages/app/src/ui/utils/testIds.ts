@@ -94,11 +94,7 @@ export const testIds = makeTestIds({
   },
   markets: {
     summary: {
-      container: true,
-      tile: {
-        description: (index: number) => index,
-        value: (index: number) => index,
-      },
+      tile: (index: number) => index,
     },
     table: {
       cell: {

@@ -5,11 +5,11 @@ import { Tile, TileProps } from './components/Tile'
 interface SummaryTileProps {
   variant: 'total-market-size' | 'total-value-locked' | 'total-available' | 'total-borrows'
   USDValue: NormalizedUnitNumber
-  index: number
+  'data-testid'?: string
 }
 
-export function SummaryTile({ variant, USDValue, index }: SummaryTileProps) {
-  return <Tile USDValue={USDValue} {...tileProps[variant]} index={index} />
+export function SummaryTile({ variant, USDValue, 'data-testid': dataTestId }: SummaryTileProps) {
+  return <Tile USDValue={USDValue} {...tileProps[variant]} data-testid={dataTestId} />
 }
 
 const tileProps: Record<SummaryTileProps['variant'], Omit<TileProps, 'USDValue' | 'index'>> = {

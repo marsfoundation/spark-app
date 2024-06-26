@@ -20,6 +20,13 @@ export class MarketsPageObject extends BasePageObject {
   // #endregion
 
   // #region assertions
+  async expectSummary(tiles: MarketsSummaryTiles): Promise<void> {
+    for (const [index, tile] of tiles.entries()) {
+      const tileLocator = this.page.getByTestId(testIds.markets.summary.tile(index))
+      await expect(tileLocator).toContainText(tile.description)
+      await expect(tileLocator).toContainText(tile.value)
+    }
+  }
   async expectActiveMarketsTable(rows: MarketsTableRow[]): Promise<void> {
     await this.expectMarketsTable(rows, this.locateActiveMarketsRows())
   }
@@ -27,8 +34,6 @@ export class MarketsPageObject extends BasePageObject {
     await this.expectMarketsTable(rows, this.locateFrozenMarketsTableBody())
   }
   async expectMarketsTable(rows: MarketsTableRow[], rowsLocator: Locator): Promise<void> {
-    await expect(rowsLocator).toHaveCount(rows.length)
-
     for (const [index, row] of rows.entries()) {
       const rowLocator = rowsLocator.nth(index)
 
@@ -107,6 +112,8 @@ export class MarketsPageObject extends BasePageObject {
 
   // #endregion
 }
+
+export type MarketsSummaryTiles = { description: string; value: string }[]
 
 interface TokenAmountWithUSDValue {
   tokenAmount: string

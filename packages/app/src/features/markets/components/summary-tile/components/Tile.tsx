@@ -4,19 +4,18 @@ import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { Tooltip, TooltipContentShort, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 import { Typography } from '@/ui/atoms/typography/Typography'
-import { testIds } from '@/ui/utils/testIds'
 
 export interface TileProps {
   icon: string
   title: string
   USDValue: NormalizedUnitNumber
   description?: string
-  index: number
+  'data-testid'?: string
 }
 
-export function Tile({ icon, title, USDValue, description, index }: TileProps) {
+export function Tile({ icon, title, USDValue, description, 'data-testid': dataTestId }: TileProps) {
   return (
-    <div className="flex items-center gap-2 md:gap-3">
+    <div className="flex items-center gap-2 md:gap-3" data-testid={dataTestId}>
       <div className="flex rounded-lg border bg-white p-1.5 lg:rounded-2xl md:rounded-xl lg:p-4 md:p-3">
         <img src={icon} alt={title} className="w-6 lg:w-8 md:w-7" />
       </div>
@@ -28,17 +27,13 @@ export function Tile({ icon, title, USDValue, description, index }: TileProps) {
               <TooltipTrigger>
                 <HelpCircle size={16} className="text-icon-foreground/50" />
               </TooltipTrigger>
-              <TooltipContentShort data-testid={testIds.markets.summary.tile.description(index)}>
-                {description}
-              </TooltipContentShort>
+              <TooltipContentShort>{description}</TooltipContentShort>
             </Tooltip>
           )}
         </div>
         <div className="flex gap-1 font-semibold text-base md:gap-2 lg:text-2xl md:text-xl">
-          <div className="text-black/30 ">$</div>
-          <div className=" text-black" data-testid={testIds.markets.summary.tile.value(index)}>
-            {USD_MOCK_TOKEN.format(USDValue, { style: 'compact' })}
-          </div>
+          <div className="text-black/30">$</div>
+          <div className=" text-black">{USD_MOCK_TOKEN.format(USDValue, { style: 'compact' })}</div>
         </div>
       </div>
     </div>

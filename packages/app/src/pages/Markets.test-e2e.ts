@@ -20,6 +20,15 @@ test.describe('Markets', () => {
     marketsPage = new MarketsPageObject(page)
   })
 
+  test('summary', async () => {
+    await marketsPage.expectSummary([
+      { description: 'Total market size', value: '$4.441B' },
+      { description: 'Total value locked', value: '$2.869B' },
+      { description: 'Total available', value: '$2.904B' },
+      { description: 'Total borrows', value: '$1.537B' },
+    ])
+  })
+
   test('active markets table', async () => {
     await marketsPage.expectActiveMarketsTable([
       {
