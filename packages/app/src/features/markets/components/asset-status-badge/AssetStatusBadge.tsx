@@ -15,9 +15,15 @@ export interface AssetStatusBadgeProps {
   supplyStatus: SupplyAvailabilityStatus
   collateralStatus: CollateralEligibilityStatus
   borrowStatus: BorrowEligibilityStatus
+  'data-testid'?: string
 }
 
-export function AssetStatusBadge({ supplyStatus, collateralStatus, borrowStatus }: AssetStatusBadgeProps) {
+export function AssetStatusBadge({
+  supplyStatus,
+  collateralStatus,
+  borrowStatus,
+  'data-testid': dataTestId,
+}: AssetStatusBadgeProps) {
   const supplyIcon = (
     <IndicatorIcon icon={<DownloadIcon className="w-5 md:w-4" />} variant={getVariantFromStatus(supplyStatus)} />
   )
@@ -29,7 +35,7 @@ export function AssetStatusBadge({ supplyStatus, collateralStatus, borrowStatus 
   )
 
   return (
-    <Tooltip disableHoverableContent>
+    <Tooltip disableHoverableContent data-testid={dataTestId}>
       <TooltipTrigger className="py-2 md:py-0">
         <div className="inline-flex gap-3 rounded-xl bg-gray-50 px-3 py-2 md:gap-2 md:rounded-lg md:px-2.5 md:py-0.5">
           {supplyIcon}

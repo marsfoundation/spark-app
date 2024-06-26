@@ -7,6 +7,7 @@ import { Tooltip, TooltipContentShort, TooltipTrigger } from '@/ui/atoms/tooltip
 import { FrozenPill } from '@/ui/molecules/frozen-pill/FrozenPill'
 import { PausedPill } from '@/ui/molecules/paused-pill/PausedPill'
 import { cn } from '@/ui/utils/style'
+import { testIds } from '@/ui/utils/testIds'
 import { useIsTruncated } from '@/ui/utils/useIsTruncated'
 
 interface AssetNameCellProps {
@@ -36,8 +37,8 @@ export function AssetNameCell({ token, reserveStatus }: AssetNameCellProps) {
         <TokenName token={token} className={cn(isPaused && 'text-red-600')} />
         <p className={cn('text-slate-500 text-sx leading-none', isPaused && 'text-red-300')}>{token.symbol}</p>
       </div>
-      {isFrozen && <FrozenPill />}
-      {isPaused && <PausedPill />}
+      {isFrozen && <FrozenPill data-testid={testIds.markets.frozenPill} />}
+      {isPaused && <PausedPill data-testid={testIds.markets.pausedPill} />}
     </div>
   )
 }

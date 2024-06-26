@@ -100,6 +100,20 @@ export const testIds = makeTestIds({
         value: (index: number) => index,
       },
     },
+    table: {
+      cell: {
+        asset: true,
+        totalSupplied: true,
+        depositAPY: true,
+        totalBorrowed: true,
+        borrowAPY: true,
+        status: true,
+      },
+    },
+    frozenPill: true,
+    pausedPill: true,
+    rewardBadge: true,
+    airdropBadge: true,
     frozenAssetsSwitch: true,
   },
   marketDetails: {

@@ -9,6 +9,7 @@ import { Typography } from '@/ui/atoms/typography/Typography'
 import { MobileViewOptions } from '@/ui/molecules/data-table/types'
 import { cn } from '@/ui/utils/style'
 
+import { testIds } from '@/ui/utils/testIds'
 import { AirdropBadge } from '../../airdrop-badge/AirdropBadge'
 import { RewardBadge } from '../../reward-badge/RewardBadge'
 
@@ -17,6 +18,7 @@ interface ApyWithRewardsCellProps extends VariantProps<typeof variants> {
   reserveStatus: ReserveStatus
   incentivizedReserve: Token
   mobileViewOptions?: MobileViewOptions
+  'data-testid'?: string
 }
 
 export function ApyWithRewardsCell({ mobileViewOptions, ...rest }: ApyWithRewardsCellProps) {
@@ -34,19 +36,25 @@ export function ApyWithRewardsCell({ mobileViewOptions, ...rest }: ApyWithReward
 
 type CellContentProps = Omit<ApyWithRewardsCellProps, 'mobileViewOptions'>
 
-function CellContent({ apyDetails, reserveStatus, incentivizedReserve, bold }: CellContentProps) {
+function CellContent({
+  apyDetails,
+  reserveStatus,
+  incentivizedReserve,
+  bold,
+  'data-testid': dataTestId,
+}: CellContentProps) {
   if (reserveStatus !== 'active') {
     return (
-      <div className="flex items-center justify-end gap-1.5">
+      <div className="flex items-center justify-end gap-1.5" data-testid={dataTestId}>
         <CellValue value={apyDetails.apy} dimmed bold={bold} />
       </div>
     )
   }
 
   return (
-    <div className="flex items-center justify-end gap-1 lg:gap-1.5">
+    <div className="flex items-center justify-end gap-1 lg:gap-1.5" data-testid={dataTestId}>
       {apyDetails.airdrops.map((airdroppedToken) => (
-        <AirdropBadge key={airdroppedToken} />
+        <AirdropBadge key={airdroppedToken} data-testid={testIds.markets.airdropBadge} />
       ))}
       {apyDetails.incentives.map((reward, index) => (
         <RewardBadge
@@ -54,6 +62,7 @@ function CellContent({ apyDetails, reserveStatus, incentivizedReserve, bold }: C
           rewardToken={reward.token.symbol}
           rewardApr={reward.APR}
           incentivizedReserve={incentivizedReserve.symbol}
+          data-testid={testIds.markets.rewardBadge}
         />
       ))}
       <CellValue value={apyDetails.apy} bold={bold} />
