@@ -7,7 +7,6 @@ import {
 } from '@/domain/market-info/reserve-status'
 import { IndicatorIcon } from '@/ui/atoms/indicator-icon/IndicatorIcon'
 import { Tooltip, TooltipContentLong, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
-
 import { AssetStatusDescription } from './components/AssetStatusDescription'
 import { getVariantFromStatus } from './getVariantFromStatus'
 
@@ -35,9 +34,12 @@ export function AssetStatusBadge({
   )
 
   return (
-    <Tooltip disableHoverableContent data-testid={dataTestId}>
+    <Tooltip disableHoverableContent>
       <TooltipTrigger className="py-2 md:py-0">
-        <div className="inline-flex gap-3 rounded-xl bg-gray-50 px-3 py-2 md:gap-2 md:rounded-lg md:px-2.5 md:py-0.5">
+        <div
+          className="inline-flex gap-3 rounded-xl bg-gray-50 px-3 py-2 md:gap-2 md:rounded-lg md:px-2.5 md:py-0.5"
+          data-testid={dataTestId}
+        >
           {supplyIcon}
           {collateralIcon}
           {borrowIcon}

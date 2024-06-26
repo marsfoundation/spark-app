@@ -4,11 +4,15 @@ import { TooltipContentLayout } from '@/ui/atoms/tooltip/TooltipContentLayout'
 
 import { IconPill } from '../../atoms/icon-pill/IconPill'
 
-export function FrozenPill() {
+interface FrozenPillProps {
+  'data-testid'?: string
+}
+
+export function FrozenPill({ 'data-testid': dataTestId }: FrozenPillProps) {
   return (
     <Tooltip>
       <TooltipTrigger className="flex">
-        <IconPill icon={assets.snowflake} className="border-none bg-blue-50" />
+        <IconPill icon={assets.snowflake} className="border-none bg-blue-50" data-testid={dataTestId} />
       </TooltipTrigger>
       <TooltipContentLong>
         <TooltipContentLayout>

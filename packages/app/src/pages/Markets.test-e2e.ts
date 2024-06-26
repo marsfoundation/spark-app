@@ -28,25 +28,24 @@ test.describe('Markets', () => {
           symbol: 'DAI',
         },
         totalSupplied: {
-          tokenValue: '967.5M',
-          usdValue: '$967.5M',
+          tokenAmount: '962.8M',
+          usdValue: '$962.8M',
         },
         depositAPY: {
           value: '0.00%',
         },
         totalBorrowed: {
-          tokenValue: '918.4M',
-          usdValue: '$918.4M',
+          tokenAmount: '913.6M',
+          usdValue: '$913.6M',
         },
         borrowAPY: {
           value: '9.00%',
           hasAirDrop: true,
-          hasReward: false,
         },
         status: {
-          supply: 'Active',
-          borrow: 'Active',
-          collateral: 'Active',
+          supply: 'Cannot be supplied',
+          collateral: 'Can be used as collateral',
+          borrow: 'Can be borrowed',
         },
       },
     ])

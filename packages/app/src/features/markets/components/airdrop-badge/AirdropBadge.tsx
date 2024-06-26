@@ -11,9 +11,9 @@ interface AirdropBadgeProps {
 
 export function AirdropBadge({ 'data-testid': dataTestId }: AirdropBadgeProps) {
   return (
-    <Tooltip data-testid={dataTestId}>
+    <Tooltip>
       <TooltipTrigger>
-        <IconPill icon={assets.sparkIcon} />
+        <IconPill icon={assets.sparkIcon} data-testid={dataTestId} />
       </TooltipTrigger>
       <TooltipContentLong>
         <TooltipContentLayout>

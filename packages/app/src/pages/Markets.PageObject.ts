@@ -23,21 +23,22 @@ export class MarketsPageObject extends BasePageObject {
   async expectActiveMarketsTable(rows: MarketsTableRow[]): Promise<void> {
     await this.expectMarketsTable(rows, this.locateActiveMarketsRows())
   }
-
   async expectFrozenMarketsTable(rows: MarketsTableRow[]): Promise<void> {
     await this.expectMarketsTable(rows, this.locateFrozenMarketsTableBody())
   }
+  async expectMarketsTable(rows: MarketsTableRow[], rowsLocator: Locator): Promise<void> {
+    // await expect(tableRows).toHaveLength(rows.length)
 
-  async expectPill({
-    type,
-    locator,
-    shouldBeVisible,
-  }: { type: 'frozen' | 'paused'; locator: Locator; shouldBeVisible?: boolean }): Promise<void> {
-    const pill = locator.getByTestId(type === 'frozen' ? testIds.markets.frozenPill : testIds.markets.pausedPill)
-    if (shouldBeVisible) {
-      await expect(pill).toBeVisible()
+    for (const [index, row] of rows.entries()) {
+      const rowLocator = rowsLocator.nth(index)
+
+      await this.expectAssetsCell(rowLocator, row.asset)
+      await this.expectCompactValueCell({ type: 'totalSupplied', rowLocator, values: row.totalSupplied })
+      await this.expectApyCell({ type: 'depositAPY', rowLocator, apy: row.depositAPY })
+      await this.expectCompactValueCell({ type: 'totalBorrowed', rowLocator, values: row.totalBorrowed })
+      await this.expectApyCell({ type: 'borrowAPY', rowLocator, apy: row.borrowAPY })
+      await this.expectStatusCell(rowLocator, row.status)
     }
-    await expect(pill).not.toBeVisible()
   }
 
   async expectAssetsCell(row: Locator, asset: MarketsTableRow['asset']): Promise<void> {
@@ -48,15 +49,65 @@ export class MarketsPageObject extends BasePageObject {
     await this.expectPill({ type: 'paused', locator: assetLocator, shouldBeVisible: asset.isPaused })
   }
 
-  async expectMarketsTable(rows: MarketsTableRow[], rowsLocator: Locator): Promise<void> {
-    // await expect(tableRows).toHaveLength(rows.length)
+  async expectCompactValueCell({
+    rowLocator,
+    values,
+    type,
+  }: {
+    rowLocator: Locator
+    values: TokenAmountWithUSDValue
+    type: 'totalSupplied' | 'totalBorrowed'
+  }): Promise<void> {
+    const tokenAmountWithUSDValueLocator = rowLocator.getByTestId(testIds.markets.table.cell[type])
+    await expect(tokenAmountWithUSDValueLocator).toContainText(values.tokenAmount)
+    await expect(tokenAmountWithUSDValueLocator).toContainText(values.usdValue)
+  }
 
-    for (const [index, row] of rows.entries()) {
-      const rowLocator = rowsLocator.nth(index)
-      await this.expectAssetsCell(rowLocator, row.asset)
+  async expectApyCell({
+    rowLocator,
+    apy,
+    type,
+  }: { rowLocator: Locator; apy: APYWithRewards; type: 'depositAPY' | 'borrowAPY' }): Promise<void> {
+    const apyLocator = rowLocator.getByTestId(testIds.markets.table.cell[type])
+    await expect(apyLocator).toContainText(apy.value)
+    await this.expectPill({ type: 'airdrop', locator: apyLocator, shouldBeVisible: apy.hasAirDrop })
+    await this.expectPill({ type: 'reward', locator: apyLocator, shouldBeVisible: apy.hasReward })
+  }
+
+  async expectPill({
+    type,
+    locator,
+    shouldBeVisible,
+  }: { type: PillType; locator: Locator; shouldBeVisible?: boolean }): Promise<void> {
+    const pill = locator.getByTestId(pillTypeToTestId[type])
+    if (shouldBeVisible) {
+      await expect(pill).toBeVisible()
+    } else {
+      await expect(pill).not.toBeVisible()
     }
   }
+
+  async expectStatusCell(row: Locator, status: MarketsTableRow['status']): Promise<void> {
+    const statusTriggerLocator = row.getByTestId(testIds.markets.table.cell.status)
+    await statusTriggerLocator.hover()
+    const tooltipLocator = this.page.getByRole('tooltip')
+    await expect(tooltipLocator).toContainText(status.supply)
+    await expect(tooltipLocator).toContainText(status.collateral)
+    await expect(tooltipLocator).toContainText(status.borrow)
+  }
+
   // #endregion
+}
+
+interface TokenAmountWithUSDValue {
+  tokenAmount: string
+  usdValue: string
+}
+
+interface APYWithRewards {
+  value: string
+  hasAirDrop?: boolean
+  hasReward?: boolean
 }
 
 export interface MarketsTableRow {
@@ -66,27 +117,22 @@ export interface MarketsTableRow {
     isFrozen?: boolean
     isPaused?: boolean
   }
-  totalSupplied: {
-    tokenValue: string
-    usdValue: string
-  }
-  depositAPY: {
-    value: string
-    hasAirDrop?: boolean
-    hasReward?: boolean
-  }
-  totalBorrowed: {
-    tokenValue: string
-    usdValue: string
-  }
-  borrowAPY: {
-    value: string
-    hasAirDrop?: boolean
-    hasReward?: boolean
-  }
+  totalSupplied: TokenAmountWithUSDValue
+  depositAPY: APYWithRewards
+  totalBorrowed: TokenAmountWithUSDValue
+  borrowAPY: APYWithRewards
   status: {
     supply: string
     collateral: string
     borrow: string
   }
 }
+
+type PillType = 'frozen' | 'paused' | 'airdrop' | 'reward'
+
+const pillTypeToTestId: Record<PillType, string> = {
+  frozen: testIds.markets.frozenPill,
+  paused: testIds.markets.pausedPill,
+  airdrop: testIds.markets.airdropBadge,
+  reward: testIds.markets.rewardBadge,
+} as const
