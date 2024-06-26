@@ -13,19 +13,16 @@ import { useIsTruncated } from '@/ui/utils/useIsTruncated'
 interface AssetNameCellProps {
   token: Token
   reserveStatus: ReserveStatus
-  // @todo Use when implementing mobile view
-  // depositAPYDetails: APYDetails
-  // borrowAPYDetails: APYDetails
-  // mobileViewOptions?: MobileViewOptions
+  'data-testid': string
 }
 
-export function AssetNameCell({ token, reserveStatus }: AssetNameCellProps) {
+export function AssetNameCell({ token, reserveStatus, 'data-testid': dataTestId }: AssetNameCellProps) {
   const tokenImage = getTokenImage(token.symbol)
   const isPaused = reserveStatus === 'paused'
   const isFrozen = reserveStatus === 'frozen'
 
   return (
-    <div className="flex flex-row items-center gap-3 py-2">
+    <div className="flex flex-row items-center gap-3 py-2" data-testid={dataTestId}>
       {tokenImage && (
         <div className="flex shrink-0">
           <ColorFilter variant={isPaused ? 'red' : 'none'}>
