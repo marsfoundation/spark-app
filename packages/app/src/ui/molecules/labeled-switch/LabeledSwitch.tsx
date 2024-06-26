@@ -12,8 +12,8 @@ export function LabeledSwitch({ children, 'data-testid': dataTestId, ...props }:
   const id = props.id ?? _id
 
   return (
-    <div className="flex items-center gap-3" data-testid={dataTestId}>
-      <Switch {...props} id={id} />
+    <div className="flex items-center gap-3">
+      <Switch {...props} id={id} data-testid={dataTestId} />
       <Label htmlFor={id} className="font-normal text-base">
         {children}
       </Label>

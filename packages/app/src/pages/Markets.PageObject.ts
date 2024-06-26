@@ -27,7 +27,7 @@ export class MarketsPageObject extends BasePageObject {
     await this.expectMarketsTable(rows, this.locateFrozenMarketsTableBody())
   }
   async expectMarketsTable(rows: MarketsTableRow[], rowsLocator: Locator): Promise<void> {
-    // await expect(tableRows).toHaveLength(rows.length)
+    await expect(rowsLocator).toHaveCount(rows.length)
 
     for (const [index, row] of rows.entries()) {
       const rowLocator = rowsLocator.nth(index)
@@ -55,10 +55,13 @@ export class MarketsPageObject extends BasePageObject {
     type,
   }: {
     rowLocator: Locator
-    values: TokenAmountWithUSDValue
+    values: TokenAmountWithUSDValue | undefined
     type: 'totalSupplied' | 'totalBorrowed'
   }): Promise<void> {
     const tokenAmountWithUSDValueLocator = rowLocator.getByTestId(testIds.markets.table.cell[type])
+    if (!values) {
+      return await expect(tokenAmountWithUSDValueLocator).toHaveText('—')
+    }
     await expect(tokenAmountWithUSDValueLocator).toContainText(values.tokenAmount)
     await expect(tokenAmountWithUSDValueLocator).toContainText(values.usdValue)
   }
@@ -67,8 +70,15 @@ export class MarketsPageObject extends BasePageObject {
     rowLocator,
     apy,
     type,
-  }: { rowLocator: Locator; apy: APYWithRewards; type: 'depositAPY' | 'borrowAPY' }): Promise<void> {
+  }: {
+    rowLocator: Locator
+    apy: APYWithRewards | undefined
+    type: 'depositAPY' | 'borrowAPY'
+  }): Promise<void> {
     const apyLocator = rowLocator.getByTestId(testIds.markets.table.cell[type])
+    if (!apy) {
+      return await expect(apyLocator).toHaveText('—')
+    }
     await expect(apyLocator).toContainText(apy.value)
     await this.expectPill({ type: 'airdrop', locator: apyLocator, shouldBeVisible: apy.hasAirDrop })
     await this.expectPill({ type: 'reward', locator: apyLocator, shouldBeVisible: apy.hasReward })
@@ -81,10 +91,9 @@ export class MarketsPageObject extends BasePageObject {
   }: { type: PillType; locator: Locator; shouldBeVisible?: boolean }): Promise<void> {
     const pill = locator.getByTestId(pillTypeToTestId[type])
     if (shouldBeVisible) {
-      await expect(pill).toBeVisible()
-    } else {
-      await expect(pill).not.toBeVisible()
+      return await expect(pill).toBeVisible()
     }
+    await expect(pill).not.toBeVisible()
   }
 
   async expectStatusCell(row: Locator, status: MarketsTableRow['status']): Promise<void> {
@@ -117,10 +126,10 @@ export interface MarketsTableRow {
     isFrozen?: boolean
     isPaused?: boolean
   }
-  totalSupplied: TokenAmountWithUSDValue
-  depositAPY: APYWithRewards
-  totalBorrowed: TokenAmountWithUSDValue
-  borrowAPY: APYWithRewards
+  totalSupplied: TokenAmountWithUSDValue | undefined
+  depositAPY: APYWithRewards | undefined
+  totalBorrowed: TokenAmountWithUSDValue | undefined
+  borrowAPY: APYWithRewards | undefined
   status: {
     supply: string
     collateral: string
