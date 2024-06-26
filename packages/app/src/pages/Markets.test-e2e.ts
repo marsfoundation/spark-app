@@ -41,7 +41,8 @@ test.describe('Markets', () => {
           usdValue: '$962.8M',
         },
         depositAPY: {
-          value: '0.00%',
+          // @note: This value is different in production since VITE_FEATURE_DISABLE_DAI_LEND is disabled in playwright tests
+          value: '8.52%',
         },
         totalBorrowed: {
           tokenAmount: '913.6M',
@@ -52,7 +53,8 @@ test.describe('Markets', () => {
           hasAirDrop: true,
         },
         status: {
-          supply: 'Cannot be supplied',
+          // @note: This value is different in production since VITE_FEATURE_DISABLE_DAI_LEND is disabled in playwright tests
+          supply: 'Can be supplied',
           collateral: 'Can be used as collateral',
           borrow: 'Can be borrowed',
         },
