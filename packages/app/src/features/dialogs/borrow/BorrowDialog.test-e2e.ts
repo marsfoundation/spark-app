@@ -34,7 +34,7 @@ test.describe('Borrow dialog', () => {
       await setup(page, fork, {
         initialPage: 'easyBorrow',
         account: {
-          type: 'connected',
+          type: 'connected-random',
           assetBalances: { ...initialBalances },
         },
       })
@@ -223,7 +223,7 @@ test.describe('Borrow dialog', () => {
       await setup(page, fork, {
         initialPage: 'easyBorrow',
         account: {
-          type: 'connected',
+          type: 'connected-random',
           assetBalances: { ...initialBalances },
         },
       })

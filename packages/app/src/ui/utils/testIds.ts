@@ -73,6 +73,14 @@ export const testIds = makeTestIds({
     depositSavings: {
       transactionDetailsRow: (index: number) => index,
     },
+    claimRewards: {
+      transactionOverview: {
+        row: (index: number) => index,
+        token: true,
+        amount: true,
+        amountUSD: true,
+      },
+    },
   },
   actions: {
     settings: {
@@ -94,6 +102,17 @@ export const testIds = makeTestIds({
   },
   navbar: {
     airdropBadge: true,
+    rewards: {
+      badge: true,
+      claimableRewards: true,
+      details: {
+        row: (index: number) => index,
+        token: true,
+        amount: true,
+        amountUSD: true,
+        tooltip: true,
+      },
+    },
   },
   markets: {
     summary: {

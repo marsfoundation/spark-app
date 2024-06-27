@@ -33,7 +33,7 @@ test.describe('Borrow page', () => {
       await setup(page, fork, {
         initialPage: 'easyBorrow',
         account: {
-          type: 'connected',
+          type: 'connected-random',
           assetBalances: {
             ETH: 10,
           },
@@ -112,7 +112,7 @@ test.describe('Borrow page', () => {
       await setup(page, fork, {
         initialPage: 'easyBorrow',
         account: {
-          type: 'connected',
+          type: 'connected-random',
           assetBalances: {
             wstETH: 10,
             rETH: 10,
@@ -254,7 +254,7 @@ test.describe('Borrow page', () => {
       await setup(page, fork, {
         initialPage: 'easyBorrow',
         account: {
-          type: 'connected',
+          type: 'connected-random',
           assetBalances: {
             ETH: 10,
             rETH: 10,
@@ -350,7 +350,7 @@ test.describe('Borrow page', () => {
       await setup(page, fork, {
         initialPage: 'easyBorrow',
         account: {
-          type: 'connected',
+          type: 'connected-random',
           assetBalances: {
             ETH: 10,
             rETH: 10,
@@ -422,7 +422,7 @@ test.describe('Borrow page', () => {
       await setup(page, fork, {
         initialPage: 'easyBorrow',
         account: {
-          type: 'connected',
+          type: 'connected-random',
           assetBalances: { wstETH: 10 },
         },
       })

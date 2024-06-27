@@ -30,7 +30,7 @@ test.describe('Dashboard', () => {
     await setup(page, fork, {
       initialPage: 'dashboard',
       account: {
-        type: 'connected',
+        type: 'connected-random',
       },
     })
     const dashboardPage = new DashboardPageObject(page)
@@ -51,7 +51,7 @@ test.describe('Dashboard', () => {
     await setup(page, fork, {
       initialPage: 'dashboard',
       account: {
-        type: 'connected',
+        type: 'connected-random',
         assetBalances,
       },
     })
@@ -72,7 +72,7 @@ test.describe('Dashboard', () => {
     await setup(page, fork, {
       initialPage: 'easyBorrow',
       account: {
-        type: 'connected',
+        type: 'connected-random',
         assetBalances: { ...assetsToDeposit, ETH: 0.1 },
       },
     })

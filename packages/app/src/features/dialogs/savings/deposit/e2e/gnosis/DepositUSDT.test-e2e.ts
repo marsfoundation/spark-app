@@ -20,7 +20,7 @@ test.describe('Deposit USDC on Gnosis', () => {
     await setup(page, fork, {
       initialPage: 'savings',
       account: {
-        type: 'connected',
+        type: 'connected-pkey',
         assetBalances: {
           XDAI: 100,
           USDT: 10_000,

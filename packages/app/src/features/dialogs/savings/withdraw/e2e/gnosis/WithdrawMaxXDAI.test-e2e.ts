@@ -20,7 +20,7 @@ test.describe('Withdraw max XDAI on Gnosis', () => {
     await setup(page, fork, {
       initialPage: 'savings',
       account: {
-        type: 'connected',
+        type: 'connected-random',
         assetBalances: {
           XDAI: 100,
           sDAI: 10_000,

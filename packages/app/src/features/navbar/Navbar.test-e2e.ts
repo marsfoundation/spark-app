@@ -30,7 +30,7 @@ test.describe('Navbar', () => {
       const { account } = await setup(page, fork, {
         initialPage: 'easyBorrow',
         account: {
-          type: 'connected',
+          type: 'connected-random',
         },
       })
 
@@ -46,7 +46,7 @@ test.describe('Navbar', () => {
       const { account } = await setup(page, fork, {
         initialPage: 'easyBorrow',
         account: {
-          type: 'connected',
+          type: 'connected-random',
         },
       })
 
@@ -60,7 +60,7 @@ test.describe('Navbar', () => {
       const { account } = await setup(page, fork, {
         initialPage: 'easyBorrow',
         account: {
-          type: 'connected',
+          type: 'connected-random',
         },
       })
 
@@ -70,6 +70,46 @@ test.describe('Navbar', () => {
       await navbar.expectAirdropCompactValue('0')
       await navbar.hoverOverAirdropBadge()
       await navbar.expectAirdropPreciseValue('0.00 SPK')
+    })
+  })
+
+  test.describe('Rewards badge', () => {
+    test('Displays total rewards in badge', async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'easyBorrow',
+        account: {
+          type: 'connected-address',
+          address: '0xf8de75c7b95edb6f1e639751318f117663021cf0',
+        },
+      })
+
+      const navbar = new NavbarPageObject(page)
+      await navbar.expectClaimableRewardsValue('$16.85K')
+    })
+
+    test('Opens tooltip on hover', async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'easyBorrow',
+        account: {
+          type: 'connected-address',
+          address: '0xf8de75c7b95edb6f1e639751318f117663021cf0',
+        },
+      })
+
+      const navbar = new NavbarPageObject(page)
+      await navbar.locateRewardsBadge().hover()
+      const rewardsDetails = navbar.locateRewardsDetails()
+
+      await navbar.expectRewards(
+        [
+          {
+            tokenSymbol: 'wstETH',
+            amount: '6.42906',
+            amountUSD: '$16,850.36',
+          },
+        ],
+        rewardsDetails,
+      )
     })
   })
 

@@ -20,7 +20,7 @@ test.describe('Deposit USDC on Mainnet', () => {
     await setup(page, fork, {
       initialPage: 'savings',
       account: {
-        type: 'connected',
+        type: 'connected-random',
         assetBalances: {
           ETH: 1,
           USDC: 10_000,

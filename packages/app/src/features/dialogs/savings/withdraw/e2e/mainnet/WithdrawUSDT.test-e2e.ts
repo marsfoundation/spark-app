@@ -21,7 +21,7 @@ test.describe('Withdraw USDT on Mainnet', () => {
     await setup(page, fork, {
       initialPage: 'savings',
       account: {
-        type: 'connected',
+        type: 'connected-pkey',
         assetBalances: {
           ETH: 1,
           sDAI: 10_000,
@@ -88,7 +88,7 @@ test.describe('Risk warning', () => {
     await setup(page, fork, {
       initialPage: 'savings',
       account: {
-        type: 'connected',
+        type: 'connected-pkey',
         assetBalances: {
           ETH: 1,
           sDAI: 100000,
@@ -117,7 +117,7 @@ test.describe('Risk warning', () => {
     await setup(page, fork, {
       initialPage: 'savings',
       account: {
-        type: 'connected',
+        type: 'connected-pkey',
         assetBalances: {
           ETH: 1,
           sDAI: 100000,
@@ -162,7 +162,7 @@ test.describe('Validation', () => {
       await setup(page, fork, {
         initialPage: 'savings',
         account: {
-          type: 'connected',
+          type: 'connected-pkey',
           assetBalances: {
             ETH: 1,
             sDAI: 100,
@@ -207,7 +207,7 @@ test.describe('Validation', () => {
     await setup(page, fork, {
       initialPage: 'savings',
       account: {
-        type: 'connected',
+        type: 'connected-pkey',
         assetBalances: {
           ETH: 1,
           sDAI: 100,
