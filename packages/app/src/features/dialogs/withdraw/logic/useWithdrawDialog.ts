@@ -1,17 +1,17 @@
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useState } from 'react'
-import { UseFormReturn, useForm } from 'react-hook-form'
-
 import { getNativeAssetInfo } from '@/config/chain/utils/getNativeAssetInfo'
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
 import { useConditionalFreeze } from '@/domain/hooks/useConditionalFreeze'
+import { RiskAcknowledgementInfo } from '@/domain/liquidation-risk-warning/types'
+import { useLiquidationRiskWarning } from '@/domain/liquidation-risk-warning/useLiquidationRiskWarning'
 import { useAaveDataLayer } from '@/domain/market-info/aave-data-layer/useAaveDataLayer'
 import { updatePositionSummary } from '@/domain/market-info/updatePositionSummary'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { Token } from '@/domain/types/Token'
 import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
 import { Objective } from '@/features/actions/logic/types'
-
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useState } from 'react'
+import { UseFormReturn, useForm } from 'react-hook-form'
 import { AssetInputSchema, useDebouncedDialogFormValues } from '../../common/logic/form'
 import { useUpdateFormMaxValue } from '../../common/logic/useUpdateFormMaxValue'
 import { FormFieldsForDialog, PageState, PageStatus } from '../../common/types'
@@ -34,6 +34,7 @@ export interface UseWithdrawDialogResult {
   form: UseFormReturn<AssetInputSchema>
   currentPositionOverview: PositionOverview
   updatedPositionOverview?: PositionOverview
+  riskAcknowledgment: RiskAcknowledgementInfo
 }
 
 export function useWithdrawDialog({ initialToken }: UseWithdrawDialogOptions): UseWithdrawDialogResult {
@@ -98,6 +99,13 @@ export function useWithdrawDialog({ initialToken }: UseWithdrawDialogOptions): U
         healthFactor: updatedUserSummary.healthFactor,
         tokenSupply,
       }
+  const liquidationRiskWarning = useLiquidationRiskWarning({
+    type: 'liquidation-warning-withdraw',
+    healthFactor: updatedPositionOverview?.healthFactor,
+  })
+
+  const actionsEnabled =
+    withdrawAsset.value.gt(0) && isFormValid && !isDebouncing && liquidationRiskWarning.enableActions
 
   return {
     form,
@@ -107,10 +115,11 @@ export function useWithdrawDialog({ initialToken }: UseWithdrawDialogOptions): U
     objectives,
     pageStatus: {
       state: pageStatus,
-      actionsEnabled: withdrawAsset.value.gt(0) && isFormValid && !isDebouncing,
+      actionsEnabled,
       goToSuccessScreen: () => setPageStatus('success'),
     },
     currentPositionOverview,
     updatedPositionOverview,
+    riskAcknowledgment: liquidationRiskWarning.riskAcknowledgment,
   }
 }
