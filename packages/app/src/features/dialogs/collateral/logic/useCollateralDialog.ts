@@ -1,8 +1,7 @@
-import BigNumber from 'bignumber.js'
-import { useState } from 'react'
-
 import { getNativeAssetInfo } from '@/config/chain/utils/getNativeAssetInfo'
 import { TokenWithBalance } from '@/domain/common/types'
+import { RiskAcknowledgementInfo } from '@/domain/liquidation-risk-warning/types'
+import { useLiquidationRiskWarning } from '@/domain/liquidation-risk-warning/useLiquidationRiskWarning'
 import { useAaveDataLayer } from '@/domain/market-info/aave-data-layer/useAaveDataLayer'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import {
@@ -12,7 +11,8 @@ import {
 } from '@/domain/market-validators/validateSetUseAsCollateral'
 import { Token } from '@/domain/types/Token'
 import { Objective } from '@/features/actions/logic/types'
-
+import BigNumber from 'bignumber.js'
+import { useState } from 'react'
 import { PageState, PageStatus } from '../../common/types'
 import { createCollateralObjectives } from './createCollateralObjectives'
 import { getUpdatedUserSummary } from './getUpdatedUserSummary'
@@ -29,6 +29,7 @@ export interface UseCollateralDialogResult {
   pageStatus: PageStatus
   currentHealthFactor?: BigNumber
   updatedHealthFactor?: BigNumber
+  riskAcknowledgement: RiskAcknowledgementInfo
 }
 
 export function useCollateralDialog({ useAsCollateral, token }: UseCollateralDialogParams): UseCollateralDialogResult {
@@ -60,6 +61,14 @@ export function useCollateralDialog({ useAsCollateral, token }: UseCollateralDia
     }),
   )
 
+  const liquidationRiskWarning = useLiquidationRiskWarning({
+    type: 'liquidation-warning-set-collateral',
+    currentHealthFactor,
+    updatedHealthFactor,
+  })
+
+  const actionsEnabled = !validationIssue && liquidationRiskWarning.enableActions
+
   return {
     objectives,
     collateral,
@@ -67,9 +76,10 @@ export function useCollateralDialog({ useAsCollateral, token }: UseCollateralDia
     currentHealthFactor,
     updatedHealthFactor,
     pageStatus: {
+      actionsEnabled,
       state: pageStatus,
-      actionsEnabled: !validationIssue,
       goToSuccessScreen: () => setPageStatus('success'),
     },
+    riskAcknowledgement: liquidationRiskWarning.riskAcknowledgment,
   }
 }

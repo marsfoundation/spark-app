@@ -15,11 +15,18 @@ function CollateralDialogContentContainer({
   token,
   closeDialog,
 }: CollateralDialogContentContainerProps) {
-  const { objectives, collateral, validationIssue, currentHealthFactor, updatedHealthFactor, pageStatus } =
-    useCollateralDialog({
-      useAsCollateral,
-      token,
-    })
+  const {
+    objectives,
+    collateral,
+    validationIssue,
+    currentHealthFactor,
+    updatedHealthFactor,
+    pageStatus,
+    riskAcknowledgement,
+  } = useCollateralDialog({
+    useAsCollateral,
+    token,
+  })
   const collateralSetting = useAsCollateral ? 'enabled' : 'disabled'
 
   if (pageStatus.state === 'success') {
@@ -35,6 +42,7 @@ function CollateralDialogContentContainer({
       objectives={objectives}
       currentHealthFactor={currentHealthFactor}
       updatedHealthFactor={updatedHealthFactor}
+      riskAcknowledgement={riskAcknowledgement}
     />
   )
 }

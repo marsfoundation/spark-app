@@ -80,7 +80,8 @@ export function useBorrowDialog({ initialToken }: UseBorrowDialogOptions): UseBo
 
   const liquidationRiskWarning = useLiquidationRiskWarning({
     type: 'liquidation-warning-borrow',
-    healthFactor: updatedHealthFactor,
+    currentHealthFactor,
+    updatedHealthFactor,
   })
 
   const actionsEnabled =
@@ -92,8 +93,8 @@ export function useBorrowDialog({ initialToken }: UseBorrowDialogOptions): UseBo
     tokenToBorrow,
     objectives: actions,
     pageStatus: {
+      actionsEnabled,
       state: pageStatus,
-      actionsEnabled: actionsEnabled,
       goToSuccessScreen: () => setPageStatus('success'),
     },
     form,

@@ -5,7 +5,8 @@ import { LiquidationRiskWarning, RiskAcknowledgementInfo } from './types'
 
 export interface UseLiquidationRiskWarningParams {
   type: LiquidationRiskWarning['type']
-  healthFactor: BigNumber | undefined
+  currentHealthFactor: BigNumber | undefined
+  updatedHealthFactor: BigNumber | undefined
 }
 
 export interface UseRiskWarningResult {
@@ -15,14 +16,20 @@ export interface UseRiskWarningResult {
 
 export function useLiquidationRiskWarning({
   type,
-  healthFactor,
+  currentHealthFactor,
+  updatedHealthFactor,
 }: UseLiquidationRiskWarningParams): UseRiskWarningResult {
   const [riskAcknowledged, setRiskAcknowledged] = useState(false)
   const riskAcknowledgment = { onStatusChange: setRiskAcknowledged }
 
+  if (!currentHealthFactor || !updatedHealthFactor) {
+    return { riskAcknowledgment, enableActions: false }
+  }
+
   if (
-    healthFactor?.gt(LIQUIDATION_HEALTH_FACTOR_THRESHOLD) &&
-    healthFactor?.lte(LIQUIDATION_DANGER_HEALTH_FACTOR_THRESHOLD)
+    currentHealthFactor.gt(LIQUIDATION_DANGER_HEALTH_FACTOR_THRESHOLD) &&
+    updatedHealthFactor.gt(LIQUIDATION_HEALTH_FACTOR_THRESHOLD) &&
+    updatedHealthFactor.lte(LIQUIDATION_DANGER_HEALTH_FACTOR_THRESHOLD)
   ) {
     return { riskAcknowledgment: { ...riskAcknowledgment, warning: { type } }, enableActions: riskAcknowledged }
   }

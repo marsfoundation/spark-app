@@ -101,7 +101,8 @@ export function useWithdrawDialog({ initialToken }: UseWithdrawDialogOptions): U
       }
   const liquidationRiskWarning = useLiquidationRiskWarning({
     type: 'liquidation-warning-withdraw',
-    healthFactor: updatedPositionOverview?.healthFactor,
+    currentHealthFactor: currentPositionOverview.healthFactor,
+    updatedHealthFactor: updatedPositionOverview?.healthFactor,
   })
 
   const actionsEnabled =
@@ -114,8 +115,8 @@ export function useWithdrawDialog({ initialToken }: UseWithdrawDialogOptions): U
     withdrawAsset,
     objectives,
     pageStatus: {
-      state: pageStatus,
       actionsEnabled,
+      state: pageStatus,
       goToSuccessScreen: () => setPageStatus('success'),
     },
     currentPositionOverview,
