@@ -496,6 +496,7 @@ test.describe('Repay dialog', () => {
       // borrow WETH
       await dashboardPage.clickBorrowButtonAction(WETHBorrow.asset)
       await borrowDialog.fillAmountAction(WETHBorrow.amount)
+      await borrowDialog.clickAcknowledgeRisk()
       await borrowActionsContainer.acceptAllActionsAction(1)
       await borrowDialog.viewInDashboardAction()
 

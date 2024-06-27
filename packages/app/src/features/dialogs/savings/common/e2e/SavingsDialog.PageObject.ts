@@ -21,9 +21,6 @@ export class SavingsDialogPageObject extends DialogPageObject {
     })
   }
 
-  async clickAcknowledgeRisk(): Promise<void> {
-    await this.page.getByTestId(testIds.dialog.acknowledgeRiskSwitch).click()
-  }
   // #endregion
 
   // #region assertions
