@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { useState } from 'react'
-import { LIQUIDATION_DANGER_HEALTH_FACTOR_THRESHOLD, LIQUIDATION_HEALTH_FACTOR_THRESHOLD } from '../common/risk'
+import { LIQUIDATION_DANGER_HEALTH_FACTOR_THRESHOLD } from '../common/risk'
 import { LiquidationRiskWarning, RiskAcknowledgementInfo } from './types'
 
 export interface UseLiquidationRiskWarningParams {
@@ -21,18 +21,21 @@ export function useLiquidationRiskWarning({
 }: UseLiquidationRiskWarningParams): UseRiskWarningResult {
   const [riskAcknowledged, setRiskAcknowledged] = useState(false)
   const riskAcknowledgment = { onStatusChange: setRiskAcknowledged }
+  const showWarning = determineRiskWarning(updatedHealthFactor, currentHealthFactor)
 
-  if (!currentHealthFactor || !updatedHealthFactor) {
-    return { riskAcknowledgment, enableActions: false }
+  return {
+    riskAcknowledgment: showWarning ? { ...riskAcknowledgment, warning: { type } } : riskAcknowledgment,
+    enableActions: !showWarning || riskAcknowledged,
+  }
+}
+
+function determineRiskWarning(updatedHealthFactor: BigNumber | undefined, currentHealthFactor: BigNumber | undefined) {
+  if (!updatedHealthFactor) {
+    return false
   }
 
-  if (
-    currentHealthFactor.gt(LIQUIDATION_DANGER_HEALTH_FACTOR_THRESHOLD) &&
-    updatedHealthFactor.gt(LIQUIDATION_HEALTH_FACTOR_THRESHOLD) &&
-    updatedHealthFactor.lte(LIQUIDATION_DANGER_HEALTH_FACTOR_THRESHOLD)
-  ) {
-    return { riskAcknowledgment: { ...riskAcknowledgment, warning: { type } }, enableActions: riskAcknowledged }
-  }
-
-  return { riskAcknowledgment, enableActions: true }
+  const isUpdatedHFInDangerZone = updatedHealthFactor.lt(LIQUIDATION_DANGER_HEALTH_FACTOR_THRESHOLD)
+  // @note e.g., Collateral is already disabled; user withdraws it, and the health factor is not changing.
+  const hasHFChanged = !currentHealthFactor?.eq(updatedHealthFactor)
+  return hasHFChanged && isUpdatedHFInDangerZone
 }
