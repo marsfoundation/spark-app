@@ -12,7 +12,7 @@ export function RiskAcknowledgement({ warning, onStatusChange }: RiskAcknowledge
   return (
     <div className="flex flex-col gap-2">
       <Alert variant="danger">
-        <div className="text-basics-black text-sm">
+        <div className="max-w-[46ch] text-basics-black text-sm">
           {warning.type === 'savings-deposit-discrepancy-threshold-hit' &&
             `Market fluctuations can impact your transaction value. The final amount received may be less than the deposit amount by up to ${warning.token.format(
               warning.discrepancy,
