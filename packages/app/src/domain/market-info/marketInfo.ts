@@ -356,6 +356,17 @@ export function marketInfoSelectFn({ timeAdvance }: MarketInfoSelectFnParams = {
       siloBorrowingState: determineSiloBorrowingState(userPositions),
     }
 
+    const allIncentiveEligibleAddresses: CheckedAddress[] = rawAaveData.userSummary.userReservesData.flatMap(
+      ({ reserve }) =>
+        [
+          { data: reserve.aIncentivesData, address: reserve.aTokenAddress },
+          { data: reserve.vIncentivesData, address: reserve.variableDebtTokenAddress },
+          { data: reserve.sIncentivesData, address: reserve.stableDebtTokenAddress },
+        ]
+          .filter(({ data }) => data && data.length > 0)
+          .map(({ address }) => CheckedAddress(address)),
+    )
+
     const userRewards: UserReward[] = Object.values(rawAaveData.userRewards)
       .map((value) => {
         const token = findOneTokenBySymbol(TokenSymbol(value.rewardTokenSymbol))
@@ -363,7 +374,7 @@ export function marketInfoSelectFn({ timeAdvance }: MarketInfoSelectFnParams = {
           value: token.fromBaseUnit(BaseUnitNumber(value.claimableRewards.dp(0))),
           token,
           incentiveControllerAddress: CheckedAddress(value.incentiveControllerAddress),
-          assets: value.assets.map((asset) => CheckedAddress(asset)),
+          assets: allIncentiveEligibleAddresses, // overriding rewards assets to ensure that all possible rewards are claimed
         }
       })
       .filter((r) => r.value.gt(0))

@@ -3,6 +3,7 @@ import { ApproveDelegationAction } from '../flavours/approve-delegation/types'
 import { ApproveExchangeAction } from '../flavours/approve-exchange/types'
 import { ApproveAction } from '../flavours/approve/types'
 import { BorrowAction, BorrowObjective } from '../flavours/borrow/types'
+import { ClaimRewardsAction, ClaimRewardsObjective } from '../flavours/claim-rewards/types'
 import { DepositAction, DepositObjective } from '../flavours/deposit/types'
 import { ExchangeAction, ExchangeObjective } from '../flavours/exchange/types'
 import { DaiToSDaiDepositAction, DaiToSDaiDepositObjective } from '../flavours/native-sdai-deposit/dai-to-sdai/types'
@@ -43,6 +44,7 @@ export type Objective =
   | USDCFromSDaiWithdrawObjective
   | XDaiToSDaiDepositObjective
   | XDaiFromSDaiWithdrawObjective
+  | ClaimRewardsObjective
 export type ObjectiveType = Objective['type']
 
 export type Action =
@@ -62,6 +64,7 @@ export type Action =
   | USDCFromSDaiWithdrawAction
   | XDaiToSDaiDepositAction
   | XDaiFromSDaiWithdrawAction
+  | ClaimRewardsAction
 export type ActionType = Action['type']
 
 export type ActionHandlerState =

@@ -8,8 +8,9 @@ import { Reward } from './types'
 
 export interface RewardsProps {
   rewards: Reward[]
+  onClaim: () => void
 }
-export function RewardsBadge({ rewards }: RewardsProps) {
+export function RewardsBadge({ rewards, onClaim }: RewardsProps) {
   const totalClaimableReward = rewards.reduce(
     (acc, { token, amount }) => NormalizedUnitNumber(acc.plus(token.toUSD(amount))),
     NormalizedUnitNumber(0),
@@ -31,7 +32,7 @@ export function RewardsBadge({ rewards }: RewardsProps) {
           </button>
         </TooltipTrigger>
         <TooltipContentLong align="start" className="p-0">
-          <RewardsDetails rewards={rewards} />
+          <RewardsDetails rewards={rewards} onClaim={onClaim} />
         </TooltipContentLong>
       </Tooltip>
     </NavbarActionWrapper>

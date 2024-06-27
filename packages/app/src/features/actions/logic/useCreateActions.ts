@@ -10,6 +10,7 @@ import { ApproveDelegationAction } from '../flavours/approve-delegation/types'
 import { ApproveExchangeAction } from '../flavours/approve-exchange/types'
 import { ApproveAction } from '../flavours/approve/types'
 import { BorrowAction } from '../flavours/borrow/types'
+import { ClaimRewardsAction } from '../flavours/claim-rewards/types'
 import { DepositAction } from '../flavours/deposit/types'
 import { ExchangeAction } from '../flavours/exchange/types'
 import { DaiToSDaiDepositAction } from '../flavours/native-sdai-deposit/dai-to-sdai/types'
@@ -273,6 +274,17 @@ export function useCreateActions(objectives: Objective[]): Action[] {
         }
 
         return [depositAction]
+      }
+
+      case 'claimRewards': {
+        const claimRewardsActions: ClaimRewardsAction = {
+          type: 'claimRewards',
+          token: objective.token,
+          incentiveControllerAddress: objective.incentiveControllerAddress,
+          assets: objective.assets,
+        }
+
+        return [claimRewardsActions]
       }
     }
   })

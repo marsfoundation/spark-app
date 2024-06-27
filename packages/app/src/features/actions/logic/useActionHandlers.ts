@@ -4,6 +4,7 @@ import { useCreateApproveDelegationHandler } from '../flavours/approve-delegatio
 import { useCreateApproveExchangeActionHandler } from '../flavours/approve-exchange/useCreateApproveExchangeHandler'
 import { useCreateApproveOrPermitHandler } from '../flavours/approve/logic/useCreateApproveOrPermitHandler'
 import { useCreateBorrowActionHandler } from '../flavours/borrow/useCreateBorrowHandler'
+import { useCreateClaimRewardsHandler } from '../flavours/claim-rewards/useCreateClaimRewardsHandler'
 import { useCreateDepositHandler } from '../flavours/deposit/useCreateDepositHandler'
 import { useCreateExchangeHandler } from '../flavours/exchange/useCreateExchangeHandler'
 import { useCreateDaiToSDaiDepositHandler } from '../flavours/native-sdai-deposit/dai-to-sdai/useCreateDaiToSDaiDepositHandler'
@@ -133,5 +134,8 @@ function useCreateActionHandler(
     case 'xDaiFromSDaiWithdraw':
       // biome-ignore lint/correctness/useHookAtTopLevel:
       return useCreateXDaiFromSDaiWithdrawHandler(action, { enabled, onFinish })
+    case 'claimRewards':
+      // biome-ignore lint/correctness/useHookAtTopLevel:
+      return useCreateClaimRewardsHandler(action, { enabled, onFinish })
   }
 }
