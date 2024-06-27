@@ -153,23 +153,21 @@ export class DashboardPageObject extends BasePageObject {
   }
 
   async expectWalletTable(assets: Record<string, number>): Promise<void> {
-    await expect
-      .poll(async () => {
-        const walletTable = await this.parseWalletTable()
-        for (const [asset, expectedAmount] of Object.entries(assets)) {
-          const row = walletTable.find((row) => row.asset === asset)
-          // skip ETH for now as it's not supported in deposit table
-          if (asset === 'ETH') {
-            continue
-          }
-          assert(row)
-          expect(expectedAmount, `Couldn't find asset ${row.asset}`).toBeDefined()
-          expect(row.amount).toBe(expectedAmount)
+    await expect(async () => {
+      const walletTable = await this.parseWalletTable()
+      for (const [asset, expectedAmount] of Object.entries(assets)) {
+        const row = walletTable.find((row) => row.asset === asset)
+        // skip ETH for now as it's not supported in deposit table
+        if (asset === 'ETH') {
+          continue
         }
+        assert(row)
+        expect(expectedAmount, `Couldn't find asset ${row.asset}`).toBeDefined()
+        expect(row.amount).toBe(expectedAmount)
+      }
 
-        return true
-      })
-      .toBe(true)
+      return true
+    }).toPass()
   }
 
   async expectAssetToBeInDepositTable(asset: string): Promise<void> {

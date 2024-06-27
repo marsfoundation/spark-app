@@ -7,7 +7,7 @@ import { DialogPageObject } from '../common/Dialog.PageObject'
 export class ClaimRewardsDialogPageObject extends DialogPageObject {
   constructor(page: Page) {
     super(page, /.*/)
-    this.region = this.locateDialogByHeader('Claim')
+    this.region = this.locateDialogByHeader('Claim rewards')
   }
 
   // #region assertions
@@ -17,7 +17,7 @@ export class ClaimRewardsDialogPageObject extends DialogPageObject {
     }
 
     for (const [index, row] of rows.entries()) {
-      const rowLocator = this.region.getByTestId(testIds.dialog.claimRewards.transactionOverview.row(index)).first()
+      const rowLocator = this.page.getByTestId(testIds.dialog.claimRewards.transactionOverview.row(index)).first()
       await expect(rowLocator.getByTestId(testIds.dialog.claimRewards.transactionOverview.token)).toHaveText(
         row.tokenSymbol,
       )
@@ -31,8 +31,8 @@ export class ClaimRewardsDialogPageObject extends DialogPageObject {
   }
 
   async expectClaimRewardsSuccessPage(rows: Reward[]): Promise<void> {
-    await expect(this.region.getByRole('heading', { name: 'Congrats! All done!' })).toBeVisible()
-    await this.expectRewards(rows, this.region.getByTestId(testIds.dialog.success))
+    await expect(this.page.getByRole('heading', { name: 'Congrats! All done!' })).toBeVisible()
+    await this.expectRewards(rows, this.page.getByTestId(testIds.dialog.success))
   }
   // #endregion assertions
 }

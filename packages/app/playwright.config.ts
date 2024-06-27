@@ -18,7 +18,7 @@ export default defineConfig({
     video: process.env.PLAYWRIGHT_TRACE === '1' ? 'retain-on-failure' : 'off',
   },
   expect: {
-    timeout: 20_000_000,
+    timeout: 20_000,
   },
   timeout: 60_000 * 3, // sometimes tenderly can be slow
   maxFailures: undefined, // don't use this as it doesn't respect retires

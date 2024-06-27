@@ -3,6 +3,7 @@ import { mainnet } from 'viem/chains'
 
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { NavbarPageObject } from '@/features/navbar/Navbar.PageObject'
+import { DashboardPageObject } from '@/pages/Dashboard.PageObject'
 import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setup } from '@/test/e2e/setup'
 import { setupFork } from '@/test/e2e/setupFork'
@@ -79,5 +80,12 @@ test.describe('Claim rewards dialog', () => {
         amountUSD: '~$16,850.36',
       },
     ])
+
+    const dashboard = new DashboardPageObject(page)
+    await dashboard.goToDashboardAction()
+
+    await dashboard.expectWalletTable({
+      wstETH: 6.44807,
+    })
   })
 })
