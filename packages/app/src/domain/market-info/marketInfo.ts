@@ -357,15 +357,15 @@ export function marketInfoSelectFn({ timeAdvance }: MarketInfoSelectFnParams = {
     }
 
     const allIncentiveEligibleAddresses: CheckedAddress[] = rawAaveData.userSummary.userReservesData.flatMap(
-      ({ reserve }) => 
+      ({ reserve }) =>
         [
           { data: reserve.aIncentivesData, address: reserve.aTokenAddress },
           { data: reserve.vIncentivesData, address: reserve.variableDebtTokenAddress },
           { data: reserve.sIncentivesData, address: reserve.stableDebtTokenAddress },
         ]
-        .filter(({ data }) => data && data.length > 0)
-        .map(({ address }) => CheckedAddress(address))
-    );
+          .filter(({ data }) => data && data.length > 0)
+          .map(({ address }) => CheckedAddress(address)),
+    )
 
     const userRewards: UserReward[] = Object.values(rawAaveData.userRewards)
       .map((value) => {
