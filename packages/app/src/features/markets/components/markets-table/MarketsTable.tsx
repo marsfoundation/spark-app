@@ -16,14 +16,16 @@ export interface MarketsTableProps {
   entries: MarketEntry[]
   chainId: number
   hideTableHeader?: boolean
+  'data-testid'?: string
 }
 
-export function MarketsTable({ entries, chainId, hideTableHeader }: MarketsTableProps) {
+export function MarketsTable({ entries, chainId, hideTableHeader, 'data-testid': dataTestId }: MarketsTableProps) {
   return (
     <ResponsiveDataTable
       gridTemplateColumnsClassName="grid-cols-[_repeat(6,minmax(0,1fr))_minmax(0,70px)] lg:grid-cols-[_minmax(0,5fr)_repeat(5,minmax(0,3fr))_minmax(0,70px)]"
       hideTableHeader={hideTableHeader}
       data={entries}
+      data-testid={dataTestId}
       columnDefinition={{
         asset: {
           header: 'Assets',

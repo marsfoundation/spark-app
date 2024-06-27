@@ -38,7 +38,11 @@ export function MarketsView({
       </div>
       <SummaryTiles marketStats={marketStats} />
       <Panel.Wrapper className="flex flex-col gap-5 p-4 lg:p-8">
-        <MarketsTable entries={activeAndPausedMarketEntries} chainId={chainId} />
+        <MarketsTable
+          entries={activeAndPausedMarketEntries}
+          chainId={chainId}
+          data-testid={testIds.markets.table.active}
+        />
         {frozenMarketEntries.length > 0 && (
           <>
             <LabeledSwitch
@@ -48,7 +52,14 @@ export function MarketsView({
             >
               Show Frozen Assets
             </LabeledSwitch>
-            {showFrozenAssets && <MarketsTable entries={frozenMarketEntries} chainId={chainId} hideTableHeader />}
+            {showFrozenAssets && (
+              <MarketsTable
+                entries={frozenMarketEntries}
+                chainId={chainId}
+                hideTableHeader
+                data-testid={testIds.markets.table.frozen}
+              />
+            )}
           </>
         )}
       </Panel.Wrapper>

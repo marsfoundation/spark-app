@@ -4,12 +4,12 @@ import { Locator, expect } from '@playwright/test'
 
 export class MarketsPageObject extends BasePageObject {
   // #region locators
-  locateActiveMarketsRows(): Locator {
-    return this.page.getByRole('table').first().getByRole('rowgroup').last().getByRole('row')
+  locateActiveMarketsTable(): Locator {
+    return this.page.getByTestId(testIds.markets.table.active)
   }
 
   locateFrozenMarketsTableBody(): Locator {
-    return this.page.getByRole('table').last().getByRole('rowgroup').last().getByRole('row')
+    return this.page.getByTestId(testIds.markets.table.frozen)
   }
   // #endregion
 
@@ -28,15 +28,15 @@ export class MarketsPageObject extends BasePageObject {
     }
   }
   async expectActiveMarketsTable(rows: MarketsTableRow[]): Promise<void> {
-    await this.expectMarketsTable(rows, this.locateActiveMarketsRows())
+    await this.expectMarketsTable(rows, this.locateActiveMarketsTable())
   }
   async expectFrozenMarketsTable(rows: MarketsTableRow[]): Promise<void> {
     await this.expectMarketsTable(rows, this.locateFrozenMarketsTableBody())
   }
-  async expectMarketsTable(rows: MarketsTableRow[], rowsLocator: Locator): Promise<void> {
+  async expectMarketsTable(rows: MarketsTableRow[], tableLocator: Locator): Promise<void> {
     for (const [index, row] of rows.entries()) {
-      const rowLocator = rowsLocator.nth(index)
-
+      const rowLocator = tableLocator.getByTestId(testIds.component.DataTable.row(index))
+      await expect(rowLocator).toBeVisible()
       await this.expectAssetsCell(rowLocator, row.asset)
       await this.expectCompactValueCell({ type: 'totalSupplied', rowLocator, values: row.totalSupplied })
       await this.expectApyCell({ type: 'depositAPY', rowLocator, apy: row.depositAPY })

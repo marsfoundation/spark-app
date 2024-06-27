@@ -1,3 +1,8 @@
+import { LinkDecorator } from '@/ui/atoms/link-decorator/LinkDecorator'
+import { ScrollArea } from '@/ui/atoms/scroll-area/ScrollArea'
+import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/ui/atoms/table/Table'
+import { cn } from '@/ui/utils/style'
+import { testIds } from '@/ui/utils/testIds'
 import {
   ColumnDef,
   SortingState,
@@ -6,14 +11,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import * as React from 'react'
-import { useMemo } from 'react'
-
-import { LinkDecorator } from '@/ui/atoms/link-decorator/LinkDecorator'
-import { ScrollArea } from '@/ui/atoms/scroll-area/ScrollArea'
-import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/ui/atoms/table/Table'
-import { cn } from '@/ui/utils/style'
-
+import { Fragment, useMemo, useState } from 'react'
 import { ColumnHeader } from './components/ColumnHeader'
 import { ColumnDefinition } from './types'
 
@@ -31,6 +29,7 @@ export interface DataTableProps<T extends RowType> {
   gridTemplateColumnsClassName?: string
   data: T[]
   footer?: React.ReactNode
+  'data-testid'?: string
 }
 
 /**
@@ -45,8 +44,9 @@ export function DataTable<T extends RowType>({
   hideTableHeader = false,
   gridTemplateColumnsClassName,
   footer,
+  'data-testid': dataTestId,
 }: DataTableProps<T>) {
-  const [sorting, setSorting] = React.useState<SortingState>([])
+  const [sorting, setSorting] = useState<SortingState>([])
 
   const columns: ColumnDef<T>[] = useMemo(() => {
     return Object.keys(columnDef).map<ColumnDef<T>>((key) => {
@@ -71,12 +71,12 @@ export function DataTable<T extends RowType>({
     },
   })
 
-  const Wrapper = scroll ? ScrollWrapperWithHeight({ height: scroll.height }) : React.Fragment
+  const Wrapper = scroll ? ScrollWrapperWithHeight({ height: scroll.height }) : Fragment
 
   return (
     <div className="w-full">
       <Wrapper>
-        <Table>
+        <Table data-testid={dataTestId}>
           {!hideTableHeader && (
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
@@ -93,9 +93,12 @@ export function DataTable<T extends RowType>({
             </TableHeader>
           )}
           <TableBody>
-            {table.getRowModel().rows.map((row) => (
+            {table.getRowModel().rows.map((row, index) => (
               <TableRowWithLink key={row.id} rowClickOptions={row.original.rowClickOptions}>
-                <TableRow className={cn('grid w-full items-center gap-2', gridTemplateColumnsClassName)}>
+                <TableRow
+                  className={cn('grid w-full items-center gap-2', gridTemplateColumnsClassName)}
+                  data-testid={testIds.component.DataTable.row(index)}
+                >
                   {row.getAllCells().map((cell) => (
                     <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
                   ))}

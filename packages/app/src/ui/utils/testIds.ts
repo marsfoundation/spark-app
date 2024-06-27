@@ -21,6 +21,9 @@ export const testIds = makeTestIds({
     Alert: {
       message: true,
     },
+    DataTable: {
+      row: (index: number) => index,
+    },
   },
   easyBorrow: {
     form: {
@@ -97,6 +100,8 @@ export const testIds = makeTestIds({
       tile: (index: number) => index,
     },
     table: {
+      active: true,
+      frozen: true,
       cell: {
         asset: true,
         totalSupplied: true,
