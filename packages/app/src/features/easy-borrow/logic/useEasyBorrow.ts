@@ -185,8 +185,9 @@ export function useEasyBorrow(): UseEasyBorrowResults {
     openDialog(SandboxDialog, { mode: 'ephemeral' } as const)
   }
 
-  const liquidationRiskWarning = useLiquidationRiskWarning({
+  const { riskAcknowledgement, disableActionsByRisk } = useLiquidationRiskWarning({
     type: 'liquidation-warning-borrow',
+    isFormValid: easyBorrowForm.formState.isValid,
     currentHealthFactor: marketInfo.userPositionSummary.healthFactor,
     updatedHealthFactor: updatedUserSummary.healthFactor,
   })
@@ -205,13 +206,12 @@ export function useEasyBorrow(): UseEasyBorrowResults {
       })
     },
     pageStatus: {
-      actionsEnabled: liquidationRiskWarning.enableActions,
+      actionsEnabled: !disableActionsByRisk,
       state: pageStatus,
       onProceedToForm: () => setPageStatus('form'),
       goToSuccessScreen: () => setPageStatus('success'),
       submitForm: () => setPageStatus('confirmation'),
     },
-    riskAcknowledgement: liquidationRiskWarning.riskAcknowledgment,
     actions,
     tokensToBorrow,
     tokensToDeposit,
@@ -222,5 +222,6 @@ export function useEasyBorrow(): UseEasyBorrowResults {
     guestMode,
     openSandboxModal,
     healthFactorPanelRef,
+    riskAcknowledgement,
   }
 }

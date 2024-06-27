@@ -30,7 +30,7 @@ export interface UseEModeDialogResult {
   currentPositionOverview: PositionOverview
   updatedPositionOverview?: PositionOverview
   pageStatus: PageStatus
-  riskAcknowledgment: RiskAcknowledgementInfo
+  riskAcknowledgement: RiskAcknowledgementInfo
 }
 
 export function useEModeDialog({ userEModeCategoryId }: UseEModeDialogParams): UseEModeDialogResult {
@@ -68,13 +68,14 @@ export function useEModeDialog({ userEModeCategoryId }: UseEModeDialogParams): U
       )
     : undefined
 
-  const liquidationRiskWarning = useLiquidationRiskWarning({
+  const { riskAcknowledgement, disableActionsByRisk } = useLiquidationRiskWarning({
     type: 'liquidation-warning-e-mode-off',
+    isFormValid: !validationIssue,
     currentHealthFactor: currentPositionOverview.healthFactor,
     updatedHealthFactor: updatedPositionOverview?.healthFactor,
   })
 
-  const actionsEnabled = !validationIssue && liquidationRiskWarning.enableActions
+  const actionsEnabled = !validationIssue && !disableActionsByRisk
 
   return {
     eModeCategories,
@@ -88,6 +89,6 @@ export function useEModeDialog({ userEModeCategoryId }: UseEModeDialogParams): U
       actionsEnabled,
       goToSuccessScreen: () => setPageStatus('success'),
     },
-    riskAcknowledgment: liquidationRiskWarning.riskAcknowledgment,
+    riskAcknowledgement,
   }
 }

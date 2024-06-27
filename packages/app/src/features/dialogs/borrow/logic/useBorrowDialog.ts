@@ -78,14 +78,14 @@ export function useBorrowDialog({ initialToken }: UseBorrowDialogOptions): UseBo
   const currentHealthFactor = marketInfo.userPositionSummary.healthFactor
   const updatedHealthFactor = !tokenToBorrow.value.eq(0) ? updatedUserSummary.healthFactor : undefined
 
-  const liquidationRiskWarning = useLiquidationRiskWarning({
+  const { riskAcknowledgement, disableActionsByRisk } = useLiquidationRiskWarning({
     type: 'liquidation-warning-borrow',
+    isFormValid,
     currentHealthFactor,
     updatedHealthFactor,
   })
 
-  const actionsEnabled =
-    tokenToBorrow.value.gt(0) && isFormValid && !isDebouncing && liquidationRiskWarning.enableActions
+  const actionsEnabled = tokenToBorrow.value.gt(0) && isFormValid && !isDebouncing && !disableActionsByRisk
 
   return {
     borrowOptions,
@@ -100,6 +100,6 @@ export function useBorrowDialog({ initialToken }: UseBorrowDialogOptions): UseBo
     form,
     currentHealthFactor,
     updatedHealthFactor,
-    riskAcknowledgement: liquidationRiskWarning.riskAcknowledgment,
+    riskAcknowledgement,
   }
 }

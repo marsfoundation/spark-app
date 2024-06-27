@@ -34,7 +34,7 @@ export interface UseWithdrawDialogResult {
   form: UseFormReturn<AssetInputSchema>
   currentPositionOverview: PositionOverview
   updatedPositionOverview?: PositionOverview
-  riskAcknowledgment: RiskAcknowledgementInfo
+  riskAcknowledgement: RiskAcknowledgementInfo
 }
 
 export function useWithdrawDialog({ initialToken }: UseWithdrawDialogOptions): UseWithdrawDialogResult {
@@ -99,14 +99,14 @@ export function useWithdrawDialog({ initialToken }: UseWithdrawDialogOptions): U
         healthFactor: updatedUserSummary.healthFactor,
         tokenSupply,
       }
-  const liquidationRiskWarning = useLiquidationRiskWarning({
+  const { riskAcknowledgement, disableActionsByRisk } = useLiquidationRiskWarning({
     type: 'liquidation-warning-withdraw',
+    isFormValid,
     currentHealthFactor: currentPositionOverview.healthFactor,
     updatedHealthFactor: updatedPositionOverview?.healthFactor,
   })
 
-  const actionsEnabled =
-    withdrawAsset.value.gt(0) && isFormValid && !isDebouncing && liquidationRiskWarning.enableActions
+  const actionsEnabled = withdrawAsset.value.gt(0) && isFormValid && !isDebouncing && !disableActionsByRisk
 
   return {
     form,
@@ -121,6 +121,6 @@ export function useWithdrawDialog({ initialToken }: UseWithdrawDialogOptions): U
     },
     currentPositionOverview,
     updatedPositionOverview,
-    riskAcknowledgment: liquidationRiskWarning.riskAcknowledgment,
+    riskAcknowledgement,
   }
 }

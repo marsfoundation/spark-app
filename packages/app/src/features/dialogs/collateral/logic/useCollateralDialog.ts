@@ -61,13 +61,14 @@ export function useCollateralDialog({ useAsCollateral, token }: UseCollateralDia
     }),
   )
 
-  const liquidationRiskWarning = useLiquidationRiskWarning({
+  const { riskAcknowledgement, disableActionsByRisk } = useLiquidationRiskWarning({
     type: 'liquidation-warning-set-collateral',
+    isFormValid: !validationIssue,
     currentHealthFactor,
     updatedHealthFactor,
   })
 
-  const actionsEnabled = !validationIssue && liquidationRiskWarning.enableActions
+  const actionsEnabled = !validationIssue && !disableActionsByRisk
 
   return {
     objectives,
@@ -80,6 +81,6 @@ export function useCollateralDialog({ useAsCollateral, token }: UseCollateralDia
       state: pageStatus,
       goToSuccessScreen: () => setPageStatus('success'),
     },
-    riskAcknowledgement: liquidationRiskWarning.riskAcknowledgment,
+    riskAcknowledgement,
   }
 }

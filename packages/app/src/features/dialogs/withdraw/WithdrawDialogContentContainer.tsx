@@ -16,7 +16,7 @@ function WithdrawDialogContentContainer({ token, closeDialog }: DialogContentCon
     withdrawAsset,
     currentPositionOverview,
     updatedPositionOverview,
-    riskAcknowledgment,
+    riskAcknowledgement,
   } = useWithdrawDialog({ initialToken: token })
 
   if (pageStatus.state === 'success') {
@@ -40,7 +40,7 @@ function WithdrawDialogContentContainer({ token, closeDialog }: DialogContentCon
       withdrawAsset={withdrawAsset}
       currentPositionOverview={currentPositionOverview}
       updatedPositionOverview={updatedPositionOverview}
-      riskAcknowledgement={riskAcknowledgment}
+      riskAcknowledgement={riskAcknowledgement}
     />
   )
 }
