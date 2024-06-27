@@ -3,6 +3,7 @@ import {
   SetUserEModeValidationIssue,
   setUserEModeValidationIssueToMessage,
 } from '@/domain/market-validators/validateSetUserEMode'
+import { RiskAcknowledgementInfo } from '@/domain/risk-warning/types'
 import { Objective } from '@/features/actions/logic/types'
 import { DialogActionsPanel } from '@/features/dialogs/common/components/DialogActionsPanel'
 import { MultiPanelDialog } from '@/features/dialogs/common/components/MultiPanelDialog'
@@ -10,7 +11,7 @@ import { PageStatus } from '@/features/dialogs/common/types'
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
 import { Link } from '@/ui/atoms/link/Link'
 import { links } from '@/ui/constants/links'
-
+import { RiskAcknowledgement } from '@/ui/organisms/risk-acknowledgement/RiskAcknowledgement'
 import { Alert } from '../../common/components/alert/Alert'
 import { CategoriesGrid } from '../components/CategoriesGrid'
 import { EModeCategoryTile } from '../components/EModeCategoryTile'
@@ -25,6 +26,7 @@ interface EModeViewProps {
   pageStatus: PageStatus
   currentPositionOverview: PositionOverview
   updatedPositionOverview?: PositionOverview
+  riskAcknowledgement: RiskAcknowledgementInfo
 }
 
 export function EModeView({
@@ -35,6 +37,7 @@ export function EModeView({
   pageStatus,
   currentPositionOverview,
   updatedPositionOverview,
+  riskAcknowledgement,
 }: EModeViewProps) {
   return (
     <MultiPanelDialog>
@@ -61,6 +64,13 @@ export function EModeView({
       />
 
       {validationIssue && <Alert variant="danger">{setUserEModeValidationIssueToMessage[validationIssue]}</Alert>}
+
+      {riskAcknowledgement.warning && (
+        <RiskAcknowledgement
+          onStatusChange={riskAcknowledgement.onStatusChange}
+          warning={riskAcknowledgement.warning}
+        />
+      )}
 
       {objectives && (
         <DialogActionsPanel

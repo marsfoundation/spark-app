@@ -1,4 +1,5 @@
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
+import { RiskAcknowledgementInfo } from '@/domain/risk-warning/types'
 import { Objective } from '@/features/actions/logic/types'
 import { DialogActionsPanel } from '@/features/dialogs/common/components/DialogActionsPanel'
 import { FormAndOverviewWrapper } from '@/features/dialogs/common/components/FormAndOverviewWrapper'
@@ -7,6 +8,7 @@ import { DialogForm } from '@/features/dialogs/common/components/form/DialogForm
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageStatus } from '@/features/dialogs/common/types'
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
+import { RiskAcknowledgement } from '@/ui/organisms/risk-acknowledgement/RiskAcknowledgement'
 import BigNumber from 'bignumber.js'
 import { UseFormReturn } from 'react-hook-form'
 import { BorrowOverviewPanel } from '../components/BorrowOverviewPanel'
@@ -20,6 +22,7 @@ export interface BorrowViewProps {
   pageStatus: PageStatus
   currentHealthFactor?: BigNumber
   updatedHealthFactor?: BigNumber
+  riskAcknowledgement: RiskAcknowledgementInfo
 }
 
 export function BorrowView({
@@ -31,6 +34,7 @@ export function BorrowView({
   borrowAsset,
   currentHealthFactor,
   updatedHealthFactor,
+  riskAcknowledgement,
 }: BorrowViewProps) {
   return (
     <MultiPanelDialog>
@@ -40,6 +44,13 @@ export function BorrowView({
         <DialogForm form={form} assetsFields={assetsFields} selectorAssets={selectableAssets} />
         <BorrowOverviewPanel currentHealthFactor={currentHealthFactor} updatedHealthFactor={updatedHealthFactor} />
       </FormAndOverviewWrapper>
+
+      {riskAcknowledgement.warning && (
+        <RiskAcknowledgement
+          onStatusChange={riskAcknowledgement.onStatusChange}
+          warning={riskAcknowledgement.warning}
+        />
+      )}
 
       <DialogActionsPanel
         objectives={objectives}

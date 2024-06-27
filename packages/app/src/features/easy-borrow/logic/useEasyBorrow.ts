@@ -7,6 +7,7 @@ import { LiquidationDetails } from '@/domain/market-info/getLiquidationDetails'
 import { UserPositionSummary } from '@/domain/market-info/marketInfo'
 import { updatePositionSummary } from '@/domain/market-info/updatePositionSummary'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
+import { RiskAcknowledgementInfo } from '@/domain/risk-warning/types'
 import { useOpenDialog } from '@/domain/state/dialogs'
 import { Percentage } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
@@ -47,6 +48,7 @@ export interface UseEasyBorrowResults {
   alreadyDeposited: ExistingPosition
   alreadyBorrowed: ExistingPosition
   liquidationDetails?: LiquidationDetails
+  riskAcknowledgement: RiskAcknowledgementInfo
 
   assetToBorrow: {
     symbol: TokenSymbol

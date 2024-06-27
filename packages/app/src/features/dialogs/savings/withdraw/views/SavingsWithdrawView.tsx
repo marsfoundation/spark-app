@@ -1,5 +1,5 @@
-import { RiskAcknowledgementInfo } from '@/domain/common/risk'
 import { TokenWithBalance } from '@/domain/common/types'
+import { RiskAcknowledgementInfo } from '@/domain/risk-warning/types'
 import { Objective } from '@/features/actions/logic/types'
 import { DialogActionsPanel } from '@/features/dialogs/common/components/DialogActionsPanel'
 import { FormAndOverviewWrapper } from '@/features/dialogs/common/components/FormAndOverviewWrapper'

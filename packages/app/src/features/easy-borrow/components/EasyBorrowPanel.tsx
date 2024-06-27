@@ -1,9 +1,6 @@
-import { Trans } from '@lingui/macro'
-import { X } from 'lucide-react'
-import { UseFormReturn } from 'react-hook-form'
-
 import { LiquidationDetails } from '@/domain/market-info/getLiquidationDetails'
 import { UserPositionSummary } from '@/domain/market-info/marketInfo'
+import { RiskAcknowledgementInfo } from '@/domain/risk-warning/types'
 import { Percentage } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { ActionsContainer } from '@/features/actions/ActionsContainer'
@@ -12,7 +9,10 @@ import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { Typography } from '@/ui/atoms/typography/Typography'
 import { HealthFactorPanel } from '@/ui/organisms/health-factor-panel/HealthFactorPanel'
-
+import { RiskAcknowledgement } from '@/ui/organisms/risk-acknowledgement/RiskAcknowledgement'
+import { Trans } from '@lingui/macro'
+import { X } from 'lucide-react'
+import { UseFormReturn } from 'react-hook-form'
 import { FormFieldsForAssetClass } from '../logic/form/form'
 import { EasyBorrowFormSchema } from '../logic/form/validation'
 import { ExistingPosition, PageStatus } from '../logic/types'
@@ -29,6 +29,7 @@ export interface EasyBorrowPanelProps {
   updatedPositionSummary: UserPositionSummary
   setDesiredLoanToValue: (desiredLtv: Percentage) => void
   liquidationDetails?: LiquidationDetails
+  riskAcknowledgement: RiskAcknowledgementInfo
 
   objectives: Objective[]
 
@@ -75,6 +76,12 @@ export function EasyBorrowPanel(props: EasyBorrowPanelProps) {
             variant="full-details"
             ref={healthFactorPanelRef}
           />
+          {props.riskAcknowledgement.warning && (
+            <RiskAcknowledgement
+              onStatusChange={props.riskAcknowledgement.onStatusChange}
+              warning={props.riskAcknowledgement.warning}
+            />
+          )}
           <ActionsContainer objectives={actions} onFinish={pageStatus.goToSuccessScreen} />
         </div>
       )}
