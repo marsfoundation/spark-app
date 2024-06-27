@@ -15,7 +15,7 @@ export function SuccessView({ claimedRewards, onClose }: SuccessViewProps) {
       <SuccessViewCheckmark />
       <SuccessViewSummaryPanel>
         <div className="flex w-full flex-col">
-          <div className="mb-2 font-semibold text-primary text-xs"> Claimed </div>
+          <div className="mb-2 font-semibold text-primary text-xs">Claimed</div>
           <RewardsList rewards={claimedRewards} />
         </div>
       </SuccessViewSummaryPanel>
