@@ -1,6 +1,6 @@
 import { SwapInfo } from '@/domain/exchanges/types'
+import { RiskWarning } from '@/domain/liquidation-risk-warning/types'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
-import { RiskWarning } from '@/domain/risk-warning/types'
 import { SavingsInfo } from '@/domain/savings-info/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { DialogFormNormalizedData } from '@/features/dialogs/common/logic/form'

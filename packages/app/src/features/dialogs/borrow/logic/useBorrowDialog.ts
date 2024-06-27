@@ -1,17 +1,17 @@
-import { zodResolver } from '@hookform/resolvers/zod'
-import BigNumber from 'bignumber.js'
-import { useState } from 'react'
-import { UseFormReturn, useForm } from 'react-hook-form'
-
 import { getNativeAssetInfo } from '@/config/chain/utils/getNativeAssetInfo'
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
+import { RiskAcknowledgementInfo } from '@/domain/liquidation-risk-warning/types'
+import { useLiquidationRiskWarning } from '@/domain/liquidation-risk-warning/useLiquidationRiskWarning'
 import { useAaveDataLayer } from '@/domain/market-info/aave-data-layer/useAaveDataLayer'
 import { updatePositionSummary } from '@/domain/market-info/updatePositionSummary'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { Token } from '@/domain/types/Token'
 import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
 import { Objective } from '@/features/actions/logic/types'
-
+import { zodResolver } from '@hookform/resolvers/zod'
+import BigNumber from 'bignumber.js'
+import { useState } from 'react'
+import { UseFormReturn, useForm } from 'react-hook-form'
 import { AssetInputSchema, useDebouncedDialogFormValues } from '../../common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '../../common/types'
 import { getBorrowOptions } from './assets'
@@ -31,6 +31,7 @@ export interface UseBorrowDialogResult {
   form: UseFormReturn<AssetInputSchema>
   currentHealthFactor?: BigNumber
   updatedHealthFactor?: BigNumber
+  riskAcknowledgement: RiskAcknowledgementInfo
 }
 
 export function useBorrowDialog({ initialToken }: UseBorrowDialogOptions): UseBorrowDialogResult {
@@ -77,6 +78,14 @@ export function useBorrowDialog({ initialToken }: UseBorrowDialogOptions): UseBo
   const currentHealthFactor = marketInfo.userPositionSummary.healthFactor
   const updatedHealthFactor = !tokenToBorrow.value.eq(0) ? updatedUserSummary.healthFactor : undefined
 
+  const liquidationRiskWarning = useLiquidationRiskWarning({
+    type: 'liquidation-warning-borrow',
+    healthFactor: updatedHealthFactor,
+  })
+
+  const actionsEnabled =
+    tokenToBorrow.value.gt(0) && isFormValid && !isDebouncing && liquidationRiskWarning.enableActions
+
   return {
     borrowOptions,
     assetsToBorrowFields,
@@ -84,11 +93,12 @@ export function useBorrowDialog({ initialToken }: UseBorrowDialogOptions): UseBo
     objectives: actions,
     pageStatus: {
       state: pageStatus,
-      actionsEnabled: tokenToBorrow.value.gt(0) && isFormValid && !isDebouncing,
+      actionsEnabled: actionsEnabled,
       goToSuccessScreen: () => setPageStatus('success'),
     },
     form,
     currentHealthFactor,
     updatedHealthFactor,
+    riskAcknowledgement: liquidationRiskWarning.riskAcknowledgment,
   }
 }

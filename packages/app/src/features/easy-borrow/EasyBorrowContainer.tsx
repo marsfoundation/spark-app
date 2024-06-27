@@ -26,6 +26,7 @@ function EasyBorrowContainer() {
     guestMode,
     openSandboxModal,
     healthFactorPanelRef,
+    riskAcknowledgement,
   } = useEasyBorrow()
   const { openConnectModal = () => {} } = useConnectModal()
 
@@ -50,6 +51,7 @@ function EasyBorrowContainer() {
       openConnectModal={openConnectModal}
       openSandboxModal={openSandboxModal}
       healthFactorPanelRef={healthFactorPanelRef}
+      riskAcknowledgement={riskAcknowledgement}
     />
   )
 }

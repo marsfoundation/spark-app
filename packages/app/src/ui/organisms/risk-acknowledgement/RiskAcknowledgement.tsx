@@ -1,4 +1,4 @@
-import { RiskWarning } from '@/domain/risk-warning/types'
+import { RiskWarning } from '@/domain/liquidation-risk-warning/types'
 import { LabeledSwitch } from '@/ui/molecules/labeled-switch/LabeledSwitch'
 import { testIds } from '@/ui/utils/testIds'
 import { Alert } from '../../../features/dialogs/common/components/alert/Alert'

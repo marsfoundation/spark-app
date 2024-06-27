@@ -1,6 +1,6 @@
+import { RiskAcknowledgementInfo } from '@/domain/liquidation-risk-warning/types'
 import { LiquidationDetails } from '@/domain/market-info/getLiquidationDetails'
 import { UserPositionSummary } from '@/domain/market-info/marketInfo'
-import { RiskAcknowledgementInfo } from '@/domain/risk-warning/types'
 import { Percentage } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { Objective } from '@/features/actions/logic/types'

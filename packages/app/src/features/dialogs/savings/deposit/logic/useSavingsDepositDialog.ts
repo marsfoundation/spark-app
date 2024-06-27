@@ -1,7 +1,7 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
+import { RiskAcknowledgementInfo } from '@/domain/liquidation-risk-warning/types'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
-import { RiskAcknowledgementInfo } from '@/domain/risk-warning/types'
 import { useSavingsInfo } from '@/domain/savings-info/useSavingsInfo'
 import { makeAssetsInWalletList } from '@/domain/savings/makeAssetsInWalletList'
 import { Token } from '@/domain/types/Token'

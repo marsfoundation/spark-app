@@ -1,9 +1,9 @@
 import { EModeCategoryName } from '@/domain/e-mode/types'
+import { RiskAcknowledgementInfo } from '@/domain/liquidation-risk-warning/types'
 import {
   SetUserEModeValidationIssue,
   setUserEModeValidationIssueToMessage,
 } from '@/domain/market-validators/validateSetUserEMode'
-import { RiskAcknowledgementInfo } from '@/domain/risk-warning/types'
 import { Objective } from '@/features/actions/logic/types'
 import { DialogActionsPanel } from '@/features/dialogs/common/components/DialogActionsPanel'
 import { MultiPanelDialog } from '@/features/dialogs/common/components/MultiPanelDialog'

@@ -1,6 +1,6 @@
 import { TokenWithBalance } from '@/domain/common/types'
+import { RiskAcknowledgementInfo } from '@/domain/liquidation-risk-warning/types'
 import { SetUseAsCollateralValidationIssue } from '@/domain/market-validators/validateSetUseAsCollateral'
-import { RiskAcknowledgementInfo } from '@/domain/risk-warning/types'
 import { Objective } from '@/features/actions/logic/types'
 import { DialogActionsPanel } from '@/features/dialogs/common/components/DialogActionsPanel'
 import { MultiPanelDialog } from '@/features/dialogs/common/components/MultiPanelDialog'
