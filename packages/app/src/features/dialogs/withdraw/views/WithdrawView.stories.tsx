@@ -52,7 +52,7 @@ const meta: Meta<typeof WithdrawView> = {
     ],
     pageStatus: {
       state: 'form',
-      actionsEnabled: true,
+      actionsEnabled: false,
       goToSuccessScreen: () => {},
     },
     currentPositionOverview: {
@@ -61,9 +61,13 @@ const meta: Meta<typeof WithdrawView> = {
       supplyAPY: Percentage(0.04),
     },
     updatedPositionOverview: {
-      healthFactor: BigNumber(2),
+      healthFactor: BigNumber(1.1),
       tokenSupply: NormalizedUnitNumber(1000),
       supplyAPY: Percentage(0.04),
+    },
+    riskAcknowledgement: {
+      onStatusChange: () => {},
+      warning: { type: 'liquidation-warning-withdraw' },
     },
   },
 }

@@ -22,6 +22,10 @@ const meta: Meta<typeof CollateralView> = {
       actionsEnabled: true,
       goToSuccessScreen: () => {},
     },
+    riskAcknowledgement: {
+      onStatusChange: () => {},
+      warning: undefined,
+    },
   },
 }
 
@@ -55,6 +59,30 @@ export const Disable: Story = {
         useAsCollateral: false,
       },
     ],
+  },
+}
+
+export const RiskWarning: Story = {
+  args: {
+    collateralSetting: 'disabled',
+    pageStatus: {
+      state: 'form',
+      actionsEnabled: false,
+      goToSuccessScreen: () => {},
+    },
+    currentHealthFactor: new BigNumber(2.3),
+    updatedHealthFactor: new BigNumber(1.1),
+    objectives: [
+      {
+        type: 'setUseAsCollateral',
+        token: tokens.ETH,
+        useAsCollateral: false,
+      },
+    ],
+    riskAcknowledgement: {
+      onStatusChange: () => {},
+      warning: { type: 'liquidation-warning-set-collateral' },
+    },
   },
 }
 

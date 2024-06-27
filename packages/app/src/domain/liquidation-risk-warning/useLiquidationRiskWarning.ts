@@ -35,7 +35,7 @@ function determineIfRiskWarning(
   updatedHealthFactor: BigNumber | undefined,
   currentHealthFactor: BigNumber | undefined,
   isFormValid: boolean,
-) {
+): boolean {
   if (!updatedHealthFactor || !isFormValid) {
     return false
   }

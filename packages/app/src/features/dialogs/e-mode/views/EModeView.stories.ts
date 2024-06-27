@@ -57,6 +57,10 @@ const meta: Meta<typeof EModeView> = {
       actionsEnabled: true,
       goToSuccessScreen: () => {},
     },
+    riskAcknowledgement: {
+      onStatusChange: () => {},
+      warning: undefined,
+    },
   },
 }
 
@@ -106,6 +110,52 @@ export const ValidationIssue: Story = {
       state: 'form',
       actionsEnabled: false,
       goToSuccessScreen: () => {},
+    },
+  },
+}
+
+export const RiskWarning: Story = {
+  name: 'Risk Warning',
+  args: {
+    eModeCategories: {
+      'No E-Mode': {
+        name: 'No E-Mode',
+        tokens: [tokens.ETH, tokens.rETH, tokens.wstETH, tokens.DAI, tokens.USDC, tokens.USDT],
+        isActive: false,
+        isSelected: true,
+        onSelect: () => {},
+      },
+      'ETH Correlated': {
+        name: 'ETH Correlated',
+        tokens: [tokens.ETH, tokens.rETH, tokens.wstETH],
+        isActive: true,
+        isSelected: false,
+        onSelect: () => {},
+      },
+      Stablecoins: {
+        name: 'Stablecoins',
+        tokens: [tokens.DAI, tokens.USDC, tokens.USDT],
+        isActive: false,
+        isSelected: false,
+        onSelect: () => {},
+      },
+    },
+    currentPositionOverview: {
+      healthFactor: new BigNumber(2.5),
+      maxLTV: Percentage(0.9),
+    },
+    updatedPositionOverview: {
+      healthFactor: new BigNumber(1.1),
+      maxLTV: Percentage(0.8),
+    },
+    pageStatus: {
+      state: 'form',
+      actionsEnabled: false,
+      goToSuccessScreen: () => {},
+    },
+    riskAcknowledgement: {
+      onStatusChange: () => {},
+      warning: { type: 'liquidation-warning-e-mode-off' },
     },
   },
 }
