@@ -2,6 +2,7 @@ import { getChainConfigEntry } from '@/config/chain'
 import { TokenWithValue } from '@/domain/common/types'
 import { useConditionalFreeze } from '@/domain/hooks/useConditionalFreeze'
 import { RiskAcknowledgementInfo } from '@/domain/liquidation-risk-warning/types'
+import { useLiquidationRiskWarning } from '@/domain/liquidation-risk-warning/useLiquidationRiskWarning'
 import { useAaveDataLayer } from '@/domain/market-info/aave-data-layer/useAaveDataLayer'
 import { EPOCH_LENGTH } from '@/domain/market-info/consts'
 import { LiquidationDetails } from '@/domain/market-info/getLiquidationDetails'
@@ -167,7 +168,7 @@ export function useEasyBorrow(): UseEasyBorrowResults {
     borrowRate: marketInfo.findOneReserveBySymbol(defaultAssetToBorrow).variableBorrowApy ?? raise('No borrow rate'),
   }
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies:
   useEffect(
     function revalidateFormOnNetworkChange() {
       easyBorrowForm.trigger().catch(console.error)
@@ -184,6 +185,12 @@ export function useEasyBorrow(): UseEasyBorrowResults {
     openDialog(SandboxDialog, { mode: 'ephemeral' } as const)
   }
 
+  const liquidationRiskWarning = useLiquidationRiskWarning({
+    type: 'liquidation-warning-borrow',
+    currentHealthFactor: marketInfo.userPositionSummary.healthFactor,
+    updatedHealthFactor: updatedUserSummary.healthFactor,
+  })
+
   return {
     form: easyBorrowForm,
     updatedPositionSummary: updatedUserSummary,
@@ -198,11 +205,13 @@ export function useEasyBorrow(): UseEasyBorrowResults {
       })
     },
     pageStatus: {
+      actionsEnabled: liquidationRiskWarning.enableActions,
       state: pageStatus,
       onProceedToForm: () => setPageStatus('form'),
       goToSuccessScreen: () => setPageStatus('success'),
       submitForm: () => setPageStatus('confirmation'),
     },
+    riskAcknowledgement: liquidationRiskWarning.riskAcknowledgment,
     actions,
     tokensToBorrow,
     tokensToDeposit,

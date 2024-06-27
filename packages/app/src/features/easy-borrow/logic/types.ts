@@ -4,6 +4,7 @@ import { Token } from '@/domain/types/Token'
 
 export type PageState = 'form' | 'confirmation' | 'success'
 export interface PageStatus {
+  actionsEnabled: boolean
   state: PageState
   onProceedToForm: () => void
   goToSuccessScreen: () => void

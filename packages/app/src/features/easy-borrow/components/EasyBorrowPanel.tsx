@@ -82,7 +82,11 @@ export function EasyBorrowPanel(props: EasyBorrowPanelProps) {
               warning={props.riskAcknowledgement.warning}
             />
           )}
-          <ActionsContainer objectives={actions} onFinish={pageStatus.goToSuccessScreen} />
+          <ActionsContainer
+            objectives={actions}
+            onFinish={pageStatus.goToSuccessScreen}
+            enabled={pageStatus.actionsEnabled}
+          />
         </div>
       )}
     </Panel.Wrapper>
