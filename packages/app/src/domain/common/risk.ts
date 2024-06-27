@@ -1,4 +1,6 @@
 import BigNumber from 'bignumber.js'
+import { NormalizedUnitNumber } from '../types/NumericValues'
+import { Token } from '../types/Token'
 
 export type RiskLevel = 'liquidation' | 'risky' | 'moderate' | 'healthy' | 'unknown' | 'no debt'
 
@@ -36,4 +38,33 @@ export const riskLevelToTitle: Record<RiskLevel, string> = {
   moderate: 'Moderate',
   healthy: 'Healthy',
   'no debt': 'No debt',
+}
+
+export type RiskWarning =
+  | {
+      type: 'savings-deposit-discrepancy-threshold-hit'
+      discrepancy: NormalizedUnitNumber
+      token: Token
+    }
+  | {
+      type: 'savings-withdraw-discrepancy-threshold-hit'
+      discrepancy: NormalizedUnitNumber
+      token: Token
+    }
+  | {
+      type: 'liquidation-warning-borrow'
+    }
+  | {
+      type: 'liquidation-warning-withdraw'
+    }
+  | {
+      type: 'liquidation-warning-set-collateral'
+    }
+  | {
+      type: 'liquidation-warning-e-mode-off'
+    }
+
+export interface RiskAcknowledgementInfo {
+  onStatusChange: (acknowledged: boolean) => void
+  warning?: RiskWarning
 }

@@ -1,8 +1,8 @@
+import { RiskWarning } from '@/domain/common/risk'
 import { SwapInfo } from '@/domain/exchanges/types'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { SavingsInfo } from '@/domain/savings-info/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { RiskWarning } from '@/features/dialogs/common/components/risk-acknowledgement/RiskAcknowledgement'
 import { DialogFormNormalizedData } from '@/features/dialogs/common/logic/form'
 
 const WARNING_DISCREPANCY_THRESHOLD = 101

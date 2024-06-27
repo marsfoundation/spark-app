@@ -1,5 +1,4 @@
-import { UseFormReturn } from 'react-hook-form'
-
+import { RiskAcknowledgementInfo } from '@/domain/common/risk'
 import { TokenWithBalance } from '@/domain/common/types'
 import { Objective } from '@/features/actions/logic/types'
 import { DialogActionsPanel } from '@/features/dialogs/common/components/DialogActionsPanel'
@@ -10,11 +9,10 @@ import { RiskAcknowledgement } from '@/features/dialogs/common/components/risk-a
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageStatus } from '@/features/dialogs/common/types'
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
-
+import { UseFormReturn } from 'react-hook-form'
 import { LiFiTransactionOverview } from '../../common/components/LiFiTransactionOverview'
 import { MakerTransactionOverview } from '../../common/components/maker-transaction-overview'
 import { SavingsDialogTxOverview } from '../../common/types'
-import { RiskAcknowledgementInfo } from '../logic/useSavingsDepositDialog'
 
 export interface SavingsDepositViewProps {
   selectableAssets: TokenWithBalance[]

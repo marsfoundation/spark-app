@@ -1,33 +1,7 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { Token } from '@/domain/types/Token'
+import { RiskWarning } from '@/domain/common/risk'
 import { LabeledSwitch } from '@/ui/molecules/labeled-switch/LabeledSwitch'
 import { testIds } from '@/ui/utils/testIds'
-
 import { Alert } from '../alert/Alert'
-
-export type RiskWarning =
-  | {
-      type: 'savings-deposit-discrepancy-threshold-hit'
-      discrepancy: NormalizedUnitNumber
-      token: Token
-    }
-  | {
-      type: 'savings-withdraw-discrepancy-threshold-hit'
-      discrepancy: NormalizedUnitNumber
-      token: Token
-    }
-  | {
-      type: 'liquidation-warning-borrow'
-    }
-  | {
-      type: 'liquidation-warning-withdraw'
-    }
-  | {
-      type: 'liquidation-warning-set-collateral'
-    }
-  | {
-      type: 'liquidation-warning-e-mode-off'
-    }
 
 export interface RiskAcknowledgementProps {
   warning: RiskWarning

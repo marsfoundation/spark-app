@@ -1,4 +1,5 @@
 import { getChainConfigEntry } from '@/config/chain'
+import { RiskAcknowledgementInfo } from '@/domain/common/risk'
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { useSavingsInfo } from '@/domain/savings-info/useSavingsInfo'
@@ -6,7 +7,6 @@ import { makeAssetsInWalletList } from '@/domain/savings/makeAssetsInWalletList'
 import { Token } from '@/domain/types/Token'
 import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
 import { Objective } from '@/features/actions/logic/types'
-import { RiskWarning } from '@/features/dialogs/common/components/risk-acknowledgement/RiskAcknowledgement'
 import { AssetInputSchema, useDebouncedDialogFormValues } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
 import { assert } from '@/utils/assert'
@@ -24,11 +24,6 @@ import { getSavingsDepositDialogFormValidator } from './validation'
 
 export interface UseSavingsDepositDialogParams {
   initialToken: Token
-}
-
-export interface RiskAcknowledgementInfo {
-  onStatusChange: (acknowledged: boolean) => void
-  warning?: RiskWarning
 }
 
 export interface UseSavingsDepositDialogResults {
