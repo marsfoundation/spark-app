@@ -42,18 +42,20 @@ export function WithDevContainer() {
   }
 }
 
-export function ZeroAllowanceWagmiDecorator() {
+export function ZeroAllowanceWagmiDecorator({ requestFnOverride }: { requestFnOverride?: () => Promise<string> } = {}) {
   const config = createConfig({
     chains: [mainnet],
     transports: {
       [mainnet.id]: custom({
-        request: async (): Promise<string> => {
-          return encodeFunctionResult({
-            abi: erc20Abi,
-            functionName: 'allowance',
-            result: 0n,
-          })
-        },
+        request:
+          requestFnOverride ??
+          (async (): Promise<string> => {
+            return encodeFunctionResult({
+              abi: erc20Abi,
+              functionName: 'allowance',
+              result: 0n,
+            })
+          }),
       }),
     },
     connectors: [

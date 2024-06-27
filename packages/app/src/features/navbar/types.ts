@@ -56,4 +56,5 @@ export interface AirdropInfo {
 
 export interface RewardsInfo {
   rewards: Reward[]
+  onClaim: () => void
 }
