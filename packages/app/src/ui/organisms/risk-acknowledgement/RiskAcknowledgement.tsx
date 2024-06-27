@@ -1,7 +1,7 @@
 import { RiskWarning } from '@/domain/common/risk'
 import { LabeledSwitch } from '@/ui/molecules/labeled-switch/LabeledSwitch'
 import { testIds } from '@/ui/utils/testIds'
-import { Alert } from '../alert/Alert'
+import { Alert } from '../../../features/dialogs/common/components/alert/Alert'
 
 export interface RiskAcknowledgementProps {
   warning: RiskWarning

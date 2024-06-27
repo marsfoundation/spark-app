@@ -1,14 +1,12 @@
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { WithClassname } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory } from '@storybook/viewports'
-
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-
 import { RiskAcknowledgement } from './RiskAcknowledgement'
 
 const meta: Meta<typeof RiskAcknowledgement> = {
-  title: 'Features/Dialogs/Components/RiskAcknowledgement',
+  title: 'Components/Organisms/RiskAcknowledgement',
   component: RiskAcknowledgement,
   decorators: [WithClassname('max-w-xl')],
   args: {
