@@ -4,11 +4,15 @@ import { TooltipContentLayout } from '@/ui/atoms/tooltip/TooltipContentLayout'
 
 import { IconPill } from '../../atoms/icon-pill/IconPill'
 
-export function PausedPill() {
+interface PausedPillProps {
+  'data-testid'?: string
+}
+
+export function PausedPill({ 'data-testid': dataTestId }: PausedPillProps) {
   return (
     <Tooltip>
       <TooltipTrigger className="flex">
-        <IconPill icon={assets.pause} className="shrink-0 border-none bg-red-100" />
+        <IconPill icon={assets.pause} className="shrink-0 border-none bg-red-100" data-testid={dataTestId} />
       </TooltipTrigger>
       <TooltipContentLong>
         <TooltipContentLayout>

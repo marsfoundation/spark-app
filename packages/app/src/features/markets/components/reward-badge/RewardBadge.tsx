@@ -11,16 +11,22 @@ interface RewardBadgeProps {
   incentivizedReserve: TokenSymbol
   rewardToken: TokenSymbol
   rewardApr: Percentage
+  'data-testid'?: string
 }
 
-export function RewardBadge({ incentivizedReserve, rewardToken, rewardApr }: RewardBadgeProps) {
+export function RewardBadge({
+  incentivizedReserve,
+  rewardToken,
+  rewardApr,
+  'data-testid': dataTestId,
+}: RewardBadgeProps) {
   const tokenImage = getTokenImage(rewardToken)
   const formattedRewardApr = formatPercentage(rewardApr)
 
   return (
     <Tooltip disableHoverableContent>
       <TooltipTrigger>
-        <TokenPill tokenSymbol={rewardToken} />
+        <TokenPill tokenSymbol={rewardToken} data-testid={dataTestId} />
       </TooltipTrigger>
       <TooltipContentLong>
         <TooltipContentLayout>

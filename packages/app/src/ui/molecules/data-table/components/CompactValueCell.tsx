@@ -12,6 +12,7 @@ interface CompactValueCellProps {
   dimmed?: boolean
   hideEmpty?: boolean
   mobileViewOptions?: MobileViewOptions
+  'data-testid'?: string
 }
 
 export function CompactValueCell({
@@ -21,6 +22,7 @@ export function CompactValueCell({
   dimmed,
   hideEmpty = false,
   mobileViewOptions,
+  'data-testid': dataTestId,
 }: CompactValueCellProps) {
   if (mobileViewOptions?.isMobileView) {
     return (
@@ -28,12 +30,28 @@ export function CompactValueCell({
         <Typography variant="prompt" className="w-full">
           {mobileViewOptions.rowTitle}
         </Typography>
-        <CompactValue token={token} value={value} dimmed={dimmed} hideEmpty={hideEmpty} compactValue={compactValue} />
+        <CompactValue
+          token={token}
+          value={value}
+          dimmed={dimmed}
+          hideEmpty={hideEmpty}
+          compactValue={compactValue}
+          data-testid={dataTestId}
+        />
       </div>
     )
   }
 
-  return <CompactValue token={token} value={value} dimmed={dimmed} hideEmpty={hideEmpty} compactValue={compactValue} />
+  return (
+    <CompactValue
+      token={token}
+      value={value}
+      dimmed={dimmed}
+      hideEmpty={hideEmpty}
+      compactValue={compactValue}
+      data-testid={dataTestId}
+    />
+  )
 }
 
 interface CompactValueProps {
@@ -43,14 +61,30 @@ interface CompactValueProps {
   dimmed?: boolean
   hideEmpty?: boolean
   className?: string
+  'data-testid'?: string
 }
 
-function CompactValue({ token, value, compactValue, dimmed, hideEmpty, className }: CompactValueProps) {
+function CompactValue({
+  token,
+  value,
+  compactValue,
+  dimmed,
+  hideEmpty,
+  className,
+  'data-testid': dataTestId,
+}: CompactValueProps) {
   if (hideEmpty && value.isZero()) {
-    return <div className={cn('flex w-full flex-row justify-end', dimmed && 'text-basics-dark-grey/70')}>—</div>
+    return (
+      <div
+        className={cn('flex w-full flex-row justify-end', dimmed && 'text-basics-dark-grey/70')}
+        data-testid={dataTestId}
+      >
+        —
+      </div>
+    )
   }
   return (
-    <div className={cn('flex flex-col', className)}>
+    <div className={cn('flex flex-col', className)} data-testid={dataTestId}>
       <div className={cn('flex w-full flex-row justify-end', dimmed && 'text-basics-dark-grey/70')}>
         {token.format(value, { style: compactValue ? 'compact' : 'auto' })}
       </div>

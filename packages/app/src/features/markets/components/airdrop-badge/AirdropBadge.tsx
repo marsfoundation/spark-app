@@ -5,11 +5,15 @@ import { Tooltip, TooltipContentLong, TooltipTrigger } from '@/ui/atoms/tooltip/
 import { TooltipContentLayout } from '@/ui/atoms/tooltip/TooltipContentLayout'
 import { links } from '@/ui/constants/links'
 
-export function AirdropBadge() {
+interface AirdropBadgeProps {
+  'data-testid'?: string
+}
+
+export function AirdropBadge({ 'data-testid': dataTestId }: AirdropBadgeProps) {
   return (
     <Tooltip>
       <TooltipTrigger>
-        <IconPill icon={assets.sparkIcon} />
+        <IconPill icon={assets.sparkIcon} data-testid={dataTestId} />
       </TooltipTrigger>
       <TooltipContentLong>
         <TooltipContentLayout>

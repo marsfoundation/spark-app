@@ -1,18 +1,18 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { assets } from '@/ui/assets'
-
 import { Tile, TileProps } from './components/Tile'
 
 interface SummaryTileProps {
   variant: 'total-market-size' | 'total-value-locked' | 'total-available' | 'total-borrows'
   USDValue: NormalizedUnitNumber
+  'data-testid'?: string
 }
 
-export function SummaryTile({ variant, USDValue }: SummaryTileProps) {
-  return <Tile USDValue={USDValue} {...tileProps[variant]} />
+export function SummaryTile({ variant, USDValue, 'data-testid': dataTestId }: SummaryTileProps) {
+  return <Tile USDValue={USDValue} {...tileProps[variant]} data-testid={dataTestId} />
 }
 
-const tileProps: Record<SummaryTileProps['variant'], Omit<TileProps, 'USDValue'>> = {
+const tileProps: Record<SummaryTileProps['variant'], Omit<TileProps, 'USDValue' | 'index'>> = {
   'total-market-size': {
     icon: assets.markets.chart,
     title: 'Total market size',

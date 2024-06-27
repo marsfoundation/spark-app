@@ -21,6 +21,9 @@ export const testIds = makeTestIds({
     Alert: {
       message: true,
     },
+    DataTable: {
+      row: (index: number) => index,
+    },
   },
   easyBorrow: {
     form: {
@@ -91,6 +94,28 @@ export const testIds = makeTestIds({
   },
   navbar: {
     airdropBadge: true,
+  },
+  markets: {
+    summary: {
+      tile: (index: number) => index,
+    },
+    table: {
+      active: true,
+      frozen: true,
+      cell: {
+        asset: true,
+        totalSupplied: true,
+        depositAPY: true,
+        totalBorrowed: true,
+        borrowAPY: true,
+        status: true,
+      },
+    },
+    frozenPill: true,
+    pausedPill: true,
+    rewardBadge: true,
+    airdropBadge: true,
+    frozenAssetsSwitch: true,
   },
   marketDetails: {
     collateralStatusPanel: {

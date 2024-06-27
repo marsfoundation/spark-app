@@ -1,9 +1,8 @@
-import { Fragment } from 'react'
-
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/ui/atoms/table/Table'
 import { ColumnDefinition } from '@/ui/molecules/data-table/types'
+import { testIds } from '@/ui/utils/testIds'
 import { useBreakpoint } from '@/ui/utils/useBreakpoint'
-
+import { Fragment } from 'react'
 import { DataTable } from '../../molecules/data-table/DataTable'
 import { CollapsibleCell } from './components/CollapsibleCell'
 
@@ -15,6 +14,7 @@ export interface ResponsiveDataTableProps<T> {
   hideTableHeader?: boolean
   gridTemplateColumnsClassName?: string
   data: T[]
+  'data-testid'?: string
 }
 
 export function ResponsiveDataTable<T extends { [k: string]: any }>({
@@ -23,6 +23,7 @@ export function ResponsiveDataTable<T extends { [k: string]: any }>({
   scroll,
   gridTemplateColumnsClassName,
   hideTableHeader = false,
+  'data-testid': dataTestId,
 }: ResponsiveDataTableProps<T>) {
   const desktop = useBreakpoint('md')
 
@@ -34,13 +35,14 @@ export function ResponsiveDataTable<T extends { [k: string]: any }>({
         scroll={scroll}
         gridTemplateColumnsClassName={gridTemplateColumnsClassName}
         hideTableHeader={hideTableHeader}
+        data-testid={dataTestId}
       />
     )
   }
 
   const [rowHeaderDefinition, ...contentDefinitions] = Object.values(columnDefinition)
   return (
-    <Table>
+    <Table data-testid={dataTestId}>
       {!hideTableHeader && (
         <TableHeader>
           <TableRow className="flex justify-between pb-3">
@@ -54,7 +56,7 @@ export function ResponsiveDataTable<T extends { [k: string]: any }>({
       )}
       <TableBody>
         {data.map((value, index) => (
-          <TableRow key={index}>
+          <TableRow key={index} data-testid={testIds.component.DataTable.row(index)}>
             <CollapsibleCell>
               {rowHeaderDefinition?.renderCell(value)}
               {contentDefinitions.map((def, index) => (

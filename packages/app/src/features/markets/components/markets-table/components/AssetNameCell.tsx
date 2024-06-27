@@ -7,24 +7,22 @@ import { Tooltip, TooltipContentShort, TooltipTrigger } from '@/ui/atoms/tooltip
 import { FrozenPill } from '@/ui/molecules/frozen-pill/FrozenPill'
 import { PausedPill } from '@/ui/molecules/paused-pill/PausedPill'
 import { cn } from '@/ui/utils/style'
+import { testIds } from '@/ui/utils/testIds'
 import { useIsTruncated } from '@/ui/utils/useIsTruncated'
 
 interface AssetNameCellProps {
   token: Token
   reserveStatus: ReserveStatus
-  // @todo Use when implementing mobile view
-  // depositAPYDetails: APYDetails
-  // borrowAPYDetails: APYDetails
-  // mobileViewOptions?: MobileViewOptions
+  'data-testid': string
 }
 
-export function AssetNameCell({ token, reserveStatus }: AssetNameCellProps) {
+export function AssetNameCell({ token, reserveStatus, 'data-testid': dataTestId }: AssetNameCellProps) {
   const tokenImage = getTokenImage(token.symbol)
   const isPaused = reserveStatus === 'paused'
   const isFrozen = reserveStatus === 'frozen'
 
   return (
-    <div className="flex flex-row items-center gap-3 py-2">
+    <div className="flex flex-row items-center gap-3 py-2" data-testid={dataTestId}>
       {tokenImage && (
         <div className="flex shrink-0">
           <ColorFilter variant={isPaused ? 'red' : 'none'}>
@@ -36,8 +34,8 @@ export function AssetNameCell({ token, reserveStatus }: AssetNameCellProps) {
         <TokenName token={token} className={cn(isPaused && 'text-red-600')} />
         <p className={cn('text-slate-500 text-sx leading-none', isPaused && 'text-red-300')}>{token.symbol}</p>
       </div>
-      {isFrozen && <FrozenPill />}
-      {isPaused && <PausedPill />}
+      {isFrozen && <FrozenPill data-testid={testIds.markets.frozenPill} />}
+      {isPaused && <PausedPill data-testid={testIds.markets.pausedPill} />}
     </div>
   )
 }

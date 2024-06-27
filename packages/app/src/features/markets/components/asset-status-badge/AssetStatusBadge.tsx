@@ -7,7 +7,6 @@ import {
 } from '@/domain/market-info/reserve-status'
 import { IndicatorIcon } from '@/ui/atoms/indicator-icon/IndicatorIcon'
 import { Tooltip, TooltipContentLong, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
-
 import { AssetStatusDescription } from './components/AssetStatusDescription'
 import { getVariantFromStatus } from './getVariantFromStatus'
 
@@ -15,9 +14,15 @@ export interface AssetStatusBadgeProps {
   supplyStatus: SupplyAvailabilityStatus
   collateralStatus: CollateralEligibilityStatus
   borrowStatus: BorrowEligibilityStatus
+  'data-testid'?: string
 }
 
-export function AssetStatusBadge({ supplyStatus, collateralStatus, borrowStatus }: AssetStatusBadgeProps) {
+export function AssetStatusBadge({
+  supplyStatus,
+  collateralStatus,
+  borrowStatus,
+  'data-testid': dataTestId,
+}: AssetStatusBadgeProps) {
   const supplyIcon = (
     <IndicatorIcon icon={<DownloadIcon className="w-5 md:w-4" />} variant={getVariantFromStatus(supplyStatus)} />
   )
@@ -31,7 +36,10 @@ export function AssetStatusBadge({ supplyStatus, collateralStatus, borrowStatus 
   return (
     <Tooltip disableHoverableContent>
       <TooltipTrigger className="py-2 md:py-0">
-        <div className="inline-flex gap-3 rounded-xl bg-gray-50 px-3 py-2 md:gap-2 md:rounded-lg md:px-2.5 md:py-0.5">
+        <div
+          className="inline-flex gap-3 rounded-xl bg-gray-50 px-3 py-2 md:gap-2 md:rounded-lg md:px-2.5 md:py-0.5"
+          data-testid={dataTestId}
+        >
           {supplyIcon}
           {collateralIcon}
           {borrowIcon}
