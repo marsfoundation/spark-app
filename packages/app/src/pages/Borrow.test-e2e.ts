@@ -461,7 +461,7 @@ test.describe('Borrow page', () => {
         await setup(page, fork, {
           initialPage: 'easyBorrow',
           account: {
-            type: 'connected',
+            type: 'connected-random',
             assetBalances: { ETH: 1, rETH: 100 },
           },
         })
@@ -474,7 +474,7 @@ test.describe('Borrow page', () => {
 
       test('shows risk warning', async () => {
         await borrowPage.expectLiquidationRiskWarning(
-          'Borrowing this amount puts you at risk of quick liquidation. You may lose all of your collateral.',
+          'Borrowing this amount puts you at risk of quick liquidation. You may lose part of your collateral.',
         )
       })
 
@@ -490,7 +490,7 @@ test.describe('Borrow page', () => {
       await setup(page, fork, {
         initialPage: 'easyBorrow',
         account: {
-          type: 'connected',
+          type: 'connected-random',
           assetBalances: { ETH: 1, rETH: 100 },
         },
       })

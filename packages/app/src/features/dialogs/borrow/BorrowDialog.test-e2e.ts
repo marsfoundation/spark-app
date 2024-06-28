@@ -322,7 +322,7 @@ test.describe('Borrow dialog', () => {
       await setup(page, fork, {
         initialPage: 'easyBorrow',
         account: {
-          type: 'connected',
+          type: 'connected-random',
           assetBalances: { ETH: 1, rETH: 100, wstETH: 100 },
         },
       })
@@ -340,7 +340,7 @@ test.describe('Borrow dialog', () => {
 
       await borrowDialog.fillAmountAction(8)
       await borrowDialog.expectLiquidationRiskWarning(
-        'Borrowing this amount puts you at risk of quick liquidation. You may lose all of your collateral.',
+        'Borrowing this amount puts you at risk of quick liquidation. You may lose part of your collateral.',
       )
     })
 

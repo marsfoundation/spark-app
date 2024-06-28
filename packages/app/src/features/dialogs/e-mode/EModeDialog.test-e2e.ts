@@ -21,7 +21,7 @@ test.describe('E-Mode dialog', () => {
         await setup(page, fork, {
           initialPage: 'easyBorrow',
           account: {
-            type: 'connected',
+            type: 'connected-random',
             assetBalances: { ETH: 1, rETH: 100, wstETH: 100 },
           },
         })
@@ -33,7 +33,7 @@ test.describe('E-Mode dialog', () => {
         await borrowPage.depositWithoutBorrowActions({ rETH: 2, wstETH: 10 })
         await dashboardPage.goToDashboardAction()
 
-        dashboardPage.clickBorrowButtonAction('WETH')
+        await dashboardPage.clickBorrowButtonAction('WETH')
         const borrowDialog = new DialogPageObject(page, /Borrow/)
         await borrowDialog.fillAmountAction(8)
         await borrowDialog.clickAcknowledgeRisk()
@@ -83,7 +83,7 @@ test.describe('E-Mode dialog', () => {
         await setup(page, fork, {
           initialPage: 'easyBorrow',
           account: {
-            type: 'connected',
+            type: 'connected-random',
             assetBalances: { ETH: 1, rETH: 100, wstETH: 100 },
           },
         })
@@ -95,7 +95,7 @@ test.describe('E-Mode dialog', () => {
         await borrowPage.depositWithoutBorrowActions({ rETH: 2, wstETH: 10 })
         await dashboardPage.goToDashboardAction()
 
-        dashboardPage.clickBorrowButtonAction('WETH')
+        await dashboardPage.clickBorrowButtonAction('WETH')
         const borrowDialog = new DialogPageObject(page, /Borrow/)
         await borrowDialog.fillAmountAction(2)
         await borrowDialog.actionsContainer.acceptAllActionsAction(1)

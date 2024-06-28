@@ -329,7 +329,7 @@ test.describe('Collateral dialog', () => {
         await setup(page, fork, {
           initialPage: 'easyBorrow',
           account: {
-            type: 'connected',
+            type: 'connected-random',
             assetBalances: { ETH: 1, rETH: 100, wstETH: 100 },
           },
         })
@@ -341,7 +341,7 @@ test.describe('Collateral dialog', () => {
         await borrowPage.depositWithoutBorrowActions({ rETH: 2, wstETH: 10 })
         await dashboardPage.goToDashboardAction()
 
-        dashboardPage.clickBorrowButtonAction('WETH')
+        await dashboardPage.clickBorrowButtonAction('WETH')
         const borrowDialog = new DialogPageObject(page, /Borrow/)
         await borrowDialog.fillAmountAction(7)
         await borrowDialog.actionsContainer.acceptAllActionsAction(1)
@@ -378,7 +378,7 @@ test.describe('Collateral dialog', () => {
         await setup(page, fork, {
           initialPage: 'easyBorrow',
           account: {
-            type: 'connected',
+            type: 'connected-random',
             assetBalances: { ETH: 1, rETH: 100, wstETH: 100 },
           },
         })
