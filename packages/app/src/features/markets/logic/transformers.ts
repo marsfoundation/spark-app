@@ -57,7 +57,7 @@ function mergeDaiMarkets(
   const { tokenSymbolToReplacedName, mergedDaiAndSDaiMarkets } = getChainConfigEntry(chainId)
   // @note: this can happen on some domains when DAI rollout is not yet complete
   // Maker info is only available on mainnet now, so we don't merge DAI markets on other chains
-  if (!sDAIMarket || mergedDaiAndSDaiMarkets) return
+  if (!sDAIMarket || !mergedDaiAndSDaiMarkets) return
 
   if (reserve.token.symbol === 'DAI') {
     return makeMarketEntry(chainId, {
