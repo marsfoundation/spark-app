@@ -28,6 +28,8 @@ export const testIds = makeTestIds({
       switch: true,
       explanation: true,
     },
+    EModeButton: true,
+    SuccessViewContent: true,
   },
   easyBorrow: {
     form: {

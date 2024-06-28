@@ -369,6 +369,7 @@ test.describe('Collateral dialog', () => {
     test.describe('Not in danger zone', () => {
       let collateralDialog: CollateralDialogPageObject
       let dashboardPage: DashboardPageObject
+
       const rETHDeposit = { asset: 'rETH', amount: 1 }
       const wstETHDeposit = { asset: 'wstETH', amount: 1 }
       const daiBorrow = { asset: 'DAI', amount: 500 }
@@ -387,6 +388,7 @@ test.describe('Collateral dialog', () => {
       })
 
       test('validation issue; risk warning is not shown', async ({ page }) => {
+        // depositing single asset as collateral, so turing off will trigger validation
         const borrowPage = new BorrowPageObject(page)
         await borrowPage.depositAssetsActions({ rETH: rETHDeposit.amount }, daiBorrow.amount)
         await borrowPage.expectSuccessPage([rETHDeposit], daiBorrow, fork)
@@ -399,6 +401,7 @@ test.describe('Collateral dialog', () => {
       })
 
       test('no validation issue; risk warning is not shown', async ({ page }) => {
+        // depositing multiple assets as collateral, so turning off single asset will not trigger validation
         const borrowPage = new BorrowPageObject(page)
         await borrowPage.depositAssetsActions(
           { wstETH: wstETHDeposit.amount, rETH: rETHDeposit.amount },

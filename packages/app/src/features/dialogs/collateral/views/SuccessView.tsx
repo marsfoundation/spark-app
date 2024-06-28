@@ -23,7 +23,7 @@ export function SuccessView({ collateralSetting, token, onProceed }: SuccessView
         </div>
         <h3 className="text-basics-black">Collateral {collateralActionToVerb[collateralSetting]}</h3>
       </SuccessViewSummaryPanel>
-      <SuccessViewProceedButton onProceed={onProceed}>Back to Dashboard</SuccessViewProceedButton>
+      <SuccessViewProceedButton onProceed={onProceed}>View in dashboard</SuccessViewProceedButton>
     </SuccessViewContent>
   )
 }

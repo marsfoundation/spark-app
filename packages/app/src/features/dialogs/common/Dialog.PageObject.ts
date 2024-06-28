@@ -38,8 +38,9 @@ export class DialogPageObject extends BasePageObject {
   }
 
   async viewInDashboardAction(): Promise<void> {
-    await this.region.getByRole('button', { name: 'View in dashboard' }).click()
-    await this.region.waitFor({
+    const successViewContent = this.page.getByTestId(testIds.component.SuccessViewContent)
+    await successViewContent.getByRole('button', { name: 'View in dashboard' }).click()
+    await successViewContent.waitFor({
       state: 'detached',
     })
   }

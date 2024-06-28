@@ -63,6 +63,13 @@ export class BasePageObject {
   async clickAcknowledgeRisk(): Promise<void> {
     await this.page.getByTestId(testIds.component.RiskAcknowledgement.switch).click()
   }
+
+  async acknowledgeIfRiskIsPresent(): Promise<void> {
+    const riskAcknowledgement = this.page.getByTestId(testIds.component.RiskAcknowledgement.switch)
+    if (await riskAcknowledgement.isVisible()) {
+      await riskAcknowledgement.click()
+    }
+  }
   // #endregion
 
   // #region assertions
