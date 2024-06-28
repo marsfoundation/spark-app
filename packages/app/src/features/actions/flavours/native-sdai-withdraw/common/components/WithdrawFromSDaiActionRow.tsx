@@ -23,14 +23,14 @@ export function WithdrawFromSDaiActionRow({
 }: WithdrawFromSDaiActionRowProps) {
   const tokenIconPaths = [getTokenImage(fromToken.symbol), getTokenImage(toToken.symbol)]
   const status = actionHandlerState.status
-  const successMessage = `Unwrapped ${fromToken.format(value, { style: 'auto' })} ${toToken.symbol}!`
+  const successMessage = `Converted ${fromToken.format(value, { style: 'auto' })} ${toToken.symbol}!`
 
   return (
     <ActionRow index={index}>
       <ActionRow.Icon path={assets.actions.exchange} actionStatus={status} />
 
       <ActionRow.Title icon={<IconStack paths={tokenIconPaths} stackingOrder="last-on-top" />} actionStatus={status}>
-        Unwrap {fromToken.symbol} into {toToken.symbol}
+        Convert {fromToken.symbol} to {toToken.symbol}
       </ActionRow.Title>
 
       <ActionRow.Description successMessage={successMessage} actionStatus={status} variant={variant}>
@@ -40,7 +40,7 @@ export function WithdrawFromSDaiActionRow({
       <ActionRow.ErrorWarning variant={variant} actionHandlerState={actionHandlerState} />
 
       <ActionRow.Action onAction={onAction} status={status}>
-        Unwrap
+        Convert
       </ActionRow.Action>
     </ActionRow>
   )
