@@ -63,6 +63,10 @@ export class NavbarPageObject extends BasePageObject {
     await expect(this.page.getByTestId(testIds.navbar.rewards.claimableRewards)).toHaveText(value)
   }
 
+  async expectRewardsBadgeNotVisible(): Promise<void> {
+    await expect(this.locateRewardsBadge()).not.toBeVisible()
+  }
+
   async expectRewards(rows: Reward[], tooltip: Locator): Promise<void> {
     for (const [index, row] of rows.entries()) {
       const rowLocator = tooltip.getByTestId(testIds.navbar.rewards.details.row(index)).first()

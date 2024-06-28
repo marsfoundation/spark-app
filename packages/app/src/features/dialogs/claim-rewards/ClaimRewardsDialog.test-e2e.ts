@@ -11,6 +11,7 @@ import { ClaimRewardsDialogPageObject } from './ClaimRewardsDialog.PageObject'
 
 test.describe('Claim rewards dialog', () => {
   const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id })
+  let navbar: NavbarPageObject
   let claimRewardsDialog: ClaimRewardsDialogPageObject
   let actionsContainer: ActionsPageObject
 
@@ -23,7 +24,7 @@ test.describe('Claim rewards dialog', () => {
       },
     })
 
-    const navbar = new NavbarPageObject(page)
+    navbar = new NavbarPageObject(page)
     await navbar.openClaimRewardsDialog()
 
     claimRewardsDialog = new ClaimRewardsDialogPageObject(page)
@@ -66,5 +67,7 @@ test.describe('Claim rewards dialog', () => {
     await dashboard.expectWalletTable({
       wstETH: 6.44807,
     })
+
+    await navbar.expectRewardsBadgeNotVisible()
   })
 })
