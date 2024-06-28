@@ -17,7 +17,7 @@ test.describe('Deposit USDT on Mainnet', () => {
     await setup(page, fork, {
       initialPage: 'savings',
       account: {
-        type: 'connected',
+        type: 'connected-pkey',
         assetBalances: {
           ETH: 1,
           USDT: 10_000,
@@ -81,7 +81,7 @@ test.describe('Set Slippage', () => {
     await setup(page, fork, {
       initialPage: 'savings',
       account: {
-        type: 'connected',
+        type: 'connected-pkey',
         assetBalances: {
           ETH: 1,
           USDT: 100,
@@ -144,7 +144,7 @@ test.describe('Risk warning', () => {
     await setup(page, fork, {
       initialPage: 'savings',
       account: {
-        type: 'connected',
+        type: 'connected-pkey',
         assetBalances: {
           ETH: 1,
           USDT: 10_000,
@@ -199,7 +199,7 @@ test.describe('Validation', () => {
       await setup(page, fork, {
         initialPage: 'savings',
         account: {
-          type: 'connected',
+          type: 'connected-pkey',
           assetBalances: {
             ETH: 1,
             USDT: 100,
@@ -243,7 +243,7 @@ test.describe('Validation', () => {
     await setup(page, fork, {
       initialPage: 'savings',
       account: {
-        type: 'connected',
+        type: 'connected-pkey',
         assetBalances: {
           ETH: 1,
           USDT: 100,
@@ -276,7 +276,7 @@ test.describe('Slippage Validation', () => {
     await setup(page, fork, {
       initialPage: 'savings',
       account: {
-        type: 'connected',
+        type: 'connected-pkey',
         assetBalances: {
           ETH: 1,
           USDT: 100,

@@ -17,7 +17,7 @@ test.describe('Withdraw DAI on Mainnet', () => {
     await setup(page, fork, {
       initialPage: 'savings',
       account: {
-        type: 'connected',
+        type: 'connected-random',
         assetBalances: {
           ETH: 1,
           sDAI: 10_000,
@@ -79,7 +79,7 @@ test.describe('Validation', () => {
       await setup(page, fork, {
         initialPage: 'savings',
         account: {
-          type: 'connected',
+          type: 'connected-random',
           assetBalances: {
             ETH: 1,
             sDAI: 100,
@@ -128,7 +128,7 @@ test.describe('Validation', () => {
     await setup(page, fork, {
       initialPage: 'savings',
       account: {
-        type: 'connected',
+        type: 'connected-random',
         assetBalances: {
           ETH: 1,
           sDAI: 100,

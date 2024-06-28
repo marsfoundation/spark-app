@@ -20,7 +20,7 @@ test.describe('Withdraw max USDT on Mainnet', () => {
     await setup(page, fork, {
       initialPage: 'savings',
       account: {
-        type: 'connected',
+        type: 'connected-pkey',
         assetBalances: {
           ETH: 1,
           sDAI: 10_000,

@@ -20,7 +20,7 @@ test.describe('Deposit XDAI on Gnosis', () => {
     await setup(page, fork, {
       initialPage: 'savings',
       account: {
-        type: 'connected',
+        type: 'connected-random',
         assetBalances: {
           XDAI: 10_100,
         },

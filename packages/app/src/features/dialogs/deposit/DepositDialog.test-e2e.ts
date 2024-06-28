@@ -35,7 +35,7 @@ test.describe('Deposit dialog', () => {
       await setup(page, fork, {
         initialPage: 'easyBorrow',
         account: {
-          type: 'connected',
+          type: 'connected-random',
           assetBalances: { ...initialBalances },
         },
       })
@@ -318,7 +318,7 @@ test.describe('Deposit dialog', () => {
       await setup(page, fork, {
         initialPage: 'easyBorrow',
         account: {
-          type: 'connected',
+          type: 'connected-random',
           assetBalances: { ...initialBalances },
         },
       })
@@ -373,7 +373,7 @@ test.describe('Deposit dialog', () => {
       await setup(page, fork, {
         initialPage: 'dashboard',
         account: {
-          type: 'connected',
+          type: 'connected-random',
           assetBalances: { ...initialBalances },
         },
       })
@@ -415,7 +415,7 @@ test.describe('Deposit dialog', () => {
       await setup(page, fork, {
         initialPage: 'dashboard',
         account: {
-          type: 'connected',
+          type: 'connected-random',
           assetBalances: { ...initialBalances },
         },
       })

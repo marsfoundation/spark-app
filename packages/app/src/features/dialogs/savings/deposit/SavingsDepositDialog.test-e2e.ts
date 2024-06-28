@@ -16,7 +16,7 @@ test.describe('Savings deposit dialog', () => {
       await setup(page, fork, {
         initialPage: 'savings',
         account: {
-          type: 'connected',
+          type: 'connected-pkey',
           assetBalances: {
             ETH: 1,
             DAI: 100,
@@ -83,7 +83,7 @@ test.describe('Savings deposit dialog', () => {
       await setup(page, fork, {
         initialPage: 'savings',
         account: {
-          type: 'connected',
+          type: 'connected-pkey',
           assetBalances: {
             XDAI: 200,
             USDC: 100,

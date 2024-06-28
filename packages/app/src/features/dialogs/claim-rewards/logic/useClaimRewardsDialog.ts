@@ -1,3 +1,4 @@
+import { useConditionalFreeze } from '@/domain/hooks/useConditionalFreeze'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { Objective } from '@/features/actions/logic/types'
 import { Reward } from '@/features/navbar/components/rewards-badge/types'
@@ -17,7 +18,7 @@ export function useClaimRewardsDialog(): UseClaimRewardsDialogResult {
   const [pageStatus, setPageStatus] = useState<PageState>('form')
 
   const objectives = createClaimRewardsObjectives(marketInfo)
-  const rewardsToClaim = getRewardsToClaim(marketInfo)
+  const rewardsToClaim = useConditionalFreeze(getRewardsToClaim(marketInfo), pageStatus === 'success')
 
   return {
     pageStatus: {

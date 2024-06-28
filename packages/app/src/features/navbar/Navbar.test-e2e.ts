@@ -6,6 +6,7 @@ import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setup } from '@/test/e2e/setup'
 import { setupFork } from '@/test/e2e/setupFork'
 
+import { DashboardPageObject } from '@/pages/Dashboard.PageObject'
 import { NavbarPageObject } from './Navbar.PageObject'
 
 test.describe('Navbar', () => {
@@ -30,7 +31,7 @@ test.describe('Navbar', () => {
       const { account } = await setup(page, fork, {
         initialPage: 'easyBorrow',
         account: {
-          type: 'connected',
+          type: 'connected-random',
         },
       })
 
@@ -46,7 +47,7 @@ test.describe('Navbar', () => {
       const { account } = await setup(page, fork, {
         initialPage: 'easyBorrow',
         account: {
-          type: 'connected',
+          type: 'connected-random',
         },
       })
 
@@ -60,7 +61,7 @@ test.describe('Navbar', () => {
       const { account } = await setup(page, fork, {
         initialPage: 'easyBorrow',
         account: {
-          type: 'connected',
+          type: 'connected-random',
         },
       })
 
@@ -70,6 +71,61 @@ test.describe('Navbar', () => {
       await navbar.expectAirdropCompactValue('0')
       await navbar.hoverOverAirdropBadge()
       await navbar.expectAirdropPreciseValue('0.00 SPK')
+    })
+  })
+
+  test.describe('Rewards badge', () => {
+    test('Displays total rewards in badge', async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'easyBorrow',
+        account: {
+          type: 'connected-address',
+          address: '0xf8de75c7b95edb6f1e639751318f117663021cf0',
+        },
+      })
+
+      const navbar = new NavbarPageObject(page)
+      await navbar.expectClaimableRewardsValue('$16.85K')
+    })
+
+    test('Opens tooltip on hover', async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'easyBorrow',
+        account: {
+          type: 'connected-address',
+          address: '0xf8de75c7b95edb6f1e639751318f117663021cf0',
+        },
+      })
+
+      const navbar = new NavbarPageObject(page)
+      await navbar.locateRewardsBadge().hover()
+      const rewardsDetails = navbar.locateRewardsDetails()
+
+      await navbar.expectRewards(
+        [
+          {
+            tokenSymbol: 'wstETH',
+            amount: '6.42906',
+            amountUSD: '$16,850.36',
+          },
+        ],
+        rewardsDetails,
+      )
+    })
+
+    test('Does not display badge when no rewards', async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'dashboard',
+        account: {
+          type: 'connected-random',
+        },
+      })
+
+      const navbar = new NavbarPageObject(page)
+      const dashboard = new DashboardPageObject(page)
+
+      await dashboard.expectPositionToBeEmpty() // waiting for reserves to load
+      await navbar.expectRewardsBadgeNotVisible() // asserting that after reserves are loaded, rewards badge is not visible
     })
   })
 
