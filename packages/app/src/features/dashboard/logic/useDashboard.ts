@@ -43,6 +43,7 @@ export function useDashboard(): UseDashboardResults {
     compositionWithDeposits,
     setCompositionWithDeposits,
     nativeAssetInfo,
+    chainId: marketInfo.chainId,
   })
 
   const eModeCategoryId = (

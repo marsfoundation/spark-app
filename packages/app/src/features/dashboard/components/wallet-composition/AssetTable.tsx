@@ -1,21 +1,24 @@
-import { generatePath } from 'react-router-dom'
-
-import { paths } from '@/config/paths'
 import { formatPercentage } from '@/domain/common/format'
-import { TokenWithValue } from '@/domain/common/types'
-import { calculateDistribution } from '@/features/dashboard/components/wallet-composition/logic/calculate-distribution'
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { Token } from '@/domain/types/Token'
 import { Link } from '@/ui/atoms/link/Link'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 import { Typography } from '@/ui/atoms/typography/Typography'
 import { DataTable } from '@/ui/molecules/data-table/DataTable'
+import { calculateDistribution } from './logic/calculate-distribution'
+
+export interface AssetsTableRow {
+  token: Token
+  value: NormalizedUnitNumber
+  detailsLink: string
+}
 
 export interface AssetTableProps {
-  assets: TokenWithValue[]
-  chainId: number
+  rows: AssetsTableRow[]
   scroll?: { height: number }
 }
-export function AssetTable({ assets, scroll, chainId }: AssetTableProps) {
-  const assetsWithDistribution = calculateDistribution(assets)
+export function AssetTable({ rows, scroll }: AssetTableProps) {
+  const rowsWithDistribution = calculateDistribution(rows)
 
   return (
     <DataTable
@@ -51,16 +54,13 @@ export function AssetTable({ assets, scroll, chainId }: AssetTableProps) {
             </div>
           ),
         },
-        swapCollateral: {
+        details: {
           header: '',
           headerAlign: 'right',
-          renderCell: ({ token }) => (
+          renderCell: ({ detailsLink }) => (
             <div>
               <div className="flex w-full flex-row justify-end">
-                <Link
-                  className="text-xs sm:mr-4"
-                  to={generatePath(paths.marketDetails, { asset: token.address, chainId: chainId.toString() })}
-                >
+                <Link className="text-xs sm:mr-4" to={detailsLink}>
                   Details
                 </Link>
               </div>
@@ -68,7 +68,7 @@ export function AssetTable({ assets, scroll, chainId }: AssetTableProps) {
           ),
         },
       }}
-      data={assetsWithDistribution}
+      data={rowsWithDistribution}
       scroll={scroll}
     />
   )

@@ -66,6 +66,7 @@ const chainConfig: ChainConfig = {
     savingsInfoQuery: mainnetSavingsInfoQuery,
     daiSymbol: TokenSymbol('DAI'),
     sDaiSymbol: TokenSymbol('sDAI'),
+    mergedDaiAndSDaiMarkets: true,
     lifiRoutesWithWaivedFees: [
       [TokenSymbol('DAI'), TokenSymbol('sDAI')],
       [TokenSymbol('USDC'), TokenSymbol('sDAI')],
@@ -108,6 +109,7 @@ const chainConfig: ChainConfig = {
     savingsInfoQuery: gnosisSavingsInfoQuery,
     daiSymbol: TokenSymbol('XDAI'),
     sDaiSymbol: TokenSymbol('sDAI'),
+    mergedDaiAndSDaiMarkets: false,
     lifiRoutesWithWaivedFees: [
       // without PSMs only DAI to sDAI route has waived fees
       [TokenSymbol('XDAI'), TokenSymbol('sDAI')],

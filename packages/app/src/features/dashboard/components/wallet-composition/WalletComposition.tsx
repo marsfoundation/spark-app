@@ -11,11 +11,10 @@ import { useBreakpoint } from '@/ui/utils/useBreakpoint'
 import { WalletCompositionInfo } from '../../logic/wallet-composition'
 import { AssetTable } from './AssetTable'
 
-export type WalletCompositionProps = WalletCompositionInfo
+export type WalletCompositionProps = Omit<WalletCompositionInfo, 'chainId'>
 
 export function WalletComposition({
   assets,
-  chainId,
   includeDeposits,
   setIncludeDeposits,
   hasCollaterals,
@@ -52,7 +51,7 @@ export function WalletComposition({
         {assets.length > 1 && <DoughnutChart data={chartData} className="shrink-0 sm:max-h-64" />}
         <div className="w-full sm:max-h-64">
           {assets.length !== 0 ? (
-            <AssetTable assets={assets} chainId={chainId} scroll={sm ? { height: 256 } : undefined} />
+            <AssetTable rows={assets} scroll={sm ? { height: 256 } : undefined} />
           ) : (
             <div className="flex w-full flex-col items-center justify-center gap-2 sm:my-10 sm:flex-row">
               <Wallet size={32} className="mx-auto text-gray-400 sm:mx-0" />
