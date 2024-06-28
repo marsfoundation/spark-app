@@ -11,8 +11,10 @@ import { ClaimRewardsDialogPageObject } from './ClaimRewardsDialog.PageObject'
 
 test.describe('Claim rewards dialog', () => {
   const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id })
+  let claimRewardsDialog: ClaimRewardsDialogPageObject
+  let actionsContainer: ActionsPageObject
 
-  test('displays correct transaction overview', async ({ page }) => {
+  test.beforeEach(async ({ page }) => {
     await setup(page, fork, {
       initialPage: 'easyBorrow',
       account: {
@@ -24,7 +26,11 @@ test.describe('Claim rewards dialog', () => {
     const navbar = new NavbarPageObject(page)
     await navbar.openClaimRewardsDialog()
 
-    const claimRewardsDialog = new ClaimRewardsDialogPageObject(page)
+    claimRewardsDialog = new ClaimRewardsDialogPageObject(page)
+    actionsContainer = new ActionsPageObject(claimRewardsDialog.locatePanelByHeader('Actions'))
+  })
+
+  test('displays correct transaction overview', async () => {
     await claimRewardsDialog.expectRewards([
       {
         tokenSymbol: 'wstETH',
@@ -34,21 +40,7 @@ test.describe('Claim rewards dialog', () => {
     ])
   })
 
-  test('has correct action plan', async ({ page }) => {
-    await setup(page, fork, {
-      initialPage: 'easyBorrow',
-      account: {
-        type: 'connected-address',
-        address: '0xf8de75c7b95edb6f1e639751318f117663021cf0',
-      },
-    })
-
-    const navbar = new NavbarPageObject(page)
-    await navbar.openClaimRewardsDialog()
-
-    const claimRewardsDialog = new ClaimRewardsDialogPageObject(page)
-    const actionsContainer = new ActionsPageObject(claimRewardsDialog.locatePanelByHeader('Actions'))
-
+  test('has correct action plan', async () => {
     await actionsContainer.expectActions([
       {
         type: 'claimRewards',
@@ -58,19 +50,6 @@ test.describe('Claim rewards dialog', () => {
   })
 
   test('executes transaction', async ({ page }) => {
-    await setup(page, fork, {
-      initialPage: 'easyBorrow',
-      account: {
-        type: 'connected-address',
-        address: '0xf8de75c7b95edb6f1e639751318f117663021cf0',
-      },
-    })
-
-    const navbar = new NavbarPageObject(page)
-    await navbar.openClaimRewardsDialog()
-
-    const claimRewardsDialog = new ClaimRewardsDialogPageObject(page)
-    const actionsContainer = new ActionsPageObject(claimRewardsDialog.locatePanelByHeader('Actions'))
     await actionsContainer.acceptAllActionsAction(1)
 
     await claimRewardsDialog.expectClaimRewardsSuccessPage([
