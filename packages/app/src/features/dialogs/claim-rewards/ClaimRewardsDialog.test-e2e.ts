@@ -4,13 +4,15 @@ import { mainnet } from 'viem/chains'
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { NavbarPageObject } from '@/features/navbar/Navbar.PageObject'
 import { DashboardPageObject } from '@/pages/Dashboard.PageObject'
-import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setup } from '@/test/e2e/setup'
 import { setupFork } from '@/test/e2e/setupFork'
 import { ClaimRewardsDialogPageObject } from './ClaimRewardsDialog.PageObject'
 
 test.describe('Claim rewards dialog', () => {
-  const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id })
+  const fork = setupFork({
+    blockNumber: 20189272n, // block number where the reward program is finished
+    chainId: mainnet.id,
+  })
   let navbar: NavbarPageObject
   let claimRewardsDialog: ClaimRewardsDialogPageObject
   let actionsContainer: ActionsPageObject
@@ -35,8 +37,8 @@ test.describe('Claim rewards dialog', () => {
     await claimRewardsDialog.expectRewards([
       {
         tokenSymbol: 'wstETH',
-        amount: '6.42906',
-        amountUSD: '~$16,850.36',
+        amount: '6.3697',
+        amountUSD: '~$25,583.20',
       },
     ])
   })
@@ -56,8 +58,8 @@ test.describe('Claim rewards dialog', () => {
     await claimRewardsDialog.expectClaimRewardsSuccessPage([
       {
         tokenSymbol: 'wstETH',
-        amount: '6.42906',
-        amountUSD: '~$16,850.36',
+        amount: '6.3697',
+        amountUSD: '~$25,583.20',
       },
     ])
 
@@ -65,7 +67,7 @@ test.describe('Claim rewards dialog', () => {
     await dashboard.goToDashboardAction()
 
     await dashboard.expectWalletTable({
-      wstETH: 6.44807,
+      wstETH: 6.3697,
     })
 
     await navbar.expectRewardsBadgeNotVisible()
