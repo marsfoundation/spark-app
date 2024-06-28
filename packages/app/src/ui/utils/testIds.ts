@@ -24,6 +24,10 @@ export const testIds = makeTestIds({
     DataTable: {
       row: (index: number) => index,
     },
+    RiskAcknowledgement: {
+      switch: true,
+      explanation: true,
+    },
   },
   easyBorrow: {
     form: {
@@ -55,7 +59,6 @@ export const testIds = makeTestIds({
       after: true,
     },
     success: true,
-    acknowledgeRiskSwitch: true,
     savings: {
       nativeRouteTransactionOverview: {
         apy: {

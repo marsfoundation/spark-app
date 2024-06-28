@@ -10,7 +10,9 @@ import { setup } from '@/test/e2e/setup'
 import { setupFork } from '@/test/e2e/setupFork'
 import { screenshot } from '@/test/e2e/utils'
 
+import { CollateralDialogPageObject } from '../collateral/CollateralDialog.PageObject'
 import { DialogPageObject } from '../common/Dialog.PageObject'
+import { withdrawValidationIssueToMessage } from '../savings/withdraw/logic/validation'
 
 const headerRegExp = /Withdr*/
 
@@ -387,6 +389,86 @@ test.describe('Withdraw dialog', () => {
         WETH: 0,
         wstETH: initialDeposits.wstETH,
       })
+    })
+  })
+
+  test.describe('Liquidation risk warning', () => {
+    let withdrawDialog: DialogPageObject
+    let dashboardPage: DashboardPageObject
+
+    test.beforeEach(async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'easyBorrow',
+        account: {
+          type: 'connected',
+          assetBalances: { ETH: 1, rETH: 100, wstETH: 100 },
+        },
+      })
+
+      withdrawDialog = new DialogPageObject(page, headerRegExp)
+      dashboardPage = new DashboardPageObject(page)
+
+      const borrowPage = new BorrowPageObject(page)
+      await borrowPage.depositWithoutBorrowActions({ rETH: 2, wstETH: 10 })
+      await dashboardPage.goToDashboardAction()
+
+      dashboardPage.clickBorrowButtonAction('WETH')
+      const borrowDialog = new DialogPageObject(page, /Borrow/)
+      await borrowDialog.fillAmountAction(7)
+      await borrowDialog.actionsContainer.acceptAllActionsAction(1)
+      await borrowDialog.expectSuccessPage([{ asset: 'WETH', amount: 7 }], fork)
+      await borrowDialog.viewInDashboardAction()
+      await dashboardPage.expectAssetToBeInBorrowTable('WETH')
+    })
+
+    test('shows risk warning', async () => {
+      await dashboardPage.clickWithdrawButtonAction('rETH')
+
+      await withdrawDialog.clickMaxAmountAction()
+      await withdrawDialog.expectLiquidationRiskWarning(
+        'Withdrawing this amount puts you at risk of quick liquidation. You may lose all of your collateral.',
+      )
+    })
+
+    test('actions stay disabled until risk warning is acknowledged', async () => {
+      await dashboardPage.clickWithdrawButtonAction('rETH')
+
+      await withdrawDialog.clickMaxAmountAction()
+      await withdrawDialog.actionsContainer.expectDisabledActionAtIndex(0)
+      await withdrawDialog.clickAcknowledgeRisk()
+      await withdrawDialog.actionsContainer.expectEnabledActionAtIndex(0)
+    })
+
+    test('hf above danger zone threshold; risk warning is not shown', async () => {
+      await dashboardPage.clickWithdrawButtonAction('rETH')
+
+      await withdrawDialog.fillAmountAction(0.1)
+      await withdrawDialog.actionsContainer.expectEnabledActionAtIndex(0)
+      await withdrawDialog.expectLiquidationRiskWarningNotVisible()
+    })
+
+    test('input validation error; risk warning is not shown', async () => {
+      await dashboardPage.clickWithdrawButtonAction('rETH')
+
+      await withdrawDialog.fillAmountAction(0)
+      await withdrawDialog.expectAssetInputError(withdrawValidationIssueToMessage['value-not-positive'])
+      await withdrawDialog.expectLiquidationRiskWarningNotVisible()
+    })
+
+    test('hf in danger zone; asset not collateral; risk warning is not shown', async ({ page }) => {
+      // disabling collateral and entering danger zone
+      await dashboardPage.clickCollateralSwitchAction('rETH')
+      const collateralDialog = new CollateralDialogPageObject(page)
+      await collateralDialog.clickAcknowledgeRisk()
+      await collateralDialog.actionsContainer.acceptAllActionsAction(1)
+      await collateralDialog.expectSetUseAsCollateralSuccessPage('rETH', 'disabled')
+      await dashboardPage.goToDashboardAction()
+      await dashboardPage.expectCollateralSwitch('rETH', false)
+
+      await dashboardPage.clickWithdrawButtonAction('rETH')
+      await withdrawDialog.clickMaxAmountAction()
+      await withdrawDialog.actionsContainer.expectEnabledActionAtIndex(0)
+      await withdrawDialog.expectLiquidationRiskWarningNotVisible()
     })
   })
 })

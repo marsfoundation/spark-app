@@ -12,7 +12,10 @@ export function RiskAcknowledgement({ warning, onStatusChange }: RiskAcknowledge
   return (
     <div className="flex flex-col gap-2">
       <Alert variant="danger">
-        <div className="max-w-[46ch] text-basics-black text-sm">
+        <div
+          className="max-w-[46ch] text-basics-black text-sm"
+          data-testid={testIds.component.RiskAcknowledgement.explanation}
+        >
           {warning.type === 'savings-deposit-discrepancy-threshold-hit' &&
             `Market fluctuations can impact your transaction value. The final amount received may be less than the deposit amount by up to ${warning.token.format(
               warning.discrepancy,
@@ -33,7 +36,7 @@ export function RiskAcknowledgement({ warning, onStatusChange }: RiskAcknowledge
             'Disabling E-Mode decreases health factor of your position and puts you at risk of quick liquidation. You may lose part of your collateral.'}
         </div>
       </Alert>
-      <LabeledSwitch onCheckedChange={onStatusChange} data-testid={testIds.dialog.acknowledgeRiskSwitch}>
+      <LabeledSwitch onCheckedChange={onStatusChange} data-testid={testIds.component.RiskAcknowledgement.switch}>
         <div className="font-semibold text-basics-black text-sm">I acknowledge risks involved</div>
       </LabeledSwitch>
     </div>

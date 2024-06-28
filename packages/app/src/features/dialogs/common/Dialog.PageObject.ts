@@ -1,5 +1,6 @@
 import { Locator, Page, expect } from '@playwright/test'
 
+import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { BasePageObject } from '@/test/e2e/BasePageObject'
 import { TestTokenWithValue, expectAssets } from '@/test/e2e/assertions'
 import { ForkContext } from '@/test/e2e/setupFork'
@@ -7,6 +8,7 @@ import { calculateAssetsWorth, isPage } from '@/test/e2e/utils'
 import { testIds } from '@/ui/utils/testIds'
 
 export class DialogPageObject extends BasePageObject {
+  public readonly actionsContainer: ActionsPageObject
   constructor(pageOrLocator: Page | Locator, header: RegExp) {
     if (isPage(pageOrLocator)) {
       super(pageOrLocator)
@@ -14,6 +16,7 @@ export class DialogPageObject extends BasePageObject {
     } else {
       super(pageOrLocator)
     }
+    this.actionsContainer = new ActionsPageObject(this.locatePanelByHeader('Actions'))
   }
 
   getDialog(): Locator {
@@ -41,9 +44,6 @@ export class DialogPageObject extends BasePageObject {
     })
   }
 
-  async clickAcknowledgeRisk(): Promise<void> {
-    await this.page.getByTestId(testIds.dialog.acknowledgeRiskSwitch).click()
-  }
   // #endregion actions
 
   // #region assertions
