@@ -23,14 +23,14 @@ export function DepositToSDaiActionRow({
 }: DepositToSDaiActionRowProps) {
   const tokenIconPaths = [getTokenImage(fromToken.symbol), getTokenImage(toToken.symbol)]
   const status = actionHandlerState.status
-  const successMessage = `Wrapped ${fromToken.format(value, { style: 'auto' })} ${fromToken.symbol}!`
+  const successMessage = `Converted ${fromToken.format(value, { style: 'auto' })} ${fromToken.symbol}!`
 
   return (
     <ActionRow index={index}>
       <ActionRow.Icon path={assets.actions.exchange} actionStatus={status} />
 
       <ActionRow.Title icon={<IconStack paths={tokenIconPaths} stackingOrder="last-on-top" />} actionStatus={status}>
-        Wrap {fromToken.symbol} into {toToken.symbol}
+        Convert {fromToken.symbol} to {toToken.symbol}
       </ActionRow.Title>
 
       <ActionRow.Description successMessage={successMessage} actionStatus={status} variant={variant}>
@@ -40,7 +40,7 @@ export function DepositToSDaiActionRow({
       <ActionRow.ErrorWarning variant={variant} actionHandlerState={actionHandlerState} />
 
       <ActionRow.Action onAction={onAction} status={status}>
-        Wrap
+        Convert
       </ActionRow.Action>
     </ActionRow>
   )
