@@ -313,4 +313,60 @@ test.describe('Borrow dialog', () => {
       await screenshot(borrowDialog.getDialog(), 'borrow-dialog-only-deposit-health-factor')
     })
   })
+
+  test.describe('Liquidation risk warning', () => {
+    let borrowDialog: DialogPageObject
+    let dashboardPage: DashboardPageObject
+
+    test.beforeEach(async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'easyBorrow',
+        account: {
+          type: 'connected',
+          assetBalances: { ETH: 1, rETH: 100, wstETH: 100 },
+        },
+      })
+
+      borrowDialog = new DialogPageObject(page, headerRegExp)
+      dashboardPage = new DashboardPageObject(page)
+
+      const borrowPage = new BorrowPageObject(page)
+      await borrowPage.depositWithoutBorrowActions({ rETH: 2, wstETH: 10 })
+      await dashboardPage.goToDashboardAction()
+    })
+
+    test('shows risk warning', async () => {
+      await dashboardPage.clickBorrowButtonAction('WETH')
+
+      await borrowDialog.fillAmountAction(8)
+      await borrowDialog.expectLiquidationRiskWarning(
+        'Borrowing this amount puts you at risk of quick liquidation. You may lose all of your collateral.',
+      )
+    })
+
+    test('actions stay disabled until risk warning is acknowledged', async () => {
+      await dashboardPage.clickBorrowButtonAction('WETH')
+
+      await borrowDialog.fillAmountAction(8)
+      await borrowDialog.actionsContainer.expectDisabledActionAtIndex(0)
+      await borrowDialog.clickAcknowledgeRisk()
+      await borrowDialog.actionsContainer.expectEnabledActionAtIndex(0)
+    })
+
+    test('hf above danger zone threshold; risk warning is not shown', async () => {
+      await dashboardPage.clickBorrowButtonAction('WETH')
+
+      await borrowDialog.fillAmountAction(0.1)
+      await borrowDialog.actionsContainer.expectEnabledActionAtIndex(0)
+      await borrowDialog.expectLiquidationRiskWarningNotVisible()
+    })
+
+    test('input validation error; risk warning is not shown', async () => {
+      await dashboardPage.clickBorrowButtonAction('WETH')
+
+      await borrowDialog.fillAmountAction(0)
+      await borrowDialog.expectAssetInputError(borrowValidationIssueToMessage['value-not-positive'])
+      await borrowDialog.expectLiquidationRiskWarningNotVisible()
+    })
+  })
 })

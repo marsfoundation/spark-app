@@ -452,6 +452,57 @@ test.describe('Borrow page', () => {
       await borrowPage.expectAssetNotListedInDepositSelector(collateral)
     })
   })
+
+  test.describe('Liquidation risk warning', () => {
+    let borrowPage: BorrowPageObject
+
+    test.describe('In danger zone', () => {
+      test.beforeEach(async ({ page }) => {
+        await setup(page, fork, {
+          initialPage: 'easyBorrow',
+          account: {
+            type: 'connected',
+            assetBalances: { ETH: 1, rETH: 100 },
+          },
+        })
+
+        borrowPage = new BorrowPageObject(page)
+        await borrowPage.fillDepositAssetAction(0, 'rETH', 1)
+        await borrowPage.fillBorrowAssetAction(1500)
+        await borrowPage.submitAction()
+      })
+
+      test('shows risk warning', async () => {
+        await borrowPage.expectLiquidationRiskWarning(
+          'Borrowing this amount puts you at risk of quick liquidation. You may lose all of your collateral.',
+        )
+      })
+
+      test('actions stay disabled until risk warning is acknowledged', async () => {
+        const actionsContainer = new ActionsPageObject(borrowPage.locatePanelByHeader('Actions'))
+        await actionsContainer.expectDisabledActionAtIndex(0)
+        await borrowPage.clickAcknowledgeRisk()
+        await actionsContainer.expectEnabledActionAtIndex(0)
+      })
+    })
+
+    test('hf above danger zone threshold; risk warning is not shown', async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'easyBorrow',
+        account: {
+          type: 'connected',
+          assetBalances: { ETH: 1, rETH: 100 },
+        },
+      })
+
+      const borrowPage = new BorrowPageObject(page)
+      await borrowPage.fillDepositAssetAction(0, 'rETH', 1)
+      await borrowPage.fillBorrowAssetAction(1000)
+      await borrowPage.submitAction()
+
+      await borrowPage.expectLiquidationRiskWarningNotVisible()
+    })
+  })
 })
 
 async function expectHFOnDashboard(
