@@ -319,4 +319,98 @@ test.describe('Collateral dialog', () => {
       await dashboardPage.expectCollateralSwitch(collateral, false)
     })
   })
+
+  test.describe('Liquidation risk warning', () => {
+    test.describe('In danger zone', () => {
+      let collateralDialog: CollateralDialogPageObject
+      let dashboardPage: DashboardPageObject
+
+      test.beforeEach(async ({ page }) => {
+        await setup(page, fork, {
+          initialPage: 'easyBorrow',
+          account: {
+            type: 'connected',
+            assetBalances: { ETH: 1, rETH: 100, wstETH: 100 },
+          },
+        })
+
+        collateralDialog = new CollateralDialogPageObject(page)
+        dashboardPage = new DashboardPageObject(page)
+
+        const borrowPage = new BorrowPageObject(page)
+        await borrowPage.depositWithoutBorrowActions({ rETH: 2, wstETH: 10 })
+        await dashboardPage.goToDashboardAction()
+
+        dashboardPage.clickBorrowButtonAction('WETH')
+        const borrowDialog = new DialogPageObject(page, /Borrow/)
+        await borrowDialog.fillAmountAction(7)
+        await borrowDialog.actionsContainer.acceptAllActionsAction(1)
+        await borrowDialog.expectSuccessPage([{ asset: 'WETH', amount: 7 }], fork)
+        await borrowDialog.viewInDashboardAction()
+        await dashboardPage.expectAssetToBeInBorrowTable('WETH')
+      })
+
+      test('shows risk warning', async () => {
+        await dashboardPage.clickCollateralSwitchAction('rETH')
+        await collateralDialog.expectLiquidationRiskWarning(
+          'Disabling this asset as collateral puts you at risk of quick liquidation. You may lose part of your remaining collateral.',
+        )
+      })
+
+      test('actions stay disabled until risk warning is acknowledged', async () => {
+        await dashboardPage.clickCollateralSwitchAction('rETH')
+
+        await collateralDialog.actionsContainer.expectDisabledActionAtIndex(0)
+        await collateralDialog.clickAcknowledgeRisk()
+        await collateralDialog.actionsContainer.expectEnabledActionAtIndex(0)
+      })
+    })
+
+    test.describe('Not in danger zone', () => {
+      let collateralDialog: CollateralDialogPageObject
+      let dashboardPage: DashboardPageObject
+      const rETHDeposit = { asset: 'rETH', amount: 1 }
+      const wstETHDeposit = { asset: 'wstETH', amount: 1 }
+      const daiBorrow = { asset: 'DAI', amount: 500 }
+
+      test.beforeEach(async ({ page }) => {
+        await setup(page, fork, {
+          initialPage: 'easyBorrow',
+          account: {
+            type: 'connected',
+            assetBalances: { ETH: 1, rETH: 100, wstETH: 100 },
+          },
+        })
+
+        collateralDialog = new CollateralDialogPageObject(page)
+        dashboardPage = new DashboardPageObject(page)
+      })
+
+      test('validation issue; risk warning is not shown', async ({ page }) => {
+        const borrowPage = new BorrowPageObject(page)
+        await borrowPage.depositAssetsActions({ rETH: rETHDeposit.amount }, daiBorrow.amount)
+        await borrowPage.expectSuccessPage([rETHDeposit], daiBorrow, fork)
+        await dashboardPage.goToDashboardAction()
+        await dashboardPage.expectAssetToBeInBorrowTable('DAI')
+
+        await dashboardPage.clickCollateralSwitchAction('rETH')
+        await collateralDialog.expectAlertMessage(setUseAsCollateralValidationIssueToMessage['exceeds-ltv'])
+        await collateralDialog.expectLiquidationRiskWarningNotVisible()
+      })
+
+      test('no validation issue; risk warning is not shown', async ({ page }) => {
+        const borrowPage = new BorrowPageObject(page)
+        await borrowPage.depositAssetsActions(
+          { wstETH: wstETHDeposit.amount, rETH: rETHDeposit.amount },
+          daiBorrow.amount,
+        )
+        await borrowPage.expectSuccessPage([wstETHDeposit, rETHDeposit], daiBorrow, fork)
+        await dashboardPage.goToDashboardAction()
+        await dashboardPage.expectAssetToBeInBorrowTable('DAI')
+
+        await dashboardPage.clickCollateralSwitchAction('rETH')
+        await collateralDialog.expectLiquidationRiskWarningNotVisible()
+      })
+    })
+  })
 })
