@@ -1,5 +1,5 @@
+import { testIds } from '@/ui/utils/testIds'
 import { Locator, Page, expect } from '@playwright/test'
-
 import { isPage } from './utils'
 
 /**
@@ -59,11 +59,30 @@ export class BasePageObject {
   closeDialog(): Promise<void> {
     return this.page.keyboard.press('Escape')
   }
+
+  async clickAcknowledgeRisk(): Promise<void> {
+    await this.page.getByTestId(testIds.component.RiskAcknowledgement.switch).click()
+  }
+
+  async acknowledgeIfRiskIsPresent(): Promise<void> {
+    const riskAcknowledgement = this.page.getByTestId(testIds.component.RiskAcknowledgement.switch)
+    if (await riskAcknowledgement.isVisible()) {
+      await riskAcknowledgement.click()
+    }
+  }
   // #endregion
 
   // #region assertions
   async expectNotification(message: string): Promise<void> {
     await expect(this.locateNotificationByMessage(message)).toBeVisible()
+  }
+
+  async expectLiquidationRiskWarning(explanation: string): Promise<void> {
+    await expect(this.page.getByTestId(testIds.component.RiskAcknowledgement.explanation)).toHaveText(explanation)
+  }
+
+  async expectLiquidationRiskWarningNotVisible(): Promise<void> {
+    await expect(this.page.getByTestId(testIds.component.RiskAcknowledgement.explanation)).not.toBeVisible()
   }
   // #endregion
 }

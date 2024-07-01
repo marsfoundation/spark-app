@@ -1,16 +1,13 @@
-import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { testIds } from '@/ui/utils/testIds'
 import { Page, expect } from '@playwright/test'
 import { DialogPageObject } from '../../../common/Dialog.PageObject'
 
 export class SavingsDialogPageObject extends DialogPageObject {
   private readonly type: 'deposit' | 'withdraw'
-  public readonly actionsContainer: ActionsPageObject
 
   constructor({ page, type }: { page: Page; type: 'deposit' | 'withdraw' }) {
     super(page, new RegExp(`${type === 'deposit' ? 'Deposit to' : 'Withdraw from'} Savings`))
     this.type = type
-    this.actionsContainer = new ActionsPageObject(this.locatePanelByHeader('Actions'))
   }
 
   // #region actions

@@ -2,6 +2,7 @@ import { assert } from '@/utils/assert'
 import { expect } from '@playwright/test'
 import { z } from 'zod'
 
+import { EModeCategoryName } from '@/domain/e-mode/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { BasePageObject } from '@/test/e2e/BasePageObject'
@@ -39,6 +40,10 @@ export class DashboardPageObject extends BasePageObject {
     const panel = this.locatePanelByHeader('Borrow')
     const row = panel.getByRole('row').filter({ has: this.page.getByRole('cell', { name: assetName, exact: true }) })
     await row.getByRole('button', { name: 'Repay' }).click()
+  }
+
+  async clickEModeButtonAction(): Promise<void> {
+    await this.page.getByTestId(testIds.component.EModeButton).click()
   }
 
   async parseDepositTable(): Promise<DepositTableRow[]> {
@@ -196,7 +201,11 @@ export class DashboardPageObject extends BasePageObject {
     const amount = row.getByRole('cell').nth(2)
     await expect(amount).not.toHaveText('—')
   }
-  // #endregion
+
+  async expectEModeCategory(eModeCategoryName: EModeCategoryName): Promise<void> {
+    await expect(this.page.getByTestId(testIds.component.EModeButton)).toHaveText(eModeCategoryName)
+  }
+  // #endregion assertions
 }
 
 const numberOrDash = z.string().pipe(
