@@ -51,11 +51,15 @@ const meta: Meta<typeof BorrowView> = {
     },
     pageStatus: {
       state: 'form',
-      actionsEnabled: true,
+      actionsEnabled: false,
       goToSuccessScreen: () => {},
     },
     currentHealthFactor: BigNumber(2.5),
-    updatedHealthFactor: BigNumber(1.3),
+    updatedHealthFactor: BigNumber(1.1),
+    riskAcknowledgement: {
+      onStatusChange: () => {},
+      warning: { type: 'liquidation-warning-borrow' },
+    },
   },
 }
 

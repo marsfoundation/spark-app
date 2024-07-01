@@ -16,6 +16,7 @@ function BorrowDialogContentContainer({ token, closeDialog }: DialogContentConta
     tokenToBorrow,
     currentHealthFactor,
     updatedHealthFactor,
+    riskAcknowledgement,
   } = useBorrowDialog({
     initialToken: token,
   })
@@ -41,6 +42,7 @@ function BorrowDialogContentContainer({ token, closeDialog }: DialogContentConta
       borrowAsset={tokenToBorrow}
       currentHealthFactor={currentHealthFactor}
       updatedHealthFactor={updatedHealthFactor}
+      riskAcknowledgement={riskAcknowledgement}
     />
   )
 }

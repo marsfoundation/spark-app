@@ -40,6 +40,10 @@ export class DialogPageObject extends BasePageObject {
       state: 'detached',
     })
   }
+
+  async clickAcknowledgeRisk(): Promise<void> {
+    await this.page.getByTestId(testIds.dialog.acknowledgeRiskSwitch).click()
+  }
   // #endregion actions
 
   // #region assertions

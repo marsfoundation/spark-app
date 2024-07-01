@@ -1,8 +1,8 @@
-import { useState } from 'react'
-
 import { getNativeAssetInfo } from '@/config/chain/utils/getNativeAssetInfo'
 import { eModeCategoryIdToName } from '@/domain/e-mode/constants'
 import { EModeCategoryId, EModeCategoryName } from '@/domain/e-mode/types'
+import { RiskAcknowledgementInfo } from '@/domain/liquidation-risk-warning/types'
+import { useLiquidationRiskWarning } from '@/domain/liquidation-risk-warning/useLiquidationRiskWarning'
 import { useAaveDataLayer } from '@/domain/market-info/aave-data-layer/useAaveDataLayer'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import {
@@ -11,7 +11,7 @@ import {
   validateSetUserEMode,
 } from '@/domain/market-validators/validateSetUserEMode'
 import { Objective } from '@/features/actions/logic/types'
-
+import { useState } from 'react'
 import { PageState, PageStatus } from '../../common/types'
 import { EModeCategory, PositionOverview } from '../types'
 import { createEModeObjectives } from './createEModeObjectives'
@@ -30,6 +30,7 @@ export interface UseEModeDialogResult {
   currentPositionOverview: PositionOverview
   updatedPositionOverview?: PositionOverview
   pageStatus: PageStatus
+  riskAcknowledgement: RiskAcknowledgementInfo
 }
 
 export function useEModeDialog({ userEModeCategoryId }: UseEModeDialogParams): UseEModeDialogResult {
@@ -67,6 +68,15 @@ export function useEModeDialog({ userEModeCategoryId }: UseEModeDialogParams): U
       )
     : undefined
 
+  const { riskAcknowledgement, disableActionsByRisk } = useLiquidationRiskWarning({
+    type: 'liquidation-warning-e-mode-off',
+    isFormValid: !validationIssue,
+    currentHealthFactor: currentPositionOverview.healthFactor,
+    updatedHealthFactor: updatedPositionOverview?.healthFactor,
+  })
+
+  const actionsEnabled = !validationIssue && !disableActionsByRisk
+
   return {
     eModeCategories,
     selectedEModeCategoryName: eModeCategoryIdToName[selectedEModeCategoryId],
@@ -76,8 +86,9 @@ export function useEModeDialog({ userEModeCategoryId }: UseEModeDialogParams): U
     updatedPositionOverview,
     pageStatus: {
       state: pageStatus,
-      actionsEnabled: !validationIssue,
+      actionsEnabled,
       goToSuccessScreen: () => setPageStatus('success'),
     },
+    riskAcknowledgement,
   }
 }

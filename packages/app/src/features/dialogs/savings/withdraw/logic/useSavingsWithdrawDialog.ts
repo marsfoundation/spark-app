@@ -1,12 +1,12 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
 import { useConditionalFreeze } from '@/domain/hooks/useConditionalFreeze'
+import { RiskAcknowledgementInfo } from '@/domain/liquidation-risk-warning/types'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { useSavingsInfo } from '@/domain/savings-info/useSavingsInfo'
 import { makeAssetsInWalletList } from '@/domain/savings/makeAssetsInWalletList'
 import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
 import { Objective } from '@/features/actions/logic/types'
-import { RiskWarning } from '@/features/dialogs/common/components/risk-acknowledgement/RiskAcknowledgement'
 import { AssetInputSchema, useDebouncedDialogFormValues } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
 import { assert } from '@/utils/assert'
@@ -22,10 +22,6 @@ import { createObjectives } from './objectives'
 import { useWithdrawFromSavings } from './useWithdrawFromSavings'
 import { getSavingsWithdrawDialogFormValidator } from './validation'
 
-export interface RiskAcknowledgementInfo {
-  onStatusChange: (acknowledged: boolean) => void
-  warning?: RiskWarning
-}
 export interface UseSavingsWithdrawDialogResults {
   selectableAssets: TokenWithBalance[]
   assetsFields: FormFieldsForDialog

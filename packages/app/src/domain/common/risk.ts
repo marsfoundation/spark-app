@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js'
 export type RiskLevel = 'liquidation' | 'risky' | 'moderate' | 'healthy' | 'unknown' | 'no debt'
 
 export const LIQUIDATION_HEALTH_FACTOR_THRESHOLD = new BigNumber(1)
+export const LIQUIDATION_DANGER_HEALTH_FACTOR_THRESHOLD = new BigNumber(1.5)
 export const RISKY_HEALTH_FACTOR_THRESHOLD = new BigNumber(2)
 export const MODERATE_HEALTH_FACTOR_THRESHOLD = new BigNumber(3)
 

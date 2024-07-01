@@ -20,6 +20,7 @@ function EModeDialogContentContainer({ closeDialog, userEModeCategoryId }: EMode
     updatedPositionOverview,
     eModeCategories,
     validationIssue,
+    riskAcknowledgement,
   } = useEModeDialog({ userEModeCategoryId })
 
   if (pageStatus.state === 'success') {
@@ -35,6 +36,7 @@ function EModeDialogContentContainer({ closeDialog, userEModeCategoryId }: EMode
       updatedPositionOverview={updatedPositionOverview}
       eModeCategories={eModeCategories}
       validationIssue={validationIssue}
+      riskAcknowledgement={riskAcknowledgement}
     />
   )
 }

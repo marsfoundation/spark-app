@@ -1,12 +1,11 @@
-import { UseFormReturn } from 'react-hook-form'
-
+import { RiskAcknowledgementInfo } from '@/domain/liquidation-risk-warning/types'
 import { LiquidationDetails } from '@/domain/market-info/getLiquidationDetails'
 import { UserPositionSummary } from '@/domain/market-info/marketInfo'
 import { Percentage } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { Objective } from '@/features/actions/logic/types'
 import { PageLayout } from '@/ui/layouts/PageLayout'
-
+import { UseFormReturn } from 'react-hook-form'
 import { BorrowRateBanner } from '../components/BorrowRateBanner'
 import { EasyBorrowPanel } from '../components/EasyBorrowPanel'
 import { EasyBorrowSidePanel } from '../components/note/EasyBorrowSidePanel'
@@ -25,6 +24,7 @@ export interface EasyBorrowViewProps {
   updatedPositionSummary: UserPositionSummary
   liquidationDetails?: LiquidationDetails
   setDesiredLoanToValue: (desiredLtv: Percentage) => void
+  riskAcknowledgement: RiskAcknowledgementInfo
 
   objectives: Objective[]
 

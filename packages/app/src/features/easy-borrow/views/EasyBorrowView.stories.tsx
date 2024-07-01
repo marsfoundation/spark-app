@@ -1,3 +1,10 @@
+import { TokenWithBalance, TokenWithFormValue } from '@/domain/common/types'
+import { RiskAcknowledgementInfo } from '@/domain/liquidation-risk-warning/types'
+import { UserPositionSummary } from '@/domain/market-info/marketInfo'
+import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { Objective } from '@/features/actions/logic/types'
 import { WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
@@ -7,14 +14,6 @@ import { useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { withRouter } from 'storybook-addon-remix-react-router'
 import { zeroAddress } from 'viem'
-
-import { TokenWithBalance, TokenWithFormValue } from '@/domain/common/types'
-import { UserPositionSummary } from '@/domain/market-info/marketInfo'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { Objective } from '@/features/actions/logic/types'
-
 import { EasyBorrowFormSchema } from '../logic/form/validation'
 import { ExistingPosition, PageState } from '../logic/types'
 import { EasyBorrowView } from './EasyBorrowView'
@@ -34,6 +33,8 @@ interface EasyBorrowViewStoryProps {
     symbol: TokenSymbol
     borrowRate: Percentage
   }
+  riskAcknowledgement?: RiskAcknowledgementInfo
+  actionsEnabled?: boolean
 }
 
 function EasyBorrowViewStory(props: EasyBorrowViewStoryProps) {
@@ -49,6 +50,8 @@ function EasyBorrowViewStory(props: EasyBorrowViewStoryProps) {
     actions,
     guestMode,
     assetToBorrow,
+    riskAcknowledgement: _riskAcknowledgement,
+    actionsEnabled = true,
   } = props
   const form = useForm<EasyBorrowFormSchema>({
     defaultValues: {
@@ -74,6 +77,11 @@ function EasyBorrowViewStory(props: EasyBorrowViewStoryProps) {
     changeAsset: () => {},
   }
 
+  const riskAcknowledgement = _riskAcknowledgement ?? {
+    onStatusChange: () => {},
+    warning: undefined,
+  }
+
   /* eslint-disable func-style */
   const setDesiredLoanToValue = () => {}
   const openConnectModal = () => {}
@@ -81,6 +89,7 @@ function EasyBorrowViewStory(props: EasyBorrowViewStoryProps) {
   /* eslint-enable func-style */
 
   const pageStatus = {
+    actionsEnabled,
     state: pageState,
     onProceedToForm: () => {},
     goToSuccessScreen: () => {},
@@ -104,6 +113,7 @@ function EasyBorrowViewStory(props: EasyBorrowViewStoryProps) {
       openConnectModal={openConnectModal}
       openSandboxModal={openSandboxModal}
       healthFactorPanelRef={healthFactorPanelRef}
+      riskAcknowledgement={riskAcknowledgement}
     />
   )
 }
@@ -333,8 +343,8 @@ const depositErc20ActionArgs: Partial<EasyBorrowViewStoryProps> = {
   updatedPositionSummary: {
     availableBorrowsUSD: NormalizedUnitNumber(2000),
     currentLiquidationThreshold: Percentage(0.8),
-    loanToValue: Percentage(0.5),
-    healthFactor: new BigNumber(1.5),
+    loanToValue: Percentage(0.75),
+    healthFactor: new BigNumber(1.1),
     maxLoanToValue: Percentage(0.8),
     totalBorrowsUSD: NormalizedUnitNumber(10),
     totalCollateralUSD: NormalizedUnitNumber(2000),
@@ -354,6 +364,11 @@ const depositErc20ActionArgs: Partial<EasyBorrowViewStoryProps> = {
       debtTokenAddress: CheckedAddress(zeroAddress),
     },
   ],
+  riskAcknowledgement: {
+    onStatusChange: () => {},
+    warning: { type: 'liquidation-warning-borrow' },
+  },
+  actionsEnabled: false,
 }
 
 export const DepositErc20ActionDesktop: Story = {

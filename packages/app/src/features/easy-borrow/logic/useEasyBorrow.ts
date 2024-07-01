@@ -1,6 +1,8 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { TokenWithValue } from '@/domain/common/types'
 import { useConditionalFreeze } from '@/domain/hooks/useConditionalFreeze'
+import { RiskAcknowledgementInfo } from '@/domain/liquidation-risk-warning/types'
+import { useLiquidationRiskWarning } from '@/domain/liquidation-risk-warning/useLiquidationRiskWarning'
 import { useAaveDataLayer } from '@/domain/market-info/aave-data-layer/useAaveDataLayer'
 import { EPOCH_LENGTH } from '@/domain/market-info/consts'
 import { LiquidationDetails } from '@/domain/market-info/getLiquidationDetails'
@@ -47,6 +49,7 @@ export interface UseEasyBorrowResults {
   alreadyDeposited: ExistingPosition
   alreadyBorrowed: ExistingPosition
   liquidationDetails?: LiquidationDetails
+  riskAcknowledgement: RiskAcknowledgementInfo
 
   assetToBorrow: {
     symbol: TokenSymbol
@@ -165,7 +168,7 @@ export function useEasyBorrow(): UseEasyBorrowResults {
     borrowRate: marketInfo.findOneReserveBySymbol(defaultAssetToBorrow).variableBorrowApy ?? raise('No borrow rate'),
   }
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies:
   useEffect(
     function revalidateFormOnNetworkChange() {
       easyBorrowForm.trigger().catch(console.error)
@@ -182,6 +185,13 @@ export function useEasyBorrow(): UseEasyBorrowResults {
     openDialog(SandboxDialog, { mode: 'ephemeral' } as const)
   }
 
+  const { riskAcknowledgement, disableActionsByRisk } = useLiquidationRiskWarning({
+    type: 'liquidation-warning-borrow',
+    isFormValid: easyBorrowForm.formState.isValid,
+    currentHealthFactor: marketInfo.userPositionSummary.healthFactor,
+    updatedHealthFactor: updatedUserSummary.healthFactor,
+  })
+
   return {
     form: easyBorrowForm,
     updatedPositionSummary: updatedUserSummary,
@@ -196,6 +206,7 @@ export function useEasyBorrow(): UseEasyBorrowResults {
       })
     },
     pageStatus: {
+      actionsEnabled: !disableActionsByRisk,
       state: pageStatus,
       onProceedToForm: () => setPageStatus('form'),
       goToSuccessScreen: () => setPageStatus('success'),
@@ -211,5 +222,6 @@ export function useEasyBorrow(): UseEasyBorrowResults {
     guestMode,
     openSandboxModal,
     healthFactorPanelRef,
+    riskAcknowledgement,
   }
 }
