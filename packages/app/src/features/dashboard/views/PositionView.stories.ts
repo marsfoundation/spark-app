@@ -124,18 +124,22 @@ const meta: Meta<typeof PositionView> = {
         {
           token: tokens.ETH,
           value: NormalizedUnitNumber(132.28),
+          detailsLink: '',
         },
         {
           token: tokens.USDC,
           value: NormalizedUnitNumber(90000),
+          detailsLink: '',
         },
         {
           token: tokens.stETH,
           value: NormalizedUnitNumber(34.21),
+          detailsLink: '',
         },
         {
           token: tokens.DAI,
           value: NormalizedUnitNumber(50000),
+          detailsLink: '',
         },
       ],
       chainId: 1,

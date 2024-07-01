@@ -56,6 +56,7 @@ export interface ChainConfigEntry {
   lifiRoutesWithWaivedFees: LifiWaivedRoutes
   daiSymbol: TokenSymbol
   sDaiSymbol: TokenSymbol
+  mergedDaiAndSDaiMarkets: boolean
   savingsNativeRouteTokens: SavingsNativeRouteTokens
 }
 

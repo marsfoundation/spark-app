@@ -6,6 +6,7 @@ import { withRouter } from 'storybook-addon-remix-react-router'
 
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 
+import { AssetsTableRow } from './AssetTable'
 import { WalletComposition } from './WalletComposition'
 
 const meta: Meta<typeof WalletComposition> = {
@@ -13,7 +14,6 @@ const meta: Meta<typeof WalletComposition> = {
   component: WalletComposition,
   decorators: [withRouter, WithClassname('max-w-5xl'), WithTooltipProvider()],
   args: {
-    chainId: 1,
     hasCollaterals: true,
     includeDeposits: true,
     setIncludeDeposits: () => {},
@@ -23,38 +23,46 @@ const meta: Meta<typeof WalletComposition> = {
 export default meta
 type Story = StoryObj<typeof WalletComposition>
 
-const assets = [
+const assets: AssetsTableRow[] = [
   {
     token: tokens.ETH,
     value: NormalizedUnitNumber(132.28),
+    detailsLink: '',
   },
   {
     token: tokens.stETH,
     value: NormalizedUnitNumber(48.32),
+    detailsLink: '',
   },
   {
     token: tokens.USDC,
     value: NormalizedUnitNumber(90000),
+    detailsLink: '',
   },
   {
     token: tokens.WBTC,
     value: NormalizedUnitNumber(2),
+    detailsLink: '',
   },
   {
     token: tokens.sDAI,
     value: NormalizedUnitNumber(50000),
+    detailsLink: '',
   },
   {
     token: tokens.DAI,
     value: NormalizedUnitNumber(50000),
+    detailsLink: '',
   },
   {
     token: tokens.MKR,
     value: NormalizedUnitNumber(15),
+    detailsLink: '',
   },
   {
     token: tokens.USDT,
     value: NormalizedUnitNumber(7000),
+    detailsLink: '',
   },
 ]
 
