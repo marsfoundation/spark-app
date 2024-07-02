@@ -14,4 +14,5 @@ export interface SendModeExtension {
   receiverForm: UseFormReturn<ReceiverFormSchema>
   receiver: Address
   blockExplorerAddressLink?: string
+  enableActions: boolean
 }

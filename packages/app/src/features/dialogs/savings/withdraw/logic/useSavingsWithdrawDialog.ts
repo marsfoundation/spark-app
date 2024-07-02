@@ -15,7 +15,7 @@ import { useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
 import { useChainId } from 'wagmi'
 import { SavingsDialogTxOverview } from '../../common/types'
-import { Mode, ReceiverFormSchema, SendModeExtension } from '../types'
+import { Mode, SendModeExtension } from '../types'
 import { createMakerTxOverview, createTxOverview } from './createTxOverview'
 import { generateWarning } from './generateWarning'
 import { getFormFieldsForWithdrawDialog } from './getFormFieldsForWithdrawDialog'
@@ -61,11 +61,6 @@ export function useSavingsWithdrawDialog(mode: Mode): UseSavingsWithdrawDialogRe
       value: '',
       isMaxSelected: false,
     },
-    mode: 'onChange',
-  })
-
-  // @todo: Debounce receiver form
-  const receiverForm = useForm<ReceiverFormSchema>({
     mode: 'onChange',
   })
 
@@ -126,13 +121,13 @@ export function useSavingsWithdrawDialog(mode: Mode): UseSavingsWithdrawDialogRe
   })
   const [riskAcknowledged, setRiskAcknowledged] = useState(false)
 
+  const sendModeExtension = useSendModeExtension({ mode })
+
   const actionsEnabled =
     ((formValues.value.gt(0) && isFormValid) || formValues.isMaxSelected) &&
     !isDebouncing &&
     (!warning || riskAcknowledged) &&
-    (mode === 'send' ? receiverForm.formState.isValid : true)
-
-  const sendModeExtension = useSendModeExtension({ mode, receiverForm })
+    (sendModeExtension?.enableActions ?? true)
 
   return {
     selectableAssets: withdrawOptions,
