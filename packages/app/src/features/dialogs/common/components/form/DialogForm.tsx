@@ -49,7 +49,10 @@ export function DialogForm({
         <Form {...sendModeOptions.receiverForm}>
           <div className="mt-2 mb-3">
             <DialogPanelTitle>Sent to</DialogPanelTitle>
-            <ControlledAddressInput form={sendModeOptions.receiverForm} />
+            <ControlledAddressInput
+              form={sendModeOptions.receiverForm}
+              blockExplorerUrl={sendModeOptions.blockExplorerAddressLink}
+            />
           </div>
         </Form>
       )}

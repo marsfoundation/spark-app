@@ -4,9 +4,10 @@ import { AddressInput } from './AddressInput'
 
 interface ControlledAddressInputProps {
   form: UseFormReturn<ReceiverFormSchema>
+  blockExplorerUrl: string | undefined
 }
 
-export function ControlledAddressInput({ form }: ControlledAddressInputProps) {
+export function ControlledAddressInput({ form, blockExplorerUrl }: ControlledAddressInputProps) {
   return (
     <Controller
       control={form.control}
@@ -16,6 +17,7 @@ export function ControlledAddressInput({ form }: ControlledAddressInputProps) {
           {...field}
           value={field.value}
           error={form.formState.errors.receiver?.message}
+          blockExplorerUrl={blockExplorerUrl}
           onChange={field.onChange}
         />
       )}

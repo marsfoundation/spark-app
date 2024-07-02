@@ -9,7 +9,15 @@ export interface UseSendModeOptionsParams {
 
 export function useSendModeOptions({ mode, receiverForm }: UseSendModeOptionsParams): SendModeOptions | undefined {
   const receiver = receiverForm.watch('receiver')
+  const isFormValid = receiverForm.formState.isValid
   const blockExplorerAddressLink = useBlockExplorerAddressLink(receiver)
 
-  return mode === 'send' ? { isSendMode: true, receiverForm, receiver, blockExplorerAddressLink } : undefined
+  return mode === 'send'
+    ? {
+        isSendMode: true,
+        receiverForm,
+        receiver,
+        blockExplorerAddressLink: isFormValid ? blockExplorerAddressLink : undefined,
+      }
+    : undefined
 }
