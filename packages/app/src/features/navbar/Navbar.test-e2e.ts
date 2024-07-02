@@ -75,6 +75,11 @@ test.describe('Navbar', () => {
   })
 
   test.describe('Rewards badge', () => {
+    const fork = setupFork({
+      blockNumber: 20189272n, // block number where the reward program is finished
+      chainId: mainnet.id,
+    })
+
     test('Displays total rewards in badge', async ({ page }) => {
       await setup(page, fork, {
         initialPage: 'easyBorrow',
