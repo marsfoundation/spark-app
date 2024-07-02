@@ -48,6 +48,7 @@ import sdai from './tokens/sdai.svg'
 import steth from './tokens/steth.svg'
 import unknown from './tokens/unknown.svg'
 import usdc from './tokens/usdc.svg'
+import usdce from './tokens/usdce.svg'
 import usdt from './tokens/usdt.svg'
 import wbtc from './tokens/wbtc.svg'
 import weeth from './tokens/weeth.svg'
@@ -133,6 +134,7 @@ export const assets = {
     xdai,
     eure,
     weeth,
+    ['usdc.e']: usdce,
     unknown,
   },
   walletIcons: {
