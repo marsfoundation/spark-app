@@ -10,8 +10,7 @@ export const ReceiverFormSchema = z.object({
 })
 export type ReceiverFormSchema = z.infer<typeof ReceiverFormSchema>
 
-export interface SendModeOptions {
-  isSendMode: true
+export interface SendModeExtension {
   receiverForm: UseFormReturn<ReceiverFormSchema>
   receiver: Address
   blockExplorerAddressLink?: string

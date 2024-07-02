@@ -1,6 +1,6 @@
 import { TokenWithBalance } from '@/domain/common/types'
 import { ControlledAddressInput } from '@/features/dialogs/savings/withdraw/components/form/ControlledAddressInput'
-import { SendModeOptions } from '@/features/dialogs/savings/withdraw/types'
+import { SendModeExtension } from '@/features/dialogs/savings/withdraw/types'
 import { Form } from '@/ui/atoms/form/Form'
 import { AssetInputProps } from '@/ui/molecules/asset-input/AssetInput'
 import { AssetSelectorWithInput } from '@/ui/organisms/asset-selector-with-input/AssetSelectorWithInput'
@@ -15,7 +15,7 @@ export interface DialogFormProps {
   form: UseFormReturn<AssetInputSchema>
   variant?: AssetInputProps['variant']
   walletIconLabel?: string
-  sendModeOptions?: SendModeOptions
+  sendModeExtension?: SendModeExtension
 }
 
 export function DialogForm({
@@ -24,7 +24,7 @@ export function DialogForm({
   form,
   variant,
   walletIconLabel,
-  sendModeOptions,
+  sendModeExtension,
 }: DialogFormProps) {
   const { selectedAsset, changeAsset, maxSelectedFieldName, maxValue } = assetsFields
 
@@ -45,13 +45,13 @@ export function DialogForm({
           walletIconLabel={walletIconLabel}
         />
       </Form>
-      {sendModeOptions?.isSendMode && (
-        <Form {...sendModeOptions.receiverForm}>
+      {sendModeExtension && (
+        <Form {...sendModeExtension.receiverForm}>
           <div className="mt-2 mb-3">
             <DialogPanelTitle>Sent to</DialogPanelTitle>
             <ControlledAddressInput
-              form={sendModeOptions.receiverForm}
-              blockExplorerUrl={sendModeOptions.blockExplorerAddressLink}
+              form={sendModeExtension.receiverForm}
+              blockExplorerUrl={sendModeExtension.blockExplorerAddressLink}
             />
           </div>
         </Form>

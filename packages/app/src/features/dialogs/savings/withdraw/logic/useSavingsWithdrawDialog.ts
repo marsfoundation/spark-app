@@ -15,12 +15,12 @@ import { useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
 import { useChainId } from 'wagmi'
 import { SavingsDialogTxOverview } from '../../common/types'
-import { Mode, ReceiverFormSchema, SendModeOptions } from '../types'
+import { Mode, ReceiverFormSchema, SendModeExtension } from '../types'
 import { createMakerTxOverview, createTxOverview } from './createTxOverview'
 import { generateWarning } from './generateWarning'
 import { getFormFieldsForWithdrawDialog } from './getFormFieldsForWithdrawDialog'
 import { createObjectives } from './objectives'
-import { useSendModeOptions } from './useSendModeOptions'
+import { useSendModeExtension } from './useSendModeExtension'
 import { useWithdrawFromSavings } from './useWithdrawFromSavings'
 import { getSavingsWithdrawDialogFormValidator } from './validation'
 
@@ -33,7 +33,7 @@ export interface UseSavingsWithdrawDialogResults {
   pageStatus: PageStatus
   txOverview: SavingsDialogTxOverview
   riskAcknowledgement: RiskAcknowledgementInfo
-  sendModeOptions?: SendModeOptions
+  sendModeExtension?: SendModeExtension
 }
 
 export function useSavingsWithdrawDialog(mode: Mode): UseSavingsWithdrawDialogResults {
@@ -47,7 +47,7 @@ export function useSavingsWithdrawDialog(mode: Mode): UseSavingsWithdrawDialogRe
 
   const { assets: withdrawOptions } = makeAssetsInWalletList({
     walletInfo,
-    nativeRoutesOptions: { useNativeRoutes: mode === 'send', chainId },
+    nativeRouteOptions: { shouldFilterNativeRoutes: mode === 'send', chainId },
   })
   const sDaiWithBalance: TokenWithBalance = {
     token: marketInfo.sDAI,
@@ -132,7 +132,7 @@ export function useSavingsWithdrawDialog(mode: Mode): UseSavingsWithdrawDialogRe
     (!warning || riskAcknowledged) &&
     (mode === 'send' ? receiverForm.formState.isValid : true)
 
-  const sendModeOptions = useSendModeOptions({ mode, receiverForm })
+  const sendModeExtension = useSendModeExtension({ mode, receiverForm })
 
   return {
     selectableAssets: withdrawOptions,
@@ -150,6 +150,6 @@ export function useSavingsWithdrawDialog(mode: Mode): UseSavingsWithdrawDialogRe
       onStatusChange: setRiskAcknowledged,
       warning,
     },
-    sendModeOptions,
+    sendModeExtension,
   }
 }

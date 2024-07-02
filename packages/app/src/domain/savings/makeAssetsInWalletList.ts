@@ -8,8 +8,8 @@ export const whitelistedAssets = ['DAI', 'USDC', 'USDT', 'XDAI']
 
 export interface MakeAssetsInWalletListParams {
   walletInfo: WalletInfo
-  nativeRoutesOptions?: {
-    useNativeRoutes: boolean
+  nativeRouteOptions?: {
+    shouldFilterNativeRoutes: boolean
     chainId: number
   }
 }
@@ -22,11 +22,11 @@ export interface MakeAssetsInWalletListResults {
 
 export function makeAssetsInWalletList({
   walletInfo,
-  nativeRoutesOptions,
+  nativeRouteOptions,
 }: MakeAssetsInWalletListParams): MakeAssetsInWalletListResults {
   let assets = walletInfo.walletBalances.filter(({ token }) => whitelistedAssets.includes(token.symbol))
-  if (nativeRoutesOptions?.useNativeRoutes) {
-    const nativeRouteTokens = getChainConfigEntry(nativeRoutesOptions.chainId).savingsNativeRouteTokens
+  if (nativeRouteOptions?.shouldFilterNativeRoutes) {
+    const nativeRouteTokens = getChainConfigEntry(nativeRouteOptions.chainId).savingsNativeRouteTokens
     assets = assets.filter(({ token }) => nativeRouteTokens.includes(token.symbol))
   }
   const totalUSD = NormalizedUnitNumber(
