@@ -11,6 +11,7 @@ import { Token } from '@/domain/types/Token'
 import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
 import { Objective } from '@/features/actions/logic/types'
 
+import { useConditionalFreeze } from '@/domain/hooks/useConditionalFreeze'
 import { EPOCH_LENGTH } from '@/domain/market-info/consts'
 import { AssetInputSchema, DialogFormNormalizedData, useDebouncedDialogFormValues } from '../../common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '../../common/types'
@@ -78,10 +79,13 @@ export function useRepayDialog({ initialToken }: UseRepayDialogOptions): UseRepa
     marketInfo,
     walletInfo,
   })
-  const repaymentAsset: DialogFormNormalizedData = {
-    ...formValues,
-    value: formValues.isMaxSelected ? repayMaxValue : formValues.value,
-  }
+  const repaymentAsset: DialogFormNormalizedData = useConditionalFreeze(
+    {
+      ...formValues,
+      value: formValues.isMaxSelected ? repayMaxValue : formValues.value,
+    },
+    pageStatus === 'success',
+  )
 
   const assetsToRepayFields = getFormFieldsForRepayDialog({
     form,
