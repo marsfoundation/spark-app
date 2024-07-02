@@ -68,6 +68,7 @@ export interface getReceiverFormValidatorParams {
   reserveAddresses: CheckedAddress[]
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function getReceiverFormValidator({ account, reserveAddresses }: getReceiverFormValidatorParams) {
   return ReceiverFormSchema.superRefine((field, ctx) => {
     const receiver = field.receiver
