@@ -1,10 +1,10 @@
-import { describe } from 'vitest'
+import { describe, test } from 'vitest'
 
 import { NormalizedUnitNumber } from '../types/NumericValues'
 import { getRepayMaxValue } from './getRepayMaxValue'
 
 describe(getRepayMaxValue.name, () => {
-  it('returns 0 for paused reserve', () => {
+  test('returns 0 for paused reserve', () => {
     expect(
       getRepayMaxValue({
         user: {
@@ -13,12 +13,16 @@ describe(getRepayMaxValue.name, () => {
         },
         asset: {
           status: 'paused',
+          isNativeAsset: false,
+        },
+        chain: {
+          minRemainingNativeAsset: NormalizedUnitNumber(0),
         },
       }),
     ).toEqual(NormalizedUnitNumber(0))
   })
 
-  it('returns 0 when no debt', () => {
+  test('returns 0 when no debt', () => {
     expect(
       getRepayMaxValue({
         user: {
@@ -27,12 +31,16 @@ describe(getRepayMaxValue.name, () => {
         },
         asset: {
           status: 'active',
+          isNativeAsset: false,
+        },
+        chain: {
+          minRemainingNativeAsset: NormalizedUnitNumber(0),
         },
       }),
     ).toEqual(NormalizedUnitNumber(0))
   })
 
-  it('returns 0 when no balance', () => {
+  test('returns 0 when no balance', () => {
     expect(
       getRepayMaxValue({
         user: {
@@ -41,12 +49,16 @@ describe(getRepayMaxValue.name, () => {
         },
         asset: {
           status: 'active',
+          isNativeAsset: false,
+        },
+        chain: {
+          minRemainingNativeAsset: NormalizedUnitNumber(0),
         },
       }),
     ).toEqual(NormalizedUnitNumber(0))
   })
 
-  it('returns debt when balance is greater', () => {
+  test('returns debt when balance is greater', () => {
     expect(
       getRepayMaxValue({
         user: {
@@ -55,12 +67,16 @@ describe(getRepayMaxValue.name, () => {
         },
         asset: {
           status: 'active',
+          isNativeAsset: false,
+        },
+        chain: {
+          minRemainingNativeAsset: NormalizedUnitNumber(0),
         },
       }),
     ).toEqual(NormalizedUnitNumber(100))
   })
 
-  it('returns balance when debt is greater', () => {
+  test('returns balance when debt is greater', () => {
     expect(
       getRepayMaxValue({
         user: {
@@ -69,8 +85,30 @@ describe(getRepayMaxValue.name, () => {
         },
         asset: {
           status: 'active',
+          isNativeAsset: false,
+        },
+        chain: {
+          minRemainingNativeAsset: NormalizedUnitNumber(0),
         },
       }),
     ).toEqual(NormalizedUnitNumber(100))
+  })
+
+  test('leaves some native asset when returning balance', () => {
+    expect(
+      getRepayMaxValue({
+        user: {
+          debt: NormalizedUnitNumber(200),
+          balance: NormalizedUnitNumber(100),
+        },
+        asset: {
+          status: 'active',
+          isNativeAsset: true,
+        },
+        chain: {
+          minRemainingNativeAsset: NormalizedUnitNumber(0.01),
+        },
+      }),
+    ).toEqual(NormalizedUnitNumber(99.99))
   })
 })

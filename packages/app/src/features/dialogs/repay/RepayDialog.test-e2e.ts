@@ -562,5 +562,33 @@ test.describe('Repay dialog', () => {
       await dashboardPage.expectBorrowedAssetsToBeEmpty()
       await screenshot(page, 'repay-dialog-nothing-to-repay')
     })
+
+    test('when repaying native asset leave retain some in wallet', async ({ page }) => {
+      const dashboardPage = new DashboardPageObject(page)
+      await dashboardPage.clickBorrowButtonAction('WETH')
+
+      const borrowDialog = new DialogPageObject(page, /Borrow */)
+      await borrowDialog.selectAssetAction('ETH')
+      await borrowDialog.fillAmountAction(5)
+      const borrowActionsContainer = new ActionsPageObject(borrowDialog.locatePanelByHeader('Actions'))
+      await borrowActionsContainer.acceptAllActionsAction(2)
+      await borrowDialog.viewInDashboardAction()
+      await dashboardPage.expectBorrowTable({ WETH: 5 })
+
+      await dashboardPage.clickRepayButtonAction('WETH')
+      const repayDialog = new DialogPageObject(page, headerRegExp)
+      await repayDialog.selectAssetAction('ETH')
+      const repayActionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
+      // wait for select to switch to ETH
+      await repayActionsContainer.expectActions([
+        {
+          type: 'repay',
+          asset: 'ETH',
+        },
+      ])
+      await repayDialog.clickMaxAmountAction()
+
+      await repayDialog.expectInputValue('4.999')
+    })
   })
 })

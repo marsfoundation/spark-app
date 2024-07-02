@@ -147,7 +147,7 @@ export class MarketInfo {
     public readonly timestamp: number,
     public readonly chainId: number,
     public readonly userRewards: UserReward[],
-    private readonly nativeAssetInfo: NativeAssetInfo,
+    public readonly nativeAssetInfo: NativeAssetInfo,
   ) {
     const wrappedNativeAssetPosition =
       userPositions.find((p) => p.reserve.token.symbol === nativeAssetInfo.wrappedNativeAssetSymbol) ??
