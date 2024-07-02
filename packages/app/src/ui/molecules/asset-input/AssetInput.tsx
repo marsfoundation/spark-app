@@ -17,7 +17,7 @@ export type AssetInputProps = {
   className?: string | undefined
   onRemove?: () => void
   setMax?: () => void
-  isMaxSelected?: boolean
+  showMaxPlaceholder?: boolean
   balance?: NormalizedUnitNumber
   disabled?: boolean
   error?: string
@@ -40,7 +40,7 @@ export const AssetInput = forwardRef<HTMLInputElement, AssetInputProps>(
       onChange,
       variant = 'crypto',
       walletIconLabel,
-      isMaxSelected,
+      showMaxPlaceholder,
       ...rest
     },
     ref,
@@ -67,7 +67,7 @@ export const AssetInput = forwardRef<HTMLInputElement, AssetInputProps>(
               id="asset-input"
               disabled={disabled}
               size={1} // force minimum width
-              value={isMaxSelected ? MAX_VALUE_PLACEHOLDER : value}
+              value={showMaxPlaceholder ? MAX_VALUE_PLACEHOLDER : value}
               {...rest}
               onChange={(e) => {
                 if (e.target.value === MAX_VALUE_PLACEHOLDER.slice(0, -1)) {

@@ -62,6 +62,7 @@ interface ControlledMultiSelectorAssetInputProps {
   token: Token
   max?: NormalizedUnitNumber
   maxSelectedFieldName?: string
+  showMaxPlaceholder?: boolean
   onRemove?: () => void
   balance?: NormalizedUnitNumber
   disabled?: boolean
@@ -79,6 +80,7 @@ export function ControlledMultiSelectorAssetInput({
   balance,
   max,
   maxSelectedFieldName,
+  showMaxPlaceholder,
   showError,
   variant,
   walletIconLabel,
@@ -98,21 +100,21 @@ export function ControlledMultiSelectorAssetInput({
               setValue(fieldName, formFormat(max, token.decimals), {
                 shouldValidate: true,
               })
-            }
-          : undefined
-
-        const setMaxSelectedField = maxSelectedFieldName
-          ? () => {
-              setValue(maxSelectedFieldName, !isMaxSelected, {
-                shouldValidate: true,
-              })
-              if (!isMaxSelected) {
-                setValue(fieldName, '', {
+              if (maxSelectedFieldName) {
+                setValue(maxSelectedFieldName, !isMaxSelected, {
                   shouldValidate: true,
                 })
               }
             }
-          : undefined
+          : showMaxPlaceholder
+            ? () => {
+                if (maxSelectedFieldName) {
+                  setValue(maxSelectedFieldName, !isMaxSelected, {
+                    shouldValidate: true,
+                  })
+                }
+              }
+            : undefined
 
         return (
           <AssetInput
@@ -124,8 +126,8 @@ export function ControlledMultiSelectorAssetInput({
             disabled={disabled}
             variant={variant}
             walletIconLabel={walletIconLabel}
-            setMax={setMaxValue ?? setMaxSelectedField}
-            isMaxSelected={maxSelectedFieldName && isMaxSelected}
+            setMax={setMaxValue}
+            showMaxPlaceholder={maxSelectedFieldName && isMaxSelected && showMaxPlaceholder}
             onChange={(e) => {
               field.onChange(e)
               if (maxSelectedFieldName) {

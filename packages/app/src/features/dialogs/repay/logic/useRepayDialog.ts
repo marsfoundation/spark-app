@@ -4,7 +4,6 @@ import { UseFormReturn, useForm } from 'react-hook-form'
 
 import { getNativeAssetInfo } from '@/config/chain/utils/getNativeAssetInfo'
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
-import { useConditionalFreeze } from '@/domain/hooks/useConditionalFreeze'
 import { useAaveDataLayer } from '@/domain/market-info/aave-data-layer/useAaveDataLayer'
 import { updatePositionSummary } from '@/domain/market-info/updatePositionSummary'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
@@ -13,12 +12,12 @@ import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
 import { Objective } from '@/features/actions/logic/types'
 
 import { EPOCH_LENGTH } from '@/domain/market-info/consts'
-import { AssetInputSchema, useDebouncedDialogFormValues } from '../../common/logic/form'
+import { AssetInputSchema, DialogFormNormalizedData, useDebouncedDialogFormValues } from '../../common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '../../common/types'
 import { getRepayOptions, getTokenDebt } from './assets'
+import { extractRepayMaxValueFromForm } from './extractRepayMaxValueFromForm'
 import { getFormFieldsForRepayDialog, getRepayDialogFormValidator } from './form'
 import { makeUpdatedPositionOverview } from './positionOverview'
-import { processRepaymentAsset } from './processRepaymentAsset'
 import { PositionOverview } from './types'
 import { useCreateRepayObjectives } from './useCreateRepayObjectives'
 
@@ -74,16 +73,22 @@ export function useRepayDialog({ initialToken }: UseRepayDialogOptions): UseRepa
     form,
     marketInfo,
   })
+  const repayMaxValue = extractRepayMaxValueFromForm({
+    formValues,
+    marketInfo,
+    walletInfo,
+  })
+  const repaymentAsset: DialogFormNormalizedData = {
+    ...formValues,
+    value: formValues.isMaxSelected ? repayMaxValue : formValues.value,
+  }
 
-  const repaymentAsset = useConditionalFreeze(
-    processRepaymentAsset({
-      formValues,
-      marketInfo,
-      walletInfo,
-    }),
-    pageStatus === 'success',
-  )
-  const assetsToRepayFields = getFormFieldsForRepayDialog(form, marketInfo, walletInfo)
+  const assetsToRepayFields = getFormFieldsForRepayDialog({
+    form,
+    marketInfo,
+    walletInfo,
+    repayMaxValue,
+  })
   const debt = getTokenDebt(marketInfo, repaymentAsset)
   const objectives = useCreateRepayObjectives({
     repaymentAsset,

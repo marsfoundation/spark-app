@@ -31,6 +31,7 @@ export interface UseSavingsWithdrawDialogResults {
   pageStatus: PageStatus
   txOverview: SavingsDialogTxOverview
   riskAcknowledgement: RiskAcknowledgementInfo
+  showMaxPlaceholderInInput: boolean
 }
 
 export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
@@ -136,5 +137,6 @@ export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
       onStatusChange: setRiskAcknowledged,
       warning,
     },
+    showMaxPlaceholderInInput: !useNativeRoutes,
   }
 }
