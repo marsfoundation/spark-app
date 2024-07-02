@@ -42,13 +42,14 @@ function useDebouncedReceiverFormValues(marketInfo: MarketInfo): UseDebouncedRec
     resolver: zodResolver(
       getReceiverFormValidator({ account, reserveAddresses: marketInfo.reserves.map((r) => r.token.address) }),
     ),
+    defaultValues: { receiver: '' },
     mode: 'onChange',
   })
 
   const rawReceiver = receiverForm.watch('receiver')
   const { debouncedValue, isDebouncing } = useDebounce({ receiverForm, rawReceiver }, rawReceiver)
   const isFormValid = debouncedValue.receiverForm.formState.isValid
-  const receiver = isFormValid ? CheckedAddress(debouncedValue.rawReceiver as Address) : undefined
+  const receiver = isFormValid && !isDebouncing ? CheckedAddress(debouncedValue.rawReceiver as Address) : undefined
 
   return {
     receiverForm: debouncedValue.receiverForm,
