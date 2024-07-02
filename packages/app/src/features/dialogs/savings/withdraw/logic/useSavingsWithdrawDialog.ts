@@ -43,7 +43,7 @@ export function useSavingsWithdrawDialog(mode: Mode): UseSavingsWithdrawDialogRe
   const walletInfo = useWalletInfo()
   const chainId = useChainId()
 
-  const [pageStatus, setPageStatus] = useState<PageState>('form')
+  const [pageState, setPageState] = useState<PageState>('form')
 
   const { assets: withdrawOptions } = makeAssetsInWalletList({
     walletInfo,
@@ -110,7 +110,7 @@ export function useSavingsWithdrawDialog(mode: Mode): UseSavingsWithdrawDialogRe
       token: formValues.token,
       value: txOverview.status === 'success' ? txOverview.outTokenAmount : formValues.value,
     },
-    pageStatus === 'success',
+    pageState === 'success',
   )
 
   const { warning } = generateWarning({
@@ -136,9 +136,9 @@ export function useSavingsWithdrawDialog(mode: Mode): UseSavingsWithdrawDialogRe
     objectives,
     tokenToWithdraw,
     pageStatus: {
-      state: pageStatus,
+      state: pageState,
       actionsEnabled,
-      goToSuccessScreen: () => setPageStatus('success'),
+      goToSuccessScreen: () => setPageState('success'),
     },
     txOverview,
     riskAcknowledgement: {

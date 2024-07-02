@@ -10,20 +10,16 @@ import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 import { Typography } from '@/ui/atoms/typography/Typography'
 import { shortenAddress } from '@/ui/utils/shortenAddress'
 import { testIds } from '@/ui/utils/testIds'
-import { Address } from 'viem'
+import { SendModeExtension } from '../types'
 
 export interface SuccessViewProps {
   tokenToWithdraw: TokenWithValue
   closeDialog: () => void
-  sendModeOptions?: {
-    isSendMode: true
-    receiverAddress: Address
-    blockExplorerAddressLink: string | undefined
-  }
+  sendModeExtension?: SendModeExtension
 }
-export function SuccessView({ tokenToWithdraw, closeDialog, sendModeOptions }: SuccessViewProps) {
+export function SuccessView({ tokenToWithdraw, closeDialog, sendModeExtension }: SuccessViewProps) {
   const { token, value } = tokenToWithdraw
-  const panelTitle = sendModeOptions?.isSendMode ? 'Sent' : 'Withdrew'
+  const panelTitle = sendModeExtension ? 'Sent' : 'Withdrew'
 
   return (
     <SuccessViewContent>
@@ -43,14 +39,14 @@ export function SuccessView({ tokenToWithdraw, closeDialog, sendModeOptions }: S
               </Typography>
             </div>
           </div>
-          {sendModeOptions?.isSendMode && (
+          {sendModeExtension?.receiver && (
             <div className="flex items-center justify-between border-basics-border border-t py-4">
               <Typography>Recipient</Typography>
               <Typography variant="prompt" className="flex gap-1.5 text-sm">
-                {shortenAddress(sendModeOptions.receiverAddress, { startLength: 16 })}
-                {sendModeOptions.blockExplorerAddressLink && (
+                {shortenAddress(sendModeExtension.receiver, { startLength: 16 })}
+                {sendModeExtension.blockExplorerAddressLink && (
                   <Link
-                    to={sendModeOptions.blockExplorerAddressLink}
+                    to={sendModeExtension.blockExplorerAddressLink}
                     external
                     className="flex items-center gap-2.5 font-medium text-basics-dark-grey text-sm"
                   >
