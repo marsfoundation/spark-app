@@ -35,6 +35,7 @@ const meta: Meta<typeof SavingsDepositView> = {
         balance: NormalizedUnitNumber(50000),
         value: '2000',
       },
+      maxValue: NormalizedUnitNumber(5000),
       changeAsset: () => {},
     },
     objectives: [
@@ -124,6 +125,7 @@ export const DesktopMaker: Story = {
         balance: NormalizedUnitNumber(50000),
         value: '2000',
       },
+      maxValue: NormalizedUnitNumber(5000),
       changeAsset: () => {},
     },
     txOverview: {
