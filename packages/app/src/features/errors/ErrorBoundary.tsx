@@ -32,10 +32,6 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       return this.props.children
     }
 
-    if (!this.props.fallback) {
-      throw this.state.error
-    }
-
     if (typeof this.props.fallback === 'function') {
       return this.props.fallback({ error: this.state.error })
     }
