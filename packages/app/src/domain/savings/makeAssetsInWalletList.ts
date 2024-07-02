@@ -1,3 +1,4 @@
+import { getChainConfigEntry } from '@/config/chain'
 import { TokenWithBalance } from '@/domain/common/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { WalletInfo } from '@/domain/wallet/useWalletInfo'
@@ -7,6 +8,10 @@ export const whitelistedAssets = ['DAI', 'USDC', 'USDT', 'XDAI']
 
 export interface MakeAssetsInWalletListParams {
   walletInfo: WalletInfo
+  nativeRoutesOptions?: {
+    useNativeRoutes: boolean
+    chainId: number
+  }
 }
 
 export interface MakeAssetsInWalletListResults {
@@ -15,8 +20,15 @@ export interface MakeAssetsInWalletListResults {
   totalUSD: NormalizedUnitNumber
 }
 
-export function makeAssetsInWalletList({ walletInfo }: MakeAssetsInWalletListParams): MakeAssetsInWalletListResults {
-  const assets = walletInfo.walletBalances.filter(({ token }) => whitelistedAssets.includes(token.symbol))
+export function makeAssetsInWalletList({
+  walletInfo,
+  nativeRoutesOptions,
+}: MakeAssetsInWalletListParams): MakeAssetsInWalletListResults {
+  let assets = walletInfo.walletBalances.filter(({ token }) => whitelistedAssets.includes(token.symbol))
+  if (nativeRoutesOptions?.useNativeRoutes) {
+    const nativeRouteTokens = getChainConfigEntry(nativeRoutesOptions.chainId).savingsNativeRouteTokens
+    assets = assets.filter(({ token }) => nativeRouteTokens.includes(token.symbol))
+  }
   const totalUSD = NormalizedUnitNumber(
     assets.reduce((acc, { token, balance }) => acc.plus(token.toUSD(balance)), bigNumberify('0')),
   )
