@@ -1,15 +1,16 @@
 import { withSuspense } from '@/ui/utils/withSuspense'
-
 import { DialogContentSkeleton } from '../../common/components/skeletons/DialogContentSkeleton'
 import { SuccessView } from '../../common/views/SuccessView'
 import { useSavingsWithdrawDialog } from './logic/useSavingsWithdrawDialog'
+import { Mode } from './types'
 import { SavingsWithdrawView } from './views/SavingsWithdrawView'
 
 export interface SavingsWithdrawContainerProps {
   closeDialog: () => void
+  mode: Mode
 }
 
-function SavingsWithdrawDialogContentContainer({ closeDialog }: SavingsWithdrawContainerProps) {
+function SavingsWithdrawDialogContentContainer({ closeDialog, mode }: SavingsWithdrawContainerProps) {
   const {
     selectableAssets,
     assetsFields,
@@ -19,7 +20,8 @@ function SavingsWithdrawDialogContentContainer({ closeDialog }: SavingsWithdrawC
     pageStatus,
     txOverview,
     riskAcknowledgement,
-  } = useSavingsWithdrawDialog()
+    sendModeOptions,
+  } = useSavingsWithdrawDialog(mode)
 
   if (pageStatus.state === 'success') {
     return (
@@ -41,6 +43,7 @@ function SavingsWithdrawDialogContentContainer({ closeDialog }: SavingsWithdrawC
       pageStatus={pageStatus}
       txOverview={txOverview}
       riskAcknowledgement={riskAcknowledgement}
+      sendModeOptions={sendModeOptions}
     />
   )
 }

@@ -43,7 +43,20 @@ export function SavingsDAI({
           <h2 className="whitespace-nowrap font-semibold text-base text-basics-black sm:text-xl">Savings DAI</h2>
         </div>
         <div className="flex flex-row gap-2">
-          <Button variant="secondary" size="sm" onClick={() => openDialog(SavingsWithdrawDialog, {})}>
+          {import.meta.env.VITE_DEV_SEND_FROM_SAVINGS === '1' && (
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() => openDialog(SavingsWithdrawDialog, { mode: 'send' } as const)}
+            >
+              Send
+            </Button>
+          )}
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => openDialog(SavingsWithdrawDialog, { mode: 'default' } as const)}
+          >
             Withdraw
           </Button>
         </div>

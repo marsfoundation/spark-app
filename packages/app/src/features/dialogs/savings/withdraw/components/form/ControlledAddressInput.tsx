@@ -1,5 +1,4 @@
 import { Controller, UseFormReturn } from 'react-hook-form'
-import { ReceiverFormSchema } from '../../types'
 import { AddressInput } from './AddressInput'
 
 interface ControlledAddressInputProps {

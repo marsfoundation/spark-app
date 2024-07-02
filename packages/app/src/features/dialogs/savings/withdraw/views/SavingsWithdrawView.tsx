@@ -13,6 +13,7 @@ import { UseFormReturn } from 'react-hook-form'
 import { LiFiTransactionOverview } from '../../common/components/LiFiTransactionOverview'
 import { MakerTransactionOverview } from '../../common/components/maker-transaction-overview'
 import { SavingsDialogTxOverview } from '../../common/types'
+import { SendModeOptions } from '../types'
 
 export interface SavingsWithdrawViewProps {
   selectableAssets: TokenWithBalance[]
@@ -22,6 +23,7 @@ export interface SavingsWithdrawViewProps {
   pageStatus: PageStatus
   txOverview: SavingsDialogTxOverview
   riskAcknowledgement: RiskAcknowledgementInfo
+  sendModeOptions?: SendModeOptions
 }
 
 export function SavingsWithdrawView({
@@ -32,14 +34,16 @@ export function SavingsWithdrawView({
   pageStatus,
   txOverview,
   riskAcknowledgement,
+  sendModeOptions,
 }: SavingsWithdrawViewProps) {
   return (
     <MultiPanelDialog>
-      <DialogTitle>Withdraw from Savings</DialogTitle>
+      <DialogTitle>{`${sendModeOptions?.isSendMode ? 'Send' : 'Withdraw'} from Savings`}</DialogTitle>
 
       <FormAndOverviewWrapper>
         <DialogForm
           form={form}
+          sendModeOptions={sendModeOptions}
           assetsFields={assetsFields}
           selectorAssets={selectableAssets}
           variant="usd"
