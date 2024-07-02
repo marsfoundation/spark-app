@@ -1,8 +1,12 @@
 import { z } from 'zod'
 
 import { TokenWithBalance } from '@/domain/common/types'
+import { receiverValidationIssueToMessage, validateReceiver } from '@/domain/savings/validateReceiver'
+import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
+import { Address } from 'viem'
+import { ReceiverFormSchema } from '../types'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function getSavingsWithdrawDialogFormValidator(sDaiBalance: TokenWithBalance) {
@@ -57,4 +61,28 @@ export function validateWithdraw({
 export const withdrawValidationIssueToMessage: Record<WithdrawValidationIssue, string> = {
   'value-not-positive': 'Withdraw value should be positive',
   'exceeds-balance': 'Exceeds your balance',
+}
+
+export interface getReceiverFormValidatorParams {
+  account: Address | undefined
+  reserveAddresses: CheckedAddress[]
+}
+
+export function getReceiverFormValidator({ account, reserveAddresses }: getReceiverFormValidatorParams) {
+  return ReceiverFormSchema.superRefine((field, ctx) => {
+    const receiver = field.receiver
+    const issue = validateReceiver({
+      account: account ? CheckedAddress(account) : undefined,
+      reserveAddresses,
+      receiver,
+    })
+
+    if (issue) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: receiverValidationIssueToMessage[issue],
+        path: ['receiver'],
+      })
+    }
+  })
 }
