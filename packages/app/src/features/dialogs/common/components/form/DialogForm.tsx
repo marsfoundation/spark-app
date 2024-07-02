@@ -47,7 +47,7 @@ export function DialogForm({
       </Form>
       {sendModeExtension && (
         <Form {...sendModeExtension.receiverForm}>
-          <div className="mt-2 mb-3">
+          <div className="mt-2 mb-3 flex flex-col gap-2">
             <DialogPanelTitle>Sent to</DialogPanelTitle>
             <ControlledAddressInput
               form={sendModeExtension.receiverForm}
