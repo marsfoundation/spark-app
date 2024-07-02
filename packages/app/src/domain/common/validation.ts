@@ -10,6 +10,3 @@ export const normalizedUnitNumberSchema = z.union([z.number(), z.string()]).tran
 // address schemas
 export const checkedAddressSchema = z.string().transform((a) => CheckedAddress(a))
 export const viemAddressSchema = z.custom<Address>((address) => isAddress(address as string))
-export const nonStrictViemAddressSchema = z.custom<Address>((address) =>
-  isAddress(address as string, { strict: false }),
-)
