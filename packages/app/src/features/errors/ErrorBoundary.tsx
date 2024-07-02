@@ -28,18 +28,18 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
   }
 
   render() {
-    if (this.state.hasError) {
-      if (!this.props.fallback) {
-        throw this.state.error
-      }
-
-      if (typeof this.props.fallback === 'function') {
-        return this.props.fallback({ error: this.state.error })
-      }
-
-      return this.props.fallback
+    if (!this.state.hasError) {
+      return this.props.children
     }
 
-    return this.props.children
+    if (!this.props.fallback) {
+      throw this.state.error
+    }
+
+    if (typeof this.props.fallback === 'function') {
+      return this.props.fallback({ error: this.state.error })
+    }
+
+    return this.props.fallback
   }
 }

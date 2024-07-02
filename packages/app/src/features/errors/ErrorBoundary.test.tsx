@@ -27,7 +27,7 @@ describe(ErrorBoundary.name, () => {
 
   test('renders fallback with error message when error is thrown', () => {
     render(
-      <ErrorBoundary fallback={({ error }) => <FallbackWithErrorMessage error={error} />}>
+      <ErrorBoundary fallback={FallbackWithErrorMessage}>
         <ToThrowOrNotToThrow shouldThrow={true}>Content</ToThrowOrNotToThrow>
       </ErrorBoundary>,
     )
