@@ -134,7 +134,7 @@ export const assets = {
     xdai,
     eure,
     weeth,
-    ['usdc.e']: usdce,
+    'usdc.e': usdce,
     unknown,
   },
   walletIcons: {
