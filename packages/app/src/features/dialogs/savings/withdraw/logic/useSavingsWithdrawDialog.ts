@@ -15,10 +15,12 @@ import { useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
 import { useChainId } from 'wagmi'
 import { SavingsDialogTxOverview } from '../../common/types'
+import { Mode, ReceiverFormSchema, SendModeOptions } from '../types'
 import { createMakerTxOverview, createTxOverview } from './createTxOverview'
-import { getFormFieldsForWithdrawDialog } from './form'
 import { generateWarning } from './generateWarning'
+import { getFormFieldsForWithdrawDialog } from './getFormFieldsForWithdrawDialog'
 import { createObjectives } from './objectives'
+import { useSendModeOptions } from './useSendModeOptions'
 import { useWithdrawFromSavings } from './useWithdrawFromSavings'
 import { getSavingsWithdrawDialogFormValidator } from './validation'
 
@@ -31,9 +33,10 @@ export interface UseSavingsWithdrawDialogResults {
   pageStatus: PageStatus
   txOverview: SavingsDialogTxOverview
   riskAcknowledgement: RiskAcknowledgementInfo
+  sendModeOptions?: SendModeOptions
 }
 
-export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
+export function useSavingsWithdrawDialog(mode: Mode): UseSavingsWithdrawDialogResults {
   const { marketInfo } = useMarketInfo()
   const { savingsInfo } = useSavingsInfo()
   assert(savingsInfo, 'Savings info is not available')
@@ -42,7 +45,10 @@ export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')
 
-  const { assets: withdrawOptions } = makeAssetsInWalletList({ walletInfo })
+  const { assets: withdrawOptions } = makeAssetsInWalletList({
+    walletInfo,
+    nativeRoutesOptions: { useNativeRoutes: mode === 'send', chainId },
+  })
   const sDaiWithBalance: TokenWithBalance = {
     token: marketInfo.sDAI,
     balance: walletInfo.findWalletBalanceForToken(marketInfo.sDAI),
@@ -55,6 +61,11 @@ export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
       value: '',
       isMaxSelected: false,
     },
+    mode: 'onChange',
+  })
+
+  // @todo: Debounce receiver form
+  const receiverForm = useForm<ReceiverFormSchema>({
     mode: 'onChange',
   })
 
@@ -118,7 +129,10 @@ export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
   const actionsEnabled =
     ((formValues.value.gt(0) && isFormValid) || formValues.isMaxSelected) &&
     !isDebouncing &&
-    (!warning || riskAcknowledged)
+    (!warning || riskAcknowledged) &&
+    (mode === 'send' ? receiverForm.formState.isValid : true)
+
+  const sendModeOptions = useSendModeOptions({ mode, receiverForm })
 
   return {
     selectableAssets: withdrawOptions,
@@ -136,5 +150,6 @@ export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
       onStatusChange: setRiskAcknowledged,
       warning,
     },
+    sendModeOptions,
   }
 }

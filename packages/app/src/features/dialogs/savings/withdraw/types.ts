@@ -13,6 +13,6 @@ export type ReceiverFormSchema = z.infer<typeof ReceiverFormSchema>
 export interface SendModeOptions {
   isSendMode: true
   receiverForm: UseFormReturn<ReceiverFormSchema>
-  receiverAddress: Address
+  receiver: Address
   blockExplorerAddressLink?: string
 }
