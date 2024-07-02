@@ -14,7 +14,7 @@ export const AddressInput = forwardRef<HTMLInputElement, AddressInputProps>(
       <div
         className={cn(
           'relative flex h-14 border-basics-border bg-input-background text-basics-dark-grey',
-          'w-full flex-grow items-center rounded-xl border text-sm sm:text-base',
+          'w-full flex-grow items-center rounded-xl border text-[0.7rem] leading-none sm:text-base',
           error && 'border-error bg-error/10 text-error',
         )}
       >
@@ -34,7 +34,7 @@ export const AddressInput = forwardRef<HTMLInputElement, AddressInputProps>(
               external
               className="flex items-center gap-2.5 font-medium text-basics-dark-grey text-sm"
             >
-              <BoxArrowTopRight className="h-4 w-4" />
+              <BoxArrowTopRight className={cn('h-4 w-4', error && 'text-error')} />
             </Link>
           </div>
         )}
