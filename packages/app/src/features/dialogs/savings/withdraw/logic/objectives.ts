@@ -101,8 +101,8 @@ function getNativeObjectivesByChainAndToken({
         {
           type: 'daiFromSDaiWithdraw',
           dai: formValues.token,
-          value: sDaiBalance,
           sDai: marketInfo.sDAI,
+          value: isMaxSelected ? sDaiBalance : formValues.value,
           method: isMaxSelected ? 'redeem' : 'withdraw',
           receiver,
           mode,
