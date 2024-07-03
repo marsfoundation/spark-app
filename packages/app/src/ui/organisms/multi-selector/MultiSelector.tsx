@@ -99,12 +99,6 @@ export function ControlledMultiSelectorAssetInput({
             setValue(maxSelectedFieldName, !isMaxSelected, {
               shouldValidate: true,
             })
-            if (isMaxSelected) {
-              // unclicking max should clear the value
-              setValue(fieldName, '', {
-                shouldValidate: true,
-              })
-            }
           }
         }
 
