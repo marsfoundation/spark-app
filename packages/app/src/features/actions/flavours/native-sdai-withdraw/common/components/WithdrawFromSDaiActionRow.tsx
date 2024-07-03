@@ -10,12 +10,14 @@ export interface WithdrawFromSDaiActionRowProps extends ActionRowBaseProps {
   fromToken: Token
   toToken: Token
   value: NormalizedUnitNumber
+  isSendMode: boolean
 }
 
 export function WithdrawFromSDaiActionRow({
   fromToken,
   toToken,
   value,
+  isSendMode,
   index,
   actionHandlerState,
   onAction,
@@ -23,7 +25,7 @@ export function WithdrawFromSDaiActionRow({
 }: WithdrawFromSDaiActionRowProps) {
   const tokenIconPaths = [getTokenImage(fromToken.symbol), getTokenImage(toToken.symbol)]
   const status = actionHandlerState.status
-  const successMessage = `Converted ${fromToken.format(value, { style: 'auto' })} ${toToken.symbol}!`
+  const successMessage = `Converted ${fromToken.format(value, { style: 'auto' })} ${toToken.symbol}${isSendMode ? ' and sent' : ''}!`
 
   return (
     <ActionRow index={index}>
@@ -31,6 +33,7 @@ export function WithdrawFromSDaiActionRow({
 
       <ActionRow.Title icon={<IconStack paths={tokenIconPaths} stackingOrder="last-on-top" />} actionStatus={status}>
         Convert {fromToken.symbol} to {toToken.symbol}
+        {isSendMode ? ' and send' : ''}
       </ActionRow.Title>
 
       <ActionRow.Description successMessage={successMessage} actionStatus={status} variant={variant}>

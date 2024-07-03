@@ -1,3 +1,4 @@
+import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 
@@ -8,6 +9,7 @@ export type USDCFromSDaiWithdrawObjective =
       value: NormalizedUnitNumber
       sDai: Token
       sDaiValueEstimate: NormalizedUnitNumber
+      receiver?: CheckedAddress
       method: 'withdraw'
     }
   | {
@@ -15,6 +17,7 @@ export type USDCFromSDaiWithdrawObjective =
       usdc: Token
       value: NormalizedUnitNumber
       sDai: Token
+      receiver?: CheckedAddress
       method: 'redeem'
     }
 
@@ -23,5 +26,6 @@ export interface USDCFromSDaiWithdrawAction {
   usdc: Token
   value: NormalizedUnitNumber
   sDai: Token
+  receiver?: CheckedAddress
   method: 'withdraw' | 'redeem'
 }

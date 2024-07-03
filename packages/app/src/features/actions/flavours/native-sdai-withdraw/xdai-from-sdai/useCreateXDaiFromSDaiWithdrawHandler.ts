@@ -23,12 +23,14 @@ export function useCreateXDaiFromSDaiWithdrawHandler(
     sDai: action.sDai.address,
     enabled: enabled && isWithdraw,
     onTransactionSettled: onFinish,
+    receiver: action.receiver,
   })
   const redeem = useSexyDaiRedeem({
     sharesAmount: isRedeem ? action.sDai.toBaseUnit(action.value) : BaseUnitNumber(0),
     sDai: action.sDai.address,
     enabled: enabled && isRedeem,
     onTransactionSettled: onFinish,
+    receiver: action.receiver,
   })
 
   const hookResult = isWithdraw ? withdraw : redeem

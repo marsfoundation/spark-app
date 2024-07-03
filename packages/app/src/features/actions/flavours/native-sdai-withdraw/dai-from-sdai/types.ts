@@ -1,3 +1,4 @@
+import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 
@@ -6,6 +7,7 @@ export type DaiFromSDaiWithdrawObjective = {
   dai: Token
   value: NormalizedUnitNumber
   sDai: Token
+  receiver?: CheckedAddress
   method: 'withdraw' | 'redeem'
 }
 
@@ -14,5 +16,6 @@ export interface DaiFromSDaiWithdrawAction {
   dai: Token
   value: NormalizedUnitNumber
   sDai: Token
+  receiver?: CheckedAddress
   method: 'withdraw' | 'redeem'
 }
