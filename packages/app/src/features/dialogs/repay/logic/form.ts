@@ -6,10 +6,8 @@ import { repayValidationIssueToMessage, validateRepay } from '@/domain/market-va
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { WalletInfo } from '@/domain/wallet/useWalletInfo'
-import BigNumber from 'bignumber.js'
 import { AssetInputSchema, normalizeDialogFormValues } from '../../common/logic/form'
 import { FormFieldsForDialog } from '../../common/types'
-import { extractRepayMaxValueFromForm } from './extractRepayMaxValueFromForm'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function getRepayDialogFormValidator(marketInfo: MarketInfo, walletInfo: WalletInfo) {
@@ -22,16 +20,8 @@ export function getRepayDialogFormValidator(marketInfo: MarketInfo, walletInfo: 
     const token = marketInfo.findOneTokenBySymbol(field.symbol)
     const balance = walletInfo.findWalletBalanceForToken(token)
 
-    const repayValue = !field.isMaxSelected
-      ? formRepayAsset.value
-      : extractRepayMaxValueFromForm({
-          formValues: formRepayAsset,
-          marketInfo,
-          walletInfo,
-        })
-
     const validateIssue = validateRepay({
-      value: repayValue,
+      value: formRepayAsset.value,
       asset: {
         status: reserve.status,
       },
@@ -79,7 +69,7 @@ export function getFormFieldsForRepayDialog({
       balance: walletInfo.findWalletBalanceForSymbol(symbol),
     },
     changeAsset,
-    maxValue: NormalizedUnitNumber(repayMaxValue.dp(6, BigNumber.ROUND_DOWN)),
+    maxValue: repayMaxValue,
     maxSelectedFieldName: 'isMaxSelected',
   }
 }

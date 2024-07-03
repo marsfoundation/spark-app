@@ -99,6 +99,12 @@ export function ControlledMultiSelectorAssetInput({
             setValue(maxSelectedFieldName, !isMaxSelected, {
               shouldValidate: true,
             })
+            if (isMaxSelected) {
+              // unclicking max should clear the value
+              setValue(fieldName, '', {
+                shouldValidate: true,
+              })
+            }
           }
         }
 
@@ -124,12 +130,13 @@ export function ControlledMultiSelectorAssetInput({
             variant={variant}
             walletIconLabel={walletIconLabel}
             setMax={setMaxValue}
-            showMaxPlaceholder={maxSelectedFieldName && isMaxSelected && showMaxPlaceholder}
+            showMaxPlaceholder={Boolean(maxSelectedFieldName && showMaxPlaceholder)}
+            isMaxSelected={isMaxSelected}
             onChange={(e) => {
               field.onChange(e)
               if (maxSelectedFieldName) {
                 setValue(maxSelectedFieldName, false, {
-                  shouldValidate: false,
+                  shouldValidate: true,
                 })
               }
               // always trigger validation of the whole form

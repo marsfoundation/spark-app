@@ -74,18 +74,13 @@ export function useRepayDialog({ initialToken }: UseRepayDialogOptions): UseRepa
     form,
     marketInfo,
   })
+  const repaymentAsset: DialogFormNormalizedData = useConditionalFreeze(formValues, pageStatus === 'success')
+
   const repayMaxValue = extractRepayMaxValueFromForm({
     formValues,
     marketInfo,
     walletInfo,
   })
-  const repaymentAsset: DialogFormNormalizedData = useConditionalFreeze(
-    {
-      ...formValues,
-      value: formValues.isMaxSelected ? repayMaxValue : formValues.value,
-    },
-    pageStatus === 'success',
-  )
 
   const assetsToRepayFields = getFormFieldsForRepayDialog({
     form,

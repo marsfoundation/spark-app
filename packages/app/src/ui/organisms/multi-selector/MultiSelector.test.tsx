@@ -120,6 +120,15 @@ describe(ControlledMultiSelectorAssetInput.name, () => {
     await waitFor(() => expect(getByRole('textbox')).toHaveValue(max.toFixed()))
   })
 
+  test('Rounds max value to 6 decimal points', async () => {
+    const max = NormalizedUnitNumber('1234.56789123456789')
+
+    const { getByRole } = render(<ControlledMultiSelectorAssetInputTestWrapper max={max} />)
+
+    act(() => getByRole('button', { name: 'MAX' }).click())
+    await waitFor(() => expect(getByRole('textbox')).toHaveValue(max.dp(6).toFixed()))
+  })
+
   test('Able to alter input after clicking max', async () => {
     const max = NormalizedUnitNumber(1234)
     const value = NormalizedUnitNumber(123) // simulates hitting backspace
