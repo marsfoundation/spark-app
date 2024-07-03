@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import { Abi, ContractFunctionName } from 'viem'
 import { UseSimulateContractParameters, useAccount, useSimulateContract, useWriteContract } from 'wagmi'
 
-import { useSandboxState } from '../sandbox/useSandboxState'
 import { sanityCheckTx } from './sanityChecks'
 import { useOriginChainId } from './useOriginChainId'
 import { useWaitForTransactionReceiptUniversal } from './useWaitForTransactionReceiptUniversal'
@@ -38,8 +37,7 @@ export function useWrite<TAbi extends Abi, TFunctionName extends ContractFunctio
   args: UseSimulateContractParameters<TAbi, TFunctionName> & { enabled?: boolean },
   callbacks: UseWriteCallbacks = {},
 ): UseWriteResult {
-  const originChainId = useOriginChainId()
-  const sandboxState = useSandboxState()
+  const chainId = useOriginChainId()
   const enabled = args.enabled ?? true
   // used to reset the write state when the args change
 
@@ -115,14 +113,9 @@ export function useWrite<TAbi extends Abi, TFunctionName extends ContractFunctio
   const finalWrite =
     parameters && enabled
       ? () => {
-          if (sandboxState.isInSandbox) {
-            // @note: workaround for tenderly virtual testnets requiring explicit gas
-            parameters.request.gas = 1_00_000n
-          }
+          sanityCheckTx(parameters.request, chainId)
 
-          sanityCheckTx(parameters.request, { chainId: parameters.chainId, originChainId })
-
-          writeContract({ ...(parameters.request as any), gas: 500_000 })
+          writeContract(parameters.request as any)
         }
       : () => {}
 
