@@ -57,7 +57,7 @@ export const AssetInput = forwardRef<HTMLInputElement, AssetInputProps>(
 
         const valueAsBigNumber = BigNumber(value)
         if (!valueAsBigNumber.isNaN()) {
-          return valueAsBigNumber.dp(6).toString()
+          return valueAsBigNumber.dp(6).toFixed()
         }
       }
 
