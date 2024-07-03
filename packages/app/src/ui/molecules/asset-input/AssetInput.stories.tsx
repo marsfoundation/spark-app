@@ -153,3 +153,14 @@ export const usdVariantWithWalletLabel: Story = {
     walletIconLabel: 'Savings',
   },
 }
+
+export const withMaxButtonPressed: Story = {
+  name: 'With MAX button pressed',
+  args: {
+    token: tokens.USDC,
+    setMax: () => {},
+    balance: NormalizedUnitNumber(100),
+    isMaxSelected: true,
+    value: '100',
+  },
+}

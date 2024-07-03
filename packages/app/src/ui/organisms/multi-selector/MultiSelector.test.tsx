@@ -142,14 +142,14 @@ describe(ControlledMultiSelectorAssetInput.name, () => {
     await waitFor(() => expect(getByRole('textbox')).toHaveValue(value.toFixed()))
   })
 
-  test('Unclicks MAX placeholder', async () => {
-    const { getByRole } = render(<ControlledMultiSelectorAssetInputTestWrapper showMaxPlaceholder />)
+  test('MAX button is disabled after clicking max', async () => {
+    const max = NormalizedUnitNumber(1234)
+
+    const { getByRole } = render(<ControlledMultiSelectorAssetInputTestWrapper max={max} />)
 
     act(() => getByRole('button', { name: 'MAX' }).click())
-    await waitFor(() => expect(getByRole('textbox')).toHaveValue('MAX'))
-
-    act(() => getByRole('button', { name: 'MAX' }).click())
-    await waitFor(() => expect(getByRole('textbox')).toHaveValue(''))
+    await waitFor(() => expect(getByRole('textbox')).toHaveValue(max.toFixed()))
+    await waitFor(() => expect(getByRole('button', { name: 'MAX' })).toBeDisabled())
   })
 
   test('Erases MAX placeholder if backspace is pressed', async () => {
@@ -162,15 +162,14 @@ describe(ControlledMultiSelectorAssetInput.name, () => {
     await waitFor(() => expect(getByRole('textbox')).toHaveValue(''))
   })
 
-  test('Unable to input number if MAX placeholder is displayed', async () => {
-    const { getByRole, queryByTestId } = render(<ControlledMultiSelectorAssetInputTestWrapper showMaxPlaceholder />)
+  test('Erases MAX placeholder if a number key is pressed', async () => {
+    const { getByRole } = render(<ControlledMultiSelectorAssetInputTestWrapper showMaxPlaceholder />)
 
     act(() => getByRole('button', { name: 'MAX' }).click())
     await waitFor(() => expect(getByRole('textbox')).toHaveValue('MAX'))
 
-    fillInput(getByRole('textbox'), 'MAX1') // simulates typing character after MAX
-    await waitFor(() => expect(getByRole('textbox')).toHaveValue('MAX'))
-    await waitFor(() => expect(queryByTestId(testIds.component.AssetInput.error)).toBeNull())
+    fillInput(getByRole('textbox'), 'MAX1') // simulates pressing backspace
+    await waitFor(() => expect(getByRole('textbox')).toHaveValue('1'))
   })
 })
 
