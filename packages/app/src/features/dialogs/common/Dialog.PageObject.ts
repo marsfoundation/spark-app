@@ -113,5 +113,9 @@ export class DialogPageObject extends BasePageObject {
     await expect(this.region.getByTestId(testIds.dialog.healthFactor.after)).not.toBeVisible()
     await expect(this.region.getByTestId(testIds.dialog.healthFactor.before)).not.toBeVisible()
   }
+
+  async expectInputValue(value: string): Promise<void> {
+    await expect(this.region.getByRole('textbox')).toHaveValue(value)
+  }
   // #endregion
 }

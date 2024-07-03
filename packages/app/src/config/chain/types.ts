@@ -12,6 +12,7 @@ export interface NativeAssetInfo {
   nativeAssetSymbol: TokenSymbol
   wrappedNativeAssetSymbol: TokenSymbol
   wrappedNativeAssetAddress: CheckedAddress
+  minRemainingNativeAssetBalance: NormalizedUnitNumber
 }
 
 export interface ChainMeta {

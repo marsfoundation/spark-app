@@ -79,10 +79,14 @@ export function useRepayDialog({ initialToken }: UseRepayDialogOptions): UseRepa
   const repayMaxValue = getRepayMaxValue({
     asset: {
       status: repaymentAsset.reserve.status,
+      isNativeAsset: formValues.token.symbol === marketInfo.nativeAssetInfo.nativeAssetSymbol,
     },
     user: {
       balance: walletInfo.findWalletBalanceForSymbol(repaymentAsset.token.symbol),
       debt: repaymentAsset.position.borrowBalance,
+    },
+    chain: {
+      minRemainingNativeAsset: marketInfo.nativeAssetInfo.minRemainingNativeAssetBalance,
     },
   })
 
