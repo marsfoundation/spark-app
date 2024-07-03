@@ -28,6 +28,7 @@ export function getFormFieldsForDepositDialog(
       token,
       balance,
     },
+    maxSelectedFieldName: 'isMaxSelected',
     changeAsset,
     maxValue: balance,
   }
