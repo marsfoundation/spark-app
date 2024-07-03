@@ -15,7 +15,7 @@ import { SendModeExtension } from '../types'
 export interface SuccessViewProps {
   tokenToWithdraw: TokenWithValue
   closeDialog: () => void
-  sendModeExtension?: SendModeExtension
+  sendModeExtension?: Pick<SendModeExtension, 'receiver' | 'blockExplorerAddressLink'>
 }
 export function SuccessView({ tokenToWithdraw, closeDialog, sendModeExtension }: SuccessViewProps) {
   const { token, value } = tokenToWithdraw

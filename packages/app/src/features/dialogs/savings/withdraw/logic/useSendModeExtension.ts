@@ -2,7 +2,6 @@ import { useBlockExplorerAddressLink } from '@/domain/hooks/useBlockExplorerAddr
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { useDebounce } from '@/utils/useDebounce'
 import { UseFormReturn, useForm } from 'react-hook-form'
-import { Address } from 'viem'
 import { Mode, ReceiverFormSchema, SendModeExtension } from '../types'
 
 export interface UseSendModeOptionsParams {
@@ -38,8 +37,8 @@ function useDebouncedReceiverFormValues(): UseDebouncedReceiverFormValuesResult 
   const rawReceiver = receiverForm.watch('receiver')
   const { debouncedValue, isDebouncing } = useDebounce({ receiverForm, rawReceiver }, rawReceiver)
   const isFormValid = debouncedValue.receiverForm.formState.isValid
-  // @todo: Needs proper validation of the form to cast to Address here
-  const receiver = isFormValid ? CheckedAddress(debouncedValue.rawReceiver as Address) : undefined
+  // @todo: Temporary, Needs proper validation of the form to cast to Address here
+  const receiver = isFormValid ? (debouncedValue.rawReceiver as CheckedAddress) : undefined
 
   return {
     receiverForm: debouncedValue.receiverForm,

@@ -1,9 +1,8 @@
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { WithClassname } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
-
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { SuccessView } from './SuccessView'
 
 const meta: Meta<typeof SuccessView> = {
@@ -29,9 +28,8 @@ export const TabletWithdraw = getTabletStory(Default)
 
 export const SendMode: Story = {
   args: {
-    sendModeOptions: {
-      isSendMode: true,
-      receiverAddress: '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045',
+    sendModeExtension: {
+      receiver: '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045',
       blockExplorerAddressLink: 'https://etherscan.io/address/0x1234567890123456789012345678901234567890',
     },
   },
