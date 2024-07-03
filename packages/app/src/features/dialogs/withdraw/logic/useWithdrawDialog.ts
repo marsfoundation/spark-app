@@ -77,13 +77,13 @@ export function useWithdrawDialog({ initialToken }: UseWithdrawDialogOptions): U
 
   const assetsToWithdrawFields = getFormFieldsForWithdrawDialog(form, marketInfo, walletInfo, maxWithdrawValue)
 
-  const tokenSupply = getTokenSupply(marketInfo, withdrawAsset)
+  const updatedTokenSupply = getTokenSupply(marketInfo, withdrawAsset)
 
   const objectives = createWithdrawObjectives(withdrawAsset, { all: withdrawInFull })
 
   const currentPositionOverview = {
     healthFactor: marketInfo.userPositionSummary.healthFactor,
-    tokenSupply,
+    tokenSupply: formValues.position.collateralBalance,
     supplyAPY: withdrawAsset.reserve.supplyAPY,
   }
   const updatedUserSummary = updatePositionSummary({
@@ -97,7 +97,7 @@ export function useWithdrawDialog({ initialToken }: UseWithdrawDialogOptions): U
     : {
         ...currentPositionOverview,
         healthFactor: updatedUserSummary.healthFactor,
-        tokenSupply,
+        tokenSupply: updatedTokenSupply,
       }
   const { riskAcknowledgement, disableActionsByRisk } = useLiquidationRiskWarning({
     type: 'liquidation-warning-withdraw',
