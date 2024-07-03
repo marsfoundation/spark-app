@@ -1,10 +1,10 @@
+import { UseFormReturn } from 'react-hook-form'
+
 import { TokenWithBalance } from '@/domain/common/types'
-import { ControlledAddressInput } from '@/features/dialogs/savings/withdraw/components/form/ControlledAddressInput'
-import { SendModeExtension } from '@/features/dialogs/savings/withdraw/types'
 import { Form } from '@/ui/atoms/form/Form'
 import { AssetInputProps } from '@/ui/molecules/asset-input/AssetInput'
 import { AssetSelectorWithInput } from '@/ui/organisms/asset-selector-with-input/AssetSelectorWithInput'
-import { UseFormReturn } from 'react-hook-form'
+
 import { AssetInputSchema } from '../../logic/form'
 import { FormFieldsForDialog } from '../../types'
 import { DialogPanelTitle } from '../DialogPanelTitle'
@@ -15,47 +15,26 @@ export interface DialogFormProps {
   form: UseFormReturn<AssetInputSchema>
   variant?: AssetInputProps['variant']
   walletIconLabel?: string
-  sendModeExtension?: SendModeExtension
 }
 
-export function DialogForm({
-  selectorAssets,
-  assetsFields,
-  form,
-  variant,
-  walletIconLabel,
-  sendModeExtension,
-}: DialogFormProps) {
+export function DialogForm({ selectorAssets, assetsFields, form, variant, walletIconLabel }: DialogFormProps) {
   const { selectedAsset, changeAsset, maxSelectedFieldName, maxValue } = assetsFields
 
   return (
-    <>
-      <Form {...form}>
-        <DialogPanelTitle>Amount</DialogPanelTitle>
-        <AssetSelectorWithInput
-          fieldName="value"
-          control={form.control}
-          selectorAssets={selectorAssets}
-          selectedAsset={selectedAsset}
-          setSelectedAsset={changeAsset}
-          maxValue={maxValue}
-          maxSelectedFieldName={maxSelectedFieldName}
-          showError
-          variant={variant}
-          walletIconLabel={walletIconLabel}
-        />
-      </Form>
-      {sendModeExtension && (
-        <Form {...sendModeExtension.receiverForm}>
-          <div className="mt-2 mb-3 flex flex-col gap-2">
-            <DialogPanelTitle>Sent to</DialogPanelTitle>
-            <ControlledAddressInput
-              form={sendModeExtension.receiverForm}
-              blockExplorerUrl={sendModeExtension.blockExplorerAddressLink}
-            />
-          </div>
-        </Form>
-      )}
-    </>
+    <Form {...form}>
+      <DialogPanelTitle>Amount</DialogPanelTitle>
+      <AssetSelectorWithInput
+        fieldName="value"
+        control={form.control}
+        selectorAssets={selectorAssets}
+        selectedAsset={selectedAsset}
+        setSelectedAsset={changeAsset}
+        maxValue={maxValue}
+        maxSelectedFieldName={maxSelectedFieldName}
+        showError
+        variant={variant}
+        walletIconLabel={walletIconLabel}
+      />
+    </Form>
   )
 }
