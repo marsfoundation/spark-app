@@ -1,4 +1,5 @@
 import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPanelTitle'
+import { Alert } from '@/features/dialogs/common/components/alert/Alert'
 import { DialogForm, DialogFormProps } from '@/features/dialogs/common/components/form/DialogForm'
 import { ControlledAddressInput } from '@/features/dialogs/savings/withdraw/components/form/ControlledAddressInput'
 import { SendModeExtension } from '@/features/dialogs/savings/withdraw/types'
@@ -20,6 +21,12 @@ export function SavingsWithdrawDialogForm({ sendModeExtension, ...rest }: Saving
               form={sendModeExtension.receiverForm}
               blockExplorerUrl={sendModeExtension.blockExplorerAddressLink}
             />
+            {sendModeExtension.showReceiverIsSmartContractWarning && (
+              <Alert variant="warning">
+                Provided receiver address is a smart contract address. <br />
+                Make sure you trust the address before proceeding.
+              </Alert>
+            )}
           </div>
         </Form>
       )}

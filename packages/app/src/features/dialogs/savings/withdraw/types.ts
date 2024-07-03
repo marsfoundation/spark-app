@@ -12,6 +12,7 @@ export type ReceiverFormSchema = z.infer<typeof ReceiverFormSchema>
 export interface SendModeExtension {
   receiverForm: UseFormReturn<ReceiverFormSchema>
   receiver: Address | undefined
+  showReceiverIsSmartContractWarning: boolean
   blockExplorerAddressLink?: string
   enableActions: boolean
 }

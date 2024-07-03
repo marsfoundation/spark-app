@@ -122,7 +122,7 @@ export function useSavingsWithdrawDialog(mode: Mode): UseSavingsWithdrawDialogRe
   })
   const [riskAcknowledged, setRiskAcknowledged] = useState(false)
 
-  const sendModeExtension = useSendModeExtension({ mode })
+  const sendModeExtension = useSendModeExtension({ mode, marketInfo })
 
   const actionsEnabled =
     ((formValues.value.gt(0) && isFormValid) || formValues.isMaxSelected) &&

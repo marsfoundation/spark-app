@@ -1,12 +1,12 @@
-import { Address } from 'viem'
-import { useAccount, useBytecode } from 'wagmi'
+import { useAccount } from 'wagmi'
+import { useIsSmartContract } from './useIsSmartContract'
 
 export type WalletType = 'gnosis-safe' | 'universal'
 
 export function useWalletType(): WalletType | undefined {
   const { address, connector } = useAccount()
   const canBeGnosisSafe = connector?.name === 'WalletConnect' || connector?.name === 'Safe' // avoids querying bytecode if not needed
-  const isSmartContract = useIsSmartContract(canBeGnosisSafe ? address : undefined)
+  const { isSmartContract } = useIsSmartContract(canBeGnosisSafe ? address : undefined)
 
   if (!address) {
     return undefined
@@ -21,14 +21,4 @@ export function useWalletType(): WalletType | undefined {
   }
 
   return undefined
-}
-
-function useIsSmartContract(address: Address | undefined): boolean | undefined {
-  const response = useBytecode({ address })
-
-  if (!response.data) {
-    return undefined
-  }
-
-  return response.data.length > 0
 }
