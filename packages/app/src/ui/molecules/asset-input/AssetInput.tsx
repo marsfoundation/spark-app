@@ -50,13 +50,15 @@ export const AssetInput = forwardRef<HTMLInputElement, AssetInputProps>(
   ) => {
     assert(!(balance && !token), 'token should be defined if balance is defined')
     const inputValue = (() => {
-      if (showMaxPlaceholder && isMaxSelected) {
-        return MAX_VALUE_PLACEHOLDER
-      }
+      if (isMaxSelected) {
+        if (showMaxPlaceholder) {
+          return MAX_VALUE_PLACEHOLDER
+        }
 
-      const valueAsBigNumber = BigNumber(value)
-      if (isMaxSelected && !valueAsBigNumber.isNaN()) {
-        return valueAsBigNumber.dp(6).toString()
+        const valueAsBigNumber = BigNumber(value)
+        if (!valueAsBigNumber.isNaN()) {
+          return valueAsBigNumber.dp(6).toString()
+        }
       }
 
       return value

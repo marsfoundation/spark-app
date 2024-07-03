@@ -11,12 +11,12 @@ import { Token } from '@/domain/types/Token'
 import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
 import { Objective } from '@/features/actions/logic/types'
 
+import { getRepayMaxValue } from '@/domain/action-max-value-getters/getRepayMaxValue'
 import { useConditionalFreeze } from '@/domain/hooks/useConditionalFreeze'
 import { EPOCH_LENGTH } from '@/domain/market-info/consts'
 import { AssetInputSchema, DialogFormNormalizedData, useDebouncedDialogFormValues } from '../../common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '../../common/types'
 import { getRepayOptions, getTokenDebt } from './assets'
-import { extractRepayMaxValueFromForm } from './extractRepayMaxValueFromForm'
 import { getFormFieldsForRepayDialog, getRepayDialogFormValidator } from './form'
 import { makeUpdatedPositionOverview } from './positionOverview'
 import { PositionOverview } from './types'
@@ -76,10 +76,14 @@ export function useRepayDialog({ initialToken }: UseRepayDialogOptions): UseRepa
   })
   const repaymentAsset: DialogFormNormalizedData = useConditionalFreeze(formValues, pageStatus === 'success')
 
-  const repayMaxValue = extractRepayMaxValueFromForm({
-    formValues,
-    marketInfo,
-    walletInfo,
+  const repayMaxValue = getRepayMaxValue({
+    asset: {
+      status: repaymentAsset.reserve.status,
+    },
+    user: {
+      balance: walletInfo.findWalletBalanceForSymbol(repaymentAsset.token.symbol),
+      debt: repaymentAsset.position.borrowBalance,
+    },
   })
 
   const assetsToRepayFields = getFormFieldsForRepayDialog({
