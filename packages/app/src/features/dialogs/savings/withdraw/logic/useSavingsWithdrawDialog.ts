@@ -95,6 +95,7 @@ export function useSavingsWithdrawDialog(mode: Mode): UseSavingsWithdrawDialogRe
     savingsInfo,
     chainId,
     receiver: sendModeExtension?.receiver,
+    mode,
   })
   const txOverview = useNativeRoutes
     ? createMakerTxOverview({

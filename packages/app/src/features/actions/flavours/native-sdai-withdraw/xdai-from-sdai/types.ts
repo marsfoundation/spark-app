@@ -1,6 +1,7 @@
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
+import { Mode } from '@/features/dialogs/savings/withdraw/types'
 
 export type XDaiFromSDaiWithdrawObjective =
   | {
@@ -10,6 +11,7 @@ export type XDaiFromSDaiWithdrawObjective =
       sDai: Token
       sDaiValueEstimate: NormalizedUnitNumber
       receiver?: CheckedAddress
+      mode: Mode
       method: 'withdraw'
     }
   | {
@@ -18,6 +20,7 @@ export type XDaiFromSDaiWithdrawObjective =
       value: NormalizedUnitNumber
       sDai: Token
       receiver?: CheckedAddress
+      mode: Mode
       method: 'redeem'
     }
 
@@ -27,5 +30,6 @@ export interface XDaiFromSDaiWithdrawAction {
   value: NormalizedUnitNumber
   sDai: Token
   receiver?: CheckedAddress
+  mode: Mode
   method: 'withdraw' | 'redeem'
 }

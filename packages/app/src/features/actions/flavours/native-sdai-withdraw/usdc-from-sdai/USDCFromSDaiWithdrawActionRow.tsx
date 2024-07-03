@@ -12,7 +12,7 @@ export function USDCFromSDaiWithdrawActionRow({ action, ...rest }: USDCFromSDaiW
       fromToken={action.sDai}
       toToken={action.usdc}
       value={action.value}
-      isSendMode={action.receiver !== undefined}
+      isSendMode={action.mode === 'send'}
       {...rest}
     />
   )

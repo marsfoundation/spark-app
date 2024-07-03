@@ -12,7 +12,7 @@ export function XDaiFromSDaiWithdrawActionRow({ action, ...rest }: XDaiFromSDaiW
       fromToken={action.sDai}
       toToken={action.xDai}
       value={action.value}
-      isSendMode={action.receiver !== undefined}
+      isSendMode={action.mode === 'send'}
       {...rest}
     />
   )

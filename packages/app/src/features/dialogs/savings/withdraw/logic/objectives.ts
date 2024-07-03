@@ -12,6 +12,7 @@ import { XDaiFromSDaiWithdrawObjective } from '@/features/actions/flavours/nativ
 import { simplifyQueryResult } from '@/features/actions/logic/simplifyQueryResult'
 import { DialogFormNormalizedData } from '@/features/dialogs/common/logic/form'
 import { gnosis, mainnet } from 'viem/chains'
+import { Mode } from '../types'
 
 export interface CreateObjectivesParams {
   swapInfo: SwapInfo
@@ -22,6 +23,7 @@ export interface CreateObjectivesParams {
   savingsInfo: SavingsInfo
   chainId: number
   receiver: CheckedAddress | undefined
+  mode: Mode
 }
 export function createObjectives({
   swapInfo,
@@ -32,6 +34,7 @@ export function createObjectives({
   savingsInfo,
   chainId,
   receiver,
+  mode,
 }: CreateObjectivesParams): (
   | ExchangeObjective
   | DaiFromSDaiWithdrawObjective
@@ -45,6 +48,7 @@ export function createObjectives({
     walletInfo,
     chainId,
     receiver,
+    mode,
   })
 
   return (
@@ -65,6 +69,7 @@ interface GetNativeObjectivesByChainAndTokenParams {
   formValues: DialogFormNormalizedData
   chainId: number
   receiver?: CheckedAddress
+  mode: Mode
 }
 
 function getNativeObjectivesByChainAndToken({
@@ -74,6 +79,7 @@ function getNativeObjectivesByChainAndToken({
   formValues,
   chainId,
   receiver,
+  mode,
 }: GetNativeObjectivesByChainAndTokenParams):
   | (DaiFromSDaiWithdrawObjective | USDCFromSDaiWithdrawObjective | XDaiFromSDaiWithdrawObjective)[]
   | undefined {
@@ -99,6 +105,7 @@ function getNativeObjectivesByChainAndToken({
           sDai: marketInfo.sDAI,
           method: isMaxSelected ? 'redeem' : 'withdraw',
           receiver,
+          mode,
         },
       ]
     }
@@ -113,6 +120,7 @@ function getNativeObjectivesByChainAndToken({
               sDai: marketInfo.sDAI,
               method: 'redeem',
               receiver,
+              mode,
             },
           ]
         : [
@@ -124,6 +132,7 @@ function getNativeObjectivesByChainAndToken({
               method: 'withdraw',
               sDaiValueEstimate,
               receiver,
+              mode,
             },
           ]
     }
@@ -140,6 +149,7 @@ function getNativeObjectivesByChainAndToken({
               sDai: marketInfo.sDAI,
               method: 'redeem',
               receiver,
+              mode,
             },
           ]
         : [
@@ -151,6 +161,7 @@ function getNativeObjectivesByChainAndToken({
               method: 'withdraw',
               sDaiValueEstimate,
               receiver,
+              mode,
             },
           ]
     }

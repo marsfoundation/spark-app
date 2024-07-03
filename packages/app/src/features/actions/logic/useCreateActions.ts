@@ -179,6 +179,7 @@ export function useCreateActions(objectives: Objective[]): Action[] {
           value: objective.value,
           method: objective.method,
           receiver: objective.receiver,
+          mode: objective.mode,
         }
 
         return [withdrawAction]
@@ -203,6 +204,7 @@ export function useCreateActions(objectives: Objective[]): Action[] {
           value: objective.value,
           method: objective.method,
           receiver: objective.receiver,
+          mode: objective.mode,
         }
 
         return [approveAction, withdrawAction]
@@ -226,6 +228,7 @@ export function useCreateActions(objectives: Objective[]): Action[] {
           value: objective.value,
           method: objective.method,
           receiver: objective.receiver,
+          mode: objective.mode,
         }
 
         return [approveAction, withdrawAction]

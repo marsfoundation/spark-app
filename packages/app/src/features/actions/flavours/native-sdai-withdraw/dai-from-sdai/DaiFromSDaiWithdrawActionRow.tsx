@@ -12,7 +12,7 @@ export function DaiFromSDaiWithdrawActionRow({ action, ...rest }: DaiFromSDaiWit
       fromToken={action.sDai}
       toToken={action.dai}
       value={action.value}
-      isSendMode={action.receiver !== undefined}
+      isSendMode={action.mode === 'send'}
       {...rest}
     />
   )
