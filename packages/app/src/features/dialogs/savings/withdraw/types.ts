@@ -2,7 +2,7 @@ import { UseFormReturn } from 'react-hook-form'
 import { Address } from 'viem'
 import { z } from 'zod'
 
-export type Mode = 'default' | 'send'
+export type Mode = 'withdraw' | 'send'
 
 export const ReceiverFormSchema = z.object({
   receiver: z.string(),

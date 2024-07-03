@@ -55,7 +55,7 @@ export function SavingsDAI({
           <Button
             variant="secondary"
             size="sm"
-            onClick={() => openDialog(SavingsWithdrawDialog, { mode: 'default' } as const)}
+            onClick={() => openDialog(SavingsWithdrawDialog, { mode: 'withdraw' } as const)}
           >
             Withdraw
           </Button>
