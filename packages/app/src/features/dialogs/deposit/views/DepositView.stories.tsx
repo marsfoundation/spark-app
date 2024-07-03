@@ -36,6 +36,7 @@ const meta: Meta<typeof DepositView> = {
         balance: NormalizedUnitNumber(50000),
         value: '2000',
       },
+      maxValue: NormalizedUnitNumber(5000),
       changeAsset: () => {},
     },
     objectives: [

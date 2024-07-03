@@ -75,6 +75,11 @@ test.describe('Navbar', () => {
   })
 
   test.describe('Rewards badge', () => {
+    const fork = setupFork({
+      blockNumber: 20189272n, // block number where the reward program is finished
+      chainId: mainnet.id,
+    })
+
     test('Displays total rewards in badge', async ({ page }) => {
       await setup(page, fork, {
         initialPage: 'easyBorrow',
@@ -85,7 +90,7 @@ test.describe('Navbar', () => {
       })
 
       const navbar = new NavbarPageObject(page)
-      await navbar.expectClaimableRewardsValue('$16.85K')
+      await navbar.expectClaimableRewardsValue('$25.58K')
     })
 
     test('Opens tooltip on hover', async ({ page }) => {
@@ -105,8 +110,8 @@ test.describe('Navbar', () => {
         [
           {
             tokenSymbol: 'wstETH',
-            amount: '6.42906',
-            amountUSD: '$16,850.36',
+            amount: '6.3697',
+            amountUSD: '$25,583.20',
           },
         ],
         rewardsDetails,

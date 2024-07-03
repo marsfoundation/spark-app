@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import { ReserveStatus } from '../market-info/reserve-status'
 import { NormalizedUnitNumber } from '../types/NumericValues'
 
-interface GetRepayMaxValueParams {
+export interface GetRepayMaxValueParams {
   user: {
     debt: NormalizedUnitNumber
     balance: NormalizedUnitNumber

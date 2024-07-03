@@ -23,6 +23,7 @@ export interface SavingsWithdrawViewProps {
   pageStatus: PageStatus
   txOverview: SavingsDialogTxOverview
   riskAcknowledgement: RiskAcknowledgementInfo
+  showMaxPlaceholderInInput: boolean
   sendModeExtension?: SendModeExtension
 }
 
@@ -34,6 +35,7 @@ export function SavingsWithdrawView({
   pageStatus,
   txOverview,
   riskAcknowledgement,
+  showMaxPlaceholderInInput,
   sendModeExtension,
 }: SavingsWithdrawViewProps) {
   return (
@@ -46,6 +48,7 @@ export function SavingsWithdrawView({
           sendModeExtension={sendModeExtension}
           assetsFields={assetsFields}
           selectorAssets={selectableAssets}
+          showMaxPlaceholder={showMaxPlaceholderInInput}
           variant="usd"
           walletIconLabel="Savings"
         />

@@ -36,7 +36,7 @@ export function getFormFieldsForWithdrawDialog({
       balance: usdBalance,
     },
     changeAsset,
-    maxValue: undefined,
+    maxValue: usdBalance,
     maxSelectedFieldName: 'isMaxSelected',
   }
 }

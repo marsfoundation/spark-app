@@ -33,6 +33,7 @@ export interface UseSavingsWithdrawDialogResults {
   pageStatus: PageStatus
   txOverview: SavingsDialogTxOverview
   riskAcknowledgement: RiskAcknowledgementInfo
+  showMaxPlaceholderInInput: boolean
   sendModeExtension?: SendModeExtension
 }
 
@@ -145,6 +146,7 @@ export function useSavingsWithdrawDialog(mode: Mode): UseSavingsWithdrawDialogRe
       onStatusChange: setRiskAcknowledged,
       warning,
     },
+    showMaxPlaceholderInInput: !useNativeRoutes,
     sendModeExtension,
   }
 }

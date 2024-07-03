@@ -20,6 +20,7 @@ function SavingsWithdrawDialogContentContainer({ closeDialog, mode }: SavingsWit
     pageStatus,
     txOverview,
     riskAcknowledgement,
+    showMaxPlaceholderInInput,
     sendModeExtension,
   } = useSavingsWithdrawDialog(mode)
 
@@ -38,6 +39,7 @@ function SavingsWithdrawDialogContentContainer({ closeDialog, mode }: SavingsWit
       pageStatus={pageStatus}
       txOverview={txOverview}
       riskAcknowledgement={riskAcknowledgement}
+      showMaxPlaceholderInInput={showMaxPlaceholderInInput}
       sendModeExtension={sendModeExtension}
     />
   )

@@ -11,12 +11,14 @@ import { Typography } from '@/ui/atoms/typography/Typography'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { parseBigNumber } from '@/utils/bigNumber'
+import BigNumber from 'bignumber.js'
 
 export type AssetInputProps = {
   token?: Token
   className?: string | undefined
   onRemove?: () => void
   setMax?: () => void
+  showMaxPlaceholder?: boolean
   isMaxSelected?: boolean
   balance?: NormalizedUnitNumber
   disabled?: boolean
@@ -40,12 +42,27 @@ export const AssetInput = forwardRef<HTMLInputElement, AssetInputProps>(
       onChange,
       variant = 'crypto',
       walletIconLabel,
+      showMaxPlaceholder,
       isMaxSelected,
       ...rest
     },
     ref,
   ) => {
     assert(!(balance && !token), 'token should be defined if balance is defined')
+    const inputValue = (() => {
+      if (isMaxSelected) {
+        if (showMaxPlaceholder) {
+          return MAX_VALUE_PLACEHOLDER
+        }
+
+        const valueAsBigNumber = BigNumber(value)
+        if (!valueAsBigNumber.isNaN()) {
+          return valueAsBigNumber.dp(6).toString()
+        }
+      }
+
+      return value
+    })()
 
     return (
       <div className="flex-1">
@@ -67,7 +84,7 @@ export const AssetInput = forwardRef<HTMLInputElement, AssetInputProps>(
               id="asset-input"
               disabled={disabled}
               size={1} // force minimum width
-              value={isMaxSelected ? MAX_VALUE_PLACEHOLDER : value}
+              value={inputValue}
               {...rest}
               onChange={(e) => {
                 if (e.target.value === MAX_VALUE_PLACEHOLDER.slice(0, -1)) {

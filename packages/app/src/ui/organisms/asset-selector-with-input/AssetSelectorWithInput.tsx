@@ -17,6 +17,7 @@ export interface AssetSelectorWithInputProps<TFieldValues extends FieldValues> {
   setSelectedAsset: (selectedAsset: TokenSymbol) => void
   maxValue?: NormalizedUnitNumber
   maxSelectedFieldName?: string
+  showMaxPlaceholder?: boolean
   removeSelectedAsset?: () => void
   disabled?: boolean
   showError?: boolean // defaults to show error if field is touched or dirty
@@ -39,6 +40,7 @@ export function AssetSelectorWithInput<TFieldValues extends FieldValues>({
   variant,
   walletIconLabel,
   maxSelectedFieldName,
+  showMaxPlaceholder,
 }: AssetSelectorWithInputProps<TFieldValues>) {
   return (
     <div className={cn('flex w-full flex-row justify-between gap-2', className)}>
@@ -55,8 +57,9 @@ export function AssetSelectorWithInput<TFieldValues extends FieldValues>({
         token={selectedAsset.token}
         onRemove={removeSelectedAsset}
         balance={selectedAsset.balance}
-        max={maxSelectedFieldName === undefined ? maxValue ?? selectedAsset.balance : undefined}
+        max={maxValue}
         maxSelectedFieldName={maxSelectedFieldName}
+        showMaxPlaceholder={showMaxPlaceholder}
         showError={showError}
         variant={variant}
         walletIconLabel={walletIconLabel}
