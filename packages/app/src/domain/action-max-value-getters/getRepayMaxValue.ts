@@ -26,5 +26,5 @@ export function getRepayMaxValue({ user, asset, chain }: GetRepayMaxValueParams)
     user.debt,
     user.balance.minus(asset.isNativeAsset ? chain.minRemainingNativeAsset : NormalizedUnitNumber(0)),
   )
-  return NormalizedUnitNumber(maxRepay)
+  return NormalizedUnitNumber(BigNumber.max(maxRepay, 0))
 }
