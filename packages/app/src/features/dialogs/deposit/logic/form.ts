@@ -74,6 +74,7 @@ export function getFormFieldsForDepositDialog({
       value,
       balance: walletInfo.findWalletBalanceForSymbol(symbol),
     },
+    maxSelectedFieldName: 'isMaxSelected',
     changeAsset,
     maxValue,
   }

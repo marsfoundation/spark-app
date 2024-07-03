@@ -63,6 +63,7 @@ export function getFormFieldsForBorrowDialog(
       token: reserve.token,
       balance: walletInfo.findWalletBalanceForSymbol(symbol),
     },
+    maxSelectedFieldName: 'isMaxSelected',
     changeAsset,
     maxValue,
   }

@@ -73,6 +73,7 @@ export function getFormFieldsForWithdrawDialog(
       token: marketInfo.findOneTokenBySymbol(symbol),
       balance: walletInfo.findWalletBalanceForSymbol(symbol),
     },
+    maxSelectedFieldName: 'isMaxSelected',
     changeAsset,
     maxValue,
   }

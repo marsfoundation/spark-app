@@ -57,7 +57,7 @@ export const AssetInput = forwardRef<HTMLInputElement, AssetInputProps>(
 
         const valueAsBigNumber = BigNumber(value)
         if (!valueAsBigNumber.isNaN()) {
-          return valueAsBigNumber.dp(6).toString()
+          return valueAsBigNumber.dp(6).toFixed()
         }
       }
 
@@ -93,6 +93,14 @@ export const AssetInput = forwardRef<HTMLInputElement, AssetInputProps>(
                   return
                 }
 
+                if (
+                  e.target.value.slice(0, -1) === MAX_VALUE_PLACEHOLDER &&
+                  !Number.isNaN(Number(e.target.value.at(-1)))
+                ) {
+                  // erase MAX placeholder if a digit is typed
+                  e.target.value = e.target.value.at(-1) ?? ''
+                }
+
                 e.target.value = e.target.value.replace(/,/g, '.')
                 const value = e.target.value
                 if (!value || (decimalNumberRegex.test(value) && (value.split('.')[1]?.length ?? 0) <= 6)) {
@@ -112,6 +120,7 @@ export const AssetInput = forwardRef<HTMLInputElement, AssetInputProps>(
                 <Button
                   onClick={disabled ? undefined : setMax}
                   className={cn('p-1', balance && 'p-0 text-xs')}
+                  disabled={isMaxSelected}
                   variant="text"
                 >
                   MAX
