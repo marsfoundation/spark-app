@@ -19,6 +19,7 @@ function SavingsWithdrawDialogContentContainer({ closeDialog }: SavingsWithdrawC
     pageStatus,
     txOverview,
     riskAcknowledgement,
+    showMaxPlaceholderInInput,
   } = useSavingsWithdrawDialog()
 
   if (pageStatus.state === 'success') {
@@ -41,6 +42,7 @@ function SavingsWithdrawDialogContentContainer({ closeDialog }: SavingsWithdrawC
       pageStatus={pageStatus}
       txOverview={txOverview}
       riskAcknowledgement={riskAcknowledgement}
+      showMaxPlaceholderInInput={showMaxPlaceholderInInput}
     />
   )
 }

@@ -13,11 +13,19 @@ export interface DialogFormProps {
   selectorAssets: TokenWithBalance[]
   assetsFields: FormFieldsForDialog
   form: UseFormReturn<AssetInputSchema>
+  showMaxPlaceholder?: boolean
   variant?: AssetInputProps['variant']
   walletIconLabel?: string
 }
 
-export function DialogForm({ selectorAssets, assetsFields, form, variant, walletIconLabel }: DialogFormProps) {
+export function DialogForm({
+  selectorAssets,
+  assetsFields,
+  form,
+  showMaxPlaceholder,
+  variant,
+  walletIconLabel,
+}: DialogFormProps) {
   const { selectedAsset, changeAsset, maxSelectedFieldName, maxValue } = assetsFields
 
   return (
@@ -32,6 +40,7 @@ export function DialogForm({ selectorAssets, assetsFields, form, variant, wallet
         maxValue={maxValue}
         maxSelectedFieldName={maxSelectedFieldName}
         showError
+        showMaxPlaceholder={showMaxPlaceholder}
         variant={variant}
         walletIconLabel={walletIconLabel}
       />

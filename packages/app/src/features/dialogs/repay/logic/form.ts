@@ -3,11 +3,9 @@ import { z } from 'zod'
 
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { repayValidationIssueToMessage, validateRepay } from '@/domain/market-validators/validateRepay'
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { WalletInfo } from '@/domain/wallet/useWalletInfo'
-
-import { getRepayMaxValue } from '@/domain/action-max-value-getters/getRepayMaxValue'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { AssetInputSchema, normalizeDialogFormValues } from '../../common/logic/form'
 import { FormFieldsForDialog } from '../../common/types'
 
@@ -22,20 +20,8 @@ export function getRepayDialogFormValidator(marketInfo: MarketInfo, walletInfo: 
     const token = marketInfo.findOneTokenBySymbol(field.symbol)
     const balance = walletInfo.findWalletBalanceForToken(token)
 
-    const repayValue = !field.isMaxSelected
-      ? formRepayAsset.value
-      : getRepayMaxValue({
-          user: {
-            debt: position.borrowBalance,
-            balance: walletInfo.findWalletBalanceForSymbol(field.symbol),
-          },
-          asset: {
-            status: position.reserve.status,
-          },
-        })
-
     const validateIssue = validateRepay({
-      value: repayValue,
+      value: formRepayAsset.value,
       asset: {
         status: reserve.status,
       },
@@ -54,11 +40,18 @@ export function getRepayDialogFormValidator(marketInfo: MarketInfo, walletInfo: 
   })
 }
 
-export function getFormFieldsForRepayDialog(
-  form: UseFormReturn<AssetInputSchema>,
-  marketInfo: MarketInfo,
-  walletInfo: WalletInfo,
-): FormFieldsForDialog {
+export interface GetFormFieldsForRepayDialogParams {
+  form: UseFormReturn<AssetInputSchema>
+  marketInfo: MarketInfo
+  walletInfo: WalletInfo
+  repayMaxValue: NormalizedUnitNumber
+}
+export function getFormFieldsForRepayDialog({
+  form,
+  marketInfo,
+  walletInfo,
+  repayMaxValue,
+}: GetFormFieldsForRepayDialogParams): FormFieldsForDialog {
   // eslint-disable-next-line func-style
   const changeAsset = (newSymbol: TokenSymbol): void => {
     form.setValue('symbol', newSymbol)
@@ -76,7 +69,7 @@ export function getFormFieldsForRepayDialog(
       balance: walletInfo.findWalletBalanceForSymbol(symbol),
     },
     changeAsset,
-    maxValue: NormalizedUnitNumber(10),
+    maxValue: repayMaxValue,
     maxSelectedFieldName: 'isMaxSelected',
   }
 }

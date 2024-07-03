@@ -35,6 +35,7 @@ const meta: Meta<typeof AssetSelectorWithInput> = {
   args: {
     selectorAssets: assets,
     setSelectedAsset: () => {},
+    maxValue: NormalizedUnitNumber('1000'),
     removeSelectedAsset: () => {},
   },
 }

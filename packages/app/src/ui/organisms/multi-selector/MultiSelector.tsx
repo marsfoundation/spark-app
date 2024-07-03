@@ -62,6 +62,7 @@ interface ControlledMultiSelectorAssetInputProps {
   token: Token
   max?: NormalizedUnitNumber
   maxSelectedFieldName?: string
+  showMaxPlaceholder?: boolean
   onRemove?: () => void
   balance?: NormalizedUnitNumber
   disabled?: boolean
@@ -79,6 +80,7 @@ export function ControlledMultiSelectorAssetInput({
   balance,
   max,
   maxSelectedFieldName,
+  showMaxPlaceholder,
   showError,
   variant,
   walletIconLabel,
@@ -92,27 +94,30 @@ export function ControlledMultiSelectorAssetInput({
       render={({ field, fieldState: { error, isTouched, isDirty } }) => {
         showError = showError ?? (isTouched || isDirty)
         const isMaxSelected = (control as any)?._formValues?.isMaxSelected // as any & ?. are needed to make storybook happy
+        function toggleIsMaxSelected() {
+          if (maxSelectedFieldName) {
+            setValue(maxSelectedFieldName, !isMaxSelected, {
+              shouldValidate: true,
+            })
+            if (isMaxSelected) {
+              // unclicking max should clear the value
+              setValue(fieldName, '', {
+                shouldValidate: true,
+              })
+            }
+          }
+        }
 
         const setMaxValue = max?.gt(0)
           ? () => {
               setValue(fieldName, formFormat(max, token.decimals), {
                 shouldValidate: true,
               })
+              toggleIsMaxSelected()
             }
-          : undefined
-
-        const setMaxSelectedField = maxSelectedFieldName
-          ? () => {
-              setValue(maxSelectedFieldName, !isMaxSelected, {
-                shouldValidate: true,
-              })
-              if (!isMaxSelected) {
-                setValue(fieldName, '', {
-                  shouldValidate: true,
-                })
-              }
-            }
-          : undefined
+          : showMaxPlaceholder
+            ? toggleIsMaxSelected
+            : undefined
 
         return (
           <AssetInput
@@ -124,13 +129,14 @@ export function ControlledMultiSelectorAssetInput({
             disabled={disabled}
             variant={variant}
             walletIconLabel={walletIconLabel}
-            setMax={setMaxValue ?? setMaxSelectedField}
-            isMaxSelected={maxSelectedFieldName && isMaxSelected}
+            setMax={setMaxValue}
+            showMaxPlaceholder={Boolean(maxSelectedFieldName && showMaxPlaceholder)}
+            isMaxSelected={isMaxSelected}
             onChange={(e) => {
               field.onChange(e)
               if (maxSelectedFieldName) {
                 setValue(maxSelectedFieldName, false, {
-                  shouldValidate: false,
+                  shouldValidate: true,
                 })
               }
               // always trigger validation of the whole form

@@ -22,6 +22,7 @@ export interface SavingsWithdrawViewProps {
   pageStatus: PageStatus
   txOverview: SavingsDialogTxOverview
   riskAcknowledgement: RiskAcknowledgementInfo
+  showMaxPlaceholderInInput: boolean
 }
 
 export function SavingsWithdrawView({
@@ -32,6 +33,7 @@ export function SavingsWithdrawView({
   pageStatus,
   txOverview,
   riskAcknowledgement,
+  showMaxPlaceholderInInput,
 }: SavingsWithdrawViewProps) {
   return (
     <MultiPanelDialog>
@@ -42,6 +44,7 @@ export function SavingsWithdrawView({
           form={form}
           assetsFields={assetsFields}
           selectorAssets={selectableAssets}
+          showMaxPlaceholder={showMaxPlaceholderInInput}
           variant="usd"
           walletIconLabel="Savings"
         />
