@@ -3,7 +3,7 @@ import { DialogPanel } from '@/features/dialogs/common/components/DialogPanel'
 import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPanelTitle'
 
 import { HealthFactorChange } from '../../common/components/HealthFactorChange'
-import { TransactionOverviewDetailsItem } from '../../common/components/TransactionOverviewDetailsItem'
+import { TokenValueChange } from '../../common/components/TokenValueChange'
 import { PositionOverview } from '../logic/types'
 
 export interface RepayOverviewPanelProps {
@@ -19,32 +19,16 @@ export function RepayOverviewPanel({
   return (
     <DialogPanel>
       <DialogPanelTitle>Transaction overview</DialogPanelTitle>
-      <RemainingDebt
-        debtAsset={debtAsset}
-        currentPositionOverview={currentPositionOverview}
-        updatedPositionOverview={updatedPositionOverview}
+      <TokenValueChange
+        token={debtAsset}
+        currentValue={currentPositionOverview.debt}
+        updatedValue={updatedPositionOverview?.debt}
+        label="Debt"
       />
       <HealthFactorChange
         currentHealthFactor={currentPositionOverview.healthFactor}
         updatedHealthFactor={updatedPositionOverview?.healthFactor}
       />
     </DialogPanel>
-  )
-}
-
-interface RemainingDebtChangeProps {
-  debtAsset: Token
-  currentPositionOverview: PositionOverview
-  updatedPositionOverview?: PositionOverview
-}
-
-function RemainingDebt({ debtAsset, currentPositionOverview, updatedPositionOverview }: RemainingDebtChangeProps) {
-  const currentDebt = currentPositionOverview.debt
-  const updatedDebt = updatedPositionOverview?.debt
-
-  return (
-    <TransactionOverviewDetailsItem label="Remaining debt">
-      {debtAsset.format(updatedDebt ?? currentDebt, { style: 'auto' })} {debtAsset.symbol}
-    </TransactionOverviewDetailsItem>
   )
 }

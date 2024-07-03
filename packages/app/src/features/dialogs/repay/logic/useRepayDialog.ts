@@ -106,7 +106,7 @@ export function useRepayDialog({ initialToken }: UseRepayDialogOptions): UseRepa
 
   const currentPositionOverview = {
     healthFactor: marketInfo.userPositionSummary.healthFactor,
-    debt,
+    debt: repaymentAsset.position.borrowBalance,
   }
 
   const updatedUserSummary = updatePositionSummary({
