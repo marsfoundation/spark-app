@@ -31,15 +31,15 @@ export function validateReceiver({
     return 'invalid-address'
   }
 
-  if (receiver === CheckedAddress(zeroAddress)) {
+  if (CheckedAddress(receiver) === CheckedAddress(zeroAddress)) {
     return 'zero-address'
   }
 
-  if (reserveAddresses.includes(receiver)) {
+  if (reserveAddresses.includes(CheckedAddress(receiver))) {
     return 'reserve-address'
   }
 
-  if (account === receiver) {
+  if (account === CheckedAddress(receiver)) {
     return 'self-address'
   }
 }
