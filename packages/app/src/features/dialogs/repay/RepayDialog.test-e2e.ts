@@ -563,7 +563,7 @@ test.describe('Repay dialog', () => {
       await screenshot(page, 'repay-dialog-nothing-to-repay')
     })
 
-    test('when repaying native asset leave retain some in wallet', async ({ page }) => {
+    test('when repaying native asset retain some in wallet', async ({ page }) => {
       const dashboardPage = new DashboardPageObject(page)
       await dashboardPage.clickBorrowButtonAction('WETH')
 

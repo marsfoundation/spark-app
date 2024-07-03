@@ -25,27 +25,33 @@ export function useCreateRepayObjectives({
   const symbol = repaymentAsset.token.symbol
 
   const balance = walletInfo.findWalletBalanceForSymbol(symbol)
-  const getRepayMaxValueIn1EpochParams: GetRepayMaxValueParams = {
-    user: {
-      balance,
-      debt: marketInfoIn1Epoch.findOnePositionBySymbol(symbol).borrowBalance,
-    },
-    asset: {
-      status: marketInfoIn1Epoch.findOnePositionBySymbol(symbol).reserve.status,
-      isNativeAsset: symbol === marketInfoIn1Epoch.nativeAssetInfo.nativeAssetSymbol,
-    },
+  const chainConfigParams: Pick<GetRepayMaxValueParams, 'chain'> = {
     chain: {
       minRemainingNativeAsset: marketInfoIn1Epoch.nativeAssetInfo.minRemainingNativeAssetBalance,
     },
   }
 
-  const repayMaxValueIn1Epoch = getRepayMaxValue(getRepayMaxValueIn1EpochParams)
+  const repayMaxValueIn1Epoch = getRepayMaxValue({
+    asset: {
+      status: marketInfoIn1Epoch.findOnePositionBySymbol(symbol).reserve.status,
+      isNativeAsset: marketInfoIn1Epoch.nativeAssetInfo.nativeAssetSymbol === symbol,
+    },
+    user: {
+      balance,
+      debt: marketInfoIn1Epoch.findOnePositionBySymbol(symbol).borrowBalance,
+    },
+    ...chainConfigParams,
+  })
   const repayMaxValueIn2Epochs = getRepayMaxValue({
-    ...getRepayMaxValueIn1EpochParams,
+    asset: {
+      status: marketInfoIn2Epochs.findOnePositionBySymbol(symbol).reserve.status,
+      isNativeAsset: marketInfoIn2Epochs.nativeAssetInfo.nativeAssetSymbol === symbol,
+    },
     user: {
       balance,
       debt: marketInfoIn2Epochs.findOnePositionBySymbol(symbol).borrowBalance,
     },
+    ...chainConfigParams,
   })
 
   const tryFullRepay = repaymentAsset.isMaxSelected && balance.gt(repayMaxValueIn1Epoch)
