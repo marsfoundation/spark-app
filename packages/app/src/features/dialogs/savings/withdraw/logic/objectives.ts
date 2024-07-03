@@ -2,6 +2,7 @@ import { getChainConfigEntry } from '@/config/chain'
 import { SwapInfo, SwapParams } from '@/domain/exchanges/types'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { SavingsInfo } from '@/domain/savings-info/types'
+import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { WalletInfo } from '@/domain/wallet/useWalletInfo'
 import { ExchangeObjective } from '@/features/actions/flavours/exchange/types'
@@ -20,6 +21,7 @@ export interface CreateObjectivesParams {
   walletInfo: WalletInfo
   savingsInfo: SavingsInfo
   chainId: number
+  receiver: CheckedAddress | undefined
 }
 export function createObjectives({
   swapInfo,
@@ -29,6 +31,7 @@ export function createObjectives({
   walletInfo,
   savingsInfo,
   chainId,
+  receiver,
 }: CreateObjectivesParams): (
   | ExchangeObjective
   | DaiFromSDaiWithdrawObjective
@@ -41,6 +44,7 @@ export function createObjectives({
     savingsInfo,
     walletInfo,
     chainId,
+    receiver,
   })
 
   return (
@@ -60,6 +64,7 @@ interface GetNativeObjectivesByChainAndTokenParams {
   walletInfo: WalletInfo
   formValues: DialogFormNormalizedData
   chainId: number
+  receiver?: CheckedAddress
 }
 
 function getNativeObjectivesByChainAndToken({
@@ -68,6 +73,7 @@ function getNativeObjectivesByChainAndToken({
   walletInfo,
   formValues,
   chainId,
+  receiver,
 }: GetNativeObjectivesByChainAndTokenParams):
   | (DaiFromSDaiWithdrawObjective | USDCFromSDaiWithdrawObjective | XDaiFromSDaiWithdrawObjective)[]
   | undefined {
@@ -85,25 +91,16 @@ function getNativeObjectivesByChainAndToken({
 
   if (originChainId === mainnet.id) {
     if (tokenSymbol === marketInfo.DAI.symbol) {
-      return isMaxSelected
-        ? [
-            {
-              type: 'daiFromSDaiWithdraw',
-              dai: formValues.token,
-              value: sDaiBalance,
-              sDai: marketInfo.sDAI,
-              method: 'redeem',
-            },
-          ]
-        : [
-            {
-              type: 'daiFromSDaiWithdraw',
-              dai: formValues.token,
-              value: formValues.value,
-              sDai: marketInfo.sDAI,
-              method: 'withdraw',
-            },
-          ]
+      return [
+        {
+          type: 'daiFromSDaiWithdraw',
+          dai: formValues.token,
+          value: sDaiBalance,
+          sDai: marketInfo.sDAI,
+          method: isMaxSelected ? 'redeem' : 'withdraw',
+          receiver,
+        },
+      ]
     }
 
     if (tokenSymbol === TokenSymbol('USDC')) {
@@ -115,6 +112,7 @@ function getNativeObjectivesByChainAndToken({
               value: sDaiBalance,
               sDai: marketInfo.sDAI,
               method: 'redeem',
+              receiver,
             },
           ]
         : [
@@ -125,6 +123,7 @@ function getNativeObjectivesByChainAndToken({
               sDai: marketInfo.sDAI,
               method: 'withdraw',
               sDaiValueEstimate,
+              receiver,
             },
           ]
     }
@@ -140,6 +139,7 @@ function getNativeObjectivesByChainAndToken({
               value: sDaiBalance,
               sDai: marketInfo.sDAI,
               method: 'redeem',
+              receiver,
             },
           ]
         : [
@@ -150,6 +150,7 @@ function getNativeObjectivesByChainAndToken({
               sDai: marketInfo.sDAI,
               method: 'withdraw',
               sDaiValueEstimate,
+              receiver,
             },
           ]
     }

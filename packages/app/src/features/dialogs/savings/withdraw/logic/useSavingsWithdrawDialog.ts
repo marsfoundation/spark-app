@@ -46,10 +46,13 @@ export function useSavingsWithdrawDialog(mode: Mode): UseSavingsWithdrawDialogRe
 
   const [pageState, setPageState] = useState<PageState>('form')
 
+  const sendModeExtension = useSendModeExtension({ mode, marketInfo })
+
   const { assets: withdrawOptions } = makeAssetsInWalletList({
     walletInfo,
     nativeRouteOptions: { shouldFilterNativeRoutes: mode === 'send', chainId },
   })
+
   const sDaiWithBalance: TokenWithBalance = {
     token: marketInfo.sDAI,
     balance: walletInfo.findWalletBalanceForToken(marketInfo.sDAI),
@@ -91,6 +94,7 @@ export function useSavingsWithdrawDialog(mode: Mode): UseSavingsWithdrawDialogRe
     walletInfo,
     savingsInfo,
     chainId,
+    receiver: sendModeExtension?.receiver,
   })
   const txOverview = useNativeRoutes
     ? createMakerTxOverview({
@@ -121,8 +125,6 @@ export function useSavingsWithdrawDialog(mode: Mode): UseSavingsWithdrawDialogRe
     savingsInfo,
   })
   const [riskAcknowledged, setRiskAcknowledged] = useState(false)
-
-  const sendModeExtension = useSendModeExtension({ mode, marketInfo })
 
   const actionsEnabled =
     ((formValues.value.gt(0) && isFormValid) || formValues.isMaxSelected) &&
