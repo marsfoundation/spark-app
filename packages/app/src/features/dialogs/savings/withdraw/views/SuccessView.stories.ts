@@ -1,3 +1,4 @@
+import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { WithClassname } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
@@ -29,7 +30,7 @@ export const TabletWithdraw = getTabletStory(Default)
 export const SendMode: Story = {
   args: {
     sendModeExtension: {
-      receiver: '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045',
+      receiver: CheckedAddress('0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045'),
       blockExplorerAddressLink: 'https://etherscan.io/address/0x1234567890123456789012345678901234567890',
     },
   },

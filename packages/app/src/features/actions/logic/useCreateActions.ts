@@ -178,6 +178,7 @@ export function useCreateActions(objectives: Objective[]): Action[] {
           sDai: objective.sDai,
           value: objective.value,
           method: objective.method,
+          receiver: objective.receiver,
         }
 
         return [withdrawAction]
@@ -201,6 +202,7 @@ export function useCreateActions(objectives: Objective[]): Action[] {
           sDai: objective.sDai,
           value: objective.value,
           method: objective.method,
+          receiver: objective.receiver,
         }
 
         return [approveAction, withdrawAction]
@@ -223,6 +225,7 @@ export function useCreateActions(objectives: Objective[]): Action[] {
           sDai: objective.sDai,
           value: objective.value,
           method: objective.method,
+          receiver: objective.receiver,
         }
 
         return [approveAction, withdrawAction]
