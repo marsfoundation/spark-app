@@ -1,12 +1,11 @@
-import { UseFormReturn } from 'react-hook-form'
-
 import { TokenWithBalance } from '@/domain/common/types'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog } from '@/features/dialogs/common/types'
+import { UseFormReturn } from 'react-hook-form'
 
-interface getFormFieldsForWithdrawDialogParams {
+export interface GetFormFieldsForWithdrawDialogParams {
   form: UseFormReturn<AssetInputSchema>
   marketInfo: MarketInfo
   sDaiWithBalance: TokenWithBalance
@@ -16,7 +15,7 @@ export function getFormFieldsForWithdrawDialog({
   form,
   marketInfo,
   sDaiWithBalance,
-}: getFormFieldsForWithdrawDialogParams): FormFieldsForDialog {
+}: GetFormFieldsForWithdrawDialogParams): FormFieldsForDialog {
   // eslint-disable-next-line func-style
   const changeAsset = (newSymbol: TokenSymbol): void => {
     form.setValue('symbol', newSymbol)

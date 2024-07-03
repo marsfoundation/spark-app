@@ -1,15 +1,16 @@
 import { withSuspense } from '@/ui/utils/withSuspense'
-
 import { DialogContentSkeleton } from '../../common/components/skeletons/DialogContentSkeleton'
-import { SuccessView } from '../../common/views/SuccessView'
 import { useSavingsWithdrawDialog } from './logic/useSavingsWithdrawDialog'
+import { Mode } from './types'
 import { SavingsWithdrawView } from './views/SavingsWithdrawView'
+import { SuccessView } from './views/SuccessView'
 
 export interface SavingsWithdrawContainerProps {
   closeDialog: () => void
+  mode: Mode
 }
 
-function SavingsWithdrawDialogContentContainer({ closeDialog }: SavingsWithdrawContainerProps) {
+function SavingsWithdrawDialogContentContainer({ closeDialog, mode }: SavingsWithdrawContainerProps) {
   const {
     selectableAssets,
     assetsFields,
@@ -20,16 +21,12 @@ function SavingsWithdrawDialogContentContainer({ closeDialog }: SavingsWithdrawC
     txOverview,
     riskAcknowledgement,
     showMaxPlaceholderInInput,
-  } = useSavingsWithdrawDialog()
+    sendModeExtension,
+  } = useSavingsWithdrawDialog(mode)
 
   if (pageStatus.state === 'success') {
     return (
-      <SuccessView
-        objectiveType="withdraw"
-        tokenWithValue={tokenToWithdraw}
-        proceedText="Back to Savings"
-        onProceed={closeDialog}
-      />
+      <SuccessView tokenToWithdraw={tokenToWithdraw} closeDialog={closeDialog} sendModeExtension={sendModeExtension} />
     )
   }
 
@@ -43,6 +40,7 @@ function SavingsWithdrawDialogContentContainer({ closeDialog }: SavingsWithdrawC
       txOverview={txOverview}
       riskAcknowledgement={riskAcknowledgement}
       showMaxPlaceholderInInput={showMaxPlaceholderInInput}
+      sendModeExtension={sendModeExtension}
     />
   )
 }

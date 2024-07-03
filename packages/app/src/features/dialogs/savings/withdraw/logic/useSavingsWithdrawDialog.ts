@@ -15,10 +15,12 @@ import { useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
 import { useChainId } from 'wagmi'
 import { SavingsDialogTxOverview } from '../../common/types'
+import { Mode, SendModeExtension } from '../types'
 import { createMakerTxOverview, createTxOverview } from './createTxOverview'
-import { getFormFieldsForWithdrawDialog } from './form'
 import { generateWarning } from './generateWarning'
+import { getFormFieldsForWithdrawDialog } from './getFormFieldsForWithdrawDialog'
 import { createObjectives } from './objectives'
+import { useSendModeExtension } from './useSendModeExtension'
 import { useWithdrawFromSavings } from './useWithdrawFromSavings'
 import { getSavingsWithdrawDialogFormValidator } from './validation'
 
@@ -32,18 +34,22 @@ export interface UseSavingsWithdrawDialogResults {
   txOverview: SavingsDialogTxOverview
   riskAcknowledgement: RiskAcknowledgementInfo
   showMaxPlaceholderInInput: boolean
+  sendModeExtension?: SendModeExtension
 }
 
-export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
+export function useSavingsWithdrawDialog(mode: Mode): UseSavingsWithdrawDialogResults {
   const { marketInfo } = useMarketInfo()
   const { savingsInfo } = useSavingsInfo()
   assert(savingsInfo, 'Savings info is not available')
   const walletInfo = useWalletInfo()
   const chainId = useChainId()
 
-  const [pageStatus, setPageStatus] = useState<PageState>('form')
+  const [pageState, setPageState] = useState<PageState>('form')
 
-  const { assets: withdrawOptions } = makeAssetsInWalletList({ walletInfo })
+  const { assets: withdrawOptions } = makeAssetsInWalletList({
+    walletInfo,
+    nativeRouteOptions: { shouldFilterNativeRoutes: mode === 'send', chainId },
+  })
   const sDaiWithBalance: TokenWithBalance = {
     token: marketInfo.sDAI,
     balance: walletInfo.findWalletBalanceForToken(marketInfo.sDAI),
@@ -105,7 +111,7 @@ export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
       token: formValues.token,
       value: txOverview.status === 'success' ? txOverview.outTokenAmount : formValues.value,
     },
-    pageStatus === 'success',
+    pageState === 'success',
   )
 
   const { warning } = generateWarning({
@@ -116,10 +122,13 @@ export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
   })
   const [riskAcknowledged, setRiskAcknowledged] = useState(false)
 
+  const sendModeExtension = useSendModeExtension({ mode })
+
   const actionsEnabled =
     ((formValues.value.gt(0) && isFormValid) || formValues.isMaxSelected) &&
     !isDebouncing &&
-    (!warning || riskAcknowledged)
+    (!warning || riskAcknowledged) &&
+    (sendModeExtension?.enableActions ?? true)
 
   return {
     selectableAssets: withdrawOptions,
@@ -128,9 +137,9 @@ export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
     objectives,
     tokenToWithdraw,
     pageStatus: {
-      state: pageStatus,
+      state: pageState,
       actionsEnabled,
-      goToSuccessScreen: () => setPageStatus('success'),
+      goToSuccessScreen: () => setPageState('success'),
     },
     txOverview,
     riskAcknowledgement: {
@@ -138,5 +147,6 @@ export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
       warning,
     },
     showMaxPlaceholderInInput: !useNativeRoutes,
+    sendModeExtension,
   }
 }
