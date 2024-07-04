@@ -390,6 +390,52 @@ test.describe('Borrow dialog', () => {
     })
   })
 
+  test.describe('Position with large deposit', () => {
+    const fork = setupFork({
+      blockNumber: 20235425n,
+      chainId: mainnet.id,
+      simulationDateOverride: new Date('2024-07-04T21:26:19Z'),
+    })
+    const initialDeposits = {
+      WETH: 100_000,
+    }
+
+    let dashboardPage: DashboardPageObject
+
+    test.beforeEach(async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'dashboard',
+        account: {
+          type: 'connected-random',
+          assetBalances: { ...initialDeposits },
+        },
+      })
+
+      dashboardPage = new DashboardPageObject(page)
+      await dashboardPage.clickDepositButtonAction('WETH')
+      const depositDialog = new DialogPageObject(page, /Deposit WETH/)
+      await depositDialog.fillAmountAction(initialDeposits.WETH)
+      const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
+      await actionsContainer.acceptAllActionsAction(2)
+      await depositDialog.viewInDashboardAction()
+      await dashboardPage.expectDepositedAssets(313_328_590)
+    })
+
+    test('MAX borrow accounts for borrow cap', async ({ page }) => {
+      await dashboardPage.clickBorrowButtonAction('wstETH')
+
+      const borrowDialog = new DialogPageObject(page, headerRegExp)
+      await borrowDialog.clickMaxAmountAction()
+
+      await borrowDialog.expectInputValue('99.323398')
+      await borrowDialog.expectMaxButtonDisabled()
+
+      const actionsContainer = new ActionsPageObject(borrowDialog.locatePanelByHeader('Actions'))
+      await actionsContainer.expectActions([{ type: 'borrow', asset: 'wstETH' }])
+      await actionsContainer.expectEnabledActionAtIndex(0)
+    })
+  })
+
   test.describe('Liquidation risk warning', () => {
     let borrowDialog: DialogPageObject
     let dashboardPage: DashboardPageObject
