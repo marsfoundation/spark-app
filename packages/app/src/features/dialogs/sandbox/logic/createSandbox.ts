@@ -1,5 +1,6 @@
 import { Address, parseEther, parseUnits } from 'viem'
 
+import { apiUrl } from '@/config/consts'
 import { AppConfig } from '@/config/feature-flags'
 import { createTenderlyFork } from '@/domain/sandbox/createTenderlyFork'
 import { tenderlyRpcActions } from '@/domain/tenderly/TenderlyRpcActions'
@@ -15,23 +16,21 @@ export async function createSandbox(opts: {
     namePrefix: 'sandbox',
     originChainId: opts.originChainId,
     forkChainId: opts.forkChainId,
+    apiUrl: `${apiUrl}/sandbox/create`,
   })
 
-  // mint token and ether balances in parallel
-  const promises = [
-    ...Object.values(opts.mintBalances.tokens).map((token) => {
-      const units = BaseUnitNumber(parseUnits(opts.mintBalances.tokenAmt.toString(), token.decimals))
+  await tenderlyRpcActions.setBalance(
+    forkUrl,
+    opts.userAddress,
+    BaseUnitNumber(parseEther(opts.mintBalances.etherAmt.toString())),
+  )
 
-      return tenderlyRpcActions.setTokenBalance(forkUrl, token.address, opts.userAddress, units)
-    }),
-    tenderlyRpcActions.setBalance(
-      forkUrl,
-      opts.userAddress,
-      BaseUnitNumber(parseEther(opts.mintBalances.etherAmt.toString())),
-    ),
-  ]
+  // @note: tenderly doesn't support parallel calls
+  for (const [_, token] of Object.entries(opts.mintBalances.tokens)) {
+    const units = BaseUnitNumber(parseUnits(opts.mintBalances.tokenAmt.toString(), token.decimals))
 
-  await Promise.all(promises)
+    await tenderlyRpcActions.setTokenBalance(forkUrl, token.address, opts.userAddress, units)
+  }
 
   return forkUrl
 }

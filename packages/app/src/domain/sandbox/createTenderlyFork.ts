@@ -1,31 +1,46 @@
-import { assert } from '@/utils/assert'
-import { randomHexId } from '@/utils/random'
-import { TenderlyVnetClient } from '../tenderly/TenderlyVnetClient'
+import { z } from 'zod'
 
-interface CreateTenderlyForkArgs {
+import { randomHexId } from '@/utils/random'
+import { solidFetch } from '@/utils/solidFetch'
+
+const createForkResponseSchema = z.object({
+  simulation_fork: z.object({
+    rpc_url: z.string(),
+  }),
+})
+
+export interface CreateTenderlyForkArgs {
+  apiUrl: string
   originChainId: number
   forkChainId: number
   namePrefix: string
   blockNumber?: bigint
+  headers?: Record<string, string>
+}
+
+export interface CreateTenderlyForkResult {
+  rpcUrl: string
 }
 
 export async function createTenderlyFork({
+  apiUrl,
   originChainId,
   forkChainId,
   namePrefix,
   blockNumber,
-}: CreateTenderlyForkArgs): Promise<{ rpcUrl: string }> {
-  // @todo rewrite to use new lambda instead
-  const projectName = import.meta.env.VITE_TENDERLY_PROJECT!
-  const accountName = import.meta.env.VITE_TENDERLY_ACCOUNT!
-  const tenderlyApiKey = import.meta.env.VITE_TENDERLY_API_KEY!
-  assert(projectName && accountName && tenderlyApiKey, 'tenderly not configured properly!')
-
-  const client = new TenderlyVnetClient({
-    account: accountName,
-    apiKey: tenderlyApiKey,
-    project: projectName,
+  headers,
+}: CreateTenderlyForkArgs): Promise<CreateTenderlyForkResult> {
+  const response = await solidFetch(apiUrl, {
+    method: 'post',
+    headers: { ...headers, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      network_id: originChainId,
+      block_number: blockNumber ? Number(blockNumber) : undefined,
+      chain_config: { chain_id: forkChainId },
+      alias: `${namePrefix}_${randomHexId()}`,
+    }),
   })
 
-  return client.create({ name: `${namePrefix}_${randomHexId()}`, originChainId, forkChainId, blockNumber })
+  const data = createForkResponseSchema.parse(await response.json())
+  return { rpcUrl: data.simulation_fork.rpc_url }
 }

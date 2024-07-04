@@ -1,22 +1,15 @@
 import { randomHexId } from '@/utils/random'
+import { CreateForkArgs, ITestTenderlyService } from './ITestTenderlyService'
 import { TenderlyVnetClient } from './TenderlyVnetClient'
 
-export class TestTenderlyClient {
+export class TestTenderlyVnetService implements ITestTenderlyService {
   private readonly client: TenderlyVnetClient
 
   constructor(opts: { apiKey: string; account: string; project: string }) {
     this.client = new TenderlyVnetClient(opts)
   }
 
-  async createFork({
-    originChainId,
-    forkChainId,
-    blockNumber,
-  }: {
-    originChainId: number
-    forkChainId: number
-    blockNumber: bigint
-  }): Promise<string> {
+  async createFork({ originChainId, forkChainId, blockNumber }: CreateForkArgs): Promise<string> {
     const { rpcUrl } = await this.client.create({
       forkChainId,
       originChainId,
