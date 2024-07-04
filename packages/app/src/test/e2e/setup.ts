@@ -119,19 +119,45 @@ export async function injectFunds(
     return
   }
 
-  const promises = Object.entries(assetBalances).map(async ([tokenName, balance]) => {
-    if (tokenName === 'ETH' || tokenName === 'XDAI') {
-      await tenderlyRpcActions.setBalance(forkContext.forkUrl, address, BaseUnitNumber(parseEther(balance.toString())))
-    } else {
-      await tenderlyRpcActions.setTokenBalance(
-        forkContext.forkUrl,
-        (TOKENS_ON_FORK as any)[forkContext.chainId][tokenName].address,
-        address,
-        BaseUnitNumber(
-          parseUnits(balance.toString(), (TOKENS_ON_FORK as any)[forkContext.chainId][tokenName].decimals),
-        ),
-      )
+  if (forkContext.isVnet) {
+    const promises = Object.entries(assetBalances).map(async ([tokenName, balance]) => {
+      if (tokenName === 'ETH' || tokenName === 'XDAI') {
+        await tenderlyRpcActions.setBalance(
+          forkContext.forkUrl,
+          address,
+          BaseUnitNumber(parseEther(balance.toString())),
+        )
+      } else {
+        await tenderlyRpcActions.setTokenBalance(
+          forkContext.forkUrl,
+          (TOKENS_ON_FORK as any)[forkContext.chainId][tokenName].address,
+          address,
+          BaseUnitNumber(
+            parseUnits(balance.toString(), (TOKENS_ON_FORK as any)[forkContext.chainId][tokenName].decimals),
+          ),
+        )
+      }
+    })
+    await Promise.all(promises)
+  } else {
+    // todo remove once we only support vnets
+    for (const [tokenName, balance] of Object.entries(assetBalances)) {
+      if (tokenName === 'ETH' || tokenName === 'XDAI') {
+        await tenderlyRpcActions.setBalance(
+          forkContext.forkUrl,
+          address,
+          BaseUnitNumber(parseEther(balance.toString())),
+        )
+      } else {
+        await tenderlyRpcActions.setTokenBalance(
+          forkContext.forkUrl,
+          (TOKENS_ON_FORK as any)[forkContext.chainId][tokenName].address,
+          address,
+          BaseUnitNumber(
+            parseUnits(balance.toString(), (TOKENS_ON_FORK as any)[forkContext.chainId][tokenName].decimals),
+          ),
+        )
+      }
     }
-  })
-  await Promise.all(promises)
+  }
 }
