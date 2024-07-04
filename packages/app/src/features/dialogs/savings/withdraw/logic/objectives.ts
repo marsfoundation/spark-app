@@ -2,6 +2,7 @@ import { getChainConfigEntry } from '@/config/chain'
 import { SwapInfo, SwapParams } from '@/domain/exchanges/types'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { SavingsInfo } from '@/domain/savings-info/types'
+import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { WalletInfo } from '@/domain/wallet/useWalletInfo'
 import { ExchangeObjective } from '@/features/actions/flavours/exchange/types'
@@ -11,6 +12,7 @@ import { XDaiFromSDaiWithdrawObjective } from '@/features/actions/flavours/nativ
 import { simplifyQueryResult } from '@/features/actions/logic/simplifyQueryResult'
 import { DialogFormNormalizedData } from '@/features/dialogs/common/logic/form'
 import { gnosis, mainnet } from 'viem/chains'
+import { Mode } from '../types'
 
 export interface CreateObjectivesParams {
   swapInfo: SwapInfo
@@ -20,6 +22,8 @@ export interface CreateObjectivesParams {
   walletInfo: WalletInfo
   savingsInfo: SavingsInfo
   chainId: number
+  receiver: CheckedAddress | undefined
+  mode: Mode
 }
 export function createObjectives({
   swapInfo,
@@ -29,6 +33,8 @@ export function createObjectives({
   walletInfo,
   savingsInfo,
   chainId,
+  receiver,
+  mode,
 }: CreateObjectivesParams): (
   | ExchangeObjective
   | DaiFromSDaiWithdrawObjective
@@ -41,6 +47,8 @@ export function createObjectives({
     savingsInfo,
     walletInfo,
     chainId,
+    receiver,
+    mode,
   })
 
   return (
@@ -60,6 +68,8 @@ interface GetNativeObjectivesByChainAndTokenParams {
   walletInfo: WalletInfo
   formValues: DialogFormNormalizedData
   chainId: number
+  receiver: CheckedAddress | undefined
+  mode: Mode
 }
 
 function getNativeObjectivesByChainAndToken({
@@ -68,6 +78,8 @@ function getNativeObjectivesByChainAndToken({
   walletInfo,
   formValues,
   chainId,
+  receiver,
+  mode,
 }: GetNativeObjectivesByChainAndTokenParams):
   | (DaiFromSDaiWithdrawObjective | USDCFromSDaiWithdrawObjective | XDaiFromSDaiWithdrawObjective)[]
   | undefined {
@@ -85,25 +97,17 @@ function getNativeObjectivesByChainAndToken({
 
   if (originChainId === mainnet.id) {
     if (tokenSymbol === marketInfo.DAI.symbol) {
-      return isMaxSelected
-        ? [
-            {
-              type: 'daiFromSDaiWithdraw',
-              dai: formValues.token,
-              value: sDaiBalance,
-              sDai: marketInfo.sDAI,
-              method: 'redeem',
-            },
-          ]
-        : [
-            {
-              type: 'daiFromSDaiWithdraw',
-              dai: formValues.token,
-              value: formValues.value,
-              sDai: marketInfo.sDAI,
-              method: 'withdraw',
-            },
-          ]
+      return [
+        {
+          type: 'daiFromSDaiWithdraw',
+          dai: formValues.token,
+          sDai: marketInfo.sDAI,
+          value: isMaxSelected ? sDaiBalance : formValues.value,
+          method: isMaxSelected ? 'redeem' : 'withdraw',
+          receiver,
+          mode,
+        },
+      ]
     }
 
     if (tokenSymbol === TokenSymbol('USDC')) {
@@ -115,6 +119,8 @@ function getNativeObjectivesByChainAndToken({
               value: sDaiBalance,
               sDai: marketInfo.sDAI,
               method: 'redeem',
+              receiver,
+              mode,
             },
           ]
         : [
@@ -125,6 +131,8 @@ function getNativeObjectivesByChainAndToken({
               sDai: marketInfo.sDAI,
               method: 'withdraw',
               sDaiValueEstimate,
+              receiver,
+              mode,
             },
           ]
     }
@@ -140,6 +148,8 @@ function getNativeObjectivesByChainAndToken({
               value: sDaiBalance,
               sDai: marketInfo.sDAI,
               method: 'redeem',
+              receiver,
+              mode,
             },
           ]
         : [
@@ -150,6 +160,8 @@ function getNativeObjectivesByChainAndToken({
               sDai: marketInfo.sDAI,
               method: 'withdraw',
               sDaiValueEstimate,
+              receiver,
+              mode,
             },
           ]
     }

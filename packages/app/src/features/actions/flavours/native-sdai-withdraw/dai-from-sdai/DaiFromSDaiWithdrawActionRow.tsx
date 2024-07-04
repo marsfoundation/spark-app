@@ -7,5 +7,13 @@ export interface DaiFromSDaiWithdrawActionRowProps extends ActionRowBaseProps {
 }
 
 export function DaiFromSDaiWithdrawActionRow({ action, ...rest }: DaiFromSDaiWithdrawActionRowProps) {
-  return <WithdrawFromSDaiActionRow fromToken={action.sDai} toToken={action.dai} value={action.value} {...rest} />
+  return (
+    <WithdrawFromSDaiActionRow
+      fromToken={action.sDai}
+      toToken={action.dai}
+      value={action.value}
+      isSendMode={action.mode === 'send'}
+      {...rest}
+    />
+  )
 }

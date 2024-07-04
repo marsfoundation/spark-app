@@ -178,6 +178,8 @@ export function useCreateActions(objectives: Objective[]): Action[] {
           sDai: objective.sDai,
           value: objective.value,
           method: objective.method,
+          receiver: objective.mode === 'send' ? objective.receiver : undefined,
+          mode: objective.mode,
         }
 
         return [withdrawAction]
@@ -201,6 +203,8 @@ export function useCreateActions(objectives: Objective[]): Action[] {
           sDai: objective.sDai,
           value: objective.value,
           method: objective.method,
+          receiver: objective.mode === 'send' ? objective.receiver : undefined,
+          mode: objective.mode,
         }
 
         return [approveAction, withdrawAction]
@@ -223,6 +227,8 @@ export function useCreateActions(objectives: Objective[]): Action[] {
           sDai: objective.sDai,
           value: objective.value,
           method: objective.method,
+          receiver: objective.mode === 'send' ? objective.receiver : undefined,
+          mode: objective.mode,
         }
 
         return [approveAction, withdrawAction]

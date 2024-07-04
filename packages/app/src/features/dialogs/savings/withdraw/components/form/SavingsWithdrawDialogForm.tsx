@@ -16,7 +16,7 @@ export function SavingsWithdrawDialogForm({ sendModeExtension, ...rest }: Saving
       {sendModeExtension && (
         <Form {...sendModeExtension.receiverForm}>
           <div className="mt-2 mb-3 flex flex-col gap-2">
-            <DialogPanelTitle>Sent to</DialogPanelTitle>
+            <DialogPanelTitle>Send to</DialogPanelTitle>
             <ControlledAddressInput
               form={sendModeExtension.receiverForm}
               blockExplorerUrl={sendModeExtension.blockExplorerAddressLink}

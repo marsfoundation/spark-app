@@ -2,7 +2,6 @@ import { useBlockExplorerAddressLink } from '@/domain/hooks/useBlockExplorerAddr
 import { useIsSmartContract } from '@/domain/hooks/useIsSmartContract'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
-import { useDebounce } from '@/utils/useDebounce'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { UseFormReturn, useForm } from 'react-hook-form'
 import { Address } from 'viem'
@@ -16,7 +15,7 @@ export interface UseSendModeOptionsParams {
 }
 
 export function useSendModeExtension({ mode, marketInfo }: UseSendModeOptionsParams): SendModeExtension | undefined {
-  const { receiver, receiverForm, isFormValid } = useDebouncedReceiverFormValues(marketInfo)
+  const { receiver, receiverForm, isFormValid } = useReceiverFormValues(marketInfo)
   const blockExplorerAddressLink = useBlockExplorerAddressLink(receiver)
   const { isSmartContract, isPending: isSmartContractCheckPending } = useIsSmartContract(receiver)
 
@@ -37,7 +36,7 @@ interface UseDebouncedReceiverFormValuesResult {
   isFormValid: boolean
 }
 
-function useDebouncedReceiverFormValues(marketInfo: MarketInfo): UseDebouncedReceiverFormValuesResult {
+function useReceiverFormValues(marketInfo: MarketInfo): UseDebouncedReceiverFormValuesResult {
   const { address: account } = useAccount()
 
   const receiverForm = useForm<ReceiverFormSchema>({
@@ -48,13 +47,12 @@ function useDebouncedReceiverFormValues(marketInfo: MarketInfo): UseDebouncedRec
     mode: 'onChange',
   })
 
-  const rawReceiver = receiverForm.watch('receiver')
-  const { debouncedValue, isDebouncing } = useDebounce({ receiverForm, rawReceiver }, rawReceiver)
-  const isFormValid = !isDebouncing && debouncedValue.receiverForm.formState.isValid
-  const receiver = isFormValid ? CheckedAddress(debouncedValue.rawReceiver as Address) : undefined
+  const rawReceiver = receiverForm.getValues('receiver')
+  const isFormValid = receiverForm.formState.isValid
+  const receiver = isFormValid ? CheckedAddress(rawReceiver as Address) : undefined
 
   return {
-    receiverForm: debouncedValue.receiverForm,
+    receiverForm,
     receiver,
     isFormValid,
   }
