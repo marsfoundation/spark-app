@@ -3,6 +3,7 @@ import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
 import { RiskAcknowledgementInfo } from '@/domain/liquidation-risk-warning/types'
 import { useLiquidationRiskWarning } from '@/domain/liquidation-risk-warning/useLiquidationRiskWarning'
 import { useAaveDataLayer } from '@/domain/market-info/aave-data-layer/useAaveDataLayer'
+import { EPOCH_LENGTH } from '@/domain/market-info/consts'
 import { updatePositionSummary } from '@/domain/market-info/updatePositionSummary'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { Token } from '@/domain/types/Token'
@@ -37,6 +38,7 @@ export interface UseBorrowDialogResult {
 export function useBorrowDialog({ initialToken }: UseBorrowDialogOptions): UseBorrowDialogResult {
   const { aaveData } = useAaveDataLayer()
   const { marketInfo } = useMarketInfo()
+  const { marketInfo: marketInfoIn1Epoch } = useMarketInfo({ timeAdvance: EPOCH_LENGTH })
   const walletInfo = useWalletInfo()
   const nativeAssetInfo = getNativeAssetInfo(marketInfo.chainId)
 
@@ -57,7 +59,6 @@ export function useBorrowDialog({ initialToken }: UseBorrowDialogOptions): UseBo
     walletInfo,
     nativeAssetInfo,
   })
-  const assetsToBorrowFields = getFormFieldsForBorrowDialog(form, marketInfo, walletInfo)
   const {
     debouncedFormValues: tokenToBorrow,
     isDebouncing,
@@ -65,6 +66,13 @@ export function useBorrowDialog({ initialToken }: UseBorrowDialogOptions): UseBo
   } = useDebouncedDialogFormValues({
     form,
     marketInfo,
+  })
+
+  const assetsToBorrowFields = getFormFieldsForBorrowDialog({
+    form,
+    marketInfo,
+    marketInfoIn1Epoch,
+    walletInfo,
   })
   const actions = createBorrowObjectives(tokenToBorrow)
 

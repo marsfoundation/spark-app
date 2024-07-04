@@ -28,7 +28,11 @@ export function getBorrowMaxValue({ asset, user, validationIssue }: GetBorrowMax
   ) {
     return NormalizedUnitNumber(0)
   }
-  const ceilings = [asset.availableLiquidity, user.maxBorrowBasedOnCollateral]
+
+  const ceilings = [
+    asset.availableLiquidity,
+    user.maxBorrowBasedOnCollateral.multipliedBy(0.99), // take 99% of the max borrow value to ensure that liquidation is not triggered right after the borrow
+  ]
 
   if (asset.borrowCap) {
     ceilings.push(NormalizedUnitNumber(asset.borrowCap.minus(asset.totalDebt)))

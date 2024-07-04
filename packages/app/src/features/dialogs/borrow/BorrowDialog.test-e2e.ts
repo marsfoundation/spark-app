@@ -247,6 +247,7 @@ test.describe('Borrow dialog', () => {
 
       const dashboardPage = new DashboardPageObject(page)
       await dashboardPage.goToDashboardAction()
+      await dashboardPage.expectDepositedAssets(10_220)
     })
 
     test('can borrow erc-20', async ({ page }) => {
@@ -311,6 +312,27 @@ test.describe('Borrow dialog', () => {
       await actionsContainer.expectEnabledActionAtIndex(0)
 
       await screenshot(borrowDialog.getDialog(), 'borrow-dialog-only-deposit-health-factor')
+    })
+
+    test('clicking MAX sets input to 99% of possible borrow', async ({ page }) => {
+      const dashboardPage = new DashboardPageObject(page)
+      await dashboardPage.clickBorrowButtonAction('DAI')
+
+      const borrowDialog = new DialogPageObject(page, headerRegExp)
+      await borrowDialog.clickMaxAmountAction()
+
+      await borrowDialog.expectInputValue('6929.369808')
+      await borrowDialog.expectMaxButtonDisabled()
+      await borrowDialog.expectLiquidationRiskWarning(
+        'Borrowing this amount puts you at risk of quick liquidation. You may lose part of your collateral.',
+      )
+
+      await borrowDialog.clickAcknowledgeRisk()
+
+      const actionsContainer = new ActionsPageObject(borrowDialog.locatePanelByHeader('Actions'))
+
+      await actionsContainer.expectActions([{ type: 'borrow', asset: 'DAI' }])
+      await actionsContainer.expectEnabledActionAtIndex(0)
     })
   })
 
