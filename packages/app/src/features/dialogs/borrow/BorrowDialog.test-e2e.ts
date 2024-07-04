@@ -434,6 +434,20 @@ test.describe('Borrow dialog', () => {
       await actionsContainer.expectActions([{ type: 'borrow', asset: 'wstETH' }])
       await actionsContainer.expectEnabledActionAtIndex(0)
     })
+
+    test('MAX borrow accounts for available liquidity', async ({ page }) => {
+      await dashboardPage.clickBorrowButtonAction('USDC')
+
+      const borrowDialog = new DialogPageObject(page, headerRegExp)
+      await borrowDialog.clickMaxAmountAction()
+
+      await borrowDialog.expectInputValue('409207.097251')
+      await borrowDialog.expectMaxButtonDisabled()
+
+      const actionsContainer = new ActionsPageObject(borrowDialog.locatePanelByHeader('Actions'))
+      await actionsContainer.expectActions([{ type: 'borrow', asset: 'USDC' }])
+      await actionsContainer.expectEnabledActionAtIndex(0)
+    })
   })
 
   test.describe('Liquidation risk warning', () => {
