@@ -1,24 +1,34 @@
 import { savingsXDaiAdapterAbi, savingsXDaiAdapterAddress } from '@/config/contracts-generated'
 import { BaseUnitNumber } from '@/domain/types/NumericValues'
-import { testAddresses } from '@/test/integration/constants'
+import { getMockMarketInfo, testAddresses } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
 import { setupHookRenderer } from '@/test/integration/setupHookRenderer'
 import { toBigInt } from '@/utils/bigNumber'
 import { waitFor } from '@testing-library/react'
 import { gnosis } from 'viem/chains'
+import { vi } from 'vitest'
 import { useSexyDaiWithdraw } from './useSexyDaiWithdraw'
 
 const owner = testAddresses.alice
 const receiver = testAddresses.bob
 const sDai = testAddresses.token
 const assetsAmount = BaseUnitNumber(1)
+const mode = 'withdraw'
 
 const hookRenderer = setupHookRenderer({
   hook: useSexyDaiWithdraw,
   account: owner,
   chain: gnosis,
   handlers: [handlers.chainIdCall({ chainId: gnosis.id }), handlers.balanceCall({ balance: 0n, address: owner })],
-  args: { assetsAmount, sDai },
+  args: { assetsAmount, sDai, mode },
+})
+
+vi.mock('../market-info/useMarketInfo', () => ({
+  useMarketInfo: () => ({ marketInfo: getMockMarketInfo() }),
+}))
+
+beforeEach(() => {
+  vi.clearAllMocks()
 })
 
 describe(useSexyDaiWithdraw.name, () => {
@@ -31,7 +41,7 @@ describe(useSexyDaiWithdraw.name, () => {
   })
 
   it('is not enabled for 0 assets amount', async () => {
-    const { result } = hookRenderer({ args: { assetsAmount: BaseUnitNumber(0), sDai } })
+    const { result } = hookRenderer({ args: { assetsAmount: BaseUnitNumber(0), sDai, mode } })
 
     await waitFor(() => {
       expect(result.current.status.kind).toBe('disabled')
@@ -39,7 +49,7 @@ describe(useSexyDaiWithdraw.name, () => {
   })
 
   it('is not enabled when explicitly disabled', async () => {
-    const { result } = hookRenderer({ args: { enabled: false, assetsAmount, sDai } })
+    const { result } = hookRenderer({ args: { enabled: false, assetsAmount, sDai, mode } })
 
     await waitFor(() => {
       expect(result.current.status.kind).toBe('disabled')
@@ -75,7 +85,12 @@ describe(useSexyDaiWithdraw.name, () => {
 
   it('withdraws xDAI with custom receiver', async () => {
     const { result } = hookRenderer({
-      args: { assetsAmount, receiver, sDai },
+      args: {
+        assetsAmount,
+        receiver,
+        sDai,
+        mode: 'send',
+      },
       extraHandlers: [
         handlers.contractCall({
           to: savingsXDaiAdapterAddress[gnosis.id],

@@ -1,11 +1,12 @@
 import { psmActionsAbi, psmActionsAddress } from '@/config/contracts-generated'
 import { BaseUnitNumber } from '@/domain/types/NumericValues'
-import { getMockToken, testAddresses } from '@/test/integration/constants'
+import { getMockMarketInfo, getMockToken, testAddresses } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
 import { setupHookRenderer } from '@/test/integration/setupHookRenderer'
 import { toBigInt } from '@/utils/bigNumber'
 import { waitFor } from '@testing-library/react'
 import { mainnet } from 'viem/chains'
+import { vi } from 'vitest'
 import { useWithdrawAndSwap } from './useWithdrawAndSwap'
 
 const gem = getMockToken({ address: testAddresses.token, decimals: 6 })
@@ -13,12 +14,21 @@ const assetsToken = getMockToken({ address: testAddresses.token2, decimals: 18 }
 const owner = testAddresses.alice
 const receiver = testAddresses.bob
 const gemAmountOut = BaseUnitNumber(10)
+const mode = 'withdraw'
 
 const hookRenderer = setupHookRenderer({
   hook: useWithdrawAndSwap,
   account: owner,
   handlers: [handlers.chainIdCall({ chainId: mainnet.id }), handlers.balanceCall({ balance: 0n, address: owner })],
-  args: { gem, assetsToken, gemAmountOut },
+  args: { gem, assetsToken, gemAmountOut, mode },
+})
+
+vi.mock('../market-info/useMarketInfo', () => ({
+  useMarketInfo: () => ({ marketInfo: getMockMarketInfo() }),
+}))
+
+beforeEach(() => {
+  vi.clearAllMocks()
 })
 
 describe(useWithdrawAndSwap.name, () => {
@@ -31,7 +41,7 @@ describe(useWithdrawAndSwap.name, () => {
   })
 
   it('is not enabled for 0 value', async () => {
-    const { result } = hookRenderer({ args: { gemAmountOut: BaseUnitNumber(0), gem, assetsToken } })
+    const { result } = hookRenderer({ args: { gemAmountOut: BaseUnitNumber(0), gem, assetsToken, mode } })
 
     await waitFor(() => {
       expect(result.current.status.kind).toBe('disabled')
@@ -39,7 +49,7 @@ describe(useWithdrawAndSwap.name, () => {
   })
 
   it('is not enabled when explicitly disabled', async () => {
-    const { result } = hookRenderer({ args: { enabled: false, gemAmountOut, gem, assetsToken } })
+    const { result } = hookRenderer({ args: { enabled: false, gemAmountOut, gem, assetsToken, mode } })
 
     await waitFor(() => {
       expect(result.current.status.kind).toBe('disabled')
@@ -75,7 +85,13 @@ describe(useWithdrawAndSwap.name, () => {
 
   it('withdraws using psm actions with custom receiver', async () => {
     const { result } = hookRenderer({
-      args: { gemAmountOut, gem, assetsToken, receiver },
+      args: {
+        gemAmountOut,
+        gem,
+        assetsToken,
+        receiver,
+        mode: 'send',
+      },
       extraHandlers: [
         handlers.contractCall({
           to: psmActionsAddress[mainnet.id],
