@@ -8,10 +8,16 @@ export type DaiFromSDaiWithdrawObjective = {
   dai: Token
   value: NormalizedUnitNumber
   sDai: Token
-  receiver?: CheckedAddress
-  mode: Mode
   method: 'withdraw' | 'redeem'
-}
+} & (
+  | {
+      mode: 'send'
+      receiver?: CheckedAddress
+    }
+  | {
+      mode: 'withdraw'
+    }
+)
 
 export interface DaiFromSDaiWithdrawAction {
   type: 'daiFromSDaiWithdraw'

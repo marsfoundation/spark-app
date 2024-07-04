@@ -3,26 +3,29 @@ import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { Mode } from '@/features/dialogs/savings/withdraw/types'
 
-export type USDCFromSDaiWithdrawObjective =
+export type USDCFromSDaiWithdrawObjective = {
+  type: 'usdcFromSDaiWithdraw'
+  usdc: Token
+  value: NormalizedUnitNumber
+  sDai: Token
+} & (
   | {
-      type: 'usdcFromSDaiWithdraw'
-      usdc: Token
-      value: NormalizedUnitNumber
-      sDai: Token
-      sDaiValueEstimate: NormalizedUnitNumber
-      receiver?: CheckedAddress
-      mode: Mode
       method: 'withdraw'
+      sDaiValueEstimate: NormalizedUnitNumber
     }
   | {
-      type: 'usdcFromSDaiWithdraw'
-      usdc: Token
-      value: NormalizedUnitNumber
-      sDai: Token
-      receiver?: CheckedAddress
-      mode: Mode
       method: 'redeem'
     }
+) &
+  (
+    | {
+        mode: 'send'
+        receiver?: CheckedAddress
+      }
+    | {
+        mode: 'withdraw'
+      }
+  )
 
 export interface USDCFromSDaiWithdrawAction {
   type: 'usdcFromSDaiWithdraw'

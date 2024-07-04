@@ -17,6 +17,7 @@ export function useCreateUSDCFromSDaiWithdrawHandler(
   const { enabled, onFinish } = options
   const isWithdraw = action.method === 'withdraw'
   const isRedeem = action.method === 'redeem'
+  const isSend = action.mode === 'send'
 
   const withdraw = useWithdrawAndSwap({
     assetsToken: action.sDai,
@@ -24,7 +25,7 @@ export function useCreateUSDCFromSDaiWithdrawHandler(
     gemAmountOut: isWithdraw ? action.usdc.toBaseUnit(action.value) : BaseUnitNumber(0),
     enabled: enabled && isWithdraw,
     onTransactionSettled: onFinish,
-    receiver: action.receiver,
+    receiver: isSend ? action.receiver : undefined,
   })
   const redeem = useRedeemAndSwap({
     assetsToken: action.sDai,
@@ -32,7 +33,7 @@ export function useCreateUSDCFromSDaiWithdrawHandler(
     sharesAmount: isRedeem ? action.sDai.toBaseUnit(action.value) : BaseUnitNumber(0),
     enabled: enabled && isRedeem,
     onTransactionSettled: onFinish,
-    receiver: action.receiver,
+    receiver: isSend ? action.receiver : undefined,
   })
 
   const hookResult = isWithdraw ? withdraw : redeem
