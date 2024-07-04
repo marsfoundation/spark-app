@@ -10,6 +10,7 @@ import { setup } from '@/test/e2e/setup'
 import { setupFork } from '@/test/e2e/setupFork'
 import { screenshot } from '@/test/e2e/utils'
 
+import { CollateralDialogPageObject } from '../collateral/CollateralDialog.PageObject'
 import { DialogPageObject } from '../common/Dialog.PageObject'
 
 const headerRegExp = /Borrow */
@@ -331,6 +332,59 @@ test.describe('Borrow dialog', () => {
 
       const actionsContainer = new ActionsPageObject(borrowDialog.locatePanelByHeader('Actions'))
 
+      await actionsContainer.expectActions([{ type: 'borrow', asset: 'DAI' }])
+      await actionsContainer.expectEnabledActionAtIndex(0)
+    })
+  })
+
+  test.describe('Position in isolation mode', () => {
+    const fork = setupFork({
+      blockNumber: 20230000n,
+      chainId: mainnet.id,
+      simulationDateOverride: new Date('2024-07-04T15:32:19Z'),
+    })
+    const initialDeposits = {
+      weETH: 200,
+    }
+
+    let dashboardPage: DashboardPageObject
+
+    test.beforeEach(async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'dashboard',
+        account: {
+          type: 'connected-random',
+          assetBalances: { ...initialDeposits },
+        },
+      })
+
+      dashboardPage = new DashboardPageObject(page)
+      await dashboardPage.clickDepositButtonAction('weETH')
+      const depositDialog = new DialogPageObject(page, /Deposit weETH/)
+      await depositDialog.fillAmountAction(initialDeposits.weETH)
+      const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
+      await actionsContainer.acceptAllActionsAction(2)
+      await depositDialog.viewInDashboardAction()
+
+      await dashboardPage.clickCollateralSwitchAction('weETH')
+
+      const collateralDialog = new CollateralDialogPageObject(page)
+      await collateralDialog.setUseAsCollateralAction('weETH', 'enabled')
+      await collateralDialog.viewInDashboardAction()
+
+      await dashboardPage.expectDepositedAssets(671_900)
+    })
+
+    test('MAX borrow accounts for isolation debt ceiling', async ({ page }) => {
+      await dashboardPage.clickBorrowButtonAction('DAI')
+
+      const borrowDialog = new DialogPageObject(page, headerRegExp)
+      await borrowDialog.clickMaxAmountAction()
+
+      await borrowDialog.expectInputValue('110616.31')
+      await borrowDialog.expectMaxButtonDisabled()
+
+      const actionsContainer = new ActionsPageObject(borrowDialog.locatePanelByHeader('Actions'))
       await actionsContainer.expectActions([{ type: 'borrow', asset: 'DAI' }])
       await actionsContainer.expectEnabledActionAtIndex(0)
     })
