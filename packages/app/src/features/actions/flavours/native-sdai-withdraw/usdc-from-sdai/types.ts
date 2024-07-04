@@ -21,6 +21,7 @@ export type USDCFromSDaiWithdrawObjective = {
     | {
         mode: 'send'
         receiver?: CheckedAddress
+        reserveAddresses: CheckedAddress[]
       }
     | {
         mode: 'withdraw'
@@ -34,5 +35,6 @@ export interface USDCFromSDaiWithdrawAction {
   sDai: Token
   receiver?: CheckedAddress
   mode: Mode
+  reserveAddresses?: CheckedAddress[]
   method: 'withdraw' | 'redeem'
 }

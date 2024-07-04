@@ -366,7 +366,7 @@ export const sDaiLikeReserve = getMockReserve({
   incentives: { deposit: [], borrow: [] },
 })
 
-const wethLikeReserve = getMockReserve({
+export const wethLikeReserve = getMockReserve({
   token: new Token({
     symbol: TokenSymbol('WETH'),
     name: 'Wrapped Ether',

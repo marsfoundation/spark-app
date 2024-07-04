@@ -1,12 +1,11 @@
 import { BaseUnitNumber } from '@/domain/types/NumericValues'
-import { getMockMarketInfo, testAddresses } from '@/test/integration/constants'
+import { daiLikeReserve, testAddresses, wethLikeReserve } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
 import { setupHookRenderer } from '@/test/integration/setupHookRenderer'
 import { toBigInt } from '@/utils/bigNumber'
 import { waitFor } from '@testing-library/react'
 import { erc4626Abi } from 'viem'
 import { mainnet } from 'viem/chains'
-import { vi } from 'vitest'
 import { useVaultWithdraw } from './useVaultWithdraw'
 
 const owner = testAddresses.alice
@@ -14,20 +13,13 @@ const receiver = testAddresses.bob
 const assetsAmount = BaseUnitNumber(10)
 const vault = testAddresses.token
 const mode = 'withdraw'
+const reserveAddresses = [daiLikeReserve.token.address, wethLikeReserve.token.address]
 
 const hookRenderer = setupHookRenderer({
   hook: useVaultWithdraw,
   account: owner,
   handlers: [handlers.chainIdCall({ chainId: mainnet.id }), handlers.balanceCall({ balance: 0n, address: owner })],
   args: { assetsAmount, vault, mode },
-})
-
-vi.mock('../market-info/useMarketInfo', () => ({
-  useMarketInfo: () => ({ marketInfo: getMockMarketInfo() }),
-}))
-
-beforeEach(() => {
-  vi.clearAllMocks()
 })
 
 describe(useVaultWithdraw.name, () => {
@@ -88,6 +80,7 @@ describe(useVaultWithdraw.name, () => {
         assetsAmount,
         vault,
         receiver,
+        reserveAddresses,
         mode: 'send',
       },
       extraHandlers: [

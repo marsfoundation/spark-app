@@ -4,7 +4,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { erc4626Abi } from 'viem'
 import { useAccount, useChainId } from 'wagmi'
 import { ensureConfigTypes, useWrite } from '../hooks/useWrite'
-import { useAssertNativeWithdraw } from '../savings/useAssertNativeWithdraw'
+import { assertNativeWithdraw } from '../savings/assertNativeWithdraw'
 import { CheckedAddress } from '../types/CheckedAddress'
 import { BaseUnitNumber } from '../types/NumericValues'
 import { balancesQueryKey } from '../wallet/balances'
@@ -14,6 +14,7 @@ interface UseVaultWithdrawArgs {
   assetsAmount: BaseUnitNumber
   receiver?: CheckedAddress
   mode: Mode
+  reserveAddresses?: CheckedAddress[]
   onTransactionSettled?: () => void
   enabled?: boolean
 }
@@ -28,6 +29,7 @@ export function useVaultWithdraw({
   assetsAmount,
   receiver: _receiver,
   mode,
+  reserveAddresses,
   onTransactionSettled,
   enabled = true,
 }: UseVaultWithdrawArgs): ReturnType<typeof useWrite> {
@@ -35,7 +37,7 @@ export function useVaultWithdraw({
   const chainId = useChainId()
   const { address: owner } = useAccount()
 
-  useAssertNativeWithdraw({ mode, receiver: _receiver, owner })
+  assertNativeWithdraw({ mode, receiver: _receiver, owner, reserveAddresses })
 
   const receiver = _receiver || owner
 

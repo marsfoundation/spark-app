@@ -5,7 +5,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useAccount, useChainId } from 'wagmi'
 import { useContractAddress } from '../hooks/useContractAddress'
 import { ensureConfigTypes, useWrite } from '../hooks/useWrite'
-import { useAssertNativeWithdraw } from '../savings/useAssertNativeWithdraw'
+import { assertNativeWithdraw } from '../savings/assertNativeWithdraw'
 import { CheckedAddress } from '../types/CheckedAddress'
 import { BaseUnitNumber } from '../types/NumericValues'
 import { Token } from '../types/Token'
@@ -18,6 +18,7 @@ export interface UseWithdrawAndSwapArgs {
   gemAmountOut: BaseUnitNumber
   receiver?: CheckedAddress
   mode: Mode
+  reserveAddresses?: CheckedAddress[]
   onTransactionSettled?: () => void
   enabled?: boolean
 }
@@ -33,6 +34,7 @@ export function useWithdrawAndSwap({
   gemAmountOut: _gemAmountOut,
   receiver: _receiver,
   mode,
+  reserveAddresses,
   onTransactionSettled,
   enabled = true,
 }: UseWithdrawAndSwapArgs): ReturnType<typeof useWrite> {
@@ -40,7 +42,7 @@ export function useWithdrawAndSwap({
   const chainId = useChainId()
   const { address: owner } = useAccount()
 
-  useAssertNativeWithdraw({ mode, receiver: _receiver, owner })
+  assertNativeWithdraw({ mode, receiver: _receiver, owner, reserveAddresses })
 
   const psmActions = useContractAddress(psmActionsConfig.address)
 

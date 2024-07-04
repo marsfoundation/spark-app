@@ -1,11 +1,10 @@
 import { savingsXDaiAdapterAbi, savingsXDaiAdapterAddress } from '@/config/contracts-generated'
-import { getMockMarketInfo, testAddresses } from '@/test/integration/constants'
+import { daiLikeReserve, testAddresses, wethLikeReserve } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
 import { setupHookRenderer } from '@/test/integration/setupHookRenderer'
 import { toBigInt } from '@/utils/bigNumber'
 import { waitFor } from '@testing-library/react'
 import { gnosis } from 'viem/chains'
-import { vi } from 'vitest'
 import { BaseUnitNumber } from '../types/NumericValues'
 import { useSexyDaiRedeem } from './useSexyDaiRedeem'
 
@@ -14,6 +13,7 @@ const receiver = testAddresses.bob
 const sharesAmount = BaseUnitNumber(10)
 const sDai = testAddresses.token
 const mode = 'withdraw'
+const reserveAddresses = [daiLikeReserve.token.address, wethLikeReserve.token.address]
 
 const hookRenderer = setupHookRenderer({
   hook: useSexyDaiRedeem,
@@ -21,14 +21,6 @@ const hookRenderer = setupHookRenderer({
   chain: gnosis,
   handlers: [handlers.chainIdCall({ chainId: gnosis.id }), handlers.balanceCall({ balance: 0n, address: owner })],
   args: { sDai, sharesAmount, mode },
-})
-
-vi.mock('../market-info/useMarketInfo', () => ({
-  useMarketInfo: () => ({ marketInfo: getMockMarketInfo() }),
-}))
-
-beforeEach(() => {
-  vi.clearAllMocks()
 })
 
 describe(useSexyDaiRedeem.name, () => {
@@ -89,6 +81,7 @@ describe(useSexyDaiRedeem.name, () => {
         sharesAmount,
         receiver,
         sDai,
+        reserveAddresses,
         mode: 'send',
       },
       extraHandlers: [

@@ -25,16 +25,16 @@ export function useCreateDaiFromSDaiWithdrawHandler(
     assetsAmount: isWithdraw ? action.dai.toBaseUnit(action.value) : BaseUnitNumber(0),
     enabled: enabled && isWithdraw,
     onTransactionSettled: onFinish,
-    receiver: isSend ? action.receiver : undefined,
     mode: action.mode,
+    ...(isSend ? { receiver: action.receiver, reserveAddresses: action.reserveAddresses } : {}),
   })
   const redeem = useVaultRedeem({
     vault: action.sDai.address,
     sharesAmount: isRedeem ? action.sDai.toBaseUnit(action.value) : BaseUnitNumber(0),
     enabled: enabled && isRedeem,
     onTransactionSettled: onFinish,
-    receiver: isSend ? action.receiver : undefined,
     mode: action.mode,
+    ...(isSend ? { receiver: action.receiver, reserveAddresses: action.reserveAddresses } : {}),
   })
 
   const hookResult = isWithdraw ? withdraw : redeem

@@ -1,6 +1,6 @@
 import { psmActionsConfig } from '@/config/contracts-generated'
 import { useContractAddress } from '@/domain/hooks/useContractAddress'
-import { useAssertNativeWithdraw } from '@/domain/savings/useAssertNativeWithdraw'
+import { assertNativeWithdraw } from '@/domain/savings/assertNativeWithdraw'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { Mode } from '@/features/dialogs/savings/withdraw/types'
 import { toBigInt } from '@/utils/bigNumber'
@@ -17,6 +17,7 @@ export interface UseRedeemAndSwapArgs {
   assetsToken: Token
   sharesAmount: BaseUnitNumber
   receiver?: CheckedAddress
+  reserveAddresses?: CheckedAddress[]
   mode: Mode
   onTransactionSettled?: () => void
   enabled?: boolean
@@ -32,6 +33,7 @@ export function useRedeemAndSwap({
   assetsToken,
   sharesAmount: _sharesAmount,
   receiver: _receiver,
+  reserveAddresses,
   mode,
   onTransactionSettled,
   enabled = true,
@@ -41,7 +43,7 @@ export function useRedeemAndSwap({
   const chainId = useChainId()
   const { address: owner } = useAccount()
 
-  useAssertNativeWithdraw({ mode, receiver: _receiver, owner })
+  assertNativeWithdraw({ mode, receiver: _receiver, owner, reserveAddresses })
 
   const psmActions = useContractAddress(psmActionsConfig.address)
 

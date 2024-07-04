@@ -6,7 +6,7 @@ import { gnosis } from 'viem/chains'
 import { useAccount, useConfig } from 'wagmi'
 import { ensureConfigTypes, useWrite } from '../hooks/useWrite'
 import { allowance } from '../market-operations/allowance/query'
-import { useAssertNativeWithdraw } from '../savings/useAssertNativeWithdraw'
+import { assertNativeWithdraw } from '../savings/assertNativeWithdraw'
 import { CheckedAddress } from '../types/CheckedAddress'
 import { BaseUnitNumber } from '../types/NumericValues'
 import { balancesQueryKey } from '../wallet/balances'
@@ -15,6 +15,7 @@ interface UseSexyDaiWithdrawArgs {
   sDai: CheckedAddress
   assetsAmount: BaseUnitNumber
   receiver?: CheckedAddress
+  reserveAddresses?: CheckedAddress[]
   mode: Mode
   onTransactionSettled?: () => void
   enabled?: boolean
@@ -29,6 +30,7 @@ export function useSexyDaiWithdraw({
   sDai,
   assetsAmount,
   receiver: _receiver,
+  reserveAddresses,
   mode,
   onTransactionSettled,
   enabled = true,
@@ -37,7 +39,7 @@ export function useSexyDaiWithdraw({
   const wagmiConfig = useConfig()
   const { address: owner } = useAccount()
 
-  useAssertNativeWithdraw({ mode, receiver: _receiver, owner })
+  assertNativeWithdraw({ mode, receiver: _receiver, owner, reserveAddresses })
 
   const receiver = _receiver || owner
 
