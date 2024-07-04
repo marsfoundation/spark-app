@@ -227,7 +227,7 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
       sDai: tokens.sDAI,
       method: 'withdraw',
       receiver: CheckedAddress(zeroAddress),
-      mode: 'send',
+      mode: 'withdraw',
     },
     state: { status: 'ready' },
     onAction: () => {},

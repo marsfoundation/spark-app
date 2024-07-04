@@ -68,7 +68,7 @@ interface GetNativeObjectivesByChainAndTokenParams {
   walletInfo: WalletInfo
   formValues: DialogFormNormalizedData
   chainId: number
-  receiver?: CheckedAddress
+  receiver: CheckedAddress | undefined
   mode: Mode
 }
 
