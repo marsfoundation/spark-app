@@ -6,6 +6,8 @@ import { BasePageObject } from '@/test/e2e/BasePageObject'
 import { isPage } from '@/test/e2e/utils'
 import { testIds } from '@/ui/utils/testIds'
 
+import { tenderlyRpcActions } from '@/domain/tenderly/TenderlyRpcActions'
+import { ForkContext } from '@/test/e2e/setupFork'
 import { ActionType } from './logic/types'
 
 export class ActionsPageObject extends BasePageObject {
@@ -27,11 +29,15 @@ export class ActionsPageObject extends BasePageObject {
   }
 
   // #region actions
-  async acceptAllActionsAction(expectedNumberOfActions: number): Promise<void> {
+  async acceptAllActionsAction(expectedNumberOfActions: number, forkContext?: ForkContext): Promise<void> {
     for (let index = 0; index < expectedNumberOfActions; index++) {
       const row = this.region.getByTestId(testIds.actions.row(index))
 
       await row.getByRole('button', { name: actionButtonRegex }).click()
+      if (forkContext?.isVnet) {
+        await expect(row.getByRole('button', { name: actionButtonRegex })).not.toBeVisible()
+        await forkContext.progressSimulation(0)
+      }
     }
   }
 

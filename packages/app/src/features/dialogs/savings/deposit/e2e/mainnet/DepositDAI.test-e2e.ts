@@ -9,7 +9,7 @@ import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageO
 import { depositValidationIssueToMessage } from '../../logic/validation'
 
 test.describe('Deposit DAI on Mainnet', () => {
-  const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id })
+  const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
   let savingsPage: SavingsPageObject
   let depositDialog: SavingsDialogPageObject
 
@@ -51,23 +51,23 @@ test.describe('Deposit DAI on Mainnet', () => {
           tokenUsdValue: '$10,000.00',
         },
         {
-          tokenAmount: '9,332.66 sDAI',
+          tokenAmount: '9,495.85 sDAI',
           tokenUsdValue: '$10,000.00',
         },
       ],
-      outcome: '9,332.66 sDAI worth $10,000.00',
+      outcome: '9,495.85 sDAI worth $10,000.00',
       badgeToken: 'DAI',
     })
   })
 
   test('executes deposit', async () => {
     const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
-    await actionsContainer.acceptAllActionsAction(2)
+    await actionsContainer.acceptAllActionsAction(2, fork)
 
     await depositDialog.expectSuccessPage()
     await depositDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsBalance({ sDaiBalance: '9,332.66 sDAI', estimatedDaiValue: '10,000' })
+    await savingsPage.expectSavingsBalance({ sDaiBalance: '9,495.85 sDAI', estimatedDaiValue: '10,000' })
     await savingsPage.expectCashInWalletAssetBalance('DAI', '-')
   })
 })

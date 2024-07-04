@@ -12,12 +12,15 @@ export interface ForkContext {
   forkUrl: string
   tenderlyClient: ITestTenderlyService
   initialSnapshotId: string
-  simulationDate: Date
   isVnet: boolean
   chainId: number
+  simulationDate: Date
+
+  progressSimulation(seconds: number): Promise<void>
 }
 
 // @note: https://github.com/marsfoundation/app#deterministic-time-in-e2e-tests
+// used only with tenderly forks (not vnets)
 export const _simulationDate = new Date('2024-06-04T10:21:19Z')
 
 /**
@@ -27,7 +30,7 @@ export const _simulationDate = new Date('2024-06-04T10:21:19Z')
 export interface SetupForkOptions {
   blockNumber: bigint
   chainId: number
-  isVnet?: boolean // vnets are more powerful forks alternative provided by Tenderly
+  useTenderlyVnet?: boolean // vnets are more powerful forks alternative provided by Tenderly
   simulationDateOverride?: Date
 }
 
@@ -35,7 +38,7 @@ export function setupFork({
   blockNumber,
   chainId,
   simulationDateOverride,
-  isVnet = false,
+  useTenderlyVnet: isVnet = false,
 }: SetupForkOptions): ForkContext {
   const apiKey = processEnv('TENDERLY_API_KEY')
   const tenderlyAccount = processEnv('TENDERLY_ACCOUNT')
@@ -55,6 +58,13 @@ export function setupFork({
     initialSnapshotId: undefined as any,
     simulationDate: simulationDate as any,
     chainId,
+
+    async progressSimulation(seconds: number): Promise<void> {
+      this.simulationDate = new Date(this.simulationDate.getTime() + seconds * 1000)
+      const newTimestamp = Math.floor(this.simulationDate.getTime() / 1000)
+
+      await tenderlyRpcActions.evmSetNextBlockTimestamp(forkContext.forkUrl, Number(newTimestamp))
+    },
   }
   // @todo refactor after dropping tenderly fork support
 
@@ -76,6 +86,7 @@ export function setupFork({
 
       const block = await client.getBlock({ blockNumber: blockNumber - 1n })
       forkContext.simulationDate = new Date(Number(block.timestamp) * 1000)
+      await tenderlyRpcActions.evmSetNextBlockTimestamp(forkContext.forkUrl, Number(block.timestamp))
     }
 
     forkContext.initialSnapshotId = await tenderlyRpcActions.snapshot(forkContext.forkUrl)
