@@ -26,6 +26,7 @@ export function useCreateUSDCFromSDaiWithdrawHandler(
     enabled: enabled && isWithdraw,
     onTransactionSettled: onFinish,
     receiver: isSend ? action.receiver : undefined,
+    mode: action.mode,
   })
   const redeem = useRedeemAndSwap({
     assetsToken: action.sDai,
@@ -34,6 +35,7 @@ export function useCreateUSDCFromSDaiWithdrawHandler(
     enabled: enabled && isRedeem,
     onTransactionSettled: onFinish,
     receiver: isSend ? action.receiver : undefined,
+    mode: action.mode,
   })
 
   const hookResult = isWithdraw ? withdraw : redeem

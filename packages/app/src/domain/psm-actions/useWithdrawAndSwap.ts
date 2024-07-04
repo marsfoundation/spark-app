@@ -1,9 +1,11 @@
 import { psmActionsConfig } from '@/config/contracts-generated'
+import { Mode } from '@/features/dialogs/savings/withdraw/types'
 import { toBigInt } from '@/utils/bigNumber'
 import { useQueryClient } from '@tanstack/react-query'
 import { useAccount, useChainId } from 'wagmi'
 import { useContractAddress } from '../hooks/useContractAddress'
 import { ensureConfigTypes, useWrite } from '../hooks/useWrite'
+import { useAssertNativeWithdraw } from '../savings/useAssertNativeWithdraw'
 import { CheckedAddress } from '../types/CheckedAddress'
 import { BaseUnitNumber } from '../types/NumericValues'
 import { Token } from '../types/Token'
@@ -15,6 +17,7 @@ export interface UseWithdrawAndSwapArgs {
   assetsToken: Token
   gemAmountOut: BaseUnitNumber
   receiver?: CheckedAddress
+  mode: Mode
   onTransactionSettled?: () => void
   enabled?: boolean
 }
@@ -29,15 +32,18 @@ export function useWithdrawAndSwap({
   assetsToken,
   gemAmountOut: _gemAmountOut,
   receiver: _receiver,
+  mode,
   onTransactionSettled,
   enabled = true,
 }: UseWithdrawAndSwapArgs): ReturnType<typeof useWrite> {
   const client = useQueryClient()
   const chainId = useChainId()
+  const { address: owner } = useAccount()
+
+  useAssertNativeWithdraw({ mode, receiver: _receiver, owner })
 
   const psmActions = useContractAddress(psmActionsConfig.address)
 
-  const { address: owner } = useAccount()
   const receiver = _receiver || owner
 
   const gemAmountOut = toBigInt(_gemAmountOut)

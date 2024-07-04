@@ -26,6 +26,7 @@ export function useCreateDaiFromSDaiWithdrawHandler(
     enabled: enabled && isWithdraw,
     onTransactionSettled: onFinish,
     receiver: isSend ? action.receiver : undefined,
+    mode: action.mode,
   })
   const redeem = useVaultRedeem({
     vault: action.sDai.address,
@@ -33,6 +34,7 @@ export function useCreateDaiFromSDaiWithdrawHandler(
     enabled: enabled && isRedeem,
     onTransactionSettled: onFinish,
     receiver: isSend ? action.receiver : undefined,
+    mode: action.mode,
   })
 
   const hookResult = isWithdraw ? withdraw : redeem

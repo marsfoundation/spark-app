@@ -1,8 +1,10 @@
+import { Mode } from '@/features/dialogs/savings/withdraw/types'
 import { toBigInt } from '@/utils/bigNumber'
 import { useQueryClient } from '@tanstack/react-query'
 import { erc4626Abi } from 'viem'
 import { useAccount, useChainId } from 'wagmi'
 import { ensureConfigTypes, useWrite } from '../hooks/useWrite'
+import { useAssertNativeWithdraw } from '../savings/useAssertNativeWithdraw'
 import { CheckedAddress } from '../types/CheckedAddress'
 import { BaseUnitNumber } from '../types/NumericValues'
 import { balancesQueryKey } from '../wallet/balances'
@@ -11,6 +13,7 @@ interface UseVaultRedeemArgs {
   vault: CheckedAddress
   sharesAmount: BaseUnitNumber
   receiver?: CheckedAddress
+  mode: Mode
   onTransactionSettled?: () => void
   enabled?: boolean
 }
@@ -24,13 +27,16 @@ export function useVaultRedeem({
   vault,
   sharesAmount,
   receiver: _receiver,
+  mode,
   onTransactionSettled,
   enabled = true,
 }: UseVaultRedeemArgs): ReturnType<typeof useWrite> {
   const client = useQueryClient()
   const chainId = useChainId()
-
   const { address: owner } = useAccount()
+
+  useAssertNativeWithdraw({ mode, receiver: _receiver, owner })
+
   const receiver = _receiver || owner
 
   const config = ensureConfigTypes({

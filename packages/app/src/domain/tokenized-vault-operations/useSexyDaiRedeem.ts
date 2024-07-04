@@ -1,10 +1,12 @@
 import { savingsXDaiAdapterAbi, savingsXDaiAdapterAddress } from '@/config/contracts-generated'
+import { Mode } from '@/features/dialogs/savings/withdraw/types'
 import { toBigInt } from '@/utils/bigNumber'
 import { useQueryClient } from '@tanstack/react-query'
 import { gnosis } from 'viem/chains'
 import { useAccount, useConfig } from 'wagmi'
 import { ensureConfigTypes, useWrite } from '../hooks/useWrite'
 import { allowance } from '../market-operations/allowance/query'
+import { useAssertNativeWithdraw } from '../savings/useAssertNativeWithdraw'
 import { CheckedAddress } from '../types/CheckedAddress'
 import { BaseUnitNumber } from '../types/NumericValues'
 import { balancesQueryKey } from '../wallet/balances'
@@ -13,6 +15,7 @@ export interface UseSexyDaiRedeemArgs {
   sDai: CheckedAddress
   sharesAmount: BaseUnitNumber
   receiver?: CheckedAddress
+  mode: Mode
   onTransactionSettled?: () => void
   enabled?: boolean
 }
@@ -25,13 +28,16 @@ export function useSexyDaiRedeem({
   sDai,
   sharesAmount,
   receiver: _receiver,
+  mode,
   onTransactionSettled,
   enabled = true,
 }: UseSexyDaiRedeemArgs): ReturnType<typeof useWrite> {
   const client = useQueryClient()
   const wagmiConfig = useConfig()
-
   const { address: owner } = useAccount()
+
+  useAssertNativeWithdraw({ mode, receiver: _receiver, owner })
+
   const receiver = _receiver || owner
 
   const config = ensureConfigTypes({
