@@ -4,8 +4,8 @@ import { mainnet } from 'viem/chains'
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { NavbarPageObject } from '@/features/navbar/Navbar.PageObject'
 import { DashboardPageObject } from '@/pages/Dashboard.PageObject'
+import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
-import { setupFork } from '@/test/e2e/setupFork'
 import { ClaimRewardsDialogPageObject } from './ClaimRewardsDialog.PageObject'
 
 test.describe('Claim rewards dialog', () => {

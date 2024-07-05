@@ -5,8 +5,8 @@ import { borrowValidationIssueToMessage } from '@/domain/market-validators/valid
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { CollateralDialogPageObject } from '@/features/dialogs/collateral/CollateralDialog.PageObject'
 import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
+import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
-import { setupFork } from '@/test/e2e/setupFork'
 import { screenshot } from '@/test/e2e/utils'
 
 import { BorrowPageObject } from './Borrow.PageObject'

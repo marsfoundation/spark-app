@@ -5,8 +5,8 @@ import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObjec
 import { BorrowPageObject } from '@/pages/Borrow.PageObject'
 import { DashboardPageObject } from '@/pages/Dashboard.PageObject'
 import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
+import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
-import { setupFork } from '@/test/e2e/setupFork'
 import { screenshot } from '@/test/e2e/utils'
 
 import { tenderlyRpcActions } from '@/domain/tenderly/TenderlyRpcActions'

@@ -1,8 +1,8 @@
 import { randomHexId } from '@/utils/random'
-import { CreateForkArgs, ITestTenderlyService } from './ITestTenderlyService'
-import { TenderlyVnetClient } from './TenderlyVnetClient'
+import { TenderlyVnetClient } from '../../../domain/tenderly/TenderlyVnetClient'
+import { CreateForkArgs, ITestForkService } from './ITestForkService'
 
-export class TestTenderlyVnetService implements ITestTenderlyService {
+export class TestTenderlyVnetService implements ITestForkService {
   private readonly client: TenderlyVnetClient
 
   constructor(opts: { apiKey: string; account: string; project: string }) {

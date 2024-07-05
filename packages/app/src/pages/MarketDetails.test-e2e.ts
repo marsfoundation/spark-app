@@ -3,8 +3,8 @@ import { mainnet } from 'viem/chains'
 
 import { DialogPageObject } from '@/features/dialogs/common/Dialog.PageObject'
 import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
+import { setupFork } from '@/test/e2e/forking/setupFork'
 import { buildUrl, setup } from '@/test/e2e/setup'
-import { setupFork } from '@/test/e2e/setupFork'
 import { screenshot } from '@/test/e2e/utils'
 
 import { BorrowPageObject } from './Borrow.PageObject'

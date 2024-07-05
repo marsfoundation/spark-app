@@ -1,8 +1,8 @@
 import { createTenderlyFork } from '@/domain/sandbox/createTenderlyFork'
 import { solidFetch } from '@/utils/solidFetch'
-import { CreateForkArgs, ITestTenderlyService } from './ITestTenderlyService'
+import { CreateForkArgs, ITestForkService } from './ITestForkService'
 
-export class TestTenderlyForkService implements ITestTenderlyService {
+export class TestTenderlyForkService implements ITestForkService {
   private readonly baseUrl = 'https://api.tenderly.co/api/v1'
 
   constructor(private readonly opts: { apiKey: string; tenderlyAccount: string; tenderlyProject: string }) {}

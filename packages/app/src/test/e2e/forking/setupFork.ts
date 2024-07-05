@@ -1,17 +1,17 @@
 import { Page, test } from '@playwright/test'
 
-import { ITestTenderlyService } from '@/domain/tenderly/ITestTenderlyService'
 import { tenderlyRpcActions } from '@/domain/tenderly/TenderlyRpcActions'
-import { TestTenderlyForkService } from '@/domain/tenderly/TestTenderlyForkService'
 import { http, createPublicClient } from 'viem'
 import { mainnet } from 'viem/chains'
-import { TestTenderlyVnetService } from '../../domain/tenderly/TestTenderlyVnetService'
-import { injectUpdatedDate } from './injectSetup'
-import { processEnv } from './processEnv'
+import { injectUpdatedDate } from '../injectSetup'
+import { processEnv } from '../processEnv'
+import { ITestForkService } from './ITestForkService'
+import { TestTenderlyForkService } from './TestTenderlyForkService'
+import { TestTenderlyVnetService } from './TestTenderlyVnetService'
 
 export interface ForkContext {
   forkUrl: string
-  tenderlyClient: ITestTenderlyService
+  forkService: ITestForkService
   initialSnapshotId: string
   isVnet: boolean
   chainId: number
@@ -45,14 +45,14 @@ export function setupFork({
   const tenderlyAccount = processEnv('TENDERLY_ACCOUNT')
   const tenderlyProject = processEnv('TENDERLY_PROJECT')
 
-  const tenderlyClient: ITestTenderlyService = isVnet
+  const forkService: ITestForkService = isVnet
     ? new TestTenderlyVnetService({ apiKey, account: tenderlyAccount, project: tenderlyProject })
     : new TestTenderlyForkService({ apiKey, tenderlyAccount, tenderlyProject })
 
   const simulationDate = simulationDateOverride ?? (!isVnet ? _simulationDate : undefined) // undefined means get it based on block number
 
   const forkContext: ForkContext = {
-    tenderlyClient,
+    forkService,
     // we lie to typescript here, because it will be set in beforeAll
     forkUrl: undefined as any,
     isVnet: isVnet,
@@ -71,7 +71,7 @@ export function setupFork({
   // @todo refactor after dropping tenderly fork support
 
   test.beforeAll(async () => {
-    forkContext.forkUrl = await tenderlyClient.createFork({
+    forkContext.forkUrl = await forkService.createFork({
       blockNumber,
       originChainId: chainId,
       forkChainId: chainId,
@@ -104,7 +104,7 @@ export function setupFork({
     }
 
     if (forkContext.forkUrl) {
-      await tenderlyClient.deleteFork(forkContext.forkUrl)
+      await forkService.deleteFork(forkContext.forkUrl)
     }
   })
 

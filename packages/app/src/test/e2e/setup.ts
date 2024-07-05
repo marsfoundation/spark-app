@@ -7,8 +7,8 @@ import { BaseUnitNumber } from '@/domain/types/NumericValues'
 
 import { tenderlyRpcActions } from '@/domain/tenderly/TenderlyRpcActions'
 import { AssetsInTests, TOKENS_ON_FORK } from './constants'
+import { ForkContext } from './forking/setupFork'
 import { injectFixedDate, injectNetworkConfiguration, injectWalletConfiguration } from './injectSetup'
-import { ForkContext } from './setupFork'
 import { generateAccount } from './utils'
 
 export type InjectableWallet = { address: Address } | { privateKey: string }

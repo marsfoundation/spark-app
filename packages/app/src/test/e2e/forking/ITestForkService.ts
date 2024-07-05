@@ -1,4 +1,4 @@
-export interface ITestTenderlyService {
+export interface ITestForkService {
   createFork: (args: CreateForkArgs) => Promise<string>
   deleteFork: (forkUrl: string) => Promise<void>
 }

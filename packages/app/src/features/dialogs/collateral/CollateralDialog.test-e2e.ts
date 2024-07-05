@@ -6,8 +6,8 @@ import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObjec
 import { BorrowPageObject } from '@/pages/Borrow.PageObject'
 import { DashboardPageObject } from '@/pages/Dashboard.PageObject'
 import { DEFAULT_BLOCK_NUMBER, GNO_ACTIVE_BLOCK_NUMBER } from '@/test/e2e/constants'
+import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
-import { setupFork } from '@/test/e2e/setupFork'
 
 import { DialogPageObject } from '../common/Dialog.PageObject'
 import { CollateralDialogPageObject } from './CollateralDialog.PageObject'
