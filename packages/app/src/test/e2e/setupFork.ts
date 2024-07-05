@@ -1,4 +1,4 @@
-import { test } from '@playwright/test'
+import { Page, test } from '@playwright/test'
 
 import { ITestTenderlyService } from '@/domain/tenderly/ITestTenderlyService'
 import { tenderlyRpcActions } from '@/domain/tenderly/TenderlyRpcActions'
@@ -6,6 +6,7 @@ import { TestTenderlyForkService } from '@/domain/tenderly/TestTenderlyForkServi
 import { http, createPublicClient } from 'viem'
 import { mainnet } from 'viem/chains'
 import { TestTenderlyVnetService } from '../../domain/tenderly/TestTenderlyVnetService'
+import { injectUpdatedDate } from './injectSetup'
 import { processEnv } from './processEnv'
 
 export interface ForkContext {
@@ -16,7 +17,7 @@ export interface ForkContext {
   chainId: number
   simulationDate: Date
 
-  progressSimulation(seconds: number): Promise<void>
+  progressSimulation(page: Page, seconds: number): Promise<void>
 }
 
 // @note: https://github.com/marsfoundation/app#deterministic-time-in-e2e-tests
@@ -59,10 +60,11 @@ export function setupFork({
     simulationDate: simulationDate as any,
     chainId,
 
-    async progressSimulation(seconds: number): Promise<void> {
+    async progressSimulation(page: Page, seconds: number): Promise<void> {
       this.simulationDate = new Date(this.simulationDate.getTime() + seconds * 1000)
       const newTimestamp = Math.floor(this.simulationDate.getTime() / 1000)
 
+      await injectUpdatedDate(page, this.simulationDate)
       await tenderlyRpcActions.evmSetNextBlockTimestamp(forkContext.forkUrl, Number(newTimestamp))
     },
   }

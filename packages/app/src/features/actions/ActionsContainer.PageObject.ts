@@ -34,7 +34,7 @@ export class ActionsPageObject extends BasePageObject {
       await row.getByRole('button', { name: actionButtonRegex }).click()
       if (forkContext?.isVnet) {
         await expect(row.getByRole('button', { name: actionButtonRegex })).not.toBeVisible()
-        await forkContext.progressSimulation(0)
+        await forkContext.progressSimulation(this.page, 5)
       }
     }
   }
