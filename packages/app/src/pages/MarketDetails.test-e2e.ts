@@ -233,7 +233,7 @@ test.describe('Market details', () => {
         initialPage: 'marketDetails',
         initialPageParams: {
           asset: WETH,
-          chainId: fork.chainId.toString()
+          chainId: fork.chainId.toString(),
         },
         account: {
           type: 'connected-random',
