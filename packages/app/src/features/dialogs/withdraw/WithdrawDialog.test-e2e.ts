@@ -157,7 +157,7 @@ test.describe('Withdraw dialog', () => {
 
       const withdrawDialog = new DialogPageObject(page, headerRegExp)
       await withdrawDialog.expectHealthFactorBefore('2.75')
-      await withdrawDialog.fillAmountAction(initialDeposits[withdrawAsset])
+      await withdrawDialog.fillAmountAction(initialDeposits[withdrawAsset] - 0.1) // we subtract small amount to ensure that we have enough balance in test, which may not be the case due to timestamp issues
       await withdrawDialog.expectAssetInputError('Remaining collateral cannot support the loan')
 
       await screenshot(withdrawDialog.getDialog(), 'withdraw-dialog-cannot-support-loan')
