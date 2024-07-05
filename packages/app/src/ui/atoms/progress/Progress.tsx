@@ -5,15 +5,15 @@ import { cn } from '@/ui/utils/style'
 
 const Progress = React.forwardRef<
   React.ElementRef<typeof ProgressPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root>
->(({ className, value, ...props }, ref) => (
+  React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root> & { indicatorClassName?: string }
+>(({ className, indicatorClassName, value, ...props }, ref) => (
   <ProgressPrimitive.Root
     ref={ref}
     className={cn('relative h-1 w-full overflow-hidden rounded-full bg-zinc-300', className)}
     {...props}
   >
     <ProgressPrimitive.Indicator
-      className="h-full w-full flex-1 rounded-full bg-main-blue transition-all"
+      className={cn('h-full w-full flex-1 rounded-full bg-main-blue transition-all', indicatorClassName)}
       style={{ transform: `translateX(-${100 - (value || 0)}%)` }}
     />
   </ProgressPrimitive.Root>
