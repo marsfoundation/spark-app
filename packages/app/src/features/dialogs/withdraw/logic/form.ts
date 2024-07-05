@@ -39,8 +39,16 @@ export function getWithdrawDialogFormValidator({
 
     const validationIssue = validateWithdraw({
       value: formWithdrawAsset.value,
-      asset: { status: reserve.status, maxLtv: updatedUserSummary.maxLoanToValue },
-      user: { deposited, ltvAfterWithdrawal: updatedUserSummary.loanToValue },
+      asset: {
+        status: reserve.status,
+        liquidationThreshold: reserve.liquidationThreshold,
+        eModeCategory: reserve.eModeCategory,
+      },
+      user: {
+        deposited,
+        ltvAfterWithdrawal: updatedUserSummary.loanToValue,
+        eModeState: marketInfo.userConfiguration.eModeState,
+      },
     })
     if (validationIssue) {
       ctx.addIssue({

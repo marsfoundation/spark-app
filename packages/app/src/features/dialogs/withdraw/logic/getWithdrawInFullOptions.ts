@@ -19,8 +19,19 @@ export function getWithdrawInFullOptions(
   const position = marketInfo.findOnePositionBySymbol(symbol)
 
   const maxWithdrawValue = getWithdrawMaxValue({
-    user: { deposited: position.collateralBalance },
-    asset: { status: position.reserve.status },
+    user: {
+      deposited: position.collateralBalance,
+      healthFactor: marketInfo.userPositionSummary.healthFactor,
+      totalBorrowsUSD: marketInfo.userPositionSummary.totalBorrowsUSD,
+      eModeState: marketInfo.userConfiguration.eModeState,
+    },
+    asset: {
+      status: position.reserve.status,
+      liquidationThreshold: position.reserve.liquidationThreshold,
+      unborrowedLiquidity: position.reserve.unborrowedLiquidity,
+      unitPriceUsd: position.reserve.token.unitPriceUsd,
+      eModeCategory: position.reserve.eModeCategory,
+    },
   })
 
   const withdrawInFull = isMaxWithdrawal(form, maxWithdrawValue)

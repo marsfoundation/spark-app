@@ -1,22 +1,104 @@
-import { NormalizedUnitNumber } from '../types/NumericValues'
+import BigNumber from 'bignumber.js'
+import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
 import { getWithdrawMaxValue } from './getWithdrawMaxValue'
+import { describe, test, expect } from 'vitest'
 
 describe(getWithdrawMaxValue.name, () => {
-  it('returns 0 for paused reserve', () => {
+  test('returns 0 for paused reserve', () => {
     expect(
       getWithdrawMaxValue({
-        user: { deposited: NormalizedUnitNumber(100) },
-        asset: { status: 'paused' },
+        user: {
+          deposited: NormalizedUnitNumber(100),
+          healthFactor: undefined,
+          totalBorrowsUSD: NormalizedUnitNumber(0),
+          eModeState: { enabled: false },
+        },
+        asset: {
+          status: 'paused',
+          liquidationThreshold: Percentage(0),
+          unborrowedLiquidity: NormalizedUnitNumber(0),
+          unitPriceUsd: NormalizedUnitNumber(1),
+        },
       }),
     ).toEqual(NormalizedUnitNumber(0))
   })
 
-  it('returns deposited amount', () => {
+  test('returns deposited amount', () => {
     expect(
       getWithdrawMaxValue({
-        user: { deposited: NormalizedUnitNumber(100) },
-        asset: { status: 'active' },
+        user: {
+          deposited: NormalizedUnitNumber(100),
+          healthFactor: BigNumber(2),
+          totalBorrowsUSD: NormalizedUnitNumber(0),
+          eModeState: { enabled: false },
+        },
+        asset: {
+          status: 'active',
+          liquidationThreshold: Percentage(0.8),
+          unborrowedLiquidity: NormalizedUnitNumber(1000),
+          unitPriceUsd: NormalizedUnitNumber(1),
+        },
       }),
     ).toEqual(NormalizedUnitNumber(100))
+  })
+
+  test('returns unborrowed liquidity', () => {
+    expect(
+      getWithdrawMaxValue({
+        user: {
+          deposited: NormalizedUnitNumber(200),
+          healthFactor: BigNumber(2),
+          totalBorrowsUSD: NormalizedUnitNumber(0),
+          eModeState: { enabled: false },
+        },
+        asset: {
+          status: 'active',
+          liquidationThreshold: Percentage(0.8),
+          unborrowedLiquidity: NormalizedUnitNumber(100),
+          unitPriceUsd: NormalizedUnitNumber(1),
+        },
+      }),
+    ).toEqual(NormalizedUnitNumber(100))
+  })
+
+  test('returns value that gets HF down to 1.01', () => {
+    expect(
+      getWithdrawMaxValue({
+        user: {
+          deposited: NormalizedUnitNumber(100),
+          healthFactor: BigNumber(2),
+          totalBorrowsUSD: NormalizedUnitNumber(40),
+          eModeState: { enabled: false },
+        },
+        asset: {
+          status: 'active',
+          liquidationThreshold: Percentage(0.8),
+          unborrowedLiquidity: NormalizedUnitNumber(200),
+          unitPriceUsd: NormalizedUnitNumber(1),
+        },
+      }),
+    ).toEqual(NormalizedUnitNumber(49.5))
+  })
+
+  test('accounts for e-mode', () => {
+    const eModeCategory = { id: 1, liquidationThreshold: Percentage(0.9), name: 'test', liquidationBonus: Percentage(0), ltv: Percentage(0.85) }
+
+    expect(
+      getWithdrawMaxValue({
+        user: {
+          deposited: NormalizedUnitNumber(100),
+          healthFactor: BigNumber(2),
+          totalBorrowsUSD: NormalizedUnitNumber(40),
+          eModeState: { enabled: true, category: eModeCategory },
+        },
+        asset: {
+          status: 'active',
+          liquidationThreshold: Percentage(0.8),
+          unborrowedLiquidity: NormalizedUnitNumber(200),
+          unitPriceUsd: NormalizedUnitNumber(1),
+          eModeCategory,
+        },
+      }),
+    ).toEqual(NormalizedUnitNumber(49.5))
   })
 })

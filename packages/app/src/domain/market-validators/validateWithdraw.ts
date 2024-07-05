@@ -1,3 +1,4 @@
+import { EModeCategory, EModeState } from '../market-info/marketInfo'
 import { ReserveStatus } from '../market-info/reserve-status'
 import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
 
@@ -12,36 +13,38 @@ export interface ValidateWithdrawArgs {
   value: NormalizedUnitNumber
   asset: {
     status: ReserveStatus
-    maxLtv: Percentage
+    liquidationThreshold: Percentage
+    eModeCategory?: EModeCategory
   }
   user: {
     deposited: NormalizedUnitNumber
     ltvAfterWithdrawal: Percentage
+    eModeState: EModeState
   }
 }
 
-export function validateWithdraw({
-  value,
-  asset: { status, maxLtv },
-  user: { deposited, ltvAfterWithdrawal },
-}: ValidateWithdrawArgs): WithdrawValidationIssue | undefined {
+export function validateWithdraw({ value, asset, user }: ValidateWithdrawArgs): WithdrawValidationIssue | undefined {
   if (value.isLessThanOrEqualTo(0)) {
     return 'value-not-positive'
   }
 
-  if (status === 'not-active') {
+  if (asset.status === 'not-active') {
     return 'reserve-not-active'
   }
 
-  if (status === 'paused') {
+  if (asset.status === 'paused') {
     return 'reserve-paused'
   }
 
-  if (deposited.lt(value)) {
+  if (user.deposited.lt(value)) {
     return 'exceeds-balance'
   }
 
-  if (ltvAfterWithdrawal.gt(maxLtv)) {
+  const liquidationThreshold =
+    user.eModeState.enabled && user.eModeState.category.id === asset.eModeCategory?.id
+      ? user.eModeState.category.liquidationThreshold
+      : asset.liquidationThreshold
+  if (user.ltvAfterWithdrawal.gt(liquidationThreshold)) {
     return 'exceeds-ltv'
   }
 }
