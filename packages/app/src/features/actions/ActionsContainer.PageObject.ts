@@ -3,11 +3,9 @@ import { Locator, Page, expect } from '@playwright/test'
 import { formatPercentage } from '@/domain/common/format'
 import { Percentage } from '@/domain/types/NumericValues'
 import { BasePageObject } from '@/test/e2e/BasePageObject'
+import { ForkContext } from '@/test/e2e/setupFork'
 import { isPage } from '@/test/e2e/utils'
 import { testIds } from '@/ui/utils/testIds'
-
-import { tenderlyRpcActions } from '@/domain/tenderly/TenderlyRpcActions'
-import { ForkContext } from '@/test/e2e/setupFork'
 import { ActionType } from './logic/types'
 
 export class ActionsPageObject extends BasePageObject {
