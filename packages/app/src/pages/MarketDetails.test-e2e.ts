@@ -230,7 +230,11 @@ test.describe('Market details', () => {
 
     test('wallet displays sum of WETH and ETH', async ({ page }) => {
       await setup(page, fork, {
-        initialPage: 'easyBorrow',
+        initialPage: 'marketDetails',
+        initialPageParams: {
+          asset: WETH,
+          chainId: fork.chainId.toString()
+        },
         account: {
           type: 'connected-random',
           assetBalances: {
@@ -240,11 +244,6 @@ test.describe('Market details', () => {
           },
         },
       })
-
-      const borrowPage = new BorrowPageObject(page)
-      await borrowPage.depositWithoutBorrowActions({ ...initialDeposits })
-
-      await page.goto(buildUrl('marketDetails', { asset: WETH, chainId: fork.chainId.toString() }))
 
       const marketDetailsPage = new MarketDetailsPageObject(page)
 
