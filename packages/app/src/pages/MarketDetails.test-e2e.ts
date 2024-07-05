@@ -228,6 +228,30 @@ test.describe('Market details', () => {
       await borrowDialog.expectDialogHeader('Borrow WETH')
       await borrowDialog.closeDialog()
     })
+
+    test('wallet displays sum of WETH and ETH', async ({ page }) => {
+
+      await setup(page, fork, {
+        initialPage: 'easyBorrow',
+        account: {
+          type: 'connected-random',
+          assetBalances: {
+            ...initialDeposits,
+            ETH: 5,
+            WETH: 10,
+          },
+        },
+      })
+
+      const borrowPage = new BorrowPageObject(page)
+      await borrowPage.depositWithoutBorrowActions({ ...initialDeposits })
+
+      await page.goto(buildUrl('marketDetails', { asset: WETH, chainId: fork.chainId.toString() }))
+
+      const marketDetailsPage = new MarketDetailsPageObject(page)
+
+      await marketDetailsPage.expectWalletBalance('15.00 WETH')
+    })
   })
 
   test.describe('Isolated assets', () => {
