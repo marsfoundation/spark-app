@@ -443,5 +443,26 @@ test.describe('Deposit dialog', () => {
         USDT: initialBalances.USDT,
       })
     })
+
+    test('retains some native asset when depositing max', async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'dashboard',
+        account: {
+          type: 'connected-random',
+          assetBalances: { ETH: 1 },
+        },
+      })
+
+      const dashboardPage = new DashboardPageObject(page)
+      await dashboardPage.clickDepositButtonAction('WETH')
+      const depositDialog = new DialogPageObject(page, headerRegExp)
+      await depositDialog.selectAssetAction('ETH')
+      await depositDialog.clickMaxAmountAction()
+
+      await depositDialog.expectInputValue('0.999')
+      await depositDialog.expectMaxButtonDisabled()
+      await depositDialog.actionsContainer.expectEnabledActionAtIndex(0)
+      await depositDialog.actionsContainer.expectActions([{ type: 'deposit', asset: 'ETH' }])
+    })
   })
 })

@@ -10,7 +10,9 @@ describe(getDepositMaxValue.name, () => {
           asset: {
             status: 'frozen',
             totalLiquidity: NormalizedUnitNumber(0),
+            isNativeAsset: false,
           },
+          chain: { minRemainingNativeAsset: NormalizedUnitNumber(0) },
         }),
       ).toEqual(NormalizedUnitNumber(0))
     })
@@ -22,7 +24,9 @@ describe(getDepositMaxValue.name, () => {
           asset: {
             status: 'paused',
             totalLiquidity: NormalizedUnitNumber(0),
+            isNativeAsset: false,
           },
+          chain: { minRemainingNativeAsset: NormalizedUnitNumber(0) },
         }),
       ).toEqual(NormalizedUnitNumber(0))
     })
@@ -36,7 +40,9 @@ describe(getDepositMaxValue.name, () => {
           asset: {
             status: 'active',
             totalLiquidity: NormalizedUnitNumber(10),
+            isNativeAsset: false,
           },
+          chain: { minRemainingNativeAsset: NormalizedUnitNumber(0) },
         }),
       ).toEqual(NormalizedUnitNumber(0))
     })
@@ -48,9 +54,25 @@ describe(getDepositMaxValue.name, () => {
           asset: {
             status: 'active',
             totalLiquidity: NormalizedUnitNumber(0),
+            isNativeAsset: false,
           },
+          chain: { minRemainingNativeAsset: NormalizedUnitNumber(0) },
         }),
       ).toEqual(NormalizedUnitNumber(100))
+    })
+
+    it('retains some native asset', () => {
+      expect(
+        getDepositMaxValue({
+          user: { balance: NormalizedUnitNumber(100) },
+          asset: {
+            status: 'active',
+            totalLiquidity: NormalizedUnitNumber(0),
+            isNativeAsset: true,
+          },
+          chain: { minRemainingNativeAsset: NormalizedUnitNumber(0.01) },
+        }),
+      ).toEqual(NormalizedUnitNumber(99.99))
     })
   })
 
@@ -62,8 +84,10 @@ describe(getDepositMaxValue.name, () => {
           asset: {
             status: 'active',
             totalLiquidity: NormalizedUnitNumber(0),
+            isNativeAsset: false,
             supplyCap: NormalizedUnitNumber(100),
           },
+          chain: { minRemainingNativeAsset: NormalizedUnitNumber(0) },
         }),
       ).toEqual(NormalizedUnitNumber(0))
     })
@@ -75,8 +99,10 @@ describe(getDepositMaxValue.name, () => {
           asset: {
             status: 'active',
             totalLiquidity: NormalizedUnitNumber(100),
+            isNativeAsset: false,
             supplyCap: NormalizedUnitNumber(100),
           },
+          chain: { minRemainingNativeAsset: NormalizedUnitNumber(0) },
         }),
       ).toEqual(NormalizedUnitNumber(0))
     })
@@ -88,8 +114,10 @@ describe(getDepositMaxValue.name, () => {
           asset: {
             status: 'active',
             totalLiquidity: NormalizedUnitNumber(0),
+            isNativeAsset: false,
             supplyCap: NormalizedUnitNumber(50),
           },
+          chain: { minRemainingNativeAsset: NormalizedUnitNumber(0) },
         }),
       ).toEqual(NormalizedUnitNumber(50))
     })
@@ -101,8 +129,10 @@ describe(getDepositMaxValue.name, () => {
           asset: {
             status: 'active',
             totalLiquidity: NormalizedUnitNumber(25),
+            isNativeAsset: false,
             supplyCap: NormalizedUnitNumber(50),
           },
+          chain: { minRemainingNativeAsset: NormalizedUnitNumber(0) },
         }),
       ).toEqual(NormalizedUnitNumber(25))
     })
@@ -114,8 +144,10 @@ describe(getDepositMaxValue.name, () => {
           asset: {
             status: 'active',
             totalLiquidity: NormalizedUnitNumber(25),
+            isNativeAsset: false,
             supplyCap: NormalizedUnitNumber(50),
           },
+          chain: { minRemainingNativeAsset: NormalizedUnitNumber(0) },
         }),
       ).toEqual(NormalizedUnitNumber(25))
     })

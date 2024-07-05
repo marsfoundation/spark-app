@@ -61,10 +61,14 @@ export function getFormFieldsForDepositDialog({
     asset: {
       status: position.reserve.status,
       totalLiquidity: position.reserve.totalLiquidity,
+      isNativeAsset: marketInfo.nativeAssetInfo.nativeAssetSymbol === symbol,
       supplyCap: position.reserve.supplyCap,
     },
     user: {
       balance: walletInfo.findWalletBalanceForSymbol(symbol),
+    },
+    chain: {
+      minRemainingNativeAsset: marketInfo.nativeAssetInfo.minRemainingNativeAssetBalance,
     },
   })
 
