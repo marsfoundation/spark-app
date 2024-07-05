@@ -12,6 +12,7 @@ import { screenshot } from '@/test/e2e/utils'
 
 import { CollateralDialogPageObject } from '../collateral/CollateralDialog.PageObject'
 import { DialogPageObject } from '../common/Dialog.PageObject'
+import { EModeDialogPageObject } from '../e-mode/EModeDialog.PageObject'
 import { withdrawValidationIssueToMessage } from '../savings/withdraw/logic/validation'
 
 const headerRegExp = /Withdr*/
@@ -469,6 +470,76 @@ test.describe('Withdraw dialog', () => {
       await withdrawDialog.clickMaxAmountAction()
       await withdrawDialog.actionsContainer.expectEnabledActionAtIndex(0)
       await withdrawDialog.expectLiquidationRiskWarningNotVisible()
+    })
+  })
+
+  test.describe('MAX button', () => {
+    let withdrawDialog: DialogPageObject
+    let borrowDialog: DialogPageObject
+    let dashboardPage: DashboardPageObject
+
+    test.beforeEach(async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'dashboard',
+        account: {
+          type: 'connected-random',
+          assetBalances: { wstETH: 5 },
+        },
+      })
+
+      withdrawDialog = new DialogPageObject(page, headerRegExp)
+      dashboardPage = new DashboardPageObject(page)
+      borrowDialog = new DialogPageObject(page, /Borrow/)
+
+      await dashboardPage.clickDepositButtonAction('wstETH')
+      const depositDialog = new DialogPageObject(page, /Deposit/)
+      await depositDialog.fillAmountAction(5)
+      await depositDialog.actionsContainer.acceptAllActionsAction(2)
+      await depositDialog.viewInDashboardAction()
+      await dashboardPage.expectDepositedAssets(13_104.84)
+    })
+
+    test('withdraws amount up to HF 1.01', async ({ page }) => {
+      await dashboardPage.clickBorrowButtonAction('DAI')
+      await borrowDialog.fillAmountAction(5000)
+      await borrowDialog.actionsContainer.acceptAllActionsAction(1)
+      await borrowDialog.viewInDashboardAction()
+      await dashboardPage.expectHealthFactor('2.08')
+
+      await dashboardPage.clickWithdrawButtonAction('wstETH')
+
+      await withdrawDialog.clickMaxAmountAction()
+      await withdrawDialog.clickAcknowledgeRisk()
+
+      await withdrawDialog.expectInputValue('2.576392')
+      await withdrawDialog.expectHealthFactorBefore('2.08')
+      await withdrawDialog.expectHealthFactorAfter('1.01')
+      await withdrawDialog.actionsContainer.expectActions([{ type: 'withdraw', asset: 'wstETH' }])
+      await withdrawDialog.actionsContainer.expectEnabledActionAtIndex(0)
+    })
+
+    test('works in e-mode', async ({ page }) => {
+      await dashboardPage.clickBorrowButtonAction('WETH')
+      await borrowDialog.fillAmountAction(2)
+      await borrowDialog.actionsContainer.acceptAllActionsAction(1)
+      await borrowDialog.viewInDashboardAction()
+      await dashboardPage.expectHealthFactor('2.3')
+      await dashboardPage.clickEModeButtonAction()
+      const eModeDialog = new EModeDialogPageObject(page)
+      await eModeDialog.clickEModeCategoryTileAction('ETH Correlated')
+      await eModeDialog.actionsContainer.acceptAllActionsAction(1)
+      await eModeDialog.viewInDashboardAction()
+      await dashboardPage.expectHealthFactor('2.69')
+
+      await dashboardPage.clickWithdrawButtonAction('wstETH')
+      await withdrawDialog.clickMaxAmountAction()
+      await withdrawDialog.clickAcknowledgeRisk()
+
+      await withdrawDialog.expectInputValue('3.119467')
+      await withdrawDialog.expectHealthFactorBefore('2.69')
+      await withdrawDialog.expectHealthFactorAfter('1.01')
+      await withdrawDialog.actionsContainer.expectActions([{ type: 'withdraw', asset: 'wstETH' }])
+      await withdrawDialog.actionsContainer.expectEnabledActionAtIndex(0)
     })
   })
 })
