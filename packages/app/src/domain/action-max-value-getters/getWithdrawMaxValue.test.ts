@@ -18,6 +18,7 @@ describe(getWithdrawMaxValue.name, () => {
           liquidationThreshold: Percentage(0),
           unborrowedLiquidity: NormalizedUnitNumber(0),
           unitPriceUsd: NormalizedUnitNumber(1),
+          decimals: 18,
         },
       }),
     ).toEqual(NormalizedUnitNumber(0))
@@ -37,6 +38,7 @@ describe(getWithdrawMaxValue.name, () => {
           liquidationThreshold: Percentage(0.8),
           unborrowedLiquidity: NormalizedUnitNumber(1000),
           unitPriceUsd: NormalizedUnitNumber(1),
+          decimals: 18,
         },
       }),
     ).toEqual(NormalizedUnitNumber(100))
@@ -56,6 +58,7 @@ describe(getWithdrawMaxValue.name, () => {
           liquidationThreshold: Percentage(0.8),
           unborrowedLiquidity: NormalizedUnitNumber(100),
           unitPriceUsd: NormalizedUnitNumber(1),
+          decimals: 18,
         },
       }),
     ).toEqual(NormalizedUnitNumber(100))
@@ -75,6 +78,7 @@ describe(getWithdrawMaxValue.name, () => {
           liquidationThreshold: Percentage(0.8),
           unborrowedLiquidity: NormalizedUnitNumber(200),
           unitPriceUsd: NormalizedUnitNumber(1),
+          decimals: 18,
         },
       }),
     ).toEqual(NormalizedUnitNumber(49.5))
@@ -102,6 +106,7 @@ describe(getWithdrawMaxValue.name, () => {
           liquidationThreshold: Percentage(0.8),
           unborrowedLiquidity: NormalizedUnitNumber(200),
           unitPriceUsd: NormalizedUnitNumber(1),
+          decimals: 18,
           eModeCategory,
         },
       }),

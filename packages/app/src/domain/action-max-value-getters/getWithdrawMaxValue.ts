@@ -15,6 +15,7 @@ interface GetWithdrawMaxValueParams {
     unborrowedLiquidity: NormalizedUnitNumber
     liquidationThreshold: Percentage
     unitPriceUsd: NormalizedUnitNumber
+    decimals: number
     eModeCategory?: EModeCategory
   }
 }
@@ -43,5 +44,5 @@ export function getWithdrawMaxValue({ user, asset }: GetWithdrawMaxValueParams):
     ceilings.push(NormalizedUnitNumber(0))
   }
 
-  return NormalizedUnitNumber(BigNumber.min(...ceilings))
+  return NormalizedUnitNumber(BigNumber.min(...ceilings).dp(asset.decimals, BigNumber.ROUND_DOWN))
 }

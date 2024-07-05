@@ -30,6 +30,7 @@ export function getWithdrawInFullOptions(
       liquidationThreshold: position.reserve.liquidationThreshold,
       unborrowedLiquidity: position.reserve.unborrowedLiquidity,
       unitPriceUsd: position.reserve.token.unitPriceUsd,
+      decimals: position.reserve.token.decimals,
       eModeCategory: position.reserve.eModeCategory,
     },
   })
