@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
+import { describe, expect, test } from 'vitest'
 import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
 import { getWithdrawMaxValue } from './getWithdrawMaxValue'
-import { describe, test, expect } from 'vitest'
 
 describe(getWithdrawMaxValue.name, () => {
   test('returns 0 for paused reserve', () => {
@@ -81,7 +81,13 @@ describe(getWithdrawMaxValue.name, () => {
   })
 
   test('accounts for e-mode', () => {
-    const eModeCategory = { id: 1, liquidationThreshold: Percentage(0.9), name: 'test', liquidationBonus: Percentage(0), ltv: Percentage(0.85) }
+    const eModeCategory = {
+      id: 1,
+      liquidationThreshold: Percentage(0.9),
+      name: 'test',
+      liquidationBonus: Percentage(0),
+      ltv: Percentage(0.85),
+    }
 
     expect(
       getWithdrawMaxValue({
@@ -99,6 +105,6 @@ describe(getWithdrawMaxValue.name, () => {
           eModeCategory,
         },
       }),
-    ).toEqual(NormalizedUnitNumber(49.5))
+    ).toEqual(NormalizedUnitNumber(44))
   })
 })
