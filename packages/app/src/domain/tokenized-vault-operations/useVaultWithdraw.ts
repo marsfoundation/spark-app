@@ -37,8 +37,6 @@ export function useVaultWithdraw({
   const chainId = useChainId()
   const { address: owner } = useAccount()
 
-  assertNativeWithdraw({ mode, receiver: _receiver, owner, reserveAddresses })
-
   const receiver = _receiver || owner
 
   const config = ensureConfigTypes({
@@ -54,6 +52,9 @@ export function useVaultWithdraw({
       enabled: enabled && assetsAmount.gt(0) && !!receiver && !!owner,
     },
     {
+      withdrawReceiverSanityCheck: () => {
+        assertNativeWithdraw({ mode, receiver: _receiver, owner: owner!, reserveAddresses })
+      },
       onTransactionSettled: async () => {
         void client.invalidateQueries({
           queryKey: balancesQueryKey({ chainId, account: owner }),

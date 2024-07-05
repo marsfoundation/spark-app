@@ -43,8 +43,6 @@ export function useRedeemAndSwap({
   const chainId = useChainId()
   const { address: owner } = useAccount()
 
-  assertNativeWithdraw({ mode, receiver: _receiver, owner, reserveAddresses })
-
   const psmActions = useContractAddress(psmActionsConfig.address)
 
   const receiver = _receiver || owner
@@ -74,6 +72,9 @@ export function useRedeemAndSwap({
       enabled: enabled && _sharesAmount.gt(0) && !!receiver && !!gemMinAmountOut,
     },
     {
+      withdrawReceiverSanityCheck: () => {
+        assertNativeWithdraw({ mode, receiver: _receiver, owner: owner!, reserveAddresses })
+      },
       onTransactionSettled: async () => {
         void client.invalidateQueries({
           queryKey: balancesQueryKey({ chainId, account: owner }),

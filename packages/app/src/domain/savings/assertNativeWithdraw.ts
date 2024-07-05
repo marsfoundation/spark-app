@@ -6,7 +6,7 @@ import { receiverValidationIssueToMessage, validateReceiver } from './validateRe
 
 interface AssertNativeWithdrawParams {
   mode: Mode
-  owner: Address | undefined
+  owner: Address
   receiver?: CheckedAddress
   reserveAddresses?: CheckedAddress[]
 }
@@ -17,10 +17,11 @@ export function assertNativeWithdraw({ mode, receiver, owner, reserveAddresses }
     assert(reserveAddresses === undefined, 'Reserve addresses should not be defined when withdrawing')
   }
 
-  if (mode === 'send' && receiver !== undefined) {
+  if (mode === 'send') {
+    assert(receiver !== undefined, 'Receiver address should be defined when sending')
     assert(reserveAddresses !== undefined, 'Reserve addresses should be defined when sending')
     const validationResult = validateReceiver({
-      account: owner ? CheckedAddress(owner) : undefined,
+      account: CheckedAddress(owner),
       reserveAddresses,
       receiver,
     })

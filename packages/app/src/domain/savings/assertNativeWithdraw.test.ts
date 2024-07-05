@@ -26,15 +26,15 @@ describe(assertNativeWithdraw.name, () => {
         assertNativeWithdraw({ mode: 'withdraw', owner: bob })
       }).not.toThrow()
     })
-
-    test('does not throw when owner is not defined', () => {
-      expect(() => {
-        assertNativeWithdraw({ mode: 'withdraw', owner: undefined })
-      }).not.toThrow()
-    })
   })
 
   describe('send mode', () => {
+    test('throws when receiver is not defined', () => {
+      expect(() => {
+        assertNativeWithdraw({ mode: 'send', reserveAddresses, owner: bob, receiver: undefined })
+      }).toThrow('Receiver address should be defined when sending')
+    })
+
     test('throws when receiver is zero address', () => {
       expect(() => {
         assertNativeWithdraw({ mode: 'send', reserveAddresses, owner: bob, receiver: CheckedAddress(zeroAddress) })
@@ -57,18 +57,6 @@ describe(assertNativeWithdraw.name, () => {
       expect(() => {
         assertNativeWithdraw({ mode: 'send', owner: bob, receiver: alice })
       }).toThrow('Reserve addresses should be defined when sending')
-    })
-
-    test('does not throw when receiver is not defined', () => {
-      expect(() => {
-        assertNativeWithdraw({ mode: 'send', reserveAddresses, owner: bob, receiver: undefined })
-      }).not.toThrow()
-    })
-
-    test('does not throw when owner is not defined', () => {
-      expect(() => {
-        assertNativeWithdraw({ mode: 'send', reserveAddresses, owner: undefined, receiver: alice })
-      }).not.toThrow()
     })
   })
 })

@@ -42,8 +42,6 @@ export function useWithdrawAndSwap({
   const chainId = useChainId()
   const { address: owner } = useAccount()
 
-  assertNativeWithdraw({ mode, receiver: _receiver, owner, reserveAddresses })
-
   const psmActions = useContractAddress(psmActionsConfig.address)
 
   const receiver = _receiver || owner
@@ -68,6 +66,9 @@ export function useWithdrawAndSwap({
       enabled: enabled && _gemAmountOut.gt(0) && !!receiver,
     },
     {
+      withdrawReceiverSanityCheck: () => {
+        assertNativeWithdraw({ mode, receiver: _receiver, owner: owner!, reserveAddresses })
+      },
       onTransactionSettled: async () => {
         void client.invalidateQueries({
           queryKey: balancesQueryKey({ chainId, account: owner }),

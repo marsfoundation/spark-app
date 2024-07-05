@@ -39,8 +39,6 @@ export function useSexyDaiWithdraw({
   const wagmiConfig = useConfig()
   const { address: owner } = useAccount()
 
-  assertNativeWithdraw({ mode, receiver: _receiver, owner, reserveAddresses })
-
   const receiver = _receiver || owner
 
   const config = ensureConfigTypes({
@@ -56,6 +54,9 @@ export function useSexyDaiWithdraw({
       enabled: enabled && assetsAmount.gt(0) && !!receiver,
     },
     {
+      withdrawReceiverSanityCheck: () => {
+        assertNativeWithdraw({ mode, receiver: _receiver, owner: owner!, reserveAddresses })
+      },
       onTransactionSettled: async () => {
         void client.invalidateQueries({
           queryKey: balancesQueryKey({ chainId: gnosis.id, account: owner }),
