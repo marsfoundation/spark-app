@@ -1,7 +1,6 @@
 import { UseFormReturn } from 'react-hook-form'
 import { z } from 'zod'
 
-import { getBorrowMaxValue } from '@/domain/action-max-value-getters/getBorrowMaxValue'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import {
   borrowValidationIssueToMessage,
@@ -12,6 +11,7 @@ import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { WalletInfo } from '@/domain/wallet/useWalletInfo'
 
+import { getBorrowMaxValue } from '@/domain/action-max-value-getters/getBorrowMaxValue'
 import { AssetInputSchema } from '../../common/logic/form'
 import { FormFieldsForDialog } from '../../common/types'
 
@@ -33,11 +33,18 @@ export function getBorrowDialogFormValidator(marketInfo: MarketInfo) {
   })
 }
 
-export function getFormFieldsForBorrowDialog(
-  form: UseFormReturn<AssetInputSchema>,
-  marketInfo: MarketInfo,
-  walletInfo: WalletInfo,
-): FormFieldsForDialog {
+export interface GetFormFieldsForBorrowDialogParams {
+  form: UseFormReturn<AssetInputSchema>
+  marketInfo: MarketInfo
+  marketInfoIn1Epoch: MarketInfo
+  walletInfo: WalletInfo
+}
+export function getFormFieldsForBorrowDialog({
+  form,
+  marketInfo,
+  marketInfoIn1Epoch,
+  walletInfo,
+}: GetFormFieldsForBorrowDialogParams): FormFieldsForDialog {
   // eslint-disable-next-line func-style
   const changeAsset = (newSymbol: TokenSymbol): void => {
     form.setValue('symbol', newSymbol)
@@ -46,12 +53,15 @@ export function getFormFieldsForBorrowDialog(
   }
 
   const { symbol, value } = form.getValues()
-  const reserve = marketInfo.findOneReserveBySymbol(symbol)
+  // We use the reserve from the future market info to account for possible interest accrual in the reserve.
+  // This is important for the borrow cap and isolated debt ceiling validation.
+  // In the same time we use current market info to get the user's current position - we do not
+  // account for interest accrual here.
+  const reserveIn1Epoch = marketInfoIn1Epoch.findOneReserveBySymbol(symbol)
 
-  const borrowValidationArgs = getValidateBorrowArgs(NormalizedUnitNumber(0), reserve, marketInfo)
+  const borrowValidationArgs = getValidateBorrowArgs(NormalizedUnitNumber(0), reserveIn1Epoch, marketInfo)
   const validationIssue = validateBorrow(borrowValidationArgs)
-
-  const maxValue = getBorrowMaxValue({
+  const borrowMaxValue = getBorrowMaxValue({
     validationIssue,
     user: borrowValidationArgs.user,
     asset: borrowValidationArgs.asset,
@@ -60,11 +70,11 @@ export function getFormFieldsForBorrowDialog(
   return {
     selectedAsset: {
       value,
-      token: reserve.token,
+      token: reserveIn1Epoch.token,
       balance: walletInfo.findWalletBalanceForSymbol(symbol),
     },
     maxSelectedFieldName: 'isMaxSelected',
     changeAsset,
-    maxValue,
+    maxValue: borrowMaxValue,
   }
 }

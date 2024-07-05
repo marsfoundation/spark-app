@@ -10,6 +10,7 @@ import { setup } from '@/test/e2e/setup'
 import { setupFork } from '@/test/e2e/setupFork'
 import { screenshot } from '@/test/e2e/utils'
 
+import { CollateralDialogPageObject } from '../collateral/CollateralDialog.PageObject'
 import { DialogPageObject } from '../common/Dialog.PageObject'
 
 const headerRegExp = /Borrow */
@@ -247,6 +248,7 @@ test.describe('Borrow dialog', () => {
 
       const dashboardPage = new DashboardPageObject(page)
       await dashboardPage.goToDashboardAction()
+      await dashboardPage.expectDepositedAssets(10_220)
     })
 
     test('can borrow erc-20', async ({ page }) => {
@@ -311,6 +313,132 @@ test.describe('Borrow dialog', () => {
       await actionsContainer.expectEnabledActionAtIndex(0)
 
       await screenshot(borrowDialog.getDialog(), 'borrow-dialog-only-deposit-health-factor')
+    })
+
+    test('clicking MAX sets input to 99% of possible borrow', async ({ page }) => {
+      const dashboardPage = new DashboardPageObject(page)
+      await dashboardPage.clickBorrowButtonAction('DAI')
+
+      const borrowDialog = new DialogPageObject(page, headerRegExp)
+      await borrowDialog.clickMaxAmountAction()
+
+      await borrowDialog.expectInputValue('6929.369808')
+      await borrowDialog.expectMaxButtonDisabled()
+      await borrowDialog.expectLiquidationRiskWarning(
+        'Borrowing this amount puts you at risk of quick liquidation. You may lose part of your collateral.',
+      )
+
+      await borrowDialog.clickAcknowledgeRisk()
+
+      await borrowDialog.actionsContainer.expectActions([{ type: 'borrow', asset: 'DAI' }])
+      await borrowDialog.actionsContainer.expectEnabledActionAtIndex(0)
+    })
+  })
+
+  test.describe('Position in isolation mode', () => {
+    const fork = setupFork({
+      blockNumber: 20230000n,
+      chainId: mainnet.id,
+      simulationDateOverride: new Date('2024-07-04T15:32:19Z'),
+    })
+    const initialDeposits = {
+      weETH: 200,
+    }
+
+    let dashboardPage: DashboardPageObject
+
+    test.beforeEach(async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'dashboard',
+        account: {
+          type: 'connected-random',
+          assetBalances: { ...initialDeposits },
+        },
+      })
+
+      dashboardPage = new DashboardPageObject(page)
+      await dashboardPage.clickDepositButtonAction('weETH')
+      const depositDialog = new DialogPageObject(page, /Deposit weETH/)
+      await depositDialog.fillAmountAction(initialDeposits.weETH)
+      const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
+      await actionsContainer.acceptAllActionsAction(2)
+      await depositDialog.viewInDashboardAction()
+
+      await dashboardPage.clickCollateralSwitchAction('weETH')
+
+      const collateralDialog = new CollateralDialogPageObject(page)
+      await collateralDialog.setUseAsCollateralAction('weETH', 'enabled')
+      await collateralDialog.viewInDashboardAction()
+
+      await dashboardPage.expectDepositedAssets(671_900)
+    })
+
+    test('MAX borrow accounts for isolation debt ceiling', async ({ page }) => {
+      await dashboardPage.clickBorrowButtonAction('DAI')
+
+      const borrowDialog = new DialogPageObject(page, headerRegExp)
+      await borrowDialog.clickMaxAmountAction()
+
+      await borrowDialog.expectInputValue('110616.31')
+      await borrowDialog.expectMaxButtonDisabled()
+      await borrowDialog.actionsContainer.expectActions([{ type: 'borrow', asset: 'DAI' }])
+      await borrowDialog.actionsContainer.expectEnabledActionAtIndex(0)
+    })
+  })
+
+  test.describe('Position with large deposit', () => {
+    const fork = setupFork({
+      blockNumber: 20235425n,
+      chainId: mainnet.id,
+      simulationDateOverride: new Date('2024-07-04T21:26:19Z'),
+    })
+    const initialDeposits = {
+      WETH: 100_000,
+    }
+
+    let dashboardPage: DashboardPageObject
+
+    test.beforeEach(async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'dashboard',
+        account: {
+          type: 'connected-random',
+          assetBalances: { ...initialDeposits },
+        },
+      })
+
+      dashboardPage = new DashboardPageObject(page)
+      await dashboardPage.clickDepositButtonAction('WETH')
+      const depositDialog = new DialogPageObject(page, /Deposit WETH/)
+      await depositDialog.fillAmountAction(initialDeposits.WETH)
+      const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
+      await actionsContainer.acceptAllActionsAction(2)
+      await depositDialog.viewInDashboardAction()
+      await dashboardPage.expectDepositedAssets(313_328_590)
+    })
+
+    test('MAX borrow accounts for borrow cap', async ({ page }) => {
+      await dashboardPage.clickBorrowButtonAction('wstETH')
+
+      const borrowDialog = new DialogPageObject(page, headerRegExp)
+      await borrowDialog.clickMaxAmountAction()
+
+      await borrowDialog.expectInputValue('99.323398')
+      await borrowDialog.expectMaxButtonDisabled()
+      await borrowDialog.actionsContainer.expectActions([{ type: 'borrow', asset: 'wstETH' }])
+      await borrowDialog.actionsContainer.expectEnabledActionAtIndex(0)
+    })
+
+    test('MAX borrow accounts for available liquidity', async ({ page }) => {
+      await dashboardPage.clickBorrowButtonAction('USDC')
+
+      const borrowDialog = new DialogPageObject(page, headerRegExp)
+      await borrowDialog.clickMaxAmountAction()
+
+      await borrowDialog.expectInputValue('409207.097251')
+      await borrowDialog.expectMaxButtonDisabled()
+      await borrowDialog.actionsContainer.expectActions([{ type: 'borrow', asset: 'USDC' }])
+      await borrowDialog.actionsContainer.expectEnabledActionAtIndex(0)
     })
   })
 

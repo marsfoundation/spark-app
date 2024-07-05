@@ -28,7 +28,7 @@ describe(getBorrowMaxValue.name, () => {
             maxBorrowBasedOnCollateral: NormalizedUnitNumber(100),
           },
         }),
-      ).toEqual(NormalizedUnitNumber(100))
+      ).toEqual(NormalizedUnitNumber(99))
     })
 
     it('returns borrow cap based borrow limit', () => {
@@ -109,7 +109,7 @@ describe(getBorrowMaxValue.name, () => {
             totalDebt: NormalizedUnitNumber(0),
           },
         }),
-      ).toEqual(NormalizedUnitNumber(100))
+      ).toEqual(NormalizedUnitNumber(99))
     })
 
     it('returns correct value when isolation mode collateral debt and ceiling present', () => {
