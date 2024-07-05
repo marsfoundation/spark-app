@@ -8,15 +8,15 @@ import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { WalletInfo } from '@/domain/wallet/useWalletInfo'
 import { applyTransformers } from '@/utils/applyTransformers'
 
-import { WalletOverview } from '../types'
 import { NativeAssetInfo } from '@/config/chain/types'
+import { WalletOverview } from '../types'
 
 export interface MakeWalletOverviewParams {
   reserve: Reserve
   walletInfo: WalletInfo
   marketInfo: MarketInfo
   connectedChainId: number
-  nativeAssetInfo: NativeAssetInfo;
+  nativeAssetInfo: NativeAssetInfo
 }
 
 export function makeWalletOverview({
@@ -24,7 +24,7 @@ export function makeWalletOverview({
   marketInfo,
   walletInfo,
   connectedChainId,
-  nativeAssetInfo
+  nativeAssetInfo,
 }: MakeWalletOverviewParams): WalletOverview {
   const overview = applyTransformers({ reserve, marketInfo, walletInfo, connectedChainId, nativeAssetInfo })([
     makeGuestModeOverview,
@@ -152,7 +152,7 @@ function makeDaiOverview({ reserve, marketInfo, ...rest }: MakeWalletOverviewPar
   }
 }
 
- function makeWalletNativeAssetOverview({
+function makeWalletNativeAssetOverview({
   reserve,
   walletInfo,
   nativeAssetInfo,
@@ -162,7 +162,7 @@ function makeDaiOverview({ reserve, marketInfo, ...rest }: MakeWalletOverviewPar
     return undefined
   }
 
-  const baseOverview = makeBaseWalletOverview({ reserve, nativeAssetInfo, walletInfo , ...rest })
+  const baseOverview = makeBaseWalletOverview({ reserve, nativeAssetInfo, walletInfo, ...rest })
 
   const tokenBalance = NormalizedUnitNumber(
     walletInfo
@@ -186,9 +186,7 @@ function makeDaiOverview({ reserve, marketInfo, ...rest }: MakeWalletOverviewPar
     tokenBalance,
     deposit: {
       ...baseOverview.deposit,
-      available: availableToDeposit
-    }
+      available: availableToDeposit,
+    },
   }
 }
-
-

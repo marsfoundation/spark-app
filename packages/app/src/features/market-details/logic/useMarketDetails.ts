@@ -8,12 +8,12 @@ import { Token } from '@/domain/types/Token'
 import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
 import { raise } from '@/utils/assert'
 
+import { getNativeAssetInfo } from '@/config/chain/utils/getNativeAssetInfo'
 import { MarketOverview, WalletOverview } from '../types'
 import { makeDaiMarketOverview } from './makeDaiMarketOverview'
 import { makeMarketOverview } from './makeMarketOverview'
 import { makeWalletOverview } from './makeWalletOverview'
 import { useMarketDetailsParams } from './useMarketDetailsParams'
-import { getNativeAssetInfo } from '@/config/chain/utils/getNativeAssetInfo'
 
 export interface UseMarketDetailsResult {
   token: Token
@@ -56,7 +56,7 @@ export function useMarketDetails(): UseMarketDetailsResult {
     marketInfo,
     walletInfo,
     connectedChainId,
-    nativeAssetInfo
+    nativeAssetInfo,
   })
 
   return {

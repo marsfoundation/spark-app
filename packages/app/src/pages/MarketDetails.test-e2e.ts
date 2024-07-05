@@ -197,7 +197,6 @@ test.describe('Market details', () => {
     })
 
     test('opens dialogs for WETH when having only ETH', async ({ page }) => {
-
       await setup(page, fork, {
         initialPage: 'easyBorrow',
         account: {
@@ -230,7 +229,6 @@ test.describe('Market details', () => {
     })
 
     test('wallet displays sum of WETH and ETH', async ({ page }) => {
-
       await setup(page, fork, {
         initialPage: 'easyBorrow',
         account: {
