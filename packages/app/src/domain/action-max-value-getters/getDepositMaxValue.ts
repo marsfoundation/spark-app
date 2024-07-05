@@ -26,9 +26,12 @@ export function getDepositMaxValue({ user, asset, chain }: GetDepositMaxValuePar
     ? BigNumber.max(asset.supplyCap.minus(asset.totalLiquidity), 0)
     : Number.POSITIVE_INFINITY
   return NormalizedUnitNumber(
-    BigNumber.min(
-      user.balance.minus(asset.isNativeAsset ? chain.minRemainingNativeAsset : NormalizedUnitNumber(0)),
-      marketMaxDeposit,
+    BigNumber.max(
+      BigNumber.min(
+        user.balance.minus(asset.isNativeAsset ? chain.minRemainingNativeAsset : NormalizedUnitNumber(0)),
+        marketMaxDeposit,
+      ),
+      0,
     ),
   )
 }
