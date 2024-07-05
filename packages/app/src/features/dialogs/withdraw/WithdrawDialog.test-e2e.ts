@@ -499,7 +499,7 @@ test.describe('Withdraw dialog', () => {
       await dashboardPage.expectDepositedAssets(13_104.84)
     })
 
-    test('withdraws amount up to HF 1.01', async ({ page }) => {
+    test('withdraws amount up to HF 1.01', async () => {
       await dashboardPage.clickBorrowButtonAction('DAI')
       await borrowDialog.fillAmountAction(5000)
       await borrowDialog.actionsContainer.acceptAllActionsAction(1)
