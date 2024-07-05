@@ -8,6 +8,7 @@ import { Token } from '@/domain/types/Token'
 import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
 import { raise } from '@/utils/assert'
 
+import { getNativeAssetInfo } from '@/config/chain/utils/getNativeAssetInfo'
 import { MarketOverview, WalletOverview } from '../types'
 import { makeDaiMarketOverview } from './makeDaiMarketOverview'
 import { makeMarketOverview } from './makeMarketOverview'
@@ -31,6 +32,8 @@ export function useMarketDetails(): UseMarketDetailsResult {
   const { meta: chainMeta } = getChainConfigEntry(chainId)
   const connectedChainId = useChainId()
 
+  const nativeAssetInfo = getNativeAssetInfo(marketInfo.chainId)
+
   const chainMismatch = connectedChainId !== chainId
 
   const reserve = marketInfo.findReserveByUnderlyingAsset(asset) ?? raise(new NotFoundError())
@@ -47,11 +50,13 @@ export function useMarketDetails(): UseMarketDetailsResult {
         reserve,
         marketInfo,
       })
+
   const walletOverview = makeWalletOverview({
     reserve,
     marketInfo,
     walletInfo,
     connectedChainId,
+    nativeAssetInfo,
   })
 
   return {
