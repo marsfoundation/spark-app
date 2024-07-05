@@ -330,10 +330,8 @@ test.describe('Borrow dialog', () => {
 
       await borrowDialog.clickAcknowledgeRisk()
 
-      const actionsContainer = new ActionsPageObject(borrowDialog.locatePanelByHeader('Actions'))
-
-      await actionsContainer.expectActions([{ type: 'borrow', asset: 'DAI' }])
-      await actionsContainer.expectEnabledActionAtIndex(0)
+      await borrowDialog.actionsContainer.expectActions([{ type: 'borrow', asset: 'DAI' }])
+      await borrowDialog.actionsContainer.expectEnabledActionAtIndex(0)
     })
   })
 
@@ -383,10 +381,8 @@ test.describe('Borrow dialog', () => {
 
       await borrowDialog.expectInputValue('110616.31')
       await borrowDialog.expectMaxButtonDisabled()
-
-      const actionsContainer = new ActionsPageObject(borrowDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectActions([{ type: 'borrow', asset: 'DAI' }])
-      await actionsContainer.expectEnabledActionAtIndex(0)
+      await borrowDialog.actionsContainer.expectActions([{ type: 'borrow', asset: 'DAI' }])
+      await borrowDialog.actionsContainer.expectEnabledActionAtIndex(0)
     })
   })
 
@@ -429,10 +425,8 @@ test.describe('Borrow dialog', () => {
 
       await borrowDialog.expectInputValue('99.323398')
       await borrowDialog.expectMaxButtonDisabled()
-
-      const actionsContainer = new ActionsPageObject(borrowDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectActions([{ type: 'borrow', asset: 'wstETH' }])
-      await actionsContainer.expectEnabledActionAtIndex(0)
+      await borrowDialog.actionsContainer.expectActions([{ type: 'borrow', asset: 'wstETH' }])
+      await borrowDialog.actionsContainer.expectEnabledActionAtIndex(0)
     })
 
     test('MAX borrow accounts for available liquidity', async ({ page }) => {
@@ -443,10 +437,8 @@ test.describe('Borrow dialog', () => {
 
       await borrowDialog.expectInputValue('409207.097251')
       await borrowDialog.expectMaxButtonDisabled()
-
-      const actionsContainer = new ActionsPageObject(borrowDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectActions([{ type: 'borrow', asset: 'USDC' }])
-      await actionsContainer.expectEnabledActionAtIndex(0)
+      await borrowDialog.actionsContainer.expectActions([{ type: 'borrow', asset: 'USDC' }])
+      await borrowDialog.actionsContainer.expectEnabledActionAtIndex(0)
     })
   })
 
