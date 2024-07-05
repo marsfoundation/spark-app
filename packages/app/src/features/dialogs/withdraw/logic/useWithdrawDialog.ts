@@ -71,7 +71,6 @@ export function useWithdrawDialog({ initialToken }: UseWithdrawDialogOptions): U
   } = useDebouncedDialogFormValues({
     form,
     marketInfo,
-    capValue: maxWithdrawValue,
   })
   const withdrawAsset = useConditionalFreeze(formValues, pageStatus === 'success')
 

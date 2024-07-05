@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js'
 import { UseFormReturn } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -67,22 +66,15 @@ export interface UseDebouncedDialogFormValuesResult {
 export function useDebouncedDialogFormValues({
   form,
   marketInfo,
-  capValue,
 }: UseDebouncedDialogFormValuesArgs): UseDebouncedDialogFormValuesResult {
   const formValues = normalizeDialogFormValues(form.watch(), marketInfo)
   const { debouncedValue, isDebouncing } = useDebounce(
     { formValues, form },
     getNormalizedDialogFormValuesKey(formValues),
   )
-  const cappedValue = capValue
-    ? NormalizedUnitNumber(BigNumber.min(debouncedValue.formValues.value, capValue))
-    : debouncedValue.formValues.value
 
   return {
-    debouncedFormValues: {
-      ...debouncedValue.formValues,
-      value: cappedValue,
-    },
+    debouncedFormValues: debouncedValue.formValues,
     isFormValid: debouncedValue.form.formState.isValid,
     isDebouncing,
   }

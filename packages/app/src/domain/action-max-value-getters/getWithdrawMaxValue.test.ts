@@ -112,4 +112,24 @@ describe(getWithdrawMaxValue.name, () => {
       }),
     ).toEqual(NormalizedUnitNumber(44))
   })
+
+  test('returns deposit value if HF is undefined', () => {
+    expect(
+      getWithdrawMaxValue({
+        user: {
+          deposited: NormalizedUnitNumber(100),
+          healthFactor: undefined,
+          totalBorrowsUSD: NormalizedUnitNumber(40),
+          eModeState: { enabled: false },
+        },
+        asset: {
+          status: 'active',
+          liquidationThreshold: Percentage(0.8),
+          unborrowedLiquidity: NormalizedUnitNumber(200),
+          unitPriceUsd: NormalizedUnitNumber(1),
+          decimals: 18,
+        },
+      }),
+    ).toEqual(NormalizedUnitNumber(100))
+  })
 })
