@@ -48,7 +48,7 @@ export function setupFork({
     ? new TestTenderlyVnetService({ apiKey, account: tenderlyAccount, project: tenderlyProject })
     : new TestTenderlyForkService({ apiKey, tenderlyAccount, tenderlyProject })
 
-  const simulationDate = simulationDateOverride ?? !isVnet ? _simulationDate : undefined // undefined means get it based on block number
+  const simulationDate = simulationDateOverride ?? (!isVnet ? _simulationDate : undefined) // undefined means get it based on block number
 
   const forkContext: ForkContext = {
     tenderlyClient,
