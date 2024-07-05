@@ -1,5 +1,5 @@
+import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { UseFormReturn } from 'react-hook-form'
-import { Address } from 'viem'
 import { z } from 'zod'
 
 export type Mode = 'withdraw' | 'send'
@@ -11,7 +11,7 @@ export type ReceiverFormSchema = z.infer<typeof ReceiverFormSchema>
 
 export interface SendModeExtension {
   receiverForm: UseFormReturn<ReceiverFormSchema>
-  receiver: Address | undefined
+  receiver: CheckedAddress | undefined
   showReceiverIsSmartContractWarning: boolean
   blockExplorerAddressLink?: string
   enableActions: boolean
