@@ -53,6 +53,10 @@ export class MarketDetailsPageObject extends BasePageObject {
     await expect(this.locateMyWallet().getByText('To borrow you need to deposit any other asset first.')).toBeVisible()
   }
 
+  async expectWalletBalance(value: string): Promise<void> {
+    await expect(this.locateMyWallet().getByTestId(testIds.marketDetails.walletPanel.balance)).toHaveText(value)
+  }
+
   async expectToBeLoaded(): Promise<void> {
     await expect(this.locateMarketOverview()).toBeVisible()
     await expect(this.locateMyWallet()).toBeVisible()

@@ -9,6 +9,7 @@ import { screenshot } from '@/test/e2e/utils'
 
 import { BorrowPageObject } from './Borrow.PageObject'
 import { MarketDetailsPageObject } from './MarketDetails.PageObject'
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 
 const DAI = '0x6B175474E89094C44Da98b954EedeAC495271d0F'
 const WETH = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'
@@ -184,6 +185,39 @@ test.describe('Market details', () => {
       await page.goto(buildUrl('marketDetails', { asset: WETH, chainId: fork.chainId.toString() }))
 
       const marketDetailsPage = new MarketDetailsPageObject(page)
+
+      await marketDetailsPage.openDialogAction('Deposit')
+      const lendDialog = new DialogPageObject(page, /Deposit/i)
+      await lendDialog.expectDialogHeader('Deposit WETH')
+      await lendDialog.closeDialog()
+
+      await marketDetailsPage.openDialogAction('Borrow')
+      const borrowDialog = new DialogPageObject(page, /Borrow/i)
+      await borrowDialog.expectDialogHeader('Borrow WETH')
+      await borrowDialog.closeDialog()
+    })
+
+    test('opens dialogs for WETH when having only ETH', async ({ page }) => {
+
+      await setup(page, fork, {
+        initialPage: 'easyBorrow',
+        account: {
+          type: 'connected-random',
+          assetBalances: {
+            ...initialDeposits,
+            ETH: 5,
+          },
+        },
+      })
+
+      const borrowPage = new BorrowPageObject(page)
+      await borrowPage.depositWithoutBorrowActions({ ...initialDeposits })
+
+      await page.goto(buildUrl('marketDetails', { asset: WETH, chainId: fork.chainId.toString() }))
+
+      const marketDetailsPage = new MarketDetailsPageObject(page)
+
+      await marketDetailsPage.expectWalletBalance('5.00 WETH')
 
       await marketDetailsPage.openDialogAction('Deposit')
       const lendDialog = new DialogPageObject(page, /Deposit/i)

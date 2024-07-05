@@ -186,7 +186,7 @@ function makeDaiOverview({ reserve, marketInfo, ...rest }: MakeWalletOverviewPar
     tokenBalance,
     deposit: {
       ...baseOverview.deposit,
-      available:availableToDeposit
+      available: availableToDeposit
     }
   }
 }
