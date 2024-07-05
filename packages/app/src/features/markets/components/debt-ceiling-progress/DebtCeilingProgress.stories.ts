@@ -23,5 +23,12 @@ export const Default: Story = {
   },
 }
 
+export const Full: Story = {
+  args: {
+    debt: NormalizedUnitNumber(50_000_000),
+    debtCeiling: NormalizedUnitNumber(50_000_000),
+  },
+}
+
 export const Mobile = getMobileStory(Default)
 export const Tablet = getTabletStory(Default)
