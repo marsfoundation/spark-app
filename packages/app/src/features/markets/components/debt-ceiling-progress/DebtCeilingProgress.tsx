@@ -47,7 +47,7 @@ export function DebtCeilingProgress({ debt, debtCeiling }: DebtCeilingProgressPr
           </span>
         </p>
       </div>
-      <Progress value={value} indicatorClassName={cn(hasCeilingBeenReached && 'bg-basics-red')} />
+      <Progress value={value} variant={hasCeilingBeenReached ? 'finished' : 'in-progress'} />
     </div>
   )
 }
