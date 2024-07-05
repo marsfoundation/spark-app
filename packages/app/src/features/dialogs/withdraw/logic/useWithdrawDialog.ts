@@ -13,11 +13,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
 import { AssetInputSchema, useDebouncedDialogFormValues } from '../../common/logic/form'
-import { useUpdateFormMaxValue } from '../../common/logic/useUpdateFormMaxValue'
 import { FormFieldsForDialog, PageState, PageStatus } from '../../common/types'
 import { getTokenSupply, getWithdrawOptions } from './assets'
 import { getFormFieldsForWithdrawDialog, getWithdrawDialogFormValidator } from './form'
-import { getWithdrawInFullOptions } from './getWithdrawInFullOptions'
 import { createWithdrawObjectives } from './objectives'
 import { PositionOverview } from './types'
 
@@ -54,9 +52,6 @@ export function useWithdrawDialog({ initialToken }: UseWithdrawDialogOptions): U
     mode: 'onChange',
   })
 
-  const { withdrawInFull, maxWithdrawValue } = getWithdrawInFullOptions(form, marketInfo)
-  useUpdateFormMaxValue({ isMaxSet: withdrawInFull, maxValue: maxWithdrawValue, token: initialToken, form })
-
   const withdrawOptions = getWithdrawOptions({
     token: initialToken,
     marketInfo,
@@ -74,11 +69,11 @@ export function useWithdrawDialog({ initialToken }: UseWithdrawDialogOptions): U
   })
   const withdrawAsset = useConditionalFreeze(formValues, pageStatus === 'success')
 
-  const assetsToWithdrawFields = getFormFieldsForWithdrawDialog(form, marketInfo, walletInfo, maxWithdrawValue)
+  const assetsToWithdrawFields = getFormFieldsForWithdrawDialog(form, marketInfo, walletInfo)
 
   const updatedTokenSupply = getTokenSupply(marketInfo, withdrawAsset)
 
-  const objectives = createWithdrawObjectives(withdrawAsset, { all: withdrawInFull })
+  const objectives = createWithdrawObjectives(withdrawAsset)
 
   const currentPositionOverview = {
     healthFactor: marketInfo.userPositionSummary.healthFactor,
