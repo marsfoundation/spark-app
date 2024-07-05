@@ -196,6 +196,7 @@ test.describe('Market details', () => {
       await borrowDialog.closeDialog()
     })
 
+    // @todo: this scenario is inaccurate, because user has only ETH - in future dialog should open on ETH tab
     test('opens dialogs for WETH when having only ETH', async ({ page }) => {
       await setup(page, fork, {
         initialPage: 'easyBorrow',
