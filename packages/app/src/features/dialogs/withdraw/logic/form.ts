@@ -88,6 +88,7 @@ export function getFormFieldsForWithdrawDialog(
       unborrowedLiquidity: position.reserve.unborrowedLiquidity,
       unitPriceUsd: position.reserve.token.unitPriceUsd,
       decimals: position.reserve.token.decimals,
+      usageAsCollateralEnabledOnUser: position.reserve.usageAsCollateralEnabledOnUser,
       eModeCategory: position.reserve.eModeCategory,
     },
   })

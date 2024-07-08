@@ -16,6 +16,7 @@ interface GetWithdrawMaxValueParams {
     liquidationThreshold: Percentage
     unitPriceUsd: NormalizedUnitNumber
     decimals: number
+    usageAsCollateralEnabledOnUser: boolean
     eModeCategory?: EModeCategory
   }
 }
@@ -26,7 +27,7 @@ export function getWithdrawMaxValue({ user, asset }: GetWithdrawMaxValueParams):
   }
 
   const ceilings = [user.deposited, asset.unborrowedLiquidity]
-  if (user.healthFactor !== undefined) {
+  if (asset.usageAsCollateralEnabledOnUser && user.healthFactor !== undefined) {
     // user has position with both collateral and debt
     const excessHF = user.healthFactor.minus(1.01)
     if (excessHF.gt(0)) {

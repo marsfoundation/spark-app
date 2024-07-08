@@ -483,7 +483,7 @@ test.describe('Withdraw dialog', () => {
         initialPage: 'dashboard',
         account: {
           type: 'connected-random',
-          assetBalances: { wstETH: 5 },
+          assetBalances: { wstETH: 5, rETH: 1 },
         },
       })
 
@@ -539,6 +539,39 @@ test.describe('Withdraw dialog', () => {
       await withdrawDialog.expectHealthFactorBefore('2.69')
       await withdrawDialog.expectHealthFactorAfter('1.01')
       await withdrawDialog.actionsContainer.expectActions([{ type: 'withdraw', asset: 'wstETH' }])
+      await withdrawDialog.actionsContainer.expectEnabledActionAtIndex(0)
+    })
+
+    test('works for asset with usage as collateral disabled', async ({ page }) => {
+      await dashboardPage.clickBorrowButtonAction('DAI')
+      await borrowDialog.clickMaxAmountAction()
+      await borrowDialog.clickAcknowledgeRisk()
+      await borrowDialog.actionsContainer.acceptAllActionsAction(1)
+      await borrowDialog.viewInDashboardAction()
+      await dashboardPage.expectHealthFactor('1.17')
+
+      await dashboardPage.clickDepositButtonAction('rETH')
+      const depositDialog = new DialogPageObject(page, /Deposit/)
+      await depositDialog.fillAmountAction(1)
+      await depositDialog.actionsContainer.acceptAllActionsAction(2)
+      await depositDialog.viewInDashboardAction()
+      await dashboardPage.expectHealthFactor('1.39')
+
+      await dashboardPage.clickCollateralSwitchAction('rETH')
+      const collateralDialog = new CollateralDialogPageObject(page)
+      await collateralDialog.clickAcknowledgeRisk()
+      await collateralDialog.setUseAsCollateralAction('rETH', 'disabled')
+      await dashboardPage.goToDashboardAction()
+      await dashboardPage.expectHealthFactor('1.17')
+
+      await dashboardPage.clickWithdrawButtonAction('rETH')
+      await withdrawDialog.clickMaxAmountAction()
+
+      await withdrawDialog.expectInputValue('1')
+      await withdrawDialog.expectMaxButtonDisabled()
+      await withdrawDialog.expectHealthFactorBefore('1.17')
+      await withdrawDialog.expectHealthFactorAfter('1.17')
+      await withdrawDialog.actionsContainer.expectActions([{ type: 'withdraw', asset: 'rETH' }])
       await withdrawDialog.actionsContainer.expectEnabledActionAtIndex(0)
     })
   })
