@@ -6,6 +6,7 @@ export type WithdrawValidationIssue =
   | 'value-not-positive'
   | 'exceeds-balance'
   | 'reserve-paused'
+  | 'exceeds-unborrowed-liquidity'
   | 'exceeds-ltv'
   | 'reserve-not-active'
 
@@ -14,6 +15,7 @@ export interface ValidateWithdrawArgs {
   asset: {
     status: ReserveStatus
     liquidationThreshold: Percentage
+    unborrowedLiquidity: NormalizedUnitNumber
     eModeCategory?: EModeCategory
   }
   user: {
@@ -36,8 +38,12 @@ export function validateWithdraw({ value, asset, user }: ValidateWithdrawArgs): 
     return 'reserve-paused'
   }
 
-  if (user.deposited.lt(value)) {
+  if (user.deposited.isLessThan(value)) {
     return 'exceeds-balance'
+  }
+
+  if (value.isGreaterThan(asset.unborrowedLiquidity)) {
+    return 'exceeds-unborrowed-liquidity'
   }
 
   const liquidationThreshold =
@@ -54,5 +60,6 @@ export const withdrawalValidationIssueToMessage: Record<WithdrawValidationIssue,
   'reserve-paused': 'Reserve is paused',
   'reserve-not-active': 'Reserve is not active',
   'exceeds-balance': 'Exceeds your balance',
+  'exceeds-unborrowed-liquidity': 'Exceeds unborrowed liquidity',
   'exceeds-ltv': 'Remaining collateral cannot support the loan',
 }

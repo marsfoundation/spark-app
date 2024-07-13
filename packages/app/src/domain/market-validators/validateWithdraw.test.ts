@@ -7,7 +7,11 @@ describe(validateWithdraw.name, () => {
     expect(
       validateWithdraw({
         value: NormalizedUnitNumber(0),
-        asset: { status: 'active', liquidationThreshold: Percentage(0.8) },
+        asset: {
+          status: 'active',
+          liquidationThreshold: Percentage(0.8),
+          unborrowedLiquidity: NormalizedUnitNumber(10),
+        },
         user: {
           deposited: NormalizedUnitNumber(10),
           ltvAfterWithdrawal: Percentage(0.5),
@@ -21,7 +25,11 @@ describe(validateWithdraw.name, () => {
     expect(
       validateWithdraw({
         value: NormalizedUnitNumber(10),
-        asset: { status: 'frozen', liquidationThreshold: Percentage(0.8) },
+        asset: {
+          status: 'frozen',
+          liquidationThreshold: Percentage(0.8),
+          unborrowedLiquidity: NormalizedUnitNumber(100),
+        },
         user: {
           deposited: NormalizedUnitNumber(10),
           ltvAfterWithdrawal: Percentage(0.5),
@@ -35,7 +43,11 @@ describe(validateWithdraw.name, () => {
     expect(
       validateWithdraw({
         value: NormalizedUnitNumber(10),
-        asset: { status: 'frozen', liquidationThreshold: Percentage(0.8) },
+        asset: {
+          status: 'frozen',
+          liquidationThreshold: Percentage(0.8),
+          unborrowedLiquidity: NormalizedUnitNumber(100),
+        },
         user: {
           deposited: NormalizedUnitNumber(10),
           ltvAfterWithdrawal: Percentage(0.5),
@@ -49,7 +61,11 @@ describe(validateWithdraw.name, () => {
     expect(
       validateWithdraw({
         value: NormalizedUnitNumber(10),
-        asset: { status: 'paused', liquidationThreshold: Percentage(0.8) },
+        asset: {
+          status: 'paused',
+          liquidationThreshold: Percentage(0.8),
+          unborrowedLiquidity: NormalizedUnitNumber(100),
+        },
         user: {
           deposited: NormalizedUnitNumber(10),
           ltvAfterWithdrawal: Percentage(0.5),
@@ -63,7 +79,11 @@ describe(validateWithdraw.name, () => {
     expect(
       validateWithdraw({
         value: NormalizedUnitNumber(10),
-        asset: { status: 'not-active', liquidationThreshold: Percentage(0.8) },
+        asset: {
+          status: 'not-active',
+          liquidationThreshold: Percentage(0.8),
+          unborrowedLiquidity: NormalizedUnitNumber(100),
+        },
         user: {
           deposited: NormalizedUnitNumber(10),
           ltvAfterWithdrawal: Percentage(0.5),
@@ -77,7 +97,11 @@ describe(validateWithdraw.name, () => {
     expect(
       validateWithdraw({
         value: NormalizedUnitNumber(10),
-        asset: { status: 'active', liquidationThreshold: Percentage(0.8) },
+        asset: {
+          status: 'active',
+          liquidationThreshold: Percentage(0.8),
+          unborrowedLiquidity: NormalizedUnitNumber(100),
+        },
         user: {
           deposited: NormalizedUnitNumber(1),
           ltvAfterWithdrawal: Percentage(0.5),
@@ -87,11 +111,33 @@ describe(validateWithdraw.name, () => {
     ).toBe('exceeds-balance')
   })
 
+  test('validates unborrowed liquidity', () => {
+    expect(
+      validateWithdraw({
+        value: NormalizedUnitNumber(10),
+        asset: {
+          status: 'active',
+          liquidationThreshold: Percentage(0.8),
+          unborrowedLiquidity: NormalizedUnitNumber(9),
+        },
+        user: {
+          deposited: NormalizedUnitNumber(10),
+          ltvAfterWithdrawal: Percentage(0.5),
+          eModeState: { enabled: false },
+        },
+      }),
+    ).toBe('exceeds-unborrowed-liquidity')
+  })
+
   test('work with matching balance', () => {
     expect(
       validateWithdraw({
         value: NormalizedUnitNumber(10),
-        asset: { status: 'active', liquidationThreshold: Percentage(0.8) },
+        asset: {
+          status: 'active',
+          liquidationThreshold: Percentage(0.8),
+          unborrowedLiquidity: NormalizedUnitNumber(100),
+        },
         user: {
           deposited: NormalizedUnitNumber(10),
           ltvAfterWithdrawal: Percentage(0.5),
@@ -105,7 +151,11 @@ describe(validateWithdraw.name, () => {
     expect(
       validateWithdraw({
         value: NormalizedUnitNumber(10),
-        asset: { status: 'active', liquidationThreshold: Percentage(0.8) },
+        asset: {
+          status: 'active',
+          liquidationThreshold: Percentage(0.8),
+          unborrowedLiquidity: NormalizedUnitNumber(100),
+        },
         user: {
           deposited: NormalizedUnitNumber(10),
           ltvAfterWithdrawal: Percentage(1),
@@ -127,7 +177,12 @@ describe(validateWithdraw.name, () => {
     expect(
       validateWithdraw({
         value: NormalizedUnitNumber(10),
-        asset: { status: 'active', liquidationThreshold: Percentage(0.8), eModeCategory },
+        asset: {
+          status: 'active',
+          liquidationThreshold: Percentage(0.8),
+          unborrowedLiquidity: NormalizedUnitNumber(100),
+          eModeCategory,
+        },
         user: {
           deposited: NormalizedUnitNumber(10),
           ltvAfterWithdrawal: Percentage(0.85),
@@ -138,7 +193,12 @@ describe(validateWithdraw.name, () => {
     expect(
       validateWithdraw({
         value: NormalizedUnitNumber(10),
-        asset: { status: 'active', liquidationThreshold: Percentage(0.8), eModeCategory },
+        asset: {
+          status: 'active',
+          liquidationThreshold: Percentage(0.8),
+          unborrowedLiquidity: NormalizedUnitNumber(100),
+          eModeCategory,
+        },
         user: {
           deposited: NormalizedUnitNumber(10),
           ltvAfterWithdrawal: Percentage(0.85),

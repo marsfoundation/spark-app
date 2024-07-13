@@ -42,6 +42,7 @@ export function getWithdrawDialogFormValidator({
       asset: {
         status: reserve.status,
         liquidationThreshold: reserve.liquidationThreshold,
+        unborrowedLiquidity: reserve.unborrowedLiquidity,
         eModeCategory: reserve.eModeCategory,
       },
       user: {
