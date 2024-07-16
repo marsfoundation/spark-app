@@ -140,11 +140,3 @@ jobs:
           name: test-e2e-report
           path: packages/app/playwright-report
           retention-days: 3
-
-      - uses: krzkaczor/reg-actions@action-v2
-        with:
-          github-token: "${{ secrets.GITHUB_TOKEN }}"
-          image-directory-path: "./packages/app/__screenshots-e2e__"
-          collection-name: "e2e"
-          threshold-pixel: 5
-          matching-threshold: 0.09
