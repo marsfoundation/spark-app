@@ -8,7 +8,7 @@ export const whitelistedAssets = ['DAI', 'USDC', 'USDT', 'XDAI']
 
 export interface MakeAssetsInWalletListParams {
   walletInfo: WalletInfo
-  nativeRouteOptions?: {
+  nativeRouteOptions: {
     shouldFilterNativeRoutes: boolean
     chainId: number
   }

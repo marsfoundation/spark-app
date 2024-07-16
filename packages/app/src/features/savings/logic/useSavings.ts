@@ -54,7 +54,7 @@ export function useSavings(): UseSavingsResults {
     assets: assetsInWallet,
     totalUSD: totalEligibleCashUSD,
     maxBalanceToken,
-  } = makeAssetsInWalletList({ walletInfo })
+  } = makeAssetsInWalletList({ walletInfo, nativeRouteOptions: { shouldFilterNativeRoutes: true, chainId } })
   const { shares, potentialShares, depositedUSD, depositedUSDPrecision, sDAIBalance } = makeSavingsOverview({
     marketInfo,
     walletInfo,

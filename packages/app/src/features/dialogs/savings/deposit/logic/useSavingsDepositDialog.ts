@@ -46,7 +46,10 @@ export function useSavingsDepositDialog({
   const walletInfo = useWalletInfo()
   const chainId = useChainId()
 
-  const { assets: depositOptions } = makeAssetsInWalletList({ walletInfo })
+  const { assets: depositOptions } = makeAssetsInWalletList({
+    walletInfo,
+    nativeRouteOptions: { shouldFilterNativeRoutes: true, chainId },
+  })
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')
 
