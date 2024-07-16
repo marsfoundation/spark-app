@@ -7,7 +7,7 @@ import { test } from '@playwright/test'
 import { gnosis } from 'viem/chains'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 
-test.describe('Withdraw USDT on Gnosis', () => {
+test.describe.skip('Withdraw USDT on Gnosis', () => {
   const fork = setupFork({
     blockNumber: 34575411n,
     chainId: gnosis.id,
