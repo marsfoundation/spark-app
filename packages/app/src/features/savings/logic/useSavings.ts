@@ -54,7 +54,10 @@ export function useSavings(): UseSavingsResults {
     assets: assetsInWallet,
     totalUSD: totalEligibleCashUSD,
     maxBalanceToken,
-  } = makeAssetsInWalletList({ walletInfo, nativeRouteOptions: { shouldFilterNativeRoutes: true, chainId } })
+  } = makeAssetsInWalletList({
+    walletInfo,
+    nativeRouteOptions: { shouldFilterNativeRoutes: import.meta.env.VITE_FEATURE_LIFI_DISABLED === '1', chainId },
+  })
   const { shares, potentialShares, depositedUSD, depositedUSDPrecision, sDAIBalance } = makeSavingsOverview({
     marketInfo,
     walletInfo,

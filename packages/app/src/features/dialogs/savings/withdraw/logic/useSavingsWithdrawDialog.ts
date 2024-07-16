@@ -50,7 +50,7 @@ export function useSavingsWithdrawDialog(mode: Mode): UseSavingsWithdrawDialogRe
 
   const { assets: withdrawOptions } = makeAssetsInWalletList({
     walletInfo,
-    nativeRouteOptions: { shouldFilterNativeRoutes: true, chainId },
+    nativeRouteOptions: { shouldFilterNativeRoutes: import.meta.env.VITE_FEATURE_LIFI_DISABLED === '1', chainId },
   })
 
   const sDaiWithBalance: TokenWithBalance = {
