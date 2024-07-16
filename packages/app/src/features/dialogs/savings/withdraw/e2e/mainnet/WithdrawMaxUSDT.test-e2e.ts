@@ -7,7 +7,7 @@ import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 
-test.describe.skip('Withdraw max USDT on Mainnet', () => {
+test.describe('Withdraw max USDT on Mainnet', () => {
   const fork = setupFork({
     blockNumber: 20138171n,
     chainId: mainnet.id,

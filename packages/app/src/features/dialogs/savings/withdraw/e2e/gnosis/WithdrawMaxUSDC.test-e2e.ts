@@ -7,7 +7,7 @@ import { test } from '@playwright/test'
 import { gnosis } from 'viem/chains'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 
-test.describe.skip('Withdraw max USDC on Gnosis', () => {
+test.describe('Withdraw max USDC on Gnosis', () => {
   const fork = setupFork({
     blockNumber: 34572740n,
     chainId: gnosis.id,

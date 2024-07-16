@@ -8,7 +8,7 @@ import { mainnet } from 'viem/chains'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 import { depositValidationIssueToMessage } from '../../logic/validation'
 
-test.describe.skip('Deposit USDT on Mainnet', () => {
+test.describe('Deposit USDT on Mainnet', () => {
   const fork = setupFork({ blockNumber: 19990683n, chainId: mainnet.id })
   let savingsPage: SavingsPageObject
   let depositDialog: SavingsDialogPageObject

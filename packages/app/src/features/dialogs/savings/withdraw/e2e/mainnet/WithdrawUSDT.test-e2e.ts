@@ -8,7 +8,7 @@ import { mainnet } from 'viem/chains'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 import { withdrawValidationIssueToMessage } from '../../logic/validation'
 
-test.describe.skip('Withdraw USDT on Mainnet', () => {
+test.describe('Withdraw USDT on Mainnet', () => {
   const fork = setupFork({
     blockNumber: 20138171n,
     chainId: mainnet.id,

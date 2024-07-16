@@ -12,7 +12,7 @@ test.describe('Savings deposit dialog', () => {
     const blockNumber = 20025569n
     const fork = setupFork({ blockNumber, chainId: mainnet.id })
 
-    test.skip('can switch between tokens', async ({ page }) => {
+    test('can switch between tokens', async ({ page }) => {
       await setup(page, fork, {
         initialPage: 'savings',
         account: {
@@ -79,7 +79,7 @@ test.describe('Savings deposit dialog', () => {
       simulationDateOverride: new Date('2024-06-19T10:21:19Z'),
     })
 
-    test.skip('can switch between tokens', async ({ page }) => {
+    test('can switch between tokens', async ({ page }) => {
       await setup(page, fork, {
         initialPage: 'savings',
         account: {
