@@ -46,7 +46,13 @@ export function useSavingsWithdrawDialog(): UseSavingsWithdrawDialogResults {
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')
 
-  const { assets: withdrawOptions } = makeAssetsInWalletList({ walletInfo })
+  const { assets: withdrawOptions } = makeAssetsInWalletList({
+    walletInfo,
+    nativeRouteOptions: {
+      shouldFilterNativeRoutes: import.meta.env.VITE_FEATURE_SAVINGS_NON_NATIVE_ROUTES_DISABLED === '1',
+      chainId,
+    },
+  })
   const sDaiWithBalance: TokenWithBalance = {
     token: marketInfo.sDAI,
     balance: walletInfo.findWalletBalanceForToken(marketInfo.sDAI),
