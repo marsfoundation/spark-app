@@ -146,6 +146,9 @@ export const testIds = makeTestIds({
       debt: true,
       debtCeiling: true,
     },
+    walletPanel: {
+      balance: true,
+    },
   },
 })
 

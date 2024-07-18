@@ -117,5 +117,9 @@ export class DialogPageObject extends BasePageObject {
   async expectInputValue(value: string): Promise<void> {
     await expect(this.region.getByRole('textbox')).toHaveValue(value)
   }
+
+  async expectMaxButtonDisabled(): Promise<void> {
+    await expect(this.region.getByRole('button', { name: 'MAX' })).toBeDisabled()
+  }
   // #endregion
 }

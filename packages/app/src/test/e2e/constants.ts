@@ -41,6 +41,10 @@ export const TOKENS_ON_FORK = {
       address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
       decimals: 6,
     },
+    weETH: {
+      address: '0xcd5fe23c85820f7b72d0926fc9b05b43e359b7ee',
+      decimals: 18,
+    },
   },
   100: {
     WXDAI: {

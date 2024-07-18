@@ -8,6 +8,7 @@ import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { WalletInfo } from '@/domain/wallet/useWalletInfo'
 import { applyTransformers } from '@/utils/applyTransformers'
 
+import { NativeAssetInfo } from '@/config/chain/types'
 import { WalletOverview } from '../types'
 
 export interface MakeWalletOverviewParams {
@@ -15,6 +16,7 @@ export interface MakeWalletOverviewParams {
   walletInfo: WalletInfo
   marketInfo: MarketInfo
   connectedChainId: number
+  nativeAssetInfo: NativeAssetInfo
 }
 
 export function makeWalletOverview({
@@ -22,11 +24,13 @@ export function makeWalletOverview({
   marketInfo,
   walletInfo,
   connectedChainId,
+  nativeAssetInfo,
 }: MakeWalletOverviewParams): WalletOverview {
-  const overview = applyTransformers({ reserve, marketInfo, walletInfo, connectedChainId })([
+  const overview = applyTransformers({ reserve, marketInfo, walletInfo, connectedChainId, nativeAssetInfo })([
     makeGuestModeOverview,
     makeChainMismatchOverview,
     makeDaiOverview,
+    makeWalletNativeAssetOverview,
     makeBaseWalletOverview,
   ])
   assert(overview, 'The only item was skipped by transformers.')
@@ -144,6 +148,45 @@ function makeDaiOverview({ reserve, marketInfo, ...rest }: MakeWalletOverviewPar
         : undefined,
     deposit: {
       ...sDaiOverview.deposit,
+    },
+  }
+}
+
+function makeWalletNativeAssetOverview({
+  reserve,
+  walletInfo,
+  nativeAssetInfo,
+  ...rest
+}: MakeWalletOverviewParams): WalletOverview | undefined {
+  if (reserve.token.symbol !== nativeAssetInfo.wrappedNativeAssetSymbol) {
+    return undefined
+  }
+
+  const baseOverview = makeBaseWalletOverview({ reserve, nativeAssetInfo, walletInfo, ...rest })
+
+  const tokenBalance = NormalizedUnitNumber(
+    walletInfo
+      .findWalletBalanceForToken(reserve.token)
+      .plus(walletInfo.findWalletBalanceForSymbol(nativeAssetInfo.nativeAssetSymbol)),
+  )
+
+  const availableToDeposit = getDepositMaxValue({
+    asset: {
+      status: reserve.status,
+      totalLiquidity: reserve.totalLiquidity,
+      supplyCap: reserve.supplyCap,
+    },
+    user: {
+      balance: tokenBalance,
+    },
+  })
+
+  return {
+    ...baseOverview,
+    tokenBalance,
+    deposit: {
+      ...baseOverview.deposit,
+      available: availableToDeposit,
     },
   }
 }

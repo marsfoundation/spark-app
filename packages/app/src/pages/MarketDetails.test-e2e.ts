@@ -195,6 +195,61 @@ test.describe('Market details', () => {
       await borrowDialog.expectDialogHeader('Borrow WETH')
       await borrowDialog.closeDialog()
     })
+
+    // @todo: this scenario is inaccurate, because user has only ETH - in future dialog should open on ETH tab
+    test('opens dialogs for WETH when having only ETH', async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'easyBorrow',
+        account: {
+          type: 'connected-random',
+          assetBalances: {
+            ...initialDeposits,
+            ETH: 5,
+          },
+        },
+      })
+
+      const borrowPage = new BorrowPageObject(page)
+      await borrowPage.depositWithoutBorrowActions({ ...initialDeposits })
+
+      await page.goto(buildUrl('marketDetails', { asset: WETH, chainId: fork.chainId.toString() }))
+
+      const marketDetailsPage = new MarketDetailsPageObject(page)
+
+      await marketDetailsPage.expectWalletBalance('5.00 WETH')
+
+      await marketDetailsPage.openDialogAction('Deposit')
+      const lendDialog = new DialogPageObject(page, /Deposit/i)
+      await lendDialog.expectDialogHeader('Deposit WETH')
+      await lendDialog.closeDialog()
+
+      await marketDetailsPage.openDialogAction('Borrow')
+      const borrowDialog = new DialogPageObject(page, /Borrow/i)
+      await borrowDialog.expectDialogHeader('Borrow WETH')
+      await borrowDialog.closeDialog()
+    })
+
+    test('wallet displays sum of WETH and ETH', async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'marketDetails',
+        initialPageParams: {
+          asset: WETH,
+          chainId: fork.chainId.toString(),
+        },
+        account: {
+          type: 'connected-random',
+          assetBalances: {
+            ...initialDeposits,
+            ETH: 5,
+            WETH: 10,
+          },
+        },
+      })
+
+      const marketDetailsPage = new MarketDetailsPageObject(page)
+
+      await marketDetailsPage.expectWalletBalance('15.00 WETH')
+    })
   })
 
   test.describe('Isolated assets', () => {

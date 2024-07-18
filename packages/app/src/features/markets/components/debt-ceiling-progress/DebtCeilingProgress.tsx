@@ -4,6 +4,7 @@ import { Link } from '@/ui/atoms/link/Link'
 import { Progress } from '@/ui/atoms/progress/Progress'
 import { links } from '@/ui/constants/links'
 import { Info } from '@/ui/molecules/info/Info'
+import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 
 interface DebtCeilingProgressProps {
@@ -14,6 +15,9 @@ interface DebtCeilingProgressProps {
 
 export function DebtCeilingProgress({ debt, debtCeiling }: DebtCeilingProgressProps) {
   const value = debt.dividedBy(debtCeiling).multipliedBy(100).toNumber()
+
+  const hasCeilingBeenReached = value === 100
+
   return (
     <div className="col-span-3 mt-6 flex flex-col gap-4 rounded-2xl border border-basics-border p-4 sm:col-span-2 sm:col-start-2 sm:mt-8">
       <div className="flex items-center justify-between">
@@ -28,7 +32,10 @@ export function DebtCeilingProgress({ debt, debtCeiling }: DebtCeilingProgressPr
           </Info>
         </div>
         <p className="text-xs leading-none">
-          <span className="text-basics-black" data-testid={testIds.marketDetails.collateralStatusPanel.debt}>
+          <span
+            className={cn('text-basics-black', hasCeilingBeenReached && 'text-basics-red')}
+            data-testid={testIds.marketDetails.collateralStatusPanel.debt}
+          >
             {USD_MOCK_TOKEN.formatUSD(debt, { compact: true })}
           </span>
           <span className="text-basics-dark-grey">
@@ -40,7 +47,7 @@ export function DebtCeilingProgress({ debt, debtCeiling }: DebtCeilingProgressPr
           </span>
         </p>
       </div>
-      <Progress value={value} />
+      <Progress value={value} variant={hasCeilingBeenReached ? 'finished' : 'in-progress'} />
     </div>
   )
 }
