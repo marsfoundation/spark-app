@@ -41,12 +41,12 @@ export function getWithdrawDialogFormValidator({
       value: formWithdrawAsset.value,
       asset: {
         status: reserve.status,
-        liquidationThreshold: reserve.liquidationThreshold,
         unborrowedLiquidity: reserve.unborrowedLiquidity,
         eModeCategory: reserve.eModeCategory,
       },
       user: {
         deposited,
+        liquidationThreshold: updatedUserSummary.currentLiquidationThreshold,
         ltvAfterWithdrawal: updatedUserSummary.loanToValue,
         eModeState: marketInfo.userConfiguration.eModeState,
       },

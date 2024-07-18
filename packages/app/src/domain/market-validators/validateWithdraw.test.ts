@@ -9,11 +9,11 @@ describe(validateWithdraw.name, () => {
         value: NormalizedUnitNumber(0),
         asset: {
           status: 'active',
-          liquidationThreshold: Percentage(0.8),
           unborrowedLiquidity: NormalizedUnitNumber(10),
         },
         user: {
           deposited: NormalizedUnitNumber(10),
+          liquidationThreshold: Percentage(0.8),
           ltvAfterWithdrawal: Percentage(0.5),
           eModeState: { enabled: false },
         },
@@ -27,11 +27,11 @@ describe(validateWithdraw.name, () => {
         value: NormalizedUnitNumber(10),
         asset: {
           status: 'frozen',
-          liquidationThreshold: Percentage(0.8),
           unborrowedLiquidity: NormalizedUnitNumber(100),
         },
         user: {
           deposited: NormalizedUnitNumber(10),
+          liquidationThreshold: Percentage(0.8),
           ltvAfterWithdrawal: Percentage(0.5),
           eModeState: { enabled: false },
         },
@@ -45,11 +45,11 @@ describe(validateWithdraw.name, () => {
         value: NormalizedUnitNumber(10),
         asset: {
           status: 'frozen',
-          liquidationThreshold: Percentage(0.8),
           unborrowedLiquidity: NormalizedUnitNumber(100),
         },
         user: {
           deposited: NormalizedUnitNumber(10),
+          liquidationThreshold: Percentage(0.8),
           ltvAfterWithdrawal: Percentage(0.5),
           eModeState: { enabled: false },
         },
@@ -63,11 +63,11 @@ describe(validateWithdraw.name, () => {
         value: NormalizedUnitNumber(10),
         asset: {
           status: 'paused',
-          liquidationThreshold: Percentage(0.8),
           unborrowedLiquidity: NormalizedUnitNumber(100),
         },
         user: {
           deposited: NormalizedUnitNumber(10),
+          liquidationThreshold: Percentage(0.8),
           ltvAfterWithdrawal: Percentage(0.5),
           eModeState: { enabled: false },
         },
@@ -81,11 +81,11 @@ describe(validateWithdraw.name, () => {
         value: NormalizedUnitNumber(10),
         asset: {
           status: 'not-active',
-          liquidationThreshold: Percentage(0.8),
           unborrowedLiquidity: NormalizedUnitNumber(100),
         },
         user: {
           deposited: NormalizedUnitNumber(10),
+          liquidationThreshold: Percentage(0.8),
           ltvAfterWithdrawal: Percentage(0.5),
           eModeState: { enabled: false },
         },
@@ -99,11 +99,11 @@ describe(validateWithdraw.name, () => {
         value: NormalizedUnitNumber(10),
         asset: {
           status: 'active',
-          liquidationThreshold: Percentage(0.8),
           unborrowedLiquidity: NormalizedUnitNumber(100),
         },
         user: {
           deposited: NormalizedUnitNumber(1),
+          liquidationThreshold: Percentage(0.8),
           ltvAfterWithdrawal: Percentage(0.5),
           eModeState: { enabled: false },
         },
@@ -117,11 +117,11 @@ describe(validateWithdraw.name, () => {
         value: NormalizedUnitNumber(10),
         asset: {
           status: 'active',
-          liquidationThreshold: Percentage(0.8),
           unborrowedLiquidity: NormalizedUnitNumber(9),
         },
         user: {
           deposited: NormalizedUnitNumber(10),
+          liquidationThreshold: Percentage(0.8),
           ltvAfterWithdrawal: Percentage(0.5),
           eModeState: { enabled: false },
         },
@@ -135,11 +135,11 @@ describe(validateWithdraw.name, () => {
         value: NormalizedUnitNumber(10),
         asset: {
           status: 'active',
-          liquidationThreshold: Percentage(0.8),
           unborrowedLiquidity: NormalizedUnitNumber(100),
         },
         user: {
           deposited: NormalizedUnitNumber(10),
+          liquidationThreshold: Percentage(0.8),
           ltvAfterWithdrawal: Percentage(0.5),
           eModeState: { enabled: false },
         },
@@ -153,11 +153,11 @@ describe(validateWithdraw.name, () => {
         value: NormalizedUnitNumber(10),
         asset: {
           status: 'active',
-          liquidationThreshold: Percentage(0.8),
           unborrowedLiquidity: NormalizedUnitNumber(100),
         },
         user: {
           deposited: NormalizedUnitNumber(10),
+          liquidationThreshold: Percentage(0.8),
           ltvAfterWithdrawal: Percentage(1),
           eModeState: { enabled: false },
         },
@@ -179,12 +179,12 @@ describe(validateWithdraw.name, () => {
         value: NormalizedUnitNumber(10),
         asset: {
           status: 'active',
-          liquidationThreshold: Percentage(0.8),
           unborrowedLiquidity: NormalizedUnitNumber(100),
           eModeCategory,
         },
         user: {
           deposited: NormalizedUnitNumber(10),
+          liquidationThreshold: Percentage(0.8),
           ltvAfterWithdrawal: Percentage(0.85),
           eModeState: { enabled: true, category: eModeCategory },
         },
@@ -195,12 +195,12 @@ describe(validateWithdraw.name, () => {
         value: NormalizedUnitNumber(10),
         asset: {
           status: 'active',
-          liquidationThreshold: Percentage(0.8),
           unborrowedLiquidity: NormalizedUnitNumber(100),
           eModeCategory,
         },
         user: {
           deposited: NormalizedUnitNumber(10),
+          liquidationThreshold: Percentage(0.8),
           ltvAfterWithdrawal: Percentage(0.85),
           eModeState: { enabled: false },
         },

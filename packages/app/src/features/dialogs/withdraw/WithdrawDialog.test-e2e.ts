@@ -476,6 +476,7 @@ test.describe('Withdraw dialog', () => {
   test.describe('MAX button', () => {
     let withdrawDialog: DialogPageObject
     let borrowDialog: DialogPageObject
+    let depositDialog: DialogPageObject
     let dashboardPage: DashboardPageObject
 
     test.beforeEach(async ({ page }) => {
@@ -483,7 +484,7 @@ test.describe('Withdraw dialog', () => {
         initialPage: 'dashboard',
         account: {
           type: 'connected-random',
-          assetBalances: { wstETH: 5, rETH: 1 },
+          assetBalances: { wstETH: 5, rETH: 1, WBTC: 1 },
         },
       })
 
@@ -492,7 +493,7 @@ test.describe('Withdraw dialog', () => {
       borrowDialog = new DialogPageObject(page, /Borrow/)
 
       await dashboardPage.clickDepositButtonAction('wstETH')
-      const depositDialog = new DialogPageObject(page, /Deposit/)
+      depositDialog = new DialogPageObject(page, /Deposit/)
       await depositDialog.fillAmountAction(5)
       await depositDialog.actionsContainer.acceptAllActionsAction(2)
       await depositDialog.viewInDashboardAction()
@@ -515,6 +516,32 @@ test.describe('Withdraw dialog', () => {
       await withdrawDialog.expectHealthFactorBefore('2.08')
       await withdrawDialog.expectHealthFactorAfter('1.01')
       await withdrawDialog.actionsContainer.expectActions([{ type: 'withdraw', asset: 'wstETH' }])
+      await withdrawDialog.actionsContainer.expectEnabledActionAtIndex(0)
+    })
+
+    test('works for collaterals with different liquidation thresholds', async () => {
+      await dashboardPage.clickDepositButtonAction('WBTC')
+      await depositDialog.fillAmountAction(1)
+      await depositDialog.actionsContainer.acceptAllActionsAction(2)
+      await depositDialog.viewInDashboardAction()
+      await dashboardPage.expectDepositedAssets(54_910)
+
+      await dashboardPage.clickBorrowButtonAction('DAI')
+      await borrowDialog.fillAmountAction(35000)
+      await borrowDialog.clickAcknowledgeRisk()
+      await borrowDialog.actionsContainer.acceptAllActionsAction(1)
+      await borrowDialog.viewInDashboardAction()
+      await dashboardPage.expectHealthFactor('1.19')
+
+      await dashboardPage.clickWithdrawButtonAction('WBTC')
+
+      await withdrawDialog.clickMaxAmountAction()
+      await withdrawDialog.clickAcknowledgeRisk()
+
+      await withdrawDialog.expectInputValue('0.204922')
+      await withdrawDialog.expectHealthFactorBefore('1.19')
+      await withdrawDialog.expectHealthFactorAfter('1.01')
+      await withdrawDialog.actionsContainer.expectActions([{ type: 'withdraw', asset: 'WBTC' }])
       await withdrawDialog.actionsContainer.expectEnabledActionAtIndex(0)
     })
 
