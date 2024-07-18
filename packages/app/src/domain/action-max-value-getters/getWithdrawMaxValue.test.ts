@@ -25,12 +25,12 @@ describe(getWithdrawMaxValue.name, () => {
     ).toEqual(NormalizedUnitNumber(0))
   })
 
-  test('returns deposited amount', () => {
+  test('returns deposited amount when no borrows', () => {
     expect(
       getWithdrawMaxValue({
         user: {
           deposited: NormalizedUnitNumber(100),
-          healthFactor: BigNumber(2),
+          healthFactor: undefined,
           totalBorrowsUSD: NormalizedUnitNumber(0),
           eModeState: { enabled: false },
         },
@@ -46,12 +46,12 @@ describe(getWithdrawMaxValue.name, () => {
     ).toEqual(NormalizedUnitNumber(100))
   })
 
-  test('returns unborrowed liquidity', () => {
+  test('returns unborrowed liquidity when not enough liquidity to withdraw', () => {
     expect(
       getWithdrawMaxValue({
         user: {
           deposited: NormalizedUnitNumber(200),
-          healthFactor: BigNumber(2),
+          healthFactor: undefined,
           totalBorrowsUSD: NormalizedUnitNumber(0),
           eModeState: { enabled: false },
         },
@@ -116,27 +116,6 @@ describe(getWithdrawMaxValue.name, () => {
         },
       }),
     ).toEqual(NormalizedUnitNumber(44))
-  })
-
-  test('returns deposit value if HF is undefined', () => {
-    expect(
-      getWithdrawMaxValue({
-        user: {
-          deposited: NormalizedUnitNumber(100),
-          healthFactor: undefined,
-          totalBorrowsUSD: NormalizedUnitNumber(40),
-          eModeState: { enabled: false },
-        },
-        asset: {
-          status: 'active',
-          liquidationThreshold: Percentage(0.8),
-          unborrowedLiquidity: NormalizedUnitNumber(200),
-          unitPriceUsd: NormalizedUnitNumber(1),
-          decimals: 18,
-          usageAsCollateralEnabledOnUser: true,
-        },
-      }),
-    ).toEqual(NormalizedUnitNumber(100))
   })
 
   test('returns deposited value if usage as collateral is disabled', () => {
