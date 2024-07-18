@@ -1,6 +1,6 @@
 import { WEETH_ACTIVE_BLOCK_NUMBER } from '@/test/e2e/constants'
+import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
-import { setupFork } from '@/test/e2e/setupFork'
 import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
 import { MarketsPageObject } from './Markets.PageObject'

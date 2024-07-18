@@ -2,6 +2,7 @@ import { Suspense } from 'react'
 import { Outlet } from 'react-router-dom'
 
 import { ComplianceContainer } from '@/features/compliance/ComplianceContainer'
+import { Debug } from '@/features/debug'
 import { DialogDispatcherContainer } from '@/features/dialogs/dispatcher/DialogDispatcherContainer'
 import { ErrorBoundary } from '@/features/errors'
 import { ErrorFallback } from '@/features/errors/ErrorFallback'
@@ -17,6 +18,7 @@ export function RootRoute() {
           <DialogDispatcherContainer />
           <ComplianceContainer />
         </ErrorBoundary>
+        {import.meta.env.VITE_DEV_DEBUG === 1 && <Debug />}
       </AppLayout>
     </Suspense>
   )

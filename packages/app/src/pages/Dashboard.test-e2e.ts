@@ -2,8 +2,8 @@ import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
 
 import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
+import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
-import { setupFork } from '@/test/e2e/setupFork'
 import { calculateAssetsWorth, screenshot } from '@/test/e2e/utils'
 
 import { BorrowPageObject } from './Borrow.PageObject'

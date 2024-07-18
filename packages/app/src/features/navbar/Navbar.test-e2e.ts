@@ -3,8 +3,8 @@ import { mainnet } from 'viem/chains'
 
 import { overrideAirdropInfoRoute } from '@/test/e2e/airdropInfo'
 import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
+import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
-import { setupFork } from '@/test/e2e/setupFork'
 
 import { DashboardPageObject } from '@/pages/Dashboard.PageObject'
 import { NavbarPageObject } from './Navbar.PageObject'

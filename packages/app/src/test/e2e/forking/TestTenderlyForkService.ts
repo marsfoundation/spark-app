@@ -1,7 +1,8 @@
 import { createTenderlyFork } from '@/domain/sandbox/createTenderlyFork'
 import { solidFetch } from '@/utils/solidFetch'
+import { CreateForkArgs, ITestForkService } from './ITestForkService'
 
-export class TestTenderlyClient {
+export class TestTenderlyForkService implements ITestForkService {
   private readonly baseUrl = 'https://api.tenderly.co/api/v1'
 
   constructor(private readonly opts: { apiKey: string; tenderlyAccount: string; tenderlyProject: string }) {}
@@ -10,22 +11,12 @@ export class TestTenderlyClient {
     return `${this.baseUrl}/account/${this.opts.tenderlyAccount}/project/${this.opts.tenderlyProject}`
   }
 
-  async createFork({
-    originChainId,
-    forkChainId,
-    blockNumber,
-    namePrefix,
-  }: {
-    originChainId: number
-    forkChainId: number
-    blockNumber?: bigint
-    namePrefix: string
-  }): Promise<string> {
+  async createFork({ originChainId, forkChainId, blockNumber }: CreateForkArgs): Promise<string> {
     const { rpcUrl } = await createTenderlyFork({
       apiUrl: `${this.getProjectUrl()}/fork`,
       originChainId,
       forkChainId,
-      namePrefix,
+      namePrefix: 'test-e2e',
       blockNumber,
       headers: {
         'X-Access-Key': this.opts.apiKey,

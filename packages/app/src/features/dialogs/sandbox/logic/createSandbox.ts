@@ -3,7 +3,7 @@ import { Address, parseEther, parseUnits } from 'viem'
 import { apiUrl } from '@/config/consts'
 import { AppConfig } from '@/config/feature-flags'
 import { createTenderlyFork } from '@/domain/sandbox/createTenderlyFork'
-import { publicTenderlyActions } from '@/domain/sandbox/publicTenderlyActions'
+import { tenderlyRpcActions } from '@/domain/tenderly/TenderlyRpcActions'
 import { BaseUnitNumber } from '@/domain/types/NumericValues'
 
 export async function createSandbox(opts: {
@@ -19,7 +19,7 @@ export async function createSandbox(opts: {
     apiUrl: `${apiUrl}/sandbox/create`,
   })
 
-  await publicTenderlyActions.setBalance(
+  await tenderlyRpcActions.setBalance(
     forkUrl,
     opts.userAddress,
     BaseUnitNumber(parseEther(opts.mintBalances.etherAmt.toString())),
@@ -29,7 +29,7 @@ export async function createSandbox(opts: {
   for (const [_, token] of Object.entries(opts.mintBalances.tokens)) {
     const units = BaseUnitNumber(parseUnits(opts.mintBalances.tokenAmt.toString(), token.decimals))
 
-    await publicTenderlyActions.setTokenBalance(forkUrl, token.address, opts.userAddress, units)
+    await tenderlyRpcActions.setTokenBalance(forkUrl, token.address, opts.userAddress, units)
   }
 
   return forkUrl

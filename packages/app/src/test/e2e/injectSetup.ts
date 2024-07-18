@@ -66,3 +66,30 @@ export async function injectFixedDate(page: Page, date: Date): Promise<void> {
       Date.now = () => __DateNow() + __DateNowOffset;
     }`)
 }
+
+// the only difference between this and injectFixedDate is the use of page.evaluate instead of page.addInitScript
+export async function injectUpdatedDate(page: Page, date: Date): Promise<void> {
+  // setup fake Date for deterministic tests
+  // https://github.com/microsoft/playwright/issues/6347#issuecomment-1085850728
+  const fakeNow = date.valueOf()
+  await page.evaluate((fakeNow) => {
+    // Extend Date constructor to default to fakeNow
+    // biome-ignore lint/suspicious/noGlobalAssign: <explanation>
+    // @ts-ignore
+    Date = class extends Date {
+      // @ts-ignore
+      constructor(...args) {
+        if (args.length === 0) {
+          super(fakeNow)
+        } else {
+          // @ts-ignore
+          super(...args)
+        }
+      }
+    }
+    // Override Date.now() to start from fakeNow
+    const __DateNowOffset = fakeNow - Date.now()
+    const __DateNow = Date.now
+    Date.now = () => __DateNow() + __DateNowOffset
+  }, fakeNow)
+}

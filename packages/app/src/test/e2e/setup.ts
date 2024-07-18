@@ -3,12 +3,12 @@ import { generatePath } from 'react-router-dom'
 import { Address, Hash, parseEther, parseUnits } from 'viem'
 
 import { paths } from '@/config/paths'
-import { publicTenderlyActions } from '@/domain/sandbox/publicTenderlyActions'
 import { BaseUnitNumber } from '@/domain/types/NumericValues'
 
+import { tenderlyRpcActions } from '@/domain/tenderly/TenderlyRpcActions'
 import { AssetsInTests, TOKENS_ON_FORK } from './constants'
+import { ForkContext } from './forking/setupFork'
 import { injectFixedDate, injectNetworkConfiguration, injectWalletConfiguration } from './injectSetup'
-import { ForkContext } from './setupFork'
 import { generateAccount } from './utils'
 
 export type InjectableWallet = { address: Address } | { privateKey: string }
@@ -119,22 +119,45 @@ export async function injectFunds(
     return
   }
 
-  for (const [tokenName, balance] of Object.entries(assetBalances)) {
-    if (tokenName === 'ETH' || tokenName === 'XDAI') {
-      await publicTenderlyActions.setBalance(
-        forkContext.forkUrl,
-        address,
-        BaseUnitNumber(parseEther(balance.toString())),
-      )
-    } else {
-      await publicTenderlyActions.setTokenBalance(
-        forkContext.forkUrl,
-        (TOKENS_ON_FORK as any)[forkContext.chainId][tokenName].address,
-        address,
-        BaseUnitNumber(
-          parseUnits(balance.toString(), (TOKENS_ON_FORK as any)[forkContext.chainId][tokenName].decimals),
-        ),
-      )
+  if (forkContext.isVnet) {
+    const promises = Object.entries(assetBalances).map(async ([tokenName, balance]) => {
+      if (tokenName === 'ETH' || tokenName === 'XDAI') {
+        await tenderlyRpcActions.setBalance(
+          forkContext.forkUrl,
+          address,
+          BaseUnitNumber(parseEther(balance.toString())),
+        )
+      } else {
+        await tenderlyRpcActions.setTokenBalance(
+          forkContext.forkUrl,
+          (TOKENS_ON_FORK as any)[forkContext.chainId][tokenName].address,
+          address,
+          BaseUnitNumber(
+            parseUnits(balance.toString(), (TOKENS_ON_FORK as any)[forkContext.chainId][tokenName].decimals),
+          ),
+        )
+      }
+    })
+    await Promise.all(promises)
+  } else {
+    // todo remove once we only support vnets
+    for (const [tokenName, balance] of Object.entries(assetBalances)) {
+      if (tokenName === 'ETH' || tokenName === 'XDAI') {
+        await tenderlyRpcActions.setBalance(
+          forkContext.forkUrl,
+          address,
+          BaseUnitNumber(parseEther(balance.toString())),
+        )
+      } else {
+        await tenderlyRpcActions.setTokenBalance(
+          forkContext.forkUrl,
+          (TOKENS_ON_FORK as any)[forkContext.chainId][tokenName].address,
+          address,
+          BaseUnitNumber(
+            parseUnits(balance.toString(), (TOKENS_ON_FORK as any)[forkContext.chainId][tokenName].decimals),
+          ),
+        )
+      }
     }
   }
 }
