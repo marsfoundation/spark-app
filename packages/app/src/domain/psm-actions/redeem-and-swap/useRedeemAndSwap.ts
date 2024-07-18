@@ -72,7 +72,7 @@ export function useRedeemAndSwap({
       enabled: enabled && _sharesAmount.gt(0) && !!receiver && !!gemMinAmountOut,
     },
     {
-      withdrawReceiverSanityCheck: () => {
+      onBeforeWrite: () => {
         assertNativeWithdraw({ mode, receiver: _receiver, owner: owner!, reserveAddresses })
       },
       onTransactionSettled: async () => {

@@ -52,7 +52,7 @@ export function useVaultRedeem({
       enabled: enabled && sharesAmount.gt(0) && !!receiver && !!owner,
     },
     {
-      withdrawReceiverSanityCheck: () => {
+      onBeforeWrite: () => {
         assertNativeWithdraw({ mode, receiver: _receiver, owner: owner!, reserveAddresses })
       },
       onTransactionSettled: async () => {

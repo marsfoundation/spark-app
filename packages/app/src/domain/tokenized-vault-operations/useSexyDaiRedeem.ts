@@ -53,7 +53,7 @@ export function useSexyDaiRedeem({
       enabled: enabled && sharesAmount.gt(0) && !!receiver,
     },
     {
-      withdrawReceiverSanityCheck: () => {
+      onBeforeWrite: () => {
         assertNativeWithdraw({ mode, receiver: _receiver, owner: owner!, reserveAddresses })
       },
       onTransactionSettled: async () => {

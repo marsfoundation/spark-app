@@ -66,7 +66,7 @@ export function useWithdrawAndSwap({
       enabled: enabled && _gemAmountOut.gt(0) && !!receiver,
     },
     {
-      withdrawReceiverSanityCheck: () => {
+      onBeforeWrite: () => {
         assertNativeWithdraw({ mode, receiver: _receiver, owner: owner!, reserveAddresses })
       },
       onTransactionSettled: async () => {
