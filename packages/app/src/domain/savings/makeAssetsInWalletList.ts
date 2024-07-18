@@ -8,7 +8,7 @@ export const whitelistedAssets = ['DAI', 'USDC', 'USDT', 'XDAI']
 
 export interface MakeAssetsInWalletListParams {
   walletInfo: WalletInfo
-  nativeRouteOptions?: {
+  nativeRouteOptions: {
     shouldFilterNativeRoutes: boolean
     chainId: number
   }
@@ -25,7 +25,7 @@ export function makeAssetsInWalletList({
   nativeRouteOptions,
 }: MakeAssetsInWalletListParams): MakeAssetsInWalletListResults {
   let assets = walletInfo.walletBalances.filter(({ token }) => whitelistedAssets.includes(token.symbol))
-  if (nativeRouteOptions?.shouldFilterNativeRoutes) {
+  if (nativeRouteOptions.shouldFilterNativeRoutes) {
     const nativeRouteTokens = getChainConfigEntry(nativeRouteOptions.chainId).savingsNativeRouteTokens
     assets = assets.filter(({ token }) => nativeRouteTokens.includes(token.symbol))
   }
