@@ -1,24 +1,25 @@
 import { BaseUnitNumber } from '@/domain/types/NumericValues'
-import { testAddresses } from '@/test/integration/constants'
+import { daiLikeReserve, testAddresses, wethLikeReserve } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
 import { setupHookRenderer } from '@/test/integration/setupHookRenderer'
 import { toBigInt } from '@/utils/bigNumber'
 import { waitFor } from '@testing-library/react'
-import { mainnet } from 'viem/chains'
-
 import { erc4626Abi } from 'viem'
+import { mainnet } from 'viem/chains'
 import { useVaultRedeem } from './useVaultRedeem'
 
 const owner = testAddresses.alice
 const receiver = testAddresses.bob
 const sharesAmount = BaseUnitNumber(10)
 const vault = testAddresses.token
+const mode = 'withdraw'
+const reserveAddresses = [daiLikeReserve.token.address, wethLikeReserve.token.address]
 
 const hookRenderer = setupHookRenderer({
   hook: useVaultRedeem,
   account: owner,
   handlers: [handlers.chainIdCall({ chainId: mainnet.id }), handlers.balanceCall({ balance: 0n, address: owner })],
-  args: { sharesAmount, vault },
+  args: { sharesAmount, vault, mode },
 })
 
 describe(useVaultRedeem.name, () => {
@@ -31,7 +32,7 @@ describe(useVaultRedeem.name, () => {
   })
 
   it('is not enabled for 0 value', async () => {
-    const { result } = hookRenderer({ args: { sharesAmount: BaseUnitNumber(0), vault } })
+    const { result } = hookRenderer({ args: { sharesAmount: BaseUnitNumber(0), vault, mode } })
 
     await waitFor(() => {
       expect(result.current.status.kind).toBe('disabled')
@@ -39,7 +40,7 @@ describe(useVaultRedeem.name, () => {
   })
 
   it('is not enabled when explicitly disabled', async () => {
-    const { result } = hookRenderer({ args: { enabled: false, sharesAmount, vault } })
+    const { result } = hookRenderer({ args: { enabled: false, sharesAmount, vault, mode } })
 
     await waitFor(() => {
       expect(result.current.status.kind).toBe('disabled')
@@ -79,6 +80,8 @@ describe(useVaultRedeem.name, () => {
         sharesAmount,
         vault,
         receiver,
+        reserveAddresses,
+        mode: 'send',
       },
       extraHandlers: [
         handlers.contractCall({

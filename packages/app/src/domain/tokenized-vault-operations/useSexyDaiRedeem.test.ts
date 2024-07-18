@@ -1,5 +1,5 @@
 import { savingsXDaiAdapterAbi, savingsXDaiAdapterAddress } from '@/config/contracts-generated'
-import { testAddresses } from '@/test/integration/constants'
+import { daiLikeReserve, testAddresses, wethLikeReserve } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
 import { setupHookRenderer } from '@/test/integration/setupHookRenderer'
 import { toBigInt } from '@/utils/bigNumber'
@@ -12,13 +12,15 @@ const owner = testAddresses.alice
 const receiver = testAddresses.bob
 const sharesAmount = BaseUnitNumber(10)
 const sDai = testAddresses.token
+const mode = 'withdraw'
+const reserveAddresses = [daiLikeReserve.token.address, wethLikeReserve.token.address]
 
 const hookRenderer = setupHookRenderer({
   hook: useSexyDaiRedeem,
   account: owner,
   chain: gnosis,
   handlers: [handlers.chainIdCall({ chainId: gnosis.id }), handlers.balanceCall({ balance: 0n, address: owner })],
-  args: { sDai, sharesAmount },
+  args: { sDai, sharesAmount, mode },
 })
 
 describe(useSexyDaiRedeem.name, () => {
@@ -31,7 +33,7 @@ describe(useSexyDaiRedeem.name, () => {
   })
 
   it('is not enabled for 0 value', async () => {
-    const { result } = hookRenderer({ args: { sharesAmount: BaseUnitNumber(0), sDai } })
+    const { result } = hookRenderer({ args: { sharesAmount: BaseUnitNumber(0), sDai, mode } })
 
     await waitFor(() => {
       expect(result.current.status.kind).toBe('disabled')
@@ -39,7 +41,7 @@ describe(useSexyDaiRedeem.name, () => {
   })
 
   it('is not enabled when explicitly disabled', async () => {
-    const { result } = hookRenderer({ args: { enabled: false, sDai, sharesAmount } })
+    const { result } = hookRenderer({ args: { enabled: false, sDai, sharesAmount, mode } })
 
     await waitFor(() => {
       expect(result.current.status.kind).toBe('disabled')
@@ -75,7 +77,13 @@ describe(useSexyDaiRedeem.name, () => {
 
   it('redeems xDAI with custom receiver', async () => {
     const { result } = hookRenderer({
-      args: { sharesAmount, receiver, sDai },
+      args: {
+        sharesAmount,
+        receiver,
+        sDai,
+        reserveAddresses,
+        mode: 'send',
+      },
       extraHandlers: [
         handlers.contractCall({
           to: savingsXDaiAdapterAddress[gnosis.id],

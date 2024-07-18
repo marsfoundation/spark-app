@@ -1,6 +1,6 @@
 import { savingsXDaiAdapterAbi, savingsXDaiAdapterAddress } from '@/config/contracts-generated'
 import { BaseUnitNumber } from '@/domain/types/NumericValues'
-import { testAddresses } from '@/test/integration/constants'
+import { daiLikeReserve, testAddresses, wethLikeReserve } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
 import { setupHookRenderer } from '@/test/integration/setupHookRenderer'
 import { toBigInt } from '@/utils/bigNumber'
@@ -12,13 +12,15 @@ const owner = testAddresses.alice
 const receiver = testAddresses.bob
 const sDai = testAddresses.token
 const assetsAmount = BaseUnitNumber(1)
+const mode = 'withdraw'
+const reserveAddresses = [daiLikeReserve.token.address, wethLikeReserve.token.address]
 
 const hookRenderer = setupHookRenderer({
   hook: useSexyDaiWithdraw,
   account: owner,
   chain: gnosis,
   handlers: [handlers.chainIdCall({ chainId: gnosis.id }), handlers.balanceCall({ balance: 0n, address: owner })],
-  args: { assetsAmount, sDai },
+  args: { assetsAmount, sDai, mode },
 })
 
 describe(useSexyDaiWithdraw.name, () => {
@@ -31,7 +33,7 @@ describe(useSexyDaiWithdraw.name, () => {
   })
 
   it('is not enabled for 0 assets amount', async () => {
-    const { result } = hookRenderer({ args: { assetsAmount: BaseUnitNumber(0), sDai } })
+    const { result } = hookRenderer({ args: { assetsAmount: BaseUnitNumber(0), sDai, mode } })
 
     await waitFor(() => {
       expect(result.current.status.kind).toBe('disabled')
@@ -39,7 +41,7 @@ describe(useSexyDaiWithdraw.name, () => {
   })
 
   it('is not enabled when explicitly disabled', async () => {
-    const { result } = hookRenderer({ args: { enabled: false, assetsAmount, sDai } })
+    const { result } = hookRenderer({ args: { enabled: false, assetsAmount, sDai, mode } })
 
     await waitFor(() => {
       expect(result.current.status.kind).toBe('disabled')
@@ -75,7 +77,13 @@ describe(useSexyDaiWithdraw.name, () => {
 
   it('withdraws xDAI with custom receiver', async () => {
     const { result } = hookRenderer({
-      args: { assetsAmount, receiver, sDai },
+      args: {
+        assetsAmount,
+        receiver,
+        sDai,
+        reserveAddresses,
+        mode: 'send',
+      },
       extraHandlers: [
         handlers.contractCall({
           to: savingsXDaiAdapterAddress[gnosis.id],

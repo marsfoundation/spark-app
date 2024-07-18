@@ -1,6 +1,6 @@
 import { psmActionsAbi, psmActionsAddress } from '@/config/contracts-generated'
 import { BaseUnitNumber } from '@/domain/types/NumericValues'
-import { getMockToken, testAddresses } from '@/test/integration/constants'
+import { daiLikeReserve, getMockToken, testAddresses, wethLikeReserve } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
 import { setupHookRenderer } from '@/test/integration/setupHookRenderer'
 import { toBigInt } from '@/utils/bigNumber'
@@ -16,6 +16,8 @@ const receiver = testAddresses.bob
 const sharesAmount = BaseUnitNumber(1)
 const savingsToken = testAddresses.token3
 const assetsAmount = BaseUnitNumber(1e18)
+const mode = 'withdraw'
+const reserveAddresses = [daiLikeReserve.token.address, wethLikeReserve.token.address]
 
 const hookRenderer = setupHookRenderer({
   hook: useRedeemAndSwap,
@@ -37,7 +39,7 @@ const hookRenderer = setupHookRenderer({
       result: toBigInt(assetsAmount),
     }),
   ],
-  args: { gem, assetsToken, sharesAmount },
+  args: { gem, assetsToken, sharesAmount, mode },
 })
 
 describe(useRedeemAndSwap.name, () => {
@@ -50,7 +52,9 @@ describe(useRedeemAndSwap.name, () => {
   })
 
   it('is not enabled for 0 gem value', async () => {
-    const { result } = hookRenderer({ args: { sharesAmount: BaseUnitNumber(0), gem, assetsToken } })
+    const { result } = hookRenderer({
+      args: { sharesAmount: BaseUnitNumber(0), gem, assetsToken, mode },
+    })
 
     await waitFor(() => {
       expect(result.current.status.kind).toBe('disabled')
@@ -58,7 +62,9 @@ describe(useRedeemAndSwap.name, () => {
   })
 
   it('is not enabled when explicitly disabled', async () => {
-    const { result } = hookRenderer({ args: { enabled: false, sharesAmount, gem, assetsToken } })
+    const { result } = hookRenderer({
+      args: { enabled: false, sharesAmount, gem, assetsToken, mode },
+    })
 
     await waitFor(() => {
       expect(result.current.status.kind).toBe('disabled')
@@ -99,6 +105,8 @@ describe(useRedeemAndSwap.name, () => {
         assetsToken,
         sharesAmount,
         receiver,
+        reserveAddresses,
+        mode: 'send',
       },
       extraHandlers: [
         handlers.contractCall({

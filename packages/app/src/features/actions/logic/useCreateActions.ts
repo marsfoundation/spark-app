@@ -172,14 +172,15 @@ export function useCreateActions(objectives: Objective[]): Action[] {
       }
 
       case 'daiFromSDaiWithdraw': {
+        const isSend = objective.mode === 'send'
         const withdrawAction: DaiFromSDaiWithdrawAction = {
           type: 'daiFromSDaiWithdraw',
           dai: objective.dai,
           sDai: objective.sDai,
           value: objective.value,
           method: objective.method,
-          receiver: objective.mode === 'send' ? objective.receiver : undefined,
           mode: objective.mode,
+          ...(isSend ? { receiver: objective.receiver, reserveAddresses: objective.reserveAddresses } : {}),
         }
 
         return [withdrawAction]
@@ -197,14 +198,15 @@ export function useCreateActions(objectives: Objective[]): Action[] {
           disallowPermit: true,
         }
 
+        const isSend = objective.mode === 'send'
         const withdrawAction: USDCFromSDaiWithdrawAction = {
           type: 'usdcFromSDaiWithdraw',
           usdc: objective.usdc,
           sDai: objective.sDai,
           value: objective.value,
           method: objective.method,
-          receiver: objective.mode === 'send' ? objective.receiver : undefined,
           mode: objective.mode,
+          ...(isSend ? { receiver: objective.receiver, reserveAddresses: objective.reserveAddresses } : {}),
         }
 
         return [approveAction, withdrawAction]
@@ -221,14 +223,15 @@ export function useCreateActions(objectives: Objective[]): Action[] {
               : objective.value,
         }
 
+        const isSend = objective.mode === 'send'
         const withdrawAction: XDaiFromSDaiWithdrawAction = {
           type: 'xDaiFromSDaiWithdraw',
           xDai: objective.xDai,
           sDai: objective.sDai,
           value: objective.value,
           method: objective.method,
-          receiver: objective.mode === 'send' ? objective.receiver : undefined,
           mode: objective.mode,
+          ...(isSend ? { receiver: objective.receiver, reserveAddresses: objective.reserveAddresses } : {}),
         }
 
         return [approveAction, withdrawAction]
