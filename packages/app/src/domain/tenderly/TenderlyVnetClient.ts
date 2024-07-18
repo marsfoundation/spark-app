@@ -1,6 +1,6 @@
 import { solidFetch } from '@/utils/solidFetch'
 
-export interface CreateTenderlyForkArgs {
+export interface CreateTenderlyVnetArgs {
   name: string
   displayName?: string
   originChainId: number
@@ -21,7 +21,7 @@ export class TenderlyVnetClient {
     originChainId,
     forkChainId,
     blockNumber,
-  }: CreateTenderlyForkArgs): Promise<CreateTenderlyVnetResult> {
+  }: CreateTenderlyVnetArgs): Promise<CreateTenderlyVnetResult> {
     const response = await solidFetch(
       `https://api.tenderly.co/api/v1/account/${this.opts.account}/project/${this.opts.project}/vnets`,
       {

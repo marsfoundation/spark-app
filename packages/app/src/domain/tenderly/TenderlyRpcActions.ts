@@ -28,6 +28,9 @@ async function evmIncreaseTime(forkUrl: string, seconds: number): Promise<void> 
   await request(forkUrl, 'evm_increaseTime', [seconds])
 }
 
+/**
+ * Set the timestamp of the next block that will be mined, all CALLs (reads) will use updated timestamp as well.
+ */
 async function evmSetNextBlockTimestamp(forkUrl: string, timestamp: number): Promise<void> {
   await request(forkUrl, 'evm_setNextBlockTimestamp', [timestamp])
 }

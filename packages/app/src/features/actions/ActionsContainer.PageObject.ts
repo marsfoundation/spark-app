@@ -32,6 +32,7 @@ export class ActionsPageObject extends BasePageObject {
       const row = this.region.getByTestId(testIds.actions.row(index))
 
       await row.getByRole('button', { name: actionButtonRegex }).click()
+      // @note: we are setting block timestamp of the next tx (especially after executing all txs)
       if (forkContext?.isVnet) {
         await expect(row.getByRole('button', { name: actionButtonRegex })).not.toBeVisible()
         await forkContext.progressSimulation(this.page, 5)
