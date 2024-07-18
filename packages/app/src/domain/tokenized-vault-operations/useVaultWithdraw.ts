@@ -1,8 +1,10 @@
+import { Mode } from '@/features/dialogs/savings/withdraw/types'
 import { toBigInt } from '@/utils/bigNumber'
 import { useQueryClient } from '@tanstack/react-query'
 import { erc4626Abi } from 'viem'
 import { useAccount, useChainId } from 'wagmi'
 import { ensureConfigTypes, useWrite } from '../hooks/useWrite'
+import { assertNativeWithdraw } from '../savings/assertNativeWithdraw'
 import { CheckedAddress } from '../types/CheckedAddress'
 import { BaseUnitNumber } from '../types/NumericValues'
 import { balancesQueryKey } from '../wallet/balances'
@@ -11,6 +13,8 @@ interface UseVaultWithdrawArgs {
   vault: CheckedAddress
   assetsAmount: BaseUnitNumber
   receiver?: CheckedAddress
+  mode: Mode
+  reserveAddresses?: CheckedAddress[]
   onTransactionSettled?: () => void
   enabled?: boolean
 }
@@ -24,13 +28,15 @@ export function useVaultWithdraw({
   vault,
   assetsAmount,
   receiver: _receiver,
+  mode,
+  reserveAddresses,
   onTransactionSettled,
   enabled = true,
 }: UseVaultWithdrawArgs): ReturnType<typeof useWrite> {
   const client = useQueryClient()
   const chainId = useChainId()
-
   const { address: owner } = useAccount()
+
   const receiver = _receiver || owner
 
   const config = ensureConfigTypes({
@@ -46,6 +52,9 @@ export function useVaultWithdraw({
       enabled: enabled && assetsAmount.gt(0) && !!receiver && !!owner,
     },
     {
+      onBeforeWrite: () => {
+        assertNativeWithdraw({ mode, receiver: _receiver, owner: owner!, reserveAddresses })
+      },
       onTransactionSettled: async () => {
         void client.invalidateQueries({
           queryKey: balancesQueryKey({ chainId, account: owner }),

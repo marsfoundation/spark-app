@@ -25,6 +25,7 @@ export interface UseWriteResult {
 
 export interface UseWriteCallbacks {
   onTransactionSettled?: () => void
+  onBeforeWrite?: () => void // @note: good place to run extra sanity checks
 }
 
 /**
@@ -114,6 +115,7 @@ export function useWrite<TAbi extends Abi, TFunctionName extends ContractFunctio
     parameters && enabled
       ? () => {
           sanityCheckTx(parameters.request, chainId)
+          callbacks.onBeforeWrite?.()
 
           writeContract(parameters.request as any)
         }

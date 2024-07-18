@@ -94,6 +94,7 @@ function getNativeObjectivesByChainAndToken({
   const isMaxSelected = formValues.isMaxSelected
   const sDaiBalance = walletInfo.findWalletBalanceForToken(marketInfo.sDAI)
   const sDaiValueEstimate = savingsInfo.convertDaiToShares({ dai: formValues.value })
+  const reserveAddresses = marketInfo.reserves.map((r) => r.token.address)
 
   if (originChainId === mainnet.id) {
     if (tokenSymbol === marketInfo.DAI.symbol) {
@@ -105,6 +106,7 @@ function getNativeObjectivesByChainAndToken({
           value: isMaxSelected ? sDaiBalance : formValues.value,
           method: isMaxSelected ? 'redeem' : 'withdraw',
           receiver,
+          reserveAddresses,
           mode,
         },
       ]
@@ -120,6 +122,7 @@ function getNativeObjectivesByChainAndToken({
               sDai: marketInfo.sDAI,
               method: 'redeem',
               receiver,
+              reserveAddresses,
               mode,
             },
           ]
@@ -132,6 +135,7 @@ function getNativeObjectivesByChainAndToken({
               method: 'withdraw',
               sDaiValueEstimate,
               receiver,
+              reserveAddresses,
               mode,
             },
           ]
@@ -149,6 +153,7 @@ function getNativeObjectivesByChainAndToken({
               sDai: marketInfo.sDAI,
               method: 'redeem',
               receiver,
+              reserveAddresses,
               mode,
             },
           ]
@@ -161,6 +166,7 @@ function getNativeObjectivesByChainAndToken({
               method: 'withdraw',
               sDaiValueEstimate,
               receiver,
+              reserveAddresses,
               mode,
             },
           ]

@@ -141,6 +141,7 @@ const nativeWithdrawSendModeArgs: Partial<SavingsWithdrawViewProps> = {
       sDai: tokens.sDAI,
       method: 'withdraw',
       receiver: testAddresses.alice,
+      reserveAddresses: [tokens.DAI.address, tokens.USDC.address],
       mode: 'send',
     },
   ],

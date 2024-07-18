@@ -1,6 +1,8 @@
 import { psmActionsConfig } from '@/config/contracts-generated'
 import { useContractAddress } from '@/domain/hooks/useContractAddress'
+import { assertNativeWithdraw } from '@/domain/savings/assertNativeWithdraw'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { Mode } from '@/features/dialogs/savings/withdraw/types'
 import { toBigInt } from '@/utils/bigNumber'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useAccount, useChainId, useConfig } from 'wagmi'
@@ -15,6 +17,8 @@ export interface UseRedeemAndSwapArgs {
   assetsToken: Token
   sharesAmount: BaseUnitNumber
   receiver?: CheckedAddress
+  reserveAddresses?: CheckedAddress[]
+  mode: Mode
   onTransactionSettled?: () => void
   enabled?: boolean
 }
@@ -29,16 +33,18 @@ export function useRedeemAndSwap({
   assetsToken,
   sharesAmount: _sharesAmount,
   receiver: _receiver,
+  reserveAddresses,
+  mode,
   onTransactionSettled,
   enabled = true,
 }: UseRedeemAndSwapArgs): ReturnType<typeof useWrite> {
   const client = useQueryClient()
   const wagmiConfig = useConfig()
   const chainId = useChainId()
+  const { address: owner } = useAccount()
 
   const psmActions = useContractAddress(psmActionsConfig.address)
 
-  const { address: owner } = useAccount()
   const receiver = _receiver || owner
 
   const sharesAmount = toBigInt(_sharesAmount)
@@ -66,6 +72,9 @@ export function useRedeemAndSwap({
       enabled: enabled && _sharesAmount.gt(0) && !!receiver && !!gemMinAmountOut,
     },
     {
+      onBeforeWrite: () => {
+        assertNativeWithdraw({ mode, receiver: _receiver, owner: owner!, reserveAddresses })
+      },
       onTransactionSettled: async () => {
         void client.invalidateQueries({
           queryKey: balancesQueryKey({ chainId, account: owner }),
