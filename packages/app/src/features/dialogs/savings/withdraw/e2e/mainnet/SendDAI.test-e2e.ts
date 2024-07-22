@@ -70,11 +70,11 @@ test.describe('Send DAI on Mainnet', () => {
     await actionsContainer.acceptAllActionsAction(1, fork)
 
     await sendDialog.expectSuccessPage()
-    await sendDialog.expectReceiverBalance({
+    await sendDialog.expectReceiverTokenBalance({
       forkUrl: fork.forkUrl,
       receiver,
       token: dai,
-      balanceBefore: receiverDaiBalanceBefore,
+      tokenBalanceBefore: receiverDaiBalanceBefore,
       withdrawalAmount: amount,
     })
     await sendDialog.clickBackToSavingsButton()
