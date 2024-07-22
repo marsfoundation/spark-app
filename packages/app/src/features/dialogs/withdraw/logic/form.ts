@@ -6,10 +6,10 @@ import { AaveData } from '@/domain/market-info/aave-data-layer/query'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { updatePositionSummary } from '@/domain/market-info/updatePositionSummary'
 import { validateWithdraw, withdrawalValidationIssueToMessage } from '@/domain/market-validators/validateWithdraw'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { WalletInfo } from '@/domain/wallet/useWalletInfo'
 
+import { getWithdrawMaxValue } from '@/domain/action-max-value-getters/getWithdrawMaxValue'
 import { AssetInputSchema, normalizeDialogFormValues } from '../../common/logic/form'
 import { FormFieldsForDialog } from '../../common/types'
 
@@ -39,8 +39,17 @@ export function getWithdrawDialogFormValidator({
 
     const validationIssue = validateWithdraw({
       value: formWithdrawAsset.value,
-      asset: { status: reserve.status, maxLtv: updatedUserSummary.maxLoanToValue },
-      user: { deposited, ltvAfterWithdrawal: updatedUserSummary.loanToValue },
+      asset: {
+        status: reserve.status,
+        unborrowedLiquidity: reserve.unborrowedLiquidity,
+        eModeCategory: reserve.eModeCategory,
+      },
+      user: {
+        deposited,
+        liquidationThreshold: updatedUserSummary.currentLiquidationThreshold,
+        ltvAfterWithdrawal: updatedUserSummary.loanToValue,
+        eModeState: marketInfo.userConfiguration.eModeState,
+      },
     })
     if (validationIssue) {
       ctx.addIssue({
@@ -56,7 +65,6 @@ export function getFormFieldsForWithdrawDialog(
   form: UseFormReturn<AssetInputSchema>,
   marketInfo: MarketInfo,
   walletInfo: WalletInfo,
-  maxValue: NormalizedUnitNumber,
 ): FormFieldsForDialog {
   // eslint-disable-next-line func-style
   const changeAsset = (newSymbol: TokenSymbol): void => {
@@ -66,6 +74,25 @@ export function getFormFieldsForWithdrawDialog(
   }
 
   const { symbol, value } = form.getValues()
+  const position = marketInfo.findOnePositionBySymbol(symbol)
+
+  const maxWithdrawValue = getWithdrawMaxValue({
+    user: {
+      deposited: position.collateralBalance,
+      healthFactor: marketInfo.userPositionSummary.healthFactor,
+      totalBorrowsUSD: marketInfo.userPositionSummary.totalBorrowsUSD,
+      eModeState: marketInfo.userConfiguration.eModeState,
+    },
+    asset: {
+      status: position.reserve.status,
+      liquidationThreshold: position.reserve.liquidationThreshold,
+      unborrowedLiquidity: position.reserve.unborrowedLiquidity,
+      unitPriceUsd: position.reserve.token.unitPriceUsd,
+      decimals: position.reserve.token.decimals,
+      usageAsCollateralEnabledOnUser: position.reserve.usageAsCollateralEnabledOnUser,
+      eModeCategory: position.reserve.eModeCategory,
+    },
+  })
 
   return {
     selectedAsset: {
@@ -75,6 +102,6 @@ export function getFormFieldsForWithdrawDialog(
     },
     maxSelectedFieldName: 'isMaxSelected',
     changeAsset,
-    maxValue,
+    maxValue: maxWithdrawValue,
   }
 }
