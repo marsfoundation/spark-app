@@ -1,11 +1,12 @@
-import { Locator, Page } from '@playwright/test'
-import { http, createPublicClient } from 'viem'
-
 import {
   lendingPoolAddressProviderAddress,
   uiPoolDataProviderAbi,
   uiPoolDataProviderAddress,
 } from '@/config/contracts-generated'
+import { BaseUnitNumber, NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { USD_MOCK_TOKEN } from '@/domain/types/Token'
+import { Locator, Page } from '@playwright/test'
+import { http, Address, createPublicClient, erc20Abi } from 'viem'
 import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts'
 
 /**
@@ -153,4 +154,29 @@ export async function calculateAssetsWorth(
 
 export function isPage(pageOrLocator: Page | Locator): pageOrLocator is Page {
   return 'addInitScript' in pageOrLocator
+}
+
+export interface GetTokenBalanceArgs {
+  forkUrl: string
+  address: Address
+  token: {
+    address: Address
+    decimals: number
+  }
+}
+
+export async function getTokenBalance({ forkUrl, address, token }: GetTokenBalanceArgs): Promise<NormalizedUnitNumber> {
+  const publicClient = createPublicClient({
+    transport: http(forkUrl),
+  })
+
+  const balance = await publicClient.readContract({
+    address: token.address,
+    abi: erc20Abi,
+    functionName: 'balanceOf',
+    args: [address],
+  })
+
+  const mockToken = USD_MOCK_TOKEN.clone({ decimals: token.decimals })
+  return mockToken.fromBaseUnit(BaseUnitNumber(balance))
 }

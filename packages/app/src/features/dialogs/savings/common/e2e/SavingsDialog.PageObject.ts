@@ -88,6 +88,10 @@ export class SavingsDialogPageObject extends DialogPageObject {
     await expect(this.page.getByText('Congrats! All done!')).toBeVisible()
   }
 
+  async expectAddressInputError(error: string): Promise<void> {
+    await expect(this.page.getByTestId(testIds.component.AddressInput.error)).toHaveText(error)
+  }
+
   async expectReceiverBalance({
     forkUrl,
     receiver,

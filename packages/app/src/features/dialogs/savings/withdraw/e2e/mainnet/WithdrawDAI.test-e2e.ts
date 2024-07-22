@@ -101,7 +101,9 @@ test.describe('Validation', () => {
     })
 
     test('actions are disabled', async () => {
-      await withdrawalDialog.actionsContainer.expectDisabledActions([{ type: 'daiFromSDaiWithdraw', asset: 'DAI', mode: 'withdraw' }])
+      await withdrawalDialog.actionsContainer.expectDisabledActions([
+        { type: 'daiFromSDaiWithdraw', asset: 'DAI', mode: 'withdraw' },
+      ])
     })
 
     test('displays sensible tx overview', async () => {
