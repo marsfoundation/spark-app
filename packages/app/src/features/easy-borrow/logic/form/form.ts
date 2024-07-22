@@ -90,10 +90,14 @@ export function useFormFieldsForAssetClass({
         asset: {
           status: position.reserve.status,
           totalLiquidity: position.reserve.totalLiquidity,
+          isNativeAsset: marketInfo.nativeAssetInfo.nativeAssetSymbol === asset.token.symbol,
           supplyCap: position.reserve.supplyCap,
         },
         user: {
           balance: walletInfo.findWalletBalanceForSymbol(asset.token.symbol),
+        },
+        chain: {
+          minRemainingNativeAsset: marketInfo.nativeAssetInfo.minRemainingNativeAssetBalance,
         },
       })
       acc[asset.token.symbol] = maxValue

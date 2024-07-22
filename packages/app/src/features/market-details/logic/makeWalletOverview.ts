@@ -97,10 +97,14 @@ function makeBaseWalletOverview({ reserve, marketInfo, walletInfo }: MakeWalletO
     asset: {
       status: reserve.status,
       totalLiquidity: reserve.totalLiquidity,
+      isNativeAsset: marketInfo.nativeAssetInfo.nativeAssetName === token.symbol,
       supplyCap: reserve.supplyCap,
     },
     user: {
       balance: tokenBalance,
+    },
+    chain: {
+      minRemainingNativeAsset: marketInfo.nativeAssetInfo.minRemainingNativeAssetBalance,
     },
   })
 
@@ -174,10 +178,14 @@ function makeWalletNativeAssetOverview({
     asset: {
       status: reserve.status,
       totalLiquidity: reserve.totalLiquidity,
+      isNativeAsset: true,
       supplyCap: reserve.supplyCap,
     },
     user: {
       balance: tokenBalance,
+    },
+    chain: {
+      minRemainingNativeAsset: nativeAssetInfo.minRemainingNativeAssetBalance,
     },
   })
 
