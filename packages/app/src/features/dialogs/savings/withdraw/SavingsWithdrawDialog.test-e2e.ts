@@ -38,14 +38,14 @@ test.describe('Savings withdraw dialog', () => {
 
       await withdrawalDialog.fillAmountAction(1000)
       await actionsContainer.expectEnabledActionAtIndex(0)
-      await actionsContainer.expectActions([{ type: 'daiFromSDaiWithdraw', asset: 'DAI' }])
+      await actionsContainer.expectActions([{ type: 'daiFromSDaiWithdraw', asset: 'DAI', mode: 'withdraw' }])
 
       await withdrawalDialog.selectAssetAction('USDC')
       await withdrawalDialog.fillAmountAction(1000)
       await actionsContainer.expectEnabledActionAtIndex(0)
       await actionsContainer.expectActions([
         { type: 'approve', asset: 'sDAI' },
-        { type: 'usdcFromSDaiWithdraw', asset: 'USDC' },
+        { type: 'usdcFromSDaiWithdraw', asset: 'USDC', mode: 'withdraw' },
       ])
 
       await withdrawalDialog.selectAssetAction('USDT')
@@ -59,7 +59,7 @@ test.describe('Savings withdraw dialog', () => {
       await withdrawalDialog.selectAssetAction('DAI')
       await withdrawalDialog.fillAmountAction(1000)
       await actionsContainer.expectEnabledActionAtIndex(0)
-      await actionsContainer.expectActions([{ type: 'daiFromSDaiWithdraw', asset: 'DAI' }])
+      await actionsContainer.expectActions([{ type: 'daiFromSDaiWithdraw', asset: 'DAI', mode: 'withdraw' }])
     })
   })
 
@@ -99,7 +99,7 @@ test.describe('Savings withdraw dialog', () => {
       await actionsContainer.expectEnabledActionAtIndex(0)
       await actionsContainer.expectActions([
         { type: 'approve', asset: 'sDAI' },
-        { type: 'xDaiFromSDaiWithdraw', asset: 'XDAI' },
+        { type: 'xDaiFromSDaiWithdraw', asset: 'XDAI', mode: 'withdraw' },
       ])
 
       await withdrawalDialog.selectAssetAction('USDC')
@@ -123,7 +123,7 @@ test.describe('Savings withdraw dialog', () => {
       await actionsContainer.expectEnabledActionAtIndex(0)
       await actionsContainer.expectActions([
         { type: 'approve', asset: 'sDAI' },
-        { type: 'xDaiFromSDaiWithdraw', asset: 'XDAI' },
+        { type: 'xDaiFromSDaiWithdraw', asset: 'XDAI', mode: 'withdraw' },
       ])
     })
   })

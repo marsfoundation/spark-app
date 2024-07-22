@@ -30,7 +30,7 @@ export class DialogPageObject extends BasePageObject {
   }
 
   async fillAmountAction(amount: number): Promise<void> {
-    await this.region.getByRole('textbox').fill(amount.toString())
+    await this.region.getByTestId(testIds.component.AssetInput.input).fill(amount.toString())
   }
 
   async clickMaxAmountAction(): Promise<void> {

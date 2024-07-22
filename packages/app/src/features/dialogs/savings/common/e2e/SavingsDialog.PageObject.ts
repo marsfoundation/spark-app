@@ -1,12 +1,18 @@
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { getTokenBalance } from '@/test/e2e/utils'
 import { testIds } from '@/ui/utils/testIds'
 import { Page, expect } from '@playwright/test'
+import { Address } from 'viem'
 import { DialogPageObject } from '../../../common/Dialog.PageObject'
 
 export class SavingsDialogPageObject extends DialogPageObject {
-  private readonly type: 'deposit' | 'withdraw'
+  private readonly type: 'deposit' | 'withdraw' | 'send'
 
-  constructor({ page, type }: { page: Page; type: 'deposit' | 'withdraw' }) {
-    super(page, new RegExp(`${type === 'deposit' ? 'Deposit to' : 'Withdraw from'} Savings`))
+  constructor({ page, type }: { page: Page; type: 'deposit' | 'withdraw' | 'send' }) {
+    super(
+      page,
+      new RegExp(`${type === 'deposit' ? 'Deposit to' : type === 'send' ? 'Send from' : 'Withdraw from'} Savings`),
+    )
     this.type = type
   }
 
@@ -18,7 +24,11 @@ export class SavingsDialogPageObject extends DialogPageObject {
     })
   }
 
-  // #endregion
+  async fillReceiverAction(receiver: string): Promise<void> {
+    await this.region.getByTestId(testIds.component.AddressInput.input).fill(receiver)
+  }
+
+  // #endregion actions
 
   // #region assertions
   async expectDiscrepancyWarning(discrepancy: string): Promise<void> {
@@ -78,7 +88,23 @@ export class SavingsDialogPageObject extends DialogPageObject {
     await expect(this.page.getByText('Congrats! All done!')).toBeVisible()
   }
 
-  // #endregion
+  async expectReceiverBalance({
+    forkUrl,
+    receiver,
+    token,
+    balanceBefore,
+    withdrawalAmount,
+  }: {
+    forkUrl: string
+    receiver: Address
+    token: { address: Address; decimals: number }
+    balanceBefore: NormalizedUnitNumber
+    withdrawalAmount: number
+  }): Promise<void> {
+    const currentBalance = await getTokenBalance({ forkUrl, address: receiver, token })
+    expect(currentBalance.isEqualTo(balanceBefore.plus(NormalizedUnitNumber(withdrawalAmount)))).toBe(true)
+  }
+  // #endregion assertions
 }
 
 type TransactionOverview = [string, string][]
