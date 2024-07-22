@@ -1,4 +1,4 @@
-import { test } from '@playwright/test'
+import { Page, test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
 
 import { repayValidationIssueToMessage } from '@/domain/market-validators/validateRepay'
@@ -10,8 +10,9 @@ import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
 import { screenshot } from '@/test/e2e/utils'
 
-import { publicTenderlyActions } from '@/domain/sandbox/publicTenderlyActions'
+import { tenderlyRpcActions } from '@/domain/tenderly/TenderlyRpcActions'
 import { BaseUnitNumber, NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { injectFixedDate } from '@/test/e2e/injectSetup'
 import { Address } from 'viem'
 import { DialogPageObject } from '../common/Dialog.PageObject'
 
@@ -227,6 +228,17 @@ test.describe('Repay dialog', () => {
     const daiDebtIncreaseIn2Epochs = 1.0000058953636277 // hardcoded for DAI borrow rate 5.53%
 
     let account: Address
+    let dashboardPage: DashboardPageObject
+    let repayDialog: DialogPageObject
+
+    async function overrideDaiBalance({ balance, page }: { balance: BaseUnitNumber; page: Page }): Promise<void> {
+      await tenderlyRpcActions.setTokenBalance(fork.forkUrl, DAI_ADDRESS, account, balance)
+      // progress time by 10 second instead of 5 to simulate a bit of debt accrual
+      await fork.progressSimulation(page, 10)
+      // update the date on page start to ensure that reloaded page will have the same date
+      await injectFixedDate(page, fork.simulationDate)
+      await page.reload()
+    }
 
     test.beforeEach(async ({ page }) => {
       ;({ account } = await setup(page, fork, {
@@ -241,21 +253,20 @@ test.describe('Repay dialog', () => {
       await borrowPage.depositAssetsActions(initialDeposits, daiToBorrow)
       await borrowPage.viewInDashboardAction()
 
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.expectAssetToBeInDepositTable('wstETH')
+      dashboardPage = new DashboardPageObject(page)
+      repayDialog = new DialogPageObject(page, headerRegExp)
+
+      await dashboardPage.expectHealthFactor('2.08')
     })
 
-    test('can repay if balance is less than debt', async ({ page }) => {
+    test('can repay if balance is less than debt', async () => {
       const repay = {
         asset: 'DAI',
         amount: daiToBorrow,
       } as const
 
-      const dashboardPage = new DashboardPageObject(page)
-
       await dashboardPage.clickRepayButtonAction(repay.asset)
 
-      const repayDialog = new DialogPageObject(page, headerRegExp)
       await repayDialog.clickMaxAmountAction()
       const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
       await actionsContainer.acceptAllActionsAction(2)
@@ -272,31 +283,15 @@ test.describe('Repay dialog', () => {
         amount: daiToBorrow,
       } as const
 
-      // overrides the balance of the user simulating that user already had some dust
-      await publicTenderlyActions.setTokenBalance(
-        fork.forkUrl,
-        DAI_ADDRESS,
-        account,
-        BaseUnitNumber(
+      await overrideDaiBalance({
+        balance: BaseUnitNumber(
           NormalizedUnitNumber(daiToBorrow).times(daiDebtIncreaseIn1Epoch).shiftedBy(DAI_DECIMALS).minus(1),
         ),
-      )
-
-      const dashboardPage = new DashboardPageObject(page)
-
-      // The code below is needed to refresh the balances.
-      // Doing reload breaks the current debt amount for some reason.
-      // Any other solution tried had the same issue.
-      await dashboardPage.clickBorrowButtonAction('wstETH')
-      const borrowDialog = new DialogPageObject(page, /Borrow */)
-      await borrowDialog.fillAmountAction(1)
-      await new ActionsPageObject(borrowDialog.locatePanelByHeader('Actions')).acceptAllActionsAction(1)
-      await borrowDialog.expectSuccessPage([{ asset: 'wstETH', amount: 1 }], fork)
-      await borrowDialog.viewInDashboardAction()
+        page,
+      })
 
       await dashboardPage.clickRepayButtonAction(repay.asset)
 
-      const repayDialog = new DialogPageObject(page, headerRegExp)
       await repayDialog.clickMaxAmountAction()
       const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
       await actionsContainer.acceptAllActionsAction(2)
@@ -316,33 +311,18 @@ test.describe('Repay dialog', () => {
       await dashboardPage.expectNonZeroAmountInBorrowTable(repay.asset)
     })
 
-    test('can repay if balance gt debt after 1 epoch but lt debt after 2 epocs', async ({ page }) => {
+    test('can repay if balance gt debt after 1 epoch but lt debt after 2 epochs', async ({ page }) => {
       const repay = {
         asset: 'DAI',
         amount: daiToBorrow,
       } as const
 
-      // overrides the balance of the user simulating that user already had some dust
-      await publicTenderlyActions.setTokenBalance(
-        fork.forkUrl,
-        DAI_ADDRESS,
-        account,
-        BaseUnitNumber(
+      await overrideDaiBalance({
+        balance: BaseUnitNumber(
           NormalizedUnitNumber(daiToBorrow).times(daiDebtIncreaseIn2Epochs).shiftedBy(DAI_DECIMALS).minus(1),
         ),
-      )
-
-      const dashboardPage = new DashboardPageObject(page)
-
-      // The code below is needed to refresh the balances.
-      // Doing reload breaks the current debt amount for some reason.
-      // Any other solution tried had the same issue.
-      await dashboardPage.clickBorrowButtonAction('wstETH')
-      const borrowDialog = new DialogPageObject(page, /Borrow */)
-      await borrowDialog.fillAmountAction(1)
-      await new ActionsPageObject(borrowDialog.locatePanelByHeader('Actions')).acceptAllActionsAction(1)
-      await borrowDialog.expectSuccessPage([{ asset: 'wstETH', amount: 1 }], fork)
-      await borrowDialog.viewInDashboardAction()
+        page,
+      })
 
       await dashboardPage.clickRepayButtonAction(repay.asset)
 
