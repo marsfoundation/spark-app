@@ -13,6 +13,7 @@ export const testIds = makeTestIds({
       value: true,
     },
     AssetInput: {
+      input: true,
       error: true,
     },
     Action: {
@@ -30,6 +31,10 @@ export const testIds = makeTestIds({
     },
     EModeButton: true,
     SuccessViewContent: true,
+    AddressInput: {
+      input: true,
+      error: true,
+    },
   },
   easyBorrow: {
     form: {
