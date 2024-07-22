@@ -5,11 +5,17 @@ import { DialogFormNormalizedData } from '../../common/logic/form'
 
 export interface CreateWithdrawObjectivesParams {
   formValues: DialogFormNormalizedData
-  marketInfo: MarketInfo
+  marketInfoIn1Epoch: MarketInfo
 }
 
-export function createWithdrawObjectives(formValues: DialogFormNormalizedData): Objective[] {
+export function createWithdrawObjectives({
+  formValues,
+  marketInfoIn1Epoch,
+}: CreateWithdrawObjectivesParams): Objective[] {
   const withdrawAll = formValues.isMaxSelected && formValues.position.collateralBalance.eq(formValues.value)
+  const gatewayApprovalValue = withdrawAll
+    ? marketInfoIn1Epoch.findOnePositionByToken(formValues.token).collateralBalance
+    : formValues.value
 
   return [
     {
@@ -17,6 +23,7 @@ export function createWithdrawObjectives(formValues: DialogFormNormalizedData): 
       reserve: formValues.reserve,
       value: formValues.value,
       all: withdrawAll,
+      gatewayApprovalValue,
     },
   ]
 }

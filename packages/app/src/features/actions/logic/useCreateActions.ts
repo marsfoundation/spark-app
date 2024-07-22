@@ -59,15 +59,11 @@ export function useCreateActions(objectives: Objective[]): Action[] {
           : objective.value
 
         if (objective.reserve.token.symbol === nativeAssetInfo.nativeAssetSymbol) {
-          const approveValue = objective.all
-            ? NormalizedUnitNumber(objective.value.multipliedBy(1.01).toFixed(objective.reserve.token.decimals))
-            : withdrawValue
-
           const approveAction: ApproveAction = {
             type: 'approve',
             token: objective.reserve.aToken,
             spender: wethGateway,
-            value: approveValue,
+            value: objective.gatewayApprovalValue,
           }
 
           const withdrawAction: WithdrawAction = {
