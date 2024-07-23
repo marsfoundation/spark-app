@@ -625,13 +625,7 @@ test.describe('Setup with virtual testnets', () => {
 
       withdrawDialog = new DialogPageObject(page, headerRegExp)
       dashboardPage = new DashboardPageObject(page)
-
-      await dashboardPage.clickDepositButtonAction('wstETH')
       depositDialog = new DialogPageObject(page, /Deposit/)
-      await depositDialog.fillAmountAction(5)
-      await depositDialog.actionsContainer.acceptAllActionsAction(2, fork)
-      await depositDialog.viewInDashboardAction()
-      await dashboardPage.expectDepositedAssets(13_104.84)
     })
 
     test('native asset withdrawal requires enough approval', async ({ page }) => {
@@ -640,7 +634,7 @@ test.describe('Setup with virtual testnets', () => {
       await depositDialog.fillAmountAction(5)
       await depositDialog.actionsContainer.acceptAllActionsAction(1, fork)
       await depositDialog.viewInDashboardAction()
-      await dashboardPage.expectDepositedAssets(24_450)
+      await dashboardPage.expectDepositedAssets(11_350)
 
       await dashboardPage.clickWithdrawButtonAction('WETH')
       await withdrawDialog.selectAssetAction('ETH')
@@ -659,7 +653,7 @@ test.describe('Setup with virtual testnets', () => {
         abi: erc20Abi,
         functionName: 'approve',
         address: '0x59cD1C87501baa753d0B5B5Ab5D8416A45cD71DB',
-        args: ['0xBD7D6a9ad7865463DE44B05F04559f65e3B11704', 5000003740582447736n],
+        args: ['0xBD7D6a9ad7865463DE44B05F04559f65e3B11704', 5000003740582427923n],
       })
     })
   })

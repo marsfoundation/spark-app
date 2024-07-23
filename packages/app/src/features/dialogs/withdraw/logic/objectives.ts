@@ -13,9 +13,12 @@ export function createWithdrawObjectives({
   marketInfoIn1Epoch,
 }: CreateWithdrawObjectivesParams): Objective[] {
   const withdrawAll = formValues.isMaxSelected && formValues.position.collateralBalance.eq(formValues.value)
-  const gatewayApprovalValue = withdrawAll
-    ? marketInfoIn1Epoch.findOnePositionByToken(formValues.token).collateralBalance
-    : formValues.value
+  const gatewayApprovalValue =
+    formValues.token.symbol !== marketInfoIn1Epoch.nativeAssetInfo.nativeAssetSymbol
+      ? undefined
+      : withdrawAll
+        ? marketInfoIn1Epoch.findOnePositionByToken(formValues.token).collateralBalance
+        : formValues.value
 
   return [
     {

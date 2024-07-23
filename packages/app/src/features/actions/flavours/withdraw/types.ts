@@ -7,7 +7,7 @@ export interface WithdrawObjective {
   reserve: Reserve
   value: NormalizedUnitNumber
   all: boolean
-  gatewayApprovalValue: NormalizedUnitNumber
+  gatewayApprovalValue?: NormalizedUnitNumber
 }
 
 export interface WithdrawAction {
