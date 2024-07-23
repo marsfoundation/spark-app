@@ -62,7 +62,6 @@ interface ControlledMultiSelectorAssetInputProps {
   token: Token
   max?: NormalizedUnitNumber
   maxSelectedFieldName?: string
-  showMaxPlaceholder?: boolean
   onRemove?: () => void
   balance?: NormalizedUnitNumber
   disabled?: boolean
@@ -80,7 +79,6 @@ export function ControlledMultiSelectorAssetInput({
   balance,
   max,
   maxSelectedFieldName,
-  showMaxPlaceholder,
   showError,
   variant,
   walletIconLabel,
@@ -109,9 +107,7 @@ export function ControlledMultiSelectorAssetInput({
               })
               toggleIsMaxSelected()
             }
-          : showMaxPlaceholder
-            ? toggleIsMaxSelected
-            : undefined
+          : undefined
 
         return (
           <AssetInput
@@ -124,7 +120,6 @@ export function ControlledMultiSelectorAssetInput({
             variant={variant}
             walletIconLabel={walletIconLabel}
             setMax={setMaxValue}
-            showMaxPlaceholder={Boolean(maxSelectedFieldName && showMaxPlaceholder)}
             isMaxSelected={isMaxSelected}
             onChange={(e) => {
               field.onChange(e)

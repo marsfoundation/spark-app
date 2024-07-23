@@ -17,7 +17,6 @@ export type AssetInputProps = {
   className?: string | undefined
   onRemove?: () => void
   setMax?: () => void
-  showMaxPlaceholder?: boolean
   isMaxSelected?: boolean
   balance?: NormalizedUnitNumber
   disabled?: boolean
@@ -41,7 +40,6 @@ export const AssetInput = forwardRef<HTMLInputElement, AssetInputProps>(
       onChange,
       variant = 'crypto',
       walletIconLabel,
-      showMaxPlaceholder,
       isMaxSelected,
       ...rest
     },
@@ -49,10 +47,6 @@ export const AssetInput = forwardRef<HTMLInputElement, AssetInputProps>(
   ) => {
     const inputValue = (() => {
       if (isMaxSelected) {
-        if (showMaxPlaceholder) {
-          return MAX_VALUE_PLACEHOLDER
-        }
-
         const valueAsBigNumber = BigNumber(value)
         if (!valueAsBigNumber.isNaN()) {
           return valueAsBigNumber.dp(6).toFixed()
@@ -86,20 +80,6 @@ export const AssetInput = forwardRef<HTMLInputElement, AssetInputProps>(
               data-testid={testIds.component.AssetInput.input}
               {...rest}
               onChange={(e) => {
-                if (e.target.value === MAX_VALUE_PLACEHOLDER.slice(0, -1)) {
-                  // backspace was pressed while MAX was selected
-                  setMax?.()
-                  return
-                }
-
-                if (
-                  e.target.value.slice(0, -1) === MAX_VALUE_PLACEHOLDER &&
-                  !Number.isNaN(Number(e.target.value.at(-1)))
-                ) {
-                  // erase MAX placeholder if a digit is typed
-                  e.target.value = e.target.value.at(-1) ?? ''
-                }
-
                 e.target.value = e.target.value.replace(/,/g, '.')
                 e.target.value = e.target.value.replace(/\s/g, '')
                 const value = e.target.value
@@ -168,5 +148,4 @@ export const AssetInput = forwardRef<HTMLInputElement, AssetInputProps>(
 
 AssetInput.displayName = 'AssetInput'
 
-export const MAX_VALUE_PLACEHOLDER = 'MAX'
 const decimalNumberRegex = /^\d+\.?\d*$/
