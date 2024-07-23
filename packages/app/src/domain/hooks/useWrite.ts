@@ -1,7 +1,8 @@
 import { useEffect } from 'react'
-import { Abi, ContractFunctionName } from 'viem'
+import { Abi, ContractFunctionName, encodeFunctionData } from 'viem'
 import { UseSimulateContractParameters, useAccount, useSimulateContract, useWriteContract } from 'wagmi'
 
+import { __TX_LIST_KEY } from '@/test/e2e/constants'
 import { sanityCheckTx } from './sanityChecks'
 import { useOriginChainId } from './useOriginChainId'
 import { useWaitForTransactionReceiptUniversal } from './useWaitForTransactionReceiptUniversal'
@@ -78,6 +79,13 @@ export function useWrite<TAbi extends Abi, TFunctionName extends ContractFunctio
   useEffect(() => {
     if (txReceipt) {
       callbacks.onTransactionSettled?.()
+
+      if (import.meta.env.VITE_PLAYWRIGHT === '1' && parameters?.request) {
+        const txList: any[] = Array.isArray(window[__TX_LIST_KEY]) ? (window[__TX_LIST_KEY] as any) : []
+        const calldata = encodeFunctionData(parameters.request as any)
+        txList.push({ ...parameters.request, calldata })
+        window[__TX_LIST_KEY] = txList as any
+      }
     }
   }, [txReceipt])
 

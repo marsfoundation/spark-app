@@ -18,7 +18,7 @@ export function RootRoute() {
           <DialogDispatcherContainer />
           <ComplianceContainer />
         </ErrorBoundary>
-        {import.meta.env.VITE_DEV_DEBUG === 1 && <Debug />}
+        {import.meta.env.VITE_DEV_DEBUG === '1' && <Debug />}
       </AppLayout>
     </Suspense>
   )
