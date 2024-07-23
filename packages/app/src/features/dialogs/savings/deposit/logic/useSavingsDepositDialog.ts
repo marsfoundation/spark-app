@@ -1,6 +1,4 @@
-import { getChainConfigEntry } from '@/config/chain'
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
-import { RiskAcknowledgementInfo } from '@/domain/liquidation-risk-warning/types'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { useSavingsInfo } from '@/domain/savings-info/useSavingsInfo'
 import { makeAssetsInWalletList } from '@/domain/savings/makeAssetsInWalletList'
@@ -15,11 +13,9 @@ import { useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
 import { useChainId } from 'wagmi'
 import { SavingsDialogTxOverview } from '../../common/types'
-import { createMakerTxOverview, createTxOverview } from './createTxOverview'
+import { createMakerTxOverview } from './createTxOverview'
 import { getFormFieldsForDepositDialog } from './form'
-import { generateWarning } from './generateWarning'
 import { createObjectives } from './objectives'
-import { useDepositIntoSavings } from './useDepositIntoSavings'
 import { getSavingsDepositDialogFormValidator } from './validation'
 
 export interface UseSavingsDepositDialogParams {
@@ -34,7 +30,6 @@ export interface UseSavingsDepositDialogResults {
   tokenToDeposit: TokenWithValue
   pageStatus: PageStatus
   txOverview: SavingsDialogTxOverview
-  riskAcknowledgement: RiskAcknowledgementInfo
 }
 
 export function useSavingsDepositDialog({
@@ -74,49 +69,22 @@ export function useSavingsDepositDialog({
     marketInfo,
   })
 
-  const useNativeRoutes = getChainConfigEntry(chainId).savingsNativeRouteTokens.includes(formValues.token.symbol)
-
-  const { swapInfo, swapParams } = useDepositIntoSavings({
-    formValues,
-    marketInfo,
-    enabled: !useNativeRoutes,
-  })
-
-  const { warning } = generateWarning({
-    swapInfo,
-    inputValues: formValues,
-    marketInfo,
-    savingsInfo,
-  })
-  const [riskAcknowledged, setRiskAcknowledged] = useState(false)
-
   const objectives = createObjectives({
-    swapInfo,
-    swapParams,
     formValues,
     marketInfo,
-    savingsInfo,
     chainId,
   })
-  const txOverview = useNativeRoutes
-    ? createMakerTxOverview({
-        formValues,
-        marketInfo,
-        savingsInfo,
-      })
-    : createTxOverview({
-        marketInfo,
-        savingsInfo,
-        swapInfo,
-        walletInfo,
-        swapParams,
-      })
+  const txOverview = createMakerTxOverview({
+    formValues,
+    marketInfo,
+    savingsInfo,
+  })
 
   const tokenToDeposit: TokenWithValue = {
     token: formValues.token,
     value: formValues.value,
   }
-  const actionsEnabled = formValues.value.gt(0) && isFormValid && !isDebouncing && (!warning || riskAcknowledged)
+  const actionsEnabled = formValues.value.gt(0) && isFormValid && !isDebouncing
 
   return {
     selectableAssets: depositOptions,
@@ -129,10 +97,6 @@ export function useSavingsDepositDialog({
       state: pageStatus,
       actionsEnabled,
       goToSuccessScreen: () => setPageStatus('success'),
-    },
-    riskAcknowledgement: {
-      onStatusChange: setRiskAcknowledged,
-      warning,
     },
   }
 }

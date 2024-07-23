@@ -1,7 +1,5 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { WithClassname } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
-import { tokens } from '@storybook/tokens'
 import { getMobileStory } from '@storybook/viewports'
 import { RiskAcknowledgement } from './RiskAcknowledgement'
 
@@ -11,9 +9,7 @@ const meta: Meta<typeof RiskAcknowledgement> = {
   decorators: [WithClassname('max-w-xl')],
   args: {
     warning: {
-      type: 'savings-deposit-discrepancy-threshold-hit',
-      discrepancy: NormalizedUnitNumber(100),
-      token: tokens.DAI,
+      type: 'liquidation-warning-borrow',
     },
     onStatusChange: () => {},
   },
