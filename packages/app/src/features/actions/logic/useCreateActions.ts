@@ -8,12 +8,10 @@ import BigNumber from 'bignumber.js'
 import { maxUint256 } from 'viem'
 import { gnosis, mainnet } from 'viem/chains'
 import { ApproveDelegationAction } from '../flavours/approve-delegation/types'
-import { ApproveExchangeAction } from '../flavours/approve-exchange/types'
 import { ApproveAction } from '../flavours/approve/types'
 import { BorrowAction } from '../flavours/borrow/types'
 import { ClaimRewardsAction } from '../flavours/claim-rewards/types'
 import { DepositAction } from '../flavours/deposit/types'
-import { ExchangeAction } from '../flavours/exchange/types'
 import { DaiToSDaiDepositAction } from '../flavours/native-sdai-deposit/dai-to-sdai/types'
 import { USDCToSDaiDepositAction } from '../flavours/native-sdai-deposit/usdc-to-sdai/types'
 import { XDaiToSDaiDepositAction } from '../flavours/native-sdai-deposit/xdai-to-sdai/types'
@@ -145,28 +143,6 @@ export function useCreateActions(objectives: Objective[]): Action[] {
           eModeCategoryId: objective.eModeCategoryId,
         }
         return [setUserEModeAction]
-      }
-
-      case 'exchange': {
-        const exchangeAction: ExchangeAction = {
-          type: 'exchange',
-          value: objective.swapParams.value,
-          swapParams: objective.swapParams,
-          swapInfo: objective.swapInfo,
-          formatAsDAIValue: objective.formatAsDAIValue,
-        }
-
-        if (objective.swapParams.fromToken.symbol === nativeAssetInfo.nativeAssetSymbol) {
-          return [exchangeAction]
-        }
-
-        const approveExchangeAction: ApproveExchangeAction = {
-          type: 'approveExchange',
-          swapParams: objective.swapParams,
-          swapInfo: objective.swapInfo,
-        }
-
-        return [approveExchangeAction, exchangeAction]
       }
 
       case 'daiFromSDaiWithdraw': {

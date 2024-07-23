@@ -1,10 +1,8 @@
 import { ApproveDelegationActionRow } from '../../flavours/approve-delegation/ApproveDelegationActionRow'
-import { ApproveExchangeActionRow } from '../../flavours/approve-exchange/ApproveExchangeActionRow'
 import { ApproveActionRow } from '../../flavours/approve/ApproveActionRow'
 import { BorrowActionRow } from '../../flavours/borrow/BorrowActionRow'
 import { ClaimRewardsActionRow } from '../../flavours/claim-rewards/ClaimRewardsActionRow'
 import { DepositActionRow } from '../../flavours/deposit/DepositActionRow'
-import { ExchangeActionRow } from '../../flavours/exchange/ExchangeActionRow'
 import { DaiToSDaiDepositActionRow } from '../../flavours/native-sdai-deposit/dai-to-sdai/DaiToSDaiDepositActionRow'
 import { USDCToSDaiDepositActionRow } from '../../flavours/native-sdai-deposit/usdc-to-sdai/USDCToSDaiDepositActionRow'
 import { XDaiToSDaiDepositActionRow } from '../../flavours/native-sdai-deposit/xdai-to-sdai/XDaiToSDaiDepositActionRow'
@@ -40,14 +38,10 @@ export function ActionsGrid({ actionHandlers, variant }: ActionsGridProps) {
             return <ApproveActionRow action={handler.action} {...props} />
           case 'approveDelegation':
             return <ApproveDelegationActionRow action={handler.action} {...props} />
-          case 'approveExchange':
-            return <ApproveExchangeActionRow action={handler.action} {...props} />
           case 'borrow':
             return <BorrowActionRow action={handler.action} {...props} />
           case 'deposit':
             return <DepositActionRow action={handler.action} {...props} />
-          case 'exchange':
-            return <ExchangeActionRow action={handler.action} {...props} />
           case 'permit':
             return <ApproveActionRow action={handler.action} {...props} />
           case 'repay':
