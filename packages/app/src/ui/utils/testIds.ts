@@ -101,9 +101,6 @@ export const testIds = makeTestIds({
   actions: {
     settings: {
       dialog: true,
-      slippage: {
-        error: true,
-      },
     },
     row: (index: number) => index,
   },
