@@ -42,14 +42,7 @@ export function useSavingsWithdrawDialog(mode: Mode): UseSavingsWithdrawDialogRe
 
   const sendModeExtension = useSendModeExtension({ mode, marketInfo })
 
-  const { assets: withdrawOptions } = makeAssetsInWalletList({
-    walletInfo,
-    nativeRouteOptions: {
-      shouldFilterNativeRoutes:
-        mode === 'send' || import.meta.env.VITE_FEATURE_SAVINGS_NON_NATIVE_ROUTES_DISABLED === '1',
-      chainId,
-    },
-  })
+  const { assets: withdrawOptions } = makeAssetsInWalletList({ walletInfo, chainId })
 
   const sDaiWithBalance: TokenWithBalance = {
     token: marketInfo.sDAI,
