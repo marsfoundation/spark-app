@@ -49,7 +49,7 @@ export class SavingsDialogPageObject extends DialogPageObject {
     const selectorOptions = await this.page.getByTestId(testIds.component.AssetSelector.option).all()
     expect(selectorOptions).toHaveLength(options.length)
     for (const option of selectorOptions) {
-      await expect(option).toContainText(options.shift()!)
+      await expect(option).toHaveText(options.shift()!)
     }
   }
 

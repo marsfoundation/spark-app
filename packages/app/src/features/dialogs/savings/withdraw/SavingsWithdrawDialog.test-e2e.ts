@@ -185,7 +185,7 @@ test.describe('Savings withdraw dialog send mode', () => {
 
     test('can select only supported assets', async () => {
       await sendDialog.openAssetSelectorAction()
-      await sendDialog.expectAssetSelectorOptions(['DAI'])
+      await sendDialog.expectAssetSelectorOptions(['XDAI'])
     })
   })
 })
