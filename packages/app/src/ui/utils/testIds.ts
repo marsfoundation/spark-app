@@ -8,7 +8,10 @@ export const testIds = makeTestIds({
     MultiAssetSelector: {
       group: true,
     },
-    AssetSelector: true,
+    AssetSelector: {
+      trigger: true,
+      option: true,
+    },
     HealthFactorBadge: {
       value: true,
     },
@@ -78,6 +81,9 @@ export const testIds = makeTestIds({
         },
         outcome: true,
         makerBadge: true,
+      },
+      send: {
+        addressIsSmartContractWarning: true,
       },
     },
     depositSavings: {

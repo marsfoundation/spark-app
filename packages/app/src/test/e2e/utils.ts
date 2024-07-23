@@ -183,7 +183,7 @@ export async function getTokenBalance({ forkUrl, address, token }: GetTokenBalan
     transport: http(forkUrl),
   })
 
-  const balance = await publicClient.readContract({
+  const tokenBalance = await publicClient.readContract({
     address: token.address,
     abi: erc20Abi,
     functionName: 'balanceOf',
@@ -191,5 +191,5 @@ export async function getTokenBalance({ forkUrl, address, token }: GetTokenBalan
   })
 
   const mockToken = USD_MOCK_TOKEN.clone({ decimals: token.decimals })
-  return mockToken.fromBaseUnit(BaseUnitNumber(balance))
+  return mockToken.fromBaseUnit(BaseUnitNumber(tokenBalance))
 }

@@ -25,8 +25,13 @@ export class DialogPageObject extends BasePageObject {
 
   // #region actions
   async selectAssetAction(asset: string): Promise<void> {
-    const selector = this.region.getByTestId(testIds.component.AssetSelector)
+    const selector = this.region.getByTestId(testIds.component.AssetSelector.trigger)
     await this.selectOptionByLabelAction(selector, asset)
+  }
+
+  async openAssetSelectorAction(): Promise<void> {
+    const selector = this.region.getByTestId(testIds.component.AssetSelector.trigger)
+    await selector.click()
   }
 
   async fillAmountAction(amount: number): Promise<void> {
@@ -81,7 +86,7 @@ export class DialogPageObject extends BasePageObject {
   }
 
   async expectSelectedAsset(asset: string): Promise<void> {
-    await expect(this.region.getByTestId(testIds.component.AssetSelector)).toHaveText(asset)
+    await expect(this.region.getByTestId(testIds.component.AssetSelector.trigger)).toHaveText(asset)
   }
 
   async expectDialogHeader(header: string): Promise<void> {

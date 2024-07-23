@@ -70,7 +70,7 @@ test.describe('Send USDC on Mainnet', () => {
   })
 
   test('executes send', async () => {
-    const receiverDaiBalanceBefore = await getTokenBalance({ forkUrl: fork.forkUrl, address: receiver, token: usdc })
+    const receiverUsdcBalanceBefore = await getTokenBalance({ forkUrl: fork.forkUrl, address: receiver, token: usdc })
     const actionsContainer = new ActionsPageObject(sendDialog.locatePanelByHeader('Actions'))
     await actionsContainer.acceptAllActionsAction(2, fork)
 
@@ -79,7 +79,7 @@ test.describe('Send USDC on Mainnet', () => {
       forkUrl: fork.forkUrl,
       receiver,
       token: usdc,
-      tokenBalanceBefore: receiverDaiBalanceBefore,
+      tokenBalanceBefore: receiverUsdcBalanceBefore,
       withdrawalAmount: amount,
     })
     await sendDialog.clickBackToSavingsButton()

@@ -161,7 +161,7 @@ type BaseAction = {
   asset: string
 }
 
-type SimplifiedSavingsWithdrawAction = BaseAction & {
+type SimplifiedNativeWithdrawAction = BaseAction & {
   type: 'daiFromSDaiWithdraw' | 'usdcFromSDaiWithdraw' | 'xDaiFromSDaiWithdraw'
   mode: 'send' | 'withdraw'
 }
@@ -170,7 +170,7 @@ type SimplifiedGenericAction = BaseAction & {
   type: Exclude<ActionType, 'exchange' | 'daiFromSDaiWithdraw' | 'usdcFromSDaiWithdraw' | 'xDaiFromSDaiWithdraw'>
 }
 
-type SimplifiedAction = SimplifiedGenericAction | SimplifiedExchangeAction | SimplifiedSavingsWithdrawAction
+type SimplifiedAction = SimplifiedGenericAction | SimplifiedExchangeAction | SimplifiedNativeWithdrawAction
 
 function actionToTitle(action: SimplifiedAction): string {
   switch (action.type) {

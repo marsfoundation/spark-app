@@ -45,6 +45,14 @@ export class SavingsDialogPageObject extends DialogPageObject {
     await expect(this.locatePanelByHeader('Transaction overview')).toBeVisible()
   }
 
+  async expectAssetSelectorOptions(options: string[]): Promise<void> {
+    const selectorOptions = await this.page.getByTestId(testIds.component.AssetSelector.option).all()
+    expect(selectorOptions).toHaveLength(options.length)
+    for (const option of selectorOptions) {
+      await expect(option).toContainText(options.shift()!)
+    }
+  }
+
   async expectTransactionOverview(transactionOverview: TransactionOverview): Promise<void> {
     const panel = this.locatePanelByHeader('Transaction overview')
     await expect(panel).toBeVisible()
@@ -90,6 +98,10 @@ export class SavingsDialogPageObject extends DialogPageObject {
 
   async expectAddressInputError(error: string): Promise<void> {
     await expect(this.page.getByTestId(testIds.component.AddressInput.error)).toHaveText(error)
+  }
+
+  async expectReceiverIsSmartContractWarning(): Promise<void> {
+    await expect(this.page.getByTestId(testIds.dialog.savings.send.addressIsSmartContractWarning)).toBeVisible()
   }
 
   async expectReceiverBalance({

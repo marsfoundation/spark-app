@@ -16,7 +16,7 @@ export class BorrowPageObject extends BasePageObject {
       .getByTestId(testIds.component.MultiAssetSelector.group)
       .nth(index)
 
-    const selector = inputGroup.getByTestId(testIds.component.AssetSelector)
+    const selector = inputGroup.getByTestId(testIds.component.AssetSelector.trigger)
     await this.selectOptionByLabelAction(selector, asset)
 
     await inputGroup.getByRole('textbox').fill(amount.toString())
@@ -91,7 +91,7 @@ export class BorrowPageObject extends BasePageObject {
     const depositSelector = this.page
       .getByTestId(testIds.easyBorrow.form.deposits)
       .getByTestId(testIds.component.MultiAssetSelector.group)
-      .getByTestId(testIds.component.AssetSelector)
+      .getByTestId(testIds.component.AssetSelector.trigger)
     await depositSelector.click()
     await expect(this.page.getByRole('listbox')).not.toHaveText(asset)
   }
