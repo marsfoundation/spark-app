@@ -44,11 +44,38 @@ export async function injectNetworkConfiguration(page: Page, rpcUrl: string, cha
   )
 }
 
-export async function injectFixedDate(page: Page, date: Date): Promise<void> {
+export async function injectFixedDate(
+  page: Page,
+  date: Date,
+  { fixNowMethod }: { fixNowMethod?: boolean } = {},
+): Promise<void> {
   // setup fake Date for deterministic tests
   // https://github.com/microsoft/playwright/issues/6347#issuecomment-1085850728
   const fakeNow = date.valueOf()
-  await page.addInitScript(overrideDateClass, fakeNow)
+  if (fixNowMethod) {
+    // This is needed to preserve backward compatibility with the tests that use tenderly forks.
+    // The difference is that in the tests that were written for tenderly forks, the now method progressed in time,
+    // while in the tests that use tenderly vnets, the now method always returns the same value.
+    await page.addInitScript(overrideDateClass, fakeNow)
+  } else {
+    await page.addInitScript(`
+      {
+        // Extend Date constructor to default to fakeNow
+        Date = class extends Date {
+          constructor(...args) {
+            if (args.length === 0) {
+              super(${fakeNow});
+            } else {
+              super(...args);
+            }
+          }
+        }
+        // Override Date.now() to start from fakeNow
+        const __DateNowOffset = ${fakeNow} - Date.now();
+        const __DateNow = Date.now;
+        Date.now = () => __DateNow() + __DateNowOffset;
+      }`)
+  }
 }
 
 // the only difference between this and injectFixedDate is the use of page.evaluate instead of page.addInitScript
