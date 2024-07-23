@@ -6,19 +6,17 @@ import { assets } from '@/ui/assets'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { assert } from '@/utils/assert'
-import { SavingsDialogTxOverviewMaker } from '../../types'
+import { SavingsDialogTxOverview } from '../../types'
 import { APYDetails, MakerBadge, RouteItem, TransactionOutcome, TransactionOverviewDetailsItem } from './components'
 
-export interface MakerTransactionOverviewProps {
-  txOverview: SavingsDialogTxOverviewMaker
+export interface TransactionOverviewProps {
+  txOverview: SavingsDialogTxOverview
   selectedToken: Token
 }
 
-export function MakerTransactionOverview({ txOverview, selectedToken }: MakerTransactionOverviewProps) {
+export function TransactionOverview({ txOverview, selectedToken }: TransactionOverviewProps) {
   if (txOverview.status !== 'success') {
-    return (
-      <MakerTransactionOverviewPlaceholder isLoading={txOverview.status === 'loading'} badgeToken={selectedToken} />
-    )
+    return <TransactionOverviewPlaceholder isLoading={txOverview.status === 'loading'} badgeToken={selectedToken} />
   }
   const { APY, dai, daiEarnRate, route, makerBadgeToken } = txOverview
 
@@ -59,11 +57,11 @@ export function MakerTransactionOverview({ txOverview, selectedToken }: MakerTra
   )
 }
 
-interface MakerTransactionOverviewPlaceholder {
+interface TransactionOverviewPlaceholder {
   isLoading: boolean
   badgeToken: Token
 }
-function MakerTransactionOverviewPlaceholder({ isLoading, badgeToken }: MakerTransactionOverviewPlaceholder) {
+function TransactionOverviewPlaceholder({ isLoading, badgeToken }: TransactionOverviewPlaceholder) {
   const placeholder = isLoading ? (
     <img src={assets.threeDots} alt="loader" width={20} height={5} data-chromatic="ignore" />
   ) : (

@@ -1,14 +1,12 @@
 import { WithClassname, WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
-import { fakeBigInt } from '@storybook/utils'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { useForm } from 'react-hook-form'
 
-import { BaseUnitNumber, NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
-import { ExchangeObjective } from '@/features/actions/flavours/exchange/types'
+import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 
-import { testAddresses } from '@/test/integration/constants'
+import { USDCToSDaiDepositObjective } from '@/features/actions/flavours/native-sdai-deposit/usdc-to-sdai/types'
 import { SavingsDepositView } from './SavingsDepositView'
 
 const meta: Meta<typeof SavingsDepositView> = {
@@ -25,7 +23,7 @@ const meta: Meta<typeof SavingsDepositView> = {
         balance: NormalizedUnitNumber(50000),
       },
       {
-        token: tokens.ETH,
+        token: tokens.DAI,
         balance: NormalizedUnitNumber(1),
       },
     ],
@@ -40,41 +38,11 @@ const meta: Meta<typeof SavingsDepositView> = {
     },
     objectives: [
       {
-        type: 'exchange',
-        swapParams: {
-          fromToken: tokens.USDC,
-          toToken: tokens.sDAI,
-          type: 'direct',
-          value: NormalizedUnitNumber(5000),
-          meta: {
-            fee: Percentage(0),
-            integratorKey: 'spark_waivefee',
-            maxSlippage: Percentage(0.005),
-          },
-        },
-        swapInfo: {
-          status: 'success',
-          data: {
-            fromToken: tokens.USDC.address,
-            toToken: tokens.sDAI.address,
-            type: 'direct',
-            txRequest: {
-              data: '0x',
-              from: testAddresses.bob,
-              gasLimit: fakeBigInt,
-              gasPrice: fakeBigInt,
-              to: testAddresses.alice,
-              value: fakeBigInt,
-            },
-            estimate: {
-              feeCostsUSD: NormalizedUnitNumber(0),
-              fromAmount: BaseUnitNumber(5000),
-              toAmount: BaseUnitNumber(5000),
-              toAmountMin: BaseUnitNumber(5000),
-            },
-          },
-        },
-      } satisfies ExchangeObjective,
+        type: 'usdcToSDaiDeposit',
+        value: NormalizedUnitNumber(5000),
+        usdc: tokens.USDC,
+        sDai: tokens.sDAI,
+      } satisfies USDCToSDaiDepositObjective,
     ],
     pageStatus: {
       state: 'form',
@@ -82,21 +50,17 @@ const meta: Meta<typeof SavingsDepositView> = {
       goToSuccessScreen: () => {},
     },
     txOverview: {
-      type: 'lifi',
+      dai: tokens.DAI,
       status: 'success',
-      showExchangeRate: true,
       APY: Percentage(0.05),
-      exchangeRatioToToken: tokens.DAI,
-      sDaiToken: tokens.sDAI,
-      exchangeRatioFromToken: tokens.USDC,
-      exchangeRatio: NormalizedUnitNumber(0.9996),
-      sDaiBalanceBefore: NormalizedUnitNumber(5000),
-      sDaiBalanceAfter: NormalizedUnitNumber(10000),
-      outTokenAmount: NormalizedUnitNumber(5000),
-    },
-    riskAcknowledgement: {
-      onStatusChange: () => {},
-      warning: undefined,
+      daiEarnRate: NormalizedUnitNumber(542),
+      route: [
+        { token: tokens.USDC, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },
+        { token: tokens.DAI, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },
+        { token: tokens.sDAI, value: NormalizedUnitNumber(925.75), usdValue: NormalizedUnitNumber(1300.74) },
+      ],
+      makerBadgeToken: tokens.USDC,
+      outTokenAmount: NormalizedUnitNumber(925.75),
     },
   },
 }
@@ -104,85 +68,6 @@ const meta: Meta<typeof SavingsDepositView> = {
 export default meta
 type Story = StoryObj<typeof SavingsDepositView>
 
-export const DesktopLiFi: Story = {
-  name: 'LiFi (Desktop)',
-}
-export const MobileLiFi: Story = {
-  ...getMobileStory(DesktopLiFi),
-  name: 'LiFi (Mobile)',
-}
-export const TabletLiFi: Story = {
-  ...getTabletStory(DesktopLiFi),
-  name: 'LiFi (Tablet)',
-}
-
-export const DesktopMaker: Story = {
-  name: 'Maker (Desktop)',
-  args: {
-    assetsFields: {
-      selectedAsset: {
-        token: tokens.DAI,
-        balance: NormalizedUnitNumber(50000),
-        value: '2000',
-      },
-      maxValue: NormalizedUnitNumber(5000),
-      changeAsset: () => {},
-    },
-    txOverview: {
-      dai: tokens.DAI,
-      type: 'maker',
-      status: 'success',
-      APY: Percentage(0.05),
-      daiEarnRate: NormalizedUnitNumber(542),
-      route: [
-        { token: tokens.DAI, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },
-        { token: tokens.sDAI, value: NormalizedUnitNumber(925.75), usdValue: NormalizedUnitNumber(1300.74) },
-      ],
-      makerBadgeToken: tokens.DAI,
-      outTokenAmount: NormalizedUnitNumber(925.75),
-    },
-    objectives: [
-      {
-        type: 'daiToSDaiDeposit',
-        dai: tokens.DAI,
-        sDai: tokens.sDAI,
-        value: NormalizedUnitNumber(1300.74),
-      },
-    ],
-  },
-}
-export const MobileMaker: Story = {
-  ...getMobileStory(DesktopMaker),
-  name: 'Maker (Mobile)',
-}
-export const TabletMaker: Story = {
-  ...getTabletStory(DesktopMaker),
-  name: 'Maker (Tablet)',
-}
 export const Desktop: Story = {}
-export const Mobile: Story = getMobileStory(Desktop)
-export const Tablet: Story = getTabletStory(Desktop)
-
-export const LoadingTxOverview: Story = {
-  args: {
-    txOverview: {
-      type: 'lifi',
-      status: 'loading',
-      showExchangeRate: true,
-    },
-  },
-}
-export const MobileLoadingTxOverview = getMobileStory(LoadingTxOverview)
-export const TabletLoadingTxOverview = getTabletStory(LoadingTxOverview)
-
-export const NoTxOverview: Story = {
-  args: {
-    txOverview: {
-      type: 'lifi',
-      status: 'no-overview',
-      showExchangeRate: true,
-    },
-  },
-}
-export const MobileNoTxOverview = getMobileStory(NoTxOverview)
-export const TabletNoTxOverview = getTabletStory(NoTxOverview)
+export const Mobile = getMobileStory(Desktop)
+export const Tablet = getTabletStory(Desktop)

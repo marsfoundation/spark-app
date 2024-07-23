@@ -1,77 +1,22 @@
-import { SwapInfo } from '@/domain/exchanges/types'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { SavingsInfo } from '@/domain/savings-info/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { WalletInfo } from '@/domain/wallet/useWalletInfo'
 import { DialogFormNormalizedData } from '@/features/dialogs/common/logic/form'
-import { RouteItem, SavingsDialogTxOverviewLiFi, SavingsDialogTxOverviewMaker } from '../../common/types'
+import { RouteItem, SavingsDialogTxOverview } from '../../common/types'
 
 export interface CreateTxOverviewParams {
   formValues: DialogFormNormalizedData
   marketInfo: MarketInfo
-  walletInfo: WalletInfo
   savingsInfo: SavingsInfo
-  swapInfo: SwapInfo
+  walletInfo: WalletInfo
 }
-
 export function createTxOverview({
-  marketInfo,
-  formValues,
-  savingsInfo,
-  walletInfo,
-  swapInfo,
-}: CreateTxOverviewParams): SavingsDialogTxOverviewLiFi {
-  const otherToken = formValues.token
-  const sDAI = marketInfo.sDAI
-  const DAI = marketInfo.DAI
-  const sDaiBalanceBefore = walletInfo.findWalletBalanceForToken(sDAI)
-  const showExchangeRate = formValues.token.symbol !== marketInfo.DAI.symbol
-
-  if (!swapInfo.data) {
-    return swapInfo.isLoading
-      ? { type: 'lifi', showExchangeRate, status: 'loading' }
-      : { type: 'lifi', showExchangeRate, status: 'no-overview' }
-  }
-
-  const sDaiAmountBaseUnit = swapInfo.data.estimate.fromAmount
-  const sDaiAmount = sDAI.fromBaseUnit(sDaiAmountBaseUnit)
-  const otherTokenAmountBaseUnit = swapInfo.data.estimate.toAmount
-  const otherTokenAmount = otherToken.fromBaseUnit(otherTokenAmountBaseUnit)
-
-  const daiAmountNormalized = savingsInfo.convertSharesToDai({
-    shares: sDaiAmount,
-  })
-  const daiToTokenRatio = NormalizedUnitNumber(otherTokenAmount.dividedBy(daiAmountNormalized))
-
-  const sDaiBalanceAfter = NormalizedUnitNumber(sDaiBalanceBefore.minus(sDaiAmount))
-
-  return {
-    type: 'lifi',
-    status: 'success',
-    showExchangeRate,
-    exchangeRatioFromToken: DAI,
-    exchangeRatioToToken: formValues.token,
-    sDaiToken: sDAI,
-    exchangeRatio: daiToTokenRatio,
-    sDaiBalanceBefore: sDaiBalanceBefore,
-    sDaiBalanceAfter,
-    APY: savingsInfo.apy,
-    outTokenAmount: otherTokenAmount,
-  }
-}
-
-export interface CreateMakerTxOverviewParams {
-  formValues: DialogFormNormalizedData
-  marketInfo: MarketInfo
-  savingsInfo: SavingsInfo
-  walletInfo: WalletInfo
-}
-export function createMakerTxOverview({
   formValues,
   marketInfo,
   savingsInfo,
   walletInfo,
-}: CreateMakerTxOverviewParams): SavingsDialogTxOverviewMaker {
+}: CreateTxOverviewParams): SavingsDialogTxOverview {
   const isDaiWithdraw = formValues.token.address === marketInfo.DAI.address
 
   const [daiValue, sDAIValue] = (() => {
@@ -88,7 +33,7 @@ export function createMakerTxOverview({
   })()
 
   if (daiValue.eq(0)) {
-    return { type: 'maker', status: 'no-overview' }
+    return { status: 'no-overview' }
   }
   const daiEarnRate = NormalizedUnitNumber(daiValue.multipliedBy(savingsInfo.apy))
   const route: RouteItem[] = [
@@ -115,7 +60,6 @@ export function createMakerTxOverview({
 
   return {
     dai: marketInfo.DAI,
-    type: 'maker',
     status: 'success',
     APY: savingsInfo.apy,
     daiEarnRate,

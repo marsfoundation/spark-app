@@ -7,22 +7,12 @@ export interface RouteItem {
   usdValue: NormalizedUnitNumber
 }
 
-export interface TxOverviewMaker {
+export interface TxOverview {
   dai: Token
   APY: Percentage
   daiEarnRate: NormalizedUnitNumber
   route: RouteItem[]
   makerBadgeToken: Token
-  outTokenAmount: NormalizedUnitNumber
-}
-export interface TxOverviewLiFi {
-  exchangeRatioFromToken: Token
-  exchangeRatioToToken: Token
-  exchangeRatio: NormalizedUnitNumber
-  sDaiToken: Token
-  sDaiBalanceBefore: NormalizedUnitNumber
-  sDaiBalanceAfter: NormalizedUnitNumber
-  APY: Percentage
   outTokenAmount: NormalizedUnitNumber
 }
 
@@ -37,7 +27,4 @@ type TxOverviewResult<T extends {}> =
       status: 'success'
     } & T)
 
-export type SavingsDialogTxOverviewMaker = { type: 'maker' } & TxOverviewResult<TxOverviewMaker>
-export type SavingsDialogTxOverviewLiFi = { type: 'lifi'; showExchangeRate: boolean } & TxOverviewResult<TxOverviewLiFi>
-
-export type SavingsDialogTxOverview = SavingsDialogTxOverviewMaker | SavingsDialogTxOverviewLiFi
+export type SavingsDialogTxOverview = TxOverviewResult<TxOverview>

@@ -13,7 +13,7 @@ import { useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
 import { useChainId } from 'wagmi'
 import { SavingsDialogTxOverview } from '../../common/types'
-import { createMakerTxOverview } from './createTxOverview'
+import { createTxOverview } from './createTxOverview'
 import { getFormFieldsForDepositDialog } from './form'
 import { createObjectives } from './objectives'
 import { getSavingsDepositDialogFormValidator } from './validation'
@@ -74,7 +74,7 @@ export function useSavingsDepositDialog({
     marketInfo,
     chainId,
   })
-  const txOverview = createMakerTxOverview({
+  const txOverview = createTxOverview({
     formValues,
     marketInfo,
     savingsInfo,
