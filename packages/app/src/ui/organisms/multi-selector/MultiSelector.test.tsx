@@ -172,7 +172,7 @@ describe(ControlledMultiSelectorAssetInput.name, () => {
     await waitFor(() => expect(getByRole('textbox')).toHaveValue('1'))
   })
 
-  test('Able to past value with white spaces', async () => {
+  test('Able to paste value with white spaces', async () => {
     const input = '123 . 456'
     const max = NormalizedUnitNumber(input.replace(/\s/g, ''))
 
