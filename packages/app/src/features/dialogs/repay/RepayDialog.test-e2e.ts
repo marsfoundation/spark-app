@@ -13,7 +13,7 @@ import { screenshot } from '@/test/e2e/utils'
 import { tenderlyRpcActions } from '@/domain/tenderly/TenderlyRpcActions'
 import { BaseUnitNumber, NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { injectFixedDate } from '@/test/e2e/injectSetup'
-import { Address } from 'viem'
+import { http, Address, createPublicClient } from 'viem'
 import { DialogPageObject } from '../common/Dialog.PageObject'
 
 const headerRegExp = /Repa*/
@@ -220,10 +220,10 @@ test.describe('Repay dialog', () => {
     const DAI_DECIMALS = 18
 
     const initialDeposits = {
-      wstETH: 1000,
+      wstETH: 10,
     } as const
 
-    const daiToBorrow = 1_000_000
+    const daiToBorrow = 10_000
     const daiDebtIncreaseIn1Epoch = 1.0000029476774694 // hardcoded for DAI borrow rate 5.53%
     const daiDebtIncreaseIn2Epochs = 1.0000058953636277 // hardcoded for DAI borrow rate 5.53%
 
@@ -233,10 +233,6 @@ test.describe('Repay dialog', () => {
 
     async function overrideDaiBalance({ balance, page }: { balance: BaseUnitNumber; page: Page }): Promise<void> {
       await tenderlyRpcActions.setTokenBalance(fork.forkUrl, DAI_ADDRESS, account, balance)
-      // progress time by 10 second instead of 5 to simulate a bit of debt accrual
-      await fork.progressSimulation(page, 10)
-      // update the date on page start to ensure that reloaded page will have the same date
-      await injectFixedDate(page, fork.simulationDate)
       await page.reload()
     }
 
@@ -245,7 +241,7 @@ test.describe('Repay dialog', () => {
         initialPage: 'easyBorrow',
         account: {
           type: 'connected-random',
-          assetBalances: { wstETH: 10_000 },
+          assetBalances: { wstETH: 10 },
         },
       }))
 
@@ -257,13 +253,27 @@ test.describe('Repay dialog', () => {
       repayDialog = new DialogPageObject(page, headerRegExp)
 
       await dashboardPage.expectHealthFactor('2.08')
+
+      // forcefully set browser time to the timestamp of borrow transaction
+      const publicClient = createPublicClient({
+        transport: http(fork.forkUrl),
+      })
+      const block = await publicClient.getBlock()
+      await injectFixedDate(page, new Date(Number(block.timestamp) * 1000))
+      await page.reload()
     })
 
-    test('can repay if balance is less than debt', async () => {
+    test('can repay if balance is less than debt', async ({ page }) => {
+      const newBalance = 0.9 * daiToBorrow
       const repay = {
         asset: 'DAI',
-        amount: daiToBorrow,
+        amount: newBalance,
       } as const
+
+      await overrideDaiBalance({
+        balance: BaseUnitNumber(NormalizedUnitNumber(newBalance).shiftedBy(DAI_DECIMALS)),
+        page,
+      })
 
       await dashboardPage.clickRepayButtonAction(repay.asset)
 
@@ -278,15 +288,20 @@ test.describe('Repay dialog', () => {
     })
 
     test('can repay if balance gt debt but lt debt after 1 epoch', async ({ page }) => {
+      // The test asserts and edge case where user's balance is greater than debt, but less than debt after 1 epoch (30 minutes).
+      // In this case the current implementation does not try to repay the debt including the interest accrued in the following time period
+      // before the repay transaction is mined. Only the current debt is repaid. Therefore after the repay transaction some dust
+      // (accrued interest) is left in the user's borrow table.
       const repay = {
         asset: 'DAI',
         amount: daiToBorrow,
       } as const
 
+      const daiDebtIn1Epoch = NormalizedUnitNumber(daiToBorrow).times(daiDebtIncreaseIn1Epoch)
+      // newBalance = (daiToBorrow, daiDebtIn1Epoch) / 2 - a number somewhere between daiToBorrow and daiDebtIn1Epoch
+      const newBalance = BaseUnitNumber(daiDebtIn1Epoch.plus(daiToBorrow).div(2).shiftedBy(DAI_DECIMALS))
       await overrideDaiBalance({
-        balance: BaseUnitNumber(
-          NormalizedUnitNumber(daiToBorrow).times(daiDebtIncreaseIn1Epoch).shiftedBy(DAI_DECIMALS).minus(1),
-        ),
+        balance: newBalance,
         page,
       })
 
@@ -299,7 +314,7 @@ test.describe('Repay dialog', () => {
         [
           {
             asset: repay.asset,
-            amount: 1_000_000.01,
+            amount: daiToBorrow,
           },
         ],
         fork,
@@ -307,7 +322,6 @@ test.describe('Repay dialog', () => {
 
       await repayDialog.viewInDashboardAction()
 
-      // non zero because we didn't try to repay the whole debt
       await dashboardPage.expectNonZeroAmountInBorrowTable(repay.asset)
     })
 
@@ -317,10 +331,12 @@ test.describe('Repay dialog', () => {
         amount: daiToBorrow,
       } as const
 
+      const daiDebtIn1Epoch = NormalizedUnitNumber(daiToBorrow).times(daiDebtIncreaseIn1Epoch)
+      const daiDebtIn2Epochs = NormalizedUnitNumber(daiToBorrow).times(daiDebtIncreaseIn2Epochs)
+      // newBalance = (daiDebtIn1Epoch + daiDebtIn2Epochs) / 2 - a number somewhere between daiDebtIn1Epoch and daiDebtIn2Epochs
+      const newBalance = BaseUnitNumber(daiDebtIn2Epochs.plus(daiDebtIn1Epoch).div(2).shiftedBy(DAI_DECIMALS))
       await overrideDaiBalance({
-        balance: BaseUnitNumber(
-          NormalizedUnitNumber(daiToBorrow).times(daiDebtIncreaseIn2Epochs).shiftedBy(DAI_DECIMALS).minus(1),
-        ),
+        balance: newBalance,
         page,
       })
 
@@ -334,7 +350,7 @@ test.describe('Repay dialog', () => {
         [
           {
             asset: repay.asset,
-            amount: 1_000_000.01,
+            amount: daiToBorrow,
           },
         ],
         fork,
@@ -342,7 +358,6 @@ test.describe('Repay dialog', () => {
 
       await repayDialog.viewInDashboardAction()
 
-      // zero because we tried to repay the whole debt
       await dashboardPage.expectBorrowTable({
         [repay.asset]: 0,
       })
