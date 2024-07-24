@@ -80,11 +80,8 @@ export function useWrite<TAbi extends Abi, TFunctionName extends ContractFunctio
     if (txReceipt) {
       callbacks.onTransactionSettled?.()
 
-      if (import.meta.env.VITE_PLAYWRIGHT === '1' && parameters?.request) {
-        const txList: any[] = Array.isArray(window[__TX_LIST_KEY]) ? (window[__TX_LIST_KEY] as any) : []
-        const calldata = encodeFunctionData(parameters.request as any)
-        txList.push({ ...parameters.request, calldata })
-        window[__TX_LIST_KEY] = txList as any
+      if (import.meta.env.VITE_PLAYWRIGHT === '1') {
+        storeRequest(parameters?.request)
       }
     }
   }, [txReceipt])
@@ -143,4 +140,14 @@ export function ensureConfigTypes<
   TFunctionName extends ContractFunctionName<TAbi, 'nonpayable' | 'payable'>,
 >(config: UseSimulateContractParameters<TAbi, TFunctionName>): UseSimulateContractParameters<Abi, string> {
   return config as any
+}
+
+function storeRequest(request: any): void {
+  if (!request) {
+    return
+  }
+  const txList: any[] = Array.isArray(window[__TX_LIST_KEY]) ? (window[__TX_LIST_KEY] as any) : []
+  const calldata = encodeFunctionData(request as any)
+  txList.push({ ...request, calldata })
+  window[__TX_LIST_KEY] = txList as any
 }

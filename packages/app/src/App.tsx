@@ -19,7 +19,7 @@ import { TooltipProvider } from './ui/atoms/tooltip/Tooltip'
 function App() {
   const sandboxNetwork = useStore((state) => state.sandbox.network)
   const config = getConfig(sandboxNetwork)
-  if (import.meta.env.VITE_PLAYWRIGHT || import.meta.env.MODE === 'development') {
+  if (import.meta.env.VITE_PLAYWRIGHT === '1' || import.meta.env.MODE === 'development') {
     // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
     useAutoConnect({ config })
   }
