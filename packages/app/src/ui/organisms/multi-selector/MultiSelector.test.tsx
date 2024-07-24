@@ -176,7 +176,7 @@ describe(ControlledMultiSelectorAssetInput.name, () => {
     const input = '123 . 456'
     const max = NormalizedUnitNumber(input.replace(/\s/g, ''))
 
-    const { getByRole } = render(<ControlledMultiSelectorAssetInputTestWrapper max={max} />)
+    const { getByRole } = render(<ControlledMultiSelectorAssetInputTestWrapper />)
 
     fillInput(getByRole('textbox'), input)
     await waitFor(() => expect(getByRole('textbox')).toHaveValue(max.toFixed()))
