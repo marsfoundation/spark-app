@@ -1,12 +1,17 @@
+import { getBalance, getTokenBalance } from '@/test/e2e/utils'
 import { testIds } from '@/ui/utils/testIds'
 import { Page, expect } from '@playwright/test'
+import { Address } from 'viem'
 import { DialogPageObject } from '../../../common/Dialog.PageObject'
 
 export class SavingsDialogPageObject extends DialogPageObject {
-  private readonly type: 'deposit' | 'withdraw'
+  private readonly type: 'deposit' | 'withdraw' | 'send'
 
-  constructor({ page, type }: { page: Page; type: 'deposit' | 'withdraw' }) {
-    super(page, new RegExp(`${type === 'deposit' ? 'Deposit to' : 'Withdraw from'} Savings`))
+  constructor({ page, type }: { page: Page; type: 'deposit' | 'withdraw' | 'send' }) {
+    super(
+      page,
+      new RegExp(`${type === 'deposit' ? 'Deposit to' : type === 'send' ? 'Send from' : 'Withdraw from'} Savings`),
+    )
     this.type = type
   }
 
@@ -18,7 +23,11 @@ export class SavingsDialogPageObject extends DialogPageObject {
     })
   }
 
-  // #endregion
+  async fillReceiverAction(receiver: string): Promise<void> {
+    await this.region.getByTestId(testIds.component.AddressInput.input).fill(receiver)
+  }
+
+  // #endregion actions
 
   // #region assertions
   async expectDiscrepancyWarning(discrepancy: string): Promise<void> {
@@ -33,6 +42,15 @@ export class SavingsDialogPageObject extends DialogPageObject {
 
   async expectTransactionOverviewToBeVisible(): Promise<void> {
     await expect(this.locatePanelByHeader('Transaction overview')).toBeVisible()
+  }
+
+  async expectAssetSelectorOptions(options: string[]): Promise<void> {
+    const selectorOptions = await this.page.getByTestId(testIds.component.AssetSelector.option).all()
+    expect(selectorOptions).toHaveLength(options.length)
+
+    for (const [index, option] of selectorOptions.entries()) {
+      await expect(option).toHaveText(options[index]!)
+    }
   }
 
   async expectTransactionOverview(transactionOverview: TransactionOverview): Promise<void> {
@@ -78,7 +96,42 @@ export class SavingsDialogPageObject extends DialogPageObject {
     await expect(this.page.getByText('Congrats! All done!')).toBeVisible()
   }
 
-  // #endregion
+  async expectAddressInputError(error: string): Promise<void> {
+    await expect(this.page.getByTestId(testIds.component.AddressInput.error)).toHaveText(error)
+  }
+
+  async expectReceiverIsSmartContractWarning(): Promise<void> {
+    await expect(this.page.getByTestId(testIds.dialog.savings.send.addressIsSmartContractWarning)).toBeVisible()
+  }
+
+  async expectReceiverBalance({
+    forkUrl,
+    receiver,
+    expectedBalance,
+  }: {
+    forkUrl: string
+    receiver: Address
+    expectedBalance: number
+  }): Promise<void> {
+    const currentBalance = await getBalance({ forkUrl, address: receiver })
+    expect(currentBalance.isEqualTo(expectedBalance)).toBe(true)
+  }
+
+  async expectReceiverTokenBalance({
+    forkUrl,
+    receiver,
+    token,
+    expectedBalance,
+  }: {
+    forkUrl: string
+    receiver: Address
+    token: { address: Address; decimals: number }
+    expectedBalance: number
+  }): Promise<void> {
+    const currentTokenBalance = await getTokenBalance({ forkUrl, address: receiver, token })
+    expect(currentTokenBalance.isEqualTo(expectedBalance)).toBe(true)
+  }
+  // #endregion assertions
 }
 
 type TransactionOverview = [string, string][]

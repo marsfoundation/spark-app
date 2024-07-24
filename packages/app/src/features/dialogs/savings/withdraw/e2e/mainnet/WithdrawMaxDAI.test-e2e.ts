@@ -32,7 +32,9 @@ test.describe('Withdraw max DAI on Mainnet', () => {
   })
 
   test('uses native sDai withdrawal', async () => {
-    await withdrawalDialog.actionsContainer.expectActions([{ type: 'daiFromSDaiWithdraw', asset: 'DAI' }])
+    await withdrawalDialog.actionsContainer.expectActions([
+      { type: 'daiFromSDaiWithdraw', asset: 'DAI', mode: 'withdraw' },
+    ])
   })
 
   test('displays transaction overview', async () => {

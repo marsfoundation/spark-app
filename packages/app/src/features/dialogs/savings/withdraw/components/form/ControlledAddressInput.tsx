@@ -13,13 +13,7 @@ export function ControlledAddressInput({ form, blockExplorerUrl }: ControlledAdd
       control={form.control}
       name="receiver"
       render={({ field }) => (
-        <AddressInput
-          {...field}
-          value={field.value}
-          error={form.formState.errors.receiver?.message}
-          blockExplorerUrl={blockExplorerUrl}
-          onChange={field.onChange}
-        />
+        <AddressInput {...field} error={form.formState.errors.receiver?.message} blockExplorerUrl={blockExplorerUrl} />
       )}
     />
   )

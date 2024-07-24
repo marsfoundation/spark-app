@@ -32,6 +32,10 @@ export class SavingsPageObject extends BasePageObject {
   async clickWithdrawButtonAction(): Promise<void> {
     await this.locateSavingsDAIPanel().getByRole('button', { name: 'Withdraw' }).click()
   }
+
+  async clickSendButtonAction(): Promise<void> {
+    await this.locateSavingsDAIPanel().getByRole('button', { name: 'Send' }).click()
+  }
   // #endregion
 
   // #region assertions

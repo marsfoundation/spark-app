@@ -1,5 +1,6 @@
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
+import { DEFAULT_BLOCK_NUMBER, GNOSIS_DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setupFork } from '@/test/e2e/forking/setupFork'
 import { LIFI_TEST_USER_PRIVATE_KEY, overrideLiFiRouteWithHAR } from '@/test/e2e/lifi'
 import { setup } from '@/test/e2e/setup'
@@ -10,7 +11,7 @@ import { SavingsDialogPageObject } from '../common/e2e/SavingsDialog.PageObject'
 test.describe('Savings withdraw dialog', () => {
   test.describe('Mainnet', () => {
     const blockNumber = 20025677n
-    const fork = setupFork({ blockNumber, chainId: mainnet.id })
+    const fork = setupFork({ blockNumber, chainId: mainnet.id, useTenderlyVnet: true })
 
     test('can switch between tokens', async ({ page }) => {
       await setup(page, fork, {
@@ -38,14 +39,14 @@ test.describe('Savings withdraw dialog', () => {
 
       await withdrawalDialog.fillAmountAction(1000)
       await actionsContainer.expectEnabledActionAtIndex(0)
-      await actionsContainer.expectActions([{ type: 'daiFromSDaiWithdraw', asset: 'DAI' }])
+      await actionsContainer.expectActions([{ type: 'daiFromSDaiWithdraw', asset: 'DAI', mode: 'withdraw' }])
 
       await withdrawalDialog.selectAssetAction('USDC')
       await withdrawalDialog.fillAmountAction(1000)
       await actionsContainer.expectEnabledActionAtIndex(0)
       await actionsContainer.expectActions([
         { type: 'approve', asset: 'sDAI' },
-        { type: 'usdcFromSDaiWithdraw', asset: 'USDC' },
+        { type: 'usdcFromSDaiWithdraw', asset: 'USDC', mode: 'withdraw' },
       ])
 
       await withdrawalDialog.selectAssetAction('USDT')
@@ -59,7 +60,7 @@ test.describe('Savings withdraw dialog', () => {
       await withdrawalDialog.selectAssetAction('DAI')
       await withdrawalDialog.fillAmountAction(1000)
       await actionsContainer.expectEnabledActionAtIndex(0)
-      await actionsContainer.expectActions([{ type: 'daiFromSDaiWithdraw', asset: 'DAI' }])
+      await actionsContainer.expectActions([{ type: 'daiFromSDaiWithdraw', asset: 'DAI', mode: 'withdraw' }])
     })
   })
 
@@ -99,7 +100,7 @@ test.describe('Savings withdraw dialog', () => {
       await actionsContainer.expectEnabledActionAtIndex(0)
       await actionsContainer.expectActions([
         { type: 'approve', asset: 'sDAI' },
-        { type: 'xDaiFromSDaiWithdraw', asset: 'XDAI' },
+        { type: 'xDaiFromSDaiWithdraw', asset: 'XDAI', mode: 'withdraw' },
       ])
 
       await withdrawalDialog.selectAssetAction('USDC')
@@ -123,8 +124,68 @@ test.describe('Savings withdraw dialog', () => {
       await actionsContainer.expectEnabledActionAtIndex(0)
       await actionsContainer.expectActions([
         { type: 'approve', asset: 'sDAI' },
-        { type: 'xDaiFromSDaiWithdraw', asset: 'XDAI' },
+        { type: 'xDaiFromSDaiWithdraw', asset: 'XDAI', mode: 'withdraw' },
       ])
+    })
+  })
+})
+
+test.describe('Savings withdraw dialog send mode', () => {
+  test.describe('Mainnet', () => {
+    const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
+    let savingsPage: SavingsPageObject
+    let sendDialog: SavingsDialogPageObject
+
+    test.beforeEach(async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'savings',
+        account: {
+          type: 'connected-random',
+          assetBalances: {
+            ETH: 1,
+            sDAI: 10_000,
+          },
+        },
+      })
+
+      savingsPage = new SavingsPageObject(page)
+      await savingsPage.clickSendButtonAction()
+
+      sendDialog = new SavingsDialogPageObject({ page, type: 'send' })
+    })
+
+    test('can select only supported assets', async () => {
+      await sendDialog.openAssetSelectorAction()
+      await sendDialog.expectAssetSelectorOptions(['DAI', 'USDC'])
+    })
+  })
+
+  test.describe('Gnosis', () => {
+    const fork = setupFork({ blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER, chainId: gnosis.id, useTenderlyVnet: true })
+    let savingsPage: SavingsPageObject
+    let sendDialog: SavingsDialogPageObject
+
+    test.beforeEach(async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'savings',
+        account: {
+          type: 'connected-random',
+          assetBalances: {
+            XDAI: 100,
+            sDAI: 10_000,
+          },
+        },
+      })
+
+      savingsPage = new SavingsPageObject(page)
+      await savingsPage.clickSendButtonAction()
+
+      sendDialog = new SavingsDialogPageObject({ page, type: 'send' })
+    })
+
+    test('can select only supported assets', async () => {
+      await sendDialog.openAssetSelectorAction()
+      await sendDialog.expectAssetSelectorOptions(['XDAI'])
     })
   })
 })

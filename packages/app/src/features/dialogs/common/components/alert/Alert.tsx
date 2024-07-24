@@ -10,11 +10,12 @@ type Variant = keyof VariantsConfig['variant']
 interface AlertProps {
   children: ReactNode
   variant: Variant
+  'data-testid'?: string
 }
 
-export function Alert({ children, variant }: AlertProps) {
+export function Alert({ children, variant, 'data-testid': dataTestId }: AlertProps) {
   return (
-    <div className={bgVariants({ variant })}>
+    <div className={bgVariants({ variant })} data-testid={dataTestId}>
       <AlertTriangle className={iconVariants({ variant })} />
       <p data-testid={testIds.component.Alert.message} className="text-basics-black text-xs">
         {children}

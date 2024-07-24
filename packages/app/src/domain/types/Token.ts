@@ -93,18 +93,20 @@ export class Token {
     symbol,
     name,
     isAToken,
+    decimals,
   }: {
     address?: CheckedAddress
     symbol?: TokenSymbol
     name?: string
     isAToken?: boolean
+    decimals?: number
   }): Token {
     return new Token({
       address: address ?? this.address,
       symbol: symbol ?? this.symbol,
       name: name ?? this.name,
       isAToken: isAToken ?? this.isAToken,
-      decimals: this.decimals,
+      decimals: decimals ?? this.decimals,
       unitPriceUsd: this.unitPriceUsd.toFixed(),
     })
   }

@@ -157,12 +157,20 @@ type SimplifiedExchangeAction = {
   finalDAIAmount?: string
 }
 
-type SimplifiedAction =
-  | {
-      type: Exclude<ActionType, 'exchange'>
-      asset: string
-    }
-  | SimplifiedExchangeAction
+type BaseAction = {
+  asset: string
+}
+
+type SimplifiedNativeWithdrawAction = BaseAction & {
+  type: 'daiFromSDaiWithdraw' | 'usdcFromSDaiWithdraw' | 'xDaiFromSDaiWithdraw'
+  mode: 'send' | 'withdraw'
+}
+
+type SimplifiedGenericAction = BaseAction & {
+  type: Exclude<ActionType, 'exchange' | 'daiFromSDaiWithdraw' | 'usdcFromSDaiWithdraw' | 'xDaiFromSDaiWithdraw'>
+}
+
+type SimplifiedAction = SimplifiedGenericAction | SimplifiedExchangeAction | SimplifiedNativeWithdrawAction
 
 function actionToTitle(action: SimplifiedAction): string {
   switch (action.type) {
@@ -195,7 +203,7 @@ function actionToTitle(action: SimplifiedAction): string {
     case 'daiFromSDaiWithdraw':
     case 'usdcFromSDaiWithdraw':
     case 'xDaiFromSDaiWithdraw':
-      return `Convert sDAI to ${action.asset}`
+      return `Convert sDAI to ${action.asset}${action.mode === 'send' ? ' and send' : ''}`
     case 'claimRewards':
       return 'Claim'
   }
@@ -205,6 +213,7 @@ const actionVerbs = [
   'Approve',
   'Deposit',
   'Withdraw',
+  'Send',
   'Borrow',
   'Permit',
   'Repay',

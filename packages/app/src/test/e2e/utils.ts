@@ -1,11 +1,13 @@
-import { Locator, Page } from '@playwright/test'
-import { http, createPublicClient } from 'viem'
-
 import {
   lendingPoolAddressProviderAddress,
   uiPoolDataProviderAbi,
   uiPoolDataProviderAddress,
 } from '@/config/contracts-generated'
+import { BaseUnitNumber, NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { USD_MOCK_TOKEN } from '@/domain/types/Token'
+import { bigNumberify } from '@/utils/bigNumber'
+import { Locator, Page } from '@playwright/test'
+import { http, Address, createPublicClient, erc20Abi, weiUnits } from 'viem'
 import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts'
 
 /**
@@ -153,4 +155,41 @@ export async function calculateAssetsWorth(
 
 export function isPage(pageOrLocator: Page | Locator): pageOrLocator is Page {
   return 'addInitScript' in pageOrLocator
+}
+
+export interface GetBalanceArgs {
+  forkUrl: string
+  address: Address
+}
+
+export interface GetTokenBalanceArgs extends GetBalanceArgs {
+  token: {
+    address: Address
+    decimals: number
+  }
+}
+
+export async function getBalance({ forkUrl, address }: GetBalanceArgs): Promise<NormalizedUnitNumber> {
+  const publicClient = createPublicClient({
+    transport: http(forkUrl),
+  })
+
+  const balance = await publicClient.getBalance({ address })
+  return NormalizedUnitNumber(bigNumberify(balance).shiftedBy(weiUnits.ether))
+}
+
+export async function getTokenBalance({ forkUrl, address, token }: GetTokenBalanceArgs): Promise<NormalizedUnitNumber> {
+  const publicClient = createPublicClient({
+    transport: http(forkUrl),
+  })
+
+  const tokenBalance = await publicClient.readContract({
+    address: token.address,
+    abi: erc20Abi,
+    functionName: 'balanceOf',
+    args: [address],
+  })
+
+  const mockToken = USD_MOCK_TOKEN.clone({ decimals: token.decimals })
+  return mockToken.fromBaseUnit(BaseUnitNumber(tokenBalance))
 }

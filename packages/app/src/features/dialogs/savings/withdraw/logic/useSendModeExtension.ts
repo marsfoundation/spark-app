@@ -47,8 +47,8 @@ function useReceiverFormValues(marketInfo: MarketInfo): UseDebouncedReceiverForm
     mode: 'onChange',
   })
 
-  const rawReceiver = receiverForm.getValues('receiver')
-  const isFormValid = receiverForm.formState.isValid
+  const rawReceiver = receiverForm.watch('receiver')
+  const isFormValid = !receiverForm.formState.isValidating && receiverForm.formState.isValid
   const receiver = isFormValid ? CheckedAddress(rawReceiver as Address) : undefined
 
   return {

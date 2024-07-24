@@ -39,7 +39,7 @@ test.describe('Withdraw USDC on Mainnet', () => {
   test('uses PSM actions native withdrawal', async () => {
     await withdrawalDialog.actionsContainer.expectActions([
       { type: 'approve', asset: 'sDAI' },
-      { type: 'usdcFromSDaiWithdraw', asset: 'USDC' },
+      { type: 'usdcFromSDaiWithdraw', asset: 'USDC', mode: 'withdraw' },
     ])
   })
 

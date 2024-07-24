@@ -85,6 +85,7 @@ export const AssetInput = forwardRef<HTMLInputElement, AssetInputProps>(
               disabled={disabled}
               size={1} // force minimum width
               value={inputValue}
+              data-testid={testIds.component.AssetInput.input}
               {...rest}
               onChange={(e) => {
                 if (e.target.value === MAX_VALUE_PLACEHOLDER.slice(0, -1)) {

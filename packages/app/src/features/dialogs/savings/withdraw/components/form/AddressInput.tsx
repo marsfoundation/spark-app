@@ -1,6 +1,7 @@
 import BoxArrowTopRight from '@/ui/assets/box-arrow-top-right.svg?react'
 import { Link } from '@/ui/atoms/link/Link'
 import { cn } from '@/ui/utils/style'
+import { testIds } from '@/ui/utils/testIds'
 import { InputHTMLAttributes, forwardRef } from 'react'
 
 interface AddressInputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -26,6 +27,7 @@ export const AddressInput = forwardRef<HTMLInputElement, AddressInputProps>(
             placeholder="Receiver address"
             type="text"
             inputMode="text"
+            data-testid={testIds.component.AddressInput.input}
             {...rest}
           />
           {blockExplorerUrl && (
@@ -40,7 +42,11 @@ export const AddressInput = forwardRef<HTMLInputElement, AddressInputProps>(
             </div>
           )}
         </div>
-        {error && <div className="text-error text-xs">{error}</div>}
+        {error && (
+          <div className="text-error text-xs" data-testid={testIds.component.AddressInput.error}>
+            {error}
+          </div>
+        )}
       </div>
     )
   },

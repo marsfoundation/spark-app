@@ -38,7 +38,7 @@ test.describe('Withdraw XDAI on Gnosis', () => {
   test('uses native sDai withdrawal', async () => {
     await withdrawalDialog.actionsContainer.expectActions([
       { type: 'approve', asset: 'sDAI' },
-      { type: 'xDaiFromSDaiWithdraw', asset: 'XDAI' },
+      { type: 'xDaiFromSDaiWithdraw', asset: 'XDAI', mode: 'withdraw' },
     ])
   })
 

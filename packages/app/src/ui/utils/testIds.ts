@@ -8,11 +8,15 @@ export const testIds = makeTestIds({
     MultiAssetSelector: {
       group: true,
     },
-    AssetSelector: true,
+    AssetSelector: {
+      trigger: true,
+      option: true,
+    },
     HealthFactorBadge: {
       value: true,
     },
     AssetInput: {
+      input: true,
       error: true,
     },
     Action: {
@@ -30,6 +34,10 @@ export const testIds = makeTestIds({
     },
     EModeButton: true,
     SuccessViewContent: true,
+    AddressInput: {
+      input: true,
+      error: true,
+    },
   },
   easyBorrow: {
     form: {
@@ -73,6 +81,9 @@ export const testIds = makeTestIds({
         },
         outcome: true,
         makerBadge: true,
+      },
+      send: {
+        addressIsSmartContractWarning: true,
       },
     },
     depositSavings: {
