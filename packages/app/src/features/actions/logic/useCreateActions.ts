@@ -3,6 +3,7 @@ import { psmActionsAddress, savingsXDaiAdapterAddress, wethGatewayAddress } from
 import { useContractAddress } from '@/domain/hooks/useContractAddress'
 import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
 import { BaseUnitNumber, NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { assert } from '@/utils/assert'
 import BigNumber from 'bignumber.js'
 import { maxUint256 } from 'viem'
 import { gnosis, mainnet } from 'viem/chains'
@@ -59,15 +60,12 @@ export function useCreateActions(objectives: Objective[]): Action[] {
           : objective.value
 
         if (objective.reserve.token.symbol === nativeAssetInfo.nativeAssetSymbol) {
-          const approveValue = objective.all
-            ? NormalizedUnitNumber(objective.value.multipliedBy(1.01).toFixed(objective.reserve.token.decimals))
-            : withdrawValue
-
+          assert(objective.gatewayApprovalValue, 'gatewayApprovalValue is required for native asset')
           const approveAction: ApproveAction = {
             type: 'approve',
             token: objective.reserve.aToken,
             spender: wethGateway,
-            value: approveValue,
+            value: objective.gatewayApprovalValue,
           }
 
           const withdrawAction: WithdrawAction = {

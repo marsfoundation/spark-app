@@ -48,6 +48,7 @@ const meta: Meta<typeof WithdrawView> = {
           token: tokens.DAI,
         }),
         value: NormalizedUnitNumber(2000),
+        gatewayApprovalValue: NormalizedUnitNumber(2000),
         all: false,
       },
     ],

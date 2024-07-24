@@ -484,7 +484,7 @@ test.describe('Withdraw dialog', () => {
         initialPage: 'dashboard',
         account: {
           type: 'connected-random',
-          assetBalances: { wstETH: 5, rETH: 1, WBTC: 1 },
+          assetBalances: { ETH: 10, wstETH: 5, rETH: 1, WBTC: 1 },
         },
       })
 
@@ -495,7 +495,7 @@ test.describe('Withdraw dialog', () => {
       await dashboardPage.clickDepositButtonAction('wstETH')
       depositDialog = new DialogPageObject(page, /Deposit/)
       await depositDialog.fillAmountAction(5)
-      await depositDialog.actionsContainer.acceptAllActionsAction(2)
+      await depositDialog.actionsContainer.acceptAllActionsAction(2, fork)
       await depositDialog.viewInDashboardAction()
       await dashboardPage.expectDepositedAssets(13_104.84)
     })
@@ -599,6 +599,45 @@ test.describe('Withdraw dialog', () => {
       await withdrawDialog.expectHealthFactorBefore('1.17')
       await withdrawDialog.expectHealthFactorAfter('1.17')
       await withdrawDialog.actionsContainer.expectActions([{ type: 'withdraw', asset: 'rETH' }])
+      await withdrawDialog.actionsContainer.expectEnabledActionAtIndex(0)
+    })
+
+    test('native asset withdrawal requires enough approval', async () => {
+      await dashboardPage.clickDepositButtonAction('WETH')
+      await depositDialog.selectAssetAction('ETH')
+      await depositDialog.fillAmountAction(5)
+      await depositDialog.actionsContainer.acceptAllActionsAction(1, fork)
+      await depositDialog.viewInDashboardAction()
+      await dashboardPage.expectDepositedAssets(24_450)
+
+      await dashboardPage.clickWithdrawButtonAction('WETH')
+      await withdrawDialog.selectAssetAction('ETH')
+      await withdrawDialog.clickMaxAmountAction()
+
+      await withdrawDialog.actionsContainer.expectActions([
+        { type: 'approve', asset: 'aWETH' },
+        { type: 'withdraw', asset: 'ETH' },
+      ])
+
+      await withdrawDialog.actionsContainer.acceptActionAtIndex(0, fork)
+      await withdrawDialog.actionsContainer.expectEnabledActionAtIndex(1)
+      await withdrawDialog.closeDialog()
+
+      await dashboardPage.clickDepositButtonAction('WETH')
+      await depositDialog.selectAssetAction('ETH')
+      await depositDialog.fillAmountAction(4)
+      await depositDialog.actionsContainer.acceptAllActionsAction(1)
+      await depositDialog.viewInDashboardAction()
+      await dashboardPage.expectDepositedAssets(33_530)
+
+      // following checks leverage the fact that approval is cached, therefore we input different values to estimate the approval value
+      await dashboardPage.clickWithdrawButtonAction('WETH')
+      await withdrawDialog.selectAssetAction('ETH')
+      await withdrawDialog.fillAmountAction(5.000001)
+      await withdrawDialog.actionsContainer.expectEnabledActionAtIndex(1)
+      await withdrawDialog.fillAmountAction(5.000003)
+      await withdrawDialog.actionsContainer.expectEnabledActionAtIndex(1)
+      await withdrawDialog.fillAmountAction(5.000004)
       await withdrawDialog.actionsContainer.expectEnabledActionAtIndex(0)
     })
   })
