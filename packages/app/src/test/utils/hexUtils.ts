@@ -19,7 +19,7 @@ export function randomHexString(length: number): string {
  * Best effort to represent ascii string as hex string. Keep in mind that multiple ascii string can map to the same hex string.
  * Example: sos => 505
  */
-export function asciiToHex(input: string) {
+export function asciiToHex(input: string): string {
   const charMap: { [c: string]: string | undefined } = {
     a: 'a',
     b: 'b',

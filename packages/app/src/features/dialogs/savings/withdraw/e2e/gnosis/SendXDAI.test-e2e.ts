@@ -1,9 +1,8 @@
-import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
 import { GNOSIS_DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
-import { getBalance } from '@/test/e2e/utils'
+import { randomAddress } from '@/test/utils/addressUtils'
 import { test } from '@playwright/test'
 import { gnosis } from 'viem/chains'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
@@ -12,7 +11,7 @@ test.describe('Send XDAI on Gnosis', () => {
   const fork = setupFork({ blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER, chainId: gnosis.id, useTenderlyVnet: true })
   let savingsPage: SavingsPageObject
   let sendDialog: SavingsDialogPageObject
-  const receiver = '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045'
+  const receiver = randomAddress('bob')
   const amount = 7000
 
   test.beforeEach(async ({ page }) => {
@@ -64,19 +63,22 @@ test.describe('Send XDAI on Gnosis', () => {
   })
 
   test('executes send', async () => {
-    const receiverBalanceBefore = await getBalance({ forkUrl: fork.forkUrl, address: receiver })
-    const actionsContainer = new ActionsPageObject(sendDialog.locatePanelByHeader('Actions'))
-    await actionsContainer.acceptAllActionsAction(2, fork)
-
-    await sendDialog.expectSuccessPage()
     await sendDialog.expectReceiverBalance({
       forkUrl: fork.forkUrl,
       receiver,
-      balanceBefore: receiverBalanceBefore,
-      withdrawalAmount: amount,
+      expectedBalance: 0,
     })
-    await sendDialog.clickBackToSavingsButton()
 
+    await sendDialog.actionsContainer.acceptAllActionsAction(2, fork)
+    await sendDialog.expectSuccessPage()
+
+    await sendDialog.expectReceiverBalance({
+      forkUrl: fork.forkUrl,
+      receiver,
+      expectedBalance: amount,
+    })
+
+    await sendDialog.clickBackToSavingsButton()
     await savingsPage.expectSavingsBalance({ sDaiBalance: '3,565.05 sDAI', estimatedDaiValue: '3,878.094168' })
     await savingsPage.expectCashInWalletAssetBalance('XDAI', '100')
   })

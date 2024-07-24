@@ -1,4 +1,3 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { getBalance, getTokenBalance } from '@/test/e2e/utils'
 import { testIds } from '@/ui/utils/testIds'
 import { Page, expect } from '@playwright/test'
@@ -48,8 +47,9 @@ export class SavingsDialogPageObject extends DialogPageObject {
   async expectAssetSelectorOptions(options: string[]): Promise<void> {
     const selectorOptions = await this.page.getByTestId(testIds.component.AssetSelector.option).all()
     expect(selectorOptions).toHaveLength(options.length)
-    for (const option of selectorOptions) {
-      await expect(option).toHaveText(options.shift()!)
+
+    for (const [index, option] of selectorOptions.entries()) {
+      await expect(option).toHaveText(options[index]!)
     }
   }
 
@@ -107,33 +107,29 @@ export class SavingsDialogPageObject extends DialogPageObject {
   async expectReceiverBalance({
     forkUrl,
     receiver,
-    balanceBefore,
-    withdrawalAmount,
+    expectedBalance,
   }: {
     forkUrl: string
     receiver: Address
-    balanceBefore: NormalizedUnitNumber
-    withdrawalAmount: number
+    expectedBalance: number
   }): Promise<void> {
     const currentBalance = await getBalance({ forkUrl, address: receiver })
-    expect(currentBalance.isEqualTo(balanceBefore.plus(NormalizedUnitNumber(withdrawalAmount)))).toBe(true)
+    expect(currentBalance.isEqualTo(expectedBalance)).toBe(true)
   }
 
   async expectReceiverTokenBalance({
     forkUrl,
     receiver,
     token,
-    tokenBalanceBefore,
-    withdrawalAmount,
+    expectedBalance,
   }: {
     forkUrl: string
     receiver: Address
     token: { address: Address; decimals: number }
-    tokenBalanceBefore: NormalizedUnitNumber
-    withdrawalAmount: number
+    expectedBalance: number
   }): Promise<void> {
     const currentTokenBalance = await getTokenBalance({ forkUrl, address: receiver, token })
-    expect(currentTokenBalance.isEqualTo(tokenBalanceBefore.plus(NormalizedUnitNumber(withdrawalAmount)))).toBe(true)
+    expect(currentTokenBalance.isEqualTo(expectedBalance)).toBe(true)
   }
   // #endregion assertions
 }

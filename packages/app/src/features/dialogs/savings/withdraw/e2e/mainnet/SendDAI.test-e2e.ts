@@ -1,9 +1,8 @@
-import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
 import { DEFAULT_BLOCK_NUMBER, TOKENS_ON_FORK } from '@/test/e2e/constants'
 import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
-import { getTokenBalance } from '@/test/e2e/utils'
+import { randomAddress } from '@/test/utils/addressUtils'
 import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
@@ -12,7 +11,7 @@ test.describe('Send DAI on Mainnet', () => {
   const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
   let savingsPage: SavingsPageObject
   let sendDialog: SavingsDialogPageObject
-  const receiver = '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045'
+  const receiver = randomAddress('bob')
   const amount = 7000
   const dai = TOKENS_ON_FORK[mainnet.id].DAI
 
@@ -62,20 +61,24 @@ test.describe('Send DAI on Mainnet', () => {
   })
 
   test('executes send', async () => {
-    const receiverDaiBalanceBefore = await getTokenBalance({ forkUrl: fork.forkUrl, address: receiver, token: dai })
-    const actionsContainer = new ActionsPageObject(sendDialog.locatePanelByHeader('Actions'))
-    await actionsContainer.acceptAllActionsAction(1, fork)
-
-    await sendDialog.expectSuccessPage()
     await sendDialog.expectReceiverTokenBalance({
       forkUrl: fork.forkUrl,
       receiver,
       token: dai,
-      tokenBalanceBefore: receiverDaiBalanceBefore,
-      withdrawalAmount: amount,
+      expectedBalance: 0,
     })
-    await sendDialog.clickBackToSavingsButton()
 
+    await sendDialog.actionsContainer.acceptAllActionsAction(1, fork)
+    await sendDialog.expectSuccessPage()
+
+    await sendDialog.expectReceiverTokenBalance({
+      forkUrl: fork.forkUrl,
+      receiver,
+      token: dai,
+      expectedBalance: amount,
+    })
+
+    await sendDialog.clickBackToSavingsButton()
     await savingsPage.expectSavingsBalance({ sDaiBalance: '3,352.90 sDAI', estimatedDaiValue: '3,530.91' })
     await savingsPage.expectCashInWalletAssetBalance('DAI', '-')
   })
