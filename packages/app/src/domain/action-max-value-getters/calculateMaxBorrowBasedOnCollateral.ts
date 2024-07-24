@@ -16,7 +16,7 @@ export function calculateMaxBorrowBasedOnCollateral({
   borrowingAssetPriceUsd,
 }: CalculateMaxBorrowBasedOnCollateralParams): NormalizedUnitNumber {
   const collateralBasedBorrowLimit = totalCollateralUSD
-    .multipliedBy(maxLoanToValue)
+    .multipliedBy(maxLoanToValue.dp(2, BigNumber.ROUND_DOWN)) // ltv in smart contracts is always represented as 4 digits - 2 for integer part and 2 for decimal part
     .minus(totalBorrowsUSD)
     .dividedBy(borrowingAssetPriceUsd)
 
