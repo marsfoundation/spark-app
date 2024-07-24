@@ -81,6 +81,7 @@ export function useWrite<TAbi extends Abi, TFunctionName extends ContractFunctio
       callbacks.onTransactionSettled?.()
 
       if (import.meta.env.VITE_PLAYWRIGHT === '1') {
+        // @note: for e2e tests needs we store sent transactions
         storeRequest(parameters?.request)
       }
     }
