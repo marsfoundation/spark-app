@@ -168,8 +168,18 @@ describe(ControlledMultiSelectorAssetInput.name, () => {
     act(() => getByRole('button', { name: 'MAX' }).click())
     await waitFor(() => expect(getByRole('textbox')).toHaveValue('MAX'))
 
-    fillInput(getByRole('textbox'), 'MAX1') // simulates pressing backspace
+    fillInput(getByRole('textbox'), 'MAX1') // simulates pressing key 1
     await waitFor(() => expect(getByRole('textbox')).toHaveValue('1'))
+  })
+
+  test('Able to past value with white spaces', async () => {
+    const input = '123 . 456'
+    const max = NormalizedUnitNumber(input.replace(/\s/g, ''))
+
+    const { getByRole } = render(<ControlledMultiSelectorAssetInputTestWrapper max={max} />)
+
+    fillInput(getByRole('textbox'), input)
+    await waitFor(() => expect(getByRole('textbox')).toHaveValue(max.toFixed()))
   })
 })
 
