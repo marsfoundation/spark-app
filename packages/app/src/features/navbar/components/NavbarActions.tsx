@@ -44,7 +44,7 @@ export function NavbarActions({
         mobileMenuCollapsed ? 'hidden lg:flex' : 'flex',
       )}
     >
-      {import.meta.env.VITE_DEV_CLAIM_REWARDS_BADGE === '1' && <RewardsBadge {...rewardsInfo} />}
+      <RewardsBadge {...rewardsInfo} />
       <AirdropBadge {...airdropInfo} />
       <NetworkSelector
         currentChain={currentChain}
