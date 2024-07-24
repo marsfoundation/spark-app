@@ -1,4 +1,5 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { Token } from '@/domain/types/Token'
 import { Form } from '@/ui/atoms/form/Form'
 import { testIds } from '@/ui/utils/testIds'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -34,13 +35,15 @@ const FormInputSchema = z
 interface ControlledMultiSelectorAssetInputTestWrapperProps {
   max?: NormalizedUnitNumber
   showMaxPlaceholder?: boolean
+  token?: Token
 }
 
 function ControlledMultiSelectorAssetInputTestWrapper({
   max,
   showMaxPlaceholder,
+  token: _token,
 }: ControlledMultiSelectorAssetInputTestWrapperProps) {
-  const token = tokens.DAI
+  const token = _token ?? tokens.DAI
 
   const form = useForm<z.infer<typeof FormInputSchema>>({
     resolver: zodResolver(FormInputSchema),
@@ -180,6 +183,22 @@ describe(ControlledMultiSelectorAssetInput.name, () => {
 
     fillInput(getByRole('textbox'), input)
     await waitFor(() => expect(getByRole('textbox')).toHaveValue(max.toFixed()))
+  })
+
+  describe('Pastes value with decimals number up to token decimals', async () => {
+    for (const token of [tokens.DAI, tokens.USDC, tokens.ETH]) {
+      test(token.symbol, async () => {
+        const input = `1234.${'5'.repeat(token.decimals)}`
+
+        const { getByRole } = render(<ControlledMultiSelectorAssetInputTestWrapper token={token} />)
+
+        fillInput(getByRole('textbox'), input)
+        await waitFor(() => expect(getByRole('textbox')).toHaveValue(input))
+
+        fillInput(getByRole('textbox'), `${input}6`)
+        expect(getByRole('textbox')).toHaveValue(input)
+      })
+    }
   })
 })
 
