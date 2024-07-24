@@ -13,7 +13,7 @@ export interface WalletBalance {
   token: Token
 }
 
-export interface WalletInfo {
+export interface MarketWalletInfo {
   isConnected: boolean
   walletBalances: WalletBalance[]
 
@@ -21,7 +21,7 @@ export interface WalletInfo {
   findWalletBalanceForSymbol: (symbol: TokenSymbol) => NormalizedUnitNumber
 }
 
-export function useWalletInfo(): WalletInfo {
+export function useMarketWalletInfo(): MarketWalletInfo {
   const { address, isConnected } = useAccount()
   const chainId = useChainId()
   const wagmiConfig = useConfig()

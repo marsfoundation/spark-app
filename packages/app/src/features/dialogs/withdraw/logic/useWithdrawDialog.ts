@@ -7,7 +7,7 @@ import { useAaveDataLayer } from '@/domain/market-info/aave-data-layer/useAaveDa
 import { updatePositionSummary } from '@/domain/market-info/updatePositionSummary'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { Token } from '@/domain/types/Token'
-import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
+import { useMarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 import { Objective } from '@/features/actions/logic/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
@@ -38,7 +38,7 @@ export interface UseWithdrawDialogResult {
 export function useWithdrawDialog({ initialToken }: UseWithdrawDialogOptions): UseWithdrawDialogResult {
   const { aaveData } = useAaveDataLayer()
   const { marketInfo } = useMarketInfo()
-  const walletInfo = useWalletInfo()
+  const walletInfo = useMarketWalletInfo()
   const nativeAssetInfo = getNativeAssetInfo(marketInfo.chainId)
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')

@@ -1,13 +1,13 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { TokenWithBalance } from '@/domain/common/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { WalletInfo } from '@/domain/wallet/useWalletInfo'
 import { bigNumberify } from '@/utils/bigNumber'
+import { MarketWalletInfo } from '../wallet/useMarketWalletInfo'
 
 export const whitelistedAssets = ['DAI', 'USDC', 'USDT', 'XDAI']
 
 export interface MakeAssetsInWalletListParams {
-  walletInfo: WalletInfo
+  walletInfo: MarketWalletInfo
   nativeRouteOptions: {
     shouldFilterNativeRoutes: boolean
     chainId: number

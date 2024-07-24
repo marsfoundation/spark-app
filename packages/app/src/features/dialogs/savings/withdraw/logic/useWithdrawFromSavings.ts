@@ -3,13 +3,13 @@ import { useSwap } from '@/domain/exchanges/useSwap'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { useActionsSettings } from '@/domain/state'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { WalletInfo } from '@/domain/wallet/useWalletInfo'
+import { MarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 import { DialogFormNormalizedData } from '@/features/dialogs/common/logic/form'
 
 interface UseSwapParams {
   formValues: DialogFormNormalizedData
   marketInfo: MarketInfo
-  walletInfo: WalletInfo
+  walletInfo: MarketWalletInfo
   enabled: boolean
 }
 

@@ -3,7 +3,7 @@ import { EModeCategoryId } from '@/domain/e-mode/types'
 import { LiquidationDetails } from '@/domain/market-info/getLiquidationDetails'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { useOpenDialog } from '@/domain/state/dialogs'
-import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
+import { useMarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
 import { useState } from 'react'
 import { Borrow, Deposit, getBorrows, getDeposits } from './assets'
@@ -25,7 +25,7 @@ export interface UseDashboardResults {
 
 export function useDashboard(): UseDashboardResults {
   const { marketInfo } = useMarketInfo()
-  const walletInfo = useWalletInfo()
+  const walletInfo = useMarketWalletInfo()
   const [compositionWithDeposits, setCompositionWithDeposits] = useState(true)
   const nativeAssetInfo = getNativeAssetInfo(marketInfo.chainId)
   const openDialog = useOpenDialog()

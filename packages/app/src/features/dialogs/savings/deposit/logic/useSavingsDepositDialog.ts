@@ -5,7 +5,7 @@ import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { useSavingsInfo } from '@/domain/savings-info/useSavingsInfo'
 import { makeAssetsInWalletList } from '@/domain/savings/makeAssetsInWalletList'
 import { Token } from '@/domain/types/Token'
-import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
+import { useMarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 import { Objective } from '@/features/actions/logic/types'
 import { AssetInputSchema, useDebouncedDialogFormValues } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
@@ -43,7 +43,7 @@ export function useSavingsDepositDialog({
   const { marketInfo } = useMarketInfo()
   const { savingsInfo } = useSavingsInfo()
   assert(savingsInfo, 'Savings info is not available')
-  const walletInfo = useWalletInfo()
+  const walletInfo = useMarketWalletInfo()
   const chainId = useChainId()
 
   const { assets: depositOptions } = makeAssetsInWalletList({

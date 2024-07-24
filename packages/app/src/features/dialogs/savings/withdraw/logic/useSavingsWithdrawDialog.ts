@@ -5,7 +5,7 @@ import { RiskAcknowledgementInfo } from '@/domain/liquidation-risk-warning/types
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { useSavingsInfo } from '@/domain/savings-info/useSavingsInfo'
 import { makeAssetsInWalletList } from '@/domain/savings/makeAssetsInWalletList'
-import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
+import { useMarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 import { Objective } from '@/features/actions/logic/types'
 import { AssetInputSchema, useDebouncedDialogFormValues } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
@@ -41,7 +41,7 @@ export function useSavingsWithdrawDialog(mode: Mode): UseSavingsWithdrawDialogRe
   const { marketInfo } = useMarketInfo()
   const { savingsInfo } = useSavingsInfo()
   assert(savingsInfo, 'Savings info is not available')
-  const walletInfo = useWalletInfo()
+  const walletInfo = useMarketWalletInfo()
   const chainId = useChainId()
 
   const [pageState, setPageState] = useState<PageState>('form')

@@ -1,12 +1,11 @@
-import { assert } from '@/utils/assert'
-
 import { NativeAssetInfo } from '@/config/chain/types'
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
-import { WalletInfo } from '@/domain/wallet/useWalletInfo'
+import { MarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 import { applyTransformers } from '@/utils/applyTransformers'
+import { assert } from '@/utils/assert'
 
 export function getTokenSupply(marketInfo: MarketInfo, withdrawAsset: TokenWithValue): NormalizedUnitNumber {
   const position = marketInfo.findOnePositionBySymbol(withdrawAsset.token.symbol)
@@ -16,7 +15,7 @@ export function getTokenSupply(marketInfo: MarketInfo, withdrawAsset: TokenWithV
 export interface GetWithdrawOptionsParams {
   token: Token
   marketInfo: MarketInfo
-  walletInfo: WalletInfo
+  walletInfo: MarketWalletInfo
   nativeAssetInfo: NativeAssetInfo
 }
 

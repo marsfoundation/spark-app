@@ -1,18 +1,16 @@
-import { UseFormReturn } from 'react-hook-form'
-import { z } from 'zod'
-
 import { getDepositMaxValue } from '@/domain/action-max-value-getters/getDepositMaxValue'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { depositValidationIssueToMessage, validateDeposit } from '@/domain/market-validators/validateDeposit'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { WalletInfo } from '@/domain/wallet/useWalletInfo'
-
+import { MarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
+import { UseFormReturn } from 'react-hook-form'
+import { z } from 'zod'
 import { AssetInputSchema } from '../../common/logic/form'
 import { FormFieldsForDialog } from '../../common/types'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function getDepositDialogFormValidator(walletInfo: WalletInfo, marketInfo: MarketInfo) {
+export function getDepositDialogFormValidator(walletInfo: MarketWalletInfo, marketInfo: MarketInfo) {
   return AssetInputSchema.superRefine((field, ctx) => {
     const value = NormalizedUnitNumber(field.value === '' ? '0' : field.value)
     const balance = walletInfo.findWalletBalanceForSymbol(field.symbol)
@@ -40,7 +38,7 @@ export function getDepositDialogFormValidator(walletInfo: WalletInfo, marketInfo
 export interface GetFormFieldsForDepositDialogArgs {
   form: UseFormReturn<AssetInputSchema>
   marketInfo: MarketInfo
-  walletInfo: WalletInfo
+  walletInfo: MarketWalletInfo
 }
 export function getFormFieldsForDepositDialog({
   form,

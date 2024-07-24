@@ -1,15 +1,13 @@
-import { UseFormReturn } from 'react-hook-form'
-import { z } from 'zod'
-
 import { NativeAssetInfo } from '@/config/chain/types'
+import { getWithdrawMaxValue } from '@/domain/action-max-value-getters/getWithdrawMaxValue'
 import { AaveData } from '@/domain/market-info/aave-data-layer/query'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { updatePositionSummary } from '@/domain/market-info/updatePositionSummary'
 import { validateWithdraw, withdrawalValidationIssueToMessage } from '@/domain/market-validators/validateWithdraw'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { WalletInfo } from '@/domain/wallet/useWalletInfo'
-
-import { getWithdrawMaxValue } from '@/domain/action-max-value-getters/getWithdrawMaxValue'
+import { MarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
+import { UseFormReturn } from 'react-hook-form'
+import { z } from 'zod'
 import { AssetInputSchema, normalizeDialogFormValues } from '../../common/logic/form'
 import { FormFieldsForDialog } from '../../common/types'
 
@@ -64,7 +62,7 @@ export function getWithdrawDialogFormValidator({
 export function getFormFieldsForWithdrawDialog(
   form: UseFormReturn<AssetInputSchema>,
   marketInfo: MarketInfo,
-  walletInfo: WalletInfo,
+  walletInfo: MarketWalletInfo,
 ): FormFieldsForDialog {
   // eslint-disable-next-line func-style
   const changeAsset = (newSymbol: TokenSymbol): void => {

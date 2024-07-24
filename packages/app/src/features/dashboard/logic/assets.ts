@@ -4,7 +4,7 @@ import { MarketInfo, UserPosition } from '@/domain/market-info/marketInfo'
 import { ReserveStatus } from '@/domain/market-info/reserve-status'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
-import { WalletInfo } from '@/domain/wallet/useWalletInfo'
+import { MarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 import { applyTransformers } from '@/utils/applyTransformers'
 
 export interface Deposit {
@@ -26,7 +26,7 @@ export interface Borrow {
 
 export interface GetDepositsParams {
   marketInfo: MarketInfo
-  walletInfo: WalletInfo
+  walletInfo: MarketWalletInfo
   nativeAssetInfo: NativeAssetInfo
 }
 export function getDeposits({ marketInfo, walletInfo, nativeAssetInfo }: GetDepositsParams): Deposit[] {
