@@ -1,4 +1,3 @@
-import { assert } from '@/utils/assert'
 import { X } from 'lucide-react'
 import { forwardRef } from 'react'
 
@@ -14,7 +13,7 @@ import { parseBigNumber } from '@/utils/bigNumber'
 import BigNumber from 'bignumber.js'
 
 export type AssetInputProps = {
-  token?: Token
+  token: Token
   className?: string | undefined
   onRemove?: () => void
   setMax?: () => void
@@ -48,7 +47,6 @@ export const AssetInput = forwardRef<HTMLInputElement, AssetInputProps>(
     },
     ref,
   ) => {
-    assert(!(balance && !token), 'token should be defined if balance is defined')
     const inputValue = (() => {
       if (isMaxSelected) {
         if (showMaxPlaceholder) {
@@ -105,7 +103,10 @@ export const AssetInput = forwardRef<HTMLInputElement, AssetInputProps>(
                 e.target.value = e.target.value.replace(/,/g, '.')
                 e.target.value = e.target.value.replace(/\s/g, '')
                 const value = e.target.value
-                if (!value || (decimalNumberRegex.test(value) && (value.split('.')[1]?.length ?? 0) <= 6)) {
+                if (
+                  !value ||
+                  (decimalNumberRegex.test(value) && (value.split('.')[1]?.length ?? 0) <= token.decimals)
+                ) {
                   onChange?.(e)
                 }
               }}
