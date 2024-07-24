@@ -185,7 +185,7 @@ describe(ControlledMultiSelectorAssetInput.name, () => {
     await waitFor(() => expect(getByRole('textbox')).toHaveValue(max.toFixed()))
   })
 
-  describe('Pasts value with decimals number up to token decimals', async () => {
+  describe('Pastes value with decimals number up to token decimals', async () => {
     for (const token of [tokens.DAI, tokens.USDC, tokens.ETH]) {
       test(token.symbol, async () => {
         const input = `1234.${'5'.repeat(token.decimals)}`
