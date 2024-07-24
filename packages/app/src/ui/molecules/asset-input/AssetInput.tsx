@@ -103,6 +103,7 @@ export const AssetInput = forwardRef<HTMLInputElement, AssetInputProps>(
                 }
 
                 e.target.value = e.target.value.replace(/,/g, '.')
+                e.target.value = e.target.value.replace(/\s/g, '')
                 const value = e.target.value
                 if (!value || (decimalNumberRegex.test(value) && (value.split('.')[1]?.length ?? 0) <= 6)) {
                   onChange?.(e)
