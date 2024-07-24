@@ -72,7 +72,7 @@ export async function setup<K extends keyof typeof paths, T extends ConnectionTy
   } else {
     await injectNetworkConfiguration(page, forkContext.forkUrl, forkContext.chainId)
   }
-  await injectFixedDate(page, forkContext.simulationDate, { fixNowMethod: forkContext.isVnet })
+  await injectFixedDate(page, forkContext.simulationDate)
   let address: Address | undefined
 
   if (options.account.type !== 'not-connected') {

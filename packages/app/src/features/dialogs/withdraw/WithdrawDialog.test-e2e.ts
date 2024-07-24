@@ -10,8 +10,6 @@ import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
 import { screenshot } from '@/test/e2e/utils'
 
-import { expectTransactionToBeSent } from '@/test/e2e/assertions'
-import { erc20Abi } from 'viem'
 import { CollateralDialogPageObject } from '../collateral/CollateralDialog.PageObject'
 import { DialogPageObject } from '../common/Dialog.PageObject'
 import { EModeDialogPageObject } from '../e-mode/EModeDialog.PageObject'
@@ -19,7 +17,7 @@ import { withdrawValidationIssueToMessage } from '../savings/withdraw/logic/vali
 
 const headerRegExp = /Withdr*/
 
-test.describe('Setup with fork', () => {
+test.describe('Withdraw dialog', () => {
   const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id })
   const initialBalances = {
     wstETH: 100,
@@ -603,38 +601,14 @@ test.describe('Setup with fork', () => {
       await withdrawDialog.actionsContainer.expectActions([{ type: 'withdraw', asset: 'rETH' }])
       await withdrawDialog.actionsContainer.expectEnabledActionAtIndex(0)
     })
-  })
-})
 
-test.describe('Setup with virtual testnets', () => {
-  const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
-
-  test.describe('MAX button', () => {
-    let withdrawDialog: DialogPageObject
-    let depositDialog: DialogPageObject
-    let dashboardPage: DashboardPageObject
-
-    test.beforeEach(async ({ page }) => {
-      await setup(page, fork, {
-        initialPage: 'dashboard',
-        account: {
-          type: 'connected-random',
-          assetBalances: { ETH: 10, wstETH: 5 },
-        },
-      })
-
-      withdrawDialog = new DialogPageObject(page, headerRegExp)
-      dashboardPage = new DashboardPageObject(page)
-      depositDialog = new DialogPageObject(page, /Deposit/)
-    })
-
-    test('native asset withdrawal requires enough approval', async ({ page }) => {
+    test('native asset withdrawal requires enough approval', async () => {
       await dashboardPage.clickDepositButtonAction('WETH')
       await depositDialog.selectAssetAction('ETH')
       await depositDialog.fillAmountAction(5)
       await depositDialog.actionsContainer.acceptAllActionsAction(1, fork)
       await depositDialog.viewInDashboardAction()
-      await dashboardPage.expectDepositedAssets(11_350)
+      await dashboardPage.expectDepositedAssets(24_450)
 
       await dashboardPage.clickWithdrawButtonAction('WETH')
       await withdrawDialog.selectAssetAction('ETH')
@@ -649,12 +623,22 @@ test.describe('Setup with virtual testnets', () => {
       await withdrawDialog.actionsContainer.expectEnabledActionAtIndex(1)
       await withdrawDialog.closeDialog()
 
-      await expectTransactionToBeSent(page, {
-        abi: erc20Abi,
-        functionName: 'approve',
-        address: '0x59cD1C87501baa753d0B5B5Ab5D8416A45cD71DB',
-        args: ['0xBD7D6a9ad7865463DE44B05F04559f65e3B11704', 5000003740582427923n],
-      })
+      await dashboardPage.clickDepositButtonAction('WETH')
+      await depositDialog.selectAssetAction('ETH')
+      await depositDialog.fillAmountAction(4)
+      await depositDialog.actionsContainer.acceptAllActionsAction(1)
+      await depositDialog.viewInDashboardAction()
+      await dashboardPage.expectDepositedAssets(33_530)
+
+      // following checks leverage the fact that approval is cached, therefore we input different values to estimate the approval value
+      await dashboardPage.clickWithdrawButtonAction('WETH')
+      await withdrawDialog.selectAssetAction('ETH')
+      await withdrawDialog.fillAmountAction(5.000001)
+      await withdrawDialog.actionsContainer.expectEnabledActionAtIndex(1)
+      await withdrawDialog.fillAmountAction(5.000003)
+      await withdrawDialog.actionsContainer.expectEnabledActionAtIndex(1)
+      await withdrawDialog.fillAmountAction(5.000004)
+      await withdrawDialog.actionsContainer.expectEnabledActionAtIndex(0)
     })
   })
 })
