@@ -1,4 +1,3 @@
-import { assert } from '@/utils/assert'
 import { X } from 'lucide-react'
 import { forwardRef } from 'react'
 
@@ -14,11 +13,10 @@ import { parseBigNumber } from '@/utils/bigNumber'
 import BigNumber from 'bignumber.js'
 
 export type AssetInputProps = {
-  token?: Token
+  token: Token
   className?: string | undefined
   onRemove?: () => void
   setMax?: () => void
-  showMaxPlaceholder?: boolean
   isMaxSelected?: boolean
   balance?: NormalizedUnitNumber
   disabled?: boolean
@@ -42,19 +40,13 @@ export const AssetInput = forwardRef<HTMLInputElement, AssetInputProps>(
       onChange,
       variant = 'crypto',
       walletIconLabel,
-      showMaxPlaceholder,
       isMaxSelected,
       ...rest
     },
     ref,
   ) => {
-    assert(!(balance && !token), 'token should be defined if balance is defined')
     const inputValue = (() => {
       if (isMaxSelected) {
-        if (showMaxPlaceholder) {
-          return MAX_VALUE_PLACEHOLDER
-        }
-
         const valueAsBigNumber = BigNumber(value)
         if (!valueAsBigNumber.isNaN()) {
           return valueAsBigNumber.dp(6).toFixed()
@@ -88,23 +80,13 @@ export const AssetInput = forwardRef<HTMLInputElement, AssetInputProps>(
               data-testid={testIds.component.AssetInput.input}
               {...rest}
               onChange={(e) => {
-                if (e.target.value === MAX_VALUE_PLACEHOLDER.slice(0, -1)) {
-                  // backspace was pressed while MAX was selected
-                  setMax?.()
-                  return
-                }
-
-                if (
-                  e.target.value.slice(0, -1) === MAX_VALUE_PLACEHOLDER &&
-                  !Number.isNaN(Number(e.target.value.at(-1)))
-                ) {
-                  // erase MAX placeholder if a digit is typed
-                  e.target.value = e.target.value.at(-1) ?? ''
-                }
-
                 e.target.value = e.target.value.replace(/,/g, '.')
+                e.target.value = e.target.value.replace(/\s/g, '')
                 const value = e.target.value
-                if (!value || (decimalNumberRegex.test(value) && (value.split('.')[1]?.length ?? 0) <= 6)) {
+                if (
+                  !value ||
+                  (decimalNumberRegex.test(value) && (value.split('.')[1]?.length ?? 0) <= token.decimals)
+                ) {
                   onChange?.(e)
                 }
               }}
@@ -166,5 +148,4 @@ export const AssetInput = forwardRef<HTMLInputElement, AssetInputProps>(
 
 AssetInput.displayName = 'AssetInput'
 
-export const MAX_VALUE_PLACEHOLDER = 'MAX'
 const decimalNumberRegex = /^\d+\.?\d*$/

@@ -1,19 +1,17 @@
+import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
-import { getMobileStory } from '@storybook/viewports'
-
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { tokens } from '@storybook/tokens'
-import { MakerTransactionOverview } from './MakerTransactionOverview'
+import { getMobileStory } from '@storybook/viewports'
+import { TransactionOverview } from './TransactionOverview'
 
-const meta: Meta<typeof MakerTransactionOverview> = {
-  title: 'Features/Dialogs/Savings/Components/MakerTransactionOverview',
-  component: MakerTransactionOverview,
+const meta: Meta<typeof TransactionOverview> = {
+  title: 'Features/Dialogs/Savings/Components/TransactionOverview',
+  component: TransactionOverview,
   decorators: [WithClassname('max-w-xl'), WithTooltipProvider()],
   args: {
     txOverview: {
       dai: tokens.DAI,
-      type: 'maker',
       status: 'success',
       APY: Percentage(0.05),
       daiEarnRate: NormalizedUnitNumber(542),
@@ -28,7 +26,7 @@ const meta: Meta<typeof MakerTransactionOverview> = {
 }
 
 export default meta
-type Story = StoryObj<typeof MakerTransactionOverview>
+type Story = StoryObj<typeof TransactionOverview>
 
 export const Desktop: Story = {}
 export const Mobile: Story = getMobileStory(Desktop)

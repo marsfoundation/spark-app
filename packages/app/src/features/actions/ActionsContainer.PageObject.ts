@@ -40,9 +40,14 @@ export class ActionsPageObject extends BasePageObject {
     }
   }
 
-  async acceptActionAtIndex(index: number): Promise<void> {
+  async acceptActionAtIndex(index: number, forkContext?: ForkContext): Promise<void> {
     const row = this.region.getByTestId(testIds.actions.row(index))
     await row.getByRole('button', { name: actionButtonRegex }).click()
+    // @note: we are setting block timestamp of the next tx (especially after executing all txs)
+    if (forkContext?.isVnet) {
+      await expect(row.getByRole('button', { name: actionButtonRegex })).not.toBeVisible()
+      await forkContext.progressSimulation(this.page, 5)
+    }
   }
 
   async switchPreferPermitsAction(): Promise<void> {
@@ -102,10 +107,6 @@ export class ActionsPageObject extends BasePageObject {
   async expectActionAtIndex(index: number, expectedAction: SimplifiedAction): Promise<void> {
     const row = this.locateActionAtIndex(index)
     await expect(row).toContainText(actionToTitle(expectedAction))
-
-    if (expectedAction.type === 'exchange') {
-      await expectExchangeActionRow(row, expectedAction)
-    }
   }
 
   async expectEnabledActionAtIndex(index: number, expectedAction?: SimplifiedAction): Promise<void> {
@@ -120,16 +121,6 @@ export class ActionsPageObject extends BasePageObject {
   async expectDisabledActionAtIndex(index: number): Promise<void> {
     const row = this.locateActionAtIndex(index)
     await expect(row.getByRole('button', { name: actionButtonRegex, disabled: true })).toBeVisible()
-  }
-
-  async expectSlippage(slippage: number): Promise<void> {
-    await expect(this.region.getByTestId(testIds.actions.flavours.exchangeActionRow.slippage)).toHaveText(
-      formatPercentage(Percentage(slippage), { minimumFractionDigits: 1 }),
-    )
-  }
-
-  async expectSlippageValidationError(error: string): Promise<void> {
-    await expect(this.locateSettingsDialog().getByTestId(testIds.actions.settings.slippage.error)).toHaveText(error)
   }
 
   async expectExtendedActions(actions: SimplifiedExtendedAction[]): Promise<void> {
@@ -147,21 +138,11 @@ export class ActionsPageObject extends BasePageObject {
   // #endregion assertions
 }
 
-type SimplifiedExchangeAction = {
-  type: 'exchange'
-  inputAsset: string
-  outputAsset: string
-  fee?: string
-  slippage?: string
-  finalToTokenAmount?: string
-  finalDAIAmount?: string
-}
-
 type BaseAction = {
   asset: string
 }
 
-type SimplifiedNativeWithdrawAction = BaseAction & {
+type SimplifiedWithdrawAction = BaseAction & {
   type: 'daiFromSDaiWithdraw' | 'usdcFromSDaiWithdraw' | 'xDaiFromSDaiWithdraw'
   mode: 'send' | 'withdraw'
 }
@@ -170,7 +151,7 @@ type SimplifiedGenericAction = BaseAction & {
   type: Exclude<ActionType, 'exchange' | 'daiFromSDaiWithdraw' | 'usdcFromSDaiWithdraw' | 'xDaiFromSDaiWithdraw'>
 }
 
-type SimplifiedAction = SimplifiedGenericAction | SimplifiedExchangeAction | SimplifiedNativeWithdrawAction
+type SimplifiedAction = SimplifiedGenericAction | SimplifiedWithdrawAction
 
 function actionToTitle(action: SimplifiedAction): string {
   switch (action.type) {
@@ -192,10 +173,6 @@ function actionToTitle(action: SimplifiedAction): string {
       return '' // not used in collateral dialog tests
     case 'setUserEMode':
       return '' // not used in e-mode dialog tests
-    case 'approveExchange':
-      return `Approve exchange ${action.asset}`
-    case 'exchange':
-      return `Convert ${action.inputAsset} to ${action.outputAsset}`
     case 'daiToSDaiDeposit':
     case 'usdcToSDaiDeposit':
     case 'xDaiToSDaiDeposit':
@@ -223,29 +200,6 @@ const actionVerbs = [
   'Claim',
 ]
 const actionButtonRegex = new RegExp(`^(${actionVerbs.join('|')})$`)
-
-// exchange action deserves a special treatment as it's the only one with extra fields on UI
-async function expectExchangeActionRow(exchangeRow: Locator, action: SimplifiedExchangeAction): Promise<void> {
-  await expect(exchangeRow.getByTestId(testIds.actions.flavours.exchangeActionRow.lifiBadge)).toBeVisible()
-  if (action.fee) {
-    await expect(exchangeRow.getByTestId(testIds.actions.flavours.exchangeActionRow.fee)).toHaveText(action.fee)
-  }
-  if (action.slippage) {
-    await expect(exchangeRow.getByTestId(testIds.actions.flavours.exchangeActionRow.slippage)).toHaveText(
-      action.slippage,
-    )
-  }
-  if (action.finalDAIAmount) {
-    await expect(exchangeRow.getByTestId(testIds.actions.flavours.exchangeActionRow.finalDAIAmount)).toContainText(
-      action.finalDAIAmount,
-    )
-  }
-  if (action.finalToTokenAmount) {
-    await expect(exchangeRow.getByTestId(testIds.actions.flavours.exchangeActionRow.finalToTokenAmount)).toHaveText(
-      action.finalToTokenAmount,
-    )
-  }
-}
 
 type SimplifiedExtendedAction =
   | { type: 'approve'; asset: string; amount: number }

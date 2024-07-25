@@ -1,4 +1,4 @@
-import { test } from '@playwright/test'
+import { Page, test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
 
 import { repayValidationIssueToMessage } from '@/domain/market-validators/validateRepay'
@@ -10,6 +10,10 @@ import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
 import { screenshot } from '@/test/e2e/utils'
 
+import { tenderlyRpcActions } from '@/domain/tenderly/TenderlyRpcActions'
+import { BaseUnitNumber, NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { injectFixedDate } from '@/test/e2e/injectSetup'
+import { http, Address, createPublicClient } from 'viem'
 import { DialogPageObject } from '../common/Dialog.PageObject'
 
 const headerRegExp = /Repa*/
@@ -212,35 +216,129 @@ test.describe('Repay dialog', () => {
   })
 
   test.describe('Position when borrowed asset was not in user wallet before', () => {
+    const DAI_ADDRESS = '0x6B175474E89094C44Da98b954EedeAC495271d0F'
+    const DAI_DECIMALS = 18
+
     const initialDeposits = {
-      wstETH: 1000,
+      wstETH: 10,
     } as const
-    const daiToBorrow = 1_000_000
+
+    const daiToBorrow = 10_000
+    const daiDebtIncreaseIn1Epoch = 1.0000029476774694 // hardcoded for DAI borrow rate 5.53%
+    const daiDebtIncreaseIn2Epochs = 1.0000058953636277 // hardcoded for DAI borrow rate 5.53%
+
+    let account: Address
+    let dashboardPage: DashboardPageObject
+    let repayDialog: DialogPageObject
+
+    async function overrideDaiBalance({ balance, page }: { balance: BaseUnitNumber; page: Page }): Promise<void> {
+      await tenderlyRpcActions.setTokenBalance(fork.forkUrl, DAI_ADDRESS, account, balance)
+      await page.reload()
+    }
 
     test.beforeEach(async ({ page }) => {
-      await setup(page, fork, {
+      ;({ account } = await setup(page, fork, {
         initialPage: 'easyBorrow',
         account: {
           type: 'connected-random',
-          assetBalances: { wstETH: 10_000 },
+          assetBalances: { wstETH: 10 },
         },
-      })
+      }))
 
       const borrowPage = new BorrowPageObject(page)
       await borrowPage.depositAssetsActions(initialDeposits, daiToBorrow)
       await borrowPage.viewInDashboardAction()
 
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.expectAssetToBeInDepositTable('wstETH')
+      dashboardPage = new DashboardPageObject(page)
+      repayDialog = new DialogPageObject(page, headerRegExp)
+
+      await dashboardPage.expectHealthFactor('2.08')
+
+      // forcefully set browser time to the timestamp of borrow transaction
+      const publicClient = createPublicClient({
+        transport: http(fork.forkUrl),
+      })
+      const block = await publicClient.getBlock()
+      await injectFixedDate(page, new Date(Number(block.timestamp) * 1000))
+      await page.reload()
     })
 
-    test('can repay using whole wallet balance of an asset', async ({ page }) => {
+    test('can repay if balance is less than debt', async ({ page }) => {
+      const newBalance = 0.9 * daiToBorrow
+      const repay = {
+        asset: 'DAI',
+        amount: newBalance,
+      } as const
+
+      await overrideDaiBalance({
+        balance: BaseUnitNumber(NormalizedUnitNumber(newBalance).shiftedBy(DAI_DECIMALS)),
+        page,
+      })
+
+      await dashboardPage.clickRepayButtonAction(repay.asset)
+
+      await repayDialog.clickMaxAmountAction()
+      const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
+      await actionsContainer.acceptAllActionsAction(2)
+      await repayDialog.expectSuccessPage([repay], fork)
+
+      await repayDialog.viewInDashboardAction()
+
+      await dashboardPage.expectNonZeroAmountInBorrowTable(repay.asset)
+    })
+
+    test('can repay if balance gt debt but lt debt after 1 epoch', async ({ page }) => {
+      // The test asserts and edge case where user's balance is greater than debt, but less than debt after 1 epoch (30 minutes).
+      // In this case the current implementation does not try to repay the debt including the interest accrued in the following time period
+      // before the repay transaction is mined. Only the current debt is repaid. Therefore after the repay transaction some dust
+      // (accrued interest) is left in the user's borrow table.
       const repay = {
         asset: 'DAI',
         amount: daiToBorrow,
       } as const
 
-      const dashboardPage = new DashboardPageObject(page)
+      const daiDebtIn1Epoch = NormalizedUnitNumber(daiToBorrow).times(daiDebtIncreaseIn1Epoch)
+      // newBalance = (daiToBorrow, daiDebtIn1Epoch) / 2 - a number somewhere between daiToBorrow and daiDebtIn1Epoch
+      const newBalance = BaseUnitNumber(daiDebtIn1Epoch.plus(daiToBorrow).div(2).shiftedBy(DAI_DECIMALS))
+      await overrideDaiBalance({
+        balance: newBalance,
+        page,
+      })
+
+      await dashboardPage.clickRepayButtonAction(repay.asset)
+
+      await repayDialog.clickMaxAmountAction()
+      const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
+      await actionsContainer.acceptAllActionsAction(2)
+      await repayDialog.expectSuccessPage(
+        [
+          {
+            asset: repay.asset,
+            amount: daiToBorrow,
+          },
+        ],
+        fork,
+      )
+
+      await repayDialog.viewInDashboardAction()
+
+      await dashboardPage.expectNonZeroAmountInBorrowTable(repay.asset)
+    })
+
+    test('can repay if balance gt debt after 1 epoch but lt debt after 2 epochs', async ({ page }) => {
+      const repay = {
+        asset: 'DAI',
+        amount: daiToBorrow,
+      } as const
+
+      const daiDebtIn1Epoch = NormalizedUnitNumber(daiToBorrow).times(daiDebtIncreaseIn1Epoch)
+      const daiDebtIn2Epochs = NormalizedUnitNumber(daiToBorrow).times(daiDebtIncreaseIn2Epochs)
+      // newBalance = (daiDebtIn1Epoch + daiDebtIn2Epochs) / 2 - a number somewhere between daiDebtIn1Epoch and daiDebtIn2Epochs
+      const newBalance = BaseUnitNumber(daiDebtIn2Epochs.plus(daiDebtIn1Epoch).div(2).shiftedBy(DAI_DECIMALS))
+      await overrideDaiBalance({
+        balance: newBalance,
+        page,
+      })
 
       await dashboardPage.clickRepayButtonAction(repay.asset)
 
@@ -248,13 +346,21 @@ test.describe('Repay dialog', () => {
       await repayDialog.clickMaxAmountAction()
       const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
       await actionsContainer.acceptAllActionsAction(2)
-      await repayDialog.expectSuccessPage([repay], fork)
-
-      await screenshot(repayDialog.getDialog(), 'repay-dialog-whole-balance-dai-success')
+      await repayDialog.expectSuccessPage(
+        [
+          {
+            asset: repay.asset,
+            amount: daiToBorrow,
+          },
+        ],
+        fork,
+      )
 
       await repayDialog.viewInDashboardAction()
 
-      await dashboardPage.expectNonZeroAmountInBorrowTable(repay.asset)
+      await dashboardPage.expectBorrowTable({
+        [repay.asset]: 0,
+      })
     })
   })
 

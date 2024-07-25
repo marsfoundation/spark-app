@@ -1,10 +1,10 @@
 import BigNumber from 'bignumber.js'
 import { useState } from 'react'
 import { LIQUIDATION_DANGER_HEALTH_FACTOR_THRESHOLD } from '../common/risk'
-import { LiquidationRiskWarning, RiskAcknowledgementInfo } from './types'
+import { RiskAcknowledgementInfo, RiskWarning } from './types'
 
 export interface UseLiquidationRiskWarningParams {
-  type: LiquidationRiskWarning['type']
+  type: RiskWarning['type']
   isFormValid: boolean
   currentHealthFactor: BigNumber | undefined
   updatedHealthFactor: BigNumber | undefined

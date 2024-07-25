@@ -101,20 +101,8 @@ export const testIds = makeTestIds({
   actions: {
     settings: {
       dialog: true,
-      slippage: {
-        error: true,
-      },
     },
     row: (index: number) => index,
-    flavours: {
-      exchangeActionRow: {
-        lifiBadge: true,
-        slippage: true,
-        fee: true,
-        finalDAIAmount: true,
-        finalToTokenAmount: true,
-      },
-    },
   },
   navbar: {
     airdropBadge: true,

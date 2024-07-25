@@ -1,11 +1,9 @@
 import { WriteErrorKind } from '@/domain/hooks/useWrite'
 import { ApproveDelegationAction } from '../flavours/approve-delegation/types'
-import { ApproveExchangeAction } from '../flavours/approve-exchange/types'
 import { ApproveAction } from '../flavours/approve/types'
 import { BorrowAction, BorrowObjective } from '../flavours/borrow/types'
 import { ClaimRewardsAction, ClaimRewardsObjective } from '../flavours/claim-rewards/types'
 import { DepositAction, DepositObjective } from '../flavours/deposit/types'
-import { ExchangeAction, ExchangeObjective } from '../flavours/exchange/types'
 import { DaiToSDaiDepositAction, DaiToSDaiDepositObjective } from '../flavours/native-sdai-deposit/dai-to-sdai/types'
 import { USDCToSDaiDepositAction, USDCToSDaiDepositObjective } from '../flavours/native-sdai-deposit/usdc-to-sdai/types'
 import { XDaiToSDaiDepositAction, XDaiToSDaiDepositObjective } from '../flavours/native-sdai-deposit/xdai-to-sdai/types'
@@ -37,7 +35,6 @@ export type Objective =
   | RepayObjective
   | SetUseAsCollateralObjective
   | SetUserEModeObjective
-  | ExchangeObjective
   | DaiToSDaiDepositObjective
   | DaiFromSDaiWithdrawObjective
   | USDCToSDaiDepositObjective
@@ -56,8 +53,6 @@ export type Action =
   | RepayAction
   | SetUseAsCollateralAction
   | SetUserEModeAction
-  | ApproveExchangeAction
-  | ExchangeAction
   | DaiToSDaiDepositAction
   | DaiFromSDaiWithdrawAction
   | USDCToSDaiDepositAction

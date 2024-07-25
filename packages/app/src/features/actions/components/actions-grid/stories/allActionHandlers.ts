@@ -1,9 +1,8 @@
 import { tokens } from '@storybook/tokens'
-import { fakeBigInt } from '@storybook/utils'
 import { zeroAddress } from 'viem'
 
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
-import { BaseUnitNumber, NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { ActionHandler, ActionType } from '@/features/actions/logic/types'
 import { getMockReserve } from '@/test/integration/constants'
 
@@ -35,47 +34,6 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
       debtTokenAddress: tokens.WETH.address,
       delegatee: CheckedAddress(zeroAddress),
       value: NormalizedUnitNumber(1),
-    },
-    state: { status: 'ready' },
-    onAction: () => {},
-  },
-  approveExchange: {
-    action: {
-      type: 'approveExchange',
-      swapParams: {
-        fromToken: tokens.USDC,
-        toToken: tokens.sDAI,
-        type: 'direct',
-        value: NormalizedUnitNumber(1),
-        meta: {
-          fee: Percentage(0),
-          integratorKey: 'spark_waivefee',
-          maxSlippage: Percentage(0.005),
-        },
-      },
-      swapInfo: {
-        status: 'success',
-        data: {
-          fromToken: tokens.USDC.address,
-          toToken: tokens.sDAI.address,
-          type: 'direct',
-          txRequest: {
-            data: '0x',
-            from: zeroAddress,
-            gasLimit: fakeBigInt,
-            gasPrice: fakeBigInt,
-            to: zeroAddress,
-            value: fakeBigInt,
-          },
-          estimate: {
-            feeCostsUSD: NormalizedUnitNumber(0),
-            fromAmount: BaseUnitNumber(1e6),
-            toAmount: BaseUnitNumber(1e18),
-            toAmountMin: BaseUnitNumber(1e18),
-          },
-        },
-        error: null,
-      },
     },
     state: { status: 'ready' },
     onAction: () => {},
@@ -132,47 +90,6 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
       type: 'withdraw',
       token: tokens.wstETH,
       value: NormalizedUnitNumber(12),
-    },
-    state: { status: 'ready' },
-    onAction: () => {},
-  },
-  exchange: {
-    action: {
-      type: 'exchange',
-      swapParams: {
-        fromToken: tokens.USDT,
-        toToken: tokens.sDAI,
-        type: 'direct',
-        value: NormalizedUnitNumber(1023),
-        meta: {
-          fee: Percentage(0),
-          integratorKey: 'spark_waivefee',
-          maxSlippage: Percentage(0.005),
-        },
-      },
-      swapInfo: {
-        data: {
-          fromToken: tokens.USDT.address,
-          toToken: tokens.sDAI.address,
-          type: 'direct',
-          estimate: {
-            feeCostsUSD: NormalizedUnitNumber(3.33),
-            fromAmount: BaseUnitNumber(1e6),
-            toAmount: BaseUnitNumber(1e18),
-            toAmountMin: BaseUnitNumber(1e18),
-          },
-          txRequest: {
-            data: '0x',
-            from: zeroAddress,
-            gasLimit: fakeBigInt,
-            gasPrice: fakeBigInt,
-            to: zeroAddress,
-            value: fakeBigInt,
-          },
-        },
-        status: 'success',
-      },
-      value: NormalizedUnitNumber(1023),
     },
     state: { status: 'ready' },
     onAction: () => {},

@@ -1,7 +1,8 @@
 import { useEffect } from 'react'
-import { Abi, ContractFunctionName } from 'viem'
+import { Abi, ContractFunctionName, encodeFunctionData } from 'viem'
 import { UseSimulateContractParameters, useAccount, useSimulateContract, useWriteContract } from 'wagmi'
 
+import { __TX_LIST_KEY } from '@/test/e2e/constants'
 import { sanityCheckTx } from './sanityChecks'
 import { useOriginChainId } from './useOriginChainId'
 import { useWaitForTransactionReceiptUniversal } from './useWaitForTransactionReceiptUniversal'
@@ -78,6 +79,11 @@ export function useWrite<TAbi extends Abi, TFunctionName extends ContractFunctio
   useEffect(() => {
     if (txReceipt) {
       callbacks.onTransactionSettled?.()
+
+      if (import.meta.env.VITE_PLAYWRIGHT === '1') {
+        // @note: for e2e tests needs we store sent transactions
+        storeRequest(parameters?.request)
+      }
     }
   }, [txReceipt])
 
@@ -135,4 +141,14 @@ export function ensureConfigTypes<
   TFunctionName extends ContractFunctionName<TAbi, 'nonpayable' | 'payable'>,
 >(config: UseSimulateContractParameters<TAbi, TFunctionName>): UseSimulateContractParameters<Abi, string> {
   return config as any
+}
+
+function storeRequest(request: any): void {
+  if (!request) {
+    return
+  }
+  const txList: any[] = Array.isArray(window[__TX_LIST_KEY]) ? (window[__TX_LIST_KEY] as any) : []
+  const calldata = encodeFunctionData(request as any)
+  txList.push({ ...request, calldata })
+  window[__TX_LIST_KEY] = txList as any
 }

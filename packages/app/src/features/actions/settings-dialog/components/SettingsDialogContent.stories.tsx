@@ -1,10 +1,6 @@
 import { WithClassname } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
-import { useForm } from 'react-hook-form'
-
-import { Percentage } from '@/domain/types/NumericValues'
-
 import { SettingsDialogContent } from './SettingsDialogContent'
 
 const meta: Meta<typeof SettingsDialogContent> = {
@@ -12,17 +8,10 @@ const meta: Meta<typeof SettingsDialogContent> = {
   component: SettingsDialogContent,
   decorators: [WithClassname('max-w-xl')],
   render: () => {
-    const form = useForm() as any
     return (
       <SettingsDialogContent
         onConfirm={() => {}}
         permitsSettings={{ preferPermits: true, togglePreferPermits: () => {} }}
-        slippageSettings={{
-          form,
-          slippage: Percentage(0.005),
-          type: 'button',
-          onSlippageChange: () => {},
-        }}
       />
     )
   },

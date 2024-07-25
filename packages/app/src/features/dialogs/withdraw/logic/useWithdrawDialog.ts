@@ -4,6 +4,7 @@ import { useConditionalFreeze } from '@/domain/hooks/useConditionalFreeze'
 import { RiskAcknowledgementInfo } from '@/domain/liquidation-risk-warning/types'
 import { useLiquidationRiskWarning } from '@/domain/liquidation-risk-warning/useLiquidationRiskWarning'
 import { useAaveDataLayer } from '@/domain/market-info/aave-data-layer/useAaveDataLayer'
+import { EPOCH_LENGTH } from '@/domain/market-info/consts'
 import { updatePositionSummary } from '@/domain/market-info/updatePositionSummary'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { Token } from '@/domain/types/Token'
@@ -38,6 +39,7 @@ export interface UseWithdrawDialogResult {
 export function useWithdrawDialog({ initialToken }: UseWithdrawDialogOptions): UseWithdrawDialogResult {
   const { aaveData } = useAaveDataLayer()
   const { marketInfo } = useMarketInfo()
+  const { marketInfo: marketInfoIn1Epoch } = useMarketInfo({ timeAdvance: EPOCH_LENGTH })
   const walletInfo = useMarketWalletInfo()
   const nativeAssetInfo = getNativeAssetInfo(marketInfo.chainId)
 
@@ -73,7 +75,10 @@ export function useWithdrawDialog({ initialToken }: UseWithdrawDialogOptions): U
 
   const updatedTokenSupply = getTokenSupply(marketInfo, withdrawAsset)
 
-  const objectives = createWithdrawObjectives(withdrawAsset)
+  const objectives = createWithdrawObjectives({
+    formValues: withdrawAsset,
+    marketInfoIn1Epoch,
+  })
 
   const currentPositionOverview = {
     healthFactor: marketInfo.userPositionSummary.healthFactor,

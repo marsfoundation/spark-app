@@ -1,4 +1,5 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { Token } from '@/domain/types/Token'
 import { Form } from '@/ui/atoms/form/Form'
 import { testIds } from '@/ui/utils/testIds'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -33,14 +34,14 @@ const FormInputSchema = z
 
 interface ControlledMultiSelectorAssetInputTestWrapperProps {
   max?: NormalizedUnitNumber
-  showMaxPlaceholder?: boolean
+  token?: Token
 }
 
 function ControlledMultiSelectorAssetInputTestWrapper({
   max,
-  showMaxPlaceholder,
+  token: _token,
 }: ControlledMultiSelectorAssetInputTestWrapperProps) {
-  const token = tokens.DAI
+  const token = _token ?? tokens.DAI
 
   const form = useForm<z.infer<typeof FormInputSchema>>({
     resolver: zodResolver(FormInputSchema),
@@ -61,7 +62,6 @@ function ControlledMultiSelectorAssetInputTestWrapper({
         token={token}
         maxSelectedFieldName="isMaxSelected"
         max={max}
-        showMaxPlaceholder={showMaxPlaceholder}
       />
     </Form>
   )
@@ -102,13 +102,6 @@ describe(ControlledMultiSelectorAssetInput.name, () => {
     fillInput(getByRole('textbox'), 'NOTANUMBER')
     await waitFor(() => expect(getByRole('textbox')).toHaveValue(value.toFixed()))
     await waitFor(() => expect(queryByTestId(testIds.component.AssetInput.error)).toBeNull())
-  })
-
-  test('Sets input value to MAX if showMaxPlaceholder flag is set', async () => {
-    const { getByRole } = render(<ControlledMultiSelectorAssetInputTestWrapper showMaxPlaceholder />)
-
-    act(() => getByRole('button', { name: 'MAX' }).click())
-    await waitFor(() => expect(getByRole('textbox')).toHaveValue('MAX'))
   })
 
   test('Sets input value to max value if it is provided', async () => {
@@ -152,24 +145,30 @@ describe(ControlledMultiSelectorAssetInput.name, () => {
     await waitFor(() => expect(getByRole('button', { name: 'MAX' })).toBeDisabled())
   })
 
-  test('Erases MAX placeholder if backspace is pressed', async () => {
-    const { getByRole } = render(<ControlledMultiSelectorAssetInputTestWrapper showMaxPlaceholder />)
+  test('Able to paste value with white spaces', async () => {
+    const input = '123 . 456'
+    const max = NormalizedUnitNumber(input.replace(/\s/g, ''))
 
-    act(() => getByRole('button', { name: 'MAX' }).click())
-    await waitFor(() => expect(getByRole('textbox')).toHaveValue('MAX'))
+    const { getByRole } = render(<ControlledMultiSelectorAssetInputTestWrapper />)
 
-    fillInput(getByRole('textbox'), 'MA') // simulates pressing backspace
-    await waitFor(() => expect(getByRole('textbox')).toHaveValue(''))
+    fillInput(getByRole('textbox'), input)
+    await waitFor(() => expect(getByRole('textbox')).toHaveValue(max.toFixed()))
   })
 
-  test('Erases MAX placeholder if a number key is pressed', async () => {
-    const { getByRole } = render(<ControlledMultiSelectorAssetInputTestWrapper showMaxPlaceholder />)
+  describe('Pastes value with decimals number up to token decimals', async () => {
+    for (const token of [tokens.DAI, tokens.USDC, tokens.ETH]) {
+      test(token.symbol, async () => {
+        const input = `1234.${'5'.repeat(token.decimals)}`
 
-    act(() => getByRole('button', { name: 'MAX' }).click())
-    await waitFor(() => expect(getByRole('textbox')).toHaveValue('MAX'))
+        const { getByRole } = render(<ControlledMultiSelectorAssetInputTestWrapper token={token} />)
 
-    fillInput(getByRole('textbox'), 'MAX1') // simulates pressing backspace
-    await waitFor(() => expect(getByRole('textbox')).toHaveValue('1'))
+        fillInput(getByRole('textbox'), input)
+        await waitFor(() => expect(getByRole('textbox')).toHaveValue(input))
+
+        fillInput(getByRole('textbox'), `${input}6`)
+        expect(getByRole('textbox')).toHaveValue(input)
+      })
+    }
   })
 })
 
