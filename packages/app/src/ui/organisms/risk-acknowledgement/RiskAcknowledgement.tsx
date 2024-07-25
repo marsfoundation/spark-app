@@ -16,16 +16,6 @@ export function RiskAcknowledgement({ warning, onStatusChange }: RiskAcknowledge
           className="max-w-[46ch] text-basics-black text-sm"
           data-testid={testIds.component.RiskAcknowledgement.explanation}
         >
-          {warning.type === 'savings-deposit-discrepancy-threshold-hit' &&
-            `Market fluctuations can impact your transaction value. The final amount received may be less than the deposit amount by up to ${warning.token.format(
-              warning.discrepancy,
-              { style: 'auto' },
-            )} ${warning.token.symbol}.`}
-          {warning.type === 'savings-withdraw-discrepancy-threshold-hit' &&
-            `Market fluctuations can impact your transaction value. You may be charged more than the withdraw amount by up to ${warning.token.format(
-              warning.discrepancy,
-              { style: 'auto' },
-            )} ${warning.token.symbol}.`}
           {warning.type === 'liquidation-warning-borrow' &&
             'Borrowing this amount puts you at risk of quick liquidation. You may lose part of your collateral.'}
           {warning.type === 'liquidation-warning-withdraw' &&

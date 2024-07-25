@@ -34,13 +34,11 @@ const FormInputSchema = z
 
 interface ControlledMultiSelectorAssetInputTestWrapperProps {
   max?: NormalizedUnitNumber
-  showMaxPlaceholder?: boolean
   token?: Token
 }
 
 function ControlledMultiSelectorAssetInputTestWrapper({
   max,
-  showMaxPlaceholder,
   token: _token,
 }: ControlledMultiSelectorAssetInputTestWrapperProps) {
   const token = _token ?? tokens.DAI
@@ -64,7 +62,6 @@ function ControlledMultiSelectorAssetInputTestWrapper({
         token={token}
         maxSelectedFieldName="isMaxSelected"
         max={max}
-        showMaxPlaceholder={showMaxPlaceholder}
       />
     </Form>
   )
@@ -107,13 +104,6 @@ describe(ControlledMultiSelectorAssetInput.name, () => {
     await waitFor(() => expect(queryByTestId(testIds.component.AssetInput.error)).toBeNull())
   })
 
-  test('Sets input value to MAX if showMaxPlaceholder flag is set', async () => {
-    const { getByRole } = render(<ControlledMultiSelectorAssetInputTestWrapper showMaxPlaceholder />)
-
-    act(() => getByRole('button', { name: 'MAX' }).click())
-    await waitFor(() => expect(getByRole('textbox')).toHaveValue('MAX'))
-  })
-
   test('Sets input value to max value if it is provided', async () => {
     const max = NormalizedUnitNumber(1234)
 
@@ -153,26 +143,6 @@ describe(ControlledMultiSelectorAssetInput.name, () => {
     act(() => getByRole('button', { name: 'MAX' }).click())
     await waitFor(() => expect(getByRole('textbox')).toHaveValue(max.toFixed()))
     await waitFor(() => expect(getByRole('button', { name: 'MAX' })).toBeDisabled())
-  })
-
-  test('Erases MAX placeholder if backspace is pressed', async () => {
-    const { getByRole } = render(<ControlledMultiSelectorAssetInputTestWrapper showMaxPlaceholder />)
-
-    act(() => getByRole('button', { name: 'MAX' }).click())
-    await waitFor(() => expect(getByRole('textbox')).toHaveValue('MAX'))
-
-    fillInput(getByRole('textbox'), 'MA') // simulates pressing backspace
-    await waitFor(() => expect(getByRole('textbox')).toHaveValue(''))
-  })
-
-  test('Erases MAX placeholder if a number key is pressed', async () => {
-    const { getByRole } = render(<ControlledMultiSelectorAssetInputTestWrapper showMaxPlaceholder />)
-
-    act(() => getByRole('button', { name: 'MAX' }).click())
-    await waitFor(() => expect(getByRole('textbox')).toHaveValue('MAX'))
-
-    fillInput(getByRole('textbox'), 'MAX1') // simulates pressing key 1
-    await waitFor(() => expect(getByRole('textbox')).toHaveValue('1'))
   })
 
   test('Able to paste value with white spaces', async () => {

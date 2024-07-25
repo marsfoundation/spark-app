@@ -1,12 +1,10 @@
 import { useActionsSettings } from '@/domain/state'
 import { useMemo, useRef } from 'react'
 import { useCreateApproveDelegationHandler } from '../flavours/approve-delegation/useCreateApproveDelegationHandler'
-import { useCreateApproveExchangeActionHandler } from '../flavours/approve-exchange/useCreateApproveExchangeHandler'
 import { useCreateApproveOrPermitHandler } from '../flavours/approve/logic/useCreateApproveOrPermitHandler'
 import { useCreateBorrowActionHandler } from '../flavours/borrow/useCreateBorrowHandler'
 import { useCreateClaimRewardsHandler } from '../flavours/claim-rewards/useCreateClaimRewardsHandler'
 import { useCreateDepositHandler } from '../flavours/deposit/useCreateDepositHandler'
-import { useCreateExchangeHandler } from '../flavours/exchange/useCreateExchangeHandler'
 import { useCreateDaiToSDaiDepositHandler } from '../flavours/native-sdai-deposit/dai-to-sdai/useCreateDaiToSDaiDepositHandler'
 import { useCreateUSDCToSDaiDepositHandler } from '../flavours/native-sdai-deposit/usdc-to-sdai/useCreateUSDCToSDaiDepositHandler'
 import { useCreateXDaiToSDaiDepositHandler } from '../flavours/native-sdai-deposit/xdai-to-sdai/useCreateXDaiToSDaiDepositHandler'
@@ -110,12 +108,6 @@ function useCreateActionHandler(
     case 'setUserEMode':
       // biome-ignore lint/correctness/useHookAtTopLevel:
       return useCreateSetUserEModeHandler(action, { enabled, onFinish })
-    case 'approveExchange':
-      // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateApproveExchangeActionHandler(action, { enabled })
-    case 'exchange':
-      // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateExchangeHandler(action, { enabled, onFinish })
     case 'daiToSDaiDeposit':
       // biome-ignore lint/correctness/useHookAtTopLevel:
       return useCreateDaiToSDaiDepositHandler(action, { enabled, onFinish })

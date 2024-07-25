@@ -71,28 +71,6 @@ export const ApproveDelegationExtendedTablet = {
   ...getTabletStory(ApproveDelegationExtended),
 }
 
-export const ApproveExchangeExtended: Story = {
-  name: 'Approve Exchange (Extended)',
-  args: {
-    actionHandlers: [
-      { ...allActionHandlers.approveExchange, state: { status: 'ready' } },
-      { ...allActionHandlers.approveExchange, state: { status: 'loading' } },
-      { ...allActionHandlers.approveExchange, state: { status: 'success' } },
-      { ...allActionHandlers.approveExchange, state: { status: 'disabled' } },
-      { ...allActionHandlers.approveExchange, state: { status: 'error', message } },
-    ],
-    variant: 'extended',
-  },
-}
-export const ApproveExchangeExtendedMobile = {
-  name: 'Approve Exchange (Extended, Mobile)',
-  ...getMobileStory(ApproveExchangeExtended),
-}
-export const ApproveExchangeExtendedTablet = {
-  name: 'Approve Exchange (Extended, Tablet)',
-  ...getTabletStory(ApproveExchangeExtended),
-}
-
 export const BorrowExtended: Story = {
   name: 'Borrow (Extended)',
   args: {
@@ -201,22 +179,6 @@ export const WithdrawExtended: Story = {
 export const WithdrawExtendedMobile = { name: 'Withdraw (Extended, Mobile)', ...getMobileStory(WithdrawExtended) }
 export const WithdrawExtendedTablet = { name: 'Withdraw (Extended, Tablet)', ...getTabletStory(WithdrawExtended) }
 
-export const ExchangeExtended: Story = {
-  name: 'Exchange (Extended)',
-  args: {
-    actionHandlers: [
-      { ...allActionHandlers.exchange, state: { status: 'ready' } },
-      { ...allActionHandlers.exchange, state: { status: 'loading' } },
-      { ...allActionHandlers.exchange, state: { status: 'success' } },
-      { ...allActionHandlers.exchange, state: { status: 'disabled' } },
-      { ...allActionHandlers.exchange, state: { status: 'error', message } },
-    ],
-    variant: 'extended',
-  },
-}
-export const ExchangeExtendedMobile = { name: 'Exchange (Extended, Mobile)', ...getMobileStory(ExchangeExtended) }
-export const ExchangeExtendedTablet = { name: 'Exchange (Extended, Tablet)', ...getTabletStory(ExchangeExtended) }
-
 // Compact variant
 export const ApproveCompact: Story = {
   name: 'Approve (Compact)',
@@ -270,28 +232,6 @@ export const ApproveDelegationCompactMobile = {
 export const ApproveDelegationCompactTablet = {
   name: 'Approve Delegation (Compact, Tablet)',
   ...getTabletStory(ApproveDelegationCompact),
-}
-
-export const ApproveExchangeCompact: Story = {
-  name: 'Approve Exchange (Compact)',
-  args: {
-    actionHandlers: [
-      { ...allActionHandlers.approveExchange, state: { status: 'ready' } },
-      { ...allActionHandlers.approveExchange, state: { status: 'loading' } },
-      { ...allActionHandlers.approveExchange, state: { status: 'success' } },
-      { ...allActionHandlers.approveExchange, state: { status: 'disabled' } },
-      { ...allActionHandlers.approveExchange, state: { status: 'error', message } },
-    ],
-    variant: 'compact',
-  },
-}
-export const ApproveExchangeCompactMobile = {
-  name: 'Approve Exchange (Compact, Mobile)',
-  ...getMobileStory(ApproveExchangeCompact),
-}
-export const ApproveExchangeCompactTablet = {
-  name: 'Approve Exchange (Compact, Tablet)',
-  ...getTabletStory(ApproveExchangeCompact),
 }
 
 export const BorrowCompact: Story = {
@@ -401,19 +341,3 @@ export const WithdrawCompact: Story = {
 }
 export const WithdrawCompactMobile = { name: 'Withdraw (Compact, Mobile)', ...getMobileStory(WithdrawCompact) }
 export const WithdrawCompactTablet = { name: 'Withdraw (Compact, Tablet)', ...getTabletStory(WithdrawCompact) }
-
-export const ExchangeCompact: Story = {
-  name: 'Exchange (Compact)',
-  args: {
-    actionHandlers: [
-      { ...allActionHandlers.exchange, state: { status: 'ready' } },
-      { ...allActionHandlers.exchange, state: { status: 'loading' } },
-      { ...allActionHandlers.exchange, state: { status: 'success' } },
-      { ...allActionHandlers.exchange, state: { status: 'disabled' } },
-      { ...allActionHandlers.exchange, state: { status: 'error', message } },
-    ],
-    variant: 'compact',
-  },
-}
-export const ExchangeCompactMobile = { name: 'Exchange (Compact, Mobile)', ...getMobileStory(ExchangeCompact) }
-export const ExchangeCompactTablet = { name: 'Exchange (Compact, Tablet)', ...getTabletStory(ExchangeCompact) }
