@@ -1,11 +1,12 @@
+import { getNativeAssetInfo } from '@/config/chain/utils/getNativeAssetInfo'
 import { queryOptions } from '@tanstack/react-query'
 import { Address } from 'viem'
 import { Config } from 'wagmi'
 import { TokenWithBalance } from '../../common/types'
 import { CheckedAddress } from '../../types/CheckedAddress'
 import { Token } from '../../types/Token'
+import { createAssetDataFetcher } from './createAssetDataFetcher'
 import { createOraclePriceFetcher } from './createOraclePriceFetcher'
-import { getERC20Data } from './getERC20Data'
 import { OracleType } from './types'
 
 interface TokensParams {
@@ -22,24 +23,24 @@ export function tokensQueryOptions({ tokens, wagmiConfig, chainId, account }: To
     queryFn: !account
       ? () => []
       : async () => {
+          const nativeAssetInfo = getNativeAssetInfo(chainId)
+
           return Promise.all(
             tokens.map(async (tokenConfig) => {
               const getOraclePrice = createOraclePriceFetcher({ tokenConfig, wagmiConfig })
+              const getAssetData = createAssetDataFetcher({ tokenConfig, wagmiConfig, nativeAssetInfo, account })
 
-              const [erc20Data, oraclePrice] = await Promise.all([
-                getERC20Data({ tokenConfig, wagmiConfig, account }),
-                getOraclePrice(),
-              ])
+              const [assetData, oraclePrice] = await Promise.all([getAssetData(), getOraclePrice()])
 
               const token = new Token({
-                name: erc20Data.name,
-                decimals: erc20Data.decimals,
+                name: assetData.name,
+                decimals: assetData.decimals,
                 address: tokenConfig.address,
-                symbol: erc20Data.symbol,
+                symbol: assetData.symbol,
                 unitPriceUsd: oraclePrice.toFixed(),
               })
 
-              return { token, balance: erc20Data.balance }
+              return { token, balance: assetData.balance }
             }),
           )
         },
