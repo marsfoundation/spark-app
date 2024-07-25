@@ -3,10 +3,11 @@ import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { SuspenseQueryWith } from '@/utils/types'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { useAccount, useChainId, useConfig } from 'wagmi'
-import { OracleType, tokensQueryOptions } from './query'
+import { tokensQueryOptions } from './query'
+import { TokenConfig } from './types'
 
 export interface UseTokensParams {
-  tokens: { address: CheckedAddress; oracleType: OracleType }[]
+  tokens: TokenConfig[]
 }
 
 export type UseTokensResult = SuspenseQueryWith<{

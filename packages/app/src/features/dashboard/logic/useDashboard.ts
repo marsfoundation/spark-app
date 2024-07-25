@@ -35,8 +35,7 @@ export function useDashboard(): UseDashboardResults {
   const { tokens } = useTokens({
     tokens: [
       { address: CheckedAddress(marketInfo.DAI.address), oracleType: 'fixed-usd' },
-      { address: CheckedAddress(marketInfo.sDAI.address), oracleType: 'pot-dai' },
-      { address: CheckedAddress(marketInfo.DAI.address), oracleType: 'fixed-usd' },
+      { address: CheckedAddress(marketInfo.sDAI.address), oracleType: 'erc4626' },
     ],
   })
   console.log(
