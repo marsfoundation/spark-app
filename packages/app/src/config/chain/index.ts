@@ -9,6 +9,7 @@ import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { assets } from '@/ui/assets'
 import { AppConfig } from '../feature-flags'
+import { NST_DEV_CHAIN_ID } from './constants'
 import { ChainConfig, ChainConfigEntry, ChainMeta } from './types'
 
 const commonTokenSymbolToReplacedName = {
@@ -126,6 +127,13 @@ export function getChainConfigEntry(chainId: number): ChainConfigEntry {
   const sandboxConfig = useStore.getState().appConfig.sandbox
   const sandbox = useStore.getState().sandbox.network
 
+  if (chainId === NST_DEV_CHAIN_ID) {
+    return {
+      ...chainConfig[mainnet.id],
+      meta: getNSTDevChainMeta(chainConfig[mainnet.id].meta),
+    }
+  }
+
   const originChainId = getOriginChainId(chainId, sandbox)
   if (originChainId !== chainId) {
     return {
@@ -142,5 +150,13 @@ function getSandboxChainMeta(originChainMeta: ChainMeta, sandboxConfig: AppConfi
     ...originChainMeta,
     name: sandboxConfig?.chainName || originChainMeta.name,
     logo: assets.magicWandCircle,
+  }
+}
+
+function getNSTDevChainMeta(originChainMeta: ChainMeta): ChainMeta {
+  return {
+    ...originChainMeta,
+    name: 'NST DevNet' || originChainMeta.name,
+    logo: assets.snowflake,
   }
 }
