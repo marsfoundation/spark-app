@@ -45,18 +45,14 @@ async function getNativeAssetData({
   nativeAssetInfo,
   account,
 }: GetNativeAssetDataParams): Promise<AssetData> {
-  const {
-    decimals,
-    symbol,
-    value: balance,
-  } = await getBalance(wagmiConfig, {
+  const { decimals, value: balance } = await getBalance(wagmiConfig, {
     address: account,
   })
 
   return {
     balance: NormalizedUnitNumber(BaseUnitNumber(balance).shiftedBy(-decimals)),
     decimals,
-    symbol: TokenSymbol(symbol),
+    symbol: nativeAssetInfo.nativeAssetSymbol,
     name: nativeAssetInfo.nativeAssetName,
   }
 }
