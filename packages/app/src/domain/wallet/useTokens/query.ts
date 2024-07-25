@@ -1,3 +1,4 @@
+import { getOracleContractCalls, getTokenUnitPriceUsd } from '@/domain/types/Oracle'
 import { queryOptions } from '@tanstack/react-query'
 import { Address, erc20Abi } from 'viem'
 import { Config } from 'wagmi'
@@ -34,22 +35,31 @@ export function tokensQueryOptions({ tokens, wagmiConfig, chainId, account }: To
           const data = await multicall(wagmiConfig, {
             allowFailure: false,
             chainId,
-            contracts: [
-              // fetch pot related info to get the price
-              ...tokens.flatMap((token) =>
-                TOKEN_CALLS.map((call) => ({
+            contracts: tokens.flatMap(
+              (token) => [
+                ...TOKEN_CALLS.map((call) => ({
                   address: token.address,
                   functionName: call.functionName,
                   args: call.args(account),
                   abi: erc20Abi,
                 })),
-              ),
-            ],
+                ...getOracleContractCalls(token.oracleType, token.address),
+              ],
+              // fetch oracle related info to get the price
+            ),
           })
 
-          return tokens.map((token, index) => {
-            const startIndex = index * TOKEN_CALLS.length
-            const [balance, decimals, symbol, name] = TOKEN_CALLS.map((_, i) => data[startIndex + i])
+          let startIndex = 0
+
+          return tokens.map((token) => {
+            const oracleCallsLength = getOracleContractCalls(token.oracleType, token.address).length
+
+            const [balance, decimals, symbol, name, ...oracleData] = [
+              ...TOKEN_CALLS.map((_, i) => data[startIndex + i]),
+              ...Array.from({ length: oracleCallsLength }, (_, i) => data[startIndex + TOKEN_CALLS.length + i]),
+            ]
+
+            startIndex += TOKEN_CALLS.length + oracleCallsLength
 
             return {
               token: new Token({
@@ -57,7 +67,7 @@ export function tokensQueryOptions({ tokens, wagmiConfig, chainId, account }: To
                 decimals: decimals as number,
                 symbol: TokenSymbol(symbol as string),
                 name: name as string,
-                unitPriceUsd: '1',
+                unitPriceUsd: getTokenUnitPriceUsd(token.oracleType, oracleData as unknown[]),
               }),
               balance: NormalizedUnitNumber(balance as bigint),
             }

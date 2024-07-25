@@ -34,11 +34,18 @@ export function useDashboard(): UseDashboardResults {
 
   const { tokens } = useTokens({
     tokens: [
-      { address: CheckedAddress(marketInfo.DAI.address), oracleType: 'pot-dai' },
+      { address: CheckedAddress(marketInfo.DAI.address), oracleType: 'fixed-usd' },
       { address: CheckedAddress(marketInfo.sDAI.address), oracleType: 'pot-dai' },
+      { address: CheckedAddress(marketInfo.DAI.address), oracleType: 'fixed-usd' },
     ],
   })
-  console.log(tokens)
+  console.log(
+    tokens.map((t) => ({
+      symbol: t.token.symbol,
+      unitPriceUsd: t.token.unitPriceUsd.toFixed(6),
+      balance: t.balance.toString(),
+    })),
+  )
 
   const deposits = getDeposits({
     marketInfo,
