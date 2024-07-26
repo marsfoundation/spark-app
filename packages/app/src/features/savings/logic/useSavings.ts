@@ -2,7 +2,7 @@ import { SupportedChainId } from '@/config/chain/types'
 import { TokenWithBalance } from '@/domain/common/types'
 import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
 import { useSavingsInfo } from '@/domain/savings-info/useSavingsInfo'
-import { makeAssetsInWalletList } from '@/domain/savings/makeAssetsInWalletList'
+import { getMaxBalanceToken } from '@/domain/savings/getMaxBalanceToken'
 import { OpenDialogFunction, useOpenDialog } from '@/domain/state/dialogs'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
@@ -11,7 +11,7 @@ import { useAccount } from 'wagmi'
 import { Projections } from '../types'
 import { makeSavingsOverview } from './makeSavingsOverview'
 import { calculateProjections } from './projections'
-import { useSavingsSupportedTokens } from './useSavingsSupportedTokens'
+import { useSavingsTokens } from './useSavingsTokens'
 
 const stepInMs = 50
 
@@ -38,7 +38,7 @@ export interface UseSavingsResults {
 export function useSavings(): UseSavingsResults {
   const { savingsInfo } = useSavingsInfo()
   const guestMode = useAccount().isConnected === false
-  const { sDaiWithBalance, savingsEntryTokens } = useSavingsSupportedTokens()
+  const { sDaiWithBalance, savingsEnterTokens } = useSavingsTokens()
   const chainId = useOriginChainId()
   const { timestamp, timestampInMs } = useTimestamp({
     refreshIntervalInMs: savingsInfo?.supportsRealTimeInterestAccrual ? stepInMs : undefined,
@@ -49,7 +49,9 @@ export function useSavings(): UseSavingsResults {
     return { guestMode, openDialog, openSandboxModal, savingsDetails: { state: 'unsupported' } }
   }
 
-  const { totalUSD: totalEligibleCashUSD, maxBalanceToken } = makeAssetsInWalletList({ savingsEntryTokens })
+  const { totalUSD: totalEligibleCashUSD, maxBalanceToken } = getMaxBalanceToken({
+    assets: savingsEnterTokens,
+  })
 
   const { potentialShares, depositedUSD, depositedUSDPrecision } = makeSavingsOverview({
     sDaiWithBalance,
@@ -82,7 +84,7 @@ export function useSavings(): UseSavingsResults {
       sDaiWithBalance,
       currentProjections,
       opportunityProjections,
-      assetsInWallet: savingsEntryTokens,
+      assetsInWallet: savingsEnterTokens,
       totalEligibleCashUSD,
       maxBalanceToken,
       chainId,
