@@ -6,7 +6,7 @@ import { useSavingsInfo } from '@/domain/savings-info/useSavingsInfo'
 import { makeAssetsInWalletList } from '@/domain/savings/makeAssetsInWalletList'
 import { OpenDialogFunction, useOpenDialog } from '@/domain/state/dialogs'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
-import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
+import { useMarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
 import { useTimestamp } from '@/utils/useTimestamp'
 import { Projections } from '../types'
@@ -37,7 +37,7 @@ export interface UseSavingsResults {
 }
 export function useSavings(): UseSavingsResults {
   const { savingsInfo } = useSavingsInfo()
-  const walletInfo = useWalletInfo()
+  const walletInfo = useMarketWalletInfo()
   const guestMode = !walletInfo.isConnected
   const { marketInfo } = useMarketInfo()
   const chainId = getChainConfigEntry(marketInfo.chainId).id

@@ -4,13 +4,13 @@ import { NativeAssetInfo } from '@/config/chain/types'
 import { TokenWithBalance } from '@/domain/common/types'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { Token } from '@/domain/types/Token'
-import { WalletInfo } from '@/domain/wallet/useWalletInfo'
+import { MarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 import { applyTransformers } from '@/utils/applyTransformers'
 
 export interface GetBorrowOptionsParams {
   token: Token
   marketInfo: MarketInfo
-  walletInfo: WalletInfo
+  walletInfo: MarketWalletInfo
   nativeAssetInfo: NativeAssetInfo
 }
 

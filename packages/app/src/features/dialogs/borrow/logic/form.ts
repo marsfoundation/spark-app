@@ -1,6 +1,4 @@
-import { UseFormReturn } from 'react-hook-form'
-import { z } from 'zod'
-
+import { getBorrowMaxValue } from '@/domain/action-max-value-getters/getBorrowMaxValue'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import {
   borrowValidationIssueToMessage,
@@ -9,9 +7,9 @@ import {
 } from '@/domain/market-validators/validateBorrow'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { WalletInfo } from '@/domain/wallet/useWalletInfo'
-
-import { getBorrowMaxValue } from '@/domain/action-max-value-getters/getBorrowMaxValue'
+import { MarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
+import { UseFormReturn } from 'react-hook-form'
+import { z } from 'zod'
 import { AssetInputSchema } from '../../common/logic/form'
 import { FormFieldsForDialog } from '../../common/types'
 
@@ -37,7 +35,7 @@ export interface GetFormFieldsForBorrowDialogParams {
   form: UseFormReturn<AssetInputSchema>
   marketInfo: MarketInfo
   marketInfoIn1Epoch: MarketInfo
-  walletInfo: WalletInfo
+  walletInfo: MarketWalletInfo
 }
 export function getFormFieldsForBorrowDialog({
   form,

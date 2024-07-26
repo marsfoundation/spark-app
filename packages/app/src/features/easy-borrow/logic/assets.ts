@@ -1,6 +1,6 @@
 import { NativeAssetInfo } from '@/config/chain/types'
 import { MarketInfo, Reserve, UserPosition } from '@/domain/market-info/marketInfo'
-import { WalletInfo } from '@/domain/wallet/useWalletInfo'
+import { MarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 
 const blacklistedDepositableAssets = ['USDC', 'USDT', 'DAI', 'sDAI', 'XDAI']
 export function getDepositableAssets(positions: UserPosition[]): Reserve[] {
@@ -21,7 +21,7 @@ export function getBorrowableAssets(reserves: Reserve[]): Reserve[] {
   return reserves.filter((r) => whitelistedBorrowableAssets.includes(r.token.symbol))
 }
 
-export function sortByDecreasingBalances(reserves: Reserve[], walletInfo: WalletInfo): Reserve[] {
+export function sortByDecreasingBalances(reserves: Reserve[], walletInfo: MarketWalletInfo): Reserve[] {
   const reservesWithBalances = reserves.map((reserve) => ({
     reserve,
     balance: walletInfo.findWalletBalanceForToken(reserve.token),

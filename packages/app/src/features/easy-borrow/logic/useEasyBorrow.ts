@@ -12,7 +12,7 @@ import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { useOpenDialog } from '@/domain/state/dialogs'
 import { Percentage } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
+import { useMarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 import { Objective } from '@/features/actions/logic/types'
 import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
 import { assert, raise } from '@/utils/assert'
@@ -73,7 +73,7 @@ export function useEasyBorrow(): UseEasyBorrowResults {
     meta: { defaultAssetToBorrow },
   } = getChainConfigEntry(marketInfo.chainId)
 
-  const walletInfo = useWalletInfo()
+  const walletInfo = useMarketWalletInfo()
   const [pageStatus, setPageStatus] = useState<PageState>('form')
   const healthFactorPanelRef = useRef<HTMLDivElement>(null)
 

@@ -1,11 +1,11 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { TokenWithBalance } from '@/domain/common/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { WalletInfo } from '@/domain/wallet/useWalletInfo'
 import { bigNumberify } from '@/utils/bigNumber'
+import { MarketWalletInfo } from '../wallet/useMarketWalletInfo'
 
 export interface MakeAssetsInWalletListParams {
-  walletInfo: WalletInfo
+  walletInfo: MarketWalletInfo
   chainId: number
 }
 

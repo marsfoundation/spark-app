@@ -1,16 +1,15 @@
-import { UseFormReturn } from 'react-hook-form'
-import { z } from 'zod'
-
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { repayValidationIssueToMessage, validateRepay } from '@/domain/market-validators/validateRepay'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { WalletInfo } from '@/domain/wallet/useWalletInfo'
+import { MarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
+import { UseFormReturn } from 'react-hook-form'
+import { z } from 'zod'
 import { AssetInputSchema, normalizeDialogFormValues } from '../../common/logic/form'
 import { FormFieldsForDialog } from '../../common/types'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function getRepayDialogFormValidator(marketInfo: MarketInfo, walletInfo: WalletInfo) {
+export function getRepayDialogFormValidator(marketInfo: MarketInfo, walletInfo: MarketWalletInfo) {
   return AssetInputSchema.superRefine((field, ctx) => {
     const formRepayAsset = normalizeDialogFormValues(field, marketInfo)
     const position = marketInfo.findOnePositionBySymbol(field.symbol)
@@ -43,7 +42,7 @@ export function getRepayDialogFormValidator(marketInfo: MarketInfo, walletInfo: 
 export interface GetFormFieldsForRepayDialogParams {
   form: UseFormReturn<AssetInputSchema>
   marketInfo: MarketInfo
-  walletInfo: WalletInfo
+  walletInfo: MarketWalletInfo
   repayMaxValue: NormalizedUnitNumber
 }
 export function getFormFieldsForRepayDialog({
