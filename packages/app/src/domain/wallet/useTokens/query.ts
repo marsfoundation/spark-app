@@ -20,30 +20,28 @@ interface TokensParams {
 export function tokensQueryOptions({ tokens, wagmiConfig, chainId, account }: TokensParams) {
   return queryOptions<TokenWithBalance[]>({
     queryKey: tokensQueryKey({ tokens, account, chainId }),
-    queryFn: !account
-      ? () => []
-      : async () => {
-          const nativeAssetInfo = getNativeAssetInfo(chainId)
+    queryFn: async () => {
+      const nativeAssetInfo = getNativeAssetInfo(chainId)
 
-          return Promise.all(
-            tokens.map(async (tokenConfig) => {
-              const getOraclePrice = createOraclePriceFetcher({ tokenConfig, wagmiConfig })
-              const getAssetData = createAssetDataFetcher({ tokenConfig, wagmiConfig, nativeAssetInfo, account })
+      return Promise.all(
+        tokens.map(async (tokenConfig) => {
+          const getOraclePrice = createOraclePriceFetcher({ tokenConfig, wagmiConfig })
+          const getAssetData = createAssetDataFetcher({ tokenConfig, wagmiConfig, nativeAssetInfo, account })
 
-              const [assetData, oraclePrice] = await Promise.all([getAssetData(), getOraclePrice()])
+          const [assetData, oraclePrice] = await Promise.all([getAssetData(), getOraclePrice()])
 
-              const token = new Token({
-                name: assetData.name,
-                decimals: assetData.decimals,
-                address: tokenConfig.address,
-                symbol: assetData.symbol,
-                unitPriceUsd: oraclePrice.toFixed(),
-              })
+          const token = new Token({
+            name: assetData.name,
+            decimals: assetData.decimals,
+            address: tokenConfig.address,
+            symbol: assetData.symbol,
+            unitPriceUsd: oraclePrice.toFixed(),
+          })
 
-              return { token, balance: assetData.balance }
-            }),
-          )
-        },
+          return { token, balance: assetData.balance }
+        }),
+      )
+    },
   })
 }
 

@@ -4,7 +4,7 @@ import { testAddresses } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
 import { setupHookRenderer } from '@/test/integration/setupHookRenderer'
 import { waitFor } from '@testing-library/react'
-import { erc20Abi, erc4626Abi, parseEther } from 'viem'
+import { erc20Abi, erc4626Abi, parseEther, zeroAddress } from 'viem'
 import { gnosis, mainnet } from 'viem/chains'
 import { describe, test } from 'vitest'
 import { useTokens } from './useTokens'
@@ -12,13 +12,12 @@ import { useTokens } from './useTokens'
 const token = testAddresses.token
 const alice = testAddresses.alice
 
-const balanceCall = handlers.balanceCall({ balance: 0n, address: testAddresses.alice })
 const chainIdCall = handlers.chainIdCall({ chainId: mainnet.id })
 
 const hookRenderer = setupHookRenderer({
   hook: useTokens,
-  account: testAddresses.alice,
-  handlers: [chainIdCall, balanceCall],
+  account: undefined,
+  handlers: [chainIdCall],
   args: {
     tokens: [
       {
@@ -38,6 +37,7 @@ describe(useTokens.name, () => {
     const price = 1090000000000000000n
 
     const { result } = hookRenderer({
+      account: alice,
       handlers: [
         handlers.contractCall({
           to: token,
@@ -97,6 +97,7 @@ describe(useTokens.name, () => {
     const name = 'DAI'
 
     const { result } = hookRenderer({
+      account: alice,
       handlers: [
         handlers.contractCall({
           to: token,
@@ -150,6 +151,73 @@ describe(useTokens.name, () => {
     ])
   })
 
+  test('fetches data for ERC20 token when user is not connected', async () => {
+    const balance = 2342734243213n
+    const decimals = 18
+    const symbol = 'DAI'
+    const name = 'DAI'
+
+    const { result } = hookRenderer({
+      handlers: [
+        handlers.contractCall({
+          to: token,
+          abi: erc20Abi,
+          functionName: 'balanceOf',
+          args: [alice],
+          result: balance,
+        }),
+        handlers.contractCall({
+          to: token,
+          abi: erc20Abi,
+          functionName: 'balanceOf',
+          args: [zeroAddress],
+          result: balance,
+        }),
+        handlers.contractCall({
+          to: token,
+          abi: erc20Abi,
+          functionName: 'decimals',
+          result: decimals,
+        }),
+        handlers.contractCall({
+          to: token,
+          abi: erc20Abi,
+          functionName: 'symbol',
+          result: symbol,
+        }),
+        handlers.contractCall({
+          to: token,
+          abi: erc20Abi,
+          functionName: 'name',
+          result: name,
+        }),
+      ],
+      args: {
+        tokens: [
+          {
+            address: token,
+            oracleType: 'fixed-usd',
+          },
+        ],
+      },
+    })
+
+    await waitFor(() => expect(result.current.status).toBe('success'))
+    expect(result.current.tokens).toEqual([
+      {
+        token: {
+          name,
+          decimals,
+          address: token,
+          symbol,
+          unitPriceUsd: NormalizedUnitNumber(1),
+          isAToken: false,
+        },
+        balance: NormalizedUnitNumber(0),
+      },
+    ])
+  })
+
   test('fetches data for native asset with fixed-usd oracle', async () => {
     const balance = 12322429456834n
     const decimals = 18
@@ -157,6 +225,7 @@ describe(useTokens.name, () => {
     const name = 'XDAI'
 
     const { result } = hookRenderer({
+      account: alice,
       handlers: [
         handlers.balanceCall({
           address: alice,
@@ -189,6 +258,53 @@ describe(useTokens.name, () => {
           isAToken: false,
         },
         balance: NormalizedUnitNumber(BaseUnitNumber(balance).shiftedBy(-decimals)),
+      },
+    ])
+  })
+
+  test('fetches data for native asset when user is not connected', async () => {
+    const balance = 12322429456834n
+    const decimals = 18
+    const symbol = 'XDAI'
+    const name = 'XDAI'
+
+    const { result } = hookRenderer({
+      handlers: [
+        handlers.balanceCall({
+          address: alice,
+          balance: balance,
+        }),
+        handlers.balanceCall({
+          address: zeroAddress,
+          balance: balance,
+        }),
+        handlers.chainIdCall({
+          chainId: gnosis.id,
+        }),
+      ],
+      chain: gnosis,
+      args: {
+        tokens: [
+          {
+            address: NATIVE_ASSET_MOCK_ADDRESS,
+            oracleType: 'fixed-usd',
+          },
+        ],
+      },
+    })
+
+    await waitFor(() => expect(result.current.status).toBe('success'))
+    expect(result.current.tokens).toEqual([
+      {
+        token: {
+          name,
+          decimals,
+          address: NATIVE_ASSET_MOCK_ADDRESS,
+          symbol,
+          unitPriceUsd: NormalizedUnitNumber(1),
+          isAToken: false,
+        },
+        balance: NormalizedUnitNumber(0),
       },
     ])
   })

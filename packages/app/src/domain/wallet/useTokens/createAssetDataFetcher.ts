@@ -2,7 +2,7 @@ import { NativeAssetInfo } from '@/config/chain/types'
 import { NATIVE_ASSET_MOCK_ADDRESS } from '@/config/consts'
 import { BaseUnitNumber, NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { Address, erc20Abi } from 'viem'
+import { Address, erc20Abi, zeroAddress } from 'viem'
 import { Config as WagmiConfig } from 'wagmi'
 import { getBalance, readContract } from 'wagmi/actions'
 import { TokenConfig } from './types'
@@ -10,7 +10,7 @@ import { TokenConfig } from './types'
 export interface CreateAssetDataFetcherParams {
   wagmiConfig: WagmiConfig
   tokenConfig: TokenConfig
-  account: Address
+  account: Address | undefined
   nativeAssetInfo: NativeAssetInfo
 }
 
@@ -37,7 +37,7 @@ export function createAssetDataFetcher({
 interface GetNativeAssetDataParams {
   wagmiConfig: WagmiConfig
   nativeAssetInfo: NativeAssetInfo
-  account: Address
+  account: Address | undefined
 }
 
 async function getNativeAssetData({
@@ -45,12 +45,14 @@ async function getNativeAssetData({
   nativeAssetInfo,
   account,
 }: GetNativeAssetDataParams): Promise<AssetData> {
+  // if account is undefined, read balance for zero address to extract decimals
   const { decimals, value: balance } = await getBalance(wagmiConfig, {
-    address: account,
+    address: account ?? zeroAddress,
   })
 
   return {
-    balance: NormalizedUnitNumber(BaseUnitNumber(balance).shiftedBy(-decimals)),
+    // if account is undefined, the balance is 0
+    balance: NormalizedUnitNumber(BaseUnitNumber(account ? balance : 0).shiftedBy(-decimals)),
     decimals,
     symbol: nativeAssetInfo.nativeAssetSymbol,
     name: nativeAssetInfo.nativeAssetName,
@@ -60,19 +62,27 @@ async function getNativeAssetData({
 interface GetERC20DataParams {
   wagmiConfig: WagmiConfig
   tokenConfig: TokenConfig
-  account: Address
+  account: Address | undefined
 }
 
 async function getERC20Data({ wagmiConfig, tokenConfig, account }: GetERC20DataParams): Promise<AssetData> {
-  // @note: This helps viem to batch all the requests into one multicall call.
-  // For some reason using multicall action prevents the requests from being batched.
-  const [balance, decimals, symbol, name] = await Promise.all([
-    readContract(wagmiConfig, {
+  function getBalance(): Promise<bigint> {
+    if (!account) {
+      return Promise.resolve(0n)
+    }
+
+    return readContract(wagmiConfig, {
       abi: erc20Abi,
       address: tokenConfig.address,
       functionName: 'balanceOf',
       args: [account],
-    }),
+    })
+  }
+
+  // @note: This helps viem to batch all the requests into one multicall call.
+  // For some reason using multicall action prevents the requests from being batched.
+  const [balance, decimals, symbol, name] = await Promise.all([
+    getBalance(),
     readContract(wagmiConfig, {
       abi: erc20Abi,
       address: tokenConfig.address,
