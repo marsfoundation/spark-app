@@ -1,17 +1,16 @@
 import { lendingPoolAddress } from '@/config/contracts-generated'
-import { useContractAddress } from '@/domain/hooks/useContractAddress'
-import { RepayObjective } from '@/features/actions/flavours/repay/types'
-
 import { GetRepayMaxValueParams, getRepayMaxValue } from '@/domain/action-max-value-getters/getRepayMaxValue'
+import { useContractAddress } from '@/domain/hooks/useContractAddress'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
-import { WalletInfo } from '@/domain/wallet/useWalletInfo'
+import { MarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
+import { RepayObjective } from '@/features/actions/flavours/repay/types'
 import { DialogFormNormalizedData } from '../../common/logic/form'
 
 export interface UseCreateRepayObjectivesParams {
   repaymentAsset: DialogFormNormalizedData
   marketInfoIn1Epoch: MarketInfo
   marketInfoIn2Epochs: MarketInfo
-  walletInfo: WalletInfo
+  walletInfo: MarketWalletInfo
 }
 
 export function useCreateRepayObjectives({

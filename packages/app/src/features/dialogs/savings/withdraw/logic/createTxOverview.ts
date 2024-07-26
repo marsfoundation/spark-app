@@ -1,15 +1,15 @@
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { SavingsInfo } from '@/domain/savings-info/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { WalletInfo } from '@/domain/wallet/useWalletInfo'
+import { MarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 import { DialogFormNormalizedData } from '@/features/dialogs/common/logic/form'
 import { RouteItem, SavingsDialogTxOverview } from '../../common/types'
 
 export interface CreateTxOverviewParams {
   formValues: DialogFormNormalizedData
   marketInfo: MarketInfo
+  walletInfo: MarketWalletInfo
   savingsInfo: SavingsInfo
-  walletInfo: WalletInfo
 }
 export function createTxOverview({
   formValues,

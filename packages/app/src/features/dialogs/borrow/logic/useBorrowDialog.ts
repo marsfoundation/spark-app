@@ -7,7 +7,7 @@ import { EPOCH_LENGTH } from '@/domain/market-info/consts'
 import { updatePositionSummary } from '@/domain/market-info/updatePositionSummary'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { Token } from '@/domain/types/Token'
-import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
+import { useMarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 import { Objective } from '@/features/actions/logic/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import BigNumber from 'bignumber.js'
@@ -39,7 +39,7 @@ export function useBorrowDialog({ initialToken }: UseBorrowDialogOptions): UseBo
   const { aaveData } = useAaveDataLayer()
   const { marketInfo } = useMarketInfo()
   const { marketInfo: marketInfoIn1Epoch } = useMarketInfo({ timeAdvance: EPOCH_LENGTH })
-  const walletInfo = useWalletInfo()
+  const walletInfo = useMarketWalletInfo()
   const nativeAssetInfo = getNativeAssetInfo(marketInfo.chainId)
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')

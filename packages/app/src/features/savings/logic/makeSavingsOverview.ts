@@ -2,13 +2,13 @@ import { TokenWithBalance } from '@/domain/common/types'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { SavingsInfo } from '@/domain/savings-info/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { WalletInfo } from '@/domain/wallet/useWalletInfo'
+import { MarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 
 const DEFAULT_PRECISION = 6
 
 export interface MakeSavingsOverviewParams {
   marketInfo: MarketInfo
-  walletInfo: WalletInfo
+  walletInfo: MarketWalletInfo
   eligibleCashUSD: NormalizedUnitNumber
   savingsInfo: SavingsInfo
   timestampInMs: number

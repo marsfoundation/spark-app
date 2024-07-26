@@ -1,14 +1,12 @@
-import { useChainId } from 'wagmi'
-
 import { getChainConfigEntry } from '@/config/chain'
+import { getNativeAssetInfo } from '@/config/chain/utils/getNativeAssetInfo'
 import { useD3MInfo } from '@/domain/d3m-info/useD3MInfo'
 import { NotFoundError } from '@/domain/errors/not-found'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { Token } from '@/domain/types/Token'
-import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
+import { useMarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 import { raise } from '@/utils/assert'
-
-import { getNativeAssetInfo } from '@/config/chain/utils/getNativeAssetInfo'
+import { useChainId } from 'wagmi'
 import { MarketOverview, WalletOverview } from '../types'
 import { makeDaiMarketOverview } from './makeDaiMarketOverview'
 import { makeMarketOverview } from './makeMarketOverview'
@@ -28,7 +26,7 @@ export function useMarketDetails(): UseMarketDetailsResult {
   const { asset, chainId } = useMarketDetailsParams()
   const { marketInfo } = useMarketInfo({ chainId })
   const { D3MInfo } = useD3MInfo({ chainId })
-  const walletInfo = useWalletInfo()
+  const walletInfo = useMarketWalletInfo()
   const { meta: chainMeta } = getChainConfigEntry(chainId)
   const connectedChainId = useChainId()
 

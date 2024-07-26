@@ -8,7 +8,9 @@ import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { assets } from '@/ui/assets'
+import { NATIVE_ASSET_MOCK_ADDRESS } from '../consts'
 import { AppConfig } from '../feature-flags'
+import { NST_DEV_CHAIN_ID } from './constants'
 import { ChainConfig, ChainConfigEntry, ChainMeta } from './types'
 
 const commonTokenSymbolToReplacedName = {
@@ -74,6 +76,11 @@ const chainConfig: ChainConfig = {
       [TokenSymbol('USDC'), TokenSymbol('sDAI')],
     ],
     savingsNativeRouteTokens: [TokenSymbol('DAI'), TokenSymbol('USDC')],
+    extraTokens: [
+      { address: CheckedAddress('0x6b175474e89094c44da98b954eedeac495271d0f'), oracleType: 'fixed-usd' }, // DAI
+      { address: CheckedAddress('0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48'), oracleType: 'fixed-usd' }, // USDC
+      { address: CheckedAddress('0x83f20f44975d03b1b09e64809b757c47f942beea'), oracleType: 'vault' }, // sDAI
+    ],
   },
   [gnosis.id]: {
     id: gnosis.id,
@@ -119,12 +126,29 @@ const chainConfig: ChainConfig = {
       [TokenSymbol('XDAI'), TokenSymbol('sDAI')],
     ],
     savingsNativeRouteTokens: [TokenSymbol('XDAI')],
+    extraTokens: [
+      { address: NATIVE_ASSET_MOCK_ADDRESS, oracleType: 'fixed-usd' }, // XDAI
+      { address: CheckedAddress('0xaf204776c7245bF4147c2612BF6e5972Ee483701'), oracleType: 'vault' }, // sDAI
+    ],
   },
 }
 
 export function getChainConfigEntry(chainId: number): ChainConfigEntry {
   const sandboxConfig = useStore.getState().appConfig.sandbox
   const sandbox = useStore.getState().sandbox.network
+
+  if (chainId === NST_DEV_CHAIN_ID) {
+    const mainnetConfig = chainConfig[mainnet.id]
+    return {
+      ...mainnetConfig,
+      meta: getNSTDevChainMeta(mainnetConfig.meta),
+      extraTokens: [
+        ...mainnetConfig.extraTokens,
+        { address: CheckedAddress('0x798f111c92E38F102931F34D1e0ea7e671BDBE31'), oracleType: 'fixed-usd' }, // NST
+        { address: CheckedAddress('0xeA8AE08513f8230cAA8d031D28cB4Ac8CE720c68'), oracleType: 'vault' }, // sNST
+      ],
+    }
+  }
 
   const originChainId = getOriginChainId(chainId, sandbox)
   if (originChainId !== chainId) {
@@ -142,5 +166,13 @@ function getSandboxChainMeta(originChainMeta: ChainMeta, sandboxConfig: AppConfi
     ...originChainMeta,
     name: sandboxConfig?.chainName || originChainMeta.name,
     logo: assets.magicWandCircle,
+  }
+}
+
+function getNSTDevChainMeta(originChainMeta: ChainMeta): ChainMeta {
+  return {
+    ...originChainMeta,
+    name: 'NST DevNet' || originChainMeta.name,
+    logo: assets.snowflake,
   }
 }

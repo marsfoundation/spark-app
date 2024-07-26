@@ -5,13 +5,13 @@ import { TokenWithValue } from '@/domain/common/types'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
-import { WalletBalance, WalletInfo } from '@/domain/wallet/useWalletInfo'
+import { MarketWalletInfo, WalletBalance } from '@/domain/wallet/useMarketWalletInfo'
 import { generatePath } from 'react-router-dom'
 import { AssetsTableRow } from '../components/wallet-composition/AssetTable'
 
 interface MakeAssetListParams {
   marketInfo: MarketInfo
-  walletInfo: WalletInfo
+  walletInfo: MarketWalletInfo
   includeDeposits: boolean
   nativeAssetInfo: NativeAssetInfo
   chainId: number
@@ -81,7 +81,7 @@ function calculateCombinedBalance({
 
 export interface MakeWalletCompositionParams {
   marketInfo: MarketInfo
-  walletInfo: WalletInfo
+  walletInfo: MarketWalletInfo
   compositionWithDeposits: boolean
   setCompositionWithDeposits: (includeDeposits: boolean) => void
   nativeAssetInfo: NativeAssetInfo

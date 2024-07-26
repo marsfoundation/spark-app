@@ -1,5 +1,3 @@
-import * as z from 'zod'
-
 import { NativeAssetInfo } from '@/config/chain/types'
 import { AaveData } from '@/domain/market-info/aave-data-layer/query'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
@@ -12,9 +10,9 @@ import {
 import { depositValidationIssueToMessage, validateDeposit } from '@/domain/market-validators/validateDeposit'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { WalletInfo } from '@/domain/wallet/useWalletInfo'
+import { MarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 import { parseBigNumber } from '@/utils/bigNumber'
-
+import { z } from 'zod'
 import { ExistingPosition } from '../types'
 import { normalizeFormValues } from './normalization'
 
@@ -41,7 +39,11 @@ export const AssetInputSchema = BaseAssetInputSchema.extend({
 export type AssetInputSchema = z.infer<typeof AssetInputSchema>
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-function getDepositFieldsValidator(walletInfo: WalletInfo, alreadyDeposited: ExistingPosition, markets: MarketInfo) {
+function getDepositFieldsValidator(
+  walletInfo: MarketWalletInfo,
+  alreadyDeposited: ExistingPosition,
+  markets: MarketInfo,
+) {
   const schema = alreadyDeposited.totalValueUSD.gt(0) ? BaseAssetInputSchema : AssetInputSchema
   return z.array(
     schema.superRefine((field, ctx) => {
@@ -70,7 +72,7 @@ function getDepositFieldsValidator(walletInfo: WalletInfo, alreadyDeposited: Exi
 }
 
 export interface GetEasyBorrowFormValidatorOptions {
-  walletInfo: WalletInfo
+  walletInfo: MarketWalletInfo
   marketInfo: MarketInfo
   aaveData: AaveData
   guestMode: boolean

@@ -1,14 +1,12 @@
-import BigNumber from 'bignumber.js'
-import { UseFormReturn, useFieldArray } from 'react-hook-form'
-
 import { getDepositMaxValue } from '@/domain/action-max-value-getters/getDepositMaxValue'
 import { formFormat } from '@/domain/common/format'
 import { TokenWithBalance } from '@/domain/common/types'
 import { MarketInfo, Reserve, UserPositionSummary } from '@/domain/market-info/marketInfo'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { WalletInfo } from '@/domain/wallet/useWalletInfo'
-
+import { MarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
+import BigNumber from 'bignumber.js'
+import { UseFormReturn, useFieldArray } from 'react-hook-form'
 import { EasyBorrowFormNormalizedData } from '../types'
 import { EasyBorrowFormSchema } from './validation'
 
@@ -36,7 +34,7 @@ export interface UseFormFieldsForAssetClassArgs {
   form: UseFormReturn<EasyBorrowFormSchema>
   marketInfo: MarketInfo
   allPossibleReserves: Reserve[]
-  walletInfo: WalletInfo
+  walletInfo: MarketWalletInfo
   type: 'borrow' | 'deposit'
 }
 export function useFormFieldsForAssetClass({

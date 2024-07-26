@@ -1,17 +1,15 @@
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useState } from 'react'
-import { UseFormReturn, useForm } from 'react-hook-form'
-
 import { getNativeAssetInfo } from '@/config/chain/utils/getNativeAssetInfo'
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
 import { useAaveDataLayer } from '@/domain/market-info/aave-data-layer/useAaveDataLayer'
+import { EPOCH_LENGTH } from '@/domain/market-info/consts'
 import { updatePositionSummary } from '@/domain/market-info/updatePositionSummary'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { Token } from '@/domain/types/Token'
-import { useWalletInfo } from '@/domain/wallet/useWalletInfo'
+import { useMarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 import { Objective } from '@/features/actions/logic/types'
-
-import { EPOCH_LENGTH } from '@/domain/market-info/consts'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useState } from 'react'
+import { UseFormReturn, useForm } from 'react-hook-form'
 import { AssetInputSchema, useDebouncedDialogFormValues } from '../../common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '../../common/types'
 import { getDepositOptions } from './assets'
@@ -39,7 +37,7 @@ export function useDepositDialog({ initialToken }: UseDepositDialogOptions): Use
   const { aaveData } = useAaveDataLayer()
   const { marketInfo } = useMarketInfo()
   const { marketInfo: marketInfoIn1Epoch } = useMarketInfo({ timeAdvance: EPOCH_LENGTH })
-  const walletInfo = useWalletInfo()
+  const walletInfo = useMarketWalletInfo()
   const nativeAssetInfo = getNativeAssetInfo(marketInfo.chainId)
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')

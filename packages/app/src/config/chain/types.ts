@@ -3,6 +3,7 @@ import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 
+import { TokenConfig } from '@/domain/wallet/useTokens/types'
 import { SUPPORTED_CHAIN_IDS } from './constants'
 
 export type SupportedChainId = (typeof SUPPORTED_CHAIN_IDS)[number]
@@ -59,6 +60,7 @@ export interface ChainConfigEntry {
   sDaiSymbol: TokenSymbol
   mergedDaiAndSDaiMarkets: boolean
   savingsNativeRouteTokens: SavingsNativeRouteTokens
+  extraTokens: TokenConfig[]
 }
 
 export type ChainConfig = Record<SupportedChainId, ChainConfigEntry>
