@@ -72,20 +72,24 @@ const chainConfig: ChainConfig = {
     sDaiSymbol: TokenSymbol('sDAI'),
     mergedDaiAndSDaiMarkets: true,
     savingsNativeRouteTokens: [TokenSymbol('DAI'), TokenSymbol('USDC')],
-    extraTokens: {
-      [TokenSymbol('DAI')]: {
+    savingsTokens: [TokenSymbol('DAI'), TokenSymbol('USDC'), TokenSymbol('sDAI')],
+    extraTokens: [
+      {
+        symbol: TokenSymbol('DAI'),
         oracleType: 'fixed-usd',
         address: CheckedAddress('0x6b175474e89094c44da98b954eedeac495271d0f'),
       },
-      [TokenSymbol('USDC')]: {
+      {
+        symbol: TokenSymbol('USDC'),
         oracleType: 'fixed-usd',
         address: CheckedAddress('0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48'),
       },
-      [TokenSymbol('sDAI')]: {
+      {
+        symbol: TokenSymbol('sDAI'),
         oracleType: 'vault',
         address: CheckedAddress('0x83f20f44975d03b1b09e64809b757c47f942beea'),
       },
-    },
+    ],
   },
   [gnosis.id]: {
     id: gnosis.id,
@@ -127,16 +131,19 @@ const chainConfig: ChainConfig = {
     sDaiSymbol: TokenSymbol('sDAI'),
     mergedDaiAndSDaiMarkets: false,
     savingsNativeRouteTokens: [TokenSymbol('XDAI')],
-    extraTokens: {
-      [TokenSymbol('XDAI')]: {
+    savingsTokens: [TokenSymbol('XDAI'), TokenSymbol('sDAI')],
+    extraTokens: [
+      {
+        symbol: TokenSymbol('XDAI'),
         oracleType: 'fixed-usd',
         address: NATIVE_ASSET_MOCK_ADDRESS,
       },
-      [TokenSymbol('sDAI')]: {
+      {
+        symbol: TokenSymbol('sDAI'),
         oracleType: 'vault',
         address: CheckedAddress('0xaf204776c7245bF4147c2612BF6e5972Ee483701'),
       },
-    },
+    ],
   },
 }
 
@@ -149,17 +156,21 @@ export function getChainConfigEntry(chainId: number): ChainConfigEntry {
     return {
       ...mainnetConfig,
       meta: getNSTDevChainMeta(mainnetConfig.meta),
-      extraTokens: {
+      savingsNativeRouteTokens: [...mainnetConfig.savingsNativeRouteTokens, TokenSymbol('NST')],
+      savingsTokens: [...mainnetConfig.savingsTokens, TokenSymbol('NST'), TokenSymbol('sNST')],
+      extraTokens: [
         ...mainnetConfig.extraTokens,
-        [TokenSymbol('NST')]: {
+        {
+          symbol: TokenSymbol('NST'),
           oracleType: 'fixed-usd',
           address: CheckedAddress('0x798f111c92E38F102931F34D1e0ea7e671BDBE31'),
         },
-        [TokenSymbol('sNST')]: {
+        {
+          symbol: TokenSymbol('sNST'),
           oracleType: 'vault',
           address: CheckedAddress('0xeA8AE08513f8230cAA8d031D28cB4Ac8CE720c68'),
         },
-      },
+      ],
     }
   }
 

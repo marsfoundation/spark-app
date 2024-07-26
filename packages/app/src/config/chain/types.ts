@@ -41,17 +41,11 @@ export interface AirdropsPerAction {
 }
 export type Airdrop = Record<TokenSymbol, AirdropsPerAction>
 
-// routes are always bidirectional
-export type LifiWaivedRoutes = [TokenSymbol, TokenSymbol][]
-
-export type SavingsNativeRouteTokens = TokenSymbol[]
-
-export interface ExtraTokens {
-  [token: TokenSymbol]: {
-    oracleType: OracleType
-    address: CheckedAddress
-  }
-}
+export type ExtraTokens = {
+  oracleType: OracleType
+  address: CheckedAddress
+  symbol: TokenSymbol
+}[]
 
 export interface ChainConfigEntry {
   id: SupportedChainId
@@ -65,7 +59,8 @@ export interface ChainConfigEntry {
   daiSymbol: TokenSymbol
   sDaiSymbol: TokenSymbol
   mergedDaiAndSDaiMarkets: boolean
-  savingsNativeRouteTokens: SavingsNativeRouteTokens
+  savingsNativeRouteTokens: TokenSymbol[]
+  savingsTokens: TokenSymbol[]
   extraTokens: ExtraTokens
 }
 
