@@ -22,14 +22,14 @@ const hookRenderer = setupHookRenderer({
     tokens: [
       {
         address: token,
-        oracleType: 'erc4626',
+        oracleType: 'vault',
       },
     ],
   },
 })
 
 describe(useTokens.name, () => {
-  test('fetches data for ERC20 token with erc4626 oracle', async () => {
+  test('fetches data for ERC20 token with vault oracle', async () => {
     const balance = 543217812381398n
     const decimals = 18
     const symbol = 'sDAI'

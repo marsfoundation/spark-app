@@ -17,7 +17,7 @@ export function createOraclePriceFetcher({
     return async () => NormalizedUnitNumber(1)
   }
 
-  if (tokenConfig.oracleType === 'erc4626') {
+  if (tokenConfig.oracleType === 'vault') {
     return async () => {
       const result = await readContract(wagmiConfig, {
         abi: erc4626Abi,

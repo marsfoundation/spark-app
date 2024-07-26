@@ -1,6 +1,6 @@
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 
-export type OracleType = 'fixed-usd' | 'erc4626'
+export type OracleType = 'fixed-usd' | 'vault'
 
 export interface TokenConfig {
   address: CheckedAddress
