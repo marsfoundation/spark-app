@@ -150,7 +150,7 @@ function retrieveValueByPath(obj: any, path: string): any {
   }
 
   return path.split('.').reduce((acc, part) => {
-    if (acc === undefined) return undefined
+    if (typeof acc !== 'object') return undefined
     return acc[part]
   }, obj)
 }
