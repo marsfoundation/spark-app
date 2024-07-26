@@ -1,3 +1,4 @@
+import { JSONStringifyRich } from '@/utils/object'
 import { solidFetch } from '@/utils/solidFetch'
 
 const plausibleId = import.meta.env.VITE_ANALYTICS_PLAUSIBLE_ID
@@ -21,7 +22,7 @@ async function recordEventAsync(event: string, props: Record<string, any> = {}):
       name: event,
       url: window.location.href,
       domain: plausibleId,
-      props,
+      props: JSONStringifyRich(props),
     }),
     headers: {
       'Content-Type': 'application/json',

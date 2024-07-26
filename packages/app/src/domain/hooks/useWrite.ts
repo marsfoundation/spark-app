@@ -3,9 +3,11 @@ import { Abi, ContractFunctionName, encodeFunctionData } from 'viem'
 import { UseSimulateContractParameters, useAccount, useSimulateContract, useWriteContract } from 'wagmi'
 
 import { __TX_LIST_KEY } from '@/test/e2e/constants'
+import { recordEvent } from '../analytics'
 import { sanityCheckTx } from './sanityChecks'
 import { useOriginChainId } from './useOriginChainId'
 import { useWaitForTransactionReceiptUniversal } from './useWaitForTransactionReceiptUniversal'
+import { useWalletType } from './useWalletType'
 
 export type WriteStatus =
   | { kind: 'disabled' }
@@ -44,6 +46,7 @@ export function useWrite<TAbi extends Abi, TFunctionName extends ContractFunctio
   // used to reset the write state when the args change
 
   const { address: account } = useAccount()
+  const walletType = useWalletType() // needed for analytics
   const {
     data: parameters,
     error: _simulationError,
@@ -122,6 +125,14 @@ export function useWrite<TAbi extends Abi, TFunctionName extends ContractFunctio
       ? () => {
           sanityCheckTx(parameters.request, chainId)
           callbacks.onBeforeWrite?.()
+
+          recordEvent('tx-sent', {
+            account,
+            walletType,
+            chainId,
+            receiver: parameters.request.address,
+            method: parameters.request.functionName,
+          })
 
           writeContract(parameters.request as any)
         }
