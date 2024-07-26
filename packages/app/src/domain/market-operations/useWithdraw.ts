@@ -11,7 +11,7 @@ import { useContractAddress } from '../hooks/useContractAddress'
 import { ensureConfigTypes, useWrite } from '../hooks/useWrite'
 import { aaveDataLayerQueryKey } from '../market-info/aave-data-layer/query'
 import { BaseUnitNumber } from '../types/NumericValues'
-import { balancesQueryKey } from '../wallet/balances'
+import { getBalancesQueryKeyPrefix } from '../wallet/getBalancesQueryKeyPrefix'
 import { allowance } from './allowance/query'
 
 export type UseWithdrawArgs = {
@@ -63,7 +63,7 @@ export function useWithdraw({
           queryKey: aaveDataLayerQueryKey({ chainId, account: userAddress }),
         })
         void client.invalidateQueries({
-          queryKey: balancesQueryKey({ chainId, account: userAddress }),
+          queryKey: getBalancesQueryKeyPrefix({ chainId, account: userAddress }),
         })
         void client.invalidateQueries({
           queryKey: allowance({ wagmiConfig, chainId, token: asset, account: userAddress!, spender: lendingPool })

@@ -2,6 +2,7 @@ import { psmActionsConfig } from '@/config/contracts-generated'
 import { useContractAddress } from '@/domain/hooks/useContractAddress'
 import { assertNativeWithdraw } from '@/domain/savings/assertNativeWithdraw'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { Mode } from '@/features/dialogs/savings/withdraw/types'
 import { toBigInt } from '@/utils/bigNumber'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -9,7 +10,6 @@ import { useAccount, useChainId, useConfig } from 'wagmi'
 import { ensureConfigTypes, useWrite } from '../../hooks/useWrite'
 import { BaseUnitNumber } from '../../types/NumericValues'
 import { Token } from '../../types/Token'
-import { balancesQueryKey } from '../../wallet/balances'
 import { gemMinAmountOutQueryOptions } from './gemMinAmountOutQuery'
 
 export interface UseRedeemAndSwapArgs {
@@ -77,7 +77,7 @@ export function useRedeemAndSwap({
       },
       onTransactionSettled: async () => {
         void client.invalidateQueries({
-          queryKey: balancesQueryKey({ chainId, account: owner }),
+          queryKey: getBalancesQueryKeyPrefix({ chainId, account: owner }),
         })
 
         onTransactionSettled?.()

@@ -6,7 +6,7 @@ import { ensureConfigTypes, useWrite } from '../hooks/useWrite'
 import { allowance } from '../market-operations/allowance/query'
 import { CheckedAddress } from '../types/CheckedAddress'
 import { BaseUnitNumber } from '../types/NumericValues'
-import { balancesQueryKey } from '../wallet/balances'
+import { getBalancesQueryKeyPrefix } from '../wallet/getBalancesQueryKeyPrefix'
 import { vaultAssetQueryOptions } from './vaultAssetQuery'
 
 export interface UseVaultDepositArgs {
@@ -45,7 +45,7 @@ export function useVaultDeposit({
     {
       onTransactionSettled: async () => {
         void client.invalidateQueries({
-          queryKey: balancesQueryKey({ chainId, account: receiver }),
+          queryKey: getBalancesQueryKeyPrefix({ chainId, account: receiver }),
         })
         void client.invalidateQueries({
           queryKey: allowance({ wagmiConfig, chainId, token: vaultAsset!, account: receiver!, spender: vault })

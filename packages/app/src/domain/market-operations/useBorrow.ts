@@ -9,8 +9,8 @@ import { useContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes, useWrite } from '@/domain/hooks/useWrite'
 import { aaveDataLayerQueryKey } from '@/domain/market-info/aave-data-layer/query'
 import { BaseUnitNumber } from '@/domain/types/NumericValues'
-import { balancesQueryKey } from '@/domain/wallet/balances'
 import { toBigInt } from '@/utils/bigNumber'
+import { getBalancesQueryKeyPrefix } from '../wallet/getBalancesQueryKeyPrefix'
 
 export interface UseBorrowArgs {
   asset: Address
@@ -60,7 +60,7 @@ export function useBorrow({
           queryKey: aaveDataLayerQueryKey({ chainId, account: userAddress }),
         })
         void client.invalidateQueries({
-          queryKey: balancesQueryKey({ chainId, account: userAddress }),
+          queryKey: getBalancesQueryKeyPrefix({ chainId, account: userAddress }),
         })
 
         onTransactionSettled?.()

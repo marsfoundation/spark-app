@@ -4,7 +4,7 @@ import { useAccount, useChainId } from 'wagmi'
 import { useWrite } from '../hooks/useWrite'
 import { aaveDataLayerQueryKey } from '../market-info/aave-data-layer/query'
 import { CheckedAddress } from '../types/CheckedAddress'
-import { balancesQueryKey } from '../wallet/balances'
+import { getBalancesQueryKeyPrefix } from '../wallet/getBalancesQueryKeyPrefix'
 
 export interface UseClaimAllRewardsParams {
   assets: CheckedAddress[]
@@ -37,7 +37,7 @@ export function useClaimAllRewards({
           queryKey: aaveDataLayerQueryKey({ chainId, account }),
         })
         void queryClient.invalidateQueries({
-          queryKey: balancesQueryKey({ account, chainId }),
+          queryKey: getBalancesQueryKeyPrefix({ chainId, account }),
         })
         onTransactionSettled?.()
       },
