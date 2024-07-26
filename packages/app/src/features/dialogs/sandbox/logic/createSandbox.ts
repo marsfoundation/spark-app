@@ -2,6 +2,7 @@ import { Address, parseEther, parseUnits } from 'viem'
 
 import { apiUrl } from '@/config/consts'
 import { AppConfig } from '@/config/feature-flags'
+import { recordEvent } from '@/domain/analytics'
 import { createTenderlyFork } from '@/domain/sandbox/createTenderlyFork'
 import { tenderlyRpcActions } from '@/domain/tenderly/TenderlyRpcActions'
 import { BaseUnitNumber } from '@/domain/types/NumericValues'
@@ -31,6 +32,8 @@ export async function createSandbox(opts: {
 
     await tenderlyRpcActions.setTokenBalance(forkUrl, token.address, opts.userAddress, units)
   }
+
+  recordEvent('sandbox-created')
 
   return forkUrl
 }
