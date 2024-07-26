@@ -28,6 +28,7 @@ export interface FormFieldsForAssetClass {
   changeAsset: (index: number, newSymbol: TokenSymbol) => void
   addAsset: () => void
   removeAsset: (index: number) => void
+  maxSelectedFieldName?: string
 }
 
 export interface UseFormFieldsForAssetClassArgs {
@@ -119,6 +120,7 @@ export function useFormFieldsForAssetClass({
     changeAsset,
     addAsset,
     removeAsset: remove,
+    maxSelectedFieldName: type === 'deposit' ? 'isMaxSelected' : undefined,
   }
 }
 

@@ -20,6 +20,7 @@ export interface MultiAssetSelectorProps {
   control: Control<any>
   disabled?: boolean
   showError?: boolean
+  maxSelectedFieldName?: string
 }
 
 export function MultiAssetSelector({
@@ -32,6 +33,7 @@ export function MultiAssetSelector({
   control,
   disabled,
   showError,
+  maxSelectedFieldName,
 }: MultiAssetSelectorProps) {
   return (
     <div>
@@ -48,6 +50,7 @@ export function MultiAssetSelector({
               maxValue={assetToMaxValue[asset.token.symbol]}
               disabled={disabled}
               showError={showError}
+              maxSelectedFieldName={maxSelectedFieldName && `${fieldName}.${index}.${maxSelectedFieldName}`}
             />
           </div>
         )
@@ -91,7 +94,10 @@ export function ControlledMultiSelectorAssetInput({
       control={control}
       render={({ field, fieldState: { error, isTouched, isDirty } }) => {
         showError = showError ?? (isTouched || isDirty)
-        const isMaxSelected = (control as any)?._formValues?.isMaxSelected // as any & ?. are needed to make storybook happy
+        const isMaxSelected = maxSelectedFieldName
+          ? retrieveValueByPath((control as any)?._formValues, maxSelectedFieldName)
+          : false // as any & ?. are needed to make storybook happy
+
         function toggleIsMaxSelected() {
           if (maxSelectedFieldName) {
             setValue(maxSelectedFieldName, !isMaxSelected, {
@@ -136,4 +142,15 @@ export function ControlledMultiSelectorAssetInput({
       }}
     />
   )
+}
+
+function retrieveValueByPath(obj: any, path: string): any {
+  if (typeof obj !== 'object') {
+    return undefined
+  }
+
+  return path.split('.').reduce((acc, part) => {
+    if (acc === undefined) return undefined
+    return acc[part]
+  }, obj)
 }

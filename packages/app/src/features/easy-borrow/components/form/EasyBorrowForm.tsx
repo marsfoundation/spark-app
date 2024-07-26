@@ -60,6 +60,7 @@ export function EasyBorrowForm(props: EasyBorrowFlowProps) {
             addAsset={assetsToDepositFields.addAsset}
             removeAsset={assetsToDepositFields.removeAsset}
             changeAsset={assetsToDepositFields.changeAsset}
+            maxSelectedFieldName={assetsToDepositFields.maxSelectedFieldName}
             alreadyDeposited={alreadyDeposited}
             control={form.control}
             disabled={disabled}
