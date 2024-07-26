@@ -16,7 +16,7 @@ export interface SavingsViewProps {
   chainId: SupportedChainId
   depositedUSD: NormalizedUnitNumber
   depositedUSDPrecision: number
-  sDAIBalance: TokenWithBalance
+  sDaiWithBalance: TokenWithBalance
   currentProjections: Projections
   opportunityProjections: Projections
   assetsInWallet: TokenWithBalance[]
@@ -30,7 +30,7 @@ export function SavingsView({
   chainId,
   depositedUSD,
   depositedUSDPrecision,
-  sDAIBalance,
+  sDaiWithBalance,
   currentProjections,
   opportunityProjections,
   assetsInWallet,
@@ -54,7 +54,7 @@ export function SavingsView({
               depositedUSD={depositedUSD}
               projections={currentProjections}
               depositedUSDPrecision={depositedUSDPrecision}
-              sDAIBalance={sDAIBalance}
+              sDaiWithBalance={sDaiWithBalance}
               openDialog={openDialog}
             />
           </div>

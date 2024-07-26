@@ -1,40 +1,31 @@
 import { TokenWithBalance } from '@/domain/common/types'
-import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { SavingsInfo } from '@/domain/savings-info/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { MarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 
 const DEFAULT_PRECISION = 6
 
 export interface MakeSavingsOverviewParams {
-  marketInfo: MarketInfo
-  walletInfo: MarketWalletInfo
+  sDaiWithBalance: TokenWithBalance
   eligibleCashUSD: NormalizedUnitNumber
   savingsInfo: SavingsInfo
   timestampInMs: number
   stepInMs: number
 }
 export interface SavingsOverview {
-  shares: NormalizedUnitNumber
   potentialShares: NormalizedUnitNumber
   depositedUSD: NormalizedUnitNumber
   depositedUSDPrecision: number
-  sDAIBalance: TokenWithBalance
 }
 
 export function makeSavingsOverview({
-  marketInfo,
-  walletInfo,
+  sDaiWithBalance,
   eligibleCashUSD,
   savingsInfo,
   timestampInMs,
   stepInMs,
 }: MakeSavingsOverviewParams): SavingsOverview {
-  const sDAI = marketInfo.sDAI
-  const shares = walletInfo.findWalletBalanceForToken(sDAI)
-
   const [depositedUSD, precision] = calculateSharesToDaiWithPrecision({
-    shares,
+    shares: sDaiWithBalance.balance,
     savingsInfo,
     timestampInMs,
     stepInMs,
@@ -42,14 +33,10 @@ export function makeSavingsOverview({
 
   const potentialShares = savingsInfo.convertDaiToShares({ dai: eligibleCashUSD })
 
-  const sDAIBalance = { token: sDAI, balance: walletInfo.findWalletBalanceForToken(sDAI) }
-
   return {
-    shares,
     potentialShares,
     depositedUSD,
     depositedUSDPrecision: precision,
-    sDAIBalance,
   }
 }
 
