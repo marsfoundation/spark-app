@@ -71,8 +71,7 @@ const chainConfig: ChainConfig = {
     daiSymbol: TokenSymbol('DAI'),
     sDaiSymbol: TokenSymbol('sDAI'),
     mergedDaiAndSDaiMarkets: true,
-    savingsNativeRouteTokens: [TokenSymbol('DAI'), TokenSymbol('USDC')],
-    savingsTokens: [TokenSymbol('DAI'), TokenSymbol('USDC'), TokenSymbol('sDAI')],
+    savingsInputTokens: [TokenSymbol('DAI'), TokenSymbol('USDC')],
     extraTokens: [
       {
         symbol: TokenSymbol('DAI'),
@@ -130,8 +129,7 @@ const chainConfig: ChainConfig = {
     daiSymbol: TokenSymbol('XDAI'),
     sDaiSymbol: TokenSymbol('sDAI'),
     mergedDaiAndSDaiMarkets: false,
-    savingsNativeRouteTokens: [TokenSymbol('XDAI')],
-    savingsTokens: [TokenSymbol('XDAI'), TokenSymbol('sDAI')],
+    savingsInputTokens: [TokenSymbol('XDAI')],
     extraTokens: [
       {
         symbol: TokenSymbol('XDAI'),
@@ -156,8 +154,7 @@ export function getChainConfigEntry(chainId: number): ChainConfigEntry {
     return {
       ...mainnetConfig,
       meta: getNSTDevChainMeta(mainnetConfig.meta),
-      savingsNativeRouteTokens: [...mainnetConfig.savingsNativeRouteTokens, TokenSymbol('NST')],
-      savingsTokens: [...mainnetConfig.savingsTokens, TokenSymbol('NST'), TokenSymbol('sNST')],
+      savingsInputTokens: [...mainnetConfig.savingsInputTokens, TokenSymbol('NST')],
       extraTokens: [
         ...mainnetConfig.extraTokens,
         {

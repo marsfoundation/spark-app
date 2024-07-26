@@ -41,11 +41,11 @@ export interface AirdropsPerAction {
 }
 export type Airdrop = Record<TokenSymbol, AirdropsPerAction>
 
-export type ExtraTokens = {
+export interface TokenWithOracleType {
   oracleType: OracleType
   address: CheckedAddress
   symbol: TokenSymbol
-}[]
+}
 
 export interface ChainConfigEntry {
   id: SupportedChainId
@@ -59,9 +59,8 @@ export interface ChainConfigEntry {
   daiSymbol: TokenSymbol
   sDaiSymbol: TokenSymbol
   mergedDaiAndSDaiMarkets: boolean
-  savingsNativeRouteTokens: TokenSymbol[]
-  savingsTokens: TokenSymbol[]
-  extraTokens: ExtraTokens
+  savingsInputTokens: TokenSymbol[]
+  extraTokens: TokenWithOracleType[]
 }
 
 export type ChainConfig = Record<SupportedChainId, ChainConfigEntry>

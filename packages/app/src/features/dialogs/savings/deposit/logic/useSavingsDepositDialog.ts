@@ -41,7 +41,7 @@ export function useSavingsDepositDialog({
   const walletInfo = useMarketWalletInfo()
   const chainId = useChainId()
 
-  const { savingsEnterTokens: depositOptions } = useSavingsTokens()
+  const { savingsInputTokens: depositOptions } = useSavingsTokens()
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')
 

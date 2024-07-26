@@ -42,7 +42,7 @@ export function useSavingsWithdrawDialog(mode: Mode): UseSavingsWithdrawDialogRe
 
   const sendModeExtension = useSendModeExtension({ mode, marketInfo })
 
-  const { savingsEnterTokens: withdrawOptions } = useSavingsTokens()
+  const { savingsInputTokens: withdrawOptions } = useSavingsTokens()
 
   const sDaiWithBalance: TokenWithBalance = {
     token: marketInfo.sDAI,
