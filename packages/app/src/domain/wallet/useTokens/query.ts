@@ -5,6 +5,7 @@ import { Config } from 'wagmi'
 import { TokenWithBalance } from '../../common/types'
 import { CheckedAddress } from '../../types/CheckedAddress'
 import { Token } from '../../types/Token'
+import { getBalancesQueryKeyPrefix } from '../getBalancesQueryKeyPrefix'
 import { createAssetDataFetcher } from './createAssetDataFetcher'
 import { createOraclePriceFetcher } from './createOraclePriceFetcher'
 import { OracleType } from './types'
@@ -46,5 +47,5 @@ export function tokensQueryOptions({ tokens, wagmiConfig, chainId, account }: To
 }
 
 export function tokensQueryKey({ tokens, account, chainId }: Omit<TokensParams, 'wagmiConfig'>): unknown[] {
-  return ['tokens', tokens, account, chainId]
+  return [...getBalancesQueryKeyPrefix({ account, chainId }), 'tokens', tokens]
 }

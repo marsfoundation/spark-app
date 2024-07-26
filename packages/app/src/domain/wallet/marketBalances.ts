@@ -12,12 +12,13 @@ import {
 import { getContractAddress } from '../hooks/useContractAddress'
 import { CheckedAddress } from '../types/CheckedAddress'
 import { BaseUnitNumber } from '../types/NumericValues'
+import { getBalancesQueryKeyPrefix } from './getBalancesQueryKeyPrefix'
 
-export interface BalanceQueryKeyParams {
+export interface MarketBalancesQueryKeyParams {
   account?: Address
   chainId: number
 }
-export interface BalanceParams extends BalanceQueryKeyParams {
+export interface MarketBalancesParams extends MarketBalancesQueryKeyParams {
   wagmiConfig: Config
 }
 
@@ -27,11 +28,11 @@ export interface BalanceItem {
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function balances({ wagmiConfig, account, chainId }: BalanceParams) {
+export function marketBalances({ wagmiConfig, account, chainId }: MarketBalancesParams) {
   const lendingPoolAddressProvider = getContractAddress(lendingPoolAddressProviderAddress, chainId)
 
   return queryOptions<BalanceItem[]>({
-    queryKey: balancesQueryKey({ account, chainId }),
+    queryKey: marketBalancesQueryKey({ account, chainId }),
     queryFn: async () => {
       if (!account) {
         return []
@@ -56,12 +57,6 @@ export function balances({ wagmiConfig, account, chainId }: BalanceParams) {
   })
 }
 
-export function balancesQueryKey({ account, chainId }: BalanceQueryKeyParams): unknown[] {
-  return [
-    {
-      functionName: 'getUserWalletBalances',
-    },
-    account,
-    chainId,
-  ]
+export function marketBalancesQueryKey({ account, chainId }: MarketBalancesQueryKeyParams): unknown[] {
+  return [...getBalancesQueryKeyPrefix({ account, chainId }), 'market-balances']
 }
