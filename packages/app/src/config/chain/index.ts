@@ -128,6 +128,7 @@ const chainConfig: ChainConfig = {
     savingsNativeRouteTokens: [TokenSymbol('XDAI')],
     extraTokens: [
       { address: NATIVE_ASSET_MOCK_ADDRESS, oracleType: 'fixed-usd' }, // XDAI
+      { address: CheckedAddress('0xaf204776c7245bF4147c2612BF6e5972Ee483701'), oracleType: 'erc4626' }, // sDAI
     ],
   },
 }
