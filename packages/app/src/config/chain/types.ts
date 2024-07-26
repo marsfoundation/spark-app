@@ -3,7 +3,7 @@ import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 
-import { TokenConfig } from '@/domain/wallet/useTokens/types'
+import { OracleType } from '@/domain/wallet/useTokens/types'
 import { SUPPORTED_CHAIN_IDS } from './constants'
 
 export type SupportedChainId = (typeof SUPPORTED_CHAIN_IDS)[number]
@@ -46,6 +46,13 @@ export type LifiWaivedRoutes = [TokenSymbol, TokenSymbol][]
 
 export type SavingsNativeRouteTokens = TokenSymbol[]
 
+export interface ExtraTokens {
+  [token: TokenSymbol]: {
+    oracleType: OracleType
+    address: CheckedAddress
+  }
+}
+
 export interface ChainConfigEntry {
   id: SupportedChainId
   meta: ChainMeta
@@ -55,12 +62,11 @@ export interface ChainConfigEntry {
   tokenSymbolToReplacedName: TokenSymbolToReplacedName
   airdrop: Airdrop
   savingsInfoQuery: (args: SavingsInfoQueryParams) => SavingsInfoQueryOptions
-  lifiRoutesWithWaivedFees: LifiWaivedRoutes
   daiSymbol: TokenSymbol
   sDaiSymbol: TokenSymbol
   mergedDaiAndSDaiMarkets: boolean
   savingsNativeRouteTokens: SavingsNativeRouteTokens
-  extraTokens: TokenConfig[]
+  extraTokens: ExtraTokens
 }
 
 export type ChainConfig = Record<SupportedChainId, ChainConfigEntry>
