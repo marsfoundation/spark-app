@@ -35,14 +35,14 @@ const FormInputSchema = z
 interface ControlledMultiSelectorAssetInputTestWrapperProps {
   max?: NormalizedUnitNumber
   token?: Token
+  maxSelectedFieldName?: string
 }
 
 function ControlledMultiSelectorAssetInputTestWrapper({
   max,
-  token: _token,
+  token = tokens.DAI,
+  maxSelectedFieldName = 'isMaxSelected',
 }: ControlledMultiSelectorAssetInputTestWrapperProps) {
-  const token = _token ?? tokens.DAI
-
   const form = useForm<z.infer<typeof FormInputSchema>>({
     resolver: zodResolver(FormInputSchema),
     defaultValues: {
@@ -60,7 +60,7 @@ function ControlledMultiSelectorAssetInputTestWrapper({
         control={form.control}
         fieldName="value"
         token={token}
-        maxSelectedFieldName="isMaxSelected"
+        maxSelectedFieldName={maxSelectedFieldName}
         max={max}
       />
     </Form>
@@ -139,6 +139,18 @@ describe(ControlledMultiSelectorAssetInput.name, () => {
     const max = NormalizedUnitNumber(1234)
 
     const { getByRole } = render(<ControlledMultiSelectorAssetInputTestWrapper max={max} />)
+
+    act(() => getByRole('button', { name: 'MAX' }).click())
+    await waitFor(() => expect(getByRole('textbox')).toHaveValue(max.toFixed()))
+    await waitFor(() => expect(getByRole('button', { name: 'MAX' })).toBeDisabled())
+  })
+
+  test('Able to use arbitrary path as maxSelectedFieldName', async () => {
+    const max = NormalizedUnitNumber(1234)
+
+    const { getByRole } = render(
+      <ControlledMultiSelectorAssetInputTestWrapper max={max} maxSelectedFieldName="assets.0.isMaxSelected" />,
+    )
 
     act(() => getByRole('button', { name: 'MAX' }).click())
     await waitFor(() => expect(getByRole('textbox')).toHaveValue(max.toFixed()))

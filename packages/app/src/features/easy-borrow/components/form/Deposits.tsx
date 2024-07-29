@@ -25,6 +25,7 @@ export interface DepositsProps {
   changeAsset: (index: number, newAssetSymbol: TokenSymbol) => void
   alreadyDeposited: ExistingPosition
   control: Control<EasyBorrowFormSchema>
+  maxSelectedFieldName?: string
   disabled?: boolean
 }
 
