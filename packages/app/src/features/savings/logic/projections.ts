@@ -11,7 +11,7 @@ export interface CalculateProjectionsParams {
   savingsInfo: SavingsInfo
 }
 export function calculateProjections({ timestamp, shares, savingsInfo }: CalculateProjectionsParams): Projections {
-  const base = savingsInfo.convertSharesToDai({ shares })
+  const base = savingsInfo.convertToAssets({ shares })
   const thirtyDays = NormalizedUnitNumber(
     savingsInfo.predictSharesValue({ timestamp: timestamp + 30 * SECONDS_PER_DAY, shares }).minus(base),
   )

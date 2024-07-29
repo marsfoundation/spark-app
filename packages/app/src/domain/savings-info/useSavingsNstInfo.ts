@@ -1,23 +1,22 @@
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { useConfig } from 'wagmi'
+import { useChainId, useConfig } from 'wagmi'
 
 import { getChainConfigEntry } from '@/config/chain'
 import { SuspenseQueryWith } from '@/utils/types'
 import { useTimestamp } from '@/utils/useTimestamp'
 
-import { useOriginChainId } from '../hooks/useOriginChainId'
 import { SavingsInfo } from './types'
 
-export type UseSavingsInfoResult = SuspenseQueryWith<{
-  savingsInfo: SavingsInfo | null
+export type UseSavingsNstInfoResult = SuspenseQueryWith<{
+  savingsNstInfo: SavingsInfo | null
 }>
 
-export function useSavingsInfo(): UseSavingsInfoResult {
-  const chainId = useOriginChainId()
+export function useSavingsNstInfo(): UseSavingsNstInfoResult {
+  const chainId = useChainId()
   const wagmiConfig = useConfig()
   const { timestamp } = useTimestamp()
 
-  const queryOptions = getChainConfigEntry(chainId).savingsInfoQuery
+  const queryOptions = getChainConfigEntry(chainId).savingsNstInfoQuery
   const result = useSuspenseQuery(
     queryOptions({
       wagmiConfig,
@@ -28,6 +27,6 @@ export function useSavingsInfo(): UseSavingsInfoResult {
 
   return {
     ...result,
-    savingsInfo: result.data,
+    savingsNstInfo: result.data,
   }
 }

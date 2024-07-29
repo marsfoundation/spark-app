@@ -1,23 +1,24 @@
-import BigNumber from 'bignumber.js'
-import { mainnet } from 'viem/chains'
 import { multicall } from 'wagmi/actions'
 
 import { potAbi, potAddress } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { bigNumberify } from '@/utils/bigNumber'
-import { fromRay, pow } from '@/utils/math'
 
-import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
-import { SavingsInfo, SavingsInfoQueryOptions, SavingsInfoQueryParams } from './types'
+import { NST_DEV_CHAIN_ID } from '@/config/chain/constants'
+import { PotSavingsInfo } from './potSavingsInfo'
+import { SavingsInfoQueryOptions, SavingsInfoQueryParams } from './types'
 
-export function mainnetSavingsInfoQuery({ wagmiConfig, timestamp }: SavingsInfoQueryParams): SavingsInfoQueryOptions {
-  const makerPotAddress = getContractAddress(potAddress, mainnet.id)
+export function mainnetSavingsDaiInfoQuery({
+  wagmiConfig,
+  timestamp,
+  chainId,
+}: SavingsInfoQueryParams): SavingsInfoQueryOptions {
+  const makerPotAddress = getContractAddress(potAddress, chainId)
   return {
-    queryKey: ['mainnet-savings-info'],
+    queryKey: ['savings-dai-info', { chainId }],
     queryFn: async () => {
       const [dsr, rho, chi] = await multicall(wagmiConfig, {
         allowFailure: false,
-        chainId: mainnet.id,
         contracts: [
           {
             address: makerPotAddress,
@@ -40,7 +41,7 @@ export function mainnetSavingsInfoQuery({ wagmiConfig, timestamp }: SavingsInfoQ
         ],
       })
 
-      return new MainnetSavingsInfo({
+      return new PotSavingsInfo({
         potParams: {
           dsr: bigNumberify(dsr),
           rho: bigNumberify(rho),
@@ -52,51 +53,81 @@ export function mainnetSavingsInfoQuery({ wagmiConfig, timestamp }: SavingsInfoQ
   }
 }
 
-export interface PotParams {
-  dsr: BigNumber
-  rho: BigNumber
-  chi: BigNumber
+export function mainnetSavingsNstInfoQuery({
+  wagmiConfig,
+  chainId,
+  timestamp,
+}: SavingsInfoQueryParams): SavingsInfoQueryOptions {
+  return {
+    queryKey: ['savings-nst-info', { chainId }],
+    queryFn: async () => {
+      if (chainId !== NST_DEV_CHAIN_ID) {
+        return null
+      }
+
+      const [nsr, rho, chi] = await multicall(wagmiConfig, {
+        allowFailure: false,
+        contracts: [
+          {
+            address: sNSTAddress,
+            functionName: 'nsr',
+            args: [],
+            abi: sNSTAbi,
+          },
+          {
+            address: sNSTAddress,
+            functionName: 'rho',
+            args: [],
+            abi: sNSTAbi,
+          },
+          {
+            address: sNSTAddress,
+            functionName: 'chi',
+            args: [],
+            abi: sNSTAbi,
+          },
+        ],
+      })
+
+      return new PotSavingsInfo({
+        potParams: {
+          dsr: bigNumberify(nsr),
+          rho: bigNumberify(rho),
+          chi: bigNumberify(chi),
+        },
+        currentTimestamp: timestamp,
+      })
+    },
+  }
 }
-export interface MainnetSavingsInfoParams {
-  potParams: PotParams
-  currentTimestamp: number
-}
 
-export class MainnetSavingsInfo implements SavingsInfo {
-  readonly DSR: Percentage
-  readonly potParams: PotParams
-  readonly currentTimestamp: number
-
-  constructor({ potParams, currentTimestamp }: MainnetSavingsInfoParams) {
-    this.potParams = potParams
-    this.currentTimestamp = currentTimestamp
-    this.DSR = Percentage(pow(fromRay(potParams.dsr), 60 * 60 * 24 * 365).minus(1), true)
-  }
-
-  get apy(): Percentage {
-    return this.DSR
-  }
-
-  get supportsRealTimeInterestAccrual(): boolean {
-    return true
-  }
-
-  private getUpdatedChi(timestamp: number): BigNumber {
-    const { dsr, rho, chi } = this.potParams
-    return fromRay(pow(fromRay(dsr), bigNumberify(timestamp).minus(rho)).multipliedBy(chi))
-  }
-
-  convertDaiToShares({ dai }: { dai: NormalizedUnitNumber }): NormalizedUnitNumber {
-    const updatedChi = this.getUpdatedChi(this.currentTimestamp)
-    return NormalizedUnitNumber(dai.dividedBy(updatedChi))
-  }
-
-  convertSharesToDai({ shares }: { shares: NormalizedUnitNumber }): NormalizedUnitNumber {
-    return this.predictSharesValue({ timestamp: this.currentTimestamp, shares })
-  }
-
-  predictSharesValue({ timestamp, shares }: { timestamp: number; shares: NormalizedUnitNumber }): NormalizedUnitNumber {
-    const updatedChi = this.getUpdatedChi(timestamp)
-    return NormalizedUnitNumber(shares.multipliedBy(updatedChi))
-  }
-}
+const sNSTAddress = '0xeA8AE08513f8230cAA8d031D28cB4Ac8CE720c68'
+const sNSTAbi = [
+  {
+    constant: true,
+    payable: false,
+    type: 'function',
+    inputs: [],
+    name: 'chi',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    constant: true,
+    payable: false,
+    type: 'function',
+    inputs: [],
+    name: 'nsr',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    constant: true,
+    payable: false,
+    type: 'function',
+    inputs: [],
+    name: 'rho',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+] as const
