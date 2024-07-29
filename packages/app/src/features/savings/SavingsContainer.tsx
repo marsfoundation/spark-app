@@ -29,7 +29,7 @@ function SavingsContainer() {
     chainId,
     depositedUSD,
     depositedUSDPrecision,
-    sDAIBalance,
+    sDaiWithBalance,
     currentProjections,
     opportunityProjections,
     assetsInWallet,
@@ -49,7 +49,7 @@ function SavingsContainer() {
       chainId={chainId}
       depositedUSD={depositedUSD}
       depositedUSDPrecision={depositedUSDPrecision}
-      sDAIBalance={sDAIBalance}
+      sDaiWithBalance={sDaiWithBalance}
       currentProjections={currentProjections}
       opportunityProjections={opportunityProjections}
       assetsInWallet={assetsInWallet}

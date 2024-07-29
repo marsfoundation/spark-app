@@ -9,7 +9,7 @@ import { allowance } from '../market-operations/allowance/query'
 import { assertNativeWithdraw } from '../savings/assertNativeWithdraw'
 import { CheckedAddress } from '../types/CheckedAddress'
 import { BaseUnitNumber } from '../types/NumericValues'
-import { balancesQueryKey } from '../wallet/balances'
+import { getBalancesQueryKeyPrefix } from '../wallet/getBalancesQueryKeyPrefix'
 
 interface UseSexyDaiWithdrawArgs {
   sDai: CheckedAddress
@@ -59,7 +59,7 @@ export function useSexyDaiWithdraw({
       },
       onTransactionSettled: async () => {
         void client.invalidateQueries({
-          queryKey: balancesQueryKey({ chainId: gnosis.id, account: owner }),
+          queryKey: getBalancesQueryKeyPrefix({ chainId: gnosis.id, account: owner }),
         })
         void client.invalidateQueries({
           queryKey: allowance({

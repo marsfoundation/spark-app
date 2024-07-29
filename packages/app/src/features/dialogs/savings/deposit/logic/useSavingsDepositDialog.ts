@@ -1,12 +1,12 @@
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { useSavingsInfo } from '@/domain/savings-info/useSavingsInfo'
-import { makeAssetsInWalletList } from '@/domain/savings/makeAssetsInWalletList'
 import { Token } from '@/domain/types/Token'
 import { useMarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 import { Objective } from '@/features/actions/logic/types'
 import { AssetInputSchema, useDebouncedDialogFormValues } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
+import { useSavingsTokens } from '@/features/savings/logic/useSavingsTokens'
 import { assert } from '@/utils/assert'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
@@ -41,7 +41,7 @@ export function useSavingsDepositDialog({
   const walletInfo = useMarketWalletInfo()
   const chainId = useChainId()
 
-  const { assets: depositOptions } = makeAssetsInWalletList({ walletInfo, chainId })
+  const { savingsInputTokens: depositOptions } = useSavingsTokens()
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')
 

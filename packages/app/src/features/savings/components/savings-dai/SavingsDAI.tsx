@@ -18,7 +18,7 @@ import { APYLabel } from '../savings-opportunity/components/APYLabel'
 export interface SavingsDAIProps {
   depositedUSD: NormalizedUnitNumber
   depositedUSDPrecision: number
-  sDAIBalance: TokenWithBalance
+  sDaiWithBalance: TokenWithBalance
   APY: Percentage
   chainId: SupportedChainId
   projections: Projections
@@ -28,7 +28,7 @@ export interface SavingsDAIProps {
 export function SavingsDAI({
   depositedUSD,
   depositedUSDPrecision,
-  sDAIBalance,
+  sDaiWithBalance,
   APY,
   chainId,
   projections,
@@ -76,7 +76,7 @@ export function SavingsDAI({
         <div className="font-semibold text-basics-dark-grey text-xs tracking-wide">
           =
           <span data-testid={testIds.savings.sDaiBalance}>
-            {sDAIBalance.token.format(sDAIBalance.balance, { style: 'auto' })} {sDAIBalance.token.symbol}
+            {sDaiWithBalance.token.format(sDaiWithBalance.balance, { style: 'auto' })} {sDaiWithBalance.token.symbol}
           </span>
         </div>
       </div>

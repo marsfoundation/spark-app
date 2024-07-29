@@ -71,15 +71,23 @@ const chainConfig: ChainConfig = {
     daiSymbol: TokenSymbol('DAI'),
     sDaiSymbol: TokenSymbol('sDAI'),
     mergedDaiAndSDaiMarkets: true,
-    lifiRoutesWithWaivedFees: [
-      [TokenSymbol('DAI'), TokenSymbol('sDAI')],
-      [TokenSymbol('USDC'), TokenSymbol('sDAI')],
-    ],
-    savingsNativeRouteTokens: [TokenSymbol('DAI'), TokenSymbol('USDC')],
+    savingsInputTokens: [TokenSymbol('DAI'), TokenSymbol('USDC')],
     extraTokens: [
-      { address: CheckedAddress('0x6b175474e89094c44da98b954eedeac495271d0f'), oracleType: 'fixed-usd' }, // DAI
-      { address: CheckedAddress('0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48'), oracleType: 'fixed-usd' }, // USDC
-      { address: CheckedAddress('0x83f20f44975d03b1b09e64809b757c47f942beea'), oracleType: 'vault' }, // sDAI
+      {
+        symbol: TokenSymbol('DAI'),
+        oracleType: 'fixed-usd',
+        address: CheckedAddress('0x6b175474e89094c44da98b954eedeac495271d0f'),
+      },
+      {
+        symbol: TokenSymbol('USDC'),
+        oracleType: 'fixed-usd',
+        address: CheckedAddress('0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48'),
+      },
+      {
+        symbol: TokenSymbol('sDAI'),
+        oracleType: 'vault',
+        address: CheckedAddress('0x83f20f44975d03b1b09e64809b757c47f942beea'),
+      },
     ],
   },
   [gnosis.id]: {
@@ -121,14 +129,18 @@ const chainConfig: ChainConfig = {
     daiSymbol: TokenSymbol('XDAI'),
     sDaiSymbol: TokenSymbol('sDAI'),
     mergedDaiAndSDaiMarkets: false,
-    lifiRoutesWithWaivedFees: [
-      // without PSMs only DAI to sDAI route has waived fees
-      [TokenSymbol('XDAI'), TokenSymbol('sDAI')],
-    ],
-    savingsNativeRouteTokens: [TokenSymbol('XDAI')],
+    savingsInputTokens: [TokenSymbol('XDAI')],
     extraTokens: [
-      { address: NATIVE_ASSET_MOCK_ADDRESS, oracleType: 'fixed-usd' }, // XDAI
-      { address: CheckedAddress('0xaf204776c7245bF4147c2612BF6e5972Ee483701'), oracleType: 'vault' }, // sDAI
+      {
+        symbol: TokenSymbol('XDAI'),
+        oracleType: 'fixed-usd',
+        address: NATIVE_ASSET_MOCK_ADDRESS,
+      },
+      {
+        symbol: TokenSymbol('sDAI'),
+        oracleType: 'vault',
+        address: CheckedAddress('0xaf204776c7245bF4147c2612BF6e5972Ee483701'),
+      },
     ],
   },
 }
@@ -142,10 +154,19 @@ export function getChainConfigEntry(chainId: number): ChainConfigEntry {
     return {
       ...mainnetConfig,
       meta: getNSTDevChainMeta(mainnetConfig.meta),
+      savingsInputTokens: [...mainnetConfig.savingsInputTokens, TokenSymbol('NST')],
       extraTokens: [
         ...mainnetConfig.extraTokens,
-        { address: CheckedAddress('0x798f111c92E38F102931F34D1e0ea7e671BDBE31'), oracleType: 'fixed-usd' }, // NST
-        { address: CheckedAddress('0xeA8AE08513f8230cAA8d031D28cB4Ac8CE720c68'), oracleType: 'vault' }, // sNST
+        {
+          symbol: TokenSymbol('NST'),
+          oracleType: 'fixed-usd',
+          address: CheckedAddress('0x798f111c92E38F102931F34D1e0ea7e671BDBE31'),
+        },
+        {
+          symbol: TokenSymbol('sNST'),
+          oracleType: 'vault',
+          address: CheckedAddress('0xeA8AE08513f8230cAA8d031D28cB4Ac8CE720c68'),
+        },
       ],
     }
   }

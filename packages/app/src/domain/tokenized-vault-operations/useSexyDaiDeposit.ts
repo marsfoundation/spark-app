@@ -5,7 +5,7 @@ import { gnosis } from 'viem/chains'
 import { useAccount } from 'wagmi'
 import { ensureConfigTypes, useWrite } from '../hooks/useWrite'
 import { BaseUnitNumber } from '../types/NumericValues'
-import { balancesQueryKey } from '../wallet/balances'
+import { getBalancesQueryKeyPrefix } from '../wallet/getBalancesQueryKeyPrefix'
 
 export interface UseSexyDaiDepositArgs {
   value: BaseUnitNumber
@@ -40,7 +40,7 @@ export function useSexyDaiDeposit({
     {
       onTransactionSettled: async () => {
         void client.invalidateQueries({
-          queryKey: balancesQueryKey({ chainId: gnosis.id, account: receiver }),
+          queryKey: getBalancesQueryKeyPrefix({ chainId: gnosis.id, account: receiver }),
         })
 
         onTransactionSettled?.()

@@ -22,7 +22,7 @@ export const Desktop: Story = {
   args: {
     depositedUSD: NormalizedUnitNumber(20765.7654),
     depositedUSDPrecision: 4,
-    sDAIBalance: { balance: NormalizedUnitNumber(20000.0), token: tokens.sDAI },
+    sDaiWithBalance: { balance: NormalizedUnitNumber(20000.0), token: tokens.sDAI },
     APY: Percentage(0.05),
     chainId: mainnet.id,
     projections: {

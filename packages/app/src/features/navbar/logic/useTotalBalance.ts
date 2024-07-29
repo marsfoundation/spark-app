@@ -1,10 +1,10 @@
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { balances } from '@/domain/wallet/balances'
 import { UseQueryResult, useQuery } from '@tanstack/react-query'
 import { useAccount, useChainId, useConfig } from 'wagmi'
 
+import { marketBalances } from '@/domain/wallet/marketBalances'
 import { BalanceInfo } from '../types'
 
 export interface UseTotalBalanceParams {
@@ -16,7 +16,7 @@ export function useTotalBalance({ marketInfo }: UseTotalBalanceParams): BalanceI
   const chainId = useChainId()
 
   const walletInfo = useQuery({
-    ...balances({
+    ...marketBalances({
       wagmiConfig,
       account: address && CheckedAddress(address),
       chainId,

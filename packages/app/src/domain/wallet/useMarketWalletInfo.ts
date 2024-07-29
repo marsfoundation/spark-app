@@ -6,7 +6,7 @@ import { CheckedAddress } from '../types/CheckedAddress'
 import { NormalizedUnitNumber } from '../types/NumericValues'
 import { Token } from '../types/Token'
 import { TokenSymbol } from '../types/TokenSymbol'
-import { balances } from './balances'
+import { marketBalances } from './marketBalances'
 
 export interface WalletBalance {
   balance: NormalizedUnitNumber
@@ -28,7 +28,7 @@ export function useMarketWalletInfo(): MarketWalletInfo {
   const { marketInfo } = useMarketInfo()
 
   const { data: balanceData } = useSuspenseQuery({
-    ...balances({
+    ...marketBalances({
       wagmiConfig,
       account: address && CheckedAddress(address),
       chainId,

@@ -7,7 +7,7 @@ import { ensureConfigTypes, useWrite } from '../hooks/useWrite'
 import { assertNativeWithdraw } from '../savings/assertNativeWithdraw'
 import { CheckedAddress } from '../types/CheckedAddress'
 import { BaseUnitNumber } from '../types/NumericValues'
-import { balancesQueryKey } from '../wallet/balances'
+import { getBalancesQueryKeyPrefix } from '../wallet/getBalancesQueryKeyPrefix'
 
 interface UseVaultRedeemArgs {
   vault: CheckedAddress
@@ -57,7 +57,7 @@ export function useVaultRedeem({
       },
       onTransactionSettled: async () => {
         void client.invalidateQueries({
-          queryKey: balancesQueryKey({ chainId, account: owner }),
+          queryKey: getBalancesQueryKeyPrefix({ chainId, account: owner }),
         })
 
         onTransactionSettled?.()
