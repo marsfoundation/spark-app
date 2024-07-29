@@ -86,7 +86,7 @@ export function ControlledMultiSelectorAssetInput({
   variant,
   walletIconLabel,
 }: ControlledMultiSelectorAssetInputProps) {
-  const { setValue, trigger } = useFormContext()
+  const { setValue, trigger, getValues } = useFormContext()
 
   return (
     <Controller
@@ -94,9 +94,7 @@ export function ControlledMultiSelectorAssetInput({
       control={control}
       render={({ field, fieldState: { error, isTouched, isDirty } }) => {
         showError = showError ?? (isTouched || isDirty)
-        const isMaxSelected = maxSelectedFieldName
-          ? retrieveValueByPath((control as any)?._formValues, maxSelectedFieldName)
-          : false // as any & ?. are needed to make storybook happy
+        const isMaxSelected = maxSelectedFieldName ? getValues(maxSelectedFieldName) : false
 
         function toggleIsMaxSelected() {
           if (maxSelectedFieldName) {
@@ -142,15 +140,4 @@ export function ControlledMultiSelectorAssetInput({
       }}
     />
   )
-}
-
-function retrieveValueByPath(obj: any, path: string): any {
-  if (typeof obj !== 'object') {
-    return undefined
-  }
-
-  return path.split('.').reduce((acc, part) => {
-    if (typeof acc !== 'object') return undefined
-    return acc[part]
-  }, obj)
 }
