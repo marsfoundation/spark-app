@@ -9,11 +9,11 @@ import { useSavings } from './logic/useSavings'
 import { SavingsView } from './views/SavingsView'
 
 function SavingsContainer() {
-  const { guestMode, openDialog, savingsDetails: savingsDaiDetails, openSandboxModal } = useSavings()
+  const { guestMode, openDialog, savingsDetails, openSandboxModal } = useSavings()
   const { openConnectModal = () => {} } = useConnectModal()
   const { openChainModal = () => {} } = useChainModal()
 
-  if (savingsDaiDetails.state === 'unsupported') {
+  if (savingsDetails.state === 'unsupported') {
     return (
       <UnsupportedChainView
         openChainModal={openChainModal}
@@ -24,18 +24,9 @@ function SavingsContainer() {
     )
   }
 
-  const {
-    APY,
-    chainId,
-    depositedUSD,
-    depositedUSDPrecision,
-    sDaiWithBalance,
-    currentProjections,
-    opportunityProjections,
-    assetsInWallet,
-    maxBalanceToken,
-    totalEligibleCashUSD,
-  } = savingsDaiDetails
+  const { chainId, assetsInWallet, maxBalanceToken, totalEligibleCashUSD, state, ...savingTokensDetails } =
+    savingsDetails
+  const APY = 'sNST' in savingTokensDetails ? savingTokensDetails.sNST.APY : savingTokensDetails.sDai.APY
 
   if (guestMode) {
     return (
@@ -45,17 +36,12 @@ function SavingsContainer() {
 
   return (
     <SavingsView
-      APY={APY}
       chainId={chainId}
-      depositedUSD={depositedUSD}
-      depositedUSDPrecision={depositedUSDPrecision}
-      sDaiWithBalance={sDaiWithBalance}
-      currentSDaiProjections={currentProjections}
-      opportunityProjections={opportunityProjections}
       assetsInWallet={assetsInWallet}
       maxBalanceToken={maxBalanceToken}
       totalEligibleCashUSD={totalEligibleCashUSD}
       openDialog={openDialog}
+      {...savingTokensDetails}
     />
   )
 }

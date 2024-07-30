@@ -40,11 +40,11 @@ export interface UseSavingsResults {
             sDai: SavingsTokenDetails
           }
         | {
-            sNst: SavingsTokenDetails
+            sNST: SavingsTokenDetails
           }
         | {
             sDai: SavingsTokenDetails
-            sNst: SavingsTokenDetails
+            sNST: SavingsTokenDetails
           }
       ))
     | { state: 'unsupported' }
@@ -103,7 +103,7 @@ export function useSavings(): UseSavingsResults {
       savingsDetails: {
         ...baseResult.savingsDetails,
         sDai: sDaiDetails,
-        sNst: sNSTDetails,
+        sNST: sNSTDetails,
       },
     }
   }
@@ -123,7 +123,7 @@ export function useSavings(): UseSavingsResults {
       ...baseResult,
       savingsDetails: {
         ...baseResult.savingsDetails,
-        sNst: sNSTDetails,
+        sNST: sNSTDetails,
       },
     }
   }

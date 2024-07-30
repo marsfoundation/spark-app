@@ -47,6 +47,8 @@ export interface TokenWithOracleType {
   symbol: TokenSymbol
 }
 
+export type SavingsInfoQuery = (args: SavingsInfoQueryParams) => SavingsInfoQueryOptions
+
 export interface ChainConfigEntry {
   id: SupportedChainId
   meta: ChainMeta
@@ -55,8 +57,8 @@ export interface ChainConfigEntry {
   erc20TokensWithApproveFnMalformed: Erc20TokensWithApproveFnMalformed
   tokenSymbolToReplacedName: TokenSymbolToReplacedName
   airdrop: Airdrop
-  savingsDaiInfoQuery: ((args: SavingsInfoQueryParams) => SavingsInfoQueryOptions) | undefined
-  savingsNstInfoQuery: ((args: SavingsInfoQueryParams) => SavingsInfoQueryOptions) | undefined
+  savingsDaiInfoQuery: SavingsInfoQuery | undefined
+  savingsNstInfoQuery: SavingsInfoQuery | undefined
   daiSymbol: TokenSymbol
   sDaiSymbol: TokenSymbol
   NSTSymbol: TokenSymbol | undefined

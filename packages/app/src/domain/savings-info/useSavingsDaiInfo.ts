@@ -17,23 +17,23 @@ export function useSavingsDaiInfo(): UseSavingsDaiInfoResult {
   const { timestamp } = useTimestamp()
   const chainConfig = getChainConfigEntry(chainId)
 
+  const queryOptions = chainConfig.savingsDaiInfoQuery
   const { tokens } = useTokens({ tokens: getChainConfigEntry(chainId).extraTokens })
   const sDaiWithBalance = tokens.find(({ token }) => token.symbol === chainConfig.sDaiSymbol)
-  assert(sDaiWithBalance, 'Savings dai token must be defined')
 
-  const queryOptions = chainConfig.savingsDaiInfoQuery
-  assert(queryOptions, 'Savings dai info query must be defined')
+  assert(
+    queryOptions ? sDaiWithBalance : true,
+    'sDai token with balance must be defined when querying for savings dai info',
+  )
 
   const result = useSuspenseQuery(
-    queryOptions({
-      wagmiConfig,
-      chainId,
-      timestamp,
-    }),
+    queryOptions
+      ? queryOptions({ wagmiConfig, chainId, timestamp })
+      : { queryKey: ['savings-info-unsupported'], queryFn: () => null },
   )
 
   return {
     ...result,
-    savingsDaiInfo: result.data && { ...result.data, savingsTokenWithBalance: sDaiWithBalance },
+    savingsDaiInfo: result.data && { ...result.data, savingsTokenWithBalance: sDaiWithBalance! },
   }
 }

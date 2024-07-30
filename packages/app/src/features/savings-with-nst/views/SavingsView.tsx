@@ -7,33 +7,24 @@ import { PageLayout } from '../../savings/components/PageLayout'
 import { CashInWallet } from '../../savings/components/cash-in-wallet/CashInWallet'
 import { SavingsOpportunity } from '../../savings/components/savings-opportunity/SavingsOpportunity'
 import { SavingsOpportunityNoCash } from '../../savings/components/savings-opportunity/SavingsOpportunityNoCash'
-import { Projections } from '../../savings/types'
 import { SavingsTokenPanel } from '../components/savings-token-panel/SavingsTokenPanel'
 import { SavingsTokenDetails } from '../logic/useSavings'
 
+export type SavingsViewTokenDetails =
+  | { sDai: SavingsTokenDetails }
+  | { sNST: SavingsTokenDetails }
+  | { sDai: SavingsTokenDetails; sNST: SavingsTokenDetails }
+
 export type SavingsViewProps = {
   chainId: SupportedChainId
-  opportunityProjections: Projections
   assetsInWallet: TokenWithBalance[]
   maxBalanceToken: TokenWithBalance
   totalEligibleCashUSD: NormalizedUnitNumber
   openDialog: OpenDialogFunction
-} & (
-  | {
-      sDai: SavingsTokenDetails
-    }
-  | {
-      sNST: SavingsTokenDetails
-    }
-  | {
-      sDai: SavingsTokenDetails
-      sNST: SavingsTokenDetails
-    }
-)
+} & SavingsViewTokenDetails
 
 export function SavingsView({
   chainId,
-  opportunityProjections,
   assetsInWallet,
   totalEligibleCashUSD,
   maxBalanceToken,

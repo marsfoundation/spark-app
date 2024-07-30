@@ -39,8 +39,8 @@ const sNSTDetails = {
     oneYear: NormalizedUnitNumber(1250),
   },
   opportunityProjections: {
-    thirtyDays: NormalizedUnitNumber(25),
-    oneYear: NormalizedUnitNumber(750),
+    thirtyDays: NormalizedUnitNumber(100),
+    oneYear: NormalizedUnitNumber(3000),
   },
   depositedUSD: NormalizedUnitNumber(10365.7654),
   depositedUSDPrecision: 2,
@@ -54,8 +54,8 @@ const sDaiDetails = {
     oneYear: NormalizedUnitNumber(2500),
   },
   opportunityProjections: {
-    thirtyDays: NormalizedUnitNumber(50),
-    oneYear: NormalizedUnitNumber(1500),
+    thirtyDays: NormalizedUnitNumber(100),
+    oneYear: NormalizedUnitNumber(3000),
   },
   depositedUSD: NormalizedUnitNumber(20765.7654),
   depositedUSDPrecision: 2,

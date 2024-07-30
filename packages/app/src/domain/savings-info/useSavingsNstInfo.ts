@@ -17,23 +17,23 @@ export function useSavingsNstInfo(): UseSavingsNstInfoResult {
   const { timestamp } = useTimestamp()
   const chainConfig = getChainConfigEntry(chainId)
 
+  const queryOptions = chainConfig.savingsNstInfoQuery
   const { tokens } = useTokens({ tokens: getChainConfigEntry(chainId).extraTokens })
   const sNSTWithBalance = tokens.find(({ token }) => token.symbol === chainConfig.sDaiSymbol)
-  assert(sNSTWithBalance, 'Savings NST token must be defined')
 
-  const queryOptions = chainConfig.savingsNstInfoQuery
-  assert(queryOptions, 'Savings NST info query must be defined')
+  assert(
+    queryOptions ? sNSTWithBalance : true,
+    'sNST token with balance must be defined when querying for savings NST info',
+  )
 
   const result = useSuspenseQuery(
-    queryOptions({
-      wagmiConfig,
-      chainId,
-      timestamp,
-    }),
+    queryOptions
+      ? queryOptions({ wagmiConfig, chainId, timestamp })
+      : { queryKey: ['savings-info-unsupported'], queryFn: () => null },
   )
 
   return {
     ...result,
-    savingsNstInfo: result.data && { ...result.data, savingsTokenWithBalance: sNSTWithBalance },
+    savingsNstInfo: result.data && { ...result.data, savingsTokenWithBalance: sNSTWithBalance! },
   }
 }
