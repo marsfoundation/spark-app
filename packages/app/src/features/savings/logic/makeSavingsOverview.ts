@@ -5,7 +5,7 @@ import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 const DEFAULT_PRECISION = 6
 
 export interface MakeSavingsOverviewParams {
-  sDaiWithBalance: TokenWithBalance
+  savingsTokenWithBalance: TokenWithBalance
   eligibleCashUSD: NormalizedUnitNumber
   savingsInfo: SavingsInfo
   timestampInMs: number
@@ -18,14 +18,14 @@ export interface SavingsOverview {
 }
 
 export function makeSavingsOverview({
-  sDaiWithBalance,
+  savingsTokenWithBalance,
   eligibleCashUSD,
   savingsInfo,
   timestampInMs,
   stepInMs,
 }: MakeSavingsOverviewParams): SavingsOverview {
   const [depositedUSD, precision] = calculateSharesToDaiWithPrecision({
-    shares: sDaiWithBalance.balance,
+    shares: savingsTokenWithBalance.balance,
     savingsInfo,
     timestampInMs,
     stepInMs,
@@ -56,8 +56,8 @@ function calculateSharesToDaiWithPrecision({
     return [savingsInfo.convertToAssets({ shares }), DEFAULT_PRECISION]
   }
 
-  const current = interpolateSharesToDai({ shares, savingsInfo, timestampInMs })
-  const next = interpolateSharesToDai({ shares, savingsInfo, timestampInMs: timestampInMs + stepInMs })
+  const current = interpolateSharesToAssets({ shares, savingsInfo, timestampInMs })
+  const next = interpolateSharesToAssets({ shares, savingsInfo, timestampInMs: timestampInMs + stepInMs })
 
   const precision = calculatePrecision({ current, next })
 
@@ -70,7 +70,7 @@ interface InterpolateSharesToDaiParams {
   timestampInMs: number
 }
 
-function interpolateSharesToDai({
+function interpolateSharesToAssets({
   shares,
   savingsInfo,
   timestampInMs,

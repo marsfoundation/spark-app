@@ -7,111 +7,131 @@ import { calculateMaxBalanceTokenAndTotal } from '@/domain/savings/calculateMaxB
 import { OpenDialogFunction, useOpenDialog } from '@/domain/state/dialogs'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
-import { makeSavingsOverview } from '@/features/savings/logic/makeSavingsOverview'
-import { calculateProjections } from '@/features/savings/logic/projections'
-import { useSavingsTokens } from '@/features/savings/logic/useSavingsTokens'
 import { Projections } from '@/features/savings/types'
 import { useTimestamp } from '@/utils/useTimestamp'
 import { useAccount } from 'wagmi'
+import { makeSavingsTokenDetails } from './makeSavingsTokenDetails'
+import { useSavingsTokens } from './useSavingsInputTokens'
 
 const stepInMs = 50
+
+export interface SavingsTokenDetails {
+  APY: Percentage
+  tokenWithBalance: TokenWithBalance
+  currentProjections: Projections
+  opportunityProjections: Projections
+  depositedUSD: NormalizedUnitNumber
+  depositedUSDPrecision: number
+}
 
 export interface UseSavingsResults {
   guestMode: boolean
   openDialog: OpenDialogFunction
   openSandboxModal: () => void
-  savingsDaiDetails:
-    | {
+  savingsDetails:
+    | ({
         state: 'supported'
-        APY: Percentage
-        depositedUSD: NormalizedUnitNumber
-        depositedUSDPrecision: number
-        sDaiWithBalance: TokenWithBalance
-        currentProjections: Projections
-        opportunityProjections: Projections
         assetsInWallet: TokenWithBalance[]
         totalEligibleCashUSD: NormalizedUnitNumber
         maxBalanceToken: TokenWithBalance
         chainId: SupportedChainId
-      }
-    | { state: 'unsupported' }
-  savingsNSTDetails:
-    | {
-        state: 'supported'
-        APY: Percentage
-      }
+      } & (
+        | {
+            sDai: SavingsTokenDetails
+          }
+        | {
+            sNst: SavingsTokenDetails
+          }
+        | {
+            sDai: SavingsTokenDetails
+            sNst: SavingsTokenDetails
+          }
+      ))
     | { state: 'unsupported' }
 }
 export function useSavings(): UseSavingsResults {
   const { savingsDaiInfo } = useSavingsDaiInfo()
   const { savingsNstInfo } = useSavingsNstInfo()
   const guestMode = useAccount().isConnected === false
-  const { sDaiWithBalance, savingsInputTokens } = useSavingsTokens()
+  const inputTokens = useSavingsTokens()
   const chainId = useOriginChainId()
   const { timestamp, timestampInMs } = useTimestamp({
     refreshIntervalInMs: savingsDaiInfo?.supportsRealTimeInterestAccrual ? stepInMs : undefined,
   })
   const openDialog = useOpenDialog()
 
-  if (!savingsDaiInfo) {
-    return {
-      guestMode,
-      openDialog,
-      openSandboxModal,
-      savingsDaiDetails: { state: 'unsupported' },
-      savingsNSTDetails: { state: 'unsupported' },
-    }
-  }
-
   const { totalUSD: totalEligibleCashUSD, maxBalanceToken } = calculateMaxBalanceTokenAndTotal({
-    assets: savingsInputTokens,
+    assets: inputTokens,
   })
 
-  const { potentialShares, depositedUSD, depositedUSDPrecision } = makeSavingsOverview({
-    sDaiWithBalance,
+  const sDaiDetails = makeSavingsTokenDetails({
     savingsInfo: savingsDaiInfo,
     eligibleCashUSD: totalEligibleCashUSD,
+    timestamp,
     timestampInMs,
     stepInMs,
   })
 
-  const currentProjections = calculateProjections({
+  const sNSTDetails = makeSavingsTokenDetails({
+    savingsInfo: savingsNstInfo,
+    eligibleCashUSD: totalEligibleCashUSD,
     timestamp,
-    shares: sDaiWithBalance.balance,
-    savingsInfo: savingsDaiInfo,
-  })
-  const opportunityProjections = calculateProjections({
-    timestamp,
-    shares: potentialShares,
-    savingsInfo: savingsDaiInfo,
+    timestampInMs,
+    stepInMs,
   })
 
   function openSandboxModal(): void {
     openDialog(SandboxDialog, { mode: 'ephemeral' } as const)
   }
 
-  return {
+  const baseResult = {
     guestMode,
     openSandboxModal,
     openDialog,
-    savingsDaiDetails: {
+    savingsDetails: {
       state: 'supported',
-      APY: savingsDaiInfo.apy,
-      depositedUSD,
-      depositedUSDPrecision,
-      sDaiWithBalance,
-      currentProjections,
-      opportunityProjections,
-      assetsInWallet: savingsInputTokens,
+      assetsInWallet: inputTokens,
       totalEligibleCashUSD,
       maxBalanceToken,
       chainId,
     },
-    savingsNSTDetails: savingsNstInfo
-      ? {
-          state: 'supported',
-          APY: savingsNstInfo.apy,
-        }
-      : { state: 'unsupported' },
+  } as const
+
+  if (sDaiDetails && sNSTDetails) {
+    return {
+      ...baseResult,
+      savingsDetails: {
+        ...baseResult.savingsDetails,
+        sDai: sDaiDetails,
+        sNst: sNSTDetails,
+      },
+    }
+  }
+
+  if (sDaiDetails) {
+    return {
+      ...baseResult,
+      savingsDetails: {
+        ...baseResult.savingsDetails,
+        sDai: sDaiDetails,
+      },
+    }
+  }
+
+  if (sNSTDetails) {
+    return {
+      ...baseResult,
+      savingsDetails: {
+        ...baseResult.savingsDetails,
+        sNst: sNSTDetails,
+      },
+    }
+  }
+
+  return {
+    guestMode,
+    openDialog,
+    openSandboxModal,
+    savingsDetails: { state: 'unsupported' },
   }
 }

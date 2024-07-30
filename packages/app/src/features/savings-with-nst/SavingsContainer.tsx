@@ -9,7 +9,7 @@ import { useSavings } from './logic/useSavings'
 import { SavingsView } from './views/SavingsView'
 
 function SavingsContainer() {
-  const { guestMode, openDialog, savingsDaiDetails, openSandboxModal } = useSavings()
+  const { guestMode, openDialog, savingsDetails: savingsDaiDetails, openSandboxModal } = useSavings()
   const { openConnectModal = () => {} } = useConnectModal()
   const { openChainModal = () => {} } = useChainModal()
 

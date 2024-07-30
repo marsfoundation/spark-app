@@ -1,6 +1,7 @@
 import { QueryKey } from '@tanstack/react-query'
 import { Config } from 'wagmi'
 
+import { TokenWithBalance } from '../common/types'
 import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
 
 export interface SavingsInfo {
@@ -9,6 +10,10 @@ export interface SavingsInfo {
   convertToAssets({ shares }: { shares: NormalizedUnitNumber }): NormalizedUnitNumber
   apy: Percentage
   supportsRealTimeInterestAccrual: boolean
+}
+
+export interface SavingsInfoWithBalance extends SavingsInfo {
+  savingsTokenWithBalance: TokenWithBalance
 }
 
 export interface SavingsInfoQueryParams {

@@ -71,6 +71,8 @@ const chainConfig: ChainConfig = {
     savingsNstInfoQuery: mainnetSavingsNstInfoQuery,
     daiSymbol: TokenSymbol('DAI'),
     sDaiSymbol: TokenSymbol('sDAI'),
+    NSTSymbol: TokenSymbol('NST'),
+    sNSTSymbol: TokenSymbol('sNST'),
     mergedDaiAndSDaiMarkets: true,
     savingsInputTokens: [TokenSymbol('DAI'), TokenSymbol('USDC')],
     extraTokens: [
@@ -127,9 +129,11 @@ const chainConfig: ChainConfig = {
     },
     airdrop: {},
     savingsDaiInfoQuery: gnosisSavingsDaiInfoQuery,
-    savingsNstInfoQuery: gnosisSavingsDaiInfoQuery,
+    savingsNstInfoQuery: undefined,
     daiSymbol: TokenSymbol('XDAI'),
     sDaiSymbol: TokenSymbol('sDAI'),
+    NSTSymbol: undefined,
+    sNSTSymbol: undefined,
     mergedDaiAndSDaiMarkets: false,
     savingsInputTokens: [TokenSymbol('XDAI')],
     extraTokens: [

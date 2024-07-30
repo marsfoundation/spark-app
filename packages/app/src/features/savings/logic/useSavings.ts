@@ -54,7 +54,7 @@ export function useSavings(): UseSavingsResults {
   })
 
   const { potentialShares, depositedUSD, depositedUSDPrecision } = makeSavingsOverview({
-    sDaiWithBalance,
+    savingsTokenWithBalance: sDaiWithBalance,
     savingsInfo: savingsDaiInfo,
     eligibleCashUSD: totalEligibleCashUSD,
     timestampInMs,
