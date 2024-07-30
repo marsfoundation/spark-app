@@ -1,7 +1,7 @@
 import { InvalidateOptions, InvalidateQueryFilters, QueryClient, QueryKey } from '@tanstack/react-query'
 import { MockInstance, vi } from 'vitest'
 
-export class TestInvalidationManager {
+export class QueryInvalidationManager {
   private readonly invalidateQueriesSpy: MockInstance<
     [filters?: InvalidateQueryFilters | undefined, options?: InvalidateOptions | undefined],
     Promise<void>

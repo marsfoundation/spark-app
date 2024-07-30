@@ -4,7 +4,7 @@ import { Chain } from 'wagmi/chains'
 
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 
-import { TestInvalidationManager } from './TestInvalidationManager'
+import { QueryInvalidationManager } from './QueryInvalidationManager'
 import { TestingWrapper } from './TestingWrapper'
 import { makeMockTransport } from './mockTransport'
 import { RpcHandler } from './mockTransport/types'
@@ -24,10 +24,12 @@ interface SetupHookRendererArgs<HOOK extends (args: any) => any> {
 export function setupHookRenderer<HOOK extends (args: any) => any>(defaultArgs: SetupHookRendererArgs<HOOK>) {
   return (
     overrides: Partial<SetupHookRendererArgs<HOOK>> = {},
-  ): RenderHookResult<ReturnType<HOOK>, Parameters<HOOK>[0]> & { invalidationManager: TestInvalidationManager } => {
+  ): RenderHookResult<ReturnType<HOOK>, Parameters<HOOK>[0]> & {
+    queryInvalidationManager: QueryInvalidationManager
+  } => {
     const final = { ...defaultArgs, ...overrides }
     const queryClient = final.queryClient ?? defaultQueryClient
-    const invalidationManager = new TestInvalidationManager(queryClient)
+    const queryInvalidationManager = new QueryInvalidationManager(queryClient)
 
     const base = renderHook(final.hook, {
       initialProps: final.args,
@@ -47,7 +49,7 @@ export function setupHookRenderer<HOOK extends (args: any) => any>(defaultArgs: 
 
     return {
       ...base,
-      invalidationManager,
+      queryInvalidationManager,
     }
   }
 }

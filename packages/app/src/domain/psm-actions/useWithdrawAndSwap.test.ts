@@ -6,8 +6,9 @@ import { setupHookRenderer } from '@/test/integration/setupHookRenderer'
 import { toBigInt } from '@/utils/bigNumber'
 import { waitFor } from '@testing-library/react'
 import { mainnet } from 'viem/chains'
-import { describe, test } from 'vitest'
+import { describe, expect, test } from 'vitest'
 import { allowanceQueryKey } from '../market-operations/allowance/query'
+import { marketBalancesQueryKey } from '../wallet/marketBalances'
 import { useWithdrawAndSwap } from './useWithdrawAndSwap'
 
 const gem = getMockToken({ address: testAddresses.token, decimals: 6 })
@@ -116,8 +117,8 @@ describe(useWithdrawAndSwap.name, () => {
     })
   })
 
-  test('invalidates allowance', async () => {
-    const { result, invalidationManager } = hookRenderer({
+  test('invalidates allowance and balances queries', async () => {
+    const { result, queryInvalidationManager } = hookRenderer({
       extraHandlers: [
         handlers.contractCall({
           to: psmActionsAddress[mainnet.id],
@@ -143,16 +144,20 @@ describe(useWithdrawAndSwap.name, () => {
     })
 
     await waitFor(() => {
-      expect(
-        invalidationManager.hasBeenInvalidated(
-          allowanceQueryKey({
-            token: assetsToken.address,
-            spender: psmActionsAddress[mainnet.id],
-            account: owner,
-            chainId: mainnet.id,
-          }),
-        ),
-      ).toBe(true)
+      expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+        allowanceQueryKey({
+          token: assetsToken.address,
+          spender: psmActionsAddress[mainnet.id],
+          account: owner,
+          chainId: mainnet.id,
+        }),
+      )
+    })
+
+    await waitFor(() => {
+      expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+        marketBalancesQueryKey({ account: owner, chainId: mainnet.id }),
+      )
     })
   })
 })
