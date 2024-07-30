@@ -9,7 +9,7 @@ import { useSavings } from './logic/useSavings'
 import { SavingsView } from './views/SavingsView'
 
 function SavingsContainer() {
-  const { guestMode, openDialog, savingsDaiDetails, savingsNSTDetails, openSandboxModal } = useSavings()
+  const { guestMode, openDialog, savingsDaiDetails, openSandboxModal } = useSavings()
   const { openConnectModal = () => {} } = useConnectModal()
   const { openChainModal = () => {} } = useChainModal()
 
@@ -50,13 +50,12 @@ function SavingsContainer() {
       depositedUSD={depositedUSD}
       depositedUSDPrecision={depositedUSDPrecision}
       sDaiWithBalance={sDaiWithBalance}
-      currentProjections={currentProjections}
+      currentSDaiProjections={currentProjections}
       opportunityProjections={opportunityProjections}
       assetsInWallet={assetsInWallet}
       maxBalanceToken={maxBalanceToken}
       totalEligibleCashUSD={totalEligibleCashUSD}
       openDialog={openDialog}
-      nstAPY={savingsNSTDetails.state === 'supported' ? savingsNSTDetails.APY : undefined}
     />
   )
 }

@@ -3,7 +3,8 @@ import { formatPercentage } from '@/domain/common/format'
 import { TokenWithBalance } from '@/domain/common/types'
 import { OpenDialogFunction } from '@/domain/state/dialogs'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
-import { Token } from '@/domain/types/Token'
+import { USD_MOCK_TOKEN } from '@/domain/types/Token'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { SavingsWithdrawDialog } from '@/features/dialogs/savings/withdraw/SavingsWithdrawDialog'
 import { SavingsInfoTile } from '@/features/savings/components/savings-info-tile/SavingsInfoTile'
 import { APYLabel } from '@/features/savings/components/savings-opportunity/components/APYLabel'
@@ -15,9 +16,9 @@ import { testIds } from '@/ui/utils/testIds'
 import BigNumber from 'bignumber.js'
 
 export interface SavingsTokenPanelProps {
+  variant: 'dai' | 'nst'
   depositedUSD: NormalizedUnitNumber
   depositedUSDPrecision: number
-  savingsBaseToken: Token
   savingsTokenWithBalance: TokenWithBalance
   APY: Percentage
   chainId: SupportedChainId
@@ -26,9 +27,9 @@ export interface SavingsTokenPanelProps {
 }
 
 export function SavingsTokenPanel({
+  variant,
   depositedUSD,
   depositedUSDPrecision,
-  savingsBaseToken,
   savingsTokenWithBalance,
   APY,
   chainId,
@@ -36,6 +37,7 @@ export function SavingsTokenPanel({
   openDialog,
 }: SavingsTokenPanelProps) {
   const compactProjections = projections.thirtyDays.gt(1_000)
+  const savingsBaseToken = USD_MOCK_TOKEN.clone({ symbol: variant === 'dai' ? TokenSymbol('DAI') : TokenSymbol('NST') })
 
   return (
     <Panel.Wrapper className="flex min-h-[260px] w-full flex-1 flex-col justify-between self-stretch px-6 py-6 md:px-[32px]">

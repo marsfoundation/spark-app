@@ -9,13 +9,13 @@ import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { SavingsTokenPanel } from './SavingsTokenPanel'
 
 const meta: Meta<typeof SavingsTokenPanel> = {
-  title: 'Features/NewSavings/Components/SavingsTokenPanel',
+  title: 'Features/SavingsWithNst/Components/SavingsTokenPanel',
   component: SavingsTokenPanel,
   decorators: [WithTooltipProvider(), WithClassname('max-w-2xl')],
   args: {
+    variant: 'dai',
     depositedUSD: NormalizedUnitNumber(20765.7654),
     depositedUSDPrecision: 4,
-    savingsBaseToken: tokens.DAI,
     savingsTokenWithBalance: { balance: NormalizedUnitNumber(20000.0), token: tokens.sDAI },
     APY: Percentage(0.05),
     chainId: mainnet.id,
@@ -35,7 +35,7 @@ export const DaiTablet: Story = getTabletStory(Dai)
 
 export const NST: Story = {
   args: {
-    savingsBaseToken: tokens.NST,
+    variant: 'nst',
     savingsTokenWithBalance: { balance: NormalizedUnitNumber(20000.0), token: tokens.sNST },
   },
 }

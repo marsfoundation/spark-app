@@ -14,7 +14,7 @@ export interface SavingsOpportunityNoCashProps {
 
 export function SavingsOpportunityNoCash({ APY, chainId }: SavingsOpportunityNoCashProps) {
   return (
-    <Panel.Wrapper variant="green">
+    <Panel.Wrapper variant="green" className="w-full">
       <div className="flex flex-col items-center justify-between gap-10 px-8 py-6 sm:flex-row">
         <SavingsInfoTile alignItems="center" className="mx-auto">
           <SavingsInfoTile.Value size="huge">
