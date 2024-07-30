@@ -1,11 +1,14 @@
-import { SavingsInfoWithBalance } from '@/domain/savings-info/types'
+import { TokenWithBalance } from '@/domain/common/types'
+import { SavingsInfo } from '@/domain/savings-info/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { makeSavingsOverview } from '@/features/savings/logic/makeSavingsOverview'
 import { calculateProjections } from '@/features/savings/logic/projections'
+import { assert } from '@/utils/assert'
 import { SavingsTokenDetails } from './useSavings'
 
 interface MakeSavingsTokenDetailsParams {
-  savingsInfo: SavingsInfoWithBalance | null
+  savingsInfo: SavingsInfo | null
+  savingsTokenWithBalance: TokenWithBalance | undefined
   eligibleCashUSD: NormalizedUnitNumber
   timestamp: number
   timestampInMs: number
@@ -14,6 +17,7 @@ interface MakeSavingsTokenDetailsParams {
 
 export function makeSavingsTokenDetails({
   savingsInfo,
+  savingsTokenWithBalance,
   eligibleCashUSD,
   timestamp,
   timestampInMs,
@@ -23,8 +27,10 @@ export function makeSavingsTokenDetails({
     return undefined
   }
 
+  assert(savingsTokenWithBalance, 'Savings token with balance should be defined when savings info is defined')
+
   const { potentialShares, depositedUSD, depositedUSDPrecision } = makeSavingsOverview({
-    savingsTokenWithBalance: savingsInfo.savingsTokenWithBalance,
+    savingsTokenWithBalance,
     savingsInfo,
     eligibleCashUSD,
     timestampInMs,
@@ -33,7 +39,7 @@ export function makeSavingsTokenDetails({
 
   const currentProjections = calculateProjections({
     timestamp,
-    shares: savingsInfo.savingsTokenWithBalance.balance,
+    shares: savingsTokenWithBalance.balance,
     savingsInfo,
   })
   const opportunityProjections = calculateProjections({
@@ -46,7 +52,7 @@ export function makeSavingsTokenDetails({
     APY: savingsInfo.apy,
     currentProjections,
     opportunityProjections,
-    tokenWithBalance: savingsInfo.savingsTokenWithBalance,
+    tokenWithBalance: savingsTokenWithBalance,
     depositedUSD,
     depositedUSDPrecision,
   }

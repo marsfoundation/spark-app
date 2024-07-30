@@ -52,7 +52,6 @@ function calculateSharesToDaiWithPrecision({
   timestampInMs,
   stepInMs,
 }: CalculateSharesToDaiWithPrecisionParams): [NormalizedUnitNumber, number] {
-  console.log(savingsInfo)
   if (!savingsInfo.supportsRealTimeInterestAccrual) {
     return [savingsInfo.convertToAssets({ shares }), DEFAULT_PRECISION]
   }

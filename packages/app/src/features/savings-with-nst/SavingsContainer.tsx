@@ -1,10 +1,8 @@
-import { useChainModal, useConnectModal } from '@rainbow-me/rainbowkit'
-
-import { withSuspense } from '@/ui/utils/withSuspense'
-
 import { SavingsSkeleton } from '@/features/savings/components/skeleton/SavingsSkeleton'
 import { GuestView } from '@/features/savings/views/GuestView'
 import { UnsupportedChainView } from '@/features/savings/views/UnsupportedChainView'
+import { withSuspense } from '@/ui/utils/withSuspense'
+import { useChainModal, useConnectModal } from '@rainbow-me/rainbowkit'
 import { useSavings } from './logic/useSavings'
 import { SavingsView } from './views/SavingsView'
 
@@ -24,19 +22,24 @@ function SavingsContainer() {
     )
   }
 
-  const { chainId, assetsInWallet, maxBalanceToken, totalEligibleCashUSD, state, ...savingTokensDetails } =
+  const { originChainId, assetsInWallet, maxBalanceToken, totalEligibleCashUSD, state, ...savingTokensDetails } =
     savingsDetails
   const APY = 'sNST' in savingTokensDetails ? savingTokensDetails.sNST.APY : savingTokensDetails.sDai.APY
 
   if (guestMode) {
     return (
-      <GuestView APY={APY} chainId={chainId} openConnectModal={openConnectModal} openSandboxModal={openSandboxModal} />
+      <GuestView
+        APY={APY}
+        chainId={originChainId}
+        openConnectModal={openConnectModal}
+        openSandboxModal={openSandboxModal}
+      />
     )
   }
 
   return (
     <SavingsView
-      chainId={chainId}
+      chainId={originChainId}
       assetsInWallet={assetsInWallet}
       maxBalanceToken={maxBalanceToken}
       totalEligibleCashUSD={totalEligibleCashUSD}
