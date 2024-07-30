@@ -16,10 +16,10 @@ const meta: Meta<typeof SavingsTokenPanel> = {
     variant: 'dai',
     depositedUSD: NormalizedUnitNumber(20765.7654),
     depositedUSDPrecision: 4,
-    savingsTokenWithBalance: { balance: NormalizedUnitNumber(20000.0), token: tokens.sDAI },
+    tokenWithBalance: { balance: NormalizedUnitNumber(20000.0), token: tokens.sDAI },
     APY: Percentage(0.05),
     chainId: mainnet.id,
-    projections: {
+    currentProjections: {
       thirtyDays: NormalizedUnitNumber(500),
       oneYear: NormalizedUnitNumber(2500),
     },
@@ -36,6 +36,6 @@ export const DaiTablet: Story = getTabletStory(Dai)
 export const NST: Story = {
   args: {
     variant: 'nst',
-    savingsTokenWithBalance: { balance: NormalizedUnitNumber(20000.0), token: tokens.sNST },
+    tokenWithBalance: { balance: NormalizedUnitNumber(20000.0), token: tokens.sNST },
   },
 }

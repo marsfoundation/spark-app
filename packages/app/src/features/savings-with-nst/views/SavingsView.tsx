@@ -33,7 +33,7 @@ export function SavingsView({
 }: SavingsViewProps) {
   if ('sDai' in savingTokensDetails && 'sNST' in savingTokensDetails) {
     return (
-      <DaiAndNST
+      <SavingsDaiAndNST
         sDaiDetails={savingTokensDetails.sDai}
         sNSTDetails={savingTokensDetails.sNST}
         chainId={chainId}
@@ -59,7 +59,7 @@ export function SavingsView({
   }
 
   return (
-    <OnlyNST
+    <OnlySavingsNST
       savingsTokenDetails={savingTokensDetails.sNST}
       chainId={chainId}
       assetsInWallet={assetsInWallet}
@@ -96,16 +96,7 @@ function OnlySavingsDai({
       <PageHeader />
       <div className="flex flex-col gap-6 sm:flex-row">
         {displaySavingsDai && (
-          <SavingsTokenPanel
-            variant="dai"
-            APY={savingsTokenDetails.APY}
-            chainId={chainId}
-            depositedUSD={savingsTokenDetails.depositedUSD}
-            projections={savingsTokenDetails.currentProjections}
-            depositedUSDPrecision={savingsTokenDetails.depositedUSDPrecision}
-            savingsTokenWithBalance={savingsTokenDetails.tokenWithBalance}
-            openDialog={openDialog}
-          />
+          <SavingsTokenPanel variant="dai" chainId={chainId} openDialog={openDialog} {...savingsTokenDetails} />
         )}
         {displaySavingsOpportunity && (
           <SavingsOpportunity
@@ -124,7 +115,7 @@ function OnlySavingsDai({
   )
 }
 
-function OnlyNST({
+function OnlySavingsNST({
   savingsTokenDetails,
   chainId,
   assetsInWallet,
@@ -140,16 +131,7 @@ function OnlyNST({
     <PageLayout>
       <PageHeader />
       <div className="flex flex-col gap-6 sm:flex-row">
-        <SavingsTokenPanel
-          variant="nst"
-          APY={savingsTokenDetails.APY}
-          chainId={chainId}
-          depositedUSD={savingsTokenDetails.depositedUSD}
-          projections={savingsTokenDetails.currentProjections}
-          depositedUSDPrecision={savingsTokenDetails.depositedUSDPrecision}
-          savingsTokenWithBalance={savingsTokenDetails.tokenWithBalance}
-          openDialog={openDialog}
-        />
+        <SavingsTokenPanel variant="nst" chainId={chainId} openDialog={openDialog} {...savingsTokenDetails} />
         {displaySavingsOpportunity && (
           <SavingsOpportunity
             APY={savingsTokenDetails.APY}
@@ -167,7 +149,7 @@ function OnlyNST({
   )
 }
 
-function DaiAndNST({
+function SavingsDaiAndNST({
   sDaiDetails,
   sNSTDetails,
   chainId,
@@ -193,28 +175,10 @@ function DaiAndNST({
       <PageHeader />
       <div className="flex flex-col gap-6 sm:flex-row">
         {displaySavingsDai && (
-          <SavingsTokenPanel
-            variant="dai"
-            APY={sDaiDetails.APY}
-            chainId={chainId}
-            depositedUSD={sDaiDetails.depositedUSD}
-            projections={sDaiDetails.currentProjections}
-            depositedUSDPrecision={sDaiDetails.depositedUSDPrecision}
-            savingsTokenWithBalance={sDaiDetails.tokenWithBalance}
-            openDialog={openDialog}
-          />
+          <SavingsTokenPanel variant="dai" chainId={chainId} openDialog={openDialog} {...sDaiDetails} />
         )}
         {displaySavingsNST && (
-          <SavingsTokenPanel
-            variant="nst"
-            APY={sNSTDetails.APY}
-            chainId={chainId}
-            depositedUSD={sNSTDetails.depositedUSD}
-            projections={sNSTDetails.currentProjections}
-            depositedUSDPrecision={sNSTDetails.depositedUSDPrecision}
-            savingsTokenWithBalance={sNSTDetails.tokenWithBalance}
-            openDialog={openDialog}
-          />
+          <SavingsTokenPanel variant="nst" chainId={chainId} openDialog={openDialog} {...sNSTDetails} />
         )}
         {displaySavingsOpportunity && (
           <SavingsOpportunity

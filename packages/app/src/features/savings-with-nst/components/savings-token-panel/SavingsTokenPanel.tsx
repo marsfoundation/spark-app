@@ -19,10 +19,10 @@ export interface SavingsTokenPanelProps {
   variant: 'dai' | 'nst'
   depositedUSD: NormalizedUnitNumber
   depositedUSDPrecision: number
-  savingsTokenWithBalance: TokenWithBalance
+  tokenWithBalance: TokenWithBalance
   APY: Percentage
   chainId: SupportedChainId
-  projections: Projections
+  currentProjections: Projections
   openDialog: OpenDialogFunction
 }
 
@@ -30,13 +30,13 @@ export function SavingsTokenPanel({
   variant,
   depositedUSD,
   depositedUSDPrecision,
-  savingsTokenWithBalance,
+  tokenWithBalance,
   APY,
   chainId,
-  projections,
+  currentProjections,
   openDialog,
 }: SavingsTokenPanelProps) {
-  const compactProjections = projections.thirtyDays.gt(1_000)
+  const compactProjections = currentProjections.thirtyDays.gt(1_000)
   const savingsBaseToken = USD_MOCK_TOKEN.clone({ symbol: variant === 'dai' ? TokenSymbol('DAI') : TokenSymbol('NST') })
 
   return (
@@ -44,7 +44,7 @@ export function SavingsTokenPanel({
       <div className="flex w-full flex-row items-center justify-between">
         <div className="flex flex-row items-center gap-1">
           <h2 className="whitespace-nowrap font-semibold text-base text-basics-black sm:text-xl">
-            {savingsTokenWithBalance.token.name}
+            {tokenWithBalance.token.name}
           </h2>
         </div>
         <div className="flex flex-row gap-2">
@@ -84,8 +84,7 @@ export function SavingsTokenPanel({
         <div className="font-semibold text-basics-dark-grey text-xs tracking-wide">
           =
           <span data-testid={testIds.savings.sDaiBalance}>
-            {savingsTokenWithBalance.token.format(savingsTokenWithBalance.balance, { style: 'auto' })}{' '}
-            {savingsTokenWithBalance.token.symbol}
+            {tokenWithBalance.token.format(tokenWithBalance.balance, { style: 'auto' })} {tokenWithBalance.token.symbol}
           </span>
         </div>
       </div>
@@ -97,7 +96,7 @@ export function SavingsTokenPanel({
           </SavingsInfoTile.Label>
           <SavingsInfoTile.Value color="green">
             +
-            {savingsBaseToken.formatUSD(projections.thirtyDays, {
+            {savingsBaseToken.formatUSD(currentProjections.thirtyDays, {
               showCents: 'when-not-round',
               compact: compactProjections,
             })}{' '}
@@ -111,7 +110,7 @@ export function SavingsTokenPanel({
           </SavingsInfoTile.Label>
           <SavingsInfoTile.Value color="green">
             +
-            {savingsBaseToken.formatUSD(projections.oneYear, {
+            {savingsBaseToken.formatUSD(currentProjections.oneYear, {
               showCents: 'when-not-round',
               compact: compactProjections,
             })}{' '}
