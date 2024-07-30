@@ -103,29 +103,31 @@ function OnlySavingsDai({
   return (
     <PageLayout>
       <PageHeader />
-      {displaySavingsDai && (
-        <SavingsTokenPanel
-          variant="dai"
-          APY={savingsTokenDetails.APY}
-          chainId={chainId}
-          depositedUSD={savingsTokenDetails.depositedUSD}
-          projections={savingsTokenDetails.currentProjections}
-          depositedUSDPrecision={savingsTokenDetails.depositedUSDPrecision}
-          savingsTokenWithBalance={savingsTokenDetails.tokenWithBalance}
-          openDialog={openDialog}
-        />
-      )}
-      {displaySavingsOpportunity && (
-        <SavingsOpportunity
-          APY={savingsTokenDetails.APY}
-          chainId={chainId}
-          projections={savingsTokenDetails.opportunityProjections}
-          maxBalanceToken={maxBalanceToken}
-          openDialog={openDialog}
-          totalEligibleCashUSD={totalEligibleCashUSD}
-        />
-      )}
-      {displaySavingsNoCash && <SavingsOpportunityNoCash APY={savingsTokenDetails.APY} chainId={chainId} />}
+      <div className="flex flex-col gap-6 sm:flex-row">
+        {displaySavingsDai && (
+          <SavingsTokenPanel
+            variant="dai"
+            APY={savingsTokenDetails.APY}
+            chainId={chainId}
+            depositedUSD={savingsTokenDetails.depositedUSD}
+            projections={savingsTokenDetails.currentProjections}
+            depositedUSDPrecision={savingsTokenDetails.depositedUSDPrecision}
+            savingsTokenWithBalance={savingsTokenDetails.tokenWithBalance}
+            openDialog={openDialog}
+          />
+        )}
+        {displaySavingsOpportunity && (
+          <SavingsOpportunity
+            APY={savingsTokenDetails.APY}
+            chainId={chainId}
+            projections={savingsTokenDetails.opportunityProjections}
+            maxBalanceToken={maxBalanceToken}
+            openDialog={openDialog}
+            totalEligibleCashUSD={totalEligibleCashUSD}
+          />
+        )}
+        {displaySavingsNoCash && <SavingsOpportunityNoCash APY={savingsTokenDetails.APY} chainId={chainId} />}
+      </div>
       <CashInWallet assets={assetsInWallet} openDialog={openDialog} />
     </PageLayout>
   )
@@ -146,27 +148,29 @@ function OnlyNST({
   return (
     <PageLayout>
       <PageHeader />
-      <SavingsTokenPanel
-        variant="nst"
-        APY={savingsTokenDetails.APY}
-        chainId={chainId}
-        depositedUSD={savingsTokenDetails.depositedUSD}
-        projections={savingsTokenDetails.currentProjections}
-        depositedUSDPrecision={savingsTokenDetails.depositedUSDPrecision}
-        savingsTokenWithBalance={savingsTokenDetails.tokenWithBalance}
-        openDialog={openDialog}
-      />
-      {displaySavingsOpportunity && (
-        <SavingsOpportunity
+      <div className="flex flex-col gap-6 sm:flex-row">
+        <SavingsTokenPanel
+          variant="nst"
           APY={savingsTokenDetails.APY}
           chainId={chainId}
-          projections={savingsTokenDetails.opportunityProjections}
-          maxBalanceToken={maxBalanceToken}
+          depositedUSD={savingsTokenDetails.depositedUSD}
+          projections={savingsTokenDetails.currentProjections}
+          depositedUSDPrecision={savingsTokenDetails.depositedUSDPrecision}
+          savingsTokenWithBalance={savingsTokenDetails.tokenWithBalance}
           openDialog={openDialog}
-          totalEligibleCashUSD={totalEligibleCashUSD}
         />
-      )}
-      {displaySavingsNoCash && <SavingsOpportunityNoCash APY={savingsTokenDetails.APY} chainId={chainId} />}
+        {displaySavingsOpportunity && (
+          <SavingsOpportunity
+            APY={savingsTokenDetails.APY}
+            chainId={chainId}
+            projections={savingsTokenDetails.opportunityProjections}
+            maxBalanceToken={maxBalanceToken}
+            openDialog={openDialog}
+            totalEligibleCashUSD={totalEligibleCashUSD}
+          />
+        )}
+        {displaySavingsNoCash && <SavingsOpportunityNoCash APY={savingsTokenDetails.APY} chainId={chainId} />}
+      </div>
       <CashInWallet assets={assetsInWallet} openDialog={openDialog} />
     </PageLayout>
   )
@@ -196,41 +200,43 @@ function DaiAndNST({
   return (
     <PageLayout>
       <PageHeader />
-      {displaySavingsDai && (
-        <SavingsTokenPanel
-          variant="dai"
-          APY={sDaiDetails.APY}
-          chainId={chainId}
-          depositedUSD={sDaiDetails.depositedUSD}
-          projections={sDaiDetails.currentProjections}
-          depositedUSDPrecision={sDaiDetails.depositedUSDPrecision}
-          savingsTokenWithBalance={sDaiDetails.tokenWithBalance}
-          openDialog={openDialog}
-        />
-      )}
-      {displaySavingsNST && (
-        <SavingsTokenPanel
-          variant="nst"
-          APY={sNSTDetails.APY}
-          chainId={chainId}
-          depositedUSD={sNSTDetails.depositedUSD}
-          projections={sNSTDetails.currentProjections}
-          depositedUSDPrecision={sNSTDetails.depositedUSDPrecision}
-          savingsTokenWithBalance={sNSTDetails.tokenWithBalance}
-          openDialog={openDialog}
-        />
-      )}
-      {displaySavingsOpportunity && (
-        <SavingsOpportunity
-          APY={sNSTDetails.APY}
-          chainId={chainId}
-          projections={opportunityProjections}
-          maxBalanceToken={maxBalanceToken}
-          openDialog={openDialog}
-          totalEligibleCashUSD={totalEligibleCashUSD}
-        />
-      )}
-      {displaySavingsNoCash && <SavingsOpportunityNoCash APY={sDaiDetails.APY} chainId={chainId} />}
+      <div className="flex flex-col gap-6 sm:flex-row">
+        {displaySavingsDai && (
+          <SavingsTokenPanel
+            variant="dai"
+            APY={sDaiDetails.APY}
+            chainId={chainId}
+            depositedUSD={sDaiDetails.depositedUSD}
+            projections={sDaiDetails.currentProjections}
+            depositedUSDPrecision={sDaiDetails.depositedUSDPrecision}
+            savingsTokenWithBalance={sDaiDetails.tokenWithBalance}
+            openDialog={openDialog}
+          />
+        )}
+        {displaySavingsNST && (
+          <SavingsTokenPanel
+            variant="nst"
+            APY={sNSTDetails.APY}
+            chainId={chainId}
+            depositedUSD={sNSTDetails.depositedUSD}
+            projections={sNSTDetails.currentProjections}
+            depositedUSDPrecision={sNSTDetails.depositedUSDPrecision}
+            savingsTokenWithBalance={sNSTDetails.tokenWithBalance}
+            openDialog={openDialog}
+          />
+        )}
+        {displaySavingsOpportunity && (
+          <SavingsOpportunity
+            APY={sNSTDetails.APY}
+            chainId={chainId}
+            projections={opportunityProjections}
+            maxBalanceToken={maxBalanceToken}
+            openDialog={openDialog}
+            totalEligibleCashUSD={totalEligibleCashUSD}
+          />
+        )}
+        {displaySavingsNoCash && <SavingsOpportunityNoCash APY={sDaiDetails.APY} chainId={chainId} />}
+      </div>
       <CashInWallet assets={assetsInWallet} openDialog={openDialog} />
     </PageLayout>
   )
