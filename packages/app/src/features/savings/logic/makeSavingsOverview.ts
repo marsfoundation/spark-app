@@ -31,7 +31,7 @@ export function makeSavingsOverview({
     stepInMs,
   })
 
-  const potentialShares = savingsInfo.convertDaiToShares({ dai: eligibleCashUSD })
+  const potentialShares = savingsInfo.convertToShares({ assets: eligibleCashUSD })
 
   return {
     potentialShares,
@@ -53,7 +53,7 @@ function calculateSharesToDaiWithPrecision({
   stepInMs,
 }: CalculateSharesToDaiWithPrecisionParams): [NormalizedUnitNumber, number] {
   if (!savingsInfo.supportsRealTimeInterestAccrual) {
-    return [savingsInfo.convertSharesToDai({ shares }), DEFAULT_PRECISION]
+    return [savingsInfo.convertToAssets({ shares }), DEFAULT_PRECISION]
   }
 
   const current = interpolateSharesToDai({ shares, savingsInfo, timestampInMs })

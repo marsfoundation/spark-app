@@ -1,8 +1,8 @@
 import { gnosis, mainnet } from 'viem/chains'
 
 import { getOriginChainId } from '@/domain/hooks/useOriginChainId'
-import { gnosisSavingsInfoQuery } from '@/domain/savings-info/gnosisSavingsInfo'
-import { mainnetSavingsInfoQuery } from '@/domain/savings-info/mainnetSavingsInfo'
+import { gnosisSavingsDaiInfoQuery } from '@/domain/savings-info/gnosisSavingsInfo'
+import { mainnetSavingsDaiInfoQuery, mainnetSavingsNstInfoQuery } from '@/domain/savings-info/mainnetSavingsInfo'
 import { useStore } from '@/domain/state'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
@@ -67,7 +67,8 @@ const chainConfig: ChainConfig = {
         borrow: [TokenSymbol('SPK')],
       },
     },
-    savingsInfoQuery: mainnetSavingsInfoQuery,
+    savingsDaiInfoQuery: mainnetSavingsDaiInfoQuery,
+    savingsNstInfoQuery: mainnetSavingsNstInfoQuery,
     daiSymbol: TokenSymbol('DAI'),
     sDaiSymbol: TokenSymbol('sDAI'),
     mergedDaiAndSDaiMarkets: true,
@@ -125,7 +126,8 @@ const chainConfig: ChainConfig = {
       [TokenSymbol('EURe')]: { name: 'Monerium EURO', symbol: TokenSymbol('EURe') },
     },
     airdrop: {},
-    savingsInfoQuery: gnosisSavingsInfoQuery,
+    savingsDaiInfoQuery: gnosisSavingsDaiInfoQuery,
+    savingsNstInfoQuery: gnosisSavingsDaiInfoQuery,
     daiSymbol: TokenSymbol('XDAI'),
     sDaiSymbol: TokenSymbol('sDAI'),
     mergedDaiAndSDaiMarkets: false,

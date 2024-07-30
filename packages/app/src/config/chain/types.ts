@@ -55,7 +55,8 @@ export interface ChainConfigEntry {
   erc20TokensWithApproveFnMalformed: Erc20TokensWithApproveFnMalformed
   tokenSymbolToReplacedName: TokenSymbolToReplacedName
   airdrop: Airdrop
-  savingsInfoQuery: (args: SavingsInfoQueryParams) => SavingsInfoQueryOptions
+  savingsDaiInfoQuery: (args: SavingsInfoQueryParams) => SavingsInfoQueryOptions
+  savingsNstInfoQuery: (args: SavingsInfoQueryParams) => SavingsInfoQueryOptions
   daiSymbol: TokenSymbol
   sDaiSymbol: TokenSymbol
   mergedDaiAndSDaiMarkets: boolean

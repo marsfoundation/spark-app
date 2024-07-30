@@ -2,16 +2,17 @@ import { SupportedChainId } from '@/config/chain/types'
 import { TokenWithBalance } from '@/domain/common/types'
 import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
 import { useSavingsDaiInfo } from '@/domain/savings-info/useSavingsDaiInfo'
+import { useSavingsNstInfo } from '@/domain/savings-info/useSavingsNstInfo'
 import { calculateMaxBalanceTokenAndTotal } from '@/domain/savings/calculateMaxBalanceTokenAndTotal'
 import { OpenDialogFunction, useOpenDialog } from '@/domain/state/dialogs'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
+import { makeSavingsOverview } from '@/features/savings/logic/makeSavingsOverview'
+import { calculateProjections } from '@/features/savings/logic/projections'
+import { useSavingsTokens } from '@/features/savings/logic/useSavingsTokens'
+import { Projections } from '@/features/savings/types'
 import { useTimestamp } from '@/utils/useTimestamp'
 import { useAccount } from 'wagmi'
-import { Projections } from '../types'
-import { makeSavingsOverview } from './makeSavingsOverview'
-import { calculateProjections } from './projections'
-import { useSavingsTokens } from './useSavingsTokens'
 
 const stepInMs = 50
 
@@ -19,7 +20,7 @@ export interface UseSavingsResults {
   guestMode: boolean
   openDialog: OpenDialogFunction
   openSandboxModal: () => void
-  savingsDetails:
+  savingsDaiDetails:
     | {
         state: 'supported'
         APY: Percentage
@@ -34,9 +35,16 @@ export interface UseSavingsResults {
         chainId: SupportedChainId
       }
     | { state: 'unsupported' }
+  savingsNSTDetails:
+    | {
+        state: 'supported'
+        APY: Percentage
+      }
+    | { state: 'unsupported' }
 }
 export function useSavings(): UseSavingsResults {
   const { savingsDaiInfo } = useSavingsDaiInfo()
+  const { savingsNstInfo } = useSavingsNstInfo()
   const guestMode = useAccount().isConnected === false
   const { sDaiWithBalance, savingsInputTokens } = useSavingsTokens()
   const chainId = useOriginChainId()
@@ -46,7 +54,13 @@ export function useSavings(): UseSavingsResults {
   const openDialog = useOpenDialog()
 
   if (!savingsDaiInfo) {
-    return { guestMode, openDialog, openSandboxModal, savingsDetails: { state: 'unsupported' } }
+    return {
+      guestMode,
+      openDialog,
+      openSandboxModal,
+      savingsDaiDetails: { state: 'unsupported' },
+      savingsNSTDetails: { state: 'unsupported' },
+    }
   }
 
   const { totalUSD: totalEligibleCashUSD, maxBalanceToken } = calculateMaxBalanceTokenAndTotal({
@@ -80,7 +94,7 @@ export function useSavings(): UseSavingsResults {
     guestMode,
     openSandboxModal,
     openDialog,
-    savingsDetails: {
+    savingsDaiDetails: {
       state: 'supported',
       APY: savingsDaiInfo.apy,
       depositedUSD,
@@ -93,5 +107,11 @@ export function useSavings(): UseSavingsResults {
       maxBalanceToken,
       chainId,
     },
+    savingsNSTDetails: savingsNstInfo
+      ? {
+          state: 'supported',
+          APY: savingsNstInfo.apy,
+        }
+      : { state: 'unsupported' },
   }
 }

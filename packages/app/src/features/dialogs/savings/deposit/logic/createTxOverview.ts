@@ -22,7 +22,7 @@ export function createTxOverview({
     return { status: 'no-overview' }
   }
 
-  const sDAIValue = savingsInfo.convertDaiToShares({ dai: daiValue })
+  const sDAIValue = savingsInfo.convertToShares({ assets: daiValue })
   const daiEarnRate = NormalizedUnitNumber(daiValue.multipliedBy(savingsInfo.apy))
   const route: RouteItem[] = [
     ...(!isDaiDeposit
@@ -42,7 +42,7 @@ export function createTxOverview({
     {
       token: marketInfo.sDAI,
       value: sDAIValue,
-      usdValue: savingsInfo.convertSharesToDai({ shares: sDAIValue }),
+      usdValue: savingsInfo.convertToAssets({ shares: sDAIValue }),
     },
   ]
 

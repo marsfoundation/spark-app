@@ -14,11 +14,11 @@ import { fromWad } from '@/utils/math'
 import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
 import { SavingsInfo, SavingsInfoQueryOptions, SavingsInfoQueryParams } from './types'
 
-export function gnosisSavingsInfoQuery({ wagmiConfig, timestamp }: SavingsInfoQueryParams): SavingsInfoQueryOptions {
+export function gnosisSavingsDaiInfoQuery({ wagmiConfig, timestamp }: SavingsInfoQueryParams): SavingsInfoQueryOptions {
   const sDaiAdapterAddress = getContractAddress(savingsXDaiAdapterAddress, gnosis.id)
   const sDaiAddress = getContractAddress(savingsXDaiAddress, gnosis.id)
   return {
-    queryKey: ['gnosis-savings-info'],
+    queryKey: ['gnosis-savings-dai-info'],
     queryFn: async () => {
       const [vaultAPY, totalAssets, totalSupply, decimals] = await multicall(wagmiConfig, {
         contracts: [
@@ -88,22 +88,29 @@ export class GnosisSavingsInfo implements SavingsInfo {
     return false
   }
 
-  convertDaiToShares({ dai }: { dai: NormalizedUnitNumber }): NormalizedUnitNumber {
-    return NormalizedUnitNumber(dai.multipliedBy(this.totalAssets.plus(1)).dividedBy(this.totalSupply.plus(1)))
+  convertToShares({ assets }: { assets: NormalizedUnitNumber }): NormalizedUnitNumber {
+    return NormalizedUnitNumber(assets.multipliedBy(this.totalAssets.plus(1)).dividedBy(this.totalSupply.plus(1)))
   }
 
-  convertSharesToDai({ shares }: { shares: NormalizedUnitNumber }): NormalizedUnitNumber {
+  convertToAssets({ shares }: { shares: NormalizedUnitNumber }): NormalizedUnitNumber {
     return NormalizedUnitNumber(shares.multipliedBy(this.totalSupply.plus(1)).dividedBy(this.totalAssets.plus(1)))
   }
 
   predictSharesValue({ timestamp, shares }: { timestamp: number; shares: NormalizedUnitNumber }): NormalizedUnitNumber {
     return NormalizedUnitNumber(
-      this.convertSharesToDai({ shares }).multipliedBy(
+      this.convertToAssets({ shares }).multipliedBy(
         this.vaultAPY
           .dividedBy(365 * 24 * 60 * 60)
           .multipliedBy(timestamp - this.currentTimestamp)
           .plus(1),
       ),
     )
+  }
+}
+
+export function gnosisSavingsNstInfoQuery(): SavingsInfoQueryOptions {
+  return {
+    queryKey: ['gnosis-savings-nst-info'],
+    queryFn: async () => null,
   }
 }

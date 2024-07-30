@@ -38,7 +38,7 @@ export function createObjectives({
 
   const isMaxSelected = formValues.isMaxSelected
   const sDaiBalance = walletInfo.findWalletBalanceForToken(marketInfo.sDAI)
-  const sDaiValueEstimate = savingsInfo.convertDaiToShares({ dai: formValues.value })
+  const sDaiValueEstimate = savingsInfo.convertToShares({ assets: formValues.value })
   const reserveAddresses = marketInfo.reserves.map((r) => r.token.address)
 
   if (originChainId === mainnet.id) {

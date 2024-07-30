@@ -22,13 +22,13 @@ export function createTxOverview({
   const [daiValue, sDAIValue] = (() => {
     if (formValues.isMaxSelected) {
       const sDAIValue = walletInfo.findWalletBalanceForToken(marketInfo.sDAI)
-      const daiValue = savingsInfo.convertSharesToDai({ shares: sDAIValue })
+      const daiValue = savingsInfo.convertToAssets({ shares: sDAIValue })
 
       return [daiValue, sDAIValue]
     }
 
     const daiValue = formValues.value
-    const sDAIValue = savingsInfo.convertDaiToShares({ dai: daiValue })
+    const sDAIValue = savingsInfo.convertToShares({ assets: daiValue })
     return [daiValue, sDAIValue]
   })()
 
@@ -40,7 +40,7 @@ export function createTxOverview({
     {
       token: marketInfo.sDAI,
       value: sDAIValue,
-      usdValue: savingsInfo.convertSharesToDai({ shares: sDAIValue }),
+      usdValue: savingsInfo.convertToAssets({ shares: sDAIValue }),
     },
     {
       token: marketInfo.DAI,

@@ -1,6 +1,6 @@
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
-import { useSavingsInfo } from '@/domain/savings-info/useSavingsInfo'
+import { useSavingsDaiInfo } from '@/domain/savings-info/useSavingsDaiInfo'
 import { Token } from '@/domain/types/Token'
 import { useMarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 import { Objective } from '@/features/actions/logic/types'
@@ -36,8 +36,8 @@ export function useSavingsDepositDialog({
   initialToken,
 }: UseSavingsDepositDialogParams): UseSavingsDepositDialogResults {
   const { marketInfo } = useMarketInfo()
-  const { savingsInfo } = useSavingsInfo()
-  assert(savingsInfo, 'Savings info is not available')
+  const { savingsDaiInfo } = useSavingsDaiInfo()
+  assert(savingsDaiInfo, 'Savings info for DAI is not available')
   const walletInfo = useMarketWalletInfo()
   const chainId = useChainId()
 
@@ -71,7 +71,7 @@ export function useSavingsDepositDialog({
   const txOverview = createTxOverview({
     formValues,
     marketInfo,
-    savingsInfo,
+    savingsInfo: savingsDaiInfo,
   })
 
   const tokenToDeposit: TokenWithValue = {

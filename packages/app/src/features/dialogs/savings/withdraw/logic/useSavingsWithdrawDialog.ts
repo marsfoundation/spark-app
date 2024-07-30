@@ -1,7 +1,7 @@
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
 import { useConditionalFreeze } from '@/domain/hooks/useConditionalFreeze'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
-import { useSavingsInfo } from '@/domain/savings-info/useSavingsInfo'
+import { useSavingsDaiInfo } from '@/domain/savings-info/useSavingsDaiInfo'
 import { useMarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 import { Objective } from '@/features/actions/logic/types'
 import { AssetInputSchema, useDebouncedDialogFormValues } from '@/features/dialogs/common/logic/form'
@@ -33,8 +33,8 @@ export interface UseSavingsWithdrawDialogResults {
 
 export function useSavingsWithdrawDialog(mode: Mode): UseSavingsWithdrawDialogResults {
   const { marketInfo } = useMarketInfo()
-  const { savingsInfo } = useSavingsInfo()
-  assert(savingsInfo, 'Savings info is not available')
+  const { savingsDaiInfo } = useSavingsDaiInfo()
+  assert(savingsDaiInfo, 'Savings info is not available')
   const walletInfo = useMarketWalletInfo()
   const chainId = useChainId()
 
@@ -72,7 +72,7 @@ export function useSavingsWithdrawDialog(mode: Mode): UseSavingsWithdrawDialogRe
     formValues,
     marketInfo,
     walletInfo,
-    savingsInfo,
+    savingsInfo: savingsDaiInfo,
     chainId,
     receiver: sendModeExtension?.receiver,
     mode,
@@ -80,7 +80,7 @@ export function useSavingsWithdrawDialog(mode: Mode): UseSavingsWithdrawDialogRe
   const txOverview = createTxOverview({
     formValues,
     marketInfo,
-    savingsInfo,
+    savingsInfo: savingsDaiInfo,
     walletInfo,
   })
   const tokenToWithdraw = useConditionalFreeze<TokenWithValue>(
