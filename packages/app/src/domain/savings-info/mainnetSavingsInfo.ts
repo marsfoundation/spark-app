@@ -101,6 +101,7 @@ export function mainnetSavingsNstInfoQuery({
   }
 }
 
+// @todo: add sNST address to wagmi config once it's available on mainnet
 const sNSTAddress = '0xeA8AE08513f8230cAA8d031D28cB4Ac8CE720c68'
 const sNSTAbi = [
   {
