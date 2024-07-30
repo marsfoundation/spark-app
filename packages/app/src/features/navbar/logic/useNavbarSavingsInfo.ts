@@ -12,8 +12,8 @@ export function useNavbarSavingsInfo(): SavingsInfoQueryResults | undefined {
 
   const { savingsDaiInfoQuery, savingsNstInfoQuery } = getChainConfigEntry(chainId)
   function getSavingsInfoQuery(): SavingsInfoQuery | undefined {
-    if (savingsDaiInfoQuery) return savingsDaiInfoQuery
     if (savingsNstInfoQuery) return savingsNstInfoQuery
+    if (savingsDaiInfoQuery) return savingsDaiInfoQuery
     return undefined
   }
   const savingsInfoQueryOptions = getSavingsInfoQuery()
