@@ -5,7 +5,6 @@ import { I18nTestProvider } from '@/domain/i18n/I18nTestProvider'
 import { useAutoConnect } from '@/domain/wallet/useAutoConnect'
 
 import { Suspense } from 'react'
-import { queryClient as defaultQueryClient } from './query-client'
 import { createWagmiTestConfig } from './wagmi-config'
 
 export function TestingWrapper({
@@ -15,7 +14,7 @@ export function TestingWrapper({
 }: {
   config: ReturnType<typeof createWagmiTestConfig>
   children: React.ReactNode
-  queryClient?: QueryClient
+  queryClient: QueryClient
 }) {
   const waitForAccount = config.connectors.length > 0
   useAutoConnect({ config })
@@ -23,7 +22,7 @@ export function TestingWrapper({
   return (
     <Suspense fallback={null}>
       <WagmiProvider config={config}>
-        <QueryClientProvider client={queryClient ?? defaultQueryClient}>
+        <QueryClientProvider client={queryClient}>
           <I18nTestProvider>
             {waitForAccount ? <WaitForAccountToConnect>{children}</WaitForAccountToConnect> : children}
           </I18nTestProvider>

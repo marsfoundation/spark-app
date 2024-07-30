@@ -1,4 +1,5 @@
 import { psmActionsAbi, psmActionsAddress } from '@/config/contracts-generated'
+import { allowanceQueryKey } from '@/domain/market-operations/allowance/query'
 import { BaseUnitNumber } from '@/domain/types/NumericValues'
 import { daiLikeReserve, getMockToken, testAddresses, wethLikeReserve } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
@@ -99,7 +100,7 @@ describe(useRedeemAndSwap.name, () => {
   })
 
   it('redeems using psm actions with custom receiver', async () => {
-    const { result } = hookRenderer({
+    const { result, invalidationManager } = hookRenderer({
       args: {
         gem,
         assetsToken,
@@ -130,6 +131,19 @@ describe(useRedeemAndSwap.name, () => {
 
     await waitFor(() => {
       expect(result.current.status.kind).toBe('success')
+    })
+
+    await waitFor(() => {
+      expect(
+        invalidationManager.hasBeenInvalidated(
+          allowanceQueryKey({
+            token: assetsToken.address,
+            spender: psmActionsAddress[mainnet.id],
+            account: owner,
+            chainId: mainnet.id,
+          }),
+        ),
+      ).toBe(true)
     })
   })
 })

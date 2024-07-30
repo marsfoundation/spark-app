@@ -4,9 +4,11 @@ import { Chain } from 'wagmi/chains'
 
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 
+import { TestInvalidationManager } from './TestInvalidationManager'
 import { TestingWrapper } from './TestingWrapper'
 import { makeMockTransport } from './mockTransport'
 import { RpcHandler } from './mockTransport/types'
+import { queryClient as defaultQueryClient } from './query-client'
 import { createWagmiTestConfig } from './wagmi-config'
 
 interface SetupHookRendererArgs<HOOK extends (args: any) => any> {
@@ -22,10 +24,12 @@ interface SetupHookRendererArgs<HOOK extends (args: any) => any> {
 export function setupHookRenderer<HOOK extends (args: any) => any>(defaultArgs: SetupHookRendererArgs<HOOK>) {
   return (
     overrides: Partial<SetupHookRendererArgs<HOOK>> = {},
-  ): RenderHookResult<ReturnType<HOOK>, Parameters<HOOK>[0]> => {
+  ): RenderHookResult<ReturnType<HOOK>, Parameters<HOOK>[0]> & { invalidationManager: TestInvalidationManager } => {
     const final = { ...defaultArgs, ...overrides }
+    const queryClient = final.queryClient ?? defaultQueryClient
+    const invalidationManager = new TestInvalidationManager(queryClient)
 
-    return renderHook(final.hook, {
+    const base = renderHook(final.hook, {
       initialProps: final.args,
       wrapper: ({ children }) => (
         <TestingWrapper
@@ -34,11 +38,16 @@ export function setupHookRenderer<HOOK extends (args: any) => any>(defaultArgs: 
             wallet: final.account ? { address: final.account } : undefined,
             chain: final.chain,
           })}
-          queryClient={final.queryClient}
+          queryClient={queryClient}
         >
           {children}
         </TestingWrapper>
       ),
     })
+
+    return {
+      ...base,
+      invalidationManager,
+    }
   }
 }

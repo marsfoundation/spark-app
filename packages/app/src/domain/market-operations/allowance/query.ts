@@ -18,15 +18,7 @@ export interface AllowanceOptions {
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function allowance({ wagmiConfig, token, spender, account, chainId }: AllowanceOptions) {
   return queryOptions<bigint>({
-    queryKey: [
-      {
-        entity: 'readContract',
-        functionName: 'allowance',
-        address: token,
-        args: [account, spender],
-        chainId,
-      },
-    ],
+    queryKey: allowanceQueryKey({ token, spender, account, chainId }),
     queryFn: () => {
       if (token === NATIVE_ASSET_MOCK_ADDRESS) {
         return MAX_INT
@@ -40,4 +32,17 @@ export function allowance({ wagmiConfig, token, spender, account, chainId }: All
       })
     },
   })
+}
+
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+export function allowanceQueryKey({ token, spender, account, chainId }: Omit<AllowanceOptions, 'wagmiConfig'>) {
+  return [
+    {
+      entity: 'readContract',
+      functionName: 'allowance',
+      address: token,
+      args: [account, spender],
+      chainId,
+    },
+  ] as const
 }
