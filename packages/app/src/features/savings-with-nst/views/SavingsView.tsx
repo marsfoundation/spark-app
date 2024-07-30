@@ -10,33 +10,29 @@ import { SavingsOpportunityNoCash } from '../../savings/components/savings-oppor
 import { Projections } from '../../savings/types'
 import { SavingsTokenPanel } from '../components/savings-token-panel/SavingsTokenPanel'
 
-export interface SavingsViewProps {
-  chainId: SupportedChainId
+interface SavingsTokenProps {
+  APY: Percentage
+  tokenWithBalance: TokenWithBalance
+  projections: Projections
   depositedUSD: NormalizedUnitNumber
   depositedUSDPrecision: number
+}
+
+export interface SavingsViewProps {
+  chainId: SupportedChainId
   opportunityProjections: Projections
   assetsInWallet: TokenWithBalance[]
   maxBalanceToken: TokenWithBalance
   totalEligibleCashUSD: NormalizedUnitNumber
   openDialog: OpenDialogFunction
-  sDai: {
-    APY: Percentage
-    tokenWithBalance: TokenWithBalance
-    projections: Projections
-  }
-  sNst?: {
-    APY: Percentage
-    tokenWithBalance: TokenWithBalance
-    projections: Projections
-  }
+  sDai: SavingsTokenProps
+  sNst?: SavingsTokenProps
 }
 
 export function SavingsView({
   sDai,
   sNst,
   chainId,
-  depositedUSD,
-  depositedUSDPrecision,
   opportunityProjections,
   assetsInWallet,
   totalEligibleCashUSD,
@@ -60,9 +56,9 @@ export function SavingsView({
             variant="dai"
             APY={sDai.APY}
             chainId={chainId}
-            depositedUSD={depositedUSD}
+            depositedUSD={sDai.depositedUSD}
             projections={sDai.projections}
-            depositedUSDPrecision={depositedUSDPrecision}
+            depositedUSDPrecision={sDai.depositedUSDPrecision}
             savingsTokenWithBalance={sDai.tokenWithBalance}
             openDialog={openDialog}
           />
@@ -72,9 +68,9 @@ export function SavingsView({
             variant="nst"
             APY={sNst.APY}
             chainId={chainId}
-            depositedUSD={depositedUSD}
+            depositedUSD={sNst.depositedUSD}
             projections={sNst.projections}
-            depositedUSDPrecision={depositedUSDPrecision}
+            depositedUSDPrecision={sNst.depositedUSDPrecision}
             savingsTokenWithBalance={sNst.tokenWithBalance}
             openDialog={openDialog}
           />

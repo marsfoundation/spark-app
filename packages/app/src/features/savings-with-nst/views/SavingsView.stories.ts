@@ -16,7 +16,6 @@ const meta: Meta<typeof SavingsView> = {
   },
   args: {
     chainId: mainnet.id,
-    depositedUSD: NormalizedUnitNumber(20765.7654),
     opportunityProjections: {
       thirtyDays: NormalizedUnitNumber(50),
       oneYear: NormalizedUnitNumber(1500),
@@ -40,7 +39,6 @@ const meta: Meta<typeof SavingsView> = {
       balance: NormalizedUnitNumber(22727),
     },
     totalEligibleCashUSD: NormalizedUnitNumber(45454),
-    depositedUSDPrecision: 2,
     openDialog: () => {},
     sDai: {
       APY: Percentage(0.05),
@@ -49,6 +47,8 @@ const meta: Meta<typeof SavingsView> = {
         thirtyDays: NormalizedUnitNumber(500),
         oneYear: NormalizedUnitNumber(2500),
       },
+      depositedUSD: NormalizedUnitNumber(20765.7654),
+      depositedUSDPrecision: 2,
     },
     sNst: {
       APY: Percentage(0.05),
@@ -57,6 +57,8 @@ const meta: Meta<typeof SavingsView> = {
         thirtyDays: NormalizedUnitNumber(250),
         oneYear: NormalizedUnitNumber(1250),
       },
+      depositedUSD: NormalizedUnitNumber(10365.7654),
+      depositedUSDPrecision: 2,
     },
   },
 }
@@ -91,6 +93,8 @@ export const OnlyNST: Story = {
         thirtyDays: NormalizedUnitNumber(0),
         oneYear: NormalizedUnitNumber(0),
       },
+      depositedUSD: NormalizedUnitNumber(0),
+      depositedUSDPrecision: 2,
     },
   },
 }
@@ -106,7 +110,6 @@ export const OnlyNSTTablet: Story = {
 export const NoDeposit: Story = {
   name: 'No deposit',
   args: {
-    depositedUSD: NormalizedUnitNumber(0),
     sDai: {
       APY: Percentage(0.05),
       tokenWithBalance: { balance: NormalizedUnitNumber(0), token: tokens.sDAI },
@@ -114,6 +117,8 @@ export const NoDeposit: Story = {
         thirtyDays: NormalizedUnitNumber(0),
         oneYear: NormalizedUnitNumber(0),
       },
+      depositedUSD: NormalizedUnitNumber(0),
+      depositedUSDPrecision: 2,
     },
     sNst: {
       APY: Percentage(0.05),
@@ -122,6 +127,8 @@ export const NoDeposit: Story = {
         thirtyDays: NormalizedUnitNumber(0),
         oneYear: NormalizedUnitNumber(0),
       },
+      depositedUSD: NormalizedUnitNumber(0),
+      depositedUSDPrecision: 2,
     },
   },
 }
@@ -207,6 +214,8 @@ export const AllInOnlyNST: Story = {
         thirtyDays: NormalizedUnitNumber(0),
         oneYear: NormalizedUnitNumber(0),
       },
+      depositedUSD: NormalizedUnitNumber(10365.7654),
+      depositedUSDPrecision: 2,
     },
     opportunityProjections: {
       thirtyDays: NormalizedUnitNumber(0),
@@ -240,7 +249,6 @@ export const AllInOnlyNSTTablet: Story = {
 export const NoDepositNoCash: Story = {
   name: 'No deposit, no cash',
   args: {
-    depositedUSD: NormalizedUnitNumber(0),
     sDai: {
       APY: Percentage(0.05),
       tokenWithBalance: { balance: NormalizedUnitNumber(0), token: tokens.sDAI },
@@ -248,6 +256,8 @@ export const NoDepositNoCash: Story = {
         thirtyDays: NormalizedUnitNumber(0),
         oneYear: NormalizedUnitNumber(0),
       },
+      depositedUSD: NormalizedUnitNumber(0),
+      depositedUSDPrecision: 2,
     },
     sNst: {
       APY: Percentage(0.05),
@@ -256,6 +266,8 @@ export const NoDepositNoCash: Story = {
         thirtyDays: NormalizedUnitNumber(0),
         oneYear: NormalizedUnitNumber(0),
       },
+      depositedUSD: NormalizedUnitNumber(0),
+      depositedUSDPrecision: 2,
     },
     opportunityProjections: {
       thirtyDays: NormalizedUnitNumber(0),
@@ -289,8 +301,6 @@ export const NoDepositNoCashTablet = {
 export const BigNumbersDesktop: Story = {
   name: 'Big numbers',
   args: {
-    depositedUSD: NormalizedUnitNumber('134395765.123482934245'),
-    depositedUSDPrecision: 0,
     sDai: {
       APY: Percentage(0.05),
       tokenWithBalance: { balance: NormalizedUnitNumber(134000000.0), token: tokens.sDAI },
@@ -298,6 +308,8 @@ export const BigNumbersDesktop: Story = {
         thirtyDays: NormalizedUnitNumber(1224300.923423423),
         oneYear: NormalizedUnitNumber(6345543.32945601),
       },
+      depositedUSD: NormalizedUnitNumber('134395765.123482934245'),
+      depositedUSDPrecision: 0,
     },
     sNst: {
       APY: Percentage(0.05),
@@ -306,6 +318,8 @@ export const BigNumbersDesktop: Story = {
         thirtyDays: NormalizedUnitNumber(1224300.923423423),
         oneYear: NormalizedUnitNumber(6345543.32945601),
       },
+      depositedUSD: NormalizedUnitNumber('134395765.123482934245'),
+      depositedUSDPrecision: 0,
     },
     opportunityProjections: {
       thirtyDays: NormalizedUnitNumber(1224300.923423423),
