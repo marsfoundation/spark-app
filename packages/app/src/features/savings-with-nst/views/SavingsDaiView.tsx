@@ -12,10 +12,11 @@ export function SavingsDaiView({
   assetsInWallet,
   maxBalanceToken,
   totalEligibleCashUSD,
+  opportunityProjections,
   openDialog,
 }: SavingsViewContentProps) {
   const displaySavingsDai = savingsTokenDetails.tokenWithBalance.balance.gt(0)
-  const displaySavingsOpportunity = totalEligibleCashUSD.gt(0)
+  const displaySavingsOpportunity = opportunityProjections.thirtyDays.gt(0)
   const displaySavingsNoCash = !displaySavingsDai && !displaySavingsOpportunity
 
   return (
@@ -29,7 +30,7 @@ export function SavingsDaiView({
           <SavingsOpportunity
             APY={savingsTokenDetails.APY}
             chainId={chainId}
-            projections={savingsTokenDetails.opportunityProjections}
+            projections={opportunityProjections}
             maxBalanceToken={maxBalanceToken}
             openDialog={openDialog}
             totalEligibleCashUSD={totalEligibleCashUSD}

@@ -26,20 +26,20 @@ const savingsViewBaseArgs = {
     token: tokens.DAI,
     balance: NormalizedUnitNumber(22727),
   },
+  opportunityProjections: {
+    thirtyDays: NormalizedUnitNumber(100),
+    oneYear: NormalizedUnitNumber(3000),
+  },
   totalEligibleCashUSD: NormalizedUnitNumber(45454),
   openDialog: () => {},
 }
 
-const sDaiDetails = {
+const savingsTokenDetails = {
   APY: Percentage(0.05),
   tokenWithBalance: { balance: NormalizedUnitNumber(20_000), token: tokens.sDAI },
   currentProjections: {
     thirtyDays: NormalizedUnitNumber(500),
     oneYear: NormalizedUnitNumber(2500),
-  },
-  opportunityProjections: {
-    thirtyDays: NormalizedUnitNumber(100),
-    oneYear: NormalizedUnitNumber(3000),
   },
   depositedUSD: NormalizedUnitNumber(20765.7654),
   depositedUSDPrecision: 2,
@@ -57,7 +57,7 @@ const meta: Meta<typeof SavingsDaiView> = {
 export default meta
 type Story = StoryObj<typeof SavingsDaiView>
 
-export const Desktop: Story = { args: { ...savingsViewBaseArgs, savingsTokenDetails: sDaiDetails } }
+export const Desktop: Story = { args: { ...savingsViewBaseArgs, savingsTokenDetails } }
 export const Mobile = getMobileStory(Desktop)
 export const Tablet = getTabletStory(Desktop)
 
@@ -66,7 +66,7 @@ export const NoDeposit: Story = {
   args: {
     ...savingsViewBaseArgs,
     savingsTokenDetails: {
-      ...sDaiDetails,
+      ...savingsTokenDetails,
       tokenWithBalance: { balance: NormalizedUnitNumber(0), token: tokens.sDAI },
       currentProjections: {
         thirtyDays: NormalizedUnitNumber(0),
@@ -83,13 +83,11 @@ export const AllIn: Story = {
   args: {
     ...savingsViewBaseArgs,
     totalEligibleCashUSD: NormalizedUnitNumber(0),
-    savingsTokenDetails: {
-      ...sDaiDetails,
-      opportunityProjections: {
-        thirtyDays: NormalizedUnitNumber(0),
-        oneYear: NormalizedUnitNumber(0),
-      },
+    opportunityProjections: {
+      thirtyDays: NormalizedUnitNumber(0),
+      oneYear: NormalizedUnitNumber(0),
     },
+    savingsTokenDetails,
     assetsInWallet: [
       {
         token: tokens.DAI,
@@ -113,18 +111,19 @@ export const NoDepositNoCash: Story = {
   name: 'No deposit, no cash',
   args: {
     ...savingsViewBaseArgs,
+    totalEligibleCashUSD: NormalizedUnitNumber(0),
+    opportunityProjections: {
+      thirtyDays: NormalizedUnitNumber(0),
+      oneYear: NormalizedUnitNumber(0),
+    },
     savingsTokenDetails: {
-      ...sDaiDetails,
+      ...savingsTokenDetails,
       tokenWithBalance: { balance: NormalizedUnitNumber(0), token: tokens.sDAI },
       currentProjections: {
         thirtyDays: NormalizedUnitNumber(0),
         oneYear: NormalizedUnitNumber(0),
       },
       depositedUSD: NormalizedUnitNumber(0),
-      opportunityProjections: {
-        thirtyDays: NormalizedUnitNumber(0),
-        oneYear: NormalizedUnitNumber(0),
-      },
     },
     assetsInWallet: [
       {
@@ -149,14 +148,14 @@ export const BigNumbersDesktop: Story = {
   name: 'Big numbers',
   args: {
     ...savingsViewBaseArgs,
+    opportunityProjections: {
+      thirtyDays: NormalizedUnitNumber(1224300.923423423),
+      oneYear: NormalizedUnitNumber(6345543.32945601),
+    },
     savingsTokenDetails: {
       APY: Percentage(0.05),
       tokenWithBalance: { balance: NormalizedUnitNumber(134000000.0), token: tokens.sDAI },
       currentProjections: {
-        thirtyDays: NormalizedUnitNumber(1224300.923423423),
-        oneYear: NormalizedUnitNumber(6345543.32945601),
-      },
-      opportunityProjections: {
         thirtyDays: NormalizedUnitNumber(1224300.923423423),
         oneYear: NormalizedUnitNumber(6345543.32945601),
       },

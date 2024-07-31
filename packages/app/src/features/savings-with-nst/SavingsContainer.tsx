@@ -2,6 +2,7 @@ import { SavingsSkeleton } from '@/features/savings/components/skeleton/SavingsS
 import { GuestView } from '@/features/savings/views/GuestView'
 import { UnsupportedChainView } from '@/features/savings/views/UnsupportedChainView'
 import { withSuspense } from '@/ui/utils/withSuspense'
+import { raise } from '@/utils/assert'
 import { useChainModal, useConnectModal } from '@rainbow-me/rainbowkit'
 import { useSavings } from './logic/useSavings'
 import { SavingsDaiAndNSTView } from './views/SavingsDaiAndNSTView'
@@ -24,58 +25,40 @@ function SavingsContainer() {
     )
   }
 
-  const { originChainId, assetsInWallet, maxBalanceToken, totalEligibleCashUSD, state, ...savingTokensDetails } =
-    savingsDetails
-  const APY = 'sNST' in savingTokensDetails ? savingTokensDetails.sNST.APY : savingTokensDetails.sDai.APY
+  const { sDaiDetails, sNSTDetails } = savingsDetails
+  const APY = sNSTDetails?.APY ?? sDaiDetails?.APY ?? raise('Savings APY should be defined')
 
   if (guestMode) {
     return (
       <GuestView
+        {...savingsDetails}
         APY={APY}
-        chainId={originChainId}
         openConnectModal={openConnectModal}
         openSandboxModal={openSandboxModal}
       />
     )
   }
 
-  if ('sDai' in savingTokensDetails && 'sNST' in savingTokensDetails) {
+  if (sDaiDetails && sNSTDetails) {
     return (
       <SavingsDaiAndNSTView
-        sDaiDetails={savingTokensDetails.sDai}
-        sNSTDetails={savingTokensDetails.sNST}
-        chainId={originChainId}
-        assetsInWallet={assetsInWallet}
-        maxBalanceToken={maxBalanceToken}
-        totalEligibleCashUSD={totalEligibleCashUSD}
+        {...savingsDetails}
+        sDaiDetails={sDaiDetails}
+        sNSTDetails={sNSTDetails}
         openDialog={openDialog}
       />
     )
   }
 
-  if ('sDai' in savingTokensDetails) {
-    return (
-      <SavingsDaiView
-        savingsTokenDetails={savingTokensDetails.sDai}
-        chainId={originChainId}
-        assetsInWallet={assetsInWallet}
-        maxBalanceToken={maxBalanceToken}
-        totalEligibleCashUSD={totalEligibleCashUSD}
-        openDialog={openDialog}
-      />
-    )
+  if (sDaiDetails) {
+    return <SavingsDaiView {...savingsDetails} savingsTokenDetails={sDaiDetails} openDialog={openDialog} />
   }
 
-  return (
-    <SavingsNSTView
-      savingsTokenDetails={savingTokensDetails.sNST}
-      chainId={originChainId}
-      assetsInWallet={assetsInWallet}
-      maxBalanceToken={maxBalanceToken}
-      totalEligibleCashUSD={totalEligibleCashUSD}
-      openDialog={openDialog}
-    />
-  )
+  if (sNSTDetails) {
+    return <SavingsNSTView {...savingsDetails} savingsTokenDetails={sNSTDetails} openDialog={openDialog} />
+  }
+
+  raise('Invalid savings state')
 }
 
 const SavingsContainerWithSuspense = withSuspense(SavingsContainer, SavingsSkeleton)

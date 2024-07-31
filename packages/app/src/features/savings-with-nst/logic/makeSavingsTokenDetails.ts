@@ -3,10 +3,11 @@ import { SavingsInfo } from '@/domain/savings-info/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { makeSavingsOverview } from '@/features/savings/logic/makeSavingsOverview'
 import { calculateProjections } from '@/features/savings/logic/projections'
+import { Projections } from '@/features/savings/types'
 import { assert } from '@/utils/assert'
 import { SavingsTokenDetails } from './useSavings'
 
-interface MakeSavingsTokenDetailsParams {
+export interface MakeSavingsTokenDetailsParams {
   savingsInfo: SavingsInfo | null
   savingsTokenWithBalance: TokenWithBalance | undefined
   eligibleCashUSD: NormalizedUnitNumber
@@ -15,6 +16,8 @@ interface MakeSavingsTokenDetailsParams {
   stepInMs: number
 }
 
+export type MakeSavingsTokenDetailsResult = (SavingsTokenDetails & { opportunityProjections: Projections }) | undefined
+
 export function makeSavingsTokenDetails({
   savingsInfo,
   savingsTokenWithBalance,
@@ -22,7 +25,7 @@ export function makeSavingsTokenDetails({
   timestamp,
   timestampInMs,
   stepInMs,
-}: MakeSavingsTokenDetailsParams): SavingsTokenDetails | undefined {
+}: MakeSavingsTokenDetailsParams): MakeSavingsTokenDetailsResult {
   if (!savingsInfo) {
     return undefined
   }

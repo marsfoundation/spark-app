@@ -7,23 +7,23 @@ import { SavingsTokenPanel } from '../components/savings-token-panel/SavingsToke
 import { SavingsTokenDetails } from '../logic/useSavings'
 import { SavingsViewContentProps } from './types'
 
+export interface SavingsDaiAndNSTViewProps extends Omit<SavingsViewContentProps, 'savingsTokenDetails'> {
+  sDaiDetails: SavingsTokenDetails
+  sNSTDetails: SavingsTokenDetails
+}
+
 export function SavingsDaiAndNSTView({
   sDaiDetails,
   sNSTDetails,
+  opportunityProjections,
   chainId,
   assetsInWallet,
   maxBalanceToken,
   totalEligibleCashUSD,
   openDialog,
-}: Omit<SavingsViewContentProps, 'savingsTokenDetails'> & {
-  sDaiDetails: SavingsTokenDetails
-  sNSTDetails: SavingsTokenDetails
-}) {
+}: SavingsDaiAndNSTViewProps) {
   const displaySavingsDai = sDaiDetails.tokenWithBalance.balance.gt(0)
   const displaySavingsNST = sNSTDetails.tokenWithBalance.balance.gt(0)
-  const opportunityProjections = displaySavingsDai
-    ? sDaiDetails.opportunityProjections
-    : sNSTDetails.opportunityProjections
   const displaySavingsOpportunity =
     (!displaySavingsDai || !displaySavingsNST) && opportunityProjections.thirtyDays.gt(0)
   const displaySavingsNoCash = !displaySavingsDai && !displaySavingsNST && !displaySavingsOpportunity

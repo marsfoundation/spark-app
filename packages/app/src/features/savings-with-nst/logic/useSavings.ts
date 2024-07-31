@@ -10,6 +10,7 @@ import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { useTokens } from '@/domain/wallet/useTokens/useTokens'
 import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
 import { Projections } from '@/features/savings/types'
+import { raise } from '@/utils/assert'
 import { useTimestamp } from '@/utils/useTimestamp'
 import { useAccount, useChainId } from 'wagmi'
 import { makeSavingsTokenDetails } from './makeSavingsTokenDetails'
@@ -21,7 +22,6 @@ export interface SavingsTokenDetails {
   APY: Percentage
   tokenWithBalance: TokenWithBalance
   currentProjections: Projections
-  opportunityProjections: Projections
   depositedUSD: NormalizedUnitNumber
   depositedUSDPrecision: number
 }
@@ -31,24 +31,16 @@ export interface UseSavingsResults {
   openDialog: OpenDialogFunction
   openSandboxModal: () => void
   savingsDetails:
-    | ({
+    | {
         state: 'supported'
         assetsInWallet: TokenWithBalance[]
         totalEligibleCashUSD: NormalizedUnitNumber
         maxBalanceToken: TokenWithBalance
-        originChainId: SupportedChainId
-      } & (
-        | {
-            sDai: SavingsTokenDetails
-          }
-        | {
-            sNST: SavingsTokenDetails
-          }
-        | {
-            sDai: SavingsTokenDetails
-            sNST: SavingsTokenDetails
-          }
-      ))
+        chainId: SupportedChainId
+        opportunityProjections: Projections
+        sDaiDetails?: SavingsTokenDetails
+        sNSTDetails?: SavingsTokenDetails
+      }
     | { state: 'unsupported' }
 }
 export function useSavings(): UseSavingsResults {
@@ -94,7 +86,21 @@ export function useSavings(): UseSavingsResults {
     openDialog(SandboxDialog, { mode: 'ephemeral' } as const)
   }
 
-  const baseResult = {
+  if (!sDaiDetails && !sNSTDetails) {
+    return {
+      guestMode,
+      openDialog,
+      openSandboxModal,
+      savingsDetails: { state: 'unsupported' },
+    }
+  }
+
+  const opportunityProjections =
+    sNSTDetails?.opportunityProjections ??
+    sDaiDetails?.opportunityProjections ??
+    raise('Savings opportunity projections should be defined')
+
+  return {
     guestMode,
     openSandboxModal,
     openDialog,
@@ -103,45 +109,10 @@ export function useSavings(): UseSavingsResults {
       assetsInWallet: inputTokens,
       totalEligibleCashUSD,
       maxBalanceToken,
-      originChainId,
+      chainId: originChainId,
+      opportunityProjections,
+      sDaiDetails,
+      sNSTDetails,
     },
-  } as const
-
-  if (sDaiDetails && sNSTDetails) {
-    return {
-      ...baseResult,
-      savingsDetails: {
-        ...baseResult.savingsDetails,
-        sDai: sDaiDetails,
-        sNST: sNSTDetails,
-      },
-    }
-  }
-
-  if (sDaiDetails) {
-    return {
-      ...baseResult,
-      savingsDetails: {
-        ...baseResult.savingsDetails,
-        sDai: sDaiDetails,
-      },
-    }
-  }
-
-  if (sNSTDetails) {
-    return {
-      ...baseResult,
-      savingsDetails: {
-        ...baseResult.savingsDetails,
-        sNST: sNSTDetails,
-      },
-    }
-  }
-
-  return {
-    guestMode,
-    openDialog,
-    openSandboxModal,
-    savingsDetails: { state: 'unsupported' },
   }
 }

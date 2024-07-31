@@ -22,6 +22,10 @@ const savingsViewBaseArgs = {
       balance: NormalizedUnitNumber(0),
     },
   ],
+  opportunityProjections: {
+    thirtyDays: NormalizedUnitNumber(100),
+    oneYear: NormalizedUnitNumber(3000),
+  },
   maxBalanceToken: {
     token: tokens.DAI,
     balance: NormalizedUnitNumber(22727),
@@ -37,10 +41,6 @@ const sNSTDetails = {
     thirtyDays: NormalizedUnitNumber(250),
     oneYear: NormalizedUnitNumber(1250),
   },
-  opportunityProjections: {
-    thirtyDays: NormalizedUnitNumber(100),
-    oneYear: NormalizedUnitNumber(3000),
-  },
   depositedUSD: NormalizedUnitNumber(10365.7654),
   depositedUSDPrecision: 2,
 }
@@ -51,10 +51,6 @@ const sDaiDetails = {
   currentProjections: {
     thirtyDays: NormalizedUnitNumber(500),
     oneYear: NormalizedUnitNumber(2500),
-  },
-  opportunityProjections: {
-    thirtyDays: NormalizedUnitNumber(100),
-    oneYear: NormalizedUnitNumber(3000),
   },
   depositedUSD: NormalizedUnitNumber(20765.7654),
   depositedUSDPrecision: 2,
@@ -108,20 +104,12 @@ export const AllIn: Story = {
   args: {
     ...savingsViewBaseArgs,
     totalEligibleCashUSD: NormalizedUnitNumber(0),
-    sDaiDetails: {
-      ...sDaiDetails,
-      opportunityProjections: {
-        thirtyDays: NormalizedUnitNumber(0),
-        oneYear: NormalizedUnitNumber(0),
-      },
+    opportunityProjections: {
+      thirtyDays: NormalizedUnitNumber(0),
+      oneYear: NormalizedUnitNumber(0),
     },
-    sNSTDetails: {
-      ...sNSTDetails,
-      opportunityProjections: {
-        thirtyDays: NormalizedUnitNumber(0),
-        oneYear: NormalizedUnitNumber(0),
-      },
-    },
+    sNSTDetails,
+    sDaiDetails,
     assetsInWallet: [
       {
         token: tokens.DAI,
@@ -145,6 +133,11 @@ export const NoDepositNoCash: Story = {
   name: 'No deposit, no cash',
   args: {
     ...savingsViewBaseArgs,
+    totalEligibleCashUSD: NormalizedUnitNumber(0),
+    opportunityProjections: {
+      thirtyDays: NormalizedUnitNumber(0),
+      oneYear: NormalizedUnitNumber(0),
+    },
     sDaiDetails: {
       ...sDaiDetails,
       tokenWithBalance: { balance: NormalizedUnitNumber(0), token: tokens.sDAI },
@@ -153,10 +146,6 @@ export const NoDepositNoCash: Story = {
         oneYear: NormalizedUnitNumber(0),
       },
       depositedUSD: NormalizedUnitNumber(0),
-      opportunityProjections: {
-        thirtyDays: NormalizedUnitNumber(0),
-        oneYear: NormalizedUnitNumber(0),
-      },
     },
     sNSTDetails: {
       ...sNSTDetails,
@@ -166,12 +155,7 @@ export const NoDepositNoCash: Story = {
         oneYear: NormalizedUnitNumber(0),
       },
       depositedUSD: NormalizedUnitNumber(0),
-      opportunityProjections: {
-        thirtyDays: NormalizedUnitNumber(0),
-        oneYear: NormalizedUnitNumber(0),
-      },
     },
-
     assetsInWallet: [
       {
         token: tokens.DAI,
@@ -195,14 +179,14 @@ export const BigNumbersDesktop: Story = {
   name: 'Big numbers',
   args: {
     ...savingsViewBaseArgs,
+    opportunityProjections: {
+      thirtyDays: NormalizedUnitNumber(1224300.923423423),
+      oneYear: NormalizedUnitNumber(6345543.32945601),
+    },
     sDaiDetails: {
       APY: Percentage(0.05),
       tokenWithBalance: { balance: NormalizedUnitNumber(134000000.0), token: tokens.sDAI },
       currentProjections: {
-        thirtyDays: NormalizedUnitNumber(1224300.923423423),
-        oneYear: NormalizedUnitNumber(6345543.32945601),
-      },
-      opportunityProjections: {
         thirtyDays: NormalizedUnitNumber(1224300.923423423),
         oneYear: NormalizedUnitNumber(6345543.32945601),
       },
@@ -218,10 +202,6 @@ export const BigNumbersDesktop: Story = {
       },
       depositedUSD: NormalizedUnitNumber('134395765.123482934245'),
       depositedUSDPrecision: 0,
-      opportunityProjections: {
-        thirtyDays: NormalizedUnitNumber(1224300.923423423),
-        oneYear: NormalizedUnitNumber(6345543.32945601),
-      },
     },
 
     assetsInWallet: [
