@@ -1,5 +1,4 @@
 import { getChainConfigEntry } from '@/config/chain'
-import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { DaiToSDaiDepositObjective } from '@/features/actions/flavours/native-sdai-deposit/dai-to-sdai/types'
@@ -7,17 +6,16 @@ import { USDCToSDaiDepositObjective } from '@/features/actions/flavours/native-s
 import { XDaiToSDaiDepositObjective } from '@/features/actions/flavours/native-sdai-deposit/xdai-to-sdai/types'
 import { mainnet } from 'viem/chains'
 import { SavingsDialogFormNormalizedData } from '../../common/logic/form'
+import { raise } from '@/utils/assert'
 
 export interface CreateObjectivesParams {
   formValues: SavingsDialogFormNormalizedData
   tokensInfo: TokensInfo
-  target: Token
   chainId: number
 }
 export function createObjectives({
   formValues,
   tokensInfo,
-  target,
   chainId,
 }: CreateObjectivesParams): (DaiToSDaiDepositObjective | USDCToSDaiDepositObjective | XDaiToSDaiDepositObjective)[] {
   const tokenSymbol = formValues.token.symbol
@@ -30,7 +28,7 @@ export function createObjectives({
           type: 'daiToSDaiDeposit',
           value: formValues.value,
           dai: formValues.token,
-          sDai: target,
+          sDai: tokensInfo.sDAI ?? raise('sDAI token not found'),
         },
       ]
     }
@@ -41,7 +39,7 @@ export function createObjectives({
           type: 'usdcToSDaiDeposit',
           value: formValues.value,
           usdc: formValues.token,
-          sDai: target,
+          sDai: tokensInfo.sDAI ?? raise('sDAI token not found'),
         },
       ]
     }
@@ -53,7 +51,7 @@ export function createObjectives({
       type: 'xDaiToSDaiDeposit',
       value: formValues.value,
       xDai: formValues.token,
-      sDai: target,
+      sDai: tokensInfo.sDAI ?? raise('sDAI token not found'),
     },
   ]
 }

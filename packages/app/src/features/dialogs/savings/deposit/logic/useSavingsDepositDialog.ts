@@ -40,12 +40,12 @@ export function useSavingsDepositDialog({
   assert(savingsDaiInfo || savingsNstInfo, 'Neither sDai nor sNST is supported')
   const chainId = useChainId()
 
-  const { inputTokensInfo, sDaiWithBalance } = useSavingsTokens()
+  const { tokensInfo, inputTokens, sDaiWithBalance } = useSavingsTokens()
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')
 
   const form = useForm<AssetInputSchema>({
-    resolver: zodResolver(getSavingsDepositDialogFormValidator(inputTokensInfo)),
+    resolver: zodResolver(getSavingsDepositDialogFormValidator(tokensInfo)),
     defaultValues: {
       symbol: initialToken.symbol,
       value: '',
@@ -59,18 +59,17 @@ export function useSavingsDepositDialog({
     isFormValid,
   } = useDebouncedDialogFormValues({
     form,
-    tokensInfo: inputTokensInfo,
+    tokensInfo,
   })
 
   const objectives = createObjectives({
     formValues,
-    tokensInfo: inputTokensInfo,
-    target: sDaiWithBalance.token,
+    tokensInfo,
     chainId,
   })
   const txOverview = createTxOverview({
     formValues,
-    tokensInfo: inputTokensInfo,
+    tokensInfo,
     savingsInfo: savingsDaiInfo!,
   })
 
@@ -81,8 +80,8 @@ export function useSavingsDepositDialog({
   const actionsEnabled = formValues.value.gt(0) && isFormValid && !isDebouncing
 
   return {
-    selectableAssets: inputTokensInfo.all(),
-    assetsFields: getFormFieldsForDepositDialog(form, inputTokensInfo),
+    selectableAssets: inputTokens,
+    assetsFields: getFormFieldsForDepositDialog(form, tokensInfo),
     form,
     objectives,
     tokenToDeposit,

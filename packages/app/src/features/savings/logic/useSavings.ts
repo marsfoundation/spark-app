@@ -38,7 +38,7 @@ export interface UseSavingsResults {
 export function useSavings(): UseSavingsResults {
   const { savingsDaiInfo } = useSavingsDaiInfo()
   const guestMode = useAccount().isConnected === false
-  const { sDaiWithBalance, inputTokensInfo } = useSavingsTokens()
+  const { sDaiWithBalance, inputTokens } = useSavingsTokens()
   const chainId = useOriginChainId()
   const { timestamp, timestampInMs } = useTimestamp({
     refreshIntervalInMs: savingsDaiInfo?.supportsRealTimeInterestAccrual ? stepInMs : undefined,
@@ -50,7 +50,7 @@ export function useSavings(): UseSavingsResults {
   }
 
   const { totalUSD: totalEligibleCashUSD, maxBalanceToken } = calculateMaxBalanceTokenAndTotal({
-    assets: inputTokensInfo.all(),
+    assets: inputTokens,
   })
 
   const { potentialShares, depositedUSD, depositedUSDPrecision } = makeSavingsOverview({
@@ -88,7 +88,7 @@ export function useSavings(): UseSavingsResults {
       sDaiWithBalance,
       currentProjections,
       opportunityProjections,
-      assetsInWallet: inputTokensInfo.all(),
+      assetsInWallet: inputTokens,
       totalEligibleCashUSD,
       maxBalanceToken,
       chainId,

@@ -4,7 +4,7 @@ import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { raise } from '@/utils/assert'
 
-export interface FeaturedTokenSymbols {
+export interface FeaturedTokens {
   DAI?: TokenSymbol
   sDAI?: TokenSymbol
   NST?: TokenSymbol
@@ -14,15 +14,15 @@ export interface FeaturedTokenSymbols {
 export class TokensInfo {
   constructor(
     private readonly tokens: TokenWithBalance[],
-    private readonly featured: FeaturedTokenSymbols,
+    private readonly featured: FeaturedTokens,
   ) {}
 
   all(): TokenWithBalance[] {
     return this.tokens
   }
 
-  filter(predicate: (token: TokenWithBalance) => boolean): TokensInfo {
-    return new TokensInfo(this.tokens.filter(predicate), this.featured)
+  filter(predicate: (token: TokenWithBalance) => boolean): TokenWithBalance[] {
+    return this.tokens.filter(predicate)
   }
 
   findTokenBySymbol(symbol: TokenSymbol): Token | undefined {
@@ -60,7 +60,7 @@ export class TokensInfo {
   get NST(): Token | undefined {
     return this.featured.NST && this.findOneTokenBySymbol(this.featured.NST)
   }
-
+  
   get sNST(): Token | undefined {
     return this.featured.sNST && this.findOneTokenBySymbol(this.featured.sNST)
   }

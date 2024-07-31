@@ -42,7 +42,7 @@ export function useSavingsWithdrawDialog(mode: Mode): UseSavingsWithdrawDialogRe
 
   const sendModeExtension = useSendModeExtension({ mode, marketInfo })
 
-  const { inputTokensInfo } = useSavingsTokens()
+  const { inputTokens } = useSavingsTokens()
 
   const sDaiWithBalance: TokenWithBalance = {
     token: marketInfo.sDAI,
@@ -97,7 +97,7 @@ export function useSavingsWithdrawDialog(mode: Mode): UseSavingsWithdrawDialogRe
     (sendModeExtension?.enableActions ?? true)
 
   return {
-    selectableAssets: inputTokensInfo.all(),
+    selectableAssets: inputTokens,
     assetsFields: getFormFieldsForWithdrawDialog({ form, marketInfo, sDaiWithBalance }),
     form,
     objectives,

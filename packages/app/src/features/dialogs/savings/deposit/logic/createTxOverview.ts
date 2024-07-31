@@ -17,29 +17,32 @@ export function createTxOverview({
 }: CreateTxOverviewParams): SavingsDialogTxOverview {
   // the value is normalized, so assuming 1 to 1 conversion rate for USDC
   // value denominated in DAI equals to value denominated in USDC
-  const daiValue = formValues.value
+  const value = formValues.value
+  if (formValues.token.symbol === tokensInfo.NST?.symbol) {}
+
+
   const dai = tokensInfo.DAI ?? raise('DAI token not found')
   const isDaiDeposit = formValues.token.address === dai.address
-  if (daiValue.eq(0)) {
+  if (value.eq(0)) {
     return { status: 'no-overview' }
   }
 
-  const sDAIValue = savingsInfo.convertToShares({ assets: daiValue })
-  const daiEarnRate = NormalizedUnitNumber(daiValue.multipliedBy(savingsInfo.apy))
+  const sDAIValue = savingsInfo.convertToShares({ assets: value })
+  const daiEarnRate = NormalizedUnitNumber(value.multipliedBy(savingsInfo.apy))
   const route: RouteItem[] = [
     ...(!isDaiDeposit
       ? [
           {
             token: formValues.token,
-            value: daiValue,
-            usdValue: daiValue,
+            value: value,
+            usdValue: value,
           },
         ]
       : []),
     {
       token: dai,
-      value: daiValue,
-      usdValue: daiValue,
+      value: value,
+      usdValue: value,
     },
     {
       token: dai,
