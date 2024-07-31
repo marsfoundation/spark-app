@@ -1,0 +1,56 @@
+import { PageHeader } from '../../savings/components/PageHeader'
+import { PageLayout } from '../../savings/components/PageLayout'
+import { CashInWallet } from '../../savings/components/cash-in-wallet/CashInWallet'
+import { SavingsOpportunity } from '../../savings/components/savings-opportunity/SavingsOpportunity'
+import { SavingsOpportunityNoCash } from '../../savings/components/savings-opportunity/SavingsOpportunityNoCash'
+import { SavingsTokenPanel } from '../components/savings-token-panel/SavingsTokenPanel'
+import { SavingsTokenDetails } from '../logic/useSavings'
+import { SavingsViewContentProps } from './types'
+
+export function SavingsDaiAndNSTView({
+  sDaiDetails,
+  sNSTDetails,
+  chainId,
+  assetsInWallet,
+  maxBalanceToken,
+  totalEligibleCashUSD,
+  openDialog,
+}: Omit<SavingsViewContentProps, 'savingsTokenDetails'> & {
+  sDaiDetails: SavingsTokenDetails
+  sNSTDetails: SavingsTokenDetails
+}) {
+  const displaySavingsDai = sDaiDetails.tokenWithBalance.balance.gt(0)
+  const displaySavingsNST = sNSTDetails.tokenWithBalance.balance.gt(0)
+  const opportunityProjections = displaySavingsDai
+    ? sDaiDetails.opportunityProjections
+    : sNSTDetails.opportunityProjections
+  const displaySavingsOpportunity =
+    (!displaySavingsDai || !displaySavingsNST) && opportunityProjections.thirtyDays.gt(0)
+  const displaySavingsNoCash = !displaySavingsDai && !displaySavingsNST && !displaySavingsOpportunity
+
+  return (
+    <PageLayout>
+      <PageHeader />
+      <div className="flex flex-col gap-6 sm:flex-row">
+        {displaySavingsDai && (
+          <SavingsTokenPanel variant="dai" chainId={chainId} openDialog={openDialog} {...sDaiDetails} />
+        )}
+        {displaySavingsNST && (
+          <SavingsTokenPanel variant="nst" chainId={chainId} openDialog={openDialog} {...sNSTDetails} />
+        )}
+        {displaySavingsOpportunity && (
+          <SavingsOpportunity
+            APY={sNSTDetails.APY}
+            chainId={chainId}
+            projections={opportunityProjections}
+            maxBalanceToken={maxBalanceToken}
+            openDialog={openDialog}
+            totalEligibleCashUSD={totalEligibleCashUSD}
+          />
+        )}
+        {displaySavingsNoCash && <SavingsOpportunityNoCash APY={sDaiDetails.APY} chainId={chainId} />}
+      </div>
+      <CashInWallet assets={assetsInWallet} openDialog={openDialog} />
+    </PageLayout>
+  )
+}

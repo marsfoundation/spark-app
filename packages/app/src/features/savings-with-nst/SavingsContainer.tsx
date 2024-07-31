@@ -4,7 +4,9 @@ import { UnsupportedChainView } from '@/features/savings/views/UnsupportedChainV
 import { withSuspense } from '@/ui/utils/withSuspense'
 import { useChainModal, useConnectModal } from '@rainbow-me/rainbowkit'
 import { useSavings } from './logic/useSavings'
-import { SavingsView } from './views/SavingsView'
+import { SavingsDaiAndNSTView } from './views/SavingsDaiAndNSTView'
+import { SavingsDaiView } from './views/SavingsDaiView'
+import { SavingsNSTView } from './views/SavingsNSTView'
 
 function SavingsContainer() {
   const { guestMode, openDialog, savingsDetails, openSandboxModal } = useSavings()
@@ -37,14 +39,41 @@ function SavingsContainer() {
     )
   }
 
+  if ('sDai' in savingTokensDetails && 'sNST' in savingTokensDetails) {
+    return (
+      <SavingsDaiAndNSTView
+        sDaiDetails={savingTokensDetails.sDai}
+        sNSTDetails={savingTokensDetails.sNST}
+        chainId={originChainId}
+        assetsInWallet={assetsInWallet}
+        maxBalanceToken={maxBalanceToken}
+        totalEligibleCashUSD={totalEligibleCashUSD}
+        openDialog={openDialog}
+      />
+    )
+  }
+
+  if ('sDai' in savingTokensDetails) {
+    return (
+      <SavingsDaiView
+        savingsTokenDetails={savingTokensDetails.sDai}
+        chainId={originChainId}
+        assetsInWallet={assetsInWallet}
+        maxBalanceToken={maxBalanceToken}
+        totalEligibleCashUSD={totalEligibleCashUSD}
+        openDialog={openDialog}
+      />
+    )
+  }
+
   return (
-    <SavingsView
+    <SavingsNSTView
+      savingsTokenDetails={savingTokensDetails.sNST}
       chainId={originChainId}
       assetsInWallet={assetsInWallet}
       maxBalanceToken={maxBalanceToken}
       totalEligibleCashUSD={totalEligibleCashUSD}
       openDialog={openDialog}
-      {...savingTokensDetails}
     />
   )
 }

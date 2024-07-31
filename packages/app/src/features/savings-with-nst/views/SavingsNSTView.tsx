@@ -1,0 +1,43 @@
+import { PageHeader } from '../../savings/components/PageHeader'
+import { PageLayout } from '../../savings/components/PageLayout'
+import { CashInWallet } from '../../savings/components/cash-in-wallet/CashInWallet'
+import { SavingsOpportunity } from '../../savings/components/savings-opportunity/SavingsOpportunity'
+import { SavingsOpportunityNoCash } from '../../savings/components/savings-opportunity/SavingsOpportunityNoCash'
+import { SavingsTokenPanel } from '../components/savings-token-panel/SavingsTokenPanel'
+import { SavingsViewContentProps } from './types'
+
+export function SavingsNSTView({
+  savingsTokenDetails,
+  chainId,
+  assetsInWallet,
+  maxBalanceToken,
+  totalEligibleCashUSD,
+  openDialog,
+}: SavingsViewContentProps) {
+  const displaySavingsNST = savingsTokenDetails.tokenWithBalance.balance.gt(0)
+  const displaySavingsOpportunity = totalEligibleCashUSD.gt(0)
+  const displaySavingsNoCash = !displaySavingsNST && !displaySavingsOpportunity
+
+  return (
+    <PageLayout>
+      <PageHeader />
+      <div className="flex flex-col gap-6 sm:flex-row">
+        {displaySavingsNST && (
+          <SavingsTokenPanel variant="nst" chainId={chainId} openDialog={openDialog} {...savingsTokenDetails} />
+        )}
+        {displaySavingsOpportunity && (
+          <SavingsOpportunity
+            APY={savingsTokenDetails.APY}
+            chainId={chainId}
+            projections={savingsTokenDetails.opportunityProjections}
+            maxBalanceToken={maxBalanceToken}
+            openDialog={openDialog}
+            totalEligibleCashUSD={totalEligibleCashUSD}
+          />
+        )}
+        {displaySavingsNoCash && <SavingsOpportunityNoCash APY={savingsTokenDetails.APY} chainId={chainId} />}
+      </div>
+      <CashInWallet assets={assetsInWallet} openDialog={openDialog} />
+    </PageLayout>
+  )
+}
