@@ -47,10 +47,10 @@ const nativeWithdrawArgs: Partial<SavingsWithdrawViewProps> = {
     },
   ],
   txOverview: {
-    dai: tokens.DAI,
+    baseStable: tokens.DAI,
     status: 'success',
     APY: Percentage(0.05),
-    daiEarnRate: NormalizedUnitNumber(542),
+    stableEarnRate: NormalizedUnitNumber(542),
     route: [
       { token: tokens.sDAI, value: NormalizedUnitNumber(925.75), usdValue: NormalizedUnitNumber(1300.74) },
       { token: tokens.DAI, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },

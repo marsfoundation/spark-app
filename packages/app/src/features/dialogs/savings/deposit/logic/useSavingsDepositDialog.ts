@@ -6,7 +6,7 @@ import { Token } from '@/domain/types/Token'
 import { Objective } from '@/features/actions/logic/types'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
-import { assert } from '@/utils/assert'
+import { assert, raise } from '@/utils/assert'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
@@ -62,17 +62,19 @@ export function useSavingsDepositDialog({
     tokensInfo,
   })
 
+  // @todo: infer savings type from switch state
+  const savingsType = formValues.token.symbol === tokensInfo.NST?.symbol ? 'snst' : 'sdai'
   const objectives = createObjectives({
     formValues,
     tokensInfo,
-    type: 'sdai',
+    type: savingsType,
     chainId,
   })
   const txOverview = createTxOverview({
     formValues,
     tokensInfo,
-    savingsInfo: savingsDaiInfo!,
-    type: 'sdai',
+    savingsInfo: (savingsType === 'sdai' ? savingsDaiInfo : savingsNstInfo) ?? raise('Cannot find savings info'),
+    type: savingsType,
   })
 
   const tokenToDeposit: TokenWithValue = {

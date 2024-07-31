@@ -8,18 +8,15 @@ export interface RouteItem {
 }
 
 export interface TxOverview {
-  dai: Token
+  baseStable: Token
   APY: Percentage
-  daiEarnRate: NormalizedUnitNumber
+  stableEarnRate: NormalizedUnitNumber
   route: RouteItem[]
   makerBadgeToken: Token
   outTokenAmount: NormalizedUnitNumber
 }
 
 type TxOverviewResult<T extends {}> =
-  | {
-      status: 'loading'
-    }
   | {
       status: 'no-overview'
     }

@@ -32,10 +32,10 @@ export function createTxOverview({
   const route: RouteItem[] = getDepositRoute({ formValues, tokensInfo, savingsInfo, savingsToken, savingsTokenValue })
 
   return {
-    dai: tokensInfo.DAI!,
+    baseStable: (type === 'sdai' ? tokensInfo.DAI : tokensInfo.NST) ?? raise('Cannot find stable token'),
     status: 'success',
     APY: savingsInfo.apy,
-    daiEarnRate: stableEarnRate,
+    stableEarnRate,
     route,
     makerBadgeToken: formValues.token,
     outTokenAmount: savingsTokenValue,

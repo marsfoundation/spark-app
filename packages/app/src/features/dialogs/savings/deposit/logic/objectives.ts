@@ -30,7 +30,7 @@ export function createObjectives({
   const savingsToken = (type === 'sdai' ? tokensInfo.sDAI : tokensInfo.sNST) ?? raise('Cannot find target token')
 
   if (originChainId === mainnet.id) {
-    if (tokenSymbol === tokensInfo.DAI?.symbol) {
+    if (tokenSymbol === tokensInfo.DAI?.symbol || tokenSymbol === tokensInfo.NST?.symbol) {
       return [
         {
           type: 'makerStableToSavings',

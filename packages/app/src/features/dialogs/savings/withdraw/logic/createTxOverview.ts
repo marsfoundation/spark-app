@@ -59,10 +59,10 @@ export function createTxOverview({
   ]
 
   return {
-    dai: marketInfo.DAI,
+    baseStable: marketInfo.DAI,
     status: 'success',
     APY: savingsInfo.apy,
-    daiEarnRate,
+    stableEarnRate: daiEarnRate,
     route,
     makerBadgeToken: formValues.token,
     outTokenAmount: daiValue,
