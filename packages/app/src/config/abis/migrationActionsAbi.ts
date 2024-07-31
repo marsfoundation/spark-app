@@ -1,0 +1,131 @@
+export const migrationActionsAbi = [
+  {
+    type: 'constructor',
+    inputs: [
+      { name: '_sdai', type: 'address', internalType: 'address' },
+      { name: '_snst', type: 'address', internalType: 'address' },
+      { name: '_daiJoin', type: 'address', internalType: 'address' },
+      { name: '_nstJoin', type: 'address', internalType: 'address' },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    name: 'dai',
+    inputs: [],
+    outputs: [{ name: '', type: 'address', internalType: 'contract IERC20' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'daiJoin',
+    inputs: [],
+    outputs: [{ name: '', type: 'address', internalType: 'contract JoinLike' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'downgradeNSTToDAI',
+    inputs: [
+      { name: 'receiver', type: 'address', internalType: 'address' },
+      { name: 'assetsIn', type: 'uint256', internalType: 'uint256' },
+    ],
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    name: 'migrateDAIToNST',
+    inputs: [
+      { name: 'receiver', type: 'address', internalType: 'address' },
+      { name: 'assetsIn', type: 'uint256', internalType: 'uint256' },
+    ],
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    name: 'migrateDAIToSNST',
+    inputs: [
+      { name: 'receiver', type: 'address', internalType: 'address' },
+      { name: 'assetsIn', type: 'uint256', internalType: 'uint256' },
+    ],
+    outputs: [{ name: 'sharesOut', type: 'uint256', internalType: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    name: 'migrateSDAIAssetsToNST',
+    inputs: [
+      { name: 'receiver', type: 'address', internalType: 'address' },
+      { name: 'assetsIn', type: 'uint256', internalType: 'uint256' },
+    ],
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    name: 'migrateSDAIAssetsToSNST',
+    inputs: [
+      { name: 'receiver', type: 'address', internalType: 'address' },
+      { name: 'assetsIn', type: 'uint256', internalType: 'uint256' },
+    ],
+    outputs: [{ name: 'sharesOut', type: 'uint256', internalType: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    name: 'migrateSDAISharesToNST',
+    inputs: [
+      { name: 'receiver', type: 'address', internalType: 'address' },
+      { name: 'sharesIn', type: 'uint256', internalType: 'uint256' },
+    ],
+    outputs: [{ name: 'assetsOut', type: 'uint256', internalType: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    name: 'migrateSDAISharesToSNST',
+    inputs: [
+      { name: 'receiver', type: 'address', internalType: 'address' },
+      { name: 'sharesIn', type: 'uint256', internalType: 'uint256' },
+    ],
+    outputs: [{ name: 'sharesOut', type: 'uint256', internalType: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    name: 'nst',
+    inputs: [],
+    outputs: [{ name: '', type: 'address', internalType: 'contract IERC20' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'nstJoin',
+    inputs: [],
+    outputs: [{ name: '', type: 'address', internalType: 'contract JoinLike' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'sdai',
+    inputs: [],
+    outputs: [{ name: '', type: 'address', internalType: 'contract IERC4626' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'snst',
+    inputs: [],
+    outputs: [{ name: '', type: 'address', internalType: 'contract IERC4626' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'vat',
+    inputs: [],
+    outputs: [{ name: '', type: 'address', internalType: 'contract VatLike' }],
+    stateMutability: 'view',
+  },
+] as const
