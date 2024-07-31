@@ -18,7 +18,7 @@ export function useSavingsDaiInfo(): UseSavingsDaiInfoResult {
   const result = useSuspenseQuery(
     queryOptions
       ? queryOptions({ wagmiConfig, chainId, timestamp })
-      : { queryKey: ['savings-info-unsupported'], queryFn: () => null },
+      : { queryKey: ['savings-dai-info-unavailable', chainId], queryFn: () => null },
   )
 
   return {

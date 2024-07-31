@@ -14,10 +14,11 @@ export function useSavingsNstInfo(): UseSavingsNstInfoResult {
   const wagmiConfig = useConfig()
   const { timestamp } = useTimestamp()
   const queryOptions = getChainConfigEntry(chainId).savingsNstInfoQuery
+
   const result = useSuspenseQuery(
     queryOptions
       ? queryOptions({ wagmiConfig, chainId, timestamp })
-      : { queryKey: ['savings-info-unsupported'], queryFn: () => null },
+      : { queryKey: ['savings-nst-info-unavailable', chainId], queryFn: () => null },
   )
 
   return {

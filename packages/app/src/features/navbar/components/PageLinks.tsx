@@ -30,20 +30,19 @@ export function PageLinks({ mobileMenuCollapsed, closeMobileMenu, savingsInfo, b
       <NavLink to={paths.dashboard} onClick={closeMobileMenu}>
         <Trans>Dashboard</Trans>
       </NavLink>
-      {!blockedPages.some((page) => page === 'savings') &&
-        savingsInfo && ( // some instead of includes for better type inference
-          <NavLink
-            to={paths.savings}
-            onClick={closeMobileMenu}
-            postfix={
-              savingsInfo.data || savingsInfo.isLoading ? (
-                <SavingsAPYBadge APY={savingsInfo.data?.apy} isLoading={savingsInfo.isLoading} />
-              ) : undefined
-            }
-          >
-            <Trans>Cash & Savings</Trans>
-          </NavLink>
-        )}
+      {!blockedPages.some((page) => page === 'savings') && ( // some instead of includes for better type inference
+        <NavLink
+          to={paths.savings}
+          onClick={closeMobileMenu}
+          postfix={
+            savingsInfo?.data || savingsInfo?.isLoading ? (
+              <SavingsAPYBadge APY={savingsInfo.data?.apy} isLoading={savingsInfo.isLoading} />
+            ) : undefined
+          }
+        >
+          <Trans>Cash & Savings</Trans>
+        </NavLink>
+      )}
       <NavLink to={paths.markets} onClick={closeMobileMenu}>
         <Trans>Markets</Trans>
       </NavLink>
