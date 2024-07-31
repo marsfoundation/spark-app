@@ -5,6 +5,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useAccount, useChainId } from 'wagmi'
 import { useContractAddress } from '../hooks/useContractAddress'
 import { ensureConfigTypes, useWrite } from '../hooks/useWrite'
+import { allowanceQueryKey } from '../market-operations/allowance/query'
 import { assertNativeWithdraw } from '../savings/assertNativeWithdraw'
 import { CheckedAddress } from '../types/CheckedAddress'
 import { BaseUnitNumber } from '../types/NumericValues'
@@ -72,6 +73,9 @@ export function useWithdrawAndSwap({
       onTransactionSettled: async () => {
         void client.invalidateQueries({
           queryKey: getBalancesQueryKeyPrefix({ chainId, account: owner }),
+        })
+        void client.invalidateQueries({
+          queryKey: allowanceQueryKey({ token: assetsToken.address, spender: psmActions, account: owner!, chainId }),
         })
 
         onTransactionSettled?.()

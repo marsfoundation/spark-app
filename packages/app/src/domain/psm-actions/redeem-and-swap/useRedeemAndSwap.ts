@@ -1,5 +1,6 @@
 import { psmActionsConfig } from '@/config/contracts-generated'
 import { useContractAddress } from '@/domain/hooks/useContractAddress'
+import { allowanceQueryKey } from '@/domain/market-operations/allowance/query'
 import { assertNativeWithdraw } from '@/domain/savings/assertNativeWithdraw'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
@@ -78,6 +79,9 @@ export function useRedeemAndSwap({
       onTransactionSettled: async () => {
         void client.invalidateQueries({
           queryKey: getBalancesQueryKeyPrefix({ chainId, account: owner }),
+        })
+        void client.invalidateQueries({
+          queryKey: allowanceQueryKey({ token: assetsToken.address, spender: psmActions, account: owner!, chainId }),
         })
 
         onTransactionSettled?.()

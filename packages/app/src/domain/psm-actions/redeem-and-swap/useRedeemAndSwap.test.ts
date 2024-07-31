@@ -1,5 +1,7 @@
 import { psmActionsAbi, psmActionsAddress } from '@/config/contracts-generated'
+import { allowanceQueryKey } from '@/domain/market-operations/allowance/query'
 import { BaseUnitNumber } from '@/domain/types/NumericValues'
+import { marketBalancesQueryKey } from '@/domain/wallet/marketBalances'
 import { daiLikeReserve, getMockToken, testAddresses, wethLikeReserve } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
 import { setupHookRenderer } from '@/test/integration/setupHookRenderer'
@@ -7,6 +9,7 @@ import { toBigInt } from '@/utils/bigNumber'
 import { waitFor } from '@testing-library/react'
 import { erc4626Abi } from 'viem'
 import { mainnet } from 'viem/chains'
+import { describe, expect, test } from 'vitest'
 import { useRedeemAndSwap } from './useRedeemAndSwap'
 
 const gem = getMockToken({ address: testAddresses.token, decimals: 6 })
@@ -43,7 +46,7 @@ const hookRenderer = setupHookRenderer({
 })
 
 describe(useRedeemAndSwap.name, () => {
-  it('is not enabled for guest ', async () => {
+  test('is not enabled for guest ', async () => {
     const { result } = hookRenderer({ account: undefined })
 
     await waitFor(() => {
@@ -51,7 +54,7 @@ describe(useRedeemAndSwap.name, () => {
     })
   })
 
-  it('is not enabled for 0 gem value', async () => {
+  test('is not enabled for 0 gem value', async () => {
     const { result } = hookRenderer({
       args: { sharesAmount: BaseUnitNumber(0), gem, assetsToken, mode },
     })
@@ -61,7 +64,7 @@ describe(useRedeemAndSwap.name, () => {
     })
   })
 
-  it('is not enabled when explicitly disabled', async () => {
+  test('is not enabled when explicitly disabled', async () => {
     const { result } = hookRenderer({
       args: { enabled: false, sharesAmount, gem, assetsToken, mode },
     })
@@ -71,7 +74,7 @@ describe(useRedeemAndSwap.name, () => {
     })
   })
 
-  it('redeems using psm actions', async () => {
+  test('redeems using psm actions', async () => {
     const { result } = hookRenderer({
       extraHandlers: [
         handlers.contractCall({
@@ -98,7 +101,7 @@ describe(useRedeemAndSwap.name, () => {
     })
   })
 
-  it('redeems using psm actions with custom receiver', async () => {
+  test('redeems using psm actions with custom receiver', async () => {
     const { result } = hookRenderer({
       args: {
         gem,
@@ -130,6 +133,50 @@ describe(useRedeemAndSwap.name, () => {
 
     await waitFor(() => {
       expect(result.current.status.kind).toBe('success')
+    })
+  })
+
+  test('invalidates allowance and balances queries', async () => {
+    const { result, queryInvalidationManager } = hookRenderer({
+      extraHandlers: [
+        handlers.contractCall({
+          to: psmActionsAddress[mainnet.id],
+          abi: psmActionsAbi,
+          functionName: 'redeemAndSwap',
+          args: [owner, toBigInt(sharesAmount), toBigInt(assetsAmount.dividedBy(1e12))],
+          from: owner,
+          result: 1n,
+        }),
+        handlers.mineTransaction(),
+      ],
+    })
+
+    await waitFor(() => {
+      expect(result.current.status.kind).toBe('ready')
+    })
+    expect((result.current as any).error).toBeUndefined()
+
+    result.current.write()
+
+    await waitFor(() => {
+      expect(result.current.status.kind).toBe('success')
+    })
+
+    await waitFor(() => {
+      expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+        allowanceQueryKey({
+          token: assetsToken.address,
+          spender: psmActionsAddress[mainnet.id],
+          account: owner,
+          chainId: mainnet.id,
+        }),
+      )
+    })
+
+    await waitFor(() => {
+      expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+        marketBalancesQueryKey({ account: owner, chainId: mainnet.id }),
+      )
     })
   })
 })
