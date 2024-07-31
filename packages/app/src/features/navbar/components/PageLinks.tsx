@@ -10,7 +10,7 @@ import { NavLink } from './nav-link/NavLink'
 export interface PageLinksProps {
   mobileMenuCollapsed: boolean
   closeMobileMenu: () => void
-  savingsInfo: SavingsInfoQueryResults
+  savingsInfo: SavingsInfoQueryResults | undefined
   blockedPages: (keyof typeof paths)[]
 }
 
@@ -35,7 +35,7 @@ export function PageLinks({ mobileMenuCollapsed, closeMobileMenu, savingsInfo, b
           to={paths.savings}
           onClick={closeMobileMenu}
           postfix={
-            savingsInfo.data || savingsInfo.isLoading ? (
+            savingsInfo?.data || savingsInfo?.isLoading ? (
               <SavingsAPYBadge APY={savingsInfo.data?.apy} isLoading={savingsInfo.isLoading} />
             ) : undefined
           }

@@ -1,6 +1,5 @@
 import { QueryKey } from '@tanstack/react-query'
 import { Config } from 'wagmi'
-
 import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
 
 export interface SavingsInfo {

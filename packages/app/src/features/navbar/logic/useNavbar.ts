@@ -1,25 +1,23 @@
-import { useConnectModal } from '@rainbow-me/rainbowkit'
-import { useQuery } from '@tanstack/react-query'
-import { useAccount, useChainId, useChains, useConfig, useEnsAvatar, useEnsName } from 'wagmi'
-
 import { getChainConfigEntry } from '@/config/chain'
 import { useBlockExplorerAddressLink } from '@/domain/hooks/useBlockExplorerAddressLink'
+import { aaveDataLayer } from '@/domain/market-info/aave-data-layer/query'
+import { marketInfoSelectFn } from '@/domain/market-info/marketInfo'
 import { useSandboxState } from '@/domain/sandbox/useSandboxState'
 import { useOpenDialog } from '@/domain/state/dialogs'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { EnsName } from '@/domain/types/EnsName'
 import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
 import { raise } from '@/utils/assert'
-import { useTimestamp } from '@/utils/useTimestamp'
-
-import { aaveDataLayer } from '@/domain/market-info/aave-data-layer/query'
-import { marketInfoSelectFn } from '@/domain/market-info/marketInfo'
+import { useConnectModal } from '@rainbow-me/rainbowkit'
+import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
+import { useAccount, useChainId, useChains, useConfig, useEnsAvatar, useEnsName } from 'wagmi'
 import { AirdropInfo, ConnectedWalletInfo, RewardsInfo, SavingsInfoQueryResults, SupportedChain } from '../types'
 import { generateWalletAvatar } from './generateWalletAvatar'
 import { getWalletIcon } from './getWalletIcon'
 import { useAirdropInfo } from './use-airdrop-info/useAirdropInfo'
 import { useDisconnect } from './useDisconnect'
+import { useNavbarSavingsInfo } from './useNavbarSavingsInfo'
 import { useNetworkChange } from './useNetworkChange'
 import { useRewardsInfo } from './useRewardsInfo'
 import { useTotalBalance } from './useTotalBalance'
@@ -33,8 +31,8 @@ export interface UseNavbarResults {
   openDevSandboxDialog: () => void
   isSandboxEnabled: boolean
   isDevSandboxEnabled: boolean
-  savingsInfo: SavingsInfoQueryResults
-  connectedWalletInfo: ConnectedWalletInfo | undefined
+  savingsInfo?: SavingsInfoQueryResults
+  connectedWalletInfo?: ConnectedWalletInfo
   airdropInfo: AirdropInfo
   rewardsInfo: RewardsInfo
 }
@@ -52,10 +50,8 @@ export function useNavbar(): UseNavbarResults {
   const openDialog = useOpenDialog()
 
   const wagmiConfig = useConfig()
-  const { timestamp } = useTimestamp()
-  const savingsInfoQueryOptions = getChainConfigEntry(currentChainId).savingsDaiInfoQuery
-  const savingsInfo = useQuery(savingsInfoQueryOptions({ wagmiConfig, chainId: currentChainId, timestamp }))
 
+  const savingsInfo = useNavbarSavingsInfo()
   const marketInfo = useQuery({
     ...aaveDataLayer({
       wagmiConfig,

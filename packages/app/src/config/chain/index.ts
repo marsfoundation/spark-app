@@ -68,9 +68,11 @@ const chainConfig: ChainConfig = {
       },
     },
     savingsDaiInfoQuery: mainnetSavingsDaiInfoQuery,
-    savingsNstInfoQuery: mainnetSavingsNstInfoQuery,
+    savingsNstInfoQuery: undefined,
     daiSymbol: TokenSymbol('DAI'),
     sDaiSymbol: TokenSymbol('sDAI'),
+    NSTSymbol: undefined,
+    sNSTSymbol: undefined,
     mergedDaiAndSDaiMarkets: true,
     savingsInputTokens: [TokenSymbol('DAI'), TokenSymbol('USDC')],
     extraTokens: [
@@ -127,9 +129,11 @@ const chainConfig: ChainConfig = {
     },
     airdrop: {},
     savingsDaiInfoQuery: gnosisSavingsDaiInfoQuery,
-    savingsNstInfoQuery: gnosisSavingsDaiInfoQuery,
+    savingsNstInfoQuery: undefined,
     daiSymbol: TokenSymbol('XDAI'),
     sDaiSymbol: TokenSymbol('sDAI'),
+    NSTSymbol: undefined,
+    sNSTSymbol: undefined,
     mergedDaiAndSDaiMarkets: false,
     savingsInputTokens: [TokenSymbol('XDAI')],
     extraTokens: [
@@ -155,6 +159,9 @@ export function getChainConfigEntry(chainId: number): ChainConfigEntry {
     const mainnetConfig = chainConfig[mainnet.id]
     return {
       ...mainnetConfig,
+      NSTSymbol: TokenSymbol('NST'),
+      sNSTSymbol: TokenSymbol('sNST'),
+      savingsNstInfoQuery: mainnetSavingsNstInfoQuery,
       meta: getNSTDevChainMeta(mainnetConfig.meta),
       savingsInputTokens: [...mainnetConfig.savingsInputTokens, TokenSymbol('NST')],
       extraTokens: [
