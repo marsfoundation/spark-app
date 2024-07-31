@@ -1,14 +1,12 @@
-import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { MarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
+import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog } from '@/features/dialogs/common/types'
 import { UseFormReturn } from 'react-hook-form'
 
 export function getFormFieldsForDepositDialog(
   form: UseFormReturn<AssetInputSchema>,
-  marketInfo: MarketInfo,
-  walletInfo: MarketWalletInfo,
+  tokensInfo: TokensInfo,
 ): FormFieldsForDialog {
   // eslint-disable-next-line func-style
   const changeAsset = (newSymbol: TokenSymbol): void => {
@@ -18,8 +16,7 @@ export function getFormFieldsForDepositDialog(
   }
 
   const { symbol, value } = form.getValues()
-  const token = marketInfo.findOneTokenBySymbol(symbol)
-  const balance = walletInfo.findWalletBalanceForSymbol(symbol)
+  const { token, balance } = tokensInfo.findOneTokenWithBalanceBySymbol(symbol)
 
   return {
     selectedAsset: {

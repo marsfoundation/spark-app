@@ -1,20 +1,18 @@
-import { getChainConfigEntry } from '@/config/chain'
 import { SupportedChainId } from '@/config/chain/types'
 import { TokenWithBalance } from '@/domain/common/types'
 import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
 import { useSavingsDaiInfo } from '@/domain/savings-info/useSavingsDaiInfo'
 import { useSavingsNstInfo } from '@/domain/savings-info/useSavingsNstInfo'
 import { calculateMaxBalanceTokenAndTotal } from '@/domain/savings/calculateMaxBalanceTokenAndTotal'
+import { useSavingsTokens } from '@/domain/savings/useSavingsTokens'
 import { OpenDialogFunction, useOpenDialog } from '@/domain/state/dialogs'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
-import { useTokens } from '@/domain/wallet/useTokens/useTokens'
 import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
 import { Projections } from '@/features/savings/types'
 import { raise } from '@/utils/assert'
 import { useTimestamp } from '@/utils/useTimestamp'
-import { useAccount, useChainId } from 'wagmi'
+import { useAccount } from 'wagmi'
 import { makeSavingsTokenDetails } from './makeSavingsTokenDetails'
-import { useSavingsTokens } from './useSavingsInputTokens'
 
 const stepInMs = 50
 
@@ -47,22 +45,16 @@ export function useSavings(): UseSavingsResults {
   const { savingsDaiInfo } = useSavingsDaiInfo()
   const { savingsNstInfo } = useSavingsNstInfo()
   const guestMode = useAccount().isConnected === false
-  const inputTokens = useSavingsTokens()
-  const chainId = useChainId()
+  const { inputTokensInfo, sDaiWithBalance, sNSTWithBalance } = useSavingsTokens()
   const originChainId = useOriginChainId()
-  const chainConfig = getChainConfigEntry(chainId)
   const { timestamp, timestampInMs } = useTimestamp({
     refreshIntervalInMs: savingsDaiInfo?.supportsRealTimeInterestAccrual ? stepInMs : undefined,
   })
   const openDialog = useOpenDialog()
 
   const { totalUSD: totalEligibleCashUSD, maxBalanceToken } = calculateMaxBalanceTokenAndTotal({
-    assets: inputTokens,
+    assets: inputTokensInfo.all(),
   })
-
-  const { tokens } = useTokens({ tokens: getChainConfigEntry(chainId).extraTokens })
-  const sDaiWithBalance = tokens.find(({ token }) => token.symbol === chainConfig.sDaiSymbol)
-  const sNSTWithBalance = tokens.find(({ token }) => token.symbol === chainConfig.sNSTSymbol)
 
   const sDaiDetails = makeSavingsTokenDetails({
     savingsInfo: savingsDaiInfo,
@@ -106,7 +98,7 @@ export function useSavings(): UseSavingsResults {
     openDialog,
     savingsDetails: {
       state: 'supported',
-      assetsInWallet: inputTokens,
+      assetsInWallet: inputTokensInfo.all(),
       totalEligibleCashUSD,
       maxBalanceToken,
       chainId: originChainId,

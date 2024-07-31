@@ -75,7 +75,7 @@ describe(useTokens.name, () => {
     })
 
     await waitFor(() => expect(result.current.status).toBe('success'))
-    expect(result.current.tokens).toEqual([
+    expect(result.current.tokensInfo.all()).toEqual([
       {
         token: {
           name,
@@ -136,7 +136,7 @@ describe(useTokens.name, () => {
     })
 
     await waitFor(() => expect(result.current.status).toBe('success'))
-    expect(result.current.tokens).toEqual([
+    expect(result.current.tokensInfo.all()).toEqual([
       {
         token: {
           name,
@@ -203,7 +203,7 @@ describe(useTokens.name, () => {
     })
 
     await waitFor(() => expect(result.current.status).toBe('success'))
-    expect(result.current.tokens).toEqual([
+    expect(result.current.tokensInfo.all()).toEqual([
       {
         token: {
           name,
@@ -247,7 +247,7 @@ describe(useTokens.name, () => {
     })
 
     await waitFor(() => expect(result.current.status).toBe('success'))
-    expect(result.current.tokens).toEqual([
+    expect(result.current.tokensInfo.all()).toEqual([
       {
         token: {
           name,
@@ -294,7 +294,7 @@ describe(useTokens.name, () => {
     })
 
     await waitFor(() => expect(result.current.status).toBe('success'))
-    expect(result.current.tokens).toEqual([
+    expect(result.current.tokensInfo.all()).toEqual([
       {
         token: {
           name,

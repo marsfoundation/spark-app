@@ -1,23 +1,25 @@
-import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { SavingsInfo } from '@/domain/savings-info/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { DialogFormNormalizedData } from '@/features/dialogs/common/logic/form'
+import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
+import { raise } from '@/utils/assert'
+import { SavingsDialogFormNormalizedData } from '../../common/logic/form'
 import { RouteItem, SavingsDialogTxOverview } from '../../common/types'
 
 export interface CreateTxOverviewParams {
-  formValues: DialogFormNormalizedData
-  marketInfo: MarketInfo
+  formValues: SavingsDialogFormNormalizedData
+  tokensInfo: TokensInfo
   savingsInfo: SavingsInfo
 }
 export function createTxOverview({
   formValues,
-  marketInfo,
+  tokensInfo,
   savingsInfo,
 }: CreateTxOverviewParams): SavingsDialogTxOverview {
   // the value is normalized, so assuming 1 to 1 conversion rate for USDC
   // value denominated in DAI equals to value denominated in USDC
   const daiValue = formValues.value
-  const isDaiDeposit = formValues.token.address === marketInfo.DAI.address
+  const dai = tokensInfo.DAI ?? raise('DAI token not found')
+  const isDaiDeposit = formValues.token.address === dai.address
   if (daiValue.eq(0)) {
     return { status: 'no-overview' }
   }
@@ -35,19 +37,19 @@ export function createTxOverview({
         ]
       : []),
     {
-      token: marketInfo.DAI,
+      token: dai,
       value: daiValue,
       usdValue: daiValue,
     },
     {
-      token: marketInfo.sDAI,
+      token: dai,
       value: sDAIValue,
       usdValue: savingsInfo.convertToAssets({ shares: sDAIValue }),
     },
   ]
 
   return {
-    dai: marketInfo.DAI,
+    dai,
     status: 'success',
     APY: savingsInfo.apy,
     daiEarnRate,

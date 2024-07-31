@@ -1,11 +1,12 @@
+import { getChainConfigEntry } from '@/config/chain'
 import { getNativeAssetInfo } from '@/config/chain/utils/getNativeAssetInfo'
 import { queryOptions } from '@tanstack/react-query'
 import { Address } from 'viem'
 import { Config } from 'wagmi'
-import { TokenWithBalance } from '../../common/types'
 import { CheckedAddress } from '../../types/CheckedAddress'
 import { Token } from '../../types/Token'
 import { getBalancesQueryKeyPrefix } from '../getBalancesQueryKeyPrefix'
+import { TokensInfo } from './TokenInfo'
 import { createAssetDataFetcher } from './createAssetDataFetcher'
 import { createOraclePriceFetcher } from './createOraclePriceFetcher'
 import { OracleType } from './types'
@@ -19,12 +20,13 @@ interface TokensParams {
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function tokensQueryOptions({ tokens, wagmiConfig, chainId, account }: TokensParams) {
-  return queryOptions<TokenWithBalance[]>({
+  return queryOptions<TokensInfo>({
     queryKey: tokensQueryKey({ tokens, account, chainId }),
     queryFn: async () => {
+      const chainConfig = getChainConfigEntry(chainId)
       const nativeAssetInfo = getNativeAssetInfo(chainId)
 
-      return Promise.all(
+      const tokensWithBalances = await Promise.all(
         tokens.map(async (tokenConfig) => {
           const getOraclePrice = createOraclePriceFetcher({ tokenConfig, wagmiConfig })
           const getAssetData = createAssetDataFetcher({ tokenConfig, wagmiConfig, nativeAssetInfo, account })
@@ -42,6 +44,15 @@ export function tokensQueryOptions({ tokens, wagmiConfig, chainId, account }: To
           return { token, balance: assetData.balance }
         }),
       )
+
+      const featuredTokenSymbols = {
+        DAI: chainConfig.daiSymbol,
+        sDAI: chainConfig.sDaiSymbol,
+        NST: chainConfig.NSTSymbol,
+        sNST: chainConfig.sNSTSymbol,
+      }
+
+      return new TokensInfo(tokensWithBalances, featuredTokenSymbols)
     },
   })
 }

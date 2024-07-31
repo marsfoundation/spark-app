@@ -1,17 +1,17 @@
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
-import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { useSavingsDaiInfo } from '@/domain/savings-info/useSavingsDaiInfo'
+import { useSavingsNstInfo } from '@/domain/savings-info/useSavingsNstInfo'
+import { useSavingsTokens } from '@/domain/savings/useSavingsTokens'
 import { Token } from '@/domain/types/Token'
-import { useMarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 import { Objective } from '@/features/actions/logic/types'
-import { AssetInputSchema, useDebouncedDialogFormValues } from '@/features/dialogs/common/logic/form'
+import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
-import { useSavingsTokens } from '@/features/savings/logic/useSavingsTokens'
 import { assert } from '@/utils/assert'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
 import { useChainId } from 'wagmi'
+import { useDebouncedDialogFormValues } from '../../common/logic/form'
 import { SavingsDialogTxOverview } from '../../common/types'
 import { createTxOverview } from './createTxOverview'
 import { getFormFieldsForDepositDialog } from './form'
@@ -35,18 +35,17 @@ export interface UseSavingsDepositDialogResults {
 export function useSavingsDepositDialog({
   initialToken,
 }: UseSavingsDepositDialogParams): UseSavingsDepositDialogResults {
-  const { marketInfo } = useMarketInfo()
   const { savingsDaiInfo } = useSavingsDaiInfo()
-  assert(savingsDaiInfo, 'Savings info for DAI is not available')
-  const walletInfo = useMarketWalletInfo()
+  const { savingsNstInfo } = useSavingsNstInfo()
+  assert(savingsDaiInfo || savingsNstInfo, 'Neither sDai nor sNST is supported')
   const chainId = useChainId()
 
-  const { savingsInputTokens: depositOptions } = useSavingsTokens()
+  const { inputTokensInfo, sDaiWithBalance } = useSavingsTokens()
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')
 
   const form = useForm<AssetInputSchema>({
-    resolver: zodResolver(getSavingsDepositDialogFormValidator(walletInfo)),
+    resolver: zodResolver(getSavingsDepositDialogFormValidator(inputTokensInfo)),
     defaultValues: {
       symbol: initialToken.symbol,
       value: '',
@@ -60,18 +59,19 @@ export function useSavingsDepositDialog({
     isFormValid,
   } = useDebouncedDialogFormValues({
     form,
-    marketInfo,
+    tokensInfo: inputTokensInfo,
   })
 
   const objectives = createObjectives({
     formValues,
-    marketInfo,
+    tokensInfo: inputTokensInfo,
+    target: sDaiWithBalance.token,
     chainId,
   })
   const txOverview = createTxOverview({
     formValues,
-    marketInfo,
-    savingsInfo: savingsDaiInfo,
+    tokensInfo: inputTokensInfo,
+    savingsInfo: savingsDaiInfo!,
   })
 
   const tokenToDeposit: TokenWithValue = {
@@ -81,8 +81,8 @@ export function useSavingsDepositDialog({
   const actionsEnabled = formValues.value.gt(0) && isFormValid && !isDebouncing
 
   return {
-    selectableAssets: depositOptions,
-    assetsFields: getFormFieldsForDepositDialog(form, marketInfo, walletInfo),
+    selectableAssets: inputTokensInfo.all(),
+    assetsFields: getFormFieldsForDepositDialog(form, inputTokensInfo),
     form,
     objectives,
     tokenToDeposit,

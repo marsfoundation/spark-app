@@ -1,8 +1,8 @@
-import { TokenWithBalance } from '@/domain/common/types'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { SuspenseQueryWith } from '@/utils/types'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { useAccount, useChainId, useConfig } from 'wagmi'
+import { TokensInfo } from './TokenInfo'
 import { tokensQueryOptions } from './query'
 import { TokenConfig } from './types'
 
@@ -11,7 +11,7 @@ export interface UseTokensParams {
 }
 
 export type UseTokensResult = SuspenseQueryWith<{
-  tokens: TokenWithBalance[]
+  tokensInfo: TokensInfo
 }>
 
 export function useTokens({ tokens }: UseTokensParams): UseTokensResult {
@@ -30,6 +30,6 @@ export function useTokens({ tokens }: UseTokensParams): UseTokensResult {
 
   return {
     ...response,
-    tokens: response.data,
+    tokensInfo: response.data,
   }
 }
