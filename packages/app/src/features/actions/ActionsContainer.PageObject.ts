@@ -173,7 +173,7 @@ function actionToTitle(action: SimplifiedAction): string {
       return '' // not used in collateral dialog tests
     case 'setUserEMode':
       return '' // not used in e-mode dialog tests
-    case 'daiToSDaiDeposit':
+    case 'makerStableToSavings':
     case 'usdcToSDaiDeposit':
     case 'xDaiToSDaiDeposit':
       return `Convert ${action.asset} to sDAI`

@@ -12,7 +12,7 @@ import { ApproveAction } from '../flavours/approve/types'
 import { BorrowAction } from '../flavours/borrow/types'
 import { ClaimRewardsAction } from '../flavours/claim-rewards/types'
 import { DepositAction } from '../flavours/deposit/types'
-import { DaiToSDaiDepositAction } from '../flavours/native-sdai-deposit/dai-to-sdai/types'
+import { MakerStableToSavingsAction } from '../flavours/native-sdai-deposit/maker-stables/types'
 import { USDCToSDaiDepositAction } from '../flavours/native-sdai-deposit/usdc-to-sdai/types'
 import { XDaiToSDaiDepositAction } from '../flavours/native-sdai-deposit/xdai-to-sdai/types'
 import { DaiFromSDaiWithdrawAction } from '../flavours/native-sdai-withdraw/dai-from-sdai/types'
@@ -211,19 +211,19 @@ export function useCreateActions(objectives: Objective[]): Action[] {
         return [approveAction, withdrawAction]
       }
 
-      case 'daiToSDaiDeposit': {
+      case 'makerStableToSavings': {
         const approveAction: ApproveAction = {
           type: 'approve',
-          token: objective.dai,
-          spender: objective.sDai.address,
+          token: objective.stableToken,
+          spender: objective.savingsToken.address,
           value: objective.value,
         }
 
-        const depositAction: DaiToSDaiDepositAction = {
-          type: 'daiToSDaiDeposit',
+        const depositAction: MakerStableToSavingsAction = {
+          type: 'makerStableToSavings',
           value: objective.value,
-          dai: objective.dai,
-          sDai: objective.sDai,
+          stableToken: objective.stableToken,
+          savingsToken: objective.savingsToken,
         }
 
         return [approveAction, depositAction]

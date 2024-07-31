@@ -40,7 +40,7 @@ export function useSavingsDepositDialog({
   assert(savingsDaiInfo || savingsNstInfo, 'Neither sDai nor sNST is supported')
   const chainId = useChainId()
 
-  const { tokensInfo, inputTokens, sDaiWithBalance } = useSavingsTokens()
+  const { tokensInfo, inputTokens } = useSavingsTokens()
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')
 
@@ -65,12 +65,14 @@ export function useSavingsDepositDialog({
   const objectives = createObjectives({
     formValues,
     tokensInfo,
+    type: 'sdai',
     chainId,
   })
   const txOverview = createTxOverview({
     formValues,
     tokensInfo,
     savingsInfo: savingsDaiInfo!,
+    type: 'sdai',
   })
 
   const tokenToDeposit: TokenWithValue = {

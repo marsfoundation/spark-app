@@ -45,7 +45,7 @@ export function useSavings(): UseSavingsResults {
   const { savingsDaiInfo } = useSavingsDaiInfo()
   const { savingsNstInfo } = useSavingsNstInfo()
   const guestMode = useAccount().isConnected === false
-  const { tokensInfo, inputTokens, sDaiWithBalance, sNSTWithBalance } = useSavingsTokens()
+  const { inputTokens, sDaiWithBalance, sNSTWithBalance } = useSavingsTokens()
   const originChainId = useOriginChainId()
   const { timestamp, timestampInMs } = useTimestamp({
     refreshIntervalInMs: savingsDaiInfo?.supportsRealTimeInterestAccrual ? stepInMs : undefined,

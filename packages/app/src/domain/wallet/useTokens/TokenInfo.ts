@@ -60,7 +60,7 @@ export class TokensInfo {
   get NST(): Token | undefined {
     return this.featured.NST && this.findOneTokenBySymbol(this.featured.NST)
   }
-  
+
   get sNST(): Token | undefined {
     return this.featured.sNST && this.findOneTokenBySymbol(this.featured.sNST)
   }

@@ -5,7 +5,7 @@ import { useCreateApproveOrPermitHandler } from '../flavours/approve/logic/useCr
 import { useCreateBorrowActionHandler } from '../flavours/borrow/useCreateBorrowHandler'
 import { useCreateClaimRewardsHandler } from '../flavours/claim-rewards/useCreateClaimRewardsHandler'
 import { useCreateDepositHandler } from '../flavours/deposit/useCreateDepositHandler'
-import { useCreateDaiToSDaiDepositHandler } from '../flavours/native-sdai-deposit/dai-to-sdai/useCreateDaiToSDaiDepositHandler'
+import { useCreateMakerStableToSavingsHandler } from '../flavours/native-sdai-deposit/maker-stables/useCreateMakerStableToSavingsHandler'
 import { useCreateUSDCToSDaiDepositHandler } from '../flavours/native-sdai-deposit/usdc-to-sdai/useCreateUSDCToSDaiDepositHandler'
 import { useCreateXDaiToSDaiDepositHandler } from '../flavours/native-sdai-deposit/xdai-to-sdai/useCreateXDaiToSDaiDepositHandler'
 import { useCreateDaiFromSDaiWithdrawHandler } from '../flavours/native-sdai-withdraw/dai-from-sdai/useCreateDaiFromSDaiWithdrawHandler'
@@ -108,9 +108,9 @@ function useCreateActionHandler(
     case 'setUserEMode':
       // biome-ignore lint/correctness/useHookAtTopLevel:
       return useCreateSetUserEModeHandler(action, { enabled, onFinish })
-    case 'daiToSDaiDeposit':
+    case 'makerStableToSavings':
       // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateDaiToSDaiDepositHandler(action, { enabled, onFinish })
+      return useCreateMakerStableToSavingsHandler(action, { enabled, onFinish })
     case 'daiFromSDaiWithdraw':
       // biome-ignore lint/correctness/useHookAtTopLevel:
       return useCreateDaiFromSDaiWithdrawHandler(action, { enabled, onFinish })
