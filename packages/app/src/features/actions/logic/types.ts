@@ -4,7 +4,10 @@ import { ApproveAction } from '../flavours/approve/types'
 import { BorrowAction, BorrowObjective } from '../flavours/borrow/types'
 import { ClaimRewardsAction, ClaimRewardsObjective } from '../flavours/claim-rewards/types'
 import { DepositAction, DepositObjective } from '../flavours/deposit/types'
-import { DaiToSDaiDepositAction, DaiToSDaiDepositObjective } from '../flavours/native-sdai-deposit/dai-to-sdai/types'
+import {
+  MakerStableToSavingsAction,
+  MakerStableToSavingsObjective,
+} from '../flavours/native-sdai-deposit/maker-stables/types'
 import { USDCToSDaiDepositAction, USDCToSDaiDepositObjective } from '../flavours/native-sdai-deposit/usdc-to-sdai/types'
 import { XDaiToSDaiDepositAction, XDaiToSDaiDepositObjective } from '../flavours/native-sdai-deposit/xdai-to-sdai/types'
 import {
@@ -35,7 +38,7 @@ export type Objective =
   | RepayObjective
   | SetUseAsCollateralObjective
   | SetUserEModeObjective
-  | DaiToSDaiDepositObjective
+  | MakerStableToSavingsObjective
   | DaiFromSDaiWithdrawObjective
   | USDCToSDaiDepositObjective
   | USDCFromSDaiWithdrawObjective
@@ -53,7 +56,7 @@ export type Action =
   | RepayAction
   | SetUseAsCollateralAction
   | SetUserEModeAction
-  | DaiToSDaiDepositAction
+  | MakerStableToSavingsAction
   | DaiFromSDaiWithdrawAction
   | USDCToSDaiDepositAction
   | USDCFromSDaiWithdrawAction

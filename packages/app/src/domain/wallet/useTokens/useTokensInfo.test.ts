@@ -7,7 +7,7 @@ import { waitFor } from '@testing-library/react'
 import { erc20Abi, erc4626Abi, parseEther, zeroAddress } from 'viem'
 import { gnosis, mainnet } from 'viem/chains'
 import { describe, test } from 'vitest'
-import { useTokens } from './useTokens'
+import { useTokensInfo } from './useTokensInfo'
 
 const token = testAddresses.token
 const alice = testAddresses.alice
@@ -15,7 +15,7 @@ const alice = testAddresses.alice
 const chainIdCall = handlers.chainIdCall({ chainId: mainnet.id })
 
 const hookRenderer = setupHookRenderer({
-  hook: useTokens,
+  hook: useTokensInfo,
   account: undefined,
   handlers: [chainIdCall],
   args: {
@@ -28,7 +28,7 @@ const hookRenderer = setupHookRenderer({
   },
 })
 
-describe(useTokens.name, () => {
+describe(useTokensInfo.name, () => {
   test('fetches data for ERC20 token with vault oracle', async () => {
     const balance = 543217812381398n
     const decimals = 18
@@ -75,7 +75,7 @@ describe(useTokens.name, () => {
     })
 
     await waitFor(() => expect(result.current.status).toBe('success'))
-    expect(result.current.tokens).toEqual([
+    expect(result.current.tokensInfo.all()).toEqual([
       {
         token: {
           name,
@@ -136,7 +136,7 @@ describe(useTokens.name, () => {
     })
 
     await waitFor(() => expect(result.current.status).toBe('success'))
-    expect(result.current.tokens).toEqual([
+    expect(result.current.tokensInfo.all()).toEqual([
       {
         token: {
           name,
@@ -203,7 +203,7 @@ describe(useTokens.name, () => {
     })
 
     await waitFor(() => expect(result.current.status).toBe('success'))
-    expect(result.current.tokens).toEqual([
+    expect(result.current.tokensInfo.all()).toEqual([
       {
         token: {
           name,
@@ -247,7 +247,7 @@ describe(useTokens.name, () => {
     })
 
     await waitFor(() => expect(result.current.status).toBe('success'))
-    expect(result.current.tokens).toEqual([
+    expect(result.current.tokensInfo.all()).toEqual([
       {
         token: {
           name,
@@ -294,7 +294,7 @@ describe(useTokens.name, () => {
     })
 
     await waitFor(() => expect(result.current.status).toBe('success'))
-    expect(result.current.tokens).toEqual([
+    expect(result.current.tokensInfo.all()).toEqual([
       {
         token: {
           name,

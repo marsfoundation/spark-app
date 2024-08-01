@@ -1,22 +1,22 @@
 import { useVaultDeposit } from '@/domain/tokenized-vault-operations/useVaultDeposit'
 import { ActionHandler } from '@/features/actions/logic/types'
 import { mapWriteResultToActionState } from '@/features/actions/logic/utils'
-import { DaiToSDaiDepositAction } from './types'
+import { MakerStableToSavingsAction } from './types'
 
-export interface UseCreateDaiToSDaiDepositHandlerOptions {
+export interface UseCreateMakerStableToSavingsHandlerOptions {
   enabled: boolean
   onFinish?: () => void
 }
 
-export function useCreateDaiToSDaiDepositHandler(
-  action: DaiToSDaiDepositAction,
-  options: UseCreateDaiToSDaiDepositHandlerOptions,
+export function useCreateMakerStableToSavingsHandler(
+  action: MakerStableToSavingsAction,
+  options: UseCreateMakerStableToSavingsHandlerOptions,
 ): ActionHandler {
   const { enabled, onFinish } = options
 
   const deposit = useVaultDeposit({
-    vault: action.sDai.address,
-    assetsAmount: action.dai.toBaseUnit(action.value),
+    vault: action.savingsToken.address,
+    assetsAmount: action.stableToken.toBaseUnit(action.value),
     enabled,
     onTransactionSettled: onFinish,
   })

@@ -1,58 +1,85 @@
-import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { SavingsInfo } from '@/domain/savings-info/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { DialogFormNormalizedData } from '@/features/dialogs/common/logic/form'
+import { Token } from '@/domain/types/Token'
+import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
+import { raise } from '@/utils/assert'
+import { SavingsDialogFormNormalizedData } from '../../common/logic/form'
 import { RouteItem, SavingsDialogTxOverview } from '../../common/types'
 
 export interface CreateTxOverviewParams {
-  formValues: DialogFormNormalizedData
-  marketInfo: MarketInfo
+  formValues: SavingsDialogFormNormalizedData
+  tokensInfo: TokensInfo
   savingsInfo: SavingsInfo
+  type: 'sdai' | 'snst'
 }
 export function createTxOverview({
   formValues,
-  marketInfo,
+  tokensInfo,
   savingsInfo,
+  type,
 }: CreateTxOverviewParams): SavingsDialogTxOverview {
   // the value is normalized, so assuming 1 to 1 conversion rate for USDC
   // value denominated in DAI equals to value denominated in USDC
-  const daiValue = formValues.value
-  const isDaiDeposit = formValues.token.address === marketInfo.DAI.address
-  if (daiValue.eq(0)) {
+  const value = formValues.value
+  if (value.eq(0)) {
     return { status: 'no-overview' }
   }
 
-  const sDAIValue = savingsInfo.convertToShares({ assets: daiValue })
-  const daiEarnRate = NormalizedUnitNumber(daiValue.multipliedBy(savingsInfo.apy))
-  const route: RouteItem[] = [
-    ...(!isDaiDeposit
+  const savingsTokenValue = savingsInfo.convertToShares({ assets: value })
+  const savingsToken = (type === 'sdai' ? tokensInfo.sDAI : tokensInfo.sNST) ?? raise('Cannot find savings token')
+  const stableEarnRate = NormalizedUnitNumber(value.multipliedBy(savingsInfo.apy))
+
+  const route: RouteItem[] = getDepositRoute({ formValues, tokensInfo, savingsInfo, savingsToken, savingsTokenValue })
+
+  return {
+    baseStable: (type === 'sdai' ? tokensInfo.DAI : tokensInfo.NST) ?? raise('Cannot find stable token'),
+    status: 'success',
+    APY: savingsInfo.apy,
+    stableEarnRate,
+    route,
+    makerBadgeToken: formValues.token,
+    outTokenAmount: savingsTokenValue,
+  }
+}
+
+export interface GetDepositRouteParams {
+  formValues: SavingsDialogFormNormalizedData
+  tokensInfo: TokensInfo
+  savingsInfo: SavingsInfo
+  savingsToken: Token
+  savingsTokenValue: NormalizedUnitNumber
+}
+function getDepositRoute({
+  formValues,
+  tokensInfo,
+  savingsInfo,
+  savingsToken,
+  savingsTokenValue,
+}: GetDepositRouteParams): RouteItem[] {
+  const value = formValues.value
+  const intermediary =
+    (savingsToken.symbol === tokensInfo.sDAI?.symbol ? tokensInfo.DAI : tokensInfo.NST) ??
+    raise('Cannot find intermediary token')
+
+  return [
+    ...(intermediary.symbol !== formValues.token.symbol
       ? [
           {
             token: formValues.token,
-            value: daiValue,
-            usdValue: daiValue,
+            value: value,
+            usdValue: value,
           },
         ]
       : []),
     {
-      token: marketInfo.DAI,
-      value: daiValue,
-      usdValue: daiValue,
+      token: intermediary,
+      value: value,
+      usdValue: value,
     },
     {
-      token: marketInfo.sDAI,
-      value: sDAIValue,
-      usdValue: savingsInfo.convertToAssets({ shares: sDAIValue }),
+      token: savingsToken,
+      value: savingsTokenValue,
+      usdValue: savingsInfo.convertToAssets({ shares: savingsTokenValue }),
     },
   ]
-
-  return {
-    dai: marketInfo.DAI,
-    status: 'success',
-    APY: savingsInfo.apy,
-    daiEarnRate,
-    route,
-    makerBadgeToken: formValues.token,
-    outTokenAmount: sDAIValue,
-  }
 }

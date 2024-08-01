@@ -7,7 +7,7 @@ export const objectiveTypeToVerb: Record<ObjectiveType, string> = {
   repay: 'Repaid',
   setUseAsCollateral: 'Set',
   setUserEMode: 'Set',
-  daiToSDaiDeposit: 'Converted',
+  makerStableToSavings: 'Converted',
   usdcToSDaiDeposit: 'Converted',
   xDaiToSDaiDeposit: 'Converted',
   daiFromSDaiWithdraw: 'Converted',

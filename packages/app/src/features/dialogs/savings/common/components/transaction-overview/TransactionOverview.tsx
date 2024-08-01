@@ -2,7 +2,6 @@ import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { DialogPanel } from '@/features/dialogs/common/components/DialogPanel'
 import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPanelTitle'
-import { assets } from '@/ui/assets'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { assert } from '@/utils/assert'
@@ -16,9 +15,9 @@ export interface TransactionOverviewProps {
 
 export function TransactionOverview({ txOverview, selectedToken }: TransactionOverviewProps) {
   if (txOverview.status !== 'success') {
-    return <TransactionOverviewPlaceholder isLoading={txOverview.status === 'loading'} badgeToken={selectedToken} />
+    return <TransactionOverviewPlaceholder badgeToken={selectedToken} />
   }
-  const { APY, dai, daiEarnRate, route, makerBadgeToken } = txOverview
+  const { APY, baseStable, stableEarnRate, route, makerBadgeToken } = txOverview
 
   assert(route.length > 0, 'Route must have at least one item')
   const outcome = route.at(-1)!
@@ -28,7 +27,7 @@ export function TransactionOverview({ txOverview, selectedToken }: TransactionOv
     <DialogPanel>
       <DialogPanelTitle>Transaction overview</DialogPanelTitle>
       <TransactionOverviewDetailsItem label="APY">
-        <APYDetails APY={APY} dai={dai} daiEarnRate={daiEarnRate} />
+        <APYDetails APY={APY} baseStable={baseStable} stableEarnRate={stableEarnRate} />
       </TransactionOverviewDetailsItem>
       <TransactionOverviewDetailsItem label="Route">
         <div className={cn('flex flex-col items-end gap-2', !displayRouteVertically && 'md:flex-row')}>
@@ -58,15 +57,10 @@ export function TransactionOverview({ txOverview, selectedToken }: TransactionOv
 }
 
 interface TransactionOverviewPlaceholder {
-  isLoading: boolean
   badgeToken: Token
 }
-function TransactionOverviewPlaceholder({ isLoading, badgeToken }: TransactionOverviewPlaceholder) {
-  const placeholder = isLoading ? (
-    <img src={assets.threeDots} alt="loader" width={20} height={5} data-chromatic="ignore" />
-  ) : (
-    '-'
-  )
+function TransactionOverviewPlaceholder({ badgeToken }: TransactionOverviewPlaceholder) {
+  const placeholder = '-'
   return (
     <DialogPanel>
       <DialogPanelTitle>Transaction overview</DialogPanelTitle>

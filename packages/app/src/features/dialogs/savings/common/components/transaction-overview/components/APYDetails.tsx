@@ -4,12 +4,12 @@ import { Token } from '@/domain/types/Token'
 import { testIds } from '@/ui/utils/testIds'
 
 export interface APYDetailsProps {
-  dai: Token
+  baseStable: Token
   APY: Percentage
-  daiEarnRate: NormalizedUnitNumber
+  stableEarnRate: NormalizedUnitNumber
 }
 
-export function APYDetails({ dai, APY, daiEarnRate }: APYDetailsProps) {
+export function APYDetails({ baseStable, APY, stableEarnRate }: APYDetailsProps) {
   return (
     <div className="flex flex-col items-end gap-0.5">
       <div data-testid={testIds.dialog.savings.nativeRouteTransactionOverview.apy.value}>{formatPercentage(APY)}</div>
@@ -17,7 +17,7 @@ export function APYDetails({ dai, APY, daiEarnRate }: APYDetailsProps) {
         className="text-basics-dark-grey text-sm"
         data-testid={testIds.dialog.savings.nativeRouteTransactionOverview.apy.description}
       >
-        ~{dai.format(daiEarnRate, { style: 'auto' })} {dai.symbol} per year
+        ~{baseStable.format(stableEarnRate, { style: 'auto' })} {baseStable.symbol} per year
       </div>
     </div>
   )

@@ -43,8 +43,10 @@ import eth from './tokens/eth.svg'
 import eure from './tokens/eure.svg'
 import gno from './tokens/gno.svg'
 import mkr from './tokens/mkr.svg'
+import nst from './tokens/nst.svg'
 import reth from './tokens/reth.svg'
 import sdai from './tokens/sdai.svg'
+import snst from './tokens/snst.svg'
 import steth from './tokens/steth.svg'
 import unknown from './tokens/unknown.svg'
 import usdc from './tokens/usdc.svg'
@@ -134,6 +136,8 @@ export const assets = {
     eure,
     weeth,
     'usdc.e': usdc,
+    nst,
+    snst,
     unknown,
   },
   walletIcons: {

@@ -1,13 +1,13 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { MarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
+import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { z } from 'zod'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function getSavingsDepositDialogFormValidator(walletInfo: MarketWalletInfo) {
+export function getSavingsDepositDialogFormValidator(tokensInfo: TokensInfo) {
   return AssetInputSchema.superRefine((field, ctx) => {
     const value = NormalizedUnitNumber(field.value === '' ? '0' : field.value)
-    const balance = walletInfo.findWalletBalanceForSymbol(field.symbol)
+    const balance = tokensInfo.findOneBalanceBySymbol(field.symbol)
 
     const issue = validateDeposit({
       value,

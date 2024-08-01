@@ -3,7 +3,7 @@ import { ApproveActionRow } from '../../flavours/approve/ApproveActionRow'
 import { BorrowActionRow } from '../../flavours/borrow/BorrowActionRow'
 import { ClaimRewardsActionRow } from '../../flavours/claim-rewards/ClaimRewardsActionRow'
 import { DepositActionRow } from '../../flavours/deposit/DepositActionRow'
-import { DaiToSDaiDepositActionRow } from '../../flavours/native-sdai-deposit/dai-to-sdai/DaiToSDaiDepositActionRow'
+import { MakerStableToSavingsActionRow } from '../../flavours/native-sdai-deposit/maker-stables/MakerStableToSavingsActionRow'
 import { USDCToSDaiDepositActionRow } from '../../flavours/native-sdai-deposit/usdc-to-sdai/USDCToSDaiDepositActionRow'
 import { XDaiToSDaiDepositActionRow } from '../../flavours/native-sdai-deposit/xdai-to-sdai/XDaiToSDaiDepositActionRow'
 import { DaiFromSDaiWithdrawActionRow } from '../../flavours/native-sdai-withdraw/dai-from-sdai/DaiFromSDaiWithdrawActionRow'
@@ -52,8 +52,8 @@ export function ActionsGrid({ actionHandlers, variant }: ActionsGridProps) {
             return <SetUserEModeActionRow action={handler.action} {...props} />
           case 'withdraw':
             return <WithdrawActionRow action={handler.action} {...props} />
-          case 'daiToSDaiDeposit':
-            return <DaiToSDaiDepositActionRow action={handler.action} {...props} />
+          case 'makerStableToSavings':
+            return <MakerStableToSavingsActionRow action={handler.action} {...props} />
           case 'daiFromSDaiWithdraw':
             return <DaiFromSDaiWithdrawActionRow action={handler.action} {...props} />
           case 'usdcToSDaiDeposit':

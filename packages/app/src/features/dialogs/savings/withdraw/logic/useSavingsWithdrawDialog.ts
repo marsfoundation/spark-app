@@ -2,11 +2,11 @@ import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
 import { useConditionalFreeze } from '@/domain/hooks/useConditionalFreeze'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { useSavingsDaiInfo } from '@/domain/savings-info/useSavingsDaiInfo'
+import { useSavingsTokens } from '@/domain/savings/useSavingsTokens'
 import { useMarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 import { Objective } from '@/features/actions/logic/types'
 import { AssetInputSchema, useDebouncedDialogFormValues } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
-import { useSavingsTokens } from '@/features/savings/logic/useSavingsTokens'
 import { assert } from '@/utils/assert'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
@@ -42,7 +42,7 @@ export function useSavingsWithdrawDialog(mode: Mode): UseSavingsWithdrawDialogRe
 
   const sendModeExtension = useSendModeExtension({ mode, marketInfo })
 
-  const { savingsInputTokens: withdrawOptions } = useSavingsTokens()
+  const { inputTokens } = useSavingsTokens()
 
   const sDaiWithBalance: TokenWithBalance = {
     token: marketInfo.sDAI,
@@ -97,7 +97,7 @@ export function useSavingsWithdrawDialog(mode: Mode): UseSavingsWithdrawDialogRe
     (sendModeExtension?.enableActions ?? true)
 
   return {
-    selectableAssets: withdrawOptions,
+    selectableAssets: inputTokens,
     assetsFields: getFormFieldsForWithdrawDialog({ form, marketInfo, sDaiWithBalance }),
     form,
     objectives,

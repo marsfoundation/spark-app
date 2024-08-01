@@ -3,6 +3,7 @@ import { TokenWithBalance } from '@/domain/common/types'
 import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
 import { useSavingsDaiInfo } from '@/domain/savings-info/useSavingsDaiInfo'
 import { calculateMaxBalanceTokenAndTotal } from '@/domain/savings/calculateMaxBalanceTokenAndTotal'
+import { useSavingsTokens } from '@/domain/savings/useSavingsTokens'
 import { OpenDialogFunction, useOpenDialog } from '@/domain/state/dialogs'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
@@ -11,7 +12,6 @@ import { useAccount } from 'wagmi'
 import { Projections } from '../types'
 import { makeSavingsOverview } from './makeSavingsOverview'
 import { calculateProjections } from './projections'
-import { useSavingsTokens } from './useSavingsTokens'
 
 const stepInMs = 50
 
@@ -38,7 +38,7 @@ export interface UseSavingsResults {
 export function useSavings(): UseSavingsResults {
   const { savingsDaiInfo } = useSavingsDaiInfo()
   const guestMode = useAccount().isConnected === false
-  const { sDaiWithBalance, savingsInputTokens } = useSavingsTokens()
+  const { sDaiWithBalance, inputTokens } = useSavingsTokens()
   const chainId = useOriginChainId()
   const { timestamp, timestampInMs } = useTimestamp({
     refreshIntervalInMs: savingsDaiInfo?.supportsRealTimeInterestAccrual ? stepInMs : undefined,
@@ -50,7 +50,7 @@ export function useSavings(): UseSavingsResults {
   }
 
   const { totalUSD: totalEligibleCashUSD, maxBalanceToken } = calculateMaxBalanceTokenAndTotal({
-    assets: savingsInputTokens,
+    assets: inputTokens,
   })
 
   const { potentialShares, depositedUSD, depositedUSDPrecision } = makeSavingsOverview({
@@ -88,7 +88,7 @@ export function useSavings(): UseSavingsResults {
       sDaiWithBalance,
       currentProjections,
       opportunityProjections,
-      assetsInWallet: savingsInputTokens,
+      assetsInWallet: inputTokens,
       totalEligibleCashUSD,
       maxBalanceToken,
       chainId,

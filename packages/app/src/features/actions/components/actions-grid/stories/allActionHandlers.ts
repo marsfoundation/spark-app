@@ -94,12 +94,12 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
     state: { status: 'ready' },
     onAction: () => {},
   },
-  daiToSDaiDeposit: {
+  makerStableToSavings: {
     action: {
-      type: 'daiToSDaiDeposit',
-      dai: tokens.DAI,
+      type: 'makerStableToSavings',
+      stableToken: tokens.DAI,
       value: NormalizedUnitNumber(1023),
-      sDai: tokens.sDAI,
+      savingsToken: tokens.sDAI,
     },
     state: { status: 'ready' },
     onAction: () => {},
