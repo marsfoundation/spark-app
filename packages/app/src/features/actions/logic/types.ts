@@ -9,10 +9,7 @@ import {
   MakerStableToSavingsObjective,
 } from '../flavours/native-sdai-deposit/maker-stables/types'
 import { USDCToSDaiDepositAction, USDCToSDaiDepositObjective } from '../flavours/native-sdai-deposit/usdc-to-sdai/types'
-import {
-  XDaiToSDaiDepositAction,
-  XMakerStableToSavingsObjective,
-} from '../flavours/native-sdai-deposit/xdai-to-sdai/types'
+import { XDaiToSDaiDepositAction, XDaiToSDaiDepositObjective } from '../flavours/native-sdai-deposit/xdai-to-sdai/types'
 import {
   DaiFromSDaiWithdrawAction,
   DaiFromSDaiWithdrawObjective,
@@ -45,7 +42,7 @@ export type Objective =
   | DaiFromSDaiWithdrawObjective
   | USDCToSDaiDepositObjective
   | USDCFromSDaiWithdrawObjective
-  | XMakerStableToSavingsObjective
+  | XDaiToSDaiDepositObjective
   | XDaiFromSDaiWithdrawObjective
   | ClaimRewardsObjective
 export type ObjectiveType = Objective['type']

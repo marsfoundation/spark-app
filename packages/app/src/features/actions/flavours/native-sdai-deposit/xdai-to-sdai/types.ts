@@ -1,7 +1,7 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 
-export interface XMakerStableToSavingsObjective {
+export interface XDaiToSDaiDepositObjective {
   type: 'xDaiToSDaiDeposit'
   xDai: Token
   sDai: Token

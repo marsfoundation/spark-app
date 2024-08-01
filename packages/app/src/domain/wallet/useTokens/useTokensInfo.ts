@@ -14,7 +14,7 @@ export type UseTokensResult = SuspenseQueryWith<{
   tokensInfo: TokensInfo
 }>
 
-export function useTokens({ tokens }: UseTokensParams): UseTokensResult {
+export function useTokensInfo({ tokens }: UseTokensParams): UseTokensResult {
   const wagmiConfig = useConfig()
   const { address } = useAccount()
   const chainId = useChainId()
