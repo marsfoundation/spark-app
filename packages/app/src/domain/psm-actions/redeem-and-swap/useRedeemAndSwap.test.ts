@@ -162,21 +162,17 @@ describe(useRedeemAndSwap.name, () => {
       expect(result.current.status.kind).toBe('success')
     })
 
-    await waitFor(() => {
-      expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
-        allowanceQueryKey({
-          token: assetsToken.address,
-          spender: psmActionsAddress[mainnet.id],
-          account: owner,
-          chainId: mainnet.id,
-        }),
-      )
-    })
+    expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+      allowanceQueryKey({
+        token: assetsToken.address,
+        spender: psmActionsAddress[mainnet.id],
+        account: owner,
+        chainId: mainnet.id,
+      }),
+    )
 
-    await waitFor(() => {
-      expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
-        marketBalancesQueryKey({ account: owner, chainId: mainnet.id }),
-      )
-    })
+    expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+      marketBalancesQueryKey({ account: owner, chainId: mainnet.id }),
+    )
   })
 })

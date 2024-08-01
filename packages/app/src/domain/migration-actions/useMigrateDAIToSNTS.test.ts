@@ -1,4 +1,5 @@
 import { migrationActionsAbi } from '@/config/abis/migrationActionsAbi'
+import { MIGRATE_ACTIONS_ADDRESS } from '@/config/consts'
 import { BaseUnitNumber } from '@/domain/types/NumericValues'
 import { testAddresses } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
@@ -8,7 +9,6 @@ import { waitFor } from '@testing-library/react'
 import { mainnet } from 'viem/chains'
 import { allowanceQueryKey } from '../market-operations/allowance/query'
 import { marketBalancesQueryKey } from '../wallet/marketBalances'
-import { MIGRATE_ACTIONS_ADDRESS } from './constants'
 import { useMigrateDAIToSNST } from './useMigrateDAIToSNST'
 
 const dai = testAddresses.token
@@ -103,21 +103,17 @@ describe(useMigrateDAIToSNST.name, () => {
       expect(result.current.status.kind).toBe('success')
     })
 
-    await waitFor(() => {
-      expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
-        allowanceQueryKey({
-          token: dai,
-          spender: MIGRATE_ACTIONS_ADDRESS,
-          account,
-          chainId: mainnet.id,
-        }),
-      )
-    })
+    expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+      allowanceQueryKey({
+        token: dai,
+        spender: MIGRATE_ACTIONS_ADDRESS,
+        account,
+        chainId: mainnet.id,
+      }),
+    )
 
-    await waitFor(() => {
-      expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
-        marketBalancesQueryKey({ account, chainId: mainnet.id }),
-      )
-    })
+    expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+      marketBalancesQueryKey({ account, chainId: mainnet.id }),
+    )
   })
 })

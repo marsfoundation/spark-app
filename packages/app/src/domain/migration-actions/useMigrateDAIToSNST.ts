@@ -1,13 +1,13 @@
 import { migrationActionsAbi } from '@/config/abis/migrationActionsAbi'
+import { MIGRATE_ACTIONS_ADDRESS } from '@/config/consts'
 import { toBigInt } from '@/utils/bigNumber'
 import { useQueryClient } from '@tanstack/react-query'
 import { Address } from 'viem'
 import { useAccount, useChainId } from 'wagmi'
-import { ensureConfigTypes, useWrite } from '../hooks/useWrite'
+import { useWrite } from '../hooks/useWrite'
 import { allowanceQueryKey } from '../market-operations/allowance/query'
 import { BaseUnitNumber } from '../types/NumericValues'
 import { getBalancesQueryKeyPrefix } from '../wallet/getBalancesQueryKeyPrefix'
-import { MIGRATE_ACTIONS_ADDRESS } from './constants'
 
 export interface UseMigrateDAIToSNSTArgs {
   dai: Address
@@ -27,12 +27,12 @@ export function useMigrateDAIToSNST({
   const chainId = useChainId()
   const { address: receiver } = useAccount()
 
-  const config = ensureConfigTypes({
+  const config = {
     address: MIGRATE_ACTIONS_ADDRESS,
     abi: migrationActionsAbi,
     functionName: 'migrateDAIToSNST',
     args: [receiver!, toBigInt(daiAmount)],
-  })
+  } as const
 
   return useWrite(
     {
