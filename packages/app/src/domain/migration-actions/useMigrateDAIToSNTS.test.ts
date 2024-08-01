@@ -50,7 +50,7 @@ describe(useMigrateDAIToSNST.name, () => {
     })
   })
 
-  it('deposits dai into sNST using migration actions', async () => {
+  it('migrates (deposits) dai into sNST using migration actions', async () => {
     const { result } = hookRenderer({
       extraHandlers: [
         handlers.contractCall({

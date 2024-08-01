@@ -1,52 +1,64 @@
 import { migrationActionsAbi } from '@/config/abis/migrationActionsAbi'
-import { MIGRATE_ACTIONS_ADDRESS } from '@/config/consts'
+import { Mode } from '@/features/dialogs/savings/withdraw/types'
 import { toBigInt } from '@/utils/bigNumber'
 import { useQueryClient } from '@tanstack/react-query'
 import { useAccount, useChainId } from 'wagmi'
-import { useWrite } from '../hooks/useWrite'
+import { ensureConfigTypes, useWrite } from '../hooks/useWrite'
 import { allowanceQueryKey } from '../market-operations/allowance/query'
+import { assertNativeWithdraw } from '../savings/assertNativeWithdraw'
 import { CheckedAddress } from '../types/CheckedAddress'
 import { BaseUnitNumber } from '../types/NumericValues'
 import { getBalancesQueryKeyPrefix } from '../wallet/getBalancesQueryKeyPrefix'
+import { MIGRATE_ACTIONS_ADDRESS } from './constants'
 
-export interface UseMigrateDAIToSNSTArgs {
-  dai: CheckedAddress
-  daiAmount: BaseUnitNumber
+export interface UseMigrateSDAIAssetsToNSTArgs {
+  sDai: CheckedAddress
+  nstAmount: BaseUnitNumber
+  receiver?: CheckedAddress
+  reserveAddresses?: CheckedAddress[]
+  mode: Mode
   onTransactionSettled?: () => void
   enabled?: boolean
 }
 
-// @note: Migrates (deposits) a specified amount of dai into a new savings token (sNST).
-export function useMigrateDAIToSNST({
-  dai,
-  daiAmount,
+// @note: Migrates (withdraws) from sDai to a specified amount of NST.
+export function useMigrateSDAIAssetsToNST({
+  sDai,
+  nstAmount,
+  receiver: _receiver,
+  reserveAddresses,
+  mode,
   onTransactionSettled,
   enabled = true,
-}: UseMigrateDAIToSNSTArgs): ReturnType<typeof useWrite> {
+}: UseMigrateSDAIAssetsToNSTArgs): ReturnType<typeof useWrite> {
   const client = useQueryClient()
   const chainId = useChainId()
-  const { address: receiver } = useAccount()
+  const { address: owner } = useAccount()
+  const receiver = _receiver || owner
 
-  const config = {
+  const config = ensureConfigTypes({
     address: MIGRATE_ACTIONS_ADDRESS,
     abi: migrationActionsAbi,
-    functionName: 'migrateDAIToSNST',
-    args: [receiver!, toBigInt(daiAmount)],
-  } as const
+    functionName: 'migrateSDAIAssetsToNST',
+    args: [receiver!, toBigInt(nstAmount)],
+  })
 
   return useWrite(
     {
       ...config,
-      enabled: enabled && daiAmount.gt(0) && !!receiver,
+      enabled: enabled && nstAmount.gt(0) && !!receiver,
     },
     {
+      onBeforeWrite: () => {
+        assertNativeWithdraw({ mode, receiver: _receiver, owner: owner!, reserveAddresses })
+      },
       onTransactionSettled: async () => {
         void client.invalidateQueries({
           queryKey: getBalancesQueryKeyPrefix({ chainId, account: receiver }),
         })
         void client.invalidateQueries({
           queryKey: allowanceQueryKey({
-            token: dai,
+            token: sDai,
             spender: MIGRATE_ACTIONS_ADDRESS,
             account: receiver!,
             chainId,
