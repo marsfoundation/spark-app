@@ -126,13 +126,19 @@ export function useWrite<TAbi extends Abi, TFunctionName extends ContractFunctio
           sanityCheckTx(parameters.request, chainId)
           callbacks.onBeforeWrite?.()
 
-          recordEvent('tx-sent', {
-            account,
-            walletType,
-            chainId,
-            receiver: parameters.request.address,
-            method: parameters.request.functionName,
-          })
+          if (walletType === 'sandbox') {
+            recordEvent('sandbox-tx-sent', {
+              receiver: parameters.request.address,
+              method: parameters.request.functionName,
+            })
+          } else {
+            recordEvent('tx-sent', {
+              walletType,
+              chainId,
+              receiver: parameters.request.address,
+              method: parameters.request.functionName,
+            })
+          }
 
           writeContract(parameters.request as any)
         }
