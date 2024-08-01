@@ -4,7 +4,7 @@ import { toBigInt } from '@/utils/bigNumber'
 import { useQueryClient } from '@tanstack/react-query'
 import { gnosis } from 'viem/chains'
 import { useAccount, useConfig } from 'wagmi'
-import { ensureConfigTypes, useWrite } from '../hooks/useWrite'
+import { useWrite } from '../hooks/useWrite'
 import { allowance } from '../market-operations/allowance/query'
 import { assertNativeWithdraw } from '../savings/assertNativeWithdraw'
 import { CheckedAddress } from '../types/CheckedAddress'
@@ -40,16 +40,12 @@ export function useSexyDaiRedeem({
 
   const receiver = _receiver || owner
 
-  const config = ensureConfigTypes({
-    address: savingsXDaiAdapterAddress[gnosis.id],
-    abi: savingsXDaiAdapterAbi,
-    functionName: 'redeemXDAI',
-    args: [toBigInt(sharesAmount), receiver!],
-  })
-
   return useWrite(
     {
-      ...config,
+      address: savingsXDaiAdapterAddress[gnosis.id],
+      abi: savingsXDaiAdapterAbi,
+      functionName: 'redeemXDAI',
+      args: [toBigInt(sharesAmount), receiver!],
       enabled: enabled && sharesAmount.gt(0) && !!receiver,
     },
     {

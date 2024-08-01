@@ -4,7 +4,7 @@ import { useAccount, useChainId } from 'wagmi'
 import { poolAbi } from '@/config/abis/poolAbi'
 import { lendingPoolAddress } from '@/config/contracts-generated'
 import { useContractAddress } from '@/domain/hooks/useContractAddress'
-import { ensureConfigTypes, useWrite } from '@/domain/hooks/useWrite'
+import { useWrite } from '@/domain/hooks/useWrite'
 import { aaveDataLayerQueryKey } from '@/domain/market-info/aave-data-layer/query'
 
 export interface UseSetUserEModeParams {
@@ -23,16 +23,12 @@ export function useSetUserEMode({
   const chainId = useChainId()
   const { address } = useAccount()
 
-  const config = ensureConfigTypes({
-    abi: poolAbi,
-    address: lendingPool,
-    functionName: 'setUserEMode',
-    args: [categoryId],
-  })
-
   return useWrite(
     {
-      ...config,
+      abi: poolAbi,
+      address: lendingPool,
+      functionName: 'setUserEMode',
+      args: [categoryId],
       enabled: !!address && enabled,
     },
     {

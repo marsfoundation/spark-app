@@ -4,7 +4,7 @@ import { toBigInt } from '@/utils/bigNumber'
 import { useQueryClient } from '@tanstack/react-query'
 import { useAccount, useChainId } from 'wagmi'
 import { useContractAddress } from '../hooks/useContractAddress'
-import { ensureConfigTypes, useWrite } from '../hooks/useWrite'
+import { useWrite } from '../hooks/useWrite'
 import { allowanceQueryKey } from '../market-operations/allowance/query'
 import { assertNativeWithdraw } from '../savings/assertNativeWithdraw'
 import { CheckedAddress } from '../types/CheckedAddress'
@@ -54,16 +54,12 @@ export function useWithdrawAndSwap({
   })
   const assetsMaxAmountIn = toBigInt(_gemAmountOut.multipliedBy(gemConversionFactor))
 
-  const config = ensureConfigTypes({
-    address: psmActions,
-    abi: psmActionsConfig.abi,
-    functionName: 'withdrawAndSwap',
-    args: [receiver!, gemAmountOut, assetsMaxAmountIn],
-  })
-
   return useWrite(
     {
-      ...config,
+      address: psmActions,
+      abi: psmActionsConfig.abi,
+      functionName: 'withdrawAndSwap',
+      args: [receiver!, gemAmountOut, assetsMaxAmountIn],
       enabled: enabled && _gemAmountOut.gt(0) && !!receiver,
     },
     {

@@ -2,7 +2,7 @@ import { toBigInt } from '@/utils/bigNumber'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { erc4626Abi } from 'viem'
 import { useAccount, useChainId, useConfig } from 'wagmi'
-import { ensureConfigTypes, useWrite } from '../hooks/useWrite'
+import { useWrite } from '../hooks/useWrite'
 import { allowance } from '../market-operations/allowance/query'
 import { CheckedAddress } from '../types/CheckedAddress'
 import { BaseUnitNumber } from '../types/NumericValues'
@@ -29,17 +29,14 @@ export function useVaultDeposit({
   const { address: receiver } = useAccount()
   const { data: vaultAsset } = useQuery(vaultAssetQueryOptions({ vault, chainId, config: wagmiConfig }))
 
-  const config = ensureConfigTypes({
-    address: vault,
-    abi: erc4626Abi,
-    functionName: 'deposit',
-    args: [toBigInt(assetsAmount), receiver!],
-  })
   const enabled = _enabled && assetsAmount.gt(0) && !!vaultAsset && !!receiver
 
   return useWrite(
     {
-      ...config,
+      address: vault,
+      abi: erc4626Abi,
+      functionName: 'deposit',
+      args: [toBigInt(assetsAmount), receiver!],
       enabled,
     },
     {

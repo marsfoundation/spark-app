@@ -3,7 +3,7 @@ import { toBigInt } from '@/utils/bigNumber'
 import { useQueryClient } from '@tanstack/react-query'
 import { gnosis } from 'viem/chains'
 import { useAccount } from 'wagmi'
-import { ensureConfigTypes, useWrite } from '../hooks/useWrite'
+import { useWrite } from '../hooks/useWrite'
 import { BaseUnitNumber } from '../types/NumericValues'
 import { getBalancesQueryKeyPrefix } from '../wallet/getBalancesQueryKeyPrefix'
 
@@ -23,18 +23,15 @@ export function useSexyDaiDeposit({
   const { address: receiver } = useAccount()
   const value = toBigInt(_value)
 
-  const config = ensureConfigTypes({
-    address: savingsXDaiAdapterAddress[gnosis.id],
-    abi: savingsXDaiAdapterAbi,
-    functionName: 'depositXDAI',
-    args: [receiver!],
-    value,
-  })
   const enabled = _enabled && value > 0 && !!receiver
 
   return useWrite(
     {
-      ...config,
+      address: savingsXDaiAdapterAddress[gnosis.id],
+      abi: savingsXDaiAdapterAbi,
+      functionName: 'depositXDAI',
+      args: [receiver!],
+      value,
       enabled,
     },
     {

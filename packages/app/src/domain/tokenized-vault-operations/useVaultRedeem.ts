@@ -3,7 +3,7 @@ import { toBigInt } from '@/utils/bigNumber'
 import { useQueryClient } from '@tanstack/react-query'
 import { erc4626Abi } from 'viem'
 import { useAccount, useChainId } from 'wagmi'
-import { ensureConfigTypes, useWrite } from '../hooks/useWrite'
+import { useWrite } from '../hooks/useWrite'
 import { assertNativeWithdraw } from '../savings/assertNativeWithdraw'
 import { CheckedAddress } from '../types/CheckedAddress'
 import { BaseUnitNumber } from '../types/NumericValues'
@@ -39,16 +39,12 @@ export function useVaultRedeem({
 
   const receiver = _receiver || owner
 
-  const config = ensureConfigTypes({
-    address: vault,
-    abi: erc4626Abi,
-    functionName: 'redeem',
-    args: [toBigInt(sharesAmount), receiver!, owner!],
-  })
-
   return useWrite(
     {
-      ...config,
+      address: vault,
+      abi: erc4626Abi,
+      functionName: 'redeem',
+      args: [toBigInt(sharesAmount), receiver!, owner!],
       enabled: enabled && sharesAmount.gt(0) && !!receiver && !!owner,
     },
     {

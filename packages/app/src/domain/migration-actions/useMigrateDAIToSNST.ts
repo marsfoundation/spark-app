@@ -2,15 +2,15 @@ import { migrationActionsAbi } from '@/config/abis/migrationActionsAbi'
 import { MIGRATE_ACTIONS_ADDRESS } from '@/config/consts'
 import { toBigInt } from '@/utils/bigNumber'
 import { useQueryClient } from '@tanstack/react-query'
-import { Address } from 'viem'
 import { useAccount, useChainId } from 'wagmi'
 import { useWrite } from '../hooks/useWrite'
 import { allowanceQueryKey } from '../market-operations/allowance/query'
+import { CheckedAddress } from '../types/CheckedAddress'
 import { BaseUnitNumber } from '../types/NumericValues'
 import { getBalancesQueryKeyPrefix } from '../wallet/getBalancesQueryKeyPrefix'
 
 export interface UseMigrateDAIToSNSTArgs {
-  dai: Address
+  dai: CheckedAddress
   daiAmount: BaseUnitNumber
   onTransactionSettled?: () => void
   enabled?: boolean
