@@ -5,7 +5,7 @@ import { useAccount, useChainId } from 'wagmi'
 import { poolAbi } from '@/config/abis/poolAbi'
 import { lendingPoolAddress } from '@/config/contracts-generated'
 import { useContractAddress } from '@/domain/hooks/useContractAddress'
-import { ensureConfigTypes, useWrite } from '@/domain/hooks/useWrite'
+import { useWrite } from '@/domain/hooks/useWrite'
 import { aaveDataLayerQueryKey } from '@/domain/market-info/aave-data-layer/query'
 
 export interface UseSetUseAsCollateralParams {
@@ -26,16 +26,12 @@ export function useSetUseAsCollateral({
   const { address: userAddress } = useAccount()
   const chainId = useChainId()
 
-  const config = ensureConfigTypes({
-    abi: poolAbi,
-    address: lendingPool,
-    functionName: 'setUserUseReserveAsCollateral',
-    args: [asset, useAsCollateral],
-  })
-
   return useWrite(
     {
-      ...config,
+      abi: poolAbi,
+      address: lendingPool,
+      functionName: 'setUserUseReserveAsCollateral',
+      args: [asset, useAsCollateral],
       enabled: !!userAddress && enabled,
     },
     {

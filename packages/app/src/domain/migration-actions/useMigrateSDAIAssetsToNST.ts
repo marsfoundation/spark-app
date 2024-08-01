@@ -1,15 +1,15 @@
 import { migrationActionsAbi } from '@/config/abis/migrationActionsAbi'
+import { MIGRATE_ACTIONS_ADDRESS } from '@/config/consts'
 import { Mode } from '@/features/dialogs/savings/withdraw/types'
 import { toBigInt } from '@/utils/bigNumber'
 import { useQueryClient } from '@tanstack/react-query'
 import { useAccount, useChainId } from 'wagmi'
-import { ensureConfigTypes, useWrite } from '../hooks/useWrite'
+import { useWrite } from '../hooks/useWrite'
 import { allowanceQueryKey } from '../market-operations/allowance/query'
 import { assertNativeWithdraw } from '../savings/assertNativeWithdraw'
 import { CheckedAddress } from '../types/CheckedAddress'
 import { BaseUnitNumber } from '../types/NumericValues'
 import { getBalancesQueryKeyPrefix } from '../wallet/getBalancesQueryKeyPrefix'
-import { MIGRATE_ACTIONS_ADDRESS } from './constants'
 
 export interface UseMigrateSDAIAssetsToNSTArgs {
   sDai: CheckedAddress
@@ -36,16 +36,12 @@ export function useMigrateSDAIAssetsToNST({
   const { address: owner } = useAccount()
   const receiver = _receiver || owner
 
-  const config = ensureConfigTypes({
-    address: MIGRATE_ACTIONS_ADDRESS,
-    abi: migrationActionsAbi,
-    functionName: 'migrateSDAIAssetsToNST',
-    args: [receiver!, toBigInt(nstAmount)],
-  })
-
   return useWrite(
     {
-      ...config,
+      address: MIGRATE_ACTIONS_ADDRESS,
+      abi: migrationActionsAbi,
+      functionName: 'migrateSDAIAssetsToNST',
+      args: [receiver!, toBigInt(nstAmount)],
       enabled: enabled && nstAmount.gt(0) && !!receiver,
     },
     {

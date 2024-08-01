@@ -8,7 +8,7 @@ import { Mode } from '@/features/dialogs/savings/withdraw/types'
 import { toBigInt } from '@/utils/bigNumber'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useAccount, useChainId, useConfig } from 'wagmi'
-import { ensureConfigTypes, useWrite } from '../../hooks/useWrite'
+import { useWrite } from '../../hooks/useWrite'
 import { BaseUnitNumber } from '../../types/NumericValues'
 import { Token } from '../../types/Token'
 import { gemMinAmountOutQueryOptions } from './gemMinAmountOutQuery'
@@ -60,16 +60,12 @@ export function useRedeemAndSwap({
     }),
   )
 
-  const config = ensureConfigTypes({
-    address: psmActions,
-    abi: psmActionsConfig.abi,
-    functionName: 'redeemAndSwap',
-    args: [receiver!, sharesAmount, gemMinAmountOut!],
-  })
-
   return useWrite(
     {
-      ...config,
+      address: psmActions,
+      abi: psmActionsConfig.abi,
+      functionName: 'redeemAndSwap',
+      args: [receiver!, sharesAmount, gemMinAmountOut!],
       enabled: enabled && _sharesAmount.gt(0) && !!receiver && !!gemMinAmountOut,
     },
     {

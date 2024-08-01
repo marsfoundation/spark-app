@@ -10,23 +10,23 @@ import { mainnet } from 'viem/chains'
 import { describe, expect, test } from 'vitest'
 import { allowanceQueryKey } from '../market-operations/allowance/query'
 import { marketBalancesQueryKey } from '../wallet/marketBalances'
-import { useMigrateSDAIAssetsToNST } from './useMigrateSDAIAssetsToNST'
+import { useMigrateSDAISharesToNST } from './useMigrateSDAISharesToNST'
 
 const sDai = testAddresses.token
 const owner = testAddresses.alice
 const receiver = testAddresses.bob
-const nstAmount = BaseUnitNumber(10)
+const sDaiAmount = BaseUnitNumber(10)
 const mode = 'withdraw'
 const reserveAddresses = [daiLikeReserve.token.address, wethLikeReserve.token.address]
 
 const hookRenderer = setupHookRenderer({
-  hook: useMigrateSDAIAssetsToNST,
+  hook: useMigrateSDAISharesToNST,
   account: owner,
   handlers: [handlers.chainIdCall({ chainId: mainnet.id }), handlers.balanceCall({ balance: 0n, address: owner })],
-  args: { sDai, nstAmount, mode },
+  args: { sDai, sDaiAmount, mode },
 })
 
-describe(useMigrateSDAIAssetsToNST.name, () => {
+describe(useMigrateSDAISharesToNST.name, () => {
   test('is not enabled for guest ', async () => {
     const { result } = hookRenderer({ account: undefined })
 
@@ -37,7 +37,7 @@ describe(useMigrateSDAIAssetsToNST.name, () => {
 
   test('is not enabled for 0 value', async () => {
     const { result } = hookRenderer({
-      args: { nstAmount: BaseUnitNumber(0), sDai, mode },
+      args: { sDaiAmount: BaseUnitNumber(0), sDai, mode },
     })
 
     await waitFor(() => {
@@ -47,7 +47,7 @@ describe(useMigrateSDAIAssetsToNST.name, () => {
 
   test('is not enabled when explicitly disabled', async () => {
     const { result } = hookRenderer({
-      args: { enabled: false, sDai, nstAmount, mode },
+      args: { enabled: false, sDai, sDaiAmount, mode },
     })
 
     await waitFor(() => {
@@ -55,16 +55,16 @@ describe(useMigrateSDAIAssetsToNST.name, () => {
     })
   })
 
-  test(' migrates from sDai to NST (withdraws) using migration actions', async () => {
+  test('migrates from sDai to NST (redeems) using migration actions', async () => {
     const { result } = hookRenderer({
       extraHandlers: [
         handlers.contractCall({
           to: MIGRATE_ACTIONS_ADDRESS,
           abi: migrationActionsAbi,
-          functionName: 'migrateSDAIAssetsToNST',
-          args: [owner, toBigInt(nstAmount)],
+          functionName: 'migrateSDAISharesToNST',
+          args: [owner, toBigInt(sDaiAmount)],
           from: owner,
-          result: undefined,
+          result: 1n,
         }),
         handlers.mineTransaction(),
       ],
@@ -82,11 +82,11 @@ describe(useMigrateSDAIAssetsToNST.name, () => {
     })
   })
 
-  test('migrates from sDai to NST (withdraws) with custom receiver using migration actions', async () => {
+  test('migrates from sDai to NST (redeems) with custom receiver using migration actions', async () => {
     const { result } = hookRenderer({
       args: {
         sDai,
-        nstAmount,
+        sDaiAmount,
         receiver,
         reserveAddresses,
         mode: 'send',
@@ -95,10 +95,10 @@ describe(useMigrateSDAIAssetsToNST.name, () => {
         handlers.contractCall({
           to: MIGRATE_ACTIONS_ADDRESS,
           abi: migrationActionsAbi,
-          functionName: 'migrateSDAIAssetsToNST',
-          args: [receiver, toBigInt(nstAmount)],
+          functionName: 'migrateSDAISharesToNST',
+          args: [receiver, toBigInt(sDaiAmount)],
           from: owner,
-          result: undefined,
+          result: 1n,
         }),
         handlers.mineTransaction(),
       ],
@@ -122,10 +122,10 @@ describe(useMigrateSDAIAssetsToNST.name, () => {
         handlers.contractCall({
           to: MIGRATE_ACTIONS_ADDRESS,
           abi: migrationActionsAbi,
-          functionName: 'migrateSDAIAssetsToNST',
-          args: [owner, toBigInt(nstAmount)],
+          functionName: 'migrateSDAISharesToNST',
+          args: [owner, toBigInt(sDaiAmount)],
           from: owner,
-          result: undefined,
+          result: 1n,
         }),
         handlers.mineTransaction(),
       ],

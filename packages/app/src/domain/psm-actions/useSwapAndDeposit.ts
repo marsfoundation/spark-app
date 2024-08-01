@@ -3,7 +3,7 @@ import { toBigInt } from '@/utils/bigNumber'
 import { useQueryClient } from '@tanstack/react-query'
 import { useAccount, useChainId, useConfig } from 'wagmi'
 import { useContractAddress } from '../hooks/useContractAddress'
-import { ensureConfigTypes, useWrite } from '../hooks/useWrite'
+import { useWrite } from '../hooks/useWrite'
 import { allowance } from '../market-operations/allowance/query'
 import { BaseUnitNumber } from '../types/NumericValues'
 import { Token } from '../types/Token'
@@ -41,17 +41,14 @@ export function useSwapAndDeposit({
   })
   const assetsMinAmountOut = toBigInt(_gemAmount.multipliedBy(gemConversionFactor))
 
-  const config = ensureConfigTypes({
-    address: psmActions,
-    abi: psmActionsConfig.abi,
-    functionName: 'swapAndDeposit',
-    args: [receiver!, gemAmount, assetsMinAmountOut],
-  })
   const enabled = _enabled && _gemAmount.gt(0) && !!receiver
 
   return useWrite(
     {
-      ...config,
+      address: psmActions,
+      abi: psmActionsConfig.abi,
+      functionName: 'swapAndDeposit',
+      args: [receiver!, gemAmount, assetsMinAmountOut],
       enabled,
     },
     {
