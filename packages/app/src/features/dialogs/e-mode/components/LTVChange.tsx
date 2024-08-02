@@ -13,11 +13,10 @@ interface LTVChangeProps {
 export function LTVChange({ currentMaxLTV, updatedMaxLTV }: LTVChangeProps) {
   if (!updatedMaxLTV) {
     return (
-      <TransactionOverviewDetailsItem
-        label="Maximum LTV"
-        data-testid={testIds.dialog.eMode.transactionOverview.maxLtv.before}
-      >
-        {formatPercentage(currentMaxLTV)}
+      <TransactionOverviewDetailsItem label="Maximum LTV">
+        <div data-testid={testIds.dialog.eMode.transactionOverview.maxLtv.before}>
+          {formatPercentage(currentMaxLTV)}
+        </div>
       </TransactionOverviewDetailsItem>
     )
   }
