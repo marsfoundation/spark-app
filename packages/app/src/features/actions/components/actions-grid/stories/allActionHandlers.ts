@@ -171,4 +171,14 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
     state: { status: 'ready' },
     onAction: () => {},
   },
+  migrateDAIToSNST: {
+    action: {
+      type: 'migrateDAIToSNST',
+      value: NormalizedUnitNumber(1023),
+      stableToken: tokens.DAI,
+      savingsToken: tokens.sNST,
+    },
+    state: { status: 'ready' },
+    onAction: () => {},
+  },
 }

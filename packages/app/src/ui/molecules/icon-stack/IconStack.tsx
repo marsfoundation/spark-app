@@ -30,7 +30,7 @@ export function IconStack({
     <div className={cn(stackVariants({ size }), className)}>
       {slicedIcons.map((src, index, srcs) => (
         <img
-          key={src}
+          key={index}
           src={src}
           className={iconVariants({ size })}
           style={stackingOrder === 'first-on-top' ? { zIndex: srcs.length - index } : undefined}

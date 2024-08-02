@@ -191,6 +191,8 @@ function actionToTitle(action: SimplifiedAction): string {
       return `Convert sDAI to ${action.asset}${action.mode === 'send' ? ' and send' : ''}`
     case 'claimRewards':
       return 'Claim'
+    case 'migrateDAIToSNST':
+      return 'Convert DAI to sNST'
   }
 }
 

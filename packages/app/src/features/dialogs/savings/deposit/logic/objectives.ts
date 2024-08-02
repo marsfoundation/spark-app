@@ -37,6 +37,7 @@ export function createObjectives({
           value: formValues.value,
           stableToken: formValues.token,
           savingsToken,
+          migrateDAIToSNST: tokenSymbol === tokensInfo.DAI?.symbol && savingsToken.symbol === tokensInfo.sNST?.symbol,
         },
       ]
     }
