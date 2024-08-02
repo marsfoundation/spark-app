@@ -1,14 +1,12 @@
-import { assert } from '@/utils/assert'
-import { expect } from '@playwright/test'
-import { z } from 'zod'
-
-import { EModeCategoryName } from '@/domain/e-mode/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { BasePageObject } from '@/test/e2e/BasePageObject'
 import { buildUrl } from '@/test/e2e/setup'
 import { parseTable } from '@/test/e2e/utils'
 import { testIds } from '@/ui/utils/testIds'
+import { assert } from '@/utils/assert'
+import { expect } from '@playwright/test'
+import { z } from 'zod'
 
 export class DashboardPageObject extends BasePageObject {
   // #region actions
@@ -202,8 +200,8 @@ export class DashboardPageObject extends BasePageObject {
     await expect(amount).not.toHaveText('—')
   }
 
-  async expectEModeCategory(eModeCategoryName: EModeCategoryName): Promise<void> {
-    await expect(this.page.getByTestId(testIds.component.EModeButton)).toHaveText(eModeCategoryName)
+  async expectEModeButtonText(eModeButtonText: string): Promise<void> {
+    await expect(this.page.getByTestId(testIds.component.EModeButton)).toHaveText(eModeButtonText)
   }
   // #endregion assertions
 }

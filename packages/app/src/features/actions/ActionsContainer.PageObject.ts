@@ -147,11 +147,19 @@ type SimplifiedWithdrawAction = BaseAction & {
   mode: 'send' | 'withdraw'
 }
 
-type SimplifiedGenericAction = BaseAction & {
-  type: Exclude<ActionType, 'exchange' | 'daiFromSDaiWithdraw' | 'usdcFromSDaiWithdraw' | 'xDaiFromSDaiWithdraw'>
+type SimplifiedSetUserEModeAction = {
+  type: 'setUserEMode'
+  eModeCategoryId: number
 }
 
-type SimplifiedAction = SimplifiedGenericAction | SimplifiedWithdrawAction
+type SimplifiedGenericAction = BaseAction & {
+  type: Exclude<
+    ActionType,
+    'exchange' | 'daiFromSDaiWithdraw' | 'usdcFromSDaiWithdraw' | 'xDaiFromSDaiWithdraw' | 'setUserEMode'
+  >
+}
+
+type SimplifiedAction = SimplifiedGenericAction | SimplifiedWithdrawAction | SimplifiedSetUserEModeAction
 
 function actionToTitle(action: SimplifiedAction): string {
   switch (action.type) {
@@ -172,7 +180,7 @@ function actionToTitle(action: SimplifiedAction): string {
     case 'setUseAsCollateral':
       return '' // not used in collateral dialog tests
     case 'setUserEMode':
-      return '' // not used in e-mode dialog tests
+      return action.eModeCategoryId === 0 ? 'Disable E-Mode' : 'Enable E-Mode'
     case 'makerStableToSavings':
     case 'usdcToSDaiDeposit':
     case 'xDaiToSDaiDeposit':
