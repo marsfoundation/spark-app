@@ -1,7 +1,7 @@
 import { migrationActionsAbi } from '@/config/abis/migrationActionsAbi'
 import { MIGRATE_ACTIONS_ADDRESS } from '@/config/consts'
 import { BaseUnitNumber } from '@/domain/types/NumericValues'
-import { daiLikeReserve, testAddresses, wethLikeReserve } from '@/test/integration/constants'
+import { testAddresses } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
 import { setupHookRenderer } from '@/test/integration/setupHookRenderer'
 import { toBigInt } from '@/utils/bigNumber'
@@ -14,16 +14,13 @@ import { useMigrateSDAISharesToSNST } from './useMigrateSDAISharesToSNST'
 
 const sDai = testAddresses.token
 const owner = testAddresses.alice
-const receiver = testAddresses.bob
 const sDaiAmount = BaseUnitNumber(10)
-const mode = 'withdraw'
-const reserveAddresses = [daiLikeReserve.token.address, wethLikeReserve.token.address]
 
 const hookRenderer = setupHookRenderer({
   hook: useMigrateSDAISharesToSNST,
   account: owner,
   handlers: [handlers.chainIdCall({ chainId: mainnet.id }), handlers.balanceCall({ balance: 0n, address: owner })],
-  args: { sDai, sDaiAmount, mode },
+  args: { sDai, sDaiAmount },
 })
 
 describe(useMigrateSDAISharesToSNST.name, () => {
@@ -37,7 +34,7 @@ describe(useMigrateSDAISharesToSNST.name, () => {
 
   test('is not enabled for 0 value', async () => {
     const { result } = hookRenderer({
-      args: { sDaiAmount: BaseUnitNumber(0), sDai, mode },
+      args: { sDaiAmount: BaseUnitNumber(0), sDai },
     })
 
     await waitFor(() => {
@@ -47,7 +44,7 @@ describe(useMigrateSDAISharesToSNST.name, () => {
 
   test('is not enabled when explicitly disabled', async () => {
     const { result } = hookRenderer({
-      args: { enabled: false, sDai, sDaiAmount, mode },
+      args: { enabled: false, sDai, sDaiAmount },
     })
 
     await waitFor(() => {
@@ -87,16 +84,13 @@ describe(useMigrateSDAISharesToSNST.name, () => {
       args: {
         sDai,
         sDaiAmount,
-        receiver,
-        reserveAddresses,
-        mode: 'send',
       },
       extraHandlers: [
         handlers.contractCall({
           to: MIGRATE_ACTIONS_ADDRESS,
           abi: migrationActionsAbi,
           functionName: 'migrateSDAISharesToSNST',
-          args: [receiver, toBigInt(sDaiAmount)],
+          args: [owner, toBigInt(sDaiAmount)],
           from: owner,
           result: 1n,
         }),
