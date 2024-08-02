@@ -79,7 +79,7 @@ test.describe('Send DAI on Mainnet', () => {
     })
 
     await sendDialog.clickBackToSavingsButton()
-    await savingsPage.expectSavingsBalance({ sDaiBalance: '3,352.90 sDAI', estimatedDaiValue: '3,530.91' })
+    await savingsPage.expectSavingsDAIBalance({ sDaiBalance: '3,352.90 sDAI', estimatedDaiValue: '3,530.91' })
     await savingsPage.expectCashInWalletAssetBalance('DAI', '-')
   })
 })

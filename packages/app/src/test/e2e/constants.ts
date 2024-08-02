@@ -1,3 +1,5 @@
+import { NST_DEV_CHAIN_ID } from "@/config/chain/constants"
+
 /**
  * App reads tokens config from the chain but we need to mint tokens in E2E tests so we maintain this list.
  *
@@ -77,6 +79,12 @@ export const TOKENS_ON_FORK = {
     },
     wstETH: {
       address: '0x6C76971f98945AE98dD7d4DFcA8711ebea946eA6',
+      decimals: 18,
+    },
+  },
+  [NST_DEV_CHAIN_ID]: {
+    NST: {
+      address: '0x798f111c92E38F102931F34D1e0ea7e671BDBE31',
       decimals: 18,
     },
   },
