@@ -16,7 +16,6 @@ export interface useMigrateSDAISharesToSNSTArgs {
   enabled?: boolean
 }
 
-// @note: Migrates (redeems) specified amount of sDai into NST. Use this if you want to migrate everything.
 export function useMigrateSDAISharesToSNST({
   sDai,
   sDaiAmount,
