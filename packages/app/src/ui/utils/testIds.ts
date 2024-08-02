@@ -97,6 +97,18 @@ export const testIds = makeTestIds({
         amountUSD: true,
       },
     },
+    eMode: {
+      transactionOverview: {
+        availableAssets: {
+          category: true,
+          assets: true,
+        },
+        maxLtv: {
+          before: true,
+          after: true,
+        },
+      },
+    },
   },
   actions: {
     settings: {

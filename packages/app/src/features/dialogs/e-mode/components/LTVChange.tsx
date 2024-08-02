@@ -2,6 +2,7 @@ import { formatPercentage } from '@/domain/common/format'
 import { Percentage } from '@/domain/types/NumericValues'
 import { assets } from '@/ui/assets'
 
+import { testIds } from '@/ui/utils/testIds'
 import { TransactionOverviewDetailsItem } from '../../common/components/TransactionOverviewDetailsItem'
 
 interface LTVChangeProps {
@@ -12,7 +13,10 @@ interface LTVChangeProps {
 export function LTVChange({ currentMaxLTV, updatedMaxLTV }: LTVChangeProps) {
   if (!updatedMaxLTV) {
     return (
-      <TransactionOverviewDetailsItem label="Maximum LTV">
+      <TransactionOverviewDetailsItem
+        label="Maximum LTV"
+        data-testid={testIds.dialog.eMode.transactionOverview.maxLtv.before}
+      >
         {formatPercentage(currentMaxLTV)}
       </TransactionOverviewDetailsItem>
     )
@@ -21,9 +25,11 @@ export function LTVChange({ currentMaxLTV, updatedMaxLTV }: LTVChangeProps) {
   return (
     <TransactionOverviewDetailsItem label="Maximum LTV">
       <div className="flex flex-row items-center gap-2">
-        {formatPercentage(currentMaxLTV)}
+        <div data-testid={testIds.dialog.eMode.transactionOverview.maxLtv.before}>
+          {formatPercentage(currentMaxLTV)}
+        </div>
         <img src={assets.arrowRight} />
-        {formatPercentage(updatedMaxLTV)}
+        <div data-testid={testIds.dialog.eMode.transactionOverview.maxLtv.after}>{formatPercentage(updatedMaxLTV)}</div>
       </div>
     </TransactionOverviewDetailsItem>
   )
