@@ -185,7 +185,7 @@ test.describe('E-Mode dialog', () => {
         variant: 'e-mode-change',
         availableAssets: {
           category: 'Stablecoins',
-          assets: 'USDC, USDT',
+          assets: 'sDAI, USDC, USDT',
         },
         hf: {
           before: '2.08',
@@ -290,7 +290,7 @@ test.describe('E-Mode dialog', () => {
         variant: 'e-mode-change',
         availableAssets: {
           category: 'Stablecoins',
-          assets: 'USDC, USDT',
+          assets: 'sDAI, USDC, USDT',
         },
         hf: {
           before: '3.12',
@@ -389,7 +389,7 @@ test.describe('E-Mode dialog', () => {
         variant: 'no-borrow',
         availableAssets: {
           category: 'Stablecoins',
-          assets: 'USDC, USDT',
+          assets: 'sDAI, USDC, USDT',
         },
         maxLtv: {
           before: '68.50%',
