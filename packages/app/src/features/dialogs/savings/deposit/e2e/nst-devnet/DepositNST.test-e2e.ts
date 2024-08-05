@@ -60,7 +60,7 @@ test.describe('Deposit NST on NST DevNet', () => {
     })
   })
 
-  test.only('executes deposit', async () => {
+  test('executes deposit', async () => {
     const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
     await actionsContainer.acceptAllActionsAction(2, fork)
 
