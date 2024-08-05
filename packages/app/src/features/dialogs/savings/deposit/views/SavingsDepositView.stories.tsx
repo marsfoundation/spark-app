@@ -62,6 +62,11 @@ const meta: Meta<typeof SavingsDepositView> = {
       makerBadgeToken: tokens.USDC,
       outTokenAmount: NormalizedUnitNumber(925.75),
     },
+    savingsNstSwitchInfo: {
+      showSwitch: false,
+      onSwitch: () => {},
+      checked: false,
+    },
   },
 }
 
@@ -71,3 +76,15 @@ type Story = StoryObj<typeof SavingsDepositView>
 export const Desktop: Story = {}
 export const Mobile = getMobileStory(Desktop)
 export const Tablet = getTabletStory(Desktop)
+
+export const WithSNSTSwitch: Story = {
+  args: {
+    savingsNstSwitchInfo: {
+      showSwitch: true,
+      onSwitch: () => {},
+      checked: true,
+    },
+  },
+}
+export const WithSNSTSwitchMobile = getMobileStory(WithSNSTSwitch)
+export const WithSNSTSwitchTablet = getTabletStory(WithSNSTSwitch)

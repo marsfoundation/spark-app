@@ -6,6 +6,7 @@ import { useCreateBorrowActionHandler } from '../flavours/borrow/useCreateBorrow
 import { useCreateClaimRewardsHandler } from '../flavours/claim-rewards/useCreateClaimRewardsHandler'
 import { useCreateDepositHandler } from '../flavours/deposit/useCreateDepositHandler'
 import { useCreateMakerStableToSavingsHandler } from '../flavours/native-sdai-deposit/maker-stables/useCreateMakerStableToSavingsHandler'
+import { useCreateMigrateDAIToSNSTHandler } from '../flavours/native-sdai-deposit/migrate-dai-to-snst/useCreateMigrateDAIToSNSTActionHandler'
 import { useCreateUSDCToSDaiDepositHandler } from '../flavours/native-sdai-deposit/usdc-to-sdai/useCreateUSDCToSDaiDepositHandler'
 import { useCreateXDaiToSDaiDepositHandler } from '../flavours/native-sdai-deposit/xdai-to-sdai/useCreateXDaiToSDaiDepositHandler'
 import { useCreateDaiFromSDaiWithdrawHandler } from '../flavours/native-sdai-withdraw/dai-from-sdai/useCreateDaiFromSDaiWithdrawHandler'
@@ -129,5 +130,8 @@ function useCreateActionHandler(
     case 'claimRewards':
       // biome-ignore lint/correctness/useHookAtTopLevel:
       return useCreateClaimRewardsHandler(action, { enabled, onFinish })
+    case 'migrateDAIToSNST':
+      // biome-ignore lint/correctness/useHookAtTopLevel:
+      return useCreateMigrateDAIToSNSTHandler(action, { enabled, onFinish })
   }
 }

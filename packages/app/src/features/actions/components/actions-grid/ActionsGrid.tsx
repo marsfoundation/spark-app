@@ -4,6 +4,7 @@ import { BorrowActionRow } from '../../flavours/borrow/BorrowActionRow'
 import { ClaimRewardsActionRow } from '../../flavours/claim-rewards/ClaimRewardsActionRow'
 import { DepositActionRow } from '../../flavours/deposit/DepositActionRow'
 import { MakerStableToSavingsActionRow } from '../../flavours/native-sdai-deposit/maker-stables/MakerStableToSavingsActionRow'
+import { MigrateDAIToSNSTActionActionRow } from '../../flavours/native-sdai-deposit/migrate-dai-to-snst/MigrateDAIToSNSTAction'
 import { USDCToSDaiDepositActionRow } from '../../flavours/native-sdai-deposit/usdc-to-sdai/USDCToSDaiDepositActionRow'
 import { XDaiToSDaiDepositActionRow } from '../../flavours/native-sdai-deposit/xdai-to-sdai/XDaiToSDaiDepositActionRow'
 import { DaiFromSDaiWithdrawActionRow } from '../../flavours/native-sdai-withdraw/dai-from-sdai/DaiFromSDaiWithdrawActionRow'
@@ -66,6 +67,8 @@ export function ActionsGrid({ actionHandlers, variant }: ActionsGridProps) {
             return <XDaiFromSDaiWithdrawActionRow action={handler.action} {...props} />
           case 'claimRewards':
             return <ClaimRewardsActionRow action={handler.action} {...props} />
+          case 'migrateDAIToSNST':
+            return <MigrateDAIToSNSTActionActionRow action={handler.action} {...props} />
         }
       })}
     </div>

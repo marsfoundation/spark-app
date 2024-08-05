@@ -32,6 +32,7 @@ import output from './markets/output.svg'
 import menu from './menu.svg'
 import moreIcon from './more-icon.svg'
 import pause from './pause.svg'
+import rocket from './rocket.svg'
 import sliderThumb from './slider-thumb.svg'
 import snowflake from './snowflake.svg'
 import sparkIcon from './spark-icon.svg'
@@ -98,6 +99,7 @@ export const assets = {
   close,
   makerLogo,
   giftbox,
+  rocket,
   markets: {
     chart,
     inputOutput,

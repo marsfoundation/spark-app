@@ -8,6 +8,7 @@ import {
   MakerStableToSavingsAction,
   MakerStableToSavingsObjective,
 } from '../flavours/native-sdai-deposit/maker-stables/types'
+import { MigrateDAIToSNSTAction } from '../flavours/native-sdai-deposit/migrate-dai-to-snst/types'
 import { USDCToSDaiDepositAction, USDCToSDaiDepositObjective } from '../flavours/native-sdai-deposit/usdc-to-sdai/types'
 import { XDaiToSDaiDepositAction, XDaiToSDaiDepositObjective } from '../flavours/native-sdai-deposit/xdai-to-sdai/types'
 import {
@@ -63,6 +64,7 @@ export type Action =
   | XDaiToSDaiDepositAction
   | XDaiFromSDaiWithdrawAction
   | ClaimRewardsAction
+  | MigrateDAIToSNSTAction
 export type ActionType = Action['type']
 
 export type ActionHandlerState =

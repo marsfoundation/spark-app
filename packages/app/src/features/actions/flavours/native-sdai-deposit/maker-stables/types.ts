@@ -6,6 +6,7 @@ export interface MakerStableToSavingsObjective {
   value: NormalizedUnitNumber
   stableToken: Token
   savingsToken: Token
+  migrateDAIToSNST: boolean
 }
 
 export interface MakerStableToSavingsAction {
