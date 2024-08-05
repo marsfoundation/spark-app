@@ -10,7 +10,6 @@ import { AssetsInTests, TOKENS_ON_FORK } from './constants'
 import { ForkContext } from './forking/setupFork'
 import { injectFixedDate, injectNetworkConfiguration, injectWalletConfiguration } from './injectSetup'
 import { generateAccount } from './utils'
-import { NST_DEV_CHAIN_ID } from '@/config/chain/constants'
 
 export type InjectableWallet = { address: Address } | { privateKey: string }
 

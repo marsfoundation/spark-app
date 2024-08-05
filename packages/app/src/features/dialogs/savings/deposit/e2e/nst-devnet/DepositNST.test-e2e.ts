@@ -5,16 +5,14 @@ import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
-import { Address } from 'viem'
 
 test.describe('Deposit NST on NST DevNet', () => {
   const fork = setupFork({ chainId: NST_DEV_CHAIN_ID, simulationDateOverride: new Date('2024-08-05T10:43:19Z') })
   let savingsPage: SavingsPageObject
   let depositDialog: SavingsDialogPageObject
-  let account: Address
 
   test.beforeEach(async ({ page }) => {
-    ({ account } = await setup(page, fork, {
+    await setup(page, fork, {
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -23,7 +21,7 @@ test.describe('Deposit NST on NST DevNet', () => {
           NST: 10_000,
         },
       },
-    }))
+    })
 
     savingsPage = new SavingsPageObject(page)
     await savingsPage.clickDepositButtonAction('NST')
