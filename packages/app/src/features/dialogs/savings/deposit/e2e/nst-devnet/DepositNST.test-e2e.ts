@@ -56,6 +56,8 @@ test.describe('Deposit NST on NST DevNet', () => {
       outcome: '9,896.42 sNST worth $10,000.00',
       badgeToken: 'NST',
     })
+
+    await depositDialog.expectUpgradeSwitchToBeHidden()
   })
 
   test('executes deposit', async () => {
