@@ -126,7 +126,7 @@ jobs:
 
       - run: pnpm exec playwright install --with-deps chromium
         working-directory: ./packages/app
-      - run: pnpm run test-e2e src/features/dialogs/savings/deposit/e2e/nst-devnet/DepositNST.test-e2e.ts
+      - run: pnpm run test-e2e
         working-directory: ./packages/app
         env:
           TENDERLY_API_KEY: "${{ secrets.TENDERLY_API_KEY }}"
