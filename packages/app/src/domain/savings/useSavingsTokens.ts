@@ -19,14 +19,6 @@ export function useSavingsTokens(): UseSavingsTokensResult {
   const inputTokens = tokensInfo.filter(({ token }) => chainConfig.savingsInputTokens.includes(token.symbol))
   const sDaiWithBalance = tokensInfo.findOneTokenWithBalanceBySymbol(chainConfig.sDaiSymbol)
   const sNSTWithBalance = chainConfig.sNSTSymbol && tokensInfo.findOneTokenWithBalanceBySymbol(chainConfig.sNSTSymbol)
-  console.log(JSON.stringify({
-    tokenBalance: tokensInfo.all().map((token) => ({
-      symbol: token.token.symbol,
-      balance: token.balance.toFixed(),
-    })),
-    sDaiWithBalance: sDaiWithBalance.balance.toFixed(),
-    sNSTWithBalance: sNSTWithBalance?.balance.toFixed(),
-  }, null, 2))
 
   return {
     tokensInfo,
