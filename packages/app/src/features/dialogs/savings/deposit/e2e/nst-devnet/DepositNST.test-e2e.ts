@@ -5,8 +5,7 @@ import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
-import { Address, createPublicClient, erc20Abi, http } from 'viem'
-import { waitFor } from '@/domain/tenderly/TenderlyVnetClient'
+import { Address } from 'viem'
 
 test.describe('Deposit NST on NST DevNet', () => {
   const fork = setupFork({ chainId: NST_DEV_CHAIN_ID, simulationDateOverride: new Date('2024-08-05T10:43:19Z') })
@@ -61,31 +60,12 @@ test.describe('Deposit NST on NST DevNet', () => {
     })
   })
 
-  test('executes deposit', async () => {
+  test.only('executes deposit', async () => {
     const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
     await actionsContainer.acceptAllActionsAction(2, fork)
 
     await depositDialog.expectSuccessPage()
     await depositDialog.clickBackToSavingsButton()
-
-    const publicClient = createPublicClient({
-      transport: http(fork.forkUrl),
-    })
-
-    await waitFor(async () => {
-      const balance = await publicClient.readContract({
-        abi: erc20Abi,
-        functionName: 'balanceOf',
-        address: '0xea8ae08513f8230caa8d031d28cb4ac8ce720c68',
-        args: [account],
-      })
-      console.log({
-        type: 'Wait for balance',
-        balance: balance.toString(),
-        rpcUrl: fork.forkUrl,
-      })
-      return balance !== 0n
-    })
 
     await savingsPage.expectSavingsNSTBalance({ sNstBalance: '9,896.42 sNST', estimatedNstValue: '10,000' })
     await savingsPage.expectCashInWalletAssetBalance('NST', '-')

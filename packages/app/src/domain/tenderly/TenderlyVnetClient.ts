@@ -104,7 +104,7 @@ export class TenderlyVnetClient {
   }
 }
 
-export async function waitFor(predicate: () => Promise<boolean>): Promise<void> {
+async function waitFor(predicate: () => Promise<boolean>): Promise<void> {
   const MAX_ATTEMPTS = 100
   const DELAY_MS = 300
 
