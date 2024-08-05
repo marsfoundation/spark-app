@@ -36,7 +36,7 @@ export interface UseSavingsDepositDialogResults {
 export interface SavingsSNstSwitchInfo {
   showSwitch: boolean
   checked: boolean
-  onClick: () => void
+  onSwitch: () => void
 }
 
 export function useSavingsDepositDialog({
@@ -104,7 +104,7 @@ export function useSavingsDepositDialog({
     savingsNstSwitchInfo: {
       showSwitch: !!savingsDaiInfo && !!savingsNstInfo,
       checked: savingsType === 'snst',
-      onClick: () => setSavingsType((savingsType) => (savingsType === 'sdai' ? 'snst' : 'sdai')),
+      onSwitch: () => setSavingsType((savingsType) => (savingsType === 'sdai' ? 'snst' : 'sdai')),
     },
   }
 }

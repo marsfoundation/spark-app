@@ -3,10 +3,10 @@ import { Switch } from '@/ui/atoms/switch/Switch'
 
 export interface SavingsNSTSwitchProps {
   checked: boolean
-  onClick: () => void
+  onSwitch: () => void
 }
 
-export function SavingsNSTSwitch({ checked, onClick }: SavingsNSTSwitchProps) {
+export function SavingsNSTSwitch({ checked, onSwitch }: SavingsNSTSwitchProps) {
   return (
     <div className="flex items-center justify-between rounded-xl border border-basics-green/50 bg-basics-green/5 p-4">
       <div className="flex items-center gap-3">
@@ -15,7 +15,7 @@ export function SavingsNSTSwitch({ checked, onClick }: SavingsNSTSwitchProps) {
           Deposit into <span className="text-basics-green">Savings NST</span> and get more benefits!
         </div>
       </div>
-      <Switch checked={checked} onClick={onClick} />
+      <Switch checked={checked} onClick={onSwitch} />
     </div>
   )
 }

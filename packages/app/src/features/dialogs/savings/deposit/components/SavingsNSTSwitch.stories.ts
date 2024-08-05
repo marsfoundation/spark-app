@@ -9,7 +9,7 @@ const meta: Meta<typeof SavingsNSTSwitch> = {
   decorators: [WithClassname('max-w-xl')],
   args: {
     checked: true,
-    onClick: () => {},
+    onSwitch: () => {},
   },
 }
 
