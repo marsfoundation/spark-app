@@ -1,13 +1,13 @@
+import { NST_DEV_CHAIN_ID } from '@/config/chain/constants'
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
 import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
-import { NST_DEV_CHAIN_ID } from '@/config/chain/constants'
 
 test.describe('Deposit NST on NST DevNet', () => {
-  const fork = setupFork({ chainId: NST_DEV_CHAIN_ID, simulationDateOverride: new Date('2024-08-02T10:27:19Z') })
+  const fork = setupFork({ chainId: NST_DEV_CHAIN_ID, simulationDateOverride: new Date('2024-08-05T10:43:19Z') })
   let savingsPage: SavingsPageObject
   let depositDialog: SavingsDialogPageObject
 
@@ -33,7 +33,7 @@ test.describe('Deposit NST on NST DevNet', () => {
   test('uses native sNST deposit', async () => {
     await depositDialog.actionsContainer.expectActions([
       { type: 'approve', asset: 'NST' },
-      { type: 'makerStableToSavings', asset: 'NST' },
+      { type: 'makerStableToSavings', asset: 'NST', savingsAsset: 'sNST' },
     ])
   })
 
@@ -49,11 +49,11 @@ test.describe('Deposit NST on NST DevNet', () => {
           tokenUsdValue: '$10,000.00',
         },
         {
-          tokenAmount: '9,495.85 sNST',
+          tokenAmount: '9,896.42 sNST',
           tokenUsdValue: '$10,000.00',
         },
       ],
-      outcome: '9,495.85 sNST worth $10,000.00',
+      outcome: '9,896.42 sNST worth $10,000.00',
       badgeToken: 'NST',
     })
   })
@@ -65,7 +65,7 @@ test.describe('Deposit NST on NST DevNet', () => {
     await depositDialog.expectSuccessPage()
     await depositDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsNSTBalance({ sNstBalance: '9,495.85 sNST', estimatedNstValue: '10,000' })
+    await savingsPage.expectSavingsNSTBalance({ sNstBalance: '9,896.42 sNST', estimatedNstValue: '10,000' })
     await savingsPage.expectCashInWalletAssetBalance('NST', '-')
   })
 })

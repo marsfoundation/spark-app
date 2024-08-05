@@ -78,8 +78,10 @@ export class TenderlyVnetClient {
     )
 
     const data: any = await response.json()
-    
-    const adminRpcUrl = data.connectivityConfig.endpoints.find((endpoint: any) => endpoint.displayName === 'Admin RPC')?.uri
+
+    const adminRpcUrl = data.connectivityConfig.endpoints.find(
+      (endpoint: any) => endpoint.displayName === 'Admin RPC',
+    )?.uri
 
     await waitFor(async () => {
       const status = await this.getContainerStatus(data.id)
@@ -103,15 +105,15 @@ export class TenderlyVnetClient {
 }
 
 async function waitFor(predicate: () => Promise<boolean>): Promise<void> {
-  const MAX_ATTEMPTS = 100;
-  const DELAY_MS = 300;
+  const MAX_ATTEMPTS = 100
+  const DELAY_MS = 300
 
   for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
     if (await predicate()) {
-      return;
+      return
     }
-    await new Promise(resolve => setTimeout(resolve, DELAY_MS));
+    await new Promise((resolve) => setTimeout(resolve, DELAY_MS))
   }
 
-  throw new Error('Timeout: Predicate did not become true within the allotted time');
+  throw new Error('Timeout: Predicate did not become true within the allotted time')
 }

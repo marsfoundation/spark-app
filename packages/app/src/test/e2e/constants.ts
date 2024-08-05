@@ -1,4 +1,4 @@
-import { NST_DEV_CHAIN_ID } from "@/config/chain/constants"
+import { NST_DEV_CHAIN_ID } from '@/config/chain/constants'
 
 /**
  * App reads tokens config from the chain but we need to mint tokens in E2E tests so we maintain this list.
@@ -90,7 +90,10 @@ export const TOKENS_ON_FORK = {
   },
 } as const
 
-type NonNativeTokens = keyof (typeof TOKENS_ON_FORK)[1] | keyof (typeof TOKENS_ON_FORK)[100]
+type NonNativeTokens =
+  | keyof (typeof TOKENS_ON_FORK)[1]
+  | keyof (typeof TOKENS_ON_FORK)[100]
+  | keyof (typeof TOKENS_ON_FORK)[typeof NST_DEV_CHAIN_ID]
 export type AssetsInTests = 'ETH' | 'XDAI' | NonNativeTokens
 
 // @note At this block number:

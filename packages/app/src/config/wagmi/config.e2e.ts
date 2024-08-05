@@ -8,8 +8,8 @@ import { SandboxNetwork } from '@/domain/state/sandbox'
 import { createMockConnector } from '@/domain/wallet/createMockConnector'
 
 import { viemAddressSchema } from '@/domain/common/validation'
-import { getConfig } from './config.default'
 import { NST_DEV_CHAIN_ID } from '../chain/constants'
+import { getConfig } from './config.default'
 
 export const PLAYWRIGHT_CHAIN_ID = '__PLAYWRIGHT_CHAIN_ID' as const
 export const PLAYWRIGHT_WALLET_ADDRESS_KEY = '__PLAYWRIGHT_WALLET_ADDRESS' as const

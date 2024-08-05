@@ -1,8 +1,7 @@
 import { randomHexId } from '@/utils/random'
 import { TenderlyVnetClient } from '../../../domain/tenderly/TenderlyVnetClient'
-import { CreateForkArgs, ITestForkService } from './ITestForkService'
-import { z } from 'zod'
 import { processEnv } from '../processEnv'
+import { CreateForkArgs, ITestForkService } from './ITestForkService'
 
 export class TestTenderlyVnetService implements ITestForkService {
   private readonly client: TenderlyVnetClient
