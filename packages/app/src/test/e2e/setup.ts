@@ -10,6 +10,7 @@ import { AssetsInTests, TOKENS_ON_FORK } from './constants'
 import { ForkContext } from './forking/setupFork'
 import { injectFixedDate, injectNetworkConfiguration, injectWalletConfiguration } from './injectSetup'
 import { generateAccount } from './utils'
+import { NST_DEV_CHAIN_ID } from '@/config/chain/constants'
 
 export type InjectableWallet = { address: Address } | { privateKey: string }
 
@@ -78,6 +79,14 @@ export async function setup<K extends keyof typeof paths, T extends ConnectionTy
   if (options.account.type !== 'not-connected') {
     if (options.account.type === 'connected-random') {
       const account = generateAccount({ privateKey: undefined })
+      if (forkContext.chainId === NST_DEV_CHAIN_ID) {
+        console.log('-------LOGS STARTED-------')
+        console.log({
+          account: account.address,
+          rpcUrl: forkContext.forkUrl,
+        })
+        console.log('-------LOGS ENDED-------')
+      }
       address = account.address
       await injectWalletConfiguration(page, account)
       await injectFunds(forkContext, account.address, options.account.assetBalances)
