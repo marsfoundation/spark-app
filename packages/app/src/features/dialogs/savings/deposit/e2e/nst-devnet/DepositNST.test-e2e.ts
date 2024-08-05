@@ -6,7 +6,7 @@ import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 import { Address, createPublicClient, erc20Abi, http } from 'viem'
-import { waitFor } from '@testing-library/react'
+import { waitFor } from '@/domain/tenderly/TenderlyVnetClient'
 
 test.describe('Deposit NST on NST DevNet', () => {
   const fork = setupFork({ chainId: NST_DEV_CHAIN_ID, simulationDateOverride: new Date('2024-08-05T10:43:19Z') })
@@ -84,9 +84,7 @@ test.describe('Deposit NST on NST DevNet', () => {
         balance: balance.toString(),
         rpcUrl: fork.forkUrl,
       })
-      if (balance.toString() !== '9896420000000000000000') {
-        throw new Error('Balance not updated')
-      }
+      return balance !== 0n
     })
 
     await savingsPage.expectSavingsNSTBalance({ sNstBalance: '9,896.42 sNST', estimatedNstValue: '10,000' })
