@@ -72,7 +72,9 @@ export type ActionHandlerState =
   | { status: 'ready' }
   | { status: 'loading' }
   | { status: 'success' }
-  | { status: 'error'; errorKind?: WriteErrorKind; message: string }
+  | { status: 'error'; errorKind?: ActionHandlerErrorKind; message: string }
+
+export type ActionHandlerErrorKind = 'initial-params' | WriteErrorKind | 'tx-verify'
 
 export interface ActionHandler {
   action: Action

@@ -1,4 +1,3 @@
-import { NATIVE_ASSET_MOCK_ADDRESS } from '@/config/consts'
 import { ensureConfigTypes, useWrite } from '@/domain/hooks/useWrite'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { allowance, allowanceQueryKey } from '@/domain/market-operations/allowance/query'
@@ -16,17 +15,16 @@ export interface ActionContext {
   wagmiConfig: Config
   account: Address
   chainId: number
-  enabled: boolean
 }
 
-type FetchActionDataQueryOptions = UseQueryOptions<any, Error, { canBeSkipped: boolean }, QueryKey>
-export type FetchActionDataResult = UseQueryResult<{ canBeSkipped: boolean }>
+type InitialParamsQueryOptions = UseQueryOptions<any, Error, { canBeSkipped: boolean }, QueryKey>
+export type InitialParamsQueryResult = UseQueryResult<{ canBeSkipped: boolean }>
 type VerifyTransactionQueryOptions = UseQueryOptions<any, Error, { success: boolean }, QueryKey>
 export type VerifyTransactionResult = UseQueryResult<{ success: boolean }>
 
 export interface ActionConfig {
-  actionDataQueryOptions: () => FetchActionDataQueryOptions
-  getWriteConfig: (actionData: FetchActionDataResult) => Parameters<typeof useWrite>[0]
+  initialParamsQueryOptions: () => InitialParamsQueryOptions
+  getWriteConfig: (initialParams: InitialParamsQueryResult) => Parameters<typeof useWrite>[0]
   verifyTransactionQueryOptions: () => VerifyTransactionQueryOptions
   invalidates: () => QueryKey[]
   beforeWriteCheck?: () => {}
@@ -37,10 +35,10 @@ export interface CreateApproveActionConfigParams {
 }
 
 export function createApproveActionConfig(action: ApproveAction, context: ActionContext): ActionConfig {
-  const { wagmiConfig, account, chainId, enabled } = context
+  const { wagmiConfig, account, chainId } = context
 
   return {
-    actionDataQueryOptions: () => {
+    initialParamsQueryOptions: () => {
       return queryOptions({
         ...allowance({
           token: action.token.address,
@@ -49,7 +47,6 @@ export function createApproveActionConfig(action: ApproveAction, context: Action
           account,
           chainId,
         }),
-        enabled: context.enabled,
         select: (data) => ({ canBeSkipped: data >= toBigInt(action.token.toBaseUnit(action.value)) }),
       })
     },
@@ -58,17 +55,12 @@ export function createApproveActionConfig(action: ApproveAction, context: Action
       const value = toBigInt(action.token.toBaseUnit(action.value))
       const token = action.token.address
 
-      const baseConfig = ensureConfigTypes({
+      return ensureConfigTypes({
         address: token,
         abi: normalizeErc20AbiForToken(chainId, token),
         functionName: 'approve',
         args: [action.spender, value],
       })
-
-      return {
-        ...baseConfig,
-        enabled: value > 0n && token !== NATIVE_ASSET_MOCK_ADDRESS && enabled,
-      }
     },
 
     verifyTransactionQueryOptions: () => {
@@ -80,7 +72,6 @@ export function createApproveActionConfig(action: ApproveAction, context: Action
           account,
           chainId,
         }),
-        enabled: context.enabled,
         select: (data) => ({ success: data >= toBigInt(action.token.toBaseUnit(action.value)) }),
       })
     },
