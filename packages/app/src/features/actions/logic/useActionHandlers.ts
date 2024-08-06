@@ -4,7 +4,6 @@ import { raise } from '@/utils/assert'
 import { useMemo, useRef } from 'react'
 import { useAccount, useChainId, useConfig } from 'wagmi'
 import { useCreateApproveDelegationHandler } from '../flavours/approve-delegation/useCreateApproveDelegationHandler'
-import { useAction } from '../flavours/approve/logic/useAction'
 import { useCreateApproveOrPermitHandler } from '../flavours/approve/logic/useCreateApproveOrPermitHandler'
 import { useCreateBorrowActionHandler } from '../flavours/borrow/useCreateBorrowHandler'
 import { useCreateClaimRewardsHandler } from '../flavours/claim-rewards/useCreateClaimRewardsHandler'
@@ -22,6 +21,7 @@ import { useCreateSetUserEModeHandler } from '../flavours/set-user-e-mode/useCre
 import { useCreateWithdrawHandler } from '../flavours/withdraw/useCreateWithdrawHandler'
 import { PermitStore, createPermitStore } from './permits'
 import { Action, ActionHandler, Objective } from './types'
+import { useAction } from './useAction'
 import { useCreateActions } from './useCreateActions'
 
 export interface UseActionHandlersOptions {

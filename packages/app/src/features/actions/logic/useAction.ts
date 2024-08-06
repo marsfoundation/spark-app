@@ -2,13 +2,8 @@ import { UseWriteResult, useWrite } from '@/domain/hooks/useWrite'
 import { Action, ActionHandler, ActionHandlerState } from '@/features/actions/logic/types'
 import { mapWriteResultToActionState } from '@/features/actions/logic/utils'
 import { skipToken, useQuery, useQueryClient } from '@tanstack/react-query'
-import {
-  ActionConfig,
-  ActionContext,
-  InitialParamsQueryResult,
-  VerifyTransactionResult,
-  createApproveActionConfig,
-} from './approve-action'
+import { createApproveActionConfig } from '../flavours/approve/logic/approve-action'
+import { ActionConfig, ActionContext, InitialParamsQueryResult, VerifyTransactionResult } from './types'
 
 export interface UseActionParams {
   context: ActionContext
