@@ -5,7 +5,7 @@ import { skipToken, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
   ActionConfig,
   ActionContext,
-  FetchActionDataResult,
+  InitialParamsQueryResult,
   VerifyTransactionResult,
   createApproveActionConfig,
 } from './approve-action'
@@ -13,25 +13,39 @@ import {
 export interface UseActionParams {
   context: ActionContext
   action: Action
+  enabled: boolean
 }
-export function useAction({ action, context }: UseActionParams): ActionHandler {
+export function useAction({ action, context, enabled }: UseActionParams): ActionHandler {
   const config = actionToConfig(action, context)
-  const { actionDataQueryOptions, getWriteConfig, verifyTransactionQueryOptions, invalidates } = config
+  const { initialParamsQueryOptions, getWriteConfig, verifyTransactionQueryOptions, invalidates } = config
 
   const queryClient = useQueryClient()
-  const actionData = useQuery(actionDataQueryOptions())
-  const write = useWrite(getWriteConfig(actionData), {
+
+  const initialParams = useQuery({
+    ...initialParamsQueryOptions(),
+    enabled,
+  })
+
+  const write = useWrite({
+    ...getWriteConfig(initialParams),
+    enabled,
+  },
+  {
     onTransactionSettled: () => {
       invalidates().map((queryKey) => void queryClient.invalidateQueries({ queryKey }))
     },
   })
-  const verifyTransactionData = useQuery(verifyTransactionQueryOptions())
+
+  const verifyTransactionData = useQuery({
+    ...verifyTransactionQueryOptions(),
+    enabled: enabled && write.status.kind === 'success',
+  })
 
   const state = mapStatusesToActionState({
-    actionData,
+    initialParams,
     write,
     verifyTransactionData,
-    enabled: context.enabled,
+    enabled,
   })
 
   return {
@@ -42,14 +56,14 @@ export function useAction({ action, context }: UseActionParams): ActionHandler {
 }
 
 interface MapStatusesToActionStateParams {
-  actionData: FetchActionDataResult
+  initialParams: InitialParamsQueryResult
   write: UseWriteResult
   verifyTransactionData: VerifyTransactionResult
   enabled: boolean
 }
 
 function mapStatusesToActionState({
-  actionData,
+  initialParams,
   write,
   verifyTransactionData,
   enabled,
@@ -58,15 +72,15 @@ function mapStatusesToActionState({
     return { status: 'disabled' }
   }
 
-  if (actionData.fetchStatus === 'fetching') {
+  if (initialParams.fetchStatus === 'fetching') {
     return { status: 'loading' }
   }
 
-  if (actionData.status === 'error') {
-    return { status: 'error', errorKind: 'simulation', message: actionData.error.message }
+  if (initialParams.status === 'error') {
+    return { status: 'error', errorKind: 'initial-params', message: initialParams.error.message }
   }
 
-  if (actionData.data?.canBeSkipped && actionData.fetchStatus === 'idle') {
+  if (initialParams.data?.canBeSkipped && initialParams.fetchStatus === 'idle') {
     return { status: 'success' }
   }
 
@@ -75,7 +89,7 @@ function mapStatusesToActionState({
   }
 
   if (verifyTransactionData.status === 'error') {
-    return { status: 'error', errorKind: 'tx-submission', message: verifyTransactionData.error.message }
+    return { status: 'error', errorKind: 'tx-verify', message: verifyTransactionData.error.message }
   }
 
   // Transaction result didn't reach it's objective,
@@ -98,7 +112,7 @@ function actionToConfig(action: Action, context: ActionContext): ActionConfig {
 
 function createEmptyActionConfig(): ActionConfig {
   return {
-    actionDataQueryOptions: () => ({ queryKey: [], queryFn: skipToken }),
+    initialParamsQueryOptions: () => ({ queryKey: [], queryFn: skipToken }),
     getWriteConfig: () => ({}),
     verifyTransactionQueryOptions: () => ({ queryKey: [], queryFn: skipToken }),
     invalidates: () => [],

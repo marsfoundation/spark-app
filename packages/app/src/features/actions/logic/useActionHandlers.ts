@@ -70,8 +70,8 @@ export function useActionHandlers(
         account: address ?? raise('Not connected'),
         chainId,
         wagmiConfig,
-        enabled: enabled && alreadySucceeded.current === false && nextOneToExecute,
       },
+      enabled: enabled && alreadySucceeded.current === false && nextOneToExecute,
     })
 
     const { permitSupport } = getChainConfigEntry(chainId)
