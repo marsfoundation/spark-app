@@ -56,10 +56,13 @@ export function useActionHandlers(
     const isLast = index === actions.length - 1
     const onFinish = isLast ? _onFinish : undefined
 
+    const { permitSupport } = getChainConfigEntry(chainId)
+    const useNewHandler = action.type === 'approve' && permitSupport[action.token.address] !== true
+
     // biome-ignore lint/correctness/useHookAtTopLevel:
     const legacyHandler = useCreateActionHandler(action, {
       enabled: enabled && alreadySucceeded.current === false && nextOneToExecute,
-      permitStore: actionsSettings.preferPermits ? permitStore : undefined,
+      permitStore: !useNewHandler && actionsSettings.preferPermits ? permitStore : undefined,
       onFinish,
     })
 
@@ -71,12 +74,10 @@ export function useActionHandlers(
         chainId,
         wagmiConfig,
       },
-      enabled: enabled && alreadySucceeded.current === false && nextOneToExecute,
+      enabled: useNewHandler && enabled && alreadySucceeded.current === false && nextOneToExecute,
     })
 
-    const { permitSupport } = getChainConfigEntry(chainId)
-    const handler =
-      action.type === 'approve' && permitSupport[action.token.address] !== true ? newHandler : legacyHandler
+    const handler = useNewHandler ? newHandler : legacyHandler
 
     if (alreadySucceeded.current) {
       handler.state.status = 'success'
