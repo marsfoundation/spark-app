@@ -1,6 +1,9 @@
 import { useActionsSettings } from '@/domain/state'
+import { raise } from '@/utils/assert'
 import { useMemo, useRef } from 'react'
+import { useAccount, useChainId, useConfig } from 'wagmi'
 import { useCreateApproveDelegationHandler } from '../flavours/approve-delegation/useCreateApproveDelegationHandler'
+import { useAction } from '../flavours/approve/logic/useAction'
 import { useCreateApproveOrPermitHandler } from '../flavours/approve/logic/useCreateApproveOrPermitHandler'
 import { useCreateBorrowActionHandler } from '../flavours/borrow/useCreateBorrowHandler'
 import { useCreateClaimRewardsHandler } from '../flavours/claim-rewards/useCreateClaimRewardsHandler'
@@ -19,6 +22,7 @@ import { useCreateWithdrawHandler } from '../flavours/withdraw/useCreateWithdraw
 import { PermitStore, createPermitStore } from './permits'
 import { Action, ActionHandler, Objective } from './types'
 import { useCreateActions } from './useCreateActions'
+import { getChainConfigEntry } from '@/config/chain'
 
 export interface UseActionHandlersOptions {
   onFinish?: () => void
@@ -38,6 +42,10 @@ export function useActionHandlers(
   const permitStore = useMemo(() => createPermitStore(), [])
   const actionsSettings = useActionsSettings()
 
+  const chainId = useChainId()
+  const { address } = useAccount()
+  const wagmiConfig = useConfig()
+
   // @note: we call react hooks in a loop but this is fine as actions should never change
   const handlers = actions.reduce((acc, action, index) => {
     const nextOneToExecute = index > 0 ? acc[acc.length - 1]!.state.status === 'success' : true
@@ -49,19 +57,33 @@ export function useActionHandlers(
     const onFinish = isLast ? _onFinish : undefined
 
     // biome-ignore lint/correctness/useHookAtTopLevel:
-    const handler = useCreateActionHandler(action, {
+    const legacyHandler = useCreateActionHandler(action, {
       enabled: enabled && alreadySucceeded.current === false && nextOneToExecute,
       permitStore: actionsSettings.preferPermits ? permitStore : undefined,
       onFinish,
     })
 
+    // biome-ignore lint/correctness/useHookAtTopLevel:
+    const newHandler = useAction({
+      action,
+      context: {
+        account: address ?? raise('Not connected'),
+        chainId,
+        wagmiConfig,
+        enabled: enabled && alreadySucceeded.current === false && nextOneToExecute,
+      },
+    })
+
     if (alreadySucceeded.current) {
-      handler.state.status = 'success'
+      legacyHandler.state.status = 'success'
     }
 
-    if (handler.state.status === 'success') {
+    if (legacyHandler.state.status === 'success') {
       alreadySucceeded.current = true
     }
+
+    const { permitSupport } = getChainConfigEntry(chainId)
+    const handler = action.type === 'approve' && permitSupport[action.token.address] !== true ? newHandler : legacyHandler
 
     return [...acc, handler]
   }, [] as ActionHandler[])
