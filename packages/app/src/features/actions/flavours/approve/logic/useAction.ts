@@ -26,15 +26,17 @@ export function useAction({ action, context, enabled }: UseActionParams): Action
     enabled,
   })
 
-  const write = useWrite({
-    ...getWriteConfig(initialParams),
-    enabled,
-  },
-  {
-    onTransactionSettled: () => {
-      invalidates().map((queryKey) => void queryClient.invalidateQueries({ queryKey }))
+  const write = useWrite(
+    {
+      ...getWriteConfig(initialParams),
+      enabled,
     },
-  })
+    {
+      onTransactionSettled: () => {
+        invalidates().map((queryKey) => void queryClient.invalidateQueries({ queryKey }))
+      },
+    },
+  )
 
   const verifyTransactionData = useQuery({
     ...verifyTransactionQueryOptions(),
