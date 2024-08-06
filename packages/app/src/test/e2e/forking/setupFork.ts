@@ -1,5 +1,6 @@
 import { Page, test } from '@playwright/test'
 
+import { NST_DEV_CHAIN_ID } from '@/config/chain/constants'
 import { tenderlyRpcActions } from '@/domain/tenderly/TenderlyRpcActions'
 import { http, createPublicClient } from 'viem'
 import { mainnet } from 'viem/chains'
@@ -28,22 +29,26 @@ export const _simulationDate = new Date('2024-06-04T10:21:19Z')
  * Fork is shared across the whole test file and is fixed to a single block number.
  * It's created once and deleted after all tests are finished but after each test it's reverted to the initial state.
  */
-export interface SetupForkOptions {
-  blockNumber: bigint
-  chainId: number
-  useTenderlyVnet?: boolean // vnets are more powerful forks alternative provided by Tenderly
-  simulationDateOverride?: Date
-}
+export type SetupForkOptions =
+  | {
+      blockNumber: bigint
+      chainId: 1 | 100
+      useTenderlyVnet?: boolean // vnets are more powerful forks alternative provided by Tenderly
+      simulationDateOverride?: Date
+    }
+  | {
+      chainId: typeof NST_DEV_CHAIN_ID
+      simulationDateOverride: Date
+    }
 
-export function setupFork({
-  blockNumber,
-  chainId,
-  simulationDateOverride,
-  useTenderlyVnet: isVnet = false,
-}: SetupForkOptions): ForkContext {
+export function setupFork(options: SetupForkOptions): ForkContext {
   const apiKey = processEnv('TENDERLY_API_KEY')
   const tenderlyAccount = processEnv('TENDERLY_ACCOUNT')
   const tenderlyProject = processEnv('TENDERLY_PROJECT')
+
+  const isVnet = options.chainId === NST_DEV_CHAIN_ID || !!options.useTenderlyVnet
+  const chainId = options.chainId
+  const simulationDateOverride = options.simulationDateOverride
 
   const forkService: ITestForkService = isVnet
     ? new TestTenderlyVnetService({ apiKey, account: tenderlyAccount, project: tenderlyProject })
@@ -71,11 +76,15 @@ export function setupFork({
   // @todo refactor after dropping tenderly fork support
 
   test.beforeAll(async () => {
-    forkContext.forkUrl = await forkService.createFork({
-      blockNumber,
-      originChainId: chainId,
-      forkChainId: chainId,
-    })
+    if (options.chainId !== NST_DEV_CHAIN_ID) {
+      forkContext.forkUrl = await forkService.createFork({
+        blockNumber: options.blockNumber,
+        originChainId: chainId,
+        forkChainId: chainId,
+      })
+    } else {
+      forkContext.forkUrl = await (forkService as TestTenderlyVnetService).cloneNSTFork()
+    }
 
     if (simulationDate) {
       const deltaTimeForward = Math.floor((simulationDate.getTime() - Date.now()) / 1000)
@@ -86,7 +95,8 @@ export function setupFork({
         transport: http(forkContext.forkUrl),
       })
 
-      const block = await client.getBlock({ blockNumber: blockNumber - 1n })
+      const latestBlock = await client.getBlock()
+      const block = await client.getBlock({ blockNumber: latestBlock.number - 1n })
       forkContext.simulationDate = new Date(Number(block.timestamp) * 1000)
       await tenderlyRpcActions.evmSetNextBlockTimestamp(forkContext.forkUrl, Number(block.timestamp))
     }

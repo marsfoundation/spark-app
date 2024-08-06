@@ -50,7 +50,7 @@ export function useSavingsDepositDialog({
   const { tokensInfo, inputTokens } = useSavingsTokens()
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')
-  const [savingsType, setSavingsType] = useState<'sdai' | 'snst'>('sdai')
+  const [upgradeSwitchChecked, setUpgradeSwitchChecked] = useState(true)
 
   const form = useForm<AssetInputSchema>({
     resolver: zodResolver(getSavingsDepositDialogFormValidator(tokensInfo)),
@@ -69,6 +69,23 @@ export function useSavingsDepositDialog({
     form,
     tokensInfo,
   })
+
+  const savingsType = (() => {
+    if (savingsDaiInfo && !savingsNstInfo) {
+      return 'sdai'
+    }
+    if (!savingsDaiInfo && savingsNstInfo) {
+      return 'snst'
+    }
+    // both are defined
+
+    if (formValues.token.symbol === tokensInfo.NST?.symbol) {
+      return 'snst' // do not handle case of downgrading sNST to DAI
+    }
+
+    return upgradeSwitchChecked ? 'snst' : 'sdai'
+  })()
+  const showUpgradeSwitch = !!savingsDaiInfo && !!savingsNstInfo && formValues.token.symbol !== tokensInfo.NST?.symbol
 
   const objectives = createObjectives({
     formValues,
@@ -102,9 +119,9 @@ export function useSavingsDepositDialog({
       goToSuccessScreen: () => setPageStatus('success'),
     },
     savingsNstSwitchInfo: {
-      showSwitch: !!savingsDaiInfo && !!savingsNstInfo,
-      checked: savingsType === 'snst',
-      onSwitch: () => setSavingsType((savingsType) => (savingsType === 'sdai' ? 'snst' : 'sdai')),
+      showSwitch: showUpgradeSwitch,
+      checked: upgradeSwitchChecked,
+      onSwitch: () => setUpgradeSwitchChecked((upgradeSwitchChecked) => !upgradeSwitchChecked),
     },
   }
 }

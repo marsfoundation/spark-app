@@ -1,5 +1,6 @@
 import { assets } from '@/ui/assets'
 import { Switch } from '@/ui/atoms/switch/Switch'
+import { testIds } from '@/ui/utils/testIds'
 
 export interface SavingsNSTSwitchProps {
   checked: boolean
@@ -15,7 +16,7 @@ export function SavingsNSTSwitch({ checked, onSwitch }: SavingsNSTSwitchProps) {
           Deposit into <span className="text-basics-green">Savings NST</span> and get more benefits!
         </div>
       </div>
-      <Switch checked={checked} onClick={onSwitch} />
+      <Switch checked={checked} onClick={onSwitch} data-testid={testIds.dialog.savings.upgradeSwitch} />
     </div>
   )
 }
