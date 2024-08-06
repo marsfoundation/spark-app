@@ -11,11 +11,12 @@ import { APYDetails, MakerBadge, RouteItem, TransactionOutcome, TransactionOverv
 export interface TransactionOverviewProps {
   txOverview: SavingsDialogTxOverview
   selectedToken: Token
+  showAPY?: boolean
 }
 
-export function TransactionOverview({ txOverview, selectedToken }: TransactionOverviewProps) {
+export function TransactionOverview({ txOverview, selectedToken, showAPY }: TransactionOverviewProps) {
   if (txOverview.status !== 'success') {
-    return <TransactionOverviewPlaceholder badgeToken={selectedToken} />
+    return <TransactionOverviewPlaceholder badgeToken={selectedToken} showAPY={showAPY} />
   }
   const { APY, baseStable, stableEarnRate, route, makerBadgeToken } = txOverview
 
@@ -26,9 +27,11 @@ export function TransactionOverview({ txOverview, selectedToken }: TransactionOv
   return (
     <DialogPanel>
       <DialogPanelTitle>Transaction overview</DialogPanelTitle>
-      <TransactionOverviewDetailsItem label="APY">
-        <APYDetails APY={APY} baseStable={baseStable} stableEarnRate={stableEarnRate} />
-      </TransactionOverviewDetailsItem>
+      {showAPY && (
+        <TransactionOverviewDetailsItem label="APY">
+          <APYDetails APY={APY} baseStable={baseStable} stableEarnRate={stableEarnRate} />
+        </TransactionOverviewDetailsItem>
+      )}
       <TransactionOverviewDetailsItem label="Route">
         <div className={cn('flex flex-col items-end gap-2', !displayRouteVertically && 'md:flex-row')}>
           {route.map((item, index) => (
@@ -58,15 +61,18 @@ export function TransactionOverview({ txOverview, selectedToken }: TransactionOv
 
 interface TransactionOverviewPlaceholder {
   badgeToken: Token
+  showAPY?: boolean
 }
-function TransactionOverviewPlaceholder({ badgeToken }: TransactionOverviewPlaceholder) {
+function TransactionOverviewPlaceholder({ badgeToken, showAPY }: TransactionOverviewPlaceholder) {
   const placeholder = '-'
   return (
     <DialogPanel>
       <DialogPanelTitle>Transaction overview</DialogPanelTitle>
-      <TransactionOverviewDetailsItem label="APY">
-        <div className="min-h-[46px]">{placeholder}</div>
-      </TransactionOverviewDetailsItem>
+      {showAPY && (
+        <TransactionOverviewDetailsItem label="APY">
+          <div className="min-h-[46px]">{placeholder}</div>
+        </TransactionOverviewDetailsItem>
+      )}
       <TransactionOverviewDetailsItem label="Route">
         <div className="flex min-h-[92px] flex-col items-end justify-between">
           <div>{placeholder}</div>
