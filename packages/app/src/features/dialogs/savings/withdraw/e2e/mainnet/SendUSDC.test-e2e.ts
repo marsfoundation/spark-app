@@ -83,7 +83,7 @@ test.describe('Send USDC on Mainnet', () => {
     })
 
     await sendDialog.clickBackToSavingsButton()
-    await savingsPage.expectSavingsBalance({ sDaiBalance: '3,561.43 sDAI', estimatedDaiValue: '3,871.98' })
+    await savingsPage.expectSavingsDAIBalance({ sDaiBalance: '3,561.43 sDAI', estimatedDaiValue: '3,871.98' })
     await savingsPage.expectCashInWalletAssetBalance('USDC', '-')
   })
 })

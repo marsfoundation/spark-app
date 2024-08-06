@@ -147,19 +147,33 @@ type SimplifiedWithdrawAction = BaseAction & {
   mode: 'send' | 'withdraw'
 }
 
+type SimplifiedGenericAction = BaseAction & {
+  type: Exclude<
+    ActionType,
+    | 'exchange'
+    | 'daiFromSDaiWithdraw'
+    | 'usdcFromSDaiWithdraw'
+    | 'xDaiFromSDaiWithdraw'
+    | 'makerStableToSavings'
+    | 'setUserEMode'
+  >
+}
+
 type SimplifiedSetUserEModeAction = {
   type: 'setUserEMode'
   eModeCategoryId: number
 }
 
-type SimplifiedGenericAction = BaseAction & {
-  type: Exclude<
-    ActionType,
-    'exchange' | 'daiFromSDaiWithdraw' | 'usdcFromSDaiWithdraw' | 'xDaiFromSDaiWithdraw' | 'setUserEMode'
-  >
+type SimplifiedMakerStableToSavingsAction = BaseAction & {
+  type: 'makerStableToSavings'
+  savingsAsset: string
 }
 
-type SimplifiedAction = SimplifiedGenericAction | SimplifiedWithdrawAction | SimplifiedSetUserEModeAction
+type SimplifiedAction =
+  | SimplifiedGenericAction
+  | SimplifiedWithdrawAction
+  | SimplifiedMakerStableToSavingsAction
+  | SimplifiedSetUserEModeAction
 
 function actionToTitle(action: SimplifiedAction): string {
   switch (action.type) {
@@ -182,6 +196,7 @@ function actionToTitle(action: SimplifiedAction): string {
     case 'setUserEMode':
       return action.eModeCategoryId === 0 ? 'Disable E-Mode' : 'Enable E-Mode'
     case 'makerStableToSavings':
+      return `Convert ${action.asset} to ${action.savingsAsset}`
     case 'usdcToSDaiDeposit':
     case 'xDaiToSDaiDeposit':
       return `Convert ${action.asset} to sDAI`
