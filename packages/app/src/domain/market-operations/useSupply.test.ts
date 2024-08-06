@@ -14,7 +14,7 @@ import { getTimestampInSeconds } from '@/utils/time'
 
 import { Token } from '../types/Token'
 import { TokenSymbol } from '../types/TokenSymbol'
-import { useDeposit } from './useDeposit'
+import { useSupply } from './useSupply'
 
 const asset = testAddresses.token
 const account = testAddresses.alice
@@ -22,7 +22,7 @@ const value = BaseUnitNumber(1)
 const referralCode = 0
 
 const hookRenderer = setupHookRenderer({
-  hook: useDeposit,
+  hook: useSupply,
   account,
   handlers: [handlers.chainIdCall({ chainId: mainnet.id }), handlers.balanceCall({ balance: 0n, address: account })],
   args: {
@@ -31,7 +31,7 @@ const hookRenderer = setupHookRenderer({
   },
 })
 
-describe(useDeposit.name, () => {
+describe(useSupply.name, () => {
   it('is not enabled for guest ', async () => {
     const { result } = hookRenderer({ account: undefined })
 
@@ -78,13 +78,13 @@ describe(useDeposit.name, () => {
     expect((result.current as any).error).toBeUndefined()
   })
 
-  it('deposits any token', async () => {
+  it('supplies any token', async () => {
     const { result } = hookRenderer({
       extraHandlers: [
         handlers.contractCall({
           to: lendingPoolAddress[mainnet.id],
           abi: poolAbi,
-          functionName: 'deposit',
+          functionName: 'supply',
           args: [asset, toBigInt(value), account, referralCode],
           from: account,
           result: undefined,
@@ -98,7 +98,7 @@ describe(useDeposit.name, () => {
     expect((result.current as any).error).toBeUndefined()
   })
 
-  it('deposits with permit', async () => {
+  it('supplies with permit', async () => {
     const random32Bytes = generatePrivateKey()
     const permitDeadline = new Date()
 
