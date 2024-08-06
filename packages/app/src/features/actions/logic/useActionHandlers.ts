@@ -1,3 +1,4 @@
+import { getChainConfigEntry } from '@/config/chain'
 import { useActionsSettings } from '@/domain/state'
 import { raise } from '@/utils/assert'
 import { useMemo, useRef } from 'react'
@@ -22,7 +23,6 @@ import { useCreateWithdrawHandler } from '../flavours/withdraw/useCreateWithdraw
 import { PermitStore, createPermitStore } from './permits'
 import { Action, ActionHandler, Objective } from './types'
 import { useCreateActions } from './useCreateActions'
-import { getChainConfigEntry } from '@/config/chain'
 
 export interface UseActionHandlersOptions {
   onFinish?: () => void
@@ -74,16 +74,17 @@ export function useActionHandlers(
       },
     })
 
+    const { permitSupport } = getChainConfigEntry(chainId)
+    const handler =
+      action.type === 'approve' && permitSupport[action.token.address] !== true ? newHandler : legacyHandler
+
     if (alreadySucceeded.current) {
-      legacyHandler.state.status = 'success'
+      handler.state.status = 'success'
     }
 
-    if (legacyHandler.state.status === 'success') {
+    if (handler.state.status === 'success') {
       alreadySucceeded.current = true
     }
-
-    const { permitSupport } = getChainConfigEntry(chainId)
-    const handler = action.type === 'approve' && permitSupport[action.token.address] !== true ? newHandler : legacyHandler
 
     return [...acc, handler]
   }, [] as ActionHandler[])
