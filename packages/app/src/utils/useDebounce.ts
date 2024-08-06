@@ -11,6 +11,8 @@ export interface UseDebounceResult<T> {
 
 /**
  * Since value might be a complex object and we don't want to do deep eq checks, we introduce key to indicate when value has changed.
+ * Works well with primitive values and plain objects.
+ * Doesn't work well with complex objects, e.g., with form from react-hook-form (form state is wrapped in a proxy).
  */
 export function useDebounce<T>(value: T, key: string, { delay = 300 }: UseDebounceOptions = {}): UseDebounceResult<T> {
   const [debouncedValue, setDebouncedValue] = useState(value)

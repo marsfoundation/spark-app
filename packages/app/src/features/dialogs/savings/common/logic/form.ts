@@ -49,14 +49,15 @@ export function useDebouncedDialogFormValues({
   tokensInfo,
 }: UseDebouncedDialogFormValuesArgs): UseDebouncedDialogFormValuesResult {
   const formValues = normalizeDialogFormValues(form.watch(), tokensInfo)
+  const isFormValid = form.formState.isValid
   const { debouncedValue, isDebouncing } = useDebounce(
-    { formValues, form },
-    getNormalizedDialogFormValuesKey(formValues),
+    { formValues, isFormValid },
+    getNormalizedDialogFormValuesKey(formValues) + isFormValid.toString(),
   )
 
   return {
     debouncedFormValues: debouncedValue.formValues,
-    isFormValid: debouncedValue.form.formState.isValid,
+    isFormValid: debouncedValue.isFormValid,
     isDebouncing,
   }
 }
