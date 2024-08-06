@@ -16,7 +16,7 @@ import { aaveDataLayerQueryKey } from '../market-info/aave-data-layer/query'
 import { getBalancesQueryKeyPrefix } from '../wallet/getBalancesQueryKeyPrefix'
 import { allowance } from './allowance/query'
 
-export type UseDepositArgs = {
+export type UseSupplyArgs = {
   asset: Address
   value: BaseUnitNumber
   permit?: Permit
@@ -24,13 +24,13 @@ export type UseDepositArgs = {
   enabled?: boolean
 }
 
-export function useDeposit({
+export function useSupply({
   asset,
   value: _value,
   permit,
   onTransactionSettled,
   enabled = true,
-}: UseDepositArgs): ReturnType<typeof useWrite> {
+}: UseSupplyArgs): ReturnType<typeof useWrite> {
   const client = useQueryClient()
 
   const { address: userAddress } = useAccount()
@@ -42,7 +42,7 @@ export function useDeposit({
   const referralCode = 0
   const value = toBigInt(_value)
 
-  const config = getDepositWriteConfig({
+  const config = getSupplyWriteConfig({
     asset,
     value,
     userAddress,
@@ -76,7 +76,7 @@ export function useDeposit({
   )
 }
 
-interface GetDepositWriteConfigArgs {
+interface GetSupplyWriteConfigArgs {
   asset: Address
   value: bigint
   userAddress?: Address
@@ -85,7 +85,7 @@ interface GetDepositWriteConfigArgs {
   referralCode: number
   permit?: Permit
 }
-function getDepositWriteConfig({
+function getSupplyWriteConfig({
   asset,
   value,
   userAddress,
@@ -93,7 +93,7 @@ function getDepositWriteConfig({
   wethGateway,
   referralCode,
   permit,
-}: GetDepositWriteConfigArgs): UseSimulateContractParameters<Abi, string> {
+}: GetSupplyWriteConfigArgs): UseSimulateContractParameters<Abi, string> {
   if (asset === NATIVE_ASSET_MOCK_ADDRESS) {
     return ensureConfigTypes({
       abi: wethGatewayConfig.abi,
@@ -125,7 +125,7 @@ function getDepositWriteConfig({
   return ensureConfigTypes({
     address: lendingPool,
     abi: poolAbi,
-    functionName: 'deposit',
+    functionName: 'supply',
     args: [asset, value, userAddress!, referralCode],
   })
 }
