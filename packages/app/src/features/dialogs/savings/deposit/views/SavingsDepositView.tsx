@@ -38,7 +38,7 @@ export function SavingsDepositView({
 
       <FormAndOverviewWrapper>
         <DialogForm form={form} assetsFields={assetsFields} selectorAssets={selectableAssets} />
-        <TransactionOverview txOverview={txOverview} selectedToken={assetsFields.selectedAsset.token} />
+        <TransactionOverview txOverview={txOverview} selectedToken={assetsFields.selectedAsset.token} showAPY />
       </FormAndOverviewWrapper>
 
       {savingsNstSwitchInfo.showSwitch && <SavingsNSTSwitch {...savingsNstSwitchInfo} />}

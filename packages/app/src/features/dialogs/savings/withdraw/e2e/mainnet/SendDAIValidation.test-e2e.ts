@@ -48,10 +48,6 @@ test.describe('Asset input validation', () => {
 
     test('displays sensible tx overview', async () => {
       await sendDialog.expectNativeRouteTransactionOverview({
-        apy: {
-          value: '5.00%',
-          description: '~10.00 DAI per year',
-        },
         routeItems: [
           {
             tokenAmount: '189.92 sDAI',
@@ -155,10 +151,6 @@ test.describe('Receiver input validation', () => {
     test('displays sensible tx overview when amount is provided and receiver is invalid', async () => {
       await sendDialog.fillReceiverAction('not-an-address')
       await sendDialog.expectNativeRouteTransactionOverview({
-        apy: {
-          value: '5.00%',
-          description: '~2.50 DAI per year',
-        },
         routeItems: [
           {
             tokenAmount: '47.48 sDAI',

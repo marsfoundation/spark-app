@@ -45,10 +45,6 @@ test.describe('Send USDC on Mainnet', () => {
 
   test('displays transaction overview', async () => {
     await sendDialog.expectNativeRouteTransactionOverview({
-      apy: {
-        value: '8.00%',
-        description: '~560.00 DAI per year',
-      },
       routeItems: [
         {
           tokenAmount: '6,438.57 sDAI',

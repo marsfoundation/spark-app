@@ -45,10 +45,6 @@ test.describe('Withdraw USDC on Mainnet', () => {
 
   test('displays transaction overview', async () => {
     await withdrawalDialog.expectNativeRouteTransactionOverview({
-      apy: {
-        value: '8.00%',
-        description: '~557.52 DAI per year',
-      },
       routeItems: [
         {
           tokenAmount: '6,408.90 sDAI',

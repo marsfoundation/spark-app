@@ -44,10 +44,6 @@ test.describe('Withdraw XDAI on Gnosis', () => {
 
   test('displays transaction overview', async () => {
     await withdrawalDialog.expectNativeRouteTransactionOverview({
-      apy: {
-        value: '10.60%',
-        description: '~741.86 XDAI per year',
-      },
       routeItems: [
         {
           tokenAmount: '6,434.95 sDAI',

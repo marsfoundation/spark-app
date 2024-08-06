@@ -76,10 +76,12 @@ export class SavingsDialogPageObject extends DialogPageObject {
     await expect(panel).toBeVisible()
     const txOverviewTestIds = testIds.dialog.savings.nativeRouteTransactionOverview
 
-    const apyValue = panel.getByTestId(txOverviewTestIds.apy.value)
-    const apyDescription = panel.getByTestId(txOverviewTestIds.apy.description)
-    await expect(apyValue).toContainText(transactionOverview.apy.value)
-    await expect(apyDescription).toContainText(transactionOverview.apy.description)
+    if (transactionOverview.apy) {
+      const apyValue = panel.getByTestId(txOverviewTestIds.apy.value)
+      const apyDescription = panel.getByTestId(txOverviewTestIds.apy.description)
+      await expect(apyValue).toContainText(transactionOverview.apy.value)
+      await expect(apyDescription).toContainText(transactionOverview.apy.description)
+    }
 
     for (const [index, { tokenAmount: tokenWithAmount, tokenUsdValue }] of transactionOverview.routeItems.entries()) {
       const routeItem = panel.getByTestId(txOverviewTestIds.routeItem.tokenWithAmount(index))
@@ -147,7 +149,7 @@ export class SavingsDialogPageObject extends DialogPageObject {
 type TransactionOverview = [string, string][]
 
 interface NativeRouteTransactionOverview {
-  apy: {
+  apy?: {
     value: string
     description: string
   }

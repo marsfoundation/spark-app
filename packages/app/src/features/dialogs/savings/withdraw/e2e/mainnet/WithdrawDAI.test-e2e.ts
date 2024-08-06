@@ -40,10 +40,6 @@ test.describe('Withdraw DAI on Mainnet', () => {
 
   test('displays transaction overview', async () => {
     await withdrawalDialog.expectNativeRouteTransactionOverview({
-      apy: {
-        value: '5.00%',
-        description: '~350.00 DAI per year',
-      },
       routeItems: [
         {
           tokenAmount: '6,532.86 sDAI',
@@ -108,10 +104,6 @@ test.describe('Validation', () => {
 
     test('displays sensible tx overview', async () => {
       await withdrawalDialog.expectNativeRouteTransactionOverview({
-        apy: {
-          value: '5.00%',
-          description: '~10.00 DAI per year',
-        },
         routeItems: [
           {
             tokenAmount: '186.65 sDAI',
