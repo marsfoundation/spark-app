@@ -39,7 +39,7 @@ test.describe('Savings deposit dialog', () => {
       await actionsContainer.expectEnabledActionAtIndex(0)
       await actionsContainer.expectActions([
         { type: 'approve', asset: 'DAI' },
-        { type: 'makerStableToSavings', asset: 'DAI' },
+        { type: 'makerStableToSavings', asset: 'DAI', savingsAsset: 'sDAI' },
       ])
 
       await depositDialog.selectAssetAction('USDC')
@@ -55,7 +55,7 @@ test.describe('Savings deposit dialog', () => {
       await actionsContainer.expectEnabledActionAtIndex(0)
       await actionsContainer.expectActions([
         { type: 'approve', asset: 'DAI' },
-        { type: 'makerStableToSavings', asset: 'DAI' },
+        { type: 'makerStableToSavings', asset: 'DAI', savingsAsset: 'sDAI' },
       ])
     })
   })

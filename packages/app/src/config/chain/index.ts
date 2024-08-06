@@ -155,7 +155,7 @@ export function getChainConfigEntry(chainId: number): ChainConfigEntry {
   const sandboxConfig = useStore.getState().appConfig.sandbox
   const sandbox = useStore.getState().sandbox.network
 
-  if (chainId === NST_DEV_CHAIN_ID) {
+  if (typeof import.meta.env.VITE_DEV_NST_NETWORK_RPC_URL === 'string' && chainId === NST_DEV_CHAIN_ID) {
     const mainnetConfig = chainConfig[mainnet.id]
     return {
       ...mainnetConfig,

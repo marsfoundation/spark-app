@@ -1,18 +1,13 @@
+import { NST_DEV_CHAIN_ID } from '@/config/chain/constants'
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { PSM_ACTIONS_DEPLOYED, PSM_ACTIONS_DEPLOYED_DATE } from '@/test/e2e/constants'
 import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
-import { mainnet } from 'viem/chains'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 
-test.describe('Deposit USDC on Mainnet', () => {
-  const fork = setupFork({
-    blockNumber: PSM_ACTIONS_DEPLOYED,
-    simulationDateOverride: PSM_ACTIONS_DEPLOYED_DATE,
-    chainId: mainnet.id,
-  })
+test.describe('Deposit NST on NST DevNet', () => {
+  const fork = setupFork({ chainId: NST_DEV_CHAIN_ID, simulationDateOverride: new Date('2024-08-05T10:43:19Z') })
   let savingsPage: SavingsPageObject
   let depositDialog: SavingsDialogPageObject
 
@@ -23,58 +18,56 @@ test.describe('Deposit USDC on Mainnet', () => {
         type: 'connected-random',
         assetBalances: {
           ETH: 1,
-          USDC: 10_000,
+          NST: 10_000,
         },
       },
     })
 
     savingsPage = new SavingsPageObject(page)
-    await savingsPage.clickDepositButtonAction('USDC')
+    await savingsPage.clickDepositButtonAction('NST')
 
     depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
     await depositDialog.fillAmountAction(10_000)
   })
 
-  test('uses PSM actions native deposit', async () => {
+  test('uses native sNST deposit', async () => {
     await depositDialog.actionsContainer.expectActions([
-      { type: 'approve', asset: 'USDC' },
-      { type: 'usdcToSDaiDeposit', asset: 'USDC' },
+      { type: 'approve', asset: 'NST' },
+      { type: 'makerStableToSavings', asset: 'NST', savingsAsset: 'sNST' },
     ])
   })
 
   test('displays transaction overview', async () => {
     await depositDialog.expectNativeRouteTransactionOverview({
       apy: {
-        value: '8.00%',
-        description: '~800.00 DAI per year',
+        value: '5.00%',
+        description: '~500.00 NST per year',
       },
       routeItems: [
         {
-          tokenAmount: '10,000.00 USDC',
+          tokenAmount: '10,000.00 NST',
           tokenUsdValue: '$10,000.00',
         },
         {
-          tokenAmount: '10,000.00 DAI',
-          tokenUsdValue: '$10,000.00',
-        },
-        {
-          tokenAmount: '9,196.30 sDAI',
+          tokenAmount: '9,896.42 sNST',
           tokenUsdValue: '$10,000.00',
         },
       ],
-      outcome: '9,196.30 sDAI worth $10,000.00',
-      badgeToken: 'USDC',
+      outcome: '9,896.42 sNST worth $10,000.00',
+      badgeToken: 'NST',
     })
+
+    await depositDialog.expectUpgradeSwitchToBeHidden()
   })
 
   test('executes deposit', async () => {
     const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
-    await actionsContainer.acceptAllActionsAction(2)
+    await actionsContainer.acceptAllActionsAction(2, fork)
 
     await depositDialog.expectSuccessPage()
     await depositDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsDAIBalance({ sDaiBalance: '9,196.30 sDAI', estimatedDaiValue: '10,000' })
-    await savingsPage.expectCashInWalletAssetBalance('USDC', '-')
+    await savingsPage.expectSavingsNSTBalance({ sNstBalance: '9,896.42 sNST', estimatedNstValue: '10,000' })
+    await savingsPage.expectCashInWalletAssetBalance('NST', '-')
   })
 })

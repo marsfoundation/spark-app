@@ -75,7 +75,7 @@ test.describe('Withdraw USDC on Mainnet', () => {
     await withdrawalDialog.expectSuccessPage()
     await withdrawalDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsBalance({ sDaiBalance: '3,591.10 sDAI', estimatedDaiValue: '3,904.93' })
+    await savingsPage.expectSavingsDAIBalance({ sDaiBalance: '3,591.10 sDAI', estimatedDaiValue: '3,904.93' })
     await savingsPage.expectCashInWalletAssetBalance('USDC', '6,969.00')
   })
 })

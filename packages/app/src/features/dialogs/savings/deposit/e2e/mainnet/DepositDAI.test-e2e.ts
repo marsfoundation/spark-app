@@ -35,7 +35,7 @@ test.describe('Deposit DAI on Mainnet', () => {
   test('uses native sDai deposit', async () => {
     await depositDialog.actionsContainer.expectActions([
       { type: 'approve', asset: 'DAI' },
-      { type: 'makerStableToSavings', asset: 'DAI' },
+      { type: 'makerStableToSavings', asset: 'DAI', savingsAsset: 'sDAI' },
     ])
   })
 
@@ -67,7 +67,7 @@ test.describe('Deposit DAI on Mainnet', () => {
     await depositDialog.expectSuccessPage()
     await depositDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsBalance({ sDaiBalance: '9,495.85 sDAI', estimatedDaiValue: '10,000' })
+    await savingsPage.expectSavingsDAIBalance({ sDaiBalance: '9,495.85 sDAI', estimatedDaiValue: '10,000' })
     await savingsPage.expectCashInWalletAssetBalance('DAI', '-')
   })
 })
@@ -104,7 +104,7 @@ test.describe('Validation', () => {
     test('actions are disabled', async () => {
       await depositDialog.actionsContainer.expectDisabledActions([
         { type: 'approve', asset: 'DAI' },
-        { type: 'makerStableToSavings', asset: 'DAI' },
+        { type: 'makerStableToSavings', asset: 'DAI', savingsAsset: 'sDAI' },
       ])
     })
 
