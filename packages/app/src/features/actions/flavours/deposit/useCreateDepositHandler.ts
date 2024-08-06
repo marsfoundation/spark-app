@@ -1,5 +1,4 @@
-import { useDeposit } from '@/domain/market-operations/useDeposit'
-
+import { useSupply } from '@/domain/market-operations/useSupply'
 import { PermitStore } from '../../logic/permits'
 import { ActionHandler } from '../../logic/types'
 import { mapWriteResultToActionState } from '../../logic/utils'
@@ -15,7 +14,7 @@ export function useCreateDepositHandler(action: DepositAction, options: UseCreat
   const { enabled, permitStore, onFinish } = options
   const permit = permitStore?.find(action.token)
 
-  const deposit = useDeposit({
+  const deposit = useSupply({
     asset: action.token.address,
     value: action.token.toBaseUnit(action.value),
     permit,

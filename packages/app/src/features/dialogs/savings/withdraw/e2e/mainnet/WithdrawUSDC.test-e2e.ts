@@ -45,10 +45,6 @@ test.describe('Withdraw USDC on Mainnet', () => {
 
   test('displays transaction overview', async () => {
     await withdrawalDialog.expectNativeRouteTransactionOverview({
-      apy: {
-        value: '8.00%',
-        description: '~557.52 DAI per year',
-      },
       routeItems: [
         {
           tokenAmount: '6,408.90 sDAI',
@@ -75,7 +71,7 @@ test.describe('Withdraw USDC on Mainnet', () => {
     await withdrawalDialog.expectSuccessPage()
     await withdrawalDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsBalance({ sDaiBalance: '3,591.10 sDAI', estimatedDaiValue: '3,904.93' })
+    await savingsPage.expectSavingsDAIBalance({ sDaiBalance: '3,591.10 sDAI', estimatedDaiValue: '3,904.93' })
     await savingsPage.expectCashInWalletAssetBalance('USDC', '6,969.00')
   })
 })

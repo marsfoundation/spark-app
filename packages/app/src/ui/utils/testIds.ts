@@ -85,6 +85,7 @@ export const testIds = makeTestIds({
       send: {
         addressIsSmartContractWarning: true,
       },
+      upgradeSwitch: true,
     },
     depositSavings: {
       transactionDetailsRow: (index: number) => index,

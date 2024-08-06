@@ -1,6 +1,6 @@
 import { getBalance, getTokenBalance } from '@/test/e2e/utils'
 import { testIds } from '@/ui/utils/testIds'
-import { Page, expect } from '@playwright/test'
+import { Locator, Page, expect } from '@playwright/test'
 import { Address } from 'viem'
 import { DialogPageObject } from '../../../common/Dialog.PageObject'
 
@@ -14,6 +14,12 @@ export class SavingsDialogPageObject extends DialogPageObject {
     )
     this.type = type
   }
+
+  // # region locators
+  locateUpgradeSwitch(): Locator {
+    return this.page.getByTestId(testIds.dialog.savings.upgradeSwitch)
+  }
+  // #endregion locators
 
   // #region actions
   async clickBackToSavingsButton(): Promise<void> {
@@ -70,10 +76,12 @@ export class SavingsDialogPageObject extends DialogPageObject {
     await expect(panel).toBeVisible()
     const txOverviewTestIds = testIds.dialog.savings.nativeRouteTransactionOverview
 
-    const apyValue = panel.getByTestId(txOverviewTestIds.apy.value)
-    const apyDescription = panel.getByTestId(txOverviewTestIds.apy.description)
-    await expect(apyValue).toContainText(transactionOverview.apy.value)
-    await expect(apyDescription).toContainText(transactionOverview.apy.description)
+    if (transactionOverview.apy) {
+      const apyValue = panel.getByTestId(txOverviewTestIds.apy.value)
+      const apyDescription = panel.getByTestId(txOverviewTestIds.apy.description)
+      await expect(apyValue).toContainText(transactionOverview.apy.value)
+      await expect(apyDescription).toContainText(transactionOverview.apy.description)
+    }
 
     for (const [index, { tokenAmount: tokenWithAmount, tokenUsdValue }] of transactionOverview.routeItems.entries()) {
       const routeItem = panel.getByTestId(txOverviewTestIds.routeItem.tokenWithAmount(index))
@@ -131,13 +139,17 @@ export class SavingsDialogPageObject extends DialogPageObject {
     const currentTokenBalance = await getTokenBalance({ forkUrl, address: receiver, token })
     expect(currentTokenBalance.isEqualTo(expectedBalance)).toBe(true)
   }
+
+  expectUpgradeSwitchToBeHidden(): Promise<void> {
+    return expect(this.locateUpgradeSwitch()).toBeHidden()
+  }
   // #endregion assertions
 }
 
 type TransactionOverview = [string, string][]
 
 interface NativeRouteTransactionOverview {
-  apy: {
+  apy?: {
     value: string
     description: string
   }

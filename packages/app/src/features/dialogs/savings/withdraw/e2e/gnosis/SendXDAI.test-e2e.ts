@@ -43,10 +43,6 @@ test.describe('Send XDAI on Gnosis', () => {
 
   test('displays transaction overview', async () => {
     await sendDialog.expectNativeRouteTransactionOverview({
-      apy: {
-        value: '10.60%',
-        description: '~741.86 XDAI per year',
-      },
       routeItems: [
         {
           tokenAmount: '6,434.95 sDAI',
@@ -79,7 +75,7 @@ test.describe('Send XDAI on Gnosis', () => {
     })
 
     await sendDialog.clickBackToSavingsButton()
-    await savingsPage.expectSavingsBalance({ sDaiBalance: '3,565.05 sDAI', estimatedDaiValue: '3,878.094168' })
+    await savingsPage.expectSavingsDAIBalance({ sDaiBalance: '3,565.05 sDAI', estimatedDaiValue: '3,878.094168' })
     await savingsPage.expectCashInWalletAssetBalance('XDAI', '100')
   })
 })

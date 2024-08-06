@@ -40,10 +40,6 @@ test.describe('Withdraw DAI on Mainnet', () => {
 
   test('displays transaction overview', async () => {
     await withdrawalDialog.expectNativeRouteTransactionOverview({
-      apy: {
-        value: '5.00%',
-        description: '~350.00 DAI per year',
-      },
       routeItems: [
         {
           tokenAmount: '6,532.86 sDAI',
@@ -66,7 +62,7 @@ test.describe('Withdraw DAI on Mainnet', () => {
     await withdrawalDialog.expectSuccessPage()
     await withdrawalDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsBalance({ sDaiBalance: '3,467.14 sDAI', estimatedDaiValue: '3,715.05' })
+    await savingsPage.expectSavingsDAIBalance({ sDaiBalance: '3,467.14 sDAI', estimatedDaiValue: '3,715.05' })
     await savingsPage.expectCashInWalletAssetBalance('DAI', '7,000.00')
   })
 })
@@ -108,10 +104,6 @@ test.describe('Validation', () => {
 
     test('displays sensible tx overview', async () => {
       await withdrawalDialog.expectNativeRouteTransactionOverview({
-        apy: {
-          value: '5.00%',
-          description: '~10.00 DAI per year',
-        },
         routeItems: [
           {
             tokenAmount: '186.65 sDAI',

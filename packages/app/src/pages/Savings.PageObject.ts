@@ -59,7 +59,7 @@ export class SavingsPageObject extends BasePageObject {
     await expect(this.locatePanelByHeader('Savings DAI').getByText(approximateValue)).toBeVisible()
   }
 
-  async expectSavingsBalance({
+  async expectSavingsDAIBalance({
     sDaiBalance,
     estimatedDaiValue,
   }: { sDaiBalance: string; estimatedDaiValue: string }): Promise<void> {
@@ -68,6 +68,18 @@ export class SavingsPageObject extends BasePageObject {
     )
     await expect(this.locatePanelByHeader('Savings DAI').getByTestId(testIds.savings.sDaiBalanceInDai)).toContainText(
       estimatedDaiValue,
+    )
+  }
+
+  async expectSavingsNSTBalance({
+    sNstBalance,
+    estimatedNstValue,
+  }: { sNstBalance: string; estimatedNstValue: string }): Promise<void> {
+    await expect(this.locatePanelByHeader('Savings NST').getByTestId(testIds.savings.sDaiBalance)).toHaveText(
+      sNstBalance,
+    )
+    await expect(this.locatePanelByHeader('Savings NST').getByTestId(testIds.savings.sDaiBalanceInDai)).toContainText(
+      estimatedNstValue,
     )
   }
 
