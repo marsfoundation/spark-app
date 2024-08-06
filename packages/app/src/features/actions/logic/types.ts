@@ -1,4 +1,9 @@
-import { WriteErrorKind } from '@/domain/hooks/useWrite'
+import { WriteErrorKind, useWrite } from '@/domain/hooks/useWrite'
+import { MarketInfo } from '@/domain/market-info/marketInfo'
+import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
+import { QueryKey, UseQueryOptions, UseQueryResult } from '@tanstack/react-query'
+import { Address } from 'viem'
+import { Config } from 'wagmi'
 import { ApproveDelegationAction } from '../flavours/approve-delegation/types'
 import { ApproveAction } from '../flavours/approve/types'
 import { BorrowAction, BorrowObjective } from '../flavours/borrow/types'
@@ -80,4 +85,25 @@ export interface ActionHandler {
   action: Action
   state: ActionHandlerState
   onAction: () => void
+}
+
+export interface ActionContext {
+  marketInfo?: MarketInfo
+  tokensInfo?: TokensInfo
+  wagmiConfig: Config
+  account: Address
+  chainId: number
+}
+
+type InitialParamsQueryOptions = UseQueryOptions<any, Error, { canBeSkipped: boolean }, QueryKey>
+export type InitialParamsQueryResult = UseQueryResult<{ canBeSkipped: boolean }>
+type VerifyTransactionQueryOptions = UseQueryOptions<any, Error, { success: boolean }, QueryKey>
+export type VerifyTransactionResult = UseQueryResult<{ success: boolean }>
+
+export interface ActionConfig {
+  initialParamsQueryOptions: () => InitialParamsQueryOptions
+  getWriteConfig: (initialParams: InitialParamsQueryResult) => Parameters<typeof useWrite>[0]
+  verifyTransactionQueryOptions: () => VerifyTransactionQueryOptions
+  invalidates: () => QueryKey[]
+  beforeWriteCheck?: () => {}
 }
