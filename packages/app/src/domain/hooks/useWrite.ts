@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useRef } from 'react'
 import { Abi, ContractFunctionName, encodeFunctionData } from 'viem'
 import {
   Config,
@@ -90,9 +90,10 @@ export function useWrite<TAbi extends Abi, TFunctionName extends ContractFunctio
   })
   const txSubmissionError = enabled ? _txSubmissionError : undefined
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  useEffect(() => {
+  const prevTxReceipt = useRef(txReceipt)
+  if (prevTxReceipt.current !== txReceipt) {
     if (txReceipt) {
+      // fetched new tx receipt
       callbacks.onTransactionSettled?.()
 
       if (import.meta.env.VITE_PLAYWRIGHT === '1') {
@@ -100,7 +101,8 @@ export function useWrite<TAbi extends Abi, TFunctionName extends ContractFunctio
         storeRequest(parameters?.request)
       }
     }
-  }, [txReceipt])
+  }
+  prevTxReceipt.current = txReceipt
 
   const status = ((): WriteStatus => {
     if (!enabled) {
