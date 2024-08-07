@@ -104,9 +104,9 @@ function mapStatusesToActionState({
   // Transaction result didn't reach it's objective,
   // for instance user went through the approval flow but manually tweaked approval level
   // and it's still too low
-  if (write.status.kind === 'success' && verifyTransactionData.data?.success === false) {
-    return { status: 'ready' }
-  }
+  // if (write.status.kind === 'success' &&  verifyTransactionData.data?.success === false) {
+  //   return { status: 'ready' }
+  // }
 
   return mapWriteResultToActionState(write)
 }
