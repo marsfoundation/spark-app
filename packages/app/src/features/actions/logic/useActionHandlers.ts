@@ -1,7 +1,7 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { useActionsSettings } from '@/domain/state'
 import { raise } from '@/utils/assert'
-import { useMemo, useRef, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useAccount, useChainId, useConfig } from 'wagmi'
 import { useCreateApproveDelegationHandler } from '../flavours/approve-delegation/useCreateApproveDelegationHandler'
 import { useCreateApproveOrPermitHandler } from '../flavours/approve/logic/useCreateApproveOrPermitHandler'
