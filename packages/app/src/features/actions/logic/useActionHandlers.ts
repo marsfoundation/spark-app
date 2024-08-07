@@ -56,26 +56,17 @@ export function useActionHandlers(
 
   // @note: we call react hooks in a loop but this is'disabled'ne as actions should never change
   const handlers = actions.reduce((acc, action, index) => {
-    const nextOneToExecute = index > 0 ? acc[acc.length - 1]!.state.status === 'success' : true
-    // If succeeded once, don't try again. Further actions can invalidate previous actions (for example deposit will invalidate previous approvals)
-    // biome-ignore lint/correctness/useHookAtTopLevel:
-    const alreadySucceeded = useRef(false)
-
     const useNewHandler =
       (action.type === 'approve' && permitSupport[action.token.address] !== true) || action.type === 'deposit'
 
     // biome-ignore lint/correctness/useHookAtTopLevel:
     const handler = useCreateActionHandler(action, {
-      enabled: !useNewHandler && enabled && alreadySucceeded.current === false && nextOneToExecute,
+      enabled: !useNewHandler && enabled && index === currentActionIndex,
       permitStore: actionsSettings.preferPermits ? permitStore : undefined,
     })
 
-    if (alreadySucceeded.current) {
+    if (index < currentActionIndex) {
       handler.state.status = 'success'
-    }
-
-    if (handler.state.status === 'success') {
-      alreadySucceeded.current = true
     }
 
     return [...acc, handler]
