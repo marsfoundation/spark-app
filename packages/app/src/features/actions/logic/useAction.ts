@@ -1,8 +1,15 @@
 import { UseWriteResult, useWrite } from '@/domain/hooks/useWrite'
-import { Action, ActionHandler, ActionHandlerState } from '@/features/actions/logic/types'
+import {
+  Action,
+  ActionHandler,
+  ActionHandlerState,
+  InitialParamsBase,
+  VerifyTransactionResultBase,
+} from '@/features/actions/logic/types'
 import { mapWriteResultToActionState } from '@/features/actions/logic/utils'
-import { skipToken, useQuery, useQueryClient } from '@tanstack/react-query'
+import { QueryKey, queryOptions, skipToken, useQuery, useQueryClient } from '@tanstack/react-query'
 import { createApproveActionConfig } from '../flavours/approve/logic/approve-action'
+import { createDepositActionConfig } from '../flavours/deposit/deposit-action'
 import { ActionConfig, ActionContext, InitialParamsQueryResult, VerifyTransactionResult } from './types'
 
 export interface UseActionParams {
@@ -12,7 +19,12 @@ export interface UseActionParams {
 }
 export function useAction({ action, context, enabled }: UseActionParams): ActionHandler {
   const config = actionToConfig(action, context)
-  const { initialParamsQueryOptions, getWriteConfig, verifyTransactionQueryOptions, invalidates } = config
+  const {
+    initialParamsQueryOptions = defaultInitialParamsQueryOptions,
+    getWriteConfig,
+    verifyTransactionQueryOptions = defaultVerifyTransactionQueryOptions,
+    invalidates,
+  } = config
 
   const queryClient = useQueryClient()
 
@@ -104,6 +116,10 @@ function actionToConfig(action: Action, context: ActionContext): ActionConfig {
     return createApproveActionConfig(action, context)
   }
 
+  if (action.type === 'deposit') {
+    return createDepositActionConfig(action, context)
+  }
+
   return createEmptyActionConfig()
 }
 
@@ -114,4 +130,20 @@ function createEmptyActionConfig(): ActionConfig {
     verifyTransactionQueryOptions: () => ({ queryKey: [], queryFn: skipToken }),
     invalidates: () => [],
   }
+}
+
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+function defaultInitialParamsQueryOptions() {
+  return queryOptions<InitialParamsBase>({
+    queryKey: ['default-initial-params'] as QueryKey,
+    queryFn: () => ({ canBeSkipped: false }),
+  })
+}
+
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+function defaultVerifyTransactionQueryOptions() {
+  return queryOptions<VerifyTransactionResultBase>({
+    queryKey: ['default-verify-transaction'] as QueryKey,
+    queryFn: () => ({ success: true }),
+  })
 }

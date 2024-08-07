@@ -32,6 +32,7 @@ import { RepayAction, RepayObjective } from '../flavours/repay/types'
 import { SetUseAsCollateralAction, SetUseAsCollateralObjective } from '../flavours/set-use-as-collateral/types'
 import { SetUserEModeAction, SetUserEModeObjective } from '../flavours/set-user-e-mode/types'
 import { WithdrawAction, WithdrawObjective } from '../flavours/withdraw/types'
+import { PermitStore } from './permits'
 
 /**
  * Objective is an input to action component. It is a high level description of what user wants to do.
@@ -90,20 +91,24 @@ export interface ActionHandler {
 export interface ActionContext {
   marketInfo?: MarketInfo
   tokensInfo?: TokensInfo
+  permitStore?: PermitStore
   wagmiConfig: Config
   account: Address
   chainId: number
 }
 
-type InitialParamsQueryOptions = UseQueryOptions<any, Error, { canBeSkipped: boolean }, QueryKey>
-export type InitialParamsQueryResult = UseQueryResult<{ canBeSkipped: boolean }>
-type VerifyTransactionQueryOptions = UseQueryOptions<any, Error, { success: boolean }, QueryKey>
-export type VerifyTransactionResult = UseQueryResult<{ success: boolean }>
+export type InitialParamsBase = { canBeSkipped: boolean }
+export type VerifyTransactionResultBase = { success: boolean }
+
+type InitialParamsQueryOptions = UseQueryOptions<any, Error, InitialParamsBase, QueryKey>
+export type InitialParamsQueryResult = UseQueryResult<InitialParamsBase>
+type VerifyTransactionQueryOptions = UseQueryOptions<any, Error, VerifyTransactionResultBase, QueryKey>
+export type VerifyTransactionResult = UseQueryResult<VerifyTransactionResultBase>
 
 export interface ActionConfig {
-  initialParamsQueryOptions: () => InitialParamsQueryOptions
+  initialParamsQueryOptions?: () => InitialParamsQueryOptions
   getWriteConfig: (initialParams: InitialParamsQueryResult) => Parameters<typeof useWrite>[0]
-  verifyTransactionQueryOptions: () => VerifyTransactionQueryOptions
+  verifyTransactionQueryOptions?: () => VerifyTransactionQueryOptions
   invalidates: () => QueryKey[]
   beforeWriteCheck?: () => {}
 }

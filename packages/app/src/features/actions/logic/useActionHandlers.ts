@@ -53,17 +53,14 @@ export function useActionHandlers(
     // biome-ignore lint/correctness/useHookAtTopLevel:
     const alreadySucceeded = useRef(false)
 
-    const isLast = index === actions.length - 1
-    const onFinish = isLast ? _onFinish : undefined
-
     const { permitSupport } = getChainConfigEntry(chainId)
-    const useNewHandler = action.type === 'approve' && permitSupport[action.token.address] !== true
+    const useNewHandler =
+      (action.type === 'approve' && permitSupport[action.token.address] !== true) || action.type === 'deposit'
 
     // biome-ignore lint/correctness/useHookAtTopLevel:
     const legacyHandler = useCreateActionHandler(action, {
       enabled: enabled && alreadySucceeded.current === false && nextOneToExecute,
       permitStore: !useNewHandler && actionsSettings.preferPermits ? permitStore : undefined,
-      onFinish,
     })
 
     // biome-ignore lint/correctness/useHookAtTopLevel:
@@ -73,6 +70,7 @@ export function useActionHandlers(
         account: address ?? raise('Not connected'),
         chainId,
         wagmiConfig,
+        permitStore,
       },
       enabled: useNewHandler && enabled && alreadySucceeded.current === false && nextOneToExecute,
     })
@@ -89,6 +87,10 @@ export function useActionHandlers(
 
     return [...acc, handler]
   }, [] as ActionHandler[])
+
+  if (handlers.every((handler) => handler.state.status === 'success')) {
+    _onFinish?.()
+  }
 
   const settingsDisabled = handlers.some((handler) => handler.state.status === 'success')
 
