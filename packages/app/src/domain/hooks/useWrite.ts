@@ -1,8 +1,20 @@
 import { useEffect } from 'react'
 import { Abi, ContractFunctionName, encodeFunctionData } from 'viem'
-import { UseSimulateContractParameters, useAccount, useSimulateContract, useWriteContract } from 'wagmi'
+import {
+  Config,
+  ResolvedRegister,
+  UseSimulateContractParameters,
+  UseWriteContractParameters,
+  UseWriteContractReturnType,
+  useAccount,
+  useConfig,
+  useSimulateContract,
+} from 'wagmi'
 
 import { __TX_LIST_KEY } from '@/test/e2e/constants'
+import { JSONStringifyRich } from '@/utils/object'
+import { MutationKey, useMutation } from '@tanstack/react-query'
+import { writeContractMutationOptions } from 'wagmi/query'
 import { recordEvent } from '../analytics'
 import { sanityCheckTx } from './sanityChecks'
 import { useOriginChainId } from './useOriginChainId'
@@ -71,7 +83,7 @@ export function useWrite<TAbi extends Abi, TFunctionName extends ContractFunctio
     isSuccess: wasTxSent,
     error: _txSubmissionError,
     reset,
-  } = useWriteContract()
+  } = useWriteContract({ mutationKey: getWriteContractMutationKey(args as any) })
 
   const { data: txReceipt, error: txReceiptError } = useWaitForTransactionReceiptUniversal({
     hash: txHash,
@@ -168,4 +180,30 @@ function storeRequest(request: any): void {
   const calldata = encodeFunctionData(request as any)
   txList.push({ ...request, calldata })
   window[__TX_LIST_KEY] = txList as any
+}
+
+function useWriteContract<config extends Config = ResolvedRegister['config'], context = unknown>(
+  parameters: UseWriteContractParameters<config, context> & { mutationKey?: MutationKey } = {},
+): UseWriteContractReturnType<config, context> {
+  const { mutation, mutationKey } = parameters
+
+  const config = useConfig(parameters)
+
+  const mutationOptions = writeContractMutationOptions(config)
+  const { mutate, mutateAsync, ...result } = useMutation({
+    ...mutation,
+    ...mutationOptions,
+    mutationKey,
+  })
+
+  type Return = UseWriteContractReturnType<config, context>
+  return {
+    ...result,
+    writeContract: mutate as Return['writeContract'],
+    writeContractAsync: mutateAsync as Return['writeContractAsync'],
+  }
+}
+
+function getWriteContractMutationKey(args: UseSimulateContractParameters<Abi, string>): MutationKey {
+  return [args.chainId, args.address, args.functionName, JSONStringifyRich(args.args)]
 }
