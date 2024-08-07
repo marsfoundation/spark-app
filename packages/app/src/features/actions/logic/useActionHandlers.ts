@@ -1,7 +1,7 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { useActionsSettings } from '@/domain/state'
 import { raise } from '@/utils/assert'
-import { useMemo, useRef } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { useAccount, useChainId, useConfig } from 'wagmi'
 import { useCreateApproveDelegationHandler } from '../flavours/approve-delegation/useCreateApproveDelegationHandler'
 import { useCreateApproveOrPermitHandler } from '../flavours/approve/logic/useCreateApproveOrPermitHandler'
@@ -36,46 +36,39 @@ export interface UseActionHandlersResult {
 
 export function useActionHandlers(
   objectives: Objective[],
-  { onFinish: _onFinish, enabled }: UseActionHandlersOptions,
+  { onFinish, enabled }: UseActionHandlersOptions,
 ): UseActionHandlersResult {
   const actions = useCreateActions(objectives)
-  const permitStore = useMemo(() => createPermitStore(), [])
   const actionsSettings = useActionsSettings()
-
   const chainId = useChainId()
   const { address } = useAccount()
   const wagmiConfig = useConfig()
+  const permitStore = useMemo(() => createPermitStore(), [])
+  const { permitSupport } = getChainConfigEntry(chainId)
 
-  // @note: we call react hooks in a loop but this is fine as actions should never change
+  const [currentActionIndex, setCurrentActionIndex] = useState(0)
+
+  const newHandlers: ActionHandler[] = actions.map((action, index) => ({
+    action,
+    onAction: () => {},
+    state: { status: index === currentActionIndex ? 'ready' : index < currentActionIndex ? 'success' : 'disabled' },
+  }))
+
+  // @note: we call react hooks in a loop but this is'disabled'ne as actions should never change
   const handlers = actions.reduce((acc, action, index) => {
     const nextOneToExecute = index > 0 ? acc[acc.length - 1]!.state.status === 'success' : true
     // If succeeded once, don't try again. Further actions can invalidate previous actions (for example deposit will invalidate previous approvals)
     // biome-ignore lint/correctness/useHookAtTopLevel:
     const alreadySucceeded = useRef(false)
 
-    const { permitSupport } = getChainConfigEntry(chainId)
     const useNewHandler =
       (action.type === 'approve' && permitSupport[action.token.address] !== true) || action.type === 'deposit'
 
     // biome-ignore lint/correctness/useHookAtTopLevel:
-    const legacyHandler = useCreateActionHandler(action, {
-      enabled: enabled && alreadySucceeded.current === false && nextOneToExecute,
-      permitStore: !useNewHandler && actionsSettings.preferPermits ? permitStore : undefined,
+    const handler = useCreateActionHandler(action, {
+      enabled: !useNewHandler && enabled && alreadySucceeded.current === false && nextOneToExecute,
+      permitStore: actionsSettings.preferPermits ? permitStore : undefined,
     })
-
-    // biome-ignore lint/correctness/useHookAtTopLevel:
-    const newHandler = useAction({
-      action,
-      context: {
-        account: address ?? raise('Not connected'),
-        chainId,
-        wagmiConfig,
-        permitStore,
-      },
-      enabled: useNewHandler && enabled && alreadySucceeded.current === false && nextOneToExecute,
-    })
-
-    const handler = useNewHandler ? newHandler : legacyHandler
 
     if (alreadySucceeded.current) {
       handler.state.status = 'success'
@@ -88,14 +81,40 @@ export function useActionHandlers(
     return [...acc, handler]
   }, [] as ActionHandler[])
 
-  if (handlers.every((handler) => handler.state.status === 'success')) {
-    _onFinish?.()
+  const currentAction = actions[currentActionIndex]!
+  const useNewHandler =
+    (currentAction.type === 'approve' && permitSupport[currentAction.token.address] !== true) ||
+    currentAction.type === 'deposit'
+
+  const newHandler = useAction({
+    action: currentAction,
+    context: {
+      account: address ?? raise('Not connected'),
+      chainId,
+      wagmiConfig,
+      permitStore,
+    },
+    enabled: useNewHandler && enabled,
+  })
+  const legacyHandler = handlers[currentActionIndex]
+  const currentActionHandler = useNewHandler ? newHandler : legacyHandler
+
+  if (currentActionHandler?.state.status === 'success') {
+    if (currentActionIndex === actions.length - 1) {
+      onFinish?.()
+    } else {
+      setCurrentActionIndex(currentActionIndex + 1)
+    }
   }
 
-  const settingsDisabled = handlers.some((handler) => handler.state.status === 'success')
+  if (currentActionHandler) {
+    newHandlers[currentActionIndex] = currentActionHandler
+  }
+
+  const settingsDisabled = currentActionIndex > 0
 
   return {
-    handlers,
+    handlers: newHandlers,
     settingsDisabled,
   }
 }
