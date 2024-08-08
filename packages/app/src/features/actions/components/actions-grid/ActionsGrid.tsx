@@ -10,6 +10,7 @@ import { XDaiToSDaiDepositActionRow } from '../../flavours/native-sdai-deposit/x
 import { DaiFromSDaiWithdrawActionRow } from '../../flavours/native-sdai-withdraw/dai-from-sdai/DaiFromSDaiWithdrawActionRow'
 import { USDCFromSDaiWithdrawActionRow } from '../../flavours/native-sdai-withdraw/usdc-from-sdai/USDCFromSDaiWithdrawActionRow'
 import { XDaiFromSDaiWithdrawActionRow } from '../../flavours/native-sdai-withdraw/xdai-from-sdai/XDaiFromSDaiWithdrawActionRow'
+import { PermitActionRow } from '../../flavours/permit/PermitActionRow'
 import { RepayActionRow } from '../../flavours/repay/RepayActionRow'
 import { SetUseAsCollateralActionRow } from '../../flavours/set-use-as-collateral/SetUseAsCollateralActionRow'
 import { SetUserEModeActionRow } from '../../flavours/set-user-e-mode/SetUserEModeActionRow'
@@ -44,7 +45,7 @@ export function ActionsGrid({ actionHandlers, variant }: ActionsGridProps) {
           case 'deposit':
             return <DepositActionRow action={handler.action} {...props} />
           case 'permit':
-            return <ApproveActionRow action={handler.action} {...props} />
+            return <PermitActionRow action={handler.action} {...props} />
           case 'repay':
             return <RepayActionRow action={handler.action} {...props} />
           case 'setUseAsCollateral':

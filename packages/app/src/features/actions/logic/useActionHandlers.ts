@@ -1,10 +1,9 @@
-import { getChainConfigEntry } from '@/config/chain'
 import { useActionsSettings } from '@/domain/state'
 import { raise } from '@/utils/assert'
 import { useMemo, useState } from 'react'
 import { useAccount, useChainId, useConfig } from 'wagmi'
 import { useCreateApproveDelegationHandler } from '../flavours/approve-delegation/useCreateApproveDelegationHandler'
-import { useCreateApproveOrPermitHandler } from '../flavours/approve/logic/useCreateApproveOrPermitHandler'
+import { useCreateApproveHandler } from '../flavours/approve/logic/useCreateApproveHandler'
 import { useCreateBorrowActionHandler } from '../flavours/borrow/useCreateBorrowHandler'
 import { useCreateClaimRewardsHandler } from '../flavours/claim-rewards/useCreateClaimRewardsHandler'
 import { useCreateDepositHandler } from '../flavours/deposit/useCreateDepositHandler'
@@ -15,6 +14,8 @@ import { useCreateXDaiToSDaiDepositHandler } from '../flavours/native-sdai-depos
 import { useCreateDaiFromSDaiWithdrawHandler } from '../flavours/native-sdai-withdraw/dai-from-sdai/useCreateDaiFromSDaiWithdrawHandler'
 import { useCreateUSDCFromSDaiWithdrawHandler } from '../flavours/native-sdai-withdraw/usdc-from-sdai/useCreateUSDCFromSDaiWithdrawHandler'
 import { useCreateXDaiFromSDaiWithdrawHandler } from '../flavours/native-sdai-withdraw/xdai-from-sdai/useCreateXDaiFromSDaiWithdrawHandler'
+import { getFakePermitAction } from '../flavours/permit/logic/getFakePermitAction'
+import { useCreatePermitHandler } from '../flavours/permit/logic/useCreatePermitHandler'
 import { useCreateRepayHandler } from '../flavours/repay/useCreateRepayHandler'
 import { useCreateSetUseAsCollateralHandler } from '../flavours/set-use-as-collateral/useCreateSetUseAsCollateralHandler'
 import { useCreateSetUserEModeHandler } from '../flavours/set-user-e-mode/useCreateSetUserEModeHandler'
@@ -38,13 +39,15 @@ export function useActionHandlers(
   objectives: Objective[],
   { onFinish, enabled }: UseActionHandlersOptions,
 ): UseActionHandlersResult {
-  const actions = useCreateActions(objectives)
   const actionsSettings = useActionsSettings()
+  const actions = useCreateActions({
+    objectives,
+    actionsSettings,
+  })
   const chainId = useChainId()
   const { address } = useAccount()
   const wagmiConfig = useConfig()
   const permitStore = useMemo(() => createPermitStore(), [])
-  const { permitSupport } = getChainConfigEntry(chainId)
 
   const [currentActionIndex, setCurrentActionIndex] = useState(0)
 
@@ -56,12 +59,12 @@ export function useActionHandlers(
 
   // @note: we call react hooks in a loop but this is'disabled'ne as actions should never change
   const handlers = actions.reduce((acc, action, index) => {
-    const useNewHandler =
-      (action.type === 'approve' && permitSupport[action.token.address] !== true) || action.type === 'deposit'
-
+    if (action.type === 'permit' || action.type === 'approve' || action.type === 'deposit') {
+      return [...acc, undefined as any]
+    }
     // biome-ignore lint/correctness/useHookAtTopLevel:
     const handler = useCreateActionHandler(action, {
-      enabled: !useNewHandler && enabled && index === currentActionIndex,
+      enabled: enabled && index === currentActionIndex,
       permitStore: actionsSettings.preferPermits ? permitStore : undefined,
     })
 
@@ -74,8 +77,7 @@ export function useActionHandlers(
 
   const currentAction = actions[currentActionIndex]!
   const useNewHandler =
-    (currentAction.type === 'approve' && permitSupport[currentAction.token.address] !== true) ||
-    currentAction.type === 'deposit'
+    currentAction.type === 'approve' || currentAction.type === 'permit' || currentAction.type === 'deposit'
 
   const newHandler = useAction({
     action: currentAction,
@@ -85,10 +87,23 @@ export function useActionHandlers(
       wagmiConfig,
       permitStore,
     },
-    enabled: useNewHandler && enabled,
+    enabled: useNewHandler && currentAction.type !== 'permit' && enabled,
   })
+
+  const permitHandler = useCreatePermitHandler(
+    currentAction.type === 'permit' ? currentAction : getFakePermitAction(),
+    {
+      enabled: enabled && currentAction.type === 'permit',
+      permitStore,
+    },
+  )
+
   const legacyHandler = handlers[currentActionIndex]
-  const currentActionHandler = useNewHandler ? newHandler : legacyHandler
+  const currentActionHandler = useNewHandler
+    ? currentAction.type === 'permit'
+      ? permitHandler
+      : newHandler
+    : legacyHandler
 
   if (currentActionHandler?.state.status === 'success') {
     if (currentActionIndex === actions.length - 1) {
@@ -121,9 +136,11 @@ function useCreateActionHandler(
 ): ActionHandler {
   switch (action.type) {
     case 'approve':
+      // biome-ignore lint/correctness/useHookAtTopLevel:
+      return useCreateApproveHandler(action, { enabled })
     case 'permit':
       // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateApproveOrPermitHandler(action, { permitStore, enabled })
+      return useCreatePermitHandler(action, { permitStore, enabled })
     case 'deposit':
       // biome-ignore lint/correctness/useHookAtTopLevel:
       return useCreateDepositHandler(action, { permitStore, enabled, onFinish })
