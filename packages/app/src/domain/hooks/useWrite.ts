@@ -20,6 +20,7 @@ import { sanityCheckTx } from './sanityChecks'
 import { useOriginChainId } from './useOriginChainId'
 import { useWaitForTransactionReceiptUniversal } from './useWaitForTransactionReceiptUniversal'
 import { useWalletType } from './useWalletType'
+import { useOnDepsChange } from '@/utils/useOnDepsChange'
 
 export type WriteStatus =
   | { kind: 'disabled' }
@@ -90,17 +91,15 @@ export function useWrite<TAbi extends Abi, TFunctionName extends ContractFunctio
   })
   const txSubmissionError = enabled ? _txSubmissionError : undefined
 
-  const prevTxReceipt = useRef(txReceipt)
-  if (txReceipt && prevTxReceipt.current !== txReceipt) {
-    // fetched new tx receipt
-    callbacks.onTransactionSettled?.()
-
-    if (import.meta.env.VITE_PLAYWRIGHT === '1') {
-      // @note: for e2e tests needs we store sent transactions
-      storeRequest(parameters?.request)
+  useOnDepsChange(() => {
+    if (txReceipt) {
+      callbacks.onTransactionSettled?.()
+      if (import.meta.env.VITE_PLAYWRIGHT === '1') {
+        // @note: for e2e tests needs we store sent transactions
+        storeRequest(parameters?.request)
+      }
     }
-  }
-  prevTxReceipt.current = txReceipt
+  }, [txReceipt])
 
   const status = ((): WriteStatus => {
     if (!enabled) {
