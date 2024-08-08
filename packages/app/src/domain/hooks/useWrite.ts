@@ -1,4 +1,3 @@
-import { useRef } from 'react'
 import { Abi, ContractFunctionName, encodeFunctionData } from 'viem'
 import {
   Config,
@@ -13,6 +12,7 @@ import {
 
 import { __TX_LIST_KEY } from '@/test/e2e/constants'
 import { JSONStringifyRich } from '@/utils/object'
+import { useOnDepsChange } from '@/utils/useOnDepsChange'
 import { MutationKey, useMutation } from '@tanstack/react-query'
 import { writeContractMutationOptions } from 'wagmi/query'
 import { recordEvent } from '../analytics'
@@ -20,7 +20,6 @@ import { sanityCheckTx } from './sanityChecks'
 import { useOriginChainId } from './useOriginChainId'
 import { useWaitForTransactionReceiptUniversal } from './useWaitForTransactionReceiptUniversal'
 import { useWalletType } from './useWalletType'
-import { useOnDepsChange } from '@/utils/useOnDepsChange'
 
 export type WriteStatus =
   | { kind: 'disabled' }

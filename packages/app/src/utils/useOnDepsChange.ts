@@ -1,4 +1,4 @@
-import { DependencyList, useRef } from "react";
+import { DependencyList, useRef } from 'react'
 
 // unlike useEffect, this hook is guaranteed to run the callback even if the deps change fast
 // also won't run on the first render
