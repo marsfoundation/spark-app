@@ -9,7 +9,7 @@ import { toBigInt } from '@/utils/bigNumber'
 import { waitFor } from '@testing-library/react'
 import { erc20Abi } from 'viem'
 import { mainnet } from 'viem/chains'
-import { describe } from 'vitest'
+import { describe, test } from 'vitest'
 import { createApproveActionConfig } from './approve-action'
 
 const defaultValue = NormalizedUnitNumber(1)
@@ -25,7 +25,7 @@ const hookRenderer = setupUseActionRenderer({
 })
 
 describe(createApproveActionConfig.name, () => {
-  it('performs action', async () => {
+  test('performs action', async () => {
     const { handler: allowanceHandler, update: updateAllowanceHandler } = createUpdatableHandler({
       initialHandler: handlers.contractCall({
         to: token.address,
@@ -73,7 +73,7 @@ describe(createApproveActionConfig.name, () => {
     })
   })
 
-  it('stays in ready state if allowance is not enough after action', async () => {
+  test('stays in ready state if allowance is not enough after action', async () => {
     const { handler: allowanceHandler, update: updateAllowanceHandler } = createUpdatableHandler({
       initialHandler: handlers.contractCall({
         to: token.address,
