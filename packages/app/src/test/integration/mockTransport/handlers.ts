@@ -340,3 +340,28 @@ export function createGetLogsHandler(opts: GetLogsCallOptions<AbiEvent>): Create
 
   return { handler, setEnabled }
 }
+
+export interface CreateUpdatableHandlerOptions {
+  initialHandler: RpcHandler
+}
+
+export interface CreateUpdatableHandlerResult {
+  handler: RpcHandler
+  update: (newHandled: RpcHandler) => void
+}
+
+export function createUpdatableHandler(opts: CreateUpdatableHandlerOptions): CreateUpdatableHandlerResult {
+  const { initialHandler } = opts
+  let currentHandler = initialHandler
+
+  function update(newHandler: RpcHandler): void {
+    currentHandler = newHandler
+  }
+
+  // eslint-disable-next-line func-style
+  const handler: RpcHandler = (method, params) => {
+    return currentHandler(method, params)
+  }
+
+  return { handler, update }
+}

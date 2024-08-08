@@ -11,7 +11,7 @@ import { RpcHandler } from './mockTransport/types'
 import { queryClient as defaultQueryClient } from './query-client'
 import { createWagmiTestConfig } from './wagmi-config'
 
-interface SetupHookRendererArgs<HOOK extends (args: any) => any> {
+export interface SetupHookRendererArgs<HOOK extends (args: any) => any> {
   hook: HOOK
   account?: CheckedAddress
   handlers?: RpcHandler[]
