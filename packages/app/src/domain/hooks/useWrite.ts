@@ -91,15 +91,13 @@ export function useWrite<TAbi extends Abi, TFunctionName extends ContractFunctio
   const txSubmissionError = enabled ? _txSubmissionError : undefined
 
   const prevTxReceipt = useRef(txReceipt)
-  if (prevTxReceipt.current !== txReceipt) {
-    if (txReceipt) {
-      // fetched new tx receipt
-      callbacks.onTransactionSettled?.()
+  if (txReceipt && prevTxReceipt.current !== txReceipt) {
+    // fetched new tx receipt
+    callbacks.onTransactionSettled?.()
 
-      if (import.meta.env.VITE_PLAYWRIGHT === '1') {
-        // @note: for e2e tests needs we store sent transactions
-        storeRequest(parameters?.request)
-      }
+    if (import.meta.env.VITE_PLAYWRIGHT === '1') {
+      // @note: for e2e tests needs we store sent transactions
+      storeRequest(parameters?.request)
     }
   }
   prevTxReceipt.current = txReceipt
