@@ -1,4 +1,3 @@
-import { useRef } from 'react'
 import { Abi, ContractFunctionName, encodeFunctionData } from 'viem'
 import {
   Config,
@@ -18,6 +17,7 @@ import { writeContractMutationOptions } from 'wagmi/query'
 import { recordEvent } from '../analytics'
 import { sanityCheckTx } from './sanityChecks'
 import { useOriginChainId } from './useOriginChainId'
+import { useValueChangeCallback } from './useValueChangeCallback'
 import { useWaitForTransactionReceiptUniversal } from './useWaitForTransactionReceiptUniversal'
 import { useWalletType } from './useWalletType'
 
@@ -90,8 +90,7 @@ export function useWrite<TAbi extends Abi, TFunctionName extends ContractFunctio
   })
   const txSubmissionError = enabled ? _txSubmissionError : undefined
 
-  const prevTxReceipt = useRef(txReceipt)
-  if (txReceipt && prevTxReceipt.current !== txReceipt) {
+  useValueChangeCallback(txReceipt, () => {
     // fetched new tx receipt
     callbacks.onTransactionSettled?.()
 
@@ -99,8 +98,7 @@ export function useWrite<TAbi extends Abi, TFunctionName extends ContractFunctio
       // @note: for e2e tests needs we store sent transactions
       storeRequest(parameters?.request)
     }
-  }
-  prevTxReceipt.current = txReceipt
+  })
 
   const status = ((): WriteStatus => {
     if (!enabled) {
