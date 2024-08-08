@@ -52,7 +52,7 @@ export function useCreateActions({ objectives, actionsSettings }: UseCreateActio
         }
 
         if (objective.token.symbol === nativeAssetInfo.nativeAssetSymbol) {
-          ;[depositAction]
+          return [depositAction]
         }
 
         if (actionsSettings.preferPermits && chainConfig.permitSupport[objective.token.address]) {
