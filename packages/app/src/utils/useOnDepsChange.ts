@@ -7,7 +7,6 @@ export function useOnDepsChange(callback: () => void, deps: DependencyList): voi
 
   if (deps.some((dep, i) => dep !== depsRef.current[i])) {
     depsRef.current = [...deps]
-    // schedule to avoid failing effect from breaking the render cycle
     setTimeout(() => callback(), 0)
   }
 }

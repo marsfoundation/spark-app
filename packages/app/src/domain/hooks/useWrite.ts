@@ -1,7 +1,5 @@
 import { Abi, ContractFunctionName, encodeFunctionData } from 'viem'
 import {
-  Config,
-  ResolvedRegister,
   UseSimulateContractParameters,
   UseWriteContractParameters,
   UseWriteContractReturnType,
@@ -180,9 +178,9 @@ function storeRequest(request: any): void {
   window[__TX_LIST_KEY] = txList as any
 }
 
-function useWriteContract<config extends Config = ResolvedRegister['config'], context = unknown>(
-  parameters: UseWriteContractParameters<config, context> & { mutationKey?: MutationKey } = {},
-): UseWriteContractReturnType<config, context> {
+function useWriteContract(
+  parameters: UseWriteContractParameters & { mutationKey?: MutationKey } = {},
+): UseWriteContractReturnType {
   const { mutation, mutationKey } = parameters
 
   const config = useConfig(parameters)
@@ -194,7 +192,7 @@ function useWriteContract<config extends Config = ResolvedRegister['config'], co
     mutationKey,
   })
 
-  type Return = UseWriteContractReturnType<config, context>
+  type Return = UseWriteContractReturnType
   return {
     ...result,
     writeContract: mutate as Return['writeContract'],

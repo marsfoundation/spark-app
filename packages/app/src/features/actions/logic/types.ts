@@ -28,6 +28,7 @@ import {
   XDaiFromSDaiWithdrawAction,
   XDaiFromSDaiWithdrawObjective,
 } from '../flavours/native-sdai-withdraw/xdai-from-sdai/types'
+import { PermitAction } from '../flavours/permit/types'
 import { RepayAction, RepayObjective } from '../flavours/repay/types'
 import { SetUseAsCollateralAction, SetUseAsCollateralObjective } from '../flavours/set-use-as-collateral/types'
 import { SetUserEModeAction, SetUserEModeObjective } from '../flavours/set-user-e-mode/types'
@@ -56,6 +57,7 @@ export type ObjectiveType = Objective['type']
 
 export type Action =
   | ApproveAction
+  | PermitAction
   | DepositAction
   | ApproveDelegationAction
   | BorrowAction

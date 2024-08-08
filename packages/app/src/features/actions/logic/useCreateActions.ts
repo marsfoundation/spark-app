@@ -1,8 +1,9 @@
-import { getNativeAssetInfo } from '@/config/chain/utils/getNativeAssetInfo'
+import { getChainConfigEntry } from '@/config/chain'
 import { MIGRATE_ACTIONS_ADDRESS } from '@/config/consts'
 import { psmActionsAddress, savingsXDaiAdapterAddress, wethGatewayAddress } from '@/config/contracts-generated'
 import { useContractAddress } from '@/domain/hooks/useContractAddress'
 import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
+import { ActionsSettings } from '@/domain/state/actions-settings'
 import { BaseUnitNumber, NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { assert } from '@/utils/assert'
 import BigNumber from 'bignumber.js'
@@ -20,15 +21,22 @@ import { XDaiToSDaiDepositAction } from '../flavours/native-sdai-deposit/xdai-to
 import { DaiFromSDaiWithdrawAction } from '../flavours/native-sdai-withdraw/dai-from-sdai/types'
 import { USDCFromSDaiWithdrawAction } from '../flavours/native-sdai-withdraw/usdc-from-sdai/types'
 import { XDaiFromSDaiWithdrawAction } from '../flavours/native-sdai-withdraw/xdai-from-sdai/types'
+import { PermitAction } from '../flavours/permit/types'
 import { RepayAction } from '../flavours/repay/types'
 import { SetUseAsCollateralAction } from '../flavours/set-use-as-collateral/types'
 import { SetUserEModeAction } from '../flavours/set-user-e-mode/types'
 import { WithdrawAction } from '../flavours/withdraw/types'
 import { Action, Objective } from './types'
 
-export function useCreateActions(objectives: Objective[]): Action[] {
+export interface UseCreateActionsParams {
+  objectives: Objective[]
+  actionsSettings: ActionsSettings
+}
+
+export function useCreateActions({ objectives, actionsSettings }: UseCreateActionsParams): Action[] {
   const chainId = useOriginChainId()
-  const nativeAssetInfo = getNativeAssetInfo(chainId)
+  const chainConfig = getChainConfigEntry(chainId)
+  const nativeAssetInfo = chainConfig.nativeAssetInfo
   const wethGateway = useContractAddress(wethGatewayAddress)
 
   return objectives.flatMap((objective): Action[] => {
@@ -42,9 +50,22 @@ export function useCreateActions(objectives: Objective[]): Action[] {
           token: objective.token,
           value: objective.value,
         }
+
         if (objective.token.symbol === nativeAssetInfo.nativeAssetSymbol) {
-          return [depositAction]
+          ;[depositAction]
         }
+
+        if (actionsSettings.preferPermits && chainConfig.permitSupport[objective.token.address]) {
+          const permitAction: PermitAction = {
+            type: 'permit',
+            token: objective.token,
+            spender: objective.lendingPool,
+            value: objective.value,
+          }
+
+          return [permitAction, depositAction]
+        }
+
         const approveAction: ApproveAction = {
           type: 'approve',
           token: objective.token,
@@ -117,9 +138,22 @@ export function useCreateActions(objectives: Objective[]): Action[] {
           value: objective.value,
           useAToken: objective.useAToken,
         }
+
         if (objective.reserve.token.symbol === nativeAssetInfo.nativeAssetSymbol || objective.useAToken) {
           return [repayAction]
         }
+
+        if (actionsSettings.preferPermits && chainConfig.permitSupport[objective.reserve.token.address]) {
+          const permitAction: PermitAction = {
+            type: 'permit',
+            token: objective.reserve.token,
+            spender: objective.lendingPool,
+            value: objective.value,
+          }
+
+          return [permitAction, repayAction]
+        }
+
         const approveAction: ApproveAction = {
           type: 'approve',
           token: objective.reserve.token,
@@ -171,7 +205,6 @@ export function useCreateActions(objectives: Objective[]): Action[] {
             objective.method === 'withdraw'
               ? NormalizedUnitNumber(objective.sDaiValueEstimate.toFixed(objective.sDai.decimals, BigNumber.ROUND_UP))
               : objective.value,
-          disallowPermit: true,
         }
 
         const isSend = objective.mode === 'send'
@@ -255,7 +288,6 @@ export function useCreateActions(objectives: Objective[]): Action[] {
           token: objective.usdc,
           spender: psmActionsAddress[mainnet.id],
           value: objective.value,
-          disallowPermit: true,
         }
 
         const depositAction: USDCToSDaiDepositAction = {

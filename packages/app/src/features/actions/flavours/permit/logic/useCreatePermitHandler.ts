@@ -1,26 +1,24 @@
-import { UseQueryResult, useQuery } from '@tanstack/react-query'
-import { useRef } from 'react'
-import { hexToSignature } from 'viem'
-import { useChainId, useConfig, useSignTypedData } from 'wagmi'
-
 import { useConnectedAddress } from '@/domain/wallet/useConnectedAddress'
-import { ApproveAction } from '@/features/actions/flavours/approve/types'
 import { PermitStore } from '@/features/actions/logic/permits'
 import { ActionHandler, ActionHandlerState } from '@/features/actions/logic/types'
 import { parseWriteErrorMessage } from '@/features/actions/logic/utils'
 import { JSONStringifyRich } from '@/utils/object'
 import { useTimestamp } from '@/utils/useTimestamp'
-
+import { MutationKey, UseQueryResult, useMutation, useQuery } from '@tanstack/react-query'
+import { hexToSignature } from 'viem'
+import { UseSignTypedDataParameters, UseSignTypedDataReturnType, useChainId, useConfig } from 'wagmi'
+import { signTypedDataMutationOptions } from 'wagmi/query'
+import { PermitAction } from '../types'
 import { getSignPermitDataConfig } from './getSignPermitDataConfig'
 import { nameQuery, nonceQuery } from './queries'
 
 export interface UseCreatePermitHandlerOptions {
   enabled: boolean
-  permitStore?: PermitStore
+  permitStore: PermitStore | undefined
 }
 
 export function useCreatePermitHandler(
-  action: ApproveAction,
+  action: PermitAction,
   { enabled, permitStore }: UseCreatePermitHandlerOptions,
 ): ActionHandler {
   const { account } = useConnectedAddress()
@@ -61,43 +59,33 @@ export function useCreatePermitHandler(
           nonce: nonce.data,
         })
       : undefined
-  const snapshottedSignDataConfigRef = useRef<typeof signDataConfig | undefined>()
 
   const sign = useSignTypedData({
     mutation: {
       onSuccess: (data) => {
-        const signature = hexToSignature(data)
+        if (data) {
+          const signature = hexToSignature(data)
 
-        if (!permitStore) {
-          // this can happen if the user switches to approvals after the sign request was sent, but then signs it anyway.
-          return
+          if (!permitStore) {
+            // this can happen if the user switches to approvals after the sign request was sent, but then signs it anyway.
+            return
+          }
+
+          permitStore.add({
+            token: action.token,
+            deadline: new Date(deadline * 1000),
+            signature,
+          })
         }
-
-        permitStore.add({
-          token: action.token,
-          deadline: new Date(deadline * 1000),
-          signature,
-        })
       },
     },
+    mutationKey: getSignTypedDataMutationKey(signDataConfig),
   })
 
-  if (
-    (sign.isSuccess || sign.isError) &&
-    JSONStringifyRich(snapshottedSignDataConfigRef.current) !== JSONStringifyRich(signDataConfig)
-  ) {
-    snapshottedSignDataConfigRef.current = undefined
-    sign.reset()
-  }
-
   return {
-    action: {
-      ...action,
-      type: 'permit',
-    },
+    action,
     state: mapStatusesToActionState({ sign, nonce, name, enabled }),
     onAction: () => {
-      snapshottedSignDataConfigRef.current = signDataConfig
       signDataConfig && sign.signTypedData(signDataConfig)
     },
   }
@@ -135,4 +123,30 @@ function mapStatusesToActionState({ nonce, name, sign, enabled }: MapStatusesToA
   }
 
   return { status: 'ready' }
+}
+
+export function useSignTypedData(
+  parameters: UseSignTypedDataParameters & { mutationKey?: MutationKey } = {},
+): UseSignTypedDataReturnType {
+  const { mutation, mutationKey } = parameters
+
+  const config = useConfig(parameters)
+
+  const mutationOptions = signTypedDataMutationOptions(config)
+  const { mutate, mutateAsync, ...result } = useMutation({
+    ...mutation,
+    ...mutationOptions,
+    mutationKey,
+  })
+
+  type Return = UseSignTypedDataReturnType
+  return {
+    ...result,
+    signTypedData: mutate as Return['signTypedData'],
+    signTypedDataAsync: mutateAsync as Return['signTypedDataAsync'],
+  }
+}
+
+function getSignTypedDataMutationKey(config?: ReturnType<typeof getSignPermitDataConfig>): MutationKey {
+  return ['signTypedData', JSONStringifyRich(config)]
 }
