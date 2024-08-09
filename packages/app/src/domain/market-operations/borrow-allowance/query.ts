@@ -16,14 +16,7 @@ export interface BorrowAllowanceOptions {
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function borrowAllowance({ wagmiConfig, debtTokenAddress, fromUser, toUser, chainId }: BorrowAllowanceOptions) {
   return queryOptions<bigint>({
-    queryKey: [
-      {
-        entity: 'readContract',
-        functionName: 'borrowAllowance',
-        args: [fromUser, toUser],
-        chainId,
-      },
-    ],
+    queryKey: getBorrowAllowanceQueryKey({ fromUser, toUser, chainId, debtTokenAddress }),
     queryFn: () => {
       return readContract(wagmiConfig, {
         functionName: 'borrowAllowance',
@@ -33,4 +26,21 @@ export function borrowAllowance({ wagmiConfig, debtTokenAddress, fromUser, toUse
       })
     },
   })
+}
+
+export function getBorrowAllowanceQueryKey({
+  debtTokenAddress,
+  fromUser,
+  toUser,
+  chainId,
+}: Omit<BorrowAllowanceOptions, 'wagmiConfig'>): unknown[] {
+  return [
+    {
+      entity: 'readContract',
+      functionName: 'borrowAllowance',
+      address: debtTokenAddress,
+      args: [fromUser, toUser],
+      chainId,
+    },
+  ]
 }

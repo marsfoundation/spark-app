@@ -4,7 +4,7 @@ import { lendingPoolConfig, wethGatewayConfig } from '@/config/contracts-generat
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
 import { aaveDataLayerQueryKey } from '@/domain/market-info/aave-data-layer/query'
-import { allowanceQueryKey } from '@/domain/market-operations/allowance/query'
+import { getBorrowAllowanceQueryKey } from '@/domain/market-operations/borrow-allowance/query'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { toBigInt } from '@/utils/bigNumber'
 import { ActionConfig, ActionContext } from '../../../logic/types'
@@ -40,9 +40,14 @@ export function createBorrowActionConfig(action: BorrowAction, context: ActionCo
     },
 
     invalidates: () => [
-      allowanceQueryKey({ token: borrowTokenAddress, spender: lendingPoolAddress, account, chainId }),
       getBalancesQueryKeyPrefix({ chainId, account }),
       aaveDataLayerQueryKey({ chainId, account }),
+      getBorrowAllowanceQueryKey({
+        fromUser: account,
+        toUser: wethGatewayAddress,
+        chainId,
+        debtTokenAddress: borrowTokenAddress,
+      }),
     ],
   }
 }
