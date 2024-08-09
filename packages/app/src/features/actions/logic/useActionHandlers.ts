@@ -66,7 +66,8 @@ export function useActionHandlers(
       action.type === 'setUseAsCollateral' ||
       action.type === 'approveDelegation' ||
       action.type === 'setUserEMode' ||
-      action.type === 'repay'
+      action.type === 'repay' ||
+      action.type === 'claimRewards'
     ) {
       return [...acc, undefined as any]
     }
@@ -92,7 +93,8 @@ export function useActionHandlers(
     currentAction.type === 'setUseAsCollateral' ||
     currentAction.type === 'approveDelegation' ||
     currentAction.type === 'setUserEMode' ||
-    currentAction.type === 'repay'
+    currentAction.type === 'repay' ||
+    currentAction.type === 'claimRewards'
 
   const newHandler = useAction({
     action: currentAction,
