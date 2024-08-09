@@ -110,8 +110,6 @@ export function useCreateActions({ objectives, actionsSettings }: UseCreateActio
           const approveDelegationAction: ApproveDelegationAction = {
             type: 'approveDelegation',
             token: objective.token,
-            debtTokenAddress: objective.debtTokenAddress,
-            delegatee: wethGateway,
             value: objective.value,
           }
 

@@ -2,7 +2,6 @@ import { useActionsSettings } from '@/domain/state'
 import { raise } from '@/utils/assert'
 import { useMemo, useState } from 'react'
 import { useAccount, useChainId, useConfig } from 'wagmi'
-import { useCreateApproveDelegationHandler } from '../flavours/approve-delegation/useCreateApproveDelegationHandler'
 import { useCreateApproveHandler } from '../flavours/approve/logic/useCreateApproveHandler'
 import { useCreateBorrowActionHandler } from '../flavours/borrow/logic/useCreateBorrowHandler'
 import { useCreateClaimRewardsHandler } from '../flavours/claim-rewards/useCreateClaimRewardsHandler'
@@ -21,13 +20,14 @@ import { useCreateSetUseAsCollateralHandler } from '../flavours/set-use-as-colla
 import { useCreateSetUserEModeHandler } from '../flavours/set-user-e-mode/useCreateSetUserEModeHandler'
 import { useCreateWithdrawHandler } from '../flavours/withdraw/useCreateWithdrawHandler'
 import { PermitStore, createPermitStore } from './permits'
-import { Action, ActionHandler, Objective } from './types'
+import { Action, ActionHandler, InjectedActionsContext, Objective } from './types'
 import { useAction } from './useAction'
 import { useCreateActions } from './useCreateActions'
 
 export interface UseActionHandlersOptions {
   onFinish?: () => void
   enabled: boolean
+  context?: InjectedActionsContext
 }
 
 export interface UseActionHandlersResult {
@@ -37,7 +37,7 @@ export interface UseActionHandlersResult {
 
 export function useActionHandlers(
   objectives: Objective[],
-  { onFinish, enabled }: UseActionHandlersOptions,
+  { onFinish, enabled, context }: UseActionHandlersOptions,
 ): UseActionHandlersResult {
   const actionsSettings = useActionsSettings()
   const actions = useCreateActions({
@@ -64,7 +64,8 @@ export function useActionHandlers(
       action.type === 'approve' ||
       action.type === 'deposit' ||
       action.type === 'borrow' ||
-      action.type === 'setUseAsCollateral'
+      action.type === 'setUseAsCollateral' ||
+      action.type === 'approveDelegation'
     ) {
       return [...acc, undefined as any]
     }
@@ -87,7 +88,8 @@ export function useActionHandlers(
     currentAction.type === 'permit' ||
     currentAction.type === 'deposit' ||
     currentAction.type === 'borrow' ||
-    currentAction.type === 'setUseAsCollateral'
+    currentAction.type === 'setUseAsCollateral' ||
+    currentAction.type === 'approveDelegation'
 
   const newHandler = useAction({
     action: currentAction,
@@ -96,6 +98,7 @@ export function useActionHandlers(
       chainId,
       wagmiConfig,
       permitStore,
+      ...context,
     },
     enabled: useNewHandler && currentAction.type !== 'permit' && enabled,
   })
@@ -155,8 +158,7 @@ function useCreateActionHandler(
       // biome-ignore lint/correctness/useHookAtTopLevel:
       return useCreateDepositHandler(action, { permitStore, enabled, onFinish })
     case 'approveDelegation':
-      // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateApproveDelegationHandler(action, { enabled })
+      throw new Error('approveDelegation action is not supported anymore')
     case 'borrow':
       // biome-ignore lint/correctness/useHookAtTopLevel:
       return useCreateBorrowActionHandler(action, { enabled, onFinish })

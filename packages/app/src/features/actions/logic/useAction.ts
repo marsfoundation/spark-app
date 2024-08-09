@@ -8,6 +8,7 @@ import {
 } from '@/features/actions/logic/types'
 import { mapWriteResultToActionState } from '@/features/actions/logic/utils'
 import { QueryKey, queryOptions, skipToken, useQuery, useQueryClient } from '@tanstack/react-query'
+import { createApproveDelegationActionConfig } from '../flavours/approve-delegation/logic/approveDelegationAction'
 import { createApproveActionConfig } from '../flavours/approve/logic/approveAction'
 import { createBorrowActionConfig } from '../flavours/borrow/logic/borrowAction'
 import { createDepositActionConfig } from '../flavours/deposit/logic/depositAction'
@@ -128,6 +129,10 @@ function actionToConfig(action: Action, context: ActionContext): ActionConfig {
 
   if (action.type === 'setUseAsCollateral') {
     return createSetUseAsCollateralActionConfig(action, context)
+  }
+
+  if (action.type === 'approveDelegation') {
+    return createApproveDelegationActionConfig(action, context)
   }
 
   return createEmptyActionConfig()
