@@ -1,5 +1,6 @@
 import { WriteErrorKind, useWrite } from '@/domain/hooks/useWrite'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
+import { SavingsInfo } from '@/domain/savings-info/types'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { QueryKey, UseQueryOptions, UseQueryResult } from '@tanstack/react-query'
 import { Address } from 'viem'
@@ -83,6 +84,7 @@ export interface ActionContext {
   marketInfo?: MarketInfo
   tokensInfo?: TokensInfo
   permitStore?: PermitStore
+  sDaiSavingsInfo?: SavingsInfo
   wagmiConfig: Config
   account: Address
   chainId: number
