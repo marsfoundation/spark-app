@@ -1,8 +1,8 @@
 import { useSupply } from '@/domain/market-operations/useSupply'
-import { PermitStore } from '../../logic/permits'
-import { ActionHandler } from '../../logic/types'
-import { mapWriteResultToActionState } from '../../logic/utils'
-import { DepositAction } from './types'
+import { PermitStore } from '../../../logic/permits'
+import { ActionHandler } from '../../../logic/types'
+import { mapWriteResultToActionState } from '../../../logic/utils'
+import { DepositAction } from '../types'
 
 export interface UseCreateDepositHandlerOptions {
   enabled: boolean

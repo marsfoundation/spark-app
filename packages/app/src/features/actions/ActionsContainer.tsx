@@ -3,13 +3,14 @@ import { RequireKeys } from '@/utils/types'
 
 import { ActionsSkeleton } from './components/skeleton/ActionsSkeleton'
 import { stringifyObjectivesToStableActions } from './logic/stringifyObjectives'
-import { Objective } from './logic/types'
+import { InjectedActionsContext, Objective } from './logic/types'
 import { useActionHandlers } from './logic/useActionHandlers'
 import { useSettingsDialog } from './settings-dialog/logic/useSettingsDialog'
 import { ActionsView } from './views/ActionsView'
 
 export interface ActionsContainerProps {
   objectives: Objective[]
+  context?: InjectedActionsContext
   onFinish?: () => void // called only once, after render when all actions are marked successful
   variant?: 'default' | 'dialog'
   enabled?: boolean
@@ -17,11 +18,13 @@ export interface ActionsContainerProps {
 
 function ActionsContainer({
   objectives,
+  context,
   onFinish,
   variant = 'default',
   enabled,
 }: RequireKeys<ActionsContainerProps, 'enabled'>) {
   const { handlers, settingsDisabled } = useActionHandlers(objectives, {
+    context,
     enabled,
     onFinish,
   })

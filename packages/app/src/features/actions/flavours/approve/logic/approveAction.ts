@@ -6,10 +6,6 @@ import { toBigInt } from '@/utils/bigNumber'
 import { queryOptions } from '@tanstack/react-query'
 import { ApproveAction } from '../types'
 
-export interface CreateApproveActionConfigParams {
-  action: ApproveAction
-}
-
 export function createApproveActionConfig(action: ApproveAction, context: ActionContext): ActionConfig {
   const { wagmiConfig, account, chainId } = context
 

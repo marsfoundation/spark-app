@@ -13,7 +13,7 @@ import { useOpenDialog } from '@/domain/state/dialogs'
 import { Percentage } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { useMarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
-import { Objective } from '@/features/actions/logic/types'
+import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
 import { assert, raise } from '@/utils/assert'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -59,6 +59,8 @@ export interface UseEasyBorrowResults {
   openSandboxModal: () => void
 
   healthFactorPanelRef: React.RefObject<HTMLDivElement>
+
+  actionsContext: InjectedActionsContext
 }
 
 export function useEasyBorrow(): UseEasyBorrowResults {
@@ -223,5 +225,8 @@ export function useEasyBorrow(): UseEasyBorrowResults {
     openSandboxModal,
     healthFactorPanelRef,
     riskAcknowledgement,
+    actionsContext: {
+      marketInfo,
+    },
   }
 }

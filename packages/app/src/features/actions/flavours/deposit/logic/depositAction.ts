@@ -9,11 +9,7 @@ import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPr
 import { ActionConfig, ActionContext } from '@/features/actions/logic/types'
 import { toBigInt } from '@/utils/bigNumber'
 import { getTimestampInSeconds } from '@/utils/time'
-import { DepositAction } from './types'
-
-export interface CreateDepositActionConfigParams {
-  action: DepositAction
-}
+import { DepositAction } from '../types'
 
 export function createDepositActionConfig(action: DepositAction, context: ActionContext): ActionConfig {
   const { account, chainId } = context

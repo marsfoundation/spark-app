@@ -4,7 +4,7 @@ import { UserPositionSummary } from '@/domain/market-info/marketInfo'
 import { Percentage } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { ActionsContainer } from '@/features/actions/ActionsContainer'
-import { Objective } from '@/features/actions/logic/types'
+import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { Typography } from '@/ui/atoms/typography/Typography'
@@ -43,10 +43,19 @@ export interface EasyBorrowPanelProps {
   openSandboxModal: () => void
 
   healthFactorPanelRef: React.RefObject<HTMLDivElement>
+
+  actionsContext: InjectedActionsContext
 }
 
 export function EasyBorrowPanel(props: EasyBorrowPanelProps) {
-  const { pageStatus, updatedPositionSummary, objectives: actions, liquidationDetails, healthFactorPanelRef } = props
+  const {
+    pageStatus,
+    updatedPositionSummary,
+    objectives: actions,
+    liquidationDetails,
+    healthFactorPanelRef,
+    actionsContext,
+  } = props
 
   return (
     <Panel.Wrapper className="flex min-w-full max-w-3xl flex-col self-center p-4 md:p-8">
@@ -84,6 +93,7 @@ export function EasyBorrowPanel(props: EasyBorrowPanelProps) {
           )}
           <ActionsContainer
             objectives={actions}
+            context={actionsContext}
             onFinish={pageStatus.goToSuccessScreen}
             enabled={pageStatus.actionsEnabled}
           />

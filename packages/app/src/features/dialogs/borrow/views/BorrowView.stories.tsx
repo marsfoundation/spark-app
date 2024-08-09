@@ -1,13 +1,10 @@
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { WithClassname, WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import BigNumber from 'bignumber.js'
 import { useForm } from 'react-hook-form'
-import { zeroAddress } from 'viem'
-
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 
 import { BorrowView } from './BorrowView'
 
@@ -43,7 +40,6 @@ const meta: Meta<typeof BorrowView> = {
         type: 'borrow',
         token: tokens.DAI,
         value: NormalizedUnitNumber(2000),
-        debtTokenAddress: CheckedAddress(zeroAddress),
       },
     ],
     borrowAsset: {

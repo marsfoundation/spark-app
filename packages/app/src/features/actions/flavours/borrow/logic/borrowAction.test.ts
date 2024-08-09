@@ -1,0 +1,93 @@
+import { poolAbi } from '@/config/abis/poolAbi'
+import { InterestRate, NATIVE_ASSET_MOCK_ADDRESS } from '@/config/consts'
+import { lendingPoolAddress, wethGatewayAbi, wethGatewayAddress } from '@/config/contracts-generated'
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { getMockToken, testAddresses } from '@/test/integration/constants'
+import { handlers } from '@/test/integration/mockTransport'
+import { setupUseActionRenderer } from '@/test/integration/setupUseActionRenderer'
+import { toBigInt } from '@/utils/bigNumber'
+import { waitFor } from '@testing-library/react'
+import { mainnet } from 'viem/chains'
+import { describe, test } from 'vitest'
+import { createBorrowActionConfig } from './borrowAction'
+
+const borrowValue = NormalizedUnitNumber(1)
+const borrowToken = getMockToken({ symbol: TokenSymbol('TEST') })
+const nativeAsset = getMockToken({ address: NATIVE_ASSET_MOCK_ADDRESS })
+const account = testAddresses.alice
+const chainId = mainnet.id
+const interestRateMode = BigInt(InterestRate.Variable)
+const referralCode = 0
+
+const hookRenderer = setupUseActionRenderer({
+  account,
+  handlers: [handlers.chainIdCall({ chainId }), handlers.balanceCall({ balance: 0n, address: account })],
+  args: { action: { type: 'borrow', token: borrowToken, value: borrowValue }, enabled: true },
+})
+
+describe(createBorrowActionConfig.name, () => {
+  test('borrows native asset', async () => {
+    const { result } = hookRenderer({
+      args: { action: { type: 'borrow', token: nativeAsset, value: borrowValue }, enabled: true },
+      extraHandlers: [
+        handlers.contractCall({
+          to: wethGatewayAddress[chainId],
+          abi: wethGatewayAbi,
+          functionName: 'borrowETH',
+          args: [
+            lendingPoolAddress[chainId],
+            toBigInt(nativeAsset.toBaseUnit(borrowValue)),
+            interestRateMode,
+            referralCode,
+          ],
+          from: account,
+          result: undefined,
+        }),
+        handlers.mineTransaction(),
+      ],
+    })
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('ready')
+    })
+
+    result.current.onAction()
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('success')
+    })
+  })
+
+  test('borrows non-native asset', async () => {
+    const { result } = hookRenderer({
+      extraHandlers: [
+        handlers.contractCall({
+          to: lendingPoolAddress[chainId],
+          abi: poolAbi,
+          functionName: 'borrow',
+          args: [
+            borrowToken.address,
+            toBigInt(borrowToken.toBaseUnit(borrowValue)),
+            interestRateMode,
+            referralCode,
+            account,
+          ],
+          result: undefined,
+          from: account,
+        }),
+        handlers.mineTransaction(),
+      ],
+    })
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('ready')
+    })
+
+    result.current.onAction()
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('success')
+    })
+  })
+})
