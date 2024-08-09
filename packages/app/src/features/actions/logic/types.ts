@@ -8,14 +8,8 @@ import { ApproveDelegationAction } from '../flavours/approve-delegation/types'
 import { ApproveAction } from '../flavours/approve/types'
 import { BorrowAction, BorrowObjective } from '../flavours/borrow/types'
 import { ClaimRewardsAction, ClaimRewardsObjective } from '../flavours/claim-rewards/types'
+import { DepositToSavingsAction, DepositToSavingsObjective } from '../flavours/deposit-to-savings/types'
 import { DepositAction, DepositObjective } from '../flavours/deposit/types'
-import {
-  MakerStableToSavingsAction,
-  MakerStableToSavingsObjective,
-} from '../flavours/native-sdai-deposit/maker-stables/types'
-import { MigrateDAIToSNSTAction } from '../flavours/native-sdai-deposit/migrate-dai-to-snst/types'
-import { USDCToSDaiDepositAction, USDCToSDaiDepositObjective } from '../flavours/native-sdai-deposit/usdc-to-sdai/types'
-import { XDaiToSDaiDepositAction, XDaiToSDaiDepositObjective } from '../flavours/native-sdai-deposit/xdai-to-sdai/types'
 import {
   DaiFromSDaiWithdrawAction,
   DaiFromSDaiWithdrawObjective,
@@ -46,13 +40,11 @@ export type Objective =
   | RepayObjective
   | SetUseAsCollateralObjective
   | SetUserEModeObjective
-  | MakerStableToSavingsObjective
-  | DaiFromSDaiWithdrawObjective
-  | USDCToSDaiDepositObjective
-  | USDCFromSDaiWithdrawObjective
-  | XDaiToSDaiDepositObjective
-  | XDaiFromSDaiWithdrawObjective
   | ClaimRewardsObjective
+  | DaiFromSDaiWithdrawObjective
+  | USDCFromSDaiWithdrawObjective
+  | XDaiFromSDaiWithdrawObjective
+  | DepositToSavingsObjective
 export type ObjectiveType = Objective['type']
 
 export type Action =
@@ -65,14 +57,11 @@ export type Action =
   | RepayAction
   | SetUseAsCollateralAction
   | SetUserEModeAction
-  | MakerStableToSavingsAction
-  | DaiFromSDaiWithdrawAction
-  | USDCToSDaiDepositAction
-  | USDCFromSDaiWithdrawAction
-  | XDaiToSDaiDepositAction
-  | XDaiFromSDaiWithdrawAction
   | ClaimRewardsAction
-  | MigrateDAIToSNSTAction
+  | DaiFromSDaiWithdrawAction
+  | USDCFromSDaiWithdrawAction
+  | XDaiFromSDaiWithdrawAction
+  | DepositToSavingsAction
 export type ActionType = Action['type']
 
 export type ActionHandlerState =
@@ -117,4 +106,5 @@ export interface ActionConfig {
 
 export interface InjectedActionsContext {
   marketInfo?: MarketInfo
+  tokensInfo?: TokensInfo
 }

@@ -1,5 +1,4 @@
 import { getChainConfigEntry } from '@/config/chain'
-import { MIGRATE_ACTIONS_ADDRESS } from '@/config/consts'
 import {
   lendingPoolAddress,
   psmActionsAddress,
@@ -18,11 +17,8 @@ import { ApproveDelegationAction } from '../flavours/approve-delegation/types'
 import { ApproveAction } from '../flavours/approve/types'
 import { BorrowAction } from '../flavours/borrow/types'
 import { ClaimRewardsAction } from '../flavours/claim-rewards/types'
+import { createDepositToSavingsActions } from '../flavours/deposit-to-savings/logic/createDepositToSavingsActions'
 import { DepositAction } from '../flavours/deposit/types'
-import { MakerStableToSavingsAction } from '../flavours/native-sdai-deposit/maker-stables/types'
-import { MigrateDAIToSNSTAction } from '../flavours/native-sdai-deposit/migrate-dai-to-snst/types'
-import { USDCToSDaiDepositAction } from '../flavours/native-sdai-deposit/usdc-to-sdai/types'
-import { XDaiToSDaiDepositAction } from '../flavours/native-sdai-deposit/xdai-to-sdai/types'
 import { DaiFromSDaiWithdrawAction } from '../flavours/native-sdai-withdraw/dai-from-sdai/types'
 import { USDCFromSDaiWithdrawAction } from '../flavours/native-sdai-withdraw/usdc-from-sdai/types'
 import { XDaiFromSDaiWithdrawAction } from '../flavours/native-sdai-withdraw/xdai-from-sdai/types'
@@ -31,14 +27,15 @@ import { RepayAction } from '../flavours/repay/types'
 import { SetUseAsCollateralAction } from '../flavours/set-use-as-collateral/types'
 import { SetUserEModeAction } from '../flavours/set-user-e-mode/logic/types'
 import { WithdrawAction } from '../flavours/withdraw/types'
-import { Action, Objective } from './types'
+import { Action, ActionContext, Objective } from './types'
 
 export interface UseCreateActionsParams {
   objectives: Objective[]
   actionsSettings: ActionsSettings
+  actionContext: ActionContext
 }
 
-export function useCreateActions({ objectives, actionsSettings }: UseCreateActionsParams): Action[] {
+export function useCreateActions({ objectives, actionsSettings, actionContext }: UseCreateActionsParams): Action[] {
   const chainId = useOriginChainId()
   const chainConfig = getChainConfigEntry(chainId)
   const nativeAssetInfo = chainConfig.nativeAssetInfo
@@ -185,6 +182,17 @@ export function useCreateActions({ objectives, actionsSettings }: UseCreateActio
         return [setUserEModeAction]
       }
 
+      case 'claimRewards': {
+        const claimRewardsActions: ClaimRewardsAction = {
+          type: 'claimRewards',
+          token: objective.token,
+          incentiveControllerAddress: objective.incentiveControllerAddress,
+          assets: objective.assets,
+        }
+
+        return [claimRewardsActions]
+      }
+
       case 'daiFromSDaiWithdraw': {
         const isSend = objective.mode === 'send'
         const withdrawAction: DaiFromSDaiWithdrawAction = {
@@ -250,80 +258,8 @@ export function useCreateActions({ objectives, actionsSettings }: UseCreateActio
         return [approveAction, withdrawAction]
       }
 
-      case 'makerStableToSavings': {
-        if (objective.migrateDAIToSNST) {
-          const approveAction: ApproveAction = {
-            type: 'approve',
-            token: objective.stableToken,
-            spender: MIGRATE_ACTIONS_ADDRESS,
-            value: objective.value,
-          }
-
-          const migrateDAIToSNSTAction: MigrateDAIToSNSTAction = {
-            type: 'migrateDAIToSNST',
-            value: objective.value,
-            stableToken: objective.stableToken,
-            savingsToken: objective.savingsToken,
-          }
-
-          return [approveAction, migrateDAIToSNSTAction]
-        }
-
-        const approveAction: ApproveAction = {
-          type: 'approve',
-          token: objective.stableToken,
-          spender: objective.savingsToken.address,
-          value: objective.value,
-        }
-
-        const depositAction: MakerStableToSavingsAction = {
-          type: 'makerStableToSavings',
-          value: objective.value,
-          stableToken: objective.stableToken,
-          savingsToken: objective.savingsToken,
-        }
-
-        return [approveAction, depositAction]
-      }
-
-      case 'usdcToSDaiDeposit': {
-        const approveAction: ApproveAction = {
-          type: 'approve',
-          token: objective.usdc,
-          spender: psmActionsAddress[mainnet.id],
-          value: objective.value,
-        }
-
-        const depositAction: USDCToSDaiDepositAction = {
-          type: 'usdcToSDaiDeposit',
-          value: objective.value,
-          usdc: objective.usdc,
-          sDai: objective.sDai,
-        }
-
-        return [approveAction, depositAction]
-      }
-
-      case 'xDaiToSDaiDeposit': {
-        const depositAction: XDaiToSDaiDepositAction = {
-          type: 'xDaiToSDaiDeposit',
-          value: objective.value,
-          xDai: objective.xDai,
-          sDai: objective.sDai,
-        }
-
-        return [depositAction]
-      }
-
-      case 'claimRewards': {
-        const claimRewardsActions: ClaimRewardsAction = {
-          type: 'claimRewards',
-          token: objective.token,
-          incentiveControllerAddress: objective.incentiveControllerAddress,
-          assets: objective.assets,
-        }
-
-        return [claimRewardsActions]
+      case 'depositToSavings': {
+        return createDepositToSavingsActions(objective, actionContext)
       }
     }
   })
