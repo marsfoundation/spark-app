@@ -1,13 +1,11 @@
+import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
+import { getMockMarketInfo, getMockReserve } from '@/test/integration/constants'
 import { WithClassname, WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import BigNumber from 'bignumber.js'
 import { useForm } from 'react-hook-form'
-
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
-import { getMockReserve } from '@/test/integration/constants'
-
 import { WithdrawView } from './WithdrawView'
 
 const meta: Meta<typeof WithdrawView> = {
@@ -70,6 +68,9 @@ const meta: Meta<typeof WithdrawView> = {
     riskAcknowledgement: {
       onStatusChange: () => {},
       warning: { type: 'liquidation-warning-withdraw' },
+    },
+    actionsContext: {
+      marketInfo: getMockMarketInfo(),
     },
   },
 }

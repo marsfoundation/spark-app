@@ -16,6 +16,7 @@ import { createDepositActionConfig } from '../flavours/deposit/logic/depositActi
 import { createRepayActionConfig } from '../flavours/repay/logic/repayAction'
 import { createSetUseAsCollateralActionConfig } from '../flavours/set-use-as-collateral/logic/setUseAsCollateralAction'
 import { createSetUserEModeActionConfig } from '../flavours/set-user-e-mode/logic/setUserEModeAction'
+import { createWithdrawActionConfig } from '../flavours/withdraw/logic/withdrawAction'
 import { ActionConfig, ActionContext, InitialParamsQueryResult, VerifyTransactionResult } from './types'
 
 export interface UseActionParams {
@@ -148,6 +149,10 @@ function actionToConfig(action: Action, context: ActionContext): ActionConfig {
 
   if (action.type === 'claimRewards') {
     return createClaimRewardsActionConfig(action, context)
+  }
+
+  if (action.type === 'withdraw') {
+    return createWithdrawActionConfig(action, context)
   }
 
   return createEmptyActionConfig()
