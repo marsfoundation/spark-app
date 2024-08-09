@@ -154,7 +154,7 @@ type SimplifiedGenericAction = BaseAction & {
     | 'daiFromSDaiWithdraw'
     | 'usdcFromSDaiWithdraw'
     | 'xDaiFromSDaiWithdraw'
-    | 'makerStableToSavings'
+    | 'depositToSavings'
     | 'setUserEMode'
   >
 }
@@ -165,7 +165,7 @@ type SimplifiedSetUserEModeAction = {
 }
 
 type SimplifiedMakerStableToSavingsAction = BaseAction & {
-  type: 'makerStableToSavings'
+  type: 'depositToSavings'
   savingsAsset: string
 }
 
@@ -195,19 +195,14 @@ function actionToTitle(action: SimplifiedAction): string {
       return '' // not used in collateral dialog tests
     case 'setUserEMode':
       return action.eModeCategoryId === 0 ? 'Disable E-Mode' : 'Enable E-Mode'
-    case 'makerStableToSavings':
+    case 'depositToSavings':
       return `Convert ${action.asset} to ${action.savingsAsset}`
-    case 'usdcToSDaiDeposit':
-    case 'xDaiToSDaiDeposit':
-      return `Convert ${action.asset} to sDAI`
     case 'daiFromSDaiWithdraw':
     case 'usdcFromSDaiWithdraw':
     case 'xDaiFromSDaiWithdraw':
       return `Convert sDAI to ${action.asset}${action.mode === 'send' ? ' and send' : ''}`
     case 'claimRewards':
       return 'Claim'
-    case 'migrateDAIToSNST':
-      return 'Convert DAI to sNST'
   }
 }
 

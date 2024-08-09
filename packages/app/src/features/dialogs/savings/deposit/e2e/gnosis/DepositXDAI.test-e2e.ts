@@ -35,7 +35,9 @@ test.describe('Deposit XDAI on Gnosis', () => {
   })
 
   test('uses native sDai deposit', async () => {
-    await depositDialog.actionsContainer.expectActions([{ type: 'xDaiToSDaiDeposit', asset: 'XDAI' }])
+    await depositDialog.actionsContainer.expectActions([
+      { type: 'depositToSavings', asset: 'XDAI', savingsAsset: 'sDAI' },
+    ])
   })
 
   test('displays transaction overview', async () => {

@@ -1,6 +1,6 @@
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
 import { RiskAcknowledgementInfo } from '@/domain/liquidation-risk-warning/types'
-import { Objective } from '@/features/actions/logic/types'
+import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { DialogActionsPanel } from '@/features/dialogs/common/components/DialogActionsPanel'
 import { FormAndOverviewWrapper } from '@/features/dialogs/common/components/FormAndOverviewWrapper'
 import { MultiPanelDialog } from '@/features/dialogs/common/components/MultiPanelDialog'
@@ -19,6 +19,7 @@ export interface BorrowViewProps {
   assetsFields: FormFieldsForDialog
   form: UseFormReturn<AssetInputSchema>
   objectives: Objective[]
+  actionsContext: InjectedActionsContext
   pageStatus: PageStatus
   currentHealthFactor?: BigNumber
   updatedHealthFactor?: BigNumber
@@ -30,6 +31,7 @@ export function BorrowView({
   assetsFields,
   form,
   objectives,
+  actionsContext,
   pageStatus,
   borrowAsset,
   currentHealthFactor,
@@ -53,6 +55,7 @@ export function BorrowView({
       )}
 
       <DialogActionsPanel
+        context={actionsContext}
         objectives={objectives}
         onFinish={pageStatus.goToSuccessScreen}
         enabled={pageStatus.actionsEnabled}

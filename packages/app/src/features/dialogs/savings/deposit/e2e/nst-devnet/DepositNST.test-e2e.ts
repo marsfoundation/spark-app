@@ -33,7 +33,7 @@ test.describe('Deposit NST on NST DevNet', () => {
   test('uses native sNST deposit', async () => {
     await depositDialog.actionsContainer.expectActions([
       { type: 'approve', asset: 'NST' },
-      { type: 'makerStableToSavings', asset: 'NST', savingsAsset: 'sNST' },
+      { type: 'depositToSavings', asset: 'NST', savingsAsset: 'sNST' },
     ])
   })
 

@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js'
-import { zeroAddress } from 'viem'
 
 import { NativeAssetInfo } from '@/config/chain/types'
 import { AaveUserReserve } from '@/domain/market-info/aave-data-layer/query'
@@ -142,7 +141,7 @@ export function getMockReserve(overrides: Partial<Reserve> = {}): Reserve {
     token,
 
     aToken: token.clone({ symbol: TokenSymbol('aWstETH') }),
-    variableDebtTokenAddress: CheckedAddress(zeroAddress),
+    variableDebtTokenAddress: CheckedAddress('0xd5c3E3B566a42A6110513Ac7670C1a86D76E13E6'),
 
     status: 'active',
 
@@ -430,6 +429,20 @@ export const testTokens = {
   USDC: usdcLikeReserve.token,
   USDT: usdtLikeReserve.token,
   WETH: wethLikeReserve.token,
+  NST: new Token({
+    address: CheckedAddress('0x798f111c92E38F102931F34D1e0ea7e671BDBE31'),
+    symbol: TokenSymbol('NST'),
+    name: 'NST',
+    decimals: 18,
+    unitPriceUsd: '1',
+  }),
+  sNST: new Token({
+    address: CheckedAddress('0xeA8AE08513f8230cAA8d031D28cB4Ac8CE720c68'),
+    symbol: TokenSymbol('sNST'),
+    name: 'sNST',
+    decimals: 18,
+    unitPriceUsd: '1.05',
+  }),
   token1: new Token({
     address: testAddresses.token,
     symbol: TokenSymbol('TKN1'),

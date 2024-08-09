@@ -3,14 +3,13 @@ import { useSavingsDaiInfo } from '@/domain/savings-info/useSavingsDaiInfo'
 import { useSavingsNstInfo } from '@/domain/savings-info/useSavingsNstInfo'
 import { useSavingsTokens } from '@/domain/savings/useSavingsTokens'
 import { Token } from '@/domain/types/Token'
-import { Objective } from '@/features/actions/logic/types'
+import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
 import { assert, raise } from '@/utils/assert'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
-import { useChainId } from 'wagmi'
 import { useDebouncedDialogFormValues } from '../../common/logic/form'
 import { SavingsDialogTxOverview } from '../../common/types'
 import { createTxOverview } from './createTxOverview'
@@ -31,6 +30,7 @@ export interface UseSavingsDepositDialogResults {
   pageStatus: PageStatus
   txOverview: SavingsDialogTxOverview
   savingsNstSwitchInfo: SavingsSNstSwitchInfo
+  actionsContext: InjectedActionsContext
 }
 
 export interface SavingsSNstSwitchInfo {
@@ -45,7 +45,6 @@ export function useSavingsDepositDialog({
   const { savingsDaiInfo } = useSavingsDaiInfo()
   const { savingsNstInfo } = useSavingsNstInfo()
   assert(savingsDaiInfo || savingsNstInfo, 'Neither sDai nor sNST is supported')
-  const chainId = useChainId()
 
   const { tokensInfo, inputTokens } = useSavingsTokens()
 
@@ -91,7 +90,6 @@ export function useSavingsDepositDialog({
     formValues,
     tokensInfo,
     type: savingsType,
-    chainId,
   })
   const txOverview = createTxOverview({
     formValues,
@@ -122,6 +120,9 @@ export function useSavingsDepositDialog({
       showSwitch: showUpgradeSwitch,
       checked: upgradeSwitchChecked,
       onSwitch: () => setUpgradeSwitchChecked((upgradeSwitchChecked) => !upgradeSwitchChecked),
+    },
+    actionsContext: {
+      tokensInfo,
     },
   }
 }

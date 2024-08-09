@@ -1,13 +1,10 @@
+import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { WithClassname, WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import BigNumber from 'bignumber.js'
 import { useForm } from 'react-hook-form'
-import { zeroAddress } from 'viem'
-
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 
 import { DepositView } from './DepositView'
 
@@ -44,7 +41,6 @@ const meta: Meta<typeof DepositView> = {
         type: 'deposit',
         token: tokens.USDC,
         value: NormalizedUnitNumber(50000),
-        lendingPool: CheckedAddress(zeroAddress),
       },
     ],
     pageStatus: {

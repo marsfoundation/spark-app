@@ -1,6 +1,4 @@
-import { lendingPoolAddress } from '@/config/contracts-generated'
 import { GetRepayMaxValueParams, getRepayMaxValue } from '@/domain/action-max-value-getters/getRepayMaxValue'
-import { useContractAddress } from '@/domain/hooks/useContractAddress'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { MarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 import { RepayObjective } from '@/features/actions/flavours/repay/types'
@@ -19,8 +17,6 @@ export function useCreateRepayObjectives({
   marketInfoIn2Epochs,
   walletInfo,
 }: UseCreateRepayObjectivesParams): RepayObjective[] {
-  const lendingPool = useContractAddress(lendingPoolAddress)
-
   const symbol = repaymentAsset.token.symbol
 
   const balance = walletInfo.findWalletBalanceForSymbol(symbol)
@@ -62,7 +58,6 @@ export function useCreateRepayObjectives({
       requiredApproval: tryFullRepay ? repayMaxValueIn1Epoch : repaymentAsset.value,
       reserve: repaymentAsset.reserve,
       useAToken: repaymentAsset.token.isAToken,
-      lendingPool,
     },
   ]
 }

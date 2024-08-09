@@ -21,6 +21,7 @@ function SavingsDepositDialogContentContainer({ initialToken, closeDialog }: Sav
     pageStatus,
     txOverview,
     savingsNstSwitchInfo,
+    actionsContext,
   } = useSavingsDepositDialog({
     initialToken,
   })
@@ -45,6 +46,7 @@ function SavingsDepositDialogContentContainer({ initialToken, closeDialog }: Sav
       pageStatus={pageStatus}
       txOverview={txOverview}
       savingsNstSwitchInfo={savingsNstSwitchInfo}
+      actionsContext={actionsContext}
     />
   )
 }

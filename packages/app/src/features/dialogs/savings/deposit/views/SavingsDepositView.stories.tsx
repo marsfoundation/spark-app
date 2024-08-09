@@ -6,8 +6,30 @@ import { useForm } from 'react-hook-form'
 
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 
-import { USDCToSDaiDepositObjective } from '@/features/actions/flavours/native-sdai-deposit/usdc-to-sdai/types'
+import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
+import { DepositToSavingsObjective } from '@/features/actions/flavours/deposit-to-savings/types'
 import { SavingsDepositView } from './SavingsDepositView'
+
+const dai = tokens.DAI
+const sdai = tokens.sDAI
+const nst = tokens.NST
+const snst = tokens.sNST
+const usdc = tokens.USDC
+const mockTokensInfo = new TokensInfo(
+  [
+    { token: dai, balance: NormalizedUnitNumber(100) },
+    { token: sdai, balance: NormalizedUnitNumber(100) },
+    { token: nst, balance: NormalizedUnitNumber(100) },
+    { token: snst, balance: NormalizedUnitNumber(100) },
+    { token: usdc, balance: NormalizedUnitNumber(100) },
+  ],
+  {
+    DAI: dai.symbol,
+    sDAI: sdai.symbol,
+    NST: nst.symbol,
+    sNST: snst.symbol,
+  },
+)
 
 const meta: Meta<typeof SavingsDepositView> = {
   title: 'Features/Dialogs/Views/Savings/Deposit',
@@ -38,11 +60,11 @@ const meta: Meta<typeof SavingsDepositView> = {
     },
     objectives: [
       {
-        type: 'usdcToSDaiDeposit',
+        type: 'depositToSavings',
         value: NormalizedUnitNumber(5000),
-        usdc: tokens.USDC,
-        sDai: tokens.sDAI,
-      } satisfies USDCToSDaiDepositObjective,
+        token: tokens.USDC,
+        savingsToken: tokens.sDAI,
+      } satisfies DepositToSavingsObjective,
     ],
     pageStatus: {
       state: 'form',
@@ -66,6 +88,9 @@ const meta: Meta<typeof SavingsDepositView> = {
       showSwitch: false,
       onSwitch: () => {},
       checked: false,
+    },
+    actionsContext: {
+      tokensInfo: mockTokensInfo,
     },
   },
 }

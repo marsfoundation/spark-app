@@ -1,5 +1,5 @@
 import { TokenWithBalance } from '@/domain/common/types'
-import { Objective } from '@/features/actions/logic/types'
+import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { DialogActionsPanel } from '@/features/dialogs/common/components/DialogActionsPanel'
 import { FormAndOverviewWrapper } from '@/features/dialogs/common/components/FormAndOverviewWrapper'
 import { MultiPanelDialog } from '@/features/dialogs/common/components/MultiPanelDialog'
@@ -21,6 +21,7 @@ export interface SavingsDepositViewProps {
   pageStatus: PageStatus
   txOverview: SavingsDialogTxOverview
   savingsNstSwitchInfo: SavingsSNstSwitchInfo
+  actionsContext: InjectedActionsContext
 }
 
 export function SavingsDepositView({
@@ -31,6 +32,7 @@ export function SavingsDepositView({
   pageStatus,
   txOverview,
   savingsNstSwitchInfo,
+  actionsContext,
 }: SavingsDepositViewProps) {
   return (
     <MultiPanelDialog>
@@ -45,6 +47,7 @@ export function SavingsDepositView({
 
       <DialogActionsPanel
         objectives={objectives}
+        context={actionsContext}
         onFinish={pageStatus.goToSuccessScreen}
         enabled={pageStatus.actionsEnabled}
       />
