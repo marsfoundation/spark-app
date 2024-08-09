@@ -15,7 +15,6 @@ import { useCreateUSDCFromSDaiWithdrawHandler } from '../flavours/native-sdai-wi
 import { useCreateXDaiFromSDaiWithdrawHandler } from '../flavours/native-sdai-withdraw/xdai-from-sdai/useCreateXDaiFromSDaiWithdrawHandler'
 import { getFakePermitAction } from '../flavours/permit/logic/getFakePermitAction'
 import { useCreatePermitHandler } from '../flavours/permit/logic/useCreatePermitHandler'
-import { useCreateRepayHandler } from '../flavours/repay/useCreateRepayHandler'
 import { useCreateSetUseAsCollateralHandler } from '../flavours/set-use-as-collateral/logic/useCreateSetUseAsCollateralHandler'
 import { useCreateSetUserEModeHandler } from '../flavours/set-user-e-mode/logic/useCreateSetUserEModeHandler'
 import { useCreateWithdrawHandler } from '../flavours/withdraw/useCreateWithdrawHandler'
@@ -66,7 +65,8 @@ export function useActionHandlers(
       action.type === 'borrow' ||
       action.type === 'setUseAsCollateral' ||
       action.type === 'approveDelegation' ||
-      action.type === 'setUserEMode'
+      action.type === 'setUserEMode' ||
+      action.type === 'repay'
     ) {
       return [...acc, undefined as any]
     }
@@ -91,7 +91,8 @@ export function useActionHandlers(
     currentAction.type === 'borrow' ||
     currentAction.type === 'setUseAsCollateral' ||
     currentAction.type === 'approveDelegation' ||
-    currentAction.type === 'setUserEMode'
+    currentAction.type === 'setUserEMode' ||
+    currentAction.type === 'repay'
 
   const newHandler = useAction({
     action: currentAction,
@@ -168,8 +169,7 @@ function useCreateActionHandler(
       // biome-ignore lint/correctness/useHookAtTopLevel:
       return useCreateWithdrawHandler(action, { enabled, onFinish })
     case 'repay':
-      // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateRepayHandler(action, { permitStore, enabled, onFinish })
+      throw new Error('repay action is not supported anymore')
     case 'setUseAsCollateral':
       // biome-ignore lint/correctness/useHookAtTopLevel:
       return useCreateSetUseAsCollateralHandler(action, { enabled, onFinish })
