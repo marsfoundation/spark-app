@@ -13,7 +13,7 @@ import { generatePrivateKey } from 'viem/accounts'
 import { mainnet } from 'viem/chains'
 import { describe, test } from 'vitest'
 import { createPermitStore } from '../../../logic/permits'
-import { createDepositActionConfig } from './deposit-action'
+import { createDepositActionConfig } from './depositAction'
 
 const depositValue = NormalizedUnitNumber(1)
 const depositToken = getMockToken({ symbol: TokenSymbol('TEST') })

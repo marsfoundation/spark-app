@@ -8,9 +8,9 @@ import {
 } from '@/features/actions/logic/types'
 import { mapWriteResultToActionState } from '@/features/actions/logic/utils'
 import { QueryKey, queryOptions, skipToken, useQuery, useQueryClient } from '@tanstack/react-query'
-import { createApproveActionConfig } from '../flavours/approve/logic/approve-action'
+import { createApproveActionConfig } from '../flavours/approve/logic/approveAction'
 import { createBorrowActionConfig } from '../flavours/borrow/logic/borrowAction'
-import { createDepositActionConfig } from '../flavours/deposit/logic/deposit-action'
+import { createDepositActionConfig } from '../flavours/deposit/logic/depositAction'
 import { createSetUseAsCollateralActionConfig } from '../flavours/set-use-as-collateral/logic/setUseAsCollateralAction'
 import { ActionConfig, ActionContext, InitialParamsQueryResult, VerifyTransactionResult } from './types'
 

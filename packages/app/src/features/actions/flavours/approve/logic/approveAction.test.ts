@@ -10,7 +10,7 @@ import { waitFor } from '@testing-library/react'
 import { erc20Abi } from 'viem'
 import { mainnet } from 'viem/chains'
 import { describe, test } from 'vitest'
-import { createApproveActionConfig } from './approve-action'
+import { createApproveActionConfig } from './approveAction'
 
 const defaultValue = NormalizedUnitNumber(1)
 const token = getMockToken({ symbol: TokenSymbol('TEST') })
