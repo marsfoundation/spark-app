@@ -11,6 +11,7 @@ import { QueryKey, queryOptions, skipToken, useQuery, useQueryClient } from '@ta
 import { createApproveDelegationActionConfig } from '../flavours/approve-delegation/logic/approveDelegationAction'
 import { createApproveActionConfig } from '../flavours/approve/logic/approveAction'
 import { createBorrowActionConfig } from '../flavours/borrow/logic/borrowAction'
+import { createClaimRewardsActionConfig } from '../flavours/claim-rewards/logic/claimRewardsAction'
 import { createDepositActionConfig } from '../flavours/deposit/logic/depositAction'
 import { createRepayActionConfig } from '../flavours/repay/logic/repayAction'
 import { createSetUseAsCollateralActionConfig } from '../flavours/set-use-as-collateral/logic/setUseAsCollateralAction'
@@ -143,6 +144,10 @@ function actionToConfig(action: Action, context: ActionContext): ActionConfig {
 
   if (action.type === 'repay') {
     return createRepayActionConfig(action, context)
+  }
+
+  if (action.type === 'claimRewards') {
+    return createClaimRewardsActionConfig(action, context)
   }
 
   return createEmptyActionConfig()
