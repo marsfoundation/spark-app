@@ -31,7 +31,7 @@ import {
 import { PermitAction } from '../flavours/permit/types'
 import { RepayAction, RepayObjective } from '../flavours/repay/types'
 import { SetUseAsCollateralAction, SetUseAsCollateralObjective } from '../flavours/set-use-as-collateral/types'
-import { SetUserEModeAction, SetUserEModeObjective } from '../flavours/set-user-e-mode/types'
+import { SetUserEModeAction, SetUserEModeObjective } from '../flavours/set-user-e-mode/logic/types'
 import { WithdrawAction, WithdrawObjective } from '../flavours/withdraw/types'
 import { PermitStore } from './permits'
 

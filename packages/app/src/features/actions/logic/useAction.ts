@@ -13,6 +13,7 @@ import { createApproveActionConfig } from '../flavours/approve/logic/approveActi
 import { createBorrowActionConfig } from '../flavours/borrow/logic/borrowAction'
 import { createDepositActionConfig } from '../flavours/deposit/logic/depositAction'
 import { createSetUseAsCollateralActionConfig } from '../flavours/set-use-as-collateral/logic/setUseAsCollateralAction'
+import { createSetUserEModeActionConfig } from '../flavours/set-user-e-mode/logic/setUserEModeAction'
 import { ActionConfig, ActionContext, InitialParamsQueryResult, VerifyTransactionResult } from './types'
 
 export interface UseActionParams {
@@ -133,6 +134,10 @@ function actionToConfig(action: Action, context: ActionContext): ActionConfig {
 
   if (action.type === 'approveDelegation') {
     return createApproveDelegationActionConfig(action, context)
+  }
+
+  if (action.type === 'setUserEMode') {
+    return createSetUserEModeActionConfig(action, context)
   }
 
   return createEmptyActionConfig()

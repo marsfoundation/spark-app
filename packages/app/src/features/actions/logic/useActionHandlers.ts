@@ -17,7 +17,7 @@ import { getFakePermitAction } from '../flavours/permit/logic/getFakePermitActio
 import { useCreatePermitHandler } from '../flavours/permit/logic/useCreatePermitHandler'
 import { useCreateRepayHandler } from '../flavours/repay/useCreateRepayHandler'
 import { useCreateSetUseAsCollateralHandler } from '../flavours/set-use-as-collateral/logic/useCreateSetUseAsCollateralHandler'
-import { useCreateSetUserEModeHandler } from '../flavours/set-user-e-mode/useCreateSetUserEModeHandler'
+import { useCreateSetUserEModeHandler } from '../flavours/set-user-e-mode/logic/useCreateSetUserEModeHandler'
 import { useCreateWithdrawHandler } from '../flavours/withdraw/useCreateWithdrawHandler'
 import { PermitStore, createPermitStore } from './permits'
 import { Action, ActionHandler, InjectedActionsContext, Objective } from './types'
@@ -65,7 +65,8 @@ export function useActionHandlers(
       action.type === 'deposit' ||
       action.type === 'borrow' ||
       action.type === 'setUseAsCollateral' ||
-      action.type === 'approveDelegation'
+      action.type === 'approveDelegation' ||
+      action.type === 'setUserEMode'
     ) {
       return [...acc, undefined as any]
     }
@@ -89,7 +90,8 @@ export function useActionHandlers(
     currentAction.type === 'deposit' ||
     currentAction.type === 'borrow' ||
     currentAction.type === 'setUseAsCollateral' ||
-    currentAction.type === 'approveDelegation'
+    currentAction.type === 'approveDelegation' ||
+    currentAction.type === 'setUserEMode'
 
   const newHandler = useAction({
     action: currentAction,
