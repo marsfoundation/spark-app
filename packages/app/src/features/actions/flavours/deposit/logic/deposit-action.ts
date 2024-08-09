@@ -9,7 +9,7 @@ import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPr
 import { ActionConfig, ActionContext } from '@/features/actions/logic/types'
 import { toBigInt } from '@/utils/bigNumber'
 import { getTimestampInSeconds } from '@/utils/time'
-import { DepositAction } from './types'
+import { DepositAction } from '../types'
 
 export interface CreateDepositActionConfigParams {
   action: DepositAction

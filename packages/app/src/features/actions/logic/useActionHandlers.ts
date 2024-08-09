@@ -6,7 +6,7 @@ import { useCreateApproveDelegationHandler } from '../flavours/approve-delegatio
 import { useCreateApproveHandler } from '../flavours/approve/logic/useCreateApproveHandler'
 import { useCreateBorrowActionHandler } from '../flavours/borrow/useCreateBorrowHandler'
 import { useCreateClaimRewardsHandler } from '../flavours/claim-rewards/useCreateClaimRewardsHandler'
-import { useCreateDepositHandler } from '../flavours/deposit/useCreateDepositHandler'
+import { useCreateDepositHandler } from '../flavours/deposit/logic/useCreateDepositHandler'
 import { useCreateMakerStableToSavingsHandler } from '../flavours/native-sdai-deposit/maker-stables/useCreateMakerStableToSavingsHandler'
 import { useCreateMigrateDAIToSNSTHandler } from '../flavours/native-sdai-deposit/migrate-dai-to-snst/useCreateMigrateDAIToSNSTActionHandler'
 import { useCreateUSDCToSDaiDepositHandler } from '../flavours/native-sdai-deposit/usdc-to-sdai/useCreateUSDCToSDaiDepositHandler'

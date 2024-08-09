@@ -9,7 +9,7 @@ import {
 import { mapWriteResultToActionState } from '@/features/actions/logic/utils'
 import { QueryKey, queryOptions, skipToken, useQuery, useQueryClient } from '@tanstack/react-query'
 import { createApproveActionConfig } from '../flavours/approve/logic/approve-action'
-import { createDepositActionConfig } from '../flavours/deposit/deposit-action'
+import { createDepositActionConfig } from '../flavours/deposit/logic/deposit-action'
 import { ActionConfig, ActionContext, InitialParamsQueryResult, VerifyTransactionResult } from './types'
 
 export interface UseActionParams {

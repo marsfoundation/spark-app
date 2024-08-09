@@ -12,7 +12,7 @@ import { waitFor } from '@testing-library/react'
 import { generatePrivateKey } from 'viem/accounts'
 import { mainnet } from 'viem/chains'
 import { describe, test } from 'vitest'
-import { createPermitStore } from '../../logic/permits'
+import { createPermitStore } from '../../../logic/permits'
 import { createDepositActionConfig } from './deposit-action'
 
 const depositValue = NormalizedUnitNumber(1)
