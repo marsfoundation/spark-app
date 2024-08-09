@@ -10,7 +10,7 @@ import { toBigInt } from '@/utils/bigNumber'
 import { waitFor } from '@testing-library/react'
 import { mainnet } from 'viem/chains'
 import { describe, test } from 'vitest'
-import { createBorrowActionConfig } from './borrow-action'
+import { createBorrowActionConfig } from './borrowAction'
 
 const borrowValue = NormalizedUnitNumber(1)
 const borrowToken = getMockToken({ symbol: TokenSymbol('TEST') })

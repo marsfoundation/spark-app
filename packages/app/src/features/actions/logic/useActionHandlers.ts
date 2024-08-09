@@ -17,7 +17,7 @@ import { useCreateXDaiFromSDaiWithdrawHandler } from '../flavours/native-sdai-wi
 import { getFakePermitAction } from '../flavours/permit/logic/getFakePermitAction'
 import { useCreatePermitHandler } from '../flavours/permit/logic/useCreatePermitHandler'
 import { useCreateRepayHandler } from '../flavours/repay/useCreateRepayHandler'
-import { useCreateSetUseAsCollateralHandler } from '../flavours/set-use-as-collateral/useCreateSetUseAsCollateralHandler'
+import { useCreateSetUseAsCollateralHandler } from '../flavours/set-use-as-collateral/logic/useCreateSetUseAsCollateralHandler'
 import { useCreateSetUserEModeHandler } from '../flavours/set-user-e-mode/useCreateSetUserEModeHandler'
 import { useCreateWithdrawHandler } from '../flavours/withdraw/useCreateWithdrawHandler'
 import { PermitStore, createPermitStore } from './permits'
@@ -63,7 +63,8 @@ export function useActionHandlers(
       action.type === 'permit' ||
       action.type === 'approve' ||
       action.type === 'deposit' ||
-      action.type === 'borrow'
+      action.type === 'borrow' ||
+      action.type === 'setUseAsCollateral'
     ) {
       return [...acc, undefined as any]
     }
@@ -85,7 +86,8 @@ export function useActionHandlers(
     currentAction.type === 'approve' ||
     currentAction.type === 'permit' ||
     currentAction.type === 'deposit' ||
-    currentAction.type === 'borrow'
+    currentAction.type === 'borrow' ||
+    currentAction.type === 'setUseAsCollateral'
 
   const newHandler = useAction({
     action: currentAction,
