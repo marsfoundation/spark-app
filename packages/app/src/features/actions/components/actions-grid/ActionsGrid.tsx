@@ -2,11 +2,8 @@ import { ApproveDelegationActionRow } from '../../flavours/approve-delegation/Ap
 import { ApproveActionRow } from '../../flavours/approve/ApproveActionRow'
 import { BorrowActionRow } from '../../flavours/borrow/BorrowActionRow'
 import { ClaimRewardsActionRow } from '../../flavours/claim-rewards/ClaimRewardsActionRow'
+import { DepositToSavingsActionRow } from '../../flavours/deposit-to-savings/DepositToSavingsActionRow'
 import { DepositActionRow } from '../../flavours/deposit/DepositActionRow'
-import { MakerStableToSavingsActionRow } from '../../flavours/native-sdai-deposit/maker-stables/MakerStableToSavingsActionRow'
-import { MigrateDAIToSNSTActionActionRow } from '../../flavours/native-sdai-deposit/migrate-dai-to-snst/MigrateDAIToSNSTAction'
-import { USDCToSDaiDepositActionRow } from '../../flavours/native-sdai-deposit/usdc-to-sdai/USDCToSDaiDepositActionRow'
-import { XDaiToSDaiDepositActionRow } from '../../flavours/native-sdai-deposit/xdai-to-sdai/XDaiToSDaiDepositActionRow'
 import { DaiFromSDaiWithdrawActionRow } from '../../flavours/native-sdai-withdraw/dai-from-sdai/DaiFromSDaiWithdrawActionRow'
 import { USDCFromSDaiWithdrawActionRow } from '../../flavours/native-sdai-withdraw/usdc-from-sdai/USDCFromSDaiWithdrawActionRow'
 import { XDaiFromSDaiWithdrawActionRow } from '../../flavours/native-sdai-withdraw/xdai-from-sdai/XDaiFromSDaiWithdrawActionRow'
@@ -54,22 +51,16 @@ export function ActionsGrid({ actionHandlers, variant }: ActionsGridProps) {
             return <SetUserEModeActionRow action={handler.action} {...props} />
           case 'withdraw':
             return <WithdrawActionRow action={handler.action} {...props} />
-          case 'makerStableToSavings':
-            return <MakerStableToSavingsActionRow action={handler.action} {...props} />
-          case 'daiFromSDaiWithdraw':
-            return <DaiFromSDaiWithdrawActionRow action={handler.action} {...props} />
-          case 'usdcToSDaiDeposit':
-            return <USDCToSDaiDepositActionRow action={handler.action} {...props} />
-          case 'usdcFromSDaiWithdraw':
-            return <USDCFromSDaiWithdrawActionRow action={handler.action} {...props} />
-          case 'xDaiToSDaiDeposit':
-            return <XDaiToSDaiDepositActionRow action={handler.action} {...props} />
-          case 'xDaiFromSDaiWithdraw':
-            return <XDaiFromSDaiWithdrawActionRow action={handler.action} {...props} />
           case 'claimRewards':
             return <ClaimRewardsActionRow action={handler.action} {...props} />
-          case 'migrateDAIToSNST':
-            return <MigrateDAIToSNSTActionActionRow action={handler.action} {...props} />
+          case 'daiFromSDaiWithdraw':
+            return <DaiFromSDaiWithdrawActionRow action={handler.action} {...props} />
+          case 'usdcFromSDaiWithdraw':
+            return <USDCFromSDaiWithdrawActionRow action={handler.action} {...props} />
+          case 'xDaiFromSDaiWithdraw':
+            return <XDaiFromSDaiWithdrawActionRow action={handler.action} {...props} />
+          case 'depositToSavings':
+            return <DepositToSavingsActionRow action={handler.action} {...props} />
         }
       })}
     </div>

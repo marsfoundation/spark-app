@@ -1,15 +1,11 @@
 import { useActionsSettings } from '@/domain/state'
-import { raise } from '@/utils/assert'
+import { useConnectedAddress } from '@/domain/wallet/useConnectedAddress'
 import { useMemo, useState } from 'react'
-import { useAccount, useChainId, useConfig } from 'wagmi'
+import { useChainId, useConfig } from 'wagmi'
 import { useCreateApproveHandler } from '../flavours/approve/logic/useCreateApproveHandler'
 import { useCreateBorrowActionHandler } from '../flavours/borrow/logic/useCreateBorrowHandler'
 import { useCreateClaimRewardsHandler } from '../flavours/claim-rewards/useCreateClaimRewardsHandler'
 import { useCreateDepositHandler } from '../flavours/deposit/logic/useCreateDepositHandler'
-import { useCreateMakerStableToSavingsHandler } from '../flavours/native-sdai-deposit/maker-stables/useCreateMakerStableToSavingsHandler'
-import { useCreateMigrateDAIToSNSTHandler } from '../flavours/native-sdai-deposit/migrate-dai-to-snst/useCreateMigrateDAIToSNSTActionHandler'
-import { useCreateUSDCToSDaiDepositHandler } from '../flavours/native-sdai-deposit/usdc-to-sdai/useCreateUSDCToSDaiDepositHandler'
-import { useCreateXDaiToSDaiDepositHandler } from '../flavours/native-sdai-deposit/xdai-to-sdai/useCreateXDaiToSDaiDepositHandler'
 import { useCreateDaiFromSDaiWithdrawHandler } from '../flavours/native-sdai-withdraw/dai-from-sdai/useCreateDaiFromSDaiWithdrawHandler'
 import { useCreateUSDCFromSDaiWithdrawHandler } from '../flavours/native-sdai-withdraw/usdc-from-sdai/useCreateUSDCFromSDaiWithdrawHandler'
 import { useCreateXDaiFromSDaiWithdrawHandler } from '../flavours/native-sdai-withdraw/xdai-from-sdai/useCreateXDaiFromSDaiWithdrawHandler'
@@ -19,7 +15,7 @@ import { useCreateSetUseAsCollateralHandler } from '../flavours/set-use-as-colla
 import { useCreateSetUserEModeHandler } from '../flavours/set-user-e-mode/logic/useCreateSetUserEModeHandler'
 import { useCreateWithdrawHandler } from '../flavours/withdraw/logic/useCreateWithdrawHandler'
 import { PermitStore, createPermitStore } from './permits'
-import { Action, ActionHandler, InjectedActionsContext, Objective } from './types'
+import { Action, ActionContext, ActionHandler, InjectedActionsContext, Objective } from './types'
 import { useAction } from './useAction'
 import { useCreateActions } from './useCreateActions'
 
@@ -36,17 +32,25 @@ export interface UseActionHandlersResult {
 
 export function useActionHandlers(
   objectives: Objective[],
-  { onFinish, enabled, context }: UseActionHandlersOptions,
+  { onFinish, enabled, context: injectedContext }: UseActionHandlersOptions,
 ): UseActionHandlersResult {
   const actionsSettings = useActionsSettings()
+  const permitStore = useMemo(() => createPermitStore(), [])
+  const chainId = useChainId()
+  const { account } = useConnectedAddress()
+  const wagmiConfig = useConfig()
+  const actionContext: ActionContext = {
+    ...injectedContext,
+    permitStore,
+    wagmiConfig,
+    account,
+    chainId,
+  }
   const actions = useCreateActions({
     objectives,
     actionsSettings,
+    actionContext,
   })
-  const chainId = useChainId()
-  const { address } = useAccount()
-  const wagmiConfig = useConfig()
-  const permitStore = useMemo(() => createPermitStore(), [])
 
   const [currentActionIndex, setCurrentActionIndex] = useState(0)
 
@@ -68,7 +72,8 @@ export function useActionHandlers(
       action.type === 'setUserEMode' ||
       action.type === 'repay' ||
       action.type === 'claimRewards' ||
-      action.type === 'withdraw'
+      action.type === 'withdraw' ||
+      action.type === 'depositToSavings'
     ) {
       return [...acc, undefined as any]
     }
@@ -96,17 +101,12 @@ export function useActionHandlers(
     currentAction.type === 'setUserEMode' ||
     currentAction.type === 'repay' ||
     currentAction.type === 'claimRewards' ||
-    currentAction.type === 'withdraw'
+    currentAction.type === 'withdraw' ||
+    currentAction.type === 'depositToSavings'
 
   const newHandler = useAction({
     action: currentAction,
-    context: {
-      account: address ?? raise('Not connected'),
-      chainId,
-      wagmiConfig,
-      permitStore,
-      ...context,
-    },
+    context: actionContext,
     enabled: useNewHandler && currentAction.type !== 'permit' && enabled,
   })
 
@@ -180,29 +180,19 @@ function useCreateActionHandler(
     case 'setUserEMode':
       // biome-ignore lint/correctness/useHookAtTopLevel:
       return useCreateSetUserEModeHandler(action, { enabled, onFinish })
-    case 'makerStableToSavings':
-      // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateMakerStableToSavingsHandler(action, { enabled, onFinish })
-    case 'daiFromSDaiWithdraw':
-      // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateDaiFromSDaiWithdrawHandler(action, { enabled, onFinish })
-    case 'usdcToSDaiDeposit':
-      // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateUSDCToSDaiDepositHandler(action, { enabled, onFinish })
-    case 'usdcFromSDaiWithdraw':
-      // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateUSDCFromSDaiWithdrawHandler(action, { enabled, onFinish })
-    case 'xDaiToSDaiDeposit':
-      // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateXDaiToSDaiDepositHandler(action, { enabled, onFinish })
-    case 'xDaiFromSDaiWithdraw':
-      // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateXDaiFromSDaiWithdrawHandler(action, { enabled, onFinish })
     case 'claimRewards':
       // biome-ignore lint/correctness/useHookAtTopLevel:
       return useCreateClaimRewardsHandler(action, { enabled, onFinish })
-    case 'migrateDAIToSNST':
+    case 'daiFromSDaiWithdraw':
       // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateMigrateDAIToSNSTHandler(action, { enabled, onFinish })
+      return useCreateDaiFromSDaiWithdrawHandler(action, { enabled, onFinish })
+    case 'usdcFromSDaiWithdraw':
+      // biome-ignore lint/correctness/useHookAtTopLevel:
+      return useCreateUSDCFromSDaiWithdrawHandler(action, { enabled, onFinish })
+    case 'xDaiFromSDaiWithdraw':
+      // biome-ignore lint/correctness/useHookAtTopLevel:
+      return useCreateXDaiFromSDaiWithdrawHandler(action, { enabled, onFinish })
+    case 'depositToSavings':
+      throw new Error('depositToSavings action is not supported anymore')
   }
 }
