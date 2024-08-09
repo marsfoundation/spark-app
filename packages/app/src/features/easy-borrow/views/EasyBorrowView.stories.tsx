@@ -1,7 +1,6 @@
 import { TokenWithBalance, TokenWithFormValue } from '@/domain/common/types'
 import { RiskAcknowledgementInfo } from '@/domain/liquidation-risk-warning/types'
 import { UserPositionSummary } from '@/domain/market-info/marketInfo'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { Objective } from '@/features/actions/logic/types'
@@ -14,7 +13,6 @@ import BigNumber from 'bignumber.js'
 import { useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { withRouter } from 'storybook-addon-remix-react-router'
-import { zeroAddress } from 'viem'
 import { EasyBorrowFormSchema } from '../logic/form/validation'
 import { ExistingPosition, PageState } from '../logic/types'
 import { EasyBorrowView } from './EasyBorrowView'
@@ -307,7 +305,6 @@ const depositETHActionsArgs: Partial<EasyBorrowViewStoryProps> = {
   actions: [
     {
       type: 'deposit',
-      lendingPool: CheckedAddress(zeroAddress),
       value: NormalizedUnitNumber(1),
       token: tokens.ETH,
     },
@@ -356,7 +353,6 @@ const depositErc20ActionArgs: Partial<EasyBorrowViewStoryProps> = {
   actions: [
     {
       type: 'deposit',
-      lendingPool: CheckedAddress(zeroAddress),
       value: NormalizedUnitNumber(1),
       token: tokens.wstETH,
     },
