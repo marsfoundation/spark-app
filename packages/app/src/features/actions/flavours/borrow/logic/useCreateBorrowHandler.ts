@@ -1,8 +1,8 @@
 import { useBorrow } from '@/domain/market-operations/useBorrow'
 
-import { ActionHandler } from '../../logic/types'
-import { mapWriteResultToActionState } from '../../logic/utils'
-import { BorrowAction } from './types'
+import { ActionHandler } from '../../../logic/types'
+import { mapWriteResultToActionState } from '../../../logic/utils'
+import { BorrowAction } from '../types'
 
 export interface UseCreateBorrowActionHandlerOptions {
   enabled: boolean

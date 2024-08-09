@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react'
 import { useAccount, useChainId, useConfig } from 'wagmi'
 import { useCreateApproveDelegationHandler } from '../flavours/approve-delegation/useCreateApproveDelegationHandler'
 import { useCreateApproveHandler } from '../flavours/approve/logic/useCreateApproveHandler'
-import { useCreateBorrowActionHandler } from '../flavours/borrow/useCreateBorrowHandler'
+import { useCreateBorrowActionHandler } from '../flavours/borrow/logic/useCreateBorrowHandler'
 import { useCreateClaimRewardsHandler } from '../flavours/claim-rewards/useCreateClaimRewardsHandler'
 import { useCreateDepositHandler } from '../flavours/deposit/logic/useCreateDepositHandler'
 import { useCreateMakerStableToSavingsHandler } from '../flavours/native-sdai-deposit/maker-stables/useCreateMakerStableToSavingsHandler'
@@ -59,7 +59,12 @@ export function useActionHandlers(
 
   // @note: we call react hooks in a loop but this is'disabled'ne as actions should never change
   const handlers = actions.reduce((acc, action, index) => {
-    if (action.type === 'permit' || action.type === 'approve' || action.type === 'deposit') {
+    if (
+      action.type === 'permit' ||
+      action.type === 'approve' ||
+      action.type === 'deposit' ||
+      action.type === 'borrow'
+    ) {
       return [...acc, undefined as any]
     }
     // biome-ignore lint/correctness/useHookAtTopLevel:
@@ -77,7 +82,10 @@ export function useActionHandlers(
 
   const currentAction = actions[currentActionIndex]!
   const useNewHandler =
-    currentAction.type === 'approve' || currentAction.type === 'permit' || currentAction.type === 'deposit'
+    currentAction.type === 'approve' ||
+    currentAction.type === 'permit' ||
+    currentAction.type === 'deposit' ||
+    currentAction.type === 'borrow'
 
   const newHandler = useAction({
     action: currentAction,
