@@ -12,6 +12,7 @@ import { createApproveDelegationActionConfig } from '../flavours/approve-delegat
 import { createApproveActionConfig } from '../flavours/approve/logic/approveAction'
 import { createBorrowActionConfig } from '../flavours/borrow/logic/borrowAction'
 import { createDepositActionConfig } from '../flavours/deposit/logic/depositAction'
+import { createRepayActionConfig } from '../flavours/repay/logic/repayAction'
 import { createSetUseAsCollateralActionConfig } from '../flavours/set-use-as-collateral/logic/setUseAsCollateralAction'
 import { createSetUserEModeActionConfig } from '../flavours/set-user-e-mode/logic/setUserEModeAction'
 import { ActionConfig, ActionContext, InitialParamsQueryResult, VerifyTransactionResult } from './types'
@@ -138,6 +139,10 @@ function actionToConfig(action: Action, context: ActionContext): ActionConfig {
 
   if (action.type === 'setUserEMode') {
     return createSetUserEModeActionConfig(action, context)
+  }
+
+  if (action.type === 'repay') {
+    return createRepayActionConfig(action, context)
   }
 
   return createEmptyActionConfig()

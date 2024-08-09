@@ -1,4 +1,3 @@
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { getMockReserve } from '@/test/integration/constants'
 import { WithClassname, WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@storybook/decorators'
@@ -7,7 +6,6 @@ import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import BigNumber from 'bignumber.js'
 import { useForm } from 'react-hook-form'
-import { zeroAddress } from 'viem'
 import { RepayView } from './RepayView'
 
 const meta: Meta<typeof RepayView> = {
@@ -42,7 +40,6 @@ const meta: Meta<typeof RepayView> = {
       {
         type: 'repay',
         reserve: getMockReserve({ token: tokens.DAI }),
-        lendingPool: CheckedAddress(zeroAddress),
         useAToken: false,
         value: NormalizedUnitNumber(2000),
         requiredApproval: NormalizedUnitNumber(2000),

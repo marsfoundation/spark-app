@@ -1,6 +1,11 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { MIGRATE_ACTIONS_ADDRESS } from '@/config/consts'
-import { psmActionsAddress, savingsXDaiAdapterAddress, wethGatewayAddress } from '@/config/contracts-generated'
+import {
+  lendingPoolAddress,
+  psmActionsAddress,
+  savingsXDaiAdapterAddress,
+  wethGatewayAddress,
+} from '@/config/contracts-generated'
 import { useContractAddress } from '@/domain/hooks/useContractAddress'
 import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
 import { ActionsSettings } from '@/domain/state/actions-settings'
@@ -38,6 +43,7 @@ export function useCreateActions({ objectives, actionsSettings }: UseCreateActio
   const chainConfig = getChainConfigEntry(chainId)
   const nativeAssetInfo = chainConfig.nativeAssetInfo
   const wethGateway = useContractAddress(wethGatewayAddress)
+  const lendingPool = useContractAddress(lendingPoolAddress)
 
   return objectives.flatMap((objective): Action[] => {
     // @note: you can create hooks (actions) conditionally, but ensure that component will be re-mounted when condition changes
@@ -59,7 +65,7 @@ export function useCreateActions({ objectives, actionsSettings }: UseCreateActio
           const permitAction: PermitAction = {
             type: 'permit',
             token: objective.token,
-            spender: objective.lendingPool,
+            spender: lendingPool,
             value: objective.value,
           }
 
@@ -69,7 +75,7 @@ export function useCreateActions({ objectives, actionsSettings }: UseCreateActio
         const approveAction: ApproveAction = {
           type: 'approve',
           token: objective.token,
-          spender: objective.lendingPool,
+          spender: lendingPool,
           value: objective.value,
         }
         return [approveAction, depositAction]
@@ -145,7 +151,7 @@ export function useCreateActions({ objectives, actionsSettings }: UseCreateActio
           const permitAction: PermitAction = {
             type: 'permit',
             token: objective.reserve.token,
-            spender: objective.lendingPool,
+            spender: lendingPool,
             value: objective.value,
           }
 
@@ -155,7 +161,7 @@ export function useCreateActions({ objectives, actionsSettings }: UseCreateActio
         const approveAction: ApproveAction = {
           type: 'approve',
           token: objective.reserve.token,
-          spender: objective.lendingPool,
+          spender: lendingPool,
           requiredValue: objective.requiredApproval,
           value: objective.value,
         }
