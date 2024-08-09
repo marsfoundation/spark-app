@@ -92,32 +92,12 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
     state: { status: 'ready' },
     onAction: () => {},
   },
-  makerStableToSavings: {
+  depositToSavings: {
     action: {
-      type: 'makerStableToSavings',
-      stableToken: tokens.DAI,
-      value: NormalizedUnitNumber(1023),
+      type: 'depositToSavings',
+      token: tokens.DAI,
       savingsToken: tokens.sDAI,
-    },
-    state: { status: 'ready' },
-    onAction: () => {},
-  },
-  usdcToSDaiDeposit: {
-    action: {
-      type: 'usdcToSDaiDeposit',
-      usdc: tokens.USDC,
       value: NormalizedUnitNumber(1023),
-      sDai: tokens.sDAI,
-    },
-    state: { status: 'ready' },
-    onAction: () => {},
-  },
-  xDaiToSDaiDeposit: {
-    action: {
-      type: 'xDaiToSDaiDeposit',
-      xDai: tokens.XDAI,
-      value: NormalizedUnitNumber(1023),
-      sDai: tokens.sDAI,
     },
     state: { status: 'ready' },
     onAction: () => {},
@@ -165,16 +145,6 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
       assets: [CheckedAddress(zeroAddress)],
       incentiveControllerAddress: CheckedAddress(zeroAddress),
       token: tokens.wstETH,
-    },
-    state: { status: 'ready' },
-    onAction: () => {},
-  },
-  migrateDAIToSNST: {
-    action: {
-      type: 'migrateDAIToSNST',
-      value: NormalizedUnitNumber(1023),
-      stableToken: tokens.DAI,
-      savingsToken: tokens.sNST,
     },
     state: { status: 'ready' },
     onAction: () => {},

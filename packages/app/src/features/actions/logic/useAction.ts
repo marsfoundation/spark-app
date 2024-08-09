@@ -12,6 +12,7 @@ import { createApproveDelegationActionConfig } from '../flavours/approve-delegat
 import { createApproveActionConfig } from '../flavours/approve/logic/approveAction'
 import { createBorrowActionConfig } from '../flavours/borrow/logic/borrowAction'
 import { createClaimRewardsActionConfig } from '../flavours/claim-rewards/logic/claimRewardsAction'
+import { createDepositToSavingsActionConfig } from '../flavours/deposit-to-savings/logic/depositToSavingsAction'
 import { createDepositActionConfig } from '../flavours/deposit/logic/depositAction'
 import { createRepayActionConfig } from '../flavours/repay/logic/repayAction'
 import { createSetUseAsCollateralActionConfig } from '../flavours/set-use-as-collateral/logic/setUseAsCollateralAction'
@@ -153,6 +154,10 @@ function actionToConfig(action: Action, context: ActionContext): ActionConfig {
 
   if (action.type === 'withdraw') {
     return createWithdrawActionConfig(action, context)
+  }
+
+  if (action.type === 'depositToSavings') {
+    return createDepositToSavingsActionConfig(action, context)
   }
 
   return createEmptyActionConfig()
