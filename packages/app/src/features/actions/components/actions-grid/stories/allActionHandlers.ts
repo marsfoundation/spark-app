@@ -31,8 +31,6 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
     action: {
       type: 'approveDelegation',
       token: tokens.WETH,
-      debtTokenAddress: tokens.WETH.address,
-      delegatee: CheckedAddress(zeroAddress),
       value: NormalizedUnitNumber(1),
     },
     state: { status: 'ready' },

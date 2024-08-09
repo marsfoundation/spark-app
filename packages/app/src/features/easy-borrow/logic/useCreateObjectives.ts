@@ -30,7 +30,6 @@ function createBorrowObjectives(formValues: EasyBorrowFormNormalizedData): Objec
       type: 'borrow',
       token: borrow.reserve.token,
       value: borrow.value,
-      debtTokenAddress: borrow.reserve.variableDebtTokenAddress,
     }
   })
 }

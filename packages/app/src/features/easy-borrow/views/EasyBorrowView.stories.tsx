@@ -5,6 +5,7 @@ import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { Objective } from '@/features/actions/logic/types'
+import { getMockMarketInfo } from '@/test/integration/constants'
 import { WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
@@ -17,6 +18,8 @@ import { zeroAddress } from 'viem'
 import { EasyBorrowFormSchema } from '../logic/form/validation'
 import { ExistingPosition, PageState } from '../logic/types'
 import { EasyBorrowView } from './EasyBorrowView'
+
+const mockMarketInfo = getMockMarketInfo()
 
 interface EasyBorrowViewStoryProps {
   assetsToDeposit: TokenWithFormValue[]
@@ -114,6 +117,7 @@ function EasyBorrowViewStory(props: EasyBorrowViewStoryProps) {
       openSandboxModal={openSandboxModal}
       healthFactorPanelRef={healthFactorPanelRef}
       riskAcknowledgement={riskAcknowledgement}
+      actionsContext={{ marketInfo: mockMarketInfo }}
     />
   )
 }
@@ -311,7 +315,6 @@ const depositETHActionsArgs: Partial<EasyBorrowViewStoryProps> = {
       type: 'borrow',
       value: NormalizedUnitNumber(1000),
       token: tokens.DAI,
-      debtTokenAddress: CheckedAddress(zeroAddress),
     },
   ],
 }
@@ -361,7 +364,6 @@ const depositErc20ActionArgs: Partial<EasyBorrowViewStoryProps> = {
       type: 'borrow',
       value: NormalizedUnitNumber(1000),
       token: tokens.DAI,
-      debtTokenAddress: CheckedAddress(zeroAddress),
     },
   ],
   riskAcknowledgement: {

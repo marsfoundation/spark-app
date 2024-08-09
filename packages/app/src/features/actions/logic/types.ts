@@ -114,3 +114,7 @@ export interface ActionConfig {
   invalidates: () => QueryKey[]
   beforeWriteCheck?: () => {}
 }
+
+export interface InjectedActionsContext {
+  marketInfo?: MarketInfo
+}

@@ -1,8 +1,8 @@
 import { useSetUseAsCollateral } from '@/domain/market-operations/useSetUseAsCollateral'
 
-import { ActionHandler } from '../../logic/types'
-import { mapWriteResultToActionState } from '../../logic/utils'
-import { SetUseAsCollateralAction } from './types'
+import { ActionHandler } from '../../../logic/types'
+import { mapWriteResultToActionState } from '../../../logic/utils'
+import { SetUseAsCollateralAction } from '../types'
 
 export interface UseCreateSetUseAsCollateralHandlerOptions {
   enabled: boolean

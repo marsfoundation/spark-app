@@ -8,7 +8,7 @@ import { updatePositionSummary } from '@/domain/market-info/updatePositionSummar
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { Token } from '@/domain/types/Token'
 import { useMarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
-import { Objective } from '@/features/actions/logic/types'
+import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import BigNumber from 'bignumber.js'
 import { useState } from 'react'
@@ -28,6 +28,7 @@ export interface UseBorrowDialogResult {
   assetsToBorrowFields: FormFieldsForDialog
   tokenToBorrow: TokenWithValue
   objectives: Objective[]
+  actionsContext: InjectedActionsContext
   pageStatus: PageStatus
   form: UseFormReturn<AssetInputSchema>
   currentHealthFactor?: BigNumber
@@ -100,6 +101,9 @@ export function useBorrowDialog({ initialToken }: UseBorrowDialogOptions): UseBo
     assetsToBorrowFields,
     tokenToBorrow,
     objectives: actions,
+    actionsContext: {
+      marketInfo,
+    },
     pageStatus: {
       actionsEnabled,
       state: pageStatus,
