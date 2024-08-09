@@ -24,7 +24,7 @@ import { XDaiFromSDaiWithdrawAction } from '../flavours/native-sdai-withdraw/xda
 import { PermitAction } from '../flavours/permit/types'
 import { RepayAction } from '../flavours/repay/types'
 import { SetUseAsCollateralAction } from '../flavours/set-use-as-collateral/types'
-import { SetUserEModeAction } from '../flavours/set-user-e-mode/types'
+import { SetUserEModeAction } from '../flavours/set-user-e-mode/logic/types'
 import { WithdrawAction } from '../flavours/withdraw/types'
 import { Action, Objective } from './types'
 

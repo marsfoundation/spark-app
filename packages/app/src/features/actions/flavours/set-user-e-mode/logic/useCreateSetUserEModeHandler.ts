@@ -1,7 +1,6 @@
 import { useSetUserEMode } from '@/domain/market-operations/useSetUserEMode'
-
-import { ActionHandler } from '../../logic/types'
-import { mapWriteResultToActionState } from '../../logic/utils'
+import { ActionHandler } from '@/features/actions/logic/types'
+import { mapWriteResultToActionState } from '@/features/actions/logic/utils'
 import { SetUserEModeAction } from './types'
 
 export interface UseCreateSetUserEModeHandlerOptions {
