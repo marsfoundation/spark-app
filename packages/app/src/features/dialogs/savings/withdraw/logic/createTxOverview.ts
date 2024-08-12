@@ -20,7 +20,7 @@ export function createTxOverview({
 }: CreateTxOverviewParams): SavingsDialogTxOverview {
   const [tokenValue, savingsTokenValue] = (() => {
     if (formValues.isMaxSelected) {
-      const savingsTokenValue = tokensInfo.findOneTokenWithBalanceBySymbol(formValues.token.symbol).balance
+      const savingsTokenValue = tokensInfo.findOneTokenWithBalanceBySymbol(savingsToken.symbol).balance
       const tokenValue = savingsInfo.convertToAssets({ shares: savingsTokenValue })
 
       return [tokenValue, savingsTokenValue]
