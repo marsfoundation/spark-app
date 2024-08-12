@@ -60,7 +60,7 @@ export function setupFork(options: SetupForkOptions): ForkContext {
     forkService,
     // we lie to typescript here, because it will be set in beforeAll
     forkUrl: undefined as any,
-    isVnet: isVnet,
+    isVnet,
     initialSnapshotId: undefined as any,
     simulationDate: simulationDate as any,
     chainId,

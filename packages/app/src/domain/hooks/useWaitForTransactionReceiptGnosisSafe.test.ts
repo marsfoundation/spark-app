@@ -81,7 +81,7 @@ describe(useWaitForTransactionReceiptGnosisSafe.name, () => {
         txHash: subTxHash,
         payment: 0n,
       },
-      blockNumber: blockNumber,
+      blockNumber,
       transactionHash: gnosisTxHash,
     })
     setLogsHandlerEnabled(true)
@@ -118,7 +118,7 @@ describe(useWaitForTransactionReceiptGnosisSafe.name, () => {
         txHash: subTxHash,
         payment: 0n,
       },
-      blockNumber: blockNumber,
+      blockNumber,
       transactionHash: gnosisTxHash,
     })
     setLogsHandlerEnabled(true)
