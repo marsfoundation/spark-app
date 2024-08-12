@@ -1,7 +1,7 @@
 import { psmActionsConfig } from '@/config/contracts-generated'
 import { useContractAddress } from '@/domain/hooks/useContractAddress'
 import { allowanceQueryKey } from '@/domain/market-operations/allowance/query'
-import { assertNativeWithdraw } from '@/domain/savings/assertNativeWithdraw'
+import { assertWithdraw } from '@/domain/savings/assertWithdraw'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { Mode } from '@/features/dialogs/savings/withdraw/types'
@@ -70,7 +70,7 @@ export function useRedeemAndSwap({
     },
     {
       onBeforeWrite: () => {
-        assertNativeWithdraw({ mode, receiver: _receiver, owner: owner!, reserveAddresses })
+        assertWithdraw({ mode, receiver: _receiver, owner: owner!, tokenAddresses: reserveAddresses })
       },
       onTransactionSettled: async () => {
         void client.invalidateQueries({

@@ -1,4 +1,5 @@
 import { psmActionsConfig } from '@/config/contracts-generated'
+import { calculateGemConversionFactor } from '@/features/actions/utils/savings'
 import { toBigInt } from '@/utils/bigNumber'
 import { useQueryClient } from '@tanstack/react-query'
 import { useAccount, useChainId, useConfig } from 'wagmi'
@@ -8,7 +9,6 @@ import { allowance } from '../market-operations/allowance/query'
 import { BaseUnitNumber } from '../types/NumericValues'
 import { Token } from '../types/Token'
 import { getBalancesQueryKeyPrefix } from '../wallet/getBalancesQueryKeyPrefix'
-import { calculateGemConversionFactor } from './utils/calculateGemConversionFactor'
 
 export interface UseSwapAndDepositArgs {
   gem: Token

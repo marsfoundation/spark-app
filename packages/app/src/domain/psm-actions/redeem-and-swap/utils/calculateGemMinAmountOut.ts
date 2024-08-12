@@ -1,7 +1,7 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { calculateGemConversionFactor } from '@/features/actions/utils/savings'
 import { toBigInt } from '@/utils/bigNumber'
 import BigNumber from 'bignumber.js'
-import { calculateGemConversionFactor } from '../../utils/calculateGemConversionFactor'
 
 export interface CalculateGemMinAmountOutParams {
   gemDecimals: number

@@ -102,43 +102,19 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
     state: { status: 'ready' },
     onAction: () => {},
   },
-  daiFromSDaiWithdraw: {
+  withdrawFromSavings: {
     action: {
-      type: 'daiFromSDaiWithdraw',
-      dai: tokens.DAI,
-      value: NormalizedUnitNumber(1023),
-      sDai: tokens.sDAI,
-      method: 'withdraw',
+      type: 'withdrawFromSavings',
+      savingsToken: tokens.sDAI,
+      token: tokens.DAI,
+      amount: NormalizedUnitNumber(1023),
       mode: 'withdraw',
+      isMax: false,
     },
     state: { status: 'ready' },
     onAction: () => {},
   },
-  usdcFromSDaiWithdraw: {
-    action: {
-      type: 'usdcFromSDaiWithdraw',
-      usdc: tokens.USDC,
-      value: NormalizedUnitNumber(1023),
-      sDai: tokens.sDAI,
-      method: 'withdraw',
-      receiver: CheckedAddress(zeroAddress),
-      mode: 'withdraw',
-    },
-    state: { status: 'ready' },
-    onAction: () => {},
-  },
-  xDaiFromSDaiWithdraw: {
-    action: {
-      type: 'xDaiFromSDaiWithdraw',
-      xDai: tokens.XDAI,
-      value: NormalizedUnitNumber(1023),
-      sDai: tokens.sDAI,
-      method: 'withdraw',
-      mode: 'withdraw',
-    },
-    state: { status: 'ready' },
-    onAction: () => {},
-  },
+
   claimRewards: {
     action: {
       type: 'claimRewards',

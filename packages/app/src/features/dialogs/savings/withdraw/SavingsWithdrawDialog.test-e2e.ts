@@ -36,20 +36,24 @@ test.describe('Savings withdraw dialog', () => {
 
       await withdrawalDialog.fillAmountAction(1000)
       await actionsContainer.expectEnabledActionAtIndex(0)
-      await actionsContainer.expectActions([{ type: 'daiFromSDaiWithdraw', asset: 'DAI', mode: 'withdraw' }])
+      await actionsContainer.expectActions([
+        { type: 'withdrawFromSavings', asset: 'DAI', savingsAsset: 'sDAI', mode: 'withdraw' },
+      ])
 
       await withdrawalDialog.selectAssetAction('USDC')
       await withdrawalDialog.fillAmountAction(1000)
       await actionsContainer.expectEnabledActionAtIndex(0)
       await actionsContainer.expectActions([
         { type: 'approve', asset: 'sDAI' },
-        { type: 'usdcFromSDaiWithdraw', asset: 'USDC', mode: 'withdraw' },
+        { type: 'withdrawFromSavings', asset: 'USDC', savingsAsset: 'sDAI', mode: 'withdraw' },
       ])
 
       await withdrawalDialog.selectAssetAction('DAI')
       await withdrawalDialog.fillAmountAction(1000)
       await actionsContainer.expectEnabledActionAtIndex(0)
-      await actionsContainer.expectActions([{ type: 'daiFromSDaiWithdraw', asset: 'DAI', mode: 'withdraw' }])
+      await actionsContainer.expectActions([
+        { type: 'withdrawFromSavings', asset: 'DAI', savingsAsset: 'sDAI', mode: 'withdraw' },
+      ])
     })
   })
 })

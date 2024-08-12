@@ -1,5 +1,5 @@
 import { TokenWithBalance } from '@/domain/common/types'
-import { Objective } from '@/features/actions/logic/types'
+import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { DialogActionsPanel } from '@/features/dialogs/common/components/DialogActionsPanel'
 import { FormAndOverviewWrapper } from '@/features/dialogs/common/components/FormAndOverviewWrapper'
 import { MultiPanelDialog } from '@/features/dialogs/common/components/MultiPanelDialog'
@@ -19,6 +19,7 @@ export interface SavingsWithdrawViewProps {
   objectives: Objective[]
   pageStatus: PageStatus
   txOverview: SavingsDialogTxOverview
+  actionsContext: InjectedActionsContext
   sendModeExtension?: SendModeExtension
 }
 
@@ -29,6 +30,7 @@ export function SavingsWithdrawView({
   objectives,
   pageStatus,
   txOverview,
+  actionsContext,
   sendModeExtension,
 }: SavingsWithdrawViewProps) {
   return (
@@ -48,6 +50,7 @@ export function SavingsWithdrawView({
       </FormAndOverviewWrapper>
 
       <DialogActionsPanel
+        context={actionsContext}
         objectives={objectives}
         onFinish={pageStatus.goToSuccessScreen}
         enabled={pageStatus.actionsEnabled}

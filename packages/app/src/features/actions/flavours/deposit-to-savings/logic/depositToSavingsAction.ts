@@ -6,13 +6,18 @@ import { ensureConfigTypes } from '@/domain/hooks/useWrite'
 import { allowanceQueryKey } from '@/domain/market-operations/allowance/query'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { ActionConfig, ActionContext } from '@/features/actions/logic/types'
+import {
+  calculateGemConversionFactor,
+  isSexyDaiOperation,
+  isUsdcPsmActionsOperation,
+  isVaultOperation,
+} from '@/features/actions/utils/savings'
 import { raise } from '@/utils/assert'
 import { toBigInt } from '@/utils/bigNumber'
 import { erc4626Abi } from 'viem'
 import { gnosis } from 'viem/chains'
 import { DepositToSavingsAction } from '../types'
-import { calculateGemConversionFactor } from './calculateGemConversionFactor'
-import { isDaiToSNstMigration, isERC4626Deposit, isSexyDaiDeposit, isUSDCToSDaiDeposit } from './common'
+import { isDaiToSNstMigration } from './common'
 
 export function createDepositToSavingsActionConfig(
   action: DepositToSavingsAction,
@@ -26,7 +31,7 @@ export function createDepositToSavingsActionConfig(
       const { token, savingsToken } = action
       const assetsAmount = toBigInt(token.toBaseUnit(action.value))
 
-      if (isERC4626Deposit({ config: action, tokensInfo, chainId })) {
+      if (isVaultOperation({ token, savingsToken, tokensInfo, chainId })) {
         return ensureConfigTypes({
           address: savingsToken.address,
           abi: erc4626Abi,
@@ -35,7 +40,7 @@ export function createDepositToSavingsActionConfig(
         })
       }
 
-      if (isSexyDaiDeposit({ config: action, tokensInfo, chainId })) {
+      if (isSexyDaiOperation({ token, savingsToken, tokensInfo, chainId })) {
         return ensureConfigTypes({
           address: savingsXDaiAdapterAddress[gnosis.id],
           abi: savingsXDaiAdapterAbi,
@@ -45,7 +50,7 @@ export function createDepositToSavingsActionConfig(
         })
       }
 
-      if (isUSDCToSDaiDeposit({ config: action, tokensInfo })) {
+      if (isUsdcPsmActionsOperation({ token, savingsToken, tokensInfo })) {
         const gemConversionFactor = calculateGemConversionFactor({
           gemDecimals: token.decimals,
           assetsTokenDecimals: savingsToken.decimals,
@@ -61,7 +66,7 @@ export function createDepositToSavingsActionConfig(
         })
       }
 
-      if (isDaiToSNstMigration({ config: action, tokensInfo })) {
+      if (isDaiToSNstMigration({ token, savingsToken, tokensInfo })) {
         return ensureConfigTypes({
           address: MIGRATE_ACTIONS_ADDRESS,
           abi: migrationActionsAbi,
@@ -74,16 +79,18 @@ export function createDepositToSavingsActionConfig(
     },
 
     invalidates: () => {
-      if (isSexyDaiDeposit({ config: action, tokensInfo, chainId })) {
+      const { token, savingsToken } = action
+
+      if (isSexyDaiOperation({ token, savingsToken, tokensInfo, chainId })) {
         return [getBalancesQueryKeyPrefix({ chainId, account })]
       }
 
       const allowanceSpender = (() => {
-        if (isUSDCToSDaiDeposit({ config: action, tokensInfo })) {
+        if (isUsdcPsmActionsOperation({ token, savingsToken, tokensInfo })) {
           return getContractAddress(psmActionsConfig.address, chainId)
         }
 
-        if (isDaiToSNstMigration({ config: action, tokensInfo })) {
+        if (isDaiToSNstMigration({ token, savingsToken, tokensInfo })) {
           return MIGRATE_ACTIONS_ADDRESS
         }
 

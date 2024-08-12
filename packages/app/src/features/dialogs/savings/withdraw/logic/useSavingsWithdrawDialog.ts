@@ -4,19 +4,18 @@ import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { useSavingsDaiInfo } from '@/domain/savings-info/useSavingsDaiInfo'
 import { useSavingsTokens } from '@/domain/savings/useSavingsTokens'
 import { useMarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
-import { Objective } from '@/features/actions/logic/types'
+import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { AssetInputSchema, useDebouncedDialogFormValues } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
 import { assert } from '@/utils/assert'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
-import { useChainId } from 'wagmi'
 import { SavingsDialogTxOverview } from '../../common/types'
 import { Mode, SendModeExtension } from '../types'
+import { createObjectives } from './createObjectives'
 import { createTxOverview } from './createTxOverview'
 import { getFormFieldsForWithdrawDialog } from './getFormFieldsForWithdrawDialog'
-import { createObjectives } from './objectives'
 import { useSendModeExtension } from './useSendModeExtension'
 import { getSavingsWithdrawDialogFormValidator } from './validation'
 
@@ -28,6 +27,7 @@ export interface UseSavingsWithdrawDialogResults {
   tokenToWithdraw: TokenWithValue
   pageStatus: PageStatus
   txOverview: SavingsDialogTxOverview
+  actionsContext: InjectedActionsContext
   sendModeExtension?: SendModeExtension
 }
 
@@ -36,7 +36,7 @@ export function useSavingsWithdrawDialog(mode: Mode): UseSavingsWithdrawDialogRe
   const { savingsDaiInfo } = useSavingsDaiInfo()
   assert(savingsDaiInfo, 'Savings info is not available')
   const walletInfo = useMarketWalletInfo()
-  const chainId = useChainId()
+  const { tokensInfo } = useSavingsTokens()
 
   const [pageState, setPageState] = useState<PageState>('form')
 
@@ -70,10 +70,7 @@ export function useSavingsWithdrawDialog(mode: Mode): UseSavingsWithdrawDialogRe
 
   const objectives = createObjectives({
     formValues,
-    marketInfo,
-    walletInfo,
-    savingsInfo: savingsDaiInfo,
-    chainId,
+    tokensInfo,
     receiver: sendModeExtension?.receiver,
     mode,
   })
@@ -108,6 +105,10 @@ export function useSavingsWithdrawDialog(mode: Mode): UseSavingsWithdrawDialogRe
       goToSuccessScreen: () => setPageState('success'),
     },
     txOverview,
+    actionsContext: {
+      tokensInfo,
+      savingsDaiInfo,
+    },
     sendModeExtension,
   }
 }

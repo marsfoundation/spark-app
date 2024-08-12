@@ -142,21 +142,14 @@ type BaseAction = {
   asset: string
 }
 
-type SimplifiedWithdrawAction = BaseAction & {
-  type: 'daiFromSDaiWithdraw' | 'usdcFromSDaiWithdraw' | 'xDaiFromSDaiWithdraw'
+type SimplifiedWithdrawFromSavingsAction = BaseAction & {
+  type: 'withdrawFromSavings'
+  savingsAsset: string
   mode: 'send' | 'withdraw'
 }
 
 type SimplifiedGenericAction = BaseAction & {
-  type: Exclude<
-    ActionType,
-    | 'exchange'
-    | 'daiFromSDaiWithdraw'
-    | 'usdcFromSDaiWithdraw'
-    | 'xDaiFromSDaiWithdraw'
-    | 'depositToSavings'
-    | 'setUserEMode'
-  >
+  type: Exclude<ActionType, 'exchange' | 'depositToSavings' | 'withdrawFromSavings' | 'setUserEMode'>
 }
 
 type SimplifiedSetUserEModeAction = {
@@ -171,7 +164,7 @@ type SimplifiedMakerStableToSavingsAction = BaseAction & {
 
 type SimplifiedAction =
   | SimplifiedGenericAction
-  | SimplifiedWithdrawAction
+  | SimplifiedWithdrawFromSavingsAction
   | SimplifiedMakerStableToSavingsAction
   | SimplifiedSetUserEModeAction
 
@@ -197,10 +190,8 @@ function actionToTitle(action: SimplifiedAction): string {
       return action.eModeCategoryId === 0 ? 'Disable E-Mode' : 'Enable E-Mode'
     case 'depositToSavings':
       return `Convert ${action.asset} to ${action.savingsAsset}`
-    case 'daiFromSDaiWithdraw':
-    case 'usdcFromSDaiWithdraw':
-    case 'xDaiFromSDaiWithdraw':
-      return `Convert sDAI to ${action.asset}${action.mode === 'send' ? ' and send' : ''}`
+    case 'withdrawFromSavings':
+      return `Convert ${action.savingsAsset} to ${action.asset}${action.mode === 'send' ? ' and send' : ''}`
     case 'claimRewards':
       return 'Claim'
   }

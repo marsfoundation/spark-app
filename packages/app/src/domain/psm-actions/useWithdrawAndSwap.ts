@@ -1,4 +1,5 @@
 import { psmActionsConfig } from '@/config/contracts-generated'
+import { calculateGemConversionFactor } from '@/features/actions/utils/savings'
 import { Mode } from '@/features/dialogs/savings/withdraw/types'
 import { toBigInt } from '@/utils/bigNumber'
 import { useQueryClient } from '@tanstack/react-query'
@@ -6,12 +7,11 @@ import { useAccount, useChainId } from 'wagmi'
 import { useContractAddress } from '../hooks/useContractAddress'
 import { useWrite } from '../hooks/useWrite'
 import { allowanceQueryKey } from '../market-operations/allowance/query'
-import { assertNativeWithdraw } from '../savings/assertNativeWithdraw'
+import { assertWithdraw } from '../savings/assertWithdraw'
 import { CheckedAddress } from '../types/CheckedAddress'
 import { BaseUnitNumber } from '../types/NumericValues'
 import { Token } from '../types/Token'
 import { getBalancesQueryKeyPrefix } from '../wallet/getBalancesQueryKeyPrefix'
-import { calculateGemConversionFactor } from './utils/calculateGemConversionFactor'
 
 export interface UseWithdrawAndSwapArgs {
   gem: Token
@@ -64,7 +64,7 @@ export function useWithdrawAndSwap({
     },
     {
       onBeforeWrite: () => {
-        assertNativeWithdraw({ mode, receiver: _receiver, owner: owner!, reserveAddresses })
+        assertWithdraw({ mode, receiver: _receiver, owner: owner!, tokenAddresses: reserveAddresses })
       },
       onTransactionSettled: async () => {
         void client.invalidateQueries({

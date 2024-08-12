@@ -8,8 +8,6 @@ export const objectiveTypeToVerb: Record<ObjectiveType, string> = {
   setUseAsCollateral: 'Set',
   setUserEMode: 'Set',
   depositToSavings: 'Converted',
-  daiFromSDaiWithdraw: 'Converted',
-  usdcFromSDaiWithdraw: 'Converted',
-  xDaiFromSDaiWithdraw: 'Converted',
+  withdrawFromSavings: 'Converted',
   claimRewards: 'Claimed',
 }

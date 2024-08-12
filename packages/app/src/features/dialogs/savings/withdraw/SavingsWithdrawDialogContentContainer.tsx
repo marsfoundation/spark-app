@@ -20,6 +20,7 @@ function SavingsWithdrawDialogContentContainer({ closeDialog, mode }: SavingsWit
     pageStatus,
     txOverview,
     sendModeExtension,
+    actionsContext,
   } = useSavingsWithdrawDialog(mode)
 
   if (pageStatus.state === 'success') {
@@ -36,6 +37,7 @@ function SavingsWithdrawDialogContentContainer({ closeDialog, mode }: SavingsWit
       objectives={objectives}
       pageStatus={pageStatus}
       txOverview={txOverview}
+      actionsContext={actionsContext}
       sendModeExtension={sendModeExtension}
     />
   )

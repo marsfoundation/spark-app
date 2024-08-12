@@ -4,7 +4,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { erc4626Abi } from 'viem'
 import { useAccount, useChainId } from 'wagmi'
 import { useWrite } from '../hooks/useWrite'
-import { assertNativeWithdraw } from '../savings/assertNativeWithdraw'
+import { assertWithdraw } from '../savings/assertWithdraw'
 import { CheckedAddress } from '../types/CheckedAddress'
 import { BaseUnitNumber } from '../types/NumericValues'
 import { getBalancesQueryKeyPrefix } from '../wallet/getBalancesQueryKeyPrefix'
@@ -49,7 +49,7 @@ export function useVaultRedeem({
     },
     {
       onBeforeWrite: () => {
-        assertNativeWithdraw({ mode, receiver: _receiver, owner: owner!, reserveAddresses })
+        assertWithdraw({ mode, receiver: _receiver, owner: owner!, tokenAddresses: reserveAddresses })
       },
       onTransactionSettled: async () => {
         void client.invalidateQueries({

@@ -42,7 +42,7 @@ test.describe('Asset input validation', () => {
 
     test('actions are disabled', async () => {
       await sendDialog.actionsContainer.expectDisabledActions([
-        { type: 'daiFromSDaiWithdraw', asset: 'DAI', mode: 'send' },
+        { type: 'withdrawFromSavings', asset: 'DAI', savingsAsset: 'sDAI', mode: 'send' },
       ])
     })
 
@@ -130,7 +130,7 @@ test.describe('Receiver input validation', () => {
 
       // reserve address is not valid
       await sendDialog.fillReceiverAction('0x6B175474E89094C44Da98b954EedeAC495271d0F') // dai
-      await sendDialog.expectAddressInputError(receiverValidationIssueToMessage['reserve-address'])
+      await sendDialog.expectAddressInputError(receiverValidationIssueToMessage['token-address'])
 
       // self address is not valid
       await sendDialog.fillReceiverAction(selfAddress)
@@ -144,7 +144,7 @@ test.describe('Receiver input validation', () => {
     test('actions are disabled when receiver input is invalid', async () => {
       await sendDialog.fillReceiverAction('not-an-address')
       await sendDialog.actionsContainer.expectDisabledActions([
-        { type: 'daiFromSDaiWithdraw', asset: 'DAI', mode: 'send' },
+        { type: 'withdrawFromSavings', asset: 'DAI', savingsAsset: 'sDAI', mode: 'send' },
       ])
     })
 
@@ -216,7 +216,7 @@ test.describe('Form validation', () => {
     await sendDialog.fillAmountAction(200)
     await sendDialog.fillReceiverAction('0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045')
     await sendDialog.actionsContainer.expectDisabledActions([
-      { type: 'daiFromSDaiWithdraw', asset: 'DAI', mode: 'send' },
+      { type: 'withdrawFromSavings', asset: 'DAI', savingsAsset: 'sDAI', mode: 'send' },
     ])
   })
 
@@ -224,7 +224,7 @@ test.describe('Form validation', () => {
     await sendDialog.fillAmountAction(50)
     await sendDialog.fillReceiverAction('not-an-address')
     await sendDialog.actionsContainer.expectDisabledActions([
-      { type: 'daiFromSDaiWithdraw', asset: 'DAI', mode: 'send' },
+      { type: 'withdrawFromSavings', asset: 'DAI', savingsAsset: 'sDAI', mode: 'send' },
     ])
   })
 
@@ -232,13 +232,15 @@ test.describe('Form validation', () => {
     await sendDialog.fillAmountAction(200)
     await sendDialog.fillReceiverAction('not-an-address')
     await sendDialog.actionsContainer.expectDisabledActions([
-      { type: 'daiFromSDaiWithdraw', asset: 'DAI', mode: 'send' },
+      { type: 'withdrawFromSavings', asset: 'DAI', savingsAsset: 'sDAI', mode: 'send' },
     ])
   })
 
   test('actions are enabled when amount and receiver are valid', async () => {
     await sendDialog.fillAmountAction(50)
     await sendDialog.fillReceiverAction('0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045')
-    await sendDialog.actionsContainer.expectActions([{ type: 'daiFromSDaiWithdraw', asset: 'DAI', mode: 'send' }])
+    await sendDialog.actionsContainer.expectActions([
+      { type: 'withdrawFromSavings', asset: 'DAI', savingsAsset: 'sDAI', mode: 'send' },
+    ])
   })
 })
