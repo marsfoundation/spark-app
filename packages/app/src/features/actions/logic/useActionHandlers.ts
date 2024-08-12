@@ -82,7 +82,7 @@ export function useActionHandlers(
   const settingsDisabled = currentActionIndex > 0
 
   return {
-    handlers: handlers,
+    handlers,
     settingsDisabled,
   }
 }

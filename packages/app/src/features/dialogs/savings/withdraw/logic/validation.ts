@@ -65,16 +65,16 @@ export const withdrawValidationIssueToMessage: Record<WithdrawValidationIssue, s
 
 export interface getReceiverFormValidatorParams {
   account: Address | undefined
-  reserveAddresses: CheckedAddress[]
+  tokenAddresses: CheckedAddress[]
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function getReceiverFormValidator({ account, reserveAddresses }: getReceiverFormValidatorParams) {
+export function getReceiverFormValidator({ account, tokenAddresses }: getReceiverFormValidatorParams) {
   return ReceiverFormSchema.superRefine((field, ctx) => {
     const receiver = field.receiver
     const issue = validateReceiver({
       account: account ? CheckedAddress(account) : undefined,
-      reserveAddresses,
+      tokenAddresses,
       receiver,
     })
 

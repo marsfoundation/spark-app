@@ -6,7 +6,7 @@ import { gnosis } from 'viem/chains'
 import { useAccount, useConfig } from 'wagmi'
 import { useWrite } from '../hooks/useWrite'
 import { allowance } from '../market-operations/allowance/query'
-import { assertNativeWithdraw } from '../savings/assertNativeWithdraw'
+import { assertWithdraw } from '../savings/assertWithdraw'
 import { CheckedAddress } from '../types/CheckedAddress'
 import { BaseUnitNumber } from '../types/NumericValues'
 import { getBalancesQueryKeyPrefix } from '../wallet/getBalancesQueryKeyPrefix'
@@ -50,7 +50,7 @@ export function useSexyDaiRedeem({
     },
     {
       onBeforeWrite: () => {
-        assertNativeWithdraw({ mode, receiver: _receiver, owner: owner!, reserveAddresses })
+        assertWithdraw({ mode, receiver: _receiver, owner: owner!, tokenAddresses: reserveAddresses })
       },
       onTransactionSettled: async () => {
         void client.invalidateQueries({

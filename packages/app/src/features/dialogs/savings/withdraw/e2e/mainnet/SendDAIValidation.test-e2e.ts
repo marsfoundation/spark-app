@@ -130,7 +130,7 @@ test.describe('Receiver input validation', () => {
 
       // reserve address is not valid
       await sendDialog.fillReceiverAction('0x6B175474E89094C44Da98b954EedeAC495271d0F') // dai
-      await sendDialog.expectAddressInputError(receiverValidationIssueToMessage['reserve-address'])
+      await sendDialog.expectAddressInputError(receiverValidationIssueToMessage['token-address'])
 
       // self address is not valid
       await sendDialog.fillReceiverAction(selfAddress)

@@ -3,7 +3,7 @@ import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
 import { allowanceQueryKey } from '@/domain/market-operations/allowance/query'
 import { calculateGemMinAmountOut } from '@/domain/psm-actions/redeem-and-swap/utils/calculateGemMinAmountOut'
-import { assertNativeWithdraw } from '@/domain/savings/assertNativeWithdraw'
+import { assertWithdraw } from '@/domain/savings/assertWithdraw'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { ActionConfig, ActionContext } from '@/features/actions/logic/types'
@@ -122,7 +122,12 @@ export function createWithdrawFromSavingsActionConfig(
 
     beforeWriteCheck: () => {
       const reserveAddresses = tokensInfo.all().map(({ token }) => token.address)
-      assertNativeWithdraw({ mode: action.mode, receiver: action.receiver, owner: account, reserveAddresses })
+      assertWithdraw({
+        mode: action.mode,
+        receiver: action.receiver,
+        owner: account,
+        tokenAddresses: reserveAddresses,
+      })
     },
   }
 }

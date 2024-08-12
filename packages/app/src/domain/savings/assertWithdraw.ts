@@ -4,25 +4,25 @@ import { Address } from 'viem'
 import { CheckedAddress } from '../types/CheckedAddress'
 import { receiverValidationIssueToMessage, validateReceiver } from './validateReceiver'
 
-interface AssertNativeWithdrawParams {
+interface AssertWithdrawParams {
   mode: Mode
   owner: Address
   receiver?: CheckedAddress
-  reserveAddresses?: CheckedAddress[]
+  tokenAddresses?: CheckedAddress[]
 }
 
-export function assertNativeWithdraw({ mode, receiver, owner, reserveAddresses }: AssertNativeWithdrawParams): void {
+export function assertWithdraw({ mode, receiver, owner, tokenAddresses }: AssertWithdrawParams): void {
   if (mode === 'withdraw') {
     assert(receiver === undefined, 'Receiver address should not be defined when withdrawing')
-    assert(reserveAddresses === undefined, 'Reserve addresses should not be defined when withdrawing')
+    assert(tokenAddresses === undefined, 'Reserve addresses should not be defined when withdrawing')
   }
 
   if (mode === 'send') {
     assert(receiver !== undefined, 'Receiver address should be defined when sending')
-    assert(reserveAddresses !== undefined, 'Reserve addresses should be defined when sending')
+    assert(tokenAddresses !== undefined, 'Reserve addresses should be defined when sending')
     const validationResult = validateReceiver({
       account: CheckedAddress(owner),
-      reserveAddresses,
+      tokenAddresses,
       receiver,
     })
     assert(validationResult === undefined, receiverValidationIssueToMessage[validationResult!])
