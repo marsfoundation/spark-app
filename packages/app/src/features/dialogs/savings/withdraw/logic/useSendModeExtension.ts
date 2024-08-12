@@ -1,7 +1,7 @@
 import { useBlockExplorerAddressLink } from '@/domain/hooks/useBlockExplorerAddressLink'
 import { useIsSmartContract } from '@/domain/hooks/useIsSmartContract'
-import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { UseFormReturn, useForm } from 'react-hook-form'
 import { Address } from 'viem'
@@ -11,11 +11,11 @@ import { getReceiverFormValidator } from './validation'
 
 export interface UseSendModeOptionsParams {
   mode: Mode
-  marketInfo: MarketInfo
+  tokensInfo: TokensInfo
 }
 
-export function useSendModeExtension({ mode, marketInfo }: UseSendModeOptionsParams): SendModeExtension | undefined {
-  const { receiver, receiverForm, isFormValid } = useReceiverFormValues(marketInfo)
+export function useSendModeExtension({ mode, tokensInfo }: UseSendModeOptionsParams): SendModeExtension | undefined {
+  const { receiver, receiverForm, isFormValid } = useReceiverFormValues(tokensInfo)
   const blockExplorerAddressLink = useBlockExplorerAddressLink(receiver)
   const { isSmartContract, isPending: isSmartContractCheckPending } = useIsSmartContract(receiver)
 
@@ -36,12 +36,12 @@ interface UseDebouncedReceiverFormValuesResult {
   isFormValid: boolean
 }
 
-function useReceiverFormValues(marketInfo: MarketInfo): UseDebouncedReceiverFormValuesResult {
+function useReceiverFormValues(tokensInfo: TokensInfo): UseDebouncedReceiverFormValuesResult {
   const { address: account } = useAccount()
 
   const receiverForm = useForm<ReceiverFormSchema>({
     resolver: zodResolver(
-      getReceiverFormValidator({ account, tokenAddresses: marketInfo.reserves.map((r) => r.token.address) }),
+      getReceiverFormValidator({ account, tokenAddresses: tokensInfo.all().map((r) => r.token.address) }),
     ),
     defaultValues: { receiver: '' },
     mode: 'onChange',

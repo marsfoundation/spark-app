@@ -38,6 +38,7 @@ export function SavingsTokenPanel({
 }: SavingsTokenPanelProps) {
   const compactProjections = currentProjections.thirtyDays.gt(1_000)
   const savingsBaseToken = USD_MOCK_TOKEN.clone({ symbol: variant === 'dai' ? TokenSymbol('DAI') : TokenSymbol('NST') })
+  const savingsType = variant === 'dai' ? 'sdai' : 'snst'
 
   return (
     <Panel.Wrapper className="flex min-h-[260px] w-full flex-1 flex-col justify-between self-stretch px-6 py-6 md:px-[32px]">
@@ -52,7 +53,7 @@ export function SavingsTokenPanel({
             <Button
               variant="secondary"
               size="sm"
-              onClick={() => openDialog(SavingsWithdrawDialog, { mode: 'send' } as const)}
+              onClick={() => openDialog(SavingsWithdrawDialog, { mode: 'send', savingsType } as const)}
             >
               Send
             </Button>
@@ -60,7 +61,7 @@ export function SavingsTokenPanel({
           <Button
             variant="secondary"
             size="sm"
-            onClick={() => openDialog(SavingsWithdrawDialog, { mode: 'withdraw' } as const)}
+            onClick={() => openDialog(SavingsWithdrawDialog, { mode: 'withdraw', savingsType } as const)}
           >
             Withdraw
           </Button>
