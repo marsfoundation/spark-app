@@ -103,7 +103,7 @@ export interface ActionConfig {
   getWriteConfig: (initialParams: InitialParamsQueryResult) => Parameters<typeof useWrite>[0]
   verifyTransactionQueryOptions?: () => VerifyTransactionQueryOptions
   invalidates: () => QueryKey[]
-  beforeWriteCheck?: () => {}
+  beforeWriteCheck?: () => void
 }
 
 export interface InjectedActionsContext {
