@@ -229,7 +229,7 @@ describe(useTokensInfo.name, () => {
       handlers: [
         handlers.balanceCall({
           address: alice,
-          balance: balance,
+          balance,
         }),
         handlers.chainIdCall({
           chainId: gnosis.id,
@@ -272,11 +272,11 @@ describe(useTokensInfo.name, () => {
       handlers: [
         handlers.balanceCall({
           address: alice,
-          balance: balance,
+          balance,
         }),
         handlers.balanceCall({
           address: zeroAddress,
-          balance: balance,
+          balance,
         }),
         handlers.chainIdCall({
           chainId: gnosis.id,

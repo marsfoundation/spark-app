@@ -66,15 +66,15 @@ function getDepositRoute({
       ? [
           {
             token: formValues.token,
-            value: value,
             usdValue: value,
+            value,
           },
         ]
       : []),
     {
       token: intermediary,
-      value: value,
       usdValue: value,
+      value,
     },
     {
       token: savingsToken,

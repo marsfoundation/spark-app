@@ -19,6 +19,7 @@ module.exports = tseslint.config(
         'error',
         { allowExpressions: true, allowDirectConstAssertionInArrowFunctions: true },
       ],
+      'object-shorthand': 'error',
     },
   },
   {
@@ -33,6 +34,7 @@ module.exports = tseslint.config(
     rules: {
       '@typescript-eslint/no-floating-promises': 'error',
       'func-style': ['error', 'declaration'],
+      'object-shorthand': 'error',
     },
   },
 )
