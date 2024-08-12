@@ -3,11 +3,15 @@ import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
 import { allowanceQueryKey } from '@/domain/market-operations/allowance/query'
 import { calculateGemMinAmountOut } from '@/domain/psm-actions/redeem-and-swap/utils/calculateGemMinAmountOut'
-import { calculateGemConversionFactor } from '@/domain/psm-actions/utils/calculateGemConversionFactor'
 import { assertNativeWithdraw } from '@/domain/savings/assertNativeWithdraw'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
-import { isSexyDaiOperation, isUsdcPsmActionsOperation, isVaultOperation } from '@/features/actions/logic/savingsUtils'
 import { ActionConfig, ActionContext } from '@/features/actions/logic/types'
+import {
+  calculateGemConversionFactor,
+  isSexyDaiOperation,
+  isUsdcPsmActionsOperation,
+  isVaultOperation,
+} from '@/features/actions/utils/savings'
 import { assert, raise } from '@/utils/assert'
 import { toBigInt } from '@/utils/bigNumber'
 import { erc4626Abi } from 'viem'
@@ -51,11 +55,10 @@ export function createWithdrawFromSavingsAction(
       }
 
       if (isUsdcPsmActionsOperation({ token, savingsToken, tokensInfo })) {
-        const sDaiSavingsInfo =
-          context.sDaiSavingsInfo ?? raise('Savings info is required for withdraw from savings action')
+        assert(context.sDaiSavingsInfo, 'Savings info is required for usdc psm withdraw from savings action')
 
         if (isMax) {
-          const assetsAmount = sDaiSavingsInfo.convertToAssets({ shares: action.amount })
+          const assetsAmount = context.sDaiSavingsInfo.convertToAssets({ shares: action.amount })
           const gemMinAmountOut = calculateGemMinAmountOut({
             gemDecimals: token.decimals,
             assetsTokenDecimals: savingsToken.decimals,

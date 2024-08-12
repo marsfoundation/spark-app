@@ -1,7 +1,15 @@
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
+import BigNumber from 'bignumber.js'
 import { gnosis } from 'viem/chains'
+
+export function calculateGemConversionFactor({
+  gemDecimals,
+  assetsTokenDecimals,
+}: { gemDecimals: number; assetsTokenDecimals: number }): BigNumber {
+  return BigNumber(10).pow(assetsTokenDecimals - gemDecimals)
+}
 
 export function isVaultOperation({
   token,

@@ -11,22 +11,11 @@ import { BorrowAction, BorrowObjective } from '../flavours/borrow/types'
 import { ClaimRewardsAction, ClaimRewardsObjective } from '../flavours/claim-rewards/types'
 import { DepositToSavingsAction, DepositToSavingsObjective } from '../flavours/deposit-to-savings/types'
 import { DepositAction, DepositObjective } from '../flavours/deposit/types'
-import {
-  DaiFromSDaiWithdrawAction,
-  DaiFromSDaiWithdrawObjective,
-} from '../flavours/native-sdai-withdraw/dai-from-sdai/types'
-import {
-  USDCFromSDaiWithdrawAction,
-  USDCFromSDaiWithdrawObjective,
-} from '../flavours/native-sdai-withdraw/usdc-from-sdai/types'
-import {
-  XDaiFromSDaiWithdrawAction,
-  XDaiFromSDaiWithdrawObjective,
-} from '../flavours/native-sdai-withdraw/xdai-from-sdai/types'
 import { PermitAction } from '../flavours/permit/types'
 import { RepayAction, RepayObjective } from '../flavours/repay/types'
 import { SetUseAsCollateralAction, SetUseAsCollateralObjective } from '../flavours/set-use-as-collateral/types'
 import { SetUserEModeAction, SetUserEModeObjective } from '../flavours/set-user-e-mode/logic/types'
+import { WithdrawFromSavingsAction, WithdrawFromSavingsObjective } from '../flavours/withdraw-from-savings/types'
 import { WithdrawAction, WithdrawObjective } from '../flavours/withdraw/types'
 import { PermitStore } from './permits'
 
@@ -42,9 +31,7 @@ export type Objective =
   | SetUseAsCollateralObjective
   | SetUserEModeObjective
   | ClaimRewardsObjective
-  | DaiFromSDaiWithdrawObjective
-  | USDCFromSDaiWithdrawObjective
-  | XDaiFromSDaiWithdrawObjective
+  | WithdrawFromSavingsObjective
   | DepositToSavingsObjective
 export type ObjectiveType = Objective['type']
 
@@ -59,9 +46,7 @@ export type Action =
   | SetUseAsCollateralAction
   | SetUserEModeAction
   | ClaimRewardsAction
-  | DaiFromSDaiWithdrawAction
-  | USDCFromSDaiWithdrawAction
-  | XDaiFromSDaiWithdrawAction
+  | WithdrawFromSavingsAction
   | DepositToSavingsAction
 export type ActionType = Action['type']
 

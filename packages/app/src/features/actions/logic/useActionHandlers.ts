@@ -6,9 +6,6 @@ import { useCreateApproveHandler } from '../flavours/approve/logic/useCreateAppr
 import { useCreateBorrowActionHandler } from '../flavours/borrow/logic/useCreateBorrowHandler'
 import { useCreateClaimRewardsHandler } from '../flavours/claim-rewards/useCreateClaimRewardsHandler'
 import { useCreateDepositHandler } from '../flavours/deposit/logic/useCreateDepositHandler'
-import { useCreateDaiFromSDaiWithdrawHandler } from '../flavours/native-sdai-withdraw/dai-from-sdai/useCreateDaiFromSDaiWithdrawHandler'
-import { useCreateUSDCFromSDaiWithdrawHandler } from '../flavours/native-sdai-withdraw/usdc-from-sdai/useCreateUSDCFromSDaiWithdrawHandler'
-import { useCreateXDaiFromSDaiWithdrawHandler } from '../flavours/native-sdai-withdraw/xdai-from-sdai/useCreateXDaiFromSDaiWithdrawHandler'
 import { getFakePermitAction } from '../flavours/permit/logic/getFakePermitAction'
 import { useCreatePermitHandler } from '../flavours/permit/logic/useCreatePermitHandler'
 import { useCreateSetUseAsCollateralHandler } from '../flavours/set-use-as-collateral/logic/useCreateSetUseAsCollateralHandler'
@@ -183,15 +180,8 @@ function useCreateActionHandler(
     case 'claimRewards':
       // biome-ignore lint/correctness/useHookAtTopLevel:
       return useCreateClaimRewardsHandler(action, { enabled, onFinish })
-    case 'daiFromSDaiWithdraw':
-      // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateDaiFromSDaiWithdrawHandler(action, { enabled, onFinish })
-    case 'usdcFromSDaiWithdraw':
-      // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateUSDCFromSDaiWithdrawHandler(action, { enabled, onFinish })
-    case 'xDaiFromSDaiWithdraw':
-      // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateXDaiFromSDaiWithdrawHandler(action, { enabled, onFinish })
+    case 'withdrawFromSavings':
+      throw new Error('withdrawFromSavings action is not supported anymore')
     case 'depositToSavings':
       throw new Error('depositToSavings action is not supported anymore')
   }

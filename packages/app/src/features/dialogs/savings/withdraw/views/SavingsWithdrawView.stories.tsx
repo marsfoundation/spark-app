@@ -38,11 +38,11 @@ const nativeWithdrawArgs: Partial<SavingsWithdrawViewProps> = {
   },
   objectives: [
     {
-      type: 'daiFromSDaiWithdraw',
-      dai: tokens.DAI,
-      value: NormalizedUnitNumber(1023),
-      sDai: tokens.sDAI,
-      method: 'withdraw',
+      type: 'withdrawFromSavings',
+      token: tokens.DAI,
+      amount: NormalizedUnitNumber(1023),
+      savingsToken: tokens.sDAI,
+      isMax: false,
       mode: 'withdraw',
     },
   ],
@@ -63,13 +63,12 @@ const nativeWithdrawArgs: Partial<SavingsWithdrawViewProps> = {
 const nativeWithdrawSendModeArgs: Partial<SavingsWithdrawViewProps> = {
   objectives: [
     {
-      type: 'daiFromSDaiWithdraw',
-      dai: tokens.DAI,
-      value: NormalizedUnitNumber(1023),
-      sDai: tokens.sDAI,
-      method: 'withdraw',
+      type: 'withdrawFromSavings',
+      token: tokens.DAI,
+      amount: NormalizedUnitNumber(1023),
+      savingsToken: tokens.sDAI,
+      isMax: false,
       receiver: testAddresses.alice,
-      reserveAddresses: [tokens.DAI.address, tokens.USDC.address],
       mode: 'send',
     },
   ],

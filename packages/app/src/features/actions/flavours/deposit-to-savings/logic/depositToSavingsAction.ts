@@ -5,14 +5,18 @@ import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
 import { allowanceQueryKey } from '@/domain/market-operations/allowance/query'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
-import { isSexyDaiOperation, isUsdcPsmActionsOperation, isVaultOperation } from '@/features/actions/logic/savingsUtils'
 import { ActionConfig, ActionContext } from '@/features/actions/logic/types'
+import {
+  calculateGemConversionFactor,
+  isSexyDaiOperation,
+  isUsdcPsmActionsOperation,
+  isVaultOperation,
+} from '@/features/actions/utils/savings'
 import { raise } from '@/utils/assert'
 import { toBigInt } from '@/utils/bigNumber'
 import { erc4626Abi } from 'viem'
 import { gnosis } from 'viem/chains'
 import { DepositToSavingsAction } from '../types'
-import { calculateGemConversionFactor } from './calculateGemConversionFactor'
 import { isDaiToSNstMigration } from './common'
 
 export function createDepositToSavingsActionConfig(

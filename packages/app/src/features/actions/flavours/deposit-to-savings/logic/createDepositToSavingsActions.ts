@@ -2,10 +2,11 @@ import { MIGRATE_ACTIONS_ADDRESS } from '@/config/consts'
 import { psmActionsConfig } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { Action, ActionContext } from '@/features/actions/logic/types'
+import { isSexyDaiOperation, isUsdcPsmActionsOperation } from '@/features/actions/utils/savings'
 import { raise } from '@/utils/assert'
 import { ApproveAction } from '../../approve/types'
 import { DepositToSavingsAction, DepositToSavingsObjective } from '../types'
-import { isDaiToSNstMigration, isSexyDaiDeposit, isUSDCToSDaiDeposit } from './common'
+import { isDaiToSNstMigration } from './common'
 
 export function createDepositToSavingsActions(objective: DepositToSavingsObjective, context: ActionContext): Action[] {
   const tokensInfo = context.tokensInfo ?? raise('Tokens info is required for deposit to savings action')
@@ -16,16 +17,17 @@ export function createDepositToSavingsActions(objective: DepositToSavingsObjecti
     token: objective.token,
     savingsToken: objective.savingsToken,
   }
+  const { token, savingsToken } = objective
 
-  if (isSexyDaiDeposit({ config: objective, tokensInfo, chainId })) {
+  if (isSexyDaiOperation({ token, savingsToken, tokensInfo, chainId })) {
     return [depositAction]
   }
   const spender = (() => {
-    if (isUSDCToSDaiDeposit({ config: objective, tokensInfo })) {
+    if (isUsdcPsmActionsOperation({ token, savingsToken, tokensInfo })) {
       return getContractAddress(psmActionsConfig.address, chainId)
     }
 
-    if (isDaiToSNstMigration({ config: objective, tokensInfo })) {
+    if (isDaiToSNstMigration({ token, savingsToken, tokensInfo })) {
       return MIGRATE_ACTIONS_ADDRESS
     }
 

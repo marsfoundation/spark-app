@@ -4,13 +4,11 @@ import { BorrowActionRow } from '../../flavours/borrow/BorrowActionRow'
 import { ClaimRewardsActionRow } from '../../flavours/claim-rewards/ClaimRewardsActionRow'
 import { DepositToSavingsActionRow } from '../../flavours/deposit-to-savings/DepositToSavingsActionRow'
 import { DepositActionRow } from '../../flavours/deposit/DepositActionRow'
-import { DaiFromSDaiWithdrawActionRow } from '../../flavours/native-sdai-withdraw/dai-from-sdai/DaiFromSDaiWithdrawActionRow'
-import { USDCFromSDaiWithdrawActionRow } from '../../flavours/native-sdai-withdraw/usdc-from-sdai/USDCFromSDaiWithdrawActionRow'
-import { XDaiFromSDaiWithdrawActionRow } from '../../flavours/native-sdai-withdraw/xdai-from-sdai/XDaiFromSDaiWithdrawActionRow'
 import { PermitActionRow } from '../../flavours/permit/PermitActionRow'
 import { RepayActionRow } from '../../flavours/repay/RepayActionRow'
 import { SetUseAsCollateralActionRow } from '../../flavours/set-use-as-collateral/SetUseAsCollateralActionRow'
 import { SetUserEModeActionRow } from '../../flavours/set-user-e-mode/SetUserEModeActionRow'
+import { WithdrawFromSavingsActionRow } from '../../flavours/withdraw-from-savings/WithdrawFromSavingsActionRow'
 import { WithdrawActionRow } from '../../flavours/withdraw/WithdrawActionRow'
 import { ActionHandler } from '../../logic/types'
 import { ActionRowVariant } from '../action-row/types'
@@ -53,12 +51,8 @@ export function ActionsGrid({ actionHandlers, variant }: ActionsGridProps) {
             return <WithdrawActionRow action={handler.action} {...props} />
           case 'claimRewards':
             return <ClaimRewardsActionRow action={handler.action} {...props} />
-          case 'daiFromSDaiWithdraw':
-            return <DaiFromSDaiWithdrawActionRow action={handler.action} {...props} />
-          case 'usdcFromSDaiWithdraw':
-            return <USDCFromSDaiWithdrawActionRow action={handler.action} {...props} />
-          case 'xDaiFromSDaiWithdraw':
-            return <XDaiFromSDaiWithdrawActionRow action={handler.action} {...props} />
+          case 'withdrawFromSavings':
+            return <WithdrawFromSavingsActionRow action={handler.action} {...props} />
           case 'depositToSavings':
             return <DepositToSavingsActionRow action={handler.action} {...props} />
         }

@@ -1,31 +1,22 @@
 import { getChainConfigEntry } from '@/config/chain'
-import {
-  lendingPoolAddress,
-  psmActionsAddress,
-  savingsXDaiAdapterAddress,
-  wethGatewayAddress,
-} from '@/config/contracts-generated'
+import { lendingPoolAddress, wethGatewayAddress } from '@/config/contracts-generated'
 import { useContractAddress } from '@/domain/hooks/useContractAddress'
 import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
 import { ActionsSettings } from '@/domain/state/actions-settings'
-import { BaseUnitNumber, NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { BaseUnitNumber } from '@/domain/types/NumericValues'
 import { assert } from '@/utils/assert'
-import BigNumber from 'bignumber.js'
 import { maxUint256 } from 'viem'
-import { gnosis, mainnet } from 'viem/chains'
 import { ApproveDelegationAction } from '../flavours/approve-delegation/types'
 import { ApproveAction } from '../flavours/approve/types'
 import { BorrowAction } from '../flavours/borrow/types'
 import { ClaimRewardsAction } from '../flavours/claim-rewards/types'
 import { createDepositToSavingsActions } from '../flavours/deposit-to-savings/logic/createDepositToSavingsActions'
 import { DepositAction } from '../flavours/deposit/types'
-import { DaiFromSDaiWithdrawAction } from '../flavours/native-sdai-withdraw/dai-from-sdai/types'
-import { USDCFromSDaiWithdrawAction } from '../flavours/native-sdai-withdraw/usdc-from-sdai/types'
-import { XDaiFromSDaiWithdrawAction } from '../flavours/native-sdai-withdraw/xdai-from-sdai/types'
 import { PermitAction } from '../flavours/permit/types'
 import { RepayAction } from '../flavours/repay/types'
 import { SetUseAsCollateralAction } from '../flavours/set-use-as-collateral/types'
 import { SetUserEModeAction } from '../flavours/set-user-e-mode/logic/types'
+import { createWithdrawFromSavingsActions } from '../flavours/withdraw-from-savings/logic/createWithdrawFromSavingsActions'
 import { WithdrawAction } from '../flavours/withdraw/types'
 import { Action, ActionContext, Objective } from './types'
 
@@ -193,69 +184,8 @@ export function useCreateActions({ objectives, actionsSettings, actionContext }:
         return [claimRewardsActions]
       }
 
-      case 'daiFromSDaiWithdraw': {
-        const isSend = objective.mode === 'send'
-        const withdrawAction: DaiFromSDaiWithdrawAction = {
-          type: 'daiFromSDaiWithdraw',
-          dai: objective.dai,
-          sDai: objective.sDai,
-          value: objective.value,
-          method: objective.method,
-          mode: objective.mode,
-          ...(isSend ? { receiver: objective.receiver, reserveAddresses: objective.reserveAddresses } : {}),
-        }
-
-        return [withdrawAction]
-      }
-
-      case 'usdcFromSDaiWithdraw': {
-        const approveAction: ApproveAction = {
-          type: 'approve',
-          token: objective.sDai,
-          spender: psmActionsAddress[mainnet.id],
-          value:
-            objective.method === 'withdraw'
-              ? NormalizedUnitNumber(objective.sDaiValueEstimate.toFixed(objective.sDai.decimals, BigNumber.ROUND_UP))
-              : objective.value,
-        }
-
-        const isSend = objective.mode === 'send'
-        const withdrawAction: USDCFromSDaiWithdrawAction = {
-          type: 'usdcFromSDaiWithdraw',
-          usdc: objective.usdc,
-          sDai: objective.sDai,
-          value: objective.value,
-          method: objective.method,
-          mode: objective.mode,
-          ...(isSend ? { receiver: objective.receiver, reserveAddresses: objective.reserveAddresses } : {}),
-        }
-
-        return [approveAction, withdrawAction]
-      }
-
-      case 'xDaiFromSDaiWithdraw': {
-        const approveAction: ApproveAction = {
-          type: 'approve',
-          token: objective.sDai,
-          spender: savingsXDaiAdapterAddress[gnosis.id],
-          value:
-            objective.method === 'withdraw'
-              ? NormalizedUnitNumber(objective.sDaiValueEstimate.toFixed(objective.sDai.decimals, BigNumber.ROUND_UP))
-              : objective.value,
-        }
-
-        const isSend = objective.mode === 'send'
-        const withdrawAction: XDaiFromSDaiWithdrawAction = {
-          type: 'xDaiFromSDaiWithdraw',
-          xDai: objective.xDai,
-          sDai: objective.sDai,
-          value: objective.value,
-          method: objective.method,
-          mode: objective.mode,
-          ...(isSend ? { receiver: objective.receiver, reserveAddresses: objective.reserveAddresses } : {}),
-        }
-
-        return [approveAction, withdrawAction]
+      case 'withdrawFromSavings': {
+        return createWithdrawFromSavingsActions(objective, actionContext)
       }
 
       case 'depositToSavings': {
