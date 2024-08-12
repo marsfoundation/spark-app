@@ -1,9 +1,11 @@
-import { UseContractActionParams, useContractAction } from '@/features/actions/logic/useAction'
+import { UseContractActionParams, useContractAction } from '@/features/actions/logic/useContractAction'
 import { raise } from '@/utils/assert'
 import { useAccount, useChainId, useConfig } from 'wagmi'
 import { SetupHookRendererArgs, setupHookRenderer } from './setupHookRenderer'
 
-export function setupUseActionRenderer(defaultArgs: Omit<SetupHookRendererArgs<typeof useActionWrapper>, 'hook'>) {
+export function setupUseContractActionRenderer(
+  defaultArgs: Omit<SetupHookRendererArgs<typeof useActionWrapper>, 'hook'>,
+) {
   return setupHookRenderer({
     ...defaultArgs,
     hook: useActionWrapper,

@@ -8,7 +8,7 @@ import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPr
 import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
 import { getMockMarketInfo, getMockToken, testAddresses } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
-import { setupUseActionRenderer } from '@/test/integration/setupUseActionRenderer'
+import { setupUseContractActionRenderer } from '@/test/integration/setupUseContractActionRenderer'
 import { toBigInt } from '@/utils/bigNumber'
 import { waitFor } from '@testing-library/react'
 import { mainnet } from 'viem/chains'
@@ -23,7 +23,7 @@ const aToken = marketInfo.findOneReserveBySymbol(TokenSymbol('DAI')).aToken
 const account = testAddresses.alice
 const chainId = mainnet.id
 
-const hookRenderer = setupUseActionRenderer({
+const hookRenderer = setupUseContractActionRenderer({
   account,
   handlers: [handlers.chainIdCall({ chainId }), handlers.balanceCall({ balance: 0n, address: account })],
   args: {

@@ -5,7 +5,7 @@ import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { getMockToken, testAddresses } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
-import { setupUseActionRenderer } from '@/test/integration/setupUseActionRenderer'
+import { setupUseContractActionRenderer } from '@/test/integration/setupUseContractActionRenderer'
 import { toBigInt } from '@/utils/bigNumber'
 import { waitFor } from '@testing-library/react'
 import { mainnet } from 'viem/chains'
@@ -20,7 +20,7 @@ const chainId = mainnet.id
 const interestRateMode = BigInt(InterestRate.Variable)
 const referralCode = 0
 
-const hookRenderer = setupUseActionRenderer({
+const hookRenderer = setupUseContractActionRenderer({
   account,
   handlers: [handlers.chainIdCall({ chainId }), handlers.balanceCall({ balance: 0n, address: account })],
   args: { action: { type: 'borrow', token: borrowToken, value: borrowValue }, enabled: true },

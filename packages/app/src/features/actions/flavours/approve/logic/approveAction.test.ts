@@ -4,7 +4,7 @@ import { getMockToken, testAddresses } from '@/test/integration/constants'
 import { expectToStay } from '@/test/integration/expect'
 import { handlers } from '@/test/integration/mockTransport'
 import { createUpdatableHandler } from '@/test/integration/mockTransport/handlers'
-import { setupUseActionRenderer } from '@/test/integration/setupUseActionRenderer'
+import { setupUseContractActionRenderer } from '@/test/integration/setupUseContractActionRenderer'
 import { toBigInt } from '@/utils/bigNumber'
 import { waitFor } from '@testing-library/react'
 import { erc20Abi } from 'viem'
@@ -18,7 +18,7 @@ const account = testAddresses.alice
 const spender = testAddresses.bob
 const chainId = mainnet.id
 
-const hookRenderer = setupUseActionRenderer({
+const hookRenderer = setupUseContractActionRenderer({
   account,
   handlers: [handlers.chainIdCall({ chainId }), handlers.balanceCall({ balance: 0n, address: account })],
   args: { action: { type: 'approve', token, spender, value: defaultValue }, enabled: true },

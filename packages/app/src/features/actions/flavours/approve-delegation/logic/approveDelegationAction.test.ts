@@ -7,7 +7,7 @@ import { getMockMarketInfo, getMockToken, testAddresses } from '@/test/integrati
 import { expectToStay } from '@/test/integration/expect'
 import { handlers } from '@/test/integration/mockTransport'
 import { createUpdatableHandler } from '@/test/integration/mockTransport/handlers'
-import { setupUseActionRenderer } from '@/test/integration/setupUseActionRenderer'
+import { setupUseContractActionRenderer } from '@/test/integration/setupUseContractActionRenderer'
 import { toBigInt } from '@/utils/bigNumber'
 import { waitFor } from '@testing-library/react'
 import { mainnet } from 'viem/chains'
@@ -23,7 +23,7 @@ const marketInfo = getMockMarketInfo()
 const debtTokenAddress = marketInfo.findOneReserveByToken(token).variableDebtTokenAddress
 const wethGateway = wethGatewayAddress[chainId]
 
-const hookRenderer = setupUseActionRenderer({
+const hookRenderer = setupUseContractActionRenderer({
   account,
   handlers: [handlers.chainIdCall({ chainId }), handlers.balanceCall({ balance: 0n, address: account })],
   args: { action: { type: 'approveDelegation', token, value: approveValue }, enabled: true, context: { marketInfo } },

@@ -9,7 +9,7 @@ import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/que
 import { createPermitStore } from '@/features/actions/logic/permits'
 import { getMockReserve, getMockToken, testAddresses } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
-import { setupUseActionRenderer } from '@/test/integration/setupUseActionRenderer'
+import { setupUseContractActionRenderer } from '@/test/integration/setupUseContractActionRenderer'
 import { toBigInt } from '@/utils/bigNumber'
 import { getTimestampInSeconds } from '@/utils/time'
 import { waitFor } from '@testing-library/react'
@@ -29,7 +29,7 @@ const chainId = mainnet.id
 const interestRateMode = BigInt(InterestRate.Variable)
 const lendingPool = lendingPoolAddress[chainId]
 
-const hookRenderer = setupUseActionRenderer({
+const hookRenderer = setupUseContractActionRenderer({
   account,
   handlers: [handlers.chainIdCall({ chainId }), handlers.balanceCall({ balance: 0n, address: account })],
   args: { action: { type: 'repay', reserve: repayTokenReserve, value: repayValue, useAToken: false }, enabled: true },

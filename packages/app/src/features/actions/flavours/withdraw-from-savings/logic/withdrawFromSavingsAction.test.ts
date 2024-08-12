@@ -6,7 +6,7 @@ import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
 import { testAddresses, testTokens } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
-import { setupUseActionRenderer } from '@/test/integration/setupUseActionRenderer'
+import { setupUseContractActionRenderer } from '@/test/integration/setupUseContractActionRenderer'
 import { bigNumberify, toBigInt } from '@/utils/bigNumber'
 import { waitFor } from '@testing-library/react'
 import { erc4626Abi } from 'viem'
@@ -48,7 +48,7 @@ const mockSavingsDaiInfo = new PotSavingsInfo({
 })
 const chainId = mainnet.id
 
-const hookRenderer = setupUseActionRenderer({
+const hookRenderer = setupUseContractActionRenderer({
   account,
   handlers: [handlers.chainIdCall({ chainId }), handlers.balanceCall({ balance: 0n, address: account })],
   args: {

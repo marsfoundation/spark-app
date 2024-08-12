@@ -6,7 +6,7 @@ import { getFakePermitAction } from '../flavours/permit/logic/getFakePermitActio
 import { useCreatePermitHandler } from '../flavours/permit/logic/useCreatePermitHandler'
 import { createPermitStore } from './permits'
 import { ActionContext, ActionHandler, InjectedActionsContext, Objective } from './types'
-import { useContractAction } from './useAction'
+import { useContractAction } from './useContractAction'
 import { useCreateActions } from './useCreateActions'
 
 export interface UseActionHandlersOptions {
