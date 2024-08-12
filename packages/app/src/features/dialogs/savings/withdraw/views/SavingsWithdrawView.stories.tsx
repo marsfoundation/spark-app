@@ -92,6 +92,7 @@ const withdrawArgs: Partial<SavingsWithdrawViewProps> = {
     outTokenAmount: NormalizedUnitNumber(925.75),
   },
   actionsContext: { tokensInfo: mockTokensInfo, savingsDaiInfo: mockSavingsDaiInfo },
+  savingsType: 'sdai',
 }
 
 const sendArgs: Partial<SavingsWithdrawViewProps> = {
