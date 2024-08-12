@@ -36,7 +36,9 @@ test.describe('Send DAI on Mainnet', () => {
   })
 
   test('uses native sDai withdraw and send', async () => {
-    await sendDialog.actionsContainer.expectActions([{ type: 'daiFromSDaiWithdraw', asset: 'DAI', mode: 'send' }])
+    await sendDialog.actionsContainer.expectActions([
+      { type: 'withdrawFromSavings', asset: 'DAI', savingsAsset: 'sDAI', mode: 'send' },
+    ])
   })
 
   test('displays transaction overview', async () => {

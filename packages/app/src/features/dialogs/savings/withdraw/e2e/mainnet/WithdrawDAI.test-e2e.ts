@@ -34,7 +34,7 @@ test.describe('Withdraw DAI on Mainnet', () => {
 
   test('uses native sDai withdrawal', async () => {
     await withdrawalDialog.actionsContainer.expectActions([
-      { type: 'daiFromSDaiWithdraw', asset: 'DAI', mode: 'withdraw' },
+      { type: 'withdrawFromSavings', asset: 'DAI', savingsAsset: 'sDAI', mode: 'withdraw' },
     ])
   })
 
@@ -98,7 +98,7 @@ test.describe('Validation', () => {
 
     test('actions are disabled', async () => {
       await withdrawalDialog.actionsContainer.expectDisabledActions([
-        { type: 'daiFromSDaiWithdraw', asset: 'DAI', mode: 'withdraw' },
+        { type: 'withdrawFromSavings', asset: 'DAI', savingsAsset: 'sDAI', mode: 'withdraw' },
       ])
     })
 
