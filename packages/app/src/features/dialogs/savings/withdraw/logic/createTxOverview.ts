@@ -77,24 +77,24 @@ function getWithdrawRoute({
     raise('Cannot find intermediary token')
 
   return [
-    ...(intermediary.symbol !== formValues.token.symbol
-      ? [
-          {
-            token: savingsToken,
-            value: savingsTokenValue,
-            usdValue: savingsInfo.convertToAssets({ shares: savingsTokenValue }),
-          },
-        ]
-      : []),
+    {
+      token: savingsToken,
+      value: savingsTokenValue,
+      usdValue: savingsInfo.convertToAssets({ shares: savingsTokenValue }),
+    },
     {
       token: intermediary,
       value: value,
       usdValue: value,
     },
-    {
-      token: formValues.token,
-      value: value,
-      usdValue: value,
-    },
+    ...(intermediary.symbol !== formValues.token.symbol
+      ? [
+          {
+            token: formValues.token,
+            value: value,
+            usdValue: value,
+          },
+        ]
+      : []),
   ]
 }
