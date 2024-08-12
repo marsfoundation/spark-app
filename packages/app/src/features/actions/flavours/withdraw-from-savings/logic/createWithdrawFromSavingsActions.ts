@@ -30,8 +30,8 @@ export function createWithdrawFromSavingsActions(
     return [withdrawAction]
   }
 
-  assert(context.sDaiSavingsInfo, 'Savings info is required for withdraw from savings action approval')
-  const sDaiValueEstimate = context.sDaiSavingsInfo.convertToAssets({ shares: objective.amount })
+  assert(context.savingsDaiInfo, 'Savings info is required for withdraw from savings action approval')
+  const sDaiValueEstimate = context.savingsDaiInfo.convertToAssets({ shares: objective.amount })
 
   const spender = (() => {
     if (isUsdcPsmActionsOperation({ token, savingsToken, tokensInfo })) {

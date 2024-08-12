@@ -4,6 +4,7 @@ import { ensureConfigTypes } from '@/domain/hooks/useWrite'
 import { allowanceQueryKey } from '@/domain/market-operations/allowance/query'
 import { calculateGemMinAmountOut } from '@/domain/psm-actions/redeem-and-swap/utils/calculateGemMinAmountOut'
 import { assertNativeWithdraw } from '@/domain/savings/assertNativeWithdraw'
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { ActionConfig, ActionContext } from '@/features/actions/logic/types'
 import {
@@ -14,30 +15,29 @@ import {
 } from '@/features/actions/utils/savings'
 import { assert, raise } from '@/utils/assert'
 import { toBigInt } from '@/utils/bigNumber'
+import BigNumber from 'bignumber.js'
 import { erc4626Abi } from 'viem'
 import { gnosis } from 'viem/chains'
 import { WithdrawFromSavingsAction } from '../types'
 
-export function createWithdrawFromSavingsAction(
+export function createWithdrawFromSavingsActionConfig(
   action: WithdrawFromSavingsAction,
   context: ActionContext,
 ): ActionConfig {
   const { account, chainId } = context
   const tokensInfo = context.tokensInfo ?? raise('Tokens info is required for deposit to savings action')
-  const psmActionsAddress = getContractAddress(psmActionsConfig.address, chainId)
 
   return {
     getWriteConfig: () => {
       const { token, savingsToken, isMax, mode, receiver: _receiver } = action
+      const receiver = mode === 'send' ? _receiver! : account
 
-      assert(mode === 'send' && _receiver !== undefined, 'Receiver address should be defined when sending')
-      const receiver = mode === 'send' ? _receiver : account
       const argsAmount = isMax
         ? toBigInt(savingsToken.toBaseUnit(action.amount))
         : toBigInt(token.toBaseUnit(action.amount))
 
       if (isVaultOperation({ token, savingsToken, tokensInfo, chainId })) {
-        ensureConfigTypes({
+        return ensureConfigTypes({
           address: savingsToken.address,
           abi: erc4626Abi,
           functionName: isMax ? 'redeem' : 'withdraw',
@@ -46,7 +46,7 @@ export function createWithdrawFromSavingsAction(
       }
 
       if (isSexyDaiOperation({ token, savingsToken, tokensInfo, chainId })) {
-        ensureConfigTypes({
+        return ensureConfigTypes({
           address: savingsXDaiAdapterAddress[gnosis.id],
           abi: savingsXDaiAdapterAbi,
           functionName: isMax ? 'redeemXDAI' : 'withdrawXDAI',
@@ -55,20 +55,24 @@ export function createWithdrawFromSavingsAction(
       }
 
       if (isUsdcPsmActionsOperation({ token, savingsToken, tokensInfo })) {
-        assert(context.sDaiSavingsInfo, 'Savings info is required for usdc psm withdraw from savings action')
+        const psmActionsAddress = getContractAddress(psmActionsConfig.address, chainId)
+        assert(context.savingsDaiInfo, 'Savings info is required for usdc psm withdraw from savings action')
 
         if (isMax) {
-          const assetsAmount = context.sDaiSavingsInfo.convertToAssets({ shares: action.amount })
+          const assetsAmount = context.savingsDaiInfo.convertToAssets({ shares: action.amount })
           const gemMinAmountOut = calculateGemMinAmountOut({
             gemDecimals: token.decimals,
             assetsTokenDecimals: savingsToken.decimals,
-            assetsAmount: toBigInt(savingsToken.toBaseUnit(assetsAmount)),
+            assetsAmount: toBigInt(
+              savingsToken.toBaseUnit(NormalizedUnitNumber(assetsAmount.toFixed(token.decimals, BigNumber.ROUND_DOWN))),
+            ),
           })
+
           return ensureConfigTypes({
             address: psmActionsAddress,
             abi: psmActionsConfig.abi,
             functionName: 'redeemAndSwap',
-            args: [account, argsAmount, gemMinAmountOut],
+            args: [receiver, argsAmount, gemMinAmountOut],
           })
         }
 
@@ -76,7 +80,7 @@ export function createWithdrawFromSavingsAction(
           gemDecimals: token.decimals,
           assetsTokenDecimals: savingsToken.decimals,
         })
-        const assetsMaxAmountIn = toBigInt(action.amount.multipliedBy(gemConversionFactor))
+        const assetsMaxAmountIn = toBigInt(token.toBaseUnit(action.amount).multipliedBy(gemConversionFactor))
 
         return ensureConfigTypes({
           address: psmActionsAddress,
@@ -101,6 +105,7 @@ export function createWithdrawFromSavingsAction(
           return savingsXDaiAdapterAddress[gnosis.id]
         }
 
+        const psmActionsAddress = getContractAddress(psmActionsConfig.address, chainId)
         return psmActionsAddress
       })()
 

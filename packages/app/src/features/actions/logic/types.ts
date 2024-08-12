@@ -68,8 +68,8 @@ export interface ActionHandler {
 export interface ActionContext {
   marketInfo?: MarketInfo
   tokensInfo?: TokensInfo
+  savingsDaiInfo?: SavingsInfo
   permitStore?: PermitStore
-  sDaiSavingsInfo?: SavingsInfo
   wagmiConfig: Config
   account: Address
   chainId: number
@@ -94,4 +94,5 @@ export interface ActionConfig {
 export interface InjectedActionsContext {
   marketInfo?: MarketInfo
   tokensInfo?: TokensInfo
+  savingsDaiInfo?: SavingsInfo
 }

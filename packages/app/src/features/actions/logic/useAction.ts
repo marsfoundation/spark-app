@@ -17,6 +17,7 @@ import { createDepositActionConfig } from '../flavours/deposit/logic/depositActi
 import { createRepayActionConfig } from '../flavours/repay/logic/repayAction'
 import { createSetUseAsCollateralActionConfig } from '../flavours/set-use-as-collateral/logic/setUseAsCollateralAction'
 import { createSetUserEModeActionConfig } from '../flavours/set-user-e-mode/logic/setUserEModeAction'
+import { createWithdrawFromSavingsActionConfig } from '../flavours/withdraw-from-savings/logic/withdrawFromSavingsAction'
 import { createWithdrawActionConfig } from '../flavours/withdraw/logic/withdrawAction'
 import { ActionConfig, ActionContext, InitialParamsQueryResult, VerifyTransactionResult } from './types'
 
@@ -156,6 +157,10 @@ function actionToConfig(action: Action, context: ActionContext): ActionConfig {
     return createWithdrawActionConfig(action, context)
   }
 
+  if (action.type === 'withdrawFromSavings') {
+    return createWithdrawFromSavingsActionConfig(action, context)
+  }
+
   if (action.type === 'depositToSavings') {
     return createDepositToSavingsActionConfig(action, context)
   }
@@ -169,6 +174,7 @@ function createEmptyActionConfig(): ActionConfig {
     getWriteConfig: () => ({}),
     verifyTransactionQueryOptions: () => ({ queryKey: [], queryFn: skipToken }),
     invalidates: () => [],
+    beforeWriteCheck: () => {},
   }
 }
 

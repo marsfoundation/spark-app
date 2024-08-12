@@ -4,7 +4,7 @@ import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { useSavingsDaiInfo } from '@/domain/savings-info/useSavingsDaiInfo'
 import { useSavingsTokens } from '@/domain/savings/useSavingsTokens'
 import { useMarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
-import { Objective } from '@/features/actions/logic/types'
+import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { AssetInputSchema, useDebouncedDialogFormValues } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
 import { assert } from '@/utils/assert'
@@ -27,6 +27,7 @@ export interface UseSavingsWithdrawDialogResults {
   tokenToWithdraw: TokenWithValue
   pageStatus: PageStatus
   txOverview: SavingsDialogTxOverview
+  actionsContext: InjectedActionsContext
   sendModeExtension?: SendModeExtension
 }
 
@@ -104,6 +105,10 @@ export function useSavingsWithdrawDialog(mode: Mode): UseSavingsWithdrawDialogRe
       goToSuccessScreen: () => setPageState('success'),
     },
     txOverview,
+    actionsContext: {
+      tokensInfo,
+      savingsDaiInfo,
+    },
     sendModeExtension,
   }
 }
