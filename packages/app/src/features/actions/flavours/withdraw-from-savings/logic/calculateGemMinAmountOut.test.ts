@@ -1,5 +1,5 @@
-import { calculateGemMinAmountOut } from './calculateGemMinAmountOut'
 import { describe, expect, test } from 'vitest'
+import { calculateGemMinAmountOut } from './calculateGemMinAmountOut'
 
 describe(calculateGemMinAmountOut.name, () => {
   const gemDecimals = 6

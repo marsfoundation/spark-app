@@ -1,10 +1,10 @@
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
-import { allowance, allowanceQueryKey } from './query'
-import { normalizeErc20AbiForToken } from './normalizeErc20Abi'
 import { ActionConfig, ActionContext } from '@/features/actions/logic/types'
 import { toBigInt } from '@/utils/bigNumber'
 import { queryOptions } from '@tanstack/react-query'
 import { ApproveAction } from '../types'
+import { normalizeErc20AbiForToken } from './normalizeErc20Abi'
+import { allowance, allowanceQueryKey } from './query'
 
 export function createApproveActionConfig(action: ApproveAction, context: ActionContext): ActionConfig {
   const { wagmiConfig, account, chainId } = context

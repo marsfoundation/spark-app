@@ -7,8 +7,8 @@ import { aaveDataLayerQueryKey } from '@/domain/market-info/aave-data-layer/quer
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { toBigInt } from '@/utils/bigNumber'
 import { ActionConfig, ActionContext } from '../../../logic/types'
-import { BorrowAction } from '../types'
 import { getBorrowAllowanceQueryKey } from '../../approve-delegation/logic/query'
+import { BorrowAction } from '../types'
 
 export function createBorrowActionConfig(action: BorrowAction, context: ActionContext): ActionConfig {
   const { account, chainId } = context

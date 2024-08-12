@@ -3,8 +3,8 @@ import { MIGRATE_ACTIONS_ADDRESS } from '@/config/consts'
 import { psmActionsConfig, savingsXDaiAdapterAbi, savingsXDaiAdapterAddress } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
-import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
+import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
 import { ActionConfig, ActionContext } from '@/features/actions/logic/types'
 import {
   calculateGemConversionFactor,
