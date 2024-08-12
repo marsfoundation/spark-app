@@ -21,12 +21,12 @@ import { createWithdrawFromSavingsActionConfig } from '../flavours/withdraw-from
 import { createWithdrawActionConfig } from '../flavours/withdraw/logic/withdrawAction'
 import { ActionConfig, ActionContext, InitialParamsQueryResult, VerifyTransactionResult } from './types'
 
-export interface UseActionParams {
+export interface UseContractActionParams {
   context: ActionContext
   action: Action
   enabled: boolean
 }
-export function useAction({ action, context, enabled }: UseActionParams): ActionHandler {
+export function useContractAction({ action, context, enabled }: UseContractActionParams): ActionHandler {
   const config = actionToConfig(action, context)
   const {
     initialParamsQueryOptions = defaultInitialParamsQueryOptions,

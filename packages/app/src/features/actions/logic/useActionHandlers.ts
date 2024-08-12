@@ -6,7 +6,7 @@ import { getFakePermitAction } from '../flavours/permit/logic/getFakePermitActio
 import { useCreatePermitHandler } from '../flavours/permit/logic/useCreatePermitHandler'
 import { createPermitStore } from './permits'
 import { ActionContext, ActionHandler, InjectedActionsContext, Objective } from './types'
-import { useAction } from './useAction'
+import { useContractAction } from './useAction'
 import { useCreateActions } from './useCreateActions'
 
 export interface UseActionHandlersOptions {
@@ -51,7 +51,7 @@ export function useActionHandlers(
     state: { status: index === currentActionIndex ? 'ready' : index < currentActionIndex ? 'success' : 'disabled' },
   }))
 
-  const handler = useAction({
+  const handler = useContractAction({
     action: currentAction,
     context: actionContext,
     enabled: currentAction.type !== 'permit' && enabled,

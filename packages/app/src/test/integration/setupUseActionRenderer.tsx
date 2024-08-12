@@ -1,4 +1,4 @@
-import { UseActionParams, useAction } from '@/features/actions/logic/useAction'
+import { UseContractActionParams, useContractAction } from '@/features/actions/logic/useAction'
 import { raise } from '@/utils/assert'
 import { useAccount, useChainId, useConfig } from 'wagmi'
 import { SetupHookRendererArgs, setupHookRenderer } from './setupHookRenderer'
@@ -10,8 +10,8 @@ export function setupUseActionRenderer(defaultArgs: Omit<SetupHookRendererArgs<t
   })
 }
 
-export interface UseActionWrapperParams extends Omit<UseActionParams, 'context'> {
-  context?: Omit<UseActionParams['context'], 'chainId' | 'account' | 'wagmiConfig'>
+export interface UseActionWrapperParams extends Omit<UseContractActionParams, 'context'> {
+  context?: Omit<UseContractActionParams['context'], 'chainId' | 'account' | 'wagmiConfig'>
 }
 
 function useActionWrapper({ context, ...rest }: UseActionWrapperParams) {
@@ -19,7 +19,7 @@ function useActionWrapper({ context, ...rest }: UseActionWrapperParams) {
   const { address } = useAccount()
   const wagmiConfig = useConfig()
 
-  return useAction({
+  return useContractAction({
     context: {
       chainId,
       account: address ?? raise('account is not defined'),
