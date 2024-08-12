@@ -1,8 +1,7 @@
 import { psmActionsConfig, savingsXDaiAdapterAbi, savingsXDaiAdapterAddress } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
-import { allowanceQueryKey } from '@/domain/market-operations/allowance/query'
-import { calculateGemMinAmountOut } from '@/domain/psm-actions/redeem-and-swap/utils/calculateGemMinAmountOut'
+import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
 import { assertWithdraw } from '@/domain/savings/assertWithdraw'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
@@ -19,6 +18,7 @@ import BigNumber from 'bignumber.js'
 import { erc4626Abi } from 'viem'
 import { gnosis } from 'viem/chains'
 import { WithdrawFromSavingsAction } from '../types'
+import { calculateGemMinAmountOut } from './calculateGemMinAmountOut'
 
 export function createWithdrawFromSavingsActionConfig(
   action: WithdrawFromSavingsAction,

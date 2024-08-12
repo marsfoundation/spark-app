@@ -4,7 +4,7 @@ import { lendingPoolConfig, wethGatewayConfig } from '@/config/contracts-generat
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
 import { aaveDataLayerQueryKey } from '@/domain/market-info/aave-data-layer/query'
-import { allowanceQueryKey } from '@/domain/market-operations/allowance/query'
+import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { raise } from '@/utils/assert'
 import { toBigInt } from '@/utils/bigNumber'

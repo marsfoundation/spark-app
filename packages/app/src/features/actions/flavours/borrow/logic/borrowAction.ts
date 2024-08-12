@@ -4,11 +4,11 @@ import { lendingPoolConfig, wethGatewayConfig } from '@/config/contracts-generat
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
 import { aaveDataLayerQueryKey } from '@/domain/market-info/aave-data-layer/query'
-import { getBorrowAllowanceQueryKey } from '@/domain/market-operations/borrow-allowance/query'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { toBigInt } from '@/utils/bigNumber'
 import { ActionConfig, ActionContext } from '../../../logic/types'
 import { BorrowAction } from '../types'
+import { getBorrowAllowanceQueryKey } from '../../approve-delegation/logic/query'
 
 export function createBorrowActionConfig(action: BorrowAction, context: ActionContext): ActionConfig {
   const { account, chainId } = context

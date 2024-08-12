@@ -1,6 +1,6 @@
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
-import { allowance, allowanceQueryKey } from '@/domain/market-operations/allowance/query'
-import { normalizeErc20AbiForToken } from '@/domain/market-operations/normalizeErc20Abi'
+import { allowance, allowanceQueryKey } from './query'
+import { normalizeErc20AbiForToken } from './normalizeErc20Abi'
 import { ActionConfig, ActionContext } from '@/features/actions/logic/types'
 import { toBigInt } from '@/utils/bigNumber'
 import { queryOptions } from '@tanstack/react-query'

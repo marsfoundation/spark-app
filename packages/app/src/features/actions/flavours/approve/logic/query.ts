@@ -5,7 +5,7 @@ import { readContract } from 'wagmi/actions'
 
 import { MAX_INT, NATIVE_ASSET_MOCK_ADDRESS } from '@/config/consts'
 
-import { normalizeErc20AbiForToken } from '../normalizeErc20Abi'
+import { normalizeErc20AbiForToken } from './normalizeErc20Abi'
 
 export interface AllowanceOptions {
   wagmiConfig: Config

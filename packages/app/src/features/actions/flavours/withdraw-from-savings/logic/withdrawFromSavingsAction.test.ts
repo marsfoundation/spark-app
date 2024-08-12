@@ -1,5 +1,5 @@
 import { psmActionsAbi, psmActionsAddress } from '@/config/contracts-generated'
-import { allowanceQueryKey } from '@/domain/market-operations/allowance/query'
+import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
 import { PotSavingsInfo } from '@/domain/savings-info/potSavingsInfo'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'

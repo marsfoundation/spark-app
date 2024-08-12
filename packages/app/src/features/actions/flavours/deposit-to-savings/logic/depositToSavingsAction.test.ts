@@ -1,7 +1,7 @@
 import { migrationActionsAbi } from '@/config/abis/migrationActionsAbi'
 import { MIGRATE_ACTIONS_ADDRESS } from '@/config/consts'
 import { psmActionsAbi, psmActionsAddress } from '@/config/contracts-generated'
-import { allowanceQueryKey } from '@/domain/market-operations/allowance/query'
+import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'

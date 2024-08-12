@@ -3,7 +3,7 @@ import { MIGRATE_ACTIONS_ADDRESS } from '@/config/consts'
 import { psmActionsConfig, savingsXDaiAdapterAbi, savingsXDaiAdapterAddress } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
-import { allowanceQueryKey } from '@/domain/market-operations/allowance/query'
+import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { ActionConfig, ActionContext } from '@/features/actions/logic/types'
 import {

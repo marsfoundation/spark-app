@@ -1,10 +1,11 @@
 import { calculateGemMinAmountOut } from './calculateGemMinAmountOut'
+import { describe, expect, test } from 'vitest'
 
 describe(calculateGemMinAmountOut.name, () => {
   const gemDecimals = 6
   const assetsTokenDecimals = 18
 
-  it('caluclates the gem min value', () => {
+  test('caluclates the gem min value', () => {
     expect(
       calculateGemMinAmountOut({
         gemDecimals,
