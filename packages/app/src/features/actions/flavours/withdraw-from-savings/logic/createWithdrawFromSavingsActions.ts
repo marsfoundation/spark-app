@@ -47,7 +47,7 @@ export function createWithdrawFromSavingsActions(
 
   const approveAction: ApproveAction = {
     type: 'approve',
-    token: objective.token,
+    token: savingsToken,
     spender,
     value: objective.isMax
       ? objective.amount
