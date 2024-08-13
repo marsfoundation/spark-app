@@ -14,20 +14,22 @@ export function UpgradeTokenButton({ token }: UpgradeTokenButtonProps) {
       className={cn(
         'inline-flex items-center justify-center gap-1.5',
         'rounded-[10px] border border-slate-700 border-opacity-10',
-        'bg-secondary py-1 pr-1 pl-2 font-semibold text-base',
+        'bg-secondary py-1 pr-1 pl-1 font-semibold text-base sm:pl-2',
         'text-secondary-foreground',
       )}
     >
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1 sm:gap-2">
         <TokenIcon token={token} className="h-6 w-6" />
         {token.symbol}
         <Button
           size="sm"
-          className="group w-8 justify-start overflow-hidden px-2 transition-all duration-300 hover:w-[135px]"
+          className="group h-7 w-7 overflow-hidden px-1 transition-all duration-300 sm:h-8 sm:hover:w-[135px] sm:w-8 sm:justify-start sm:px-2"
         >
           <div className="flex items-center gap-2">
             <img src={assets.upgrade} alt="upgrade" className="h-[14px] w-[14px]" />
-            <span className="opacity-0 transition-opacity duration-300 group-hover:opacity-100">Upgrade to NST</span>
+            <span className="hidden opacity-0 transition-opacity duration-300 sm:block group-hover:opacity-100">
+              Upgrade to NST
+            </span>
           </div>
         </Button>
       </div>

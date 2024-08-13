@@ -7,12 +7,13 @@ import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { DataTable, DataTableProps } from '@/ui/molecules/data-table/DataTable'
 import { UpgradableDaiDetails } from '../../logic/useSavings'
+import { MoreDropdown } from './components/MoreDropdown'
 import { TokenCell } from './components/TokenCell'
 
 export interface CashInWalletProps {
   assets: TokenWithBalance[]
   openDialog: OpenDialogFunction
-  upgradableDaiDetails?: UpgradableDaiDetails
+  upgradableDaiDetails: UpgradableDaiDetails
 }
 
 export function CashInWallet({ assets, openDialog, upgradableDaiDetails }: CashInWalletProps) {
@@ -37,7 +38,7 @@ export function CashInWallet({ assets, openDialog, upgradableDaiDetails }: CashI
         header: '',
         renderCell: ({ token, balance }) => {
           return (
-            <div className="flex w-full flex-row justify-end">
+            <div className="flex justify-end gap-1 sm:gap-3">
               <Button
                 variant="secondary"
                 size="sm"
@@ -46,6 +47,7 @@ export function CashInWallet({ assets, openDialog, upgradableDaiDetails }: CashI
               >
                 Deposit
               </Button>
+              <MoreDropdown token={token} upgradableDaiDetails={upgradableDaiDetails} />
             </div>
           )
         },
@@ -61,7 +63,7 @@ export function CashInWallet({ assets, openDialog, upgradableDaiDetails }: CashI
       </Panel.Header>
       <Panel.Content>
         <DataTable
-          gridTemplateColumnsClassName="grid-cols-[repeat(2,_1fr)_100px]"
+          gridTemplateColumnsClassName="grid-cols-[repeat(2,_1fr)_120px] sm:grid-cols-[repeat(2,_1fr)_140px]"
           data={assets}
           columnDef={columnDef}
         />

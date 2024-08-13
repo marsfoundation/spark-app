@@ -5,11 +5,11 @@ import { UpgradeTokenButton } from './UpgradeTokenButton'
 
 export interface TokenCellProps {
   token: Token
-  upgradableDaiDetails?: UpgradableDaiDetails
+  upgradableDaiDetails: UpgradableDaiDetails
 }
 
 export function TokenCell({ token, upgradableDaiDetails }: TokenCellProps) {
-  if (upgradableDaiDetails?.isUpgradable && token.symbol === upgradableDaiDetails.daiSymbol) {
+  if (upgradableDaiDetails.isUpgradable && token.symbol === upgradableDaiDetails.daiSymbol) {
     return <UpgradeTokenButton token={token} />
   }
 

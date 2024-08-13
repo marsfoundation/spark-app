@@ -31,6 +31,7 @@ import inputOutput from './markets/input-output.svg'
 import lock from './markets/lock.svg'
 import output from './markets/output.svg'
 import menu from './menu.svg'
+import moreIconVertical from './more-icon-vertical.svg'
 import moreIcon from './more-icon.svg'
 import pause from './pause.svg'
 import rocket from './rocket.svg'
@@ -96,6 +97,7 @@ export const assets = {
   magicWand,
   magicWandCircle,
   moreIcon,
+  moreIconVertical,
   eye,
   menu,
   close,
