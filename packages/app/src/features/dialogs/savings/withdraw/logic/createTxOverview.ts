@@ -84,14 +84,14 @@ function getWithdrawRoute({
     },
     {
       token: intermediary,
-      value: value,
+      value,
       usdValue: value,
     },
     ...(intermediary.symbol !== formValues.token.symbol
       ? [
           {
             token: formValues.token,
-            value: value,
+            value,
             usdValue: value,
           },
         ]
