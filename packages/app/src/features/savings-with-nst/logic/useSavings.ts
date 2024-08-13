@@ -25,10 +25,9 @@ export interface SavingsTokenDetails {
   depositedUSDPrecision: number
 }
 
-export interface UpgradeInfo {
-  isUpgradable: boolean
-  tokenToUpgrade: TokenSymbol
-  upgradedToken: TokenSymbol
+export interface DaiNstUpgradeInfo {
+  daiSymbol: TokenSymbol
+  nstSymbol: TokenSymbol
 }
 
 export interface UseSavingsResults {
@@ -43,7 +42,7 @@ export interface UseSavingsResults {
         maxBalanceToken: TokenWithBalance
         chainId: SupportedChainId
         opportunityProjections: Projections
-        upgradeInfo?: UpgradeInfo
+        daiNstUpgradeInfo?: DaiNstUpgradeInfo
         sDaiDetails?: SavingsTokenDetails
         sNSTDetails?: SavingsTokenDetails
       }
@@ -84,14 +83,12 @@ export function useSavings(): UseSavingsResults {
     stepInMs,
   })
 
-  const upgradeInfo =
-    sDaiDetails && sNSTDetails
-      ? {
-          isUpgradable: true,
-          tokenToUpgrade: sDaiDetails.baseTokenSymbol,
-          upgradedToken: sNSTDetails.baseTokenSymbol,
-        }
-      : undefined
+  const daiNstUpgradeInfo = sNSTDetails
+    ? {
+        daiSymbol: dai.symbol,
+        nstSymbol: nst ? nst.symbol : raise('NST token should be defined for upgrade'),
+      }
+    : undefined
 
   function openSandboxModal(): void {
     openDialog(SandboxDialog, { mode: 'ephemeral' } as const)
@@ -124,7 +121,7 @@ export function useSavings(): UseSavingsResults {
       opportunityProjections,
       sDaiDetails,
       sNSTDetails,
-      upgradeInfo,
+      daiNstUpgradeInfo,
     },
   }
 }

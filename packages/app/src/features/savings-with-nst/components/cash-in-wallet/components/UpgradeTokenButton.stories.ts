@@ -10,6 +10,7 @@ const meta: Meta<typeof UpgradeTokenButton> = {
   component: UpgradeTokenButton,
   args: {
     token: tokens.DAI,
+    upgradedTokenSymbol: tokens.NST.symbol,
   },
 }
 

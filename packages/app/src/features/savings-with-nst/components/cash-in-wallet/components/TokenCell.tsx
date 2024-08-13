@@ -1,16 +1,16 @@
 import { Token } from '@/domain/types/Token'
-import { UpgradeInfo } from '@/features/savings-with-nst/logic/useSavings'
+import { DaiNstUpgradeInfo } from '@/features/savings-with-nst/logic/useSavings'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 import { UpgradeTokenButton } from './UpgradeTokenButton'
 
 export interface TokenCellProps {
   token: Token
-  upgradeInfo?: UpgradeInfo
+  daiNstUpgradeInfo?: DaiNstUpgradeInfo
 }
 
-export function TokenCell({ token, upgradeInfo }: TokenCellProps) {
-  if (upgradeInfo?.isUpgradable && token.symbol === upgradeInfo.tokenToUpgrade) {
-    return <UpgradeTokenButton token={token} upgradedTokenSymbol={upgradeInfo.upgradedToken} />
+export function TokenCell({ token, daiNstUpgradeInfo }: TokenCellProps) {
+  if (daiNstUpgradeInfo?.daiSymbol === token.symbol) {
+    return <UpgradeTokenButton token={token} upgradedTokenSymbol={daiNstUpgradeInfo.nstSymbol} />
   }
 
   return (

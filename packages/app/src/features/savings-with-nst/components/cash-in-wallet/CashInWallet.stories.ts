@@ -1,9 +1,7 @@
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import type { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
-
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-
 import { CashInWallet } from './CashInWallet'
 
 const meta: Meta<typeof CashInWallet> = {
@@ -23,7 +21,7 @@ export const Desktop: Story = {
         balance: NormalizedUnitNumber(22727),
       },
       {
-        token: tokens.USDT,
+        token: tokens.NST,
         balance: NormalizedUnitNumber(22727),
       },
       {
@@ -31,20 +29,13 @@ export const Desktop: Story = {
         balance: NormalizedUnitNumber(0),
       },
     ],
-    upgradeInfo: {
-      isUpgradable: true,
-      tokenToUpgrade: tokens.DAI.symbol,
-      upgradedToken: tokens.sNST.symbol,
+    daiNstUpgradeInfo: {
+      daiSymbol: tokens.DAI.symbol,
+      nstSymbol: tokens.NST.symbol,
     },
     openDialog: () => {},
   },
 }
 
-export const Mobile: Story = {
-  ...getMobileStory(Desktop),
-  name: 'Cash in wallet (Mobile)',
-}
-export const Tablet: Story = {
-  ...getTabletStory(Desktop),
-  name: 'Cash in wallet (Tablet)',
-}
+export const Mobile = getMobileStory(Desktop)
+export const Tablet = getTabletStory(Desktop)

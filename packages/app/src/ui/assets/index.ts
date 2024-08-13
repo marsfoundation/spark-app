@@ -8,6 +8,7 @@ import exchange from './actions/exchange.svg'
 import repay from './actions/repay.svg'
 import withdraw from './actions/withdraw.svg'
 import arrowRight from './arrow-right.svg'
+import arrowUpRight from './arrow-up-right.svg'
 import boxArrowTopRight from './box-arrow-top-right.svg'
 import ethereum from './chains/ethereum.svg'
 import gnosis from './chains/gnosis.svg'
@@ -86,6 +87,7 @@ export const assets = {
   link,
   threeDots,
   arrowRight,
+  arrowUpRight,
   warning,
   pause,
   snowflake,
