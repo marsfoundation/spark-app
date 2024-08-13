@@ -178,6 +178,8 @@ function storeRequest(request: any): void {
   window[__TX_LIST_KEY] = txList as any
 }
 
+// @note: This function is a copy of Wagmi's useWriteContract with an option to pass a mutationKey.
+// Passing custom mutationKey can be useful for resetting/invalidating mutation.
 function useWriteContract(
   parameters: UseWriteContractParameters & { mutationKey?: MutationKey } = {},
 ): UseWriteContractReturnType {
