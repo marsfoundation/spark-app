@@ -121,51 +121,32 @@ function mapStatusesToActionState({
 }
 
 function actionToConfig(action: Action, context: ActionContext): ActionConfig {
-  if (action.type === 'approve') {
-    return createApproveActionConfig(action, context)
+  switch (action.type) {
+    case 'approve':
+      return createApproveActionConfig(action, context)
+    case 'deposit':
+      return createDepositActionConfig(action, context)
+    case 'borrow':
+      return createBorrowActionConfig(action, context)
+    case 'setUseAsCollateral':
+      return createSetUseAsCollateralActionConfig(action, context)
+    case 'approveDelegation':
+      return createApproveDelegationActionConfig(action, context)
+    case 'setUserEMode':
+      return createSetUserEModeActionConfig(action, context)
+    case 'repay':
+      return createRepayActionConfig(action, context)
+    case 'claimRewards':
+      return createClaimRewardsActionConfig(action, context)
+    case 'withdraw':
+      return createWithdrawActionConfig(action, context)
+    case 'withdrawFromSavings':
+      return createWithdrawFromSavingsActionConfig(action, context)
+    case 'depositToSavings':
+      return createDepositToSavingsActionConfig(action, context)
+    case 'permit':
+      return createEmptyActionConfig()
   }
-
-  if (action.type === 'deposit') {
-    return createDepositActionConfig(action, context)
-  }
-
-  if (action.type === 'borrow') {
-    return createBorrowActionConfig(action, context)
-  }
-
-  if (action.type === 'setUseAsCollateral') {
-    return createSetUseAsCollateralActionConfig(action, context)
-  }
-
-  if (action.type === 'approveDelegation') {
-    return createApproveDelegationActionConfig(action, context)
-  }
-
-  if (action.type === 'setUserEMode') {
-    return createSetUserEModeActionConfig(action, context)
-  }
-
-  if (action.type === 'repay') {
-    return createRepayActionConfig(action, context)
-  }
-
-  if (action.type === 'claimRewards') {
-    return createClaimRewardsActionConfig(action, context)
-  }
-
-  if (action.type === 'withdraw') {
-    return createWithdrawActionConfig(action, context)
-  }
-
-  if (action.type === 'withdrawFromSavings') {
-    return createWithdrawFromSavingsActionConfig(action, context)
-  }
-
-  if (action.type === 'depositToSavings') {
-    return createDepositToSavingsActionConfig(action, context)
-  }
-
-  return createEmptyActionConfig()
 }
 
 function createEmptyActionConfig(): ActionConfig {
