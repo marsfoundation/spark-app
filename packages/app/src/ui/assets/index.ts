@@ -16,6 +16,7 @@ import chevronDown from './chevron-down.svg'
 import circleInfo from './circle-info.svg'
 import close from './close.svg'
 import down from './down.svg'
+import downgrade from './downgrade.svg'
 import eye from './eye.svg'
 import flash from './flash.svg'
 import giftbox from './giftbox.svg'
@@ -59,6 +60,7 @@ import wsteth from './tokens/wsteth.svg'
 import wxdai from './tokens/wxdai.svg'
 import xdai from './tokens/xdai.svg'
 import up from './up.svg'
+import upgrade from './upgrade.svg'
 import coinbase from './wallet-icons/coinbase.svg'
 import defaultWallet from './wallet-icons/default.svg'
 import enjin from './wallet-icons/enjin.svg'
@@ -100,6 +102,8 @@ export const assets = {
   makerLogo,
   giftbox,
   rocket,
+  downgrade,
+  upgrade,
   markets: {
     chart,
     inputOutput,
