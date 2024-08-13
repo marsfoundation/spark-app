@@ -4,17 +4,17 @@ import { Button } from '@/ui/atoms/button/Button'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 import { cn } from '@/ui/utils/style'
 
-export interface UpgradeButtonProps {
+export interface UpgradeTokenButtonProps {
   token: Token
 }
 
-export function UpgradeButton({ token }: UpgradeButtonProps) {
+export function UpgradeTokenButton({ token }: UpgradeTokenButtonProps) {
   return (
     <div
       className={cn(
         'inline-flex items-center justify-center gap-1.5',
         'rounded-[10px] border border-slate-700 border-opacity-10',
-        'bg-secondary py-1 pr-1 pl-4 font-semibold text-base',
+        'bg-secondary py-1 pr-1 pl-2 font-semibold text-base',
         'text-secondary-foreground',
       )}
     >

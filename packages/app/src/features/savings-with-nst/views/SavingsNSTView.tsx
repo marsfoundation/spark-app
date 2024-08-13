@@ -1,8 +1,8 @@
 import { PageHeader } from '../../savings/components/PageHeader'
 import { PageLayout } from '../../savings/components/PageLayout'
-import { CashInWallet } from '../../savings/components/cash-in-wallet/CashInWallet'
 import { SavingsOpportunity } from '../../savings/components/savings-opportunity/SavingsOpportunity'
 import { SavingsOpportunityNoCash } from '../../savings/components/savings-opportunity/SavingsOpportunityNoCash'
+import { CashInWallet } from '../components/cash-in-wallet/CashInWallet'
 import { SavingsTokenPanel } from '../components/savings-token-panel/SavingsTokenPanel'
 import { SavingsViewContentProps } from './types'
 

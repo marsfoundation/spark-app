@@ -2,19 +2,19 @@ import { WithClassname } from '@storybook/decorators'
 import type { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
-import { UpgradeButton } from './UpgradeButton'
+import { UpgradeTokenButton } from './UpgradeTokenButton'
 
-const meta: Meta<typeof UpgradeButton> = {
-  title: 'Features/Savings/Components/CashInWallet/UpgradeButton',
+const meta: Meta<typeof UpgradeTokenButton> = {
+  title: 'Features/SavingsWithNst/Components/CashInWallet/UpgradeTokenButton',
   decorators: [WithClassname('p-8 bg-white')],
-  component: UpgradeButton,
+  component: UpgradeTokenButton,
   args: {
     token: tokens.DAI,
   },
 }
 
 export default meta
-type Story = StoryObj<typeof UpgradeButton>
+type Story = StoryObj<typeof UpgradeTokenButton>
 
 export const Desktop: Story = {}
 export const Mobile = getMobileStory(Desktop)

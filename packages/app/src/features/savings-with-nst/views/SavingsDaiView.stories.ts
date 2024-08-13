@@ -14,10 +14,6 @@ const savingsViewBaseArgs = {
       balance: NormalizedUnitNumber(22727),
     },
     {
-      token: tokens.NST,
-      balance: NormalizedUnitNumber(12345),
-    },
-    {
       token: tokens.USDC,
       balance: NormalizedUnitNumber(0),
     },
@@ -29,6 +25,9 @@ const savingsViewBaseArgs = {
   opportunityProjections: {
     thirtyDays: NormalizedUnitNumber(100),
     oneYear: NormalizedUnitNumber(3000),
+  },
+  upgradableDaiDetails: {
+    isUpgradable: false,
   },
   totalEligibleCashUSD: NormalizedUnitNumber(45454),
   openDialog: () => {},

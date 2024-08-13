@@ -10,10 +10,6 @@ const savingsViewBaseArgs = {
   chainId: mainnet.id,
   assetsInWallet: [
     {
-      token: tokens.DAI,
-      balance: NormalizedUnitNumber(22727),
-    },
-    {
       token: tokens.NST,
       balance: NormalizedUnitNumber(12345),
     },
@@ -29,6 +25,9 @@ const savingsViewBaseArgs = {
   opportunityProjections: {
     thirtyDays: NormalizedUnitNumber(100),
     oneYear: NormalizedUnitNumber(3000),
+  },
+  upgradableDaiDetails: {
+    isUpgradable: false,
   },
   totalEligibleCashUSD: NormalizedUnitNumber(45454),
   openDialog: () => {},
