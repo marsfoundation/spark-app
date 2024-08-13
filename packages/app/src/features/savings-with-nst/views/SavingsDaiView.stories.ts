@@ -26,9 +26,6 @@ const savingsViewBaseArgs = {
     thirtyDays: NormalizedUnitNumber(100),
     oneYear: NormalizedUnitNumber(3000),
   },
-  upgradableDaiDetails: {
-    isUpgradable: false,
-  },
   totalEligibleCashUSD: NormalizedUnitNumber(45454),
   openDialog: () => {},
 }

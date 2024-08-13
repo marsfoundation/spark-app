@@ -1,6 +1,6 @@
 import { SupportedChainId } from '@/config/chain/types'
-import { useChainConfigEntry } from '@/config/chain/useChainConfigEntry'
 import { TokenWithBalance } from '@/domain/common/types'
+import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
 import { useSavingsDaiInfo } from '@/domain/savings-info/useSavingsDaiInfo'
 import { useSavingsNstInfo } from '@/domain/savings-info/useSavingsNstInfo'
 import { calculateMaxBalanceTokenAndTotal } from '@/domain/savings/calculateMaxBalanceTokenAndTotal'
@@ -25,10 +25,10 @@ export interface SavingsTokenDetails {
   depositedUSDPrecision: number
 }
 
-export interface UpgradableDaiDetails {
+export interface UpgradeInfo {
   isUpgradable: boolean
-  daiSymbol?: TokenSymbol
-  NSTSymbol?: TokenSymbol
+  tokenToUpgrade: TokenSymbol
+  upgradedToken: TokenSymbol
 }
 
 export interface UseSavingsResults {
@@ -43,7 +43,7 @@ export interface UseSavingsResults {
         maxBalanceToken: TokenWithBalance
         chainId: SupportedChainId
         opportunityProjections: Projections
-        upgradableDaiDetails: UpgradableDaiDetails
+        upgradeInfo?: UpgradeInfo
         sDaiDetails?: SavingsTokenDetails
         sNSTDetails?: SavingsTokenDetails
       }
@@ -53,8 +53,8 @@ export function useSavings(): UseSavingsResults {
   const { savingsDaiInfo } = useSavingsDaiInfo()
   const { savingsNstInfo } = useSavingsNstInfo()
   const guestMode = useAccount().isConnected === false
-  const { inputTokens, sDaiWithBalance, sNSTWithBalance } = useSavingsTokens()
-  const { id: originChainId, daiSymbol, NSTSymbol } = useChainConfigEntry()
+  const { inputTokens, dai, nst, sDaiWithBalance, sNSTWithBalance } = useSavingsTokens()
+  const originChainId = useOriginChainId()
   const { timestamp, timestampInMs } = useTimestamp({
     refreshIntervalInMs: savingsDaiInfo?.supportsRealTimeInterestAccrual ? stepInMs : undefined,
   })
@@ -67,6 +67,7 @@ export function useSavings(): UseSavingsResults {
   const sDaiDetails = makeSavingsTokenDetails({
     savingsInfo: savingsDaiInfo,
     savingsTokenWithBalance: sDaiWithBalance,
+    baseToken: dai,
     eligibleCashUSD: totalEligibleCashUSD,
     timestamp,
     timestampInMs,
@@ -76,17 +77,21 @@ export function useSavings(): UseSavingsResults {
   const sNSTDetails = makeSavingsTokenDetails({
     savingsInfo: savingsNstInfo,
     savingsTokenWithBalance: sNSTWithBalance,
+    baseToken: nst,
     eligibleCashUSD: totalEligibleCashUSD,
     timestamp,
     timestampInMs,
     stepInMs,
   })
 
-  const upgradableDaiDetails = {
-    isUpgradable: !!sDaiDetails && !!sNSTDetails,
-    daiSymbol,
-    NSTSymbol,
-  }
+  const upgradeInfo =
+    sDaiDetails && sNSTDetails
+      ? {
+          isUpgradable: true,
+          tokenToUpgrade: sDaiDetails.baseTokenSymbol,
+          upgradedToken: sNSTDetails.baseTokenSymbol,
+        }
+      : undefined
 
   function openSandboxModal(): void {
     openDialog(SandboxDialog, { mode: 'ephemeral' } as const)
@@ -119,7 +124,7 @@ export function useSavings(): UseSavingsResults {
       opportunityProjections,
       sDaiDetails,
       sNSTDetails,
-      upgradableDaiDetails,
+      upgradeInfo,
     },
   }
 }

@@ -31,10 +31,10 @@ export const Desktop: Story = {
         balance: NormalizedUnitNumber(0),
       },
     ],
-    upgradableDaiDetails: {
+    upgradeInfo: {
       isUpgradable: true,
-      daiSymbol: tokens.DAI.symbol,
-      NSTSymbol: tokens.sNST.symbol,
+      tokenToUpgrade: tokens.DAI.symbol,
+      upgradedToken: tokens.sNST.symbol,
     },
     openDialog: () => {},
   },

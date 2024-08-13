@@ -1,21 +1,26 @@
 import { Token } from '@/domain/types/Token'
-import { UpgradableDaiDetails } from '@/features/savings-with-nst/logic/useSavings'
+import { UpgradeInfo } from '@/features/savings-with-nst/logic/useSavings'
 import MoreIcon from '@/ui/assets/more-icon.svg?react'
 import { Button } from '@/ui/atoms/button/Button'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/ui/atoms/dropdown/DropdownMenu'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/ui/atoms/dropdown/DropdownMenu'
 
 export interface MoreDropdownProps {
   token: Token
-  upgradableDaiDetails: UpgradableDaiDetails
+  upgradeInfo?: UpgradeInfo
 }
 
-export function MoreDropdown({ token, upgradableDaiDetails }: MoreDropdownProps) {
+export function MoreDropdown({ token, upgradeInfo }: MoreDropdownProps) {
   return (
     <DropdownWrapper>
-      {upgradableDaiDetails.isUpgradable && token.symbol === upgradableDaiDetails.NSTSymbol && (
-        <div>Downgrade to dai</div>
+      {upgradeInfo?.isUpgradable && token.symbol === upgradeInfo.upgradedToken && (
+        <DropdownMenuItem>Downgrade to {upgradeInfo.tokenToUpgrade}</DropdownMenuItem>
       )}
-      <div>Learn more</div>
+      <DropdownMenuItem>Learn more</DropdownMenuItem>
     </DropdownWrapper>
   )
 }

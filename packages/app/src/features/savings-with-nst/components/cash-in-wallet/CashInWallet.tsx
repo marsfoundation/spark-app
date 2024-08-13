@@ -6,22 +6,22 @@ import { SavingsDepositDialog } from '@/features/dialogs/savings/deposit/Savings
 import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { DataTable, DataTableProps } from '@/ui/molecules/data-table/DataTable'
-import { UpgradableDaiDetails } from '../../logic/useSavings'
+import { UpgradeInfo } from '../../logic/useSavings'
 import { MoreDropdown } from './components/MoreDropdown'
 import { TokenCell } from './components/TokenCell'
 
 export interface CashInWalletProps {
   assets: TokenWithBalance[]
   openDialog: OpenDialogFunction
-  upgradableDaiDetails: UpgradableDaiDetails
+  upgradeInfo?: UpgradeInfo
 }
 
-export function CashInWallet({ assets, openDialog, upgradableDaiDetails }: CashInWalletProps) {
+export function CashInWallet({ assets, openDialog, upgradeInfo }: CashInWalletProps) {
   const columnDef: DataTableProps<TokenWithBalance>['columnDef'] = useMemo(
     () => ({
       token: {
         header: 'Token',
-        renderCell: ({ token }) => <TokenCell token={token} upgradableDaiDetails={upgradableDaiDetails} />,
+        renderCell: ({ token }) => <TokenCell token={token} upgradeInfo={upgradeInfo} />,
       },
       balance: {
         header: 'Balance',
@@ -47,7 +47,7 @@ export function CashInWallet({ assets, openDialog, upgradableDaiDetails }: CashI
               >
                 Deposit
               </Button>
-              <MoreDropdown token={token} upgradableDaiDetails={upgradableDaiDetails} />
+              <MoreDropdown token={token} upgradeInfo={upgradeInfo} />
             </div>
           )
         },
