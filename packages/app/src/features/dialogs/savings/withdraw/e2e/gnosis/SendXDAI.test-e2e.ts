@@ -27,7 +27,7 @@ test.describe('Send XDAI on Gnosis', () => {
     })
 
     savingsPage = new SavingsPageObject(page)
-    await savingsPage.clickSendButtonAction()
+    await savingsPage.clickSendSDaiButtonAction()
 
     sendDialog = new SavingsDialogPageObject({ page, type: 'send' })
     await sendDialog.fillAmountAction(amount)

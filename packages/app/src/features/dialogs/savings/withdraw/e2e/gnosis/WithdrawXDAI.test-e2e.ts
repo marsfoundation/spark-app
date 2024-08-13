@@ -29,7 +29,7 @@ test.describe('Withdraw XDAI on Gnosis', () => {
     })
 
     savingsPage = new SavingsPageObject(page)
-    await savingsPage.clickWithdrawButtonAction()
+    await savingsPage.clickWithdrawSDaiButtonAction()
 
     withdrawalDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
     await withdrawalDialog.fillAmountAction(7000)

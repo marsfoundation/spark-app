@@ -87,6 +87,10 @@ export const TOKENS_ON_FORK = {
       address: '0x798f111c92E38F102931F34D1e0ea7e671BDBE31',
       decimals: 18,
     },
+    sNST: {
+      address: '0xeA8AE08513f8230cAA8d031D28cB4Ac8CE720c68',
+      decimals: 18,
+    },
   },
 } as const
 
