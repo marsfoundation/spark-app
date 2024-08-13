@@ -9,6 +9,7 @@ import { WithdrawView } from './views/WithdrawView'
 function WithdrawDialogContentContainer({ token, closeDialog }: DialogContentContainerProps) {
   const {
     objectives,
+    actionsContext,
     withdrawOptions,
     assetsToWithdrawFields,
     pageStatus,
@@ -34,6 +35,7 @@ function WithdrawDialogContentContainer({ token, closeDialog }: DialogContentCon
     <WithdrawView
       withdrawOptions={withdrawOptions}
       objectives={objectives}
+      actionsContext={actionsContext}
       form={form}
       assetsToWithdrawFields={assetsToWithdrawFields}
       pageStatus={pageStatus}

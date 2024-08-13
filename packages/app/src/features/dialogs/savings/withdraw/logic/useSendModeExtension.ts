@@ -41,7 +41,7 @@ function useReceiverFormValues(marketInfo: MarketInfo): UseDebouncedReceiverForm
 
   const receiverForm = useForm<ReceiverFormSchema>({
     resolver: zodResolver(
-      getReceiverFormValidator({ account, reserveAddresses: marketInfo.reserves.map((r) => r.token.address) }),
+      getReceiverFormValidator({ account, tokenAddresses: marketInfo.reserves.map((r) => r.token.address) }),
     ),
     defaultValues: { receiver: '' },
     mode: 'onChange',

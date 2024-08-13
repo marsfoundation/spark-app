@@ -5,18 +5,18 @@ export type ReceiverValidationIssue =
   | 'undefined-receiver'
   | 'invalid-address'
   | 'zero-address'
-  | 'reserve-address'
+  | 'token-address'
   | 'self-address'
 
 export interface ValidateReceiverParams {
   account: CheckedAddress | undefined
-  reserveAddresses: CheckedAddress[]
+  tokenAddresses: CheckedAddress[]
   receiver: string | undefined
 }
 
 export function validateReceiver({
   account,
-  reserveAddresses,
+  tokenAddresses,
   receiver,
 }: ValidateReceiverParams): ReceiverValidationIssue | undefined {
   if (!account) {
@@ -35,8 +35,8 @@ export function validateReceiver({
     return 'zero-address'
   }
 
-  if (reserveAddresses.includes(CheckedAddress(receiver))) {
-    return 'reserve-address'
+  if (tokenAddresses.includes(CheckedAddress(receiver))) {
+    return 'token-address'
   }
 
   if (account === CheckedAddress(receiver)) {
@@ -48,6 +48,6 @@ export const receiverValidationIssueToMessage: Record<ReceiverValidationIssue, s
   'undefined-receiver': 'Receiver address should be provided',
   'invalid-address': 'Invalid receiver address',
   'zero-address': 'Receiver address is zero address',
-  'reserve-address': 'Receiver address is a token address',
+  'token-address': 'Receiver address is a token address',
   'self-address': 'Receiver address is the same as the sender',
 }

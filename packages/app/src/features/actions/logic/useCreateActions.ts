@@ -1,35 +1,37 @@
-import { getNativeAssetInfo } from '@/config/chain/utils/getNativeAssetInfo'
-import { MIGRATE_ACTIONS_ADDRESS } from '@/config/consts'
-import { psmActionsAddress, savingsXDaiAdapterAddress, wethGatewayAddress } from '@/config/contracts-generated'
+import { getChainConfigEntry } from '@/config/chain'
+import { lendingPoolAddress, wethGatewayAddress } from '@/config/contracts-generated'
 import { useContractAddress } from '@/domain/hooks/useContractAddress'
 import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
-import { BaseUnitNumber, NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { ActionsSettings } from '@/domain/state/actions-settings'
+import { BaseUnitNumber } from '@/domain/types/NumericValues'
 import { assert } from '@/utils/assert'
-import BigNumber from 'bignumber.js'
 import { maxUint256 } from 'viem'
-import { gnosis, mainnet } from 'viem/chains'
 import { ApproveDelegationAction } from '../flavours/approve-delegation/types'
 import { ApproveAction } from '../flavours/approve/types'
 import { BorrowAction } from '../flavours/borrow/types'
 import { ClaimRewardsAction } from '../flavours/claim-rewards/types'
+import { createDepositToSavingsActions } from '../flavours/deposit-to-savings/logic/createDepositToSavingsActions'
 import { DepositAction } from '../flavours/deposit/types'
-import { MakerStableToSavingsAction } from '../flavours/native-sdai-deposit/maker-stables/types'
-import { MigrateDAIToSNSTAction } from '../flavours/native-sdai-deposit/migrate-dai-to-snst/types'
-import { USDCToSDaiDepositAction } from '../flavours/native-sdai-deposit/usdc-to-sdai/types'
-import { XDaiToSDaiDepositAction } from '../flavours/native-sdai-deposit/xdai-to-sdai/types'
-import { DaiFromSDaiWithdrawAction } from '../flavours/native-sdai-withdraw/dai-from-sdai/types'
-import { USDCFromSDaiWithdrawAction } from '../flavours/native-sdai-withdraw/usdc-from-sdai/types'
-import { XDaiFromSDaiWithdrawAction } from '../flavours/native-sdai-withdraw/xdai-from-sdai/types'
+import { PermitAction } from '../flavours/permit/types'
 import { RepayAction } from '../flavours/repay/types'
 import { SetUseAsCollateralAction } from '../flavours/set-use-as-collateral/types'
-import { SetUserEModeAction } from '../flavours/set-user-e-mode/types'
+import { SetUserEModeAction } from '../flavours/set-user-e-mode/logic/types'
+import { createWithdrawFromSavingsActions } from '../flavours/withdraw-from-savings/logic/createWithdrawFromSavingsActions'
 import { WithdrawAction } from '../flavours/withdraw/types'
-import { Action, Objective } from './types'
+import { Action, ActionContext, Objective } from './types'
 
-export function useCreateActions(objectives: Objective[]): Action[] {
+export interface UseCreateActionsParams {
+  objectives: Objective[]
+  actionsSettings: ActionsSettings
+  actionContext: ActionContext
+}
+
+export function useCreateActions({ objectives, actionsSettings, actionContext }: UseCreateActionsParams): Action[] {
   const chainId = useOriginChainId()
-  const nativeAssetInfo = getNativeAssetInfo(chainId)
+  const chainConfig = getChainConfigEntry(chainId)
+  const nativeAssetInfo = chainConfig.nativeAssetInfo
   const wethGateway = useContractAddress(wethGatewayAddress)
+  const lendingPool = useContractAddress(lendingPoolAddress)
 
   return objectives.flatMap((objective): Action[] => {
     // @note: you can create hooks (actions) conditionally, but ensure that component will be re-mounted when condition changes
@@ -42,13 +44,26 @@ export function useCreateActions(objectives: Objective[]): Action[] {
           token: objective.token,
           value: objective.value,
         }
+
         if (objective.token.symbol === nativeAssetInfo.nativeAssetSymbol) {
           return [depositAction]
         }
+
+        if (actionsSettings.preferPermits && chainConfig.permitSupport[objective.token.address]) {
+          const permitAction: PermitAction = {
+            type: 'permit',
+            token: objective.token,
+            spender: lendingPool,
+            value: objective.value,
+          }
+
+          return [permitAction, depositAction]
+        }
+
         const approveAction: ApproveAction = {
           type: 'approve',
           token: objective.token,
-          spender: objective.lendingPool,
+          spender: lendingPool,
           value: objective.value,
         }
         return [approveAction, depositAction]
@@ -89,8 +104,6 @@ export function useCreateActions(objectives: Objective[]): Action[] {
           const approveDelegationAction: ApproveDelegationAction = {
             type: 'approveDelegation',
             token: objective.token,
-            debtTokenAddress: objective.debtTokenAddress,
-            delegatee: wethGateway,
             value: objective.value,
           }
 
@@ -117,13 +130,26 @@ export function useCreateActions(objectives: Objective[]): Action[] {
           value: objective.value,
           useAToken: objective.useAToken,
         }
+
         if (objective.reserve.token.symbol === nativeAssetInfo.nativeAssetSymbol || objective.useAToken) {
           return [repayAction]
         }
+
+        if (actionsSettings.preferPermits && chainConfig.permitSupport[objective.reserve.token.address]) {
+          const permitAction: PermitAction = {
+            type: 'permit',
+            token: objective.reserve.token,
+            spender: lendingPool,
+            value: objective.value,
+          }
+
+          return [permitAction, repayAction]
+        }
+
         const approveAction: ApproveAction = {
           type: 'approve',
           token: objective.reserve.token,
-          spender: objective.lendingPool,
+          spender: lendingPool,
           requiredValue: objective.requiredApproval,
           value: objective.value,
         }
@@ -147,138 +173,6 @@ export function useCreateActions(objectives: Objective[]): Action[] {
         return [setUserEModeAction]
       }
 
-      case 'daiFromSDaiWithdraw': {
-        const isSend = objective.mode === 'send'
-        const withdrawAction: DaiFromSDaiWithdrawAction = {
-          type: 'daiFromSDaiWithdraw',
-          dai: objective.dai,
-          sDai: objective.sDai,
-          value: objective.value,
-          method: objective.method,
-          mode: objective.mode,
-          ...(isSend ? { receiver: objective.receiver, reserveAddresses: objective.reserveAddresses } : {}),
-        }
-
-        return [withdrawAction]
-      }
-
-      case 'usdcFromSDaiWithdraw': {
-        const approveAction: ApproveAction = {
-          type: 'approve',
-          token: objective.sDai,
-          spender: psmActionsAddress[mainnet.id],
-          value:
-            objective.method === 'withdraw'
-              ? NormalizedUnitNumber(objective.sDaiValueEstimate.toFixed(objective.sDai.decimals, BigNumber.ROUND_UP))
-              : objective.value,
-          disallowPermit: true,
-        }
-
-        const isSend = objective.mode === 'send'
-        const withdrawAction: USDCFromSDaiWithdrawAction = {
-          type: 'usdcFromSDaiWithdraw',
-          usdc: objective.usdc,
-          sDai: objective.sDai,
-          value: objective.value,
-          method: objective.method,
-          mode: objective.mode,
-          ...(isSend ? { receiver: objective.receiver, reserveAddresses: objective.reserveAddresses } : {}),
-        }
-
-        return [approveAction, withdrawAction]
-      }
-
-      case 'xDaiFromSDaiWithdraw': {
-        const approveAction: ApproveAction = {
-          type: 'approve',
-          token: objective.sDai,
-          spender: savingsXDaiAdapterAddress[gnosis.id],
-          value:
-            objective.method === 'withdraw'
-              ? NormalizedUnitNumber(objective.sDaiValueEstimate.toFixed(objective.sDai.decimals, BigNumber.ROUND_UP))
-              : objective.value,
-        }
-
-        const isSend = objective.mode === 'send'
-        const withdrawAction: XDaiFromSDaiWithdrawAction = {
-          type: 'xDaiFromSDaiWithdraw',
-          xDai: objective.xDai,
-          sDai: objective.sDai,
-          value: objective.value,
-          method: objective.method,
-          mode: objective.mode,
-          ...(isSend ? { receiver: objective.receiver, reserveAddresses: objective.reserveAddresses } : {}),
-        }
-
-        return [approveAction, withdrawAction]
-      }
-
-      case 'makerStableToSavings': {
-        if (objective.migrateDAIToSNST) {
-          const approveAction: ApproveAction = {
-            type: 'approve',
-            token: objective.stableToken,
-            spender: MIGRATE_ACTIONS_ADDRESS,
-            value: objective.value,
-          }
-
-          const migrateDAIToSNSTAction: MigrateDAIToSNSTAction = {
-            type: 'migrateDAIToSNST',
-            value: objective.value,
-            stableToken: objective.stableToken,
-            savingsToken: objective.savingsToken,
-          }
-
-          return [approveAction, migrateDAIToSNSTAction]
-        }
-
-        const approveAction: ApproveAction = {
-          type: 'approve',
-          token: objective.stableToken,
-          spender: objective.savingsToken.address,
-          value: objective.value,
-        }
-
-        const depositAction: MakerStableToSavingsAction = {
-          type: 'makerStableToSavings',
-          value: objective.value,
-          stableToken: objective.stableToken,
-          savingsToken: objective.savingsToken,
-        }
-
-        return [approveAction, depositAction]
-      }
-
-      case 'usdcToSDaiDeposit': {
-        const approveAction: ApproveAction = {
-          type: 'approve',
-          token: objective.usdc,
-          spender: psmActionsAddress[mainnet.id],
-          value: objective.value,
-          disallowPermit: true,
-        }
-
-        const depositAction: USDCToSDaiDepositAction = {
-          type: 'usdcToSDaiDeposit',
-          value: objective.value,
-          usdc: objective.usdc,
-          sDai: objective.sDai,
-        }
-
-        return [approveAction, depositAction]
-      }
-
-      case 'xDaiToSDaiDeposit': {
-        const depositAction: XDaiToSDaiDepositAction = {
-          type: 'xDaiToSDaiDeposit',
-          value: objective.value,
-          xDai: objective.xDai,
-          sDai: objective.sDai,
-        }
-
-        return [depositAction]
-      }
-
       case 'claimRewards': {
         const claimRewardsActions: ClaimRewardsAction = {
           type: 'claimRewards',
@@ -288,6 +182,14 @@ export function useCreateActions(objectives: Objective[]): Action[] {
         }
 
         return [claimRewardsActions]
+      }
+
+      case 'withdrawFromSavings': {
+        return createWithdrawFromSavingsActions(objective, actionContext)
+      }
+
+      case 'depositToSavings': {
+        return createDepositToSavingsActions(objective, actionContext)
       }
     }
   })

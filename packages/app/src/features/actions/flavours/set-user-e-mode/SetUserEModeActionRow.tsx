@@ -1,8 +1,7 @@
 import { assets } from '@/ui/assets'
-
 import { ActionRow } from '../../components/action-row/ActionRow'
 import { ActionRowBaseProps } from '../../components/action-row/types'
-import { SetUserEModeAction } from './types'
+import { SetUserEModeAction } from './logic/types'
 
 export interface SetUserEModeActionRowProps extends ActionRowBaseProps {
   action: SetUserEModeAction

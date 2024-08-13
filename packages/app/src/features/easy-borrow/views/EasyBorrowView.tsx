@@ -3,7 +3,7 @@ import { LiquidationDetails } from '@/domain/market-info/getLiquidationDetails'
 import { UserPositionSummary } from '@/domain/market-info/marketInfo'
 import { Percentage } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { Objective } from '@/features/actions/logic/types'
+import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { PageLayout } from '@/ui/layouts/PageLayout'
 import { UseFormReturn } from 'react-hook-form'
 import { BorrowRateBanner } from '../components/BorrowRateBanner'
@@ -37,6 +37,8 @@ export interface EasyBorrowViewProps {
   openSandboxModal: () => void
 
   healthFactorPanelRef: React.RefObject<HTMLDivElement>
+
+  actionsContext: InjectedActionsContext
 }
 
 export function EasyBorrowView(props: EasyBorrowViewProps) {

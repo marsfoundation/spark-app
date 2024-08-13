@@ -1,8 +1,18 @@
-import { useEffect } from 'react'
 import { Abi, ContractFunctionName, encodeFunctionData } from 'viem'
-import { UseSimulateContractParameters, useAccount, useSimulateContract, useWriteContract } from 'wagmi'
+import {
+  UseSimulateContractParameters,
+  UseWriteContractParameters,
+  UseWriteContractReturnType,
+  useAccount,
+  useConfig,
+  useSimulateContract,
+} from 'wagmi'
 
 import { __TX_LIST_KEY } from '@/test/e2e/constants'
+import { JSONStringifyRich } from '@/utils/object'
+import { useOnDepsChange } from '@/utils/useOnDepsChange'
+import { MutationKey, useMutation } from '@tanstack/react-query'
+import { writeContractMutationOptions } from 'wagmi/query'
 import { recordEvent } from '../analytics'
 import { sanityCheckTx } from './sanityChecks'
 import { useOriginChainId } from './useOriginChainId'
@@ -71,18 +81,16 @@ export function useWrite<TAbi extends Abi, TFunctionName extends ContractFunctio
     isSuccess: wasTxSent,
     error: _txSubmissionError,
     reset,
-  } = useWriteContract()
+  } = useWriteContract({ mutationKey: getWriteContractMutationKey(args as any) })
 
   const { data: txReceipt, error: txReceiptError } = useWaitForTransactionReceiptUniversal({
     hash: txHash,
   })
   const txSubmissionError = enabled ? _txSubmissionError : undefined
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  useEffect(() => {
+  useOnDepsChange(() => {
     if (txReceipt) {
       callbacks.onTransactionSettled?.()
-
       if (import.meta.env.VITE_PLAYWRIGHT === '1') {
         // @note: for e2e tests needs we store sent transactions
         storeRequest(parameters?.request)
@@ -168,4 +176,32 @@ function storeRequest(request: any): void {
   const calldata = encodeFunctionData(request as any)
   txList.push({ ...request, calldata })
   window[__TX_LIST_KEY] = txList as any
+}
+
+// @note: This function is a copy of Wagmi's useWriteContract with an option to pass a mutationKey.
+// Passing custom mutationKey can be useful for resetting/invalidating mutation.
+function useWriteContract(
+  parameters: UseWriteContractParameters & { mutationKey?: MutationKey } = {},
+): UseWriteContractReturnType {
+  const { mutation, mutationKey } = parameters
+
+  const config = useConfig(parameters)
+
+  const mutationOptions = writeContractMutationOptions(config)
+  const { mutate, mutateAsync, ...result } = useMutation({
+    ...mutation,
+    ...mutationOptions,
+    mutationKey,
+  })
+
+  type Return = UseWriteContractReturnType
+  return {
+    ...result,
+    writeContract: mutate as Return['writeContract'],
+    writeContractAsync: mutateAsync as Return['writeContractAsync'],
+  }
+}
+
+function getWriteContractMutationKey(args: UseSimulateContractParameters<Abi, string>): MutationKey {
+  return [args.chainId, args.address, args.functionName, JSONStringifyRich(args.args)]
 }

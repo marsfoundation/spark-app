@@ -2,17 +2,13 @@ import { ApproveDelegationActionRow } from '../../flavours/approve-delegation/Ap
 import { ApproveActionRow } from '../../flavours/approve/ApproveActionRow'
 import { BorrowActionRow } from '../../flavours/borrow/BorrowActionRow'
 import { ClaimRewardsActionRow } from '../../flavours/claim-rewards/ClaimRewardsActionRow'
+import { DepositToSavingsActionRow } from '../../flavours/deposit-to-savings/DepositToSavingsActionRow'
 import { DepositActionRow } from '../../flavours/deposit/DepositActionRow'
-import { MakerStableToSavingsActionRow } from '../../flavours/native-sdai-deposit/maker-stables/MakerStableToSavingsActionRow'
-import { MigrateDAIToSNSTActionActionRow } from '../../flavours/native-sdai-deposit/migrate-dai-to-snst/MigrateDAIToSNSTAction'
-import { USDCToSDaiDepositActionRow } from '../../flavours/native-sdai-deposit/usdc-to-sdai/USDCToSDaiDepositActionRow'
-import { XDaiToSDaiDepositActionRow } from '../../flavours/native-sdai-deposit/xdai-to-sdai/XDaiToSDaiDepositActionRow'
-import { DaiFromSDaiWithdrawActionRow } from '../../flavours/native-sdai-withdraw/dai-from-sdai/DaiFromSDaiWithdrawActionRow'
-import { USDCFromSDaiWithdrawActionRow } from '../../flavours/native-sdai-withdraw/usdc-from-sdai/USDCFromSDaiWithdrawActionRow'
-import { XDaiFromSDaiWithdrawActionRow } from '../../flavours/native-sdai-withdraw/xdai-from-sdai/XDaiFromSDaiWithdrawActionRow'
+import { PermitActionRow } from '../../flavours/permit/PermitActionRow'
 import { RepayActionRow } from '../../flavours/repay/RepayActionRow'
 import { SetUseAsCollateralActionRow } from '../../flavours/set-use-as-collateral/SetUseAsCollateralActionRow'
 import { SetUserEModeActionRow } from '../../flavours/set-user-e-mode/SetUserEModeActionRow'
+import { WithdrawFromSavingsActionRow } from '../../flavours/withdraw-from-savings/WithdrawFromSavingsActionRow'
 import { WithdrawActionRow } from '../../flavours/withdraw/WithdrawActionRow'
 import { ActionHandler } from '../../logic/types'
 import { ActionRowVariant } from '../action-row/types'
@@ -44,7 +40,7 @@ export function ActionsGrid({ actionHandlers, variant }: ActionsGridProps) {
           case 'deposit':
             return <DepositActionRow action={handler.action} {...props} />
           case 'permit':
-            return <ApproveActionRow action={handler.action} {...props} />
+            return <PermitActionRow action={handler.action} {...props} />
           case 'repay':
             return <RepayActionRow action={handler.action} {...props} />
           case 'setUseAsCollateral':
@@ -53,22 +49,12 @@ export function ActionsGrid({ actionHandlers, variant }: ActionsGridProps) {
             return <SetUserEModeActionRow action={handler.action} {...props} />
           case 'withdraw':
             return <WithdrawActionRow action={handler.action} {...props} />
-          case 'makerStableToSavings':
-            return <MakerStableToSavingsActionRow action={handler.action} {...props} />
-          case 'daiFromSDaiWithdraw':
-            return <DaiFromSDaiWithdrawActionRow action={handler.action} {...props} />
-          case 'usdcToSDaiDeposit':
-            return <USDCToSDaiDepositActionRow action={handler.action} {...props} />
-          case 'usdcFromSDaiWithdraw':
-            return <USDCFromSDaiWithdrawActionRow action={handler.action} {...props} />
-          case 'xDaiToSDaiDeposit':
-            return <XDaiToSDaiDepositActionRow action={handler.action} {...props} />
-          case 'xDaiFromSDaiWithdraw':
-            return <XDaiFromSDaiWithdrawActionRow action={handler.action} {...props} />
           case 'claimRewards':
             return <ClaimRewardsActionRow action={handler.action} {...props} />
-          case 'migrateDAIToSNST':
-            return <MigrateDAIToSNSTActionActionRow action={handler.action} {...props} />
+          case 'withdrawFromSavings':
+            return <WithdrawFromSavingsActionRow action={handler.action} {...props} />
+          case 'depositToSavings':
+            return <DepositToSavingsActionRow action={handler.action} {...props} />
         }
       })}
     </div>

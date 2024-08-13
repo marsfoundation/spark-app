@@ -1,28 +1,18 @@
 import { useActionsSettings } from '@/domain/state'
-import { useMemo, useRef } from 'react'
-import { useCreateApproveDelegationHandler } from '../flavours/approve-delegation/useCreateApproveDelegationHandler'
-import { useCreateApproveOrPermitHandler } from '../flavours/approve/logic/useCreateApproveOrPermitHandler'
-import { useCreateBorrowActionHandler } from '../flavours/borrow/useCreateBorrowHandler'
-import { useCreateClaimRewardsHandler } from '../flavours/claim-rewards/useCreateClaimRewardsHandler'
-import { useCreateDepositHandler } from '../flavours/deposit/useCreateDepositHandler'
-import { useCreateMakerStableToSavingsHandler } from '../flavours/native-sdai-deposit/maker-stables/useCreateMakerStableToSavingsHandler'
-import { useCreateMigrateDAIToSNSTHandler } from '../flavours/native-sdai-deposit/migrate-dai-to-snst/useCreateMigrateDAIToSNSTActionHandler'
-import { useCreateUSDCToSDaiDepositHandler } from '../flavours/native-sdai-deposit/usdc-to-sdai/useCreateUSDCToSDaiDepositHandler'
-import { useCreateXDaiToSDaiDepositHandler } from '../flavours/native-sdai-deposit/xdai-to-sdai/useCreateXDaiToSDaiDepositHandler'
-import { useCreateDaiFromSDaiWithdrawHandler } from '../flavours/native-sdai-withdraw/dai-from-sdai/useCreateDaiFromSDaiWithdrawHandler'
-import { useCreateUSDCFromSDaiWithdrawHandler } from '../flavours/native-sdai-withdraw/usdc-from-sdai/useCreateUSDCFromSDaiWithdrawHandler'
-import { useCreateXDaiFromSDaiWithdrawHandler } from '../flavours/native-sdai-withdraw/xdai-from-sdai/useCreateXDaiFromSDaiWithdrawHandler'
-import { useCreateRepayHandler } from '../flavours/repay/useCreateRepayHandler'
-import { useCreateSetUseAsCollateralHandler } from '../flavours/set-use-as-collateral/useCreateSetUseAsCollateralHandler'
-import { useCreateSetUserEModeHandler } from '../flavours/set-user-e-mode/useCreateSetUserEModeHandler'
-import { useCreateWithdrawHandler } from '../flavours/withdraw/useCreateWithdrawHandler'
-import { PermitStore, createPermitStore } from './permits'
-import { Action, ActionHandler, Objective } from './types'
+import { useConnectedAddress } from '@/domain/wallet/useConnectedAddress'
+import { useMemo, useState } from 'react'
+import { useChainId, useConfig } from 'wagmi'
+import { getFakePermitAction } from '../flavours/permit/logic/getFakePermitAction'
+import { useCreatePermitHandler } from '../flavours/permit/logic/useCreatePermitHandler'
+import { createPermitStore } from './permits'
+import { ActionContext, ActionHandler, InjectedActionsContext, Objective } from './types'
+import { useContractAction } from './useContractAction'
 import { useCreateActions } from './useCreateActions'
 
 export interface UseActionHandlersOptions {
   onFinish?: () => void
   enabled: boolean
+  context?: InjectedActionsContext
 }
 
 export interface UseActionHandlersResult {
@@ -32,106 +22,67 @@ export interface UseActionHandlersResult {
 
 export function useActionHandlers(
   objectives: Objective[],
-  { onFinish: _onFinish, enabled }: UseActionHandlersOptions,
+  { onFinish, enabled, context: injectedContext }: UseActionHandlersOptions,
 ): UseActionHandlersResult {
-  const actions = useCreateActions(objectives)
-  const permitStore = useMemo(() => createPermitStore(), [])
   const actionsSettings = useActionsSettings()
+  const permitStore = useMemo(() => createPermitStore(), [])
+  const chainId = useChainId()
+  const { account } = useConnectedAddress()
+  const wagmiConfig = useConfig()
+  const actionContext: ActionContext = {
+    ...injectedContext,
+    permitStore,
+    wagmiConfig,
+    account,
+    chainId,
+  }
+  const actions = useCreateActions({
+    objectives,
+    actionsSettings,
+    actionContext,
+  })
 
-  // @note: we call react hooks in a loop but this is fine as actions should never change
-  const handlers = actions.reduce((acc, action, index) => {
-    const nextOneToExecute = index > 0 ? acc[acc.length - 1]!.state.status === 'success' : true
-    // If succeeded once, don't try again. Further actions can invalidate previous actions (for example deposit will invalidate previous approvals)
-    // biome-ignore lint/correctness/useHookAtTopLevel:
-    const alreadySucceeded = useRef(false)
+  const [currentActionIndex, setCurrentActionIndex] = useState(0)
+  const currentAction = actions[currentActionIndex]!
 
-    const isLast = index === actions.length - 1
-    const onFinish = isLast ? _onFinish : undefined
+  const handlers: ActionHandler[] = actions.map((action, index) => ({
+    action,
+    onAction: () => {},
+    state: { status: index === currentActionIndex ? 'ready' : index < currentActionIndex ? 'success' : 'disabled' },
+  }))
 
-    // biome-ignore lint/correctness/useHookAtTopLevel:
-    const handler = useCreateActionHandler(action, {
-      enabled: enabled && alreadySucceeded.current === false && nextOneToExecute,
-      permitStore: actionsSettings.preferPermits ? permitStore : undefined,
-      onFinish,
-    })
+  const handler = useContractAction({
+    action: currentAction,
+    context: actionContext,
+    enabled: currentAction.type !== 'permit' && enabled,
+  })
 
-    if (alreadySucceeded.current) {
-      handler.state.status = 'success'
+  const permitHandler = useCreatePermitHandler(
+    currentAction.type === 'permit' ? currentAction : getFakePermitAction(),
+    {
+      enabled: enabled && currentAction.type === 'permit',
+      permitStore,
+    },
+  )
+
+  const currentActionHandler = currentAction.type === 'permit' ? permitHandler : handler
+
+  if (currentActionHandler?.state.status === 'success') {
+    if (currentActionIndex === actions.length - 1) {
+      onFinish?.()
+    } else {
+      setCurrentActionIndex(currentActionIndex + 1)
     }
+  }
 
-    if (handler.state.status === 'success') {
-      alreadySucceeded.current = true
-    }
+  if (currentActionHandler) {
+    handlers[currentActionIndex] = currentActionHandler
+  }
 
-    return [...acc, handler]
-  }, [] as ActionHandler[])
-
-  const settingsDisabled = handlers.some((handler) => handler.state.status === 'success')
+  const settingsDisabled = currentActionIndex > 0
 
   return {
     handlers,
     settingsDisabled,
-  }
-}
-
-interface UseCreateActionHandlerOptions {
-  enabled: boolean
-  permitStore?: PermitStore
-  onFinish?: () => void
-}
-function useCreateActionHandler(
-  action: Action,
-  { enabled, permitStore, onFinish }: UseCreateActionHandlerOptions,
-): ActionHandler {
-  switch (action.type) {
-    case 'approve':
-    case 'permit':
-      // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateApproveOrPermitHandler(action, { permitStore, enabled })
-    case 'deposit':
-      // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateDepositHandler(action, { permitStore, enabled, onFinish })
-    case 'approveDelegation':
-      // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateApproveDelegationHandler(action, { enabled })
-    case 'borrow':
-      // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateBorrowActionHandler(action, { enabled, onFinish })
-    case 'withdraw':
-      // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateWithdrawHandler(action, { enabled, onFinish })
-    case 'repay':
-      // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateRepayHandler(action, { permitStore, enabled, onFinish })
-    case 'setUseAsCollateral':
-      // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateSetUseAsCollateralHandler(action, { enabled, onFinish })
-    case 'setUserEMode':
-      // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateSetUserEModeHandler(action, { enabled, onFinish })
-    case 'makerStableToSavings':
-      // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateMakerStableToSavingsHandler(action, { enabled, onFinish })
-    case 'daiFromSDaiWithdraw':
-      // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateDaiFromSDaiWithdrawHandler(action, { enabled, onFinish })
-    case 'usdcToSDaiDeposit':
-      // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateUSDCToSDaiDepositHandler(action, { enabled, onFinish })
-    case 'usdcFromSDaiWithdraw':
-      // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateUSDCFromSDaiWithdrawHandler(action, { enabled, onFinish })
-    case 'xDaiToSDaiDeposit':
-      // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateXDaiToSDaiDepositHandler(action, { enabled, onFinish })
-    case 'xDaiFromSDaiWithdraw':
-      // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateXDaiFromSDaiWithdrawHandler(action, { enabled, onFinish })
-    case 'claimRewards':
-      // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateClaimRewardsHandler(action, { enabled, onFinish })
-    case 'migrateDAIToSNST':
-      // biome-ignore lint/correctness/useHookAtTopLevel:
-      return useCreateMigrateDAIToSNSTHandler(action, { enabled, onFinish })
   }
 }

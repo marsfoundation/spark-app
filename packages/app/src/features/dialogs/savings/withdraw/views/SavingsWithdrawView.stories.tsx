@@ -1,5 +1,8 @@
+import { PotSavingsInfo } from '@/domain/savings-info/potSavingsInfo'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
+import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { testAddresses } from '@/test/integration/constants'
+import { bigNumberify } from '@/utils/bigNumber'
 import { WithClassname, WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
@@ -7,7 +10,37 @@ import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { useForm } from 'react-hook-form'
 import { SavingsWithdrawView, SavingsWithdrawViewProps } from './SavingsWithdrawView'
 
-const nativeWithdrawArgs: Partial<SavingsWithdrawViewProps> = {
+const dai = tokens.DAI
+const sdai = tokens.sDAI
+const nst = tokens.NST
+const snst = tokens.sNST
+const usdc = tokens.USDC
+const mockTokensInfo = new TokensInfo(
+  [
+    { token: dai, balance: NormalizedUnitNumber(100) },
+    { token: sdai, balance: NormalizedUnitNumber(100) },
+    { token: nst, balance: NormalizedUnitNumber(100) },
+    { token: snst, balance: NormalizedUnitNumber(100) },
+    { token: usdc, balance: NormalizedUnitNumber(100) },
+  ],
+  {
+    DAI: dai.symbol,
+    sDAI: sdai.symbol,
+    NST: nst.symbol,
+    sNST: snst.symbol,
+  },
+)
+const timestamp = 1000
+const mockSavingsDaiInfo = new PotSavingsInfo({
+  potParams: {
+    dsr: bigNumberify('1000001103127689513476993127'), // 10% / day
+    rho: bigNumberify(timestamp),
+    chi: bigNumberify('1000000000000000000000000000'), // 1
+  },
+  currentTimestamp: timestamp + 24 * 60 * 60,
+})
+
+const withdrawArgs: Partial<SavingsWithdrawViewProps> = {
   selectableAssets: [
     {
       token: tokens.DAI,
@@ -38,11 +71,11 @@ const nativeWithdrawArgs: Partial<SavingsWithdrawViewProps> = {
   },
   objectives: [
     {
-      type: 'daiFromSDaiWithdraw',
-      dai: tokens.DAI,
-      value: NormalizedUnitNumber(1023),
-      sDai: tokens.sDAI,
-      method: 'withdraw',
+      type: 'withdrawFromSavings',
+      token: tokens.DAI,
+      amount: NormalizedUnitNumber(1023),
+      savingsToken: tokens.sDAI,
+      isMax: false,
       mode: 'withdraw',
     },
   ],
@@ -58,18 +91,18 @@ const nativeWithdrawArgs: Partial<SavingsWithdrawViewProps> = {
     makerBadgeToken: tokens.DAI,
     outTokenAmount: NormalizedUnitNumber(925.75),
   },
+  actionsContext: { tokensInfo: mockTokensInfo, savingsDaiInfo: mockSavingsDaiInfo },
 }
 
-const nativeWithdrawSendModeArgs: Partial<SavingsWithdrawViewProps> = {
+const sendArgs: Partial<SavingsWithdrawViewProps> = {
   objectives: [
     {
-      type: 'daiFromSDaiWithdraw',
-      dai: tokens.DAI,
-      value: NormalizedUnitNumber(1023),
-      sDai: tokens.sDAI,
-      method: 'withdraw',
+      type: 'withdrawFromSavings',
+      token: tokens.DAI,
+      amount: NormalizedUnitNumber(1023),
+      savingsToken: tokens.sDAI,
+      isMax: false,
       receiver: testAddresses.alice,
-      reserveAddresses: [tokens.DAI.address, tokens.USDC.address],
       mode: 'send',
     },
   ],
@@ -102,12 +135,12 @@ const meta: Meta<typeof SavingsWithdrawView> = {
 export default meta
 type Story = StoryObj<typeof SavingsWithdrawView>
 
-export const nativeWithdrawDesktop: Story = { args: { ...nativeWithdrawArgs } }
-export const nativeWithdrawMobile = getMobileStory(nativeWithdrawDesktop)
-export const nativeWithdrawTablet = getTabletStory(nativeWithdrawDesktop)
+export const withdrawDesktop: Story = { args: { ...withdrawArgs } }
+export const withdrawMobile = getMobileStory(withdrawDesktop)
+export const withdrawTablet = getTabletStory(withdrawDesktop)
 
-export const nativeWithdrawSendModeDesktop: Story = {
-  args: { ...nativeWithdrawArgs, ...nativeWithdrawSendModeArgs },
+export const sendDesktop: Story = {
+  args: { ...withdrawArgs, ...sendArgs },
 }
-export const nativeWithdrawSendModeMobile = getMobileStory(nativeWithdrawSendModeDesktop)
-export const nativeWithdrawSendModeTablet = getTabletStory(nativeWithdrawSendModeDesktop)
+export const sendMobile = getMobileStory(sendDesktop)
+export const sendTablet = getTabletStory(sendDesktop)

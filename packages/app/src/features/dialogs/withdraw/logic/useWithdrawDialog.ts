@@ -9,7 +9,7 @@ import { updatePositionSummary } from '@/domain/market-info/updatePositionSummar
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { Token } from '@/domain/types/Token'
 import { useMarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
-import { Objective } from '@/features/actions/logic/types'
+import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
@@ -29,6 +29,7 @@ export interface UseWithdrawDialogResult {
   assetsToWithdrawFields: FormFieldsForDialog
   withdrawAsset: TokenWithValue
   objectives: Objective[]
+  actionsContext: InjectedActionsContext
   pageStatus: PageStatus
   form: UseFormReturn<AssetInputSchema>
   currentPositionOverview: PositionOverview
@@ -113,6 +114,9 @@ export function useWithdrawDialog({ initialToken }: UseWithdrawDialogOptions): U
     assetsToWithdrawFields,
     withdrawAsset,
     objectives,
+    actionsContext: {
+      marketInfo,
+    },
     pageStatus: {
       actionsEnabled,
       state: pageStatus,

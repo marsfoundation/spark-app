@@ -4,19 +4,19 @@ import { validateReceiver } from './validateReceiver'
 
 const account = testAddresses.alice
 const receiver = testAddresses.bob
-const reserveAddresses = [testAddresses.token, testAddresses.token2]
+const tokenAddresses = [testAddresses.token, testAddresses.token2]
 
 describe(validateReceiver.name, () => {
   test('return undefined when account is not provided', () => {
-    expect(validateReceiver({ account: undefined, reserveAddresses, receiver })).toBe(undefined)
+    expect(validateReceiver({ account: undefined, tokenAddresses, receiver })).toBe(undefined)
   })
 
   test('validate that receiver is defined', () => {
-    expect(validateReceiver({ account, reserveAddresses, receiver: undefined })).toBe('undefined-receiver')
+    expect(validateReceiver({ account, tokenAddresses, receiver: undefined })).toBe('undefined-receiver')
   })
 
   test('validate that receiver is not empty string', () => {
-    expect(validateReceiver({ account, reserveAddresses, receiver: '' })).toBe('undefined-receiver')
+    expect(validateReceiver({ account, tokenAddresses, receiver: '' })).toBe('undefined-receiver')
   })
 
   test('validate that receiver is a valid address', () => {
@@ -32,22 +32,22 @@ describe(validateReceiver.name, () => {
     ]
 
     for (const address of invalidAddresses)
-      expect(validateReceiver({ account, reserveAddresses, receiver: address })).toBe('invalid-address')
+      expect(validateReceiver({ account, tokenAddresses, receiver: address })).toBe('invalid-address')
 
     for (const address of validAddresses) {
-      expect(validateReceiver({ account, reserveAddresses, receiver: address })).toBe(undefined)
+      expect(validateReceiver({ account, tokenAddresses, receiver: address })).toBe(undefined)
     }
   })
 
   test('validate that receiver is not zero address', () =>
-    expect(validateReceiver({ account, reserveAddresses, receiver: zeroAddress })).toBe('zero-address'))
+    expect(validateReceiver({ account, tokenAddresses, receiver: zeroAddress })).toBe('zero-address'))
 
   test('validate that receiver is not a reserve address', () => {
     const receiver = testAddresses.token
-    const reserveAddresses = [receiver, testAddresses.token2]
-    expect(validateReceiver({ account, reserveAddresses, receiver })).toBe('reserve-address')
+    const tokenAddresses = [receiver, testAddresses.token2]
+    expect(validateReceiver({ account, tokenAddresses, receiver })).toBe('token-address')
   })
 
   test('validate that receiver is not the same as the sender', () =>
-    expect(validateReceiver({ account, reserveAddresses, receiver: account })).toBe('self-address'))
+    expect(validateReceiver({ account, tokenAddresses, receiver: account })).toBe('self-address'))
 })

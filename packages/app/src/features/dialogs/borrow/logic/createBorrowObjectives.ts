@@ -10,7 +10,6 @@ export function createBorrowObjectives(formValues: DialogFormNormalizedData): Ob
     {
       type: 'borrow',
       token: formValues.reserve.token,
-      debtTokenAddress: formValues.reserve.variableDebtTokenAddress,
       value: formValues.value,
     },
   ]

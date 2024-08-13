@@ -1,12 +1,11 @@
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { getMockReserve } from '@/test/integration/constants'
 import { WithClassname, WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import BigNumber from 'bignumber.js'
 import { useForm } from 'react-hook-form'
-
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-
 import { RepayView } from './RepayView'
 
 const meta: Meta<typeof RepayView> = {
@@ -37,7 +36,15 @@ const meta: Meta<typeof RepayView> = {
       maxValue: NormalizedUnitNumber(5000),
       changeAsset: () => {},
     },
-    objectives: [],
+    objectives: [
+      {
+        type: 'repay',
+        reserve: getMockReserve({ token: tokens.DAI }),
+        useAToken: false,
+        value: NormalizedUnitNumber(2000),
+        requiredApproval: NormalizedUnitNumber(2000),
+      },
+    ],
     pageStatus: {
       state: 'form',
       actionsEnabled: true,

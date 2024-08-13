@@ -39,7 +39,7 @@ test.describe('Send USDC on Mainnet', () => {
   test('uses native sDai withdraw and send', async () => {
     await sendDialog.actionsContainer.expectActions([
       { type: 'approve', asset: 'sDAI' },
-      { type: 'usdcFromSDaiWithdraw', asset: 'USDC', mode: 'send' },
+      { type: 'withdrawFromSavings', asset: 'USDC', savingsAsset: 'sDAI', mode: 'send' },
     ])
   })
 
