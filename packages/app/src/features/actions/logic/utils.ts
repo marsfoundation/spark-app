@@ -1,7 +1,6 @@
-import { BaseError } from 'viem'
-
+import { aaveContractErrors } from '@/config/aaveContractErrors'
 import { UseWriteResult } from '@/domain/hooks/useWrite'
-
+import { BaseError } from 'viem'
 import { ActionHandlerState } from './types'
 
 export function mapWriteResultToActionState(result: UseWriteResult): ActionHandlerState {
@@ -31,7 +30,16 @@ export function mapWriteResultToActionState(result: UseWriteResult): ActionHandl
 
 export function parseWriteErrorMessage(error: Error | undefined): string {
   if (error instanceof BaseError) {
-    return error.shortMessage
+    return decodeRevertReason(error)
   }
   return 'Unknown error'
+}
+
+function decodeRevertReason(error: BaseError): string {
+  const match = error.shortMessage.match(/execution reverted:\s*(\d+)/)
+  const revertReason = match?.[1]
+  if (revertReason) {
+    return aaveContractErrors[revertReason] ?? error.shortMessage
+  }
+  return error.shortMessage
 }
