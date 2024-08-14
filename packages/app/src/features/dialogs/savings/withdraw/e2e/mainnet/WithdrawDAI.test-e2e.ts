@@ -26,7 +26,7 @@ test.describe('Withdraw DAI on Mainnet', () => {
     })
 
     savingsPage = new SavingsPageObject(page)
-    await savingsPage.clickWithdrawButtonAction()
+    await savingsPage.clickWithdrawSDaiButtonAction()
 
     withdrawalDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
     await withdrawalDialog.fillAmountAction(7000)
@@ -86,7 +86,7 @@ test.describe('Validation', () => {
       })
 
       savingsPage = new SavingsPageObject(page)
-      await savingsPage.clickWithdrawButtonAction()
+      await savingsPage.clickWithdrawSDaiButtonAction()
 
       withdrawalDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
       await withdrawalDialog.fillAmountAction(200)
@@ -133,7 +133,7 @@ test.describe('Validation', () => {
     })
 
     savingsPage = new SavingsPageObject(page)
-    await savingsPage.clickWithdrawButtonAction()
+    await savingsPage.clickWithdrawSDaiButtonAction()
     withdrawalDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
 
     await withdrawalDialog.fillAmountAction(10)

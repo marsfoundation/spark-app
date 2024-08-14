@@ -25,7 +25,7 @@ test.describe('Withdraw max DAI on Mainnet', () => {
     })
 
     savingsPage = new SavingsPageObject(page)
-    await savingsPage.clickWithdrawButtonAction()
+    await savingsPage.clickWithdrawSDaiButtonAction()
 
     withdrawalDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
     await withdrawalDialog.clickMaxAmountAction()

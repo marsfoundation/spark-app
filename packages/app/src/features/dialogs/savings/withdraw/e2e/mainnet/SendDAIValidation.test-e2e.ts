@@ -29,7 +29,7 @@ test.describe('Asset input validation', () => {
       })
 
       savingsPage = new SavingsPageObject(page)
-      await savingsPage.clickSendButtonAction()
+      await savingsPage.clickSendSDaiButtonAction()
 
       sendDialog = new SavingsDialogPageObject({ page, type: 'send' })
       await sendDialog.fillAmountAction(200)
@@ -77,7 +77,7 @@ test.describe('Asset input validation', () => {
     })
 
     savingsPage = new SavingsPageObject(page)
-    await savingsPage.clickSendButtonAction()
+    await savingsPage.clickSendSDaiButtonAction()
     sendDialog = new SavingsDialogPageObject({ page, type: 'send' })
 
     await sendDialog.fillAmountAction(10)
@@ -109,7 +109,7 @@ test.describe('Receiver input validation', () => {
       selfAddress = account
 
       savingsPage = new SavingsPageObject(page)
-      await savingsPage.clickSendButtonAction()
+      await savingsPage.clickSendSDaiButtonAction()
 
       sendDialog = new SavingsDialogPageObject({ page, type: 'send' })
       await sendDialog.fillAmountAction(50) // valid input amount
@@ -180,7 +180,7 @@ test.describe('Receiver input validation', () => {
     })
 
     savingsPage = new SavingsPageObject(page)
-    await savingsPage.clickSendButtonAction()
+    await savingsPage.clickSendSDaiButtonAction()
     sendDialog = new SavingsDialogPageObject({ page, type: 'send' })
     await sendDialog.fillAmountAction(50) // valid input amount
 
@@ -207,7 +207,7 @@ test.describe('Form validation', () => {
     })
 
     savingsPage = new SavingsPageObject(page)
-    await savingsPage.clickSendButtonAction()
+    await savingsPage.clickSendSDaiButtonAction()
 
     sendDialog = new SavingsDialogPageObject({ page, type: 'send' })
   })

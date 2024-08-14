@@ -28,7 +28,7 @@ test.describe('Send DAI on Mainnet', () => {
     })
 
     savingsPage = new SavingsPageObject(page)
-    await savingsPage.clickSendButtonAction()
+    await savingsPage.clickSendSDaiButtonAction()
 
     sendDialog = new SavingsDialogPageObject({ page, type: 'send' })
     await sendDialog.fillAmountAction(amount)

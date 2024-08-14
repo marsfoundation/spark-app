@@ -29,7 +29,7 @@ test.describe('Savings withdraw dialog', () => {
 
       const savingsPage = new SavingsPageObject(page)
 
-      await savingsPage.clickWithdrawButtonAction()
+      await savingsPage.clickWithdrawSDaiButtonAction()
 
       const withdrawalDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
       const actionsContainer = new ActionsPageObject(withdrawalDialog.locatePanelByHeader('Actions'))
@@ -77,7 +77,7 @@ test.describe('Savings withdraw dialog send mode', () => {
       })
 
       savingsPage = new SavingsPageObject(page)
-      await savingsPage.clickSendButtonAction()
+      await savingsPage.clickSendSDaiButtonAction()
 
       sendDialog = new SavingsDialogPageObject({ page, type: 'send' })
     })
@@ -106,7 +106,7 @@ test.describe('Savings withdraw dialog send mode', () => {
       })
 
       savingsPage = new SavingsPageObject(page)
-      await savingsPage.clickSendButtonAction()
+      await savingsPage.clickSendSDaiButtonAction()
 
       sendDialog = new SavingsDialogPageObject({ page, type: 'send' })
     })

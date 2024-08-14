@@ -13,6 +13,10 @@ export class SavingsPageObject extends BasePageObject {
     return this.locatePanelByHeader('Savings DAI')
   }
 
+  locateSavingsNSTPanel(): Locator {
+    return this.locatePanelByHeader('Savings NST')
+  }
+
   locateCashInWalletPanel(): Locator {
     return this.locatePanelByHeader('Cash in wallet')
   }
@@ -29,12 +33,20 @@ export class SavingsPageObject extends BasePageObject {
     await row.getByRole('button', { name: 'Deposit' }).click()
   }
 
-  async clickWithdrawButtonAction(): Promise<void> {
+  async clickWithdrawSDaiButtonAction(): Promise<void> {
     await this.locateSavingsDAIPanel().getByRole('button', { name: 'Withdraw' }).click()
   }
 
-  async clickSendButtonAction(): Promise<void> {
+  async clickSendSDaiButtonAction(): Promise<void> {
     await this.locateSavingsDAIPanel().getByRole('button', { name: 'Send' }).click()
+  }
+
+  async clickWithdrawSNstButtonAction(): Promise<void> {
+    await this.locateSavingsNSTPanel().getByRole('button', { name: 'Withdraw' }).click()
+  }
+
+  async clickSendSNstButtonAction(): Promise<void> {
+    await this.locateSavingsNSTPanel().getByRole('button', { name: 'Send' }).click()
   }
   // #endregion
 
