@@ -63,7 +63,6 @@ import wsteth from './tokens/wsteth.svg'
 import wxdai from './tokens/wxdai.svg'
 import xdai from './tokens/xdai.svg'
 import up from './up.svg'
-import upgrade from './upgrade.svg'
 import coinbase from './wallet-icons/coinbase.svg'
 import defaultWallet from './wallet-icons/default.svg'
 import enjin from './wallet-icons/enjin.svg'
@@ -108,7 +107,6 @@ export const assets = {
   giftbox,
   rocket,
   downgrade,
-  upgrade,
   markets: {
     chart,
     inputOutput,
