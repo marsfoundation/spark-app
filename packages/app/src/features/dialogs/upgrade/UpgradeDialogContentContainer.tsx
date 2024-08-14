@@ -13,13 +13,7 @@ interface UpgradeDialogContentContainerProps {
 }
 
 function UpgradeDialogContentContainer({ fromToken, toToken, closeDialog }: UpgradeDialogContentContainerProps) {
-  const {
-    objectives,
-    pageStatus,
-    upgradedAmount,
-    tokensInfo: { DAI, NST },
-    sNstAPY,
-  } = useUpgradeDialog({
+  const { objectives, pageStatus, upgradedAmount, tokensInfo, sNstAPY } = useUpgradeDialog({
     fromToken,
     toToken,
   })
@@ -35,7 +29,7 @@ function UpgradeDialogContentContainer({ fromToken, toToken, closeDialog }: Upgr
     )
   }
 
-  if (fromToken.symbol === DAI?.symbol && toToken.symbol === NST?.symbol) {
+  if (fromToken.symbol === tokensInfo.DAI?.symbol && toToken.symbol === tokensInfo.NST?.symbol) {
     return (
       <UpgradeDaiToNSTView
         fromToken={fromToken}

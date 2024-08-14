@@ -1,4 +1,5 @@
 import { useChainConfigEntry } from '@/domain/hooks/useChainConfigEntry'
+import { useConditionalFreeze } from '@/domain/hooks/useConditionalFreeze'
 import { useSavingsNstInfo } from '@/domain/savings-info/useSavingsNstInfo'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
@@ -27,10 +28,14 @@ export function useUpgradeDialog({ fromToken, toToken }: UseUpgradeDialogParams)
   const [pageStatus, setPageStatus] = useState<PageState>('form')
   const { extraTokens } = useChainConfigEntry()
   const { tokensInfo } = useTokensInfo({ tokens: extraTokens })
-  const fromTokenBalance = tokensInfo.findOneBalanceBySymbol(fromToken.symbol)
-  const objectives = createUpgradeObjectives({ fromToken, toToken, amount: fromTokenBalance })
   const { savingsNstInfo } = useSavingsNstInfo()
   assert(savingsNstInfo, 'NST savings info is required for upgrade dialog')
+
+  const fromTokenBalance = useConditionalFreeze(
+    tokensInfo.findOneBalanceBySymbol(fromToken.symbol),
+    pageStatus === 'success',
+  )
+  const objectives = createUpgradeObjectives({ fromToken, toToken, amount: fromTokenBalance })
 
   return {
     objectives,
