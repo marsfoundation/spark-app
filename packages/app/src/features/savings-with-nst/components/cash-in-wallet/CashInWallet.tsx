@@ -17,6 +17,9 @@ export interface CashInWalletProps {
 }
 
 export function CashInWallet({ assets, openDialog, daiNstUpgradeInfo }: CashInWalletProps) {
+  // @note: Omitting daiNstUpgradeInfo from deps cause it won't change after component mounts.
+  // It prevents unnecessary table re-renders, causing animation glitches and dropdowns not opening.
+  // biome-ignore lint/correctness/useExhaustiveDependencies:
   const columnDef: DataTableProps<TokenWithBalance>['columnDef'] = useMemo(
     () => ({
       token: {
@@ -53,7 +56,7 @@ export function CashInWallet({ assets, openDialog, daiNstUpgradeInfo }: CashInWa
         },
       },
     }),
-    [openDialog, daiNstUpgradeInfo],
+    [openDialog],
   )
 
   return (
