@@ -134,4 +134,14 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
     state: { status: 'ready' },
     onAction: () => {},
   },
+  downgrade: {
+    action: {
+      type: 'downgrade',
+      fromToken: tokens.NST,
+      toToken: tokens.DAI,
+      amount: NormalizedUnitNumber(1),
+    },
+    state: { status: 'ready' },
+    onAction: () => {},
+  },
 }

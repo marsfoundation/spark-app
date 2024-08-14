@@ -13,6 +13,7 @@ import { BorrowAction } from '../flavours/borrow/types'
 import { ClaimRewardsAction } from '../flavours/claim-rewards/types'
 import { createDepositToSavingsActions } from '../flavours/deposit-to-savings/logic/createDepositToSavingsActions'
 import { DepositAction } from '../flavours/deposit/types'
+import { DowngradeAction } from '../flavours/downgrade/types'
 import { PermitAction } from '../flavours/permit/types'
 import { RepayAction } from '../flavours/repay/types'
 import { SetUseAsCollateralAction } from '../flavours/set-use-as-collateral/types'
@@ -202,6 +203,24 @@ export function useCreateActions({ objectives, actionsSettings, actionContext }:
         }
 
         return [approveAction, upgradeAction]
+      }
+
+      case 'downgrade': {
+        const approveAction: ApproveAction = {
+          type: 'approve',
+          token: objective.fromToken,
+          spender: MIGRATE_ACTIONS_ADDRESS,
+          value: objective.amount,
+        }
+
+        const downgradeAction: DowngradeAction = {
+          type: 'downgrade',
+          fromToken: objective.fromToken,
+          toToken: objective.toToken,
+          amount: objective.amount,
+        }
+
+        return [approveAction, downgradeAction]
       }
 
       case 'withdrawFromSavings': {

@@ -14,6 +14,7 @@ import { createBorrowActionConfig } from '../flavours/borrow/logic/borrowAction'
 import { createClaimRewardsActionConfig } from '../flavours/claim-rewards/logic/claimRewardsAction'
 import { createDepositToSavingsActionConfig } from '../flavours/deposit-to-savings/logic/depositToSavingsAction'
 import { createDepositActionConfig } from '../flavours/deposit/logic/depositAction'
+import { createDowngradeActionConfig } from '../flavours/downgrade/logic/downgradeAction'
 import { createRepayActionConfig } from '../flavours/repay/logic/repayAction'
 import { createSetUseAsCollateralActionConfig } from '../flavours/set-use-as-collateral/logic/setUseAsCollateralAction'
 import { createSetUserEModeActionConfig } from '../flavours/set-user-e-mode/logic/setUserEModeAction'
@@ -147,6 +148,8 @@ function actionToConfig(action: Action, context: ActionContext): ActionConfig {
       return createDepositToSavingsActionConfig(action, context)
     case 'upgrade':
       return createUpgradeActionConfig(action, context)
+    case 'downgrade':
+      return createDowngradeActionConfig(action, context)
     case 'permit':
       return createEmptyActionConfig()
   }
