@@ -18,16 +18,22 @@ test.describe('Withdraw NST on NST DevNet', () => {
         type: 'connected-random',
         assetBalances: {
           ETH: 1,
-          sNST: 1_000,
+          NST: 10_000,
         },
       },
     })
 
     savingsPage = new SavingsPageObject(page)
-    await savingsPage.clickWithdrawSNstButtonAction()
 
+    await savingsPage.clickDepositButtonAction('NST')
+    const depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
+    await depositDialog.fillAmountAction(10_000)
+    await depositDialog.actionsContainer.acceptAllActionsAction(2, fork)
+    await depositDialog.clickBackToSavingsButton()
+
+    await savingsPage.clickWithdrawSNstButtonAction()
     withdrawDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
-    await withdrawDialog.fillAmountAction(1_000)
+    await withdrawDialog.fillAmountAction(1000)
   })
 
   test('uses native sNST withdraw', async () => {
@@ -62,7 +68,7 @@ test.describe('Withdraw NST on NST DevNet', () => {
     await withdrawDialog.expectSuccessPage()
     await withdrawDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsNSTBalance({ sNstBalance: '10.36 sNST', estimatedNstValue: '10.46' })
+    await savingsPage.expectSavingsNSTBalance({ sNstBalance: '8,906.77 sNST', estimatedNstValue: '9,000' })
     await savingsPage.expectCashInWalletAssetBalance('NST', '1,000')
   })
 })
