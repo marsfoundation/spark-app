@@ -12,6 +12,7 @@ import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
 import { Projections } from '@/features/savings/types'
 import { raise } from '@/utils/assert'
 import { useTimestamp } from '@/utils/useTimestamp'
+import { useMemo } from 'react'
 import { useAccount } from 'wagmi'
 import { makeSavingsTokenDetails } from './makeSavingsTokenDetails'
 
@@ -81,12 +82,16 @@ export function useSavings(): UseSavingsResults {
     stepInMs,
   })
 
-  const daiNstUpgradeInfo = sNSTDetails
-    ? {
-        daiSymbol,
-        NSTSymbol: NSTSymbol ?? raise('NST token should be defined for upgrade'),
-      }
-    : undefined
+  // biome-ignore lint/correctness/useExhaustiveDependencies:
+  const daiNstUpgradeInfo = useMemo(() => {
+    if (!sNSTDetails) {
+      return undefined
+    }
+    return {
+      daiSymbol,
+      NSTSymbol: NSTSymbol ?? raise('NST token should be defined for upgrade'),
+    }
+  }, [!sNSTDetails, daiSymbol, NSTSymbol])
 
   function openSandboxModal(): void {
     openDialog(SandboxDialog, { mode: 'ephemeral' } as const)
