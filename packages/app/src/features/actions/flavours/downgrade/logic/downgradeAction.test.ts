@@ -21,11 +21,11 @@ const chainId = mainnet.id
 const hookRenderer = setupUseContractActionRenderer({
   account,
   handlers: [handlers.chainIdCall({ chainId }), handlers.balanceCall({ balance: 0n, address: account })],
-  args: { action: { type: 'downgrade', fromToken: dai, toToken: nst, amount: downgradeAmount }, enabled: true },
+  args: { action: { type: 'downgrade', fromToken: nst, toToken: dai, amount: downgradeAmount }, enabled: true },
 })
 
 describe(createDowngradeActionConfig.name, () => {
-  test('downgrades dai to nst', async () => {
+  test('downgrades nst to dai', async () => {
     const { result, queryInvalidationManager } = hookRenderer({
       extraHandlers: [
         handlers.contractCall({
@@ -54,7 +54,7 @@ describe(createDowngradeActionConfig.name, () => {
       getBalancesQueryKeyPrefix({ account, chainId }),
     )
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
-      allowanceQueryKey({ token: dai.address, spender: MIGRATE_ACTIONS_ADDRESS, account, chainId }),
+      allowanceQueryKey({ token: nst.address, spender: MIGRATE_ACTIONS_ADDRESS, account, chainId }),
     )
   })
 })

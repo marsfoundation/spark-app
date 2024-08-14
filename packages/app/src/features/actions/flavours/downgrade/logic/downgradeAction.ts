@@ -12,13 +12,13 @@ export function createDowngradeActionConfig(action: DowngradeAction, context: Ac
 
   return {
     getWriteConfig: () => {
-      const daiAmount = toBigInt(action.fromToken.toBaseUnit(action.amount))
+      const nstAmount = toBigInt(action.fromToken.toBaseUnit(action.amount))
 
       return ensureConfigTypes({
         address: MIGRATE_ACTIONS_ADDRESS,
         abi: migrationActionsAbi,
         functionName: 'downgradeNSTToDAI',
-        args: [account, daiAmount],
+        args: [account, nstAmount],
       })
     },
 
