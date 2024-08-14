@@ -80,6 +80,7 @@ const panelWrapperVariants = cva('rounded-lg border shadow-sm', {
     variant: {
       white: 'border-basics-border bg-white',
       green: 'border-[#6DC275] bg-basics-green/5',
+      blue: 'border-[#3F66EF] bg-[#3F66EF]/10',
     },
   },
   defaultVariants: {
