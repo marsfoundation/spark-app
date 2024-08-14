@@ -1,5 +1,5 @@
 import { Token } from '@/domain/types/Token'
-import { DaiNstUpgradeInfo } from '@/features/savings-with-nst/logic/useSavings'
+import { UpgradeInfo } from '@/features/savings-with-nst/logic/useSavings'
 import ArrowUpRightIcon from '@/ui/assets/arrow-up-right.svg?react'
 import DocumentSketchIcon from '@/ui/assets/document-sketch.svg?react'
 import DowngradeIcon from '@/ui/assets/downgrade.svg?react'
@@ -16,17 +16,17 @@ import {
 export interface MoreDropdownProps {
   token: Token
   disabled?: boolean
-  daiNstUpgradeInfo?: DaiNstUpgradeInfo
+  upgradeInfo?: UpgradeInfo
 }
 
-export function MoreDropdown({ token, daiNstUpgradeInfo, disabled }: MoreDropdownProps) {
+export function MoreDropdown({ token, upgradeInfo, disabled }: MoreDropdownProps) {
   return (
     <DropdownWrapper disabled={disabled}>
-      {daiNstUpgradeInfo?.NSTSymbol === token.symbol && (
+      {upgradeInfo?.NSTSymbol === token.symbol && (
         <>
           <DropdownItem>
             <DowngradeIcon className="h-4 w-4" />
-            Downgrade to {daiNstUpgradeInfo.daiSymbol}
+            Downgrade to {upgradeInfo.daiSymbol}
           </DropdownItem>
           <DropdownMenuSeparator />
         </>
