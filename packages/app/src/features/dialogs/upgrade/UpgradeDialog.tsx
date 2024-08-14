@@ -1,9 +1,9 @@
 import { Token } from '@/domain/types/Token'
 import { Dialog, DialogContent } from '@/ui/atoms/dialog/Dialog'
-import { DialogProps } from '../common/types'
+import { CommonDialogProps } from '../common/types'
 import { UpgradeDialogContentContainer } from './UpgradeDialogContentContainer'
 
-interface UpgradeDialogProps extends DialogProps {
+interface UpgradeDialogProps extends CommonDialogProps {
   fromToken: Token
   toToken: Token
 }

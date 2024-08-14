@@ -15,7 +15,7 @@ export interface SavingsDaiAndNSTViewProps extends Omit<SavingsViewContentProps,
 export function SavingsDaiAndNSTView({
   sDaiDetails,
   sNSTDetails,
-  daiNstUpgradeInfo,
+  upgradeInfo,
   opportunityProjections,
   chainId,
   assetsInWallet,
@@ -51,7 +51,7 @@ export function SavingsDaiAndNSTView({
         )}
         {displaySavingsNoCash && <SavingsOpportunityNoCash APY={sDaiDetails.APY} chainId={chainId} />}
       </div>
-      <CashInWallet assets={assetsInWallet} openDialog={openDialog} daiNstUpgradeInfo={daiNstUpgradeInfo} />
+      <CashInWallet assets={assetsInWallet} openDialog={openDialog} upgradeInfo={upgradeInfo} />
     </PageLayout>
   )
 }

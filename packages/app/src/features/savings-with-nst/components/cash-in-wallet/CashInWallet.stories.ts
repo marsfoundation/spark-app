@@ -29,9 +29,10 @@ export const Desktop: Story = {
         balance: NormalizedUnitNumber(0),
       },
     ],
-    daiNstUpgradeInfo: {
+    upgradeInfo: {
       daiSymbol: tokens.DAI.symbol,
       NSTSymbol: tokens.NST.symbol,
+      openDaiToNstUpgradeDialog: () => {},
     },
     openDialog: () => {},
   },

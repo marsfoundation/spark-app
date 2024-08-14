@@ -8,9 +8,11 @@ import { useSavingsTokens } from '@/domain/savings/useSavingsTokens'
 import { OpenDialogFunction, useOpenDialog } from '@/domain/state/dialogs'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
+import { UpgradeDialog } from '@/features/dialogs/upgrade/UpgradeDialog'
 import { Projections } from '@/features/savings/types'
-import { raise } from '@/utils/assert'
+import { assert, raise } from '@/utils/assert'
 import { useTimestamp } from '@/utils/useTimestamp'
 import { useMemo } from 'react'
 import { useAccount } from 'wagmi'
@@ -26,9 +28,10 @@ export interface SavingsTokenDetails {
   depositedUSDPrecision: number
 }
 
-export interface DaiNstUpgradeInfo {
+export interface UpgradeInfo {
   daiSymbol: TokenSymbol
   NSTSymbol: TokenSymbol
+  openDaiToNstUpgradeDialog: () => void
 }
 
 export interface UseSavingsResults {
@@ -43,7 +46,7 @@ export interface UseSavingsResults {
         maxBalanceToken: TokenWithBalance
         chainId: SupportedChainId
         opportunityProjections: Projections
-        daiNstUpgradeInfo?: DaiNstUpgradeInfo
+        upgradeInfo?: UpgradeInfo
         sDaiDetails?: SavingsTokenDetails
         sNSTDetails?: SavingsTokenDetails
       }
@@ -54,7 +57,8 @@ export function useSavings(): UseSavingsResults {
   const { savingsNstInfo } = useSavingsNstInfo()
   const guestMode = useAccount().isConnected === false
   const { inputTokens, sDaiWithBalance, sNSTWithBalance } = useSavingsTokens()
-  const { id: originChainId, daiSymbol, NSTSymbol } = useChainConfigEntry()
+  const { id: originChainId, extraTokens } = useChainConfigEntry()
+  const { tokensInfo } = useTokensInfo({ tokens: extraTokens })
   const { timestamp, timestampInMs } = useTimestamp({
     refreshIntervalInMs: savingsDaiInfo?.supportsRealTimeInterestAccrual ? stepInMs : undefined,
   })
@@ -83,15 +87,22 @@ export function useSavings(): UseSavingsResults {
   })
 
   // biome-ignore lint/correctness/useExhaustiveDependencies:
-  const daiNstUpgradeInfo = useMemo(() => {
-    if (!sNSTDetails) {
+  const upgradeInfo = useMemo(() => {
+    if (!savingsNstInfo) {
       return undefined
     }
+    const dai = tokensInfo.DAI
+    const nst = tokensInfo.NST
+    assert(dai && nst, 'DAI and NST tokens should be defined for upgrade')
+
     return {
-      daiSymbol,
-      NSTSymbol: NSTSymbol ?? raise('NST token should be defined for upgrade'),
+      daiSymbol: dai.symbol,
+      NSTSymbol: nst.symbol,
+      openDaiToNstUpgradeDialog: () => {
+        openDialog(UpgradeDialog, { fromToken: dai, toToken: nst })
+      },
     }
-  }, [!sNSTDetails, daiSymbol, NSTSymbol])
+  }, [!sNSTDetails, tokensInfo.DAI, tokensInfo.NST])
 
   function openSandboxModal(): void {
     openDialog(SandboxDialog, { mode: 'ephemeral' } as const)
@@ -124,7 +135,7 @@ export function useSavings(): UseSavingsResults {
       opportunityProjections,
       sDaiDetails,
       sNSTDetails,
-      daiNstUpgradeInfo,
+      upgradeInfo,
     },
   }
 }

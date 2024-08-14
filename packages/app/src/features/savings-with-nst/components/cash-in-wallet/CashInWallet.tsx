@@ -6,22 +6,22 @@ import { SavingsDepositDialog } from '@/features/dialogs/savings/deposit/Savings
 import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { DataTable, DataTableProps } from '@/ui/molecules/data-table/DataTable'
-import { DaiNstUpgradeInfo } from '../../logic/useSavings'
+import { UpgradeInfo } from '../../logic/useSavings'
 import { MoreDropdown } from './components/MoreDropdown'
 import { TokenCell } from './components/TokenCell'
 
 export interface CashInWalletProps {
   assets: TokenWithBalance[]
   openDialog: OpenDialogFunction
-  daiNstUpgradeInfo?: DaiNstUpgradeInfo
+  upgradeInfo?: UpgradeInfo
 }
 
-export function CashInWallet({ assets, openDialog, daiNstUpgradeInfo }: CashInWalletProps) {
+export function CashInWallet({ assets, openDialog, upgradeInfo }: CashInWalletProps) {
   const columnDef: DataTableProps<TokenWithBalance>['columnDef'] = useMemo(
     () => ({
       token: {
         header: 'Token',
-        renderCell: ({ token }) => <TokenCell token={token} daiNstUpgradeInfo={daiNstUpgradeInfo} />,
+        renderCell: ({ token }) => <TokenCell token={token} upgradeInfo={upgradeInfo} />,
       },
       balance: {
         header: 'Balance',
@@ -47,13 +47,13 @@ export function CashInWallet({ assets, openDialog, daiNstUpgradeInfo }: CashInWa
               >
                 Deposit
               </Button>
-              <MoreDropdown token={token} daiNstUpgradeInfo={daiNstUpgradeInfo} disabled={balance.eq(0)} />
+              <MoreDropdown token={token} upgradeInfo={upgradeInfo} disabled={balance.eq(0)} />
             </div>
           )
         },
       },
     }),
-    [openDialog, daiNstUpgradeInfo],
+    [openDialog, upgradeInfo],
   )
 
   return (

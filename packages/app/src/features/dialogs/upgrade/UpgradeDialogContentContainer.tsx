@@ -1,5 +1,6 @@
 import { Token } from '@/domain/types/Token'
 import { withSuspense } from '@/ui/utils/withSuspense'
+import { raise } from '@/utils/assert'
 import { DialogContentSkeleton } from '../common/components/skeletons/DialogContentSkeleton'
 import { SuccessView } from '../common/views/SuccessView'
 import { useUpgradeDialog } from './common/logic/useUpgradeDialog'
@@ -45,6 +46,8 @@ function UpgradeDialogContentContainer({ fromToken, toToken, closeDialog }: Upgr
       />
     )
   }
+
+  raise('Invalid upgrade dialog state')
 }
 
 const UpgradeDialogContentContainerWithSuspense = withSuspense(UpgradeDialogContentContainer, DialogContentSkeleton)

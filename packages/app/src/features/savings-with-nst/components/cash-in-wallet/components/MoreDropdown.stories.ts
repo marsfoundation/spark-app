@@ -11,9 +11,10 @@ const meta: Meta<typeof MoreDropdown> = {
   component: MoreDropdown,
   args: {
     token: tokens.NST,
-    daiNstUpgradeInfo: {
+    upgradeInfo: {
       daiSymbol: tokens.DAI.symbol,
       NSTSymbol: tokens.NST.symbol,
+      openDaiToNstUpgradeDialog: () => {},
     },
   },
   play: async ({ canvasElement }) => {

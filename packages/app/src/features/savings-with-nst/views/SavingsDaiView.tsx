@@ -8,7 +8,7 @@ import { SavingsViewContentProps } from './types'
 
 export function SavingsDaiView({
   savingsTokenDetails,
-  daiNstUpgradeInfo,
+  upgradeInfo,
   chainId,
   assetsInWallet,
   maxBalanceToken,
@@ -39,7 +39,7 @@ export function SavingsDaiView({
         )}
         {displaySavingsNoCash && <SavingsOpportunityNoCash APY={savingsTokenDetails.APY} chainId={chainId} />}
       </div>
-      <CashInWallet assets={assetsInWallet} openDialog={openDialog} daiNstUpgradeInfo={daiNstUpgradeInfo} />
+      <CashInWallet assets={assetsInWallet} openDialog={openDialog} upgradeInfo={upgradeInfo} />
     </PageLayout>
   )
 }
