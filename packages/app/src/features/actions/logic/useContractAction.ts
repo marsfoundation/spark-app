@@ -17,7 +17,7 @@ import { createDepositActionConfig } from '../flavours/deposit/logic/depositActi
 import { createRepayActionConfig } from '../flavours/repay/logic/repayAction'
 import { createSetUseAsCollateralActionConfig } from '../flavours/set-use-as-collateral/logic/setUseAsCollateralAction'
 import { createSetUserEModeActionConfig } from '../flavours/set-user-e-mode/logic/setUserEModeAction'
-import { createUpgradeDaiToNSTActionConfig } from '../flavours/upgrade-dai-to-nst/logic/upgradeDaiToNSTAction'
+import { createUpgradeActionConfig } from '../flavours/upgrade/logic/upgradeAction'
 import { createWithdrawFromSavingsActionConfig } from '../flavours/withdraw-from-savings/logic/withdrawFromSavingsAction'
 import { createWithdrawActionConfig } from '../flavours/withdraw/logic/withdrawAction'
 import { ActionConfig, ActionContext, InitialParamsQueryResult, VerifyTransactionResult } from './types'
@@ -145,8 +145,8 @@ function actionToConfig(action: Action, context: ActionContext): ActionConfig {
       return createWithdrawFromSavingsActionConfig(action, context)
     case 'depositToSavings':
       return createDepositToSavingsActionConfig(action, context)
-    case 'upgradeDaiToNST':
-      return createUpgradeDaiToNSTActionConfig(action, context)
+    case 'upgrade':
+      return createUpgradeActionConfig(action, context)
     case 'permit':
       return createEmptyActionConfig()
   }

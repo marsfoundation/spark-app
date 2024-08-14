@@ -124,11 +124,11 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
     state: { status: 'ready' },
     onAction: () => {},
   },
-  upgradeDaiToNST: {
+  upgrade: {
     action: {
-      type: 'upgradeDaiToNST',
-      dai: tokens.DAI,
-      nst: tokens.NST,
+      type: 'upgrade',
+      fromToken: tokens.DAI,
+      toToken: tokens.NST,
       amount: NormalizedUnitNumber(1),
     },
     state: { status: 'ready' },

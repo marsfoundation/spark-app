@@ -8,6 +8,7 @@ import { PermitActionRow } from '../../flavours/permit/PermitActionRow'
 import { RepayActionRow } from '../../flavours/repay/RepayActionRow'
 import { SetUseAsCollateralActionRow } from '../../flavours/set-use-as-collateral/SetUseAsCollateralActionRow'
 import { SetUserEModeActionRow } from '../../flavours/set-user-e-mode/SetUserEModeActionRow'
+import { UpgradeActionRow } from '../../flavours/upgrade/UpgradeActionRow'
 import { WithdrawFromSavingsActionRow } from '../../flavours/withdraw-from-savings/WithdrawFromSavingsActionRow'
 import { WithdrawActionRow } from '../../flavours/withdraw/WithdrawActionRow'
 import { ActionHandler } from '../../logic/types'
@@ -55,8 +56,16 @@ export function ActionsGrid({ actionHandlers, variant }: ActionsGridProps) {
             return <WithdrawFromSavingsActionRow action={handler.action} {...props} />
           case 'depositToSavings':
             return <DepositToSavingsActionRow action={handler.action} {...props} />
+          case 'upgrade':
+            return <UpgradeActionRow action={handler.action} {...props} />
+          default:
+            assertNever(handler.action)
         }
       })}
     </div>
   )
+}
+
+function assertNever(x: never): never {
+  throw new Error(`Unexpected object: ${x}`)
 }

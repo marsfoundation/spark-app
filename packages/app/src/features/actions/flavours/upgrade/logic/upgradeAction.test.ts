@@ -10,7 +10,7 @@ import { toBigInt } from '@/utils/bigNumber'
 import { waitFor } from '@testing-library/react'
 import { mainnet } from 'viem/chains'
 import { describe, test } from 'vitest'
-import { createUpgradeDaiToNSTActionConfig } from './upgradeDaiToNSTAction'
+import { createUpgradeActionConfig } from './upgradeAction'
 
 const account = testAddresses.alice
 const upgradeAmount = NormalizedUnitNumber(1)
@@ -21,10 +21,10 @@ const chainId = mainnet.id
 const hookRenderer = setupUseContractActionRenderer({
   account,
   handlers: [handlers.chainIdCall({ chainId }), handlers.balanceCall({ balance: 0n, address: account })],
-  args: { action: { type: 'upgradeDaiToNST', dai, nst, amount: upgradeAmount }, enabled: true },
+  args: { action: { type: 'upgrade', fromToken: dai, toToken: nst, amount: upgradeAmount }, enabled: true },
 })
 
-describe(createUpgradeDaiToNSTActionConfig.name, () => {
+describe(createUpgradeActionConfig.name, () => {
   test('upgrades dai to nst', async () => {
     const { result, queryInvalidationManager } = hookRenderer({
       extraHandlers: [

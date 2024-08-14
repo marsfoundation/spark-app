@@ -17,7 +17,7 @@ import { PermitAction } from '../flavours/permit/types'
 import { RepayAction } from '../flavours/repay/types'
 import { SetUseAsCollateralAction } from '../flavours/set-use-as-collateral/types'
 import { SetUserEModeAction } from '../flavours/set-user-e-mode/logic/types'
-import { UpgradeDaiToNSTAction } from '../flavours/upgrade-dai-to-nst/types'
+import { UpgradeAction } from '../flavours/upgrade/types'
 import { createWithdrawFromSavingsActions } from '../flavours/withdraw-from-savings/logic/createWithdrawFromSavingsActions'
 import { WithdrawAction } from '../flavours/withdraw/types'
 import { Action, ActionContext, Objective } from './types'
@@ -186,22 +186,22 @@ export function useCreateActions({ objectives, actionsSettings, actionContext }:
         return [claimRewardsActions]
       }
 
-      case 'upgradeDaiToNST': {
+      case 'upgrade': {
         const approveAction: ApproveAction = {
           type: 'approve',
-          token: objective.dai,
+          token: objective.fromToken,
           spender: MIGRATE_ACTIONS_ADDRESS,
           value: objective.amount,
         }
 
-        const upgradeDaiToNSTAction: UpgradeDaiToNSTAction = {
-          type: 'upgradeDaiToNST',
-          dai: objective.dai,
-          nst: objective.nst,
+        const upgradeAction: UpgradeAction = {
+          type: 'upgrade',
+          fromToken: objective.fromToken,
+          toToken: objective.toToken,
           amount: objective.amount,
         }
 
-        return [approveAction, upgradeDaiToNSTAction]
+        return [approveAction, upgradeAction]
       }
 
       case 'withdrawFromSavings': {

@@ -5,14 +5,14 @@ import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPr
 import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
 import { ActionConfig, ActionContext } from '@/features/actions/logic/types'
 import { toBigInt } from '@/utils/bigNumber'
-import { UpgradeDaiToNSTAction } from '../types'
+import { UpgradeAction } from '../types'
 
-export function createUpgradeDaiToNSTActionConfig(action: UpgradeDaiToNSTAction, context: ActionContext): ActionConfig {
+export function createUpgradeActionConfig(action: UpgradeAction, context: ActionContext): ActionConfig {
   const { account, chainId } = context
 
   return {
     getWriteConfig: () => {
-      const daiAmount = toBigInt(action.dai.toBaseUnit(action.amount))
+      const daiAmount = toBigInt(action.fromToken.toBaseUnit(action.amount))
 
       return ensureConfigTypes({
         address: MIGRATE_ACTIONS_ADDRESS,
@@ -24,7 +24,7 @@ export function createUpgradeDaiToNSTActionConfig(action: UpgradeDaiToNSTAction,
 
     invalidates: () => {
       return [
-        allowanceQueryKey({ token: action.dai.address, spender: MIGRATE_ACTIONS_ADDRESS, account, chainId }),
+        allowanceQueryKey({ token: action.fromToken.address, spender: MIGRATE_ACTIONS_ADDRESS, account, chainId }),
         getBalancesQueryKeyPrefix({ chainId, account }),
       ]
     },
