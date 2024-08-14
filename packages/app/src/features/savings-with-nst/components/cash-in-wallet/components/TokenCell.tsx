@@ -10,11 +10,11 @@ export interface TokenCellProps {
 
 export function TokenCell({ token, daiNstUpgradeInfo }: TokenCellProps) {
   if (daiNstUpgradeInfo?.daiSymbol === token.symbol) {
-    return <UpgradeTokenButton token={token} upgradedTokenSymbol={daiNstUpgradeInfo.nstSymbol} />
+    return <UpgradeTokenButton token={token} upgradedTokenSymbol={daiNstUpgradeInfo.NSTSymbol} />
   }
 
   return (
-    <div className="flex flex-row items-center gap-2">
+    <div className="flex flex-row items-center gap-2 font-semibold">
       <TokenIcon token={token} className="h-6 w-6" />
       {token.symbol}
     </div>

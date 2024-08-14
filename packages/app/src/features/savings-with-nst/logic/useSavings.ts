@@ -1,6 +1,6 @@
 import { SupportedChainId } from '@/config/chain/types'
 import { TokenWithBalance } from '@/domain/common/types'
-import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
+import { useChainConfigEntry } from '@/domain/hooks/useChainConfigEntry'
 import { useSavingsDaiInfo } from '@/domain/savings-info/useSavingsDaiInfo'
 import { useSavingsNstInfo } from '@/domain/savings-info/useSavingsNstInfo'
 import { calculateMaxBalanceTokenAndTotal } from '@/domain/savings/calculateMaxBalanceTokenAndTotal'
@@ -27,7 +27,7 @@ export interface SavingsTokenDetails {
 
 export interface DaiNstUpgradeInfo {
   daiSymbol: TokenSymbol
-  nstSymbol: TokenSymbol
+  NSTSymbol: TokenSymbol
 }
 
 export interface UseSavingsResults {
@@ -52,8 +52,8 @@ export function useSavings(): UseSavingsResults {
   const { savingsDaiInfo } = useSavingsDaiInfo()
   const { savingsNstInfo } = useSavingsNstInfo()
   const guestMode = useAccount().isConnected === false
-  const { inputTokens, dai, nst, sDaiWithBalance, sNSTWithBalance } = useSavingsTokens()
-  const originChainId = useOriginChainId()
+  const { inputTokens, sDaiWithBalance, sNSTWithBalance } = useSavingsTokens()
+  const { id: originChainId, daiSymbol, NSTSymbol } = useChainConfigEntry()
   const { timestamp, timestampInMs } = useTimestamp({
     refreshIntervalInMs: savingsDaiInfo?.supportsRealTimeInterestAccrual ? stepInMs : undefined,
   })
@@ -66,7 +66,6 @@ export function useSavings(): UseSavingsResults {
   const sDaiDetails = makeSavingsTokenDetails({
     savingsInfo: savingsDaiInfo,
     savingsTokenWithBalance: sDaiWithBalance,
-    baseToken: dai,
     eligibleCashUSD: totalEligibleCashUSD,
     timestamp,
     timestampInMs,
@@ -76,7 +75,6 @@ export function useSavings(): UseSavingsResults {
   const sNSTDetails = makeSavingsTokenDetails({
     savingsInfo: savingsNstInfo,
     savingsTokenWithBalance: sNSTWithBalance,
-    baseToken: nst,
     eligibleCashUSD: totalEligibleCashUSD,
     timestamp,
     timestampInMs,
@@ -85,8 +83,8 @@ export function useSavings(): UseSavingsResults {
 
   const daiNstUpgradeInfo = sNSTDetails
     ? {
-        daiSymbol: dai.symbol,
-        nstSymbol: nst ? nst.symbol : raise('NST token should be defined for upgrade'),
+        daiSymbol,
+        NSTSymbol: NSTSymbol ?? raise('NST token should be defined for upgrade'),
       }
     : undefined
 

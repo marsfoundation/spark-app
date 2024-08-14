@@ -13,7 +13,7 @@ const meta: Meta<typeof MoreDropdown> = {
     token: tokens.NST,
     daiNstUpgradeInfo: {
       daiSymbol: tokens.DAI.symbol,
-      nstSymbol: tokens.NST.symbol,
+      NSTSymbol: tokens.NST.symbol,
     },
   },
   play: async ({ canvasElement }) => {

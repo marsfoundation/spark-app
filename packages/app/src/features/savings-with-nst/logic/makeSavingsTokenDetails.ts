@@ -1,7 +1,6 @@
 import { TokenWithBalance } from '@/domain/common/types'
 import { SavingsInfo } from '@/domain/savings-info/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { Token } from '@/domain/types/Token'
 import { makeSavingsOverview } from '@/features/savings/logic/makeSavingsOverview'
 import { calculateProjections } from '@/features/savings/logic/projections'
 import { Projections } from '@/features/savings/types'
@@ -11,7 +10,6 @@ import { SavingsTokenDetails } from './useSavings'
 export interface MakeSavingsTokenDetailsParams {
   savingsInfo: SavingsInfo | null
   savingsTokenWithBalance: TokenWithBalance | undefined
-  baseToken: Token | undefined
   eligibleCashUSD: NormalizedUnitNumber
   timestamp: number
   timestampInMs: number

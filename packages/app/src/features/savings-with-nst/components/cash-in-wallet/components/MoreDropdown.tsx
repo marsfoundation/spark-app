@@ -22,7 +22,7 @@ export interface MoreDropdownProps {
 export function MoreDropdown({ token, daiNstUpgradeInfo, disabled }: MoreDropdownProps) {
   return (
     <DropdownWrapper disabled={disabled}>
-      {daiNstUpgradeInfo?.nstSymbol === token.symbol && (
+      {daiNstUpgradeInfo?.NSTSymbol === token.symbol && (
         <>
           <DropdownItem>
             <DowngradeIcon className="h-4 w-4" />

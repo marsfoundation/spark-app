@@ -32,7 +32,7 @@ const savingsViewBaseArgs = {
   },
   daiNstUpgradeInfo: {
     daiSymbol: tokens.DAI.symbol,
-    nstSymbol: tokens.NST.symbol,
+    NSTSymbol: tokens.NST.symbol,
   },
   totalEligibleCashUSD: NormalizedUnitNumber(45454),
   openDialog: () => {},
