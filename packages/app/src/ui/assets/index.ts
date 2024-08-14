@@ -10,6 +10,7 @@ import upgrade from './actions/upgrade.svg'
 import withdraw from './actions/withdraw.svg'
 import arrowRight from './arrow-right.svg'
 import arrowUpRight from './arrow-up-right.svg'
+import upgradeBannerBg from './banners/upgrade-banner-bg.svg'
 import boxArrowTopRight from './box-arrow-top-right.svg'
 import ethereum from './chains/ethereum.svg'
 import gnosis from './chains/gnosis.svg'
@@ -157,6 +158,9 @@ export const assets = {
     torus,
     walletConnect,
     default: defaultWallet,
+  },
+  banners: {
+    upgradeBannerBg,
   },
 }
 
