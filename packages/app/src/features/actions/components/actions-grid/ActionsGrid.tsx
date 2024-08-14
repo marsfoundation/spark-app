@@ -1,3 +1,4 @@
+import { assertNever } from '@/utils/assertNever'
 import { ApproveDelegationActionRow } from '../../flavours/approve-delegation/ApproveDelegationActionRow'
 import { ApproveActionRow } from '../../flavours/approve/ApproveActionRow'
 import { BorrowActionRow } from '../../flavours/borrow/BorrowActionRow'
@@ -64,8 +65,4 @@ export function ActionsGrid({ actionHandlers, variant }: ActionsGridProps) {
       })}
     </div>
   )
-}
-
-function assertNever(x: never): never {
-  throw new Error(`Unexpected object: ${x}`)
 }
