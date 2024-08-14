@@ -1,4 +1,5 @@
 import { getChainConfigEntry } from '@/config/chain'
+import { MIGRATE_ACTIONS_ADDRESS } from '@/config/consts'
 import { lendingPoolAddress, wethGatewayAddress } from '@/config/contracts-generated'
 import { useContractAddress } from '@/domain/hooks/useContractAddress'
 import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
@@ -16,6 +17,7 @@ import { PermitAction } from '../flavours/permit/types'
 import { RepayAction } from '../flavours/repay/types'
 import { SetUseAsCollateralAction } from '../flavours/set-use-as-collateral/types'
 import { SetUserEModeAction } from '../flavours/set-user-e-mode/logic/types'
+import { UpgradeAction } from '../flavours/upgrade/types'
 import { createWithdrawFromSavingsActions } from '../flavours/withdraw-from-savings/logic/createWithdrawFromSavingsActions'
 import { WithdrawAction } from '../flavours/withdraw/types'
 import { Action, ActionContext, Objective } from './types'
@@ -182,6 +184,24 @@ export function useCreateActions({ objectives, actionsSettings, actionContext }:
         }
 
         return [claimRewardsActions]
+      }
+
+      case 'upgrade': {
+        const approveAction: ApproveAction = {
+          type: 'approve',
+          token: objective.fromToken,
+          spender: MIGRATE_ACTIONS_ADDRESS,
+          value: objective.amount,
+        }
+
+        const upgradeAction: UpgradeAction = {
+          type: 'upgrade',
+          fromToken: objective.fromToken,
+          toToken: objective.toToken,
+          amount: objective.amount,
+        }
+
+        return [approveAction, upgradeAction]
       }
 
       case 'withdrawFromSavings': {

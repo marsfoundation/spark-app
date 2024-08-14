@@ -148,8 +148,14 @@ type SimplifiedWithdrawFromSavingsAction = BaseAction & {
   mode: 'send' | 'withdraw'
 }
 
+type SimplifiedUpgradeAction = BaseAction & {
+  type: 'upgrade'
+  fromToken: string
+  toToken: string
+}
+
 type SimplifiedGenericAction = BaseAction & {
-  type: Exclude<ActionType, 'exchange' | 'depositToSavings' | 'withdrawFromSavings' | 'setUserEMode'>
+  type: Exclude<ActionType, 'exchange' | 'depositToSavings' | 'withdrawFromSavings' | 'setUserEMode' | 'upgrade'>
 }
 
 type SimplifiedSetUserEModeAction = {
@@ -167,6 +173,7 @@ type SimplifiedAction =
   | SimplifiedWithdrawFromSavingsAction
   | SimplifiedMakerStableToSavingsAction
   | SimplifiedSetUserEModeAction
+  | SimplifiedUpgradeAction
 
 function actionToTitle(action: SimplifiedAction): string {
   switch (action.type) {
@@ -194,6 +201,8 @@ function actionToTitle(action: SimplifiedAction): string {
       return `Convert ${action.savingsAsset} to ${action.asset}${action.mode === 'send' ? ' and send' : ''}`
     case 'claimRewards':
       return 'Claim'
+    case 'upgrade':
+      return `Upgrade ${action.fromToken} to ${action.toToken}`
   }
 }
 

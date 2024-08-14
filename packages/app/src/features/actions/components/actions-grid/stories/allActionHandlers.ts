@@ -114,13 +114,22 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
     state: { status: 'ready' },
     onAction: () => {},
   },
-
   claimRewards: {
     action: {
       type: 'claimRewards',
       assets: [CheckedAddress(zeroAddress)],
       incentiveControllerAddress: CheckedAddress(zeroAddress),
       token: tokens.wstETH,
+    },
+    state: { status: 'ready' },
+    onAction: () => {},
+  },
+  upgrade: {
+    action: {
+      type: 'upgrade',
+      fromToken: tokens.DAI,
+      toToken: tokens.NST,
+      amount: NormalizedUnitNumber(1),
     },
     state: { status: 'ready' },
     onAction: () => {},
