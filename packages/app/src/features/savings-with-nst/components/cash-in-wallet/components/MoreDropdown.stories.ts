@@ -14,6 +14,7 @@ const meta: Meta<typeof MoreDropdown> = {
     upgradeInfo: {
       daiSymbol: tokens.DAI.symbol,
       NSTSymbol: tokens.NST.symbol,
+      daiToNstUpgradeAvailable: true,
       openDaiToNstUpgradeDialog: () => {},
     },
   },

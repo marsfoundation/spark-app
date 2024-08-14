@@ -31,6 +31,7 @@ export interface SavingsTokenDetails {
 export interface UpgradeInfo {
   daiSymbol: TokenSymbol
   NSTSymbol: TokenSymbol
+  daiToNstUpgradeAvailable: boolean
   openDaiToNstUpgradeDialog: () => void
 }
 
@@ -98,6 +99,7 @@ export function useSavings(): UseSavingsResults {
     return {
       daiSymbol: dai.symbol,
       NSTSymbol: nst.symbol,
+      daiToNstUpgradeAvailable: tokensInfo.findOneBalanceBySymbol(dai.symbol).gt(0),
       openDaiToNstUpgradeDialog: () => {
         openDialog(UpgradeDialog, { fromToken: dai, toToken: nst })
       },

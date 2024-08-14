@@ -9,7 +9,7 @@ export interface TokenCellProps {
 }
 
 export function TokenCell({ token, upgradeInfo }: TokenCellProps) {
-  if (upgradeInfo?.daiSymbol === token.symbol) {
+  if (upgradeInfo?.daiSymbol === token.symbol && upgradeInfo.daiToNstUpgradeAvailable) {
     return (
       <UpgradeTokenButton
         token={token}

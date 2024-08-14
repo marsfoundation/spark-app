@@ -32,6 +32,7 @@ export const Desktop: Story = {
     upgradeInfo: {
       daiSymbol: tokens.DAI.symbol,
       NSTSymbol: tokens.NST.symbol,
+      daiToNstUpgradeAvailable: true,
       openDaiToNstUpgradeDialog: () => {},
     },
     openDialog: () => {},
