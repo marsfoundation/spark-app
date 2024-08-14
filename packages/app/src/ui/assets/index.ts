@@ -6,6 +6,7 @@ import deposit from './actions/deposit.svg'
 import done from './actions/done.svg'
 import exchange from './actions/exchange.svg'
 import repay from './actions/repay.svg'
+import upgrade from './actions/upgrade.svg'
 import withdraw from './actions/withdraw.svg'
 import arrowRight from './arrow-right.svg'
 import arrowUpRight from './arrow-up-right.svg'
@@ -115,6 +116,7 @@ export const assets = {
     output,
   },
   actions: {
+    upgrade,
     approve,
     done,
     borrow,

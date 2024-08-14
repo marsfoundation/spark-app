@@ -194,6 +194,8 @@ function actionToTitle(action: SimplifiedAction): string {
       return `Convert ${action.savingsAsset} to ${action.asset}${action.mode === 'send' ? ' and send' : ''}`
     case 'claimRewards':
       return 'Claim'
+    case 'upgradeDaiToNST':
+      return `Upgrade ${action.asset} to NST`
   }
 }
 

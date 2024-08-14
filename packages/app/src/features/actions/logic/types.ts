@@ -15,6 +15,7 @@ import { PermitAction } from '../flavours/permit/types'
 import { RepayAction, RepayObjective } from '../flavours/repay/types'
 import { SetUseAsCollateralAction, SetUseAsCollateralObjective } from '../flavours/set-use-as-collateral/types'
 import { SetUserEModeAction, SetUserEModeObjective } from '../flavours/set-user-e-mode/logic/types'
+import { UpgradeDaiToNSTAction, UpgradeDaiToNSTObjective } from '../flavours/upgrade-dai-to-nst/types'
 import { WithdrawFromSavingsAction, WithdrawFromSavingsObjective } from '../flavours/withdraw-from-savings/types'
 import { WithdrawAction, WithdrawObjective } from '../flavours/withdraw/types'
 import { PermitStore } from './permits'
@@ -33,6 +34,7 @@ export type Objective =
   | ClaimRewardsObjective
   | WithdrawFromSavingsObjective
   | DepositToSavingsObjective
+  | UpgradeDaiToNSTObjective
 export type ObjectiveType = Objective['type']
 
 export type Action =
@@ -48,6 +50,7 @@ export type Action =
   | ClaimRewardsAction
   | WithdrawFromSavingsAction
   | DepositToSavingsAction
+  | UpgradeDaiToNSTAction
 export type ActionType = Action['type']
 
 export type ActionHandlerState =
