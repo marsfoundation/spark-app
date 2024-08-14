@@ -14,10 +14,6 @@ const savingsViewBaseArgs = {
       balance: NormalizedUnitNumber(22727),
     },
     {
-      token: tokens.NST,
-      balance: NormalizedUnitNumber(12345),
-    },
-    {
       token: tokens.USDC,
       balance: NormalizedUnitNumber(0),
     },

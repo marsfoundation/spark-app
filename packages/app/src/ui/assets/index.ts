@@ -8,6 +8,7 @@ import exchange from './actions/exchange.svg'
 import repay from './actions/repay.svg'
 import withdraw from './actions/withdraw.svg'
 import arrowRight from './arrow-right.svg'
+import arrowUpRight from './arrow-up-right.svg'
 import boxArrowTopRight from './box-arrow-top-right.svg'
 import ethereum from './chains/ethereum.svg'
 import gnosis from './chains/gnosis.svg'
@@ -16,6 +17,7 @@ import chevronDown from './chevron-down.svg'
 import circleInfo from './circle-info.svg'
 import close from './close.svg'
 import down from './down.svg'
+import downgrade from './downgrade.svg'
 import eye from './eye.svg'
 import flash from './flash.svg'
 import giftbox from './giftbox.svg'
@@ -30,6 +32,7 @@ import inputOutput from './markets/input-output.svg'
 import lock from './markets/lock.svg'
 import output from './markets/output.svg'
 import menu from './menu.svg'
+import moreIconVertical from './more-icon-vertical.svg'
 import moreIcon from './more-icon.svg'
 import pause from './pause.svg'
 import rocket from './rocket.svg'
@@ -59,6 +62,7 @@ import wsteth from './tokens/wsteth.svg'
 import wxdai from './tokens/wxdai.svg'
 import xdai from './tokens/xdai.svg'
 import up from './up.svg'
+import upgrade from './upgrade.svg'
 import coinbase from './wallet-icons/coinbase.svg'
 import defaultWallet from './wallet-icons/default.svg'
 import enjin from './wallet-icons/enjin.svg'
@@ -83,6 +87,7 @@ export const assets = {
   link,
   threeDots,
   arrowRight,
+  arrowUpRight,
   warning,
   pause,
   snowflake,
@@ -94,12 +99,15 @@ export const assets = {
   magicWand,
   magicWandCircle,
   moreIcon,
+  moreIconVertical,
   eye,
   menu,
   close,
   makerLogo,
   giftbox,
   rocket,
+  downgrade,
+  upgrade,
   markets: {
     chart,
     inputOutput,

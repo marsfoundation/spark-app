@@ -10,10 +10,6 @@ const savingsViewBaseArgs = {
   chainId: mainnet.id,
   assetsInWallet: [
     {
-      token: tokens.DAI,
-      balance: NormalizedUnitNumber(22727),
-    },
-    {
       token: tokens.NST,
       balance: NormalizedUnitNumber(12345),
     },
