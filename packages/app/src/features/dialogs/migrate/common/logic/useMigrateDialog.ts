@@ -1,5 +1,6 @@
 import { useChainConfigEntry } from '@/domain/hooks/useChainConfigEntry'
 import { useConditionalFreeze } from '@/domain/hooks/useConditionalFreeze'
+import { useSavingsDaiInfo } from '@/domain/savings-info/useSavingsDaiInfo'
 import { useSavingsNstInfo } from '@/domain/savings-info/useSavingsNstInfo'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
@@ -9,9 +10,10 @@ import { Objective } from '@/features/actions/logic/types'
 import { PageState, PageStatus } from '@/features/dialogs/common/types'
 import { assert } from '@/utils/assert'
 import { useState } from 'react'
-import { createUpgradeObjectives } from './createUpgradeObjectives'
+import { createMigrateObjectives } from './createMigrateObjectives'
 
 export interface UseUpgradeDialogParams {
+  type: 'upgrade' | 'downgrade'
   fromToken: Token
   toToken: Token
 }
@@ -19,28 +21,32 @@ export interface UseUpgradeDialogParams {
 export interface UseUpgradeDialogResult {
   objectives: Objective[]
   pageStatus: PageStatus
-  upgradedAmount: NormalizedUnitNumber
+  migrationAmount: NormalizedUnitNumber
   tokensInfo: TokensInfo
-  sNstAPY: Percentage
+  apyDifference: Percentage
 }
 
-export function useUpgradeDialog({ fromToken, toToken }: UseUpgradeDialogParams): UseUpgradeDialogResult {
+export function useMigrateDialog({ type, fromToken, toToken }: UseUpgradeDialogParams): UseUpgradeDialogResult {
   const [pageStatus, setPageStatus] = useState<PageState>('form')
   const { extraTokens } = useChainConfigEntry()
   const { tokensInfo } = useTokensInfo({ tokens: extraTokens })
   const { savingsNstInfo } = useSavingsNstInfo()
+  const { savingsDaiInfo } = useSavingsDaiInfo()
   assert(savingsNstInfo, 'NST savings info is required for upgrade dialog')
+  assert(savingsDaiInfo, 'DAI savings info is required for upgrade dialog')
+
+  const apyDifference = Percentage(savingsNstInfo.apy.minus(savingsDaiInfo.apy).absoluteValue())
 
   const fromTokenBalance = useConditionalFreeze(
     tokensInfo.findOneBalanceBySymbol(fromToken.symbol),
     pageStatus === 'success',
   )
-  const objectives = createUpgradeObjectives({ fromToken, toToken, amount: fromTokenBalance })
+  const objectives = createMigrateObjectives({ type, fromToken, toToken, amount: fromTokenBalance })
 
   return {
     objectives,
-    upgradedAmount: fromTokenBalance,
-    sNstAPY: savingsNstInfo.apy,
+    migrationAmount: fromTokenBalance,
+    apyDifference,
     tokensInfo,
     pageStatus: {
       actionsEnabled: true,

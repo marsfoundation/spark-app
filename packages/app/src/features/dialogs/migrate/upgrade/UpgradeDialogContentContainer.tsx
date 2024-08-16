@@ -3,7 +3,7 @@ import { withSuspense } from '@/ui/utils/withSuspense'
 import { raise } from '@/utils/assert'
 import { DialogContentSkeleton } from '../../common/components/skeletons/DialogContentSkeleton'
 import { SuccessView } from '../../common/views/SuccessView'
-import { useUpgradeDialog } from '../common/logic/useUpgradeDialog'
+import { useMigrateDialog } from '../common/logic/useMigrateDialog'
 import { UpgradeDaiToNSTView } from './dai-to-nst/views/UpgradeDaiToNSTView'
 
 interface UpgradeDialogContentContainerProps {
@@ -13,7 +13,8 @@ interface UpgradeDialogContentContainerProps {
 }
 
 function UpgradeDialogContentContainer({ fromToken, toToken, closeDialog }: UpgradeDialogContentContainerProps) {
-  const { objectives, pageStatus, upgradedAmount, tokensInfo, sNstAPY } = useUpgradeDialog({
+  const { objectives, pageStatus, migrationAmount, tokensInfo, apyDifference } = useMigrateDialog({
+    type: 'upgrade',
     fromToken,
     toToken,
   })
@@ -21,7 +22,7 @@ function UpgradeDialogContentContainer({ fromToken, toToken, closeDialog }: Upgr
   if (pageStatus.state === 'success') {
     return (
       <SuccessView
-        tokenWithValue={{ token: fromToken, value: upgradedAmount }}
+        tokenWithValue={{ token: fromToken, value: migrationAmount }}
         proceedText="Back to Savings"
         objectiveType="upgrade"
         onProceed={closeDialog}
@@ -36,7 +37,7 @@ function UpgradeDialogContentContainer({ fromToken, toToken, closeDialog }: Upgr
         toToken={toToken}
         pageStatus={pageStatus}
         objectives={objectives}
-        sNstAPY={sNstAPY}
+        apyDifference={apyDifference}
       />
     )
   }

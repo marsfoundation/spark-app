@@ -3,16 +3,16 @@ import { WithClassname, WithTooltipProvider, ZeroAllowanceWagmiDecorator } from 
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory } from '@storybook/viewports'
-import { UpgradeDaiToNSTView } from './UpgradeDaiToNSTView'
+import { DowngradeNSTToDaiView } from './DowngradeNSTToDaiView'
 
-const meta: Meta<typeof UpgradeDaiToNSTView> = {
-  title: 'Features/Dialogs/Views/Upgrade/DaiToNST',
+const meta: Meta<typeof DowngradeNSTToDaiView> = {
+  title: 'Features/Dialogs/Views/Migrate/Downgrade/NSTToDai',
   decorators: [ZeroAllowanceWagmiDecorator(), WithClassname('max-w-xl'), WithTooltipProvider()],
-  component: UpgradeDaiToNSTView,
+  component: DowngradeNSTToDaiView,
   args: {
-    fromToken: tokens.DAI,
-    toToken: tokens.NST,
-    sNstAPY: Percentage(0.05),
+    fromToken: tokens.NST,
+    toToken: tokens.DAI,
+    apyDifference: Percentage(0.0025),
     objectives: [
       {
         type: 'upgrade',
@@ -30,7 +30,7 @@ const meta: Meta<typeof UpgradeDaiToNSTView> = {
 }
 
 export default meta
-type Story = StoryObj<typeof UpgradeDaiToNSTView>
+type Story = StoryObj<typeof DowngradeNSTToDaiView>
 
 export const Desktop: Story = {}
 export const Mobile = getMobileStory(Desktop)

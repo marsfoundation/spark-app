@@ -3,17 +3,18 @@ import { withSuspense } from '@/ui/utils/withSuspense'
 import { raise } from '@/utils/assert'
 import { DialogContentSkeleton } from '../../common/components/skeletons/DialogContentSkeleton'
 import { SuccessView } from '../../common/views/SuccessView'
-import { useUpgradeDialog } from '../common/logic/useUpgradeDialog'
+import { useMigrateDialog } from '../common/logic/useMigrateDialog'
 import { DowngradeNSTToDaiView } from './nst-to-dai/views/DowngradeNSTToDaiView'
 
-interface UpgradeDialogContentContainerProps {
+interface DowngradeDialogContentContainerProps {
   fromToken: Token
   toToken: Token
   closeDialog: () => void
 }
 
-function UpgradeDialogContentContainer({ fromToken, toToken, closeDialog }: UpgradeDialogContentContainerProps) {
-  const { objectives, pageStatus, upgradedAmount, tokensInfo, sNstAPY } = useUpgradeDialog({
+function DowngradeDialogContentContainer({ fromToken, toToken, closeDialog }: DowngradeDialogContentContainerProps) {
+  const { objectives, pageStatus, migrationAmount, tokensInfo, apyDifference } = useMigrateDialog({
+    type: 'downgrade',
     fromToken,
     toToken,
   })
@@ -21,9 +22,9 @@ function UpgradeDialogContentContainer({ fromToken, toToken, closeDialog }: Upgr
   if (pageStatus.state === 'success') {
     return (
       <SuccessView
-        tokenWithValue={{ token: fromToken, value: upgradedAmount }}
+        tokenWithValue={{ token: fromToken, value: migrationAmount }}
         proceedText="Back to Savings"
-        objectiveType="upgrade"
+        objectiveType="downgrade"
         onProceed={closeDialog}
       />
     )
@@ -36,13 +37,13 @@ function UpgradeDialogContentContainer({ fromToken, toToken, closeDialog }: Upgr
         toToken={toToken}
         pageStatus={pageStatus}
         objectives={objectives}
-        sNstAPY={sNstAPY}
+        apyDifference={apyDifference}
       />
     )
   }
 
-  raise('Invalid upgrade dialog state')
+  raise('Invalid downgrade dialog state')
 }
 
-const UpgradeDialogContentContainerWithSuspense = withSuspense(UpgradeDialogContentContainer, DialogContentSkeleton)
-export { UpgradeDialogContentContainerWithSuspense as UpgradeDialogContentContainer }
+const DowngradeDialogContentContainerWithSuspense = withSuspense(DowngradeDialogContentContainer, DialogContentSkeleton)
+export { DowngradeDialogContentContainerWithSuspense as DowngradeDialogContentContainer }
