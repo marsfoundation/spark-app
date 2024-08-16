@@ -9,8 +9,9 @@ import { OpenDialogFunction, useOpenDialog } from '@/domain/state/dialogs'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
+import { DowngradeDialog } from '@/features/dialogs/migrate/downgrade/DowngradeDialog'
+import { UpgradeDialog } from '@/features/dialogs/migrate/upgrade/UpgradeDialog'
 import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
-import { UpgradeDialog } from '@/features/dialogs/upgrade/UpgradeDialog'
 import { Projections } from '@/features/savings/types'
 import { assert, raise } from '@/utils/assert'
 import { useTimestamp } from '@/utils/useTimestamp'
@@ -33,6 +34,7 @@ export interface UpgradeInfo {
   NSTSymbol: TokenSymbol
   daiToNstUpgradeAvailable: boolean
   openDaiToNstUpgradeDialog: () => void
+  openNstToDaiDowngradeDialog: () => void
 }
 
 export interface UseSavingsResults {
@@ -102,6 +104,9 @@ export function useSavings(): UseSavingsResults {
       daiToNstUpgradeAvailable: tokensInfo.findOneBalanceBySymbol(dai.symbol).gt(0),
       openDaiToNstUpgradeDialog: () => {
         openDialog(UpgradeDialog, { fromToken: dai, toToken: nst })
+      },
+      openNstToDaiDowngradeDialog: () => {
+        openDialog(DowngradeDialog, { fromToken: nst, toToken: dai })
       },
     }
   }, [!sNSTDetails, tokensInfo.DAI, tokensInfo.NST])

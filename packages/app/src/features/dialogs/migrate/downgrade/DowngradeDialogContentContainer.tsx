@@ -30,7 +30,7 @@ function DowngradeDialogContentContainer({ fromToken, toToken, closeDialog }: Do
     )
   }
 
-  if (fromToken.symbol === tokensInfo.DAI?.symbol && toToken.symbol === tokensInfo.NST?.symbol) {
+  if (fromToken.symbol === tokensInfo.NST?.symbol && toToken.symbol === tokensInfo.DAI?.symbol) {
     return (
       <DowngradeNSTToDaiView
         fromToken={fromToken}

@@ -24,7 +24,7 @@ export function MoreDropdown({ token, upgradeInfo, disabled }: MoreDropdownProps
     <DropdownWrapper disabled={disabled}>
       {upgradeInfo?.NSTSymbol === token.symbol && (
         <>
-          <DropdownItem>
+          <DropdownItem onClick={upgradeInfo.openNstToDaiDowngradeDialog}>
             <DowngradeIcon className="h-4 w-4" />
             Downgrade to {upgradeInfo.daiSymbol}
           </DropdownItem>
@@ -53,9 +53,12 @@ function DropdownWrapper({ children, disabled }: { children: React.ReactNode; di
   )
 }
 
-function DropdownItem({ children }: { children: React.ReactNode }) {
+function DropdownItem({ children, onClick }: { children: React.ReactNode; onClick?: () => void }) {
   return (
-    <DropdownMenuItem className="flex cursor-pointer items-center gap-2 font-medium text-basics-dark-grey">
+    <DropdownMenuItem
+      className="flex cursor-pointer items-center gap-2 font-medium text-basics-dark-grey"
+      onClick={onClick}
+    >
       {children}
     </DropdownMenuItem>
   )
