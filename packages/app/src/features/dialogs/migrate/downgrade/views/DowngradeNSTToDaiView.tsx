@@ -6,9 +6,9 @@ import { DialogActionsPanel } from '@/features/dialogs/common/components/DialogA
 import { MultiPanelDialog } from '@/features/dialogs/common/components/MultiPanelDialog'
 import { PageStatus } from '@/features/dialogs/common/types'
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
-import { Banner } from '../../../common/components/Banner'
-import { Description } from '../../../common/components/Description'
-import { KeyPoints } from '../../../common/components/KeyPoints'
+import { Banner } from '../../common/components/Banner'
+import { Description } from '../../common/components/Description'
+import { KeyPoints } from '../../common/components/KeyPoints'
 
 interface DowngradeNSTToDaiViewProps {
   fromToken: Token

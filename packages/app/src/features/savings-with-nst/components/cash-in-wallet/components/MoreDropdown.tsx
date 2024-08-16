@@ -12,6 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/ui/atoms/dropdown/DropdownMenu'
+import { testIds } from '@/ui/utils/testIds'
 
 export interface MoreDropdownProps {
   token: Token
@@ -44,7 +45,13 @@ function DropdownWrapper({ children, disabled }: { children: React.ReactNode; di
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="secondary" size="sm" className="px-2" disabled={disabled}>
+        <Button
+          variant="secondary"
+          size="sm"
+          className="px-2"
+          disabled={disabled}
+          data-testid={testIds.savings.cashInWallet.moreDropdown}
+        >
           <MoreIcon />
         </Button>
       </DropdownMenuTrigger>
