@@ -13,7 +13,7 @@ test.describe('Send NST on Mainnet', () => {
   let sendDialog: SavingsDialogPageObject
   const receiver = randomAddress('bob')
   const amount = 7000
-  const dai = TOKENS_ON_FORK[NST_DEV_CHAIN_ID].NST
+  const nst = TOKENS_ON_FORK[NST_DEV_CHAIN_ID].NST
 
   test.beforeEach(async ({ page }) => {
     await setup(page, fork, {
@@ -68,7 +68,7 @@ test.describe('Send NST on Mainnet', () => {
     await sendDialog.expectReceiverTokenBalance({
       forkUrl: fork.forkUrl,
       receiver,
-      token: dai,
+      token: nst,
       expectedBalance: 0,
     })
 
@@ -78,7 +78,7 @@ test.describe('Send NST on Mainnet', () => {
     await sendDialog.expectReceiverTokenBalance({
       forkUrl: fork.forkUrl,
       receiver,
-      token: dai,
+      token: nst,
       expectedBalance: amount,
     })
 
