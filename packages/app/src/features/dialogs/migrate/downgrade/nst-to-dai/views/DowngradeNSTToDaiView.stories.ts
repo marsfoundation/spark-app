@@ -15,9 +15,9 @@ const meta: Meta<typeof DowngradeNSTToDaiView> = {
     apyDifference: Percentage(0.0025),
     objectives: [
       {
-        type: 'upgrade',
-        fromToken: tokens.DAI,
-        toToken: tokens.NST,
+        type: 'downgrade',
+        fromToken: tokens.NST,
+        toToken: tokens.DAI,
         amount: NormalizedUnitNumber(1),
       },
     ],

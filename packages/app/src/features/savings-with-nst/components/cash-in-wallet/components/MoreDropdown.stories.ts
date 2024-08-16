@@ -16,6 +16,7 @@ const meta: Meta<typeof MoreDropdown> = {
       NSTSymbol: tokens.NST.symbol,
       daiToNstUpgradeAvailable: true,
       openDaiToNstUpgradeDialog: () => {},
+      openNstToDaiDowngradeDialog: () => {},
     },
   },
   play: async ({ canvasElement }) => {

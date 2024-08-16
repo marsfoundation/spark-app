@@ -12,13 +12,13 @@ import { assert } from '@/utils/assert'
 import { useState } from 'react'
 import { createMigrateObjectives } from './createMigrateObjectives'
 
-export interface UseUpgradeDialogParams {
+export interface UseMigrateDialogParams {
   type: 'upgrade' | 'downgrade'
   fromToken: Token
   toToken: Token
 }
 
-export interface UseUpgradeDialogResult {
+export interface UseMigrateDialogResult {
   objectives: Objective[]
   pageStatus: PageStatus
   migrationAmount: NormalizedUnitNumber
@@ -26,7 +26,7 @@ export interface UseUpgradeDialogResult {
   apyDifference: Percentage
 }
 
-export function useMigrateDialog({ type, fromToken, toToken }: UseUpgradeDialogParams): UseUpgradeDialogResult {
+export function useMigrateDialog({ type, fromToken, toToken }: UseMigrateDialogParams): UseMigrateDialogResult {
   const [pageStatus, setPageStatus] = useState<PageState>('form')
   const { extraTokens } = useChainConfigEntry()
   const { tokensInfo } = useTokensInfo({ tokens: extraTokens })

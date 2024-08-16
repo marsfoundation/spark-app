@@ -43,11 +43,10 @@ export function DowngradeNSTToDaiView({
       <KeyPoints>
         <KeyPoints.Item variant="negative">
           <div>
-            <span className="text-basics-red">${formatPercentage(apyDifference)} lover APY</span> compared to savings
-            NST
+            <span className="text-basics-red">{formatPercentage(apyDifference)} lower APY</span> compared to savings NST
           </div>
         </KeyPoints.Item>
-        <KeyPoints.Item variant="negative">You cant use {fromToken.symbol} to farm other tokens</KeyPoints.Item>
+        <KeyPoints.Item variant="negative">You can't use {fromToken.symbol} to farm other tokens</KeyPoints.Item>
       </KeyPoints>
 
       <DialogActionsPanel

@@ -43,11 +43,11 @@ export function UpgradeDaiToNSTView({
       <KeyPoints>
         <KeyPoints.Item variant="positive">
           <div>
-            <span className="text-basics-green">${formatPercentage(apyDifference)} higher APY</span> compared to savings
+            <span className="text-basics-green">{formatPercentage(apyDifference)} higher APY</span> compared to savings
             DAI
           </div>
         </KeyPoints.Item>
-        <KeyPoints.Item variant="positive">Use NST to farm other tokens</KeyPoints.Item>
+        <KeyPoints.Item variant="positive">Use {toToken.symbol} to farm other tokens</KeyPoints.Item>
       </KeyPoints>
 
       <DialogActionsPanel
