@@ -1,3 +1,4 @@
+import { NST_DEV_CHAIN_ID } from '@/config/chain/constants'
 import {
   lendingPoolAddressProviderAddress,
   uiPoolDataProviderAbi,
@@ -9,6 +10,7 @@ import { bigNumberify } from '@/utils/bigNumber'
 import { Locator, Page } from '@playwright/test'
 import { http, Address, createPublicClient, erc20Abi, weiUnits } from 'viem'
 import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts'
+import { mainnet } from 'viem/chains'
 
 /**
  *  Helper function to take deterministic screenshots.
@@ -120,7 +122,8 @@ export async function calculateAssetsWorth(
   const publicClient = createPublicClient({
     transport: http(forkUrl),
   })
-  const chainId = await publicClient.getChainId()
+  const _chainId = await publicClient.getChainId()
+  const chainId = _chainId === NST_DEV_CHAIN_ID ? mainnet.id : _chainId
 
   const uiPoolDataProvider = uiPoolDataProviderAddress[chainId as keyof typeof uiPoolDataProviderAddress]
   const lendingPoolAddressProvider =

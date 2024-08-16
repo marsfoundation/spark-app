@@ -43,7 +43,7 @@ export function UpgradeDaiToNSTView({
       <KeyPoints>
         <KeyPoints.Item variant="positive">
           <div>
-            <span className="text-basics-green">{formatPercentage(apyDifference)} higher APY</span> compared to savings
+            <span className="text-basics-green">{formatPercentage(apyDifference)} higher APY</span> compared to Savings
             DAI
           </div>
         </KeyPoints.Item>
