@@ -1,7 +1,7 @@
 import { formatPercentage } from '@/domain/common/format'
 import { Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
-import { Objective } from '@/features/actions/logic/types'
+import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { DialogActionsPanel } from '@/features/dialogs/common/components/DialogActionsPanel'
 import { MultiPanelDialog } from '@/features/dialogs/common/components/MultiPanelDialog'
 import { PageStatus } from '@/features/dialogs/common/types'
@@ -16,6 +16,7 @@ interface UpgradeDaiToNSTViewProps {
   apyDifference: Percentage
   objectives: Objective[]
   pageStatus: PageStatus
+  actionsContext: InjectedActionsContext
 }
 
 export function UpgradeDaiToNSTView({
@@ -24,6 +25,7 @@ export function UpgradeDaiToNSTView({
   objectives,
   pageStatus,
   apyDifference,
+  actionsContext,
 }: UpgradeDaiToNSTViewProps) {
   return (
     <MultiPanelDialog>
@@ -54,6 +56,7 @@ export function UpgradeDaiToNSTView({
         objectives={objectives}
         onFinish={pageStatus.goToSuccessScreen}
         enabled={pageStatus.actionsEnabled}
+        context={actionsContext}
       />
     </MultiPanelDialog>
   )

@@ -6,7 +6,7 @@ import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
-import { Objective } from '@/features/actions/logic/types'
+import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { PageState, PageStatus } from '@/features/dialogs/common/types'
 import { assert } from '@/utils/assert'
 import { useState } from 'react'
@@ -24,6 +24,7 @@ export interface UseMigrateDialogResult {
   migrationAmount: NormalizedUnitNumber
   tokensInfo: TokensInfo
   apyDifference: Percentage
+  actionsContext: InjectedActionsContext
 }
 
 export function useMigrateDialog({ type, fromToken, toToken }: UseMigrateDialogParams): UseMigrateDialogResult {
@@ -48,6 +49,9 @@ export function useMigrateDialog({ type, fromToken, toToken }: UseMigrateDialogP
     migrationAmount: fromTokenBalance,
     apyDifference,
     tokensInfo,
+    actionsContext: {
+      tokensInfo,
+    },
     pageStatus: {
       actionsEnabled: true,
       state: pageStatus,
