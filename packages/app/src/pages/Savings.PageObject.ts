@@ -20,6 +20,10 @@ export class SavingsPageObject extends BasePageObject {
   locateCashInWalletPanel(): Locator {
     return this.locatePanelByHeader('Cash in wallet')
   }
+
+  locateUpgradeDaiToNstButton(): Locator {
+    return this.page.getByTestId(testIds.savings.cashInWallet.upgradeDaiToNst)
+  }
   // #endregion
 
   // #region actions
@@ -47,6 +51,10 @@ export class SavingsPageObject extends BasePageObject {
 
   async clickSendSNstButtonAction(): Promise<void> {
     await this.locateSavingsNSTPanel().getByRole('button', { name: 'Send' }).click()
+  }
+
+  async clickUpgradeDaiToNstButtonAction(): Promise<void> {
+    await this.locateUpgradeDaiToNstButton().click()
   }
   // #endregion
 
@@ -113,6 +121,10 @@ export class SavingsPageObject extends BasePageObject {
     const panel = this.locateCashInWalletPanel()
     const row = panel.getByRole('row').filter({ has: this.page.getByRole('cell', { name: assetName, exact: true }) })
     await expect(row.getByRole('cell', { name: value })).toBeVisible()
+  }
+
+  expectUpgradeDaiToNstButtonToBeHidden(): Promise<void> {
+    return expect(this.locateUpgradeDaiToNstButton()).toBeHidden()
   }
   // #endregion
 }

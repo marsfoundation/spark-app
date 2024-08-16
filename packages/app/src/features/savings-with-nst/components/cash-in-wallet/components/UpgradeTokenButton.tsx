@@ -4,6 +4,7 @@ import UpgradeIcon from '@/ui/assets/upgrade.svg?react'
 import { Button } from '@/ui/atoms/button/Button'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 import { cn } from '@/ui/utils/style'
+import { testIds } from '@/ui/utils/testIds'
 
 export interface UpgradeTokenButtonProps {
   token: Token
@@ -28,6 +29,7 @@ export function UpgradeTokenButton({ token, upgradedTokenSymbol, onUpgradeClick 
           size="sm"
           className="group h-7 w-7 overflow-hidden px-1 transition-all duration-300 sm:h-8 sm:hover:w-[135px] sm:w-8 sm:justify-start sm:px-2"
           onClick={onUpgradeClick}
+          data-testid={testIds.savings.cashInWallet.upgradeDaiToNst}
         >
           <div className="flex items-center gap-2">
             <UpgradeIcon className="h-[14px] w-[14px]" />

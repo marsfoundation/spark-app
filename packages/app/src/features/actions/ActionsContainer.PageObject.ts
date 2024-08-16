@@ -148,7 +148,7 @@ type SimplifiedWithdrawFromSavingsAction = BaseAction & {
   mode: 'send' | 'withdraw'
 }
 
-type SimplifiedUpgradeAction = BaseAction & {
+type SimplifiedUpgradeAction = {
   type: 'upgrade'
   fromToken: string
   toToken: string
@@ -230,6 +230,8 @@ const actionVerbs = [
   'Disable',
   'Convert',
   'Claim',
+  'Upgrade',
+  'Downgrade',
 ]
 const actionButtonRegex = new RegExp(`^(${actionVerbs.join('|')})$`)
 
