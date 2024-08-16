@@ -8,9 +8,10 @@ import { cn } from '@/ui/utils/style'
 export interface UpgradeTokenButtonProps {
   token: Token
   upgradedTokenSymbol: TokenSymbol
+  onUpgradeClick: () => void
 }
 
-export function UpgradeTokenButton({ token, upgradedTokenSymbol }: UpgradeTokenButtonProps) {
+export function UpgradeTokenButton({ token, upgradedTokenSymbol, onUpgradeClick }: UpgradeTokenButtonProps) {
   return (
     <div
       className={cn(
@@ -26,6 +27,7 @@ export function UpgradeTokenButton({ token, upgradedTokenSymbol }: UpgradeTokenB
         <Button
           size="sm"
           className="group h-7 w-7 overflow-hidden px-1 transition-all duration-300 sm:h-8 sm:hover:w-[135px] sm:w-8 sm:justify-start sm:px-2"
+          onClick={onUpgradeClick}
         >
           <div className="flex items-center gap-2">
             <UpgradeIcon className="h-[14px] w-[14px]" />
