@@ -11,6 +11,7 @@ import { BorrowAction, BorrowObjective } from '../flavours/borrow/types'
 import { ClaimRewardsAction, ClaimRewardsObjective } from '../flavours/claim-rewards/types'
 import { DepositToSavingsAction, DepositToSavingsObjective } from '../flavours/deposit-to-savings/types'
 import { DepositAction, DepositObjective } from '../flavours/deposit/types'
+import { DowngradeAction, DowngradeObjective } from '../flavours/downgrade/types'
 import { PermitAction } from '../flavours/permit/types'
 import { RepayAction, RepayObjective } from '../flavours/repay/types'
 import { SetUseAsCollateralAction, SetUseAsCollateralObjective } from '../flavours/set-use-as-collateral/types'
@@ -35,6 +36,7 @@ export type Objective =
   | WithdrawFromSavingsObjective
   | DepositToSavingsObjective
   | UpgradeObjective
+  | DowngradeObjective
 export type ObjectiveType = Objective['type']
 
 export type Action =
@@ -51,6 +53,7 @@ export type Action =
   | WithdrawFromSavingsAction
   | DepositToSavingsAction
   | UpgradeAction
+  | DowngradeAction
 export type ActionType = Action['type']
 
 export type ActionHandlerState =

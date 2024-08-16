@@ -5,6 +5,7 @@ import { BorrowActionRow } from '../../flavours/borrow/BorrowActionRow'
 import { ClaimRewardsActionRow } from '../../flavours/claim-rewards/ClaimRewardsActionRow'
 import { DepositToSavingsActionRow } from '../../flavours/deposit-to-savings/DepositToSavingsActionRow'
 import { DepositActionRow } from '../../flavours/deposit/DepositActionRow'
+import { DowngradeActionRow } from '../../flavours/downgrade/DowngradeActionRow'
 import { PermitActionRow } from '../../flavours/permit/PermitActionRow'
 import { RepayActionRow } from '../../flavours/repay/RepayActionRow'
 import { SetUseAsCollateralActionRow } from '../../flavours/set-use-as-collateral/SetUseAsCollateralActionRow'
@@ -59,6 +60,8 @@ export function ActionsGrid({ actionHandlers, variant }: ActionsGridProps) {
             return <DepositToSavingsActionRow action={handler.action} {...props} />
           case 'upgrade':
             return <UpgradeActionRow action={handler.action} {...props} />
+          case 'downgrade':
+            return <DowngradeActionRow action={handler.action} {...props} />
           default:
             assertNever(handler.action)
         }

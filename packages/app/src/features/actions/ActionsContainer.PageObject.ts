@@ -154,8 +154,17 @@ type SimplifiedUpgradeAction = BaseAction & {
   toToken: string
 }
 
+type SimplifiedDowngradeAction = BaseAction & {
+  type: 'downgrade'
+  fromToken: string
+  toToken: string
+}
+
 type SimplifiedGenericAction = BaseAction & {
-  type: Exclude<ActionType, 'exchange' | 'depositToSavings' | 'withdrawFromSavings' | 'setUserEMode' | 'upgrade'>
+  type: Exclude<
+    ActionType,
+    'exchange' | 'depositToSavings' | 'withdrawFromSavings' | 'setUserEMode' | 'upgrade' | 'downgrade'
+  >
 }
 
 type SimplifiedSetUserEModeAction = {
@@ -174,6 +183,7 @@ type SimplifiedAction =
   | SimplifiedMakerStableToSavingsAction
   | SimplifiedSetUserEModeAction
   | SimplifiedUpgradeAction
+  | SimplifiedDowngradeAction
 
 function actionToTitle(action: SimplifiedAction): string {
   switch (action.type) {
@@ -203,6 +213,8 @@ function actionToTitle(action: SimplifiedAction): string {
       return 'Claim'
     case 'upgrade':
       return `Upgrade ${action.fromToken} to ${action.toToken}`
+    case 'downgrade':
+      return `Downgrade ${action.fromToken} to ${action.toToken}`
   }
 }
 

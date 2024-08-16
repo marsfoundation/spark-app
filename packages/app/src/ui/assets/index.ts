@@ -6,7 +6,6 @@ import deposit from './actions/deposit.svg'
 import done from './actions/done.svg'
 import exchange from './actions/exchange.svg'
 import repay from './actions/repay.svg'
-import upgrade from './actions/upgrade.svg'
 import withdraw from './actions/withdraw.svg'
 import arrowRight from './arrow-right.svg'
 import arrowUpRight from './arrow-up-right.svg'
@@ -64,6 +63,7 @@ import wsteth from './tokens/wsteth.svg'
 import wxdai from './tokens/wxdai.svg'
 import xdai from './tokens/xdai.svg'
 import up from './up.svg'
+import upgrade from './upgrade.svg'
 import coinbase from './wallet-icons/coinbase.svg'
 import defaultWallet from './wallet-icons/default.svg'
 import enjin from './wallet-icons/enjin.svg'
@@ -116,6 +116,7 @@ export const assets = {
   },
   actions: {
     upgrade,
+    downgrade,
     approve,
     done,
     borrow,
