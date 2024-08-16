@@ -6,9 +6,9 @@ import { DialogActionsPanel } from '@/features/dialogs/common/components/DialogA
 import { MultiPanelDialog } from '@/features/dialogs/common/components/MultiPanelDialog'
 import { PageStatus } from '@/features/dialogs/common/types'
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
-import { Banner } from '../../common/components/Banner'
-import { Benefits } from '../../common/components/Benefits'
-import { Summary } from '../../common/components/Summary'
+import { Banner } from '../../../common/components/Banner'
+import { KeyPoints } from '../../../common/components/KeyPoints'
+import { Summary } from '../../../common/components/Summary'
 
 interface UpgradeDaiToNSTViewProps {
   fromToken: Token
@@ -33,15 +33,15 @@ export function UpgradeDaiToNSTView({ fromToken, toToken, objectives, pageStatus
         optional, and you can continue using DAI if you prefer, upgrading to NST offers the following advantages:
       </Summary>
 
-      <Benefits>
-        <Benefits.Item>
+      <KeyPoints>
+        <KeyPoints.Item variant="positive">
           <div>
             Access sNST and earn an{' '}
             <span className="font-semibold text-basics-green">${formatPercentage(sNstAPY)}</span> APY on your NST
           </div>
-        </Benefits.Item>
-        <Benefits.Item>Use NST to farm other tokens</Benefits.Item>
-      </Benefits>
+        </KeyPoints.Item>
+        <KeyPoints.Item variant="positive">Use NST to farm other tokens</KeyPoints.Item>
+      </KeyPoints>
 
       <DialogActionsPanel
         objectives={objectives}

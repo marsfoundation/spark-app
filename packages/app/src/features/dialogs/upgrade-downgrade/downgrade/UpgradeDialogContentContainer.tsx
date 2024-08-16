@@ -1,10 +1,10 @@
 import { Token } from '@/domain/types/Token'
 import { withSuspense } from '@/ui/utils/withSuspense'
 import { raise } from '@/utils/assert'
-import { DialogContentSkeleton } from '../common/components/skeletons/DialogContentSkeleton'
-import { SuccessView } from '../common/views/SuccessView'
-import { useUpgradeDialog } from './common/logic/useUpgradeDialog'
-import { UpgradeDaiToNSTView } from './dai-to-nst/views/UpgradeDaiToNSTView'
+import { DialogContentSkeleton } from '../../common/components/skeletons/DialogContentSkeleton'
+import { SuccessView } from '../../common/views/SuccessView'
+import { useUpgradeDialog } from '../common/logic/useUpgradeDialog'
+import { DowngradeNSTToDaiView } from './nst-to-dai/views/DowngradeNSTToDaiView'
 
 interface UpgradeDialogContentContainerProps {
   fromToken: Token
@@ -31,7 +31,7 @@ function UpgradeDialogContentContainer({ fromToken, toToken, closeDialog }: Upgr
 
   if (fromToken.symbol === tokensInfo.DAI?.symbol && toToken.symbol === tokensInfo.NST?.symbol) {
     return (
-      <UpgradeDaiToNSTView
+      <DowngradeNSTToDaiView
         fromToken={fromToken}
         toToken={toToken}
         pageStatus={pageStatus}
