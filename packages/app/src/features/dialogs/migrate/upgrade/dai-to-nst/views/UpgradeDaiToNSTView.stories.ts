@@ -6,13 +6,13 @@ import { getMobileStory } from '@storybook/viewports'
 import { UpgradeDaiToNSTView } from './UpgradeDaiToNSTView'
 
 const meta: Meta<typeof UpgradeDaiToNSTView> = {
-  title: 'Features/Dialogs/Views/Upgrade/DaiToNST',
+  title: 'Features/Dialogs/Views/Migrate/Upgrade/DaiToNST',
   decorators: [ZeroAllowanceWagmiDecorator(), WithClassname('max-w-xl'), WithTooltipProvider()],
   component: UpgradeDaiToNSTView,
   args: {
     fromToken: tokens.DAI,
     toToken: tokens.NST,
-    sNstAPY: Percentage(0.05),
+    apyDifference: Percentage(0.0025),
     objectives: [
       {
         type: 'upgrade',

@@ -34,6 +34,7 @@ export const Desktop: Story = {
       NSTSymbol: tokens.NST.symbol,
       daiToNstUpgradeAvailable: true,
       openDaiToNstUpgradeDialog: () => {},
+      openNstToDaiDowngradeDialog: () => {},
     },
     openDialog: () => {},
   },

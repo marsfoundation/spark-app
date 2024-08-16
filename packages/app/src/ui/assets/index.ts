@@ -16,6 +16,7 @@ import gnosis from './chains/gnosis.svg'
 import checkCircle from './check-circle.svg'
 import chevronDown from './chevron-down.svg'
 import circleInfo from './circle-info.svg'
+import closeFilled from './close-filled.svg'
 import close from './close.svg'
 import down from './down.svg'
 import downgrade from './downgrade.svg'
@@ -104,6 +105,7 @@ export const assets = {
   eye,
   menu,
   close,
+  closeFilled,
   makerLogo,
   giftbox,
   rocket,
