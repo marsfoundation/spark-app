@@ -4,7 +4,7 @@ import { raise } from '@/utils/assert'
 import { DialogContentSkeleton } from '../../common/components/skeletons/DialogContentSkeleton'
 import { SuccessView } from '../../common/views/SuccessView'
 import { useMigrateDialog } from '../common/logic/useMigrateDialog'
-import { UpgradeDaiToNSTView } from './dai-to-nst/views/UpgradeDaiToNSTView'
+import { UpgradeDaiToNSTView } from './views/UpgradeDaiToNSTView'
 
 interface UpgradeDialogContentContainerProps {
   fromToken: Token

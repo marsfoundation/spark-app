@@ -24,6 +24,12 @@ export class SavingsPageObject extends BasePageObject {
   locateUpgradeDaiToNstButton(): Locator {
     return this.page.getByTestId(testIds.savings.cashInWallet.upgradeDaiToNst)
   }
+
+  locateNstMoreDropdown(): Locator {
+    const panel = this.locateCashInWalletPanel()
+    const nstRow = panel.getByRole('row').filter({ has: this.page.getByRole('cell', { name: 'NST', exact: true }) })
+    return nstRow.getByTestId(testIds.savings.cashInWallet.moreDropdown)
+  }
   // #endregion
 
   // #region actions
@@ -55,6 +61,11 @@ export class SavingsPageObject extends BasePageObject {
 
   async clickUpgradeDaiToNstButtonAction(): Promise<void> {
     await this.locateUpgradeDaiToNstButton().click()
+  }
+
+  async clickDowngradeNstToDaiOption(): Promise<void> {
+    await this.locateNstMoreDropdown().click()
+    await this.page.getByRole('menuitem', { name: 'Downgrade to DAI' }).click()
   }
   // #endregion
 
@@ -125,6 +136,18 @@ export class SavingsPageObject extends BasePageObject {
 
   expectUpgradeDaiToNstButtonToBeHidden(): Promise<void> {
     return expect(this.locateUpgradeDaiToNstButton()).toBeHidden()
+  }
+
+  expectNstMoreDropdownToBeDisabled(): Promise<void> {
+    return expect(this.locateNstMoreDropdown()).toBeDisabled()
+  }
+
+  async expectUpgradableDaiBalance(value: string): Promise<void> {
+    const panel = this.locateCashInWalletPanel()
+    const row = panel
+      .getByRole('row')
+      .filter({ has: this.page.getByTestId(testIds.savings.cashInWallet.upgradeDaiToNst) })
+    await expect(row.getByRole('cell', { name: value })).toBeVisible()
   }
   // #endregion
 }

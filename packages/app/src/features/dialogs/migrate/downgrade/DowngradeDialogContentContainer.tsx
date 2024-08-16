@@ -4,7 +4,7 @@ import { raise } from '@/utils/assert'
 import { DialogContentSkeleton } from '../../common/components/skeletons/DialogContentSkeleton'
 import { SuccessView } from '../../common/views/SuccessView'
 import { useMigrateDialog } from '../common/logic/useMigrateDialog'
-import { DowngradeNSTToDaiView } from './nst-to-dai/views/DowngradeNSTToDaiView'
+import { DowngradeNSTToDaiView } from './views/DowngradeNSTToDaiView'
 
 interface DowngradeDialogContentContainerProps {
   fromToken: Token

@@ -154,7 +154,7 @@ type SimplifiedUpgradeAction = {
   toToken: string
 }
 
-type SimplifiedDowngradeAction = BaseAction & {
+type SimplifiedDowngradeAction = {
   type: 'downgrade'
   fromToken: string
   toToken: string

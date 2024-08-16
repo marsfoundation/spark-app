@@ -3,8 +3,7 @@ import { SavingsPageObject } from '@/pages/Savings.PageObject'
 import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
-import { DialogPageObject } from '../../common/Dialog.PageObject'
-import { UpgradeDialogPageObject } from './UpgradeDialog.PageObject'
+import { UpgradeDialogPageObject } from '../UpgradeDialog.PageObject'
 
 test.describe('Upgrade DAI to NST', () => {
   const fork = setupFork({ chainId: NST_DEV_CHAIN_ID, simulationDateOverride: new Date('2024-08-05T10:43:19Z') })
@@ -40,7 +39,7 @@ test.describe('Upgrade DAI to NST', () => {
 
     await savingsPage.clickUpgradeDaiToNstButtonAction()
 
-    const upgradeDialog = new DialogPageObject(page, /Upgrade/)
+    const upgradeDialog = new UpgradeDialogPageObject(page)
 
     await upgradeDialog.actionsContainer.expectEnabledActionAtIndex(0)
     await upgradeDialog.actionsContainer.expectActions([
