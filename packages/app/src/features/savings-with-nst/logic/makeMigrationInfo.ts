@@ -45,7 +45,7 @@ export function makeMigrationInfo({
       openDialog(UpgradeDialog, { fromToken: DAI, toToken: NST })
     },
     openNstToDaiDowngradeDialog: () => {
-      openDialog(DowngradeDialog, { fromToken: DAI, toToken: DAI })
+      openDialog(DowngradeDialog, { fromToken: NST, toToken: DAI })
     },
     openSDaiToSNstUpgradeDialog: () => {
       openDialog(UpgradeDialog, { fromToken: sDAI, toToken: sNST })

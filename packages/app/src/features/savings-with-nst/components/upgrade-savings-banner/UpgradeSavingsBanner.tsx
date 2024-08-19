@@ -23,7 +23,7 @@ export function UpgradeSavingsBanner({ onUpgradeSavingsClick }: UpgradeSavingsBa
         </div>
       </div>
       <div className="flex w-full flex-col gap-4 md:flex-row md:justify-between md:gap-2">
-        <div className="grid grid-cols-[auto_auto] gap-2">
+        <div className="grid grid-cols-[auto_1fr] gap-2">
           <Benefit>
             <span className="text-product-green">0.25% higher APY</span> compared to Savings DAI
           </Benefit>
