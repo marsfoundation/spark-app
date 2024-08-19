@@ -72,3 +72,70 @@ test.describe('Withdraw NST on NST DevNet', () => {
     await savingsPage.expectCashInWalletAssetBalance('NST', '1,000')
   })
 })
+
+test.describe('Withdraw NST from sDAI', () => {
+  const fork = setupFork({ chainId: NST_DEV_CHAIN_ID, simulationDateOverride: new Date('2024-08-05T10:43:19Z') })
+  let savingsPage: SavingsPageObject
+  let withdrawDialog: SavingsDialogPageObject
+
+  test.beforeEach(async ({ page }) => {
+    await setup(page, fork, {
+      initialPage: 'savings',
+      account: {
+        type: 'connected-random',
+        assetBalances: {
+          ETH: 1,
+          sDAI: 10_000,
+        },
+      },
+    })
+
+    savingsPage = new SavingsPageObject(page)
+
+    await savingsPage.clickWithdrawSDaiButtonAction()
+    withdrawDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
+    await withdrawDialog.selectAssetAction('NST')
+    await withdrawDialog.fillAmountAction(1000)
+  })
+
+  test('uses migrate sDAI to NST action', async () => {
+    await withdrawDialog.actionsContainer.expectActions([
+      { type: 'approve', asset: 'sDAI' },
+      { type: 'withdrawFromSavings', asset: 'NST', savingsAsset: 'sDAI', mode: 'withdraw' },
+    ])
+  })
+
+  test('displays transaction overview', async () => {
+    await withdrawDialog.expectNativeRouteTransactionOverview({
+      routeItems: [
+        {
+          tokenAmount: '904.48 sDAI',
+          tokenUsdValue: '$1,000.00',
+        },
+        {
+          tokenAmount: '1,000.00 DAI',
+          tokenUsdValue: '$1,000.00',
+        },
+        {
+          tokenAmount: '1,000.00 NST',
+          tokenUsdValue: '$1,000.00',
+        },
+      ],
+      outcome: '1,000.00 NST worth $1,000.00',
+      badgeToken: 'NST',
+    })
+
+    await withdrawDialog.expectUpgradeSwitchToBeHidden()
+  })
+
+  test('executes withdraw', async () => {
+    const actionsContainer = new ActionsPageObject(withdrawDialog.locatePanelByHeader('Actions'))
+    await actionsContainer.acceptAllActionsAction(2, fork)
+
+    await withdrawDialog.expectSuccessPage()
+    await withdrawDialog.clickBackToSavingsButton()
+
+    await savingsPage.expectSavingsDAIBalance({ sDaiBalance: '9,095.52 sDAI', estimatedDaiValue: '10,056.03' })
+    await savingsPage.expectCashInWalletAssetBalance('NST', '1,000')
+  })
+})
