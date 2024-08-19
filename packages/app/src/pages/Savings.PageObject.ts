@@ -9,11 +9,15 @@ export class SavingsPageObject extends BasePageObject {
     return this.locatePanelByHeader('Savings opportunity')
   }
 
-  locateSavingsDAIPanel(): Locator {
+  locateSavingsDaiPanel(): Locator {
     return this.locatePanelByHeader('Savings DAI')
   }
 
-  locateSavingsNSTPanel(): Locator {
+  locateUpgradeSDaiBanner(): Locator {
+    return this.page.getByTestId(testIds.savings.upgradeSDaiBanner)
+  }
+
+  locateSavingsNstPanel(): Locator {
     return this.locatePanelByHeader('Savings NST')
   }
 
@@ -44,19 +48,23 @@ export class SavingsPageObject extends BasePageObject {
   }
 
   async clickWithdrawSDaiButtonAction(): Promise<void> {
-    await this.locateSavingsDAIPanel().getByRole('button', { name: 'Withdraw' }).click()
+    await this.locateSavingsDaiPanel().getByRole('button', { name: 'Withdraw' }).click()
   }
 
   async clickSendSDaiButtonAction(): Promise<void> {
-    await this.locateSavingsDAIPanel().getByRole('button', { name: 'Send' }).click()
+    await this.locateSavingsDaiPanel().getByRole('button', { name: 'Send' }).click()
   }
 
   async clickWithdrawSNstButtonAction(): Promise<void> {
-    await this.locateSavingsNSTPanel().getByRole('button', { name: 'Withdraw' }).click()
+    await this.locateSavingsNstPanel().getByRole('button', { name: 'Withdraw' }).click()
   }
 
   async clickSendSNstButtonAction(): Promise<void> {
-    await this.locateSavingsNSTPanel().getByRole('button', { name: 'Send' }).click()
+    await this.locateSavingsNstPanel().getByRole('button', { name: 'Send' }).click()
+  }
+
+  async clickUpgradeSDaiButtonAction(): Promise<void> {
+    await this.locateUpgradeSDaiBanner().getByRole('button', { name: 'Upgrade now' }).click()
   }
 
   async clickUpgradeDaiToNstButtonAction(): Promise<void> {
@@ -117,7 +125,7 @@ export class SavingsPageObject extends BasePageObject {
   async expectCurrentProjection(value: string, type: '30-day' | '1-year'): Promise<void> {
     const title = type === '30-day' ? '30-day projection' : '1-year projection'
     await expect(
-      this.locateSavingsDAIPanel().getByRole('generic').filter({ hasText: title }).getByText(value),
+      this.locateSavingsDaiPanel().getByRole('generic').filter({ hasText: title }).getByText(value),
     ).toBeVisible()
   }
 
@@ -136,6 +144,10 @@ export class SavingsPageObject extends BasePageObject {
 
   expectUpgradeDaiToNstButtonToBeHidden(): Promise<void> {
     return expect(this.locateUpgradeDaiToNstButton()).toBeHidden()
+  }
+
+  expectUpgradeSDaiBannerToBeHidden(): Promise<void> {
+    return expect(this.locateUpgradeSDaiBanner()).toBeHidden()
   }
 
   expectNstMoreDropdownToBeDisabled(): Promise<void> {
