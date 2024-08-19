@@ -1,10 +1,10 @@
 import { assets } from '@/ui/assets'
 import { ReactNode } from 'react'
 
-export interface BenefitsProps {
-  children: ReactNode[]
+export interface KeyPointsProps {
+  children: ReactNode
 }
-export function KeyPoints({ children }: BenefitsProps) {
+export function KeyPoints({ children }: KeyPointsProps) {
   return <ul className="flex flex-col gap-2.5">{children}</ul>
 }
 

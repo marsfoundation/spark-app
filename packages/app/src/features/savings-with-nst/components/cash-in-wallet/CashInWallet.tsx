@@ -6,22 +6,22 @@ import { SavingsDepositDialog } from '@/features/dialogs/savings/deposit/Savings
 import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { DataTable, DataTableProps } from '@/ui/molecules/data-table/DataTable'
-import { UpgradeInfo } from '../../logic/useSavings'
+import { MigrationInfo } from '../../logic/makeMigrationInfo'
 import { MoreDropdown } from './components/MoreDropdown'
 import { TokenCell } from './components/TokenCell'
 
 export interface CashInWalletProps {
   assets: TokenWithBalance[]
   openDialog: OpenDialogFunction
-  upgradeInfo?: UpgradeInfo
+  migrationInfo?: MigrationInfo
 }
 
-export function CashInWallet({ assets, openDialog, upgradeInfo }: CashInWalletProps) {
+export function CashInWallet({ assets, openDialog, migrationInfo }: CashInWalletProps) {
   const columnDef: DataTableProps<TokenWithBalance>['columnDef'] = useMemo(
     () => ({
       token: {
         header: 'Token',
-        renderCell: ({ token }) => <TokenCell token={token} upgradeInfo={upgradeInfo} />,
+        renderCell: ({ token }) => <TokenCell token={token} migrationInfo={migrationInfo} />,
       },
       balance: {
         header: 'Balance',
@@ -47,13 +47,13 @@ export function CashInWallet({ assets, openDialog, upgradeInfo }: CashInWalletPr
               >
                 Deposit
               </Button>
-              <MoreDropdown token={token} upgradeInfo={upgradeInfo} disabled={balance.eq(0)} />
+              <MoreDropdown token={token} migrationInfo={migrationInfo} disabled={balance.eq(0)} />
             </div>
           )
         },
       },
     }),
-    [openDialog, upgradeInfo],
+    [openDialog, migrationInfo],
   )
 
   return (

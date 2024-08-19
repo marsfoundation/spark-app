@@ -4,11 +4,12 @@ import { SavingsOpportunity } from '../../savings/components/savings-opportunity
 import { SavingsOpportunityNoCash } from '../../savings/components/savings-opportunity/SavingsOpportunityNoCash'
 import { CashInWallet } from '../components/cash-in-wallet/CashInWallet'
 import { SavingsTokenPanel } from '../components/savings-token-panel/SavingsTokenPanel'
+import { UpgradeSavingsBanner } from '../components/upgrade-savings-banner/UpgradeSavingsBanner'
 import { SavingsViewContentProps } from './types'
 
 export function SavingsDaiView({
   savingsTokenDetails,
-  upgradeInfo,
+  migrationInfo,
   chainId,
   assetsInWallet,
   maxBalanceToken,
@@ -23,6 +24,9 @@ export function SavingsDaiView({
   return (
     <PageLayout>
       <PageHeader />
+      {displaySavingsDai && migrationInfo && (
+        <UpgradeSavingsBanner onUpgradeSavingsClick={migrationInfo.openSDaiToSNstUpgradeDialog} />
+      )}
       <div className="flex flex-col gap-6 sm:flex-row">
         {displaySavingsDai && (
           <SavingsTokenPanel variant="dai" chainId={chainId} openDialog={openDialog} {...savingsTokenDetails} />
@@ -39,7 +43,7 @@ export function SavingsDaiView({
         )}
         {displaySavingsNoCash && <SavingsOpportunityNoCash APY={savingsTokenDetails.APY} chainId={chainId} />}
       </div>
-      <CashInWallet assets={assetsInWallet} openDialog={openDialog} upgradeInfo={upgradeInfo} />
+      <CashInWallet assets={assetsInWallet} openDialog={openDialog} migrationInfo={migrationInfo} />
     </PageLayout>
   )
 }

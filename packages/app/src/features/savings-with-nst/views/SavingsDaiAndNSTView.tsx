@@ -4,6 +4,7 @@ import { SavingsOpportunity } from '../../savings/components/savings-opportunity
 import { SavingsOpportunityNoCash } from '../../savings/components/savings-opportunity/SavingsOpportunityNoCash'
 import { CashInWallet } from '../components/cash-in-wallet/CashInWallet'
 import { SavingsTokenPanel } from '../components/savings-token-panel/SavingsTokenPanel'
+import { UpgradeSavingsBanner } from '../components/upgrade-savings-banner/UpgradeSavingsBanner'
 import { SavingsTokenDetails } from '../logic/useSavings'
 import { SavingsViewContentProps } from './types'
 
@@ -15,7 +16,7 @@ export interface SavingsDaiAndNSTViewProps extends Omit<SavingsViewContentProps,
 export function SavingsDaiAndNSTView({
   sDaiDetails,
   sNSTDetails,
-  upgradeInfo,
+  migrationInfo,
   opportunityProjections,
   chainId,
   assetsInWallet,
@@ -32,6 +33,9 @@ export function SavingsDaiAndNSTView({
   return (
     <PageLayout>
       <PageHeader />
+      {displaySavingsDai && migrationInfo && (
+        <UpgradeSavingsBanner onUpgradeSavingsClick={migrationInfo.openSDaiToSNstUpgradeDialog} />
+      )}
       <div className="flex flex-col gap-6 sm:flex-row">
         {displaySavingsDai && (
           <SavingsTokenPanel variant="dai" chainId={chainId} openDialog={openDialog} {...sDaiDetails} />
@@ -51,7 +55,7 @@ export function SavingsDaiAndNSTView({
         )}
         {displaySavingsNoCash && <SavingsOpportunityNoCash APY={sDaiDetails.APY} chainId={chainId} />}
       </div>
-      <CashInWallet assets={assetsInWallet} openDialog={openDialog} upgradeInfo={upgradeInfo} />
+      <CashInWallet assets={assetsInWallet} openDialog={openDialog} migrationInfo={migrationInfo} />
     </PageLayout>
   )
 }

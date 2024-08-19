@@ -7,16 +7,14 @@ import { calculateMaxBalanceTokenAndTotal } from '@/domain/savings/calculateMaxB
 import { useSavingsTokens } from '@/domain/savings/useSavingsTokens'
 import { OpenDialogFunction, useOpenDialog } from '@/domain/state/dialogs'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
-import { DowngradeDialog } from '@/features/dialogs/migrate/downgrade/DowngradeDialog'
-import { UpgradeDialog } from '@/features/dialogs/migrate/upgrade/UpgradeDialog'
 import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
 import { Projections } from '@/features/savings/types'
-import { assert, raise } from '@/utils/assert'
+import { raise } from '@/utils/assert'
 import { useTimestamp } from '@/utils/useTimestamp'
 import { useMemo } from 'react'
 import { useAccount } from 'wagmi'
+import { MigrationInfo, makeMigrationInfo } from './makeMigrationInfo'
 import { makeSavingsTokenDetails } from './makeSavingsTokenDetails'
 
 const stepInMs = 50
@@ -27,14 +25,6 @@ export interface SavingsTokenDetails {
   currentProjections: Projections
   depositedUSD: NormalizedUnitNumber
   depositedUSDPrecision: number
-}
-
-export interface UpgradeInfo {
-  daiSymbol: TokenSymbol
-  NSTSymbol: TokenSymbol
-  daiToNstUpgradeAvailable: boolean
-  openDaiToNstUpgradeDialog: () => void
-  openNstToDaiDowngradeDialog: () => void
 }
 
 export interface UseSavingsResults {
@@ -49,7 +39,7 @@ export interface UseSavingsResults {
         maxBalanceToken: TokenWithBalance
         chainId: SupportedChainId
         opportunityProjections: Projections
-        upgradeInfo?: UpgradeInfo
+        migrationInfo?: MigrationInfo
         sDaiDetails?: SavingsTokenDetails
         sNSTDetails?: SavingsTokenDetails
       }
@@ -90,26 +80,16 @@ export function useSavings(): UseSavingsResults {
   })
 
   // biome-ignore lint/correctness/useExhaustiveDependencies:
-  const upgradeInfo = useMemo(() => {
-    if (!savingsNstInfo) {
-      return undefined
-    }
-    const dai = tokensInfo.DAI
-    const nst = tokensInfo.NST
-    assert(dai && nst, 'DAI and NST tokens should be defined for upgrade')
-
-    return {
-      daiSymbol: dai.symbol,
-      NSTSymbol: nst.symbol,
-      daiToNstUpgradeAvailable: tokensInfo.findOneBalanceBySymbol(dai.symbol).gt(0),
-      openDaiToNstUpgradeDialog: () => {
-        openDialog(UpgradeDialog, { fromToken: dai, toToken: nst })
-      },
-      openNstToDaiDowngradeDialog: () => {
-        openDialog(DowngradeDialog, { fromToken: nst, toToken: dai })
-      },
-    }
-  }, [!sNSTDetails, tokensInfo.DAI, tokensInfo.NST])
+  const migrationInfo = useMemo(
+    () =>
+      makeMigrationInfo({
+        savingsNstInfo,
+        savingsDaiInfo,
+        tokensInfo,
+        openDialog,
+      }),
+    [!savingsDaiInfo, !savingsNstInfo, tokensInfo.DAI, tokensInfo.NST, openDialog],
+  )
 
   function openSandboxModal(): void {
     openDialog(SandboxDialog, { mode: 'ephemeral' } as const)
@@ -142,7 +122,7 @@ export function useSavings(): UseSavingsResults {
       opportunityProjections,
       sDaiDetails,
       sNSTDetails,
-      upgradeInfo,
+      migrationInfo,
     },
   }
 }

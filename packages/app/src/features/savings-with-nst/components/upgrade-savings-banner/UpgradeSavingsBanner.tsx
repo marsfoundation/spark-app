@@ -9,7 +9,7 @@ export interface UpgradeSavingsBannerProps {
 export function UpgradeSavingsBanner({ onUpgradeSavingsClick }: UpgradeSavingsBannerProps) {
   return (
     <Panel.Wrapper
-      className="flex min-h-[240px] w-full flex-1 flex-col justify-between gap-6 self-stretch px-6 py-6 md:gap-0 md:px-8"
+      className="flex min-h-[240px] w-full flex-col justify-between gap-6 px-6 py-6 md:gap-0 md:px-8"
       variant="blue"
     >
       <div className="grid gap-3 md:auto-cols-max">
@@ -23,7 +23,7 @@ export function UpgradeSavingsBanner({ onUpgradeSavingsClick }: UpgradeSavingsBa
         </div>
       </div>
       <div className="flex w-full flex-col gap-4 md:flex-row md:justify-between md:gap-2">
-        <div className="grid grid-cols-[auto_auto] gap-2">
+        <div className="grid grid-cols-[auto_1fr] gap-2">
           <Benefit>
             <span className="text-product-green">0.25% higher APY</span> compared to Savings DAI
           </Benefit>
