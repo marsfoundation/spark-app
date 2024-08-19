@@ -1,20 +1,20 @@
 import { Token } from '@/domain/types/Token'
-import { UpgradeInfo } from '@/features/savings-with-nst/logic/useSavings'
+import { MigrationInfo } from '@/features/savings-with-nst/logic/makeMigrationInfo'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 import { UpgradeTokenButton } from './UpgradeTokenButton'
 
 export interface TokenCellProps {
   token: Token
-  upgradeInfo?: UpgradeInfo
+  migrationInfo?: MigrationInfo
 }
 
-export function TokenCell({ token, upgradeInfo }: TokenCellProps) {
-  if (upgradeInfo?.daiSymbol === token.symbol && upgradeInfo.daiToNstUpgradeAvailable) {
+export function TokenCell({ token, migrationInfo }: TokenCellProps) {
+  if (migrationInfo?.daiSymbol === token.symbol && migrationInfo.daiToNstUpgradeAvailable) {
     return (
       <UpgradeTokenButton
         token={token}
-        upgradedTokenSymbol={upgradeInfo.NSTSymbol}
-        onUpgradeClick={upgradeInfo.openDaiToNstUpgradeDialog}
+        upgradedTokenSymbol={migrationInfo.nstSymbol}
+        onUpgradeClick={migrationInfo.openDaiToNstUpgradeDialog}
       />
     )
   }

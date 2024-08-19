@@ -8,7 +8,7 @@ import { SavingsViewContentProps } from './types'
 
 export function SavingsNSTView({
   savingsTokenDetails,
-  upgradeInfo,
+  migrationInfo,
   chainId,
   assetsInWallet,
   maxBalanceToken,
@@ -39,7 +39,7 @@ export function SavingsNSTView({
         )}
         {displaySavingsNoCash && <SavingsOpportunityNoCash APY={savingsTokenDetails.APY} chainId={chainId} />}
       </div>
-      <CashInWallet assets={assetsInWallet} openDialog={openDialog} upgradeInfo={upgradeInfo} />
+      <CashInWallet assets={assetsInWallet} openDialog={openDialog} migrationInfo={migrationInfo} />
     </PageLayout>
   )
 }

@@ -11,12 +11,13 @@ const meta: Meta<typeof MoreDropdown> = {
   component: MoreDropdown,
   args: {
     token: tokens.NST,
-    upgradeInfo: {
+    migrationInfo: {
       daiSymbol: tokens.DAI.symbol,
-      NSTSymbol: tokens.NST.symbol,
+      nstSymbol: tokens.NST.symbol,
       daiToNstUpgradeAvailable: true,
       openDaiToNstUpgradeDialog: () => {},
       openNstToDaiDowngradeDialog: () => {},
+      openSDaiToSNstUpgradeDialog: () => {},
     },
   },
   play: async ({ canvasElement }) => {

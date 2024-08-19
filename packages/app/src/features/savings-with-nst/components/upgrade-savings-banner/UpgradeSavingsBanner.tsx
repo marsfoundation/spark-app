@@ -9,7 +9,7 @@ export interface UpgradeSavingsBannerProps {
 export function UpgradeSavingsBanner({ onUpgradeSavingsClick }: UpgradeSavingsBannerProps) {
   return (
     <Panel.Wrapper
-      className="flex min-h-[240px] w-full flex-1 flex-col justify-between gap-6 self-stretch px-6 py-6 md:gap-0 md:px-8"
+      className="flex min-h-[240px] w-full flex-col justify-between gap-6 px-6 py-6 md:gap-0 md:px-8"
       variant="blue"
     >
       <div className="grid gap-3 md:auto-cols-max">

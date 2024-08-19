@@ -3,11 +3,12 @@ import { TokenWithBalance } from '@/domain/common/types'
 import { OpenDialogFunction } from '@/domain/state/dialogs'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Projections } from '@/features/savings/types'
-import { SavingsTokenDetails, UpgradeInfo } from '../logic/useSavings'
+import { MigrationInfo } from '../logic/makeMigrationInfo'
+import { SavingsTokenDetails } from '../logic/useSavings'
 
 export interface SavingsViewContentProps {
   savingsTokenDetails: SavingsTokenDetails
-  upgradeInfo?: UpgradeInfo
+  migrationInfo?: MigrationInfo
   chainId: SupportedChainId
   assetsInWallet: TokenWithBalance[]
   maxBalanceToken: TokenWithBalance

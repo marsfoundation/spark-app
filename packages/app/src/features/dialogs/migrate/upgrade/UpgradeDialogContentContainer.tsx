@@ -5,6 +5,7 @@ import { DialogContentSkeleton } from '../../common/components/skeletons/DialogC
 import { SuccessView } from '../../common/views/SuccessView'
 import { useMigrateDialog } from '../common/logic/useMigrateDialog'
 import { UpgradeDaiToNSTView } from './views/UpgradeDaiToNSTView'
+import { UpgradeSDaiToSNstView } from './views/UpgradeSDaiToSNstView'
 
 interface UpgradeDialogContentContainerProps {
   fromToken: Token
@@ -33,6 +34,19 @@ function UpgradeDialogContentContainer({ fromToken, toToken, closeDialog }: Upgr
   if (fromToken.symbol === tokensInfo.DAI?.symbol && toToken.symbol === tokensInfo.NST?.symbol) {
     return (
       <UpgradeDaiToNSTView
+        fromToken={fromToken}
+        toToken={toToken}
+        pageStatus={pageStatus}
+        objectives={objectives}
+        apyDifference={apyDifference}
+        actionsContext={actionsContext}
+      />
+    )
+  }
+
+  if (fromToken.symbol === tokensInfo.sDAI?.symbol && toToken.symbol === tokensInfo.sNST?.symbol) {
+    return (
+      <UpgradeSDaiToSNstView
         fromToken={fromToken}
         toToken={toToken}
         pageStatus={pageStatus}

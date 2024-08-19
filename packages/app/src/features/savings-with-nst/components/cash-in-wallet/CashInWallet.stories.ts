@@ -29,12 +29,13 @@ export const Desktop: Story = {
         balance: NormalizedUnitNumber(0),
       },
     ],
-    upgradeInfo: {
+    migrationInfo: {
       daiSymbol: tokens.DAI.symbol,
-      NSTSymbol: tokens.NST.symbol,
+      nstSymbol: tokens.NST.symbol,
       daiToNstUpgradeAvailable: true,
       openDaiToNstUpgradeDialog: () => {},
       openNstToDaiDowngradeDialog: () => {},
+      openSDaiToSNstUpgradeDialog: () => {},
     },
     openDialog: () => {},
   },

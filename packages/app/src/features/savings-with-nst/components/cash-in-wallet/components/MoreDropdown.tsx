@@ -1,5 +1,5 @@
 import { Token } from '@/domain/types/Token'
-import { UpgradeInfo } from '@/features/savings-with-nst/logic/useSavings'
+import { MigrationInfo } from '@/features/savings-with-nst/logic/makeMigrationInfo'
 import ArrowUpRightIcon from '@/ui/assets/arrow-up-right.svg?react'
 import DocumentSketchIcon from '@/ui/assets/document-sketch.svg?react'
 import DowngradeIcon from '@/ui/assets/downgrade.svg?react'
@@ -17,17 +17,17 @@ import { testIds } from '@/ui/utils/testIds'
 export interface MoreDropdownProps {
   token: Token
   disabled?: boolean
-  upgradeInfo?: UpgradeInfo
+  migrationInfo?: MigrationInfo
 }
 
-export function MoreDropdown({ token, upgradeInfo, disabled }: MoreDropdownProps) {
+export function MoreDropdown({ token, migrationInfo, disabled }: MoreDropdownProps) {
   return (
     <DropdownWrapper disabled={disabled}>
-      {upgradeInfo?.NSTSymbol === token.symbol && (
+      {migrationInfo?.nstSymbol === token.symbol && (
         <>
-          <DropdownItem onClick={upgradeInfo.openNstToDaiDowngradeDialog}>
+          <DropdownItem onClick={migrationInfo.openNstToDaiDowngradeDialog}>
             <DowngradeIcon className="h-4 w-4" />
-            Downgrade to {upgradeInfo.daiSymbol}
+            Downgrade to {migrationInfo.daiSymbol}
           </DropdownItem>
           <DropdownMenuSeparator />
         </>
