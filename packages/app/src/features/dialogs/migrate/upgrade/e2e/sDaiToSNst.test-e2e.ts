@@ -52,7 +52,7 @@ test.describe('Upgrade sDAI to sNST', () => {
       initialPage: 'savings',
       account: {
         type: 'connected-random',
-        assetBalances: { sDAI: 10_000 },
+        assetBalances: { sDAI: 10_000, sNST: 10_000 },
       },
     })
 
@@ -60,9 +60,10 @@ test.describe('Upgrade sDAI to sNST', () => {
     await savingsPage.clickUpgradeSDaiButtonAction()
 
     const upgradeDialog = new UpgradeDialogPageObject(page)
-    await upgradeDialog.actionsContainer.acceptAllActionsAction(2)
+    await upgradeDialog.actionsContainer.acceptAllActionsAction(2, fork)
+    await upgradeDialog.expectUpgradeSuccessPage({ token: 'sDAI', amount: '10,000.00', usdValue: '$11,056.04' })
     await upgradeDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsNSTBalance({ sNstBalance: '10,961.22 sNST', estimatedNstValue: '11,075' })
+    await savingsPage.expectSavingsNSTBalance({ sNstBalance: '20,941.51 sNST', estimatedNstValue: '21,160' })
   })
 })
