@@ -1,7 +1,13 @@
+import { MIGRATE_ACTIONS_ADDRESS } from '@/config/consts'
 import { psmActionsAddress, savingsXDaiAdapterAddress } from '@/config/contracts-generated'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Action, ActionContext } from '@/features/actions/logic/types'
-import { isSexyDaiOperation, isUsdcPsmActionsOperation, isVaultOperation } from '@/features/actions/utils/savings'
+import {
+  isSDaiToNstWithdraw,
+  isSexyDaiOperation,
+  isUsdcPsmActionsOperation,
+  isVaultOperation,
+} from '@/features/actions/utils/savings'
 import { assert, raise } from '@/utils/assert'
 import BigNumber from 'bignumber.js'
 import { gnosis, mainnet } from 'viem/chains'
@@ -40,6 +46,10 @@ export function createWithdrawFromSavingsActions(
 
     if (isSexyDaiOperation({ token, savingsToken, tokensInfo, chainId })) {
       return savingsXDaiAdapterAddress[gnosis.id]
+    }
+
+    if (isSDaiToNstWithdraw({ token, savingsToken, tokensInfo })) {
+      return MIGRATE_ACTIONS_ADDRESS
     }
 
     return objective.savingsToken.address

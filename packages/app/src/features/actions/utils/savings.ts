@@ -45,3 +45,11 @@ export function isUsdcPsmActionsOperation({
 }: { token: Token; savingsToken: Token; tokensInfo: TokensInfo }): boolean {
   return token.symbol === TokenSymbol('USDC') && savingsToken.symbol === tokensInfo.sDAI?.symbol
 }
+
+export function isSDaiToNstWithdraw({
+  token,
+  savingsToken,
+  tokensInfo,
+}: { token: Token; savingsToken: Token; tokensInfo: TokensInfo }): boolean {
+  return token.symbol === tokensInfo.NST?.symbol && savingsToken.symbol === tokensInfo.sDAI?.symbol
+}

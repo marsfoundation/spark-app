@@ -1,3 +1,5 @@
+import { migrationActionsAbi } from '@/config/abis/migrationActionsAbi'
+import { MIGRATE_ACTIONS_ADDRESS } from '@/config/consts'
 import { psmActionsConfig, savingsXDaiAdapterAbi, savingsXDaiAdapterAddress } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
@@ -8,6 +10,7 @@ import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/que
 import { ActionConfig, ActionContext } from '@/features/actions/logic/types'
 import {
   calculateGemConversionFactor,
+  isSDaiToNstWithdraw,
   isSexyDaiOperation,
   isUsdcPsmActionsOperation,
   isVaultOperation,
@@ -51,6 +54,15 @@ export function createWithdrawFromSavingsActionConfig(
           abi: savingsXDaiAdapterAbi,
           functionName: isMax ? 'redeemXDAI' : 'withdrawXDAI',
           args: [argsAmount, receiver],
+        })
+      }
+
+      if (isSDaiToNstWithdraw({ token, savingsToken, tokensInfo })) {
+        return ensureConfigTypes({
+          address: MIGRATE_ACTIONS_ADDRESS,
+          abi: migrationActionsAbi,
+          functionName: isMax ? 'migrateSDAISharesToNST' : 'migrateSDAIAssetsToNST',
+          args: [receiver, argsAmount],
         })
       }
 
@@ -103,6 +115,10 @@ export function createWithdrawFromSavingsActionConfig(
       const allowanceSpender = (() => {
         if (isSexyDaiOperation({ token, savingsToken, tokensInfo, chainId })) {
           return savingsXDaiAdapterAddress[gnosis.id]
+        }
+
+        if (isSDaiToNstWithdraw({ token, savingsToken, tokensInfo })) {
+          return MIGRATE_ACTIONS_ADDRESS
         }
 
         const psmActionsAddress = getContractAddress(psmActionsConfig.address, chainId)
