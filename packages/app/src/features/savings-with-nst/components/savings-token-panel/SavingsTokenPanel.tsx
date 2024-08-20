@@ -49,15 +49,13 @@ export function SavingsTokenPanel({
           </h2>
         </div>
         <div className="flex flex-row gap-2">
-          {import.meta.env.VITE_DEV_SEND_FROM_SAVINGS === '1' && (
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={() => openDialog(SavingsWithdrawDialog, { mode: 'send', savingsType } as const)}
-            >
-              Send
-            </Button>
-          )}
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => openDialog(SavingsWithdrawDialog, { mode: 'send', savingsType } as const)}
+          >
+            Send
+          </Button>
           <Button
             variant="secondary"
             size="sm"
