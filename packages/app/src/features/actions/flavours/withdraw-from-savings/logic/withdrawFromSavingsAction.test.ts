@@ -1,3 +1,5 @@
+import { migrationActionsAbi } from '@/config/abis/migrationActionsAbi'
+import { MIGRATE_ACTIONS_ADDRESS } from '@/config/consts'
 import { psmActionsAbi, psmActionsAddress } from '@/config/contracts-generated'
 import { PotSavingsInfo } from '@/domain/savings-info/potSavingsInfo'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
@@ -430,6 +432,100 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
     )
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
       allowanceQueryKey({ token: sdai.address, spender: psmActionsAddress[mainnet.id], account, chainId }),
+    )
+  })
+
+  test('withdraws nst from sdai', async () => {
+    const { result, queryInvalidationManager } = hookRenderer({
+      args: {
+        action: {
+          type: 'withdrawFromSavings',
+          token: nst,
+          savingsToken: sdai,
+          amount: withdrawAmount,
+          isMax: false,
+          mode: 'withdraw',
+        },
+        enabled: true,
+        context: { tokensInfo: mockTokensInfo },
+      },
+      chain: mainnet,
+      extraHandlers: [
+        handlers.chainIdCall({ chainId }),
+        handlers.contractCall({
+          to: MIGRATE_ACTIONS_ADDRESS,
+          abi: migrationActionsAbi,
+          functionName: 'migrateSDAIAssetsToNST',
+          args: [account, toBigInt(nst.toBaseUnit(withdrawAmount))],
+          from: account,
+          result: undefined,
+        }),
+        handlers.mineTransaction(),
+      ],
+    })
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('ready')
+    })
+
+    result.current.onAction()
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('success')
+    })
+
+    await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+      getBalancesQueryKeyPrefix({ account, chainId }),
+    )
+    await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+      allowanceQueryKey({ token: sdai.address, spender: MIGRATE_ACTIONS_ADDRESS, account, chainId }),
+    )
+  })
+
+  test('withdraws max nst from sdai', async () => {
+    const { result, queryInvalidationManager } = hookRenderer({
+      args: {
+        action: {
+          type: 'withdrawFromSavings',
+          token: nst,
+          savingsToken: sdai,
+          amount: withdrawAmount,
+          isMax: true,
+          mode: 'withdraw',
+        },
+        enabled: true,
+        context: { tokensInfo: mockTokensInfo },
+      },
+      chain: mainnet,
+      extraHandlers: [
+        handlers.chainIdCall({ chainId }),
+        handlers.contractCall({
+          to: MIGRATE_ACTIONS_ADDRESS,
+          abi: migrationActionsAbi,
+          functionName: 'migrateSDAISharesToNST',
+          args: [account, toBigInt(sdai.toBaseUnit(withdrawAmount))],
+          from: account,
+          result: 1n,
+        }),
+        handlers.mineTransaction(),
+      ],
+    })
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('ready')
+    })
+
+    result.current.onAction()
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('success')
+    })
+
+    await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+      getBalancesQueryKeyPrefix({ account, chainId }),
+    )
+    await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+      allowanceQueryKey({ token: sdai.address, spender: MIGRATE_ACTIONS_ADDRESS, account, chainId }),
     )
   })
 })
