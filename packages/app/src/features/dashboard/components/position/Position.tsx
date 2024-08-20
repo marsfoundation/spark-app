@@ -1,11 +1,10 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
-import { tokenColors } from '@/ui/assets'
+import { getTokenDominantColor } from '@/ui/assets'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { Tooltip, TooltipContentShort, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 import { Typography } from '@/ui/atoms/typography/Typography'
 import { Info } from '@/ui/molecules/info/Info'
-import { getRandomColor } from '@/ui/utils/get-random-color'
 import { testIds } from '@/ui/utils/testIds'
 
 import { getPositionFormattedValue, getTicks } from '../../logic/position'
@@ -111,7 +110,7 @@ function CollateralBar({ positionSummary }: CollateralBarProps) {
               style={{
                 width: i === 0 ? `${c.x}%` : `calc(${c.x}% + 1rem)`,
                 marginLeft: i === 0 ? 0 : '-1rem',
-                backgroundColor: tokenColors[positionSummary.collaterals[i]!.token.symbol] ?? getRandomColor(),
+                backgroundColor: getTokenDominantColor(positionSummary.collaterals[i]!.token.symbol),
                 zIndex: collateralWithPercentages.length - i,
               }}
             />

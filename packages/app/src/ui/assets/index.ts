@@ -1,4 +1,6 @@
+import { Percentage } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { getRandomColor } from '../utils/get-random-color'
 
 import approve from './actions/approve.svg'
 import borrow from './actions/borrow.svg'
@@ -135,23 +137,23 @@ export const assets = {
   token: {
     dai,
     eth,
+    eure,
     gno,
     mkr,
+    nst,
     reth,
     sdai,
+    snst,
     steth,
     usdc,
+    'usdc.e': usdc,
     usdt,
     wbtc,
+    weeth,
     weth,
     wsteth,
     wxdai,
     xdai,
-    eure,
-    weeth,
-    'usdc.e': usdc,
-    nst,
-    snst,
     unknown,
   },
   walletIcons: {
@@ -176,21 +178,33 @@ export function getTokenImage(symbol: TokenSymbol): string {
   return image
 }
 
-export const tokenColors: Record<string, string> = {
-  DAI: '#FFC046',
-  ETH: '#7CC0FF',
-  stETH: '#8F92EC',
-  USDC: '#3392F8',
-  sDAI: '#35B552',
-  rETH: '#FF977D',
-  MKR: '#1AAB9B',
-  USDT: '#26A17B',
-  WBTC: '#F09242',
-  WETH: '#86A8EF',
-  wstETH: '#00A3FF',
-  WXDAI: '#FDB11F',
-  XDAI: '#FFC046',
-  GNO: '#3E6957',
-  EURe: '#0086C2',
-  weETH: '#5A44BE',
+export function getTokenDominantColor(symbol: TokenSymbol, options?: { opacity?: Percentage }): string {
+  const rgb = tokenColors[symbol]
+  if (!rgb) {
+    return getRandomColor()
+  }
+  return `rgb(${rgb} / ${options?.opacity?.toFixed(2) ?? 1})`
+}
+
+const tokenColors: Record<TokenSymbol, `${number} ${number} ${number}`> = {
+  [TokenSymbol('DAI')]: '255 192 70',
+  [TokenSymbol('ETH')]: '124 192 255',
+  [TokenSymbol('EURe')]: '0 134 194',
+  [TokenSymbol('GNO')]: '62 105 87',
+  [TokenSymbol('MKR')]: '26 171 155',
+  [TokenSymbol('NST')]: '255 192 70',
+  [TokenSymbol('rETH')]: '255 151 125',
+  [TokenSymbol('sDAI')]: '53 181 82',
+  [TokenSymbol('SKY')]: '162 115 255',
+  [TokenSymbol('sNST')]: '53 181 82',
+  [TokenSymbol('stETH')]: '143 146 236',
+  [TokenSymbol('USDC')]: '51 146 248',
+  [TokenSymbol('USDC.e')]: '51 146 248',
+  [TokenSymbol('USDT')]: '38 161 123',
+  [TokenSymbol('WBTC')]: '240 146 66',
+  [TokenSymbol('weETH')]: '90 68 190',
+  [TokenSymbol('WETH')]: '134 168 239',
+  [TokenSymbol('wstETH')]: '0 163 255',
+  [TokenSymbol('WXDAI')]: '253 177 31',
+  [TokenSymbol('XDAI')]: '255 192 70',
 }

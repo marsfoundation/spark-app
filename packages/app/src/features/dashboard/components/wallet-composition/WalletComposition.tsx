@@ -1,11 +1,10 @@
 import { Wallet } from 'lucide-react'
 
-import { tokenColors } from '@/ui/assets'
+import { getTokenDominantColor } from '@/ui/assets'
 import { Checkbox } from '@/ui/atoms/checkbox/Checkbox'
 import { DoughnutChart } from '@/ui/atoms/doughnut-chart/DoughnutChart'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { Info } from '@/ui/molecules/info/Info'
-import { getRandomColor } from '@/ui/utils/get-random-color'
 import { useBreakpoint } from '@/ui/utils/useBreakpoint'
 
 import { WalletCompositionInfo } from '../../logic/wallet-composition'
@@ -21,7 +20,7 @@ export function WalletComposition({
 }: WalletCompositionProps) {
   const chartData = assets.map((asset) => ({
     value: asset.token.toUSD(asset.value).toNumber(),
-    color: tokenColors[asset.token.symbol] ?? getRandomColor(),
+    color: getTokenDominantColor(asset.token.symbol),
   }))
   const sm = useBreakpoint('sm')
 
