@@ -5,6 +5,7 @@ import { RouterErrorFallback } from './features/errors'
 import { NotFound } from './features/errors/NotFound'
 import { EasyBorrowPage } from './pages/Borrow'
 import { DashboardPage } from './pages/Dashboard'
+import { Farms } from './pages/Farms'
 import { MarketDetails } from './pages/MarketDetails'
 import { Markets } from './pages/Markets'
 import { RootRoute } from './pages/Root'
@@ -37,6 +38,10 @@ export const rootRouter = createBrowserRouter([
           {
             path: paths.marketDetails,
             element: <MarketDetails />,
+          },
+          {
+            path: paths.farms,
+            element: <Farms />,
           },
           {
             path: '*',
