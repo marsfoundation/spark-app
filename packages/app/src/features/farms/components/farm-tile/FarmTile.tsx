@@ -3,6 +3,8 @@ import { TokenWithValue } from '@/domain/common/types'
 import { Percentage } from '@/domain/types/NumericValues'
 import { getTokenDominantColor, getTokenImage } from '@/ui/assets'
 import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
+import { cn } from '@/ui/utils/style'
+import { useState } from 'react'
 import { FarmConfig, FarmInfo } from '../../types'
 
 export interface FarmTileProps {
@@ -12,7 +14,11 @@ export interface FarmTileProps {
 }
 
 export function FarmTile({ farmConfig, farmInfo, deposit }: FarmTileProps) {
+  const [isHovered, setIsHovered] = useState(false)
+
   const headerAccentColor = getTokenDominantColor(farmConfig.reward, { opacity: Percentage(0.25) })
+  const borderAccentColor = getTokenDominantColor(farmConfig.reward, { opacity: Percentage(0.7) })
+
   const rewardIcon = getTokenImage(farmConfig.reward)
   const entryTokenIcons = farmConfig.entryAssetsGroup.assets.map((token) => getTokenImage(token))
 
@@ -21,8 +27,15 @@ export function FarmTile({ farmConfig, farmInfo, deposit }: FarmTileProps) {
       style={{
         background: `linear-gradient(to bottom, white -20px, ${headerAccentColor} 73px, white 73px)`,
         backgroundRepeat: 'no-repeat',
+        borderColor: isHovered ? borderAccentColor : '',
       }}
-      className="flex w-full cursor-pointer flex-col rounded-2xl border border-basics-border px-6 pt-10 pb-7 transition-shadow hover:shadow-tooltip"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className={cn(
+        'flex w-full cursor-pointer flex-col rounded-2xl',
+        'border border-basics-border px-6 pt-10 pb-7',
+        'transition-all duration-300 hover:shadow-tooltip',
+      )}
     >
       <img src={rewardIcon} alt="farm-reward-icon" className="mb-5 h-16 w-16" />
       <div className="grid w-full grid-cols-[auto,auto] grid-rows-[auto,auto]">
