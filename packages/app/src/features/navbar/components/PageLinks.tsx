@@ -6,6 +6,7 @@ import { cn } from '@/ui/utils/style'
 
 import { SavingsInfoQueryResults } from '../types'
 import { NavLink } from './nav-link/NavLink'
+import { NewPageBadge } from './new-page-badge/NewPageBadge'
 
 export interface PageLinksProps {
   mobileMenuCollapsed: boolean
@@ -46,6 +47,11 @@ export function PageLinks({ mobileMenuCollapsed, closeMobileMenu, savingsInfo, b
       <NavLink to={paths.markets} onClick={closeMobileMenu}>
         <Trans>Markets</Trans>
       </NavLink>
+      {import.meta.env.VITE_DEV_FARMS === '1' && (
+        <NavLink to={paths.farms} onClick={closeMobileMenu} postfix={<NewPageBadge />}>
+          <Trans>Farms</Trans>
+        </NavLink>
+      )}
     </div>
   )
 }
