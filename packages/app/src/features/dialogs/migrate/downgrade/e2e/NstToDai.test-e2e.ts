@@ -60,7 +60,7 @@ test.describe('Downgrade NST to DAI', () => {
 
     const downgradeDialog = new DowngradeDialogPageObject(page)
 
-    await downgradeDialog.actionsContainer.acceptAllActionsAction(2)
+    await downgradeDialog.actionsContainer.acceptAllActionsAction(2, fork)
     await downgradeDialog.expectDowngradeSuccessPage({ token: 'NST', amount: '10,000.00', usdValue: '$10,000.00' })
     await downgradeDialog.clickBackToSavingsButton()
 

@@ -64,7 +64,7 @@ test.describe('Upgrade DAI to NST', () => {
 
     const upgradeDialog = new UpgradeDialogPageObject(page)
 
-    await upgradeDialog.actionsContainer.acceptAllActionsAction(2)
+    await upgradeDialog.actionsContainer.acceptAllActionsAction(2, fork)
     await upgradeDialog.expectSuccessPage(
       [
         {
