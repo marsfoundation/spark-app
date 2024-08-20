@@ -39,10 +39,7 @@ export const rootRouter = createBrowserRouter([
             path: paths.marketDetails,
             element: <MarketDetails />,
           },
-          {
-            path: paths.farms,
-            element: <Farms />,
-          },
+          ...(import.meta.env.VITE_DEV_FARMS === '1' ? [{ path: paths.farms, element: <Farms /> }] : []),
           {
             path: '*',
             element: <NotFound />,

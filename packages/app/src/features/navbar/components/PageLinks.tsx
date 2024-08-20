@@ -47,9 +47,11 @@ export function PageLinks({ mobileMenuCollapsed, closeMobileMenu, savingsInfo, b
       <NavLink to={paths.markets} onClick={closeMobileMenu}>
         <Trans>Markets</Trans>
       </NavLink>
-      <NavLink to={paths.farms} onClick={closeMobileMenu} postfix={<NewPageBadge />}>
-        <Trans>Farms</Trans>
-      </NavLink>
+      {import.meta.env.VITE_DEV_FARMS === '1' && (
+        <NavLink to={paths.farms} onClick={closeMobileMenu} postfix={<NewPageBadge />}>
+          <Trans>Farms</Trans>
+        </NavLink>
+      )}
     </div>
   )
 }
