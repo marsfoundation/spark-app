@@ -6,7 +6,7 @@ import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 
-test.describe('Withdraw NST on NST DevNet', () => {
+test.describe('Withdraw NST from sNST', () => {
   const fork = setupFork({ chainId: NST_DEV_CHAIN_ID })
   let savingsPage: SavingsPageObject
   let withdrawDialog: SavingsDialogPageObject
@@ -75,7 +75,7 @@ test.describe('Withdraw NST on NST DevNet', () => {
 })
 
 test.describe('Withdraw NST from sDAI', () => {
-  const fork = setupFork({ chainId: NST_DEV_CHAIN_ID, simulationDateOverride: new Date('2024-08-05T10:43:19Z') })
+  const fork = setupFork({ chainId: NST_DEV_CHAIN_ID })
   let savingsPage: SavingsPageObject
   let withdrawDialog: SavingsDialogPageObject
 
@@ -111,18 +111,18 @@ test.describe('Withdraw NST from sDAI', () => {
       routeItems: [
         {
           tokenAmount: '10,000.00 sDAI',
-          tokenUsdValue: '$11,056.04',
+          tokenUsdValue: '$11,047.93',
         },
         {
-          tokenAmount: '11,056.04 DAI',
-          tokenUsdValue: '$11,056.04',
+          tokenAmount: '11,047.93 DAI',
+          tokenUsdValue: '$11,047.93',
         },
         {
-          tokenAmount: '11,056.04 NST',
-          tokenUsdValue: '$11,056.04',
+          tokenAmount: '11,047.93 NST',
+          tokenUsdValue: '$11,047.93',
         },
       ],
-      outcome: '11,056.04 NST worth $11,056.04',
+      outcome: '11,047.93 NST worth $11,047.93',
       badgeToken: 'NST',
     })
 
@@ -136,8 +136,8 @@ test.describe('Withdraw NST from sDAI', () => {
     await withdrawDialog.expectSuccessPage()
     await withdrawDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectCashInWalletAssetBalance('NST', '11,056.04')
-    await savingsPage.expectPotentialProjection('$44.43', '30-day')
-    await savingsPage.expectPotentialProjection('$552.80', '1-year')
+    await savingsPage.expectCashInWalletAssetBalance('NST', '11,047.93')
+    await savingsPage.expectPotentialProjection('$44.39', '30-day')
+    await savingsPage.expectPotentialProjection('$552.40', '1-year')
   })
 })

@@ -33,12 +33,16 @@ export type SetupForkOptions =
   | {
       blockNumber: bigint
       chainId: 1 | 100
-      useTenderlyVnet?: boolean // vnets are more powerful forks alternative provided by Tenderly
+      useTenderlyVnet?: false // using tenderly forks is the default
       simulationDateOverride?: Date
     }
   | {
+      blockNumber: bigint
+      chainId: 1 | 100
+      useTenderlyVnet: true // vnets are more powerful forks alternative provided by Tenderly
+    }
+  | {
       chainId: typeof NST_DEV_CHAIN_ID
-      simulationDateOverride?: Date
     }
 
 export function setupFork(options: SetupForkOptions): ForkContext {
@@ -48,7 +52,8 @@ export function setupFork(options: SetupForkOptions): ForkContext {
 
   const isVnet = options.chainId === NST_DEV_CHAIN_ID || !!options.useTenderlyVnet
   const chainId = options.chainId
-  const simulationDateOverride = options.simulationDateOverride
+  const simulationDateOverride =
+    options.chainId !== NST_DEV_CHAIN_ID && !options.useTenderlyVnet ? options.simulationDateOverride : undefined
 
   const forkService: ITestForkService = isVnet
     ? new TestTenderlyVnetService({ apiKey, account: tenderlyAccount, project: tenderlyProject })

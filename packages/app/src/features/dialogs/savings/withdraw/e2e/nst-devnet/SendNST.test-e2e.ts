@@ -7,7 +7,7 @@ import { randomAddress } from '@/test/utils/addressUtils'
 import { test } from '@playwright/test'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 
-test.describe('Send NST on Mainnet', () => {
+test.describe('Send NST (withdrawing from sNST)', () => {
   const fork = setupFork({ chainId: NST_DEV_CHAIN_ID })
   let savingsPage: SavingsPageObject
   let sendDialog: SavingsDialogPageObject
@@ -89,7 +89,7 @@ test.describe('Send NST on Mainnet', () => {
 })
 
 test.describe('Send NST (withdrawing from sDAI)', () => {
-  const fork = setupFork({ chainId: NST_DEV_CHAIN_ID, simulationDateOverride: new Date('2024-08-05T10:43:19Z') })
+  const fork = setupFork({ chainId: NST_DEV_CHAIN_ID })
   let savingsPage: SavingsPageObject
   let sendDialog: SavingsDialogPageObject
   const receiver = randomAddress('bob')
@@ -128,7 +128,7 @@ test.describe('Send NST (withdrawing from sDAI)', () => {
     await sendDialog.expectNativeRouteTransactionOverview({
       routeItems: [
         {
-          tokenAmount: '6,331.38 sDAI',
+          tokenAmount: '6,336.03 sDAI',
           tokenUsdValue: '$7,000.00',
         },
         {
@@ -164,7 +164,7 @@ test.describe('Send NST (withdrawing from sDAI)', () => {
     })
 
     await sendDialog.clickBackToSavingsButton()
-    await savingsPage.expectSavingsDAIBalance({ sDaiBalance: '3,668.62 sDAI', estimatedDaiValue: '4,056.03' })
+    await savingsPage.expectSavingsDAIBalance({ sDaiBalance: '3,663.97 sDAI', estimatedDaiValue: '4,047.92' })
     await savingsPage.expectCashInWalletAssetBalance('NST', '-')
   })
 })
