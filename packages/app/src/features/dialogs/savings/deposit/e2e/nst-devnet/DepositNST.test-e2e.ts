@@ -7,7 +7,7 @@ import { test } from '@playwright/test'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 
 test.describe('Deposit NST on NST DevNet', () => {
-  const fork = setupFork({ chainId: NST_DEV_CHAIN_ID, simulationDateOverride: new Date('2024-08-05T10:43:19Z') })
+  const fork = setupFork({ chainId: NST_DEV_CHAIN_ID })
   let savingsPage: SavingsPageObject
   let depositDialog: SavingsDialogPageObject
 
@@ -49,11 +49,11 @@ test.describe('Deposit NST on NST DevNet', () => {
           tokenUsdValue: '$10,000.00',
         },
         {
-          tokenAmount: '9,896.42 sNST',
+          tokenAmount: '9,900.13 sNST',
           tokenUsdValue: '$10,000.00',
         },
       ],
-      outcome: '9,896.42 sNST worth $10,000.00',
+      outcome: '9,900.13 sNST worth $10,000.00',
       badgeToken: 'NST',
     })
 
@@ -67,7 +67,7 @@ test.describe('Deposit NST on NST DevNet', () => {
     await depositDialog.expectSuccessPage()
     await depositDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsNSTBalance({ sNstBalance: '9,896.42 sNST', estimatedNstValue: '10,000' })
+    await savingsPage.expectSavingsNSTBalance({ sNstBalance: '9,900.13 sNST', estimatedNstValue: '10,000' })
     await savingsPage.expectCashInWalletAssetBalance('NST', '-')
   })
 })

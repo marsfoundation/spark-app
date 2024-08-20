@@ -6,7 +6,7 @@ import { test } from '@playwright/test'
 import { UpgradeDialogPageObject } from '../UpgradeDialog.PageObject'
 
 test.describe('Upgrade DAI to NST', () => {
-  const fork = setupFork({ chainId: NST_DEV_CHAIN_ID, simulationDateOverride: new Date('2024-08-05T10:43:19Z') })
+  const fork = setupFork({ chainId: NST_DEV_CHAIN_ID })
 
   test('does not show upgrade button when DAI balance is 0', async ({ page }) => {
     await setup(page, fork, {

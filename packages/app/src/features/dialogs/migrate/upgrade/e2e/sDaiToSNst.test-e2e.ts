@@ -6,7 +6,7 @@ import { test } from '@playwright/test'
 import { UpgradeDialogPageObject } from '../UpgradeDialog.PageObject'
 
 test.describe('Upgrade sDAI to sNST', () => {
-  const fork = setupFork({ chainId: NST_DEV_CHAIN_ID, simulationDateOverride: new Date('2024-08-05T10:43:19Z') })
+  const fork = setupFork({ chainId: NST_DEV_CHAIN_ID })
 
   test('does not show upgrade banner when sDai balance is 0', async ({ page }) => {
     await setup(page, fork, {
@@ -20,7 +20,7 @@ test.describe('Upgrade sDAI to sNST', () => {
     const savingsPage = new SavingsPageObject(page)
 
     // wait to load
-    await savingsPage.expectSavingsNSTBalance({ sNstBalance: '10,000.00 sNST', estimatedNstValue: '10,104' })
+    await savingsPage.expectSavingsNSTBalance({ sNstBalance: '10,000.00 sNST', estimatedNstValue: '10,100' })
 
     await savingsPage.expectUpgradeDaiToNstButtonToBeHidden()
   })
@@ -61,9 +61,9 @@ test.describe('Upgrade sDAI to sNST', () => {
 
     const upgradeDialog = new UpgradeDialogPageObject(page)
     await upgradeDialog.actionsContainer.acceptAllActionsAction(2, fork)
-    await upgradeDialog.expectUpgradeSuccessPage({ token: 'sDAI', amount: '10,000.00', usdValue: '$11,056.04' })
+    await upgradeDialog.expectUpgradeSuccessPage({ token: 'sDAI', amount: '10,000.00', usdValue: '$11,047.93' })
     await upgradeDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsNSTBalance({ sNstBalance: '20,941.51 sNST', estimatedNstValue: '21,160' })
+    await savingsPage.expectSavingsNSTBalance({ sNstBalance: '20,937.60 sNST', estimatedNstValue: '21,148' })
   })
 })

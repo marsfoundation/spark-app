@@ -7,7 +7,7 @@ import { test } from '@playwright/test'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 
 test.describe('Withdraw NST on NST DevNet', () => {
-  const fork = setupFork({ chainId: NST_DEV_CHAIN_ID, simulationDateOverride: new Date('2024-08-05T10:43:19Z') })
+  const fork = setupFork({ chainId: NST_DEV_CHAIN_ID })
   let savingsPage: SavingsPageObject
   let withdrawDialog: SavingsDialogPageObject
 
@@ -46,7 +46,7 @@ test.describe('Withdraw NST on NST DevNet', () => {
     await withdrawDialog.expectNativeRouteTransactionOverview({
       routeItems: [
         {
-          tokenAmount: '989.64 sNST',
+          tokenAmount: '990.01 sNST',
           tokenUsdValue: '$1,000.00',
         },
         {
@@ -68,7 +68,7 @@ test.describe('Withdraw NST on NST DevNet', () => {
     await withdrawDialog.expectSuccessPage()
     await withdrawDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsNSTBalance({ sNstBalance: '8,906.77 sNST', estimatedNstValue: '9,000' })
+    await savingsPage.expectSavingsNSTBalance({ sNstBalance: '8,910.12 sNST', estimatedNstValue: '9,000' })
     await savingsPage.expectCashInWalletAssetBalance('NST', '1,000')
   })
 })

@@ -38,7 +38,7 @@ export type SetupForkOptions =
     }
   | {
       chainId: typeof NST_DEV_CHAIN_ID
-      simulationDateOverride: Date
+      simulationDateOverride?: Date
     }
 
 export function setupFork(options: SetupForkOptions): ForkContext {
