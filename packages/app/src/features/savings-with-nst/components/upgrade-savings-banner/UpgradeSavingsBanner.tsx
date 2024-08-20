@@ -1,6 +1,7 @@
 import { assets } from '@/ui/assets'
 import { Button, LinkButton } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
+import { testIds } from '@/ui/utils/testIds'
 
 export interface UpgradeSavingsBannerProps {
   onUpgradeSavingsClick: () => void
@@ -11,6 +12,7 @@ export function UpgradeSavingsBanner({ onUpgradeSavingsClick }: UpgradeSavingsBa
     <Panel.Wrapper
       className="flex min-h-[240px] w-full flex-col justify-between gap-6 px-6 py-6 md:gap-0 md:px-8"
       variant="blue"
+      data-testid={testIds.savings.upgradeSDaiBanner}
     >
       <div className="grid gap-3 md:auto-cols-max">
         <h2 className="font-semibold text-base text-basics-black sm:text-xl">

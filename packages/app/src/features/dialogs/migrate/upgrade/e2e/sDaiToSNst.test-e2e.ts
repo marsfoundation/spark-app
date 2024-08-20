@@ -5,23 +5,22 @@ import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { UpgradeDialogPageObject } from '../UpgradeDialog.PageObject'
 
-test.describe('Upgrade DAI to NST', () => {
+test.describe('Upgrade sDAI to sNST', () => {
   const fork = setupFork({ chainId: NST_DEV_CHAIN_ID })
 
-  test('does not show upgrade button when DAI balance is 0', async ({ page }) => {
+  test('does not show upgrade banner when sDai balance is 0', async ({ page }) => {
     await setup(page, fork, {
       initialPage: 'savings',
       account: {
         type: 'connected-random',
-        assetBalances: { NST: 10_000 },
+        assetBalances: { sDAI: 0, sNST: 10_000 },
       },
     })
 
     const savingsPage = new SavingsPageObject(page)
 
     // wait to load
-    await savingsPage.expectPotentialProjection('$40.18', '30-day')
-    await savingsPage.expectPotentialProjection('$500.00', '1-year')
+    await savingsPage.expectSavingsNSTBalance({ sNstBalance: '10,000.00 sNST', estimatedNstValue: '10,100' })
 
     await savingsPage.expectUpgradeDaiToNstButtonToBeHidden()
   })
@@ -31,20 +30,20 @@ test.describe('Upgrade DAI to NST', () => {
       initialPage: 'savings',
       account: {
         type: 'connected-random',
-        assetBalances: { DAI: 10_000 },
+        assetBalances: { sDAI: 10_000 },
       },
     })
 
     const savingsPage = new SavingsPageObject(page)
 
-    await savingsPage.clickUpgradeDaiToNstButtonAction()
+    await savingsPage.clickUpgradeSDaiButtonAction()
 
     const upgradeDialog = new UpgradeDialogPageObject(page)
 
     await upgradeDialog.actionsContainer.expectEnabledActionAtIndex(0)
     await upgradeDialog.actionsContainer.expectActions([
-      { type: 'approve', asset: 'DAI' },
-      { type: 'upgrade', fromToken: 'DAI', toToken: 'NST' },
+      { type: 'approve', asset: 'sDAI' },
+      { type: 'upgrade', fromToken: 'sDAI', toToken: 'sNST' },
     ])
   })
 
@@ -53,29 +52,18 @@ test.describe('Upgrade DAI to NST', () => {
       initialPage: 'savings',
       account: {
         type: 'connected-random',
-        assetBalances: { DAI: 10_000 },
+        assetBalances: { sDAI: 10_000, sNST: 10_000 },
       },
     })
 
     const savingsPage = new SavingsPageObject(page)
-
-    await savingsPage.expectCashInWalletAssetBalance('NST', '-')
-    await savingsPage.clickUpgradeDaiToNstButtonAction()
+    await savingsPage.clickUpgradeSDaiButtonAction()
 
     const upgradeDialog = new UpgradeDialogPageObject(page)
-
     await upgradeDialog.actionsContainer.acceptAllActionsAction(2, fork)
-    await upgradeDialog.expectSuccessPage(
-      [
-        {
-          asset: 'DAI',
-          amount: 10_000,
-        },
-      ],
-      fork,
-    )
+    await upgradeDialog.expectUpgradeSuccessPage({ token: 'sDAI', amount: '10,000.00', usdValue: '$11,047.93' })
     await upgradeDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectCashInWalletAssetBalance('NST', '10,000')
+    await savingsPage.expectSavingsNSTBalance({ sNstBalance: '20,937.60 sNST', estimatedNstValue: '21,148' })
   })
 })

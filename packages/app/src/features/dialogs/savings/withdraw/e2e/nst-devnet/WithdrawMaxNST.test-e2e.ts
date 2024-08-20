@@ -7,7 +7,7 @@ import { test } from '@playwright/test'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 
 test.describe('Withdraw NST on NST DevNet', () => {
-  const fork = setupFork({ chainId: NST_DEV_CHAIN_ID, simulationDateOverride: new Date('2024-08-05T10:43:19Z') })
+  const fork = setupFork({ chainId: NST_DEV_CHAIN_ID })
   let savingsPage: SavingsPageObject
   let withdrawDialog: SavingsDialogPageObject
 
@@ -46,7 +46,7 @@ test.describe('Withdraw NST on NST DevNet', () => {
     await withdrawDialog.expectNativeRouteTransactionOverview({
       routeItems: [
         {
-          tokenAmount: '9,896.42 sNST',
+          tokenAmount: '9,900.13 sNST',
           tokenUsdValue: '$10,000.00',
         },
         {

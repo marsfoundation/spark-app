@@ -8,7 +8,7 @@ import { test } from '@playwright/test'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 
 test.describe('Send NST on Mainnet', () => {
-  const fork = setupFork({ chainId: NST_DEV_CHAIN_ID, simulationDateOverride: new Date('2024-08-05T10:43:19Z') })
+  const fork = setupFork({ chainId: NST_DEV_CHAIN_ID })
   let savingsPage: SavingsPageObject
   let sendDialog: SavingsDialogPageObject
   const receiver = randomAddress('bob')
@@ -51,7 +51,7 @@ test.describe('Send NST on Mainnet', () => {
     await sendDialog.expectNativeRouteTransactionOverview({
       routeItems: [
         {
-          tokenAmount: '6,927.49 sNST',
+          tokenAmount: '6,930.09 sNST',
           tokenUsdValue: '$7,000.00',
         },
         {
@@ -83,7 +83,7 @@ test.describe('Send NST on Mainnet', () => {
     })
 
     await sendDialog.clickBackToSavingsButton()
-    await savingsPage.expectSavingsNSTBalance({ sNstBalance: '2,968.93 sNST', estimatedNstValue: '3,000' })
+    await savingsPage.expectSavingsNSTBalance({ sNstBalance: '2,970.04 sNST', estimatedNstValue: '3,000' })
     await savingsPage.expectCashInWalletAssetBalance('NST', '-')
   })
 })

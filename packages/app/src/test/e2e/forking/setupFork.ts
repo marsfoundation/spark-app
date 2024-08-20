@@ -38,7 +38,7 @@ export type SetupForkOptions =
     }
   | {
       chainId: typeof NST_DEV_CHAIN_ID
-      simulationDateOverride: Date
+      simulationDateOverride?: Date
     }
 
 export function setupFork(options: SetupForkOptions): ForkContext {
@@ -89,6 +89,11 @@ export function setupFork(options: SetupForkOptions): ForkContext {
     if (simulationDate) {
       const deltaTimeForward = Math.floor((simulationDate.getTime() - Date.now()) / 1000)
       await tenderlyRpcActions.evmIncreaseTime(forkContext.forkUrl, deltaTimeForward)
+      forkContext.simulationDate = simulationDate
+      await tenderlyRpcActions.evmSetNextBlockTimestamp(
+        forkContext.forkUrl,
+        Math.floor(simulationDate.getTime() / 1000),
+      )
     } else {
       const client = createPublicClient({
         chain: mainnet, // @todo select chain based on chainId

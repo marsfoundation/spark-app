@@ -62,6 +62,7 @@ export const testIds = makeTestIds({
   savings: {
     sDaiBalance: true,
     sDaiBalanceInDai: true,
+    upgradeSDaiBanner: true,
     cashInWallet: {
       upgradeDaiToNst: true,
       moreDropdown: true,

@@ -6,7 +6,7 @@ import { test } from '@playwright/test'
 import { DowngradeDialogPageObject } from '../DowngradeDialog.PageObject'
 
 test.describe('Downgrade NST to DAI', () => {
-  const fork = setupFork({ chainId: NST_DEV_CHAIN_ID, simulationDateOverride: new Date('2024-08-05T10:43:19Z') })
+  const fork = setupFork({ chainId: NST_DEV_CHAIN_ID })
 
   test('cannot open "more" dropdown when NST balance is 0', async ({ page }) => {
     await setup(page, fork, {
@@ -60,7 +60,7 @@ test.describe('Downgrade NST to DAI', () => {
 
     const downgradeDialog = new DowngradeDialogPageObject(page)
 
-    await downgradeDialog.actionsContainer.acceptAllActionsAction(2)
+    await downgradeDialog.actionsContainer.acceptAllActionsAction(2, fork)
     await downgradeDialog.expectDowngradeSuccessPage({ token: 'NST', amount: '10,000.00', usdValue: '$10,000.00' })
     await downgradeDialog.clickBackToSavingsButton()
 
