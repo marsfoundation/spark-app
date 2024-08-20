@@ -45,3 +45,10 @@ export const FirstOnTop: Story = {
     size: 'lg',
   },
 }
+
+export const IconBorder: Story = {
+  args: {
+    iconBorder: true,
+    paths: [tokens.DAI, tokens.ETH, tokens.USDC, tokens.USDT, tokens.GNO].map(({ symbol }) => getTokenImage(symbol)),
+  },
+}
