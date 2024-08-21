@@ -1,7 +1,6 @@
-import { Percentage } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { getRandomColor } from '../utils/get-random-color'
 
+import { Percentage } from '@/domain/types/NumericValues'
 import approve from './actions/approve.svg'
 import borrow from './actions/borrow.svg'
 import deposit from './actions/deposit.svg'
@@ -178,12 +177,12 @@ export function getTokenImage(symbol: TokenSymbol): string {
   return image
 }
 
-export function getTokenDominantColor(symbol: TokenSymbol, options?: { opacity?: Percentage }): string {
-  const rgb = tokenColors[symbol]
-  if (!rgb) {
-    return getRandomColor()
-  }
-  return `rgb(${rgb} / ${options?.opacity?.toFixed(2) ?? 1})`
+export function getTokenColor(symbol: TokenSymbol, options?: { alpha?: Percentage; fallback?: string }): string {
+  const color = tokenColors[symbol]
+  const alpha = (options?.alpha ?? Percentage(1)).toFixed(2)
+  const fallback = options?.fallback ?? `rgb(217 217 217 / ${alpha})`
+
+  return color ? `rgb(${color} / ${alpha})` : fallback
 }
 
 const tokenColors: Record<TokenSymbol, `${number} ${number} ${number}`> = {
@@ -195,7 +194,6 @@ const tokenColors: Record<TokenSymbol, `${number} ${number} ${number}`> = {
   [TokenSymbol('NST')]: '255 192 70',
   [TokenSymbol('rETH')]: '255 151 125',
   [TokenSymbol('sDAI')]: '53 181 82',
-  [TokenSymbol('SKY')]: '162 115 255',
   [TokenSymbol('sNST')]: '53 181 82',
   [TokenSymbol('stETH')]: '143 146 236',
   [TokenSymbol('USDC')]: '51 146 248',
