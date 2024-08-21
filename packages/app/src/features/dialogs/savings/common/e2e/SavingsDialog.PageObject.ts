@@ -90,7 +90,7 @@ export class SavingsDialogPageObject extends DialogPageObject {
       await expect(routeItemUSD).toContainText(tokenUsdValue)
     }
 
-    const makerBadge = panel.getByTestId(txOverviewTestIds.makerBadge)
+    const makerBadge = this.page.getByTestId(txOverviewTestIds.makerBadge)
     await expect(makerBadge).toContainText(
       `Powered by Maker. No slippage & fees for ${transactionOverview.badgeToken}.`,
     )
