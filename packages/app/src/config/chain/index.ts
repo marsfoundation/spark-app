@@ -8,7 +8,7 @@ import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { assets } from '@/ui/assets'
-import { NATIVE_ASSET_MOCK_ADDRESS } from '../consts'
+import { NATIVE_ASSET_MOCK_ADDRESS, STAKING_REWARDS_NST_ADDRESS, stablecoinsGroup } from '../consts'
 import { AppConfig } from '../feature-flags'
 import { NST_DEV_CHAIN_ID } from './constants'
 import { ChainConfig, ChainConfigEntry, ChainMeta } from './types'
@@ -92,6 +92,7 @@ const chainConfig: ChainConfig = {
         address: CheckedAddress('0x83f20f44975d03b1b09e64809b757c47f942beea'),
       },
     ],
+    farms: [],
   },
   [gnosis.id]: {
     id: gnosis.id,
@@ -148,6 +149,7 @@ const chainConfig: ChainConfig = {
         address: CheckedAddress('0xaf204776c7245bF4147c2612BF6e5972Ee483701'),
       },
     ],
+    farms: [],
   },
 }
 
@@ -175,6 +177,17 @@ export function getChainConfigEntry(chainId: number): ChainConfigEntry {
           symbol: TokenSymbol('sNST'),
           oracleType: 'vault',
           address: CheckedAddress('0xeA8AE08513f8230cAA8d031D28cB4Ac8CE720c68'),
+        },
+        {
+          symbol: TokenSymbol('NGT'),
+          oracleType: 'fixed-usd',
+          address: CheckedAddress('0x28227B230d3945e580eD3B1c6c8ea1df658A7AA9'),
+        },
+      ],
+      farms: [
+        {
+          address: STAKING_REWARDS_NST_ADDRESS,
+          entryAssetsGroup: stablecoinsGroup,
         },
       ],
     }

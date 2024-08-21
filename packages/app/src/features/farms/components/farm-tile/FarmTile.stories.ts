@@ -18,10 +18,12 @@ const meta: Meta<typeof FarmTile> = {
         name: 'Stablecoins',
         assets: [tokens.DAI.symbol, tokens.USDC.symbol, tokens.USDT.symbol],
       },
-      reward: tokens.weETH.symbol,
     },
     farmInfo: {
+      rewardToken: tokens.weETH,
+      stakingToken: tokens.NST,
       apy: Percentage(0.05),
+      deposit: NormalizedUnitNumber(0),
     },
   },
 }
@@ -35,9 +37,11 @@ export const Tablet = getTabletStory(Desktop)
 
 export const WithDeposit: Story = {
   args: {
-    deposit: {
-      token: tokens.DAI,
-      value: NormalizedUnitNumber(100),
+    farmInfo: {
+      rewardToken: tokens.weETH,
+      stakingToken: tokens.NST,
+      apy: Percentage(0.05),
+      deposit: NormalizedUnitNumber(100),
     },
   },
 }
@@ -51,10 +55,12 @@ export const GovernanceEntryAssets: Story = {
         name: 'Governance Tokens',
         assets: [tokens.MKR.symbol, tokens.GNO.symbol],
       },
-      reward: tokens.DAI.symbol,
     },
     farmInfo: {
+      rewardToken: tokens.NST,
+      stakingToken: tokens.weETH,
       apy: Percentage(0.05),
+      deposit: NormalizedUnitNumber(0),
     },
   },
 }
