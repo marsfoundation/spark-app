@@ -27,35 +27,38 @@ export function MakerTransactionOverview({ txOverview, selectedToken }: MakerTra
   const displayRouteVertically = Boolean(route.length > 2 && route[0]?.value?.gte(NormalizedUnitNumber(1_000_000)))
 
   return (
-    <DialogPanel>
-      <DialogPanelTitle>Transaction overview</DialogPanelTitle>
-      <TransactionOverviewDetailsItem label="APY">
-        <APYDetails APY={APY} dai={dai} daiEarnRate={daiEarnRate} />
-      </TransactionOverviewDetailsItem>
-      <TransactionOverviewDetailsItem label="Route">
-        <div className={cn('flex flex-col items-end gap-2', !displayRouteVertically && 'md:flex-row')}>
-          {route.map((item, index) => (
-            <RouteItem
-              key={item.token.symbol}
-              item={item}
-              index={index}
-              isLast={index === route.length - 1}
-              displayRouteVertically={displayRouteVertically}
-            />
-          ))}
-        </div>
-        <MakerBadge
-          token={makerBadgeToken}
-          data-testid={testIds.dialog.savings.nativeRouteTransactionOverview.makerBadge}
-        />
-      </TransactionOverviewDetailsItem>
-      <TransactionOverviewDetailsItem label="Outcome">
-        <TransactionOutcome
-          outcome={outcome}
-          data-testid={testIds.dialog.savings.nativeRouteTransactionOverview.outcome}
-        />
-      </TransactionOverviewDetailsItem>
-    </DialogPanel>
+    <div className="isolate">
+      <DialogPanel className="shadow-none">
+        <DialogPanelTitle>Transaction overview</DialogPanelTitle>
+        <TransactionOverviewDetailsItem label="APY">
+          <APYDetails APY={APY} dai={dai} daiEarnRate={daiEarnRate} />
+        </TransactionOverviewDetailsItem>
+        <TransactionOverviewDetailsItem label="Route">
+          <div className={cn('flex flex-col items-end gap-2', !displayRouteVertically && 'md:flex-row')}>
+            {route.map((item, index) => (
+              <RouteItem
+                key={item.token.symbol}
+                item={item}
+                index={index}
+                isLast={index === route.length - 1}
+                displayRouteVertically={displayRouteVertically}
+              />
+            ))}
+          </div>
+        </TransactionOverviewDetailsItem>
+        <TransactionOverviewDetailsItem label="Outcome">
+          <TransactionOutcome
+            outcome={outcome}
+            data-testid={testIds.dialog.savings.nativeRouteTransactionOverview.outcome}
+          />
+        </TransactionOverviewDetailsItem>
+      </DialogPanel>
+
+      <MakerBadge
+        token={makerBadgeToken}
+        data-testid={testIds.dialog.savings.nativeRouteTransactionOverview.makerBadge}
+      />
+    </div>
   )
 }
 
@@ -70,18 +73,20 @@ function MakerTransactionOverviewPlaceholder({ isLoading, badgeToken }: MakerTra
     '-'
   )
   return (
-    <DialogPanel>
-      <DialogPanelTitle>Transaction overview</DialogPanelTitle>
-      <TransactionOverviewDetailsItem label="APY">
-        <div className="min-h-[46px]">{placeholder}</div>
-      </TransactionOverviewDetailsItem>
-      <TransactionOverviewDetailsItem label="Route">
-        <div className="flex min-h-[92px] flex-col items-end justify-between">
-          <div>{placeholder}</div>
-          <MakerBadge token={badgeToken} />
-        </div>
-      </TransactionOverviewDetailsItem>
-      <TransactionOverviewDetailsItem label="Outcome">{placeholder}</TransactionOverviewDetailsItem>
-    </DialogPanel>
+    <div className="isolate">
+      <DialogPanel className="shadow-none">
+        <DialogPanelTitle>Transaction overview</DialogPanelTitle>
+        <TransactionOverviewDetailsItem label="APY">
+          <div className="min-h-[46px]">{placeholder}</div>
+        </TransactionOverviewDetailsItem>
+        <TransactionOverviewDetailsItem label="Route">
+          <div className="flex min-h-[92px] flex-col items-end justify-between">
+            <div>{placeholder}</div>
+          </div>
+        </TransactionOverviewDetailsItem>
+        <TransactionOverviewDetailsItem label="Outcome">{placeholder}</TransactionOverviewDetailsItem>
+      </DialogPanel>
+      <MakerBadge token={badgeToken} />
+    </div>
   )
 }
