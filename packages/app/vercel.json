@@ -5,10 +5,6 @@
       "destination": "https://api-v2.spark.fi/api/v1/:path*"
     },
     {
-      "source": "/mkr-atlas-api/:path*",
-      "destination": "https://mkr-atlas-api.blockanalitica.com/api/v1/:path*"
-    },
-    {
       "source": "/(.*)",
       "destination": "/"
     }
