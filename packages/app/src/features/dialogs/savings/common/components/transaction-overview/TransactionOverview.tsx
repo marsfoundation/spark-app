@@ -78,7 +78,7 @@ function TransactionOverviewPlaceholder({ badgeToken, showAPY }: TransactionOver
           </TransactionOverviewDetailsItem>
         )}
         <TransactionOverviewDetailsItem label="Route">
-          <div className="flex min-h-[92px] flex-col items-end justify-between">
+          <div className="flex min-h-[46px] flex-col items-end justify-between">
             <div>{placeholder}</div>
           </div>
         </TransactionOverviewDetailsItem>
