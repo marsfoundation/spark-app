@@ -28,5 +28,5 @@ export const STAKING_REWARDS_NST_ADDRESS = CheckedAddress('0x5eeB3D8D60B06a44f61
 export const stablecoinsGroup: AssetsGroup = {
   type: 'stablecoins',
   name: 'Stablecoins',
-  assets: [TokenSymbol('DAI'), TokenSymbol('USDC'), TokenSymbol('USDT')],
+  assets: [TokenSymbol('DAI'), TokenSymbol('sDAI'), TokenSymbol('USDC'), TokenSymbol('NST'), TokenSymbol('sNST')],
 }

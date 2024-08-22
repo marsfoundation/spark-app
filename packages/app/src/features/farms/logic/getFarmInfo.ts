@@ -92,16 +92,13 @@ interface GetFarmBADataResult {
 
 async function getBAFarmData({ farm }: GetFarmBADataParams): Promise<GetFarmBADataResult> {
   const res = await fetch(`${mkrAtlasApiUrl}/farms/${farm.address.toLowerCase()}/`)
-
   if (!res.ok) {
     throw new Error(`Failed to fetch farm data: ${res.statusText}`)
   }
 
-  const data = await res.json()
-
-  const dataSchema = z.object({
-    apy: z.string().transform((value) => Percentage(value)),
-  })
-
-  return dataSchema.parse(data)
+  return baFarmDataResponseSchema.parse(await res.json())
 }
+
+const baFarmDataResponseSchema = z.object({
+  apy: z.string().transform((value) => Percentage(value)),
+})
