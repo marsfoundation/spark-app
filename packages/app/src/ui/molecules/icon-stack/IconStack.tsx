@@ -8,6 +8,7 @@ interface IconStackProps {
   maxIcons?: number
   size?: 'base' | 'lg'
   stackingOrder?: 'first-on-top' | 'last-on-top'
+  iconBorder?: boolean
   className?: string
 }
 
@@ -16,6 +17,7 @@ export function IconStack({
   maxIcons = Number.MAX_SAFE_INTEGER,
   size = 'base',
   stackingOrder = 'last-on-top',
+  iconBorder = false,
   className,
 }: IconStackProps) {
   if (maxIcons + 1 === srcs.length) {
@@ -32,7 +34,7 @@ export function IconStack({
         <img
           key={index}
           src={src}
-          className={iconVariants({ size })}
+          className={iconVariants({ size, iconBorder })}
           style={stackingOrder === 'first-on-top' ? { zIndex: srcs.length - index } : undefined}
         />
       ))}
@@ -56,6 +58,9 @@ const iconVariants = cva('rounded-full', {
     size: {
       base: 'h-6 w-6',
       lg: 'h-10 w-10',
+    },
+    iconBorder: {
+      true: 'box-content border border-[1.5px] border-white',
     },
   },
 })

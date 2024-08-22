@@ -52,6 +52,13 @@ export const tokens = {
     decimals: 18,
     address: CheckedAddress('0x7D5afF7ab67b431cDFA6A94d50d3124cC4AB2611'),
   }),
+  weETH: new Token({
+    unitPriceUsd: '2235.0672',
+    symbol: TokenSymbol('weETH'),
+    name: 'Ether.fi Staked ETH',
+    decimals: 18,
+    address: CheckedAddress('0xCd5fE23C85820F7B72D0926FC9b05b43E359b7ee'),
+  }),
   wstETH: new Token({
     unitPriceUsd: '2235.0672',
     symbol: TokenSymbol('wstETH'),
