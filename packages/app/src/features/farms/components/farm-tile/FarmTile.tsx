@@ -1,5 +1,4 @@
 import { formatPercentage } from '@/domain/common/format'
-import { TokenWithValue } from '@/domain/common/types'
 import { Percentage } from '@/domain/types/NumericValues'
 import { getTokenColor, getTokenImage } from '@/ui/assets'
 import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
@@ -10,15 +9,15 @@ import { FarmConfig, FarmInfo } from '../../types'
 export interface FarmTileProps {
   farmConfig: FarmConfig
   farmInfo: FarmInfo
-  deposit?: TokenWithValue
 }
 
-export function FarmTile({ farmConfig, farmInfo, deposit }: FarmTileProps) {
+export function FarmTile({ farmConfig, farmInfo }: FarmTileProps) {
   const [isHovered, setIsHovered] = useState(false)
 
-  const borderAccentColor = getTokenColor(farmConfig.reward, { alpha: Percentage(0.7) })
-  const headerAccentColor = getTokenColor(farmConfig.reward, { alpha: Percentage(0.5) })
-  const rewardIcon = getTokenImage(farmConfig.reward)
+  const rewardTokenSymbol = farmInfo.rewardToken.symbol
+  const borderAccentColor = getTokenColor(rewardTokenSymbol, { alpha: Percentage(0.7) })
+  const headerAccentColor = getTokenColor(rewardTokenSymbol, { alpha: Percentage(0.5) })
+  const rewardIcon = getTokenImage(rewardTokenSymbol)
   const entryTokenIcons = farmConfig.entryAssetsGroup.assets.map((token) => getTokenImage(token))
 
   return (
@@ -46,18 +45,18 @@ export function FarmTile({ farmConfig, farmInfo, deposit }: FarmTileProps) {
         <div className="grid w-full grid-cols-[auto,auto] grid-rows-[auto,auto]">
           <div className="text-basics-dark-grey text-sm">Deposit {farmConfig.entryAssetsGroup.name}</div>
           <div className="justify-self-end text-basics-dark-grey text-sm">APY</div>
-          <div className="font-semibold text-2xl">Earn {farmConfig.reward}</div>
+          <div className="font-semibold text-2xl">Earn {rewardTokenSymbol}</div>
           <div className="justify-self-end font-semibold text-2xl">
             {formatPercentage(farmInfo.apy, { minimumFractionDigits: 0 })}
           </div>
         </div>
         <div className="mt-11 mb-6 border-basics-border border-t" />
-        {deposit ? (
+        {farmInfo.deposit.gt(0) ? (
           <>
             <div className="mb-2 text-basics-dark-grey text-sm">Tokens deposited:</div>
             <div className="flex items-center gap-1.5 font-medium">
-              <img src={getTokenImage(deposit.token.symbol)} alt="farm-reward-icon" className="h-6 w-6" />
-              {deposit.token.format(deposit.value, { style: 'auto' })} {deposit.token.symbol}
+              <img src={getTokenImage(farmInfo.stakingToken.symbol)} alt="farm-reward-icon" className="h-6 w-6" />
+              {farmInfo.stakingToken.format(farmInfo.deposit, { style: 'auto' })} {farmInfo.stakingToken.symbol}
             </div>
           </>
         ) : (

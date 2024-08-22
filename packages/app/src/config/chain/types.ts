@@ -4,6 +4,7 @@ import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 
 import { OracleType } from '@/domain/wallet/useTokens/types'
+import { FarmConfig } from '@/features/farms/types'
 import { SUPPORTED_CHAIN_IDS } from './constants'
 
 export type SupportedChainId = (typeof SUPPORTED_CHAIN_IDS)[number]
@@ -66,6 +67,7 @@ export interface ChainConfigEntry {
   mergedDaiAndSDaiMarkets: boolean
   savingsInputTokens: TokenSymbol[]
   extraTokens: TokenWithOracleType[]
+  farms: FarmConfig[]
 }
 
 export type ChainConfig = Record<SupportedChainId, ChainConfigEntry>

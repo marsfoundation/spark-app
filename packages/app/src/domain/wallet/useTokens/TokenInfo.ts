@@ -1,4 +1,5 @@
 import { TokenWithBalance } from '@/domain/common/types'
+import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
@@ -47,6 +48,14 @@ export class TokensInfo {
 
   findOneTokenWithBalanceBySymbol(symbol: TokenSymbol): TokenWithBalance {
     return this.findTokenWithBalanceBySymbol(symbol) ?? raise(`Token with symbol ${symbol} not found`)
+  }
+
+  findTokenByAddress(address: CheckedAddress): Token | undefined {
+    return this.tokens.find(({ token }) => token.address === address)?.token
+  }
+
+  findOneTokenByAddress(address: CheckedAddress): Token {
+    return this.findTokenByAddress(address) ?? raise(`Token with address ${address} not found`)
   }
 
   get DAI(): Token | undefined {

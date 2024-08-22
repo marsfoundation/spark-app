@@ -1,8 +1,9 @@
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
-import { Percentage } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
+import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 
-interface AssetsGroup {
+export interface AssetsGroup {
   type: 'stablecoins' | 'governance'
   name: string
   assets: TokenSymbol[]
@@ -11,9 +12,11 @@ interface AssetsGroup {
 export interface FarmConfig {
   address: CheckedAddress
   entryAssetsGroup: AssetsGroup
-  reward: TokenSymbol
 }
 
 export interface FarmInfo {
   apy: Percentage
+  rewardToken: Token
+  stakingToken: Token
+  deposit: NormalizedUnitNumber
 }

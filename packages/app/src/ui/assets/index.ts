@@ -50,6 +50,7 @@ import eth from './tokens/eth.svg'
 import eure from './tokens/eure.svg'
 import gno from './tokens/gno.svg'
 import mkr from './tokens/mkr.svg'
+import ngt from './tokens/ngt.svg'
 import nst from './tokens/nst.svg'
 import reth from './tokens/reth.svg'
 import sdai from './tokens/sdai.svg'
@@ -139,6 +140,7 @@ export const assets = {
     eure,
     gno,
     mkr,
+    ngt,
     nst,
     reth,
     sdai,
@@ -191,6 +193,7 @@ const tokenColors: Record<TokenSymbol, `${number} ${number} ${number}`> = {
   [TokenSymbol('EURe')]: '0 134 194',
   [TokenSymbol('GNO')]: '62 105 87',
   [TokenSymbol('MKR')]: '26 171 155',
+  [TokenSymbol('NGT')]: '178 104 252',
   [TokenSymbol('NST')]: '255 192 70',
   [TokenSymbol('rETH')]: '255 151 125',
   [TokenSymbol('sDAI')]: '53 181 82',
