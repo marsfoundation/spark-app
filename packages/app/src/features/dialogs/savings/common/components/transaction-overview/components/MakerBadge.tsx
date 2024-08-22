@@ -1,6 +1,7 @@
 import { Token } from '@/domain/types/Token'
 import { assets } from '@/ui/assets'
 import { Info } from '@/ui/molecules/info/Info'
+import { cn } from '@/ui/utils/style'
 
 export interface MakerBadgeProps {
   token: Token
@@ -10,15 +11,19 @@ export interface MakerBadgeProps {
 export function MakerBadge({ token, 'data-testid': dataTestId }: MakerBadgeProps) {
   return (
     <div
-      className="flex flex-row items-center gap-1.5 rounded-lg bg-emerald-300/10 px-2.5 py-1.5 text-emerald-400 text-sm"
+      className={cn(
+        'relative flex flex-row items-center gap-2',
+        '-mt-4 -z-10 px-3 pt-7 pb-3',
+        'rounded-lg border border-basics-border bg-[#E4F3F0] text-[#4EA89B] text-sm',
+      )}
       data-testid={dataTestId}
     >
-      <img src={assets.makerLogo} className="h-5 w-5" />
-      <span>
+      <img src={assets.makerLogo} className="h-4 w-4" />
+      <span className="flex-1">
         <span className="hidden font-medium md:inline"> Powered by Maker. </span>
         <span className="font-light">No slippage & fees for {token.symbol}.</span>
       </span>
-      <Info className="text-inherit">The transaction uses Maker infrastructure without any third-parties.</Info>
+      <Info className="text-inherit">The transaction uses Maker infrastructure without any third&#x2011;parties.</Info>
     </div>
   )
 }
