@@ -1,19 +1,18 @@
 import { useMemo } from 'react'
 
 import { TokenWithBalance } from '@/domain/common/types'
-import { OpenDialogFunction } from '@/domain/state/dialogs'
-import { SavingsDepositDialog } from '@/features/dialogs/savings/deposit/SavingsDepositDialog'
+import { Token } from '@/domain/types/Token'
 import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 import { DataTable, DataTableProps } from '@/ui/molecules/data-table/DataTable'
 
-export interface CashInWalletProps {
+export interface TokensToDepositProps {
   assets: TokenWithBalance[]
-  openDialog: OpenDialogFunction
+  openStakeDialog: (token: Token) => void
 }
 
-export function CashInWallet({ assets, openDialog }: CashInWalletProps) {
+export function TokensToDeposit({ assets, openStakeDialog }: TokensToDepositProps) {
   const columnDef: DataTableProps<TokenWithBalance>['columnDef'] = useMemo(
     () => ({
       token: {
@@ -41,26 +40,21 @@ export function CashInWallet({ assets, openDialog }: CashInWalletProps) {
         renderCell: ({ token, balance }) => {
           return (
             <div className="flex w-full flex-row justify-end">
-              <Button
-                variant="secondary"
-                size="sm"
-                disabled={balance.eq(0)}
-                onClick={() => openDialog(SavingsDepositDialog, { initialToken: token })}
-              >
-                Deposit
+              <Button variant="secondary" size="sm" disabled={balance.eq(0)} onClick={() => openStakeDialog(token)}>
+                Stake
               </Button>
             </div>
           )
         },
       },
     }),
-    [openDialog],
+    [openStakeDialog],
   )
 
   return (
     <Panel>
       <Panel.Header>
-        <Panel.Title>Cash in wallet</Panel.Title>
+        <Panel.Title>Tokens to deposit</Panel.Title>
       </Panel.Header>
       <Panel.Content>
         <DataTable
