@@ -5,7 +5,7 @@ import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { FarmDetailsRow } from './FarmDetailsRow'
 
 const meta: Meta<typeof FarmDetailsRow> = {
-  title: 'Features/Farms/Components/FarmDetailsRow',
+  title: 'Features/FarmDetails/Components/FarmDetailsRow',
   component: FarmDetailsRow,
   decorators: [WithClassname('max-w-lg'), WithTooltipProvider()],
   args: {

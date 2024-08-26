@@ -1,17 +1,18 @@
+import { FarmDetailsRowData } from '@/domain/farms/types'
 import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { Info } from '@/ui/molecules/info/Info'
-import { FarmDetailsRowData, FarmExtendedInfo } from '../../types'
+import { FarmInfo } from '../../types'
 import { FarmDetailsRow } from '../farm-details-row/FarmDetailsRow'
 import { EarnedBalance } from './EarnedBalance'
 
 export interface ActiveFarmInfoPanelProps {
   farmDetailsRowData: FarmDetailsRowData
-  farmExtendedInfo: FarmExtendedInfo
+  FarmInfo: FarmInfo
 }
 
-export function ActiveFarmInfoPanel({ farmDetailsRowData, farmExtendedInfo }: ActiveFarmInfoPanelProps) {
-  const { rewardToken, stakingToken, staked } = farmExtendedInfo
+export function ActiveFarmInfoPanel({ farmDetailsRowData, FarmInfo }: ActiveFarmInfoPanelProps) {
+  const { rewardToken, stakingToken, staked } = FarmInfo
 
   return (
     <Panel.Wrapper className="flex min-h-[380px] w-full flex-1 flex-col self-stretch px-6 py-6 md:px-[32px]">
@@ -29,7 +30,7 @@ export function ActiveFarmInfoPanel({ farmDetailsRowData, farmExtendedInfo }: Ac
       </div>
       <div className="flex flex-grow flex-col items-center justify-around">
         <div className="flex flex-col items-center gap-1">
-          <EarnedBalance farmExtendedInfo={farmExtendedInfo} />
+          <EarnedBalance FarmInfo={FarmInfo} />
           <div className="font-semibold text-basics-dark-grey text-xs tracking-wide">
             =
             <span>

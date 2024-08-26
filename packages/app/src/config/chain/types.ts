@@ -3,8 +3,8 @@ import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 
+import { FarmConfig } from '@/domain/farms/types'
 import { OracleType } from '@/domain/wallet/useTokens/types'
-import { FarmConfig } from '@/features/farms/types'
 import { SUPPORTED_CHAIN_IDS } from './constants'
 
 export type SupportedChainId = (typeof SUPPORTED_CHAIN_IDS)[number]

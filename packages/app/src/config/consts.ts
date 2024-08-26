@@ -1,6 +1,6 @@
+import { AssetsGroup } from '@/domain/farms/types'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { AssetsGroup } from '@/features/farms/types'
 
 export enum InterestRate {
   Stable = 1,

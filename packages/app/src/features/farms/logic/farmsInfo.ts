@@ -1,8 +1,8 @@
+import { FarmConfig } from '@/domain/farms/types'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { queryOptions } from '@tanstack/react-query'
 import { Address } from 'viem'
 import { Config } from 'wagmi'
-import { FarmConfig } from '../types'
 import { getFarmInfo } from './getFarmInfo'
 
 export interface FarmsInfoQueryOptionsParams {

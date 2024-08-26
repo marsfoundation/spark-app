@@ -1,8 +1,8 @@
 import { formatPercentage } from '@/domain/common/format'
+import { AssetsGroup, FarmDetailsRowData } from '@/domain/farms/types'
 import { Token } from '@/domain/types/Token'
 import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
-import { AssetsGroup, FarmDetailsRowData } from '../../types'
 import { FarmDetailsRow } from '../farm-details-row/FarmDetailsRow'
 
 export interface FarmInfoPanelProps {

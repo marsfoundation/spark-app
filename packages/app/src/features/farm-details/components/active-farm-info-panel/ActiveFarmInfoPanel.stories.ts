@@ -6,7 +6,7 @@ import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { ActiveFarmInfoPanel } from './ActiveFarmInfoPanel'
 
 const meta: Meta<typeof ActiveFarmInfoPanel> = {
-  title: 'Features/Farms/Components/ActiveFarmInfoPanel',
+  title: 'Features/FarmDetails/Components/ActiveFarmInfoPanel',
   component: ActiveFarmInfoPanel,
   decorators: [WithClassname('max-w-lg'), WithTooltipProvider()],
   args: {
@@ -15,7 +15,7 @@ const meta: Meta<typeof ActiveFarmInfoPanel> = {
       tvl: NormalizedUnitNumber(57_891),
       apy: Percentage(0.05),
     },
-    farmExtendedInfo: {
+    FarmInfo: {
       rewardToken: tokens.MKR,
       stakingToken: tokens.DAI,
       earned: NormalizedUnitNumber(71.2345783),

@@ -5,6 +5,7 @@ import { RouterErrorFallback } from './features/errors'
 import { NotFound } from './features/errors/NotFound'
 import { EasyBorrowPage } from './pages/Borrow'
 import { DashboardPage } from './pages/Dashboard'
+import { FarmDetails } from './pages/FarmDetails'
 import { Farms } from './pages/Farms'
 import { MarketDetails } from './pages/MarketDetails'
 import { Markets } from './pages/Markets'
@@ -39,7 +40,12 @@ export const rootRouter = createBrowserRouter([
             path: paths.marketDetails,
             element: <MarketDetails />,
           },
-          ...(import.meta.env.VITE_DEV_FARMS === '1' ? [{ path: paths.farms, element: <Farms /> }] : []),
+          ...(import.meta.env.VITE_DEV_FARMS === '1'
+            ? [
+                { path: paths.farms, element: <Farms /> },
+                { path: paths.farmDetails, element: <FarmDetails /> },
+              ]
+            : []),
           {
             path: '*',
             element: <NotFound />,

@@ -1,5 +1,6 @@
 import { stakingRewardsAbi } from '@/config/abis/stakingRewardsAbi'
 import { mkrAtlasApiUrl } from '@/config/consts'
+import { FarmConfig } from '@/domain/farms/types'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { BaseUnitNumber, NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
@@ -7,7 +8,7 @@ import { Address } from 'viem'
 import { Config } from 'wagmi'
 import { readContract } from 'wagmi/actions'
 import { z } from 'zod'
-import { FarmConfig, FarmInfo } from '../types'
+import { FarmInfo } from '../types'
 
 export interface GetFarmInfoParams {
   farm: FarmConfig

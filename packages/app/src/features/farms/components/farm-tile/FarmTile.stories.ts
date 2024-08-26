@@ -4,12 +4,13 @@ import { WithClassname } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
+import { withRouter } from 'storybook-addon-remix-react-router'
 import { FarmTile } from './FarmTile'
 
 const meta: Meta<typeof FarmTile> = {
   title: 'Features/Farms/Components/FarmTile',
   component: FarmTile,
-  decorators: [WithClassname('flex w-80')],
+  decorators: [WithClassname('flex w-80'), withRouter],
   args: {
     farmConfig: {
       address: CheckedAddress('0x1234567890123456789012345678901234567890'),

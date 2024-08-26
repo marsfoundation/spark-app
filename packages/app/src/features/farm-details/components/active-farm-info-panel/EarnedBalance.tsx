@@ -3,17 +3,17 @@ import { getTokenImage } from '@/ui/assets'
 import { getFractionalPart, getWholePart } from '@/utils/bigNumber'
 import { useTimestamp } from '@/utils/useTimestamp'
 import BigNumber from 'bignumber.js'
-import { FarmExtendedInfo } from '../../types'
+import { FarmInfo } from '../../types'
 
 const STEP_IN_MS = 50
 const MS_IN_A_MONTH = 30 * 24 * 60 * 60 * 1000
 
 export interface EarnedBalanceProps {
-  farmExtendedInfo: FarmExtendedInfo
+  FarmInfo: FarmInfo
 }
 
-export function EarnedBalance({ farmExtendedInfo }: EarnedBalanceProps) {
-  const { rewardToken, earned, staked, rewardRate, earnedTimestamp, periodFinish, totalSupply } = farmExtendedInfo
+export function EarnedBalance({ FarmInfo }: EarnedBalanceProps) {
+  const { rewardToken, earned, staked, rewardRate, earnedTimestamp, periodFinish, totalSupply } = FarmInfo
   // disable in storybook preview to avoid change detection in chromatic
   const shouldRefresh = rewardRate.gt(0) && totalSupply.gt(0) && !import.meta.env.STORYBOOK_PREVIEW
   const { timestampInMs: _timestampInMs } = useTimestamp({

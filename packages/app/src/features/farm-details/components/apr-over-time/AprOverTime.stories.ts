@@ -5,7 +5,7 @@ import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { AprOverTime } from './AprOverTime'
 
 const meta: Meta<typeof AprOverTime> = {
-  title: 'Features/Farms/Components/AprOverTime',
+  title: 'Features/FarmDetails/Components/AprOverTime',
   component: AprOverTime,
   decorators: [WithClassname('max-w-lg'), WithTooltipProvider()],
   args: {

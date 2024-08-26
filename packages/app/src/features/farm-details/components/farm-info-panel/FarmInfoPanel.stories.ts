@@ -6,7 +6,7 @@ import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { FarmInfoPanel } from './FarmInfoPanel'
 
 const meta: Meta<typeof FarmInfoPanel> = {
-  title: 'Features/Farms/Components/FarmInfoPanel',
+  title: 'Features/FarmDetails/Components/FarmInfoPanel',
   component: FarmInfoPanel,
   decorators: [WithClassname('max-w-lg'), WithTooltipProvider()],
   args: {
