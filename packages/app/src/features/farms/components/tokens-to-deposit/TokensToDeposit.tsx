@@ -52,7 +52,7 @@ export function TokensToDeposit({ assets, openStakeDialog }: TokensToDepositProp
   )
 
   return (
-    <Panel collapsibleOptions={{ collapsible: true }}>
+    <Panel>
       <Panel.Header>
         <Panel.Title>Tokens to deposit</Panel.Title>
       </Panel.Header>

@@ -57,7 +57,7 @@ export function CashInWallet({ assets, openDialog, migrationInfo }: CashInWallet
   )
 
   return (
-    <Panel collapsibleOptions={{ collapsible: true }}>
+    <Panel>
       <Panel.Header>
         <Panel.Title>Cash in wallet</Panel.Title>
       </Panel.Header>
