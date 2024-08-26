@@ -125,6 +125,9 @@ importers:
       '@visx/event':
         specifier: ^3.3.0
         version: 3.3.0
+      '@visx/gradient':
+        specifier: ^3.3.0
+        version: 3.3.0(react@18.2.0)
       '@visx/grid':
         specifier: ^3.5.0
         version: 3.5.0(react@18.2.0)
@@ -9204,6 +9207,16 @@ packages:
     dependencies:
       '@types/react': 18.2.14
       '@visx/point': 3.3.0
+    dev: false
+
+  /@visx/gradient@3.3.0(react@18.2.0):
+    resolution: {integrity: sha512-t3vqukahDQsJ64/fcm85woFm2XPpSPMBz92gFvaY4J8EJY3e6rFOg382v5Dm17fgNsLRKJA0Vqo7mUtDe2pWOw==}
+    peerDependencies:
+      react: ^16.0.0-0 || ^17.0.0-0 || ^18.0.0-0
+    dependencies:
+      '@types/react': 18.2.14
+      prop-types: 15.8.1
+      react: 18.2.0
     dev: false
 
   /@visx/grid@3.5.0(react@18.2.0):
