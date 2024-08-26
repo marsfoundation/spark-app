@@ -1,5 +1,6 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { getTokenImage } from '@/ui/assets'
+import { getFractionalPart, getWholePart } from '@/utils/bigNumber'
 import { useTimestamp } from '@/utils/useTimestamp'
 import BigNumber from 'bignumber.js'
 import { FarmExtendedInfo } from '../../types'
@@ -41,16 +42,6 @@ export function EarnedBalance({ farmExtendedInfo }: EarnedBalanceProps) {
       </div>
     </div>
   )
-}
-
-function getWholePart(value: BigNumber): string {
-  const formatter = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 })
-  return formatter.format(value.integerValue(BigNumber.ROUND_DOWN).toNumber())
-}
-
-function getFractionalPart(value: BigNumber, precision: number): string {
-  precision = Math.max(precision, 2)
-  return value.minus(value.integerValue(BigNumber.ROUND_DOWN)).toFixed(precision).slice(1)
 }
 
 interface CalculateCurrentlyEarnedParams {

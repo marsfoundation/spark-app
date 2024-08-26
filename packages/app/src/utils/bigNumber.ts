@@ -48,3 +48,13 @@ export function nonZeroOrDefault<T extends BigNumber>(value: T, defaultValue: T)
 export function toHex(value: BigNumber): string {
   return `0x${value.toString(16)}`
 }
+
+export function getWholePart(value: BigNumber): string {
+  const formatter = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 })
+  return formatter.format(value.integerValue(BigNumber.ROUND_DOWN).toNumber())
+}
+
+export function getFractionalPart(value: BigNumber, precision: number): string {
+  precision = Math.max(precision, 2)
+  return value.minus(value.integerValue(BigNumber.ROUND_DOWN)).toFixed(precision).slice(1)
+}
