@@ -3,10 +3,11 @@ import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { queryOptions } from '@tanstack/react-query'
 import { Address } from 'viem'
 import { Config } from 'wagmi'
-import { getFarmInfo } from './getFarmInfo'
+import { FarmsInfo } from './farmsInfo'
+import { getFarm } from './getFarm'
 
 export interface FarmsInfoQueryOptionsParams {
-  farms: FarmConfig[]
+  farmConfigs: FarmConfig[]
   wagmiConfig: Config
   tokensInfo: TokensInfo
   chainId: number
@@ -15,7 +16,7 @@ export interface FarmsInfoQueryOptionsParams {
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function farmsInfoQueryOptions({
-  farms,
+  farmConfigs,
   wagmiConfig,
   tokensInfo,
   chainId,
@@ -24,7 +25,10 @@ export function farmsInfoQueryOptions({
   return queryOptions({
     queryKey: getFarmsInfoQueryKey({ account, chainId }),
     queryFn: async () => {
-      return Promise.all(farms.map((farm) => getFarmInfo({ farm, wagmiConfig, tokensInfo, account })))
+      const farms = await Promise.all(
+        farmConfigs.map((farmConfig) => getFarm({ farmConfig, wagmiConfig, tokensInfo, account })),
+      )
+      return new FarmsInfo(farms)
     },
   })
 }
