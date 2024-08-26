@@ -13,7 +13,7 @@ import { getTokenImage } from '@/ui/assets'
 import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { testIds } from '@/ui/utils/testIds'
-import BigNumber from 'bignumber.js'
+import { getFractionalPart, getWholePart } from '@/utils/bigNumber'
 
 export interface SavingsTokenPanelProps {
   variant: 'dai' | 'nst'
@@ -125,14 +125,4 @@ export function SavingsTokenPanel({
       </div>
     </Panel.Wrapper>
   )
-}
-
-function getWholePart(value: BigNumber): string {
-  const formatter = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 })
-  return formatter.format(value.integerValue(BigNumber.ROUND_DOWN).toNumber())
-}
-
-function getFractionalPart(value: BigNumber, precision: number): string {
-  precision = Math.max(precision, 2)
-  return value.minus(value.integerValue(BigNumber.ROUND_DOWN)).toFixed(precision).slice(1)
 }

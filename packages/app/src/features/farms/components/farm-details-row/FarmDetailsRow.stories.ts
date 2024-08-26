@@ -1,17 +1,14 @@
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
-import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
-import { FarmInfoPanel } from './FarmInfoPanel'
+import { FarmDetailsRow } from './FarmDetailsRow'
 
-const meta: Meta<typeof FarmInfoPanel> = {
-  title: 'Features/Farms/Components/FarmInfoPanel',
-  component: FarmInfoPanel,
+const meta: Meta<typeof FarmDetailsRow> = {
+  title: 'Features/Farms/Components/FarmDetailsRow',
+  component: FarmDetailsRow,
   decorators: [WithClassname('max-w-lg'), WithTooltipProvider()],
   args: {
-    assetsGroupType: 'stablecoins',
-    rewardToken: tokens.MKR,
     farmDetailsRowData: {
       depositors: 6,
       tvl: NormalizedUnitNumber(57_891),
@@ -21,7 +18,7 @@ const meta: Meta<typeof FarmInfoPanel> = {
 }
 
 export default meta
-type Story = StoryObj<typeof FarmInfoPanel>
+type Story = StoryObj<typeof FarmDetailsRow>
 
 export const Desktop: Story = {}
 export const Mobile: Story = getMobileStory(Desktop)

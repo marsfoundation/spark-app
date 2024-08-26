@@ -20,3 +20,20 @@ export interface FarmInfo {
   stakingToken: Token
   deposit: NormalizedUnitNumber
 }
+
+export interface FarmExtendedInfo {
+  rewardToken: Token
+  stakingToken: Token
+  earned: NormalizedUnitNumber
+  staked: NormalizedUnitNumber
+  rewardRate: NormalizedUnitNumber
+  earnedTimestamp: number
+  periodFinish: number
+  totalSupply: NormalizedUnitNumber
+}
+
+export interface FarmDetailsRowData {
+  depositors: number
+  tvl: NormalizedUnitNumber
+  apy: Percentage
+}
