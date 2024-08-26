@@ -1,19 +1,25 @@
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { Info } from '@/ui/molecules/info/Info'
 import { useTimestamp } from '@/utils/useTimestamp'
+import { sort } from 'd3-array'
 import { useState } from 'react'
 import { Chart } from './components/Chart'
 import { AVAILABLE_TIMEFRAMES, TimeframeButtons } from './components/TimeframeButtons'
 import { GraphDataPoint } from './types'
 
-export interface RewardsOverTimeProps {
+export interface AprOverTimeProps {
   data: GraphDataPoint[]
 }
 
-export function RewardsOverTime({ data }: RewardsOverTimeProps) {
+export function AprOverTime({ data }: AprOverTimeProps) {
   const [selectedTimeframe, setSelectedTimeframe] = useState<(typeof AVAILABLE_TIMEFRAMES)[number]>('All')
   const { timestamp } = useTimestamp()
-  const filteredData = filterDataByTimeframe({ data, timeframe: selectedTimeframe, currentTimestamp: timestamp })
+  const sortedData = sort(data, (a, b) => a.date.getTime() - b.date.getTime())
+  const filteredData = filterDataByTimeframe({
+    data: sortedData,
+    timeframe: selectedTimeframe,
+    currentTimestamp: timestamp,
+  })
 
   return (
     <Panel.Wrapper className="flex min-h-[380px] w-full flex-1 flex-col justify-between self-stretch px-6 py-6 md:px-[32px]">
@@ -40,10 +46,10 @@ function filterDataByTimeframe({ data, timeframe, currentTimestamp }: FilterData
   const now = new Date(currentTimestamp * 1000)
 
   switch (timeframe) {
-    case '1D': {
-      const oneDayAgo = new Date(now)
-      oneDayAgo.setDate(now.getDate() - 1)
-      return data.filter((d) => new Date(d.date) >= oneDayAgo)
+    case '7D': {
+      const sevenDaysAgo = new Date(now)
+      sevenDaysAgo.setDate(now.getDate() - 7)
+      return data.filter((d) => new Date(d.date) >= sevenDaysAgo)
     }
 
     case '1M': {

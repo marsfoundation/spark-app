@@ -1,6 +1,6 @@
 import { cn } from '@/ui/utils/style'
 
-export const AVAILABLE_TIMEFRAMES = ['1D', '1M', '1Y', 'All'] as const
+export const AVAILABLE_TIMEFRAMES = ['7D', '1M', '1Y', 'All'] as const
 
 export interface TimeframeButtonsProps {
   setSelectedTimeframe: (timeframe: (typeof AVAILABLE_TIMEFRAMES)[number]) => void

@@ -4,7 +4,7 @@ import { localPoint } from '@visx/event'
 import { LinearGradient } from '@visx/gradient'
 import { GridRows } from '@visx/grid'
 import { Group } from '@visx/group'
-import { scaleLinear, scaleTime } from '@visx/scale'
+import { ContinuousDomain, scaleLinear, scaleTime } from '@visx/scale'
 import { AreaClosed, Bar, Line, LinePath } from '@visx/shape'
 import { TooltipWithBounds, withTooltip } from '@visx/tooltip'
 import { WithTooltipProvidedProps } from '@visx/tooltip/lib/enhancers/withTooltip'
@@ -48,7 +48,7 @@ function Chart({
   })
   const yValueScale = scaleLinear({
     range: [innerHeight, 0],
-    domain: [min(data, (d) => d.apr.toNumber()) || 0, (max(data, (d) => d.apr.toNumber()) || 0) * 1.1], // 10% padding on top
+    domain: calculateAprDomain(data),
     nice: true,
   })
 
@@ -221,6 +221,17 @@ const tickFormatter = new Intl.NumberFormat('en-US', {
 
 function formatYTicks(value: { valueOf(): number }) {
   return `${tickFormatter.format(value.valueOf() * 100)}%`
+}
+
+function calculateAprDomain(data: GraphDataPoint[]): ContinuousDomain {
+  const minApr = min(data, (d) => d.apr.toNumber()) || 0
+  const maxApr = max(data, (d) => d.apr.toNumber()) || 0
+
+  if (minApr === maxApr) {
+    return [minApr - 0.1, maxApr + 0.1]
+  }
+
+  return [minApr, maxApr * 1.1] // 10% padding on top
 }
 
 const ChartWithTooltip = withTooltip<ChartProps, GraphDataPoint>(Chart)
