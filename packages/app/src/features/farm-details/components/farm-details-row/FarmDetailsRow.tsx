@@ -1,7 +1,7 @@
 import { formatPercentage } from '@/domain/common/format'
+import { FarmDetailsRowData } from '@/domain/farms/types'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { Info } from '@/ui/molecules/info/Info'
-import { FarmDetailsRowData } from '../../types'
 
 export interface FarmDetailsRowProps {
   farmDetailsRowData: FarmDetailsRowData

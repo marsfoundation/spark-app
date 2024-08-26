@@ -1,3 +1,4 @@
+import { FarmConfig } from '@/domain/farms/types'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { WithTooltipProvider } from '@storybook/decorators'
@@ -5,7 +6,6 @@ import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { withRouter } from 'storybook-addon-remix-react-router'
-import { FarmConfig } from '../types'
 import { FarmsView } from './FarmsView'
 
 const farmConfig: FarmConfig = {
@@ -34,6 +34,7 @@ const meta: Meta<typeof FarmsView> = {
           rewardToken: tokens.wstETH,
           stakingToken: tokens.DAI,
         },
+        farmLink: '/',
       },
       {
         farmConfig,
@@ -43,6 +44,7 @@ const meta: Meta<typeof FarmsView> = {
           rewardToken: tokens.MKR,
           stakingToken: tokens.DAI,
         },
+        farmLink: '/',
       },
     ],
     activeFarms: [
@@ -54,6 +56,7 @@ const meta: Meta<typeof FarmsView> = {
           rewardToken: tokens.weETH,
           stakingToken: tokens.NST,
         },
+        farmLink: '/',
       },
     ],
   },

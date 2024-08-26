@@ -6,7 +6,7 @@ import { WithClassname } from '@storybook/decorators'
 import { Chart } from './Chart'
 
 const meta: Meta<typeof Chart> = {
-  title: 'Features/Farms/Components/AprOverTime/Components/Chart',
+  title: 'Features/FarmDetails/Components/AprOverTime/Components/Chart',
   component: Chart,
   decorators: [WithClassname('max-w-lg')],
   args: {

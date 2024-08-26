@@ -7,7 +7,7 @@ import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokensToDeposit } from './TokensToDeposit'
 
 const meta: Meta<typeof TokensToDeposit> = {
-  title: 'Features/Farms/Components/TokensToDeposit',
+  title: 'Features/FarmDetails/Components/TokensToDeposit',
   component: TokensToDeposit,
 }
 
