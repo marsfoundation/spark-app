@@ -1,6 +1,6 @@
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { PSM_ACTIONS_DEPLOYED, PSM_ACTIONS_DEPLOYED_DATE } from '@/test/e2e/constants'
+import { LITE_PSM_ACTIONS_OPERABLE, LITE_PSM_ACTIONS_OPERABLE_DATE } from '@/test/e2e/constants'
 import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
@@ -9,8 +9,8 @@ import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageO
 
 test.describe('Withdraw max USDC on Mainnet', () => {
   const fork = setupFork({
-    blockNumber: PSM_ACTIONS_DEPLOYED,
-    simulationDateOverride: PSM_ACTIONS_DEPLOYED_DATE,
+    blockNumber: LITE_PSM_ACTIONS_OPERABLE,
+    simulationDateOverride: LITE_PSM_ACTIONS_OPERABLE_DATE,
     chainId: mainnet.id,
   })
   let savingsPage: SavingsPageObject
@@ -48,18 +48,18 @@ test.describe('Withdraw max USDC on Mainnet', () => {
       routeItems: [
         {
           tokenAmount: '10,000.00 sDAI',
-          tokenUsdValue: '$10,873.93',
+          tokenUsdValue: '$11,048.31',
         },
         {
-          tokenAmount: '10,873.93 DAI',
-          tokenUsdValue: '$10,873.93',
+          tokenAmount: '11,048.31 DAI',
+          tokenUsdValue: '$11,048.31',
         },
         {
-          tokenAmount: '10,873.93 USDC',
-          tokenUsdValue: '$10,873.93',
+          tokenAmount: '11,048.31 USDC',
+          tokenUsdValue: '$11,048.31',
         },
       ],
-      outcome: '10,873.93 USDC worth $10,873.93',
+      outcome: '11,048.31 USDC worth $11,048.31',
       badgeToken: 'USDC',
     })
   })
@@ -71,8 +71,8 @@ test.describe('Withdraw max USDC on Mainnet', () => {
     await withdrawalDialog.expectSuccessPage()
     await withdrawalDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectPotentialProjection('$69.00', '30-day')
-    await savingsPage.expectPotentialProjection('$869.92', '1-year')
-    await savingsPage.expectCashInWalletAssetBalance('USDC', '10,873.94')
+    await savingsPage.expectPotentialProjection('$53.04', '30-day')
+    await savingsPage.expectPotentialProjection('$662.90', '1-year')
+    await savingsPage.expectCashInWalletAssetBalance('USDC', '11,048.32')
   })
 })

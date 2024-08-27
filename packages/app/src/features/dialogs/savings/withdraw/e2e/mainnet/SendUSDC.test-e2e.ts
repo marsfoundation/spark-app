@@ -1,5 +1,5 @@
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { PSM_ACTIONS_DEPLOYED, TOKENS_ON_FORK } from '@/test/e2e/constants'
+import { LITE_PSM_ACTIONS_OPERABLE, TOKENS_ON_FORK } from '@/test/e2e/constants'
 import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
 import { randomAddress } from '@/test/utils/addressUtils'
@@ -8,7 +8,7 @@ import { mainnet } from 'viem/chains'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 
 test.describe('Send USDC on Mainnet', () => {
-  const fork = setupFork({ blockNumber: PSM_ACTIONS_DEPLOYED, chainId: mainnet.id, useTenderlyVnet: true })
+  const fork = setupFork({ blockNumber: LITE_PSM_ACTIONS_OPERABLE, chainId: mainnet.id, useTenderlyVnet: true })
   let savingsPage: SavingsPageObject
   let sendDialog: SavingsDialogPageObject
   const receiver = randomAddress('bob')
@@ -47,7 +47,7 @@ test.describe('Send USDC on Mainnet', () => {
     await sendDialog.expectNativeRouteTransactionOverview({
       routeItems: [
         {
-          tokenAmount: '6,438.57 sDAI',
+          tokenAmount: '6,335.81 sDAI',
           tokenUsdValue: '$7,000.00',
         },
         {
@@ -83,7 +83,7 @@ test.describe('Send USDC on Mainnet', () => {
     })
 
     await sendDialog.clickBackToSavingsButton()
-    await savingsPage.expectSavingsDAIBalance({ sDaiBalance: '3,561.43 sDAI', estimatedDaiValue: '3,871.98' })
+    await savingsPage.expectSavingsDAIBalance({ sDaiBalance: '3,664.19 sDAI', estimatedDaiValue: '4,048.31' })
     await savingsPage.expectCashInWalletAssetBalance('USDC', '-')
   })
 })

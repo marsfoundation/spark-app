@@ -1,6 +1,6 @@
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { PSM_ACTIONS_DEPLOYED, PSM_ACTIONS_DEPLOYED_DATE } from '@/test/e2e/constants'
+import { LITE_PSM_ACTIONS_OPERABLE, LITE_PSM_ACTIONS_OPERABLE_DATE } from '@/test/e2e/constants'
 import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
@@ -9,8 +9,8 @@ import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageO
 
 test.describe('Withdraw USDC on Mainnet', () => {
   const fork = setupFork({
-    blockNumber: PSM_ACTIONS_DEPLOYED,
-    simulationDateOverride: PSM_ACTIONS_DEPLOYED_DATE,
+    blockNumber: LITE_PSM_ACTIONS_OPERABLE,
+    simulationDateOverride: LITE_PSM_ACTIONS_OPERABLE_DATE,
     chainId: mainnet.id,
   })
   let savingsPage: SavingsPageObject
@@ -47,7 +47,7 @@ test.describe('Withdraw USDC on Mainnet', () => {
     await withdrawalDialog.expectNativeRouteTransactionOverview({
       routeItems: [
         {
-          tokenAmount: '6,408.90 sDAI',
+          tokenAmount: '6,307.75 sDAI',
           tokenUsdValue: '$6,969.00',
         },
         {
@@ -71,7 +71,7 @@ test.describe('Withdraw USDC on Mainnet', () => {
     await withdrawalDialog.expectSuccessPage()
     await withdrawalDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsDAIBalance({ sDaiBalance: '3,591.10 sDAI', estimatedDaiValue: '3,904.93' })
+    await savingsPage.expectSavingsDAIBalance({ sDaiBalance: '3,692.25 sDAI', estimatedDaiValue: '4,079.31' })
     await savingsPage.expectCashInWalletAssetBalance('USDC', '6,969.00')
   })
 })
