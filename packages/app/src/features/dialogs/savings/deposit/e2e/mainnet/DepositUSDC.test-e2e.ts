@@ -1,6 +1,6 @@
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { PSM_ACTIONS_DEPLOYED, PSM_ACTIONS_DEPLOYED_DATE } from '@/test/e2e/constants'
+import { LITE_PSM_ACTIONS_OPERABLE, LITE_PSM_ACTIONS_OPERABLE_DATE } from '@/test/e2e/constants'
 import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
@@ -9,8 +9,8 @@ import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageO
 
 test.describe('Deposit USDC on Mainnet', () => {
   const fork = setupFork({
-    blockNumber: PSM_ACTIONS_DEPLOYED,
-    simulationDateOverride: PSM_ACTIONS_DEPLOYED_DATE,
+    blockNumber: LITE_PSM_ACTIONS_OPERABLE,
+    simulationDateOverride: LITE_PSM_ACTIONS_OPERABLE_DATE,
     chainId: mainnet.id,
   })
   let savingsPage: SavingsPageObject
@@ -45,8 +45,8 @@ test.describe('Deposit USDC on Mainnet', () => {
   test('displays transaction overview', async () => {
     await depositDialog.expectNativeRouteTransactionOverview({
       apy: {
-        value: '8.00%',
-        description: '~800.00 DAI per year',
+        value: '6.00%',
+        description: '~600.00 DAI per year',
       },
       routeItems: [
         {
@@ -58,11 +58,11 @@ test.describe('Deposit USDC on Mainnet', () => {
           tokenUsdValue: '$10,000.00',
         },
         {
-          tokenAmount: '9,196.30 sDAI',
+          tokenAmount: '9,051.15 sDAI',
           tokenUsdValue: '$10,000.00',
         },
       ],
-      outcome: '9,196.30 sDAI worth $10,000.00',
+      outcome: '9,051.15 sDAI worth $10,000.00',
       badgeToken: 'USDC',
     })
   })
@@ -74,7 +74,7 @@ test.describe('Deposit USDC on Mainnet', () => {
     await depositDialog.expectSuccessPage()
     await depositDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsDAIBalance({ sDaiBalance: '9,196.30 sDAI', estimatedDaiValue: '10,000' })
+    await savingsPage.expectSavingsDAIBalance({ sDaiBalance: '9,051.15 sDAI', estimatedDaiValue: '10,000' })
     await savingsPage.expectCashInWalletAssetBalance('USDC', '-')
   })
 })

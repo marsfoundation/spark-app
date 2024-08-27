@@ -1,6 +1,6 @@
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { PSM_ACTIONS_DEPLOYED } from '@/test/e2e/constants'
+import { LITE_PSM_ACTIONS_OPERABLE } from '@/test/e2e/constants'
 import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
@@ -10,7 +10,7 @@ import { SavingsDialogPageObject } from '../common/e2e/SavingsDialog.PageObject'
 test.describe('Savings deposit dialog', () => {
   test.describe('Mainnet', () => {
     const fork = setupFork({
-      blockNumber: PSM_ACTIONS_DEPLOYED,
+      blockNumber: LITE_PSM_ACTIONS_OPERABLE,
       chainId: mainnet.id,
       useTenderlyVnet: true,
     })
