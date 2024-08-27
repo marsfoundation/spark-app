@@ -3,11 +3,11 @@ import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { SuspenseQueryWith } from '@/utils/types'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { useAccount, useChainId, useConfig } from 'wagmi'
-import { FarmInfo } from '../types'
-import { farmsInfoQueryOptions } from './farmsInfo'
+import { FarmsInfo } from './farmsInfo'
+import { farmsInfoQueryOptions } from './query'
 
 export type UseMarketInfoResultOnSuccess = SuspenseQueryWith<{
-  farmsInfo: FarmInfo[]
+  farmsInfo: FarmsInfo
 }>
 
 export function useFarmsInfo(): UseMarketInfoResultOnSuccess {
@@ -18,7 +18,7 @@ export function useFarmsInfo(): UseMarketInfoResultOnSuccess {
   const { tokensInfo } = useTokensInfo({ tokens: chainConfig.extraTokens })
 
   const res = useSuspenseQuery(
-    farmsInfoQueryOptions({ farms: chainConfig.farms, wagmiConfig, tokensInfo, chainId, account }),
+    farmsInfoQueryOptions({ farmConfigs: chainConfig.farms, wagmiConfig, tokensInfo, chainId, account }),
   )
 
   return {

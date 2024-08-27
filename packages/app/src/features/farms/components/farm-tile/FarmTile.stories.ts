@@ -1,4 +1,3 @@
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { WithClassname } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
@@ -12,19 +11,15 @@ const meta: Meta<typeof FarmTile> = {
   component: FarmTile,
   decorators: [WithClassname('flex w-80'), withRouter],
   args: {
-    farmConfig: {
-      address: CheckedAddress('0x1234567890123456789012345678901234567890'),
-      entryAssetsGroup: {
-        type: 'stablecoins',
-        name: 'Stablecoins',
-        assets: [tokens.DAI.symbol, tokens.USDC.symbol, tokens.USDT.symbol],
-      },
-    },
-    farmInfo: {
-      rewardToken: tokens.weETH,
-      stakingToken: tokens.NST,
-      apy: Percentage(0.05),
-      deposit: NormalizedUnitNumber(0),
+    apy: Percentage(0.05),
+    staked: NormalizedUnitNumber(0),
+    rewardToken: tokens.weETH,
+    stakingToken: tokens.NST,
+    detailsLink: 'farm-details/1/0x1234567890123456789012345678901234567890',
+    entryAssetsGroup: {
+      type: 'stablecoins',
+      name: 'Stablecoins',
+      assets: [tokens.DAI.symbol, tokens.USDC.symbol, tokens.USDT.symbol],
     },
   },
 }
@@ -38,30 +33,21 @@ export const Tablet = getTabletStory(Desktop)
 
 export const WithDeposit: Story = {
   args: {
-    farmInfo: {
-      rewardToken: tokens.weETH,
-      stakingToken: tokens.NST,
-      apy: Percentage(0.05),
-      deposit: NormalizedUnitNumber(100),
-    },
+    staked: NormalizedUnitNumber(100),
   },
 }
 
 export const GovernanceEntryAssets: Story = {
   args: {
-    farmConfig: {
-      address: CheckedAddress('0x1234567890123456789012345678901234567890'),
-      entryAssetsGroup: {
-        type: 'governance',
-        name: 'Governance Tokens',
-        assets: [tokens.MKR.symbol, tokens.GNO.symbol],
-      },
-    },
-    farmInfo: {
-      rewardToken: tokens.NST,
-      stakingToken: tokens.weETH,
-      apy: Percentage(0.05),
-      deposit: NormalizedUnitNumber(0),
+    rewardToken: tokens.NST,
+    stakingToken: tokens.weETH,
+    apy: Percentage(0.05),
+    staked: NormalizedUnitNumber(0),
+    detailsLink: 'farm-details/1/0x1234567890123456789012345678901234567890',
+    entryAssetsGroup: {
+      type: 'governance',
+      name: 'Governance Tokens',
+      assets: [tokens.MKR.symbol, tokens.GNO.symbol],
     },
   },
 }

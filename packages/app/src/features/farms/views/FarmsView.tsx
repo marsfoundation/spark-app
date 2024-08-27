@@ -6,11 +6,11 @@ import { mainnet } from 'viem/chains'
 import { FarmTile, FarmTileProps } from '../components/farm-tile/FarmTile'
 
 export interface FarmsViewProps {
-  farms: FarmTileProps[]
   activeFarms: FarmTileProps[]
+  inactiveFarms: FarmTileProps[]
 }
 
-export function FarmsView({ farms, activeFarms }: FarmsViewProps) {
+export function FarmsView({ activeFarms, inactiveFarms }: FarmsViewProps) {
   const { logo: chainLogo, name: chainName } = getChainConfigEntry(mainnet.id).meta
   return (
     <PageLayout className="max-w-5xl gap-8 px-3 lg:px-0">
@@ -24,21 +24,21 @@ export function FarmsView({ farms, activeFarms }: FarmsViewProps) {
       <div className="flex flex-col gap-8">
         {activeFarms.length > 0 && (
           <div className="flex flex-col gap-4">
-            <h3 className={cn('font-semibold text-xl', farms.length === 0 && 'hidden')}>Active farms</h3>
+            <h3 className={cn('font-semibold text-xl', inactiveFarms.length === 0 && 'hidden')}>Active farms</h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3 sm:grid-cols-2 md:gap-8">
               {activeFarms.map((farm) => (
-                <FarmTile key={farm.farmConfig.address} {...farm} />
+                <FarmTile key={farm.detailsLink} {...farm} />
               ))}
             </div>
           </div>
         )}
-        {activeFarms.length > 0 && farms.length > 0 && <div className="border-basics-border border-t" />}
-        {farms.length > 0 && (
+        {activeFarms.length > 0 && inactiveFarms.length > 0 && <div className="border-basics-border border-t" />}
+        {inactiveFarms.length > 0 && (
           <div className="flex flex-col gap-4">
             <h3 className={cn('font-semibold text-xl', activeFarms.length === 0 && 'hidden')}>Available farms</h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3 sm:grid-cols-2 md:gap-8">
-              {farms.map((farm) => (
-                <FarmTile key={farm.farmConfig.address} {...farm} />
+              {inactiveFarms.map((farm) => (
+                <FarmTile key={farm.detailsLink} {...farm} />
               ))}
             </div>
           </div>

@@ -1,5 +1,6 @@
 import { CheckedAddress } from '../types/CheckedAddress'
 import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
+import { Token } from '../types/Token'
 import { TokenSymbol } from '../types/TokenSymbol'
 
 export interface AssetsGroup {
@@ -17,4 +18,20 @@ export interface FarmDetailsRowData {
   depositors: number
   tvl: NormalizedUnitNumber
   apy: Percentage
+}
+
+export interface Farm {
+  address: CheckedAddress
+  entryAssetsGroup: AssetsGroup
+
+  apy: Percentage
+  rewardToken: Token
+  stakingToken: Token
+  rewardRate: NormalizedUnitNumber
+  earnedTimestamp: number
+  periodFinish: number
+  totalSupply: NormalizedUnitNumber
+
+  earned: NormalizedUnitNumber
+  staked: NormalizedUnitNumber
 }
