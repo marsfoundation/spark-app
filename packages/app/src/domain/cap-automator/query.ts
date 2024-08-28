@@ -1,13 +1,12 @@
 import { queryOptions } from '@tanstack/react-query'
 import { Config } from 'wagmi'
 import { Token } from '../types/Token'
-import { mainnet } from 'viem/chains'
 import { CapAutomatorInfo, CapConfig } from './types'
 import { readContract } from 'wagmi/actions'
 import { capAutomatorAbi } from '@/config/abis/capAutomatorAbi'
-import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { assert } from '@/utils/assert'
+import { getChainConfigEntry } from '@/config/chain'
 
 interface CapAutomatorParams {
   wagmiConfig: Config
@@ -15,21 +14,13 @@ interface CapAutomatorParams {
   token: Token
 }
 
-// TODO wagmi cli not working so its temporary
-export const capAutomatorAddress = {
-  1: '0x2276f52afba7Cf2525fd0a050DF464AC8532d0ef',
-} as const
-
-export const capAutomatorConfig = {
-  address: capAutomatorAddress,
-  abi: capAutomatorAbi,
-} as const
-
 export function capAutomatorQueryOptions({ token, wagmiConfig, chainId }: CapAutomatorParams) {
   return queryOptions<CapAutomatorInfo>({
     queryKey: capAutomatorQueryKey({ token, chainId }),
     queryFn: async () => {
-      if (chainId !== mainnet.id) {
+      const { capAutomatorAddress } = getChainConfigEntry(chainId)
+
+      if (!capAutomatorAddress) {
         return {
           supplyCap: null,
           borrowCap: null,
@@ -37,9 +28,9 @@ export function capAutomatorQueryOptions({ token, wagmiConfig, chainId }: CapAut
       }
 
       const automatorParams = {
-        address: getContractAddress(capAutomatorConfig.address, chainId),
+        address: capAutomatorAddress,
         args: [token.address],
-        abi: capAutomatorConfig.abi,
+        abi: capAutomatorAbi,
       } as const
 
       const caps = await Promise.all([
