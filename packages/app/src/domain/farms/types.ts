@@ -34,4 +34,6 @@ export interface Farm {
 
   earned: NormalizedUnitNumber
   staked: NormalizedUnitNumber
+
+  depositors: number
 }

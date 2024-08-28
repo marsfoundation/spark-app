@@ -1,18 +1,18 @@
+import { Farm } from '@/domain/farms/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { getTokenImage } from '@/ui/assets'
 import { getFractionalPart, getWholePart } from '@/utils/bigNumber'
 import { useTimestamp } from '@/utils/useTimestamp'
 import BigNumber from 'bignumber.js'
-import { FarmInfo } from '../../types'
 
 const STEP_IN_MS = 50
 
 export interface EarnedBalanceProps {
-  FarmInfo: FarmInfo
+  farm: Farm
 }
 
-export function EarnedBalance({ FarmInfo }: EarnedBalanceProps) {
-  const { rewardToken, earned, staked, rewardRate, earnedTimestamp, periodFinish, totalSupply } = FarmInfo
+export function EarnedBalance({ farm }: EarnedBalanceProps) {
+  const { rewardToken, earned, staked, rewardRate, earnedTimestamp, periodFinish, totalSupply } = farm
   const { timestampInMs } = useTimestamp({
     refreshIntervalInMs: rewardRate.gt(0) && totalSupply.gt(0) ? STEP_IN_MS : undefined,
   })
