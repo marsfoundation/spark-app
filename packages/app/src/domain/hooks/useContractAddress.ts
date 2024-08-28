@@ -13,7 +13,9 @@ export function getOptionalContractAddress(
   const sandbox = useStore.getState().sandbox.network
   const originChainId = getOriginChainId(chainId, sandbox)
 
-  return addressMap[originChainId] ? CheckedAddress(addressMap[originChainId]) : null
+  const address = addressMap[originChainId]
+
+  return address ? CheckedAddress(address) : null
 }
 
 export function getContractAddress(addressMap: Record<number, Address>, chainId: number): CheckedAddress {
