@@ -12,7 +12,6 @@ import { makeDaiMarketOverview } from './makeDaiMarketOverview'
 import { makeMarketOverview } from './makeMarketOverview'
 import { makeWalletOverview } from './makeWalletOverview'
 import { useMarketDetailsParams } from './useMarketDetailsParams'
-import { useCapAutomatorInfo } from '@/domain/cap-automator/useCapAutomator/useCapAutomatorInfo'
 
 export interface UseMarketDetailsResult {
   token: Token
@@ -36,10 +35,6 @@ export function useMarketDetails(): UseMarketDetailsResult {
   const chainMismatch = connectedChainId !== chainId
 
   const reserve = marketInfo.findReserveByUnderlyingAsset(asset) ?? raise(new NotFoundError())
-
-  const { capAutomatorInfo } = useCapAutomatorInfo({ token: reserve.token, chainId })
-  // biome-ignore lint/suspicious/noConsoleLog: <explanation>
-  console.log(capAutomatorInfo)
 
   const isDaiOverview = reserve.token.symbol === marketInfo.DAI.symbol && D3MInfo
 
