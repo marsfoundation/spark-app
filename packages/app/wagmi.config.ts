@@ -107,6 +107,12 @@ export default defineConfig({
             [mainnet.id]: '0x5803199F1085d52D1Bb527f24Dc1A2744e80A979',
           },
         },
+        {
+          name: 'CapAutomator',
+          address: {
+            [mainnet.id]: '0x2276f52afba7Cf2525fd0a050DF464AC8532d0ef',
+          },
+        },
       ],
     }),
     etherscan({
