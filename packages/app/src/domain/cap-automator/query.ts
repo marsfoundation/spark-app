@@ -1,10 +1,10 @@
-import { capAutomatorAbi } from '@/config/abis/capAutomatorAbi'
-import { getChainConfigEntry } from '@/config/chain'
+import { capAutomatorConfig } from '@/config/contracts-generated'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { assert } from '@/utils/assert'
 import { queryOptions } from '@tanstack/react-query'
 import { Config } from 'wagmi'
 import { readContract } from 'wagmi/actions'
+import { getOptionalContractAddress } from '../hooks/useContractAddress'
 import { Token } from '../types/Token'
 import { CapAutomatorInfo, CapConfig } from './types'
 
@@ -19,7 +19,7 @@ export function capAutomatorQueryOptions({ token, wagmiConfig, chainId }: CapAut
   return queryOptions<CapAutomatorInfo>({
     queryKey: capAutomatorQueryKey({ token, chainId }),
     queryFn: async () => {
-      const { capAutomatorAddress } = getChainConfigEntry(chainId)
+      const capAutomatorAddress = getOptionalContractAddress(capAutomatorConfig.address, chainId)
 
       if (!capAutomatorAddress) {
         return {
@@ -32,13 +32,13 @@ export function capAutomatorQueryOptions({ token, wagmiConfig, chainId }: CapAut
         readContract(wagmiConfig, {
           address: capAutomatorAddress,
           args: [token.address],
-          abi: capAutomatorAbi,
+          abi: capAutomatorConfig.abi,
           functionName: 'supplyCapConfigs',
         }),
         readContract(wagmiConfig, {
           address: capAutomatorAddress,
           args: [token.address],
-          abi: capAutomatorAbi,
+          abi: capAutomatorConfig.abi,
           functionName: 'borrowCapConfigs',
         }),
       ])
@@ -56,12 +56,11 @@ export function capAutomatorQueryOptions({ token, wagmiConfig, chainId }: CapAut
 }
 
 function formatCapStructToConfig(capStruct: readonly [number, number, number, number, number]): CapConfig | null {
-  const maxCap = capStruct[0]
-  if (maxCap === 0) {
+  const [max, gap, increaseCooldown, lastUpdateBlock, lastIncreaseTime] = capStruct
+
+  if (max === 0) {
     return null
   }
-
-  const [max, gap, increaseCooldown, lastUpdateBlock, lastIncreaseTime] = capStruct
 
   return {
     maxCap: NormalizedUnitNumber(max),

@@ -68,7 +68,6 @@ export interface ChainConfigEntry {
   savingsInputTokens: TokenSymbol[]
   extraTokens: TokenWithOracleType[]
   farms: FarmConfig[]
-  capAutomatorAddress: CheckedAddress | undefined
 }
 
 export type ChainConfig = Record<SupportedChainId, ChainConfigEntry>

@@ -93,7 +93,6 @@ const chainConfig: ChainConfig = {
       },
     ],
     farms: [],
-    capAutomatorAddress: CheckedAddress('0x2276f52afba7Cf2525fd0a050DF464AC8532d0ef'),
   },
   [gnosis.id]: {
     id: gnosis.id,
@@ -151,7 +150,6 @@ const chainConfig: ChainConfig = {
       },
     ],
     farms: [],
-    capAutomatorAddress: undefined,
   },
 }
 
