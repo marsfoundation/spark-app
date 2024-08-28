@@ -1,5 +1,4 @@
 import { getChainConfigEntry } from '@/config/chain'
-import { getNativeAssetInfo } from '@/config/chain/utils/getNativeAssetInfo'
 import { queryOptions } from '@tanstack/react-query'
 import { Address } from 'viem'
 import { Config } from 'wagmi'
@@ -24,12 +23,11 @@ export function tokensQueryOptions({ tokens, wagmiConfig, chainId, account }: To
     queryKey: tokensQueryKey({ tokens, account, chainId }),
     queryFn: async () => {
       const chainConfig = getChainConfigEntry(chainId)
-      const nativeAssetInfo = getNativeAssetInfo(chainId)
 
       const tokensWithBalances = await Promise.all(
         tokens.map(async (tokenConfig) => {
-          const getOraclePrice = createOraclePriceFetcher({ tokenConfig, wagmiConfig })
-          const getAssetData = createAssetDataFetcher({ tokenConfig, wagmiConfig, nativeAssetInfo, account })
+          const getOraclePrice = createOraclePriceFetcher({ tokenConfig, wagmiConfig, chainId })
+          const getAssetData = createAssetDataFetcher({ tokenConfig, wagmiConfig, chainId, account })
 
           const [assetData, oraclePrice] = await Promise.all([getAssetData(), getOraclePrice()])
 
