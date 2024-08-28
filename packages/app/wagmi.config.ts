@@ -2,6 +2,7 @@ import { defineConfig } from '@wagmi/cli'
 import { etherscan } from '@wagmi/cli/plugins'
 import { gnosis, mainnet } from 'wagmi/chains'
 import { z } from 'zod'
+import 'dotenv/config'
 
 export default defineConfig({
   out: 'src/config/contracts-generated.ts',
