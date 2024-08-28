@@ -1,5 +1,5 @@
 import { withThemeByClassName } from '@storybook/addon-themes'
-import { WithI18n, WithQueryClient } from './decorators'
+import { WithFixedDate, WithI18n, WithQueryClient } from './decorators'
 
 import '../src/css/fonts.css'
 import '../src/css/main.css'
@@ -47,6 +47,7 @@ const preview: Preview = {
   decorators: [
     WithI18n(),
     WithQueryClient(),
+    WithFixedDate(),
     // Adds theme switching support.
     // NOTE: requires setting "darkMode" to "class" in your tailwind config
     // NOTE: order matters, this decorator must be the last one
