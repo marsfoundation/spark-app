@@ -1,5 +1,4 @@
-import { FarmConfig } from '@/domain/farms/types'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { AssetsGroup } from '@/domain/farms/types'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
@@ -8,13 +7,10 @@ import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { withRouter } from 'storybook-addon-remix-react-router'
 import { FarmsView } from './FarmsView'
 
-const farmConfig: FarmConfig = {
-  address: CheckedAddress('0x1234567890123456789012345678901234567890'),
-  entryAssetsGroup: {
-    type: 'stablecoins',
-    name: 'Stablecoins',
-    assets: [tokens.DAI.symbol, tokens.USDC.symbol, tokens.USDT.symbol],
-  },
+const entryAssetsGroup: AssetsGroup = {
+  type: 'stablecoins',
+  name: 'Stablecoins',
+  assets: [tokens.DAI.symbol, tokens.USDC.symbol, tokens.USDT.symbol],
 }
 
 const meta: Meta<typeof FarmsView> = {
@@ -25,38 +21,32 @@ const meta: Meta<typeof FarmsView> = {
   },
   decorators: [WithTooltipProvider(), withRouter],
   args: {
-    farms: [
+    inactiveFarms: [
       {
-        farmConfig,
-        farmInfo: {
-          apy: Percentage(0.051),
-          deposit: NormalizedUnitNumber(0),
-          rewardToken: tokens.wstETH,
-          stakingToken: tokens.DAI,
-        },
-        farmLink: '/',
+        apy: Percentage(0.051),
+        staked: NormalizedUnitNumber(0),
+        rewardToken: tokens.wstETH,
+        stakingToken: tokens.DAI,
+        detailsLink: 'farm-details/1/0x1234567890123456789012345678901234567890',
+        entryAssetsGroup,
       },
       {
-        farmConfig,
-        farmInfo: {
-          apy: Percentage(0.076),
-          deposit: NormalizedUnitNumber(0),
-          rewardToken: tokens.MKR,
-          stakingToken: tokens.DAI,
-        },
-        farmLink: '/',
+        apy: Percentage(0.076),
+        staked: NormalizedUnitNumber(0),
+        rewardToken: tokens.MKR,
+        stakingToken: tokens.DAI,
+        detailsLink: 'farm-details/1/0x1234567890123456789012345678901234567891',
+        entryAssetsGroup,
       },
     ],
     activeFarms: [
       {
-        farmConfig,
-        farmInfo: {
-          apy: Percentage(0.034),
-          deposit: NormalizedUnitNumber(100),
-          rewardToken: tokens.weETH,
-          stakingToken: tokens.NST,
-        },
-        farmLink: '/',
+        apy: Percentage(0.034),
+        staked: NormalizedUnitNumber(100),
+        rewardToken: tokens.weETH,
+        stakingToken: tokens.NST,
+        detailsLink: 'farm-details/1/0x1234567890123456789012345678901234567892',
+        entryAssetsGroup,
       },
     ],
   },

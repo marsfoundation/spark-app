@@ -1,30 +1,33 @@
 import { formatPercentage } from '@/domain/common/format'
-import { FarmConfig } from '@/domain/farms/types'
-import { Percentage } from '@/domain/types/NumericValues'
+import { AssetsGroup } from '@/domain/farms/types'
+import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
+import { Token } from '@/domain/types/Token'
 import { getTokenColor, getTokenImage } from '@/ui/assets'
 import { LinkDecorator } from '@/ui/atoms/link-decorator/LinkDecorator'
 import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
 import { cn } from '@/ui/utils/style'
 import { useState } from 'react'
-import { FarmInfo } from '../../types'
 
 export interface FarmTileProps {
-  farmConfig: FarmConfig
-  farmInfo: FarmInfo
-  farmLink: string
+  entryAssetsGroup: AssetsGroup
+  apy: Percentage
+  stakingToken: Token
+  staked: NormalizedUnitNumber
+  rewardToken: Token
+  detailsLink: string
 }
 
-export function FarmTile({ farmConfig, farmInfo, farmLink }: FarmTileProps) {
+export function FarmTile({ entryAssetsGroup, apy, stakingToken, staked, rewardToken, detailsLink }: FarmTileProps) {
   const [isHovered, setIsHovered] = useState(false)
 
-  const rewardTokenSymbol = farmInfo.rewardToken.symbol
+  const rewardTokenSymbol = rewardToken.symbol
   const borderAccentColor = getTokenColor(rewardTokenSymbol, { alpha: Percentage(0.7) })
   const headerAccentColor = getTokenColor(rewardTokenSymbol, { alpha: Percentage(0.5) })
   const rewardIcon = getTokenImage(rewardTokenSymbol)
-  const entryTokenIcons = farmConfig.entryAssetsGroup.assets.map((token) => getTokenImage(token))
+  const entryTokenIcons = entryAssetsGroup.assets.map((token) => getTokenImage(token))
 
   return (
-    <LinkDecorator to={farmLink}>
+    <LinkDecorator to={detailsLink}>
       <div
         style={isHovered ? { borderColor: borderAccentColor } : {}}
         className={cn(
@@ -47,20 +50,20 @@ export function FarmTile({ farmConfig, farmInfo, farmLink }: FarmTileProps) {
         </div>
         <div className="px-6 pb-7">
           <div className="grid w-full grid-cols-[auto,auto] grid-rows-[auto,auto]">
-            <div className="text-basics-dark-grey text-sm">Deposit {farmConfig.entryAssetsGroup.name}</div>
+            <div className="text-basics-dark-grey text-sm">Deposit {entryAssetsGroup.name}</div>
             <div className="justify-self-end text-basics-dark-grey text-sm">APY</div>
             <div className="font-semibold text-2xl">Earn {rewardTokenSymbol}</div>
             <div className="justify-self-end font-semibold text-2xl">
-              {formatPercentage(farmInfo.apy, { minimumFractionDigits: 0 })}
+              {formatPercentage(apy, { minimumFractionDigits: 0 })}
             </div>
           </div>
           <div className="mt-11 mb-6 border-basics-border border-t" />
-          {farmInfo.deposit.gt(0) ? (
+          {staked.gt(0) ? (
             <>
               <div className="mb-2 text-basics-dark-grey text-sm">Tokens deposited:</div>
               <div className="flex items-center gap-1.5 font-medium">
-                <img src={getTokenImage(farmInfo.stakingToken.symbol)} alt="farm-reward-icon" className="h-6 w-6" />
-                {farmInfo.stakingToken.format(farmInfo.deposit, { style: 'auto' })} {farmInfo.stakingToken.symbol}
+                <img src={getTokenImage(stakingToken.symbol)} alt="farm-reward-icon" className="h-6 w-6" />
+                {stakingToken.format(staked, { style: 'auto' })} {stakingToken.symbol}
               </div>
             </>
           ) : (

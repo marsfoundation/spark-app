@@ -99,7 +99,7 @@ export default defineConfig({
         {
           name: 'PSMActions',
           address: {
-            [mainnet.id]: '0x52d298Ff9e77E71C2EB1992260520E7b15257d99',
+            [mainnet.id]: '0x5803199F1085d52D1Bb527f24Dc1A2744e80A979',
           },
         },
       ],

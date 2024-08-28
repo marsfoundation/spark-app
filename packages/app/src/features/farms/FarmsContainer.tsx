@@ -4,9 +4,9 @@ import { useFarms } from './logic/useFarms'
 import { FarmsView } from './views/FarmsView'
 
 function FarmsContainer() {
-  const { farms, activeFarms } = useFarms()
+  const { activeFarms, inactiveFarms } = useFarms()
 
-  return <FarmsView farms={farms} activeFarms={activeFarms} />
+  return <FarmsView inactiveFarms={inactiveFarms} activeFarms={activeFarms} />
 }
 
 const FarmsContainerWithSuspense = withSuspense(FarmsContainer, FarmsSkeleton)
