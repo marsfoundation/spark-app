@@ -1,6 +1,6 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 
-export type CapConfig = {
+export interface CapConfig {
   maxCap: NormalizedUnitNumber
   gap: NormalizedUnitNumber
   increaseCooldown: number
@@ -8,4 +8,7 @@ export type CapConfig = {
   lastIncreaseTime: Date
 }
 
-export type CapAutomatorInfo = Record<'supplyCap' | 'borrowCap', CapConfig | null>
+export interface CapAutomatorInfo {
+  supplyCap: CapConfig | null
+  borrowCap: CapConfig | null
+}

@@ -3,9 +3,9 @@ import { useConfig } from 'wagmi'
 
 import { SuspenseQueryWith } from '@/utils/types'
 
-import { CapAutomatorInfo } from './types'
 import { Token } from '@/domain/types/Token'
 import { capAutomatorQueryOptions } from './query'
+import { CapAutomatorInfo } from './types'
 
 export interface UseCapAutomatorInfoParams {
   token: Token

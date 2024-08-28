@@ -12,7 +12,7 @@ import { makeDaiMarketOverview } from './makeDaiMarketOverview'
 import { makeMarketOverview } from './makeMarketOverview'
 import { makeWalletOverview } from './makeWalletOverview'
 import { useMarketDetailsParams } from './useMarketDetailsParams'
-import { useCapAutomatorInfo } from '@/domain/market-info/useCapAutomator/useCapAutomatorInfo'
+import { useCapAutomatorInfo } from '@/domain/cap-automator/useCapAutomator/useCapAutomatorInfo'
 
 export interface UseMarketDetailsResult {
   token: Token

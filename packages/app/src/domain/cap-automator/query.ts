@@ -1,12 +1,13 @@
 import { queryOptions } from '@tanstack/react-query'
 import { Config } from 'wagmi'
-import { Token } from '../../types/Token'
+import { Token } from '../types/Token'
 import { mainnet } from 'viem/chains'
 import { CapAutomatorInfo, CapConfig } from './types'
 import { readContract } from 'wagmi/actions'
 import { capAutomatorAbi } from '@/config/abis/capAutomatorAbi'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { assert } from '@/utils/assert'
 
 interface CapAutomatorParams {
   wagmiConfig: Config
@@ -52,8 +53,9 @@ export function capAutomatorQueryOptions({ token, wagmiConfig, chainId }: CapAut
         }),
       ])
 
-      // @note typescript infers null as undefined | null which cause type error
-      const [supplyCap, borrowCap] = caps.map(formatCapStructToConfig) as [CapConfig | null, CapConfig | null]
+      const [supplyCap, borrowCap] = caps.map(formatCapStructToConfig)
+
+      assert(supplyCap !== undefined && borrowCap !== undefined)
 
       return {
         supplyCap,
