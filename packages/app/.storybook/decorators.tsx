@@ -1,6 +1,6 @@
 import { StoryFn } from '@storybook/react'
 import { QueryClient, QueryClientConfig, QueryClientProvider } from '@tanstack/react-query'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { custom, encodeFunctionResult, zeroAddress } from 'viem'
 import { WagmiProvider, createConfig, useAccount, useConnect } from 'wagmi'
 
@@ -130,5 +130,19 @@ export function WithQueryClient(config?: QueryClientConfig) {
         <Story />
       </QueryClientProvider>
     )
+  }
+}
+
+export function WithFixedDate() {
+  return function WithFixedDate(Story: StoryFn) {
+    // biome-ignore lint/correctness/useHookAtTopLevel: the second one is the actual component that gets rendered
+    const firstRender = useRef(true)
+    if (firstRender.current) {
+      Date.now = () => 1724846808220
+
+      firstRender.current = false
+    }
+
+    return <Story />
   }
 }

@@ -13,10 +13,8 @@ export interface EarnedBalanceProps {
 
 export function EarnedBalance({ FarmInfo }: EarnedBalanceProps) {
   const { rewardToken, earned, staked, rewardRate, earnedTimestamp, periodFinish, totalSupply } = FarmInfo
-  // disable in storybook preview to avoid change detection in chromatic
-  const shouldRefresh = rewardRate.gt(0) && totalSupply.gt(0) && !import.meta.env.STORYBOOK_PREVIEW
   const { timestampInMs } = useTimestamp({
-    refreshIntervalInMs: shouldRefresh ? STEP_IN_MS : undefined,
+    refreshIntervalInMs: rewardRate.gt(0) && totalSupply.gt(0) ? STEP_IN_MS : undefined,
   })
 
   const currentEarned = calculateCurrentlyEarned({
@@ -25,7 +23,7 @@ export function EarnedBalance({ FarmInfo }: EarnedBalanceProps) {
     rewardRate,
     earnedTimestamp,
     periodFinish,
-    timestampInMs: import.meta.env.STORYBOOK_PREVIEW ? 1724846808220 : timestampInMs,
+    timestampInMs,
     totalSupply,
   })
   const precision = calculatePrecision({ staked, rewardRate })
