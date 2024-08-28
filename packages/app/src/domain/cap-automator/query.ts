@@ -1,12 +1,12 @@
-import { queryOptions } from '@tanstack/react-query'
-import { Config } from 'wagmi'
-import { Token } from '../types/Token'
-import { CapAutomatorInfo, CapConfig } from './types'
-import { readContract } from 'wagmi/actions'
 import { capAutomatorAbi } from '@/config/abis/capAutomatorAbi'
+import { getChainConfigEntry } from '@/config/chain'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { assert } from '@/utils/assert'
-import { getChainConfigEntry } from '@/config/chain'
+import { queryOptions } from '@tanstack/react-query'
+import { Config } from 'wagmi'
+import { readContract } from 'wagmi/actions'
+import { Token } from '../types/Token'
+import { CapAutomatorInfo, CapConfig } from './types'
 
 interface CapAutomatorParams {
   wagmiConfig: Config
@@ -14,6 +14,7 @@ interface CapAutomatorParams {
   token: Token
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function capAutomatorQueryOptions({ token, wagmiConfig, chainId }: CapAutomatorParams) {
   return queryOptions<CapAutomatorInfo>({
     queryKey: capAutomatorQueryKey({ token, chainId }),
@@ -27,19 +28,17 @@ export function capAutomatorQueryOptions({ token, wagmiConfig, chainId }: CapAut
         }
       }
 
-      const automatorParams = {
-        address: capAutomatorAddress,
-        args: [token.address],
-        abi: capAutomatorAbi,
-      } as const
-
       const caps = await Promise.all([
         readContract(wagmiConfig, {
-          ...automatorParams,
+          address: capAutomatorAddress,
+          args: [token.address],
+          abi: capAutomatorAbi,
           functionName: 'supplyCapConfigs',
         }),
         readContract(wagmiConfig, {
-          ...automatorParams,
+          address: capAutomatorAddress,
+          args: [token.address],
+          abi: capAutomatorAbi,
           functionName: 'borrowCapConfigs',
         }),
       ])
@@ -57,7 +56,8 @@ export function capAutomatorQueryOptions({ token, wagmiConfig, chainId }: CapAut
 }
 
 function formatCapStructToConfig(capStruct: readonly [number, number, number, number, number]): CapConfig | null {
-  if (capStruct.every((v) => v === 0)) {
+  const maxCap = capStruct[0]
+  if (maxCap === 0) {
     return null
   }
 
@@ -67,11 +67,11 @@ function formatCapStructToConfig(capStruct: readonly [number, number, number, nu
     maxCap: NormalizedUnitNumber(max),
     gap: NormalizedUnitNumber(gap),
     increaseCooldown,
-    lastUpdateBlock: lastUpdateBlock,
+    lastUpdateBlock,
     lastIncreaseTime: new Date(lastIncreaseTime * 1000),
   }
 }
 
 export function capAutomatorQueryKey({ token, chainId }: Omit<CapAutomatorParams, 'wagmiConfig'>): unknown[] {
-  return ['cap-automator', chainId, token]
+  return ['cap-automator', chainId, token.address]
 }
