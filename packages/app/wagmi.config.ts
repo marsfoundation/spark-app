@@ -8,7 +8,11 @@ export default defineConfig({
   contracts: [],
   plugins: [
     etherscan({
-      apiKey: z.string().parse(process.env.ETHERSCAN_API_KEY),
+      apiKey: z.string().parse(process.env.ETHERSCAN_API_KEY, {
+        errorMap: () => ({
+          message: "Couldn't process ETHERSCAN_API_KEY env variable",
+        }),
+      }),
       chainId: mainnet.id,
       contracts: [
         {
@@ -105,7 +109,11 @@ export default defineConfig({
       ],
     }),
     etherscan({
-      apiKey: z.string().parse(process.env.GNOSISCAN_API_KEY),
+      apiKey: z.string().parse(process.env.GNOSISCAN_API_KEY, {
+        errorMap: () => ({
+          message: "Couldn't process GNOSISCAN_API_KEY env variable",
+        }),
+      }),
       chainId: gnosis.id,
       contracts: [
         {
