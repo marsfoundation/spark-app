@@ -167,6 +167,20 @@ export const testIds = makeTestIds({
       balance: true,
     },
   },
+  farms: {
+    active: {
+      tile: (index: number) => index,
+    },
+    inactive: {
+      tile: (index: number) => index,
+    },
+    tile: {
+      apy: true,
+      stakeText: true,
+      rewardText: true,
+      staked: true,
+    },
+  },
 })
 
 function makeTestIds<T extends Object>(obj: T, prefix?: string): MapValuesToString<T> {

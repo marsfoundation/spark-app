@@ -6,6 +6,7 @@ import { getTokenColor, getTokenImage } from '@/ui/assets'
 import { LinkDecorator } from '@/ui/atoms/link-decorator/LinkDecorator'
 import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
 import { cn } from '@/ui/utils/style'
+import { testIds } from '@/ui/utils/testIds'
 import { useState } from 'react'
 
 export interface FarmTileProps {
@@ -15,9 +16,18 @@ export interface FarmTileProps {
   staked: NormalizedUnitNumber
   rewardToken: Token
   detailsLink: string
+  'data-testid'?: string
 }
 
-export function FarmTile({ entryAssetsGroup, apy, stakingToken, staked, rewardToken, detailsLink }: FarmTileProps) {
+export function FarmTile({
+  entryAssetsGroup,
+  apy,
+  stakingToken,
+  staked,
+  rewardToken,
+  detailsLink,
+  'data-testid': dataTestId,
+}: FarmTileProps) {
   const [isHovered, setIsHovered] = useState(false)
 
   const rewardTokenSymbol = rewardToken.symbol
@@ -37,6 +47,7 @@ export function FarmTile({ entryAssetsGroup, apy, stakingToken, staked, rewardTo
         )}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
+        data-testid={dataTestId}
       >
         <div className="relative isolate">
           <div
@@ -50,10 +61,14 @@ export function FarmTile({ entryAssetsGroup, apy, stakingToken, staked, rewardTo
         </div>
         <div className="px-6 pb-7">
           <div className="grid w-full grid-cols-[auto,auto] grid-rows-[auto,auto]">
-            <div className="text-basics-dark-grey text-sm">Deposit {entryAssetsGroup.name}</div>
+            <div className="text-basics-dark-grey text-sm" data-testid={testIds.farms.tile.stakeText}>
+              Deposit {entryAssetsGroup.name}
+            </div>
             <div className="justify-self-end text-basics-dark-grey text-sm">APY</div>
-            <div className="font-semibold text-2xl">Earn {rewardTokenSymbol}</div>
-            <div className="justify-self-end font-semibold text-2xl">
+            <div className="font-semibold text-2xl" data-testid={testIds.farms.tile.rewardText}>
+              Earn {rewardTokenSymbol}
+            </div>
+            <div className="justify-self-end font-semibold text-2xl" data-testid={testIds.farms.tile.apy}>
               {formatPercentage(apy, { minimumFractionDigits: 0 })}
             </div>
           </div>
@@ -63,7 +78,8 @@ export function FarmTile({ entryAssetsGroup, apy, stakingToken, staked, rewardTo
               <div className="mb-2 text-basics-dark-grey text-sm">Tokens deposited:</div>
               <div className="flex items-center gap-1.5 font-medium">
                 <img src={getTokenImage(stakingToken.symbol)} alt="farm-reward-icon" className="h-6 w-6" />
-                {stakingToken.format(staked, { style: 'auto' })} {stakingToken.symbol}
+                <span data-testid={testIds.farms.tile.staked}>{stakingToken.format(staked, { style: 'auto' })}</span>{' '}
+                {stakingToken.symbol}
               </div>
             </>
           ) : (
