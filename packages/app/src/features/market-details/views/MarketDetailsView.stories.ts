@@ -24,6 +24,8 @@ type Story = StoryObj<typeof MarketDetailsView>
 
 const args: MarketDetailsViewProps = {
   token: tokens.rETH,
+  aToken: tokens.arETH,
+  variableDebtTokenAddress: '0xBa2C8F2eA5B56690bFb8b709438F049e5Dd76B96',
   chainName: 'Ethereum Mainnet',
   chainId: 1,
   chainMismatch: false,
