@@ -15,6 +15,8 @@ import { useMarketDetailsParams } from './useMarketDetailsParams'
 
 export interface UseMarketDetailsResult {
   token: Token
+  aToken: Token
+  variableDebtTokenAddress: string
   chainName: string
   chainId: number
   marketOverview: MarketOverview
@@ -59,6 +61,8 @@ export function useMarketDetails(): UseMarketDetailsResult {
 
   return {
     token: reserve.token,
+    aToken: reserve.aToken,
+    variableDebtTokenAddress: reserve.variableDebtTokenAddress,
     chainName: chainMeta.name,
     chainId,
     marketOverview,

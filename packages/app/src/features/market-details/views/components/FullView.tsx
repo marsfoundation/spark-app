@@ -11,6 +11,8 @@ import { Header } from './Header'
 
 export function FullView({
   token,
+  aToken,
+  variableDebtTokenAddress,
   chainId,
   chainName,
   chainMismatch,
@@ -22,7 +24,13 @@ export function FullView({
   return (
     <div className="w-full max-w-5xl pt-12 pb-8 lg:mx-auto sm:mx-3">
       <BackNav chainId={chainId} chainName={chainName} />
-      <Header token={token} chainName={chainName} chainMismatch={chainMismatch} />
+      <Header
+        token={token}
+        aToken={aToken}
+        variableDebtTokenAddress={variableDebtTokenAddress}
+        chainName={chainName}
+        chainMismatch={chainMismatch}
+      />
       <div className="grid grid-cols-[2fr_1fr] gap-5 md:gap-10">
         <div className="flex flex-col gap-6">
           {marketOverview.supply && <SupplyStatusPanel token={token} {...marketOverview.supply} />}
