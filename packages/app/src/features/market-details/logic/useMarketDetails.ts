@@ -6,7 +6,9 @@ import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { Token } from '@/domain/types/Token'
 import { useMarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 import { raise } from '@/utils/assert'
+import { Address } from 'viem'
 import { useChainId } from 'wagmi'
+
 import { MarketOverview, WalletOverview } from '../types'
 import { makeDaiMarketOverview } from './makeDaiMarketOverview'
 import { makeMarketOverview } from './makeMarketOverview'
@@ -16,7 +18,7 @@ import { useMarketDetailsParams } from './useMarketDetailsParams'
 export interface UseMarketDetailsResult {
   token: Token
   aToken: Token
-  variableDebtTokenAddress: string
+  variableDebtTokenAddress: Address
   chainName: string
   chainId: number
   marketOverview: MarketOverview
