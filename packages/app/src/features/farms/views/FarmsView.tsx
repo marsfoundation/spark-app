@@ -2,6 +2,7 @@ import { getChainConfigEntry } from '@/config/chain'
 import { Typography } from '@/ui/atoms/typography/Typography'
 import { PageLayout } from '@/ui/layouts/PageLayout'
 import { cn } from '@/ui/utils/style'
+import { testIds } from '@/ui/utils/testIds'
 import { mainnet } from 'viem/chains'
 import { FarmTile, FarmTileProps } from '../components/farm-tile/FarmTile'
 
@@ -26,8 +27,8 @@ export function FarmsView({ activeFarms, inactiveFarms }: FarmsViewProps) {
           <div className="flex flex-col gap-4">
             <h3 className={cn('font-semibold text-xl', inactiveFarms.length === 0 && 'hidden')}>Active farms</h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3 sm:grid-cols-2 md:gap-8">
-              {activeFarms.map((farm) => (
-                <FarmTile key={farm.detailsLink} {...farm} />
+              {activeFarms.map((farm, index) => (
+                <FarmTile key={farm.detailsLink} data-testid={testIds.farms.active.tile(index)} {...farm} />
               ))}
             </div>
           </div>
@@ -37,8 +38,8 @@ export function FarmsView({ activeFarms, inactiveFarms }: FarmsViewProps) {
           <div className="flex flex-col gap-4">
             <h3 className={cn('font-semibold text-xl', activeFarms.length === 0 && 'hidden')}>Available farms</h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3 sm:grid-cols-2 md:gap-8">
-              {inactiveFarms.map((farm) => (
-                <FarmTile key={farm.detailsLink} {...farm} />
+              {inactiveFarms.map((farm, index) => (
+                <FarmTile key={farm.detailsLink} data-testid={testIds.farms.inactive.tile(index)} {...farm} />
               ))}
             </div>
           </div>
