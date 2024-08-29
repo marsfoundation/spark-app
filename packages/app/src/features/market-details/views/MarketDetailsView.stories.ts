@@ -1,4 +1,4 @@
-import { WithTooltipProvider } from '@storybook/decorators'
+import { WithDevContainer, WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
@@ -17,7 +17,7 @@ const meta: Meta<typeof MarketDetailsView> = {
   parameters: {
     layout: 'fullscreen',
   },
-  decorators: [WithTooltipProvider(), withRouter],
+  decorators: [WithTooltipProvider(), WithDevContainer(), withRouter],
 }
 
 export default meta
