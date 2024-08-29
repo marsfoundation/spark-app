@@ -92,7 +92,7 @@ export const tokens = {
     symbol: TokenSymbol('rETH'),
     name: 'Rocket Pool ETH',
     decimals: 18,
-    address: CheckedAddress('0x62BC478FFC429161115A6E4090f819CE5C50A5d9'),
+    address: CheckedAddress('0xae78736Cd615f374D3085123A210448E74Fc6393'),
   }),
   MKR: new Token({
     unitPriceUsd: '1403.75',

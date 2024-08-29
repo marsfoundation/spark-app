@@ -46,7 +46,7 @@ export function useNavbar(): UseNavbarResults {
     name: ensName ?? undefined,
   })
   const { address, connector } = useAccount()
-  const blockExplorerAddressLink = useBlockExplorerAddressLink(address)
+  const blockExplorerAddressLink = useBlockExplorerAddressLink({ address })
   const openDialog = useOpenDialog()
 
   const wagmiConfig = useConfig()

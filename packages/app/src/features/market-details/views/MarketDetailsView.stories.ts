@@ -1,4 +1,4 @@
-import { WithTooltipProvider } from '@storybook/decorators'
+import { WithDevContainer, WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
@@ -7,6 +7,7 @@ import { withRouter } from 'storybook-addon-remix-react-router'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { bigNumberify } from '@/utils/bigNumber'
 
+import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { MarketDetailsView } from './MarketDetailsView'
 import { MarketDetailsViewProps } from './types'
 
@@ -16,7 +17,7 @@ const meta: Meta<typeof MarketDetailsView> = {
   parameters: {
     layout: 'fullscreen',
   },
-  decorators: [WithTooltipProvider(), withRouter],
+  decorators: [WithTooltipProvider(), WithDevContainer(), withRouter],
 }
 
 export default meta
@@ -24,6 +25,8 @@ type Story = StoryObj<typeof MarketDetailsView>
 
 const args: MarketDetailsViewProps = {
   token: tokens.rETH,
+  aToken: tokens.rETH.createAToken(CheckedAddress('0x9985dF20D7e9103ECBCeb16a84956434B6f06ae8')),
+  variableDebtTokenAddress: CheckedAddress('0xBa2C8F2eA5B56690bFb8b709438F049e5Dd76B96'),
   chainName: 'Ethereum Mainnet',
   chainId: 1,
   chainMismatch: false,
