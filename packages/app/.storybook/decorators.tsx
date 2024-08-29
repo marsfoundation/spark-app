@@ -138,7 +138,7 @@ export function WithFixedDate() {
     // biome-ignore lint/correctness/useHookAtTopLevel: the second one is the actual component that gets rendered
     const firstRender = useRef(true)
     if (firstRender.current) {
-      Date.now = () => 1724846808220
+      Date.now = () => 1724846808220 // 2024-08-28T12:06:48.220Z
 
       firstRender.current = false
     }
