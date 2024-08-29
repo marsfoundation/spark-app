@@ -5,9 +5,9 @@ import { useFarmDetails } from './logic/useFarmDetails'
 import { FarmDetailsView } from './views/FarmDetailsView'
 
 function FarmDetailsContainer() {
-  useFarmDetails()
+  const farmDetails = useFarmDetails()
 
-  return <FarmDetailsView />
+  return <FarmDetailsView {...farmDetails} />
 }
 
 const FarmDetailsContainerWithSuspense = withSuspense(FarmDetailsContainer, FarmDetailsSkeleton)

@@ -40,6 +40,8 @@ export async function getFarm({ farmConfig, wagmiConfig, tokensInfo, chainId, ac
     earned: NormalizedUnitNumber(rewardToken.fromBaseUnit(BaseUnitNumber(contractData.earned))),
     staked: NormalizedUnitNumber(stakingToken.fromBaseUnit(BaseUnitNumber(contractData.staked))),
     earnedTimestamp: Number(contractData.earnedTimestamp),
+
+    depositors: baData.depositors,
   }
 }
 
@@ -167,6 +169,7 @@ interface GetFarmBADataParams {
 
 interface GetFarmBADataResult {
   apy: Percentage
+  depositors: number
 }
 
 async function getBAFarmData({ farmConfig }: GetFarmBADataParams): Promise<GetFarmBADataResult> {
@@ -180,4 +183,5 @@ async function getBAFarmData({ farmConfig }: GetFarmBADataParams): Promise<GetFa
 
 const baFarmDataResponseSchema = z.object({
   apy: z.string().transform((value) => Percentage(value)),
+  depositors: z.number(),
 })
