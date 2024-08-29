@@ -1,0 +1,33 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2024-08-29 15:10+0200\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+
+#: src/features/easy-borrow/components/form/EasyBorrowForm.tsx:106
+#: src/features/navbar/components/PageLinks.tsx:29
+msgid "Borrow"
+msgstr ""
+
+#: src/features/easy-borrow/components/EasyBorrowPanel.tsx:64
+msgid "Borrow {0}"
+msgstr ""
+
+#: src/features/navbar/components/PageLinks.tsx:44
+msgid "Cash & Savings"
+msgstr ""
+
+#: src/features/navbar/components/PageLinks.tsx:32
+msgid "Dashboard"
+msgstr ""
+
+#: src/features/navbar/components/PageLinks.tsx:52
+msgid "Farms"
+msgstr ""
+
+#: src/features/navbar/components/PageLinks.tsx:48
+msgid "Markets"
+msgstr ""

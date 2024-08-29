@@ -5,3 +5,4 @@ dist
 packages/app/.swc
 build-storybook.log
 packages/app/src/locales/*.po
+!packages/app/src/locales/en.po
