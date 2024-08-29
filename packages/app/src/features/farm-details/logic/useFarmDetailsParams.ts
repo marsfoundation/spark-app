@@ -7,7 +7,7 @@ import { useValidatedParams } from '@/utils/useValidatedParams'
 
 const farmDetailsUrlSchema = z.object({
   chainId: z.coerce.number(),
-  farm: checkedAddressSchema,
+  address: checkedAddressSchema,
 })
 
 export function useFarmDetailsParams(): z.infer<typeof farmDetailsUrlSchema> {

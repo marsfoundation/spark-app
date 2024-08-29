@@ -1,3 +1,4 @@
+import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
@@ -15,7 +16,14 @@ const meta: Meta<typeof ActiveFarmInfoPanel> = {
       tvl: NormalizedUnitNumber(57_891),
       apy: Percentage(0.05),
     },
-    FarmInfo: {
+    farm: {
+      address: CheckedAddress('0x1234567890123456789012345678901234567890'),
+      apy: Percentage(0.05),
+      entryAssetsGroup: {
+        type: 'stablecoins',
+        name: 'Stablecoins',
+        assets: [tokens.DAI.symbol, tokens.USDC.symbol, tokens.USDT.symbol],
+      },
       rewardToken: tokens.MKR,
       stakingToken: tokens.DAI,
       earned: NormalizedUnitNumber(71.2345783),
@@ -24,6 +32,7 @@ const meta: Meta<typeof ActiveFarmInfoPanel> = {
       earnedTimestamp: 1724337615,
       periodFinish: 2677721600,
       totalSupply: NormalizedUnitNumber(100_000),
+      depositors: 6,
     },
   },
 }

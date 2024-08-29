@@ -10,7 +10,7 @@ export interface GetFarmTileDataParams {
 export function getFarmTileProps({ farm, chainId }: GetFarmTileDataParams): FarmTileProps {
   return {
     apy: farm.apy,
-    detailsLink: generatePath(paths.farmDetails, { chainId: chainId.toString(), farm: farm.address }),
+    detailsLink: generatePath(paths.farmDetails, { chainId: chainId.toString(), address: farm.address }),
     entryAssetsGroup: farm.entryAssetsGroup,
     rewardToken: farm.rewardToken,
     stakingToken: farm.stakingToken,

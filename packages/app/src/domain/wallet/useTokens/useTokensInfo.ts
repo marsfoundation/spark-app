@@ -8,16 +8,18 @@ import { TokenConfig } from './types'
 
 export interface UseTokensParams {
   tokens: TokenConfig[]
+  chainId?: number
 }
 
 export type UseTokensResult = SuspenseQueryWith<{
   tokensInfo: TokensInfo
 }>
 
-export function useTokensInfo({ tokens }: UseTokensParams): UseTokensResult {
+export function useTokensInfo(params: UseTokensParams): UseTokensResult {
   const wagmiConfig = useConfig()
   const { address } = useAccount()
-  const chainId = useChainId()
+  const _chainId = useChainId()
+  const { tokens, chainId = _chainId } = params
 
   const response = useSuspenseQuery({
     ...tokensQueryOptions({
