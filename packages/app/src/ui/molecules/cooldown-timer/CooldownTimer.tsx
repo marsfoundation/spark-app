@@ -15,11 +15,11 @@ export function CooldownTimer({ renewalPeriod, latestUpdateTimestamp }: Cooldown
     refreshIntervalInMs: 1000,
   })
 
-  const isOverflown = timestamp - latestUpdateTimestamp > renewalPeriod
+  const isOverflown = timestamp - latestUpdateTimestamp >= renewalPeriod
   const timeLeft = isOverflown ? 0 : renewalPeriod - (timestamp - latestUpdateTimestamp)
 
   return (
-    <Tooltip open>
+    <Tooltip>
       <TooltipTrigger>
         <IconPill icon={assets.timer} />
       </TooltipTrigger>
