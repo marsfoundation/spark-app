@@ -1,3 +1,4 @@
+import BoxArrowTopRight from '@/ui/assets/box-arrow-top-right.svg?react'
 import MagicWand from '@/ui/assets/magic-wand.svg?react'
 import MoreIcon from '@/ui/assets/more-icon.svg?react'
 import { Button } from '@/ui/atoms/button/Button'
@@ -56,13 +57,17 @@ export function SettingsDropdown({
 
         <Link to="https://spark.fi/terms-of-use.html" external>
           <SettingsDropdownItem>
-            <SettingsDropdownItem.Content>Terms of Service</SettingsDropdownItem.Content>
+            <SettingsDropdownItem.Content icon={<BoxArrowTopRight className="h-4 w-4" />}>
+              Terms of Service
+            </SettingsDropdownItem.Content>
           </SettingsDropdownItem>
         </Link>
 
         <Link to="https://legacy-app.spark.fi/" external>
           <SettingsDropdownItem>
-            <SettingsDropdownItem.Content>Legacy interface</SettingsDropdownItem.Content>
+            <SettingsDropdownItem.Content icon={<BoxArrowTopRight className="h-4 w-4" />}>
+              Legacy interface
+            </SettingsDropdownItem.Content>
           </SettingsDropdownItem>
         </Link>
 
