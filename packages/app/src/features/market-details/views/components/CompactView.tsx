@@ -32,6 +32,7 @@ export function CompactView({
         variableDebtTokenAddress={variableDebtTokenAddress}
         chainName={chainName}
         chainMismatch={chainMismatch}
+        chainId={chainId}
       />
       <Tabs defaultValue="overview">
         <TabsList className="sticky top-0 z-10 bg-body pt-2">

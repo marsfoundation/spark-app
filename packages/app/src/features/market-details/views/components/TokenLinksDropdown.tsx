@@ -20,9 +20,10 @@ export interface TokenLinksDropdownProps {
   token: Token
   aToken: Token
   variableDebtTokenAddress: Address
+  chainId: number
 }
 
-export function TokenLinksDropdown({ token, aToken, variableDebtTokenAddress }: TokenLinksDropdownProps) {
+export function TokenLinksDropdown({ token, aToken, variableDebtTokenAddress, chainId }: TokenLinksDropdownProps) {
   const tokenContractsLinks = [
     { token, address: token.address, label: token.symbol },
     { token: aToken, address: aToken.address, label: aToken.symbol },
@@ -32,7 +33,7 @@ export function TokenLinksDropdown({ token, aToken, variableDebtTokenAddress }: 
     <TokenLinksWrapper>
       <DropdownMenuLabel className="p-4 pb-0 font-normal text-basics-dark-grey">Token Contracts</DropdownMenuLabel>
       {tokenContractsLinks.map((contractLink) => (
-        <BlockExplorerAddressLink key={contractLink.address} address={contractLink.address}>
+        <BlockExplorerAddressLink key={contractLink.address} address={contractLink.address} chainId={chainId}>
           <TokenLinksDropdownItem {...contractLink} />
         </BlockExplorerAddressLink>
       ))}
@@ -56,10 +57,11 @@ function TokenLinksWrapper({ children }: PropsWithChildren) {
 interface BlockExplorerAddressLinkProps {
   address: Address
   children: ReactNode
+  chainId: number
 }
 
-function BlockExplorerAddressLink({ address, children }: BlockExplorerAddressLinkProps) {
-  const contractLink = useBlockExplorerAddressLink({ address })
+function BlockExplorerAddressLink({ address, children, chainId }: BlockExplorerAddressLinkProps) {
+  const contractLink = useBlockExplorerAddressLink({ address, chainId })
 
   return contractLink ? (
     <Link to={contractLink} external>

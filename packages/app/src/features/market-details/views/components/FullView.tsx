@@ -30,6 +30,7 @@ export function FullView({
         variableDebtTokenAddress={variableDebtTokenAddress}
         chainName={chainName}
         chainMismatch={chainMismatch}
+        chainId={chainId}
       />
       <div className="grid grid-cols-[2fr_1fr] gap-5 md:gap-10">
         <div className="flex flex-col gap-6">
