@@ -45,6 +45,7 @@ import sparkIcon from './spark-icon.svg'
 import sparkLogo from './spark-logo.svg'
 import success from './success.svg'
 import threeDots from './three-dots.svg'
+import timer from './timer.svg'
 import dai from './tokens/dai.svg'
 import eth from './tokens/eth.svg'
 import eure from './tokens/eure.svg'
@@ -76,7 +77,6 @@ import walletConnect from './wallet-icons/wallet-connect.svg'
 import wallet from './wallet.svg'
 import warning from './warning.svg'
 import xCircle from './x-circle.svg'
-import timer from './timer.svg'
 
 export const assets = {
   sparkLogo,
