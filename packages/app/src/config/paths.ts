@@ -5,5 +5,5 @@ export const paths = {
   savings: '/savings',
   farms: '/farms',
   marketDetails: '/market-details/:chainId/:asset',
-  farmDetails: '/farm-details/:chainId/:farm',
+  farmDetails: '/farm-details/:chainId/:address',
 } as const

@@ -1,5 +1,5 @@
 import { stakingRewardsAbi } from '@/config/abis/stakingRewardsAbi'
-import { mkrAtlasApiUrl } from '@/config/consts'
+import { infoSkyApiUrl } from '@/config/consts'
 import { FarmConfig } from '@/domain/farms/types'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { BaseUnitNumber, NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
@@ -14,12 +14,13 @@ export interface GetFarmParams {
   farmConfig: FarmConfig
   wagmiConfig: Config
   tokensInfo: TokensInfo
+  chainId: number
   account: Address | undefined
 }
 
-export async function getFarm({ farmConfig, wagmiConfig, tokensInfo, account }: GetFarmParams): Promise<Farm> {
+export async function getFarm({ farmConfig, wagmiConfig, tokensInfo, chainId, account }: GetFarmParams): Promise<Farm> {
   const [contractData, baData] = await Promise.all([
-    getFarmContractData({ farmConfig, wagmiConfig, account }),
+    getFarmContractData({ farmConfig, wagmiConfig, chainId, account }),
     getBAFarmData({ farmConfig }),
   ])
 
@@ -39,12 +40,15 @@ export async function getFarm({ farmConfig, wagmiConfig, tokensInfo, account }: 
     earned: NormalizedUnitNumber(rewardToken.fromBaseUnit(BaseUnitNumber(contractData.earned))),
     staked: NormalizedUnitNumber(stakingToken.fromBaseUnit(BaseUnitNumber(contractData.staked))),
     earnedTimestamp: Number(contractData.earnedTimestamp),
+
+    depositors: baData.depositors,
   }
 }
 
 interface GetFarmContractDataParams {
   farmConfig: FarmConfig
   wagmiConfig: Config
+  chainId: number
   account: Address | undefined
 }
 
@@ -62,6 +66,7 @@ interface GetFarmContractDataResult {
 async function getFarmContractData({
   farmConfig,
   wagmiConfig,
+  chainId,
   account,
 }: GetFarmContractDataParams): Promise<GetFarmContractDataResult> {
   function getStaked(): Promise<bigint> {
@@ -74,6 +79,7 @@ async function getFarmContractData({
       abi: stakingRewardsAbi,
       functionName: 'balanceOf',
       args: [account],
+      chainId,
     })
 
     return res
@@ -89,6 +95,7 @@ async function getFarmContractData({
       abi: stakingRewardsAbi,
       functionName: 'earned',
       args: [account],
+      chainId,
     })
 
     return res
@@ -110,31 +117,37 @@ async function getFarmContractData({
       address: farmConfig.address,
       abi: stakingRewardsAbi,
       functionName: 'rewardsToken',
+      chainId,
     }),
     readContract(wagmiConfig, {
       address: farmConfig.address,
       abi: stakingRewardsAbi,
       functionName: 'stakingToken',
+      chainId,
     }),
     readContract(wagmiConfig, {
       address: farmConfig.address,
       abi: stakingRewardsAbi,
       functionName: 'rewardRate',
+      chainId,
     }),
     readContract(wagmiConfig, {
       address: farmConfig.address,
       abi: stakingRewardsAbi,
       functionName: 'lastTimeRewardApplicable',
+      chainId,
     }),
     readContract(wagmiConfig, {
       address: farmConfig.address,
       abi: stakingRewardsAbi,
       functionName: 'periodFinish',
+      chainId,
     }),
     readContract(wagmiConfig, {
       address: farmConfig.address,
       abi: stakingRewardsAbi,
       functionName: 'totalSupply',
+      chainId,
     }),
   ])
 
@@ -156,10 +169,11 @@ interface GetFarmBADataParams {
 
 interface GetFarmBADataResult {
   apy: Percentage
+  depositors: number
 }
 
 async function getBAFarmData({ farmConfig }: GetFarmBADataParams): Promise<GetFarmBADataResult> {
-  const res = await fetch(`${mkrAtlasApiUrl}/farms/${farmConfig.address.toLowerCase()}/`)
+  const res = await fetch(`${infoSkyApiUrl}/farms/${farmConfig.address.toLowerCase()}/`)
   if (!res.ok) {
     throw new Error(`Failed to fetch farm data: ${res.statusText}`)
   }
@@ -169,4 +183,5 @@ async function getBAFarmData({ farmConfig }: GetFarmBADataParams): Promise<GetFa
 
 const baFarmDataResponseSchema = z.object({
   apy: z.string().transform((value) => Percentage(value)),
+  depositors: z.number(),
 })

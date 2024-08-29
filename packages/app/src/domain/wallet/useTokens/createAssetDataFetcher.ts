@@ -1,4 +1,4 @@
-import { NativeAssetInfo } from '@/config/chain/types'
+import { getNativeAssetInfo } from '@/config/chain/utils/getNativeAssetInfo'
 import { NATIVE_ASSET_MOCK_ADDRESS } from '@/config/consts'
 import { BaseUnitNumber, NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
@@ -11,7 +11,7 @@ export interface CreateAssetDataFetcherParams {
   wagmiConfig: WagmiConfig
   tokenConfig: TokenConfig
   account: Address | undefined
-  nativeAssetInfo: NativeAssetInfo
+  chainId: number
 }
 
 export interface AssetData {
@@ -21,34 +21,27 @@ export interface AssetData {
   name: string
 }
 
-export function createAssetDataFetcher({
-  tokenConfig,
-  wagmiConfig,
-  account,
-  nativeAssetInfo,
-}: CreateAssetDataFetcherParams) {
+export function createAssetDataFetcher({ tokenConfig, wagmiConfig, account, chainId }: CreateAssetDataFetcherParams) {
   if (tokenConfig.address === NATIVE_ASSET_MOCK_ADDRESS) {
-    return () => getNativeAssetData({ wagmiConfig, nativeAssetInfo, account })
+    return () => getNativeAssetData({ wagmiConfig, chainId, account })
   }
 
-  return () => getERC20Data({ wagmiConfig, tokenConfig, account })
+  return () => getERC20Data({ wagmiConfig, tokenConfig, chainId, account })
 }
 
 interface GetNativeAssetDataParams {
   wagmiConfig: WagmiConfig
-  nativeAssetInfo: NativeAssetInfo
+  chainId: number
   account: Address | undefined
 }
 
-async function getNativeAssetData({
-  wagmiConfig,
-  nativeAssetInfo,
-  account,
-}: GetNativeAssetDataParams): Promise<AssetData> {
+async function getNativeAssetData({ wagmiConfig, chainId, account }: GetNativeAssetDataParams): Promise<AssetData> {
   // if account is undefined, read balance for zero address to extract decimals
   const { decimals, value: balance } = await getBalance(wagmiConfig, {
     address: account ?? zeroAddress,
+    chainId,
   })
+  const nativeAssetInfo = getNativeAssetInfo(chainId)
 
   return {
     // if account is undefined, the balance is 0
@@ -62,10 +55,11 @@ async function getNativeAssetData({
 interface GetERC20DataParams {
   wagmiConfig: WagmiConfig
   tokenConfig: TokenConfig
+  chainId: number
   account: Address | undefined
 }
 
-async function getERC20Data({ wagmiConfig, tokenConfig, account }: GetERC20DataParams): Promise<AssetData> {
+async function getERC20Data({ wagmiConfig, chainId, tokenConfig, account }: GetERC20DataParams): Promise<AssetData> {
   function getBalance(): Promise<bigint> {
     if (!account) {
       return Promise.resolve(0n)
@@ -76,6 +70,7 @@ async function getERC20Data({ wagmiConfig, tokenConfig, account }: GetERC20DataP
       address: tokenConfig.address,
       functionName: 'balanceOf',
       args: [account],
+      chainId,
     })
   }
 
@@ -87,16 +82,19 @@ async function getERC20Data({ wagmiConfig, tokenConfig, account }: GetERC20DataP
       abi: erc20Abi,
       address: tokenConfig.address,
       functionName: 'decimals',
+      chainId,
     }),
     readContract(wagmiConfig, {
       abi: erc20Abi,
       address: tokenConfig.address,
       functionName: 'symbol',
+      chainId,
     }),
     readContract(wagmiConfig, {
       abi: erc20Abi,
       address: tokenConfig.address,
       functionName: 'name',
+      chainId,
     }),
   ])
 

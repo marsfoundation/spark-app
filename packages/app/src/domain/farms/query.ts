@@ -26,7 +26,7 @@ export function farmsInfoQueryOptions({
     queryKey: getFarmsInfoQueryKey({ account, chainId }),
     queryFn: async () => {
       const farms = await Promise.all(
-        farmConfigs.map((farmConfig) => getFarm({ farmConfig, wagmiConfig, tokensInfo, account })),
+        farmConfigs.map((farmConfig) => getFarm({ farmConfig, wagmiConfig, tokensInfo, chainId, account })),
       )
       return new FarmsInfo(farms)
     },

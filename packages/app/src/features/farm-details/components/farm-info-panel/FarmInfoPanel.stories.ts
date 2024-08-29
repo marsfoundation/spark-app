@@ -17,6 +17,7 @@ const meta: Meta<typeof FarmInfoPanel> = {
       tvl: NormalizedUnitNumber(57_891),
       apy: Percentage(0.05),
     },
+    walletConnected: true,
   },
 }
 

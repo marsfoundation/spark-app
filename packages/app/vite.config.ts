@@ -47,10 +47,10 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/ba-api/, ''),
       },
-      '/mkr-atlas-api': {
-        target: 'https://mkr-atlas-api.blockanalitica.com/api/v1/',
+      '/info-sky-api': {
+        target: 'https://info-sky.blockanalitica.com/api/v1/',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/mkr-atlas-api/, ''),
+        rewrite: (path) => path.replace(/^\/info-sky-api/, ''),
       },
     },
   },
