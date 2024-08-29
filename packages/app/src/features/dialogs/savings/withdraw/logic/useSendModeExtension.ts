@@ -16,7 +16,7 @@ export interface UseSendModeOptionsParams {
 
 export function useSendModeExtension({ mode, tokensInfo }: UseSendModeOptionsParams): SendModeExtension | undefined {
   const { receiver, receiverForm, isFormValid } = useReceiverFormValues(tokensInfo)
-  const blockExplorerAddressLink = useBlockExplorerAddressLink(receiver)
+  const blockExplorerAddressLink = useBlockExplorerAddressLink({ address: receiver })
   const { isSmartContract, isPending: isSmartContractCheckPending } = useIsSmartContract(receiver)
 
   return mode === 'send'

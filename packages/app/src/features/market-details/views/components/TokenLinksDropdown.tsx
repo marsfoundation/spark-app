@@ -59,7 +59,7 @@ interface BlockExplorerAddressLinkProps {
 }
 
 function BlockExplorerAddressLink({ address, children }: BlockExplorerAddressLinkProps) {
-  const contractLink = useBlockExplorerAddressLink(address)
+  const contractLink = useBlockExplorerAddressLink({ address })
 
   return contractLink ? (
     <Link to={contractLink} external>
