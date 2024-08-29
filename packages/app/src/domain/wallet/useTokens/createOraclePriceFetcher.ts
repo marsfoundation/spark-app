@@ -7,11 +7,13 @@ import { TokenConfig } from './types'
 export interface CreateOraclePriceFetcherParams {
   tokenConfig: TokenConfig
   wagmiConfig: Config
+  chainId: number
 }
 
 export function createOraclePriceFetcher({
   tokenConfig,
   wagmiConfig,
+  chainId,
 }: CreateOraclePriceFetcherParams): () => Promise<NormalizedUnitNumber> {
   if (tokenConfig.oracleType === 'fixed-usd') {
     return async () => NormalizedUnitNumber(1)
@@ -24,6 +26,7 @@ export function createOraclePriceFetcher({
         address: tokenConfig.address,
         functionName: 'convertToAssets',
         args: [parseUnits('1', etherUnits.wei)],
+        chainId,
       })
 
       return NormalizedUnitNumber(formatUnits(result, etherUnits.wei))

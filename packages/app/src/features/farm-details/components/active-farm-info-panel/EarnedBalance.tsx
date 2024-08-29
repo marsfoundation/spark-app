@@ -6,7 +6,6 @@ import BigNumber from 'bignumber.js'
 import { FarmInfo } from '../../types'
 
 const STEP_IN_MS = 50
-const MS_IN_A_MONTH = 30 * 24 * 60 * 60 * 1000
 
 export interface EarnedBalanceProps {
   FarmInfo: FarmInfo
@@ -14,13 +13,9 @@ export interface EarnedBalanceProps {
 
 export function EarnedBalance({ FarmInfo }: EarnedBalanceProps) {
   const { rewardToken, earned, staked, rewardRate, earnedTimestamp, periodFinish, totalSupply } = FarmInfo
-  // disable in storybook preview to avoid change detection in chromatic
-  const shouldRefresh = rewardRate.gt(0) && totalSupply.gt(0) && !import.meta.env.STORYBOOK_PREVIEW
-  const { timestampInMs: _timestampInMs } = useTimestamp({
-    refreshIntervalInMs: shouldRefresh ? STEP_IN_MS : undefined,
+  const { timestampInMs } = useTimestamp({
+    refreshIntervalInMs: rewardRate.gt(0) && totalSupply.gt(0) ? STEP_IN_MS : undefined,
   })
-  // fix timestamp in storybook preview to avoid change detection in chromatic
-  const timestampInMs = import.meta.env.STORYBOOK_PREVIEW ? _timestampInMs + MS_IN_A_MONTH : _timestampInMs
 
   const currentEarned = calculateCurrentlyEarned({
     earned,
