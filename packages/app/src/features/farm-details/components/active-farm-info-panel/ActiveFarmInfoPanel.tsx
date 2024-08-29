@@ -1,18 +1,17 @@
-import { FarmDetailsRowData } from '@/domain/farms/types'
+import { Farm, FarmDetailsRowData } from '@/domain/farms/types'
 import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { Info } from '@/ui/molecules/info/Info'
-import { FarmInfo } from '../../types'
 import { FarmDetailsRow } from '../farm-details-row/FarmDetailsRow'
 import { EarnedBalance } from './EarnedBalance'
 
 export interface ActiveFarmInfoPanelProps {
   farmDetailsRowData: FarmDetailsRowData
-  FarmInfo: FarmInfo
+  farm: Farm
 }
 
-export function ActiveFarmInfoPanel({ farmDetailsRowData, FarmInfo }: ActiveFarmInfoPanelProps) {
-  const { rewardToken, stakingToken, staked } = FarmInfo
+export function ActiveFarmInfoPanel({ farmDetailsRowData, farm }: ActiveFarmInfoPanelProps) {
+  const { rewardToken, stakingToken, staked } = farm
 
   return (
     <Panel.Wrapper className="flex min-h-[380px] w-full flex-1 flex-col self-stretch px-6 py-6 md:px-[32px]">
@@ -30,7 +29,7 @@ export function ActiveFarmInfoPanel({ farmDetailsRowData, FarmInfo }: ActiveFarm
       </div>
       <div className="flex flex-grow flex-col items-center justify-around">
         <div className="flex flex-col items-center gap-1">
-          <EarnedBalance FarmInfo={FarmInfo} />
+          <EarnedBalance farm={farm} />
           <div className="font-semibold text-basics-dark-grey text-xs tracking-wide">
             =
             <span>

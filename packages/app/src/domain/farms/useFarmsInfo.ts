@@ -6,16 +6,22 @@ import { useAccount, useChainId, useConfig } from 'wagmi'
 import { FarmsInfo } from './farmsInfo'
 import { farmsInfoQueryOptions } from './query'
 
-export type UseMarketInfoResultOnSuccess = SuspenseQueryWith<{
+export interface UseFarmsInfoParams {
+  chainId?: number
+}
+
+export type UseFarmsInfoResultOnSuccess = SuspenseQueryWith<{
   farmsInfo: FarmsInfo
 }>
 
-export function useFarmsInfo(): UseMarketInfoResultOnSuccess {
+export function useFarmsInfo(params: UseFarmsInfoParams = {}): UseFarmsInfoResultOnSuccess {
   const wagmiConfig = useConfig()
   const { address: account } = useAccount()
-  const chainId = useChainId()
+  const _chainId = useChainId()
+  const chainId = params.chainId ?? _chainId
+
   const chainConfig = getChainConfigEntry(chainId)
-  const { tokensInfo } = useTokensInfo({ tokens: chainConfig.extraTokens })
+  const { tokensInfo } = useTokensInfo({ tokens: chainConfig.extraTokens, chainId })
 
   const res = useSuspenseQuery(
     farmsInfoQueryOptions({ farmConfigs: chainConfig.farms, wagmiConfig, tokensInfo, chainId, account }),

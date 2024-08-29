@@ -23,7 +23,7 @@ function SettingsDropdownItem({ children, variant, ...rest }: SettingsDropdownIt
 
   return (
     <DropdownMenuItem className={cn(settingsDropdownItemVariants({ variant }))} {...rest}>
-      <div className="flex flex-col gap-1">{children}</div>
+      <div className="flex w-full flex-col gap-1">{children}</div>
     </DropdownMenuItem>
   )
 }
@@ -48,9 +48,26 @@ function SettingsDropdownItemTitle({ children }: { children: React.ReactNode }) 
   )
 }
 
-function SettingsDropdownItemContent({ children }: { children: React.ReactNode }) {
-  return <div className="hidden font-semibold text-basics-black first:block lg:block">{children}</div>
+function SettingsDropdownItemContent({ children, icon }: { children: React.ReactNode; icon?: React.ReactNode }) {
+  return (
+    <div className={cn(settingsDropdownItemContentVariants({ variant: icon ? 'withIcon' : 'default' }))}>
+      {children}
+      {icon}
+    </div>
+  )
 }
+
+const settingsDropdownItemContentVariants = cva('hidden font-semibold text-basics-black', {
+  variants: {
+    variant: {
+      default: 'first:block lg:block',
+      withIcon: 'flex items-center gap-2 lg:justify-between',
+    },
+  },
+  defaultVariants: {
+    variant: 'default',
+  },
+})
 
 SettingsDropdownItem.Title = SettingsDropdownItemTitle
 SettingsDropdownItem.Content = SettingsDropdownItemContent
