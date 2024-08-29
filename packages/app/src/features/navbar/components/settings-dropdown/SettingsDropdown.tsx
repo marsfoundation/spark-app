@@ -60,6 +60,12 @@ export function SettingsDropdown({
           </SettingsDropdownItem>
         </Link>
 
+        <Link to="https://legacy-app.spark.fi/" external>
+          <SettingsDropdownItem>
+            <SettingsDropdownItem.Content>Legacy interface</SettingsDropdownItem.Content>
+          </SettingsDropdownItem>
+        </Link>
+
         <div>
           <DropdownMenuSeparator />
           <BuildInfoItem />
