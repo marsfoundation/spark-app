@@ -16,7 +16,6 @@ const meta: Meta<typeof FarmDetailsView> = {
   decorators: [WithTooltipProvider(), withRouter],
   args: {
     chainId: 1,
-    chainName: 'Ethereum Mainnet',
     chainMismatch: false,
     walletConnected: true,
     farm: {

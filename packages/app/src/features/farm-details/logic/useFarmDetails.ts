@@ -16,7 +16,6 @@ import { useFarmDetailsParams } from './useFarmDetailsParams'
 
 export interface UseFarmDetailsResult {
   chainId: number
-  chainName: string
   chainMismatch: boolean
   walletConnected: boolean
   farm: Farm
@@ -33,7 +32,6 @@ export function useFarmDetails(): UseFarmDetailsResult {
   const { address: farmAddress, chainId } = useFarmDetailsParams()
   const connectedChainId = useChainId()
   const chainMismatch = walletConnected && connectedChainId !== chainId
-  const { meta: chainMeta } = getChainConfigEntry(chainId)
   const { openConnectModal = () => {} } = useConnectModal()
   const openDialog = useOpenDialog()
   const chainConfig = getChainConfigEntry(chainId)
@@ -49,7 +47,6 @@ export function useFarmDetails(): UseFarmDetailsResult {
 
   return {
     chainId,
-    chainName: chainMeta.name,
     chainMismatch,
     walletConnected,
     farm,

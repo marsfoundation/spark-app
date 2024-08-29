@@ -6,11 +6,12 @@ import { LinkButton } from '@/ui/atoms/button/Button'
 
 interface BackNavProps {
   chainId: number
-  chainName: string
 }
 
-export function BackNav({ chainId, chainName }: BackNavProps) {
-  const chainImage = getChainConfigEntry(chainId).meta.logo
+export function BackNav({ chainId }: BackNavProps) {
+  const chainConfig = getChainConfigEntry(chainId)
+  const chainImage = chainConfig.meta.logo
+  const chainName = chainConfig.meta.name
 
   return (
     <div className="flex items-center gap-1 px-3 sm:px-0">

@@ -13,7 +13,6 @@ import { FarmHistoryItem } from '../logic/historic/types'
 
 export interface FarmDetailsViewProps {
   chainId: number
-  chainName: string
   chainMismatch: boolean
   walletConnected: boolean
   farm: Farm
@@ -27,7 +26,6 @@ export interface FarmDetailsViewProps {
 
 export function FarmDetailsView({
   chainId,
-  chainName,
   chainMismatch,
   walletConnected,
   farm,
@@ -40,8 +38,8 @@ export function FarmDetailsView({
 }: FarmDetailsViewProps) {
   return (
     <div className="w-full max-w-5xl pt-12 pb-8 lg:mx-auto sm:mx-3">
-      <BackNav chainId={chainId} chainName={chainName} />
-      <Header token={farm.rewardToken} chainName={chainName} chainMismatch={chainMismatch} />
+      <BackNav chainId={chainId} />
+      <Header token={farm.rewardToken} chainId={chainId} chainMismatch={chainMismatch} />
       <div className="flex flex-col gap-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-6">
           {farm.staked.gt(0) && <ActiveFarmInfoPanel farm={farm} farmDetailsRowData={farmDetailsRowData} />}

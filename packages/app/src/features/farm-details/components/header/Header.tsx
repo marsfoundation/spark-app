@@ -1,14 +1,18 @@
+import { getChainConfigEntry } from '@/config/chain'
 import { Token } from '@/domain/types/Token'
 import { Alert } from '@/features/dialogs/common/components/alert/Alert'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 
 interface HeaderProps {
   token: Token
-  chainName: string
+  chainId: number
   chainMismatch: boolean
 }
 
-export function Header({ token, chainName, chainMismatch }: HeaderProps) {
+export function Header({ token, chainId, chainMismatch }: HeaderProps) {
+  const chainConfig = getChainConfigEntry(chainId)
+  const chainName = chainConfig.meta.name
+
   return (
     <div className="mt-6 mb-4 flex flex-col gap-4 sm:mt-8 sm:mb-10">
       <div className="flex items-center gap-3 px-3 md:ml-5 lg:px-0">
