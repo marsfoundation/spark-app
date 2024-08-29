@@ -7,6 +7,7 @@ import { withRouter } from 'storybook-addon-remix-react-router'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { bigNumberify } from '@/utils/bigNumber'
 
+import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { MarketDetailsView } from './MarketDetailsView'
 import { MarketDetailsViewProps } from './types'
 
@@ -24,8 +25,8 @@ type Story = StoryObj<typeof MarketDetailsView>
 
 const args: MarketDetailsViewProps = {
   token: tokens.rETH,
-  aToken: tokens.arETH,
-  variableDebtTokenAddress: '0xBa2C8F2eA5B56690bFb8b709438F049e5Dd76B96',
+  aToken: tokens.rETH.createAToken(CheckedAddress('0x9985dF20D7e9103ECBCeb16a84956434B6f06ae8')),
+  variableDebtTokenAddress: CheckedAddress('0xBa2C8F2eA5B56690bFb8b709438F049e5Dd76B96'),
   chainName: 'Ethereum Mainnet',
   chainId: 1,
   chainMismatch: false,

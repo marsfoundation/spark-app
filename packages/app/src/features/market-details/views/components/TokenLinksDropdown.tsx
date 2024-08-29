@@ -9,7 +9,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '@/ui/atoms/dropdown/DropdownMenu'
-import { Link } from '@/ui/atoms/link/Link'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 import { cn } from '@/ui/utils/style'
 import { PropsWithChildren } from 'react'
@@ -28,29 +27,25 @@ export function TokenLinksDropdown({ token, aToken, variableDebtTokenAddress }: 
   ]
   return (
     <TokenLinksWrapper>
-      <DropdownMenuLabel className="p-4 pb-0">
-        <div className="flex flex-row items-center gap-2.5 font-semibold lg:gap-1 lg:font-normal group-hover:text-nav-primary lg:text-basics-dark-grey lg:text-xs">
-          Token Contracts
-        </div>
-      </DropdownMenuLabel>
+      <DropdownMenuLabel className="p-4 pb-0 font-normal text-basics-dark-grey">Token Contracts</DropdownMenuLabel>
       {tokenContractsLinks.map(({ address, token, label }) => (
-        <Link key={address} to="https://spark.fi/terms-of-use.html" external>
-          <DropdownMenuItem className="cursor-pointer">
-            <div className="flex max-w-60 flex-col gap-1">
-              <div className="flex gap-1">
-                <TokenIcon token={token} className="h-4 w-4" />
-                <div className="flex flex-row items-center gap-2.5 font-semibold lg:gap-1 lg:font-normal group-hover:text-nav-primary lg:text-basics-dark-grey lg:text-xs">
-                  {label}
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <span className="hidden truncate font-semibold text-basics-black first:block lg:block">{address}</span>
-                <BoxArrowTopRight className={cn('h-3.5 w-3.5 shrink-0')} />
+        // <Link key={address} to="" external>
+        <DropdownMenuItem key={address} className="cursor-pointer">
+          <div className="flex max-w-60 flex-col gap-1">
+            <div className="flex items-center gap-1">
+              <TokenIcon token={token} className="h-4 w-4" />
+              <div className="flex flex-row items-center gap-2.5 font-normal text-basics-dark-grey lg:gap-1 group-hover:text-nav-primary lg:text-xs">
+                {label}
               </div>
             </div>
-          </DropdownMenuItem>
-        </Link>
+
+            <div className="flex items-center gap-2">
+              <span className="block truncate font-semibold text-basics-black first:block">{address}</span>
+              <BoxArrowTopRight className={cn('h-3.5 w-3.5 shrink-0')} />
+            </div>
+          </div>
+        </DropdownMenuItem>
+        // </Link>
       ))}
     </TokenLinksWrapper>
   )

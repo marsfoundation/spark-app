@@ -94,9 +94,6 @@ export const tokens = {
     decimals: 18,
     address: CheckedAddress('0x62BC478FFC429161115A6E4090f819CE5C50A5d9'),
   }),
-  get arETH() {
-    return this.rETH.createAToken(CheckedAddress('0x9985dF20D7e9103ECBCeb16a84956434B6f06ae8'))
-  },
   MKR: new Token({
     unitPriceUsd: '1403.75',
     symbol: TokenSymbol('MKR'),

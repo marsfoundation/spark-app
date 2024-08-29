@@ -13,6 +13,8 @@ import { Header } from './Header'
 
 export function CompactView({
   token,
+  aToken,
+  variableDebtTokenAddress,
   chainName,
   chainId,
   chainMismatch,
@@ -24,7 +26,13 @@ export function CompactView({
   return (
     <div className="w-full pt-5 pb-8">
       <BackNav chainId={chainId} chainName={chainName} />
-      <Header token={token} chainName={chainName} chainMismatch={chainMismatch} />
+      <Header
+        token={token}
+        aToken={aToken}
+        variableDebtTokenAddress={variableDebtTokenAddress}
+        chainName={chainName}
+        chainMismatch={chainMismatch}
+      />
       <Tabs defaultValue="overview">
         <TabsList className="sticky top-0 z-10 bg-body pt-2">
           <TabsTrigger value="overview">Overview</TabsTrigger>
