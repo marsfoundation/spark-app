@@ -4,6 +4,7 @@ import { getMobileStory, getTabletStory } from '@storybook/viewports'
 
 import { withRouter } from 'storybook-addon-remix-react-router'
 import { UpgradeSavingsBanner } from './UpgradeSavingsBanner'
+import { Percentage } from '@/domain/types/NumericValues'
 
 const meta: Meta<typeof UpgradeSavingsBanner> = {
   title: 'Features/SavingsWithUsds/Components/UpgradeSavingsBanner',
@@ -11,6 +12,8 @@ const meta: Meta<typeof UpgradeSavingsBanner> = {
   decorators: [WithTooltipProvider(), withRouter()],
   args: {
     onUpgradeSavingsClick: () => {},
+    dsr: Percentage(0.05),
+    ssr: Percentage(0.06),
   },
 }
 
