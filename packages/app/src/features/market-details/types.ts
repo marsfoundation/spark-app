@@ -16,6 +16,15 @@ export interface SupplyReplacementInfo {
   totalSupplied: NormalizedUnitNumber
   supplyAPY: Percentage | undefined
 }
+
+export interface DssAutoline {
+  maxDebtCeiling: NormalizedUnitNumber
+  gap: NormalizedUnitNumber
+  increaseCooldown: number
+  lastUpdateBlock: number
+  lastIncreaseTime: number
+}
+
 export type CollateralStatusInfo = (
   | {
       status: Extract<CollateralEligibilityStatus, 'only-in-isolation-mode'>
@@ -85,6 +94,7 @@ export interface MarketOverview {
         makerDaoCapacity: NormalizedUnitNumber
         totalAvailable: NormalizedUnitNumber
         utilizationRate: Percentage
+        dssAutoline: DssAutoline
       }
 }
 

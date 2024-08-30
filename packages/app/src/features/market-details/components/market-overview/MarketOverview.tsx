@@ -1,6 +1,7 @@
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 
+import { DssAutoline } from '../../types'
 import { DaiMarketOverview } from './DaiMarketOverview'
 import { DefaultMarketOverview } from './DefaultMarketOverview'
 
@@ -20,6 +21,7 @@ export type MarketOverviewProps = { token: Token } & (
       makerDaoCapacity: NormalizedUnitNumber
       totalAvailable: NormalizedUnitNumber
       utilizationRate: Percentage
+      dssAutoline: DssAutoline
     }
 )
 

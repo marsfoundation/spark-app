@@ -2,6 +2,7 @@ import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { Panel } from '@/ui/atoms/panel/Panel'
 
+import { DssAutoline } from '../../types'
 import { MarketOverviewChart } from '../charts/market-overview/MarketOverviewChart'
 import { colors } from '../charts/market-overview/colors'
 import { Legend } from '../charts/market-overview/components/Legend'
@@ -17,6 +18,7 @@ export interface DaiMarketOverviewProps {
   marketSize: NormalizedUnitNumber
   totalAvailable: NormalizedUnitNumber
   utilizationRate: Percentage
+  dssAutoline: DssAutoline
 }
 
 export function DaiMarketOverview({
