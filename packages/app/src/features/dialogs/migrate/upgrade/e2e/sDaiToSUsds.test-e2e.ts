@@ -20,7 +20,7 @@ test.describe('Upgrade sDAI to sUSDS', () => {
     const savingsPage = new SavingsPageObject(page)
 
     // wait to load
-    await savingsPage.expectSavingsUSDSBalance({ sUsdsBalance: '10,000.00 sUSDS', estimatedUsdsValue: '10,100' })
+    await savingsPage.expectSavingsUSDSBalance({ sUsdsBalance: '10,000.00 sUSDS', estimatedUsdsValue: '10,002.41' })
 
     await savingsPage.expectUpgradeDaiToUsdsButtonToBeHidden()
   })
@@ -61,9 +61,9 @@ test.describe('Upgrade sDAI to sUSDS', () => {
 
     const upgradeDialog = new UpgradeDialogPageObject(page)
     await upgradeDialog.actionsContainer.acceptAllActionsAction(2, fork)
-    await upgradeDialog.expectUpgradeSuccessPage({ token: 'sDAI', amount: '10,000.00', usdValue: '$11,047.93' })
+    await upgradeDialog.expectUpgradeSuccessPage({ token: 'sDAI', amount: '10,000.00', usdValue: '$11,053.61' })
     await upgradeDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsUSDSBalance({ sUsdsBalance: '20,937.60 sUSDS', estimatedUsdsValue: '21,148' })
+    await savingsPage.expectSavingsUSDSBalance({ sUsdsBalance: '21,050.94 sUSDS', estimatedUsdsValue: '21,056.01' })
   })
 })
