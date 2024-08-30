@@ -17,17 +17,21 @@ export function UpgradeSavingsBanner({ onUpgradeSavingsClick, dsr, ssr }: Upgrad
 
   return (
     <Panel.Wrapper
-      className="flex min-h-[240px] w-full flex-col justify-between gap-6 px-6 py-6 md:gap-0 md:px-8"
-      variant="blue"
+      className="relative isolate flex min-h-[240px] w-full flex-col justify-between gap-6 overflow-hidden px-6 py-6 md:gap-0 md:px-8"
       data-testid={testIds.savings.upgradeSDaiBanner}
     >
+      <div className="-z-10 absolute inset-0 isolate bg-[#40E3A61A]/10">
+        <img src={assets.token.susds} alt="upgrade-banner-bg" className="-top-[9%] -right-[8%] absolute z-0 h-[118%]" />
+        <div className="-top-[14%] -right-[3%] -z-10 absolute aspect-square h-[128%] rounded-[50%] bg-[#3FCE981A]/20" />
+        <div className="-top-[19%] -z-20 absolute right-[2%] aspect-square h-[138%] rounded-[50%] bg-[#3FCE981A]/10" />
+      </div>
       <div className="grid gap-3 md:auto-cols-max">
         <h2 className="font-semibold text-base text-basics-black sm:text-xl">
           Upgrade you Savings DAI (sDAI) to Savings USDS (sUSDS)
         </h2>
         <div>
-          <div className="grid grid-cols-subgrid text-prompt-foreground">
-            Upgrade your Savings DAI to Savings USDS and unlock the full potential of the Sky ecosystem.
+          <div className="grid grid-cols-subgrid text-basics-black text-sm opacity-50">
+            Upgrade your Savings DAI to Savings USDS and unlock <br /> the full potential of the Sky ecosystem.
           </div>
         </div>
       </div>
@@ -39,7 +43,10 @@ export function UpgradeSavingsBanner({ onUpgradeSavingsClick, dsr, ssr }: Upgrad
               to Savings DAI
             </Benefit>
           )}
-          <Benefit>the upgrade is optional, and you can continue using Savings DAI</Benefit>
+          <Benefit>
+            Upgrade at any size with <span className="text-product-green">no slippage</span>
+          </Benefit>
+          <Benefit>The upgrade is optional, and you can continue using Savings DAI</Benefit>
         </div>
         <div className="flex flex-col gap-2 md:flex-row md:items-end">
           <Button onClick={onUpgradeSavingsClick}>Upgrade now</Button>
