@@ -25,7 +25,7 @@ export const migrationActionsAbi = [
   },
   {
     type: 'function',
-    name: 'downgradeNSTToDAI',
+    name: 'downgradeUSDSToDAI',
     inputs: [
       { name: 'receiver', type: 'address', internalType: 'address' },
       { name: 'assetsIn', type: 'uint256', internalType: 'uint256' },
@@ -35,7 +35,7 @@ export const migrationActionsAbi = [
   },
   {
     type: 'function',
-    name: 'migrateDAIToNST',
+    name: 'migrateDAIToUSDS',
     inputs: [
       { name: 'receiver', type: 'address', internalType: 'address' },
       { name: 'assetsIn', type: 'uint256', internalType: 'uint256' },
@@ -45,7 +45,7 @@ export const migrationActionsAbi = [
   },
   {
     type: 'function',
-    name: 'migrateDAIToSNST',
+    name: 'migrateDAIToSUSDS',
     inputs: [
       { name: 'receiver', type: 'address', internalType: 'address' },
       { name: 'assetsIn', type: 'uint256', internalType: 'uint256' },
@@ -55,7 +55,7 @@ export const migrationActionsAbi = [
   },
   {
     type: 'function',
-    name: 'migrateSDAIAssetsToNST',
+    name: 'migrateSDAIAssetsToUSDS',
     inputs: [
       { name: 'receiver', type: 'address', internalType: 'address' },
       { name: 'assetsIn', type: 'uint256', internalType: 'uint256' },
@@ -65,7 +65,7 @@ export const migrationActionsAbi = [
   },
   {
     type: 'function',
-    name: 'migrateSDAIAssetsToSNST',
+    name: 'migrateSDAIAssetsToSUSDS',
     inputs: [
       { name: 'receiver', type: 'address', internalType: 'address' },
       { name: 'assetsIn', type: 'uint256', internalType: 'uint256' },
@@ -75,7 +75,7 @@ export const migrationActionsAbi = [
   },
   {
     type: 'function',
-    name: 'migrateSDAISharesToNST',
+    name: 'migrateSDAISharesToUSDS',
     inputs: [
       { name: 'receiver', type: 'address', internalType: 'address' },
       { name: 'sharesIn', type: 'uint256', internalType: 'uint256' },
@@ -85,7 +85,7 @@ export const migrationActionsAbi = [
   },
   {
     type: 'function',
-    name: 'migrateSDAISharesToSNST',
+    name: 'migrateSDAISharesToSUSDS',
     inputs: [
       { name: 'receiver', type: 'address', internalType: 'address' },
       { name: 'sharesIn', type: 'uint256', internalType: 'uint256' },
@@ -95,7 +95,7 @@ export const migrationActionsAbi = [
   },
   {
     type: 'function',
-    name: 'nst',
+    name: 'usds',
     inputs: [],
     outputs: [{ name: '', type: 'address', internalType: 'contract IERC20' }],
     stateMutability: 'view',

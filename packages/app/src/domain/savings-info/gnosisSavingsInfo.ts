@@ -108,9 +108,9 @@ export class GnosisSavingsInfo implements SavingsInfo {
   }
 }
 
-export function gnosisSavingsNstInfoQuery(): SavingsInfoQueryOptions {
+export function gnosisSavingsUsdsInfoQuery(): SavingsInfoQueryOptions {
   return {
-    queryKey: ['gnosis-savings-nst-info'],
+    queryKey: ['gnosis-savings-usds-info'],
     queryFn: async () => null,
   }
 }

@@ -21,22 +21,22 @@ const receiver = testAddresses.bob
 const withdrawAmount = NormalizedUnitNumber(1)
 const dai = testTokens.DAI
 const sdai = testTokens.sDAI
-const nst = testTokens.NST
-const snst = testTokens.sNST
+const usds = testTokens.USDS
+const snst = testTokens.sUSDS
 const usdc = testTokens.USDC
 const mockTokensInfo = new TokensInfo(
   [
     { token: dai, balance: NormalizedUnitNumber(100) },
     { token: sdai, balance: NormalizedUnitNumber(100) },
-    { token: nst, balance: NormalizedUnitNumber(100) },
+    { token: usds, balance: NormalizedUnitNumber(100) },
     { token: snst, balance: NormalizedUnitNumber(100) },
     { token: usdc, balance: NormalizedUnitNumber(100) },
   ],
   {
     DAI: dai.symbol,
     sDAI: sdai.symbol,
-    NST: nst.symbol,
-    sNST: snst.symbol,
+    USDS: usds.symbol,
+    sUSDS: snst.symbol,
   },
 )
 const timestamp = 1000
@@ -435,12 +435,12 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
     )
   })
 
-  test('withdraws nst from sdai', async () => {
+  test('withdraws usds from sdai', async () => {
     const { result, queryInvalidationManager } = hookRenderer({
       args: {
         action: {
           type: 'withdrawFromSavings',
-          token: nst,
+          token: usds,
           savingsToken: sdai,
           amount: withdrawAmount,
           isMax: false,
@@ -455,8 +455,8 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
         handlers.contractCall({
           to: MIGRATE_ACTIONS_ADDRESS,
           abi: migrationActionsAbi,
-          functionName: 'migrateSDAIAssetsToNST',
-          args: [account, toBigInt(nst.toBaseUnit(withdrawAmount))],
+          functionName: 'migrateSDAIAssetsToUSDS',
+          args: [account, toBigInt(usds.toBaseUnit(withdrawAmount))],
           from: account,
           result: undefined,
         }),
@@ -482,12 +482,12 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
     )
   })
 
-  test('withdraws max nst from sdai', async () => {
+  test('withdraws max usds from sdai', async () => {
     const { result, queryInvalidationManager } = hookRenderer({
       args: {
         action: {
           type: 'withdrawFromSavings',
-          token: nst,
+          token: usds,
           savingsToken: sdai,
           amount: withdrawAmount,
           isMax: true,
@@ -502,7 +502,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
         handlers.contractCall({
           to: MIGRATE_ACTIONS_ADDRESS,
           abi: migrationActionsAbi,
-          functionName: 'migrateSDAISharesToNST',
+          functionName: 'migrateSDAISharesToUSDS',
           args: [account, toBigInt(sdai.toBaseUnit(withdrawAmount))],
           from: account,
           result: 1n,

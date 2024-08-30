@@ -14,7 +14,7 @@ const meta: Meta<typeof FarmTile> = {
     apy: Percentage(0.05),
     staked: NormalizedUnitNumber(0),
     rewardToken: tokens.weETH,
-    stakingToken: tokens.NST,
+    stakingToken: tokens.USDS,
     detailsLink: 'farm-details/1/0x1234567890123456789012345678901234567890',
     entryAssetsGroup: {
       type: 'stablecoins',
@@ -39,7 +39,7 @@ export const WithDeposit: Story = {
 
 export const GovernanceEntryAssets: Story = {
   args: {
-    rewardToken: tokens.NST,
+    rewardToken: tokens.USDS,
     stakingToken: tokens.weETH,
     apy: Percentage(0.05),
     staked: NormalizedUnitNumber(0),

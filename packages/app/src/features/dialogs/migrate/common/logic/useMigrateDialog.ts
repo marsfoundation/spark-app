@@ -1,7 +1,7 @@
 import { useChainConfigEntry } from '@/domain/hooks/useChainConfigEntry'
 import { useConditionalFreeze } from '@/domain/hooks/useConditionalFreeze'
 import { useSavingsDaiInfo } from '@/domain/savings-info/useSavingsDaiInfo'
-import { useSavingsNstInfo } from '@/domain/savings-info/useSavingsNstInfo'
+import { useSavingsUsdsInfo } from '@/domain/savings-info/useSavingsUsdsInfo'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
@@ -31,12 +31,12 @@ export function useMigrateDialog({ type, fromToken, toToken }: UseMigrateDialogP
   const [pageStatus, setPageStatus] = useState<PageState>('form')
   const { extraTokens } = useChainConfigEntry()
   const { tokensInfo } = useTokensInfo({ tokens: extraTokens })
-  const { savingsNstInfo } = useSavingsNstInfo()
+  const { savingsUsdsInfo } = useSavingsUsdsInfo()
   const { savingsDaiInfo } = useSavingsDaiInfo()
-  assert(savingsNstInfo, 'NST savings info is required for upgrade dialog')
+  assert(savingsUsdsInfo, 'USDS savings info is required for upgrade dialog')
   assert(savingsDaiInfo, 'DAI savings info is required for upgrade dialog')
 
-  const apyDifference = Percentage(savingsNstInfo.apy.minus(savingsDaiInfo.apy).absoluteValue())
+  const apyDifference = Percentage(savingsUsdsInfo.apy.minus(savingsDaiInfo.apy).absoluteValue())
 
   const fromTokenBalance = useConditionalFreeze(
     tokensInfo.findOneBalanceBySymbol(fromToken.symbol),

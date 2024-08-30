@@ -429,17 +429,17 @@ export const testTokens = {
   USDC: usdcLikeReserve.token,
   USDT: usdtLikeReserve.token,
   WETH: wethLikeReserve.token,
-  NST: new Token({
+  USDS: new Token({
     address: CheckedAddress('0x798f111c92E38F102931F34D1e0ea7e671BDBE31'),
-    symbol: TokenSymbol('NST'),
-    name: 'NST',
+    symbol: TokenSymbol('USDS'),
+    name: 'USDS',
     decimals: 18,
     unitPriceUsd: '1',
   }),
-  sNST: new Token({
+  sUSDS: new Token({
     address: CheckedAddress('0xeA8AE08513f8230cAA8d031D28cB4Ac8CE720c68'),
-    symbol: TokenSymbol('sNST'),
-    name: 'sNST',
+    symbol: TokenSymbol('sUSDS'),
+    name: 'sUSDS',
     decimals: 18,
     unitPriceUsd: '1.05',
   }),

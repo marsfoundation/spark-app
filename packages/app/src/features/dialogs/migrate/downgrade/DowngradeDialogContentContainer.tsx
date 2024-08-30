@@ -4,7 +4,7 @@ import { raise } from '@/utils/assert'
 import { DialogContentSkeleton } from '../../common/components/skeletons/DialogContentSkeleton'
 import { SuccessView } from '../../common/views/SuccessView'
 import { useMigrateDialog } from '../common/logic/useMigrateDialog'
-import { DowngradeNSTToDaiView } from './views/DowngradeNSTToDaiView'
+import { DowngradeUSDSToDaiView } from './views/DowngradeUSDSToDaiView'
 
 interface DowngradeDialogContentContainerProps {
   fromToken: Token
@@ -30,9 +30,9 @@ function DowngradeDialogContentContainer({ fromToken, toToken, closeDialog }: Do
     )
   }
 
-  if (fromToken.symbol === tokensInfo.NST?.symbol && toToken.symbol === tokensInfo.DAI?.symbol) {
+  if (fromToken.symbol === tokensInfo.USDS?.symbol && toToken.symbol === tokensInfo.DAI?.symbol) {
     return (
-      <DowngradeNSTToDaiView
+      <DowngradeUSDSToDaiView
         fromToken={fromToken}
         toToken={toToken}
         pageStatus={pageStatus}

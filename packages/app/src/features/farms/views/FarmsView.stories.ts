@@ -44,7 +44,7 @@ const meta: Meta<typeof FarmsView> = {
         apy: Percentage(0.034),
         staked: NormalizedUnitNumber(100),
         rewardToken: tokens.weETH,
-        stakingToken: tokens.NST,
+        stakingToken: tokens.USDS,
         detailsLink: 'farm-details/1/0x1234567890123456789012345678901234567892',
         entryAssetsGroup,
       },

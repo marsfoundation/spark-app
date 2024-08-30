@@ -13,7 +13,7 @@ export function createObjectives({
   tokensInfo,
   type,
 }: CreateObjectivesParams): DepositToSavingsObjective[] {
-  const savingsToken = (type === 'sdai' ? tokensInfo.sDAI : tokensInfo.sNST) ?? raise('Cannot find target token')
+  const savingsToken = (type === 'sdai' ? tokensInfo.sDAI : tokensInfo.sUSDS) ?? raise('Cannot find target token')
 
   return [
     {

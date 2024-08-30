@@ -4,8 +4,8 @@ import { raise } from '@/utils/assert'
 import { DialogContentSkeleton } from '../../common/components/skeletons/DialogContentSkeleton'
 import { SuccessView } from '../../common/views/SuccessView'
 import { useMigrateDialog } from '../common/logic/useMigrateDialog'
-import { UpgradeDaiToNSTView } from './views/UpgradeDaiToNSTView'
-import { UpgradeSDaiToSNstView } from './views/UpgradeSDaiToSNstView'
+import { UpgradeDaiToUSDSView } from './views/UpgradeDaiToUSDSView'
+import { UpgradeSDaiToSUsdsView } from './views/UpgradeSDaiToSUsdsView'
 
 interface UpgradeDialogContentContainerProps {
   fromToken: Token
@@ -31,9 +31,9 @@ function UpgradeDialogContentContainer({ fromToken, toToken, closeDialog }: Upgr
     )
   }
 
-  if (fromToken.symbol === tokensInfo.DAI?.symbol && toToken.symbol === tokensInfo.NST?.symbol) {
+  if (fromToken.symbol === tokensInfo.DAI?.symbol && toToken.symbol === tokensInfo.USDS?.symbol) {
     return (
-      <UpgradeDaiToNSTView
+      <UpgradeDaiToUSDSView
         fromToken={fromToken}
         toToken={toToken}
         pageStatus={pageStatus}
@@ -44,9 +44,9 @@ function UpgradeDialogContentContainer({ fromToken, toToken, closeDialog }: Upgr
     )
   }
 
-  if (fromToken.symbol === tokensInfo.sDAI?.symbol && toToken.symbol === tokensInfo.sNST?.symbol) {
+  if (fromToken.symbol === tokensInfo.sDAI?.symbol && toToken.symbol === tokensInfo.sUSDS?.symbol) {
     return (
-      <UpgradeSDaiToSNstView
+      <UpgradeSDaiToSUsdsView
         fromToken={fromToken}
         toToken={toToken}
         pageStatus={pageStatus}

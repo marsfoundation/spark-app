@@ -24,17 +24,17 @@ export const tokens = {
     decimals: 18,
     address: CheckedAddress('0xD8134205b0328F5676aaeFb3B2a0DC15f4029d8C'),
   }),
-  NST: new Token({
+  USDS: new Token({
     unitPriceUsd: '1',
-    symbol: TokenSymbol('NST'),
+    symbol: TokenSymbol('USDS'),
     name: 'New Stable Token',
     decimals: 18,
     address: CheckedAddress('0x1fe430D2B3c1aA3333414C6bb142987AD3551D52'),
   }),
-  sNST: new Token({
+  sUSDS: new Token({
     unitPriceUsd: '1.02847014',
-    symbol: TokenSymbol('sNST'),
-    name: 'Savings NST',
+    symbol: TokenSymbol('sUSDS'),
+    name: 'Savings USDS',
     decimals: 18,
     address: CheckedAddress('0x11B85a86BAE72A472837613A10bc53582f7c6E22'),
   }),

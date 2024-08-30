@@ -22,11 +22,11 @@ export const infoSkyApiUrl = import.meta.env.VITE_INFO_SKY_API_URL ?? '/info-sky
 export const SANDBOX_NETWORKS_CHAIN_ID_PREFIX = 3030
 
 // @todo: remove after wagmi config is updated with produciton chain address
-export const MIGRATE_ACTIONS_ADDRESS = '0xB08543E5Ba2a382dd38E84Fe12656Cd35A42e12B'
+export const MIGRATE_ACTIONS_ADDRESS = '0x50f1a6C941E68701D774b5B81B7124865cBc6f0a'
 
-export const STAKING_REWARDS_NST_ADDRESS = CheckedAddress('0x5eeB3D8D60B06a44f6124a84EeE7ec0bB747BE6d')
+export const STAKING_REWARDS_USDS_ADDRESS = CheckedAddress('0x8AFB0C54bAE39A5e56b984DF1C4b5702b2abf205')
 export const stablecoinsGroup: AssetsGroup = {
   type: 'stablecoins',
   name: 'Stablecoins',
-  assets: [TokenSymbol('DAI'), TokenSymbol('sDAI'), TokenSymbol('USDC'), TokenSymbol('NST'), TokenSymbol('sNST')],
+  assets: [TokenSymbol('DAI'), TokenSymbol('sDAI'), TokenSymbol('USDC'), TokenSymbol('USDS'), TokenSymbol('sUSDS')],
 }

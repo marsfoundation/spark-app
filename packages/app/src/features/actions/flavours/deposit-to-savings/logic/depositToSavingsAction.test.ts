@@ -19,22 +19,22 @@ const account = testAddresses.alice
 const depositValue = NormalizedUnitNumber(1)
 const dai = testTokens.DAI
 const sdai = testTokens.sDAI
-const nst = testTokens.NST
-const snst = testTokens.sNST
+const usds = testTokens.USDS
+const snst = testTokens.sUSDS
 const usdc = testTokens.USDC
 const mockTokensInfo = new TokensInfo(
   [
     { token: dai, balance: NormalizedUnitNumber(100) },
     { token: sdai, balance: NormalizedUnitNumber(100) },
-    { token: nst, balance: NormalizedUnitNumber(100) },
+    { token: usds, balance: NormalizedUnitNumber(100) },
     { token: snst, balance: NormalizedUnitNumber(100) },
     { token: usdc, balance: NormalizedUnitNumber(100) },
   ],
   {
     DAI: dai.symbol,
     sDAI: sdai.symbol,
-    NST: nst.symbol,
-    sNST: snst.symbol,
+    USDS: usds.symbol,
+    sUSDS: snst.symbol,
   },
 )
 const chainId = mainnet.id
@@ -139,7 +139,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
         handlers.contractCall({
           to: MIGRATE_ACTIONS_ADDRESS,
           abi: migrationActionsAbi,
-          functionName: 'migrateDAIToSNST',
+          functionName: 'migrateDAIToSUSDS',
           args: [account, toBigInt(dai.toBaseUnit(depositValue))],
           from: account,
           result: 1n,

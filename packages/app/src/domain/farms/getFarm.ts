@@ -8,6 +8,7 @@ import { Address } from 'viem'
 import { Config } from 'wagmi'
 import { readContract } from 'wagmi/actions'
 import { z } from 'zod'
+import { mapToInfoSkyAddress } from './mapToInfoSkyAddress'
 import { Farm } from './types'
 
 export interface GetFarmParams {
@@ -173,7 +174,9 @@ interface GetFarmBADataResult {
 }
 
 async function getBAFarmData({ farmConfig }: GetFarmBADataParams): Promise<GetFarmBADataResult> {
-  const res = await fetch(`${infoSkyApiUrl}/farms/${farmConfig.address.toLowerCase()}/`)
+  const mappedAddress = mapToInfoSkyAddress(farmConfig.address)
+
+  const res = await fetch(`${infoSkyApiUrl}/farms/${mappedAddress.toLowerCase()}/`)
   if (!res.ok) {
     throw new Error(`Failed to fetch farm data: ${res.statusText}`)
   }

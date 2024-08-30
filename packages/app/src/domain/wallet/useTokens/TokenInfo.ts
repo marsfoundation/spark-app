@@ -8,8 +8,8 @@ import { raise } from '@/utils/assert'
 export interface FeaturedTokens {
   DAI?: TokenSymbol
   sDAI?: TokenSymbol
-  NST?: TokenSymbol
-  sNST?: TokenSymbol
+  USDS?: TokenSymbol
+  sUSDS?: TokenSymbol
 }
 
 export class TokensInfo {
@@ -66,11 +66,11 @@ export class TokensInfo {
     return this.featured.sDAI && this.findOneTokenBySymbol(this.featured.sDAI)
   }
 
-  get NST(): Token | undefined {
-    return this.featured.NST && this.findOneTokenBySymbol(this.featured.NST)
+  get USDS(): Token | undefined {
+    return this.featured.USDS && this.findOneTokenBySymbol(this.featured.USDS)
   }
 
-  get sNST(): Token | undefined {
-    return this.featured.sNST && this.findOneTokenBySymbol(this.featured.sNST)
+  get sUSDS(): Token | undefined {
+    return this.featured.sUSDS && this.findOneTokenBySymbol(this.featured.sUSDS)
   }
 }

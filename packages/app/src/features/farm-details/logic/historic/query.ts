@@ -1,4 +1,6 @@
 import { infoSkyApiUrl } from '@/config/consts'
+import { mapToInfoSkyAddress } from '@/domain/farms/mapToInfoSkyAddress'
+import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { Percentage } from '@/domain/types/NumericValues'
 import { queryOptions } from '@tanstack/react-query'
 import BigNumber from 'bignumber.js'
@@ -6,7 +8,7 @@ import { z } from 'zod'
 
 export interface FarmHistoricDataParameters {
   chainId: number
-  farmAddress: string
+  farmAddress: CheckedAddress
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -14,7 +16,9 @@ export function farmHistoricDataQueryOptions({ chainId, farmAddress }: FarmHisto
   return queryOptions({
     queryKey: ['farm-historic-data', chainId, farmAddress],
     queryFn: async () => {
-      const res = await fetch(`${infoSkyApiUrl}/farms/${farmAddress.toLowerCase()}/historic/`)
+      const mappedAddress = mapToInfoSkyAddress(farmAddress)
+
+      const res = await fetch(`${infoSkyApiUrl}/farms/${mappedAddress.toLowerCase()}/historic/`)
       if (!res.ok) {
         throw new Error(`Failed to fetch farm data: ${res.statusText}`)
       }

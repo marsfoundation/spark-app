@@ -1,3 +1,4 @@
+import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { SuspenseQueryWith } from '@/utils/types'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { farmHistoricDataQueryOptions } from './query'
@@ -5,7 +6,7 @@ import { FarmHistoryItem } from './types'
 
 export interface UseFarmHistoricDataParams {
   chainId: number
-  farmAddress: string
+  farmAddress: CheckedAddress
 }
 
 export type UseFarmHistoricDataResultOnSuccess = SuspenseQueryWith<{

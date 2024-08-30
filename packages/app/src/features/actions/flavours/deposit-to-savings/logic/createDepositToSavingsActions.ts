@@ -6,7 +6,7 @@ import { isSexyDaiOperation, isUsdcPsmActionsOperation } from '@/features/action
 import { raise } from '@/utils/assert'
 import { ApproveAction } from '../../approve/types'
 import { DepositToSavingsAction, DepositToSavingsObjective } from '../types'
-import { isDaiToSNstMigration } from './common'
+import { isDaiToSUsdsMigration } from './common'
 
 export function createDepositToSavingsActions(objective: DepositToSavingsObjective, context: ActionContext): Action[] {
   const tokensInfo = context.tokensInfo ?? raise('Tokens info is required for deposit to savings action')
@@ -27,7 +27,7 @@ export function createDepositToSavingsActions(objective: DepositToSavingsObjecti
       return getContractAddress(psmActionsConfig.address, chainId)
     }
 
-    if (isDaiToSNstMigration({ token, savingsToken, tokensInfo })) {
+    if (isDaiToSUsdsMigration({ token, savingsToken, tokensInfo })) {
       return MIGRATE_ACTIONS_ADDRESS
     }
 

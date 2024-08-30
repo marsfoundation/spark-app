@@ -1,6 +1,6 @@
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
 import { useSavingsDaiInfo } from '@/domain/savings-info/useSavingsDaiInfo'
-import { useSavingsNstInfo } from '@/domain/savings-info/useSavingsNstInfo'
+import { useSavingsUsdsInfo } from '@/domain/savings-info/useSavingsUsdsInfo'
 import { useSavingsTokens } from '@/domain/savings/useSavingsTokens'
 import { Token } from '@/domain/types/Token'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
@@ -29,11 +29,11 @@ export interface UseSavingsDepositDialogResults {
   tokenToDeposit: TokenWithValue
   pageStatus: PageStatus
   txOverview: SavingsDialogTxOverview
-  savingsNstSwitchInfo: SavingsSNstSwitchInfo
+  savingsUsdsSwitchInfo: SavingsSUsdsSwitchInfo
   actionsContext: InjectedActionsContext
 }
 
-export interface SavingsSNstSwitchInfo {
+export interface SavingsSUsdsSwitchInfo {
   showSwitch: boolean
   checked: boolean
   onSwitch: () => void
@@ -43,8 +43,8 @@ export function useSavingsDepositDialog({
   initialToken,
 }: UseSavingsDepositDialogParams): UseSavingsDepositDialogResults {
   const { savingsDaiInfo } = useSavingsDaiInfo()
-  const { savingsNstInfo } = useSavingsNstInfo()
-  assert(savingsDaiInfo || savingsNstInfo, 'Neither sDai nor sNST is supported')
+  const { savingsUsdsInfo } = useSavingsUsdsInfo()
+  assert(savingsDaiInfo || savingsUsdsInfo, 'Neither sDai nor sUSDS is supported')
 
   const { tokensInfo, inputTokens } = useSavingsTokens()
 
@@ -70,21 +70,21 @@ export function useSavingsDepositDialog({
   })
 
   const savingsType = (() => {
-    if (savingsDaiInfo && !savingsNstInfo) {
+    if (savingsDaiInfo && !savingsUsdsInfo) {
       return 'sdai'
     }
-    if (!savingsDaiInfo && savingsNstInfo) {
+    if (!savingsDaiInfo && savingsUsdsInfo) {
       return 'snst'
     }
     // both are defined
 
-    if (formValues.token.symbol === tokensInfo.NST?.symbol) {
-      return 'snst' // do not handle case of downgrading sNST to DAI
+    if (formValues.token.symbol === tokensInfo.USDS?.symbol) {
+      return 'snst' // do not handle case of downgrading sUSDS to DAI
     }
 
     return upgradeSwitchChecked ? 'snst' : 'sdai'
   })()
-  const showUpgradeSwitch = !!savingsDaiInfo && !!savingsNstInfo && formValues.token.symbol !== tokensInfo.NST?.symbol
+  const showUpgradeSwitch = !!savingsDaiInfo && !!savingsUsdsInfo && formValues.token.symbol !== tokensInfo.USDS?.symbol
 
   const objectives = createObjectives({
     formValues,
@@ -94,7 +94,7 @@ export function useSavingsDepositDialog({
   const txOverview = createTxOverview({
     formValues,
     tokensInfo,
-    savingsInfo: (savingsType === 'sdai' ? savingsDaiInfo : savingsNstInfo) ?? raise('Cannot find savings info'),
+    savingsInfo: (savingsType === 'sdai' ? savingsDaiInfo : savingsUsdsInfo) ?? raise('Cannot find savings info'),
     type: savingsType,
   })
 
@@ -116,7 +116,7 @@ export function useSavingsDepositDialog({
       actionsEnabled,
       goToSuccessScreen: () => setPageStatus('success'),
     },
-    savingsNstSwitchInfo: {
+    savingsUsdsSwitchInfo: {
       showSwitch: showUpgradeSwitch,
       checked: upgradeSwitchChecked,
       onSwitch: () => setUpgradeSwitchChecked((upgradeSwitchChecked) => !upgradeSwitchChecked),
