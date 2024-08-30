@@ -84,6 +84,10 @@ const args: MarketDetailsViewProps = {
   },
   openConnectModal: () => {},
   openDialog: () => {},
+  capAutomatorInfo: {
+    supplyCap: null,
+    borrowCap: null,
+  },
 }
 
 export const Desktop: Story = {

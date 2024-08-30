@@ -1,5 +1,7 @@
+import { STORYBOOK_TIMESTAMP } from '@storybook/consts'
 import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
+
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { withRouter } from 'storybook-addon-remix-react-router'
@@ -25,6 +27,7 @@ export const CanBeSupplied: Story = {
     totalSupplied: NormalizedUnitNumber(72_000),
     supplyCap: NormalizedUnitNumber(112_000),
     apy: Percentage(0.05),
+    capInfo: null,
   },
 }
 
@@ -39,6 +42,7 @@ export const SupplyCapReached: Story = {
     totalSupplied: NormalizedUnitNumber(112_000),
     supplyCap: NormalizedUnitNumber(112_000),
     apy: Percentage(0.05),
+    capInfo: null,
   },
 }
 
@@ -50,5 +54,24 @@ export const CannotBeSupplied: Story = {
     totalSupplied: NormalizedUnitNumber(0),
     supplyCap: NormalizedUnitNumber(0),
     apy: Percentage(0),
+    capInfo: null,
+  },
+}
+
+export const WithCapAutomatorInfo: Story = {
+  name: 'With cap automator info',
+  args: {
+    status: 'yes',
+    token: tokens.rETH,
+    totalSupplied: NormalizedUnitNumber(72_000),
+    supplyCap: NormalizedUnitNumber(112_000),
+    apy: Percentage(0.05),
+    capInfo: {
+      maxCap: NormalizedUnitNumber(200_000),
+      gap: NormalizedUnitNumber(0),
+      increaseCooldown: 43200,
+      lastIncreaseTime: Math.floor(STORYBOOK_TIMESTAMP / 1000 - 41903),
+      lastUpdateBlock: 0,
+    },
   },
 }
