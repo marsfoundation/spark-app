@@ -1,11 +1,16 @@
-import { WithTooltipProvider } from '@storybook/decorators'
+import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 
 import { CooldownTimer } from './CooldownTimer'
 
 const meta: Meta<typeof CooldownTimer> = {
   title: 'Components/Molecules/CooldownTimer',
-  decorators: [WithTooltipProvider()],
+  decorators: [WithTooltipProvider(), WithClassname('flex h-72 w-72 items-center justify-center')],
+  component: CooldownTimer,
+  args: {
+    renewalPeriod: 43200,
+    forceOpen: true,
+  },
 }
 
 export default meta
@@ -13,26 +18,14 @@ type Story = StoryObj<typeof CooldownTimer>
 
 export const Default: Story = {
   name: 'Default',
-  render: () => {
-    const timestamp = Math.floor(Date.now() / 1000 - 41903)
-
-    return (
-      <div className="flex h-72 w-72 items-center justify-center">
-        <CooldownTimer renewalPeriod={43200} latestUpdateTimestamp={timestamp} />
-      </div>
-    )
+  args: {
+    latestUpdateTimestamp: Math.floor(Date.now() / 1000 - 41903),
   },
 }
 
 export const Finished: Story = {
   name: 'Finished',
-  render: () => {
-    const timestamp = Math.floor(Date.now() / 1000 - 43200)
-
-    return (
-      <div className="flex h-72 w-72 items-center justify-center">
-        <CooldownTimer renewalPeriod={43200} latestUpdateTimestamp={timestamp} />
-      </div>
-    )
+  args: {
+    latestUpdateTimestamp: Math.floor(Date.now() / 1000 - 43200),
   },
 }

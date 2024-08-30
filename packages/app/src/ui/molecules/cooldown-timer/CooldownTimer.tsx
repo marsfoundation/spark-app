@@ -8,18 +8,21 @@ import { useTimestamp } from '@/utils/useTimestamp'
 interface CooldownTimerProps {
   renewalPeriod: number
   latestUpdateTimestamp: number
+  /**
+   * @warning This prop is only for storybook purposes.
+   */
+  forceOpen?: boolean
 }
 
-export function CooldownTimer({ renewalPeriod, latestUpdateTimestamp }: CooldownTimerProps) {
+export function CooldownTimer({ renewalPeriod, latestUpdateTimestamp, forceOpen }: CooldownTimerProps) {
   const { timestamp } = useTimestamp({
     refreshIntervalInMs: 1000,
   })
 
-  const isOverflown = timestamp - latestUpdateTimestamp >= renewalPeriod
-  const timeLeft = isOverflown ? 0 : renewalPeriod - (timestamp - latestUpdateTimestamp)
+  const timeLeft = Math.max(0, renewalPeriod - (timestamp - latestUpdateTimestamp))
 
   return (
-    <Tooltip>
+    <Tooltip defaultOpen={forceOpen}>
       <TooltipTrigger>
         <IconPill icon={assets.timer} />
       </TooltipTrigger>
@@ -28,7 +31,7 @@ export function CooldownTimer({ renewalPeriod, latestUpdateTimestamp }: Cooldown
           <Typography className={cn('text-basics-dark-grey text-xs')}>Cooldown period:</Typography>
           <Typography className={cn('mt-1 mb-2 font-semibold')}>{secondsToTime(timeLeft)}</Typography>
           <Typography className={cn('text-basics-dark-grey text-xs')}>
-            {isOverflown
+            {timeLeft === 0
               ? 'The cap renewal cooldown is over. It might be changed at any time.'
               : `The instantly available cap has a renewal time of ${secondsToHours(renewalPeriod)} hours.`}
           </Typography>
