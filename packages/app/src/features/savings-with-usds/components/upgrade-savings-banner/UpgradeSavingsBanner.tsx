@@ -1,3 +1,5 @@
+import { formatPercentage } from '@/domain/common/format'
+import { Percentage } from '@/domain/types/NumericValues'
 import { assets } from '@/ui/assets'
 import { Button, LinkButton } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
@@ -5,9 +7,14 @@ import { testIds } from '@/ui/utils/testIds'
 
 export interface UpgradeSavingsBannerProps {
   onUpgradeSavingsClick: () => void
+  dsr: Percentage
+  ssr: Percentage
 }
 
-export function UpgradeSavingsBanner({ onUpgradeSavingsClick }: UpgradeSavingsBannerProps) {
+export function UpgradeSavingsBanner({ onUpgradeSavingsClick, dsr, ssr }: UpgradeSavingsBannerProps) {
+  // @todo: figure out negative APY differences
+  const savingsRateDifference = Percentage(ssr.minus(dsr).absoluteValue())
+
   return (
     <Panel.Wrapper
       className="flex min-h-[240px] w-full flex-col justify-between gap-6 px-6 py-6 md:gap-0 md:px-8"
@@ -26,10 +33,13 @@ export function UpgradeSavingsBanner({ onUpgradeSavingsClick }: UpgradeSavingsBa
       </div>
       <div className="flex w-full flex-col gap-4 md:flex-row md:justify-between md:gap-2">
         <div className="grid grid-cols-[auto_1fr] gap-2">
-          <Benefit>
-            <span className="text-product-green">0.25% higher APY</span> compared to Savings DAI
-          </Benefit>
-          <Benefit>he upgrade is optional, and you can continue using Savings DAI</Benefit>
+          {savingsRateDifference.gt(0) && (
+            <Benefit>
+              <span className="text-product-green">{formatPercentage(savingsRateDifference)} higher APY</span> compared
+              to Savings DAI
+            </Benefit>
+          )}
+          <Benefit>the upgrade is optional, and you can continue using Savings DAI</Benefit>
         </div>
         <div className="flex flex-col gap-2 md:flex-row md:items-end">
           <Button onClick={onUpgradeSavingsClick}>Upgrade now</Button>

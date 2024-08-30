@@ -36,6 +36,7 @@ export function useMigrateDialog({ type, fromToken, toToken }: UseMigrateDialogP
   assert(savingsUsdsInfo, 'USDS savings info is required for upgrade dialog')
   assert(savingsDaiInfo, 'DAI savings info is required for upgrade dialog')
 
+  // @todo: figure out negative APY differences
   const apyDifference = Percentage(savingsUsdsInfo.apy.minus(savingsDaiInfo.apy).absoluteValue())
 
   const fromTokenBalance = useConditionalFreeze(

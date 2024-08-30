@@ -34,6 +34,8 @@ const savingsViewBaseArgs = {
     daiSymbol: tokens.DAI.symbol,
     usdsSymbol: tokens.USDS.symbol,
     daiToUsdsUpgradeAvailable: true,
+    dsr: Percentage(0.05),
+    ssr: Percentage(0.06),
     openDaiToUsdsUpgradeDialog: () => {},
     openUsdsToDaiDowngradeDialog: () => {},
     openSDaiToSUsdsUpgradeDialog: () => {},

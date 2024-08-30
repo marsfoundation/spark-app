@@ -1,5 +1,6 @@
 import { SavingsInfo } from '@/domain/savings-info/types'
 import { OpenDialogFunction } from '@/domain/state/dialogs'
+import { Percentage } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { DowngradeDialog } from '@/features/dialogs/migrate/downgrade/DowngradeDialog'
@@ -17,6 +18,8 @@ export interface MigrationInfo {
   daiSymbol: TokenSymbol
   usdsSymbol: TokenSymbol
   daiToUsdsUpgradeAvailable: boolean
+  dsr: Percentage
+  ssr: Percentage
   openDaiToUsdsUpgradeDialog: () => void
   openUsdsToDaiDowngradeDialog: () => void
   openSDaiToSUsdsUpgradeDialog: () => void
@@ -41,6 +44,8 @@ export function makeMigrationInfo({
     daiSymbol: DAI.symbol,
     usdsSymbol: USDS.symbol,
     daiToUsdsUpgradeAvailable: tokensInfo.findOneBalanceBySymbol(DAI.symbol).gt(0),
+    dsr: savingsDaiInfo.apy,
+    ssr: savingsUsdsInfo.apy,
     openDaiToUsdsUpgradeDialog: () => {
       openDialog(UpgradeDialog, { fromToken: DAI, toToken: USDS })
     },

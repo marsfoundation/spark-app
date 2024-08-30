@@ -1,4 +1,4 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import type { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
@@ -33,6 +33,8 @@ export const Desktop: Story = {
       daiSymbol: tokens.DAI.symbol,
       usdsSymbol: tokens.USDS.symbol,
       daiToUsdsUpgradeAvailable: true,
+      dsr: Percentage(0.05),
+      ssr: Percentage(0.06),
       openDaiToUsdsUpgradeDialog: () => {},
       openUsdsToDaiDowngradeDialog: () => {},
       openSDaiToSUsdsUpgradeDialog: () => {},

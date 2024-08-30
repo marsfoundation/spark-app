@@ -34,7 +34,11 @@ export function SavingsDaiAndUSDSView({
     <PageLayout>
       <PageHeader />
       {displaySavingsDai && migrationInfo && (
-        <UpgradeSavingsBanner onUpgradeSavingsClick={migrationInfo.openSDaiToSUsdsUpgradeDialog} />
+        <UpgradeSavingsBanner
+          onUpgradeSavingsClick={migrationInfo.openSDaiToSUsdsUpgradeDialog}
+          dsr={migrationInfo.dsr}
+          ssr={migrationInfo.ssr}
+        />
       )}
       <div className="flex flex-col gap-6 sm:flex-row">
         {displaySavingsDai && (

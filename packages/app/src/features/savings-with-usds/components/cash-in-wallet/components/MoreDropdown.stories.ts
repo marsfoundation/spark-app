@@ -1,3 +1,4 @@
+import { Percentage } from '@/domain/types/NumericValues'
 import { WithClassname } from '@storybook/decorators'
 import type { Meta, StoryObj } from '@storybook/react'
 import { userEvent, within } from '@storybook/test'
@@ -15,6 +16,8 @@ const meta: Meta<typeof MoreDropdown> = {
       daiSymbol: tokens.DAI.symbol,
       usdsSymbol: tokens.USDS.symbol,
       daiToUsdsUpgradeAvailable: true,
+      dsr: Percentage(0.05),
+      ssr: Percentage(0.06),
       openDaiToUsdsUpgradeDialog: () => {},
       openUsdsToDaiDowngradeDialog: () => {},
       openSDaiToSUsdsUpgradeDialog: () => {},
