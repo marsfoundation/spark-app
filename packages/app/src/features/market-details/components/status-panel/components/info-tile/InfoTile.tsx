@@ -6,7 +6,9 @@ interface InfoTileProps {
   children: ReactNode
 }
 export function InfoTile({ children }: InfoTileProps) {
-  return <div className="grid grid-cols-2 content-start justify-between gap-1.5 sm:grid-cols-1">{children}</div>
+  return (
+    <div className='grid grid-cols-2 content-start justify-between gap-1.5 sm:grid-cols-1 sm:gap-0.5'>{children}</div>
+  )
 }
 
 function Label({ children }: InfoTileProps) {
@@ -15,7 +17,7 @@ function Label({ children }: InfoTileProps) {
 
 function Value({ children }: InfoTileProps) {
   return (
-    <div className="flex items-center gap-1 justify-self-end text-sky-950 text-sm leading-none sm:justify-self-start sm:text-base sm:leading-none">
+    <div className="flex items-center gap-1 justify-self-end text-sky-950 text-sm leading-none sm:min-h-[26px] sm:justify-self-start sm:text-base sm:leading-none">
       {children}
     </div>
   )
