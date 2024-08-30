@@ -11,6 +11,7 @@ import { erc20Abi } from 'viem'
 import { mainnet } from 'viem/chains'
 import { mock } from 'wagmi/connectors'
 import { DevContainer } from './DevContainer'
+import { STORYBOOK_TIMESTAMP } from './consts'
 
 export function WithTooltipProvider() {
   return function WithTooltipProvider(Story: StoryFn) {
@@ -138,7 +139,7 @@ export function WithFixedDate() {
     // biome-ignore lint/correctness/useHookAtTopLevel: the second one is the actual component that gets rendered
     const firstRender = useRef(true)
     if (firstRender.current) {
-      Date.now = () => 1724846808220 // 2024-08-28T12:06:48.220Z
+      Date.now = () => STORYBOOK_TIMESTAMP
 
       firstRender.current = false
     }

@@ -394,3 +394,5 @@ export const exampleFarmHistoricData = [
     apr: Percentage(0),
   },
 ]
+
+export const STORYBOOK_TIMESTAMP = 1724846808220 // 2024-08-28T12:06:48.220Z

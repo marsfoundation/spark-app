@@ -1,6 +1,7 @@
 import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 
+import { STORYBOOK_TIMESTAMP } from '@storybook/consts'
 import { CooldownTimer } from './CooldownTimer'
 
 const meta: Meta<typeof CooldownTimer> = {
@@ -19,13 +20,13 @@ type Story = StoryObj<typeof CooldownTimer>
 export const Default: Story = {
   name: 'Default',
   args: {
-    latestUpdateTimestamp: Math.floor(Date.now() / 1000 - 41903),
+    latestUpdateTimestamp: Math.floor(STORYBOOK_TIMESTAMP / 1000 - 41903),
   },
 }
 
 export const Finished: Story = {
   name: 'Finished',
   args: {
-    latestUpdateTimestamp: Math.floor(Date.now() / 1000 - 43200),
+    latestUpdateTimestamp: Math.floor(STORYBOOK_TIMESTAMP / 1000 - 43200),
   },
 }
