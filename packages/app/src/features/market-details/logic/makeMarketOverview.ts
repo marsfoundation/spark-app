@@ -30,6 +30,7 @@ export function makeMarketOverview({
       totalSupplied: reserve.totalLiquidity,
       supplyCap: reserve.supplyCap,
       apy: reserve.supplyAPY,
+      capAutomatorInfo: capAutomatorInfo.supplyCap,
     },
     collateral: {
       status: reserve.collateralEligibilityStatus,
@@ -53,6 +54,7 @@ export function makeMarketOverview({
         variableRateSlope2: reserve.variableRateSlope2,
         baseVariableBorrowRate: reserve.baseVariableBorrowRate,
       },
+      capAutomatorInfo: capAutomatorInfo.borrowCap,
     },
     summary: {
       type: 'default',
@@ -61,7 +63,6 @@ export function makeMarketOverview({
       borrowed: reserve.totalDebt,
       available: reserve.availableLiquidity,
     },
-    capAutomatorInfo,
     ...(eModeCategoryId === 1 || eModeCategoryId === 2
       ? {
           eMode: {

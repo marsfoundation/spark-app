@@ -37,7 +37,7 @@ export const CanBeBorrowed: Story = {
     reserveFactor: Percentage(0.05),
     borrowCap: NormalizedUnitNumber(2244),
     chartProps,
-    capInfo: null,
+    capAutomatorInfo: null,
   },
 }
 
@@ -60,7 +60,7 @@ export const OnlyInSiloedMode: Story = {
     reserveFactor: Percentage(0.05),
     borrowCap: NormalizedUnitNumber(2244),
     chartProps,
-    capInfo: null,
+    capAutomatorInfo: null,
   },
 }
 
@@ -74,7 +74,7 @@ export const BorrowCapReached: Story = {
     reserveFactor: Percentage(0.05),
     borrowCap: NormalizedUnitNumber(2244),
     chartProps,
-    capInfo: null,
+    capAutomatorInfo: null,
   },
 }
 
@@ -87,7 +87,7 @@ export const CannotBeBorrowed: Story = {
     apy: Percentage(0),
     reserveFactor: Percentage(0.05),
     chartProps,
-    capInfo: null,
+    capAutomatorInfo: null,
   },
 }
 
@@ -101,7 +101,7 @@ export const WithCapAutomatorInfo: Story = {
     reserveFactor: Percentage(0.05),
     borrowCap: NormalizedUnitNumber(2244),
     chartProps,
-    capInfo: {
+    capAutomatorInfo: {
       maxCap: NormalizedUnitNumber(2944),
       gap: NormalizedUnitNumber(0),
       increaseCooldown: 43200,
@@ -133,6 +133,6 @@ export const DAI: Story = {
       baseVariableBorrowRate: bigNumberify('62599141818649791361008000'),
     },
     showTokenBadge: true,
-    capInfo: null,
+    capAutomatorInfo: null,
   },
 }

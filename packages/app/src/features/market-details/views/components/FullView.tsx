@@ -34,21 +34,11 @@ export function FullView({
       />
       <div className="grid grid-cols-[2fr_1fr] gap-5 md:gap-10">
         <div className="flex flex-col gap-6">
-          {marketOverview.supply && (
-            <SupplyStatusPanel
-              token={token}
-              {...marketOverview.supply}
-              capInfo={marketOverview.capAutomatorInfo.supplyCap}
-            />
-          )}
+          {marketOverview.supply && <SupplyStatusPanel token={token} {...marketOverview.supply} />}
           {marketOverview.lend && <LendStatusPanel {...marketOverview.lend} />}
           <CollateralStatusPanel {...marketOverview.collateral} />
           {marketOverview.eMode && <EModeStatusPanel {...marketOverview.eMode} />}
-          <BorrowStatusPanel
-            token={token}
-            {...marketOverview.borrow}
-            capInfo={marketOverview.capAutomatorInfo.borrowCap}
-          />
+          <BorrowStatusPanel token={token} {...marketOverview.borrow} />
         </div>
         <div className="flex flex-col gap-6">
           <MarketOverviewPanel token={token} {...marketOverview.summary} />

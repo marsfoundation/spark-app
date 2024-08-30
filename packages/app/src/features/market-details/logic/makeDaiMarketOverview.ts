@@ -57,11 +57,9 @@ export function makeDaiMarketOverview({ reserve, marketInfo, D3MInfo }: MakeDaiM
     borrow: {
       ...baseOverview.borrow,
       showTokenBadge: true,
+      capAutomatorInfo: null,
     },
-    capAutomatorInfo: {
-      supplyCap: null,
-      borrowCap: null,
-    },
+
     summary: {
       type: 'dai',
       borrowed: reserve.totalDebt,
