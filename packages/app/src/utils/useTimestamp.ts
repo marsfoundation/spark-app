@@ -9,11 +9,11 @@ export interface UseTimestampResults {
   timestampInMs: number
 }
 
-const now = Date.now()
-
 // returns the current timestamp that does not change during the component lifecycle
 // can be used to make calculations that depend on the current timestamp consistent over the whole app
 export function useTimestamp({ refreshIntervalInMs }: UseTimestampOptions = {}): UseTimestampResults {
+  const now = Date.now()
+
   const { data } = useSuspenseQuery({
     queryKey: ['timestamp', refreshIntervalInMs],
     queryFn: () => {
