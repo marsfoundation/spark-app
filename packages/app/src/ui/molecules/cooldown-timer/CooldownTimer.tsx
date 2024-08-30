@@ -22,7 +22,7 @@ export function CooldownTimer({ renewalPeriod, latestUpdateTimestamp, forceOpen 
   const timeLeft = Math.max(0, renewalPeriod - (timestamp - latestUpdateTimestamp))
 
   return (
-    <Tooltip defaultOpen={forceOpen}>
+    <Tooltip open={forceOpen}>
       <TooltipTrigger>
         <IconPill icon={assets.timer} />
       </TooltipTrigger>
@@ -40,7 +40,9 @@ export function CooldownTimer({ renewalPeriod, latestUpdateTimestamp, forceOpen 
     </Tooltip>
   )
 }
-
+function X() {
+  return <CooldownTimer renewalPeriod={3600} latestUpdateTimestamp={1632345600} forceOpen />
+}
 function secondsToHours(seconds: number) {
   return Math.floor(seconds / 3600)
 }
