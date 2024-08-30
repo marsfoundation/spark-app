@@ -15,7 +15,7 @@ function Label({ children }: InfoTileProps) {
 
 function Value({ children }: InfoTileProps) {
   return (
-    <div className="justify-self-end text-sky-950 text-sm leading-none sm:justify-self-start sm:text-base sm:leading-none">
+    <div className="flex items-center gap-1 justify-self-end text-sky-950 text-sm leading-none sm:justify-self-start sm:text-base sm:leading-none">
       {children}
     </div>
   )

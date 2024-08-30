@@ -1,5 +1,7 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { getNativeAssetInfo } from '@/config/chain/utils/getNativeAssetInfo'
+import { CapAutomatorInfo } from '@/domain/cap-automator/types'
+import { useCapAutomatorInfo } from '@/domain/cap-automator/useCapAutomatorInfo'
 import { useD3MInfo } from '@/domain/d3m-info/useD3MInfo'
 import { NotFoundError } from '@/domain/errors/not-found'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
@@ -24,6 +26,7 @@ export interface UseMarketDetailsResult {
   marketOverview: MarketOverview
   walletOverview: WalletOverview
   chainMismatch: boolean
+  capAutomatorInfo: CapAutomatorInfo
 }
 
 export function useMarketDetails(): UseMarketDetailsResult {
@@ -39,6 +42,8 @@ export function useMarketDetails(): UseMarketDetailsResult {
   const chainMismatch = connectedChainId !== chainId
 
   const reserve = marketInfo.findReserveByUnderlyingAsset(asset) ?? raise(new NotFoundError())
+
+  const { capAutomatorInfo } = useCapAutomatorInfo({ chainId, token: reserve.token })
 
   const isDaiOverview = reserve.token.symbol === marketInfo.DAI.symbol && D3MInfo
 
@@ -70,5 +75,6 @@ export function useMarketDetails(): UseMarketDetailsResult {
     marketOverview,
     walletOverview,
     chainMismatch,
+    capAutomatorInfo,
   }
 }

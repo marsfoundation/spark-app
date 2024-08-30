@@ -20,6 +20,7 @@ export function FullView({
   walletOverview,
   openConnectModal,
   openDialog,
+  capAutomatorInfo,
 }: MarketDetailsViewProps) {
   return (
     <div className="w-full max-w-5xl pt-12 pb-8 lg:mx-auto sm:mx-3">
@@ -34,11 +35,13 @@ export function FullView({
       />
       <div className="grid grid-cols-[2fr_1fr] gap-5 md:gap-10">
         <div className="flex flex-col gap-6">
-          {marketOverview.supply && <SupplyStatusPanel token={token} {...marketOverview.supply} />}
+          {marketOverview.supply && (
+            <SupplyStatusPanel token={token} {...marketOverview.supply} capInfo={capAutomatorInfo.supplyCap} />
+          )}
           {marketOverview.lend && <LendStatusPanel {...marketOverview.lend} />}
           <CollateralStatusPanel {...marketOverview.collateral} />
           {marketOverview.eMode && <EModeStatusPanel {...marketOverview.eMode} />}
-          <BorrowStatusPanel token={token} {...marketOverview.borrow} />
+          <BorrowStatusPanel token={token} {...marketOverview.borrow} capInfo={capAutomatorInfo.borrowCap} />
         </div>
         <div className="flex flex-col gap-6">
           <MarketOverviewPanel token={token} {...marketOverview.summary} />

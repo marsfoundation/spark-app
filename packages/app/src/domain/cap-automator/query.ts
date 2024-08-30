@@ -67,7 +67,7 @@ function formatCapStructToConfig(capStruct: readonly [number, number, number, nu
     gap: NormalizedUnitNumber(gap),
     increaseCooldown,
     lastUpdateBlock,
-    lastIncreaseTime: new Date(lastIncreaseTime * 1000),
+    lastIncreaseTime,
   }
 }
 

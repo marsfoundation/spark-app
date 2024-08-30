@@ -4,7 +4,9 @@ import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
+import { CooldownTimer } from '@/ui/molecules/cooldown-timer/CooldownTimer'
 
+import { CapAutomatorInfo } from '@/domain/cap-automator/types'
 import { SparkAirdropInfoPanel } from '../spark-airdrop-info-panel/SparkAirdropInfoPanel'
 import { EmptyStatusPanel } from './components/EmptyStatusPanel'
 import { Header } from './components/Header'
@@ -18,9 +20,10 @@ interface SupplyStatusPanelProps {
   status: SupplyAvailabilityStatus
   token: Token
   totalSupplied: NormalizedUnitNumber
-  supplyCap?: NormalizedUnitNumber
   apy: Percentage | undefined
   hasSparkAirdrop: boolean
+  supplyCap?: NormalizedUnitNumber
+  capInfo: CapAutomatorInfo['supplyCap']
 }
 
 export function SupplyStatusPanel({
@@ -30,6 +33,7 @@ export function SupplyStatusPanel({
   supplyCap,
   apy,
   hasSparkAirdrop,
+  capInfo,
 }: SupplyStatusPanelProps) {
   if (status === 'no') {
     return <EmptyStatusPanel status={status} variant="supply" />
@@ -55,7 +59,8 @@ export function SupplyStatusPanel({
             </InfoTile.Label>
             <InfoTile.Value>{formatPercentage(apy)}</InfoTile.Value>
           </InfoTile>
-          {supplyCap && (
+
+          {supplyCap && capInfo === null && (
             <InfoTile>
               <InfoTile.Label>Supply cap</InfoTile.Label>
               <InfoTile.Value>
@@ -65,6 +70,32 @@ export function SupplyStatusPanel({
             </InfoTile>
           )}
         </InfoTilesGrid>
+
+        {capInfo && (
+          <InfoTilesGrid>
+            <InfoTile>
+              <InfoTile.Label>Supply cap</InfoTile.Label>
+              <InfoTile.Value>
+                {token.format(capInfo.maxCap, { style: 'compact' })} {token.symbol}
+              </InfoTile.Value>
+              <InfoTile.ComplementaryLine>
+                {token.formatUSD(capInfo.maxCap, { compact: true })}
+              </InfoTile.ComplementaryLine>
+            </InfoTile>
+
+            <InfoTile>
+              <InfoTile.Label>Instantly available supply cap:</InfoTile.Label>
+              <InfoTile.Value>
+                {token.format(supplyCap!, { style: 'compact' })} {token.symbol}
+                <CooldownTimer
+                  renewalPeriod={capInfo.increaseCooldown}
+                  latestUpdateTimestamp={capInfo.lastIncreaseTime}
+                />
+              </InfoTile.Value>
+              <InfoTile.ComplementaryLine>{token.formatUSD(supplyCap!, { compact: true })}</InfoTile.ComplementaryLine>
+            </InfoTile>
+          </InfoTilesGrid>
+        )}
         {hasSparkAirdrop && <SparkAirdropInfoPanel variant="deposit" eligibleToken={token.symbol} />}
       </StatusPanelGrid>
     </Panel.Wrapper>

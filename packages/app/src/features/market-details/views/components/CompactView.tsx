@@ -22,6 +22,7 @@ export function CompactView({
   walletOverview,
   openConnectModal,
   openDialog,
+  capAutomatorInfo,
 }: MarketDetailsViewProps) {
   return (
     <div className="w-full pt-5 pb-8">
@@ -41,11 +42,13 @@ export function CompactView({
         </TabsList>
         <TabsContent value="overview" className="flex flex-col gap-4 px-3">
           <MarketOverviewPanel token={token} {...marketOverview.summary} />
-          {marketOverview.supply && <SupplyStatusPanel token={token} {...marketOverview.supply} />}
+          {marketOverview.supply && (
+            <SupplyStatusPanel token={token} {...marketOverview.supply} capInfo={capAutomatorInfo.supplyCap} />
+          )}
           {marketOverview.lend && <LendStatusPanel {...marketOverview.lend} />}
           <CollateralStatusPanel {...marketOverview.collateral} />
           {marketOverview.eMode && <EModeStatusPanel {...marketOverview.eMode} />}
-          <BorrowStatusPanel token={token} {...marketOverview.borrow} />
+          <BorrowStatusPanel token={token} {...marketOverview.borrow} capInfo={capAutomatorInfo.borrowCap} />
         </TabsContent>
         <TabsContent value="actions" className="px-3">
           <MyWalletPanel

@@ -5,7 +5,7 @@ export interface CapConfig {
   gap: NormalizedUnitNumber
   increaseCooldown: number
   lastUpdateBlock: number
-  lastIncreaseTime: Date
+  lastIncreaseTime: number
 }
 
 export interface CapAutomatorInfo {
