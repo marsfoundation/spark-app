@@ -12,9 +12,23 @@ export interface MakeDaiMarketOverviewParams {
 }
 
 export function makeDaiMarketOverview({ reserve, marketInfo, D3MInfo }: MakeDaiMarketOverviewParams): MarketOverview {
-  const baseOverview = makeMarketOverview({ reserve, marketInfo })
+  const baseOverview = makeMarketOverview({
+    reserve,
+    marketInfo,
+    capAutomatorInfo: {
+      borrowCap: null,
+      supplyCap: null,
+    },
+  })
   const sDAI = marketInfo.findOneReserveByToken(marketInfo.sDAI)
-  const sDaiOverview = makeMarketOverview({ reserve: sDAI, marketInfo })
+  const sDaiOverview = makeMarketOverview({
+    reserve: sDAI,
+    marketInfo,
+    capAutomatorInfo: {
+      borrowCap: null,
+      supplyCap: null,
+    },
+  })
   const makerDaoCapacity = NormalizedUnitNumber(D3MInfo.maxDebtCeiling.minus(D3MInfo.D3MCurrentDebtUSD))
   const marketSize = NormalizedUnitNumber(reserve.totalLiquidity.plus(makerDaoCapacity))
   const totalAvailable = NormalizedUnitNumber(marketSize.minus(reserve.totalDebt))
@@ -43,6 +57,10 @@ export function makeDaiMarketOverview({ reserve, marketInfo, D3MInfo }: MakeDaiM
     borrow: {
       ...baseOverview.borrow,
       showTokenBadge: true,
+    },
+    capAutomatorInfo: {
+      supplyCap: null,
+      borrowCap: null,
     },
     summary: {
       type: 'dai',

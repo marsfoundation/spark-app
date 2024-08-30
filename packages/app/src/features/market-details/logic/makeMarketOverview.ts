@@ -1,5 +1,6 @@
 import { MarketInfo, Reserve } from '@/domain/market-info/marketInfo'
 
+import { CapAutomatorInfo } from '@/domain/cap-automator/types'
 import { MarketOverview } from '../types'
 import { getReserveEModeCategoryTokens } from './getReserveEModeCategoryTokens'
 import { getSparkAirdropDetails } from './getSparkAirdropDetails'
@@ -7,9 +8,14 @@ import { getSparkAirdropDetails } from './getSparkAirdropDetails'
 export interface MakeMarketOverviewParams {
   marketInfo: MarketInfo
   reserve: Reserve
+  capAutomatorInfo: CapAutomatorInfo
 }
 
-export function makeMarketOverview({ reserve, marketInfo }: MakeMarketOverviewParams): MarketOverview {
+export function makeMarketOverview({
+  reserve,
+  marketInfo,
+  capAutomatorInfo,
+}: MakeMarketOverviewParams): MarketOverview {
   const eModeCategoryId = reserve.eModeCategory?.id
   const eModeCategoryTokens = getReserveEModeCategoryTokens(marketInfo, reserve)
   const { hasAirdropForBorrowing, hasAirdropForSupplying } = getSparkAirdropDetails({
@@ -55,6 +61,7 @@ export function makeMarketOverview({ reserve, marketInfo }: MakeMarketOverviewPa
       borrowed: reserve.totalDebt,
       available: reserve.availableLiquidity,
     },
+    capAutomatorInfo,
     ...(eModeCategoryId === 1 || eModeCategoryId === 2
       ? {
           eMode: {

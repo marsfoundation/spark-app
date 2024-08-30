@@ -1,6 +1,5 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { getNativeAssetInfo } from '@/config/chain/utils/getNativeAssetInfo'
-import { CapAutomatorInfo } from '@/domain/cap-automator/types'
 import { useCapAutomatorInfo } from '@/domain/cap-automator/useCapAutomatorInfo'
 import { useD3MInfo } from '@/domain/d3m-info/useD3MInfo'
 import { NotFoundError } from '@/domain/errors/not-found'
@@ -26,7 +25,6 @@ export interface UseMarketDetailsResult {
   marketOverview: MarketOverview
   walletOverview: WalletOverview
   chainMismatch: boolean
-  capAutomatorInfo: CapAutomatorInfo
 }
 
 export function useMarketDetails(): UseMarketDetailsResult {
@@ -56,6 +54,7 @@ export function useMarketDetails(): UseMarketDetailsResult {
     : makeMarketOverview({
         reserve,
         marketInfo,
+        capAutomatorInfo,
       })
 
   const walletOverview = makeWalletOverview({
@@ -75,6 +74,5 @@ export function useMarketDetails(): UseMarketDetailsResult {
     marketOverview,
     walletOverview,
     chainMismatch,
-    capAutomatorInfo,
   }
 }

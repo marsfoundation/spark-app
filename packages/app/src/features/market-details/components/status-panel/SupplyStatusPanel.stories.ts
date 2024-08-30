@@ -75,3 +75,8 @@ export const WithCapAutomatorInfo: Story = {
     },
   },
 }
+
+export const WithCapAutomatorInfoMobile = {
+  ...getMobileStory(WithCapAutomatorInfo),
+  name: 'With cap automator info (Mobile)',
+}

@@ -74,6 +74,10 @@ const args: MarketDetailsViewProps = {
         baseVariableBorrowRate: bigNumberify('2500000000000000000000000'),
       },
     },
+    capAutomatorInfo: {
+      supplyCap: null,
+      borrowCap: null,
+    },
     summary: {
       type: 'default',
       marketSize: NormalizedUnitNumber(1_243_000_000),
@@ -84,10 +88,6 @@ const args: MarketDetailsViewProps = {
   },
   openConnectModal: () => {},
   openDialog: () => {},
-  capAutomatorInfo: {
-    supplyCap: null,
-    borrowCap: null,
-  },
 }
 
 export const Desktop: Story = {

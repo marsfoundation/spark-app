@@ -111,6 +111,11 @@ export const WithCapAutomatorInfo: Story = {
   },
 }
 
+export const WithCapAutomatorInfoMobile = {
+  ...getMobileStory(WithCapAutomatorInfo),
+  name: 'With cap automator info (Mobile)',
+}
+
 export const DAI: Story = {
   name: 'DAI',
   args: {
