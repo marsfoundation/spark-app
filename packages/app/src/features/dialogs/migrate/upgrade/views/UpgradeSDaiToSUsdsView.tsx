@@ -40,8 +40,6 @@ export function UpgradeSDaiToSUsdsView({
 
       <Banner fromToken={fromToken} toToken={toToken} />
 
-      <Description>Upgrading to {toToken.symbol} offers the following advantages:</Description>
-
       <KeyPoints>
         {apyDifference.gt(0) && (
           <KeyPoints.Item variant="positive">
@@ -51,9 +49,6 @@ export function UpgradeSDaiToSUsdsView({
             </div>
           </KeyPoints.Item>
         )}
-        <KeyPoints.Item variant="positive">
-          the upgrade is optional, and you can continue using Savings DAI
-        </KeyPoints.Item>
       </KeyPoints>
 
       <DialogActionsPanel

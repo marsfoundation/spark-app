@@ -1,4 +1,4 @@
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { WithClassname, WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
@@ -12,7 +12,6 @@ const meta: Meta<typeof UpgradeDaiToUSDSView> = {
   args: {
     fromToken: tokens.DAI,
     toToken: tokens.USDS,
-    apyDifference: Percentage(0.0025),
     objectives: [
       {
         type: 'upgrade',

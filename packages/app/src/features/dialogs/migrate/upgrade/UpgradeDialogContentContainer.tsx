@@ -38,7 +38,6 @@ function UpgradeDialogContentContainer({ fromToken, toToken, closeDialog }: Upgr
         toToken={toToken}
         pageStatus={pageStatus}
         objectives={objectives}
-        apyDifference={apyDifference}
         actionsContext={actionsContext}
       />
     )

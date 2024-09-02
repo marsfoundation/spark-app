@@ -13,7 +13,7 @@ interface DowngradeDialogContentContainerProps {
 }
 
 function DowngradeDialogContentContainer({ fromToken, toToken, closeDialog }: DowngradeDialogContentContainerProps) {
-  const { objectives, pageStatus, migrationAmount, tokensInfo, apyDifference } = useMigrateDialog({
+  const { objectives, pageStatus, migrationAmount, tokensInfo } = useMigrateDialog({
     type: 'downgrade',
     fromToken,
     toToken,
@@ -32,13 +32,7 @@ function DowngradeDialogContentContainer({ fromToken, toToken, closeDialog }: Do
 
   if (fromToken.symbol === tokensInfo.USDS?.symbol && toToken.symbol === tokensInfo.DAI?.symbol) {
     return (
-      <DowngradeUSDSToDaiView
-        fromToken={fromToken}
-        toToken={toToken}
-        pageStatus={pageStatus}
-        objectives={objectives}
-        apyDifference={apyDifference}
-      />
+      <DowngradeUSDSToDaiView fromToken={fromToken} toToken={toToken} pageStatus={pageStatus} objectives={objectives} />
     )
   }
 
