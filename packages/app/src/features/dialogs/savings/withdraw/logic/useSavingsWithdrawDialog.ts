@@ -1,7 +1,7 @@
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
 import { useConditionalFreeze } from '@/domain/hooks/useConditionalFreeze'
 import { useSavingsDaiInfo } from '@/domain/savings-info/useSavingsDaiInfo'
-import { useSavingsNstInfo } from '@/domain/savings-info/useSavingsNstInfo'
+import { useSavingsUsdsInfo } from '@/domain/savings-info/useSavingsUsdsInfo'
 import { useSavingsTokens } from '@/domain/savings/useSavingsTokens'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
@@ -22,7 +22,7 @@ import { getSavingsWithdrawDialogFormValidator } from './validation'
 
 export interface UseSavingsWithdrawDialogParams {
   mode: Mode
-  savingsType: 'sdai' | 'snst'
+  savingsType: 'sdai' | 'susds'
 }
 
 export interface UseSavingsWithdrawDialogResults {
@@ -41,21 +41,21 @@ export function useSavingsWithdrawDialog({
   mode,
   savingsType,
 }: UseSavingsWithdrawDialogParams): UseSavingsWithdrawDialogResults {
-  const { tokensInfo, inputTokens, sDaiWithBalance, sNSTWithBalance } = useSavingsTokens()
+  const { tokensInfo, inputTokens, sDaiWithBalance, sUSDSWithBalance } = useSavingsTokens()
 
   const { savingsDaiInfo } = useSavingsDaiInfo()
-  const { savingsNstInfo } = useSavingsNstInfo()
+  const { savingsUsdsInfo } = useSavingsUsdsInfo()
 
   const savingsInfo =
-    (savingsType === 'sdai' ? savingsDaiInfo : savingsNstInfo) ??
+    (savingsType === 'sdai' ? savingsDaiInfo : savingsUsdsInfo) ??
     raise(`Savings info is not available for ${savingsType}`)
 
   const [pageState, setPageState] = useState<PageState>('form')
   const sendModeExtension = useSendModeExtension({ mode, tokensInfo })
   const savingsTokenWithBalance =
-    (savingsType === 'sdai' ? sDaiWithBalance : sNSTWithBalance) ??
+    (savingsType === 'sdai' ? sDaiWithBalance : sUSDSWithBalance) ??
     raise(`Savings token balance is not available for ${savingsType}`)
-  const defaultWithdrawToken = savingsType === 'sdai' ? tokensInfo.DAI : tokensInfo.NST
+  const defaultWithdrawToken = savingsType === 'sdai' ? tokensInfo.DAI : tokensInfo.USDS
 
   const form = useForm<AssetInputSchema>({
     resolver: zodResolver(getSavingsWithdrawDialogFormValidator(savingsTokenWithBalance)),
@@ -131,5 +131,5 @@ function filterInputTokens({ inputTokens, savingsType, tokensInfo }: FilterInput
     return inputTokens
   }
 
-  return inputTokens.filter(({ token }) => token.symbol === tokensInfo.NST?.symbol)
+  return inputTokens.filter(({ token }) => token.symbol === tokensInfo.USDS?.symbol)
 }

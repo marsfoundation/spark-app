@@ -17,7 +17,7 @@ import { toBigInt } from '@/utils/bigNumber'
 import { erc4626Abi } from 'viem'
 import { gnosis } from 'viem/chains'
 import { DepositToSavingsAction } from '../types'
-import { isDaiToSNstMigration } from './common'
+import { isDaiToSUsdsMigration } from './common'
 
 export function createDepositToSavingsActionConfig(
   action: DepositToSavingsAction,
@@ -66,11 +66,11 @@ export function createDepositToSavingsActionConfig(
         })
       }
 
-      if (isDaiToSNstMigration({ token, savingsToken, tokensInfo })) {
+      if (isDaiToSUsdsMigration({ token, savingsToken, tokensInfo })) {
         return ensureConfigTypes({
           address: MIGRATE_ACTIONS_ADDRESS,
           abi: migrationActionsAbi,
-          functionName: 'migrateDAIToSNST',
+          functionName: 'migrateDAIToSUSDS',
           args: [account, assetsAmount],
         })
       }
@@ -90,7 +90,7 @@ export function createDepositToSavingsActionConfig(
           return getContractAddress(psmActionsConfig.address, chainId)
         }
 
-        if (isDaiToSNstMigration({ token, savingsToken, tokensInfo })) {
+        if (isDaiToSUsdsMigration({ token, savingsToken, tokensInfo })) {
           return MIGRATE_ACTIONS_ADDRESS
         }
 

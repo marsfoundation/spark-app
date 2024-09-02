@@ -128,7 +128,7 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
     action: {
       type: 'upgrade',
       fromToken: tokens.DAI,
-      toToken: tokens.NST,
+      toToken: tokens.USDS,
       amount: NormalizedUnitNumber(1),
     },
     state: { status: 'ready' },
@@ -137,7 +137,7 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
   downgrade: {
     action: {
       type: 'downgrade',
-      fromToken: tokens.NST,
+      fromToken: tokens.USDS,
       toToken: tokens.DAI,
       amount: NormalizedUnitNumber(1),
     },

@@ -23,7 +23,7 @@ export function isVaultOperation({
 
   return (
     (token.symbol === tokensInfo.DAI?.symbol && savingsToken.symbol === tokensInfo.sDAI?.symbol) ||
-    (token.symbol === tokensInfo.NST?.symbol && savingsToken.symbol === tokensInfo.sNST?.symbol)
+    (token.symbol === tokensInfo.USDS?.symbol && savingsToken.symbol === tokensInfo.sUSDS?.symbol)
   )
 }
 
@@ -46,10 +46,10 @@ export function isUsdcPsmActionsOperation({
   return token.symbol === TokenSymbol('USDC') && savingsToken.symbol === tokensInfo.sDAI?.symbol
 }
 
-export function isSDaiToNstWithdraw({
+export function isSDaiToUsdsWithdraw({
   token,
   savingsToken,
   tokensInfo,
 }: { token: Token; savingsToken: Token; tokensInfo: TokensInfo }): boolean {
-  return token.symbol === tokensInfo.NST?.symbol && savingsToken.symbol === tokensInfo.sDAI?.symbol
+  return token.symbol === tokensInfo.USDS?.symbol && savingsToken.symbol === tokensInfo.sDAI?.symbol
 }

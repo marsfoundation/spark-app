@@ -51,14 +51,14 @@ import eth from './tokens/eth.svg'
 import eure from './tokens/eure.svg'
 import gno from './tokens/gno.svg'
 import mkr from './tokens/mkr.svg'
-import ngt from './tokens/ngt.svg'
-import nst from './tokens/nst.svg'
 import reth from './tokens/reth.svg'
 import sdai from './tokens/sdai.svg'
-import snst from './tokens/snst.svg'
+import sky from './tokens/sky.svg'
 import steth from './tokens/steth.svg'
+import susds from './tokens/susds.svg'
 import unknown from './tokens/unknown.svg'
 import usdc from './tokens/usdc.svg'
+import usds from './tokens/usds.svg'
 import usdt from './tokens/usdt.svg'
 import wbtc from './tokens/wbtc.svg'
 import weeth from './tokens/weeth.svg'
@@ -142,11 +142,11 @@ export const assets = {
     eure,
     gno,
     mkr,
-    ngt,
-    nst,
+    sky,
+    usds,
     reth,
     sdai,
-    snst,
+    susds,
     steth,
     usdc,
     'usdc.e': usdc,
@@ -195,11 +195,11 @@ const tokenColors: Record<TokenSymbol, `${number} ${number} ${number}`> = {
   [TokenSymbol('EURe')]: '0 134 194',
   [TokenSymbol('GNO')]: '62 105 87',
   [TokenSymbol('MKR')]: '26 171 155',
-  [TokenSymbol('NGT')]: '178 104 252',
-  [TokenSymbol('NST')]: '255 192 70',
+  [TokenSymbol('SKY')]: '178 104 252',
+  [TokenSymbol('USDS')]: '255 192 70',
   [TokenSymbol('rETH')]: '255 151 125',
   [TokenSymbol('sDAI')]: '53 181 82',
-  [TokenSymbol('sNST')]: '53 181 82',
+  [TokenSymbol('sUSDS')]: '53 181 82',
   [TokenSymbol('stETH')]: '143 146 236',
   [TokenSymbol('USDC')]: '51 146 248',
   [TokenSymbol('USDC.e')]: '51 146 248',

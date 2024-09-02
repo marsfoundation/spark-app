@@ -3,7 +3,7 @@ import { psmActionsAddress, savingsXDaiAdapterAddress } from '@/config/contracts
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Action, ActionContext } from '@/features/actions/logic/types'
 import {
-  isSDaiToNstWithdraw,
+  isSDaiToUsdsWithdraw,
   isSexyDaiOperation,
   isUsdcPsmActionsOperation,
   isVaultOperation,
@@ -48,7 +48,7 @@ export function createWithdrawFromSavingsActions(
       return savingsXDaiAdapterAddress[gnosis.id]
     }
 
-    if (isSDaiToNstWithdraw({ token, savingsToken, tokensInfo })) {
+    if (isSDaiToUsdsWithdraw({ token, savingsToken, tokensInfo })) {
       return MIGRATE_ACTIONS_ADDRESS
     }
 

@@ -1,6 +1,6 @@
 import { Page, test } from '@playwright/test'
 
-import { NST_DEV_CHAIN_ID } from '@/config/chain/constants'
+import { USDS_DEV_CHAIN_ID } from '@/config/chain/constants'
 import { tenderlyRpcActions } from '@/domain/tenderly/TenderlyRpcActions'
 import { http, createPublicClient } from 'viem'
 import { mainnet } from 'viem/chains'
@@ -42,7 +42,7 @@ export type SetupForkOptions =
       useTenderlyVnet: true // vnets are more powerful forks alternative provided by Tenderly
     }
   | {
-      chainId: typeof NST_DEV_CHAIN_ID
+      chainId: typeof USDS_DEV_CHAIN_ID
     }
 
 export function setupFork(options: SetupForkOptions): ForkContext {
@@ -50,10 +50,10 @@ export function setupFork(options: SetupForkOptions): ForkContext {
   const tenderlyAccount = processEnv('TENDERLY_ACCOUNT')
   const tenderlyProject = processEnv('TENDERLY_PROJECT')
 
-  const isVnet = options.chainId === NST_DEV_CHAIN_ID || !!options.useTenderlyVnet
+  const isVnet = options.chainId === USDS_DEV_CHAIN_ID || !!options.useTenderlyVnet
   const chainId = options.chainId
   const simulationDateOverride =
-    options.chainId !== NST_DEV_CHAIN_ID && !options.useTenderlyVnet ? options.simulationDateOverride : undefined
+    options.chainId !== USDS_DEV_CHAIN_ID && !options.useTenderlyVnet ? options.simulationDateOverride : undefined
 
   const forkService: ITestForkService = isVnet
     ? new TestTenderlyVnetService({ apiKey, account: tenderlyAccount, project: tenderlyProject })
@@ -81,14 +81,14 @@ export function setupFork(options: SetupForkOptions): ForkContext {
   // @todo refactor after dropping tenderly fork support
 
   test.beforeAll(async () => {
-    if (options.chainId !== NST_DEV_CHAIN_ID) {
+    if (options.chainId !== USDS_DEV_CHAIN_ID) {
       forkContext.forkUrl = await forkService.createFork({
         blockNumber: options.blockNumber,
         originChainId: chainId,
         forkChainId: chainId,
       })
     } else {
-      forkContext.forkUrl = await (forkService as TestTenderlyVnetService).cloneNSTFork()
+      forkContext.forkUrl = await (forkService as TestTenderlyVnetService).cloneUSDSFork()
     }
 
     if (simulationDate) {

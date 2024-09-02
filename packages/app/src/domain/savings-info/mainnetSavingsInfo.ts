@@ -4,7 +4,7 @@ import { potAbi, potAddress } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { bigNumberify } from '@/utils/bigNumber'
 
-import { NST_DEV_CHAIN_ID } from '@/config/chain/constants'
+import { USDS_DEV_CHAIN_ID } from '@/config/chain/constants'
 import { PotSavingsInfo } from './potSavingsInfo'
 import { SavingsInfoQueryOptions, SavingsInfoQueryParams } from './types'
 
@@ -53,45 +53,45 @@ export function mainnetSavingsDaiInfoQuery({
   }
 }
 
-export function mainnetSavingsNstInfoQuery({
+export function mainnetSavingsUsdsInfoQuery({
   wagmiConfig,
   chainId,
   timestamp,
 }: SavingsInfoQueryParams): SavingsInfoQueryOptions {
   return {
-    queryKey: ['savings-nst-info', { chainId }],
+    queryKey: ['savings-usds-info', { chainId }],
     queryFn: async () => {
-      if (chainId !== NST_DEV_CHAIN_ID) {
+      if (chainId !== USDS_DEV_CHAIN_ID) {
         return null
       }
 
-      const [nsr, rho, chi] = await multicall(wagmiConfig, {
+      const [ssr, rho, chi] = await multicall(wagmiConfig, {
         allowFailure: false,
         contracts: [
           {
-            address: sNSTAddress,
-            functionName: 'nsr',
+            address: sUSDSAddress,
+            functionName: 'ssr',
             args: [],
-            abi: sNSTAbi,
+            abi: sUSDSAbi,
           },
           {
-            address: sNSTAddress,
+            address: sUSDSAddress,
             functionName: 'rho',
             args: [],
-            abi: sNSTAbi,
+            abi: sUSDSAbi,
           },
           {
-            address: sNSTAddress,
+            address: sUSDSAddress,
             functionName: 'chi',
             args: [],
-            abi: sNSTAbi,
+            abi: sUSDSAbi,
           },
         ],
       })
 
       return new PotSavingsInfo({
         potParams: {
-          dsr: bigNumberify(nsr),
+          dsr: bigNumberify(ssr),
           rho: bigNumberify(rho),
           chi: bigNumberify(chi),
         },
@@ -101,9 +101,9 @@ export function mainnetSavingsNstInfoQuery({
   }
 }
 
-// @todo: add sNST address to wagmi config once it's available on mainnet
-const sNSTAddress = '0xeA8AE08513f8230cAA8d031D28cB4Ac8CE720c68'
-const sNSTAbi = [
+// @todo: add sUSDS address to wagmi config once it's available on mainnet
+const sUSDSAddress = '0xCd9BC6cE45194398d12e27e1333D5e1d783104dD'
+const sUSDSAbi = [
   {
     constant: true,
     payable: false,
@@ -118,7 +118,7 @@ const sNSTAbi = [
     payable: false,
     type: 'function',
     inputs: [],
-    name: 'nsr',
+    name: 'ssr',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
     stateMutability: 'view',
   },

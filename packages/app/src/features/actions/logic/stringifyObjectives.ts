@@ -16,7 +16,7 @@ export function stringifyObjectivesToStableActions(objectives: Objective[]): str
       o?.useAToken,
       // values are stringified to reload actions when inputs change (and for example new approval value is needed)
       o?.value,
-      o?.migrateDAIToSNST,
+      o?.migrateDAIToSUSDS,
     ]),
   )
 }

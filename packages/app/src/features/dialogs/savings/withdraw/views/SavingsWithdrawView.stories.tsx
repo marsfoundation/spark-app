@@ -12,22 +12,22 @@ import { SavingsWithdrawView, SavingsWithdrawViewProps } from './SavingsWithdraw
 
 const dai = tokens.DAI
 const sdai = tokens.sDAI
-const nst = tokens.NST
-const snst = tokens.sNST
+const usds = tokens.USDS
+const susds = tokens.sUSDS
 const usdc = tokens.USDC
 const mockTokensInfo = new TokensInfo(
   [
     { token: dai, balance: NormalizedUnitNumber(100) },
     { token: sdai, balance: NormalizedUnitNumber(100) },
-    { token: nst, balance: NormalizedUnitNumber(100) },
-    { token: snst, balance: NormalizedUnitNumber(100) },
+    { token: usds, balance: NormalizedUnitNumber(100) },
+    { token: susds, balance: NormalizedUnitNumber(100) },
     { token: usdc, balance: NormalizedUnitNumber(100) },
   ],
   {
     DAI: dai.symbol,
     sDAI: sdai.symbol,
-    NST: nst.symbol,
-    sNST: snst.symbol,
+    USDS: usds.symbol,
+    sUSDS: susds.symbol,
   },
 )
 const timestamp = 1000

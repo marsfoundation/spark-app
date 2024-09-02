@@ -20,6 +20,10 @@ msgstr ""
 msgid "Cash & Savings"
 msgstr ""
 
+#: src/features/easy-borrow/deposit/DepositBorrow.tsx:132
+#~ msgid "Connect your wallet"
+#~ msgstr ""
+
 #: src/features/navbar/components/PageLinks.tsx:32
 msgid "Dashboard"
 msgstr ""
@@ -27,6 +31,18 @@ msgstr ""
 #: src/features/navbar/components/PageLinks.tsx:52
 msgid "Farms"
 msgstr ""
+
+#: src/features/navbar/components/PageLinks.tsx:52
+msgid "Farms"
+msgstr ""
+
+#: src/ui/molecule/navbar/index.tsx:67
+#~ msgid "Faucet"
+#~ msgstr ""
+
+#: src/ui/organism/language-settings/LanguageSettings.tsx:28
+#~ msgid "Language"
+#~ msgstr ""
 
 #: src/features/navbar/components/PageLinks.tsx:48
 msgid "Markets"

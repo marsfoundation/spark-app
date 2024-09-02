@@ -17,22 +17,22 @@ export class SavingsPageObject extends BasePageObject {
     return this.page.getByTestId(testIds.savings.upgradeSDaiBanner)
   }
 
-  locateSavingsNstPanel(): Locator {
-    return this.locatePanelByHeader('Savings NST')
+  locateSavingsUsdsPanel(): Locator {
+    return this.locatePanelByHeader('Savings USDS')
   }
 
   locateCashInWalletPanel(): Locator {
     return this.locatePanelByHeader('Cash in wallet')
   }
 
-  locateUpgradeDaiToNstButton(): Locator {
-    return this.page.getByTestId(testIds.savings.cashInWallet.upgradeDaiToNst)
+  locateUpgradeDaiToUsdsButton(): Locator {
+    return this.page.getByTestId(testIds.savings.cashInWallet.upgradeDaiToUsds)
   }
 
-  locateNstMoreDropdown(): Locator {
+  locateUsdsMoreDropdown(): Locator {
     const panel = this.locateCashInWalletPanel()
-    const nstRow = panel.getByRole('row').filter({ has: this.page.getByRole('cell', { name: 'NST', exact: true }) })
-    return nstRow.getByTestId(testIds.savings.cashInWallet.moreDropdown)
+    const usdsRow = panel.getByRole('row').filter({ has: this.page.getByRole('cell', { name: 'USDS', exact: true }) })
+    return usdsRow.getByTestId(testIds.savings.cashInWallet.moreDropdown)
   }
   // #endregion
 
@@ -55,24 +55,24 @@ export class SavingsPageObject extends BasePageObject {
     await this.locateSavingsDaiPanel().getByRole('button', { name: 'Send' }).click()
   }
 
-  async clickWithdrawSNstButtonAction(): Promise<void> {
-    await this.locateSavingsNstPanel().getByRole('button', { name: 'Withdraw' }).click()
+  async clickWithdrawSUsdsButtonAction(): Promise<void> {
+    await this.locateSavingsUsdsPanel().getByRole('button', { name: 'Withdraw' }).click()
   }
 
-  async clickSendSNstButtonAction(): Promise<void> {
-    await this.locateSavingsNstPanel().getByRole('button', { name: 'Send' }).click()
+  async clickSendSUsdsButtonAction(): Promise<void> {
+    await this.locateSavingsUsdsPanel().getByRole('button', { name: 'Send' }).click()
   }
 
   async clickUpgradeSDaiButtonAction(): Promise<void> {
     await this.locateUpgradeSDaiBanner().getByRole('button', { name: 'Upgrade now' }).click()
   }
 
-  async clickUpgradeDaiToNstButtonAction(): Promise<void> {
-    await this.locateUpgradeDaiToNstButton().click()
+  async clickUpgradeDaiToUsdsButtonAction(): Promise<void> {
+    await this.locateUpgradeDaiToUsdsButton().click()
   }
 
-  async clickDowngradeNstToDaiOption(): Promise<void> {
-    await this.locateNstMoreDropdown().click()
+  async clickDowngradeUsdsToDaiOption(): Promise<void> {
+    await this.locateUsdsMoreDropdown().click()
     await this.page.getByRole('menuitem', { name: 'Downgrade to DAI' }).click()
   }
   // #endregion
@@ -110,15 +110,15 @@ export class SavingsPageObject extends BasePageObject {
     )
   }
 
-  async expectSavingsNSTBalance({
-    sNstBalance,
-    estimatedNstValue,
-  }: { sNstBalance: string; estimatedNstValue: string }): Promise<void> {
-    await expect(this.locatePanelByHeader('Savings NST').getByTestId(testIds.savings.sDaiBalance)).toHaveText(
-      sNstBalance,
+  async expectSavingsUSDSBalance({
+    sUsdsBalance,
+    estimatedUsdsValue,
+  }: { sUsdsBalance: string; estimatedUsdsValue: string }): Promise<void> {
+    await expect(this.locatePanelByHeader('Savings USDS').getByTestId(testIds.savings.sDaiBalance)).toHaveText(
+      sUsdsBalance,
     )
-    await expect(this.locatePanelByHeader('Savings NST').getByTestId(testIds.savings.sDaiBalanceInDai)).toContainText(
-      estimatedNstValue,
+    await expect(this.locatePanelByHeader('Savings USDS').getByTestId(testIds.savings.sDaiBalanceInDai)).toContainText(
+      estimatedUsdsValue,
     )
   }
 
@@ -142,23 +142,23 @@ export class SavingsPageObject extends BasePageObject {
     await expect(row.getByRole('cell', { name: value })).toBeVisible()
   }
 
-  expectUpgradeDaiToNstButtonToBeHidden(): Promise<void> {
-    return expect(this.locateUpgradeDaiToNstButton()).toBeHidden()
+  expectUpgradeDaiToUsdsButtonToBeHidden(): Promise<void> {
+    return expect(this.locateUpgradeDaiToUsdsButton()).toBeHidden()
   }
 
   expectUpgradeSDaiBannerToBeHidden(): Promise<void> {
     return expect(this.locateUpgradeSDaiBanner()).toBeHidden()
   }
 
-  expectNstMoreDropdownToBeDisabled(): Promise<void> {
-    return expect(this.locateNstMoreDropdown()).toBeDisabled()
+  expectUsdsMoreDropdownToBeDisabled(): Promise<void> {
+    return expect(this.locateUsdsMoreDropdown()).toBeDisabled()
   }
 
   async expectUpgradableDaiBalance(value: string): Promise<void> {
     const panel = this.locateCashInWalletPanel()
     const row = panel
       .getByRole('row')
-      .filter({ has: this.page.getByTestId(testIds.savings.cashInWallet.upgradeDaiToNst) })
+      .filter({ has: this.page.getByTestId(testIds.savings.cashInWallet.upgradeDaiToUsds) })
     await expect(row.getByRole('cell', { name: value })).toBeVisible()
   }
   // #endregion

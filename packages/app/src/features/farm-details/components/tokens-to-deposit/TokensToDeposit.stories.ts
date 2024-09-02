@@ -18,7 +18,7 @@ export const Desktop: Story = {
   args: {
     assets: [
       {
-        token: tokens.NST,
+        token: tokens.USDS,
         balance: NormalizedUnitNumber(10_000),
       },
       {
@@ -34,7 +34,7 @@ export const Desktop: Story = {
         balance: NormalizedUnitNumber(0),
       },
       {
-        token: tokens.sNST,
+        token: tokens.sUSDS,
         balance: NormalizedUnitNumber(0),
       },
     ],

@@ -17,20 +17,20 @@ export function createUpgradeActionConfig(action: UpgradeAction, context: Action
     getWriteConfig: () => {
       const { fromToken, toToken } = action
 
-      if (fromToken.symbol === tokensInfo.DAI?.symbol && toToken.symbol === tokensInfo.NST?.symbol) {
+      if (fromToken.symbol === tokensInfo.DAI?.symbol && toToken.symbol === tokensInfo.USDS?.symbol) {
         return ensureConfigTypes({
           address: MIGRATE_ACTIONS_ADDRESS,
           abi: migrationActionsAbi,
-          functionName: 'migrateDAIToNST',
+          functionName: 'migrateDAIToUSDS',
           args: [account, upgradeAmount],
         })
       }
 
-      if (fromToken.symbol === tokensInfo.sDAI?.symbol && toToken.symbol === tokensInfo.sNST?.symbol) {
+      if (fromToken.symbol === tokensInfo.sDAI?.symbol && toToken.symbol === tokensInfo.sUSDS?.symbol) {
         return ensureConfigTypes({
           address: MIGRATE_ACTIONS_ADDRESS,
           abi: migrationActionsAbi,
-          functionName: 'migrateSDAISharesToSNST',
+          functionName: 'migrateSDAISharesToSUSDS',
           args: [account, upgradeAmount],
         })
       }
