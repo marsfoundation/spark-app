@@ -10,6 +10,7 @@ import repay from './actions/repay.svg'
 import withdraw from './actions/withdraw.svg'
 import arrowRight from './arrow-right.svg'
 import arrowUpRight from './arrow-up-right.svg'
+import susdsBackground from './backgrounds/susds.svg'
 import upgradeBannerBg from './banners/upgrade-banner-bg.svg'
 import boxArrowTopRight from './box-arrow-top-right.svg'
 import ethereum from './chains/ethereum.svg'
@@ -158,6 +159,9 @@ export const assets = {
     wxdai,
     xdai,
     unknown,
+  },
+  backgrounds: {
+    susds: susdsBackground,
   },
   walletIcons: {
     coinbase,

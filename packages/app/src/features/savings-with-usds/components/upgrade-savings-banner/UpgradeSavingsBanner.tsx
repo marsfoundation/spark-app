@@ -3,6 +3,7 @@ import { Percentage } from '@/domain/types/NumericValues'
 import { assets } from '@/ui/assets'
 import { Button, LinkButton } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
+import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 
 export interface UpgradeSavingsBannerProps {
@@ -17,14 +18,14 @@ export function UpgradeSavingsBanner({ onUpgradeSavingsClick, dsr, ssr }: Upgrad
 
   return (
     <Panel.Wrapper
-      className="relative isolate flex min-h-[240px] w-full flex-col justify-between gap-6 overflow-hidden px-6 py-6 md:gap-0 md:px-8"
+      className={cn(
+        'relative isolate flex min-h-[240px] w-full flex-col justify-between overflow-hidden',
+        'gap-6 px-6 py-6 md:gap-0 md:px-8',
+        'bg-[#40E3A61A]/10 bg-right bg-no-repeat',
+      )}
+      style={{ backgroundImage: `url(${assets.backgrounds.susds})` }}
       data-testid={testIds.savings.upgradeSDaiBanner}
     >
-      <div className="-z-10 absolute inset-0 isolate bg-[#40E3A61A]/10">
-        <img src={assets.token.susds} alt="upgrade-banner-bg" className="-top-[9%] -right-[8%] absolute z-0 h-[118%]" />
-        <div className="-top-[14%] -right-[3%] -z-10 absolute aspect-square h-[128%] rounded-[50%] bg-[#3FCE981A]/20" />
-        <div className="-top-[19%] -z-20 absolute right-[2%] aspect-square h-[138%] rounded-[50%] bg-[#3FCE981A]/10" />
-      </div>
       <div className="grid gap-3 md:auto-cols-max">
         <h2 className="font-semibold text-base text-basics-black sm:text-xl">
           Upgrade you Savings DAI (sDAI) to Savings USDS (sUSDS)
