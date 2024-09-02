@@ -22,7 +22,7 @@ export interface DssAutoline {
   gap: NormalizedUnitNumber
   increaseCooldown: number
   lastUpdateBlock: number
-  lastIncreaseTime: number
+  lastIncreaseTimestamp: number
 }
 
 export type CollateralStatusInfo = (

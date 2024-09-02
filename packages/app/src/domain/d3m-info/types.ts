@@ -6,5 +6,5 @@ export interface D3MInfo {
   gap: NormalizedUnitNumber
   increaseCooldown: number
   lastUpdateBlock: number
-  lastIncreaseTime: number
+  lastIncreaseTimestamp: number
 }

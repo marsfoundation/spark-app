@@ -72,7 +72,7 @@ export function makeDaiMarketOverview({ reserve, marketInfo, D3MInfo }: MakeDaiM
         maxDebtCeiling: D3MInfo.maxDebtCeiling,
         gap: D3MInfo.D3MCurrentDebtUSD,
         increaseCooldown: D3MInfo.increaseCooldown,
-        lastIncreaseTime: D3MInfo.lastIncreaseTime,
+        lastIncreaseTimestamp: D3MInfo.lastIncreaseTimestamp,
         lastUpdateBlock: D3MInfo.lastUpdateBlock,
       },
     },

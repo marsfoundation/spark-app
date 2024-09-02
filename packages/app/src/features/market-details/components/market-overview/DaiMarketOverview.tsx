@@ -72,7 +72,7 @@ export function DaiMarketOverview({
 
               <CooldownTimer
                 renewalPeriod={dssAutoline.increaseCooldown}
-                latestUpdateTimestamp={dssAutoline.lastIncreaseTime}
+                latestUpdateTimestamp={dssAutoline.lastIncreaseTimestamp}
               />
             </DetailsGridItem.Value>
           </DetailsGridItem>

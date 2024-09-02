@@ -31,7 +31,7 @@ export const Default: Story = {
       maxDebtCeiling: NormalizedUnitNumber(200_000),
       gap: NormalizedUnitNumber(0),
       increaseCooldown: 43200,
-      lastIncreaseTime: Math.floor(STORYBOOK_TIMESTAMP / 1000 - 41903),
+      lastIncreaseTimestamp: Math.floor(STORYBOOK_TIMESTAMP / 1000 - 41903),
       lastUpdateBlock: 0,
     },
   },
