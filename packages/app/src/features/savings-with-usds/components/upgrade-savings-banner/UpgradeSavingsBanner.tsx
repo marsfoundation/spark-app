@@ -23,7 +23,7 @@ export function UpgradeSavingsBanner({ onUpgradeSavingsClick, dsr, ssr }: Upgrad
         'gap-6 px-6 py-6 md:gap-0 md:px-8',
         'bg-[#40E3A61A]/10 bg-right bg-no-repeat',
       )}
-      style={{ backgroundImage: `url(${assets.backgrounds.susds})` }}
+      style={{ backgroundImage: 'url(/backgrounds/susds-banner.svg)' }}
       data-testid={testIds.savings.upgradeSDaiBanner}
     >
       <div className="grid gap-3 md:auto-cols-max">
