@@ -7,7 +7,7 @@ interface InfoTileProps {
 }
 export function InfoTile({ children }: InfoTileProps) {
   return (
-    <div className='grid grid-cols-2 content-start justify-between gap-1.5 sm:grid-cols-1 sm:gap-0.5'>{children}</div>
+    <div className="grid grid-cols-2 content-start justify-between gap-1.5 sm:grid-cols-1 sm:gap-0.5">{children}</div>
   )
 }
 
