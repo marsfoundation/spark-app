@@ -22,21 +22,21 @@ const withdrawAmount = NormalizedUnitNumber(1)
 const dai = testTokens.DAI
 const sdai = testTokens.sDAI
 const usds = testTokens.USDS
-const snst = testTokens.sUSDS
+const susds = testTokens.sUSDS
 const usdc = testTokens.USDC
 const mockTokensInfo = new TokensInfo(
   [
     { token: dai, balance: NormalizedUnitNumber(100) },
     { token: sdai, balance: NormalizedUnitNumber(100) },
     { token: usds, balance: NormalizedUnitNumber(100) },
-    { token: snst, balance: NormalizedUnitNumber(100) },
+    { token: susds, balance: NormalizedUnitNumber(100) },
     { token: usdc, balance: NormalizedUnitNumber(100) },
   ],
   {
     DAI: dai.symbol,
     sDAI: sdai.symbol,
     USDS: usds.symbol,
-    sUSDS: snst.symbol,
+    sUSDS: susds.symbol,
   },
 )
 const timestamp = 1000

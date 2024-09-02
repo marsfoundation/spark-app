@@ -22,7 +22,7 @@ import { getSavingsWithdrawDialogFormValidator } from './validation'
 
 export interface UseSavingsWithdrawDialogParams {
   mode: Mode
-  savingsType: 'sdai' | 'snst'
+  savingsType: 'sdai' | 'susds'
 }
 
 export interface UseSavingsWithdrawDialogResults {

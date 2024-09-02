@@ -10,7 +10,7 @@ export interface CreateTxOverviewParams {
   formValues: SavingsDialogFormNormalizedData
   tokensInfo: TokensInfo
   savingsInfo: SavingsInfo
-  type: 'sdai' | 'snst'
+  type: 'sdai' | 'susds'
 }
 export function createTxOverview({
   formValues,

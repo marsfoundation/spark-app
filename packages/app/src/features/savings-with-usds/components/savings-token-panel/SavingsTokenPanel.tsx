@@ -40,7 +40,7 @@ export function SavingsTokenPanel({
   const savingsBaseToken = USD_MOCK_TOKEN.clone({
     symbol: variant === 'dai' ? TokenSymbol('DAI') : TokenSymbol('USDS'),
   })
-  const savingsType = variant === 'dai' ? 'sdai' : 'snst'
+  const savingsType = variant === 'dai' ? 'sdai' : 'susds'
 
   return (
     <Panel.Wrapper className="flex min-h-[260px] w-full flex-1 flex-col justify-between self-stretch px-6 py-6 md:px-[32px]">

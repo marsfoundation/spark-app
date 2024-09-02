@@ -13,21 +13,21 @@ import { SavingsDepositView } from './SavingsDepositView'
 const dai = tokens.DAI
 const sdai = tokens.sDAI
 const usds = tokens.USDS
-const snst = tokens.sUSDS
+const susds = tokens.sUSDS
 const usdc = tokens.USDC
 const mockTokensInfo = new TokensInfo(
   [
     { token: dai, balance: NormalizedUnitNumber(100) },
     { token: sdai, balance: NormalizedUnitNumber(100) },
     { token: usds, balance: NormalizedUnitNumber(100) },
-    { token: snst, balance: NormalizedUnitNumber(100) },
+    { token: susds, balance: NormalizedUnitNumber(100) },
     { token: usdc, balance: NormalizedUnitNumber(100) },
   ],
   {
     DAI: dai.symbol,
     sDAI: sdai.symbol,
     USDS: usds.symbol,
-    sUSDS: snst.symbol,
+    sUSDS: susds.symbol,
   },
 )
 

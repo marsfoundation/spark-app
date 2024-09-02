@@ -74,15 +74,15 @@ export function useSavingsDepositDialog({
       return 'sdai'
     }
     if (!savingsDaiInfo && savingsUsdsInfo) {
-      return 'snst'
+      return 'susds'
     }
     // both are defined
 
     if (formValues.token.symbol === tokensInfo.USDS?.symbol) {
-      return 'snst' // do not handle case of downgrading sUSDS to DAI
+      return 'susds' // do not handle case of downgrading sUSDS to DAI
     }
 
-    return upgradeSwitchChecked ? 'snst' : 'sdai'
+    return upgradeSwitchChecked ? 'susds' : 'sdai'
   })()
   const showUpgradeSwitch = !!savingsDaiInfo && !!savingsUsdsInfo && formValues.token.symbol !== tokensInfo.USDS?.symbol
 

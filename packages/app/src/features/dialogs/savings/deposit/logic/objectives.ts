@@ -6,7 +6,7 @@ import { SavingsDialogFormNormalizedData } from '../../common/logic/form'
 export interface CreateObjectivesParams {
   formValues: SavingsDialogFormNormalizedData
   tokensInfo: TokensInfo
-  type: 'sdai' | 'snst'
+  type: 'sdai' | 'susds'
 }
 export function createObjectives({
   formValues,
