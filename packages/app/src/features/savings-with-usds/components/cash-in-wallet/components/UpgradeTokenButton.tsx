@@ -27,7 +27,7 @@ export function UpgradeTokenButton({ token, upgradedTokenSymbol, onUpgradeClick 
         {token.symbol}
         <Button
           size="sm"
-          className="group h-7 w-7 overflow-hidden px-1 transition-all duration-300 sm:h-8 sm:hover:w-[135px] sm:w-8 sm:justify-start sm:px-2"
+          className="group h-7 w-7 overflow-hidden px-1 transition-all duration-300 sm:h-8 sm:hover:w-[145px] sm:w-8 sm:justify-start sm:px-2"
           onClick={onUpgradeClick}
           data-testid={testIds.savings.cashInWallet.upgradeDaiToUsds}
         >
