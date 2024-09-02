@@ -68,7 +68,13 @@ export function makeDaiMarketOverview({ reserve, marketInfo, D3MInfo }: MakeDaiM
       marketSize,
       totalAvailable,
       utilizationRate,
-      dssAutoline: D3MInfo,
+      dssAutoline: {
+        maxDebtCeiling: D3MInfo.maxDebtCeiling,
+        gap: D3MInfo.D3MCurrentDebtUSD,
+        increaseCooldown: D3MInfo.increaseCooldown,
+        lastIncreaseTime: D3MInfo.lastIncreaseTime,
+        lastUpdateBlock: D3MInfo.lastUpdateBlock,
+      },
     },
     ...(sDAI.eModeCategory &&
       (sDAI.eModeCategory.id === 1 || sDAI.eModeCategory.id === 2) && {
