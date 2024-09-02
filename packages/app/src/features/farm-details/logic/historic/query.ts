@@ -1,5 +1,4 @@
 import { infoSkyApiUrl } from '@/config/consts'
-import { mapToInfoSkyAddress } from '@/domain/farms/mapToInfoSkyAddress'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { Percentage } from '@/domain/types/NumericValues'
 import { queryOptions } from '@tanstack/react-query'
@@ -16,9 +15,7 @@ export function farmHistoricDataQueryOptions({ chainId, farmAddress }: FarmHisto
   return queryOptions({
     queryKey: ['farm-historic-data', chainId, farmAddress],
     queryFn: async () => {
-      const mappedAddress = mapToInfoSkyAddress(farmAddress)
-
-      const res = await fetch(`${infoSkyApiUrl}/farms/${mappedAddress.toLowerCase()}/historic/`)
+      const res = await fetch(`${infoSkyApiUrl}/farms/${farmAddress.toLowerCase()}/historic/`)
       if (!res.ok) {
         throw new Error(`Failed to fetch farm data: ${res.statusText}`)
       }
