@@ -132,3 +132,7 @@ Note: right now we extract the strings right before building the app to ensure t
 ---
 
 _The IP in this repository was assigned to Mars SPC Limited in respect of the MarsOne SP_
+
+### Static assets
+
+Images that are used in `img` tags should be put into directory `packages/app/src/ui/assets` and exported in the `assetts` object. Other static assets, for instance the ones that are used as background images, should be put into `packages/app/public` directory and the path to them should be hardcoded in the code.

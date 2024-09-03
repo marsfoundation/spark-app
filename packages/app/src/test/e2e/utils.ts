@@ -1,4 +1,4 @@
-import { NST_DEV_CHAIN_ID } from '@/config/chain/constants'
+import { USDS_DEV_CHAIN_ID } from '@/config/chain/constants'
 import {
   lendingPoolAddressProviderAddress,
   uiPoolDataProviderAbi,
@@ -123,7 +123,7 @@ export async function calculateAssetsWorth(
     transport: http(forkUrl),
   })
   const _chainId = await publicClient.getChainId()
-  const chainId = _chainId === NST_DEV_CHAIN_ID ? mainnet.id : _chainId
+  const chainId = _chainId === USDS_DEV_CHAIN_ID ? mainnet.id : _chainId
 
   const uiPoolDataProvider = uiPoolDataProviderAddress[chainId as keyof typeof uiPoolDataProviderAddress]
   const lendingPoolAddressProvider =

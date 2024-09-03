@@ -6,14 +6,14 @@ import { SavingsDialogFormNormalizedData } from '../../common/logic/form'
 export interface CreateObjectivesParams {
   formValues: SavingsDialogFormNormalizedData
   tokensInfo: TokensInfo
-  type: 'sdai' | 'snst'
+  type: 'sdai' | 'susds'
 }
 export function createObjectives({
   formValues,
   tokensInfo,
   type,
 }: CreateObjectivesParams): DepositToSavingsObjective[] {
-  const savingsToken = (type === 'sdai' ? tokensInfo.sDAI : tokensInfo.sNST) ?? raise('Cannot find target token')
+  const savingsToken = (type === 'sdai' ? tokensInfo.sDAI : tokensInfo.sUSDS) ?? raise('Cannot find target token')
 
   return [
     {

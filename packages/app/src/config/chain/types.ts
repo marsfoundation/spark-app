@@ -59,11 +59,11 @@ export interface ChainConfigEntry {
   tokenSymbolToReplacedName: TokenSymbolToReplacedName
   airdrop: Airdrop
   savingsDaiInfoQuery: SavingsInfoQuery | undefined
-  savingsNstInfoQuery: SavingsInfoQuery | undefined
+  savingsUsdsInfoQuery: SavingsInfoQuery | undefined
   daiSymbol: TokenSymbol
   sDaiSymbol: TokenSymbol
-  NSTSymbol: TokenSymbol | undefined
-  sNSTSymbol: TokenSymbol | undefined
+  USDSSymbol: TokenSymbol | undefined
+  sUSDSSymbol: TokenSymbol | undefined
   mergedDaiAndSDaiMarkets: boolean
   savingsInputTokens: TokenSymbol[]
   extraTokens: TokenWithOracleType[]

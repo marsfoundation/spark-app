@@ -3,7 +3,7 @@ import { UseFormReturn } from 'react-hook-form'
 import { z } from 'zod'
 
 export type Mode = 'withdraw' | 'send'
-export type SavingsType = 'sdai' | 'snst'
+export type SavingsType = 'sdai' | 'susds'
 
 export const ReceiverFormSchema = z.object({
   receiver: z.string(),

@@ -21,12 +21,12 @@ export class TestTenderlyVnetService implements ITestForkService {
     return rpcUrl
   }
 
-  async cloneNSTFork(): Promise<string> {
-    const NST_DEVNET_CONTAINER_ID = processEnv('TENDERLY_NST_DEVNET_CONTAINER_ID')
+  async cloneUSDSFork(): Promise<string> {
+    const USDS_DEVNET_CONTAINER_ID = processEnv('TENDERLY_USDS_DEVNET_CONTAINER_ID')
 
     const { rpcUrl } = await this.client.clone({
-      displayName: `nst-devnet-clonse-test-e2e-${randomHexId()}`,
-      srcContainerId: NST_DEVNET_CONTAINER_ID,
+      displayName: `usds-devnet-clonse-test-e2e-${randomHexId()}`,
+      srcContainerId: USDS_DEVNET_CONTAINER_ID,
     })
 
     return rpcUrl

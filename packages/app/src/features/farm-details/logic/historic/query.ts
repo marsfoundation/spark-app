@@ -1,4 +1,5 @@
 import { infoSkyApiUrl } from '@/config/consts'
+import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { Percentage } from '@/domain/types/NumericValues'
 import { queryOptions } from '@tanstack/react-query'
 import BigNumber from 'bignumber.js'
@@ -6,7 +7,7 @@ import { z } from 'zod'
 
 export interface FarmHistoricDataParameters {
   chainId: number
-  farmAddress: string
+  farmAddress: CheckedAddress
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type

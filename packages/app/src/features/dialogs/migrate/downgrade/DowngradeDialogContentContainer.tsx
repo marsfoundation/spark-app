@@ -4,7 +4,7 @@ import { raise } from '@/utils/assert'
 import { DialogContentSkeleton } from '../../common/components/skeletons/DialogContentSkeleton'
 import { SuccessView } from '../../common/views/SuccessView'
 import { useMigrateDialog } from '../common/logic/useMigrateDialog'
-import { DowngradeNSTToDaiView } from './views/DowngradeNSTToDaiView'
+import { DowngradeUSDSToDaiView } from './views/DowngradeUSDSToDaiView'
 
 interface DowngradeDialogContentContainerProps {
   fromToken: Token
@@ -13,7 +13,7 @@ interface DowngradeDialogContentContainerProps {
 }
 
 function DowngradeDialogContentContainer({ fromToken, toToken, closeDialog }: DowngradeDialogContentContainerProps) {
-  const { objectives, pageStatus, migrationAmount, tokensInfo, apyDifference } = useMigrateDialog({
+  const { objectives, pageStatus, migrationAmount, tokensInfo } = useMigrateDialog({
     type: 'downgrade',
     fromToken,
     toToken,
@@ -30,15 +30,9 @@ function DowngradeDialogContentContainer({ fromToken, toToken, closeDialog }: Do
     )
   }
 
-  if (fromToken.symbol === tokensInfo.NST?.symbol && toToken.symbol === tokensInfo.DAI?.symbol) {
+  if (fromToken.symbol === tokensInfo.USDS?.symbol && toToken.symbol === tokensInfo.DAI?.symbol) {
     return (
-      <DowngradeNSTToDaiView
-        fromToken={fromToken}
-        toToken={toToken}
-        pageStatus={pageStatus}
-        objectives={objectives}
-        apyDifference={apyDifference}
-      />
+      <DowngradeUSDSToDaiView fromToken={fromToken} toToken={toToken} pageStatus={pageStatus} objectives={objectives} />
     )
   }
 

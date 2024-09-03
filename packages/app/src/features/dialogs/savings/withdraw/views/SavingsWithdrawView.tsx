@@ -37,7 +37,7 @@ export function SavingsWithdrawView({
 }: SavingsWithdrawViewProps) {
   return (
     <MultiPanelDialog>
-      <DialogTitle>{`${sendModeExtension ? 'Send' : 'Withdraw'} from Savings ${savingsType === 'sdai' ? 'DAI' : 'NST'}`}</DialogTitle>
+      <DialogTitle>{`${sendModeExtension ? 'Send' : 'Withdraw'} from Savings ${savingsType === 'sdai' ? 'DAI' : 'USDS'}`}</DialogTitle>
 
       <FormAndOverviewWrapper>
         <SavingsWithdrawDialogForm

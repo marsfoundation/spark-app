@@ -10,7 +10,7 @@ export function Banner({ fromToken, toToken }: BannerProps) {
   return (
     <div
       className="flex h-44 items-center justify-center gap-8 rounded-2xl bg-center bg-cover"
-      style={{ backgroundImage: `url(${assets.banners.upgradeBannerBg})` }}
+      style={{ backgroundImage: 'url(/backgrounds/upgrade-banner.svg)' }}
     >
       <img src={getTokenImage(fromToken.symbol)} alt="from-token-icon" className="h-20 w-20" />
       <img src={assets.arrowRight} alt="arrow-right" className="h-7 w-7" />

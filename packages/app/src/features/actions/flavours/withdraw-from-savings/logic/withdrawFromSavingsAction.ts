@@ -10,7 +10,7 @@ import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/que
 import { ActionConfig, ActionContext } from '@/features/actions/logic/types'
 import {
   calculateGemConversionFactor,
-  isSDaiToNstWithdraw,
+  isSDaiToUsdsWithdraw,
   isSexyDaiOperation,
   isUsdcPsmActionsOperation,
   isVaultOperation,
@@ -57,11 +57,11 @@ export function createWithdrawFromSavingsActionConfig(
         })
       }
 
-      if (isSDaiToNstWithdraw({ token, savingsToken, tokensInfo })) {
+      if (isSDaiToUsdsWithdraw({ token, savingsToken, tokensInfo })) {
         return ensureConfigTypes({
           address: MIGRATE_ACTIONS_ADDRESS,
           abi: migrationActionsAbi,
-          functionName: isMax ? 'migrateSDAISharesToNST' : 'migrateSDAIAssetsToNST',
+          functionName: isMax ? 'migrateSDAISharesToUSDS' : 'migrateSDAIAssetsToUSDS',
           args: [receiver, argsAmount],
         })
       }
@@ -117,7 +117,7 @@ export function createWithdrawFromSavingsActionConfig(
           return savingsXDaiAdapterAddress[gnosis.id]
         }
 
-        if (isSDaiToNstWithdraw({ token, savingsToken, tokensInfo })) {
+        if (isSDaiToUsdsWithdraw({ token, savingsToken, tokensInfo })) {
           return MIGRATE_ACTIONS_ADDRESS
         }
 

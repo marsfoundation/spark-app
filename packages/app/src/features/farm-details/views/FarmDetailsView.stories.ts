@@ -24,7 +24,7 @@ const meta: Meta<typeof FarmDetailsView> = {
       entryAssetsGroup: {
         type: 'stablecoins',
         name: 'Stablecoins',
-        assets: [tokens.DAI.symbol, tokens.sDAI.symbol, tokens.USDC.symbol, tokens.NST.symbol, tokens.sNST.symbol],
+        assets: [tokens.DAI.symbol, tokens.sDAI.symbol, tokens.USDC.symbol, tokens.USDS.symbol, tokens.sUSDS.symbol],
       },
       rewardToken: tokens.MKR,
       stakingToken: tokens.DAI,
@@ -43,7 +43,7 @@ const meta: Meta<typeof FarmDetailsView> = {
     },
     tokensToDeposit: [
       {
-        token: tokens.NST,
+        token: tokens.USDS,
         balance: NormalizedUnitNumber(10_000),
       },
       {
@@ -59,7 +59,7 @@ const meta: Meta<typeof FarmDetailsView> = {
         balance: NormalizedUnitNumber(0),
       },
       {
-        token: tokens.sNST,
+        token: tokens.sUSDS,
         balance: NormalizedUnitNumber(0),
       },
     ],

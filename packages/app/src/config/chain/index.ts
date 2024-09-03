@@ -2,15 +2,15 @@ import { gnosis, mainnet } from 'viem/chains'
 
 import { getOriginChainId } from '@/domain/hooks/useOriginChainId'
 import { gnosisSavingsDaiInfoQuery } from '@/domain/savings-info/gnosisSavingsInfo'
-import { mainnetSavingsDaiInfoQuery, mainnetSavingsNstInfoQuery } from '@/domain/savings-info/mainnetSavingsInfo'
+import { mainnetSavingsDaiInfoQuery, mainnetSavingsUsdsInfoQuery } from '@/domain/savings-info/mainnetSavingsInfo'
 import { useStore } from '@/domain/state'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { assets } from '@/ui/assets'
-import { NATIVE_ASSET_MOCK_ADDRESS, STAKING_REWARDS_NST_ADDRESS, stablecoinsGroup } from '../consts'
+import { NATIVE_ASSET_MOCK_ADDRESS, STAKING_REWARDS_USDS_ADDRESS, stablecoinsGroup } from '../consts'
 import { AppConfig } from '../feature-flags'
-import { NST_DEV_CHAIN_ID } from './constants'
+import { USDS_DEV_CHAIN_ID } from './constants'
 import { ChainConfig, ChainConfigEntry, ChainMeta } from './types'
 
 const commonTokenSymbolToReplacedName = {
@@ -68,11 +68,11 @@ const chainConfig: ChainConfig = {
       },
     },
     savingsDaiInfoQuery: mainnetSavingsDaiInfoQuery,
-    savingsNstInfoQuery: undefined,
+    savingsUsdsInfoQuery: undefined,
     daiSymbol: TokenSymbol('DAI'),
     sDaiSymbol: TokenSymbol('sDAI'),
-    NSTSymbol: undefined,
-    sNSTSymbol: undefined,
+    USDSSymbol: undefined,
+    sUSDSSymbol: undefined,
     mergedDaiAndSDaiMarkets: true,
     savingsInputTokens: [TokenSymbol('DAI'), TokenSymbol('USDC')],
     extraTokens: [
@@ -130,11 +130,11 @@ const chainConfig: ChainConfig = {
     },
     airdrop: {},
     savingsDaiInfoQuery: gnosisSavingsDaiInfoQuery,
-    savingsNstInfoQuery: undefined,
+    savingsUsdsInfoQuery: undefined,
     daiSymbol: TokenSymbol('XDAI'),
     sDaiSymbol: TokenSymbol('sDAI'),
-    NSTSymbol: undefined,
-    sNSTSymbol: undefined,
+    USDSSymbol: undefined,
+    sUSDSSymbol: undefined,
     mergedDaiAndSDaiMarkets: false,
     savingsInputTokens: [TokenSymbol('XDAI')],
     extraTokens: [
@@ -157,36 +157,36 @@ export function getChainConfigEntry(chainId: number): ChainConfigEntry {
   const sandboxConfig = useStore.getState().appConfig.sandbox
   const sandbox = useStore.getState().sandbox.network
 
-  if (typeof import.meta.env.VITE_DEV_NST_NETWORK_RPC_URL === 'string' && chainId === NST_DEV_CHAIN_ID) {
+  if (typeof import.meta.env.VITE_DEV_USDS_NETWORK_RPC_URL === 'string' && chainId === USDS_DEV_CHAIN_ID) {
     const mainnetConfig = chainConfig[mainnet.id]
     return {
       ...mainnetConfig,
-      NSTSymbol: TokenSymbol('NST'),
-      sNSTSymbol: TokenSymbol('sNST'),
-      savingsNstInfoQuery: mainnetSavingsNstInfoQuery,
-      meta: getNSTDevChainMeta(mainnetConfig.meta),
-      savingsInputTokens: [...mainnetConfig.savingsInputTokens, TokenSymbol('NST')],
+      USDSSymbol: TokenSymbol('USDS'),
+      sUSDSSymbol: TokenSymbol('sUSDS'),
+      savingsUsdsInfoQuery: mainnetSavingsUsdsInfoQuery,
+      meta: getUSDSDevChainMeta(mainnetConfig.meta),
+      savingsInputTokens: [...mainnetConfig.savingsInputTokens, TokenSymbol('USDS')],
       extraTokens: [
         ...mainnetConfig.extraTokens,
         {
-          symbol: TokenSymbol('NST'),
+          symbol: TokenSymbol('USDS'),
           oracleType: 'fixed-usd',
-          address: CheckedAddress('0x798f111c92E38F102931F34D1e0ea7e671BDBE31'),
+          address: CheckedAddress('0xd2983525E903Ef198d5dD0777712EB66680463bc'),
         },
         {
-          symbol: TokenSymbol('sNST'),
+          symbol: TokenSymbol('sUSDS'),
           oracleType: 'vault',
-          address: CheckedAddress('0xeA8AE08513f8230cAA8d031D28cB4Ac8CE720c68'),
+          address: CheckedAddress('0xCd9BC6cE45194398d12e27e1333D5e1d783104dD'),
         },
         {
-          symbol: TokenSymbol('NGT'),
+          symbol: TokenSymbol('SKY'),
           oracleType: 'fixed-usd',
-          address: CheckedAddress('0x28227B230d3945e580eD3B1c6c8ea1df658A7AA9'),
+          address: CheckedAddress('0x72aC6A36de2f72BD39e9c782e9db0DCc41FEbfe2'),
         },
       ],
       farms: [
         {
-          address: STAKING_REWARDS_NST_ADDRESS,
+          address: STAKING_REWARDS_USDS_ADDRESS,
           entryAssetsGroup: stablecoinsGroup,
         },
       ],
@@ -212,10 +212,10 @@ function getSandboxChainMeta(originChainMeta: ChainMeta, sandboxConfig: AppConfi
   }
 }
 
-function getNSTDevChainMeta(originChainMeta: ChainMeta): ChainMeta {
+function getUSDSDevChainMeta(originChainMeta: ChainMeta): ChainMeta {
   return {
     ...originChainMeta,
-    name: 'NST DevNet' || originChainMeta.name,
-    logo: assets.snowflake,
+    name: 'USDS DevNet' || originChainMeta.name,
+    logo: assets.token.usds,
   }
 }

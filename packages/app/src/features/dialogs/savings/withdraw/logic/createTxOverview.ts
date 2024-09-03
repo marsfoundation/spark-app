@@ -46,7 +46,7 @@ export function createTxOverview({
 
   return {
     baseStable:
-      (savingsToken.symbol === tokensInfo.sDAI?.symbol ? tokensInfo.DAI : tokensInfo.NST) ??
+      (savingsToken.symbol === tokensInfo.sDAI?.symbol ? tokensInfo.DAI : tokensInfo.USDS) ??
       raise('Cannot find stable token'),
     status: 'success',
     APY: savingsInfo.apy,
@@ -73,7 +73,7 @@ function getWithdrawRoute({
 }: GetWithdrawRouteParams): RouteItem[] {
   const value = formValues.value
   const intermediary =
-    (savingsToken.symbol === tokensInfo.sDAI?.symbol ? tokensInfo.DAI : tokensInfo.NST) ??
+    (savingsToken.symbol === tokensInfo.sDAI?.symbol ? tokensInfo.DAI : tokensInfo.USDS) ??
     raise('Cannot find intermediary token')
 
   return [
