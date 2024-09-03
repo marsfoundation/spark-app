@@ -1,5 +1,5 @@
 import { migrationActionsAbi } from '@/config/abis/migrationActionsAbi'
-import { MIGRATE_ACTIONS_ADDRESS } from '@/config/consts'
+import { MIGRATE_ACTIONS_ADDRESS, USDS_PSM_ACTIONS } from '@/config/consts'
 import { psmActionsConfig, savingsXDaiAdapterAbi, savingsXDaiAdapterAddress } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
@@ -13,6 +13,8 @@ import {
   isSDaiToUsdsWithdraw,
   isSexyDaiOperation,
   isUsdcDaiPsmActionsOperation,
+  isUsdcPsmActionsOperation,
+  isUsdcUsdsPsmActionsOperation,
   isVaultOperation,
 } from '@/features/actions/utils/savings'
 import { assert, raise } from '@/utils/assert'
@@ -66,8 +68,18 @@ export function createWithdrawFromSavingsActionConfig(
         })
       }
 
-      if (isUsdcDaiPsmActionsOperation({ token, savingsToken, tokensInfo })) {
-        const psmActionsAddress = getContractAddress(psmActionsConfig.address, chainId)
+      if (isUsdcPsmActionsOperation({ token, savingsToken, tokensInfo })) {
+        const psmActionsAddress = (() => {
+          if (isUsdcDaiPsmActionsOperation({ token, savingsToken, tokensInfo })) {
+            return getContractAddress(psmActionsConfig.address, chainId)
+          }
+
+          if (isUsdcUsdsPsmActionsOperation({ token, savingsToken, tokensInfo })) {
+            return USDS_PSM_ACTIONS
+          }
+
+          throw new Error('Not implemented psm action')
+        })()
         assert(context.savingsDaiInfo, 'Savings info is required for usdc psm withdraw from savings action')
 
         if (isMax) {
@@ -121,8 +133,15 @@ export function createWithdrawFromSavingsActionConfig(
           return MIGRATE_ACTIONS_ADDRESS
         }
 
-        const psmActionsAddress = getContractAddress(psmActionsConfig.address, chainId)
-        return psmActionsAddress
+        if (isUsdcUsdsPsmActionsOperation({ token, savingsToken, tokensInfo })) {
+          return USDS_PSM_ACTIONS
+        }
+
+        if (isUsdcDaiPsmActionsOperation({ token, savingsToken, tokensInfo })) {
+          return getContractAddress(psmActionsConfig.address, chainId)
+        }
+
+        throw new Error('Invalidation not implemented')
       })()
 
       return [

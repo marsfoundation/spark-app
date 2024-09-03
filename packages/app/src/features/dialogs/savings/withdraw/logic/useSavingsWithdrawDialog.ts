@@ -3,6 +3,7 @@ import { useConditionalFreeze } from '@/domain/hooks/useConditionalFreeze'
 import { useSavingsDaiInfo } from '@/domain/savings-info/useSavingsDaiInfo'
 import { useSavingsUsdsInfo } from '@/domain/savings-info/useSavingsUsdsInfo'
 import { useSavingsTokens } from '@/domain/savings/useSavingsTokens'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
@@ -131,5 +132,5 @@ function filterInputTokens({ inputTokens, savingsType, tokensInfo }: FilterInput
     return inputTokens
   }
 
-  return inputTokens.filter(({ token }) => token.symbol === tokensInfo.USDS?.symbol)
+  return inputTokens.filter(({ token }) => [tokensInfo.USDS?.symbol, TokenSymbol('USDC')].includes(token.symbol))
 }
