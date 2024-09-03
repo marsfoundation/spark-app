@@ -20,6 +20,7 @@ export interface MigrationInfo {
   daiToUsdsUpgradeAvailable: boolean
   dsr: Percentage
   ssr: Percentage
+  apyDifference: Percentage
   openDaiToUsdsUpgradeDialog: () => void
   openUsdsToDaiDowngradeDialog: () => void
   openSDaiToSUsdsUpgradeDialog: () => void
