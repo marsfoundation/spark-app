@@ -6,7 +6,7 @@ import { Panel } from '@/ui/atoms/panel/Panel'
 import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
 import { CooldownTimer } from '@/ui/molecules/cooldown-timer/CooldownTimer'
 
-import { CapConfig } from '@/domain/cap-automator/types'
+import { CapAutomatorConfig } from '@/domain/cap-automator/types'
 import { cn } from '@/ui/utils/style'
 import { SparkAirdropInfoPanel } from '../spark-airdrop-info-panel/SparkAirdropInfoPanel'
 import { EmptyStatusPanel } from './components/EmptyStatusPanel'
@@ -24,7 +24,7 @@ interface SupplyStatusPanelProps {
   apy: Percentage | undefined
   hasSparkAirdrop: boolean
   supplyCap?: NormalizedUnitNumber
-  capAutomatorInfo?: CapConfig
+  capAutomatorInfo?: CapAutomatorConfig
 }
 
 export function SupplyStatusPanel({
@@ -74,7 +74,7 @@ export function SupplyStatusPanel({
 
 interface CapAutomatorInfoTileProps {
   token: Token
-  capAutomatorInfo?: CapConfig
+  capAutomatorInfo?: CapAutomatorConfig
   supplyCap: NormalizedUnitNumber
 }
 

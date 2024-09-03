@@ -5,7 +5,7 @@ import { Config } from 'wagmi'
 import { readContract } from 'wagmi/actions'
 import { getOptionalContractAddress } from '../hooks/useContractAddress'
 import { Token } from '../types/Token'
-import { CapAutomatorInfo, CapConfig } from './types'
+import { CapAutomatorConfig, CapAutomatorInfo } from './types'
 
 interface CapAutomatorParams {
   wagmiConfig: Config
@@ -52,7 +52,9 @@ export function capAutomatorQueryOptions({ token, wagmiConfig, chainId }: CapAut
   })
 }
 
-function formatCapStructToConfig(capStruct: readonly [number, number, number, number, number]): CapConfig | undefined {
+function formatCapStructToConfig(
+  capStruct: readonly [number, number, number, number, number],
+): CapAutomatorConfig | undefined {
   const [max, gap, increaseCooldown, lastUpdateBlock, lastIncreaseTime] = capStruct
 
   if (max === 0) {

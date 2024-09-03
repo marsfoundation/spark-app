@@ -6,7 +6,7 @@ import { Panel } from '@/ui/atoms/panel/Panel'
 import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
 import { CooldownTimer } from '@/ui/molecules/cooldown-timer/CooldownTimer'
 
-import { CapConfig } from '@/domain/cap-automator/types'
+import { CapAutomatorConfig } from '@/domain/cap-automator/types'
 import { cn } from '@/ui/utils/style'
 import { InterestYieldChart, InterestYieldChartProps } from '../charts/interest-yield/InterestYieldChart'
 import { SparkAirdropInfoPanel } from '../spark-airdrop-info-panel/SparkAirdropInfoPanel'
@@ -29,7 +29,7 @@ interface BorrowStatusPanelProps {
   chartProps: InterestYieldChartProps
   showTokenBadge?: boolean
   hasSparkAirdrop: boolean
-  capAutomatorInfo?: CapConfig
+  capAutomatorInfo?: CapAutomatorConfig
 }
 
 export function BorrowStatusPanel({
@@ -91,7 +91,7 @@ export function BorrowStatusPanel({
 
 interface CapAutomatorInfoTileProps {
   token: Token
-  capAutomatorInfo?: CapConfig
+  capAutomatorInfo?: CapAutomatorConfig
   borrowCap: NormalizedUnitNumber
 }
 

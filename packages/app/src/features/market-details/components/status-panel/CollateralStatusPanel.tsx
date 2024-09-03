@@ -3,7 +3,7 @@ import { DebtCeilingProgress } from '@/features/markets/components/debt-ceiling-
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
 
-import { CapConfig } from '@/domain/cap-automator/types'
+import { CapAutomatorConfig } from '@/domain/cap-automator/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { CooldownTimer } from '@/ui/molecules/cooldown-timer/CooldownTimer'
@@ -90,7 +90,7 @@ export function CollateralStatusPanel(props: CollateralStatusInfo) {
 
 interface CapAutomatorInfoTileProps {
   token: Token
-  capAutomatorInfo?: CapConfig
+  capAutomatorInfo?: CapAutomatorConfig
   supplyCap: NormalizedUnitNumber
 }
 

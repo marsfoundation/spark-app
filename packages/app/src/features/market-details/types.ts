@@ -8,14 +8,14 @@ import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 
-import { CapConfig } from '@/domain/cap-automator/types'
+import { CapAutomatorConfig } from '@/domain/cap-automator/types'
 import { InterestYieldChartProps } from './components/charts/interest-yield/InterestYieldChart'
 
 export interface SupplyReplacementInfo {
   token: Token
   totalSupplied: NormalizedUnitNumber
   supplyAPY: Percentage | undefined
-  capAutomatorInfo: CapConfig | undefined
+  capAutomatorInfo: CapAutomatorConfig | undefined
   supplyCap: NormalizedUnitNumber | undefined
 }
 
@@ -52,7 +52,7 @@ export interface MarketOverview {
     totalSupplied: NormalizedUnitNumber
     supplyCap?: NormalizedUnitNumber
     apy: Percentage | undefined
-    capAutomatorInfo?: CapConfig
+    capAutomatorInfo?: CapAutomatorConfig
   }
   collateral: CollateralStatusInfo
   borrow: {
@@ -64,7 +64,7 @@ export interface MarketOverview {
     reserveFactor: Percentage
     chartProps: InterestYieldChartProps
     showTokenBadge?: boolean
-    capAutomatorInfo?: CapConfig
+    capAutomatorInfo?: CapAutomatorConfig
   }
   lend?: {
     status: 'yes' // only for dai

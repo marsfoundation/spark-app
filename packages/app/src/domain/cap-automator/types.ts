@@ -1,6 +1,6 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 
-export interface CapConfig {
+export interface CapAutomatorConfig {
   maxCap: NormalizedUnitNumber
   gap: NormalizedUnitNumber
   increaseCooldown: number
@@ -9,6 +9,6 @@ export interface CapConfig {
 }
 
 export interface CapAutomatorInfo {
-  supplyCap?: CapConfig
-  borrowCap?: CapConfig
+  supplyCap?: CapAutomatorConfig
+  borrowCap?: CapAutomatorConfig
 }
