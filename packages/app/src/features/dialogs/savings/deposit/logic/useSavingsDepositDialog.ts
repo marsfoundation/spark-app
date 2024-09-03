@@ -2,6 +2,7 @@ import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
 import { useSavingsDaiInfo } from '@/domain/savings-info/useSavingsDaiInfo'
 import { useSavingsUsdsInfo } from '@/domain/savings-info/useSavingsUsdsInfo'
 import { useSavingsTokens } from '@/domain/savings/useSavingsTokens'
+import { Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
@@ -36,6 +37,7 @@ export interface UseSavingsDepositDialogResults {
 export interface SavingsUsdsSwitchInfo {
   showSwitch: boolean
   checked: boolean
+  apyImprovement?: Percentage
   onSwitch: () => void
 }
 
@@ -85,6 +87,8 @@ export function useSavingsDepositDialog({
     return upgradeSwitchChecked ? 'susds' : 'sdai'
   })()
   const showUpgradeSwitch = !!savingsDaiInfo && !!savingsUsdsInfo && formValues.token.symbol !== tokensInfo.USDS?.symbol
+  const apyDifference = savingsDaiInfo && savingsUsdsInfo ? savingsUsdsInfo.apy.minus(savingsDaiInfo.apy) : undefined
+  const apyImprovement = apyDifference?.gt(0) ? Percentage(apyDifference) : undefined
 
   const objectives = createObjectives({
     formValues,
@@ -119,6 +123,7 @@ export function useSavingsDepositDialog({
     savingsUsdsSwitchInfo: {
       showSwitch: showUpgradeSwitch,
       checked: upgradeSwitchChecked,
+      apyImprovement,
       onSwitch: () => setUpgradeSwitchChecked((upgradeSwitchChecked) => !upgradeSwitchChecked),
     },
     actionsContext: {
