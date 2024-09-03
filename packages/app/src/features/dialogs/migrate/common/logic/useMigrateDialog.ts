@@ -36,7 +36,7 @@ export function useMigrateDialog({ type, fromToken, toToken }: UseMigrateDialogP
   assert(savingsUsdsInfo, 'USDS savings info is required for upgrade dialog')
   assert(savingsDaiInfo, 'DAI savings info is required for upgrade dialog')
 
-  const apyDifference = Percentage(savingsUsdsInfo.apy.minus(savingsDaiInfo.apy).absoluteValue())
+  const apyDifference = savingsUsdsInfo.apy.minus(savingsDaiInfo.apy)
 
   const fromTokenBalance = useConditionalFreeze(
     tokensInfo.findOneBalanceBySymbol(fromToken.symbol),
@@ -47,7 +47,7 @@ export function useMigrateDialog({ type, fromToken, toToken }: UseMigrateDialogP
   return {
     objectives,
     migrationAmount: fromTokenBalance,
-    apyImprovement: apyDifference.gt(0) ? apyDifference : undefined,
+    apyImprovement: apyDifference.gt(0) ? Percentage(apyDifference) : undefined,
     tokensInfo,
     actionsContext: {
       tokensInfo,

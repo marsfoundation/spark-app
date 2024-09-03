@@ -39,13 +39,13 @@ export function makeMigrationInfo({
   const sUSDS = tokensInfo.sUSDS
   assert(DAI && USDS && sDAI && sUSDS, 'DAI, USDS, sDAI and sUSDS tokens should be defined for migration actions')
 
-  const apyDifference = Percentage(savingsUsdsInfo.apy.minus(savingsDaiInfo.apy))
+  const apyDifference = savingsUsdsInfo.apy.minus(savingsDaiInfo.apy)
 
   return {
     daiSymbol: DAI.symbol,
     usdsSymbol: USDS.symbol,
     daiToUsdsUpgradeAvailable: tokensInfo.findOneBalanceBySymbol(DAI.symbol).gt(0),
-    apyImprovement: apyDifference.gt(0) ? apyDifference : undefined,
+    apyImprovement: apyDifference.gt(0) ? Percentage(apyDifference) : undefined,
     openDaiToUsdsUpgradeDialog: () => {
       openDialog(UpgradeDialog, { fromToken: DAI, toToken: USDS })
     },
