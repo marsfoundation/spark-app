@@ -118,10 +118,21 @@ export default {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: '0px' },
         },
+        'sprinkle-spin': {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(180deg)' },
+        },
+        'sprinkle-come-in-out': {
+          '0%': { transform: 'scale(0)' },
+          '50%': { transform: 'scale(1)' },
+          '100%': { transform: 'scale(0)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'sprinkle-spin': 'sprinkle-spin 1s linear',
+        'sprinkle-come-in-out': 'sprinkle-come-in-out 700ms forwards',
       },
     },
   },

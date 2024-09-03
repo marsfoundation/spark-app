@@ -8,3 +8,6 @@ export function randomHexId(): string {
 export function randomInt(): number {
   return Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)
 }
+export function randomIntRange(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min)) + min
+}
