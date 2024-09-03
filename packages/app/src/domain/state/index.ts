@@ -16,6 +16,7 @@ import {
   persistActionsSettingsSlice,
   unPersistActionsSettingsSlice,
 } from './actions-settings'
+import { BannersSlice, initBannersSlice, persistBannersSlice } from './banners'
 import { ComplianceSlice, PersistedComplianceSlice, initComplianceSlice, persistComplianceSlice } from './compliance'
 import { DialogSlice, initDialogSlice } from './dialogs'
 import {
@@ -33,7 +34,8 @@ export type StoreState = {
   SandboxSlice &
   ActionsSettingsSlice &
   ComplianceSlice &
-  SavingsSlice
+  SavingsSlice &
+  BannersSlice
 
 export type PersistedState = Serializable<
   PersistedSandboxSlice & PersistedActionsSettingsSlice & PersistedComplianceSlice & PersistedSavingsSlice
@@ -47,6 +49,7 @@ export const storeImplementation = persist<StoreState, [], [], PersistedState>(
       ...initComplianceSlice(...a),
       ...initSandboxSlice(...a),
       ...initSavingsSlice(...a),
+      ...initBannersSlice(...a),
       appConfig: getAppConfig(),
     }
   },
@@ -58,6 +61,7 @@ export const storeImplementation = persist<StoreState, [], [], PersistedState>(
       ...persistActionsSettingsSlice(state),
       ...persistComplianceSlice(state),
       ...persistSavingsSlice(state),
+      ...persistBannersSlice(state),
     }),
     merge: (_persistedState, currentState) => {
       const persistedState = (_persistedState ?? {}) as DeepPartial<PersistedState>

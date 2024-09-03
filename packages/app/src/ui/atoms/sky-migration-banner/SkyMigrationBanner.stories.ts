@@ -3,16 +3,16 @@ import { Meta, StoryObj } from '@storybook/react'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { withRouter } from 'storybook-addon-remix-react-router'
 
-import { TopBanner } from './TopBanner'
+import { SkyMigrationBanner } from './SkyMigrationBanner'
 
-const meta: Meta<typeof TopBanner> = {
-  title: 'Components/Atoms/TopBanner',
-  component: TopBanner,
+const meta: Meta<typeof SkyMigrationBanner> = {
+  title: 'Components/Atoms/SkyMigrationBanner',
+  component: SkyMigrationBanner,
   decorators: [WithClassname('w-full'), withRouter],
 }
 
 export default meta
-type Story = StoryObj<typeof TopBanner>
+type Story = StoryObj<typeof SkyMigrationBanner>
 
 export const Desktop: Story = {}
 export const Mobile: Story = getMobileStory(Desktop)
