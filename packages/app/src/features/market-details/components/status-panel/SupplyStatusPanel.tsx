@@ -61,7 +61,7 @@ export function SupplyStatusPanel({
             <InfoTile.Value>{formatPercentage(apy)}</InfoTile.Value>
           </InfoTile>
 
-          {supplyCap && <CapInfoTile token={token} capAutomatorInfo={capAutomatorInfo} supplyCap={supplyCap} />}
+          {supplyCap && <CapAutomatorInfoTile token={token} capAutomatorInfo={capAutomatorInfo} supplyCap={supplyCap} />}
         </InfoTilesGrid>
 
         {hasSparkAirdrop && <SparkAirdropInfoPanel variant="deposit" eligibleToken={token.symbol} />}
@@ -76,7 +76,7 @@ interface CapAutomatorInfoTileProps {
   supplyCap: NormalizedUnitNumber
 }
 
-function CapInfoTile({ token, capAutomatorInfo, supplyCap }: CapAutomatorInfoTileProps) {
+function CapAutomatorInfoTile({ token, capAutomatorInfo, supplyCap }: CapAutomatorInfoTileProps) {
   return (
     <div className={cn('grid grid-cols-subgrid gap-[inherit]', capAutomatorInfo && 'sm:col-span-2')}>
       {capAutomatorInfo && (
