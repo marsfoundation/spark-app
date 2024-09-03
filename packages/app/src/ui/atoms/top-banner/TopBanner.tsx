@@ -1,5 +1,6 @@
 import { assets } from '@/ui/assets'
 import { Link } from '../link/Link'
+import { Sparkles } from '../sparkles/Sparkles'
 
 export function TopBanner() {
   return (
@@ -7,7 +8,11 @@ export function TopBanner() {
       <span className="flex items-center gap-2">
         <img src={assets.banners.mkrToSkyTransform} />
         <span>
-          MakerDAO is now <strong className="text-basics-white">Sky</strong>.
+          MakerDAO is now{' '}
+          <Sparkles sizeRange={[8, 12]} className="text-basics-white">
+            Sky
+          </Sparkles>
+          .
         </span>
       </span>
 
