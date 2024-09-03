@@ -68,11 +68,13 @@ export function SavingsDaiAndUSDSView({
         {displaySavingsNoCash && <SavingsOpportunityNoCash APY={sDaiDetails.APY} chainId={chainId} />}
       </div>
       <CashInWallet assets={assetsInWallet} openDialog={openDialog} migrationInfo={migrationInfo} />
-      <WelcomeDialog
-        open={showWelcomeDialog}
-        onConfirm={() => saveConfirmedWelcomeDialog?.(true)}
-        apyDifference={migrationInfo.apyDifference}
-      />
+      {import.meta.env.VITE_FEATURE_SAVINGS_WELCOME_DIALOG === '1' && (
+        <WelcomeDialog
+          open={showWelcomeDialog}
+          onConfirm={() => saveConfirmedWelcomeDialog?.(true)}
+          apyDifference={migrationInfo.apyDifference}
+        />
+      )}
     </PageLayout>
   )
 }
