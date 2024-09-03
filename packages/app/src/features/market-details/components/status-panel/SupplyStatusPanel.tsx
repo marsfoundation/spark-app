@@ -61,7 +61,9 @@ export function SupplyStatusPanel({
             <InfoTile.Value>{formatPercentage(apy)}</InfoTile.Value>
           </InfoTile>
 
-          {supplyCap && <CapAutomatorInfoTile token={token} capAutomatorInfo={capAutomatorInfo} supplyCap={supplyCap} />}
+          {supplyCap && (
+            <CapAutomatorInfoTile token={token} capAutomatorInfo={capAutomatorInfo} supplyCap={supplyCap} />
+          )}
         </InfoTilesGrid>
 
         {hasSparkAirdrop && <SparkAirdropInfoPanel variant="deposit" eligibleToken={token.symbol} />}
