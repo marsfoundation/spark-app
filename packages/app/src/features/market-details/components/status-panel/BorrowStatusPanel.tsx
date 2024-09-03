@@ -29,7 +29,7 @@ interface BorrowStatusPanelProps {
   chartProps: InterestYieldChartProps
   showTokenBadge?: boolean
   hasSparkAirdrop: boolean
-  capAutomatorInfo: CapConfig | null
+  capAutomatorInfo?: CapConfig
 }
 
 export function BorrowStatusPanel({
@@ -75,7 +75,9 @@ export function BorrowStatusPanel({
             <InfoTile.Value>{formatPercentage(reserveFactor)}</InfoTile.Value>
           </InfoTile>
 
-          <CapAutomatorInfoTile token={token} capAutomatorInfo={capAutomatorInfo} borrowCap={borrowCap} />
+          {borrowCap && (
+            <CapAutomatorInfoTile token={token} capAutomatorInfo={capAutomatorInfo} borrowCap={borrowCap} />
+          )}
         </InfoTilesGrid>
 
         <div className="col-span-3 mt-6 sm:mt-10">
@@ -87,13 +89,13 @@ export function BorrowStatusPanel({
   )
 }
 
-interface capAutomatorInfoTileProps {
+interface CapAutomatorInfoTileProps {
   token: Token
-  capAutomatorInfo: CapConfig | null
-  borrowCap?: NormalizedUnitNumber
+  capAutomatorInfo?: CapConfig
+  borrowCap: NormalizedUnitNumber
 }
 
-function CapAutomatorInfoTile({ token, capAutomatorInfo, borrowCap }: capAutomatorInfoTileProps) {
+function CapAutomatorInfoTile({ token, capAutomatorInfo, borrowCap }: CapAutomatorInfoTileProps) {
   return (
     <div className={cn('grid grid-cols-subgrid gap-[inherit]', capAutomatorInfo && 'sm:col-span-2')}>
       {capAutomatorInfo && (
@@ -108,21 +110,19 @@ function CapAutomatorInfoTile({ token, capAutomatorInfo, borrowCap }: capAutomat
         </InfoTile>
       )}
 
-      {borrowCap && (
-        <InfoTile>
-          <InfoTile.Label>{capAutomatorInfo ? 'Instantly available borrow cap:' : 'Borrow cap'}</InfoTile.Label>
-          <InfoTile.Value>
-            {token.format(borrowCap, { style: 'compact' })} {token.symbol}
-            {capAutomatorInfo && (
-              <CooldownTimer
-                renewalPeriod={capAutomatorInfo.increaseCooldown}
-                latestUpdateTimestamp={capAutomatorInfo.lastIncreaseTime}
-              />
-            )}
-          </InfoTile.Value>
-          <InfoTile.ComplementaryLine>{token.formatUSD(borrowCap, { compact: true })}</InfoTile.ComplementaryLine>
-        </InfoTile>
-      )}
+      <InfoTile>
+        <InfoTile.Label>{capAutomatorInfo ? 'Instantly available borrow cap:' : 'Borrow cap'}</InfoTile.Label>
+        <InfoTile.Value>
+          {token.format(borrowCap, { style: 'compact' })} {token.symbol}
+          {capAutomatorInfo && (
+            <CooldownTimer
+              renewalPeriod={capAutomatorInfo.increaseCooldown}
+              latestUpdateTimestamp={capAutomatorInfo.lastIncreaseTimestamp}
+            />
+          )}
+        </InfoTile.Value>
+        <InfoTile.ComplementaryLine>{token.formatUSD(borrowCap, { compact: true })}</InfoTile.ComplementaryLine>
+      </InfoTile>
     </div>
   )
 }

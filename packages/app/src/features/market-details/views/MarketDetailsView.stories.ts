@@ -51,7 +51,7 @@ const args: MarketDetailsViewProps = {
       totalSupplied: NormalizedUnitNumber(72_000),
       supplyCap: NormalizedUnitNumber(112_000),
       apy: Percentage(0.05),
-      capAutomatorInfo: null,
+      capAutomatorInfo: undefined,
     },
     collateral: {
       status: 'yes',
@@ -74,7 +74,7 @@ const args: MarketDetailsViewProps = {
         variableRateSlope2: bigNumberify('800000000000000000000000000'),
         baseVariableBorrowRate: bigNumberify('2500000000000000000000000'),
       },
-      capAutomatorInfo: null,
+      capAutomatorInfo: undefined,
     },
 
     summary: {

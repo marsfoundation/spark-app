@@ -15,6 +15,8 @@ export interface SupplyReplacementInfo {
   token: Token
   totalSupplied: NormalizedUnitNumber
   supplyAPY: Percentage | undefined
+  capAutomatorInfo: CapConfig | undefined
+  supplyCap: NormalizedUnitNumber | undefined
 }
 
 export interface DssAutoline {
@@ -50,7 +52,7 @@ export interface MarketOverview {
     totalSupplied: NormalizedUnitNumber
     supplyCap?: NormalizedUnitNumber
     apy: Percentage | undefined
-    capAutomatorInfo: CapConfig | null
+    capAutomatorInfo?: CapConfig
   }
   collateral: CollateralStatusInfo
   borrow: {
@@ -62,7 +64,7 @@ export interface MarketOverview {
     reserveFactor: Percentage
     chartProps: InterestYieldChartProps
     showTokenBadge?: boolean
-    capAutomatorInfo: CapConfig | null
+    capAutomatorInfo?: CapConfig
   }
   lend?: {
     status: 'yes' // only for dai

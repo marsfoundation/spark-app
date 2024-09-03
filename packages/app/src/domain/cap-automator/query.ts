@@ -1,6 +1,5 @@
 import { capAutomatorConfig } from '@/config/contracts-generated'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { assert } from '@/utils/assert'
 import { queryOptions } from '@tanstack/react-query'
 import { Config } from 'wagmi'
 import { readContract } from 'wagmi/actions'
@@ -23,8 +22,8 @@ export function capAutomatorQueryOptions({ token, wagmiConfig, chainId }: CapAut
 
       if (!capAutomatorAddress) {
         return {
-          supplyCap: null,
-          borrowCap: null,
+          supplyCap: undefined,
+          borrowCap: undefined,
         }
       }
 
@@ -45,8 +44,6 @@ export function capAutomatorQueryOptions({ token, wagmiConfig, chainId }: CapAut
 
       const [supplyCap, borrowCap] = caps.map(formatCapStructToConfig)
 
-      assert(supplyCap !== undefined && borrowCap !== undefined)
-
       return {
         supplyCap,
         borrowCap,
@@ -55,11 +52,11 @@ export function capAutomatorQueryOptions({ token, wagmiConfig, chainId }: CapAut
   })
 }
 
-function formatCapStructToConfig(capStruct: readonly [number, number, number, number, number]): CapConfig | null {
+function formatCapStructToConfig(capStruct: readonly [number, number, number, number, number]): CapConfig | undefined {
   const [max, gap, increaseCooldown, lastUpdateBlock, lastIncreaseTime] = capStruct
 
   if (max === 0) {
-    return null
+    return undefined
   }
 
   return {
@@ -67,7 +64,7 @@ function formatCapStructToConfig(capStruct: readonly [number, number, number, nu
     gap: NormalizedUnitNumber(gap),
     increaseCooldown,
     lastUpdateBlock,
-    lastIncreaseTime,
+    lastIncreaseTimestamp: lastIncreaseTime,
   }
 }
 

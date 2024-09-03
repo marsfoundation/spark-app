@@ -24,7 +24,7 @@ interface SupplyStatusPanelProps {
   apy: Percentage | undefined
   hasSparkAirdrop: boolean
   supplyCap?: NormalizedUnitNumber
-  capAutomatorInfo: CapConfig | null
+  capAutomatorInfo?: CapConfig
 }
 
 export function SupplyStatusPanel({
@@ -61,7 +61,7 @@ export function SupplyStatusPanel({
             <InfoTile.Value>{formatPercentage(apy)}</InfoTile.Value>
           </InfoTile>
 
-          <CapInfoTile token={token} capAutomatorInfo={capAutomatorInfo} supplyCap={supplyCap} />
+          {supplyCap && <CapInfoTile token={token} capAutomatorInfo={capAutomatorInfo} supplyCap={supplyCap} />}
         </InfoTilesGrid>
 
         {hasSparkAirdrop && <SparkAirdropInfoPanel variant="deposit" eligibleToken={token.symbol} />}
@@ -70,13 +70,13 @@ export function SupplyStatusPanel({
   )
 }
 
-interface CapInfoTileProps {
+interface CapAutomatorInfoTileProps {
   token: Token
-  capAutomatorInfo: CapConfig | null
-  supplyCap?: NormalizedUnitNumber
+  capAutomatorInfo?: CapConfig
+  supplyCap: NormalizedUnitNumber
 }
 
-function CapInfoTile({ token, capAutomatorInfo, supplyCap }: CapInfoTileProps) {
+function CapInfoTile({ token, capAutomatorInfo, supplyCap }: CapAutomatorInfoTileProps) {
   return (
     <div className={cn('grid grid-cols-subgrid gap-[inherit]', capAutomatorInfo && 'sm:col-span-2')}>
       {capAutomatorInfo && (
@@ -91,21 +91,19 @@ function CapInfoTile({ token, capAutomatorInfo, supplyCap }: CapInfoTileProps) {
         </InfoTile>
       )}
 
-      {supplyCap && (
-        <InfoTile>
-          <InfoTile.Label>{capAutomatorInfo ? 'Instantly available supply cap:' : 'Supply cap'}</InfoTile.Label>
-          <InfoTile.Value>
-            {token.format(supplyCap, { style: 'compact' })} {token.symbol}
-            {capAutomatorInfo && (
-              <CooldownTimer
-                renewalPeriod={capAutomatorInfo.increaseCooldown}
-                latestUpdateTimestamp={capAutomatorInfo.lastIncreaseTime}
-              />
-            )}
-          </InfoTile.Value>
-          <InfoTile.ComplementaryLine>{token.formatUSD(supplyCap, { compact: true })}</InfoTile.ComplementaryLine>
-        </InfoTile>
-      )}
+      <InfoTile>
+        <InfoTile.Label>{capAutomatorInfo ? 'Instantly available supply cap:' : 'Supply cap'}</InfoTile.Label>
+        <InfoTile.Value>
+          {token.format(supplyCap, { style: 'compact' })} {token.symbol}
+          {capAutomatorInfo && (
+            <CooldownTimer
+              renewalPeriod={capAutomatorInfo.increaseCooldown}
+              latestUpdateTimestamp={capAutomatorInfo.lastIncreaseTimestamp}
+            />
+          )}
+        </InfoTile.Value>
+        <InfoTile.ComplementaryLine>{token.formatUSD(supplyCap, { compact: true })}</InfoTile.ComplementaryLine>
+      </InfoTile>
     </div>
   )
 }

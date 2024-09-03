@@ -27,7 +27,6 @@ export const CanBeSupplied: Story = {
     totalSupplied: NormalizedUnitNumber(72_000),
     supplyCap: NormalizedUnitNumber(112_000),
     apy: Percentage(0.05),
-    capAutomatorInfo: null,
   },
 }
 
@@ -42,7 +41,6 @@ export const SupplyCapReached: Story = {
     totalSupplied: NormalizedUnitNumber(112_000),
     supplyCap: NormalizedUnitNumber(112_000),
     apy: Percentage(0.05),
-    capAutomatorInfo: null,
   },
 }
 
@@ -54,7 +52,6 @@ export const CannotBeSupplied: Story = {
     totalSupplied: NormalizedUnitNumber(0),
     supplyCap: NormalizedUnitNumber(0),
     apy: Percentage(0),
-    capAutomatorInfo: null,
   },
 }
 
@@ -70,7 +67,7 @@ export const WithCapAutomatorInfo: Story = {
       maxCap: NormalizedUnitNumber(200_000),
       gap: NormalizedUnitNumber(0),
       increaseCooldown: 43200,
-      lastIncreaseTime: Math.floor(STORYBOOK_TIMESTAMP / 1000 - 41903),
+      lastIncreaseTimestamp: Math.floor(STORYBOOK_TIMESTAMP / 1000 - 41903),
       lastUpdateBlock: 0,
     },
   },
