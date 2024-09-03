@@ -1,4 +1,6 @@
 import { assets } from '@/ui/assets'
+import { XIcon } from 'lucide-react'
+import { Button } from '../button/Button'
 import { Link } from '../link/Link'
 import { Sparkles } from '../sparkles/Sparkles'
 
@@ -10,7 +12,7 @@ export const SKY_MIGRATION_BANNER_ID = 'sky-migration-banner'
 
 export function SkyMigrationBanner({ onClose }: SkyMigrationBanner) {
   return (
-    <div className="flex w-full flex-col items-center justify-center gap-2 bg-gradient-to-b from-[#9042C9] to-[#A047CC] p-1.5 text-center text-basics-white/85 text-sm sm:flex-row sm:text-base">
+    <div className="relative flex w-full flex-col items-center justify-center gap-2 bg-gradient-to-b from-[#9042C9] to-[#A047CC] p-1.5 text-center text-basics-white/85 text-sm sm:flex-row sm:text-base">
       <span className="flex items-center gap-2">
         <img src={assets.banners.mkrToSkyTransform} />
         <span>
@@ -29,7 +31,9 @@ export function SkyMigrationBanner({ onClose }: SkyMigrationBanner) {
       >
         Read the announcement
       </Link>
-      <button onClick={onClose}>x</button>
+      <Button variant="icon" size="sm" className="-translate-y-1/2 absolute top-1/2 right-1.5" onClick={onClose}>
+        <XIcon className="h-5 w-5" />
+      </Button>
     </div>
   )
 }
