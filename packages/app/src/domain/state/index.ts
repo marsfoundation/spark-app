@@ -25,7 +25,7 @@ import {
   persistSandboxSlice,
   unPersistSandboxSlice,
 } from './sandbox'
-import { SavingsSlice, initSavingsSlice, persistSavingsSlice } from './savings'
+import { PersistedSavingsSlice, SavingsSlice, initSavingsSlice, persistSavingsSlice } from './savings'
 
 export type StoreState = {
   appConfig: AppConfig
@@ -36,7 +36,7 @@ export type StoreState = {
   SavingsSlice
 
 export type PersistedState = Serializable<
-  PersistedSandboxSlice & PersistedActionsSettingsSlice & PersistedComplianceSlice
+  PersistedSandboxSlice & PersistedActionsSettingsSlice & PersistedComplianceSlice & PersistedSavingsSlice
 >
 
 export const storeImplementation = persist<StoreState, [], [], PersistedState>(

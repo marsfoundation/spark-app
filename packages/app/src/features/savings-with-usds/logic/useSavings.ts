@@ -6,7 +6,6 @@ import { useSavingsUsdsInfo } from '@/domain/savings-info/useSavingsUsdsInfo'
 import { calculateMaxBalanceTokenAndTotal } from '@/domain/savings/calculateMaxBalanceTokenAndTotal'
 import { useSavingsTokens } from '@/domain/savings/useSavingsTokens'
 import { OpenDialogFunction, useOpenDialog } from '@/domain/state/dialogs'
-import { useSavingsStore } from '@/domain/state/savings'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
@@ -17,6 +16,7 @@ import { useMemo } from 'react'
 import { useAccount } from 'wagmi'
 import { MigrationInfo, makeMigrationInfo } from './makeMigrationInfo'
 import { makeSavingsTokenDetails } from './makeSavingsTokenDetails'
+import { useWelcomeDialog } from './useWelcomeDialog'
 
 const stepInMs = 50
 
@@ -59,7 +59,7 @@ export function useSavings(): UseSavingsResults {
     refreshIntervalInMs: savingsDaiInfo?.supportsRealTimeInterestAccrual ? stepInMs : undefined,
   })
   const openDialog = useOpenDialog()
-  const { confirmedWelcomeDialog, saveConfirmedWelcomeDialog } = useSavingsStore()
+  const { showWelcomeDialog, saveConfirmedWelcomeDialog } = useWelcomeDialog()
 
   const { totalUSD: totalEligibleCashUSD, maxBalanceToken } = calculateMaxBalanceTokenAndTotal({
     assets: inputTokens,
@@ -127,7 +127,7 @@ export function useSavings(): UseSavingsResults {
       sDaiDetails,
       sUSDSDetails,
       migrationInfo,
-      showWelcomeDialog: !confirmedWelcomeDialog && !!sDaiDetails && !!sUSDSDetails,
+      showWelcomeDialog,
       saveConfirmedWelcomeDialog,
     },
   }

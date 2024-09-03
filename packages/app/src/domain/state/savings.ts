@@ -34,13 +34,13 @@ export function useSavingsStore(): UseSavingsStoreResult {
 
 export interface PersistedSavingsSlice {
   savings: {
-    confirmedWelcomeModal: boolean
+    confirmedWelcomeDialog: boolean
   }
 }
 export function persistSavingsSlice(state: StoreState): PersistedSavingsSlice {
   return {
     savings: {
-      confirmedWelcomeModal: state.savings.confirmedWelcomeDialog,
+      confirmedWelcomeDialog: state.savings.confirmedWelcomeDialog,
     },
   }
 }

@@ -1,7 +1,7 @@
 import { PageHeader } from '../../savings/components/PageHeader'
-import { PageLayout } from '../../savings/components/PageLayout'
 import { SavingsOpportunity } from '../../savings/components/savings-opportunity/SavingsOpportunity'
 import { SavingsOpportunityNoCash } from '../../savings/components/savings-opportunity/SavingsOpportunityNoCash'
+import { PageLayout } from '../components/PageLayout'
 import { CashInWallet } from '../components/cash-in-wallet/CashInWallet'
 import { SavingsTokenPanel } from '../components/savings-token-panel/SavingsTokenPanel'
 import { UpgradeSavingsBanner } from '../components/upgrade-savings-banner/UpgradeSavingsBanner'
@@ -23,6 +23,8 @@ export function SavingsDaiAndUSDSView({
   maxBalanceToken,
   totalEligibleCashUSD,
   openDialog,
+  showWelcomeDialog,
+  saveConfirmedWelcomeDialog,
 }: SavingsDaiAndUSDSViewProps) {
   const displaySavingsDai = sDaiDetails.tokenWithBalance.balance.gt(0)
   const displaySavingsUSDS = sUSDSDetails.tokenWithBalance.balance.gt(0)
@@ -31,7 +33,7 @@ export function SavingsDaiAndUSDSView({
   const displaySavingsNoCash = !displaySavingsDai && !displaySavingsUSDS && !displaySavingsOpportunity
 
   return (
-    <PageLayout>
+    <PageLayout showWelcomeDialog={showWelcomeDialog} saveConfirmedWelcomeDialog={saveConfirmedWelcomeDialog}>
       <PageHeader />
       {displaySavingsDai && migrationInfo && (
         <UpgradeSavingsBanner
