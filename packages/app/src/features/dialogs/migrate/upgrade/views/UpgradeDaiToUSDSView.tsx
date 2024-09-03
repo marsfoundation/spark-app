@@ -4,10 +4,10 @@ import { DialogActionsPanel } from '@/features/dialogs/common/components/DialogA
 import { MultiPanelDialog } from '@/features/dialogs/common/components/MultiPanelDialog'
 import { PageStatus } from '@/features/dialogs/common/types'
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
+import { KeyPoints } from '@/ui/atoms/key-points/KeyPoints'
 import { Link } from '@/ui/atoms/link/Link'
 import { Banner } from '../../common/components/Banner'
 import { Description } from '../../common/components/Description'
-import { KeyPoints } from '../../common/components/KeyPoints'
 
 interface UpgradeDaiToUSDSViewProps {
   fromToken: Token

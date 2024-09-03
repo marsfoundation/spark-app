@@ -10,7 +10,7 @@ import repay from './actions/repay.svg'
 import withdraw from './actions/withdraw.svg'
 import arrowRight from './arrow-right.svg'
 import arrowUpRight from './arrow-up-right.svg'
-import upgradeBannerBg from './banners/upgrade-banner-bg.svg'
+import newSavingsWelcome from './banners/new-savings-welcome.webp'
 import boxArrowTopRight from './box-arrow-top-right.svg'
 import ethereum from './chains/ethereum.svg'
 import gnosis from './chains/gnosis.svg'
@@ -168,7 +168,7 @@ export const assets = {
     default: defaultWallet,
   },
   banners: {
-    upgradeBannerBg,
+    newSavingsWelcome,
   },
 }
 
