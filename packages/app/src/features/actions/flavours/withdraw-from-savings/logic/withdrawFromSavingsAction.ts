@@ -12,7 +12,7 @@ import {
   calculateGemConversionFactor,
   isSDaiToUsdsWithdraw,
   isSexyDaiOperation,
-  isUsdcPsmActionsOperation,
+  isUsdcDaiPsmActionsOperation,
   isVaultOperation,
 } from '@/features/actions/utils/savings'
 import { assert, raise } from '@/utils/assert'
@@ -66,7 +66,7 @@ export function createWithdrawFromSavingsActionConfig(
         })
       }
 
-      if (isUsdcPsmActionsOperation({ token, savingsToken, tokensInfo })) {
+      if (isUsdcDaiPsmActionsOperation({ token, savingsToken, tokensInfo })) {
         const psmActionsAddress = getContractAddress(psmActionsConfig.address, chainId)
         assert(context.savingsDaiInfo, 'Savings info is required for usdc psm withdraw from savings action')
 

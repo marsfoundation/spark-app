@@ -1,6 +1,7 @@
 import { Token } from '@/domain/types/Token'
 import { MigrationInfo } from '@/features/savings-with-usds/logic/makeMigrationInfo'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
+import { testIds } from '@/ui/utils/testIds'
 import { UpgradeTokenButton } from './UpgradeTokenButton'
 
 export interface TokenCellProps {
@@ -15,6 +16,7 @@ export function TokenCell({ token, migrationInfo }: TokenCellProps) {
         token={token}
         upgradedTokenSymbol={migrationInfo.usdsSymbol}
         onUpgradeClick={migrationInfo.openDaiToUsdsUpgradeDialog}
+        data-testid={testIds.savings.cashInWallet.upgradeDaiToUsdsCell}
       />
     )
   }

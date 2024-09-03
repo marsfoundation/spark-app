@@ -38,12 +38,35 @@ export function isSexyDaiOperation({
   )
 }
 
-export function isUsdcPsmActionsOperation({
+export function isUsdcDaiPsmActionsOperation({
   token,
   savingsToken,
   tokensInfo,
 }: { token: Token; savingsToken: Token; tokensInfo: TokensInfo }): boolean {
   return token.symbol === TokenSymbol('USDC') && savingsToken.symbol === tokensInfo.sDAI?.symbol
+}
+
+export function isUsdcUsdsPsmActionsOperation({
+  token,
+  savingsToken,
+  tokensInfo,
+}: { token: Token; savingsToken: Token; tokensInfo: TokensInfo }): boolean {
+  return token.symbol === TokenSymbol('USDC') && savingsToken.symbol === tokensInfo.sUSDS?.symbol
+}
+
+export function isUsdcPsmActionsOperation({
+  token,
+  savingsToken,
+  tokensInfo,
+}: { token: Token; savingsToken: Token; tokensInfo: TokensInfo }): boolean {
+  return (
+    isUsdcDaiPsmActionsOperation({ token, savingsToken, tokensInfo }) ||
+    isUsdcUsdsPsmActionsOperation({
+      token,
+      savingsToken,
+      tokensInfo,
+    })
+  )
 }
 
 export function isSDaiToUsdsWithdraw({

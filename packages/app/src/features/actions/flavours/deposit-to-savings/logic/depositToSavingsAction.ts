@@ -1,5 +1,5 @@
 import { migrationActionsAbi } from '@/config/abis/migrationActionsAbi'
-import { MIGRATE_ACTIONS_ADDRESS } from '@/config/consts'
+import { MIGRATE_ACTIONS_ADDRESS, USDS_PSM_ACTIONS } from '@/config/consts'
 import { psmActionsConfig, savingsXDaiAdapterAbi, savingsXDaiAdapterAddress } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
@@ -9,7 +9,9 @@ import { ActionConfig, ActionContext } from '@/features/actions/logic/types'
 import {
   calculateGemConversionFactor,
   isSexyDaiOperation,
+  isUsdcDaiPsmActionsOperation,
   isUsdcPsmActionsOperation,
+  isUsdcUsdsPsmActionsOperation,
   isVaultOperation,
 } from '@/features/actions/utils/savings'
 import { raise } from '@/utils/assert'
@@ -56,7 +58,18 @@ export function createDepositToSavingsActionConfig(
           assetsTokenDecimals: savingsToken.decimals,
         })
         const assetsMinAmountOut = toBigInt(token.toBaseUnit(action.value).multipliedBy(gemConversionFactor))
-        const psmActions = getContractAddress(psmActionsConfig.address, chainId)
+
+        const psmActions = (() => {
+          if (isUsdcDaiPsmActionsOperation({ token, savingsToken, tokensInfo })) {
+            return getContractAddress(psmActionsConfig.address, chainId)
+          }
+
+          if (isUsdcUsdsPsmActionsOperation({ token, savingsToken, tokensInfo })) {
+            return USDS_PSM_ACTIONS
+          }
+
+          throw new Error('Not implemented psm action')
+        })()
 
         return ensureConfigTypes({
           address: psmActions,
@@ -86,12 +99,16 @@ export function createDepositToSavingsActionConfig(
       }
 
       const allowanceSpender = (() => {
-        if (isUsdcPsmActionsOperation({ token, savingsToken, tokensInfo })) {
+        if (isUsdcDaiPsmActionsOperation({ token, savingsToken, tokensInfo })) {
           return getContractAddress(psmActionsConfig.address, chainId)
         }
 
         if (isDaiToSUsdsMigration({ token, savingsToken, tokensInfo })) {
           return MIGRATE_ACTIONS_ADDRESS
+        }
+
+        if (isUsdcUsdsPsmActionsOperation({ token, savingsToken, tokensInfo })) {
+          return USDS_PSM_ACTIONS
         }
 
         return action.savingsToken.address

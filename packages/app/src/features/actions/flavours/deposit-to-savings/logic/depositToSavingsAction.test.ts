@@ -1,5 +1,5 @@
 import { migrationActionsAbi } from '@/config/abis/migrationActionsAbi'
-import { MIGRATE_ACTIONS_ADDRESS } from '@/config/consts'
+import { MIGRATE_ACTIONS_ADDRESS, USDS_PSM_ACTIONS } from '@/config/consts'
 import { psmActionsAbi, psmActionsAddress } from '@/config/contracts-generated'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
@@ -163,6 +163,48 @@ describe(createDepositToSavingsActionConfig.name, () => {
     )
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
       allowanceQueryKey({ token: dai.address, spender: MIGRATE_ACTIONS_ADDRESS, account, chainId }),
+    )
+  })
+
+  test('deposits usdc to susds', async () => {
+    const { result, queryInvalidationManager } = hookRenderer({
+      args: {
+        action: { type: 'depositToSavings', token: usdc, savingsToken: susds, value: depositValue },
+        enabled: true,
+        context: { tokensInfo: mockTokensInfo },
+      },
+      extraHandlers: [
+        handlers.contractCall({
+          to: USDS_PSM_ACTIONS,
+          abi: psmActionsAbi,
+          functionName: 'swapAndDeposit',
+          args: [
+            account,
+            toBigInt(usdc.toBaseUnit(depositValue)),
+            toBigInt(usdc.toBaseUnit(depositValue).multipliedBy(1e12)),
+          ],
+          from: account,
+          result: 1n,
+        }),
+        handlers.mineTransaction(),
+      ],
+    })
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('ready')
+    })
+
+    result.current.onAction()
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('success')
+    })
+
+    await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+      getBalancesQueryKeyPrefix({ account, chainId }),
+    )
+    await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+      allowanceQueryKey({ token: usdc.address, spender: USDS_PSM_ACTIONS, account, chainId }),
     )
   })
 })

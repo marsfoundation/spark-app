@@ -10,9 +10,15 @@ export interface UpgradeTokenButtonProps {
   token: Token
   upgradedTokenSymbol: TokenSymbol
   onUpgradeClick: () => void
+  'data-testid'?: string
 }
 
-export function UpgradeTokenButton({ token, upgradedTokenSymbol, onUpgradeClick }: UpgradeTokenButtonProps) {
+export function UpgradeTokenButton({
+  token,
+  upgradedTokenSymbol,
+  onUpgradeClick,
+  'data-testid': dataTestId,
+}: UpgradeTokenButtonProps) {
   return (
     <div
       className={cn(
@@ -21,6 +27,7 @@ export function UpgradeTokenButton({ token, upgradedTokenSymbol, onUpgradeClick 
         'bg-secondary py-1 pr-1 pl-1 font-semibold text-base sm:pl-2',
         'text-secondary-foreground',
       )}
+      data-testid={dataTestId}
     >
       <div className="flex items-center gap-1 sm:gap-2">
         <TokenIcon token={token} className="h-6 w-6" />

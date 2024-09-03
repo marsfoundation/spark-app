@@ -65,6 +65,7 @@ export const testIds = makeTestIds({
     upgradeSDaiBanner: true,
     cashInWallet: {
       upgradeDaiToUsds: true,
+      upgradeDaiToUsdsCell: true,
       moreDropdown: true,
     },
   },
