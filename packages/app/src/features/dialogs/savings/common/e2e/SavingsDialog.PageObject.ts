@@ -143,6 +143,10 @@ export class SavingsDialogPageObject extends DialogPageObject {
   expectUpgradeSwitchToBeHidden(): Promise<void> {
     return expect(this.locateUpgradeSwitch()).toBeHidden()
   }
+
+  clickUpgradeSwitch(): Promise<void> {
+    return this.locateUpgradeSwitch().click()
+  }
   // #endregion assertions
 }
 

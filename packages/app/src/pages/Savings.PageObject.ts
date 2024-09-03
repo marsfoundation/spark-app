@@ -43,7 +43,16 @@ export class SavingsPageObject extends BasePageObject {
 
   async clickDepositButtonAction(assetName: string): Promise<void> {
     const panel = this.locatePanelByHeader('Cash in wallet')
-    const row = panel.getByRole('row').filter({ has: this.page.getByRole('cell', { name: assetName, exact: true }) })
+    const row = await (async () => {
+      if (assetName === 'DAI') {
+        // DAI row has an upgrade button instead of the asset name
+        return panel
+          .getByRole('row')
+          .filter({ has: this.page.getByTestId(testIds.savings.cashInWallet.upgradeDaiToUsdsCell) })
+      }
+
+      return panel.getByRole('row').filter({ has: this.page.getByRole('cell', { name: assetName, exact: true }) })
+    })()
     await row.getByRole('button', { name: 'Deposit' }).click()
   }
 

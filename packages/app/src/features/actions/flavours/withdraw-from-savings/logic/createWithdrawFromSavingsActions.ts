@@ -5,7 +5,7 @@ import { Action, ActionContext } from '@/features/actions/logic/types'
 import {
   isSDaiToUsdsWithdraw,
   isSexyDaiOperation,
-  isUsdcPsmActionsOperation,
+  isUsdcDaiPsmActionsOperation,
   isVaultOperation,
 } from '@/features/actions/utils/savings'
 import { assert, raise } from '@/utils/assert'
@@ -40,7 +40,7 @@ export function createWithdrawFromSavingsActions(
   const sDaiValueEstimate = context.savingsDaiInfo.convertToAssets({ shares: objective.amount })
 
   const spender = (() => {
-    if (isUsdcPsmActionsOperation({ token, savingsToken, tokensInfo })) {
+    if (isUsdcDaiPsmActionsOperation({ token, savingsToken, tokensInfo })) {
       return psmActionsAddress[mainnet.id]
     }
 

@@ -1,8 +1,12 @@
-import { MIGRATE_ACTIONS_ADDRESS } from '@/config/consts'
+import { MIGRATE_ACTIONS_ADDRESS, USDS_PSM_ACTIONS } from '@/config/consts'
 import { psmActionsConfig } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { Action, ActionContext } from '@/features/actions/logic/types'
-import { isSexyDaiOperation, isUsdcPsmActionsOperation } from '@/features/actions/utils/savings'
+import {
+  isSexyDaiOperation,
+  isUsdcDaiPsmActionsOperation,
+  isUsdcUsdsPsmActionsOperation,
+} from '@/features/actions/utils/savings'
 import { raise } from '@/utils/assert'
 import { ApproveAction } from '../../approve/types'
 import { DepositToSavingsAction, DepositToSavingsObjective } from '../types'
@@ -23,8 +27,12 @@ export function createDepositToSavingsActions(objective: DepositToSavingsObjecti
     return [depositAction]
   }
   const spender = (() => {
-    if (isUsdcPsmActionsOperation({ token, savingsToken, tokensInfo })) {
+    if (isUsdcDaiPsmActionsOperation({ token, savingsToken, tokensInfo })) {
       return getContractAddress(psmActionsConfig.address, chainId)
+    }
+
+    if (isUsdcUsdsPsmActionsOperation({ token, savingsToken, tokensInfo })) {
+      return USDS_PSM_ACTIONS
     }
 
     if (isDaiToSUsdsMigration({ token, savingsToken, tokensInfo })) {
