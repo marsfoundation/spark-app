@@ -4,6 +4,7 @@ import * as React from 'react'
 
 import { cn } from '@/ui/utils/style'
 
+import { RefObject } from 'react'
 import { Typography } from '../typography/Typography'
 
 const Dialog = DialogPrimitive.Root
@@ -33,11 +34,11 @@ const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & {
     showCloseButton?: boolean
-    portalContainer?: HTMLElement | null
+    portalContainerRef?: RefObject<HTMLElement>
     overlayVariant?: 'default' | 'light'
   }
->(({ className, children, showCloseButton = true, portalContainer, overlayVariant = 'default', ...props }, ref) => (
-  <DialogPortal container={portalContainer}>
+>(({ className, children, showCloseButton = true, portalContainerRef, overlayVariant = 'default', ...props }, ref) => (
+  <DialogPortal container={portalContainerRef?.current}>
     <DialogOverlay className={cn(overlayVariant === 'light' && 'bg-background/30 backdrop-blur-[1.5px]')} />
     <DialogPrimitive.Content
       ref={ref}

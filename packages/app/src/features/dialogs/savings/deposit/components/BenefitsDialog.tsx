@@ -6,14 +6,14 @@ import { Dialog, DialogContent, DialogTrigger } from '@/ui/atoms/dialog/Dialog'
 import { Link } from '@/ui/atoms/link/Link'
 import { cn } from '@/ui/utils/style'
 import { ChevronDown } from 'lucide-react'
-import { useState } from 'react'
+import { RefObject, useState } from 'react'
 
 export interface BenefitsDialog {
-  portalContainer?: HTMLElement | null
+  portalContainerRef?: RefObject<HTMLElement>
   apyImprovement?: Percentage
 }
 
-export function BenefitsDialog({ portalContainer, apyImprovement }: BenefitsDialog) {
+export function BenefitsDialog({ portalContainerRef, apyImprovement }: BenefitsDialog) {
   const [open, setOpen] = useState(false)
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -23,7 +23,7 @@ export function BenefitsDialog({ portalContainer, apyImprovement }: BenefitsDial
         </Button>
       </DialogTrigger>
       <DialogContent
-        portalContainer={portalContainer}
+        portalContainerRef={portalContainerRef}
         overlayVariant="light"
         className="top-[100%] translate-y-[-100%]"
       >

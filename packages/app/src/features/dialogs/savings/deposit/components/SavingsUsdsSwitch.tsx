@@ -3,19 +3,20 @@ import { Percentage } from '@/domain/types/NumericValues'
 import { assets } from '@/ui/assets'
 import { Switch } from '@/ui/atoms/switch/Switch'
 import { testIds } from '@/ui/utils/testIds'
+import { RefObject } from 'react'
 import { BenefitsDialog } from './BenefitsDialog'
 
 export interface SavingsUsdsSwitchProps {
   checked: boolean
   onSwitch: () => void
-  benefitsDialogPortalContainer?: HTMLElement | null
+  benefitsDialogPortalContainerRef?: RefObject<HTMLElement>
   apyImprovement?: Percentage
 }
 
 export function SavingsUsdsSwitch({
   checked,
   onSwitch,
-  benefitsDialogPortalContainer,
+  benefitsDialogPortalContainerRef,
   apyImprovement,
 }: SavingsUsdsSwitchProps) {
   return (
@@ -35,7 +36,7 @@ export function SavingsUsdsSwitch({
         <Switch checked={checked} onClick={onSwitch} data-testid={testIds.dialog.savings.upgradeSwitch} />
       </div>
       <div className="flex items-center justify-between rounded-xl rounded-l-none border border-basics-green/50 border-l-0 bg-basics-green/5">
-        <BenefitsDialog portalContainer={benefitsDialogPortalContainer} apyImprovement={apyImprovement} />
+        <BenefitsDialog portalContainerRef={benefitsDialogPortalContainerRef} apyImprovement={apyImprovement} />
       </div>
     </div>
   )

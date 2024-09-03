@@ -47,7 +47,7 @@ export function SavingsDepositView({
       </FormAndOverviewWrapper>
 
       {savingsUsdsSwitchInfo.showSwitch && (
-        <SavingsUsdsSwitch {...savingsUsdsSwitchInfo} benefitsDialogPortalContainer={ref.current} />
+        <SavingsUsdsSwitch {...savingsUsdsSwitchInfo} benefitsDialogPortalContainerRef={ref} />
       )}
 
       <DialogActionsPanel
