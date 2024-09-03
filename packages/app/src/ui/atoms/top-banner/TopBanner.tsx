@@ -1,13 +1,20 @@
+import { assets } from '@/ui/assets'
 import { Link } from '../link/Link'
 
 export function TopBanner() {
   return (
-    <div className="w-full bg-[radial-gradient(circle_at_center,_#413A96_0%,_#352D7D_50%,_rgb(199,141,242)_100%)] p-0.5 text-center text-basics-white/85 text-sm sm:p-0 sm:text-base">
-      MakerDAO is now <strong className="text-basics-white">Sky</strong>.{' '}
+    <div className="flex w-full flex-col items-center justify-center gap-2 bg-gradient-to-b from-[#9042C9] to-[#A047CC] p-1.5 text-center text-basics-white/85 text-sm sm:flex-row sm:text-base">
+      <span className="flex items-center gap-2">
+        <img src={assets.banners.mkrToSkyTransform} />
+        <span>
+          MakerDAO is now <strong className="text-basics-white">Sky</strong>.
+        </span>
+      </span>
+
       <Link
         to="https://forum.makerdao.com/t/sky-has-arrived/24959"
         external
-        className="text-basics-white/90 underline hover:text-basics-white"
+        className="inline text-basics-white/90 underline hover:text-basics-white"
       >
         Read the announcement
       </Link>
