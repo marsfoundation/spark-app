@@ -15,6 +15,4 @@ export interface SavingsViewContentProps {
   totalEligibleCashUSD: NormalizedUnitNumber
   opportunityProjections: Projections
   openDialog: OpenDialogFunction
-  showWelcomeDialog?: boolean
-  saveConfirmedWelcomeDialog?: (confirmedWelcomeDialog: boolean) => void
 }
