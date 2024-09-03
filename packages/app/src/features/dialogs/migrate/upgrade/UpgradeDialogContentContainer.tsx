@@ -14,7 +14,7 @@ interface UpgradeDialogContentContainerProps {
 }
 
 function UpgradeDialogContentContainer({ fromToken, toToken, closeDialog }: UpgradeDialogContentContainerProps) {
-  const { objectives, pageStatus, migrationAmount, tokensInfo, apyDifference, actionsContext } = useMigrateDialog({
+  const { objectives, pageStatus, migrationAmount, tokensInfo, apyImprovement, actionsContext } = useMigrateDialog({
     type: 'upgrade',
     fromToken,
     toToken,
@@ -50,7 +50,7 @@ function UpgradeDialogContentContainer({ fromToken, toToken, closeDialog }: Upgr
         toToken={toToken}
         pageStatus={pageStatus}
         objectives={objectives}
-        apyDifference={apyDifference}
+        apyImprovement={apyImprovement}
         actionsContext={actionsContext}
       />
     )

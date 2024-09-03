@@ -44,8 +44,7 @@ export function SavingsDaiAndUSDSView({
       {displaySavingsDai && migrationInfo && (
         <UpgradeSavingsBanner
           onUpgradeSavingsClick={migrationInfo.openSDaiToSUsdsUpgradeDialog}
-          dsr={migrationInfo.dsr}
-          ssr={migrationInfo.ssr}
+          apyImprovement={migrationInfo.apyImprovement}
         />
       )}
       <div className="flex flex-col gap-6 sm:flex-row">
@@ -72,7 +71,7 @@ export function SavingsDaiAndUSDSView({
         <WelcomeDialog
           open={showWelcomeDialog}
           onConfirm={() => saveConfirmedWelcomeDialog(true)}
-          apyDifference={migrationInfo.apyDifference}
+          apyImprovement={migrationInfo.apyImprovement}
         />
       )}
     </PageLayout>

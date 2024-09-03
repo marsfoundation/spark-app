@@ -23,7 +23,7 @@ export interface UseMigrateDialogResult {
   pageStatus: PageStatus
   migrationAmount: NormalizedUnitNumber
   tokensInfo: TokensInfo
-  apyDifference: Percentage
+  apyImprovement?: Percentage
   actionsContext: InjectedActionsContext
 }
 
@@ -36,7 +36,6 @@ export function useMigrateDialog({ type, fromToken, toToken }: UseMigrateDialogP
   assert(savingsUsdsInfo, 'USDS savings info is required for upgrade dialog')
   assert(savingsDaiInfo, 'DAI savings info is required for upgrade dialog')
 
-  // @todo: figure out negative APY differences
   const apyDifference = Percentage(savingsUsdsInfo.apy.minus(savingsDaiInfo.apy).absoluteValue())
 
   const fromTokenBalance = useConditionalFreeze(
@@ -48,7 +47,7 @@ export function useMigrateDialog({ type, fromToken, toToken }: UseMigrateDialogP
   return {
     objectives,
     migrationAmount: fromTokenBalance,
-    apyDifference,
+    apyImprovement: apyDifference.gt(0) ? apyDifference : undefined,
     tokensInfo,
     actionsContext: {
       tokensInfo,

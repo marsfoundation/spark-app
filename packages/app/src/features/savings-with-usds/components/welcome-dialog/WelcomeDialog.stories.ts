@@ -11,7 +11,7 @@ const meta: Meta<typeof WelcomeDialog> = {
   args: {
     open: true,
     onConfirm: () => {},
-    apyDifference: Percentage(0.01),
+    apyImprovement: Percentage(0.01),
   },
 }
 
