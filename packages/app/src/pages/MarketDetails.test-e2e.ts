@@ -2,7 +2,7 @@ import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
 
 import { DialogPageObject } from '@/features/dialogs/common/Dialog.PageObject'
-import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
+import { CAP_AUTOMATOR_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setupFork } from '@/test/e2e/forking/setupFork'
 import { buildUrl, setup } from '@/test/e2e/setup'
 import { screenshot } from '@/test/e2e/utils'
@@ -15,7 +15,7 @@ const WETH = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'
 const WEETH = '0xcd5fe23c85820f7b72d0926fc9b05b43e359b7ee'
 
 test.describe('Market details', () => {
-  const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id })
+  const fork = setupFork({ blockNumber: CAP_AUTOMATOR_BLOCK_NUMBER, chainId: mainnet.id })
 
   test.describe('Market overview', () => {
     test('DAI', async ({ page }) => {
@@ -28,12 +28,12 @@ test.describe('Market details', () => {
       })
 
       const marketDetailsPage = new MarketDetailsPageObject(page)
-      await marketDetailsPage.expectMarketOverviewValue('Borrowed', '$779.6M')
-      await marketDetailsPage.expectMarketOverviewValue('Market size', '$1.216B')
-      await marketDetailsPage.expectMarketOverviewValue('Total available', '$436.6M')
-      await marketDetailsPage.expectMarketOverviewValue('Utilization rate', '64.10%')
-      await marketDetailsPage.expectMarketOverviewValue('Instantly available', '$55.54M')
-      await marketDetailsPage.expectMarketOverviewValue('MakerDAO capacity', '$381.1M')
+      await marketDetailsPage.expectMarketOverviewValue('Borrowed', '$1.028B')
+      await marketDetailsPage.expectMarketOverviewValue('Market size', '$1.232B')
+      await marketDetailsPage.expectMarketOverviewValue('Total available', '$204.7M')
+      await marketDetailsPage.expectMarketOverviewValue('Utilization rate', '83.39%')
+      await marketDetailsPage.expectMarketOverviewValue('Instantly available', '$29.11M')
+      await marketDetailsPage.expectMarketOverviewValue('MakerDAO capacity', '$175.6M')
 
       await screenshot(page, 'market-details-dai')
     })
@@ -48,10 +48,10 @@ test.describe('Market details', () => {
       })
 
       const marketDetailsPage = new MarketDetailsPageObject(page)
-      await marketDetailsPage.expectMarketOverviewValue('Market size', '$557.4M')
-      await marketDetailsPage.expectMarketOverviewValue('Utilization rate', '62.48%')
-      await marketDetailsPage.expectMarketOverviewValue('Borrowed', '$348.2M')
-      await marketDetailsPage.expectMarketOverviewValue('Available', '$209.1M')
+      await marketDetailsPage.expectMarketOverviewValue('Market size', '$697.3M')
+      await marketDetailsPage.expectMarketOverviewValue('Utilization rate', '48.95%')
+      await marketDetailsPage.expectMarketOverviewValue('Borrowed', '$341.4M')
+      await marketDetailsPage.expectMarketOverviewValue('Available', '$356M')
 
       await screenshot(page, 'market-details-weth')
     })

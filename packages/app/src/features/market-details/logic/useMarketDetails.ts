@@ -1,5 +1,6 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { getNativeAssetInfo } from '@/config/chain/utils/getNativeAssetInfo'
+import { useCapAutomatorInfo } from '@/domain/cap-automator/useCapAutomatorInfo'
 import { useD3MInfo } from '@/domain/d3m-info/useD3MInfo'
 import { NotFoundError } from '@/domain/errors/not-found'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
@@ -42,15 +43,22 @@ export function useMarketDetails(): UseMarketDetailsResult {
 
   const isDaiOverview = reserve.token.symbol === marketInfo.DAI.symbol && D3MInfo
 
+  const { capAutomatorInfo } = useCapAutomatorInfo({
+    chainId,
+    token: isDaiOverview ? marketInfo.sDAI : reserve.token,
+  })
+
   const marketOverview = isDaiOverview
     ? makeDaiMarketOverview({
         reserve,
         marketInfo,
         D3MInfo,
+        sDaiCapAutomatorInfo: capAutomatorInfo,
       })
     : makeMarketOverview({
         reserve,
         marketInfo,
+        capAutomatorInfo,
       })
 
   const walletOverview = makeWalletOverview({

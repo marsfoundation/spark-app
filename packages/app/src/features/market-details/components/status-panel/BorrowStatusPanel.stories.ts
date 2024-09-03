@@ -1,3 +1,4 @@
+import { STORYBOOK_TIMESTAMP } from '@storybook/consts'
 import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
@@ -84,6 +85,31 @@ export const CannotBeBorrowed: Story = {
     reserveFactor: Percentage(0.05),
     chartProps,
   },
+}
+
+export const WithCapAutomatorInfo: Story = {
+  name: 'With cap automator info',
+  args: {
+    status: 'yes',
+    token: tokens.WBTC,
+    totalBorrowed: NormalizedUnitNumber(1244),
+    apy: Percentage(0.01),
+    reserveFactor: Percentage(0.05),
+    borrowCap: NormalizedUnitNumber(2244),
+    chartProps,
+    capAutomatorInfo: {
+      maxCap: NormalizedUnitNumber(2944),
+      gap: NormalizedUnitNumber(0),
+      increaseCooldown: 43200,
+      lastIncreaseTimestamp: Math.floor(STORYBOOK_TIMESTAMP / 1000 - 41903),
+      lastUpdateBlock: 0,
+    },
+  },
+}
+
+export const WithCapAutomatorInfoMobile = {
+  ...getMobileStory(WithCapAutomatorInfo),
+  name: 'With cap automator info (Mobile)',
 }
 
 export const DAI: Story = {

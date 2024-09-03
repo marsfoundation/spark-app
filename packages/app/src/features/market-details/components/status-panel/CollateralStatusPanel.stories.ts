@@ -87,6 +87,14 @@ export const Dai: Story = {
       token: tokens.sDAI,
       totalSupplied: NormalizedUnitNumber(72_000),
       supplyAPY: Percentage(0.05),
+      supplyCap: NormalizedUnitNumber(112_000),
+      capAutomatorInfo: {
+        maxCap: NormalizedUnitNumber(200_000),
+        gap: NormalizedUnitNumber(0),
+        increaseCooldown: 43200,
+        lastIncreaseTimestamp: Math.floor(Date.now() / 1000 - 41903),
+        lastUpdateBlock: 0,
+      },
     },
   },
 }

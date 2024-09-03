@@ -1,15 +1,16 @@
-import { WithClassname } from '@storybook/decorators'
+import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 
+import { STORYBOOK_TIMESTAMP } from '@storybook/consts'
 import { DaiMarketOverview } from './DaiMarketOverview'
 
 const meta: Meta<typeof DaiMarketOverview> = {
   title: 'Features/MarketDetails/Components/MarketOverview/DaiMarketOverview',
-  decorators: [WithClassname('max-w-xs')],
+  decorators: [WithClassname('max-w-xs'), WithTooltipProvider()],
   component: DaiMarketOverview,
 }
 
@@ -26,6 +27,13 @@ export const Default: Story = {
     utilizationRate: Percentage(0.66),
     instantlyAvailable: NormalizedUnitNumber(99_000_000),
     makerDaoCapacity: NormalizedUnitNumber(320_000_000),
+    dssAutoline: {
+      maxDebtCeiling: NormalizedUnitNumber(200_000),
+      gap: NormalizedUnitNumber(0),
+      increaseCooldown: 43200,
+      lastIncreaseTimestamp: Math.floor(STORYBOOK_TIMESTAMP / 1000 - 41903),
+      lastUpdateBlock: 0,
+    },
   },
 }
 

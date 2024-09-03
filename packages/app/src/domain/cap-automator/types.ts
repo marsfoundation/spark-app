@@ -1,14 +1,14 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 
-export interface CapConfig {
+export interface CapAutomatorConfig {
   maxCap: NormalizedUnitNumber
   gap: NormalizedUnitNumber
   increaseCooldown: number
   lastUpdateBlock: number
-  lastIncreaseTime: Date
+  lastIncreaseTimestamp: number
 }
 
 export interface CapAutomatorInfo {
-  supplyCap: CapConfig | null
-  borrowCap: CapConfig | null
+  supplyCap?: CapAutomatorConfig
+  borrowCap?: CapAutomatorConfig
 }

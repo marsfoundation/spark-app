@@ -8,13 +8,25 @@ import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 
+import { CapAutomatorConfig } from '@/domain/cap-automator/types'
 import { InterestYieldChartProps } from './components/charts/interest-yield/InterestYieldChart'
 
 export interface SupplyReplacementInfo {
   token: Token
   totalSupplied: NormalizedUnitNumber
   supplyAPY: Percentage | undefined
+  capAutomatorInfo: CapAutomatorConfig | undefined
+  supplyCap: NormalizedUnitNumber | undefined
 }
+
+export interface DssAutoline {
+  maxDebtCeiling: NormalizedUnitNumber
+  gap: NormalizedUnitNumber
+  increaseCooldown: number
+  lastUpdateBlock: number
+  lastIncreaseTimestamp: number
+}
+
 export type CollateralStatusInfo = (
   | {
       status: Extract<CollateralEligibilityStatus, 'only-in-isolation-mode'>
@@ -40,6 +52,7 @@ export interface MarketOverview {
     totalSupplied: NormalizedUnitNumber
     supplyCap?: NormalizedUnitNumber
     apy: Percentage | undefined
+    capAutomatorInfo?: CapAutomatorConfig
   }
   collateral: CollateralStatusInfo
   borrow: {
@@ -51,6 +64,7 @@ export interface MarketOverview {
     reserveFactor: Percentage
     chartProps: InterestYieldChartProps
     showTokenBadge?: boolean
+    capAutomatorInfo?: CapAutomatorConfig
   }
   lend?: {
     status: 'yes' // only for dai
@@ -82,6 +96,7 @@ export interface MarketOverview {
         makerDaoCapacity: NormalizedUnitNumber
         totalAvailable: NormalizedUnitNumber
         utilizationRate: Percentage
+        dssAutoline: DssAutoline
       }
 }
 

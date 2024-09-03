@@ -1,3 +1,4 @@
+import { formatPercentage } from '@/domain/common/format'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { Panel } from '@/ui/atoms/panel/Panel'
@@ -37,10 +38,22 @@ export function DefaultMarketOverview({
           <Legend token={token} utilized={borrowed} total={marketSize} utilizationRate={utilizationRate} />
         </MarketOverviewChart>
         <DetailsGrid>
-          <DetailsGridItem token={token} title="Market size" value={marketSize} type="monetary" />
-          <DetailsGridItem token={token} title="Utilization rate" value={utilizationRate} type="percentage" />
-          <DetailsGridItem token={token} title="Borrowed" value={borrowed} type="monetary" titleVariant="blue" />
-          <DetailsGridItem token={token} title="Available" value={available} type="monetary" titleVariant="green" />
+          <DetailsGridItem>
+            <DetailsGridItem.Title>Market size</DetailsGridItem.Title>
+            <DetailsGridItem.Value>{token.formatUSD(marketSize, { compact: true })}</DetailsGridItem.Value>
+          </DetailsGridItem>
+          <DetailsGridItem>
+            <DetailsGridItem.Title>Utilization rate</DetailsGridItem.Title>
+            <DetailsGridItem.Value>{formatPercentage(utilizationRate)}</DetailsGridItem.Value>
+          </DetailsGridItem>
+          <DetailsGridItem>
+            <DetailsGridItem.Title variant="blue">Borrowed</DetailsGridItem.Title>
+            <DetailsGridItem.Value>{token.formatUSD(borrowed, { compact: true })}</DetailsGridItem.Value>
+          </DetailsGridItem>
+          <DetailsGridItem>
+            <DetailsGridItem.Title variant="green">Available</DetailsGridItem.Title>
+            <DetailsGridItem.Value>{token.formatUSD(available, { compact: true })}</DetailsGridItem.Value>
+          </DetailsGridItem>
         </DetailsGrid>
       </MarketOverviewContent>
     </Panel.Wrapper>

@@ -4,7 +4,10 @@ import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
+import { CooldownTimer } from '@/ui/molecules/cooldown-timer/CooldownTimer'
 
+import { CapAutomatorConfig } from '@/domain/cap-automator/types'
+import { cn } from '@/ui/utils/style'
 import { InterestYieldChart, InterestYieldChartProps } from '../charts/interest-yield/InterestYieldChart'
 import { SparkAirdropInfoPanel } from '../spark-airdrop-info-panel/SparkAirdropInfoPanel'
 import { EmptyStatusPanel } from './components/EmptyStatusPanel'
@@ -26,6 +29,7 @@ interface BorrowStatusPanelProps {
   chartProps: InterestYieldChartProps
   showTokenBadge?: boolean
   hasSparkAirdrop: boolean
+  capAutomatorInfo?: CapAutomatorConfig
 }
 
 export function BorrowStatusPanel({
@@ -38,6 +42,7 @@ export function BorrowStatusPanel({
   chartProps,
   showTokenBadge = false,
   hasSparkAirdrop,
+  capAutomatorInfo,
 }: BorrowStatusPanelProps) {
   if (status === 'no') {
     return <EmptyStatusPanel status={status} variant="borrow" />
@@ -64,25 +69,60 @@ export function BorrowStatusPanel({
             </InfoTile.Label>
             <InfoTile.Value>{formatPercentage(apy)}</InfoTile.Value>
           </InfoTile>
-          {borrowCap && (
-            <InfoTile>
-              <InfoTile.Label>Borrow cap</InfoTile.Label>
-              <InfoTile.Value>
-                {token.format(borrowCap, { style: 'compact' })} {token.symbol}
-              </InfoTile.Value>
-              <InfoTile.ComplementaryLine>{token.formatUSD(borrowCap, { compact: true })}</InfoTile.ComplementaryLine>
-            </InfoTile>
-          )}
+
           <InfoTile>
             <InfoTile.Label>Reserve factor</InfoTile.Label>
             <InfoTile.Value>{formatPercentage(reserveFactor)}</InfoTile.Value>
           </InfoTile>
+
+          {borrowCap && (
+            <CapAutomatorInfoTile token={token} capAutomatorInfo={capAutomatorInfo} borrowCap={borrowCap} />
+          )}
         </InfoTilesGrid>
+
         <div className="col-span-3 mt-6 sm:mt-10">
           <InterestYieldChart {...chartProps} />
         </div>
         {hasSparkAirdrop && <SparkAirdropInfoPanel variant="borrow" eligibleToken={token.symbol} />}
       </StatusPanelGrid>
     </Panel.Wrapper>
+  )
+}
+
+interface CapAutomatorInfoTileProps {
+  token: Token
+  capAutomatorInfo?: CapAutomatorConfig
+  borrowCap: NormalizedUnitNumber
+}
+
+function CapAutomatorInfoTile({ token, capAutomatorInfo, borrowCap }: CapAutomatorInfoTileProps) {
+  return (
+    <div className={cn('grid grid-cols-subgrid gap-[inherit]', capAutomatorInfo && 'sm:col-span-2')}>
+      {capAutomatorInfo && (
+        <InfoTile>
+          <InfoTile.Label>Borrow cap</InfoTile.Label>
+          <InfoTile.Value>
+            {token.format(capAutomatorInfo.maxCap, { style: 'compact' })} {token.symbol}
+          </InfoTile.Value>
+          <InfoTile.ComplementaryLine>
+            {token.formatUSD(capAutomatorInfo.maxCap, { compact: true })}
+          </InfoTile.ComplementaryLine>
+        </InfoTile>
+      )}
+
+      <InfoTile>
+        <InfoTile.Label>{capAutomatorInfo ? 'Instantly available borrow cap:' : 'Borrow cap'}</InfoTile.Label>
+        <InfoTile.Value>
+          {token.format(borrowCap, { style: 'compact' })} {token.symbol}
+          {capAutomatorInfo && (
+            <CooldownTimer
+              renewalPeriod={capAutomatorInfo.increaseCooldown}
+              latestUpdateTimestamp={capAutomatorInfo.lastIncreaseTimestamp}
+            />
+          )}
+        </InfoTile.Value>
+        <InfoTile.ComplementaryLine>{token.formatUSD(borrowCap, { compact: true })}</InfoTile.ComplementaryLine>
+      </InfoTile>
+    </div>
   )
 }

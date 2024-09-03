@@ -31,7 +31,7 @@ export function D3MInfoQuery({ wagmiConfig, chainId }: D3MInfoQueryParams) {
   const sparkIlkId = stringToHex('DIRECT-SPARK-DAI', { size: 32 })
 
   async function queryFn(): Promise<D3MInfo> {
-    const [[vatArt, vatRate], [IAMLine]] = await multicall(wagmiConfig, {
+    const [[vatArt, vatRate], [max, gap, ttl, last, lastInc]] = await multicall(wagmiConfig, {
       allowFailure: false,
       chainId,
       contracts: [
@@ -51,11 +51,15 @@ export function D3MInfoQuery({ wagmiConfig, chainId }: D3MInfoQueryParams) {
     })
     const D3MCurrentDebt = rayMul(bigNumberify(vatArt), bigNumberify(vatRate))
     const D3MCurrentDebtUSD = NormalizedUnitNumber(fromWad(D3MCurrentDebt))
-    const maxDebtCeiling = NormalizedUnitNumber(fromRad(bigNumberify(IAMLine)))
+    const maxDebtCeiling = NormalizedUnitNumber(fromRad(bigNumberify(max)))
 
     return {
       D3MCurrentDebtUSD,
       maxDebtCeiling,
+      gap: NormalizedUnitNumber(fromRad(bigNumberify(gap))),
+      increaseCooldown: ttl,
+      lastUpdateBlock: last,
+      lastIncreaseTimestamp: lastInc,
     }
   }
 
