@@ -2,6 +2,9 @@ import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { Panel } from '@/ui/atoms/panel/Panel'
 
+import { formatPercentage } from '@/domain/common/format'
+import { CooldownTimer } from '@/ui/molecules/cooldown-timer/CooldownTimer'
+import { DssAutoline } from '../../types'
 import { MarketOverviewChart } from '../charts/market-overview/MarketOverviewChart'
 import { colors } from '../charts/market-overview/colors'
 import { Legend } from '../charts/market-overview/components/Legend'
@@ -17,6 +20,7 @@ export interface DaiMarketOverviewProps {
   marketSize: NormalizedUnitNumber
   totalAvailable: NormalizedUnitNumber
   utilizationRate: Percentage
+  dssAutoline: DssAutoline
 }
 
 export function DaiMarketOverview({
@@ -27,6 +31,7 @@ export function DaiMarketOverview({
   makerDaoCapacity,
   totalAvailable,
   utilizationRate,
+  dssAutoline,
 }: DaiMarketOverviewProps) {
   const chartData = [
     { value: borrowed.toNumber(), color: colors.blue },
@@ -42,24 +47,39 @@ export function DaiMarketOverview({
           <Legend token={token} utilized={borrowed} total={marketSize} utilizationRate={utilizationRate} />
         </MarketOverviewChart>
         <DetailsGrid>
-          <DetailsGridItem token={token} title="Borrowed" value={borrowed} type="monetary" titleVariant="blue" />
-          <DetailsGridItem token={token} title="Market size" value={marketSize} type="monetary" />
-          <DetailsGridItem token={token} title="Total available" value={totalAvailable} type="monetary" />
-          <DetailsGridItem token={token} title="Utilization rate" value={utilizationRate} type="percentage" />
-          <DetailsGridItem
-            token={token}
-            title="Instantly available"
-            value={instantlyAvailable}
-            type="monetary"
-            titleVariant="green"
-          />
-          <DetailsGridItem
-            token={token}
-            title="MakerDAO capacity"
-            value={makerDaoCapacity}
-            type="monetary"
-            titleVariant="orange"
-          />
+          <DetailsGridItem>
+            <DetailsGridItem.Title variant="blue">Borrowed</DetailsGridItem.Title>
+            <DetailsGridItem.Value>{token.formatUSD(borrowed, { compact: true })}</DetailsGridItem.Value>
+          </DetailsGridItem>
+          <DetailsGridItem>
+            <DetailsGridItem.Title>Market size</DetailsGridItem.Title>
+            <DetailsGridItem.Value>{token.formatUSD(marketSize, { compact: true })}</DetailsGridItem.Value>
+          </DetailsGridItem>
+          <DetailsGridItem>
+            <DetailsGridItem.Title>Total available</DetailsGridItem.Title>
+            <DetailsGridItem.Value>{token.formatUSD(totalAvailable, { compact: true })}</DetailsGridItem.Value>
+          </DetailsGridItem>
+
+          <DetailsGridItem>
+            <DetailsGridItem.Title>Utilization rate</DetailsGridItem.Title>
+            <DetailsGridItem.Value>{formatPercentage(utilizationRate)}</DetailsGridItem.Value>
+          </DetailsGridItem>
+
+          <DetailsGridItem>
+            <DetailsGridItem.Title variant="green">Instantly available</DetailsGridItem.Title>
+            <DetailsGridItem.Value>
+              {token.formatUSD(instantlyAvailable, { compact: true })}
+
+              <CooldownTimer
+                renewalPeriod={dssAutoline.increaseCooldown}
+                latestUpdateTimestamp={dssAutoline.lastIncreaseTimestamp}
+              />
+            </DetailsGridItem.Value>
+          </DetailsGridItem>
+          <DetailsGridItem>
+            <DetailsGridItem.Title variant="orange">MakerDAO capacity</DetailsGridItem.Title>
+            <DetailsGridItem.Value>{token.formatUSD(makerDaoCapacity, { compact: true })}</DetailsGridItem.Value>
+          </DetailsGridItem>
         </DetailsGrid>
       </MarketOverviewContent>
     </Panel.Wrapper>

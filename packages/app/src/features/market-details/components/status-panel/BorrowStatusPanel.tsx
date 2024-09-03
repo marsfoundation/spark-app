@@ -75,7 +75,7 @@ export function BorrowStatusPanel({
             <InfoTile.Value>{formatPercentage(reserveFactor)}</InfoTile.Value>
           </InfoTile>
 
-          <CapAutomatoInfoTile token={token} capAutomatorInfo={capAutomatorInfo} borrowCap={borrowCap} />
+          <CapAutomatorInfoTile token={token} capAutomatorInfo={capAutomatorInfo} borrowCap={borrowCap} />
         </InfoTilesGrid>
 
         <div className="col-span-3 mt-6 sm:mt-10">
@@ -93,7 +93,7 @@ interface capAutomatorInfoTileProps {
   borrowCap?: NormalizedUnitNumber
 }
 
-function CapAutomatoInfoTile({ token, capAutomatorInfo, borrowCap }: capAutomatorInfoTileProps) {
+function CapAutomatorInfoTile({ token, capAutomatorInfo, borrowCap }: capAutomatorInfoTileProps) {
   return (
     <div className={cn('grid grid-cols-subgrid gap-[inherit]', capAutomatorInfo && 'sm:col-span-2')}>
       {capAutomatorInfo && (

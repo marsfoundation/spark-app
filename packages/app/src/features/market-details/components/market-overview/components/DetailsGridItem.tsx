@@ -1,31 +1,16 @@
 import { VariantProps, cva } from 'class-variance-authority'
 
-import { formatPercentage } from '@/domain/common/format'
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
-import { Token } from '@/domain/types/Token'
-
-type DetailsGridItemProps = (
-  | { type: 'monetary'; value: NormalizedUnitNumber }
-  | {
-      type: 'percentage'
-      value: Percentage
-    }
-) & { title: string; token: Token } & VariantProps<typeof titleVariants>
-
-export function DetailsGridItem({ title, token, value, type, titleVariant }: DetailsGridItemProps) {
+export function DetailsGridItem({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex justify-between sm:flex-col sm:justify-normal" role="listitem">
-      <p className={titleVariants({ titleVariant })}>{title}</p>
-      <p className="text-sky-950 text-sm leading-none sm:text-base">
-        {type === 'monetary' ? token.formatUSD(value, { compact: true }) : formatPercentage(value)}
-      </p>
+    <div className="flex items-center justify-between sm:flex-col sm:items-start sm:justify-normal" role="listitem">
+      {children}
     </div>
   )
 }
 
 const titleVariants = cva('text-sm leading-none sm:text-xs', {
   variants: {
-    titleVariant: {
+    variant: {
       gray: 'text-zinc-500',
       blue: 'text-product-blue',
       green: 'text-product-green',
@@ -33,6 +18,19 @@ const titleVariants = cva('text-sm leading-none sm:text-xs', {
     },
   },
   defaultVariants: {
-    titleVariant: 'gray',
+    variant: 'gray',
   },
 })
+
+function Title({ children, variant }: { children: React.ReactNode } & VariantProps<typeof titleVariants>) {
+  return <p className={titleVariants({ variant })}>{children}</p>
+}
+
+function Value({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="flex min-h-[26px] items-center gap-2 text-sky-950 text-sm leading-none sm:text-base">{children}</p>
+  )
+}
+
+DetailsGridItem.Title = Title
+DetailsGridItem.Value = Value

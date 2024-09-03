@@ -4,5 +4,5 @@ interface DetailsGridProps {
   children: ReactNode
 }
 export function DetailsGrid({ children }: DetailsGridProps) {
-  return <div className="grid gap-y-5 sm:grid-cols-2">{children}</div>
+  return <div className="grid gap-y-2 sm:grid-cols-2 sm:gap-y-5">{children}</div>
 }
