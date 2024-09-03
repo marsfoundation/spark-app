@@ -46,6 +46,6 @@ exports[`persists state 1`] = `
       "confirmedWelcomeDialog": false,
     },
   },
-  "version": 3,
+  "version": 2,
 }
 `;
