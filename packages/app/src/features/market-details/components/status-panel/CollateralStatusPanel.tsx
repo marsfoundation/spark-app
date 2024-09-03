@@ -3,6 +3,10 @@ import { DebtCeilingProgress } from '@/features/markets/components/debt-ceiling-
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
 
+import { CapConfig } from '@/domain/cap-automator/types'
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { Token } from '@/domain/types/Token'
+import { CooldownTimer } from '@/ui/molecules/cooldown-timer/CooldownTimer'
 import { CollateralStatusInfo } from '../../types'
 import { EmptyStatusPanel } from './components/EmptyStatusPanel'
 import { Header } from './components/Header'
@@ -29,24 +33,12 @@ export function CollateralStatusPanel(props: CollateralStatusInfo) {
         {supplyReplacement && (
           <>
             <TokenBadge symbol={supplyReplacement.token.symbol} />
-            <InfoTilesGrid>
-              <InfoTile>
-                <InfoTile.Label>Total supplied</InfoTile.Label>
-                <InfoTile.Value>
-                  {supplyReplacement.token.format(supplyReplacement.totalSupplied, { style: 'compact' })}{' '}
-                  {supplyReplacement.token.symbol}
-                </InfoTile.Value>
-                <InfoTile.ComplementaryLine>
-                  {supplyReplacement.token.formatUSD(supplyReplacement.totalSupplied, { compact: true })}
-                </InfoTile.ComplementaryLine>
-              </InfoTile>
-              <InfoTile>
-                <InfoTile.Label>
-                  <ApyTooltip variant="supply">Deposit APY</ApyTooltip>
-                </InfoTile.Label>
-                <InfoTile.Value>{formatPercentage(supplyReplacement.supplyAPY)}</InfoTile.Value>
-              </InfoTile>
-            </InfoTilesGrid>
+            <CapInfoTile
+              token={supplyReplacement.token}
+              supplyCap={supplyReplacement.supplyCap}
+              totalSupplied={supplyReplacement.totalSupplied}
+              capAutomatorInfo={supplyReplacement.capAutomatorInfo}
+            />
           </>
         )}
         <InfoTilesGrid>
@@ -62,6 +54,15 @@ export function CollateralStatusPanel(props: CollateralStatusInfo) {
             <InfoTile.Label>Liquidation penalty</InfoTile.Label>
             <InfoTile.Value>{formatPercentage(liquidationPenalty)}</InfoTile.Value>
           </InfoTile>
+
+          {supplyReplacement && (
+            <InfoTile>
+              <InfoTile.Label>
+                <ApyTooltip variant="supply">Deposit APY</ApyTooltip>
+              </InfoTile.Label>
+              <InfoTile.Value>{formatPercentage(supplyReplacement.supplyAPY)}</InfoTile.Value>
+            </InfoTile>
+          )}
         </InfoTilesGrid>
 
         {props.status === 'only-in-isolation-mode' && (
@@ -69,5 +70,54 @@ export function CollateralStatusPanel(props: CollateralStatusInfo) {
         )}
       </StatusPanelGrid>
     </Panel.Wrapper>
+  )
+}
+
+interface CapInfoTileProps {
+  token: Token
+  capAutomatorInfo?: CapConfig
+  supplyCap?: NormalizedUnitNumber
+  totalSupplied: NormalizedUnitNumber
+}
+
+function CapInfoTile({ token, capAutomatorInfo, supplyCap, totalSupplied }: CapInfoTileProps) {
+  return (
+    <InfoTilesGrid>
+      <InfoTile>
+        <InfoTile.Label>Total supplied</InfoTile.Label>
+        <InfoTile.Value>
+          {token.format(totalSupplied, { style: 'compact' })} {token.symbol}
+        </InfoTile.Value>
+        <InfoTile.ComplementaryLine>{token.formatUSD(totalSupplied, { compact: true })}</InfoTile.ComplementaryLine>
+      </InfoTile>
+
+      {capAutomatorInfo && (
+        <InfoTile>
+          <InfoTile.Label>Supply cap</InfoTile.Label>
+          <InfoTile.Value>
+            {token.format(capAutomatorInfo.maxCap, { style: 'compact' })} {token.symbol}
+          </InfoTile.Value>
+          <InfoTile.ComplementaryLine>
+            {token.formatUSD(capAutomatorInfo.maxCap, { compact: true })}
+          </InfoTile.ComplementaryLine>
+        </InfoTile>
+      )}
+
+      {supplyCap && (
+        <InfoTile>
+          <InfoTile.Label>{capAutomatorInfo ? 'Instantly available supply cap:' : 'Supply cap'}</InfoTile.Label>
+          <InfoTile.Value>
+            {token.format(supplyCap, { style: 'compact' })} {token.symbol}
+            {capAutomatorInfo && (
+              <CooldownTimer
+                renewalPeriod={capAutomatorInfo.increaseCooldown}
+                latestUpdateTimestamp={capAutomatorInfo.lastIncreaseTimestamp}
+              />
+            )}
+          </InfoTile.Value>
+          <InfoTile.ComplementaryLine>{token.formatUSD(supplyCap, { compact: true })}</InfoTile.ComplementaryLine>
+        </InfoTile>
+      )}
+    </InfoTilesGrid>
   )
 }

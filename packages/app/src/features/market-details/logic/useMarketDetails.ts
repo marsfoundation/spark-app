@@ -41,15 +41,19 @@ export function useMarketDetails(): UseMarketDetailsResult {
 
   const reserve = marketInfo.findReserveByUnderlyingAsset(asset) ?? raise(new NotFoundError())
 
-  const { capAutomatorInfo } = useCapAutomatorInfo({ chainId, token: reserve.token })
-
   const isDaiOverview = reserve.token.symbol === marketInfo.DAI.symbol && D3MInfo
+
+  const { capAutomatorInfo } = useCapAutomatorInfo({
+    chainId,
+    token: isDaiOverview ? marketInfo.sDAI : reserve.token,
+  })
 
   const marketOverview = isDaiOverview
     ? makeDaiMarketOverview({
         reserve,
         marketInfo,
         D3MInfo,
+        sDaiCapAutomatorInfo: capAutomatorInfo,
       })
     : makeMarketOverview({
         reserve,
