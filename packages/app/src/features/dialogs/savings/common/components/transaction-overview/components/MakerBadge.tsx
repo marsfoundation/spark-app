@@ -13,7 +13,7 @@ export function MakerBadge({ token, 'data-testid': dataTestId }: MakerBadgeProps
     <div
       className={cn(
         'relative flex flex-row items-center gap-2',
-        '-mt-4 -z-10 px-3 pt-7 pb-3',
+        '-mt-4 -z-10 px-4 pt-7 pb-3',
         'rounded-lg border border-basics-border bg-[#E4F3F0] text-[#4EA89B] text-sm',
       )}
       data-testid={dataTestId}

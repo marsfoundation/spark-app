@@ -29,11 +29,11 @@ export interface UseSavingsDepositDialogResults {
   tokenToDeposit: TokenWithValue
   pageStatus: PageStatus
   txOverview: SavingsDialogTxOverview
-  savingsUsdsSwitchInfo: SavingsSUsdsSwitchInfo
+  savingsUsdsSwitchInfo: SavingsUsdsSwitchInfo
   actionsContext: InjectedActionsContext
 }
 
-export interface SavingsSUsdsSwitchInfo {
+export interface SavingsUsdsSwitchInfo {
   showSwitch: boolean
   checked: boolean
   onSwitch: () => void

@@ -10,8 +10,8 @@ import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
 import { UseFormReturn } from 'react-hook-form'
 import { TransactionOverview } from '../../common/components/transaction-overview'
 import { SavingsDialogTxOverview } from '../../common/types'
-import { SavingsUSDSSwitch } from '../components/SavingsUSDSSwitch'
-import { SavingsSUsdsSwitchInfo } from '../logic/useSavingsDepositDialog'
+import { SavingsUsdsSwitch } from '../components/SavingsUsdsSwitch'
+import { SavingsUsdsSwitchInfo } from '../logic/useSavingsDepositDialog'
 
 export interface SavingsDepositViewProps {
   selectableAssets: TokenWithBalance[]
@@ -20,7 +20,7 @@ export interface SavingsDepositViewProps {
   objectives: Objective[]
   pageStatus: PageStatus
   txOverview: SavingsDialogTxOverview
-  savingsUsdsSwitchInfo: SavingsSUsdsSwitchInfo
+  savingsUsdsSwitchInfo: SavingsUsdsSwitchInfo
   actionsContext: InjectedActionsContext
 }
 
@@ -43,7 +43,7 @@ export function SavingsDepositView({
         <TransactionOverview txOverview={txOverview} selectedToken={assetsFields.selectedAsset.token} showAPY />
       </FormAndOverviewWrapper>
 
-      {savingsUsdsSwitchInfo.showSwitch && <SavingsUSDSSwitch {...savingsUsdsSwitchInfo} />}
+      {savingsUsdsSwitchInfo.showSwitch && <SavingsUsdsSwitch {...savingsUsdsSwitchInfo} />}
 
       <DialogActionsPanel
         objectives={objectives}

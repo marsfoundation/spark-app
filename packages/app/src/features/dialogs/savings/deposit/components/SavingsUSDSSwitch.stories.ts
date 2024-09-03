@@ -1,11 +1,11 @@
 import { WithClassname } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
-import { SavingsUSDSSwitch } from './SavingsUSDSSwitch'
+import { SavingsUsdsSwitch } from './SavingsUsdsSwitch'
 
-const meta: Meta<typeof SavingsUSDSSwitch> = {
-  title: 'Features/Dialogs/Savings/Components/SavingsUSDSSwitch',
-  component: SavingsUSDSSwitch,
+const meta: Meta<typeof SavingsUsdsSwitch> = {
+  title: 'Features/Dialogs/Savings/Components/SavingsUsdsSwitch',
+  component: SavingsUsdsSwitch,
   decorators: [WithClassname('max-w-xl')],
   args: {
     checked: true,
@@ -14,7 +14,7 @@ const meta: Meta<typeof SavingsUSDSSwitch> = {
 }
 
 export default meta
-type Story = StoryObj<typeof SavingsUSDSSwitch>
+type Story = StoryObj<typeof SavingsUsdsSwitch>
 
 export const Desktop: Story = {}
 export const Mobile = getMobileStory(Desktop)
