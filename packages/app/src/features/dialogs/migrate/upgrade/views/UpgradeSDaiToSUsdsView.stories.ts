@@ -12,7 +12,7 @@ const meta: Meta<typeof UpgradeSDaiToSUsdsView> = {
   args: {
     fromToken: tokens.sDAI,
     toToken: tokens.sUSDS,
-    apyDifference: Percentage(0.0025),
+    apyImprovement: Percentage(0.0025),
     objectives: [
       {
         type: 'upgrade',

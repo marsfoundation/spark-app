@@ -8,11 +8,11 @@ import { Link } from '@/ui/atoms/link/Link'
 
 export interface WelcomeDialogProps {
   open: boolean
-  apyDifference: Percentage
+  apyImprovement?: Percentage
   onConfirm: () => void
 }
 
-export function WelcomeDialog({ open, onConfirm, apyDifference }: WelcomeDialogProps) {
+export function WelcomeDialog({ open, onConfirm, apyImprovement }: WelcomeDialogProps) {
   return (
     <Dialog open={open}>
       <DialogContent className="flex flex-col overflow-hidden p-0" showCloseButton={false}>
@@ -36,12 +36,14 @@ export function WelcomeDialog({ open, onConfirm, apyDifference }: WelcomeDialogP
           </div>
           <KeyPoints>
             <KeyPoints.Item variant="positive">Use USDS to farm other tokens</KeyPoints.Item>
-            <KeyPoints.Item variant="positive">
-              <div>
-                <span className="text-basics-green">{formatPercentage(apyDifference)} higher APY</span> compared to
-                Savings DAI
-              </div>
-            </KeyPoints.Item>
+            {apyImprovement && (
+              <KeyPoints.Item variant="positive">
+                <div>
+                  <span className="text-basics-green">{formatPercentage(apyImprovement)} higher APY</span> compared to
+                  Savings DAI
+                </div>
+              </KeyPoints.Item>
+            )}
           </KeyPoints>
           <Button onClick={onConfirm}>Cool!</Button>
         </div>

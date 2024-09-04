@@ -13,7 +13,7 @@ import { Description } from '../../common/components/Description'
 interface UpgradeSDaiToSUsdsViewProps {
   fromToken: Token
   toToken: Token
-  apyDifference: Percentage
+  apyImprovement?: Percentage
   objectives: Objective[]
   pageStatus: PageStatus
   actionsContext: InjectedActionsContext
@@ -24,7 +24,7 @@ export function UpgradeSDaiToSUsdsView({
   toToken,
   objectives,
   pageStatus,
-  apyDifference,
+  apyImprovement,
   actionsContext,
 }: UpgradeSDaiToSUsdsViewProps) {
   return (
@@ -41,10 +41,10 @@ export function UpgradeSDaiToSUsdsView({
       <Banner fromToken={fromToken} toToken={toToken} />
 
       <KeyPoints>
-        {apyDifference.gt(0) && (
+        {apyImprovement && (
           <KeyPoints.Item variant="positive">
             <div>
-              <span className="text-basics-green">{formatPercentage(apyDifference)} higher APY</span> compared to
+              <span className="text-basics-green">{formatPercentage(apyImprovement)} higher APY</span> compared to
               Savings DAI
             </div>
           </KeyPoints.Item>

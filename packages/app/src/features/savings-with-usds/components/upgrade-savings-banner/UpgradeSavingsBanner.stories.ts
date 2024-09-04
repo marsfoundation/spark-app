@@ -12,8 +12,7 @@ const meta: Meta<typeof UpgradeSavingsBanner> = {
   decorators: [WithTooltipProvider(), withRouter()],
   args: {
     onUpgradeSavingsClick: () => {},
-    dsr: Percentage(0.05),
-    ssr: Percentage(0.06),
+    apyImprovement: Percentage(0.01),
   },
 }
 

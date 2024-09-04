@@ -8,14 +8,10 @@ import { testIds } from '@/ui/utils/testIds'
 
 export interface UpgradeSavingsBannerProps {
   onUpgradeSavingsClick: () => void
-  dsr: Percentage
-  ssr: Percentage
+  apyImprovement?: Percentage
 }
 
-export function UpgradeSavingsBanner({ onUpgradeSavingsClick, dsr, ssr }: UpgradeSavingsBannerProps) {
-  // @todo: figure out negative APY differences
-  const savingsRateDifference = Percentage(ssr.minus(dsr).absoluteValue())
-
+export function UpgradeSavingsBanner({ onUpgradeSavingsClick, apyImprovement }: UpgradeSavingsBannerProps) {
   return (
     <Panel.Wrapper
       className={cn(
@@ -38,10 +34,10 @@ export function UpgradeSavingsBanner({ onUpgradeSavingsClick, dsr, ssr }: Upgrad
       </div>
       <div className="flex w-full flex-col gap-4 md:flex-row md:justify-between md:gap-2">
         <div className="grid grid-cols-[auto_1fr] gap-2">
-          {savingsRateDifference.gt(0) && (
+          {apyImprovement && (
             <Benefit>
-              <span className="text-product-green">{formatPercentage(savingsRateDifference)} higher APY</span> compared
-              to Savings DAI
+              <span className="text-product-green">{formatPercentage(apyImprovement)} higher APY</span> compared to
+              Savings DAI
             </Benefit>
           )}
           <Benefit>

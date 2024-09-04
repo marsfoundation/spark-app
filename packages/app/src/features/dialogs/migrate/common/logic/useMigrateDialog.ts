@@ -8,6 +8,7 @@ import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { PageState, PageStatus } from '@/features/dialogs/common/types'
+import { determineApyImprovement } from '@/features/savings-with-usds/logic/determineApyImprovement'
 import { assert } from '@/utils/assert'
 import { useState } from 'react'
 import { createMigrateObjectives } from './createMigrateObjectives'
@@ -23,7 +24,7 @@ export interface UseMigrateDialogResult {
   pageStatus: PageStatus
   migrationAmount: NormalizedUnitNumber
   tokensInfo: TokensInfo
-  apyDifference: Percentage
+  apyImprovement?: Percentage
   actionsContext: InjectedActionsContext
 }
 
@@ -36,9 +37,6 @@ export function useMigrateDialog({ type, fromToken, toToken }: UseMigrateDialogP
   assert(savingsUsdsInfo, 'USDS savings info is required for upgrade dialog')
   assert(savingsDaiInfo, 'DAI savings info is required for upgrade dialog')
 
-  // @todo: figure out negative APY differences
-  const apyDifference = Percentage(savingsUsdsInfo.apy.minus(savingsDaiInfo.apy).absoluteValue())
-
   const fromTokenBalance = useConditionalFreeze(
     tokensInfo.findOneBalanceBySymbol(fromToken.symbol),
     pageStatus === 'success',
@@ -48,7 +46,7 @@ export function useMigrateDialog({ type, fromToken, toToken }: UseMigrateDialogP
   return {
     objectives,
     migrationAmount: fromTokenBalance,
-    apyDifference,
+    apyImprovement: determineApyImprovement({ savingsUsdsInfo, savingsDaiInfo }),
     tokensInfo,
     actionsContext: {
       tokensInfo,
