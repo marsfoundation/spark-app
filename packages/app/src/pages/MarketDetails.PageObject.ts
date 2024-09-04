@@ -14,6 +14,30 @@ export class MarketDetailsPageObject extends BasePageObject {
   locateMyWallet(): Locator {
     return this.locatePanelByHeader('My wallet')
   }
+
+  locateSupplyStatusPanel(): Locator {
+    return this.locatePanelByHeader('Can be supplied')
+  }
+
+  locateBorrowStatusPanel(): Locator {
+    return this.locatePanelByHeader('Can be borrowed')
+  }
+
+  locateCollateralStatusPanel(): Locator {
+    return this.locatePanelByHeader('Can be used as collateral')
+  }
+
+  locatePanelAutomatorCap(panelLocator: Locator): Locator {
+    return panelLocator.getByTestId(testIds.marketDetails.capAutomator.cap)
+  }
+
+  locatePanelAutomatorMaxCap(panelLocator: Locator): Locator {
+    return panelLocator.getByTestId(testIds.marketDetails.capAutomator.maxCap)
+  }
+
+  locatePanelAutomatorCooldownTimer(panelLocator: Locator): Locator {
+    return panelLocator.getByTestId(testIds.marketDetails.capAutomator.cooldownTimer)
+  }
   // #endregion
 
   // #region actions
@@ -74,5 +98,22 @@ export class MarketDetailsPageObject extends BasePageObject {
     await expect(this.page.getByText('404')).toBeVisible()
     await expect(this.page.getByText('The requested page could not be found.')).toBeVisible()
   }
+
+  async expectPanelCap(panelLocator: Locator, value: string): Promise<void> {
+    await expect(this.locatePanelAutomatorCap(panelLocator)).toHaveText(value)
+  }
+
+  async expectPanelMaxCap(panelLocator: Locator, value: string): Promise<void> {
+    await expect(this.locatePanelAutomatorMaxCap(panelLocator)).toHaveText(value)
+  }
+
+  async expectCooldownTimer(panelLocator: Locator, value: string): Promise<void> {
+    const timerTriggerLocator = this.locatePanelAutomatorCooldownTimer(panelLocator)
+    await timerTriggerLocator.hover()
+    const tooltipLocator = this.page.getByRole('tooltip')
+
+    await expect(tooltipLocator).toContainText(value)
+  }
+
   // #endregion
 }
