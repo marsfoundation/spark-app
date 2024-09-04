@@ -11,6 +11,10 @@ exports[`initializes store 1`] = `
   "appConfig": {
     "sandbox": undefined,
   },
+  "bannersVisibility": {
+    "bannerVisibilityStatus": {},
+    "closeBanner": [Function],
+  },
   "compliance": {
     "addAgreedToToSAddress": [Function],
     "agreedToToSAdresses": [],
@@ -37,6 +41,9 @@ exports[`persists state 1`] = `
     "actionsSettings": {
       "exchangeMaxSlippage": "0.001",
       "preferPermits": true,
+    },
+    "bannersVisibility": {
+      "bannerVisibilityStatus": {},
     },
     "compliance": {
       "agreedToToSAdresses": [],
