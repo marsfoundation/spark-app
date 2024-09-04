@@ -7,6 +7,7 @@ import { WagmiProvider, createConfig, useAccount, useConnect } from 'wagmi'
 import { I18nAppProvider } from '@/domain/i18n/I18nAppProvider'
 import { TooltipProvider } from '@/ui/atoms/tooltip/Tooltip'
 
+import { Dialog, DialogContent } from '@/ui/atoms/dialog/Dialog'
 import { erc20Abi } from 'viem'
 import { mainnet } from 'viem/chains'
 import { mock } from 'wagmi/connectors'
@@ -145,5 +146,17 @@ export function WithFixedDate() {
     }
 
     return <Story />
+  }
+}
+
+export function WithWrappingDialog() {
+  return function WithWrappingDialog(Story: StoryFn) {
+    return (
+      <Dialog open={true}>
+        <DialogContent>
+          <Story />
+        </DialogContent>
+      </Dialog>
+    )
   }
 }

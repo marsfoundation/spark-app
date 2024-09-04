@@ -2,10 +2,12 @@ import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
 import { useSavingsDaiInfo } from '@/domain/savings-info/useSavingsDaiInfo'
 import { useSavingsUsdsInfo } from '@/domain/savings-info/useSavingsUsdsInfo'
 import { useSavingsTokens } from '@/domain/savings/useSavingsTokens'
+import { Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
+import { determineApyImprovement } from '@/features/savings-with-usds/logic/determineApyImprovement'
 import { assert, raise } from '@/utils/assert'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
@@ -29,13 +31,14 @@ export interface UseSavingsDepositDialogResults {
   tokenToDeposit: TokenWithValue
   pageStatus: PageStatus
   txOverview: SavingsDialogTxOverview
-  savingsUsdsSwitchInfo: SavingsSUsdsSwitchInfo
+  savingsUsdsSwitchInfo: SavingsUsdsSwitchInfo
   actionsContext: InjectedActionsContext
 }
 
-export interface SavingsSUsdsSwitchInfo {
+export interface SavingsUsdsSwitchInfo {
   showSwitch: boolean
   checked: boolean
+  apyImprovement?: Percentage
   onSwitch: () => void
 }
 
@@ -119,6 +122,7 @@ export function useSavingsDepositDialog({
     savingsUsdsSwitchInfo: {
       showSwitch: showUpgradeSwitch,
       checked: upgradeSwitchChecked,
+      apyImprovement: determineApyImprovement({ savingsUsdsInfo, savingsDaiInfo }),
       onSwitch: () => setUpgradeSwitchChecked((upgradeSwitchChecked) => !upgradeSwitchChecked),
     },
     actionsContext: {

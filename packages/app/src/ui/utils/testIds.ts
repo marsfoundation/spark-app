@@ -92,6 +92,7 @@ export const testIds = makeTestIds({
         addressIsSmartContractWarning: true,
       },
       upgradeSwitch: true,
+      upgradeDetailsTrigger: true,
     },
     depositSavings: {
       transactionDetailsRow: (index: number) => index,
