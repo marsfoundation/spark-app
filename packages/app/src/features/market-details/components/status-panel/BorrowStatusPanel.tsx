@@ -8,6 +8,7 @@ import { CooldownTimer } from '@/ui/molecules/cooldown-timer/CooldownTimer'
 
 import { CapAutomatorConfig } from '@/domain/cap-automator/types'
 import { cn } from '@/ui/utils/style'
+import { testIds } from '@/ui/utils/testIds'
 import { InterestYieldChart, InterestYieldChartProps } from '../charts/interest-yield/InterestYieldChart'
 import { SparkAirdropInfoPanel } from '../spark-airdrop-info-panel/SparkAirdropInfoPanel'
 import { EmptyStatusPanel } from './components/EmptyStatusPanel'
@@ -101,7 +102,7 @@ function CapAutomatorInfoTile({ token, capAutomatorInfo, borrowCap }: CapAutomat
       {capAutomatorInfo && (
         <InfoTile>
           <InfoTile.Label>Borrow cap</InfoTile.Label>
-          <InfoTile.Value>
+          <InfoTile.Value data-testid={testIds.marketDetails.capAutomator.maxCap}>
             {token.format(capAutomatorInfo.maxCap, { style: 'compact' })} {token.symbol}
           </InfoTile.Value>
           <InfoTile.ComplementaryLine>
@@ -112,12 +113,13 @@ function CapAutomatorInfoTile({ token, capAutomatorInfo, borrowCap }: CapAutomat
 
       <InfoTile>
         <InfoTile.Label>{capAutomatorInfo ? 'Instantly available borrow cap:' : 'Borrow cap'}</InfoTile.Label>
-        <InfoTile.Value>
+        <InfoTile.Value data-testid={testIds.marketDetails.capAutomator.cap}>
           {token.format(borrowCap, { style: 'compact' })} {token.symbol}
           {capAutomatorInfo && (
             <CooldownTimer
               renewalPeriod={capAutomatorInfo.increaseCooldown}
               latestUpdateTimestamp={capAutomatorInfo.lastIncreaseTimestamp}
+              data-testid={testIds.marketDetails.capAutomator.cooldownTimer}
             />
           )}
         </InfoTile.Value>

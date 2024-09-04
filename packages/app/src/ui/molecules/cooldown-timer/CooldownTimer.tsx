@@ -12,9 +12,15 @@ interface CooldownTimerProps {
    * @warning This prop is only for storybook purposes.
    */
   forceOpen?: boolean
+  'data-testid'?: string
 }
 
-export function CooldownTimer({ renewalPeriod, latestUpdateTimestamp, forceOpen }: CooldownTimerProps) {
+export function CooldownTimer({
+  renewalPeriod,
+  latestUpdateTimestamp,
+  forceOpen,
+  'data-testid': dataTestId,
+}: CooldownTimerProps) {
   const { timestamp } = useTimestamp({
     refreshIntervalInMs: 1000,
   })
@@ -24,7 +30,7 @@ export function CooldownTimer({ renewalPeriod, latestUpdateTimestamp, forceOpen 
   return (
     <Tooltip open={forceOpen}>
       <TooltipTrigger>
-        <IconPill icon={assets.timer} />
+        <IconPill data-testid={dataTestId} icon={assets.timer} />
       </TooltipTrigger>
       <TooltipContentShort className="p-3">
         <div className="max-w-56">

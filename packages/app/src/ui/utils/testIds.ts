@@ -168,6 +168,11 @@ export const testIds = makeTestIds({
     walletPanel: {
       balance: true,
     },
+    capAutomator: {
+      cap: true,
+      maxCap: true,
+      cooldownTimer: true,
+    },
   },
   farms: {
     active: {
