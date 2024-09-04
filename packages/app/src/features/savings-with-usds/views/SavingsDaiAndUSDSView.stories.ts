@@ -36,6 +36,7 @@ const savingsViewBaseArgs = {
     daiToUsdsUpgradeAvailable: true,
     dsr: Percentage(0.05),
     ssr: Percentage(0.06),
+    apyDifference: Percentage(0.01),
     openDaiToUsdsUpgradeDialog: () => {},
     openUsdsToDaiDowngradeDialog: () => {},
     openSDaiToSUsdsUpgradeDialog: () => {},

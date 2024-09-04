@@ -1,5 +1,5 @@
-import { PageHeader } from '../../savings/components/PageHeader'
-import { PageLayout } from '../../savings/components/PageLayout'
+import { PageHeader } from '@/features/savings/components/PageHeader'
+import { PageLayout } from '@/features/savings/components/PageLayout'
 import { SavingsOpportunity } from '../../savings/components/savings-opportunity/SavingsOpportunity'
 import { SavingsOpportunityNoCash } from '../../savings/components/savings-opportunity/SavingsOpportunityNoCash'
 import { CashInWallet } from '../components/cash-in-wallet/CashInWallet'

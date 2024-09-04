@@ -16,6 +16,7 @@ import { useMemo } from 'react'
 import { useAccount } from 'wagmi'
 import { MigrationInfo, makeMigrationInfo } from './makeMigrationInfo'
 import { makeSavingsTokenDetails } from './makeSavingsTokenDetails'
+import { useWelcomeDialog } from './useWelcomeDialog'
 
 const stepInMs = 50
 
@@ -42,6 +43,8 @@ export interface UseSavingsResults {
         migrationInfo?: MigrationInfo
         sDaiDetails?: SavingsTokenDetails
         sUSDSDetails?: SavingsTokenDetails
+        showWelcomeDialog: boolean
+        saveConfirmedWelcomeDialog: (confirmedWelcomeDialog: boolean) => void
       }
     | { state: 'unsupported' }
 }
@@ -56,6 +59,7 @@ export function useSavings(): UseSavingsResults {
     refreshIntervalInMs: savingsDaiInfo?.supportsRealTimeInterestAccrual ? stepInMs : undefined,
   })
   const openDialog = useOpenDialog()
+  const { showWelcomeDialog, saveConfirmedWelcomeDialog } = useWelcomeDialog()
 
   const { totalUSD: totalEligibleCashUSD, maxBalanceToken } = calculateMaxBalanceTokenAndTotal({
     assets: inputTokens,
@@ -123,6 +127,8 @@ export function useSavings(): UseSavingsResults {
       sDaiDetails,
       sUSDSDetails,
       migrationInfo,
+      showWelcomeDialog,
+      saveConfirmedWelcomeDialog,
     },
   }
 }
