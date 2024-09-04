@@ -6,6 +6,7 @@ import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { DowngradeDialog } from '@/features/dialogs/migrate/downgrade/DowngradeDialog'
 import { UpgradeDialog } from '@/features/dialogs/migrate/upgrade/UpgradeDialog'
 import { assert } from '@/utils/assert'
+import { determineApyImprovement } from './determineApyImprovement'
 
 export interface UseMigrationInfoParams {
   savingsUsdsInfo: SavingsInfo | null
@@ -39,13 +40,11 @@ export function makeMigrationInfo({
   const sUSDS = tokensInfo.sUSDS
   assert(DAI && USDS && sDAI && sUSDS, 'DAI, USDS, sDAI and sUSDS tokens should be defined for migration actions')
 
-  const apyDifference = savingsUsdsInfo.apy.minus(savingsDaiInfo.apy)
-
   return {
     daiSymbol: DAI.symbol,
     usdsSymbol: USDS.symbol,
     daiToUsdsUpgradeAvailable: tokensInfo.findOneBalanceBySymbol(DAI.symbol).gt(0),
-    apyImprovement: apyDifference.gt(0) ? Percentage(apyDifference) : undefined,
+    apyImprovement: determineApyImprovement({ savingsUsdsInfo, savingsDaiInfo }),
     openDaiToUsdsUpgradeDialog: () => {
       openDialog(UpgradeDialog, { fromToken: DAI, toToken: USDS })
     },
