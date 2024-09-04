@@ -33,9 +33,9 @@ DialogOverlay.displayName = DialogPrimitive.Overlay.displayName
 const contentVariants = cva('', {
   variants: {
     contentVerticalPosition: {
-      center: 'top-[50%] translate-y-[-50%]',
-      top: 'top-0 translate-y-[0%]',
-      bottom: 'top-[100%] translate-y-[-100%]',
+      center: '-translate-y-1/2 top-1/2',
+      top: 'top-0 translate-y-0',
+      bottom: '-translate-y-full top-full',
     },
   },
   defaultVariants: {
