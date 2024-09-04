@@ -102,7 +102,6 @@ function CapAutomatorInfoTile({ token, capAutomatorInfo, supplyCap }: CapAutomat
             <CooldownTimer
               renewalPeriod={capAutomatorInfo.increaseCooldown}
               latestUpdateTimestamp={capAutomatorInfo.lastIncreaseTimestamp}
-              data-testid={testIds.marketDetails.capAutomator.cooldownTimer}
             />
           )}
         </InfoTile.Value>

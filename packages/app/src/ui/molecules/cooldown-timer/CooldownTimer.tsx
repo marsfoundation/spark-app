@@ -3,6 +3,7 @@ import { IconPill } from '@/ui/atoms/icon-pill/IconPill'
 import { Tooltip, TooltipContentShort, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 import { Typography } from '@/ui/atoms/typography/Typography'
 import { cn } from '@/ui/utils/style'
+import { testIds } from '@/ui/utils/testIds'
 import { useTimestamp } from '@/utils/useTimestamp'
 
 interface CooldownTimerProps {
@@ -12,15 +13,9 @@ interface CooldownTimerProps {
    * @warning This prop is only for storybook purposes.
    */
   forceOpen?: boolean
-  'data-testid'?: string
 }
 
-export function CooldownTimer({
-  renewalPeriod,
-  latestUpdateTimestamp,
-  forceOpen,
-  'data-testid': dataTestId,
-}: CooldownTimerProps) {
+export function CooldownTimer({ renewalPeriod, latestUpdateTimestamp, forceOpen }: CooldownTimerProps) {
   const { timestamp } = useTimestamp({
     refreshIntervalInMs: 1000,
   })
@@ -29,8 +24,8 @@ export function CooldownTimer({
 
   return (
     <Tooltip open={forceOpen}>
-      <TooltipTrigger>
-        <IconPill data-testid={dataTestId} icon={assets.timer} />
+      <TooltipTrigger data-testid={testIds.marketDetails.capAutomator.cooldownTimer}>
+        <IconPill icon={assets.timer} />
       </TooltipTrigger>
       <TooltipContentShort className="p-3">
         <div className="max-w-56">
