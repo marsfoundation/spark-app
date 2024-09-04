@@ -131,7 +131,7 @@ export const WithBenefitsDrawerOpened: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement.ownerDocument.body)
-    // @note: Storybook renders dialog twice. Sleeping for a bit to make sure that drawer isn't unmounted.
+    // @note: Storybook renders dialog twice. Sleeping for a bit to make sure that dialog isn't unmounted.
     await sleep(200)
     ;(await canvas.findByTestId(testIds.dialog.savings.upgradeDetailsTrigger)).click()
     await waitFor(async () => {

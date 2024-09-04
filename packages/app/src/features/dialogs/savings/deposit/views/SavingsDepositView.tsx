@@ -11,7 +11,7 @@ import { useRef } from 'react'
 import { UseFormReturn } from 'react-hook-form'
 import { TransactionOverview } from '../../common/components/transaction-overview'
 import { SavingsDialogTxOverview } from '../../common/types'
-import { SavingsUsdsSwitch } from '../components/SavingsUsdsSwitch'
+import { UpgradeToSusdsSwitch } from '../components/UpgradeToSusdsSwitch'
 import { SavingsUsdsSwitchInfo } from '../logic/useSavingsDepositDialog'
 
 export interface SavingsDepositViewProps {
@@ -47,7 +47,7 @@ export function SavingsDepositView({
       </FormAndOverviewWrapper>
 
       {savingsUsdsSwitchInfo.showSwitch && (
-        <SavingsUsdsSwitch {...savingsUsdsSwitchInfo} benefitsDialogPortalContainerRef={ref} />
+        <UpgradeToSusdsSwitch {...savingsUsdsSwitchInfo} benefitsDialogPortalContainerRef={ref} />
       )}
 
       <DialogActionsPanel

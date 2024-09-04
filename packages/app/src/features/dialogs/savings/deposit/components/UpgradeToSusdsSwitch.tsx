@@ -6,19 +6,19 @@ import { testIds } from '@/ui/utils/testIds'
 import { RefObject } from 'react'
 import { BenefitsDialog } from './BenefitsDialog'
 
-export interface SavingsUsdsSwitchProps {
+export interface UpgradeToSusdsSwitchProps {
   checked: boolean
   onSwitch: () => void
   benefitsDialogPortalContainerRef?: RefObject<HTMLElement>
   apyImprovement?: Percentage
 }
 
-export function SavingsUsdsSwitch({
+export function UpgradeToSusdsSwitch({
   checked,
   onSwitch,
   benefitsDialogPortalContainerRef,
   apyImprovement,
-}: SavingsUsdsSwitchProps) {
+}: UpgradeToSusdsSwitchProps) {
   return (
     <div className="flex">
       <div className="flex w-full items-center justify-between rounded-xl rounded-r-none border border-basics-green/50 bg-basics-green/5 p-4">
