@@ -4,7 +4,7 @@ import { Button } from '../button/Button'
 import { Link } from '../link/Link'
 import { Sparkles } from '../sparkles/Sparkles'
 
-interface SkyMigrationBanner {
+interface SkyMigrationBannerProps {
   onClose: () => void
 }
 
