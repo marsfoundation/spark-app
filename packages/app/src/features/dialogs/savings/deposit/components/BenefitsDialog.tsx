@@ -22,11 +22,7 @@ export function BenefitsDialog({ portalContainerRef, apyImprovement }: BenefitsD
           <ChevronDown className={cn('h-4 w-4 transition-transform duration-300', open && 'rotate-180')} />
         </Button>
       </DialogTrigger>
-      <DialogContent
-        portalContainerRef={portalContainerRef}
-        overlayVariant="light"
-        className="top-[100%] translate-y-[-100%]"
-      >
+      <DialogContent portalContainerRef={portalContainerRef} overlayVariant="light" contentVerticalPosition="bottom">
         <div className="flex flex-col gap-6 p-1">
           <div className="flex flex-col gap-2">
             <h2 className="font-semibold text-basics-black text-xl">Deposit into Savings USDS</h2>
