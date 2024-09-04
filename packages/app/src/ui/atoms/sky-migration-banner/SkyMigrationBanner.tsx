@@ -8,9 +8,9 @@ interface SkyMigrationBannerProps {
   onClose: () => void
 }
 
-export const SKY_MIGRATION_BANNER_ID = 'sky-migration-banner'
+export const SKY_MIGRATION_BANNER_ID = 'sky-migration-top-banner'
 
-export function SkyMigrationBanner({ onClose }: SkyMigrationBanner) {
+export function SkyMigrationBanner({ onClose }: SkyMigrationBannerProps) {
   return (
     <div className="relative flex w-full flex-col items-center justify-center gap-2 bg-gradient-to-b from-[#9042C9] to-[#A047CC] p-1.5 text-center text-basics-white/85 text-sm sm:flex-row sm:text-base">
       <span className="flex items-center gap-2">

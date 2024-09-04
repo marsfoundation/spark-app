@@ -1,15 +1,7 @@
 import { cn } from '@/ui/utils/style'
+import { range } from '@/utils/array'
 import { randomIntRange } from '@/utils/random'
 import { useCallback, useEffect, useRef, useState } from 'react'
-
-function range(start: number, end: number, step = 1) {
-  const output = []
-
-  for (let i = start; i < end; i += step) {
-    output.push(i)
-  }
-  return output
-}
 
 const DEFAULT_COLOR = '#FFC700'
 
@@ -21,7 +13,6 @@ export interface SparklesProps extends React.HTMLAttributes<HTMLSpanElement> {
 
 export function Sparkles({ color = DEFAULT_COLOR, children, sizeRange = [10, 18], ...delegated }: SparklesProps) {
   const [sparkles, setSparkles] = useState(() => range(0, 3).map(() => generateSparkle({ color, sizeRange })))
-  // const prefersReducedMotion = usePrefersReducedMotion()
 
   useRandomInterval(
     () => {
