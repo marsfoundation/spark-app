@@ -1,8 +1,8 @@
 import { expect, test } from '@playwright/test'
-import { mainnet } from 'viem/chains'
+import { gnosis, mainnet } from 'viem/chains'
 
 import { DialogPageObject } from '@/features/dialogs/common/Dialog.PageObject'
-import { CAP_AUTOMATOR_BLOCK_NUMBER } from '@/test/e2e/constants'
+import { CAP_AUTOMATOR_BLOCK_NUMBER, GNOSIS_DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setupFork } from '@/test/e2e/forking/setupFork'
 import { buildUrl, setup } from '@/test/e2e/setup'
 import { screenshot } from '@/test/e2e/utils'
@@ -10,13 +10,13 @@ import { screenshot } from '@/test/e2e/utils'
 import { BorrowPageObject } from './Borrow.PageObject'
 import { MarketDetailsPageObject } from './MarketDetails.PageObject'
 
-const DAI = '0x6B175474E89094C44Da98b954EedeAC495271d0F'
-const WETH = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'
-const WEETH = '0xcd5fe23c85820f7b72d0926fc9b05b43e359b7ee'
-const USDC = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
-const WBTC = '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599'
+test.describe('Market details Mainnet', () => {
+  const DAI = '0x6B175474E89094C44Da98b954EedeAC495271d0F'
+  const WETH = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'
+  const WEETH = '0xcd5fe23c85820f7b72d0926fc9b05b43e359b7ee'
+  const USDC = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
+  const WBTC = '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599'
 
-test.describe('Market details', () => {
   const fork = setupFork({
     blockNumber: CAP_AUTOMATOR_BLOCK_NUMBER,
     chainId: mainnet.id,
@@ -394,6 +394,82 @@ test.describe('Market details', () => {
       await marketDetailsPage.expectCooldownTimer(supplyPanelLocator, '0h 00m 00s')
 
       await expect(marketDetailsPage.locateBorrowStatusPanel()).not.toBeVisible()
+    })
+  })
+})
+
+test.describe('Market details Gnosis', () => {
+  const XDAI = '0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d'
+  const WETH = '0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1'
+  const USDT = '0x4ECaBa5870353805a9F068101A40E0f32ed605C6'
+
+  const fork = setupFork({
+    blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER,
+    chainId: gnosis.id,
+    simulationDateOverride: new Date(1724846808220),
+  })
+
+  test.describe('Cap automator', () => {
+    test('WETH', async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'marketDetails',
+        initialPageParams: { asset: WETH, chainId: fork.chainId.toString() },
+        account: {
+          type: 'not-connected',
+        },
+      })
+
+      const marketDetailsPage = new MarketDetailsPageObject(page)
+
+      const supplyPanelLocator = marketDetailsPage.locateSupplyStatusPanel()
+      await marketDetailsPage.expectPanelCap(supplyPanelLocator, '5,000 WETH')
+      await expect(marketDetailsPage.locatePanelAutomatorMaxCap(supplyPanelLocator)).not.toBeVisible()
+
+      const borrowPanelLocator = marketDetailsPage.locateBorrowStatusPanel()
+      await marketDetailsPage.expectPanelCap(borrowPanelLocator, '3,000 WETH')
+      await expect(marketDetailsPage.locatePanelAutomatorMaxCap(borrowPanelLocator)).not.toBeVisible()
+    })
+
+    test('XDAI', async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'marketDetails',
+        initialPageParams: { asset: XDAI, chainId: fork.chainId.toString() },
+        account: {
+          type: 'not-connected',
+        },
+      })
+
+      const marketDetailsPage = new MarketDetailsPageObject(page)
+
+      const supplyPanelLocator = marketDetailsPage.locateSupplyStatusPanel()
+      await marketDetailsPage.expectPanelCap(supplyPanelLocator, '20M WXDAI')
+      await expect(marketDetailsPage.locatePanelAutomatorMaxCap(supplyPanelLocator)).not.toBeVisible()
+
+      const borrowPanelLocator = marketDetailsPage.locateBorrowStatusPanel()
+      await marketDetailsPage.expectPanelCap(borrowPanelLocator, '16M WXDAI')
+      await expect(marketDetailsPage.locatePanelAutomatorMaxCap(borrowPanelLocator)).not.toBeVisible()
+
+      await expect(marketDetailsPage.locateCollateralStatusPanel()).not.toBeVisible()
+    })
+
+    test('USDT', async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'marketDetails',
+        initialPageParams: { asset: USDT, chainId: fork.chainId.toString() },
+        account: {
+          type: 'not-connected',
+        },
+      })
+
+      const marketDetailsPage = new MarketDetailsPageObject(page)
+
+      const supplyPanelLocator = marketDetailsPage.locateSupplyStatusPanel()
+      await marketDetailsPage.expectPanelCap(supplyPanelLocator, '10M USDT')
+      await expect(marketDetailsPage.locatePanelAutomatorMaxCap(supplyPanelLocator)).not.toBeVisible()
+
+      const borrowPanelLocator = marketDetailsPage.locateBorrowStatusPanel()
+      await marketDetailsPage.expectPanelCap(borrowPanelLocator, '8M USDT')
+      await expect(marketDetailsPage.locatePanelAutomatorMaxCap(borrowPanelLocator)).not.toBeVisible()
     })
   })
 })
