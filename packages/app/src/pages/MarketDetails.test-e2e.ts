@@ -34,12 +34,12 @@ test.describe('Market details', () => {
       })
 
       const marketDetailsPage = new MarketDetailsPageObject(page)
-      await marketDetailsPage.expectMarketOverviewValue('Borrowed', '$1.028B')
-      await marketDetailsPage.expectMarketOverviewValue('Market size', '$1.232B')
-      await marketDetailsPage.expectMarketOverviewValue('Total available', '$204.7M')
-      await marketDetailsPage.expectMarketOverviewValue('Utilization rate', '83.39%')
-      await marketDetailsPage.expectMarketOverviewValue('Instantly available', '$29.11M')
-      await marketDetailsPage.expectMarketOverviewValue('MakerDAO capacity', '$175.6M')
+      await marketDetailsPage.expectMarketOverviewValue('Borrowed', '$909.6M')
+      await marketDetailsPage.expectMarketOverviewValue('Market size', '$2.539B')
+      await marketDetailsPage.expectMarketOverviewValue('Total available', '$1.63B')
+      await marketDetailsPage.expectMarketOverviewValue('Utilization rate', '35.82%')
+      await marketDetailsPage.expectMarketOverviewValue('Instantly available', '$44.01M')
+      await marketDetailsPage.expectMarketOverviewValue('MakerDAO capacity', '$1.586B')
 
       await screenshot(page, 'market-details-dai')
     })
@@ -54,10 +54,10 @@ test.describe('Market details', () => {
       })
 
       const marketDetailsPage = new MarketDetailsPageObject(page)
-      await marketDetailsPage.expectMarketOverviewValue('Market size', '$697.3M')
-      await marketDetailsPage.expectMarketOverviewValue('Utilization rate', '48.95%')
-      await marketDetailsPage.expectMarketOverviewValue('Borrowed', '$341.4M')
-      await marketDetailsPage.expectMarketOverviewValue('Available', '$356M')
+      await marketDetailsPage.expectMarketOverviewValue('Market size', '$696.2M')
+      await marketDetailsPage.expectMarketOverviewValue('Utilization rate', '81.98%')
+      await marketDetailsPage.expectMarketOverviewValue('Borrowed', '$570.8M')
+      await marketDetailsPage.expectMarketOverviewValue('Available', '$125.4M')
 
       await screenshot(page, 'market-details-weth')
     })
