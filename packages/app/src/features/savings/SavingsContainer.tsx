@@ -1,11 +1,12 @@
-import { useChainModal, useConnectModal } from '@rainbow-me/rainbowkit'
-
 import { withSuspense } from '@/ui/utils/withSuspense'
-
+import { raise } from '@/utils/assert'
+import { useChainModal, useConnectModal } from '@rainbow-me/rainbowkit'
 import { SavingsSkeleton } from './components/skeleton/SavingsSkeleton'
 import { useSavings } from './logic/useSavings'
 import { GuestView } from './views/GuestView'
-import { SavingsView } from './views/SavingsView'
+import { SavingsDaiAndUSDSView } from './views/SavingsDaiAndUSDSView'
+import { SavingsDaiView } from './views/SavingsDaiView'
+import { SavingsUSDSView } from './views/SavingsUSDSView'
 import { UnsupportedChainView } from './views/UnsupportedChainView'
 
 function SavingsContainer() {
@@ -24,40 +25,40 @@ function SavingsContainer() {
     )
   }
 
-  const {
-    APY,
-    chainId,
-    depositedUSD,
-    depositedUSDPrecision,
-    sDaiWithBalance,
-    currentProjections,
-    opportunityProjections,
-    assetsInWallet,
-    maxBalanceToken,
-    totalEligibleCashUSD,
-  } = savingsDetails
+  const { sDaiDetails, sUSDSDetails } = savingsDetails
+  const APY = sUSDSDetails?.APY ?? sDaiDetails?.APY ?? raise('Savings APY should be defined')
 
   if (guestMode) {
     return (
-      <GuestView APY={APY} chainId={chainId} openConnectModal={openConnectModal} openSandboxModal={openSandboxModal} />
+      <GuestView
+        {...savingsDetails}
+        APY={APY}
+        openConnectModal={openConnectModal}
+        openSandboxModal={openSandboxModal}
+      />
     )
   }
 
-  return (
-    <SavingsView
-      APY={APY}
-      chainId={chainId}
-      depositedUSD={depositedUSD}
-      depositedUSDPrecision={depositedUSDPrecision}
-      sDaiWithBalance={sDaiWithBalance}
-      currentProjections={currentProjections}
-      opportunityProjections={opportunityProjections}
-      assetsInWallet={assetsInWallet}
-      maxBalanceToken={maxBalanceToken}
-      totalEligibleCashUSD={totalEligibleCashUSD}
-      openDialog={openDialog}
-    />
-  )
+  if (sDaiDetails && sUSDSDetails) {
+    return (
+      <SavingsDaiAndUSDSView
+        {...savingsDetails}
+        sDaiDetails={sDaiDetails}
+        sUSDSDetails={sUSDSDetails}
+        openDialog={openDialog}
+      />
+    )
+  }
+
+  if (sDaiDetails) {
+    return <SavingsDaiView {...savingsDetails} savingsTokenDetails={sDaiDetails} openDialog={openDialog} />
+  }
+
+  if (sUSDSDetails) {
+    return <SavingsUSDSView {...savingsDetails} savingsTokenDetails={sUSDSDetails} openDialog={openDialog} />
+  }
+
+  raise('Invalid savings state')
 }
 
 const SavingsContainerWithSuspense = withSuspense(SavingsContainer, SavingsSkeleton)

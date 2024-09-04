@@ -5,7 +5,7 @@ import { withRouter } from 'storybook-addon-remix-react-router'
 import { WelcomeDialog } from './WelcomeDialog'
 
 const meta: Meta<typeof WelcomeDialog> = {
-  title: 'Features/SavingsWithUsds/Components/WelcomeDialog',
+  title: 'Features/Savings/Components/WelcomeDialog',
   decorators: [withRouter()],
   component: WelcomeDialog,
   args: {

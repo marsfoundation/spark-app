@@ -3,8 +3,8 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { withRouter } from 'storybook-addon-remix-react-router'
 
 import { Percentage } from '@/domain/types/NumericValues'
-import { SavingsAPYBadge } from '@/features/savings/components/navbar-item/SavingsAPYBadge'
 
+import { SavingsAPYBadge } from '@/features/savings/components/navbar-item/SavingsAPYBadge'
 import { NavLinkComponent } from './NavLink'
 
 const meta: Meta<typeof NavLinkComponent> = {

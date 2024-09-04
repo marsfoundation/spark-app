@@ -66,7 +66,7 @@ const sDaiDetails = {
 }
 
 const meta: Meta<typeof SavingsDaiAndUSDSView> = {
-  title: 'Features/SavingsWithUsds/Views/SavingsDaiAndUSDSView',
+  title: 'Features/Savings/Views/SavingsDaiAndUSDSView',
   component: SavingsDaiAndUSDSView,
   decorators: [WithTooltipProvider()],
   parameters: {

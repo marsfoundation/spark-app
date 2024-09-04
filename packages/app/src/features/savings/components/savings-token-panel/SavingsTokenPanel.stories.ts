@@ -9,7 +9,7 @@ import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { SavingsTokenPanel } from './SavingsTokenPanel'
 
 const meta: Meta<typeof SavingsTokenPanel> = {
-  title: 'Features/SavingsWithUsds/Components/SavingsTokenPanel',
+  title: 'Features/Savings/Components/SavingsTokenPanel',
   component: SavingsTokenPanel,
   decorators: [WithTooltipProvider(), WithClassname('max-w-2xl')],
   args: {
