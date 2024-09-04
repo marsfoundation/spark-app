@@ -87,7 +87,7 @@ const meta: Meta<typeof SavingsDepositView> = {
         { token: tokens.DAI, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },
         { token: tokens.sDAI, value: NormalizedUnitNumber(925.75), usdValue: NormalizedUnitNumber(1300.74) },
       ],
-      makerBadgeToken: tokens.USDC,
+      skyBadgeToken: tokens.USDC,
       outTokenAmount: NormalizedUnitNumber(925.75),
     },
     savingsUsdsSwitchInfo: {

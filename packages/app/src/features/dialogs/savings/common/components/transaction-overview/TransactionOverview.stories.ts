@@ -19,7 +19,7 @@ const meta: Meta<typeof TransactionOverview> = {
         { token: tokens.DAI, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },
         { token: tokens.sDAI, value: NormalizedUnitNumber(925.75), usdValue: NormalizedUnitNumber(1300.74) },
       ],
-      makerBadgeToken: tokens.DAI,
+      skyBadgeToken: tokens.DAI,
       outTokenAmount: NormalizedUnitNumber(925.75),
     },
     showAPY: true,

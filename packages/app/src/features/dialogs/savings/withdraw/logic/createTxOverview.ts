@@ -52,7 +52,7 @@ export function createTxOverview({
     APY: savingsInfo.apy,
     stableEarnRate: savingsRate,
     route,
-    makerBadgeToken: formValues.token,
+    skyBadgeToken: formValues.token,
     outTokenAmount: tokenValue,
   }
 }
