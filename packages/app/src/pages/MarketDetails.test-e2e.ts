@@ -20,7 +20,7 @@ test.describe('Market details Mainnet', () => {
   const fork = setupFork({
     blockNumber: CAP_AUTOMATOR_BLOCK_NUMBER,
     chainId: mainnet.id,
-    simulationDateOverride: new Date(1724846808220),
+    simulationDateOverride: new Date('2024-09-04T14:21:19Z'),
   })
 
   test.describe('Market overview', () => {
@@ -34,10 +34,10 @@ test.describe('Market details Mainnet', () => {
       })
 
       const marketDetailsPage = new MarketDetailsPageObject(page)
-      await marketDetailsPage.expectMarketOverviewValue('Borrowed', '$909.6M')
-      await marketDetailsPage.expectMarketOverviewValue('Market size', '$2.539B')
+      await marketDetailsPage.expectMarketOverviewValue('Borrowed', '$910.8M')
+      await marketDetailsPage.expectMarketOverviewValue('Market size', '$2.541B')
       await marketDetailsPage.expectMarketOverviewValue('Total available', '$1.63B')
-      await marketDetailsPage.expectMarketOverviewValue('Utilization rate', '35.82%')
+      await marketDetailsPage.expectMarketOverviewValue('Utilization rate', '35.85%')
       await marketDetailsPage.expectMarketOverviewValue('Instantly available', '$44.01M')
       await marketDetailsPage.expectMarketOverviewValue('MakerDAO capacity', '$1.586B')
 
@@ -54,9 +54,9 @@ test.describe('Market details Mainnet', () => {
       })
 
       const marketDetailsPage = new MarketDetailsPageObject(page)
-      await marketDetailsPage.expectMarketOverviewValue('Market size', '$696.2M')
-      await marketDetailsPage.expectMarketOverviewValue('Utilization rate', '81.98%')
-      await marketDetailsPage.expectMarketOverviewValue('Borrowed', '$570.8M')
+      await marketDetailsPage.expectMarketOverviewValue('Market size', '$696.5M')
+      await marketDetailsPage.expectMarketOverviewValue('Utilization rate', '81.99%')
+      await marketDetailsPage.expectMarketOverviewValue('Borrowed', '$571.1M')
       await marketDetailsPage.expectMarketOverviewValue('Available', '$125.4M')
 
       await screenshot(page, 'market-details-weth')
