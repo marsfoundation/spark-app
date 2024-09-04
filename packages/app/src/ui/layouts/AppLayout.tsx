@@ -1,7 +1,7 @@
 import { cx } from 'class-variance-authority'
 import { useState } from 'react'
 
-import { useBanner } from '@/domain/state/banners'
+import { useBannerVisibility } from '@/domain/state/bannersVisibility'
 import { Navbar } from '@/features/navbar/Navbar'
 import { cn } from '@/ui/utils/style'
 import {
@@ -15,7 +15,7 @@ interface AppLayoutProps {
 
 export function AppLayout({ children }: AppLayoutProps) {
   const [mobileMenuCollapsed, setMobileMenuCollapsed] = useState(true)
-  const { handleCloseBanner, showBanner } = useBanner(SKY_MIGRATION_TOP_BANNER_ID)
+  const { handleCloseBanner, showBanner } = useBannerVisibility(SKY_MIGRATION_TOP_BANNER_ID)
 
   return (
     <div className={cn('flex min-h-screen flex-col', mobileMenuCollapsed && 'pb-5')}>
