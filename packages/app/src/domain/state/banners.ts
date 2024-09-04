@@ -3,7 +3,7 @@ import { StateCreator } from 'zustand'
 import { StoreState, useStore } from '.'
 
 export interface Banners {
-  bannerStatus: {
+  showBannerStatus: {
     [id: string]: boolean
   }
   closeBanner: (id: string) => void
@@ -16,13 +16,13 @@ export interface BannersSlice {
 // eslint-disable-next-line func-style
 export const initBannersSlice: StateCreator<StoreState, [], [], BannersSlice> = (set) => ({
   banners: {
-    bannerStatus: {},
+    showBannerStatus: {},
     closeBanner: (id) => {
       set((state) => ({
         banners: {
           ...state.banners,
-          bannerStatus: {
-            ...state.banners.bannerStatus,
+          showBannerStatus: {
+            ...state.banners.showBannerStatus,
             [id]: false,
           },
         },
@@ -33,7 +33,7 @@ export const initBannersSlice: StateCreator<StoreState, [], [], BannersSlice> = 
 
 export interface PersistedBannersSlice {
   banners: {
-    bannerStatus?: {
+    showBannerStatus?: {
       [id: string]: boolean
     }
   }
@@ -42,7 +42,7 @@ export interface PersistedBannersSlice {
 export function persistBannersSlice(state: StoreState): PersistedBannersSlice {
   return {
     banners: {
-      bannerStatus: state.banners.bannerStatus,
+      showBannerStatus: state.banners.showBannerStatus,
     },
   }
 }
@@ -53,10 +53,10 @@ interface UseBannerResults {
 }
 
 export function useBanner(id: string): UseBannerResults {
-  const { bannerStatus, closeBanner } = useStore((state) => state.banners)
+  const { showBannerStatus, closeBanner } = useStore((state) => state.banners)
 
   return {
-    showBanner: bannerStatus[id] ?? true,
+    showBanner: showBannerStatus[id] ?? true,
     handleCloseBanner: () => {
       closeBanner(id)
     },

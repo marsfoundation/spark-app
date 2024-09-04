@@ -12,8 +12,8 @@ exports[`initializes store 1`] = `
     "sandbox": undefined,
   },
   "banners": {
-    "bannerStatus": {},
     "closeBanner": [Function],
+    "showBannerStatus": {},
   },
   "compliance": {
     "addAgreedToToSAddress": [Function],
@@ -43,7 +43,7 @@ exports[`persists state 1`] = `
       "preferPermits": true,
     },
     "banners": {
-      "bannerStatus": {},
+      "showBannerStatus": {},
     },
     "compliance": {
       "agreedToToSAdresses": [],
