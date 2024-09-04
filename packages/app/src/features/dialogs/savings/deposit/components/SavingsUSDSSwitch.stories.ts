@@ -8,7 +8,7 @@ import { SavingsUsdsSwitch } from './SavingsUsdsSwitch'
 const meta: Meta<typeof SavingsUsdsSwitch> = {
   title: 'Features/Dialogs/Savings/Components/SavingsUsdsSwitch',
   component: SavingsUsdsSwitch,
-  decorators: [WithClassname('max-w-xl')],
+  decorators: [WithClassname('h-[1024px]')],
   args: {
     checked: true,
     onSwitch: () => {},
