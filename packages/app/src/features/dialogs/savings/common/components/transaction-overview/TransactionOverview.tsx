@@ -6,7 +6,7 @@ import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { assert } from '@/utils/assert'
 import { SavingsDialogTxOverview } from '../../types'
-import { APYDetails, MakerBadge, RouteItem, TransactionOutcome, TransactionOverviewDetailsItem } from './components'
+import { APYDetails, RouteItem, SkyBadge, TransactionOutcome, TransactionOverviewDetailsItem } from './components'
 
 export interface TransactionOverviewProps {
   txOverview: SavingsDialogTxOverview
@@ -18,7 +18,7 @@ export function TransactionOverview({ txOverview, selectedToken, showAPY }: Tran
   if (txOverview.status !== 'success') {
     return <TransactionOverviewPlaceholder badgeToken={selectedToken} showAPY={showAPY} />
   }
-  const { APY, baseStable, stableEarnRate, route, makerBadgeToken } = txOverview
+  const { APY, baseStable, stableEarnRate, route, skyBadgeToken } = txOverview
 
   assert(route.length > 0, 'Route must have at least one item')
   const outcome = route.at(-1)!
@@ -54,10 +54,7 @@ export function TransactionOverview({ txOverview, selectedToken, showAPY }: Tran
         </TransactionOverviewDetailsItem>
       </DialogPanel>
 
-      <MakerBadge
-        token={makerBadgeToken}
-        data-testid={testIds.dialog.savings.nativeRouteTransactionOverview.makerBadge}
-      />
+      <SkyBadge token={skyBadgeToken} data-testid={testIds.dialog.savings.nativeRouteTransactionOverview.skyBadge} />
     </div>
   )
 }
@@ -84,7 +81,7 @@ function TransactionOverviewPlaceholder({ badgeToken, showAPY }: TransactionOver
         </TransactionOverviewDetailsItem>
         <TransactionOverviewDetailsItem label="Outcome">{placeholder}</TransactionOverviewDetailsItem>
       </DialogPanel>
-      <MakerBadge token={badgeToken} />
+      <SkyBadge token={badgeToken} />
     </div>
   )
 }

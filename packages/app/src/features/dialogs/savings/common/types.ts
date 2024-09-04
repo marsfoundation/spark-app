@@ -12,7 +12,7 @@ export interface TxOverview {
   APY: Percentage
   stableEarnRate: NormalizedUnitNumber
   route: RouteItem[]
-  makerBadgeToken: Token
+  skyBadgeToken: Token
   outTokenAmount: NormalizedUnitNumber
 }
 

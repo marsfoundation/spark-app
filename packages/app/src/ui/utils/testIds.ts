@@ -86,7 +86,7 @@ export const testIds = makeTestIds({
           tokenUsdValue: (index: number) => index,
         },
         outcome: true,
-        makerBadge: true,
+        skyBadge: true,
       },
       send: {
         addressIsSmartContractWarning: true,
