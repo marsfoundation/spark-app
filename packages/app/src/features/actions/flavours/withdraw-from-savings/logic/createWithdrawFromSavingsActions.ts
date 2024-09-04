@@ -1,4 +1,4 @@
-import { MIGRATE_ACTIONS_ADDRESS } from '@/config/consts'
+import { MIGRATE_ACTIONS_ADDRESS, USDS_PSM_ACTIONS } from '@/config/consts'
 import { psmActionsAddress, savingsXDaiAdapterAddress } from '@/config/contracts-generated'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Action, ActionContext } from '@/features/actions/logic/types'
@@ -6,6 +6,7 @@ import {
   isSDaiToUsdsWithdraw,
   isSexyDaiOperation,
   isUsdcDaiPsmActionsOperation,
+  isUsdcUsdsPsmActionsOperation,
   isVaultOperation,
 } from '@/features/actions/utils/savings'
 import { assert, raise } from '@/utils/assert'
@@ -42,6 +43,10 @@ export function createWithdrawFromSavingsActions(
   const spender = (() => {
     if (isUsdcDaiPsmActionsOperation({ token, savingsToken, tokensInfo })) {
       return psmActionsAddress[mainnet.id]
+    }
+
+    if (isUsdcUsdsPsmActionsOperation({ token, savingsToken, tokensInfo })) {
+      return USDS_PSM_ACTIONS
     }
 
     if (isSexyDaiOperation({ token, savingsToken, tokensInfo, chainId })) {

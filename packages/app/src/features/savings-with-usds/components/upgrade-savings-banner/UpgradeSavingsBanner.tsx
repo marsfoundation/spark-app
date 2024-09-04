@@ -28,7 +28,7 @@ export function UpgradeSavingsBanner({ onUpgradeSavingsClick, dsr, ssr }: Upgrad
     >
       <div className="grid gap-3 md:auto-cols-max">
         <h2 className="font-semibold text-base text-basics-black sm:text-xl">
-          Upgrade you Savings DAI (sDAI) to Savings USDS (sUSDS)
+          Upgrade your Savings DAI (sDAI) to Savings USDS (sUSDS)
         </h2>
         <div>
           <div className="grid grid-cols-subgrid text-basics-black text-sm opacity-50">

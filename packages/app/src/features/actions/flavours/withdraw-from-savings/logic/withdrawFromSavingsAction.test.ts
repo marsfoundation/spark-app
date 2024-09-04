@@ -1,5 +1,5 @@
 import { migrationActionsAbi } from '@/config/abis/migrationActionsAbi'
-import { MIGRATE_ACTIONS_ADDRESS } from '@/config/consts'
+import { MIGRATE_ACTIONS_ADDRESS, USDS_PSM_ACTIONS } from '@/config/consts'
 import { psmActionsAbi, psmActionsAddress } from '@/config/contracts-generated'
 import { PotSavingsInfo } from '@/domain/savings-info/potSavingsInfo'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
@@ -432,6 +432,196 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
     )
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
       allowanceQueryKey({ token: sdai.address, spender: psmActionsAddress[mainnet.id], account, chainId }),
+    )
+  })
+
+  test('withdraws usdc from susds', async () => {
+    const { result, queryInvalidationManager } = hookRenderer({
+      args: {
+        action: {
+          type: 'withdrawFromSavings',
+          token: usdc,
+          savingsToken: susds,
+          amount: withdrawAmount,
+          isMax: false,
+          mode: 'withdraw',
+        },
+        enabled: true,
+        context: { tokensInfo: mockTokensInfo, savingsDaiInfo: mockSavingsDaiInfo },
+      },
+      extraHandlers: [
+        handlers.contractCall({
+          to: USDS_PSM_ACTIONS,
+          abi: psmActionsAbi,
+          functionName: 'withdrawAndSwap',
+          args: [account, toBigInt(usdc.toBaseUnit(withdrawAmount)), toBigInt(susds.toBaseUnit(withdrawAmount))],
+          from: account,
+          result: 1n,
+        }),
+        handlers.mineTransaction(),
+      ],
+    })
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('ready')
+    })
+
+    result.current.onAction()
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('success')
+    })
+
+    await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+      getBalancesQueryKeyPrefix({ account, chainId }),
+    )
+    await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+      allowanceQueryKey({ token: susds.address, spender: USDS_PSM_ACTIONS, account, chainId }),
+    )
+  })
+
+  test('withdraws max usdc from susds', async () => {
+    const { result, queryInvalidationManager } = hookRenderer({
+      args: {
+        action: {
+          type: 'withdrawFromSavings',
+          token: usdc,
+          savingsToken: susds,
+          amount: withdrawAmount,
+          isMax: true,
+          mode: 'withdraw',
+        },
+        enabled: true,
+        context: { tokensInfo: mockTokensInfo, savingsDaiInfo: mockSavingsDaiInfo },
+      },
+      extraHandlers: [
+        handlers.contractCall({
+          to: USDS_PSM_ACTIONS,
+          abi: psmActionsAbi,
+          functionName: 'redeemAndSwap',
+          args: [
+            account,
+            toBigInt(sdai.toBaseUnit(withdrawAmount)),
+            toBigInt(usdc.toBaseUnit(NormalizedUnitNumber(1.1))),
+          ],
+          from: account,
+          result: 1n,
+        }),
+        handlers.mineTransaction(),
+      ],
+    })
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('ready')
+    })
+
+    result.current.onAction()
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('success')
+    })
+
+    await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+      getBalancesQueryKeyPrefix({ account, chainId }),
+    )
+    await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+      allowanceQueryKey({ token: susds.address, spender: USDS_PSM_ACTIONS, account, chainId }),
+    )
+  })
+
+  test('sends usdc from susds', async () => {
+    const { result, queryInvalidationManager } = hookRenderer({
+      args: {
+        action: {
+          type: 'withdrawFromSavings',
+          token: usdc,
+          savingsToken: susds,
+          amount: withdrawAmount,
+          isMax: false,
+          mode: 'send',
+          receiver,
+        },
+        enabled: true,
+        context: { tokensInfo: mockTokensInfo, savingsDaiInfo: mockSavingsDaiInfo },
+      },
+      extraHandlers: [
+        handlers.contractCall({
+          to: USDS_PSM_ACTIONS,
+          abi: psmActionsAbi,
+          functionName: 'withdrawAndSwap',
+          args: [receiver, toBigInt(usdc.toBaseUnit(withdrawAmount)), toBigInt(sdai.toBaseUnit(withdrawAmount))],
+          from: account,
+          result: 1n,
+        }),
+        handlers.mineTransaction(),
+      ],
+    })
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('ready')
+    })
+
+    result.current.onAction()
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('success')
+    })
+
+    await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+      getBalancesQueryKeyPrefix({ account, chainId }),
+    )
+    await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+      allowanceQueryKey({ token: susds.address, spender: USDS_PSM_ACTIONS, account, chainId }),
+    )
+  })
+
+  test('sends max usdc from susds', async () => {
+    const { result, queryInvalidationManager } = hookRenderer({
+      args: {
+        action: {
+          type: 'withdrawFromSavings',
+          token: usdc,
+          savingsToken: susds,
+          amount: withdrawAmount,
+          isMax: true,
+          mode: 'send',
+          receiver,
+        },
+        enabled: true,
+        context: { tokensInfo: mockTokensInfo, savingsDaiInfo: mockSavingsDaiInfo },
+      },
+      extraHandlers: [
+        handlers.contractCall({
+          to: USDS_PSM_ACTIONS,
+          abi: psmActionsAbi,
+          functionName: 'redeemAndSwap',
+          args: [
+            receiver,
+            toBigInt(sdai.toBaseUnit(withdrawAmount)),
+            toBigInt(usdc.toBaseUnit(NormalizedUnitNumber(1.1))),
+          ],
+          from: account,
+          result: 1n,
+        }),
+        handlers.mineTransaction(),
+      ],
+    })
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('ready')
+    })
+
+    result.current.onAction()
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('success')
+    })
+
+    await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+      getBalancesQueryKeyPrefix({ account, chainId }),
+    )
+    await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+      allowanceQueryKey({ token: susds.address, spender: USDS_PSM_ACTIONS, account, chainId }),
     )
   })
 
