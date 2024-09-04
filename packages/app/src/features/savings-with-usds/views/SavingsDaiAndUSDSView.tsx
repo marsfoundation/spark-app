@@ -71,7 +71,7 @@ export function SavingsDaiAndUSDSView({
       {import.meta.env.VITE_FEATURE_SAVINGS_WELCOME_DIALOG === '1' && (
         <WelcomeDialog
           open={showWelcomeDialog}
-          onConfirm={() => saveConfirmedWelcomeDialog?.(true)}
+          onConfirm={() => saveConfirmedWelcomeDialog(true)}
           apyDifference={migrationInfo.apyDifference}
         />
       )}
