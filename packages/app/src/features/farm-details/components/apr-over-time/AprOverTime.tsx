@@ -1,3 +1,4 @@
+import { Percentage } from '@/domain/types/NumericValues'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { Info } from '@/ui/molecules/info/Info'
 import { useTimestamp } from '@/utils/useTimestamp'
@@ -13,12 +14,16 @@ export interface AprOverTimeProps {
 
 export function AprOverTime({ data }: AprOverTimeProps) {
   const [selectedTimeframe, setSelectedTimeframe] = useState<(typeof AVAILABLE_TIMEFRAMES)[number]>('All')
-  const { timestamp } = useTimestamp()
+  const { timestamp, timestampInMs } = useTimestamp()
   const sortedData = sort(data, (a, b) => a.date.getTime() - b.date.getTime())
   const filteredData = filterDataByTimeframe({
     data: sortedData,
     timeframe: selectedTimeframe,
     currentTimestamp: timestamp,
+  })
+  filteredData.push({
+    date: new Date(timestampInMs),
+    apr: filteredData.at(-1)?.apr ?? Percentage(0),
   })
 
   return (

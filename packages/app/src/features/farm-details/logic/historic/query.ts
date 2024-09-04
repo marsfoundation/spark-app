@@ -2,7 +2,6 @@ import { infoSkyApiUrl } from '@/config/consts'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { Percentage } from '@/domain/types/NumericValues'
 import { queryOptions } from '@tanstack/react-query'
-import BigNumber from 'bignumber.js'
 import { z } from 'zod'
 
 export interface FarmHistoricDataParameters {
@@ -30,7 +29,7 @@ const historicDataResponseSchema = z
     results: z.array(
       z.object({
         date: z.string().transform((value) => new Date(value)),
-        apr: z.string().transform((value) => Percentage(BigNumber(value).div(100), true)),
+        apr: z.string().transform((value) => Percentage(value, true)),
       }),
     ),
   })
