@@ -5,6 +5,7 @@ import { Button } from '@/ui/atoms/button/Button'
 import { Dialog, DialogContent, DialogTrigger } from '@/ui/atoms/dialog/Dialog'
 import { Link } from '@/ui/atoms/link/Link'
 import { cn } from '@/ui/utils/style'
+import { testIds } from '@/ui/utils/testIds'
 import { ChevronDown } from 'lucide-react'
 import { RefObject, useState } from 'react'
 
@@ -18,7 +19,7 @@ export function BenefitsDialog({ portalContainerRef, apyImprovement }: BenefitsD
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="icon">
+        <Button variant="icon" data-testid={testIds.dialog.savings.upgradeDetailsTrigger}>
           <ChevronDown className={cn('h-4 w-4 transition-transform duration-300', open && 'rotate-180')} />
         </Button>
       </DialogTrigger>

@@ -1,13 +1,19 @@
-import { WithClassname, WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@storybook/decorators'
+import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
+import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
+import { DepositToSavingsObjective } from '@/features/actions/flavours/deposit-to-savings/types'
+import { testIds } from '@/ui/utils/testIds'
+import { sleep } from '@/utils/promises'
+import {
+  WithClassname,
+  WithTooltipProvider,
+  WithWrappingDialog,
+  ZeroAllowanceWagmiDecorator,
+} from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
+import { expect, waitFor, within } from '@storybook/test'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { useForm } from 'react-hook-form'
-
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
-
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
-import { DepositToSavingsObjective } from '@/features/actions/flavours/deposit-to-savings/types'
 import { SavingsDepositView } from './SavingsDepositView'
 
 const dai = tokens.DAI
@@ -113,3 +119,24 @@ export const WithSUSDSSwitch: Story = {
 }
 export const WithSUSDSSwitchMobile = getMobileStory(WithSUSDSSwitch)
 export const WithSUSDSSwitchTablet = getTabletStory(WithSUSDSSwitch)
+
+export const WithBenefitsDrawerOpened: Story = {
+  decorators: [WithWrappingDialog()],
+  args: {
+    savingsUsdsSwitchInfo: {
+      showSwitch: true,
+      onSwitch: () => {},
+      checked: true,
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement.ownerDocument.body)
+    // @note: Storybook renders dialog twice. Sleeping for a bit to make sure that drawer isn't unmounted.
+    await sleep(200)
+    ;(await canvas.findByTestId(testIds.dialog.savings.upgradeDetailsTrigger)).click()
+    await waitFor(async () => {
+      const heading = await canvas.findByRole('heading', { name: 'Deposit into Savings USDS' })
+      await expect(heading).toBeVisible()
+    })
+  },
+}
