@@ -1,3 +1,4 @@
+import { assert } from '@/utils/assert'
 import { PageHeader } from '../components/PageHeader'
 import { PageLayout } from '../components/PageLayout'
 import { CashInWallet } from '../components/cash-in-wallet/CashInWallet'
@@ -5,12 +6,15 @@ import { SavingsOpportunity } from '../components/savings-opportunity/SavingsOpp
 import { SavingsOpportunityNoCash } from '../components/savings-opportunity/SavingsOpportunityNoCash'
 import { SavingsTokenPanel } from '../components/savings-token-panel/SavingsTokenPanel'
 import { UpgradeSavingsBanner } from '../components/upgrade-savings-banner/UpgradeSavingsBanner'
+import { WelcomeDialog } from '../components/welcome-dialog/WelcomeDialog'
 import { SavingsTokenDetails } from '../logic/useSavings'
 import { SavingsViewContentProps } from './types'
 
 export interface SavingsDaiAndUSDSViewProps extends Omit<SavingsViewContentProps, 'savingsTokenDetails'> {
   sDaiDetails: SavingsTokenDetails
   sUSDSDetails: SavingsTokenDetails
+  showWelcomeDialog: boolean
+  saveConfirmedWelcomeDialog: (confirmedWelcomeDialog: boolean) => void
 }
 
 export function SavingsDaiAndUSDSView({
@@ -23,12 +27,16 @@ export function SavingsDaiAndUSDSView({
   maxBalanceToken,
   totalEligibleCashUSD,
   openDialog,
+  showWelcomeDialog,
+  saveConfirmedWelcomeDialog,
 }: SavingsDaiAndUSDSViewProps) {
   const displaySavingsDai = sDaiDetails.tokenWithBalance.balance.gt(0)
   const displaySavingsUSDS = sUSDSDetails.tokenWithBalance.balance.gt(0)
   const displaySavingsOpportunity =
     (!displaySavingsDai || !displaySavingsUSDS) && opportunityProjections.thirtyDays.gt(0)
   const displaySavingsNoCash = !displaySavingsDai && !displaySavingsUSDS && !displaySavingsOpportunity
+
+  assert(migrationInfo, 'Migration info should be defined in sDai and sUSDS view')
 
   return (
     <PageLayout>
@@ -59,6 +67,13 @@ export function SavingsDaiAndUSDSView({
         {displaySavingsNoCash && <SavingsOpportunityNoCash APY={sDaiDetails.APY} chainId={chainId} />}
       </div>
       <CashInWallet assets={assetsInWallet} openDialog={openDialog} migrationInfo={migrationInfo} />
+      {import.meta.env.VITE_FEATURE_SAVINGS_WELCOME_DIALOG === '1' && (
+        <WelcomeDialog
+          open={showWelcomeDialog}
+          onConfirm={() => saveConfirmedWelcomeDialog(true)}
+          apyImprovement={migrationInfo.apyImprovement}
+        />
+      )}
     </PageLayout>
   )
 }
