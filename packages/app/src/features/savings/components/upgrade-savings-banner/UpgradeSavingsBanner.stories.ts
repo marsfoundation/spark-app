@@ -7,7 +7,7 @@ import { withRouter } from 'storybook-addon-remix-react-router'
 import { UpgradeSavingsBanner } from './UpgradeSavingsBanner'
 
 const meta: Meta<typeof UpgradeSavingsBanner> = {
-  title: 'Features/SavingsWithUsds/Components/UpgradeSavingsBanner',
+  title: 'Features/Savings/Components/UpgradeSavingsBanner',
   component: UpgradeSavingsBanner,
   decorators: [WithTooltipProvider(), withRouter()],
   args: {

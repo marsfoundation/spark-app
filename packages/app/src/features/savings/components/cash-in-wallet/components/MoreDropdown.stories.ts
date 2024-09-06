@@ -7,7 +7,7 @@ import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { MoreDropdown } from './MoreDropdown'
 
 const meta: Meta<typeof MoreDropdown> = {
-  title: 'Features/SavingsWithUsds/Components/CashInWallet/MoreDropdown',
+  title: 'Features/Savings/Components/CashInWallet/MoreDropdown',
   decorators: [WithClassname('p-8 bg-white flex justify-end')],
   component: MoreDropdown,
   args: {

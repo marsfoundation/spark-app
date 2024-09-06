@@ -1,10 +1,10 @@
 import { TokenWithBalance } from '@/domain/common/types'
 import { SavingsInfo } from '@/domain/savings-info/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { makeSavingsOverview } from '@/features/savings/logic/makeSavingsOverview'
-import { calculateProjections } from '@/features/savings/logic/projections'
-import { Projections } from '@/features/savings/types'
 import { assert } from '@/utils/assert'
+import { Projections } from '../types'
+import { makeSavingsOverview } from './makeSavingsOverview'
+import { calculateProjections } from './projections'
 import { SavingsTokenDetails } from './useSavings'
 
 export interface MakeSavingsTokenDetailsParams {

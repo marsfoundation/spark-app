@@ -4,14 +4,14 @@ import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { mainnet } from 'viem/chains'
-import { SavingsDaiView } from './SavingsDaiView'
+import { SavingsUSDSView } from './SavingsUSDSView'
 
 const savingsViewBaseArgs = {
   chainId: mainnet.id,
   assetsInWallet: [
     {
-      token: tokens.DAI,
-      balance: NormalizedUnitNumber(22727),
+      token: tokens.USDS,
+      balance: NormalizedUnitNumber(12345),
     },
     {
       token: tokens.USDC,
@@ -32,18 +32,18 @@ const savingsViewBaseArgs = {
 
 const savingsTokenDetails = {
   APY: Percentage(0.05),
-  tokenWithBalance: { balance: NormalizedUnitNumber(20_000), token: tokens.sDAI },
+  tokenWithBalance: { balance: NormalizedUnitNumber(10_000), token: tokens.sUSDS },
   currentProjections: {
-    thirtyDays: NormalizedUnitNumber(500),
-    oneYear: NormalizedUnitNumber(2500),
+    thirtyDays: NormalizedUnitNumber(250),
+    oneYear: NormalizedUnitNumber(1250),
   },
-  depositedUSD: NormalizedUnitNumber(20765.7654),
+  depositedUSD: NormalizedUnitNumber(10365.7654),
   depositedUSDPrecision: 2,
 }
 
-const meta: Meta<typeof SavingsDaiView> = {
-  title: 'Features/SavingsWithUsds/Views/SavingsDaiView',
-  component: SavingsDaiView,
+const meta: Meta<typeof SavingsUSDSView> = {
+  title: 'Features/Savings/Views/SavingsUSDSView',
+  component: SavingsUSDSView,
   decorators: [WithTooltipProvider()],
   parameters: {
     layout: 'fullscreen',
@@ -51,29 +51,13 @@ const meta: Meta<typeof SavingsDaiView> = {
 }
 
 export default meta
-type Story = StoryObj<typeof SavingsDaiView>
+type Story = StoryObj<typeof SavingsUSDSView>
 
-export const Desktop: Story = { args: { ...savingsViewBaseArgs, savingsTokenDetails } }
+export const Desktop: Story = {
+  args: { ...savingsViewBaseArgs, savingsTokenDetails },
+}
 export const Mobile = getMobileStory(Desktop)
 export const Tablet = getTabletStory(Desktop)
-
-export const NoDeposit: Story = {
-  name: 'No deposit',
-  args: {
-    ...savingsViewBaseArgs,
-    savingsTokenDetails: {
-      ...savingsTokenDetails,
-      tokenWithBalance: { balance: NormalizedUnitNumber(0), token: tokens.sDAI },
-      currentProjections: {
-        thirtyDays: NormalizedUnitNumber(0),
-        oneYear: NormalizedUnitNumber(0),
-      },
-      depositedUSD: NormalizedUnitNumber(0),
-    },
-  },
-}
-export const NoDepositMobile = getMobileStory(NoDeposit)
-export const NoDepositTablet = getTabletStory(NoDeposit)
 
 export const AllIn: Story = {
   args: {
@@ -114,13 +98,14 @@ export const NoDepositNoCash: Story = {
     },
     savingsTokenDetails: {
       ...savingsTokenDetails,
-      tokenWithBalance: { balance: NormalizedUnitNumber(0), token: tokens.sDAI },
+      tokenWithBalance: { balance: NormalizedUnitNumber(0), token: tokens.sUSDS },
       currentProjections: {
         thirtyDays: NormalizedUnitNumber(0),
         oneYear: NormalizedUnitNumber(0),
       },
       depositedUSD: NormalizedUnitNumber(0),
     },
+
     assetsInWallet: [
       {
         token: tokens.DAI,
@@ -150,7 +135,7 @@ export const BigNumbersDesktop: Story = {
     },
     savingsTokenDetails: {
       APY: Percentage(0.05),
-      tokenWithBalance: { balance: NormalizedUnitNumber(134000000.0), token: tokens.sDAI },
+      tokenWithBalance: { balance: NormalizedUnitNumber(134000000.0), token: tokens.sUSDS },
       currentProjections: {
         thirtyDays: NormalizedUnitNumber(1224300.923423423),
         oneYear: NormalizedUnitNumber(6345543.32945601),
@@ -158,6 +143,7 @@ export const BigNumbersDesktop: Story = {
       depositedUSD: NormalizedUnitNumber('134395765.123482934245'),
       depositedUSDPrecision: 0,
     },
+
     assetsInWallet: [
       {
         token: tokens.DAI,

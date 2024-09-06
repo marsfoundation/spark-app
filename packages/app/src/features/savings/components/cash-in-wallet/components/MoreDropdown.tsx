@@ -1,5 +1,5 @@
 import { Token } from '@/domain/types/Token'
-import { MigrationInfo } from '@/features/savings-with-usds/logic/makeMigrationInfo'
+import { MigrationInfo } from '@/features/savings/logic/makeMigrationInfo'
 import ArrowUpRightIcon from '@/ui/assets/arrow-up-right.svg?react'
 import DocumentSketchIcon from '@/ui/assets/document-sketch.svg?react'
 import DowngradeIcon from '@/ui/assets/downgrade.svg?react'

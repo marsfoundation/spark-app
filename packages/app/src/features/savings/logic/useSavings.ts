@@ -1,19 +1,32 @@
 import { SupportedChainId } from '@/config/chain/types'
 import { TokenWithBalance } from '@/domain/common/types'
-import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
+import { useChainConfigEntry } from '@/domain/hooks/useChainConfigEntry'
 import { useSavingsDaiInfo } from '@/domain/savings-info/useSavingsDaiInfo'
+import { useSavingsUsdsInfo } from '@/domain/savings-info/useSavingsUsdsInfo'
 import { calculateMaxBalanceTokenAndTotal } from '@/domain/savings/calculateMaxBalanceTokenAndTotal'
 import { useSavingsTokens } from '@/domain/savings/useSavingsTokens'
 import { OpenDialogFunction, useOpenDialog } from '@/domain/state/dialogs'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
+import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
+import { raise } from '@/utils/assert'
 import { useTimestamp } from '@/utils/useTimestamp'
+import { useMemo } from 'react'
 import { useAccount } from 'wagmi'
 import { Projections } from '../types'
-import { makeSavingsOverview } from './makeSavingsOverview'
-import { calculateProjections } from './projections'
+import { MigrationInfo, makeMigrationInfo } from './makeMigrationInfo'
+import { makeSavingsTokenDetails } from './makeSavingsTokenDetails'
+import { useWelcomeDialog } from './useWelcomeDialog'
 
 const stepInMs = 50
+
+export interface SavingsTokenDetails {
+  APY: Percentage
+  tokenWithBalance: TokenWithBalance
+  currentProjections: Projections
+  depositedUSD: NormalizedUnitNumber
+  depositedUSDPrecision: number
+}
 
 export interface UseSavingsResults {
   guestMode: boolean
@@ -22,59 +35,83 @@ export interface UseSavingsResults {
   savingsDetails:
     | {
         state: 'supported'
-        APY: Percentage
-        depositedUSD: NormalizedUnitNumber
-        depositedUSDPrecision: number
-        sDaiWithBalance: TokenWithBalance
-        currentProjections: Projections
-        opportunityProjections: Projections
         assetsInWallet: TokenWithBalance[]
         totalEligibleCashUSD: NormalizedUnitNumber
         maxBalanceToken: TokenWithBalance
         chainId: SupportedChainId
+        opportunityProjections: Projections
+        migrationInfo?: MigrationInfo
+        sDaiDetails?: SavingsTokenDetails
+        sUSDSDetails?: SavingsTokenDetails
+        showWelcomeDialog: boolean
+        saveConfirmedWelcomeDialog: (confirmedWelcomeDialog: boolean) => void
       }
     | { state: 'unsupported' }
 }
 export function useSavings(): UseSavingsResults {
   const { savingsDaiInfo } = useSavingsDaiInfo()
+  const { savingsUsdsInfo } = useSavingsUsdsInfo()
   const guestMode = useAccount().isConnected === false
-  const { sDaiWithBalance, inputTokens } = useSavingsTokens()
-  const chainId = useOriginChainId()
+  const { inputTokens, sDaiWithBalance, sUSDSWithBalance } = useSavingsTokens()
+  const { id: originChainId, extraTokens } = useChainConfigEntry()
+  const { tokensInfo } = useTokensInfo({ tokens: extraTokens })
   const { timestamp, timestampInMs } = useTimestamp({
     refreshIntervalInMs: savingsDaiInfo?.supportsRealTimeInterestAccrual ? stepInMs : undefined,
   })
   const openDialog = useOpenDialog()
-
-  if (!savingsDaiInfo) {
-    return { guestMode, openDialog, openSandboxModal, savingsDetails: { state: 'unsupported' } }
-  }
+  const { showWelcomeDialog, saveConfirmedWelcomeDialog } = useWelcomeDialog()
 
   const { totalUSD: totalEligibleCashUSD, maxBalanceToken } = calculateMaxBalanceTokenAndTotal({
     assets: inputTokens,
   })
 
-  const { potentialShares, depositedUSD, depositedUSDPrecision } = makeSavingsOverview({
-    savingsTokenWithBalance: sDaiWithBalance,
+  const sDaiDetails = makeSavingsTokenDetails({
     savingsInfo: savingsDaiInfo,
+    savingsTokenWithBalance: sDaiWithBalance,
     eligibleCashUSD: totalEligibleCashUSD,
+    timestamp,
     timestampInMs,
     stepInMs,
   })
 
-  const currentProjections = calculateProjections({
+  const sUSDSDetails = makeSavingsTokenDetails({
+    savingsInfo: savingsUsdsInfo,
+    savingsTokenWithBalance: sUSDSWithBalance,
+    eligibleCashUSD: totalEligibleCashUSD,
     timestamp,
-    shares: sDaiWithBalance.balance,
-    savingsInfo: savingsDaiInfo,
+    timestampInMs,
+    stepInMs,
   })
-  const opportunityProjections = calculateProjections({
-    timestamp,
-    shares: potentialShares,
-    savingsInfo: savingsDaiInfo,
-  })
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies:
+  const migrationInfo = useMemo(
+    () =>
+      makeMigrationInfo({
+        savingsUsdsInfo,
+        savingsDaiInfo,
+        tokensInfo,
+        openDialog,
+      }),
+    [!savingsDaiInfo, !savingsUsdsInfo, tokensInfo.DAI, tokensInfo.USDS, openDialog],
+  )
 
   function openSandboxModal(): void {
     openDialog(SandboxDialog, { mode: 'ephemeral' } as const)
   }
+
+  if (!sDaiDetails && !sUSDSDetails) {
+    return {
+      guestMode,
+      openDialog,
+      openSandboxModal,
+      savingsDetails: { state: 'unsupported' },
+    }
+  }
+
+  const opportunityProjections =
+    sUSDSDetails?.opportunityProjections ??
+    sDaiDetails?.opportunityProjections ??
+    raise('Savings opportunity projections should be defined')
 
   return {
     guestMode,
@@ -82,16 +119,16 @@ export function useSavings(): UseSavingsResults {
     openDialog,
     savingsDetails: {
       state: 'supported',
-      APY: savingsDaiInfo.apy,
-      depositedUSD,
-      depositedUSDPrecision,
-      sDaiWithBalance,
-      currentProjections,
-      opportunityProjections,
       assetsInWallet: inputTokens,
       totalEligibleCashUSD,
       maxBalanceToken,
-      chainId,
+      chainId: originChainId,
+      opportunityProjections,
+      sDaiDetails,
+      sUSDSDetails,
+      migrationInfo,
+      showWelcomeDialog,
+      saveConfirmedWelcomeDialog,
     },
   }
 }

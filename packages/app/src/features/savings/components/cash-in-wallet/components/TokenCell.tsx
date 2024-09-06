@@ -1,5 +1,5 @@
 import { Token } from '@/domain/types/Token'
-import { MigrationInfo } from '@/features/savings-with-usds/logic/makeMigrationInfo'
+import { MigrationInfo } from '@/features/savings/logic/makeMigrationInfo'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 import { testIds } from '@/ui/utils/testIds'
 import { UpgradeTokenButton } from './UpgradeTokenButton'
