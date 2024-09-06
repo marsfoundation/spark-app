@@ -5,6 +5,7 @@ import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { withRouter } from 'storybook-addon-remix-react-router'
+import { mainnet } from 'viem/chains'
 import { FarmsView } from './FarmsView'
 
 const entryAssetsGroup: AssetsGroup = {
@@ -49,6 +50,7 @@ const meta: Meta<typeof FarmsView> = {
         entryAssetsGroup,
       },
     ],
+    chainId: mainnet.id,
   },
 }
 
