@@ -2,7 +2,7 @@ import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { WithClassname, WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
-import { getMobileStory } from '@storybook/viewports'
+import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { UpgradeSDaiToSUsdsView } from './UpgradeSDaiToSUsdsView'
 
 const meta: Meta<typeof UpgradeSDaiToSUsdsView> = {
@@ -34,4 +34,4 @@ type Story = StoryObj<typeof UpgradeSDaiToSUsdsView>
 
 export const Desktop: Story = {}
 export const Mobile = getMobileStory(Desktop)
-export const Tablet = getMobileStory(Desktop)
+export const Tablet = getTabletStory(Desktop)

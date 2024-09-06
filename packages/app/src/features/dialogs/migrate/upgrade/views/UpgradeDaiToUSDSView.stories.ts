@@ -2,7 +2,7 @@ import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { WithClassname, WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
-import { getMobileStory } from '@storybook/viewports'
+import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { UpgradeDaiToUSDSView } from './UpgradeDaiToUSDSView'
 
 const meta: Meta<typeof UpgradeDaiToUSDSView> = {
@@ -33,4 +33,4 @@ type Story = StoryObj<typeof UpgradeDaiToUSDSView>
 
 export const Desktop: Story = {}
 export const Mobile = getMobileStory(Desktop)
-export const Tablet = getMobileStory(Desktop)
+export const Tablet = getTabletStory(Desktop)

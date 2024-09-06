@@ -10,8 +10,9 @@ import repay from './actions/repay.svg'
 import withdraw from './actions/withdraw.svg'
 import arrowRight from './arrow-right.svg'
 import arrowUpRight from './arrow-up-right.svg'
+import daiToUsdsUpgrade from './banners/dai-to-usds-upgrade.webp'
 import mkrToSkyTransform from './banners/mkr-to-sky-transform.svg'
-import newSavingsWelcome from './banners/new-savings-welcome.webp'
+import sdaiToSusdsUpgrade from './banners/sdai-to-susds-upgrade.webp'
 import boxArrowTopRight from './box-arrow-top-right.svg'
 import ethereum from './chains/ethereum.svg'
 import gnosis from './chains/gnosis.svg'
@@ -169,7 +170,8 @@ export const assets = {
     default: defaultWallet,
   },
   banners: {
-    newSavingsWelcome,
+    daiToUsdsUpgrade,
+    sdaiToSusdsUpgrade,
     mkrToSkyTransform,
   },
 }
