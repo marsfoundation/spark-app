@@ -1,19 +1,16 @@
 import { Address } from 'viem'
-import { useChainId, useChains } from 'wagmi'
+import { useBlockExplorerLink } from './useBlockExplorerLink'
 
 interface useBlockExplorerAddressLinkParams {
   address: Address | undefined
   chainId?: number
 }
 
-export function useBlockExplorerAddressLink(params: useBlockExplorerAddressLinkParams): string | undefined {
-  const currentChainId = useChainId()
-  const chains = useChains()
-
-  const { address, chainId = currentChainId } = params
-
-  const chain = chains.find((chain) => chain.id === chainId)
-  const blockExplorerLink = chain?.blockExplorers?.default.url
+export function useBlockExplorerAddressLink({
+  address,
+  chainId,
+}: useBlockExplorerAddressLinkParams): string | undefined {
+  const blockExplorerLink = useBlockExplorerLink(chainId)
 
   if (!address || !blockExplorerLink) {
     return undefined

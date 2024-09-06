@@ -1,12 +1,14 @@
 import { SupportedChainId } from '@/config/chain/types'
 import { TokenWithBalance } from '@/domain/common/types'
 import { useChainConfigEntry } from '@/domain/hooks/useChainConfigEntry'
+import { useGetBlockExplorerAddressLink } from '@/domain/hooks/useGetBlockExplorerAddressLink'
 import { useSavingsDaiInfo } from '@/domain/savings-info/useSavingsDaiInfo'
 import { useSavingsUsdsInfo } from '@/domain/savings-info/useSavingsUsdsInfo'
 import { calculateMaxBalanceTokenAndTotal } from '@/domain/savings/calculateMaxBalanceTokenAndTotal'
 import { useSavingsTokens } from '@/domain/savings/useSavingsTokens'
 import { OpenDialogFunction, useOpenDialog } from '@/domain/state/dialogs'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
+import { Token } from '@/domain/types/Token'
 import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
 import { raise } from '@/utils/assert'
@@ -28,6 +30,12 @@ export interface SavingsTokenDetails {
   depositedUSDPrecision: number
 }
 
+export interface AssetInWallet {
+  token: Token
+  balance: NormalizedUnitNumber
+  blockExplorerLink: string | undefined
+}
+
 export interface UseSavingsResults {
   guestMode: boolean
   openDialog: OpenDialogFunction
@@ -35,7 +43,7 @@ export interface UseSavingsResults {
   savingsDetails:
     | {
         state: 'supported'
-        assetsInWallet: TokenWithBalance[]
+        assetsInWallet: AssetInWallet[]
         totalEligibleCashUSD: NormalizedUnitNumber
         maxBalanceToken: TokenWithBalance
         chainId: SupportedChainId
@@ -60,6 +68,7 @@ export function useSavings(): UseSavingsResults {
   })
   const openDialog = useOpenDialog()
   const { showWelcomeDialog, saveConfirmedWelcomeDialog } = useWelcomeDialog()
+  const getBlockExplorerLink = useGetBlockExplorerAddressLink()
 
   const { totalUSD: totalEligibleCashUSD, maxBalanceToken } = calculateMaxBalanceTokenAndTotal({
     assets: inputTokens,
@@ -113,13 +122,18 @@ export function useSavings(): UseSavingsResults {
     sDaiDetails?.opportunityProjections ??
     raise('Savings opportunity projections should be defined')
 
+  const assetsInWallet = inputTokens.map((tokenWithBalance) => ({
+    ...tokenWithBalance,
+    blockExplorerLink: getBlockExplorerLink(tokenWithBalance.token.address),
+  }))
+
   return {
     guestMode,
     openSandboxModal,
     openDialog,
     savingsDetails: {
       state: 'supported',
-      assetsInWallet: inputTokens,
+      assetsInWallet,
       totalEligibleCashUSD,
       maxBalanceToken,
       chainId: originChainId,
