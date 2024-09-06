@@ -14,12 +14,13 @@ export interface SuccessViewProps {
   tokenWithValue: TokenWithValue
   onProceed: () => void
   proceedText: string
+  className?: string
 }
-export function SuccessView({ objectiveType, tokenWithValue, onProceed, proceedText }: SuccessViewProps) {
+export function SuccessView({ objectiveType, tokenWithValue, onProceed, proceedText, className }: SuccessViewProps) {
   const { token, value } = tokenWithValue
 
   return (
-    <SuccessViewContent>
+    <SuccessViewContent className={className}>
       <SuccessViewCheckmark />
       <SuccessViewSummaryPanel title={objectiveTypeToVerb[objectiveType]}>
         <div className="flex items-center gap-2">

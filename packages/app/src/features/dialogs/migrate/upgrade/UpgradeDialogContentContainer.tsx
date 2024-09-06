@@ -27,6 +27,7 @@ function UpgradeDialogContentContainer({ fromToken, toToken, closeDialog }: Upgr
         proceedText="Back to Savings"
         objectiveType="upgrade"
         onProceed={closeDialog}
+        className="p-6"
       />
     )
   }
