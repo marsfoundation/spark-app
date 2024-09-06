@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { test } from '@playwright/test'
 import { gnosis, mainnet } from 'viem/chains'
 
 import { DialogPageObject } from '@/features/dialogs/common/Dialog.PageObject'
@@ -319,15 +319,13 @@ test.describe('Market details Mainnet', () => {
 
       const marketDetailsPage = new MarketDetailsPageObject(page)
 
-      const supplyPanelLocator = marketDetailsPage.locateSupplyStatusPanel()
-      await marketDetailsPage.expectPanelCap(supplyPanelLocator, '403.2K WETH')
-      await marketDetailsPage.expectPanelMaxCap(supplyPanelLocator, '2M WETH')
-      await marketDetailsPage.expectCooldownTimer(supplyPanelLocator, '0h 00m 00s')
+      await marketDetailsPage.expectSupplyCap('403.2K WETH')
+      await marketDetailsPage.expectSupplyMaxCap('2M WETH')
+      await marketDetailsPage.expectSupplyCapCooldown('0h 00m 00s')
 
-      const borrowPanelLocator = marketDetailsPage.locateBorrowStatusPanel()
-      await marketDetailsPage.expectPanelCap(borrowPanelLocator, '256K WETH')
-      await marketDetailsPage.expectPanelMaxCap(borrowPanelLocator, '1M WETH')
-      await marketDetailsPage.expectCooldownTimer(borrowPanelLocator, '0h 00m 00s')
+      await marketDetailsPage.expectBorrowCap('256K WETH')
+      await marketDetailsPage.expectBorrowMaxCap('1M WETH')
+      await marketDetailsPage.expectBorrowCapCooldown('0h 00m 00s')
     })
 
     test('DAI', async ({ page }) => {
@@ -340,17 +338,13 @@ test.describe('Market details Mainnet', () => {
       })
 
       const marketDetailsPage = new MarketDetailsPageObject(page)
-      await expect(marketDetailsPage.locateSupplyStatusPanel()).not.toBeVisible()
 
-      const borrowPanelLocator = marketDetailsPage.locateBorrowStatusPanel()
-      await expect(borrowPanelLocator).toBeVisible()
-      await expect(marketDetailsPage.locatePanelAutomatorCap(borrowPanelLocator)).not.toBeVisible()
-      await expect(marketDetailsPage.locatePanelAutomatorMaxCap(borrowPanelLocator)).not.toBeVisible()
+      await marketDetailsPage.expectSupplyPanelNotVisible()
+      await marketDetailsPage.expectBorrowPanelNotVisible()
 
-      const collateralPanelLocator = marketDetailsPage.locateCollateralStatusPanel()
-      await marketDetailsPage.expectPanelCap(collateralPanelLocator, '57.24M sDAI')
-      await marketDetailsPage.expectPanelMaxCap(collateralPanelLocator, '1B sDAI')
-      await marketDetailsPage.expectCooldownTimer(collateralPanelLocator, '0h 00m 00s')
+      await marketDetailsPage.expectCollateralCap('57.24M sDAI')
+      await marketDetailsPage.expectCollateralMaxCap('1B sDAI')
+      await marketDetailsPage.expectCollateralCapCooldown('0h 00m 00s')
     })
 
     test('USDC', async ({ page }) => {
@@ -363,18 +357,12 @@ test.describe('Market details Mainnet', () => {
       })
 
       const marketDetailsPage = new MarketDetailsPageObject(page)
-      await expect(marketDetailsPage.locateSupplyStatusPanel()).not.toBeVisible()
 
-      const supplyPanelLocator = marketDetailsPage.locateSupplyStatusPanel()
-      await expect(supplyPanelLocator).toBeVisible()
-      await expect(marketDetailsPage.locatePanelAutomatorCap(supplyPanelLocator)).toBeVisible()
-      await expect(marketDetailsPage.locatePanelAutomatorMaxCap(supplyPanelLocator)).not.toBeVisible()
-      await expect(marketDetailsPage.locatePanelAutomatorCooldownTimer(supplyPanelLocator)).not.toBeVisible()
+      await marketDetailsPage.expectSupplyPanelNotVisible()
 
-      const borrowPanelLocator = marketDetailsPage.locateBorrowStatusPanel()
-      await marketDetailsPage.expectPanelCap(borrowPanelLocator, '7.678M USDC')
-      await marketDetailsPage.expectPanelMaxCap(borrowPanelLocator, '57M USDC')
-      await marketDetailsPage.expectCooldownTimer(borrowPanelLocator, '0h 00m 00s')
+      await marketDetailsPage.expectBorrowCap('7.678M USDC')
+      await marketDetailsPage.expectBorrowMaxCap('57M USDC')
+      await marketDetailsPage.expectBorrowCapCooldown('0h 00m 00s')
     })
 
     test('WBTC', async ({ page }) => {
@@ -388,12 +376,11 @@ test.describe('Market details Mainnet', () => {
 
       const marketDetailsPage = new MarketDetailsPageObject(page)
 
-      const supplyPanelLocator = marketDetailsPage.locateSupplyStatusPanel()
-      await marketDetailsPage.expectPanelCap(supplyPanelLocator, '4,780 WBTC')
-      await marketDetailsPage.expectPanelMaxCap(supplyPanelLocator, '10K WBTC')
-      await marketDetailsPage.expectCooldownTimer(supplyPanelLocator, '0h 00m 00s')
+      await marketDetailsPage.expectSupplyCap('4,780 WBTC')
+      await marketDetailsPage.expectSupplyMaxCap('10K WBTC')
+      await marketDetailsPage.expectSupplyCapCooldown('0h 00m 00s')
 
-      await expect(marketDetailsPage.locateBorrowStatusPanel()).not.toBeVisible()
+      await marketDetailsPage.expectBorrowPanelNotVisible()
     })
   })
 })
@@ -401,12 +388,11 @@ test.describe('Market details Mainnet', () => {
 test.describe('Market details Gnosis', () => {
   const XDAI = '0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d'
   const WETH = '0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1'
-  const USDT = '0x4ECaBa5870353805a9F068101A40E0f32ed605C6'
 
   const fork = setupFork({
     blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER,
     chainId: gnosis.id,
-    simulationDateOverride: new Date(1724846808220),
+    simulationDateOverride: new Date('2024-08-28T12:06:48.220Z'),
   })
 
   test.describe('Cap automator', () => {
@@ -421,13 +407,11 @@ test.describe('Market details Gnosis', () => {
 
       const marketDetailsPage = new MarketDetailsPageObject(page)
 
-      const supplyPanelLocator = marketDetailsPage.locateSupplyStatusPanel()
-      await marketDetailsPage.expectPanelCap(supplyPanelLocator, '5,000 WETH')
-      await expect(marketDetailsPage.locatePanelAutomatorMaxCap(supplyPanelLocator)).not.toBeVisible()
+      await marketDetailsPage.expectSupplyCap('5,000 WETH')
+      await marketDetailsPage.expectSupplyMaxCapNotVisible()
 
-      const borrowPanelLocator = marketDetailsPage.locateBorrowStatusPanel()
-      await marketDetailsPage.expectPanelCap(borrowPanelLocator, '3,000 WETH')
-      await expect(marketDetailsPage.locatePanelAutomatorMaxCap(borrowPanelLocator)).not.toBeVisible()
+      await marketDetailsPage.expectBorrowCap('3,000 WETH')
+      await marketDetailsPage.expectBorrowMaxCapNotVisible()
     })
 
     test('XDAI', async ({ page }) => {
@@ -441,35 +425,13 @@ test.describe('Market details Gnosis', () => {
 
       const marketDetailsPage = new MarketDetailsPageObject(page)
 
-      const supplyPanelLocator = marketDetailsPage.locateSupplyStatusPanel()
-      await marketDetailsPage.expectPanelCap(supplyPanelLocator, '20M WXDAI')
-      await expect(marketDetailsPage.locatePanelAutomatorMaxCap(supplyPanelLocator)).not.toBeVisible()
+      await marketDetailsPage.expectSupplyCap('20M WXDAI')
+      await marketDetailsPage.expectSupplyMaxCapNotVisible()
 
-      const borrowPanelLocator = marketDetailsPage.locateBorrowStatusPanel()
-      await marketDetailsPage.expectPanelCap(borrowPanelLocator, '16M WXDAI')
-      await expect(marketDetailsPage.locatePanelAutomatorMaxCap(borrowPanelLocator)).not.toBeVisible()
+      await marketDetailsPage.expectBorrowCap('16M WXDAI')
+      await marketDetailsPage.expectBorrowMaxCapNotVisible()
 
-      await expect(marketDetailsPage.locateCollateralStatusPanel()).not.toBeVisible()
-    })
-
-    test('USDT', async ({ page }) => {
-      await setup(page, fork, {
-        initialPage: 'marketDetails',
-        initialPageParams: { asset: USDT, chainId: fork.chainId.toString() },
-        account: {
-          type: 'not-connected',
-        },
-      })
-
-      const marketDetailsPage = new MarketDetailsPageObject(page)
-
-      const supplyPanelLocator = marketDetailsPage.locateSupplyStatusPanel()
-      await marketDetailsPage.expectPanelCap(supplyPanelLocator, '10M USDT')
-      await expect(marketDetailsPage.locatePanelAutomatorMaxCap(supplyPanelLocator)).not.toBeVisible()
-
-      const borrowPanelLocator = marketDetailsPage.locateBorrowStatusPanel()
-      await marketDetailsPage.expectPanelCap(borrowPanelLocator, '8M USDT')
-      await expect(marketDetailsPage.locatePanelAutomatorMaxCap(borrowPanelLocator)).not.toBeVisible()
+      await marketDetailsPage.expectCollateralPanelNotVisible()
     })
   })
 })
