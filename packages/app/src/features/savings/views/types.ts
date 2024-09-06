@@ -3,14 +3,14 @@ import { TokenWithBalance } from '@/domain/common/types'
 import { OpenDialogFunction } from '@/domain/state/dialogs'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { MigrationInfo } from '../logic/makeMigrationInfo'
-import { SavingsTokenDetails } from '../logic/useSavings'
+import { AssetInWallet, SavingsTokenDetails } from '../logic/useSavings'
 import { Projections } from '../types'
 
 export interface SavingsViewContentProps {
   savingsTokenDetails: SavingsTokenDetails
   migrationInfo?: MigrationInfo
   chainId: SupportedChainId
-  assetsInWallet: TokenWithBalance[]
+  assetsInWallet: AssetInWallet[]
   maxBalanceToken: TokenWithBalance
   totalEligibleCashUSD: NormalizedUnitNumber
   opportunityProjections: Projections

@@ -1,23 +1,22 @@
-import { useMemo } from 'react'
-
-import { TokenWithBalance } from '@/domain/common/types'
 import { OpenDialogFunction } from '@/domain/state/dialogs'
 import { SavingsDepositDialog } from '@/features/dialogs/savings/deposit/SavingsDepositDialog'
 import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { DataTable, DataTableProps } from '@/ui/molecules/data-table/DataTable'
+import { useMemo } from 'react'
 import { MigrationInfo } from '../../logic/makeMigrationInfo'
+import { AssetInWallet } from '../../logic/useSavings'
 import { MoreDropdown } from './components/MoreDropdown'
 import { TokenCell } from './components/TokenCell'
 
 export interface CashInWalletProps {
-  assets: TokenWithBalance[]
+  assets: AssetInWallet[]
   openDialog: OpenDialogFunction
   migrationInfo?: MigrationInfo
 }
 
 export function CashInWallet({ assets, openDialog, migrationInfo }: CashInWalletProps) {
-  const columnDef: DataTableProps<TokenWithBalance>['columnDef'] = useMemo(
+  const columnDef: DataTableProps<AssetInWallet>['columnDef'] = useMemo(
     () => ({
       token: {
         header: 'Token',
@@ -36,7 +35,7 @@ export function CashInWallet({ assets, openDialog, migrationInfo }: CashInWallet
       },
       actions: {
         header: '',
-        renderCell: ({ token, balance }) => {
+        renderCell: ({ token, balance, blockExplorerLink }) => {
           return (
             <div className="flex justify-end gap-1 sm:gap-3">
               <Button
@@ -47,7 +46,12 @@ export function CashInWallet({ assets, openDialog, migrationInfo }: CashInWallet
               >
                 Deposit
               </Button>
-              <MoreDropdown token={token} migrationInfo={migrationInfo} disabled={balance.eq(0)} />
+              <MoreDropdown
+                token={token}
+                migrationInfo={migrationInfo}
+                blockExplorerLink={blockExplorerLink}
+                disabled={balance.eq(0)}
+              />
             </div>
           )
         },

@@ -12,15 +12,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/ui/atoms/dropdown/DropdownMenu'
+import { LinkDecorator } from '@/ui/atoms/link-decorator/LinkDecorator'
 import { testIds } from '@/ui/utils/testIds'
 
 export interface MoreDropdownProps {
   token: Token
   disabled?: boolean
   migrationInfo?: MigrationInfo
+  blockExplorerLink: string | undefined
 }
 
-export function MoreDropdown({ token, migrationInfo, disabled }: MoreDropdownProps) {
+export function MoreDropdown({ token, blockExplorerLink, migrationInfo, disabled }: MoreDropdownProps) {
   return (
     <DropdownWrapper disabled={disabled}>
       {migrationInfo?.usdsSymbol === token.symbol && (
@@ -32,16 +34,20 @@ export function MoreDropdown({ token, migrationInfo, disabled }: MoreDropdownPro
           <DropdownMenuSeparator />
         </>
       )}
-      <DropdownItem>
-        <DocumentSketchIcon className="h-4 w-4" />
-        Learn more
-        <ArrowUpRightIcon className="ml-auto h-4 w-4" />
-      </DropdownItem>
+      {blockExplorerLink && (
+        <LinkDecorator to={blockExplorerLink} external>
+          <DropdownItem>
+            <DocumentSketchIcon className="h-4 w-4" />
+            Learn more
+            <ArrowUpRightIcon className="ml-auto h-4 w-4" />
+          </DropdownItem>
+        </LinkDecorator>
+      )}
     </DropdownWrapper>
   )
 }
 
-function DropdownWrapper({ children, disabled }: { children: React.ReactNode; disabled?: boolean }) {
+function DropdownWrapper({ children, disabled }: { children?: React.ReactNode; disabled?: boolean }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
