@@ -29,7 +29,7 @@ export function UpgradeSDaiToSUsdsView({
   actionsContext,
 }: UpgradeSDaiToSUsdsViewProps) {
   return (
-    <>
+    <div>
       <img src={assets.banners.sdaiToSusdsUpgrade} alt="sdai-to-susds-upgrade-banner" className="w-full max-w-xl" />
       <MultiPanelDialog className="p-6">
         <DialogTitle>
@@ -64,6 +64,6 @@ export function UpgradeSDaiToSUsdsView({
           context={actionsContext}
         />
       </MultiPanelDialog>
-    </>
+    </div>
   )
 }

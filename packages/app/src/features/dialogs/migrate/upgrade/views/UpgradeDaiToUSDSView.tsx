@@ -25,7 +25,7 @@ export function UpgradeDaiToUSDSView({
   actionsContext,
 }: UpgradeDaiToUSDSViewProps) {
   return (
-    <>
+    <div>
       <img src={assets.banners.daiToUsdsUpgrade} alt="dai-to-usds-upgrade-banner" className="w-full sm:max-w-xl" />
       <MultiPanelDialog className="p-6">
         <DialogTitle>
@@ -53,6 +53,6 @@ export function UpgradeDaiToUSDSView({
           context={actionsContext}
         />
       </MultiPanelDialog>
-    </>
+    </div>
   )
 }
