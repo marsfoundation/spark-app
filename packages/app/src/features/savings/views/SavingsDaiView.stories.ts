@@ -12,10 +12,12 @@ const savingsViewBaseArgs = {
     {
       token: tokens.DAI,
       balance: NormalizedUnitNumber(22727),
+      blockExplorerLink: '/',
     },
     {
       token: tokens.USDC,
       balance: NormalizedUnitNumber(0),
+      blockExplorerLink: '/',
     },
   ],
   maxBalanceToken: {
@@ -88,14 +90,17 @@ export const AllIn: Story = {
       {
         token: tokens.DAI,
         balance: NormalizedUnitNumber(0),
+        blockExplorerLink: '/',
       },
       {
         token: tokens.USDS,
         balance: NormalizedUnitNumber(0),
+        blockExplorerLink: '/',
       },
       {
         token: tokens.USDC,
         balance: NormalizedUnitNumber(0),
+        blockExplorerLink: '/',
       },
     ],
   },
@@ -125,14 +130,17 @@ export const NoDepositNoCash: Story = {
       {
         token: tokens.DAI,
         balance: NormalizedUnitNumber(0),
+        blockExplorerLink: '/',
       },
       {
         token: tokens.USDT,
         balance: NormalizedUnitNumber(0),
+        blockExplorerLink: '/',
       },
       {
         token: tokens.USDC,
         balance: NormalizedUnitNumber(0),
+        blockExplorerLink: '/',
       },
     ],
   },
@@ -162,14 +170,17 @@ export const BigNumbersDesktop: Story = {
       {
         token: tokens.DAI,
         balance: NormalizedUnitNumber(232134925.90911123),
+        blockExplorerLink: '/',
       },
       {
         token: tokens.USDT,
         balance: NormalizedUnitNumber(601234014.134234),
+        blockExplorerLink: '/',
       },
       {
         token: tokens.USDC,
         balance: NormalizedUnitNumber(12312.90345),
+        blockExplorerLink: '/',
       },
     ],
   },

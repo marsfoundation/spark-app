@@ -4,14 +4,16 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { userEvent, within } from '@storybook/test'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
+import { withRouter } from 'storybook-addon-remix-react-router'
 import { MoreDropdown } from './MoreDropdown'
 
 const meta: Meta<typeof MoreDropdown> = {
   title: 'Features/Savings/Components/CashInWallet/MoreDropdown',
-  decorators: [WithClassname('p-8 bg-white flex justify-end')],
+  decorators: [WithClassname('p-8 bg-white flex justify-end h-48'), withRouter()],
   component: MoreDropdown,
   args: {
     token: tokens.USDS,
+    blockExplorerLink: '/',
     migrationInfo: {
       daiSymbol: tokens.DAI.symbol,
       usdsSymbol: tokens.USDS.symbol,
