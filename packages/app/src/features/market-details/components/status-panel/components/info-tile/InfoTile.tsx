@@ -4,10 +4,16 @@ import { cn } from '@/ui/utils/style'
 
 interface InfoTileProps {
   children: ReactNode
+  'data-testid'?: string
 }
-export function InfoTile({ children }: InfoTileProps) {
+export function InfoTile({ children, 'data-testid': dataTestId }: InfoTileProps) {
   return (
-    <div className="grid grid-cols-2 content-start justify-between gap-1.5 sm:grid-cols-1 sm:gap-0.5">{children}</div>
+    <div
+      className="grid grid-cols-2 content-start justify-between gap-1.5 sm:grid-cols-1 sm:gap-0.5"
+      data-testid={dataTestId}
+    >
+      {children}
+    </div>
   )
 }
 
@@ -15,15 +21,18 @@ function Label({ children }: InfoTileProps) {
   return <div className="my-auto text-slate-500 text-sm leading-none sm:text-xs sm:leading-none">{children}</div>
 }
 
-function Value({ children }: InfoTileProps) {
+function Value({ children, 'data-testid': dataTestId }: InfoTileProps) {
   return (
-    <div className="flex items-center gap-1 justify-self-end text-sky-950 text-sm leading-none sm:min-h-[26px] sm:justify-self-start sm:text-base sm:leading-none">
+    <div
+      className="flex items-center gap-1 justify-self-end text-sky-950 text-sm leading-none sm:min-h-[26px] sm:justify-self-start sm:text-base sm:leading-none"
+      data-testid={dataTestId}
+    >
       {children}
     </div>
   )
 }
 
-function ComplementaryLine({ children }: InfoTileProps) {
+function ComplementaryLine({ children, 'data-testid': dataTestId }: InfoTileProps) {
   return (
     <p
       className={cn(
@@ -32,6 +41,7 @@ function ComplementaryLine({ children }: InfoTileProps) {
         'sm:col-start-1 sm:row-start-3',
         'sm:justify-self-start sm:leading-none',
       )}
+      data-testid={dataTestId}
     >
       {children}
     </p>

@@ -8,6 +8,7 @@ import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { CooldownTimer } from '@/ui/molecules/cooldown-timer/CooldownTimer'
 import { cn } from '@/ui/utils/style'
+import { testIds } from '@/ui/utils/testIds'
 import { CollateralStatusInfo } from '../../types'
 import { EmptyStatusPanel } from './components/EmptyStatusPanel'
 import { Header } from './components/Header'
@@ -100,7 +101,7 @@ function CapAutomatorInfoTile({ token, capAutomatorInfo, supplyCap }: CapAutomat
       {capAutomatorInfo && (
         <InfoTile>
           <InfoTile.Label>Supply cap</InfoTile.Label>
-          <InfoTile.Value>
+          <InfoTile.Value data-testid={testIds.marketDetails.capAutomator.maxCap}>
             {token.format(capAutomatorInfo.maxCap, { style: 'compact' })} {token.symbol}
           </InfoTile.Value>
           <InfoTile.ComplementaryLine>
@@ -111,7 +112,7 @@ function CapAutomatorInfoTile({ token, capAutomatorInfo, supplyCap }: CapAutomat
 
       <InfoTile>
         <InfoTile.Label>{capAutomatorInfo ? 'Instantly available supply cap:' : 'Supply cap'}</InfoTile.Label>
-        <InfoTile.Value>
+        <InfoTile.Value data-testid={testIds.marketDetails.capAutomator.cap}>
           {token.format(supplyCap, { style: 'compact' })} {token.symbol}
           {capAutomatorInfo && (
             <CooldownTimer

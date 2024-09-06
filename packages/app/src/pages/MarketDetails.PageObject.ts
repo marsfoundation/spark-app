@@ -14,6 +14,30 @@ export class MarketDetailsPageObject extends BasePageObject {
   locateMyWallet(): Locator {
     return this.locatePanelByHeader('My wallet')
   }
+
+  locateSupplyStatusPanel(): Locator {
+    return this.locatePanelByHeader('Can be supplied')
+  }
+
+  locateBorrowStatusPanel(): Locator {
+    return this.locatePanelByHeader('Can be borrowed')
+  }
+
+  locateCollateralStatusPanel(): Locator {
+    return this.locatePanelByHeader('Can be used as collateral')
+  }
+
+  locatePanelAutomatorCap(panelLocator: Locator): Locator {
+    return panelLocator.getByTestId(testIds.marketDetails.capAutomator.cap)
+  }
+
+  locatePanelAutomatorMaxCap(panelLocator: Locator): Locator {
+    return panelLocator.getByTestId(testIds.marketDetails.capAutomator.maxCap)
+  }
+
+  locatePanelAutomatorCooldownTimer(panelLocator: Locator): Locator {
+    return panelLocator.getByTestId(testIds.marketDetails.capAutomator.cooldownTimer)
+  }
   // #endregion
 
   // #region actions
@@ -74,5 +98,78 @@ export class MarketDetailsPageObject extends BasePageObject {
     await expect(this.page.getByText('404')).toBeVisible()
     await expect(this.page.getByText('The requested page could not be found.')).toBeVisible()
   }
+
+  async expectSupplyPanelNotVisible(): Promise<void> {
+    await expect(this.locateSupplyStatusPanel()).not.toBeVisible()
+  }
+
+  async expectBorrowPanelNotVisible(): Promise<void> {
+    await expect(this.locateBorrowStatusPanel()).not.toBeVisible()
+  }
+
+  async expectCollateralPanelNotVisible(): Promise<void> {
+    await expect(this.locateCollateralStatusPanel()).not.toBeVisible()
+  }
+
+  async expectSupplyCap(value: string): Promise<void> {
+    await expect(this.locatePanelAutomatorCap(this.locateSupplyStatusPanel())).toHaveText(value)
+  }
+
+  async expectSupplyMaxCap(value: string): Promise<void> {
+    await expect(this.locatePanelAutomatorMaxCap(this.locateSupplyStatusPanel())).toHaveText(value)
+  }
+
+  async expectSupplyMaxCapNotVisible(): Promise<void> {
+    await expect(this.locatePanelAutomatorMaxCap(this.locateSupplyStatusPanel())).not.toBeVisible()
+  }
+
+  async expectSupplyCapCooldown(value: string): Promise<void> {
+    const timerTriggerLocator = this.locatePanelAutomatorCooldownTimer(this.locateSupplyStatusPanel())
+    await timerTriggerLocator.hover()
+    const tooltipLocator = this.page.getByRole('tooltip')
+
+    await expect(tooltipLocator).toContainText(value)
+  }
+
+  async expectCollateralCap(value: string): Promise<void> {
+    await expect(this.locatePanelAutomatorCap(this.locateCollateralStatusPanel())).toHaveText(value)
+  }
+
+  async expectCollateralMaxCap(value: string): Promise<void> {
+    await expect(this.locatePanelAutomatorMaxCap(this.locateCollateralStatusPanel())).toHaveText(value)
+  }
+
+  async expectCollateralMaxCapNotVisible(): Promise<void> {
+    await expect(this.locatePanelAutomatorMaxCap(this.locateCollateralStatusPanel())).not.toBeVisible()
+  }
+
+  async expectCollateralCapCooldown(value: string): Promise<void> {
+    const timerTriggerLocator = this.locatePanelAutomatorCooldownTimer(this.locateCollateralStatusPanel())
+    await timerTriggerLocator.hover()
+    const tooltipLocator = this.page.getByRole('tooltip')
+
+    await expect(tooltipLocator).toContainText(value)
+  }
+
+  async expectBorrowCap(value: string): Promise<void> {
+    await expect(this.locatePanelAutomatorCap(this.locateBorrowStatusPanel())).toHaveText(value)
+  }
+
+  async expectBorrowMaxCap(value: string): Promise<void> {
+    await expect(this.locatePanelAutomatorMaxCap(this.locateBorrowStatusPanel())).toHaveText(value)
+  }
+
+  async expectBorrowMaxCapNotVisible(): Promise<void> {
+    await expect(this.locatePanelAutomatorMaxCap(this.locateBorrowStatusPanel())).not.toBeVisible()
+  }
+
+  async expectBorrowCapCooldown(value: string): Promise<void> {
+    const timerTriggerLocator = this.locatePanelAutomatorCooldownTimer(this.locateBorrowStatusPanel())
+    await timerTriggerLocator.hover()
+    const tooltipLocator = this.page.getByRole('tooltip')
+
+    await expect(tooltipLocator).toContainText(value)
+  }
+
   // #endregion
 }
