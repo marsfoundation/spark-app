@@ -6,6 +6,7 @@ import { getFarmTileProps } from './getFarmTileData'
 export interface UseFarmsResult {
   activeFarms: FarmTileProps[]
   inactiveFarms: FarmTileProps[]
+  chainId: number
 }
 
 export function useFarms(): UseFarmsResult {
@@ -18,5 +19,6 @@ export function useFarms(): UseFarmsResult {
   return {
     activeFarms,
     inactiveFarms,
+    chainId,
   }
 }
