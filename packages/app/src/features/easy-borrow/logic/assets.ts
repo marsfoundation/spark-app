@@ -1,9 +1,12 @@
+import { getChainConfigEntry } from '@/config/chain'
 import { NativeAssetInfo } from '@/config/chain/types'
-import { MarketInfo, Reserve, UserPosition } from '@/domain/market-info/marketInfo'
+import { TokenWithBalance } from '@/domain/common/types'
+import { MarketInfo, UserPosition } from '@/domain/market-info/marketInfo'
 import { MarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
+import { assert } from '@/utils/assert'
 
-const blacklistedDepositableAssets = ['USDC', 'USDT', 'DAI', 'sDAI', 'XDAI']
-export function getDepositableAssets(positions: UserPosition[]): Reserve[] {
+const blacklistedDepositOptions = ['USDC', 'USDT', 'DAI', 'sDAI', 'XDAI']
+export function getDepositOptions(positions: UserPosition[], walletInfo: MarketWalletInfo): TokenWithBalance[] {
   return (
     positions
       .filter((p) => p.reserve.status === 'active' && !p.reserve.isIsolated)
@@ -11,24 +14,28 @@ export function getDepositableAssets(positions: UserPosition[]): Reserve[] {
       .filter((p) => p.reserve.usageAsCollateralEnabled)
       // Filter out positions that have deposit, but usage as collateral is turned off by user
       .filter((p) => p.collateralBalance.eq(0) || p.reserve.usageAsCollateralEnabledOnUser)
-      .filter((p) => !blacklistedDepositableAssets.includes(p.reserve.token.symbol))
-      .map((p) => p.reserve)
+      .filter((p) => !blacklistedDepositOptions.includes(p.reserve.token.symbol))
+      .map((p) => ({
+        token: p.reserve.token,
+        balance: walletInfo.findWalletBalanceForToken(p.reserve.token),
+      }))
+      .sort((a, b) => b.balance.minus(a.balance).toNumber())
   )
 }
 
-const whitelistedBorrowableAssets = ['DAI', 'WXDAI']
-export function getBorrowableAssets(reserves: Reserve[]): Reserve[] {
-  return reserves.filter((r) => whitelistedBorrowableAssets.includes(r.token.symbol))
+export interface GetBorrowOptionsParams {
+  allTokens: TokenWithBalance[]
+  chainId: number
 }
+export function getBorrowOptions({
+  allTokens,
+  chainId,
+}: GetBorrowOptionsParams): [TokenWithBalance, ...TokenWithBalance[]] {
+  const whitelistedBorrowOptions = getChainConfigEntry(chainId).easyBorrowConfig.borrowOptions
+  const borrowOptions = allTokens.filter(({ token }) => whitelistedBorrowOptions.includes(token.symbol))
+  assert(borrowOptions.length > 0, 'No borrow options')
 
-export function sortByDecreasingBalances(reserves: Reserve[], walletInfo: MarketWalletInfo): Reserve[] {
-  const reservesWithBalances = reserves.map((reserve) => ({
-    reserve,
-    balance: walletInfo.findWalletBalanceForToken(reserve.token),
-  }))
-  const sortedReserves = reservesWithBalances.sort((a, b) => b.balance.minus(a.balance).toNumber())
-
-  return sortedReserves.map((r) => r.reserve)
+  return borrowOptions as [TokenWithBalance, ...TokenWithBalance[]]
 }
 
 export function imputeNativeAsset(marketInfo: MarketInfo, nativeAssetInfo: NativeAssetInfo): UserPosition[] {

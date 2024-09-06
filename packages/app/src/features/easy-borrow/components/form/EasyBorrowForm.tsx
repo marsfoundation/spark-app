@@ -70,6 +70,8 @@ export function EasyBorrowForm(props: EasyBorrowFlowProps) {
           </div>
           <Borrow
             selectedAssets={assetsToBorrowFields.selectedAssets}
+            allAssets={assetsToBorrowFields.allAssets}
+            changeAsset={assetsToBorrowFields.changeAsset}
             alreadyBorrowed={alreadyBorrowed}
             control={form.control}
             disabled={disabled}

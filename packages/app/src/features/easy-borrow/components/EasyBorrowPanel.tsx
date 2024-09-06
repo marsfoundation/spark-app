@@ -2,7 +2,6 @@ import { RiskAcknowledgementInfo } from '@/domain/liquidation-risk-warning/types
 import { LiquidationDetails } from '@/domain/market-info/getLiquidationDetails'
 import { UserPositionSummary } from '@/domain/market-info/marketInfo'
 import { Percentage } from '@/domain/types/NumericValues'
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { ActionsContainer } from '@/features/actions/ActionsContainer'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { Button } from '@/ui/atoms/button/Button'
@@ -33,11 +32,7 @@ export interface EasyBorrowPanelProps {
 
   objectives: Objective[]
 
-  assetToBorrow: {
-    symbol: TokenSymbol
-    borrowRate: Percentage
-  }
-
+  borrowRate: Percentage
   guestMode: boolean
   openConnectModal: () => void
   openSandboxModal: () => void
@@ -61,7 +56,7 @@ export function EasyBorrowPanel(props: EasyBorrowPanelProps) {
     <Panel.Wrapper className="flex min-w-full max-w-3xl flex-col self-center p-4 md:p-8">
       <div className="mb-6 flex h-10 flex-row items-center justify-between">
         <Typography variant="h3">
-          <Trans>Borrow {props.assetToBorrow.symbol}</Trans>
+          <Trans>Borrow</Trans>
         </Typography>
         {pageStatus.state === 'confirmation' && (
           <Button onClick={pageStatus.onProceedToForm} variant="icon" className="-mr-4">
@@ -72,7 +67,7 @@ export function EasyBorrowPanel(props: EasyBorrowPanelProps) {
 
       <EasyBorrowForm
         {...props}
-        borrowRate={props.assetToBorrow.borrowRate}
+        borrowRate={props.borrowRate}
         onSubmit={pageStatus.submitForm}
         disabled={pageStatus.state !== 'form'}
       />

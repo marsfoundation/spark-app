@@ -22,6 +22,13 @@ export class BorrowPageObject extends BasePageObject {
     await inputGroup.getByRole('textbox').fill(amount.toString())
   }
 
+  async selectBorrowAction(assetName: string): Promise<void> {
+    const borrowSelector = this.page
+      .getByTestId(testIds.easyBorrow.form.borrow)
+      .getByTestId(testIds.component.AssetSelector.trigger)
+    await this.selectOptionByLabelAction(borrowSelector, assetName)
+  }
+
   async fillBorrowAssetAction(amount: number): Promise<void> {
     const borrowForm = this.page.getByTestId(testIds.easyBorrow.form.borrow)
 
@@ -104,6 +111,7 @@ export class BorrowPageObject extends BasePageObject {
     deposited: TestTokenWithValue[],
     borrowed: TestTokenWithValue,
     fork: ForkContext,
+    assetsWorthOverride?: Record<string, number>,
   ): Promise<void> {
     await expect(this.page.getByText('Congrats! All done!')).toBeVisible()
 
@@ -112,7 +120,14 @@ export class BorrowPageObject extends BasePageObject {
       {},
     )
 
-    const { assetsWorth } = await calculateAssetsWorth(fork.forkUrl, transformed)
+    const assetsWorth = await (async () => {
+      if (assetsWorthOverride) {
+        return assetsWorthOverride
+      }
+
+      const { assetsWorth } = await calculateAssetsWorth(fork.forkUrl, transformed)
+      return assetsWorth
+    })()
 
     if (deposited.length > 0) {
       const depositSummary = await this.page.getByTestId(testIds.easyBorrow.success.deposited).textContent()

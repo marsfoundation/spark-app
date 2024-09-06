@@ -20,7 +20,6 @@ export interface NativeAssetInfo {
 export interface ChainMeta {
   name: string
   logo: string
-  defaultAssetToBorrow: TokenSymbol
 }
 
 export type PermitSupport = Record<CheckedAddress, boolean>
@@ -50,10 +49,16 @@ export interface TokenWithOracleType {
 
 export type SavingsInfoQuery = (args: SavingsInfoQueryParams) => SavingsInfoQueryOptions
 
+export interface EasyBorrowConfig {
+  borrowOptions: [TokenSymbol, ...TokenSymbol[]]
+  tokenToReserveToken?: Record<TokenSymbol, TokenSymbol>
+}
+
 export interface ChainConfigEntry {
   id: SupportedChainId
   meta: ChainMeta
   nativeAssetInfo: NativeAssetInfo
+  easyBorrowConfig: EasyBorrowConfig
   permitSupport: PermitSupport
   erc20TokensWithApproveFnMalformed: Erc20TokensWithApproveFnMalformed
   tokenSymbolToReplacedName: TokenSymbolToReplacedName

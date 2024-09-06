@@ -30,10 +30,8 @@ interface EasyBorrowViewStoryProps {
   updatedPositionSummary: UserPositionSummary
   actions: Objective[]
   guestMode: boolean
-  assetToBorrow: {
-    symbol: TokenSymbol
-    borrowRate: Percentage
-  }
+  borrowOptions: TokenWithBalance[]
+  borrowRate: Percentage
   riskAcknowledgement?: RiskAcknowledgementInfo
   actionsEnabled?: boolean
 }
@@ -50,7 +48,8 @@ function EasyBorrowViewStory(props: EasyBorrowViewStoryProps) {
     updatedPositionSummary,
     actions,
     guestMode,
-    assetToBorrow,
+    borrowOptions,
+    borrowRate,
     riskAcknowledgement: _riskAcknowledgement,
     actionsEnabled = true,
   } = props
@@ -109,7 +108,8 @@ function EasyBorrowViewStory(props: EasyBorrowViewStoryProps) {
       updatedPositionSummary={updatedPositionSummary}
       setDesiredLoanToValue={setDesiredLoanToValue}
       objectives={actions}
-      assetToBorrow={assetToBorrow}
+      borrowOptions={borrowOptions}
+      borrowRate={borrowRate}
       guestMode={guestMode}
       openConnectModal={openConnectModal}
       openSandboxModal={openSandboxModal}
@@ -183,7 +183,8 @@ const meta: Meta<typeof EasyBorrowViewStory> = {
       totalLiquidityUSD: NormalizedUnitNumber(0),
     },
     guestMode: false,
-    assetToBorrow: { symbol: tokens.DAI.symbol, borrowRate: Percentage(0.0553) },
+    borrowOptions: [{ token: tokens.DAI, balance: NormalizedUnitNumber(0) }],
+    borrowRate: Percentage(0.0553),
     actions: [],
   },
 }

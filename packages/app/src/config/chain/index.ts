@@ -29,7 +29,6 @@ const chainConfig: ChainConfig = {
     meta: {
       name: 'Ethereum Mainnet',
       logo: assets.chain.ethereum,
-      defaultAssetToBorrow: TokenSymbol('DAI'),
     },
     nativeAssetInfo: {
       nativeAssetName: 'Ethereum',
@@ -37,6 +36,9 @@ const chainConfig: ChainConfig = {
       wrappedNativeAssetAddress: CheckedAddress('0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'),
       nativeAssetSymbol: TokenSymbol('ETH'),
       minRemainingNativeAssetBalance: NormalizedUnitNumber(0.001),
+    },
+    easyBorrowConfig: {
+      borrowOptions: [TokenSymbol('DAI')],
     },
     erc20TokensWithApproveFnMalformed: [CheckedAddress('0xdac17f958d2ee523a2206206994597c13d831ec7')], // USDT
     permitSupport: {
@@ -99,7 +101,6 @@ const chainConfig: ChainConfig = {
     meta: {
       name: 'Gnosis Chain',
       logo: assets.chain.gnosis,
-      defaultAssetToBorrow: TokenSymbol('WXDAI'),
     },
     nativeAssetInfo: {
       nativeAssetName: 'XDAI',
@@ -107,6 +108,9 @@ const chainConfig: ChainConfig = {
       wrappedNativeAssetAddress: CheckedAddress('0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d'),
       nativeAssetSymbol: TokenSymbol('XDAI'),
       minRemainingNativeAssetBalance: NormalizedUnitNumber(0.1),
+    },
+    easyBorrowConfig: {
+      borrowOptions: [TokenSymbol('WXDAI')],
     },
     erc20TokensWithApproveFnMalformed: [],
     permitSupport: {
@@ -161,6 +165,12 @@ export function getChainConfigEntry(chainId: number): ChainConfigEntry {
     const mainnetConfig = chainConfig[mainnet.id]
     return {
       ...mainnetConfig,
+      easyBorrowConfig: {
+        borrowOptions: [...mainnetConfig.easyBorrowConfig.borrowOptions, TokenSymbol('USDS')],
+        tokenToReserveToken: {
+          [TokenSymbol('USDS')]: TokenSymbol('DAI'),
+        },
+      },
       USDSSymbol: TokenSymbol('USDS'),
       sUSDSSymbol: TokenSymbol('sUSDS'),
       savingsUsdsInfoQuery: mainnetSavingsUsdsInfoQuery,

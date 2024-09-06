@@ -1,5 +1,5 @@
 import { getChainConfigEntry } from '@/config/chain'
-import { TokenWithValue } from '@/domain/common/types'
+import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
 import { useConditionalFreeze } from '@/domain/hooks/useConditionalFreeze'
 import { RiskAcknowledgementInfo } from '@/domain/liquidation-risk-warning/types'
 import { useLiquidationRiskWarning } from '@/domain/liquidation-risk-warning/useLiquidationRiskWarning'
@@ -11,8 +11,8 @@ import { updatePositionSummary } from '@/domain/market-info/updatePositionSummar
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { useOpenDialog } from '@/domain/state/dialogs'
 import { Percentage } from '@/domain/types/NumericValues'
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { useMarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
+import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
 import { assert, raise } from '@/utils/assert'
@@ -20,7 +20,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useRef, useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
 import { useAccount } from 'wagmi'
-import { getBorrowableAssets, getDepositableAssets, imputeNativeAsset, sortByDecreasingBalances } from './assets'
+import { getBorrowOptions, getDepositOptions, imputeNativeAsset } from './assets'
 import {
   FormFieldsForAssetClass,
   getDefaultFormValues,
@@ -29,6 +29,7 @@ import {
 } from './form/form'
 import { normalizeFormValues } from './form/normalization'
 import { EasyBorrowFormSchema, getEasyBorrowFormValidator } from './form/validation'
+import { mergeMarketAndExtraTokens } from './mergeMarketAndExtraTokens'
 import { ExistingPosition, PageState, PageStatus } from './types'
 import { useCreateObjectives } from './useCreateObjectives'
 import { useLiquidationDetails } from './useLiquidationDetails'
@@ -51,10 +52,8 @@ export interface UseEasyBorrowResults {
   liquidationDetails?: LiquidationDetails
   riskAcknowledgement: RiskAcknowledgementInfo
 
-  assetToBorrow: {
-    symbol: TokenSymbol
-    borrowRate: Percentage
-  }
+  borrowOptions: TokenWithBalance[]
+  borrowRate: Percentage
   guestMode: boolean
   openSandboxModal: () => void
 
@@ -70,15 +69,16 @@ export function useEasyBorrow(): UseEasyBorrowResults {
   const { aaveData } = useAaveDataLayer()
   const { marketInfo } = useMarketInfo()
   const { marketInfo: marketInfoIn1Epoch } = useMarketInfo({ timeAdvance: EPOCH_LENGTH })
-  const {
-    nativeAssetInfo,
-    meta: { defaultAssetToBorrow },
-  } = getChainConfigEntry(marketInfo.chainId)
+  const { nativeAssetInfo, extraTokens } = getChainConfigEntry(marketInfo.chainId)
+  const { tokensInfo } = useTokensInfo({
+    tokens: extraTokens,
+  })
 
   const walletInfo = useMarketWalletInfo()
   const [pageStatus, setPageStatus] = useState<PageState>('form')
   const healthFactorPanelRef = useRef<HTMLDivElement>(null)
 
+  const allTokens = mergeMarketAndExtraTokens({ marketInfo, walletInfo, tokensInfo })
   const userPositions = imputeNativeAsset(marketInfo, nativeAssetInfo)
   const alreadyDeposited = useConditionalFreeze(
     {
@@ -100,11 +100,13 @@ export function useEasyBorrow(): UseEasyBorrowResults {
     pageStatus === 'confirmation',
   )
 
-  const depositableAssets = sortByDecreasingBalances(getDepositableAssets(userPositions), walletInfo)
-  const borrowableAssets = getBorrowableAssets(marketInfo.reserves)
+  const depositOptions = getDepositOptions(userPositions, walletInfo)
+  const borrowOptions = getBorrowOptions({
+    allTokens,
+    chainId: marketInfo.chainId,
+  })
 
-  assert(depositableAssets.length > 0, 'No depositable assets')
-  assert(borrowableAssets.length === 1, 'No borrowable assets')
+  assert(depositOptions.length > 0, 'No deposit options')
 
   const easyBorrowForm = useForm<EasyBorrowFormSchema>({
     resolver: zodResolver(
@@ -112,31 +114,39 @@ export function useEasyBorrow(): UseEasyBorrowResults {
         walletInfo,
         marketInfo,
         aaveData,
+        allTokens,
         guestMode,
         alreadyDeposited,
         nativeAssetInfo,
       }),
     ),
-    defaultValues: getDefaultFormValues(borrowableAssets, depositableAssets),
+    defaultValues: getDefaultFormValues({
+      borrowOptions,
+      depositOptions,
+    }),
     mode: 'onChange',
   })
   const assetsToDepositFields = useFormFieldsForAssetClass({
     form: easyBorrowForm,
     marketInfo: marketInfoIn1Epoch, // because we calculate max values based on the future state
-    allPossibleReserves: depositableAssets,
+    assetOptions: depositOptions,
     walletInfo,
     type: 'deposit',
   })
   const assetsToBorrowFields = useFormFieldsForAssetClass({
     form: easyBorrowForm,
     marketInfo,
-    allPossibleReserves: borrowableAssets,
+    assetOptions: borrowOptions,
     walletInfo,
     type: 'borrow',
   })
   const rawFormValues = easyBorrowForm.watch()
 
-  const formValues = normalizeFormValues(rawFormValues, marketInfo)
+  const formValues = normalizeFormValues({
+    values: rawFormValues,
+    marketInfo,
+    allTokens,
+  })
   const updatedUserSummary = useConditionalFreeze(
     updatePositionSummary({ ...formValues, marketInfo, aaveData, nativeAssetInfo }),
     pageStatus === 'confirmation',
@@ -165,11 +175,8 @@ export function useEasyBorrow(): UseEasyBorrowResults {
     freeze: pageStatus === 'confirmation',
   })
 
-  const assetToBorrow = {
-    symbol: defaultAssetToBorrow,
-    borrowRate: marketInfo.findOneReserveBySymbol(defaultAssetToBorrow).variableBorrowApy ?? raise('No borrow rate'),
-  }
-
+  const borrowRate =
+    marketInfo.findOneReserveByToken(borrowOptions[0].token).variableBorrowApy ?? raise('No borrow rate')
   // biome-ignore lint/correctness/useExhaustiveDependencies:
   useEffect(
     function revalidateFormOnNetworkChange() {
@@ -220,13 +227,15 @@ export function useEasyBorrow(): UseEasyBorrowResults {
     alreadyDeposited,
     alreadyBorrowed,
     liquidationDetails,
-    assetToBorrow,
+    borrowOptions,
+    borrowRate,
     guestMode,
     openSandboxModal,
     healthFactorPanelRef,
     riskAcknowledgement,
     actionsContext: {
       marketInfo,
+      tokensInfo,
     },
   }
 }

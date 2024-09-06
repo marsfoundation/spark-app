@@ -1,4 +1,5 @@
 import { NativeAssetInfo } from '@/config/chain/types'
+import { TokenWithBalance } from '@/domain/common/types'
 import { AaveData } from '@/domain/market-info/aave-data-layer/query'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { updatePositionSummary } from '@/domain/market-info/updatePositionSummary'
@@ -75,6 +76,7 @@ export interface GetEasyBorrowFormValidatorOptions {
   walletInfo: MarketWalletInfo
   marketInfo: MarketInfo
   aaveData: AaveData
+  allTokens: TokenWithBalance[]
   guestMode: boolean
   alreadyDeposited: ExistingPosition
   nativeAssetInfo: NativeAssetInfo
@@ -85,6 +87,7 @@ export function getEasyBorrowFormValidator({
   walletInfo,
   marketInfo,
   aaveData,
+  allTokens,
   guestMode,
   alreadyDeposited,
   nativeAssetInfo,
@@ -97,7 +100,11 @@ export function getEasyBorrowFormValidator({
         : getDepositFieldsValidator(walletInfo, alreadyDeposited, marketInfo),
     })
     .superRefine((data, ctx) => {
-      const { borrows, deposits } = normalizeFormValues(data, marketInfo)
+      const { borrows, deposits } = normalizeFormValues({
+        values: data,
+        marketInfo,
+        allTokens,
+      })
       const updatedUserSummary = updatePositionSummary({
         borrows,
         deposits,

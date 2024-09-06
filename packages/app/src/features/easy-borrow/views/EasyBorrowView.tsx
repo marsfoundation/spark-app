@@ -1,8 +1,8 @@
+import { TokenWithBalance } from '@/domain/common/types'
 import { RiskAcknowledgementInfo } from '@/domain/liquidation-risk-warning/types'
 import { LiquidationDetails } from '@/domain/market-info/getLiquidationDetails'
 import { UserPositionSummary } from '@/domain/market-info/marketInfo'
 import { Percentage } from '@/domain/types/NumericValues'
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { PageLayout } from '@/ui/layouts/PageLayout'
 import { UseFormReturn } from 'react-hook-form'
@@ -28,10 +28,8 @@ export interface EasyBorrowViewProps {
 
   objectives: Objective[]
 
-  assetToBorrow: {
-    symbol: TokenSymbol
-    borrowRate: Percentage
-  }
+  borrowOptions: TokenWithBalance[]
+  borrowRate: Percentage
   guestMode: boolean
   openConnectModal: () => void
   openSandboxModal: () => void
@@ -42,13 +40,12 @@ export interface EasyBorrowViewProps {
 }
 
 export function EasyBorrowView(props: EasyBorrowViewProps) {
-  const { assetToBorrow } = props
   return (
     <PageLayout>
-      <BorrowRateBanner symbol={assetToBorrow.symbol} borrowRate={assetToBorrow.borrowRate} />
+      <BorrowRateBanner symbols={props.borrowOptions.map(({ token }) => token.symbol)} borrowRate={props.borrowRate} />
       <div className="mt-8 flex justify-center">
         <EasyBorrowPanel {...props} />
-        <EasyBorrowSidePanel borrowRate={assetToBorrow.borrowRate} />
+        <EasyBorrowSidePanel borrowRate={props.borrowRate} />
       </div>
     </PageLayout>
   )

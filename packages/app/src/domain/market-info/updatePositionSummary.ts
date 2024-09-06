@@ -7,9 +7,11 @@ import { getCompoundedScaledBalance, getScaledBalance } from '@/domain/market-in
 import { mergeUserPositionIntoRawUserReserve, recalculateUserSummary } from '@/domain/market-info/utils'
 import { bigNumberify } from '@/utils/bigNumber'
 
+import { getChainConfigEntry } from '@/config/chain'
 import { ReserveWithValue } from '../common/types'
 import { CheckedAddress } from '../types/CheckedAddress'
 import { NormalizedUnitNumber } from '../types/NumericValues'
+import { TokenSymbol } from '../types/TokenSymbol'
 
 export interface ReserveWithUseAsCollateralFlag {
   reserve: Reserve
@@ -37,14 +39,17 @@ export function updatePositionSummary({
   marketInfo,
   aaveData,
   eModeCategoryId,
-  nativeAssetInfo,
 }: UpdatePositionSummaryParams): UserPositionSummary {
   const timestamp = marketInfo.timestamp
+  const chainConfig = getChainConfigEntry(marketInfo.chainId)
+  const nativeAssetInfo = chainConfig.nativeAssetInfo
+  const tokenToReserveTokenMap = chainConfig.easyBorrowConfig.tokenToReserveToken ?? {}
+
   const newUserPositions = marketInfo.userPositions
-    .map(getUserPositionMapper(timestamp, deposits, nativeAssetInfo, 'deposit'))
-    .map(getUserPositionMapper(timestamp, withdrawals, nativeAssetInfo, 'withdraw'))
-    .map(getUserPositionMapper(timestamp, borrows, nativeAssetInfo, 'borrow'))
-    .map(getUserPositionMapper(timestamp, repays, nativeAssetInfo, 'repay'))
+    .map(getUserPositionMapper(timestamp, deposits, nativeAssetInfo, tokenToReserveTokenMap, 'deposit'))
+    .map(getUserPositionMapper(timestamp, withdrawals, nativeAssetInfo, tokenToReserveTokenMap, 'withdraw'))
+    .map(getUserPositionMapper(timestamp, borrows, nativeAssetInfo, tokenToReserveTokenMap, 'borrow'))
+    .map(getUserPositionMapper(timestamp, repays, nativeAssetInfo, tokenToReserveTokenMap, 'repay'))
 
   const newRawUserReserves = mergeUserPositionIntoRawUserReserve(newUserPositions, aaveData.rawUserReserves).map(
     (r, index) =>
@@ -77,10 +82,11 @@ function getUserPositionMapper(
   timestamp: number,
   reserves: ReserveWithValue[],
   nativeAssetInfo: NativeAssetInfo,
+  tokenToReserveTokenMap: Record<TokenSymbol, TokenSymbol>,
   type: 'deposit' | 'withdraw' | 'borrow' | 'repay',
 ) {
   return (userPosition: UserPosition): UserPosition => {
-    const value = getValueForUserPosition(userPosition, reserves, nativeAssetInfo)
+    const value = getValueForUserPosition(userPosition, reserves, nativeAssetInfo, tokenToReserveTokenMap)
     if (!value) {
       return userPosition
     }
@@ -97,6 +103,7 @@ function getValueForUserPosition(
   userPosition: UserPosition,
   reserves: ReserveWithValue[],
   nativeAssetInfo: NativeAssetInfo,
+  tokenToReserveTokenMap: Record<TokenSymbol, TokenSymbol>,
 ): NormalizedUnitNumber | undefined {
   if (userPosition.reserve.token.symbol === nativeAssetInfo.wrappedNativeAssetSymbol) {
     const nativeAssetValue = reserves.find((d) => d.reserve.token.symbol === nativeAssetInfo.nativeAssetSymbol)?.value
@@ -105,7 +112,11 @@ function getValueForUserPosition(
     }
   }
 
-  return reserves.find((r) => r.reserve.token.symbol === userPosition.reserve.token.symbol)?.value
+  return reserves.find(
+    (r) =>
+      r.reserve.token.symbol === userPosition.reserve.token.symbol ||
+      tokenToReserveTokenMap[r.reserve.token.symbol] === userPosition.reserve.token.symbol,
+  )?.value
 }
 
 function findReserveWithValue<T extends { reserve: Reserve }>(

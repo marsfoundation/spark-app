@@ -1,23 +1,31 @@
 import { getDepositMaxValue } from '@/domain/action-max-value-getters/getDepositMaxValue'
 import { formFormat } from '@/domain/common/format'
 import { TokenWithBalance } from '@/domain/common/types'
-import { MarketInfo, Reserve, UserPositionSummary } from '@/domain/market-info/marketInfo'
+import { MarketInfo, UserPositionSummary } from '@/domain/market-info/marketInfo'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { MarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
+import { raise } from '@/utils/assert'
 import BigNumber from 'bignumber.js'
 import { UseFormReturn, useFieldArray } from 'react-hook-form'
 import { EasyBorrowFormNormalizedData } from '../types'
 import { EasyBorrowFormSchema } from './validation'
 
-export function getDefaultFormValues(borrowableAssets: Reserve[], depositableAssets: Reserve[]): EasyBorrowFormSchema {
+export interface GetDefaultFormValuesParams {
+  borrowOptions: TokenWithBalance[]
+  depositOptions: TokenWithBalance[]
+}
+export function getDefaultFormValues({
+  borrowOptions,
+  depositOptions,
+}: GetDefaultFormValuesParams): EasyBorrowFormSchema {
   // @todo apply better algorithm to select default assets, take into account balances etc
-  const defaultBorrowableAsset = borrowableAssets[0]!
-  const defaultDepositableAsset = depositableAssets[0]!
+  const defaultBorrowOption = borrowOptions[0]!
+  const defaultDepositOption = depositOptions[0]!
 
   return {
-    assetsToBorrow: [{ symbol: defaultBorrowableAsset.token.symbol, value: '' }],
-    assetsToDeposit: [{ symbol: defaultDepositableAsset.token.symbol, value: '' }],
+    assetsToBorrow: [{ symbol: defaultBorrowOption.token.symbol, value: '' }],
+    assetsToDeposit: [{ symbol: defaultDepositOption.token.symbol, value: '' }],
   }
 }
 
@@ -34,14 +42,14 @@ export interface FormFieldsForAssetClass {
 export interface UseFormFieldsForAssetClassArgs {
   form: UseFormReturn<EasyBorrowFormSchema>
   marketInfo: MarketInfo
-  allPossibleReserves: Reserve[]
+  assetOptions: TokenWithBalance[]
   walletInfo: MarketWalletInfo
   type: 'borrow' | 'deposit'
 }
 export function useFormFieldsForAssetClass({
   form,
   marketInfo,
-  allPossibleReserves,
+  assetOptions,
   walletInfo,
   type,
 }: UseFormFieldsForAssetClassArgs): FormFieldsForAssetClass {
@@ -51,25 +59,13 @@ export function useFormFieldsForAssetClass({
   })
   const fields = form.getValues(getFormKeyBasedOnType(type))
 
-  const reservesAvailableToPick = allPossibleReserves.filter(
-    (reserve) => !fields.some((f) => f.symbol === reserve.token.symbol),
+  const tokensAvailableToPick = assetOptions.filter(({ token }) => !fields.some((f) => f.symbol === token.symbol))
+
+  const selectedAssets = fields.map(
+    (field) =>
+      assetOptions.find(({ token }) => token.symbol === field.symbol) ??
+      raise(`Unknown asset in form: ${field.symbol}`),
   )
-
-  const allAssets = allPossibleReserves.map((reserve): TokenWithBalance => {
-    return {
-      token: reserve.token,
-      balance: walletInfo.findWalletBalanceForToken(reserve.token),
-    }
-  })
-
-  const selectedAssets = fields.map((field): TokenWithBalance => {
-    const token = marketInfo.findOneTokenBySymbol(field.symbol)
-
-    return {
-      token,
-      balance: walletInfo.findWalletBalanceForToken(token),
-    }
-  })
 
   // eslint-disable-next-line func-style
   const changeAsset = (index: number, newSymbol: TokenSymbol): void => {
@@ -82,40 +78,43 @@ export function useFormFieldsForAssetClass({
     )
   }
 
-  const assetToMaxValue = selectedAssets.reduce(
-    (acc, asset) => {
-      const position = marketInfo.findOnePositionBySymbol(asset.token.symbol)
-      const maxValue = getDepositMaxValue({
-        asset: {
-          status: position.reserve.status,
-          totalLiquidity: position.reserve.totalLiquidity,
-          isNativeAsset: marketInfo.nativeAssetInfo.nativeAssetSymbol === asset.token.symbol,
-          supplyCap: position.reserve.supplyCap,
-        },
-        user: {
-          balance: walletInfo.findWalletBalanceForSymbol(asset.token.symbol),
-        },
-        chain: {
-          minRemainingNativeAsset: marketInfo.nativeAssetInfo.minRemainingNativeAssetBalance,
-        },
-      })
-      acc[asset.token.symbol] = maxValue
-      return acc
-    },
-    {} as Record<TokenSymbol, NormalizedUnitNumber>,
-  )
+  const assetToMaxValue =
+    type === 'deposit'
+      ? selectedAssets.reduce(
+          (acc, asset) => {
+            const position = marketInfo.findOnePositionBySymbol(asset.token.symbol)
+            const maxValue = getDepositMaxValue({
+              asset: {
+                status: position.reserve.status,
+                totalLiquidity: position.reserve.totalLiquidity,
+                isNativeAsset: marketInfo.nativeAssetInfo.nativeAssetSymbol === asset.token.symbol,
+                supplyCap: position.reserve.supplyCap,
+              },
+              user: {
+                balance: walletInfo.findWalletBalanceForSymbol(asset.token.symbol),
+              },
+              chain: {
+                minRemainingNativeAsset: marketInfo.nativeAssetInfo.minRemainingNativeAssetBalance,
+              },
+            })
+            acc[asset.token.symbol] = maxValue
+            return acc
+          },
+          {} as Record<TokenSymbol, NormalizedUnitNumber>,
+        )
+      : {}
 
   // eslint-disable-next-line func-style
   const addAsset = (): void => {
-    if (reservesAvailableToPick.length > 0) {
-      const reserve = reservesAvailableToPick[0]!
-      append({ symbol: reserve.token.symbol, value: '' })
+    if (tokensAvailableToPick.length > 0) {
+      const token = tokensAvailableToPick[0]?.token!
+      append({ symbol: token.symbol, value: '' })
     }
   }
 
   return {
     selectedAssets,
-    allAssets,
+    allAssets: assetOptions,
     assetToMaxValue,
     changeAsset,
     addAsset,

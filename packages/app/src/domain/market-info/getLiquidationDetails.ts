@@ -29,7 +29,7 @@ export function getLiquidationDetails({
   marketInfo,
   liquidationThreshold,
 }: GetLiquidationDetailsParams): LiquidationDetails | undefined {
-  const defaultAssetToBorrow = getChainConfigEntry(marketInfo.chainId).meta.defaultAssetToBorrow
+  const defaultAssetToBorrow = getChainConfigEntry(marketInfo.chainId).easyBorrowConfig.borrowOptions[0]
   if (borrows.length !== 1 || borrows[0]!.token.symbol !== defaultAssetToBorrow) {
     return undefined
   }
