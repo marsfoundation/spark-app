@@ -3,16 +3,16 @@ import { Typography } from '@/ui/atoms/typography/Typography'
 import { PageLayout } from '@/ui/layouts/PageLayout'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
-import { mainnet } from 'viem/chains'
 import { FarmTile, FarmTileProps } from '../components/farm-tile/FarmTile'
 
 export interface FarmsViewProps {
   activeFarms: FarmTileProps[]
   inactiveFarms: FarmTileProps[]
+  chainId: number
 }
 
-export function FarmsView({ activeFarms, inactiveFarms }: FarmsViewProps) {
-  const { logo: chainLogo, name: chainName } = getChainConfigEntry(mainnet.id).meta
+export function FarmsView({ activeFarms, inactiveFarms, chainId }: FarmsViewProps) {
+  const { logo: chainLogo, name: chainName } = getChainConfigEntry(chainId).meta
   return (
     <PageLayout className="max-w-5xl gap-8 px-3 lg:px-0">
       <div className="flex flex-row items-center gap-4">

@@ -182,6 +182,6 @@ async function getBAFarmData({ farmConfig }: GetFarmBADataParams): Promise<GetFa
 }
 
 const baFarmDataResponseSchema = z.object({
-  apy: z.string().transform((value) => Percentage(value)),
+  apy: z.string().transform((value) => Percentage(value, true)),
   depositors: z.number(),
 })
