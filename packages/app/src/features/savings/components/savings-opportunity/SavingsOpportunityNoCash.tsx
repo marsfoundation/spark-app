@@ -4,7 +4,7 @@ import { Percentage } from '@/domain/types/NumericValues'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { SavingsMeta } from '../../logic/makeSavingsMeta'
 import { SavingsInfoTile } from '../savings-info-tile/SavingsInfoTile'
-import { APYLabel } from './components/APYLabel'
+import { DSRLabel } from './components/DSRLabel'
 import { Explainer } from './components/Explainer'
 
 export interface SavingsOpportunityNoCashProps {
@@ -21,7 +21,7 @@ export function SavingsOpportunityNoCash({ APY, originChainId, savingsMeta }: Sa
           <SavingsInfoTile.Value size="huge">
             {formatPercentage(APY, { minimumFractionDigits: 0 })}
           </SavingsInfoTile.Value>
-          <APYLabel originChainId={originChainId} />
+          <DSRLabel originChainId={originChainId} savingsMetaItem={savingsMeta.primary} />
         </SavingsInfoTile>
         <Explainer savingsMeta={savingsMeta} />
       </div>

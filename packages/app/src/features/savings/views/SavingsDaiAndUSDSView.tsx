@@ -1,4 +1,4 @@
-import { assert } from '@/utils/assert'
+import { assert, raise } from '@/utils/assert'
 import { PageHeader } from '../components/PageHeader'
 import { PageLayout } from '../components/PageLayout'
 import { CashInWallet } from '../components/cash-in-wallet/CashInWallet'
@@ -49,11 +49,23 @@ export function SavingsDaiAndUSDSView({
         />
       )}
       <div className="flex flex-col gap-6 sm:flex-row">
-        {displaySavingsDai && (
-          <SavingsTokenPanel variant="dai" originChainId={originChainId} openDialog={openDialog} {...sDaiDetails} />
-        )}
         {displaySavingsUSDS && (
-          <SavingsTokenPanel variant="usds" originChainId={originChainId} openDialog={openDialog} {...sUSDSDetails} />
+          <SavingsTokenPanel
+            variant="usds"
+            originChainId={originChainId}
+            openDialog={openDialog}
+            savingsMetaItem={savingsMeta.primary}
+            {...sUSDSDetails}
+          />
+        )}
+        {displaySavingsDai && (
+          <SavingsTokenPanel
+            variant="dai"
+            originChainId={originChainId}
+            openDialog={openDialog}
+            savingsMetaItem={savingsMeta.secondary ?? raise('Dai savings meta should be defined')}
+            {...sDaiDetails}
+          />
         )}
         {displaySavingsOpportunity && (
           <SavingsOpportunity

@@ -35,8 +35,8 @@ const savingsViewBaseArgs = {
     primary: {
       savingsToken: TokenSymbol('sDAI'),
       stablecoin: TokenSymbol('DAI'),
-      savingsRateAcronym: 'DSR',
-      savingsRateName: 'DAI Savings Rate',
+      rateAcronym: 'DSR',
+      rateName: 'DAI Savings Rate',
     },
   } as const,
 }

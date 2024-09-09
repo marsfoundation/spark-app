@@ -17,8 +17,8 @@ const meta: Meta<typeof SavingsOpportunityNoCash> = {
       primary: {
         savingsToken: TokenSymbol('sUSDS'),
         stablecoin: TokenSymbol('USDS'),
-        savingsRateAcronym: 'SSR',
-        savingsRateName: 'Sky Savings Rate',
+        rateAcronym: 'SSR',
+        rateName: 'Sky Savings Rate',
       },
     },
   },

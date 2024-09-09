@@ -10,7 +10,7 @@ export interface ExplainerProps {
 }
 
 export function Explainer({ stablecoinValue, savingsMeta }: ExplainerProps) {
-  const { stablecoin, savingsRateName } = savingsMeta.primary
+  const { stablecoin, rateName } = savingsMeta.primary
   return (
     <div className="flex flex-col gap-1 sm:max-w-[28ch]">
       <div className="flex items-center gap-1">
@@ -25,7 +25,7 @@ export function Explainer({ stablecoinValue, savingsMeta }: ExplainerProps) {
             stablecoins in your wallet. Earn while you hold it!
           </>
         ) : (
-          `Deposit your stablecoins into Savings ${stablecoin} to tap into the ${savingsRateName}, which grants you a predictable APY in ${stablecoin}.`
+          `Deposit your stablecoins into Savings ${stablecoin} to tap into the ${rateName}, which grants you a predictable APY in ${stablecoin}.`
         )}
       </p>
     </div>
@@ -37,14 +37,14 @@ function HeaderContent({ stablecoinValue, savingsMeta }: ExplainerProps) {
     return 'Savings opportunity'
   }
 
-  const { savingsToken, stablecoin, savingsRateAcronym, savingsRateName } = savingsMeta.primary
+  const { savingsToken, stablecoin, rateAcronym, rateName } = savingsMeta.primary
   return (
     <div className="flex items-center gap-1">
       Savings{' '}
       <Info>
         Savings {stablecoin}, or {savingsToken}, provides you with fractional ownership of the entire pool of{' '}
-        {stablecoin} deposited into the {savingsRateName}. The value of your {savingsToken} holdings gradually increases
-        according to the {savingsRateName} ({savingsRateAcronym}). Learn more about it{' '}
+        {stablecoin} deposited into the {rateName}. The value of your {savingsToken} holdings gradually increases
+        according to the {rateName} ({rateAcronym}). Learn more about it{' '}
         {/* {@todo: add proper link to docs when ready} */}
         <Link to="/" external>
           here

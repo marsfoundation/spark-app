@@ -37,6 +37,7 @@ export function SavingsDaiView({
             variant="dai"
             originChainId={originChainId}
             openDialog={openDialog}
+            savingsMetaItem={savingsMeta.primary}
             {...savingsTokenDetails}
           />
         )}

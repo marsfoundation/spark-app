@@ -30,6 +30,7 @@ export function SavingsUSDSView({
             variant="usds"
             originChainId={originChainId}
             openDialog={openDialog}
+            savingsMetaItem={savingsMeta.primary}
             {...savingsTokenDetails}
           />
         )}

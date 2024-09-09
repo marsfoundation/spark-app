@@ -10,7 +10,7 @@ import { Panel } from '@/ui/atoms/panel/Panel'
 import { SavingsMeta } from '../../logic/makeSavingsMeta'
 import { Projections } from '../../types'
 import { SavingsInfoTile, ValueProps } from '../savings-info-tile/SavingsInfoTile'
-import { APYLabel } from './components/APYLabel'
+import { DSRLabel } from './components/DSRLabel'
 import { Explainer } from './components/Explainer'
 
 export interface SavingsDAIProps {
@@ -71,7 +71,7 @@ export function SavingsOpportunity({
           </SavingsInfoTile.Value>
         </SavingsInfoTile>
         <SavingsInfoTile>
-          <APYLabel originChainId={originChainId} />
+          <DSRLabel originChainId={originChainId} savingsMetaItem={savingsMeta.primary} />
           <SavingsInfoTile.Value size={savingsTileSizeVariant}>
             {formatPercentage(APY, { minimumFractionDigits: 0 })}
           </SavingsInfoTile.Value>

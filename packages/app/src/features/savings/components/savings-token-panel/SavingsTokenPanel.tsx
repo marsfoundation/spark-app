@@ -11,9 +11,10 @@ import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { testIds } from '@/ui/utils/testIds'
 import { getFractionalPart, getWholePart } from '@/utils/bigNumber'
+import { SavingsMetaItem } from '../../logic/makeSavingsMeta'
 import { Projections } from '../../types'
 import { SavingsInfoTile } from '../savings-info-tile/SavingsInfoTile'
-import { APYLabel } from '../savings-opportunity/components/APYLabel'
+import { DSRLabel } from '../savings-opportunity/components/DSRLabel'
 
 export interface SavingsTokenPanelProps {
   variant: 'dai' | 'usds'
@@ -24,6 +25,7 @@ export interface SavingsTokenPanelProps {
   originChainId: SupportedChainId
   currentProjections: Projections
   openDialog: OpenDialogFunction
+  savingsMetaItem: SavingsMetaItem
 }
 
 export function SavingsTokenPanel({
@@ -35,6 +37,7 @@ export function SavingsTokenPanel({
   originChainId,
   currentProjections,
   openDialog,
+  savingsMetaItem,
 }: SavingsTokenPanelProps) {
   const compactProjections = currentProjections.thirtyDays.gt(1_000)
   const savingsBaseToken = USD_MOCK_TOKEN.clone({
@@ -119,7 +122,7 @@ export function SavingsTokenPanel({
           </SavingsInfoTile.Value>
         </SavingsInfoTile>
         <SavingsInfoTile>
-          <APYLabel originChainId={originChainId} />
+          <DSRLabel originChainId={originChainId} savingsMetaItem={savingsMetaItem} />
           <SavingsInfoTile.Value color="green">
             {formatPercentage(APY, { minimumFractionDigits: 0 })}
           </SavingsInfoTile.Value>

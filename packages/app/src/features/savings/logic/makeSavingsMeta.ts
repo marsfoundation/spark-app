@@ -5,8 +5,8 @@ import { assert, raise } from '@/utils/assert'
 export interface SavingsMetaItem {
   savingsToken: TokenSymbol
   stablecoin: TokenSymbol
-  savingsRateAcronym: 'SSR' | 'DSR'
-  savingsRateName: 'Sky Savings Rate' | 'DAI Savings Rate'
+  rateAcronym: 'SSR' | 'DSR'
+  rateName: 'Sky Savings Rate' | 'DAI Savings Rate'
 }
 
 export interface SavingsMeta {
@@ -55,13 +55,13 @@ function getSavingsMeta({ stablecoin, savingsToken, type }: GetSavingsMetaParams
     ? {
         savingsToken,
         stablecoin,
-        savingsRateAcronym: 'SSR',
-        savingsRateName: 'Sky Savings Rate',
+        rateAcronym: 'SSR',
+        rateName: 'Sky Savings Rate',
       }
     : {
         savingsToken,
         stablecoin,
-        savingsRateAcronym: 'DSR',
-        savingsRateName: 'DAI Savings Rate',
+        rateAcronym: 'DSR',
+        rateName: 'DAI Savings Rate',
       }
 }
