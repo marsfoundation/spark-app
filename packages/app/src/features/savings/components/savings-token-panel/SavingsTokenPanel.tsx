@@ -21,7 +21,7 @@ export interface SavingsTokenPanelProps {
   depositedUSDPrecision: number
   tokenWithBalance: TokenWithBalance
   APY: Percentage
-  chainId: SupportedChainId
+  originChainId: SupportedChainId
   currentProjections: Projections
   openDialog: OpenDialogFunction
 }
@@ -32,7 +32,7 @@ export function SavingsTokenPanel({
   depositedUSDPrecision,
   tokenWithBalance,
   APY,
-  chainId,
+  originChainId,
   currentProjections,
   openDialog,
 }: SavingsTokenPanelProps) {
@@ -119,7 +119,7 @@ export function SavingsTokenPanel({
           </SavingsInfoTile.Value>
         </SavingsInfoTile>
         <SavingsInfoTile>
-          <APYLabel chainId={chainId} />
+          <APYLabel originChainId={originChainId} />
           <SavingsInfoTile.Value color="green">
             {formatPercentage(APY, { minimumFractionDigits: 0 })}
           </SavingsInfoTile.Value>

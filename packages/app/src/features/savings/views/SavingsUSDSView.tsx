@@ -9,12 +9,13 @@ import { SavingsViewContentProps } from './types'
 export function SavingsUSDSView({
   savingsTokenDetails,
   migrationInfo,
-  chainId,
+  originChainId,
   assetsInWallet,
   maxBalanceToken,
   totalEligibleCashUSD,
   opportunityProjections,
   openDialog,
+  savingsMeta,
 }: SavingsViewContentProps) {
   const displaySavingsUSDS = savingsTokenDetails.tokenWithBalance.balance.gt(0)
   const displaySavingsOpportunity = opportunityProjections.thirtyDays.gt(0)
@@ -25,19 +26,31 @@ export function SavingsUSDSView({
       <PageHeader />
       <div className="flex flex-col gap-6 sm:flex-row">
         {displaySavingsUSDS && (
-          <SavingsTokenPanel variant="usds" chainId={chainId} openDialog={openDialog} {...savingsTokenDetails} />
+          <SavingsTokenPanel
+            variant="usds"
+            originChainId={originChainId}
+            openDialog={openDialog}
+            {...savingsTokenDetails}
+          />
         )}
         {displaySavingsOpportunity && (
           <SavingsOpportunity
             APY={savingsTokenDetails.APY}
-            chainId={chainId}
+            originChainId={originChainId}
             projections={opportunityProjections}
             maxBalanceToken={maxBalanceToken}
             openDialog={openDialog}
             totalEligibleCashUSD={totalEligibleCashUSD}
+            savingsMeta={savingsMeta}
           />
         )}
-        {displaySavingsNoCash && <SavingsOpportunityNoCash APY={savingsTokenDetails.APY} chainId={chainId} />}
+        {displaySavingsNoCash && (
+          <SavingsOpportunityNoCash
+            APY={savingsTokenDetails.APY}
+            originChainId={originChainId}
+            savingsMeta={savingsMeta}
+          />
+        )}
       </div>
       <CashInWallet assets={assetsInWallet} openDialog={openDialog} migrationInfo={migrationInfo} />
     </PageLayout>

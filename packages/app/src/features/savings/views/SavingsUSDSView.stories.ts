@@ -1,4 +1,5 @@
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
@@ -30,6 +31,14 @@ const savingsViewBaseArgs = {
   },
   totalEligibleCashUSD: NormalizedUnitNumber(45454),
   openDialog: () => {},
+  savingsMeta: {
+    primary: {
+      savingsToken: TokenSymbol('sUSDS'),
+      stablecoin: TokenSymbol('USDS'),
+      savingsRateAcronym: 'SSR',
+      savingsRateName: 'Sky Savings Rate',
+    },
+  } as const,
 }
 
 const savingsTokenDetails = {

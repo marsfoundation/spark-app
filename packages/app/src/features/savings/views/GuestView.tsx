@@ -5,19 +5,26 @@ import { ConnectOrSandboxCTAPanel } from '@/ui/organisms/connect-or-sandbox-cta-
 import { PageHeader } from '../components/PageHeader'
 import { PageLayout } from '../components/PageLayout'
 import { SavingsOpportunityGuestMode } from '../components/savings-opportunity/SavingsOpportunityGuestMode'
+import { SavingsMeta } from '../logic/makeSavingsMeta'
 
 interface GuestViewProps {
   APY: Percentage
-  chainId: SupportedChainId
+  originChainId: SupportedChainId
+  savingsMeta: SavingsMeta
   openConnectModal: () => void
   openSandboxModal: () => void
 }
 
-export function GuestView({ APY, chainId, openConnectModal, openSandboxModal }: GuestViewProps) {
+export function GuestView({ APY, originChainId, openConnectModal, openSandboxModal, savingsMeta }: GuestViewProps) {
   return (
     <PageLayout>
       <PageHeader />
-      <SavingsOpportunityGuestMode APY={APY} chainId={chainId} openConnectModal={openConnectModal} />
+      <SavingsOpportunityGuestMode
+        APY={APY}
+        originChainId={originChainId}
+        openConnectModal={openConnectModal}
+        savingsMeta={savingsMeta}
+      />
       <ConnectOrSandboxCTAPanel
         header="Connect your wallet and start saving!"
         iconPaths={TOKEN_ICONS}

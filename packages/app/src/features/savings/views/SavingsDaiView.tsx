@@ -10,11 +10,12 @@ import { SavingsViewContentProps } from './types'
 export function SavingsDaiView({
   savingsTokenDetails,
   migrationInfo,
-  chainId,
+  originChainId,
   assetsInWallet,
   maxBalanceToken,
   totalEligibleCashUSD,
   opportunityProjections,
+  savingsMeta,
   openDialog,
 }: SavingsViewContentProps) {
   const displaySavingsDai = savingsTokenDetails.tokenWithBalance.balance.gt(0)
@@ -32,19 +33,31 @@ export function SavingsDaiView({
       )}
       <div className="flex flex-col gap-6 sm:flex-row">
         {displaySavingsDai && (
-          <SavingsTokenPanel variant="dai" chainId={chainId} openDialog={openDialog} {...savingsTokenDetails} />
+          <SavingsTokenPanel
+            variant="dai"
+            originChainId={originChainId}
+            openDialog={openDialog}
+            {...savingsTokenDetails}
+          />
         )}
         {displaySavingsOpportunity && (
           <SavingsOpportunity
             APY={savingsTokenDetails.APY}
-            chainId={chainId}
+            originChainId={originChainId}
             projections={opportunityProjections}
             maxBalanceToken={maxBalanceToken}
             openDialog={openDialog}
             totalEligibleCashUSD={totalEligibleCashUSD}
+            savingsMeta={savingsMeta}
           />
         )}
-        {displaySavingsNoCash && <SavingsOpportunityNoCash APY={savingsTokenDetails.APY} chainId={chainId} />}
+        {displaySavingsNoCash && (
+          <SavingsOpportunityNoCash
+            APY={savingsTokenDetails.APY}
+            originChainId={originChainId}
+            savingsMeta={savingsMeta}
+          />
+        )}
       </div>
       <CashInWallet assets={assetsInWallet} openDialog={openDialog} migrationInfo={migrationInfo} />
     </PageLayout>
