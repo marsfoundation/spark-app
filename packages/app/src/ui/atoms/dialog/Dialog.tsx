@@ -87,7 +87,7 @@ const DialogContent = React.forwardRef<
             'data-[state=open]:slide-in-from-top-[48%] fixed top-[50%] left-[50%] z-50 flex min-h-screen w-full min-w-full max-w-xl',
             'translate-x-[-50%] flex-col gap-1 bg-background p-6 shadow-lg outline outline-1 outline-border',
             '-outline-offset-1 duration-200 md:min-h-fit md:min-w-fit data-[state=closed]:animate-out data-[state=open]:animate-in sm:rounded-lg',
-            'max-h-screen overflow-auto sm:max-h-[90vh]',
+            'max-h-screen overflow-y-auto sm:max-h-[90vh]',
             contentVariants({ contentVerticalPosition }),
             className,
           )}
