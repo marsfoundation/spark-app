@@ -21,8 +21,9 @@ const DialogOverlay = React.forwardRef<
   <DialogPrimitive.Overlay
     ref={ref}
     className={cn(
-      'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0',
+      'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 inset-0',
       'z-50 data-[state=closed]:animate-out data-[state=open]:animate-in',
+      'fixed inset-0 grid place-items-center overflow-hidden',
       className,
     )}
     {...props}
@@ -77,28 +78,30 @@ const DialogContent = React.forwardRef<
     ref,
   ) => (
     <DialogPortal container={portalContainerRef?.current}>
-      <DialogOverlay className={cn(overlayVariants({ overlayVariant }))} />
-      <DialogPrimitive.Content
-        ref={ref}
-        className={cn(
-          'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 overflow-hidden',
-          'data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2',
-          'data-[state=open]:slide-in-from-top-[48%] fixed top-[50%] left-[50%] z-50 flex min-h-screen w-full min-w-full max-w-xl',
-          'translate-x-[-50%] flex-col justify-center gap-1 bg-background p-6 shadow-lg outline outline-1 outline-border',
-          '-outline-offset-1 duration-200 md:min-h-fit md:min-w-fit data-[state=closed]:animate-out data-[state=open]:animate-in sm:rounded-lg',
-          contentVariants({ contentVerticalPosition }),
-          className,
-        )}
-        {...props}
-      >
-        {children}
-        {showCloseButton && (
-          <DialogPrimitive.Close className="absolute top-6 right-6 rounded-sm opacity-70 ring-offset-background transition-opacity disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
-            <X />
-            <span className="sr-only">Close</span>
-          </DialogPrimitive.Close>
-        )}
-      </DialogPrimitive.Content>
+      <DialogOverlay className={cn(overlayVariants({ overlayVariant }))}>
+        <DialogPrimitive.Content
+          ref={ref}
+          className={cn(
+            'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 overflow-hidden',
+            'data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2',
+            'data-[state=open]:slide-in-from-top-[48%] fixed top-[50%] left-[50%] z-50 flex min-h-screen w-full min-w-full max-w-xl',
+            'translate-x-[-50%] flex-col gap-1 bg-background p-6 shadow-lg outline outline-1 outline-border',
+            '-outline-offset-1 duration-200 md:min-h-fit md:min-w-fit data-[state=closed]:animate-out data-[state=open]:animate-in sm:rounded-lg',
+            'max-h-screen overflow-y-auto sm:max-h-[90vh]',
+            contentVariants({ contentVerticalPosition }),
+            className,
+          )}
+          {...props}
+        >
+          {children}
+          {showCloseButton && (
+            <DialogPrimitive.Close className="absolute top-6 right-6 rounded-sm opacity-70 ring-offset-background transition-opacity disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+              <X />
+              <span className="sr-only">Close</span>
+            </DialogPrimitive.Close>
+          )}
+        </DialogPrimitive.Content>
+      </DialogOverlay>
     </DialogPortal>
   ),
 )
