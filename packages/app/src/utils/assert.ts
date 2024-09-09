@@ -19,5 +19,13 @@ export function raise(error: string | Error): never {
   if (error instanceof Error) {
     throw error
   }
-  throw new Error(error)
+
+  throw new RaiseError(error)
+}
+
+export class RaiseError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = 'RaiseError'
+  }
 }
