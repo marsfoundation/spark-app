@@ -34,7 +34,7 @@ Sentry.init({
 })
 
 function shouldErrorBeTracked(error: Error): boolean {
-  const trackedErrors = ['TypeError', 'AssertionError', 'ZodError', 'RaiseError']
+  const trackedErrors = ['TypeError', 'AssertionError', 'ZodError']
 
   return trackedErrors.some((errorName) => error.name === errorName)
 }
