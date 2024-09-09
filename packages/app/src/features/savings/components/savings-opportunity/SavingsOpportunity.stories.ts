@@ -14,6 +14,7 @@ const meta: Meta<typeof SavingsOpportunity> = {
   args: {
     APY: Percentage(0.05),
     originChainId: mainnet.id,
+    totalEligibleCashUSD: NormalizedUnitNumber(1_000_000),
     savingsMeta: {
       primary: {
         savingsToken: TokenSymbol('sUSDS'),

@@ -12,13 +12,9 @@ export interface ExplainerProps {
 export function Explainer({ stablecoinValue, savingsMeta }: ExplainerProps) {
   const { stablecoin, rateName } = savingsMeta.primary
   return (
-    <div className="flex flex-col gap-1 sm:max-w-[28ch]">
-      <div className="flex items-center gap-1">
-        <h2 className="whitespace-nowrap font-semibold text-base text-basics-black sm:text-xl">
-          <HeaderContent savingsMeta={savingsMeta} stablecoinValue={stablecoinValue} />
-        </h2>
-      </div>
-      <p className="text-basics-black/50">
+    <div className="flex flex-col gap-1 md:max-w-[28ch]">
+      <Header savingsMeta={savingsMeta} stablecoinValue={stablecoinValue} />
+      <p className="text-basics-black/50 text-sm sm:text-base">
         {stablecoinValue ? (
           <>
             You have ~<span className="font-bold">{USD_MOCK_TOKEN.formatUSD(stablecoinValue)}</span> worth of
@@ -32,14 +28,14 @@ export function Explainer({ stablecoinValue, savingsMeta }: ExplainerProps) {
   )
 }
 
-function HeaderContent({ stablecoinValue, savingsMeta }: ExplainerProps) {
+function Header({ stablecoinValue, savingsMeta }: ExplainerProps) {
   if (stablecoinValue) {
-    return <>Savings opportunity</>
+    return <h2 className="font-semibold text-base text-basics-black sm:text-xl">Savings opportunity</h2>
   }
 
   const { savingsToken, stablecoin, rateAcronym, rateName } = savingsMeta.primary
   return (
-    <div className="flex items-center gap-1">
+    <h2 className="flex items-center gap-1 whitespace-nowrap font-semibold text-base text-basics-black sm:text-xl">
       Savings{' '}
       <Info>
         Savings {stablecoin}, or {savingsToken}, provides you with fractional ownership of the entire pool of{' '}
@@ -51,6 +47,6 @@ function HeaderContent({ stablecoinValue, savingsMeta }: ExplainerProps) {
         </Link>
         .
       </Info>
-    </div>
+    </h2>
   )
 }
