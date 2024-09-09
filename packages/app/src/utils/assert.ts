@@ -1,10 +1,17 @@
 export function assert(condition: unknown, error?: string | Error): asserts condition {
   if (!condition) {
     if (error) {
-      raise(error instanceof String ? `assertion failed: ${error}` : error)
+      raise(error instanceof String ? new AssertionError(`assertion failed: ${error}`) : error)
     } else {
-      raise('assertion failed')
+      raise(new AssertionError('assertion failed'))
     }
+  }
+}
+
+export class AssertionError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = 'AssertionError'
   }
 }
 
