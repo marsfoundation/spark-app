@@ -20,11 +20,14 @@ export function SkyBadge({ token, 'data-testid': dataTestId }: SkyBadgeProps) {
     >
       <img src={assets.token.sky} className="h-5 w-5 rounded-full border-2 border-[#DBCAF4]" />
       <div className="flex-1 font-light">
-        <span className="hidden font-medium md:inline"> Powered by SKY </span>
-        <span className="hidden md:inline">(prev. MakerDAO). </span>
+        <span className="hidden font-medium md:inline">Powered by Sky </span>
+        <span className="hidden md:inline"> (prev. MakerDAO). </span>
         No slippage & fees for {token.symbol}.
       </div>
-      <Info className="text-inherit">The transaction uses SKY infrastructure without any third&#x2011;parties.</Info>
+      <Info className="text-inherit">
+        The conversion between DAI, USDS, and USDC is conducted through the Sky PSM, a component of Sky that allows
+        users to freely swap USDS for stablecoins without any slippage.
+      </Info>
     </div>
   )
 }

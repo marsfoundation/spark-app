@@ -1,4 +1,5 @@
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
@@ -42,6 +43,20 @@ const savingsViewBaseArgs = {
     openUsdsToDaiDowngradeDialog: () => {},
     openSDaiToSUsdsUpgradeDialog: () => {},
   },
+  savingsMeta: {
+    primary: {
+      savingsToken: TokenSymbol('sUSDS'),
+      stablecoin: TokenSymbol('USDS'),
+      rateAcronym: 'SSR',
+      rateName: 'Sky Savings Rate',
+    },
+    secondary: {
+      savingsToken: TokenSymbol('sDAI'),
+      stablecoin: TokenSymbol('DAI'),
+      rateAcronym: 'DSR',
+      rateName: 'DAI Savings Rate',
+    },
+  } as const,
   totalEligibleCashUSD: NormalizedUnitNumber(45454),
   openDialog: () => {},
 }

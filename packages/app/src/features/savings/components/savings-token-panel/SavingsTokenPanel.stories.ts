@@ -6,6 +6,7 @@ import { mainnet } from 'viem/chains'
 
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { SavingsTokenPanel } from './SavingsTokenPanel'
 
 const meta: Meta<typeof SavingsTokenPanel> = {
@@ -19,6 +20,12 @@ const meta: Meta<typeof SavingsTokenPanel> = {
     tokenWithBalance: { balance: NormalizedUnitNumber(20000.0), token: tokens.sDAI },
     APY: Percentage(0.05),
     originChainId: mainnet.id,
+    savingsMetaItem: {
+      savingsToken: TokenSymbol('sDAI'),
+      stablecoin: TokenSymbol('DAI'),
+      rateAcronym: 'DSR',
+      rateName: 'DAI Savings Rate',
+    },
     currentProjections: {
       thirtyDays: NormalizedUnitNumber(500),
       oneYear: NormalizedUnitNumber(2500),

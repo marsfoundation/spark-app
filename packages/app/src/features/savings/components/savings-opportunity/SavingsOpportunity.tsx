@@ -53,7 +53,7 @@ export function SavingsOpportunity({
       </div>
       <div className="flex flex-row items-end justify-between">
         <SavingsInfoTile>
-          <SavingsInfoTile.Label tooltipContent="This is how much you'll earn in 30 days">
+          <SavingsInfoTile.Label tooltipContent="This is an estimate of what you could earn in 30 days.">
             <div className="hidden md:block"> 30-day projection </div>
             <div className="md:hidden"> 30-day </div>
           </SavingsInfoTile.Label>
@@ -62,7 +62,7 @@ export function SavingsOpportunity({
           </SavingsInfoTile.Value>
         </SavingsInfoTile>
         <SavingsInfoTile>
-          <SavingsInfoTile.Label tooltipContent="This is how much you'll earn in 1 year">
+          <SavingsInfoTile.Label tooltipContent="This is an estimate of what you could earn in one year.">
             <div className="hidden md:block"> 1-year projection </div>
             <div className="md:hidden"> 1-year </div>
           </SavingsInfoTile.Label>

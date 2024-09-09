@@ -3,7 +3,6 @@ import { Percentage } from '@/domain/types/NumericValues'
 import { Button } from '@/ui/atoms/button/Button'
 import { Dialog, DialogContent, DialogTrigger } from '@/ui/atoms/dialog/Dialog'
 import { KeyPoints } from '@/ui/atoms/key-points/KeyPoints'
-import { Link } from '@/ui/atoms/link/Link'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { ChevronDown } from 'lucide-react'
@@ -28,11 +27,9 @@ export function BenefitsDialog({ portalContainerRef, apyImprovement }: BenefitsD
           <div className="flex flex-col gap-2">
             <h2 className="font-semibold text-basics-black text-xl">Deposit into Savings USDS</h2>
             <p className="text-basics-dark-grey text-sm">
-              Deposit your stablecoins into Savings USDS to tap into the Sky Savings Rate, which grants you a
-              predictable APY in USDS. {/* @todo: add proper link to docs when ready */}
-              <Link to="/" external>
-                Learn more
-              </Link>
+              By enabling this option, you will be depositing your stablecoins into Savings USDS, thus accessing the SSR
+              (Sky Savings Rate), which provides the highest predictable rate in USDS. You can exit Savings USDS at any
+              time at your sole discretion.
             </p>
           </div>
           <KeyPoints>

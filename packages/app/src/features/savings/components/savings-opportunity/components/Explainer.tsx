@@ -34,7 +34,7 @@ export function Explainer({ stablecoinValue, savingsMeta }: ExplainerProps) {
 
 function HeaderContent({ stablecoinValue, savingsMeta }: ExplainerProps) {
   if (stablecoinValue) {
-    return 'Savings opportunity'
+    return <>Savings opportunity</>
   }
 
   const { savingsToken, stablecoin, rateAcronym, rateName } = savingsMeta.primary

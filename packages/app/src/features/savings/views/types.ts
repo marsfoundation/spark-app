@@ -10,7 +10,6 @@ import { Projections } from '../types'
 export interface SavingsViewContentProps {
   savingsTokenDetails: SavingsTokenDetails
   migrationInfo?: MigrationInfo
-  chainId: SupportedChainId
   assetsInWallet: AssetInWallet[]
   originChainId: SupportedChainId
   maxBalanceToken: TokenWithBalance
