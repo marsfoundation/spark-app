@@ -15,7 +15,7 @@ export interface WelcomeDialogProps {
 export function WelcomeDialog({ open, onConfirm, apyImprovement }: WelcomeDialogProps) {
   return (
     <Dialog open={open}>
-      <DialogContent className="flex flex-col overflow-hidden p-0" showCloseButton={false}>
+      <DialogContent className="flex flex-col p-0" showCloseButton={false}>
         <img
           src={assets.banners.daiToUsdsUpgrade}
           alt="new-savings-welcome-banner"
