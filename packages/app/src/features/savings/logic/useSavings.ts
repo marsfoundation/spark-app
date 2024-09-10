@@ -133,9 +133,11 @@ export function useSavings(): UseSavingsResults {
       // Sort by balance
       if (balanceComparison !== 0) return balanceComparison
 
-      // Prioritize token with symbol 'usds'
-      if (a.token.symbol === 'usds') return -1
-      if (b.token.symbol === 'usds') return 1
+      // Prioritize token with USDS symbol
+      if (tokensInfo.USDS) {
+        if (a.token.symbol === tokensInfo.USDS.symbol) return -1
+        if (b.token.symbol === tokensInfo.USDS.symbol) return 1
+      }
 
       return 0
     })
