@@ -42,8 +42,8 @@ function GnosisDsrDetails() {
       <p>All interest from the xDAI Bridge on the Ethereum mainnet is being redirected to Gnosis sDAI.</p>
       <p>The bridge converts its DAI deposits into Savings DAI on the mainnet, which then accumulates the DSR.</p>
       <p>
-        The DSR is set on mainnet by MakerDAO and can be adjusted through MakerDAO's governance mechanisms. Keep in mind
-        that these protocol mechanisms are subject to change.
+        The DSR is set on mainnet by Sky DPE Governance. Keep in mind that these protocol mechanisms are subject to
+        change.
       </p>
       <p>
         For more information about DSR, you can visit{' '}
