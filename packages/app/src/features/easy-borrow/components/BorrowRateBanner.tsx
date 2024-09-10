@@ -1,9 +1,9 @@
 import { formatPercentage } from '@/domain/common/format'
 import { Typography } from '@/ui/atoms/typography/Typography'
-import { AssetsToBorrowMeta } from '../logic/useEasyBorrow'
+import { BorrowDetails } from '../logic/useEasyBorrow'
 
 export interface BorrowRateBannerProps {
-  assetsToBorrowMeta: AssetsToBorrowMeta
+  assetsToBorrowMeta: BorrowDetails
 }
 
 export function BorrowRateBanner({ assetsToBorrowMeta }: BorrowRateBannerProps) {

@@ -11,11 +11,11 @@ import { EasyBorrowSidePanel } from '../components/note/EasyBorrowSidePanel'
 import { FormFieldsForAssetClass } from '../logic/form/form'
 import { EasyBorrowFormSchema } from '../logic/form/validation'
 import { ExistingPosition, PageStatus } from '../logic/types'
-import { AssetsToBorrowMeta } from '../logic/useEasyBorrow'
+import { BorrowDetails } from '../logic/useEasyBorrow'
 
 export interface EasyBorrowViewProps {
   pageStatus: PageStatus
-  assetsToBorrowMeta: AssetsToBorrowMeta
+  borrowDetails: BorrowDetails
   form: UseFormReturn<EasyBorrowFormSchema>
   assetsToBorrowFields: FormFieldsForAssetClass
   assetsToDepositFields: FormFieldsForAssetClass
@@ -36,10 +36,10 @@ export interface EasyBorrowViewProps {
 export function EasyBorrowView(props: EasyBorrowViewProps) {
   return (
     <PageLayout>
-      <BorrowRateBanner assetsToBorrowMeta={props.assetsToBorrowMeta} />
+      <BorrowRateBanner assetsToBorrowMeta={props.borrowDetails} />
       <div className="mt-8 flex justify-center">
-        <EasyBorrowPanel {...props} borrowRate={props.assetsToBorrowMeta.borrowRate} />
-        <EasyBorrowSidePanel borrowRate={props.assetsToBorrowMeta.borrowRate} />
+        <EasyBorrowPanel {...props} />
+        <EasyBorrowSidePanel borrowRate={props.borrowDetails.borrowRate} />
       </div>
     </PageLayout>
   )

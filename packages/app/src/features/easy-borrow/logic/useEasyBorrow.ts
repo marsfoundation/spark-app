@@ -36,37 +36,31 @@ import { useCreateObjectives } from './useCreateObjectives'
 import { useLiquidationDetails } from './useLiquidationDetails'
 import { useUpgradeOptions } from './useUpgradeOptions'
 
-export interface AssetsToBorrowMeta {
+export interface BorrowDetails {
   borrowRate: Percentage
   dai: TokenSymbol
   usds?: TokenSymbol
+  isUpgradingToUsds: boolean
 }
 
 export interface UseEasyBorrowResults {
   pageStatus: PageStatus
-
   form: UseFormReturn<EasyBorrowFormSchema>
   updatedPositionSummary: UserPositionSummary
   assetsToBorrowFields: FormFieldsForAssetClass
   assetsToDepositFields: FormFieldsForAssetClass
   setDesiredLoanToValue: (desiredLtv: Percentage) => void
-
   actions: Objective[]
-
   tokensToBorrow: TokenWithValue[]
   tokensToDeposit: TokenWithValue[]
   alreadyDeposited: ExistingPosition
   alreadyBorrowed: ExistingPosition
   liquidationDetails?: LiquidationDetails
   riskAcknowledgement: RiskAcknowledgementInfo
-
-  assetsToBorrowMeta: AssetsToBorrowMeta
-
+  borrowDetails: BorrowDetails
   guestMode: boolean
   openSandboxModal: () => void
-
   healthFactorPanelRef: React.RefObject<HTMLDivElement>
-
   actionsContext: InjectedActionsContext
 }
 
@@ -179,10 +173,11 @@ export function useEasyBorrow(): UseEasyBorrowResults {
     freeze: pageStatus === 'confirmation',
   })
 
-  const assetsToBorrowMeta = {
+  const borrowDetails = {
     dai: daiSymbol,
     usds: USDSSymbol,
     borrowRate: marketInfo.findOneReserveBySymbol(defaultAssetToBorrow).variableBorrowApy ?? raise('No borrow rate'),
+    isUpgradingToUsds: formValues.borrows[0]?.token.symbol === USDSSymbol,
   }
 
   // biome-ignore lint/correctness/useExhaustiveDependencies:
@@ -235,7 +230,7 @@ export function useEasyBorrow(): UseEasyBorrowResults {
     alreadyDeposited,
     alreadyBorrowed,
     liquidationDetails,
-    assetsToBorrowMeta,
+    borrowDetails,
     guestMode,
     openSandboxModal,
     healthFactorPanelRef,

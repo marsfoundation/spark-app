@@ -15,7 +15,7 @@ import { useForm } from 'react-hook-form'
 import { withRouter } from 'storybook-addon-remix-react-router'
 import { EasyBorrowFormSchema } from '../logic/form/validation'
 import { ExistingPosition, PageState } from '../logic/types'
-import { AssetsToBorrowMeta } from '../logic/useEasyBorrow'
+import { BorrowDetails } from '../logic/useEasyBorrow'
 import { EasyBorrowView } from './EasyBorrowView'
 
 const mockMarketInfo = getMockMarketInfo()
@@ -31,7 +31,7 @@ interface EasyBorrowViewStoryProps {
   updatedPositionSummary: UserPositionSummary
   actions: Objective[]
   guestMode: boolean
-  assetsToBorrowMeta: AssetsToBorrowMeta
+  borrowDetails: BorrowDetails
   riskAcknowledgement?: RiskAcknowledgementInfo
   actionsEnabled?: boolean
 }
@@ -48,7 +48,7 @@ function EasyBorrowViewStory(props: EasyBorrowViewStoryProps) {
     updatedPositionSummary,
     actions,
     guestMode,
-    assetsToBorrowMeta,
+    borrowDetails,
     riskAcknowledgement: _riskAcknowledgement,
     actionsEnabled = true,
   } = props
@@ -107,7 +107,7 @@ function EasyBorrowViewStory(props: EasyBorrowViewStoryProps) {
       updatedPositionSummary={updatedPositionSummary}
       setDesiredLoanToValue={setDesiredLoanToValue}
       objectives={actions}
-      assetsToBorrowMeta={assetsToBorrowMeta}
+      borrowDetails={borrowDetails}
       guestMode={guestMode}
       openConnectModal={openConnectModal}
       openSandboxModal={openSandboxModal}
@@ -181,7 +181,12 @@ const meta: Meta<typeof EasyBorrowViewStory> = {
       totalLiquidityUSD: NormalizedUnitNumber(0),
     },
     guestMode: false,
-    assetsToBorrowMeta: { dai: tokens.DAI.symbol, usds: tokens.USDS.symbol, borrowRate: Percentage(0.0553) },
+    borrowDetails: {
+      dai: tokens.DAI.symbol,
+      usds: tokens.USDS.symbol,
+      borrowRate: Percentage(0.0553),
+      isUpgradingToUsds: true,
+    },
     actions: [],
   },
 }
