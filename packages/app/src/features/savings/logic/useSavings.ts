@@ -127,7 +127,18 @@ export function useSavings(): UseSavingsResults {
       ...tokenWithBalance,
       blockExplorerLink: getBlockExplorerLink(tokenWithBalance.token.address),
     }))
-    .sort((a, b) => b.balance.comparedTo(a.balance))
+    .sort((a, b) => {
+      const balanceComparison = b.balance.comparedTo(a.balance)
+
+      // Sort by balance
+      if (balanceComparison !== 0) return balanceComparison
+
+      // Prioritize token with symbol 'usds'
+      if (a.token.symbol === 'usds') return -1
+      if (b.token.symbol === 'usds') return 1
+
+      return 0
+    })
 
   return {
     guestMode,
