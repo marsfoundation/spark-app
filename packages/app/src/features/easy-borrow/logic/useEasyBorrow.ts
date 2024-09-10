@@ -160,7 +160,8 @@ export function useEasyBorrow(): UseEasyBorrowResults {
 
   const actions = useCreateObjectives(formValues)
 
-  // @note: There is no usds market, so for calculation regarding user summary and liquidation we swap usds for dai
+  // @note: There is no usds market. When usds is borrowed, upgrade action is performed after borrowing dai.
+  // Thus, for calculation connected to markets (updating user summary, liquidation price), we treat usds as dai.
   const formValuesAsUnderlyingReserves = getFormValuesAsUnderlyingReserves({ formValues, marketInfo, upgradeOptions })
   const updatedUserSummary = useConditionalFreeze(
     updatePositionSummary({ ...formValuesAsUnderlyingReserves, marketInfo, aaveData, nativeAssetInfo }),
