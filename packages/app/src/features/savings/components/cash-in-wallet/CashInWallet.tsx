@@ -50,7 +50,7 @@ export function CashInWallet({ assets, openDialog, migrationInfo }: CashInWallet
                 token={token}
                 migrationInfo={migrationInfo}
                 blockExplorerLink={blockExplorerLink}
-                disabled={balance.eq(0)}
+                balance={balance}
               />
             </div>
           )

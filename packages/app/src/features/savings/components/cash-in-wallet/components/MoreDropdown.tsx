@@ -1,3 +1,4 @@
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { MigrationInfo } from '@/features/savings/logic/makeMigrationInfo'
 import ArrowUpRightIcon from '@/ui/assets/arrow-up-right.svg?react'
@@ -20,12 +21,13 @@ export interface MoreDropdownProps {
   disabled?: boolean
   migrationInfo?: MigrationInfo
   blockExplorerLink: string | undefined
+  balance?: NormalizedUnitNumber
 }
 
-export function MoreDropdown({ token, blockExplorerLink, migrationInfo, disabled }: MoreDropdownProps) {
+export function MoreDropdown({ token, blockExplorerLink, migrationInfo, disabled, balance }: MoreDropdownProps) {
   return (
     <DropdownWrapper disabled={disabled}>
-      {migrationInfo?.usdsSymbol === token.symbol && (
+      {balance?.gt(0) && migrationInfo?.usdsSymbol === token.symbol && (
         <>
           <DropdownItem onClick={migrationInfo.openUsdsToDaiDowngradeDialog}>
             <DowngradeIcon className="h-4 w-4" />

@@ -1,4 +1,4 @@
-import { Percentage } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { WithClassname } from '@storybook/decorators'
 import type { Meta, StoryObj } from '@storybook/react'
 import { userEvent, within } from '@storybook/test'
@@ -23,6 +23,7 @@ const meta: Meta<typeof MoreDropdown> = {
       openUsdsToDaiDowngradeDialog: () => {},
       openSDaiToSUsdsUpgradeDialog: () => {},
     },
+    balance: NormalizedUnitNumber(100),
   },
   play: async ({ canvasElement }) => {
     const button = await within(canvasElement).findByRole('button')
@@ -36,6 +37,12 @@ type Story = StoryObj<typeof MoreDropdown>
 export const Desktop: Story = {}
 export const Mobile = getMobileStory(Desktop)
 export const Tablet = getTabletStory(Desktop)
+
+export const WithZeroBalance: Story = {
+  args: {
+    balance: NormalizedUnitNumber(0),
+  },
+}
 
 export const OnlyLearnMore: Story = {
   args: {
