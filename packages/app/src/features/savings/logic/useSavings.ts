@@ -122,10 +122,12 @@ export function useSavings(): UseSavingsResults {
     sDaiDetails?.opportunityProjections ??
     raise('Savings opportunity projections should be defined')
 
-  const assetsInWallet = inputTokens.map((tokenWithBalance) => ({
-    ...tokenWithBalance,
-    blockExplorerLink: getBlockExplorerLink(tokenWithBalance.token.address),
-  }))
+  const assetsInWallet = inputTokens
+    .map((tokenWithBalance) => ({
+      ...tokenWithBalance,
+      blockExplorerLink: getBlockExplorerLink(tokenWithBalance.token.address),
+    }))
+    .sort((a, b) => b.balance.comparedTo(a.balance))
 
   return {
     guestMode,
