@@ -1,7 +1,7 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { MigrationInfo } from '@/features/savings/logic/makeMigrationInfo'
-import ArrowUpRightIcon from '@/ui/assets/arrow-up-right.svg?react'
+import BoxArrowTopRight from '@/ui/assets/box-arrow-top-right.svg?react'
 import DocumentSketchIcon from '@/ui/assets/document-sketch.svg?react'
 import DowngradeIcon from '@/ui/assets/downgrade.svg?react'
 import MoreIcon from '@/ui/assets/more-icon.svg?react'
@@ -45,7 +45,7 @@ export function MoreDropdown({ token, blockExplorerLink, migrationInfo, disabled
           <DropdownItem>
             <DocumentSketchIcon className="h-4 w-4" />
             View contract
-            <ArrowUpRightIcon className="ml-auto h-4 w-4" />
+            <BoxArrowTopRight className="ml-auto h-4 w-4" />
           </DropdownItem>
         </LinkDecorator>
       )}
