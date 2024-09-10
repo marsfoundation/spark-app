@@ -24,13 +24,13 @@ export const Desktop: Story = {
         blockExplorerLink: '/',
       },
       {
-        token: tokens.USDC,
-        balance: NormalizedUnitNumber(0),
+        token: tokens.USDS,
+        balance: NormalizedUnitNumber(22720),
         blockExplorerLink: '/',
       },
       {
-        token: tokens.USDS,
-        balance: NormalizedUnitNumber(22727),
+        token: tokens.USDC,
+        balance: NormalizedUnitNumber(0),
         blockExplorerLink: '/',
       },
     ],
