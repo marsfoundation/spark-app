@@ -33,6 +33,16 @@ export const PrimaryMdDisabled: Story = {
   },
 }
 
+export const PrimaryMdHover: Story = {
+  name: 'Primary:md:hover',
+  args: {
+    variant: 'primary',
+    size: 'md',
+    children: 'Primary Medium Hover',
+  },
+  parameters: { pseudo: { hover: true } },
+}
+
 export const PrimarySm: Story = {
   name: 'Primary:sm',
   args: {
@@ -52,6 +62,16 @@ export const PrimarySmDisabled: Story = {
   },
 }
 
+export const PrimarySmHover: Story = {
+  name: 'Primary:sm:hover',
+  args: {
+    variant: 'primary',
+    size: 'sm',
+    children: 'Primary Small Hover',
+  },
+  parameters: { pseudo: { hover: true } },
+}
+
 export const PrimaryLg: Story = {
   name: 'Primary:lg',
   args: {
@@ -69,6 +89,16 @@ export const PrimaryLgDisabled: Story = {
     children: 'Primary Large Disabled',
     disabled: true,
   },
+}
+
+export const PrimaryLgHover: Story = {
+  name: 'Primary:lg:hover',
+  args: {
+    variant: 'primary',
+    size: 'lg',
+    children: 'Primary Large Hover',
+  },
+  parameters: { pseudo: { hover: true } },
 }
 
 export const SecondaryMd: Story = {
