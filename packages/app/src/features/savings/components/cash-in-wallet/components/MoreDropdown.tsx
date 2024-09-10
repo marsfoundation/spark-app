@@ -40,7 +40,7 @@ export function MoreDropdown({ token, blockExplorerLink, migrationInfo, disabled
         <LinkDecorator to={blockExplorerLink} external>
           <DropdownItem>
             <DocumentSketchIcon className="h-4 w-4" />
-            Learn more
+            View contract
             <ArrowUpRightIcon className="ml-auto h-4 w-4" />
           </DropdownItem>
         </LinkDecorator>
