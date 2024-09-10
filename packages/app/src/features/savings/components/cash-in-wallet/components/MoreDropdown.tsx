@@ -1,6 +1,7 @@
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { MigrationInfo } from '@/features/savings/logic/makeMigrationInfo'
-import ArrowUpRightIcon from '@/ui/assets/arrow-up-right.svg?react'
+import BoxArrowTopRight from '@/ui/assets/box-arrow-top-right.svg?react'
 import DocumentSketchIcon from '@/ui/assets/document-sketch.svg?react'
 import DowngradeIcon from '@/ui/assets/downgrade.svg?react'
 import MoreIcon from '@/ui/assets/more-icon.svg?react'
@@ -20,14 +21,19 @@ export interface MoreDropdownProps {
   disabled?: boolean
   migrationInfo?: MigrationInfo
   blockExplorerLink: string | undefined
+  balance?: NormalizedUnitNumber
 }
 
-export function MoreDropdown({ token, blockExplorerLink, migrationInfo, disabled }: MoreDropdownProps) {
+export function MoreDropdown({ token, blockExplorerLink, migrationInfo, disabled, balance }: MoreDropdownProps) {
   return (
     <DropdownWrapper disabled={disabled}>
       {migrationInfo?.usdsSymbol === token.symbol && (
         <>
-          <DropdownItem onClick={migrationInfo.openUsdsToDaiDowngradeDialog}>
+          <DropdownItem
+            onClick={migrationInfo.openUsdsToDaiDowngradeDialog}
+            disabled={balance?.eq(0)}
+            data-testid={testIds.savings.cashInWallet.downgradeUsdsToDai}
+          >
             <DowngradeIcon className="h-4 w-4" />
             Downgrade to {migrationInfo.daiSymbol}
           </DropdownItem>
@@ -38,8 +44,8 @@ export function MoreDropdown({ token, blockExplorerLink, migrationInfo, disabled
         <LinkDecorator to={blockExplorerLink} external>
           <DropdownItem>
             <DocumentSketchIcon className="h-4 w-4" />
-            Learn more
-            <ArrowUpRightIcon className="ml-auto h-4 w-4" />
+            View contract
+            <BoxArrowTopRight className="ml-auto h-4 w-4" />
           </DropdownItem>
         </LinkDecorator>
       )}
@@ -66,11 +72,18 @@ function DropdownWrapper({ children, disabled }: { children?: React.ReactNode; d
   )
 }
 
-function DropdownItem({ children, onClick }: { children: React.ReactNode; onClick?: () => void }) {
+function DropdownItem({
+  children,
+  onClick,
+  disabled,
+  'data-testid': dataTestId,
+}: { children: React.ReactNode; onClick?: () => void; disabled?: boolean; 'data-testid'?: string }) {
   return (
     <DropdownMenuItem
       className="flex cursor-pointer items-center gap-2 font-medium text-basics-dark-grey"
       onClick={onClick}
+      disabled={disabled}
+      data-testid={dataTestId}
     >
       {children}
     </DropdownMenuItem>

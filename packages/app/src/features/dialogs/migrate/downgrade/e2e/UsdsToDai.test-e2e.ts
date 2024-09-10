@@ -8,7 +8,7 @@ import { DowngradeDialogPageObject } from '../DowngradeDialog.PageObject'
 test.describe('Downgrade USDS to DAI', () => {
   const fork = setupFork({ chainId: USDS_DEV_CHAIN_ID })
 
-  test('cannot open "more" dropdown when USDS balance is 0', async ({ page }) => {
+  test('downgrade to DAI is disabled when USDS balance is 0', async ({ page }) => {
     await setup(page, fork, {
       initialPage: 'savings',
       account: {
@@ -19,7 +19,7 @@ test.describe('Downgrade USDS to DAI', () => {
 
     const savingsPage = new SavingsPageObject(page)
 
-    await savingsPage.expectUsdsMoreDropdownToBeDisabled()
+    await savingsPage.expectDowngradeToDaiToBeDisabled()
   })
 
   test('uses downgrade action', async ({ page }) => {

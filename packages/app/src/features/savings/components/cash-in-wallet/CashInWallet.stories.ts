@@ -25,7 +25,7 @@ export const Desktop: Story = {
       },
       {
         token: tokens.USDS,
-        balance: NormalizedUnitNumber(22727),
+        balance: NormalizedUnitNumber(22720),
         blockExplorerLink: '/',
       },
       {

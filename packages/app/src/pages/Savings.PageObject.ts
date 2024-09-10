@@ -40,6 +40,10 @@ export class SavingsPageObject extends BasePageObject {
     return this.page.getByTestId(testIds.savings.cashInWallet.upgradeDaiToUsds)
   }
 
+  locateDowngradeUsdsToDaiButton(): Locator {
+    return this.page.getByTestId(testIds.savings.cashInWallet.downgradeUsdsToDai)
+  }
+
   locateUsdsMoreDropdown(): Locator {
     const panel = this.locateCashInWalletPanel()
     const usdsRow = panel.getByRole('row').filter({ has: this.page.getByRole('cell', { name: 'USDS', exact: true }) })
@@ -170,8 +174,10 @@ export class SavingsPageObject extends BasePageObject {
     return expect(this.locateUpgradeSDaiBanner()).toBeHidden()
   }
 
-  expectUsdsMoreDropdownToBeDisabled(): Promise<void> {
-    return expect(this.locateUsdsMoreDropdown()).toBeDisabled()
+  async expectDowngradeToDaiToBeDisabled(): Promise<void> {
+    await this.locateUsdsMoreDropdown().click()
+
+    return expect(this.locateDowngradeUsdsToDaiButton()).toBeDisabled()
   }
 
   async expectUpgradableDaiBalance(value: string): Promise<void> {

@@ -67,6 +67,7 @@ export const testIds = makeTestIds({
       upgradeDaiToUsds: true,
       upgradeDaiToUsdsCell: true,
       moreDropdown: true,
+      downgradeUsdsToDai: true,
     },
   },
   dialog: {

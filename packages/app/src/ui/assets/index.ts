@@ -9,7 +9,6 @@ import exchange from './actions/exchange.svg'
 import repay from './actions/repay.svg'
 import withdraw from './actions/withdraw.svg'
 import arrowRight from './arrow-right.svg'
-import arrowUpRight from './arrow-up-right.svg'
 import daiToUsdsUpgrade from './banners/dai-to-usds-upgrade.webp'
 import mkrToSkyTransform from './banners/mkr-to-sky-transform.svg'
 import sdaiToSusdsUpgrade from './banners/sdai-to-susds-upgrade.webp'
@@ -94,7 +93,6 @@ export const assets = {
   link,
   threeDots,
   arrowRight,
-  arrowUpRight,
   warning,
   pause,
   snowflake,

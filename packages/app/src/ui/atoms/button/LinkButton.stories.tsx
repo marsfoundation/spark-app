@@ -33,6 +33,15 @@ export const PrimaryMdDisabled: Story = {
   },
 }
 
+export const PrimaryMdHover: Story = {
+  name: 'Primary:md:hover',
+  args: {
+    variant: 'primary',
+    children: 'Primary Medium Hover',
+  },
+  parameters: { pseudo: { hover: true } },
+}
+
 export const PrimarySm: Story = {
   name: 'Primary:sm',
   args: {
@@ -50,6 +59,16 @@ export const PrimarySmDisabled: Story = {
     children: 'Primary Small Disabled',
     disabled: true,
   },
+}
+
+export const PrimarySmHover: Story = {
+  name: 'Primary:sm:hover',
+  args: {
+    variant: 'primary',
+    size: 'sm',
+    children: 'Primary Small Hover',
+  },
+  parameters: { pseudo: { hover: true } },
 }
 
 export const PrimaryLg: Story = {
@@ -71,12 +90,40 @@ export const PrimaryLgDisabled: Story = {
   },
 }
 
+export const PrimaryLgHover: Story = {
+  name: 'Primary:lg:hover',
+  args: {
+    variant: 'primary',
+    size: 'lg',
+    children: 'Primary Large Hover',
+  },
+  parameters: { pseudo: { hover: true } },
+}
+
 export const SecondaryMd: Story = {
   name: 'Secondary:md',
   args: {
     variant: 'secondary',
     children: 'Secondary Medium',
   },
+}
+
+export const SecondaryMdDisabled: Story = {
+  name: 'Secondary:md:disabled',
+  args: {
+    variant: 'secondary',
+    children: 'Secondary Medium Disabled',
+    disabled: true,
+  },
+}
+
+export const SecondaryMdHover: Story = {
+  name: 'Secondary:md:hover',
+  args: {
+    variant: 'secondary',
+    children: 'Secondary Medium Hover',
+  },
+  parameters: { pseudo: { hover: true } },
 }
 
 export const GreenMd: Story = {
