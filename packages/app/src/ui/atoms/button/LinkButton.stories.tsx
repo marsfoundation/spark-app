@@ -37,7 +37,6 @@ export const PrimaryMdHover: Story = {
   name: 'Primary:md:hover',
   args: {
     variant: 'primary',
-    size: 'md',
     children: 'Primary Medium Hover',
   },
   parameters: { pseudo: { hover: true } },
@@ -107,6 +106,24 @@ export const SecondaryMd: Story = {
     variant: 'secondary',
     children: 'Secondary Medium',
   },
+}
+
+export const SecondaryMdDisabled: Story = {
+  name: 'Secondary:md:disabled',
+  args: {
+    variant: 'secondary',
+    children: 'Secondary Medium Disabled',
+    disabled: true,
+  },
+}
+
+export const SecondaryMdHover: Story = {
+  name: 'Secondary:md:hover',
+  args: {
+    variant: 'secondary',
+    children: 'Secondary Medium Hover',
+  },
+  parameters: { pseudo: { hover: true } },
 }
 
 export const GreenMd: Story = {
