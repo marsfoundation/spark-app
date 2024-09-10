@@ -27,9 +27,13 @@ export interface MoreDropdownProps {
 export function MoreDropdown({ token, blockExplorerLink, migrationInfo, disabled, balance }: MoreDropdownProps) {
   return (
     <DropdownWrapper disabled={disabled}>
-      {balance?.gt(0) && migrationInfo?.usdsSymbol === token.symbol && (
+      {migrationInfo?.usdsSymbol === token.symbol && (
         <>
-          <DropdownItem onClick={migrationInfo.openUsdsToDaiDowngradeDialog}>
+          <DropdownItem
+            onClick={migrationInfo.openUsdsToDaiDowngradeDialog}
+            disabled={balance?.eq(0)}
+            data-testid={testIds.savings.cashInWallet.downgradeUsdsToDai}
+          >
             <DowngradeIcon className="h-4 w-4" />
             Downgrade to {migrationInfo.daiSymbol}
           </DropdownItem>
@@ -68,11 +72,18 @@ function DropdownWrapper({ children, disabled }: { children?: React.ReactNode; d
   )
 }
 
-function DropdownItem({ children, onClick }: { children: React.ReactNode; onClick?: () => void }) {
+function DropdownItem({
+  children,
+  onClick,
+  disabled,
+  'data-testid': dataTestId,
+}: { children: React.ReactNode; onClick?: () => void; disabled?: boolean; 'data-testid'?: string }) {
   return (
     <DropdownMenuItem
       className="flex cursor-pointer items-center gap-2 font-medium text-basics-dark-grey"
       onClick={onClick}
+      disabled={disabled}
+      data-testid={dataTestId}
     >
       {children}
     </DropdownMenuItem>
