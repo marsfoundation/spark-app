@@ -10,6 +10,7 @@ import { Panel } from '@/ui/atoms/panel/Panel'
 import { Typography } from '@/ui/atoms/typography/Typography'
 import { HealthFactorPanel } from '@/ui/organisms/health-factor-panel/HealthFactorPanel'
 import { RiskAcknowledgement } from '@/ui/organisms/risk-acknowledgement/RiskAcknowledgement'
+import { testIds } from '@/ui/utils/testIds'
 import { Trans } from '@lingui/macro'
 import { X } from 'lucide-react'
 import { UseFormReturn } from 'react-hook-form'
@@ -78,7 +79,7 @@ export function EasyBorrowPanel(props: EasyBorrowPanelProps) {
             />
           )}
           {props.borrowDetails.isUpgradingToUsds && (
-            <Alert variant="info">
+            <Alert variant="info" data-testid={testIds.easyBorrow.form.usdsBorrowAlert}>
               Borrowing {props.borrowDetails.usds} creates {props.borrowDetails.dai} borrow position in Spark Lend.
               Borrowed {props.borrowDetails.dai} is upgraded to {props.borrowDetails.usds} in separate action listed
               below. You will see your {props.borrowDetails.dai} position on the dashboard.

@@ -47,6 +47,10 @@ export class BorrowPageObject extends BasePageObject {
     await this.page.getByRole('link', { name: 'View in dashboard' }).click()
   }
 
+  async viewInSavingsAction(): Promise<void> {
+    await this.page.getByRole('link', { name: 'View in Savings' }).click()
+  }
+
   async depositAssetsActions(assetsToDeposit: Record<string, number>, daiToBorrow: number): Promise<void> {
     const actionsContainer = new ActionsPageObject(this.locatePanelByHeader('Actions'))
     await this.depositWithoutBorrowActions(assetsToDeposit, daiToBorrow, actionsContainer)
@@ -105,6 +109,10 @@ export class BorrowPageObject extends BasePageObject {
 
   async expectBorrowButtonActive(): Promise<void> {
     await expect(this.page.getByRole('button', { name: 'Borrow' })).toBeEnabled()
+  }
+
+  async expectUsdsBorrowAlert(): Promise<void> {
+    await expect(this.page.getByTestId(testIds.easyBorrow.form.usdsBorrowAlert)).toBeVisible()
   }
 
   async expectSuccessPage(

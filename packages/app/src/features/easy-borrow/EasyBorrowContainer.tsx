@@ -32,7 +32,14 @@ function EasyBorrowContainer() {
   const { openConnectModal = () => {} } = useConnectModal()
 
   if (pageStatus.state === 'success') {
-    return <SuccessView deposited={tokensToDeposit} borrowed={tokensToBorrow} runConfetti />
+    return (
+      <SuccessView
+        deposited={tokensToDeposit}
+        borrowed={tokensToBorrow}
+        isUpgradingToUsds={borrowDetails.isUpgradingToUsds}
+        runConfetti
+      />
+    )
   }
 
   return (

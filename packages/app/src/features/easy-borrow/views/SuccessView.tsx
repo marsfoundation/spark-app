@@ -14,10 +14,11 @@ import { useBreakpoint } from '@/ui/utils/useBreakpoint'
 export interface SuccessViewProps {
   deposited: TokenWithValue[]
   borrowed: TokenWithValue[]
+  isUpgradingToUsds: boolean
   runConfetti: boolean
 }
 
-export function SuccessView({ deposited, borrowed, runConfetti }: SuccessViewProps) {
+export function SuccessView({ deposited, borrowed, runConfetti, isUpgradingToUsds }: SuccessViewProps) {
   const desktop = useBreakpoint('md')
 
   return (
@@ -57,8 +58,8 @@ export function SuccessView({ deposited, borrowed, runConfetti }: SuccessViewPro
               </div>
             </div>
 
-            <LinkButton size="lg" className="mt-8 w-full" to={paths.dashboard}>
-              View in dashboard
+            <LinkButton size="lg" className="mt-8 w-full" to={isUpgradingToUsds ? paths.savings : paths.dashboard}>
+              {isUpgradingToUsds ? 'View in Savings' : 'View in Dashboard'}
             </LinkButton>
           </Panel.Content>
         </Panel>

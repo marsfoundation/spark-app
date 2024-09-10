@@ -183,9 +183,8 @@ const meta: Meta<typeof EasyBorrowViewStory> = {
     guestMode: false,
     borrowDetails: {
       dai: tokens.DAI.symbol,
-      usds: tokens.USDS.symbol,
       borrowRate: Percentage(0.0553),
-      isUpgradingToUsds: true,
+      isUpgradingToUsds: false,
     },
     actions: [],
   },
