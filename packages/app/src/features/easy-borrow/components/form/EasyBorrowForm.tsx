@@ -55,7 +55,7 @@ export function EasyBorrowForm(props: EasyBorrowFlowProps) {
         <div className="flex flex-col gap-2 md:flex-row">
           <Deposits
             selectedAssets={assetsToDepositFields.selectedAssets}
-            allAssets={assetsToDepositFields.allAssets}
+            allAssets={assetsToDepositFields.assets}
             assetToMaxValue={assetsToDepositFields.assetToMaxValue}
             addAsset={assetsToDepositFields.addAsset}
             removeAsset={assetsToDepositFields.removeAsset}
@@ -70,6 +70,8 @@ export function EasyBorrowForm(props: EasyBorrowFlowProps) {
           </div>
           <Borrow
             selectedAssets={assetsToBorrowFields.selectedAssets}
+            allAssets={assetsToBorrowFields.assets}
+            changeAsset={assetsToBorrowFields.changeAsset}
             alreadyBorrowed={alreadyBorrowed}
             control={form.control}
             disabled={disabled}

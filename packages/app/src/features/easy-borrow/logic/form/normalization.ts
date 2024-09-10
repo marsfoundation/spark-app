@@ -1,18 +1,17 @@
-import { ReserveWithValue } from '@/domain/common/types'
-import { MarketInfo } from '@/domain/market-info/marketInfo'
+import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-
+import { raise } from '@/utils/assert'
 import { EasyBorrowFormNormalizedData } from '../types'
 import type { AssetInputSchema, EasyBorrowFormSchema } from './validation'
 
 export function normalizeFormValues(
   values: EasyBorrowFormSchema,
-  marketInfo: MarketInfo,
+  formAssets: TokenWithBalance[],
 ): EasyBorrowFormNormalizedData {
-  function normalizeAsset(asset: AssetInputSchema): ReserveWithValue {
-    const reserve = marketInfo.findOneReserveBySymbol(asset.symbol)
+  function normalizeAsset(asset: AssetInputSchema): TokenWithValue {
+    const { token } = formAssets.find(({ token }) => token.symbol === asset.symbol) ?? raise('Asset not found')
     return {
-      reserve,
+      token,
       value: NormalizedUnitNumber(asset.value === '' ? '0' : asset.value),
     }
   }

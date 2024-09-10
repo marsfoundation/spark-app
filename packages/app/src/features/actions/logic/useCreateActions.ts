@@ -1,11 +1,10 @@
-import { getChainConfigEntry } from '@/config/chain'
 import { MIGRATE_ACTIONS_ADDRESS } from '@/config/consts'
 import { lendingPoolAddress, wethGatewayAddress } from '@/config/contracts-generated'
+import { useChainConfigEntry } from '@/domain/hooks/useChainConfigEntry'
 import { useContractAddress } from '@/domain/hooks/useContractAddress'
-import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
 import { ActionsSettings } from '@/domain/state/actions-settings'
 import { BaseUnitNumber } from '@/domain/types/NumericValues'
-import { assert } from '@/utils/assert'
+import { assert, raise } from '@/utils/assert'
 import { maxUint256 } from 'viem'
 import { ApproveDelegationAction } from '../flavours/approve-delegation/types'
 import { ApproveAction } from '../flavours/approve/types'
@@ -30,8 +29,7 @@ export interface UseCreateActionsParams {
 }
 
 export function useCreateActions({ objectives, actionsSettings, actionContext }: UseCreateActionsParams): Action[] {
-  const chainId = useOriginChainId()
-  const chainConfig = getChainConfigEntry(chainId)
+  const chainConfig = useChainConfigEntry()
   const nativeAssetInfo = chainConfig.nativeAssetInfo
   const wethGateway = useContractAddress(wethGatewayAddress)
   const lendingPool = useContractAddress(lendingPoolAddress)
@@ -116,6 +114,31 @@ export function useCreateActions({ objectives, actionsSettings, actionContext }:
             value: objective.value,
           }
           return [approveDelegationAction, borrowAction]
+        }
+
+        if (objective.token.symbol === chainConfig.USDSSymbol) {
+          const marketInfo = actionContext.marketInfo ?? raise('Market info is required for borrow action')
+
+          const borrowAction: BorrowAction = {
+            type: 'borrow',
+            token: marketInfo.DAI,
+            value: objective.value,
+          }
+          const approveAction: ApproveAction = {
+            type: 'approve',
+            token: marketInfo.DAI,
+            spender: MIGRATE_ACTIONS_ADDRESS,
+            value: objective.value,
+          }
+
+          const upgradeAction: UpgradeAction = {
+            type: 'upgrade',
+            fromToken: marketInfo.DAI,
+            toToken: objective.token,
+            amount: objective.value,
+          }
+
+          return [borrowAction, approveAction, upgradeAction]
         }
 
         const borrowAction: BorrowAction = {

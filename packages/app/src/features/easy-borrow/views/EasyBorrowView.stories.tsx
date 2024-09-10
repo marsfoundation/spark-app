@@ -15,6 +15,7 @@ import { useForm } from 'react-hook-form'
 import { withRouter } from 'storybook-addon-remix-react-router'
 import { EasyBorrowFormSchema } from '../logic/form/validation'
 import { ExistingPosition, PageState } from '../logic/types'
+import { AssetsToBorrowMeta } from '../logic/useEasyBorrow'
 import { EasyBorrowView } from './EasyBorrowView'
 
 const mockMarketInfo = getMockMarketInfo()
@@ -25,15 +26,12 @@ interface EasyBorrowViewStoryProps {
   alreadyDeposited: ExistingPosition
   alreadyBorrowed: ExistingPosition
   pageState: PageState
-  allAssets: TokenWithBalance[]
+  assets: TokenWithBalance[]
   assetToMaxValue: Record<TokenSymbol, NormalizedUnitNumber>
   updatedPositionSummary: UserPositionSummary
   actions: Objective[]
   guestMode: boolean
-  assetToBorrow: {
-    symbol: TokenSymbol
-    borrowRate: Percentage
-  }
+  assetsToBorrowMeta: AssetsToBorrowMeta
   riskAcknowledgement?: RiskAcknowledgementInfo
   actionsEnabled?: boolean
 }
@@ -45,12 +43,12 @@ function EasyBorrowViewStory(props: EasyBorrowViewStoryProps) {
     alreadyDeposited,
     alreadyBorrowed,
     pageState,
-    allAssets,
+    assets,
     assetToMaxValue,
     updatedPositionSummary,
     actions,
     guestMode,
-    assetToBorrow,
+    assetsToBorrowMeta,
     riskAcknowledgement: _riskAcknowledgement,
     actionsEnabled = true,
   } = props
@@ -65,7 +63,7 @@ function EasyBorrowViewStory(props: EasyBorrowViewStoryProps) {
     selectedAssets: assetsToDeposit,
     addAsset: () => {},
     removeAsset: () => {},
-    allAssets,
+    assets,
     assetToMaxValue,
     changeAsset: () => {},
   }
@@ -73,7 +71,7 @@ function EasyBorrowViewStory(props: EasyBorrowViewStoryProps) {
     selectedAssets: assetsToBorrow,
     addAsset: () => {},
     removeAsset: () => {},
-    allAssets,
+    assets,
     assetToMaxValue,
     changeAsset: () => {},
   }
@@ -109,7 +107,7 @@ function EasyBorrowViewStory(props: EasyBorrowViewStoryProps) {
       updatedPositionSummary={updatedPositionSummary}
       setDesiredLoanToValue={setDesiredLoanToValue}
       objectives={actions}
-      assetToBorrow={assetToBorrow}
+      assetsToBorrowMeta={assetsToBorrowMeta}
       guestMode={guestMode}
       openConnectModal={openConnectModal}
       openSandboxModal={openSandboxModal}
@@ -126,7 +124,7 @@ const meta: Meta<typeof EasyBorrowViewStory> = {
   decorators: [withRouter, WithTooltipProvider(), ZeroAllowanceWagmiDecorator()],
   args: {
     pageState: 'form',
-    allAssets: [
+    assets: [
       {
         token: tokens.ETH,
         balance: NormalizedUnitNumber(1),
@@ -183,7 +181,7 @@ const meta: Meta<typeof EasyBorrowViewStory> = {
       totalLiquidityUSD: NormalizedUnitNumber(0),
     },
     guestMode: false,
-    assetToBorrow: { symbol: tokens.DAI.symbol, borrowRate: Percentage(0.0553) },
+    assetsToBorrowMeta: { dai: tokens.DAI.symbol, usds: tokens.USDS.symbol, borrowRate: Percentage(0.0553) },
     actions: [],
   },
 }

@@ -1,4 +1,4 @@
-import { ReserveWithValue } from '@/domain/common/types'
+import { TokenWithValue } from '@/domain/common/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 
@@ -17,6 +17,6 @@ export interface ExistingPosition {
 }
 
 export interface EasyBorrowFormNormalizedData {
-  borrows: ReserveWithValue[] // @todo: should it merge value of native base asset with wrapped native asset?
-  deposits: ReserveWithValue[]
+  borrows: TokenWithValue[] // @todo: should it merge value of native base asset with wrapped native asset?
+  deposits: TokenWithValue[]
 }
