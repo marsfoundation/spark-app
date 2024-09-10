@@ -23,20 +23,21 @@ Sentry.init({
   ],
   beforeSend(event, hint) {
     const error = hint.originalException
-    if (error) {
-      // ignore errors based on stack trace
-      if (error instanceof Error && error.stack) {
-        // wallet connect error handling is crazy, we ignore all errors https://github.com/WalletConnect/walletconnect-monorepo/issues/3065
-        if (error.stack.includes('@walletconnect')) {
-          return null
-        }
-      }
+
+    if (error instanceof Error && shouldErrorBeTracked(error)) {
+      return event
     }
 
-    return event
+    return null
   },
   autoSessionTracking: false, // do not use sentry for analytics
 })
+
+function shouldErrorBeTracked(error: Error): boolean {
+  const trackedErrors = ['TypeError', 'AssertionError', 'ZodError']
+
+  return trackedErrors.some((errorName) => error.name === errorName)
+}
 
 export function captureError(error: Error): void {
   Sentry.captureException(error)
