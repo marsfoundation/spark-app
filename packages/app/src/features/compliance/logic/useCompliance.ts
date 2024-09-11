@@ -4,6 +4,7 @@ import { useTermsOfService } from '@/domain/state/compliance'
 import { useCloseDialog } from '@/domain/state/dialogs'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 
+import { useSandboxState } from '@/domain/sandbox/useSandboxState'
 import { useIPAndAddressCheck } from './useIPAndAddressCheck'
 
 export type ModalInfo =
@@ -21,6 +22,7 @@ export function useCompliance(): UseComplianceResults {
   const { agreedToTermsOfService, saveAgreedToTermsOfService } = useTermsOfService()
   const closeDialog = useCloseDialog()
   const { disconnect } = useDisconnect()
+  const { isInSandbox } = useSandboxState()
 
   const ipAndAddressChecks = useIPAndAddressCheck()
 
@@ -62,6 +64,7 @@ export function useCompliance(): UseComplianceResults {
     if (
       import.meta.env.VITE_FEATURE_TOS_REQUIRED === '1' &&
       !!address &&
+      !isInSandbox &&
       !agreedToTermsOfService(CheckedAddress(address))
     ) {
       return {

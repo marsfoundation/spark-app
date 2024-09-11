@@ -114,8 +114,8 @@ export function TermsOfService({ onAgree }: TermsOfServiceProps) {
         </Button>
       ) : (
         <Tooltip>
-          <TooltipTrigger>
-            <Button disabled className="mt-2 w-full" size="lg" onClick={onAgree}>
+          <TooltipTrigger asChild>
+            <Button disabled className="mt-2 w-full disabled:pointer-events-auto" size="lg" onClick={onAgree}>
               Agree and Continue
             </Button>
           </TooltipTrigger>

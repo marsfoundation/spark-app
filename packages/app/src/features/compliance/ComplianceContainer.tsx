@@ -12,7 +12,13 @@ export function ComplianceContainer() {
 
   return (
     <Dialog open={visibleModal.type !== 'none'}>
-      <DialogContent showCloseButton={false}>
+      <DialogContent
+        showCloseButton={false}
+        // https://github.com/radix-ui/primitives/issues/2248
+        onOpenAutoFocus={(event) => {
+          event.preventDefault()
+        }}
+      >
         {visibleModal.type === 'terms-of-service' && <TermsOfService onAgree={visibleModal.onAgreeToTermsOfService} />}
         {visibleModal.type === 'vpn-detected' && <VPNBlocked />}
         {visibleModal.type === 'region-blocked' && <RegionBlocked countryCode={visibleModal.countryCode} />}
