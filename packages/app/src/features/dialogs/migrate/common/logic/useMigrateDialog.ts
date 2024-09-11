@@ -2,15 +2,13 @@ import { TokenWithBalance } from '@/domain/common/types'
 import { useChainConfigEntry } from '@/domain/hooks/useChainConfigEntry'
 import { useSavingsDaiInfo } from '@/domain/savings-info/useSavingsDaiInfo'
 import { useSavingsUsdsInfo } from '@/domain/savings-info/useSavingsUsdsInfo'
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
 import { useDebouncedDialogFormValues } from '@/features/dialogs/savings/common/logic/form'
-import { determineApyImprovement } from '@/features/savings/logic/determineApyImprovement'
 import { assert } from '@/utils/assert'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
@@ -33,8 +31,6 @@ export interface UseMigrateDialogResult {
   objectives: Objective[]
   pageStatus: PageStatus
   migrationAmount: NormalizedUnitNumber
-  tokensInfo: TokensInfo
-  apyImprovement?: Percentage
   actionsContext: InjectedActionsContext
 }
 
@@ -67,8 +63,6 @@ export function useMigrateDialog({ type, fromToken, toToken }: UseMigrateDialogP
     tokensInfo,
   })
 
-  console.log(isFormValid, isDebouncing, formValues.value)
-
   const objectives = createMigrateObjectives({ type, fromToken, toToken, amount: formValues.value })
   const actionsEnabled = formValues.value.gt(0) && isFormValid && !isDebouncing
 
@@ -78,8 +72,6 @@ export function useMigrateDialog({ type, fromToken, toToken }: UseMigrateDialogP
     form,
     objectives,
     migrationAmount: formValues.value,
-    apyImprovement: determineApyImprovement({ savingsUsdsInfo, savingsDaiInfo }),
-    tokensInfo,
     actionsContext: {
       tokensInfo,
     },
