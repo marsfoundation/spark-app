@@ -1,4 +1,5 @@
 import { NativeAssetInfo } from '@/config/chain/types'
+import { TokenWithBalance } from '@/domain/common/types'
 import { AaveData } from '@/domain/market-info/aave-data-layer/query'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { updatePositionSummary } from '@/domain/market-info/updatePositionSummary'
@@ -14,6 +15,8 @@ import { MarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 import { parseBigNumber } from '@/utils/bigNumber'
 import { z } from 'zod'
 import { ExistingPosition } from '../types'
+import { UpgradeOptions } from '../useUpgradeOptions'
+import { mapFormTokensToReserves } from './mapFormTokensToReserves'
 import { normalizeFormValues } from './normalization'
 
 const BaseAssetInputSchema = z.object({
@@ -74,6 +77,8 @@ function getDepositFieldsValidator(
 export interface GetEasyBorrowFormValidatorOptions {
   walletInfo: MarketWalletInfo
   marketInfo: MarketInfo
+  formAssets: TokenWithBalance[]
+  upgradeOptions?: UpgradeOptions
   aaveData: AaveData
   guestMode: boolean
   alreadyDeposited: ExistingPosition
@@ -84,6 +89,8 @@ export interface GetEasyBorrowFormValidatorOptions {
 export function getEasyBorrowFormValidator({
   walletInfo,
   marketInfo,
+  formAssets,
+  upgradeOptions,
   aaveData,
   guestMode,
   alreadyDeposited,
@@ -97,7 +104,12 @@ export function getEasyBorrowFormValidator({
         : getDepositFieldsValidator(walletInfo, alreadyDeposited, marketInfo),
     })
     .superRefine((data, ctx) => {
-      const { borrows, deposits } = normalizeFormValues(data, marketInfo)
+      const formValues = normalizeFormValues(data, formAssets)
+      const { borrows, deposits } = mapFormTokensToReserves({
+        formValues,
+        marketInfo,
+        upgradeOptions,
+      })
       const updatedUserSummary = updatePositionSummary({
         borrows,
         deposits,
