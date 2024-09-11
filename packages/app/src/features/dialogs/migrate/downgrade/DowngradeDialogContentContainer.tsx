@@ -1,6 +1,5 @@
 import { Token } from '@/domain/types/Token'
 import { withSuspense } from '@/ui/utils/withSuspense'
-import { raise } from '@/utils/assert'
 import { DialogContentSkeleton } from '../../common/components/skeletons/DialogContentSkeleton'
 import { SuccessView } from '../../common/views/SuccessView'
 import { useMigrateDialog } from '../common/logic/useMigrateDialog'
@@ -13,7 +12,7 @@ interface DowngradeDialogContentContainerProps {
 }
 
 function DowngradeDialogContentContainer({ fromToken, toToken, closeDialog }: DowngradeDialogContentContainerProps) {
-  const { objectives, pageStatus, migrationAmount, tokensInfo } = useMigrateDialog({
+  const { objectives, pageStatus, migrationAmount, form, assetsFields, selectableAssets } = useMigrateDialog({
     type: 'downgrade',
     fromToken,
     toToken,
@@ -30,13 +29,17 @@ function DowngradeDialogContentContainer({ fromToken, toToken, closeDialog }: Do
     )
   }
 
-  if (fromToken.symbol === tokensInfo.USDS?.symbol && toToken.symbol === tokensInfo.DAI?.symbol) {
-    return (
-      <DowngradeUSDSToDaiView fromToken={fromToken} toToken={toToken} pageStatus={pageStatus} objectives={objectives} />
-    )
-  }
-
-  raise('Invalid downgrade dialog state')
+  return (
+    <DowngradeUSDSToDaiView
+      fromToken={fromToken}
+      toToken={toToken}
+      pageStatus={pageStatus}
+      objectives={objectives}
+      form={form}
+      assetsFields={assetsFields}
+      selectableAssets={selectableAssets}
+    />
+  )
 }
 
 const DowngradeDialogContentContainerWithSuspense = withSuspense(DowngradeDialogContentContainer, DialogContentSkeleton)
