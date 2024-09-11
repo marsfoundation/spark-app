@@ -3,12 +3,12 @@ import { WithClassname, WithTooltipProvider, ZeroAllowanceWagmiDecorator } from 
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
-import { UpgradeDaiToUSDSView } from './UpgradeDaiToUSDSView'
+import { UpgradeView } from './UpgradeView'
 
-const meta: Meta<typeof UpgradeDaiToUSDSView> = {
-  title: 'Features/Dialogs/Views/Migrate/Upgrade/DaiToUSDS',
+const meta: Meta<typeof UpgradeView> = {
+  title: 'Features/Dialogs/Views/Migrate/Upgrade',
   decorators: [ZeroAllowanceWagmiDecorator(), WithClassname('max-w-xl'), WithTooltipProvider()],
-  component: UpgradeDaiToUSDSView,
+  component: UpgradeView,
   args: {
     fromToken: tokens.DAI,
     toToken: tokens.USDS,
@@ -29,7 +29,7 @@ const meta: Meta<typeof UpgradeDaiToUSDSView> = {
 }
 
 export default meta
-type Story = StoryObj<typeof UpgradeDaiToUSDSView>
+type Story = StoryObj<typeof UpgradeView>
 
 export const Desktop: Story = {}
 export const Mobile = getMobileStory(Desktop)
