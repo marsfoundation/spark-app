@@ -10,14 +10,17 @@ import { Confetti } from '@/ui/molecules/confetti/Confetti'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { useBreakpoint } from '@/ui/utils/useBreakpoint'
+import { UsdsUpgradeAlert } from '../components/UsdsUpgradeAlert'
+import { BorrowDetails } from '../logic/useEasyBorrow'
 
 export interface SuccessViewProps {
   deposited: TokenWithValue[]
   borrowed: TokenWithValue[]
+  borrowDetails: BorrowDetails
   runConfetti: boolean
 }
 
-export function SuccessView({ deposited, borrowed, runConfetti }: SuccessViewProps) {
+export function SuccessView({ deposited, borrowed, runConfetti, borrowDetails }: SuccessViewProps) {
   const desktop = useBreakpoint('md')
 
   return (
@@ -56,6 +59,10 @@ export function SuccessView({ deposited, borrowed, runConfetti }: SuccessViewPro
                 ))}
               </div>
             </div>
+
+            {borrowDetails.isUpgradingToUsds && (
+              <UsdsUpgradeAlert borrowDetails={borrowDetails} variant="success" className="mt-2" />
+            )}
 
             <LinkButton size="lg" className="mt-8 w-full" to={paths.dashboard}>
               View in dashboard

@@ -15,6 +15,7 @@ import { useForm } from 'react-hook-form'
 import { withRouter } from 'storybook-addon-remix-react-router'
 import { EasyBorrowFormSchema } from '../logic/form/validation'
 import { ExistingPosition, PageState } from '../logic/types'
+import { BorrowDetails } from '../logic/useEasyBorrow'
 import { EasyBorrowView } from './EasyBorrowView'
 
 const mockMarketInfo = getMockMarketInfo()
@@ -25,15 +26,12 @@ interface EasyBorrowViewStoryProps {
   alreadyDeposited: ExistingPosition
   alreadyBorrowed: ExistingPosition
   pageState: PageState
-  allAssets: TokenWithBalance[]
+  assets: TokenWithBalance[]
   assetToMaxValue: Record<TokenSymbol, NormalizedUnitNumber>
   updatedPositionSummary: UserPositionSummary
   actions: Objective[]
   guestMode: boolean
-  assetToBorrow: {
-    symbol: TokenSymbol
-    borrowRate: Percentage
-  }
+  borrowDetails: BorrowDetails
   riskAcknowledgement?: RiskAcknowledgementInfo
   actionsEnabled?: boolean
 }
@@ -45,12 +43,12 @@ function EasyBorrowViewStory(props: EasyBorrowViewStoryProps) {
     alreadyDeposited,
     alreadyBorrowed,
     pageState,
-    allAssets,
+    assets,
     assetToMaxValue,
     updatedPositionSummary,
     actions,
     guestMode,
-    assetToBorrow,
+    borrowDetails,
     riskAcknowledgement: _riskAcknowledgement,
     actionsEnabled = true,
   } = props
@@ -65,7 +63,7 @@ function EasyBorrowViewStory(props: EasyBorrowViewStoryProps) {
     selectedAssets: assetsToDeposit,
     addAsset: () => {},
     removeAsset: () => {},
-    allAssets,
+    assets,
     assetToMaxValue,
     changeAsset: () => {},
   }
@@ -73,7 +71,7 @@ function EasyBorrowViewStory(props: EasyBorrowViewStoryProps) {
     selectedAssets: assetsToBorrow,
     addAsset: () => {},
     removeAsset: () => {},
-    allAssets,
+    assets,
     assetToMaxValue,
     changeAsset: () => {},
   }
@@ -109,7 +107,7 @@ function EasyBorrowViewStory(props: EasyBorrowViewStoryProps) {
       updatedPositionSummary={updatedPositionSummary}
       setDesiredLoanToValue={setDesiredLoanToValue}
       objectives={actions}
-      assetToBorrow={assetToBorrow}
+      borrowDetails={borrowDetails}
       guestMode={guestMode}
       openConnectModal={openConnectModal}
       openSandboxModal={openSandboxModal}
@@ -126,7 +124,7 @@ const meta: Meta<typeof EasyBorrowViewStory> = {
   decorators: [withRouter, WithTooltipProvider(), ZeroAllowanceWagmiDecorator()],
   args: {
     pageState: 'form',
-    allAssets: [
+    assets: [
       {
         token: tokens.ETH,
         balance: NormalizedUnitNumber(1),
@@ -183,7 +181,11 @@ const meta: Meta<typeof EasyBorrowViewStory> = {
       totalLiquidityUSD: NormalizedUnitNumber(0),
     },
     guestMode: false,
-    assetToBorrow: { symbol: tokens.DAI.symbol, borrowRate: Percentage(0.0553) },
+    borrowDetails: {
+      dai: tokens.DAI.symbol,
+      borrowRate: Percentage(0.0553),
+      isUpgradingToUsds: false,
+    },
     actions: [],
   },
 }
@@ -232,6 +234,67 @@ export const DepositETHDesktop: Story = {
 
 export const DepositETHMobile = getMobileStory(DepositETHDesktop)
 export const DepositETHTablet = getTabletStory(DepositETHDesktop)
+
+const borrowUsdsArgs: Partial<EasyBorrowViewStoryProps> = {
+  pageState: 'confirmation',
+  assetsToBorrow: [
+    {
+      token: tokens.USDS,
+      balance: NormalizedUnitNumber(1000),
+      value: '1000',
+    },
+  ],
+  assetsToDeposit: [
+    {
+      token: tokens.ETH,
+      balance: NormalizedUnitNumber(10),
+      value: '1',
+    },
+  ],
+  updatedPositionSummary: {
+    availableBorrowsUSD: NormalizedUnitNumber(2000),
+    currentLiquidationThreshold: Percentage(0.8),
+    loanToValue: Percentage(0.75),
+    healthFactor: new BigNumber(1.1),
+    maxLoanToValue: Percentage(0.8),
+    totalBorrowsUSD: NormalizedUnitNumber(10),
+    totalCollateralUSD: NormalizedUnitNumber(2000),
+    totalLiquidityUSD: NormalizedUnitNumber(2000),
+  },
+  borrowDetails: {
+    dai: tokens.DAI.symbol,
+    usds: tokens.USDS.symbol,
+    borrowRate: Percentage(0.0553),
+    isUpgradingToUsds: true,
+  },
+  actions: [
+    {
+      type: 'deposit',
+      value: NormalizedUnitNumber(1),
+      token: tokens.wstETH,
+    },
+    {
+      type: 'borrow',
+      value: NormalizedUnitNumber(1000),
+      token: tokens.DAI,
+    },
+    {
+      type: 'upgrade',
+      fromToken: tokens.DAI,
+      toToken: tokens.USDS,
+      amount: NormalizedUnitNumber(1),
+    },
+  ],
+  actionsEnabled: false,
+}
+
+export const borrowUsdsDesktop: Story = {
+  name: 'Borrow USDS desktop',
+  args: borrowUsdsArgs,
+}
+
+export const borrowUsdsMobile = getMobileStory(borrowUsdsDesktop)
+export const borrowUsdsTablet = getTabletStory(borrowUsdsDesktop)
 
 const depositETHWithExistingPositionArgs: Partial<EasyBorrowViewStoryProps> = {
   assetsToBorrow: [

@@ -17,7 +17,7 @@ export class SavingsPageObject extends BasePageObject {
 
   // #region locators
   locateSavingsOpportunityPanel(): Locator {
-    return this.locatePanelByHeader('Savings opportunity')
+    return this.locatePanelByHeader('Savings')
   }
 
   locateSavingsDaiPanel(): Locator {

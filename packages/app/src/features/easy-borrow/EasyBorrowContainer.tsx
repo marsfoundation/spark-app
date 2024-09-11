@@ -22,7 +22,7 @@ function EasyBorrowContainer() {
     tokensToBorrow,
     alreadyDeposited,
     alreadyBorrowed,
-    assetToBorrow,
+    borrowDetails,
     guestMode,
     openSandboxModal,
     healthFactorPanelRef,
@@ -32,7 +32,9 @@ function EasyBorrowContainer() {
   const { openConnectModal = () => {} } = useConnectModal()
 
   if (pageStatus.state === 'success') {
-    return <SuccessView deposited={tokensToDeposit} borrowed={tokensToBorrow} runConfetti />
+    return (
+      <SuccessView deposited={tokensToDeposit} borrowed={tokensToBorrow} borrowDetails={borrowDetails} runConfetti />
+    )
   }
 
   return (
@@ -47,7 +49,7 @@ function EasyBorrowContainer() {
       setDesiredLoanToValue={setDesiredLoanToValue}
       liquidationDetails={liquidationDetails}
       objectives={actions}
-      assetToBorrow={assetToBorrow}
+      borrowDetails={borrowDetails}
       guestMode={guestMode}
       openConnectModal={openConnectModal}
       openSandboxModal={openSandboxModal}

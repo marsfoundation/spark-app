@@ -1,18 +1,18 @@
-import { Page, test } from '@playwright/test'
-import { mainnet } from 'viem/chains'
-
+import { USDS_DEV_CHAIN_ID } from '@/config/chain/constants'
 import { borrowValidationIssueToMessage } from '@/domain/market-validators/validateBorrow'
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { CollateralDialogPageObject } from '@/features/dialogs/collateral/CollateralDialog.PageObject'
 import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setupFork } from '@/test/e2e/forking/setupFork'
-import { setup } from '@/test/e2e/setup'
+import { buildUrl, setup } from '@/test/e2e/setup'
 import { screenshot } from '@/test/e2e/utils'
-
+import { Page, test } from '@playwright/test'
+import { mainnet } from 'viem/chains'
 import { BorrowPageObject } from './Borrow.PageObject'
 import { DashboardPageObject } from './Dashboard.PageObject'
+import { SavingsPageObject } from './Savings.PageObject'
 
-test.describe('Borrow page', () => {
+test.describe('Borrow page (mainnet)', () => {
   const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id })
 
   test.describe('deposit ETH, borrow DAI', () => {
@@ -502,6 +502,60 @@ test.describe('Borrow page', () => {
 
       await borrowPage.expectLiquidationRiskWarningNotVisible()
     })
+  })
+})
+
+test.describe('Borrow page (usds devnet)', () => {
+  const fork = setupFork({ chainId: USDS_DEV_CHAIN_ID })
+  let borrowPage: BorrowPageObject
+  let actionsContainer: ActionsPageObject
+
+  test.beforeEach(async ({ page }) => {
+    await setup(page, fork, {
+      initialPage: 'easyBorrow',
+      account: {
+        type: 'connected-random',
+        assetBalances: {
+          wstETH: 10,
+        },
+      },
+    })
+
+    borrowPage = new BorrowPageObject(page)
+    actionsContainer = new ActionsPageObject(page)
+  })
+
+  test('borrows usds', async ({ page }) => {
+    await borrowPage.fillDepositAssetAction(0, 'wstETH', 10)
+    await borrowPage.selectBorrowAction('USDS')
+    await borrowPage.fillBorrowAssetAction(10_000)
+    await borrowPage.submitAction()
+
+    await borrowPage.expectUsdsBorrowAlert()
+    await actionsContainer.acceptAllActionsAction(5)
+    await borrowPage.expectSuccessPage(
+      [
+        {
+          asset: 'wstETH',
+          amount: 10,
+        },
+      ],
+      {
+        asset: 'USDS',
+        amount: 10_000,
+      },
+      fork,
+      {
+        wstETH: 29_761.44,
+        USDS: 10_000,
+      },
+    )
+
+    await expectHFOnDashboard(page, borrowPage, '2.38')
+
+    await page.goto(buildUrl('savings'))
+    const savingsPage = new SavingsPageObject(page)
+    await savingsPage.expectCashInWalletAssetBalance('USDS', '10,000')
   })
 })
 

@@ -1,4 +1,4 @@
-import { assert } from '@/utils/assert'
+import { assert, raise } from '@/utils/assert'
 import { PageHeader } from '../components/PageHeader'
 import { PageLayout } from '../components/PageLayout'
 import { CashInWallet } from '../components/cash-in-wallet/CashInWallet'
@@ -22,10 +22,11 @@ export function SavingsDaiAndUSDSView({
   sUSDSDetails,
   migrationInfo,
   opportunityProjections,
-  chainId,
+  originChainId,
   assetsInWallet,
   maxBalanceToken,
   totalEligibleCashUSD,
+  savingsMeta,
   openDialog,
   showWelcomeDialog,
   saveConfirmedWelcomeDialog,
@@ -48,23 +49,38 @@ export function SavingsDaiAndUSDSView({
         />
       )}
       <div className="flex flex-col gap-6 sm:flex-row">
-        {displaySavingsDai && (
-          <SavingsTokenPanel variant="dai" chainId={chainId} openDialog={openDialog} {...sDaiDetails} />
-        )}
         {displaySavingsUSDS && (
-          <SavingsTokenPanel variant="usds" chainId={chainId} openDialog={openDialog} {...sUSDSDetails} />
+          <SavingsTokenPanel
+            variant="usds"
+            originChainId={originChainId}
+            openDialog={openDialog}
+            savingsMetaItem={savingsMeta.primary}
+            {...sUSDSDetails}
+          />
+        )}
+        {displaySavingsDai && (
+          <SavingsTokenPanel
+            variant="dai"
+            originChainId={originChainId}
+            openDialog={openDialog}
+            savingsMetaItem={savingsMeta.secondary ?? raise('Dai savings meta should be defined')}
+            {...sDaiDetails}
+          />
         )}
         {displaySavingsOpportunity && (
           <SavingsOpportunity
             APY={sUSDSDetails.APY}
-            chainId={chainId}
+            originChainId={originChainId}
             projections={opportunityProjections}
             maxBalanceToken={maxBalanceToken}
             openDialog={openDialog}
             totalEligibleCashUSD={totalEligibleCashUSD}
+            savingsMeta={savingsMeta}
           />
         )}
-        {displaySavingsNoCash && <SavingsOpportunityNoCash APY={sDaiDetails.APY} chainId={chainId} />}
+        {displaySavingsNoCash && (
+          <SavingsOpportunityNoCash APY={sDaiDetails.APY} originChainId={originChainId} savingsMeta={savingsMeta} />
+        )}
       </div>
       <CashInWallet assets={assetsInWallet} openDialog={openDialog} migrationInfo={migrationInfo} />
       {import.meta.env.VITE_FEATURE_SAVINGS_WELCOME_DIALOG === '1' && (

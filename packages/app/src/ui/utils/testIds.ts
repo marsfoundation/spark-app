@@ -45,6 +45,7 @@ export const testIds = makeTestIds({
       borrow: true,
       borrowRate: true,
       ltv: true,
+      usdsBorrowAlert: true,
     },
     success: {
       deposited: true,

@@ -25,7 +25,7 @@ export function UpgradeToSusdsSwitch({
         <div className="flex items-center gap-2">
           <img src={assets.token.susds} className="h-5" />
           <div className="text-sm">
-            Deposit into Savings USDC and get{' '}
+            Deposit into Savings USDS and get{' '}
             {apyImprovement ? (
               <span className="text-basics-green">{formatPercentage(apyImprovement)} higher APY</span>
             ) : (

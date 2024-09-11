@@ -3,7 +3,7 @@ import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { withRouter } from 'storybook-addon-remix-react-router'
 
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 
 import { SuccessView } from './SuccessView'
 
@@ -29,6 +29,11 @@ const meta: Meta<typeof SuccessView> = {
       },
     ],
     runConfetti: false,
+    borrowDetails: {
+      dai: tokens.DAI.symbol,
+      borrowRate: Percentage(0.0553),
+      isUpgradingToUsds: false,
+    },
   },
 }
 
@@ -46,3 +51,28 @@ export const OnlyBorrowed: Story = {
 }
 export const OnlyBorrowedMobile = getMobileStory(OnlyBorrowed)
 export const OnlyBorrowedTablet = getTabletStory(OnlyBorrowed)
+
+export const Usds: Story = {
+  args: {
+    deposited: [
+      {
+        token: tokens.stETH,
+        value: NormalizedUnitNumber(34.21),
+      },
+    ],
+    borrowed: [
+      {
+        token: tokens.USDS,
+        value: NormalizedUnitNumber(10_000),
+      },
+    ],
+    borrowDetails: {
+      dai: tokens.DAI.symbol,
+      usds: tokens.USDS.symbol,
+      borrowRate: Percentage(0.0553),
+      isUpgradingToUsds: true,
+    },
+  },
+}
+export const UsdsMobile = getMobileStory(Usds)
+export const UsdsTablet = getTabletStory(Usds)

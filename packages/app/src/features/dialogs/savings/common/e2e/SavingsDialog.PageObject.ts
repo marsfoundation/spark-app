@@ -92,7 +92,7 @@ export class SavingsDialogPageObject extends DialogPageObject {
 
     const skyBadge = this.page.getByTestId(txOverviewTestIds.skyBadge)
     await expect(skyBadge).toContainText(
-      `Powered by SKY (prev. MakerDAO). No slippage & fees for ${transactionOverview.badgeToken}.`,
+      `Powered by Sky (prev. MakerDAO). No slippage & fees for ${transactionOverview.badgeToken}.`,
     )
 
     const outcome = panel.getByTestId(txOverviewTestIds.outcome)
