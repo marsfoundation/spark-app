@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 
 import { MultiPanelDialog } from '@/features/dialogs/common/components/MultiPanelDialog'
 import { assets } from '@/ui/assets'
 import { Button } from '@/ui/atoms/button/Button'
 import { Link } from '@/ui/atoms/link/Link'
 import { ScrollArea } from '@/ui/atoms/scroll-area/ScrollArea'
+import { Tooltip, TooltipContentShort } from '@/ui/atoms/tooltip/Tooltip'
+import { TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 import { links } from '@/ui/constants/links'
 import { cn } from '@/ui/utils/style'
 
@@ -66,6 +68,20 @@ export interface TermsOfServiceProps {
 }
 
 export function TermsOfService({ onAgree }: TermsOfServiceProps) {
+  const [hasScrolled, setHasScrolled] = useState(false)
+
+  const scrollAreaRef = useRef<HTMLDivElement>(null)
+
+  function handleScroll() {
+    if (scrollAreaRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = scrollAreaRef.current
+
+      if (scrollTop + clientHeight >= scrollHeight) {
+        setHasScrolled(true)
+      }
+    }
+  }
+
   return (
     <MultiPanelDialog>
       <div className="font-semibold text-xl">Terms of Service and Disclaimer</div>
@@ -76,7 +92,12 @@ export function TermsOfService({ onAgree }: TermsOfServiceProps) {
         </Link>
         . Undefined terms used below are in reference to definitions in the Terms of Service.
       </div>
-      <ScrollArea className="h-64 rounded-md border border-light-grey pr-3 pl-2" type="always">
+      <ScrollArea
+        viewportRef={scrollAreaRef}
+        className="h-64 rounded-md border border-light-grey pr-3 pl-2"
+        type="always"
+        onScroll={handleScroll}
+      >
         <div className="grid grid-cols-[auto_1fr] gap-4">
           {points.map((point, index) => (
             <React.Fragment key={index}>
@@ -86,9 +107,21 @@ export function TermsOfService({ onAgree }: TermsOfServiceProps) {
           ))}
         </div>
       </ScrollArea>
-      <Button className="mt-2 w-full" size="lg" onClick={() => onAgree?.()}>
-        Agree and Continue
-      </Button>
+
+      {hasScrolled ? (
+        <Button className="mt-2 w-full" size="lg" onClick={onAgree}>
+          Agree and Continue
+        </Button>
+      ) : (
+        <Tooltip>
+          <TooltipTrigger>
+            <Button disabled className="mt-2 w-full" size="lg" onClick={onAgree}>
+              Agree and Continue
+            </Button>
+          </TooltipTrigger>
+          <TooltipContentShort>Read terms before accepting</TooltipContentShort>
+        </Tooltip>
+      )}
     </MultiPanelDialog>
   )
 }
