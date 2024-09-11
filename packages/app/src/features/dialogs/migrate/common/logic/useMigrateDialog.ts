@@ -52,7 +52,8 @@ export function useMigrateDialog({ type, fromToken, toToken }: UseMigrateDialogP
     resolver: zodResolver(getMigrateDialogFormValidator(tokensInfo)),
     defaultValues: {
       symbol: fromToken.symbol,
-      value: '',
+      value: type === 'downgrade' ? '' : fromTokenWithBalance.balance.toFixed(),
+      isMaxSelected: type === 'upgrade',
     },
     mode: 'onChange',
   })
@@ -65,6 +66,8 @@ export function useMigrateDialog({ type, fromToken, toToken }: UseMigrateDialogP
     form,
     tokensInfo,
   })
+
+  console.log(isFormValid, isDebouncing, formValues.value)
 
   const objectives = createMigrateObjectives({ type, fromToken, toToken, amount: formValues.value })
   const actionsEnabled = formValues.value.gt(0) && isFormValid && !isDebouncing
