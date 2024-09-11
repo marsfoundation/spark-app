@@ -12,7 +12,14 @@ export function ComplianceContainer() {
 
   return (
     <Dialog open={visibleModal.type !== 'none'}>
-      <DialogContent showCloseButton={false}>
+      <DialogContent
+        showCloseButton={false}
+        // Radix has internal bug that causes issues with autofocus eg. tooltips opened by default
+        // https://github.com/radix-ui/primitives/issues/2248
+        onOpenAutoFocus={(event) => {
+          event.preventDefault()
+        }}
+      >
         {visibleModal.type === 'terms-of-service' && <TermsOfService onAgree={visibleModal.onAgreeToTermsOfService} />}
         {visibleModal.type === 'vpn-detected' && <VPNBlocked />}
         {visibleModal.type === 'region-blocked' && <RegionBlocked countryCode={visibleModal.countryCode} />}
