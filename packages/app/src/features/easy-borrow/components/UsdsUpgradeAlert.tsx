@@ -5,12 +5,13 @@ import { BorrowDetails } from '../logic/useEasyBorrow'
 export interface UsdsUpgradeAlertProps {
   borrowDetails: BorrowDetails
   variant: 'borrow' | 'success'
+  className?: string
 }
 
-export function UsdsUpgradeAlert({ borrowDetails, variant }: UsdsUpgradeAlertProps) {
+export function UsdsUpgradeAlert({ borrowDetails, variant, className }: UsdsUpgradeAlertProps) {
   const { dai, usds } = borrowDetails
   return (
-    <Alert variant="info" data-testid={testIds.easyBorrow.form.usdsBorrowAlert}>
+    <Alert variant="info" className={className} data-testid={testIds.easyBorrow.form.usdsBorrowAlert}>
       <p className="max-w-[82ch]">
         {variant === 'borrow' && (
           <>

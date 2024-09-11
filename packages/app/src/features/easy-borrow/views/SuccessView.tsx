@@ -60,7 +60,9 @@ export function SuccessView({ deposited, borrowed, runConfetti, borrowDetails }:
               </div>
             </div>
 
-            {borrowDetails.isUpgradingToUsds && <UsdsUpgradeAlert borrowDetails={borrowDetails} variant="success" />}
+            {borrowDetails.isUpgradingToUsds && (
+              <UsdsUpgradeAlert borrowDetails={borrowDetails} variant="success" className="mt-2" />
+            )}
 
             <LinkButton size="lg" className="mt-8 w-full" to={paths.dashboard}>
               View in dashboard

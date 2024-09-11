@@ -235,6 +235,67 @@ export const DepositETHDesktop: Story = {
 export const DepositETHMobile = getMobileStory(DepositETHDesktop)
 export const DepositETHTablet = getTabletStory(DepositETHDesktop)
 
+const borrowUsdsArgs: Partial<EasyBorrowViewStoryProps> = {
+  pageState: 'confirmation',
+  assetsToBorrow: [
+    {
+      token: tokens.USDS,
+      balance: NormalizedUnitNumber(1000),
+      value: '1000',
+    },
+  ],
+  assetsToDeposit: [
+    {
+      token: tokens.ETH,
+      balance: NormalizedUnitNumber(10),
+      value: '1',
+    },
+  ],
+  updatedPositionSummary: {
+    availableBorrowsUSD: NormalizedUnitNumber(2000),
+    currentLiquidationThreshold: Percentage(0.8),
+    loanToValue: Percentage(0.75),
+    healthFactor: new BigNumber(1.1),
+    maxLoanToValue: Percentage(0.8),
+    totalBorrowsUSD: NormalizedUnitNumber(10),
+    totalCollateralUSD: NormalizedUnitNumber(2000),
+    totalLiquidityUSD: NormalizedUnitNumber(2000),
+  },
+  borrowDetails: {
+    dai: tokens.DAI.symbol,
+    usds: tokens.USDS.symbol,
+    borrowRate: Percentage(0.0553),
+    isUpgradingToUsds: true,
+  },
+  actions: [
+    {
+      type: 'deposit',
+      value: NormalizedUnitNumber(1),
+      token: tokens.wstETH,
+    },
+    {
+      type: 'borrow',
+      value: NormalizedUnitNumber(1000),
+      token: tokens.DAI,
+    },
+    {
+      type: 'upgrade',
+      fromToken: tokens.DAI,
+      toToken: tokens.USDS,
+      amount: NormalizedUnitNumber(1),
+    },
+  ],
+  actionsEnabled: false,
+}
+
+export const borrowUsdsDesktop: Story = {
+  name: 'Borrow USDS desktop',
+  args: borrowUsdsArgs,
+}
+
+export const borrowUsdsMobile = getMobileStory(borrowUsdsDesktop)
+export const borrowUsdsTablet = getTabletStory(borrowUsdsDesktop)
+
 const depositETHWithExistingPositionArgs: Partial<EasyBorrowViewStoryProps> = {
   assetsToBorrow: [
     {
