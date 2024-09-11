@@ -16,7 +16,7 @@ import { parseBigNumber } from '@/utils/bigNumber'
 import { z } from 'zod'
 import { ExistingPosition } from '../types'
 import { UpgradeOptions } from '../useUpgradeOptions'
-import { getFormValuesAsUnderlyingReserves } from './mapFormValuesToPositions'
+import { mapFormTokensToReserves } from './mapFormTokensToReserves'
 import { normalizeFormValues } from './normalization'
 
 const BaseAssetInputSchema = z.object({
@@ -105,7 +105,7 @@ export function getEasyBorrowFormValidator({
     })
     .superRefine((data, ctx) => {
       const formValues = normalizeFormValues(data, formAssets)
-      const { borrows, deposits } = getFormValuesAsUnderlyingReserves({
+      const { borrows, deposits } = mapFormTokensToReserves({
         formValues,
         marketInfo,
         upgradeOptions,

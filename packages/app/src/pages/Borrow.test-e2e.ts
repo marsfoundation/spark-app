@@ -550,13 +550,12 @@ test.describe('Borrow page (usds devnet)', () => {
         USDS: 10_000,
       },
     )
-    await borrowPage.viewInSavingsAction()
+
+    await expectHFOnDashboard(page, borrowPage, '2.38')
+
+    await page.goto(buildUrl('savings'))
     const savingsPage = new SavingsPageObject(page)
     await savingsPage.expectCashInWalletAssetBalance('USDS', '10,000')
-
-    await page.goto(buildUrl('dashboard'))
-    const dashboardPage = new DashboardPageObject(page)
-    await dashboardPage.expectHealthFactor('2.38')
   })
 })
 

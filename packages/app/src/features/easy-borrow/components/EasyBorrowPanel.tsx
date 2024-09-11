@@ -4,13 +4,11 @@ import { UserPositionSummary } from '@/domain/market-info/marketInfo'
 import { Percentage } from '@/domain/types/NumericValues'
 import { ActionsContainer } from '@/features/actions/ActionsContainer'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
-import { Alert } from '@/features/dialogs/common/components/alert/Alert'
 import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { Typography } from '@/ui/atoms/typography/Typography'
 import { HealthFactorPanel } from '@/ui/organisms/health-factor-panel/HealthFactorPanel'
 import { RiskAcknowledgement } from '@/ui/organisms/risk-acknowledgement/RiskAcknowledgement'
-import { testIds } from '@/ui/utils/testIds'
 import { Trans } from '@lingui/macro'
 import { X } from 'lucide-react'
 import { UseFormReturn } from 'react-hook-form'
@@ -18,6 +16,7 @@ import { FormFieldsForAssetClass } from '../logic/form/form'
 import { EasyBorrowFormSchema } from '../logic/form/validation'
 import { ExistingPosition, PageStatus } from '../logic/types'
 import { BorrowDetails } from '../logic/useEasyBorrow'
+import { UsdsUpgradeAlert } from './UsdsUpgradeAlert'
 import { EasyBorrowForm } from './form/EasyBorrowForm'
 
 export interface EasyBorrowPanelProps {
@@ -79,11 +78,7 @@ export function EasyBorrowPanel(props: EasyBorrowPanelProps) {
             />
           )}
           {props.borrowDetails.isUpgradingToUsds && (
-            <Alert variant="info" data-testid={testIds.easyBorrow.form.usdsBorrowAlert}>
-              Borrowing {props.borrowDetails.usds} creates {props.borrowDetails.dai} borrow position in Spark Lend.
-              Borrowed {props.borrowDetails.dai} is upgraded to {props.borrowDetails.usds} in separate action listed
-              below. You will see your {props.borrowDetails.dai} position on the dashboard.
-            </Alert>
+            <UsdsUpgradeAlert borrowDetails={props.borrowDetails} variant="borrow" />
           )}
           <ActionsContainer
             objectives={objectives}

@@ -28,7 +28,7 @@ import {
   setDesiredLoanToValue,
   useFormFieldsForAssetClass,
 } from './form/form'
-import { getFormValuesAsUnderlyingReserves } from './form/mapFormValuesToPositions'
+import { mapFormTokensToReserves } from './form/mapFormTokensToReserves'
 import { normalizeFormValues } from './form/normalization'
 import { EasyBorrowFormSchema, getEasyBorrowFormValidator } from './form/validation'
 import { ExistingPosition, PageState, PageStatus } from './types'
@@ -156,7 +156,11 @@ export function useEasyBorrow(): UseEasyBorrowResults {
 
   // @note: There is no usds market. When usds is borrowed, upgrade action is performed after borrowing dai.
   // Thus, for calculation connected to markets (updating user summary, liquidation price), we treat usds as dai.
-  const formValuesAsUnderlyingReserves = getFormValuesAsUnderlyingReserves({ formValues, marketInfo, upgradeOptions })
+  const formValuesAsUnderlyingReserves = mapFormTokensToReserves({
+    formValues,
+    marketInfo,
+    upgradeOptions,
+  })
   const updatedUserSummary = useConditionalFreeze(
     updatePositionSummary({ ...formValuesAsUnderlyingReserves, marketInfo, aaveData, nativeAssetInfo }),
     pageStatus === 'confirmation',

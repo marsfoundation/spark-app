@@ -33,12 +33,7 @@ function EasyBorrowContainer() {
 
   if (pageStatus.state === 'success') {
     return (
-      <SuccessView
-        deposited={tokensToDeposit}
-        borrowed={tokensToBorrow}
-        isUpgradingToUsds={borrowDetails.isUpgradingToUsds}
-        runConfetti
-      />
+      <SuccessView deposited={tokensToDeposit} borrowed={tokensToBorrow} borrowDetails={borrowDetails} runConfetti />
     )
   }
 
