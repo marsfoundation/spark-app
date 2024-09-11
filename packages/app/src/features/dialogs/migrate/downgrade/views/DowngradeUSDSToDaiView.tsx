@@ -21,8 +21,8 @@ export function DowngradeUSDSToDaiView({ fromToken, toToken, objectives, pageSta
       </DialogTitle>
 
       <Description>
-        You can downgrade from USDS to DAI whenever you choose, and you're always free to switch back to USDS if it
-        better suits your needs in the future.
+        You can downgrade from USDS to DAI whenever you choose, and you are free to switch back from DAI to USDS in the
+        future, at your own sole discretion.
       </Description>
 
       <DialogActionsPanel

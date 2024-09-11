@@ -1,10 +1,9 @@
+import { Percentage } from '@/domain/types/NumericValues'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { mainnet } from 'viem/chains'
-
-import { Percentage } from '@/domain/types/NumericValues'
-
 import { SavingsOpportunityNoCash } from './SavingsOpportunityNoCash'
 
 const meta: Meta<typeof SavingsOpportunityNoCash> = {
@@ -13,7 +12,15 @@ const meta: Meta<typeof SavingsOpportunityNoCash> = {
   decorators: [WithTooltipProvider(), WithClassname('max-w-5xl')],
   args: {
     APY: Percentage(0.05),
-    chainId: mainnet.id,
+    originChainId: mainnet.id,
+    savingsMeta: {
+      primary: {
+        savingsToken: TokenSymbol('sUSDS'),
+        stablecoin: TokenSymbol('USDS'),
+        rateAcronym: 'SSR',
+        rateName: 'Sky Savings Rate',
+      },
+    },
   },
 }
 

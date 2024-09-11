@@ -7,28 +7,30 @@ import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { SavingsDepositDialog } from '@/features/dialogs/savings/deposit/SavingsDepositDialog'
 import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
-
+import { SavingsMeta } from '../../logic/makeSavingsMeta'
 import { Projections } from '../../types'
 import { SavingsInfoTile, ValueProps } from '../savings-info-tile/SavingsInfoTile'
-import { APYLabel } from './components/APYLabel'
+import { DSRLabel } from './components/DSRLabel'
 import { Explainer } from './components/Explainer'
 
 export interface SavingsDAIProps {
   APY: Percentage
-  chainId: SupportedChainId
+  originChainId: SupportedChainId
   projections: Projections
   maxBalanceToken: TokenWithBalance
   openDialog: OpenDialogFunction
   totalEligibleCashUSD: NormalizedUnitNumber
+  savingsMeta: SavingsMeta
 }
 
 export function SavingsOpportunity({
   APY,
-  chainId,
+  originChainId,
   projections,
   maxBalanceToken,
   openDialog,
   totalEligibleCashUSD,
+  savingsMeta,
 }: SavingsDAIProps) {
   const compactProjections = projections.thirtyDays.gt(1_000)
   const savingsTileSizeVariant = getValueSizeVariant(projections.oneYear, compactProjections)
@@ -42,7 +44,7 @@ export function SavingsOpportunity({
       variant="green"
     >
       <div className="flex w-full flex-row items-start justify-between">
-        <Explainer stablecoinValue={totalEligibleCashUSD} />
+        <Explainer stablecoinValue={totalEligibleCashUSD} savingsMeta={savingsMeta} />
         <div className="ml-10 hidden min-w-fit md:block">
           <Button variant="green" onClick={openDepositDialog}>
             Start saving!
@@ -51,7 +53,7 @@ export function SavingsOpportunity({
       </div>
       <div className="flex flex-row items-end justify-between">
         <SavingsInfoTile>
-          <SavingsInfoTile.Label tooltipContent="This is how much you'll earn in 30 days">
+          <SavingsInfoTile.Label tooltipContent="This is an estimate of what you could earn in 30 days.">
             <div className="hidden md:block"> 30-day projection </div>
             <div className="md:hidden"> 30-day </div>
           </SavingsInfoTile.Label>
@@ -60,7 +62,7 @@ export function SavingsOpportunity({
           </SavingsInfoTile.Value>
         </SavingsInfoTile>
         <SavingsInfoTile>
-          <SavingsInfoTile.Label tooltipContent="This is how much you'll earn in 1 year">
+          <SavingsInfoTile.Label tooltipContent="This is an estimate of what you could earn in one year.">
             <div className="hidden md:block"> 1-year projection </div>
             <div className="md:hidden"> 1-year </div>
           </SavingsInfoTile.Label>
@@ -69,7 +71,7 @@ export function SavingsOpportunity({
           </SavingsInfoTile.Value>
         </SavingsInfoTile>
         <SavingsInfoTile>
-          <APYLabel chainId={chainId} />
+          <DSRLabel originChainId={originChainId} savingsMetaItem={savingsMeta.primary} />
           <SavingsInfoTile.Value size={savingsTileSizeVariant}>
             {formatPercentage(APY, { minimumFractionDigits: 0 })}
           </SavingsInfoTile.Value>
