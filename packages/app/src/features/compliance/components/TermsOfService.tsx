@@ -68,7 +68,7 @@ export interface TermsOfServiceProps {
 }
 
 export function TermsOfService({ onAgree }: TermsOfServiceProps) {
-  const [hasScrolled, setHasScrolled] = useState(false)
+  const [hasUserReadTerms, setHasUserReadTerms] = useState(false)
 
   const scrollAreaRef = useRef<HTMLDivElement>(null)
 
@@ -77,7 +77,7 @@ export function TermsOfService({ onAgree }: TermsOfServiceProps) {
       const { scrollTop, scrollHeight, clientHeight } = scrollAreaRef.current
 
       if (scrollTop + clientHeight >= scrollHeight) {
-        setHasScrolled(true)
+        setHasUserReadTerms(true)
       }
     }
   }
@@ -108,7 +108,7 @@ export function TermsOfService({ onAgree }: TermsOfServiceProps) {
         </div>
       </ScrollArea>
 
-      {hasScrolled ? (
+      {hasUserReadTerms ? (
         <Button className="mt-2 w-full" size="lg" onClick={onAgree}>
           Agree and Continue
         </Button>

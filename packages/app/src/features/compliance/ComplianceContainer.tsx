@@ -14,6 +14,7 @@ export function ComplianceContainer() {
     <Dialog open={visibleModal.type !== 'none'}>
       <DialogContent
         showCloseButton={false}
+        // Radix has internal bug that causes issues with autofocus eg. tooltips opened by default
         // https://github.com/radix-ui/primitives/issues/2248
         onOpenAutoFocus={(event) => {
           event.preventDefault()
