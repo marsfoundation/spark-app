@@ -27,6 +27,10 @@ export class MarketDetailsPageObject extends BasePageObject {
     return this.locatePanelByHeader('Can be used as collateral')
   }
 
+  locateDisabledCollateralStatusPanel(): Locator {
+    return this.locatePanelByHeader('Cannot be used as collateral')
+  }
+
   locatePanelAutomatorCap(panelLocator: Locator): Locator {
     return panelLocator.getByTestId(testIds.marketDetails.capAutomator.cap)
   }
@@ -111,6 +115,10 @@ export class MarketDetailsPageObject extends BasePageObject {
     await expect(this.locateCollateralStatusPanel()).not.toBeVisible()
   }
 
+  async expectToBeDisabledAsCollateral(): Promise<void> {
+    await expect(this.locateDisabledCollateralStatusPanel()).toBeVisible()
+  }
+
   async expectSupplyCap(value: string): Promise<void> {
     await expect(this.locatePanelAutomatorCap(this.locateSupplyStatusPanel())).toHaveText(value)
   }
@@ -133,6 +141,14 @@ export class MarketDetailsPageObject extends BasePageObject {
 
   async expectCollateralCap(value: string): Promise<void> {
     await expect(this.locatePanelAutomatorCap(this.locateCollateralStatusPanel())).toHaveText(value)
+  }
+
+  async expectDisabledCollateralInfoVisible(): Promise<void> {
+    const panel = this.locateDisabledCollateralStatusPanel()
+
+    await expect(panel.getByText('Max LTV')).toBeVisible()
+    await expect(panel.getByText('Liquidation threshold')).toBeVisible()
+    await expect(panel.getByText('Liquidation penalty')).toBeVisible()
   }
 
   async expectCollateralMaxCap(value: string): Promise<void> {

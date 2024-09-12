@@ -381,6 +381,8 @@ test.describe('Market details Mainnet', () => {
       await marketDetailsPage.expectSupplyCapCooldown('0h 00m 00s')
 
       await marketDetailsPage.expectBorrowPanelNotVisible()
+      await marketDetailsPage.expectToBeDisabledAsCollateral()
+      await marketDetailsPage.expectDisabledCollateralInfoVisible()
     })
   })
 })
