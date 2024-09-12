@@ -22,7 +22,7 @@ import { TokenBadge } from './components/token-badge/TokenBadge'
 export function CollateralStatusPanel(props: CollateralStatusInfo) {
   const { status, maxLtv, liquidationThreshold, liquidationPenalty, supplyReplacement } = props
 
-  if (status === 'no') {
+  if (status === 'no' && liquidationThreshold.isZero()) {
     return <EmptyStatusPanel status={status} variant="collateral" />
   }
 
