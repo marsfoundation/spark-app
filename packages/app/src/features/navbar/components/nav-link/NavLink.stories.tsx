@@ -5,19 +5,19 @@ import { withRouter } from 'storybook-addon-remix-react-router'
 import { Percentage } from '@/domain/types/NumericValues'
 
 import { SavingsAPYBadge } from '@/features/savings/components/navbar-item/SavingsAPYBadge'
-import { NavLinkComponent } from './NavLink'
+import { NavLink } from './NavLink'
 
-const meta: Meta<typeof NavLinkComponent> = {
+const meta: Meta<typeof NavLink> = {
   title: 'Features/Navbar/Components/NavLink',
-  component: NavLinkComponent,
+  component: NavLink,
   decorators: [withRouter, WithClassname('w-fit')],
 }
 
 export default meta
-type Story = StoryObj<typeof NavLinkComponent>
+type Story = StoryObj<typeof NavLink>
 
-export const NavLinkComponentDefault: Story = {
-  name: 'NavLinkComponent',
+export const NavLinkDefault: Story = {
+  name: 'NavLink',
   args: {
     selected: false,
     to: '/',
@@ -25,8 +25,18 @@ export const NavLinkComponentDefault: Story = {
   },
 }
 
+export const NavLinkSm: Story = {
+  name: 'NavLinkSmall',
+  args: {
+    selected: false,
+    to: '/',
+    children: 'Borrow',
+    size: 'sm',
+  },
+}
+
 export const NavItemComponentSelected: Story = {
-  name: 'NavLinkComponent (Selected)',
+  name: 'NavLink (Selected)',
   args: {
     selected: true,
     to: '/',
@@ -34,8 +44,18 @@ export const NavItemComponentSelected: Story = {
   },
 }
 
+export const NavItemComponentHorizontalSelected: Story = {
+  name: 'NavLink (Vertical Selected)',
+  args: {
+    selected: true,
+    to: '/',
+    children: 'Borrow',
+    variant: 'vertical',
+  },
+}
+
 export const NavItemComponentSavings: Story = {
-  name: 'NavLinkComponent (Savings)',
+  name: 'NavLink (Savings)',
   args: {
     selected: false,
     to: '/',
@@ -45,7 +65,7 @@ export const NavItemComponentSavings: Story = {
 }
 
 export const NavItemComponentSavingsLoading: Story = {
-  name: 'NavLinkComponent (Savings loading)',
+  name: 'NavLink (Savings loading)',
   args: {
     selected: false,
     to: '/',

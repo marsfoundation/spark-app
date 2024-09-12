@@ -42,7 +42,7 @@ export class MarketDetailsPageObject extends BasePageObject {
 
   // #region actions
   async openDialogAction(type: DialogType): Promise<void> {
-    await this.page.getByRole('button', { name: type }).click()
+    await this.page.locator('main').getByRole('button', { name: type }).click()
   }
   // #endregion
 
