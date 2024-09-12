@@ -113,16 +113,22 @@ const contentVariants = cva('flex h-full w-full flex-row items-center gap-1 font
       horizontal: 'lg:justify-center',
       vertical: 'p-4',
     },
-    shady: {
-      true: 'opacity-50 hover:opacity-100',
-    },
-    selected: {
-      true: 'text-nav-primary lg:text-primary',
-      false: 'lg:hover:opacity-100 lg:opacity-50',
-    },
+
     size: {
       sm: 'text-base lg:text-sm',
       md: 'text-xl lg:text-base',
+    },
+  },
+})
+
+const textVariants = cva('flex h-full w-full flex-row items-center', {
+  variants: {
+    selected: {
+      true: 'text-nav-primary lg:text-primary',
+      false: 'lg:first:opacity-50 lg:hover:opacity-100',
+    },
+    shady: {
+      true: 'first:opacity-50 hover:first:opacity-100',
     },
   },
 })
@@ -138,13 +144,12 @@ export function NavLinkContent({
   ...rest
 }: Omit<React.HTMLProps<HTMLDivElement>, 'size'> & { postfix?: React.ReactNode } & VariantProps<
     typeof contentVariants
-  >) {
+  > &
+  VariantProps<typeof textVariants>) {
   return (
     <div
       className={cn(
         contentVariants({
-          shady: shady && !selected,
-          selected,
           size,
           variant,
         }),
@@ -152,7 +157,14 @@ export function NavLinkContent({
       )}
       {...rest}
     >
-      {children}
+      <div
+        className={textVariants({
+          shady: shady && !selected,
+          selected,
+        })}
+      >
+        {children}
+      </div>
       {postfix}
     </div>
   )
