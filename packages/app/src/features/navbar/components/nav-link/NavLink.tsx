@@ -18,7 +18,10 @@ export function NavLink({ to, children, onClick, className, ...rest }: NavLinkPr
       onClick={onClick}
       to={to}
       data-testid={`navlink-${to}-${selected ? 'selected' : 'not-selected'}`}
-      className={className}
+      className={cn(
+        'rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+        className,
+      )}
     >
       <NavLinkComponent selected={selected} {...rest}>
         {children}
@@ -65,10 +68,7 @@ export function NavLinkComponent({
 export function NavLinkBox({ children, className, ...rest }: React.HTMLProps<HTMLDivElement>) {
   return (
     <div
-      className={cn(
-        'relative isolate flex h-full w-full flex-row justify-between rounded-md lg:flex-col focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-        className,
-      )}
+      className={cn('relative isolate flex h-full w-full flex-row justify-between ', 'lg:flex-col ', className)}
       {...rest}
     >
       {children}
@@ -76,7 +76,7 @@ export function NavLinkBox({ children, className, ...rest }: React.HTMLProps<HTM
   )
 }
 
-const pseudoElementVariants = cva('absolute bottom-0 left-0 hidden lg:block ', {
+const pseudoElementVariants = cva('-z-10 absolute bottom-0 left-0 hidden lg:block', {
   variants: {
     variant: {
       horizontal: 'h-1.5 w-full rounded-t-lg',
@@ -101,7 +101,6 @@ export function NavLinkIndicator({
           variant,
           selected,
         }),
-        '-z-10',
       )}
       {...rest}
     />
