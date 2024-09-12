@@ -63,6 +63,7 @@ const DialogContent = React.forwardRef<
     portalContainerRef?: RefObject<HTMLElement>
     overlayVariant?: 'moderate' | 'light'
     contentVerticalPosition?: 'center' | 'top' | 'bottom'
+    preventAutoFocus?: boolean
   }
 >(
   (
@@ -73,6 +74,7 @@ const DialogContent = React.forwardRef<
       portalContainerRef,
       overlayVariant,
       contentVerticalPosition,
+      preventAutoFocus = false,
       ...props
     },
     ref,
@@ -80,6 +82,9 @@ const DialogContent = React.forwardRef<
     <DialogPortal container={portalContainerRef?.current}>
       <DialogOverlay className={cn(overlayVariants({ overlayVariant }))}>
         <DialogPrimitive.Content
+          // @note: Radix has internal bug that causes issues with autofocus eg. tooltips opened by default
+          // https://github.com/radix-ui/primitives/issues/2248
+          onOpenAutoFocus={preventAutoFocus ? (event) => event.preventDefault() : undefined}
           ref={ref}
           className={cn(
             'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 overflow-hidden',
