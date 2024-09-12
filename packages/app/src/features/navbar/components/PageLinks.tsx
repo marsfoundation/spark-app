@@ -20,14 +20,26 @@ import { SavingsInfoQueryResults } from '../types'
 import { NavLink, NavLinkComponent } from './nav-link/NavLink'
 import { NewPageBadge } from './new-page-badge/NewPageBadge'
 
+export interface PageLinksInfo {
+  daiSymbol: string
+  USDSSymbol?: string
+}
+
 export interface PageLinksProps {
   mobileMenuCollapsed: boolean
   closeMobileMenu: () => void
   savingsInfo: SavingsInfoQueryResults | undefined
   blockedPages: (keyof typeof paths)[]
+  pageLinksInfo: PageLinksInfo
 }
 
-export function PageLinks({ mobileMenuCollapsed, closeMobileMenu, savingsInfo, blockedPages }: PageLinksProps) {
+export function PageLinks({
+  mobileMenuCollapsed,
+  closeMobileMenu,
+  savingsInfo,
+  blockedPages,
+  pageLinksInfo,
+}: PageLinksProps) {
   const [linksDropdownOpen, setLinksDropdownOpen] = useState(false)
   const isMobile = !useBreakpoint('lg')
 
@@ -39,7 +51,7 @@ export function PageLinks({ mobileMenuCollapsed, closeMobileMenu, savingsInfo, b
   const dropdownLinks = [
     {
       to: paths.easyBorrow,
-      label: 'Borrow DAI',
+      label: `Borrow ${pageLinksInfo.daiSymbol}${pageLinksInfo.USDSSymbol ? ` and ${pageLinksInfo.USDSSymbol}` : ''}`,
       onClick: handleNavigate,
     },
     {

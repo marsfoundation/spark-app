@@ -28,6 +28,7 @@ export function Navbar({ mobileMenuCollapsed, setMobileMenuCollapsed }: NavbarPr
     rewardsInfo,
     isSandboxEnabled,
     isDevSandboxEnabled,
+    pageLinksInfo,
   } = useNavbar()
 
   const blockedPages = useBlockedPages()
@@ -57,6 +58,7 @@ export function Navbar({ mobileMenuCollapsed, setMobileMenuCollapsed }: NavbarPr
         mobileMenuCollapsed={mobileMenuCollapsed}
         blockedPages={blockedPages}
         savingsInfo={savingsInfo}
+        pageLinksInfo={pageLinksInfo}
       />
 
       <NavbarActions
