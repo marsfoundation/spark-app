@@ -29,5 +29,5 @@ export interface FormFieldsForDialog {
   selectedAsset: TokenWithFormValue
   maxValue?: NormalizedUnitNumber
   maxSelectedFieldName?: string // can't be used with maxValue
-  changeAsset: (newSymbol: TokenSymbol) => void
+  changeAsset?: (newSymbol: TokenSymbol) => void
 }

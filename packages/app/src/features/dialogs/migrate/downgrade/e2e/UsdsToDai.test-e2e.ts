@@ -36,6 +36,7 @@ test.describe('Downgrade USDS to DAI', () => {
     await savingsPage.clickDowngradeUsdsToDaiOption()
 
     const downgradeDialog = new DowngradeDialogPageObject(page)
+    await downgradeDialog.fillAmountAction(100)
 
     await downgradeDialog.actionsContainer.expectEnabledActionAtIndex(0)
     await downgradeDialog.actionsContainer.expectActions([
@@ -59,6 +60,7 @@ test.describe('Downgrade USDS to DAI', () => {
     await savingsPage.clickDowngradeUsdsToDaiOption()
 
     const downgradeDialog = new DowngradeDialogPageObject(page)
+    await downgradeDialog.fillAmountAction(10_000)
 
     await downgradeDialog.actionsContainer.acceptAllActionsAction(2, fork)
     await downgradeDialog.expectDowngradeSuccessPage({ token: 'USDS', amount: '10,000.00', usdValue: '$10,000.00' })
