@@ -12,7 +12,7 @@ interface UpgradeDialogContentContainerProps {
 }
 
 function UpgradeDialogContentContainer({ fromToken, toToken, closeDialog }: UpgradeDialogContentContainerProps) {
-  const { objectives, pageStatus, migrationAmount, actionsContext, form, assetsFields, selectableAssets } =
+  const { objectives, pageStatus, migrationAmount, actionsContext, form, assetsFields, selectableAssets, dai, sdai } =
     useMigrateDialog({
       type: 'upgrade',
       fromToken,
@@ -41,6 +41,8 @@ function UpgradeDialogContentContainer({ fromToken, toToken, closeDialog }: Upgr
       form={form}
       assetsFields={assetsFields}
       selectableAssets={selectableAssets}
+      dai={dai}
+      sdai={sdai}
     />
   )
 }

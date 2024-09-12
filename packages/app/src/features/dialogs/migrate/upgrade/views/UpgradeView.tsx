@@ -1,5 +1,6 @@
 import { TokenWithBalance } from '@/domain/common/types'
 import { Token } from '@/domain/types/Token'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { DialogActionsPanel } from '@/features/dialogs/common/components/DialogActionsPanel'
 import { MultiPanelDialog } from '@/features/dialogs/common/components/MultiPanelDialog'
@@ -21,6 +22,8 @@ interface UpgradeViewProps {
   form: UseFormReturn<AssetInputSchema>
   assetsFields: FormFieldsForDialog
   selectableAssets: TokenWithBalance[]
+  dai: TokenSymbol
+  sdai: TokenSymbol
 }
 
 export function UpgradeView({
@@ -32,10 +35,17 @@ export function UpgradeView({
   form,
   assetsFields,
   selectableAssets,
+  dai,
+  sdai,
 }: UpgradeViewProps) {
   return (
     <div>
-      <img src={assets.banners.daiToUsdsUpgrade} alt="dai-to-usds-upgrade-banner" className="w-full sm:max-w-xl" />
+      {fromToken.symbol === dai && (
+        <img src={assets.banners.daiToUsdsUpgrade} alt="dai-to-usds-upgrade" className="w-full sm:max-w-xl" />
+      )}
+      {fromToken.symbol === sdai && (
+        <img src={assets.banners.sdaiToSusdsUpgrade} alt="sdai-to-susds-upgrade" className="w-full sm:max-w-xl" />
+      )}
       <MultiPanelDialog className="p-6">
         <DialogTitle>
           Upgrade {fromToken.symbol} to {toToken.symbol}

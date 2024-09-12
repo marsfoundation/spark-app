@@ -4,6 +4,7 @@ import { useSavingsDaiInfo } from '@/domain/savings-info/useSavingsDaiInfo'
 import { useSavingsUsdsInfo } from '@/domain/savings-info/useSavingsUsdsInfo'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
@@ -32,11 +33,13 @@ export interface UseMigrateDialogResult {
   pageStatus: PageStatus
   migrationAmount: NormalizedUnitNumber
   actionsContext: InjectedActionsContext
+  dai: TokenSymbol
+  sdai: TokenSymbol
 }
 
 export function useMigrateDialog({ type, fromToken, toToken }: UseMigrateDialogParams): UseMigrateDialogResult {
   const [pageStatus, setPageStatus] = useState<PageState>('form')
-  const { extraTokens } = useChainConfigEntry()
+  const { extraTokens, daiSymbol, sDaiSymbol } = useChainConfigEntry()
   const { tokensInfo } = useTokensInfo({ tokens: extraTokens })
   const { savingsUsdsInfo } = useSavingsUsdsInfo()
   const { savingsDaiInfo } = useSavingsDaiInfo()
@@ -80,5 +83,7 @@ export function useMigrateDialog({ type, fromToken, toToken }: UseMigrateDialogP
       state: pageStatus,
       goToSuccessScreen: () => setPageStatus('success'),
     },
+    dai: daiSymbol,
+    sdai: sDaiSymbol,
   }
 }

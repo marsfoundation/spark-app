@@ -16,6 +16,8 @@ const meta: Meta<typeof UpgradeView> = {
   args: {
     fromToken: tokens.DAI,
     toToken: tokens.USDS,
+    dai: tokens.DAI.symbol,
+    sdai: tokens.sDAI.symbol,
     selectableAssets: [
       {
         token: tokens.DAI,
