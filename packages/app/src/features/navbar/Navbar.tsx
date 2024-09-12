@@ -44,7 +44,7 @@ export function Navbar({ mobileMenuCollapsed, setMobileMenuCollapsed }: NavbarPr
         !mobileMenuCollapsed && 'h-screen lg:h-auto',
       )}
     >
-      <div className="flex h-20 flex-row items-center justify-between">
+      <div className="-mr-4 flex h-20 shrink-0 flex-row items-center justify-between">
         <Link to="/">
           <img src={assets.sparkLogo} alt="Spark logo" style={{ height: '2.72rem' }} />
         </Link>

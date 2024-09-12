@@ -68,7 +68,7 @@ export function PageLinks({ mobileMenuCollapsed, closeMobileMenu, savingsInfo, b
     >
       {isMobile ? (
         // TODO: fix accordion initial open state animation
-        <Accordion type="single" collapsible>
+        <Accordion type="single" collapsible className="pr-1">
           <AccordionItem value="borrow">
             <AccordionTrigger className="p-0">
               <Button variant="text" className="h-full p-0" asChild>
