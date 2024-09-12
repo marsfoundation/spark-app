@@ -13,6 +13,7 @@ import { useOpenDialog } from '@/domain/state/dialogs'
 import { Percentage } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { useMarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
+import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
 import { assert, raise } from '@/utils/assert'
@@ -27,39 +28,39 @@ import {
   setDesiredLoanToValue,
   useFormFieldsForAssetClass,
 } from './form/form'
+import { mapFormTokensToReserves } from './form/mapFormTokensToReserves'
 import { normalizeFormValues } from './form/normalization'
 import { EasyBorrowFormSchema, getEasyBorrowFormValidator } from './form/validation'
 import { ExistingPosition, PageState, PageStatus } from './types'
 import { useCreateObjectives } from './useCreateObjectives'
 import { useLiquidationDetails } from './useLiquidationDetails'
+import { useUpgradeOptions } from './useUpgradeOptions'
+
+export interface BorrowDetails {
+  borrowRate: Percentage
+  dai: TokenSymbol
+  usds?: TokenSymbol
+  isUpgradingToUsds: boolean
+}
 
 export interface UseEasyBorrowResults {
   pageStatus: PageStatus
-
   form: UseFormReturn<EasyBorrowFormSchema>
   updatedPositionSummary: UserPositionSummary
   assetsToBorrowFields: FormFieldsForAssetClass
   assetsToDepositFields: FormFieldsForAssetClass
   setDesiredLoanToValue: (desiredLtv: Percentage) => void
-
   actions: Objective[]
-
   tokensToBorrow: TokenWithValue[]
   tokensToDeposit: TokenWithValue[]
   alreadyDeposited: ExistingPosition
   alreadyBorrowed: ExistingPosition
   liquidationDetails?: LiquidationDetails
   riskAcknowledgement: RiskAcknowledgementInfo
-
-  assetToBorrow: {
-    symbol: TokenSymbol
-    borrowRate: Percentage
-  }
+  borrowDetails: BorrowDetails
   guestMode: boolean
   openSandboxModal: () => void
-
   healthFactorPanelRef: React.RefObject<HTMLDivElement>
-
   actionsContext: InjectedActionsContext
 }
 
@@ -72,10 +73,16 @@ export function useEasyBorrow(): UseEasyBorrowResults {
   const { marketInfo: marketInfoIn1Epoch } = useMarketInfo({ timeAdvance: EPOCH_LENGTH })
   const {
     nativeAssetInfo,
+    extraTokens,
+    daiSymbol,
+    USDSSymbol,
     meta: { defaultAssetToBorrow },
   } = getChainConfigEntry(marketInfo.chainId)
+  const { tokensInfo } = useTokensInfo({ tokens: extraTokens })
 
   const walletInfo = useMarketWalletInfo()
+  const upgradeOptions = useUpgradeOptions()
+
   const [pageStatus, setPageStatus] = useState<PageState>('form')
   const healthFactorPanelRef = useRef<HTMLDivElement>(null)
 
@@ -100,11 +107,12 @@ export function useEasyBorrow(): UseEasyBorrowResults {
     pageStatus === 'confirmation',
   )
 
-  const depositableAssets = sortByDecreasingBalances(getDepositableAssets(userPositions), walletInfo)
-  const borrowableAssets = getBorrowableAssets(marketInfo.reserves)
+  const depositableAssets = sortByDecreasingBalances(getDepositableAssets(userPositions, walletInfo))
+  const borrowableAssets = getBorrowableAssets(marketInfo.reserves, walletInfo, upgradeOptions)
+  const formAssets = [...depositableAssets, ...borrowableAssets]
 
   assert(depositableAssets.length > 0, 'No depositable assets')
-  assert(borrowableAssets.length === 1, 'No borrowable assets')
+  assert(borrowableAssets.length > 0, 'No borrowable assets')
 
   const easyBorrowForm = useForm<EasyBorrowFormSchema>({
     resolver: zodResolver(
@@ -112,6 +120,8 @@ export function useEasyBorrow(): UseEasyBorrowResults {
         walletInfo,
         marketInfo,
         aaveData,
+        formAssets,
+        upgradeOptions,
         guestMode,
         alreadyDeposited,
         nativeAssetInfo,
@@ -123,51 +133,55 @@ export function useEasyBorrow(): UseEasyBorrowResults {
   const assetsToDepositFields = useFormFieldsForAssetClass({
     form: easyBorrowForm,
     marketInfo: marketInfoIn1Epoch, // because we calculate max values based on the future state
-    allPossibleReserves: depositableAssets,
+    assets: depositableAssets,
     walletInfo,
     type: 'deposit',
   })
   const assetsToBorrowFields = useFormFieldsForAssetClass({
     form: easyBorrowForm,
     marketInfo,
-    allPossibleReserves: borrowableAssets,
+    assets: borrowableAssets,
     walletInfo,
     type: 'borrow',
   })
-  const rawFormValues = easyBorrowForm.watch()
-
-  const formValues = normalizeFormValues(rawFormValues, marketInfo)
-  const updatedUserSummary = useConditionalFreeze(
-    updatePositionSummary({ ...formValues, marketInfo, aaveData, nativeAssetInfo }),
-    pageStatus === 'confirmation',
-  )
   const assetsToDepositFieldsFrozen = useConditionalFreeze(assetsToDepositFields, pageStatus === 'confirmation')
   const assetsToBorrowFieldsFrozen = useConditionalFreeze(assetsToBorrowFields, pageStatus === 'confirmation')
 
+  const rawFormValues = easyBorrowForm.watch()
+  const formValues = normalizeFormValues(rawFormValues, formAssets)
+  const tokensToBorrow = formValues.borrows
+  const tokensToDeposit = formValues.deposits.filter(({ value }) => value.gt(0))
+
   const actions = useCreateObjectives(formValues)
 
-  const tokensToBorrow = formValues.borrows.map((reserveWithValue) => ({
-    token: reserveWithValue.reserve.token,
-    value: reserveWithValue.value,
-  }))
-  const tokensToDeposit = formValues.deposits
-    .filter((reserveWithValue) => reserveWithValue.value.gt(0))
-    .map((reserveWithValue) => ({
-      token: reserveWithValue.reserve.token,
-      value: reserveWithValue.value,
-    }))
+  // @note: There is no usds market. When usds is borrowed, upgrade action is performed after borrowing dai.
+  // Thus, for calculation connected to markets (updating user summary, liquidation price), we treat usds as dai.
+  const formValuesAsUnderlyingReserves = mapFormTokensToReserves({
+    formValues,
+    marketInfo,
+    upgradeOptions,
+  })
+  const updatedUserSummary = useConditionalFreeze(
+    updatePositionSummary({ ...formValuesAsUnderlyingReserves, marketInfo, aaveData, nativeAssetInfo }),
+    pageStatus === 'confirmation',
+  )
 
   const liquidationDetails = useLiquidationDetails({
     marketInfo,
     tokensToDeposit,
-    tokensToBorrow,
+    tokensToBorrow: formValuesAsUnderlyingReserves.borrows.map((borrow) => ({
+      token: borrow.reserve.token,
+      value: borrow.value,
+    })),
     liquidationThreshold: updatedUserSummary.currentLiquidationThreshold,
     freeze: pageStatus === 'confirmation',
   })
 
-  const assetToBorrow = {
-    symbol: defaultAssetToBorrow,
+  const borrowDetails = {
+    dai: daiSymbol,
+    usds: USDSSymbol,
     borrowRate: marketInfo.findOneReserveBySymbol(defaultAssetToBorrow).variableBorrowApy ?? raise('No borrow rate'),
+    isUpgradingToUsds: formValues.borrows[0]?.token.symbol === USDSSymbol,
   }
 
   // biome-ignore lint/correctness/useExhaustiveDependencies:
@@ -202,7 +216,7 @@ export function useEasyBorrow(): UseEasyBorrowResults {
     setDesiredLoanToValue(desiredLtv: Percentage) {
       setDesiredLoanToValue({
         control: easyBorrowForm,
-        formValues,
+        formValues: formValuesAsUnderlyingReserves,
         userPositionSummary: updatedUserSummary,
         desiredLtv,
       })
@@ -220,13 +234,14 @@ export function useEasyBorrow(): UseEasyBorrowResults {
     alreadyDeposited,
     alreadyBorrowed,
     liquidationDetails,
-    assetToBorrow,
+    borrowDetails,
     guestMode,
     openSandboxModal,
     healthFactorPanelRef,
     riskAcknowledgement,
     actionsContext: {
       marketInfo,
+      tokensInfo,
     },
   }
 }

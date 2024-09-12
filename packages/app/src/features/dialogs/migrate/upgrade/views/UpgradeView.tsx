@@ -1,36 +1,51 @@
-import { formatPercentage } from '@/domain/common/format'
-import { Percentage } from '@/domain/types/NumericValues'
+import { TokenWithBalance } from '@/domain/common/types'
 import { Token } from '@/domain/types/Token'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { DialogActionsPanel } from '@/features/dialogs/common/components/DialogActionsPanel'
 import { MultiPanelDialog } from '@/features/dialogs/common/components/MultiPanelDialog'
-import { PageStatus } from '@/features/dialogs/common/types'
+import { DialogForm } from '@/features/dialogs/common/components/form/DialogForm'
+import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
+import { FormFieldsForDialog, PageStatus } from '@/features/dialogs/common/types'
 import { assets } from '@/ui/assets'
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
-import { KeyPoints } from '@/ui/atoms/key-points/KeyPoints'
 import { Link } from '@/ui/atoms/link/Link'
+import { UseFormReturn } from 'react-hook-form'
 import { Description } from '../../common/components/Description'
 
-interface UpgradeSDaiToSUsdsViewProps {
+interface UpgradeViewProps {
   fromToken: Token
   toToken: Token
-  apyImprovement?: Percentage
   objectives: Objective[]
   pageStatus: PageStatus
   actionsContext: InjectedActionsContext
+  form: UseFormReturn<AssetInputSchema>
+  assetsFields: FormFieldsForDialog
+  selectableAssets: TokenWithBalance[]
+  dai: TokenSymbol
+  sdai: TokenSymbol
 }
 
-export function UpgradeSDaiToSUsdsView({
+export function UpgradeView({
   fromToken,
   toToken,
   objectives,
   pageStatus,
-  apyImprovement,
   actionsContext,
-}: UpgradeSDaiToSUsdsViewProps) {
+  form,
+  assetsFields,
+  selectableAssets,
+  dai,
+  sdai,
+}: UpgradeViewProps) {
   return (
     <div>
-      <img src={assets.banners.sdaiToSusdsUpgrade} alt="sdai-to-susds-upgrade-banner" className="w-full max-w-xl" />
+      {fromToken.symbol === dai && (
+        <img src={assets.banners.daiToUsdsUpgrade} alt="dai-to-usds-upgrade" className="w-full sm:max-w-xl" />
+      )}
+      {fromToken.symbol === sdai && (
+        <img src={assets.banners.sdaiToSusdsUpgrade} alt="sdai-to-susds-upgrade" className="w-full sm:max-w-xl" />
+      )}
       <MultiPanelDialog className="p-6">
         <DialogTitle>
           Upgrade {fromToken.symbol} to {toToken.symbol}
@@ -45,17 +60,7 @@ export function UpgradeSDaiToSUsdsView({
           </Link>
         </Description>
 
-        <KeyPoints>
-          {apyImprovement && (
-            <KeyPoints.Item variant="positive">
-              <div>
-                <span className="text-basics-green">{formatPercentage(apyImprovement)} higher APY</span> compared to
-                Savings DAI
-              </div>
-            </KeyPoints.Item>
-          )}
-          <KeyPoints.Item variant="positive">Downgrade to {fromToken.symbol} anytime, without any fees.</KeyPoints.Item>
-        </KeyPoints>
+        <DialogForm form={form} assetsFields={assetsFields} selectorAssets={selectableAssets} />
 
         <DialogActionsPanel
           objectives={objectives}

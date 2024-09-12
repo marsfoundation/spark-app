@@ -14,9 +14,10 @@ import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
 import { raise } from '@/utils/assert'
 import { useTimestamp } from '@/utils/useTimestamp'
 import { useMemo } from 'react'
-import { useAccount } from 'wagmi'
+import { useAccount, useChainId } from 'wagmi'
 import { Projections } from '../types'
 import { MigrationInfo, makeMigrationInfo } from './makeMigrationInfo'
+import { SavingsMeta, makeSavingsMeta } from './makeSavingsMeta'
 import { makeSavingsTokenDetails } from './makeSavingsTokenDetails'
 import { useWelcomeDialog } from './useWelcomeDialog'
 
@@ -46,17 +47,19 @@ export interface UseSavingsResults {
         assetsInWallet: AssetInWallet[]
         totalEligibleCashUSD: NormalizedUnitNumber
         maxBalanceToken: TokenWithBalance
-        chainId: SupportedChainId
+        originChainId: SupportedChainId
         opportunityProjections: Projections
         migrationInfo?: MigrationInfo
         sDaiDetails?: SavingsTokenDetails
         sUSDSDetails?: SavingsTokenDetails
+        savingsMeta: SavingsMeta
         showWelcomeDialog: boolean
         saveConfirmedWelcomeDialog: (confirmedWelcomeDialog: boolean) => void
       }
     | { state: 'unsupported' }
 }
 export function useSavings(): UseSavingsResults {
+  const chainId = useChainId()
   const { savingsDaiInfo } = useSavingsDaiInfo()
   const { savingsUsdsInfo } = useSavingsUsdsInfo()
   const guestMode = useAccount().isConnected === false
@@ -142,6 +145,8 @@ export function useSavings(): UseSavingsResults {
       return 0
     })
 
+  const savingsMeta = makeSavingsMeta(chainId)
+
   return {
     guestMode,
     openSandboxModal,
@@ -151,10 +156,11 @@ export function useSavings(): UseSavingsResults {
       assetsInWallet,
       totalEligibleCashUSD,
       maxBalanceToken,
-      chainId: originChainId,
+      originChainId,
       opportunityProjections,
       sDaiDetails,
       sUSDSDetails,
+      savingsMeta,
       migrationInfo,
       showWelcomeDialog,
       saveConfirmedWelcomeDialog,

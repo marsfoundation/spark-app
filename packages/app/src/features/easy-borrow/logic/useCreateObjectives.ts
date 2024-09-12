@@ -12,7 +12,7 @@ function createDepositObjectives(formValues: EasyBorrowFormNormalizedData): Obje
     .map((deposit): Objective => {
       return {
         type: 'deposit',
-        token: deposit.reserve.token,
+        token: deposit.token,
         value: deposit.value,
       }
     })
@@ -22,7 +22,7 @@ function createBorrowObjectives(formValues: EasyBorrowFormNormalizedData): Objec
   return formValues.borrows.map((borrow): Objective => {
     return {
       type: 'borrow',
-      token: borrow.reserve.token,
+      token: borrow.token,
       value: borrow.value,
     }
   })

@@ -1,16 +1,18 @@
 import { getDepositMaxValue } from '@/domain/action-max-value-getters/getDepositMaxValue'
 import { formFormat } from '@/domain/common/format'
-import { TokenWithBalance } from '@/domain/common/types'
-import { MarketInfo, Reserve, UserPositionSummary } from '@/domain/market-info/marketInfo'
+import { ReserveWithValue, TokenWithBalance } from '@/domain/common/types'
+import { MarketInfo, UserPositionSummary } from '@/domain/market-info/marketInfo'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { MarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 import BigNumber from 'bignumber.js'
 import { UseFormReturn, useFieldArray } from 'react-hook-form'
-import { EasyBorrowFormNormalizedData } from '../types'
 import { EasyBorrowFormSchema } from './validation'
 
-export function getDefaultFormValues(borrowableAssets: Reserve[], depositableAssets: Reserve[]): EasyBorrowFormSchema {
+export function getDefaultFormValues(
+  borrowableAssets: TokenWithBalance[],
+  depositableAssets: TokenWithBalance[],
+): EasyBorrowFormSchema {
   // @todo apply better algorithm to select default assets, take into account balances etc
   const defaultBorrowableAsset = borrowableAssets[0]!
   const defaultDepositableAsset = depositableAssets[0]!
@@ -23,7 +25,7 @@ export function getDefaultFormValues(borrowableAssets: Reserve[], depositableAss
 
 export interface FormFieldsForAssetClass {
   selectedAssets: TokenWithBalance[]
-  allAssets: TokenWithBalance[]
+  assets: TokenWithBalance[]
   assetToMaxValue: Record<TokenSymbol, NormalizedUnitNumber>
   changeAsset: (index: number, newSymbol: TokenSymbol) => void
   addAsset: () => void
@@ -34,14 +36,14 @@ export interface FormFieldsForAssetClass {
 export interface UseFormFieldsForAssetClassArgs {
   form: UseFormReturn<EasyBorrowFormSchema>
   marketInfo: MarketInfo
-  allPossibleReserves: Reserve[]
+  assets: TokenWithBalance[]
   walletInfo: MarketWalletInfo
   type: 'borrow' | 'deposit'
 }
 export function useFormFieldsForAssetClass({
   form,
   marketInfo,
-  allPossibleReserves,
+  assets,
   walletInfo,
   type,
 }: UseFormFieldsForAssetClassArgs): FormFieldsForAssetClass {
@@ -51,25 +53,11 @@ export function useFormFieldsForAssetClass({
   })
   const fields = form.getValues(getFormKeyBasedOnType(type))
 
-  const reservesAvailableToPick = allPossibleReserves.filter(
-    (reserve) => !fields.some((f) => f.symbol === reserve.token.symbol),
+  const tokensToPickFrom = assets.filter(({ token }) => !fields.some((f) => f.symbol === token.symbol))
+
+  const selectedAssets = fields.map(
+    (field): TokenWithBalance => assets.find(({ token }) => token.symbol === field.symbol)!,
   )
-
-  const allAssets = allPossibleReserves.map((reserve): TokenWithBalance => {
-    return {
-      token: reserve.token,
-      balance: walletInfo.findWalletBalanceForToken(reserve.token),
-    }
-  })
-
-  const selectedAssets = fields.map((field): TokenWithBalance => {
-    const token = marketInfo.findOneTokenBySymbol(field.symbol)
-
-    return {
-      token,
-      balance: walletInfo.findWalletBalanceForToken(token),
-    }
-  })
 
   // eslint-disable-next-line func-style
   const changeAsset = (index: number, newSymbol: TokenSymbol): void => {
@@ -82,40 +70,43 @@ export function useFormFieldsForAssetClass({
     )
   }
 
-  const assetToMaxValue = selectedAssets.reduce(
-    (acc, asset) => {
-      const position = marketInfo.findOnePositionBySymbol(asset.token.symbol)
-      const maxValue = getDepositMaxValue({
-        asset: {
-          status: position.reserve.status,
-          totalLiquidity: position.reserve.totalLiquidity,
-          isNativeAsset: marketInfo.nativeAssetInfo.nativeAssetSymbol === asset.token.symbol,
-          supplyCap: position.reserve.supplyCap,
-        },
-        user: {
-          balance: walletInfo.findWalletBalanceForSymbol(asset.token.symbol),
-        },
-        chain: {
-          minRemainingNativeAsset: marketInfo.nativeAssetInfo.minRemainingNativeAssetBalance,
-        },
-      })
-      acc[asset.token.symbol] = maxValue
-      return acc
-    },
-    {} as Record<TokenSymbol, NormalizedUnitNumber>,
-  )
+  const assetToMaxValue =
+    type === 'borrow'
+      ? {}
+      : selectedAssets.reduce(
+          (acc, asset) => {
+            const position = marketInfo.findOnePositionBySymbol(asset.token.symbol)
+            const maxValue = getDepositMaxValue({
+              asset: {
+                status: position.reserve.status,
+                totalLiquidity: position.reserve.totalLiquidity,
+                isNativeAsset: marketInfo.nativeAssetInfo.nativeAssetSymbol === asset.token.symbol,
+                supplyCap: position.reserve.supplyCap,
+              },
+              user: {
+                balance: walletInfo.findWalletBalanceForSymbol(asset.token.symbol),
+              },
+              chain: {
+                minRemainingNativeAsset: marketInfo.nativeAssetInfo.minRemainingNativeAssetBalance,
+              },
+            })
+            acc[asset.token.symbol] = maxValue
+            return acc
+          },
+          {} as Record<TokenSymbol, NormalizedUnitNumber>,
+        )
 
   // eslint-disable-next-line func-style
   const addAsset = (): void => {
-    if (reservesAvailableToPick.length > 0) {
-      const reserve = reservesAvailableToPick[0]!
-      append({ symbol: reserve.token.symbol, value: '' })
+    if (tokensToPickFrom.length > 0) {
+      const { token } = tokensToPickFrom[0]!
+      append({ symbol: token.symbol, value: '' })
     }
   }
 
   return {
     selectedAssets,
-    allAssets,
+    assets,
     assetToMaxValue,
     changeAsset,
     addAsset,
@@ -130,7 +121,7 @@ function getFormKeyBasedOnType(type: 'borrow' | 'deposit'): 'assetsToBorrow' | '
 
 interface SetDesiredLoanToValueProps {
   control: UseFormReturn<EasyBorrowFormSchema>
-  formValues: EasyBorrowFormNormalizedData
+  formValues: { borrows: ReserveWithValue[] }
   userPositionSummary: UserPositionSummary
   desiredLtv: Percentage
 }

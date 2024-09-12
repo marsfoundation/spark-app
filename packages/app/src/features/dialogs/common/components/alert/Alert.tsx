@@ -2,6 +2,7 @@ import { cva } from 'class-variance-authority'
 import { AlertTriangle } from 'lucide-react'
 import { ReactNode } from 'react'
 
+import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 
 type VariantsConfig = { variant: { danger: string; warning: string; info: string } }
@@ -10,12 +11,13 @@ type Variant = keyof VariantsConfig['variant']
 interface AlertProps {
   children: ReactNode
   variant: Variant
+  className?: string
   'data-testid'?: string
 }
 
-export function Alert({ children, variant, 'data-testid': dataTestId }: AlertProps) {
+export function Alert({ children, variant, className, 'data-testid': dataTestId }: AlertProps) {
   return (
-    <div className={bgVariants({ variant })} data-testid={dataTestId}>
+    <div className={cn(bgVariants({ variant }), className)} data-testid={dataTestId}>
       <AlertTriangle className={iconVariants({ variant })} />
       <p data-testid={testIds.component.Alert.message} className="text-basics-black text-xs">
         {children}
