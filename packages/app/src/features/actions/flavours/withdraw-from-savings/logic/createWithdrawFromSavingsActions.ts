@@ -28,7 +28,7 @@ export function createWithdrawFromSavingsActions(
     amount: objective.amount,
     token: objective.token,
     savingsToken: objective.savingsToken,
-    isMax: objective.isMax,
+    isRedeem: objective.isRedeem,
     mode: objective.mode,
     receiver: objective.mode === 'send' ? objective.receiver : undefined,
   }
@@ -64,7 +64,7 @@ export function createWithdrawFromSavingsActions(
     type: 'approve',
     token: savingsToken,
     spender,
-    value: objective.isMax
+    value: objective.isRedeem
       ? objective.amount
       : NormalizedUnitNumber(sDaiValueEstimate.toFixed(objective.savingsToken.decimals, BigNumber.ROUND_UP)),
   }

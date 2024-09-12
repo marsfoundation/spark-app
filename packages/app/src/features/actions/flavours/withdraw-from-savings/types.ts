@@ -8,7 +8,7 @@ export type WithdrawFromSavingsObjective = {
   token: Token
   savingsToken: Token
   amount: NormalizedUnitNumber
-  isMax: boolean
+  isRedeem: boolean
 } & (
   | {
       mode: 'send'
@@ -24,7 +24,7 @@ export interface WithdrawFromSavingsAction {
   token: Token
   savingsToken: Token
   amount: NormalizedUnitNumber
-  isMax: boolean
+  isRedeem: boolean
   mode: Mode
   receiver?: CheckedAddress
 }

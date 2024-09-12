@@ -109,7 +109,7 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
       token: tokens.DAI,
       amount: NormalizedUnitNumber(1023),
       mode: 'withdraw',
-      isMax: false,
+      isRedeem: false,
     },
     state: { status: 'ready' },
     onAction: () => {},

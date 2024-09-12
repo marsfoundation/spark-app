@@ -305,7 +305,7 @@ export function useCreateActions({ objectives, actionsSettings, actionContext }:
               token: stakingToken,
               savingsToken: objective.inputToken,
               amount: objective.stakeAmount,
-              isMax: objective.isMax,
+              isRedeem: true,
               mode: 'withdraw',
             }
 
