@@ -41,9 +41,9 @@ export function FullView({
           <BorrowStatusPanel token={token} {...marketOverview.borrow} />
         </div>
         <div className="flex flex-col gap-6">
-          {(marketOverview.borrow.status === 'no' ? !marketOverview.summary.borrowed.isZero() : true) && (
+          {marketOverview.borrow.status === 'no' && !marketOverview.summary.borrowed.isZero() ? (
             <MarketOverviewPanel token={token} {...marketOverview.summary} />
-          )}
+          ) : null}
           <MyWalletPanel
             openDialog={openDialog}
             walletOverview={walletOverview}
