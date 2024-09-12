@@ -6,6 +6,7 @@ import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { AssetInputProps } from '@/ui/molecules/asset-input/AssetInput'
 import { cn } from '@/ui/utils/style'
 
+import { raise } from '@/utils/assert'
 import { AssetSelector } from '../../molecules/asset-selector/AssetSelector'
 import { ControlledMultiSelectorAssetInput } from '../multi-selector/MultiSelector'
 
@@ -14,7 +15,7 @@ export interface AssetSelectorWithInputProps<TFieldValues extends FieldValues> {
   fieldName: FieldPath<TFieldValues>
   selectorAssets: TokenWithBalance[]
   selectedAsset: TokenWithBalance
-  setSelectedAsset: (selectedAsset: TokenSymbol) => void
+  setSelectedAsset?: (selectedAsset: TokenSymbol) => void
   maxValue?: NormalizedUnitNumber
   maxSelectedFieldName?: string
   removeSelectedAsset?: () => void
@@ -40,12 +41,15 @@ export function AssetSelectorWithInput<TFieldValues extends FieldValues>({
   walletIconLabel,
   maxSelectedFieldName,
 }: AssetSelectorWithInputProps<TFieldValues>) {
+  if (selectorAssets.length > 1 && !setSelectedAsset) {
+    raise('When more than one option to choose from, asset selection setter must be provided')
+  }
   return (
     <div className={cn('flex w-full flex-row justify-between gap-2', className)}>
       <AssetSelector
         assets={selectorAssets}
         selectedAsset={selectedAsset.token}
-        setSelectedAsset={(newAsset) => setSelectedAsset(newAsset)}
+        setSelectedAsset={(newAsset) => setSelectedAsset?.(newAsset)}
         disabled={disabled}
       />
       <ControlledMultiSelectorAssetInput
