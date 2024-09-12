@@ -12,6 +12,7 @@ import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { useAccount, useChainId, useChains, useConfig, useEnsAvatar, useEnsName } from 'wagmi'
+import { PageLinksInfo } from '../components/PageLinks'
 import { AirdropInfo, ConnectedWalletInfo, RewardsInfo, SavingsInfoQueryResults, SupportedChain } from '../types'
 import { generateWalletAvatar } from './generateWalletAvatar'
 import { getWalletIcon } from './getWalletIcon'
@@ -35,6 +36,7 @@ export interface UseNavbarResults {
   connectedWalletInfo?: ConnectedWalletInfo
   airdropInfo: AirdropInfo
   rewardsInfo: RewardsInfo
+  pageLinksInfo: PageLinksInfo
 }
 
 export function useNavbar(): UseNavbarResults {
@@ -107,6 +109,13 @@ export function useNavbar(): UseNavbarResults {
     }
   })()
 
+  const { daiSymbol, USDSSymbol } = getChainConfigEntry(currentChain.id)
+
+  const pageLinksInfo = {
+    daiSymbol,
+    USDSSymbol,
+  }
+
   function openSandboxDialog(): void {
     openDialog(SandboxDialog, { mode: 'ephemeral' } as const)
   }
@@ -128,5 +137,6 @@ export function useNavbar(): UseNavbarResults {
     openDevSandboxDialog,
     isSandboxEnabled,
     isDevSandboxEnabled,
+    pageLinksInfo,
   }
 }

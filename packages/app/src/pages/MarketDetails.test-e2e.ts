@@ -61,6 +61,34 @@ test.describe('Market details Mainnet', () => {
 
       await screenshot(page, 'market-details-weth')
     })
+
+    test.describe('token that cannot be borrowed', () => {
+      test('overview is visible when borrowed balance greater than non-zero', async ({ page }) => {
+        await setup(page, fork, {
+          initialPage: 'marketDetails',
+          initialPageParams: { asset: WBTC, chainId: fork.chainId.toString() },
+          account: {
+            type: 'not-connected',
+          },
+        })
+
+        const marketDetailsPage = new MarketDetailsPageObject(page)
+        await marketDetailsPage.expectToBeLoaded()
+      })
+
+      test('overview is hidden when borrowed balance equal zero', async ({ page }) => {
+        await setup(page, fork, {
+          initialPage: 'marketDetails',
+          initialPageParams: { asset: WEETH, chainId: fork.chainId.toString() },
+          account: {
+            type: 'not-connected',
+          },
+        })
+
+        const marketDetailsPage = new MarketDetailsPageObject(page)
+        await marketDetailsPage.expectMarketOverviewToBeHidden()
+      })
+    })
   })
 
   test.describe('Dialogs', () => {

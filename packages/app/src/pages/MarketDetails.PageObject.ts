@@ -46,7 +46,7 @@ export class MarketDetailsPageObject extends BasePageObject {
 
   // #region actions
   async openDialogAction(type: DialogType): Promise<void> {
-    await this.page.getByRole('button', { name: type }).click()
+    await this.page.locator('main').getByRole('button', { name: type }).click()
   }
   // #endregion
 
@@ -88,6 +88,10 @@ export class MarketDetailsPageObject extends BasePageObject {
   async expectToBeLoaded(): Promise<void> {
     await expect(this.locateMarketOverview()).toBeVisible()
     await expect(this.locateMyWallet()).toBeVisible()
+  }
+
+  async expectMarketOverviewToBeHidden(): Promise<void> {
+    await expect(this.locateMarketOverview()).not.toBeVisible()
   }
 
   async expectDebtCeiling(value: string): Promise<void> {

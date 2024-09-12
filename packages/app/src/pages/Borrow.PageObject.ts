@@ -36,7 +36,7 @@ export class BorrowPageObject extends BasePageObject {
   }
 
   async submitAction(): Promise<void> {
-    await this.page.getByRole('button', { name: 'Borrow' }).click()
+    await this.page.locator('main').getByRole('button', { name: 'Borrow' }).click()
   }
 
   async addNewDepositAssetAction(): Promise<void> {
@@ -108,7 +108,7 @@ export class BorrowPageObject extends BasePageObject {
   }
 
   async expectBorrowButtonActive(): Promise<void> {
-    await expect(this.page.getByRole('button', { name: 'Borrow' })).toBeEnabled()
+    await expect(this.page.locator('main').getByRole('button', { name: 'Borrow' })).toBeEnabled()
   }
 
   async expectUsdsBorrowAlert(): Promise<void> {

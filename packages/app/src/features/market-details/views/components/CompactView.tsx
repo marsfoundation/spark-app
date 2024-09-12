@@ -40,7 +40,9 @@ export function CompactView({
           <TabsTrigger value="actions">Actions</TabsTrigger>
         </TabsList>
         <TabsContent value="overview" className="flex flex-col gap-4 px-3">
-          <MarketOverviewPanel token={token} {...marketOverview.summary} />
+          {(marketOverview.borrow.status === 'no' ? !marketOverview.summary.borrowed.isZero() : true) && (
+            <MarketOverviewPanel token={token} {...marketOverview.summary} />
+          )}
           {marketOverview.supply && <SupplyStatusPanel token={token} {...marketOverview.supply} />}
           {marketOverview.lend && <LendStatusPanel {...marketOverview.lend} />}
           <CollateralStatusPanel {...marketOverview.collateral} />
