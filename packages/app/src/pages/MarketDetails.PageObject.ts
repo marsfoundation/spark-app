@@ -86,6 +86,10 @@ export class MarketDetailsPageObject extends BasePageObject {
     await expect(this.locateMyWallet()).toBeVisible()
   }
 
+  async expectMarketOverviewToBeHidden(): Promise<void> {
+    await expect(this.locateMarketOverview()).not.toBeVisible()
+  }
+
   async expectDebtCeiling(value: string): Promise<void> {
     await expect(this.page.getByTestId(testIds.marketDetails.collateralStatusPanel.debtCeiling)).toHaveText(value)
   }
