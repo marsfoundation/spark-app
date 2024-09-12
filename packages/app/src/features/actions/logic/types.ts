@@ -1,3 +1,4 @@
+import { FarmsInfo } from '@/domain/farms/farmsInfo'
 import { WriteErrorKind, useWrite } from '@/domain/hooks/useWrite'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { SavingsInfo } from '@/domain/savings-info/types'
@@ -16,6 +17,7 @@ import { PermitAction } from '../flavours/permit/types'
 import { RepayAction, RepayObjective } from '../flavours/repay/types'
 import { SetUseAsCollateralAction, SetUseAsCollateralObjective } from '../flavours/set-use-as-collateral/types'
 import { SetUserEModeAction, SetUserEModeObjective } from '../flavours/set-user-e-mode/logic/types'
+import { StakeAction, StakeObjective } from '../flavours/stake/types'
 import { UpgradeAction, UpgradeObjective } from '../flavours/upgrade/types'
 import { WithdrawFromSavingsAction, WithdrawFromSavingsObjective } from '../flavours/withdraw-from-savings/types'
 import { WithdrawAction, WithdrawObjective } from '../flavours/withdraw/types'
@@ -37,6 +39,7 @@ export type Objective =
   | DepositToSavingsObjective
   | UpgradeObjective
   | DowngradeObjective
+  | StakeObjective
 export type ObjectiveType = Objective['type']
 
 export type Action =
@@ -54,6 +57,7 @@ export type Action =
   | DepositToSavingsAction
   | UpgradeAction
   | DowngradeAction
+  | StakeAction
 export type ActionType = Action['type']
 
 export type ActionHandlerState =
@@ -76,6 +80,7 @@ export interface ActionContext {
   tokensInfo?: TokensInfo
   savingsDaiInfo?: SavingsInfo
   permitStore?: PermitStore
+  farmsInfo?: FarmsInfo
   wagmiConfig: Config
   account: Address
   chainId: number

@@ -12,4 +12,5 @@ export const objectiveTypeToVerb: Record<ObjectiveType, string> = {
   claimRewards: 'Claimed',
   upgrade: 'Upgraded',
   downgrade: 'Downgraded',
+  stake: 'Staked',
 }

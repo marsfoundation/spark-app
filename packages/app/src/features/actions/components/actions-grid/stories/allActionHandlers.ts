@@ -144,4 +144,15 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
     state: { status: 'ready' },
     onAction: () => {},
   },
+  stake: {
+    action: {
+      type: 'stake',
+      stakingToken: tokens.USDS,
+      stakeAmount: NormalizedUnitNumber(1),
+      rewardToken: tokens.SKY,
+      farm: CheckedAddress(zeroAddress),
+    },
+    state: { status: 'ready' },
+    onAction: () => {},
+  },
 }
