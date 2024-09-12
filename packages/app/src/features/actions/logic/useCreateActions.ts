@@ -257,62 +257,67 @@ export function useCreateActions({ objectives, actionsSettings, actionContext }:
       }
 
       case 'stake': {
-        const farmsInfo = actionContext.farmsInfo ?? raise('Farms info is required for stake action')
+        const { farmsInfo } = actionContext
+        assert(farmsInfo, 'Farms info is required for stake action')
+
         const { stakingToken, rewardToken } = farmsInfo.findOneFarmByAddress(objective.farm)
 
         const approveStakeAction: ApproveAction = {
           type: 'approve',
           token: stakingToken,
           spender: objective.farm,
-          value: objective.stakeAmount,
+          value: objective.amount,
         }
 
         const stakeAction: StakeAction = {
           type: 'stake',
           farm: objective.farm,
-          stakeAmount: objective.stakeAmount,
+          stakeAmount: objective.amount,
           rewardToken,
           stakingToken,
         }
 
         if (stakingToken.symbol === chainConfig.USDSSymbol) {
-          if (objective.inputToken.symbol === chainConfig.daiSymbol) {
+          if (objective.token.symbol === chainConfig.daiSymbol) {
             const approveMigrateAction: ApproveAction = {
               type: 'approve',
-              token: objective.inputToken,
+              token: objective.token,
               spender: MIGRATE_ACTIONS_ADDRESS,
-              value: objective.stakeAmount,
+              value: objective.amount,
             }
 
             const upgradeAction: UpgradeAction = {
               type: 'upgrade',
-              fromToken: objective.inputToken,
+              fromToken: objective.token,
               toToken: stakingToken,
-              amount: objective.stakeAmount,
+              amount: objective.amount,
             }
 
             return [approveMigrateAction, upgradeAction, approveStakeAction, stakeAction]
           }
 
-          if (
-            objective.inputToken.symbol === chainConfig.sDaiSymbol ||
-            objective.inputToken.symbol === chainConfig.sUSDSSymbol
-          ) {
-            // @todo: Input token is sdai or susds, so we need withdraw specific number of shares,
-            // and calculate how much those shares are worth in usds
+          if (objective.token.symbol === chainConfig.sDaiSymbol || objective.token.symbol === chainConfig.sUSDSSymbol) {
+            const { savingsDaiInfo, savingsUsdsInfo } = actionContext
+            assert(savingsDaiInfo && savingsUsdsInfo, 'Savings info is required when input for stake is savings token')
+
             const withdrawObjective: WithdrawFromSavingsObjective = {
               type: 'withdrawFromSavings',
               token: stakingToken,
-              savingsToken: objective.inputToken,
-              amount: objective.stakeAmount,
+              savingsToken: objective.token,
+              amount: objective.amount,
               isRedeem: true,
               mode: 'withdraw',
             }
 
+            const stakeAmount =
+              objective.token.symbol === chainConfig.sDaiSymbol
+                ? savingsDaiInfo.convertToAssets({ shares: objective.amount })
+                : savingsUsdsInfo.convertToAssets({ shares: objective.amount })
+
             return [
               ...createWithdrawFromSavingsActions(withdrawObjective, actionContext),
-              approveStakeAction,
-              stakeAction,
+              { ...approveStakeAction, value: stakeAmount },
+              { ...stakeAction, stakeAmount },
             ]
           }
           // @todo: Add psm wrapper action flavor to support USDC staking

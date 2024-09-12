@@ -79,6 +79,7 @@ export interface ActionContext {
   marketInfo?: MarketInfo
   tokensInfo?: TokensInfo
   savingsDaiInfo?: SavingsInfo
+  savingsUsdsInfo?: SavingsInfo
   permitStore?: PermitStore
   farmsInfo?: FarmsInfo
   wagmiConfig: Config
