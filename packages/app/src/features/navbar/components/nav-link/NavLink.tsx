@@ -68,7 +68,7 @@ export function NavLinkComponent({
 export function NavLinkBox({ children, className, ...rest }: React.HTMLProps<HTMLDivElement>) {
   return (
     <div
-      className={cn('relative isolate flex h-full w-full flex-row justify-between ', 'lg:flex-col ', className)}
+      className={cn('relative isolate flex h-full w-full flex-row justify-between lg:flex-col', className)}
       {...rest}
     >
       {children}

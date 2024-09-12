@@ -23,7 +23,7 @@ export function AppLayout({ children }: AppLayoutProps) {
         <SkyMigrationTopBanner onClose={handleCloseBanner} />
       )}
       <Navbar mobileMenuCollapsed={mobileMenuCollapsed} setMobileMenuCollapsed={setMobileMenuCollapsed} />
-      <div className={cx('flex w-full grow flex-col', !mobileMenuCollapsed && 'hidden lg:flex')}>{children}</div>
+      <main className={cx('flex w-full grow flex-col', !mobileMenuCollapsed && 'hidden lg:flex')}>{children}</main>
     </div>
   )
 }
