@@ -96,6 +96,14 @@ export const testIds = makeTestIds({
       upgradeSwitch: true,
       upgradeDetailsTrigger: true,
     },
+    migrate: {
+      transactionOverview: {
+        apyChange: {
+          before: true,
+          after: true,
+        },
+      },
+    },
     depositSavings: {
       transactionDetailsRow: (index: number) => index,
     },

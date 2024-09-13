@@ -3,6 +3,7 @@ import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { DialogActionsPanel } from '@/features/dialogs/common/components/DialogActionsPanel'
+import { FormAndOverviewWrapper } from '@/features/dialogs/common/components/FormAndOverviewWrapper'
 import { MultiPanelDialog } from '@/features/dialogs/common/components/MultiPanelDialog'
 import { DialogForm } from '@/features/dialogs/common/components/form/DialogForm'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
@@ -12,6 +13,8 @@ import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
 import { Link } from '@/ui/atoms/link/Link'
 import { UseFormReturn } from 'react-hook-form'
 import { Description } from '../../common/components/Description'
+import { TransactionOverview } from '../../common/components/TransactionOverview'
+import { MigrateDialogTxOverview } from '../../common/types'
 
 interface UpgradeViewProps {
   fromToken: Token
@@ -22,6 +25,7 @@ interface UpgradeViewProps {
   form: UseFormReturn<AssetInputSchema>
   assetsFields: FormFieldsForDialog
   selectableAssets: TokenWithBalance[]
+  txOverview: MigrateDialogTxOverview
   dai: TokenSymbol
   sdai: TokenSymbol
 }
@@ -35,6 +39,7 @@ export function UpgradeView({
   form,
   assetsFields,
   selectableAssets,
+  txOverview,
   dai,
   sdai,
 }: UpgradeViewProps) {
@@ -60,7 +65,10 @@ export function UpgradeView({
           </Link>
         </Description>
 
-        <DialogForm form={form} assetsFields={assetsFields} selectorAssets={selectableAssets} />
+        <FormAndOverviewWrapper>
+          <DialogForm form={form} assetsFields={assetsFields} selectorAssets={selectableAssets} />
+          <TransactionOverview txOverview={txOverview} selectedToken={assetsFields.selectedAsset.token} />
+        </FormAndOverviewWrapper>
 
         <DialogActionsPanel
           objectives={objectives}

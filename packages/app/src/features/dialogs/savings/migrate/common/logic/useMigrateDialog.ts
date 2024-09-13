@@ -76,8 +76,8 @@ export function useMigrateDialog({ type, fromToken, toToken }: UseMigrateDialogP
     formValues,
     tokensInfo,
     outputToken: toToken,
-    savingsDaiInfo: savingsDaiInfo,
-    savingsUsdsInfo: savingsUsdsInfo,
+    savingsDaiInfo,
+    savingsUsdsInfo,
   })
 
   return {

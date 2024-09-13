@@ -12,11 +12,12 @@ interface DowngradeDialogContentContainerProps {
 }
 
 function DowngradeDialogContentContainer({ fromToken, toToken, closeDialog }: DowngradeDialogContentContainerProps) {
-  const { objectives, pageStatus, migrationAmount, form, assetsFields, selectableAssets } = useMigrateDialog({
-    type: 'downgrade',
-    fromToken,
-    toToken,
-  })
+  const { objectives, pageStatus, migrationAmount, form, assetsFields, selectableAssets, txOverview } =
+    useMigrateDialog({
+      type: 'downgrade',
+      fromToken,
+      toToken,
+    })
 
   if (pageStatus.state === 'success') {
     return (
@@ -38,6 +39,7 @@ function DowngradeDialogContentContainer({ fromToken, toToken, closeDialog }: Do
       form={form}
       assetsFields={assetsFields}
       selectableAssets={selectableAssets}
+      txOverview={txOverview}
     />
   )
 }

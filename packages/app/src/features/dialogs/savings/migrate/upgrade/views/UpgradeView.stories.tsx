@@ -1,4 +1,4 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { WithClassname, WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
@@ -18,6 +18,21 @@ const meta: Meta<typeof UpgradeView> = {
     toToken: tokens.USDS,
     dai: tokens.DAI.symbol,
     sdai: tokens.sDAI.symbol,
+    txOverview: {
+      status: 'success',
+      route: [
+        {
+          token: tokens.DAI,
+          value: NormalizedUnitNumber(5000),
+          usdValue: NormalizedUnitNumber(5000),
+        },
+        {
+          token: tokens.USDS,
+          value: NormalizedUnitNumber(5000),
+          usdValue: NormalizedUnitNumber(5000),
+        },
+      ],
+    },
     selectableAssets: [
       {
         token: tokens.DAI,
@@ -61,6 +76,22 @@ export const sDai: Story = {
   args: {
     fromToken: tokens.sDAI,
     toToken: tokens.sUSDS,
+    txOverview: {
+      status: 'success',
+      apyChange: { current: Percentage(0.05), updated: Percentage(0.07) },
+      route: [
+        {
+          token: tokens.sDAI,
+          value: NormalizedUnitNumber(5000),
+          usdValue: NormalizedUnitNumber(5000),
+        },
+        {
+          token: tokens.sUSDS,
+          value: NormalizedUnitNumber(5000),
+          usdValue: NormalizedUnitNumber(5000),
+        },
+      ],
+    },
     selectableAssets: [
       {
         token: tokens.sDAI,

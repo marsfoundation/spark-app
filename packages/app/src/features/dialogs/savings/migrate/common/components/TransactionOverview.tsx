@@ -1,16 +1,17 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { formatPercentage } from '@/domain/common/format'
 import { Token } from '@/domain/types/Token'
 import { DialogPanel } from '@/features/dialogs/common/components/DialogPanel'
 import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPanelTitle'
-import { cn } from '@/ui/utils/style'
+import { TransactionOverviewDetailsItem } from '@/features/dialogs/common/components/TransactionOverviewDetailsItem'
+import { assets } from '@/ui/assets'
 import { testIds } from '@/ui/utils/testIds'
 import { assert } from '@/utils/assert'
-import { SavingsDialogTxOverview } from '../../types'
-import { APYDetails, RouteItem, SkyBadge, TransactionOutcome, TransactionOverviewDetailsItem } from './components'
-import { TransactionOverviewPlaceholder } from './components/TransactionOverviewPlaceholder'
+import { RouteItem, SkyBadge, TransactionOutcome } from '../../../common/components/transaction-overview/components'
+import { TransactionOverviewPlaceholder } from '../../../common/components/transaction-overview/components/TransactionOverviewPlaceholder'
+import { MigrateDialogTxOverview } from '../types'
 
 export interface TransactionOverviewProps {
-  txOverview: SavingsDialogTxOverview
+  txOverview: MigrateDialogTxOverview
   selectedToken: Token
   showAPY?: boolean
 }
@@ -19,30 +20,38 @@ export function TransactionOverview({ txOverview, selectedToken, showAPY }: Tran
   if (txOverview.status !== 'success') {
     return <TransactionOverviewPlaceholder badgeToken={selectedToken} showAPY={showAPY} />
   }
-  const { APY, baseStable, stableEarnRate, route, skyBadgeToken } = txOverview
+  const { apyChange, route } = txOverview
 
   assert(route.length > 0, 'Route must have at least one item')
   const outcome = route.at(-1)!
-  const displayRouteVertically = Boolean(route.length > 2 && route[0]?.value?.gte(NormalizedUnitNumber(100_000)))
+  const inputToken = route[0]!.token
 
   return (
     <div className="isolate">
       <DialogPanel className="shadow-none">
         <DialogPanelTitle>Transaction overview</DialogPanelTitle>
-        {showAPY && (
+        {apyChange && (
           <TransactionOverviewDetailsItem label="APY">
-            <APYDetails APY={APY} baseStable={baseStable} stableEarnRate={stableEarnRate} />
+            <div className="flex flex-row items-center gap-2">
+              <div data-testid={testIds.dialog.migrate.transactionOverview.apyChange.before}>
+                {formatPercentage(apyChange.current)}
+              </div>
+              <img src={assets.arrowRight} />
+              <div data-testid={testIds.dialog.migrate.transactionOverview.apyChange.after}>
+                {formatPercentage(apyChange.updated)}
+              </div>
+            </div>
           </TransactionOverviewDetailsItem>
         )}
         <TransactionOverviewDetailsItem label="Route">
-          <div className={cn('flex flex-col items-end gap-2', !displayRouteVertically && 'md:flex-row')}>
+          <div className="flex flex-col items-end gap-2 sm:flex-row">
             {route.map((item, index) => (
               <RouteItem
                 key={item.token.symbol}
                 item={item}
                 index={index}
                 isLast={index === route.length - 1}
-                displayRouteVertically={displayRouteVertically}
+                displayRouteVertically={false}
               />
             ))}
           </div>
@@ -55,7 +64,7 @@ export function TransactionOverview({ txOverview, selectedToken, showAPY }: Tran
         </TransactionOverviewDetailsItem>
       </DialogPanel>
 
-      <SkyBadge token={skyBadgeToken} data-testid={testIds.dialog.savings.nativeRouteTransactionOverview.skyBadge} />
+      <SkyBadge token={inputToken} data-testid={testIds.dialog.savings.nativeRouteTransactionOverview.skyBadge} />
     </div>
   )
 }
