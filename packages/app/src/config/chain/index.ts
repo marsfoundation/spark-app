@@ -215,7 +215,7 @@ function getSandboxChainMeta(originChainMeta: ChainMeta, sandboxConfig: AppConfi
 function getUSDSDevChainMeta(originChainMeta: ChainMeta): ChainMeta {
   return {
     ...originChainMeta,
-    name: 'USDS DevNet' || originChainMeta.name,
+    name: 'USDS DevNet',
     logo: assets.token.usds,
   }
 }
