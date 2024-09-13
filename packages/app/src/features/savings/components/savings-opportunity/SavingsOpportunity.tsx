@@ -35,7 +35,7 @@ export function SavingsOpportunity({
   const compactProjections = projections.thirtyDays.gt(1_000)
   const savingsTileSizeVariant = getValueSizeVariant(projections.oneYear, compactProjections)
   function openDepositDialog(): void {
-    openDialog(SavingsDepositDialog, { initialToken: maxBalanceToken.token })
+    openDialog(SavingsDepositDialog, { initialToken: maxBalanceToken.token }, { chainSensitive: true })
   }
 
   return (

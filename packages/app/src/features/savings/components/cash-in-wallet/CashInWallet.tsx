@@ -42,7 +42,7 @@ export function CashInWallet({ assets, openDialog, migrationInfo }: CashInWallet
                 variant="secondary"
                 size="sm"
                 disabled={balance.eq(0)}
-                onClick={() => openDialog(SavingsDepositDialog, { initialToken: token })}
+                onClick={() => openDialog(SavingsDepositDialog, { initialToken: token }, { chainSensitive: true })}
               >
                 Deposit
               </Button>

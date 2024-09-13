@@ -1,18 +1,38 @@
+import { UseChainSensitiveParams, useChainSensitive } from '@/domain/hooks/useChainSensitive'
+import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
 import { useStore } from '@/domain/state'
 import { useCloseDialog } from '@/domain/state/dialogs'
-
-import { CommonDialogProps } from '../common/types'
+import { PropsWithChildren } from 'react'
 
 export function DialogDispatcherContainer() {
   const openedDialog = useStore((state) => state.dialogs.openedDialog)
   const closeDialog = useCloseDialog()
+  const chainId = useOriginChainId()
 
   if (!openedDialog) {
     return null
   }
 
-  const { element, props } = openedDialog
-  const Element = element as React.ComponentType<CommonDialogProps>
+  const { element: Element, props, params } = openedDialog
 
-  return <Element open setOpen={() => closeDialog()} {...props} />
+  const dialog = <Element open setOpen={() => closeDialog()} {...props} />
+
+  return params.chainSensitive ? (
+    <ChainSensitiveComponent
+      chainId={chainId}
+      onChainChange={() => {
+        closeDialog()
+      }}
+    >
+      {dialog}
+    </ChainSensitiveComponent>
+  ) : (
+    dialog
+  )
+}
+
+function ChainSensitiveComponent({ children, ...params }: PropsWithChildren<UseChainSensitiveParams>) {
+  const isChainMatching = useChainSensitive(params)
+
+  return isChainMatching ? children : null
 }
