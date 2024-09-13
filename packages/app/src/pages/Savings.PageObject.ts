@@ -37,17 +37,17 @@ export class SavingsPageObject extends BasePageObject {
   }
 
   locateUpgradeDaiToUsdsButton(): Locator {
-    return this.page.getByTestId(testIds.savings.StablecoinsInWallet.upgradeDaiToUsds)
+    return this.page.getByTestId(testIds.savings.stablecoinsInWalletupgradeDaiToUsds)
   }
 
   locateDowngradeUsdsToDaiButton(): Locator {
-    return this.page.getByTestId(testIds.savings.StablecoinsInWallet.downgradeUsdsToDai)
+    return this.page.getByTestId(testIds.savings.stablecoinsInWalletdowngradeUsdsToDai)
   }
 
   locateUsdsMoreDropdown(): Locator {
     const panel = this.locateStablecoinsInWalletPanel()
     const usdsRow = panel.getByRole('row').filter({ has: this.page.getByRole('cell', { name: 'USDS', exact: true }) })
-    return usdsRow.getByTestId(testIds.savings.StablecoinsInWallet.moreDropdown)
+    return usdsRow.getByTestId(testIds.savings.stablecoinsInWalletmoreDropdown)
   }
   // #endregion
 
@@ -63,7 +63,7 @@ export class SavingsPageObject extends BasePageObject {
         // DAI row has an upgrade button instead of the asset name when USDS is supported
         return panel
           .getByRole('row')
-          .filter({ has: this.page.getByTestId(testIds.savings.StablecoinsInWallet.upgradeDaiToUsdsCell) })
+          .filter({ has: this.page.getByTestId(testIds.savings.stablecoinsInWalletupgradeDaiToUsdsCell) })
       }
 
       return panel.getByRole('row').filter({ has: this.page.getByRole('cell', { name: assetName, exact: true }) })
@@ -184,7 +184,7 @@ export class SavingsPageObject extends BasePageObject {
     const panel = this.locateStablecoinsInWalletPanel()
     const row = panel
       .getByRole('row')
-      .filter({ has: this.page.getByTestId(testIds.savings.StablecoinsInWallet.upgradeDaiToUsds) })
+      .filter({ has: this.page.getByTestId(testIds.savings.stablecoinsInWalletupgradeDaiToUsds) })
     await expect(row.getByRole('cell', { name: value })).toBeVisible()
   }
   // #endregion

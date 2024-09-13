@@ -36,7 +36,7 @@ export function UpgradeTokenButton({
           size="sm"
           className="group h-7 w-7 overflow-hidden px-1 transition-all duration-300 sm:h-8 sm:hover:w-[145px] sm:w-8 sm:justify-start sm:px-2"
           onClick={onUpgradeClick}
-          data-testid={testIds.savings.StablecoinsInWallet.upgradeDaiToUsds}
+          data-testid={testIds.savings.stablecoinsInWalletupgradeDaiToUsds}
         >
           <div className="flex items-center gap-2">
             <UpgradeIcon className="h-[14px] w-[14px]" />
