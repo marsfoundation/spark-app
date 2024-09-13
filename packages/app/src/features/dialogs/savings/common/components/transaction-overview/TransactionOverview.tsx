@@ -48,14 +48,11 @@ export function TransactionOverview({ txOverview, selectedToken, showAPY }: Tran
           </div>
         </TransactionOverviewDetailsItem>
         <TransactionOverviewDetailsItem label="Outcome">
-          <TransactionOutcome
-            outcome={outcome}
-            data-testid={testIds.dialog.savings.nativeRouteTransactionOverview.outcome}
-          />
+          <TransactionOutcome outcome={outcome} data-testid={testIds.dialog.savings.transactionOverview.outcome} />
         </TransactionOverviewDetailsItem>
       </DialogPanel>
 
-      <SkyBadge token={skyBadgeToken} data-testid={testIds.dialog.savings.nativeRouteTransactionOverview.skyBadge} />
+      <SkyBadge token={skyBadgeToken} data-testid={testIds.dialog.savings.transactionOverview.skyBadge} />
     </div>
   )
 }

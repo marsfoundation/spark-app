@@ -74,7 +74,7 @@ export class SavingsDialogPageObject extends DialogPageObject {
   async expectNativeRouteTransactionOverview(transactionOverview: NativeRouteTransactionOverview): Promise<void> {
     const panel = this.locatePanelByHeader('Transaction overview')
     await expect(panel).toBeVisible()
-    const txOverviewTestIds = testIds.dialog.savings.nativeRouteTransactionOverview
+    const txOverviewTestIds = testIds.dialog.savings.transactionOverview
 
     if (transactionOverview.apy) {
       const apyValue = panel.getByTestId(txOverviewTestIds.apy.value)

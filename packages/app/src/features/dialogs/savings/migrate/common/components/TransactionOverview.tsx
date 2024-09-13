@@ -33,11 +33,11 @@ export function TransactionOverview({ txOverview, selectedToken, showAPY }: Tran
         {apyChange && (
           <TransactionOverviewDetailsItem label="APY">
             <div className="flex flex-row items-center gap-2">
-              <div data-testid={testIds.dialog.migrate.transactionOverview.apyChange.before}>
+              <div data-testid={testIds.dialog.savings.transactionOverview.apyChange.before}>
                 {formatPercentage(apyChange.current)}
               </div>
               <img src={assets.arrowRight} />
-              <div data-testid={testIds.dialog.migrate.transactionOverview.apyChange.after}>
+              <div data-testid={testIds.dialog.savings.transactionOverview.apyChange.after}>
                 {formatPercentage(apyChange.updated)}
               </div>
             </div>
@@ -57,14 +57,11 @@ export function TransactionOverview({ txOverview, selectedToken, showAPY }: Tran
           </div>
         </TransactionOverviewDetailsItem>
         <TransactionOverviewDetailsItem label="Outcome">
-          <TransactionOutcome
-            outcome={outcome}
-            data-testid={testIds.dialog.savings.nativeRouteTransactionOverview.outcome}
-          />
+          <TransactionOutcome outcome={outcome} data-testid={testIds.dialog.savings.transactionOverview.outcome} />
         </TransactionOverviewDetailsItem>
       </DialogPanel>
 
-      <SkyBadge token={inputToken} data-testid={testIds.dialog.savings.nativeRouteTransactionOverview.skyBadge} />
+      <SkyBadge token={inputToken} data-testid={testIds.dialog.savings.transactionOverview.skyBadge} />
     </div>
   )
 }

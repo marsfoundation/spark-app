@@ -17,6 +17,27 @@ export class DowngradeDialogPageObject extends DialogPageObject {
   // #endregion actions
 
   // #region assertions
+  async expectTransactionOverview(transactionOverview: DowngradeTxOverview): Promise<void> {
+    const panel = this.locatePanelByHeader('Transaction overview')
+    await expect(panel).toBeVisible()
+    const txOverviewTestIds = testIds.dialog.savings.transactionOverview
+
+    for (const [index, { tokenAmount: tokenWithAmount, tokenUsdValue }] of transactionOverview.routeItems.entries()) {
+      const routeItem = panel.getByTestId(txOverviewTestIds.routeItem.tokenWithAmount(index))
+      const routeItemUSD = panel.getByTestId(txOverviewTestIds.routeItem.tokenUsdValue(index))
+      await expect(routeItem).toContainText(tokenWithAmount)
+      await expect(routeItemUSD).toContainText(tokenUsdValue)
+    }
+
+    const skyBadge = this.page.getByTestId(txOverviewTestIds.skyBadge)
+    await expect(skyBadge).toContainText(
+      `Powered by Sky (prev. MakerDAO). No slippage & fees for ${transactionOverview.badgeToken}.`,
+    )
+
+    const outcome = panel.getByTestId(txOverviewTestIds.outcome)
+    await expect(outcome).toContainText(transactionOverview.outcome)
+  }
+
   async expectDowngradeSuccessPage({
     token,
     amount,
@@ -27,4 +48,13 @@ export class DowngradeDialogPageObject extends DialogPageObject {
     await expect(summary).toMatch(`${token}${amount}${usdValue}`)
   }
   // #endregion assertions
+}
+
+interface DowngradeTxOverview {
+  routeItems: {
+    tokenAmount: string
+    tokenUsdValue: string
+  }[]
+  outcome: string
+  badgeToken: string
 }
