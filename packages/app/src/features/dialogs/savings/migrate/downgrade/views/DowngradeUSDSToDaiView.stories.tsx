@@ -16,6 +16,21 @@ const meta: Meta<typeof DowngradeUSDSToDaiView> = {
   args: {
     fromToken: tokens.USDS,
     toToken: tokens.DAI,
+    txOverview: {
+      status: 'success',
+      route: [
+        {
+          token: tokens.USDS,
+          value: NormalizedUnitNumber(5000),
+          usdValue: NormalizedUnitNumber(5000),
+        },
+        {
+          token: tokens.DAI,
+          value: NormalizedUnitNumber(5000),
+          usdValue: NormalizedUnitNumber(5000),
+        },
+      ],
+    },
     selectableAssets: [
       {
         token: tokens.USDS,

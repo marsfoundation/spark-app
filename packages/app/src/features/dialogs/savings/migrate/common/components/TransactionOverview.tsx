@@ -44,7 +44,7 @@ export function TransactionOverview({ txOverview, selectedToken, showAPY }: Tran
           </TransactionOverviewDetailsItem>
         )}
         <TransactionOverviewDetailsItem label="Route">
-          <div className="flex flex-col items-end gap-2 sm:flex-row">
+          <div className="flex flex-col items-end gap-2 md:flex-row">
             {route.map((item, index) => (
               <RouteItem
                 key={item.token.symbol}
