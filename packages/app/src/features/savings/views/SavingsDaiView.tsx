@@ -1,6 +1,6 @@
 import { PageHeader } from '../components/PageHeader'
 import { PageLayout } from '../components/PageLayout'
-import { CashInWallet } from '../components/cash-in-wallet/CashInWallet'
+import { StablecoinsInWallet } from '../components/stablecoins-in-wallet/StablecoinsInWallet'
 import { SavingsOpportunity } from '../components/savings-opportunity/SavingsOpportunity'
 import { SavingsOpportunityNoCash } from '../components/savings-opportunity/SavingsOpportunityNoCash'
 import { SavingsTokenPanel } from '../components/savings-token-panel/SavingsTokenPanel'
@@ -60,7 +60,7 @@ export function SavingsDaiView({
           />
         )}
       </div>
-      <CashInWallet assets={assetsInWallet} openDialog={openDialog} migrationInfo={migrationInfo} />
+      <StablecoinsInWallet assets={assetsInWallet} openDialog={openDialog} migrationInfo={migrationInfo} />
     </PageLayout>
   )
 }

@@ -63,6 +63,6 @@ test.describe('Withdraw max DAI on Mainnet', () => {
 
     await savingsPage.expectPotentialProjection('$43.06', '30-day')
     await savingsPage.expectPotentialProjection('$535.75', '1-year')
-    await savingsPage.expectCashInWalletAssetBalance('DAI', '10,715.05')
+    await savingsPage.expectStablecoinsInWalletAssetBalance('DAI', '10,715.05')
   })
 })

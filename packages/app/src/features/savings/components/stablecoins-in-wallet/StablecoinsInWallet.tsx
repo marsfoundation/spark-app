@@ -9,13 +9,13 @@ import { AssetInWallet } from '../../logic/useSavings'
 import { MoreDropdown } from './components/MoreDropdown'
 import { TokenCell } from './components/TokenCell'
 
-export interface CashInWalletProps {
+export interface StablecoinsInWalletProps {
   assets: AssetInWallet[]
   openDialog: OpenDialogFunction
   migrationInfo?: MigrationInfo
 }
 
-export function CashInWallet({ assets, openDialog, migrationInfo }: CashInWalletProps) {
+export function StablecoinsInWallet({ assets, openDialog, migrationInfo }: StablecoinsInWalletProps) {
   const columnDef: DataTableProps<AssetInWallet>['columnDef'] = useMemo(
     () => ({
       token: {
@@ -63,7 +63,7 @@ export function CashInWallet({ assets, openDialog, migrationInfo }: CashInWallet
   return (
     <Panel>
       <Panel.Header>
-        <Panel.Title>Cash in wallet</Panel.Title>
+        <Panel.Title>Stablecoins in wallet</Panel.Title>
       </Panel.Header>
       <Panel.Content>
         <DataTable

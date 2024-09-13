@@ -63,7 +63,7 @@ test.describe('Withdraw DAI on Mainnet', () => {
     await withdrawalDialog.clickBackToSavingsButton()
 
     await savingsPage.expectSavingsDAIBalance({ sDaiBalance: '3,467.14 sDAI', estimatedDaiValue: '3,715.05' })
-    await savingsPage.expectCashInWalletAssetBalance('DAI', '7,000.00')
+    await savingsPage.expectStablecoinsInWalletAssetBalance('DAI', '7,000.00')
   })
 })
 

@@ -71,7 +71,7 @@ test.describe('Deposit DAI on on USDS DevNet', () => {
       await depositDialog.clickBackToSavingsButton()
 
       await savingsPage.expectSavingsUSDSBalance({ sUsdsBalance: '9,997.59 sUSDS', estimatedUsdsValue: '10,000' })
-      await savingsPage.expectCashInWalletAssetBalance('DAI', '-')
+      await savingsPage.expectStablecoinsInWalletAssetBalance('DAI', '-')
     })
   })
 
@@ -116,7 +116,7 @@ test.describe('Deposit DAI on on USDS DevNet', () => {
       await depositDialog.clickBackToSavingsButton()
 
       await savingsPage.expectSavingsDAIBalance({ sDaiBalance: '9,046.82 sDAI', estimatedDaiValue: '10,000' })
-      await savingsPage.expectCashInWalletAssetBalance('DAI', '-')
+      await savingsPage.expectStablecoinsInWalletAssetBalance('DAI', '-')
     })
   })
 })

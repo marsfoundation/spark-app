@@ -8,7 +8,7 @@ import { withRouter } from 'storybook-addon-remix-react-router'
 import { MoreDropdown } from './MoreDropdown'
 
 const meta: Meta<typeof MoreDropdown> = {
-  title: 'Features/Savings/Components/CashInWallet/MoreDropdown',
+  title: 'Features/Savings/Components/StablecoinsInWallet/MoreDropdown',
   decorators: [WithClassname('p-8 bg-white flex justify-end h-48'), withRouter()],
   component: MoreDropdown,
   args: {

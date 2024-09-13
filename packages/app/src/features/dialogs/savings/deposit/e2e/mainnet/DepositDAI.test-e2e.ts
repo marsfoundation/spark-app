@@ -68,7 +68,7 @@ test.describe('Deposit DAI on Mainnet', () => {
     await depositDialog.clickBackToSavingsButton()
 
     await savingsPage.expectSavingsDAIBalance({ sDaiBalance: '9,495.85 sDAI', estimatedDaiValue: '10,000' })
-    await savingsPage.expectCashInWalletAssetBalance('DAI', '-')
+    await savingsPage.expectStablecoinsInWalletAssetBalance('DAI', '-')
   })
 })
 

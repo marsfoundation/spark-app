@@ -32,7 +32,7 @@ export function MoreDropdown({ token, blockExplorerLink, migrationInfo, disabled
           <DropdownItem
             onClick={migrationInfo.openUsdsToDaiDowngradeDialog}
             disabled={balance?.eq(0)}
-            data-testid={testIds.savings.cashInWallet.downgradeUsdsToDai}
+            data-testid={testIds.savings.StablecoinsInWallet.downgradeUsdsToDai}
           >
             <DowngradeIcon className="h-4 w-4" />
             Downgrade to {migrationInfo.daiSymbol}
@@ -62,7 +62,7 @@ function DropdownWrapper({ children, disabled }: { children?: React.ReactNode; d
           size="sm"
           className="px-2"
           disabled={disabled}
-          data-testid={testIds.savings.cashInWallet.moreDropdown}
+          data-testid={testIds.savings.StablecoinsInWallet.moreDropdown}
         >
           <MoreIcon />
         </Button>

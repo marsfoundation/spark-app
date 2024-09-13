@@ -23,7 +23,7 @@ msgstr ""
 #~ msgstr ""
 
 #: src/features/navbar/components/PageLinks.tsx:44
-#~ msgid "Cash & Savings"
+#~ msgid "Savings"
 #~ msgstr ""
 
 #: src/features/easy-borrow/deposit/DepositBorrow.tsx:132
