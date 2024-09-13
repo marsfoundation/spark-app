@@ -9,7 +9,6 @@ import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageStatus } from '@/features/dialogs/common/types'
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
 import { UseFormReturn } from 'react-hook-form'
-import { Description } from '../../common/components/Description'
 import { TransactionOverview } from '../../common/components/TransactionOverview'
 import { MigrateDialogTxOverview } from '../../common/types'
 
@@ -40,10 +39,10 @@ export function DowngradeUSDSToDaiView({
         Downgrade {fromToken.symbol} to {toToken.symbol}
       </DialogTitle>
 
-      <Description>
+      <div className="mb-2 text-basics-dark-grey text-sm leading-snug">
         You can downgrade from USDS to DAI whenever you choose, and you are free to switch back from DAI to USDS in the
         future, at your own sole discretion.
-      </Description>
+      </div>
 
       <FormAndOverviewWrapper>
         <DialogForm form={form} assetsFields={assetsFields} selectorAssets={selectableAssets} />

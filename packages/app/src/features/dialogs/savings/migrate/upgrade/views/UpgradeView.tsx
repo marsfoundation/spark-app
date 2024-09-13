@@ -11,8 +11,8 @@ import { FormFieldsForDialog, PageStatus } from '@/features/dialogs/common/types
 import { assets } from '@/ui/assets'
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
 import { Link } from '@/ui/atoms/link/Link'
+import { Info } from '@/ui/molecules/info/Info'
 import { UseFormReturn } from 'react-hook-form'
-import { Description } from '../../common/components/Description'
 import { TransactionOverview } from '../../common/components/TransactionOverview'
 import { MigrateDialogTxOverview } from '../../common/types'
 
@@ -52,18 +52,23 @@ export function UpgradeView({
         <img src={assets.banners.sdaiToSusdsUpgrade} alt="sdai-to-susds-upgrade" className="w-full sm:max-w-xl" />
       )}
       <MultiPanelDialog className="p-6">
-        <DialogTitle>
-          Upgrade {fromToken.symbol} to {toToken.symbol}
+        <DialogTitle className="flex items-center gap-2">
+          Upgrade {fromToken.symbol} to {toToken.symbol}{' '}
+          <Info>
+            <div className="flex flex-col gap-2">
+              <p>USDS is the new version of DAI, the stablecoin that powers the Sky ecosystem.</p>
+              <p>
+                Upgrading to USDS unlocks additional benefits, providing you with more opportunities to earn rewards
+                within the ecosystem.
+              </p>
+              <p>Upgrade is optional and you can continue using DAI if you prefer.</p>
+              {/* {@todo: add proper link to docs when ready} */}
+              <Link to="/" external>
+                Learn more
+              </Link>
+            </div>
+          </Info>
         </DialogTitle>
-
-        <Description>
-          USDS is the new version of DAI, the stablecoin that powers the Sky ecosystem. Upgrading to USDS unlocks
-          additional benefits, providing you with more opportunities to earn rewards within the ecosystem. Upgrade is
-          optional and you can continue using DAI if you prefer. {/* {@todo: add proper link to docs when ready} */}
-          <Link to="/" external>
-            Learn more
-          </Link>
-        </Description>
 
         <FormAndOverviewWrapper>
           <DialogForm form={form} assetsFields={assetsFields} selectorAssets={selectableAssets} />
