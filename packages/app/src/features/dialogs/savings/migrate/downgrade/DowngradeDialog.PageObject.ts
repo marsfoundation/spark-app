@@ -1,10 +1,10 @@
+import { DialogPageObject } from '@/features/dialogs/common/Dialog.PageObject'
 import { testIds } from '@/ui/utils/testIds'
 import { Page, expect } from '@playwright/test'
-import { DialogPageObject } from '../../common/Dialog.PageObject'
 
-export class UpgradeDialogPageObject extends DialogPageObject {
+export class DowngradeDialogPageObject extends DialogPageObject {
   constructor(page: Page) {
-    super(page, /Upgrade/)
+    super(page, /Downgrade/)
   }
 
   // #region actions
@@ -17,7 +17,7 @@ export class UpgradeDialogPageObject extends DialogPageObject {
   // #endregion actions
 
   // #region assertions
-  async expectUpgradeSuccessPage({
+  async expectDowngradeSuccessPage({
     token,
     amount,
     usdValue,
