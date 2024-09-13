@@ -16,7 +16,7 @@ export function TokenCell({ token, migrationInfo }: TokenCellProps) {
         token={token}
         upgradedTokenSymbol={migrationInfo.usdsSymbol}
         onUpgradeClick={migrationInfo.openDaiToUsdsUpgradeDialog}
-        data-testid={testIds.savings.StablecoinsInWallet.upgradeDaiToUsdsCell}
+        data-testid={testIds.savings.stablecoinsInWallet.upgradeDaiToUsdsCell}
       />
     )
   }

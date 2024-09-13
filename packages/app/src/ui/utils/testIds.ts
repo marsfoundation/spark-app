@@ -64,7 +64,7 @@ export const testIds = makeTestIds({
     sDaiBalance: true,
     sDaiBalanceInDai: true,
     upgradeSDaiBanner: true,
-    StablecoinsInWallet: {
+    stablecoinsInWallet: {
       upgradeDaiToUsds: true,
       upgradeDaiToUsdsCell: true,
       moreDropdown: true,
