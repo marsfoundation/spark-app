@@ -160,10 +160,16 @@ type SimplifiedDowngradeAction = {
   toToken: string
 }
 
+type SimplifiedStakeAction = {
+  type: 'stake'
+  inputToken: string
+  rewardToken: string
+}
+
 type SimplifiedGenericAction = BaseAction & {
   type: Exclude<
     ActionType,
-    'exchange' | 'depositToSavings' | 'withdrawFromSavings' | 'setUserEMode' | 'upgrade' | 'downgrade'
+    'exchange' | 'depositToSavings' | 'withdrawFromSavings' | 'setUserEMode' | 'upgrade' | 'downgrade' | 'stake'
   >
 }
 
@@ -184,6 +190,7 @@ type SimplifiedAction =
   | SimplifiedSetUserEModeAction
   | SimplifiedUpgradeAction
   | SimplifiedDowngradeAction
+  | SimplifiedStakeAction
 
 function actionToTitle(action: SimplifiedAction): string {
   switch (action.type) {
@@ -215,6 +222,8 @@ function actionToTitle(action: SimplifiedAction): string {
       return `Upgrade ${action.fromToken} to ${action.toToken}`
     case 'downgrade':
       return `Downgrade ${action.fromToken} to ${action.toToken}`
+    case 'stake':
+      return `Stake ${action.inputToken} in ${action.rewardToken} Farm`
   }
 }
 

@@ -18,6 +18,7 @@ import { createDowngradeActionConfig } from '../flavours/downgrade/logic/downgra
 import { createRepayActionConfig } from '../flavours/repay/logic/repayAction'
 import { createSetUseAsCollateralActionConfig } from '../flavours/set-use-as-collateral/logic/setUseAsCollateralAction'
 import { createSetUserEModeActionConfig } from '../flavours/set-user-e-mode/logic/setUserEModeAction'
+import { createStakeActionConfig } from '../flavours/stake/logic/stakeAction'
 import { createUpgradeActionConfig } from '../flavours/upgrade/logic/upgradeAction'
 import { createWithdrawFromSavingsActionConfig } from '../flavours/withdraw-from-savings/logic/withdrawFromSavingsAction'
 import { createWithdrawActionConfig } from '../flavours/withdraw/logic/withdrawAction'
@@ -150,6 +151,8 @@ function actionToConfig(action: Action, context: ActionContext): ActionConfig {
       return createUpgradeActionConfig(action, context)
     case 'downgrade':
       return createDowngradeActionConfig(action, context)
+    case 'stake':
+      return createStakeActionConfig(action, context)
     case 'permit':
       return createEmptyActionConfig()
   }
