@@ -19,7 +19,7 @@ export function StakeActionRow({ action, index, actionHandlerState, onAction, va
       <ActionRow.Icon path={assets.actions.exchange} actionStatus={status} />
 
       <ActionRow.Title icon={<IconStack paths={tokenIconPaths} stackingOrder="last-on-top" />} actionStatus={status}>
-        Stake {action.stakingToken.symbol} into {action.rewardToken.symbol} Farm
+        Stake {action.stakingToken.symbol} in {action.rewardToken.symbol} Farm
       </ActionRow.Title>
 
       <ActionRow.Description successMessage={successMessage} actionStatus={status} variant={variant}>

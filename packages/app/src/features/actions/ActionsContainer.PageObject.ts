@@ -223,7 +223,7 @@ function actionToTitle(action: SimplifiedAction): string {
     case 'downgrade':
       return `Downgrade ${action.fromToken} to ${action.toToken}`
     case 'stake':
-      return `Stake ${action.inputToken} into ${action.rewardToken} Farm`
+      return `Stake ${action.inputToken} in ${action.rewardToken} Farm`
   }
 }
 

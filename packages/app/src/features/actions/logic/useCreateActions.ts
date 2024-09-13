@@ -17,10 +17,9 @@ import { PermitAction } from '../flavours/permit/types'
 import { RepayAction } from '../flavours/repay/types'
 import { SetUseAsCollateralAction } from '../flavours/set-use-as-collateral/types'
 import { SetUserEModeAction } from '../flavours/set-user-e-mode/logic/types'
-import { StakeAction } from '../flavours/stake/types'
+import { createStakeActions } from '../flavours/stake/logic/createStakeActions'
 import { UpgradeAction } from '../flavours/upgrade/types'
 import { createWithdrawFromSavingsActions } from '../flavours/withdraw-from-savings/logic/createWithdrawFromSavingsActions'
-import { WithdrawFromSavingsObjective } from '../flavours/withdraw-from-savings/types'
 import { WithdrawAction } from '../flavours/withdraw/types'
 import { Action, ActionContext, Objective } from './types'
 
@@ -257,73 +256,7 @@ export function useCreateActions({ objectives, actionsSettings, actionContext }:
       }
 
       case 'stake': {
-        const { farmsInfo } = actionContext
-        assert(farmsInfo, 'Farms info is required for stake action')
-
-        const { stakingToken, rewardToken } = farmsInfo.findOneFarmByAddress(objective.farm)
-
-        const approveStakeAction: ApproveAction = {
-          type: 'approve',
-          token: stakingToken,
-          spender: objective.farm,
-          value: objective.amount,
-        }
-
-        const stakeAction: StakeAction = {
-          type: 'stake',
-          farm: objective.farm,
-          stakeAmount: objective.amount,
-          rewardToken,
-          stakingToken,
-        }
-
-        if (stakingToken.symbol === chainConfig.USDSSymbol) {
-          if (objective.token.symbol === chainConfig.daiSymbol) {
-            const approveMigrateAction: ApproveAction = {
-              type: 'approve',
-              token: objective.token,
-              spender: MIGRATE_ACTIONS_ADDRESS,
-              value: objective.amount,
-            }
-
-            const upgradeAction: UpgradeAction = {
-              type: 'upgrade',
-              fromToken: objective.token,
-              toToken: stakingToken,
-              amount: objective.amount,
-            }
-
-            return [approveMigrateAction, upgradeAction, approveStakeAction, stakeAction]
-          }
-
-          if (objective.token.symbol === chainConfig.sDaiSymbol || objective.token.symbol === chainConfig.sUSDSSymbol) {
-            const { savingsDaiInfo, savingsUsdsInfo } = actionContext
-            assert(savingsDaiInfo && savingsUsdsInfo, 'Savings info is required when input for stake is savings token')
-
-            const withdrawObjective: WithdrawFromSavingsObjective = {
-              type: 'withdrawFromSavings',
-              token: stakingToken,
-              savingsToken: objective.token,
-              amount: objective.amount,
-              isRedeem: true,
-              mode: 'withdraw',
-            }
-
-            const stakeAmount =
-              objective.token.symbol === chainConfig.sDaiSymbol
-                ? savingsDaiInfo.convertToAssets({ shares: objective.amount })
-                : savingsUsdsInfo.convertToAssets({ shares: objective.amount })
-
-            return [
-              ...createWithdrawFromSavingsActions(withdrawObjective, actionContext),
-              { ...approveStakeAction, value: stakeAmount },
-              { ...stakeAction, stakeAmount },
-            ]
-          }
-          // @todo: Add psm wrapper action flavor to support USDC staking
-        }
-
-        return [approveStakeAction, stakeAction]
+        return createStakeActions(objective, actionContext)
       }
     }
   })

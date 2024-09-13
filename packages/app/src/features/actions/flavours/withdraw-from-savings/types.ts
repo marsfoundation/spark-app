@@ -8,7 +8,7 @@ export type WithdrawFromSavingsObjective = {
   token: Token
   savingsToken: Token
   amount: NormalizedUnitNumber
-  isRedeem: boolean
+  isRedeem: boolean // When redeeming, amount is in savings token. Otherwise, amount is in stable.
 } & (
   | {
       mode: 'send'
