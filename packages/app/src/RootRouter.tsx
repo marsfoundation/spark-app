@@ -1,10 +1,10 @@
-import { createBrowserRouter } from 'react-router-dom'
+import { RouteObject, createBrowserRouter, redirect } from 'react-router-dom'
 
-import { paths } from './config/paths'
+import { PathAliases, paths, pathsAliases } from './config/paths'
 import { RouterErrorFallback } from './features/errors'
 import { NotFound } from './features/errors/NotFound'
 import { EasyBorrowPage } from './pages/Borrow'
-import { DashboardPage } from './pages/Dashboard'
+import { DashboardPage } from './pages/MyPortfolio'
 import { FarmDetails } from './pages/FarmDetails'
 import { Farms } from './pages/Farms'
 import { MarketDetails } from './pages/MarketDetails'
@@ -25,7 +25,7 @@ export const rootRouter = createBrowserRouter([
             element: <EasyBorrowPage />,
           },
           {
-            path: paths.dashboard,
+            path: paths.myPortfolio,
             element: <DashboardPage />,
           },
           {
@@ -46,6 +46,7 @@ export const rootRouter = createBrowserRouter([
                 { path: paths.farmDetails, element: <FarmDetails /> },
               ]
             : []),
+          ...createAliasRoutes(pathsAliases),
           {
             path: '*',
             element: <NotFound />,
@@ -55,3 +56,16 @@ export const rootRouter = createBrowserRouter([
     ],
   },
 ])
+
+function createAliasRoutes(paths: PathAliases[]) {
+  return paths.reduce((aliasRoutes, { aliases, path }) => {
+    const pathAliasRoutes: RouteObject[] = aliases.map((alias) => ({
+      path: alias,
+      loader: () => redirect(path),
+    }))
+
+    aliasRoutes.push(...pathAliasRoutes)
+
+    return aliasRoutes
+  }, [] as RouteObject[])
+}
