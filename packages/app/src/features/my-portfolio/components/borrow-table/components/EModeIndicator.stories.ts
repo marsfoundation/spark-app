@@ -4,7 +4,7 @@ import { Meta, StoryObj } from '@storybook/react'
 import { EModeIndicator } from './EModeIndicator'
 
 const meta: Meta<typeof EModeIndicator> = {
-  title: 'Features/Dashboard/Components/BorrowTable/Components/EModeIndicator',
+  title: 'features/my-portfolio/Components/BorrowTable/Components/EModeIndicator',
   decorators: [WithTooltipProvider()],
   component: EModeIndicator,
   args: {

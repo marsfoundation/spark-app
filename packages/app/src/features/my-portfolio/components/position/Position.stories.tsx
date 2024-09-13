@@ -7,7 +7,7 @@ import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Position } from './Position'
 
 const meta: Meta<typeof Position> = {
-  title: 'Features/Dashboard/Components/Position',
+  title: 'features/my-portfolio/Components/Position',
   component: Position,
   decorators: [WithTooltipProvider()],
 }

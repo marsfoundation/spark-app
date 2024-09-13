@@ -28,7 +28,7 @@ function BorrowDialogContentContainer({ token, closeDialog }: DialogContentConta
         objectiveType="borrow"
         tokenWithValue={tokenToBorrow}
         onProceed={closeDialog}
-        proceedText="View in dashboard"
+        proceedText="View in portfolio"
       />
     )
   }

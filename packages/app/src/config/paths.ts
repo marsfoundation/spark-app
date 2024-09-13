@@ -9,7 +9,7 @@ export const paths = {
 } as const
 
 export interface PathAliases {
-  path: typeof paths[keyof typeof paths]
+  path: (typeof paths)[keyof typeof paths]
   aliases: string[]
 }
 

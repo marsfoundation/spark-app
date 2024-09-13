@@ -6,7 +6,7 @@ import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
 
-import { DashboardPageObject } from '@/pages/Dashboard.PageObject'
+import { MyPortfolioPageObject } from '@/pages/MyPortfolio.PageObject'
 import { NavbarPageObject } from './Navbar.PageObject'
 
 test.describe('Navbar', () => {
@@ -120,16 +120,16 @@ test.describe('Navbar', () => {
 
     test('Does not display badge when no rewards', async ({ page }) => {
       await setup(page, fork, {
-        initialPage: 'dashboard',
+        initialPage: 'myPortfolio',
         account: {
           type: 'connected-random',
         },
       })
 
       const navbar = new NavbarPageObject(page)
-      const dashboard = new DashboardPageObject(page)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
 
-      await dashboard.expectPositionToBeEmpty() // waiting for reserves to load
+      await myPortfolioPage.expectPositionToBeEmpty() // waiting for reserves to load
       await navbar.expectRewardsBadgeNotVisible() // asserting that after reserves are loaded, rewards badge is not visible
     })
   })

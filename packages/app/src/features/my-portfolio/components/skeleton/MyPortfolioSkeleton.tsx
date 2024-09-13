@@ -1,7 +1,7 @@
 import { Skeleton } from '@/ui/atoms/skeleton/Skeleton'
 import { PageLayout } from '@/ui/layouts/PageLayout'
 
-export function DashboardSkeleton() {
+export function MyPortfolioSkeleton() {
   return (
     <PageLayout className="max-w-6xl">
       <div className="flex h-full flex-col gap-6">

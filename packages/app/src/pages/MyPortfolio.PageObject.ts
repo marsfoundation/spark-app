@@ -8,7 +8,7 @@ import { assert } from '@/utils/assert'
 import { expect } from '@playwright/test'
 import { z } from 'zod'
 
-export class DashboardPageObject extends BasePageObject {
+export class MyPortfolioPageObject extends BasePageObject {
   // #region actions
   async clickDepositButtonAction(assetName: string): Promise<void> {
     const panel = this.locatePanelByHeader('Deposit')
@@ -76,21 +76,21 @@ export class DashboardPageObject extends BasePageObject {
     })
   }
 
-  async goToDashboardAction(): Promise<void> {
-    await this.page.goto(buildUrl('dashboard'))
+  async goToMyPortfolioAction(): Promise<void> {
+    await this.page.goto(buildUrl('myPortfolio'))
   }
   // #endregion
 
   // #region assertions
   async expectPositionToBeEmpty(): Promise<void> {
-    const deposit = this.page.getByTestId(testIds.dashboard.deposited)
-    const borrow = this.page.getByTestId(testIds.dashboard.borrowed)
+    const deposit = this.page.getByTestId(testIds.myPortfolio.deposited)
+    const borrow = this.page.getByTestId(testIds.myPortfolio.borrowed)
     await expect(deposit).toHaveText('-')
     await expect(borrow).toHaveText('-')
   }
 
   async expectBorrowedAssetsToBeEmpty(): Promise<void> {
-    const borrow = this.page.getByTestId(testIds.dashboard.borrowed)
+    const borrow = this.page.getByTestId(testIds.myPortfolio.borrowed)
     await expect(borrow).toHaveText('-')
   }
 
@@ -100,12 +100,12 @@ export class DashboardPageObject extends BasePageObject {
   }
 
   async expectDepositedAssets(total: number): Promise<void> {
-    const locator = this.page.getByTestId(testIds.dashboard.deposited)
+    const locator = this.page.getByTestId(testIds.myPortfolio.deposited)
     await expect(locator).toHaveText(USD_MOCK_TOKEN.formatUSD(NormalizedUnitNumber(total), { compact: true }))
   }
 
   async expectBorrowedAssets(total: number): Promise<void> {
-    const locator = this.page.getByTestId(testIds.dashboard.borrowed)
+    const locator = this.page.getByTestId(testIds.myPortfolio.borrowed)
     await expect(locator).toHaveText(USD_MOCK_TOKEN.formatUSD(NormalizedUnitNumber(total), { compact: true }))
   }
 

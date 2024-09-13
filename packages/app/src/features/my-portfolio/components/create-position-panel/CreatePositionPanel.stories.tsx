@@ -5,7 +5,7 @@ import { withRouter } from 'storybook-addon-remix-react-router'
 import { CreatePositionPanel } from './CreatePositionPanel'
 
 const meta: Meta<typeof CreatePositionPanel> = {
-  title: 'Features/Dashboard/Components/CreatePositionPanel',
+  title: 'features/my-portfolio/Components/CreatePositionPanel',
   component: CreatePositionPanel,
   decorators: [withRouter],
 }

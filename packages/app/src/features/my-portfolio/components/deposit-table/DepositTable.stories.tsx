@@ -8,60 +8,64 @@ import { withRouter } from 'storybook-addon-remix-react-router'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { raise } from '@/utils/assert'
 
-import { Borrow } from '../../logic/assets'
-import { BorrowTable } from './BorrowTable'
+import { Deposit } from '../../logic/assets'
+import { DepositTable } from './DepositTable'
 
-const assets: Borrow[] = [
-  {
-    token: tokens.DAI,
-    available: NormalizedUnitNumber('22727'),
-    debt: NormalizedUnitNumber('50000'),
-    borrowAPY: Percentage(0.11),
-    reserveStatus: 'active',
-  },
+const assets: Deposit[] = [
   {
     token: tokens.ETH,
-    available: NormalizedUnitNumber('11.99'),
-    debt: NormalizedUnitNumber(0),
-    borrowAPY: Percentage(0.157),
+    balance: NormalizedUnitNumber('84.330123431'),
+    deposit: NormalizedUnitNumber('13.74'),
+    supplyAPY: Percentage(0.0145),
+    isUsedAsCollateral: true,
     reserveStatus: 'active',
   },
   {
     token: tokens.stETH,
-    available: NormalizedUnitNumber('14.68'),
-    debt: NormalizedUnitNumber(0),
-    borrowAPY: Percentage(0.145),
+    balance: NormalizedUnitNumber('16.76212348'),
+    deposit: NormalizedUnitNumber('34.21'),
+    supplyAPY: Percentage(0.0145),
+    isUsedAsCollateral: true,
+    reserveStatus: 'active',
+  },
+  {
+    token: tokens.DAI,
+    balance: NormalizedUnitNumber('48.9234234'),
+    deposit: NormalizedUnitNumber('9.37'),
+    supplyAPY: Percentage(0.0145),
+    isUsedAsCollateral: false,
     reserveStatus: 'active',
   },
   {
     token: tokens.GNO,
-    available: NormalizedUnitNumber('0'),
-    debt: NormalizedUnitNumber(10),
-    borrowAPY: Percentage(0.345),
+    balance: NormalizedUnitNumber('299.9234234'),
+    deposit: NormalizedUnitNumber('1.37'),
+    supplyAPY: Percentage(0.0345),
+    isUsedAsCollateral: false,
     reserveStatus: 'frozen',
   },
   {
     token: tokens.wstETH,
-    available: NormalizedUnitNumber('0'),
-    debt: NormalizedUnitNumber(2),
-    borrowAPY: Percentage(0.32),
+    balance: NormalizedUnitNumber('89.923'),
+    deposit: NormalizedUnitNumber('5.37'),
+    supplyAPY: Percentage(0.012),
+    isUsedAsCollateral: false,
     reserveStatus: 'paused',
   },
 ]
 
-const meta: Meta<typeof BorrowTable> = {
-  title: 'Features/Dashboard/Components/BorrowTable',
+const meta: Meta<typeof DepositTable> = {
+  title: 'features/my-portfolio/Components/DepositTable',
   decorators: [withRouter, WithTooltipProvider()],
-  component: BorrowTable,
+  component: DepositTable,
   args: {
     assets,
     openDialog: () => {},
-    eModeCategoryId: 0,
   },
 }
 
 export default meta
-type Story = StoryObj<typeof BorrowTable>
+type Story = StoryObj<typeof DepositTable>
 
 export const Desktop: Story = {}
 

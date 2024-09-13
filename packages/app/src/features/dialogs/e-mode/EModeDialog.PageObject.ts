@@ -25,7 +25,7 @@ export class EModeDialogPageObject extends DialogPageObject {
     await this.acknowledgeIfRiskIsPresent()
     await this.actionsContainer.acceptAllActionsAction(1)
     await this.expectEModeSuccessPage(eModeCategoryName)
-    await this.viewInDashboardAction()
+    await this.viewInMyPortfolioAction()
   }
   // #endregion actions
 

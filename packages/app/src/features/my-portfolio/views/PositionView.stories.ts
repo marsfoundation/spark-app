@@ -9,7 +9,7 @@ import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { PositionView } from './PositionView'
 
 const meta: Meta<typeof PositionView> = {
-  title: 'Features/Dashboard/Views/PositionView',
+  title: 'features/my-portfolio/Views/PositionView',
   component: PositionView,
   decorators: [withRouter, WithTooltipProvider()],
   args: {

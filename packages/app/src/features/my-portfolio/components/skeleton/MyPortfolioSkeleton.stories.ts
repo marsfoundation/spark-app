@@ -1,15 +1,15 @@
 import { Meta, StoryObj } from '@storybook/react'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 
-import { DashboardSkeleton } from './DashboardSkeleton'
+import { MyPortfolioSkeleton } from './MyPortfolioSkeleton'
 
-const meta: Meta<typeof DashboardSkeleton> = {
-  title: 'Features/Dashboard/Components/Skeleton',
-  component: DashboardSkeleton,
+const meta: Meta<typeof MyPortfolioSkeleton> = {
+  title: 'features/my-portfolio/Components/Skeleton',
+  component: MyPortfolioSkeleton,
 }
 
 export default meta
-type Story = StoryObj<typeof DashboardSkeleton>
+type Story = StoryObj<typeof MyPortfolioSkeleton>
 
 export const Desktop: Story = {}
 export const Mobile = getMobileStory(Desktop)

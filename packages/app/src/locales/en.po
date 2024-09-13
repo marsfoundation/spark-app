@@ -13,34 +13,26 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/features/easy-borrow/components/form/EasyBorrowForm.tsx:106
-#: src/features/navbar/components/PageLinks.tsx:29
+#: src/features/easy-borrow/components/EasyBorrowPanel.tsx:50
+#: src/features/easy-borrow/components/form/EasyBorrowForm.tsx:108
 msgid "Borrow"
 msgstr ""
 
 #: src/features/easy-borrow/components/EasyBorrowPanel.tsx:64
-msgid "Borrow {0}"
-msgstr ""
+#~ msgid "Borrow {0}"
+#~ msgstr ""
 
 #: src/features/navbar/components/PageLinks.tsx:44
-msgid "Cash & Savings"
-msgstr ""
+#~ msgid "Cash & Savings"
+#~ msgstr ""
 
 #: src/features/easy-borrow/deposit/DepositBorrow.tsx:132
 #~ msgid "Connect your wallet"
 #~ msgstr ""
 
-#: src/features/navbar/components/PageLinks.tsx:32
-msgid "Dashboard"
-msgstr ""
-
 #: src/features/navbar/components/PageLinks.tsx:52
-msgid "Farms"
-msgstr ""
-
-#: src/features/navbar/components/PageLinks.tsx:52
-msgid "Farms"
-msgstr ""
+#~ msgid "Farms"
+#~ msgstr ""
 
 #: src/ui/molecule/navbar/index.tsx:67
 #~ msgid "Faucet"
@@ -51,5 +43,9 @@ msgstr ""
 #~ msgstr ""
 
 #: src/features/navbar/components/PageLinks.tsx:48
-msgid "Markets"
-msgstr ""
+#~ msgid "Markets"
+#~ msgstr ""
+
+#: src/features/navbar/components/PageLinks.tsx:32
+#~ msgid "My Portfolio"
+#~ msgstr ""
