@@ -34,10 +34,10 @@ export function createWithdrawFromSavingsActionConfig(
 
   return {
     getWriteConfig: () => {
-      const { token, savingsToken, isMax, mode, receiver: _receiver } = action
+      const { token, savingsToken, isRedeem, mode, receiver: _receiver } = action
       const receiver = mode === 'send' ? _receiver! : account
 
-      const argsAmount = isMax
+      const argsAmount = isRedeem
         ? toBigInt(savingsToken.toBaseUnit(action.amount))
         : toBigInt(token.toBaseUnit(action.amount))
 
@@ -45,7 +45,7 @@ export function createWithdrawFromSavingsActionConfig(
         return ensureConfigTypes({
           address: savingsToken.address,
           abi: erc4626Abi,
-          functionName: isMax ? 'redeem' : 'withdraw',
+          functionName: isRedeem ? 'redeem' : 'withdraw',
           args: [argsAmount, receiver, account],
         })
       }
@@ -54,7 +54,7 @@ export function createWithdrawFromSavingsActionConfig(
         return ensureConfigTypes({
           address: savingsXDaiAdapterAddress[gnosis.id],
           abi: savingsXDaiAdapterAbi,
-          functionName: isMax ? 'redeemXDAI' : 'withdrawXDAI',
+          functionName: isRedeem ? 'redeemXDAI' : 'withdrawXDAI',
           args: [argsAmount, receiver],
         })
       }
@@ -63,7 +63,7 @@ export function createWithdrawFromSavingsActionConfig(
         return ensureConfigTypes({
           address: MIGRATE_ACTIONS_ADDRESS,
           abi: migrationActionsAbi,
-          functionName: isMax ? 'migrateSDAISharesToUSDS' : 'migrateSDAIAssetsToUSDS',
+          functionName: isRedeem ? 'migrateSDAISharesToUSDS' : 'migrateSDAIAssetsToUSDS',
           args: [receiver, argsAmount],
         })
       }
@@ -82,7 +82,7 @@ export function createWithdrawFromSavingsActionConfig(
         })()
         assert(context.savingsDaiInfo, 'Savings info is required for usdc psm withdraw from savings action')
 
-        if (isMax) {
+        if (isRedeem) {
           const assetsAmount = context.savingsDaiInfo.convertToAssets({ shares: action.amount })
           const gemMinAmountOut = calculateGemMinAmountOut({
             gemDecimals: token.decimals,

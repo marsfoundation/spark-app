@@ -25,6 +25,7 @@ export const SANDBOX_NETWORKS_CHAIN_ID_PREFIX = 3030
 export const MIGRATE_ACTIONS_ADDRESS = CheckedAddress('0x50f1a6C941E68701D774b5B81B7124865cBc6f0a')
 export const STAKING_REWARDS_USDS_ADDRESS = CheckedAddress('0x8AFB0C54bAE39A5e56b984DF1C4b5702b2abf205')
 export const USDS_PSM_ACTIONS = CheckedAddress('0x28e4B8BE2748E9BD4b9cEAc4E05069E58773Af7E')
+export const USDS_PSM_WRAPPER = CheckedAddress('0x9581c795DBcaf408E477F6f1908a41BE43093122')
 
 export const stablecoinsGroup: AssetsGroup = {
   type: 'stablecoins',

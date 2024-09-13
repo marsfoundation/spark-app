@@ -23,7 +23,7 @@ export function createObjectives({
       type: 'withdrawFromSavings',
       token: formValues.token,
       amount: isMaxSelected ? savingsTokenWithBalance.balance : formValues.value,
-      isMax: isMaxSelected,
+      isRedeem: isMaxSelected,
       savingsToken: savingsTokenWithBalance.token,
       receiver,
       mode,
