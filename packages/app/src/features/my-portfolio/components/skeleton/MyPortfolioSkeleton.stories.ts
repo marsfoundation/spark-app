@@ -4,7 +4,7 @@ import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { MyPortfolioSkeleton } from './MyPortfolioSkeleton'
 
 const meta: Meta<typeof MyPortfolioSkeleton> = {
-  title: 'features/my-portfolio/Components/Skeleton',
+  title: 'Features/MyPortfolio/Components/Skeleton',
   component: MyPortfolioSkeleton,
 }
 
