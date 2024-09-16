@@ -58,7 +58,7 @@ export class DialogPageObject extends BasePageObject {
     fork: ForkContext,
     assetWorthOverrides?: Record<string, number>,
   ): Promise<void> {
-    await expect(this.region.getByText('Congrats, all done!!')).toBeVisible()
+    await expect(this.region.getByText('Congrats, all done!')).toBeVisible()
 
     const transformed = tokenWithValue.reduce((acc, { asset, amount: value }) => ({ ...acc, [asset]: value }), {})
 

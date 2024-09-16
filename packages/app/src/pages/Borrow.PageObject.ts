@@ -121,7 +121,7 @@ export class BorrowPageObject extends BasePageObject {
     fork: ForkContext,
     assetsWorthOverride?: Record<string, number>,
   ): Promise<void> {
-    await expect(this.page.getByText('Congrats, all done!!')).toBeVisible()
+    await expect(this.page.getByText('Congrats, all done!')).toBeVisible()
 
     const transformed = [...deposited, borrowed].reduce(
       (acc, { asset, amount: value }) => ({ ...acc, [asset]: value }),

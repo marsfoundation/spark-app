@@ -28,7 +28,7 @@ export class CollateralDialogPageObject extends DialogPageObject {
 
   // #region assertions
   async expectSetUseAsCollateralSuccessPage(assetName: string, setting: CollateralSetting): Promise<void> {
-    await expect(this.region.getByRole('heading', { name: 'Congrats, all done!!' })).toBeVisible()
+    await expect(this.region.getByRole('heading', { name: 'Congrats, all done!' })).toBeVisible()
     await expect(this.region.getByTestId(testIds.dialog.success)).toContainText(assetName)
     await expect(this.region.getByTestId(testIds.dialog.success)).toContainText(`Collateral ${setting}`)
   }
