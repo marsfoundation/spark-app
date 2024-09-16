@@ -146,4 +146,4 @@ export const usdsPsmWrapperAbi = [
     outputs: [{ name: '', type: 'address', internalType: 'address' }],
     stateMutability: 'view',
   },
-]
+] as const
