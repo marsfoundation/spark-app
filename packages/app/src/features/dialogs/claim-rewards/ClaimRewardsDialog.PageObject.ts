@@ -31,7 +31,7 @@ export class ClaimRewardsDialogPageObject extends DialogPageObject {
   }
 
   async expectClaimRewardsSuccessPage(rows: Reward[]): Promise<void> {
-    await expect(this.page.getByRole('heading', { name: 'Congrats! All done!' })).toBeVisible()
+    await expect(this.page.getByRole('heading', { name: 'Congrats, all done!!' })).toBeVisible()
     await this.expectRewards(rows, this.page.getByTestId(testIds.dialog.success))
   }
   // #endregion assertions

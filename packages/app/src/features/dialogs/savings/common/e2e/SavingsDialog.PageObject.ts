@@ -101,7 +101,7 @@ export class SavingsDialogPageObject extends DialogPageObject {
 
   async expectSuccessPage(): Promise<void> {
     // for now we only check if the success message is visible
-    await expect(this.page.getByText('Congrats! All done!')).toBeVisible()
+    await expect(this.page.getByText('Congrats, all done!!')).toBeVisible()
   }
 
   async expectAddressInputError(error: string): Promise<void> {
