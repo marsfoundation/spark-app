@@ -5,7 +5,7 @@ import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { UpgradeTokenButton } from './UpgradeTokenButton'
 
 const meta: Meta<typeof UpgradeTokenButton> = {
-  title: 'Features/Savings/Components/CashInWallet/UpgradeTokenButton',
+  title: 'Features/Savings/Components/StablecoinsInWallet/UpgradeTokenButton',
   decorators: [WithClassname('p-8 bg-white')],
   component: UpgradeTokenButton,
   args: {

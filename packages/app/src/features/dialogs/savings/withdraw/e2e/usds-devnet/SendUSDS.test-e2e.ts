@@ -84,7 +84,7 @@ test.describe('Send USDS (withdrawing from sUSDS)', () => {
 
     await sendDialog.clickBackToSavingsButton()
     await savingsPage.expectSavingsUSDSBalance({ sUsdsBalance: '2,999.28 sUSDS', estimatedUsdsValue: '3,000' })
-    await savingsPage.expectCashInWalletAssetBalance('USDS', '-')
+    await savingsPage.expectStablecoinsInWalletAssetBalance('USDS', '-')
   })
 })
 
@@ -165,6 +165,6 @@ test.describe('Send USDS (withdrawing from sDAI)', () => {
 
     await sendDialog.clickBackToSavingsButton()
     await savingsPage.expectSavingsDAIBalance({ sDaiBalance: '3,667.23 sDAI', estimatedDaiValue: '4,053.60' })
-    await savingsPage.expectCashInWalletAssetBalance('USDS', '-')
+    await savingsPage.expectStablecoinsInWalletAssetBalance('USDS', '-')
   })
 })

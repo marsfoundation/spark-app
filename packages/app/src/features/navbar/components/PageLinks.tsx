@@ -135,7 +135,7 @@ export function PageLinks({
             ) : undefined
           }
         >
-          Cash & Savings
+          Savings
         </NavLink>
       )}
 

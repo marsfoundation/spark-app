@@ -73,6 +73,6 @@ test.describe('Withdraw max USDC on Mainnet', () => {
 
     await savingsPage.expectPotentialProjection('$53.04', '30-day')
     await savingsPage.expectPotentialProjection('$662.90', '1-year')
-    await savingsPage.expectCashInWalletAssetBalance('USDC', '11,048.32')
+    await savingsPage.expectStablecoinsInWalletAssetBalance('USDC', '11,048.32')
   })
 })

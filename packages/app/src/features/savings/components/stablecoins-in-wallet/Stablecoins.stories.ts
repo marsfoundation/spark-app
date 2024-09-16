@@ -3,18 +3,18 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { withRouter } from 'storybook-addon-remix-react-router'
-import { CashInWallet } from './CashInWallet'
+import { StablecoinsInWallet } from './StablecoinsInWallet'
 
-const meta: Meta<typeof CashInWallet> = {
-  title: 'Features/Savings/Components/CashInWallet',
-  component: CashInWallet,
+const meta: Meta<typeof StablecoinsInWallet> = {
+  title: 'Features/Savings/Components/StablecoinsInWallet',
+  component: StablecoinsInWallet,
 }
 
 export default meta
-type Story = StoryObj<typeof CashInWallet>
+type Story = StoryObj<typeof StablecoinsInWallet>
 
 export const Desktop: Story = {
-  name: 'Cash in wallet',
+  name: 'Stablecoins in wallet',
   decorators: [withRouter()],
   args: {
     assets: [

@@ -56,7 +56,7 @@ test.describe('Downgrade USDS to DAI', () => {
 
     const savingsPage = new SavingsPageObject(page)
 
-    await savingsPage.expectCashInWalletAssetBalance('DAI', '-')
+    await savingsPage.expectStablecoinsInWalletAssetBalance('DAI', '-')
     await savingsPage.clickDowngradeUsdsToDaiOption()
 
     const downgradeDialog = new DowngradeDialogPageObject(page)

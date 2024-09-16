@@ -1,10 +1,10 @@
 import { assert, raise } from '@/utils/assert'
 import { PageHeader } from '../components/PageHeader'
 import { PageLayout } from '../components/PageLayout'
-import { CashInWallet } from '../components/cash-in-wallet/CashInWallet'
 import { SavingsOpportunity } from '../components/savings-opportunity/SavingsOpportunity'
 import { SavingsOpportunityNoCash } from '../components/savings-opportunity/SavingsOpportunityNoCash'
 import { SavingsTokenPanel } from '../components/savings-token-panel/SavingsTokenPanel'
+import { StablecoinsInWallet } from '../components/stablecoins-in-wallet/StablecoinsInWallet'
 import { UpgradeSavingsBanner } from '../components/upgrade-savings-banner/UpgradeSavingsBanner'
 import { WelcomeDialog } from '../components/welcome-dialog/WelcomeDialog'
 import { SavingsTokenDetails } from '../logic/useSavings'
@@ -82,7 +82,7 @@ export function SavingsDaiAndUSDSView({
           <SavingsOpportunityNoCash APY={sDaiDetails.APY} originChainId={originChainId} savingsMeta={savingsMeta} />
         )}
       </div>
-      <CashInWallet assets={assetsInWallet} openDialog={openDialog} migrationInfo={migrationInfo} />
+      <StablecoinsInWallet assets={assetsInWallet} openDialog={openDialog} migrationInfo={migrationInfo} />
       {import.meta.env.VITE_FEATURE_SAVINGS_WELCOME_DIALOG === '1' && (
         <WelcomeDialog
           open={showWelcomeDialog}

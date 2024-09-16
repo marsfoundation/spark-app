@@ -555,7 +555,7 @@ test.describe('Borrow page (usds devnet)', () => {
 
     await page.goto(buildUrl('savings'))
     const savingsPage = new SavingsPageObject(page)
-    await savingsPage.expectCashInWalletAssetBalance('USDS', '10,000')
+    await savingsPage.expectStablecoinsInWalletAssetBalance('USDS', '10,000')
   })
 })
 

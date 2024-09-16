@@ -59,7 +59,7 @@ test.describe('Upgrade DAI to USDS', () => {
 
     const savingsPage = new SavingsPageObject(page)
 
-    await savingsPage.expectCashInWalletAssetBalance('USDS', '-')
+    await savingsPage.expectStablecoinsInWalletAssetBalance('USDS', '-')
     await savingsPage.clickUpgradeDaiToUsdsButtonAction()
 
     const upgradeDialog = new UpgradeDialogPageObject(page)
@@ -76,6 +76,6 @@ test.describe('Upgrade DAI to USDS', () => {
     )
     await upgradeDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectCashInWalletAssetBalance('USDS', '10,000')
+    await savingsPage.expectStablecoinsInWalletAssetBalance('USDS', '10,000')
   })
 })

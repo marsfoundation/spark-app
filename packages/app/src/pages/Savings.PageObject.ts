@@ -32,22 +32,22 @@ export class SavingsPageObject extends BasePageObject {
     return this.locatePanelByHeader('Savings USDS')
   }
 
-  locateCashInWalletPanel(): Locator {
-    return this.locatePanelByHeader('Cash in wallet')
+  locateStablecoinsInWalletPanel(): Locator {
+    return this.locatePanelByHeader('Stablecoins in wallet')
   }
 
   locateUpgradeDaiToUsdsButton(): Locator {
-    return this.page.getByTestId(testIds.savings.cashInWallet.upgradeDaiToUsds)
+    return this.page.getByTestId(testIds.savings.stablecoinsInWallet.upgradeDaiToUsds)
   }
 
   locateDowngradeUsdsToDaiButton(): Locator {
-    return this.page.getByTestId(testIds.savings.cashInWallet.downgradeUsdsToDai)
+    return this.page.getByTestId(testIds.savings.stablecoinsInWallet.downgradeUsdsToDai)
   }
 
   locateUsdsMoreDropdown(): Locator {
-    const panel = this.locateCashInWalletPanel()
+    const panel = this.locateStablecoinsInWalletPanel()
     const usdsRow = panel.getByRole('row').filter({ has: this.page.getByRole('cell', { name: 'USDS', exact: true }) })
-    return usdsRow.getByTestId(testIds.savings.cashInWallet.moreDropdown)
+    return usdsRow.getByTestId(testIds.savings.stablecoinsInWallet.moreDropdown)
   }
   // #endregion
 
@@ -57,13 +57,13 @@ export class SavingsPageObject extends BasePageObject {
   }
 
   async clickDepositButtonAction(assetName: string): Promise<void> {
-    const panel = this.locatePanelByHeader('Cash in wallet')
+    const panel = this.locatePanelByHeader('Stablecoins in wallet')
     const row = (() => {
       if (this.usdsSupport && assetName === 'DAI') {
         // DAI row has an upgrade button instead of the asset name when USDS is supported
         return panel
           .getByRole('row')
-          .filter({ has: this.page.getByTestId(testIds.savings.cashInWallet.upgradeDaiToUsdsCell) })
+          .filter({ has: this.page.getByTestId(testIds.savings.stablecoinsInWallet.upgradeDaiToUsdsCell) })
       }
 
       return panel.getByRole('row').filter({ has: this.page.getByRole('cell', { name: assetName, exact: true }) })
@@ -160,8 +160,8 @@ export class SavingsPageObject extends BasePageObject {
     ).toBeVisible()
   }
 
-  async expectCashInWalletAssetBalance(assetName: string, value: string): Promise<void> {
-    const panel = this.locateCashInWalletPanel()
+  async expectStablecoinsInWalletAssetBalance(assetName: string, value: string): Promise<void> {
+    const panel = this.locateStablecoinsInWalletPanel()
     const row = panel.getByRole('row').filter({ has: this.page.getByRole('cell', { name: assetName, exact: true }) })
     await expect(row.getByRole('cell', { name: value })).toBeVisible()
   }
@@ -181,10 +181,10 @@ export class SavingsPageObject extends BasePageObject {
   }
 
   async expectUpgradableDaiBalance(value: string): Promise<void> {
-    const panel = this.locateCashInWalletPanel()
+    const panel = this.locateStablecoinsInWalletPanel()
     const row = panel
       .getByRole('row')
-      .filter({ has: this.page.getByTestId(testIds.savings.cashInWallet.upgradeDaiToUsds) })
+      .filter({ has: this.page.getByTestId(testIds.savings.stablecoinsInWallet.upgradeDaiToUsds) })
     await expect(row.getByRole('cell', { name: value })).toBeVisible()
   }
   // #endregion
