@@ -11,6 +11,7 @@ import { FormFieldsForDialog, PageStatus } from '@/features/dialogs/common/types
 import { assets } from '@/ui/assets'
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
 import { Link } from '@/ui/atoms/link/Link'
+import { links } from '@/ui/constants/links'
 import { Info } from '@/ui/molecules/info/Info'
 import { UseFormReturn } from 'react-hook-form'
 import { TransactionOverview } from '../../common/components/TransactionOverview'
@@ -62,8 +63,7 @@ export function UpgradeView({
                 within the ecosystem.
               </p>
               <p>Upgrade is optional and you can continue using DAI if you prefer.</p>
-              {/* {@todo: add proper link to docs when ready} */}
-              <Link to="/" external>
+              <Link to={links.docs.savingsMigration} external>
                 Learn more
               </Link>
             </div>

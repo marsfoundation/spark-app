@@ -24,12 +24,13 @@ export function DSRLabel({ originChainId, savingsMetaItem }: DSRLabelProps) {
 
 function TooltipContent({ savingsMetaItem }: { savingsMetaItem: SavingsMetaItem }) {
   const { stablecoin, rateAcronym, rateName } = savingsMetaItem
+  const docsLink = rateAcronym === 'DSR' ? links.docs.dsr : links.docs.ssr
   return (
     <p>
       The {rateAcronym}, or {rateName}, represents the current annual interest rate for {stablecoin} deposited into the
       Sky Savings Module. It is determined on-chain by the Sky DPE Governance. Please note that these protocol
-      mechanisms are subject to change. Learn more about it {/* {@todo: add proper link to docs when ready} */}
-      <Link to="/" external>
+      mechanisms are subject to change. Learn more about it
+      <Link to={docsLink} external>
         here
       </Link>
     </p>

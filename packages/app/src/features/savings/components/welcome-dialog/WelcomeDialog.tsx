@@ -5,6 +5,7 @@ import { Button } from '@/ui/atoms/button/Button'
 import { Dialog, DialogContent } from '@/ui/atoms/dialog/Dialog'
 import { KeyPoints } from '@/ui/atoms/key-points/KeyPoints'
 import { Link } from '@/ui/atoms/link/Link'
+import { links } from '@/ui/constants/links'
 
 export interface WelcomeDialogProps {
   open: boolean
@@ -28,8 +29,7 @@ export function WelcomeDialog({ open, onConfirm, apyImprovement }: WelcomeDialog
               USDS is the new version of DAI, the stablecoin that powers the Sky ecosystem. Upgrading to USDS unlocks
               additional benefits, providing you with more opportunities to earn rewards within the ecosystem. The
               upgrade is optional, and you can continue using DAI if you prefer.{' '}
-              {/* @todo: add proper link to docs when ready */}
-              <Link to="/" external>
+              <Link to={links.docs.savingsMigration} external>
                 Learn more
               </Link>
             </p>
