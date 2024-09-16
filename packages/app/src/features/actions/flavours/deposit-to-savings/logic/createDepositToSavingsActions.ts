@@ -1,5 +1,4 @@
-import { MIGRATE_ACTIONS_ADDRESS, USDS_PSM_ACTIONS } from '@/config/consts'
-import { psmActionsConfig } from '@/config/contracts-generated'
+import { migrationActionsConfig, psmActionsConfig, usdsPsmActionsConfig } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { Action, ActionContext } from '@/features/actions/logic/types'
 import {
@@ -32,11 +31,11 @@ export function createDepositToSavingsActions(objective: DepositToSavingsObjecti
     }
 
     if (isUsdcUsdsPsmActionsOperation({ token, savingsToken, tokensInfo })) {
-      return USDS_PSM_ACTIONS
+      return getContractAddress(usdsPsmActionsConfig.address, chainId)
     }
 
     if (isDaiToSUsdsMigration({ token, savingsToken, tokensInfo })) {
-      return MIGRATE_ACTIONS_ADDRESS
+      return getContractAddress(migrationActionsConfig.address, chainId)
     }
 
     return objective.savingsToken.address

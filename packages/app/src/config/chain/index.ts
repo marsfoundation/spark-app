@@ -1,5 +1,6 @@
 import { gnosis, mainnet } from 'viem/chains'
 
+import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { getOriginChainId } from '@/domain/hooks/useOriginChainId'
 import { gnosisSavingsDaiInfoQuery } from '@/domain/savings-info/gnosisSavingsInfo'
 import { mainnetSavingsDaiInfoQuery, mainnetSavingsUsdsInfoQuery } from '@/domain/savings-info/mainnetSavingsInfo'
@@ -8,7 +9,8 @@ import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { assets } from '@/ui/assets'
-import { NATIVE_ASSET_MOCK_ADDRESS, STAKING_REWARDS_USDS_ADDRESS, stablecoinsGroup } from '../consts'
+import { NATIVE_ASSET_MOCK_ADDRESS, stablecoinsGroup } from '../consts'
+import { usdsSkyRewardsConfig } from '../contracts-generated'
 import { AppConfig } from '../feature-flags'
 import { USDS_DEV_CHAIN_ID } from './constants'
 import { ChainConfig, ChainConfigEntry, ChainMeta } from './types'
@@ -186,7 +188,7 @@ export function getChainConfigEntry(chainId: number): ChainConfigEntry {
       ],
       farms: [
         {
-          address: STAKING_REWARDS_USDS_ADDRESS,
+          address: getContractAddress(usdsSkyRewardsConfig.address, chainId),
           entryAssetsGroup: stablecoinsGroup,
         },
       ],

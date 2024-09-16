@@ -1,6 +1,10 @@
-import { migrationActionsAbi } from '@/config/abis/migrationActionsAbi'
-import { MIGRATE_ACTIONS_ADDRESS, USDS_PSM_ACTIONS } from '@/config/consts'
-import { psmActionsAbi, psmActionsAddress } from '@/config/contracts-generated'
+import {
+  migrationActionsConfig,
+  psmActionsAbi,
+  psmActionsAddress,
+  usdsPsmActionsConfig,
+} from '@/config/contracts-generated'
+import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
@@ -137,8 +141,8 @@ describe(createDepositToSavingsActionConfig.name, () => {
       },
       extraHandlers: [
         handlers.contractCall({
-          to: MIGRATE_ACTIONS_ADDRESS,
-          abi: migrationActionsAbi,
+          to: getContractAddress(migrationActionsConfig.address, chainId),
+          abi: migrationActionsConfig.abi,
           functionName: 'migrateDAIToSUSDS',
           args: [account, toBigInt(dai.toBaseUnit(depositValue))],
           from: account,
@@ -162,7 +166,12 @@ describe(createDepositToSavingsActionConfig.name, () => {
       getBalancesQueryKeyPrefix({ account, chainId }),
     )
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
-      allowanceQueryKey({ token: dai.address, spender: MIGRATE_ACTIONS_ADDRESS, account, chainId }),
+      allowanceQueryKey({
+        token: dai.address,
+        spender: getContractAddress(migrationActionsConfig.address, chainId),
+        account,
+        chainId,
+      }),
     )
   })
 
@@ -175,7 +184,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
       },
       extraHandlers: [
         handlers.contractCall({
-          to: USDS_PSM_ACTIONS,
+          to: getContractAddress(usdsPsmActionsConfig.address, chainId),
           abi: psmActionsAbi,
           functionName: 'swapAndDeposit',
           args: [
@@ -204,7 +213,12 @@ describe(createDepositToSavingsActionConfig.name, () => {
       getBalancesQueryKeyPrefix({ account, chainId }),
     )
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
-      allowanceQueryKey({ token: usdc.address, spender: USDS_PSM_ACTIONS, account, chainId }),
+      allowanceQueryKey({
+        token: usdc.address,
+        spender: getContractAddress(usdsPsmActionsConfig.address, chainId),
+        account,
+        chainId,
+      }),
     )
   })
 })

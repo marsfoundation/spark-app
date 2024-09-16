@@ -1,6 +1,6 @@
 import { multicall } from 'wagmi/actions'
 
-import { potAbi, potAddress } from '@/config/contracts-generated'
+import { potAbi, potAddress, sUsdsConfig } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { bigNumberify } from '@/utils/bigNumber'
 
@@ -69,22 +69,22 @@ export function mainnetSavingsUsdsInfoQuery({
         allowFailure: false,
         contracts: [
           {
-            address: sUSDSAddress,
+            address: getContractAddress(sUsdsConfig.address, chainId),
             functionName: 'ssr',
             args: [],
-            abi: sUSDSAbi,
+            abi: sUsdsConfig.abi,
           },
           {
-            address: sUSDSAddress,
+            address: getContractAddress(sUsdsConfig.address, chainId),
             functionName: 'rho',
             args: [],
-            abi: sUSDSAbi,
+            abi: sUsdsConfig.abi,
           },
           {
-            address: sUSDSAddress,
+            address: getContractAddress(sUsdsConfig.address, chainId),
             functionName: 'chi',
             args: [],
-            abi: sUSDSAbi,
+            abi: sUsdsConfig.abi,
           },
         ],
       })
@@ -100,35 +100,3 @@ export function mainnetSavingsUsdsInfoQuery({
     },
   }
 }
-
-// @todo: add sUSDS address to wagmi config once it's available on mainnet
-const sUSDSAddress = '0xCd9BC6cE45194398d12e27e1333D5e1d783104dD'
-const sUSDSAbi = [
-  {
-    constant: true,
-    payable: false,
-    type: 'function',
-    inputs: [],
-    name: 'chi',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    constant: true,
-    payable: false,
-    type: 'function',
-    inputs: [],
-    name: 'ssr',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    constant: true,
-    payable: false,
-    type: 'function',
-    inputs: [],
-    name: 'rho',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-] as const
