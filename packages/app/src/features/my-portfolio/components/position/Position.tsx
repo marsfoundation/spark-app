@@ -76,7 +76,7 @@ function Deposited({ positionSummary, ticks }: DepositedProps) {
     <div className="flex flex-col gap-1">
       <div className="flex flex-row justify-between">
         <Typography className="font-semibold">Collateral deposited</Typography>
-        <Typography className="font-semibold" data-testid={testIds.dashboard.deposited}>
+        <Typography className="font-semibold" data-testid={testIds.myPortfolio.deposited}>
           {getPositionFormattedValue(positionSummary?.totalCollateralUSD)}
         </Typography>
       </div>
@@ -136,7 +136,7 @@ function Borrow({ positionSummary, ticks }: BorrowProps) {
     <div className="flex flex-col gap-1">
       <div className="flex flex-row justify-between">
         <Typography className="font-semibold">Borrow</Typography>
-        <Typography className="font-semibold" data-testid={testIds.dashboard.borrowed}>
+        <Typography className="font-semibold" data-testid={testIds.myPortfolio.borrowed}>
           {getPositionFormattedValue(positionSummary?.borrow.current)}
         </Typography>
       </div>

@@ -10,7 +10,7 @@ import { AssetsTableRow } from './AssetTable'
 import { WalletComposition } from './WalletComposition'
 
 const meta: Meta<typeof WalletComposition> = {
-  title: 'Features/Dashboard/Components/WalletComposition',
+  title: 'Features/MyPortfolio/Components/WalletComposition',
   component: WalletComposition,
   decorators: [withRouter, WithClassname('max-w-5xl'), WithTooltipProvider()],
   args: {

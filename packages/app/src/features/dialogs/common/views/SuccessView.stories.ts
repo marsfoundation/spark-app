@@ -17,7 +17,7 @@ const meta: Meta<typeof SuccessView> = {
       value: NormalizedUnitNumber(2000),
     },
     onProceed: () => {},
-    proceedText: 'View in dashboard',
+    proceedText: 'View in portfolio',
   },
 }
 

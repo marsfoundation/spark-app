@@ -5,7 +5,7 @@ import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { GuestView } from './GuestView'
 
 const meta: Meta<typeof GuestView> = {
-  title: 'Features/Dashboard/Views/GuestView',
+  title: 'Features/MyPortfolio/Views/GuestView',
   component: GuestView,
   decorators: [WithTooltipProvider()],
   args: {

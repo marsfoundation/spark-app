@@ -55,7 +55,7 @@ const assets: Deposit[] = [
 ]
 
 const meta: Meta<typeof DepositTable> = {
-  title: 'Features/Dashboard/Components/DepositTable',
+  title: 'Features/MyPortfolio/Components/DepositTable',
   decorators: [withRouter, WithTooltipProvider()],
   component: DepositTable,
   args: {

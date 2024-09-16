@@ -50,7 +50,7 @@ const assets: Borrow[] = [
 ]
 
 const meta: Meta<typeof BorrowTable> = {
-  title: 'Features/Dashboard/Components/BorrowTable',
+  title: 'Features/MyPortfolio/Components/BorrowTable',
   decorators: [withRouter, WithTooltipProvider()],
   component: BorrowTable,
   args: {

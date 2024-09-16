@@ -4,7 +4,7 @@ import { mainnet } from 'viem/chains'
 import { setUseAsCollateralValidationIssueToMessage } from '@/domain/market-validators/validateSetUseAsCollateral'
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { BorrowPageObject } from '@/pages/Borrow.PageObject'
-import { DashboardPageObject } from '@/pages/Dashboard.PageObject'
+import { MyPortfolioPageObject } from '@/pages/MyPortfolio.PageObject'
 import { DEFAULT_BLOCK_NUMBER, GNO_ACTIVE_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
@@ -25,7 +25,7 @@ test.describe('Collateral dialog', () => {
     const initialDeposits = {
       wstETH: 1,
     }
-    const dashboardDeposits = {
+    const myPortfolioDesposits = {
       DAI: 1000, // cannot be used as collateral
     }
 
@@ -40,29 +40,29 @@ test.describe('Collateral dialog', () => {
 
       const borrowPage = new BorrowPageObject(page)
       await borrowPage.depositWithoutBorrowActions(initialDeposits)
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.goToDashboardAction()
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.goToMyPortfolioAction()
 
-      // Depositing DAI in dashboard
-      await dashboardPage.clickDepositButtonAction('DAI')
+      // Depositing DAI in myPortfolio
+      await myPortfolioPage.clickDepositButtonAction('DAI')
       const depositDialog = new DialogPageObject(page, /Deposit/)
-      await depositDialog.fillAmountAction(dashboardDeposits.DAI)
+      await depositDialog.fillAmountAction(myPortfolioDesposits.DAI)
       const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
       await actionsContainer.acceptAllActionsAction(2)
-      await depositDialog.viewInDashboardAction()
+      await depositDialog.viewInMyPortfolioAction()
 
-      await dashboardPage.expectDepositTable({
+      await myPortfolioPage.expectDepositTable({
         wstETH: initialDeposits.wstETH,
-        DAI: dashboardDeposits.DAI,
+        DAI: myPortfolioDesposits.DAI,
       })
     })
 
     test('disables collateral', async ({ page }) => {
       const collateral = 'wstETH'
 
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.expectCollateralSwitch(collateral, true)
-      await dashboardPage.clickCollateralSwitchAction(collateral)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.expectCollateralSwitch(collateral, true)
+      await myPortfolioPage.clickCollateralSwitchAction(collateral)
 
       const collateralDialog = new CollateralDialogPageObject(page)
       await collateralDialog.expectDialogHeader('Collateral')
@@ -71,39 +71,39 @@ test.describe('Collateral dialog', () => {
       await actionsContainer.acceptAllActionsAction(1)
       await collateralDialog.expectSetUseAsCollateralSuccessPage(collateral, 'disabled')
 
-      await dashboardPage.goToDashboardAction()
-      await dashboardPage.expectCollateralSwitch('wstETH', false)
+      await myPortfolioPage.goToMyPortfolioAction()
+      await myPortfolioPage.expectCollateralSwitch('wstETH', false)
     })
 
     test('enables collateral', async ({ page }) => {
       const collateral = 'wstETH'
 
       // disabling collateral
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.clickCollateralSwitchAction(collateral)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.clickCollateralSwitchAction(collateral)
       const collateralDialog = new CollateralDialogPageObject(page)
       await collateralDialog.setUseAsCollateralAction(collateral, 'disabled')
-      await dashboardPage.goToDashboardAction()
+      await myPortfolioPage.goToMyPortfolioAction()
 
       // enabling collateral
-      await dashboardPage.expectCollateralSwitch(collateral, false)
-      await dashboardPage.clickCollateralSwitchAction(collateral)
+      await myPortfolioPage.expectCollateralSwitch(collateral, false)
+      await myPortfolioPage.clickCollateralSwitchAction(collateral)
       await collateralDialog.expectDialogHeader('Collateral')
       await collateralDialog.expectHealthFactorNotVisible()
       const actionsContainer = new ActionsPageObject(collateralDialog.locatePanelByHeader('Actions'))
       await actionsContainer.acceptAllActionsAction(1)
       await collateralDialog.expectSetUseAsCollateralSuccessPage(collateral, 'enabled')
 
-      await dashboardPage.goToDashboardAction()
-      await dashboardPage.expectCollateralSwitch(collateral, true)
+      await myPortfolioPage.goToMyPortfolioAction()
+      await myPortfolioPage.expectCollateralSwitch(collateral, true)
     })
 
     test('cannot enable collateral for asset that cannot be used as collateral', async ({ page }) => {
       const asset = 'DAI'
 
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.expectCollateralSwitch(asset, false)
-      await dashboardPage.clickCollateralSwitchAction(asset)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.expectCollateralSwitch(asset, false)
+      await myPortfolioPage.clickCollateralSwitchAction(asset)
 
       const collateralDialog = new CollateralDialogPageObject(page)
       await collateralDialog.expectDialogHeader('Collateral')
@@ -112,16 +112,16 @@ test.describe('Collateral dialog', () => {
       const actionsContainer = new ActionsPageObject(collateralDialog.locatePanelByHeader('Actions'))
       await actionsContainer.expectDisabledActionAtIndex(0)
 
-      await dashboardPage.goToDashboardAction()
-      await dashboardPage.expectCollateralSwitch(asset, false)
+      await myPortfolioPage.goToMyPortfolioAction()
+      await myPortfolioPage.expectCollateralSwitch(asset, false)
     })
 
     test('cannot enable collateral for not deposited asset', async ({ page }) => {
       const asset = 'WBTC'
 
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.expectCollateralSwitch(asset, false)
-      await dashboardPage.clickCollateralSwitchAction(asset)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.expectCollateralSwitch(asset, false)
+      await myPortfolioPage.clickCollateralSwitchAction(asset)
 
       const collateralDialog = new CollateralDialogPageObject(page)
       await collateralDialog.expectDialogHeader('Collateral')
@@ -130,8 +130,8 @@ test.describe('Collateral dialog', () => {
       const actionsContainer = new ActionsPageObject(collateralDialog.locatePanelByHeader('Actions'))
       await actionsContainer.expectDisabledActionAtIndex(0)
 
-      await dashboardPage.goToDashboardAction()
-      await dashboardPage.expectCollateralSwitch(asset, false)
+      await myPortfolioPage.goToMyPortfolioAction()
+      await myPortfolioPage.expectCollateralSwitch(asset, false)
     })
   })
 
@@ -152,12 +152,12 @@ test.describe('Collateral dialog', () => {
 
       const borrowPage = new BorrowPageObject(page)
       await borrowPage.depositAssetsActions(initialDeposits, daiToBorrow)
-      await borrowPage.viewInDashboardAction()
+      await borrowPage.viewInMyPortfolioAction()
 
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.goToDashboardAction()
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.goToMyPortfolioAction()
 
-      await dashboardPage.expectDepositTable({
+      await myPortfolioPage.expectDepositTable({
         wstETH: initialDeposits.wstETH,
       })
     })
@@ -165,9 +165,9 @@ test.describe('Collateral dialog', () => {
     test('cannot disable sole collateral', async ({ page }) => {
       const collateral = 'wstETH'
 
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.expectCollateralSwitch(collateral, true)
-      await dashboardPage.clickCollateralSwitchAction(collateral)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.expectCollateralSwitch(collateral, true)
+      await myPortfolioPage.clickCollateralSwitchAction(collateral)
 
       const collateralDialog = new CollateralDialogPageObject(page)
       await collateralDialog.expectDialogHeader('Collateral')
@@ -177,8 +177,8 @@ test.describe('Collateral dialog', () => {
       const actionsContainer = new ActionsPageObject(collateralDialog.locatePanelByHeader('Actions'))
       await actionsContainer.expectDisabledActionAtIndex(0)
 
-      await dashboardPage.goToDashboardAction()
-      await dashboardPage.expectCollateralSwitch(collateral, true)
+      await myPortfolioPage.goToMyPortfolioAction()
+      await myPortfolioPage.expectCollateralSwitch(collateral, true)
     })
   })
 
@@ -200,12 +200,12 @@ test.describe('Collateral dialog', () => {
 
       const borrowPage = new BorrowPageObject(page)
       await borrowPage.depositAssetsActions(initialDeposits, daiToBorrow)
-      await borrowPage.viewInDashboardAction()
+      await borrowPage.viewInMyPortfolioAction()
 
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.goToDashboardAction()
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.goToMyPortfolioAction()
 
-      await dashboardPage.expectDepositTable({
+      await myPortfolioPage.expectDepositTable({
         wstETH: initialDeposits.wstETH,
         rETH: initialDeposits.rETH,
       })
@@ -214,9 +214,9 @@ test.describe('Collateral dialog', () => {
     test('disables collateral', async ({ page }) => {
       const collateral = 'rETH'
 
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.expectCollateralSwitch(collateral, true)
-      await dashboardPage.clickCollateralSwitchAction(collateral)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.expectCollateralSwitch(collateral, true)
+      await myPortfolioPage.clickCollateralSwitchAction(collateral)
 
       const collateralDialog = new CollateralDialogPageObject(page)
       await collateralDialog.expectDialogHeader('Collateral')
@@ -226,16 +226,16 @@ test.describe('Collateral dialog', () => {
       await actionsContainer.acceptAllActionsAction(1)
 
       await collateralDialog.expectSetUseAsCollateralSuccessPage(collateral, 'disabled')
-      await dashboardPage.goToDashboardAction()
-      await dashboardPage.expectCollateralSwitch('rETH', false)
+      await myPortfolioPage.goToMyPortfolioAction()
+      await myPortfolioPage.expectCollateralSwitch('rETH', false)
     })
 
     test('cannot disable collateral when second one would not cover loan', async ({ page }) => {
       const collateral = 'wstETH'
 
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.expectCollateralSwitch(collateral, true)
-      await dashboardPage.clickCollateralSwitchAction(collateral)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.expectCollateralSwitch(collateral, true)
+      await myPortfolioPage.clickCollateralSwitchAction(collateral)
 
       const collateralDialog = new CollateralDialogPageObject(page)
       await collateralDialog.expectDialogHeader('Collateral')
@@ -245,8 +245,8 @@ test.describe('Collateral dialog', () => {
       const actionsContainer = new ActionsPageObject(collateralDialog.locatePanelByHeader('Actions'))
       await actionsContainer.expectDisabledActionAtIndex(0)
 
-      await dashboardPage.goToDashboardAction()
-      await dashboardPage.expectCollateralSwitch(collateral, true)
+      await myPortfolioPage.goToMyPortfolioAction()
+      await myPortfolioPage.expectCollateralSwitch(collateral, true)
     })
   })
 
@@ -257,7 +257,7 @@ test.describe('Collateral dialog', () => {
     const initialDeposits = {
       [regularAsset]: 1,
     }
-    const dashboardDeposits = {
+    const myPortfolioDesposits = {
       [isolatedAsset]: 100,
     }
 
@@ -270,60 +270,60 @@ test.describe('Collateral dialog', () => {
         },
       })
 
-      // Depositing regular asset at borrow page to show dashboard positions
+      // Depositing regular asset at borrow page to show myPortfolio positions
       const borrowPage = new BorrowPageObject(page)
       await borrowPage.depositWithoutBorrowActions(initialDeposits)
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.goToDashboardAction()
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.goToMyPortfolioAction()
 
-      await dashboardPage.expectDepositTable({
+      await myPortfolioPage.expectDepositTable({
         [regularAsset]: initialDeposits[regularAsset],
       })
 
-      // Depositing isolated asset at dashboard
-      await dashboardPage.clickDepositButtonAction(isolatedAsset)
+      // Depositing isolated asset at myPortfolio
+      await myPortfolioPage.clickDepositButtonAction(isolatedAsset)
       const depositDialog = new DialogPageObject(page, /Deposit/)
-      await depositDialog.fillAmountAction(dashboardDeposits[isolatedAsset])
+      await depositDialog.fillAmountAction(myPortfolioDesposits[isolatedAsset])
       const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
       await actionsContainer.acceptAllActionsAction(2)
-      await depositDialog.viewInDashboardAction()
+      await depositDialog.viewInMyPortfolioAction()
 
       const collateralDialog = new CollateralDialogPageObject(page)
       // Disabling regular asset as collateral
-      await dashboardPage.clickCollateralSwitchAction(regularAsset)
+      await myPortfolioPage.clickCollateralSwitchAction(regularAsset)
       await collateralDialog.setUseAsCollateralAction(regularAsset, 'disabled')
-      await dashboardPage.goToDashboardAction()
-      await dashboardPage.expectCollateralSwitch(isolatedAsset, false)
+      await myPortfolioPage.goToMyPortfolioAction()
+      await myPortfolioPage.expectCollateralSwitch(isolatedAsset, false)
 
       // Entering isolation mode
-      await dashboardPage.clickCollateralSwitchAction(isolatedAsset)
+      await myPortfolioPage.clickCollateralSwitchAction(isolatedAsset)
       await collateralDialog.setUseAsCollateralAction(isolatedAsset, 'enabled')
-      await dashboardPage.goToDashboardAction()
+      await myPortfolioPage.goToMyPortfolioAction()
 
-      await dashboardPage.expectCollateralSwitch(isolatedAsset, true)
+      await myPortfolioPage.expectCollateralSwitch(isolatedAsset, true)
     })
 
     test('cannot enable asset as collateral in isolation mode', async ({ page }) => {
       const collateral = 'rETH'
 
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.expectCollateralSwitch(collateral, false)
-      await dashboardPage.clickCollateralSwitchAction(collateral)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.expectCollateralSwitch(collateral, false)
+      await myPortfolioPage.clickCollateralSwitchAction(collateral)
 
       const collateralDialog = new CollateralDialogPageObject(page)
       await collateralDialog.expectAlertMessage(setUseAsCollateralValidationIssueToMessage['isolation-mode-active'])
       const actionsContainer = new ActionsPageObject(collateralDialog.locatePanelByHeader('Actions'))
       await actionsContainer.expectDisabledActionAtIndex(0)
 
-      await dashboardPage.goToDashboardAction()
-      await dashboardPage.expectCollateralSwitch(collateral, false)
+      await myPortfolioPage.goToMyPortfolioAction()
+      await myPortfolioPage.expectCollateralSwitch(collateral, false)
     })
   })
 
   test.describe('Liquidation risk warning', () => {
     test.describe('In danger zone', () => {
       let collateralDialog: CollateralDialogPageObject
-      let dashboardPage: DashboardPageObject
+      let myPortfolioPage: MyPortfolioPageObject
 
       test.beforeEach(async ({ page }) => {
         await setup(page, fork, {
@@ -335,30 +335,30 @@ test.describe('Collateral dialog', () => {
         })
 
         collateralDialog = new CollateralDialogPageObject(page)
-        dashboardPage = new DashboardPageObject(page)
+        myPortfolioPage = new MyPortfolioPageObject(page)
 
         const borrowPage = new BorrowPageObject(page)
         await borrowPage.depositWithoutBorrowActions({ rETH: 2, wstETH: 10 })
-        await dashboardPage.goToDashboardAction()
+        await myPortfolioPage.goToMyPortfolioAction()
 
-        await dashboardPage.clickBorrowButtonAction('WETH')
+        await myPortfolioPage.clickBorrowButtonAction('WETH')
         const borrowDialog = new DialogPageObject(page, /Borrow/)
         await borrowDialog.fillAmountAction(7)
         await borrowDialog.actionsContainer.acceptAllActionsAction(1)
         await borrowDialog.expectSuccessPage([{ asset: 'WETH', amount: 7 }], fork)
-        await borrowDialog.viewInDashboardAction()
-        await dashboardPage.expectAssetToBeInBorrowTable('WETH')
+        await borrowDialog.viewInMyPortfolioAction()
+        await myPortfolioPage.expectAssetToBeInBorrowTable('WETH')
       })
 
       test('shows risk warning', async () => {
-        await dashboardPage.clickCollateralSwitchAction('rETH')
+        await myPortfolioPage.clickCollateralSwitchAction('rETH')
         await collateralDialog.expectLiquidationRiskWarning(
           'Disabling this asset as collateral puts you at risk of quick liquidation. You may lose part of your remaining collateral.',
         )
       })
 
       test('actions stay disabled until risk warning is acknowledged', async () => {
-        await dashboardPage.clickCollateralSwitchAction('rETH')
+        await myPortfolioPage.clickCollateralSwitchAction('rETH')
 
         await collateralDialog.actionsContainer.expectDisabledActionAtIndex(0)
         await collateralDialog.clickAcknowledgeRisk()
@@ -368,7 +368,7 @@ test.describe('Collateral dialog', () => {
 
     test.describe('Not in danger zone', () => {
       let collateralDialog: CollateralDialogPageObject
-      let dashboardPage: DashboardPageObject
+      let myPortfolioPage: MyPortfolioPageObject
 
       const rETHDeposit = { asset: 'rETH', amount: 1 }
       const wstETHDeposit = { asset: 'wstETH', amount: 1 }
@@ -384,7 +384,7 @@ test.describe('Collateral dialog', () => {
         })
 
         collateralDialog = new CollateralDialogPageObject(page)
-        dashboardPage = new DashboardPageObject(page)
+        myPortfolioPage = new MyPortfolioPageObject(page)
       })
 
       test('validation issue; risk warning is not shown', async ({ page }) => {
@@ -392,10 +392,10 @@ test.describe('Collateral dialog', () => {
         const borrowPage = new BorrowPageObject(page)
         await borrowPage.depositAssetsActions({ rETH: rETHDeposit.amount }, daiBorrow.amount)
         await borrowPage.expectSuccessPage([rETHDeposit], daiBorrow, fork)
-        await dashboardPage.goToDashboardAction()
-        await dashboardPage.expectAssetToBeInBorrowTable('DAI')
+        await myPortfolioPage.goToMyPortfolioAction()
+        await myPortfolioPage.expectAssetToBeInBorrowTable('DAI')
 
-        await dashboardPage.clickCollateralSwitchAction('rETH')
+        await myPortfolioPage.clickCollateralSwitchAction('rETH')
         await collateralDialog.expectAlertMessage(setUseAsCollateralValidationIssueToMessage['exceeds-ltv'])
         await collateralDialog.expectLiquidationRiskWarningNotVisible()
       })
@@ -408,10 +408,10 @@ test.describe('Collateral dialog', () => {
           daiBorrow.amount,
         )
         await borrowPage.expectSuccessPage([wstETHDeposit, rETHDeposit], daiBorrow, fork)
-        await dashboardPage.goToDashboardAction()
-        await dashboardPage.expectAssetToBeInBorrowTable('DAI')
+        await myPortfolioPage.goToMyPortfolioAction()
+        await myPortfolioPage.expectAssetToBeInBorrowTable('DAI')
 
-        await dashboardPage.clickCollateralSwitchAction('rETH')
+        await myPortfolioPage.clickCollateralSwitchAction('rETH')
         await collateralDialog.expectLiquidationRiskWarningNotVisible()
       })
     })

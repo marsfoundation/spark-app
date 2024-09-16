@@ -12,7 +12,7 @@ import { makePositionSummary } from './position'
 import { PositionSummary } from './types'
 import { WalletCompositionInfo, makeWalletComposition } from './wallet-composition'
 
-export interface UseDashboardResults {
+export interface UseMyPortfolioResults {
   positionSummary: PositionSummary
   deposits: Deposit[]
   borrows: Borrow[]
@@ -23,7 +23,7 @@ export interface UseDashboardResults {
   openSandboxModal: () => void
 }
 
-export function useDashboard(): UseDashboardResults {
+export function useMyPortfolio(): UseMyPortfolioResults {
   const { marketInfo } = useMarketInfo()
   const walletInfo = useMarketWalletInfo()
   const [compositionWithDeposits, setCompositionWithDeposits] = useState(true)

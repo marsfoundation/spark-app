@@ -4,7 +4,7 @@ import { mainnet } from 'viem/chains'
 import { withdrawalValidationIssueToMessage } from '@/domain/market-validators/validateWithdraw'
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { BorrowPageObject } from '@/pages/Borrow.PageObject'
-import { DashboardPageObject } from '@/pages/Dashboard.PageObject'
+import { MyPortfolioPageObject } from '@/pages/MyPortfolio.PageObject'
 import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
@@ -43,19 +43,19 @@ test.describe('Withdraw dialog', () => {
 
       const borrowPage = new BorrowPageObject(page)
       await borrowPage.depositAssetsActions(initialDeposits, daiToBorrow)
-      await borrowPage.viewInDashboardAction()
+      await borrowPage.viewInMyPortfolioAction()
 
-      const dashboardPage = new DashboardPageObject(page)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
       // @todo This waits for the refetch of the data after successful borrow transaction to happen.
       // This is no ideal, probably we need to refactor expectDepositTable so it takes advantage from
       // playwright's timeouts instead of parsing it's current state. Then we would be able to
       // easily wait for the table to be updated.
-      await dashboardPage.expectAssetToBeInDepositTable('DAI')
+      await myPortfolioPage.expectAssetToBeInDepositTable('DAI')
     })
 
     test('opens dialog with selected asset', async ({ page }) => {
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.clickWithdrawButtonAction('rETH')
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.clickWithdrawButtonAction('rETH')
 
       const withdrawDialog = new DialogPageObject(page, headerRegExp)
       await withdrawDialog.expectSelectedAsset('rETH')
@@ -66,8 +66,8 @@ test.describe('Withdraw dialog', () => {
     })
 
     test('calculates health factor changes correctly', async ({ page }) => {
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.clickWithdrawButtonAction('rETH')
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.clickWithdrawButtonAction('rETH')
 
       const withdrawDialog = new DialogPageObject(page, headerRegExp)
       await withdrawDialog.fillAmountAction(1)
@@ -85,9 +85,9 @@ test.describe('Withdraw dialog', () => {
     })
 
     test('has correct action plan for erc-20', async ({ page }) => {
-      const dashboardPage = new DashboardPageObject(page)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
 
-      await dashboardPage.clickWithdrawButtonAction('rETH')
+      await myPortfolioPage.clickWithdrawButtonAction('rETH')
 
       const withdrawDialog = new DialogPageObject(page, headerRegExp)
       await withdrawDialog.fillAmountAction(1)
@@ -101,9 +101,9 @@ test.describe('Withdraw dialog', () => {
         amount: 1,
       } as const
 
-      const dashboardPage = new DashboardPageObject(page)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
 
-      await dashboardPage.clickWithdrawButtonAction(withdraw.asset)
+      await myPortfolioPage.clickWithdrawButtonAction(withdraw.asset)
 
       const withdrawDialog = new DialogPageObject(page, headerRegExp)
       await withdrawDialog.fillAmountAction(withdraw.amount)
@@ -113,9 +113,9 @@ test.describe('Withdraw dialog', () => {
 
       await screenshot(withdrawDialog.getDialog(), 'withdraw-dialog-erc-20-success')
 
-      await withdrawDialog.viewInDashboardAction()
+      await withdrawDialog.viewInMyPortfolioAction()
 
-      await dashboardPage.expectDepositTable({
+      await myPortfolioPage.expectDepositTable({
         ...initialDeposits,
         [withdraw.asset]: initialDeposits[withdraw.asset] - withdraw.amount,
       })
@@ -140,21 +140,21 @@ test.describe('Withdraw dialog', () => {
 
       const borrowPage = new BorrowPageObject(page)
       await borrowPage.depositAssetsActions(initialDeposits, daiToBorrow)
-      await borrowPage.viewInDashboardAction()
+      await borrowPage.viewInMyPortfolioAction()
 
-      const dashboardPage = new DashboardPageObject(page)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
       // @todo This waits for the refetch of the data after successful borrow transaction to happen.
       // This is no ideal, probably we need to refactor expectDepositTable so it takes advantage from
       // playwright's timeouts instead of parsing it's current state. Then we would be able to
       // easily wait for the table to be updated.
-      await dashboardPage.expectAssetToBeInDepositTable('DAI')
+      await myPortfolioPage.expectAssetToBeInDepositTable('DAI')
     })
 
     test('cannot withdraw amount that will result in health factor under 1', async ({ page }) => {
       const withdrawAsset = 'wstETH'
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.expectDepositTable(initialDeposits)
-      await dashboardPage.clickWithdrawButtonAction(withdrawAsset)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.expectDepositTable(initialDeposits)
+      await myPortfolioPage.clickWithdrawButtonAction(withdrawAsset)
 
       const withdrawDialog = new DialogPageObject(page, headerRegExp)
       await withdrawDialog.expectHealthFactorBefore('2.75')
@@ -166,9 +166,9 @@ test.describe('Withdraw dialog', () => {
 
     test('cannot withdraw more than deposited', async ({ page }) => {
       const withdrawAsset = 'rETH'
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.expectDepositTable(initialDeposits)
-      await dashboardPage.clickWithdrawButtonAction(withdrawAsset)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.expectDepositTable(initialDeposits)
+      await myPortfolioPage.clickWithdrawButtonAction(withdrawAsset)
 
       const withdrawDialog = new DialogPageObject(page, headerRegExp)
       await withdrawDialog.expectHealthFactorBefore('2.75')
@@ -209,15 +209,15 @@ test.describe('Withdraw dialog', () => {
 
       await borrowPage.expectSuccessPage([ETHdeposit], borrow, fork)
 
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.goToDashboardAction()
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.goToMyPortfolioAction()
     })
 
     // @note When ETH is deposited, deposit table shows WETH instead of ETH
     test('has correct action plan for native asset', async ({ page }) => {
-      const dashboardPage = new DashboardPageObject(page)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
 
-      await dashboardPage.clickWithdrawButtonAction('WETH')
+      await myPortfolioPage.clickWithdrawButtonAction('WETH')
 
       const withdrawDialog = new DialogPageObject(page, headerRegExp)
       await withdrawDialog.selectAssetAction('ETH')
@@ -236,9 +236,9 @@ test.describe('Withdraw dialog', () => {
     test('can withdraw native asset', async ({ page }) => {
       const withdrawAmount = 1
 
-      const dashboardPage = new DashboardPageObject(page)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
 
-      await dashboardPage.clickWithdrawButtonAction('WETH')
+      await myPortfolioPage.clickWithdrawButtonAction('WETH')
 
       const withdrawDialog = new DialogPageObject(page, headerRegExp)
       await withdrawDialog.selectAssetAction('ETH')
@@ -256,9 +256,9 @@ test.describe('Withdraw dialog', () => {
       )
       await screenshot(withdrawDialog.getDialog(), 'withdraw-dialog-eth-success')
 
-      await withdrawDialog.viewInDashboardAction()
+      await withdrawDialog.viewInMyPortfolioAction()
 
-      await dashboardPage.expectDepositTable({
+      await myPortfolioPage.expectDepositTable({
         // @todo Figure out how WETH and ETH conversion should work
         WETH: ETHdeposit.amount - withdrawAmount,
       })
@@ -282,7 +282,7 @@ test.describe('Withdraw dialog', () => {
 
       const borrowPage = new BorrowPageObject(page)
       // to simulate a position with only deposits, we go through the easy borrow flow
-      // but interrupt it before the borrow action, going directly to the dashboard
+      // but interrupt it before the borrow action, going directly to the myPortfolio
       // this way we have deposit transactions executed, but no borrow transaction
       // resulting in a position with only deposits
       await borrowPage.fillDepositAssetAction(0, 'wstETH', initialDeposits.wstETH)
@@ -295,8 +295,8 @@ test.describe('Withdraw dialog', () => {
       await actionsContainer.acceptAllActionsAction(3)
       await actionsContainer.expectEnabledActionAtIndex(3)
 
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.goToDashboardAction()
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.goToMyPortfolioAction()
     })
 
     test('can withdraw erc-20', async ({ page }) => {
@@ -305,8 +305,8 @@ test.describe('Withdraw dialog', () => {
         amount: 1,
       } as const
 
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.clickWithdrawButtonAction(withdraw.asset)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.clickWithdrawButtonAction(withdraw.asset)
 
       const withdrawDialog = new DialogPageObject(page, headerRegExp)
       await withdrawDialog.fillAmountAction(withdraw.amount)
@@ -316,9 +316,9 @@ test.describe('Withdraw dialog', () => {
 
       await screenshot(withdrawDialog.getDialog(), 'withdraw-dialog-only-deposit-erc-20-success')
 
-      await withdrawDialog.viewInDashboardAction()
+      await withdrawDialog.viewInMyPortfolioAction()
 
-      await dashboardPage.expectDepositTable({
+      await myPortfolioPage.expectDepositTable({
         WETH: initialDeposits.ETH,
         [withdraw.asset]: initialDeposits[withdraw.asset] - withdraw.amount,
       })
@@ -330,8 +330,8 @@ test.describe('Withdraw dialog', () => {
         amount: 10,
       } as const
 
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.clickWithdrawButtonAction(withdraw.asset)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.clickWithdrawButtonAction(withdraw.asset)
 
       const withdrawDialog = new DialogPageObject(page, headerRegExp)
       await withdrawDialog.clickMaxAmountAction()
@@ -341,17 +341,17 @@ test.describe('Withdraw dialog', () => {
 
       await screenshot(withdrawDialog.getDialog(), 'withdraw-dialog-only-deposit-erc-20-success')
 
-      await withdrawDialog.viewInDashboardAction()
+      await withdrawDialog.viewInMyPortfolioAction()
 
-      await dashboardPage.expectDepositTable({
+      await myPortfolioPage.expectDepositTable({
         WETH: initialDeposits.ETH,
         [withdraw.asset]: 0,
       })
     })
 
     test('does not display health factor', async ({ page }) => {
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.clickWithdrawButtonAction('wstETH')
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.clickWithdrawButtonAction('wstETH')
 
       const withdrawDialog = new DialogPageObject(page, headerRegExp)
       await withdrawDialog.fillAmountAction(1)
@@ -366,8 +366,8 @@ test.describe('Withdraw dialog', () => {
     })
 
     test('can fully withdraw native asset', async ({ page }) => {
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.clickWithdrawButtonAction('WETH')
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.clickWithdrawButtonAction('WETH')
 
       const withdrawDialog = new DialogPageObject(page, headerRegExp)
       await withdrawDialog.selectAssetAction('ETH')
@@ -384,9 +384,9 @@ test.describe('Withdraw dialog', () => {
         fork,
       )
 
-      await withdrawDialog.viewInDashboardAction()
+      await withdrawDialog.viewInMyPortfolioAction()
 
-      await dashboardPage.expectDepositTable({
+      await myPortfolioPage.expectDepositTable({
         WETH: 0,
         wstETH: initialDeposits.wstETH,
       })
@@ -395,7 +395,7 @@ test.describe('Withdraw dialog', () => {
 
   test.describe('Liquidation risk warning', () => {
     let withdrawDialog: DialogPageObject
-    let dashboardPage: DashboardPageObject
+    let myPortfolioPage: MyPortfolioPageObject
 
     test.beforeEach(async ({ page }) => {
       await setup(page, fork, {
@@ -407,23 +407,23 @@ test.describe('Withdraw dialog', () => {
       })
 
       withdrawDialog = new DialogPageObject(page, headerRegExp)
-      dashboardPage = new DashboardPageObject(page)
+      myPortfolioPage = new MyPortfolioPageObject(page)
 
       const borrowPage = new BorrowPageObject(page)
       await borrowPage.depositWithoutBorrowActions({ rETH: 2, wstETH: 10 })
-      await dashboardPage.goToDashboardAction()
+      await myPortfolioPage.goToMyPortfolioAction()
 
-      await dashboardPage.clickBorrowButtonAction('WETH')
+      await myPortfolioPage.clickBorrowButtonAction('WETH')
       const borrowDialog = new DialogPageObject(page, /Borrow/)
       await borrowDialog.fillAmountAction(7)
       await borrowDialog.actionsContainer.acceptAllActionsAction(1)
       await borrowDialog.expectSuccessPage([{ asset: 'WETH', amount: 7 }], fork)
-      await borrowDialog.viewInDashboardAction()
-      await dashboardPage.expectAssetToBeInBorrowTable('WETH')
+      await borrowDialog.viewInMyPortfolioAction()
+      await myPortfolioPage.expectAssetToBeInBorrowTable('WETH')
     })
 
     test('shows risk warning', async () => {
-      await dashboardPage.clickWithdrawButtonAction('rETH')
+      await myPortfolioPage.clickWithdrawButtonAction('rETH')
 
       await withdrawDialog.clickMaxAmountAction()
       await withdrawDialog.expectLiquidationRiskWarning(
@@ -432,7 +432,7 @@ test.describe('Withdraw dialog', () => {
     })
 
     test('actions stay disabled until risk warning is acknowledged', async () => {
-      await dashboardPage.clickWithdrawButtonAction('rETH')
+      await myPortfolioPage.clickWithdrawButtonAction('rETH')
 
       await withdrawDialog.clickMaxAmountAction()
       await withdrawDialog.actionsContainer.expectDisabledActionAtIndex(0)
@@ -441,7 +441,7 @@ test.describe('Withdraw dialog', () => {
     })
 
     test('hf above danger zone threshold; risk warning is not shown', async () => {
-      await dashboardPage.clickWithdrawButtonAction('rETH')
+      await myPortfolioPage.clickWithdrawButtonAction('rETH')
 
       await withdrawDialog.fillAmountAction(0.1)
       await withdrawDialog.actionsContainer.expectEnabledActionAtIndex(0)
@@ -449,7 +449,7 @@ test.describe('Withdraw dialog', () => {
     })
 
     test('input validation error; risk warning is not shown', async () => {
-      await dashboardPage.clickWithdrawButtonAction('rETH')
+      await myPortfolioPage.clickWithdrawButtonAction('rETH')
 
       await withdrawDialog.fillAmountAction(0)
       await withdrawDialog.expectAssetInputError(withdrawValidationIssueToMessage['value-not-positive'])
@@ -458,15 +458,15 @@ test.describe('Withdraw dialog', () => {
 
     test('hf in danger zone; asset not collateral; risk warning is not shown', async ({ page }) => {
       // disabling collateral and entering danger zone
-      await dashboardPage.clickCollateralSwitchAction('rETH')
+      await myPortfolioPage.clickCollateralSwitchAction('rETH')
       const collateralDialog = new CollateralDialogPageObject(page)
       await collateralDialog.clickAcknowledgeRisk()
       await collateralDialog.actionsContainer.acceptAllActionsAction(1)
       await collateralDialog.expectSetUseAsCollateralSuccessPage('rETH', 'disabled')
-      await dashboardPage.goToDashboardAction()
-      await dashboardPage.expectCollateralSwitch('rETH', false)
+      await myPortfolioPage.goToMyPortfolioAction()
+      await myPortfolioPage.expectCollateralSwitch('rETH', false)
 
-      await dashboardPage.clickWithdrawButtonAction('rETH')
+      await myPortfolioPage.clickWithdrawButtonAction('rETH')
       await withdrawDialog.clickMaxAmountAction()
       await withdrawDialog.actionsContainer.expectEnabledActionAtIndex(0)
       await withdrawDialog.expectLiquidationRiskWarningNotVisible()
@@ -477,11 +477,11 @@ test.describe('Withdraw dialog', () => {
     let withdrawDialog: DialogPageObject
     let borrowDialog: DialogPageObject
     let depositDialog: DialogPageObject
-    let dashboardPage: DashboardPageObject
+    let myPortfolioPage: MyPortfolioPageObject
 
     test.beforeEach(async ({ page }) => {
       await setup(page, fork, {
-        initialPage: 'dashboard',
+        initialPage: 'myPortfolio',
         account: {
           type: 'connected-random',
           assetBalances: { ETH: 10, wstETH: 5, rETH: 1, WBTC: 1 },
@@ -489,25 +489,25 @@ test.describe('Withdraw dialog', () => {
       })
 
       withdrawDialog = new DialogPageObject(page, headerRegExp)
-      dashboardPage = new DashboardPageObject(page)
+      myPortfolioPage = new MyPortfolioPageObject(page)
       borrowDialog = new DialogPageObject(page, /Borrow/)
 
-      await dashboardPage.clickDepositButtonAction('wstETH')
+      await myPortfolioPage.clickDepositButtonAction('wstETH')
       depositDialog = new DialogPageObject(page, /Deposit/)
       await depositDialog.fillAmountAction(5)
       await depositDialog.actionsContainer.acceptAllActionsAction(2, fork)
-      await depositDialog.viewInDashboardAction()
-      await dashboardPage.expectDepositedAssets(13_104.84)
+      await depositDialog.viewInMyPortfolioAction()
+      await myPortfolioPage.expectDepositedAssets(13_104.84)
     })
 
     test('withdraws amount up to HF 1.01', async () => {
-      await dashboardPage.clickBorrowButtonAction('DAI')
+      await myPortfolioPage.clickBorrowButtonAction('DAI')
       await borrowDialog.fillAmountAction(5000)
       await borrowDialog.actionsContainer.acceptAllActionsAction(1)
-      await borrowDialog.viewInDashboardAction()
-      await dashboardPage.expectHealthFactor('2.08')
+      await borrowDialog.viewInMyPortfolioAction()
+      await myPortfolioPage.expectHealthFactor('2.08')
 
-      await dashboardPage.clickWithdrawButtonAction('wstETH')
+      await myPortfolioPage.clickWithdrawButtonAction('wstETH')
 
       await withdrawDialog.clickMaxAmountAction()
       await withdrawDialog.clickAcknowledgeRisk()
@@ -520,20 +520,20 @@ test.describe('Withdraw dialog', () => {
     })
 
     test('works for collaterals with different liquidation thresholds', async () => {
-      await dashboardPage.clickDepositButtonAction('WBTC')
+      await myPortfolioPage.clickDepositButtonAction('WBTC')
       await depositDialog.fillAmountAction(1)
       await depositDialog.actionsContainer.acceptAllActionsAction(2)
-      await depositDialog.viewInDashboardAction()
-      await dashboardPage.expectDepositedAssets(54_910)
+      await depositDialog.viewInMyPortfolioAction()
+      await myPortfolioPage.expectDepositedAssets(54_910)
 
-      await dashboardPage.clickBorrowButtonAction('DAI')
+      await myPortfolioPage.clickBorrowButtonAction('DAI')
       await borrowDialog.fillAmountAction(35000)
       await borrowDialog.clickAcknowledgeRisk()
       await borrowDialog.actionsContainer.acceptAllActionsAction(1)
-      await borrowDialog.viewInDashboardAction()
-      await dashboardPage.expectHealthFactor('1.19')
+      await borrowDialog.viewInMyPortfolioAction()
+      await myPortfolioPage.expectHealthFactor('1.19')
 
-      await dashboardPage.clickWithdrawButtonAction('WBTC')
+      await myPortfolioPage.clickWithdrawButtonAction('WBTC')
 
       await withdrawDialog.clickMaxAmountAction()
       await withdrawDialog.clickAcknowledgeRisk()
@@ -546,19 +546,19 @@ test.describe('Withdraw dialog', () => {
     })
 
     test('works in e-mode', async ({ page }) => {
-      await dashboardPage.clickBorrowButtonAction('WETH')
+      await myPortfolioPage.clickBorrowButtonAction('WETH')
       await borrowDialog.fillAmountAction(2)
       await borrowDialog.actionsContainer.acceptAllActionsAction(1)
-      await borrowDialog.viewInDashboardAction()
-      await dashboardPage.expectHealthFactor('2.3')
-      await dashboardPage.clickEModeButtonAction()
+      await borrowDialog.viewInMyPortfolioAction()
+      await myPortfolioPage.expectHealthFactor('2.3')
+      await myPortfolioPage.clickEModeButtonAction()
       const eModeDialog = new EModeDialogPageObject(page)
       await eModeDialog.clickEModeCategoryTileAction('ETH Correlated')
       await eModeDialog.actionsContainer.acceptAllActionsAction(1)
-      await eModeDialog.viewInDashboardAction()
-      await dashboardPage.expectHealthFactor('2.69')
+      await eModeDialog.viewInMyPortfolioAction()
+      await myPortfolioPage.expectHealthFactor('2.69')
 
-      await dashboardPage.clickWithdrawButtonAction('wstETH')
+      await myPortfolioPage.clickWithdrawButtonAction('wstETH')
       await withdrawDialog.clickMaxAmountAction()
       await withdrawDialog.clickAcknowledgeRisk()
 
@@ -570,28 +570,28 @@ test.describe('Withdraw dialog', () => {
     })
 
     test('works for asset with usage as collateral disabled', async ({ page }) => {
-      await dashboardPage.clickBorrowButtonAction('DAI')
+      await myPortfolioPage.clickBorrowButtonAction('DAI')
       await borrowDialog.clickMaxAmountAction()
       await borrowDialog.clickAcknowledgeRisk()
       await borrowDialog.actionsContainer.acceptAllActionsAction(1)
-      await borrowDialog.viewInDashboardAction()
-      await dashboardPage.expectHealthFactor('1.17')
+      await borrowDialog.viewInMyPortfolioAction()
+      await myPortfolioPage.expectHealthFactor('1.17')
 
-      await dashboardPage.clickDepositButtonAction('rETH')
+      await myPortfolioPage.clickDepositButtonAction('rETH')
       const depositDialog = new DialogPageObject(page, /Deposit/)
       await depositDialog.fillAmountAction(1)
       await depositDialog.actionsContainer.acceptAllActionsAction(2)
-      await depositDialog.viewInDashboardAction()
-      await dashboardPage.expectHealthFactor('1.39')
+      await depositDialog.viewInMyPortfolioAction()
+      await myPortfolioPage.expectHealthFactor('1.39')
 
-      await dashboardPage.clickCollateralSwitchAction('rETH')
+      await myPortfolioPage.clickCollateralSwitchAction('rETH')
       const collateralDialog = new CollateralDialogPageObject(page)
       await collateralDialog.clickAcknowledgeRisk()
       await collateralDialog.setUseAsCollateralAction('rETH', 'disabled')
-      await dashboardPage.goToDashboardAction()
-      await dashboardPage.expectHealthFactor('1.17')
+      await myPortfolioPage.goToMyPortfolioAction()
+      await myPortfolioPage.expectHealthFactor('1.17')
 
-      await dashboardPage.clickWithdrawButtonAction('rETH')
+      await myPortfolioPage.clickWithdrawButtonAction('rETH')
       await withdrawDialog.clickMaxAmountAction()
 
       await withdrawDialog.expectInputValue('1')
@@ -603,14 +603,14 @@ test.describe('Withdraw dialog', () => {
     })
 
     test('native asset withdrawal requires enough approval', async () => {
-      await dashboardPage.clickDepositButtonAction('WETH')
+      await myPortfolioPage.clickDepositButtonAction('WETH')
       await depositDialog.selectAssetAction('ETH')
       await depositDialog.fillAmountAction(5)
       await depositDialog.actionsContainer.acceptAllActionsAction(1, fork)
-      await depositDialog.viewInDashboardAction()
-      await dashboardPage.expectDepositedAssets(24_450)
+      await depositDialog.viewInMyPortfolioAction()
+      await myPortfolioPage.expectDepositedAssets(24_450)
 
-      await dashboardPage.clickWithdrawButtonAction('WETH')
+      await myPortfolioPage.clickWithdrawButtonAction('WETH')
       await withdrawDialog.selectAssetAction('ETH')
       await withdrawDialog.clickMaxAmountAction()
 
@@ -623,15 +623,15 @@ test.describe('Withdraw dialog', () => {
       await withdrawDialog.actionsContainer.expectEnabledActionAtIndex(1)
       await withdrawDialog.closeDialog()
 
-      await dashboardPage.clickDepositButtonAction('WETH')
+      await myPortfolioPage.clickDepositButtonAction('WETH')
       await depositDialog.selectAssetAction('ETH')
       await depositDialog.fillAmountAction(4)
       await depositDialog.actionsContainer.acceptAllActionsAction(1)
-      await depositDialog.viewInDashboardAction()
-      await dashboardPage.expectDepositedAssets(33_530)
+      await depositDialog.viewInMyPortfolioAction()
+      await myPortfolioPage.expectDepositedAssets(33_530)
 
       // following checks leverage the fact that approval is cached, therefore we input different values to estimate the approval value
-      await dashboardPage.clickWithdrawButtonAction('WETH')
+      await myPortfolioPage.clickWithdrawButtonAction('WETH')
       await withdrawDialog.selectAssetAction('ETH')
       await withdrawDialog.fillAmountAction(5.000001)
       await withdrawDialog.actionsContainer.expectEnabledActionAtIndex(1)

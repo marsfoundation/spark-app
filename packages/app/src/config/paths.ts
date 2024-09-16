@@ -1,6 +1,6 @@
 export const paths = {
   easyBorrow: '/',
-  dashboard: '/dashboard',
+  myPortfolio: '/my-portfolio',
   markets: '/markets',
   savings: '/savings',
   farms: '/farms',

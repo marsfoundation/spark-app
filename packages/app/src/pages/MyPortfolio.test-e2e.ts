@@ -7,9 +7,9 @@ import { setup } from '@/test/e2e/setup'
 import { calculateAssetsWorth, screenshot } from '@/test/e2e/utils'
 
 import { BorrowPageObject } from './Borrow.PageObject'
-import { DashboardPageObject } from './Dashboard.PageObject'
+import { MyPortfolioPageObject } from './MyPortfolio.PageObject'
 
-test.describe('Dashboard', () => {
+test.describe('MyPortfolio', () => {
   const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id })
 
   test.skip('guest state', async ({ page }) => {
@@ -17,27 +17,27 @@ test.describe('Dashboard', () => {
       account: {
         type: 'not-connected',
       },
-      initialPage: 'dashboard',
+      initialPage: 'myPortfolio',
     })
-    const dashboardPage = new DashboardPageObject(page)
+    const myPortfolioPage = new MyPortfolioPageObject(page)
 
-    await dashboardPage.expectGuestScreen()
+    await myPortfolioPage.expectGuestScreen()
 
-    await screenshot(page, 'dashboard-guest')
+    await screenshot(page, 'myPortfolio-guest')
   })
 
   test('empty account', async ({ page }) => {
     await setup(page, fork, {
-      initialPage: 'dashboard',
+      initialPage: 'myPortfolio',
       account: {
         type: 'connected-random',
       },
     })
-    const dashboardPage = new DashboardPageObject(page)
+    const myPortfolioPage = new MyPortfolioPageObject(page)
 
-    await dashboardPage.expectPositionToBeEmpty()
+    await myPortfolioPage.expectPositionToBeEmpty()
 
-    await screenshot(page, 'dashboard-empty-account')
+    await screenshot(page, 'myPortfolio-empty-account')
   })
 
   test('no position', async ({ page }) => {
@@ -49,18 +49,18 @@ test.describe('Dashboard', () => {
       WETH: 1,
     }
     await setup(page, fork, {
-      initialPage: 'dashboard',
+      initialPage: 'myPortfolio',
       account: {
         type: 'connected-random',
         assetBalances,
       },
     })
-    const dashboardPage = new DashboardPageObject(page)
+    const myPortfolioPage = new MyPortfolioPageObject(page)
 
-    await dashboardPage.expectPositionToBeEmpty()
-    await dashboardPage.expectWalletTable(assetBalances)
+    await myPortfolioPage.expectPositionToBeEmpty()
+    await myPortfolioPage.expectWalletTable(assetBalances)
 
-    await screenshot(page, 'dashboard-no-position')
+    await screenshot(page, 'myPortfolio-no-position')
   })
 
   test('with open position', async ({ page }) => {
@@ -79,19 +79,19 @@ test.describe('Dashboard', () => {
 
     const borrowPage = new BorrowPageObject(page)
     await borrowPage.depositAssetsActions(assetsToDeposit, daiToBorrow)
-    await borrowPage.viewInDashboardAction()
+    await borrowPage.viewInMyPortfolioAction()
 
-    const dashboardPage = new DashboardPageObject(page)
-    await dashboardPage.expectHealthFactor('5.42')
-    await dashboardPage.expectDepositedAssets((await calculateAssetsWorth(fork.forkUrl, assetsToDeposit)).total)
-    await dashboardPage.expectBorrowedAssets((await calculateAssetsWorth(fork.forkUrl, { DAI: daiToBorrow })).total)
+    const myPortfolioPage = new MyPortfolioPageObject(page)
+    await myPortfolioPage.expectHealthFactor('5.42')
+    await myPortfolioPage.expectDepositedAssets((await calculateAssetsWorth(fork.forkUrl, assetsToDeposit)).total)
+    await myPortfolioPage.expectBorrowedAssets((await calculateAssetsWorth(fork.forkUrl, { DAI: daiToBorrow })).total)
 
-    await dashboardPage.expectDepositTable(assetsToDeposit)
-    await dashboardPage.expectWalletTable({
+    await myPortfolioPage.expectDepositTable(assetsToDeposit)
+    await myPortfolioPage.expectWalletTable({
       ...assetsToDeposit,
       DAI: daiToBorrow,
     })
 
-    await screenshot(page, 'dashboard-open-position')
+    await screenshot(page, 'myPortfolio-open-position')
   })
 })

@@ -3,12 +3,12 @@ import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { useOpenDialog } from '@/domain/state/dialogs'
 import { withSuspense } from '@/ui/utils/withSuspense'
 
-import { DashboardSkeleton } from './components/skeleton/DashboardSkeleton'
-import { useDashboard } from './logic/useDashboard'
+import { MyPortfolioSkeleton } from './components/skeleton/MyPortfolioSkeleton'
+import { useMyPortfolio } from './logic/useMyPortfolio'
 import { GuestView } from './views/GuestView'
 import { PositionView } from './views/PositionView'
 
-function DashboardContainer() {
+function MyPortfolioContainer() {
   const {
     positionSummary,
     deposits,
@@ -18,7 +18,7 @@ function DashboardContainer() {
     guestMode,
     liquidationDetails,
     openSandboxModal,
-  } = useDashboard()
+  } = useMyPortfolio()
   const { openConnectModal = () => {} } = useConnectModal()
   const openDialog = useOpenDialog()
 
@@ -39,5 +39,5 @@ function DashboardContainer() {
   )
 }
 
-const DashboardContainerWithSuspense = withSuspense(DashboardContainer, DashboardSkeleton)
-export { DashboardContainerWithSuspense as DashboardContainer }
+const MyPortfolioContainerWithSuspense = withSuspense(MyPortfolioContainer, MyPortfolioSkeleton)
+export { MyPortfolioContainerWithSuspense as MyPortfolioContainer }

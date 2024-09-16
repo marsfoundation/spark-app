@@ -1,6 +1,6 @@
 import { setUserEModeValidationIssueToMessage } from '@/domain/market-validators/validateSetUserEMode'
 import { BorrowPageObject } from '@/pages/Borrow.PageObject'
-import { DashboardPageObject } from '@/pages/Dashboard.PageObject'
+import { MyPortfolioPageObject } from '@/pages/MyPortfolio.PageObject'
 import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
@@ -15,7 +15,7 @@ test.describe('E-Mode dialog', () => {
   test.describe('ETH correlated assets borrowed', () => {
     let eModeDialog: EModeDialogPageObject
     let borrowDialog: DialogPageObject
-    let dashboardPage: DashboardPageObject
+    let myPortfolioPage: MyPortfolioPageObject
 
     test.beforeEach(async ({ page }) => {
       await setup(page, fork, {
@@ -28,24 +28,24 @@ test.describe('E-Mode dialog', () => {
 
       eModeDialog = new EModeDialogPageObject(page)
       borrowDialog = new DialogPageObject(page, /Borrow/)
-      dashboardPage = new DashboardPageObject(page)
+      myPortfolioPage = new MyPortfolioPageObject(page)
 
       const borrowPage = new BorrowPageObject(page)
       await borrowPage.depositWithoutBorrowActions({ wstETH: 20 })
-      await dashboardPage.goToDashboardAction()
+      await myPortfolioPage.goToMyPortfolioAction()
 
-      await dashboardPage.clickBorrowButtonAction('rETH')
+      await myPortfolioPage.clickBorrowButtonAction('rETH')
       await borrowDialog.fillAmountAction(5)
       await borrowDialog.actionsContainer.acceptAllActionsAction(1)
-      await borrowDialog.viewInDashboardAction()
-      await dashboardPage.clickBorrowButtonAction('WETH')
+      await borrowDialog.viewInMyPortfolioAction()
+      await myPortfolioPage.clickBorrowButtonAction('WETH')
       await borrowDialog.fillAmountAction(5)
       await borrowDialog.actionsContainer.acceptAllActionsAction(1)
-      await borrowDialog.viewInDashboardAction()
+      await borrowDialog.viewInMyPortfolioAction()
     })
 
     test('can switch from no e-mode to eth correlated', async () => {
-      await dashboardPage.clickEModeButtonAction()
+      await myPortfolioPage.clickEModeButtonAction()
       await eModeDialog.expectEModeCategoryTileStatus('No E-Mode', 'Active')
       await eModeDialog.expectEModeCategoryTileStatus('ETH Correlated', 'Inactive')
       await eModeDialog.expectEModeTransactionOverview({
@@ -77,12 +77,12 @@ test.describe('E-Mode dialog', () => {
 
       await eModeDialog.actionsContainer.acceptAllActionsAction(1)
       await eModeDialog.expectEModeSuccessPage('ETH Correlated')
-      await eModeDialog.viewInDashboardAction()
-      await dashboardPage.expectEModeButtonText('ETH Correlated')
+      await eModeDialog.viewInMyPortfolioAction()
+      await myPortfolioPage.expectEModeButtonText('ETH Correlated')
     })
 
     test('cannot switch from no e-mode to stablecoins', async () => {
-      await dashboardPage.clickEModeButtonAction()
+      await myPortfolioPage.clickEModeButtonAction()
       await eModeDialog.clickEModeCategoryTileAction('Stablecoins')
       await eModeDialog.expectAlertMessage(
         setUserEModeValidationIssueToMessage['borrowed-assets-emode-category-mismatch'],
@@ -91,10 +91,10 @@ test.describe('E-Mode dialog', () => {
     })
 
     test('can enter eth correlated e-mode and switch back to no e-mode', async () => {
-      await dashboardPage.clickEModeButtonAction()
+      await myPortfolioPage.clickEModeButtonAction()
       await eModeDialog.setEModeAction('ETH Correlated')
-      await dashboardPage.expectEModeButtonText('ETH Correlated')
-      await dashboardPage.clickEModeButtonAction()
+      await myPortfolioPage.expectEModeButtonText('ETH Correlated')
+      await myPortfolioPage.clickEModeButtonAction()
 
       await eModeDialog.expectEModeCategoryTileStatus('ETH Correlated', 'Active')
       await eModeDialog.expectEModeCategoryTileStatus('No E-Mode', 'Inactive')
@@ -116,22 +116,22 @@ test.describe('E-Mode dialog', () => {
       })
       await eModeDialog.actionsContainer.acceptAllActionsAction(1)
       await eModeDialog.expectEModeSuccessPage('No E-Mode')
-      await eModeDialog.viewInDashboardAction()
-      await dashboardPage.expectEModeButtonText('off')
+      await eModeDialog.viewInMyPortfolioAction()
+      await myPortfolioPage.expectEModeButtonText('off')
     })
 
     test('cannot switch back to no e-mode if hf below 1', async () => {
-      await dashboardPage.clickEModeButtonAction()
+      await myPortfolioPage.clickEModeButtonAction()
       await eModeDialog.setEModeAction('ETH Correlated')
-      await dashboardPage.expectEModeButtonText('ETH Correlated')
+      await myPortfolioPage.expectEModeButtonText('ETH Correlated')
 
-      await dashboardPage.clickBorrowButtonAction('WETH')
+      await myPortfolioPage.clickBorrowButtonAction('WETH')
       await borrowDialog.fillAmountAction(10)
       await eModeDialog.clickAcknowledgeRisk()
       await borrowDialog.actionsContainer.acceptAllActionsAction(1)
-      await borrowDialog.viewInDashboardAction()
+      await borrowDialog.viewInMyPortfolioAction()
 
-      await dashboardPage.clickEModeButtonAction()
+      await myPortfolioPage.clickEModeButtonAction()
       await eModeDialog.clickEModeCategoryTileAction('No E-Mode')
       await eModeDialog.expectAlertMessage(setUserEModeValidationIssueToMessage['exceeds-ltv'])
       await eModeDialog.actionsContainer.expectDisabledActions([{ type: 'setUserEMode', eModeCategoryId: 0 }])
@@ -141,7 +141,7 @@ test.describe('E-Mode dialog', () => {
   test.describe('Stablecoins borrowed', () => {
     let eModeDialog: EModeDialogPageObject
     let borrowDialog: DialogPageObject
-    let dashboardPage: DashboardPageObject
+    let myPortfolioPage: MyPortfolioPageObject
 
     test.beforeEach(async ({ page }) => {
       await setup(page, fork, {
@@ -154,20 +154,20 @@ test.describe('E-Mode dialog', () => {
 
       eModeDialog = new EModeDialogPageObject(page)
       borrowDialog = new DialogPageObject(page, /Borrow/)
-      dashboardPage = new DashboardPageObject(page)
+      myPortfolioPage = new MyPortfolioPageObject(page)
 
       const borrowPage = new BorrowPageObject(page)
       await borrowPage.depositWithoutBorrowActions({ wstETH: 1 })
-      await dashboardPage.goToDashboardAction()
+      await myPortfolioPage.goToMyPortfolioAction()
 
-      await dashboardPage.clickBorrowButtonAction('USDC')
+      await myPortfolioPage.clickBorrowButtonAction('USDC')
       await borrowDialog.fillAmountAction(1000)
       await borrowDialog.actionsContainer.acceptAllActionsAction(1)
-      await borrowDialog.viewInDashboardAction()
+      await borrowDialog.viewInMyPortfolioAction()
     })
 
     test('can switch from no e-mode to stablecoins', async () => {
-      await dashboardPage.clickEModeButtonAction()
+      await myPortfolioPage.clickEModeButtonAction()
       await eModeDialog.expectEModeCategoryTileStatus('No E-Mode', 'Active')
       await eModeDialog.expectEModeCategoryTileStatus('Stablecoins', 'Inactive')
       await eModeDialog.expectEModeTransactionOverview({
@@ -199,12 +199,12 @@ test.describe('E-Mode dialog', () => {
 
       await eModeDialog.actionsContainer.acceptAllActionsAction(1)
       await eModeDialog.expectEModeSuccessPage('Stablecoins')
-      await eModeDialog.viewInDashboardAction()
-      await dashboardPage.expectEModeButtonText('Stablecoins')
+      await eModeDialog.viewInMyPortfolioAction()
+      await myPortfolioPage.expectEModeButtonText('Stablecoins')
     })
 
     test('cannot switch from no e-mode to eth correlated', async () => {
-      await dashboardPage.clickEModeButtonAction()
+      await myPortfolioPage.clickEModeButtonAction()
       await eModeDialog.clickEModeCategoryTileAction('ETH Correlated')
       await eModeDialog.expectAlertMessage(
         setUserEModeValidationIssueToMessage['borrowed-assets-emode-category-mismatch'],
@@ -213,10 +213,10 @@ test.describe('E-Mode dialog', () => {
     })
 
     test('can enter stablecoins e-mode and switch back to no e-mode', async () => {
-      await dashboardPage.clickEModeButtonAction()
+      await myPortfolioPage.clickEModeButtonAction()
       await eModeDialog.setEModeAction('Stablecoins')
-      await dashboardPage.expectEModeButtonText('Stablecoins')
-      await dashboardPage.clickEModeButtonAction()
+      await myPortfolioPage.expectEModeButtonText('Stablecoins')
+      await myPortfolioPage.clickEModeButtonAction()
 
       await eModeDialog.expectEModeCategoryTileStatus('Stablecoins', 'Active')
       await eModeDialog.expectEModeCategoryTileStatus('No E-Mode', 'Inactive')
@@ -238,15 +238,15 @@ test.describe('E-Mode dialog', () => {
       })
       await eModeDialog.actionsContainer.acceptAllActionsAction(1)
       await eModeDialog.expectEModeSuccessPage('No E-Mode')
-      await eModeDialog.viewInDashboardAction()
-      await dashboardPage.expectEModeButtonText('off')
+      await eModeDialog.viewInMyPortfolioAction()
+      await myPortfolioPage.expectEModeButtonText('off')
     })
   })
 
   test.describe('Assets from multiple categories borrowed', () => {
     let eModeDialog: EModeDialogPageObject
     let borrowDialog: DialogPageObject
-    let dashboardPage: DashboardPageObject
+    let myPortfolioPage: MyPortfolioPageObject
 
     test.beforeEach(async ({ page }) => {
       await setup(page, fork, {
@@ -259,25 +259,25 @@ test.describe('E-Mode dialog', () => {
 
       eModeDialog = new EModeDialogPageObject(page)
       borrowDialog = new DialogPageObject(page, /Borrow/)
-      dashboardPage = new DashboardPageObject(page)
+      myPortfolioPage = new MyPortfolioPageObject(page)
 
       const borrowPage = new BorrowPageObject(page)
       await borrowPage.depositWithoutBorrowActions({ wstETH: 10 })
-      await dashboardPage.goToDashboardAction()
+      await myPortfolioPage.goToMyPortfolioAction()
 
-      await dashboardPage.clickBorrowButtonAction('rETH')
+      await myPortfolioPage.clickBorrowButtonAction('rETH')
       await borrowDialog.fillAmountAction(1)
       await borrowDialog.actionsContainer.acceptAllActionsAction(1)
-      await borrowDialog.viewInDashboardAction()
+      await borrowDialog.viewInMyPortfolioAction()
 
-      await dashboardPage.clickBorrowButtonAction('WBTC')
+      await myPortfolioPage.clickBorrowButtonAction('WBTC')
       await borrowDialog.fillAmountAction(0.1)
       await borrowDialog.actionsContainer.acceptAllActionsAction(1)
-      await borrowDialog.viewInDashboardAction()
+      await borrowDialog.viewInMyPortfolioAction()
     })
 
     test('cannot switch from no e-mode to stablecoins', async () => {
-      await dashboardPage.clickEModeButtonAction()
+      await myPortfolioPage.clickEModeButtonAction()
       await eModeDialog.expectEModeCategoryTileStatus('No E-Mode', 'Active')
       await eModeDialog.expectEModeCategoryTileStatus('Stablecoins', 'Inactive')
 
@@ -305,7 +305,7 @@ test.describe('E-Mode dialog', () => {
     })
 
     test('cannot switch from no e-mode to eth correlated', async () => {
-      await dashboardPage.clickEModeButtonAction()
+      await myPortfolioPage.clickEModeButtonAction()
       await eModeDialog.expectEModeCategoryTileStatus('No E-Mode', 'Active')
       await eModeDialog.expectEModeCategoryTileStatus('ETH Correlated', 'Inactive')
 
@@ -334,7 +334,7 @@ test.describe('E-Mode dialog', () => {
 
   test.describe('Nothing borrowed', () => {
     let eModeDialog: EModeDialogPageObject
-    let dashboardPage: DashboardPageObject
+    let myPortfolioPage: MyPortfolioPageObject
 
     test.beforeEach(async ({ page }) => {
       await setup(page, fork, {
@@ -346,15 +346,15 @@ test.describe('E-Mode dialog', () => {
       })
 
       eModeDialog = new EModeDialogPageObject(page)
-      dashboardPage = new DashboardPageObject(page)
+      myPortfolioPage = new MyPortfolioPageObject(page)
 
       const borrowPage = new BorrowPageObject(page)
       await borrowPage.depositWithoutBorrowActions({ wstETH: 20 })
-      await dashboardPage.goToDashboardAction()
+      await myPortfolioPage.goToMyPortfolioAction()
     })
 
     test('can switch from no e-mode to eth correleated', async () => {
-      await dashboardPage.clickEModeButtonAction()
+      await myPortfolioPage.clickEModeButtonAction()
       await eModeDialog.expectEModeCategoryTileStatus('No E-Mode', 'Active')
       await eModeDialog.expectEModeCategoryTileStatus('ETH Correlated', 'Inactive')
 
@@ -374,12 +374,12 @@ test.describe('E-Mode dialog', () => {
 
       await eModeDialog.actionsContainer.acceptAllActionsAction(1)
       await eModeDialog.expectEModeSuccessPage('ETH Correlated')
-      await eModeDialog.viewInDashboardAction()
-      await dashboardPage.expectEModeButtonText('ETH Correlated')
+      await eModeDialog.viewInMyPortfolioAction()
+      await myPortfolioPage.expectEModeButtonText('ETH Correlated')
     })
 
     test('can switch from no e-mode to stablecoins', async () => {
-      await dashboardPage.clickEModeButtonAction()
+      await myPortfolioPage.clickEModeButtonAction()
       await eModeDialog.expectEModeCategoryTileStatus('No E-Mode', 'Active')
 
       await eModeDialog.expectEModeCategoryTileStatus('Stablecoins', 'Inactive')
@@ -399,15 +399,15 @@ test.describe('E-Mode dialog', () => {
 
       await eModeDialog.actionsContainer.acceptAllActionsAction(1)
       await eModeDialog.expectEModeSuccessPage('Stablecoins')
-      await eModeDialog.viewInDashboardAction()
-      await dashboardPage.expectEModeButtonText('Stablecoins')
+      await eModeDialog.viewInMyPortfolioAction()
+      await myPortfolioPage.expectEModeButtonText('Stablecoins')
     })
 
     test('can enter e-mode and switch back to no e-mode', async () => {
-      await dashboardPage.clickEModeButtonAction()
+      await myPortfolioPage.clickEModeButtonAction()
       await eModeDialog.setEModeAction('Stablecoins')
-      await dashboardPage.expectEModeButtonText('Stablecoins')
-      await dashboardPage.clickEModeButtonAction()
+      await myPortfolioPage.expectEModeButtonText('Stablecoins')
+      await myPortfolioPage.clickEModeButtonAction()
 
       await eModeDialog.expectEModeCategoryTileStatus('Stablecoins', 'Active')
       await eModeDialog.expectEModeCategoryTileStatus('No E-Mode', 'Inactive')
@@ -425,15 +425,15 @@ test.describe('E-Mode dialog', () => {
       })
       await eModeDialog.actionsContainer.acceptAllActionsAction(1)
       await eModeDialog.expectEModeSuccessPage('No E-Mode')
-      await eModeDialog.viewInDashboardAction()
-      await dashboardPage.expectEModeButtonText('off')
+      await eModeDialog.viewInMyPortfolioAction()
+      await myPortfolioPage.expectEModeButtonText('off')
     })
   })
 
   test.describe('Liquidation risk warning', () => {
     test.describe('In danger zone', () => {
       let eModeDialog: EModeDialogPageObject
-      let dashboardPage: DashboardPageObject
+      let myPortfolioPage: MyPortfolioPageObject
 
       test.beforeEach(async ({ page }) => {
         await setup(page, fork, {
@@ -445,28 +445,28 @@ test.describe('E-Mode dialog', () => {
         })
 
         eModeDialog = new EModeDialogPageObject(page)
-        dashboardPage = new DashboardPageObject(page)
+        myPortfolioPage = new MyPortfolioPageObject(page)
 
         const borrowPage = new BorrowPageObject(page)
         await borrowPage.depositWithoutBorrowActions({ rETH: 2, wstETH: 10 })
-        await dashboardPage.goToDashboardAction()
+        await myPortfolioPage.goToMyPortfolioAction()
 
-        await dashboardPage.clickBorrowButtonAction('WETH')
+        await myPortfolioPage.clickBorrowButtonAction('WETH')
         const borrowDialog = new DialogPageObject(page, /Borrow/)
         await borrowDialog.fillAmountAction(8)
         await borrowDialog.clickAcknowledgeRisk()
         await borrowDialog.actionsContainer.acceptAllActionsAction(1)
         await borrowDialog.expectSuccessPage([{ asset: 'WETH', amount: 8 }], fork)
-        await borrowDialog.viewInDashboardAction()
-        await dashboardPage.expectAssetToBeInBorrowTable('WETH')
+        await borrowDialog.viewInMyPortfolioAction()
+        await myPortfolioPage.expectAssetToBeInBorrowTable('WETH')
 
-        await dashboardPage.clickEModeButtonAction()
+        await myPortfolioPage.clickEModeButtonAction()
         await eModeDialog.setEModeAction('ETH Correlated')
-        await dashboardPage.expectEModeButtonText('ETH Correlated')
+        await myPortfolioPage.expectEModeButtonText('ETH Correlated')
       })
 
       test('shows risk warning', async () => {
-        await dashboardPage.clickEModeButtonAction()
+        await myPortfolioPage.clickEModeButtonAction()
         await eModeDialog.clickEModeCategoryTileAction('No E-Mode')
         await eModeDialog.expectLiquidationRiskWarning(
           'Disabling E-Mode decreases health factor of your position and puts you at risk of quick liquidation. You may lose part of your collateral.',
@@ -474,7 +474,7 @@ test.describe('E-Mode dialog', () => {
       })
 
       test('actions stay disabled until risk warning is acknowledged', async () => {
-        await dashboardPage.clickEModeButtonAction()
+        await myPortfolioPage.clickEModeButtonAction()
 
         await eModeDialog.clickEModeCategoryTileAction('No E-Mode')
         await eModeDialog.actionsContainer.expectDisabledActionAtIndex(0)
@@ -483,7 +483,7 @@ test.describe('E-Mode dialog', () => {
       })
 
       test('validation error; risk warning is not shown', async () => {
-        await dashboardPage.clickEModeButtonAction()
+        await myPortfolioPage.clickEModeButtonAction()
 
         await eModeDialog.clickEModeCategoryTileAction('Stablecoins')
         await eModeDialog.expectAlertMessage(
@@ -495,7 +495,7 @@ test.describe('E-Mode dialog', () => {
 
     test.describe('Not in danger zone', () => {
       let eModeDialog: EModeDialogPageObject
-      let dashboardPage: DashboardPageObject
+      let myPortfolioPage: MyPortfolioPageObject
 
       test.beforeEach(async ({ page }) => {
         await setup(page, fork, {
@@ -507,23 +507,23 @@ test.describe('E-Mode dialog', () => {
         })
 
         eModeDialog = new EModeDialogPageObject(page)
-        dashboardPage = new DashboardPageObject(page)
+        myPortfolioPage = new MyPortfolioPageObject(page)
 
         const borrowPage = new BorrowPageObject(page)
         await borrowPage.depositWithoutBorrowActions({ rETH: 2, wstETH: 10 })
-        await dashboardPage.goToDashboardAction()
+        await myPortfolioPage.goToMyPortfolioAction()
 
-        await dashboardPage.clickBorrowButtonAction('WETH')
+        await myPortfolioPage.clickBorrowButtonAction('WETH')
         const borrowDialog = new DialogPageObject(page, /Borrow/)
         await borrowDialog.fillAmountAction(2)
         await borrowDialog.actionsContainer.acceptAllActionsAction(1)
         await borrowDialog.expectSuccessPage([{ asset: 'WETH', amount: 2 }], fork)
-        await borrowDialog.viewInDashboardAction()
-        await dashboardPage.expectAssetToBeInBorrowTable('WETH')
+        await borrowDialog.viewInMyPortfolioAction()
+        await myPortfolioPage.expectAssetToBeInBorrowTable('WETH')
       })
 
       test('hf above danger zone threshold; risk warning is not shown', async () => {
-        await dashboardPage.clickEModeButtonAction()
+        await myPortfolioPage.clickEModeButtonAction()
         await eModeDialog.clickEModeCategoryTileAction('No E-Mode')
         await eModeDialog.expectLiquidationRiskWarningNotVisible()
       })
