@@ -1,9 +1,11 @@
 import { getChainConfigEntry } from '@/config/chain'
-import { MIGRATE_ACTIONS_ADDRESS } from '@/config/consts'
+import { MIGRATE_ACTIONS_ADDRESS, USDS_PSM_WRAPPER } from '@/config/consts'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { Action, ActionContext } from '@/features/actions/logic/types'
-import { assert } from '@/utils/assert'
+import { assert, raise } from '@/utils/assert'
 import { ApproveAction } from '../../approve/types'
 import { UpgradeAction } from '../../upgrade/types'
+import { UsdsPsmWrapAction } from '../../usds-psm-wrap/types'
 import { createWithdrawFromSavingsActions } from '../../withdraw-from-savings/logic/createWithdrawFromSavingsActions'
 import { WithdrawFromSavingsObjective } from '../../withdraw-from-savings/types'
 import { StakeAction, StakeObjective } from '../types'
@@ -74,7 +76,26 @@ export function createStakeActions(objective: StakeObjective, context: ActionCon
       ]
     }
 
-    // @todo: Add psm swap action flavor to support USDC staking
+    assert(context.tokensInfo, 'Tokens info is required for stake action')
+    const usdc = context.tokensInfo.findOneTokenBySymbol(TokenSymbol('USDC'))
+
+    if (objective.token.symbol === usdc.symbol) {
+      const approveWrapAction: ApproveAction = {
+        type: 'approve',
+        token: objective.token,
+        spender: USDS_PSM_WRAPPER,
+        value: objective.amount,
+      }
+
+      const wrapAction: UsdsPsmWrapAction = {
+        type: 'usdsPsmWrap',
+        usdc: objective.token,
+        usds: context.tokensInfo.USDS ?? raise('USDS token is required for usds psm wrap action'),
+        usdcAmount: objective.amount,
+      }
+
+      return [approveWrapAction, wrapAction, approveStakeAction, stakeAction]
+    }
   }
 
   return [approveStakeAction, stakeAction]

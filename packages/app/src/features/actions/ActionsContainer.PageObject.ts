@@ -224,6 +224,8 @@ function actionToTitle(action: SimplifiedAction): string {
       return `Downgrade ${action.fromToken} to ${action.toToken}`
     case 'stake':
       return `Stake ${action.inputToken} in ${action.rewardToken} Farm`
+    case 'usdsPsmWrap':
+      return 'Convert USDC to USDS'
   }
 }
 

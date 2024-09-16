@@ -155,4 +155,14 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
     state: { status: 'ready' },
     onAction: () => {},
   },
+  usdsPsmWrap: {
+    action: {
+      type: 'usdsPsmWrap',
+      usdc: tokens.USDC,
+      usds: tokens.USDS,
+      usdcAmount: NormalizedUnitNumber(1),
+    },
+    state: { status: 'ready' },
+    onAction: () => {},
+  },
 }

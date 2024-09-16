@@ -20,6 +20,7 @@ import { createSetUseAsCollateralActionConfig } from '../flavours/set-use-as-col
 import { createSetUserEModeActionConfig } from '../flavours/set-user-e-mode/logic/setUserEModeAction'
 import { createStakeActionConfig } from '../flavours/stake/logic/stakeAction'
 import { createUpgradeActionConfig } from '../flavours/upgrade/logic/upgradeAction'
+import { createUsdsPsmWrapActionConfig } from '../flavours/usds-psm-wrap/logic/usdsPsmWrapAction'
 import { createWithdrawFromSavingsActionConfig } from '../flavours/withdraw-from-savings/logic/withdrawFromSavingsAction'
 import { createWithdrawActionConfig } from '../flavours/withdraw/logic/withdrawAction'
 import { ActionConfig, ActionContext, InitialParamsQueryResult, VerifyTransactionResult } from './types'
@@ -153,6 +154,8 @@ function actionToConfig(action: Action, context: ActionContext): ActionConfig {
       return createDowngradeActionConfig(action, context)
     case 'stake':
       return createStakeActionConfig(action, context)
+    case 'usdsPsmWrap':
+      return createUsdsPsmWrapActionConfig(action, context)
     case 'permit':
       return createEmptyActionConfig()
   }
