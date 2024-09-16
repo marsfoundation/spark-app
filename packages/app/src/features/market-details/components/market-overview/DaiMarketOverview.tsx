@@ -16,7 +16,7 @@ export interface DaiMarketOverviewProps {
   token: Token
   borrowed: NormalizedUnitNumber
   instantlyAvailable: NormalizedUnitNumber
-  makerDaoCapacity: NormalizedUnitNumber
+  skyCapacity: NormalizedUnitNumber
   marketSize: NormalizedUnitNumber
   totalAvailable: NormalizedUnitNumber
   utilizationRate: Percentage
@@ -28,7 +28,7 @@ export function DaiMarketOverview({
   marketSize,
   borrowed,
   instantlyAvailable,
-  makerDaoCapacity,
+  skyCapacity,
   totalAvailable,
   utilizationRate,
   dssAutoline,
@@ -36,7 +36,7 @@ export function DaiMarketOverview({
   const chartData = [
     { value: borrowed.toNumber(), color: colors.blue },
     { value: instantlyAvailable.toNumber(), color: colors.green },
-    { value: makerDaoCapacity.toNumber(), color: colors.orange },
+    { value: skyCapacity.toNumber(), color: colors.orange },
   ]
 
   return (
@@ -77,8 +77,8 @@ export function DaiMarketOverview({
             </DetailsGridItem.Value>
           </DetailsGridItem>
           <DetailsGridItem>
-            <DetailsGridItem.Title variant="orange">MakerDAO capacity</DetailsGridItem.Title>
-            <DetailsGridItem.Value>{token.formatUSD(makerDaoCapacity, { compact: true })}</DetailsGridItem.Value>
+            <DetailsGridItem.Title variant="orange">Sky capacity</DetailsGridItem.Title>
+            <DetailsGridItem.Value>{token.formatUSD(skyCapacity, { compact: true })}</DetailsGridItem.Value>
           </DetailsGridItem>
         </DetailsGrid>
       </MarketOverviewContent>
