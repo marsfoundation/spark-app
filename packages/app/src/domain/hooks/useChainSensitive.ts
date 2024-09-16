@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
+import { useChainId } from 'wagmi'
 
 export interface UseChainSensitiveParams {
   onChainChange: (chain: number) => void
-  chainId: number
 }
 
-export function useChainSensitive({ onChainChange, chainId }: UseChainSensitiveParams): boolean {
+export function useChainSensitive({ onChainChange }: UseChainSensitiveParams): boolean {
+  const chainId = useChainId()
   const [frozenChainId, setFrozenChainId] = useState(chainId)
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: frozenChainId will never change
