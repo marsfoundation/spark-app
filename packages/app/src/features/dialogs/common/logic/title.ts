@@ -13,5 +13,4 @@ export const objectiveTypeToVerb: Record<ObjectiveType, string> = {
   upgrade: 'Upgraded',
   downgrade: 'Downgraded',
   stake: 'Staked',
-  usdsPsmWrap: 'Converted',
 }

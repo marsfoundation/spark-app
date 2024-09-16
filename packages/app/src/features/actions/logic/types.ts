@@ -19,7 +19,7 @@ import { SetUseAsCollateralAction, SetUseAsCollateralObjective } from '../flavou
 import { SetUserEModeAction, SetUserEModeObjective } from '../flavours/set-user-e-mode/logic/types'
 import { StakeAction, StakeObjective } from '../flavours/stake/types'
 import { UpgradeAction, UpgradeObjective } from '../flavours/upgrade/types'
-import { UsdsPsmWrapAction, UsdsPsmWrapObjective } from '../flavours/usds-psm-wrap/types'
+import { UsdsPsmWrapAction } from '../flavours/usds-psm-wrap/types'
 import { WithdrawFromSavingsAction, WithdrawFromSavingsObjective } from '../flavours/withdraw-from-savings/types'
 import { WithdrawAction, WithdrawObjective } from '../flavours/withdraw/types'
 import { PermitStore } from './permits'
@@ -41,7 +41,6 @@ export type Objective =
   | UpgradeObjective
   | DowngradeObjective
   | StakeObjective
-  | UsdsPsmWrapObjective
 export type ObjectiveType = Objective['type']
 
 export type Action =

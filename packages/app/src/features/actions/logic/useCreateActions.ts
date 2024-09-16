@@ -1,4 +1,4 @@
-import { MIGRATE_ACTIONS_ADDRESS, USDS_PSM_WRAPPER } from '@/config/consts'
+import { MIGRATE_ACTIONS_ADDRESS } from '@/config/consts'
 import { lendingPoolAddress, wethGatewayAddress } from '@/config/contracts-generated'
 import { useChainConfigEntry } from '@/domain/hooks/useChainConfigEntry'
 import { useContractAddress } from '@/domain/hooks/useContractAddress'
@@ -19,7 +19,6 @@ import { SetUseAsCollateralAction } from '../flavours/set-use-as-collateral/type
 import { SetUserEModeAction } from '../flavours/set-user-e-mode/logic/types'
 import { createStakeActions } from '../flavours/stake/logic/createStakeActions'
 import { UpgradeAction } from '../flavours/upgrade/types'
-import { UsdsPsmWrapAction } from '../flavours/usds-psm-wrap/types'
 import { createWithdrawFromSavingsActions } from '../flavours/withdraw-from-savings/logic/createWithdrawFromSavingsActions'
 import { WithdrawAction } from '../flavours/withdraw/types'
 import { Action, ActionContext, Objective } from './types'
@@ -246,25 +245,6 @@ export function useCreateActions({ objectives, actionsSettings, actionContext }:
         }
 
         return [approveAction, downgradeAction]
-      }
-
-      case 'usdsPsmWrap': {
-        assert(actionContext.tokensInfo?.USDS, 'USDS token is required for usds psm wrap action')
-
-        const approveAction: ApproveAction = {
-          type: 'approve',
-          token: objective.usdc,
-          spender: USDS_PSM_WRAPPER,
-          value: objective.usdcAmount,
-        }
-        const wrapAction: UsdsPsmWrapAction = {
-          type: 'usdsPsmWrap',
-          usdc: objective.usdc,
-          usds: actionContext.tokensInfo.USDS,
-          usdcAmount: objective.usdcAmount,
-        }
-
-        return [approveAction, wrapAction]
       }
 
       case 'withdrawFromSavings': {
