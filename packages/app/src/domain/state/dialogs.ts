@@ -4,18 +4,13 @@ import { CommonDialogProps } from '@/features/dialogs/common/types'
 
 import { StoreState, useStore } from '.'
 
-interface DialogParams {
-  chainSensitive: boolean
-}
-
 export interface DialogSlice<P = {}> {
   dialogs: {
     openedDialog?: {
       element: React.ElementType<P & CommonDialogProps>
       props: P
-      params: DialogParams
     }
-    openDialog: (dialog: React.ElementType<P & CommonDialogProps>, props: P, params?: DialogParams) => void
+    openDialog: (dialog: React.ElementType<P & CommonDialogProps>, props: P) => void
     closeDialog: () => void
   }
 }
@@ -24,14 +19,8 @@ export interface DialogSlice<P = {}> {
 export const initDialogSlice: StateCreator<StoreState, [], [], DialogSlice> = (set) => ({
   dialogs: {
     openedDialog: undefined,
-    openDialog: (
-      dialog,
-      props,
-      params = {
-        chainSensitive: false,
-      },
-    ) => {
-      set((state) => ({ dialogs: { ...state.dialogs, openedDialog: { element: dialog, props, params } } }))
+    openDialog: (dialog, props) => {
+      set((state) => ({ dialogs: { ...state.dialogs, openedDialog: { element: dialog, props } } }))
     },
     closeDialog: () => {
       set((state) => ({ dialogs: { ...state.dialogs, openedDialog: undefined } }))
@@ -39,11 +28,7 @@ export const initDialogSlice: StateCreator<StoreState, [], [], DialogSlice> = (s
   },
 })
 
-export type OpenDialogFunction = <P>(
-  dialog: React.ElementType<P & CommonDialogProps>,
-  props: P,
-  params?: DialogParams,
-) => void
+export type OpenDialogFunction = <P>(dialog: React.ElementType<P & CommonDialogProps>, props: P) => void
 export function useOpenDialog(): OpenDialogFunction {
   const openDialog = useStore((state) => state.dialogs.openDialog)
   return openDialog as OpenDialogFunction
