@@ -68,6 +68,6 @@ test.describe('Withdraw max XDAI on Gnosis', () => {
 
     await savingsPage.expectPotentialProjection('$95.63', '30-day')
     await savingsPage.expectPotentialProjection('$1,163.46', '1-year')
-    await savingsPage.expectCashInWalletAssetBalance('XDAI', '10,978.09')
+    await savingsPage.expectStablecoinsInWalletAssetBalance('XDAI', '10,978.09')
   })
 })

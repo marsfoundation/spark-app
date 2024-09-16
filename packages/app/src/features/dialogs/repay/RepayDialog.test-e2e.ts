@@ -4,7 +4,7 @@ import { mainnet } from 'viem/chains'
 import { repayValidationIssueToMessage } from '@/domain/market-validators/validateRepay'
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { BorrowPageObject } from '@/pages/Borrow.PageObject'
-import { DashboardPageObject } from '@/pages/Dashboard.PageObject'
+import { MyPortfolioPageObject } from '@/pages/MyPortfolio.PageObject'
 import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
@@ -46,19 +46,19 @@ test.describe('Repay dialog', () => {
 
       const borrowPage = new BorrowPageObject(page)
       await borrowPage.depositAssetsActions(initialDeposits, daiToBorrow)
-      await borrowPage.viewInDashboardAction()
+      await borrowPage.viewInMyPortfolioAction()
 
-      const dashboardPage = new DashboardPageObject(page)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
       // @todo This waits for the refetch of the data after successful borrow transaction to happen.
       // This is no ideal, probably we need to refactor expectDepositTable so it takes advantage from
       // playwright's timeouts instead of parsing it's current state. Then we would be able to
       // easily wait for the table to be updated.
-      await dashboardPage.expectAssetToBeInDepositTable('DAI')
+      await myPortfolioPage.expectAssetToBeInDepositTable('DAI')
     })
 
     test('opens dialog with selected asset', async ({ page }) => {
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.clickRepayButtonAction('DAI')
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.clickRepayButtonAction('DAI')
 
       const repayDialog = new DialogPageObject(page, headerRegExp)
       await repayDialog.expectSelectedAsset('DAI')
@@ -69,8 +69,8 @@ test.describe('Repay dialog', () => {
     })
 
     test('calculates health factor changes correctly when repaying part', async ({ page }) => {
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.clickRepayButtonAction('DAI')
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.clickRepayButtonAction('DAI')
 
       const repayDialog = new DialogPageObject(page, headerRegExp)
       await repayDialog.fillAmountAction(100)
@@ -88,8 +88,8 @@ test.describe('Repay dialog', () => {
     })
 
     test('calculates health factor changes correctly when repaying all', async ({ page }) => {
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.clickRepayButtonAction('DAI')
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.clickRepayButtonAction('DAI')
 
       const repayDialog = new DialogPageObject(page, headerRegExp)
       await repayDialog.clickMaxAmountAction()
@@ -106,9 +106,9 @@ test.describe('Repay dialog', () => {
       await screenshot(repayDialog.getDialog(), 'repay-dialog-health-factor-full-repay')
     })
 
-    test('after repay, health factor matches dashboard', async ({ page }) => {
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.clickRepayButtonAction('DAI')
+    test('after repay, health factor matches myPortfolio', async ({ page }) => {
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.clickRepayButtonAction('DAI')
 
       const repayDialog = new DialogPageObject(page, headerRegExp)
       await repayDialog.fillAmountAction(100)
@@ -116,14 +116,14 @@ test.describe('Repay dialog', () => {
       const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
       await actionsContainer.acceptAllActionsAction(2)
 
-      await repayDialog.viewInDashboardAction()
-      await dashboardPage.expectHealthFactor(expectedHealthFactor)
+      await repayDialog.viewInMyPortfolioAction()
+      await myPortfolioPage.expectHealthFactor(expectedHealthFactor)
     })
 
     test('has correct action plan for DAI', async ({ page }) => {
-      const dashboardPage = new DashboardPageObject(page)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
 
-      await dashboardPage.clickRepayButtonAction('DAI')
+      await myPortfolioPage.clickRepayButtonAction('DAI')
 
       const repayDialog = new DialogPageObject(page, headerRegExp)
       await repayDialog.fillAmountAction(100)
@@ -140,9 +140,9 @@ test.describe('Repay dialog', () => {
         amount: 100,
       } as const
 
-      const dashboardPage = new DashboardPageObject(page)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
 
-      await dashboardPage.clickRepayButtonAction(repay.asset)
+      await myPortfolioPage.clickRepayButtonAction(repay.asset)
 
       const repayDialog = new DialogPageObject(page, headerRegExp)
       await repayDialog.fillAmountAction(repay.amount)
@@ -152,9 +152,9 @@ test.describe('Repay dialog', () => {
 
       await screenshot(repayDialog.getDialog(), 'repay-dialog-dai-success')
 
-      await repayDialog.viewInDashboardAction()
+      await repayDialog.viewInMyPortfolioAction()
 
-      await dashboardPage.expectBorrowTable({
+      await myPortfolioPage.expectBorrowTable({
         [repay.asset]: daiToBorrow - repay.amount,
       })
     })
@@ -165,9 +165,9 @@ test.describe('Repay dialog', () => {
         amount: 3500,
       } as const
 
-      const dashboardPage = new DashboardPageObject(page)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
 
-      await dashboardPage.clickRepayButtonAction(repay.asset)
+      await myPortfolioPage.clickRepayButtonAction(repay.asset)
 
       const repayDialog = new DialogPageObject(page, headerRegExp)
       await repayDialog.clickMaxAmountAction()
@@ -177,9 +177,9 @@ test.describe('Repay dialog', () => {
 
       await screenshot(repayDialog.getDialog(), 'repay-dialog-dai-success')
 
-      await repayDialog.viewInDashboardAction()
+      await repayDialog.viewInMyPortfolioAction()
 
-      await dashboardPage.expectBorrowTable({
+      await myPortfolioPage.expectBorrowTable({
         [repay.asset]: 0,
       })
     })
@@ -191,9 +191,9 @@ test.describe('Repay dialog', () => {
         amount: 3500,
       } as const
 
-      const dashboardPage = new DashboardPageObject(page)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
 
-      await dashboardPage.clickRepayButtonAction(repay.asset)
+      await myPortfolioPage.clickRepayButtonAction(repay.asset)
 
       const repayDialog = new DialogPageObject(page, headerRegExp)
       await repayDialog.clickMaxAmountAction()
@@ -203,7 +203,7 @@ test.describe('Repay dialog', () => {
       await actionsContainer.expectEnabledActionAtIndex(1)
 
       await page.reload()
-      await dashboardPage.clickRepayButtonAction(repay.asset)
+      await myPortfolioPage.clickRepayButtonAction(repay.asset)
       await repayDialog.clickMaxAmountAction()
 
       // exact amount of debt slightly increased but approval (1) has a buffer so it should be enough
@@ -228,7 +228,7 @@ test.describe('Repay dialog', () => {
     const daiDebtIncreaseIn2Epochs = 1.0000058953636277 // hardcoded for DAI borrow rate 5.53%
 
     let account: Address
-    let dashboardPage: DashboardPageObject
+    let myPortfolioPage: MyPortfolioPageObject
     let repayDialog: DialogPageObject
 
     async function overrideDaiBalance({ balance, page }: { balance: BaseUnitNumber; page: Page }): Promise<void> {
@@ -247,12 +247,12 @@ test.describe('Repay dialog', () => {
 
       const borrowPage = new BorrowPageObject(page)
       await borrowPage.depositAssetsActions(initialDeposits, daiToBorrow)
-      await borrowPage.viewInDashboardAction()
+      await borrowPage.viewInMyPortfolioAction()
 
-      dashboardPage = new DashboardPageObject(page)
+      myPortfolioPage = new MyPortfolioPageObject(page)
       repayDialog = new DialogPageObject(page, headerRegExp)
 
-      await dashboardPage.expectHealthFactor('2.08')
+      await myPortfolioPage.expectHealthFactor('2.08')
 
       // forcefully set browser time to the timestamp of borrow transaction
       const publicClient = createPublicClient({
@@ -275,16 +275,16 @@ test.describe('Repay dialog', () => {
         page,
       })
 
-      await dashboardPage.clickRepayButtonAction(repay.asset)
+      await myPortfolioPage.clickRepayButtonAction(repay.asset)
 
       await repayDialog.clickMaxAmountAction()
       const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
       await actionsContainer.acceptAllActionsAction(2)
       await repayDialog.expectSuccessPage([repay], fork)
 
-      await repayDialog.viewInDashboardAction()
+      await repayDialog.viewInMyPortfolioAction()
 
-      await dashboardPage.expectNonZeroAmountInBorrowTable(repay.asset)
+      await myPortfolioPage.expectNonZeroAmountInBorrowTable(repay.asset)
     })
 
     test('can repay if balance gt debt but lt debt after 1 epoch', async ({ page }) => {
@@ -305,7 +305,7 @@ test.describe('Repay dialog', () => {
         page,
       })
 
-      await dashboardPage.clickRepayButtonAction(repay.asset)
+      await myPortfolioPage.clickRepayButtonAction(repay.asset)
 
       await repayDialog.clickMaxAmountAction()
       const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
@@ -320,9 +320,9 @@ test.describe('Repay dialog', () => {
         fork,
       )
 
-      await repayDialog.viewInDashboardAction()
+      await repayDialog.viewInMyPortfolioAction()
 
-      await dashboardPage.expectNonZeroAmountInBorrowTable(repay.asset)
+      await myPortfolioPage.expectNonZeroAmountInBorrowTable(repay.asset)
     })
 
     test('can repay if balance gt debt after 1 epoch but lt debt after 2 epochs', async ({ page }) => {
@@ -340,7 +340,7 @@ test.describe('Repay dialog', () => {
         page,
       })
 
-      await dashboardPage.clickRepayButtonAction(repay.asset)
+      await myPortfolioPage.clickRepayButtonAction(repay.asset)
 
       const repayDialog = new DialogPageObject(page, headerRegExp)
       await repayDialog.clickMaxAmountAction()
@@ -356,9 +356,9 @@ test.describe('Repay dialog', () => {
         fork,
       )
 
-      await repayDialog.viewInDashboardAction()
+      await repayDialog.viewInMyPortfolioAction()
 
-      await dashboardPage.expectBorrowTable({
+      await myPortfolioPage.expectBorrowTable({
         [repay.asset]: 0,
       })
     })
@@ -390,27 +390,27 @@ test.describe('Repay dialog', () => {
 
       const borrowPage = new BorrowPageObject(page)
       await borrowPage.depositWithoutBorrowActions(initialDeposits) // deposit whole wallet balance
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.goToDashboardAction()
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.goToMyPortfolioAction()
 
       // borrow wstETH and WETH
       const borrowDialog = new DialogPageObject(page, /Borrow */)
       const borrowActionsContainer = new ActionsPageObject(borrowDialog.locatePanelByHeader('Actions'))
       // borrow wstETH
-      await dashboardPage.clickBorrowButtonAction(wstETHBorrow.asset)
+      await myPortfolioPage.clickBorrowButtonAction(wstETHBorrow.asset)
       await borrowDialog.fillAmountAction(wstETHBorrow.amount)
       await borrowActionsContainer.acceptAllActionsAction(1)
-      await borrowDialog.viewInDashboardAction()
+      await borrowDialog.viewInMyPortfolioAction()
       // borrow WETH
-      await dashboardPage.clickBorrowButtonAction(WETHBorrow.asset)
+      await myPortfolioPage.clickBorrowButtonAction(WETHBorrow.asset)
       await borrowDialog.fillAmountAction(WETHBorrow.amount)
       await borrowActionsContainer.acceptAllActionsAction(1)
-      await borrowDialog.viewInDashboardAction()
+      await borrowDialog.viewInMyPortfolioAction()
     })
 
     test('can change asset to aToken', async ({ page }) => {
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.clickRepayButtonAction('wstETH')
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.clickRepayButtonAction('wstETH')
 
       const repayDialog = new DialogPageObject(page, headerRegExp)
       await repayDialog.selectAssetAction('awstETH')
@@ -425,8 +425,8 @@ test.describe('Repay dialog', () => {
         amount: 5,
       } as const
 
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.clickRepayButtonAction('wstETH')
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.clickRepayButtonAction('wstETH')
 
       const repayDialog = new DialogPageObject(page, headerRegExp)
       await repayDialog.selectAssetAction(repay.asset)
@@ -444,8 +444,8 @@ test.describe('Repay dialog', () => {
         amount: 5,
       } as const
 
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.clickRepayButtonAction('wstETH')
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.clickRepayButtonAction('wstETH')
 
       const repayDialog = new DialogPageObject(page, headerRegExp)
       await repayDialog.selectAssetAction(repay.asset)
@@ -456,9 +456,9 @@ test.describe('Repay dialog', () => {
 
       await screenshot(repayDialog.getDialog(), 'repay-dialog-erc20-atoken-success')
 
-      await repayDialog.viewInDashboardAction()
+      await repayDialog.viewInMyPortfolioAction()
 
-      await dashboardPage.expectBorrowTable({
+      await myPortfolioPage.expectBorrowTable({
         wstETH: wstETHBorrow.amount - repay.amount,
       })
     })
@@ -469,9 +469,9 @@ test.describe('Repay dialog', () => {
         amount: 5,
       } as const
 
-      const dashboardPage = new DashboardPageObject(page)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
 
-      await dashboardPage.clickRepayButtonAction(repay.asset)
+      await myPortfolioPage.clickRepayButtonAction(repay.asset)
 
       const repayDialog = new DialogPageObject(page, headerRegExp)
       await repayDialog.fillAmountAction(repay.amount)
@@ -490,9 +490,9 @@ test.describe('Repay dialog', () => {
         amount: 5,
       } as const
 
-      const dashboardPage = new DashboardPageObject(page)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
 
-      await dashboardPage.clickRepayButtonAction(repay.asset)
+      await myPortfolioPage.clickRepayButtonAction(repay.asset)
 
       const repayDialog = new DialogPageObject(page, headerRegExp)
       const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
@@ -513,9 +513,9 @@ test.describe('Repay dialog', () => {
         amount: 5,
       } as const
 
-      const dashboardPage = new DashboardPageObject(page)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
 
-      await dashboardPage.clickRepayButtonAction(repay.asset)
+      await myPortfolioPage.clickRepayButtonAction(repay.asset)
 
       const repayDialog = new DialogPageObject(page, headerRegExp)
       await repayDialog.fillAmountAction(repay.amount)
@@ -525,9 +525,9 @@ test.describe('Repay dialog', () => {
 
       await screenshot(repayDialog.getDialog(), 'repay-dialog-erc20-success')
 
-      await repayDialog.viewInDashboardAction()
+      await repayDialog.viewInMyPortfolioAction()
 
-      await dashboardPage.expectBorrowTable({
+      await myPortfolioPage.expectBorrowTable({
         [repay.asset]: wstETHBorrow.amount - repay.amount,
       })
     })
@@ -538,9 +538,9 @@ test.describe('Repay dialog', () => {
         amount: 5,
       } as const
 
-      const dashboardPage = new DashboardPageObject(page)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
 
-      await dashboardPage.clickRepayButtonAction(repay.asset)
+      await myPortfolioPage.clickRepayButtonAction(repay.asset)
 
       const repayDialog = new DialogPageObject(page, headerRegExp)
       const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
@@ -549,9 +549,9 @@ test.describe('Repay dialog', () => {
       await actionsContainer.acceptAllActionsAction(2)
       await repayDialog.expectSuccessPage([repay], fork)
 
-      await repayDialog.viewInDashboardAction()
+      await repayDialog.viewInMyPortfolioAction()
 
-      await dashboardPage.expectBorrowTable({
+      await myPortfolioPage.expectBorrowTable({
         [repay.asset]: wstETHBorrow.amount - repay.amount,
       })
     })
@@ -588,36 +588,36 @@ test.describe('Repay dialog', () => {
 
       const borrowPage = new BorrowPageObject(page)
       await borrowPage.depositWithoutBorrowActions(initialDeposits) // deposit whole wallet balance
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.goToDashboardAction()
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.goToMyPortfolioAction()
 
       // borrow wstETH and WETH
       const borrowDialog = new DialogPageObject(page, /Borrow */)
       const borrowActionsContainer = new ActionsPageObject(borrowDialog.locatePanelByHeader('Actions'))
       // borrow wstETH
-      await dashboardPage.clickBorrowButtonAction(wstETHBorrow.asset)
+      await myPortfolioPage.clickBorrowButtonAction(wstETHBorrow.asset)
       await borrowDialog.fillAmountAction(wstETHBorrow.amount)
       await borrowActionsContainer.acceptAllActionsAction(1)
-      await borrowDialog.viewInDashboardAction()
+      await borrowDialog.viewInMyPortfolioAction()
       // borrow WETH
-      await dashboardPage.clickBorrowButtonAction(WETHBorrow.asset)
+      await myPortfolioPage.clickBorrowButtonAction(WETHBorrow.asset)
       await borrowDialog.fillAmountAction(WETHBorrow.amount)
       await borrowDialog.clickAcknowledgeRisk()
       await borrowActionsContainer.acceptAllActionsAction(1)
-      await borrowDialog.viewInDashboardAction()
+      await borrowDialog.viewInMyPortfolioAction()
 
       // deposit wstETH to have balance not enough to later repay debt using wstETH
       const depositDialog = new DialogPageObject(page, /Deposit */)
       const depositActionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
-      await dashboardPage.clickDepositButtonAction(wstETHDeposit.asset)
+      await myPortfolioPage.clickDepositButtonAction(wstETHDeposit.asset)
       await depositDialog.fillAmountAction(wstETHDeposit.amount)
       await depositActionsContainer.acceptAllActionsAction(2)
-      await depositDialog.viewInDashboardAction()
+      await depositDialog.viewInMyPortfolioAction()
     })
 
     test('cannot repay repay more than owe', async ({ page }) => {
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.clickRepayButtonAction(WETHBorrow.asset)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.clickRepayButtonAction(WETHBorrow.asset)
 
       const repayDialog = new DialogPageObject(page, headerRegExp)
       await repayDialog.expectHealthFactorBefore('2.03')
@@ -628,8 +628,8 @@ test.describe('Repay dialog', () => {
     })
 
     test('cannot repay more than wallet balance', async ({ page }) => {
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.clickRepayButtonAction(wstETHBorrow.asset)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.clickRepayButtonAction(wstETHBorrow.asset)
 
       const repayDialog = new DialogPageObject(page, headerRegExp)
       await repayDialog.expectHealthFactorBefore('2.03')
@@ -659,29 +659,29 @@ test.describe('Repay dialog', () => {
 
       const borrowPage = new BorrowPageObject(page)
       await borrowPage.depositWithoutBorrowActions(initialDeposits)
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.goToDashboardAction()
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.goToMyPortfolioAction()
     })
 
     test('nothing to repay', async ({ page }) => {
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.expectBorrowedAssetsToBeEmpty()
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.expectBorrowedAssetsToBeEmpty()
       await screenshot(page, 'repay-dialog-nothing-to-repay')
     })
 
     test('when repaying native asset retain some in wallet', async ({ page }) => {
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.clickBorrowButtonAction('WETH')
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.clickBorrowButtonAction('WETH')
 
       const borrowDialog = new DialogPageObject(page, /Borrow */)
       await borrowDialog.selectAssetAction('ETH')
       await borrowDialog.fillAmountAction(5)
       const borrowActionsContainer = new ActionsPageObject(borrowDialog.locatePanelByHeader('Actions'))
       await borrowActionsContainer.acceptAllActionsAction(2)
-      await borrowDialog.viewInDashboardAction()
-      await dashboardPage.expectBorrowTable({ WETH: 5 })
+      await borrowDialog.viewInMyPortfolioAction()
+      await myPortfolioPage.expectBorrowTable({ WETH: 5 })
 
-      await dashboardPage.clickRepayButtonAction('WETH')
+      await myPortfolioPage.clickRepayButtonAction('WETH')
       const repayDialog = new DialogPageObject(page, headerRegExp)
       await repayDialog.selectAssetAction('ETH')
       const repayActionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))

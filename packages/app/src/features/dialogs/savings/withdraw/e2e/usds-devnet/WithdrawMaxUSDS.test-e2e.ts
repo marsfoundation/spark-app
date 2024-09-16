@@ -70,7 +70,7 @@ test.describe('Withdraw USDS from sUSDS', () => {
 
     await savingsPage.expectPotentialProjection('$40.18', '30-day')
     await savingsPage.expectPotentialProjection('$500.00', '1-year')
-    await savingsPage.expectCashInWalletAssetBalance('USDS', '10,000')
+    await savingsPage.expectStablecoinsInWalletAssetBalance('USDS', '10,000')
   })
 })
 
@@ -136,7 +136,7 @@ test.describe('Withdraw USDS from sDAI', () => {
     await withdrawDialog.expectSuccessPage()
     await withdrawDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectCashInWalletAssetBalance('USDS', '11,053.61')
+    await savingsPage.expectStablecoinsInWalletAssetBalance('USDS', '11,053.61')
     await savingsPage.expectPotentialProjection('$44.42', '30-day')
     await savingsPage.expectPotentialProjection('$552.68', '1-year')
   })

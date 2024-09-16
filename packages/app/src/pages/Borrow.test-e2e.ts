@@ -9,7 +9,7 @@ import { screenshot } from '@/test/e2e/utils'
 import { Page, test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
 import { BorrowPageObject } from './Borrow.PageObject'
-import { DashboardPageObject } from './Dashboard.PageObject'
+import { MyPortfolioPageObject } from './MyPortfolio.PageObject'
 import { SavingsPageObject } from './Savings.PageObject'
 
 test.describe('Borrow page (mainnet)', () => {
@@ -86,7 +86,7 @@ test.describe('Borrow page (mainnet)', () => {
       await borrowPage.submitAction()
       await actionsContainer.acceptAllActionsAction(2)
 
-      await expectHFOnDashboard(page, borrowPage, expectedHealthFactor)
+      await expectHFOnMyPortfolio(page, borrowPage, expectedHealthFactor)
     })
   })
 
@@ -235,7 +235,7 @@ test.describe('Borrow page (mainnet)', () => {
       await borrowPage.submitAction()
       await actionsContainer.acceptAllActionsAction(5)
 
-      await expectHFOnDashboard(page, borrowPage, expectedHealthFactor)
+      await expectHFOnMyPortfolio(page, borrowPage, expectedHealthFactor)
     })
   })
 
@@ -303,7 +303,7 @@ test.describe('Borrow page (mainnet)', () => {
       await borrowPage.submitAction()
       await actionsContainer.acceptAllActionsAction(1)
 
-      await expectHFOnDashboard(page, borrowPage, expectedHealthFactor)
+      await expectHFOnMyPortfolio(page, borrowPage, expectedHealthFactor)
     })
   })
 
@@ -434,12 +434,12 @@ test.describe('Borrow page (mainnet)', () => {
       // Only depositing asset
       const borrowPage = new BorrowPageObject(page)
       await borrowPage.depositWithoutBorrowActions({ [collateral]: 5 })
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.goToDashboardAction()
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.goToMyPortfolioAction()
 
-      // Turning off usage as collateral at dashboard
-      await dashboardPage.expectCollateralSwitch(collateral, true)
-      await dashboardPage.clickCollateralSwitchAction(collateral)
+      // Turning off usage as collateral at myPortfolio
+      await myPortfolioPage.expectCollateralSwitch(collateral, true)
+      await myPortfolioPage.clickCollateralSwitchAction(collateral)
       const collateralDialog = new CollateralDialogPageObject(page)
       await collateralDialog.expectDialogHeader('Collateral')
       await collateralDialog.expectHealthFactorNotVisible()
@@ -551,21 +551,21 @@ test.describe('Borrow page (usds devnet)', () => {
       },
     )
 
-    await expectHFOnDashboard(page, borrowPage, '2.38')
+    await expectHFOnMyPortfolio(page, borrowPage, '2.38')
 
     await page.goto(buildUrl('savings'))
     const savingsPage = new SavingsPageObject(page)
-    await savingsPage.expectCashInWalletAssetBalance('USDS', '10,000')
+    await savingsPage.expectStablecoinsInWalletAssetBalance('USDS', '10,000')
   })
 })
 
-async function expectHFOnDashboard(
+async function expectHFOnMyPortfolio(
   page: Page,
   borrowPage: BorrowPageObject,
   expectedHealthFactor: string,
 ): Promise<void> {
-  await borrowPage.viewInDashboardAction()
-  const dashboardPage = new DashboardPageObject(page)
+  await borrowPage.viewInMyPortfolioAction()
+  const myPortfolioPage = new MyPortfolioPageObject(page)
 
-  await dashboardPage.expectHealthFactor(expectedHealthFactor)
+  await myPortfolioPage.expectHealthFactor(expectedHealthFactor)
 }

@@ -76,6 +76,6 @@ test.describe('Send XDAI on Gnosis', () => {
 
     await sendDialog.clickBackToSavingsButton()
     await savingsPage.expectSavingsDAIBalance({ sDaiBalance: '3,565.05 sDAI', estimatedDaiValue: '3,878.094168' })
-    await savingsPage.expectCashInWalletAssetBalance('XDAI', '100')
+    await savingsPage.expectStablecoinsInWalletAssetBalance('XDAI', '100')
   })
 })

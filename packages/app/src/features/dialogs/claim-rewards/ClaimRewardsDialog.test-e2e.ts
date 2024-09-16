@@ -3,7 +3,7 @@ import { mainnet } from 'viem/chains'
 
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { NavbarPageObject } from '@/features/navbar/Navbar.PageObject'
-import { DashboardPageObject } from '@/pages/Dashboard.PageObject'
+import { MyPortfolioPageObject } from '@/pages/MyPortfolio.PageObject'
 import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
 import { ClaimRewardsDialogPageObject } from './ClaimRewardsDialog.PageObject'
@@ -63,10 +63,10 @@ test.describe('Claim rewards dialog', () => {
       },
     ])
 
-    const dashboard = new DashboardPageObject(page)
-    await dashboard.goToDashboardAction()
+    const myPortfolioPage = new MyPortfolioPageObject(page)
+    await myPortfolioPage.goToMyPortfolioAction()
 
-    await dashboard.expectWalletTable({
+    await myPortfolioPage.expectWalletTable({
       wstETH: 6.3697,
     })
 

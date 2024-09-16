@@ -26,7 +26,7 @@ function DepositDialogContentContainer({ token, closeDialog }: DialogContentCont
         objectiveType="deposit"
         tokenWithValue={tokenToDeposit}
         onProceed={closeDialog}
-        proceedText="View in dashboard"
+        proceedText="View in portfolio"
       />
     )
   }

@@ -64,8 +64,8 @@ export function SuccessView({ deposited, borrowed, runConfetti, borrowDetails }:
               <UsdsUpgradeAlert borrowDetails={borrowDetails} variant="success" className="mt-2" />
             )}
 
-            <LinkButton size="lg" className="mt-8 w-full" to={paths.dashboard}>
-              View in dashboard
+            <LinkButton size="lg" className="mt-8 w-full" to={paths.myPortfolio}>
+              View in portfolio
             </LinkButton>
           </Panel.Content>
         </Panel>

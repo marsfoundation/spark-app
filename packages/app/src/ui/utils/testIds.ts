@@ -52,7 +52,7 @@ export const testIds = makeTestIds({
       borrowed: true,
     },
   },
-  dashboard: {
+  myPortfolio: {
     deposited: true,
     borrowed: true,
     depositDialog: {
@@ -64,7 +64,7 @@ export const testIds = makeTestIds({
     sDaiBalance: true,
     sDaiBalanceInDai: true,
     upgradeSDaiBanner: true,
-    cashInWallet: {
+    stablecoinsInWallet: {
       upgradeDaiToUsds: true,
       upgradeDaiToUsdsCell: true,
       moreDropdown: true,

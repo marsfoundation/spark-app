@@ -26,7 +26,7 @@ function WithdrawDialogContentContainer({ token, closeDialog }: DialogContentCon
         objectiveType="withdraw"
         tokenWithValue={withdrawAsset}
         onProceed={closeDialog}
-        proceedText="View in dashboard"
+        proceedText="View in portfolio"
       />
     )
   }

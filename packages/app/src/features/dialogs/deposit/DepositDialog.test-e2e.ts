@@ -3,7 +3,7 @@ import { mainnet } from 'viem/chains'
 
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { BorrowPageObject } from '@/pages/Borrow.PageObject'
-import { DashboardPageObject } from '@/pages/Dashboard.PageObject'
+import { MyPortfolioPageObject } from '@/pages/MyPortfolio.PageObject'
 import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
@@ -42,19 +42,19 @@ test.describe('Deposit dialog', () => {
 
       const borrowPage = new BorrowPageObject(page)
       await borrowPage.depositAssetsActions(initialDeposits, daiToBorrow)
-      await borrowPage.viewInDashboardAction()
+      await borrowPage.viewInMyPortfolioAction()
 
-      const dashboardPage = new DashboardPageObject(page)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
       // @todo This waits for the refetch of the data after successful borrow transaction to happen.
       // This is no ideal, probably we need to refactor expectDepositTable so it takes advantage from
       // playwright's timeouts instead of parsing it's current state. Then we would be able to
       // easily wait for the table to be updated.
-      await dashboardPage.expectAssetToBeInDepositTable('DAI')
+      await myPortfolioPage.expectAssetToBeInDepositTable('DAI')
     })
 
     test('opens dialog with selected asset', async ({ page }) => {
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.clickDepositButtonAction('rETH')
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.clickDepositButtonAction('rETH')
 
       const depositDialog = new DialogPageObject(page, headerRegExp)
       await depositDialog.expectSelectedAsset('rETH')
@@ -65,8 +65,8 @@ test.describe('Deposit dialog', () => {
     })
 
     test('calculates health factor changes correctly', async ({ page }) => {
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.clickDepositButtonAction('rETH')
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.clickDepositButtonAction('rETH')
 
       const depositDialog = new DialogPageObject(page, headerRegExp)
       await depositDialog.fillAmountAction(1)
@@ -83,9 +83,9 @@ test.describe('Deposit dialog', () => {
       await screenshot(depositDialog.getDialog(), 'deposit-dialog-health-factor')
     })
 
-    test('after deposit, health factor matches dashboard', async ({ page }) => {
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.clickDepositButtonAction('rETH')
+    test('after deposit, health factor matches myPortfolio', async ({ page }) => {
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.clickDepositButtonAction('rETH')
 
       const depositDialog = new DialogPageObject(page, headerRegExp)
       await depositDialog.fillAmountAction(1)
@@ -93,15 +93,15 @@ test.describe('Deposit dialog', () => {
       const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
       await actionsContainer.acceptAllActionsAction(2)
 
-      await depositDialog.viewInDashboardAction()
-      await dashboardPage.expectHealthFactor(expectedHealthFactor)
+      await depositDialog.viewInMyPortfolioAction()
+      await myPortfolioPage.expectHealthFactor(expectedHealthFactor)
     })
 
     test('has correct action plan for erc-20 with permit support', async ({ page }) => {
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.expectDepositTable(initialDeposits)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.expectDepositTable(initialDeposits)
 
-      await dashboardPage.clickDepositButtonAction('wstETH')
+      await myPortfolioPage.clickDepositButtonAction('wstETH')
 
       const depositDialog = new DialogPageObject(page, headerRegExp)
       await depositDialog.fillAmountAction(1)
@@ -113,10 +113,10 @@ test.describe('Deposit dialog', () => {
     })
 
     test('can switch to approves in action plan', async ({ page }) => {
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.expectDepositTable(initialDeposits)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.expectDepositTable(initialDeposits)
 
-      await dashboardPage.clickDepositButtonAction('wstETH')
+      await myPortfolioPage.clickDepositButtonAction('wstETH')
 
       const depositDialog = new DialogPageObject(page, headerRegExp)
       await depositDialog.fillAmountAction(1)
@@ -138,10 +138,10 @@ test.describe('Deposit dialog', () => {
     })
 
     test('has correct action plan for erc-20 with no permit support', async ({ page }) => {
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.expectDepositTable(initialDeposits)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.expectDepositTable(initialDeposits)
 
-      await dashboardPage.clickDepositButtonAction('rETH')
+      await myPortfolioPage.clickDepositButtonAction('rETH')
 
       const depositDialog = new DialogPageObject(page, headerRegExp)
       await depositDialog.fillAmountAction(1)
@@ -158,10 +158,10 @@ test.describe('Deposit dialog', () => {
         amount: 1,
       }
 
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.expectDepositTable(initialDeposits)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.expectDepositTable(initialDeposits)
 
-      await dashboardPage.clickDepositButtonAction(deposit.asset)
+      await myPortfolioPage.clickDepositButtonAction(deposit.asset)
 
       const depositDialog = new DialogPageObject(page, headerRegExp)
       await depositDialog.fillAmountAction(deposit.amount)
@@ -171,9 +171,9 @@ test.describe('Deposit dialog', () => {
 
       await screenshot(depositDialog.getDialog(), 'deposit-dialog-wsteth-success')
 
-      await depositDialog.viewInDashboardAction()
+      await depositDialog.viewInMyPortfolioAction()
 
-      await dashboardPage.expectDepositTable({
+      await myPortfolioPage.expectDepositTable({
         ...initialDeposits,
         wstETH: initialDeposits.wstETH + 1,
       })
@@ -185,10 +185,10 @@ test.describe('Deposit dialog', () => {
         amount: 1,
       }
 
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.expectDepositTable(initialDeposits)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.expectDepositTable(initialDeposits)
 
-      await dashboardPage.clickDepositButtonAction(deposit.asset)
+      await myPortfolioPage.clickDepositButtonAction(deposit.asset)
 
       const depositDialog = new DialogPageObject(page, headerRegExp)
       await depositDialog.fillAmountAction(deposit.amount)
@@ -198,19 +198,19 @@ test.describe('Deposit dialog', () => {
 
       await screenshot(depositDialog.getDialog(), 'deposit-dialog-reth-success')
 
-      await depositDialog.viewInDashboardAction()
+      await depositDialog.viewInMyPortfolioAction()
 
-      await dashboardPage.expectDepositTable({
+      await myPortfolioPage.expectDepositTable({
         ...initialDeposits,
         rETH: initialDeposits.rETH + 1,
       })
     })
 
     test('has correct action plan for native asset', async ({ page }) => {
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.expectDepositTable(initialDeposits)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.expectDepositTable(initialDeposits)
 
-      await dashboardPage.clickDepositButtonAction('WETH')
+      await myPortfolioPage.clickDepositButtonAction('WETH')
 
       const depositDialog = new DialogPageObject(page, headerRegExp)
       await depositDialog.selectAssetAction('ETH')
@@ -228,10 +228,10 @@ test.describe('Deposit dialog', () => {
         amount: 1,
       }
 
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.expectDepositTable(initialDeposits)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.expectDepositTable(initialDeposits)
 
-      await dashboardPage.clickDepositButtonAction(deposit.asset)
+      await myPortfolioPage.clickDepositButtonAction(deposit.asset)
 
       const depositDialog = new DialogPageObject(page, headerRegExp)
       await depositDialog.selectAssetAction('ETH')
@@ -249,9 +249,9 @@ test.describe('Deposit dialog', () => {
       )
       await screenshot(depositDialog.getDialog(), 'deposit-dialog-eth-success')
 
-      await depositDialog.viewInDashboardAction()
+      await depositDialog.viewInMyPortfolioAction()
 
-      await dashboardPage.expectDepositTable({
+      await myPortfolioPage.expectDepositTable({
         ...initialDeposits,
         // @todo Figure out how WETH and ETH conversion should work
         WETH: 1,
@@ -260,8 +260,8 @@ test.describe('Deposit dialog', () => {
 
     test("can't deposit more than wallet balance", async ({ page }) => {
       const depositAsset = 'rETH'
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.clickDepositButtonAction(depositAsset)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.clickDepositButtonAction(depositAsset)
 
       const depositDialog = new DialogPageObject(page, headerRegExp)
       await depositDialog.fillAmountAction(initialBalances[depositAsset] - initialDeposits[depositAsset] + 1)
@@ -273,8 +273,8 @@ test.describe('Deposit dialog', () => {
 
     test('requires new approve when the input value is increased', async ({ page }) => {
       const depositAsset = 'rETH'
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.clickDepositButtonAction(depositAsset)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.clickDepositButtonAction(depositAsset)
 
       const depositDialog = new DialogPageObject(page, headerRegExp)
       await depositDialog.fillAmountAction(1)
@@ -291,8 +291,8 @@ test.describe('Deposit dialog', () => {
 
     test('requires new permit when the input value is changed', async ({ page }) => {
       const depositAsset = 'wstETH'
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.clickDepositButtonAction(depositAsset)
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.clickDepositButtonAction(depositAsset)
 
       const depositDialog = new DialogPageObject(page, headerRegExp)
       await depositDialog.fillAmountAction(2)
@@ -325,7 +325,7 @@ test.describe('Deposit dialog', () => {
 
       const borrowPage = new BorrowPageObject(page)
       // to simulate a position with only deposits, we go through the easy borrow flow
-      // but interrupt it before the borrow action, going directly to the dashboard
+      // but interrupt it before the borrow action, going directly to the myPortfolio
       // this way we have deposit transactions executed, but no borrow transaction
       // resulting in a position with only deposits
       await borrowPage.fillDepositAssetAction(0, 'wstETH', initialDeposits.wstETH)
@@ -340,13 +340,13 @@ test.describe('Deposit dialog', () => {
       }
       await actionsContainer.expectEnabledActionAtIndex(4)
 
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.goToDashboardAction()
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.goToMyPortfolioAction()
     })
 
     test('does not display health factor', async ({ page }) => {
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.clickDepositButtonAction('rETH')
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.clickDepositButtonAction('rETH')
 
       const depositDialog = new DialogPageObject(page, headerRegExp)
       await depositDialog.fillAmountAction(1)
@@ -371,15 +371,15 @@ test.describe('Deposit dialog', () => {
       }
 
       await setup(page, fork, {
-        initialPage: 'dashboard',
+        initialPage: 'myPortfolio',
         account: {
           type: 'connected-random',
           assetBalances: { ...initialBalances },
         },
       })
 
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.clickDepositButtonAction('WBTC')
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.clickDepositButtonAction('WBTC')
 
       const depositDialog = new DialogPageObject(page, headerRegExp)
       await depositDialog.clickMaxAmountAction()
@@ -400,8 +400,8 @@ test.describe('Deposit dialog', () => {
         },
       )
 
-      await depositDialog.viewInDashboardAction()
-      await dashboardPage.expectDepositTable({
+      await depositDialog.viewInMyPortfolioAction()
+      await myPortfolioPage.expectDepositTable({
         WBTC: 507.527307,
       })
     })
@@ -413,15 +413,15 @@ test.describe('Deposit dialog', () => {
       }
 
       await setup(page, fork, {
-        initialPage: 'dashboard',
+        initialPage: 'myPortfolio',
         account: {
           type: 'connected-random',
           assetBalances: { ...initialBalances },
         },
       })
 
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.clickDepositButtonAction('USDT')
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.clickDepositButtonAction('USDT')
 
       const depositDialog = new DialogPageObject(page, headerRegExp)
       await depositDialog.fillAmountAction(initialBalances.USDT)
@@ -438,23 +438,23 @@ test.describe('Deposit dialog', () => {
         fork,
       )
 
-      await depositDialog.viewInDashboardAction()
-      await dashboardPage.expectDepositTable({
+      await depositDialog.viewInMyPortfolioAction()
+      await myPortfolioPage.expectDepositTable({
         USDT: initialBalances.USDT,
       })
     })
 
     test('retains some native asset when depositing max', async ({ page }) => {
       await setup(page, fork, {
-        initialPage: 'dashboard',
+        initialPage: 'myPortfolio',
         account: {
           type: 'connected-random',
           assetBalances: { ETH: 1 },
         },
       })
 
-      const dashboardPage = new DashboardPageObject(page)
-      await dashboardPage.clickDepositButtonAction('WETH')
+      const myPortfolioPage = new MyPortfolioPageObject(page)
+      await myPortfolioPage.clickDepositButtonAction('WETH')
       const depositDialog = new DialogPageObject(page, headerRegExp)
       await depositDialog.selectAssetAction('ETH')
       await depositDialog.clickMaxAmountAction()

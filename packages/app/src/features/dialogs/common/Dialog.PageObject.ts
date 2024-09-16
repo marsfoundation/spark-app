@@ -42,9 +42,9 @@ export class DialogPageObject extends BasePageObject {
     await this.region.getByRole('button', { name: 'MAX' }).click()
   }
 
-  async viewInDashboardAction(): Promise<void> {
+  async viewInMyPortfolioAction(): Promise<void> {
     const successViewContent = this.page.getByTestId(testIds.component.SuccessViewContent)
-    await successViewContent.getByRole('button', { name: 'View in dashboard' }).click()
+    await successViewContent.getByRole('button', { name: 'View in portfolio' }).click()
     await successViewContent.waitFor({
       state: 'detached',
     })

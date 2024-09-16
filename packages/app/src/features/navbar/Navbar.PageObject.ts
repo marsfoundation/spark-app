@@ -22,7 +22,7 @@ export class NavbarPageObject extends BasePageObject {
   }
 
   locateSavingsLink(): Locator {
-    return this.page.getByRole('link', { name: 'Cash & Savings' })
+    return this.page.getByRole('link', { name: 'Savings' })
   }
   // #endregion
 

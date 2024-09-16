@@ -55,8 +55,8 @@ export function PageLinks({
       onClick: handleNavigate,
     },
     {
-      to: paths.dashboard,
-      label: 'Dashboard',
+      to: paths.myPortfolio,
+      label: 'My portfolio',
       onClick: handleNavigate,
     },
     {
@@ -135,7 +135,7 @@ export function PageLinks({
             ) : undefined
           }
         >
-          Cash & Savings
+          Savings
         </NavLink>
       )}
 

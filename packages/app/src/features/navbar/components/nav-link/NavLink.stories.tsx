@@ -59,7 +59,7 @@ export const NavItemComponentSavings: Story = {
   args: {
     selected: false,
     to: '/',
-    children: 'Cash & Savings',
+    children: 'Savings',
     postfix: <SavingsAPYBadge APY={Percentage(0.05)} isLoading={false} />,
   },
 }
@@ -69,7 +69,7 @@ export const NavItemComponentSavingsLoading: Story = {
   args: {
     selected: false,
     to: '/',
-    children: 'Cash & Savings',
+    children: 'Savings',
     postfix: <SavingsAPYBadge APY={Percentage(0.05)} isLoading={true} />,
   },
 }
