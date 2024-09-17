@@ -3,6 +3,7 @@ import { Percentage } from '@/domain/types/NumericValues'
 import { assets } from '@/ui/assets'
 import { Button, LinkButton } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
+import { links } from '@/ui/constants/links'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 
@@ -47,7 +48,7 @@ export function UpgradeSavingsBanner({ onUpgradeSavingsClick, apyImprovement }: 
         </div>
         <div className="flex flex-col gap-2 md:flex-row md:items-end">
           <Button onClick={onUpgradeSavingsClick}>Upgrade now</Button>
-          <LinkButton variant="secondary" to="https://google.com" external>
+          <LinkButton variant="secondary" to={links.docs.savingsMigration} external>
             Learn more
           </LinkButton>
         </div>
