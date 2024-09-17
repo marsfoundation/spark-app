@@ -70,7 +70,7 @@ export function UpgradeView({
           <Info>
             <div className="flex flex-col gap-2">
               <p>
-                {fromToken.symbol} is the new version of {toToken.symbol}
+                {toToken.symbol} is the new version of {fromToken.symbol}
                 {fromToken.symbol === dai ? ', the stablecoin that powers the Sky ecosystem' : ''}.
               </p>
               <p>
