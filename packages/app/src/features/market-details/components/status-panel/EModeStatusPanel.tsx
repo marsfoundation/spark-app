@@ -18,6 +18,7 @@ import { InfoTilesGrid } from './components/InfoTilesGrid'
 import { StatusPanelGrid } from './components/StatusPanelGrid'
 import { StatusIcon } from './components/status-icon/StatusIcon'
 import { TokenBadge } from './components/token-badge/TokenBadge'
+import { InfoTile } from '@/ui/molecules/info-tile/InfoTile'
 
 export interface EModeStatusPanelProps {
   maxLtv: Percentage

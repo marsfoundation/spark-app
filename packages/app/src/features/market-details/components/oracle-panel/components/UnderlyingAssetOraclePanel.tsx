@@ -1,12 +1,21 @@
+<<<<<<< HEAD
 import { ReserveOracleType } from '@/config/chain/types'
+=======
+import { OracleType } from '@/config/chain/types'
+>>>>>>> 15c5bdc (Add oracle components)
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { InfoTile } from '@/ui/molecules/info-tile/InfoTile'
 import { Info } from '@/ui/molecules/info/Info'
 import { zeroAddress } from 'viem'
 import { BlockExplorerAddressLink } from './BlockExplorerAddressLink'
 
+<<<<<<< HEAD
 interface UnderlyingAssetOraclePanelProps {
   oracle: Extract<ReserveOracleType, { type: 'underlying-asset' }>
+=======
+type UnderlyingAssetOraclePanelProps = {
+  oracle: Extract<OracleType, { type: 'underlying-asset' }>
+>>>>>>> 15c5bdc (Add oracle components)
   chainId: number
 }
 

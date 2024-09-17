@@ -19,6 +19,7 @@ import { StatusPanelGrid } from './components/StatusPanelGrid'
 import { Subheader } from './components/Subheader'
 import { StatusIcon } from './components/status-icon/StatusIcon'
 import { TokenBadge } from './components/token-badge/TokenBadge'
+import { InfoTile } from '@/ui/molecules/info-tile/InfoTile'
 
 interface BorrowStatusPanelProps {
   status: BorrowEligibilityStatus
