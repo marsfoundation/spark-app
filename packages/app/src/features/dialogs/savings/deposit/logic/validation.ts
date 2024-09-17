@@ -1,48 +1,6 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
-import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
-import { z } from 'zod'
+import { BalanceValidationIssue } from '@/features/dialogs/common/logic/asset-balance/validation'
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function getSavingsDepositDialogFormValidator(tokensInfo: TokensInfo) {
-  return AssetInputSchema.superRefine((field, ctx) => {
-    const value = NormalizedUnitNumber(field.value === '' ? '0' : field.value)
-    const balance = tokensInfo.findOneBalanceBySymbol(field.symbol)
-
-    const issue = validateDeposit({
-      value,
-      user: { balance },
-    })
-    if (issue) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: depositValidationIssueToMessage[issue],
-        path: ['value'],
-      })
-    }
-  })
-}
-
-export type DepositValidationIssue = 'exceeds-balance' | 'value-not-positive'
-
-export interface ValidateDepositArgs {
-  value: NormalizedUnitNumber
-  user: {
-    balance: NormalizedUnitNumber
-  }
-}
-
-export function validateDeposit({ value, user: { balance } }: ValidateDepositArgs): DepositValidationIssue | undefined {
-  if (value.isLessThanOrEqualTo(0)) {
-    return 'value-not-positive'
-  }
-
-  if (balance.lt(value)) {
-    return 'exceeds-balance'
-  }
-}
-
-export const depositValidationIssueToMessage: Record<DepositValidationIssue, string> = {
+export const depositValidationIssueToMessage: Record<BalanceValidationIssue, string> = {
   'value-not-positive': 'Deposit value should be positive',
   'exceeds-balance': 'Exceeds your balance',
 }

@@ -7,9 +7,9 @@ import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
+import { useDebouncedFormValues } from '@/features/dialogs/common/logic/asset-balance/form'
 import { AssetInputSchema, getFormFieldsForAssetBalanceDialog } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
-import { useDebouncedDialogFormValues } from '@/features/dialogs/savings/common/logic/form'
 import { assert } from '@/utils/assert'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
@@ -63,7 +63,7 @@ export function useMigrateDialog({ type, fromToken, toToken }: UseMigrateDialogP
     debouncedFormValues: formValues,
     isDebouncing,
     isFormValid,
-  } = useDebouncedDialogFormValues({
+  } = useDebouncedFormValues({
     form,
     tokensInfo,
   })

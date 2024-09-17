@@ -1,11 +1,11 @@
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
+import { TxOverviewRouteItem } from '@/features/dialogs/common/types'
 import { assets } from '@/ui/assets'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
-import { RouteItem as RouteItemType } from '../../../types'
 
 export interface RouteItemProps {
-  item: RouteItemType
+  item: TxOverviewRouteItem
   index: number
   isLast: boolean
   displayRouteVertically: boolean

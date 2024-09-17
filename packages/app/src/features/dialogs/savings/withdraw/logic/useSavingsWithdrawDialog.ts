@@ -6,13 +6,13 @@ import { useSavingsTokens } from '@/domain/savings/useSavingsTokens'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
+import { useDebouncedFormValues } from '@/features/dialogs/common/logic/asset-balance/form'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
 import { raise } from '@/utils/assert'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
-import { useDebouncedDialogFormValues } from '../../common/logic/form'
 import { SavingsDialogTxOverview } from '../../common/types'
 import { Mode, SavingsType, SendModeExtension } from '../types'
 import { createObjectives } from './createObjectives'
@@ -72,7 +72,7 @@ export function useSavingsWithdrawDialog({
     debouncedFormValues: formValues,
     isDebouncing,
     isFormValid,
-  } = useDebouncedDialogFormValues({
+  } = useDebouncedFormValues({
     form,
     tokensInfo,
   })

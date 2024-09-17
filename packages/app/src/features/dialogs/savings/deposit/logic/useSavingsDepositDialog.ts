@@ -5,6 +5,8 @@ import { useSavingsTokens } from '@/domain/savings/useSavingsTokens'
 import { Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
+import { useDebouncedFormValues } from '@/features/dialogs/common/logic/asset-balance/form'
+import { getTokenWithBalanceFormValidator } from '@/features/dialogs/common/logic/asset-balance/validation'
 import { AssetInputSchema, getFormFieldsForAssetBalanceDialog } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
 import { determineApyImprovement } from '@/features/savings/logic/determineApyImprovement'
@@ -12,11 +14,10 @@ import { assert, raise } from '@/utils/assert'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
-import { useDebouncedDialogFormValues } from '../../common/logic/form'
 import { SavingsDialogTxOverview } from '../../common/types'
 import { createTxOverview } from './createTxOverview'
 import { createObjectives } from './objectives'
-import { getSavingsDepositDialogFormValidator } from './validation'
+import { depositValidationIssueToMessage } from './validation'
 
 export interface UseSavingsDepositDialogParams {
   initialToken: Token
@@ -54,7 +55,7 @@ export function useSavingsDepositDialog({
   const [upgradeSwitchChecked, setUpgradeSwitchChecked] = useState(true)
 
   const form = useForm<AssetInputSchema>({
-    resolver: zodResolver(getSavingsDepositDialogFormValidator(tokensInfo)),
+    resolver: zodResolver(getTokenWithBalanceFormValidator(tokensInfo, depositValidationIssueToMessage)),
     defaultValues: {
       symbol: initialToken.symbol,
       value: '',
@@ -66,7 +67,7 @@ export function useSavingsDepositDialog({
     debouncedFormValues: formValues,
     isDebouncing,
     isFormValid,
-  } = useDebouncedDialogFormValues({
+  } = useDebouncedFormValues({
     form,
     tokensInfo,
   })

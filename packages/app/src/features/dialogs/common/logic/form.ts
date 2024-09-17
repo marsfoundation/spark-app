@@ -95,7 +95,6 @@ export function getFormFieldsForAssetBalanceDialog({
   tokensInfo,
   singleAsset,
 }: GetFormFieldsForAssetBalanceInputDialogParams): FormFieldsForDialog {
-  // eslint-disable-next-line func-style
   const changeAsset = singleAsset
     ? undefined
     : (newSymbol: TokenSymbol): void => {

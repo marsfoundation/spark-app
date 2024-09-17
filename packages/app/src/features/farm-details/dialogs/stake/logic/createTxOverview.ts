@@ -2,12 +2,11 @@ import { Farm } from '@/domain/farms/types'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
+import { TokenWithBalanceFormNormalizedData } from '@/features/dialogs/common/logic/asset-balance/form'
 import { TxOverviewRouteItem } from '@/features/dialogs/common/types'
-import { SavingsDialogFormNormalizedData } from '@/features/dialogs/savings/common/logic/form'
-import { raise } from '@/utils/assert'
 
 export interface CreateTxOverviewParams {
-  formValues: SavingsDialogFormNormalizedData
+  formValues: TokenWithBalanceFormNormalizedData
   tokensInfo: TokensInfo
   farm: Farm
 }
@@ -19,7 +18,7 @@ export type TxOverview =
       apy: Percentage
       rewardsToken: Token
       rewardsRate: NormalizedUnitNumber
-      routeToUsds: TxOverviewRouteItem[]
+      routeToStakingToken: TxOverviewRouteItem[]
     }
 
 export function createTxOverview({ formValues, tokensInfo, farm }: CreateTxOverviewParams): TxOverview {
@@ -28,9 +27,11 @@ export function createTxOverview({ formValues, tokensInfo, farm }: CreateTxOverv
     return { status: 'no-overview' }
   }
 
-  const route: TxOverviewRouteItem[] = createUsdsRoute({
+  const stakingToken = tokensInfo.findOneTokenBySymbol(farm.stakingToken.symbol)
+
+  const routeToStakingToken: TxOverviewRouteItem[] = createRouteToStakingToken({
     formValues,
-    tokensInfo,
+    stakingToken,
   })
 
   return {
@@ -38,31 +39,34 @@ export function createTxOverview({ formValues, tokensInfo, farm }: CreateTxOverv
     apy: farm.apy,
     rewardsToken: farm.rewardToken,
     rewardsRate: farm.rewardRate,
-    routeToUsds: route,
+    routeToStakingToken,
   }
 }
 
-export interface CreateUsdsRouteParams {
-  formValues: SavingsDialogFormNormalizedData
-  tokensInfo: TokensInfo
+export interface CreateRouteToStakingTokenParams {
+  formValues: TokenWithBalanceFormNormalizedData
+  stakingToken: Token
 }
-function createUsdsRoute({ formValues, tokensInfo }: CreateUsdsRouteParams): TxOverviewRouteItem[] {
-  const usds = tokensInfo.USDS ?? raise('USDS token is required for stake action tx overview')
-  const usdValue = tokensInfo.findOneTokenBySymbol(formValues.token.symbol).unitPriceUsd
+function createRouteToStakingToken({
+  formValues,
+  stakingToken,
+}: CreateRouteToStakingTokenParams): TxOverviewRouteItem[] {
+  const entryTokenUsdValue = formValues.token.toUSD(formValues.value)
+  const stakingTokenAmount = NormalizedUnitNumber(entryTokenUsdValue.dividedBy(stakingToken.unitPriceUsd))
   return [
-    ...(usds.symbol !== formValues.token.symbol
+    ...(stakingToken.symbol !== formValues.token.symbol
       ? [
           {
             token: formValues.token,
-            usdValue,
+            usdValue: entryTokenUsdValue,
             value: formValues.value,
           },
         ]
       : []),
     {
-      token: usds,
-      usdValue,
-      value: usdValue,
+      token: stakingToken,
+      usdValue: entryTokenUsdValue,
+      value: stakingTokenAmount,
     },
   ]
 }

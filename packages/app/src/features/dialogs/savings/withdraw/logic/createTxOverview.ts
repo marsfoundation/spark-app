@@ -2,12 +2,13 @@ import { SavingsInfo } from '@/domain/savings-info/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
+import { TokenWithBalanceFormNormalizedData } from '@/features/dialogs/common/logic/asset-balance/form'
+import { TxOverviewRouteItem } from '@/features/dialogs/common/types'
 import { raise } from '@/utils/assert'
-import { SavingsDialogFormNormalizedData } from '../../common/logic/form'
-import { RouteItem, SavingsDialogTxOverview } from '../../common/types'
+import { SavingsDialogTxOverview } from '../../common/types'
 
 export interface CreateTxOverviewParams {
-  formValues: SavingsDialogFormNormalizedData
+  formValues: TokenWithBalanceFormNormalizedData
   tokensInfo: TokensInfo
   savingsInfo: SavingsInfo
   savingsToken: Token
@@ -58,7 +59,7 @@ export function createTxOverview({
 }
 
 export interface GetWithdrawRouteParams {
-  formValues: SavingsDialogFormNormalizedData
+  formValues: TokenWithBalanceFormNormalizedData
   tokensInfo: TokensInfo
   savingsInfo: SavingsInfo
   savingsToken: Token
@@ -70,7 +71,7 @@ function getWithdrawRoute({
   savingsInfo,
   savingsToken,
   savingsTokenValue,
-}: GetWithdrawRouteParams): RouteItem[] {
+}: GetWithdrawRouteParams): TxOverviewRouteItem[] {
   const value = formValues.value
   const intermediary =
     (savingsToken.symbol === tokensInfo.sDAI?.symbol ? tokensInfo.DAI : tokensInfo.USDS) ??

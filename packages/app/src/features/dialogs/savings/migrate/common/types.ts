@@ -1,9 +1,10 @@
 import { Percentage } from '@/domain/types/NumericValues'
-import { RouteItem, TxOverviewResult } from '../../common/types'
+import { TxOverviewRouteItem } from '@/features/dialogs/common/types'
+import { TxOverviewResult } from '../../common/types'
 
 export interface TxOverview {
   apyChange?: { current: Percentage; updated: Percentage }
-  route: RouteItem[]
+  route: TxOverviewRouteItem[]
 }
 
 export type MigrateDialogTxOverview = TxOverviewResult<TxOverview>

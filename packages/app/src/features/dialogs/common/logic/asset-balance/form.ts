@@ -6,16 +6,16 @@ import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { useDebounce } from '@/utils/useDebounce'
 
-export interface SavingsDialogFormNormalizedData {
+export interface TokenWithBalanceFormNormalizedData {
   token: Token
   value: NormalizedUnitNumber
   isMaxSelected: boolean
 }
 
-export function normalizeDialogFormValues(
+export function normalizeFormValues(
   asset: AssetInputSchema,
   tokensInfo: TokensInfo,
-): SavingsDialogFormNormalizedData {
+): TokenWithBalanceFormNormalizedData {
   const value = NormalizedUnitNumber(asset.value === '' ? '0' : asset.value)
   const token = tokensInfo.findOneTokenBySymbol(asset.symbol)
 
@@ -31,28 +31,25 @@ export function isMaxValue(value: string, maxValue: NormalizedUnitNumber): boole
   return normalizedValue.eq(maxValue)
 }
 
-function getNormalizedDialogFormValuesKey(values: SavingsDialogFormNormalizedData): string {
+function getNormalizedFormValuesKey(values: TokenWithBalanceFormNormalizedData): string {
   return [values.token.address, values.value.toFixed(), values.isMaxSelected].join('-')
 }
 
-export interface UseDebouncedDialogFormValuesArgs {
+export interface UseDebouncedFormValuesArgs {
   form: UseFormReturn<AssetInputSchema>
   tokensInfo: TokensInfo
 }
-export interface UseDebouncedDialogFormValuesResult {
-  debouncedFormValues: SavingsDialogFormNormalizedData
+export interface UseDebouncedFormValuesResult {
+  debouncedFormValues: TokenWithBalanceFormNormalizedData
   isFormValid: boolean
   isDebouncing: boolean
 }
-export function useDebouncedDialogFormValues({
-  form,
-  tokensInfo,
-}: UseDebouncedDialogFormValuesArgs): UseDebouncedDialogFormValuesResult {
-  const formValues = normalizeDialogFormValues(form.watch(), tokensInfo)
+export function useDebouncedFormValues({ form, tokensInfo }: UseDebouncedFormValuesArgs): UseDebouncedFormValuesResult {
+  const formValues = normalizeFormValues(form.watch(), tokensInfo)
   const isFormValid = form.formState.isValid
   const { debouncedValue, isDebouncing } = useDebounce(
     { formValues, isFormValid },
-    getNormalizedDialogFormValuesKey(formValues) + isFormValid.toString(),
+    getNormalizedFormValuesKey(formValues) + isFormValid.toString(),
   )
 
   return {

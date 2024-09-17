@@ -2,13 +2,13 @@ import { SavingsInfo } from '@/domain/savings-info/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
+import { TokenWithBalanceFormNormalizedData } from '@/features/dialogs/common/logic/asset-balance/form'
 import { TxOverviewRouteItem } from '@/features/dialogs/common/types'
 import { raise } from '@/utils/assert'
-import { SavingsDialogFormNormalizedData } from '../../common/logic/form'
 import { SavingsDialogTxOverview } from '../../common/types'
 
 export interface CreateTxOverviewParams {
-  formValues: SavingsDialogFormNormalizedData
+  formValues: TokenWithBalanceFormNormalizedData
   tokensInfo: TokensInfo
   savingsInfo: SavingsInfo
   type: 'sdai' | 'susds'
@@ -50,7 +50,7 @@ export function createTxOverview({
 }
 
 export interface GetDepositRouteParams {
-  formValues: SavingsDialogFormNormalizedData
+  formValues: TokenWithBalanceFormNormalizedData
   tokensInfo: TokensInfo
   savingsInfo: SavingsInfo
   savingsToken: Token
