@@ -88,13 +88,13 @@ function overrideDateClass(fakeNow: number): void {
 }
 
 export async function injectFlags(page: Page, forkContext: ForkContext): Promise<void> {
-  const usdsAddress = (() => {
+  const susdsAddress = (() => {
     if (forkContext.chainId === mainnet.id) {
-      return '0xdC035D45d973E3EC169d2276DDab16f1e407384F'
+      return '0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD'
     }
 
     if (forkContext.chainId === USDS_DEV_CHAIN_ID) {
-      return '0xd2983525E903Ef198d5dD0777712EB66680463bc'
+      return '0xCd9BC6cE45194398d12e27e1333D5e1d783104dD'
     }
 
     return zeroAddress
@@ -102,14 +102,14 @@ export async function injectFlags(page: Page, forkContext: ForkContext): Promise
   const publicClient = createPublicClient({
     transport: http(forkContext.forkUrl),
   })
-  const usdsBytecode = await publicClient.getBytecode({ address: usdsAddress })
+  const susdsBytecode = await publicClient.getBytecode({ address: susdsAddress })
 
   await page.addInitScript(
-    ({ PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY, usdsBytecode }) => {
-      if (usdsBytecode === undefined || usdsBytecode.length <= 2) {
+    ({ PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY, susdsBytecode }) => {
+      if (susdsBytecode === undefined || susdsBytecode.length <= 2) {
         ;(window as any)[PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY] = true
       }
     },
-    { PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY, usdsBytecode },
+    { PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY, susdsBytecode },
   )
 }
