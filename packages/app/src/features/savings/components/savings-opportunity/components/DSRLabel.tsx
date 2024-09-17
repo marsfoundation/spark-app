@@ -29,10 +29,11 @@ function TooltipContent({ savingsMetaItem }: { savingsMetaItem: SavingsMetaItem 
     <p>
       The {rateAcronym}, or {rateName}, represents the current annual interest rate for {stablecoin} deposited into the
       Sky Savings Module. It is determined on-chain by the Sky DPE Governance. Please note that these protocol
-      mechanisms are subject to change. Learn more about it
+      mechanisms are subject to change. Learn more about it{' '}
       <Link to={docsLink} external>
         here
       </Link>
+      .
     </p>
   )
 }
