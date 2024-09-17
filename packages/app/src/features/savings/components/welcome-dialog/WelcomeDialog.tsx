@@ -17,7 +17,7 @@ export function WelcomeDialog({ open, onConfirm, apyImprovement }: WelcomeDialog
     <Dialog open={open}>
       <DialogContent className="flex flex-col p-0" showCloseButton={false}>
         <img
-          src={assets.banners.daiToUsdsUpgrade}
+          src={assets.banners.newSavingsWelcome}
           alt="new-savings-welcome-banner"
           className="w-fit md:max-h-[300px]"
         />

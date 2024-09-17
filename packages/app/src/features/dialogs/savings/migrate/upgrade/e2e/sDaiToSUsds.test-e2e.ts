@@ -47,6 +47,41 @@ test.describe('Upgrade sDAI to sUSDS', () => {
     ])
   })
 
+  test('displays transaction overview', async ({ page }) => {
+    await setup(page, fork, {
+      initialPage: 'savings',
+      account: {
+        type: 'connected-random',
+        assetBalances: { sDAI: 10_000 },
+      },
+    })
+
+    const savingsPage = new SavingsPageObject(page)
+
+    await savingsPage.clickUpgradeSDaiButtonAction()
+
+    const upgradeDialog = new UpgradeDialogPageObject(page)
+
+    await upgradeDialog.expectTransactionOverview({
+      apyChange: {
+        current: '6.00%',
+        updated: '5.00%',
+      },
+      routeItems: [
+        {
+          tokenAmount: '10,000.00 sDAI',
+          tokenUsdValue: '$11,053.61',
+        },
+        {
+          tokenAmount: '11,050.94 sUSDS',
+          tokenUsdValue: '$11,053.61',
+        },
+      ],
+      outcome: '11,050.94 sUSDS worth $11,053.61',
+      badgeToken: 'sDAI',
+    })
+  })
+
   test('executes transaction', async ({ page }) => {
     await setup(page, fork, {
       initialPage: 'savings',

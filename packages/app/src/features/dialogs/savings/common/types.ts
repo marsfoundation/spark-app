@@ -16,7 +16,7 @@ export interface TxOverview {
   outTokenAmount: NormalizedUnitNumber
 }
 
-type TxOverviewResult<T extends {}> =
+export type TxOverviewResult<T extends {}> =
   | {
       status: 'no-overview'
     }

@@ -4,29 +4,42 @@ import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { useForm } from 'react-hook-form'
-import { UpgradeView } from './UpgradeView'
+import { DowngradeUSDSToDaiView } from './DowngradeUSDSToDaiView'
 
-const meta: Meta<typeof UpgradeView> = {
-  title: 'Features/Dialogs/Views/Migrate/Upgrade',
+const meta: Meta<typeof DowngradeUSDSToDaiView> = {
+  title: 'Features/Dialogs/Views/Migrate/Downgrade',
   decorators: [ZeroAllowanceWagmiDecorator(), WithClassname('max-w-xl'), WithTooltipProvider()],
   component: (args) => {
     const form = useForm() as any
-    return <UpgradeView {...args} form={form} />
+    return <DowngradeUSDSToDaiView {...args} form={form} />
   },
   args: {
-    fromToken: tokens.DAI,
-    toToken: tokens.USDS,
-    dai: tokens.DAI.symbol,
-    sdai: tokens.sDAI.symbol,
+    fromToken: tokens.USDS,
+    toToken: tokens.DAI,
+    txOverview: {
+      status: 'success',
+      route: [
+        {
+          token: tokens.USDS,
+          value: NormalizedUnitNumber(5000),
+          usdValue: NormalizedUnitNumber(5000),
+        },
+        {
+          token: tokens.DAI,
+          value: NormalizedUnitNumber(5000),
+          usdValue: NormalizedUnitNumber(5000),
+        },
+      ],
+    },
     selectableAssets: [
       {
-        token: tokens.DAI,
+        token: tokens.USDS,
         balance: NormalizedUnitNumber(5000),
       },
     ],
     assetsFields: {
       selectedAsset: {
-        token: tokens.DAI,
+        token: tokens.USDS,
         balance: NormalizedUnitNumber(5000),
         value: '2000',
       },
@@ -35,9 +48,9 @@ const meta: Meta<typeof UpgradeView> = {
     },
     objectives: [
       {
-        type: 'upgrade',
-        fromToken: tokens.DAI,
-        toToken: tokens.USDS,
+        type: 'downgrade',
+        fromToken: tokens.USDS,
+        toToken: tokens.DAI,
         amount: NormalizedUnitNumber(1),
       },
     ],
@@ -50,39 +63,8 @@ const meta: Meta<typeof UpgradeView> = {
 }
 
 export default meta
-type Story = StoryObj<typeof UpgradeView>
+type Story = StoryObj<typeof DowngradeUSDSToDaiView>
 
 export const Desktop: Story = {}
 export const Mobile = getMobileStory(Desktop)
 export const Tablet = getTabletStory(Desktop)
-
-export const sDai: Story = {
-  name: 'sDai',
-  args: {
-    fromToken: tokens.sDAI,
-    toToken: tokens.sUSDS,
-    selectableAssets: [
-      {
-        token: tokens.sDAI,
-        balance: NormalizedUnitNumber(5000),
-      },
-    ],
-    assetsFields: {
-      selectedAsset: {
-        token: tokens.sDAI,
-        balance: NormalizedUnitNumber(5000),
-        value: '2000',
-      },
-      maxValue: NormalizedUnitNumber(5000),
-      changeAsset: () => {},
-    },
-    objectives: [
-      {
-        type: 'upgrade',
-        fromToken: tokens.sDAI,
-        toToken: tokens.sUSDS,
-        amount: NormalizedUnitNumber(1),
-      },
-    ],
-  },
-}

@@ -14,7 +14,9 @@ import { assert } from '@/utils/assert'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
+import { MigrateDialogTxOverview } from '../types'
 import { createMigrateObjectives } from './createMigrateObjectives'
+import { createTxOverview } from './createTxOverview'
 import { getFormFieldsForMigrateDialog } from './form'
 import { useFromTokenInfo } from './useFromTokenInfo'
 import { getMigrateDialogFormValidator } from './validation'
@@ -33,6 +35,7 @@ export interface UseMigrateDialogResult {
   pageStatus: PageStatus
   migrationAmount: NormalizedUnitNumber
   actionsContext: InjectedActionsContext
+  txOverview: MigrateDialogTxOverview
   dai: TokenSymbol
   sdai: TokenSymbol
 }
@@ -69,6 +72,14 @@ export function useMigrateDialog({ type, fromToken, toToken }: UseMigrateDialogP
   const objectives = createMigrateObjectives({ type, fromToken, toToken, amount: formValues.value })
   const actionsEnabled = formValues.value.gt(0) && isFormValid && !isDebouncing
 
+  const txOverview = createTxOverview({
+    formValues,
+    tokensInfo,
+    outputToken: toToken,
+    savingsDaiInfo,
+    savingsUsdsInfo,
+  })
+
   return {
     selectableAssets: [fromTokenWithBalance],
     assetsFields: getFormFieldsForMigrateDialog(form, tokensInfo),
@@ -83,6 +94,7 @@ export function useMigrateDialog({ type, fromToken, toToken }: UseMigrateDialogP
       state: pageStatus,
       goToSuccessScreen: () => setPageStatus('success'),
     },
+    txOverview,
     dai: daiSymbol,
     sdai: sDaiSymbol,
   }
