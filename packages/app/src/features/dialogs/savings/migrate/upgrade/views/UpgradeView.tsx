@@ -69,12 +69,15 @@ export function UpgradeView({
           Upgrade {fromToken.symbol} to {toToken.symbol}{' '}
           <Info>
             <div className="flex flex-col gap-2">
-              <p>USDS is the new version of DAI, the stablecoin that powers the Sky ecosystem.</p>
               <p>
-                Upgrading to USDS unlocks additional benefits, providing you with more opportunities to earn rewards
-                within the ecosystem.
+                {fromToken.symbol} is the new version of {toToken.symbol}
+                {fromToken.symbol === dai ? ', the stablecoin that powers the Sky ecosystem' : ''}.
               </p>
-              <p>Upgrade is optional and you can continue using DAI if you prefer.</p>
+              <p>
+                Upgrading to {toToken.symbol} unlocks additional benefits, providing you with more opportunities to earn
+                rewards within the ecosystem.
+              </p>
+              <p>Upgrade is optional and you can continue using {fromToken.symbol} if you prefer.</p>
               <Link to={links.docs.savingsMigration} external>
                 Learn more
               </Link>
