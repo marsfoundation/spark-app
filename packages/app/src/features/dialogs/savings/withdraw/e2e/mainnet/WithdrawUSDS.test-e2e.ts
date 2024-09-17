@@ -1,13 +1,14 @@
-import { USDS_DEV_CHAIN_ID } from '@/config/chain/constants'
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
+import { USDS_ACTIVATED_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
+import { mainnet } from 'viem/chains'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 
 test.describe('Withdraw USDS from sUSDS', () => {
-  const fork = setupFork({ chainId: USDS_DEV_CHAIN_ID })
+  const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
   let savingsPage: SavingsPageObject
   let withdrawDialog: SavingsDialogPageObject
 
@@ -46,7 +47,7 @@ test.describe('Withdraw USDS from sUSDS', () => {
     await withdrawDialog.expectNativeRouteTransactionOverview({
       routeItems: [
         {
-          tokenAmount: '999.76 sUSDS',
+          tokenAmount: '999.98 sUSDS',
           tokenUsdValue: '$1,000.00',
         },
         {
@@ -68,13 +69,13 @@ test.describe('Withdraw USDS from sUSDS', () => {
     await withdrawDialog.expectSuccessPage()
     await withdrawDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsUSDSBalance({ sUsdsBalance: '8,997.83 sUSDS', estimatedUsdsValue: '9,000' })
+    await savingsPage.expectSavingsUSDSBalance({ sUsdsBalance: '8,999.79 sUSDS', estimatedUsdsValue: '9,000' })
     await savingsPage.expectStablecoinsInWalletAssetBalance('USDS', '1,000')
   })
 })
 
 test.describe('Withdraw USDS from sDAI', () => {
-  const fork = setupFork({ chainId: USDS_DEV_CHAIN_ID })
+  const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
   let savingsPage: SavingsPageObject
   let withdrawDialog: SavingsDialogPageObject
 
@@ -109,7 +110,7 @@ test.describe('Withdraw USDS from sDAI', () => {
     await withdrawDialog.expectNativeRouteTransactionOverview({
       routeItems: [
         {
-          tokenAmount: '904.68 sDAI',
+          tokenAmount: '902.05 sDAI',
           tokenUsdValue: '$1,000.00',
         },
         {
@@ -135,7 +136,7 @@ test.describe('Withdraw USDS from sDAI', () => {
     await withdrawDialog.expectSuccessPage()
     await withdrawDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsDAIBalance({ sDaiBalance: '9,095.32 sDAI', estimatedDaiValue: '10,053.60' })
+    await savingsPage.expectSavingsDAIBalance({ sDaiBalance: '9,097.95 sDAI', estimatedDaiValue: '10,085.90' })
     await savingsPage.expectStablecoinsInWalletAssetBalance('USDS', '1,000')
   })
 })

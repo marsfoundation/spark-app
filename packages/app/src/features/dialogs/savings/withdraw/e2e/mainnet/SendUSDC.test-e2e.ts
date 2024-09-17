@@ -1,5 +1,5 @@
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { LITE_PSM_ACTIONS_OPERABLE, TOKENS_ON_FORK } from '@/test/e2e/constants'
+import { TOKENS_ON_FORK, USDS_ACTIVATED_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
 import { randomAddress } from '@/test/utils/addressUtils'
@@ -7,8 +7,95 @@ import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 
-test.describe('Send USDC on Mainnet', () => {
-  const fork = setupFork({ blockNumber: LITE_PSM_ACTIONS_OPERABLE, chainId: mainnet.id, useTenderlyVnet: true })
+test.describe('Send USDC (withdrawing from sUSDS)', () => {
+  const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
+  let savingsPage: SavingsPageObject
+  let sendDialog: SavingsDialogPageObject
+  const receiver = randomAddress('bob')
+  const amount = 7000
+  const usdc = TOKENS_ON_FORK[mainnet.id].USDC
+
+  test.beforeEach(async ({ page }) => {
+    await setup(page, fork, {
+      initialPage: 'savings',
+      account: {
+        type: 'connected-random',
+        assetBalances: {
+          ETH: 1,
+          USDS: 10_000,
+        },
+      },
+    })
+
+    savingsPage = new SavingsPageObject(page)
+
+    await savingsPage.clickDepositButtonAction('USDS')
+    const depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
+    await depositDialog.fillAmountAction(10_000)
+    await depositDialog.actionsContainer.acceptAllActionsAction(2, fork)
+    await depositDialog.clickBackToSavingsButton()
+
+    await savingsPage.clickSendSUsdsButtonAction()
+    sendDialog = new SavingsDialogPageObject({ page, type: 'send' })
+    await sendDialog.selectAssetAction('USDC')
+    await sendDialog.fillAmountAction(amount)
+    await sendDialog.fillReceiverAction(receiver)
+  })
+
+  test('has correct action plan', async () => {
+    await sendDialog.actionsContainer.expectActions([
+      { type: 'approve', asset: 'sUSDS' },
+      { type: 'withdrawFromSavings', asset: 'USDC', savingsAsset: 'sUSDS', mode: 'send' },
+    ])
+  })
+
+  test('displays transaction overview', async () => {
+    await sendDialog.expectNativeRouteTransactionOverview({
+      routeItems: [
+        {
+          tokenAmount: '6,999.84 sUSDS',
+          tokenUsdValue: '$7,000.00',
+        },
+        {
+          tokenAmount: '7,000.00 USDS',
+          tokenUsdValue: '$7,000.00',
+        },
+        {
+          tokenAmount: '7,000.00 USDC',
+          tokenUsdValue: '$7,000.00',
+        },
+      ],
+      outcome: '7,000.00 USDC worth $7,000.00',
+      badgeToken: 'USDC',
+    })
+  })
+
+  test('executes send', async () => {
+    await sendDialog.expectReceiverTokenBalance({
+      forkUrl: fork.forkUrl,
+      receiver,
+      token: usdc,
+      expectedBalance: 0,
+    })
+
+    await sendDialog.actionsContainer.acceptAllActionsAction(2, fork)
+    await sendDialog.expectSuccessPage()
+
+    await sendDialog.expectReceiverTokenBalance({
+      forkUrl: fork.forkUrl,
+      receiver,
+      token: usdc,
+      expectedBalance: amount,
+    })
+
+    await sendDialog.clickBackToSavingsButton()
+    await savingsPage.expectSavingsUSDSBalance({ sUsdsBalance: '2,999.93 sUSDS', estimatedUsdsValue: '3,000' })
+    await savingsPage.expectStablecoinsInWalletAssetBalance('USDC', '-')
+  })
+})
+
+test.describe('Send USDC (withdrawing from sDAI)', () => {
+  const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
   let savingsPage: SavingsPageObject
   let sendDialog: SavingsDialogPageObject
   const receiver = randomAddress('bob')
@@ -28,15 +115,15 @@ test.describe('Send USDC on Mainnet', () => {
     })
 
     savingsPage = new SavingsPageObject(page)
-    await savingsPage.clickSendSDaiButtonAction()
 
+    await savingsPage.clickSendSDaiButtonAction()
     sendDialog = new SavingsDialogPageObject({ page, type: 'send' })
     await sendDialog.selectAssetAction('USDC')
     await sendDialog.fillAmountAction(amount)
     await sendDialog.fillReceiverAction(receiver)
   })
 
-  test('uses native sDai withdraw and send', async () => {
+  test('uses convert sDAI to USDS action', async () => {
     await sendDialog.actionsContainer.expectActions([
       { type: 'approve', asset: 'sDAI' },
       { type: 'withdrawFromSavings', asset: 'USDC', savingsAsset: 'sDAI', mode: 'send' },
@@ -47,7 +134,7 @@ test.describe('Send USDC on Mainnet', () => {
     await sendDialog.expectNativeRouteTransactionOverview({
       routeItems: [
         {
-          tokenAmount: '6,335.81 sDAI',
+          tokenAmount: '6,314.32 sDAI',
           tokenUsdValue: '$7,000.00',
         },
         {
@@ -83,7 +170,7 @@ test.describe('Send USDC on Mainnet', () => {
     })
 
     await sendDialog.clickBackToSavingsButton()
-    await savingsPage.expectSavingsDAIBalance({ sDaiBalance: '3,664.19 sDAI', estimatedDaiValue: '4,048.31' })
+    await savingsPage.expectSavingsDAIBalance({ sDaiBalance: '3,685.68 sDAI', estimatedDaiValue: '4,085.90' })
     await savingsPage.expectStablecoinsInWalletAssetBalance('USDC', '-')
   })
 })

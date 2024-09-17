@@ -1,12 +1,13 @@
-import { USDS_DEV_CHAIN_ID } from '@/config/chain/constants'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
+import { USDS_ACTIVATED_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
+import { mainnet } from 'viem/chains'
 import { DowngradeDialogPageObject } from '../DowngradeDialog.PageObject'
 
 test.describe('Downgrade USDS to DAI', () => {
-  const fork = setupFork({ chainId: USDS_DEV_CHAIN_ID })
+  const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
 
   test('downgrade to DAI is disabled when USDS balance is 0', async ({ page }) => {
     await setup(page, fork, {

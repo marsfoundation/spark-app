@@ -1,12 +1,13 @@
-import { USDS_DEV_CHAIN_ID } from '@/config/chain/constants'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
+import { USDS_ACTIVATED_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
+import { mainnet } from 'viem/chains'
 import { UpgradeDialogPageObject } from '../UpgradeDialog.PageObject'
 
 test.describe('Upgrade DAI to USDS', () => {
-  const fork = setupFork({ chainId: USDS_DEV_CHAIN_ID })
+  const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
 
   test('does not show upgrade button when DAI balance is 0', async ({ page }) => {
     await setup(page, fork, {
@@ -20,8 +21,8 @@ test.describe('Upgrade DAI to USDS', () => {
     const savingsPage = new SavingsPageObject(page)
 
     // wait to load
-    await savingsPage.expectPotentialProjection('$40.18', '30-day')
-    await savingsPage.expectPotentialProjection('$500.00', '1-year')
+    await savingsPage.expectPotentialProjection('$49.95', '30-day')
+    await savingsPage.expectPotentialProjection('$625.00', '1-year')
 
     await savingsPage.expectUpgradeDaiToUsdsButtonToBeHidden()
   })
