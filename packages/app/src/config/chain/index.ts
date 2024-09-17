@@ -12,6 +12,7 @@ import { assets } from '@/ui/assets'
 import { NATIVE_ASSET_MOCK_ADDRESS, stablecoinsGroup } from '../consts'
 import { usdsSkyRewardsConfig } from '../contracts-generated'
 import { AppConfig } from '../feature-flags'
+import { PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY } from '../wagmi/config.e2e'
 import { USDS_DEV_CHAIN_ID } from './constants'
 import { ChainConfig, ChainConfigEntry, ChainMeta } from './types'
 
@@ -24,6 +25,9 @@ const commonTokenSymbolToReplacedName = {
   [TokenSymbol('WETH')]: { name: 'Ethereum', symbol: TokenSymbol('ETH') },
   [TokenSymbol('weETH')]: { name: 'Ether.fi Staked ETH', symbol: TokenSymbol('weETH') },
 }
+
+const PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE =
+  import.meta.env.VITE_PLAYWRIGHT === '1' && (window as any)[PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY] === true
 
 const chainConfig: ChainConfig = {
   [mainnet.id]: {
@@ -73,8 +77,8 @@ const chainConfig: ChainConfig = {
     savingsUsdsInfoQuery: mainnetSavingsUsdsInfoQuery,
     daiSymbol: TokenSymbol('DAI'),
     sDaiSymbol: TokenSymbol('sDAI'),
-    USDSSymbol: TokenSymbol('USDS'),
-    sUSDSSymbol: TokenSymbol('sUSDS'),
+    USDSSymbol: PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE ? undefined : TokenSymbol('USDS'),
+    sUSDSSymbol: PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE ? undefined : TokenSymbol('sUSDS'),
     mergedDaiAndSDaiMarkets: true,
     savingsInputTokens: [TokenSymbol('DAI'), TokenSymbol('USDC'), TokenSymbol('USDS')],
     extraTokens: [
@@ -93,16 +97,20 @@ const chainConfig: ChainConfig = {
         oracleType: 'vault',
         address: CheckedAddress('0x83f20f44975d03b1b09e64809b757c47f942beea'),
       },
-      {
-        symbol: TokenSymbol('USDS'),
-        oracleType: 'fixed-usd',
-        address: CheckedAddress('0xdC035D45d973E3EC169d2276DDab16f1e407384F'),
-      },
-      {
-        symbol: TokenSymbol('sUSDS'),
-        oracleType: 'vault',
-        address: CheckedAddress('0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD'),
-      },
+      ...(PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE
+        ? []
+        : ([
+            {
+              symbol: TokenSymbol('sUSDS'),
+              oracleType: 'vault',
+              address: CheckedAddress('0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD'),
+            },
+            {
+              symbol: TokenSymbol('USDS'),
+              oracleType: 'fixed-usd',
+              address: CheckedAddress('0xdC035D45d973E3EC169d2276DDab16f1e407384F'),
+            },
+          ] as const)),
     ],
     farms: [],
   },

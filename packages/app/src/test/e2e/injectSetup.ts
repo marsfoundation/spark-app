@@ -2,11 +2,13 @@ import { Page } from '@playwright/test'
 
 import {
   PLAYWRIGHT_CHAIN_ID,
+  PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY,
   PLAYWRIGHT_WALLET_ADDRESS_KEY,
   PLAYWRIGHT_WALLET_FORK_URL_KEY,
   PLAYWRIGHT_WALLET_PRIVATE_KEY_KEY,
 } from '@/config/wagmi/config.e2e'
 
+import { ForkContext } from './forking/setupFork'
 import { InjectableWallet } from './setup'
 
 export async function injectWalletConfiguration(page: Page, wallet: InjectableWallet): Promise<void> {
@@ -80,4 +82,15 @@ function overrideDateClass(fakeNow: number): void {
 
   // @todo: When we are able to set timestamps for transactions, make tests that use vnets use line below instead of the overriding Date.now with offset
   // Date.now = () => fakeNow
+}
+
+export async function injectFlags(page: Page, forkContext: ForkContext): Promise<void> {
+  await page.addInitScript(
+    ({ PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY, isVnet }) => {
+      if (!isVnet) {
+        ;(window as any)[PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY] = true
+      }
+    },
+    { PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY, isVnet: forkContext.isVnet },
+  )
 }
