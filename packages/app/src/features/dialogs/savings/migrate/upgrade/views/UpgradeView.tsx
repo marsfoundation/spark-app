@@ -47,10 +47,22 @@ export function UpgradeView({
   return (
     <div>
       {fromToken.symbol === dai && (
-        <img src={assets.banners.daiToUsdsUpgrade} alt="dai-to-usds-upgrade" className="w-full sm:max-w-xl" />
+        <img
+          src={assets.banners.daiToUsdsUpgrade}
+          width={576}
+          height={173}
+          alt="dai-to-usds-upgrade"
+          className="w-full sm:max-w-xl"
+        />
       )}
       {fromToken.symbol === sdai && (
-        <img src={assets.banners.sdaiToSusdsUpgrade} alt="sdai-to-susds-upgrade" className="w-full sm:max-w-xl" />
+        <img
+          src={assets.banners.sdaiToSusdsUpgrade}
+          width={576}
+          height={173}
+          alt="sdai-to-susds-upgrade"
+          className="w-full sm:max-w-xl"
+        />
       )}
       <MultiPanelDialog className="p-6">
         <DialogTitle className="flex items-center gap-2">
