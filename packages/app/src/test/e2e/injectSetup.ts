@@ -8,6 +8,9 @@ import {
   PLAYWRIGHT_WALLET_PRIVATE_KEY_KEY,
 } from '@/config/wagmi/config.e2e'
 
+import { USDS_DEV_CHAIN_ID } from '@/config/chain/constants'
+import { http, createPublicClient, zeroAddress } from 'viem'
+import { mainnet } from 'viem/chains'
 import { ForkContext } from './forking/setupFork'
 import { InjectableWallet } from './setup'
 
@@ -85,12 +88,28 @@ function overrideDateClass(fakeNow: number): void {
 }
 
 export async function injectFlags(page: Page, forkContext: ForkContext): Promise<void> {
+  const usdsAddress = (() => {
+    if (forkContext.chainId === mainnet.id) {
+      return '0xdC035D45d973E3EC169d2276DDab16f1e407384F'
+    }
+
+    if (forkContext.chainId === USDS_DEV_CHAIN_ID) {
+      return '0xd2983525E903Ef198d5dD0777712EB66680463bc'
+    }
+
+    return zeroAddress
+  })()
+  const publicClient = createPublicClient({
+    transport: http(forkContext.forkUrl),
+  })
+  const usdsBytecode = await publicClient.getBytecode({ address: usdsAddress })
+
   await page.addInitScript(
-    ({ PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY, isVnet }) => {
-      if (!isVnet) {
+    ({ PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY, usdsBytecode }) => {
+      if (usdsBytecode === undefined || usdsBytecode.length <= 2) {
         ;(window as any)[PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY] = true
       }
     },
-    { PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY, isVnet: forkContext.isVnet },
+    { PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY, usdsBytecode },
   )
 }
