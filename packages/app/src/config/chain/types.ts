@@ -4,7 +4,8 @@ import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 
 import { FarmConfig } from '@/domain/farms/types'
-import { OracleType } from '@/domain/wallet/useTokens/types'
+import { MarketInfo } from '@/domain/market-info/marketInfo'
+import { ReserveOracleType } from '@/domain/wallet/useTokens/types'
 import { SUPPORTED_CHAIN_IDS } from './constants'
 
 export type SupportedChainId = (typeof SUPPORTED_CHAIN_IDS)[number]
@@ -42,11 +43,24 @@ export interface AirdropsPerAction {
 }
 export type Airdrop = Record<TokenSymbol, AirdropsPerAction>
 
-export interface TokenWithOracleType {
-  oracleType: OracleType
+export interface TokenWithReserveOracleType {
+  reserveReserveOracleType: ReserveOracleType
   address: CheckedAddress
   symbol: TokenSymbol
 }
+
+export type OracleFeedProvider = 'chainlink' | 'chronicle'
+
+export type OracleType =
+  | { type: 'market-price'; providedBy: OracleFeedProvider[] }
+  | {
+      type: 'yielding-fixed'
+      ratio: (marketInfo: MarketInfo) => Promise<NormalizedUnitNumber>
+      baseAsset: TokenSymbol
+      providedBy: OracleFeedProvider[]
+    }
+  | { type: 'fixed' }
+  | { type: 'underlying-asset'; asset: string }
 
 export type SavingsInfoQuery = (args: SavingsInfoQueryParams) => SavingsInfoQueryOptions
 
@@ -66,8 +80,9 @@ export interface ChainConfigEntry {
   sUSDSSymbol: TokenSymbol | undefined
   mergedDaiAndSDaiMarkets: boolean
   savingsInputTokens: TokenSymbol[]
-  extraTokens: TokenWithOracleType[]
+  extraTokens: TokenWithReserveOracleType[]
   farms: FarmConfig[]
+  oracles: Record<TokenSymbol, OracleType>
 }
 
 export type ChainConfig = Record<SupportedChainId, ChainConfigEntry>

@@ -8,10 +8,10 @@ import { getBalancesQueryKeyPrefix } from '../getBalancesQueryKeyPrefix'
 import { TokensInfo } from './TokenInfo'
 import { createAssetDataFetcher } from './createAssetDataFetcher'
 import { createOraclePriceFetcher } from './createOraclePriceFetcher'
-import { OracleType } from './types'
+import { ReserveOracleType } from './types'
 
 interface TokensParams {
-  tokens: { address: CheckedAddress; oracleType: OracleType }[]
+  tokens: { address: CheckedAddress; reserveReserveOracleType: ReserveOracleType }[]
   wagmiConfig: Config
   chainId: number
   account?: Address
