@@ -70,13 +70,13 @@ const chainConfig: ChainConfig = {
       },
     },
     savingsDaiInfoQuery: mainnetSavingsDaiInfoQuery,
-    savingsUsdsInfoQuery: undefined,
+    savingsUsdsInfoQuery: mainnetSavingsUsdsInfoQuery,
     daiSymbol: TokenSymbol('DAI'),
     sDaiSymbol: TokenSymbol('sDAI'),
-    USDSSymbol: undefined,
-    sUSDSSymbol: undefined,
+    USDSSymbol: TokenSymbol('USDS'),
+    sUSDSSymbol: TokenSymbol('sUSDS'),
     mergedDaiAndSDaiMarkets: true,
-    savingsInputTokens: [TokenSymbol('DAI'), TokenSymbol('USDC')],
+    savingsInputTokens: [TokenSymbol('DAI'), TokenSymbol('USDC'), TokenSymbol('USDS')],
     extraTokens: [
       {
         symbol: TokenSymbol('DAI'),
@@ -92,6 +92,16 @@ const chainConfig: ChainConfig = {
         symbol: TokenSymbol('sDAI'),
         oracleType: 'vault',
         address: CheckedAddress('0x83f20f44975d03b1b09e64809b757c47f942beea'),
+      },
+      {
+        symbol: TokenSymbol('USDS'),
+        oracleType: 'fixed-usd',
+        address: CheckedAddress('0xdC035D45d973E3EC169d2276DDab16f1e407384F'),
+      },
+      {
+        symbol: TokenSymbol('sUSDS'),
+        oracleType: 'vault',
+        address: CheckedAddress('0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD'),
       },
     ],
     farms: [],
@@ -163,13 +173,9 @@ export function getChainConfigEntry(chainId: number): ChainConfigEntry {
     const mainnetConfig = chainConfig[mainnet.id]
     return {
       ...mainnetConfig,
-      USDSSymbol: TokenSymbol('USDS'),
-      sUSDSSymbol: TokenSymbol('sUSDS'),
-      savingsUsdsInfoQuery: mainnetSavingsUsdsInfoQuery,
       meta: getUSDSDevChainMeta(mainnetConfig.meta),
-      savingsInputTokens: [...mainnetConfig.savingsInputTokens, TokenSymbol('USDS')],
       extraTokens: [
-        ...mainnetConfig.extraTokens,
+        ...mainnetConfig.extraTokens.filter(({ symbol }) => !['USDS', 'sUSDS'].includes(symbol)),
         {
           symbol: TokenSymbol('USDS'),
           oracleType: 'fixed-usd',

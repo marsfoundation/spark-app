@@ -6,7 +6,6 @@ import { bigNumberify } from '@/utils/bigNumber'
 
 import { susdsAbi } from '@/config/abis/susdsAbi'
 import { getChainConfigEntry } from '@/config/chain'
-import { USDS_DEV_CHAIN_ID } from '@/config/chain/constants'
 import { raise } from '@/utils/assert'
 import { PotSavingsInfo } from './potSavingsInfo'
 import { SavingsInfoQueryOptions, SavingsInfoQueryParams } from './types'
@@ -64,10 +63,6 @@ export function mainnetSavingsUsdsInfoQuery({
   return {
     queryKey: ['savings-usds-info', { chainId }],
     queryFn: async () => {
-      if (chainId !== USDS_DEV_CHAIN_ID) {
-        return null
-      }
-
       const chainConfig = getChainConfigEntry(chainId)
       const susdsSymbol = chainConfig.sUSDSSymbol
       const susdsAddress =
