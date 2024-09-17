@@ -88,6 +88,19 @@ function overrideDateClass(fakeNow: number): void {
 }
 
 export async function injectFlags(page: Page, forkContext: ForkContext): Promise<void> {
+  const susdsDeployed = await isSudsDeployed(forkContext)
+
+  await page.addInitScript(
+    ({ PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY, susdsDeployed }) => {
+      if (!susdsDeployed) {
+        ;(window as any)[PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY] = true
+      }
+    },
+    { PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY, susdsDeployed },
+  )
+}
+
+async function isSudsDeployed(forkContext: ForkContext): Promise<boolean> {
   const susdsAddress = (() => {
     if (forkContext.chainId === mainnet.id) {
       return '0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD'
@@ -104,12 +117,5 @@ export async function injectFlags(page: Page, forkContext: ForkContext): Promise
   })
   const susdsBytecode = await publicClient.getBytecode({ address: susdsAddress })
 
-  await page.addInitScript(
-    ({ PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY, susdsBytecode }) => {
-      if (susdsBytecode === undefined || susdsBytecode.length <= 2) {
-        ;(window as any)[PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY] = true
-      }
-    },
-    { PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY, susdsBytecode },
-  )
+  return susdsBytecode !== undefined && susdsBytecode.length > 2
 }
