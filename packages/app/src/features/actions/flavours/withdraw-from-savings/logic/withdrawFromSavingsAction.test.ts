@@ -1,6 +1,10 @@
-import { migrationActionsAbi } from '@/config/abis/migrationActionsAbi'
-import { MIGRATE_ACTIONS_ADDRESS, USDS_PSM_ACTIONS } from '@/config/consts'
-import { psmActionsAbi, psmActionsAddress } from '@/config/contracts-generated'
+import {
+  migrationActionsConfig,
+  psmActionsAbi,
+  psmActionsAddress,
+  usdsPsmActionsConfig,
+} from '@/config/contracts-generated'
+import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { PotSavingsInfo } from '@/domain/savings-info/potSavingsInfo'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
@@ -451,7 +455,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
       },
       extraHandlers: [
         handlers.contractCall({
-          to: USDS_PSM_ACTIONS,
+          to: getContractAddress(usdsPsmActionsConfig.address, chainId),
           abi: psmActionsAbi,
           functionName: 'withdrawAndSwap',
           args: [account, toBigInt(usdc.toBaseUnit(withdrawAmount)), toBigInt(susds.toBaseUnit(withdrawAmount))],
@@ -476,7 +480,12 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
       getBalancesQueryKeyPrefix({ account, chainId }),
     )
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
-      allowanceQueryKey({ token: susds.address, spender: USDS_PSM_ACTIONS, account, chainId }),
+      allowanceQueryKey({
+        token: susds.address,
+        spender: getContractAddress(usdsPsmActionsConfig.address, chainId),
+        account,
+        chainId,
+      }),
     )
   })
 
@@ -496,7 +505,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
       },
       extraHandlers: [
         handlers.contractCall({
-          to: USDS_PSM_ACTIONS,
+          to: getContractAddress(usdsPsmActionsConfig.address, chainId),
           abi: psmActionsAbi,
           functionName: 'redeemAndSwap',
           args: [
@@ -525,7 +534,12 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
       getBalancesQueryKeyPrefix({ account, chainId }),
     )
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
-      allowanceQueryKey({ token: susds.address, spender: USDS_PSM_ACTIONS, account, chainId }),
+      allowanceQueryKey({
+        token: susds.address,
+        spender: getContractAddress(usdsPsmActionsConfig.address, chainId),
+        account,
+        chainId,
+      }),
     )
   })
 
@@ -546,7 +560,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
       },
       extraHandlers: [
         handlers.contractCall({
-          to: USDS_PSM_ACTIONS,
+          to: getContractAddress(usdsPsmActionsConfig.address, chainId),
           abi: psmActionsAbi,
           functionName: 'withdrawAndSwap',
           args: [receiver, toBigInt(usdc.toBaseUnit(withdrawAmount)), toBigInt(sdai.toBaseUnit(withdrawAmount))],
@@ -571,7 +585,12 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
       getBalancesQueryKeyPrefix({ account, chainId }),
     )
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
-      allowanceQueryKey({ token: susds.address, spender: USDS_PSM_ACTIONS, account, chainId }),
+      allowanceQueryKey({
+        token: susds.address,
+        spender: getContractAddress(usdsPsmActionsConfig.address, chainId),
+        account,
+        chainId,
+      }),
     )
   })
 
@@ -592,7 +611,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
       },
       extraHandlers: [
         handlers.contractCall({
-          to: USDS_PSM_ACTIONS,
+          to: getContractAddress(usdsPsmActionsConfig.address, chainId),
           abi: psmActionsAbi,
           functionName: 'redeemAndSwap',
           args: [
@@ -621,7 +640,12 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
       getBalancesQueryKeyPrefix({ account, chainId }),
     )
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
-      allowanceQueryKey({ token: susds.address, spender: USDS_PSM_ACTIONS, account, chainId }),
+      allowanceQueryKey({
+        token: susds.address,
+        spender: getContractAddress(usdsPsmActionsConfig.address, chainId),
+        account,
+        chainId,
+      }),
     )
   })
 
@@ -643,8 +667,8 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
       extraHandlers: [
         handlers.chainIdCall({ chainId }),
         handlers.contractCall({
-          to: MIGRATE_ACTIONS_ADDRESS,
-          abi: migrationActionsAbi,
+          to: getContractAddress(migrationActionsConfig.address, chainId),
+          abi: migrationActionsConfig.abi,
           functionName: 'migrateSDAIAssetsToUSDS',
           args: [account, toBigInt(usds.toBaseUnit(withdrawAmount))],
           from: account,
@@ -668,7 +692,12 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
       getBalancesQueryKeyPrefix({ account, chainId }),
     )
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
-      allowanceQueryKey({ token: sdai.address, spender: MIGRATE_ACTIONS_ADDRESS, account, chainId }),
+      allowanceQueryKey({
+        token: sdai.address,
+        spender: getContractAddress(migrationActionsConfig.address, chainId),
+        account,
+        chainId,
+      }),
     )
   })
 
@@ -690,8 +719,8 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
       extraHandlers: [
         handlers.chainIdCall({ chainId }),
         handlers.contractCall({
-          to: MIGRATE_ACTIONS_ADDRESS,
-          abi: migrationActionsAbi,
+          to: getContractAddress(migrationActionsConfig.address, chainId),
+          abi: migrationActionsConfig.abi,
           functionName: 'migrateSDAISharesToUSDS',
           args: [account, toBigInt(sdai.toBaseUnit(withdrawAmount))],
           from: account,
@@ -715,7 +744,12 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
       getBalancesQueryKeyPrefix({ account, chainId }),
     )
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
-      allowanceQueryKey({ token: sdai.address, spender: MIGRATE_ACTIONS_ADDRESS, account, chainId }),
+      allowanceQueryKey({
+        token: sdai.address,
+        spender: getContractAddress(migrationActionsConfig.address, chainId),
+        account,
+        chainId,
+      }),
     )
   })
 })

@@ -1,5 +1,6 @@
 import { getChainConfigEntry } from '@/config/chain'
-import { MIGRATE_ACTIONS_ADDRESS, USDS_PSM_WRAPPER } from '@/config/consts'
+import { migrationActionsConfig, usdsPsmWrapperConfig } from '@/config/contracts-generated'
+import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { Action, ActionContext } from '@/features/actions/logic/types'
 import { assert, raise } from '@/utils/assert'
@@ -37,7 +38,7 @@ export function createStakeActions(objective: StakeObjective, context: ActionCon
       const approveMigrateAction: ApproveAction = {
         type: 'approve',
         token: objective.token,
-        spender: MIGRATE_ACTIONS_ADDRESS,
+        spender: getContractAddress(migrationActionsConfig.address, chainId),
         value: objective.amount,
       }
 
@@ -83,7 +84,7 @@ export function createStakeActions(objective: StakeObjective, context: ActionCon
       const approveWrapAction: ApproveAction = {
         type: 'approve',
         token: objective.token,
-        spender: USDS_PSM_WRAPPER,
+        spender: getContractAddress(usdsPsmWrapperConfig.address, chainId),
         value: objective.amount,
       }
 

@@ -1,5 +1,5 @@
-import { migrationActionsAbi } from '@/config/abis/migrationActionsAbi'
-import { MIGRATE_ACTIONS_ADDRESS } from '@/config/consts'
+import { migrationActionsConfig } from '@/config/contracts-generated'
+import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
@@ -51,8 +51,8 @@ describe(createUpgradeActionConfig.name, () => {
     const { result, queryInvalidationManager } = hookRenderer({
       extraHandlers: [
         handlers.contractCall({
-          to: MIGRATE_ACTIONS_ADDRESS,
-          abi: migrationActionsAbi,
+          to: getContractAddress(migrationActionsConfig.address, chainId),
+          abi: migrationActionsConfig.abi,
           functionName: 'migrateDAIToUSDS',
           args: [account, toBigInt(DAI.toBaseUnit(upgradeAmount))],
           from: account,
@@ -76,7 +76,12 @@ describe(createUpgradeActionConfig.name, () => {
       getBalancesQueryKeyPrefix({ account, chainId }),
     )
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
-      allowanceQueryKey({ token: DAI.address, spender: MIGRATE_ACTIONS_ADDRESS, account, chainId }),
+      allowanceQueryKey({
+        token: DAI.address,
+        spender: getContractAddress(migrationActionsConfig.address, chainId),
+        account,
+        chainId,
+      }),
     )
   })
 
@@ -89,8 +94,8 @@ describe(createUpgradeActionConfig.name, () => {
       },
       extraHandlers: [
         handlers.contractCall({
-          to: MIGRATE_ACTIONS_ADDRESS,
-          abi: migrationActionsAbi,
+          to: getContractAddress(migrationActionsConfig.address, chainId),
+          abi: migrationActionsConfig.abi,
           functionName: 'migrateSDAISharesToSUSDS',
           args: [account, toBigInt(sDAI.toBaseUnit(upgradeAmount))],
           from: account,
@@ -114,7 +119,12 @@ describe(createUpgradeActionConfig.name, () => {
       getBalancesQueryKeyPrefix({ account, chainId }),
     )
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
-      allowanceQueryKey({ token: sDAI.address, spender: MIGRATE_ACTIONS_ADDRESS, account, chainId }),
+      allowanceQueryKey({
+        token: sDAI.address,
+        spender: getContractAddress(migrationActionsConfig.address, chainId),
+        account,
+        chainId,
+      }),
     )
   })
 })

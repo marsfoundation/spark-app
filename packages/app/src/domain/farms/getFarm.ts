@@ -1,5 +1,5 @@
-import { stakingRewardsAbi } from '@/config/abis/stakingRewardsAbi'
 import { infoSkyApiUrl } from '@/config/consts'
+import { usdsSkyRewardsConfig } from '@/config/contracts-generated'
 import { FarmConfig } from '@/domain/farms/types'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { BaseUnitNumber, NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
@@ -76,7 +76,7 @@ async function getFarmContractData({
 
     const res = readContract(wagmiConfig, {
       address: farmConfig.address,
-      abi: stakingRewardsAbi,
+      abi: usdsSkyRewardsConfig.abi,
       functionName: 'balanceOf',
       args: [account],
       chainId,
@@ -92,7 +92,7 @@ async function getFarmContractData({
 
     const res = readContract(wagmiConfig, {
       address: farmConfig.address,
-      abi: stakingRewardsAbi,
+      abi: usdsSkyRewardsConfig.abi,
       functionName: 'earned',
       args: [account],
       chainId,
@@ -115,37 +115,37 @@ async function getFarmContractData({
     getEarned(),
     readContract(wagmiConfig, {
       address: farmConfig.address,
-      abi: stakingRewardsAbi,
+      abi: usdsSkyRewardsConfig.abi,
       functionName: 'rewardsToken',
       chainId,
     }),
     readContract(wagmiConfig, {
       address: farmConfig.address,
-      abi: stakingRewardsAbi,
+      abi: usdsSkyRewardsConfig.abi,
       functionName: 'stakingToken',
       chainId,
     }),
     readContract(wagmiConfig, {
       address: farmConfig.address,
-      abi: stakingRewardsAbi,
+      abi: usdsSkyRewardsConfig.abi,
       functionName: 'rewardRate',
       chainId,
     }),
     readContract(wagmiConfig, {
       address: farmConfig.address,
-      abi: stakingRewardsAbi,
+      abi: usdsSkyRewardsConfig.abi,
       functionName: 'lastTimeRewardApplicable',
       chainId,
     }),
     readContract(wagmiConfig, {
       address: farmConfig.address,
-      abi: stakingRewardsAbi,
+      abi: usdsSkyRewardsConfig.abi,
       functionName: 'periodFinish',
       chainId,
     }),
     readContract(wagmiConfig, {
       address: farmConfig.address,
-      abi: stakingRewardsAbi,
+      abi: usdsSkyRewardsConfig.abi,
       functionName: 'totalSupply',
       chainId,
     }),

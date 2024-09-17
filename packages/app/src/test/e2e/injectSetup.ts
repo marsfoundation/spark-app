@@ -2,11 +2,16 @@ import { Page } from '@playwright/test'
 
 import {
   PLAYWRIGHT_CHAIN_ID,
+  PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY,
   PLAYWRIGHT_WALLET_ADDRESS_KEY,
   PLAYWRIGHT_WALLET_FORK_URL_KEY,
   PLAYWRIGHT_WALLET_PRIVATE_KEY_KEY,
 } from '@/config/wagmi/config.e2e'
 
+import { USDS_DEV_CHAIN_ID } from '@/config/chain/constants'
+import { http, createPublicClient, zeroAddress } from 'viem'
+import { mainnet } from 'viem/chains'
+import { ForkContext } from './forking/setupFork'
 import { InjectableWallet } from './setup'
 
 export async function injectWalletConfiguration(page: Page, wallet: InjectableWallet): Promise<void> {
@@ -80,4 +85,37 @@ function overrideDateClass(fakeNow: number): void {
 
   // @todo: When we are able to set timestamps for transactions, make tests that use vnets use line below instead of the overriding Date.now with offset
   // Date.now = () => fakeNow
+}
+
+export async function injectFlags(page: Page, forkContext: ForkContext): Promise<void> {
+  const susdsDeployed = await isSudsDeployed(forkContext)
+
+  await page.addInitScript(
+    ({ PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY, susdsDeployed }) => {
+      if (!susdsDeployed) {
+        ;(window as any)[PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY] = true
+      }
+    },
+    { PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY, susdsDeployed },
+  )
+}
+
+async function isSudsDeployed(forkContext: ForkContext): Promise<boolean> {
+  const susdsAddress = (() => {
+    if (forkContext.chainId === mainnet.id) {
+      return '0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD'
+    }
+
+    if (forkContext.chainId === USDS_DEV_CHAIN_ID) {
+      return '0xCd9BC6cE45194398d12e27e1333D5e1d783104dD'
+    }
+
+    return zeroAddress
+  })()
+  const publicClient = createPublicClient({
+    transport: http(forkContext.forkUrl),
+  })
+  const susdsBytecode = await publicClient.getBytecode({ address: susdsAddress })
+
+  return susdsBytecode !== undefined && susdsBytecode.length > 2
 }

@@ -113,6 +113,30 @@ export default defineConfig({
             [mainnet.id]: '0x2276f52afba7Cf2525fd0a050DF464AC8532d0ef',
           },
         },
+        {
+          name: 'UsdsPsmWrapper',
+          address: {
+            [mainnet.id]: '0xA188EEC8F81263234dA3622A406892F3D630f98c',
+          },
+        },
+        {
+          name: 'UsdsSkyRewards',
+          address: {
+            [mainnet.id]: '0x0650CAF159C5A49f711e8169D4336ECB9b950275',
+          },
+        },
+        {
+          name: 'MigrationActions',
+          address: {
+            [mainnet.id]: '0xf86141a5657Cf52AEB3E30eBccA5Ad3a8f714B89',
+          },
+        },
+        {
+          name: 'UsdsPsmActions',
+          address: {
+            [mainnet.id]: '0xd0A61F2963622e992e6534bde4D52fd0a89F39E0',
+          },
+        },
       ],
     }),
     etherscan({

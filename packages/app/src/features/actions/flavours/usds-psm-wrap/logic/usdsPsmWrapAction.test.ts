@@ -1,5 +1,5 @@
-import { usdsPsmWrapperAbi } from '@/config/abis/usdsPsmWrapperAbi'
-import { USDS_PSM_WRAPPER } from '@/config/consts'
+import { usdsPsmWrapperConfig } from '@/config/contracts-generated'
+import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
@@ -38,8 +38,8 @@ describe(createUsdsPsmWrapActionConfig.name, () => {
     const { result, queryInvalidationManager } = hookRenderer({
       extraHandlers: [
         handlers.contractCall({
-          to: USDS_PSM_WRAPPER,
-          abi: usdsPsmWrapperAbi,
+          to: getContractAddress(usdsPsmWrapperConfig.address, chainId),
+          abi: usdsPsmWrapperConfig.abi,
           functionName: 'sellGem',
           args: [account, toBigInt(usdc.toBaseUnit(usdcAmount))],
           from: account,
@@ -63,7 +63,12 @@ describe(createUsdsPsmWrapActionConfig.name, () => {
       getBalancesQueryKeyPrefix({ account, chainId }),
     )
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
-      allowanceQueryKey({ token: usdc.address, spender: USDS_PSM_WRAPPER, account, chainId }),
+      allowanceQueryKey({
+        token: usdc.address,
+        spender: getContractAddress(usdsPsmWrapperConfig.address, chainId),
+        account,
+        chainId,
+      }),
     )
   })
 })
