@@ -31,3 +31,9 @@ export interface FormFieldsForDialog {
   maxSelectedFieldName?: string // can't be used with maxValue
   changeAsset?: (newSymbol: TokenSymbol) => void
 }
+
+export interface TxOverviewRouteItem {
+  token: Token
+  value: NormalizedUnitNumber
+  usdValue: NormalizedUnitNumber
+}

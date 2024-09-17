@@ -2,9 +2,10 @@ import { SavingsInfo } from '@/domain/savings-info/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
+import { TxOverviewRouteItem } from '@/features/dialogs/common/types'
 import { raise } from '@/utils/assert'
 import { SavingsDialogFormNormalizedData } from '../../common/logic/form'
-import { RouteItem, SavingsDialogTxOverview } from '../../common/types'
+import { SavingsDialogTxOverview } from '../../common/types'
 
 export interface CreateTxOverviewParams {
   formValues: SavingsDialogFormNormalizedData
@@ -29,7 +30,13 @@ export function createTxOverview({
   const savingsToken = (type === 'sdai' ? tokensInfo.sDAI : tokensInfo.sUSDS) ?? raise('Cannot find savings token')
   const stableEarnRate = NormalizedUnitNumber(value.multipliedBy(savingsInfo.apy))
 
-  const route: RouteItem[] = getDepositRoute({ formValues, tokensInfo, savingsInfo, savingsToken, savingsTokenValue })
+  const route: TxOverviewRouteItem[] = getDepositRoute({
+    formValues,
+    tokensInfo,
+    savingsInfo,
+    savingsToken,
+    savingsTokenValue,
+  })
 
   return {
     baseStable: (type === 'sdai' ? tokensInfo.DAI : tokensInfo.USDS) ?? raise('Cannot find stable token'),
@@ -55,7 +62,7 @@ function getDepositRoute({
   savingsInfo,
   savingsToken,
   savingsTokenValue,
-}: GetDepositRouteParams): RouteItem[] {
+}: GetDepositRouteParams): TxOverviewRouteItem[] {
   const value = formValues.value
   const intermediary =
     (savingsToken.symbol === tokensInfo.sDAI?.symbol ? tokensInfo.DAI : tokensInfo.USDS) ??
