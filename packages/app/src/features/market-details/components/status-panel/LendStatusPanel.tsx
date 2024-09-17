@@ -4,11 +4,11 @@ import { Token } from '@/domain/types/Token'
 import { Panel } from '@/ui/atoms/panel/Panel'
 
 import { Header } from './components/Header'
+import { InfoTilesGrid } from './components/InfoTilesGrid'
 import { StatusPanelGrid } from './components/StatusPanelGrid'
-import { InfoTile } from './components/info-tile/InfoTile'
-import { InfoTilesGrid } from './components/info-tile/InfoTilesGrid'
 import { StatusIcon } from './components/status-icon/StatusIcon'
 import { TokenBadge } from './components/token-badge/TokenBadge'
+import { InfoTile } from '@/ui/molecules/info-tile/InfoTile'
 
 interface LendStatusPanelProps {
   status: 'yes' // only for dai

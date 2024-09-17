@@ -12,11 +12,11 @@ import { testIds } from '@/ui/utils/testIds'
 import { SparkAirdropInfoPanel } from '../spark-airdrop-info-panel/SparkAirdropInfoPanel'
 import { EmptyStatusPanel } from './components/EmptyStatusPanel'
 import { Header } from './components/Header'
+import { InfoTilesGrid } from './components/InfoTilesGrid'
 import { StatusPanelGrid } from './components/StatusPanelGrid'
 import { Subheader } from './components/Subheader'
-import { InfoTile } from './components/info-tile/InfoTile'
-import { InfoTilesGrid } from './components/info-tile/InfoTilesGrid'
 import { StatusIcon } from './components/status-icon/StatusIcon'
+import { InfoTile } from '@/ui/molecules/info-tile/InfoTile'
 
 interface SupplyStatusPanelProps {
   status: SupplyAvailabilityStatus

@@ -39,6 +39,9 @@ import output from './markets/output.svg'
 import menu from './menu.svg'
 import moreIconVertical from './more-icon-vertical.svg'
 import moreIcon from './more-icon.svg'
+import chainlink from './oracle-providers/chainlink.svg'
+import chronicle from './oracle-providers/chronicle.svg'
+import lido from './oracle-providers/lido.svg'
 import pause from './pause.svg'
 import rocket from './rocket.svg'
 import sliderThumb from './slider-thumb.svg'
@@ -173,6 +176,11 @@ export const assets = {
     sdaiToSusdsUpgrade,
     mkrToSkyTransform,
     newSavingsWelcome,
+  },
+  oracleProviders: {
+    chainlink,
+    chronicle,
+    lido,
   },
 }
 
