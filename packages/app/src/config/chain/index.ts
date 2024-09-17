@@ -80,7 +80,11 @@ const chainConfig: ChainConfig = {
     USDSSymbol: PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE ? undefined : TokenSymbol('USDS'),
     sUSDSSymbol: PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE ? undefined : TokenSymbol('sUSDS'),
     mergedDaiAndSDaiMarkets: true,
-    savingsInputTokens: [TokenSymbol('DAI'), TokenSymbol('USDC'), TokenSymbol('USDS')],
+    savingsInputTokens: [
+      TokenSymbol('DAI'),
+      TokenSymbol('USDC'),
+      ...(PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE ? [] : [TokenSymbol('USDS')]),
+    ],
     extraTokens: [
       {
         symbol: TokenSymbol('DAI'),
