@@ -43,9 +43,9 @@ const points = [
     the intended outcome. For example, displayed asset values reflect on-chain data provided by certain third party
     protocols according to such protocol's mechanics and governance procedures, including Sky (previously MakerDAO), and
     such protocol's are outside the Site's control and are subject to change. Furthermore, such protocols may be
-    adversely affected by malfunctions, bugs, defects, malfunctions, hacking, theft, attacks, negligent coding or design
-    choices, or changes to the applicable protocol rules, which may expose you to a risk of total loss and forfeiture of
-    all relevant digital assets. Site Operator assumes no liability or responsibility for any of the foregoing matters,
+    adversely affected by malfunctions, bugs, defects, hacking, theft, attacks, negligent coding or design choices, or
+    changes to the applicable protocol rules, which may expose you to a risk of total loss and forfeiture of all
+    relevant digital assets. Site Operator assumes no liability or responsibility for any of the foregoing matters,
     including asset value pricing, and you are responsible for understanding the risks of the third party protocols you
     interact with and keeping up to date with protocol or governance changes for such protocols.
   </p>,
