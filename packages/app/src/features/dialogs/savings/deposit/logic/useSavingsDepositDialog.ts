@@ -5,7 +5,7 @@ import { useSavingsTokens } from '@/domain/savings/useSavingsTokens'
 import { Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
-import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
+import { AssetInputSchema, getFormFieldsForAssetBalanceDialog } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
 import { determineApyImprovement } from '@/features/savings/logic/determineApyImprovement'
 import { assert, raise } from '@/utils/assert'
@@ -15,7 +15,6 @@ import { UseFormReturn, useForm } from 'react-hook-form'
 import { useDebouncedDialogFormValues } from '../../common/logic/form'
 import { SavingsDialogTxOverview } from '../../common/types'
 import { createTxOverview } from './createTxOverview'
-import { getFormFieldsForDepositDialog } from './form'
 import { createObjectives } from './objectives'
 import { getSavingsDepositDialogFormValidator } from './validation'
 
@@ -109,7 +108,7 @@ export function useSavingsDepositDialog({
 
   return {
     selectableAssets: inputTokens,
-    assetsFields: getFormFieldsForDepositDialog(form, tokensInfo),
+    assetsFields: getFormFieldsForAssetBalanceDialog({ form, tokensInfo, singleAsset: inputTokens.length === 1 }),
     form,
     objectives,
     tokenToDeposit,

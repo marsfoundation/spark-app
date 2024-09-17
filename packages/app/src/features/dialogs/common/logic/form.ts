@@ -5,7 +5,9 @@ import { MarketInfo, Reserve, UserPosition } from '@/domain/market-info/marketIn
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { useDebounce } from '@/utils/useDebounce'
+import { FormFieldsForDialog } from '../types'
 
 export const AssetInputSchema = z.object({
   symbol: z.string().transform(TokenSymbol),
@@ -78,5 +80,41 @@ export function useDebouncedDialogFormValues({
     debouncedFormValues: debouncedValue.formValues,
     isFormValid: debouncedValue.isFormValid,
     isDebouncing,
+  }
+}
+
+export interface GetFormFieldsForAssetBalanceInputDialogParams {
+  form: UseFormReturn<AssetInputSchema>
+  tokensInfo: TokensInfo
+  singleAsset?: boolean
+}
+
+// @note: Can be used for dialogs where input is token and max value is token balance
+export function getFormFieldsForAssetBalanceDialog({
+  form,
+  tokensInfo,
+  singleAsset,
+}: GetFormFieldsForAssetBalanceInputDialogParams): FormFieldsForDialog {
+  // eslint-disable-next-line func-style
+  const changeAsset = singleAsset
+    ? undefined
+    : (newSymbol: TokenSymbol): void => {
+        form.setValue('symbol', newSymbol)
+        form.setValue('value', '')
+        form.clearErrors()
+      }
+
+  const { symbol, value } = form.getValues()
+  const { token, balance } = tokensInfo.findOneTokenWithBalanceBySymbol(symbol)
+
+  return {
+    selectedAsset: {
+      value,
+      token,
+      balance,
+    },
+    maxSelectedFieldName: 'isMaxSelected',
+    changeAsset,
+    maxValue: balance,
   }
 }

@@ -7,7 +7,7 @@ import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
-import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
+import { AssetInputSchema, getFormFieldsForAssetBalanceDialog } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
 import { useDebouncedDialogFormValues } from '@/features/dialogs/savings/common/logic/form'
 import { assert } from '@/utils/assert'
@@ -17,7 +17,6 @@ import { UseFormReturn, useForm } from 'react-hook-form'
 import { MigrateDialogTxOverview } from '../types'
 import { createMigrateObjectives } from './createMigrateObjectives'
 import { createTxOverview } from './createTxOverview'
-import { getFormFieldsForMigrateDialog } from './form'
 import { useFromTokenInfo } from './useFromTokenInfo'
 import { getMigrateDialogFormValidator } from './validation'
 
@@ -82,7 +81,7 @@ export function useMigrateDialog({ type, fromToken, toToken }: UseMigrateDialogP
 
   return {
     selectableAssets: [fromTokenWithBalance],
-    assetsFields: getFormFieldsForMigrateDialog(form, tokensInfo),
+    assetsFields: getFormFieldsForAssetBalanceDialog({ form, tokensInfo, singleAsset: true }),
     form,
     objectives,
     migrationAmount: formValues.value,
