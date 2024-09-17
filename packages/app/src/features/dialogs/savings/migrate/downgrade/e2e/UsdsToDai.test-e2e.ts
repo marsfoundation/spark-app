@@ -45,6 +45,38 @@ test.describe('Downgrade USDS to DAI', () => {
     ])
   })
 
+  test('displays transaction overview', async ({ page }) => {
+    await setup(page, fork, {
+      initialPage: 'savings',
+      account: {
+        type: 'connected-random',
+        assetBalances: { USDS: 10_000 },
+      },
+    })
+
+    const savingsPage = new SavingsPageObject(page)
+
+    await savingsPage.clickDowngradeUsdsToDaiOption()
+
+    const downgradeDialog = new DowngradeDialogPageObject(page)
+    await downgradeDialog.fillAmountAction(100)
+
+    await downgradeDialog.expectTransactionOverview({
+      routeItems: [
+        {
+          tokenAmount: '100.00 USDS',
+          tokenUsdValue: '$100.00',
+        },
+        {
+          tokenAmount: '100.00 DAI',
+          tokenUsdValue: '$100.00',
+        },
+      ],
+      outcome: '100.00 DAI worth $100.00',
+      badgeToken: 'USDS',
+    })
+  })
+
   test('executes transaction', async ({ page }) => {
     await setup(page, fork, {
       initialPage: 'savings',

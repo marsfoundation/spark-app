@@ -78,10 +78,14 @@ export const testIds = makeTestIds({
     },
     success: true,
     savings: {
-      nativeRouteTransactionOverview: {
+      transactionOverview: {
         apy: {
           value: true,
           description: true,
+        },
+        apyChange: {
+          before: true,
+          after: true,
         },
         routeItem: {
           tokenWithAmount: (index: number) => index,

@@ -48,6 +48,35 @@ test.describe('Upgrade DAI to USDS', () => {
     ])
   })
 
+  test('displays transaction overview', async ({ page }) => {
+    await setup(page, fork, {
+      initialPage: 'savings',
+      account: {
+        type: 'connected-random',
+        assetBalances: { DAI: 10_000 },
+      },
+    })
+
+    const savingsPage = new SavingsPageObject(page)
+    await savingsPage.clickUpgradeDaiToUsdsButtonAction()
+    const upgradeDialog = new UpgradeDialogPageObject(page)
+
+    await upgradeDialog.expectTransactionOverview({
+      routeItems: [
+        {
+          tokenAmount: '10,000.00 DAI',
+          tokenUsdValue: '$10,000.00',
+        },
+        {
+          tokenAmount: '10,000.00 USDS',
+          tokenUsdValue: '$10,000.00',
+        },
+      ],
+      outcome: '10,000.00 USDS worth $10,000.00',
+      badgeToken: 'DAI',
+    })
+  })
+
   test('executes transaction', async ({ page }) => {
     await setup(page, fork, {
       initialPage: 'savings',
