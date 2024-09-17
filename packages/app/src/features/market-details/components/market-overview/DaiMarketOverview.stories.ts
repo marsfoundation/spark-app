@@ -26,7 +26,7 @@ export const Default: Story = {
     totalAvailable: NormalizedUnitNumber(420_000_000),
     utilizationRate: Percentage(0.66),
     instantlyAvailable: NormalizedUnitNumber(99_000_000),
-    makerDaoCapacity: NormalizedUnitNumber(320_000_000),
+    skyCapacity: NormalizedUnitNumber(320_000_000),
     dssAutoline: {
       maxDebtCeiling: NormalizedUnitNumber(200_000),
       gap: NormalizedUnitNumber(0),

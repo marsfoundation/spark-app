@@ -7,6 +7,8 @@ export const links = {
       'https://docs.spark.fi/defi-infrastructure/sparklend/spark-lend-features#how-does-isolation-mode-affect-my-borrowing-power',
     supplyBorrowCaps: 'https://docs.spark.fi/defi-infrastructure/sparklend#supply-and-borrow-caps',
     dsr: 'https://docs.spark.fi/defi-infrastructure/sdai-overview',
+    ssr: 'https://docs.spark.fi/user-guides/earning-savings/susds',
+    savingsMigration: 'https://docs.spark.fi/user-guides/upgrading-to-usds-and-susds',
     healthFactor: 'https://docs.spark.fi/defi-infrastructure/sparklend/liquidations',
     supplying: 'https://docs.spark.fi/defi-infrastructure/sparklend/supplying-and-earning',
     borrowing: 'https://docs.spark.fi/defi-infrastructure/sparklend/borrowing',

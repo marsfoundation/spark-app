@@ -34,8 +34,8 @@ export function makeDaiMarketOverview({
     marketInfo,
     capAutomatorInfo: sDaiCapAutomatorInfo,
   })
-  const makerDaoCapacity = NormalizedUnitNumber(D3MInfo.maxDebtCeiling.minus(D3MInfo.D3MCurrentDebtUSD))
-  const marketSize = NormalizedUnitNumber(reserve.totalLiquidity.plus(makerDaoCapacity))
+  const skyCapacity = NormalizedUnitNumber(D3MInfo.maxDebtCeiling.minus(D3MInfo.D3MCurrentDebtUSD))
+  const marketSize = NormalizedUnitNumber(reserve.totalLiquidity.plus(skyCapacity))
   const totalAvailable = NormalizedUnitNumber(marketSize.minus(reserve.totalDebt))
   const utilizationRate = Percentage(reserve.totalDebt.div(marketSize))
 
@@ -71,7 +71,7 @@ export function makeDaiMarketOverview({
       type: 'dai',
       borrowed: reserve.totalDebt,
       instantlyAvailable: reserve.availableLiquidity,
-      makerDaoCapacity,
+      skyCapacity,
       marketSize,
       totalAvailable,
       utilizationRate,

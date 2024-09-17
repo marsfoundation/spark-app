@@ -93,7 +93,7 @@ export interface MarketOverview {
         marketSize: NormalizedUnitNumber
         borrowed: NormalizedUnitNumber
         instantlyAvailable: NormalizedUnitNumber
-        makerDaoCapacity: NormalizedUnitNumber
+        skyCapacity: NormalizedUnitNumber
         totalAvailable: NormalizedUnitNumber
         utilizationRate: Percentage
         dssAutoline: DssAutoline

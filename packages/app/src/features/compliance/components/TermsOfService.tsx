@@ -41,13 +41,13 @@ const points = [
     Spark, and may offer interaction methods for use with a third-party wallet application or device based on such
     information, but the Site Operator cannot guarantee the accuracy of such information or that interactions will have
     the intended outcome. For example, displayed asset values reflect on-chain data provided by certain third party
-    protocols according to such protocol's mechanics and governance procedures, including MakerDAO, and such protocol's
-    are outside the Site's control and are subject to change. Furthermore, such protocols may be adversely affected by
-    malfunctions, bugs, defects, malfunctions, hacking, theft, attacks, negligent coding or design choices, or changes
-    to the applicable protocol rules, which may expose you to a risk of total loss and forfeiture of all relevant
-    digital assets. Site Operator assumes no liability or responsibility for any of the foregoing matters, including
-    asset value pricing, and you are responsible for understanding the risks of the third party protocols you interact
-    with and keeping up to date with protocol or governance changes for such protocols.
+    protocols according to such protocol's mechanics and governance procedures, including Sky (previously MakerDAO), and
+    such protocol's are outside the Site's control and are subject to change. Furthermore, such protocols may be
+    adversely affected by malfunctions, bugs, defects, hacking, theft, attacks, negligent coding or design choices, or
+    changes to the applicable protocol rules, which may expose you to a risk of total loss and forfeiture of all
+    relevant digital assets. Site Operator assumes no liability or responsibility for any of the foregoing matters,
+    including asset value pricing, and you are responsible for understanding the risks of the third party protocols you
+    interact with and keeping up to date with protocol or governance changes for such protocols.
   </p>,
   // biome-ignore lint/correctness/useJsxKeyInIterable: <explanation>
   <p>
@@ -57,9 +57,9 @@ const points = [
     smart contracts, there is no recourse against a private individual or legal entity. Similarly, while the Site
     provides information regarding such protocols, the Site Operator is not responsible for issues with the protocols.
     The Site Operator cannot access or control deposits or transactions initiated through the Site. The Site Operator
-    has no control over Spark, MakerDAO or other third party protocols or other frontends. Site Operator does not and
-    will not enter into any legal or factual relationship with any user of such protocols beyond provision and
-    maintenance of the Site.
+    has no control over Spark, Sky (previously MakerDAO) or other third party protocols or other frontends. Site
+    Operator does not and will not enter into any legal or factual relationship with any user of such protocols beyond
+    provision and maintenance of the Site.
   </p>,
 ]
 

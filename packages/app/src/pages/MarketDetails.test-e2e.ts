@@ -39,7 +39,7 @@ test.describe('Market details Mainnet', () => {
       await marketDetailsPage.expectMarketOverviewValue('Total available', '$1.63B')
       await marketDetailsPage.expectMarketOverviewValue('Utilization rate', '35.85%')
       await marketDetailsPage.expectMarketOverviewValue('Instantly available', '$44.01M')
-      await marketDetailsPage.expectMarketOverviewValue('MakerDAO capacity', '$1.586B')
+      await marketDetailsPage.expectMarketOverviewValue('Sky capacity', '$1.586B')
 
       await screenshot(page, 'market-details-dai')
     })
