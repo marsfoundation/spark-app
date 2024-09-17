@@ -137,12 +137,6 @@ export default defineConfig({
             [mainnet.id]: '0xd0A61F2963622e992e6534bde4D52fd0a89F39E0',
           },
         },
-        {
-          name: 'SUsds',
-          address: {
-            [mainnet.id]: '0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD',
-          },
-        },
       ],
     }),
     etherscan({

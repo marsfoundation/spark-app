@@ -1771,62 +1771,6 @@ export const potAddress = {
 export const potConfig = { address: potAddress, abi: potAbi } as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// SUsds
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/**
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD)
- */
-export const sUsdsAbi = [
-  {
-    type: 'constructor',
-    inputs: [
-      { name: 'implementation', internalType: 'address', type: 'address' },
-      { name: '_data', internalType: 'bytes', type: 'bytes' },
-    ],
-    stateMutability: 'payable',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 'target', internalType: 'address', type: 'address' }],
-    name: 'AddressEmptyCode',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 'implementation', internalType: 'address', type: 'address' }],
-    name: 'ERC1967InvalidImplementation',
-  },
-  { type: 'error', inputs: [], name: 'ERC1967NonPayable' },
-  { type: 'error', inputs: [], name: 'FailedInnerCall' },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'implementation',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-    ],
-    name: 'Upgraded',
-  },
-  { type: 'fallback', stateMutability: 'payable' },
-] as const
-
-/**
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD)
- */
-export const sUsdsAddress = {
-  1: '0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD',
-} as const
-
-/**
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD)
- */
-export const sUsdsConfig = { address: sUsdsAddress, abi: sUsdsAbi } as const
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // SavingsDai
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -5,7 +5,6 @@ import { raise } from '@/utils/assert'
 import { USDS_DEV_CHAIN_ID } from '@/config/chain/constants'
 import {
   migrationActionsConfig,
-  sUsdsConfig,
   usdsPsmActionsConfig,
   usdsPsmWrapperConfig,
   usdsSkyRewardsConfig,
@@ -46,7 +45,6 @@ function mapMainnetAddressToDevnet(address: Address | undefined): CheckedAddress
   const STAKING_REWARDS_USDS_ADDRESS = CheckedAddress('0x8AFB0C54bAE39A5e56b984DF1C4b5702b2abf205')
   const USDS_PSM_ACTIONS = CheckedAddress('0x28e4B8BE2748E9BD4b9cEAc4E05069E58773Af7E')
   const USDS_PSM_WRAPPER = CheckedAddress('0x9581c795DBcaf408E477F6f1908a41BE43093122')
-  const SUSDS = CheckedAddress('0xCd9BC6cE45194398d12e27e1333D5e1d783104dD')
 
   switch (address) {
     case migrationActionsConfig.address[mainnet.id]:
@@ -57,8 +55,6 @@ function mapMainnetAddressToDevnet(address: Address | undefined): CheckedAddress
       return USDS_PSM_WRAPPER
     case usdsSkyRewardsConfig.address[mainnet.id]:
       return STAKING_REWARDS_USDS_ADDRESS
-    case sUsdsConfig.address[mainnet.id]:
-      return SUSDS
   }
 
   if (!address) {

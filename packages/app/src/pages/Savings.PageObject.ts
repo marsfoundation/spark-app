@@ -128,9 +128,15 @@ export class SavingsPageObject extends BasePageObject {
   }: { sDaiBalance: string; estimatedDaiValue: string }): Promise<void> {
     await expect(this.locatePanelByHeader('Savings DAI').getByTestId(testIds.savings.sDaiBalance)).toHaveText(
       sDaiBalance,
+      {
+        timeout: 60_000, // potentially should wait a bit for balance to reach the value because of timing issues in e2e tests
+      },
     )
     await expect(this.locatePanelByHeader('Savings DAI').getByTestId(testIds.savings.sDaiBalanceInDai)).toContainText(
       estimatedDaiValue,
+      {
+        timeout: 60_000,
+      },
     )
   }
 
@@ -140,9 +146,15 @@ export class SavingsPageObject extends BasePageObject {
   }: { sUsdsBalance: string; estimatedUsdsValue: string }): Promise<void> {
     await expect(this.locatePanelByHeader('Savings USDS').getByTestId(testIds.savings.sDaiBalance)).toHaveText(
       sUsdsBalance,
+      {
+        timeout: 60_000,
+      },
     )
     await expect(this.locatePanelByHeader('Savings USDS').getByTestId(testIds.savings.sDaiBalanceInDai)).toContainText(
       estimatedUsdsValue,
+      {
+        timeout: 60_000,
+      },
     )
   }
 

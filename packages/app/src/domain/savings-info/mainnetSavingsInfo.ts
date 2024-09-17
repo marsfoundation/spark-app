@@ -1,10 +1,13 @@
 import { multicall } from 'wagmi/actions'
 
-import { potAbi, potAddress, sUsdsConfig } from '@/config/contracts-generated'
+import { potAbi, potAddress } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { bigNumberify } from '@/utils/bigNumber'
 
+import { susdsAbi } from '@/config/abis/susdsAbi'
+import { getChainConfigEntry } from '@/config/chain'
 import { USDS_DEV_CHAIN_ID } from '@/config/chain/constants'
+import { raise } from '@/utils/assert'
 import { PotSavingsInfo } from './potSavingsInfo'
 import { SavingsInfoQueryOptions, SavingsInfoQueryParams } from './types'
 
@@ -65,26 +68,32 @@ export function mainnetSavingsUsdsInfoQuery({
         return null
       }
 
+      const chainConfig = getChainConfigEntry(chainId)
+      const susdsSymbol = chainConfig.sUSDSSymbol
+      const susdsAddress =
+        chainConfig.extraTokens.find(({ symbol }) => symbol === susdsSymbol)?.address ??
+        raise('sUSDS address not found')
+
       const [ssr, rho, chi] = await multicall(wagmiConfig, {
         allowFailure: false,
         contracts: [
           {
-            address: getContractAddress(sUsdsConfig.address, chainId),
+            address: susdsAddress,
             functionName: 'ssr',
             args: [],
-            abi: sUsdsConfig.abi,
+            abi: susdsAbi,
           },
           {
-            address: getContractAddress(sUsdsConfig.address, chainId),
+            address: susdsAddress,
             functionName: 'rho',
             args: [],
-            abi: sUsdsConfig.abi,
+            abi: susdsAbi,
           },
           {
-            address: getContractAddress(sUsdsConfig.address, chainId),
+            address: susdsAddress,
             functionName: 'chi',
             args: [],
-            abi: sUsdsConfig.abi,
+            abi: susdsAbi,
           },
         ],
       })
