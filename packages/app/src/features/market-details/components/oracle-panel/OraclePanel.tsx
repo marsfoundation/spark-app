@@ -27,7 +27,6 @@ export function OraclePanel({ oracle, ...props }: OraclePanelProps) {
       return <YieldingFixedOraclePanel {...props} oracle={oracle} />
     case 'underlying-asset':
       return <UnderlyingAssetOraclePanel {...props} oracle={oracle} />
-
     default:
       assertNever(oracle)
   }
