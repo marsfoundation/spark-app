@@ -1,4 +1,4 @@
-import { OracleType } from '@/config/chain/types'
+import { ReserveOracleType } from '@/config/chain/types'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { InfoTile } from '@/ui/molecules/info-tile/InfoTile'
 import { Info } from '@/ui/molecules/info/Info'
@@ -7,7 +7,7 @@ import { BlockExplorerAddressLink } from './BlockExplorerAddressLink'
 import { ProvidersList } from './ProvidersList'
 
 interface MarketOraclePanelProps {
-  oracle: Extract<OracleType, { type: 'market-price' }>
+  oracle: Extract<ReserveOracleType, { type: 'market-price' }>
   chainId: number
 }
 

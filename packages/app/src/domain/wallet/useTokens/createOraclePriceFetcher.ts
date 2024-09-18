@@ -15,11 +15,11 @@ export function createOraclePriceFetcher({
   wagmiConfig,
   chainId,
 }: CreateOraclePriceFetcherParams): () => Promise<NormalizedUnitNumber> {
-  if (tokenConfig.reserveOracleType === 'fixed-usd') {
+  if (tokenConfig.oracleType === 'fixed-usd') {
     return async () => NormalizedUnitNumber(1)
   }
 
-  if (tokenConfig.reserveOracleType === 'vault') {
+  if (tokenConfig.oracleType === 'vault') {
     return async () => {
       const result = await readContract(wagmiConfig, {
         abi: erc4626Abi,

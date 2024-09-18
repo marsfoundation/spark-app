@@ -1,4 +1,4 @@
-import { OracleType } from '@/config/chain/types'
+import { ReserveOracleType } from '@/config/chain/types'
 import { assets } from '@/ui/assets'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { InfoTile } from '@/ui/molecules/info-tile/InfoTile'
@@ -8,7 +8,7 @@ import { BlockExplorerAddressLink } from './BlockExplorerAddressLink'
 import { ProvidersList } from './ProvidersList'
 
 interface YieldingFixedOraclePanelProps {
-  oracle: Extract<OracleType, { type: 'yielding-fixed' }>
+  oracle: Extract<ReserveOracleType, { type: 'yielding-fixed' }>
   chainId: number
 }
 

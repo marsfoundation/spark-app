@@ -1,4 +1,4 @@
-import { OracleType } from '@/config/chain/types'
+import { ReserveOracleType } from '@/config/chain/types'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { FixedOraclePanel } from './components/FixedOraclePanel'
 import { MarketOraclePanel } from './components/MarketOraclePanel'
@@ -7,7 +7,7 @@ import { UnknownOraclePanel } from './components/UnknownOraclePanel'
 import { YieldingFixedOraclePanel } from './components/YieldingFixedOraclePanel'
 
 export interface OraclePanelProps {
-  oracle: OracleType | undefined
+  oracle: ReserveOracleType | undefined
   marketInfo: MarketInfo
   chainId: number
 }
