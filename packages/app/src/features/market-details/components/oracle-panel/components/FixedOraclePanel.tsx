@@ -1,10 +1,10 @@
 import { ReserveOracleType } from '@/config/chain/types'
 import { OracleInfo } from '@/domain/oracles/types'
+import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { InfoTile } from '@/ui/molecules/info-tile/InfoTile'
 import { Info } from '@/ui/molecules/info/Info'
 import { BlockExplorerAddressLink } from './BlockExplorerAddressLink'
-import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 
 interface FixedOraclePanelProps extends OracleInfo {
   oracle: Extract<ReserveOracleType, { type: 'fixed' }>

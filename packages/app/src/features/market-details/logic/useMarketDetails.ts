@@ -10,13 +10,13 @@ import { raise } from '@/utils/assert'
 import { Address } from 'viem'
 import { useChainId } from 'wagmi'
 
+import { OracleInfo } from '@/domain/oracles/types'
 import { useOracleInfo } from '@/domain/oracles/useOracleInfo'
 import { MarketOverview, WalletOverview } from '../types'
 import { makeDaiMarketOverview } from './makeDaiMarketOverview'
 import { makeMarketOverview } from './makeMarketOverview'
 import { makeWalletOverview } from './makeWalletOverview'
 import { useMarketDetailsParams } from './useMarketDetailsParams'
-import { OracleInfo } from '@/domain/oracles/types'
 
 export interface UseMarketDetailsResult {
   token: Token

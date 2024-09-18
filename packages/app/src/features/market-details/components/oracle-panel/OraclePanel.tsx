@@ -1,13 +1,13 @@
 import { ReserveOracleType } from '@/config/chain/types'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { OracleInfo } from '@/domain/oracles/types'
+import { assert } from '@/utils/assert'
 import { assertNever } from '@/utils/assertNever'
 import { FixedOraclePanel } from './components/FixedOraclePanel'
 import { MarketOraclePanel } from './components/MarketOraclePanel'
 import { UnderlyingAssetOraclePanel } from './components/UnderlyingAssetOraclePanel'
 import { UnknownOraclePanel } from './components/UnknownOraclePanel'
 import { YieldingFixedOraclePanel } from './components/YieldingFixedOraclePanel'
-import { assert } from '@/utils/assert'
 
 export interface OraclePanelProps {
   oracle: ReserveOracleType | undefined
