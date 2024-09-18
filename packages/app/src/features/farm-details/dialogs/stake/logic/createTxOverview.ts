@@ -1,13 +1,11 @@
 import { Farm } from '@/domain/farms/types'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { TokenWithBalanceFormNormalizedData } from '@/features/dialogs/common/logic/asset-balance/form'
 import { TxOverviewRouteItem } from '@/features/dialogs/common/types'
 
 export interface CreateTxOverviewParams {
   formValues: TokenWithBalanceFormNormalizedData
-  tokensInfo: TokensInfo
   farm: Farm
 }
 
@@ -16,27 +14,27 @@ export type TxOverview =
   | {
       status: 'success'
       apy: Percentage
+      stakingToken: Token
       rewardsToken: Token
       rewardsRate: NormalizedUnitNumber
       routeToStakingToken: TxOverviewRouteItem[]
     }
 
-export function createTxOverview({ formValues, tokensInfo, farm }: CreateTxOverviewParams): TxOverview {
+export function createTxOverview({ formValues, farm }: CreateTxOverviewParams): TxOverview {
   const value = formValues.value
   if (value.eq(0)) {
     return { status: 'no-overview' }
   }
 
-  const stakingToken = tokensInfo.findOneTokenBySymbol(farm.stakingToken.symbol)
-
   const routeToStakingToken: TxOverviewRouteItem[] = createRouteToStakingToken({
     formValues,
-    stakingToken,
+    stakingToken: farm.stakingToken,
   })
 
   return {
     status: 'success',
     apy: farm.apy,
+    stakingToken: farm.stakingToken,
     rewardsToken: farm.rewardToken,
     rewardsRate: farm.rewardRate,
     routeToStakingToken,

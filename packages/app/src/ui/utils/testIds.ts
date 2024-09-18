@@ -201,7 +201,7 @@ export const testIds = makeTestIds({
       transactionOverview: {
         farmDestinationRouteItem: {
           farmName: true,
-          entryToken: true,
+          stakingToken: true,
         },
         outcome: true,
       },

@@ -6,10 +6,10 @@ import { StakeDialogContentContainer } from './StakeDialogContentContainer'
 
 export interface StakeDialogProps extends CommonDialogProps {
   farm: Farm
-  initialToken?: Token
+  initialToken: Token
 }
 
-export function SavingsDepositDialog({ initialToken, farm, open, setOpen }: StakeDialogProps) {
+export function StakeDialog({ initialToken, farm, open, setOpen }: StakeDialogProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>

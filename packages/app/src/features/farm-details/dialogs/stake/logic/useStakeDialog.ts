@@ -1,5 +1,8 @@
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
 import { Farm } from '@/domain/farms/types'
+import { useFarmsInfo } from '@/domain/farms/useFarmsInfo'
+import { useSavingsDaiInfo } from '@/domain/savings-info/useSavingsDaiInfo'
+import { useSavingsUsdsInfo } from '@/domain/savings-info/useSavingsUsdsInfo'
 import { Token } from '@/domain/types/Token'
 import { StakeObjective } from '@/features/actions/flavours/stake/types'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
@@ -18,7 +21,7 @@ import { validationIssueToMessage } from './validation'
 
 export interface UseStakeDialogParams {
   farm: Farm
-  initialToken?: Token
+  initialToken: Token
 }
 
 export interface UseStakeDialogResult {
@@ -34,13 +37,17 @@ export interface UseStakeDialogResult {
 
 export function useStakeDialog({ farm, initialToken }: UseStakeDialogParams): UseStakeDialogResult {
   const [pageStatus, setPageStatus] = useState<PageState>('form')
+  const { farmsInfo } = useFarmsInfo()
   const { tokensInfo, entryTokens } = useFarmEntryTokens(farm)
   assert(entryTokens[0], 'There should be at least one entry token')
+  const { savingsDaiInfo } = useSavingsDaiInfo()
+  const { savingsUsdsInfo } = useSavingsUsdsInfo()
+  assert(savingsDaiInfo && savingsUsdsInfo, 'Savings dai and usds info is required for stake dialog')
 
   const form = useForm<AssetInputSchema>({
     resolver: zodResolver(getTokenWithBalanceFormValidator(tokensInfo, validationIssueToMessage)),
     defaultValues: {
-      symbol: initialToken ? initialToken.symbol : entryTokens[0].token.symbol,
+      symbol: initialToken.symbol,
       value: '',
     },
     mode: 'onChange',
@@ -67,7 +74,6 @@ export function useStakeDialog({ farm, initialToken }: UseStakeDialogParams): Us
   const txOverview = createTxOverview({
     farm,
     formValues,
-    tokensInfo,
   })
 
   const stakedToken = getStakedToken(
@@ -93,6 +99,9 @@ export function useStakeDialog({ farm, initialToken }: UseStakeDialogParams): Us
     },
     actionsContext: {
       tokensInfo,
+      farmsInfo,
+      savingsDaiInfo,
+      savingsUsdsInfo,
     },
   }
 }

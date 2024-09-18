@@ -10,6 +10,8 @@ import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
 import { raise } from '@/utils/assert'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { useAccount, useChainId } from 'wagmi'
+import { StakeDialog } from '../dialogs/stake/StakeDialog'
+import { sortByUsdValueWithUsdsPriority } from '../dialogs/stake/logic/sortByUsdValueWithUsdsPriority'
 import { FarmHistoryItem } from './historic/types'
 import { useFarmHistoricData } from './historic/useFarmHistoricData'
 import { useFarmDetailsParams } from './useFarmDetailsParams'
@@ -22,7 +24,9 @@ export interface UseFarmDetailsResult {
   farmDetailsRowData: FarmDetailsRowData
   farmHistoricData: FarmHistoryItem[]
   tokensToDeposit: TokenWithBalance[]
-  openStakeDialog: (token: Token) => void
+  hasTokensToDeposit: boolean
+  openStakeDialog: (initialToken: Token) => void
+  openDefaultedStakeDialog: () => void
   openConnectModal: () => void
   openSandboxModal: () => void
 }
@@ -44,6 +48,8 @@ export function useFarmDetails(): UseFarmDetailsResult {
   const tokensToDeposit = farm.entryAssetsGroup.assets.map((symbol) =>
     tokensInfo.findOneTokenWithBalanceBySymbol(symbol),
   )
+  const hasTokensToDeposit = tokensToDeposit.some((token) => token.balance.gt(0))
+  const mostValuableToken = sortByUsdValueWithUsdsPriority(tokensToDeposit, tokensInfo)[0]
 
   return {
     chainId,
@@ -57,7 +63,10 @@ export function useFarmDetails(): UseFarmDetailsResult {
       depositors: farm.depositors,
     },
     tokensToDeposit,
-    openStakeDialog: () => {},
+    hasTokensToDeposit,
+    openStakeDialog: (initialToken: Token) => openDialog(StakeDialog, { farm, initialToken }),
+    openDefaultedStakeDialog: () =>
+      mostValuableToken ? openDialog(StakeDialog, { farm, initialToken: mostValuableToken.token }) : undefined,
     openConnectModal,
     openSandboxModal(): void {
       openDialog(SandboxDialog, { mode: 'ephemeral' } as const)

@@ -8,7 +8,7 @@ import { StakeView } from './views/StakeView'
 
 export interface StakeContainerProps {
   farm: Farm
-  initialToken?: Token
+  initialToken: Token
   closeDialog: () => void
 }
 

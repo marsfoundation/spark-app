@@ -19,7 +19,9 @@ export interface FarmDetailsViewProps {
   farmDetailsRowData: FarmDetailsRowData
   farmHistoricData: FarmHistoryItem[]
   tokensToDeposit: TokenWithBalance[]
+  hasTokensToDeposit: boolean
   openStakeDialog: (token: Token) => void
+  openDefaultedStakeDialog: () => void
   openConnectModal: () => void
   openSandboxModal: () => void
 }
@@ -32,7 +34,9 @@ export function FarmDetailsView({
   farmDetailsRowData,
   farmHistoricData,
   tokensToDeposit,
+  hasTokensToDeposit,
   openStakeDialog,
+  openDefaultedStakeDialog,
   openConnectModal,
   openSandboxModal,
 }: FarmDetailsViewProps) {
@@ -49,6 +53,8 @@ export function FarmDetailsView({
               rewardToken={farm.rewardToken}
               farmDetailsRowData={farmDetailsRowData}
               walletConnected={walletConnected}
+              hasTokensToDeposit={hasTokensToDeposit}
+              openStakeDialog={openDefaultedStakeDialog}
             />
           )}
           <AprOverTime data={farmHistoricData} />
