@@ -1,17 +1,17 @@
 import { ReserveOracleType } from '@/config/chain/types'
+import { OracleInfo } from '@/domain/oracles/types'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { InfoTile } from '@/ui/molecules/info-tile/InfoTile'
 import { Info } from '@/ui/molecules/info/Info'
-import { zeroAddress } from 'viem'
 import { BlockExplorerAddressLink } from './BlockExplorerAddressLink'
 import { ProvidersList } from './ProvidersList'
+import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 
-interface MarketOraclePanelProps {
+interface MarketOraclePanelProps extends OracleInfo {
   oracle: Extract<ReserveOracleType, { type: 'market-price' }>
-  chainId: number
 }
 
-export function MarketOraclePanel({ oracle, chainId }: MarketOraclePanelProps) {
+export function MarketOraclePanel({ oracle, chainId, price, priceOracleAddress, token }: MarketOraclePanelProps) {
   return (
     <Panel.Wrapper className="flex flex-col gap-4 p-4 sm:px-8 sm:py-6">
       <div>
@@ -29,16 +29,16 @@ export function MarketOraclePanel({ oracle, chainId }: MarketOraclePanelProps) {
         <div className="flex flex-col gap-4 sm:flex-row sm:gap-10">
           <InfoTile>
             <InfoTile.Label>Price</InfoTile.Label>
-            <InfoTile.Value>TBD</InfoTile.Value>
+            <InfoTile.Value>{USD_MOCK_TOKEN.formatUSD(price)}</InfoTile.Value>
           </InfoTile>
           <InfoTile>
             <InfoTile.Label>Asset</InfoTile.Label>
-            <InfoTile.Value>TBD</InfoTile.Value>
+            <InfoTile.Value>{token.symbol}</InfoTile.Value>
           </InfoTile>
           <InfoTile>
             <InfoTile.Label>Contract</InfoTile.Label>
             <InfoTile.Value>
-              <BlockExplorerAddressLink address={zeroAddress} chainId={chainId} />
+              <BlockExplorerAddressLink address={priceOracleAddress} chainId={chainId} />
             </InfoTile.Value>
           </InfoTile>
         </div>

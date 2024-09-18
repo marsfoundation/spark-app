@@ -2,6 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/atoms/tabs/Tabs'
 
 import { MarketOverview as MarketOverviewPanel } from '../../components/market-overview/MarketOverview'
 import { MyWalletPanel } from '../../components/my-wallet/MyWalletPanel'
+import { OraclePanel } from '../../components/oracle-panel/OraclePanel'
 import { BorrowStatusPanel } from '../../components/status-panel/BorrowStatusPanel'
 import { CollateralStatusPanel } from '../../components/status-panel/CollateralStatusPanel'
 import { EModeStatusPanel } from '../../components/status-panel/EModeStatusPanel'
@@ -22,6 +23,7 @@ export function CompactView({
   walletOverview,
   openConnectModal,
   openDialog,
+  oracleInfo,
 }: MarketDetailsViewProps) {
   return (
     <div className="w-full pt-5 pb-8">
@@ -48,6 +50,7 @@ export function CompactView({
           <CollateralStatusPanel {...marketOverview.collateral} />
           {marketOverview.eMode && <EModeStatusPanel {...marketOverview.eMode} />}
           <BorrowStatusPanel token={token} {...marketOverview.borrow} />
+          <OraclePanel {...oracleInfo} />
         </TabsContent>
         <TabsContent value="actions" className="px-3">
           <MyWalletPanel

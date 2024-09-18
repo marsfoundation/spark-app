@@ -1,18 +1,26 @@
 import { ReserveOracleType } from '@/config/chain/types'
+import { OracleInfo } from '@/domain/oracles/types'
+import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { assets } from '@/ui/assets'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { InfoTile } from '@/ui/molecules/info-tile/InfoTile'
 import { Info } from '@/ui/molecules/info/Info'
-import { zeroAddress } from 'viem'
 import { BlockExplorerAddressLink } from './BlockExplorerAddressLink'
 import { ProvidersList } from './ProvidersList'
 
-interface YieldingFixedOraclePanelProps {
+interface YieldingFixedOraclePanelProps extends Required<OracleInfo> {
   oracle: Extract<ReserveOracleType, { type: 'yielding-fixed' }>
-  chainId: number
 }
 
-export function YieldingFixedOraclePanel({ oracle, chainId }: YieldingFixedOraclePanelProps) {
+export function YieldingFixedOraclePanel({
+  oracle,
+  chainId,
+  token,
+  price,
+  priceOracleAddress,
+  baseToken,
+  ratio,
+}: YieldingFixedOraclePanelProps) {
   return (
     <Panel.Wrapper className="flex flex-col gap-4 p-4 sm:px-8 sm:py-6">
       <div>
@@ -29,21 +37,25 @@ export function YieldingFixedOraclePanel({ oracle, chainId }: YieldingFixedOracl
         <div className="grid items-center gap-4 md:grid-cols-[1fr,auto,1fr,auto,1fr] md:gap-3 md:pb-6">
           <div className="relative flex flex-col items-center gap-2">
             <div className="w-full rounded-2xl border border-basics-grey/30 bg-basics-light-grey p-2 text-center text-xl">
-              1.00035
+              {ratio.toFixed(4)}
             </div>
-            <div className=" md:-bottom-6 text-basics-dark-grey text-xs md:absolute">weETH to ETH Ratio</div>
+            <div className=" md:-bottom-6 text-basics-dark-grey text-xs md:absolute">
+              {token.symbol} to {oracle.baseAsset} Ratio
+            </div>
           </div>
           <img src={assets.multiply} alt="multiply sign" className="place-self-center" />
           <div className="relative flex flex-col items-center gap-2">
             <div className="w-full rounded-2xl border border-basics-grey/30 bg-basics-light-grey p-2 text-center text-xl">
-              $3,574.58
+              {USD_MOCK_TOKEN.formatUSD(baseToken.unitPriceUsd)}
             </div>
-            <div className=" md:-bottom-6 text-basics-dark-grey text-xs md:absolute">ETH Oracle Price</div>
+            <div className=" md:-bottom-6 text-basics-dark-grey text-xs md:absolute">
+              {oracle.baseAsset} Oracle Price
+            </div>
           </div>
           <img src={assets.equal} alt="equal sign" className="place-self-center" />
           <div className="relative flex flex-col items-center gap-2">
             <div className="w-full rounded-2xl border border-basics-grey/30 bg-basics-light-grey p-2 text-center text-xl">
-              $3,674.58
+              {USD_MOCK_TOKEN.formatUSD(price)}
             </div>
             <div className=" md:-bottom-6 text-basics-dark-grey text-xs md:absolute">Final Price</div>
           </div>
@@ -53,21 +65,21 @@ export function YieldingFixedOraclePanel({ oracle, chainId }: YieldingFixedOracl
           <InfoTile>
             <InfoTile.Label>Ratio Contract</InfoTile.Label>
             <InfoTile.Value>
-              <BlockExplorerAddressLink address={zeroAddress} chainId={chainId} />
+              <BlockExplorerAddressLink address={token.address} chainId={chainId} />
             </InfoTile.Value>
           </InfoTile>
 
           <InfoTile>
             <InfoTile.Label>Token Contract</InfoTile.Label>
             <InfoTile.Value>
-              <BlockExplorerAddressLink address={zeroAddress} chainId={chainId} />
+              <BlockExplorerAddressLink address={baseToken.address} chainId={chainId} />
             </InfoTile.Value>
           </InfoTile>
 
           <InfoTile>
             <InfoTile.Label>Price Contract</InfoTile.Label>
             <InfoTile.Value>
-              <BlockExplorerAddressLink address={zeroAddress} chainId={chainId} />
+              <BlockExplorerAddressLink address={priceOracleAddress} chainId={chainId} />
             </InfoTile.Value>
           </InfoTile>
         </div>
