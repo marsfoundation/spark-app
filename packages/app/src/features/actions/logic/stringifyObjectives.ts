@@ -22,17 +22,16 @@ export function stringifyObjectivesToStableActions(objectives: Objective[]): str
         case 'setUserEMode':
           return [objective.type, objective.eModeCategoryId]
         case 'claimRewards':
-          return [objective.type, objective.token.address]
+          return [objective.type, objective.token.address, objective.assets]
         case 'withdrawFromSavings':
           return [objective.type, objective.token.address, objective.amount]
         case 'depositToSavings':
           return [objective.type, objective.token.address, objective.savingsToken.address, objective.value]
         case 'upgrade':
-          return [objective.type, objective.amount]
         case 'downgrade':
           return [objective.type, objective.amount]
         case 'stake':
-          return [objective.type, objective.token, objective.amount]
+          return [objective.type, objective.token.address, objective.amount]
         default:
           assertNever(objective)
       }

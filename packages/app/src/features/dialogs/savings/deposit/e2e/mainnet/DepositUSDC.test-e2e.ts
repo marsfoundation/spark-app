@@ -124,4 +124,38 @@ test.describe('Deposit USDC', () => {
       await savingsPage.expectStablecoinsInWalletAssetBalance('USDC', '-')
     })
   })
+
+  test('executes sDai deposit after switching from already approved sUsds', async () => {
+    // accepting only approve
+    await depositDialog.actionsContainer.acceptAllActionsAction(1)
+    await depositDialog.actionsContainer.expectEnabledActionAtIndex(1)
+    // switching to sDai deposit when already approved sUsds
+    await depositDialog.clickUpgradeSwitch()
+    // actions should reset and new approval is required
+    await depositDialog.actionsContainer.acceptAllActionsAction(2)
+
+    await depositDialog.expectSuccessPage()
+    await depositDialog.clickBackToSavingsButton()
+
+    await savingsPage.expectSavingsDAIBalance({ sDaiBalance: '9,020.46 sDAI', estimatedDaiValue: '10,000' })
+    await savingsPage.expectStablecoinsInWalletAssetBalance('DAI', '-')
+  })
+
+  test('executes sUsds deposit after switching from already approved sUsds and back', async () => {
+    // accepting only approve
+    await depositDialog.actionsContainer.acceptAllActionsAction(1)
+    await depositDialog.actionsContainer.expectEnabledActionAtIndex(1)
+    // switching to sDai deposit and back to sUsds
+    await depositDialog.clickUpgradeSwitch()
+    await depositDialog.actionsContainer.expectEnabledActionAtIndex(0)
+    await depositDialog.clickUpgradeSwitch()
+    // approval should be already successful, only deposit needed
+    await depositDialog.actionsContainer.acceptActionAtIndex(1)
+
+    await depositDialog.expectSuccessPage()
+    await depositDialog.clickBackToSavingsButton()
+
+    await savingsPage.expectSavingsUSDSBalance({ sUsdsBalance: '9,999.77 sUSDS', estimatedUsdsValue: '10,000' })
+    await savingsPage.expectStablecoinsInWalletAssetBalance('DAI', '-')
+  })
 })
