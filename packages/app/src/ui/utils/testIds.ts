@@ -203,6 +203,7 @@ export const testIds = makeTestIds({
           farmName: true,
           entryToken: true,
         },
+        outcome: true,
       },
     },
   },
