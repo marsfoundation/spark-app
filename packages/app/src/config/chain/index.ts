@@ -6,7 +6,7 @@ import { gnosisSavingsDaiInfoQuery } from '@/domain/savings-info/gnosisSavingsIn
 import { mainnetSavingsDaiInfoQuery, mainnetSavingsUsdsInfoQuery } from '@/domain/savings-info/mainnetSavingsInfo'
 import { useStore } from '@/domain/state'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { BaseUnitNumber, NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { assets } from '@/ui/assets'
 import { toBigInt } from '@/utils/bigNumber'
@@ -160,7 +160,7 @@ const chainConfig: ChainConfig = {
             chainId: mainnet.id,
           })
 
-          return NormalizedUnitNumber(ratio).dividedBy(10 ** reserve.token.decimals)
+          return NormalizedUnitNumber(BaseUnitNumber(ratio).dividedBy(10 ** reserve.token.decimals))
         },
       },
       [TokenSymbol('rETH')]: {
@@ -176,7 +176,7 @@ const chainConfig: ChainConfig = {
             chainId: mainnet.id,
           })
 
-          return NormalizedUnitNumber(ratio).dividedBy(10 ** reserve.token.decimals)
+          return NormalizedUnitNumber(BaseUnitNumber(ratio).dividedBy(10 ** reserve.token.decimals))
         },
       },
       [TokenSymbol('weETH')]: {
@@ -192,7 +192,7 @@ const chainConfig: ChainConfig = {
             chainId: mainnet.id,
           })
 
-          return NormalizedUnitNumber(ratio).dividedBy(10 ** reserve.token.decimals)
+          return NormalizedUnitNumber(BaseUnitNumber(ratio).dividedBy(10 ** reserve.token.decimals))
         },
       },
       [TokenSymbol('USDC')]: {

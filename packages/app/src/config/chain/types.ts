@@ -8,7 +8,6 @@ import { Reserve } from '@/domain/market-info/marketInfo'
 import { OracleType } from '@/domain/wallet/useTokens/types'
 import { Config } from 'wagmi'
 import { SUPPORTED_CHAIN_IDS } from './constants'
-import BigNumber from 'bignumber.js'
 
 export type SupportedChainId = (typeof SUPPORTED_CHAIN_IDS)[number]
 
@@ -57,7 +56,7 @@ export type ReserveOracleType =
   | { type: 'market-price'; providedBy: OracleFeedProvider[] }
   | {
       type: 'yielding-fixed'
-      ratio: (params: { reserve: Reserve; wagmiConfig: Config }) => Promise<BigNumber>
+      ratio: (params: { reserve: Reserve; wagmiConfig: Config }) => Promise<NormalizedUnitNumber>
       baseAsset: TokenSymbol
       providedBy: OracleFeedProvider[]
     }

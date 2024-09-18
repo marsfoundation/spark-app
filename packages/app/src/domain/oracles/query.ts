@@ -33,7 +33,7 @@ export function oracleQueryOptions({ reserve, marketInfo, wagmiConfig }: OracleQ
         return {
           ...oracleInfo,
           baseToken,
-          ratio: NormalizedUnitNumber(ratio),
+          ratio,
         }
       }
 
