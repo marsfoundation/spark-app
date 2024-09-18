@@ -3,9 +3,12 @@ import { ensureConfigTypes } from '@/domain/hooks/useWrite'
 import { aaveDataLayerQueryKey } from '@/domain/market-info/aave-data-layer/query'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { ActionConfig, ActionContext } from '../../../logic/types'
-import { ClaimRewardsAction } from '../types'
+import { ClaimMarketRewardsAction } from '../types'
 
-export function createClaimRewardsActionConfig(action: ClaimRewardsAction, context: ActionContext): ActionConfig {
+export function createClaimMarketRewardsActionConfig(
+  action: ClaimMarketRewardsAction,
+  context: ActionContext,
+): ActionConfig {
   const { account, chainId } = context
 
   return {
