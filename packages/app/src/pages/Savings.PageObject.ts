@@ -1,20 +1,9 @@
-import { Locator, Page, expect } from '@playwright/test'
+import { Locator, expect } from '@playwright/test'
 
 import { BasePageObject } from '@/test/e2e/BasePageObject'
 import { testIds } from '@/ui/utils/testIds'
 
-export interface SavingsPageObjectOptions {
-  usdsSupport: boolean
-}
-
 export class SavingsPageObject extends BasePageObject {
-  private readonly usdsSupport: boolean
-
-  constructor(pageOrLocator: Page | Locator, options: SavingsPageObjectOptions = { usdsSupport: false }) {
-    super(pageOrLocator)
-    this.usdsSupport = options.usdsSupport
-  }
-
   // #region locators
   locateSavingsOpportunityPanel(): Locator {
     return this.locatePanelByHeader('Savings')
@@ -59,7 +48,7 @@ export class SavingsPageObject extends BasePageObject {
   async clickDepositButtonAction(assetName: string): Promise<void> {
     const panel = this.locatePanelByHeader('Stablecoins in wallet')
     const row = (() => {
-      if (this.usdsSupport && assetName === 'DAI') {
+      if (assetName === 'DAI') {
         // DAI row has an upgrade button instead of the asset name when USDS is supported
         return panel
           .getByRole('row')

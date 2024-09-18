@@ -24,7 +24,7 @@ test.describe('Deposit DAI', () => {
       },
     })
 
-    savingsPage = new SavingsPageObject(page, { usdsSupport: true })
+    savingsPage = new SavingsPageObject(page)
     await savingsPage.clickDepositButtonAction('DAI')
 
     depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
