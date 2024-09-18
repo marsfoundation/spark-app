@@ -77,7 +77,8 @@ export class Token {
   }
 
   public toBaseUnit(value: NormalizedUnitNumber): BaseUnitNumber {
-    return BaseUnitNumber(value.shiftedBy(this.decimals))
+    const normalizedValue = NormalizedUnitNumber(value.decimalPlaces(this.decimals, BigNumber.ROUND_DOWN))
+    return BaseUnitNumber(normalizedValue.shiftedBy(this.decimals))
   }
 
   public fromBaseUnit(value: BaseUnitNumber): NormalizedUnitNumber {
