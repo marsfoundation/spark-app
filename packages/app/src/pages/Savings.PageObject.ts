@@ -47,7 +47,7 @@ export class SavingsPageObject extends BasePageObject {
 
   async clickDepositButtonAction(assetName: string): Promise<void> {
     const panel = this.locatePanelByHeader('Stablecoins in wallet')
-    const row = panel.getByRole('row').filter({ hasText: assetName })
+    const row = panel.getByRole('row').filter({ hasText: assetName }) // @todo: won't work for assets with names that contain other assets name, like sDAI
     await row.getByRole('button', { name: 'Deposit' }).click()
   }
 
