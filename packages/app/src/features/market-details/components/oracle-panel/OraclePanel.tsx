@@ -8,7 +8,7 @@ import { UnknownOraclePanel } from './components/UnknownOraclePanel'
 import { YieldingFixedOraclePanel } from './components/YieldingFixedOraclePanel'
 
 export interface OraclePanelProps {
-  oracle: ReserveOracleType | undefined | never
+  oracle: ReserveOracleType | undefined
   marketInfo: MarketInfo
   chainId: number
 }
