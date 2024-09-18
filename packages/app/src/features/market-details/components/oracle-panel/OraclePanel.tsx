@@ -8,7 +8,7 @@ import { UnknownOraclePanel } from './components/UnknownOraclePanel'
 import { YieldingFixedOraclePanel } from './components/YieldingFixedOraclePanel'
 
 export interface OraclePanelProps {
-  oracle: ReserveOracleType | undefined
+  oracle: ReserveOracleType | undefined | never
   marketInfo: MarketInfo
   chainId: number
 }
@@ -27,6 +27,7 @@ export function OraclePanel({ oracle, ...props }: OraclePanelProps) {
       return <YieldingFixedOraclePanel {...props} oracle={oracle} />
     case 'underlying-asset':
       return <UnderlyingAssetOraclePanel {...props} oracle={oracle} />
+
     default:
       assertNever(oracle)
   }
