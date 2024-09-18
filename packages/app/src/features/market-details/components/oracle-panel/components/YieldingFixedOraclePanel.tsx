@@ -7,7 +7,7 @@ import { zeroAddress } from 'viem'
 import { BlockExplorerAddressLink } from './BlockExplorerAddressLink'
 import { ProvidersList } from './ProvidersList'
 
-type YieldingFixedOraclePanelProps = {
+interface YieldingFixedOraclePanelProps {
   oracle: Extract<OracleType, { type: 'yielding-fixed' }>
   chainId: number
 }
@@ -47,7 +47,7 @@ export function YieldingFixedOraclePanel({ oracle, chainId }: YieldingFixedOracl
           </div>
         </div>
 
-        <div className="flex flex-col gap-4 sm:flex-row sm:gap-10">
+        <div className="grid gap-9 sm:grid-cols-3">
           <InfoTile>
             <InfoTile.Label>Ratio Contract</InfoTile.Label>
             <InfoTile.Value>
