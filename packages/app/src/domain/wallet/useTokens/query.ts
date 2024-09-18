@@ -11,7 +11,7 @@ import { createOraclePriceFetcher } from './createOraclePriceFetcher'
 import { ReserveOracleType } from './types'
 
 interface TokensParams {
-  tokens: { address: CheckedAddress; reserveReserveOracleType: ReserveOracleType }[]
+  tokens: { address: CheckedAddress; reserveOracleType: ReserveOracleType }[]
   wagmiConfig: Config
   chainId: number
   account?: Address

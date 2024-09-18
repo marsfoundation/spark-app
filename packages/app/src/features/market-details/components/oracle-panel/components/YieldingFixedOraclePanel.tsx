@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 import { ReserveOracleType } from '@/config/chain/types'
 import { assets } from '@/ui/assets'
-=======
-import { OracleType } from '@/config/chain/types'
->>>>>>> 15c5bdc (Add oracle components)
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { InfoTile } from '@/ui/molecules/info-tile/InfoTile'
 import { Info } from '@/ui/molecules/info/Info'
@@ -11,13 +7,8 @@ import { zeroAddress } from 'viem'
 import { BlockExplorerAddressLink } from './BlockExplorerAddressLink'
 import { ProvidersList } from './ProvidersList'
 
-<<<<<<< HEAD
 interface YieldingFixedOraclePanelProps {
   oracle: Extract<ReserveOracleType, { type: 'yielding-fixed' }>
-=======
-type YieldingFixedOraclePanelProps = {
-  oracle: Extract<OracleType, { type: 'yielding-fixed' }>
->>>>>>> 15c5bdc (Add oracle components)
   chainId: number
 }
 
@@ -25,7 +16,6 @@ export function YieldingFixedOraclePanel({ oracle, chainId }: YieldingFixedOracl
   return (
     <Panel.Wrapper className="flex flex-col gap-4 p-4 sm:px-8 sm:py-6">
       <div>
-<<<<<<< HEAD
         <div className="mb-1 text-basics-dark-grey text-sm leading-none sm:text-xs sm:leading-none">Oracle type</div>
         <Panel.Header className="flex items-center gap-2">
           <Panel.Title className="text-xl">
@@ -62,64 +52,20 @@ export function YieldingFixedOraclePanel({ oracle, chainId }: YieldingFixedOracl
         <div className="grid gap-9 sm:grid-cols-3">
           <InfoTile>
             <InfoTile.Label>Ratio Contract</InfoTile.Label>
-=======
-        <div className="mb-1 text-slate-500 text-sm leading-none sm:text-xs sm:leading-none">Oracle type</div>
-        <Panel.Header className="flex items-center gap-2">
-          <Panel.Title className="text-xl">
-            Yielding Fixed Price {oracle.providedBy.length > 1 && <span className="text-gray-500">(Redundant)</span>}
-          </Panel.Title>
-          <Info size={16}>Some info</Info>
-        </Panel.Header>
-      </div>
-
-      <Panel.Content className="flex flex-col gap-4 sm:gap-6">
-        <div className="grid items-center gap-4 md:grid-cols-[1fr,auto,1fr,auto,1fr] md:gap-3 md:pb-6">
-          <div className="relative flex flex-col items-center gap-2">
-            <div className="w-full rounded-lg border border-gray-200 bg-gray-100 p-3 text-center">1.00035</div>
-            <div className=" md:-bottom-6 text-slate-500 text-xs md:absolute">weETH to ETH Ratio</div>
-          </div>
-
-          <img src={assets.multiply} alt="multiply sign" className="place-self-center" />
-
-          <div className="relative flex flex-col items-center gap-2">
-            <div className="w-full rounded-lg border border-gray-200 bg-gray-100 p-3 text-center">$3,574.58</div>
-            <div className=" md:-bottom-6 text-slate-500 text-xs md:absolute">ETH Oracle Price</div>
-          </div>
-
-          <img src={assets.equal} alt="equal sign" className="place-self-center" />
-
-          <div className="relative flex flex-col items-center gap-2">
-            <div className="w-full rounded-lg border border-gray-200 bg-gray-100 p-3 text-center">$3,674.58</div>
-            <div className=" md:-bottom-6 text-slate-500 text-xs md:absolute">Final Price</div>
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-4 sm:flex-row sm:gap-10">
-          <InfoTile>
-            <InfoTile.Label>Contract</InfoTile.Label>
->>>>>>> 15c5bdc (Add oracle components)
             <InfoTile.Value>
               <BlockExplorerAddressLink address={zeroAddress} chainId={chainId} />
             </InfoTile.Value>
           </InfoTile>
 
           <InfoTile>
-<<<<<<< HEAD
             <InfoTile.Label>Token Contract</InfoTile.Label>
-=======
-            <InfoTile.Label>Contract</InfoTile.Label>
->>>>>>> 15c5bdc (Add oracle components)
             <InfoTile.Value>
               <BlockExplorerAddressLink address={zeroAddress} chainId={chainId} />
             </InfoTile.Value>
           </InfoTile>
 
           <InfoTile>
-<<<<<<< HEAD
             <InfoTile.Label>Price Contract</InfoTile.Label>
-=======
-            <InfoTile.Label>Contract</InfoTile.Label>
->>>>>>> 15c5bdc (Add oracle components)
             <InfoTile.Value>
               <BlockExplorerAddressLink address={zeroAddress} chainId={chainId} />
             </InfoTile.Value>

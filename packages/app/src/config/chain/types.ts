@@ -44,7 +44,11 @@ export interface AirdropsPerAction {
 export type Airdrop = Record<TokenSymbol, AirdropsPerAction>
 
 export interface TokenWithReserveOracleType {
+<<<<<<< HEAD
   reserveReserveOracleType: OracleType
+=======
+  reserveOracleType: ReserveOracleType
+>>>>>>> e357d29 (Fix reserve oracle time naming)
   address: CheckedAddress
   symbol: TokenSymbol
 }
