@@ -31,7 +31,7 @@ export function WelcomeDialog({ open, onConfirm, apyImprovement }: WelcomeDialog
               USDS is the new version of DAI, the stablecoin that powers the Sky ecosystem. Upgrading to USDS unlocks
               additional benefits, providing you with more opportunities to earn rewards within the ecosystem. The
               upgrade is optional, and you can continue using DAI if you prefer.{' '}
-              <Link to={links.docs.savingsMigration} external>
+              <Link to={links.docs.newSavings} external>
                 Learn more
               </Link>
             </p>

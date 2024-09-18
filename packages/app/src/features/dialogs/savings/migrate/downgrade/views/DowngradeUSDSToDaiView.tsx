@@ -44,7 +44,7 @@ export function DowngradeUSDSToDaiView({
       <div className="mb-2 text-basics-dark-grey text-sm leading-snug">
         You can downgrade from USDS to DAI whenever you choose, and you are free to switch back from DAI to USDS in the
         future, at your own sole discretion.{' '}
-        <Link to={links.docs.savingsMigration} external>
+        <Link to={links.docs.downgradeUsds} external>
           Learn more
         </Link>
       </div>

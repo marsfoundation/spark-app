@@ -78,7 +78,7 @@ export function UpgradeView({
                 rewards within the ecosystem.
               </p>
               <p>Upgrade is optional and you can continue using {fromToken.symbol} if you prefer.</p>
-              <Link to={links.docs.savingsMigration} external>
+              <Link to={fromToken.symbol === dai ? links.docs.upgradeDai : links.docs.upgradeSdai} external>
                 Learn more
               </Link>
             </div>

@@ -42,7 +42,7 @@ function Header({ stablecoinValue, savingsMeta }: ExplainerProps) {
         Savings {stablecoin}, or {savingsToken}, provides you with fractional ownership of the entire pool of{' '}
         {stablecoin} deposited into the {rateName}. The value of your {savingsToken} holdings gradually increases
         according to the {rateName} ({rateAcronym}). Learn more about it{' '}
-        <Link to={links.docs.savingsMigration} external>
+        <Link to={links.docs.newSavings} external>
           here
         </Link>
         .
