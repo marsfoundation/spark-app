@@ -17,7 +17,6 @@ import { InfoTilesGrid } from './components/InfoTilesGrid'
 import { StatusPanelGrid } from './components/StatusPanelGrid'
 import { Subheader } from './components/Subheader'
 import { StatusIcon } from './components/status-icon/StatusIcon'
-import { InfoTile } from '@/ui/molecules/info-tile/InfoTile'
 
 interface SupplyStatusPanelProps {
   status: SupplyAvailabilityStatus
