@@ -72,6 +72,13 @@ export const testIds = makeTestIds({
     },
   },
   dialog: {
+    transactionOverview: {
+      routeItem: {
+        tokenWithAmount: (index: number) => index,
+        tokenUsdValue: (index: number) => index,
+      },
+      skyBadge: true,
+    },
     healthFactor: {
       before: true,
       after: true,
@@ -87,12 +94,7 @@ export const testIds = makeTestIds({
           before: true,
           after: true,
         },
-        routeItem: {
-          tokenWithAmount: (index: number) => index,
-          tokenUsdValue: (index: number) => index,
-        },
         outcome: true,
-        skyBadge: true,
       },
       send: {
         addressIsSmartContractWarning: true,
@@ -192,6 +194,16 @@ export const testIds = makeTestIds({
       stakeText: true,
       rewardText: true,
       staked: true,
+    },
+  },
+  farmDetails: {
+    dialog: {
+      transactionOverview: {
+        farmDestinationRouteItem: {
+          farmName: true,
+          entryToken: true,
+        },
+      },
     },
   },
 })

@@ -3,11 +3,12 @@ import { Token } from '@/domain/types/Token'
 import { DialogPanel } from '@/features/dialogs/common/components/DialogPanel'
 import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPanelTitle'
 import { RouteItem } from '@/features/dialogs/common/components/transaction-overview/RouteItem'
+import { SkyBadge } from '@/features/dialogs/common/components/transaction-overview/SkyBadge'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { assert } from '@/utils/assert'
 import { SavingsDialogTxOverview } from '../../types'
-import { APYDetails, SkyBadge, TransactionOutcome, TransactionOverviewDetailsItem } from './components'
+import { APYDetails, TransactionOutcome, TransactionOverviewDetailsItem } from './components'
 import { TransactionOverviewPlaceholder } from './components/TransactionOverviewPlaceholder'
 
 export interface TransactionOverviewProps {
@@ -53,7 +54,7 @@ export function TransactionOverview({ txOverview, selectedToken, showAPY }: Tran
         </TransactionOverviewDetailsItem>
       </DialogPanel>
 
-      <SkyBadge token={skyBadgeToken} data-testid={testIds.dialog.savings.transactionOverview.skyBadge} />
+      <SkyBadge token={skyBadgeToken} data-testid={testIds.dialog.transactionOverview.skyBadge} />
     </div>
   )
 }

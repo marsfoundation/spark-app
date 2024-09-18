@@ -20,11 +20,12 @@ export class UpgradeDialogPageObject extends DialogPageObject {
   async expectTransactionOverview(transactionOverview: UpgradeTxOverview): Promise<void> {
     const panel = this.locatePanelByHeader('Transaction overview')
     await expect(panel).toBeVisible()
-    const txOverviewTestIds = testIds.dialog.savings.transactionOverview
+    const savingsTxOverviewTestIds = testIds.dialog.savings.transactionOverview
+    const txOverviewTestIds = testIds.dialog.transactionOverview
 
     if (transactionOverview.apyChange) {
-      const currentApyValue = panel.getByTestId(txOverviewTestIds.apyChange.before)
-      const updatedApyValue = panel.getByTestId(txOverviewTestIds.apyChange.after)
+      const currentApyValue = panel.getByTestId(savingsTxOverviewTestIds.apyChange.before)
+      const updatedApyValue = panel.getByTestId(savingsTxOverviewTestIds.apyChange.after)
       await expect(currentApyValue).toContainText(transactionOverview.apyChange.current)
       await expect(updatedApyValue).toContainText(transactionOverview.apyChange.updated)
     }
@@ -41,7 +42,7 @@ export class UpgradeDialogPageObject extends DialogPageObject {
       `Powered by Sky (prev. MakerDAO). No slippage & fees for ${transactionOverview.badgeToken}.`,
     )
 
-    const outcome = panel.getByTestId(txOverviewTestIds.outcome)
+    const outcome = panel.getByTestId(savingsTxOverviewTestIds.outcome)
     await expect(outcome).toContainText(transactionOverview.outcome)
   }
 
