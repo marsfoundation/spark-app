@@ -9,6 +9,9 @@ import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { assets } from '@/ui/assets'
+import { toBigInt } from '@/utils/bigNumber'
+import { readContract } from 'wagmi/actions'
+import { rEthRatioAbi, weEthRatioAbi, wstEthOracleAbi, wstEthRatioAbi } from '../abis/yieldingTokensRatioAbi'
 import { NATIVE_ASSET_MOCK_ADDRESS, stablecoinsGroup } from '../consts'
 import { usdsSkyRewardsConfig } from '../contracts-generated'
 import { AppConfig } from '../feature-flags'
@@ -140,19 +143,57 @@ const chainConfig: ChainConfig = {
         type: 'yielding-fixed',
         baseAsset: TokenSymbol('ETH'),
         providedBy: ['chainlink'],
-        ratio: async () => NormalizedUnitNumber(0),
+        ratio: async ({ reserve, wagmiConfig }) => {
+          const stethAddress = await readContract(wagmiConfig, {
+            abi: wstEthOracleAbi,
+            address: reserve.priceOracle,
+            functionName: 'steth',
+            args: [],
+            chainId: mainnet.id,
+          })
+
+          const ratio = await readContract(wagmiConfig, {
+            abi: wstEthRatioAbi,
+            address: stethAddress,
+            functionName: 'getPooledEthByShares',
+            args: [toBigInt(10 ** reserve.token.decimals)],
+            chainId: mainnet.id,
+          })
+
+          return NormalizedUnitNumber(ratio).dividedBy(10 ** reserve.token.decimals)
+        },
       },
       [TokenSymbol('rETH')]: {
         type: 'yielding-fixed',
         baseAsset: TokenSymbol('ETH'),
         providedBy: ['chainlink'],
-        ratio: async () => NormalizedUnitNumber(0),
+        ratio: async ({ reserve, wagmiConfig }) => {
+          const ratio = await readContract(wagmiConfig, {
+            abi: rEthRatioAbi,
+            address: reserve.token.address,
+            functionName: 'getExchangeRate',
+            args: [],
+            chainId: mainnet.id,
+          })
+
+          return NormalizedUnitNumber(ratio).dividedBy(10 ** reserve.token.decimals)
+        },
       },
       [TokenSymbol('weETH')]: {
         type: 'yielding-fixed',
         baseAsset: TokenSymbol('ETH'),
         providedBy: ['chainlink'],
-        ratio: async () => NormalizedUnitNumber(0),
+        ratio: async ({ reserve, wagmiConfig }) => {
+          const ratio = await readContract(wagmiConfig, {
+            abi: weEthRatioAbi,
+            address: reserve.token.address,
+            functionName: 'getRate',
+            args: [],
+            chainId: mainnet.id,
+          })
+
+          return NormalizedUnitNumber(ratio).dividedBy(10 ** reserve.token.decimals)
+        },
       },
       [TokenSymbol('USDC')]: {
         type: 'fixed',
@@ -233,12 +274,6 @@ const chainConfig: ChainConfig = {
       [TokenSymbol('GNO')]: {
         type: 'market-price',
         providedBy: ['chainlink'],
-      },
-      [TokenSymbol('wstETH')]: {
-        type: 'yielding-fixed',
-        baseAsset: TokenSymbol('ETH'),
-        providedBy: ['chainlink'],
-        ratio: async () => NormalizedUnitNumber(0),
       },
       [TokenSymbol('USDC')]: {
         type: 'fixed',

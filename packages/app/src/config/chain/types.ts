@@ -4,9 +4,11 @@ import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 
 import { FarmConfig } from '@/domain/farms/types'
-import { MarketInfo } from '@/domain/market-info/marketInfo'
+import { Reserve } from '@/domain/market-info/marketInfo'
 import { OracleType } from '@/domain/wallet/useTokens/types'
+import { Config } from 'wagmi'
 import { SUPPORTED_CHAIN_IDS } from './constants'
+import BigNumber from 'bignumber.js'
 
 export type SupportedChainId = (typeof SUPPORTED_CHAIN_IDS)[number]
 
@@ -55,7 +57,7 @@ export type ReserveOracleType =
   | { type: 'market-price'; providedBy: OracleFeedProvider[] }
   | {
       type: 'yielding-fixed'
-      ratio: (marketInfo: MarketInfo) => Promise<NormalizedUnitNumber>
+      ratio: (params: { reserve: Reserve; wagmiConfig: Config }) => Promise<BigNumber>
       baseAsset: TokenSymbol
       providedBy: OracleFeedProvider[]
     }
