@@ -48,7 +48,7 @@ export function UpgradeSavingsBanner({ onUpgradeSavingsClick, apyImprovement }: 
         </div>
         <div className="flex flex-col gap-2 md:flex-row md:items-end">
           <Button onClick={onUpgradeSavingsClick}>Upgrade now</Button>
-          <LinkButton variant="secondary" to={links.docs.savingsMigration} external>
+          <LinkButton variant="secondary" to={links.docs.upgradeSdai} external>
             Learn more
           </LinkButton>
         </div>
