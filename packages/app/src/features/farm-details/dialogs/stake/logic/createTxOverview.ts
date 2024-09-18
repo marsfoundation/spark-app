@@ -4,6 +4,8 @@ import { Token } from '@/domain/types/Token'
 import { TokenWithBalanceFormNormalizedData } from '@/features/dialogs/common/logic/asset-balance/form'
 import { TxOverviewRouteItem } from '@/features/dialogs/common/types'
 
+const SECONDS_PER_YEAR = 60 * 60 * 24 * 365
+
 export interface CreateTxOverviewParams {
   formValues: TokenWithBalanceFormNormalizedData
   farm: Farm
@@ -16,7 +18,7 @@ export type TxOverview =
       apy: Percentage
       stakingToken: Token
       rewardToken: Token
-      rewardRate: NormalizedUnitNumber
+      rewardsPerYear: NormalizedUnitNumber
       routeToStakingToken: TxOverviewRouteItem[]
     }
 
@@ -31,12 +33,19 @@ export function createTxOverview({ formValues, farm }: CreateTxOverviewParams): 
     stakingToken: farm.stakingToken,
   })
 
+  const stakedAmountUsd = formValues.token.toUSD(formValues.value)
+  const rewardsPerYear = NormalizedUnitNumber(
+    formValues.value.multipliedBy(farm.rewardRate).dividedBy(farm.totalSupply).multipliedBy(SECONDS_PER_YEAR),
+  )
+  const rewardsPerYearUsd = farm.rewardToken.toUSD(rewardsPerYear)
+  const apy = Percentage(rewardsPerYearUsd.dividedBy(stakedAmountUsd), true)
+
   return {
     status: 'success',
-    apy: farm.apy,
+    apy,
     stakingToken: farm.stakingToken,
     rewardToken: farm.rewardToken,
-    rewardRate: farm.rewardRate,
+    rewardsPerYear,
     routeToStakingToken,
   }
 }

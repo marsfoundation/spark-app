@@ -4,12 +4,12 @@ import { Token } from '@/domain/types/Token'
 import { testIds } from '@/ui/utils/testIds'
 
 export interface RewardsDetailsProps {
-  rewardRate: NormalizedUnitNumber
+  rewardsPerYear: NormalizedUnitNumber
   rewardToken: Token
   apy: Percentage
 }
 
-export function RewardsDetails({ apy, rewardToken, rewardRate }: RewardsDetailsProps) {
+export function RewardsDetails({ apy, rewardToken, rewardsPerYear }: RewardsDetailsProps) {
   return (
     <div className="flex flex-col items-end gap-0.5">
       <div data-testid={testIds.dialog.savings.transactionOverview.apy.value}>{formatPercentage(apy)}</div>
@@ -17,7 +17,7 @@ export function RewardsDetails({ apy, rewardToken, rewardRate }: RewardsDetailsP
         className="text-basics-dark-grey text-sm"
         data-testid={testIds.dialog.savings.transactionOverview.apy.description}
       >
-        <span className="hidden sm:inline">Earn </span>~{rewardToken.format(rewardRate, { style: 'auto' })}{' '}
+        <span className="hidden sm:inline">Earn </span>~{rewardToken.format(rewardsPerYear, { style: 'auto' })}{' '}
         {rewardToken.symbol}/year
       </div>
     </div>

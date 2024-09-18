@@ -95,12 +95,14 @@ export class Token {
     name,
     isAToken,
     decimals,
+    unitPriceUsd,
   }: {
     address?: CheckedAddress
     symbol?: TokenSymbol
     name?: string
     isAToken?: boolean
     decimals?: number
+    unitPriceUsd?: NormalizedUnitNumber
   }): Token {
     return new Token({
       address: address ?? this.address,
@@ -108,7 +110,7 @@ export class Token {
       name: name ?? this.name,
       isAToken: isAToken ?? this.isAToken,
       decimals: decimals ?? this.decimals,
-      unitPriceUsd: this.unitPriceUsd.toFixed(),
+      unitPriceUsd: (unitPriceUsd ?? this.unitPriceUsd).toFixed(),
     })
   }
 

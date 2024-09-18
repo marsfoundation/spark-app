@@ -23,7 +23,7 @@ export function TransactionOverview({ txOverview, selectedToken }: TransactionOv
   if (txOverview.status !== 'success') {
     return <TransactionOverviewPlaceholder badgeToken={selectedToken} />
   }
-  const { apy, stakingToken, rewardToken, rewardRate, routeToStakingToken } = txOverview
+  const { apy, stakingToken, rewardToken, rewardsPerYear, routeToStakingToken } = txOverview
 
   assert(routeToStakingToken.length > 0, 'Route must have at least one item')
   const stakingTokenRouteItem = routeToStakingToken.at(-1)!
@@ -36,7 +36,7 @@ export function TransactionOverview({ txOverview, selectedToken }: TransactionOv
       <DialogPanel className="shadow-none">
         <DialogPanelTitle>Transaction overview</DialogPanelTitle>
         <TransactionOverviewDetailsItem label="Estimated Rewards">
-          <RewardsDetails apy={apy} rewardRate={rewardRate} rewardToken={rewardToken} />
+          <RewardsDetails apy={apy} rewardsPerYear={rewardsPerYear} rewardToken={rewardToken} />
         </TransactionOverviewDetailsItem>
         <TransactionOverviewDetailsItem label="Route">
           <div className={cn('flex flex-col items-end gap-2', !displayRouteVertically && 'md:flex-row')}>

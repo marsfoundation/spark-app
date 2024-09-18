@@ -123,7 +123,7 @@ const meta: Meta<typeof StakeView> = {
       apy: Percentage(0.05),
       stakingToken: tokens.USDS,
       rewardToken: tokens.SKY,
-      rewardRate: NormalizedUnitNumber(542),
+      rewardsPerYear: NormalizedUnitNumber(542),
       routeToStakingToken: [
         { token: tokens.USDC, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },
         { token: tokens.USDS, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },
@@ -171,7 +171,7 @@ export const SacrificeYield: Story = {
       apy: Percentage(0.05),
       stakingToken: tokens.USDS,
       rewardToken: tokens.SKY,
-      rewardRate: NormalizedUnitNumber(542),
+      rewardsPerYear: NormalizedUnitNumber(542),
       routeToStakingToken: [
         { token: tokens.sDAI, value: NormalizedUnitNumber(1180.74), usdValue: NormalizedUnitNumber(1300.74) },
         { token: tokens.USDS, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },
