@@ -106,17 +106,17 @@ const chainConfig: ChainConfig = {
         : ([
             {
               symbol: TokenSymbol('sUSDS'),
-              reserveReserveOracleType: 'vault',
+              reserveOracleType: 'vault',
               address: CheckedAddress('0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD'),
             },
             {
               symbol: TokenSymbol('USDS'),
-              reserveReserveOracleType: 'fixed-usd',
+              reserveOracleType: 'fixed-usd',
               address: CheckedAddress('0xdC035D45d973E3EC169d2276DDab16f1e407384F'),
             },
             {
               symbol: TokenSymbol('SKY'),
-              reserveReserveOracleType: 'fixed-usd', // @todo: this is not correct, but it's not used in the app for now
+              reserveOracleType: 'fixed-usd', // @todo: this is not correct, but it's not used in the app for now
               address: CheckedAddress('0x56072C95FAA701256059aa122697B133aDEd9279'),
             },
           ] as const)),
