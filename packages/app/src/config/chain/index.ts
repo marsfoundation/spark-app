@@ -252,10 +252,6 @@ const chainConfig: ChainConfig = {
       [TokenSymbol('XDAI')]: {
         type: 'fixed',
       },
-      // ???
-      [TokenSymbol('sDAI')]: {
-        type: 'fixed',
-      },
     },
   },
 }
