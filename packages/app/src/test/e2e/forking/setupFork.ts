@@ -1,7 +1,5 @@
-import { Page, test } from '@playwright/test'
-
-import { USDS_DEV_CHAIN_ID } from '@/config/chain/constants'
 import { tenderlyRpcActions } from '@/domain/tenderly/TenderlyRpcActions'
+import { Page, test } from '@playwright/test'
 import { http, createPublicClient } from 'viem'
 import { mainnet } from 'viem/chains'
 import { injectUpdatedDate } from '../injectSetup'
@@ -41,19 +39,15 @@ export type SetupForkOptions =
       chainId: 1 | 100
       useTenderlyVnet: true // vnets are more powerful forks alternative provided by Tenderly
     }
-  | {
-      chainId: typeof USDS_DEV_CHAIN_ID
-    }
 
 export function setupFork(options: SetupForkOptions): ForkContext {
   const apiKey = processEnv('TENDERLY_API_KEY')
   const tenderlyAccount = processEnv('TENDERLY_ACCOUNT')
   const tenderlyProject = processEnv('TENDERLY_PROJECT')
 
-  const isVnet = options.chainId === USDS_DEV_CHAIN_ID || !!options.useTenderlyVnet
+  const isVnet = !!options.useTenderlyVnet
   const chainId = options.chainId
-  const simulationDateOverride =
-    options.chainId !== USDS_DEV_CHAIN_ID && !options.useTenderlyVnet ? options.simulationDateOverride : undefined
+  const simulationDateOverride = !isVnet ? options.simulationDateOverride : undefined
 
   const forkService: ITestForkService = isVnet
     ? new TestTenderlyVnetService({ apiKey, account: tenderlyAccount, project: tenderlyProject })
@@ -81,15 +75,11 @@ export function setupFork(options: SetupForkOptions): ForkContext {
   // @todo refactor after dropping tenderly fork support
 
   test.beforeAll(async () => {
-    if (options.chainId !== USDS_DEV_CHAIN_ID) {
-      forkContext.forkUrl = await forkService.createFork({
-        blockNumber: options.blockNumber,
-        originChainId: chainId,
-        forkChainId: chainId,
-      })
-    } else {
-      forkContext.forkUrl = await (forkService as TestTenderlyVnetService).cloneUSDSFork()
-    }
+    forkContext.forkUrl = await forkService.createFork({
+      blockNumber: options.blockNumber,
+      originChainId: chainId,
+      forkChainId: chainId,
+    })
 
     if (simulationDate) {
       const deltaTimeForward = Math.floor((simulationDate.getTime() - Date.now()) / 1000)

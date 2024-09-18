@@ -1,13 +1,14 @@
-import { USDS_DEV_CHAIN_ID } from '@/config/chain/constants'
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
+import { USDS_ACTIVATED_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
+import { mainnet } from 'viem/chains'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 
-test.describe('Deposit USDS on USDS DevNet', () => {
-  const fork = setupFork({ chainId: USDS_DEV_CHAIN_ID })
+test.describe('Deposit USDS', () => {
+  const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
   let savingsPage: SavingsPageObject
   let depositDialog: SavingsDialogPageObject
 
@@ -40,8 +41,8 @@ test.describe('Deposit USDS on USDS DevNet', () => {
   test('displays transaction overview', async () => {
     await depositDialog.expectNativeRouteTransactionOverview({
       apy: {
-        value: '5.00%',
-        description: '~500.00 USDS per year',
+        value: '6.25%',
+        description: '~625.00 USDS per year',
       },
       routeItems: [
         {
@@ -49,11 +50,11 @@ test.describe('Deposit USDS on USDS DevNet', () => {
           tokenUsdValue: '$10,000.00',
         },
         {
-          tokenAmount: '9,997.59 sUSDS',
+          tokenAmount: '9,999.77 sUSDS',
           tokenUsdValue: '$10,000.00',
         },
       ],
-      outcome: '9,997.59 sUSDS worth $10,000.00',
+      outcome: '9,999.77 sUSDS worth $10,000.00',
       badgeToken: 'USDS',
     })
 
@@ -67,7 +68,7 @@ test.describe('Deposit USDS on USDS DevNet', () => {
     await depositDialog.expectSuccessPage()
     await depositDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsUSDSBalance({ sUsdsBalance: '9,997.59 sUSDS', estimatedUsdsValue: '10,000' })
+    await savingsPage.expectSavingsUSDSBalance({ sUsdsBalance: '9,999.77 sUSDS', estimatedUsdsValue: '10,000' })
     await savingsPage.expectStablecoinsInWalletAssetBalance('USDS', '-')
   })
 })

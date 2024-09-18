@@ -114,9 +114,19 @@ const chainConfig: ChainConfig = {
               oracleType: 'fixed-usd',
               address: CheckedAddress('0xdC035D45d973E3EC169d2276DDab16f1e407384F'),
             },
+            {
+              symbol: TokenSymbol('SKY'),
+              oracleType: 'fixed-usd', // @todo: this is not correct, but it's not used in the app for now
+              address: CheckedAddress('0x56072C95FAA701256059aa122697B133aDEd9279'),
+            },
           ] as const)),
     ],
-    farms: [],
+    farms: [
+      {
+        address: getContractAddress(usdsSkyRewardsConfig.address, mainnet.id),
+        entryAssetsGroup: stablecoinsGroup,
+      },
+    ],
   },
   [gnosis.id]: {
     id: gnosis.id,
@@ -187,7 +197,7 @@ export function getChainConfigEntry(chainId: number): ChainConfigEntry {
       ...mainnetConfig,
       meta: getUSDSDevChainMeta(mainnetConfig.meta),
       extraTokens: [
-        ...mainnetConfig.extraTokens.filter(({ symbol }) => !['USDS', 'sUSDS'].includes(symbol)),
+        ...mainnetConfig.extraTokens.filter(({ symbol }) => !['USDS', 'sUSDS', 'SKY'].includes(symbol)),
         {
           symbol: TokenSymbol('USDS'),
           oracleType: 'fixed-usd',
@@ -202,12 +212,6 @@ export function getChainConfigEntry(chainId: number): ChainConfigEntry {
           symbol: TokenSymbol('SKY'),
           oracleType: 'fixed-usd',
           address: CheckedAddress('0x72aC6A36de2f72BD39e9c782e9db0DCc41FEbfe2'),
-        },
-      ],
-      farms: [
-        {
-          address: getContractAddress(usdsSkyRewardsConfig.address, chainId),
-          entryAssetsGroup: stablecoinsGroup,
         },
       ],
     }

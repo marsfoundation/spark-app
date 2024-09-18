@@ -1,12 +1,13 @@
-import { USDS_DEV_CHAIN_ID } from '@/config/chain/constants'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
+import { USDS_ACTIVATED_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
+import { mainnet } from 'viem/chains'
 import { UpgradeDialogPageObject } from '../UpgradeDialog.PageObject'
 
 test.describe('Upgrade sDAI to sUSDS', () => {
-  const fork = setupFork({ chainId: USDS_DEV_CHAIN_ID })
+  const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
 
   test('does not show upgrade banner when sDai balance is 0', async ({ page }) => {
     await setup(page, fork, {
@@ -20,7 +21,7 @@ test.describe('Upgrade sDAI to sUSDS', () => {
     const savingsPage = new SavingsPageObject(page)
 
     // wait to load
-    await savingsPage.expectSavingsUSDSBalance({ sUsdsBalance: '10,000.00 sUSDS', estimatedUsdsValue: '10,002.41' })
+    await savingsPage.expectSavingsUSDSBalance({ sUsdsBalance: '10,000.00 sUSDS', estimatedUsdsValue: '10,000.23' })
 
     await savingsPage.expectUpgradeDaiToUsdsButtonToBeHidden()
   })
@@ -65,19 +66,19 @@ test.describe('Upgrade sDAI to sUSDS', () => {
     await upgradeDialog.expectTransactionOverview({
       apyChange: {
         current: '6.00%',
-        updated: '5.00%',
+        updated: '6.25%',
       },
       routeItems: [
         {
           tokenAmount: '10,000.00 sDAI',
-          tokenUsdValue: '$11,053.61',
+          tokenUsdValue: '$11,085.91',
         },
         {
-          tokenAmount: '11,050.94 sUSDS',
-          tokenUsdValue: '$11,053.61',
+          tokenAmount: '11,085.65 sUSDS',
+          tokenUsdValue: '$11,085.91',
         },
       ],
-      outcome: '11,050.94 sUSDS worth $11,053.61',
+      outcome: '11,085.65 sUSDS worth $11,085.91',
       badgeToken: 'sDAI',
     })
   })
@@ -96,9 +97,9 @@ test.describe('Upgrade sDAI to sUSDS', () => {
 
     const upgradeDialog = new UpgradeDialogPageObject(page)
     await upgradeDialog.actionsContainer.acceptAllActionsAction(2, fork)
-    await upgradeDialog.expectUpgradeSuccessPage({ token: 'sDAI', amount: '10,000.00', usdValue: '$11,053.61' })
+    await upgradeDialog.expectUpgradeSuccessPage({ token: 'sDAI', amount: '10,000.00', usdValue: '$11,085.91' })
     await upgradeDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsUSDSBalance({ sUsdsBalance: '21,050.94 sUSDS', estimatedUsdsValue: '21,056.01' })
+    await savingsPage.expectSavingsUSDSBalance({ sUsdsBalance: '21,085.65 sUSDS', estimatedUsdsValue: '21,086.13' })
   })
 })

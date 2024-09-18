@@ -1,19 +1,19 @@
-import { USDS_DEV_CHAIN_ID } from '@/config/chain/constants'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { TOKENS_ON_FORK } from '@/test/e2e/constants'
+import { TOKENS_ON_FORK, USDS_ACTIVATED_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
 import { randomAddress } from '@/test/utils/addressUtils'
 import { test } from '@playwright/test'
+import { mainnet } from 'viem/chains'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 
 test.describe('Send USDS (withdrawing from sUSDS)', () => {
-  const fork = setupFork({ chainId: USDS_DEV_CHAIN_ID })
+  const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
   let savingsPage: SavingsPageObject
   let sendDialog: SavingsDialogPageObject
   const receiver = randomAddress('bob')
   const amount = 7000
-  const usds = TOKENS_ON_FORK[USDS_DEV_CHAIN_ID].USDS
+  const usds = TOKENS_ON_FORK[mainnet.id].USDS
 
   test.beforeEach(async ({ page }) => {
     await setup(page, fork, {
@@ -51,7 +51,7 @@ test.describe('Send USDS (withdrawing from sUSDS)', () => {
     await sendDialog.expectNativeRouteTransactionOverview({
       routeItems: [
         {
-          tokenAmount: '6,998.31 sUSDS',
+          tokenAmount: '6,999.84 sUSDS',
           tokenUsdValue: '$7,000.00',
         },
         {
@@ -83,18 +83,18 @@ test.describe('Send USDS (withdrawing from sUSDS)', () => {
     })
 
     await sendDialog.clickBackToSavingsButton()
-    await savingsPage.expectSavingsUSDSBalance({ sUsdsBalance: '2,999.28 sUSDS', estimatedUsdsValue: '3,000' })
+    await savingsPage.expectSavingsUSDSBalance({ sUsdsBalance: '2,999.93 sUSDS', estimatedUsdsValue: '3,000' })
     await savingsPage.expectStablecoinsInWalletAssetBalance('USDS', '-')
   })
 })
 
 test.describe('Send USDS (withdrawing from sDAI)', () => {
-  const fork = setupFork({ chainId: USDS_DEV_CHAIN_ID })
+  const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
   let savingsPage: SavingsPageObject
   let sendDialog: SavingsDialogPageObject
   const receiver = randomAddress('bob')
   const amount = 7000
-  const usds = TOKENS_ON_FORK[USDS_DEV_CHAIN_ID].USDS
+  const usds = TOKENS_ON_FORK[mainnet.id].USDS
 
   test.beforeEach(async ({ page }) => {
     await setup(page, fork, {
@@ -128,7 +128,7 @@ test.describe('Send USDS (withdrawing from sDAI)', () => {
     await sendDialog.expectNativeRouteTransactionOverview({
       routeItems: [
         {
-          tokenAmount: '6,332.77 sDAI',
+          tokenAmount: '6,314.32 sDAI',
           tokenUsdValue: '$7,000.00',
         },
         {
@@ -164,7 +164,7 @@ test.describe('Send USDS (withdrawing from sDAI)', () => {
     })
 
     await sendDialog.clickBackToSavingsButton()
-    await savingsPage.expectSavingsDAIBalance({ sDaiBalance: '3,667.23 sDAI', estimatedDaiValue: '4,053.60' })
+    await savingsPage.expectSavingsDAIBalance({ sDaiBalance: '3,685.68 sDAI', estimatedDaiValue: '4,085.90' })
     await savingsPage.expectStablecoinsInWalletAssetBalance('USDS', '-')
   })
 })

@@ -1,15 +1,14 @@
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
+import { USDS_ACTIVATED_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
-import { depositValidationIssueToMessage } from '../../logic/validation'
 
-test.describe('Deposit DAI on Mainnet', () => {
-  const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
+test.describe('Deposit DAI', () => {
+  const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
   let savingsPage: SavingsPageObject
   let depositDialog: SavingsDialogPageObject
 
@@ -32,87 +31,19 @@ test.describe('Deposit DAI on Mainnet', () => {
     await depositDialog.fillAmountAction(10_000)
   })
 
-  test('uses native sDai deposit', async () => {
-    await depositDialog.actionsContainer.expectActions([
-      { type: 'approve', asset: 'DAI' },
-      { type: 'depositToSavings', asset: 'DAI', savingsAsset: 'sDAI' },
-    ])
-  })
-
-  test('displays transaction overview', async () => {
-    await depositDialog.expectNativeRouteTransactionOverview({
-      apy: {
-        value: '5.00%',
-        description: '~500.00 DAI per year',
-      },
-      routeItems: [
-        {
-          tokenAmount: '10,000.00 DAI',
-          tokenUsdValue: '$10,000.00',
-        },
-        {
-          tokenAmount: '9,495.85 sDAI',
-          tokenUsdValue: '$10,000.00',
-        },
-      ],
-      outcome: '9,495.85 sDAI worth $10,000.00',
-      badgeToken: 'DAI',
-    })
-  })
-
-  test('executes deposit', async () => {
-    const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
-    await actionsContainer.acceptAllActionsAction(2, fork)
-
-    await depositDialog.expectSuccessPage()
-    await depositDialog.clickBackToSavingsButton()
-
-    await savingsPage.expectSavingsDAIBalance({ sDaiBalance: '9,495.85 sDAI', estimatedDaiValue: '10,000' })
-    await savingsPage.expectStablecoinsInWalletAssetBalance('DAI', '-')
-  })
-})
-
-test.describe('Validation', () => {
-  const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id })
-  let savingsPage: SavingsPageObject
-  let depositDialog: SavingsDialogPageObject
-
-  test.describe('Input value exceeds balance', () => {
-    test.beforeEach(async ({ page }) => {
-      await setup(page, fork, {
-        initialPage: 'savings',
-        account: {
-          type: 'connected-random',
-          assetBalances: {
-            ETH: 1,
-            DAI: 100,
-          },
-        },
-      })
-
-      savingsPage = new SavingsPageObject(page)
-      await savingsPage.clickDepositButtonAction('DAI')
-
-      depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
-      await depositDialog.fillAmountAction(10_000)
-    })
-
-    test('displays validation error', async () => {
-      await depositDialog.expectAssetInputError(depositValidationIssueToMessage['exceeds-balance'])
-    })
-
-    test('actions are disabled', async () => {
-      await depositDialog.actionsContainer.expectDisabledActions([
+  test.describe('To sUSDS', () => {
+    test('uses PSM actions native deposit', async () => {
+      await depositDialog.actionsContainer.expectActions([
         { type: 'approve', asset: 'DAI' },
-        { type: 'depositToSavings', asset: 'DAI', savingsAsset: 'sDAI' },
+        { type: 'depositToSavings', asset: 'DAI', savingsAsset: 'sUSDS' },
       ])
     })
 
-    test('displays sensible tx overview', async () => {
+    test('displays transaction overview', async () => {
       await depositDialog.expectNativeRouteTransactionOverview({
         apy: {
-          value: '5.00%',
-          description: '~500.00 DAI per year',
+          value: '6.25%',
+          description: '~625.00 USDS per year',
         },
         routeItems: [
           {
@@ -120,35 +51,73 @@ test.describe('Validation', () => {
             tokenUsdValue: '$10,000.00',
           },
           {
-            tokenAmount: '9,332.66 sDAI',
+            tokenAmount: '10,000.00 USDS',
+            tokenUsdValue: '$10,000.00',
+          },
+          {
+            tokenAmount: '9,999.77 sUSDS',
             tokenUsdValue: '$10,000.00',
           },
         ],
-        outcome: '9,332.66 sDAI worth $10,000.00',
+        outcome: '9,999.77 sUSDS worth $10,000.00',
         badgeToken: 'DAI',
       })
     })
+
+    test('executes deposit', async () => {
+      const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
+      await actionsContainer.acceptAllActionsAction(2)
+
+      await depositDialog.expectSuccessPage()
+      await depositDialog.clickBackToSavingsButton()
+
+      await savingsPage.expectSavingsUSDSBalance({ sUsdsBalance: '9,999.77 sUSDS', estimatedUsdsValue: '10,000' })
+      await savingsPage.expectStablecoinsInWalletAssetBalance('DAI', '-')
+    })
   })
 
-  test('displays validation error for dirty input with 0 value', async ({ page }) => {
-    await setup(page, fork, {
-      initialPage: 'savings',
-      account: {
-        type: 'connected-random',
-        assetBalances: {
-          ETH: 1,
-          DAI: 100,
-        },
-      },
+  test.describe('To sDAI', () => {
+    test.beforeEach(async () => {
+      await depositDialog.clickUpgradeSwitch()
     })
 
-    savingsPage = new SavingsPageObject(page)
-    await savingsPage.clickDepositButtonAction('DAI')
-    depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
+    test('uses PSM actions native deposit', async () => {
+      await depositDialog.actionsContainer.expectActions([
+        { type: 'approve', asset: 'DAI' },
+        { type: 'depositToSavings', asset: 'DAI', savingsAsset: 'sDAI' },
+      ])
+    })
 
-    await depositDialog.fillAmountAction(10)
-    await depositDialog.fillAmountAction(0)
+    test('displays transaction overview', async () => {
+      await depositDialog.expectNativeRouteTransactionOverview({
+        apy: {
+          value: '6.00%',
+          description: '~600.00 DAI per year',
+        },
+        routeItems: [
+          {
+            tokenAmount: '10,000.00 DAI',
+            tokenUsdValue: '$10,000.00',
+          },
+          {
+            tokenAmount: '9,020.46 sDAI',
+            tokenUsdValue: '$10,000.00',
+          },
+        ],
+        outcome: '9,020.46 sDAI worth $10,000.00',
+        badgeToken: 'DAI',
+      })
+    })
 
-    await depositDialog.expectAssetInputError(depositValidationIssueToMessage['value-not-positive'])
+    test('executes deposit', async () => {
+      const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
+      await actionsContainer.acceptAllActionsAction(2)
+
+      await depositDialog.expectSuccessPage()
+      await depositDialog.clickBackToSavingsButton()
+
+      await savingsPage.expectSavingsDAIBalance({ sDaiBalance: '9,020.46 sDAI', estimatedDaiValue: '10,000' })
+      await savingsPage.expectStablecoinsInWalletAssetBalance('DAI', '-')
+    })
   })
 })
