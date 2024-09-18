@@ -1,9 +1,8 @@
 import { formatPercentage } from '@/domain/common/format'
 import { DialogPanel } from '@/features/dialogs/common/components/DialogPanel'
 import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPanelTitle'
-import { TransactionOverviewDetailsItem } from '@/features/dialogs/common/components/TransactionOverviewDetailsItem'
-
-import { HealthFactorChange } from '../../common/components/HealthFactorChange'
+import { HealthFactorChange } from '../../common/components/transaction-overview/HealthFactorChange'
+import { TransactionOverviewDetailsItem } from '../../common/components/transaction-overview/TransactionOverviewDetailsItem'
 import { collateralTypeToDescription } from '../logic/collateralization'
 import { PositionOverview } from '../logic/types'
 

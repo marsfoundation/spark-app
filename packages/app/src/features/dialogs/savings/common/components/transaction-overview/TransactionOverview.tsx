@@ -2,11 +2,12 @@ import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { DialogPanel } from '@/features/dialogs/common/components/DialogPanel'
 import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPanelTitle'
+import { RouteItem } from '@/features/dialogs/common/components/transaction-overview/RouteItem'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { assert } from '@/utils/assert'
 import { SavingsDialogTxOverview } from '../../types'
-import { APYDetails, RouteItem, SkyBadge, TransactionOutcome, TransactionOverviewDetailsItem } from './components'
+import { APYDetails, SkyBadge, TransactionOutcome, TransactionOverviewDetailsItem } from './components'
 import { TransactionOverviewPlaceholder } from './components/TransactionOverviewPlaceholder'
 
 export interface TransactionOverviewProps {
