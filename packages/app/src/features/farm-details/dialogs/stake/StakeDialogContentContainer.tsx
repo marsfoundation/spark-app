@@ -13,11 +13,20 @@ export interface StakeContainerProps {
 }
 
 function StakeDialogContentContainer({ farm, initialToken, closeDialog }: StakeContainerProps) {
-  const { selectableAssets, assetsFields, form, stakedToken, objectives, pageStatus, txOverview, actionsContext } =
-    useStakeDialog({
-      farm,
-      initialToken,
-    })
+  const {
+    selectableAssets,
+    assetsFields,
+    form,
+    stakedToken,
+    objectives,
+    pageStatus,
+    txOverview,
+    actionsContext,
+    sacrificesYield,
+  } = useStakeDialog({
+    farm,
+    initialToken,
+  })
 
   if (pageStatus.state === 'success') {
     return (
@@ -35,6 +44,7 @@ function StakeDialogContentContainer({ farm, initialToken, closeDialog }: StakeC
       form={form}
       selectableAssets={selectableAssets}
       assetsFields={assetsFields}
+      sacrificesYield={sacrificesYield}
       objectives={objectives}
       pageStatus={pageStatus}
       txOverview={txOverview}

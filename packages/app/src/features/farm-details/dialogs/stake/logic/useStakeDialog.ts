@@ -30,6 +30,7 @@ export interface UseStakeDialogResult {
   form: UseFormReturn<AssetInputSchema>
   objectives: Objective[]
   stakedToken: TokenWithValue
+  sacrificesYield: boolean
   pageStatus: PageStatus
   txOverview: TxOverview
   actionsContext: InjectedActionsContext
@@ -76,6 +77,9 @@ export function useStakeDialog({ farm, initialToken }: UseStakeDialogParams): Us
     formValues,
   })
 
+  const sacrificesYield =
+    formValues.token.symbol === tokensInfo.sDAI?.symbol || formValues.token.symbol === tokensInfo.sUSDS?.symbol
+
   const stakedToken = getStakedToken(
     farm.stakingToken,
     txOverview.status === 'success'
@@ -91,6 +95,7 @@ export function useStakeDialog({ farm, initialToken }: UseStakeDialogParams): Us
     form,
     objectives,
     stakedToken,
+    sacrificesYield,
     txOverview,
     pageStatus: {
       state: pageStatus,

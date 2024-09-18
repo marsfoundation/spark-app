@@ -4,7 +4,6 @@ import { PotSavingsInfo } from '@/domain/savings-info/potSavingsInfo'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
-import { DepositToSavingsObjective } from '@/features/actions/flavours/deposit-to-savings/types'
 import { bigNumberify } from '@/utils/bigNumber'
 import { WithClassname, WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
@@ -85,7 +84,7 @@ const meta: Meta<typeof StakeView> = {
     farm,
     selectableAssets: [
       {
-        token: tokens.USDC,
+        token: tokens.USDS,
         balance: NormalizedUnitNumber(50000),
       },
       {
@@ -99,20 +98,20 @@ const meta: Meta<typeof StakeView> = {
     ],
     assetsFields: {
       selectedAsset: {
-        token: tokens.USDC,
+        token: tokens.USDS,
         balance: NormalizedUnitNumber(50000),
         value: '2000',
       },
-      maxValue: NormalizedUnitNumber(5000),
+      maxValue: NormalizedUnitNumber(50000),
       changeAsset: () => {},
     },
     objectives: [
       {
-        type: 'depositToSavings',
-        value: NormalizedUnitNumber(5000),
-        token: tokens.USDC,
-        savingsToken: tokens.sDAI,
-      } satisfies DepositToSavingsObjective,
+        type: 'stake',
+        token: tokens.USDS,
+        amount: NormalizedUnitNumber(100),
+        farm: farm.address,
+      },
     ],
     pageStatus: {
       state: 'form',
@@ -123,8 +122,8 @@ const meta: Meta<typeof StakeView> = {
       status: 'success',
       apy: Percentage(0.05),
       stakingToken: tokens.USDS,
-      rewardsToken: tokens.SKY,
-      rewardsRate: NormalizedUnitNumber(542),
+      rewardToken: tokens.SKY,
+      rewardRate: NormalizedUnitNumber(542),
       routeToStakingToken: [
         { token: tokens.USDC, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },
         { token: tokens.USDS, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },
@@ -136,6 +135,7 @@ const meta: Meta<typeof StakeView> = {
       savingsUsdsInfo: mockSavingsUsdsInfo,
       farmsInfo: mockedFarmsInfo,
     },
+    sacrificesYield: false,
   },
 }
 
@@ -145,3 +145,39 @@ type Story = StoryObj<typeof StakeView>
 export const Desktop: Story = {}
 export const Mobile = getMobileStory(Desktop)
 export const Tablet = getTabletStory(Desktop)
+
+export const SacrificeYield: Story = {
+  args: {
+    sacrificesYield: true,
+    assetsFields: {
+      selectedAsset: {
+        token: tokens.sDAI,
+        balance: NormalizedUnitNumber(50000),
+        value: '2000',
+      },
+      maxValue: NormalizedUnitNumber(50000),
+      changeAsset: () => {},
+    },
+    objectives: [
+      {
+        type: 'stake',
+        token: tokens.sDAI,
+        amount: NormalizedUnitNumber(100),
+        farm: farm.address,
+      },
+    ],
+    txOverview: {
+      status: 'success',
+      apy: Percentage(0.05),
+      stakingToken: tokens.USDS,
+      rewardToken: tokens.SKY,
+      rewardRate: NormalizedUnitNumber(542),
+      routeToStakingToken: [
+        { token: tokens.sDAI, value: NormalizedUnitNumber(1180.74), usdValue: NormalizedUnitNumber(1300.74) },
+        { token: tokens.USDS, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },
+      ],
+    },
+  },
+}
+export const SacrificeYieldMobile = getMobileStory(SacrificeYield)
+export const SacrificeYieldTablet = getTabletStory(SacrificeYield)

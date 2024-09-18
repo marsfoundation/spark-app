@@ -23,7 +23,7 @@ export function TransactionOverview({ txOverview, selectedToken }: TransactionOv
   if (txOverview.status !== 'success') {
     return <TransactionOverviewPlaceholder badgeToken={selectedToken} />
   }
-  const { apy, stakingToken, rewardsToken, rewardsRate, routeToStakingToken } = txOverview
+  const { apy, stakingToken, rewardToken, rewardRate, routeToStakingToken } = txOverview
 
   assert(routeToStakingToken.length > 0, 'Route must have at least one item')
   const stakingTokenRouteItem = routeToStakingToken.at(-1)!
@@ -36,7 +36,7 @@ export function TransactionOverview({ txOverview, selectedToken }: TransactionOv
       <DialogPanel className="shadow-none">
         <DialogPanelTitle>Transaction overview</DialogPanelTitle>
         <TransactionOverviewDetailsItem label="Estimated Rewards">
-          <RewardsDetails apy={apy} rewardsRate={rewardsRate} rewardsToken={rewardsToken} />
+          <RewardsDetails apy={apy} rewardRate={rewardRate} rewardToken={rewardToken} />
         </TransactionOverviewDetailsItem>
         <TransactionOverviewDetailsItem label="Route">
           <div className={cn('flex flex-col items-end gap-2', !displayRouteVertically && 'md:flex-row')}>
@@ -51,13 +51,13 @@ export function TransactionOverview({ txOverview, selectedToken }: TransactionOv
             ))}
             <FarmDestinationRouteItem
               stakingToken={stakingToken.symbol}
-              rewardsToken={rewardsToken.symbol}
+              rewardsToken={rewardToken.symbol}
               displayRouteVertically={displayRouteVertically}
             />
           </div>
         </TransactionOverviewDetailsItem>
         <TransactionOverviewDetailsItem label="Outcome">
-          <TransactionOutcome stakingTokenRouteItem={stakingTokenRouteItem} rewardsToken={rewardsToken.symbol} />
+          <TransactionOutcome stakingTokenRouteItem={stakingTokenRouteItem} rewardToken={rewardToken.symbol} />
         </TransactionOverviewDetailsItem>
       </DialogPanel>
 

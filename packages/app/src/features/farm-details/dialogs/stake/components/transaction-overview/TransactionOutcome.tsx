@@ -5,18 +5,19 @@ import { testIds } from '@/ui/utils/testIds'
 
 export interface TransactionOutcomeProps {
   stakingTokenRouteItem: TxOverviewRouteItem
-  rewardsToken: TokenSymbol
+  rewardToken: TokenSymbol
 }
 
-export function TransactionOutcome({ stakingTokenRouteItem, rewardsToken }: TransactionOutcomeProps) {
+export function TransactionOutcome({ stakingTokenRouteItem, rewardToken }: TransactionOutcomeProps) {
   return (
     <div
       className="flex flex-col items-end gap-0.5 md:block"
       data-testid={testIds.farmDetails.dialog.transactionOverview.outcome}
     >
       {stakingTokenRouteItem.token.format(stakingTokenRouteItem.value, { style: 'auto' })}{' '}
-      {stakingTokenRouteItem.token.symbol} ({USD_MOCK_TOKEN.formatUSD(stakingTokenRouteItem.usdValue)}) staked in{' '}
-      {rewardsToken} Farm
+      {stakingTokenRouteItem.token.symbol}{' '}
+      <span className="hidden sm:inline">({USD_MOCK_TOKEN.formatUSD(stakingTokenRouteItem.usdValue)}) </span>
+      <span className="hidden sm:inline">staked </span> in {rewardToken} Farm
     </div>
   )
 }

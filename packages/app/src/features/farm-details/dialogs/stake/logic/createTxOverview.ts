@@ -15,8 +15,8 @@ export type TxOverview =
       status: 'success'
       apy: Percentage
       stakingToken: Token
-      rewardsToken: Token
-      rewardsRate: NormalizedUnitNumber
+      rewardToken: Token
+      rewardRate: NormalizedUnitNumber
       routeToStakingToken: TxOverviewRouteItem[]
     }
 
@@ -35,8 +35,8 @@ export function createTxOverview({ formValues, farm }: CreateTxOverviewParams): 
     status: 'success',
     apy: farm.apy,
     stakingToken: farm.stakingToken,
-    rewardsToken: farm.rewardToken,
-    rewardsRate: farm.rewardRate,
+    rewardToken: farm.rewardToken,
+    rewardRate: farm.rewardRate,
     routeToStakingToken,
   }
 }
