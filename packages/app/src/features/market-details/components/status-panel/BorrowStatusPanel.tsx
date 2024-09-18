@@ -7,6 +7,7 @@ import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
 import { CooldownTimer } from '@/ui/molecules/cooldown-timer/CooldownTimer'
 
 import { CapAutomatorConfig } from '@/domain/cap-automator/types'
+import { InfoTile } from '@/ui/molecules/info-tile/InfoTile'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { InterestYieldChart, InterestYieldChartProps } from '../charts/interest-yield/InterestYieldChart'
@@ -18,7 +19,6 @@ import { StatusPanelGrid } from './components/StatusPanelGrid'
 import { Subheader } from './components/Subheader'
 import { StatusIcon } from './components/status-icon/StatusIcon'
 import { TokenBadge } from './components/token-badge/TokenBadge'
-import { InfoTile } from '@/ui/molecules/info-tile/InfoTile'
 
 interface BorrowStatusPanelProps {
   status: BorrowEligibilityStatus
