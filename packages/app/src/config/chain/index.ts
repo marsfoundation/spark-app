@@ -88,17 +88,17 @@ const chainConfig: ChainConfig = {
     extraTokens: [
       {
         symbol: TokenSymbol('DAI'),
-        reserveReserveOracleType: 'fixed-usd',
+        reserveOracleType: 'fixed-usd',
         address: CheckedAddress('0x6b175474e89094c44da98b954eedeac495271d0f'),
       },
       {
         symbol: TokenSymbol('USDC'),
-        reserveReserveOracleType: 'fixed-usd',
+        reserveOracleType: 'fixed-usd',
         address: CheckedAddress('0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48'),
       },
       {
         symbol: TokenSymbol('sDAI'),
-        reserveReserveOracleType: 'vault',
+        reserveOracleType: 'vault',
         address: CheckedAddress('0x83f20f44975d03b1b09e64809b757c47f942beea'),
       },
       ...(PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE
@@ -211,12 +211,12 @@ const chainConfig: ChainConfig = {
     extraTokens: [
       {
         symbol: TokenSymbol('XDAI'),
-        reserveReserveOracleType: 'fixed-usd',
+        reserveOracleType: 'fixed-usd',
         address: NATIVE_ASSET_MOCK_ADDRESS,
       },
       {
         symbol: TokenSymbol('sDAI'),
-        reserveReserveOracleType: 'vault',
+        reserveOracleType: 'vault',
         address: CheckedAddress('0xaf204776c7245bF4147c2612BF6e5972Ee483701'),
       },
     ],
@@ -273,17 +273,17 @@ export function getChainConfigEntry(chainId: number): ChainConfigEntry {
         ...mainnetConfig.extraTokens.filter(({ symbol }) => !['USDS', 'sUSDS', 'SKY'].includes(symbol)),
         {
           symbol: TokenSymbol('USDS'),
-          reserveReserveOracleType: 'fixed-usd',
+          reserveOracleType: 'fixed-usd',
           address: CheckedAddress('0xd2983525E903Ef198d5dD0777712EB66680463bc'),
         },
         {
           symbol: TokenSymbol('sUSDS'),
-          reserveReserveOracleType: 'vault',
+          reserveOracleType: 'vault',
           address: CheckedAddress('0xCd9BC6cE45194398d12e27e1333D5e1d783104dD'),
         },
         {
           symbol: TokenSymbol('SKY'),
-          reserveReserveOracleType: 'fixed-usd',
+          reserveOracleType: 'fixed-usd',
           address: CheckedAddress('0x72aC6A36de2f72BD39e9c782e9db0DCc41FEbfe2'),
         },
       ],

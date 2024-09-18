@@ -22,7 +22,7 @@ const hookRenderer = setupHookRenderer({
     tokens: [
       {
         address: token,
-        reserveReserveOracleType: 'vault',
+        reserveOracleType: 'vault',
       },
     ],
   },
@@ -129,7 +129,7 @@ describe(useTokensInfo.name, () => {
         tokens: [
           {
             address: token,
-            reserveReserveOracleType: 'fixed-usd',
+            reserveOracleType: 'fixed-usd',
           },
         ],
       },
@@ -196,7 +196,7 @@ describe(useTokensInfo.name, () => {
         tokens: [
           {
             address: token,
-            reserveReserveOracleType: 'fixed-usd',
+            reserveOracleType: 'fixed-usd',
           },
         ],
       },
@@ -240,7 +240,7 @@ describe(useTokensInfo.name, () => {
         tokens: [
           {
             address: NATIVE_ASSET_MOCK_ADDRESS,
-            reserveReserveOracleType: 'fixed-usd',
+            reserveOracleType: 'fixed-usd',
           },
         ],
       },
@@ -287,7 +287,7 @@ describe(useTokensInfo.name, () => {
         tokens: [
           {
             address: NATIVE_ASSET_MOCK_ADDRESS,
-            reserveReserveOracleType: 'fixed-usd',
+            reserveOracleType: 'fixed-usd',
           },
         ],
       },
