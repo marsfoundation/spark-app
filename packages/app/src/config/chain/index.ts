@@ -116,7 +116,7 @@ const chainConfig: ChainConfig = {
             },
             {
               symbol: TokenSymbol('SKY'),
-              oracleType: 'fixed-usd',
+              oracleType: 'fixed-usd', // @todo: this is not correct, but it's not used in the app for now
               address: CheckedAddress('0x56072C95FAA701256059aa122697B133aDEd9279'),
             },
           ] as const)),

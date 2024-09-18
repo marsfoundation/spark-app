@@ -504,7 +504,7 @@ test.describe('Borrow page', () => {
   })
 })
 
-test.describe('Borrow page (usds depolyed)', () => {
+test.describe('Borrow page (usds deployed)', () => {
   const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
   let borrowPage: BorrowPageObject
   let actionsContainer: ActionsPageObject
