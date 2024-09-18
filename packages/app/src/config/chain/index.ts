@@ -127,7 +127,43 @@ const chainConfig: ChainConfig = {
         entryAssetsGroup: stablecoinsGroup,
       },
     ],
-    oracles: {},
+    oracles: {
+      [TokenSymbol('WETH')]: {
+        type: 'market-price',
+        providedBy: ['chainlink'],
+      },
+      [TokenSymbol('WBTC')]: {
+        type: 'market-price',
+        providedBy: ['chainlink'],
+      },
+      [TokenSymbol('wstETH')]: {
+        type: 'yielding-fixed',
+        baseAsset: TokenSymbol('ETH'),
+        providedBy: ['chainlink'],
+        ratio: async () => NormalizedUnitNumber(0),
+      },
+      [TokenSymbol('rETH')]: {
+        type: 'yielding-fixed',
+        baseAsset: TokenSymbol('ETH'),
+        providedBy: ['chainlink'],
+        ratio: async () => NormalizedUnitNumber(0),
+      },
+      [TokenSymbol('weETH')]: {
+        type: 'yielding-fixed',
+        baseAsset: TokenSymbol('ETH'),
+        providedBy: ['chainlink'],
+        ratio: async () => NormalizedUnitNumber(0),
+      },
+      [TokenSymbol('USDC')]: {
+        type: 'fixed',
+      },
+      [TokenSymbol('USDT')]: {
+        type: 'fixed',
+      },
+      [TokenSymbol('DAI')]: {
+        type: 'fixed',
+      },
+    },
   },
   [gnosis.id]: {
     id: gnosis.id,
@@ -185,7 +221,42 @@ const chainConfig: ChainConfig = {
       },
     ],
     farms: [],
-    oracles: {},
+    oracles: {
+      [TokenSymbol('EURe')]: {
+        type: 'underlying-asset',
+        asset: 'EUR',
+      },
+      [TokenSymbol('WETH')]: {
+        type: 'market-price',
+        providedBy: ['chainlink'],
+      },
+      [TokenSymbol('GNO')]: {
+        type: 'market-price',
+        providedBy: ['chainlink'],
+      },
+      [TokenSymbol('wstETH')]: {
+        type: 'yielding-fixed',
+        baseAsset: TokenSymbol('ETH'),
+        providedBy: ['chainlink'],
+        ratio: async () => NormalizedUnitNumber(0),
+      },
+      [TokenSymbol('USDC')]: {
+        type: 'fixed',
+      },
+      [TokenSymbol('USDC.e')]: {
+        type: 'fixed',
+      },
+      [TokenSymbol('USDT')]: {
+        type: 'fixed',
+      },
+      [TokenSymbol('XDAI')]: {
+        type: 'fixed',
+      },
+      // ???
+      [TokenSymbol('sDAI')]: {
+        type: 'fixed',
+      },
+    },
   },
 }
 

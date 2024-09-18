@@ -3,13 +3,13 @@ import { getMobileStory, getTabletStory } from '@storybook/viewports'
 
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@storybook/decorators'
+import { WithClassname, WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@storybook/decorators'
 import { OraclePanel } from './OraclePanel'
 
 const meta: Meta<typeof OraclePanel> = {
   title: 'Features/MarketDetails/Components/OraclePanel',
   component: OraclePanel,
-  decorators: [WithTooltipProvider(), ZeroAllowanceWagmiDecorator()],
+  decorators: [WithTooltipProvider(), ZeroAllowanceWagmiDecorator(), WithClassname('max-w-2xl')],
 }
 
 export default meta
@@ -26,6 +26,14 @@ export const FixedMobile = getMobileStory(FixedDesktop)
 export const FixedTablet = getTabletStory(FixedDesktop)
 
 export const MarketPriceDesktop: Story = {
+  args: {
+    oracle: {
+      type: 'market-price',
+      providedBy: ['chainlink'],
+    },
+  },
+}
+export const MarketPriceRedundantDesktop: Story = {
   args: {
     oracle: {
       type: 'market-price',
@@ -57,5 +65,22 @@ export const YieldingFixedDesktop: Story = {
     },
   },
 }
+export const YieldingFixedRedundantDesktop: Story = {
+  args: {
+    oracle: {
+      type: 'yielding-fixed',
+      baseAsset: TokenSymbol('ETH'),
+      providedBy: ['chainlink', 'chronicle'],
+      ratio: async () => NormalizedUnitNumber(2),
+    },
+  },
+}
 export const YieldingFixedMobile = getMobileStory(YieldingFixedDesktop)
 export const YieldingFixedTablet = getTabletStory(YieldingFixedDesktop)
+
+export const UnknownDesktop: Story = {
+  args: {},
+}
+
+export const UnknownMobile = getMobileStory(UnknownDesktop)
+export const UnknownTablet = getTabletStory(UnknownDesktop)

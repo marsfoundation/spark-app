@@ -23,6 +23,7 @@ import closeFilled from './close-filled.svg'
 import close from './close.svg'
 import down from './down.svg'
 import downgrade from './downgrade.svg'
+import equal from './equal.svg'
 import eye from './eye.svg'
 import flash from './flash.svg'
 import giftbox from './giftbox.svg'
@@ -39,6 +40,7 @@ import output from './markets/output.svg'
 import menu from './menu.svg'
 import moreIconVertical from './more-icon-vertical.svg'
 import moreIcon from './more-icon.svg'
+import multiply from './multiply.svg'
 import chainlink from './oracle-providers/chainlink.svg'
 import chronicle from './oracle-providers/chronicle.svg'
 import lido from './oracle-providers/lido.svg'
@@ -118,6 +120,8 @@ export const assets = {
   rocket,
   downgrade,
   timer,
+  multiply,
+  equal,
   markets: {
     chart,
     inputOutput,

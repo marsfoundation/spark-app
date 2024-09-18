@@ -1,9 +1,9 @@
 import { OracleType } from '@/config/chain/types'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
-import { raise } from '@/utils/assert'
 import { FixedOraclePanel } from './components/FixedOraclePanel'
 import { MarketOraclePanel } from './components/MarketOraclePanel'
 import { UnderlyingAssetOraclePanel } from './components/UnderlyingAssetOraclePanel'
+import { UnknownOraclePanel } from './components/UnknownOraclePanel'
 import { YieldingFixedOraclePanel } from './components/YieldingFixedOraclePanel'
 
 export interface OraclePanelProps {
@@ -13,7 +13,7 @@ export interface OraclePanelProps {
 }
 
 export function OraclePanel(props: OraclePanelProps) {
-  switch (props.oracle.type) {
+  switch (props?.oracle?.type) {
     case 'fixed':
       return <FixedOraclePanel {...props} oracle={props.oracle} />
     case 'market-price':
@@ -22,8 +22,7 @@ export function OraclePanel(props: OraclePanelProps) {
       return <YieldingFixedOraclePanel {...props} oracle={props.oracle} />
     case 'underlying-asset':
       return <UnderlyingAssetOraclePanel {...props} oracle={props.oracle} />
-
     default:
-      raise('Unknown oracle type')
+      return <UnknownOraclePanel {...props} />
   }
 }
