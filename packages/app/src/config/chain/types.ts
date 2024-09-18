@@ -43,12 +43,8 @@ export interface AirdropsPerAction {
 }
 export type Airdrop = Record<TokenSymbol, AirdropsPerAction>
 
-export interface TokenWithReserveOracleType {
-<<<<<<< HEAD
-  reserveReserveOracleType: OracleType
-=======
-  reserveOracleType: ReserveOracleType
->>>>>>> e357d29 (Fix reserve oracle time naming)
+export interface TokenWithOracleType {
+  oracleType: OracleType
   address: CheckedAddress
   symbol: TokenSymbol
 }
@@ -84,7 +80,7 @@ export interface ChainConfigEntry {
   sUSDSSymbol: TokenSymbol | undefined
   mergedDaiAndSDaiMarkets: boolean
   savingsInputTokens: TokenSymbol[]
-  extraTokens: TokenWithReserveOracleType[]
+  extraTokens: TokenWithOracleType[]
   farms: FarmConfig[]
   oracles: Record<TokenSymbol, ReserveOracleType>
 }
