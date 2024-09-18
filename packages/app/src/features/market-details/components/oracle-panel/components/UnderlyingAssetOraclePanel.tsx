@@ -5,7 +5,7 @@ import { Info } from '@/ui/molecules/info/Info'
 import { zeroAddress } from 'viem'
 import { BlockExplorerAddressLink } from './BlockExplorerAddressLink'
 
-type UnderlyingAssetOraclePanelProps = {
+interface UnderlyingAssetOraclePanelProps {
   oracle: Extract<OracleType, { type: 'underlying-asset' }>
   chainId: number
 }

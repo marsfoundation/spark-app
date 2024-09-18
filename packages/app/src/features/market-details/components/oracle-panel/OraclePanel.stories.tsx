@@ -48,7 +48,7 @@ export const UnderlyingAssetDesktop: Story = {
   args: {
     oracle: {
       type: 'underlying-asset',
-      asset: 'USD (FORD)',
+      asset: 'USD (FIAT)',
     },
   },
 }

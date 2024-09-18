@@ -5,7 +5,7 @@ import { Info } from '@/ui/molecules/info/Info'
 import { zeroAddress } from 'viem'
 import { BlockExplorerAddressLink } from './BlockExplorerAddressLink'
 
-type FixedOraclePanelProps = {
+interface FixedOraclePanelProps {
   oracle: Extract<OracleType, { type: 'fixed' }>
   chainId: number
 }

@@ -4,7 +4,7 @@ import { Info } from '@/ui/molecules/info/Info'
 import { zeroAddress } from 'viem'
 import { BlockExplorerAddressLink } from './BlockExplorerAddressLink'
 
-type UnknownOraclePanelProps = {
+interface UnknownOraclePanelProps {
   chainId: number
 }
 

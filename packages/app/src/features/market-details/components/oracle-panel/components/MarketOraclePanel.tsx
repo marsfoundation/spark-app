@@ -6,7 +6,7 @@ import { zeroAddress } from 'viem'
 import { BlockExplorerAddressLink } from './BlockExplorerAddressLink'
 import { ProvidersList } from './ProvidersList'
 
-type MarketOraclePanelProps = {
+interface MarketOraclePanelProps {
   oracle: Extract<OracleType, { type: 'market-price' }>
   chainId: number
 }
