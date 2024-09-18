@@ -31,7 +31,7 @@ function StakeDialogContentContainer({ farm, initialToken, closeDialog }: StakeC
   if (pageStatus.state === 'success') {
     return (
       <SuccessView
-        objectiveType="deposit"
+        objectiveType="stake"
         tokenWithValue={stakedToken}
         proceedText="Back to Farm"
         onProceed={closeDialog}
