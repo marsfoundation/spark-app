@@ -19,9 +19,7 @@ export function MarketOraclePanel({ oracle, chainId }: MarketOraclePanelProps) {
         <Panel.Header className="flex items-center gap-2">
           <Panel.Title className="text-xl">
             Market Price{' '}
-            {oracle.providedBy.length > 1 && (
-              <span className="font-medium text-basics-dark-grey">(Redundant)</span>
-            )}
+            {oracle.providedBy.length > 1 && <span className="font-medium text-basics-dark-grey">(Redundant)</span>}
           </Panel.Title>
 
           <Info size={16}>Some info</Info>
