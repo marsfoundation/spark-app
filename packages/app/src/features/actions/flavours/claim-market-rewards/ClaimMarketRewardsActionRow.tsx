@@ -3,19 +3,19 @@ import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 
 import { ActionRow } from '../../components/action-row/ActionRow'
 import { ActionRowBaseProps } from '../../components/action-row/types'
-import { ClaimRewardsAction } from './types'
+import { ClaimMarketRewardsAction } from './types'
 
-export interface ClaimRewardsActionRowProps extends ActionRowBaseProps {
-  action: ClaimRewardsAction
+export interface ClaimMarketRewardsActionRowProps extends ActionRowBaseProps {
+  action: ClaimMarketRewardsAction
 }
 
-export function ClaimRewardsActionRow({
+export function ClaimMarketRewardsActionRow({
   index,
   action,
   actionHandlerState,
   onAction,
   variant,
-}: ClaimRewardsActionRowProps) {
+}: ClaimMarketRewardsActionRowProps) {
   const status = actionHandlerState.status
 
   return (

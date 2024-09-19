@@ -9,9 +9,10 @@ export const objectiveTypeToVerb: Record<ObjectiveType, string> = {
   setUserEMode: 'Set',
   depositToSavings: 'Converted',
   withdrawFromSavings: 'Converted',
-  claimRewards: 'Claimed',
+  claimMarketRewards: 'Claimed',
   upgrade: 'Upgraded',
   downgrade: 'Downgraded',
   stake: 'Staked',
   unstake: 'Unstaked',
+  claimFarmRewards: 'Claimed',
 }

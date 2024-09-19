@@ -29,7 +29,7 @@ const meta: Meta<typeof ClaimRewardsView> = {
   args: {
     objectives: [
       {
-        type: 'claimRewards',
+        type: 'claimMarketRewards',
         token: tokens.wstETH,
         assets: [CheckedAddress(zeroAddress)],
         incentiveControllerAddress: CheckedAddress(zeroAddress),

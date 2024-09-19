@@ -8,8 +8,11 @@ import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
+import {
+  getFieldsForTransferFromUserForm,
+  useDebouncedFormValues,
+} from '@/features/dialogs/common/logic/transfer-from-user/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
-import { useDebouncedDialogFormValues } from '@/features/dialogs/savings/common/logic/form'
 import { assert } from '@/utils/assert'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
@@ -17,7 +20,6 @@ import { UseFormReturn, useForm } from 'react-hook-form'
 import { MigrateDialogTxOverview } from '../types'
 import { createMigrateObjectives } from './createMigrateObjectives'
 import { createTxOverview } from './createTxOverview'
-import { getFormFieldsForMigrateDialog } from './form'
 import { useFromTokenInfo } from './useFromTokenInfo'
 import { getMigrateDialogFormValidator } from './validation'
 
@@ -64,7 +66,7 @@ export function useMigrateDialog({ type, fromToken, toToken }: UseMigrateDialogP
     debouncedFormValues: formValues,
     isDebouncing,
     isFormValid,
-  } = useDebouncedDialogFormValues({
+  } = useDebouncedFormValues({
     form,
     tokensInfo,
   })
@@ -82,7 +84,7 @@ export function useMigrateDialog({ type, fromToken, toToken }: UseMigrateDialogP
 
   return {
     selectableAssets: [fromTokenWithBalance],
-    assetsFields: getFormFieldsForMigrateDialog(form, tokensInfo),
+    assetsFields: getFieldsForTransferFromUserForm({ form, tokensInfo }),
     form,
     objectives,
     migrationAmount: formValues.value,

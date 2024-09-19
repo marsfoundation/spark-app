@@ -11,6 +11,7 @@ import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
+import { sortByUsdValueWithUsdsPriority } from '@/features/farm-details/dialogs/stake/logic/sortByUsdValueWithUsdsPriority'
 import { raise } from '@/utils/assert'
 import { useTimestamp } from '@/utils/useTimestamp'
 import { useMemo } from 'react'
@@ -125,25 +126,10 @@ export function useSavings(): UseSavingsResults {
     sDaiDetails?.opportunityProjections ??
     raise('Savings opportunity projections should be defined')
 
-  const assetsInWallet = inputTokens
-    .map((tokenWithBalance) => ({
-      ...tokenWithBalance,
-      blockExplorerLink: getBlockExplorerLink(tokenWithBalance.token.address),
-    }))
-    .sort((a, b) => {
-      const balanceComparison = b.balance.comparedTo(a.balance)
-
-      // Sort by balance
-      if (balanceComparison !== 0) return balanceComparison
-
-      // Prioritize token with USDS symbol
-      if (tokensInfo.USDS) {
-        if (a.token.symbol === tokensInfo.USDS.symbol) return -1
-        if (b.token.symbol === tokensInfo.USDS.symbol) return 1
-      }
-
-      return 0
-    })
+  const assetsInWallet = sortByUsdValueWithUsdsPriority(inputTokens, tokensInfo).map((tokenWithBalance) => ({
+    ...tokenWithBalance,
+    blockExplorerLink: getBlockExplorerLink(tokenWithBalance.token.address),
+  }))
 
   const savingsMeta = makeSavingsMeta(chainId)
 

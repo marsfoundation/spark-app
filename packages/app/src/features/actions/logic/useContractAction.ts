@@ -11,7 +11,8 @@ import { QueryKey, queryOptions, skipToken, useQuery, useQueryClient } from '@ta
 import { createApproveDelegationActionConfig } from '../flavours/approve-delegation/logic/approveDelegationAction'
 import { createApproveActionConfig } from '../flavours/approve/logic/approveAction'
 import { createBorrowActionConfig } from '../flavours/borrow/logic/borrowAction'
-import { createClaimRewardsActionConfig } from '../flavours/claim-rewards/logic/claimRewardsAction'
+import { createClaimFarmRewardsActionConfig } from '../flavours/claim-farm-rewards/logic/claimFarmRewardsAction'
+import { createClaimMarketRewardsActionConfig } from '../flavours/claim-market-rewards/logic/claimMarketRewardsAction'
 import { createDepositToSavingsActionConfig } from '../flavours/deposit-to-savings/logic/depositToSavingsAction'
 import { createDepositActionConfig } from '../flavours/deposit/logic/depositAction'
 import { createDowngradeActionConfig } from '../flavours/downgrade/logic/downgradeAction'
@@ -141,8 +142,8 @@ function actionToConfig(action: Action, context: ActionContext): ActionConfig {
       return createSetUserEModeActionConfig(action, context)
     case 'repay':
       return createRepayActionConfig(action, context)
-    case 'claimRewards':
-      return createClaimRewardsActionConfig(action, context)
+    case 'claimMarketRewards':
+      return createClaimMarketRewardsActionConfig(action, context)
     case 'withdraw':
       return createWithdrawActionConfig(action, context)
     case 'withdrawFromSavings':
@@ -159,6 +160,8 @@ function actionToConfig(action: Action, context: ActionContext): ActionConfig {
       return createUnstakeActionConfig(action, context)
     case 'usdsPsmConvert':
       return createUsdsPsmConvertActionConfig(action, context)
+    case 'claimFarmRewards':
+      return createClaimFarmRewardsActionConfig(action, context)
     case 'permit':
       return createEmptyActionConfig()
   }

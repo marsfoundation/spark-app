@@ -1,7 +1,7 @@
 import { Token } from '@/domain/types/Token'
 import { DialogPanel } from '@/features/dialogs/common/components/DialogPanel'
 import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPanelTitle'
-import { SkyBadge } from './SkyBadge'
+import { SkyBadge } from '@/features/dialogs/common/components/transaction-overview/SkyBadge'
 import { TransactionOverviewDetailsItem } from './TransactionOverviewDetailsItem'
 
 export interface TransactionOverviewPlaceholder {

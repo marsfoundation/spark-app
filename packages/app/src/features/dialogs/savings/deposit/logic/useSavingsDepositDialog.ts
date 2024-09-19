@@ -6,18 +6,21 @@ import { Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
+import {
+  getFieldsForTransferFromUserForm,
+  useDebouncedFormValues,
+} from '@/features/dialogs/common/logic/transfer-from-user/form'
+import { getTransferFromUserFormValidator } from '@/features/dialogs/common/logic/transfer-from-user/validation'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
 import { determineApyImprovement } from '@/features/savings/logic/determineApyImprovement'
 import { assert, raise } from '@/utils/assert'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
-import { useDebouncedDialogFormValues } from '../../common/logic/form'
 import { SavingsDialogTxOverview } from '../../common/types'
 import { createTxOverview } from './createTxOverview'
-import { getFormFieldsForDepositDialog } from './form'
 import { createObjectives } from './objectives'
-import { getSavingsDepositDialogFormValidator } from './validation'
+import { depositValidationIssueToMessage } from './validation'
 
 export interface UseSavingsDepositDialogParams {
   initialToken: Token
@@ -55,7 +58,7 @@ export function useSavingsDepositDialog({
   const [upgradeSwitchChecked, setUpgradeSwitchChecked] = useState(true)
 
   const form = useForm<AssetInputSchema>({
-    resolver: zodResolver(getSavingsDepositDialogFormValidator(tokensInfo)),
+    resolver: zodResolver(getTransferFromUserFormValidator(tokensInfo, depositValidationIssueToMessage)),
     defaultValues: {
       symbol: initialToken.symbol,
       value: '',
@@ -67,7 +70,7 @@ export function useSavingsDepositDialog({
     debouncedFormValues: formValues,
     isDebouncing,
     isFormValid,
-  } = useDebouncedDialogFormValues({
+  } = useDebouncedFormValues({
     form,
     tokensInfo,
   })
@@ -109,7 +112,7 @@ export function useSavingsDepositDialog({
 
   return {
     selectableAssets: inputTokens,
-    assetsFields: getFormFieldsForDepositDialog(form, tokensInfo),
+    assetsFields: getFieldsForTransferFromUserForm({ form, tokensInfo }),
     form,
     objectives,
     tokenToDeposit,

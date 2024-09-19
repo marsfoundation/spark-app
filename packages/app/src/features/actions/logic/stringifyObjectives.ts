@@ -21,7 +21,7 @@ export function stringifyObjectivesToStableActions(objectives: Objective[]): str
           return [objective.type, objective.useAsCollateral]
         case 'setUserEMode':
           return [objective.type, objective.eModeCategoryId]
-        case 'claimRewards':
+        case 'claimMarketRewards':
           return [objective.type, objective.token.address, objective.assets]
         case 'withdrawFromSavings':
           return [objective.type, objective.token.address, objective.amount]
@@ -33,6 +33,8 @@ export function stringifyObjectivesToStableActions(objectives: Objective[]): str
           return [objective.type, objective.amount]
         case 'stake':
           return [objective.type, objective.token.address, objective.amount]
+        case 'claimFarmRewards':
+          return [objective.type, objective.farm]
         default:
           assertNever(objective)
       }

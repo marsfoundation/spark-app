@@ -1,7 +1,6 @@
 import { DialogPanel } from '@/features/dialogs/common/components/DialogPanel'
 import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPanelTitle'
-
-import { HealthFactorChange } from '../../common/components/HealthFactorChange'
+import { HealthFactorChange } from '../../common/components/transaction-overview/HealthFactorChange'
 import { EModeCategory, PositionOverview } from '../types'
 import { AvailableAssets } from './AvailableAssets'
 import { LTVChange } from './LTVChange'

@@ -77,7 +77,8 @@ export class Token {
   }
 
   public toBaseUnit(value: NormalizedUnitNumber): BaseUnitNumber {
-    return BaseUnitNumber(value.shiftedBy(this.decimals))
+    const normalizedValue = NormalizedUnitNumber(value.decimalPlaces(this.decimals, BigNumber.ROUND_DOWN))
+    return BaseUnitNumber(normalizedValue.shiftedBy(this.decimals))
   }
 
   public fromBaseUnit(value: BaseUnitNumber): NormalizedUnitNumber {
@@ -94,12 +95,14 @@ export class Token {
     name,
     isAToken,
     decimals,
+    unitPriceUsd,
   }: {
     address?: CheckedAddress
     symbol?: TokenSymbol
     name?: string
     isAToken?: boolean
     decimals?: number
+    unitPriceUsd?: NormalizedUnitNumber
   }): Token {
     return new Token({
       address: address ?? this.address,
@@ -107,7 +110,7 @@ export class Token {
       name: name ?? this.name,
       isAToken: isAToken ?? this.isAToken,
       decimals: decimals ?? this.decimals,
-      unitPriceUsd: this.unitPriceUsd.toFixed(),
+      unitPriceUsd: (unitPriceUsd ?? this.unitPriceUsd).toFixed(),
     })
   }
 

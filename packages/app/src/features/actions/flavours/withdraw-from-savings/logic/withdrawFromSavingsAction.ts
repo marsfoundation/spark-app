@@ -8,7 +8,6 @@ import {
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
 import { assertWithdraw } from '@/domain/savings/assertWithdraw'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
 import { ActionConfig, ActionContext } from '@/features/actions/logic/types'
@@ -23,7 +22,6 @@ import {
 } from '@/features/actions/utils/savings'
 import { assert, raise } from '@/utils/assert'
 import { toBigInt } from '@/utils/bigNumber'
-import BigNumber from 'bignumber.js'
 import { erc4626Abi } from 'viem'
 import { gnosis } from 'viem/chains'
 import { WithdrawFromSavingsAction } from '../types'
@@ -91,9 +89,7 @@ export function createWithdrawFromSavingsActionConfig(
           const gemMinAmountOut = calculateGemMinAmountOut({
             gemDecimals: token.decimals,
             assetsTokenDecimals: savingsToken.decimals,
-            assetsAmount: toBigInt(
-              savingsToken.toBaseUnit(NormalizedUnitNumber(assetsAmount.toFixed(token.decimals, BigNumber.ROUND_DOWN))),
-            ),
+            assetsAmount: toBigInt(savingsToken.toBaseUnit(assetsAmount)),
           })
 
           return ensureConfigTypes({
