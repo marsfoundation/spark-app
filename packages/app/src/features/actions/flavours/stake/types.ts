@@ -7,7 +7,6 @@ export interface StakeObjective {
   token: Token // any supported input token (e.g. dai, usds, usdc, sdai, susds, ...)
   amount: NormalizedUnitNumber // amount of input token, not necessarily stake amount (in case when input is savings token)
   farm: CheckedAddress
-  isMax: boolean
 }
 
 export interface StakeAction {

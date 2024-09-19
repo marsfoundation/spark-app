@@ -1,11 +1,11 @@
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
+import { TxOverviewRouteItem } from '@/features/dialogs/common/types'
 import { assets } from '@/ui/assets'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
-import { RouteItem as RouteItemType } from '../../../types'
 
 export interface RouteItemProps {
-  item: RouteItemType
+  item: TxOverviewRouteItem
   index: number
   isLast: boolean
   displayRouteVertically: boolean
@@ -18,12 +18,12 @@ export function RouteItem({ item, index, isLast, displayRouteVertically }: Route
         !isLast && !displayRouteVertically && 'md:grid-cols-[auto_auto]',
       )}
     >
-      <div data-testid={testIds.dialog.savings.transactionOverview.routeItem.tokenWithAmount(index)}>
+      <div data-testid={testIds.dialog.transactionOverview.routeItem.tokenWithAmount(index)}>
         {item.token.format(item.value, { style: 'auto' })} {item.token.symbol}
       </div>
       <div
         className={cn('justify-self-end text-basics-dark-grey text-sm', !displayRouteVertically && 'md:order-last')}
-        data-testid={testIds.dialog.savings.transactionOverview.routeItem.tokenUsdValue(index)}
+        data-testid={testIds.dialog.transactionOverview.routeItem.tokenUsdValue(index)}
       >
         {USD_MOCK_TOKEN.formatUSD(item.usdValue)}
       </div>

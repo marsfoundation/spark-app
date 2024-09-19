@@ -74,11 +74,12 @@ export class SavingsDialogPageObject extends DialogPageObject {
   async expectNativeRouteTransactionOverview(transactionOverview: NativeRouteTransactionOverview): Promise<void> {
     const panel = this.locatePanelByHeader('Transaction overview')
     await expect(panel).toBeVisible()
-    const txOverviewTestIds = testIds.dialog.savings.transactionOverview
+    const txOverviewTestIds = testIds.dialog.transactionOverview
+    const savingsTxOverviewTestIds = testIds.dialog.savings.transactionOverview
 
     if (transactionOverview.apy) {
-      const apyValue = panel.getByTestId(txOverviewTestIds.apy.value)
-      const apyDescription = panel.getByTestId(txOverviewTestIds.apy.description)
+      const apyValue = panel.getByTestId(savingsTxOverviewTestIds.apy.value)
+      const apyDescription = panel.getByTestId(savingsTxOverviewTestIds.apy.description)
       await expect(apyValue).toContainText(transactionOverview.apy.value)
       await expect(apyDescription).toContainText(transactionOverview.apy.description)
     }
@@ -95,7 +96,7 @@ export class SavingsDialogPageObject extends DialogPageObject {
       `Powered by Sky (prev. MakerDAO). No slippage & fees for ${transactionOverview.badgeToken}.`,
     )
 
-    const outcome = panel.getByTestId(txOverviewTestIds.outcome)
+    const outcome = panel.getByTestId(savingsTxOverviewTestIds.outcome)
     await expect(outcome).toContainText(transactionOverview.outcome)
   }
 

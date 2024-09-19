@@ -1,4 +1,5 @@
 import { usdsSkyRewardsConfig } from '@/config/contracts-generated'
+import { getFarmsInfoQueryKey } from '@/domain/farms/query'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
@@ -63,6 +64,7 @@ describe(createStakeActionConfig.name, () => {
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
       getBalancesQueryKeyPrefix({ account, chainId }),
     )
+    await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(getFarmsInfoQueryKey({ account, chainId }))
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
       allowanceQueryKey({
         token: stakingToken.address,

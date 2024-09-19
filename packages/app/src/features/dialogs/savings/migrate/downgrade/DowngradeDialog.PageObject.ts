@@ -20,7 +20,8 @@ export class DowngradeDialogPageObject extends DialogPageObject {
   async expectTransactionOverview(transactionOverview: DowngradeTxOverview): Promise<void> {
     const panel = this.locatePanelByHeader('Transaction overview')
     await expect(panel).toBeVisible()
-    const txOverviewTestIds = testIds.dialog.savings.transactionOverview
+    const savingsTxOverviewTestIds = testIds.dialog.savings.transactionOverview
+    const txOverviewTestIds = testIds.dialog.transactionOverview
 
     for (const [index, { tokenAmount: tokenWithAmount, tokenUsdValue }] of transactionOverview.routeItems.entries()) {
       const routeItem = panel.getByTestId(txOverviewTestIds.routeItem.tokenWithAmount(index))
@@ -34,7 +35,7 @@ export class DowngradeDialogPageObject extends DialogPageObject {
       `Powered by Sky (prev. MakerDAO). No slippage & fees for ${transactionOverview.badgeToken}.`,
     )
 
-    const outcome = panel.getByTestId(txOverviewTestIds.outcome)
+    const outcome = panel.getByTestId(savingsTxOverviewTestIds.outcome)
     await expect(outcome).toContainText(transactionOverview.outcome)
   }
 
