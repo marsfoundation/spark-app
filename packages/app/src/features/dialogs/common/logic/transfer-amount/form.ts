@@ -6,16 +6,13 @@ import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { useDebounce } from '@/utils/useDebounce'
 
-export interface TokenWithBalanceFormNormalizedData {
+export interface TransferAmountFormNormalizedData {
   token: Token
   value: NormalizedUnitNumber
   isMaxSelected: boolean
 }
 
-export function normalizeFormValues(
-  asset: AssetInputSchema,
-  tokensInfo: TokensInfo,
-): TokenWithBalanceFormNormalizedData {
+export function normalizeFormValues(asset: AssetInputSchema, tokensInfo: TokensInfo): TransferAmountFormNormalizedData {
   const value = NormalizedUnitNumber(asset.value === '' ? '0' : asset.value)
   const token = tokensInfo.findOneTokenBySymbol(asset.symbol)
 
@@ -31,7 +28,7 @@ export function isMaxValue(value: string, maxValue: NormalizedUnitNumber): boole
   return normalizedValue.eq(maxValue)
 }
 
-function getNormalizedFormValuesKey(values: TokenWithBalanceFormNormalizedData): string {
+function getNormalizedFormValuesKey(values: TransferAmountFormNormalizedData): string {
   return [values.token.address, values.value.toFixed(), values.isMaxSelected].join('-')
 }
 
@@ -40,7 +37,7 @@ export interface UseDebouncedFormValuesArgs {
   tokensInfo: TokensInfo
 }
 export interface UseDebouncedFormValuesResult {
-  debouncedFormValues: TokenWithBalanceFormNormalizedData
+  debouncedFormValues: TransferAmountFormNormalizedData
   isFormValid: boolean
   isDebouncing: boolean
 }

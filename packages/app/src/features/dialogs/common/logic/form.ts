@@ -93,6 +93,7 @@ export function getFormFieldsForAssetBalanceDialog({
   form,
   tokensInfo,
 }: GetFormFieldsForAssetBalanceInputDialogParams): FormFieldsForDialog {
+  // eslint-disable-next-line func-style
   const changeAsset = (newSymbol: TokenSymbol): void => {
     form.setValue('symbol', newSymbol)
     form.setValue('value', '')

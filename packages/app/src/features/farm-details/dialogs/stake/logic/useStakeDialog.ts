@@ -7,9 +7,9 @@ import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { StakeObjective } from '@/features/actions/flavours/stake/types'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
-import { useDebouncedFormValues } from '@/features/dialogs/common/logic/asset-balance/form'
-import { getTokenWithBalanceFormValidator } from '@/features/dialogs/common/logic/asset-balance/validation'
 import { AssetInputSchema, getFormFieldsForAssetBalanceDialog } from '@/features/dialogs/common/logic/form'
+import { useDebouncedFormValues } from '@/features/dialogs/common/logic/transfer-amount/form'
+import { getTransferAmountFormValidator } from '@/features/dialogs/common/logic/transfer-amount/validation'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
 import { assert, raise } from '@/utils/assert'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -46,7 +46,7 @@ export function useStakeDialog({ farm, initialToken }: UseStakeDialogParams): Us
   assert(savingsDaiInfo && savingsUsdsInfo, 'Savings dai and usds info is required for stake dialog')
 
   const form = useForm<AssetInputSchema>({
-    resolver: zodResolver(getTokenWithBalanceFormValidator(tokensInfo, validationIssueToMessage)),
+    resolver: zodResolver(getTransferAmountFormValidator(tokensInfo, validationIssueToMessage)),
     defaultValues: {
       symbol: initialToken.symbol,
       value: '',
