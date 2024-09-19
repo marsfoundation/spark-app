@@ -1,5 +1,8 @@
-import { incentiveControllerAbi } from '@/config/abis/incentiveControllerAbi'
-import { aaveDataLayerQueryKey } from '@/domain/market-info/aave-data-layer/query'
+import { usdsSkyRewardsConfig } from '@/config/contracts-generated'
+import { getFarmsInfoQueryKey } from '@/domain/farms/query'
+import { getContractAddress } from '@/domain/hooks/useContractAddress'
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { getMockToken, testAddresses } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
@@ -7,31 +10,37 @@ import { setupUseContractActionRenderer } from '@/test/integration/setupUseContr
 import { waitFor } from '@testing-library/react'
 import { mainnet } from 'viem/chains'
 import { describe, test } from 'vitest'
-import { createClaimRewardsActionConfig } from './claimRewardsAction'
+import { createClaimFarmRewardsActionConfig } from './claimFarmRewardsAction'
 
 const account = testAddresses.alice
 const chainId = mainnet.id
-const incentiveControllerAddress = testAddresses.token
-const assets = [testAddresses.token2]
-const token = getMockToken()
+const rewardToken = getMockToken({ symbol: TokenSymbol('USDS') })
+const rewardAmount = NormalizedUnitNumber(1)
 
 const hookRenderer = setupUseContractActionRenderer({
   account,
   handlers: [handlers.chainIdCall({ chainId }), handlers.balanceCall({ balance: 0n, address: account })],
-  args: { action: { type: 'claimRewards', incentiveControllerAddress, assets, token }, enabled: true },
+  args: {
+    action: {
+      type: 'claimFarmRewards',
+      farm: getContractAddress(usdsSkyRewardsConfig.address, chainId),
+      rewardToken,
+      rewardAmount,
+    },
+    enabled: true,
+  },
 })
 
-describe(createClaimRewardsActionConfig.name, () => {
-  test('claims rewards', async () => {
+describe(createClaimFarmRewardsActionConfig.name, () => {
+  test('claims farm rewards', async () => {
     const { result, queryInvalidationManager } = hookRenderer({
       extraHandlers: [
         handlers.contractCall({
-          to: incentiveControllerAddress,
+          to: getContractAddress(usdsSkyRewardsConfig.address, chainId),
+          abi: usdsSkyRewardsConfig.abi,
+          functionName: 'getReward',
           from: account,
-          abi: incentiveControllerAbi,
-          functionName: 'claimAllRewards',
-          args: [assets, account],
-          result: [assets, [1n]],
+          result: undefined,
         }),
         handlers.mineTransaction(),
       ],
@@ -47,9 +56,9 @@ describe(createClaimRewardsActionConfig.name, () => {
       expect(result.current.state.status).toBe('success')
     })
 
-    await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(aaveDataLayerQueryKey({ chainId, account }))
+    await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(getFarmsInfoQueryKey({ account, chainId }))
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
-      getBalancesQueryKeyPrefix({ chainId, account }),
+      getBalancesQueryKeyPrefix({ account, chainId }),
     )
   })
 })

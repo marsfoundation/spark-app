@@ -4,7 +4,7 @@ import { Objective } from '@/features/actions/logic/types'
 import { Reward } from '@/features/navbar/components/rewards-badge/types'
 import { useState } from 'react'
 import { PageState, PageStatus } from '../../common/types'
-import { createClaimRewardsObjectives } from './createClaimRewardsObjectives'
+import { createClaimMarketRewardsObjectives } from './createClaimMarketRewardsObjectives'
 import { getRewardsToClaim } from './getRewardsToClaim'
 
 export interface UseClaimRewardsDialogResult {
@@ -17,7 +17,7 @@ export function useClaimRewardsDialog(): UseClaimRewardsDialogResult {
   const { marketInfo } = useMarketInfo()
   const [pageStatus, setPageStatus] = useState<PageState>('form')
 
-  const objectives = createClaimRewardsObjectives(marketInfo)
+  const objectives = createClaimMarketRewardsObjectives(marketInfo)
   const rewardsToClaim = useConditionalFreeze(getRewardsToClaim(marketInfo), pageStatus === 'success')
 
   return {

@@ -2,7 +2,8 @@ import { assertNever } from '@/utils/assertNever'
 import { ApproveDelegationActionRow } from '../../flavours/approve-delegation/ApproveDelegationActionRow'
 import { ApproveActionRow } from '../../flavours/approve/ApproveActionRow'
 import { BorrowActionRow } from '../../flavours/borrow/BorrowActionRow'
-import { ClaimRewardsActionRow } from '../../flavours/claim-rewards/ClaimRewardsActionRow'
+import { ClaimFarmRewardsActionRow } from '../../flavours/claim-farm-rewards/ClaimFarmRewardsActionRow'
+import { ClaimMarketRewardsActionRow } from '../../flavours/claim-market-rewards/ClaimMarketRewardsActionRow'
 import { DepositToSavingsActionRow } from '../../flavours/deposit-to-savings/DepositToSavingsActionRow'
 import { DepositActionRow } from '../../flavours/deposit/DepositActionRow'
 import { DowngradeActionRow } from '../../flavours/downgrade/DowngradeActionRow'
@@ -54,8 +55,8 @@ export function ActionsGrid({ actionHandlers, variant }: ActionsGridProps) {
             return <SetUserEModeActionRow action={handler.action} {...props} />
           case 'withdraw':
             return <WithdrawActionRow action={handler.action} {...props} />
-          case 'claimRewards':
-            return <ClaimRewardsActionRow action={handler.action} {...props} />
+          case 'claimMarketRewards':
+            return <ClaimMarketRewardsActionRow action={handler.action} {...props} />
           case 'withdrawFromSavings':
             return <WithdrawFromSavingsActionRow action={handler.action} {...props} />
           case 'depositToSavings':
@@ -68,6 +69,8 @@ export function ActionsGrid({ actionHandlers, variant }: ActionsGridProps) {
             return <StakeActionRow action={handler.action} {...props} />
           case 'usdsPsmWrap':
             return <UsdsPsmWrapActionRow action={handler.action} {...props} />
+          case 'claimFarmRewards':
+            return <ClaimFarmRewardsActionRow action={handler.action} {...props} />
           default:
             assertNever(handler.action)
         }
