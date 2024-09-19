@@ -11,6 +11,7 @@ import { RepayActionRow } from '../../flavours/repay/RepayActionRow'
 import { SetUseAsCollateralActionRow } from '../../flavours/set-use-as-collateral/SetUseAsCollateralActionRow'
 import { SetUserEModeActionRow } from '../../flavours/set-user-e-mode/SetUserEModeActionRow'
 import { StakeActionRow } from '../../flavours/stake/StakeActionRow'
+import { UnstakeActionRow } from '../../flavours/unstake/UnstakeActionRow'
 import { UpgradeActionRow } from '../../flavours/upgrade/UpgradeActionRow'
 import { UsdsPsmWrapActionRow } from '../../flavours/usds-psm-wrap/UsdsPsmWrapActionRow'
 import { WithdrawFromSavingsActionRow } from '../../flavours/withdraw-from-savings/WithdrawFromSavingsActionRow'
@@ -66,6 +67,8 @@ export function ActionsGrid({ actionHandlers, variant }: ActionsGridProps) {
             return <DowngradeActionRow action={handler.action} {...props} />
           case 'stake':
             return <StakeActionRow action={handler.action} {...props} />
+          case 'unstake':
+            return <UnstakeActionRow action={handler.action} {...props} />
           case 'usdsPsmWrap':
             return <UsdsPsmWrapActionRow action={handler.action} {...props} />
           default:

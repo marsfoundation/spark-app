@@ -1,0 +1,27 @@
+import { usdsSkyRewardsConfig } from '@/config/contracts-generated'
+import { getFarmsInfoQueryKey } from '@/domain/farms/query'
+import { ensureConfigTypes } from '@/domain/hooks/useWrite'
+import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
+import { ActionConfig, ActionContext } from '@/features/actions/logic/types'
+import { toBigInt } from '@/utils/bigNumber'
+import { UnstakeAction } from '../types'
+
+export function createUnstakeActionConfig(action: UnstakeAction, context: ActionContext): ActionConfig {
+  const { account, chainId } = context
+
+  return {
+    getWriteConfig: () => {
+      const { stakingToken, farm } = action
+      const amount = toBigInt(stakingToken.toBaseUnit(action.amount))
+
+      return ensureConfigTypes({
+        address: farm,
+        abi: usdsSkyRewardsConfig.abi,
+        functionName: 'withdraw',
+        args: [amount],
+      })
+    },
+
+    invalidates: () => [getFarmsInfoQueryKey({ chainId, account }), getBalancesQueryKeyPrefix({ chainId, account })],
+  }
+}

@@ -155,6 +155,17 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
     state: { status: 'ready' },
     onAction: () => {},
   },
+  unstake: {
+    action: {
+      type: 'unstake',
+      stakingToken: tokens.USDS,
+      amount: NormalizedUnitNumber(1),
+      rewardToken: tokens.SKY,
+      farm: CheckedAddress(zeroAddress),
+    },
+    state: { status: 'ready' },
+    onAction: () => {},
+  },
   usdsPsmWrap: {
     action: {
       type: 'usdsPsmWrap',

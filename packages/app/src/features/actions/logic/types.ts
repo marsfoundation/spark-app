@@ -18,6 +18,7 @@ import { RepayAction, RepayObjective } from '../flavours/repay/types'
 import { SetUseAsCollateralAction, SetUseAsCollateralObjective } from '../flavours/set-use-as-collateral/types'
 import { SetUserEModeAction, SetUserEModeObjective } from '../flavours/set-user-e-mode/logic/types'
 import { StakeAction, StakeObjective } from '../flavours/stake/types'
+import { UnstakeAction, UnstakeObjective } from '../flavours/unstake/types'
 import { UpgradeAction, UpgradeObjective } from '../flavours/upgrade/types'
 import { UsdsPsmWrapAction } from '../flavours/usds-psm-wrap/types'
 import { WithdrawFromSavingsAction, WithdrawFromSavingsObjective } from '../flavours/withdraw-from-savings/types'
@@ -41,6 +42,7 @@ export type Objective =
   | UpgradeObjective
   | DowngradeObjective
   | StakeObjective
+  | UnstakeObjective
 export type ObjectiveType = Objective['type']
 
 export type Action =
@@ -59,6 +61,7 @@ export type Action =
   | UpgradeAction
   | DowngradeAction
   | StakeAction
+  | UnstakeAction
   | UsdsPsmWrapAction
 export type ActionType = Action['type']
 
