@@ -9,7 +9,7 @@ import { useChainId } from 'wagmi'
 import { ApproveDelegationAction } from '../flavours/approve-delegation/types'
 import { ApproveAction } from '../flavours/approve/types'
 import { BorrowAction } from '../flavours/borrow/types'
-import { ClaimRewardsAction } from '../flavours/claim-rewards/types'
+import { ClaimMarketRewardsAction } from '../flavours/claim-market-rewards/types'
 import { createDepositToSavingsActions } from '../flavours/deposit-to-savings/logic/createDepositToSavingsActions'
 import { DepositAction } from '../flavours/deposit/types'
 import { DowngradeAction } from '../flavours/downgrade/types'
@@ -201,15 +201,15 @@ export function useCreateActions({ objectives, actionsSettings, actionContext }:
         return [setUserEModeAction]
       }
 
-      case 'claimRewards': {
-        const claimRewardsActions: ClaimRewardsAction = {
-          type: 'claimRewards',
+      case 'claimMarketRewards': {
+        const ClaimMarketRewardsActions: ClaimMarketRewardsAction = {
+          type: 'claimMarketRewards',
           token: objective.token,
           incentiveControllerAddress: objective.incentiveControllerAddress,
           assets: objective.assets,
         }
 
-        return [claimRewardsActions]
+        return [ClaimMarketRewardsActions]
       }
 
       case 'upgrade': {
@@ -258,6 +258,17 @@ export function useCreateActions({ objectives, actionsSettings, actionContext }:
 
       case 'stake': {
         return createStakeActions(objective, actionContext)
+      }
+
+      case 'claimFarmRewards': {
+        return [
+          {
+            type: 'claimFarmRewards',
+            farm: objective.farm,
+            rewardToken: objective.rewardToken,
+            rewardAmount: objective.rewardAmount,
+          },
+        ]
       }
     }
   })

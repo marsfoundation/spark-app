@@ -216,7 +216,7 @@ function actionToTitle(action: SimplifiedAction): string {
       return `Convert ${action.asset} to ${action.savingsAsset}`
     case 'withdrawFromSavings':
       return `Convert ${action.savingsAsset} to ${action.asset}${action.mode === 'send' ? ' and send' : ''}`
-    case 'claimRewards':
+    case 'claimMarketRewards':
       return 'Claim'
     case 'upgrade':
       return `Upgrade ${action.fromToken} to ${action.toToken}`
@@ -224,6 +224,8 @@ function actionToTitle(action: SimplifiedAction): string {
       return `Downgrade ${action.fromToken} to ${action.toToken}`
     case 'stake':
       return `Stake ${action.inputToken} in ${action.rewardToken} Farm`
+    case 'claimFarmRewards':
+      return 'Claim rewards'
     case 'usdsPsmWrap':
       return 'Convert USDC to USDS'
   }
