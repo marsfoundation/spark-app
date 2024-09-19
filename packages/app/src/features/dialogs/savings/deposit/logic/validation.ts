@@ -1,6 +1,6 @@
-import { TransferAmountValidationIssue } from '@/features/dialogs/common/logic/transfer-amount/validation'
+import { TransferFromUserValidationIssue } from '@/features/dialogs/common/logic/transfer-from-user/validation'
 
-export const depositValidationIssueToMessage: Record<TransferAmountValidationIssue, string> = {
+export const depositValidationIssueToMessage: Record<TransferFromUserValidationIssue, string> = {
   'value-not-positive': 'Deposit value should be positive',
   'exceeds-balance': 'Exceeds your balance',
 }

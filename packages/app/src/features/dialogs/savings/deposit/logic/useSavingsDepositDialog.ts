@@ -5,9 +5,12 @@ import { useSavingsTokens } from '@/domain/savings/useSavingsTokens'
 import { Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
-import { AssetInputSchema, getFormFieldsForAssetBalanceDialog } from '@/features/dialogs/common/logic/form'
-import { useDebouncedFormValues } from '@/features/dialogs/common/logic/transfer-amount/form'
-import { getTransferAmountFormValidator } from '@/features/dialogs/common/logic/transfer-amount/validation'
+import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
+import {
+  getFieldsForTransferFromUserForm,
+  useDebouncedFormValues,
+} from '@/features/dialogs/common/logic/transfer-from-user/form'
+import { getTransferFromUserFormValidator } from '@/features/dialogs/common/logic/transfer-from-user/validation'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
 import { determineApyImprovement } from '@/features/savings/logic/determineApyImprovement'
 import { assert, raise } from '@/utils/assert'
@@ -55,7 +58,7 @@ export function useSavingsDepositDialog({
   const [upgradeSwitchChecked, setUpgradeSwitchChecked] = useState(true)
 
   const form = useForm<AssetInputSchema>({
-    resolver: zodResolver(getTransferAmountFormValidator(tokensInfo, depositValidationIssueToMessage)),
+    resolver: zodResolver(getTransferFromUserFormValidator(tokensInfo, depositValidationIssueToMessage)),
     defaultValues: {
       symbol: initialToken.symbol,
       value: '',
@@ -109,7 +112,7 @@ export function useSavingsDepositDialog({
 
   return {
     selectableAssets: inputTokens,
-    assetsFields: getFormFieldsForAssetBalanceDialog({ form, tokensInfo }),
+    assetsFields: getFieldsForTransferFromUserForm({ form, tokensInfo }),
     form,
     objectives,
     tokenToDeposit,

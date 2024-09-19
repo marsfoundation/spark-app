@@ -2,13 +2,13 @@ import { SavingsInfo } from '@/domain/savings-info/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
-import { TransferAmountFormNormalizedData } from '@/features/dialogs/common/logic/transfer-amount/form'
+import { TransferFromUserFormNormalizedData } from '@/features/dialogs/common/logic/transfer-from-user/form'
 import { TxOverviewRouteItem } from '@/features/dialogs/common/types'
 import { raise } from '@/utils/assert'
 import { SavingsDialogTxOverview } from '../../common/types'
 
 export interface CreateTxOverviewParams {
-  formValues: TransferAmountFormNormalizedData
+  formValues: TransferFromUserFormNormalizedData
   tokensInfo: TokensInfo
   savingsInfo: SavingsInfo
   savingsToken: Token
@@ -59,7 +59,7 @@ export function createTxOverview({
 }
 
 export interface GetWithdrawRouteParams {
-  formValues: TransferAmountFormNormalizedData
+  formValues: TransferFromUserFormNormalizedData
   tokensInfo: TokensInfo
   savingsInfo: SavingsInfo
   savingsToken: Token

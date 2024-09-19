@@ -1,11 +1,11 @@
 import { SavingsInfo } from '@/domain/savings-info/types'
 import { Token } from '@/domain/types/Token'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
-import { TransferAmountFormNormalizedData } from '@/features/dialogs/common/logic/transfer-amount/form'
+import { TransferFromUserFormNormalizedData } from '@/features/dialogs/common/logic/transfer-from-user/form'
 import { MigrateDialogTxOverview } from '../types'
 
 export interface CreateTxOverviewParams {
-  formValues: TransferAmountFormNormalizedData
+  formValues: TransferFromUserFormNormalizedData
   tokensInfo: TokensInfo
   outputToken: Token
   savingsDaiInfo: SavingsInfo

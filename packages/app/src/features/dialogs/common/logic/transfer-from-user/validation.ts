@@ -4,15 +4,15 @@ import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { z } from 'zod'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function getTransferAmountFormValidator(
+export function getTransferFromUserFormValidator(
   tokensInfo: TokensInfo,
-  issueToMessage: Record<TransferAmountValidationIssue, string>,
+  issueToMessage: Record<TransferFromUserValidationIssue, string>,
 ) {
   return AssetInputSchema.superRefine((field, ctx) => {
     const value = NormalizedUnitNumber(field.value === '' ? '0' : field.value)
     const balance = tokensInfo.findOneBalanceBySymbol(field.symbol)
 
-    const issue = validateTransferAmount({
+    const issue = validateTransferFromUser({
       value,
       user: { balance },
     })
@@ -26,7 +26,7 @@ export function getTransferAmountFormValidator(
   })
 }
 
-export type TransferAmountValidationIssue = 'exceeds-balance' | 'value-not-positive'
+export type TransferFromUserValidationIssue = 'exceeds-balance' | 'value-not-positive'
 
 export interface ValidateBalanceArgs {
   value: NormalizedUnitNumber
@@ -35,10 +35,10 @@ export interface ValidateBalanceArgs {
   }
 }
 
-export function validateTransferAmount({
+export function validateTransferFromUser({
   value,
   user: { balance },
-}: ValidateBalanceArgs): TransferAmountValidationIssue | undefined {
+}: ValidateBalanceArgs): TransferFromUserValidationIssue | undefined {
   if (value.isLessThanOrEqualTo(0)) {
     return 'value-not-positive'
   }

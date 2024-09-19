@@ -7,9 +7,12 @@ import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { StakeObjective } from '@/features/actions/flavours/stake/types'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
-import { AssetInputSchema, getFormFieldsForAssetBalanceDialog } from '@/features/dialogs/common/logic/form'
-import { useDebouncedFormValues } from '@/features/dialogs/common/logic/transfer-amount/form'
-import { getTransferAmountFormValidator } from '@/features/dialogs/common/logic/transfer-amount/validation'
+import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
+import {
+  getFieldsForTransferFromUserForm,
+  useDebouncedFormValues,
+} from '@/features/dialogs/common/logic/transfer-from-user/form'
+import { getTransferFromUserFormValidator } from '@/features/dialogs/common/logic/transfer-from-user/validation'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
 import { assert, raise } from '@/utils/assert'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -46,7 +49,7 @@ export function useStakeDialog({ farm, initialToken }: UseStakeDialogParams): Us
   assert(savingsDaiInfo && savingsUsdsInfo, 'Savings dai and usds info is required for stake dialog')
 
   const form = useForm<AssetInputSchema>({
-    resolver: zodResolver(getTransferAmountFormValidator(tokensInfo, validationIssueToMessage)),
+    resolver: zodResolver(getTransferFromUserFormValidator(tokensInfo, validationIssueToMessage)),
     defaultValues: {
       symbol: initialToken.symbol,
       value: '',
@@ -80,20 +83,20 @@ export function useStakeDialog({ farm, initialToken }: UseStakeDialogParams): Us
   const sacrificesYield =
     formValues.token.symbol === tokensInfo.sDAI?.symbol || formValues.token.symbol === tokensInfo.sUSDS?.symbol
 
-  const stakingTokenRoutItem =
+  const stakingTokenRouteItem =
     txOverview.status === 'success'
       ? txOverview.routeToStakingToken.at(-1) ?? raise('Route should be defined')
       : undefined
   const stakedToken = {
     token: farm.stakingToken,
-    value: stakingTokenRoutItem?.value ?? NormalizedUnitNumber(0),
+    value: stakingTokenRouteItem?.value ?? NormalizedUnitNumber(0),
   }
 
   const actionsEnabled = formValues.value.gt(0) && isFormValid && !isDebouncing
 
   return {
     selectableAssets: entryTokens,
-    assetsFields: getFormFieldsForAssetBalanceDialog({ form, tokensInfo }),
+    assetsFields: getFieldsForTransferFromUserForm({ form, tokensInfo }),
     form,
     objectives,
     stakedToken,

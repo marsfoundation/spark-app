@@ -1,13 +1,13 @@
 import { Farm } from '@/domain/farms/types'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
-import { TransferAmountFormNormalizedData } from '@/features/dialogs/common/logic/transfer-amount/form'
+import { TransferFromUserFormNormalizedData } from '@/features/dialogs/common/logic/transfer-from-user/form'
 import { TxOverviewRouteItem } from '@/features/dialogs/common/types'
 
 const SECONDS_PER_YEAR = 60 * 60 * 24 * 365
 
 export interface CreateTxOverviewParams {
-  formValues: TransferAmountFormNormalizedData
+  formValues: TransferFromUserFormNormalizedData
   farm: Farm
 }
 
@@ -54,7 +54,7 @@ export function createTxOverview({ formValues, farm }: CreateTxOverviewParams): 
 }
 
 export interface CreateRouteToStakingTokenParams {
-  formValues: TransferAmountFormNormalizedData
+  formValues: TransferFromUserFormNormalizedData
   stakingToken: Token
 }
 function createRouteToStakingToken({

@@ -7,8 +7,11 @@ import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
-import { AssetInputSchema, getFormFieldsForAssetBalanceDialog } from '@/features/dialogs/common/logic/form'
-import { useDebouncedFormValues } from '@/features/dialogs/common/logic/transfer-amount/form'
+import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
+import {
+  getFieldsForTransferFromUserForm,
+  useDebouncedFormValues,
+} from '@/features/dialogs/common/logic/transfer-from-user/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
 import { assert } from '@/utils/assert'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -81,7 +84,7 @@ export function useMigrateDialog({ type, fromToken, toToken }: UseMigrateDialogP
 
   return {
     selectableAssets: [fromTokenWithBalance],
-    assetsFields: getFormFieldsForAssetBalanceDialog({ form, tokensInfo }),
+    assetsFields: getFieldsForTransferFromUserForm({ form, tokensInfo }),
     form,
     objectives,
     migrationAmount: formValues.value,
