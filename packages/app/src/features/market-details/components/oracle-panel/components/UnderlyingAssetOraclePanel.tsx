@@ -18,7 +18,7 @@ export function UnderlyingAssetOraclePanel({ oracle, chainId }: UnderlyingAssetO
         <Panel.Header className="flex items-center gap-2">
           <Panel.Title className="text-xl">Underlying Asset Price</Panel.Title>
           <Info size={16}>
-          Uses a market price oracle for the underlying asset (the asset the token can be redeemed for)
+            Uses a market price oracle for the underlying asset (the asset the token can be redeemed for)
           </Info>
         </Panel.Header>
       </div>
