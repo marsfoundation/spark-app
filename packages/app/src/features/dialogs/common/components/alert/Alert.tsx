@@ -5,7 +5,10 @@ import { ReactNode } from 'react'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 
-type VariantsConfig = { variant: { danger: string; warning: string; info: string } }
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+type VariantsConfig = {
+  variant: { danger: string; warning: string; info: string }
+}
 type Variant = keyof VariantsConfig['variant']
 
 interface AlertProps {

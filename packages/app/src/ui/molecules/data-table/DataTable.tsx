@@ -15,8 +15,14 @@ import { Fragment, useMemo, useState } from 'react'
 import { ColumnHeader } from './components/ColumnHeader'
 import { ColumnDefinition } from './types'
 
-export type RowClickOptions = { destination: string; external?: boolean }
-type RowType = { [k: string]: any; rowClickOptions?: RowClickOptions }
+export interface RowClickOptions {
+  destination: string
+  external?: boolean
+}
+interface RowType {
+  [k: string]: any
+  rowClickOptions?: RowClickOptions
+}
 
 export interface DataTableProps<T extends RowType> {
   columnDef: {
