@@ -22,7 +22,7 @@ export function MarketOraclePanel({ oracle, chainId }: MarketOraclePanelProps) {
             {oracle.providedBy.length > 1 && <span className="font-medium text-basics-dark-grey">(Redundant)</span>}
           </Panel.Title>
 
-          <Info size={16}>Some info</Info>
+          <Info size={16}>Uses an oracle which tracks current market price for the token asset.</Info>
         </Panel.Header>
       </div>
       <Panel.Content className="flex flex-col gap-4 sm:gap-6">

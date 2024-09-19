@@ -22,7 +22,7 @@ export function YieldingFixedOraclePanel({ oracle, chainId }: YieldingFixedOracl
             Yielding Fixed Price{' '}
             {oracle.providedBy.length > 1 && <span className="font-medium text-basics-dark-grey">(Redundant)</span>}
           </Panel.Title>
-          <Info size={16}>Some info</Info>
+          <Info size={16}>Uses an exchange ratio together with with a market price of a base asset</Info>
         </Panel.Header>
       </div>
       <Panel.Content className="flex flex-col gap-4 sm:gap-6">
