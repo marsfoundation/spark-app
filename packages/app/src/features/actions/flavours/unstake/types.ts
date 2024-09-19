@@ -4,8 +4,7 @@ import { Token } from '@/domain/types/Token'
 
 export interface UnstakeObjective {
   type: 'unstake'
-  stakingToken: Token // e.g. usds for Sky farm
-  rewardToken: Token
+  token: Token // stablecoins
   amount: NormalizedUnitNumber
   farm: CheckedAddress
 }

@@ -18,7 +18,7 @@ import { RepayAction } from '../flavours/repay/types'
 import { SetUseAsCollateralAction } from '../flavours/set-use-as-collateral/types'
 import { SetUserEModeAction } from '../flavours/set-user-e-mode/logic/types'
 import { createStakeActions } from '../flavours/stake/logic/createStakeActions'
-import { UnstakeAction } from '../flavours/unstake/types'
+import { createUnstakeActions } from '../flavours/unstake/logic/createUnstakeActions'
 import { UpgradeAction } from '../flavours/upgrade/types'
 import { createWithdrawFromSavingsActions } from '../flavours/withdraw-from-savings/logic/createWithdrawFromSavingsActions'
 import { WithdrawAction } from '../flavours/withdraw/types'
@@ -250,14 +250,7 @@ export function useCreateActions({ objectives, actionsSettings, actionContext }:
       }
 
       case 'unstake': {
-        const unstakeAction: UnstakeAction = {
-          type: 'unstake',
-          farm: objective.farm,
-          stakingToken: objective.stakingToken,
-          rewardToken: objective.rewardToken,
-          amount: objective.amount,
-        }
-        return [unstakeAction]
+        return createUnstakeActions(objective, actionContext)
       }
 
       case 'withdrawFromSavings': {
