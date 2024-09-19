@@ -112,4 +112,6 @@ export interface InjectedActionsContext {
   marketInfo?: MarketInfo
   tokensInfo?: TokensInfo
   savingsDaiInfo?: SavingsInfo
+  savingsUsdsInfo?: SavingsInfo
+  farmsInfo?: FarmsInfo
 }

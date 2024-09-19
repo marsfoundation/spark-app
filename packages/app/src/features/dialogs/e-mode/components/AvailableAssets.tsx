@@ -1,8 +1,8 @@
 import { EModeCategoryName } from '@/domain/e-mode/types'
 import { Token } from '@/domain/types/Token'
-import { TransactionOverviewDetailsItem } from '@/features/dialogs/common/components/TransactionOverviewDetailsItem'
 import { assets } from '@/ui/assets'
 import { testIds } from '@/ui/utils/testIds'
+import { TransactionOverviewDetailsItem } from '../../common/components/transaction-overview/TransactionOverviewDetailsItem'
 
 export interface AvailableAssets {
   categoryName: EModeCategoryName

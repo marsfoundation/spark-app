@@ -1,11 +1,11 @@
 import { TokenWithBalance } from '@/domain/common/types'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { WithdrawFromSavingsObjective } from '@/features/actions/flavours/withdraw-from-savings/types'
-import { SavingsDialogFormNormalizedData } from '../../common/logic/form'
+import { TransferFromUserFormNormalizedData } from '@/features/dialogs/common/logic/transfer-from-user/form'
 import { Mode } from '../types'
 
 export interface CreateObjectivesParams {
-  formValues: SavingsDialogFormNormalizedData
+  formValues: TransferFromUserFormNormalizedData
   receiver: CheckedAddress | undefined
   mode: Mode
   savingsTokenWithBalance: TokenWithBalance

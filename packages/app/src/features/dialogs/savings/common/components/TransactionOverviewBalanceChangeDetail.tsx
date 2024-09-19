@@ -1,8 +1,7 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
-import { TransactionOverviewDetailsItem } from '@/features/dialogs/common/components/TransactionOverviewDetailsItem'
+import { TransactionOverviewDetailsItem } from '@/features/dialogs/common/components/transaction-overview/TransactionOverviewDetailsItem'
 import { assets } from '@/ui/assets'
-
 import { TokenValue } from './TokenValue'
 
 export interface TransactionOverviewBalanceChangeDetailProps {

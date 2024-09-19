@@ -1,8 +1,8 @@
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
-import { RouteItem } from '../../../types'
+import { TxOverviewRouteItem } from '@/features/dialogs/common/types'
 
 export interface TransactionOutcomeProps {
-  outcome: RouteItem
+  outcome: TxOverviewRouteItem
   'data-testid'?: string
 }
 

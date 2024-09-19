@@ -1,4 +1,5 @@
 import { usdsSkyRewardsConfig } from '@/config/contracts-generated'
+import { getFarmsInfoQueryKey } from '@/domain/farms/query'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { ActionConfig, ActionContext } from '@/features/actions/logic/types'
@@ -26,6 +27,7 @@ export function createStakeActionConfig(action: StakeAction, context: ActionCont
       return [
         allowanceQueryKey({ token: action.stakingToken.address, spender: action.farm, account, chainId }),
         getBalancesQueryKeyPrefix({ account, chainId }),
+        getFarmsInfoQueryKey({ account, chainId }),
       ]
     },
   }

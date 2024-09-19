@@ -1,11 +1,9 @@
-import BigNumber from 'bignumber.js'
-
 import { TokenWithBalance } from '@/domain/common/types'
 import { DialogPanel } from '@/features/dialogs/common/components/DialogPanel'
 import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPanelTitle'
-import { TransactionOverviewDetailsItem } from '@/features/dialogs/common/components/TransactionOverviewDetailsItem'
-
-import { HealthFactorChange } from '../../common/components/HealthFactorChange'
+import BigNumber from 'bignumber.js'
+import { HealthFactorChange } from '../../common/components/transaction-overview/HealthFactorChange'
+import { TransactionOverviewDetailsItem } from '../../common/components/transaction-overview/TransactionOverviewDetailsItem'
 
 export interface CollateralOverviewPanelProps {
   collateral: TokenWithBalance

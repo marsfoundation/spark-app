@@ -1,9 +1,8 @@
 import { Token } from '@/domain/types/Token'
 import { DialogPanel } from '@/features/dialogs/common/components/DialogPanel'
 import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPanelTitle'
-
-import { HealthFactorChange } from '../../common/components/HealthFactorChange'
-import { TokenValueChange } from '../../common/components/TokenValueChange'
+import { HealthFactorChange } from '../../common/components/transaction-overview/HealthFactorChange'
+import { TokenValueChange } from '../../common/components/transaction-overview/TokenValueChange'
 import { PositionOverview } from '../logic/types'
 
 export interface RepayOverviewPanelProps {

@@ -17,7 +17,7 @@ export function EarnedBalance({ farm }: EarnedBalanceProps) {
     refreshIntervalInMs: rewardRate.gt(0) && totalSupply.gt(0) ? STEP_IN_MS : undefined,
   })
 
-  const currentEarned = calculateCurrentlyEarned({
+  const currentEarned = calculateEarned({
     earned,
     staked,
     rewardRate,
@@ -26,7 +26,16 @@ export function EarnedBalance({ farm }: EarnedBalanceProps) {
     timestampInMs,
     totalSupply,
   })
-  const precision = calculatePrecision({ staked, rewardRate })
+  const earnedIn1Step = calculateEarned({
+    earned,
+    staked,
+    rewardRate,
+    earnedTimestamp,
+    periodFinish,
+    timestampInMs: timestampInMs + STEP_IN_MS,
+    totalSupply,
+  })
+  const precision = calculatePrecision({ currentEarned, earnedIn1Step })
 
   return (
     <div className="flex items-center gap-2">
@@ -39,7 +48,7 @@ export function EarnedBalance({ farm }: EarnedBalanceProps) {
   )
 }
 
-interface CalculateCurrentlyEarnedParams {
+interface CalculateEarnedParams {
   earned: NormalizedUnitNumber
   staked: NormalizedUnitNumber
   rewardRate: NormalizedUnitNumber
@@ -48,7 +57,7 @@ interface CalculateCurrentlyEarnedParams {
   timestampInMs: number
   totalSupply: NormalizedUnitNumber
 }
-function calculateCurrentlyEarned({
+function calculateEarned({
   earned,
   staked,
   rewardRate,
@@ -56,7 +65,7 @@ function calculateCurrentlyEarned({
   periodFinish,
   timestampInMs,
   totalSupply,
-}: CalculateCurrentlyEarnedParams): NormalizedUnitNumber {
+}: CalculateEarnedParams): NormalizedUnitNumber {
   if (totalSupply.isZero()) {
     return earned
   }
@@ -65,19 +74,20 @@ function calculateCurrentlyEarned({
   const earnedTimestampInMs = earnedTimestamp * 1000
 
   const timeDiff = ((timestampInMs > periodFinishInMs ? periodFinishInMs : timestampInMs) - earnedTimestampInMs) / 1000
-  const accruedEarned = staked.multipliedBy(rewardRate).multipliedBy(BigNumber.max(timeDiff, 0))
+  const accruedEarned = staked.multipliedBy(rewardRate).multipliedBy(BigNumber.max(timeDiff, 0)).dividedBy(totalSupply)
   const earnedInTotal = NormalizedUnitNumber(earned.plus(accruedEarned))
 
   return earnedInTotal
 }
 
 interface CalculatePrecisionParams {
-  staked: NormalizedUnitNumber
-  rewardRate: NormalizedUnitNumber
+  currentEarned: NormalizedUnitNumber
+  earnedIn1Step: NormalizedUnitNumber
 }
-function calculatePrecision({ staked, rewardRate }: CalculatePrecisionParams): number {
-  const earnedIn1Step = staked.multipliedBy(rewardRate).multipliedBy(STEP_IN_MS / 1000)
-  const precision = -Math.floor(Math.log10(earnedIn1Step.toNumber()))
+function calculatePrecision({ currentEarned, earnedIn1Step }: CalculatePrecisionParams): number {
+  const precision = earnedIn1Step.minus(currentEarned).lt(1e-12)
+    ? 0
+    : -Math.floor(Math.log10(earnedIn1Step.minus(currentEarned).toNumber())) - 1
 
   return Math.max(precision, 2)
 }
