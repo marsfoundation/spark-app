@@ -12,14 +12,21 @@ export interface UnstakeActionRowProps extends ActionRowBaseProps {
 export function UnstakeActionRow({ action, index, actionHandlerState, onAction, variant }: UnstakeActionRowProps) {
   const tokenIconPaths = [getTokenImage(action.rewardToken.symbol), getTokenImage(action.stakingToken.symbol)]
   const status = actionHandlerState.status
-  const successMessage = `Unstaked ${action.stakingToken.format(action.amount, { style: 'auto' })} ${action.stakingToken.symbol}!`
+
+  const formattedAmount = action.stakingToken.format(action.amount, { style: 'auto' })
+  const unstakeSuccessMessage = `Unstaked ${formattedAmount} ${action.stakingToken.symbol}`
+  const exitSuccessMessage = `${unstakeSuccessMessage} and claimed rewards`
+  const successMessage = `${action.exit ? exitSuccessMessage : unstakeSuccessMessage}!`
+
+  const unstakeActionTitle = `Unstake ${action.stakingToken.symbol} from ${action.rewardToken.symbol} Farm`
+  const exitActionTitle = `Exit from ${action.rewardToken.symbol} Farm`
 
   return (
     <ActionRow index={index}>
       <ActionRow.Icon path={assets.actions.withdraw} actionStatus={status} />
 
       <ActionRow.Title icon={<IconStack paths={tokenIconPaths} stackingOrder="last-on-top" />} actionStatus={status}>
-        Unstake {action.stakingToken.symbol} from {action.rewardToken.symbol} Farm
+        {action.exit ? exitActionTitle : unstakeActionTitle}
       </ActionRow.Title>
 
       <ActionRow.Description successMessage={successMessage} actionStatus={status} variant={variant}>
@@ -29,7 +36,7 @@ export function UnstakeActionRow({ action, index, actionHandlerState, onAction, 
       <ActionRow.ErrorWarning variant={variant} actionHandlerState={actionHandlerState} />
 
       <ActionRow.Action onAction={onAction} status={status}>
-        Unstake
+        {action.exit ? 'Exit' : 'Unstake'}
       </ActionRow.Action>
     </ActionRow>
   )

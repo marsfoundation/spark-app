@@ -27,6 +27,7 @@ const hookRenderer = setupUseContractActionRenderer({
       type: 'unstake',
       farm: getContractAddress(usdsSkyRewardsConfig.address, chainId),
       amount,
+      exit: false,
       stakingToken,
       rewardToken,
     },
@@ -43,6 +44,48 @@ describe(createUnstakeActionConfig.name, () => {
           abi: usdsSkyRewardsConfig.abi,
           functionName: 'withdraw',
           args: [toBigInt(stakingToken.toBaseUnit(amount))],
+          from: account,
+          result: undefined,
+        }),
+        handlers.mineTransaction(),
+      ],
+    })
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('ready')
+    })
+
+    result.current.onAction()
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('success')
+    })
+
+    await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(getFarmsInfoQueryKey({ account, chainId }))
+    await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+      getBalancesQueryKeyPrefix({ account, chainId }),
+    )
+  })
+
+  test('exits from farm', async () => {
+    const { result, queryInvalidationManager } = hookRenderer({
+      args: {
+        action: {
+          type: 'unstake',
+          farm: getContractAddress(usdsSkyRewardsConfig.address, chainId),
+          exit: true,
+          amount,
+          stakingToken,
+          rewardToken,
+        },
+        enabled: true,
+      },
+      extraHandlers: [
+        handlers.contractCall({
+          to: getContractAddress(usdsSkyRewardsConfig.address, chainId),
+          abi: usdsSkyRewardsConfig.abi,
+          functionName: 'exit',
+          args: [],
           from: account,
           result: undefined,
         }),

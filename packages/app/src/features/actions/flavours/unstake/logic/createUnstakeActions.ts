@@ -21,6 +21,7 @@ export function createUnstakeActions(objective: UnstakeObjective, context: Actio
     farm: objective.farm,
     stakingToken,
     rewardToken,
+    exit: objective.exit,
     amount: objective.amount,
   }
 

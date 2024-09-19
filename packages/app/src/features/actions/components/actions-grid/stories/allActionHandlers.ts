@@ -162,6 +162,7 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
       amount: NormalizedUnitNumber(1),
       rewardToken: tokens.SKY,
       farm: CheckedAddress(zeroAddress),
+      exit: false,
     },
     state: { status: 'ready' },
     onAction: () => {},

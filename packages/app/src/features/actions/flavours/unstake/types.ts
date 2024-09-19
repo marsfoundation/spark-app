@@ -6,6 +6,7 @@ export interface UnstakeObjective {
   type: 'unstake'
   token: Token // stablecoins
   amount: NormalizedUnitNumber
+  exit: boolean
   farm: CheckedAddress
 }
 
@@ -14,5 +15,6 @@ export interface UnstakeAction {
   stakingToken: Token
   rewardToken: Token
   amount: NormalizedUnitNumber
+  exit: boolean
   farm: CheckedAddress
 }

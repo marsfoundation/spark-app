@@ -14,6 +14,15 @@ export function createUnstakeActionConfig(action: UnstakeAction, context: Action
       const { stakingToken, farm } = action
       const amount = toBigInt(stakingToken.toBaseUnit(action.amount))
 
+      if (action.exit) {
+        return ensureConfigTypes({
+          address: farm,
+          abi: usdsSkyRewardsConfig.abi,
+          functionName: 'exit',
+          args: [],
+        })
+      }
+
       return ensureConfigTypes({
         address: farm,
         abi: usdsSkyRewardsConfig.abi,
