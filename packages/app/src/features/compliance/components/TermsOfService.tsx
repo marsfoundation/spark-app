@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 
 import { MultiPanelDialog } from '@/features/dialogs/common/components/MultiPanelDialog'
 import { assets } from '@/ui/assets'
@@ -9,6 +9,7 @@ import { Tooltip, TooltipContentShort } from '@/ui/atoms/tooltip/Tooltip'
 import { TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 import { links } from '@/ui/constants/links'
 import { cn } from '@/ui/utils/style'
+import { useIsIntersecting } from '@/ui/utils/useIntersecting'
 
 interface ToSLinkProps {
   className?: string
@@ -70,17 +71,13 @@ export interface TermsOfServiceProps {
 export function TermsOfService({ onAgree }: TermsOfServiceProps) {
   const [hasUserReadTerms, setHasUserReadTerms] = useState(false)
 
-  const scrollAreaRef = useRef<HTMLDivElement>(null)
-
-  function handleScroll() {
-    if (scrollAreaRef.current) {
-      const { scrollTop, scrollHeight, clientHeight } = scrollAreaRef.current
-
-      if (scrollTop + clientHeight >= scrollHeight) {
+  const { scrollAreaRef, sentinelRef } = useIsIntersecting({
+    onIntersect: (isVisible) => {
+      if (isVisible) {
         setHasUserReadTerms(true)
       }
-    }
-  }
+    },
+  })
 
   return (
     <MultiPanelDialog>
@@ -96,7 +93,6 @@ export function TermsOfService({ onAgree }: TermsOfServiceProps) {
         viewportRef={scrollAreaRef}
         className="h-64 rounded-md border border-light-grey pr-3 pl-2"
         type="always"
-        onScroll={handleScroll}
       >
         <div className="grid grid-cols-[auto_1fr] gap-4">
           {points.map((point, index) => (
@@ -106,6 +102,7 @@ export function TermsOfService({ onAgree }: TermsOfServiceProps) {
             </React.Fragment>
           ))}
         </div>
+        <div ref={sentinelRef} className="h-[1px]" />
       </ScrollArea>
 
       {hasUserReadTerms ? (
