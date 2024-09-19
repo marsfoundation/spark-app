@@ -26,7 +26,6 @@ export function useIsIntersecting<
       },
       {
         root: scrollAreaRef.current,
-        threshold: 1.0,
       },
     )
 

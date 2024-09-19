@@ -102,7 +102,7 @@ export function TermsOfService({ onAgree }: TermsOfServiceProps) {
             </React.Fragment>
           ))}
         </div>
-        <div ref={sentinelRef} className="h-[1px]" />
+        <div ref={sentinelRef} className="h-[5px]" />
       </ScrollArea>
 
       {hasUserReadTerms ? (
