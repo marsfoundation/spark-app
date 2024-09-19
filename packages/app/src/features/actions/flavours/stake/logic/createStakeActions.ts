@@ -6,7 +6,7 @@ import { Action, ActionContext } from '@/features/actions/logic/types'
 import { assert, raise } from '@/utils/assert'
 import { ApproveAction } from '../../approve/types'
 import { UpgradeAction } from '../../upgrade/types'
-import { UsdsPsmWrapAction } from '../../usds-psm-wrap/types'
+import { UsdsPsmConvertAction } from '../../usds-psm-convert/types'
 import { createWithdrawFromSavingsActions } from '../../withdraw-from-savings/logic/createWithdrawFromSavingsActions'
 import { WithdrawFromSavingsObjective } from '../../withdraw-from-savings/types'
 import { StakeAction, StakeObjective } from '../types'
@@ -88,14 +88,15 @@ export function createStakeActions(objective: StakeObjective, context: ActionCon
         value: objective.amount,
       }
 
-      const wrapAction: UsdsPsmWrapAction = {
-        type: 'usdsPsmWrap',
+      const convertToUsdsAction: UsdsPsmConvertAction = {
+        type: 'usdsPsmConvert',
+        outToken: 'usds',
         usdc: objective.token,
         usds: context.tokensInfo.USDS ?? raise('USDS token is required for usds psm wrap action'),
         usdcAmount: objective.amount,
       }
 
-      return [approveWrapAction, wrapAction, approveStakeAction, stakeAction]
+      return [approveWrapAction, convertToUsdsAction, approveStakeAction, stakeAction]
     }
   }
 

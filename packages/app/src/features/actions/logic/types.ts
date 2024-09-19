@@ -20,7 +20,7 @@ import { SetUserEModeAction, SetUserEModeObjective } from '../flavours/set-user-
 import { StakeAction, StakeObjective } from '../flavours/stake/types'
 import { UnstakeAction, UnstakeObjective } from '../flavours/unstake/types'
 import { UpgradeAction, UpgradeObjective } from '../flavours/upgrade/types'
-import { UsdsPsmWrapAction } from '../flavours/usds-psm-wrap/types'
+import { UsdsPsmConvertAction } from '../flavours/usds-psm-convert/types'
 import { WithdrawFromSavingsAction, WithdrawFromSavingsObjective } from '../flavours/withdraw-from-savings/types'
 import { WithdrawAction, WithdrawObjective } from '../flavours/withdraw/types'
 import { PermitStore } from './permits'
@@ -62,7 +62,7 @@ export type Action =
   | DowngradeAction
   | StakeAction
   | UnstakeAction
-  | UsdsPsmWrapAction
+  | UsdsPsmConvertAction
 export type ActionType = Action['type']
 
 export type ActionHandlerState =

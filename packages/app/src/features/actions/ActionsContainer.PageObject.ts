@@ -172,6 +172,12 @@ type SimplifiedUnstakeAction = {
   rewardToken: string
 }
 
+type SimplifiedUsdsPsmConvertAction = {
+  type: 'usdsPsmConvert'
+  inToken: string
+  outToken: string
+}
+
 type SimplifiedGenericAction = BaseAction & {
   type: Exclude<
     ActionType,
@@ -183,6 +189,7 @@ type SimplifiedGenericAction = BaseAction & {
     | 'downgrade'
     | 'stake'
     | 'unstake'
+    | 'usdsPsmConvert'
   >
 }
 
@@ -205,6 +212,7 @@ type SimplifiedAction =
   | SimplifiedDowngradeAction
   | SimplifiedStakeAction
   | SimplifiedUnstakeAction
+  | SimplifiedUsdsPsmConvertAction
 
 function actionToTitle(action: SimplifiedAction): string {
   switch (action.type) {
@@ -240,8 +248,8 @@ function actionToTitle(action: SimplifiedAction): string {
       return `Stake ${action.stakingToken} in ${action.rewardToken} Farm`
     case 'unstake':
       return `Unstake ${action.stakingToken} from ${action.rewardToken} Farm`
-    case 'usdsPsmWrap':
-      return 'Convert USDC to USDS'
+    case 'usdsPsmConvert':
+      return `Convert ${action.inToken} to ${action.outToken}`
   }
 }
 

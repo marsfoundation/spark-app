@@ -13,7 +13,7 @@ import { SetUserEModeActionRow } from '../../flavours/set-user-e-mode/SetUserEMo
 import { StakeActionRow } from '../../flavours/stake/StakeActionRow'
 import { UnstakeActionRow } from '../../flavours/unstake/UnstakeActionRow'
 import { UpgradeActionRow } from '../../flavours/upgrade/UpgradeActionRow'
-import { UsdsPsmWrapActionRow } from '../../flavours/usds-psm-wrap/UsdsPsmWrapActionRow'
+import { UsdsPsmConvertActionRow } from '../../flavours/usds-psm-convert/UsdsPsmConvertActionRow'
 import { WithdrawFromSavingsActionRow } from '../../flavours/withdraw-from-savings/WithdrawFromSavingsActionRow'
 import { WithdrawActionRow } from '../../flavours/withdraw/WithdrawActionRow'
 import { ActionHandler } from '../../logic/types'
@@ -69,8 +69,8 @@ export function ActionsGrid({ actionHandlers, variant }: ActionsGridProps) {
             return <StakeActionRow action={handler.action} {...props} />
           case 'unstake':
             return <UnstakeActionRow action={handler.action} {...props} />
-          case 'usdsPsmWrap':
-            return <UsdsPsmWrapActionRow action={handler.action} {...props} />
+          case 'usdsPsmConvert':
+            return <UsdsPsmConvertActionRow action={handler.action} {...props} />
           default:
             assertNever(handler.action)
         }

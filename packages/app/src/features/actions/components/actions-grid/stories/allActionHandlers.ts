@@ -166,9 +166,10 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
     state: { status: 'ready' },
     onAction: () => {},
   },
-  usdsPsmWrap: {
+  usdsPsmConvert: {
     action: {
-      type: 'usdsPsmWrap',
+      type: 'usdsPsmConvert',
+      outToken: 'usds',
       usdc: tokens.USDC,
       usds: tokens.USDS,
       usdcAmount: NormalizedUnitNumber(1),

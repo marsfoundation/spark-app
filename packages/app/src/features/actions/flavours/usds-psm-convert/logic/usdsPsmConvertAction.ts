@@ -5,9 +5,9 @@ import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPr
 import { ActionConfig, ActionContext } from '@/features/actions/logic/types'
 import { toBigInt } from '@/utils/bigNumber'
 import { allowanceQueryKey } from '../../approve/logic/query'
-import { UsdsPsmWrapAction } from '../types'
+import { UsdsPsmConvertAction } from '../types'
 
-export function createUsdsPsmWrapActionConfig(action: UsdsPsmWrapAction, context: ActionContext): ActionConfig {
+export function createUsdsPsmConvertActionConfig(action: UsdsPsmConvertAction, context: ActionContext): ActionConfig {
   const { account, chainId } = context
 
   return {
@@ -17,7 +17,7 @@ export function createUsdsPsmWrapActionConfig(action: UsdsPsmWrapAction, context
       return ensureConfigTypes({
         address: getContractAddress(usdsPsmWrapperConfig.address, chainId),
         abi: usdsPsmWrapperConfig.abi,
-        functionName: 'sellGem',
+        functionName: action.outToken === 'usdc' ? 'buyGem' : 'sellGem',
         args: [account, amount],
       })
     },
@@ -25,7 +25,7 @@ export function createUsdsPsmWrapActionConfig(action: UsdsPsmWrapAction, context
     invalidates: () => {
       return [
         allowanceQueryKey({
-          token: action.usdc.address,
+          token: action.outToken === 'usdc' ? action.usds.address : action.usdc.address,
           spender: getContractAddress(usdsPsmWrapperConfig.address, chainId),
           account,
           chainId,

@@ -11,7 +11,7 @@ import { waitFor } from '@testing-library/react'
 import { mainnet } from 'viem/chains'
 import { describe, test } from 'vitest'
 import { allowanceQueryKey } from '../../approve/logic/query'
-import { createUsdsPsmWrapActionConfig } from './usdsPsmWrapAction'
+import { createUsdsPsmConvertActionConfig } from './usdsPsmConvertAction'
 
 const account = testAddresses.alice
 const chainId = mainnet.id
@@ -24,7 +24,8 @@ const hookRenderer = setupUseContractActionRenderer({
   handlers: [handlers.chainIdCall({ chainId }), handlers.balanceCall({ balance: 0n, address: account })],
   args: {
     action: {
-      type: 'usdsPsmWrap',
+      type: 'usdsPsmConvert',
+      outToken: 'usds',
       usdc,
       usds,
       usdcAmount,
@@ -33,7 +34,7 @@ const hookRenderer = setupUseContractActionRenderer({
   },
 })
 
-describe(createUsdsPsmWrapActionConfig.name, () => {
+describe(createUsdsPsmConvertActionConfig.name, () => {
   test('converts usdc to usds', async () => {
     const { result, queryInvalidationManager } = hookRenderer({
       extraHandlers: [
@@ -65,6 +66,54 @@ describe(createUsdsPsmWrapActionConfig.name, () => {
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
       allowanceQueryKey({
         token: usdc.address,
+        spender: getContractAddress(usdsPsmWrapperConfig.address, chainId),
+        account,
+        chainId,
+      }),
+    )
+  })
+
+  test('converts usds to usdc', async () => {
+    const { result, queryInvalidationManager } = hookRenderer({
+      args: {
+        action: {
+          type: 'usdsPsmConvert',
+          outToken: 'usdc',
+          usdc,
+          usds,
+          usdcAmount,
+        },
+        enabled: true,
+      },
+      extraHandlers: [
+        handlers.contractCall({
+          to: getContractAddress(usdsPsmWrapperConfig.address, chainId),
+          abi: usdsPsmWrapperConfig.abi,
+          functionName: 'buyGem',
+          args: [account, toBigInt(usdc.toBaseUnit(usdcAmount))],
+          from: account,
+          result: toBigInt(usds.toBaseUnit(usdcAmount)),
+        }),
+        handlers.mineTransaction(),
+      ],
+    })
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('ready')
+    })
+
+    result.current.onAction()
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('success')
+    })
+
+    await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+      getBalancesQueryKeyPrefix({ account, chainId }),
+    )
+    await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+      allowanceQueryKey({
+        token: usds.address,
         spender: getContractAddress(usdsPsmWrapperConfig.address, chainId),
         account,
         chainId,
