@@ -14,7 +14,7 @@ export function FixedOraclePanel({ chainId }: FixedOraclePanelProps) {
   return (
     <Panel.Wrapper className="flex flex-col gap-4 p-4 sm:px-8 sm:py-6">
       <div>
-        <div className="mb-1 text-slate-500 text-sm leading-none sm:text-xs sm:leading-none">Oracle type</div>
+        <div className="mb-1 text-basics-dark-grey text-sm leading-none sm:text-xs sm:leading-none">Oracle type</div>
         <Panel.Header className="flex items-center gap-2">
           <Panel.Title className="text-xl">Fixed Price</Panel.Title>
           <Info size={16}>Some info</Info>

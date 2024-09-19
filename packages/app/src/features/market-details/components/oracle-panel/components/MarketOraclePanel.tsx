@@ -15,10 +15,13 @@ export function MarketOraclePanel({ oracle, chainId }: MarketOraclePanelProps) {
   return (
     <Panel.Wrapper className="flex flex-col gap-4 p-4 sm:px-8 sm:py-6">
       <div>
-        <div className="mb-1 text-slate-500 text-sm leading-none sm:text-xs sm:leading-none">Oracle type</div>
+        <div className="mb-1 text-basics-dark-grey text-sm leading-none sm:text-xs sm:leading-none">Oracle type</div>
         <Panel.Header className="flex items-center gap-2">
           <Panel.Title className="text-xl">
-            Market Price {oracle.providedBy.length > 1 && <span className="text-gray-500">(Redundant)</span>}
+            Market Price{' '}
+            {oracle.providedBy.length > 1 && (
+              <span className="font-medium text-basics-dark-grey">(Redundant)</span>
+            )}
           </Panel.Title>
 
           <Info size={16}>Some info</Info>

@@ -5,7 +5,8 @@ import { ReactNode } from 'react'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 
-interface VariantsConfig {
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+type VariantsConfig = {
   variant: { danger: string; warning: string; info: string }
 }
 type Variant = keyof VariantsConfig['variant']
@@ -28,7 +29,7 @@ export function Alert({ children, variant, className, 'data-testid': dataTestId 
   )
 }
 
-const bgVariants = cva('flex items-center gap-4 rounded-lg px-4 py-2.5', {
+const bgVariants = cva<VariantsConfig>('flex items-center gap-4 rounded-lg px-4 py-2.5', {
   variants: {
     variant: {
       danger: 'bg-[#FC5038]/10',
@@ -38,7 +39,7 @@ const bgVariants = cva('flex items-center gap-4 rounded-lg px-4 py-2.5', {
   },
 })
 
-const iconVariants = cva('h-6 shrink-0', {
+const iconVariants = cva<VariantsConfig>('h-6 shrink-0', {
   variants: {
     variant: {
       danger: 'text-[#FC4F37]',
