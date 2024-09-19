@@ -81,7 +81,7 @@ export function useMigrateDialog({ type, fromToken, toToken }: UseMigrateDialogP
 
   return {
     selectableAssets: [fromTokenWithBalance],
-    assetsFields: getFormFieldsForAssetBalanceDialog({ form, tokensInfo, singleAsset: true }),
+    assetsFields: getFormFieldsForAssetBalanceDialog({ form, tokensInfo }),
     form,
     objectives,
     migrationAmount: formValues.value,

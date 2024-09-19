@@ -109,7 +109,7 @@ export function useSavingsDepositDialog({
 
   return {
     selectableAssets: inputTokens,
-    assetsFields: getFormFieldsForAssetBalanceDialog({ form, tokensInfo, singleAsset: inputTokens.length === 1 }),
+    assetsFields: getFormFieldsForAssetBalanceDialog({ form, tokensInfo }),
     form,
     objectives,
     tokenToDeposit,

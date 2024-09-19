@@ -86,22 +86,18 @@ export function useDebouncedDialogFormValues({
 export interface GetFormFieldsForAssetBalanceInputDialogParams {
   form: UseFormReturn<AssetInputSchema>
   tokensInfo: TokensInfo
-  singleAsset?: boolean
 }
 
 // @note: Can be used for dialogs where input is token and max value is token balance
 export function getFormFieldsForAssetBalanceDialog({
   form,
   tokensInfo,
-  singleAsset,
 }: GetFormFieldsForAssetBalanceInputDialogParams): FormFieldsForDialog {
-  const changeAsset = singleAsset
-    ? undefined
-    : (newSymbol: TokenSymbol): void => {
-        form.setValue('symbol', newSymbol)
-        form.setValue('value', '')
-        form.clearErrors()
-      }
+  const changeAsset = (newSymbol: TokenSymbol): void => {
+    form.setValue('symbol', newSymbol)
+    form.setValue('value', '')
+    form.clearErrors()
+  }
 
   const { symbol, value } = form.getValues()
   const { token, balance } = tokensInfo.findOneTokenWithBalanceBySymbol(symbol)

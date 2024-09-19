@@ -3,6 +3,7 @@ import { Farm } from '@/domain/farms/types'
 import { useFarmsInfo } from '@/domain/farms/useFarmsInfo'
 import { useSavingsDaiInfo } from '@/domain/savings-info/useSavingsDaiInfo'
 import { useSavingsUsdsInfo } from '@/domain/savings-info/useSavingsUsdsInfo'
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { StakeObjective } from '@/features/actions/flavours/stake/types'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
@@ -15,7 +16,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
 import { TxOverview, createTxOverview } from './createTxOverview'
-import { getStakedToken } from './getStakedToken'
 import { useFarmEntryTokens } from './useFarmEntryTokens'
 import { validationIssueToMessage } from './validation'
 
@@ -80,12 +80,14 @@ export function useStakeDialog({ farm, initialToken }: UseStakeDialogParams): Us
   const sacrificesYield =
     formValues.token.symbol === tokensInfo.sDAI?.symbol || formValues.token.symbol === tokensInfo.sUSDS?.symbol
 
-  const stakedToken = getStakedToken(
-    farm.stakingToken,
+  const stakingTokenRoutItem =
     txOverview.status === 'success'
       ? txOverview.routeToStakingToken.at(-1) ?? raise('Route should be defined')
-      : undefined,
-  )
+      : undefined
+  const stakedToken = {
+    token: farm.stakingToken,
+    value: stakingTokenRoutItem?.value ?? NormalizedUnitNumber(0),
+  }
 
   const actionsEnabled = formValues.value.gt(0) && isFormValid && !isDebouncing
 
