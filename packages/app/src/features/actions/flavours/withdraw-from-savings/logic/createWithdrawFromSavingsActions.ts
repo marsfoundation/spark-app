@@ -1,5 +1,10 @@
-import { MIGRATE_ACTIONS_ADDRESS, USDS_PSM_ACTIONS } from '@/config/consts'
-import { psmActionsAddress, savingsXDaiAdapterAddress } from '@/config/contracts-generated'
+import {
+  migrationActionsConfig,
+  psmActionsAddress,
+  savingsXDaiAdapterAddress,
+  usdsPsmActionsConfig,
+} from '@/config/contracts-generated'
+import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Action, ActionContext } from '@/features/actions/logic/types'
 import {
@@ -46,7 +51,7 @@ export function createWithdrawFromSavingsActions(
     }
 
     if (isUsdcUsdsPsmActionsOperation({ token, savingsToken, tokensInfo })) {
-      return USDS_PSM_ACTIONS
+      return getContractAddress(usdsPsmActionsConfig.address, chainId)
     }
 
     if (isSexyDaiOperation({ token, savingsToken, tokensInfo, chainId })) {
@@ -54,7 +59,7 @@ export function createWithdrawFromSavingsActions(
     }
 
     if (isSDaiToUsdsWithdraw({ token, savingsToken, tokensInfo })) {
-      return MIGRATE_ACTIONS_ADDRESS
+      return getContractAddress(migrationActionsConfig.address, chainId)
     }
 
     return objective.savingsToken.address

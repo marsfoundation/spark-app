@@ -1,5 +1,6 @@
 import { gnosis, mainnet } from 'viem/chains'
 
+import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { getOriginChainId } from '@/domain/hooks/useOriginChainId'
 import { gnosisSavingsDaiInfoQuery } from '@/domain/savings-info/gnosisSavingsInfo'
 import { mainnetSavingsDaiInfoQuery, mainnetSavingsUsdsInfoQuery } from '@/domain/savings-info/mainnetSavingsInfo'
@@ -8,8 +9,10 @@ import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { assets } from '@/ui/assets'
-import { NATIVE_ASSET_MOCK_ADDRESS, STAKING_REWARDS_USDS_ADDRESS, stablecoinsGroup } from '../consts'
+import { NATIVE_ASSET_MOCK_ADDRESS, stablecoinsGroup } from '../consts'
+import { usdsSkyRewardsConfig } from '../contracts-generated'
 import { AppConfig } from '../feature-flags'
+import { PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY } from '../wagmi/config.e2e'
 import { USDS_DEV_CHAIN_ID } from './constants'
 import { ChainConfig, ChainConfigEntry, ChainMeta } from './types'
 
@@ -22,6 +25,9 @@ const commonTokenSymbolToReplacedName = {
   [TokenSymbol('WETH')]: { name: 'Ethereum', symbol: TokenSymbol('ETH') },
   [TokenSymbol('weETH')]: { name: 'Ether.fi Staked ETH', symbol: TokenSymbol('weETH') },
 }
+
+const PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE =
+  import.meta.env.VITE_PLAYWRIGHT === '1' && (window as any)[PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY] === true
 
 const chainConfig: ChainConfig = {
   [mainnet.id]: {
@@ -68,13 +74,17 @@ const chainConfig: ChainConfig = {
       },
     },
     savingsDaiInfoQuery: mainnetSavingsDaiInfoQuery,
-    savingsUsdsInfoQuery: undefined,
+    savingsUsdsInfoQuery: PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE ? undefined : mainnetSavingsUsdsInfoQuery,
     daiSymbol: TokenSymbol('DAI'),
     sDaiSymbol: TokenSymbol('sDAI'),
-    USDSSymbol: undefined,
-    sUSDSSymbol: undefined,
+    USDSSymbol: PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE ? undefined : TokenSymbol('USDS'),
+    sUSDSSymbol: PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE ? undefined : TokenSymbol('sUSDS'),
     mergedDaiAndSDaiMarkets: true,
-    savingsInputTokens: [TokenSymbol('DAI'), TokenSymbol('USDC')],
+    savingsInputTokens: [
+      TokenSymbol('DAI'),
+      TokenSymbol('USDC'),
+      ...(PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE ? [] : [TokenSymbol('USDS')]),
+    ],
     extraTokens: [
       {
         symbol: TokenSymbol('DAI'),
@@ -91,8 +101,69 @@ const chainConfig: ChainConfig = {
         oracleType: 'vault',
         address: CheckedAddress('0x83f20f44975d03b1b09e64809b757c47f942beea'),
       },
+      ...(PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE
+        ? []
+        : ([
+            {
+              symbol: TokenSymbol('sUSDS'),
+              oracleType: 'vault',
+              address: CheckedAddress('0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD'),
+            },
+            {
+              symbol: TokenSymbol('USDS'),
+              oracleType: 'fixed-usd',
+              address: CheckedAddress('0xdC035D45d973E3EC169d2276DDab16f1e407384F'),
+            },
+            {
+              symbol: TokenSymbol('SKY'),
+              oracleType: 'fixed-usd', // @todo: this is not correct, but it's not used in the app for now
+              address: CheckedAddress('0x56072C95FAA701256059aa122697B133aDEd9279'),
+            },
+          ] as const)),
     ],
-    farms: [],
+    farms: [
+      {
+        address: getContractAddress(usdsSkyRewardsConfig.address, mainnet.id),
+        entryAssetsGroup: stablecoinsGroup,
+      },
+    ],
+    oracles: {
+      [TokenSymbol('WETH')]: {
+        type: 'market-price',
+        providedBy: ['chainlink'],
+      },
+      [TokenSymbol('WBTC')]: {
+        type: 'market-price',
+        providedBy: ['chainlink'],
+      },
+      [TokenSymbol('wstETH')]: {
+        type: 'yielding-fixed',
+        baseAsset: TokenSymbol('ETH'),
+        providedBy: ['chainlink'],
+        ratio: async () => NormalizedUnitNumber(0),
+      },
+      [TokenSymbol('rETH')]: {
+        type: 'yielding-fixed',
+        baseAsset: TokenSymbol('ETH'),
+        providedBy: ['chainlink'],
+        ratio: async () => NormalizedUnitNumber(0),
+      },
+      [TokenSymbol('weETH')]: {
+        type: 'yielding-fixed',
+        baseAsset: TokenSymbol('ETH'),
+        providedBy: ['chainlink'],
+        ratio: async () => NormalizedUnitNumber(0),
+      },
+      [TokenSymbol('USDC')]: {
+        type: 'fixed',
+      },
+      [TokenSymbol('USDT')]: {
+        type: 'fixed',
+      },
+      [TokenSymbol('DAI')]: {
+        type: 'fixed',
+      },
+    },
   },
   [gnosis.id]: {
     id: gnosis.id,
@@ -150,6 +221,38 @@ const chainConfig: ChainConfig = {
       },
     ],
     farms: [],
+    oracles: {
+      [TokenSymbol('EURe')]: {
+        type: 'underlying-asset',
+        asset: 'EUR',
+      },
+      [TokenSymbol('WETH')]: {
+        type: 'market-price',
+        providedBy: ['chainlink'],
+      },
+      [TokenSymbol('GNO')]: {
+        type: 'market-price',
+        providedBy: ['chainlink'],
+      },
+      [TokenSymbol('wstETH')]: {
+        type: 'yielding-fixed',
+        baseAsset: TokenSymbol('ETH'),
+        providedBy: ['chainlink'],
+        ratio: async () => NormalizedUnitNumber(0),
+      },
+      [TokenSymbol('USDC')]: {
+        type: 'fixed',
+      },
+      [TokenSymbol('USDC.e')]: {
+        type: 'fixed',
+      },
+      [TokenSymbol('USDT')]: {
+        type: 'fixed',
+      },
+      [TokenSymbol('XDAI')]: {
+        type: 'fixed',
+      },
+    },
   },
 }
 
@@ -161,13 +264,9 @@ export function getChainConfigEntry(chainId: number): ChainConfigEntry {
     const mainnetConfig = chainConfig[mainnet.id]
     return {
       ...mainnetConfig,
-      USDSSymbol: TokenSymbol('USDS'),
-      sUSDSSymbol: TokenSymbol('sUSDS'),
-      savingsUsdsInfoQuery: mainnetSavingsUsdsInfoQuery,
       meta: getUSDSDevChainMeta(mainnetConfig.meta),
-      savingsInputTokens: [...mainnetConfig.savingsInputTokens, TokenSymbol('USDS')],
       extraTokens: [
-        ...mainnetConfig.extraTokens,
+        ...mainnetConfig.extraTokens.filter(({ symbol }) => !['USDS', 'sUSDS', 'SKY'].includes(symbol)),
         {
           symbol: TokenSymbol('USDS'),
           oracleType: 'fixed-usd',
@@ -182,12 +281,6 @@ export function getChainConfigEntry(chainId: number): ChainConfigEntry {
           symbol: TokenSymbol('SKY'),
           oracleType: 'fixed-usd',
           address: CheckedAddress('0x72aC6A36de2f72BD39e9c782e9db0DCc41FEbfe2'),
-        },
-      ],
-      farms: [
-        {
-          address: STAKING_REWARDS_USDS_ADDRESS,
-          entryAssetsGroup: stablecoinsGroup,
         },
       ],
     }

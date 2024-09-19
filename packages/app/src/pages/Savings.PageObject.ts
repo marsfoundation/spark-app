@@ -1,20 +1,9 @@
-import { Locator, Page, expect } from '@playwright/test'
+import { Locator, expect } from '@playwright/test'
 
 import { BasePageObject } from '@/test/e2e/BasePageObject'
 import { testIds } from '@/ui/utils/testIds'
 
-export interface SavingsPageObjectOptions {
-  usdsSupport: boolean
-}
-
 export class SavingsPageObject extends BasePageObject {
-  private readonly usdsSupport: boolean
-
-  constructor(pageOrLocator: Page | Locator, options: SavingsPageObjectOptions = { usdsSupport: false }) {
-    super(pageOrLocator)
-    this.usdsSupport = options.usdsSupport
-  }
-
   // #region locators
   locateSavingsOpportunityPanel(): Locator {
     return this.locatePanelByHeader('Savings')
@@ -58,16 +47,7 @@ export class SavingsPageObject extends BasePageObject {
 
   async clickDepositButtonAction(assetName: string): Promise<void> {
     const panel = this.locatePanelByHeader('Stablecoins in wallet')
-    const row = (() => {
-      if (this.usdsSupport && assetName === 'DAI') {
-        // DAI row has an upgrade button instead of the asset name when USDS is supported
-        return panel
-          .getByRole('row')
-          .filter({ has: this.page.getByTestId(testIds.savings.stablecoinsInWallet.upgradeDaiToUsdsCell) })
-      }
-
-      return panel.getByRole('row').filter({ has: this.page.getByRole('cell', { name: assetName, exact: true }) })
-    })()
+    const row = panel.getByRole('row').filter({ hasText: assetName }) // @todo: won't work for assets with names that contain other assets name, like sDAI
     await row.getByRole('button', { name: 'Deposit' }).click()
   }
 
@@ -128,9 +108,15 @@ export class SavingsPageObject extends BasePageObject {
   }: { sDaiBalance: string; estimatedDaiValue: string }): Promise<void> {
     await expect(this.locatePanelByHeader('Savings DAI').getByTestId(testIds.savings.sDaiBalance)).toHaveText(
       sDaiBalance,
+      {
+        timeout: 60_000, // potentially should wait a bit for balance to reach the value because of timing issues in e2e tests
+      },
     )
     await expect(this.locatePanelByHeader('Savings DAI').getByTestId(testIds.savings.sDaiBalanceInDai)).toContainText(
       estimatedDaiValue,
+      {
+        timeout: 60_000,
+      },
     )
   }
 
@@ -140,9 +126,15 @@ export class SavingsPageObject extends BasePageObject {
   }: { sUsdsBalance: string; estimatedUsdsValue: string }): Promise<void> {
     await expect(this.locatePanelByHeader('Savings USDS').getByTestId(testIds.savings.sDaiBalance)).toHaveText(
       sUsdsBalance,
+      {
+        timeout: 60_000,
+      },
     )
     await expect(this.locatePanelByHeader('Savings USDS').getByTestId(testIds.savings.sDaiBalanceInDai)).toContainText(
       estimatedUsdsValue,
+      {
+        timeout: 60_000,
+      },
     )
   }
 

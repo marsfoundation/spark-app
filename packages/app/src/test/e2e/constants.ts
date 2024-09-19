@@ -1,5 +1,3 @@
-import { USDS_DEV_CHAIN_ID } from '@/config/chain/constants'
-
 /**
  * App reads tokens config from the chain but we need to mint tokens in E2E tests so we maintain this list.
  *
@@ -46,6 +44,14 @@ const TOKENS_ON_MAINNET = {
     address: '0xcd5fe23c85820f7b72d0926fc9b05b43e359b7ee',
     decimals: 18,
   },
+  USDS: {
+    address: '0xdC035D45d973E3EC169d2276DDab16f1e407384F',
+    decimals: 18,
+  },
+  sUSDS: {
+    address: '0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD',
+    decimals: 18,
+  },
 } as const
 
 export const TOKENS_ON_FORK = {
@@ -86,23 +92,9 @@ export const TOKENS_ON_FORK = {
       decimals: 18,
     },
   },
-  [USDS_DEV_CHAIN_ID]: {
-    ...TOKENS_ON_MAINNET,
-    USDS: {
-      address: '0xd2983525E903Ef198d5dD0777712EB66680463bc',
-      decimals: 18,
-    },
-    sUSDS: {
-      address: '0xCd9BC6cE45194398d12e27e1333D5e1d783104dD',
-      decimals: 18,
-    },
-  },
 } as const
 
-type NonNativeTokens =
-  | keyof (typeof TOKENS_ON_FORK)[1]
-  | keyof (typeof TOKENS_ON_FORK)[100]
-  | keyof (typeof TOKENS_ON_FORK)[typeof USDS_DEV_CHAIN_ID]
+type NonNativeTokens = keyof (typeof TOKENS_ON_FORK)[1] | keyof (typeof TOKENS_ON_FORK)[100]
 export type AssetsInTests = 'ETH' | 'XDAI' | NonNativeTokens
 
 // @note At this block number:
@@ -110,6 +102,7 @@ export type AssetsInTests = 'ETH' | 'XDAI' | NonNativeTokens
 // GNO is offboarded
 export const DEFAULT_BLOCK_NUMBER = 19092430n
 export const GNOSIS_DEFAULT_BLOCK_NUMBER = 34543308n
+export const USDS_ACTIVATED_BLOCK_NUMBER = 20771186n
 
 export const LITE_PSM_ACTIONS_OPERABLE = 20618776n
 export const LITE_PSM_ACTIONS_OPERABLE_DATE = new Date('2024-08-27T08:40:00Z')

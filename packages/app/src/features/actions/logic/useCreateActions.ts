@@ -1,15 +1,15 @@
-import { MIGRATE_ACTIONS_ADDRESS } from '@/config/consts'
-import { lendingPoolAddress, wethGatewayAddress } from '@/config/contracts-generated'
+import { lendingPoolAddress, migrationActionsConfig, wethGatewayAddress } from '@/config/contracts-generated'
 import { useChainConfigEntry } from '@/domain/hooks/useChainConfigEntry'
-import { useContractAddress } from '@/domain/hooks/useContractAddress'
+import { getContractAddress, useContractAddress } from '@/domain/hooks/useContractAddress'
 import { ActionsSettings } from '@/domain/state/actions-settings'
 import { BaseUnitNumber } from '@/domain/types/NumericValues'
 import { assert, raise } from '@/utils/assert'
 import { maxUint256 } from 'viem'
+import { useChainId } from 'wagmi'
 import { ApproveDelegationAction } from '../flavours/approve-delegation/types'
 import { ApproveAction } from '../flavours/approve/types'
 import { BorrowAction } from '../flavours/borrow/types'
-import { ClaimRewardsAction } from '../flavours/claim-rewards/types'
+import { ClaimMarketRewardsAction } from '../flavours/claim-market-rewards/types'
 import { createDepositToSavingsActions } from '../flavours/deposit-to-savings/logic/createDepositToSavingsActions'
 import { DepositAction } from '../flavours/deposit/types'
 import { DowngradeAction } from '../flavours/downgrade/types'
@@ -31,6 +31,7 @@ export interface UseCreateActionsParams {
 
 export function useCreateActions({ objectives, actionsSettings, actionContext }: UseCreateActionsParams): Action[] {
   const chainConfig = useChainConfigEntry()
+  const chainId = useChainId()
   const nativeAssetInfo = chainConfig.nativeAssetInfo
   const wethGateway = useContractAddress(wethGatewayAddress)
   const lendingPool = useContractAddress(lendingPoolAddress)
@@ -128,7 +129,7 @@ export function useCreateActions({ objectives, actionsSettings, actionContext }:
           const approveAction: ApproveAction = {
             type: 'approve',
             token: marketInfo.DAI,
-            spender: MIGRATE_ACTIONS_ADDRESS,
+            spender: getContractAddress(migrationActionsConfig.address, chainId),
             value: objective.value,
           }
 
@@ -200,22 +201,22 @@ export function useCreateActions({ objectives, actionsSettings, actionContext }:
         return [setUserEModeAction]
       }
 
-      case 'claimRewards': {
-        const claimRewardsActions: ClaimRewardsAction = {
-          type: 'claimRewards',
+      case 'claimMarketRewards': {
+        const ClaimMarketRewardsActions: ClaimMarketRewardsAction = {
+          type: 'claimMarketRewards',
           token: objective.token,
           incentiveControllerAddress: objective.incentiveControllerAddress,
           assets: objective.assets,
         }
 
-        return [claimRewardsActions]
+        return [ClaimMarketRewardsActions]
       }
 
       case 'upgrade': {
         const approveAction: ApproveAction = {
           type: 'approve',
           token: objective.fromToken,
-          spender: MIGRATE_ACTIONS_ADDRESS,
+          spender: getContractAddress(migrationActionsConfig.address, chainId),
           value: objective.amount,
         }
 
@@ -233,7 +234,7 @@ export function useCreateActions({ objectives, actionsSettings, actionContext }:
         const approveAction: ApproveAction = {
           type: 'approve',
           token: objective.fromToken,
-          spender: MIGRATE_ACTIONS_ADDRESS,
+          spender: getContractAddress(migrationActionsConfig.address, chainId),
           value: objective.amount,
         }
 
@@ -257,6 +258,17 @@ export function useCreateActions({ objectives, actionsSettings, actionContext }:
 
       case 'stake': {
         return createStakeActions(objective, actionContext)
+      }
+
+      case 'claimFarmRewards': {
+        return [
+          {
+            type: 'claimFarmRewards',
+            farm: objective.farm,
+            rewardToken: objective.rewardToken,
+            rewardAmount: objective.rewardAmount,
+          },
+        ]
       }
     }
   })

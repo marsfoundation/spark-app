@@ -1,10 +1,10 @@
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { DepositToSavingsObjective } from '@/features/actions/flavours/deposit-to-savings/types'
+import { TransferFromUserFormNormalizedData } from '@/features/dialogs/common/logic/transfer-from-user/form'
 import { raise } from '@/utils/assert'
-import { SavingsDialogFormNormalizedData } from '../../common/logic/form'
 
 export interface CreateObjectivesParams {
-  formValues: SavingsDialogFormNormalizedData
+  formValues: TransferFromUserFormNormalizedData
   tokensInfo: TokensInfo
   type: 'sdai' | 'susds'
 }

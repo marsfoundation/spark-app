@@ -4,7 +4,9 @@ import { potAbi, potAddress } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { bigNumberify } from '@/utils/bigNumber'
 
-import { USDS_DEV_CHAIN_ID } from '@/config/chain/constants'
+import { susdsAbi } from '@/config/abis/susdsAbi'
+import { getChainConfigEntry } from '@/config/chain'
+import { raise } from '@/utils/assert'
 import { PotSavingsInfo } from './potSavingsInfo'
 import { SavingsInfoQueryOptions, SavingsInfoQueryParams } from './types'
 
@@ -61,30 +63,32 @@ export function mainnetSavingsUsdsInfoQuery({
   return {
     queryKey: ['savings-usds-info', { chainId }],
     queryFn: async () => {
-      if (chainId !== USDS_DEV_CHAIN_ID) {
-        return null
-      }
+      const chainConfig = getChainConfigEntry(chainId)
+      const susdsSymbol = chainConfig.sUSDSSymbol
+      const susdsAddress =
+        chainConfig.extraTokens.find(({ symbol }) => symbol === susdsSymbol)?.address ??
+        raise('sUSDS address not found')
 
       const [ssr, rho, chi] = await multicall(wagmiConfig, {
         allowFailure: false,
         contracts: [
           {
-            address: sUSDSAddress,
+            address: susdsAddress,
             functionName: 'ssr',
             args: [],
-            abi: sUSDSAbi,
+            abi: susdsAbi,
           },
           {
-            address: sUSDSAddress,
+            address: susdsAddress,
             functionName: 'rho',
             args: [],
-            abi: sUSDSAbi,
+            abi: susdsAbi,
           },
           {
-            address: sUSDSAddress,
+            address: susdsAddress,
             functionName: 'chi',
             args: [],
-            abi: sUSDSAbi,
+            abi: susdsAbi,
           },
         ],
       })
@@ -100,35 +104,3 @@ export function mainnetSavingsUsdsInfoQuery({
     },
   }
 }
-
-// @todo: add sUSDS address to wagmi config once it's available on mainnet
-const sUSDSAddress = '0xCd9BC6cE45194398d12e27e1333D5e1d783104dD'
-const sUSDSAbi = [
-  {
-    constant: true,
-    payable: false,
-    type: 'function',
-    inputs: [],
-    name: 'chi',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    constant: true,
-    payable: false,
-    type: 'function',
-    inputs: [],
-    name: 'ssr',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    constant: true,
-    payable: false,
-    type: 'function',
-    inputs: [],
-    name: 'rho',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-] as const

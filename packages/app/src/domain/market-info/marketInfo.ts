@@ -243,7 +243,6 @@ export function marketInfoSelectFn({ timeAdvance }: MarketInfoSelectFnParams = {
     const rawAaveData = aaveDataLayerSelectFn({ timeAdvance })(data)
     const chainId = data.chainId
     const nativeAssetInfo = getChainConfigEntry(chainId).nativeAssetInfo
-
     const tokens = rawAaveData.userSummary.userReservesData.map(
       (r): Token =>
         new Token({

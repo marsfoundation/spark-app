@@ -1,8 +1,7 @@
-import { USDS_DEV_CHAIN_ID } from '@/config/chain/constants'
 import { borrowValidationIssueToMessage } from '@/domain/market-validators/validateBorrow'
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { CollateralDialogPageObject } from '@/features/dialogs/collateral/CollateralDialog.PageObject'
-import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
+import { DEFAULT_BLOCK_NUMBER, USDS_ACTIVATED_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setupFork } from '@/test/e2e/forking/setupFork'
 import { buildUrl, setup } from '@/test/e2e/setup'
 import { screenshot } from '@/test/e2e/utils'
@@ -12,7 +11,7 @@ import { BorrowPageObject } from './Borrow.PageObject'
 import { MyPortfolioPageObject } from './MyPortfolio.PageObject'
 import { SavingsPageObject } from './Savings.PageObject'
 
-test.describe('Borrow page (mainnet)', () => {
+test.describe('Borrow page', () => {
   const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id })
 
   test.describe('deposit ETH, borrow DAI', () => {
@@ -505,8 +504,8 @@ test.describe('Borrow page (mainnet)', () => {
   })
 })
 
-test.describe('Borrow page (usds devnet)', () => {
-  const fork = setupFork({ chainId: USDS_DEV_CHAIN_ID })
+test.describe('Borrow page (usds deployed)', () => {
+  const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
   let borrowPage: BorrowPageObject
   let actionsContainer: ActionsPageObject
 
@@ -546,12 +545,12 @@ test.describe('Borrow page (usds devnet)', () => {
       },
       fork,
       {
-        wstETH: 29_761.44,
+        wstETH: 27_843.94,
         USDS: 10_000,
       },
     )
 
-    await expectHFOnMyPortfolio(page, borrowPage, '2.38')
+    await expectHFOnMyPortfolio(page, borrowPage, '2.23')
 
     await page.goto(buildUrl('savings'))
     const savingsPage = new SavingsPageObject(page)

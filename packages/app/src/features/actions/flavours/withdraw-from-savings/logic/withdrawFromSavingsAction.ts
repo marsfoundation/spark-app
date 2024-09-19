@@ -1,10 +1,13 @@
-import { migrationActionsAbi } from '@/config/abis/migrationActionsAbi'
-import { MIGRATE_ACTIONS_ADDRESS, USDS_PSM_ACTIONS } from '@/config/consts'
-import { psmActionsConfig, savingsXDaiAdapterAbi, savingsXDaiAdapterAddress } from '@/config/contracts-generated'
+import {
+  migrationActionsConfig,
+  psmActionsConfig,
+  savingsXDaiAdapterAbi,
+  savingsXDaiAdapterAddress,
+  usdsPsmActionsConfig,
+} from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
 import { assertWithdraw } from '@/domain/savings/assertWithdraw'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
 import { ActionConfig, ActionContext } from '@/features/actions/logic/types'
@@ -19,7 +22,6 @@ import {
 } from '@/features/actions/utils/savings'
 import { assert, raise } from '@/utils/assert'
 import { toBigInt } from '@/utils/bigNumber'
-import BigNumber from 'bignumber.js'
 import { erc4626Abi } from 'viem'
 import { gnosis } from 'viem/chains'
 import { WithdrawFromSavingsAction } from '../types'
@@ -61,8 +63,8 @@ export function createWithdrawFromSavingsActionConfig(
 
       if (isSDaiToUsdsWithdraw({ token, savingsToken, tokensInfo })) {
         return ensureConfigTypes({
-          address: MIGRATE_ACTIONS_ADDRESS,
-          abi: migrationActionsAbi,
+          address: getContractAddress(migrationActionsConfig.address, chainId),
+          abi: migrationActionsConfig.abi,
           functionName: isRedeem ? 'migrateSDAISharesToUSDS' : 'migrateSDAIAssetsToUSDS',
           args: [receiver, argsAmount],
         })
@@ -75,7 +77,7 @@ export function createWithdrawFromSavingsActionConfig(
           }
 
           if (isUsdcUsdsPsmActionsOperation({ token, savingsToken, tokensInfo })) {
-            return USDS_PSM_ACTIONS
+            return getContractAddress(usdsPsmActionsConfig.address, chainId)
           }
 
           throw new Error('Not implemented psm action')
@@ -87,9 +89,7 @@ export function createWithdrawFromSavingsActionConfig(
           const gemMinAmountOut = calculateGemMinAmountOut({
             gemDecimals: token.decimals,
             assetsTokenDecimals: savingsToken.decimals,
-            assetsAmount: toBigInt(
-              savingsToken.toBaseUnit(NormalizedUnitNumber(assetsAmount.toFixed(token.decimals, BigNumber.ROUND_DOWN))),
-            ),
+            assetsAmount: toBigInt(savingsToken.toBaseUnit(assetsAmount)),
           })
 
           return ensureConfigTypes({
@@ -130,11 +130,11 @@ export function createWithdrawFromSavingsActionConfig(
         }
 
         if (isSDaiToUsdsWithdraw({ token, savingsToken, tokensInfo })) {
-          return MIGRATE_ACTIONS_ADDRESS
+          return getContractAddress(migrationActionsConfig.address, chainId)
         }
 
         if (isUsdcUsdsPsmActionsOperation({ token, savingsToken, tokensInfo })) {
-          return USDS_PSM_ACTIONS
+          return getContractAddress(usdsPsmActionsConfig.address, chainId)
         }
 
         if (isUsdcDaiPsmActionsOperation({ token, savingsToken, tokensInfo })) {

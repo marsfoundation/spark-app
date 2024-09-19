@@ -1,12 +1,13 @@
-import { USDS_DEV_CHAIN_ID } from '@/config/chain/constants'
+import { USDS_ACTIVATED_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setupFork } from '@/test/e2e/forking/setupFork'
 import { overrideInfoSkyRouteWithHAR } from '@/test/e2e/info-sky'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
+import { mainnet } from 'viem/chains'
 import { FarmsPageObject } from './Farms.PageObject'
 
 test.describe('Farms', () => {
-  const fork = setupFork({ chainId: USDS_DEV_CHAIN_ID })
+  const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
   let farmsPage: FarmsPageObject
 
   test.beforeEach(async ({ page }) => {
@@ -23,7 +24,7 @@ test.describe('Farms', () => {
 
   test('farms list', async () => {
     await farmsPage.expectInactiveFarms([
-      { apy: '0%', staked: '0', rewardText: 'Earn SKY', stakeText: 'Deposit Stablecoins' },
+      { apy: '839.13%', staked: '0', rewardText: 'Earn SKY', stakeText: 'Deposit Stablecoins' },
     ])
 
     await farmsPage.expectActiveFarmsListToBeEmpty()

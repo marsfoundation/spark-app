@@ -1,6 +1,6 @@
-import { stakingRewardsAbi } from '@/config/abis/stakingRewardsAbi'
-import { STAKING_REWARDS_USDS_ADDRESS } from '@/config/consts'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { usdsSkyRewardsConfig } from '@/config/contracts-generated'
+import { getFarmsInfoQueryKey } from '@/domain/farms/query'
+import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
@@ -26,7 +26,7 @@ const hookRenderer = setupUseContractActionRenderer({
   args: {
     action: {
       type: 'stake',
-      farm: CheckedAddress(STAKING_REWARDS_USDS_ADDRESS),
+      farm: getContractAddress(usdsSkyRewardsConfig.address, chainId),
       stakeAmount,
       stakingToken,
       rewardToken,
@@ -40,8 +40,8 @@ describe(createStakeActionConfig.name, () => {
     const { result, queryInvalidationManager } = hookRenderer({
       extraHandlers: [
         handlers.contractCall({
-          to: STAKING_REWARDS_USDS_ADDRESS,
-          abi: stakingRewardsAbi,
+          to: getContractAddress(usdsSkyRewardsConfig.address, chainId),
+          abi: usdsSkyRewardsConfig.abi,
           functionName: 'stake',
           args: [toBigInt(stakingToken.toBaseUnit(stakeAmount))],
           from: account,
@@ -64,8 +64,14 @@ describe(createStakeActionConfig.name, () => {
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
       getBalancesQueryKeyPrefix({ account, chainId }),
     )
+    await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(getFarmsInfoQueryKey({ account, chainId }))
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
-      allowanceQueryKey({ token: stakingToken.address, spender: STAKING_REWARDS_USDS_ADDRESS, account, chainId }),
+      allowanceQueryKey({
+        token: stakingToken.address,
+        spender: getContractAddress(usdsSkyRewardsConfig.address, chainId),
+        account,
+        chainId,
+      }),
     )
   })
 })

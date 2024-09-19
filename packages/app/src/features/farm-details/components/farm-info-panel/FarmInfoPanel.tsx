@@ -9,14 +9,18 @@ export interface FarmInfoPanelProps {
   assetsGroupType: AssetsGroup['type']
   rewardToken: Token
   farmDetailsRowData: FarmDetailsRowData
+  hasTokensToDeposit: boolean
   walletConnected: boolean
+  openStakeDialog: () => void
 }
 
 export function FarmInfoPanel({
   assetsGroupType,
   rewardToken,
   farmDetailsRowData,
+  hasTokensToDeposit,
   walletConnected,
+  openStakeDialog,
 }: FarmInfoPanelProps) {
   return (
     <Panel.Wrapper className="flex min-h-[380px] w-full flex-1 flex-col justify-between self-stretch px-6 py-6 md:px-[32px]">
@@ -37,7 +41,7 @@ export function FarmInfoPanel({
       <div className="flex flex-col gap-4">
         <FarmDetailsRow farmDetailsRowData={farmDetailsRowData} />
         <div className="hidden border-basics-border border-t md:block" />
-        <Button className="w-full" disabled={!walletConnected}>
+        <Button className="w-full" disabled={!walletConnected || !hasTokensToDeposit} onClick={openStakeDialog}>
           Stake
         </Button>
       </div>

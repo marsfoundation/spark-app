@@ -1,6 +1,10 @@
-import { migrationActionsAbi } from '@/config/abis/migrationActionsAbi'
-import { MIGRATE_ACTIONS_ADDRESS, USDS_PSM_ACTIONS } from '@/config/consts'
-import { psmActionsConfig, savingsXDaiAdapterAbi, savingsXDaiAdapterAddress } from '@/config/contracts-generated'
+import {
+  migrationActionsConfig,
+  psmActionsConfig,
+  savingsXDaiAdapterAbi,
+  savingsXDaiAdapterAddress,
+  usdsPsmActionsConfig,
+} from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
@@ -65,7 +69,7 @@ export function createDepositToSavingsActionConfig(
           }
 
           if (isUsdcUsdsPsmActionsOperation({ token, savingsToken, tokensInfo })) {
-            return USDS_PSM_ACTIONS
+            return getContractAddress(usdsPsmActionsConfig.address, chainId)
           }
 
           throw new Error('Not implemented psm action')
@@ -81,8 +85,8 @@ export function createDepositToSavingsActionConfig(
 
       if (isDaiToSUsdsMigration({ token, savingsToken, tokensInfo })) {
         return ensureConfigTypes({
-          address: MIGRATE_ACTIONS_ADDRESS,
-          abi: migrationActionsAbi,
+          address: getContractAddress(migrationActionsConfig.address, chainId),
+          abi: migrationActionsConfig.abi,
           functionName: 'migrateDAIToSUSDS',
           args: [account, assetsAmount],
         })
@@ -104,11 +108,11 @@ export function createDepositToSavingsActionConfig(
         }
 
         if (isDaiToSUsdsMigration({ token, savingsToken, tokensInfo })) {
-          return MIGRATE_ACTIONS_ADDRESS
+          return getContractAddress(migrationActionsConfig.address, chainId)
         }
 
         if (isUsdcUsdsPsmActionsOperation({ token, savingsToken, tokensInfo })) {
-          return USDS_PSM_ACTIONS
+          return getContractAddress(usdsPsmActionsConfig.address, chainId)
         }
 
         return action.savingsToken.address

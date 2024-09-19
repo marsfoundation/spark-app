@@ -1,5 +1,5 @@
-import { usdsPsmWrapperAbi } from '@/config/abis/usdsPsmWrapperAbi'
-import { USDS_PSM_WRAPPER } from '@/config/consts'
+import { usdsPsmWrapperConfig } from '@/config/contracts-generated'
+import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { ActionConfig, ActionContext } from '@/features/actions/logic/types'
@@ -15,8 +15,8 @@ export function createUsdsPsmWrapActionConfig(action: UsdsPsmWrapAction, context
       const amount = toBigInt(action.usdc.toBaseUnit(action.usdcAmount))
 
       return ensureConfigTypes({
-        address: USDS_PSM_WRAPPER,
-        abi: usdsPsmWrapperAbi,
+        address: getContractAddress(usdsPsmWrapperConfig.address, chainId),
+        abi: usdsPsmWrapperConfig.abi,
         functionName: 'sellGem',
         args: [account, amount],
       })
@@ -24,7 +24,12 @@ export function createUsdsPsmWrapActionConfig(action: UsdsPsmWrapAction, context
 
     invalidates: () => {
       return [
-        allowanceQueryKey({ token: action.usdc.address, spender: USDS_PSM_WRAPPER, account, chainId }),
+        allowanceQueryKey({
+          token: action.usdc.address,
+          spender: getContractAddress(usdsPsmWrapperConfig.address, chainId),
+          account,
+          chainId,
+        }),
         getBalancesQueryKeyPrefix({ account, chainId }),
       ]
     },

@@ -29,7 +29,7 @@ export function SuccessView({ deposited, borrowed, runConfetti, borrowDetails }:
       <div className="flex flex-col items-center justify-center">
         <img src={assets.success} alt="success-img" />
         <Typography variant={desktop ? 'h1' : 'h3'} className="mt-8 text-center">
-          Congrats! All done!
+          Congrats, all done!
         </Typography>
 
         <Panel className="mt-8 min-w-full max-w-3xl">

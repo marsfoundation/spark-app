@@ -2,6 +2,7 @@ import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { SavingsMeta } from '@/features/savings/logic/makeSavingsMeta'
 import { Link } from '@/ui/atoms/link/Link'
+import { links } from '@/ui/constants/links'
 import { Info } from '@/ui/molecules/info/Info'
 
 export interface ExplainerProps {
@@ -41,8 +42,7 @@ function Header({ stablecoinValue, savingsMeta }: ExplainerProps) {
         Savings {stablecoin}, or {savingsToken}, provides you with fractional ownership of the entire pool of{' '}
         {stablecoin} deposited into the {rateName}. The value of your {savingsToken} holdings gradually increases
         according to the {rateName} ({rateAcronym}). Learn more about it{' '}
-        {/* {@todo: add proper link to docs when ready} */}
-        <Link to="/" external>
+        <Link to={links.docs.newSavings} external>
           here
         </Link>
         .

@@ -1,5 +1,5 @@
-import { migrationActionsAbi } from '@/config/abis/migrationActionsAbi'
-import { MIGRATE_ACTIONS_ADDRESS } from '@/config/consts'
+import { migrationActionsConfig } from '@/config/contracts-generated'
+import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
@@ -19,8 +19,8 @@ export function createUpgradeActionConfig(action: UpgradeAction, context: Action
 
       if (fromToken.symbol === tokensInfo.DAI?.symbol && toToken.symbol === tokensInfo.USDS?.symbol) {
         return ensureConfigTypes({
-          address: MIGRATE_ACTIONS_ADDRESS,
-          abi: migrationActionsAbi,
+          address: getContractAddress(migrationActionsConfig.address, chainId),
+          abi: migrationActionsConfig.abi,
           functionName: 'migrateDAIToUSDS',
           args: [account, upgradeAmount],
         })
@@ -28,8 +28,8 @@ export function createUpgradeActionConfig(action: UpgradeAction, context: Action
 
       if (fromToken.symbol === tokensInfo.sDAI?.symbol && toToken.symbol === tokensInfo.sUSDS?.symbol) {
         return ensureConfigTypes({
-          address: MIGRATE_ACTIONS_ADDRESS,
-          abi: migrationActionsAbi,
+          address: getContractAddress(migrationActionsConfig.address, chainId),
+          abi: migrationActionsConfig.abi,
           functionName: 'migrateSDAISharesToSUSDS',
           args: [account, upgradeAmount],
         })
@@ -40,7 +40,12 @@ export function createUpgradeActionConfig(action: UpgradeAction, context: Action
 
     invalidates: () => {
       return [
-        allowanceQueryKey({ token: action.fromToken.address, spender: MIGRATE_ACTIONS_ADDRESS, account, chainId }),
+        allowanceQueryKey({
+          token: action.fromToken.address,
+          spender: getContractAddress(migrationActionsConfig.address, chainId),
+          account,
+          chainId,
+        }),
         getBalancesQueryKeyPrefix({ chainId, account }),
       ]
     },

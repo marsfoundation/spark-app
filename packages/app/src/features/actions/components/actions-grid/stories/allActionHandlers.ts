@@ -114,9 +114,9 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
     state: { status: 'ready' },
     onAction: () => {},
   },
-  claimRewards: {
+  claimMarketRewards: {
     action: {
-      type: 'claimRewards',
+      type: 'claimMarketRewards',
       assets: [CheckedAddress(zeroAddress)],
       incentiveControllerAddress: CheckedAddress(zeroAddress),
       token: tokens.wstETH,
@@ -151,6 +151,16 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
       stakeAmount: NormalizedUnitNumber(1),
       rewardToken: tokens.SKY,
       farm: CheckedAddress(zeroAddress),
+    },
+    state: { status: 'ready' },
+    onAction: () => {},
+  },
+  claimFarmRewards: {
+    action: {
+      type: 'claimFarmRewards',
+      farm: CheckedAddress(zeroAddress),
+      rewardToken: tokens.USDS,
+      rewardAmount: NormalizedUnitNumber(1),
     },
     state: { status: 'ready' },
     onAction: () => {},

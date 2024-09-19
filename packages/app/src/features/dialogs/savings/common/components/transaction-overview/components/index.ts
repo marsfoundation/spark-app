@@ -1,5 +1,3 @@
 export { APYDetails } from './APYDetails'
-export { SkyBadge } from './SkyBadge'
 export { TransactionOutcome } from './TransactionOutcome'
 export { TransactionOverviewDetailsItem } from './TransactionOverviewDetailsItem'
-export { RouteItem } from './RouteItem'

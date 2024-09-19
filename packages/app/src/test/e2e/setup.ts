@@ -8,7 +8,7 @@ import { BaseUnitNumber } from '@/domain/types/NumericValues'
 import { tenderlyRpcActions } from '@/domain/tenderly/TenderlyRpcActions'
 import { AssetsInTests, TOKENS_ON_FORK } from './constants'
 import { ForkContext } from './forking/setupFork'
-import { injectFixedDate, injectNetworkConfiguration, injectWalletConfiguration } from './injectSetup'
+import { injectFixedDate, injectFlags, injectNetworkConfiguration, injectWalletConfiguration } from './injectSetup'
 import { generateAccount } from './utils'
 
 export type InjectableWallet = { address: Address } | { privateKey: string }
@@ -73,6 +73,7 @@ export async function setup<K extends keyof typeof paths, T extends ConnectionTy
     await injectNetworkConfiguration(page, forkContext.forkUrl, forkContext.chainId)
   }
   await injectFixedDate(page, forkContext.simulationDate)
+  await injectFlags(page, forkContext)
   let address: Address | undefined
 
   if (options.account.type !== 'not-connected') {

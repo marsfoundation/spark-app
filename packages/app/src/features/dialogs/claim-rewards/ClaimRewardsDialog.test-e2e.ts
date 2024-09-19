@@ -46,7 +46,7 @@ test.describe('Claim rewards dialog', () => {
   test('has correct action plan', async () => {
     await actionsContainer.expectActions([
       {
-        type: 'claimRewards',
+        type: 'claimMarketRewards',
         asset: 'wstETH',
       },
     ])

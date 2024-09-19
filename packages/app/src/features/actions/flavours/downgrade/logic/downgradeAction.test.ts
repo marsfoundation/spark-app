@@ -1,5 +1,5 @@
-import { migrationActionsAbi } from '@/config/abis/migrationActionsAbi'
-import { MIGRATE_ACTIONS_ADDRESS } from '@/config/consts'
+import { migrationActionsConfig } from '@/config/contracts-generated'
+import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
@@ -29,8 +29,8 @@ describe(createDowngradeActionConfig.name, () => {
     const { result, queryInvalidationManager } = hookRenderer({
       extraHandlers: [
         handlers.contractCall({
-          to: MIGRATE_ACTIONS_ADDRESS,
-          abi: migrationActionsAbi,
+          to: getContractAddress(migrationActionsConfig.address, chainId),
+          abi: migrationActionsConfig.abi,
           functionName: 'downgradeUSDSToDAI',
           args: [account, toBigInt(dai.toBaseUnit(downgradeAmount))],
           from: account,
@@ -54,7 +54,12 @@ describe(createDowngradeActionConfig.name, () => {
       getBalancesQueryKeyPrefix({ account, chainId }),
     )
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
-      allowanceQueryKey({ token: usds.address, spender: MIGRATE_ACTIONS_ADDRESS, account, chainId }),
+      allowanceQueryKey({
+        token: usds.address,
+        spender: getContractAddress(migrationActionsConfig.address, chainId),
+        account,
+        chainId,
+      }),
     )
   })
 })

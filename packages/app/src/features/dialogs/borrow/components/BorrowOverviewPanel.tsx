@@ -1,9 +1,7 @@
-import BigNumber from 'bignumber.js'
-
 import { DialogPanel } from '@/features/dialogs/common/components/DialogPanel'
 import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPanelTitle'
-
-import { HealthFactorChange } from '../../common/components/HealthFactorChange'
+import BigNumber from 'bignumber.js'
+import { HealthFactorChange } from '../../common/components/transaction-overview/HealthFactorChange'
 
 export interface BorrowOverviewPanelProps {
   currentHealthFactor?: BigNumber

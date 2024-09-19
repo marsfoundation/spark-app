@@ -2,11 +2,14 @@ import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { DialogPanel } from '@/features/dialogs/common/components/DialogPanel'
 import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPanelTitle'
+import { RouteItem } from '@/features/dialogs/common/components/transaction-overview/RouteItem'
+import { SkyBadge } from '@/features/dialogs/common/components/transaction-overview/SkyBadge'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { assert } from '@/utils/assert'
 import { SavingsDialogTxOverview } from '../../types'
-import { APYDetails, RouteItem, SkyBadge, TransactionOutcome, TransactionOverviewDetailsItem } from './components'
+import { APYDetails, TransactionOutcome, TransactionOverviewDetailsItem } from './components'
+import { TransactionOverviewPlaceholder } from './components/TransactionOverviewPlaceholder'
 
 export interface TransactionOverviewProps {
   txOverview: SavingsDialogTxOverview
@@ -22,7 +25,7 @@ export function TransactionOverview({ txOverview, selectedToken, showAPY }: Tran
 
   assert(route.length > 0, 'Route must have at least one item')
   const outcome = route.at(-1)!
-  const displayRouteVertically = Boolean(route.length > 2 && route[0]?.value?.gte(NormalizedUnitNumber(1_000_000)))
+  const displayRouteVertically = Boolean(route.length > 2 && route[0]?.value?.gte(NormalizedUnitNumber(100_000)))
 
   return (
     <div className="isolate">
@@ -47,41 +50,11 @@ export function TransactionOverview({ txOverview, selectedToken, showAPY }: Tran
           </div>
         </TransactionOverviewDetailsItem>
         <TransactionOverviewDetailsItem label="Outcome">
-          <TransactionOutcome
-            outcome={outcome}
-            data-testid={testIds.dialog.savings.nativeRouteTransactionOverview.outcome}
-          />
+          <TransactionOutcome outcome={outcome} data-testid={testIds.dialog.savings.transactionOverview.outcome} />
         </TransactionOverviewDetailsItem>
       </DialogPanel>
 
-      <SkyBadge token={skyBadgeToken} data-testid={testIds.dialog.savings.nativeRouteTransactionOverview.skyBadge} />
-    </div>
-  )
-}
-
-interface TransactionOverviewPlaceholder {
-  badgeToken: Token
-  showAPY?: boolean
-}
-function TransactionOverviewPlaceholder({ badgeToken, showAPY }: TransactionOverviewPlaceholder) {
-  const placeholder = '-'
-  return (
-    <div className="isolate">
-      <DialogPanel className="shadow-none">
-        <DialogPanelTitle>Transaction overview</DialogPanelTitle>
-        {showAPY && (
-          <TransactionOverviewDetailsItem label="APY">
-            <div className="min-h-[46px]">{placeholder}</div>
-          </TransactionOverviewDetailsItem>
-        )}
-        <TransactionOverviewDetailsItem label="Route">
-          <div className="flex min-h-[46px] flex-col items-end justify-between">
-            <div>{placeholder}</div>
-          </div>
-        </TransactionOverviewDetailsItem>
-        <TransactionOverviewDetailsItem label="Outcome">{placeholder}</TransactionOverviewDetailsItem>
-      </DialogPanel>
-      <SkyBadge token={badgeToken} />
+      <SkyBadge token={skyBadgeToken} data-testid={testIds.dialog.transactionOverview.skyBadge} />
     </div>
   )
 }

@@ -9,7 +9,8 @@ import { Config } from 'wagmi'
 import { ApproveDelegationAction } from '../flavours/approve-delegation/types'
 import { ApproveAction } from '../flavours/approve/types'
 import { BorrowAction, BorrowObjective } from '../flavours/borrow/types'
-import { ClaimRewardsAction, ClaimRewardsObjective } from '../flavours/claim-rewards/types'
+import { ClaimFarmRewardsAction, ClaimFarmRewardsObjective } from '../flavours/claim-farm-rewards/types'
+import { ClaimMarketRewardsAction, ClaimMarketRewardsObjective } from '../flavours/claim-market-rewards/types'
 import { DepositToSavingsAction, DepositToSavingsObjective } from '../flavours/deposit-to-savings/types'
 import { DepositAction, DepositObjective } from '../flavours/deposit/types'
 import { DowngradeAction, DowngradeObjective } from '../flavours/downgrade/types'
@@ -35,12 +36,13 @@ export type Objective =
   | RepayObjective
   | SetUseAsCollateralObjective
   | SetUserEModeObjective
-  | ClaimRewardsObjective
+  | ClaimMarketRewardsObjective
   | WithdrawFromSavingsObjective
   | DepositToSavingsObjective
   | UpgradeObjective
   | DowngradeObjective
   | StakeObjective
+  | ClaimFarmRewardsObjective
 export type ObjectiveType = Objective['type']
 
 export type Action =
@@ -53,12 +55,13 @@ export type Action =
   | RepayAction
   | SetUseAsCollateralAction
   | SetUserEModeAction
-  | ClaimRewardsAction
+  | ClaimMarketRewardsAction
   | WithdrawFromSavingsAction
   | DepositToSavingsAction
   | UpgradeAction
   | DowngradeAction
   | StakeAction
+  | ClaimFarmRewardsAction
   | UsdsPsmWrapAction
 export type ActionType = Action['type']
 
@@ -109,4 +112,6 @@ export interface InjectedActionsContext {
   marketInfo?: MarketInfo
   tokensInfo?: TokensInfo
   savingsDaiInfo?: SavingsInfo
+  savingsUsdsInfo?: SavingsInfo
+  farmsInfo?: FarmsInfo
 }

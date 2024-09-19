@@ -1,22 +1,17 @@
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
-
-export interface RouteItem {
-  token: Token
-  value: NormalizedUnitNumber
-  usdValue: NormalizedUnitNumber
-}
+import { TxOverviewRouteItem } from '../../common/types'
 
 export interface TxOverview {
   baseStable: Token
   APY: Percentage
   stableEarnRate: NormalizedUnitNumber
-  route: RouteItem[]
+  route: TxOverviewRouteItem[]
   skyBadgeToken: Token
   outTokenAmount: NormalizedUnitNumber
 }
 
-type TxOverviewResult<T extends {}> =
+export type TxOverviewResult<T extends {}> =
   | {
       status: 'no-overview'
     }

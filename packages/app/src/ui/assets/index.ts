@@ -11,6 +11,7 @@ import withdraw from './actions/withdraw.svg'
 import arrowRight from './arrow-right.svg'
 import daiToUsdsUpgrade from './banners/dai-to-usds-upgrade.webp'
 import mkrToSkyTransform from './banners/mkr-to-sky-transform.svg'
+import newSavingsWelcome from './banners/new-savings-welcome.webp'
 import sdaiToSusdsUpgrade from './banners/sdai-to-susds-upgrade.webp'
 import boxArrowTopRight from './box-arrow-top-right.svg'
 import ethereum from './chains/ethereum.svg'
@@ -22,6 +23,7 @@ import closeFilled from './close-filled.svg'
 import close from './close.svg'
 import down from './down.svg'
 import downgrade from './downgrade.svg'
+import equal from './equal.svg'
 import eye from './eye.svg'
 import flash from './flash.svg'
 import giftbox from './giftbox.svg'
@@ -38,6 +40,10 @@ import output from './markets/output.svg'
 import menu from './menu.svg'
 import moreIconVertical from './more-icon-vertical.svg'
 import moreIcon from './more-icon.svg'
+import multiply from './multiply.svg'
+import chainlink from './oracle-providers/chainlink.svg'
+import chronicle from './oracle-providers/chronicle.svg'
+import lido from './oracle-providers/lido.svg'
 import pause from './pause.svg'
 import rocket from './rocket.svg'
 import sliderThumb from './slider-thumb.svg'
@@ -114,6 +120,8 @@ export const assets = {
   rocket,
   downgrade,
   timer,
+  multiply,
+  equal,
   markets: {
     chart,
     inputOutput,
@@ -171,6 +179,12 @@ export const assets = {
     daiToUsdsUpgrade,
     sdaiToSusdsUpgrade,
     mkrToSkyTransform,
+    newSavingsWelcome,
+  },
+  oracleProviders: {
+    chainlink,
+    chronicle,
+    lido,
   },
 }
 
