@@ -140,19 +140,19 @@ const chainConfig: ChainConfig = {
       [TokenSymbol('wstETH')]: {
         type: 'yielding-fixed',
         baseAsset: TokenSymbol('WETH'),
-        providedBy: ['chainlink'],
+        providedBy: ['chainlink', 'chronicle'],
         ratio: fetchWstEthRatioMainnet,
       },
       [TokenSymbol('rETH')]: {
         type: 'yielding-fixed',
         baseAsset: TokenSymbol('WETH'),
-        providedBy: ['chainlink'],
+        providedBy: ['chainlink', 'chronicle'],
         ratio: fetchREthRatio,
       },
       [TokenSymbol('weETH')]: {
         type: 'yielding-fixed',
         baseAsset: TokenSymbol('WETH'),
-        providedBy: ['chainlink'],
+        providedBy: ['chainlink', 'chronicle'],
         ratio: fetchWeEthRatio,
       },
       [TokenSymbol('USDC')]: {
