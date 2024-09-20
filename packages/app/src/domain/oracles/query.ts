@@ -1,10 +1,10 @@
 import { getChainConfigEntry } from '@/config/chain'
+import { assert } from '@/utils/assert'
 import { queryOptions } from '@tanstack/react-query'
 import { Config } from 'wagmi'
 import { MarketInfo, Reserve } from '../market-info/marketInfo'
 import { NormalizedUnitNumber } from '../types/NumericValues'
 import { OracleInfo } from './types'
-import { assert } from '@/utils/assert'
 
 interface OracleQueryParams {
   reserve: Reserve

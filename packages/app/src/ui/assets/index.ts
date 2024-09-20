@@ -40,14 +40,7 @@ import output from './markets/output.svg'
 import menu from './menu.svg'
 import moreIconVertical from './more-icon-vertical.svg'
 import moreIcon from './more-icon.svg'
-<<<<<<< HEAD
-<<<<<<< HEAD
 import multiply from './multiply.svg'
-=======
->>>>>>> 15c5bdc (Add oracle components)
-=======
-import multiply from './multiply.svg'
->>>>>>> 15866e6 (Add dumb oracle panel components)
 import chainlink from './oracle-providers/chainlink.svg'
 import chronicle from './oracle-providers/chronicle.svg'
 import lido from './oracle-providers/lido.svg'
