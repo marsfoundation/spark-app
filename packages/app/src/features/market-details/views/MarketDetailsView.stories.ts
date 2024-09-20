@@ -9,6 +9,7 @@ import { bigNumberify } from '@/utils/bigNumber'
 
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { getMockReserve } from '@/test/integration/constants'
 import { MarketDetailsView } from './MarketDetailsView'
 import { MarketDetailsViewProps } from './types'
 
@@ -97,9 +98,12 @@ const args: MarketDetailsViewProps = {
       ratio: NormalizedUnitNumber(1.1),
       token: tokens.rETH,
       price: NormalizedUnitNumber(tokens.rETH.unitPriceUsd.multipliedBy(1.1)),
+      baseTokenReserve: getMockReserve({
+        token: tokens.WETH,
+      }),
       oracle: {
         type: 'yielding-fixed',
-        baseAsset: TokenSymbol('ETH'),
+        baseAsset: TokenSymbol('WETH'),
         providedBy: ['chainlink'],
         ratio: async () => {
           return NormalizedUnitNumber(2)
