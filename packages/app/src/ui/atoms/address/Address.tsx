@@ -1,13 +1,14 @@
 import { cn } from '@/ui/utils/style'
 import { CSSProperties } from 'react'
+import { Address as AddressType } from 'viem'
 
-interface ShortenedAddressProps {
-  address: string
+export interface AddressProps {
+  address: AddressType
   endVisibleCharacters?: number
   className?: string
 }
 
-export function Address({ address, endVisibleCharacters = 4, className }: ShortenedAddressProps) {
+export function Address({ address, endVisibleCharacters = 4, className }: AddressProps) {
   return (
     <span
       className={cn('overflow-hidden whitespace-nowrap', className)}
@@ -21,7 +22,7 @@ export function Address({ address, endVisibleCharacters = 4, className }: Shorte
       <span
         aria-hidden="true"
         className={
-          'inline-block min-w-[calc(var(--end-visible-characters)*1ch)] max-w-[calc(100%-calc(var(--end-visible-characters)*1ch))] overflow-hidden text-ellipsis whitespace-nowrap align-middle'
+          'inline-block min-w-[calc(var(--end-visible-characters)*1ch)] max-w-[calc(100%-calc(var(--end-visible-characters)*1ch))] overflow-hidden text-ellipsis whitespace-nowrap align-bottom'
         }
       >
         {address.slice(0, address.length - endVisibleCharacters)}
