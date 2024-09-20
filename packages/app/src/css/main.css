@@ -118,3 +118,7 @@
     @apply slashed-zero;
   }
 }
+
+.rtl {
+  direction: rtl;
+}
