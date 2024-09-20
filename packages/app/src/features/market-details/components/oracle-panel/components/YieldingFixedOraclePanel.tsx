@@ -35,7 +35,7 @@ export function YieldingFixedOraclePanel({
         </Panel.Header>
       </div>
       <Panel.Content className="flex flex-col gap-4 sm:gap-6">
-        <div className="grid items-center gap-4 md:grid-cols-[1fr,auto,1fr,auto,1fr] md:gap-3 md:pb-6">
+        <div className="grid items-center gap-4 md:grid-cols-[1fr,14px,1fr,14px,1fr] md:gap-3 md:pb-6">
           <div className="relative flex flex-col items-center gap-2">
             <div className="w-full rounded-2xl border border-basics-grey/30 bg-basics-light-grey p-2 text-center text-xl">
               {ratio.toFixed(4)}
@@ -44,7 +44,7 @@ export function YieldingFixedOraclePanel({
               {token.symbol} to {oracle.baseAsset} Ratio
             </div>
           </div>
-          <img src={assets.multiply} alt="multiply sign" className="place-self-center" />
+          <img src={assets.multiply} alt="multiply sign" className="w-3.5 place-self-center" />
           <div className="relative flex flex-col items-center gap-2">
             <div className="w-full rounded-2xl border border-basics-grey/30 bg-basics-light-grey p-2 text-center text-xl">
               {USD_MOCK_TOKEN.formatUSD(baseTokenReserve.token.unitPriceUsd)}
@@ -53,7 +53,7 @@ export function YieldingFixedOraclePanel({
               {oracle.baseAsset} Oracle Price
             </div>
           </div>
-          <img src={assets.equal} alt="equal sign" className="place-self-center" />
+          <img src={assets.equal} alt="equal sign" className="w-3.5 place-self-center" />
           <div className="relative flex flex-col items-center gap-2">
             <div className="w-full rounded-2xl border border-basics-grey/30 bg-basics-light-grey p-3 text-center text-xl">
               {USD_MOCK_TOKEN.formatUSD(price)}
