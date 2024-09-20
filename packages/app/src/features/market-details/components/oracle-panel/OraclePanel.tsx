@@ -1,6 +1,7 @@
 import { ReserveOracleType } from '@/config/chain/types'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
-import { OracleInfo } from '@/domain/oracles/types'
+import { UseOracleInfoResult } from '@/domain/oracles/useOracleInfo'
+import { Skeleton } from '@/ui/atoms/skeleton/Skeleton'
 import { assert } from '@/utils/assert'
 import { assertNever } from '@/utils/assertNever'
 import { FixedOraclePanel } from './components/FixedOraclePanel'
@@ -15,7 +16,12 @@ export interface OraclePanelProps {
   chainId: number
 }
 
-export function OraclePanel({ oracle, ...props }: OracleInfo) {
+export function OraclePanel({ data, isLoading, error }: UseOracleInfoResult) {
+  if (isLoading) return <Skeleton className="h-40 w-full" />
+  if (!data || error) return null
+
+  const { oracle, ...props } = data
+
   if (!oracle) {
     return <UnknownOraclePanel {...props} />
   }
@@ -26,10 +32,10 @@ export function OraclePanel({ oracle, ...props }: OracleInfo) {
     case 'market-price':
       return <MarketOraclePanel {...props} oracle={oracle} />
     case 'yielding-fixed': {
-      const { baseToken, ratio } = props
+      const { baseTokenReserve, ratio } = props
 
-      assert(baseToken && ratio, 'YieldingFixedOraclePanel requires baseToken and ratio')
-      return <YieldingFixedOraclePanel {...props} baseToken={baseToken} ratio={ratio} oracle={oracle} />
+      assert(baseTokenReserve && ratio, 'YieldingFixedOraclePanel requires baseToken and ratio')
+      return <YieldingFixedOraclePanel {...props} baseTokenReserve={baseTokenReserve} ratio={ratio} oracle={oracle} />
     }
     case 'underlying-asset':
       return <UnderlyingAssetOraclePanel {...props} oracle={oracle} />

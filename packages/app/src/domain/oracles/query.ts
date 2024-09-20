@@ -4,6 +4,7 @@ import { Config } from 'wagmi'
 import { MarketInfo, Reserve } from '../market-info/marketInfo'
 import { NormalizedUnitNumber } from '../types/NumericValues'
 import { OracleInfo } from './types'
+import { assert } from '@/utils/assert'
 
 interface OracleQueryParams {
   reserve: Reserve
@@ -24,15 +25,19 @@ export function oracleQueryOptions({ reserve, marketInfo, wagmiConfig }: OracleQ
         price: NormalizedUnitNumber(reserve.priceInUSD),
         priceOracleAddress: reserve.priceOracle,
         chainId: marketInfo.chainId,
+        baseTokenReserve: undefined,
+        ratio: undefined,
       }
 
       if (oracleConfig?.type === 'yielding-fixed') {
-        const baseToken = marketInfo.findOneTokenBySymbol(oracleConfig.baseAsset)
+        const baseTokenReserve = marketInfo.findReserveBySymbol(oracleConfig.baseAsset)
+
+        assert(baseTokenReserve, `Base token ${oracleConfig.baseAsset} not found`)
         const ratio = await oracleConfig.ratio({ reserve, wagmiConfig })
 
         return {
           ...oracleInfo,
-          baseToken,
+          baseTokenReserve,
           ratio,
         }
       }

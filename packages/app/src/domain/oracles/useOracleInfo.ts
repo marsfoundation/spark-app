@@ -1,6 +1,4 @@
-import { useSuspenseQuery } from '@tanstack/react-query'
-
-import { SuspenseQueryWith } from '@/utils/types'
+import { UseQueryResult, useQuery } from '@tanstack/react-query'
 
 import { useConfig } from 'wagmi'
 import { MarketInfo, Reserve } from '../market-info/marketInfo'
@@ -11,23 +9,16 @@ export interface UseOracleInfoParams {
   reserve: Reserve
   marketInfo: MarketInfo
 }
-export type UseOracleInfoResult = SuspenseQueryWith<{
-  oracleInfo: OracleInfo
-}>
+export type UseOracleInfoResult = Pick<UseQueryResult<OracleInfo>, 'data' | 'isLoading' | 'error'>
 
 export function useOracleInfo({ reserve, marketInfo }: UseOracleInfoParams): UseOracleInfoResult {
   const wagmiConfig = useConfig()
 
-  const res = useSuspenseQuery({
+  return useQuery({
     ...oracleQueryOptions({
       reserve,
       marketInfo,
       wagmiConfig,
     }),
   })
-
-  return {
-    ...res,
-    oracleInfo: res.data,
-  }
 }

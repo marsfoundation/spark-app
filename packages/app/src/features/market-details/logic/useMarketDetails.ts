@@ -10,8 +10,7 @@ import { raise } from '@/utils/assert'
 import { Address } from 'viem'
 import { useChainId } from 'wagmi'
 
-import { OracleInfo } from '@/domain/oracles/types'
-import { useOracleInfo } from '@/domain/oracles/useOracleInfo'
+import { UseOracleInfoResult, useOracleInfo } from '@/domain/oracles/useOracleInfo'
 import { MarketOverview, WalletOverview } from '../types'
 import { makeDaiMarketOverview } from './makeDaiMarketOverview'
 import { makeMarketOverview } from './makeMarketOverview'
@@ -27,7 +26,7 @@ export interface UseMarketDetailsResult {
   marketOverview: MarketOverview
   walletOverview: WalletOverview
   chainMismatch: boolean
-  oracleInfo: OracleInfo
+  oracleInfo: UseOracleInfoResult
 }
 
 export function useMarketDetails(): UseMarketDetailsResult {
@@ -51,7 +50,7 @@ export function useMarketDetails(): UseMarketDetailsResult {
     token: isDaiOverview ? marketInfo.sDAI : reserve.token,
   })
 
-  const { oracleInfo } = useOracleInfo({
+  const oracleInfo = useOracleInfo({
     reserve,
     marketInfo,
   })

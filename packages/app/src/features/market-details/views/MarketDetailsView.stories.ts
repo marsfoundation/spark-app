@@ -89,17 +89,21 @@ const args: MarketDetailsViewProps = {
   openConnectModal: () => {},
   openDialog: () => {},
   oracleInfo: {
-    chainId: 1,
-    priceOracleAddress: tokens.rETH.address,
-    ratio: NormalizedUnitNumber(1.1),
-    token: tokens.rETH,
-    price: NormalizedUnitNumber(tokens.rETH.unitPriceUsd.multipliedBy(1.1)),
-    oracle: {
-      type: 'yielding-fixed',
-      baseAsset: TokenSymbol('ETH'),
-      providedBy: ['chainlink'],
-      ratio: async () => {
-        return NormalizedUnitNumber(2)
+    isLoading: false,
+    error: null,
+    data: {
+      chainId: 1,
+      priceOracleAddress: tokens.rETH.address,
+      ratio: NormalizedUnitNumber(1.1),
+      token: tokens.rETH,
+      price: NormalizedUnitNumber(tokens.rETH.unitPriceUsd.multipliedBy(1.1)),
+      oracle: {
+        type: 'yielding-fixed',
+        baseAsset: TokenSymbol('ETH'),
+        providedBy: ['chainlink'],
+        ratio: async () => {
+          return NormalizedUnitNumber(2)
+        },
       },
     },
   },

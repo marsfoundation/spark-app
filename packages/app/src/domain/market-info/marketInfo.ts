@@ -5,8 +5,6 @@ import { NativeAssetInfo } from '@/config/chain/types'
 import { NATIVE_ASSET_MOCK_ADDRESS } from '@/config/consts'
 import { raise } from '@/utils/assert'
 import { fromRay } from '@/utils/math'
-
-import { Address } from 'viem'
 import { bigNumberify } from '../../utils/bigNumber'
 import { CheckedAddress } from '../types/CheckedAddress'
 import { BaseUnitNumber, NormalizedUnitNumber, Percentage } from '../types/NumericValues'
@@ -85,7 +83,7 @@ export interface Reserve {
   variableBorrowApy: Percentage | undefined
 
   priceInUSD: BigNumber
-  priceOracle: Address
+  priceOracle: CheckedAddress
   usageAsCollateralEnabled: boolean
   usageAsCollateralEnabledOnUser: boolean
 
@@ -326,7 +324,7 @@ export function marketInfoSelectFn({ timeAdvance }: MarketInfoSelectFnParams = {
         baseVariableBorrowRate: NormalizedUnitNumber(r.reserve.baseVariableBorrowRate),
 
         priceInUSD: bigNumberify(r.reserve.priceInUSD),
-        priceOracle: r.reserve.priceOracle,
+        priceOracle: CheckedAddress(r.reserve.priceOracle),
 
         usageAsCollateralEnabled: r.reserve.usageAsCollateralEnabled,
         usageAsCollateralEnabledOnUser: r.usageAsCollateralEnabledOnUser,

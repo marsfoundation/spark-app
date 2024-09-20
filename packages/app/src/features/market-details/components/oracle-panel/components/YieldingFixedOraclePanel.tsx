@@ -10,6 +10,7 @@ import { ProvidersList } from './ProvidersList'
 
 interface YieldingFixedOraclePanelProps extends Required<OracleInfo> {
   oracle: Extract<ReserveOracleType, { type: 'yielding-fixed' }>
+  chainId: number
 }
 
 export function YieldingFixedOraclePanel({
@@ -18,7 +19,7 @@ export function YieldingFixedOraclePanel({
   token,
   price,
   priceOracleAddress,
-  baseToken,
+  baseTokenReserve,
   ratio,
 }: YieldingFixedOraclePanelProps) {
   return (
@@ -39,25 +40,25 @@ export function YieldingFixedOraclePanel({
             <div className="w-full rounded-2xl border border-basics-grey/30 bg-basics-light-grey p-2 text-center text-xl">
               {ratio.toFixed(4)}
             </div>
-            <div className=" md:-bottom-6 text-basics-dark-grey text-xs md:absolute">
+            <div className="md:-bottom-6 text-basics-dark-grey text-xs md:absolute">
               {token.symbol} to {oracle.baseAsset} Ratio
             </div>
           </div>
           <img src={assets.multiply} alt="multiply sign" className="place-self-center" />
           <div className="relative flex flex-col items-center gap-2">
             <div className="w-full rounded-2xl border border-basics-grey/30 bg-basics-light-grey p-2 text-center text-xl">
-              {USD_MOCK_TOKEN.formatUSD(baseToken.unitPriceUsd)}
+              {USD_MOCK_TOKEN.formatUSD(baseTokenReserve.token.unitPriceUsd)}
             </div>
-            <div className=" md:-bottom-6 text-basics-dark-grey text-xs md:absolute">
+            <div className="md:-bottom-6 text-basics-dark-grey text-xs md:absolute">
               {oracle.baseAsset} Oracle Price
             </div>
           </div>
           <img src={assets.equal} alt="equal sign" className="place-self-center" />
           <div className="relative flex flex-col items-center gap-2">
-            <div className="w-full rounded-2xl border border-basics-grey/30 bg-basics-light-grey p-2 text-center text-xl">
+            <div className="w-full rounded-2xl border border-basics-grey/30 bg-basics-light-grey p-3 text-center text-xl">
               {USD_MOCK_TOKEN.formatUSD(price)}
             </div>
-            <div className=" md:-bottom-6 text-basics-dark-grey text-xs md:absolute">Final Price</div>
+            <div className="md:-bottom-6 text-basics-dark-grey text-xs md:absolute">Final Price</div>
           </div>
         </div>
 
@@ -70,9 +71,9 @@ export function YieldingFixedOraclePanel({
           </InfoTile>
 
           <InfoTile>
-            <InfoTile.Label>Token Contract</InfoTile.Label>
+            <InfoTile.Label>Oracle Contract</InfoTile.Label>
             <InfoTile.Value>
-              <BlockExplorerAddressLink address={baseToken.address} chainId={chainId} />
+              <BlockExplorerAddressLink address={baseTokenReserve.priceOracle} chainId={chainId} />
             </InfoTile.Value>
           </InfoTile>
 

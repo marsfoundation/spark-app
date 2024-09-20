@@ -1,14 +1,15 @@
 import { ReserveOracleType } from '@/config/chain/types'
 import { Address } from 'viem'
+import { Reserve } from '../market-info/marketInfo'
 import { NormalizedUnitNumber } from '../types/NumericValues'
 import { Token } from '../types/Token'
 
-export type OracleInfo = {
+export interface OracleInfo {
   oracle: ReserveOracleType | undefined
   token: Token
   price: NormalizedUnitNumber
   priceOracleAddress: Address
   chainId: number
-  baseToken?: Token
+  baseTokenReserve?: Reserve
   ratio?: NormalizedUnitNumber
 }
