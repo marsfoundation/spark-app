@@ -10,6 +10,7 @@ import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
 import { raise } from '@/utils/assert'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { useAccount, useChainId } from 'wagmi'
+import { ClaimDialog } from '../dialogs/claim/ClaimDialog'
 import { StakeDialog } from '../dialogs/stake/StakeDialog'
 import { sortByUsdValueWithUsdsPriority } from '../dialogs/stake/logic/sortByUsdValueWithUsdsPriority'
 import { FarmHistoryItem } from './historic/types'
@@ -26,6 +27,7 @@ export interface UseFarmDetailsResult {
   tokensToDeposit: TokenWithBalance[]
   hasTokensToDeposit: boolean
   openStakeDialog: (initialToken: Token) => void
+  openClaimDialog: () => void
   openDefaultedStakeDialog: () => void
   openConnectModal: () => void
   openSandboxModal: () => void
@@ -67,6 +69,7 @@ export function useFarmDetails(): UseFarmDetailsResult {
     openStakeDialog: (initialToken: Token) => openDialog(StakeDialog, { farm, initialToken }),
     openDefaultedStakeDialog: () =>
       mostValuableToken ? openDialog(StakeDialog, { farm, initialToken: mostValuableToken.token }) : undefined,
+    openClaimDialog: () => openDialog(ClaimDialog, { farm }),
     openConnectModal,
     openSandboxModal(): void {
       openDialog(SandboxDialog, { mode: 'ephemeral' } as const)

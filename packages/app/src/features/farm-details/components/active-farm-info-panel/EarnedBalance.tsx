@@ -3,7 +3,7 @@ import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { getTokenImage } from '@/ui/assets'
 import { getFractionalPart, getWholePart } from '@/utils/bigNumber'
 import { useTimestamp } from '@/utils/useTimestamp'
-import BigNumber from 'bignumber.js'
+import { calculateEarned } from '../../logic/calculateEarned'
 
 const STEP_IN_MS = 50
 
@@ -46,38 +46,6 @@ export function EarnedBalance({ farm }: EarnedBalanceProps) {
       </div>
     </div>
   )
-}
-
-interface CalculateEarnedParams {
-  earned: NormalizedUnitNumber
-  staked: NormalizedUnitNumber
-  rewardRate: NormalizedUnitNumber
-  earnedTimestamp: number
-  periodFinish: number
-  timestampInMs: number
-  totalSupply: NormalizedUnitNumber
-}
-function calculateEarned({
-  earned,
-  staked,
-  rewardRate,
-  earnedTimestamp,
-  periodFinish,
-  timestampInMs,
-  totalSupply,
-}: CalculateEarnedParams): NormalizedUnitNumber {
-  if (totalSupply.isZero()) {
-    return earned
-  }
-
-  const periodFinishInMs = periodFinish * 1000
-  const earnedTimestampInMs = earnedTimestamp * 1000
-
-  const timeDiff = ((timestampInMs > periodFinishInMs ? periodFinishInMs : timestampInMs) - earnedTimestampInMs) / 1000
-  const accruedEarned = staked.multipliedBy(rewardRate).multipliedBy(BigNumber.max(timeDiff, 0)).dividedBy(totalSupply)
-  const earnedInTotal = NormalizedUnitNumber(earned.plus(accruedEarned))
-
-  return earnedInTotal
 }
 
 interface CalculatePrecisionParams {
