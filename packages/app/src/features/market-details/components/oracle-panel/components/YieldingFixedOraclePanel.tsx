@@ -16,6 +16,7 @@ export function YieldingFixedOraclePanel({
   baseTokenReserve,
   ratio,
   baseAsset,
+  tokenReserve,
 }: YieldingFixedOracleInfo) {
   return (
     <Panel.Wrapper className="flex flex-col gap-4 p-4 sm:px-8 sm:py-6">
@@ -59,7 +60,7 @@ export function YieldingFixedOraclePanel({
           <InfoTile>
             <InfoTile.Label>Ratio Contract</InfoTile.Label>
             <InfoTile.Value>
-              <BlockExplorerAddressLink address={token.address} chainId={chainId} />
+              <BlockExplorerAddressLink address={tokenReserve.priceOracle} chainId={chainId} />
             </InfoTile.Value>
           </InfoTile>
 

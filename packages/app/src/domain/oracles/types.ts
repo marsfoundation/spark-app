@@ -24,6 +24,7 @@ export interface YieldingFixedOracleInfo extends OracleInfoBase {
   ratio: NormalizedUnitNumber
   baseAsset: TokenSymbol
   providedBy: OracleFeedProvider[]
+  tokenReserve: Reserve
 }
 
 export interface FixedOracleInfo extends OracleInfoBase {
