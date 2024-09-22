@@ -1,16 +1,11 @@
-import { ReserveOracleType } from '@/config/chain/types'
-import { OracleInfo } from '@/domain/oracles/types'
+import { FixedOracleInfo } from '@/domain/oracles/types'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { InfoTile } from '@/ui/molecules/info-tile/InfoTile'
 import { Info } from '@/ui/molecules/info/Info'
 import { BlockExplorerAddressLink } from './BlockExplorerAddressLink'
 
-interface FixedOraclePanelProps extends OracleInfo {
-  oracle: Extract<ReserveOracleType, { type: 'fixed' }>
-}
-
-export function FixedOraclePanel({ chainId, price, priceOracleAddress, token }: FixedOraclePanelProps) {
+export function FixedOraclePanel({ chainId, price, priceOracleAddress, token }: FixedOracleInfo) {
   return (
     <Panel.Wrapper className="flex flex-col gap-4 p-4 sm:px-8 sm:py-6">
       <div>

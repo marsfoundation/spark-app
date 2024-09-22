@@ -1,21 +1,11 @@
-import { ReserveOracleType } from '@/config/chain/types'
-import { OracleInfo } from '@/domain/oracles/types'
+import { UnderlyingAssetOracleInfo } from '@/domain/oracles/types'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { InfoTile } from '@/ui/molecules/info-tile/InfoTile'
 import { Info } from '@/ui/molecules/info/Info'
 import { BlockExplorerAddressLink } from './BlockExplorerAddressLink'
 
-interface UnderlyingAssetOraclePanelProps extends OracleInfo {
-  oracle: Extract<ReserveOracleType, { type: 'underlying-asset' }>
-}
-
-export function UnderlyingAssetOraclePanel({
-  oracle,
-  chainId,
-  priceOracleAddress,
-  price,
-}: UnderlyingAssetOraclePanelProps) {
+export function UnderlyingAssetOraclePanel({ asset, chainId, priceOracleAddress, price }: UnderlyingAssetOracleInfo) {
   return (
     <Panel.Wrapper className="flex flex-col gap-4 p-4 sm:px-8 sm:py-6">
       <div>
@@ -35,7 +25,7 @@ export function UnderlyingAssetOraclePanel({
           </InfoTile>
           <InfoTile>
             <InfoTile.Label>Asset</InfoTile.Label>
-            <InfoTile.Value>{oracle.asset}</InfoTile.Value>
+            <InfoTile.Value>{asset}</InfoTile.Value>
           </InfoTile>
           <InfoTile>
             <InfoTile.Label>Contract</InfoTile.Label>

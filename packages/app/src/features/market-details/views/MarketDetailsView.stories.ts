@@ -101,14 +101,12 @@ const args: MarketDetailsViewProps = {
       baseTokenReserve: getMockReserve({
         token: tokens.WETH,
       }),
-      oracle: {
-        type: 'yielding-fixed',
-        baseAsset: TokenSymbol('WETH'),
-        providedBy: ['chainlink'],
-        ratio: async () => {
-          return NormalizedUnitNumber(2)
-        },
-      },
+      type: 'yielding-fixed',
+      baseAsset: TokenSymbol('WETH'),
+      providedBy: ['chainlink'],
+      tokenReserve: getMockReserve({
+        token: tokens.rETH,
+      }),
     },
   },
 }

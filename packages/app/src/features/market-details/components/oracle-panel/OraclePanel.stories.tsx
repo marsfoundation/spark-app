@@ -1,6 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 
+import { MarketPriceOracleInfo, YieldingFixedOracleInfo } from '@/domain/oracles/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { getMockReserve } from '@/test/integration/constants'
@@ -24,9 +25,7 @@ type Story = StoryObj<typeof OraclePanel>
 export const FixedDesktop: Story = {
   args: {
     data: {
-      oracle: {
-        type: 'fixed',
-      },
+      type: 'fixed',
       token: tokens.DAI,
       price: NormalizedUnitNumber(1),
       chainId: 1,
@@ -37,31 +36,24 @@ export const FixedDesktop: Story = {
 export const FixedMobile = getMobileStory(FixedDesktop)
 export const FixedTablet = getTabletStory(FixedDesktop)
 
+const marketPriceData: MarketPriceOracleInfo = {
+  type: 'market-price',
+  providedBy: ['chainlink'],
+  token: tokens.WETH,
+  price: NormalizedUnitNumber(2235.0672),
+  chainId: 1,
+  priceOracleAddress: '0x1234567890123456789012345678901234567890',
+}
 export const MarketPriceDesktop: Story = {
   args: {
-    data: {
-      oracle: {
-        type: 'market-price',
-        providedBy: ['chainlink'],
-      },
-      token: tokens.WETH,
-      price: NormalizedUnitNumber(2235.0672),
-      chainId: 1,
-      priceOracleAddress: '0x1234567890123456789012345678901234567890',
-    },
+    data: marketPriceData,
   },
 }
 export const MarketPriceRedundantDesktop: Story = {
   args: {
     data: {
-      oracle: {
-        type: 'market-price',
-        providedBy: ['chainlink', 'chronicle'],
-      },
-      token: tokens.WETH,
-      price: NormalizedUnitNumber(2235.0672),
-      chainId: 1,
-      priceOracleAddress: '0x1234567890123456789012345678901234567890',
+      ...marketPriceData,
+      providedBy: ['chainlink', 'chronicle'],
     },
   },
 }
@@ -71,10 +63,8 @@ export const MarketPriceTablet = getTabletStory(MarketPriceDesktop)
 export const UnderlyingAssetDesktop: Story = {
   args: {
     data: {
-      oracle: {
-        type: 'underlying-asset',
-        asset: 'EUR (FIAT)',
-      },
+      type: 'underlying-asset',
+      asset: 'EUR (FIAT)',
       token: tokens.EURe,
       price: NormalizedUnitNumber(1.24),
       chainId: 1,
@@ -85,43 +75,33 @@ export const UnderlyingAssetDesktop: Story = {
 export const UnderlyingAssetMobile = getMobileStory(UnderlyingAssetDesktop)
 export const UnderlyingAssetTablet = getTabletStory(UnderlyingAssetDesktop)
 
+const yieldingFixedData: YieldingFixedOracleInfo = {
+  type: 'yielding-fixed',
+  baseAsset: TokenSymbol('ETH'),
+  providedBy: ['chainlink'],
+  ratio: NormalizedUnitNumber(2.137),
+  price: NormalizedUnitNumber(4776.34),
+  baseTokenReserve: getMockReserve({
+    token: tokens.WETH,
+  }),
+  token: tokens.weETH,
+  chainId: 1,
+  priceOracleAddress: '0x1234567890123456789012345678901234567890',
+  tokenReserve: getMockReserve({
+    token: tokens.wstETH,
+  }),
+}
+
 export const YieldingFixedDesktop: Story = {
   args: {
-    data: {
-      oracle: {
-        type: 'yielding-fixed',
-        baseAsset: TokenSymbol('ETH'),
-        providedBy: ['chainlink'],
-        ratio: async () => NormalizedUnitNumber(2.137),
-      },
-      ratio: NormalizedUnitNumber(2.137),
-      price: NormalizedUnitNumber(4776.34),
-      baseTokenReserve: getMockReserve({
-        token: tokens.WETH,
-      }),
-      token: tokens.weETH,
-      chainId: 1,
-      priceOracleAddress: '0x1234567890123456789012345678901234567890',
-    },
+    data: yieldingFixedData,
   },
 }
 export const YieldingFixedRedundantDesktop: Story = {
   args: {
     data: {
-      oracle: {
-        type: 'yielding-fixed',
-        baseAsset: TokenSymbol('ETH'),
-        providedBy: ['chainlink', 'chronicle'],
-        ratio: async () => NormalizedUnitNumber(2.137),
-      },
-      ratio: NormalizedUnitNumber(2.137),
-      price: NormalizedUnitNumber(4776.34),
-      baseTokenReserve: getMockReserve({
-        token: tokens.WETH,
-      }),
-      token: tokens.weETH,
-      chainId: 1,
-      priceOracleAddress: '0x1234567890123456789012345678901234567890',
+      ...yieldingFixedData,
+      providedBy: ['chainlink', 'chronicle'],
     },
   },
 }
@@ -131,7 +111,7 @@ export const YieldingFixedTablet = getTabletStory(YieldingFixedDesktop)
 export const UnknownDesktop: Story = {
   args: {
     data: {
-      oracle: undefined,
+      type: 'unknown',
       price: NormalizedUnitNumber(1.06),
       token: tokens.sDAI,
       chainId: 1,
