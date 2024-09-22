@@ -68,6 +68,7 @@ export interface AddressProps {
   className?: string
   endVisibleCharacters?: number
   startVisibleCharacters?: number
+  inlineIcon?: JSX.Element
 }
 
 export function Address({
@@ -76,9 +77,11 @@ export function Address({
   width,
   endVisibleCharacters = 4,
   startVisibleCharacters = 4,
+  inlineIcon,
 }: AddressProps) {
   const measuredParentRef = useRef<HTMLDivElement>(null)
   const measuredTextRef = useRef<HTMLDivElement>(null)
+  const inlineIconRef = useRef<HTMLDivElement>(null)
 
   const setTextContent = useCallback(
     (node: HTMLDivElement) => {
@@ -94,11 +97,11 @@ export function Address({
       txtToEllipse.textContent = txtToEllipse.getAttribute('data-address')
 
       const updatedText = createEllipseWhileTruncated({
-        // Use the smaller width - mostly when parent is a flex container
-        parentNode: node.offsetWidth > parent.offsetWidth ? parent : node,
+        parentNode: node,
         textNode: txtToEllipse,
         endVisibleCharacters,
         startVisibleCharacters,
+        iconWidth: inlineIconRef.current ? inlineIconRef.current.getBoundingClientRect().width : 0,
       })
 
       txtToEllipse.textContent = updatedText
@@ -126,12 +129,13 @@ export function Address({
     <div
       aria-label={address}
       ref={measuredParentRef}
-      className={cn('w-full min-w-0 overflow-hidden', className)}
+      className={cn('inline-flex w-full min-w-0 items-center gap-0 overflow-hidden', className)}
       style={{
         width,
       }}
     >
       <span aria-hidden="true" ref={measuredTextRef} data-address={address} />
+      {inlineIcon && <span ref={inlineIconRef}>{inlineIcon}</span>}
     </div>
   )
 }
@@ -141,6 +145,7 @@ interface CreateEllipseWhileTruncatedParams {
   textNode: HTMLElement
   endVisibleCharacters: number
   startVisibleCharacters: number
+  iconWidth: number
 }
 
 function createEllipseWhileTruncated({
@@ -148,8 +153,9 @@ function createEllipseWhileTruncated({
   textNode,
   endVisibleCharacters,
   startVisibleCharacters,
+  iconWidth,
 }: CreateEllipseWhileTruncatedParams) {
-  const containerWidth = parentNode.offsetWidth
+  const containerWidth = parentNode.offsetWidth - iconWidth
   const textWidth = textNode.offsetWidth
 
   let text = textNode.textContent || ''
