@@ -87,9 +87,6 @@ const yieldingFixedData: YieldingFixedOracleInfo = {
   token: tokens.weETH,
   chainId: 1,
   priceOracleAddress: '0x1234567890123456789012345678901234567890',
-  tokenReserve: getMockReserve({
-    token: tokens.wstETH,
-  }),
 }
 
 export const YieldingFixedDesktop: Story = {

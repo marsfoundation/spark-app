@@ -104,9 +104,6 @@ const args: MarketDetailsViewProps = {
       type: 'yielding-fixed',
       baseAsset: TokenSymbol('WETH'),
       providedBy: ['chainlink'],
-      tokenReserve: getMockReserve({
-        token: tokens.rETH,
-      }),
     },
   },
 }

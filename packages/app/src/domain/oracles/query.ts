@@ -69,7 +69,6 @@ export function oracleQueryOptions({ reserve, marketInfo, wagmiConfig }: OracleQ
             type: oracleConfig.type,
             baseAsset: oracleConfig.baseAsset,
             providedBy: oracleConfig.providedBy,
-            tokenReserve: reserve,
           }
         }
 
