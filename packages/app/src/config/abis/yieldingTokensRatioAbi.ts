@@ -1,8 +1,28 @@
+export const weEthOracleAbi = [
+  {
+    inputs: [],
+    name: 'weeth',
+    outputs: [{ internalType: 'contract IWrappedEtherfiRestakedEth', name: '', type: 'address' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+] as const
+
 export const weEthRatioAbi = [
   {
     inputs: [],
     name: 'getRate',
     outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+] as const
+
+export const rEthOracleAbi = [
+  {
+    inputs: [],
+    name: 'reth',
+    outputs: [{ internalType: 'contract IRocketPoolStakedEth', name: '', type: 'address' }],
     stateMutability: 'view',
     type: 'function',
   },
