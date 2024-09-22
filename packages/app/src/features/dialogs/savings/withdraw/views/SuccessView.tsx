@@ -4,11 +4,11 @@ import { SuccessViewCheckmark } from '@/features/dialogs/common/components/succe
 import { SuccessViewContent } from '@/features/dialogs/common/components/success-view/SuccessViewContent'
 import { SuccessViewProceedButton } from '@/features/dialogs/common/components/success-view/SuccessViewProceedButton'
 import BoxArrowTopRight from '@/ui/assets/box-arrow-top-right.svg?react'
+import { Address } from '@/ui/atoms/address/Address'
 import { Link } from '@/ui/atoms/link/Link'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 import { Typography } from '@/ui/atoms/typography/Typography'
-import { shortenAddress } from '@/ui/utils/shortenAddress'
 import { testIds } from '@/ui/utils/testIds'
 import { SendModeExtension } from '../types'
 
@@ -40,10 +40,10 @@ export function SuccessView({ tokenToWithdraw, closeDialog, sendModeExtension }:
             </div>
           </div>
           {sendModeExtension?.receiver && (
-            <div className="flex items-center justify-between border-basics-border border-t py-4">
+            <div className='flex items-center justify-between gap-2 border-basics-border border-t py-4'>
               <Typography>Recipient</Typography>
-              <Typography variant="prompt" className="flex gap-1.5 text-sm">
-                {shortenAddress(sendModeExtension.receiver, { startLength: 16 })}
+              <Typography variant="prompt" className='flex min-w-0 gap-1.5 text-sm'>
+                <Address address={sendModeExtension.receiver} />
                 {sendModeExtension.blockExplorerAddressLink && (
                   <Link
                     to={sendModeExtension.blockExplorerAddressLink}

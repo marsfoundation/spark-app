@@ -1,10 +1,10 @@
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { WalletDropdownContentInfo } from '@/features/navbar/types'
 import BoxArrowTopRight from '@/ui/assets/box-arrow-top-right.svg?react'
+import { Address } from '@/ui/atoms/address/Address'
 import { Button } from '@/ui/atoms/button/Button'
 import { Link } from '@/ui/atoms/link/Link'
 import { Skeleton } from '@/ui/atoms/skeleton/Skeleton'
-import { shortenAddress } from '@/ui/utils/shortenAddress'
 
 export interface WalletDropdownContentProps extends WalletDropdownContentInfo {}
 
@@ -22,7 +22,9 @@ export function WalletDropdownContent({
       <div className="flex w-[calc(100vw-48px)] flex-col gap-4 border-basics-grey/50 border-b p-4 lg:w-64">
         <div className="flex items-center gap-3">
           <img src={walletIcon} alt="Wallet icon" className="h-5 w-5" />
-          <div className="text-basics-black">{isEphemeralAccount ? 'Ephemeral account' : shortenAddress(address)}</div>
+          <div className="text-basics-black">
+            {isEphemeralAccount ? 'Ephemeral account' : <Address address={address} />}
+          </div>
         </div>
         <div className="flex gap-2.5">
           <Button size="sm" variant="secondary" onClick={onDisconnect}>
