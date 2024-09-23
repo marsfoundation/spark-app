@@ -26,7 +26,7 @@ export function YieldingFixedOraclePanel({
             Yielding Fixed Price{' '}
             {providedBy.length > 1 && <span className="font-medium text-basics-dark-grey">(Redundant)</span>}
           </Panel.Title>
-          <Info size={16}>Uses an exchange ratio together with with a market price of a base asset</Info>
+          <Info size={16}>The asset price is calculated using both an exchange rate and a market price oracle. Sky Governance controls which oracle is used.</Info>
         </Panel.Header>
       </div>
       <Panel.Content className="flex flex-col gap-4 sm:gap-6">
