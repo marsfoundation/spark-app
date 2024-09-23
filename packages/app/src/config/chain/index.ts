@@ -2,6 +2,7 @@ import { gnosis, mainnet } from 'viem/chains'
 
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { getOriginChainId } from '@/domain/hooks/useOriginChainId'
+import { fetchRethRatio, fetchWeethRatio, fetchWstethRatioMainnet } from '@/domain/oracles/oracleRatioFetchers'
 import { gnosisSavingsDaiInfoQuery } from '@/domain/savings-info/gnosisSavingsInfo'
 import { mainnetSavingsDaiInfoQuery, mainnetSavingsUsdsInfoQuery } from '@/domain/savings-info/mainnetSavingsInfo'
 import { useStore } from '@/domain/state'
@@ -130,7 +131,7 @@ const chainConfig: ChainConfig = {
     oracles: {
       [TokenSymbol('WETH')]: {
         type: 'market-price',
-        providedBy: ['chainlink'],
+        providedBy: ['chainlink', 'chronicle'],
       },
       [TokenSymbol('WBTC')]: {
         type: 'market-price',
@@ -138,21 +139,21 @@ const chainConfig: ChainConfig = {
       },
       [TokenSymbol('wstETH')]: {
         type: 'yielding-fixed',
-        baseAsset: TokenSymbol('ETH'),
-        providedBy: ['chainlink'],
-        ratio: async () => NormalizedUnitNumber(0),
+        baseAsset: TokenSymbol('WETH'),
+        providedBy: ['chainlink', 'chronicle'],
+        ratio: fetchWstethRatioMainnet,
       },
       [TokenSymbol('rETH')]: {
         type: 'yielding-fixed',
-        baseAsset: TokenSymbol('ETH'),
-        providedBy: ['chainlink'],
-        ratio: async () => NormalizedUnitNumber(0),
+        baseAsset: TokenSymbol('WETH'),
+        providedBy: ['chainlink', 'chronicle'],
+        ratio: fetchRethRatio,
       },
       [TokenSymbol('weETH')]: {
         type: 'yielding-fixed',
-        baseAsset: TokenSymbol('ETH'),
-        providedBy: ['chainlink'],
-        ratio: async () => NormalizedUnitNumber(0),
+        baseAsset: TokenSymbol('WETH'),
+        providedBy: ['chainlink', 'chronicle'],
+        ratio: fetchWeethRatio,
       },
       [TokenSymbol('USDC')]: {
         type: 'fixed',
@@ -233,12 +234,6 @@ const chainConfig: ChainConfig = {
       [TokenSymbol('GNO')]: {
         type: 'market-price',
         providedBy: ['chainlink'],
-      },
-      [TokenSymbol('wstETH')]: {
-        type: 'yielding-fixed',
-        baseAsset: TokenSymbol('ETH'),
-        providedBy: ['chainlink'],
-        ratio: async () => NormalizedUnitNumber(0),
       },
       [TokenSymbol('USDC')]: {
         type: 'fixed',

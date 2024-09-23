@@ -1,5 +1,6 @@
 import { MarketOverview as MarketOverviewPanel } from '../../components/market-overview/MarketOverview'
 import { MyWalletPanel } from '../../components/my-wallet/MyWalletPanel'
+import { OraclePanel } from '../../components/oracle-panel/OraclePanel'
 import { BorrowStatusPanel } from '../../components/status-panel/BorrowStatusPanel'
 import { CollateralStatusPanel } from '../../components/status-panel/CollateralStatusPanel'
 import { EModeStatusPanel } from '../../components/status-panel/EModeStatusPanel'
@@ -20,6 +21,7 @@ export function FullView({
   walletOverview,
   openConnectModal,
   openDialog,
+  oracleInfo,
 }: MarketDetailsViewProps) {
   return (
     <div className="w-full max-w-5xl pt-12 pb-8 lg:mx-auto sm:mx-3">
@@ -39,6 +41,7 @@ export function FullView({
           <CollateralStatusPanel {...marketOverview.collateral} />
           {marketOverview.eMode && <EModeStatusPanel {...marketOverview.eMode} />}
           <BorrowStatusPanel token={token} {...marketOverview.borrow} />
+          {import.meta.env.VITE_DEV_ORACLES === '1' && <OraclePanel {...oracleInfo} />}
         </div>
         <div className="flex flex-col gap-6">
           {(marketOverview.borrow.status === 'no' ? !marketOverview.summary.borrowed.isZero() : true) && (

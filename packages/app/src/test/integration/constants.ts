@@ -13,6 +13,7 @@ import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { zeroAddress } from 'viem'
 
 export const testAddresses = {
   alice: createDummyAddress('a11ce'),
@@ -187,6 +188,7 @@ export function getMockReserve(overrides: Partial<Reserve> = {}): Reserve {
     variableBorrowApy: Percentage(0.05),
 
     priceInUSD: new BigNumber(priceInUsd),
+    priceOracle: CheckedAddress(zeroAddress),
 
     usageAsCollateralEnabled: true,
     usageAsCollateralEnabledOnUser: true,
