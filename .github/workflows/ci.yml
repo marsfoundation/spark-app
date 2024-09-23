@@ -155,7 +155,7 @@ jobs:
       - test
       - test-e2e
     # a safe guard to ensure that the workflow is only triggered on the main branch
-    # if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main'
     outputs:
       pinata_hash: '${{ steps.pinata.outputs.hash }}'
 
