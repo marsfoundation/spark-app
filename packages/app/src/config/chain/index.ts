@@ -2,6 +2,7 @@ import { gnosis, mainnet } from 'viem/chains'
 
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { getOriginChainId } from '@/domain/hooks/useOriginChainId'
+import { fetchRethRatio, fetchWeethRatio, fetchWstethRatioMainnet } from '@/domain/oracles/oracleRatioFetchers'
 import { gnosisSavingsDaiInfoQuery } from '@/domain/savings-info/gnosisSavingsInfo'
 import { mainnetSavingsDaiInfoQuery, mainnetSavingsUsdsInfoQuery } from '@/domain/savings-info/mainnetSavingsInfo'
 import { useStore } from '@/domain/state'
@@ -127,6 +128,43 @@ const chainConfig: ChainConfig = {
         entryAssetsGroup: stablecoinsGroup,
       },
     ],
+    oracles: {
+      [TokenSymbol('WETH')]: {
+        type: 'market-price',
+        providedBy: ['chainlink', 'chronicle'],
+      },
+      [TokenSymbol('WBTC')]: {
+        type: 'market-price',
+        providedBy: ['chainlink'],
+      },
+      [TokenSymbol('wstETH')]: {
+        type: 'yielding-fixed',
+        baseAsset: TokenSymbol('WETH'),
+        providedBy: ['chainlink', 'chronicle'],
+        ratio: fetchWstethRatioMainnet,
+      },
+      [TokenSymbol('rETH')]: {
+        type: 'yielding-fixed',
+        baseAsset: TokenSymbol('WETH'),
+        providedBy: ['chainlink', 'chronicle'],
+        ratio: fetchRethRatio,
+      },
+      [TokenSymbol('weETH')]: {
+        type: 'yielding-fixed',
+        baseAsset: TokenSymbol('WETH'),
+        providedBy: ['chainlink', 'chronicle'],
+        ratio: fetchWeethRatio,
+      },
+      [TokenSymbol('USDC')]: {
+        type: 'fixed',
+      },
+      [TokenSymbol('USDT')]: {
+        type: 'fixed',
+      },
+      [TokenSymbol('DAI')]: {
+        type: 'fixed',
+      },
+    },
   },
   [gnosis.id]: {
     id: gnosis.id,
@@ -184,6 +222,32 @@ const chainConfig: ChainConfig = {
       },
     ],
     farms: [],
+    oracles: {
+      [TokenSymbol('EURe')]: {
+        type: 'underlying-asset',
+        asset: 'EUR',
+      },
+      [TokenSymbol('WETH')]: {
+        type: 'market-price',
+        providedBy: ['chainlink'],
+      },
+      [TokenSymbol('GNO')]: {
+        type: 'market-price',
+        providedBy: ['chainlink'],
+      },
+      [TokenSymbol('USDC')]: {
+        type: 'fixed',
+      },
+      [TokenSymbol('USDC.e')]: {
+        type: 'fixed',
+      },
+      [TokenSymbol('USDT')]: {
+        type: 'fixed',
+      },
+      [TokenSymbol('XDAI')]: {
+        type: 'fixed',
+      },
+    },
   },
 }
 

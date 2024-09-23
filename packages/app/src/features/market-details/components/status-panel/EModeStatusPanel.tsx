@@ -12,10 +12,10 @@ import { links } from '@/ui/constants/links'
 import { EModeBadge } from '@/ui/molecules/e-mode-badge/EModeBadge'
 import { cn } from '@/ui/utils/style'
 
+import { InfoTile } from '@/ui/molecules/info-tile/InfoTile'
 import { Header } from './components/Header'
+import { InfoTilesGrid } from './components/InfoTilesGrid'
 import { StatusPanelGrid } from './components/StatusPanelGrid'
-import { InfoTile } from './components/info-tile/InfoTile'
-import { InfoTilesGrid } from './components/info-tile/InfoTilesGrid'
 import { StatusIcon } from './components/status-icon/StatusIcon'
 import { TokenBadge } from './components/token-badge/TokenBadge'
 

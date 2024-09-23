@@ -4,7 +4,7 @@ import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { InfoTile } from './InfoTile'
 
 const meta: Meta<typeof InfoTile> = {
-  title: 'Features/MarketDetails/Components/StatusPanel/Components/InfoTile',
+  title: 'Components/Molecules/InfoTile',
   component: InfoTile,
 }
 

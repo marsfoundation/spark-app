@@ -35,6 +35,7 @@ module.exports = tseslint.config(
       '@typescript-eslint/no-floating-promises': 'error',
       'func-style': ['error', 'declaration'],
       'object-shorthand': 'error',
+      '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
     },
   },
 )

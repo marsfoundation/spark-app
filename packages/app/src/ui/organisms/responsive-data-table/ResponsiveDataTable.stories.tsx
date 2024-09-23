@@ -3,7 +3,7 @@ import { getMobileStory, getTabletStory } from '@storybook/viewports'
 
 import { ResponsiveDataTable } from './ResponsiveDataTable'
 
-export type Payment = {
+export interface Payment {
   id: string
   amount: number
   status: 'pending' | 'processing' | 'success' | 'failed'

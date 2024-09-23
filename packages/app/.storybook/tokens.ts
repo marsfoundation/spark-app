@@ -122,4 +122,11 @@ export const tokens = {
     decimals: 18,
     address: CheckedAddress('0xE363359B6192A6AbA8a7Eb43bEA1b3D62bF63739'),
   }),
+  EURe: new Token({
+    unitPriceUsd: '1.24',
+    symbol: TokenSymbol('EURe'),
+    name: 'EURe',
+    decimals: 18,
+    address: CheckedAddress('0xcb444e90d8198415266c6a2724b7900fb12fc56e'),
+  }),
 }
