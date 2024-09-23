@@ -53,6 +53,7 @@ import sparkLogo from './spark-logo.svg'
 import success from './success.svg'
 import threeDots from './three-dots.svg'
 import timer from './timer.svg'
+import cbbtc from './tokens/cbbtc.svg'
 import dai from './tokens/dai.svg'
 import eth from './tokens/eth.svg'
 import eure from './tokens/eure.svg'
@@ -165,6 +166,7 @@ export const assets = {
     wsteth,
     wxdai,
     xdai,
+    cbbtc,
     unknown,
   },
   walletIcons: {
