@@ -101,7 +101,7 @@ export function Address({
         textNode: txtToEllipse,
         endVisibleCharacters,
         startVisibleCharacters,
-        iconWidth: inlineIconRef.current ? inlineIconRef.current.getBoundingClientRect().width : 0,
+        iconWidth: inlineIconRef.current ? inlineIconRef.current.getBoundingClientRect().width + 8 : 0,
       })
 
       txtToEllipse.textContent = updatedText
@@ -135,7 +135,11 @@ export function Address({
       }}
     >
       <span aria-hidden="true" ref={measuredTextRef} data-address={address} />
-      {inlineIcon && <span ref={inlineIconRef}>{inlineIcon}</span>}
+      {inlineIcon && (
+        <span ref={inlineIconRef} className="pl-[8px]">
+          {inlineIcon}
+        </span>
+      )}
     </div>
   )
 }

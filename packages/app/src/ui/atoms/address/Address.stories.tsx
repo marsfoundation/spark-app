@@ -55,6 +55,10 @@ export const AddressWithControls = {
         <div className="mt-4 flex items-center justify-between gap-2">
           <Address {...props} inlineIcon={<BoxArrowTopRight className="h-5 w-5 shrink-0 p-1" />} />
         </div>
+        <div className="mt-4 flex items-center justify-between gap-2">
+          <Address {...props} />
+          <BoxArrowTopRight className="h-5 w-5 shrink-0 p-1" />
+        </div>
       </div>
     </div>
   ),
