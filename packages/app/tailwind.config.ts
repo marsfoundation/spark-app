@@ -14,12 +14,6 @@ export default {
       flexBasis: {
         content: 'content',
       },
-      wordBreak: {
-        'keep-all': 'keep-all',
-      },
-      overflowWrap: {
-        normal: 'normal',
-      },
       screens: {
         // needs to be this way to not to break tailwind intellisense
         ...require(join(__dirname, 'src/config/tailwind')).screensOverrides,
