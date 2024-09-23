@@ -8,9 +8,10 @@ import { EarnedBalance } from './EarnedBalance'
 export interface ActiveFarmInfoPanelProps {
   farmDetailsRowData: FarmDetailsRowData
   farm: Farm
+  openClaimDialog: () => void
 }
 
-export function ActiveFarmInfoPanel({ farmDetailsRowData, farm }: ActiveFarmInfoPanelProps) {
+export function ActiveFarmInfoPanel({ farmDetailsRowData, farm, openClaimDialog }: ActiveFarmInfoPanelProps) {
   const { rewardToken, stakingToken, staked } = farm
 
   return (
@@ -21,7 +22,9 @@ export function ActiveFarmInfoPanel({ farmDetailsRowData, farm }: ActiveFarmInfo
           <Info>Info about your balance in the farm</Info>
         </div>
         <div className="flex items-center gap-1">
-          <Button size="sm">Claim {rewardToken.symbol}</Button>
+          <Button size="sm" onClick={openClaimDialog}>
+            Claim {rewardToken.symbol}
+          </Button>
           <Button size="sm" variant="secondary">
             Withdraw {stakingToken.symbol}
           </Button>
