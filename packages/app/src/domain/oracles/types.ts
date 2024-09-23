@@ -1,15 +1,15 @@
-import { Address } from 'viem'
 import { Reserve } from '../market-info/marketInfo'
 import { NormalizedUnitNumber } from '../types/NumericValues'
 import { Token } from '../types/Token'
 
 import { OracleFeedProvider } from '@/config/chain/types'
+import { CheckedAddress } from '../types/CheckedAddress'
 import { TokenSymbol } from '../types/TokenSymbol'
 
 export interface OracleInfoBase {
   chainId: number
   price: NormalizedUnitNumber
-  priceOracleAddress: Address
+  priceOracleAddress: CheckedAddress
   token: Token
 }
 

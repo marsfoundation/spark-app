@@ -40,19 +40,24 @@ export function SuccessView({ tokenToWithdraw, closeDialog, sendModeExtension }:
             </div>
           </div>
           {sendModeExtension?.receiver && (
-            <div className='flex items-center justify-between gap-2 border-basics-border border-t py-4'>
+            <div className="flex items-center justify-between gap-2 border-basics-border border-t py-4">
               <Typography>Recipient</Typography>
-              <Typography variant="prompt" className='flex min-w-0 gap-1.5 text-sm'>
-                <Address address={sendModeExtension.receiver} />
-                {sendModeExtension.blockExplorerAddressLink && (
-                  <Link
-                    to={sendModeExtension.blockExplorerAddressLink}
-                    external
-                    className="flex items-center gap-2.5 font-medium text-basics-dark-grey text-sm"
-                  >
-                    <BoxArrowTopRight className="h-4 w-4" />
-                  </Link>
-                )}
+              <Typography variant="prompt" className="flex min-w-0 flex-1 gap-1.5 text-sm">
+                <Address
+                  className="justify-end"
+                  address={sendModeExtension.receiver}
+                  inlineIcon={
+                    sendModeExtension.blockExplorerAddressLink ? (
+                      <Link
+                        to={sendModeExtension.blockExplorerAddressLink}
+                        external
+                        className="flex items-center gap-2.5 font-medium text-basics-dark-grey text-sm"
+                      >
+                        <BoxArrowTopRight className="h-4 w-4" />
+                      </Link>
+                    ) : undefined
+                  }
+                />
               </Typography>
             </div>
           )}

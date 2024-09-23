@@ -1,4 +1,5 @@
 import { useBlockExplorerAddressLink } from '@/domain/hooks/useBlockExplorerAddressLink'
+import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { Token } from '@/domain/types/Token'
 import BoxArrowTopRight from '@/ui/assets/box-arrow-top-right.svg?react'
 import MoreIcon from '@/ui/assets/more-icon.svg?react'
@@ -13,14 +14,12 @@ import {
 } from '@/ui/atoms/dropdown/DropdownMenu'
 import { Link } from '@/ui/atoms/link/Link'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
-import { cn } from '@/ui/utils/style'
 import { PropsWithChildren, ReactNode } from 'react'
-import { Address as AddressType } from 'viem'
 
 export interface TokenLinksDropdownProps {
   token: Token
   aToken: Token
-  variableDebtTokenAddress: AddressType
+  variableDebtTokenAddress: CheckedAddress
   chainId: number
 }
 
@@ -56,7 +55,7 @@ function TokenLinksWrapper({ children }: PropsWithChildren) {
 }
 
 interface BlockExplorerAddressLinkProps {
-  address: AddressType
+  address: CheckedAddress
   children: ReactNode
   chainId: number
 }
@@ -74,7 +73,7 @@ function BlockExplorerAddressLink({ address, children, chainId }: BlockExplorerA
 }
 
 interface TokenLinksDropdownItemProps {
-  address: AddressType
+  address: CheckedAddress
   label: string
   token: Token
 }
@@ -90,11 +89,9 @@ function TokenLinksDropdownItem({ address, token, label }: TokenLinksDropdownIte
           </div>
         </div>
 
-        <div className="flex items-center justify-between gap-2">
-          <div className="overflow-hidden">
-            <Address className="font-semibold text-basics-black" address={address} />
-          </div>
-          <BoxArrowTopRight className={cn('h-3.5 w-3.5 shrink-0')} />
+        <div className="flex items-center gap-2 font-semibold text-basics-black">
+          <Address address={address} />
+          <BoxArrowTopRight className="h-3.5 w-3.5" />
         </div>
       </div>
     </DropdownMenuItem>

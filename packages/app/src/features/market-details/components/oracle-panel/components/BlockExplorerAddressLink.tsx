@@ -1,12 +1,12 @@
 import { useBlockExplorerAddressLink } from '@/domain/hooks/useBlockExplorerAddressLink'
+import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import BoxArrowTopRight from '@/ui/assets/box-arrow-top-right.svg?react'
 import { Address } from '@/ui/atoms/address/Address'
 import { Link } from '@/ui/atoms/link/Link'
 import { cn } from '@/ui/utils/style'
-import { Address as AddressType } from 'viem'
 
 interface BlockExplorerAddressLinkProps {
-  address: AddressType
+  address: CheckedAddress
   chainId: number
   className?: string
 }
