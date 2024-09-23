@@ -6,7 +6,7 @@ import { Action, ActionContext } from '@/features/actions/logic/types'
 import { assert, raise } from '@/utils/assert'
 import { ApproveAction } from '../../approve/types'
 import { UpgradeAction } from '../../upgrade/types'
-import { UsdsPsmWrapAction } from '../../usds-psm-wrap/types'
+import { UsdsPsmConvertAction } from '../../usds-psm-convert/types'
 import { createWithdrawFromSavingsActions } from '../../withdraw-from-savings/logic/createWithdrawFromSavingsActions'
 import { WithdrawFromSavingsObjective } from '../../withdraw-from-savings/types'
 import { StakeAction, StakeObjective } from '../types'
@@ -35,7 +35,7 @@ export function createStakeActions(objective: StakeObjective, context: ActionCon
 
   if (stakingToken.symbol === USDSSymbol) {
     if (objective.token.symbol === daiSymbol) {
-      const approveMigrateAction: ApproveAction = {
+      const approveUpgradeAction: ApproveAction = {
         type: 'approve',
         token: objective.token,
         spender: getContractAddress(migrationActionsConfig.address, chainId),
@@ -49,7 +49,7 @@ export function createStakeActions(objective: StakeObjective, context: ActionCon
         amount: objective.amount,
       }
 
-      return [approveMigrateAction, upgradeAction, approveStakeAction, stakeAction]
+      return [approveUpgradeAction, upgradeAction, approveStakeAction, stakeAction]
     }
 
     if (objective.token.symbol === sDaiSymbol || objective.token.symbol === sUSDSSymbol) {
@@ -81,21 +81,21 @@ export function createStakeActions(objective: StakeObjective, context: ActionCon
     const usdc = context.tokensInfo.findOneTokenBySymbol(TokenSymbol('USDC'))
 
     if (objective.token.symbol === usdc.symbol) {
-      const approveWrapAction: ApproveAction = {
+      const approveConvertAction: ApproveAction = {
         type: 'approve',
         token: objective.token,
         spender: getContractAddress(usdsPsmWrapperConfig.address, chainId),
         value: objective.amount,
       }
 
-      const wrapAction: UsdsPsmWrapAction = {
-        type: 'usdsPsmWrap',
-        usdc: objective.token,
-        usds: context.tokensInfo.USDS ?? raise('USDS token is required for usds psm wrap action'),
-        usdcAmount: objective.amount,
+      const convertToUsdsAction: UsdsPsmConvertAction = {
+        type: 'usdsPsmConvert',
+        inToken: objective.token,
+        outToken: context.tokensInfo.USDS ?? raise('USDS token is required for usds psm convert action'),
+        amount: objective.amount,
       }
 
-      return [approveWrapAction, wrapAction, approveStakeAction, stakeAction]
+      return [approveConvertAction, convertToUsdsAction, approveStakeAction, stakeAction]
     }
   }
 

@@ -155,22 +155,34 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
     state: { status: 'ready' },
     onAction: () => {},
   },
+  unstake: {
+    action: {
+      type: 'unstake',
+      stakingToken: tokens.USDS,
+      amount: NormalizedUnitNumber(1),
+      rewardToken: tokens.SKY,
+      farm: CheckedAddress(zeroAddress),
+      exit: false,
+    },
+    state: { status: 'ready' },
+    onAction: () => {},
+  },
+  usdsPsmConvert: {
+    action: {
+      type: 'usdsPsmConvert',
+      inToken: tokens.USDC,
+      outToken: tokens.USDS,
+      amount: NormalizedUnitNumber(1),
+    },
+    state: { status: 'ready' },
+    onAction: () => {},
+  },
   claimFarmRewards: {
     action: {
       type: 'claimFarmRewards',
       farm: CheckedAddress(zeroAddress),
       rewardToken: tokens.USDS,
       rewardAmount: NormalizedUnitNumber(1),
-    },
-    state: { status: 'ready' },
-    onAction: () => {},
-  },
-  usdsPsmWrap: {
-    action: {
-      type: 'usdsPsmWrap',
-      usdc: tokens.USDC,
-      usds: tokens.USDS,
-      usdcAmount: NormalizedUnitNumber(1),
     },
     state: { status: 'ready' },
     onAction: () => {},

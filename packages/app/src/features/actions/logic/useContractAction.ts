@@ -20,8 +20,9 @@ import { createRepayActionConfig } from '../flavours/repay/logic/repayAction'
 import { createSetUseAsCollateralActionConfig } from '../flavours/set-use-as-collateral/logic/setUseAsCollateralAction'
 import { createSetUserEModeActionConfig } from '../flavours/set-user-e-mode/logic/setUserEModeAction'
 import { createStakeActionConfig } from '../flavours/stake/logic/stakeAction'
+import { createUnstakeActionConfig } from '../flavours/unstake/logic/unstakeAction'
 import { createUpgradeActionConfig } from '../flavours/upgrade/logic/upgradeAction'
-import { createUsdsPsmWrapActionConfig } from '../flavours/usds-psm-wrap/logic/usdsPsmWrapAction'
+import { createUsdsPsmConvertActionConfig } from '../flavours/usds-psm-convert/logic/usdsPsmConvertAction'
 import { createWithdrawFromSavingsActionConfig } from '../flavours/withdraw-from-savings/logic/withdrawFromSavingsAction'
 import { createWithdrawActionConfig } from '../flavours/withdraw/logic/withdrawAction'
 import { ActionConfig, ActionContext, InitialParamsQueryResult, VerifyTransactionResult } from './types'
@@ -155,8 +156,10 @@ function actionToConfig(action: Action, context: ActionContext): ActionConfig {
       return createDowngradeActionConfig(action, context)
     case 'stake':
       return createStakeActionConfig(action, context)
-    case 'usdsPsmWrap':
-      return createUsdsPsmWrapActionConfig(action, context)
+    case 'unstake':
+      return createUnstakeActionConfig(action, context)
+    case 'usdsPsmConvert':
+      return createUsdsPsmConvertActionConfig(action, context)
     case 'claimFarmRewards':
       return createClaimFarmRewardsActionConfig(action, context)
     case 'permit':

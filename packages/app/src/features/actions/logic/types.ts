@@ -19,8 +19,9 @@ import { RepayAction, RepayObjective } from '../flavours/repay/types'
 import { SetUseAsCollateralAction, SetUseAsCollateralObjective } from '../flavours/set-use-as-collateral/types'
 import { SetUserEModeAction, SetUserEModeObjective } from '../flavours/set-user-e-mode/logic/types'
 import { StakeAction, StakeObjective } from '../flavours/stake/types'
+import { UnstakeAction, UnstakeObjective } from '../flavours/unstake/types'
 import { UpgradeAction, UpgradeObjective } from '../flavours/upgrade/types'
-import { UsdsPsmWrapAction } from '../flavours/usds-psm-wrap/types'
+import { UsdsPsmConvertAction } from '../flavours/usds-psm-convert/types'
 import { WithdrawFromSavingsAction, WithdrawFromSavingsObjective } from '../flavours/withdraw-from-savings/types'
 import { WithdrawAction, WithdrawObjective } from '../flavours/withdraw/types'
 import { PermitStore } from './permits'
@@ -42,6 +43,7 @@ export type Objective =
   | UpgradeObjective
   | DowngradeObjective
   | StakeObjective
+  | UnstakeObjective
   | ClaimFarmRewardsObjective
 export type ObjectiveType = Objective['type']
 
@@ -61,8 +63,9 @@ export type Action =
   | UpgradeAction
   | DowngradeAction
   | StakeAction
+  | UnstakeAction
+  | UsdsPsmConvertAction
   | ClaimFarmRewardsAction
-  | UsdsPsmWrapAction
 export type ActionType = Action['type']
 
 export type ActionHandlerState =

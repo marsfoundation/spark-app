@@ -162,14 +162,34 @@ type SimplifiedDowngradeAction = {
 
 type SimplifiedStakeAction = {
   type: 'stake'
-  inputToken: string
+  stakingToken: string
   rewardToken: string
+}
+
+type SimplifiedUnstakeAction = {
+  type: 'unstake'
+  stakingToken: string
+  rewardToken: string
+}
+
+type SimplifiedUsdsPsmConvertAction = {
+  type: 'usdsPsmConvert'
+  inToken: string
+  outToken: string
 }
 
 type SimplifiedGenericAction = BaseAction & {
   type: Exclude<
     ActionType,
-    'exchange' | 'depositToSavings' | 'withdrawFromSavings' | 'setUserEMode' | 'upgrade' | 'downgrade' | 'stake'
+    | 'exchange'
+    | 'depositToSavings'
+    | 'withdrawFromSavings'
+    | 'setUserEMode'
+    | 'upgrade'
+    | 'downgrade'
+    | 'stake'
+    | 'unstake'
+    | 'usdsPsmConvert'
   >
 }
 
@@ -191,6 +211,8 @@ type SimplifiedAction =
   | SimplifiedUpgradeAction
   | SimplifiedDowngradeAction
   | SimplifiedStakeAction
+  | SimplifiedUnstakeAction
+  | SimplifiedUsdsPsmConvertAction
 
 function actionToTitle(action: SimplifiedAction): string {
   switch (action.type) {
@@ -223,11 +245,13 @@ function actionToTitle(action: SimplifiedAction): string {
     case 'downgrade':
       return `Downgrade ${action.fromToken} to ${action.toToken}`
     case 'stake':
-      return `Stake ${action.inputToken} in ${action.rewardToken} Farm`
+      return `Stake ${action.stakingToken} in ${action.rewardToken} Farm`
+    case 'unstake':
+      return `Unstake ${action.stakingToken} from ${action.rewardToken} Farm`
     case 'claimFarmRewards':
       return 'Claim rewards'
-    case 'usdsPsmWrap':
-      return 'Convert USDC to USDS'
+    case 'usdsPsmConvert':
+      return `Convert ${action.inToken} to ${action.outToken}`
   }
 }
 
