@@ -40,7 +40,7 @@ export function SuccessView({ tokenToWithdraw, closeDialog, sendModeExtension }:
             </div>
           </div>
           {sendModeExtension?.receiver && (
-            <div className="flex items-center justify-between gap-2 border-basics-border border-t py-4">
+            <div className="grid grid-cols-2 gap-2 border-basics-border border-t py-4">
               <Typography>Recipient</Typography>
               <Typography variant="prompt" className="flex min-w-0 gap-1.5 text-sm">
                 <Address

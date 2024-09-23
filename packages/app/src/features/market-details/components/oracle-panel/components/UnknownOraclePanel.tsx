@@ -22,7 +22,7 @@ export function UnknownOraclePanel({ chainId, token, price, priceOracleAddress }
           </InfoTile>
           <InfoTile>
             <InfoTile.Label>Contract</InfoTile.Label>
-            <InfoTile.Value>
+            <InfoTile.Value className="w-full">
               <BlockExplorerAddressLink address={priceOracleAddress} chainId={chainId} />
             </InfoTile.Value>
           </InfoTile>

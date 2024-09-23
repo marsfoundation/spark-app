@@ -18,12 +18,15 @@ export function BlockExplorerAddressLink({ address, chainId, className }: BlockE
     <Link
       to={contractLink}
       external
-      className={cn('flex w-full items-center gap-2 text-inherit hover:text-inherit hover:underline', className)}
+      className={cn(
+        'flex w-full max-w-64 items-center gap-2 text-inherit hover:text-inherit hover:underline',
+        className,
+      )}
     >
       <Address address={address} postfix={<BoxArrowTopRight className="h-3.5 w-3.5 shrink-0" />} />
     </Link>
   ) : (
-    <span className="flex items-center gap-2">
+    <span className="flex w-full max-w-64 items-center gap-2">
       <Address address={address} />
     </span>
   )

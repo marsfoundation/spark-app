@@ -35,7 +35,7 @@ export function MarketOraclePanel({ providedBy, chainId, price, priceOracleAddre
           </InfoTile>
           <InfoTile>
             <InfoTile.Label>Contract</InfoTile.Label>
-            <InfoTile.Value>
+            <InfoTile.Value className="w-full">
               <BlockExplorerAddressLink address={priceOracleAddress} chainId={chainId} />
             </InfoTile.Value>
           </InfoTile>
