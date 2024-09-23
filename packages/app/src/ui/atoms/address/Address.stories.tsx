@@ -27,7 +27,7 @@ export const WithLast6Characters: Story = {
   args: {
     endVisibleCharacters: 6,
   },
-  decorators: [WithClassname('w-64 outline outline-basics-dark-grey/40')],
+  decorators: [WithClassname('w-[120px] outline outline-basics-dark-grey/40')],
 }
 
 export const AddressWithControls = {
