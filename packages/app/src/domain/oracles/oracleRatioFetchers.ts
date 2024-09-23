@@ -18,7 +18,7 @@ export interface OracleRatioFetcherParams {
   wagmiConfig: Config
 }
 
-export async function fetchWstEthRatioMainnet({
+export async function fetchWstethRatioMainnet({
   reserve,
   wagmiConfig,
 }: OracleRatioFetcherParams): Promise<NormalizedUnitNumber> {
@@ -41,7 +41,7 @@ export async function fetchWstEthRatioMainnet({
   return reserve.token.fromBaseUnit(BaseUnitNumber(ratio))
 }
 
-export async function fetchREthRatio({
+export async function fetchRethRatio({
   reserve,
   wagmiConfig,
 }: OracleRatioFetcherParams): Promise<NormalizedUnitNumber> {
@@ -64,7 +64,7 @@ export async function fetchREthRatio({
   return reserve.token.fromBaseUnit(BaseUnitNumber(ratio))
 }
 
-export async function fetchWeEthRatio({
+export async function fetchWeethRatio({
   reserve,
   wagmiConfig,
 }: OracleRatioFetcherParams): Promise<NormalizedUnitNumber> {

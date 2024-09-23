@@ -2,7 +2,7 @@ import { gnosis, mainnet } from 'viem/chains'
 
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { getOriginChainId } from '@/domain/hooks/useOriginChainId'
-import { fetchREthRatio, fetchWeEthRatio, fetchWstEthRatioMainnet } from '@/domain/oracles/oracleRatioFetchers'
+import { fetchRethRatio, fetchWeethRatio, fetchWstethRatioMainnet } from '@/domain/oracles/oracleRatioFetchers'
 import { gnosisSavingsDaiInfoQuery } from '@/domain/savings-info/gnosisSavingsInfo'
 import { mainnetSavingsDaiInfoQuery, mainnetSavingsUsdsInfoQuery } from '@/domain/savings-info/mainnetSavingsInfo'
 import { useStore } from '@/domain/state'
@@ -141,19 +141,19 @@ const chainConfig: ChainConfig = {
         type: 'yielding-fixed',
         baseAsset: TokenSymbol('WETH'),
         providedBy: ['chainlink', 'chronicle'],
-        ratio: fetchWstEthRatioMainnet,
+        ratio: fetchWstethRatioMainnet,
       },
       [TokenSymbol('rETH')]: {
         type: 'yielding-fixed',
         baseAsset: TokenSymbol('WETH'),
         providedBy: ['chainlink', 'chronicle'],
-        ratio: fetchREthRatio,
+        ratio: fetchRethRatio,
       },
       [TokenSymbol('weETH')]: {
         type: 'yielding-fixed',
         baseAsset: TokenSymbol('WETH'),
         providedBy: ['chainlink', 'chronicle'],
-        ratio: fetchWeEthRatio,
+        ratio: fetchWeethRatio,
       },
       [TokenSymbol('USDC')]: {
         type: 'fixed',
