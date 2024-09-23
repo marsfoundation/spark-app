@@ -12,10 +12,12 @@ export interface RewardsDetailsProps {
 export function RewardsDetails({ apy, rewardToken, rewardsPerYear }: RewardsDetailsProps) {
   return (
     <div className="flex flex-col items-end gap-0.5">
-      <div data-testid={testIds.dialog.savings.transactionOverview.apy.value}>{formatPercentage(apy)}</div>
+      <div data-testid={testIds.farmDetails.stakeDialog.transactionOverview.estimatedRewards.apy}>
+        {formatPercentage(apy)}
+      </div>
       <div
         className="text-basics-dark-grey text-sm"
-        data-testid={testIds.dialog.savings.transactionOverview.apy.description}
+        data-testid={testIds.farmDetails.stakeDialog.transactionOverview.estimatedRewards.description}
       >
         <span className="hidden sm:inline">Earn </span>~{rewardToken.format(rewardsPerYear, { style: 'auto' })}{' '}
         {rewardToken.symbol}/year

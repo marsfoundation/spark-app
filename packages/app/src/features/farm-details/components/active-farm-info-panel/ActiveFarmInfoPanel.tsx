@@ -2,6 +2,7 @@ import { Farm, FarmDetailsRowData } from '@/domain/farms/types'
 import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { Info } from '@/ui/molecules/info/Info'
+import { testIds } from '@/ui/utils/testIds'
 import { FarmDetailsRow } from '../farm-details-row/FarmDetailsRow'
 import { EarnedBalance } from './EarnedBalance'
 
@@ -35,7 +36,7 @@ export function ActiveFarmInfoPanel({ farmDetailsRowData, farm, openClaimDialog 
           <EarnedBalance farm={farm} />
           <div className="font-semibold text-basics-dark-grey text-xs tracking-wide">
             =
-            <span>
+            <span data-testid={testIds.farmDetails.activeFarmInfoPanel.staked}>
               {stakingToken.format(staked, { style: 'auto' })} {stakingToken.symbol}
             </span>
           </div>
