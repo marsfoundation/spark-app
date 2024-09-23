@@ -1,4 +1,5 @@
-import { RefObject, useEffect, useRef, useState } from 'react'
+import { RefObject, useRef, useState } from 'react'
+import { useResizeObserver } from './useResizeObserver'
 
 type UseIsTruncatedResult<T> = [RefObject<T>, boolean]
 
@@ -6,19 +7,14 @@ export function useIsTruncated<T extends HTMLElement = HTMLParagraphElement>(): 
   const ref = useRef<T>(null)
   const [isTruncated, setIsTruncated] = useState(false)
 
-  useEffect(function observeTruncation() {
-    const observer = new ResizeObserver(() => {
+  useResizeObserver({
+    ref,
+    onResize: () => {
       if (ref.current) {
         setIsTruncated(ref.current.offsetWidth < ref.current.scrollWidth)
       }
-    })
-
-    if (ref.current) {
-      observer.observe(ref.current)
-    }
-
-    return () => observer.disconnect()
-  }, [])
+    },
+  })
 
   return [ref, isTruncated]
 }

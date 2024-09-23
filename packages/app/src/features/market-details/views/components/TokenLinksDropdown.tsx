@@ -88,10 +88,8 @@ function TokenLinksDropdownItem({ address, token, label }: TokenLinksDropdownIte
             {label}
           </div>
         </div>
-
         <div className="flex items-center gap-2 font-semibold text-basics-black">
-          <Address address={address} />
-          <BoxArrowTopRight className="h-3.5 w-3.5" />
+          <Address address={address} postfix={<BoxArrowTopRight className="h-3.5 w-3.5" />} />
         </div>
       </div>
     </DropdownMenuItem>

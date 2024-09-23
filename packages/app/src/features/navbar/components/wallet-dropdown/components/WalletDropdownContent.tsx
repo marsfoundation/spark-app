@@ -23,7 +23,7 @@ export function WalletDropdownContent({
         <div className="flex items-center gap-3">
           <img src={walletIcon} alt="Wallet icon" className="h-5 w-5" />
           <div className="overflow-hidden text-basics-black">
-            {isEphemeralAccount ? 'Ephemeral account' : <Address address={address} />}
+            {isEphemeralAccount ? 'Ephemeral account' : <Address compact address={address} />}
           </div>
         </div>
         <div className="flex gap-2.5">

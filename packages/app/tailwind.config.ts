@@ -11,9 +11,6 @@ export default {
       padding: '2rem',
     },
     extend: {
-      flexBasis: {
-        content: 'content',
-      },
       screens: {
         // needs to be this way to not to break tailwind intellisense
         ...require(join(__dirname, 'src/config/tailwind')).screensOverrides,

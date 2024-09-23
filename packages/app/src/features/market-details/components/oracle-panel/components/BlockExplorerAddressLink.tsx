@@ -20,7 +20,7 @@ export function BlockExplorerAddressLink({ address, chainId, className }: BlockE
       external
       className={cn('flex w-full items-center gap-2 text-inherit hover:text-inherit hover:underline', className)}
     >
-      <Address address={address} inlineIcon={<BoxArrowTopRight className="h-3.5 w-3.5 shrink-0" />} />
+      <Address address={address} postfix={<BoxArrowTopRight className="h-3.5 w-3.5 shrink-0" />} />
     </Link>
   ) : (
     <span className="flex items-center gap-2">
