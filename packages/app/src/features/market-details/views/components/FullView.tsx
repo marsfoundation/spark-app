@@ -41,7 +41,7 @@ export function FullView({
           <CollateralStatusPanel {...marketOverview.collateral} />
           {marketOverview.eMode && <EModeStatusPanel {...marketOverview.eMode} />}
           <BorrowStatusPanel token={token} {...marketOverview.borrow} />
-          <OraclePanel {...oracleInfo} />
+          {import.meta.env.VITE_DEV_ORACLES === '1' && <OraclePanel {...oracleInfo} />}
         </div>
         <div className="flex flex-col gap-6">
           {(marketOverview.borrow.status === 'no' ? !marketOverview.summary.borrowed.isZero() : true) && (
