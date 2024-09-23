@@ -73,6 +73,7 @@ import weth from './tokens/weth.svg'
 import wsteth from './tokens/wsteth.svg'
 import wxdai from './tokens/wxdai.svg'
 import xdai from './tokens/xdai.svg'
+import cbbtc from './cbbtc.svg'
 import up from './up.svg'
 import upgrade from './upgrade.svg'
 import coinbase from './wallet-icons/coinbase.svg'
@@ -165,6 +166,7 @@ export const assets = {
     wsteth,
     wxdai,
     xdai,
+    cbbtc,
     unknown,
   },
   walletIcons: {
