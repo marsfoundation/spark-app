@@ -56,10 +56,9 @@ export function createUnstakeActions(objective: UnstakeObjective, context: Actio
 
       const convertToUsdcAction: UsdsPsmConvertAction = {
         type: 'usdsPsmConvert',
-        outToken: 'usdc',
-        usdc: objective.token,
-        usds: context.tokensInfo.USDS ?? raise('USDS token is required for usds psm convert action'),
-        usdcAmount: objective.amount,
+        inToken: context.tokensInfo.USDS ?? raise('USDS token is required for usds psm convert action'),
+        outToken: objective.token,
+        amount: objective.amount,
       }
 
       return [unstakeAction, approveConvertAction, convertToUsdcAction]

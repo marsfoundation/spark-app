@@ -90,10 +90,9 @@ export function createStakeActions(objective: StakeObjective, context: ActionCon
 
       const convertToUsdsAction: UsdsPsmConvertAction = {
         type: 'usdsPsmConvert',
-        outToken: 'usds',
-        usdc: objective.token,
-        usds: context.tokensInfo.USDS ?? raise('USDS token is required for usds psm convert action'),
-        usdcAmount: objective.amount,
+        inToken: objective.token,
+        outToken: context.tokensInfo.USDS ?? raise('USDS token is required for usds psm convert action'),
+        amount: objective.amount,
       }
 
       return [approveConvertAction, convertToUsdsAction, approveStakeAction, stakeAction]

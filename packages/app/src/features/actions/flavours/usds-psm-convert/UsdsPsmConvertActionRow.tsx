@@ -16,11 +16,10 @@ export function UsdsPsmConvertActionRow({
   onAction,
   variant,
 }: UsdsPsmConvertActionRowProps) {
-  const { usdc, usds } = action
-  const [inToken, outToken] = action.outToken === 'usdc' ? [usds, usdc] : [usdc, usds]
+  const { inToken, outToken } = action
   const tokenIconPaths = [getTokenImage(inToken.symbol), getTokenImage(outToken.symbol)]
   const status = actionHandlerState.status
-  const successMessage = `Converted ${inToken.format(action.usdcAmount, { style: 'auto' })} ${inToken.symbol}!`
+  const successMessage = `Converted ${inToken.format(action.amount, { style: 'auto' })} ${inToken.symbol}!`
 
   return (
     <ActionRow index={index}>
@@ -31,7 +30,7 @@ export function UsdsPsmConvertActionRow({
       </ActionRow.Title>
 
       <ActionRow.Description successMessage={successMessage} actionStatus={status} variant={variant}>
-        <UpDownMarker token={inToken} value={action.usdcAmount} direction="down" />
+        <UpDownMarker token={inToken} value={action.amount} direction="down" />
       </ActionRow.Description>
 
       <ActionRow.ErrorWarning variant={variant} actionHandlerState={actionHandlerState} />

@@ -3,8 +3,7 @@ import { Token } from '@/domain/types/Token'
 
 export interface UsdsPsmConvertAction {
   type: 'usdsPsmConvert'
-  outToken: 'usdc' | 'usds'
-  usdc: Token
-  usds: Token
-  usdcAmount: NormalizedUnitNumber
+  inToken: Token
+  outToken: Token
+  amount: NormalizedUnitNumber
 }

@@ -3,7 +3,8 @@ import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
-import { getMockToken, testAddresses } from '@/test/integration/constants'
+import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
+import { getMockToken, testAddresses, testTokens } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
 import { setupUseContractActionRenderer } from '@/test/integration/setupUseContractActionRenderer'
 import { toBigInt } from '@/utils/bigNumber'
@@ -17,7 +18,14 @@ const account = testAddresses.alice
 const chainId = mainnet.id
 const usdc = getMockToken({ symbol: TokenSymbol('USDC') })
 const usds = getMockToken({ symbol: TokenSymbol('USDS') })
-const usdcAmount = NormalizedUnitNumber(1)
+const amount = NormalizedUnitNumber(1)
+
+const mockTokensInfo = new TokensInfo([{ token: usdc, balance: NormalizedUnitNumber(100) }], {
+  DAI: testTokens.DAI.symbol,
+  sDAI: testTokens.sDAI.symbol,
+  USDS: usds.symbol,
+  sUSDS: testTokens.sUSDS.symbol,
+})
 
 const hookRenderer = setupUseContractActionRenderer({
   account,
@@ -25,12 +33,12 @@ const hookRenderer = setupUseContractActionRenderer({
   args: {
     action: {
       type: 'usdsPsmConvert',
-      outToken: 'usds',
-      usdc,
-      usds,
-      usdcAmount,
+      inToken: usdc,
+      outToken: usds,
+      amount,
     },
     enabled: true,
+    context: { tokensInfo: mockTokensInfo },
   },
 })
 
@@ -42,9 +50,9 @@ describe(createUsdsPsmConvertActionConfig.name, () => {
           to: getContractAddress(usdsPsmWrapperConfig.address, chainId),
           abi: usdsPsmWrapperConfig.abi,
           functionName: 'sellGem',
-          args: [account, toBigInt(usdc.toBaseUnit(usdcAmount))],
+          args: [account, toBigInt(usdc.toBaseUnit(amount))],
           from: account,
-          result: toBigInt(usds.toBaseUnit(usdcAmount)),
+          result: toBigInt(usds.toBaseUnit(amount)),
         }),
         handlers.mineTransaction(),
       ],
@@ -78,21 +86,21 @@ describe(createUsdsPsmConvertActionConfig.name, () => {
       args: {
         action: {
           type: 'usdsPsmConvert',
-          outToken: 'usdc',
-          usdc,
-          usds,
-          usdcAmount,
+          inToken: usds,
+          outToken: usdc,
+          amount,
         },
         enabled: true,
+        context: { tokensInfo: mockTokensInfo },
       },
       extraHandlers: [
         handlers.contractCall({
           to: getContractAddress(usdsPsmWrapperConfig.address, chainId),
           abi: usdsPsmWrapperConfig.abi,
           functionName: 'buyGem',
-          args: [account, toBigInt(usdc.toBaseUnit(usdcAmount))],
+          args: [account, toBigInt(usds.toBaseUnit(amount))],
           from: account,
-          result: toBigInt(usds.toBaseUnit(usdcAmount)),
+          result: toBigInt(usds.toBaseUnit(amount)),
         }),
         handlers.mineTransaction(),
       ],
