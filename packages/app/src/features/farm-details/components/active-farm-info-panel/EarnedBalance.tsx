@@ -3,7 +3,7 @@ import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { getTokenImage } from '@/ui/assets'
 import { getFractionalPart, getWholePart } from '@/utils/bigNumber'
 import { useTimestamp } from '@/utils/useTimestamp'
-import { calculateEarned } from '../../logic/calculateEarned'
+import { calculateReward } from '../../logic/calculateReward'
 
 const STEP_IN_MS = 50
 
@@ -17,7 +17,7 @@ export function EarnedBalance({ farm }: EarnedBalanceProps) {
     refreshIntervalInMs: rewardRate.gt(0) && totalSupply.gt(0) ? STEP_IN_MS : undefined,
   })
 
-  const currentEarned = calculateEarned({
+  const currentEarned = calculateReward({
     earned,
     staked,
     rewardRate,
@@ -26,7 +26,7 @@ export function EarnedBalance({ farm }: EarnedBalanceProps) {
     timestampInMs,
     totalSupply,
   })
-  const earnedIn1Step = calculateEarned({
+  const earnedIn1Step = calculateReward({
     earned,
     staked,
     rewardRate,

@@ -2,7 +2,7 @@ import { TokenWithValue } from '@/domain/common/types'
 import { Farm } from '@/domain/farms/types'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { PageState, PageStatus } from '@/features/dialogs/common/types'
-import { calculateEarned } from '@/features/farm-details/logic/calculateEarned'
+import { calculateReward } from '@/features/farm-details/logic/calculateReward'
 import { useTimestamp } from '@/utils/useTimestamp'
 import { useState } from 'react'
 import { TxOverview } from '../types'
@@ -23,7 +23,7 @@ export function useClaimDialog({ farm }: UseClaimDialogParams): UseClaimDialogRe
   const { timestamp } = useTimestamp()
   const [pageStatus, setPageStatus] = useState<PageState>('form')
 
-  const rewardAmount = calculateEarned({
+  const rewardAmount = calculateReward({
     earned: farm.earned,
     staked: farm.staked,
     rewardRate: farm.rewardRate,

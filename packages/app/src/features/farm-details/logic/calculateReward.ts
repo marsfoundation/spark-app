@@ -1,7 +1,7 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import BigNumber from 'bignumber.js'
 
-export interface CalculateEarnedParams {
+export interface calculateRewardParams {
   earned: NormalizedUnitNumber
   staked: NormalizedUnitNumber
   rewardRate: NormalizedUnitNumber
@@ -11,7 +11,7 @@ export interface CalculateEarnedParams {
   totalSupply: NormalizedUnitNumber
 }
 
-export function calculateEarned({
+export function calculateReward({
   earned,
   staked,
   rewardRate,
@@ -19,7 +19,7 @@ export function calculateEarned({
   periodFinish,
   timestampInMs,
   totalSupply,
-}: CalculateEarnedParams): NormalizedUnitNumber {
+}: calculateRewardParams): NormalizedUnitNumber {
   if (totalSupply.isZero()) {
     return earned
   }
