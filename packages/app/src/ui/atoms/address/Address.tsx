@@ -17,6 +17,9 @@ const addressVariants = cva('flex-shrink whitespace-nowrap', {
       false: 'overflow-hidden text-ellipsis',
     },
   },
+  defaultVariants: {
+    compact: false,
+  },
 })
 
 export function Address({ className, address, postfix, compact }: AddressProps) {
