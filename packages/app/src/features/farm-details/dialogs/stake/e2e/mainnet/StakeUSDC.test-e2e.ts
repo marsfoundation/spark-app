@@ -39,9 +39,9 @@ test.describe('Stake USDS to SKY farm', () => {
   test('has correct action plan', async () => {
     await stakeDialog.actionsContainer.expectActions([
       { type: 'approve', asset: 'USDC' },
-      { type: 'usdsPsmWrap', asset: 'USDC' },
+      { type: 'usdsPsmConvert', inToken: 'USDC', outToken: 'USDS' },
       { type: 'approve', asset: 'USDS' },
-      { type: 'stake', inputToken: 'USDS', rewardToken: 'SKY' },
+      { type: 'stake', stakingToken: 'USDS', rewardToken: 'SKY' },
     ])
   })
 

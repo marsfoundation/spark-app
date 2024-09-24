@@ -42,7 +42,7 @@ test.describe('Stake USDS to SKY farm', () => {
       { type: 'approve', asset: 'DAI' },
       { type: 'upgrade', fromToken: 'DAI', toToken: 'USDS' },
       { type: 'approve', asset: 'USDS' },
-      { type: 'stake', inputToken: 'USDS', rewardToken: 'SKY' },
+      { type: 'stake', stakingToken: 'USDS', rewardToken: 'SKY' },
     ])
   })
 
