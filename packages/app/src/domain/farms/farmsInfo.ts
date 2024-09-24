@@ -5,7 +5,7 @@ import { Farm } from './types'
 export class FarmsInfo {
   constructor(private farms: Farm[]) {}
 
-  get hasFarms(): boolean {
+  getHasFarms(): boolean {
     return this.farms.length > 0
   }
 

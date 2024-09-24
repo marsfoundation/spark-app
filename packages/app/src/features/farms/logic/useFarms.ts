@@ -14,7 +14,7 @@ export function useFarms(): UseFarmsResult {
   const { farmsInfo } = useFarmsInfo()
   const chainId = useChainId()
 
-  const hasFarms = farmsInfo.hasFarms
+  const hasFarms = farmsInfo.getHasFarms()
   const activeFarms = farmsInfo.getActiveFarms().map((farm) => getFarmTileProps({ farm, chainId }))
   const inactiveFarms = farmsInfo.getInactiveFarms().map((farm) => getFarmTileProps({ farm, chainId }))
 
