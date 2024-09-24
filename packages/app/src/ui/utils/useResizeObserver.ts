@@ -17,7 +17,7 @@ const initialSize: Size = {
   height: 0,
 }
 
-// Base on https://usehooks-ts.com/react-hook/use-resize-observer
+// Based on https://usehooks-ts.com/react-hook/use-resize-observer
 export function useResizeObserver<T extends HTMLElement = HTMLElement>(options: UseResizeObserverOptions<T>): Size {
   const { ref } = options
   const [{ width, height }, setSize] = useState<Size>(initialSize)

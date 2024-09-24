@@ -1,6 +1,6 @@
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { WithClassname } from '@storybook/decorators'
+import { WithClassname, ZeroAllowanceWagmiDecorator } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
@@ -9,7 +9,7 @@ import { SuccessView } from './SuccessView'
 const meta: Meta<typeof SuccessView> = {
   title: 'Features/Dialogs/Views/Savings/Withdraw/Success',
   component: SuccessView,
-  decorators: [WithClassname('max-w-xl')],
+  decorators: [WithClassname('max-w-xl'), ZeroAllowanceWagmiDecorator()],
   args: {
     tokenToWithdraw: {
       token: tokens.DAI,
@@ -31,7 +31,6 @@ export const SendMode: Story = {
   args: {
     sendModeExtension: {
       receiver: CheckedAddress('0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045'),
-      blockExplorerAddressLink: 'https://etherscan.io/address/0x1234567890123456789012345678901234567890',
     },
   },
 }

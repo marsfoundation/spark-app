@@ -14,6 +14,5 @@ export interface SendModeExtension {
   receiverForm: UseFormReturn<ReceiverFormSchema>
   receiver: CheckedAddress | undefined
   showReceiverIsSmartContractWarning: boolean
-  blockExplorerAddressLink?: string
   enableActions: boolean
 }

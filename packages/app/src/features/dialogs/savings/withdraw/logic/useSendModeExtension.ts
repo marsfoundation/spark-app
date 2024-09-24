@@ -1,4 +1,3 @@
-import { useBlockExplorerAddressLink } from '@/domain/hooks/useBlockExplorerAddressLink'
 import { useIsSmartContract } from '@/domain/hooks/useIsSmartContract'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
@@ -16,14 +15,12 @@ export interface UseSendModeOptionsParams {
 
 export function useSendModeExtension({ mode, tokensInfo }: UseSendModeOptionsParams): SendModeExtension | undefined {
   const { receiver, receiverForm, isFormValid } = useReceiverFormValues(tokensInfo)
-  const blockExplorerAddressLink = useBlockExplorerAddressLink({ address: receiver })
   const { isSmartContract, isPending: isSmartContractCheckPending } = useIsSmartContract(receiver)
 
   return mode === 'send'
     ? {
         receiverForm,
         receiver,
-        blockExplorerAddressLink: isFormValid ? blockExplorerAddressLink : undefined,
         showReceiverIsSmartContractWarning: Boolean(isFormValid && !isSmartContractCheckPending && isSmartContract),
         enableActions: isFormValid && !isSmartContractCheckPending,
       }

@@ -3,19 +3,16 @@ import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPan
 import { SuccessViewCheckmark } from '@/features/dialogs/common/components/success-view/SuccessViewCheckmark'
 import { SuccessViewContent } from '@/features/dialogs/common/components/success-view/SuccessViewContent'
 import { SuccessViewProceedButton } from '@/features/dialogs/common/components/success-view/SuccessViewProceedButton'
-import BoxArrowTopRight from '@/ui/assets/box-arrow-top-right.svg?react'
-import { Address } from '@/ui/atoms/address/Address'
-import { Link } from '@/ui/atoms/link/Link'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 import { Typography } from '@/ui/atoms/typography/Typography'
+import { BlockExplorerAddressLink } from '@/ui/molecules/block-explorer-address-link/BlockExplorerAddressLink'
 import { testIds } from '@/ui/utils/testIds'
 import { SendModeExtension } from '../types'
-
 export interface SuccessViewProps {
   tokenToWithdraw: TokenWithValue
   closeDialog: () => void
-  sendModeExtension?: Pick<SendModeExtension, 'receiver' | 'blockExplorerAddressLink'>
+  sendModeExtension?: Pick<SendModeExtension, 'receiver'>
 }
 export function SuccessView({ tokenToWithdraw, closeDialog, sendModeExtension }: SuccessViewProps) {
   const { token, value } = tokenToWithdraw
@@ -42,23 +39,10 @@ export function SuccessView({ tokenToWithdraw, closeDialog, sendModeExtension }:
           {sendModeExtension?.receiver && (
             <div className="grid grid-cols-2 gap-2 border-basics-border border-t py-4">
               <Typography>Recipient</Typography>
-              <Typography variant="prompt" className="flex min-w-0 gap-1.5 text-sm">
-                <Address
-                  className="justify-end"
-                  address={sendModeExtension.receiver}
-                  postfix={
-                    sendModeExtension.blockExplorerAddressLink && (
-                      <Link
-                        to={sendModeExtension.blockExplorerAddressLink}
-                        external
-                        className="flex items-center gap-2.5 font-medium text-basics-dark-grey text-sm"
-                      >
-                        <BoxArrowTopRight className="h-4 w-4" />
-                      </Link>
-                    )
-                  }
-                />
-              </Typography>
+              <BlockExplorerAddressLink
+                address={sendModeExtension.receiver}
+                className="text-prompt-foreground text-sm leading-none tracking-tight "
+              />
             </div>
           )}
         </div>
