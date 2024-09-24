@@ -164,6 +164,10 @@ const chainConfig: ChainConfig = {
       [TokenSymbol('DAI')]: {
         type: 'fixed',
       },
+      [TokenSymbol('cbBTC')]: {
+        type: 'underlying-asset',
+        asset: 'BTC',
+      },
     },
   },
   [gnosis.id]: {
