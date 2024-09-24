@@ -13,7 +13,8 @@ export function UnderlyingAssetOraclePanel({ asset, chainId, priceOracleAddress,
         <Panel.Header className="flex items-center gap-2">
           <Panel.Title className="text-xl">Underlying Asset Price</Panel.Title>
           <Info size={16}>
-            Uses a market price oracle for the underlying asset (the asset the token can be redeemed for)
+            The asset price is derived from a market price oracle tracking the value of the underlying asset. Sky
+            Governance controls which oracle is used.
           </Info>
         </Panel.Header>
       </div>

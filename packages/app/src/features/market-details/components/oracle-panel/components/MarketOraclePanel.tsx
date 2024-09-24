@@ -17,7 +17,10 @@ export function MarketOraclePanel({ providedBy, chainId, price, priceOracleAddre
             {providedBy.length > 1 && <span className="font-medium text-basics-dark-grey">(Redundant)</span>}
           </Panel.Title>
 
-          <Info size={16}>Uses an oracle which tracks current market price for the token asset.</Info>
+          <Info size={16}>
+            The asset price is tracked by an oracle that reflects the live market value. Sky Governance controls which
+            oracle is used.
+          </Info>
         </Panel.Header>
       </div>
       <Panel.Content className="flex flex-col gap-4 sm:gap-6">
