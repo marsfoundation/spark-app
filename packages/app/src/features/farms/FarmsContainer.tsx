@@ -7,18 +7,10 @@ import { UnsupportedChainView } from './views/UnsupportedChainView'
 
 function FarmsContainer() {
   const { activeFarms, inactiveFarms, hasFarms, chainId } = useFarms()
-  const { isGuestMode, openChainModal, openConnectModal, openSandboxModal } = useUnsupportedChain()
+  const { switchChain, openSandboxModal } = useUnsupportedChain()
 
   if (!hasFarms) {
-    return (
-      <UnsupportedChainView
-        chainId={chainId}
-        isGuestMode={isGuestMode}
-        openChainModal={openChainModal}
-        openConnectModal={openConnectModal}
-        openSandboxModal={openSandboxModal}
-      />
-    )
+    return <UnsupportedChainView chainId={chainId} switchChain={switchChain} openSandboxModal={openSandboxModal} />
   }
 
   return <FarmsView inactiveFarms={inactiveFarms} activeFarms={activeFarms} chainId={chainId} />

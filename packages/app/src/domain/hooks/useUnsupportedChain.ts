@@ -1,6 +1,6 @@
 import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
 import { useChainModal, useConnectModal } from '@rainbow-me/rainbowkit'
-import { useAccount } from 'wagmi'
+import { useAccount, useSwitchChain } from 'wagmi'
 import { useOpenDialog } from '../state/dialogs'
 
 export interface UseUnsupportedChainResult {
@@ -8,6 +8,7 @@ export interface UseUnsupportedChainResult {
   openConnectModal: () => void
   openChainModal: () => void
   openSandboxModal: () => void
+  switchChain: (chainId: number) => void
 }
 
 export function useUnsupportedChain(): UseUnsupportedChainResult {
@@ -15,6 +16,7 @@ export function useUnsupportedChain(): UseUnsupportedChainResult {
   const isGuestMode = useAccount().isConnected === false
   const { openConnectModal = () => {} } = useConnectModal()
   const { openChainModal = () => {} } = useChainModal()
+  const { switchChain } = useSwitchChain()
 
   function openSandboxModal(): void {
     openDialog(SandboxDialog, { mode: 'ephemeral' } as const)
@@ -25,5 +27,6 @@ export function useUnsupportedChain(): UseUnsupportedChainResult {
     openConnectModal,
     openChainModal,
     openSandboxModal,
+    switchChain: (chainId: number) => switchChain({ chainId }),
   }
 }

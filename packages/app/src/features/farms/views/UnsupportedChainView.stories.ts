@@ -13,10 +13,8 @@ const meta: Meta<typeof UnsupportedChainView> = {
   },
   args: {
     chainId: gnosis.id,
-    openChainModal: () => {},
-    openConnectModal: () => {},
+    switchChain: () => {},
     openSandboxModal: () => {},
-    isGuestMode: false,
   },
 }
 
@@ -26,11 +24,3 @@ type Story = StoryObj<typeof UnsupportedChainView>
 export const Desktop: Story = {}
 export const Mobile = getMobileStory(Desktop)
 export const Tablet = getTabletStory(Desktop)
-
-export const Disconnected: Story = {
-  args: {
-    isGuestMode: true,
-  },
-}
-export const DisconnectedMobile = getMobileStory(Disconnected)
-export const DisconnectedTablet = getTabletStory(Disconnected)
