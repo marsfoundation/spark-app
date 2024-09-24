@@ -3,10 +3,10 @@ import { CheckedAddress } from '../types/CheckedAddress'
 import { Farm } from './types'
 
 export class FarmsInfo {
-  hasFarms: boolean
+  constructor(private farms: Farm[]) {}
 
-  constructor(private farms: Farm[]) {
-    this.hasFarms = farms.length > 0
+  get hasFarms(): boolean {
+    return this.farms.length > 0
   }
 
   findFarmByAddress(address: CheckedAddress): Farm | undefined {
