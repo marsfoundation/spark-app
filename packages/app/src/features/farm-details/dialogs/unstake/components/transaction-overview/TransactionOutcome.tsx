@@ -15,8 +15,8 @@ export function TransactionOutcome({ stakingTokenRouteItem }: TransactionOutcome
       data-testid={testIds.farmDetails.stakeDialog.transactionOverview.outcome}
     >
       {stakingTokenRouteItem.token.format(stakingTokenRouteItem.value, { style: 'auto' })}{' '}
-      {stakingTokenRouteItem.token.symbol}{' '}
-      <span className="hidden sm:inline">({USD_MOCK_TOKEN.formatUSD(stakingTokenRouteItem.usdValue)}) </span>
+      {stakingTokenRouteItem.token.symbol}
+      <span className="hidden sm:inline"> worth {USD_MOCK_TOKEN.formatUSD(stakingTokenRouteItem.usdValue)} </span>
     </div>
   )
 }

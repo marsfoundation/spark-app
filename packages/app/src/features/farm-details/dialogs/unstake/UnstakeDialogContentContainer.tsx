@@ -19,17 +19,6 @@ function UnstakeDialogContentContainer({ farm, initialToken, closeDialog }: Stak
       initialToken,
     })
 
-  console.log({
-    selectableAssets,
-    assetsFields,
-    form,
-    stakedToken,
-    objectives,
-    pageStatus,
-    txOverview,
-    actionsContext,
-  })
-
   if (pageStatus.state === 'success') {
     return (
       <SuccessView

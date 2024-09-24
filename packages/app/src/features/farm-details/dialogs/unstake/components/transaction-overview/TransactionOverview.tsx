@@ -8,6 +8,7 @@ import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { assert } from '@/utils/assert'
 import { TxOverview } from '../../logic/createTxOverview'
+import { FarmRouteItem } from './FarmRouteItem'
 import { TransactionOutcome } from './TransactionOutcome'
 import { TransactionOverviewDetailsItem } from './TransactionOverviewDetailsItem'
 import { TransactionOverviewPlaceholder } from './TransactionOverviewPlaceholder'
@@ -21,7 +22,7 @@ export function TransactionOverview({ txOverview, selectedToken }: TransactionOv
   if (txOverview.status !== 'success') {
     return <TransactionOverviewPlaceholder badgeToken={selectedToken} />
   }
-  const { rewardToken, routeToStakingToken } = txOverview
+  const { rewardToken, routeToStakingToken, stakingToken } = txOverview
 
   assert(routeToStakingToken.length > 0, 'Route must have at least one item')
   const stakingTokenRouteItem = routeToStakingToken.at(-1)!
@@ -35,6 +36,11 @@ export function TransactionOverview({ txOverview, selectedToken }: TransactionOv
         <DialogPanelTitle>Transaction overview</DialogPanelTitle>
         <TransactionOverviewDetailsItem label="Route">
           <div className={cn('flex flex-col items-end gap-2', !displayRouteVertically && 'md:flex-row')}>
+            <FarmRouteItem
+              stakingToken={stakingToken.symbol}
+              rewardsToken={rewardToken.symbol}
+              displayRouteVertically={displayRouteVertically}
+            />
             {routeToStakingToken.map((item, index) => (
               <RouteItem
                 key={item.token.symbol}

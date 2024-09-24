@@ -7,7 +7,6 @@ import { UnstakeObjective } from '@/features/actions/flavours/unstake/types'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { useDebouncedFormValues } from '@/features/dialogs/common/logic/transfer-from-user/form'
-import { getTransferFromUserFormValidator } from '@/features/dialogs/common/logic/transfer-from-user/validation'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
 import { assert, raise } from '@/utils/assert'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -16,7 +15,7 @@ import { UseFormReturn, useForm } from 'react-hook-form'
 import { TxOverview, createTxOverview } from './createTxOverview'
 import { getFormFieldsForUnstakeDialog } from './getFormFieldsForUnstakeDialog'
 import { useFarmExitTokens } from './useFarmExitTokens'
-import { getUnstakeDialogFormValidator, validationIssueToMessage } from './validation'
+import { getUnstakeDialogFormValidator } from './validation'
 
 export interface UseStakeDialogParams {
   farm: Farm

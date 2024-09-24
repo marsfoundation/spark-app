@@ -120,10 +120,8 @@ const meta: Meta<typeof UnstakeView> = {
     },
     txOverview: {
       status: 'success',
-      apy: Percentage(0.05),
       stakingToken: tokens.USDS,
       rewardToken: tokens.SKY,
-      rewardsPerYear: NormalizedUnitNumber(542),
       routeToStakingToken: [
         { token: tokens.USDC, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },
         { token: tokens.USDS, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },
@@ -144,38 +142,3 @@ type Story = StoryObj<typeof UnstakeView>
 export const Desktop: Story = {}
 export const Mobile = getMobileStory(Desktop)
 export const Tablet = getTabletStory(Desktop)
-
-export const SacrificeYield: Story = {
-  args: {
-    assetsFields: {
-      selectedAsset: {
-        token: tokens.sDAI,
-        balance: NormalizedUnitNumber(50000),
-        value: '2000',
-      },
-      maxValue: NormalizedUnitNumber(50000),
-      changeAsset: () => {},
-    },
-    objectives: [
-      {
-        type: 'stake',
-        token: tokens.sDAI,
-        amount: NormalizedUnitNumber(100),
-        farm: farm.address,
-      },
-    ],
-    txOverview: {
-      status: 'success',
-      apy: Percentage(0.05),
-      stakingToken: tokens.USDS,
-      rewardToken: tokens.SKY,
-      rewardsPerYear: NormalizedUnitNumber(542),
-      routeToStakingToken: [
-        { token: tokens.sDAI, value: NormalizedUnitNumber(1180.74), usdValue: NormalizedUnitNumber(1300.74) },
-        { token: tokens.USDS, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },
-      ],
-    },
-  },
-}
-export const SacrificeYieldMobile = getMobileStory(SacrificeYield)
-export const SacrificeYieldTablet = getTabletStory(SacrificeYield)

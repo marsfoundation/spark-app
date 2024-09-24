@@ -10,9 +10,8 @@ import { FormFieldsForDialog, PageStatus } from '@/features/dialogs/common/types
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
 import { useRef } from 'react'
 import { UseFormReturn } from 'react-hook-form'
-// import { TransactionOverview } from '../components/transaction-overview/TransactionOverview'
-import { TxOverview } from '../logic/createTxOverview'
 import { TransactionOverview } from '../components/transaction-overview/TransactionOverview'
+import { TxOverview } from '../logic/createTxOverview'
 
 export interface StakeViewProps {
   selectableAssets: TokenWithBalance[]
