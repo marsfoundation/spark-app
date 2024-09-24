@@ -1,10 +1,10 @@
 import { MarketPriceOracleInfo } from '@/domain/oracles/types'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { Panel } from '@/ui/atoms/panel/Panel'
+import { BlockExplorerAddressLink } from '@/ui/molecules/block-explorer-address-link/BlockExplorerAddressLink'
 import { InfoTile } from '@/ui/molecules/info-tile/InfoTile'
 import { Info } from '@/ui/molecules/info/Info'
 import { ProvidersList } from './ProvidersList'
-import { BlockExplorerAddressLink } from '@/ui/molecules/block-explorer-address-link/BlockExplorerAddressLink'
 
 export function MarketOraclePanel({ providedBy, chainId, price, priceOracleAddress, token }: MarketPriceOracleInfo) {
   return (
