@@ -21,7 +21,7 @@ export default defineConfig({
     timeout: 20_000,
   },
   timeout: 60_000 * 3, // sometimes tenderly can be slow
-  maxFailures: 1, // should mark test as failed only after all retires are exhausted
+  maxFailures: 3, // should mark test as failed only after all retires are exhausted
 
   webServer: {
     command: 'pnpm build --mode playwright && pnpm exec serve dist -sL -p 4000',
