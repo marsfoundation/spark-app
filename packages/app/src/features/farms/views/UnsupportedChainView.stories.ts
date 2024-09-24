@@ -1,6 +1,7 @@
 import { WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
+import { gnosis } from 'viem/chains'
 import { UnsupportedChainView } from './UnsupportedChainView'
 
 const meta: Meta<typeof UnsupportedChainView> = {
@@ -11,6 +12,7 @@ const meta: Meta<typeof UnsupportedChainView> = {
     layout: 'fullscreen',
   },
   args: {
+    chainId: gnosis.id,
     openChainModal: () => {},
     openConnectModal: () => {},
     openSandboxModal: () => {},
