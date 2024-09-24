@@ -10,12 +10,11 @@ import { OpenDialogFunction, useOpenDialog } from '@/domain/state/dialogs'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
-import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
 import { sortByUsdValueWithUsdsPriority } from '@/features/farm-details/dialogs/stake/logic/sortByUsdValueWithUsdsPriority'
 import { raise } from '@/utils/assert'
 import { useTimestamp } from '@/utils/useTimestamp'
 import { useMemo } from 'react'
-import { useAccount, useChainId } from 'wagmi'
+import { useChainId } from 'wagmi'
 import { Projections } from '../types'
 import { MigrationInfo, makeMigrationInfo } from './makeMigrationInfo'
 import { SavingsMeta, makeSavingsMeta } from './makeSavingsMeta'
@@ -39,9 +38,7 @@ export interface AssetInWallet {
 }
 
 export interface UseSavingsResults {
-  guestMode: boolean
   openDialog: OpenDialogFunction
-  openSandboxModal: () => void
   savingsDetails:
     | {
         state: 'supported'
@@ -63,7 +60,6 @@ export function useSavings(): UseSavingsResults {
   const chainId = useChainId()
   const { savingsDaiInfo } = useSavingsDaiInfo()
   const { savingsUsdsInfo } = useSavingsUsdsInfo()
-  const guestMode = useAccount().isConnected === false
   const { inputTokens, sDaiWithBalance, sUSDSWithBalance } = useSavingsTokens()
   const { id: originChainId, extraTokens } = useChainConfigEntry()
   const { tokensInfo } = useTokensInfo({ tokens: extraTokens })
@@ -108,15 +104,9 @@ export function useSavings(): UseSavingsResults {
     [!savingsDaiInfo, !savingsUsdsInfo, tokensInfo.DAI, tokensInfo.USDS, openDialog],
   )
 
-  function openSandboxModal(): void {
-    openDialog(SandboxDialog, { mode: 'ephemeral' } as const)
-  }
-
   if (!sDaiDetails && !sUSDSDetails) {
     return {
-      guestMode,
       openDialog,
-      openSandboxModal,
       savingsDetails: { state: 'unsupported' },
     }
   }
@@ -134,8 +124,6 @@ export function useSavings(): UseSavingsResults {
   const savingsMeta = makeSavingsMeta(chainId)
 
   return {
-    guestMode,
-    openSandboxModal,
     openDialog,
     savingsDetails: {
       state: 'supported',

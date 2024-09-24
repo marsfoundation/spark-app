@@ -1,11 +1,10 @@
 import { WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
-
 import { UnsupportedChainView } from './UnsupportedChainView'
 
 const meta: Meta<typeof UnsupportedChainView> = {
-  title: 'Features/Savings/Views/UnsupportedChainView',
+  title: 'Features/Farms/Views/UnsupportedChainView',
   component: UnsupportedChainView,
   decorators: [WithTooltipProvider()],
   parameters: {

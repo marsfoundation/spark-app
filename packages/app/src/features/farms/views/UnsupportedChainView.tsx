@@ -1,9 +1,9 @@
-import { assets } from '@/ui/assets'
+import { PageLayout } from '@/ui/layouts/PageLayout'
 import { ConnectOrSandboxCTAPanel } from '@/ui/organisms/connect-or-sandbox-cta-panel/ConnectOrSandboxCTAPanel'
 import { PageHeader } from '../components/PageHeader'
-import { PageLayout } from '../components/PageLayout'
 
 interface UnsupportedChainViewProps {
+  chainId: number
   openChainModal: () => void
   openConnectModal: () => void
   openSandboxModal: () => void
@@ -11,17 +11,17 @@ interface UnsupportedChainViewProps {
 }
 
 export function UnsupportedChainView({
+  chainId,
   isGuestMode,
   openChainModal,
   openConnectModal,
   openSandboxModal,
 }: UnsupportedChainViewProps) {
   return (
-    <PageLayout>
-      <PageHeader />
+    <PageLayout className="max-w-5xl gap-8 px-3 lg:px-0">
+      <PageHeader chainId={chainId} />
       <ConnectOrSandboxCTAPanel
-        header={`${isGuestMode ? 'Connect' : 'Switch'} to supported chain and start saving!`}
-        iconPaths={TOKEN_ICONS}
+        header={`${isGuestMode ? 'Connect' : 'Switch'} to Ethereum and start farming!`}
         action={isGuestMode ? openConnectModal : openChainModal}
         buttonText={isGuestMode ? 'Connect wallet' : 'Switch network'}
         openSandboxModal={openSandboxModal}
@@ -29,6 +29,3 @@ export function UnsupportedChainView({
     </PageLayout>
   )
 }
-
-const tokens = assets.token
-const TOKEN_ICONS = [tokens.usds, tokens.susds, tokens.dai, tokens.sdai, tokens.usdc]
