@@ -50,7 +50,7 @@ export function CompactView({
           <CollateralStatusPanel {...marketOverview.collateral} />
           {marketOverview.eMode && <EModeStatusPanel {...marketOverview.eMode} />}
           <BorrowStatusPanel token={token} {...marketOverview.borrow} />
-          {import.meta.env.VITE_DEV_ORACLES === '1' && <OraclePanel {...oracleInfo} />}
+          <OraclePanel {...oracleInfo} />
         </TabsContent>
         <TabsContent value="actions" className="px-3">
           <MyWalletPanel
