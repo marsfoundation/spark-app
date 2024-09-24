@@ -8,7 +8,7 @@ import { Preview } from '@storybook/react'
 const preview: Preview = {
   parameters: {
     chromatic: {
-      delay: 50, // Some components use hook for media queries, and chromatic might take a screenshot too early
+      delay: 250, // Some components use hook for media queries, and chromatic might take a screenshot too early
       pauseAnimationAtEnd: false, // stops css animations at first frame
     },
     controls: {

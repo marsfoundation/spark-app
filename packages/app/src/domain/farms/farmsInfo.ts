@@ -5,6 +5,10 @@ import { Farm } from './types'
 export class FarmsInfo {
   constructor(private farms: Farm[]) {}
 
+  getHasFarms(): boolean {
+    return this.farms.length > 0
+  }
+
   findFarmByAddress(address: CheckedAddress): Farm | undefined {
     return this.farms.find((farm) => farm.address === address)
   }

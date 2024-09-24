@@ -1,6 +1,6 @@
+import { useUnsupportedChain } from '@/domain/hooks/useUnsupportedChain'
 import { withSuspense } from '@/ui/utils/withSuspense'
 import { raise } from '@/utils/assert'
-import { useChainModal, useConnectModal } from '@rainbow-me/rainbowkit'
 import { SavingsSkeleton } from './components/skeleton/SavingsSkeleton'
 import { useSavings } from './logic/useSavings'
 import { GuestView } from './views/GuestView'
@@ -10,17 +10,16 @@ import { SavingsUSDSView } from './views/SavingsUSDSView'
 import { UnsupportedChainView } from './views/UnsupportedChainView'
 
 function SavingsContainer() {
-  const { guestMode, openDialog, savingsDetails, openSandboxModal } = useSavings()
-  const { openConnectModal = () => {} } = useConnectModal()
-  const { openChainModal = () => {} } = useChainModal()
+  const { openDialog, savingsDetails } = useSavings()
+  const { isGuestMode, openChainModal, openConnectModal, openSandboxModal } = useUnsupportedChain()
 
   if (savingsDetails.state === 'unsupported') {
     return (
       <UnsupportedChainView
         openChainModal={openChainModal}
         openConnectModal={openConnectModal}
-        openSandboxModal={openChainModal}
-        guestMode={guestMode}
+        openSandboxModal={openSandboxModal}
+        isGuestMode={isGuestMode}
       />
     )
   }
@@ -28,7 +27,7 @@ function SavingsContainer() {
   const { sDaiDetails, sUSDSDetails } = savingsDetails
   const APY = sUSDSDetails?.APY ?? sDaiDetails?.APY ?? raise('Savings APY should be defined')
 
-  if (guestMode) {
+  if (isGuestMode) {
     return (
       <GuestView
         {...savingsDetails}

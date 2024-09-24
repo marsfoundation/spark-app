@@ -7,11 +7,11 @@ interface UnsupportedChainViewProps {
   openChainModal: () => void
   openConnectModal: () => void
   openSandboxModal: () => void
-  guestMode: boolean
+  isGuestMode: boolean
 }
 
 export function UnsupportedChainView({
-  guestMode,
+  isGuestMode,
   openChainModal,
   openConnectModal,
   openSandboxModal,
@@ -20,10 +20,10 @@ export function UnsupportedChainView({
     <PageLayout>
       <PageHeader />
       <ConnectOrSandboxCTAPanel
-        header={`${guestMode ? 'Connect' : 'Switch'} to supported chain and start saving!`}
+        header={`${isGuestMode ? 'Connect' : 'Switch'} to supported chain and start saving!`}
         iconPaths={TOKEN_ICONS}
-        action={guestMode ? openConnectModal : openChainModal}
-        buttonText={guestMode ? 'Connect wallet' : 'Switch network'}
+        action={isGuestMode ? openConnectModal : openChainModal}
+        buttonText={isGuestMode ? 'Connect wallet' : 'Switch network'}
         openSandboxModal={openSandboxModal}
       />
     </PageLayout>
@@ -31,4 +31,4 @@ export function UnsupportedChainView({
 }
 
 const tokens = assets.token
-const TOKEN_ICONS = [tokens.sdai, tokens.dai, tokens.usdc, tokens.usdt]
+const TOKEN_ICONS = [tokens.usds, tokens.susds, tokens.dai, tokens.sdai, tokens.usdc]

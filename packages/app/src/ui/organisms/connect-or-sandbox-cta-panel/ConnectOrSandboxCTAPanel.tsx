@@ -3,7 +3,7 @@ import { ConnectOrSandboxCTAButtonGroup } from '@/ui/molecules/connect-or-sandbo
 import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
 
 interface ConnectOrSandboxCTAPanelProps {
-  iconPaths: string[]
+  iconPaths?: string[]
   header: string
   buttonText: string
   action: () => void
@@ -21,7 +21,7 @@ export function ConnectOrSandboxCTAPanel({
     <Panel.Wrapper>
       <Panel.Content className="flex flex-col gap-6 p-6 text-center md:px-8">
         <div className="flex flex-col items-center gap-6">
-          <IconStack paths={iconPaths} size="lg" stackingOrder="first-on-top" />
+          {iconPaths && <IconStack paths={iconPaths} size="lg" stackingOrder="first-on-top" />}
           <ConnectOrSandboxCTAButtonGroup
             header={header}
             action={action}
