@@ -1,13 +1,12 @@
 import { Dialog, DialogContent } from '@/ui/atoms/dialog/Dialog'
-
-import { DialogProps } from '../common/types'
+import { DialogConfig, DialogProps } from '../common/types'
 import { CollateralDialogContentContainer } from './CollateralDialogContentContainer'
 
 interface CollateralDialogProps extends DialogProps {
   useAsCollateral: boolean
 }
 
-export function CollateralDialog({ token, useAsCollateral, open, setOpen }: CollateralDialogProps) {
+function CollateralDialog({ token, useAsCollateral, open, setOpen }: CollateralDialogProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
@@ -19,4 +18,11 @@ export function CollateralDialog({ token, useAsCollateral, open, setOpen }: Coll
       </DialogContent>
     </Dialog>
   )
+}
+
+export const collateralDialogConfig: DialogConfig<CollateralDialogProps> = {
+  options: {
+    closeOnChainChange: true,
+  },
+  element: CollateralDialog,
 }

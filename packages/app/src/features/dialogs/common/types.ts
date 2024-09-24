@@ -2,6 +2,7 @@ import { TokenWithFormValue } from '@/domain/common/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { ComponentType } from 'react'
 
 export interface CommonDialogProps {
   open: boolean
@@ -36,4 +37,12 @@ export interface TxOverviewRouteItem {
   token: Token
   value: NormalizedUnitNumber
   usdValue: NormalizedUnitNumber
+}
+
+// types/DialogConfig.ts
+export interface DialogConfig<P extends CommonDialogProps> {
+  options: {
+    closeOnChainChange: boolean
+  }
+  element: ComponentType<P>
 }

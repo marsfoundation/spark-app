@@ -1,9 +1,8 @@
 import { Dialog, DialogContent } from '@/ui/atoms/dialog/Dialog'
-
-import { DialogProps } from '../common/types'
+import { DialogConfig, DialogProps } from '../common/types'
 import { DepositDialogContentContainer } from './DepositDialogContentContainer'
 
-export function DepositDialog({ token, open, setOpen }: DialogProps) {
+function DepositDialog({ token, open, setOpen }: DialogProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
@@ -11,4 +10,11 @@ export function DepositDialog({ token, open, setOpen }: DialogProps) {
       </DialogContent>
     </Dialog>
   )
+}
+
+export const depositDialogConfig: DialogConfig<DialogProps> = {
+  options: {
+    closeOnChainChange: true,
+  },
+  element: DepositDialog,
 }

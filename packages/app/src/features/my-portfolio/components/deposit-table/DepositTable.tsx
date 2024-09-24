@@ -1,8 +1,8 @@
 import { sortByAPY, sortByUsdValue } from '@/domain/common/sorters'
 import { OpenDialogFunction } from '@/domain/state/dialogs'
-import { CollateralDialog } from '@/features/dialogs/collateral/CollateralDialog'
-import { DepositDialog } from '@/features/dialogs/deposit/DepositDialog'
-import { WithdrawDialog } from '@/features/dialogs/withdraw/WithdrawDialog'
+import { collateralDialogConfig } from '@/features/dialogs/collateral/CollateralDialog'
+import { depositDialogConfig } from '@/features/dialogs/deposit/DepositDialog'
+import { withdrawDialogConfig } from '@/features/dialogs/withdraw/WithdrawDialog'
 import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
@@ -12,7 +12,6 @@ import { PercentageCell } from '@/ui/molecules/data-table/components/PercentageC
 import { SwitchCell } from '@/ui/molecules/data-table/components/SwitchCell'
 import { TokenWithLogo } from '@/ui/molecules/data-table/components/TokenWithLogo'
 import { ResponsiveDataTable } from '@/ui/organisms/responsive-data-table/ResponsiveDataTable'
-
 import { Deposit } from '../../logic/assets'
 
 export interface DepositTableProps {
@@ -70,7 +69,7 @@ export function DepositTable({ assets, openDialog }: DepositTableProps) {
                   checked={isUsedAsCollateral}
                   onSwitchClick={(e) => {
                     e.preventDefault()
-                    openDialog(CollateralDialog, {
+                    openDialog(collateralDialogConfig, {
                       useAsCollateral: !isUsedAsCollateral,
                       token,
                     })
@@ -88,7 +87,7 @@ export function DepositTable({ assets, openDialog }: DepositTableProps) {
                       className="w-full"
                       size="sm"
                       onClick={() => {
-                        openDialog(DepositDialog, { token })
+                        openDialog(depositDialogConfig, { token })
                       }}
                       disabled={reserveStatus === 'frozen'}
                     >
@@ -100,7 +99,7 @@ export function DepositTable({ assets, openDialog }: DepositTableProps) {
                       className="w-full"
                       disabled={deposit.isZero()}
                       onClick={() => {
-                        openDialog(WithdrawDialog, { token })
+                        openDialog(withdrawDialogConfig, { token })
                       }}
                     >
                       Withdraw

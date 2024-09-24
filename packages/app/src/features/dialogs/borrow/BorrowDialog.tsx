@@ -1,14 +1,14 @@
 import { Token } from '@/domain/types/Token'
 import { Dialog, DialogContent } from '@/ui/atoms/dialog/Dialog'
 
-import { CommonDialogProps } from '../common/types'
+import { CommonDialogProps, DialogConfig } from '../common/types'
 import { BorrowDialogContentContainer } from './BorrowDialogContentContainer'
 
 export interface BorrowDialogProps extends CommonDialogProps {
   token: Token
 }
 
-export function BorrowDialog({ token, open, setOpen }: BorrowDialogProps) {
+function BorrowDialog({ token, open, setOpen }: BorrowDialogProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
@@ -16,4 +16,11 @@ export function BorrowDialog({ token, open, setOpen }: BorrowDialogProps) {
       </DialogContent>
     </Dialog>
   )
+}
+
+export const borrowDialogConfig: DialogConfig<BorrowDialogProps> = {
+  options: {
+    closeOnChainChange: true,
+  },
+  element: BorrowDialog,
 }

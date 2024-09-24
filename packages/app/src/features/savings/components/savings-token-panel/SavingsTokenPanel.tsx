@@ -5,7 +5,7 @@ import { OpenDialogFunction } from '@/domain/state/dialogs'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { SavingsWithdrawDialog } from '@/features/dialogs/savings/withdraw/SavingsWithdrawDialog'
+import { savingsWithdrawDialogConfig } from '@/features/dialogs/savings/withdraw/SavingsWithdrawDialog'
 import { getTokenImage } from '@/ui/assets'
 import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
@@ -57,14 +57,14 @@ export function SavingsTokenPanel({
           <Button
             variant="secondary"
             size="sm"
-            onClick={() => openDialog(SavingsWithdrawDialog, { mode: 'send', savingsType } as const)}
+            onClick={() => openDialog(savingsWithdrawDialogConfig, { mode: 'send', savingsType } as const)}
           >
             Send
           </Button>
           <Button
             variant="secondary"
             size="sm"
-            onClick={() => openDialog(SavingsWithdrawDialog, { mode: 'withdraw', savingsType } as const)}
+            onClick={() => openDialog(savingsWithdrawDialogConfig, { mode: 'withdraw', savingsType } as const)}
           >
             Withdraw
           </Button>

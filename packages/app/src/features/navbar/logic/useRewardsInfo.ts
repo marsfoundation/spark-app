@@ -1,6 +1,6 @@
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { useOpenDialog } from '@/domain/state/dialogs'
-import { ClaimRewardsDialog } from '@/features/dialogs/claim-rewards/ClaimRewardsDialog'
+import { claimRewardsDialogConfig } from '@/features/dialogs/claim-rewards/ClaimRewardsDialog'
 import { UseQueryResult } from '@tanstack/react-query'
 import { RewardsInfo } from '../types'
 
@@ -13,7 +13,7 @@ export function useRewardsInfo(marketInfo: UseQueryResult<MarketInfo>): RewardsI
       amount: reward.value,
     })),
     onClaim: () => {
-      openDialog(ClaimRewardsDialog, {})
+      openDialog(claimRewardsDialogConfig, {})
     },
   }
 }

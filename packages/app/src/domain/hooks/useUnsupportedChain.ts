@@ -1,4 +1,4 @@
-import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
+import { sandboxDialogConfig } from '@/features/dialogs/sandbox/SandboxDialog'
 import { useChainModal, useConnectModal } from '@rainbow-me/rainbowkit'
 import { useAccount, useSwitchChain } from 'wagmi'
 import { useOpenDialog } from '../state/dialogs'
@@ -19,7 +19,7 @@ export function useUnsupportedChain(): UseUnsupportedChainResult {
   const { switchChain } = useSwitchChain()
 
   function openSandboxModal(): void {
-    openDialog(SandboxDialog, { mode: 'ephemeral' } as const)
+    openDialog(sandboxDialogConfig, { mode: 'ephemeral' } as const)
   }
 
   return {

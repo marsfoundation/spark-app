@@ -1,5 +1,5 @@
 import { OpenDialogFunction } from '@/domain/state/dialogs'
-import { SavingsDepositDialog } from '@/features/dialogs/savings/deposit/SavingsDepositDialog'
+import { savingsDepositDialogConfig } from '@/features/dialogs/savings/deposit/SavingsDepositDialog'
 import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { DataTable, DataTableProps } from '@/ui/molecules/data-table/DataTable'
@@ -42,7 +42,7 @@ export function StablecoinsInWallet({ assets, openDialog, migrationInfo }: Stabl
                 variant="secondary"
                 size="sm"
                 disabled={balance.eq(0)}
-                onClick={() => openDialog(SavingsDepositDialog, { initialToken: token })}
+                onClick={() => openDialog(savingsDepositDialogConfig, { initialToken: token })}
               >
                 Deposit
               </Button>

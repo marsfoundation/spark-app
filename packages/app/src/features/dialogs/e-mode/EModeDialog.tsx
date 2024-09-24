@@ -1,14 +1,13 @@
 import { EModeCategoryId } from '@/domain/e-mode/types'
 import { Dialog, DialogContent } from '@/ui/atoms/dialog/Dialog'
-
-import { CommonDialogProps } from '../common/types'
+import { CommonDialogProps, DialogConfig } from '../common/types'
 import { EModeDialogContentContainer } from './EModeDialogContentContainer'
 
 interface EModeDialogProps extends CommonDialogProps {
   userEModeCategoryId: EModeCategoryId
 }
 
-export function EModeDialog({ open, setOpen, userEModeCategoryId }: EModeDialogProps) {
+function EModeDialog({ open, setOpen, userEModeCategoryId }: EModeDialogProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
@@ -16,4 +15,11 @@ export function EModeDialog({ open, setOpen, userEModeCategoryId }: EModeDialogP
       </DialogContent>
     </Dialog>
   )
+}
+
+export const eModeDialogConfig: DialogConfig<EModeDialogProps> = {
+  options: {
+    closeOnChainChange: true,
+  },
+  element: EModeDialog,
 }

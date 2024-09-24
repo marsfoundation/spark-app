@@ -6,12 +6,12 @@ import { useFarmsInfo } from '@/domain/farms/useFarmsInfo'
 import { useOpenDialog } from '@/domain/state/dialogs'
 import { Token } from '@/domain/types/Token'
 import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
-import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
+import { sandboxDialogConfig } from '@/features/dialogs/sandbox/SandboxDialog'
 import { raise } from '@/utils/assert'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { useAccount, useChainId } from 'wagmi'
-import { ClaimDialog } from '../dialogs/claim/ClaimDialog'
-import { StakeDialog } from '../dialogs/stake/StakeDialog'
+import { claimDialogConfig } from '../dialogs/claim/ClaimDialog'
+import { stakeDialogConfig } from '../dialogs/stake/StakeDialog'
 import { sortByUsdValueWithUsdsPriority } from '../dialogs/stake/logic/sortByUsdValueWithUsdsPriority'
 import { FarmHistoryItem } from './historic/types'
 import { useFarmHistoricData } from './historic/useFarmHistoricData'
@@ -66,13 +66,13 @@ export function useFarmDetails(): UseFarmDetailsResult {
     },
     tokensToDeposit,
     hasTokensToDeposit,
-    openStakeDialog: (initialToken: Token) => openDialog(StakeDialog, { farm, initialToken }),
+    openStakeDialog: (initialToken: Token) => openDialog(stakeDialogConfig, { farm, initialToken }),
     openDefaultedStakeDialog: () =>
-      mostValuableToken ? openDialog(StakeDialog, { farm, initialToken: mostValuableToken.token }) : undefined,
-    openClaimDialog: () => openDialog(ClaimDialog, { farm }),
+      mostValuableToken ? openDialog(stakeDialogConfig, { farm, initialToken: mostValuableToken.token }) : undefined,
+    openClaimDialog: () => openDialog(claimDialogConfig, { farm }),
     openConnectModal,
     openSandboxModal(): void {
-      openDialog(SandboxDialog, { mode: 'ephemeral' } as const)
+      openDialog(sandboxDialogConfig, { mode: 'ephemeral' } as const)
     },
   }
 }
