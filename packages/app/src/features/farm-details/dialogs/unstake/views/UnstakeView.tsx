@@ -38,7 +38,7 @@ export function UnstakeView({
 
   return (
     <MultiPanelDialog panelRef={ref}>
-      <DialogTitle>Stake in {farm.rewardToken.symbol} Farm</DialogTitle>
+      <DialogTitle>Withdraw from {farm.rewardToken.symbol} Farm</DialogTitle>
 
       <FormAndOverviewWrapper>
         <DialogForm form={form} assetsFields={assetsFields} selectorAssets={selectableAssets} />
