@@ -16,13 +16,13 @@ export function createUsdsPsmConvertActionConfig(action: UsdsPsmConvertAction, c
 
   return {
     getWriteConfig: () => {
-      const amount = toBigInt(action.inToken.toBaseUnit(action.amount))
+      const usdcAmount = toBigInt(usdc.toBaseUnit(action.amount))
 
       return ensureConfigTypes({
         address: getContractAddress(usdsPsmWrapperConfig.address, chainId),
         abi: usdsPsmWrapperConfig.abi,
         functionName: action.outToken.symbol === usdc.symbol ? 'buyGem' : 'sellGem',
-        args: [account, amount],
+        args: [account, usdcAmount],
       })
     },
 
