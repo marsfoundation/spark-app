@@ -1,17 +1,16 @@
+import { SANDBOX_NETWORKS_CHAIN_ID_PREFIX } from '@/config/consts'
+import { createSandboxConnector } from '@/domain/sandbox/createSandboxConnector'
+import { useSandboxState } from '@/domain/sandbox/useSandboxState'
+import { useStore } from '@/domain/state'
+import { useCloseDialog } from '@/domain/state/dialogs'
 import { assert } from '@/utils/assert'
+import { NotRetryableError, retry } from '@/utils/promises'
+import { getTimestampInSeconds } from '@/utils/time'
 import { UseMutationResult, useMutation } from '@tanstack/react-query'
 import { useRef } from 'react'
 import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts'
 import { useAccount, useConfig } from 'wagmi'
 import { connect, getChains, switchChain } from 'wagmi/actions'
-
-import { createSandboxConnector } from '@/domain/sandbox/createSandboxConnector'
-import { useSandboxState } from '@/domain/sandbox/useSandboxState'
-import { useStore } from '@/domain/state'
-import { NotRetryableError, retry } from '@/utils/promises'
-import { getTimestampInSeconds } from '@/utils/time'
-
-import { SANDBOX_NETWORKS_CHAIN_ID_PREFIX } from '@/config/consts'
 import { SandboxMode } from '../types'
 import { createSandbox, getChainIdWithPrefix } from './createSandbox'
 
@@ -37,6 +36,7 @@ export function useSandboxDialog(mode: SandboxMode): UseSandboxDialogResult {
   const { setNetwork } = useStore((state) => state.sandbox)
 
   const { isInSandbox } = useSandboxState()
+  const closeDialog = useCloseDialog()
 
   assert(sandboxConfig, 'It seems that sandbox feature is not enabled.')
 
@@ -135,6 +135,7 @@ export function useSandboxDialog(mode: SandboxMode): UseSandboxDialogResult {
 
   const startSandboxMutation = useMutation({
     mutationFn: startSandbox,
+    onSuccess: closeDialog,
   })
 
   return { isInSandbox, startSandbox: startSandboxMutation.mutate, ...startSandboxMutation }

@@ -5,16 +5,20 @@ import { useCloseDialog } from '@/domain/state/dialogs'
 export function DialogDispatcherContainer() {
   const openedDialog = useStore((state) => state.dialogs.openedDialog)
   const closeDialog = useCloseDialog()
+  const closeOnChainChange = openedDialog?.config.options.closeOnChainChange ?? false
 
   const isChainMatching = useChainSensitive({
-    onChainChange: closeDialog,
+    onChainChange: closeOnChainChange ? closeDialog : undefined,
   })
 
-  if (!openedDialog || !isChainMatching) {
+  if (!openedDialog || (!isChainMatching && closeOnChainChange)) {
     return null
   }
 
-  const { element: Dialog, props } = openedDialog
+  const {
+    config: { element: Dialog },
+    props,
+  } = openedDialog
 
-  return <Dialog open setOpen={() => closeDialog()} {...props} />
+  return <Dialog open setOpen={closeDialog} {...props} />
 }

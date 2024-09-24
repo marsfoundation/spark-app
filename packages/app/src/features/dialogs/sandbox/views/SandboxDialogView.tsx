@@ -25,7 +25,6 @@ export function SandboxDialogView({
   error,
 }: SandboxDialogViewProps) {
   const onActionButtonClick = isSuccess || isInSandbox ? closeDialog : startSandbox
-  const isDone = isSuccess || isInSandbox
 
   return (
     <div className="flex max-w-xl flex-col gap-5">
@@ -53,8 +52,14 @@ export function SandboxDialogView({
         ))}
       </ul>
       {isError && error && <Alert variant="warning">{error.message}</Alert>}
-      <ActionButton isLoading={isPending} onClick={onActionButtonClick} isDone={isDone} variant="primary" size="lg">
-        {isDone ? 'Sandbox Mode activated' : 'Activate Sandbox Mode'}
+      <ActionButton
+        isLoading={isPending}
+        onClick={onActionButtonClick}
+        isDone={isInSandbox}
+        variant="primary"
+        size="lg"
+      >
+        {isInSandbox ? 'Sandbox Mode already activated' : 'Activate Sandbox Mode'}
       </ActionButton>
     </div>
   )
