@@ -4,8 +4,8 @@ import { assets } from '@/ui/assets'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { InfoTile } from '@/ui/molecules/info-tile/InfoTile'
 import { Info } from '@/ui/molecules/info/Info'
-import { BlockExplorerAddressLink } from './BlockExplorerAddressLink'
 import { ProvidersList } from './ProvidersList'
+import { BlockExplorerAddressLink } from '@/ui/molecules/block-explorer-address-link/BlockExplorerAddressLink'
 
 export function YieldingFixedOraclePanel({
   providedBy,

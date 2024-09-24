@@ -7,7 +7,7 @@ import { cn } from '@/ui/utils/style'
 
 interface BlockExplorerAddressLinkProps {
   address: CheckedAddress
-  chainId: number
+  chainId?: number
   className?: string
 }
 
@@ -19,14 +19,14 @@ export function BlockExplorerAddressLink({ address, chainId, className }: BlockE
       to={contractLink}
       external
       className={cn(
-        'flex w-full max-w-64 items-center gap-2 text-inherit hover:text-inherit hover:underline',
+        'flex w-full max-w-64 items-center gap-1 text-inherit hover:text-inherit hover:underline',
         className,
       )}
     >
       <Address address={address} postfix={<BoxArrowTopRight className="h-3.5 w-3.5 shrink-0" />} />
     </Link>
   ) : (
-    <span className="flex w-full max-w-64 items-center gap-2">
+    <span className="flex w-full max-w-64 items-center gap-1">
       <Address address={address} />
     </span>
   )

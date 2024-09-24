@@ -1,8 +1,8 @@
 import { UnknownOracleInfo } from '@/domain/oracles/types'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { Panel } from '@/ui/atoms/panel/Panel'
+import { BlockExplorerAddressLink } from '@/ui/molecules/block-explorer-address-link/BlockExplorerAddressLink'
 import { InfoTile } from '@/ui/molecules/info-tile/InfoTile'
-import { BlockExplorerAddressLink } from './BlockExplorerAddressLink'
 
 export function UnknownOraclePanel({ chainId, token, price, priceOracleAddress }: UnknownOracleInfo) {
   return (
