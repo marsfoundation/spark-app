@@ -18,13 +18,13 @@ export function FarmRouteItem({ rewardsToken, stakingToken, displayRouteVertical
     >
       <div
         className="justify-self-end"
-        data-testid={testIds.farmDetails.stakeDialog.transactionOverview.route.destination.farmName}
+        data-testid={testIds.farmDetails.unstakeDialog.transactionOverview.route.farm.farmName}
       >
         {rewardsToken} Farm
       </div>
       <div
         className={cn('justify-self-end text-basics-dark-grey text-sm', !displayRouteVertically && 'md:order-last')}
-        data-testid={testIds.farmDetails.stakeDialog.transactionOverview.route.destination.stakingToken}
+        data-testid={testIds.farmDetails.unstakeDialog.transactionOverview.route.farm.stakingToken}
       >
         {stakingToken} Staked
       </div>

@@ -12,7 +12,7 @@ export function TransactionOutcome({ stakingTokenRouteItem, rewardToken }: Trans
   return (
     <div
       className="flex flex-col items-end gap-0.5 md:block"
-      data-testid={testIds.farmDetails.stakeDialog.transactionOverview.outcome}
+      data-testid={testIds.farmDetails.unstakeDialog.transactionOverview.outcome}
     >
       {stakingTokenRouteItem.token.format(stakingTokenRouteItem.value, { style: 'auto' })}{' '}
       {stakingTokenRouteItem.token.symbol}{' '}
