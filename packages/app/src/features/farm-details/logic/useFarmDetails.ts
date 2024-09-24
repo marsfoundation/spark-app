@@ -12,11 +12,11 @@ import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { useAccount, useChainId } from 'wagmi'
 import { ClaimDialog } from '../dialogs/claim/ClaimDialog'
 import { StakeDialog } from '../dialogs/stake/StakeDialog'
-import { sortByUsdValueWithUsdsPriority } from '../dialogs/stake/logic/sortByUsdValueWithUsdsPriority'
 import { UnstakeDialog } from '../dialogs/unstake/UnstakeDialog'
 import { FarmHistoryItem } from './historic/types'
 import { useFarmHistoricData } from './historic/useFarmHistoricData'
 import { useFarmDetailsParams } from './useFarmDetailsParams'
+import { sortByUsdValueWithUsdsPriority } from '@/domain/common/sorters'
 
 export interface UseFarmDetailsResult {
   chainId: number

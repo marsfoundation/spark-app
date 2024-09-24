@@ -1,9 +1,9 @@
+import { sortByUsdValueWithUsdsPriority } from '@/domain/common/sorters'
 import { TokenWithBalance } from '@/domain/common/types'
 import { Farm } from '@/domain/farms/types'
 import { useChainConfigEntry } from '@/domain/hooks/useChainConfigEntry'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
-import { sortByUsdValueWithUsdsPriority } from './sortByUsdValueWithUsdsPriority'
 
 export interface UseFarmExitTokensResult {
   tokensInfo: TokensInfo
