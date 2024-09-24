@@ -47,7 +47,7 @@ test.describe('Deposit USDC', () => {
         },
         routeItems: [
           {
-            tokenAmount: '20,000.00 USDC',
+            tokenAmount: '10,000.00 USDC',
             tokenUsdValue: '$10,000.00',
           },
           {
