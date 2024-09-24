@@ -13,6 +13,7 @@ import { useAccount, useChainId } from 'wagmi'
 import { ClaimDialog } from '../dialogs/claim/ClaimDialog'
 import { StakeDialog } from '../dialogs/stake/StakeDialog'
 import { sortByUsdValueWithUsdsPriority } from '../dialogs/stake/logic/sortByUsdValueWithUsdsPriority'
+import { UnstakeDialog } from '../dialogs/unstake/UnstakeDialog'
 import { FarmHistoryItem } from './historic/types'
 import { useFarmHistoricData } from './historic/useFarmHistoricData'
 import { useFarmDetailsParams } from './useFarmDetailsParams'
@@ -27,6 +28,7 @@ export interface UseFarmDetailsResult {
   tokensToDeposit: TokenWithBalance[]
   hasTokensToDeposit: boolean
   openStakeDialog: (initialToken: Token) => void
+  openUnstakeDialog: () => void
   openClaimDialog: () => void
   openDefaultedStakeDialog: () => void
   openConnectModal: () => void
@@ -67,6 +69,7 @@ export function useFarmDetails(): UseFarmDetailsResult {
     tokensToDeposit,
     hasTokensToDeposit,
     openStakeDialog: (initialToken: Token) => openDialog(StakeDialog, { farm, initialToken }),
+    openUnstakeDialog: () => openDialog(UnstakeDialog, { farm, initialToken: farm.stakingToken }),
     openDefaultedStakeDialog: () =>
       mostValuableToken ? openDialog(StakeDialog, { farm, initialToken: mostValuableToken.token }) : undefined,
     openClaimDialog: () => openDialog(ClaimDialog, { farm }),
