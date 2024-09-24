@@ -24,5 +24,10 @@ export const SANDBOX_NETWORKS_CHAIN_ID_PREFIX = 3030
 export const stablecoinsGroup: AssetsGroup = {
   type: 'stablecoins',
   name: 'Stablecoins',
-  assets: [TokenSymbol('DAI'), TokenSymbol('sDAI'), TokenSymbol('USDC'), TokenSymbol('USDS'), TokenSymbol('sUSDS')],
+  assets: [
+    TokenSymbol('DAI'),
+    TokenSymbol('USDC'),
+    TokenSymbol('USDS'),
+    ...(import.meta.env.VITE_DEV_STAKE_SAVINGS_TOKENS === '1' ? [TokenSymbol('sDAI'), TokenSymbol('sUSDS')] : []),
+  ],
 }

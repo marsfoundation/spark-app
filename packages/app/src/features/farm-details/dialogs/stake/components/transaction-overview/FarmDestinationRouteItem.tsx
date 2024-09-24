@@ -16,13 +16,13 @@ export function FarmDestinationRouteItem({
     <div className={cn('grid grid-cols-1 items-center gap-x-2 gap-y-0.5')}>
       <div
         className="justify-self-end"
-        data-testid={testIds.farmDetails.dialog.transactionOverview.farmDestinationRouteItem.farmName}
+        data-testid={testIds.farmDetails.stakeDialog.transactionOverview.route.destination.farmName}
       >
         {rewardsToken} Farm
       </div>
       <div
         className={cn('justify-self-end text-basics-dark-grey text-sm', !displayRouteVertically && 'md:order-last')}
-        data-testid={testIds.farmDetails.dialog.transactionOverview.farmDestinationRouteItem.stakingToken}
+        data-testid={testIds.farmDetails.stakeDialog.transactionOverview.route.destination.stakingToken}
       >
         {stakingToken} Staked
       </div>

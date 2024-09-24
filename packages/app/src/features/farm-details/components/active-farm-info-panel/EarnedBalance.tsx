@@ -1,6 +1,7 @@
 import { Farm } from '@/domain/farms/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { getTokenImage } from '@/ui/assets'
+import { testIds } from '@/ui/utils/testIds'
 import { getFractionalPart, getWholePart } from '@/utils/bigNumber'
 import { useTimestamp } from '@/utils/useTimestamp'
 import { calculateReward } from '../../logic/calculateReward'
@@ -40,7 +41,10 @@ export function EarnedBalance({ farm }: EarnedBalanceProps) {
   return (
     <div className="flex items-center gap-2">
       <img src={getTokenImage(rewardToken.symbol)} className="h-8 w-8" />
-      <div className="flex flex-row items-end justify-center slashed-zero tabular-nums">
+      <div
+        className="flex flex-row items-end justify-center slashed-zero tabular-nums"
+        data-testid={testIds.farmDetails.activeFarmInfoPanel.rewards}
+      >
         <div className="font-semibold text-3xl md:text-5xl">{getWholePart(currentEarned)}</div>
         <div className="font-semibold text-lg md:text-2xl">{getFractionalPart(currentEarned, precision)}</div>
       </div>

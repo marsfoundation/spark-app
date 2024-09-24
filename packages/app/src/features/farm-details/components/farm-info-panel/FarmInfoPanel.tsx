@@ -3,6 +3,7 @@ import { AssetsGroup, FarmDetailsRowData } from '@/domain/farms/types'
 import { Token } from '@/domain/types/Token'
 import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
+import { testIds } from '@/ui/utils/testIds'
 import { FarmDetailsRow } from '../farm-details-row/FarmDetailsRow'
 
 export interface FarmInfoPanelProps {
@@ -41,7 +42,12 @@ export function FarmInfoPanel({
       <div className="flex flex-col gap-4">
         <FarmDetailsRow farmDetailsRowData={farmDetailsRowData} />
         <div className="hidden border-basics-border border-t md:block" />
-        <Button className="w-full" disabled={!walletConnected || !hasTokensToDeposit} onClick={openStakeDialog}>
+        <Button
+          className="w-full"
+          disabled={!walletConnected || !hasTokensToDeposit}
+          onClick={openStakeDialog}
+          data-testid={testIds.farmDetails.infoPanel.stakeButton}
+        >
           Stake
         </Button>
       </div>

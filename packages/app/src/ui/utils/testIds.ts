@@ -197,14 +197,27 @@ export const testIds = makeTestIds({
     },
   },
   farmDetails: {
-    dialog: {
+    stakeDialog: {
       transactionOverview: {
-        farmDestinationRouteItem: {
-          farmName: true,
-          stakingToken: true,
+        estimatedRewards: {
+          apy: true,
+          description: true,
+        },
+        route: {
+          destination: {
+            farmName: true,
+            stakingToken: true,
+          },
         },
         outcome: true,
       },
+    },
+    infoPanel: {
+      stakeButton: true,
+    },
+    activeFarmInfoPanel: {
+      rewards: true,
+      staked: true,
     },
   },
 })
