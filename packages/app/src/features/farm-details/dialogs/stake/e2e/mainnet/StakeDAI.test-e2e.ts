@@ -3,7 +3,6 @@ import { USDS_ACTIVATED_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setupFork } from '@/test/e2e/forking/setupFork'
 import { overrideInfoSkyRouteWithHAR } from '@/test/e2e/info-sky'
 import { setup } from '@/test/e2e/setup'
-import { sleep } from '@/utils/promises'
 import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
 import { StakeDialogPageObject } from '../../StakeDialog.PageObject'
@@ -83,7 +82,5 @@ test.describe('Stake USDS to SKY farm', () => {
       stake: '10,000.00 USDS',
       reward: '0.1',
     })
-
-    await sleep(100_000)
   })
 })
