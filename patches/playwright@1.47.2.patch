@@ -1,0 +1,15 @@
+diff --git a/lib/runner/failureTracker.js b/lib/runner/failureTracker.js
+index b5d0e761af9222fddcaf772058802471a17d6fc8..2abd7c4aaeb5dced62cfdef2659d501c3eb46801 100644
+--- a/lib/runner/failureTracker.js
++++ b/lib/runner/failureTracker.js
+@@ -31,7 +31,9 @@ class FailureTracker {
+     this._rootSuite = rootSuite;
+   }
+   onTestEnd(test, result) {
+-    if (result.status !== 'skipped' && result.status !== test.expectedStatus) ++this._failureCount;
++    // Test is considered failing after the last retry.
++    if (test.outcome() === 'unexpected' && test.results.length > test.retries)
++      ++this._failureCount;
+   }
+   onWorkerError() {
+     this._hasWorkerErrors = true;

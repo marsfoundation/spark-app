@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  playwright@1.47.2:
+    hash: typtw5ccupt37wcd4eaee4rmte
+    path: patches/playwright@1.47.2.patch
+
 importers:
 
   .:
@@ -5801,7 +5806,7 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
     dependencies:
-      playwright: 1.47.2
+      playwright: 1.47.2(patch_hash=typtw5ccupt37wcd4eaee4rmte)
     dev: true
 
   /@radix-ui/number@1.0.1:
@@ -15917,7 +15922,7 @@ packages:
     hasBin: true
     dev: true
 
-  /playwright@1.47.2:
+  /playwright@1.47.2(patch_hash=typtw5ccupt37wcd4eaee4rmte):
     resolution: {integrity: sha512-nx1cLMmQWqmA3UsnjaaokyoUpdVaaDhJhMoxX2qj3McpjnsqFHs516QAKYhqHAgOP+oCFTEOCOAaD1RgD/RQfA==}
     engines: {node: '>=18'}
     hasBin: true
@@ -15926,6 +15931,7 @@ packages:
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
+    patched: true
 
   /pngjs@5.0.0:
     resolution: {integrity: sha512-40QW5YalBNfQo5yRYmiw7Yz6TKKVr3h6970B2YE+3fQpsWcrbj1PzJgxeJ19DRQjhMbKPIuMY8rFaXc8moolVw==}
