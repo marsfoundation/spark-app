@@ -2,6 +2,7 @@ import { Meta, StoryObj } from '@storybook/react'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 
 import { MarketPriceOracleInfo, YieldingFixedOracleInfo } from '@/domain/oracles/types'
+import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { getMockReserve } from '@/test/integration/constants'
@@ -29,7 +30,7 @@ export const FixedDesktop: Story = {
       token: tokens.DAI,
       price: NormalizedUnitNumber(1),
       chainId: 1,
-      priceOracleAddress: '0x1234567890123456789012345678901234567890',
+      priceOracleAddress: CheckedAddress('0x1234567890123456789012345678901234567890'),
     },
   },
 }
@@ -42,7 +43,7 @@ const marketPriceData: MarketPriceOracleInfo = {
   token: tokens.WETH,
   price: NormalizedUnitNumber(2235.0672),
   chainId: 1,
-  priceOracleAddress: '0x1234567890123456789012345678901234567890',
+  priceOracleAddress: CheckedAddress('0x1234567890123456789012345678901234567890'),
 }
 export const MarketPriceDesktop: Story = {
   args: {
@@ -68,7 +69,7 @@ export const UnderlyingAssetDesktop: Story = {
       token: tokens.EURe,
       price: NormalizedUnitNumber(1.24),
       chainId: 1,
-      priceOracleAddress: '0x1234567890123456789012345678901234567890',
+      priceOracleAddress: CheckedAddress('0x1234567890123456789012345678901234567890'),
     },
   },
 }
@@ -86,7 +87,7 @@ const yieldingFixedData: YieldingFixedOracleInfo = {
   }),
   token: tokens.weETH,
   chainId: 1,
-  priceOracleAddress: '0x1234567890123456789012345678901234567890',
+  priceOracleAddress: CheckedAddress('0x1234567890123456789012345678901234567890'),
 }
 
 export const YieldingFixedDesktop: Story = {
@@ -112,7 +113,7 @@ export const UnknownDesktop: Story = {
       price: NormalizedUnitNumber(1.06),
       token: tokens.sDAI,
       chainId: 1,
-      priceOracleAddress: '0x1234567890123456789012345678901234567890',
+      priceOracleAddress: CheckedAddress('0x1234567890123456789012345678901234567890'),
     },
   },
 }

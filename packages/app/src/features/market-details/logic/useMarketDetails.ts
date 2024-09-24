@@ -7,10 +7,10 @@ import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { Token } from '@/domain/types/Token'
 import { useMarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 import { raise } from '@/utils/assert'
-import { Address } from 'viem'
 import { useChainId } from 'wagmi'
 
 import { UseOracleInfoResult, useOracleInfo } from '@/domain/oracles/useOracleInfo'
+import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { MarketOverview, WalletOverview } from '../types'
 import { makeDaiMarketOverview } from './makeDaiMarketOverview'
 import { makeMarketOverview } from './makeMarketOverview'
@@ -20,7 +20,7 @@ import { useMarketDetailsParams } from './useMarketDetailsParams'
 export interface UseMarketDetailsResult {
   token: Token
   aToken: Token
-  variableDebtTokenAddress: Address
+  variableDebtTokenAddress: CheckedAddress
   chainName: string
   chainId: number
   marketOverview: MarketOverview
