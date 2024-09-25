@@ -71,7 +71,7 @@ test.describe('Claim SKY rewards', () => {
     await claimDialog.clickBackToFarmAction()
 
     await farmDetailsPage.expectTokenToDepositBalance('USDS', '-')
-    await farmDetailsPage.expectStake({
+    await farmDetailsPage.expectStaked({
       reward: '0',
       stake: '10,000.00 USDS',
     })
