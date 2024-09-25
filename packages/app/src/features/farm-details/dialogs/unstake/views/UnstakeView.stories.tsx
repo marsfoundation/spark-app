@@ -110,6 +110,7 @@ const meta: Meta<typeof UnstakeView> = {
         value: '2000',
       },
       maxValue: NormalizedUnitNumber(50_000),
+      maxSelectedFieldName: 'isMaxSelected',
       changeAsset: () => {},
     },
     objectives: [
@@ -189,6 +190,7 @@ export const WithExitFarmSwitch: Story = {
         value: '50000',
       },
       maxValue: NormalizedUnitNumber(50_000),
+      maxSelectedFieldName: 'isMaxSelected',
       changeAsset: () => {},
     },
     txOverview: {
@@ -225,6 +227,7 @@ export const WithExitFarmSwitchUnchecked: Story = {
         value: '50000',
       },
       maxValue: NormalizedUnitNumber(50_000),
+      maxSelectedFieldName: 'isMaxSelected',
       changeAsset: () => {},
     },
     objectives: [
