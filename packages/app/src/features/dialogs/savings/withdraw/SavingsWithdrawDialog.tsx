@@ -1,14 +1,14 @@
 import { Dialog, DialogContent } from '@/ui/atoms/dialog/Dialog'
-import { CommonDialogProps } from '../../common/types'
+import { CommonDialogProps, DialogConfig } from '../../common/types'
 import { SavingsWithdrawDialogContentContainer } from './SavingsWithdrawDialogContentContainer'
 import { Mode, SavingsType } from './types'
 
-export interface SavingsWithdrawDialogProps extends CommonDialogProps {
+export type SavingsWithdrawDialogProps = CommonDialogProps & {
   mode: Mode
   savingsType: SavingsType
 }
 
-export function SavingsWithdrawDialog({ mode, savingsType, open, setOpen }: SavingsWithdrawDialogProps) {
+function SavingsWithdrawDialog({ mode, savingsType, open, setOpen }: SavingsWithdrawDialogProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
@@ -20,4 +20,11 @@ export function SavingsWithdrawDialog({ mode, savingsType, open, setOpen }: Savi
       </DialogContent>
     </Dialog>
   )
+}
+
+export const savingsWithdrawDialogConfig: DialogConfig<SavingsWithdrawDialogProps> = {
+  options: {
+    closeOnChainChange: true,
+  },
+  element: SavingsWithdrawDialog,
 }

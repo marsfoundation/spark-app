@@ -1,6 +1,6 @@
 import { Farm } from '@/domain/farms/types'
 import { Token } from '@/domain/types/Token'
-import { CommonDialogProps } from '@/features/dialogs/common/types'
+import { CommonDialogProps, DialogConfig } from '@/features/dialogs/common/types'
 import { Dialog, DialogContent } from '@/ui/atoms/dialog/Dialog'
 import { StakeDialogContentContainer } from './StakeDialogContentContainer'
 
@@ -9,7 +9,7 @@ export interface StakeDialogProps extends CommonDialogProps {
   initialToken: Token
 }
 
-export function StakeDialog({ initialToken, farm, open, setOpen }: StakeDialogProps) {
+function StakeDialog({ initialToken, farm, open, setOpen }: StakeDialogProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
@@ -17,4 +17,11 @@ export function StakeDialog({ initialToken, farm, open, setOpen }: StakeDialogPr
       </DialogContent>
     </Dialog>
   )
+}
+
+export const stakeDialogConfig: DialogConfig<StakeDialogProps> = {
+  options: {
+    closeOnChainChange: true,
+  },
+  element: StakeDialog,
 }

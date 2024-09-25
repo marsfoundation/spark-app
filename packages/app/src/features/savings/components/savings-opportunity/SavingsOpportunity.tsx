@@ -4,7 +4,7 @@ import { TokenWithBalance } from '@/domain/common/types'
 import { OpenDialogFunction } from '@/domain/state/dialogs'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
-import { SavingsDepositDialog } from '@/features/dialogs/savings/deposit/SavingsDepositDialog'
+import { savingsDepositDialogConfig } from '@/features/dialogs/savings/deposit/SavingsDepositDialog'
 import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { SavingsMeta } from '../../logic/makeSavingsMeta'
@@ -35,7 +35,7 @@ export function SavingsOpportunity({
   const compactProjections = projections.thirtyDays.gt(1_000)
   const savingsTileSizeVariant = getValueSizeVariant(projections.oneYear, compactProjections)
   function openDepositDialog(): void {
-    openDialog(SavingsDepositDialog, { initialToken: maxBalanceToken.token })
+    openDialog(savingsDepositDialogConfig, { initialToken: maxBalanceToken.token })
   }
 
   return (

@@ -1,9 +1,9 @@
 import { sortByAPY, sortByUsdValue } from '@/domain/common/sorters'
 import { EModeCategoryId } from '@/domain/e-mode/types'
 import { OpenDialogFunction } from '@/domain/state/dialogs'
-import { BorrowDialog } from '@/features/dialogs/borrow/BorrowDialog'
-import { EModeDialog } from '@/features/dialogs/e-mode/EModeDialog'
-import { RepayDialog } from '@/features/dialogs/repay/RepayDialog'
+import { borrowDialogConfig } from '@/features/dialogs/borrow/BorrowDialog'
+import { eModeDialogConfig } from '@/features/dialogs/e-mode/EModeDialog'
+import { repayDialogConfig } from '@/features/dialogs/repay/RepayDialog'
 import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
@@ -12,7 +12,6 @@ import { CompactValueCell } from '@/ui/molecules/data-table/components/CompactVa
 import { PercentageCell } from '@/ui/molecules/data-table/components/PercentageCell'
 import { TokenWithLogo } from '@/ui/molecules/data-table/components/TokenWithLogo'
 import { ResponsiveDataTable } from '@/ui/organisms/responsive-data-table/ResponsiveDataTable'
-
 import { Borrow } from '../../logic/assets'
 import { EModeIndicator } from './components/EModeIndicator'
 
@@ -30,7 +29,7 @@ export function BorrowTable({ assets, openDialog, eModeCategoryId }: BorrowTable
         <EModeIndicator
           eModeCategoryId={eModeCategoryId}
           onButtonClick={() => {
-            openDialog(EModeDialog, { userEModeCategoryId: eModeCategoryId })
+            openDialog(eModeDialogConfig, { userEModeCategoryId: eModeCategoryId })
           }}
         />
       </Panel.Header>
@@ -79,7 +78,7 @@ export function BorrowTable({ assets, openDialog, eModeCategoryId }: BorrowTable
                       className="w-full"
                       size="sm"
                       onClick={() => {
-                        openDialog(BorrowDialog, { token })
+                        openDialog(borrowDialogConfig, { token })
                       }}
                       disabled={reserveStatus === 'frozen'}
                     >
@@ -91,7 +90,7 @@ export function BorrowTable({ assets, openDialog, eModeCategoryId }: BorrowTable
                       size="sm"
                       disabled={debt.isZero()}
                       onClick={() => {
-                        openDialog(RepayDialog, { token })
+                        openDialog(repayDialogConfig, { token })
                       }}
                     >
                       Repay
