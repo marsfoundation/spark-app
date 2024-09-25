@@ -42,6 +42,9 @@ test.describe('Unstake USDS from SKY farm', () => {
 
     await stakeDialog.clickBackToFarmAction()
 
+    await fork.progressSimulation(page, 24 * 60 * 60) // 24 hours
+    await page.reload()
+
     await farmDetailsPage.clickInfoPanelUnstakeButtonAction()
     unstakeDialog = new UnstakeDialogPageObject(page)
 
@@ -81,7 +84,7 @@ test.describe('Unstake USDS from SKY farm', () => {
     await farmDetailsPage.expectTokenToDepositBalance('DAI', '-')
     await farmDetailsPage.expectStaked({
       stake: '5,000.00 USDS',
-      reward: '0.1',
+      reward: '3,539',
     })
   })
 })
