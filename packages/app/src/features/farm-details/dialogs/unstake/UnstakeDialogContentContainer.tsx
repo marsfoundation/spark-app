@@ -13,11 +13,20 @@ export interface StakeContainerProps {
 }
 
 function UnstakeDialogContentContainer({ farm, initialToken, closeDialog }: StakeContainerProps) {
-  const { selectableAssets, assetsFields, form, outcomeToken, objectives, pageStatus, txOverview, actionsContext } =
-    useUnstakeDialog({
-      farm,
-      initialToken,
-    })
+  const {
+    selectableAssets,
+    assetsFields,
+    form,
+    outcomeToken,
+    objectives,
+    pageStatus,
+    txOverview,
+    exitFarmSwitchInfo,
+    actionsContext,
+  } = useUnstakeDialog({
+    farm,
+    initialToken,
+  })
 
   if (pageStatus.state === 'success') {
     return (
@@ -39,6 +48,7 @@ function UnstakeDialogContentContainer({ farm, initialToken, closeDialog }: Stak
       pageStatus={pageStatus}
       txOverview={txOverview}
       farm={farm}
+      exitFarmSwitchInfo={exitFarmSwitchInfo}
       actionsContext={actionsContext}
     />
   )

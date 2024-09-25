@@ -116,7 +116,7 @@ export const tokens = {
     address: CheckedAddress('0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'),
   }),
   SKY: new Token({
-    unitPriceUsd: '1',
+    unitPriceUsd: '0.05',
     symbol: TokenSymbol('SKY'),
     name: 'Sky',
     decimals: 18,

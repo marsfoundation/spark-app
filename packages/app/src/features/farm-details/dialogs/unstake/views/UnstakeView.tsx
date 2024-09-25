@@ -10,8 +10,10 @@ import { FormFieldsForDialog, PageStatus } from '@/features/dialogs/common/types
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
 import { useRef } from 'react'
 import { UseFormReturn } from 'react-hook-form'
+import { ExitFarmSwitch } from '../components/claim-rewards-switch/ExitFarmSwitch'
 import { TransactionOverview } from '../components/transaction-overview/TransactionOverview'
 import { TxOverview } from '../logic/createTxOverview'
+import { ExitFarmSwitchInfo } from '../logic/useUnstakeDialog'
 
 export interface StakeViewProps {
   selectableAssets: TokenWithBalance[]
@@ -21,6 +23,7 @@ export interface StakeViewProps {
   objectives: Objective[]
   pageStatus: PageStatus
   txOverview: TxOverview
+  exitFarmSwitchInfo: ExitFarmSwitchInfo
   actionsContext: InjectedActionsContext
 }
 
@@ -32,6 +35,7 @@ export function UnstakeView({
   objectives,
   pageStatus,
   txOverview,
+  exitFarmSwitchInfo,
   actionsContext,
 }: StakeViewProps) {
   const ref = useRef<HTMLDivElement>(null)
@@ -44,6 +48,8 @@ export function UnstakeView({
         <DialogForm form={form} assetsFields={assetsFields} selectorAssets={selectableAssets} />
         <TransactionOverview txOverview={txOverview} selectedToken={assetsFields.selectedAsset.token} />
       </FormAndOverviewWrapper>
+
+      {exitFarmSwitchInfo.showSwitch && <ExitFarmSwitch {...exitFarmSwitchInfo} />}
 
       <DialogActionsPanel
         objectives={objectives}

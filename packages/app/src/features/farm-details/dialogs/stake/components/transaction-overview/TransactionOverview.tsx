@@ -28,7 +28,7 @@ export function TransactionOverview({ txOverview, selectedToken }: TransactionOv
   assert(routeToStakingToken.length > 0, 'Route must have at least one item')
   const stakingTokenRouteItem = routeToStakingToken.at(-1)!
   const displayRouteVertically = Boolean(
-    routeToStakingToken.length > 2 && routeToStakingToken[0]?.value?.gte(NormalizedUnitNumber(100_000)),
+    routeToStakingToken.length > 1 && routeToStakingToken[0]?.value?.gte(NormalizedUnitNumber(100_000)),
   )
 
   return (

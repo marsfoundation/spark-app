@@ -30,13 +30,23 @@ export interface UseUnstakeDialogResult {
   outcomeToken: TokenWithValue
   pageStatus: PageStatus
   txOverview: TxOverview
+  exitFarmSwitchInfo: ExitFarmSwitchInfo
   actionsContext: InjectedActionsContext
+}
+
+export interface ExitFarmSwitchInfo {
+  showSwitch: boolean
+  checked: boolean
+  onSwitch: () => void
+  reward: TokenWithValue
 }
 
 export function useUnstakeDialog({ farm, initialToken }: UseStakeDialogParams): UseUnstakeDialogResult {
   const [pageStatus, setPageStatus] = useState<PageState>('form')
   const { farmsInfo } = useFarmsInfo()
   const { tokensInfo, exitTokens } = useFarmExitTokens(farm)
+  const [exitFarmSwitchChecked, setExitFarmSwitchChecked] = useState(false)
+
   assert(exitTokens[0], 'There should be at least one exit token')
 
   const form = useForm<AssetInputSchema>({
@@ -63,13 +73,14 @@ export function useUnstakeDialog({ farm, initialToken }: UseStakeDialogParams): 
       farm: farm.address,
       token: formValues.token,
       amount: formValues.value,
-      exit: false,
+      exit: exitFarmSwitchChecked,
     },
   ]
 
   const txOverview = createTxOverview({
     farm,
     formValues,
+    isExiting: exitFarmSwitchChecked,
   })
 
   const outcomeTokenRouteItem =
@@ -95,6 +106,15 @@ export function useUnstakeDialog({ farm, initialToken }: UseStakeDialogParams): 
       state: pageStatus,
       actionsEnabled,
       goToSuccessScreen: () => setPageStatus('success'),
+    },
+    exitFarmSwitchInfo: {
+      showSwitch: formValues.isMaxSelected,
+      onSwitch: () => setExitFarmSwitchChecked((exitFarmSwitchChecked) => !exitFarmSwitchChecked),
+      checked: exitFarmSwitchChecked,
+      reward: {
+        token: farm.rewardToken,
+        value: farm.earned,
+      },
     },
     actionsContext: {
       tokensInfo,

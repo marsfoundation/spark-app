@@ -24,7 +24,7 @@ export function ExitFarmSwitch({ checked, onSwitch, reward }: UpgradeToSusdsSwit
             Withdraw and claim<span className="hidden sm:inline"> rewards in one transaction</span>
           </div>
           <div className="text-basics-dark-grey text-xs">
-            {rewardAmount} (~{rewardUsdValue})
+            {rewardAmount} {reward.token.symbol} (~{rewardUsdValue})
           </div>
         </div>
       </div>

@@ -123,10 +123,21 @@ const meta: Meta<typeof UnstakeView> = {
       status: 'success',
       stakingToken: tokens.USDS,
       rewardToken: tokens.SKY,
+      isExiting: false,
+      earnedRewards: NormalizedUnitNumber(2311.34),
       routeToOutcomeToken: [
         { token: tokens.USDS, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },
         { token: tokens.USDC, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },
       ],
+    },
+    exitFarmSwitchInfo: {
+      showSwitch: false,
+      onSwitch: () => {},
+      checked: false,
+      reward: {
+        token: tokens.SKY,
+        value: NormalizedUnitNumber(2311.34),
+      },
     },
     actionsContext: {
       tokensInfo: mockTokensInfo,
@@ -143,3 +154,64 @@ type Story = StoryObj<typeof UnstakeView>
 export const Desktop: Story = {}
 export const Mobile = getMobileStory(Desktop)
 export const Tablet = getTabletStory(Desktop)
+
+export const WithExitFarmSwitch: Story = {
+  args: {
+    exitFarmSwitchInfo: {
+      showSwitch: true,
+      onSwitch: () => {},
+      checked: true,
+      reward: {
+        token: tokens.SKY,
+        value: NormalizedUnitNumber(2311.34),
+      },
+    },
+    objectives: [
+      {
+        type: 'unstake',
+        token: tokens.USDS,
+        amount: NormalizedUnitNumber(100),
+        farm: farm.address,
+        exit: true,
+      },
+    ],
+    txOverview: {
+      status: 'success',
+      stakingToken: tokens.USDS,
+      rewardToken: tokens.SKY,
+      isExiting: true,
+      earnedRewards: NormalizedUnitNumber(2311.34),
+      routeToOutcomeToken: [
+        { token: tokens.USDS, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },
+        { token: tokens.USDC, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },
+      ],
+    },
+  },
+}
+export const WithExitFarmSwitchMobile = getMobileStory(WithExitFarmSwitch)
+export const WithExitFarmSwitchTablet = getTabletStory(WithExitFarmSwitch)
+
+export const WithExitFarmSwitchUnchecked: Story = {
+  args: {
+    exitFarmSwitchInfo: {
+      showSwitch: true,
+      onSwitch: () => {},
+      checked: false,
+      reward: {
+        token: tokens.SKY,
+        value: NormalizedUnitNumber(2311.34),
+      },
+    },
+    objectives: [
+      {
+        type: 'unstake',
+        token: tokens.USDS,
+        amount: NormalizedUnitNumber(100),
+        farm: farm.address,
+        exit: false,
+      },
+    ],
+  },
+}
+export const WithExitFarmSwitchUncheckedMobile = getMobileStory(WithExitFarmSwitch)
+export const WithExitFarmSwitchUncheckedTablet = getTabletStory(WithExitFarmSwitch)
