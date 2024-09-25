@@ -10,10 +10,9 @@ export interface TransactionOutcomeProps {
 export function TransactionOutcome({ stakingTokenRouteItem, rewardToken }: TransactionOutcomeProps) {
   const stakingToken = stakingTokenRouteItem.token
   const stakingTokenAmount = stakingToken.format(stakingTokenRouteItem.value, { style: 'auto' })
-  const stakingTokenUsdValue = stakingToken.formatUSD(stakingTokenRouteItem.usdValue)
 
   const mobileText = `${stakingTokenAmount} ${stakingToken.symbol} in Farm`
-  const text = `${stakingTokenAmount} ${stakingToken.symbol} (${stakingTokenUsdValue}) deposited into ${rewardToken} Farm`
+  const text = `${stakingTokenAmount} ${stakingToken.symbol} deposited into ${rewardToken} Farm`
 
   return (
     <div
