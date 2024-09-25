@@ -8,7 +8,9 @@ import { InjectedActionsContext, Objective } from '@/features/actions/logic/type
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { useDebouncedFormValues } from '@/features/dialogs/common/logic/transfer-from-user/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
+import { calculateReward } from '@/features/farm-details/logic/calculateReward'
 import { assert, raise } from '@/utils/assert'
+import { useTimestamp } from '@/utils/useTimestamp'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
@@ -42,6 +44,7 @@ export interface ExitFarmSwitchInfo {
 }
 
 export function useUnstakeDialog({ farm, initialToken }: UseStakeDialogParams): UseUnstakeDialogResult {
+  const { timestamp } = useTimestamp()
   const [pageStatus, setPageStatus] = useState<PageState>('form')
   const { farmsInfo } = useFarmsInfo()
   const { tokensInfo, exitTokens } = useFarmExitTokens(farm)
@@ -77,10 +80,21 @@ export function useUnstakeDialog({ farm, initialToken }: UseStakeDialogParams): 
     },
   ]
 
+  const earnedRewards = calculateReward({
+    earned: farm.earned,
+    staked: farm.staked,
+    rewardRate: farm.rewardRate,
+    earnedTimestamp: farm.earnedTimestamp,
+    periodFinish: farm.periodFinish,
+    timestampInMs: timestamp * 1000,
+    totalSupply: farm.totalSupply,
+  })
+
   const txOverview = createTxOverview({
     farm,
     formValues,
     isExiting: exitFarmSwitchChecked,
+    earnedRewards,
   })
 
   const outcomeTokenRouteItem =
@@ -113,7 +127,7 @@ export function useUnstakeDialog({ farm, initialToken }: UseStakeDialogParams): 
       checked: exitFarmSwitchChecked,
       reward: {
         token: farm.rewardToken,
-        value: farm.earned,
+        value: earnedRewards,
       },
     },
     actionsContext: {
