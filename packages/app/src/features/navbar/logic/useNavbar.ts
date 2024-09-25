@@ -6,7 +6,7 @@ import { useSandboxState } from '@/domain/sandbox/useSandboxState'
 import { useOpenDialog } from '@/domain/state/dialogs'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { EnsName } from '@/domain/types/EnsName'
-import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
+import { sandboxDialogConfig } from '@/features/dialogs/sandbox/SandboxDialog'
 import { raise } from '@/utils/assert'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { useQuery } from '@tanstack/react-query'
@@ -117,11 +117,11 @@ export function useNavbar(): UseNavbarResults {
   }
 
   function openSandboxDialog(): void {
-    openDialog(SandboxDialog, { mode: 'ephemeral' } as const)
+    openDialog(sandboxDialogConfig, { mode: 'ephemeral' } as const)
   }
 
   function openDevSandboxDialog(): void {
-    openDialog(SandboxDialog, { mode: 'persisting' } as const)
+    openDialog(sandboxDialogConfig, { mode: 'persisting' } as const)
   }
 
   return {

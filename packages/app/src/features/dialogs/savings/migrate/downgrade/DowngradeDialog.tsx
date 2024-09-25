@@ -1,5 +1,5 @@
 import { Token } from '@/domain/types/Token'
-import { CommonDialogProps } from '@/features/dialogs/common/types'
+import { CommonDialogProps, DialogConfig } from '@/features/dialogs/common/types'
 import { Dialog, DialogContent } from '@/ui/atoms/dialog/Dialog'
 import { DowngradeDialogContentContainer } from './DowngradeDialogContentContainer'
 
@@ -8,7 +8,7 @@ interface DowngradeDialogProps extends CommonDialogProps {
   toToken: Token
 }
 
-export function DowngradeDialog({ fromToken, toToken, open, setOpen }: DowngradeDialogProps) {
+function DowngradeDialog({ fromToken, toToken, open, setOpen }: DowngradeDialogProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
@@ -16,4 +16,11 @@ export function DowngradeDialog({ fromToken, toToken, open, setOpen }: Downgrade
       </DialogContent>
     </Dialog>
   )
+}
+
+export const downgradeDialogConfig: DialogConfig<DowngradeDialogProps> = {
+  options: {
+    closeOnChainChange: true,
+  },
+  element: DowngradeDialog,
 }

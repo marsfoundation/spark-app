@@ -3,8 +3,8 @@ import { OpenDialogFunction } from '@/domain/state/dialogs'
 import { Percentage } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
-import { DowngradeDialog } from '@/features/dialogs/savings/migrate/downgrade/DowngradeDialog'
-import { UpgradeDialog } from '@/features/dialogs/savings/migrate/upgrade/UpgradeDialog'
+import { downgradeDialogConfig } from '@/features/dialogs/savings/migrate/downgrade/DowngradeDialog'
+import { upgradeDialogConfig } from '@/features/dialogs/savings/migrate/upgrade/UpgradeDialog'
 import { assert } from '@/utils/assert'
 import { determineApyImprovement } from './determineApyImprovement'
 
@@ -46,13 +46,13 @@ export function makeMigrationInfo({
     daiToUsdsUpgradeAvailable: tokensInfo.findOneBalanceBySymbol(DAI.symbol).gt(0),
     apyImprovement: determineApyImprovement({ savingsUsdsInfo, savingsDaiInfo }),
     openDaiToUsdsUpgradeDialog: () => {
-      openDialog(UpgradeDialog, { fromToken: DAI, toToken: USDS })
+      openDialog(upgradeDialogConfig, { fromToken: DAI, toToken: USDS })
     },
     openUsdsToDaiDowngradeDialog: () => {
-      openDialog(DowngradeDialog, { fromToken: USDS, toToken: DAI })
+      openDialog(downgradeDialogConfig, { fromToken: USDS, toToken: DAI })
     },
     openSDaiToSUsdsUpgradeDialog: () => {
-      openDialog(UpgradeDialog, { fromToken: sDAI, toToken: sUSDS })
+      openDialog(upgradeDialogConfig, { fromToken: sDAI, toToken: sUSDS })
     },
   }
 }

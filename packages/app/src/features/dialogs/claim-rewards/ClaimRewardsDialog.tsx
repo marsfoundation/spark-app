@@ -1,9 +1,8 @@
 import { Dialog, DialogContent } from '@/ui/atoms/dialog/Dialog'
-
-import { CommonDialogProps } from '../common/types'
+import { CommonDialogProps, DialogConfig } from '../common/types'
 import { ClaimRewardsDialogContentContainer } from './ClaimRewardsDialogContentContainer'
 
-export function ClaimRewardsDialog({ open, setOpen }: CommonDialogProps) {
+function ClaimRewardsDialog({ open, setOpen }: CommonDialogProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
@@ -11,4 +10,11 @@ export function ClaimRewardsDialog({ open, setOpen }: CommonDialogProps) {
       </DialogContent>
     </Dialog>
   )
+}
+
+export const claimRewardsDialogConfig: DialogConfig<CommonDialogProps> = {
+  options: {
+    closeOnChainChange: true,
+  },
+  element: ClaimRewardsDialog,
 }

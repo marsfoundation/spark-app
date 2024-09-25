@@ -15,7 +15,7 @@ import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { useMarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
-import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
+import { sandboxDialogConfig } from '@/features/dialogs/sandbox/SandboxDialog'
 import { assert, raise } from '@/utils/assert'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useRef, useState } from 'react'
@@ -198,7 +198,7 @@ export function useEasyBorrow(): UseEasyBorrowResults {
   }, [pageStatus])
 
   function openSandboxModal(): void {
-    openDialog(SandboxDialog, { mode: 'ephemeral' } as const)
+    openDialog(sandboxDialogConfig, { mode: 'ephemeral' } as const)
   }
 
   const { riskAcknowledgement, disableActionsByRisk } = useLiquidationRiskWarning({

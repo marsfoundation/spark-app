@@ -4,7 +4,7 @@ import { LiquidationDetails } from '@/domain/market-info/getLiquidationDetails'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { useOpenDialog } from '@/domain/state/dialogs'
 import { useMarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
-import { SandboxDialog } from '@/features/dialogs/sandbox/SandboxDialog'
+import { sandboxDialogConfig } from '@/features/dialogs/sandbox/SandboxDialog'
 import { useState } from 'react'
 import { Borrow, Deposit, getBorrows, getDeposits } from './assets'
 import { makeLiquidationDetails } from './makeLiquidationDetails'
@@ -53,7 +53,7 @@ export function useMyPortfolio(): UseMyPortfolioResults {
   const liquidationDetails = makeLiquidationDetails(marketInfo)
 
   function openSandboxModal(): void {
-    openDialog(SandboxDialog, { mode: 'ephemeral' } as const)
+    openDialog(sandboxDialogConfig, { mode: 'ephemeral' } as const)
   }
 
   return {

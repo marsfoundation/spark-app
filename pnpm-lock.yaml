@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  playwright@1.47.2:
+    hash: typtw5ccupt37wcd4eaee4rmte
+    path: patches/playwright@1.47.2.patch
+
 importers:
 
   .:
@@ -226,8 +231,8 @@ importers:
         specifier: ^4.5.0
         version: 4.10.1(vite@5.2.11)
       '@playwright/test':
-        specifier: ^1.43.0
-        version: 1.43.0
+        specifier: ^1.47.2
+        version: 1.47.2
       '@sentry/react':
         specifier: ^7.114.0
         version: 7.114.0(react@18.2.0)
@@ -5796,12 +5801,12 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@playwright/test@1.43.0:
-    resolution: {integrity: sha512-Ebw0+MCqoYflop7wVKj711ccbNlrwTBCtjY5rlbiY9kHL2bCYxq+qltK6uPsVBGGAOb033H2VO0YobcQVxoW7Q==}
-    engines: {node: '>=16'}
+  /@playwright/test@1.47.2:
+    resolution: {integrity: sha512-jTXRsoSPONAs8Za9QEQdyjFn+0ZQFjCiIztAIF6bi1HqhBzG9Ma7g1WotyiGqFSBRZjIEqMdT8RUlbk1QVhzCQ==}
+    engines: {node: '>=18'}
     hasBin: true
     dependencies:
-      playwright: 1.43.0
+      playwright: 1.47.2(patch_hash=typtw5ccupt37wcd4eaee4rmte)
     dev: true
 
   /@radix-ui/number@1.0.1:
@@ -15911,21 +15916,22 @@ packages:
       find-up: 3.0.0
     dev: true
 
-  /playwright-core@1.43.0:
-    resolution: {integrity: sha512-iWFjyBUH97+pUFiyTqSLd8cDMMOS0r2ZYz2qEsPjH8/bX++sbIJT35MSwKnp1r/OQBAqC5XO99xFbJ9XClhf4w==}
-    engines: {node: '>=16'}
+  /playwright-core@1.47.2:
+    resolution: {integrity: sha512-3JvMfF+9LJfe16l7AbSmU555PaTl2tPyQsVInqm3id16pdDfvZ8TTZ/pyzmkbDrZTQefyzU7AIHlZqQnxpqHVQ==}
+    engines: {node: '>=18'}
     hasBin: true
     dev: true
 
-  /playwright@1.43.0:
-    resolution: {integrity: sha512-SiOKHbVjTSf6wHuGCbqrEyzlm6qvXcv7mENP+OZon1I07brfZLGdfWV0l/efAzVx7TF3Z45ov1gPEkku9q25YQ==}
-    engines: {node: '>=16'}
+  /playwright@1.47.2(patch_hash=typtw5ccupt37wcd4eaee4rmte):
+    resolution: {integrity: sha512-nx1cLMmQWqmA3UsnjaaokyoUpdVaaDhJhMoxX2qj3McpjnsqFHs516QAKYhqHAgOP+oCFTEOCOAaD1RgD/RQfA==}
+    engines: {node: '>=18'}
     hasBin: true
     dependencies:
-      playwright-core: 1.43.0
+      playwright-core: 1.47.2
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
+    patched: true
 
   /pngjs@5.0.0:
     resolution: {integrity: sha512-40QW5YalBNfQo5yRYmiw7Yz6TKKVr3h6970B2YE+3fQpsWcrbj1PzJgxeJ19DRQjhMbKPIuMY8rFaXc8moolVw==}
