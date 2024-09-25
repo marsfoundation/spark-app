@@ -32,14 +32,16 @@ export function ActiveFarmInfoPanel({
           <Button size="sm" onClick={openClaimDialog} data-testid={testIds.farmDetails.activeFarmInfoPanel.claimButton}>
             Claim {rewardToken.symbol}
           </Button>
-          <Button
-            size="sm"
-            variant="secondary"
-            onClick={openUnstakeDialog}
-            data-testid={testIds.farmDetails.activeFarmInfoPanel.unstakeButton}
-          >
-            Withdraw
-          </Button>
+          {staked.gt(0) && (
+            <Button
+              size="sm"
+              variant="secondary"
+              onClick={openUnstakeDialog}
+              data-testid={testIds.farmDetails.activeFarmInfoPanel.unstakeButton}
+            >
+              Withdraw
+            </Button>
+          )}
         </div>
       </div>
       <div className="flex flex-grow flex-col items-center justify-around">

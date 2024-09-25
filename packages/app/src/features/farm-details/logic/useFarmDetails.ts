@@ -5,15 +5,18 @@ import { NotFoundError } from '@/domain/errors/not-found'
 import { Farm, FarmDetailsRowData } from '@/domain/farms/types'
 import { useFarmsInfo } from '@/domain/farms/useFarmsInfo'
 import { useOpenDialog } from '@/domain/state/dialogs'
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { sandboxDialogConfig } from '@/features/dialogs/sandbox/SandboxDialog'
 import { raise } from '@/utils/assert'
+import { useTimestamp } from '@/utils/useTimestamp'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { useAccount, useChainId } from 'wagmi'
 import { claimDialogConfig } from '../dialogs/claim/ClaimDialog'
 import { stakeDialogConfig } from '../dialogs/stake/StakeDialog'
 import { unstakeDialogConfig } from '../dialogs/unstake/UnstakeDialog'
+import { calculateReward } from './calculateReward'
 import { FarmHistoryItem } from './historic/types'
 import { useFarmHistoricData } from './historic/useFarmHistoricData'
 import { useFarmDetailsParams } from './useFarmDetailsParams'
@@ -27,6 +30,7 @@ export interface UseFarmDetailsResult {
   farmHistoricData: FarmHistoryItem[]
   tokensToDeposit: TokenWithBalance[]
   hasTokensToDeposit: boolean
+  earnedReward: NormalizedUnitNumber
   openStakeDialog: (initialToken: Token) => void
   openUnstakeDialog: () => void
   openClaimDialog: () => void
@@ -36,6 +40,7 @@ export interface UseFarmDetailsResult {
 }
 
 export function useFarmDetails(): UseFarmDetailsResult {
+  const { timestamp } = useTimestamp()
   const walletConnected = useAccount().isConnected
   const { address: farmAddress, chainId } = useFarmDetailsParams()
   const connectedChainId = useChainId()
@@ -55,6 +60,16 @@ export function useFarmDetails(): UseFarmDetailsResult {
   const hasTokensToDeposit = tokensToDeposit.some((token) => token.balance.gt(0))
   const mostValuableToken = sortByUsdValueWithUsdsPriority(tokensToDeposit, tokensInfo)[0]
 
+  const earnedReward = calculateReward({
+    earned: farm.earned,
+    staked: farm.staked,
+    rewardRate: farm.rewardRate,
+    earnedTimestamp: farm.earnedTimestamp,
+    periodFinish: farm.periodFinish,
+    timestampInMs: timestamp * 1000,
+    totalSupply: farm.totalSupply,
+  })
+
   return {
     chainId,
     chainMismatch,
@@ -68,6 +83,7 @@ export function useFarmDetails(): UseFarmDetailsResult {
     },
     tokensToDeposit,
     hasTokensToDeposit,
+    earnedReward,
     openUnstakeDialog: () => openDialog(unstakeDialogConfig, { farm, initialToken: farm.stakingToken }),
     openStakeDialog: (initialToken: Token) => openDialog(stakeDialogConfig, { farm, initialToken }),
     openDefaultedStakeDialog: () =>
