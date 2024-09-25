@@ -4,7 +4,7 @@ import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { SavingsInfo } from '@/domain/savings-info/types'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { QueryKey, UseQueryOptions, UseQueryResult } from '@tanstack/react-query'
-import { Address } from 'viem'
+import { Address, TransactionReceipt } from 'viem'
 import { Config } from 'wagmi'
 import { ApproveDelegationAction } from '../flavours/approve-delegation/types'
 import { ApproveAction } from '../flavours/approve/types'
@@ -90,6 +90,7 @@ export interface ActionContext {
   savingsUsdsInfo?: SavingsInfo
   permitStore?: PermitStore
   farmsInfo?: FarmsInfo
+  txReceipts: [Action, TransactionReceipt][]
   wagmiConfig: Config
   account: Address
   chainId: number

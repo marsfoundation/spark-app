@@ -54,8 +54,9 @@ export function useContractAction({ action, context, enabled }: UseContractActio
       enabled,
     },
     {
-      onTransactionSettled: () => {
+      onTransactionSettled: (txReceipt) => {
         invalidates().map((queryKey) => void queryClient.invalidateQueries({ queryKey }))
+        context.txReceipts.push([action, txReceipt])
       },
     },
   )

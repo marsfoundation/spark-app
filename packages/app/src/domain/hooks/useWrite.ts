@@ -1,4 +1,4 @@
-import { Abi, ContractFunctionName, encodeFunctionData } from 'viem'
+import { Abi, ContractFunctionName, TransactionReceipt, encodeFunctionData } from 'viem'
 import {
   UseSimulateContractParameters,
   UseWriteContractParameters,
@@ -37,7 +37,7 @@ export interface UseWriteResult {
 }
 
 export interface UseWriteCallbacks {
-  onTransactionSettled?: () => void
+  onTransactionSettled?: (txReceipt: TransactionReceipt) => void
   onBeforeWrite?: () => void // @note: good place to run extra sanity checks
 }
 
@@ -90,7 +90,7 @@ export function useWrite<TAbi extends Abi, TFunctionName extends ContractFunctio
 
   useOnDepsChange(() => {
     if (txReceipt) {
-      callbacks.onTransactionSettled?.()
+      callbacks.onTransactionSettled?.(txReceipt)
       if (import.meta.env.VITE_PLAYWRIGHT === '1') {
         // @note: for e2e tests needs we store sent transactions
         storeRequest(parameters?.request)
