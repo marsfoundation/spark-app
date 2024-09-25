@@ -223,6 +223,14 @@ export const testIds = makeTestIds({
         outcome: true,
       },
     },
+    claimDialog: {
+      transactionOverview: {
+        rewardTokenSymbol: true,
+        rewardTokenDescription: true,
+        rewardAmount: true,
+        rewardAmountUSD: true,
+      },
+    },
     infoPanel: {
       stakeButton: true,
     },
@@ -230,6 +238,7 @@ export const testIds = makeTestIds({
       rewards: true,
       staked: true,
       unstakeButton: true,
+      claimButton: true,
     },
   },
 })

@@ -1,6 +1,7 @@
 import { DialogPanel } from '@/features/dialogs/common/components/DialogPanel'
 import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPanelTitle'
 import { getTokenImage } from '@/ui/assets'
+import { testIds } from '@/ui/utils/testIds'
 import { TxOverview } from '../../types'
 
 export interface TransactionOverviewProps {
@@ -20,15 +21,33 @@ export function TransactionOverview({ txOverview }: TransactionOverviewProps) {
           <div className="flex items-center gap-2.5">
             <img src={getTokenImage(token.symbol)} className="h-6 w-6" />
             <div className="flex flex-col">
-              <div className="text-primary">{token.symbol}</div>
-              <div className="text-prompt-foreground text-sm">{token.name} Token</div>
+              <div
+                className="text-primary"
+                data-testid={testIds.farmDetails.claimDialog.transactionOverview.rewardTokenSymbol}
+              >
+                {token.symbol}
+              </div>
+              <div
+                className="text-prompt-foreground text-sm"
+                data-testid={testIds.farmDetails.claimDialog.transactionOverview.rewardTokenDescription}
+              >
+                {token.name}
+              </div>
             </div>
           </div>
           <div className="flex flex-col items-end">
-            <div className="text-primary">
+            <div
+              className="text-primary"
+              data-testid={testIds.farmDetails.claimDialog.transactionOverview.rewardAmount}
+            >
               {token.format(value, { style: 'auto' })} {token.symbol}
             </div>
-            <div className="text-prompt-foreground text-sm">~{token.formatUSD(value)}</div>
+            <div
+              className="text-prompt-foreground text-sm"
+              data-testid={testIds.farmDetails.claimDialog.transactionOverview.rewardAmountUSD}
+            >
+              ~{token.formatUSD(value)}
+            </div>
           </div>
         </div>
       </DialogPanel>

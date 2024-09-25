@@ -29,7 +29,7 @@ export function ActiveFarmInfoPanel({
           <Info>Info about your balance in the farm</Info>
         </div>
         <div className="flex items-center gap-1">
-          <Button size="sm" onClick={openClaimDialog}>
+          <Button size="sm" onClick={openClaimDialog} data-testid={testIds.farmDetails.activeFarmInfoPanel.claimButton}>
             Claim {rewardToken.symbol}
           </Button>
           <Button
