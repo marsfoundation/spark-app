@@ -32,8 +32,13 @@ export function ActiveFarmInfoPanel({
           <Button size="sm" onClick={openClaimDialog}>
             Claim {rewardToken.symbol}
           </Button>
-          <Button size="sm" variant="secondary" onClick={openUnstakeDialog}>
-            Withdraw {stakingToken.symbol}
+          <Button
+            size="sm"
+            variant="secondary"
+            onClick={openUnstakeDialog}
+            data-testid={testIds.farmDetails.activeFarmInfoPanel.unstakeButton}
+          >
+            Withdraw
           </Button>
         </div>
       </div>

@@ -22,12 +22,12 @@ export function TransactionOverview({ txOverview, selectedToken }: TransactionOv
   if (txOverview.status !== 'success') {
     return <TransactionOverviewPlaceholder badgeToken={selectedToken} />
   }
-  const { rewardToken, routeToStakingToken, stakingToken } = txOverview
+  const { rewardToken, routeToOutcomeToken, stakingToken } = txOverview
 
-  assert(routeToStakingToken.length > 0, 'Route must have at least one item')
-  const stakingTokenRouteItem = routeToStakingToken.at(-1)!
+  assert(routeToOutcomeToken.length > 0, 'Route must have at least one item')
+  const outcomeTokenRouteItem = routeToOutcomeToken.at(-1)!
   const displayRouteVertically = Boolean(
-    routeToStakingToken.length > 2 && routeToStakingToken[0]?.value?.gte(NormalizedUnitNumber(100_000)),
+    routeToOutcomeToken.length > 1 && routeToOutcomeToken[0]?.value?.gte(NormalizedUnitNumber(100_000)),
   )
 
   return (
@@ -41,19 +41,19 @@ export function TransactionOverview({ txOverview, selectedToken }: TransactionOv
               rewardsToken={rewardToken.symbol}
               displayRouteVertically={displayRouteVertically}
             />
-            {routeToStakingToken.map((item, index) => (
+            {routeToOutcomeToken.map((item, index) => (
               <RouteItem
                 key={item.token.symbol}
                 item={item}
                 index={index}
-                isLast={index === routeToStakingToken.length - 1}
+                isLast={index === routeToOutcomeToken.length - 1}
                 displayRouteVertically={displayRouteVertically}
               />
             ))}
           </div>
         </TransactionOverviewDetailsItem>
         <TransactionOverviewDetailsItem label="Outcome">
-          <TransactionOutcome stakingTokenRouteItem={stakingTokenRouteItem} rewardToken={rewardToken.symbol} />
+          <TransactionOutcome outcomeTokenRouteItem={outcomeTokenRouteItem} rewardToken={rewardToken.symbol} />
         </TransactionOverviewDetailsItem>
       </DialogPanel>
 

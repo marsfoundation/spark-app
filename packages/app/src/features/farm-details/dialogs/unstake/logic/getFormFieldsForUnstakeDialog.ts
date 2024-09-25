@@ -1,4 +1,5 @@
 import { Farm } from '@/domain/farms/types'
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
@@ -27,16 +28,18 @@ export function getFormFieldsForUnstakeDialog({
 
   const { symbol, value } = form.getValues()
   const token = tokensInfo.findOneTokenBySymbol(symbol)
-  const usdBalance = farm.stakingToken.toUSD(farm.staked)
+
+  const usdStakedBalance = farm.stakingToken.toUSD(farm.staked)
+  const tokenBalance = NormalizedUnitNumber(usdStakedBalance.dividedBy(token.unitPriceUsd))
 
   return {
     selectedAsset: {
       value,
       token,
-      balance: usdBalance,
+      balance: tokenBalance,
     },
     changeAsset,
-    maxValue: usdBalance,
+    maxValue: tokenBalance,
     maxSelectedFieldName: 'isMaxSelected',
   }
 }

@@ -15,7 +15,7 @@ export type TxOverview =
       status: 'success'
       stakingToken: Token
       rewardToken: Token
-      routeToStakingToken: TxOverviewRouteItem[]
+      routeToOutcomeToken: TxOverviewRouteItem[]
     }
 
 export function createTxOverview({ formValues, farm }: CreateTxOverviewParams): TxOverview {
@@ -24,7 +24,7 @@ export function createTxOverview({ formValues, farm }: CreateTxOverviewParams): 
     return { status: 'no-overview' }
   }
 
-  const routeToStakingToken: TxOverviewRouteItem[] = createRouteToStakingToken({
+  const routeToOutcomeToken: TxOverviewRouteItem[] = createRouteToOutcomeToken({
     formValues,
     stakingToken: farm.stakingToken,
   })
@@ -33,32 +33,32 @@ export function createTxOverview({ formValues, farm }: CreateTxOverviewParams): 
     status: 'success',
     stakingToken: farm.stakingToken,
     rewardToken: farm.rewardToken,
-    routeToStakingToken,
+    routeToOutcomeToken,
   }
 }
 
-export interface CreateRouteToStakingTokenParams {
+export interface CreateRouteToOutcomeTokenParams {
   formValues: TransferFromUserFormNormalizedData
   stakingToken: Token
 }
-function createRouteToStakingToken({
+function createRouteToOutcomeToken({
   formValues,
   stakingToken,
-}: CreateRouteToStakingTokenParams): TxOverviewRouteItem[] {
-  const entryTokenUsdValue = formValues.token.toUSD(formValues.value)
-  const stakingTokenAmount = NormalizedUnitNumber(entryTokenUsdValue.dividedBy(stakingToken.unitPriceUsd))
+}: CreateRouteToOutcomeTokenParams): TxOverviewRouteItem[] {
+  const outcomeTokenUsdValue = formValues.token.toUSD(formValues.value)
+  const stakingTokenAmount = NormalizedUnitNumber(outcomeTokenUsdValue.dividedBy(stakingToken.unitPriceUsd))
 
   return [
     {
       token: stakingToken,
-      usdValue: entryTokenUsdValue,
+      usdValue: outcomeTokenUsdValue,
       value: stakingTokenAmount,
     },
     ...(stakingToken.symbol !== formValues.token.symbol
       ? [
           {
             token: formValues.token,
-            usdValue: entryTokenUsdValue,
+            usdValue: outcomeTokenUsdValue,
             value: formValues.value,
           },
         ]

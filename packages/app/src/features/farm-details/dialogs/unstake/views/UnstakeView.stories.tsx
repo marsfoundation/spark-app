@@ -107,10 +107,11 @@ const meta: Meta<typeof UnstakeView> = {
     },
     objectives: [
       {
-        type: 'stake',
+        type: 'unstake',
         token: tokens.USDS,
         amount: NormalizedUnitNumber(100),
         farm: farm.address,
+        exit: false
       },
     ],
     pageStatus: {
@@ -122,9 +123,9 @@ const meta: Meta<typeof UnstakeView> = {
       status: 'success',
       stakingToken: tokens.USDS,
       rewardToken: tokens.SKY,
-      routeToStakingToken: [
-        { token: tokens.USDC, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },
+      routeToOutcomeToken: [
         { token: tokens.USDS, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },
+        { token: tokens.USDC, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },
       ],
     },
     actionsContext: {
