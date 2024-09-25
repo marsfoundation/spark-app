@@ -23,6 +23,7 @@ export function TransactionOutcome({
   const earnedRewardsUsdValue = rewardToken.formatUSD(earnedRewards)
 
   const unstakeText = `${outcomeTokenAmount} ${outcomeToken.symbol} worth ${outcomeTokenUsdValue}`
+  const unstakeTextMobile = `${outcomeTokenAmount} ${outcomeToken.symbol}`
   const exitText = `${outcomeTokenAmount} ${outcomeToken.symbol} (${outcomeTokenUsdValue}) + ${earnedRewardsAmount} ${rewardToken.symbol} (${earnedRewardsUsdValue})`
   const exitTextMobile = `${outcomeTokenAmount} ${outcomeToken.symbol} + ${earnedRewardsAmount} ${rewardToken.symbol}`
 
@@ -37,7 +38,10 @@ export function TransactionOutcome({
           <span className="sm:hidden">{exitTextMobile}</span>
         </>
       ) : (
-        unstakeText
+        <>
+          <span className="hidden sm:inline">{unstakeText}</span>
+          <span className="sm:hidden">{unstakeTextMobile}</span>
+        </>
       )}
     </div>
   )
