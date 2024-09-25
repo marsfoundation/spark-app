@@ -7,10 +7,10 @@ import { SkyBadge } from '@/features/dialogs/common/components/transaction-overv
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { assert } from '@/utils/assert'
+import { TransactionOverviewDetailsItem } from '../../../common/components/TransactionOverviewDetailsItem'
 import { TxOverview } from '../../logic/createTxOverview'
 import { FarmRouteItem } from './FarmRouteItem'
 import { TransactionOutcome } from './TransactionOutcome'
-import { TransactionOverviewDetailsItem } from './TransactionOverviewDetailsItem'
 import { TransactionOverviewPlaceholder } from './TransactionOverviewPlaceholder'
 
 export interface TransactionOverviewProps {
