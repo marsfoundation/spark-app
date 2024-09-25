@@ -40,7 +40,7 @@ export function useUnstakeDialog({ farm, initialToken }: UseStakeDialogParams): 
   assert(exitTokens[0], 'There should be at least one exit token')
 
   const form = useForm<AssetInputSchema>({
-    resolver: zodResolver(getUnstakeDialogFormValidator(farm)),
+    resolver: zodResolver(getUnstakeDialogFormValidator(farm, tokensInfo)),
     defaultValues: {
       symbol: initialToken.symbol,
       value: '',
