@@ -270,6 +270,7 @@ const actionVerbs = [
   'Upgrade',
   'Downgrade',
   'Stake',
+  'Unstake',
 ]
 const actionButtonRegex = new RegExp(`^(${actionVerbs.join('|')})$`)
 
