@@ -4,7 +4,7 @@ import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 
 import { FarmConfig } from '@/domain/farms/types'
-import { OracleRatioFetcherParams } from '@/domain/oracles/oracleRatioFetchers'
+import { OracleInfoFetcherParams, OracleInfoFetcherResult } from '@/domain/oracles/oracleInfoFetchers'
 import { OracleType } from '@/domain/wallet/useTokens/types'
 import { SUPPORTED_CHAIN_IDS } from './constants'
 
@@ -55,9 +55,9 @@ export type ReserveOracleType =
   | { type: 'market-price'; providedBy: OracleFeedProvider[] }
   | {
       type: 'yielding-fixed'
-      ratio: (params: OracleRatioFetcherParams) => Promise<NormalizedUnitNumber>
       baseAsset: TokenSymbol
       providedBy: OracleFeedProvider[]
+      oracleFetcher: (params: OracleInfoFetcherParams) => Promise<OracleInfoFetcherResult>
     }
   | { type: 'fixed' }
   | { type: 'underlying-asset'; asset: string }

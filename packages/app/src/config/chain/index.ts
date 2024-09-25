@@ -2,7 +2,12 @@ import { gnosis, mainnet } from 'viem/chains'
 
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { getOriginChainId } from '@/domain/hooks/useOriginChainId'
-import { fetchRethRatio, fetchWeethRatio, fetchWstethRatioMainnet } from '@/domain/oracles/oracleRatioFetchers'
+import {
+  fetchRethhOracleInfo,
+  fetchSdaiOracleInfoGnosis,
+  fetchWeethhOracleInfo,
+  fetchWstethOracleInfoMainnet,
+} from '@/domain/oracles/oracleInfoFetchers'
 import { gnosisSavingsDaiInfoQuery } from '@/domain/savings-info/gnosisSavingsInfo'
 import { mainnetSavingsDaiInfoQuery, mainnetSavingsUsdsInfoQuery } from '@/domain/savings-info/mainnetSavingsInfo'
 import { useStore } from '@/domain/state'
@@ -141,19 +146,19 @@ const chainConfig: ChainConfig = {
         type: 'yielding-fixed',
         baseAsset: TokenSymbol('WETH'),
         providedBy: ['chainlink', 'chronicle'],
-        ratio: fetchWstethRatioMainnet,
+        oracleFetcher: fetchWstethOracleInfoMainnet,
       },
       [TokenSymbol('rETH')]: {
         type: 'yielding-fixed',
         baseAsset: TokenSymbol('WETH'),
         providedBy: ['chainlink', 'chronicle'],
-        ratio: fetchRethRatio,
+        oracleFetcher: fetchRethhOracleInfo,
       },
       [TokenSymbol('weETH')]: {
         type: 'yielding-fixed',
         baseAsset: TokenSymbol('WETH'),
         providedBy: ['chainlink', 'chronicle'],
-        ratio: fetchWeethRatio,
+        oracleFetcher: fetchWeethhOracleInfo,
       },
       [TokenSymbol('USDC')]: {
         type: 'fixed',
@@ -235,6 +240,10 @@ const chainConfig: ChainConfig = {
         type: 'market-price',
         providedBy: ['chainlink'],
       },
+      [TokenSymbol('wstETH')]: {
+        type: 'market-price',
+        providedBy: ['chainlink'],
+      },
       [TokenSymbol('GNO')]: {
         type: 'market-price',
         providedBy: ['chainlink'],
@@ -248,8 +257,14 @@ const chainConfig: ChainConfig = {
       [TokenSymbol('USDT')]: {
         type: 'fixed',
       },
-      [TokenSymbol('XDAI')]: {
+      [TokenSymbol('WXDAI')]: {
         type: 'fixed',
+      },
+      [TokenSymbol('sDAI')]: {
+        type: 'yielding-fixed',
+        baseAsset: TokenSymbol('XDAI'),
+        providedBy: ['chainlink'],
+        oracleFetcher: fetchSdaiOracleInfoGnosis,
       },
     },
   },

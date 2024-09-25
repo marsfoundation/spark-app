@@ -59,13 +59,13 @@ export function oracleQueryOptions({ reserve, marketInfo, wagmiConfig }: OracleQ
 
         case 'yielding-fixed': {
           const baseTokenReserve = marketInfo.findOneReserveBySymbol(oracleConfig.baseAsset)
-
-          const ratio = await oracleConfig.ratio({ reserve, wagmiConfig })
+          const { ratio, baseAssetOracle } = await oracleConfig.oracleFetcher({ reserve, wagmiConfig })
 
           return {
             ...oracleInfoBase,
             baseTokenReserve,
             ratio,
+            baseAssetOracle,
             type: oracleConfig.type,
             baseAsset: oracleConfig.baseAsset,
             providedBy: oracleConfig.providedBy,

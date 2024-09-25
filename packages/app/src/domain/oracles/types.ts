@@ -22,6 +22,7 @@ export interface YieldingFixedOracleInfo extends OracleInfoBase {
   type: 'yielding-fixed'
   baseTokenReserve: Reserve
   ratio: NormalizedUnitNumber
+  baseAssetOracle: CheckedAddress
   baseAsset: TokenSymbol
   providedBy: OracleFeedProvider[]
 }

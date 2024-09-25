@@ -104,6 +104,7 @@ const args: MarketDetailsViewProps = {
       type: 'yielding-fixed',
       baseAsset: TokenSymbol('WETH'),
       providedBy: ['chainlink'],
+      baseAssetOracle: CheckedAddress('0x69115a2826Eb47FE9DFD1d5CA8D8642697c8b68A'),
     },
   },
 }

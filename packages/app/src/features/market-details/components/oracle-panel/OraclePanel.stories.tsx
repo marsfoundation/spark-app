@@ -87,7 +87,8 @@ const yieldingFixedData: YieldingFixedOracleInfo = {
   }),
   token: tokens.weETH,
   chainId: 1,
-  priceOracleAddress: CheckedAddress('0x1234567890123456789012345678901234567890'),
+  priceOracleAddress: CheckedAddress('0x28897036f8459bFBa886083dD6b4Ce4d2f14a57F'),
+  baseAssetOracle: CheckedAddress('0xb20A1374EfCaFa32F701Ab14316fA2E5b3400eD5'),
 }
 
 export const YieldingFixedDesktop: Story = {
