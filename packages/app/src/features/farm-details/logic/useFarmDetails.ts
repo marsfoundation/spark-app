@@ -17,6 +17,7 @@ import { unstakeDialogConfig } from '../dialogs/unstake/UnstakeDialog'
 import { FarmHistoryItem } from './historic/types'
 import { useFarmHistoricData } from './historic/useFarmHistoricData'
 import { useFarmDetailsParams } from './useFarmDetailsParams'
+import { useSandboxFarmRedirect } from './useSandboxFarmRedirect'
 
 export interface UseFarmDetailsResult {
   chainId: number
@@ -44,6 +45,8 @@ export function useFarmDetails(): UseFarmDetailsResult {
   const { openConnectModal = () => {} } = useConnectModal()
   const openDialog = useOpenDialog()
   const chainConfig = getChainConfigEntry(chainId)
+
+  useSandboxFarmRedirect()
 
   const { farmsInfo } = useFarmsInfo({ chainId })
   const { farmHistoricData } = useFarmHistoricData({ chainId, farmAddress })
