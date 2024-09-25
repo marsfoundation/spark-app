@@ -52,6 +52,10 @@ const TOKENS_ON_MAINNET = {
     address: '0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD',
     decimals: 18,
   },
+  SKY: {
+    address: '0x56072c95faa701256059aa122697b133aded9279',
+    decimals: 18,
+  },
 } as const
 
 export const TOKENS_ON_FORK = {

@@ -212,12 +212,33 @@ export const testIds = makeTestIds({
         outcome: true,
       },
     },
+    unstakeDialog: {
+      transactionOverview: {
+        route: {
+          farm: {
+            farmName: true,
+            stakingToken: true,
+          },
+        },
+        outcome: true,
+      },
+    },
+    claimDialog: {
+      transactionOverview: {
+        rewardTokenSymbol: true,
+        rewardTokenDescription: true,
+        rewardAmount: true,
+        rewardAmountUSD: true,
+      },
+    },
     infoPanel: {
       stakeButton: true,
     },
     activeFarmInfoPanel: {
       rewards: true,
       staked: true,
+      unstakeButton: true,
+      claimButton: true,
     },
   },
 })
