@@ -111,7 +111,7 @@ const meta: Meta<typeof UnstakeView> = {
         token: tokens.USDS,
         amount: NormalizedUnitNumber(100),
         farm: farm.address,
-        exit: false
+        exit: false,
       },
     ],
     pageStatus: {

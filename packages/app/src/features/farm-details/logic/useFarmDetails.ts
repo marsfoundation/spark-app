@@ -1,4 +1,5 @@
 import { getChainConfigEntry } from '@/config/chain'
+import { sortByUsdValueWithUsdsPriority } from '@/domain/common/sorters'
 import { TokenWithBalance } from '@/domain/common/types'
 import { NotFoundError } from '@/domain/errors/not-found'
 import { Farm, FarmDetailsRowData } from '@/domain/farms/types'
@@ -16,7 +17,6 @@ import { UnstakeDialog } from '../dialogs/unstake/UnstakeDialog'
 import { FarmHistoryItem } from './historic/types'
 import { useFarmHistoricData } from './historic/useFarmHistoricData'
 import { useFarmDetailsParams } from './useFarmDetailsParams'
-import { sortByUsdValueWithUsdsPriority } from '@/domain/common/sorters'
 
 export interface UseFarmDetailsResult {
   chainId: number
