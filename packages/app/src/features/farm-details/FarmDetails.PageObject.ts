@@ -18,6 +18,10 @@ export class FarmDetailsPageObject extends BasePageObject {
     await this.page.getByTestId(testIds.farmDetails.infoPanel.stakeButton).click()
   }
 
+  async clickInfoPanelUnstakeButtonAction(): Promise<void> {
+    await this.page.getByTestId(testIds.farmDetails.activeFarmInfoPanel.unstakeButton).click()
+  }
+
   async clickInfoPanelClaimButtonAction(): Promise<void> {
     await this.page.getByTestId(testIds.farmDetails.activeFarmInfoPanel.claimButton).click()
   }
