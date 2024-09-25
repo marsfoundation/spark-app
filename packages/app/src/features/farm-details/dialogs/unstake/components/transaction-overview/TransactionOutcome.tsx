@@ -22,27 +22,24 @@ export function TransactionOutcome({
   const earnedRewardsAmount = rewardToken.format(earnedRewards, { style: 'auto' })
   const earnedRewardsUsdValue = rewardToken.formatUSD(earnedRewards)
 
-  const unstakeText = `${outcomeTokenAmount} ${outcomeToken.symbol} worth ${outcomeTokenUsdValue}`
-  const unstakeTextMobile = `${outcomeTokenAmount} ${outcomeToken.symbol}`
-  const exitText = `${outcomeTokenAmount} ${outcomeToken.symbol} (${outcomeTokenUsdValue}) + ${earnedRewardsAmount} ${rewardToken.symbol} (${earnedRewardsUsdValue})`
-  const exitTextMobile = `${outcomeTokenAmount} ${outcomeToken.symbol} + ${earnedRewardsAmount} ${rewardToken.symbol}`
+  const [textContent, mobileTextContent] = (() => {
+    if (isExiting) {
+      const exitText = `${outcomeTokenAmount} ${outcomeToken.symbol} (${outcomeTokenUsdValue}) + ${earnedRewardsAmount} ${rewardToken.symbol} (${earnedRewardsUsdValue})`
+      const exitTextMobile = `${outcomeTokenAmount} ${outcomeToken.symbol} + ${earnedRewardsAmount} ${rewardToken.symbol}`
+      return [exitText, exitTextMobile]
+    }
+    const unstakeText = `${outcomeTokenAmount} ${outcomeToken.symbol} worth ${outcomeTokenUsdValue}`
+    const unstakeTextMobile = `${outcomeTokenAmount} ${outcomeToken.symbol}`
+    return [unstakeText, unstakeTextMobile]
+  })()
 
   return (
     <div
       className="flex flex-col items-end gap-0.5 md:block"
       data-testid={testIds.farmDetails.unstakeDialog.transactionOverview.outcome}
     >
-      {isExiting ? (
-        <>
-          <span className="hidden sm:inline">{exitText}</span>
-          <span className="sm:hidden">{exitTextMobile}</span>
-        </>
-      ) : (
-        <>
-          <span className="hidden sm:inline">{unstakeText}</span>
-          <span className="sm:hidden">{unstakeTextMobile}</span>
-        </>
-      )}
+      <span className="hidden sm:inline">{textContent}</span>
+      <span className="sm:hidden">{mobileTextContent}</span>
     </div>
   )
 }
