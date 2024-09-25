@@ -212,6 +212,17 @@ export const testIds = makeTestIds({
         outcome: true,
       },
     },
+    unstakeDialog: {
+      transactionOverview: {
+        route: {
+          farm: {
+            farmName: true,
+            stakingToken: true,
+          },
+        },
+        outcome: true,
+      },
+    },
     claimDialog: {
       transactionOverview: {
         rewardTokenSymbol: true,
@@ -226,6 +237,7 @@ export const testIds = makeTestIds({
     activeFarmInfoPanel: {
       rewards: true,
       staked: true,
+      unstakeButton: true,
       claimButton: true,
     },
   },

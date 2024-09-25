@@ -10,9 +10,15 @@ export interface ActiveFarmInfoPanelProps {
   farmDetailsRowData: FarmDetailsRowData
   farm: Farm
   openClaimDialog: () => void
+  openUnstakeDialog: () => void
 }
 
-export function ActiveFarmInfoPanel({ farmDetailsRowData, farm, openClaimDialog }: ActiveFarmInfoPanelProps) {
+export function ActiveFarmInfoPanel({
+  farmDetailsRowData,
+  farm,
+  openClaimDialog,
+  openUnstakeDialog,
+}: ActiveFarmInfoPanelProps) {
   const { rewardToken, stakingToken, staked } = farm
 
   return (
@@ -26,8 +32,13 @@ export function ActiveFarmInfoPanel({ farmDetailsRowData, farm, openClaimDialog 
           <Button size="sm" onClick={openClaimDialog} data-testid={testIds.farmDetails.activeFarmInfoPanel.claimButton}>
             Claim {rewardToken.symbol}
           </Button>
-          <Button size="sm" variant="secondary">
-            Withdraw {stakingToken.symbol}
+          <Button
+            size="sm"
+            variant="secondary"
+            onClick={openUnstakeDialog}
+            data-testid={testIds.farmDetails.activeFarmInfoPanel.unstakeButton}
+          >
+            Withdraw
           </Button>
         </div>
       </div>

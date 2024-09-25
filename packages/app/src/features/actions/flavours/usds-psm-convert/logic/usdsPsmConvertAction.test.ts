@@ -98,7 +98,7 @@ describe(createUsdsPsmConvertActionConfig.name, () => {
           to: getContractAddress(usdsPsmWrapperConfig.address, chainId),
           abi: usdsPsmWrapperConfig.abi,
           functionName: 'buyGem',
-          args: [account, toBigInt(usds.toBaseUnit(amount))],
+          args: [account, toBigInt(usdc.toBaseUnit(amount))],
           from: account,
           result: toBigInt(usds.toBaseUnit(amount)),
         }),
