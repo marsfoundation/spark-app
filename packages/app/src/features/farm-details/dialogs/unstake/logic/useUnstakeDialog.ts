@@ -27,7 +27,7 @@ export interface UseUnstakeDialogResult {
   assetsFields: FormFieldsForDialog
   form: UseFormReturn<AssetInputSchema>
   objectives: Objective[]
-  stakedToken: TokenWithValue
+  outcomeToken: TokenWithValue
   pageStatus: PageStatus
   txOverview: TxOverview
   actionsContext: InjectedActionsContext
@@ -72,14 +72,14 @@ export function useUnstakeDialog({ farm, initialToken }: UseStakeDialogParams): 
     formValues,
   })
 
-  const stakingTokenRouteItem =
+  const outcomeTokenRouteItem =
     txOverview.status === 'success'
       ? txOverview.routeToOutcomeToken.at(-1) ?? raise('Route should be defined')
       : undefined
 
-  const stakedToken = {
-    token: farm.stakingToken,
-    value: stakingTokenRouteItem?.value ?? NormalizedUnitNumber(0),
+  const outcomeToken = {
+    token: outcomeTokenRouteItem?.token ?? farm.stakingToken,
+    value: outcomeTokenRouteItem?.value ?? NormalizedUnitNumber(0),
   }
 
   const actionsEnabled = formValues.value.gt(0) && isFormValid && !isDebouncing
@@ -89,7 +89,7 @@ export function useUnstakeDialog({ farm, initialToken }: UseStakeDialogParams): 
     assetsFields: getFormFieldsForUnstakeDialog({ form, tokensInfo, farm }),
     form,
     objectives,
-    stakedToken,
+    outcomeToken,
     txOverview,
     pageStatus: {
       state: pageStatus,

@@ -13,7 +13,7 @@ export interface StakeContainerProps {
 }
 
 function UnstakeDialogContentContainer({ farm, initialToken, closeDialog }: StakeContainerProps) {
-  const { selectableAssets, assetsFields, form, stakedToken, objectives, pageStatus, txOverview, actionsContext } =
+  const { selectableAssets, assetsFields, form, outcomeToken, objectives, pageStatus, txOverview, actionsContext } =
     useUnstakeDialog({
       farm,
       initialToken,
@@ -23,7 +23,7 @@ function UnstakeDialogContentContainer({ farm, initialToken, closeDialog }: Stak
     return (
       <SuccessView
         objectiveType="unstake"
-        tokenWithValue={stakedToken}
+        tokenWithValue={outcomeToken}
         proceedText="Back to Farm"
         onProceed={closeDialog}
       />
