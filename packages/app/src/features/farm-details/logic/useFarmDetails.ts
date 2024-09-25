@@ -2,7 +2,7 @@ import { getChainConfigEntry } from '@/config/chain'
 import { sortByUsdValueWithUsdsPriority } from '@/domain/common/sorters'
 import { TokenWithBalance } from '@/domain/common/types'
 import { NotFoundError } from '@/domain/errors/not-found'
-import { Farm, FarmDetailsRowData } from '@/domain/farms/types'
+import { Farm } from '@/domain/farms/types'
 import { useFarmsInfo } from '@/domain/farms/useFarmsInfo'
 import { useOpenDialog } from '@/domain/state/dialogs'
 import { Token } from '@/domain/types/Token'
@@ -24,7 +24,6 @@ export interface UseFarmDetailsResult {
   chainMismatch: boolean
   walletConnected: boolean
   farm: Farm
-  farmDetailsRowData: FarmDetailsRowData
   farmHistoricData: FarmHistoryItem[]
   tokensToDeposit: TokenWithBalance[]
   isFarmActive: boolean
@@ -65,11 +64,6 @@ export function useFarmDetails(): UseFarmDetailsResult {
     walletConnected,
     farm,
     farmHistoricData,
-    farmDetailsRowData: {
-      tvl: farm.totalSupply,
-      apy: farm.apy,
-      depositors: farm.depositors,
-    },
     tokensToDeposit,
     hasTokensToDeposit,
     isFarmActive: farm.staked.gt(0) || farm.earned.gt(0),

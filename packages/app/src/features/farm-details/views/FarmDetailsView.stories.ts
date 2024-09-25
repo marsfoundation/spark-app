@@ -18,7 +18,6 @@ const meta: Meta<typeof FarmDetailsView> = {
     chainId: 1,
     chainMismatch: false,
     walletConnected: true,
-    isFarmActive: true,
     farm: {
       address: CheckedAddress('0x1234567890123456789012345678901234567890'),
       apy: Percentage(0.05),
@@ -37,11 +36,7 @@ const meta: Meta<typeof FarmDetailsView> = {
       totalSupply: NormalizedUnitNumber(100_000),
       depositors: 6,
     },
-    farmDetailsRowData: {
-      depositors: 6,
-      tvl: NormalizedUnitNumber(57_891),
-      apy: Percentage(0.05),
-    },
+    isFarmActive: true,
     tokensToDeposit: [
       {
         token: tokens.USDS,
@@ -105,7 +100,6 @@ export const NoDepositWithRewardsTablet = getTabletStory(NoDepositWithRewards)
 
 export const InactiveDesktop: Story = {
   args: {
-    isFarmActive: false,
     farm: {
       address: CheckedAddress('0x1234567890123456789012345678901234567890'),
       apy: Percentage(0.05),
@@ -124,6 +118,7 @@ export const InactiveDesktop: Story = {
       totalSupply: NormalizedUnitNumber(100_000),
       depositors: 6,
     },
+    isFarmActive: false,
   },
 }
 export const InactiveMobile = getMobileStory(InactiveDesktop)
@@ -131,7 +126,6 @@ export const InactiveTablet = getTabletStory(InactiveDesktop)
 
 export const NotConnectedDesktop: Story = {
   args: {
-    isFarmActive: false,
     farm: {
       address: CheckedAddress('0x1234567890123456789012345678901234567890'),
       apy: Percentage(0.05),
@@ -150,6 +144,7 @@ export const NotConnectedDesktop: Story = {
       totalSupply: NormalizedUnitNumber(100_000),
       depositors: 6,
     },
+    isFarmActive: false,
     walletConnected: false,
   },
 }

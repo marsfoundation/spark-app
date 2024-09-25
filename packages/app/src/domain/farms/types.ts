@@ -14,12 +14,6 @@ export interface FarmConfig {
   entryAssetsGroup: AssetsGroup
 }
 
-export interface FarmDetailsRowData {
-  depositors: number
-  tvl: NormalizedUnitNumber
-  apy: Percentage
-}
-
 export interface Farm {
   address: CheckedAddress
   entryAssetsGroup: AssetsGroup
