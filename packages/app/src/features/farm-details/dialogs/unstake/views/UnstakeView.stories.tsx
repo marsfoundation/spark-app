@@ -4,6 +4,7 @@ import { PotSavingsInfo } from '@/domain/savings-info/potSavingsInfo'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
+import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { bigNumberify } from '@/utils/bigNumber'
 import { WithClassname, WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
@@ -76,7 +77,13 @@ const mockedFarmsInfo = new FarmsInfo([farm])
 const meta: Meta<typeof UnstakeView> = {
   title: 'Features/FarmDetails/Dialogs/Views/Unstake',
   component: (args) => {
-    const form = useForm() as any
+    const form = useForm<AssetInputSchema>({
+      defaultValues: {
+        symbol: args.assetsFields.selectedAsset.token.symbol,
+        value: args.assetsFields.selectedAsset.value,
+        isMaxSelected: args.assetsFields.selectedAsset.value === args.assetsFields.maxValue?.toFixed(),
+      },
+    })
     return <UnstakeView {...args} form={form} />
   },
   decorators: [ZeroAllowanceWagmiDecorator(), WithClassname('max-w-xl'), WithTooltipProvider()],
@@ -85,7 +92,7 @@ const meta: Meta<typeof UnstakeView> = {
     selectableAssets: [
       {
         token: tokens.USDS,
-        balance: NormalizedUnitNumber(50000),
+        balance: NormalizedUnitNumber(50_000),
       },
       {
         token: tokens.DAI,
@@ -99,10 +106,10 @@ const meta: Meta<typeof UnstakeView> = {
     assetsFields: {
       selectedAsset: {
         token: tokens.USDS,
-        balance: NormalizedUnitNumber(50000),
+        balance: NormalizedUnitNumber(50_000),
         value: '2000',
       },
-      maxValue: NormalizedUnitNumber(50000),
+      maxValue: NormalizedUnitNumber(50_000),
       changeAsset: () => {},
     },
     objectives: [
@@ -175,6 +182,15 @@ export const WithExitFarmSwitch: Story = {
         exit: true,
       },
     ],
+    assetsFields: {
+      selectedAsset: {
+        token: tokens.USDS,
+        balance: NormalizedUnitNumber(50_000),
+        value: '50000',
+      },
+      maxValue: NormalizedUnitNumber(50_000),
+      changeAsset: () => {},
+    },
     txOverview: {
       status: 'success',
       stakingToken: tokens.USDS,
@@ -201,6 +217,15 @@ export const WithExitFarmSwitchUnchecked: Story = {
         token: tokens.SKY,
         value: NormalizedUnitNumber(2311.34),
       },
+    },
+    assetsFields: {
+      selectedAsset: {
+        token: tokens.USDS,
+        balance: NormalizedUnitNumber(50_000),
+        value: '50000',
+      },
+      maxValue: NormalizedUnitNumber(50_000),
+      changeAsset: () => {},
     },
     objectives: [
       {
