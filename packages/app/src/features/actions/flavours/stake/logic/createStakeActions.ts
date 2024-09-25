@@ -65,7 +65,7 @@ export function createStakeActions(objective: StakeObjective, context: ActionCon
         mode: 'withdraw',
       }
 
-      const withdrawReceipt = context.txReceipts.find(([action]) => action.type === 'withdrawFromSavings')?.[1]
+      const [, withdrawReceipt] = context.txReceipts.find(([action]) => action.type === 'withdrawFromSavings') ?? []
       const stakeAmount = withdrawReceipt
         ? getStakeAmountFromWithdrawReceipt(objective.token, withdrawReceipt)
         : NormalizedUnitNumber(0)
