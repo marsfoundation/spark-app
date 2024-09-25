@@ -4,6 +4,7 @@ import { PotSavingsInfo } from '@/domain/savings-info/potSavingsInfo'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
+import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { bigNumberify } from '@/utils/bigNumber'
 import { WithClassname, WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
@@ -76,7 +77,13 @@ const mockedFarmsInfo = new FarmsInfo([farm])
 const meta: Meta<typeof UnstakeView> = {
   title: 'Features/FarmDetails/Dialogs/Views/Unstake',
   component: (args) => {
-    const form = useForm() as any
+    const form = useForm<AssetInputSchema>({
+      defaultValues: {
+        symbol: args.assetsFields.selectedAsset.token.symbol,
+        value: args.assetsFields.selectedAsset.value,
+        isMaxSelected: args.assetsFields.selectedAsset.value === args.assetsFields.maxValue?.toFixed(),
+      },
+    })
     return <UnstakeView {...args} form={form} />
   },
   decorators: [ZeroAllowanceWagmiDecorator(), WithClassname('max-w-xl'), WithTooltipProvider()],
@@ -85,7 +92,7 @@ const meta: Meta<typeof UnstakeView> = {
     selectableAssets: [
       {
         token: tokens.USDS,
-        balance: NormalizedUnitNumber(50000),
+        balance: NormalizedUnitNumber(50_000),
       },
       {
         token: tokens.DAI,
@@ -99,10 +106,11 @@ const meta: Meta<typeof UnstakeView> = {
     assetsFields: {
       selectedAsset: {
         token: tokens.USDS,
-        balance: NormalizedUnitNumber(50000),
+        balance: NormalizedUnitNumber(50_000),
         value: '2000',
       },
-      maxValue: NormalizedUnitNumber(50000),
+      maxValue: NormalizedUnitNumber(50_000),
+      maxSelectedFieldName: 'isMaxSelected',
       changeAsset: () => {},
     },
     objectives: [
@@ -123,10 +131,21 @@ const meta: Meta<typeof UnstakeView> = {
       status: 'success',
       stakingToken: tokens.USDS,
       rewardToken: tokens.SKY,
+      isExiting: false,
+      earnedRewards: NormalizedUnitNumber(2311.34),
       routeToOutcomeToken: [
         { token: tokens.USDS, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },
         { token: tokens.USDC, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },
       ],
+    },
+    exitFarmSwitchInfo: {
+      showSwitch: false,
+      onSwitch: () => {},
+      checked: false,
+      reward: {
+        token: tokens.SKY,
+        value: NormalizedUnitNumber(2311.34),
+      },
     },
     actionsContext: {
       tokensInfo: mockTokensInfo,
@@ -143,3 +162,84 @@ type Story = StoryObj<typeof UnstakeView>
 export const Desktop: Story = {}
 export const Mobile = getMobileStory(Desktop)
 export const Tablet = getTabletStory(Desktop)
+
+export const WithExitFarmSwitch: Story = {
+  args: {
+    exitFarmSwitchInfo: {
+      showSwitch: true,
+      onSwitch: () => {},
+      checked: true,
+      reward: {
+        token: tokens.SKY,
+        value: NormalizedUnitNumber(2311.34),
+      },
+    },
+    objectives: [
+      {
+        type: 'unstake',
+        token: tokens.USDS,
+        amount: NormalizedUnitNumber(100),
+        farm: farm.address,
+        exit: true,
+      },
+    ],
+    assetsFields: {
+      selectedAsset: {
+        token: tokens.USDS,
+        balance: NormalizedUnitNumber(50_000),
+        value: '50000',
+      },
+      maxValue: NormalizedUnitNumber(50_000),
+      maxSelectedFieldName: 'isMaxSelected',
+      changeAsset: () => {},
+    },
+    txOverview: {
+      status: 'success',
+      stakingToken: tokens.USDS,
+      rewardToken: tokens.SKY,
+      isExiting: true,
+      earnedRewards: NormalizedUnitNumber(2311.34),
+      routeToOutcomeToken: [
+        { token: tokens.USDS, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },
+        { token: tokens.USDC, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },
+      ],
+    },
+  },
+}
+export const WithExitFarmSwitchMobile = getMobileStory(WithExitFarmSwitch)
+export const WithExitFarmSwitchTablet = getTabletStory(WithExitFarmSwitch)
+
+export const WithExitFarmSwitchUnchecked: Story = {
+  args: {
+    exitFarmSwitchInfo: {
+      showSwitch: true,
+      onSwitch: () => {},
+      checked: false,
+      reward: {
+        token: tokens.SKY,
+        value: NormalizedUnitNumber(2311.34),
+      },
+    },
+    assetsFields: {
+      selectedAsset: {
+        token: tokens.USDS,
+        balance: NormalizedUnitNumber(50_000),
+        value: '50000',
+      },
+      maxValue: NormalizedUnitNumber(50_000),
+      maxSelectedFieldName: 'isMaxSelected',
+      changeAsset: () => {},
+    },
+    objectives: [
+      {
+        type: 'unstake',
+        token: tokens.USDS,
+        amount: NormalizedUnitNumber(100),
+        farm: farm.address,
+        exit: false,
+      },
+    ],
+  },
+}
+export const WithExitFarmSwitchUncheckedMobile = getMobileStory(WithExitFarmSwitch)
+export const WithExitFarmSwitchUncheckedTablet = getTabletStory(WithExitFarmSwitch)

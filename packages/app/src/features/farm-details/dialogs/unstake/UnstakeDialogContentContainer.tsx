@@ -1,9 +1,9 @@
 import { Farm } from '@/domain/farms/types'
 import { Token } from '@/domain/types/Token'
 import { DialogContentSkeleton } from '@/features/dialogs/common/components/skeletons/DialogContentSkeleton'
-import { SuccessView } from '@/features/dialogs/common/views/SuccessView'
 import { withSuspense } from '@/ui/utils/withSuspense'
 import { useUnstakeDialog } from './logic/useUnstakeDialog'
+import { SuccessView } from './views/SuccessView'
 import { UnstakeView } from './views/UnstakeView'
 
 export interface StakeContainerProps {
@@ -13,19 +13,28 @@ export interface StakeContainerProps {
 }
 
 function UnstakeDialogContentContainer({ farm, initialToken, closeDialog }: StakeContainerProps) {
-  const { selectableAssets, assetsFields, form, outcomeToken, objectives, pageStatus, txOverview, actionsContext } =
-    useUnstakeDialog({
-      farm,
-      initialToken,
-    })
+  const {
+    selectableAssets,
+    assetsFields,
+    form,
+    outcomeToken,
+    objectives,
+    pageStatus,
+    txOverview,
+    exitFarmSwitchInfo,
+    actionsContext,
+  } = useUnstakeDialog({
+    farm,
+    initialToken,
+  })
 
   if (pageStatus.state === 'success') {
     return (
       <SuccessView
-        objectiveType="unstake"
-        tokenWithValue={outcomeToken}
-        proceedText="Back to Farm"
-        onProceed={closeDialog}
+        outcome={outcomeToken}
+        reward={exitFarmSwitchInfo.reward}
+        closeDialog={closeDialog}
+        isExiting={exitFarmSwitchInfo.checked}
       />
     )
   }
@@ -39,6 +48,7 @@ function UnstakeDialogContentContainer({ farm, initialToken, closeDialog }: Stak
       pageStatus={pageStatus}
       txOverview={txOverview}
       farm={farm}
+      exitFarmSwitchInfo={exitFarmSwitchInfo}
       actionsContext={actionsContext}
     />
   )

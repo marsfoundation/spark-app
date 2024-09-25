@@ -68,7 +68,7 @@ test.describe('Stake sDAI to SKY farm', () => {
           lowerText: 'Staked',
         },
       },
-      outcome: '1,108.59 USDS ($1,108.59) staked in SKY Farm',
+      outcome: '1,108.59 USDS deposited into SKY Farm',
     })
   })
 

@@ -7,6 +7,8 @@ import { TxOverviewRouteItem } from '@/features/dialogs/common/types'
 export interface CreateTxOverviewParams {
   formValues: TransferFromUserFormNormalizedData
   farm: Farm
+  isExiting: boolean
+  earnedRewards: NormalizedUnitNumber
 }
 
 export type TxOverview =
@@ -15,10 +17,12 @@ export type TxOverview =
       status: 'success'
       stakingToken: Token
       rewardToken: Token
+      earnedRewards: NormalizedUnitNumber
+      isExiting: boolean
       routeToOutcomeToken: TxOverviewRouteItem[]
     }
 
-export function createTxOverview({ formValues, farm }: CreateTxOverviewParams): TxOverview {
+export function createTxOverview({ formValues, farm, isExiting, earnedRewards }: CreateTxOverviewParams): TxOverview {
   const value = formValues.value
   if (value.eq(0)) {
     return { status: 'no-overview' }
@@ -33,7 +37,9 @@ export function createTxOverview({ formValues, farm }: CreateTxOverviewParams): 
     status: 'success',
     stakingToken: farm.stakingToken,
     rewardToken: farm.rewardToken,
+    earnedRewards,
     routeToOutcomeToken,
+    isExiting,
   }
 }
 
