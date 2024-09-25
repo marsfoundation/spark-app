@@ -1,4 +1,5 @@
 import { getChainConfigEntry } from '@/config/chain'
+import { sortByUsdValueWithUsdsPriority } from '@/domain/common/sorters'
 import { TokenWithBalance } from '@/domain/common/types'
 import { NotFoundError } from '@/domain/errors/not-found'
 import { Farm, FarmDetailsRowData } from '@/domain/farms/types'
@@ -12,7 +13,7 @@ import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { useAccount, useChainId } from 'wagmi'
 import { claimDialogConfig } from '../dialogs/claim/ClaimDialog'
 import { stakeDialogConfig } from '../dialogs/stake/StakeDialog'
-import { sortByUsdValueWithUsdsPriority } from '../dialogs/stake/logic/sortByUsdValueWithUsdsPriority'
+import { unstakeDialogConfig } from '../dialogs/unstake/UnstakeDialog'
 import { FarmHistoryItem } from './historic/types'
 import { useFarmHistoricData } from './historic/useFarmHistoricData'
 import { useFarmDetailsParams } from './useFarmDetailsParams'
@@ -27,6 +28,7 @@ export interface UseFarmDetailsResult {
   tokensToDeposit: TokenWithBalance[]
   hasTokensToDeposit: boolean
   openStakeDialog: (initialToken: Token) => void
+  openUnstakeDialog: () => void
   openClaimDialog: () => void
   openDefaultedStakeDialog: () => void
   openConnectModal: () => void
@@ -66,6 +68,7 @@ export function useFarmDetails(): UseFarmDetailsResult {
     },
     tokensToDeposit,
     hasTokensToDeposit,
+    openUnstakeDialog: () => openDialog(unstakeDialogConfig, { farm, initialToken: farm.stakingToken }),
     openStakeDialog: (initialToken: Token) => openDialog(stakeDialogConfig, { farm, initialToken }),
     openDefaultedStakeDialog: () =>
       mostValuableToken ? openDialog(stakeDialogConfig, { farm, initialToken: mostValuableToken.token }) : undefined,

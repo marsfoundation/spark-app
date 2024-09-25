@@ -25,6 +25,7 @@ export interface FarmDetailsViewProps {
   openClaimDialog: () => void
   openConnectModal: () => void
   openSandboxModal: () => void
+  openUnstakeDialog: () => void
 }
 
 export function FarmDetailsView({
@@ -41,6 +42,7 @@ export function FarmDetailsView({
   openClaimDialog,
   openConnectModal,
   openSandboxModal,
+  openUnstakeDialog,
 }: FarmDetailsViewProps) {
   return (
     <div className="w-full max-w-5xl pt-12 pb-8 lg:mx-auto sm:mx-3">
@@ -53,6 +55,7 @@ export function FarmDetailsView({
               farm={farm}
               farmDetailsRowData={farmDetailsRowData}
               openClaimDialog={openClaimDialog}
+              openUnstakeDialog={openUnstakeDialog}
             />
           )}
           {farm.staked.eq(0) && (

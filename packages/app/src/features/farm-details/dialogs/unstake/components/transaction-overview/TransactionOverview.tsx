@@ -9,8 +9,7 @@ import { testIds } from '@/ui/utils/testIds'
 import { assert } from '@/utils/assert'
 import { TransactionOverviewDetailsItem } from '../../../common/components/TransactionOverviewDetailsItem'
 import { TxOverview } from '../../logic/createTxOverview'
-import { FarmDestinationRouteItem } from './FarmDestinationRouteItem'
-import { RewardsDetails } from './RewardsDetails'
+import { FarmRouteItem } from './FarmRouteItem'
 import { TransactionOutcome } from './TransactionOutcome'
 import { TransactionOverviewPlaceholder } from './TransactionOverviewPlaceholder'
 
@@ -23,41 +22,38 @@ export function TransactionOverview({ txOverview, selectedToken }: TransactionOv
   if (txOverview.status !== 'success') {
     return <TransactionOverviewPlaceholder badgeToken={selectedToken} />
   }
-  const { apy, stakingToken, rewardToken, rewardsPerYear, routeToStakingToken } = txOverview
+  const { rewardToken, routeToOutcomeToken, stakingToken } = txOverview
 
-  assert(routeToStakingToken.length > 0, 'Route must have at least one item')
-  const stakingTokenRouteItem = routeToStakingToken.at(-1)!
+  assert(routeToOutcomeToken.length > 0, 'Route must have at least one item')
+  const outcomeTokenRouteItem = routeToOutcomeToken.at(-1)!
   const displayRouteVertically = Boolean(
-    routeToStakingToken.length > 2 && routeToStakingToken[0]?.value?.gte(NormalizedUnitNumber(100_000)),
+    routeToOutcomeToken.length > 1 && routeToOutcomeToken[0]?.value?.gte(NormalizedUnitNumber(100_000)),
   )
 
   return (
     <div className="isolate">
       <DialogPanel className="shadow-none">
         <DialogPanelTitle>Transaction overview</DialogPanelTitle>
-        <TransactionOverviewDetailsItem label="Estimated Rewards">
-          <RewardsDetails apy={apy} rewardsPerYear={rewardsPerYear} rewardToken={rewardToken} />
-        </TransactionOverviewDetailsItem>
         <TransactionOverviewDetailsItem label="Route">
           <div className={cn('flex flex-col items-end gap-2', !displayRouteVertically && 'md:flex-row')}>
-            {routeToStakingToken.map((item, index) => (
-              <RouteItem
-                key={item.token.symbol}
-                item={item}
-                index={index}
-                isLast={false}
-                displayRouteVertically={displayRouteVertically}
-              />
-            ))}
-            <FarmDestinationRouteItem
+            <FarmRouteItem
               stakingToken={stakingToken.symbol}
               rewardsToken={rewardToken.symbol}
               displayRouteVertically={displayRouteVertically}
             />
+            {routeToOutcomeToken.map((item, index) => (
+              <RouteItem
+                key={item.token.symbol}
+                item={item}
+                index={index}
+                isLast={index === routeToOutcomeToken.length - 1}
+                displayRouteVertically={displayRouteVertically}
+              />
+            ))}
           </div>
         </TransactionOverviewDetailsItem>
         <TransactionOverviewDetailsItem label="Outcome">
-          <TransactionOutcome stakingTokenRouteItem={stakingTokenRouteItem} rewardToken={rewardToken.symbol} />
+          <TransactionOutcome outcomeTokenRouteItem={outcomeTokenRouteItem} rewardToken={rewardToken.symbol} />
         </TransactionOverviewDetailsItem>
       </DialogPanel>
 
