@@ -1,9 +1,12 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { migrationActionsConfig, usdsPsmWrapperConfig } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
+import { BaseUnitNumber, NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { Action, ActionContext } from '@/features/actions/logic/types'
 import { assert, raise } from '@/utils/assert'
+import { TransactionReceipt, decodeEventLog, erc4626Abi } from 'viem'
 import { ApproveAction } from '../../approve/types'
 import { UpgradeAction } from '../../upgrade/types'
 import { UsdsPsmConvertAction } from '../../usds-psm-convert/types'
@@ -53,9 +56,6 @@ export function createStakeActions(objective: StakeObjective, context: ActionCon
     }
 
     if (objective.token.symbol === sDaiSymbol || objective.token.symbol === sUSDSSymbol) {
-      const { savingsDaiInfo, savingsUsdsInfo } = context
-      assert(savingsDaiInfo && savingsUsdsInfo, 'Savings info is required when input for stake is savings token')
-
       const withdrawObjective: WithdrawFromSavingsObjective = {
         type: 'withdrawFromSavings',
         token: stakingToken,
@@ -65,10 +65,10 @@ export function createStakeActions(objective: StakeObjective, context: ActionCon
         mode: 'withdraw',
       }
 
-      const stakeAmount =
-        objective.token.symbol === sDaiSymbol
-          ? savingsDaiInfo.convertToAssets({ shares: objective.amount })
-          : savingsUsdsInfo.convertToAssets({ shares: objective.amount })
+      const withdrawReceipt = context.txReceipts.find(([action]) => action.type === 'withdrawFromSavings')?.[1]
+      const stakeAmount = withdrawReceipt
+        ? getStakeAmountFromWithdrawReceipt(objective.token, withdrawReceipt)
+        : NormalizedUnitNumber(0)
 
       return [
         ...createWithdrawFromSavingsActions(withdrawObjective, context),
@@ -100,4 +100,22 @@ export function createStakeActions(objective: StakeObjective, context: ActionCon
   }
 
   return [approveStakeAction, stakeAction]
+}
+
+function getStakeAmountFromWithdrawReceipt(token: Token, receipt: TransactionReceipt): NormalizedUnitNumber {
+  for (const log of receipt.logs) {
+    try {
+      const decodedLog = decodeEventLog({
+        abi: erc4626Abi,
+        data: log.data,
+        topics: log.topics,
+      })
+      if (decodedLog.eventName === 'Withdraw') {
+        return token.fromBaseUnit(BaseUnitNumber(decodedLog.args.assets))
+      }
+    } catch {
+      // ignore error - there may be some other events we are not able to parse
+    }
+  }
+  throw new Error('Withdraw receipt does not contain withdraw event')
 }

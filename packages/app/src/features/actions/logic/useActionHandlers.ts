@@ -1,11 +1,12 @@
 import { useActionsSettings } from '@/domain/state'
 import { useConnectedAddress } from '@/domain/wallet/useConnectedAddress'
 import { useMemo, useState } from 'react'
+import { TransactionReceipt } from 'viem'
 import { useChainId, useConfig } from 'wagmi'
 import { getFakePermitAction } from '../flavours/permit/logic/getFakePermitAction'
 import { useCreatePermitHandler } from '../flavours/permit/logic/useCreatePermitHandler'
 import { createPermitStore } from './permits'
-import { ActionContext, ActionHandler, InjectedActionsContext, Objective } from './types'
+import { Action, ActionContext, ActionHandler, InjectedActionsContext, Objective } from './types'
 import { useContractAction } from './useContractAction'
 import { useCreateActions } from './useCreateActions'
 
@@ -26,12 +27,14 @@ export function useActionHandlers(
 ): UseActionHandlersResult {
   const actionsSettings = useActionsSettings()
   const permitStore = useMemo(() => createPermitStore(), [])
+  const txReceipts = useMemo<[Action, TransactionReceipt][]>(() => [], [])
   const chainId = useChainId()
   const { account } = useConnectedAddress()
   const wagmiConfig = useConfig()
   const actionContext: ActionContext = {
     ...injectedContext,
     permitStore,
+    txReceipts,
     wagmiConfig,
     account,
     chainId,

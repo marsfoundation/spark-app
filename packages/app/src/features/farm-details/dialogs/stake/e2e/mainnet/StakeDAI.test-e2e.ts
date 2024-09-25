@@ -7,7 +7,7 @@ import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
 import { StakeDialogPageObject } from '../../StakeDialog.PageObject'
 
-test.describe('Stake USDS to SKY farm', () => {
+test.describe('Stake DAI to SKY farm', () => {
   const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
   let farmDetailsPage: FarmDetailsPageObject
   let stakeDialog: StakeDialogPageObject
