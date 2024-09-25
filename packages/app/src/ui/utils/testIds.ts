@@ -222,6 +222,7 @@ export const testIds = makeTestIds({
         },
         outcome: true,
       },
+      exitFarmSwitch: true,
     },
     claimDialog: {
       transactionOverview: {
