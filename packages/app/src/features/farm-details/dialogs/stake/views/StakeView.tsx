@@ -41,7 +41,7 @@ export function StakeView({
 
   return (
     <MultiPanelDialog panelRef={ref}>
-      <DialogTitle>Stake in {farm.rewardToken.symbol} Farm</DialogTitle>
+      <DialogTitle>Deposit into {farm.rewardToken.symbol} Farm</DialogTitle>
 
       <FormAndOverviewWrapper>
         <DialogForm form={form} assetsFields={assetsFields} selectorAssets={selectableAssets} />
@@ -50,9 +50,9 @@ export function StakeView({
 
       {sacrificesYield && (
         <Alert variant="danger">
-          <p className="max-w-[58ch]">
-            Staking your savings token means that you will no longer earn yield directly from it. Instead, you will
-            receive yield from the specific farm you stake it into.
+          <p className="max-w-[60ch]">
+            Depositing your savings token means that you will no longer earn yield directly from it. Instead, you will
+            receive yield from the specific farm you deposit it into.
           </p>
         </Alert>
       )}

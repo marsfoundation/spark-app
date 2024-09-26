@@ -27,7 +27,7 @@ export function FarmInfoPanel({
     >
       <div className="flex max-w-[75%] flex-col gap-4">
         <h2 className="font-semibold text-2xl md:text-3xl">
-          Stake {assetsGroupToText(assetsGroupType)} <br />
+          Deposit {assetsGroupToText(assetsGroupType)} <br />
           and earn <span className="text-[#3F66EF]">{formatPercentage(farm.apy, { minimumFractionDigits: 0 })}</span>{' '}
           APY
         </h2>
@@ -45,7 +45,7 @@ export function FarmInfoPanel({
           onClick={openStakeDialog}
           data-testid={testIds.farmDetails.infoPanel.stakeButton}
         >
-          Stake
+          Deposit
         </Button>
       </div>
     </Panel.Wrapper>

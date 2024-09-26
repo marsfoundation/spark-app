@@ -75,7 +75,7 @@ test.describe('Unstake DAI from SKY farm', () => {
         ],
         farm: {
           upperText: 'SKY Farm',
-          lowerText: 'Staked',
+          lowerText: 'Deposited',
         },
       },
       outcome: '5,000.00 DAI worth $5,000.00',

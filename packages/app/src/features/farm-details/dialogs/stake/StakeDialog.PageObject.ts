@@ -4,7 +4,7 @@ import { Page, expect } from '@playwright/test'
 
 export class StakeDialogPageObject extends DialogPageObject {
   constructor(page: Page) {
-    super(page, /Stake/)
+    super(page, /Deposit/)
   }
 
   // #region actions

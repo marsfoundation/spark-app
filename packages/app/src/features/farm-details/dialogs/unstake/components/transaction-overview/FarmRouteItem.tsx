@@ -26,7 +26,7 @@ export function FarmRouteItem({ rewardsToken, stakingToken, displayRouteVertical
         className={cn('justify-self-end text-basics-dark-grey text-sm', !displayRouteVertically && 'md:order-last')}
         data-testid={testIds.farmDetails.unstakeDialog.transactionOverview.route.farm.stakingToken}
       >
-        {stakingToken} Staked
+        {stakingToken} Deposited
       </div>
 
       <img
