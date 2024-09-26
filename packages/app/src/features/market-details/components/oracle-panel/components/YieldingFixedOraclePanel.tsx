@@ -46,14 +46,14 @@ export function YieldingFixedOraclePanel({
           <img src={assets.multiply} alt="multiply sign" className="w-3.5 place-self-center" />
           <div className="relative flex flex-col items-center gap-2">
             <div className="w-full rounded-2xl border border-basics-grey/30 bg-basics-light-grey p-2 text-center text-xl">
-              {formatUSDWithPrecision(baseAssetPrice)}
+              {formatUSDPriceWithPrecision(baseAssetPrice)}
             </div>
             <div className="md:-bottom-6 text-basics-dark-grey text-xs md:absolute">{baseAssetSymbol} Oracle Price</div>
           </div>
           <img src={assets.equal} alt="equal sign" className="w-3.5 place-self-center" />
           <div className="relative flex flex-col items-center gap-2">
             <div className="w-full rounded-2xl border border-basics-grey/30 bg-basics-light-grey p-3 text-center text-xl">
-              {formatUSDWithPrecision(price)}
+              {formatUSDPriceWithPrecision(price)}
             </div>
             <div className="md:-bottom-6 text-basics-dark-grey text-xs md:absolute">Final Price</div>
           </div>
@@ -87,8 +87,8 @@ export function YieldingFixedOraclePanel({
   )
 }
 
-function formatUSDWithPrecision(value: NormalizedUnitNumber): string {
-  const number = value.toNumber()
+function formatUSDPriceWithPrecision(usdPrice: NormalizedUnitNumber): string {
+  const number = usdPrice.toNumber()
 
   const formatter = new Intl.NumberFormat('en-US', {
     minimumFractionDigits: 2,
