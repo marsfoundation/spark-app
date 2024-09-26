@@ -34,11 +34,9 @@ export class FarmDetailsPageObject extends BasePageObject {
     await expect(row.getByRole('cell', { name: value })).toBeVisible()
   }
 
-  async expectStaked({ stake, reward }: { stake: string; reward: string }): Promise<void> {
-    await expect(this.page.getByTestId(testIds.farmDetails.activeFarmInfoPanel.staked)).toContainText(stake.toString())
-    await expect(this.page.getByTestId(testIds.farmDetails.activeFarmInfoPanel.rewards)).toContainText(
-      reward.toString(),
-    )
+  async expectReward({ reward, rewardUsd }: { reward: string; rewardUsd: string }): Promise<void> {
+    await expect(this.page.getByTestId(testIds.farmDetails.activeFarmInfoPanel.rewards)).toContainText(reward)
+    await expect(this.page.getByTestId(testIds.farmDetails.activeFarmInfoPanel.rewardsUsd)).toContainText(rewardUsd)
   }
 
   async expectInfoPanelToBeVisible(): Promise<void> {

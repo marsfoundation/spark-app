@@ -80,9 +80,9 @@ test.describe('Stake sDAI to SKY farm', () => {
 
     await farmDetailsPage.expectTokenToDepositBalance('sDAI', '-')
     await farmDetailsPage.expectTokenToDepositBalance('USDS', '-') // no dust left
-    await farmDetailsPage.expectStaked({
-      stake: '1,108.59 USDS',
-      reward: '0.01',
+    await farmDetailsPage.expectReward({
+      reward: '0.1',
+      rewardUsd: '<$0.01',
     })
   })
 })

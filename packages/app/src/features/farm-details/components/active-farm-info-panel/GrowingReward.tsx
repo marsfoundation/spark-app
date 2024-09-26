@@ -52,7 +52,7 @@ export function GrowingReward({ farm }: GrowingRewardProps) {
       </div>
       <div className="font-semibold text-basics-dark-grey text-xs tracking-wide">
         &#8776;
-        <span data-testid={testIds.farmDetails.activeFarmInfoPanel.staked}>{rewardToken.formatUSD(currentReward)}</span>
+        <span data-testid={testIds.farmDetails.activeFarmInfoPanel.rewardsUsd}>{rewardToken.formatUSD(currentReward)}</span>
       </div>
     </div>
   )
