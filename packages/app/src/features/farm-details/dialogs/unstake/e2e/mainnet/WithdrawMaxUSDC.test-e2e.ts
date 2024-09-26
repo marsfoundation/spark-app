@@ -9,7 +9,7 @@ import { mainnet } from 'viem/chains'
 import { StakeDialogPageObject } from '../../../stake/StakeDialog.PageObject'
 import { UnstakeDialogPageObject } from '../../UnstakeDialog.PageObject'
 
-test.describe('Withdraw max DAI from SKY farm', () => {
+test.describe('Withdraw max USDC from SKY farm', () => {
   const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
   let farmDetailsPage: FarmDetailsPageObject
   let unstakeDialog: UnstakeDialogPageObject
@@ -52,7 +52,7 @@ test.describe('Withdraw max DAI from SKY farm', () => {
     await farmDetailsPage.clickInfoPanelUnstakeButtonAction()
     unstakeDialog = new UnstakeDialogPageObject(page)
 
-    await unstakeDialog.selectAssetAction('DAI')
+    await unstakeDialog.selectAssetAction('USDC')
     await unstakeDialog.clickMaxAmountAction()
   })
 
@@ -60,7 +60,7 @@ test.describe('Withdraw max DAI from SKY farm', () => {
     await unstakeDialog.actionsContainer.expectActions([
       { type: 'unstake', stakingToken: 'USDS', rewardToken: 'SKY', exit: false },
       { type: 'approve', asset: 'USDS' },
-      { type: 'downgrade', fromToken: 'USDS', toToken: 'DAI' },
+      { type: 'usdsPsmConvert', inToken: 'USDS', outToken: 'USDC' },
     ])
   })
 
@@ -69,7 +69,7 @@ test.describe('Withdraw max DAI from SKY farm', () => {
     await unstakeDialog.actionsContainer.expectActions([
       { type: 'unstake', stakingToken: 'USDS', rewardToken: 'SKY', exit: true },
       { type: 'approve', asset: 'USDS' },
-      { type: 'downgrade', fromToken: 'USDS', toToken: 'DAI' },
+      { type: 'usdsPsmConvert', inToken: 'USDS', outToken: 'USDC' },
     ])
   })
 
@@ -82,7 +82,7 @@ test.describe('Withdraw max DAI from SKY farm', () => {
             tokenUsdValue: '$10,000.00',
           },
           {
-            tokenAmount: '10,000.00 DAI',
+            tokenAmount: '10,000.00 USDC',
             tokenUsdValue: '$10,000.00',
           },
         ],
@@ -91,7 +91,7 @@ test.describe('Withdraw max DAI from SKY farm', () => {
           lowerText: 'Staked',
         },
       },
-      outcome: '10,000.00 DAI worth $10,000.00',
+      outcome: '10,000.00 USDC worth $10,000.00',
     })
   })
 
@@ -105,7 +105,7 @@ test.describe('Withdraw max DAI from SKY farm', () => {
             tokenUsdValue: '$10,000.00',
           },
           {
-            tokenAmount: '10,000.00 DAI',
+            tokenAmount: '10,000.00 USDC',
             tokenUsdValue: '$10,000.00',
           },
         ],
@@ -116,7 +116,7 @@ test.describe('Withdraw max DAI from SKY farm', () => {
       },
       outcome: {
         amount: '10,000.00',
-        token: 'DAI',
+        token: 'USDC',
         usdValue: '10,000.00',
       },
       reward: {
@@ -134,7 +134,7 @@ test.describe('Withdraw max DAI from SKY farm', () => {
     await unstakeDialog.expectSuccessPage()
     await unstakeDialog.clickBackToFarmAction()
 
-    await farmDetailsPage.expectTokenToDepositBalance('DAI', '20,000.00')
+    await farmDetailsPage.expectTokenToDepositBalance('USDC', '20,000.00')
     await farmDetailsPage.expectStaked({
       stake: '0.00 USDS',
       reward: '3,539',
@@ -148,7 +148,7 @@ test.describe('Withdraw max DAI from SKY farm', () => {
     await unstakeDialog.expectSuccessPage()
     await unstakeDialog.clickBackToFarmAction()
 
-    await farmDetailsPage.expectTokenToDepositBalance('DAI', '20,000.00')
+    await farmDetailsPage.expectTokenToDepositBalance('USDC', '20,000.00')
     await farmDetailsPage.expectInfoPanelToBeVisible()
 
     await farmDetailsPage.expectTokenBalance({
