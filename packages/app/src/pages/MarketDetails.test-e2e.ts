@@ -484,127 +484,127 @@ test.describe('Market details Mainnet', () => {
       })
     })
   })
+})
 
-  test.describe('Market details Gnosis', () => {
-    const XDAI = '0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d'
-    const EURe = '0xcB444e90D8198415266c6a2724b7900fb12FC56E'
-    const WETH = '0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1'
-    const sDAI = '0xaf204776c7245bF4147c2612BF6e5972Ee483701'
+test.describe('Market details Gnosis', () => {
+  const XDAI = '0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d'
+  const EURe = '0xcB444e90D8198415266c6a2724b7900fb12FC56E'
+  const WETH = '0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1'
+  const sDAI = '0xaf204776c7245bF4147c2612BF6e5972Ee483701'
 
-    const fork = setupFork({
-      blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER,
-      chainId: gnosis.id,
-      simulationDateOverride: new Date('2024-08-28T12:06:48.220Z'),
+  const fork = setupFork({
+    blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER,
+    chainId: gnosis.id,
+    simulationDateOverride: new Date('2024-08-28T12:06:48.220Z'),
+  })
+
+  test.describe('Cap automator', () => {
+    test('WETH', async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'marketDetails',
+        initialPageParams: { asset: WETH, chainId: fork.chainId.toString() },
+        account: {
+          type: 'not-connected',
+        },
+      })
+
+      const marketDetailsPage = new MarketDetailsPageObject(page)
+
+      await marketDetailsPage.expectSupplyCap('5,000 WETH')
+      await marketDetailsPage.expectSupplyMaxCapNotVisible()
+
+      await marketDetailsPage.expectBorrowCap('3,000 WETH')
+      await marketDetailsPage.expectBorrowMaxCapNotVisible()
     })
 
-    test.describe('Cap automator', () => {
-      test('WETH', async ({ page }) => {
-        await setup(page, fork, {
-          initialPage: 'marketDetails',
-          initialPageParams: { asset: WETH, chainId: fork.chainId.toString() },
-          account: {
-            type: 'not-connected',
-          },
-        })
-
-        const marketDetailsPage = new MarketDetailsPageObject(page)
-
-        await marketDetailsPage.expectSupplyCap('5,000 WETH')
-        await marketDetailsPage.expectSupplyMaxCapNotVisible()
-
-        await marketDetailsPage.expectBorrowCap('3,000 WETH')
-        await marketDetailsPage.expectBorrowMaxCapNotVisible()
+    test('XDAI', async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'marketDetails',
+        initialPageParams: { asset: XDAI, chainId: fork.chainId.toString() },
+        account: {
+          type: 'not-connected',
+        },
       })
 
-      test('XDAI', async ({ page }) => {
-        await setup(page, fork, {
-          initialPage: 'marketDetails',
-          initialPageParams: { asset: XDAI, chainId: fork.chainId.toString() },
-          account: {
-            type: 'not-connected',
-          },
-        })
+      const marketDetailsPage = new MarketDetailsPageObject(page)
 
-        const marketDetailsPage = new MarketDetailsPageObject(page)
+      await marketDetailsPage.expectSupplyCap('20M WXDAI')
+      await marketDetailsPage.expectSupplyMaxCapNotVisible()
 
-        await marketDetailsPage.expectSupplyCap('20M WXDAI')
-        await marketDetailsPage.expectSupplyMaxCapNotVisible()
+      await marketDetailsPage.expectBorrowCap('16M WXDAI')
+      await marketDetailsPage.expectBorrowMaxCapNotVisible()
 
-        await marketDetailsPage.expectBorrowCap('16M WXDAI')
-        await marketDetailsPage.expectBorrowMaxCapNotVisible()
+      await marketDetailsPage.expectCollateralPanelNotVisible()
+    })
+  })
 
-        await marketDetailsPage.expectCollateralPanelNotVisible()
+  test.describe('Oracles', () => {
+    test('Fixed price', async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'marketDetails',
+        initialPageParams: { asset: XDAI, chainId: fork.chainId.toString() },
+        account: {
+          type: 'not-connected',
+        },
+      })
+
+      const marketDetailsPage = new MarketDetailsPageObject(page)
+
+      await marketDetailsPage.expectOraclePanelToHaveTitle('Fixed Price')
+
+      await marketDetailsPage.expectOracleInfo({
+        price: '$1.00',
+        asset: 'WXDAI',
+        oracleContract: '0x6FC2871B6d9A94866B7260896257Fd5b50c09900',
       })
     })
 
-    test.describe('Oracles', () => {
-      test('Fixed price', async ({ page }) => {
-        await setup(page, fork, {
-          initialPage: 'marketDetails',
-          initialPageParams: { asset: XDAI, chainId: fork.chainId.toString() },
-          account: {
-            type: 'not-connected',
-          },
-        })
-
-        const marketDetailsPage = new MarketDetailsPageObject(page)
-
-        await marketDetailsPage.expectOraclePanelToHaveTitle('Fixed Price')
-
-        await marketDetailsPage.expectOracleInfo({
-          price: '$1.00',
-          asset: 'WXDAI',
-          oracleContract: '0x6FC2871B6d9A94866B7260896257Fd5b50c09900',
-        })
+    test('Underlying asset price', async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'marketDetails',
+        initialPageParams: { asset: EURe, chainId: fork.chainId.toString() },
+        account: {
+          type: 'not-connected',
+        },
       })
 
-      test('Underlying asset price', async ({ page }) => {
-        await setup(page, fork, {
-          initialPage: 'marketDetails',
-          initialPageParams: { asset: EURe, chainId: fork.chainId.toString() },
-          account: {
-            type: 'not-connected',
-          },
-        })
+      const marketDetailsPage = new MarketDetailsPageObject(page)
 
-        const marketDetailsPage = new MarketDetailsPageObject(page)
+      await marketDetailsPage.expectOraclePanelToHaveTitle('Underlying Asset Price')
 
-        await marketDetailsPage.expectOraclePanelToHaveTitle('Underlying Asset Price')
+      await marketDetailsPage.expectOracleInfo({
+        price: '$1.07',
+        asset: 'EUR',
+        oracleContract: '0xab70BCB260073d036d1660201e9d5405F5829b7a',
+      })
+    })
 
-        await marketDetailsPage.expectOracleInfo({
-          price: '$1.07',
-          asset: 'EUR',
-          oracleContract: '0xab70BCB260073d036d1660201e9d5405F5829b7a',
-        })
+    test('Yielding fixed price', async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'marketDetails',
+        initialPageParams: { asset: sDAI, chainId: fork.chainId.toString() },
+        account: {
+          type: 'not-connected',
+        },
       })
 
-      test('Yielding fixed price', async ({ page }) => {
-        await setup(page, fork, {
-          initialPage: 'marketDetails',
-          initialPageParams: { asset: sDAI, chainId: fork.chainId.toString() },
-          account: {
-            type: 'not-connected',
-          },
-        })
+      const marketDetailsPage = new MarketDetailsPageObject(page)
 
-        const marketDetailsPage = new MarketDetailsPageObject(page)
+      await marketDetailsPage.expectOraclePanelToHaveTitle('Yielding Fixed Price')
 
-        await marketDetailsPage.expectOraclePanelToHaveTitle('Yielding Fixed Price')
-
-        await marketDetailsPage.expectOracleInfo({
-          price: '$47,000.00',
-          asset: 'WBTC',
-          oracleContract: '0x42a03F81dd8A1cEcD746dc262e4d1CD9fD39F777',
-        })
-        await marketDetailsPage.expectYieldingFixedOracleBaseAssetInfo({
-          asset: 'ETH',
-          price: '$3,000.00',
-          oracleContract: '0x42a03F81dd8A1cEcD746dc262e4d1CD9fD39F777',
-        })
-        await marketDetailsPage.expectYieldingFixedOracleRatioInfo({
-          ratio: '0.1',
-          ratioContract: '0x42a03F81dd8A1cEcD746dc262e4d1CD9fD39F777',
-        })
+      await marketDetailsPage.expectOracleInfo({
+        price: '$1.0875',
+        asset: 'sDAI',
+        oracleContract: '0x1D0f881Ce1a646E2f27Dec3c57Fa056cB838BCC2',
+      })
+      await marketDetailsPage.expectYieldingFixedOracleBaseAssetInfo({
+        asset: 'DAI',
+        price: '$0.9997',
+        oracleContract: '0x678df3415fc31947dA4324eC63212874be5a82f8',
+      })
+      await marketDetailsPage.expectYieldingFixedOracleRatioInfo({
+        ratio: '1.0878',
+        ratioContract: '0xaf204776c7245bF4147c2612BF6e5972Ee483701',
       })
     })
   })
