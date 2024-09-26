@@ -12,12 +12,7 @@ export interface AssetsGroup {
 export interface FarmConfig {
   address: CheckedAddress
   entryAssetsGroup: AssetsGroup
-}
-
-export interface FarmDetailsRowData {
-  depositors: number
-  tvl: NormalizedUnitNumber
-  apy: Percentage
+  historyCutoff?: Date
 }
 
 export interface Farm {

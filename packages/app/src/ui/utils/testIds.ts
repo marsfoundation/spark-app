@@ -241,9 +241,10 @@ export const testIds = makeTestIds({
     },
     activeFarmInfoPanel: {
       rewards: true,
-      staked: true,
+      rewardsUsd: true,
       unstakeButton: true,
       claimButton: true,
+      staked: true,
     },
   },
 })

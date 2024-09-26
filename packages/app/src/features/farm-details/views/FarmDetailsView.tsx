@@ -1,5 +1,5 @@
 import { TokenWithBalance } from '@/domain/common/types'
-import { Farm, FarmDetailsRowData } from '@/domain/farms/types'
+import { Farm } from '@/domain/farms/types'
 import { Token } from '@/domain/types/Token'
 import { getTokenImage } from '@/ui/assets'
 import { ConnectOrSandboxCTAPanel } from '@/ui/organisms/connect-or-sandbox-cta-panel/ConnectOrSandboxCTAPanel'
@@ -16,7 +16,6 @@ export interface FarmDetailsViewProps {
   chainMismatch: boolean
   walletConnected: boolean
   farm: Farm
-  farmDetailsRowData: FarmDetailsRowData
   farmHistoricData: FarmHistoryItem[]
   tokensToDeposit: TokenWithBalance[]
   isFarmActive: boolean
@@ -34,7 +33,6 @@ export function FarmDetailsView({
   chainMismatch,
   walletConnected,
   farm,
-  farmDetailsRowData,
   farmHistoricData,
   tokensToDeposit,
   isFarmActive,
@@ -53,17 +51,11 @@ export function FarmDetailsView({
       <div className="flex flex-col gap-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-6">
           {isFarmActive ? (
-            <ActiveFarmInfoPanel
-              farm={farm}
-              farmDetailsRowData={farmDetailsRowData}
-              openClaimDialog={openClaimDialog}
-              openUnstakeDialog={openUnstakeDialog}
-            />
+            <ActiveFarmInfoPanel farm={farm} openClaimDialog={openClaimDialog} openUnstakeDialog={openUnstakeDialog} />
           ) : (
             <FarmInfoPanel
               assetsGroupType={farm.entryAssetsGroup.type}
-              rewardToken={farm.rewardToken}
-              farmDetailsRowData={farmDetailsRowData}
+              farm={farm}
               walletConnected={walletConnected}
               hasTokensToDeposit={hasTokensToDeposit}
               openStakeDialog={openDefaultedStakeDialog}

@@ -4,7 +4,7 @@ import { InjectedActionsContext, Objective } from '@/features/actions/logic/type
 import { PageState, PageStatus } from '@/features/dialogs/common/types'
 import { calculateReward } from '@/features/farm-details/logic/calculateReward'
 import { useTimestamp } from '@/utils/useTimestamp'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { TxOverview } from '../types'
 
 export interface UseClaimDialogParams {
@@ -20,7 +20,11 @@ export interface UseClaimDialogResult {
 }
 
 export function useClaimDialog({ farm }: UseClaimDialogParams): UseClaimDialogResult {
-  const { timestamp } = useTimestamp()
+  const { timestamp, updateTimestamp } = useTimestamp()
+  useEffect(() => {
+    updateTimestamp()
+  }, [updateTimestamp])
+
   const [pageStatus, setPageStatus] = useState<PageState>('form')
 
   const rewardAmount = calculateReward({

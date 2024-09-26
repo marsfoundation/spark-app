@@ -1,26 +1,42 @@
 import { formatPercentage } from '@/domain/common/format'
-import { FarmDetailsRowData } from '@/domain/farms/types'
+import { TokenWithValue } from '@/domain/common/types'
+import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { Info } from '@/ui/molecules/info/Info'
+import { cn } from '@/ui/utils/style'
+import { testIds } from '@/ui/utils/testIds'
 
-export interface FarmDetailsRowProps {
-  farmDetailsRowData: FarmDetailsRowData
+export interface FarmStatsRowProps {
+  depositors: number
+  tvl: NormalizedUnitNumber
+  apy: Percentage
+  deposit?: TokenWithValue
 }
 
-export function FarmDetailsRow({ farmDetailsRowData }: FarmDetailsRowProps) {
-  const { depositors, tvl, apy } = farmDetailsRowData
-
+export function FarmStatsRow({ depositors, tvl, apy, deposit }: FarmStatsRowProps) {
   return (
-    <div className="flex flex-col items-start gap-2 md:flex-row md:items-center md:gap-12">
+    <div
+      className={cn(
+        'flex flex-col items-start gap-2 md:flex-row md:items-center',
+        deposit ? 'w-full text-sm md:justify-between' : 'md:gap-12',
+      )}
+    >
       <DetailsItem title="Addresses" explainer="Number of addresses that have deposited in the farm">
         <div className="font-semibold">{depositors}</div>
       </DetailsItem>
       <DetailsItem title="TVL" explainer="Total value locked in the farm">
-        <div className="font-semibold">{USD_MOCK_TOKEN.formatUSD(tvl)}</div>
+        <div className="font-semibold">{USD_MOCK_TOKEN.formatUSD(tvl, { compact: true })}</div>
       </DetailsItem>
       <DetailsItem title="APY" explainer="Annual percentage yield">
         <div className="font-semibold text-[#3F66EF]">{formatPercentage(apy, { minimumFractionDigits: 0 })}</div>
       </DetailsItem>
+      {deposit && (
+        <DetailsItem title="My Deposit" explainer="Amount of tokens deposited in the farm">
+          <div className="font-semibold" data-testid={testIds.farmDetails.activeFarmInfoPanel.staked}>
+            {deposit.token.format(deposit.value, { style: 'auto' })} {deposit.token.symbol}
+          </div>
+        </DetailsItem>
+      )}
     </div>
   )
 }
