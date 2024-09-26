@@ -1,5 +1,5 @@
 import { YieldingFixedOracleInfo } from '@/domain/oracles/types'
-import { USD_MOCK_TOKEN } from '@/domain/types/Token'
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { assets } from '@/ui/assets'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { BlockExplorerAddressLink } from '@/ui/molecules/block-explorer-address-link/BlockExplorerAddressLink'
@@ -13,9 +13,10 @@ export function YieldingFixedOraclePanel({
   token,
   price,
   priceOracleAddress,
-  baseTokenReserve,
   ratio,
-  baseAsset,
+  baseAssetOracle,
+  baseAssetSymbol,
+  baseAssetPrice,
 }: YieldingFixedOracleInfo) {
   return (
     <Panel.Wrapper className="flex flex-col gap-4 p-4 sm:px-8 sm:py-6">
@@ -39,20 +40,20 @@ export function YieldingFixedOraclePanel({
               {ratio.toFixed(4)}
             </div>
             <div className="md:-bottom-6 text-basics-dark-grey text-xs md:absolute">
-              {token.symbol} to {baseAsset} Ratio
+              {token.symbol} to {baseAssetSymbol} Ratio
             </div>
           </div>
           <img src={assets.multiply} alt="multiply sign" className="w-3.5 place-self-center" />
           <div className="relative flex flex-col items-center gap-2">
             <div className="w-full rounded-2xl border border-basics-grey/30 bg-basics-light-grey p-2 text-center text-xl">
-              {USD_MOCK_TOKEN.formatUSD(baseTokenReserve.token.unitPriceUsd)}
+              {formatUSDPriceWithPrecision(baseAssetPrice)}
             </div>
-            <div className="md:-bottom-6 text-basics-dark-grey text-xs md:absolute">{baseAsset} Oracle Price</div>
+            <div className="md:-bottom-6 text-basics-dark-grey text-xs md:absolute">{baseAssetSymbol} Oracle Price</div>
           </div>
           <img src={assets.equal} alt="equal sign" className="w-3.5 place-self-center" />
           <div className="relative flex flex-col items-center gap-2">
             <div className="w-full rounded-2xl border border-basics-grey/30 bg-basics-light-grey p-3 text-center text-xl">
-              {USD_MOCK_TOKEN.formatUSD(price)}
+              {formatUSDPriceWithPrecision(price)}
             </div>
             <div className="md:-bottom-6 text-basics-dark-grey text-xs md:absolute">Final Price</div>
           </div>
@@ -69,7 +70,7 @@ export function YieldingFixedOraclePanel({
           <InfoTile>
             <InfoTile.Label>Oracle Contract</InfoTile.Label>
             <InfoTile.Value className="w-full">
-              <BlockExplorerAddressLink address={baseTokenReserve.priceOracle} chainId={chainId} />
+              <BlockExplorerAddressLink address={baseAssetOracle} chainId={chainId} />
             </InfoTile.Value>
           </InfoTile>
 
@@ -84,4 +85,18 @@ export function YieldingFixedOraclePanel({
       </Panel.Content>
     </Panel.Wrapper>
   )
+}
+
+function formatUSDPriceWithPrecision(usdPrice: NormalizedUnitNumber): string {
+  const number = usdPrice.toNumber()
+
+  const formatter = new Intl.NumberFormat('en-US', {
+    minimumFractionDigits: 2,
+    // When the price is less than 2 USD, display 4 decimal places otherwise display standard 2 decimals
+    maximumFractionDigits: number >= 2 ? 2 : 4,
+    style: 'currency',
+    currency: 'USD',
+  })
+
+  return formatter.format(number)
 }
