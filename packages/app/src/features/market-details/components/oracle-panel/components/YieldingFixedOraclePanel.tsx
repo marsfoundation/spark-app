@@ -92,7 +92,8 @@ function formatUSDPriceWithPrecision(usdPrice: NormalizedUnitNumber): string {
 
   const formatter = new Intl.NumberFormat('en-US', {
     minimumFractionDigits: 2,
-    maximumFractionDigits: number >= 1 ? 2 : 4,
+    // When the price is less than 2 USD, display 4 decimal places otherwise display standard 2 decimals
+    maximumFractionDigits: number >= 2 ? 2 : 4,
     style: 'currency',
     currency: 'USD',
   })

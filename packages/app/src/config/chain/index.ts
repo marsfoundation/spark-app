@@ -3,9 +3,9 @@ import { gnosis, mainnet } from 'viem/chains'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { getOriginChainId } from '@/domain/hooks/useOriginChainId'
 import {
-  fetchRethhOracleInfo,
+  fetchRethOracleInfo,
   fetchSdaiOracleInfoGnosis,
-  fetchWeethhOracleInfo,
+  fetchWeethOracleInfo,
   fetchWstethOracleInfoMainnet,
 } from '@/domain/oracles/oracleInfoFetchers'
 import { gnosisSavingsDaiInfoQuery } from '@/domain/savings-info/gnosisSavingsInfo'
@@ -152,13 +152,13 @@ const chainConfig: ChainConfig = {
         type: 'yielding-fixed',
         baseAssetSymbol: TokenSymbol('WETH'),
         providedBy: ['chainlink', 'chronicle'],
-        oracleFetcher: fetchRethhOracleInfo,
+        oracleFetcher: fetchRethOracleInfo,
       },
       [TokenSymbol('weETH')]: {
         type: 'yielding-fixed',
         baseAssetSymbol: TokenSymbol('WETH'),
         providedBy: ['chainlink', 'chronicle'],
-        oracleFetcher: fetchWeethhOracleInfo,
+        oracleFetcher: fetchWeethOracleInfo,
       },
       [TokenSymbol('USDC')]: {
         type: 'fixed',

@@ -57,7 +57,7 @@ export async function fetchWstethOracleInfoMainnet({
       abi: wstethRatioMainnetAbi,
       address: steth,
       functionName: 'getPooledEthByShares',
-      args: [toBigInt(10 ** reserve.token.decimals)],
+      args: [toBigInt(reserve.token.toBaseUnit(NormalizedUnitNumber(1)))],
       chainId: mainnet.id,
     }),
     readContract(wagmiConfig, {
@@ -111,7 +111,7 @@ export async function fetchSdaiOracleInfoGnosis({
       abi: sdaiRatioGnosisAbi,
       address: sdaiAddress,
       functionName: 'convertToAssets',
-      args: [toBigInt(10 ** reserve.token.decimals)],
+      args: [toBigInt(reserve.token.toBaseUnit(NormalizedUnitNumber(1)))],
       chainId: gnosis.id,
     }),
     readContract(wagmiConfig, {
@@ -137,7 +137,7 @@ export async function fetchSdaiOracleInfoGnosis({
   }
 }
 
-export async function fetchRethhOracleInfo({
+export async function fetchRethOracleInfo({
   reserve,
   wagmiConfig,
 }: OracleInfoFetcherParams): Promise<OracleInfoFetcherResult> {
@@ -191,7 +191,7 @@ export async function fetchRethhOracleInfo({
   }
 }
 
-export async function fetchWeethhOracleInfo({
+export async function fetchWeethOracleInfo({
   reserve,
   wagmiConfig,
 }: OracleInfoFetcherParams): Promise<OracleInfoFetcherResult> {
