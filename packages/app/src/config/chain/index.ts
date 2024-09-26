@@ -144,19 +144,19 @@ const chainConfig: ChainConfig = {
       },
       [TokenSymbol('wstETH')]: {
         type: 'yielding-fixed',
-        baseAsset: TokenSymbol('WETH'),
+        baseAssetSymbol: TokenSymbol('WETH'),
         providedBy: ['chainlink', 'chronicle'],
         oracleFetcher: fetchWstethOracleInfoMainnet,
       },
       [TokenSymbol('rETH')]: {
         type: 'yielding-fixed',
-        baseAsset: TokenSymbol('WETH'),
+        baseAssetSymbol: TokenSymbol('WETH'),
         providedBy: ['chainlink', 'chronicle'],
         oracleFetcher: fetchRethhOracleInfo,
       },
       [TokenSymbol('weETH')]: {
         type: 'yielding-fixed',
-        baseAsset: TokenSymbol('WETH'),
+        baseAssetSymbol: TokenSymbol('WETH'),
         providedBy: ['chainlink', 'chronicle'],
         oracleFetcher: fetchWeethhOracleInfo,
       },
@@ -262,7 +262,7 @@ const chainConfig: ChainConfig = {
       },
       [TokenSymbol('sDAI')]: {
         type: 'yielding-fixed',
-        baseAsset: TokenSymbol('XDAI'),
+        baseAssetSymbol: TokenSymbol('DAI'),
         providedBy: ['chainlink'],
         oracleFetcher: fetchSdaiOracleInfoGnosis,
       },

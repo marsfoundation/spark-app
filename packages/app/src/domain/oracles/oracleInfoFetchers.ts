@@ -1,12 +1,16 @@
 import {
+  rethBaseAssetOracleAbi,
   rethOracleAbi,
   rethRatioAbi,
+  sdaiBaseAssetOracleGnosisAbi,
   sdaiOracleGnosisAbi,
   sdaiRatioGnosisAbi,
+  weethBaseAssetOracleAbi,
   weethOracleAbi,
   weethRatioAbi,
+  wstethBaseAssetOracleMainnetAbi,
   wstethOracleMainnetAbi,
-  wstethRatioAbi,
+  wstethRatioMainnetAbi,
 } from '@/config/abis/yieldingTokensRatioAbi'
 import { toBigInt } from '@/utils/bigNumber'
 import { gnosis, mainnet } from 'viem/chains'
@@ -24,6 +28,7 @@ export interface OracleInfoFetcherParams {
 export interface OracleInfoFetcherResult {
   ratio: NormalizedUnitNumber
   baseAssetOracle: CheckedAddress
+  baseAssetPrice: NormalizedUnitNumber
 }
 
 export async function fetchWstethOracleInfoMainnet({
@@ -47,17 +52,36 @@ export async function fetchWstethOracleInfoMainnet({
     }),
   ])
 
-  const ratio = await readContract(wagmiConfig, {
-    abi: wstethRatioAbi,
-    address: steth,
-    functionName: 'getPooledEthByShares',
-    args: [toBigInt(10 ** reserve.token.decimals)],
-    chainId: mainnet.id,
-  })
+  const [ratio, baseAssetPrice, baseAssetPriceDecimals] = await Promise.all([
+    readContract(wagmiConfig, {
+      abi: wstethRatioMainnetAbi,
+      address: steth,
+      functionName: 'getPooledEthByShares',
+      args: [toBigInt(10 ** reserve.token.decimals)],
+      chainId: mainnet.id,
+    }),
+    readContract(wagmiConfig, {
+      abi: wstethBaseAssetOracleMainnetAbi,
+      address: baseAssetOracle,
+      account: reserve.priceOracle,
+      functionName: 'latestAnswer',
+      args: [],
+      chainId: mainnet.id,
+    }),
+    readContract(wagmiConfig, {
+      abi: wstethBaseAssetOracleMainnetAbi,
+      address: baseAssetOracle,
+      account: reserve.priceOracle,
+      functionName: 'decimals',
+      args: [],
+      chainId: mainnet.id,
+    }),
+  ])
 
   return {
     ratio: reserve.token.fromBaseUnit(BaseUnitNumber(ratio)),
     baseAssetOracle: CheckedAddress(baseAssetOracle),
+    baseAssetPrice: NormalizedUnitNumber(BaseUnitNumber(baseAssetPrice).shiftedBy(-baseAssetPriceDecimals)),
   }
 }
 
@@ -82,17 +106,34 @@ export async function fetchSdaiOracleInfoGnosis({
     }),
   ])
 
-  const ratio = await readContract(wagmiConfig, {
-    abi: sdaiRatioGnosisAbi,
-    address: sdaiAddress,
-    functionName: 'convertToAssets',
-    args: [toBigInt(10 ** reserve.token.decimals)],
-    chainId: gnosis.id,
-  })
+  const [ratio, baseAssetPrice, baseAssetPriceDecimals] = await Promise.all([
+    readContract(wagmiConfig, {
+      abi: sdaiRatioGnosisAbi,
+      address: sdaiAddress,
+      functionName: 'convertToAssets',
+      args: [toBigInt(10 ** reserve.token.decimals)],
+      chainId: gnosis.id,
+    }),
+    readContract(wagmiConfig, {
+      abi: sdaiBaseAssetOracleGnosisAbi,
+      address: baseAssetOracle,
+      functionName: 'latestAnswer',
+      args: [],
+      chainId: gnosis.id,
+    }),
+    readContract(wagmiConfig, {
+      abi: sdaiBaseAssetOracleGnosisAbi,
+      address: baseAssetOracle,
+      functionName: 'decimals',
+      args: [],
+      chainId: gnosis.id,
+    }),
+  ])
 
   return {
     ratio: reserve.token.fromBaseUnit(BaseUnitNumber(ratio)),
     baseAssetOracle: CheckedAddress(baseAssetOracle),
+    baseAssetPrice: NormalizedUnitNumber(BaseUnitNumber(baseAssetPrice).shiftedBy(-baseAssetPriceDecimals)),
   }
 }
 
@@ -117,17 +158,36 @@ export async function fetchRethhOracleInfo({
     }),
   ])
 
-  const ratio = await readContract(wagmiConfig, {
-    abi: rethRatioAbi,
-    address: reth,
-    functionName: 'getExchangeRate',
-    args: [],
-    chainId: mainnet.id,
-  })
+  const [ratio, baseAssetPrice, baseAssetPriceDecimals] = await Promise.all([
+    readContract(wagmiConfig, {
+      abi: rethRatioAbi,
+      address: reth,
+      functionName: 'getExchangeRate',
+      args: [],
+      chainId: mainnet.id,
+    }),
+    readContract(wagmiConfig, {
+      abi: rethBaseAssetOracleAbi,
+      address: baseAssetOracle,
+      account: reserve.priceOracle,
+      functionName: 'latestAnswer',
+      args: [],
+      chainId: mainnet.id,
+    }),
+    readContract(wagmiConfig, {
+      abi: rethBaseAssetOracleAbi,
+      address: baseAssetOracle,
+      account: reserve.priceOracle,
+      functionName: 'decimals',
+      args: [],
+      chainId: mainnet.id,
+    }),
+  ])
 
   return {
     ratio: reserve.token.fromBaseUnit(BaseUnitNumber(ratio)),
     baseAssetOracle: CheckedAddress(baseAssetOracle),
+    baseAssetPrice: NormalizedUnitNumber(BaseUnitNumber(baseAssetPrice).shiftedBy(-baseAssetPriceDecimals)),
   }
 }
 
@@ -152,16 +212,35 @@ export async function fetchWeethhOracleInfo({
     }),
   ])
 
-  const ratio = await readContract(wagmiConfig, {
-    abi: weethRatioAbi,
-    address: weeth,
-    functionName: 'getRate',
-    args: [],
-    chainId: mainnet.id,
-  })
+  const [ratio, baseAssetPrice, baseAssetPriceDecimals] = await Promise.all([
+    readContract(wagmiConfig, {
+      abi: weethRatioAbi,
+      address: weeth,
+      functionName: 'getRate',
+      args: [],
+      chainId: mainnet.id,
+    }),
+    readContract(wagmiConfig, {
+      abi: weethBaseAssetOracleAbi,
+      address: baseAssetOracle,
+      account: reserve.priceOracle,
+      functionName: 'latestAnswer',
+      args: [],
+      chainId: mainnet.id,
+    }),
+    readContract(wagmiConfig, {
+      abi: weethBaseAssetOracleAbi,
+      address: baseAssetOracle,
+      account: reserve.priceOracle,
+      functionName: 'decimals',
+      args: [],
+      chainId: mainnet.id,
+    }),
+  ])
 
   return {
     ratio: reserve.token.fromBaseUnit(BaseUnitNumber(ratio)),
     baseAssetOracle: CheckedAddress(baseAssetOracle),
+    baseAssetPrice: NormalizedUnitNumber(BaseUnitNumber(baseAssetPrice).shiftedBy(-baseAssetPriceDecimals)),
   }
 }

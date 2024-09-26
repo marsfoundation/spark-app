@@ -13,10 +13,10 @@ export function YieldingFixedOraclePanel({
   token,
   price,
   priceOracleAddress,
-  baseTokenReserve,
   ratio,
   baseAssetOracle,
-  baseAsset,
+  baseAssetSymbol,
+  baseAssetPrice,
 }: YieldingFixedOracleInfo) {
   return (
     <Panel.Wrapper className="flex flex-col gap-4 p-4 sm:px-8 sm:py-6">
@@ -40,15 +40,15 @@ export function YieldingFixedOraclePanel({
               {ratio.toFixed(4)}
             </div>
             <div className="md:-bottom-6 text-basics-dark-grey text-xs md:absolute">
-              {token.symbol} to {baseAsset} Ratio
+              {token.symbol} to {baseAssetSymbol} Ratio
             </div>
           </div>
           <img src={assets.multiply} alt="multiply sign" className="w-3.5 place-self-center" />
           <div className="relative flex flex-col items-center gap-2">
             <div className="w-full rounded-2xl border border-basics-grey/30 bg-basics-light-grey p-2 text-center text-xl">
-              {USD_MOCK_TOKEN.formatUSD(baseTokenReserve.token.unitPriceUsd)}
+              {USD_MOCK_TOKEN.formatUSD(baseAssetPrice)}
             </div>
-            <div className="md:-bottom-6 text-basics-dark-grey text-xs md:absolute">{baseAsset} Oracle Price</div>
+            <div className="md:-bottom-6 text-basics-dark-grey text-xs md:absolute">{baseAssetSymbol} Oracle Price</div>
           </div>
           <img src={assets.equal} alt="equal sign" className="w-3.5 place-self-center" />
           <div className="relative flex flex-col items-center gap-2">

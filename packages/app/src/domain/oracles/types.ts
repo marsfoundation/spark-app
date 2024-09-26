@@ -1,4 +1,3 @@
-import { Reserve } from '../market-info/marketInfo'
 import { NormalizedUnitNumber } from '../types/NumericValues'
 import { Token } from '../types/Token'
 
@@ -20,10 +19,10 @@ export interface MarketPriceOracleInfo extends OracleInfoBase {
 
 export interface YieldingFixedOracleInfo extends OracleInfoBase {
   type: 'yielding-fixed'
-  baseTokenReserve: Reserve
   ratio: NormalizedUnitNumber
   baseAssetOracle: CheckedAddress
-  baseAsset: TokenSymbol
+  baseAssetPrice: NormalizedUnitNumber
+  baseAssetSymbol: TokenSymbol
   providedBy: OracleFeedProvider[]
 }
 

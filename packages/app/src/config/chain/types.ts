@@ -55,7 +55,7 @@ export type ReserveOracleType =
   | { type: 'market-price'; providedBy: OracleFeedProvider[] }
   | {
       type: 'yielding-fixed'
-      baseAsset: TokenSymbol
+      baseAssetSymbol: TokenSymbol
       providedBy: OracleFeedProvider[]
       oracleFetcher: (params: OracleInfoFetcherParams) => Promise<OracleInfoFetcherResult>
     }
