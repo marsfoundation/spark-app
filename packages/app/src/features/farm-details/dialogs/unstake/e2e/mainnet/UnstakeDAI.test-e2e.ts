@@ -92,7 +92,8 @@ test.describe('Unstake DAI from SKY farm', () => {
     await farmDetailsPage.expectTokenToDepositBalance('USDS', '-')
     await farmDetailsPage.expectReward({
       reward: '3,539',
-      rewardUsd: '$235'
+      rewardUsd: '$235',
     })
+    await farmDetailsPage.expectStaked('5000.00 USDS')
   })
 })

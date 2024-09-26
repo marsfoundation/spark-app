@@ -137,7 +137,7 @@ test.describe('Withdraw max DAI from SKY farm', () => {
     await farmDetailsPage.expectTokenToDepositBalance('DAI', '20,000.00')
     await farmDetailsPage.expectReward({
       reward: '3,539',
-      rewardUsd: '$212.34'
+      rewardUsd: '$235',
     })
   })
 

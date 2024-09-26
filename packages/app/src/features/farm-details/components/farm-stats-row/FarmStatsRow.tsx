@@ -4,6 +4,7 @@ import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { Info } from '@/ui/molecules/info/Info'
 import { cn } from '@/ui/utils/style'
+import { testIds } from '@/ui/utils/testIds'
 
 export interface FarmStatsRowProps {
   depositors: number
@@ -31,7 +32,7 @@ export function FarmStatsRow({ depositors, tvl, apy, deposit }: FarmStatsRowProp
       </DetailsItem>
       {deposit && (
         <DetailsItem title="My Deposit" explainer="Amount of tokens deposited in the farm">
-          <div className="font-semibold">
+          <div className="font-semibold" data-testid={testIds.farmDetails.activeFarmInfoPanel.staked}>
             {deposit.token.format(deposit.value, { style: 'auto' })} {deposit.token.symbol}
           </div>
         </DetailsItem>

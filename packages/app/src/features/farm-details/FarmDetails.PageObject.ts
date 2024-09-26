@@ -39,6 +39,10 @@ export class FarmDetailsPageObject extends BasePageObject {
     await expect(this.page.getByTestId(testIds.farmDetails.activeFarmInfoPanel.rewardsUsd)).toContainText(rewardUsd)
   }
 
+  async expectStaked(staked: string): Promise<void> {
+    await expect(this.page.getByTestId(testIds.farmDetails.activeFarmInfoPanel.staked)).toContainText(staked)
+  }
+
   async expectInfoPanelToBeVisible(): Promise<void> {
     await expect(this.page.getByTestId(testIds.farmDetails.infoPanel.panel)).toBeVisible()
   }

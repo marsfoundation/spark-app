@@ -244,6 +244,7 @@ export const testIds = makeTestIds({
       rewardsUsd: true,
       unstakeButton: true,
       claimButton: true,
+      staked: true,
     },
   },
 })

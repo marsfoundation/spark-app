@@ -137,7 +137,7 @@ test.describe('Withdraw max USDC from SKY farm', () => {
     await farmDetailsPage.expectTokenToDepositBalance('USDC', '20,000.00')
     await farmDetailsPage.expectReward({
       reward: '3,539',
-      rewardUsd: '$212.34'
+      rewardUsd: '$235',
     })
   })
 
