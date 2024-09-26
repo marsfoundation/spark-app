@@ -1,5 +1,5 @@
 import { YieldingFixedOracleInfo } from '@/domain/oracles/types'
-import { USD_MOCK_TOKEN } from '@/domain/types/Token'
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { assets } from '@/ui/assets'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { BlockExplorerAddressLink } from '@/ui/molecules/block-explorer-address-link/BlockExplorerAddressLink'
@@ -46,14 +46,14 @@ export function YieldingFixedOraclePanel({
           <img src={assets.multiply} alt="multiply sign" className="w-3.5 place-self-center" />
           <div className="relative flex flex-col items-center gap-2">
             <div className="w-full rounded-2xl border border-basics-grey/30 bg-basics-light-grey p-2 text-center text-xl">
-              {USD_MOCK_TOKEN.formatUSD(baseAssetPrice)}
+              {formatUSDWithPrecision(baseAssetPrice)}
             </div>
             <div className="md:-bottom-6 text-basics-dark-grey text-xs md:absolute">{baseAssetSymbol} Oracle Price</div>
           </div>
           <img src={assets.equal} alt="equal sign" className="w-3.5 place-self-center" />
           <div className="relative flex flex-col items-center gap-2">
             <div className="w-full rounded-2xl border border-basics-grey/30 bg-basics-light-grey p-3 text-center text-xl">
-              {USD_MOCK_TOKEN.formatUSD(price)}
+              {formatUSDWithPrecision(price)}
             </div>
             <div className="md:-bottom-6 text-basics-dark-grey text-xs md:absolute">Final Price</div>
           </div>
@@ -85,4 +85,17 @@ export function YieldingFixedOraclePanel({
       </Panel.Content>
     </Panel.Wrapper>
   )
+}
+
+function formatUSDWithPrecision(value: NormalizedUnitNumber): string {
+  const number = value.toNumber()
+
+  const formatter = new Intl.NumberFormat('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: number > 1 ? 2 : 5,
+    style: 'currency',
+    currency: 'USD',
+  })
+
+  return formatter.format(number)
 }
