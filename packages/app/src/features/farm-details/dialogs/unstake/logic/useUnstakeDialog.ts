@@ -12,7 +12,7 @@ import { calculateReward } from '@/features/farm-details/logic/calculateReward'
 import { assert, raise } from '@/utils/assert'
 import { useTimestamp } from '@/utils/useTimestamp'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
 import { TxOverview, createTxOverview } from './createTxOverview'
 import { getFormFieldsForUnstakeDialog } from './getFormFieldsForUnstakeDialog'
@@ -44,7 +44,10 @@ export interface ExitFarmSwitchInfo {
 }
 
 export function useUnstakeDialog({ farm, initialToken }: UseStakeDialogParams): UseUnstakeDialogResult {
-  const { timestamp } = useTimestamp()
+  const { timestamp, updateTimestamp } = useTimestamp()
+  useEffect(() => {
+    updateTimestamp()
+  }, [updateTimestamp])
   const [pageStatus, setPageStatus] = useState<PageState>('form')
   const { farmsInfo } = useFarmsInfo()
   const { tokensInfo, exitTokens } = useFarmExitTokens(farm)
