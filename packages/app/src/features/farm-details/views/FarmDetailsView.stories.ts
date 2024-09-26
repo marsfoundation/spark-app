@@ -105,6 +105,7 @@ export const NoDepositWithRewardsTablet = getTabletStory(NoDepositWithRewards)
 
 export const InactiveDesktop: Story = {
   args: {
+    isFarmActive: false,
     farm: {
       address: CheckedAddress('0x1234567890123456789012345678901234567890'),
       apy: Percentage(0.05),
@@ -130,6 +131,7 @@ export const InactiveTablet = getTabletStory(InactiveDesktop)
 
 export const NotConnectedDesktop: Story = {
   args: {
+    isFarmActive: false,
     farm: {
       address: CheckedAddress('0x1234567890123456789012345678901234567890'),
       apy: Percentage(0.05),
