@@ -24,7 +24,7 @@ export function FarmDestinationRouteItem({
         className={cn('justify-self-end text-basics-dark-grey text-sm', !displayRouteVertically && 'md:order-last')}
         data-testid={testIds.farmDetails.stakeDialog.transactionOverview.route.destination.stakingToken}
       >
-        {stakingToken} Staked
+        {stakingToken} Deposited
       </div>
     </div>
   )

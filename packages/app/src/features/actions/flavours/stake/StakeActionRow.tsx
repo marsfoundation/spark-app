@@ -12,14 +12,14 @@ export interface StakeActionRowProps extends ActionRowBaseProps {
 export function StakeActionRow({ action, index, actionHandlerState, onAction, variant }: StakeActionRowProps) {
   const tokenIconPaths = [getTokenImage(action.stakingToken.symbol), getTokenImage(action.rewardToken.symbol)]
   const status = actionHandlerState.status
-  const successMessage = `Staked ${action.stakingToken.format(action.stakeAmount, { style: 'auto' })} ${action.stakingToken.symbol}!`
+  const successMessage = `Deposited ${action.stakingToken.format(action.stakeAmount, { style: 'auto' })} ${action.stakingToken.symbol}!`
 
   return (
     <ActionRow index={index}>
       <ActionRow.Icon path={assets.actions.deposit} actionStatus={status} />
 
       <ActionRow.Title icon={<IconStack paths={tokenIconPaths} stackingOrder="last-on-top" />} actionStatus={status}>
-        Stake {action.stakingToken.symbol} in {action.rewardToken.symbol} Farm
+        Deposit {action.stakingToken.symbol} into {action.rewardToken.symbol} Farm
       </ActionRow.Title>
 
       <ActionRow.Description successMessage={successMessage} actionStatus={status} variant={variant}>
@@ -29,7 +29,7 @@ export function StakeActionRow({ action, index, actionHandlerState, onAction, va
       <ActionRow.ErrorWarning variant={variant} actionHandlerState={actionHandlerState} />
 
       <ActionRow.Action onAction={onAction} status={status}>
-        Stake
+        Deposit
       </ActionRow.Action>
     </ActionRow>
   )

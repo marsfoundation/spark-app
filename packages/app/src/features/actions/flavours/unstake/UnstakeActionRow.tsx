@@ -14,11 +14,11 @@ export function UnstakeActionRow({ action, index, actionHandlerState, onAction, 
   const status = actionHandlerState.status
 
   const formattedAmount = action.stakingToken.format(action.amount, { style: 'auto' })
-  const unstakeSuccessMessage = `Unstaked ${formattedAmount} ${action.stakingToken.symbol}`
+  const unstakeSuccessMessage = `Withdrew ${formattedAmount} ${action.stakingToken.symbol}`
   const exitSuccessMessage = `${unstakeSuccessMessage} and claimed rewards`
   const successMessage = `${action.exit ? exitSuccessMessage : unstakeSuccessMessage}!`
 
-  const unstakeActionTitle = `Unstake ${action.stakingToken.symbol} from ${action.rewardToken.symbol} Farm`
+  const unstakeActionTitle = `Withdraw ${action.stakingToken.symbol} from ${action.rewardToken.symbol} Farm`
   const exitActionTitle = `Exit from ${action.rewardToken.symbol} Farm`
 
   return (
@@ -36,7 +36,7 @@ export function UnstakeActionRow({ action, index, actionHandlerState, onAction, 
       <ActionRow.ErrorWarning variant={variant} actionHandlerState={actionHandlerState} />
 
       <ActionRow.Action onAction={onAction} status={status}>
-        {action.exit ? 'Exit' : 'Unstake'}
+        {action.exit ? 'Exit' : 'Withdraw'}
       </ActionRow.Action>
     </ActionRow>
   )

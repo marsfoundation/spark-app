@@ -246,11 +246,11 @@ function actionToTitle(action: SimplifiedAction): string {
     case 'downgrade':
       return `Downgrade ${action.fromToken} to ${action.toToken}`
     case 'stake':
-      return `Stake ${action.stakingToken} in ${action.rewardToken} Farm`
+      return `Deposit ${action.stakingToken} into ${action.rewardToken} Farm`
     case 'unstake':
       return action.exit
         ? `Exit from ${action.rewardToken} Farm`
-        : `Unstake ${action.stakingToken} from ${action.rewardToken} Farm`
+        : `Withdraw ${action.stakingToken} from ${action.rewardToken} Farm`
     case 'claimFarmRewards':
       return 'Claim rewards'
     case 'usdsPsmConvert':
@@ -272,8 +272,6 @@ const actionVerbs = [
   'Claim',
   'Upgrade',
   'Downgrade',
-  'Stake',
-  'Unstake',
   'Exit',
 ]
 const actionButtonRegex = new RegExp(`^(${actionVerbs.join('|')})$`)

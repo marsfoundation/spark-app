@@ -41,7 +41,7 @@ export function TokensToDeposit({ assets, openStakeDialog }: TokensToDepositProp
           return (
             <div className="flex w-full flex-row justify-end">
               <Button variant="secondary" size="sm" disabled={balance.eq(0)} onClick={() => openStakeDialog(token)}>
-                Stake
+                Deposit
               </Button>
             </div>
           )

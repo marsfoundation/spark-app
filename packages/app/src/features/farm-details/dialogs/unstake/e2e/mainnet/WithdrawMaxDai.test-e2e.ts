@@ -88,7 +88,7 @@ test.describe('Withdraw max DAI from SKY farm', () => {
         ],
         farm: {
           upperText: 'SKY Farm',
-          lowerText: 'Staked',
+          lowerText: 'Deposited',
         },
       },
       outcome: '10,000.00 DAI worth $10,000.00',
@@ -111,7 +111,7 @@ test.describe('Withdraw max DAI from SKY farm', () => {
         ],
         farm: {
           upperText: 'SKY Farm',
-          lowerText: 'Staked',
+          lowerText: 'Deposited',
         },
       },
       outcome: {
