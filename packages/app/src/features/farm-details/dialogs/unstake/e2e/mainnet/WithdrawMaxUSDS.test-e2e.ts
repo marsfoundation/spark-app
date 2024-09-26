@@ -91,7 +91,7 @@ test.describe('Withdraw max USDS from SKY farm', () => {
         ],
         farm: {
           upperText: 'SKY Farm',
-          lowerText: 'Staked',
+          lowerText: 'Deposited',
         },
       },
       outcome: '10,000.00 USDS worth $10,000.00',
@@ -110,7 +110,7 @@ test.describe('Withdraw max USDS from SKY farm', () => {
         ],
         farm: {
           upperText: 'SKY Farm',
-          lowerText: 'Staked',
+          lowerText: 'Deposited',
         },
       },
       outcome: {

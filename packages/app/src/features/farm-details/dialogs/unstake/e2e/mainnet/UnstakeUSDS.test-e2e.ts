@@ -73,7 +73,7 @@ test.describe('Unstake USDS from SKY farm', () => {
         ],
         farm: {
           upperText: 'SKY Farm',
-          lowerText: 'Staked',
+          lowerText: 'Deposited',
         },
       },
       outcome: '5,000.00 USDS worth $5,000.00',

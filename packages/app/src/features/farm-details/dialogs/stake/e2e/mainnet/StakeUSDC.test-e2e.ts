@@ -64,7 +64,7 @@ test.describe('Stake USDC to SKY farm', () => {
         ],
         final: {
           upperText: 'SKY Farm',
-          lowerText: 'Staked',
+          lowerText: 'Deposited',
         },
       },
       outcome: '10,000.00 USDS deposited into SKY Farm',
