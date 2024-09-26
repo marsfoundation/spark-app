@@ -25,7 +25,7 @@ export function FarmStatsRow({ depositors, tvl, apy, deposit }: FarmStatsRowProp
         <div className="font-semibold">{depositors}</div>
       </DetailsItem>
       <DetailsItem title="TVL" explainer="Total value locked in the farm">
-        <div className="font-semibold">{USD_MOCK_TOKEN.formatUSD(tvl)}</div>
+        <div className="font-semibold">{USD_MOCK_TOKEN.formatUSD(tvl, { compact: true })}</div>
       </DetailsItem>
       <DetailsItem title="APY" explainer="Annual percentage yield">
         <div className="font-semibold text-[#3F66EF]">{formatPercentage(apy, { minimumFractionDigits: 0 })}</div>

@@ -12,6 +12,7 @@ export interface AssetsGroup {
 export interface FarmConfig {
   address: CheckedAddress
   entryAssetsGroup: AssetsGroup
+  historyCutoff?: Date
 }
 
 export interface Farm {

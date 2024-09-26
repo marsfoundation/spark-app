@@ -7,10 +7,11 @@ import { z } from 'zod'
 export interface FarmHistoricDataParameters {
   chainId: number
   farmAddress: CheckedAddress
+  historyCutoff?: Date
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function farmHistoricDataQueryOptions({ chainId, farmAddress }: FarmHistoricDataParameters) {
+export function farmHistoricDataQueryOptions({ chainId, farmAddress, historyCutoff }: FarmHistoricDataParameters) {
   return queryOptions({
     queryKey: ['farm-historic-data', chainId, farmAddress],
     queryFn: async () => {
@@ -19,7 +20,13 @@ export function farmHistoricDataQueryOptions({ chainId, farmAddress }: FarmHisto
         throw new Error(`Failed to fetch farm data: ${res.statusText}`)
       }
 
-      return historicDataResponseSchema.parse(await res.json())
+      const data = historicDataResponseSchema.parse(await res.json())
+
+      if (historyCutoff) {
+        return data.filter((result) => result.date >= historyCutoff)
+      }
+
+      return data
     },
   })
 }
