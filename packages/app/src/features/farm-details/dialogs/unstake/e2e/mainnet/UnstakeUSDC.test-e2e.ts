@@ -94,6 +94,6 @@ test.describe('Unstake USDC from SKY farm', () => {
       reward: '3,539',
       rewardUsd: '$212.34',
     })
-    await farmDetailsPage.expectStaked('5000.00 USDS')
+    await farmDetailsPage.expectStaked('5,000.00 USDS')
   })
 })
