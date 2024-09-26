@@ -52,8 +52,14 @@ test.describe('Unstake USDS from SKY farm', () => {
     await unstakeDialog.fillAmountAction(5_000)
   })
 
+  test('has exit farm switch hidden', async () => {
+    await unstakeDialog.expectExitFarmSwitchToBeHidden()
+  })
+
   test('has correct action plan', async () => {
-    await unstakeDialog.actionsContainer.expectActions([{ type: 'unstake', stakingToken: 'USDS', rewardToken: 'SKY' }])
+    await unstakeDialog.actionsContainer.expectActions([
+      { type: 'unstake', stakingToken: 'USDS', rewardToken: 'SKY', exit: false },
+    ])
   })
 
   test('displays transaction overview', async () => {

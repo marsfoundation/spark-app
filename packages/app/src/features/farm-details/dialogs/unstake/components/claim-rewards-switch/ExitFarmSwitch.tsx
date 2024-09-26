@@ -23,12 +23,19 @@ export function ExitFarmSwitch({ checked, onSwitch, reward }: UpgradeToSusdsSwit
           <div className="font-medium text-sm">
             Withdraw and claim<span className="hidden sm:inline"> rewards in one transaction</span>
           </div>
-          <div className="text-basics-dark-grey text-xs">
+          <div
+            className="text-basics-dark-grey text-xs"
+            data-testid={testIds.farmDetails.unstakeDialog.exitFarmSwitchPanel.reward}
+          >
             ~{rewardAmount} {reward.token.symbol} (~{rewardUsdValue})
           </div>
         </div>
       </div>
-      <Switch checked={checked} onClick={onSwitch} data-testid={testIds.farmDetails.unstakeDialog.exitFarmSwitch} />
+      <Switch
+        checked={checked}
+        onClick={onSwitch}
+        data-testid={testIds.farmDetails.unstakeDialog.exitFarmSwitchPanel.switch}
+      />
     </div>
   )
 }

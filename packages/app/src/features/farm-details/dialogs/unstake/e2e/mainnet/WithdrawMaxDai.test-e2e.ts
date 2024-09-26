@@ -4,18 +4,20 @@ import { setupFork } from '@/test/e2e/forking/setupFork'
 import { overrideInfoSkyRouteWithHAR } from '@/test/e2e/info-sky'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
+import { Address } from 'viem'
 import { mainnet } from 'viem/chains'
 import { StakeDialogPageObject } from '../../../stake/StakeDialog.PageObject'
 import { UnstakeDialogPageObject } from '../../UnstakeDialog.PageObject'
 
-test.describe('Unstake DAI from SKY farm', () => {
+test.describe('Withdraw max DAI from SKY farm', () => {
   const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
   let farmDetailsPage: FarmDetailsPageObject
   let unstakeDialog: UnstakeDialogPageObject
   let stakeDialog: StakeDialogPageObject
+  let account: Address
 
   test.beforeEach(async ({ page }) => {
-    await setup(page, fork, {
+    ;({ account } = await setup(page, fork, {
       initialPage: 'farmDetails',
       initialPageParams: {
         chainId: mainnet.id.toString(),
@@ -29,7 +31,8 @@ test.describe('Unstake DAI from SKY farm', () => {
           USDS: 10_000,
         },
       },
-    })
+    }))
+
     await overrideInfoSkyRouteWithHAR({ page, key: '2-sky-farm-with-12_07-apy' })
 
     farmDetailsPage = new FarmDetailsPageObject(page)
@@ -49,7 +52,18 @@ test.describe('Unstake DAI from SKY farm', () => {
     unstakeDialog = new UnstakeDialogPageObject(page)
 
     await unstakeDialog.selectAssetAction('DAI')
-    await unstakeDialog.fillAmountAction(5_000)
+    await unstakeDialog.clickMaxAmountAction()
+  })
+
+  test('has reward displayed on exit farm switch', async () => {
+    await unstakeDialog.expectExitFarmSwitchToBeVisible()
+    await unstakeDialog.expectExitFarmSwitchNotChecked()
+    await unstakeDialog.expectExitFarmSwitchReward({
+      min: 3538,
+      max: 3541,
+      token: 'SKY',
+      usdValue: '235',
+    })
   })
 
   test('has correct action plan', async () => {
@@ -60,17 +74,26 @@ test.describe('Unstake DAI from SKY farm', () => {
     ])
   })
 
+  test('has correct action plan when exiting', async () => {
+    await unstakeDialog.clickExitFarmSwitchAction()
+    await unstakeDialog.actionsContainer.expectActions([
+      { type: 'unstake', stakingToken: 'USDS', rewardToken: 'SKY', exit: true },
+      { type: 'approve', asset: 'USDS' },
+      { type: 'downgrade', fromToken: 'USDS', toToken: 'DAI' },
+    ])
+  })
+
   test('displays transaction overview', async () => {
     await unstakeDialog.expectTransactionOverview({
       route: {
         swaps: [
           {
-            tokenAmount: '5,000.00 USDS',
-            tokenUsdValue: '$5,000.00',
+            tokenAmount: '10,000.00 USDS',
+            tokenUsdValue: '$10,000.00',
           },
           {
-            tokenAmount: '5,000.00 DAI',
-            tokenUsdValue: '$5,000.00',
+            tokenAmount: '10,000.00 DAI',
+            tokenUsdValue: '$10,000.00',
           },
         ],
         farm: {
@@ -78,7 +101,40 @@ test.describe('Unstake DAI from SKY farm', () => {
           lowerText: 'Staked',
         },
       },
-      outcome: '5,000.00 DAI worth $5,000.00',
+      outcome: '10,000.00 DAI worth $10,000.00',
+    })
+  })
+
+  test('displays transaction overview when exiting', async () => {
+    await unstakeDialog.clickExitFarmSwitchAction()
+    await unstakeDialog.expectExitTransactionOverview({
+      route: {
+        swaps: [
+          {
+            tokenAmount: '10,000.00 USDS',
+            tokenUsdValue: '$10,000.00',
+          },
+          {
+            tokenAmount: '10,000.00 DAI',
+            tokenUsdValue: '$10,000.00',
+          },
+        ],
+        farm: {
+          upperText: 'SKY Farm',
+          lowerText: 'Staked',
+        },
+      },
+      outcome: {
+        amount: '10,000.00',
+        token: 'DAI',
+        usdValue: '10,000.00',
+      },
+      reward: {
+        min: 3538,
+        max: 3541,
+        usdValue: '235',
+        token: 'SKY',
+      },
     })
   })
 
@@ -88,11 +144,33 @@ test.describe('Unstake DAI from SKY farm', () => {
     await unstakeDialog.expectSuccessPage()
     await unstakeDialog.clickBackToFarmAction()
 
-    await farmDetailsPage.expectTokenToDepositBalance('DAI', '15,000.00')
+    await farmDetailsPage.expectTokenToDepositBalance('DAI', '20,000.00')
     await farmDetailsPage.expectTokenToDepositBalance('USDS', '-')
     await farmDetailsPage.expectStaked({
-      stake: '5,000.00 USDS',
+      stake: '0.00 USDS',
       reward: '3,539',
+    })
+  })
+
+  test('executes exit transaction', async () => {
+    await unstakeDialog.actionsContainer.expectEnabledActionAtIndex(0)
+    await unstakeDialog.clickExitFarmSwitchAction()
+
+    await unstakeDialog.actionsContainer.expectEnabledActionAtIndex(0)
+    await unstakeDialog.actionsContainer.acceptAllActionsAction(3)
+
+    await unstakeDialog.expectSuccessPage()
+    await unstakeDialog.clickBackToFarmAction()
+
+    await farmDetailsPage.expectTokenToDepositBalance('DAI', '20,000.00')
+    await farmDetailsPage.expectInfoPanelToBeVisible()
+
+    await farmDetailsPage.expectTokenBalance({
+      address: account,
+      fork,
+      symbol: 'SKY',
+      minBalance: 3_525,
+      maxBalance: 3_545,
     })
   })
 })

@@ -170,6 +170,7 @@ type SimplifiedUnstakeAction = {
   type: 'unstake'
   stakingToken: string
   rewardToken: string
+  exit: boolean
 }
 
 type SimplifiedUsdsPsmConvertAction = {
@@ -247,7 +248,9 @@ function actionToTitle(action: SimplifiedAction): string {
     case 'stake':
       return `Stake ${action.stakingToken} in ${action.rewardToken} Farm`
     case 'unstake':
-      return `Unstake ${action.stakingToken} from ${action.rewardToken} Farm`
+      return action.exit
+        ? `Exit from ${action.rewardToken} Farm`
+        : `Unstake ${action.stakingToken} from ${action.rewardToken} Farm`
     case 'claimFarmRewards':
       return 'Claim rewards'
     case 'usdsPsmConvert':
@@ -271,6 +274,7 @@ const actionVerbs = [
   'Downgrade',
   'Stake',
   'Unstake',
+  'Exit',
 ]
 const actionButtonRegex = new RegExp(`^(${actionVerbs.join('|')})$`)
 

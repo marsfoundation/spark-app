@@ -24,7 +24,10 @@ export function FarmInfoPanel({
   openStakeDialog,
 }: FarmInfoPanelProps) {
   return (
-    <Panel.Wrapper className="flex min-h-[380px] w-full flex-1 flex-col justify-between self-stretch px-6 py-6 md:px-[32px]">
+    <Panel.Wrapper
+      className="flex min-h-[380px] w-full flex-1 flex-col justify-between self-stretch px-6 py-6 md:px-[32px]"
+      data-testid={testIds.farmDetails.infoPanel.panel}
+    >
       <div className="flex max-w-[75%] flex-col gap-4">
         <h2 className="font-semibold text-2xl md:text-3xl">
           Stake {assetsGroupToText(assetsGroupType)} <br />

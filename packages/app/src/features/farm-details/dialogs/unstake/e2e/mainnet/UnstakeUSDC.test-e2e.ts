@@ -54,7 +54,7 @@ test.describe('Unstake USDC from SKY farm', () => {
 
   test('has correct action plan', async () => {
     await unstakeDialog.actionsContainer.expectActions([
-      { type: 'unstake', stakingToken: 'USDS', rewardToken: 'SKY' },
+      { type: 'unstake', stakingToken: 'USDS', rewardToken: 'SKY', exit: false },
       { type: 'approve', asset: 'USDS' },
       { type: 'usdsPsmConvert', inToken: 'USDS', outToken: 'USDC' },
     ])
