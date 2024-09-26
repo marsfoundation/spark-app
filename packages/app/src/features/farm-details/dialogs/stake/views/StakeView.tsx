@@ -41,7 +41,7 @@ export function StakeView({
 
   return (
     <MultiPanelDialog panelRef={ref}>
-      <DialogTitle>Deposit to {farm.rewardToken.symbol} Farm</DialogTitle>
+      <DialogTitle>Deposit into {farm.rewardToken.symbol} Farm</DialogTitle>
 
       <FormAndOverviewWrapper>
         <DialogForm form={form} assetsFields={assetsFields} selectorAssets={selectableAssets} />
