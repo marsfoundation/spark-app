@@ -12,12 +12,12 @@ import { rootRouter } from './RootRouter'
 import { queryClient } from './config/query-client'
 import { useViteErrorOverlay } from './domain/errors/useViteErrorOverlay'
 import { I18nAppProvider } from './domain/i18n/I18nAppProvider'
-import { useStore } from './domain/state'
+import { useUpToDateSandboxNetwork } from './domain/sandbox/useUpToDateSanboxNetwork'
 import { useAutoConnect } from './domain/wallet/useAutoConnect'
 import { TooltipProvider } from './ui/atoms/tooltip/Tooltip'
 
 function App() {
-  const sandboxNetwork = useStore((state) => state.sandbox.network)
+  const sandboxNetwork = useUpToDateSandboxNetwork()
   const config = getConfig(sandboxNetwork)
   if (import.meta.env.VITE_PLAYWRIGHT === '1' || import.meta.env.MODE === 'development') {
     // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
