@@ -92,7 +92,7 @@ function formatUSDWithPrecision(value: NormalizedUnitNumber): string {
 
   const formatter = new Intl.NumberFormat('en-US', {
     minimumFractionDigits: 2,
-    maximumFractionDigits: number > 1 ? 2 : 5,
+    maximumFractionDigits: number > 1 ? 2 : 4,
     style: 'currency',
     currency: 'USD',
   })
