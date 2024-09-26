@@ -222,7 +222,10 @@ export const testIds = makeTestIds({
         },
         outcome: true,
       },
-      exitFarmSwitch: true,
+      exitFarmSwitchPanel: {
+        switch: true,
+        reward: true,
+      },
     },
     claimDialog: {
       transactionOverview: {
@@ -233,6 +236,7 @@ export const testIds = makeTestIds({
       },
     },
     infoPanel: {
+      panel: true,
       stakeButton: true,
     },
     activeFarmInfoPanel: {

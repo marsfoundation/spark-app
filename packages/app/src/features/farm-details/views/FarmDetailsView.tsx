@@ -19,6 +19,7 @@ export interface FarmDetailsViewProps {
   farmDetailsRowData: FarmDetailsRowData
   farmHistoricData: FarmHistoryItem[]
   tokensToDeposit: TokenWithBalance[]
+  isFarmActive: boolean
   hasTokensToDeposit: boolean
   openStakeDialog: (token: Token) => void
   openDefaultedStakeDialog: () => void
@@ -36,6 +37,7 @@ export function FarmDetailsView({
   farmDetailsRowData,
   farmHistoricData,
   tokensToDeposit,
+  isFarmActive,
   hasTokensToDeposit,
   openStakeDialog,
   openDefaultedStakeDialog,
@@ -50,15 +52,14 @@ export function FarmDetailsView({
       <Header token={farm.rewardToken} chainId={chainId} chainMismatch={chainMismatch} />
       <div className="flex flex-col gap-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-6">
-          {farm.staked.gt(0) && (
+          {isFarmActive ? (
             <ActiveFarmInfoPanel
               farm={farm}
               farmDetailsRowData={farmDetailsRowData}
               openClaimDialog={openClaimDialog}
               openUnstakeDialog={openUnstakeDialog}
             />
-          )}
-          {farm.staked.eq(0) && (
+          ) : (
             <FarmInfoPanel
               assetsGroupType={farm.entryAssetsGroup.type}
               rewardToken={farm.rewardToken}

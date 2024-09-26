@@ -24,8 +24,8 @@ export function TransactionOutcome({
 
   const [textContent, mobileTextContent] = (() => {
     if (isExiting) {
-      const exitText = `${outcomeTokenAmount} ${outcomeToken.symbol} (${outcomeTokenUsdValue}) + ${earnedRewardsAmount} ${rewardToken.symbol} (${earnedRewardsUsdValue})`
-      const exitTextMobile = `${outcomeTokenAmount} ${outcomeToken.symbol} + ${earnedRewardsAmount} ${rewardToken.symbol}`
+      const exitText = `${outcomeTokenAmount} ${outcomeToken.symbol} (${outcomeTokenUsdValue}) + ~${earnedRewardsAmount} ${rewardToken.symbol} (~${earnedRewardsUsdValue})`
+      const exitTextMobile = `${outcomeTokenAmount} ${outcomeToken.symbol} + ~${earnedRewardsAmount} ${rewardToken.symbol}`
       return [exitText, exitTextMobile]
     }
     const unstakeText = `${outcomeTokenAmount} ${outcomeToken.symbol} worth ${outcomeTokenUsdValue}`
@@ -34,11 +34,10 @@ export function TransactionOutcome({
   })()
 
   return (
-    <div
-      className="flex flex-col items-end gap-0.5 md:block"
-      data-testid={testIds.farmDetails.unstakeDialog.transactionOverview.outcome}
-    >
-      <span className="hidden sm:inline">{textContent}</span>
+    <div className="flex flex-col items-end gap-0.5 md:block">
+      <span className="hidden sm:inline" data-testid={testIds.farmDetails.unstakeDialog.transactionOverview.outcome}>
+        {textContent}
+      </span>
       <span className="sm:hidden">{mobileTextContent}</span>
     </div>
   )

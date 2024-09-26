@@ -54,7 +54,7 @@ test.describe('Unstake DAI from SKY farm', () => {
 
   test('has correct action plan', async () => {
     await unstakeDialog.actionsContainer.expectActions([
-      { type: 'unstake', stakingToken: 'USDS', rewardToken: 'SKY' },
+      { type: 'unstake', stakingToken: 'USDS', rewardToken: 'SKY', exit: false },
       { type: 'approve', asset: 'USDS' },
       { type: 'downgrade', fromToken: 'USDS', toToken: 'DAI' },
     ])

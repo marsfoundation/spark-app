@@ -26,6 +26,7 @@ export interface UseFarmDetailsResult {
   farmDetailsRowData: FarmDetailsRowData
   farmHistoricData: FarmHistoryItem[]
   tokensToDeposit: TokenWithBalance[]
+  isFarmActive: boolean
   hasTokensToDeposit: boolean
   openStakeDialog: (initialToken: Token) => void
   openUnstakeDialog: () => void
@@ -68,6 +69,7 @@ export function useFarmDetails(): UseFarmDetailsResult {
     },
     tokensToDeposit,
     hasTokensToDeposit,
+    isFarmActive: farm.staked.gt(0) || farm.earned.gt(0),
     openUnstakeDialog: () => openDialog(unstakeDialogConfig, { farm, initialToken: farm.stakingToken }),
     openStakeDialog: (initialToken: Token) => openDialog(stakeDialogConfig, { farm, initialToken }),
     openDefaultedStakeDialog: () =>

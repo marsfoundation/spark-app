@@ -41,6 +41,10 @@ export class FarmDetailsPageObject extends BasePageObject {
     )
   }
 
+  async expectInfoPanelToBeVisible(): Promise<void> {
+    await expect(this.page.getByTestId(testIds.farmDetails.infoPanel.panel)).toBeVisible()
+  }
+
   async expectTokenBalance({
     fork,
     symbol,
