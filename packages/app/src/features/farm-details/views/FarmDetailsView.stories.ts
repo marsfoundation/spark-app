@@ -18,6 +18,7 @@ const meta: Meta<typeof FarmDetailsView> = {
     chainId: 1,
     chainMismatch: false,
     walletConnected: true,
+    isFarmActive: true,
     farm: {
       address: CheckedAddress('0x1234567890123456789012345678901234567890'),
       apy: Percentage(0.05),
@@ -76,6 +77,31 @@ type Story = StoryObj<typeof FarmDetailsView>
 export const ActiveDesktop: Story = {}
 export const ActiveMobile = getMobileStory(ActiveDesktop)
 export const ActiveTablet = getTabletStory(ActiveDesktop)
+
+export const NoDepositWithRewards: Story = {
+  args: {
+    farm: {
+      address: CheckedAddress('0x1234567890123456789012345678901234567890'),
+      apy: Percentage(0.05),
+      entryAssetsGroup: {
+        type: 'stablecoins',
+        name: 'Stablecoins',
+        assets: [tokens.DAI.symbol, tokens.sDAI.symbol, tokens.USDC.symbol, tokens.USDS.symbol, tokens.sUSDS.symbol],
+      },
+      rewardToken: tokens.MKR,
+      stakingToken: tokens.DAI,
+      earned: NormalizedUnitNumber(71.2345783),
+      staked: NormalizedUnitNumber(0),
+      rewardRate: NormalizedUnitNumber(0.0000000003756),
+      earnedTimestamp: 1724337615,
+      periodFinish: 2677721600,
+      totalSupply: NormalizedUnitNumber(100_000),
+      depositors: 6,
+    },
+  },
+}
+export const NoDepositWithRewardsMobile = getMobileStory(NoDepositWithRewards)
+export const NoDepositWithRewardsTablet = getTabletStory(NoDepositWithRewards)
 
 export const InactiveDesktop: Story = {
   args: {

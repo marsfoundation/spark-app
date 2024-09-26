@@ -1,6 +1,5 @@
 import { TokenWithBalance } from '@/domain/common/types'
 import { Farm, FarmDetailsRowData } from '@/domain/farms/types'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { getTokenImage } from '@/ui/assets'
 import { ConnectOrSandboxCTAPanel } from '@/ui/organisms/connect-or-sandbox-cta-panel/ConnectOrSandboxCTAPanel'
@@ -20,8 +19,8 @@ export interface FarmDetailsViewProps {
   farmDetailsRowData: FarmDetailsRowData
   farmHistoricData: FarmHistoryItem[]
   tokensToDeposit: TokenWithBalance[]
+  isFarmActive: boolean
   hasTokensToDeposit: boolean
-  earnedReward: NormalizedUnitNumber
   openStakeDialog: (token: Token) => void
   openDefaultedStakeDialog: () => void
   openClaimDialog: () => void
@@ -38,8 +37,8 @@ export function FarmDetailsView({
   farmDetailsRowData,
   farmHistoricData,
   tokensToDeposit,
+  isFarmActive,
   hasTokensToDeposit,
-  earnedReward,
   openStakeDialog,
   openDefaultedStakeDialog,
   openClaimDialog,
@@ -53,7 +52,7 @@ export function FarmDetailsView({
       <Header token={farm.rewardToken} chainId={chainId} chainMismatch={chainMismatch} />
       <div className="flex flex-col gap-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-6">
-          {farm.staked.gt(0) || earnedReward.gt(0) ? (
+          {isFarmActive ? (
             <ActiveFarmInfoPanel
               farm={farm}
               farmDetailsRowData={farmDetailsRowData}
