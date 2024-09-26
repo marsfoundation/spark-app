@@ -7,6 +7,7 @@ interface UseTimestampOptions {
 export interface UseTimestampResults {
   timestamp: number
   timestampInMs: number
+  updateTimestamp: () => void
 }
 
 // returns the current timestamp that does not change during the component lifecycle
@@ -14,7 +15,7 @@ export interface UseTimestampResults {
 export function useTimestamp({ refreshIntervalInMs }: UseTimestampOptions = {}): UseTimestampResults {
   const now = Date.now()
 
-  const { data } = useSuspenseQuery({
+  const { data, refetch } = useSuspenseQuery({
     queryKey: ['timestamp', refreshIntervalInMs],
     queryFn: () => {
       const timestampInMs = Date.now()
@@ -35,5 +36,6 @@ export function useTimestamp({ refreshIntervalInMs }: UseTimestampOptions = {}):
   return {
     timestamp: data.timestamp,
     timestampInMs: data.timestampInMs,
+    updateTimestamp: refetch,
   }
 }

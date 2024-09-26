@@ -2,7 +2,7 @@ import { getChainConfigEntry } from '@/config/chain'
 import { sortByUsdValueWithUsdsPriority } from '@/domain/common/sorters'
 import { TokenWithBalance } from '@/domain/common/types'
 import { NotFoundError } from '@/domain/errors/not-found'
-import { Farm, FarmDetailsRowData } from '@/domain/farms/types'
+import { Farm } from '@/domain/farms/types'
 import { useFarmsInfo } from '@/domain/farms/useFarmsInfo'
 import { useOpenDialog } from '@/domain/state/dialogs'
 import { Token } from '@/domain/types/Token'
@@ -17,13 +17,13 @@ import { unstakeDialogConfig } from '../dialogs/unstake/UnstakeDialog'
 import { FarmHistoryItem } from './historic/types'
 import { useFarmHistoricData } from './historic/useFarmHistoricData'
 import { useFarmDetailsParams } from './useFarmDetailsParams'
+import { useSandboxFarmRedirect } from './useSandboxFarmRedirect'
 
 export interface UseFarmDetailsResult {
   chainId: number
   chainMismatch: boolean
   walletConnected: boolean
   farm: Farm
-  farmDetailsRowData: FarmDetailsRowData
   farmHistoricData: FarmHistoryItem[]
   tokensToDeposit: TokenWithBalance[]
   isFarmActive: boolean
@@ -45,6 +45,8 @@ export function useFarmDetails(): UseFarmDetailsResult {
   const openDialog = useOpenDialog()
   const chainConfig = getChainConfigEntry(chainId)
 
+  useSandboxFarmRedirect()
+
   const { farmsInfo } = useFarmsInfo({ chainId })
   const { farmHistoricData } = useFarmHistoricData({ chainId, farmAddress })
   const { tokensInfo } = useTokensInfo({ tokens: chainConfig.extraTokens, chainId })
@@ -62,11 +64,6 @@ export function useFarmDetails(): UseFarmDetailsResult {
     walletConnected,
     farm,
     farmHistoricData,
-    farmDetailsRowData: {
-      tvl: farm.totalSupply,
-      apy: farm.apy,
-      depositors: farm.depositors,
-    },
     tokensToDeposit,
     hasTokensToDeposit,
     isFarmActive: farm.staked.gt(0) || farm.earned.gt(0),

@@ -131,6 +131,7 @@ const chainConfig: ChainConfig = {
       {
         address: getContractAddress(usdsSkyRewardsConfig.address, mainnet.id),
         entryAssetsGroup: stablecoinsGroup,
+        historyCutoff: new Date('2024-09-17T00:00:00.000Z'),
       },
     ],
     oracles: {

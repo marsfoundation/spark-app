@@ -8,6 +8,8 @@ export interface UseSandboxStateResult {
   isSandboxEnabled: boolean
   isDevSandboxEnabled: boolean
   isInSandbox: boolean
+  sandboxChainId?: number
+  originChainId?: number
   isEphemeralAccount: (address: Address) => boolean
   deleteSandbox: () => void
 }
@@ -40,6 +42,8 @@ export function useSandboxState(): UseSandboxStateResult {
     isSandboxEnabled,
     isDevSandboxEnabled,
     isInSandbox: network?.forkChainId === chainId,
+    sandboxChainId: network?.forkChainId,
+    originChainId: network?.originChainId,
     isEphemeralAccount: (address: Address) => ephemeralAccountAddress === address,
     deleteSandbox: () => {
       setNetwork(undefined)

@@ -11,11 +11,6 @@ const meta: Meta<typeof ActiveFarmInfoPanel> = {
   component: ActiveFarmInfoPanel,
   decorators: [WithClassname('max-w-lg'), WithTooltipProvider()],
   args: {
-    farmDetailsRowData: {
-      depositors: 6,
-      tvl: NormalizedUnitNumber(57_891),
-      apy: Percentage(0.05),
-    },
     farm: {
       address: CheckedAddress('0x1234567890123456789012345678901234567890'),
       apy: Percentage(0.05),
