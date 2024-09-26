@@ -50,7 +50,7 @@ export function StakeView({
 
       {sacrificesYield && (
         <Alert variant="danger">
-          <p className="max-w-[58ch]">
+          <p className="max-w-[60ch]">
             Depositing your savings token means that you will no longer earn yield directly from it. Instead, you will
             receive yield from the specific farm you deposit it into.
           </p>
