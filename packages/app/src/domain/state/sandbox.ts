@@ -5,6 +5,8 @@ import { tryOrDefault } from '@/utils/tryOrDefault'
 
 import { StoreState } from '.'
 
+const SANDBOX_EXPIRY = 6 * 3600 * 1000 // 6 hours
+
 export interface SandboxNetwork {
   name: string // will be displayed to the user in wallet UI
   forkUrl: string
@@ -61,6 +63,14 @@ export function unPersistSandboxSlice(persistedState: DeepPartial<PersistedSandb
     return {}
   }
 
+  if (isPersistedSandboxExpired(persistedState)) {
+    return {
+      sandbox: {
+        network: undefined,
+      },
+    }
+  }
+
   return {
     sandbox: {
       network: {
@@ -73,4 +83,18 @@ export function unPersistSandboxSlice(persistedState: DeepPartial<PersistedSandb
       },
     },
   }
+}
+
+function isPersistedSandboxExpired(persistedState: DeepPartial<PersistedSandboxSlice>): boolean {
+  const createdAt = tryOrDefault(() => {
+    const createdAt = persistedState?.sandbox?.network?.createdAt
+    return createdAt ? new Date(createdAt) : undefined
+  }, undefined)
+
+  if (createdAt === undefined) {
+    return true
+  }
+
+  const now = new Date()
+  return now.getTime() - createdAt.getTime() > SANDBOX_EXPIRY
 }
