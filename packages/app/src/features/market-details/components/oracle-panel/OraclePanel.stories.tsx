@@ -5,7 +5,6 @@ import { MarketPriceOracleInfo, YieldingFixedOracleInfo } from '@/domain/oracles
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { getMockReserve } from '@/test/integration/constants'
 import { WithClassname, WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@storybook/decorators'
 import { tokens } from '@storybook/tokens'
 import { OraclePanel } from './OraclePanel'
@@ -78,16 +77,15 @@ export const UnderlyingAssetTablet = getTabletStory(UnderlyingAssetDesktop)
 
 const yieldingFixedData: YieldingFixedOracleInfo = {
   type: 'yielding-fixed',
-  baseAsset: TokenSymbol('ETH'),
+  baseAssetSymbol: TokenSymbol('ETH'),
   providedBy: ['chainlink'],
   ratio: NormalizedUnitNumber(2.137),
   price: NormalizedUnitNumber(4776.34),
-  baseTokenReserve: getMockReserve({
-    token: tokens.WETH,
-  }),
   token: tokens.weETH,
   chainId: 1,
-  priceOracleAddress: CheckedAddress('0x1234567890123456789012345678901234567890'),
+  priceOracleAddress: CheckedAddress('0x28897036f8459bFBa886083dD6b4Ce4d2f14a57F'),
+  baseAssetOracle: CheckedAddress('0xb20A1374EfCaFa32F701Ab14316fA2E5b3400eD5'),
+  baseAssetPrice: tokens.WETH.unitPriceUsd,
 }
 
 export const YieldingFixedDesktop: Story = {

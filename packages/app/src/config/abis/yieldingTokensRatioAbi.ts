@@ -1,4 +1,11 @@
-export const weEthOracleAbi = [
+export const weethOracleAbi = [
+  {
+    inputs: [],
+    name: 'ethSource',
+    outputs: [{ internalType: 'contract IPriceSource', name: '', type: 'address' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
   {
     inputs: [],
     name: 'weeth',
@@ -8,7 +15,7 @@ export const weEthOracleAbi = [
   },
 ] as const
 
-export const weEthRatioAbi = [
+export const weethRatioAbi = [
   {
     inputs: [],
     name: 'getRate',
@@ -18,7 +25,31 @@ export const weEthRatioAbi = [
   },
 ] as const
 
-export const rEthOracleAbi = [
+export const weethBaseAssetOracleAbi = [
+  {
+    inputs: [],
+    name: 'decimals',
+    outputs: [{ internalType: 'uint8', name: '', type: 'uint8' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'latestAnswer',
+    outputs: [{ internalType: 'int256', name: '', type: 'int256' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+] as const
+
+export const rethOracleAbi = [
+  {
+    inputs: [],
+    name: 'ethSource',
+    outputs: [{ internalType: 'contract IPriceSource', name: '', type: 'address' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
   {
     inputs: [],
     name: 'reth',
@@ -28,7 +59,7 @@ export const rEthOracleAbi = [
   },
 ] as const
 
-export const rEthRatioAbi = [
+export const rethRatioAbi = [
   {
     inputs: [],
     name: 'getExchangeRate',
@@ -38,7 +69,32 @@ export const rEthRatioAbi = [
   },
 ] as const
 
-export const wstEthOracleAbi = [
+export const rethBaseAssetOracleAbi = [
+  {
+    inputs: [],
+    name: 'decimals',
+    outputs: [{ internalType: 'uint8', name: '', type: 'uint8' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+
+  {
+    inputs: [],
+    name: 'latestAnswer',
+    outputs: [{ internalType: 'int256', name: '', type: 'int256' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+] as const
+
+export const wstethOracleMainnetAbi = [
+  {
+    inputs: [],
+    name: 'ethSource',
+    outputs: [{ internalType: 'contract IPriceSource', name: '', type: 'address' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
   {
     inputs: [],
     name: 'steth',
@@ -48,13 +104,74 @@ export const wstEthOracleAbi = [
   },
 ] as const
 
-export const wstEthRatioAbi = [
+export const wstethRatioMainnetAbi = [
   {
     constant: true,
     inputs: [{ name: '_sharesAmount', type: 'uint256' }],
     name: 'getPooledEthByShares',
     outputs: [{ name: '', type: 'uint256' }],
     payable: false,
+    stateMutability: 'view',
+    type: 'function',
+  },
+] as const
+
+export const wstethBaseAssetOracleMainnetAbi = [
+  {
+    inputs: [],
+    name: 'decimals',
+    outputs: [{ internalType: 'uint8', name: '', type: 'uint8' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'latestAnswer',
+    outputs: [{ internalType: 'int256', name: '', type: 'int256' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+] as const
+
+export const sdaiOracleGnosisAbi = [
+  {
+    inputs: [],
+    name: 'DAI_TO_BASE',
+    outputs: [{ internalType: 'contract IChainlinkAggregator', name: '', type: 'address' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'sDAI',
+    outputs: [{ internalType: 'contract IERC4626', name: '', type: 'address' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+] as const
+
+export const sdaiRatioGnosisAbi = [
+  {
+    inputs: [{ internalType: 'uint256', name: 'shares', type: 'uint256' }],
+    name: 'convertToAssets',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+] as const
+
+export const sdaiBaseAssetOracleGnosisAbi = [
+  {
+    inputs: [],
+    name: 'decimals',
+    outputs: [{ internalType: 'uint8', name: '', type: 'uint8' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'latestAnswer',
+    outputs: [{ internalType: 'int256', name: '', type: 'int256' }],
     stateMutability: 'view',
     type: 'function',
   },
