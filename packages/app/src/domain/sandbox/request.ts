@@ -30,9 +30,5 @@ export async function request(forkUrl: string, method: string, params: any[]): P
   }
 
   const data = await result.json()
-  if (method === 'evm_snapshot') {
-    console.log('evm_snapshot response', data)
-  }
-
   return data
 }

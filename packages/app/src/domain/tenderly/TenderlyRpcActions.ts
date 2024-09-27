@@ -21,9 +21,12 @@ async function setTokenBalance(
 const snapshotResponseSchema = z.object({
   result: z
     .string()
-    .startsWith('0x')
-    .transform((value) => value as Hash),
-})
+}).refine(
+  (data) => data.result.startsWith('0x'),
+  (data) => ({ message: `Invalid object: ${JSON.stringify(data)}. 'result' must start with '0x'.` })
+).transform((data) => ({
+  result: data.result as Hash,
+}))
 
 async function snapshot(forkUrl: string): Promise<Hash> {
   const response = await request(forkUrl, 'evm_snapshot', [])
