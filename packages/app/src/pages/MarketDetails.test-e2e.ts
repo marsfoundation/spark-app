@@ -434,7 +434,7 @@ test.describe('Market details Mainnet', () => {
         oracleContract: '0x42a03F81dd8A1cEcD746dc262e4d1CD9fD39F777',
       })
     })
-    test('Market price', async ({ page }) => {
+    test('Market price - not redundant', async ({ page }) => {
       await setup(page, fork, {
         initialPage: 'marketDetails',
         initialPageParams: { asset: WBTC, chainId: fork.chainId.toString() },
@@ -455,7 +455,7 @@ test.describe('Market details Mainnet', () => {
       })
     })
 
-    test('Yielding fixed price', async ({ page }) => {
+    test('Yielding fixed price - redundant', async ({ page }) => {
       await setup(page, fork, {
         initialPage: 'marketDetails',
         initialPageParams: { asset: WEETH, chainId: fork.chainId.toString() },
@@ -580,7 +580,7 @@ test.describe('Market details Gnosis', () => {
       })
     })
 
-    test('Yielding fixed price', async ({ page }) => {
+    test('Yielding fixed price - not redundant', async ({ page }) => {
       await setup(page, fork, {
         initialPage: 'marketDetails',
         initialPageParams: { asset: sDAI, chainId: fork.chainId.toString() },
