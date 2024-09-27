@@ -16,6 +16,7 @@ export const links = {
     supplying: 'https://docs.spark.fi/defi-infrastructure/sparklend/supplying-and-earning',
     borrowing: 'https://docs.spark.fi/defi-infrastructure/sparklend/borrowing',
     sparkAirdrop: 'https://docs.spark.fi/governance/spk-token',
+    farmingRewards: 'https://docs.spark.fi/user-guides/farming-rewards',
   },
   aaveTechnicalPaper: 'https://github.com/aave/aave-v3-core/blob/master/techpaper/Aave_V3_Technical_Paper.pdf',
   termsOfUse: 'https://spark.fi/terms-of-use.html',

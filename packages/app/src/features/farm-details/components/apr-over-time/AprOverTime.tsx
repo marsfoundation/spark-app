@@ -1,9 +1,9 @@
 import { Percentage } from '@/domain/types/NumericValues'
 import { Panel } from '@/ui/atoms/panel/Panel'
-import { Info } from '@/ui/molecules/info/Info'
 import { useTimestamp } from '@/utils/useTimestamp'
 import { sort } from 'd3-array'
 import { useState } from 'react'
+import { SRRTooltip } from '../SRRTooltip'
 import { Chart } from './components/Chart'
 import { AVAILABLE_TIMEFRAMES, TimeframeButtons } from './components/TimeframeButtons'
 import { GraphDataPoint } from './types'
@@ -30,8 +30,8 @@ export function AprOverTime({ data }: AprOverTimeProps) {
     <Panel.Wrapper className="flex min-h-[380px] w-full flex-1 flex-col justify-between self-stretch px-6 py-6 md:px-[32px]">
       <div className="flex justify-between">
         <div className="flex items-center gap-1">
-          <h2 className="font-semibold text-lg md:text-xl">APR over time</h2>
-          <Info>APR over time</Info>
+          <h2 className="font-semibold text-lg md:text-xl">SRR over time</h2>
+          <SRRTooltip />
         </div>
         <div className="flex items-center gap-1">
           <TimeframeButtons setSelectedTimeframe={setSelectedTimeframe} selectedTimeframe={selectedTimeframe} />

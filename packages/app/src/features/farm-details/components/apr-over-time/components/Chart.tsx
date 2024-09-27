@@ -192,7 +192,7 @@ function TooltipContent({ data }: { data: GraphDataPoint }) {
       <div className="flex items-center gap-1.5 text-sm leading-none">
         <Circle size={8} fill={colors.primary} stroke="0" />
         <div>
-          APR: <span className="font-semibold">{formatPercentage(data.apr, { minimumFractionDigits: 0 })}</span>
+          SRR: <span className="font-semibold">{formatPercentage(data.apr, { minimumFractionDigits: 0 })}</span>
         </div>
       </div>
     </div>

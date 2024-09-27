@@ -1,7 +1,6 @@
 import { Farm } from '@/domain/farms/types'
 import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
-import { Info } from '@/ui/molecules/info/Info'
 import { testIds } from '@/ui/utils/testIds'
 import { FarmStatsRow } from '../farm-stats-row/FarmStatsRow'
 import { GrowingReward } from './GrowingReward'
@@ -20,7 +19,6 @@ export function ActiveFarmInfoPanel({ farm, openClaimDialog, openUnstakeDialog }
       <div className="flex justify-between">
         <div className="flex items-center gap-1">
           <h2 className="font-semibold text-lg md:text-xl">Overview</h2>
-          <Info>Info about your balance in the farm</Info>
         </div>
         <div className="flex items-center gap-1">
           <Button size="sm" onClick={openClaimDialog} data-testid={testIds.farmDetails.activeFarmInfoPanel.claimButton}>
