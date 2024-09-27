@@ -5,7 +5,7 @@ import { tryOrDefault } from '@/utils/tryOrDefault'
 
 import { StoreState } from '.'
 
-const SANDBOX_EXPIRY = 6 * 3600 * 1000 // 6 hours
+const SANDBOX_EXPIRY = 20 * 1000 // 6 hours
 
 export interface SandboxNetwork {
   name: string // will be displayed to the user in wallet UI
@@ -59,16 +59,8 @@ export function persistSandboxSlice(state: StoreState): PersistedSandboxSlice {
 }
 
 export function unPersistSandboxSlice(persistedState: DeepPartial<PersistedSandboxSlice>): DeepPartial<SandboxSlice> {
-  if (!persistedState.sandbox?.network) {
+  if (!persistedState.sandbox?.network || isPersistedSandboxExpired(persistedState)) {
     return {}
-  }
-
-  if (isPersistedSandboxExpired(persistedState)) {
-    return {
-      sandbox: {
-        network: undefined,
-      },
-    }
   }
 
   return {
