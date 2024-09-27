@@ -6,7 +6,6 @@ import { Config } from 'wagmi'
 import { SandboxNetwork } from '@/domain/state/sandbox'
 import { raise } from '@/utils/assert'
 
-import { USDS_DEV_CHAIN_ID } from '../chain/constants'
 import { getChains } from './getChains'
 import { getTransports } from './getTransports'
 import { getWallets } from './getWallets'
@@ -16,9 +15,8 @@ const wallets = getWallets()
 
 export function getConfig(sandboxNetwork?: SandboxNetwork): Config {
   const forkChain = getForkChainFromSandboxConfig(sandboxNetwork)
-  const usdsDevChain = getUSDSDevChain()
-  const transports = getTransports({ forkChain, usdsDevChain })
-  const chains = getChains({ forkChain, usdsDevChain })
+  const transports = getTransports({ forkChain })
+  const chains = getChains({ forkChain })
   const storage = createWagmiStorage()
 
   const config = getDefaultConfig({
@@ -55,22 +53,6 @@ function getForkChainFromSandboxConfig(sandboxNetwork?: SandboxNetwork): Chain |
     rpcUrls: {
       public: { http: [sandboxNetwork.forkUrl] },
       default: { http: [sandboxNetwork.forkUrl] },
-    },
-  }
-}
-
-function getUSDSDevChain(): Chain | undefined {
-  if (typeof import.meta.env.VITE_DEV_USDS_NETWORK_RPC_URL !== 'string') {
-    return undefined
-  }
-
-  return {
-    ...mainnet,
-    id: USDS_DEV_CHAIN_ID,
-    name: 'USDS DevNet',
-    rpcUrls: {
-      public: { http: [import.meta.env.VITE_DEV_USDS_NETWORK_RPC_URL] },
-      default: { http: [import.meta.env.VITE_DEV_USDS_NETWORK_RPC_URL] },
     },
   }
 }

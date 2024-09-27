@@ -8,7 +8,6 @@ import {
   PLAYWRIGHT_WALLET_PRIVATE_KEY_KEY,
 } from '@/config/wagmi/config.e2e'
 
-import { USDS_DEV_CHAIN_ID } from '@/config/chain/constants'
 import { http, createPublicClient, zeroAddress } from 'viem'
 import { mainnet } from 'viem/chains'
 import { ForkContext } from './forking/setupFork'
@@ -104,10 +103,6 @@ async function isSudsDeployed(forkContext: ForkContext): Promise<boolean> {
   const susdsAddress = (() => {
     if (forkContext.chainId === mainnet.id) {
       return '0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD'
-    }
-
-    if (forkContext.chainId === USDS_DEV_CHAIN_ID) {
-      return '0xCd9BC6cE45194398d12e27e1333D5e1d783104dD'
     }
 
     return zeroAddress
