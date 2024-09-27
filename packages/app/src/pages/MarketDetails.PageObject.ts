@@ -31,6 +31,10 @@ export class MarketDetailsPageObject extends BasePageObject {
     return this.locatePanelByHeader('Cannot be used as collateral')
   }
 
+  locateOraclePanel(): Locator {
+    return this.locatePanelByHeader(/Yielding Fixed Price|Market Price|Underlying Asset Price|Fixed Price/)
+  }
+
   locatePanelAutomatorCap(panelLocator: Locator): Locator {
     return panelLocator.getByTestId(testIds.marketDetails.capAutomator.cap)
   }
@@ -191,5 +195,102 @@ export class MarketDetailsPageObject extends BasePageObject {
     await expect(tooltipLocator).toContainText(value)
   }
 
+  async expectOraclePanelToHaveTitle(title: string): Promise<void> {
+    const panel = await this.locateOraclePanel()
+
+    await expect(panel.getByRole('heading', { name: title })).toBeVisible()
+  }
+
+  async expectOracleToBeRedundant(): Promise<void> {
+    const panel = await this.locateOraclePanel()
+
+    await expect(panel.getByRole('heading', { name: /(Redundant)/ })).toBeVisible()
+
+    const providersAmount = await panel
+      .getByTestId(testIds.marketDetails.oraclePanel.providersList)
+      .getByAltText('logo')
+      .count()
+
+    // should have at least 2 providers
+    await expect(providersAmount).toBeGreaterThan(1)
+  }
+
+  async expectOracleToBeNotRedundant(): Promise<void> {
+    const panel = await this.locateOraclePanel()
+
+    await expect(panel.getByRole('heading', { name: /(Redundant)/ })).not.toBeVisible()
+
+    const providersAmount = await panel
+      .getByTestId(testIds.marketDetails.oraclePanel.providersList)
+      .getByAltText('logo')
+      .count()
+
+    await expect(providersAmount).toBe(1)
+  }
+
+  async expectOracleInfo({ price, asset, oracleContract }: OracleInfo): Promise<void> {
+    await this.expectOraclePrice(price)
+    await this.expectOracleAsset(asset)
+    await this.expectOracleContract(oracleContract)
+  }
+
+  async expectYieldingFixedOracleBaseAssetInfo({ asset, price, oracleContract }: OracleInfo): Promise<void> {
+    await this.expectOracleBaseAssetSymbol(asset)
+    await this.expectOracleBaseAssetPrice(price)
+    await this.expectOracleBaseAssetContract(oracleContract)
+  }
+
+  async expectYieldingFixedOracleRatioInfo({
+    ratio,
+    ratioContract,
+  }: { ratio: string; ratioContract: string }): Promise<void> {
+    await this.expectOracleRatio(ratio)
+    await this.expectOracleRatioContract(ratioContract)
+  }
+
+  async expectOraclePrice(value: string): Promise<void> {
+    await expect(this.page.getByTestId(testIds.marketDetails.oraclePanel.price)).toHaveText(value)
+  }
+
+  async expectOracleContract(value: string): Promise<void> {
+    await expect(this.page.getByTestId(testIds.marketDetails.oraclePanel.oracleContract)).toHaveText(value)
+  }
+
+  async expectOracleAsset(value: string): Promise<void> {
+    await expect(this.page.getByTestId(testIds.marketDetails.oraclePanel.asset)).toHaveText(value)
+  }
+
+  async expectOracleBaseAssetSymbol(value: string): Promise<void> {
+    await expect(this.page.getByTestId(testIds.marketDetails.oraclePanel.yieldingFixed.baseAssetSymbol)).toHaveText(
+      value,
+    )
+  }
+
+  async expectOracleBaseAssetPrice(value: string): Promise<void> {
+    await expect(this.page.getByTestId(testIds.marketDetails.oraclePanel.yieldingFixed.baseAssetPrice)).toHaveText(
+      value,
+    )
+  }
+
+  async expectOracleBaseAssetContract(value: string): Promise<void> {
+    await expect(
+      this.page.getByTestId(testIds.marketDetails.oraclePanel.yieldingFixed.baseAssetOracleContract),
+    ).toHaveText(value)
+  }
+
+  async expectOracleRatio(value: string): Promise<void> {
+    await expect(this.page.getByTestId(testIds.marketDetails.oraclePanel.yieldingFixed.ratio)).toHaveText(value)
+  }
+
+  async expectOracleRatioContract(value: string): Promise<void> {
+    await expect(this.page.getByTestId(testIds.marketDetails.oraclePanel.yieldingFixed.ratioContract)).toHaveText(value)
+  }
+
   // #endregion
+}
+
+interface OracleInfo {
+  price: string
+  asset: string
+  oracleContract: string
 }
