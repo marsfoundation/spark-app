@@ -9,8 +9,10 @@ import { useMarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 import { raise } from '@/utils/assert'
 import { useChainId } from 'wagmi'
 
+import { paths } from '@/config/paths'
 import { UseOracleInfoResult, useOracleInfo } from '@/domain/oracles/useOracleInfo'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { useSandboxPageRedirect } from '@/features/farm-details/logic/useSandboxFarmRedirect'
 import { MarketOverview, WalletOverview } from '../types'
 import { makeDaiMarketOverview } from './makeDaiMarketOverview'
 import { makeMarketOverview } from './makeMarketOverview'
@@ -30,13 +32,20 @@ export interface UseMarketDetailsResult {
 }
 
 export function useMarketDetails(): UseMarketDetailsResult {
-  const { asset, chainId } = useMarketDetailsParams()
+  const params = useMarketDetailsParams()
+  const { chainId, asset } = params
+
   const { marketInfo } = useMarketInfo({ chainId })
   const { D3MInfo } = useD3MInfo({ chainId })
   const walletInfo = useMarketWalletInfo()
   const { meta: chainMeta } = getChainConfigEntry(chainId)
   const connectedChainId = useChainId()
 
+  useSandboxPageRedirect({
+    basePath: paths.marketDetails,
+    fallbackPath: paths.markets,
+    params,
+  })
   const nativeAssetInfo = getNativeAssetInfo(marketInfo.chainId)
 
   const chainMismatch = connectedChainId !== chainId
