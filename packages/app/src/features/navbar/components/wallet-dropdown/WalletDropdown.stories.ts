@@ -6,8 +6,8 @@ import { EnsName } from '@/domain/types/EnsName'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { assets } from '@/ui/assets'
 
-import { WalletDropdown, WalletDropdownProps } from './WalletDropdown'
 import { DEFAULT_WALLET_AVATAR } from '../../logic/generateWalletAvatar'
+import { WalletDropdown, WalletDropdownProps } from './WalletDropdown'
 
 const meta: Meta<typeof WalletDropdown> = {
   title: 'Features/Navbar/Components/WalletDropdown',
