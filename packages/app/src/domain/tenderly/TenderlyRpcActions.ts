@@ -1,7 +1,5 @@
 import { BaseUnitNumber } from '@/domain/types/NumericValues'
 import { toHex } from '@/utils/bigNumber'
-
-import { Hash } from 'viem'
 import { z } from 'zod'
 import { request } from '../sandbox/request'
 
@@ -19,16 +17,10 @@ async function setTokenBalance(
 }
 
 const snapshotResponseSchema = z.object({
-  result: z
-    .string()
-}).refine(
-  (data) => data.result.startsWith('0x'),
-  (data) => ({ message: `Invalid object: ${JSON.stringify(data)}. 'result' must start with '0x'.` })
-).transform((data) => ({
-  result: data.result as Hash,
-}))
+  result: z.string().regex(/^[a-zA-Z0-9-]+$/),
+})
 
-async function snapshot(forkUrl: string): Promise<Hash> {
+async function snapshot(forkUrl: string): Promise<string> {
   const response = await request(forkUrl, 'evm_snapshot', [])
   return snapshotResponseSchema.parse(response).result
 }
