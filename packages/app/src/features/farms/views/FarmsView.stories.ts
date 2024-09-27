@@ -11,7 +11,7 @@ import { FarmsView } from './FarmsView'
 const entryAssetsGroup: AssetsGroup = {
   type: 'stablecoins',
   name: 'Stablecoins',
-  assets: [tokens.DAI.symbol, tokens.USDC.symbol, tokens.USDT.symbol],
+  assets: [tokens.DAI.symbol, tokens.sDAI.symbol, tokens.USDC.symbol, tokens.USDS.symbol, tokens.sUSDS.symbol],
 }
 
 const meta: Meta<typeof FarmsView> = {
@@ -35,7 +35,7 @@ const meta: Meta<typeof FarmsView> = {
         apy: Percentage(0.076),
         staked: NormalizedUnitNumber(0),
         rewardToken: tokens.SKY,
-        stakingToken: tokens.DAI,
+        stakingToken: tokens.USDS,
         detailsLink: 'farm-details/1/0x1234567890123456789012345678901234567891',
         entryAssetsGroup,
       },

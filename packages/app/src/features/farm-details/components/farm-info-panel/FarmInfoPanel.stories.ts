@@ -18,10 +18,10 @@ const meta: Meta<typeof FarmInfoPanel> = {
       entryAssetsGroup: {
         type: 'stablecoins',
         name: 'Stablecoins',
-        assets: [tokens.DAI.symbol, tokens.USDC.symbol, tokens.USDT.symbol],
+        assets: [tokens.DAI.symbol, tokens.sDAI.symbol, tokens.USDC.symbol, tokens.USDS.symbol, tokens.sUSDS.symbol],
       },
       rewardToken: tokens.SKY,
-      stakingToken: tokens.DAI,
+      stakingToken: tokens.USDS,
       earned: NormalizedUnitNumber(0),
       staked: NormalizedUnitNumber(0),
       rewardRate: NormalizedUnitNumber(0.0000000003756),

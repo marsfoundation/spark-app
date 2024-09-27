@@ -19,7 +19,7 @@ const meta: Meta<typeof FarmTile> = {
     entryAssetsGroup: {
       type: 'stablecoins',
       name: 'Stablecoins',
-      assets: [tokens.DAI.symbol, tokens.USDC.symbol, tokens.USDT.symbol],
+      assets: [tokens.DAI.symbol, tokens.sDAI.symbol, tokens.USDC.symbol, tokens.USDS.symbol, tokens.sUSDS.symbol],
     },
   },
 }
