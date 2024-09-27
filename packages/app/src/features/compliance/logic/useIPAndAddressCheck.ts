@@ -30,7 +30,7 @@ export function useIPAndAddressCheck(): UseIPAndAddressCheck {
   // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
   const isCurrentPageBlocked = useIsCurrentPageBlocked()
 
-  if (vpnCheck.data?.isConnectedToVpn) {
+  if (vpnCheck.data?.isConnectedToVpn && import.meta.env.VITE_FEATURE_IGNORE_VPN_CHECK !== '1') {
     return { blocked: true, reason: 'vpn-detected' }
   }
 
