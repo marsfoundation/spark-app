@@ -5,7 +5,7 @@ import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { ReactNode } from 'react'
-import { SRRTooltip } from '../SRRTooltip'
+import { ApyTooltip } from '../ApyTooltip'
 
 export interface FarmStatsRowProps {
   depositors: number
@@ -28,7 +28,7 @@ export function FarmStatsRow({ depositors, tvl, apy, deposit }: FarmStatsRowProp
       <DetailsItem title="TVL">
         <div className="font-semibold">{USD_MOCK_TOKEN.formatUSD(tvl, { compact: true })}</div>
       </DetailsItem>
-      <DetailsItem title="SRR" explainer={<SRRTooltip />}>
+      <DetailsItem title="APY" explainer={<ApyTooltip />}>
         <div className="font-semibold text-[#3F66EF]">{formatPercentage(apy, { minimumFractionDigits: 0 })}</div>
       </DetailsItem>
       {deposit && (

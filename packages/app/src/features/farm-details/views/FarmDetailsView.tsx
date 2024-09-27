@@ -4,7 +4,7 @@ import { Token } from '@/domain/types/Token'
 import { getTokenImage } from '@/ui/assets'
 import { ConnectOrSandboxCTAPanel } from '@/ui/organisms/connect-or-sandbox-cta-panel/ConnectOrSandboxCTAPanel'
 import { ActiveFarmInfoPanel } from '../components/active-farm-info-panel/ActiveFarmInfoPanel'
-import { AprOverTime } from '../components/apr-over-time/AprOverTime'
+import { RewardsOverTime } from '../components/apr-over-time/RewardsOverTime'
 import { BackNav } from '../components/back-nav/BackNav'
 import { FarmInfoPanel } from '../components/farm-info-panel/FarmInfoPanel'
 import { Header } from '../components/header/Header'
@@ -61,7 +61,7 @@ export function FarmDetailsView({
               openStakeDialog={openDefaultedStakeDialog}
             />
           )}
-          <AprOverTime data={farmHistoricData} />
+          <RewardsOverTime data={farmHistoricData} />
         </div>
         {walletConnected && <TokensToDeposit assets={tokensToDeposit} openStakeDialog={openStakeDialog} />}
         {!walletConnected && (
