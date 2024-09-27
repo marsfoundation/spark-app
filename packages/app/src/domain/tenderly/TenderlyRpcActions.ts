@@ -1,6 +1,8 @@
 import { BaseUnitNumber } from '@/domain/types/NumericValues'
 import { toHex } from '@/utils/bigNumber'
 
+import { Hash } from 'viem'
+import { z } from 'zod'
 import { request } from '../sandbox/request'
 
 async function setBalance(forkUrl: string, address: string, balance: BaseUnitNumber): Promise<void> {
@@ -16,8 +18,16 @@ async function setTokenBalance(
   await request(forkUrl, 'tenderly_setErc20Balance', [tokenAddress, walletAddress, toHex(balance)])
 }
 
-async function snapshot(forkUrl: string): Promise<string> {
-  return request(forkUrl, 'evm_snapshot', [])
+const snapshotResponseSchema = z.object({
+  result: z
+    .string()
+    .startsWith('0x')
+    .transform((value) => value as Hash),
+})
+
+async function snapshot(forkUrl: string): Promise<Hash> {
+  const response = await request(forkUrl, 'evm_snapshot', [])
+  return snapshotResponseSchema.parse(response).result
 }
 
 async function revertToSnapshot(forkUrl: string, checkpoint: string): Promise<void> {
