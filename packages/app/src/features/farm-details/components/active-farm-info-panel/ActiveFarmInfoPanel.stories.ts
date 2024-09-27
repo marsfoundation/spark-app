@@ -19,7 +19,7 @@ const meta: Meta<typeof ActiveFarmInfoPanel> = {
         name: 'Stablecoins',
         assets: [tokens.DAI.symbol, tokens.USDC.symbol, tokens.USDT.symbol],
       },
-      rewardToken: tokens.MKR,
+      rewardToken: tokens.SKY,
       stakingToken: tokens.DAI,
       earned: NormalizedUnitNumber(71.2345783),
       staked: NormalizedUnitNumber(10_000),

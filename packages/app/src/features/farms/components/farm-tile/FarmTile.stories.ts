@@ -47,7 +47,7 @@ export const GovernanceEntryAssets: Story = {
     entryAssetsGroup: {
       type: 'governance',
       name: 'Governance Tokens',
-      assets: [tokens.MKR.symbol, tokens.GNO.symbol],
+      assets: [tokens.SKY.symbol, tokens.GNO.symbol],
     },
   },
 }

@@ -7,6 +7,7 @@ import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { assets } from '@/ui/assets'
 
 import { WalletDropdown, WalletDropdownProps } from './WalletDropdown'
+import { DEFAULT_WALLET_AVATAR } from '../../logic/generateWalletAvatar'
 
 const meta: Meta<typeof WalletDropdown> = {
   title: 'Features/Navbar/Components/WalletDropdown',
@@ -24,11 +25,11 @@ const args = {
   connectedWalletInfo: {
     dropdownTriggerInfo: {
       mode: 'connected',
-      avatar: assets.token.mkr,
+      avatar: DEFAULT_WALLET_AVATAR,
       address: CheckedAddress('0x1234567890123456789012345678901234567890'),
     },
     dropdownContentInfo: {
-      walletIcon: assets.token.eth,
+      walletIcon: assets.walletIcons.metamask,
       address: CheckedAddress('0x1234567890123456789012345678901234567890'),
       onDisconnect: () => {},
       balanceInfo: {

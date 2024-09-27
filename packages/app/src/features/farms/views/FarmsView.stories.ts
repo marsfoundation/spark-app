@@ -34,7 +34,7 @@ const meta: Meta<typeof FarmsView> = {
       {
         apy: Percentage(0.076),
         staked: NormalizedUnitNumber(0),
-        rewardToken: tokens.MKR,
+        rewardToken: tokens.SKY,
         stakingToken: tokens.DAI,
         detailsLink: 'farm-details/1/0x1234567890123456789012345678901234567891',
         entryAssetsGroup,
