@@ -2,9 +2,10 @@ import { formatPercentage } from '@/domain/common/format'
 import { TokenWithValue } from '@/domain/common/types'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
-import { Info } from '@/ui/molecules/info/Info'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
+import { ReactNode } from 'react'
+import { ApyTooltip } from '../ApyTooltip'
 
 export interface FarmStatsRowProps {
   depositors: number
@@ -21,17 +22,17 @@ export function FarmStatsRow({ depositors, tvl, apy, deposit }: FarmStatsRowProp
         deposit ? 'w-full text-sm md:justify-between' : 'md:gap-12',
       )}
     >
-      <DetailsItem title="Addresses" explainer="Number of addresses that have deposited in the farm">
+      <DetailsItem title="Participants">
         <div className="font-semibold">{depositors}</div>
       </DetailsItem>
-      <DetailsItem title="TVL" explainer="Total value locked in the farm">
+      <DetailsItem title="TVL">
         <div className="font-semibold">{USD_MOCK_TOKEN.formatUSD(tvl, { compact: true })}</div>
       </DetailsItem>
-      <DetailsItem title="APY" explainer="Annual percentage yield">
+      <DetailsItem title="APY" explainer={<ApyTooltip />}>
         <div className="font-semibold text-[#3F66EF]">{formatPercentage(apy, { minimumFractionDigits: 0 })}</div>
       </DetailsItem>
       {deposit && (
-        <DetailsItem title="My Deposit" explainer="Amount of tokens deposited in the farm">
+        <DetailsItem title="My Deposit">
           <div className="font-semibold" data-testid={testIds.farmDetails.activeFarmInfoPanel.staked}>
             {deposit.token.format(deposit.value, { style: 'auto' })} {deposit.token.symbol}
           </div>
@@ -43,15 +44,15 @@ export function FarmStatsRow({ depositors, tvl, apy, deposit }: FarmStatsRowProp
 
 export interface DetailsItemProps {
   title: string
-  explainer: string
-  children: React.ReactNode
+  explainer?: ReactNode
+  children: ReactNode
 }
 function DetailsItem({ title, explainer, children }: DetailsItemProps) {
   return (
     <div className="flex w-full flex-row items-center justify-between gap-1 md:w-fit md:flex-col md:items-start md:justify-normal">
       <div className="flex flex-row items-center gap-1 text-prompt-foreground text-xs">
         {title}
-        <Info>{explainer}</Info>
+        {explainer}
       </div>
       <div>{children}</div>
     </div>

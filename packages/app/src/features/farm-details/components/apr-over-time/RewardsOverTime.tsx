@@ -1,18 +1,18 @@
 import { Percentage } from '@/domain/types/NumericValues'
 import { Panel } from '@/ui/atoms/panel/Panel'
-import { Info } from '@/ui/molecules/info/Info'
 import { useTimestamp } from '@/utils/useTimestamp'
 import { sort } from 'd3-array'
 import { useState } from 'react'
+import { ApyTooltip } from '../ApyTooltip'
 import { Chart } from './components/Chart'
 import { AVAILABLE_TIMEFRAMES, TimeframeButtons } from './components/TimeframeButtons'
 import { GraphDataPoint } from './types'
 
-export interface AprOverTimeProps {
+export interface RewardsOverTimeProps {
   data: GraphDataPoint[]
 }
 
-export function AprOverTime({ data }: AprOverTimeProps) {
+export function RewardsOverTime({ data }: RewardsOverTimeProps) {
   const [selectedTimeframe, setSelectedTimeframe] = useState<(typeof AVAILABLE_TIMEFRAMES)[number]>('All')
   const { timestamp, timestampInMs } = useTimestamp()
   const sortedData = sort(data, (a, b) => a.date.getTime() - b.date.getTime())
@@ -30,8 +30,8 @@ export function AprOverTime({ data }: AprOverTimeProps) {
     <Panel.Wrapper className="flex min-h-[380px] w-full flex-1 flex-col justify-between self-stretch px-6 py-6 md:px-[32px]">
       <div className="flex justify-between">
         <div className="flex items-center gap-1">
-          <h2 className="font-semibold text-lg md:text-xl">APR over time</h2>
-          <Info>APR over time</Info>
+          <h2 className="font-semibold text-lg md:text-xl">Rewards over time</h2>
+          <ApyTooltip />
         </div>
         <div className="flex items-center gap-1">
           <TimeframeButtons setSelectedTimeframe={setSelectedTimeframe} selectedTimeframe={selectedTimeframe} />

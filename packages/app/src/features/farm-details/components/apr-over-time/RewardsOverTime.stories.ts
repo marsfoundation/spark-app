@@ -2,11 +2,11 @@ import { exampleFarmHistoricData } from '@storybook/consts'
 import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
-import { AprOverTime } from './AprOverTime'
+import { RewardsOverTime } from './RewardsOverTime'
 
-const meta: Meta<typeof AprOverTime> = {
-  title: 'Features/FarmDetails/Components/AprOverTime',
-  component: AprOverTime,
+const meta: Meta<typeof RewardsOverTime> = {
+  title: 'Features/FarmDetails/Components/RewardsOverTime',
+  component: RewardsOverTime,
   decorators: [WithClassname('max-w-lg'), WithTooltipProvider()],
   args: {
     data: exampleFarmHistoricData,
@@ -14,7 +14,7 @@ const meta: Meta<typeof AprOverTime> = {
 }
 
 export default meta
-type Story = StoryObj<typeof AprOverTime>
+type Story = StoryObj<typeof RewardsOverTime>
 
 export const Desktop: Story = {}
 export const Mobile = getMobileStory(Desktop)

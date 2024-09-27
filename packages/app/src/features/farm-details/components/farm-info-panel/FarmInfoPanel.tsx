@@ -1,7 +1,9 @@
 import { formatPercentage } from '@/domain/common/format'
 import { AssetsGroup, Farm } from '@/domain/farms/types'
 import { Button } from '@/ui/atoms/button/Button'
+import { Link } from '@/ui/atoms/link/Link'
 import { Panel } from '@/ui/atoms/panel/Panel'
+import { links } from '@/ui/constants/links'
 import { testIds } from '@/ui/utils/testIds'
 import { FarmStatsRow } from '../farm-stats-row/FarmStatsRow'
 
@@ -25,15 +27,19 @@ export function FarmInfoPanel({
       className="flex min-h-[380px] w-full flex-1 flex-col justify-between self-stretch px-6 py-6 md:px-[32px]"
       data-testid={testIds.farmDetails.infoPanel.panel}
     >
-      <div className="flex max-w-[75%] flex-col gap-4">
+      <div className="flex max-w-[85%] flex-col gap-4">
         <h2 className="font-semibold text-2xl md:text-3xl">
           Deposit {assetsGroupToText(assetsGroupType)} <br />
-          and earn <span className="text-[#3F66EF]">{formatPercentage(farm.apy, { minimumFractionDigits: 0 })}</span>{' '}
-          APY
+          and earn <span className="text-[#3F66EF]">{formatPercentage(farm.apy, { minimumFractionDigits: 0 })}</span> in
+          rewards
         </h2>
-        <div className="text-basics-dark-grey">
-          Deposit the {assetsGroupToText(assetsGroupType)} from those available below and start farming{' '}
-          {farm.rewardToken.symbol} token.
+        <div className="max-w-[75%] text-basics-dark-grey">
+          Deposit any of the tokens listed below and start farming {farm.rewardToken.symbol} tokens. Learn more about
+          farming{' '}
+          <Link to={links.docs.farmingRewards} external>
+            here
+          </Link>
+          .
         </div>
       </div>
       <div className="flex flex-col gap-4">
