@@ -43,11 +43,13 @@ export function useNavbar(): UseNavbarResults {
   const currentChainId = useChainId()
   const chains = useChains()
   const { openConnectModal = () => {} } = useConnectModal()
-  const { data: ensName } = useEnsName()
+  const { address, connector } = useAccount()
+  const { data: ensName } = useEnsName({
+    address,
+  })
   const { data: ensAvatar } = useEnsAvatar({
     name: ensName ?? undefined,
   })
-  const { address, connector } = useAccount()
   const blockExplorerAddressLink = useBlockExplorerAddressLink({ address })
   const openDialog = useOpenDialog()
 
