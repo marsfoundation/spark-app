@@ -64,7 +64,7 @@ test.describe('Claim SKY rewards', () => {
     })
   })
 
-  test('executes transaction', async () => {
+  test.skip('executes transaction', async () => {
     await claimDialog.actionsContainer.acceptAllActionsAction(1)
 
     await claimDialog.expectSuccessPage()

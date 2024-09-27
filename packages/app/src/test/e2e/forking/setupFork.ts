@@ -54,6 +54,7 @@ export function setupFork(options: SetupForkOptions): ForkContext {
     : new TestTenderlyForkService({ apiKey, tenderlyAccount, tenderlyProject })
 
   const simulationDate = simulationDateOverride ?? (!isVnet ? _simulationDate : undefined) // undefined means get it based on block number
+  // let initialSimulationDate: Date
 
   const forkContext: ForkContext = {
     forkService,
@@ -65,11 +66,17 @@ export function setupFork(options: SetupForkOptions): ForkContext {
     chainId,
 
     async progressSimulation(page: Page, seconds: number): Promise<void> {
+      const client = createPublicClient({
+        chain: mainnet, // @todo select chain based on chainId
+        transport: http(forkContext.forkUrl),
+      })
+
       this.simulationDate = new Date(this.simulationDate.getTime() + seconds * 1000)
       const newTimestamp = Math.floor(this.simulationDate.getTime() / 1000)
 
       await injectUpdatedDate(page, this.simulationDate)
       await tenderlyRpcActions.evmSetNextBlockTimestamp(forkContext.forkUrl, Number(newTimestamp))
+      console.log({ afterLastProgressBlock: (await client.getBlock()).number })
     },
   }
   // @todo refactor after dropping tenderly fork support
@@ -97,15 +104,29 @@ export function setupFork(options: SetupForkOptions): ForkContext {
 
       const latestBlock = await client.getBlock()
       const block = await client.getBlock({ blockNumber: latestBlock.number - 1n })
+      // console.log({ beforeAllBlock: latestBlock.number })
       forkContext.simulationDate = new Date(Number(block.timestamp) * 1000)
       await tenderlyRpcActions.evmSetNextBlockTimestamp(forkContext.forkUrl, Number(block.timestamp))
     }
 
     forkContext.initialSnapshotId = await tenderlyRpcActions.snapshot(forkContext.forkUrl)
+    // initialSimulationDate = forkContext.simulationDate
   })
 
   test.beforeEach(async () => {
+    // forkContext.simulationDate = new Date(initialSimulationDate)
+    // const initialTimestamp = Math.floor(initialSimulationDate.getTime() / 1000)
+    // await tenderlyRpcActions.evmSetNextBlockTimestamp(forkContext.forkUrl, Number(initialTimestamp))
+    const client = createPublicClient({
+      chain: mainnet, // @todo select chain based on chainId
+      transport: http(forkContext.forkUrl),
+    })
+
+    console.log({ beforeEachBlock: (await client.getBlock()).number })
+    console.log('ABOUT TO REVERT')
     await tenderlyRpcActions.revertToSnapshot(forkContext.forkUrl, forkContext.initialSnapshotId)
+    console.log('AFTER REVERT')
+    console.log({ beforeEachBlock: (await client.getBlock()).number })
   })
 
   test.afterAll(async () => {
