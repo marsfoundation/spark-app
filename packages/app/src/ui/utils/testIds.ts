@@ -185,6 +185,7 @@ export const testIds = makeTestIds({
       asset: true,
       price: true,
       oracleContract: true,
+      providersList: true, 
       yieldingFixed: {
         ratio: true,
         ratioContract: true,

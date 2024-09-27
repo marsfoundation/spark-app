@@ -446,6 +446,7 @@ test.describe('Market details Mainnet', () => {
       const marketDetailsPage = new MarketDetailsPageObject(page)
 
       await marketDetailsPage.expectOraclePanelToHaveTitle('Market Price')
+      await marketDetailsPage.expectOracleToBeNotRedundant()
 
       await marketDetailsPage.expectOracleInfo({
         price: '$58,229.82',
@@ -591,6 +592,7 @@ test.describe('Market details Gnosis', () => {
       const marketDetailsPage = new MarketDetailsPageObject(page)
 
       await marketDetailsPage.expectOraclePanelToHaveTitle('Yielding Fixed Price')
+      await marketDetailsPage.expectOracleToBeNotRedundant()
 
       await marketDetailsPage.expectOracleInfo({
         price: '$1.0875',
