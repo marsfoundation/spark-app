@@ -5,7 +5,7 @@ import { tryOrDefault } from '@/utils/tryOrDefault'
 
 import { StoreState } from '.'
 
-const SANDBOX_EXPIRY = 20 * 1000 // 6 hours
+const SANDBOX_EXPIRY = 6 * 3600 * 1000 // 6 hours
 
 export interface SandboxNetwork {
   name: string // will be displayed to the user in wallet UI
