@@ -59,7 +59,10 @@ export function persistSandboxSlice(state: StoreState): PersistedSandboxSlice {
 }
 
 export function unPersistSandboxSlice(persistedState: DeepPartial<PersistedSandboxSlice>): DeepPartial<SandboxSlice> {
-  if (!persistedState.sandbox?.network || isPersistedSandboxExpired(persistedState)) {
+  if (
+    !persistedState.sandbox?.network ||
+    (import.meta.env.VITE_FEATURE_CLEAR_STALE_SANDBOX === '1' && isPersistedSandboxExpired(persistedState))
+  ) {
     return {}
   }
 
