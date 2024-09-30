@@ -1,9 +1,11 @@
 import { getChainConfigEntry } from '@/config/chain'
+import { paths } from '@/config/paths'
 import { sortByUsdValueWithUsdsPriority } from '@/domain/common/sorters'
 import { TokenWithBalance } from '@/domain/common/types'
 import { NotFoundError } from '@/domain/errors/not-found'
 import { Farm } from '@/domain/farms/types'
 import { useFarmsInfo } from '@/domain/farms/useFarmsInfo'
+import { useSandboxPageRedirect } from '@/domain/sandbox/useSandboxPageRedirect'
 import { useOpenDialog } from '@/domain/state/dialogs'
 import { Token } from '@/domain/types/Token'
 import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
@@ -17,7 +19,6 @@ import { unstakeDialogConfig } from '../dialogs/unstake/UnstakeDialog'
 import { FarmHistoryItem } from './historic/types'
 import { useFarmHistoricData } from './historic/useFarmHistoricData'
 import { useFarmDetailsParams } from './useFarmDetailsParams'
-import { useSandboxFarmRedirect } from './useSandboxFarmRedirect'
 
 export interface UseFarmDetailsResult {
   chainId: number
@@ -38,14 +39,20 @@ export interface UseFarmDetailsResult {
 
 export function useFarmDetails(): UseFarmDetailsResult {
   const walletConnected = useAccount().isConnected
-  const { address: farmAddress, chainId } = useFarmDetailsParams()
+  const params = useFarmDetailsParams()
+  const { address: farmAddress, chainId } = params
+
   const connectedChainId = useChainId()
   const chainMismatch = walletConnected && connectedChainId !== chainId
   const { openConnectModal = () => {} } = useConnectModal()
   const openDialog = useOpenDialog()
   const chainConfig = getChainConfigEntry(chainId)
 
-  useSandboxFarmRedirect()
+  useSandboxPageRedirect({
+    basePath: paths.farmDetails,
+    fallbackPath: paths.farms,
+    basePathParams: params,
+  })
 
   const { farmsInfo } = useFarmsInfo({ chainId })
   const { farmHistoricData } = useFarmHistoricData({ chainId, farmAddress })
