@@ -79,7 +79,7 @@ export function SavingsDaiAndUSDSView({
           />
         )}
         {displaySavingsNoCash && (
-          <SavingsOpportunityNoCash APY={sDaiDetails.APY} originChainId={originChainId} savingsMeta={savingsMeta} />
+          <SavingsOpportunityNoCash APY={sUSDSDetails.APY} originChainId={originChainId} savingsMeta={savingsMeta} />
         )}
       </div>
       <StablecoinsInWallet assets={assetsInWallet} openDialog={openDialog} migrationInfo={migrationInfo} />
