@@ -108,14 +108,15 @@ export function setupFork(options: SetupForkOptions): ForkContext {
     // forkContext.simulationDate = new Date(initialSimulationDate)
     // const initialTimestamp = Math.floor(initialSimulationDate.getTime() / 1000)
     // await tenderlyRpcActions.evmSetNextBlockTimestamp(forkContext.forkUrl, Number(initialTimestamp))
-    const client = createPublicClient({
-      chain: mainnet, // @todo select chain based on chainId
-      transport: http(forkContext.forkUrl),
-    })
-
     await tenderlyRpcActions.revertToSnapshot(forkContext.forkUrl, forkContext.initialSnapshotId)
-    const block = await client.getBlock()
-    forkContext.simulationDate = new Date(Number(block.timestamp) * 1000)
+    if (forkContext.isVnet) {
+      const client = createPublicClient({
+        chain: mainnet, // @todo select chain based on chainId
+        transport: http(forkContext.forkUrl),
+      })
+      const block = await client.getBlock()
+      forkContext.simulationDate = new Date(Number(block.timestamp) * 1000)
+    }
   })
 
   test.afterAll(async () => {

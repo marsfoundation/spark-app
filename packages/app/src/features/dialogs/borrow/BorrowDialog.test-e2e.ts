@@ -28,8 +28,8 @@ test.describe('Borrow dialog', () => {
       wstETH: 2,
     }
     const daiToBorrow = 1500
-    const expectedInitialHealthFactor = '5.32'
-    const expectedHealthFactor = '2.02'
+    const expectedInitialHealthFactor = '5.42'
+    const expectedHealthFactor = '2.04'
 
     test.beforeEach(async ({ page }) => {
       await setup(page, fork, {
