@@ -8,7 +8,6 @@ import { SandboxNetwork } from '@/domain/state/sandbox'
 import { createMockConnector } from '@/domain/wallet/createMockConnector'
 
 import { viemAddressSchema } from '@/domain/common/validation'
-import { USDS_DEV_CHAIN_ID } from '../chain/constants'
 import { getConfig } from './config.default'
 
 export const PLAYWRIGHT_CHAIN_ID = '__PLAYWRIGHT_CHAIN_ID' as const
@@ -78,9 +77,4 @@ export function getMockConfig(sandboxNetwork?: SandboxNetwork): Config {
 const chainIdToChain: Record<number, Chain> = {
   [gnosis.id]: gnosis,
   [mainnet.id]: mainnet,
-  [USDS_DEV_CHAIN_ID]: {
-    ...mainnet,
-    id: USDS_DEV_CHAIN_ID,
-    name: 'USDS DevNet',
-  },
 }

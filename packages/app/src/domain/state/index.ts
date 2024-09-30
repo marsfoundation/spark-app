@@ -65,11 +65,12 @@ export const storeImplementation = persist<StoreState, [], [], PersistedState>(
     }),
     merge: (_persistedState, currentState) => {
       const persistedState = (_persistedState ?? {}) as DeepPartial<PersistedState>
+      const { sandbox, actionsSettings, ...rest } = persistedState
 
       const processedPersistedState = filterOutUndefinedKeys({
-        ...persistedState,
-        ...unPersistActionsSettingsSlice(persistedState),
-        ...unPersistSandboxSlice(persistedState),
+        ...rest,
+        actionsSettings: unPersistActionsSettingsSlice(persistedState).actionsSettings,
+        sandbox: unPersistSandboxSlice(persistedState).sandbox,
       })
 
       return deepmerge(currentState, processedPersistedState) as StoreState

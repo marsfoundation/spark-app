@@ -19,7 +19,6 @@ import { NATIVE_ASSET_MOCK_ADDRESS, stablecoinsGroup } from '../consts'
 import { usdsSkyRewardsConfig } from '../contracts-generated'
 import { AppConfig } from '../feature-flags'
 import { PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY } from '../wagmi/config.e2e'
-import { USDS_DEV_CHAIN_ID } from './constants'
 import { ChainConfig, ChainConfigEntry, ChainMeta } from './types'
 
 const commonTokenSymbolToReplacedName = {
@@ -275,32 +274,6 @@ export function getChainConfigEntry(chainId: number): ChainConfigEntry {
   const sandboxConfig = useStore.getState().appConfig.sandbox
   const sandbox = useStore.getState().sandbox.network
 
-  if (typeof import.meta.env.VITE_DEV_USDS_NETWORK_RPC_URL === 'string' && chainId === USDS_DEV_CHAIN_ID) {
-    const mainnetConfig = chainConfig[mainnet.id]
-    return {
-      ...mainnetConfig,
-      meta: getUSDSDevChainMeta(mainnetConfig.meta),
-      extraTokens: [
-        ...mainnetConfig.extraTokens.filter(({ symbol }) => !['USDS', 'sUSDS', 'SKY'].includes(symbol)),
-        {
-          symbol: TokenSymbol('USDS'),
-          oracleType: 'fixed-usd',
-          address: CheckedAddress('0xd2983525E903Ef198d5dD0777712EB66680463bc'),
-        },
-        {
-          symbol: TokenSymbol('sUSDS'),
-          oracleType: 'vault',
-          address: CheckedAddress('0xCd9BC6cE45194398d12e27e1333D5e1d783104dD'),
-        },
-        {
-          symbol: TokenSymbol('SKY'),
-          oracleType: 'fixed-usd',
-          address: CheckedAddress('0x72aC6A36de2f72BD39e9c782e9db0DCc41FEbfe2'),
-        },
-      ],
-    }
-  }
-
   const originChainId = getOriginChainId(chainId, sandbox)
   if (originChainId !== chainId) {
     return {
@@ -317,13 +290,5 @@ function getSandboxChainMeta(originChainMeta: ChainMeta, sandboxConfig: AppConfi
     ...originChainMeta,
     name: sandboxConfig?.chainName || originChainMeta.name,
     logo: assets.magicWandCircle,
-  }
-}
-
-function getUSDSDevChainMeta(originChainMeta: ChainMeta): ChainMeta {
-  return {
-    ...originChainMeta,
-    name: 'USDS DevNet',
-    logo: assets.token.usds,
   }
 }

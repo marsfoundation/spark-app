@@ -181,6 +181,19 @@ export const testIds = makeTestIds({
       maxCap: true,
       cooldownTimer: true,
     },
+    oraclePanel: {
+      asset: true,
+      price: true,
+      oracleContract: true,
+      providersList: true,
+      yieldingFixed: {
+        ratio: true,
+        ratioContract: true,
+        baseAssetSymbol: true,
+        baseAssetPrice: true,
+        baseAssetOracleContract: true,
+      },
+    },
   },
   farms: {
     active: {

@@ -9,9 +9,15 @@ interface BlockExplorerAddressLinkProps {
   address: CheckedAddress
   chainId?: number
   className?: string
+  'data-testid'?: string
 }
 
-export function BlockExplorerAddressLink({ address, chainId, className }: BlockExplorerAddressLinkProps) {
+export function BlockExplorerAddressLink({
+  address,
+  chainId,
+  className,
+  'data-testid': testId,
+}: BlockExplorerAddressLinkProps) {
   const contractLink = useBlockExplorerAddressLink({ address, chainId })
 
   return contractLink ? (
@@ -22,11 +28,12 @@ export function BlockExplorerAddressLink({ address, chainId, className }: BlockE
         'flex w-full max-w-64 items-center gap-1 text-inherit hover:text-inherit hover:underline',
         className,
       )}
+      data-testid={testId}
     >
       <Address address={address} postfix={<BoxArrowTopRight className="h-3.5 w-3.5 shrink-0" />} />
     </Link>
   ) : (
-    <span className="flex w-full max-w-64 items-center gap-1">
+    <span className={cn('flex w-full max-w-64 items-center gap-1', className)} data-testid={testId}>
       <Address address={address} />
     </span>
   )

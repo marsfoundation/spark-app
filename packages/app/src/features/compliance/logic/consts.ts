@@ -19,6 +19,7 @@ export const blockedCountryCodes = [
   'ML', // Mali
   'MM', // Myanmar (Burma)
   'NI', // Nicaragua
+  'NE', // Niger
   'KP', // North Korea
   'RU', // Russia
   'SO', // Somalia
@@ -31,4 +32,6 @@ export const blockedCountryCodes = [
   'US', // United States
 ]
 
-export const blockedPagesByCountryCode: Record<string, (keyof typeof paths)[]> = {}
+export const blockedPagesByCountryCode: Record<string, (keyof typeof paths)[]> = {
+  GB: ['farms', 'farmDetails'],
+}
