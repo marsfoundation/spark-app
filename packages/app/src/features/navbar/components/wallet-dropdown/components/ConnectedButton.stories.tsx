@@ -2,8 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react'
 
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { EnsName } from '@/domain/types/EnsName'
-import { assets } from '@/ui/assets'
 
+import { DEFAULT_WALLET_AVATAR } from '@/features/navbar/logic/generateWalletAvatar'
 import { ConnectedButton } from './ConnectedButton'
 
 const meta: Meta<typeof ConnectedButton> = {
@@ -11,7 +11,7 @@ const meta: Meta<typeof ConnectedButton> = {
   component: ConnectedButton,
   args: {
     mode: 'connected',
-    avatar: assets.token.mkr,
+    avatar: DEFAULT_WALLET_AVATAR,
     open: true,
     address: CheckedAddress('0x1234567890123456789012345678901234567890'),
   },

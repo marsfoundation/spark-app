@@ -17,7 +17,7 @@ export default meta
 type Story = StoryObj<typeof WalletDropdownContent>
 
 const args = {
-  walletIcon: assets.token.eth,
+  walletIcon: assets.walletIcons.metamask,
   address: CheckedAddress('0x1234567890abcdef1234567890abcdef12345678'),
   onSwitch: () => {},
   onDisconnect: () => {},

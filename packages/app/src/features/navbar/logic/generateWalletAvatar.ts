@@ -1,6 +1,6 @@
 import { Address, sha256 } from 'viem'
 
-const defaultAvatar =
+export const DEFAULT_WALLET_AVATAR =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAAAXNSR0IArs4c6QAAAQpJREFUaEPtmTEOhDAMBMmr+QK8OlfcVSdFWmlMcDHUcWLveK0AY845j+C572DRi0vOMzt8WPBCKAlnHbRtlS29kFoPr3pQD29zZ3aQHtbDXwXGdWU3rayx+q+y4P6MWIYSZvr1j5Zwf0YsQwkz/fpHS5gySi/x6TnVb2nlhC04RbnpW5qEIZDDloYKOrSggHoYCqiHqYDtPUwLfDq+3MNPJ0z3t2CqYPd4CXcnRPOTMFWwe7yEuxOi+cWEq99zaeL/8ekV1IJXyku4uifhfrb0QkA9rId/Cji04JCpDndo0aGVEqlu/ZRcml88pdMNLThVarFOwlBAWxoK6K8WKqAehgrqYShgew9/AEyBEOCiheCTAAAAAElFTkSuQmCC'
 
 export function generateWalletAvatar(address: Address): string {
@@ -13,7 +13,7 @@ export function generateWalletAvatar(address: Address): string {
   const ctx = canvas.getContext('2d')
 
   if (!ctx) {
-    return defaultAvatar
+    return DEFAULT_WALLET_AVATAR
   }
 
   function pseudoRandomColor(index: number): string {
