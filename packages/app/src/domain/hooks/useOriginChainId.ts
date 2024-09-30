@@ -2,8 +2,6 @@ import { useChainId } from 'wagmi'
 
 import { SupportedChainId } from '@/config/chain/types'
 
-import { USDS_DEV_CHAIN_ID } from '@/config/chain/constants'
-import { mainnet } from 'viem/chains'
 import { useStore } from '../state'
 import { SandboxNetwork } from '../state/sandbox'
 
@@ -26,11 +24,6 @@ const chainIdToOriginChainIdCache = new Map<number, number>()
 export function getOriginChainId(chainId: number, sandboxNetwork: SandboxNetwork | undefined): SupportedChainId {
   if (chainIdToOriginChainIdCache.has(chainId)) {
     return chainIdToOriginChainIdCache.get(chainId)! as SupportedChainId
-  }
-
-  if (chainId === USDS_DEV_CHAIN_ID) {
-    chainIdToOriginChainIdCache.set(chainId, mainnet.id)
-    return mainnet.id
   }
 
   if (chainId === sandboxNetwork?.forkChainId) {
