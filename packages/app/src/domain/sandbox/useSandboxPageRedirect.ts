@@ -7,13 +7,13 @@ import { watchChainId } from 'wagmi/actions'
 interface UseSandboxPageRedirectParams {
   basePath: string
   fallbackPath: string
-  params?: {
+  basePathParams?: {
     [key: string]: unknown
     chainId?: number
   }
 }
 
-export function useSandboxPageRedirect({ basePath, fallbackPath, params }: UseSandboxPageRedirectParams): void {
+export function useSandboxPageRedirect({ basePath, fallbackPath, basePathParams }: UseSandboxPageRedirectParams): void {
   const config = useConfig()
   const { sandboxChainId, originChainId } = useSandboxState()
   const navigate = useNavigate()
@@ -21,8 +21,8 @@ export function useSandboxPageRedirect({ basePath, fallbackPath, params }: UseSa
   useEffect(() => {
     const unwatch = watchChainId(config, {
       onChange(chainId, prevChainId) {
-        if (chainId === sandboxChainId && prevChainId === originChainId && prevChainId === params?.chainId) {
-          navigate(generatePath(basePath, { ...params, chainId: sandboxChainId.toString() }))
+        if (chainId === sandboxChainId && prevChainId === originChainId && prevChainId === basePathParams?.chainId) {
+          navigate(generatePath(basePath, { ...basePathParams, chainId: sandboxChainId.toString() }))
           return
         }
 
@@ -31,5 +31,5 @@ export function useSandboxPageRedirect({ basePath, fallbackPath, params }: UseSa
     })
 
     return unwatch
-  }, [config, sandboxChainId, originChainId, basePath, fallbackPath, navigate, params])
+  }, [config, sandboxChainId, originChainId, basePath, fallbackPath, navigate, basePathParams])
 }

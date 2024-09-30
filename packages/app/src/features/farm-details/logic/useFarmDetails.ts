@@ -5,6 +5,7 @@ import { TokenWithBalance } from '@/domain/common/types'
 import { NotFoundError } from '@/domain/errors/not-found'
 import { Farm } from '@/domain/farms/types'
 import { useFarmsInfo } from '@/domain/farms/useFarmsInfo'
+import { useSandboxPageRedirect } from '@/domain/sandbox/useSandboxPageRedirect'
 import { useOpenDialog } from '@/domain/state/dialogs'
 import { Token } from '@/domain/types/Token'
 import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
@@ -18,7 +19,6 @@ import { unstakeDialogConfig } from '../dialogs/unstake/UnstakeDialog'
 import { FarmHistoryItem } from './historic/types'
 import { useFarmHistoricData } from './historic/useFarmHistoricData'
 import { useFarmDetailsParams } from './useFarmDetailsParams'
-import { useSandboxPageRedirect } from './useSandboxFarmRedirect'
 
 export interface UseFarmDetailsResult {
   chainId: number
@@ -51,7 +51,7 @@ export function useFarmDetails(): UseFarmDetailsResult {
   useSandboxPageRedirect({
     basePath: paths.farmDetails,
     fallbackPath: paths.farms,
-    params,
+    basePathParams: params,
   })
 
   const { farmsInfo } = useFarmsInfo({ chainId })

@@ -11,8 +11,8 @@ import { useChainId } from 'wagmi'
 
 import { paths } from '@/config/paths'
 import { UseOracleInfoResult, useOracleInfo } from '@/domain/oracles/useOracleInfo'
+import { useSandboxPageRedirect } from '@/domain/sandbox/useSandboxPageRedirect'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
-import { useSandboxPageRedirect } from '@/features/farm-details/logic/useSandboxFarmRedirect'
 import { MarketOverview, WalletOverview } from '../types'
 import { makeDaiMarketOverview } from './makeDaiMarketOverview'
 import { makeMarketOverview } from './makeMarketOverview'
@@ -44,7 +44,7 @@ export function useMarketDetails(): UseMarketDetailsResult {
   useSandboxPageRedirect({
     basePath: paths.marketDetails,
     fallbackPath: paths.markets,
-    params,
+    basePathParams: params,
   })
   const nativeAssetInfo = getNativeAssetInfo(marketInfo.chainId)
 
