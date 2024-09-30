@@ -96,6 +96,10 @@ export function setupFork(options: SetupForkOptions): ForkContext {
       })
 
       const latestBlock = await client.getBlock()
+      // We select the block before the latest one to avoid including the vnet creation block,
+      // which has the current timestamp instead of the timestamp from the latest block on the chain.
+      // After this we create a new block with the timestamp of next to the latest block, and the
+      // forked chain is operable in a normal way.
       const block = await client.getBlock({ blockNumber: latestBlock.number - 1n })
       forkContext.simulationDate = new Date(Number(block.timestamp) * 1000)
       await tenderlyRpcActions.evmSetNextBlockTimestamp(forkContext.forkUrl, Number(block.timestamp))
@@ -105,9 +109,6 @@ export function setupFork(options: SetupForkOptions): ForkContext {
   })
 
   test.beforeEach(async () => {
-    // forkContext.simulationDate = new Date(initialSimulationDate)
-    // const initialTimestamp = Math.floor(initialSimulationDate.getTime() / 1000)
-    // await tenderlyRpcActions.evmSetNextBlockTimestamp(forkContext.forkUrl, Number(initialTimestamp))
     await tenderlyRpcActions.revertToSnapshot(forkContext.forkUrl, forkContext.initialSnapshotId)
     if (forkContext.isVnet) {
       const client = createPublicClient({
