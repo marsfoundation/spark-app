@@ -1,5 +1,5 @@
-import { Skeleton } from '@/ui/atoms/skeleton/Skeleton'
-import { AlertTriangle } from 'lucide-react'
+import { DelayedComponent } from '@/ui/atoms/delayed-component/DelayedComponent'
+import { AlertTriangle, Loader2 } from 'lucide-react'
 import { FarmHistoryQueryResult } from '../../logic/historic/useFarmHistoryQuery'
 import { ChartPanel } from './components/ChartPanel'
 import { RewardsChartPanel } from './components/RewardsChartPanel'
@@ -14,7 +14,11 @@ export function RewardsOverTime({ farmHistory }: RewardsOverTimeProps) {
     return (
       <ChartPanel>
         <ChartPanel.Header />
-        <Skeleton className="mt-6 w-full flex-grow opacity-20" />
+        <div className="flex h-full flex-grow items-center justify-center">
+          <DelayedComponent delay={300}>
+            <Loader2 className="h-8 animate-spin text-basics-grey" />
+          </DelayedComponent>
+        </div>
       </ChartPanel>
     )
   }
@@ -23,7 +27,7 @@ export function RewardsOverTime({ farmHistory }: RewardsOverTimeProps) {
     return (
       <ChartPanel>
         <ChartPanel.Header />
-        <div className="mt-6 flex flex-grow flex-col items-center justify-center rounded-md bg-basics-light-grey">
+        <div className="flex flex-grow flex-col items-center justify-center">
           <div className="flex items-center rounded-full bg-basics-grey/60 px-3 py-1 text-basics-dark-grey/80 text-sm">
             <AlertTriangle className="h-4 opacity-50" /> Failed to load chart data
           </div>
