@@ -19,7 +19,7 @@ const meta: Meta<typeof FarmTile> = {
     entryAssetsGroup: {
       type: 'stablecoins',
       name: 'Stablecoins',
-      assets: [tokens.DAI.symbol, tokens.USDC.symbol, tokens.USDT.symbol],
+      assets: [tokens.DAI.symbol, tokens.sDAI.symbol, tokens.USDC.symbol, tokens.USDS.symbol, tokens.sUSDS.symbol],
     },
   },
 }
@@ -47,7 +47,7 @@ export const GovernanceEntryAssets: Story = {
     entryAssetsGroup: {
       type: 'governance',
       name: 'Governance Tokens',
-      assets: [tokens.MKR.symbol, tokens.GNO.symbol],
+      assets: [tokens.SKY.symbol, tokens.GNO.symbol],
     },
   },
 }

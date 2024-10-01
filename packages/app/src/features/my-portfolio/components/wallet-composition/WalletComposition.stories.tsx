@@ -55,7 +55,7 @@ const assets: AssetsTableRow[] = [
     detailsLink: '',
   },
   {
-    token: tokens.MKR,
+    token: tokens.SKY,
     value: NormalizedUnitNumber(15),
     detailsLink: '',
   },
