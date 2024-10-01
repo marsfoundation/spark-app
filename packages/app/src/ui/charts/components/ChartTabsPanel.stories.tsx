@@ -9,6 +9,7 @@ import {
   mockDsrChartData,
   mockSsrChartData,
 } from '@/features/savings/components/savings-chart/fixtures/mockSavingsRateChartData'
+import { WithClassname } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { ChartTabsPanel } from './ChartTabsPanel'
@@ -16,6 +17,7 @@ import { ChartTabsPanel } from './ChartTabsPanel'
 const meta: Meta<typeof ChartTabsPanel> = {
   title: 'Components/Charts/ChartTabsPanel',
   component: ChartTabsPanel,
+  decorators: [WithClassname('max-w-lg')],
   args: {
     height: 300,
     selectedTimeframe: 'All',

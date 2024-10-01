@@ -1,12 +1,12 @@
 import { Percentage } from '@/domain/types/NumericValues'
+import { TimeframeButtons } from '@/ui/charts/components/TimeframeButtons'
+import { Timeframe } from '@/ui/charts/defaults'
 import { useTimestamp } from '@/utils/useTimestamp'
 import { sort } from 'd3-array'
 import { useState } from 'react'
 import { GraphDataPoint } from '../types'
 import { Chart } from './Chart'
 import { ChartPanel } from './ChartPanel'
-import { Timeframe } from '@/ui/charts/defaults'
-import { TimeframeButtons } from '@/ui/charts/components/TimeframeButtons'
 
 export function RewardsChartPanel({ data }: { data: GraphDataPoint[] }) {
   const [selectedTimeframe, setSelectedTimeframe] = useState<Timeframe>('All')
