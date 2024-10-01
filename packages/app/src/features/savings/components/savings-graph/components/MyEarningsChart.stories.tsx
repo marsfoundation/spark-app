@@ -3,11 +3,11 @@ import { getMobileStory, getTabletStory } from '@storybook/viewports'
 
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { WithClassname, WithFixedDate } from '@storybook/decorators'
-import { MyEarningsGraph } from './MyEarningsGraph'
+import { MyEarningsChart } from './MyEarningsChart'
 
-const meta: Meta<typeof MyEarningsGraph> = {
-  title: 'Features/Savings/Components/SavingsGraph/Components/MyEarningsGraph',
-  component: MyEarningsGraph,
+const meta: Meta<typeof MyEarningsChart> = {
+  title: 'Features/Savings/Components/SavingsGraph/Components/MyEarningsChart',
+  component: MyEarningsChart,
   decorators: [WithClassname('max-w-lg'), WithFixedDate()],
   args: {
     height: 320,
@@ -39,7 +39,7 @@ const meta: Meta<typeof MyEarningsGraph> = {
 }
 
 export default meta
-type Story = StoryObj<typeof MyEarningsGraph>
+type Story = StoryObj<typeof MyEarningsChart>
 
 export const Desktop: Story = {}
 export const Mobile = getMobileStory(Desktop)

@@ -17,7 +17,7 @@ import { useParentSize } from '@/ui/utils/useParentSize'
 import { Circle } from 'lucide-react'
 import { formatTooltipDate } from '../utils'
 
-export interface GraphDataPoint {
+export interface ChartDataPoint {
   balance: NormalizedUnitNumber
   date: Date
 }
@@ -46,11 +46,11 @@ export interface ChartProps {
   margins?: Margins
   xAxisNumTicks?: number
   yAxisNumTicks?: number
-  data: GraphDataPoint[]
-  predictions: GraphDataPoint[]
+  data: ChartDataPoint[]
+  predictions: ChartDataPoint[]
 }
 
-function MyEarningsGraph({
+function MyEarningsChart({
   height,
   margins = defaultMargins,
   xAxisNumTicks = 5,
@@ -61,7 +61,7 @@ function MyEarningsGraph({
   tooltipLeft = 0,
   data,
   predictions,
-}: ChartProps & WithTooltipProvidedProps<GraphDataPoint>) {
+}: ChartProps & WithTooltipProvidedProps<ChartDataPoint>) {
   const [ref, { width }] = useParentSize()
 
   const innerWidth = width - margins.left - margins.right
@@ -85,7 +85,7 @@ function MyEarningsGraph({
     const lastSmallerElement =
       xAxisData.reduce(
         (prev, curr) => (curr.date.getTime() < domainX.getTime() ? curr : prev),
-        null as GraphDataPoint | null,
+        null as ChartDataPoint | null,
       ) || xAxisData[0]
 
     showTooltip({
@@ -236,7 +236,7 @@ function MyEarningsGraph({
   )
 }
 
-function TooltipContent({ data }: { data: GraphDataPoint }) {
+function TooltipContent({ data }: { data: ChartDataPoint }) {
   const isPrediction = isDataPointPrediction(data)
 
   return (
@@ -245,7 +245,7 @@ function TooltipContent({ data }: { data: GraphDataPoint }) {
       <div className="flex items-center gap-1.5 text-sm leading-none">
         <Circle size={8} fill={isPrediction ? colors.secondary : colors.primary} stroke="0" />
         <div>
-          {isPrediction && 'Future '}Savings:{' '}
+          Savings{isPrediction && ' Prediction'}:{' '}
           <span className="font-semibold">{USD_MOCK_TOKEN.formatUSD(data.balance)}</span>
         </div>
       </div>
@@ -253,7 +253,7 @@ function TooltipContent({ data }: { data: GraphDataPoint }) {
   )
 }
 
-function isDataPointPrediction(dataPoint: GraphDataPoint): boolean {
+function isDataPointPrediction(dataPoint: ChartDataPoint): boolean {
   return Date.now() < dataPoint.date.getTime()
 }
 
@@ -265,7 +265,7 @@ function formatXTicks(date: any) {
   return date.toLocaleDateString('en-US', { day: '2-digit', month: 'short' })
 }
 
-function calculateBalanceDomain(data: GraphDataPoint[]): ContinuousDomain {
+function calculateBalanceDomain(data: ChartDataPoint[]): ContinuousDomain {
   const minBalance = min(data, (d) => d.balance.toNumber()) || 0
   const maxBalance = max(data, (d) => d.balance.toNumber()) || 0
 
@@ -276,6 +276,6 @@ function calculateBalanceDomain(data: GraphDataPoint[]): ContinuousDomain {
   return [minBalance, maxBalance * 1.1] // 10% padding on top
 }
 
-const MyEarningsGraphWithTooltip = withTooltip<ChartProps, GraphDataPoint>(MyEarningsGraph)
+const MyEarningsChartWithTooltip = withTooltip<ChartProps, ChartDataPoint>(MyEarningsChart)
 
-export { MyEarningsGraphWithTooltip as MyEarningsGraph }
+export { MyEarningsChartWithTooltip as MyEarningsChart }
