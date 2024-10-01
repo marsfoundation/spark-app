@@ -5,9 +5,9 @@ import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { withRouter } from 'storybook-addon-remix-react-router'
-import { FarmHistoryQueryResult } from '../../logic/historic/useFarmHistoryQuery'
-import { FarmDetailsView } from '../FarmDetailsView'
-import { mockChartData } from './mockChartData'
+import { mockChartData } from '../fixtures/mockChartData'
+import { FarmHistoryQueryResult } from '../logic/historic/useFarmHistoryQuery'
+import { FarmDetailsView } from './FarmDetailsView'
 
 const meta: Meta<typeof FarmDetailsView> = {
   title: 'Features/FarmDetails/Views/FarmDetailsView',
