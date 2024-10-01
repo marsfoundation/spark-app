@@ -12,6 +12,7 @@ export interface ForkContext {
   forkUrl: string
   forkService: ITestForkService
   initialSnapshotId: string
+  initialSimulationDate: Date
   isVnet: boolean
   chainId: number
   simulationDate: Date
@@ -61,6 +62,7 @@ export function setupFork(options: SetupForkOptions): ForkContext {
     forkUrl: undefined as any,
     isVnet,
     initialSnapshotId: undefined as any,
+    initialSimulationDate: undefined as any,
     simulationDate: simulationDate as any,
     chainId,
 
@@ -85,6 +87,7 @@ export function setupFork(options: SetupForkOptions): ForkContext {
       const deltaTimeForward = Math.floor((simulationDate.getTime() - Date.now()) / 1000)
       await tenderlyRpcActions.evmIncreaseTime(forkContext.forkUrl, deltaTimeForward)
       forkContext.simulationDate = simulationDate
+      forkContext.initialSimulationDate = simulationDate
       await tenderlyRpcActions.evmSetNextBlockTimestamp(
         forkContext.forkUrl,
         Math.floor(simulationDate.getTime() / 1000),
@@ -96,8 +99,13 @@ export function setupFork(options: SetupForkOptions): ForkContext {
       })
 
       const latestBlock = await client.getBlock()
+      // We select the block before the latest one to avoid including the vnet creation block,
+      // which has the current timestamp instead of the timestamp from the latest block on the chain.
+      // After this we create a new block with the timestamp of next to the latest block, and the
+      // forked chain is operable in a normal way.
       const block = await client.getBlock({ blockNumber: latestBlock.number - 1n })
       forkContext.simulationDate = new Date(Number(block.timestamp) * 1000)
+      forkContext.initialSimulationDate = forkContext.simulationDate
       await tenderlyRpcActions.evmSetNextBlockTimestamp(forkContext.forkUrl, Number(block.timestamp))
     }
 
@@ -106,6 +114,9 @@ export function setupFork(options: SetupForkOptions): ForkContext {
 
   test.beforeEach(async () => {
     await tenderlyRpcActions.revertToSnapshot(forkContext.forkUrl, forkContext.initialSnapshotId)
+    if (forkContext.isVnet) {
+      forkContext.simulationDate = forkContext.initialSimulationDate
+    }
   })
 
   test.afterAll(async () => {
