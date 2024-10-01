@@ -12,10 +12,11 @@ import { extent, max, min } from 'd3-array'
 import { Fragment, MouseEvent, TouchEvent } from 'react'
 
 import { formatPercentage } from '@/domain/common/format'
+import { Margins, defaultMargins } from '@/ui/charts/defaults'
+import { formatPercentageTick, formatTooltipDate } from '@/ui/charts/utils'
 import { useParentSize } from '@/ui/utils/useParentSize'
 import { Circle } from 'lucide-react'
 import { colors } from '../colors'
-import { Margins, defaultMargins } from '../defaults'
 import { GraphDataPoint } from '../types'
 
 export interface ChartProps {
@@ -124,7 +125,7 @@ function Chart({
             scale={yValueScale}
             strokeWidth={0}
             numTicks={yAxisNumTicks}
-            tickFormat={formatYTicks}
+            tickFormat={formatPercentageTick}
             tickLabelProps={() => ({
               fill: colors.axisTickLabel,
               fontSize: 10,
@@ -197,30 +198,6 @@ function TooltipContent({ data }: { data: GraphDataPoint }) {
       </div>
     </div>
   )
-}
-
-function formatTooltipDate(date: Date): string {
-  const day = String(date.getDate()).padStart(2, '0')
-  const month = String(date.getMonth() + 1).padStart(2, '0') // Months are zero-based
-  const year = date.getFullYear()
-
-  let hours = date.getHours()
-  const minutes = String(date.getMinutes()).padStart(2, '0')
-
-  const ampm = hours >= 12 ? 'PM' : 'AM'
-  hours = hours % 12
-  hours = hours ? hours : 12 // the hour '0' should be '12'
-  const hoursString = String(hours).padStart(2, '0')
-
-  return `${day}.${month}.${year} ${hoursString}:${minutes} ${ampm}`
-}
-
-const tickFormatter = new Intl.NumberFormat('en-US', {
-  maximumFractionDigits: 2,
-})
-
-function formatYTicks(value: { valueOf(): number }) {
-  return `${tickFormatter.format(value.valueOf() * 100)}%`
 }
 
 function calculateAprDomain(data: GraphDataPoint[]): ContinuousDomain {
