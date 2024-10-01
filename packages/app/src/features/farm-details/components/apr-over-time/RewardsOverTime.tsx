@@ -3,16 +3,38 @@ import { Panel } from '@/ui/atoms/panel/Panel'
 import { useTimestamp } from '@/utils/useTimestamp'
 import { sort } from 'd3-array'
 import { useState } from 'react'
+import { FarmHistoryQueryResult } from '../../logic/historic/useFarmHistoryQuery'
 import { ApyTooltip } from '../ApyTooltip'
 import { Chart } from './components/Chart'
 import { AVAILABLE_TIMEFRAMES, TimeframeButtons } from './components/TimeframeButtons'
 import { GraphDataPoint } from './types'
 
 export interface RewardsOverTimeProps {
-  data: GraphDataPoint[]
+  farmHistory: FarmHistoryQueryResult
 }
 
-export function RewardsOverTime({ data }: RewardsOverTimeProps) {
+// @note: Will be refactored in separate PR
+export function RewardsOverTime({ farmHistory }: RewardsOverTimeProps) {
+  if (farmHistory.isPending) {
+    return (
+      <Panel.Wrapper className="flex min-h-[380px] w-full flex-1 flex-col justify-between self-stretch px-6 py-6 md:px-[32px]">
+        LOADING...
+      </Panel.Wrapper>
+    )
+  }
+
+  if (farmHistory.error) {
+    return (
+      <Panel.Wrapper className="flex min-h-[380px] w-full flex-1 flex-col justify-between self-stretch px-6 py-6 md:px-[32px]">
+        ERROR: {farmHistory.error.message}
+      </Panel.Wrapper>
+    )
+  }
+
+  return <ChartSuccess data={farmHistory.data} />
+}
+
+function ChartSuccess({ data }: { data: GraphDataPoint[] }) {
   const [selectedTimeframe, setSelectedTimeframe] = useState<(typeof AVAILABLE_TIMEFRAMES)[number]>('All')
   const { timestamp, timestampInMs } = useTimestamp()
   const sortedData = sort(data, (a, b) => a.date.getTime() - b.date.getTime())
