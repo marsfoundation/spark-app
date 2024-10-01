@@ -3,7 +3,7 @@ import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { TimeframeButtons } from './TimeframeButtons'
 
 const meta: Meta<typeof TimeframeButtons> = {
-  title: 'Features/FarmDetails/Components/RewardsOverTime/Components/TimeframeButtons',
+  title: 'Components/Charts/TimeframeButtons',
   component: TimeframeButtons,
 }
 

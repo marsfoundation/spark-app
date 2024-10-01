@@ -13,33 +13,45 @@ import { MouseEvent, TouchEvent } from 'react'
 
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
-import { ChartTooltipContent } from '@/ui/charts/ChartTooltipContent'
-import { colors as colorsPreset } from '@/ui/charts/colors'
-import { Margins, POINT_RADIUS, defaultMargins } from '@/ui/charts/defaults'
-import { formatDateTick, formatTooltipDate, formatUSDTicks } from '@/ui/charts/utils'
 import { useParentSize } from '@/ui/utils/useParentSize'
+import { Circle } from 'lucide-react'
+import { formatTooltipDate } from '../utils'
 
-export interface ChartDataPoint {
+export interface GraphDataPoint {
   balance: NormalizedUnitNumber
   date: Date
 }
 
+interface Margins {
+  top: number
+  right: number
+  bottom: number
+  left: number
+}
+export const defaultMargins: Margins = { top: 40, right: 20, bottom: 20, left: 40 }
+const POINT_RADIUS = 4
+
 const colors = {
-  ...colorsPreset,
+  tooltipLine: '#6A7692',
+  dot: '#0B2140',
+  dotStroke: 'white',
+  backgroundLine: '#D9D9D9',
+  axisTickLabel: '#6A7692',
+  primary: '#3F66EF',
   secondary: '#BECAF9',
 }
 
 export interface ChartProps {
-  height?: number
+  height: number
   margins?: Margins
   xAxisNumTicks?: number
   yAxisNumTicks?: number
-  data: ChartDataPoint[]
-  predictions: ChartDataPoint[]
+  data: GraphDataPoint[]
+  predictions: GraphDataPoint[]
 }
 
-function MyEarningsChart({
-  height = 300,
+function MyEarningsGraph({
+  height,
   margins = defaultMargins,
   xAxisNumTicks = 5,
   yAxisNumTicks = 5,
@@ -49,7 +61,7 @@ function MyEarningsChart({
   tooltipLeft = 0,
   data,
   predictions,
-}: ChartProps & WithTooltipProvidedProps<ChartDataPoint>) {
+}: ChartProps & WithTooltipProvidedProps<GraphDataPoint>) {
   const [ref, { width }] = useParentSize()
 
   const innerWidth = width - margins.left - margins.right
@@ -73,7 +85,7 @@ function MyEarningsChart({
     const lastSmallerElement =
       xAxisData.reduce(
         (prev, curr) => (curr.date.getTime() < domainX.getTime() ? curr : prev),
-        null as ChartDataPoint | null,
+        null as GraphDataPoint | null,
       ) || xAxisData[0]
 
     showTooltip({
@@ -150,7 +162,7 @@ function MyEarningsChart({
             top={innerHeight - margins.bottom / 4}
             scale={xValueScale}
             strokeWidth={0}
-            tickFormat={formatDateTick}
+            tickFormat={formatXTicks}
             numTicks={xAxisNumTicks}
             tickLabelProps={() => ({
               fill: colors.axisTickLabel,
@@ -165,7 +177,7 @@ function MyEarningsChart({
             scale={yValueScale}
             strokeWidth={0}
             numTicks={yAxisNumTicks}
-            tickFormat={formatUSDTicks}
+            tickFormat={formatYTicks}
             tickLabelProps={() => ({
               fill: colors.axisTickLabel,
               fontSize: 10,
@@ -224,25 +236,41 @@ function MyEarningsChart({
   )
 }
 
-function TooltipContent({ data }: { data: ChartDataPoint }) {
+function TooltipContent({ data }: { data: GraphDataPoint }) {
   const isPrediction = isDataPointPrediction(data)
 
   return (
-    <ChartTooltipContent>
-      <ChartTooltipContent.Date>{formatTooltipDate(data.date)}</ChartTooltipContent.Date>
-      <ChartTooltipContent.Value dotColor={isPrediction ? colors.secondary : colors.primary}>
-        Savings{isPrediction && ' Prediction'}:{' '}
-        <span className="font-semibold">{USD_MOCK_TOKEN.formatUSD(data.balance)}</span>
-      </ChartTooltipContent.Value>
-    </ChartTooltipContent>
+    <div className="flex flex-col gap-3 rounded-xl border border-slate-700/10 bg-white p-3 shadow">
+      <div className="flex flex-col gap-3 text-slate-500 text-xs leading-none">{formatTooltipDate(data.date)}</div>
+      <div className="flex items-center gap-1.5 text-sm leading-none">
+        <Circle size={8} fill={isPrediction ? colors.secondary : colors.primary} stroke="0" />
+        <div>
+          {isPrediction && 'Future '}Savings:{' '}
+          <span className="font-semibold">{USD_MOCK_TOKEN.formatUSD(data.balance)}</span>
+        </div>
+      </div>
+    </div>
   )
 }
 
-function isDataPointPrediction(dataPoint: ChartDataPoint): boolean {
+function isDataPointPrediction(dataPoint: GraphDataPoint): boolean {
   return Date.now() < dataPoint.date.getTime()
 }
 
-function calculateBalanceDomain(data: ChartDataPoint[]): ContinuousDomain {
+function formatYTicks(value: { valueOf(): number }) {
+  return USD_MOCK_TOKEN.formatUSD(NormalizedUnitNumber(value.valueOf()), { compact: true })
+}
+
+function formatXTicks(date: any) {
+  const isToday = date.toDateString() === new Date().toDateString()
+  if (isToday) {
+    return 'Today'
+  }
+
+  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+}
+
+function calculateBalanceDomain(data: GraphDataPoint[]): ContinuousDomain {
   const minBalance = min(data, (d) => d.balance.toNumber()) || 0
   const maxBalance = max(data, (d) => d.balance.toNumber()) || 0
 
@@ -253,6 +281,6 @@ function calculateBalanceDomain(data: ChartDataPoint[]): ContinuousDomain {
   return [minBalance, maxBalance * 1.1] // 10% padding on top
 }
 
-const MyEarningsChartWithTooltip = withTooltip<ChartProps, ChartDataPoint>(MyEarningsChart)
+const MyEarningsGraphWithTooltip = withTooltip<ChartProps, GraphDataPoint>(MyEarningsGraph)
 
-export { MyEarningsChartWithTooltip as MyEarningsChart }
+export { MyEarningsGraphWithTooltip as MyEarningsGraph }
