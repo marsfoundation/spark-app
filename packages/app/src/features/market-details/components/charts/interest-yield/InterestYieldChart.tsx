@@ -4,7 +4,7 @@ import { Circle } from 'lucide-react'
 import { Percentage } from '@/domain/types/NumericValues'
 import { useParentSize } from '@/ui/utils/useParentSize'
 
-import { colors } from '@/ui/charts/colors-presets'
+import { colors } from '@/ui/charts/colors'
 import { Margins, defaultMargins } from '@/ui/charts/defaults'
 import { Chart } from './components/Chart'
 import { getYields } from './logic/getYields'

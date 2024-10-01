@@ -12,7 +12,7 @@ import { extent, max, min } from 'd3-array'
 import { Fragment, MouseEvent, TouchEvent } from 'react'
 
 import { formatPercentage } from '@/domain/common/format'
-import { colors } from '@/ui/charts/colors-presets'
+import { colors } from '@/ui/charts/colors'
 import { Margins, defaultMargins } from '@/ui/charts/defaults'
 import { formatPercentageTick, formatTooltipDate } from '@/ui/charts/utils'
 import { useParentSize } from '@/ui/utils/useParentSize'

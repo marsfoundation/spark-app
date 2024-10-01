@@ -14,7 +14,7 @@ import { Fragment, MouseEvent, TouchEvent } from 'react'
 import { formatPercentage } from '@/domain/common/format'
 import { Percentage } from '@/domain/types/NumericValues'
 
-import { colors } from '@/ui/charts/colors-presets'
+import { colors } from '@/ui/charts/colors'
 import { Margins, defaultMargins } from '@/ui/charts/defaults'
 import { formatPercentageTick } from '@/ui/charts/utils'
 import { GraphDataPoint } from '../types'

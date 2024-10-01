@@ -13,7 +13,7 @@ import { MouseEvent, TouchEvent } from 'react'
 
 import { formatPercentage } from '@/domain/common/format'
 import { Percentage } from '@/domain/types/NumericValues'
-import { colors as colorsPreset } from '@/ui/charts/colors-presets'
+import { colors as colorsPreset } from '@/ui/charts/colors'
 import { Margins, defaultMargins } from '@/ui/charts/defaults'
 import { formatDateTick, formatPercentageTick, formatTooltipDate } from '@/ui/charts/utils'
 import { useParentSize } from '@/ui/utils/useParentSize'
