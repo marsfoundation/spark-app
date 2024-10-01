@@ -23,7 +23,7 @@ const meta: Meta<typeof ChartTabsPanel> = {
     selectedTimeframe: 'All',
     tabs: [
       {
-        id: 'earningns',
+        id: 'earnings',
         label: 'My Earnings',
         chart: <MyEarningsChart data={mockEarningsChartData} predictions={mockEarningsPredictionsChartData} />,
       },
