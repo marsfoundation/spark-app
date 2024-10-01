@@ -13,6 +13,7 @@ import { MouseEvent, TouchEvent } from 'react'
 
 import { formatPercentage } from '@/domain/common/format'
 import { Percentage } from '@/domain/types/NumericValues'
+import { colors as colorsPreset } from '@/ui/charts/colors-presets'
 import { Margins, defaultMargins } from '@/ui/charts/defaults'
 import { formatDateTick, formatPercentageTick, formatTooltipDate } from '@/ui/charts/utils'
 import { useParentSize } from '@/ui/utils/useParentSize'
@@ -33,11 +34,7 @@ interface Colors {
 }
 
 const colors = {
-  tooltipLine: '#6A7692',
-  dot: '#0B2140',
-  dotStroke: 'white',
-  backgroundLine: '#D9D9D9',
-  axisTickLabel: '#6A7692',
+  ...colorsPreset,
   primary: '#6EC275',
 }
 

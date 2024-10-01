@@ -13,6 +13,7 @@ import { MouseEvent, TouchEvent } from 'react'
 
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
+import { colors as colorsPreset } from '@/ui/charts/colors-presets'
 import { Margins, POINT_RADIUS, defaultMargins } from '@/ui/charts/defaults'
 import { formatDateTick, formatTooltipDate, formatUSDTicks } from '@/ui/charts/utils'
 import { useParentSize } from '@/ui/utils/useParentSize'
@@ -24,12 +25,7 @@ export interface ChartDataPoint {
 }
 
 const colors = {
-  tooltipLine: '#6A7692',
-  dot: '#0B2140',
-  dotStroke: 'white',
-  backgroundLine: '#D9D9D9',
-  axisTickLabel: '#6A7692',
-  primary: '#3F66EF',
+  ...colorsPreset,
   secondary: '#BECAF9',
 }
 
