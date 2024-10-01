@@ -262,12 +262,7 @@ function formatYTicks(value: { valueOf(): number }) {
 }
 
 function formatXTicks(date: any) {
-  const isToday = date.toDateString() === new Date().toDateString()
-  if (isToday) {
-    return 'Today'
-  }
-
-  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+  return date.toLocaleDateString('en-US', { day: '2-digit', month: 'short' })
 }
 
 function calculateBalanceDomain(data: GraphDataPoint[]): ContinuousDomain {
