@@ -8,19 +8,28 @@ import { ContinuousDomain, scaleLinear, scaleTime } from '@visx/scale'
 import { AreaClosed, Bar, Line, LinePath } from '@visx/shape'
 import { TooltipWithBounds, withTooltip } from '@visx/tooltip'
 import { WithTooltipProvidedProps } from '@visx/tooltip/lib/enhancers/withTooltip'
-import { extent, max, min } from 'd3-array'
+import { extent, max, min, minIndex } from 'd3-array'
 import { MouseEvent, TouchEvent } from 'react'
 
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { USD_MOCK_TOKEN } from '@/domain/types/Token'
+import { formatPercentage } from '@/domain/common/format'
+import { Percentage } from '@/domain/types/NumericValues'
 import { useParentSize } from '@/ui/utils/useParentSize'
 import { Circle } from 'lucide-react'
-import { Margins, POINT_RADIUS, defaultMargins } from '../defaults'
-import { formatDateTick, formatTooltipDate, formatUSDTicks } from '../utils'
+import { Margins, defaultMargins } from '../../defaults'
+import { formatDateTick, formatPercentageTick, formatTooltipDate } from '../../utils'
 
-export interface ChartDataPoint {
-  balance: NormalizedUnitNumber
+export interface GraphDataPoint {
   date: Date
+  rate: Percentage
+}
+
+interface Colors {
+  primary: string
+  backgroundLine: string
+  axisTickLabel: string
+  tooltipLine: string
+  dot: string
+  dotStroke: string
 }
 
 const colors = {
@@ -29,20 +38,19 @@ const colors = {
   dotStroke: 'white',
   backgroundLine: '#D9D9D9',
   axisTickLabel: '#6A7692',
-  primary: '#3F66EF',
-  secondary: '#BECAF9',
+  primary: '#6EC275',
 }
 
-export interface ChartProps {
+export interface SavingsRateGraphProps {
   height: number
   margins?: Margins
   xAxisNumTicks?: number
   yAxisNumTicks?: number
-  data: ChartDataPoint[]
-  predictions: ChartDataPoint[]
+  data: GraphDataPoint[]
+  tooltipLabel: string
 }
 
-function MyEarningsChart({
+function SavingsRateGraph({
   height,
   margins = defaultMargins,
   xAxisNumTicks = 5,
@@ -52,21 +60,20 @@ function MyEarningsChart({
   tooltipData,
   tooltipLeft = 0,
   data,
-  predictions,
-}: ChartProps & WithTooltipProvidedProps<ChartDataPoint>) {
+  tooltipLabel,
+}: SavingsRateGraphProps & WithTooltipProvidedProps<GraphDataPoint>) {
   const [ref, { width }] = useParentSize()
 
   const innerWidth = width - margins.left - margins.right
   const innerHeight = height - margins.top - margins.bottom
-  const xAxisData = [...data, ...predictions]
 
   const xValueScale = scaleTime({
     range: [0, innerWidth],
-    domain: extent(xAxisData, ({ date }) => date) as [Date, Date],
+    domain: extent(data, ({ date }) => date) as [Date, Date],
   })
   const yValueScale = scaleLinear({
     range: [innerHeight, 0],
-    domain: calculateBalanceDomain(xAxisData),
+    domain: calculateRateDomain(data),
     nice: true,
   })
 
@@ -74,32 +81,14 @@ function MyEarningsChart({
     const point = localPoint(event) || { x: 0 }
     const x = point.x - margins.left
     const domainX = xValueScale.invert(x)
-    const lastSmallerElement =
-      xAxisData.reduce(
-        (prev, curr) => (curr.date.getTime() < domainX.getTime() ? curr : prev),
-        null as ChartDataPoint | null,
-      ) || xAxisData[0]
+
+    const tooltipElement = data[minIndex(data, (d) => Math.abs(d.date.getTime() - domainX.getTime()))]
 
     showTooltip({
-      tooltipData: lastSmallerElement,
+      tooltipData: tooltipElement,
       tooltipLeft: x,
     })
   }
-
-  const dataLastElement = data[data.length - 1]
-
-  const chartParts = [
-    {
-      key: 'data',
-      balance: data,
-      color: colors.primary,
-    },
-    {
-      key: 'predictions',
-      balance: predictions,
-      color: colors.secondary,
-    },
-  ]
 
   return (
     <div ref={ref}>
@@ -112,43 +101,34 @@ function MyEarningsChart({
             stroke={colors.backgroundLine}
             strokeWidth={1}
             pointerEvents="none"
-            numTicks={yAxisNumTicks}
           />
 
-          {chartParts.map(({ balance, color, key }) => (
-            <g key={key}>
-              <LinearGradient id={`area-gradient-${key}`} from={color} to={color} fromOpacity={0.5} toOpacity={0} />
+          <LinearGradient
+            id="area-gradient"
+            from={colors.primary}
+            to={colors.primary}
+            fromOpacity={0.5}
+            toOpacity={0}
+          />
 
-              <AreaClosed
-                strokeWidth={2}
-                data={balance}
-                x={(data) => xValueScale(data.date)}
-                y={(data) => yValueScale(data.balance.toNumber())}
-                yScale={yValueScale}
-                curve={curveStepAfter}
-                fill={`url(#area-gradient-${key})`}
-              />
+          <AreaClosed
+            strokeWidth={2}
+            data={data}
+            x={(data) => xValueScale(data.date)}
+            y={(data) => yValueScale(data.rate.toNumber())}
+            yScale={yValueScale}
+            curve={curveStepAfter}
+            fill="url(#area-gradient)"
+          />
 
-              <LinePath
-                stroke={color}
-                strokeWidth={2}
-                data={balance}
-                x={(data) => xValueScale(data.date)}
-                y={(data) => yValueScale(data.balance.toNumber())}
-                curve={curveStepAfter}
-              />
-            </g>
-          ))}
-
-          {dataLastElement && (
-            <circle
-              cx={xValueScale(dataLastElement.date)}
-              cy={yValueScale(dataLastElement.balance.toNumber())}
-              r={POINT_RADIUS}
-              fill={colors.primary}
-              pointerEvents="none"
-            />
-          )}
+          <LinePath
+            stroke={colors.primary}
+            strokeWidth={2}
+            data={data}
+            x={(data) => xValueScale(data.date)}
+            y={(data) => yValueScale(data.rate.toNumber())}
+            curve={curveStepAfter}
+          />
 
           <AxisBottom
             top={innerHeight - margins.bottom / 4}
@@ -169,7 +149,7 @@ function MyEarningsChart({
             scale={yValueScale}
             strokeWidth={0}
             numTicks={yAxisNumTicks}
-            tickFormat={formatUSDTicks}
+            tickFormat={formatPercentageTick}
             tickLabelProps={() => ({
               fill: colors.axisTickLabel,
               fontSize: 10,
@@ -200,14 +180,14 @@ function MyEarningsChart({
               />
               <circle
                 cx={tooltipLeft}
-                cy={yValueScale(tooltipData.balance.toNumber())}
+                cy={yValueScale(tooltipData.rate.toNumber())}
                 r={8}
                 fill={colors.primary}
                 pointerEvents="none"
               />
               <circle
                 cx={tooltipLeft}
-                cy={yValueScale(tooltipData.balance.toNumber())}
+                cy={yValueScale(tooltipData.rate.toNumber())}
                 r={4}
                 fill={colors.dot}
                 stroke={colors.dotStroke}
@@ -221,45 +201,43 @@ function MyEarningsChart({
 
       {tooltipData && (
         <TooltipWithBounds top={20} left={tooltipLeft + 40} unstyled applyPositionStyle>
-          <TooltipContent data={tooltipData} />
+          <TooltipContent data={tooltipData} colors={colors} tooltipLabel={tooltipLabel} />
         </TooltipWithBounds>
       )}
     </div>
   )
 }
 
-function TooltipContent({ data }: { data: ChartDataPoint }) {
-  const isPrediction = isDataPointPrediction(data)
-
+function TooltipContent({
+  data,
+  colors,
+  tooltipLabel,
+}: { data: GraphDataPoint; colors: Colors; tooltipLabel: string }) {
   return (
     <div className="flex flex-col gap-3 rounded-xl border border-slate-700/10 bg-white p-3 shadow">
       <div className="flex flex-col gap-3 text-slate-500 text-xs leading-none">{formatTooltipDate(data.date)}</div>
       <div className="flex items-center gap-1.5 text-sm leading-none">
-        <Circle size={8} fill={isPrediction ? colors.secondary : colors.primary} stroke="0" />
+        <Circle size={8} fill={colors.primary} stroke="0" />
         <div>
-          Savings{isPrediction && ' Prediction'}:{' '}
-          <span className="font-semibold">{USD_MOCK_TOKEN.formatUSD(data.balance)}</span>
+          {tooltipLabel}:{' '}
+          <span className="font-semibold">{formatPercentage(data.rate, { minimumFractionDigits: 0 })}</span>
         </div>
       </div>
     </div>
   )
 }
 
-function isDataPointPrediction(dataPoint: ChartDataPoint): boolean {
-  return Date.now() < dataPoint.date.getTime()
-}
+function calculateRateDomain(data: GraphDataPoint[]): ContinuousDomain {
+  const minRate = min(data, (d) => d.rate.toNumber()) || 0
+  const maxRate = max(data, (d) => d.rate.toNumber()) || 0
 
-function calculateBalanceDomain(data: ChartDataPoint[]): ContinuousDomain {
-  const minBalance = min(data, (d) => d.balance.toNumber()) || 0
-  const maxBalance = max(data, (d) => d.balance.toNumber()) || 0
-
-  if (minBalance === maxBalance) {
-    return [minBalance - 0.1, maxBalance + 0.1]
+  if (minRate === maxRate) {
+    return [minRate - 0.01, maxRate + 0.01]
   }
 
-  return [minBalance, maxBalance * 1.1] // 10% padding on top
+  return [minRate * 0.9, maxRate * 1.1] // 10% padding on top
 }
 
-const MyEarningsChartWithTooltip = withTooltip<ChartProps, ChartDataPoint>(MyEarningsChart)
+const SavingsRateGraphWithTooltip = withTooltip<SavingsRateGraphProps, GraphDataPoint>(SavingsRateGraph)
 
-export { MyEarningsChartWithTooltip as MyEarningsChart }
+export { SavingsRateGraphWithTooltip as SavingsRateGraph }
