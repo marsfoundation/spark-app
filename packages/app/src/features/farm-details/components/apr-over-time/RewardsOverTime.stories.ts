@@ -22,3 +22,24 @@ type Story = StoryObj<typeof RewardsOverTime>
 export const Desktop: Story = {}
 export const Mobile = getMobileStory(Desktop)
 export const Tablet = getTabletStory(Desktop)
+
+export const Loading: Story = {
+  args: {
+    farmHistory: {
+      isPending: true,
+    } as FarmHistoryQueryResult,
+  },
+}
+export const LoadingMobile = getMobileStory(Loading)
+export const LoadingTablet = getTabletStory(Loading)
+
+export const Failed: Story = {
+  args: {
+    farmHistory: {
+      isPending: false,
+      error: new Error('Something went wrong'),
+    } as FarmHistoryQueryResult,
+  },
+}
+export const FailedMobile = getMobileStory(Failed)
+export const FailedTablet = getTabletStory(Failed)
