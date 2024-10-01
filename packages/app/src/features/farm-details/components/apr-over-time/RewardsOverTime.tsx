@@ -16,7 +16,7 @@ export function RewardsOverTime({ farmHistory }: RewardsOverTimeProps) {
         <ChartPanel.Header />
         <div className="flex h-full flex-grow items-center justify-center">
           <DelayedComponent delay={300}>
-            <Loader2 className="h-8 animate-spin text-basics-grey" />
+            <Loader2 className="h-8 animate-spin text-basics-grey" data-chromatic="ignore" />
           </DelayedComponent>
         </div>
       </ChartPanel>
