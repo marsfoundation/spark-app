@@ -1,6 +1,6 @@
 import { infoSkyApiUrl } from '@/config/consts'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
-import { Percentage } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { queryOptions } from '@tanstack/react-query'
 import { z } from 'zod'
 
@@ -37,7 +37,14 @@ const historicDataResponseSchema = z
       z.object({
         date: z.string().transform((value) => new Date(value)),
         apr: z.string().transform((value) => Percentage(value, true)),
+        total_staked: z.string().transform((value) => NormalizedUnitNumber(value)),
       }),
     ),
   })
-  .transform((value) => value.results)
+  .transform((value) =>
+    value.results.map((result) => ({
+      date: result.date,
+      apr: result.apr,
+      totalStaked: result.total_staked,
+    })),
+  )

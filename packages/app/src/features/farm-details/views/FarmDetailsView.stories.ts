@@ -1,13 +1,12 @@
+import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
+import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { withRouter } from 'storybook-addon-remix-react-router'
-
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
-
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
-import { exampleFarmHistoricData } from '@storybook/consts'
-import { tokens } from '@storybook/tokens'
+import { mockChartData } from '../fixtures/mockChartData'
+import { FarmHistoryQueryResult } from '../logic/historic/useFarmHistoryQuery'
 import { FarmDetailsView } from './FarmDetailsView'
 
 const meta: Meta<typeof FarmDetailsView> = {
@@ -62,7 +61,7 @@ const meta: Meta<typeof FarmDetailsView> = {
     openStakeDialog: () => {},
     openConnectModal: () => {},
     openSandboxModal: () => {},
-    farmHistoricData: exampleFarmHistoricData,
+    farmHistory: { data: mockChartData } as FarmHistoryQueryResult,
   },
 }
 

@@ -1,7 +1,8 @@
-import { exampleFarmHistoricData } from '@storybook/consts'
 import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
+import { mockChartData } from '../../fixtures/mockChartData'
+import { FarmHistoryQueryResult } from '../../logic/historic/useFarmHistoryQuery'
 import { RewardsOverTime } from './RewardsOverTime'
 
 const meta: Meta<typeof RewardsOverTime> = {
@@ -9,7 +10,9 @@ const meta: Meta<typeof RewardsOverTime> = {
   component: RewardsOverTime,
   decorators: [WithClassname('max-w-lg'), WithTooltipProvider()],
   args: {
-    data: exampleFarmHistoricData,
+    farmHistory: {
+      data: mockChartData,
+    } as FarmHistoryQueryResult,
   },
 }
 
