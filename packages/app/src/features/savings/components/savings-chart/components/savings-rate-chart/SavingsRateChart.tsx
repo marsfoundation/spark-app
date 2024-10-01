@@ -13,11 +13,11 @@ import { MouseEvent, TouchEvent } from 'react'
 
 import { formatPercentage } from '@/domain/common/format'
 import { Percentage } from '@/domain/types/NumericValues'
+import { ChartTooltipContent } from '@/ui/charts/ChartTooltipContent'
 import { colors as colorsPreset } from '@/ui/charts/colors'
 import { Margins, defaultMargins } from '@/ui/charts/defaults'
 import { formatDateTick, formatPercentageTick, formatTooltipDate } from '@/ui/charts/utils'
 import { useParentSize } from '@/ui/utils/useParentSize'
-import { Circle } from 'lucide-react'
 
 export interface ChartDataPoint {
   date: Date
@@ -205,22 +205,15 @@ function SavingsRateChart({
   )
 }
 
-function TooltipContent({
-  data,
-  colors,
-  tooltipLabel,
-}: { data: ChartDataPoint; colors: Colors; tooltipLabel: string }) {
+function TooltipContent({ data, tooltipLabel }: { data: ChartDataPoint; colors: Colors; tooltipLabel: string }) {
   return (
-    <div className="flex flex-col gap-3 rounded-xl border border-slate-700/10 bg-white p-3 shadow">
-      <div className="flex flex-col gap-3 text-slate-500 text-xs leading-none">{formatTooltipDate(data.date)}</div>
-      <div className="flex items-center gap-1.5 text-sm leading-none">
-        <Circle size={8} fill={colors.primary} stroke="0" />
-        <div>
-          {tooltipLabel}:{' '}
-          <span className="font-semibold">{formatPercentage(data.rate, { minimumFractionDigits: 0 })}</span>
-        </div>
-      </div>
-    </div>
+    <ChartTooltipContent>
+      <ChartTooltipContent.Date>{formatTooltipDate(data.date)}</ChartTooltipContent.Date>
+      <ChartTooltipContent.Value dotColor={colors.primary}>
+        {tooltipLabel}:{' '}
+        <span className="font-semibold">{formatPercentage(data.rate, { minimumFractionDigits: 0 })}</span>
+      </ChartTooltipContent.Value>
+    </ChartTooltipContent>
   )
 }
 
