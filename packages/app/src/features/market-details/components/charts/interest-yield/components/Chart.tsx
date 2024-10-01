@@ -14,8 +14,9 @@ import { Fragment, MouseEvent, TouchEvent } from 'react'
 import { formatPercentage } from '@/domain/common/format'
 import { Percentage } from '@/domain/types/NumericValues'
 
-import { colors } from '../../colors'
-import { Margins, defaultMargins } from '../../defaults'
+import { colors } from '@/ui/charts/colors'
+import { Margins, defaultMargins } from '@/ui/charts/defaults'
+import { formatPercentageTick } from '@/ui/charts/utils'
 import { GraphDataPoint } from '../types'
 
 export interface ChartProps {
@@ -97,7 +98,7 @@ function Chart({
             scale={xValueScale}
             strokeWidth={0}
             numTicks={xAxisNumTicks}
-            tickFormat={formatTicks}
+            tickFormat={formatPercentageTick}
             tickLabelProps={() => ({
               fill: colors.axisTickLabel,
               fontSize: 10,
@@ -111,7 +112,7 @@ function Chart({
             scale={yValueScale}
             strokeWidth={0}
             numTicks={yAxisNumTicks}
-            tickFormat={formatTicks}
+            tickFormat={formatPercentageTick}
             tickLabelProps={() => ({
               fill: colors.axisTickLabel,
               fontSize: 10,
@@ -243,14 +244,6 @@ export function UtilizationLine({ label, value, xValueScale, innerHeight, margin
       </Text>
     </>
   )
-}
-
-const tickFormatter = new Intl.NumberFormat('en-US', {
-  maximumFractionDigits: 2,
-})
-
-function formatTicks(value: { valueOf(): number }) {
-  return `${tickFormatter.format(value.valueOf() * 100)}%`
 }
 
 const ChartWithTooltip = withTooltip<ChartProps, GraphDataPoint>(Chart)
