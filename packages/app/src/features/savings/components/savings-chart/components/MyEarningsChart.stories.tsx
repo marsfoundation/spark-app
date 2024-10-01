@@ -6,7 +6,7 @@ import { WithClassname, WithFixedDate } from '@storybook/decorators'
 import { MyEarningsChart } from './MyEarningsChart'
 
 const meta: Meta<typeof MyEarningsChart> = {
-  title: 'Features/Savings/Components/SavingsGraph/Components/MyEarningsChart',
+  title: 'Features/Savings/Components/SavingsChart/Components/MyEarningsChart',
   component: MyEarningsChart,
   decorators: [WithClassname('max-w-lg'), WithFixedDate()],
   args: {
