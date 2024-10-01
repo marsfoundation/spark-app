@@ -19,8 +19,10 @@ TabsList.displayName = TabsPrimitive.List.displayName
 
 const TabsTrigger = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>
->(({ className, children, ...props }, ref) => (
+  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger> & {
+    indicatorClassName?: string
+  }
+>(({ className, children, indicatorClassName, ...props }, ref) => (
   <TabsPrimitive.Trigger
     ref={ref}
     className={cn(
@@ -32,7 +34,7 @@ const TabsTrigger = React.forwardRef<
     {...props}
   >
     {children}
-    <div className="mt-2 h-1 w-[calc(100%-1.5rem)] rounded-t-lg bg-nav-primary opacity-0" />
+    <div className={cn('mt-2 h-1 w-[calc(100%-1.5rem)] rounded-t-lg bg-nav-primary opacity-0', indicatorClassName)} />
   </TabsPrimitive.Trigger>
 ))
 TabsTrigger.displayName = TabsPrimitive.Trigger.displayName

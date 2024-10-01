@@ -1,20 +1,19 @@
 import { cn } from '@/ui/utils/style'
-
-export const AVAILABLE_TIMEFRAMES = ['7D', '1M', '1Y', 'All'] as const
+import { AVAILABLE_TIMEFRAMES, Timeframe } from '../defaults'
 
 export interface TimeframeButtonsProps {
-  setSelectedTimeframe: (timeframe: (typeof AVAILABLE_TIMEFRAMES)[number]) => void
-  selectedTimeframe: (typeof AVAILABLE_TIMEFRAMES)[number]
+  onTimeframeChange: (timeframe: Timeframe) => void
+  selectedTimeframe: Timeframe
 }
 
-export function TimeframeButtons({ setSelectedTimeframe, selectedTimeframe }: TimeframeButtonsProps) {
+export function TimeframeButtons({ onTimeframeChange, selectedTimeframe }: TimeframeButtonsProps) {
   return (
-    <div className="flex w-fit rounded-lg border border-basics-border">
+    <div className="ml-auto flex w-fit rounded-lg border border-basics-border">
       {AVAILABLE_TIMEFRAMES.map((timeframe) => (
         <TimeframeButton
           key={timeframe}
           selected={selectedTimeframe === timeframe}
-          onClick={() => setSelectedTimeframe(timeframe)}
+          onClick={() => onTimeframeChange(timeframe)}
         >
           {timeframe}
         </TimeframeButton>

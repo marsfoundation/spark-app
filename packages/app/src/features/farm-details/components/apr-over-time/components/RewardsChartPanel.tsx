@@ -5,10 +5,11 @@ import { useState } from 'react'
 import { GraphDataPoint } from '../types'
 import { Chart } from './Chart'
 import { ChartPanel } from './ChartPanel'
-import { AVAILABLE_TIMEFRAMES, TimeframeButtons } from './TimeframeButtons'
+import { Timeframe } from '@/ui/charts/defaults'
+import { TimeframeButtons } from '@/ui/charts/components/TimeframeButtons'
 
 export function RewardsChartPanel({ data }: { data: GraphDataPoint[] }) {
-  const [selectedTimeframe, setSelectedTimeframe] = useState<(typeof AVAILABLE_TIMEFRAMES)[number]>('All')
+  const [selectedTimeframe, setSelectedTimeframe] = useState<Timeframe>('All')
   const { timestamp, timestampInMs } = useTimestamp()
   const sortedData = sort(data, (a, b) => a.date.getTime() - b.date.getTime())
   const filteredData = filterDataByTimeframe({
@@ -26,7 +27,7 @@ export function RewardsChartPanel({ data }: { data: GraphDataPoint[] }) {
       <div className="flex justify-between">
         <ChartPanel.Header />
         <div className="flex items-center gap-1">
-          <TimeframeButtons setSelectedTimeframe={setSelectedTimeframe} selectedTimeframe={selectedTimeframe} />
+          <TimeframeButtons onTimeframeChange={setSelectedTimeframe} selectedTimeframe={selectedTimeframe} />
         </div>
       </div>
       <Chart data={filteredData} height={300} />
@@ -36,7 +37,7 @@ export function RewardsChartPanel({ data }: { data: GraphDataPoint[] }) {
 
 interface FilterDataByTimeframeParams {
   data: GraphDataPoint[]
-  timeframe: (typeof AVAILABLE_TIMEFRAMES)[number]
+  timeframe: Timeframe
   currentTimestamp: number
 }
 function filterDataByTimeframe({ data, timeframe, currentTimestamp }: FilterDataByTimeframeParams): GraphDataPoint[] {
