@@ -9,14 +9,14 @@ import { BackNav } from '../components/back-nav/BackNav'
 import { FarmInfoPanel } from '../components/farm-info-panel/FarmInfoPanel'
 import { Header } from '../components/header/Header'
 import { TokensToDeposit } from '../components/tokens-to-deposit/TokensToDeposit'
-import { FarmHistoryItem } from '../logic/historic/types'
+import { FarmHistoryQueryResult } from '../logic/historic/useFarmHistoryQuery'
 
 export interface FarmDetailsViewProps {
   chainId: number
   chainMismatch: boolean
   walletConnected: boolean
   farm: Farm
-  farmHistoricData: FarmHistoryItem[]
+  farmHistory: FarmHistoryQueryResult
   tokensToDeposit: TokenWithBalance[]
   isFarmActive: boolean
   hasTokensToDeposit: boolean
@@ -33,7 +33,7 @@ export function FarmDetailsView({
   chainMismatch,
   walletConnected,
   farm,
-  farmHistoricData,
+  farmHistory,
   tokensToDeposit,
   isFarmActive,
   hasTokensToDeposit,
@@ -61,7 +61,7 @@ export function FarmDetailsView({
               openStakeDialog={openDefaultedStakeDialog}
             />
           )}
-          <RewardsOverTime data={farmHistoricData} />
+          <RewardsOverTime farmHistory={farmHistory} />
         </div>
         {walletConnected && <TokensToDeposit assets={tokensToDeposit} openStakeDialog={openStakeDialog} />}
         {!walletConnected && (
