@@ -4,7 +4,7 @@ import { getTokenImage } from '@/ui/assets'
 import { testIds } from '@/ui/utils/testIds'
 import { getFractionalPart, getWholePart } from '@/utils/bigNumber'
 import { useTimestamp } from '@/utils/useTimestamp'
-import { calculateReward } from '../../logic/calculateReward'
+import { calculateReward } from '../../../logic/calculateReward'
 
 const STEP_IN_MS = 50
 
@@ -50,12 +50,14 @@ export function GrowingReward({ farm }: GrowingRewardProps) {
           <div className="font-semibold text-lg md:text-2xl">{getFractionalPart(currentReward, precision)}</div>
         </div>
       </div>
-      <div className="font-semibold text-basics-dark-grey text-xs tracking-wide">
-        &#8776;
-        <span data-testid={testIds.farmDetails.activeFarmInfoPanel.rewardsUsd}>
-          {rewardToken.formatUSD(currentReward)}
-        </span>
-      </div>
+      {rewardToken.unitPriceUsd.gt(0) && (
+        <div className="font-semibold text-basics-dark-grey text-xs tracking-wide">
+          &#8776;
+          <span data-testid={testIds.farmDetails.activeFarmInfoPanel.rewardsUsd}>
+            {rewardToken.formatUSD(currentReward)}
+          </span>
+        </div>
+      )}
     </div>
   )
 }

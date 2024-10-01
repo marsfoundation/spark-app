@@ -26,6 +26,7 @@ export interface Farm {
   earnedTimestamp: number
   periodFinish: number
   totalSupply: NormalizedUnitNumber
+  totalRewarded: NormalizedUnitNumber
 
   earned: NormalizedUnitNumber
   staked: NormalizedUnitNumber

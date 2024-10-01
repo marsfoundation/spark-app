@@ -1,8 +1,12 @@
+import { formatPercentage } from '@/domain/common/format'
 import { Farm } from '@/domain/farms/types'
+import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
+import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
-import { FarmStatsRow } from '../farm-stats-row/FarmStatsRow'
+import { ApyTooltip } from '../../apy-tooltip/ApyTooltip'
+import { DetailsItem } from '../common/DetailsItem'
 import { GrowingReward } from './GrowingReward'
 
 export interface ActiveFarmInfoPanelProps {
@@ -41,12 +45,31 @@ export function ActiveFarmInfoPanel({ farm, openClaimDialog, openUnstakeDialog }
       </div>
       <div className="flex flex-col gap-4">
         <div className="hidden border-basics-border border-t md:block" />
-        <FarmStatsRow
-          apy={farm.apy}
-          depositors={farm.depositors}
-          tvl={farm.totalSupply}
-          deposit={{ token: farm.stakingToken, value: farm.staked }}
-        />
+        <div
+          className={cn(
+            'flex flex-col items-start gap-2 md:flex-row md:items-center',
+            farm.apy.gt(0) ? 'w-full text-sm md:justify-between' : 'md:gap-12',
+          )}
+        >
+          <DetailsItem title="Participants">
+            <div className="font-semibold">{farm.depositors}</div>
+          </DetailsItem>
+          <DetailsItem title="TVL">
+            <div className="font-semibold">{USD_MOCK_TOKEN.formatUSD(farm.totalSupply, { compact: true })}</div>
+          </DetailsItem>
+          {farm.apy.gt(0) && (
+            <DetailsItem title="APY" explainer={<ApyTooltip farmAddress={farm.address} />}>
+              <div className="font-semibold text-[#3F66EF]">
+                {formatPercentage(farm.apy, { minimumFractionDigits: 0 })}
+              </div>
+            </DetailsItem>
+          )}
+          <DetailsItem title="My Deposit">
+            <div className="font-semibold" data-testid={testIds.farmDetails.activeFarmInfoPanel.staked}>
+              {farm.stakingToken.format(farm.staked, { style: 'auto' })} {farm.stakingToken.symbol}
+            </div>
+          </DetailsItem>
+        </div>
       </div>
     </Panel.Wrapper>
   )

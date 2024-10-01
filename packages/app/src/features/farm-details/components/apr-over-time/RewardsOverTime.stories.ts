@@ -1,3 +1,4 @@
+import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
@@ -13,6 +14,7 @@ const meta: Meta<typeof RewardsOverTime> = {
     farmHistory: {
       data: mockChartData,
     } as FarmHistoryQueryResult,
+    farmAddress: CheckedAddress('0x0650CAF159C5A49f711e8169D4336ECB9b950275'),
   },
 }
 

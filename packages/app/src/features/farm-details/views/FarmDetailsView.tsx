@@ -3,10 +3,10 @@ import { Farm } from '@/domain/farms/types'
 import { Token } from '@/domain/types/Token'
 import { getTokenImage } from '@/ui/assets'
 import { ConnectOrSandboxCTAPanel } from '@/ui/organisms/connect-or-sandbox-cta-panel/ConnectOrSandboxCTAPanel'
-import { ActiveFarmInfoPanel } from '../components/active-farm-info-panel/ActiveFarmInfoPanel'
 import { RewardsOverTime } from '../components/apr-over-time/RewardsOverTime'
 import { BackNav } from '../components/back-nav/BackNav'
-import { FarmInfoPanel } from '../components/farm-info-panel/FarmInfoPanel'
+import { ActiveFarmInfoPanel } from '../components/farm-info-panel/active/ActiveFarmInfoPanel'
+import { InactiveFarmInfoPanel } from '../components/farm-info-panel/inactive/InactiveFarmInfoPanel'
 import { Header } from '../components/header/Header'
 import { TokensToDeposit } from '../components/tokens-to-deposit/TokensToDeposit'
 import { FarmHistoryQueryResult } from '../logic/historic/useFarmHistoryQuery'
@@ -53,7 +53,7 @@ export function FarmDetailsView({
           {isFarmActive ? (
             <ActiveFarmInfoPanel farm={farm} openClaimDialog={openClaimDialog} openUnstakeDialog={openUnstakeDialog} />
           ) : (
-            <FarmInfoPanel
+            <InactiveFarmInfoPanel
               assetsGroupType={farm.entryAssetsGroup.type}
               farm={farm}
               walletConnected={walletConnected}
@@ -61,7 +61,7 @@ export function FarmDetailsView({
               openStakeDialog={openDefaultedStakeDialog}
             />
           )}
-          <RewardsOverTime farmHistory={farmHistory} />
+          <RewardsOverTime farmHistory={farmHistory} farmAddress={farm.address} />
         </div>
         {walletConnected && <TokensToDeposit assets={tokensToDeposit} openStakeDialog={openStakeDialog} />}
         {!walletConnected && (

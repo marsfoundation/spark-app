@@ -27,7 +27,7 @@ export function ExitFarmSwitch({ checked, onSwitch, reward }: UpgradeToSusdsSwit
             className="text-basics-dark-grey text-xs"
             data-testid={testIds.farmDetails.unstakeDialog.exitFarmSwitchPanel.reward}
           >
-            ~{rewardAmount} {reward.token.symbol} (~{rewardUsdValue})
+            ~{rewardAmount} {reward.token.symbol} {reward.token.unitPriceUsd.gt(0) && `(~${rewardUsdValue})`}
           </div>
         </div>
       </div>

@@ -25,3 +25,14 @@ type Story = StoryObj<typeof TransactionOverview>
 export const Desktop: Story = {}
 export const Mobile = getMobileStory(Desktop)
 export const Tablet = getTabletStory(Desktop)
+
+export const DesktopZeroApy: Story = {
+  args: {
+    txOverview: {
+      reward: {
+        token: tokens.SKY.clone({ unitPriceUsd: NormalizedUnitNumber(0) }),
+        value: NormalizedUnitNumber(500.89),
+      },
+    },
+  },
+}
