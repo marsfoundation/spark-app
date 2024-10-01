@@ -3,5 +3,5 @@ export const defaultMargins: Margins = { top: 40, right: 20, bottom: 20, left: 4
 
 export const POINT_RADIUS = 4
 
-export type Timeframe = typeof AVAILABLE_TIMEFRAMES[number]
+export type Timeframe = (typeof AVAILABLE_TIMEFRAMES)[number]
 export const AVAILABLE_TIMEFRAMES = ['7D', '1M', '1Y', 'All'] as const
