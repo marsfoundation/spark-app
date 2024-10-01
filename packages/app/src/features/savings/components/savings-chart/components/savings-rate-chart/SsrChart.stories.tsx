@@ -3,11 +3,11 @@ import { getMobileStory, getTabletStory } from '@storybook/viewports'
 
 import { Percentage } from '@/domain/types/NumericValues'
 import { WithClassname } from '@storybook/decorators'
-import { SsrGraph } from './SsrGraph'
+import { SsrChart } from './SsrChart'
 
-const meta: Meta<typeof SsrGraph> = {
-  title: 'Features/Savings/Components/SavingsGraph/Components/SsrGraph',
-  component: SsrGraph,
+const meta: Meta<typeof SsrChart> = {
+  title: 'Features/Savings/Components/SavingsChart/Components/SsrChart',
+  component: SsrChart,
   decorators: [WithClassname('max-w-lg')],
   args: {
     height: 320,
@@ -67,7 +67,7 @@ const meta: Meta<typeof SsrGraph> = {
 }
 
 export default meta
-type Story = StoryObj<typeof SsrGraph>
+type Story = StoryObj<typeof SsrChart>
 
 export const Desktop: Story = {}
 export const Mobile = getMobileStory(Desktop)

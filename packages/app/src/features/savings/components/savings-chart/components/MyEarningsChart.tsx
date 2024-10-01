@@ -13,10 +13,10 @@ import { MouseEvent, TouchEvent } from 'react'
 
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
+import { Margins, POINT_RADIUS, defaultMargins } from '@/ui/charts/defaults'
+import { formatDateTick, formatTooltipDate, formatUSDTicks } from '@/ui/charts/utils'
 import { useParentSize } from '@/ui/utils/useParentSize'
 import { Circle } from 'lucide-react'
-import { Margins, POINT_RADIUS, defaultMargins } from '../defaults'
-import { formatDateTick, formatTooltipDate, formatUSDTicks } from '../utils'
 
 export interface ChartDataPoint {
   balance: NormalizedUnitNumber

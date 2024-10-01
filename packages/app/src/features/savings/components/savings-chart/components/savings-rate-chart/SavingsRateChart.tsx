@@ -13,12 +13,12 @@ import { MouseEvent, TouchEvent } from 'react'
 
 import { formatPercentage } from '@/domain/common/format'
 import { Percentage } from '@/domain/types/NumericValues'
+import { Margins, defaultMargins } from '@/ui/charts/defaults'
+import { formatDateTick, formatPercentageTick, formatTooltipDate } from '@/ui/charts/utils'
 import { useParentSize } from '@/ui/utils/useParentSize'
 import { Circle } from 'lucide-react'
-import { Margins, defaultMargins } from '../../defaults'
-import { formatDateTick, formatPercentageTick, formatTooltipDate } from '../../utils'
 
-export interface GraphDataPoint {
+export interface ChartDataPoint {
   date: Date
   rate: Percentage
 }
@@ -41,16 +41,16 @@ const colors = {
   primary: '#6EC275',
 }
 
-export interface SavingsRateGraphProps {
+export interface SavingsRateChartProps {
   height: number
   margins?: Margins
   xAxisNumTicks?: number
   yAxisNumTicks?: number
-  data: GraphDataPoint[]
+  data: ChartDataPoint[]
   tooltipLabel: string
 }
 
-function SavingsRateGraph({
+function SavingsRateChart({
   height,
   margins = defaultMargins,
   xAxisNumTicks = 5,
@@ -61,7 +61,7 @@ function SavingsRateGraph({
   tooltipLeft = 0,
   data,
   tooltipLabel,
-}: SavingsRateGraphProps & WithTooltipProvidedProps<GraphDataPoint>) {
+}: SavingsRateChartProps & WithTooltipProvidedProps<ChartDataPoint>) {
   const [ref, { width }] = useParentSize()
 
   const innerWidth = width - margins.left - margins.right
@@ -212,7 +212,7 @@ function TooltipContent({
   data,
   colors,
   tooltipLabel,
-}: { data: GraphDataPoint; colors: Colors; tooltipLabel: string }) {
+}: { data: ChartDataPoint; colors: Colors; tooltipLabel: string }) {
   return (
     <div className="flex flex-col gap-3 rounded-xl border border-slate-700/10 bg-white p-3 shadow">
       <div className="flex flex-col gap-3 text-slate-500 text-xs leading-none">{formatTooltipDate(data.date)}</div>
@@ -227,7 +227,7 @@ function TooltipContent({
   )
 }
 
-function calculateRateDomain(data: GraphDataPoint[]): ContinuousDomain {
+function calculateRateDomain(data: ChartDataPoint[]): ContinuousDomain {
   const minRate = min(data, (d) => d.rate.toNumber()) || 0
   const maxRate = max(data, (d) => d.rate.toNumber()) || 0
 
@@ -238,6 +238,6 @@ function calculateRateDomain(data: GraphDataPoint[]): ContinuousDomain {
   return [minRate * 0.9, maxRate * 1.1] // 10% padding on top
 }
 
-const SavingsRateGraphWithTooltip = withTooltip<SavingsRateGraphProps, GraphDataPoint>(SavingsRateGraph)
+const SavingsRateChartWithTooltip = withTooltip<SavingsRateChartProps, ChartDataPoint>(SavingsRateChart)
 
-export { SavingsRateGraphWithTooltip as SavingsRateGraph }
+export { SavingsRateChartWithTooltip as SavingsRateChart }
