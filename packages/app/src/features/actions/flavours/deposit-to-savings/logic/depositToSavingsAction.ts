@@ -11,7 +11,7 @@ import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
 import { ActionConfig, ActionContext } from '@/features/actions/logic/types'
-import { calculateAssetsMinAmountOut, getSavingsDepositActionPath } from '@/features/actions/utils/savings'
+import { calculateGemConversionFactor } from '@/features/actions/utils/savings'
 import { raise } from '@/utils/assert'
 import { assertNever } from '@/utils/assertNever'
 import { toBigInt } from '@/utils/bigNumber'
@@ -19,6 +19,7 @@ import { QueryKey } from '@tanstack/react-query'
 import { erc4626Abi } from 'viem'
 import { gnosis } from 'viem/chains'
 import { DepositToSavingsAction } from '../types'
+import { getSavingsDepositActionPath } from './getSavingsDepositActionPath'
 
 export function createDepositToSavingsActionConfig(
   action: DepositToSavingsAction,
@@ -58,11 +59,12 @@ export function createDepositToSavingsActionConfig(
 
         case 'usdc-to-susds':
         case 'usdc-to-sdai': {
-          const assetsMinAmountOut = calculateAssetsMinAmountOut({
-            gem: token,
+          const gemConversionFactor = calculateGemConversionFactor({
+            gemDecimals: token.decimals,
             assetsTokenDecimals: savingsToken.decimals,
-            actionValue: action.value,
           })
+          const assetsMinAmountOut = toBigInt(token.toBaseUnit(action.value).multipliedBy(gemConversionFactor))
+
           const sdaiSymbol = tokensInfo.sDAI?.symbol ?? raise('sDAI token is required for savings deposit action')
           const address =
             savingsToken.symbol === sdaiSymbol

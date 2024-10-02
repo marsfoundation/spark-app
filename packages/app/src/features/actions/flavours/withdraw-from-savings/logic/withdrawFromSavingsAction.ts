@@ -8,24 +8,20 @@ import {
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
 import { assertWithdraw } from '@/domain/savings/assertWithdraw'
+import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
 import { ActionConfig, ActionContext } from '@/features/actions/logic/types'
-import {
-  calculateGemConversionFactor,
-  isSDaiToUsdsWithdraw,
-  isSexyDaiOperation,
-  isUsdcDaiPsmActionsOperation,
-  isUsdcPsmActionsOperation,
-  isUsdcUsdsPsmActionsOperation,
-  isVaultOperation,
-} from '@/features/actions/utils/savings'
+import { calculateGemConversionFactor } from '@/features/actions/utils/savings'
 import { assert, raise } from '@/utils/assert'
+import { assertNever } from '@/utils/assertNever'
 import { toBigInt } from '@/utils/bigNumber'
+import { QueryKey } from '@tanstack/react-query'
 import { erc4626Abi } from 'viem'
 import { gnosis } from 'viem/chains'
 import { WithdrawFromSavingsAction } from '../types'
 import { calculateGemMinAmountOut } from './calculateGemMinAmountOut'
+import { getSavingsWithdrawActionPath } from './getSavingsWithdrawActionPath'
 
 export function createWithdrawFromSavingsActionConfig(
   action: WithdrawFromSavingsAction,
@@ -33,6 +29,12 @@ export function createWithdrawFromSavingsActionConfig(
 ): ActionConfig {
   const { account, chainId } = context
   const tokensInfo = context.tokensInfo ?? raise('Tokens info is required for deposit to savings action')
+  const actionPath = getSavingsWithdrawActionPath({
+    token: action.token,
+    savingsToken: action.savingsToken,
+    tokensInfo,
+    chainId,
+  })
 
   return {
     getWriteConfig: () => {
@@ -43,116 +45,109 @@ export function createWithdrawFromSavingsActionConfig(
         ? toBigInt(savingsToken.toBaseUnit(action.amount))
         : toBigInt(token.toBaseUnit(action.amount))
 
-      if (isVaultOperation({ token, savingsToken, tokensInfo, chainId })) {
-        return ensureConfigTypes({
-          address: savingsToken.address,
-          abi: erc4626Abi,
-          functionName: isRedeem ? 'redeem' : 'withdraw',
-          args: [argsAmount, receiver, account],
-        })
-      }
-
-      if (isSexyDaiOperation({ token, savingsToken, tokensInfo, chainId })) {
-        return ensureConfigTypes({
-          address: savingsXDaiAdapterAddress[gnosis.id],
-          abi: savingsXDaiAdapterAbi,
-          functionName: isRedeem ? 'redeemXDAI' : 'withdrawXDAI',
-          args: [argsAmount, receiver],
-        })
-      }
-
-      if (isSDaiToUsdsWithdraw({ token, savingsToken, tokensInfo })) {
-        return ensureConfigTypes({
-          address: getContractAddress(migrationActionsConfig.address, chainId),
-          abi: migrationActionsConfig.abi,
-          functionName: isRedeem ? 'migrateSDAISharesToUSDS' : 'migrateSDAIAssetsToUSDS',
-          args: [receiver, argsAmount],
-        })
-      }
-
-      if (isUsdcPsmActionsOperation({ token, savingsToken, tokensInfo })) {
-        const psmActionsAddress = (() => {
-          if (isUsdcDaiPsmActionsOperation({ token, savingsToken, tokensInfo })) {
-            return getContractAddress(psmActionsConfig.address, chainId)
-          }
-
-          if (isUsdcUsdsPsmActionsOperation({ token, savingsToken, tokensInfo })) {
-            return getContractAddress(usdsPsmActionsConfig.address, chainId)
-          }
-
-          throw new Error('Not implemented psm action')
-        })()
-        assert(context.savingsDaiInfo, 'Savings info is required for usdc psm withdraw from savings action')
-
-        if (isRedeem) {
-          const assetsAmount = context.savingsDaiInfo.convertToAssets({ shares: action.amount })
-          const gemMinAmountOut = calculateGemMinAmountOut({
-            gemDecimals: token.decimals,
-            assetsTokenDecimals: savingsToken.decimals,
-            assetsAmount: toBigInt(savingsToken.toBaseUnit(assetsAmount)),
+      switch (actionPath) {
+        case 'susds-to-usds':
+        case 'sdai-to-dai':
+          return ensureConfigTypes({
+            address: savingsToken.address,
+            abi: erc4626Abi,
+            functionName: isRedeem ? 'redeem' : 'withdraw',
+            args: [argsAmount, receiver, account],
           })
 
+        case 'sdai-to-sexy-dai':
           return ensureConfigTypes({
-            address: psmActionsAddress,
+            address: savingsXDaiAdapterAddress[gnosis.id],
+            abi: savingsXDaiAdapterAbi,
+            functionName: isRedeem ? 'redeemXDAI' : 'withdrawXDAI',
+            args: [argsAmount, receiver],
+          })
+
+        case 'sdai-to-usds':
+          return ensureConfigTypes({
+            address: getContractAddress(migrationActionsConfig.address, chainId),
+            abi: migrationActionsConfig.abi,
+            functionName: isRedeem ? 'migrateSDAISharesToUSDS' : 'migrateSDAIAssetsToUSDS',
+            args: [receiver, argsAmount],
+          })
+
+        case 'sdai-to-usdc':
+        case 'susds-to-usdc': {
+          const sdaiSymbol = tokensInfo.sDAI?.symbol ?? raise('sDAI token is required for savings deposit action')
+          const address =
+            savingsToken.symbol === sdaiSymbol
+              ? getContractAddress(psmActionsConfig.address, chainId)
+              : getContractAddress(usdsPsmActionsConfig.address, chainId)
+
+          assert(context.savingsDaiInfo, 'Savings info is required for usdc psm withdraw from savings action')
+
+          if (isRedeem) {
+            const assetsAmount = context.savingsDaiInfo.convertToAssets({ shares: action.amount })
+            const gemMinAmountOut = calculateGemMinAmountOut({
+              gemDecimals: token.decimals,
+              assetsTokenDecimals: savingsToken.decimals,
+              assetsAmount: toBigInt(savingsToken.toBaseUnit(assetsAmount)),
+            })
+
+            return ensureConfigTypes({
+              address,
+              abi: psmActionsConfig.abi,
+              functionName: 'redeemAndSwap',
+              args: [receiver, argsAmount, gemMinAmountOut],
+            })
+          }
+
+          const gemConversionFactor = calculateGemConversionFactor({
+            gemDecimals: token.decimals,
+            assetsTokenDecimals: savingsToken.decimals,
+          })
+          const assetsMaxAmountIn = toBigInt(token.toBaseUnit(action.amount).multipliedBy(gemConversionFactor))
+
+          return ensureConfigTypes({
+            address,
             abi: psmActionsConfig.abi,
-            functionName: 'redeemAndSwap',
-            args: [receiver, argsAmount, gemMinAmountOut],
+            functionName: 'withdrawAndSwap',
+            args: [receiver, argsAmount, assetsMaxAmountIn],
           })
         }
 
-        const gemConversionFactor = calculateGemConversionFactor({
-          gemDecimals: token.decimals,
-          assetsTokenDecimals: savingsToken.decimals,
-        })
-        const assetsMaxAmountIn = toBigInt(token.toBaseUnit(action.amount).multipliedBy(gemConversionFactor))
-
-        return ensureConfigTypes({
-          address: psmActionsAddress,
-          abi: psmActionsConfig.abi,
-          functionName: 'withdrawAndSwap',
-          args: [receiver, argsAmount, assetsMaxAmountIn],
-        })
+        default:
+          assertNever(actionPath)
       }
-
-      throw new Error('Not implemented withdraw from savings action')
     },
 
     invalidates: () => {
-      const { token, savingsToken } = action
-
-      if (isVaultOperation({ token, savingsToken, tokensInfo, chainId })) {
-        return [getBalancesQueryKeyPrefix({ chainId, account })]
-      }
-
-      const allowanceSpender = (() => {
-        if (isSexyDaiOperation({ token, savingsToken, tokensInfo, chainId })) {
-          return savingsXDaiAdapterAddress[gnosis.id]
-        }
-
-        if (isSDaiToUsdsWithdraw({ token, savingsToken, tokensInfo })) {
-          return getContractAddress(migrationActionsConfig.address, chainId)
-        }
-
-        if (isUsdcUsdsPsmActionsOperation({ token, savingsToken, tokensInfo })) {
-          return getContractAddress(usdsPsmActionsConfig.address, chainId)
-        }
-
-        if (isUsdcDaiPsmActionsOperation({ token, savingsToken, tokensInfo })) {
-          return getContractAddress(psmActionsConfig.address, chainId)
-        }
-
-        throw new Error('Invalidation not implemented')
-      })()
-
-      return [
-        allowanceQueryKey({
+      const balancesQueryKeyPrefix = getBalancesQueryKeyPrefix({ chainId, account })
+      function getAllowanceQueryKey(spender: CheckedAddress): QueryKey {
+        return allowanceQueryKey({
           token: action.savingsToken.address,
-          spender: allowanceSpender,
+          spender,
           account,
           chainId,
-        }),
-        getBalancesQueryKeyPrefix({ chainId, account }),
-      ]
+        })
+      }
+
+      switch (actionPath) {
+        case 'sdai-to-dai':
+        case 'susds-to-usds':
+          return [balancesQueryKeyPrefix]
+        case 'sdai-to-sexy-dai':
+          return [balancesQueryKeyPrefix, getAllowanceQueryKey(CheckedAddress(savingsXDaiAdapterAddress[gnosis.id]))]
+        case 'sdai-to-usds':
+          return [
+            balancesQueryKeyPrefix,
+            getAllowanceQueryKey(getContractAddress(migrationActionsConfig.address, chainId)),
+          ]
+        case 'sdai-to-usdc':
+          return [balancesQueryKeyPrefix, getAllowanceQueryKey(getContractAddress(psmActionsConfig.address, chainId))]
+        case 'susds-to-usdc':
+          return [
+            balancesQueryKeyPrefix,
+            getAllowanceQueryKey(getContractAddress(usdsPsmActionsConfig.address, chainId)),
+          ]
+        default:
+          assertNever(actionPath)
+      }
     },
 
     beforeWriteCheck: () => {

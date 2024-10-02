@@ -2,11 +2,11 @@ import { migrationActionsConfig, psmActionsConfig, usdsPsmActionsConfig } from '
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { Action, ActionContext } from '@/features/actions/logic/types'
-import { getSavingsDepositActionPath } from '@/features/actions/utils/savings'
 import { raise } from '@/utils/assert'
 import { assertNever } from '@/utils/assertNever'
 import { ApproveAction } from '../../approve/types'
 import { DepositToSavingsAction, DepositToSavingsObjective } from '../types'
+import { getSavingsDepositActionPath } from './getSavingsDepositActionPath'
 
 export function createDepositToSavingsActions(objective: DepositToSavingsObjective, context: ActionContext): Action[] {
   const tokensInfo = context.tokensInfo ?? raise('Tokens info is required for deposit to savings action')
