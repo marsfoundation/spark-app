@@ -2,16 +2,17 @@ import { useEffect, useState } from 'react'
 
 export interface DelayedComponentProps {
   children: React.ReactNode
-  delay: number
 }
 
-export function DelayedComponent({ children, delay }: DelayedComponentProps) {
+const DELAYED_COMPONENT_DELAY = 300
+
+export function DelayedComponent({ children }: DelayedComponentProps) {
   const [shouldDisplay, setShouldDisplay] = useState(false)
 
   useEffect(() => {
-    const timeoutId = setTimeout(() => setShouldDisplay(true), delay)
+    const timeoutId = setTimeout(() => setShouldDisplay(true), DELAYED_COMPONENT_DELAY)
     return () => clearTimeout(timeoutId)
-  }, [delay])
+  }, [])
 
   if (shouldDisplay) {
     return children
