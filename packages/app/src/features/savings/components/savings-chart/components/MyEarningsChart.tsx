@@ -13,11 +13,11 @@ import { MouseEvent, TouchEvent } from 'react'
 
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
+import { ChartTooltipContent } from '@/ui/charts/ChartTooltipContent'
 import { colors as colorsPreset } from '@/ui/charts/colors'
 import { Margins, POINT_RADIUS, defaultMargins } from '@/ui/charts/defaults'
 import { formatDateTick, formatTooltipDate, formatUSDTicks } from '@/ui/charts/utils'
 import { useParentSize } from '@/ui/utils/useParentSize'
-import { Circle } from 'lucide-react'
 
 export interface ChartDataPoint {
   balance: NormalizedUnitNumber
@@ -228,16 +228,13 @@ function TooltipContent({ data }: { data: ChartDataPoint }) {
   const isPrediction = isDataPointPrediction(data)
 
   return (
-    <div className="flex flex-col gap-3 rounded-xl border border-slate-700/10 bg-white p-3 shadow">
-      <div className="flex flex-col gap-3 text-slate-500 text-xs leading-none">{formatTooltipDate(data.date)}</div>
-      <div className="flex items-center gap-1.5 text-sm leading-none">
-        <Circle size={8} fill={isPrediction ? colors.secondary : colors.primary} stroke="0" />
-        <div>
-          Savings{isPrediction && ' Prediction'}:{' '}
-          <span className="font-semibold">{USD_MOCK_TOKEN.formatUSD(data.balance)}</span>
-        </div>
-      </div>
-    </div>
+    <ChartTooltipContent>
+      <ChartTooltipContent.Date>{formatTooltipDate(data.date)}</ChartTooltipContent.Date>
+      <ChartTooltipContent.Value dotColor={isPrediction ? colors.secondary : colors.primary}>
+        Savings{isPrediction && ' Prediction'}:{' '}
+        <span className="font-semibold">{USD_MOCK_TOKEN.formatUSD(data.balance)}</span>
+      </ChartTooltipContent.Value>
+    </ChartTooltipContent>
   )
 }
 

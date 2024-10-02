@@ -2,12 +2,11 @@ import { Percentage } from '@/domain/types/NumericValues'
 import { useTimestamp } from '@/utils/useTimestamp'
 import { sort } from 'd3-array'
 import { useState } from 'react'
-import { GraphDataPoint } from '../types'
-import { Chart } from './Chart'
+import { ChartDataPoint, RewardsChart } from '../../chart/rewards/RewardsChart'
 import { ChartPanel } from './ChartPanel'
 import { AVAILABLE_TIMEFRAMES, TimeframeButtons } from './TimeframeButtons'
 
-export function RewardsChartPanel({ data }: { data: GraphDataPoint[] }) {
+export function RewardsChartPanel({ data }: { data: ChartDataPoint[] }) {
   const [selectedTimeframe, setSelectedTimeframe] = useState<(typeof AVAILABLE_TIMEFRAMES)[number]>('All')
   const { timestamp, timestampInMs } = useTimestamp()
   const sortedData = sort(data, (a, b) => a.date.getTime() - b.date.getTime())
@@ -29,17 +28,17 @@ export function RewardsChartPanel({ data }: { data: GraphDataPoint[] }) {
           <TimeframeButtons setSelectedTimeframe={setSelectedTimeframe} selectedTimeframe={selectedTimeframe} />
         </div>
       </div>
-      <Chart data={filteredData} height={300} />
+      <RewardsChart data={filteredData} height={300} />
     </ChartPanel>
   )
 }
 
 interface FilterDataByTimeframeParams {
-  data: GraphDataPoint[]
+  data: ChartDataPoint[]
   timeframe: (typeof AVAILABLE_TIMEFRAMES)[number]
   currentTimestamp: number
 }
-function filterDataByTimeframe({ data, timeframe, currentTimestamp }: FilterDataByTimeframeParams): GraphDataPoint[] {
+function filterDataByTimeframe({ data, timeframe, currentTimestamp }: FilterDataByTimeframeParams): ChartDataPoint[] {
   const now = new Date(currentTimestamp * 1000)
 
   switch (timeframe) {

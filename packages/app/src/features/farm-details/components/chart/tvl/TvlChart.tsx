@@ -1,3 +1,10 @@
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { USD_MOCK_TOKEN } from '@/domain/types/Token'
+import { ChartTooltipContent } from '@/ui/charts/ChartTooltipContent'
+import { colors } from '@/ui/charts/colors'
+import { Margins, defaultMargins } from '@/ui/charts/defaults'
+import { formatTooltipDate, formatUSDTicks } from '@/ui/charts/utils'
+import { useParentSize } from '@/ui/utils/useParentSize'
 import { AxisBottom, AxisLeft } from '@visx/axis'
 import { curveStepAfter } from '@visx/curve'
 import { localPoint } from '@visx/event'
@@ -11,20 +18,17 @@ import { WithTooltipProvidedProps } from '@visx/tooltip/lib/enhancers/withToolti
 import { extent, max, min } from 'd3-array'
 import { Fragment, MouseEvent, TouchEvent } from 'react'
 
-import { formatPercentage } from '@/domain/common/format'
-import { colors } from '@/ui/charts/colors'
-import { Margins, defaultMargins } from '@/ui/charts/defaults'
-import { formatPercentageTick, formatTooltipDate } from '@/ui/charts/utils'
-import { useParentSize } from '@/ui/utils/useParentSize'
-import { Circle } from 'lucide-react'
-import { GraphDataPoint } from '../types'
+export interface ChartDataPoint {
+  date: Date
+  totalStaked: NormalizedUnitNumber
+}
 
 export interface ChartProps {
   height: number
   margins?: Margins
   xAxisNumTicks?: number
   yAxisNumTicks?: number
-  data: GraphDataPoint[]
+  data: ChartDataPoint[]
 }
 
 function Chart({
@@ -37,7 +41,7 @@ function Chart({
   tooltipData,
   tooltipLeft = 0,
   data,
-}: ChartProps & WithTooltipProvidedProps<GraphDataPoint>) {
+}: ChartProps & WithTooltipProvidedProps<ChartDataPoint>) {
   const [ref, { width }] = useParentSize()
 
   const innerWidth = width - margins.left - margins.right
@@ -49,7 +53,7 @@ function Chart({
   })
   const yValueScale = scaleLinear({
     range: [innerHeight, 0],
-    domain: calculateAprDomain(data),
+    domain: calculateTvlDomain(data),
     nice: true,
   })
 
@@ -60,7 +64,7 @@ function Chart({
     const lastSmallerElement =
       data.reduce(
         (prev, curr) => (curr.date.getTime() < domainX.getTime() ? curr : prev),
-        null as GraphDataPoint | null,
+        null as ChartDataPoint | null,
       ) || data[0]
     showTooltip({
       tooltipData: lastSmallerElement,
@@ -94,14 +98,14 @@ function Chart({
             strokeWidth={2}
             data={data}
             x={(data) => xValueScale(data.date)}
-            y={(data) => yValueScale(data.apr.toNumber())}
+            y={(data) => yValueScale(data.totalStaked.toNumber())}
             curve={curveStepAfter}
           />
           <AreaClosed
             strokeWidth={2}
             data={data}
             x={(data) => xValueScale(data.date)}
-            y={(data) => yValueScale(data.apr.toNumber())}
+            y={(data) => yValueScale(data.totalStaked.toNumber())}
             yScale={yValueScale}
             curve={curveStepAfter}
             fill="url(#area-gradient)"
@@ -125,7 +129,7 @@ function Chart({
             scale={yValueScale}
             strokeWidth={0}
             numTicks={yAxisNumTicks}
-            tickFormat={formatPercentageTick}
+            tickFormat={formatUSDTicks}
             tickLabelProps={() => ({
               fill: colors.axisTickLabel,
               fontSize: 10,
@@ -157,14 +161,14 @@ function Chart({
               <Fragment>
                 <circle
                   cx={tooltipLeft}
-                  cy={yValueScale(tooltipData.apr.toNumber())}
+                  cy={yValueScale(tooltipData.totalStaked.toNumber())}
                   r={8}
                   fill={colors.primary}
                   pointerEvents="none"
                 />
                 <circle
                   cx={tooltipLeft}
-                  cy={yValueScale(tooltipData.apr.toNumber())}
+                  cy={yValueScale(tooltipData.totalStaked.toNumber())}
                   r={4}
                   fill={colors.dot}
                   stroke={colors.dotStroke}
@@ -186,30 +190,27 @@ function Chart({
   )
 }
 
-function TooltipContent({ data }: { data: GraphDataPoint }) {
+function TooltipContent({ data }: { data: ChartDataPoint }) {
   return (
-    <div className="flex flex-col gap-3 rounded-xl border border-slate-700/10 bg-white p-3 shadow">
-      <div className="flex flex-col gap-3 text-slate-500 text-xs leading-none">{formatTooltipDate(data.date)}</div>
-      <div className="flex items-center gap-1.5 text-sm leading-none">
-        <Circle size={8} fill={colors.primary} stroke="0" />
-        <div>
-          APY: <span className="font-semibold">{formatPercentage(data.apr, { minimumFractionDigits: 0 })}</span>
-        </div>
-      </div>
-    </div>
+    <ChartTooltipContent>
+      <ChartTooltipContent.Date>{formatTooltipDate(data.date)}</ChartTooltipContent.Date>
+      <ChartTooltipContent.Value dotColor={colors.primary}>
+        TVL: <span className="font-semibold">{USD_MOCK_TOKEN.formatUSD(data.totalStaked)}</span>
+      </ChartTooltipContent.Value>
+    </ChartTooltipContent>
   )
 }
 
-function calculateAprDomain(data: GraphDataPoint[]): ContinuousDomain {
-  const minApr = min(data, (d) => d.apr.toNumber()) || 0
-  const maxApr = max(data, (d) => d.apr.toNumber()) || 0
+function calculateTvlDomain(data: ChartDataPoint[]): ContinuousDomain {
+  const minTvl = min(data, (d) => d.totalStaked.toNumber()) || 0
+  const maxTvl = max(data, (d) => d.totalStaked.toNumber()) || 0
 
-  if (minApr === maxApr) {
-    return [minApr - 0.1, maxApr + 0.1]
+  if (minTvl === maxTvl) {
+    return [minTvl - 0.1, maxTvl + 0.1]
   }
 
-  return [minApr, maxApr * 1.1] // 10% padding on top
+  return [minTvl, maxTvl * 1.1] // 10% padding on top
 }
 
-const ChartWithTooltip = withTooltip<ChartProps, GraphDataPoint>(Chart)
-export { ChartWithTooltip as Chart }
+const ChartWithTooltip = withTooltip<ChartProps, ChartDataPoint>(Chart)
+export { ChartWithTooltip as TvlChart }
