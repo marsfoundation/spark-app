@@ -6,8 +6,8 @@ import { Link } from '@/ui/atoms/link/Link'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { links } from '@/ui/constants/links'
 import { testIds } from '@/ui/utils/testIds'
-import { ReactNode } from 'react'
 import { ApyTooltip } from '../../apy-tooltip/ApyTooltip'
+import { DetailsItem } from '../common/DetailsItem'
 
 export interface InactiveFarmInfoPanelProps {
   assetsGroupType: AssetsGroup['type']
@@ -92,21 +92,4 @@ function assetsGroupToText(assetsGroupType: AssetsGroup['type']): string {
     case 'governance':
       return 'governance tokens'
   }
-}
-
-export interface DetailsItemProps {
-  title: string
-  explainer?: ReactNode
-  children: ReactNode
-}
-function DetailsItem({ title, explainer, children }: DetailsItemProps) {
-  return (
-    <div className="flex w-full flex-row items-center justify-between gap-1 md:w-fit md:flex-col md:items-start md:justify-normal">
-      <div className="flex flex-row items-center gap-1 text-prompt-foreground text-xs">
-        {title}
-        {explainer}
-      </div>
-      <div>{children}</div>
-    </div>
-  )
 }
