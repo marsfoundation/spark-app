@@ -1,6 +1,8 @@
+import { DelayedComponent } from '@/ui/atoms/delayed-component/DelayedComponent'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/atoms/tabs/Tabs'
 import { assert } from '@/utils/assert'
+import { AlertTriangle, Loader2 } from 'lucide-react'
 import { ReactNode, cloneElement } from 'react'
 import { Timeframe } from '../defaults'
 import { TimeframeButtons } from './TimeframeButtons'
@@ -32,14 +34,16 @@ export function ChartTabsPanel({ tabs, onTimeframeChange, selectedTimeframe, hei
           <TimeframeButtons onTimeframeChange={onTimeframeChange} selectedTimeframe={selectedTimeframe} />
         </div>
 
-        {cloneElement(firstTab.chart, { height })}
+        <div className="flex w-full flex-grow flex-col items-center justify-center">
+          <ChartPanel {...firstTab} height={height} />
+        </div>
       </Panel.Wrapper>
     )
   }
 
   return (
     <Panel.Wrapper className="flex min-h-[380px] w-full flex-1 flex-col justify-between self-stretch px-6 py-6 md:px-[32px]">
-      <Tabs defaultValue={firstTab.id}>
+      <Tabs defaultValue={firstTab.id} className="flex flex-1 flex-col">
         <div className="flex flex-wrap items-center justify-between gap-2 sm:flex-nowrap">
           <TabsList className="justify-start">
             {tabs.map((tab) => (
@@ -55,12 +59,41 @@ export function ChartTabsPanel({ tabs, onTimeframeChange, selectedTimeframe, hei
           </TabsList>
           <TimeframeButtons onTimeframeChange={onTimeframeChange} selectedTimeframe={selectedTimeframe} />
         </div>
-        {tabs.map(({ id, chart }) => (
-          <TabsContent key={id} value={id}>
-            {cloneElement(chart, { height })}
+        {tabs.map((chartTab) => (
+          <TabsContent
+            key={chartTab.id}
+            value={chartTab.id}
+            className="w-full flex-1 data-[state=active]:flex data-[state=active]:items-center data-[state=active]:justify-center"
+          >
+            <ChartPanel {...chartTab} height={height} />
           </TabsContent>
         ))}
       </Tabs>
     </Panel.Wrapper>
   )
+}
+
+interface ChartPanelProps extends ChartTab {
+  height: number
+}
+
+function ChartPanel({ height, chart, isError, isLoading }: ChartPanelProps) {
+  if (isLoading) {
+    return (
+      // @note: Delaying spinner to prevent it from flashing on chart load. For most cases loader won't be shown.
+      <DelayedComponent delay={300}>
+        <Loader2 className="h-8 animate-spin text-basics-grey" data-chromatic="ignore" />
+      </DelayedComponent>
+    )
+  }
+
+  if (isError) {
+    return (
+      <div className="flex items-center rounded-full bg-basics-grey/60 px-3 py-1 text-basics-dark-grey/80 text-sm">
+        <AlertTriangle className="h-4" /> Failed to load chart data
+      </div>
+    )
+  }
+
+  return cloneElement(chart, { height })
 }
