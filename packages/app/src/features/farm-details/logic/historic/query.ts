@@ -48,3 +48,4 @@ const historicDataResponseSchema = z
       totalStaked: result.total_staked,
     })),
   )
+6
