@@ -17,7 +17,7 @@ export function TransactionOverview({ txOverview }: TransactionOverviewProps) {
     <div className="isolate">
       <DialogPanel className="shadow-none">
         <DialogPanelTitle>Transaction overview</DialogPanelTitle>
-        <div className="mt-6 flex justify-between">
+        <div className="mt-6 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <img src={getTokenImage(token.symbol)} className="h-6 w-6" />
             <div className="flex flex-col">
@@ -42,12 +42,14 @@ export function TransactionOverview({ txOverview }: TransactionOverviewProps) {
             >
               {token.format(value, { style: 'auto' })} {token.symbol}
             </div>
-            <div
-              className="text-prompt-foreground text-sm"
-              data-testid={testIds.farmDetails.claimDialog.transactionOverview.rewardAmountUSD}
-            >
-              ~{token.formatUSD(value)}
-            </div>
+            {token.unitPriceUsd.gt(0) && (
+              <div
+                className="text-prompt-foreground text-sm"
+                data-testid={testIds.farmDetails.claimDialog.transactionOverview.rewardAmountUSD}
+              >
+                ~{token.formatUSD(value)}
+              </div>
+            )}
           </div>
         </div>
       </DialogPanel>

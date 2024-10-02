@@ -51,3 +51,9 @@ export const GovernanceEntryAssets: Story = {
     },
   },
 }
+
+export const WithZeroApy: Story = {
+  args: {
+    apy: Percentage(0),
+  },
+}

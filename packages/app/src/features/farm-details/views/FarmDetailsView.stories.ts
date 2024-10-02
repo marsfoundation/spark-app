@@ -18,7 +18,7 @@ const meta: Meta<typeof FarmDetailsView> = {
     chainMismatch: false,
     walletConnected: true,
     farm: {
-      address: CheckedAddress('0x1234567890123456789012345678901234567890'),
+      address: CheckedAddress('0x0650CAF159C5A49f711e8169D4336ECB9b950275'),
       apy: Percentage(0.05),
       entryAssetsGroup: {
         type: 'stablecoins',
@@ -29,6 +29,7 @@ const meta: Meta<typeof FarmDetailsView> = {
       stakingToken: tokens.USDS,
       earned: NormalizedUnitNumber(71.2345783),
       staked: NormalizedUnitNumber(10_000),
+      totalRewarded: NormalizedUnitNumber(24520),
       rewardRate: NormalizedUnitNumber(0.0000000003756),
       earnedTimestamp: 1724337615,
       periodFinish: 2677721600,
@@ -75,7 +76,7 @@ export const ActiveTablet = getTabletStory(ActiveDesktop)
 export const NoDepositWithRewards: Story = {
   args: {
     farm: {
-      address: CheckedAddress('0x1234567890123456789012345678901234567890'),
+      address: CheckedAddress('0x0650CAF159C5A49f711e8169D4336ECB9b950275'),
       apy: Percentage(0.05),
       entryAssetsGroup: {
         type: 'stablecoins',
@@ -87,6 +88,7 @@ export const NoDepositWithRewards: Story = {
       earned: NormalizedUnitNumber(71.2345783),
       staked: NormalizedUnitNumber(0),
       rewardRate: NormalizedUnitNumber(0.0000000003756),
+      totalRewarded: NormalizedUnitNumber(24520),
       earnedTimestamp: 1724337615,
       periodFinish: 2677721600,
       totalSupply: NormalizedUnitNumber(100_000),
@@ -100,7 +102,7 @@ export const NoDepositWithRewardsTablet = getTabletStory(NoDepositWithRewards)
 export const InactiveDesktop: Story = {
   args: {
     farm: {
-      address: CheckedAddress('0x1234567890123456789012345678901234567890'),
+      address: CheckedAddress('0x0650CAF159C5A49f711e8169D4336ECB9b950275'),
       apy: Percentage(0.05),
       entryAssetsGroup: {
         type: 'stablecoins',
@@ -111,6 +113,7 @@ export const InactiveDesktop: Story = {
       stakingToken: tokens.USDS,
       earned: NormalizedUnitNumber(0),
       staked: NormalizedUnitNumber(0),
+      totalRewarded: NormalizedUnitNumber(24520),
       rewardRate: NormalizedUnitNumber(0.0000000003756),
       earnedTimestamp: 1724337615,
       periodFinish: 2677721600,
@@ -126,7 +129,7 @@ export const InactiveTablet = getTabletStory(InactiveDesktop)
 export const NotConnectedDesktop: Story = {
   args: {
     farm: {
-      address: CheckedAddress('0x1234567890123456789012345678901234567890'),
+      address: CheckedAddress('0x0650CAF159C5A49f711e8169D4336ECB9b950275'),
       apy: Percentage(0.05),
       entryAssetsGroup: {
         type: 'stablecoins',
@@ -137,6 +140,7 @@ export const NotConnectedDesktop: Story = {
       stakingToken: tokens.USDS,
       earned: NormalizedUnitNumber(0),
       staked: NormalizedUnitNumber(0),
+      totalRewarded: NormalizedUnitNumber(24520),
       rewardRate: NormalizedUnitNumber(0.0000000003756),
       earnedTimestamp: 1724337615,
       periodFinish: 2677721600,

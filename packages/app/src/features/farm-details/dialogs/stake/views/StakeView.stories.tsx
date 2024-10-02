@@ -53,7 +53,7 @@ const mockSavingsUsdsInfo = new PotSavingsInfo({
 })
 
 const farm: Farm = {
-  address: CheckedAddress('0x1234567890123456789012345678901234567890'),
+  address: CheckedAddress('0x0650CAF159C5A49f711e8169D4336ECB9b950275'),
   apy: Percentage(0.05),
   rewardToken: tokens.SKY,
   stakingToken: tokens.USDS,
@@ -66,6 +66,7 @@ const farm: Farm = {
   earnedTimestamp: timestamp,
   periodFinish: timestamp * 5,
   totalSupply: NormalizedUnitNumber(123456),
+  totalRewarded: NormalizedUnitNumber(12345),
   depositors: 1111,
   earned: NormalizedUnitNumber(52),
   staked: NormalizedUnitNumber(100),
@@ -181,3 +182,19 @@ export const SacrificeYield: Story = {
 }
 export const SacrificeYieldMobile = getMobileStory(SacrificeYield)
 export const SacrificeYieldTablet = getTabletStory(SacrificeYield)
+
+export const DesktopZeroApy: Story = {
+  args: {
+    txOverview: {
+      status: 'success',
+      apy: Percentage(0),
+      stakingToken: tokens.USDS,
+      rewardToken: tokens.SKY,
+      rewardsPerYear: NormalizedUnitNumber(542),
+      routeToStakingToken: [
+        { token: tokens.USDC, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },
+        { token: tokens.USDS, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },
+      ],
+    },
+  },
+}

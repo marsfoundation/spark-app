@@ -1,3 +1,4 @@
+import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { Percentage } from '@/domain/types/NumericValues'
 import { useTimestamp } from '@/utils/useTimestamp'
 import { sort } from 'd3-array'
@@ -6,7 +7,7 @@ import { ChartDataPoint, RewardsChart } from '../../chart/rewards/RewardsChart'
 import { ChartPanel } from './ChartPanel'
 import { AVAILABLE_TIMEFRAMES, TimeframeButtons } from './TimeframeButtons'
 
-export function RewardsChartPanel({ data }: { data: ChartDataPoint[] }) {
+export function RewardsChartPanel({ data, farmAddress }: { data: ChartDataPoint[]; farmAddress: CheckedAddress }) {
   const [selectedTimeframe, setSelectedTimeframe] = useState<(typeof AVAILABLE_TIMEFRAMES)[number]>('All')
   const { timestamp, timestampInMs } = useTimestamp()
   const sortedData = sort(data, (a, b) => a.date.getTime() - b.date.getTime())
@@ -23,7 +24,7 @@ export function RewardsChartPanel({ data }: { data: ChartDataPoint[] }) {
   return (
     <ChartPanel>
       <div className="flex justify-between">
-        <ChartPanel.Header />
+        <ChartPanel.Header farmAddress={farmAddress} />
         <div className="flex items-center gap-1">
           <TimeframeButtons setSelectedTimeframe={setSelectedTimeframe} selectedTimeframe={selectedTimeframe} />
         </div>

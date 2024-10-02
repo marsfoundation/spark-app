@@ -54,7 +54,7 @@ const mockSavingsUsdsInfo = new PotSavingsInfo({
 })
 
 const farm: Farm = {
-  address: CheckedAddress('0x1234567890123456789012345678901234567890'),
+  address: CheckedAddress('0x0650CAF159C5A49f711e8169D4336ECB9b950275'),
   apy: Percentage(0.05),
   rewardToken: tokens.SKY,
   stakingToken: tokens.USDS,
@@ -67,6 +67,7 @@ const farm: Farm = {
   earnedTimestamp: timestamp,
   periodFinish: timestamp * 5,
   totalSupply: NormalizedUnitNumber(123456),
+  totalRewarded: NormalizedUnitNumber(12345),
   depositors: 1111,
   earned: NormalizedUnitNumber(52),
   staked: NormalizedUnitNumber(100),
@@ -208,6 +209,19 @@ export const WithExitFarmSwitch: Story = {
 }
 export const WithExitFarmSwitchMobile = getMobileStory(WithExitFarmSwitch)
 export const WithExitFarmSwitchTablet = getTabletStory(WithExitFarmSwitch)
+export const WithExitFarmSwitchZeroApy: Story = {
+  args: {
+    exitFarmSwitchInfo: {
+      showSwitch: true,
+      onSwitch: () => {},
+      checked: true,
+      reward: {
+        token: tokens.SKY.clone({ unitPriceUsd: NormalizedUnitNumber(0) }),
+        value: NormalizedUnitNumber(2311.34),
+      },
+    },
+  },
+}
 
 export const WithExitFarmSwitchUnchecked: Story = {
   args: {

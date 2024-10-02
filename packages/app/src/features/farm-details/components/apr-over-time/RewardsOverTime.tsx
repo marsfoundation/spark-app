@@ -1,3 +1,4 @@
+import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { DelayedComponent } from '@/ui/atoms/delayed-component/DelayedComponent'
 import { AlertTriangle, Loader2 } from 'lucide-react'
 import { FarmHistoryQueryResult } from '../../logic/historic/useFarmHistoryQuery'
@@ -6,14 +7,15 @@ import { RewardsChartPanel } from './components/RewardsChartPanel'
 
 export interface RewardsOverTimeProps {
   farmHistory: FarmHistoryQueryResult
+  farmAddress: CheckedAddress
 }
 
 // @note: Should be further refactored/extracted when working on chart tabs panel
-export function RewardsOverTime({ farmHistory }: RewardsOverTimeProps) {
+export function RewardsOverTime({ farmHistory, farmAddress }: RewardsOverTimeProps) {
   if (farmHistory.isPending) {
     return (
       <ChartPanel>
-        <ChartPanel.Header />
+        <ChartPanel.Header farmAddress={farmAddress} />
         <div className="flex h-full flex-grow items-center justify-center">
           {/* @note: Delaying spinner to prevent it from flashing on chart load. For most cases loader won't be shown. */}
           <DelayedComponent delay={300}>
@@ -27,7 +29,7 @@ export function RewardsOverTime({ farmHistory }: RewardsOverTimeProps) {
   if (farmHistory.error) {
     return (
       <ChartPanel>
-        <ChartPanel.Header />
+        <ChartPanel.Header farmAddress={farmAddress} />
         <div className="flex flex-grow flex-col items-center justify-center">
           <div className="flex items-center rounded-full bg-basics-grey/60 px-3 py-1 text-basics-dark-grey/80 text-sm">
             <AlertTriangle className="h-4 opacity-50" /> Failed to load chart data
@@ -37,5 +39,5 @@ export function RewardsOverTime({ farmHistory }: RewardsOverTimeProps) {
     )
   }
 
-  return <RewardsChartPanel data={farmHistory.data} />
+  return <RewardsChartPanel data={farmHistory.data} farmAddress={farmAddress} />
 }

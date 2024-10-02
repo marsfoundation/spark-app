@@ -60,17 +60,21 @@ export function FarmTile({
           <img src={rewardIcon} alt="farm-reward-icon" className="relative z-10 mt-12 mb-5 ml-6 h-16 w-16" />
         </div>
         <div className="px-6 pb-7">
-          <div className="grid w-full grid-cols-[auto,auto] grid-rows-[auto,auto]">
+          <div className="grid w-full grid-flow-col grid-cols-[auto,auto] grid-rows-[auto,auto]">
             <div className="text-basics-dark-grey text-sm" data-testid={testIds.farms.tile.stakeText}>
               Deposit {entryAssetsGroup.name}
             </div>
-            <div className="justify-self-end text-basics-dark-grey text-sm">APY</div>
             <div className="font-semibold text-2xl" data-testid={testIds.farms.tile.rewardText}>
               Earn {rewardTokenSymbol}
             </div>
-            <div className="justify-self-end font-semibold text-2xl" data-testid={testIds.farms.tile.apy}>
-              {formatPercentage(apy, { minimumFractionDigits: 0 })}
-            </div>
+            {apy.gt(0) && (
+              <>
+                <div className="justify-self-end text-basics-dark-grey text-sm">APY</div>
+                <div className="justify-self-end font-semibold text-2xl" data-testid={testIds.farms.tile.apy}>
+                  {formatPercentage(apy, { minimumFractionDigits: 0 })}
+                </div>
+              </>
+            )}
           </div>
           <div className="mt-11 mb-6 border-basics-border border-t" />
           {staked.gt(0) ? (
