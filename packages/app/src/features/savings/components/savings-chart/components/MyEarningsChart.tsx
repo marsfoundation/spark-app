@@ -30,7 +30,7 @@ const colors = {
 }
 
 export interface ChartProps {
-  height?: number
+  height: number
   margins?: Margins
   xAxisNumTicks?: number
   yAxisNumTicks?: number
@@ -39,7 +39,7 @@ export interface ChartProps {
 }
 
 function MyEarningsChart({
-  height = 300,
+  height,
   margins = defaultMargins,
   xAxisNumTicks = 5,
   yAxisNumTicks = 5,

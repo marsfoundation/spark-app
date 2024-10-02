@@ -1,5 +1,6 @@
 import { MyEarningsChart } from '@/features/savings/components/savings-chart/components/MyEarningsChart'
 import { DsrChart } from '@/features/savings/components/savings-chart/components/savings-rate-chart/DsrChart'
+import { SsrChart } from '@/features/savings/components/savings-chart/components/savings-rate-chart/SsrChart'
 import {
   mockEarningsChartData,
   mockEarningsPredictionsChartData,
@@ -8,34 +9,34 @@ import {
   mockDsrChartData,
   mockSsrChartData,
 } from '@/features/savings/components/savings-chart/fixtures/mockSavingsRateChartData'
-import { createChartTab } from '../components/ChartTabsPanel'
+import { ChartTab } from '../components/ChartTabsPanel'
 
-export const mockChartsPanelMultipleTabs = [
-  createChartTab({
+export const mockChartsPanelMultipleTabs: ChartTab[] = [
+  {
     id: 'earnings',
     label: 'My Earnings',
-    component: MyEarningsChart,
-    props: { data: mockEarningsChartData, predictions: mockEarningsPredictionsChartData },
-  }),
-  createChartTab({
+    component: ({ height }) => (
+      <MyEarningsChart data={mockEarningsChartData} predictions={mockEarningsPredictionsChartData} height={height} />
+    ),
+  },
+  {
     id: 'dsr',
     label: 'DSR',
-    component: DsrChart,
-    props: { data: mockDsrChartData },
-  }),
-  createChartTab({
+    component: ({ height }) => <DsrChart data={mockDsrChartData} height={height} />,
+  },
+  {
     id: 'ssr',
     label: 'SSR',
-    component: DsrChart,
-    props: { data: mockSsrChartData },
-  }),
+    component: ({ height }) => <SsrChart data={mockSsrChartData} height={height} />,
+  },
 ]
 
-export const mockChartsPanelSingleTab = [
-  createChartTab({
+export const mockChartsPanelSingleTab: ChartTab[] = [
+  {
     id: 'earnings',
     label: 'My Earnings',
-    component: MyEarningsChart,
-    props: { data: mockEarningsChartData, predictions: mockEarningsPredictionsChartData },
-  }),
+    component: ({ height }) => (
+      <MyEarningsChart data={mockEarningsChartData} predictions={mockEarningsPredictionsChartData} height={height} />
+    ),
+  },
 ]
