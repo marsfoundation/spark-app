@@ -18,7 +18,7 @@ const meta: Meta<typeof FarmDetailsView> = {
     chainMismatch: false,
     walletConnected: true,
     farm: {
-      address: CheckedAddress('0x1234567890123456789012345678901234567890'),
+      address: CheckedAddress('0x0650CAF159C5A49f711e8169D4336ECB9b950275'),
       apy: Percentage(0.05),
       entryAssetsGroup: {
         type: 'stablecoins',
@@ -76,7 +76,7 @@ export const ActiveTablet = getTabletStory(ActiveDesktop)
 export const NoDepositWithRewards: Story = {
   args: {
     farm: {
-      address: CheckedAddress('0x56072C95FAA701256059aa122697B133aDEd9279'),
+      address: CheckedAddress('0x0650CAF159C5A49f711e8169D4336ECB9b950275'),
       apy: Percentage(0.05),
       entryAssetsGroup: {
         type: 'stablecoins',
@@ -102,7 +102,7 @@ export const NoDepositWithRewardsTablet = getTabletStory(NoDepositWithRewards)
 export const InactiveDesktop: Story = {
   args: {
     farm: {
-      address: CheckedAddress('0x56072C95FAA701256059aa122697B133aDEd9279'),
+      address: CheckedAddress('0x0650CAF159C5A49f711e8169D4336ECB9b950275'),
       apy: Percentage(0.05),
       entryAssetsGroup: {
         type: 'stablecoins',
@@ -129,7 +129,7 @@ export const InactiveTablet = getTabletStory(InactiveDesktop)
 export const NotConnectedDesktop: Story = {
   args: {
     farm: {
-      address: CheckedAddress('0x56072C95FAA701256059aa122697B133aDEd9279'),
+      address: CheckedAddress('0x0650CAF159C5A49f711e8169D4336ECB9b950275'),
       apy: Percentage(0.05),
       entryAssetsGroup: {
         type: 'stablecoins',

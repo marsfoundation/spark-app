@@ -54,7 +54,7 @@ const mockSavingsUsdsInfo = new PotSavingsInfo({
 })
 
 const farm: Farm = {
-  address: CheckedAddress('0x1234567890123456789012345678901234567890'),
+  address: CheckedAddress('0x0650CAF159C5A49f711e8169D4336ECB9b950275'),
   apy: Percentage(0.05),
   rewardToken: tokens.SKY,
   stakingToken: tokens.USDS,
