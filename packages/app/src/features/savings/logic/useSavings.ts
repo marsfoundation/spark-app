@@ -75,6 +75,8 @@ export function useSavings(): UseSavingsResults {
   const { showWelcomeDialog, saveConfirmedWelcomeDialog } = useWelcomeDialog()
   const getBlockExplorerLink = useGetBlockExplorerAddressLink()
 
+  const savingsChartsInfo = useSavingsChartsInfoQuery()
+
   const { totalUSD: totalEligibleCashUSD, maxBalanceToken } = calculateMaxBalanceTokenAndTotal({
     assets: inputTokens,
   })
