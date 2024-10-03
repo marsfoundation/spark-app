@@ -21,7 +21,7 @@ type ChartTabDefinition<C> = C extends React.ComponentType<infer P>
 
 declare const __CHART_TAB_OPAQUE_TYPE__: unique symbol
 
-interface ChartTab {
+export interface ChartTab {
   component: React.ComponentType<{ height: number }>
   props: { height: number }
   id: string
