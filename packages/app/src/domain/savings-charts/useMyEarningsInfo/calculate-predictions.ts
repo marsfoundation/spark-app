@@ -22,8 +22,10 @@ export function calculatePredictions({
   timeframe,
   dataLength,
 }: CalculatePredictionsParams): MyEarningsInfoItem[] {
+  const base = savingsInfo.convertToAssets({ shares: balance })
+
   const dayIncomePrediction = NormalizedUnitNumber(
-    savingsInfo.predictSharesValue({ timestamp: timestamp + SECONDS_PER_DAY, shares: balance }).minus(balance),
+    savingsInfo.predictSharesValue({ timestamp: timestamp + SECONDS_PER_DAY, shares: balance }).minus(base),
   )
 
   const optimalPredictionsLength = Math.ceil(dataLength * 0.33)
