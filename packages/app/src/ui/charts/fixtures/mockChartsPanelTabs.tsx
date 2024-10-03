@@ -1,13 +1,13 @@
-import { MyEarningsChart } from '@/features/savings/components/savings-chart/components/MyEarningsChart'
-import { DsrChart } from '@/features/savings/components/savings-chart/components/savings-rate-chart/DsrChart'
+import { MyEarningsChart } from '@/features/savings/components/savings-charts/components/MyEarningsChart'
+import { DsrChart } from '@/features/savings/components/savings-charts/components/savings-rate-chart/DsrChart'
 import {
   mockEarningsChartData,
   mockEarningsPredictionsChartData,
-} from '@/features/savings/components/savings-chart/fixtures/mockEarningsChartData'
+} from '@/features/savings/components/savings-charts/fixtures/mockEarningsChartData'
 import {
   mockDsrChartData,
   mockSsrChartData,
-} from '@/features/savings/components/savings-chart/fixtures/mockSavingsRateChartData'
+} from '@/features/savings/components/savings-charts/fixtures/mockSavingsRateChartData'
 import { createChartTab } from '../components/ChartTabsPanel'
 
 export const mockChartsPanelMultipleTabs = [
