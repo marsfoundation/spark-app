@@ -2,6 +2,7 @@ import { Timeframe } from '@/ui/charts/defaults'
 import { useTimestamp } from '@/utils/useTimestamp'
 import { useState } from 'react'
 import { useAccount, useChainId } from 'wagmi'
+import { SavingsInfo } from '../savings-info/types'
 import { UseMyEarningsInfoResult, useMyEarningsInfo } from './useMyEarningsInfo/useMyEarningsInfo'
 import { UseSavingsRateInfoResult, useSavingsRateInfo } from './useSavingsRateInfo/useSavingsRateInfo'
 
@@ -14,7 +15,13 @@ export type UseSavingsChartsInfoQueryResult = {
 
 const STEP_IN_MS = 60 * 60 * 1_000 // 1 hour
 
-export function useSavingsChartsInfoQuery(): UseSavingsChartsInfoQueryResult {
+interface UseSavingsChartsInfoParams {
+  savingsInfo: SavingsInfo
+}
+
+export function useSavingsChartsInfoQuery({
+  savingsInfo,
+}: UseSavingsChartsInfoParams): UseSavingsChartsInfoQueryResult {
   const [selectedTimeframe, setSelectedTimeframe] = useState<Timeframe>('1M')
   const chainId = useChainId()
 
@@ -26,6 +33,7 @@ export function useSavingsChartsInfoQuery(): UseSavingsChartsInfoQueryResult {
     chainId,
     timeframe: selectedTimeframe,
     currentTimestamp: timestamp,
+    savingsInfo,
   })
 
   const savingsRateInfo = useSavingsRateInfo({

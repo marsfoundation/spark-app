@@ -5,7 +5,7 @@ import { queryOptions } from '@tanstack/react-query'
 import { sort } from 'd3-array'
 import { Address } from 'viem'
 import { z } from 'zod'
-import { MyEarningsInfo } from './types'
+import { MyEarningsInfoItem } from './types'
 
 interface MyEarningsQueryParams {
   address?: Address
@@ -14,7 +14,7 @@ interface MyEarningsQueryParams {
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function myEarningsQueryOptions({ address, chainId }: MyEarningsQueryParams) {
-  return queryOptions<MyEarningsInfo>({
+  return queryOptions<MyEarningsInfoItem[]>({
     queryKey: myEarningsInfoQueryKey({ address, chainId }),
     queryFn: async () => {
       assert(address, 'Address is required')
@@ -42,10 +42,9 @@ export function myEarningsInfoQueryKey({
 const myEarningsDataResponseSchema = z
   .array(
     z.object({
+      // balance is sum of sdai_balance and susds_balance but since we display it separately we can use balance
       date: z.string().transform((value) => new Date(value)),
       balance: z.string().transform((value) => NormalizedUnitNumber(value)),
-      sdai_balance: z.string().transform((value) => NormalizedUnitNumber(value)),
-      susds_balance: z.string().transform((value) => NormalizedUnitNumber(value)),
     }),
   )
   .transform((data) => {
@@ -54,7 +53,5 @@ const myEarningsDataResponseSchema = z
     return sortedData.map((item) => ({
       date: item.date,
       balance: item.balance,
-      sdaiBalance: item.sdai_balance,
-      susdsBalance: item.susds_balance,
     }))
   })
