@@ -2,11 +2,8 @@ import { useQuery } from '@tanstack/react-query'
 
 import { SavingsInfo } from '@/domain/savings-info/types'
 import { Timeframe } from '@/ui/charts/defaults'
-import { filterDataByTimeframe } from '@/ui/charts/utils'
-import { assert } from '@/utils/assert'
 import { Address } from 'viem'
-import { calculatePredictions } from './calculate-predictions'
-import { myEarningsInfoQueryKey, myEarningsQueryOptions } from './query'
+import { myEarningsQueryOptions, savingsRateFilteredQueryOptions } from './query'
 import { MyEarningsInfoItem } from './types'
 
 export interface UseMyEarningsInfoParams {
@@ -15,6 +12,7 @@ export interface UseMyEarningsInfoParams {
   timeframe: Timeframe
   currentTimestamp: number
   savingsInfo: SavingsInfo
+  staleTime: number
 }
 export type UseMyEarningsInfoResult = {
   data:
@@ -33,43 +31,25 @@ export function useMyEarningsInfo({
   timeframe,
   currentTimestamp,
   savingsInfo,
+  staleTime,
 }: UseMyEarningsInfoParams): UseMyEarningsInfoResult {
   const myEarningsInfoData = useQuery({
     ...myEarningsQueryOptions({
       address,
       chainId,
+      staleTime,
     }),
   })
 
   const myEarningsInfoFiltered = useQuery({
-    queryKey: [...myEarningsInfoQueryKey({ chainId, address }), timeframe, currentTimestamp],
-    queryFn: () => {
-      assert(myEarningsInfoData.data, 'My earnings info should be loaded before filtering')
-
-      const data = filterDataByTimeframe({
-        data: myEarningsInfoData.data,
-        timeframe,
-        currentTimestamp,
-      })
-
-      const lastItem = data.at(-1)
-
-      const predictions = lastItem
-        ? calculatePredictions({
-            savingsInfo,
-            timeframe,
-            timestamp: lastItem.date.getTime() / 1000,
-            balance: lastItem.balance,
-            dataLength: data.length,
-          })
-        : []
-
-      return {
-        data,
-        predictions,
-      }
-    },
-    enabled: !!myEarningsInfoData.data,
+    ...savingsRateFilteredQueryOptions({
+      chainId,
+      timeframe,
+      currentTimestamp,
+      savingsInfo,
+      myEarningsInfo: myEarningsInfoData.data,
+      staleTime,
+    }),
   })
 
   return {

@@ -1,19 +1,24 @@
 import { infoSkyApiUrl } from '@/config/consts'
+import { SavingsInfo } from '@/domain/savings-info/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { Timeframe } from '@/ui/charts/defaults'
+import { filterDataByTimeframe } from '@/ui/charts/utils'
 import { assert } from '@/utils/assert'
 import { queryOptions } from '@tanstack/react-query'
 import { sort } from 'd3-array'
 import { Address } from 'viem'
 import { z } from 'zod'
+import { calculatePredictions } from './calculate-predictions'
 import { MyEarningsInfoItem } from './types'
 
 interface MyEarningsQueryParams {
   address?: Address
   chainId: number
+  staleTime: number
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function myEarningsQueryOptions({ address, chainId }: MyEarningsQueryParams) {
+export function myEarningsQueryOptions({ address, chainId, staleTime }: MyEarningsQueryParams) {
   return queryOptions<MyEarningsInfoItem[]>({
     queryKey: myEarningsInfoQueryKey({ address, chainId }),
     queryFn: async () => {
@@ -29,10 +34,11 @@ export function myEarningsQueryOptions({ address, chainId }: MyEarningsQueryPara
 
       return data
     },
+    staleTime,
   })
 }
 
-export function myEarningsInfoQueryKey({ chainId, address }: MyEarningsQueryParams): unknown[] {
+export function myEarningsInfoQueryKey({ chainId, address }: Omit<MyEarningsQueryParams, 'staleTime'>): unknown[] {
   return ['my-earnings', chainId, address]
 }
 
@@ -52,3 +58,56 @@ const myEarningsDataResponseSchema = z
       balance: item.balance,
     }))
   })
+
+interface SavingsRateFilteredQueryParams {
+  chainId: number
+  staleTime: number
+  currentTimestamp: number
+  timeframe: Timeframe
+  myEarningsInfo?: MyEarningsInfoItem[]
+  address?: Address
+  savingsInfo: SavingsInfo
+}
+
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+export function savingsRateFilteredQueryOptions({
+  chainId,
+  staleTime,
+  currentTimestamp,
+  timeframe,
+  address,
+  myEarningsInfo,
+  savingsInfo,
+}: SavingsRateFilteredQueryParams) {
+  return queryOptions({
+    queryKey: [...myEarningsInfoQueryKey({ chainId, address }), timeframe, currentTimestamp],
+    queryFn: () => {
+      assert(myEarningsInfo, 'My earnings info should be loaded before filtering')
+
+      const data = filterDataByTimeframe({
+        data: myEarningsInfo,
+        timeframe,
+        currentTimestamp,
+      })
+
+      const lastItem = data.at(-1)
+
+      const predictions = lastItem
+        ? calculatePredictions({
+            savingsInfo,
+            timeframe,
+            timestamp: lastItem.date.getTime() / 1000,
+            balance: lastItem.balance,
+            dataLength: data.length,
+          })
+        : []
+
+      return {
+        data,
+        predictions,
+      }
+    },
+    enabled: !!myEarningsInfo,
+    staleTime,
+  })
+}

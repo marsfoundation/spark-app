@@ -34,12 +34,14 @@ export function useSavingsChartsInfoQuery({
     timeframe: selectedTimeframe,
     currentTimestamp: timestamp,
     savingsInfo,
+    staleTime: STEP_IN_MS,
   })
 
   const savingsRateInfo = useSavingsRateInfo({
     chainId,
     timeframe: selectedTimeframe,
     currentTimestamp: timestamp,
+    staleTime: STEP_IN_MS,
   })
 
   return {
