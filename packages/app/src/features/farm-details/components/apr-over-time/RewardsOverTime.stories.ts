@@ -3,7 +3,7 @@ import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { mockChartData } from '../../fixtures/mockChartData'
-import { FarmHistoryQueryResult } from '../../logic/historic/useFarmHistoryQuery'
+import { FarmHistoryQueryResult } from '../../logic/historic/useFarmHistory'
 import { RewardsOverTime } from './RewardsOverTime'
 
 const meta: Meta<typeof RewardsOverTime> = {

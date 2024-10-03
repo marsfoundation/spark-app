@@ -1,7 +1,7 @@
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { DelayedComponent } from '@/ui/atoms/delayed-component/DelayedComponent'
 import { AlertTriangle, Loader2 } from 'lucide-react'
-import { FarmHistoryQueryResult } from '../../logic/historic/useFarmHistoryQuery'
+import { FarmHistoryQueryResult } from '../../logic/historic/useFarmHistory'
 import { ChartPanel } from './components/ChartPanel'
 import { RewardsChartPanel } from './components/RewardsChartPanel'
 

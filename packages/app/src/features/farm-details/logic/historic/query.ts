@@ -1,17 +1,32 @@
 import { infoSkyApiUrl } from '@/config/consts'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
+import { Timeframe } from '@/ui/charts/defaults'
+import { filterChartData } from '@/ui/charts/logic/filterChartData'
 import { queryOptions } from '@tanstack/react-query'
 import { z } from 'zod'
+import { FarmHistoryItem } from './types'
 
 export interface FarmHistoricDataParameters {
   chainId: number
   farmAddress: CheckedAddress
+  timeframe: Timeframe
+  timestamp: number
+  timestampInMs: number
   historyCutoff?: Date
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function farmHistoricDataQueryOptions({ chainId, farmAddress, historyCutoff }: FarmHistoricDataParameters) {
+export function farmHistoricDataQueryOptions({
+  chainId,
+  farmAddress,
+  historyCutoff,
+  timeframe,
+  timestamp,
+  timestampInMs,
+}: FarmHistoricDataParameters) {
+  const select = createFarmHistoricDataSelector(timeframe, timestamp, timestampInMs)
+
   return queryOptions({
     queryKey: ['farm-historic-data', chainId, farmAddress],
     queryFn: async () => {
@@ -28,7 +43,14 @@ export function farmHistoricDataQueryOptions({ chainId, farmAddress, historyCuto
 
       return data
     },
+    select,
   })
+}
+
+function createFarmHistoricDataSelector(timeframe: Timeframe, timestamp: number, timestampInMs: number) {
+  return function selectFarmHistoricData(data: FarmHistoryItem[]): FarmHistoryItem[] {
+    return filterChartData({ data, timeframe, timestamp, timestampInMs })
+  }
 }
 
 const historicDataResponseSchema = z

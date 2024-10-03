@@ -2,21 +2,25 @@ import { TokenWithBalance } from '@/domain/common/types'
 import { Farm } from '@/domain/farms/types'
 import { Token } from '@/domain/types/Token'
 import { getTokenImage } from '@/ui/assets'
+import { ChartTabsPanel } from '@/ui/charts/components/ChartTabsPanel'
+import { Timeframe } from '@/ui/charts/defaults'
 import { ConnectOrSandboxCTAPanel } from '@/ui/organisms/connect-or-sandbox-cta-panel/ConnectOrSandboxCTAPanel'
-import { RewardsOverTime } from '../components/apr-over-time/RewardsOverTime'
 import { BackNav } from '../components/back-nav/BackNav'
+import { RewardsChart } from '../components/chart/rewards/RewardsChart'
 import { ActiveFarmInfoPanel } from '../components/farm-info-panel/active/ActiveFarmInfoPanel'
 import { InactiveFarmInfoPanel } from '../components/farm-info-panel/inactive/InactiveFarmInfoPanel'
 import { Header } from '../components/header/Header'
 import { TokensToDeposit } from '../components/tokens-to-deposit/TokensToDeposit'
-import { FarmHistoryQueryResult } from '../logic/historic/useFarmHistoryQuery'
+import { ChartDetails } from '../logic/useFarmDetails'
 
 export interface FarmDetailsViewProps {
   chainId: number
   chainMismatch: boolean
   walletConnected: boolean
   farm: Farm
-  farmHistory: FarmHistoryQueryResult
+  chartDetails: ChartDetails
+  onTimeframeChange: (timeframe: Timeframe) => void
+  selectedTimeframe: Timeframe
   tokensToDeposit: TokenWithBalance[]
   isFarmActive: boolean
   hasTokensToDeposit: boolean
@@ -33,7 +37,7 @@ export function FarmDetailsView({
   chainMismatch,
   walletConnected,
   farm,
-  farmHistory,
+  chartDetails,
   tokensToDeposit,
   isFarmActive,
   hasTokensToDeposit,
@@ -61,7 +65,20 @@ export function FarmDetailsView({
               openStakeDialog={openDefaultedStakeDialog}
             />
           )}
-          <RewardsOverTime farmHistory={farmHistory} farmAddress={farm.address} />
+          <ChartTabsPanel
+            tabs={[
+              {
+                id: 'rewards',
+                label: 'Rewards over time',
+                component: ({ height }) =>
+                  chartDetails.farmHistory.data ? (
+                    <RewardsChart data={chartDetails.farmHistory.data} height={height} />
+                  ) : null,
+              },
+            ]}
+            selectedTimeframe={chartDetails.timeframe}
+            onTimeframeChange={chartDetails.onTimeframeChange}
+          />
         </div>
         {walletConnected && <TokensToDeposit assets={tokensToDeposit} openStakeDialog={openStakeDialog} />}
         {!walletConnected && (
