@@ -7,6 +7,7 @@ import { Timeframe } from '@/ui/charts/defaults'
 import { ConnectOrSandboxCTAPanel } from '@/ui/organisms/connect-or-sandbox-cta-panel/ConnectOrSandboxCTAPanel'
 import { BackNav } from '../components/back-nav/BackNav'
 import { RewardsChart } from '../components/chart/rewards/RewardsChart'
+import { TvlChart } from '../components/chart/tvl/TvlChart'
 import { ActiveFarmInfoPanel } from '../components/farm-info-panel/active/ActiveFarmInfoPanel'
 import { InactiveFarmInfoPanel } from '../components/farm-info-panel/inactive/InactiveFarmInfoPanel'
 import { Header } from '../components/header/Header'
@@ -73,6 +74,14 @@ export function FarmDetailsView({
                 component: ({ height }) =>
                   chartDetails.farmHistory.data ? (
                     <RewardsChart data={chartDetails.farmHistory.data} height={height} />
+                  ) : null,
+              },
+              {
+                id: 'tvl',
+                label: 'TVL',
+                component: ({ height }) =>
+                  chartDetails.farmHistory.data ? (
+                    <TvlChart data={chartDetails.farmHistory.data} height={height} />
                   ) : null,
               },
             ]}
