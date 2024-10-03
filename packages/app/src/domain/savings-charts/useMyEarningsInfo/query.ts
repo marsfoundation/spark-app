@@ -48,4 +48,3 @@ const myEarningsDataResponseSchema = z
 
     return sortedData
   })
-

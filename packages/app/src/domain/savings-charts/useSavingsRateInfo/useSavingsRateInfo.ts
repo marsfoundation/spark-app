@@ -26,7 +26,6 @@ export function useSavingsRateInfo({
   const savingsRateInfo = useQuery({
     ...savingsRateQueryOptions({
       chainId,
-      staleTime,
     }),
     select: useCallback(
       (savingsRateInfo: SavingsRateInfo) =>

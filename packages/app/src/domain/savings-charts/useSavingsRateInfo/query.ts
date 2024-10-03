@@ -9,11 +9,10 @@ import { SavingsRateInfo } from './types'
 
 interface SavingsRateQueryParams {
   chainId: number
-  staleTime: number
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function savingsRateQueryOptions({ chainId, staleTime }: SavingsRateQueryParams) {
+export function savingsRateQueryOptions({ chainId }: SavingsRateQueryParams) {
   return queryOptions<SavingsRateInfo>({
     queryKey: savingsRateInfoQueryKey({ chainId }),
     queryFn: async () => {
@@ -27,11 +26,10 @@ export function savingsRateQueryOptions({ chainId, staleTime }: SavingsRateQuery
 
       return data
     },
-    staleTime,
   })
 }
 
-export function savingsRateInfoQueryKey({ chainId }: Omit<SavingsRateQueryParams, 'staleTime'>): unknown[] {
+export function savingsRateInfoQueryKey({ chainId }: SavingsRateQueryParams): unknown[] {
   return ['savings-rate', chainId]
 }
 
