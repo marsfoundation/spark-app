@@ -4,6 +4,7 @@ import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Timeframe } from '@/ui/charts/defaults'
 import { filterChartData } from '@/ui/charts/logic/filterChartData'
 import { queryOptions } from '@tanstack/react-query'
+import { useCallback } from 'react'
 import { z } from 'zod'
 import { FarmHistoryItem } from './types'
 
@@ -25,8 +26,6 @@ export function farmHistoricDataQueryOptions({
   timestamp,
   timestampInMs,
 }: FarmHistoricDataParameters) {
-  const select = createFarmHistoricDataSelector(timeframe, timestamp, timestampInMs)
-
   return queryOptions({
     queryKey: ['farm-historic-data', chainId, farmAddress],
     queryFn: async () => {
@@ -43,14 +42,11 @@ export function farmHistoricDataQueryOptions({
 
       return data
     },
-    select,
+    select: useCallback(
+      (data: FarmHistoryItem[]) => filterChartData({ data, timeframe, timestamp, timestampInMs }),
+      [timeframe, timestamp, timestampInMs],
+    ),
   })
-}
-
-function createFarmHistoricDataSelector(timeframe: Timeframe, timestamp: number, timestampInMs: number) {
-  return function selectFarmHistoricData(data: FarmHistoryItem[]): FarmHistoryItem[] {
-    return filterChartData({ data, timeframe, timestamp, timestampInMs })
-  }
 }
 
 const historicDataResponseSchema = z
