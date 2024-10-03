@@ -32,7 +32,7 @@ export function myEarningsQueryOptions({ address, chainId }: MyEarningsQueryPara
   })
 }
 
-export function myEarningsInfoQueryKey({ chainId, address }: MyEarningsQueryParams): unknown[] {
+export function myEarningsInfoQueryKey({ chainId, address }: Omit<MyEarningsQueryParams, 'staleTime'>): unknown[] {
   return ['my-earnings', chainId, address]
 }
 
@@ -48,3 +48,4 @@ const myEarningsDataResponseSchema = z
 
     return sortedData
   })
+
