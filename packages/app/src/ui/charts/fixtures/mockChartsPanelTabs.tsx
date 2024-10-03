@@ -15,18 +15,24 @@ export const mockChartsPanelMultipleTabs = [
     id: 'earnings',
     label: 'My Earnings',
     component: MyEarningsChart,
+    isError: false,
+    isPending: false,
     props: { data: mockEarningsChartData, predictions: mockEarningsPredictionsChartData },
   }),
   createChartTab({
     id: 'dsr',
     label: 'DSR',
     component: DsrChart,
+    isError: false,
+    isPending: false,
     props: { data: mockDsrChartData },
   }),
   createChartTab({
     id: 'ssr',
     label: 'SSR',
     component: DsrChart,
+    isError: false,
+    isPending: false,
     props: { data: mockSsrChartData },
   }),
 ]
@@ -36,6 +42,8 @@ export const mockChartsPanelSingleTab = [
     id: 'earnings',
     label: 'My Earnings',
     component: MyEarningsChart,
+    isError: false,
+    isPending: false,
     props: { data: mockEarningsChartData, predictions: mockEarningsPredictionsChartData },
   }),
 ]

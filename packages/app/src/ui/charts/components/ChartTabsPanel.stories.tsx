@@ -32,13 +32,13 @@ export const SingleTabTablet: Story = getTabletStory(SingleTabDesktop)
 
 export const LoadingTabsDesktop: Story = {
   args: {
-    tabs: mockChartsPanelMultipleTabs.map((tab) => ({ ...tab, isLoading: true })),
+    tabs: mockChartsPanelMultipleTabs.map((tab) => ({ ...tab, isPending: true })),
   },
 }
 
 export const LoadingTabDesktop: Story = {
   args: {
-    tabs: mockChartsPanelSingleTab.map((tab) => ({ ...tab, isLoading: true })),
+    tabs: mockChartsPanelSingleTab.map((tab) => ({ ...tab, isPending: true })),
   },
 }
 export const LoadingTabMobile: Story = getMobileStory(LoadingTabDesktop)

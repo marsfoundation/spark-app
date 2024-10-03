@@ -69,12 +69,16 @@ export function FarmDetailsView({
                 id: 'rewards',
                 label: 'Rewards over time',
                 component: RewardsChart,
+                isError: chartDetails.farmHistory.isError,
+                isPending: chartDetails.farmHistory.isLoading,
                 props: { data: chartDetails.farmHistory.data ?? [] },
               }),
               createChartTab({
                 id: 'tvl',
                 label: 'TVL',
                 component: TvlChart,
+                isError: chartDetails.farmHistory.isError,
+                isPending: chartDetails.farmHistory.isLoading,
                 props: { data: chartDetails.farmHistory.data ?? [] },
               }),
             ]}

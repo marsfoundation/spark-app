@@ -13,8 +13,8 @@ type ChartTabDefinition<C> = C extends React.ComponentType<infer P>
         props: P
         id: string
         label: string
-        isLoading?: boolean
-        isError?: boolean
+        isPending: boolean
+        isError: boolean
       }
     : never
   : never
@@ -27,8 +27,8 @@ export interface ChartTab {
   id: string
   label: string
   readonly [__CHART_TAB_OPAQUE_TYPE__]: true
-  isLoading?: boolean
-  isError?: boolean
+  isPending: boolean
+  isError: boolean
 }
 
 export function createChartTab<C>({ component, props, id, label }: ChartTabDefinition<C>): ChartTab {
@@ -102,8 +102,8 @@ interface ChartPanelProps extends ChartTab {
   height: number
 }
 
-function ChartPanel({ height, component: Chart, isError, isLoading, props }: ChartPanelProps) {
-  if (isLoading) {
+function ChartPanel({ height, component: Chart, isError, isPending, props }: ChartPanelProps) {
+  if (isPending) {
     return (
       // @note: Delaying spinner to prevent it from flashing on chart load. For most cases loader won't be shown.
       <DelayedComponent>
