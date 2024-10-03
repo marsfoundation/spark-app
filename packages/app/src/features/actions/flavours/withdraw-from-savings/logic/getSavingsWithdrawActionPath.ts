@@ -1,0 +1,57 @@
+import { Token } from '@/domain/types/Token'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
+import { raise } from '@/utils/assert'
+import { gnosis } from 'viem/chains'
+
+export interface GetSavingsWithdrawActionPathParams {
+  token: Token
+  savingsToken: Token
+  tokensInfo: TokensInfo
+  chainId: number
+}
+
+export type SavingsWithdrawActionPath =
+  | 'susds-to-usds'
+  | 'susds-to-usdc'
+  | 'sdai-to-dai'
+  | 'sdai-to-usdc'
+  | 'sdai-to-usds'
+  | 'sdai-to-sexy-dai'
+
+export function getSavingsWithdrawActionPath({
+  token,
+  savingsToken,
+  tokensInfo,
+  chainId,
+}: GetSavingsWithdrawActionPathParams): SavingsWithdrawActionPath {
+  if (
+    token.symbol === tokensInfo.DAI?.symbol &&
+    savingsToken.symbol === tokensInfo.sDAI?.symbol &&
+    chainId === gnosis.id
+  ) {
+    return 'sdai-to-sexy-dai'
+  }
+
+  if (token.symbol === tokensInfo.USDS?.symbol && savingsToken.symbol === tokensInfo.sUSDS?.symbol) {
+    return 'susds-to-usds'
+  }
+
+  if (token.symbol === TokenSymbol('USDC') && savingsToken.symbol === tokensInfo.sUSDS?.symbol) {
+    return 'susds-to-usdc'
+  }
+
+  if (token.symbol === tokensInfo.DAI?.symbol && savingsToken.symbol === tokensInfo.sDAI?.symbol) {
+    return 'sdai-to-dai'
+  }
+
+  if (token.symbol === TokenSymbol('USDC') && savingsToken.symbol === tokensInfo.sDAI?.symbol) {
+    return 'sdai-to-usdc'
+  }
+
+  if (token.symbol === tokensInfo.USDS?.symbol && savingsToken.symbol === tokensInfo.sDAI?.symbol) {
+    return 'sdai-to-usds'
+  }
+
+  raise('Savings action type not recognized')
+}
