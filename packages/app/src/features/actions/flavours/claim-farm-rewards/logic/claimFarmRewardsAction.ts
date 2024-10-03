@@ -1,4 +1,4 @@
-import { usdsSkyRewardsAbi } from '@/config/contracts-generated'
+import { stakingRewardsAbi } from '@/config/abis/stakingRewardsAbi'
 import { getFarmsInfoQueryKey } from '@/domain/farms/query'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
@@ -15,7 +15,7 @@ export function createClaimFarmRewardsActionConfig(
     getWriteConfig: () => {
       return ensureConfigTypes({
         address: action.farm,
-        abi: usdsSkyRewardsAbi,
+        abi: stakingRewardsAbi,
         functionName: 'getReward',
       })
     },

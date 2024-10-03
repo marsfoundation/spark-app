@@ -1,5 +1,5 @@
+import { MAINNET_USDS_SKY_FARM_ADDRESS } from '@/config/chain/constants'
 import { Farm } from '@/domain/farms/types'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
@@ -8,7 +8,7 @@ import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { ActiveFarmInfoPanel } from './ActiveFarmInfoPanel'
 
 const mockFarm: Farm = {
-  address: CheckedAddress('0x0650CAF159C5A49f711e8169D4336ECB9b950275'),
+  address: MAINNET_USDS_SKY_FARM_ADDRESS,
   apy: Percentage(0.05),
   entryAssetsGroup: {
     type: 'stablecoins',

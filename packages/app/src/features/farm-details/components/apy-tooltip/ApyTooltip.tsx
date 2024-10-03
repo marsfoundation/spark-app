@@ -1,15 +1,13 @@
-import { usdsSkyRewardsConfig } from '@/config/contracts-generated'
-import { getContractAddress } from '@/domain/hooks/useContractAddress'
+import { MAINNET_USDS_SKY_FARM_ADDRESS } from '@/config/chain/constants'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { Info } from '@/ui/molecules/info/Info'
-import { mainnet } from 'viem/chains'
 
 export interface ApyTooltipProps {
   farmAddress: CheckedAddress
 }
 
 export function ApyTooltip({ farmAddress }: ApyTooltipProps) {
-  if (farmAddress === getContractAddress(usdsSkyRewardsConfig.address, mainnet.id)) {
+  if (farmAddress === MAINNET_USDS_SKY_FARM_ADDRESS) {
     return (
       <Info>
         The yield comes from Sky Token Rewards offered by Sky. The APY is calculated based on three factors: your share

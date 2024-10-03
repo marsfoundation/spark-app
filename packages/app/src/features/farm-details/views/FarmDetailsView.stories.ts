@@ -1,4 +1,4 @@
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { MAINNET_USDS_SKY_FARM_ADDRESS } from '@/config/chain/constants'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
@@ -18,7 +18,7 @@ const meta: Meta<typeof FarmDetailsView> = {
     chainMismatch: false,
     walletConnected: true,
     farm: {
-      address: CheckedAddress('0x0650CAF159C5A49f711e8169D4336ECB9b950275'),
+      address: MAINNET_USDS_SKY_FARM_ADDRESS,
       apy: Percentage(0.05),
       entryAssetsGroup: {
         type: 'stablecoins',
@@ -80,7 +80,7 @@ export const ActiveTablet = getTabletStory(ActiveDesktop)
 export const NoDepositWithRewards: Story = {
   args: {
     farm: {
-      address: CheckedAddress('0x0650CAF159C5A49f711e8169D4336ECB9b950275'),
+      address: MAINNET_USDS_SKY_FARM_ADDRESS,
       apy: Percentage(0.05),
       entryAssetsGroup: {
         type: 'stablecoins',
@@ -106,7 +106,7 @@ export const NoDepositWithRewardsTablet = getTabletStory(NoDepositWithRewards)
 export const InactiveDesktop: Story = {
   args: {
     farm: {
-      address: CheckedAddress('0x0650CAF159C5A49f711e8169D4336ECB9b950275'),
+      address: MAINNET_USDS_SKY_FARM_ADDRESS,
       apy: Percentage(0.05),
       entryAssetsGroup: {
         type: 'stablecoins',
@@ -133,7 +133,7 @@ export const InactiveTablet = getTabletStory(InactiveDesktop)
 export const NotConnectedDesktop: Story = {
   args: {
     farm: {
-      address: CheckedAddress('0x0650CAF159C5A49f711e8169D4336ECB9b950275'),
+      address: MAINNET_USDS_SKY_FARM_ADDRESS,
       apy: Percentage(0.05),
       entryAssetsGroup: {
         type: 'stablecoins',
