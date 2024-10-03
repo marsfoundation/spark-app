@@ -32,10 +32,7 @@ export function myEarningsQueryOptions({ address, chainId }: MyEarningsQueryPara
   })
 }
 
-export function myEarningsInfoQueryKey({
-  chainId,
-  address,
-}: Omit<MyEarningsQueryParams, 'timeframe' | 'currentTimestamp'>): unknown[] {
+export function myEarningsInfoQueryKey({ chainId, address }: MyEarningsQueryParams): unknown[] {
   return ['my-earnings', chainId, address]
 }
 

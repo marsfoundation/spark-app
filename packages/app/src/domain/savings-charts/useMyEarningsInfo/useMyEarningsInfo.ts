@@ -52,14 +52,15 @@ export function useMyEarningsInfo({
         currentTimestamp,
       })
 
-      const lastBalanceItem = data.at(-1)?.balance
+      const lastItem = data.at(-1)
 
-      const predictions = lastBalanceItem
+      const predictions = lastItem
         ? calculatePredictions({
             savingsInfo,
             timeframe,
-            timestamp: currentTimestamp,
-            balance: lastBalanceItem,
+            timestamp: lastItem.date.getTime() / 1000,
+            balance: lastItem.balance,
+            dataLength: data.length,
           })
         : []
 

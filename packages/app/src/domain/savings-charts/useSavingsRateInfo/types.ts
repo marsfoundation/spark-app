@@ -1,6 +1,6 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 
-interface SavingsRateInfoItem {
+export interface SavingsRateInfoItem {
   date: Date
   rate: NormalizedUnitNumber
 }
