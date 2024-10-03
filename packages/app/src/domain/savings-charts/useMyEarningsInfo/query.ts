@@ -1,7 +1,8 @@
 import { infoSkyApiUrl } from '@/config/consts'
 import { normalizedUnitNumberSchema } from '@/domain/common/validation'
 import { dateSchema } from '@/utils/schemas'
-import { queryOptions, skipToken } from '@tanstack/react-query'
+import { skipToken } from '@tanstack/react-query'
+import { queryOptions } from '@tanstack/react-query'
 import { sort } from 'd3-array'
 import { Address } from 'viem'
 import { z } from 'zod'
@@ -31,7 +32,7 @@ export function myEarningsQueryOptions({ address, chainId }: MyEarningsQueryPara
   })
 }
 
-export function myEarningsInfoQueryKey({ chainId, address }: Omit<MyEarningsQueryParams, 'staleTime'>): unknown[] {
+export function myEarningsInfoQueryKey({ chainId, address }: MyEarningsQueryParams): unknown[] {
   return ['my-earnings', chainId, address]
 }
 

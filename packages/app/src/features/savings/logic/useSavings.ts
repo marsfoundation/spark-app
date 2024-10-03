@@ -3,10 +3,6 @@ import { sortByUsdValueWithUsdsPriority } from '@/domain/common/sorters'
 import { TokenWithBalance } from '@/domain/common/types'
 import { useChainConfigEntry } from '@/domain/hooks/useChainConfigEntry'
 import { useGetBlockExplorerAddressLink } from '@/domain/hooks/useGetBlockExplorerAddressLink'
-import {
-  UseSavingsChartsInfoQueryResult,
-  useSavingsChartsInfoQuery,
-} from '@/domain/savings-charts/useSavingsChartsInfoQuery'
 import { useSavingsDaiInfo } from '@/domain/savings-info/useSavingsDaiInfo'
 import { useSavingsUsdsInfo } from '@/domain/savings-info/useSavingsUsdsInfo'
 import { calculateMaxBalanceTokenAndTotal } from '@/domain/savings/calculateMaxBalanceTokenAndTotal'
@@ -57,7 +53,6 @@ export interface UseSavingsResults {
         savingsMeta: SavingsMeta
         showWelcomeDialog: boolean
         saveConfirmedWelcomeDialog: (confirmedWelcomeDialog: boolean) => void
-        savingsChartsInfo: UseSavingsChartsInfoQueryResult
       }
     | { state: 'unsupported' }
 }
@@ -74,8 +69,6 @@ export function useSavings(): UseSavingsResults {
   const openDialog = useOpenDialog()
   const { showWelcomeDialog, saveConfirmedWelcomeDialog } = useWelcomeDialog()
   const getBlockExplorerLink = useGetBlockExplorerAddressLink()
-
-  const savingsChartsInfo = useSavingsChartsInfoQuery()
 
   const { totalUSD: totalEligibleCashUSD, maxBalanceToken } = calculateMaxBalanceTokenAndTotal({
     assets: inputTokens,
@@ -149,7 +142,6 @@ export function useSavings(): UseSavingsResults {
       migrationInfo,
       showWelcomeDialog,
       saveConfirmedWelcomeDialog,
-      savingsChartsInfo,
     },
   }
 }

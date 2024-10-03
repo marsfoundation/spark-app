@@ -29,7 +29,9 @@ export function savingsRateQueryOptions({ chainId }: SavingsRateQueryParams) {
   })
 }
 
-export function savingsRateInfoQueryKey({ chainId }: SavingsRateQueryParams): unknown[] {
+export function savingsRateInfoQueryKey({
+  chainId,
+}: Omit<SavingsRateQueryParams, 'timeframe' | 'currentTimestamp'>): unknown[] {
   return ['savings-rate', chainId]
 }
 
