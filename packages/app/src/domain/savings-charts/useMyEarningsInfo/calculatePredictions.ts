@@ -22,7 +22,7 @@ export function calculatePredictions({
   timeframe,
   dataLength,
 }: CalculatePredictionsParams): MyEarningsInfoItem[] {
-  const optimalPredictionsLength = Math.ceil(dataLength * 0.33)
+  const optimalPredictionsLength = Math.floor(dataLength * 0.33)
 
   switch (timeframe) {
     case '7D':

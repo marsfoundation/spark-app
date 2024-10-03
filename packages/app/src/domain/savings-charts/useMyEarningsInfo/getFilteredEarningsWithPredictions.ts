@@ -22,7 +22,7 @@ export function getFilteredEarningsWithPredictions({
 }: GetFilteredEarningsWithPredictionsParams) {
   const savingsTypeData = myEarningsInfo.map((item) => ({
     date: item.date,
-    balance: item[savingsType],
+    balance: item.balance[savingsType],
   }))
 
   const filteredData = filterDataByTimeframe({

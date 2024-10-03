@@ -1,5 +1,6 @@
 import { infoSkyApiUrl } from '@/config/consts'
 import { normalizedUnitNumberSchema } from '@/domain/common/validation'
+import { dateSchema } from '@/utils/schemas'
 import { queryOptions, skipToken } from '@tanstack/react-query'
 import { sort } from 'd3-array'
 import { Address } from 'viem'
@@ -37,9 +38,7 @@ export function myEarningsInfoQueryKey({ chainId, address }: Omit<MyEarningsQuer
 const myEarningsDataResponseSchema = z
   .array(
     z.object({
-      // @note: response balance is a sum of sdai and usds balance, but we display chart only when user has only one token. Thus, we can treat this sum as a single token balance.
-      date: z.string().transform((value) => new Date(value)),
-      balance: normalizedUnitNumberSchema,
+      date: dateSchema,
       sdai_balance: normalizedUnitNumberSchema,
       susds_balance: normalizedUnitNumberSchema,
     }),
@@ -49,8 +48,9 @@ const myEarningsDataResponseSchema = z
 
     return sortedData.map((item) => ({
       date: item.date,
-      balance: item.balance,
-      susds: item.susds_balance,
-      sdai: item.sdai_balance
+      balance: {
+        susds: item.susds_balance,
+        sdai: item.sdai_balance,
+      },
     }))
   })

@@ -5,6 +5,7 @@ import { queryOptions } from '@tanstack/react-query'
 import { sort } from 'd3-array'
 import { z } from 'zod'
 import { SavingsRateInfo } from './types'
+import { dateSchema } from '@/utils/schemas'
 
 interface SavingsRateQueryParams {
   chainId: number
@@ -35,7 +36,7 @@ export function savingsRateInfoQueryKey({ chainId }: SavingsRateQueryParams): un
 const savingsRateDataResponseSchema = z
   .array(
     z.object({
-      date: z.string().transform((value) => new Date(value)),
+      date: dateSchema,
       rate: normalizedUnitNumberSchema,
       dsr_rate: normalizedUnitNumberSchema,
       ssr_rate: z
