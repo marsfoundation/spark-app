@@ -41,6 +41,8 @@ const myEarningsDataResponseSchema = z
     z.object({
       date: dateSchema,
       balance: normalizedUnitNumberSchema,
+      sdai_balance: normalizedUnitNumberSchema,
+      susds_balance: normalizedUnitNumberSchema,
     }),
   )
   .transform((data) => {
