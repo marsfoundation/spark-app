@@ -6,7 +6,7 @@ import { useCallback } from 'react'
 import { Address } from 'viem'
 import { getFilteredEarningsWithPredictions } from './getFilteredEarningsWithPredictions'
 import { myEarningsQueryOptions } from './query'
-import { MyEarningsInfoItem, MyEarningsInfoDataItem } from './types'
+import { MyEarningsInfoDataItem, MyEarningsInfoItem } from './types'
 
 export interface UseMyEarningsInfoParams {
   address?: Address
@@ -35,7 +35,7 @@ export function useMyEarningsInfo({
   currentTimestamp,
   savingsInfo,
   staleTime,
-  savingsType
+  savingsType,
 }: UseMyEarningsInfoParams): UseMyEarningsInfoResult {
   const myEarningsInfoData = useQuery({
     ...myEarningsQueryOptions({
@@ -49,7 +49,7 @@ export function useMyEarningsInfo({
           timeframe,
           currentTimestamp,
           savingsInfo,
-          savingsType
+          savingsType,
         }),
       [timeframe, currentTimestamp, savingsInfo, savingsType],
     ),

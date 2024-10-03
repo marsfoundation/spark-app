@@ -22,7 +22,7 @@ interface UseSavingsChartsInfoParams {
 
 export function useSavingsChartsInfoQuery({
   savingsInfo,
-  savingsType
+  savingsType,
 }: UseSavingsChartsInfoParams): UseSavingsChartsInfoQueryResult {
   const [selectedTimeframe, setSelectedTimeframe] = useState<Timeframe>('1M')
   const chainId = useChainId()
@@ -37,7 +37,7 @@ export function useSavingsChartsInfoQuery({
     currentTimestamp: timestamp,
     savingsInfo,
     staleTime: REFRESH_INTERVAL_IN_MS,
-    savingsType
+    savingsType,
   })
 
   const savingsRateInfo = useSavingsRateInfo({

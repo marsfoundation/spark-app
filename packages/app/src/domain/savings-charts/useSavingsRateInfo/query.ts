@@ -6,7 +6,6 @@ import { queryOptions } from '@tanstack/react-query'
 import { sort } from 'd3-array'
 import { z } from 'zod'
 import { SavingsRateInfo } from './types'
-import { dateSchema } from '@/utils/schemas'
 
 interface SavingsRateQueryParams {
   chainId: number
