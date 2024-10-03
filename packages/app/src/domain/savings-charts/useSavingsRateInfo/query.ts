@@ -54,7 +54,7 @@ const savingsRateDataResponseSchema = z
 
       savingsRateInfo.dsr.push({ date, rate: dsr_rate })
 
-      // Defaulting to dsr_rate if ssr_rate is null
+      // @note Defaulting to dsr_rate if ssr_rate is null
       savingsRateInfo.ssr.push({ date, rate: ssr_rate ?? dsr_rate })
     }
 

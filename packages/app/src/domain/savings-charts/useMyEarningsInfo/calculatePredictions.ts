@@ -27,7 +27,7 @@ export function calculatePredictions({
   switch (timeframe) {
     case '7D':
       return calculatePredictionsIncomeByDays({
-        // Ensure to have proportional length of projections to the data length
+        // @note Ensure to have proportional length of projections to the data length
         days: Math.min(optimalPredictionsLength, 3),
         balance,
         timestamp,
@@ -69,7 +69,7 @@ function calculatePredictionsIncomeByDays({
 }): MyEarningsInfoItem[] {
   const shares = savingsInfo.convertToShares({ assets: balance })
 
-  // We have data for current day already but on chart we want to start from actual day not the next one
+  // @note We have data for current day already but on chart we want to start from actual day not the next one
   return range(0, days).map((day) => {
     const dayTimestamp = timestamp + day * SECONDS_PER_DAY
 

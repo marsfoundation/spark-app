@@ -40,6 +40,8 @@ const myEarningsDataResponseSchema = z
       // @note: response balance is a sum of sdai and usds balance, but we display chart only when user has only one token. Thus, we can treat this sum as a single token balance.
       date: z.string().transform((value) => new Date(value)),
       balance: normalizedUnitNumberSchema,
+      sdai_balance: normalizedUnitNumberSchema,
+      susds_balance: normalizedUnitNumberSchema,
     }),
   )
   .transform((data) => {
@@ -48,5 +50,7 @@ const myEarningsDataResponseSchema = z
     return sortedData.map((item) => ({
       date: item.date,
       balance: item.balance,
+      susds: item.susds_balance,
+      sdai: item.sdai_balance
     }))
   })

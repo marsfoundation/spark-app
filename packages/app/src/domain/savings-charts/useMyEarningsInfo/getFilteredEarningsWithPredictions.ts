@@ -2,13 +2,14 @@ import { SavingsInfo } from '@/domain/savings-info/types'
 import { Timeframe } from '@/ui/charts/defaults'
 import { filterDataByTimeframe } from '@/ui/charts/utils'
 import { calculatePredictions } from './calculatePredictions'
-import { MyEarningsInfoItem } from './types'
+import { MyEarningsInfoDataItem } from './types'
 
 interface GetFilteredEarningsWithPredictionsParams {
   currentTimestamp: number
   timeframe: Timeframe
-  myEarningsInfo: MyEarningsInfoItem[]
+  myEarningsInfo: MyEarningsInfoDataItem[]
   savingsInfo: SavingsInfo
+  savingsType: 'susds' | 'sdai'
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -17,14 +18,20 @@ export function getFilteredEarningsWithPredictions({
   timeframe,
   myEarningsInfo,
   savingsInfo,
+  savingsType,
 }: GetFilteredEarningsWithPredictionsParams) {
-  const data = filterDataByTimeframe({
-    data: myEarningsInfo,
+  const savingsTypeData = myEarningsInfo.map((item) => ({
+    date: item.date,
+    balance: item[savingsType],
+  }))
+
+  const filteredData = filterDataByTimeframe({
+    data: savingsTypeData,
     timeframe,
     currentTimestamp,
   })
 
-  const lastItem = data.at(-1)
+  const lastItem = filteredData.at(-1)
 
   const predictions = lastItem
     ? calculatePredictions({
@@ -32,12 +39,12 @@ export function getFilteredEarningsWithPredictions({
         timeframe,
         timestamp: lastItem.date.getTime() / 1000,
         balance: lastItem.balance,
-        dataLength: data.length,
+        dataLength: filteredData.length,
       })
     : []
 
   return {
-    data,
+    data: filteredData,
     predictions,
   }
 }
