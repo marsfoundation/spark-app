@@ -34,7 +34,6 @@ export function formatUSDTicks(value: { valueOf(): number }): string {
   return USD_MOCK_TOKEN.formatUSD(NormalizedUnitNumber(value.valueOf()), { compact: true })
 }
 
-
 interface FilterDataByTimeframeParams<Data extends { date: Date }> {
   data: Data[]
   timeframe: Timeframe
