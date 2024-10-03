@@ -2,21 +2,23 @@ import { TokenWithBalance } from '@/domain/common/types'
 import { Farm } from '@/domain/farms/types'
 import { Token } from '@/domain/types/Token'
 import { getTokenImage } from '@/ui/assets'
+import { ChartTabsPanel, createChartTab } from '@/ui/charts/components/ChartTabsPanel'
 import { ConnectOrSandboxCTAPanel } from '@/ui/organisms/connect-or-sandbox-cta-panel/ConnectOrSandboxCTAPanel'
-import { RewardsOverTime } from '../components/apr-over-time/RewardsOverTime'
 import { BackNav } from '../components/back-nav/BackNav'
+import { RewardsChart } from '../components/chart/rewards/RewardsChart'
+import { TvlChart } from '../components/chart/tvl/TvlChart'
 import { ActiveFarmInfoPanel } from '../components/farm-info-panel/active/ActiveFarmInfoPanel'
 import { InactiveFarmInfoPanel } from '../components/farm-info-panel/inactive/InactiveFarmInfoPanel'
 import { Header } from '../components/header/Header'
 import { TokensToDeposit } from '../components/tokens-to-deposit/TokensToDeposit'
-import { FarmHistoryQueryResult } from '../logic/historic/useFarmHistoryQuery'
+import { ChartDetails } from '../logic/useFarmDetails'
 
 export interface FarmDetailsViewProps {
   chainId: number
   chainMismatch: boolean
   walletConnected: boolean
   farm: Farm
-  farmHistory: FarmHistoryQueryResult
+  chartDetails: ChartDetails
   tokensToDeposit: TokenWithBalance[]
   isFarmActive: boolean
   hasTokensToDeposit: boolean
@@ -33,7 +35,7 @@ export function FarmDetailsView({
   chainMismatch,
   walletConnected,
   farm,
-  farmHistory,
+  chartDetails,
   tokensToDeposit,
   isFarmActive,
   hasTokensToDeposit,
@@ -61,7 +63,28 @@ export function FarmDetailsView({
               openStakeDialog={openDefaultedStakeDialog}
             />
           )}
-          <RewardsOverTime farmHistory={farmHistory} farmAddress={farm.address} />
+          <ChartTabsPanel
+            tabs={[
+              createChartTab({
+                id: 'rewards',
+                label: 'Rewards over time',
+                component: RewardsChart,
+                isError: chartDetails.farmHistory.isError,
+                isPending: chartDetails.farmHistory.isLoading,
+                props: { data: chartDetails.farmHistory.data ?? [] },
+              }),
+              createChartTab({
+                id: 'tvl',
+                label: 'TVL',
+                component: TvlChart,
+                isError: chartDetails.farmHistory.isError,
+                isPending: chartDetails.farmHistory.isLoading,
+                props: { data: chartDetails.farmHistory.data ?? [] },
+              }),
+            ]}
+            selectedTimeframe={chartDetails.timeframe}
+            onTimeframeChange={chartDetails.onTimeframeChange}
+          />
         </div>
         {walletConnected && <TokensToDeposit assets={tokensToDeposit} openStakeDialog={openStakeDialog} />}
         {!walletConnected && (

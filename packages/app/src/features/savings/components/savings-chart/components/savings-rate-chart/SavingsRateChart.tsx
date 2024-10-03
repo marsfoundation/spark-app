@@ -39,7 +39,7 @@ const colors = {
 }
 
 export interface SavingsRateChartProps {
-  height: number
+  height?: number
   margins?: Margins
   xAxisNumTicks?: number
   yAxisNumTicks?: number
@@ -48,7 +48,7 @@ export interface SavingsRateChartProps {
 }
 
 function SavingsRateChart({
-  height,
+  height = 300, // @todo: will be refactored/extended
   margins = defaultMargins,
   xAxisNumTicks = 5,
   yAxisNumTicks = 5,

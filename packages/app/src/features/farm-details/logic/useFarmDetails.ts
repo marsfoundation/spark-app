@@ -10,24 +10,31 @@ import { useOpenDialog } from '@/domain/state/dialogs'
 import { Token } from '@/domain/types/Token'
 import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { sandboxDialogConfig } from '@/features/dialogs/sandbox/SandboxDialog'
+import { Timeframe } from '@/ui/charts/defaults'
 import { raise } from '@/utils/assert'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { useAccount, useChainId } from 'wagmi'
 import { claimDialogConfig } from '../dialogs/claim/ClaimDialog'
 import { stakeDialogConfig } from '../dialogs/stake/StakeDialog'
 import { unstakeDialogConfig } from '../dialogs/unstake/UnstakeDialog'
-import { FarmHistoryQueryResult, useFarmHistoryQuery } from './historic/useFarmHistoryQuery'
+import { FarmHistoryQueryResult, useFarmHistory } from './historic/useFarmHistory'
 import { useFarmDetailsParams } from './useFarmDetailsParams'
+
+export interface ChartDetails {
+  farmHistory: FarmHistoryQueryResult
+  onTimeframeChange: (timeframe: Timeframe) => void
+  timeframe: Timeframe
+}
 
 export interface UseFarmDetailsResult {
   chainId: number
   chainMismatch: boolean
   walletConnected: boolean
   farm: Farm
-  farmHistory: FarmHistoryQueryResult
   tokensToDeposit: TokenWithBalance[]
   isFarmActive: boolean
   hasTokensToDeposit: boolean
+  chartDetails: ChartDetails
   openStakeDialog: (initialToken: Token) => void
   openUnstakeDialog: () => void
   openClaimDialog: () => void
@@ -54,7 +61,7 @@ export function useFarmDetails(): UseFarmDetailsResult {
   })
 
   const { farmsInfo } = useFarmsInfo({ chainId })
-  const farmHistory = useFarmHistoryQuery({ chainId, farmAddress })
+  const { farmHistory, onTimeframeChange, timeframe } = useFarmHistory({ chainId, farmAddress })
   const { tokensInfo } = useTokensInfo({ tokens: chainConfig.extraTokens, chainId })
 
   const farm = farmsInfo.findFarmByAddress(farmAddress) ?? raise(new NotFoundError())
@@ -69,10 +76,14 @@ export function useFarmDetails(): UseFarmDetailsResult {
     chainMismatch,
     walletConnected,
     farm,
-    farmHistory,
     tokensToDeposit,
     hasTokensToDeposit,
     isFarmActive: farm.staked.gt(0) || farm.earned.gt(0),
+    chartDetails: {
+      farmHistory,
+      onTimeframeChange,
+      timeframe,
+    },
     openUnstakeDialog: () => openDialog(unstakeDialogConfig, { farm, initialToken: farm.stakingToken }),
     openStakeDialog: (initialToken: Token) => openDialog(stakeDialogConfig, { farm, initialToken }),
     openDefaultedStakeDialog: () =>

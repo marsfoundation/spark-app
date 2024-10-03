@@ -1,6 +1,5 @@
 import { MyEarningsChart } from '@/features/savings/components/savings-chart/components/MyEarningsChart'
 import { DsrChart } from '@/features/savings/components/savings-chart/components/savings-rate-chart/DsrChart'
-import { SsrChart } from '@/features/savings/components/savings-chart/components/savings-rate-chart/SsrChart'
 import {
   mockEarningsChartData,
   mockEarningsPredictionsChartData,
@@ -9,34 +8,42 @@ import {
   mockDsrChartData,
   mockSsrChartData,
 } from '@/features/savings/components/savings-chart/fixtures/mockSavingsRateChartData'
-import { ChartTab } from '../components/ChartTabsPanel'
+import { createChartTab } from '../components/ChartTabsPanel'
 
-export const mockChartsPanelMultipleTabs: ChartTab[] = [
-  {
+export const mockChartsPanelMultipleTabs = [
+  createChartTab({
     id: 'earnings',
     label: 'My Earnings',
-    component: ({ height }) => (
-      <MyEarningsChart data={mockEarningsChartData} predictions={mockEarningsPredictionsChartData} height={height} />
-    ),
-  },
-  {
+    component: MyEarningsChart,
+    isError: false,
+    isPending: false,
+    props: { data: mockEarningsChartData, predictions: mockEarningsPredictionsChartData },
+  }),
+  createChartTab({
     id: 'dsr',
     label: 'DSR',
-    component: ({ height }) => <DsrChart data={mockDsrChartData} height={height} />,
-  },
-  {
+    component: DsrChart,
+    isError: false,
+    isPending: false,
+    props: { data: mockDsrChartData },
+  }),
+  createChartTab({
     id: 'ssr',
     label: 'SSR',
-    component: ({ height }) => <SsrChart data={mockSsrChartData} height={height} />,
-  },
+    component: DsrChart,
+    isError: false,
+    isPending: false,
+    props: { data: mockSsrChartData },
+  }),
 ]
 
-export const mockChartsPanelSingleTab: ChartTab[] = [
-  {
+export const mockChartsPanelSingleTab = [
+  createChartTab({
     id: 'earnings',
     label: 'My Earnings',
-    component: ({ height }) => (
-      <MyEarningsChart data={mockEarningsChartData} predictions={mockEarningsPredictionsChartData} height={height} />
-    ),
-  },
+    component: MyEarningsChart,
+    isError: false,
+    isPending: false,
+    props: { data: mockEarningsChartData, predictions: mockEarningsPredictionsChartData },
+  }),
 ]
