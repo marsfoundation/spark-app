@@ -2,6 +2,7 @@ import { infoSkyApiUrl } from '@/config/consts'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { assert } from '@/utils/assert'
 import { queryOptions } from '@tanstack/react-query'
+import { sort } from 'd3-array'
 import { Address } from 'viem'
 import { z } from 'zod'
 import { MyEarningsInfo } from './types'
@@ -31,7 +32,10 @@ export function myEarningsQueryOptions({ address, chainId }: MyEarningsQueryPara
   })
 }
 
-export function myEarningsInfoQueryKey({ chainId, address }: MyEarningsQueryParams): unknown[] {
+export function myEarningsInfoQueryKey({
+  chainId,
+  address,
+}: Omit<MyEarningsQueryParams, 'timeframe' | 'currentTimestamp'>): unknown[] {
   return ['my-earnings', chainId, address]
 }
 
@@ -44,11 +48,13 @@ const myEarningsDataResponseSchema = z
       susds_balance: z.string().transform((value) => NormalizedUnitNumber(value)),
     }),
   )
-  .transform((value) =>
-    value.map((result) => ({
-      date: result.date,
-      balance: result.balance,
-      sdaiBalance: result.sdai_balance,
-      susdsBalance: result.susds_balance,
-    })),
-  )
+  .transform((data) => {
+    const sortedData = sort(data, (a, b) => a.date.getTime() - b.date.getTime())
+
+    return sortedData.map((item) => ({
+      date: item.date,
+      balance: item.balance,
+      sdaiBalance: item.sdai_balance,
+      susdsBalance: item.susds_balance,
+    }))
+  })

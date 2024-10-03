@@ -1,6 +1,7 @@
 import { infoSkyApiUrl } from '@/config/consts'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { queryOptions } from '@tanstack/react-query'
+import { sort } from 'd3-array'
 import { z } from 'zod'
 import { SavingsRateInfo } from './types'
 
@@ -26,7 +27,9 @@ export function savingsRateQueryOptions({ chainId }: SavingsRateQueryParams) {
   })
 }
 
-export function savingsRateInfoQueryKey({ chainId }: SavingsRateQueryParams): unknown[] {
+export function savingsRateInfoQueryKey({
+  chainId,
+}: Omit<SavingsRateQueryParams, 'timeframe' | 'currentTimestamp'>): unknown[] {
   return ['savings-rate', chainId]
 }
 
@@ -42,8 +45,10 @@ const savingsRateDataResponseSchema = z
         .transform((value) => (value ? NormalizedUnitNumber(value) : null)),
     }),
   )
-  .transform((value) =>
-    value.reduce(
+  .transform((data) => {
+    const sortedData = sort(data, (a, b) => a.date.getTime() - b.date.getTime())
+
+    const savingsRateInfo = sortedData.reduce(
       (acc, item) => {
         const date = item.date
         const dsrRate = item.dsr_rate
@@ -62,5 +67,7 @@ const savingsRateDataResponseSchema = z
         return acc
       },
       { ssr: [], dsr: [] } as SavingsRateInfo,
-    ),
-  )
+    )
+
+    return savingsRateInfo
+  })
