@@ -3,7 +3,6 @@ import { Farm } from '@/domain/farms/types'
 import { Token } from '@/domain/types/Token'
 import { getTokenImage } from '@/ui/assets'
 import { ChartTabsPanel } from '@/ui/charts/components/ChartTabsPanel'
-import { Timeframe } from '@/ui/charts/defaults'
 import { ConnectOrSandboxCTAPanel } from '@/ui/organisms/connect-or-sandbox-cta-panel/ConnectOrSandboxCTAPanel'
 import { BackNav } from '../components/back-nav/BackNav'
 import { RewardsChart } from '../components/chart/rewards/RewardsChart'
@@ -20,8 +19,6 @@ export interface FarmDetailsViewProps {
   walletConnected: boolean
   farm: Farm
   chartDetails: ChartDetails
-  onTimeframeChange: (timeframe: Timeframe) => void
-  selectedTimeframe: Timeframe
   tokensToDeposit: TokenWithBalance[]
   isFarmActive: boolean
   hasTokensToDeposit: boolean

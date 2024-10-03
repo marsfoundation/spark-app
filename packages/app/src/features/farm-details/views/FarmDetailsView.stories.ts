@@ -62,7 +62,11 @@ const meta: Meta<typeof FarmDetailsView> = {
     openStakeDialog: () => {},
     openConnectModal: () => {},
     openSandboxModal: () => {},
-    farmHistory: { data: mockChartData } as FarmHistoryQueryResult,
+    chartDetails: {
+      farmHistory: { data: mockChartData } as FarmHistoryQueryResult,
+      onTimeframeChange: () => {},
+      timeframe: 'All',
+    },
   },
 }
 
