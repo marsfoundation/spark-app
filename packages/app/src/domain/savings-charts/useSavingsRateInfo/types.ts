@@ -1,8 +1,8 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { Percentage } from '@/domain/types/NumericValues'
 
 export interface SavingsRateInfoItem {
   date: Date
-  rate: NormalizedUnitNumber
+  rate: Percentage
 }
 
 export type SavingsRateInfo = {

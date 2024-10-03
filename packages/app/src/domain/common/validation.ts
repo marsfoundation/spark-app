@@ -4,7 +4,7 @@ import { CheckedAddress } from '../types/CheckedAddress'
 import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
 
 // number schemas
-export const percentageSchema = z.number().transform((a) => Percentage(a))
+export const percentageSchema = z.union([z.number(), z.string()]).transform((a) => Percentage(a))
 export const normalizedUnitNumberSchema = z.union([z.number(), z.string()]).transform((a) => NormalizedUnitNumber(a))
 
 // address schemas
