@@ -12,6 +12,7 @@ export interface CalculatePredictionsParams {
   balance: NormalizedUnitNumber
   savingsInfo: SavingsInfo
   timeframe: Timeframe
+  dataLength: number
 }
 
 export function calculatePredictions({
@@ -19,36 +20,36 @@ export function calculatePredictions({
   balance,
   savingsInfo,
   timeframe,
+  dataLength,
 }: CalculatePredictionsParams): MyEarningsInfoItem[] {
-  const base = savingsInfo.convertToAssets({ shares: balance })
-
   const dayIncomePrediction = NormalizedUnitNumber(
-    savingsInfo.predictSharesValue({ timestamp: timestamp + SECONDS_PER_DAY, shares: balance }).minus(base),
+    savingsInfo.predictSharesValue({ timestamp: timestamp + SECONDS_PER_DAY, shares: balance }).minus(balance),
   )
 
   switch (timeframe) {
     case '7D':
       return calculatePredictionsIncomeByDays({
-        days: 3,
+        // Ensure to have proportional of projections to the data length
+        days: dataLength > 7 ? 3 : Math.ceil(dataLength * 0.4),
         dayIncome: dayIncomePrediction,
-        base,
+        balance,
         timestamp,
       })
 
     case '1M':
       return calculatePredictionsIncomeByDays({
-        days: 7,
+        days: dataLength > 30 ? 7 : Math.ceil(dataLength * 0.4),
         dayIncome: dayIncomePrediction,
-        base,
+        balance,
         timestamp,
       })
 
     case '1Y':
     case 'All':
       return calculatePredictionsIncomeByDays({
-        days: 30,
+        days: dataLength > 150 ? 60 : Math.min(Math.ceil(dataLength * 0.4), 30),
         dayIncome: dayIncomePrediction,
-        base,
+        balance,
         timestamp,
       })
 
@@ -60,17 +61,19 @@ export function calculatePredictions({
 function calculatePredictionsIncomeByDays({
   days,
   dayIncome,
-  base,
+  balance,
   timestamp,
 }: {
   days: number
   dayIncome: NormalizedUnitNumber
-  base: NormalizedUnitNumber
+  balance: NormalizedUnitNumber
   timestamp: number
 }): MyEarningsInfoItem[] {
-  // we have data for current day already but on chart we want to start from actual day not the next one
-  return range(0, days).map((day) => ({
-    balance: NormalizedUnitNumber(base.plus(dayIncome.times(day))),
-    date: new Date((timestamp + day * SECONDS_PER_DAY) * 1000),
-  }))
+  // We have data for current day already but on chart we want to start from actual day not the next one
+  return range(0, days).map((day) => {
+    return {
+      balance: NormalizedUnitNumber(balance.plus(dayIncome.times(day))),
+      date: new Date((timestamp + day * SECONDS_PER_DAY) * 1000),
+    }
+  })
 }
