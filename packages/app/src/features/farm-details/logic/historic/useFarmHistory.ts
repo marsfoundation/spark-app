@@ -22,17 +22,17 @@ export interface UseFarmHistoryResult {
 
 export function useFarmHistory({ chainId, farmAddress }: UseFarmHistoryParams): UseFarmHistoryResult {
   const [timeframe, setTimeframe] = useState<Timeframe>('All')
-  const filterData = useFilterChartDataByTimeframe(timeframe)
+  const filterDataByTimeframe = useFilterChartDataByTimeframe(timeframe)
 
   const farmConfig = getChainConfigEntry(chainId).farms.find((farm) => farm.address === farmAddress)
-  const farmHistory = useQuery(
-    farmHistoricDataQueryOptions({
+  const farmHistory = useQuery({
+    ...farmHistoricDataQueryOptions({
       chainId,
       farmAddress,
       historyCutoff: farmConfig?.historyCutoff,
-      filterData,
     }),
-  )
+    select: filterDataByTimeframe,
+  })
 
   return {
     farmHistory,

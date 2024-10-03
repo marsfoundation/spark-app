@@ -3,22 +3,15 @@ import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { queryOptions } from '@tanstack/react-query'
 import { z } from 'zod'
-import { FarmHistoryItem } from './types'
 
 export interface FarmHistoricDataParameters {
   chainId: number
   farmAddress: CheckedAddress
-  filterData: (data: FarmHistoryItem[]) => FarmHistoryItem[]
   historyCutoff?: Date
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function farmHistoricDataQueryOptions({
-  chainId,
-  farmAddress,
-  filterData,
-  historyCutoff,
-}: FarmHistoricDataParameters) {
+export function farmHistoricDataQueryOptions({ chainId, farmAddress, historyCutoff }: FarmHistoricDataParameters) {
   return queryOptions({
     queryKey: ['farm-historic-data', chainId, farmAddress],
     queryFn: async () => {
@@ -35,7 +28,6 @@ export function farmHistoricDataQueryOptions({
 
       return data
     },
-    select: filterData,
   })
 }
 
