@@ -5,7 +5,7 @@ import { mockSsrChartData } from '../../fixtures/mockSavingsRateChartData'
 import { SsrChart } from './SsrChart'
 
 const meta: Meta<typeof SsrChart> = {
-  title: 'Features/Savings/Components/SavingsChart/Components/SsrChart',
+  title: 'Features/Savings/Components/SavingsCharts/Components/SsrChart',
   component: SsrChart,
   decorators: [WithClassname('max-w-lg')],
   args: {

@@ -6,7 +6,7 @@ import { mockEarningsChartData, mockEarningsPredictionsChartData } from '../fixt
 import { MyEarningsChart } from './MyEarningsChart'
 
 const meta: Meta<typeof MyEarningsChart> = {
-  title: 'Features/Savings/Components/SavingsChart/Components/MyEarningsChart',
+  title: 'Features/Savings/Components/SavingsCharts/Components/MyEarningsChart',
   component: MyEarningsChart,
   decorators: [WithClassname('max-w-lg'), WithFixedDate()],
   args: {
