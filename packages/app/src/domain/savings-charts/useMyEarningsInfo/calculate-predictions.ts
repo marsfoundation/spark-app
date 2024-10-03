@@ -26,11 +26,13 @@ export function calculatePredictions({
     savingsInfo.predictSharesValue({ timestamp: timestamp + SECONDS_PER_DAY, shares: balance }).minus(balance),
   )
 
+  const optimalPredictionsLength = Math.ceil(dataLength * 0.33)
+
   switch (timeframe) {
     case '7D':
       return calculatePredictionsIncomeByDays({
-        // Ensure to have proportional of projections to the data length
-        days: dataLength > 7 ? 3 : Math.ceil(dataLength * 0.4),
+        // Ensure to have proportional length of projections to the data length
+        days: dataLength > 7 ? 3 : optimalPredictionsLength,
         dayIncome: dayIncomePrediction,
         balance,
         timestamp,
@@ -38,7 +40,7 @@ export function calculatePredictions({
 
     case '1M':
       return calculatePredictionsIncomeByDays({
-        days: dataLength > 30 ? 7 : Math.ceil(dataLength * 0.4),
+        days: dataLength > 30 ? 7 : optimalPredictionsLength,
         dayIncome: dayIncomePrediction,
         balance,
         timestamp,
@@ -47,7 +49,7 @@ export function calculatePredictions({
     case '1Y':
     case 'All':
       return calculatePredictionsIncomeByDays({
-        days: dataLength > 150 ? 60 : Math.min(Math.ceil(dataLength * 0.4), 30),
+        days: dataLength > 150 ? 60 : Math.min(optimalPredictionsLength, 30),
         dayIncome: dayIncomePrediction,
         balance,
         timestamp,

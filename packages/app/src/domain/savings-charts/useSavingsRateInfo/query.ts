@@ -39,33 +39,23 @@ const savingsRateDataResponseSchema = z
       dsr_rate: z.string().transform((value) => NormalizedUnitNumber(value)),
       ssr_rate: z
         .string()
-        .nullish()
+        .nullable()
         .transform((value) => (value ? NormalizedUnitNumber(value) : null)),
     }),
   )
   .transform((data) => {
     const sortedData = sort(data, (a, b) => a.date.getTime() - b.date.getTime())
 
-    const savingsRateInfo = sortedData.reduce(
-      (acc, item) => {
-        const date = item.date
-        const dsrRate = item.dsr_rate
-        const ssrRate = item.ssr_rate || dsrRate
+    const savingsRateInfo: SavingsRateInfo = { ssr: [], dsr: [] }
 
-        acc.dsr.push({
-          date,
-          rate: dsrRate,
-        })
+    for (const item of sortedData) {
+      const { date, dsr_rate, ssr_rate } = item
 
-        acc.ssr.push({
-          date,
-          rate: ssrRate,
-        })
+      savingsRateInfo.dsr.push({ date, rate: dsr_rate })
 
-        return acc
-      },
-      { ssr: [], dsr: [] } as SavingsRateInfo,
-    )
+      // Defaulting to dsr_rate if ssr_rate is null
+      savingsRateInfo.ssr.push({ date, rate: ssr_rate ?? dsr_rate })
+    }
 
     return savingsRateInfo
   })
