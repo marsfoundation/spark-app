@@ -22,12 +22,6 @@ export function calculatePredictions({
   timeframe,
   dataLength,
 }: CalculatePredictionsParams): MyEarningsInfoItem[] {
-  const base = savingsInfo.convertToAssets({ shares: balance })
-
-  const dayIncomePrediction = NormalizedUnitNumber(
-    savingsInfo.predictSharesValue({ timestamp: timestamp + SECONDS_PER_DAY, shares: balance }).minus(base),
-  )
-
   const optimalPredictionsLength = Math.ceil(dataLength * 0.33)
 
   switch (timeframe) {
@@ -35,26 +29,26 @@ export function calculatePredictions({
       return calculatePredictionsIncomeByDays({
         // Ensure to have proportional length of projections to the data length
         days: Math.min(optimalPredictionsLength, 3),
-        dayIncome: dayIncomePrediction,
         balance,
         timestamp,
+        savingsInfo,
       })
 
     case '1M':
       return calculatePredictionsIncomeByDays({
         days: Math.min(optimalPredictionsLength, 7),
-        dayIncome: dayIncomePrediction,
         balance,
         timestamp,
+        savingsInfo,
       })
 
     case '1Y':
     case 'All':
       return calculatePredictionsIncomeByDays({
         days: Math.min(optimalPredictionsLength, 60),
-        dayIncome: dayIncomePrediction,
         balance,
         timestamp,
+        savingsInfo,
       })
 
     default:
@@ -64,20 +58,29 @@ export function calculatePredictions({
 
 function calculatePredictionsIncomeByDays({
   days,
-  dayIncome,
+  savingsInfo,
   balance,
   timestamp,
 }: {
   days: number
-  dayIncome: NormalizedUnitNumber
+  savingsInfo: SavingsInfo
   balance: NormalizedUnitNumber
   timestamp: number
 }): MyEarningsInfoItem[] {
+  const shares = savingsInfo.convertToShares({ assets: balance })
+
   // We have data for current day already but on chart we want to start from actual day not the next one
   return range(0, days).map((day) => {
+    const dayTimestamp = timestamp + day * SECONDS_PER_DAY
+
+    const dayIncomePrediction = savingsInfo.predictSharesValue({
+      timestamp: dayTimestamp,
+      shares,
+    })
+
     return {
-      balance: NormalizedUnitNumber(balance.plus(dayIncome.times(day))),
-      date: new Date((timestamp + day * SECONDS_PER_DAY) * 1000),
+      balance: dayIncomePrediction,
+      date: new Date(dayTimestamp * 1000),
     }
   })
 }
