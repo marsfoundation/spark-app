@@ -1,8 +1,6 @@
 import { infoSkyApiUrl } from '@/config/consts'
+import { normalizedUnitNumberSchema } from '@/domain/common/validation'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { Timeframe } from '@/ui/charts/defaults'
-import { filterDataByTimeframe } from '@/ui/charts/utils'
-import { assert } from '@/utils/assert'
 import { queryOptions } from '@tanstack/react-query'
 import { sort } from 'd3-array'
 import { z } from 'zod'
@@ -10,11 +8,10 @@ import { SavingsRateInfo } from './types'
 
 interface SavingsRateQueryParams {
   chainId: number
-  staleTime: number
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function savingsRateQueryOptions({ chainId, staleTime }: SavingsRateQueryParams) {
+export function savingsRateQueryOptions({ chainId }: SavingsRateQueryParams) {
   return queryOptions<SavingsRateInfo>({
     queryKey: savingsRateInfoQueryKey({ chainId }),
     queryFn: async () => {
@@ -28,11 +25,10 @@ export function savingsRateQueryOptions({ chainId, staleTime }: SavingsRateQuery
 
       return data
     },
-    staleTime,
   })
 }
 
-export function savingsRateInfoQueryKey({ chainId }: Omit<SavingsRateQueryParams, 'staleTime'>): unknown[] {
+export function savingsRateInfoQueryKey({ chainId }: SavingsRateQueryParams): unknown[] {
   return ['savings-rate', chainId]
 }
 
@@ -40,8 +36,8 @@ const savingsRateDataResponseSchema = z
   .array(
     z.object({
       date: z.string().transform((value) => new Date(value)),
-      rate: z.string().transform((value) => NormalizedUnitNumber(value)),
-      dsr_rate: z.string().transform((value) => NormalizedUnitNumber(value)),
+      rate: normalizedUnitNumberSchema,
+      dsr_rate: normalizedUnitNumberSchema,
       ssr_rate: z
         .string()
         .nullable()
@@ -64,46 +60,3 @@ const savingsRateDataResponseSchema = z
 
     return savingsRateInfo
   })
-
-interface SavingsRateFilteredQueryParams {
-  chainId: number
-  staleTime: number
-  currentTimestamp: number
-  timeframe: Timeframe
-  savingsRateInfo?: SavingsRateInfo
-}
-
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function savingsRateFilteredQueryOptions({
-  chainId,
-  staleTime,
-  currentTimestamp,
-  timeframe,
-  savingsRateInfo,
-}: SavingsRateFilteredQueryParams) {
-  return queryOptions({
-    queryKey: [...savingsRateInfoQueryKey({ chainId }), timeframe, currentTimestamp],
-    queryFn: () => {
-      assert(savingsRateInfo, 'Savings rate info should be loaded before filtering')
-
-      const ssr = filterDataByTimeframe({
-        data: savingsRateInfo.ssr,
-        timeframe,
-        currentTimestamp,
-      })
-
-      const dsr = filterDataByTimeframe({
-        data: savingsRateInfo.dsr,
-        timeframe,
-        currentTimestamp,
-      })
-
-      return {
-        ssr,
-        dsr,
-      }
-    },
-    enabled: !!savingsRateInfo,
-    staleTime,
-  })
-}

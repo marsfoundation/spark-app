@@ -2,8 +2,10 @@ import { useQuery } from '@tanstack/react-query'
 
 import { SavingsInfo } from '@/domain/savings-info/types'
 import { Timeframe } from '@/ui/charts/defaults'
+import { useCallback } from 'react'
 import { Address } from 'viem'
-import { myEarningsFilteredQueryOptions, myEarningsQueryOptions } from './query'
+import { getFilteredEarningsWithPredictions } from './getFilteredEarningsWithPredictions'
+import { myEarningsQueryOptions } from './query'
 import { MyEarningsInfoItem } from './types'
 
 export interface UseMyEarningsInfoParams {
@@ -37,24 +39,23 @@ export function useMyEarningsInfo({
     ...myEarningsQueryOptions({
       address,
       chainId,
-      staleTime,
     }),
-  })
-
-  const myEarningsInfoFiltered = useQuery({
-    ...myEarningsFilteredQueryOptions({
-      chainId,
-      timeframe,
-      currentTimestamp,
-      savingsInfo,
-      myEarningsInfo: myEarningsInfoData.data,
-      staleTime,
-    }),
+    select: useCallback(
+      (myEarningsInfo: MyEarningsInfoItem[]) =>
+        getFilteredEarningsWithPredictions({
+          myEarningsInfo,
+          timeframe,
+          currentTimestamp,
+          savingsInfo,
+        }),
+      [timeframe, currentTimestamp, savingsInfo],
+    ),
+    staleTime,
   })
 
   return {
-    data: myEarningsInfoFiltered.data,
-    isLoading: myEarningsInfoData.isLoading || myEarningsInfoFiltered.isLoading,
-    isError: myEarningsInfoData.isError || myEarningsInfoFiltered.isError,
+    data: myEarningsInfoData.data,
+    isLoading: myEarningsInfoData.isLoading,
+    isError: myEarningsInfoData.isError,
   }
 }

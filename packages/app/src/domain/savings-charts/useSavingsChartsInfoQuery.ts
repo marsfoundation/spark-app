@@ -13,7 +13,7 @@ export type UseSavingsChartsInfoQueryResult = {
   savingsRateInfo: UseSavingsRateInfoResult
 }
 
-const STEP_IN_MS = 60 * 60 * 1_000 // 1 hour
+const REFRESH_INTERVAL_IN_MS = 60 * 60 * 1_000 // 1 hour
 
 interface UseSavingsChartsInfoParams {
   savingsInfo: SavingsInfo
@@ -26,7 +26,7 @@ export function useSavingsChartsInfoQuery({
   const chainId = useChainId()
 
   const { address } = useAccount()
-  const { timestamp } = useTimestamp({ refreshIntervalInMs: STEP_IN_MS })
+  const { timestamp } = useTimestamp({ refreshIntervalInMs: REFRESH_INTERVAL_IN_MS })
 
   const myEarningsInfo = useMyEarningsInfo({
     address,
@@ -34,14 +34,14 @@ export function useSavingsChartsInfoQuery({
     timeframe: selectedTimeframe,
     currentTimestamp: timestamp,
     savingsInfo,
-    staleTime: STEP_IN_MS,
+    staleTime: REFRESH_INTERVAL_IN_MS,
   })
 
   const savingsRateInfo = useSavingsRateInfo({
     chainId,
     timeframe: selectedTimeframe,
     currentTimestamp: timestamp,
-    staleTime: STEP_IN_MS,
+    staleTime: REFRESH_INTERVAL_IN_MS,
   })
 
   return {

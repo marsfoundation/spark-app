@@ -8,7 +8,7 @@ import { MyEarningsInfoItem } from './types'
 const SECONDS_PER_DAY = 24 * 60 * 60
 
 export interface CalculatePredictionsParams {
-  timestamp: number // in ms
+  timestamp: number // in seconds
   balance: NormalizedUnitNumber
   savingsInfo: SavingsInfo
   timeframe: Timeframe
@@ -34,7 +34,7 @@ export function calculatePredictions({
     case '7D':
       return calculatePredictionsIncomeByDays({
         // Ensure to have proportional length of projections to the data length
-        days: dataLength > 7 ? 3 : optimalPredictionsLength,
+        days: Math.min(optimalPredictionsLength, 3),
         dayIncome: dayIncomePrediction,
         balance,
         timestamp,
@@ -42,7 +42,7 @@ export function calculatePredictions({
 
     case '1M':
       return calculatePredictionsIncomeByDays({
-        days: dataLength > 30 ? 7 : optimalPredictionsLength,
+        days: Math.min(optimalPredictionsLength, 7),
         dayIncome: dayIncomePrediction,
         balance,
         timestamp,
@@ -51,7 +51,7 @@ export function calculatePredictions({
     case '1Y':
     case 'All':
       return calculatePredictionsIncomeByDays({
-        days: dataLength > 150 ? 60 : Math.min(optimalPredictionsLength, 30),
+        days: Math.min(optimalPredictionsLength, 60),
         dayIncome: dayIncomePrediction,
         balance,
         timestamp,
