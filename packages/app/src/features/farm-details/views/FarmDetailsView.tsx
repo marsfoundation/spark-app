@@ -2,7 +2,7 @@ import { TokenWithBalance } from '@/domain/common/types'
 import { Farm } from '@/domain/farms/types'
 import { Token } from '@/domain/types/Token'
 import { getTokenImage } from '@/ui/assets'
-import { ChartTabsPanel } from '@/ui/charts/components/ChartTabsPanel'
+import { ChartTabsPanel, createChartTab } from '@/ui/charts/components/ChartTabsPanel'
 import { ConnectOrSandboxCTAPanel } from '@/ui/organisms/connect-or-sandbox-cta-panel/ConnectOrSandboxCTAPanel'
 import { BackNav } from '../components/back-nav/BackNav'
 import { RewardsChart } from '../components/chart/rewards/RewardsChart'
@@ -65,22 +65,18 @@ export function FarmDetailsView({
           )}
           <ChartTabsPanel
             tabs={[
-              {
+              createChartTab({
                 id: 'rewards',
                 label: 'Rewards over time',
-                component: ({ height }) =>
-                  chartDetails.farmHistory.data ? (
-                    <RewardsChart data={chartDetails.farmHistory.data} height={height} />
-                  ) : null,
-              },
-              {
+                component: RewardsChart,
+                props: { data: chartDetails.farmHistory.data ?? [] },
+              }),
+              createChartTab({
                 id: 'tvl',
                 label: 'TVL',
-                component: ({ height }) =>
-                  chartDetails.farmHistory.data ? (
-                    <TvlChart data={chartDetails.farmHistory.data} height={height} />
-                  ) : null,
-              },
+                component: TvlChart,
+                props: { data: chartDetails.farmHistory.data ?? [] },
+              }),
             ]}
             selectedTimeframe={chartDetails.timeframe}
             onTimeframeChange={chartDetails.onTimeframeChange}

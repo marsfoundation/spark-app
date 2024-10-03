@@ -6,12 +6,38 @@ import { AlertTriangle, Loader2 } from 'lucide-react'
 import { Timeframe } from '../defaults'
 import { TimeframeButtons } from './TimeframeButtons'
 
-export interface ChartTab {
+type ChartTabDefinition<C> = C extends React.ComponentType<infer P>
+  ? P extends { height?: number }
+    ? {
+        component: C
+        props: P
+        id: string
+        label: string
+        isLoading?: boolean
+        isError?: boolean
+      }
+    : never
+  : never
+
+declare const __CHART_TAB_OPAQUE_TYPE__: unique symbol
+
+interface ChartTab {
   component: React.ComponentType<{ height: number }>
+  props: { height: number }
   id: string
   label: string
+  readonly [__CHART_TAB_OPAQUE_TYPE__]: true
   isLoading?: boolean
   isError?: boolean
+}
+
+export function createChartTab<C>({ component, props, id, label }: ChartTabDefinition<C>): ChartTab {
+  return {
+    component,
+    props,
+    id,
+    label,
+  } as unknown as ChartTab
 }
 
 interface ChartTabsPanelProps {
@@ -76,7 +102,7 @@ interface ChartPanelProps extends ChartTab {
   height: number
 }
 
-function ChartPanel({ height, component: Chart, isError, isLoading }: ChartPanelProps) {
+function ChartPanel({ height, component: Chart, isError, isLoading, props }: ChartPanelProps) {
   if (isLoading) {
     return (
       // @note: Delaying spinner to prevent it from flashing on chart load. For most cases loader won't be shown.
@@ -94,5 +120,5 @@ function ChartPanel({ height, component: Chart, isError, isLoading }: ChartPanel
     )
   }
 
-  return <Chart height={height} />
+  return <Chart {...props} height={height} />
 }
