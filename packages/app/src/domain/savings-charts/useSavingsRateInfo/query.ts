@@ -1,11 +1,11 @@
 import { infoSkyApiUrl } from '@/config/consts'
 import { normalizedUnitNumberSchema } from '@/domain/common/validation'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { dateSchema } from '@/utils/schemas'
 import { queryOptions } from '@tanstack/react-query'
 import { sort } from 'd3-array'
 import { z } from 'zod'
 import { SavingsRateInfo } from './types'
-import { dateSchema } from '@/utils/schemas'
 
 interface SavingsRateQueryParams {
   chainId: number
