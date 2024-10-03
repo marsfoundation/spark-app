@@ -1,19 +1,14 @@
 import { infoSkyApiUrl } from '@/config/consts'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
-import { Timeframe } from '@/ui/charts/defaults'
-import { filterChartData } from '@/ui/charts/logic/filterChartData'
 import { queryOptions } from '@tanstack/react-query'
-import { useCallback } from 'react'
 import { z } from 'zod'
 import { FarmHistoryItem } from './types'
 
 export interface FarmHistoricDataParameters {
   chainId: number
   farmAddress: CheckedAddress
-  timeframe: Timeframe
-  timestamp: number
-  timestampInMs: number
+  filterData: (data: FarmHistoryItem[]) => FarmHistoryItem[]
   historyCutoff?: Date
 }
 
@@ -21,10 +16,8 @@ export interface FarmHistoricDataParameters {
 export function farmHistoricDataQueryOptions({
   chainId,
   farmAddress,
+  filterData,
   historyCutoff,
-  timeframe,
-  timestamp,
-  timestampInMs,
 }: FarmHistoricDataParameters) {
   return queryOptions({
     queryKey: ['farm-historic-data', chainId, farmAddress],
@@ -42,10 +35,7 @@ export function farmHistoricDataQueryOptions({
 
       return data
     },
-    select: useCallback(
-      (data: FarmHistoryItem[]) => filterChartData({ data, timeframe, timestamp, timestampInMs }),
-      [timeframe, timestamp, timestampInMs],
-    ),
+    select: filterData,
   })
 }
 
