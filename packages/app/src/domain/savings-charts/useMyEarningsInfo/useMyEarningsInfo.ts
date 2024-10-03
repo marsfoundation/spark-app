@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import { SavingsInfo } from '@/domain/savings-info/types'
 import { Timeframe } from '@/ui/charts/defaults'
 import { Address } from 'viem'
-import { myEarningsQueryOptions, savingsRateFilteredQueryOptions } from './query'
+import { myEarningsFilteredQueryOptions, myEarningsQueryOptions } from './query'
 import { MyEarningsInfoItem } from './types'
 
 export interface UseMyEarningsInfoParams {
@@ -42,7 +42,7 @@ export function useMyEarningsInfo({
   })
 
   const myEarningsInfoFiltered = useQuery({
-    ...savingsRateFilteredQueryOptions({
+    ...myEarningsFilteredQueryOptions({
       chainId,
       timeframe,
       currentTimestamp,

@@ -59,7 +59,7 @@ const myEarningsDataResponseSchema = z
     }))
   })
 
-interface SavingsRateFilteredQueryParams {
+interface MyEarningsFilteredQueryParams {
   chainId: number
   staleTime: number
   currentTimestamp: number
@@ -70,7 +70,7 @@ interface SavingsRateFilteredQueryParams {
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function savingsRateFilteredQueryOptions({
+export function myEarningsFilteredQueryOptions({
   chainId,
   staleTime,
   currentTimestamp,
@@ -78,7 +78,7 @@ export function savingsRateFilteredQueryOptions({
   address,
   myEarningsInfo,
   savingsInfo,
-}: SavingsRateFilteredQueryParams) {
+}: MyEarningsFilteredQueryParams) {
   return queryOptions({
     queryKey: [...myEarningsInfoQueryKey({ chainId, address }), timeframe, currentTimestamp],
     queryFn: () => {
