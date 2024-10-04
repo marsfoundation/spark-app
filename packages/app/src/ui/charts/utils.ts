@@ -77,5 +77,5 @@ export function getVerticalDomainWithPadding(min: number, max: number): [number,
     return [min * 0.9, max * 1.1]
   }
 
-  return [Math.max(0, min - delta * 0.1), max + delta * 0.1] // extra padding on top
+  return [Math.max(0, min - delta * 0.1), max + delta * 0.1]
 }
