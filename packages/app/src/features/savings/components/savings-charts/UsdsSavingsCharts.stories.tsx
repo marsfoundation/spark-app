@@ -20,6 +20,7 @@ const meta: Meta<typeof UsdsSavingsCharts> = {
       },
       isError: false,
       isLoading: false,
+      shouldDisplayMyEarnings: true,
     },
     savingsRateInfo: {
       data: {
@@ -46,6 +47,7 @@ export const NoEarningsHistoryDesktop: Story = {
       data: { data: [], predictions: [] },
       isError: false,
       isLoading: false,
+      shouldDisplayMyEarnings: false,
     },
   },
 }

@@ -70,6 +70,7 @@ const savingsViewBaseArgs = {
       },
       isError: false,
       isLoading: false,
+      shouldDisplayMyEarnings: true,
     },
     savingsRateInfo: {
       data: {
