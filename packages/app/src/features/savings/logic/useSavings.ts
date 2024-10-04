@@ -50,7 +50,6 @@ export interface UseSavingsResults {
         totalEligibleCashUSD: NormalizedUnitNumber
         maxBalanceToken: TokenWithBalance
         originChainId: SupportedChainId
-        opportunityProjections: Projections
         migrationInfo?: MigrationInfo
         sDaiDetails?: SavingsTokenDetails
         sUSDSDetails?: SavingsTokenDetails
@@ -87,7 +86,6 @@ export function useSavings(): UseSavingsResults {
   const sDaiDetails = makeSavingsTokenDetails({
     savingsInfo: savingsDaiInfo,
     savingsTokenWithBalance: sDaiWithBalance,
-    eligibleCashUSD: totalEligibleCashUSD,
     timestamp,
     timestampInMs,
     stepInMs,
@@ -96,7 +94,6 @@ export function useSavings(): UseSavingsResults {
   const sUSDSDetails = makeSavingsTokenDetails({
     savingsInfo: savingsUsdsInfo,
     savingsTokenWithBalance: sUSDSWithBalance,
-    eligibleCashUSD: totalEligibleCashUSD,
     timestamp,
     timestampInMs,
     stepInMs,
@@ -121,11 +118,6 @@ export function useSavings(): UseSavingsResults {
     }
   }
 
-  const opportunityProjections =
-    sUSDSDetails?.opportunityProjections ??
-    sDaiDetails?.opportunityProjections ??
-    raise('Savings opportunity projections should be defined')
-
   const assetsInWallet = sortByUsdValueWithUsdsPriority(inputTokens, tokensInfo).map((tokenWithBalance) => ({
     ...tokenWithBalance,
     blockExplorerLink: getBlockExplorerLink(tokenWithBalance.token.address),
@@ -141,7 +133,6 @@ export function useSavings(): UseSavingsResults {
       totalEligibleCashUSD,
       maxBalanceToken,
       originChainId,
-      opportunityProjections,
       sDaiDetails,
       sUSDSDetails,
       savingsMeta,

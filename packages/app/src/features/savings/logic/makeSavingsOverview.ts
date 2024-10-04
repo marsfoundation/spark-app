@@ -6,20 +6,17 @@ const DEFAULT_PRECISION = 6
 
 export interface MakeSavingsOverviewParams {
   savingsTokenWithBalance: TokenWithBalance
-  eligibleCashUSD: NormalizedUnitNumber
   savingsInfo: SavingsInfo
   timestampInMs: number
   stepInMs: number
 }
 export interface SavingsOverview {
-  potentialShares: NormalizedUnitNumber
   depositedUSD: NormalizedUnitNumber
   depositedUSDPrecision: number
 }
 
 export function makeSavingsOverview({
   savingsTokenWithBalance,
-  eligibleCashUSD,
   savingsInfo,
   timestampInMs,
   stepInMs,
@@ -31,10 +28,7 @@ export function makeSavingsOverview({
     stepInMs,
   })
 
-  const potentialShares = savingsInfo.convertToShares({ assets: eligibleCashUSD })
-
   return {
-    potentialShares,
     depositedUSD,
     depositedUSDPrecision: precision,
   }
