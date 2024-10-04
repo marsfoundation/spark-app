@@ -221,6 +221,7 @@ export const WithExitFarmSwitchZeroApy: Story = {
         value: NormalizedUnitNumber(2311.34),
       },
     },
+    canClaim: true,
   },
 }
 
