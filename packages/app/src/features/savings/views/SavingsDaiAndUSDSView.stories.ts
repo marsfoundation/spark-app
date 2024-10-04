@@ -31,6 +31,10 @@ const savingsViewBaseArgs = {
       blockExplorerLink: '/',
     },
   ],
+  opportunityProjections: {
+    thirtyDays: NormalizedUnitNumber(100),
+    oneYear: NormalizedUnitNumber(3000),
+  },
   maxBalanceToken: {
     token: tokens.DAI,
     balance: NormalizedUnitNumber(22727),
@@ -153,6 +157,10 @@ export const AllIn: Story = {
   args: {
     ...savingsViewBaseArgs,
     totalEligibleCashUSD: NormalizedUnitNumber(0),
+    opportunityProjections: {
+      thirtyDays: NormalizedUnitNumber(0),
+      oneYear: NormalizedUnitNumber(0),
+    },
     sUSDSDetails,
     sDaiDetails,
     assetsInWallet: [
@@ -182,6 +190,10 @@ export const NoDepositNoCash: Story = {
   args: {
     ...savingsViewBaseArgs,
     totalEligibleCashUSD: NormalizedUnitNumber(0),
+    opportunityProjections: {
+      thirtyDays: NormalizedUnitNumber(0),
+      oneYear: NormalizedUnitNumber(0),
+    },
     sDaiDetails: {
       ...sDaiDetails,
       tokenWithBalance: { balance: NormalizedUnitNumber(0), token: tokens.sDAI },
@@ -226,6 +238,10 @@ export const BigNumbersDesktop: Story = {
   name: 'Big numbers',
   args: {
     ...savingsViewBaseArgs,
+    opportunityProjections: {
+      thirtyDays: NormalizedUnitNumber(1224300.923423423),
+      oneYear: NormalizedUnitNumber(6345543.32945601),
+    },
     sDaiDetails: {
       APY: Percentage(0.05),
       tokenWithBalance: { balance: NormalizedUnitNumber(134000000.0), token: tokens.sDAI },
@@ -268,39 +284,3 @@ export const BigNumbersDesktop: Story = {
 }
 export const BigNumbersMobile = getMobileStory(BigNumbersDesktop)
 export const BigNumbersTablet = getTabletStory(BigNumbersDesktop)
-
-export const OnlyDaiInfoDesktop: Story = {
-  args: {
-    ...savingsViewBaseArgs,
-    sDaiDetails: {
-      ...sDaiDetails,
-      tokenWithBalance: { balance: NormalizedUnitNumber(0), token: tokens.sDAI },
-      currentProjections: {
-        thirtyDays: NormalizedUnitNumber(0),
-        oneYear: NormalizedUnitNumber(0),
-      },
-      depositedUSD: NormalizedUnitNumber(0),
-    },
-    sUSDSDetails,
-  },
-}
-export const OnlyDaiInfoMobile = getMobileStory(OnlyDaiInfoDesktop)
-export const OnlyDaiInfoTablet = getTabletStory(OnlyDaiInfoDesktop)
-
-export const OnlyUsdsInfoDesktop: Story = {
-  args: {
-    ...savingsViewBaseArgs,
-    sDaiDetails,
-    sUSDSDetails: {
-      ...sUSDSDetails,
-      tokenWithBalance: { balance: NormalizedUnitNumber(0), token: tokens.sUSDS },
-      currentProjections: {
-        thirtyDays: NormalizedUnitNumber(0),
-        oneYear: NormalizedUnitNumber(0),
-      },
-      depositedUSD: NormalizedUnitNumber(0),
-    },
-  },
-}
-export const OnlyUsdsInfoMobile = getMobileStory(OnlyUsdsInfoDesktop)
-export const OnlyUsdsInfoTablet = getTabletStory(OnlyUsdsInfoDesktop)

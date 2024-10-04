@@ -30,6 +30,10 @@ const savingsViewBaseArgs = {
     token: tokens.DAI,
     balance: NormalizedUnitNumber(22727),
   },
+  opportunityProjections: {
+    thirtyDays: NormalizedUnitNumber(100),
+    oneYear: NormalizedUnitNumber(3000),
+  },
   totalEligibleCashUSD: NormalizedUnitNumber(45454),
   openDialog: () => {},
   savingsMeta: {
@@ -96,6 +100,10 @@ export const AllIn: Story = {
   args: {
     ...savingsViewBaseArgs,
     totalEligibleCashUSD: NormalizedUnitNumber(0),
+    opportunityProjections: {
+      thirtyDays: NormalizedUnitNumber(0),
+      oneYear: NormalizedUnitNumber(0),
+    },
     savingsTokenDetails,
     assetsInWallet: [
       {
@@ -124,6 +132,10 @@ export const NoDepositNoCash: Story = {
   args: {
     ...savingsViewBaseArgs,
     totalEligibleCashUSD: NormalizedUnitNumber(0),
+    opportunityProjections: {
+      thirtyDays: NormalizedUnitNumber(0),
+      oneYear: NormalizedUnitNumber(0),
+    },
     savingsTokenDetails: {
       ...savingsTokenDetails,
       tokenWithBalance: { balance: NormalizedUnitNumber(0), token: tokens.sUSDS },
@@ -160,6 +172,10 @@ export const BigNumbersDesktop: Story = {
   name: 'Big numbers',
   args: {
     ...savingsViewBaseArgs,
+    opportunityProjections: {
+      thirtyDays: NormalizedUnitNumber(1224300.923423423),
+      oneYear: NormalizedUnitNumber(6345543.32945601),
+    },
     savingsTokenDetails: {
       APY: Percentage(0.05),
       tokenWithBalance: { balance: NormalizedUnitNumber(134000000.0), token: tokens.sUSDS },
