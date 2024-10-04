@@ -23,7 +23,7 @@ export function useSavingsRateInfo({
   currentTimestamp,
   staleTime,
 }: UseSavingsRateInfoParams): UseSavingsRateInfoResult {
-  const savingsRateInfo = useQuery({
+  const { data, isError, isLoading } = useQuery({
     ...savingsRateQueryOptions({
       chainId,
     }),
@@ -36,8 +36,8 @@ export function useSavingsRateInfo({
   })
 
   return {
-    data: savingsRateInfo.data,
-    isLoading: savingsRateInfo.isLoading,
-    isError: savingsRateInfo.isError,
+    data,
+    isLoading,
+    isError,
   }
 }

@@ -25,6 +25,7 @@ export type UseMyEarningsInfoResult = {
     | undefined
   isLoading: boolean
   isError: boolean
+  shouldDisplayMyEarnings: boolean
 }
 
 export function useMyEarningsInfo({
@@ -35,7 +36,7 @@ export function useMyEarningsInfo({
   savingsInfo,
   staleTime,
 }: UseMyEarningsInfoParams): UseMyEarningsInfoResult {
-  const myEarningsInfoData = useQuery({
+  const { data, isLoading, isError } = useQuery({
     ...myEarningsQueryOptions({
       address,
       chainId,
@@ -54,8 +55,9 @@ export function useMyEarningsInfo({
   })
 
   return {
-    data: myEarningsInfoData.data,
-    isLoading: myEarningsInfoData.isLoading,
-    isError: myEarningsInfoData.isError,
+    data,
+    isLoading,
+    isError,
+    shouldDisplayMyEarnings: !isError && !isLoading && (data?.data?.length ?? 0) > 0,
   }
 }

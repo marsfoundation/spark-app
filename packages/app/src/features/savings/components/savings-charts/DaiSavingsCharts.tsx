@@ -18,13 +18,10 @@ export function DaiSavingsCharts({
   myEarningsInfo,
   savingsRateInfo,
 }: UsdsSavingsChartsProps) {
-  const shouldDisplayMyEarnings =
-    !myEarningsInfo.isError && !myEarningsInfo.isLoading && (myEarningsInfo.data?.data?.length ?? 0) > 0
-
   return (
     <ChartTabsPanel
       tabs={[
-        ...(shouldDisplayMyEarnings
+        ...(myEarningsInfo.shouldDisplayMyEarnings
           ? [
               createChartTab({
                 id: 'my-earnings',

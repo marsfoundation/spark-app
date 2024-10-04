@@ -41,7 +41,7 @@ const savingsRateDataResponseSchema = z
       ssr_rate: z
         .string()
         .nullable()
-        .transform((value) => (value ? Percentage(value) : null)),
+        .transform((value) => (value ? Percentage(value, true) : null)),
     }),
   )
   .transform((data) => {
