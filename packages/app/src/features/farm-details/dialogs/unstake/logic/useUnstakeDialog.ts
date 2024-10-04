@@ -30,7 +30,6 @@ export interface UseUnstakeDialogResult {
   form: UseFormReturn<AssetInputSchema>
   objectives: Objective[]
   outcomeToken: TokenWithValue
-  canClaim: boolean
   pageStatus: PageStatus
   txOverview: TxOverview
   exitFarmSwitchInfo: ExitFarmSwitchInfo
@@ -120,7 +119,6 @@ export function useUnstakeDialog({ farm, initialToken }: UseStakeDialogParams): 
     form,
     objectives,
     outcomeToken,
-    canClaim,
     txOverview,
     pageStatus: {
       state: pageStatus,
@@ -128,7 +126,7 @@ export function useUnstakeDialog({ farm, initialToken }: UseStakeDialogParams): 
       goToSuccessScreen: () => setPageStatus('success'),
     },
     exitFarmSwitchInfo: {
-      showSwitch: formValues.isMaxSelected,
+      showSwitch: formValues.isMaxSelected && canClaim,
       onSwitch: () => setExitFarmSwitchChecked((exitFarmSwitchChecked) => !exitFarmSwitchChecked),
       checked: exitFarmSwitchChecked,
       reward: {

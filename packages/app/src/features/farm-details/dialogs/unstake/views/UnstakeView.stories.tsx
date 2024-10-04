@@ -205,7 +205,6 @@ export const WithExitFarmSwitch: Story = {
         { token: tokens.USDC, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },
       ],
     },
-    canClaim: true,
   },
 }
 export const WithExitFarmSwitchMobile = getMobileStory(WithExitFarmSwitch)
@@ -221,7 +220,6 @@ export const WithExitFarmSwitchZeroApy: Story = {
         value: NormalizedUnitNumber(2311.34),
       },
     },
-    canClaim: true,
   },
 }
 
@@ -255,7 +253,6 @@ export const WithExitFarmSwitchUnchecked: Story = {
         exit: false,
       },
     ],
-    canClaim: true,
   },
 }
 export const WithExitFarmSwitchUncheckedMobile = getMobileStory(WithExitFarmSwitch)
