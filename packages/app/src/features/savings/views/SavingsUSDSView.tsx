@@ -6,7 +6,7 @@ import { SavingsTokenPanel } from '../components/savings-token-panel/SavingsToke
 import { StablecoinsInWallet } from '../components/stablecoins-in-wallet/StablecoinsInWallet'
 import { SavingsViewContentProps } from './types'
 
-export function SavingsUSDSView({
+export function SavingsUsdsView({
   savingsTokenDetails,
   migrationInfo,
   originChainId,
@@ -15,14 +15,14 @@ export function SavingsUSDSView({
   savingsMeta,
   savingsChartsInfo,
 }: SavingsViewContentProps) {
-  const displaySavingsUSDS = savingsTokenDetails.tokenWithBalance.balance.gt(0)
-  const displaySavingsNoCash = !displaySavingsUSDS
+  const displaySavingsUsds = savingsTokenDetails.tokenWithBalance.balance.gt(0)
+  const displaySavingsNoCash = !displaySavingsUsds
 
   return (
     <PageLayout>
       <PageHeader />
       <div className="flex flex-col gap-6 sm:flex-row">
-        {displaySavingsUSDS && (
+        {displaySavingsUsds && (
           <>
             <SavingsTokenPanel
               variant="usds"

@@ -10,7 +10,7 @@ import {
   mockEarningsPredictionsChartData,
 } from '../components/savings-charts/fixtures/mockEarningsChartData'
 import { mockDsrChartData, mockSsrChartData } from '../components/savings-charts/fixtures/mockSavingsRateChartData'
-import { SavingsDaiAndUSDSView } from './SavingsDaiAndUSDSView'
+import { SavingsDaiAndUsdsView } from './SavingsDaiAndUSDSView'
 
 const savingsViewBaseArgs = {
   chainId: mainnet.id,
@@ -104,9 +104,9 @@ const sDaiDetails = {
   depositedUSDPrecision: 2,
 }
 
-const meta: Meta<typeof SavingsDaiAndUSDSView> = {
-  title: 'Features/Savings/Views/SavingsDaiAndUSDSView',
-  component: SavingsDaiAndUSDSView,
+const meta: Meta<typeof SavingsDaiAndUsdsView> = {
+  title: 'Features/Savings/Views/SavingsDaiAndUsdsView',
+  component: SavingsDaiAndUsdsView,
   decorators: [WithTooltipProvider()],
   parameters: {
     layout: 'fullscreen',
@@ -114,7 +114,7 @@ const meta: Meta<typeof SavingsDaiAndUSDSView> = {
 }
 
 export default meta
-type Story = StoryObj<typeof SavingsDaiAndUSDSView>
+type Story = StoryObj<typeof SavingsDaiAndUsdsView>
 
 export const Desktop: Story = { args: { ...savingsViewBaseArgs, sDaiDetails, sUSDSDetails } }
 export const Mobile = getMobileStory(Desktop)

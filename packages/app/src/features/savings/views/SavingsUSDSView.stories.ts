@@ -10,7 +10,7 @@ import {
   mockEarningsPredictionsChartData,
 } from '../components/savings-charts/fixtures/mockEarningsChartData'
 import { mockDsrChartData, mockSsrChartData } from '../components/savings-charts/fixtures/mockSavingsRateChartData'
-import { SavingsUSDSView } from './SavingsUSDSView'
+import { SavingsUsdsView } from './SavingsUSDSView'
 
 const savingsViewBaseArgs = {
   chainId: mainnet.id,
@@ -73,9 +73,9 @@ const savingsTokenDetails = {
   depositedUSDPrecision: 2,
 }
 
-const meta: Meta<typeof SavingsUSDSView> = {
-  title: 'Features/Savings/Views/SavingsUSDSView',
-  component: SavingsUSDSView,
+const meta: Meta<typeof SavingsUsdsView> = {
+  title: 'Features/Savings/Views/SavingsUsdsView',
+  component: SavingsUsdsView,
   decorators: [WithTooltipProvider()],
   parameters: {
     layout: 'fullscreen',
@@ -83,7 +83,7 @@ const meta: Meta<typeof SavingsUSDSView> = {
 }
 
 export default meta
-type Story = StoryObj<typeof SavingsUSDSView>
+type Story = StoryObj<typeof SavingsUsdsView>
 
 export const Desktop: Story = {
   args: { ...savingsViewBaseArgs, savingsTokenDetails },

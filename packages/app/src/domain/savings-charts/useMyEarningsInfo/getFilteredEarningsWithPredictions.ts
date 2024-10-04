@@ -2,12 +2,12 @@ import { SavingsInfo } from '@/domain/savings-info/types'
 import { Timeframe } from '@/ui/charts/defaults'
 import { filterDataByTimeframe } from '@/ui/charts/utils'
 import { calculatePredictions } from './calculatePredictions'
-import { MyEarningsInfoDataItem } from './types'
+import { MyEarningsInfoItem } from './types'
 
 interface GetFilteredEarningsWithPredictionsParams {
   currentTimestamp: number
   timeframe: Timeframe
-  myEarningsInfo: MyEarningsInfoDataItem[]
+  myEarningsInfo: MyEarningsInfoItem[]
   savingsInfo: SavingsInfo
 }
 

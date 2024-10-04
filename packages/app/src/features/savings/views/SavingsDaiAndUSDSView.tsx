@@ -11,14 +11,14 @@ import { WelcomeDialog } from '../components/welcome-dialog/WelcomeDialog'
 import { SavingsTokenDetails } from '../logic/useSavings'
 import { SavingsViewContentProps } from './types'
 
-export interface SavingsDaiAndUSDSViewProps extends Omit<SavingsViewContentProps, 'savingsTokenDetails'> {
+export interface SavingsDaiAndUsdsViewProps extends Omit<SavingsViewContentProps, 'savingsTokenDetails'> {
   sDaiDetails: SavingsTokenDetails
   sUSDSDetails: SavingsTokenDetails
   showWelcomeDialog: boolean
   saveConfirmedWelcomeDialog: (confirmedWelcomeDialog: boolean) => void
 }
 
-export function SavingsDaiAndUSDSView({
+export function SavingsDaiAndUsdsView({
   sDaiDetails,
   sUSDSDetails,
   migrationInfo,
@@ -29,14 +29,14 @@ export function SavingsDaiAndUSDSView({
   showWelcomeDialog,
   saveConfirmedWelcomeDialog,
   savingsChartsInfo,
-}: SavingsDaiAndUSDSViewProps) {
+}: SavingsDaiAndUsdsViewProps) {
   const displaySavingsDai = sDaiDetails.tokenWithBalance.balance.gt(0)
-  const displaySavingsUSDS = sUSDSDetails.tokenWithBalance.balance.gt(0)
+  const displaySavingsUsds = sUSDSDetails.tokenWithBalance.balance.gt(0)
 
-  const displaySavingsDaiCharts = displaySavingsDai && !displaySavingsUSDS
-  const displaySavingsUSDSCharts = displaySavingsUSDS && !displaySavingsDai
+  const displaySavingsDaiCharts = displaySavingsDai && !displaySavingsUsds
+  const displaySavingsUsdsCharts = displaySavingsUsds && !displaySavingsDai
 
-  const displaySavingsNoCash = !displaySavingsDai && !displaySavingsUSDS
+  const displaySavingsNoCash = !displaySavingsDai && !displaySavingsUsds
 
   assert(migrationInfo, 'Migration info should be defined in sDai and sUSDS view')
 
@@ -50,7 +50,7 @@ export function SavingsDaiAndUSDSView({
         />
       )}
       <div className="flex flex-col gap-6 sm:flex-row">
-        {displaySavingsUSDS && (
+        {displaySavingsUsds && (
           <SavingsTokenPanel
             variant="usds"
             originChainId={originChainId}
@@ -59,7 +59,7 @@ export function SavingsDaiAndUSDSView({
             {...sUSDSDetails}
           />
         )}
-        {displaySavingsUSDSCharts && <UsdsSavingsCharts {...savingsChartsInfo} />}
+        {displaySavingsUsdsCharts && <UsdsSavingsCharts {...savingsChartsInfo} />}
 
         {displaySavingsDai && (
           <SavingsTokenPanel
