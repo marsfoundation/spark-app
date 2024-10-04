@@ -17,12 +17,10 @@ const REFRESH_INTERVAL_IN_MS = 60 * 60 * 1_000 // 1 hour
 
 interface UseSavingsChartsInfoParams {
   savingsInfo: SavingsInfo
-  savingsType: 'susds' | 'sdai'
 }
 
 export function useSavingsChartsInfoQuery({
   savingsInfo,
-  savingsType,
 }: UseSavingsChartsInfoParams): UseSavingsChartsInfoQueryResult {
   const [selectedTimeframe, setSelectedTimeframe] = useState<Timeframe>('1M')
   const chainId = useChainId()
@@ -37,7 +35,6 @@ export function useSavingsChartsInfoQuery({
     currentTimestamp: timestamp,
     savingsInfo,
     staleTime: REFRESH_INTERVAL_IN_MS,
-    savingsType,
   })
 
   const savingsRateInfo = useSavingsRateInfo({

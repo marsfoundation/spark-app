@@ -39,18 +39,11 @@ const myEarningsDataResponseSchema = z
   .array(
     z.object({
       date: dateSchema,
-      sdai_balance: normalizedUnitNumberSchema,
-      susds_balance: normalizedUnitNumberSchema,
+      balance: normalizedUnitNumberSchema,
     }),
   )
   .transform((data) => {
     const sortedData = sort(data, (a, b) => a.date.getTime() - b.date.getTime())
 
-    return sortedData.map((item) => ({
-      date: item.date,
-      balance: {
-        susds: item.susds_balance,
-        sdai: item.sdai_balance,
-      },
-    }))
+    return sortedData
   })
