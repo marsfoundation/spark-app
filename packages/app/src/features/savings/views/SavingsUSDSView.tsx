@@ -1,6 +1,7 @@
 import { PageHeader } from '../components/PageHeader'
 import { PageLayout } from '../components/PageLayout'
 import { UsdsSavingsCharts } from '../components/savings-charts/UsdsSavingsCharts'
+import { SavingsOpportunity } from '../components/savings-opportunity/SavingsOpportunity'
 import { SavingsOpportunityNoCash } from '../components/savings-opportunity/SavingsOpportunityNoCash'
 import { SavingsTokenPanel } from '../components/savings-token-panel/SavingsTokenPanel'
 import { StablecoinsInWallet } from '../components/stablecoins-in-wallet/StablecoinsInWallet'
@@ -11,12 +12,16 @@ export function SavingsUsdsView({
   migrationInfo,
   originChainId,
   assetsInWallet,
+  maxBalanceToken,
+  totalEligibleCashUSD,
+  opportunityProjections,
   openDialog,
   savingsMeta,
   savingsChartsInfo,
 }: SavingsViewContentProps) {
   const displaySavingsUsds = savingsTokenDetails.tokenWithBalance.balance.gt(0)
-  const displaySavingsNoCash = !displaySavingsUsds
+  const displaySavingsOpportunity = opportunityProjections.thirtyDays.gt(0)
+  const displaySavingsNoCash = !displaySavingsUsds && !displaySavingsOpportunity
 
   return (
     <PageLayout>
@@ -34,7 +39,17 @@ export function SavingsUsdsView({
             <UsdsSavingsCharts {...savingsChartsInfo} />
           </>
         )}
-
+        {displaySavingsOpportunity && (
+          <SavingsOpportunity
+            APY={savingsTokenDetails.APY}
+            originChainId={originChainId}
+            projections={opportunityProjections}
+            maxBalanceToken={maxBalanceToken}
+            openDialog={openDialog}
+            totalEligibleCashUSD={totalEligibleCashUSD}
+            savingsMeta={savingsMeta}
+          />
+        )}
         {displaySavingsNoCash && (
           <SavingsOpportunityNoCash
             APY={savingsTokenDetails.APY}

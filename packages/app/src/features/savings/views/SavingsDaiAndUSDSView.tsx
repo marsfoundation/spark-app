@@ -1,8 +1,10 @@
+import { UseSavingsChartsInfoQueryResult } from '@/domain/savings-charts/useSavingsChartsInfoQuery'
 import { assert, raise } from '@/utils/assert'
 import { PageHeader } from '../components/PageHeader'
 import { PageLayout } from '../components/PageLayout'
 import { DaiSavingsCharts } from '../components/savings-charts/DaiSavingsCharts'
 import { UsdsSavingsCharts } from '../components/savings-charts/UsdsSavingsCharts'
+import { SavingsOpportunity } from '../components/savings-opportunity/SavingsOpportunity'
 import { SavingsOpportunityNoCash } from '../components/savings-opportunity/SavingsOpportunityNoCash'
 import { SavingsTokenPanel } from '../components/savings-token-panel/SavingsTokenPanel'
 import { StablecoinsInWallet } from '../components/stablecoins-in-wallet/StablecoinsInWallet'
@@ -16,14 +18,18 @@ export interface SavingsDaiAndUsdsViewProps extends Omit<SavingsViewContentProps
   sUSDSDetails: SavingsTokenDetails
   showWelcomeDialog: boolean
   saveConfirmedWelcomeDialog: (confirmedWelcomeDialog: boolean) => void
+  savingsChartsInfo: UseSavingsChartsInfoQueryResult
 }
 
 export function SavingsDaiAndUsdsView({
   sDaiDetails,
   sUSDSDetails,
   migrationInfo,
+  opportunityProjections,
   originChainId,
   assetsInWallet,
+  maxBalanceToken,
+  totalEligibleCashUSD,
   savingsMeta,
   openDialog,
   showWelcomeDialog,
@@ -36,7 +42,9 @@ export function SavingsDaiAndUsdsView({
   const displaySavingsDaiCharts = displaySavingsDai && !displaySavingsUsds
   const displaySavingsUsdsCharts = displaySavingsUsds && !displaySavingsDai
 
-  const displaySavingsNoCash = !displaySavingsDai && !displaySavingsUsds
+  const noSavingsDisplay = !displaySavingsDai && !displaySavingsUsds
+  const displaySavingsOpportunity = noSavingsDisplay && opportunityProjections.thirtyDays.gt(0)
+  const displaySavingsNoCash = noSavingsDisplay && !displaySavingsOpportunity
 
   assert(migrationInfo, 'Migration info should be defined in sDai and sUSDS view')
 
@@ -72,6 +80,17 @@ export function SavingsDaiAndUsdsView({
         )}
         {displaySavingsDaiCharts && <DaiSavingsCharts {...savingsChartsInfo} />}
 
+        {displaySavingsOpportunity && (
+          <SavingsOpportunity
+            APY={sUSDSDetails.APY}
+            originChainId={originChainId}
+            projections={opportunityProjections}
+            maxBalanceToken={maxBalanceToken}
+            openDialog={openDialog}
+            totalEligibleCashUSD={totalEligibleCashUSD}
+            savingsMeta={savingsMeta}
+          />
+        )}
         {displaySavingsNoCash && (
           <SavingsOpportunityNoCash APY={sUSDSDetails.APY} originChainId={originChainId} savingsMeta={savingsMeta} />
         )}

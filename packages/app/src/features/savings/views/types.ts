@@ -6,6 +6,7 @@ import { MigrationInfo } from '../logic/makeMigrationInfo'
 import { SavingsMeta } from '../logic/makeSavingsMeta'
 import { AssetInWallet, SavingsTokenDetails } from '../logic/useSavings'
 import { Projections } from '../types'
+import { UseSavingsChartsInfoQueryResult } from '@/domain/savings-charts/useSavingsChartsInfoQuery'
 
 export interface SavingsViewContentProps {
   savingsTokenDetails: SavingsTokenDetails
@@ -17,4 +18,5 @@ export interface SavingsViewContentProps {
   opportunityProjections: Projections
   savingsMeta: SavingsMeta
   openDialog: OpenDialogFunction
+  savingsChartsInfo: UseSavingsChartsInfoQueryResult
 }
