@@ -1,6 +1,6 @@
 import { PageHeader } from '../components/PageHeader'
 import { PageLayout } from '../components/PageLayout'
-import { SavingsOpportunity } from '../components/savings-opportunity/SavingsOpportunity'
+import { DaiSavingsCharts } from '../components/savings-charts/DaiSavingsCharts'
 import { SavingsOpportunityNoCash } from '../components/savings-opportunity/SavingsOpportunityNoCash'
 import { SavingsTokenPanel } from '../components/savings-token-panel/SavingsTokenPanel'
 import { StablecoinsInWallet } from '../components/stablecoins-in-wallet/StablecoinsInWallet'
@@ -12,15 +12,12 @@ export function SavingsDaiView({
   migrationInfo,
   originChainId,
   assetsInWallet,
-  maxBalanceToken,
-  totalEligibleCashUSD,
-  opportunityProjections,
   savingsMeta,
   openDialog,
+  savingsChartsInfo,
 }: SavingsViewContentProps) {
   const displaySavingsDai = savingsTokenDetails.tokenWithBalance.balance.gt(0)
-  const displaySavingsOpportunity = opportunityProjections.thirtyDays.gt(0)
-  const displaySavingsNoCash = !displaySavingsDai && !displaySavingsOpportunity
+  const displaySavingsNoCash = !displaySavingsDai
 
   return (
     <PageLayout>
@@ -33,25 +30,18 @@ export function SavingsDaiView({
       )}
       <div className="flex flex-col gap-6 sm:flex-row">
         {displaySavingsDai && (
-          <SavingsTokenPanel
-            variant="dai"
-            originChainId={originChainId}
-            openDialog={openDialog}
-            savingsMetaItem={savingsMeta.primary}
-            {...savingsTokenDetails}
-          />
+          <>
+            <SavingsTokenPanel
+              variant="dai"
+              originChainId={originChainId}
+              openDialog={openDialog}
+              savingsMetaItem={savingsMeta.primary}
+              {...savingsTokenDetails}
+            />
+            <DaiSavingsCharts {...savingsChartsInfo} />
+          </>
         )}
-        {displaySavingsOpportunity && (
-          <SavingsOpportunity
-            APY={savingsTokenDetails.APY}
-            originChainId={originChainId}
-            projections={opportunityProjections}
-            maxBalanceToken={maxBalanceToken}
-            openDialog={openDialog}
-            totalEligibleCashUSD={totalEligibleCashUSD}
-            savingsMeta={savingsMeta}
-          />
-        )}
+
         {displaySavingsNoCash && (
           <SavingsOpportunityNoCash
             APY={savingsTokenDetails.APY}

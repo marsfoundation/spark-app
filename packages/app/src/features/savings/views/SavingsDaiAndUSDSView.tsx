@@ -1,7 +1,8 @@
 import { assert, raise } from '@/utils/assert'
 import { PageHeader } from '../components/PageHeader'
 import { PageLayout } from '../components/PageLayout'
-import { SavingsOpportunity } from '../components/savings-opportunity/SavingsOpportunity'
+import { DaiSavingsCharts } from '../components/savings-charts/DaiSavingsCharts'
+import { UsdsSavingsCharts } from '../components/savings-charts/UsdsSavingsCharts'
 import { SavingsOpportunityNoCash } from '../components/savings-opportunity/SavingsOpportunityNoCash'
 import { SavingsTokenPanel } from '../components/savings-token-panel/SavingsTokenPanel'
 import { StablecoinsInWallet } from '../components/stablecoins-in-wallet/StablecoinsInWallet'
@@ -21,21 +22,21 @@ export function SavingsDaiAndUSDSView({
   sDaiDetails,
   sUSDSDetails,
   migrationInfo,
-  opportunityProjections,
   originChainId,
   assetsInWallet,
-  maxBalanceToken,
-  totalEligibleCashUSD,
   savingsMeta,
   openDialog,
   showWelcomeDialog,
   saveConfirmedWelcomeDialog,
+  savingsChartsInfo,
 }: SavingsDaiAndUSDSViewProps) {
   const displaySavingsDai = sDaiDetails.tokenWithBalance.balance.gt(0)
   const displaySavingsUSDS = sUSDSDetails.tokenWithBalance.balance.gt(0)
-  const displaySavingsOpportunity =
-    (!displaySavingsDai || !displaySavingsUSDS) && opportunityProjections.thirtyDays.gt(0)
-  const displaySavingsNoCash = !displaySavingsDai && !displaySavingsUSDS && !displaySavingsOpportunity
+
+  const displaySavingsDaiCharts = displaySavingsDai && !displaySavingsUSDS
+  const displaySavingsUSDSCharts = displaySavingsUSDS && !displaySavingsDai
+
+  const displaySavingsNoCash = !displaySavingsDai && !displaySavingsUSDS
 
   assert(migrationInfo, 'Migration info should be defined in sDai and sUSDS view')
 
@@ -58,6 +59,8 @@ export function SavingsDaiAndUSDSView({
             {...sUSDSDetails}
           />
         )}
+        {displaySavingsUSDSCharts && <UsdsSavingsCharts {...savingsChartsInfo} />}
+
         {displaySavingsDai && (
           <SavingsTokenPanel
             variant="dai"
@@ -67,17 +70,8 @@ export function SavingsDaiAndUSDSView({
             {...sDaiDetails}
           />
         )}
-        {displaySavingsOpportunity && (
-          <SavingsOpportunity
-            APY={sUSDSDetails.APY}
-            originChainId={originChainId}
-            projections={opportunityProjections}
-            maxBalanceToken={maxBalanceToken}
-            openDialog={openDialog}
-            totalEligibleCashUSD={totalEligibleCashUSD}
-            savingsMeta={savingsMeta}
-          />
-        )}
+        {displaySavingsDaiCharts && <DaiSavingsCharts {...savingsChartsInfo} />}
+
         {displaySavingsNoCash && (
           <SavingsOpportunityNoCash APY={sUSDSDetails.APY} originChainId={originChainId} savingsMeta={savingsMeta} />
         )}
