@@ -22,7 +22,7 @@ interface UseSavingsChartsInfoParams {
 export function useSavingsChartsInfoQuery({
   savingsInfo,
 }: UseSavingsChartsInfoParams): UseSavingsChartsInfoQueryResult {
-  const [selectedTimeframe, setSelectedTimeframe] = useState<Timeframe>('1M')
+  const [selectedTimeframe, setSelectedTimeframe] = useState<Timeframe>('All')
   const chainId = useChainId()
 
   const { address } = useAccount()
