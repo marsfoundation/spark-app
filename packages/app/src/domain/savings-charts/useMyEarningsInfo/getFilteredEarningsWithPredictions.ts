@@ -36,6 +36,12 @@ export function getFilteredEarningsWithPredictions({
       })
     : []
 
+  // @note predications has to start at the same day as the last item which sometimes might have wrong balance value so we need to replace it
+  if (predictions.length > 0) {
+    filteredData.pop()
+    filteredData.push(predictions[0]!)
+  }
+
   return {
     data: filteredData,
     predictions,
