@@ -28,7 +28,7 @@ export function calculatePredictions({
     case '7D':
       return calculatePredictionsIncomeByDays({
         // @note Ensure to have proportional length of projections to the data length
-        days: Math.min(optimalPredictionsLength, 3),
+        days: Math.max(optimalPredictionsLength, 3),
         balance,
         timestamp,
         savingsInfo,
@@ -36,7 +36,7 @@ export function calculatePredictions({
 
     case '1M':
       return calculatePredictionsIncomeByDays({
-        days: Math.min(optimalPredictionsLength, 7),
+        days: Math.max(optimalPredictionsLength, 7),
         balance,
         timestamp,
         savingsInfo,
@@ -45,7 +45,7 @@ export function calculatePredictions({
     case '1Y':
     case 'All':
       return calculatePredictionsIncomeByDays({
-        days: Math.min(optimalPredictionsLength, 60),
+        days: Math.max(optimalPredictionsLength, 60),
         balance,
         timestamp,
         savingsInfo,
