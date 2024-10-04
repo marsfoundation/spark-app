@@ -16,7 +16,7 @@ import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { ChartTooltipContent } from '@/ui/charts/ChartTooltipContent'
 import { colors as colorsPreset } from '@/ui/charts/colors'
 import { Margins, POINT_RADIUS, defaultMargins } from '@/ui/charts/defaults'
-import { formatDateTick, formatTooltipDate, formatUSDTicks } from '@/ui/charts/utils'
+import { formatDateTick, formatTooltipDate, formatUSDTicks, getVerticalDomainWithPadding } from '@/ui/charts/utils'
 
 export interface ChartDataPoint {
   balance: NormalizedUnitNumber
@@ -245,11 +245,7 @@ function calculateBalanceDomain(data: ChartDataPoint[]): ContinuousDomain {
   const minBalance = min(data, (d) => d.balance.toNumber()) || 0
   const maxBalance = max(data, (d) => d.balance.toNumber()) || 0
 
-  if (minBalance === maxBalance) {
-    return [minBalance - 0.1, maxBalance + 0.1]
-  }
-
-  return [minBalance, maxBalance * 1.1] // 10% padding on top
+  return getVerticalDomainWithPadding(minBalance, maxBalance)
 }
 
 const MyEarningsChartWithTooltip = withTooltip<ChartProps, ChartDataPoint>(MyEarningsChart)

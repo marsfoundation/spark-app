@@ -16,7 +16,12 @@ import { Percentage } from '@/domain/types/NumericValues'
 import { ChartTooltipContent } from '@/ui/charts/ChartTooltipContent'
 import { colors as colorsPreset } from '@/ui/charts/colors'
 import { Margins, defaultMargins } from '@/ui/charts/defaults'
-import { formatDateTick, formatPercentageTick, formatTooltipDate } from '@/ui/charts/utils'
+import {
+  formatDateTick,
+  formatPercentageTick,
+  formatTooltipDate,
+  getVerticalDomainWithPadding,
+} from '@/ui/charts/utils'
 
 export interface ChartDataPoint {
   date: Date
@@ -220,11 +225,7 @@ function calculateRateDomain(data: ChartDataPoint[]): ContinuousDomain {
   const minRate = min(data, (d) => d.rate.toNumber()) || 0
   const maxRate = max(data, (d) => d.rate.toNumber()) || 0
 
-  if (minRate === maxRate) {
-    return [minRate - 0.01, maxRate + 0.01]
-  }
-
-  return [minRate * 0.9, maxRate * 1.1] // 10% padding on top
+  return getVerticalDomainWithPadding(minRate, maxRate)
 }
 
 const SavingsRateChartWithTooltip = withTooltip<SavingsRateChartProps, ChartDataPoint>(SavingsRateChart)

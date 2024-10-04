@@ -3,7 +3,7 @@ import { Percentage } from '@/domain/types/NumericValues'
 import { ChartTooltipContent } from '@/ui/charts/ChartTooltipContent'
 import { colors } from '@/ui/charts/colors'
 import { Margins, defaultMargins } from '@/ui/charts/defaults'
-import { formatPercentageTick, formatTooltipDate } from '@/ui/charts/utils'
+import { formatPercentageTick, formatTooltipDate, getVerticalDomainWithPadding } from '@/ui/charts/utils'
 import { AxisBottom, AxisLeft } from '@visx/axis'
 import { curveStepAfter } from '@visx/curve'
 import { localPoint } from '@visx/event'
@@ -204,11 +204,7 @@ function calculateAprDomain(data: ChartDataPoint[]): ContinuousDomain {
   const minApr = min(data, (d) => d.apr.toNumber()) || 0
   const maxApr = max(data, (d) => d.apr.toNumber()) || 0
 
-  if (minApr === maxApr) {
-    return [minApr - 0.1, maxApr + 0.1]
-  }
-
-  return [minApr, maxApr * 1.1] // 10% padding on top
+  return getVerticalDomainWithPadding(minApr, maxApr)
 }
 
 const ChartWithTooltip = withTooltip<ChartProps, ChartDataPoint>(Chart)
