@@ -23,6 +23,7 @@ export interface StakeViewProps {
   objectives: Objective[]
   pageStatus: PageStatus
   txOverview: TxOverview
+  canClaim: boolean
   exitFarmSwitchInfo: ExitFarmSwitchInfo
   actionsContext: InjectedActionsContext
 }
@@ -35,6 +36,7 @@ export function UnstakeView({
   objectives,
   pageStatus,
   txOverview,
+  canClaim,
   exitFarmSwitchInfo,
   actionsContext,
 }: StakeViewProps) {
@@ -49,7 +51,7 @@ export function UnstakeView({
         <TransactionOverview txOverview={txOverview} selectedToken={assetsFields.selectedAsset.token} />
       </FormAndOverviewWrapper>
 
-      {exitFarmSwitchInfo.showSwitch && <ExitFarmSwitch {...exitFarmSwitchInfo} />}
+      {exitFarmSwitchInfo.showSwitch && canClaim && <ExitFarmSwitch {...exitFarmSwitchInfo} />}
 
       <DialogActionsPanel
         objectives={objectives}

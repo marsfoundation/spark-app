@@ -37,6 +37,7 @@ const meta: Meta<typeof FarmDetailsView> = {
       depositors: 6,
     },
     isFarmActive: true,
+    canClaim: true,
     tokensToDeposit: [
       {
         token: tokens.USDS,

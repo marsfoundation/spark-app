@@ -18,6 +18,7 @@ function UnstakeDialogContentContainer({ farm, initialToken, closeDialog }: Stak
     assetsFields,
     form,
     outcomeToken,
+    canClaim,
     objectives,
     pageStatus,
     txOverview,
@@ -47,6 +48,7 @@ function UnstakeDialogContentContainer({ farm, initialToken, closeDialog }: Stak
       objectives={objectives}
       pageStatus={pageStatus}
       txOverview={txOverview}
+      canClaim={canClaim}
       farm={farm}
       exitFarmSwitchInfo={exitFarmSwitchInfo}
       actionsContext={actionsContext}

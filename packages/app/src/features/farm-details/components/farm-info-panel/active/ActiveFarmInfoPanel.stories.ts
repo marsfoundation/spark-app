@@ -33,6 +33,7 @@ const meta: Meta<typeof ActiveFarmInfoPanel> = {
   decorators: [WithClassname('max-w-lg'), WithTooltipProvider()],
   args: {
     farm: mockFarm,
+    canClaim: true,
   },
 }
 

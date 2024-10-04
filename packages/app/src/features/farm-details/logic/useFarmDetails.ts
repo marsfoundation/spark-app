@@ -34,6 +34,7 @@ export interface UseFarmDetailsResult {
   tokensToDeposit: TokenWithBalance[]
   isFarmActive: boolean
   hasTokensToDeposit: boolean
+  canClaim: boolean
   chartDetails: ChartDetails
   openStakeDialog: (initialToken: Token) => void
   openUnstakeDialog: () => void
@@ -70,6 +71,7 @@ export function useFarmDetails(): UseFarmDetailsResult {
   )
   const hasTokensToDeposit = tokensToDeposit.some((token) => token.balance.gt(0))
   const mostValuableToken = sortByUsdValueWithUsdsPriority(tokensToDeposit, tokensInfo)[0]
+  const canClaim = farm.earned.gt(0) || farm.rewardRate.gt(0)
 
   return {
     chainId,
@@ -78,6 +80,7 @@ export function useFarmDetails(): UseFarmDetailsResult {
     farm,
     tokensToDeposit,
     hasTokensToDeposit,
+    canClaim,
     isFarmActive: farm.staked.gt(0) || farm.earned.gt(0),
     chartDetails: {
       farmHistory,

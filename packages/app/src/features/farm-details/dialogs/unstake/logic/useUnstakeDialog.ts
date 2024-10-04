@@ -30,6 +30,7 @@ export interface UseUnstakeDialogResult {
   form: UseFormReturn<AssetInputSchema>
   objectives: Objective[]
   outcomeToken: TokenWithValue
+  canClaim: boolean
   pageStatus: PageStatus
   txOverview: TxOverview
   exitFarmSwitchInfo: ExitFarmSwitchInfo
@@ -111,6 +112,7 @@ export function useUnstakeDialog({ farm, initialToken }: UseStakeDialogParams): 
   }
 
   const actionsEnabled = formValues.value.gt(0) && isFormValid && !isDebouncing
+  const canClaim = farm.earned.gt(0) || farm.rewardRate.gt(0)
 
   return {
     selectableAssets: exitTokens,
@@ -118,6 +120,7 @@ export function useUnstakeDialog({ farm, initialToken }: UseStakeDialogParams): 
     form,
     objectives,
     outcomeToken,
+    canClaim,
     txOverview,
     pageStatus: {
       state: pageStatus,
