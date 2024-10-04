@@ -59,7 +59,7 @@ test.describe('Claim SKY rewards', () => {
         },
         // amount is imprecise because of timing issues in e2e tests
         amount: '3,539',
-        amountUSD: '~$235',
+        amountUSD: '~$213',
       },
     })
   })

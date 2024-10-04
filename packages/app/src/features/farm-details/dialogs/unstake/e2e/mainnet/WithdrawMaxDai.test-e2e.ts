@@ -122,7 +122,7 @@ test.describe('Withdraw max DAI from SKY farm', () => {
       reward: {
         min: 3538,
         max: 3541,
-        usdValue: '235',
+        usdValue: '213',
         token: 'SKY',
       },
     })
@@ -137,7 +137,7 @@ test.describe('Withdraw max DAI from SKY farm', () => {
     await farmDetailsPage.expectTokenToDepositBalance('DAI', '20,000.00')
     await farmDetailsPage.expectReward({
       reward: '3,539',
-      rewardUsd: '$235',
+      rewardUsd: '$213',
     })
   })
 
