@@ -55,6 +55,8 @@ const mockSavingsUsdsInfo = new PotSavingsInfo({
 const farm: Farm = {
   address: MAINNET_USDS_SKY_FARM_ADDRESS,
   apy: Percentage(0.05),
+  name: 'SKY Farm',
+  rewardType: 'token',
   rewardToken: tokens.SKY,
   stakingToken: tokens.USDS,
   entryAssetsGroup: {
@@ -121,6 +123,7 @@ const meta: Meta<typeof StakeView> = {
     },
     txOverview: {
       status: 'success',
+      showEstimatedRewards: true,
       apy: Percentage(0.05),
       stakingToken: tokens.USDS,
       rewardToken: tokens.SKY,
@@ -170,6 +173,7 @@ export const SacrificeYield: Story = {
     txOverview: {
       status: 'success',
       apy: Percentage(0.05),
+      showEstimatedRewards: true,
       stakingToken: tokens.USDS,
       rewardToken: tokens.SKY,
       rewardsPerYear: NormalizedUnitNumber(542),
@@ -188,6 +192,7 @@ export const DesktopZeroApy: Story = {
     txOverview: {
       status: 'success',
       apy: Percentage(0),
+      showEstimatedRewards: true,
       stakingToken: tokens.USDS,
       rewardToken: tokens.SKY,
       rewardsPerYear: NormalizedUnitNumber(542),

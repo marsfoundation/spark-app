@@ -10,6 +10,8 @@ import { InactiveFarmInfoPanel } from './InactiveFarmInfoPanel'
 const mockFarm: Farm = {
   address: MAINNET_USDS_SKY_FARM_ADDRESS,
   apy: Percentage(0.05),
+  name: 'SKY Farm',
+  rewardType: 'token',
   entryAssetsGroup: {
     type: 'stablecoins',
     name: 'Stablecoins',

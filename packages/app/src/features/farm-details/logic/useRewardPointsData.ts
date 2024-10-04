@@ -1,0 +1,80 @@
+import { infoSkyApiUrl } from '@/config/consts'
+import { Farm } from '@/domain/farms/types'
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { SuspenseQueryWith } from '@/utils/types'
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
+import { Address, zeroAddress } from 'viem'
+import { z } from 'zod'
+
+export interface UseRewardPointsDataParams {
+  farm: Farm
+  account: Address | undefined
+}
+
+export type UseRewardPointsDataResult = SuspenseQueryWith<{
+  rewardPointsData: null | {
+    rewardTokensPerSecond: NormalizedUnitNumber
+    rewardBalance: NormalizedUnitNumber
+    updateTimestamp: number
+  }
+}>
+
+export function useRewardPointsData({ farm, account }: UseRewardPointsDataParams): UseRewardPointsDataResult {
+  const res = useSuspenseQuery(rewardPointsDataQueryOptions({ farm, account }))
+
+  return {
+    ...res,
+    rewardPointsData: res.data,
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+function rewardPointsDataQueryOptions({ farm, account = zeroAddress }: UseRewardPointsDataParams) {
+  const farmAddress = farm.address
+
+  return queryOptions({
+    queryKey: getRewardPointsDataQueryKey({ farmAddress, account }),
+    queryFn: async () => {
+      if (farm.rewardType !== 'points') {
+        return null
+      }
+
+      const res = await fetch(`${infoSkyApiUrl}/farms/${farmAddress}/wallets/${account}/`)
+
+      if (!res.ok) {
+        throw new Error(`Failed to fetch reward points data: ${res.statusText}`)
+      }
+
+      const data = rewardsPointsDataResponseSchema.parse(await res.json())
+
+      return {
+        rewardTokensPerSecond: data.reward_tokens_per_second,
+        rewardBalance: data.reward_balance,
+        balance: data.balance,
+        updateTimestamp: Date.now(),
+      }
+    },
+    refetchInterval: (query) => {
+      if (query.state.data?.balance && !query.state.data.balance.isEqualTo(farm.staked)) {
+        return 2_000
+      }
+
+      return undefined
+    },
+  })
+}
+
+export interface GetRewardPointsDataQueryKeyParams {
+  farmAddress: Address
+  account: Address | undefined
+}
+
+export function getRewardPointsDataQueryKey({ farmAddress, account }: GetRewardPointsDataQueryKeyParams): unknown[] {
+  return ['reward-points-data', farmAddress, account]
+}
+
+const rewardsPointsDataResponseSchema = z.object({
+  reward_tokens_per_second: z.string().transform((value) => NormalizedUnitNumber(value)),
+  reward_balance: z.string().transform((value) => NormalizedUnitNumber(value)),
+  balance: z.string().transform((value) => NormalizedUnitNumber(value)),
+})

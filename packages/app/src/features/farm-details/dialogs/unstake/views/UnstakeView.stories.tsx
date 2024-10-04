@@ -56,6 +56,7 @@ const mockSavingsUsdsInfo = new PotSavingsInfo({
 const farm: Farm = {
   address: MAINNET_USDS_SKY_FARM_ADDRESS,
   apy: Percentage(0.05),
+  name: 'SKY Farm',
   rewardToken: tokens.SKY,
   stakingToken: tokens.USDS,
   entryAssetsGroup: {
@@ -71,6 +72,7 @@ const farm: Farm = {
   depositors: 1111,
   earned: NormalizedUnitNumber(52),
   staked: NormalizedUnitNumber(100),
+  rewardType: 'token',
 }
 
 const mockedFarmsInfo = new FarmsInfo([farm])

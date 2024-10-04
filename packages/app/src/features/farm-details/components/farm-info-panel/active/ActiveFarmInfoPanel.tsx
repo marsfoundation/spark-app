@@ -1,5 +1,6 @@
 import { formatPercentage } from '@/domain/common/format'
 import { Farm } from '@/domain/farms/types'
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
@@ -12,11 +13,20 @@ import { GrowingReward } from './GrowingReward'
 export interface ActiveFarmInfoPanelProps {
   farm: Farm
   canClaim: boolean
+  calculateReward: (timestampInMs: number) => NormalizedUnitNumber
+  refreshGrowingRewardIntervalInMs: number | undefined
   openClaimDialog: () => void
   openUnstakeDialog: () => void
 }
 
-export function ActiveFarmInfoPanel({ farm, canClaim, openClaimDialog, openUnstakeDialog }: ActiveFarmInfoPanelProps) {
+export function ActiveFarmInfoPanel({
+  farm,
+  canClaim,
+  calculateReward,
+  refreshGrowingRewardIntervalInMs,
+  openClaimDialog,
+  openUnstakeDialog,
+}: ActiveFarmInfoPanelProps) {
   const { rewardToken, staked } = farm
 
   return (
@@ -48,7 +58,11 @@ export function ActiveFarmInfoPanel({ farm, canClaim, openClaimDialog, openUnsta
         </div>
       </div>
       <div className="flex flex-grow flex-col items-center justify-around">
-        <GrowingReward farm={farm} />
+        <GrowingReward
+          rewardToken={rewardToken}
+          calculateReward={calculateReward}
+          refreshIntervalInMs={refreshGrowingRewardIntervalInMs}
+        />
       </div>
       <div className="flex flex-col gap-4">
         <div className="hidden border-basics-border border-t md:block" />

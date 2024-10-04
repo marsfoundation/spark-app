@@ -26,6 +26,9 @@ export type FarmConfig = {
 export interface Farm {
   address: CheckedAddress
   entryAssetsGroup: AssetsGroup
+  rewardType: FarmConfig['rewardType']
+
+  name: string
 
   apy: Percentage
   rewardToken: Token

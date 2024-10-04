@@ -7,18 +7,24 @@ import { Farm } from '@/domain/farms/types'
 import { useFarmsInfo } from '@/domain/farms/useFarmsInfo'
 import { useSandboxPageRedirect } from '@/domain/sandbox/useSandboxPageRedirect'
 import { useOpenDialog } from '@/domain/state/dialogs'
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { sandboxDialogConfig } from '@/features/dialogs/sandbox/SandboxDialog'
 import { Timeframe } from '@/ui/charts/defaults'
 import { raise } from '@/utils/assert'
+import { useTimestamp } from '@/utils/useTimestamp'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { useAccount, useChainId } from 'wagmi'
 import { claimDialogConfig } from '../dialogs/claim/ClaimDialog'
 import { stakeDialogConfig } from '../dialogs/stake/StakeDialog'
 import { unstakeDialogConfig } from '../dialogs/unstake/UnstakeDialog'
+import { calculateReward as _calculateReward } from './calculateReward'
 import { FarmHistoryQueryResult, useFarmHistory } from './historic/useFarmHistory'
 import { useFarmDetailsParams } from './useFarmDetailsParams'
+import { useRewardPointsData } from './useRewardPointsData'
+
+const GROWING_REWARD_REFRESH_INTERVAL_IN_MS = 50
 
 export interface ChartDetails {
   farmHistory: FarmHistoryQueryResult
@@ -35,7 +41,10 @@ export interface UseFarmDetailsResult {
   isFarmActive: boolean
   hasTokensToDeposit: boolean
   canClaim: boolean
+  showApyChart: boolean
   chartDetails: ChartDetails
+  calculateReward: (timestampInMs: number) => NormalizedUnitNumber
+  refreshGrowingRewardIntervalInMs: number | undefined
   openStakeDialog: (initialToken: Token) => void
   openUnstakeDialog: () => void
   openClaimDialog: () => void
@@ -45,7 +54,7 @@ export interface UseFarmDetailsResult {
 }
 
 export function useFarmDetails(): UseFarmDetailsResult {
-  const walletConnected = useAccount().isConnected
+  const { address: account, isConnected: walletConnected } = useAccount()
   const params = useFarmDetailsParams()
   const { address: farmAddress, chainId } = params
 
@@ -54,24 +63,62 @@ export function useFarmDetails(): UseFarmDetailsResult {
   const { openConnectModal = () => {} } = useConnectModal()
   const openDialog = useOpenDialog()
   const chainConfig = getChainConfigEntry(chainId)
+  const farmConfig = chainConfig.farms.find((farm) => farm.address === farmAddress) ?? raise('Farm not configured')
 
   useSandboxPageRedirect({
     basePath: paths.farmDetails,
     fallbackPath: paths.farms,
     basePathParams: params,
   })
+  const { timestampInMs } = useTimestamp()
 
   const { farmsInfo } = useFarmsInfo({ chainId })
+  const farm = farmsInfo.findFarmByAddress(farmAddress) ?? raise(new NotFoundError())
+
   const { farmHistory, onTimeframeChange, timeframe } = useFarmHistory({ chainId, farmAddress })
   const { tokensInfo } = useTokensInfo({ tokens: chainConfig.extraTokens, chainId })
+  const { rewardPointsData } = useRewardPointsData({
+    farm,
+    account,
+  })
 
-  const farm = farmsInfo.findFarmByAddress(farmAddress) ?? raise(new NotFoundError())
   const tokensToDeposit = farm.entryAssetsGroup.assets.map((symbol) =>
     tokensInfo.findOneTokenWithBalanceBySymbol(symbol),
   )
   const hasTokensToDeposit = tokensToDeposit.some((token) => token.balance.gt(0))
   const mostValuableToken = sortByUsdValueWithUsdsPriority(tokensToDeposit, tokensInfo)[0]
   const canClaim = farm.earned.gt(0) || farm.rewardRate.gt(0)
+
+  function calculateReward(timestampInMs: number): NormalizedUnitNumber {
+    if (farmConfig.rewardType === 'points') {
+      if (!rewardPointsData) {
+        throw new Error('Reward points data is not available')
+      }
+
+      return NormalizedUnitNumber(
+        rewardPointsData.rewardBalance.plus(
+          rewardPointsData.rewardTokensPerSecond
+            .div(1000)
+            .multipliedBy(timestampInMs - rewardPointsData.updateTimestamp),
+        ),
+      )
+    }
+
+    return _calculateReward({
+      earned: farm.earned,
+      staked: farm.staked,
+      rewardRate: farm.rewardRate,
+      earnedTimestamp: farm.earnedTimestamp,
+      periodFinish: farm.periodFinish,
+      timestampInMs,
+      totalSupply: farm.totalSupply,
+    })
+  }
+
+  const refreshGrowingRewardIntervalInMs =
+    calculateReward(timestampInMs + 1_000) > calculateReward(timestampInMs)
+      ? GROWING_REWARD_REFRESH_INTERVAL_IN_MS
+      : undefined
 
   return {
     chainId,
@@ -82,11 +129,14 @@ export function useFarmDetails(): UseFarmDetailsResult {
     hasTokensToDeposit,
     canClaim,
     isFarmActive: farm.staked.gt(0) || farm.earned.gt(0),
+    showApyChart: farm.rewardType !== 'points',
     chartDetails: {
       farmHistory,
       onTimeframeChange,
       timeframe,
     },
+    calculateReward,
+    refreshGrowingRewardIntervalInMs,
     openUnstakeDialog: () => openDialog(unstakeDialogConfig, { farm, initialToken: farm.stakingToken }),
     openStakeDialog: (initialToken: Token) => openDialog(stakeDialogConfig, { farm, initialToken }),
     openDefaultedStakeDialog: () =>

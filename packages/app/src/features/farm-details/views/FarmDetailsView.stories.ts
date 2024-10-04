@@ -20,6 +20,8 @@ const meta: Meta<typeof FarmDetailsView> = {
     farm: {
       address: MAINNET_USDS_SKY_FARM_ADDRESS,
       apy: Percentage(0.05),
+      name: 'SKY Farm',
+      rewardType: 'token',
       entryAssetsGroup: {
         type: 'stablecoins',
         name: 'Stablecoins',
@@ -60,6 +62,7 @@ const meta: Meta<typeof FarmDetailsView> = {
         balance: NormalizedUnitNumber(0),
       },
     ],
+    calculateReward: () => NormalizedUnitNumber(71.2345783),
     openStakeDialog: () => {},
     openConnectModal: () => {},
     openSandboxModal: () => {},
@@ -82,6 +85,8 @@ export const NoDepositWithRewards: Story = {
   args: {
     farm: {
       address: MAINNET_USDS_SKY_FARM_ADDRESS,
+      name: 'SKY Farm',
+      rewardType: 'token',
       apy: Percentage(0.05),
       entryAssetsGroup: {
         type: 'stablecoins',
@@ -109,6 +114,8 @@ export const InactiveDesktop: Story = {
     farm: {
       address: MAINNET_USDS_SKY_FARM_ADDRESS,
       apy: Percentage(0.05),
+      name: 'SKY Farm',
+      rewardType: 'token',
       entryAssetsGroup: {
         type: 'stablecoins',
         name: 'Stablecoins',
@@ -135,6 +142,8 @@ export const NotConnectedDesktop: Story = {
   args: {
     farm: {
       address: MAINNET_USDS_SKY_FARM_ADDRESS,
+      name: 'SKY Farm',
+      rewardType: 'token',
       apy: Percentage(0.05),
       entryAssetsGroup: {
         type: 'stablecoins',

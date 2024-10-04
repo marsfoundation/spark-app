@@ -21,6 +21,7 @@ const meta: Meta<typeof FarmTile> = {
       name: 'Stablecoins',
       assets: [tokens.DAI.symbol, tokens.sDAI.symbol, tokens.USDC.symbol, tokens.USDS.symbol, tokens.sUSDS.symbol],
     },
+    isPointsFarm: false,
   },
 }
 

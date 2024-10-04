@@ -1,5 +1,6 @@
 import { TokenWithBalance } from '@/domain/common/types'
 import { Farm } from '@/domain/farms/types'
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { getTokenImage } from '@/ui/assets'
 import { ChartTabsPanel, createChartTab } from '@/ui/charts/components/ChartTabsPanel'
@@ -23,6 +24,9 @@ export interface FarmDetailsViewProps {
   isFarmActive: boolean
   hasTokensToDeposit: boolean
   canClaim: boolean
+  showApyChart: boolean
+  calculateReward: (timestampInMs: number) => NormalizedUnitNumber
+  refreshGrowingRewardIntervalInMs: number | undefined
   openStakeDialog: (token: Token) => void
   openDefaultedStakeDialog: () => void
   openClaimDialog: () => void
@@ -41,6 +45,9 @@ export function FarmDetailsView({
   isFarmActive,
   hasTokensToDeposit,
   canClaim,
+  showApyChart,
+  calculateReward,
+  refreshGrowingRewardIntervalInMs,
   openStakeDialog,
   openDefaultedStakeDialog,
   openClaimDialog,
@@ -51,13 +58,15 @@ export function FarmDetailsView({
   return (
     <div className="w-full max-w-5xl pt-12 pb-8 lg:mx-auto sm:mx-3">
       <BackNav chainId={chainId} />
-      <Header token={farm.rewardToken} chainId={chainId} chainMismatch={chainMismatch} />
+      <Header token={farm.rewardToken} farmName={farm.name} chainId={chainId} chainMismatch={chainMismatch} />
       <div className="flex flex-col gap-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-6">
           {isFarmActive ? (
             <ActiveFarmInfoPanel
               farm={farm}
               canClaim={canClaim}
+              calculateReward={calculateReward}
+              refreshGrowingRewardIntervalInMs={refreshGrowingRewardIntervalInMs}
               openClaimDialog={openClaimDialog}
               openUnstakeDialog={openUnstakeDialog}
             />
@@ -72,14 +81,18 @@ export function FarmDetailsView({
           )}
           <ChartTabsPanel
             tabs={[
-              createChartTab({
-                id: 'rewards',
-                label: 'Rewards over time',
-                component: RewardsChart,
-                isError: chartDetails.farmHistory.isError,
-                isPending: chartDetails.farmHistory.isLoading,
-                props: { data: chartDetails.farmHistory.data ?? [] },
-              }),
+              ...(showApyChart
+                ? [
+                    createChartTab({
+                      id: 'rewards',
+                      label: 'Rewards over time',
+                      component: RewardsChart,
+                      isError: chartDetails.farmHistory.isError,
+                      isPending: chartDetails.farmHistory.isLoading,
+                      props: { data: chartDetails.farmHistory.data ?? [] },
+                    }),
+                  ]
+                : []),
               createChartTab({
                 id: 'tvl',
                 label: 'TVL',
