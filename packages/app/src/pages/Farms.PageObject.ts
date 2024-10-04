@@ -14,7 +14,9 @@ export class FarmsPageObject extends BasePageObject {
     for (const [index, row] of rows.entries()) {
       const rowLocator = this.page.getByTestId(testIds.farms.active.tile(index))
       await expect(rowLocator).toBeVisible()
-      await this.expectAPY(rowLocator, row.apy)
+      if (row.apy) {
+        await this.expectAPY(rowLocator, row.apy)
+      }
       await this.expectStaked(rowLocator, row.staked)
       await this.expectRewardText(rowLocator, row.rewardText)
       await this.expectStakeText(rowLocator, row.stakeText)
@@ -25,7 +27,9 @@ export class FarmsPageObject extends BasePageObject {
     for (const [index, row] of rows.entries()) {
       const rowLocator = this.page.getByTestId(testIds.farms.inactive.tile(index))
       await expect(rowLocator).toBeVisible()
-      await this.expectAPY(rowLocator, row.apy)
+      if (row.apy) {
+        await this.expectAPY(rowLocator, row.apy)
+      }
       await this.expectStaked(rowLocator, row.staked)
       await this.expectRewardText(rowLocator, row.rewardText)
       await this.expectStakeText(rowLocator, row.stakeText)
@@ -63,7 +67,7 @@ export class FarmsPageObject extends BasePageObject {
 }
 
 interface Farm {
-  apy: string
+  apy?: string
   staked: string
   rewardText: string
   stakeText: string

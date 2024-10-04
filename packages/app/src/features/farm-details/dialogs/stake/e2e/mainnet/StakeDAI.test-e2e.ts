@@ -27,7 +27,7 @@ test.describe('Stake DAI to SKY farm', () => {
         },
       },
     })
-    await overrideInfoSkyRouteWithHAR({ page, key: '2-sky-farm-with-12_07-apy' })
+    await overrideInfoSkyRouteWithHAR({ page, key: '1-sky-farm-with-8_51-apy' })
 
     farmDetailsPage = new FarmDetailsPageObject(page)
     await farmDetailsPage.clickInfoPanelStakeButtonAction()
@@ -48,7 +48,7 @@ test.describe('Stake DAI to SKY farm', () => {
   test('displays transaction overview', async () => {
     await stakeDialog.expectTransactionOverview({
       estimatedRewards: {
-        apy: '860.05%',
+        apy: '778.72%',
         description: 'Earn ~1,291,972.67 SKY/year',
       },
       route: {

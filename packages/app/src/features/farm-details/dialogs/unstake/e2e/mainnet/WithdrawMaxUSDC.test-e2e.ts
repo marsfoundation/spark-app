@@ -34,7 +34,7 @@ test.describe('Withdraw max USDC from SKY farm', () => {
       },
     }))
 
-    await overrideInfoSkyRouteWithHAR({ page, key: '2-sky-farm-with-12_07-apy' })
+    await overrideInfoSkyRouteWithHAR({ page, key: '1-sky-farm-with-8_51-apy' })
 
     farmDetailsPage = new FarmDetailsPageObject(page)
     await farmDetailsPage.clickInfoPanelStakeButtonAction()
