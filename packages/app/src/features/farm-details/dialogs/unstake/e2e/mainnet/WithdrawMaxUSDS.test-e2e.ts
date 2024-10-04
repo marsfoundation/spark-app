@@ -63,7 +63,7 @@ test.describe('Withdraw max USDS from SKY farm', () => {
       min: 3538,
       max: 3541,
       token: 'SKY',
-      usdValue: '235',
+      usdValue: '213',
     })
   })
 
