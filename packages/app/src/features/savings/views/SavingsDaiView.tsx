@@ -1,5 +1,6 @@
 import { PageHeader } from '../components/PageHeader'
 import { PageLayout } from '../components/PageLayout'
+import { UsdsSavingsCharts } from '../components/savings-charts/UsdsSavingsCharts'
 import { SavingsOpportunity } from '../components/savings-opportunity/SavingsOpportunity'
 import { SavingsOpportunityNoCash } from '../components/savings-opportunity/SavingsOpportunityNoCash'
 import { SavingsTokenPanel } from '../components/savings-token-panel/SavingsTokenPanel'
@@ -17,9 +18,10 @@ export function SavingsDaiView({
   opportunityProjections,
   savingsMeta,
   openDialog,
+  savingsChartsInfo,
 }: SavingsViewContentProps) {
   const displaySavingsDai = savingsTokenDetails.tokenWithBalance.balance.gt(0)
-  const displaySavingsOpportunity = opportunityProjections.thirtyDays.gt(0)
+  const displaySavingsOpportunity = !displaySavingsDai && opportunityProjections.thirtyDays.gt(0)
   const displaySavingsNoCash = !displaySavingsDai && !displaySavingsOpportunity
 
   return (
@@ -33,14 +35,18 @@ export function SavingsDaiView({
       )}
       <div className="flex flex-col gap-6 sm:flex-row">
         {displaySavingsDai && (
-          <SavingsTokenPanel
-            variant="dai"
-            originChainId={originChainId}
-            openDialog={openDialog}
-            savingsMetaItem={savingsMeta.primary}
-            {...savingsTokenDetails}
-          />
+          <>
+            <SavingsTokenPanel
+              variant="dai"
+              originChainId={originChainId}
+              openDialog={openDialog}
+              savingsMetaItem={savingsMeta.primary}
+              {...savingsTokenDetails}
+            />
+            <UsdsSavingsCharts {...savingsChartsInfo} />
+          </>
         )}
+
         {displaySavingsOpportunity && (
           <SavingsOpportunity
             APY={savingsTokenDetails.APY}

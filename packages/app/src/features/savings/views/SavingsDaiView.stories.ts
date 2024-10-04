@@ -5,9 +5,12 @@ import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { mainnet } from 'viem/chains'
+import {
+  mockEarningsChartData,
+  mockEarningsPredictionsChartData,
+} from '../components/savings-charts/fixtures/mockEarningsChartData'
+import { mockDsrChartData, mockSsrChartData } from '../components/savings-charts/fixtures/mockSavingsRateChartData'
 import { SavingsDaiView } from './SavingsDaiView'
-import { mockEarningsChartData, mockEarningsPredictionsChartData } from '../components/savings-charts/fixtures/mockEarningsChartData'
-import { mockSsrChartData, mockDsrChartData } from '../components/savings-charts/fixtures/mockSavingsRateChartData'
 
 const savingsViewBaseArgs = {
   chainId: mainnet.id,

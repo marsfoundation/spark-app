@@ -20,7 +20,7 @@ export function SavingsUsdsView({
   savingsChartsInfo,
 }: SavingsViewContentProps) {
   const displaySavingsUsds = savingsTokenDetails.tokenWithBalance.balance.gt(0)
-  const displaySavingsOpportunity = opportunityProjections.thirtyDays.gt(0)
+  const displaySavingsOpportunity = !displaySavingsUsds && opportunityProjections.thirtyDays.gt(0)
   const displaySavingsNoCash = !displaySavingsUsds && !displaySavingsOpportunity
 
   return (
