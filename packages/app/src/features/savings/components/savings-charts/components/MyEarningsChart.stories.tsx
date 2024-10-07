@@ -11,6 +11,7 @@ const meta: Meta<typeof MyEarningsChart> = {
   decorators: [WithClassname('max-w-lg'), WithFixedDate()],
   args: {
     height: 320,
+    width: 512,
     data: mockEarningsChartData,
     predictions: mockEarningsPredictionsChartData,
   },

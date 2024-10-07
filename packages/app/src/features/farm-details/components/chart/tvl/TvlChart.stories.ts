@@ -10,6 +10,7 @@ const meta: Meta<typeof TvlChart> = {
   decorators: [WithClassname('max-w-lg')],
   args: {
     height: 320,
+    width: 512,
     data: mockTvlChartData,
   },
 }

@@ -11,6 +11,7 @@ const meta: Meta<typeof DsrChart> = {
   decorators: [WithClassname('max-w-lg')],
   args: {
     height: 320,
+    width: 512,
     data: mockDsrChartData,
   },
 }
