@@ -13,6 +13,7 @@ import { InactiveFarmInfoPanel } from '../components/farm-info-panel/inactive/In
 import { Header } from '../components/header/Header'
 import { TokensToDeposit } from '../components/tokens-to-deposit/TokensToDeposit'
 import { ChartDetails } from '../logic/useFarmDetails'
+import { RewardPointsSyncStatus } from '../types'
 
 export interface FarmDetailsViewProps {
   chainId: number
@@ -33,6 +34,7 @@ export interface FarmDetailsViewProps {
   openConnectModal: () => void
   openSandboxModal: () => void
   openUnstakeDialog: () => void
+  pointsSyncStatus?: RewardPointsSyncStatus
 }
 
 export function FarmDetailsView({
@@ -54,6 +56,7 @@ export function FarmDetailsView({
   openConnectModal,
   openSandboxModal,
   openUnstakeDialog,
+  pointsSyncStatus,
 }: FarmDetailsViewProps) {
   return (
     <div className="w-full max-w-5xl pt-12 pb-8 lg:mx-auto sm:mx-3">
@@ -69,6 +72,7 @@ export function FarmDetailsView({
               refreshGrowingRewardIntervalInMs={refreshGrowingRewardIntervalInMs}
               openClaimDialog={openClaimDialog}
               openUnstakeDialog={openUnstakeDialog}
+              pointsSyncStatus={pointsSyncStatus}
             />
           ) : (
             <InactiveFarmInfoPanel

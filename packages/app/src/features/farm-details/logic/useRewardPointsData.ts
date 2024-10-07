@@ -1,8 +1,7 @@
 import { infoSkyApiUrl } from '@/config/consts'
 import { Farm } from '@/domain/farms/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { SuspenseQueryWith } from '@/utils/types'
-import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
+import { UseQueryResult, queryOptions, useQuery } from '@tanstack/react-query'
 import { Address, zeroAddress } from 'viem'
 import { z } from 'zod'
 
@@ -11,21 +10,15 @@ export interface UseRewardPointsDataParams {
   account: Address | undefined
 }
 
-export type UseRewardPointsDataResult = SuspenseQueryWith<{
-  rewardPointsData: null | {
-    rewardTokensPerSecond: NormalizedUnitNumber
-    rewardBalance: NormalizedUnitNumber
-    updateTimestamp: number
-  }
-}>
+export type UseRewardPointsDataResult = UseQueryResult<{
+  rewardTokensPerSecond: NormalizedUnitNumber
+  rewardBalance: NormalizedUnitNumber
+  balance: NormalizedUnitNumber
+  updateTimestamp: number
+} | null>
 
 export function useRewardPointsData({ farm, account }: UseRewardPointsDataParams): UseRewardPointsDataResult {
-  const res = useSuspenseQuery(rewardPointsDataQueryOptions({ farm, account }))
-
-  return {
-    ...res,
-    rewardPointsData: res.data,
-  }
+  return useQuery(rewardPointsDataQueryOptions({ farm, account }))
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type

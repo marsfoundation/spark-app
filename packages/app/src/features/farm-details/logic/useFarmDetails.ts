@@ -18,7 +18,9 @@ import { useAccount, useChainId } from 'wagmi'
 import { claimDialogConfig } from '../dialogs/claim/ClaimDialog'
 import { stakeDialogConfig } from '../dialogs/stake/StakeDialog'
 import { unstakeDialogConfig } from '../dialogs/unstake/UnstakeDialog'
+import { RewardPointsSyncStatus } from '../types'
 import { calculateReward as _calculateReward } from './calculateReward'
+import { getRewardPointsSyncStatus } from './getRewardPointsSyncStatus'
 import { FarmHistoryQueryResult, useFarmHistory } from './historic/useFarmHistory'
 import { useFarmDetailsParams } from './useFarmDetailsParams'
 import { useRewardPointsData } from './useRewardPointsData'
@@ -50,6 +52,7 @@ export interface UseFarmDetailsResult {
   openDefaultedStakeDialog: () => void
   openConnectModal: () => void
   openSandboxModal: () => void
+  pointsSyncStatus?: RewardPointsSyncStatus
 }
 
 export function useFarmDetails(): UseFarmDetailsResult {
@@ -75,7 +78,7 @@ export function useFarmDetails(): UseFarmDetailsResult {
 
   const { farmHistory, onTimeframeChange, timeframe } = useFarmHistory({ chainId, farmAddress })
   const { tokensInfo } = useTokensInfo({ tokens: chainConfig.extraTokens, chainId })
-  const { rewardPointsData } = useRewardPointsData({
+  const rewardPointsData = useRewardPointsData({
     farm,
     account,
   })
@@ -88,17 +91,13 @@ export function useFarmDetails(): UseFarmDetailsResult {
   const canClaim = farm.earned.gt(0) || farm.rewardRate.gt(0)
 
   function calculateReward(timestampInMs: number): NormalizedUnitNumber {
-    if (farmConfig.rewardType === 'points') {
-      if (!rewardPointsData) {
-        throw new Error('Reward points data is not available')
-      }
+    if (farmConfig.rewardType === 'points' && rewardPointsData?.data) {
+      const {
+        data: { rewardBalance, rewardTokensPerSecond, updateTimestamp },
+      } = rewardPointsData
 
       return NormalizedUnitNumber(
-        rewardPointsData.rewardBalance.plus(
-          rewardPointsData.rewardTokensPerSecond
-            .div(1000)
-            .multipliedBy(timestampInMs - rewardPointsData.updateTimestamp),
-        ),
+        rewardBalance.plus(rewardTokensPerSecond.div(1000).multipliedBy(timestampInMs - updateTimestamp)),
       )
     }
 
@@ -114,9 +113,14 @@ export function useFarmDetails(): UseFarmDetailsResult {
   }
 
   const refreshGrowingRewardIntervalInMs =
-    rewardPointsData?.rewardTokensPerSecond.gt(0) || (farm.staked.gt(0) && farm.rewardRate.gt(0))
+    rewardPointsData?.data?.rewardTokensPerSecond.gt(0) || (farm.staked.gt(0) && farm.rewardRate.gt(0))
       ? GROWING_REWARD_REFRESH_INTERVAL_IN_MS
       : undefined
+
+  const pointsSyncStatus = getRewardPointsSyncStatus({
+    farm,
+    rewardPointsData,
+  })
 
   return {
     chainId,
@@ -144,5 +148,6 @@ export function useFarmDetails(): UseFarmDetailsResult {
     openSandboxModal(): void {
       openDialog(sandboxDialogConfig, { mode: 'ephemeral' } as const)
     },
+    pointsSyncStatus,
   }
 }
