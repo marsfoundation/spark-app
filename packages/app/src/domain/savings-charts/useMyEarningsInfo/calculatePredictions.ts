@@ -44,7 +44,8 @@ export function calculatePredictions({
     case '1Y':
     case 'All':
       return calculatePredictionsIncomeByDays({
-        days: Math.max(optimalPredictionsLength, 180),
+        // setting upper bounds due to visible performance problems
+        days: Math.max(Math.min(optimalPredictionsLength, 360), 180),
         shares,
         timestamp,
         savingsInfo,

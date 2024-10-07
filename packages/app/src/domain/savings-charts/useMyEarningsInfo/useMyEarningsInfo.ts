@@ -80,11 +80,13 @@ export function useMyEarningsInfo({
     staleTime,
   })
 
+  const hasHistoricalData = (data?.data?.length ?? 0) > 0
+  const hasSavingTokenBalance = (savingsTokenWithBalance?.balance.gt(0) ?? false)
+
   return {
     data,
     isLoading,
     isError,
-    shouldDisplayMyEarnings:
-      !isError && !isLoading && ((data?.data?.length ?? 0) > 0 || (savingsTokenWithBalance?.balance.gt(0) ?? false)),
+    shouldDisplayMyEarnings: hasHistoricalData || hasSavingTokenBalance,
   }
 }

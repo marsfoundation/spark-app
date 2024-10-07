@@ -34,7 +34,9 @@ export function getFilteredEarningsWithPredictions({
     currentTimestamp,
   })
 
-  const todaysItem = filteredData.pop() ?? {
+  filteredData.pop()
+
+  const todaysItem = {
     date: new Date(),
     balance: savingsInfo.convertToAssets({ shares: savingsTokenWithBalance.balance }),
   }
