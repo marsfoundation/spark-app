@@ -20,5 +20,11 @@ export default meta
 type Story = StoryObj<typeof DsrChart>
 
 export const Desktop: Story = {}
-export const Mobile = getMobileStory(Desktop)
 export const Tablet = getTabletStory(Desktop)
+
+const MobileStory: Story = {
+  args: {
+    width: 340,
+  },
+}
+export const Mobile = getMobileStory(MobileStory)
