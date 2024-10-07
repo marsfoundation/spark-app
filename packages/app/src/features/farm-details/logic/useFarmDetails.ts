@@ -13,7 +13,6 @@ import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { sandboxDialogConfig } from '@/features/dialogs/sandbox/SandboxDialog'
 import { Timeframe } from '@/ui/charts/defaults'
 import { raise } from '@/utils/assert'
-import { useTimestamp } from '@/utils/useTimestamp'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { useAccount, useChainId } from 'wagmi'
 import { claimDialogConfig } from '../dialogs/claim/ClaimDialog'
@@ -70,7 +69,6 @@ export function useFarmDetails(): UseFarmDetailsResult {
     fallbackPath: paths.farms,
     basePathParams: params,
   })
-  const { timestampInMs } = useTimestamp()
 
   const { farmsInfo } = useFarmsInfo({ chainId })
   const farm = farmsInfo.findFarmByAddress(farmAddress) ?? raise(new NotFoundError())
@@ -116,7 +114,7 @@ export function useFarmDetails(): UseFarmDetailsResult {
   }
 
   const refreshGrowingRewardIntervalInMs =
-    calculateReward(timestampInMs + 1_000) > calculateReward(timestampInMs)
+    rewardPointsData?.rewardTokensPerSecond.gt(0) || (farm.staked.gt(0) && farm.rewardRate.gt(0))
       ? GROWING_REWARD_REFRESH_INTERVAL_IN_MS
       : undefined
 
