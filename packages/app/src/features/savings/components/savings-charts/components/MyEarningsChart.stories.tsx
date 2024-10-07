@@ -29,4 +29,3 @@ const MobileStory: Story = {
   },
 }
 export const Mobile = getMobileStory(MobileStory)
-
