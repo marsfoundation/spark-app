@@ -38,7 +38,6 @@ export function myEarningsInfoQueryKey({ chainId, address }: Omit<MyEarningsQuer
 const myEarningsDataResponseSchema = z
   .array(
     z.object({
-      // @note blockanalitica data seems to be off by 1 day
       datetime: dateSchema,
       balance: normalizedUnitNumberSchema,
     }),

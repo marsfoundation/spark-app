@@ -5,7 +5,7 @@ import { colors } from '@/ui/charts/colors'
 import { Margins, defaultMargins } from '@/ui/charts/defaults'
 import { formatTooltipDate, formatUSDTicks, getVerticalDomainWithPadding } from '@/ui/charts/utils'
 import { AxisBottom, AxisLeft } from '@visx/axis'
-import { curveStepAfter } from '@visx/curve'
+import { curveCardinal } from '@visx/curve'
 import { localPoint } from '@visx/event'
 import { LinearGradient } from '@visx/gradient'
 import { GridRows } from '@visx/grid'
@@ -65,10 +65,13 @@ function Chart({
         (prev, curr) => (curr.date.getTime() < domainX.getTime() ? curr : prev),
         null as ChartDataPoint | null,
       ) || data[0]
-    showTooltip({
-      tooltipData: lastSmallerElement,
-      tooltipLeft: x,
-    })
+
+    if (lastSmallerElement) {
+      showTooltip({
+        tooltipData: lastSmallerElement,
+        tooltipLeft: xValueScale(lastSmallerElement.date),
+      })
+    }
   }
 
   return (
@@ -98,7 +101,7 @@ function Chart({
             data={data}
             x={(data) => xValueScale(data.date)}
             y={(data) => yValueScale(data.totalStaked.toNumber())}
-            curve={curveStepAfter}
+            curve={curveCardinal}
           />
           <AreaClosed
             strokeWidth={2}
@@ -106,7 +109,7 @@ function Chart({
             x={(data) => xValueScale(data.date)}
             y={(data) => yValueScale(data.totalStaked.toNumber())}
             yScale={yValueScale}
-            curve={curveStepAfter}
+            curve={curveCardinal}
             fill="url(#area-gradient)"
           />
 

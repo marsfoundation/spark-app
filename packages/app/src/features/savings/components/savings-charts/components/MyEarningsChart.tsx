@@ -1,5 +1,5 @@
 import { AxisBottom, AxisLeft } from '@visx/axis'
-import { curveStepAfter } from '@visx/curve'
+import { curveLinear } from '@visx/curve'
 import { localPoint } from '@visx/event'
 import { LinearGradient } from '@visx/gradient'
 import { GridRows } from '@visx/grid'
@@ -76,10 +76,12 @@ function MyEarningsChart({
         null as ChartDataPoint | null,
       ) || xAxisData[0]
 
-    showTooltip({
-      tooltipData: lastSmallerElement,
-      tooltipLeft: x,
-    })
+    if (lastSmallerElement) {
+      showTooltip({
+        tooltipData: lastSmallerElement,
+        tooltipLeft: xValueScale(lastSmallerElement.date),
+      })
+    }
   }
 
   const dataLastElement = data[data.length - 1]
@@ -121,7 +123,7 @@ function MyEarningsChart({
                 x={(data) => xValueScale(data.date)}
                 y={(data) => yValueScale(data.balance.toNumber())}
                 yScale={yValueScale}
-                curve={curveStepAfter}
+                curve={curveLinear}
                 fill={`url(#area-gradient-${key})`}
               />
 
@@ -131,7 +133,7 @@ function MyEarningsChart({
                 data={balance}
                 x={(data) => xValueScale(data.date)}
                 y={(data) => yValueScale(data.balance.toNumber())}
-                curve={curveStepAfter}
+                curve={curveLinear}
               />
             </g>
           ))}
