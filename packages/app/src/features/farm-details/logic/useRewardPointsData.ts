@@ -74,7 +74,16 @@ export function getRewardPointsDataQueryKey({ farmAddress, account }: GetRewardP
 }
 
 const rewardsPointsDataResponseSchema = z.object({
-  reward_tokens_per_second: z.string().transform((value) => NormalizedUnitNumber(value)),
-  reward_balance: z.string().transform((value) => NormalizedUnitNumber(value)),
-  balance: z.string().transform((value) => NormalizedUnitNumber(value)),
+  reward_tokens_per_second: z
+    .string()
+    .optional()
+    .transform((value) => NormalizedUnitNumber(value ?? '0')),
+  reward_balance: z
+    .string()
+    .optional()
+    .transform((value) => NormalizedUnitNumber(value ?? '0')),
+  balance: z
+    .string()
+    .optional()
+    .transform((value) => NormalizedUnitNumber(value ?? '0')),
 })
