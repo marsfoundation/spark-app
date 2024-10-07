@@ -81,7 +81,7 @@ export function useMyEarningsInfo({
   })
 
   const hasHistoricalData = (data?.data?.length ?? 0) > 0
-  const hasSavingTokenBalance = (savingsTokenWithBalance?.balance.gt(0) ?? false)
+  const hasSavingTokenBalance = savingsTokenWithBalance?.balance.gt(0) ?? false
 
   return {
     data,
