@@ -80,7 +80,10 @@ export function useSavings(): UseSavingsResults {
   })
 
   const savingsChartsInfo = useSavingsChartsInfoQuery({
-    savingsInfo: savingsUsdsInfo ?? savingsDaiInfo ?? raise('Savings info should be defined'),
+    savingsDaiInfo,
+    savingsUsdsInfo,
+    sDaiWithBalance,
+    sUSDSWithBalance,
   })
 
   const sDaiDetails = makeSavingsTokenDetails({

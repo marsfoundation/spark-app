@@ -2,6 +2,7 @@ import { Timeframe } from '@/ui/charts/defaults'
 import { useTimestamp } from '@/utils/useTimestamp'
 import { useState } from 'react'
 import { useAccount, useChainId } from 'wagmi'
+import { TokenWithBalance } from '../common/types'
 import { SavingsInfo } from '../savings-info/types'
 import { UseMyEarningsInfoResult, useMyEarningsInfo } from './useMyEarningsInfo/useMyEarningsInfo'
 import { UseSavingsRateInfoResult, useSavingsRateInfo } from './useSavingsRateInfo/useSavingsRateInfo'
@@ -16,11 +17,17 @@ export type UseSavingsChartsInfoQueryResult = {
 const REFRESH_INTERVAL_IN_MS = 60 * 60 * 1_000 // 1 hour
 
 interface UseSavingsChartsInfoParams {
-  savingsInfo: SavingsInfo
+  savingsUsdsInfo: SavingsInfo | null
+  sUSDSWithBalance: TokenWithBalance | undefined
+  savingsDaiInfo: SavingsInfo | null
+  sDaiWithBalance: TokenWithBalance | undefined
 }
 
 export function useSavingsChartsInfoQuery({
-  savingsInfo,
+  savingsDaiInfo,
+  sDaiWithBalance,
+  savingsUsdsInfo,
+  sUSDSWithBalance,
 }: UseSavingsChartsInfoParams): UseSavingsChartsInfoQueryResult {
   const [selectedTimeframe, setSelectedTimeframe] = useState<Timeframe>('All')
   const chainId = useChainId()
@@ -33,8 +40,11 @@ export function useSavingsChartsInfoQuery({
     chainId,
     timeframe: selectedTimeframe,
     currentTimestamp: timestamp,
-    savingsInfo,
     staleTime: REFRESH_INTERVAL_IN_MS,
+    savingsDaiInfo,
+    sDaiWithBalance,
+    savingsUsdsInfo,
+    sUSDSWithBalance,
   })
 
   const savingsRateInfo = useSavingsRateInfo({

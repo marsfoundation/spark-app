@@ -1,11 +1,14 @@
 import { useQuery } from '@tanstack/react-query'
 
+import { TokenWithBalance } from '@/domain/common/types'
 import { SavingsInfo } from '@/domain/savings-info/types'
 import { Timeframe } from '@/ui/charts/defaults'
 import { useCallback } from 'react'
 import { Address } from 'viem'
 import { getFilteredEarningsWithPredictions } from './getFilteredEarningsWithPredictions'
+import { getSavingsDisplayType } from './getSavingsDisplayType'
 import { myEarningsQueryOptions } from './query'
+import { selectMyEarningsSavingsDataByDisplayType } from './selectMyEarningsSavingsDataByDataType'
 import { MyEarningsInfoItem } from './types'
 
 export interface UseMyEarningsInfoParams {
@@ -13,8 +16,11 @@ export interface UseMyEarningsInfoParams {
   chainId: number
   timeframe: Timeframe
   currentTimestamp: number
-  savingsInfo: SavingsInfo
   staleTime: number
+  savingsUsdsInfo: SavingsInfo | null
+  sUSDSWithBalance: TokenWithBalance | undefined
+  savingsDaiInfo: SavingsInfo | null
+  sDaiWithBalance: TokenWithBalance | undefined
 }
 export type UseMyEarningsInfoResult = {
   data:
@@ -33,9 +39,27 @@ export function useMyEarningsInfo({
   chainId,
   timeframe,
   currentTimestamp,
-  savingsInfo,
   staleTime,
+  savingsUsdsInfo,
+  sUSDSWithBalance,
+  savingsDaiInfo,
+  sDaiWithBalance,
 }: UseMyEarningsInfoParams): UseMyEarningsInfoResult {
+  const displayType = getSavingsDisplayType({
+    savingsUsdsInfo,
+    sUSDSWithBalance,
+    savingsDaiInfo,
+    sDaiWithBalance,
+  })
+
+  const { savingsInfo, savingsTokenWithBalance } = selectMyEarningsSavingsDataByDisplayType({
+    savingsUsdsInfo,
+    savingsDaiInfo,
+    sDaiWithBalance,
+    sUSDSWithBalance,
+    displayType,
+  })
+
   const { data, isLoading, isError } = useQuery({
     ...myEarningsQueryOptions({
       address,
@@ -48,9 +72,11 @@ export function useMyEarningsInfo({
           timeframe,
           currentTimestamp,
           savingsInfo,
+          savingsTokenWithBalance,
         }),
-      [timeframe, currentTimestamp, savingsInfo],
+      [timeframe, currentTimestamp, savingsInfo, savingsTokenWithBalance],
     ),
+    enabled: !!savingsInfo && !!savingsTokenWithBalance,
     staleTime,
   })
 
@@ -58,6 +84,7 @@ export function useMyEarningsInfo({
     data,
     isLoading,
     isError,
-    shouldDisplayMyEarnings: !isError && !isLoading && (data?.data?.length ?? 0) > 0,
+    shouldDisplayMyEarnings:
+      !isError && !isLoading && ((data?.data?.length ?? 0) > 0 || (savingsTokenWithBalance?.balance.gt(0) ?? false)),
   }
 }
