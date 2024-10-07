@@ -58,6 +58,7 @@ export function SavingsDaiView({
             savingsMeta={savingsMeta}
           />
         )}
+
         {displaySavingsNoCash && (
           <SavingsOpportunityNoCash
             APY={savingsTokenDetails.APY}
