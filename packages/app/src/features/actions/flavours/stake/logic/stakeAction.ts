@@ -1,4 +1,4 @@
-import { usdsSkyRewardsConfig } from '@/config/contracts-generated'
+import { stakingRewardsAbi } from '@/config/abis/stakingRewardsAbi'
 import { getFarmsInfoQueryKey } from '@/domain/farms/query'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
@@ -17,7 +17,7 @@ export function createStakeActionConfig(action: StakeAction, context: ActionCont
 
       return ensureConfigTypes({
         address: farm,
-        abi: usdsSkyRewardsConfig.abi,
+        abi: stakingRewardsAbi,
         functionName: 'stake',
         args: [amount],
       })

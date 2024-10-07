@@ -54,6 +54,7 @@ import success from './success.svg'
 import threeDots from './three-dots.svg'
 import timer from './timer.svg'
 import cbbtc from './tokens/cbbtc.svg'
+import cle from './tokens/cle.svg'
 import dai from './tokens/dai.svg'
 import eth from './tokens/eth.svg'
 import eure from './tokens/eure.svg'
@@ -167,6 +168,7 @@ export const assets = {
     wxdai,
     xdai,
     cbbtc,
+    cle,
     unknown,
   },
   walletIcons: {
@@ -228,4 +230,5 @@ const tokenColors: Record<TokenSymbol, `${number} ${number} ${number}`> = {
   [TokenSymbol('wstETH')]: '0 163 255',
   [TokenSymbol('WXDAI')]: '253 177 31',
   [TokenSymbol('XDAI')]: '255 192 70',
+  [TokenSymbol('CLE')]: '47 208 91',
 }

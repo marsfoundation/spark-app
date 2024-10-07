@@ -1,7 +1,7 @@
+import { MAINNET_USDS_SKY_FARM_ADDRESS } from '@/config/chain/constants'
 import { FarmsInfo } from '@/domain/farms/farmsInfo'
 import { Farm } from '@/domain/farms/types'
 import { PotSavingsInfo } from '@/domain/savings-info/potSavingsInfo'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
@@ -54,7 +54,7 @@ const mockSavingsUsdsInfo = new PotSavingsInfo({
 })
 
 const farm: Farm = {
-  address: CheckedAddress('0x0650CAF159C5A49f711e8169D4336ECB9b950275'),
+  address: MAINNET_USDS_SKY_FARM_ADDRESS,
   apy: Percentage(0.05),
   rewardToken: tokens.SKY,
   stakingToken: tokens.USDS,

@@ -11,11 +11,12 @@ import { GrowingReward } from './GrowingReward'
 
 export interface ActiveFarmInfoPanelProps {
   farm: Farm
+  canClaim: boolean
   openClaimDialog: () => void
   openUnstakeDialog: () => void
 }
 
-export function ActiveFarmInfoPanel({ farm, openClaimDialog, openUnstakeDialog }: ActiveFarmInfoPanelProps) {
+export function ActiveFarmInfoPanel({ farm, canClaim, openClaimDialog, openUnstakeDialog }: ActiveFarmInfoPanelProps) {
   const { rewardToken, staked } = farm
 
   return (
@@ -25,9 +26,15 @@ export function ActiveFarmInfoPanel({ farm, openClaimDialog, openUnstakeDialog }
           <h2 className="font-semibold text-lg md:text-xl">Overview</h2>
         </div>
         <div className="flex items-center gap-1">
-          <Button size="sm" onClick={openClaimDialog} data-testid={testIds.farmDetails.activeFarmInfoPanel.claimButton}>
-            Claim {rewardToken.symbol}
-          </Button>
+          {canClaim && (
+            <Button
+              size="sm"
+              onClick={openClaimDialog}
+              data-testid={testIds.farmDetails.activeFarmInfoPanel.claimButton}
+            >
+              Claim {rewardToken.symbol}
+            </Button>
+          )}
           {staked.gt(0) && (
             <Button
               size="sm"

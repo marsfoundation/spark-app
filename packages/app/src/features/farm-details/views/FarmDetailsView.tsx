@@ -22,6 +22,7 @@ export interface FarmDetailsViewProps {
   tokensToDeposit: TokenWithBalance[]
   isFarmActive: boolean
   hasTokensToDeposit: boolean
+  canClaim: boolean
   openStakeDialog: (token: Token) => void
   openDefaultedStakeDialog: () => void
   openClaimDialog: () => void
@@ -39,6 +40,7 @@ export function FarmDetailsView({
   tokensToDeposit,
   isFarmActive,
   hasTokensToDeposit,
+  canClaim,
   openStakeDialog,
   openDefaultedStakeDialog,
   openClaimDialog,
@@ -53,7 +55,12 @@ export function FarmDetailsView({
       <div className="flex flex-col gap-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-6">
           {isFarmActive ? (
-            <ActiveFarmInfoPanel farm={farm} openClaimDialog={openClaimDialog} openUnstakeDialog={openUnstakeDialog} />
+            <ActiveFarmInfoPanel
+              farm={farm}
+              canClaim={canClaim}
+              openClaimDialog={openClaimDialog}
+              openUnstakeDialog={openUnstakeDialog}
+            />
           ) : (
             <InactiveFarmInfoPanel
               assetsGroupType={farm.entryAssetsGroup.type}

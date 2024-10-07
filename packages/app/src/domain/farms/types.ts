@@ -9,11 +9,19 @@ export interface AssetsGroup {
   assets: TokenSymbol[]
 }
 
-export interface FarmConfig {
+export type FarmConfig = {
   address: CheckedAddress
   entryAssetsGroup: AssetsGroup
   historyCutoff?: Date
-}
+} & (
+  | {
+      rewardType: 'token'
+    }
+  | {
+      rewardType: 'points'
+      rewardPoints: Token
+    }
+)
 
 export interface Farm {
   address: CheckedAddress
