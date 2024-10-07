@@ -15,5 +15,6 @@ export function getFarmTileProps({ farm, chainId }: GetFarmTileDataParams): Farm
     rewardToken: farm.rewardToken,
     stakingToken: farm.stakingToken,
     staked: farm.staked,
+    isPointsFarm: farm.rewardType === 'points',
   }
 }

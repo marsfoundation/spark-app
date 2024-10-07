@@ -4,7 +4,7 @@ export interface DelayedComponentProps {
   children: React.ReactNode
 }
 
-const DELAYED_COMPONENT_DELAY = 300
+const DELAYED_COMPONENT_DELAY = import.meta.env.STORYBOOK_PREVIEW ? 0 : 300
 
 export function DelayedComponent({ children }: DelayedComponentProps) {
   const [shouldDisplay, setShouldDisplay] = useState(false)

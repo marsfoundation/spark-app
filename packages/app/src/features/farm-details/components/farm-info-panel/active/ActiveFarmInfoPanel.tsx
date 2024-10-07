@@ -1,22 +1,41 @@
 import { formatPercentage } from '@/domain/common/format'
 import { Farm } from '@/domain/farms/types'
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
+import { RewardPointsSyncStatus } from '@/features/farm-details/types'
 import { Button } from '@/ui/atoms/button/Button'
+import { DelayedComponent } from '@/ui/atoms/delayed-component/DelayedComponent'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
+import { assert } from '@/utils/assert'
 import { ApyTooltip } from '../../apy-tooltip/ApyTooltip'
 import { DetailsItem } from '../common/DetailsItem'
 import { GrowingReward } from './GrowingReward'
+import { RewardPointsSyncWarning } from './RewardPointsSyncWarning'
 
 export interface ActiveFarmInfoPanelProps {
   farm: Farm
   canClaim: boolean
+  calculateReward: (timestampInMs: number) => NormalizedUnitNumber
+  refreshGrowingRewardIntervalInMs: number | undefined
   openClaimDialog: () => void
   openUnstakeDialog: () => void
+  pointsSyncStatus?: RewardPointsSyncStatus
 }
 
-export function ActiveFarmInfoPanel({ farm, canClaim, openClaimDialog, openUnstakeDialog }: ActiveFarmInfoPanelProps) {
+export function ActiveFarmInfoPanel({
+  farm,
+  canClaim,
+  calculateReward,
+  refreshGrowingRewardIntervalInMs,
+  openClaimDialog,
+  openUnstakeDialog,
+  pointsSyncStatus,
+}: ActiveFarmInfoPanelProps) {
+  if (farm.rewardType === 'points') {
+    assert(pointsSyncStatus, 'pointsSyncStatus should be defined')
+  }
   const { rewardToken, staked } = farm
 
   return (
@@ -47,8 +66,17 @@ export function ActiveFarmInfoPanel({ farm, canClaim, openClaimDialog, openUnsta
           )}
         </div>
       </div>
-      <div className="flex flex-grow flex-col items-center justify-around">
-        <GrowingReward farm={farm} />
+      <div className="flex flex-grow flex-col items-center justify-center gap-2">
+        <GrowingReward
+          rewardToken={rewardToken}
+          calculateReward={calculateReward}
+          refreshIntervalInMs={refreshGrowingRewardIntervalInMs}
+        />
+        {pointsSyncStatus && (
+          <DelayedComponent>
+            <RewardPointsSyncWarning status={pointsSyncStatus} />
+          </DelayedComponent>
+        )}
       </div>
       <div className="flex flex-col gap-4">
         <div className="hidden border-basics-border border-t md:block" />

@@ -35,6 +35,8 @@ export async function getFarm({ farmConfig, wagmiConfig, tokensInfo, chainId, ac
   return {
     ...farmConfig,
 
+    name: `${rewardToken.symbol} ${farmConfig.rewardType === 'points' ? 'points' : ''} Farm`,
+
     apy: baData.apy,
     rewardToken,
     stakingToken,
