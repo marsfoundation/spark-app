@@ -67,7 +67,8 @@ function MyEarningsChart({
 
   function handleTooltip(event: TouchEvent<SVGRectElement> | MouseEvent<SVGRectElement>): void {
     const point = localPoint(event) || { x: 0 }
-    const x = point.x - margins.left
+    // @note radius is added to make last point accessible for tooltip
+    const x = point.x - margins.left + POINT_RADIUS
     const domainX = xValueScale.invert(x)
     const lastSmallerElement =
       xAxisData.reduce(
