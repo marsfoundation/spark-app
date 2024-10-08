@@ -1,10 +1,9 @@
+import { getChainConfigEntry } from '@/config/chain'
 import { Timeframe } from '@/ui/charts/defaults'
 import { useTimestamp } from '@/utils/useTimestamp'
 import { useState } from 'react'
-import { mainnet } from 'viem/chains'
-import { useAccount } from 'wagmi'
+import { useAccount, useChainId } from 'wagmi'
 import { TokenWithBalance } from '../common/types'
-import { useOriginChainId } from '../hooks/useOriginChainId'
 import { SavingsInfo } from '../savings-info/types'
 import { UseMyEarningsInfoResult, useMyEarningsInfo } from './useMyEarningsInfo/useMyEarningsInfo'
 import { UseSavingsRateInfoResult, useSavingsRateInfo } from './useSavingsRateInfo/useSavingsRateInfo'
@@ -33,12 +32,12 @@ export function useSavingsChartsInfoQuery({
   sUSDSWithBalance,
 }: UseSavingsChartsInfoParams): UseSavingsChartsInfoQueryResult {
   const [selectedTimeframe, setSelectedTimeframe] = useState<Timeframe>('All')
-  const chainId = useOriginChainId()
+  const chainId = useChainId()
 
   const { address } = useAccount()
   const { timestamp } = useTimestamp({ refreshIntervalInMs: REFRESH_INTERVAL_IN_MS })
 
-  const chartsSupported = chainId === mainnet.id
+  const chartsSupported = getChainConfigEntry(chainId).savingsChartsSupported
 
   const myEarningsInfo = useMyEarningsInfo({
     address,
