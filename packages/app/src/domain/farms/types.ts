@@ -23,24 +23,29 @@ export type FarmConfig = {
     }
 )
 
-export interface Farm {
+export interface FarmApiInfo {
+  apy: Percentage
+  depositors: number
+  rewardTokenPriceUsd: NormalizedUnitNumber
+  totalRewarded: NormalizedUnitNumber
+}
+
+export interface FarmBlockchainInfo {
+  rewardTokenAddress: CheckedAddress
+  stakingTokenAddress: CheckedAddress
+  rewardRate: NormalizedUnitNumber
+  periodFinish: number
+  totalSupply: NormalizedUnitNumber
+  earned: NormalizedUnitNumber
+  staked: NormalizedUnitNumber
+  earnedTimestamp: number
+}
+
+export interface Farm extends FarmApiInfo, FarmBlockchainInfo {
   address: CheckedAddress
   entryAssetsGroup: AssetsGroup
   rewardType: FarmConfig['rewardType']
-
   name: string
-
-  apy: Percentage
   rewardToken: Token
   stakingToken: Token
-  rewardRate: NormalizedUnitNumber
-  earnedTimestamp: number
-  periodFinish: number
-  totalSupply: NormalizedUnitNumber
-  totalRewarded: NormalizedUnitNumber
-
-  earned: NormalizedUnitNumber
-  staked: NormalizedUnitNumber
-
-  depositors: number
 }
