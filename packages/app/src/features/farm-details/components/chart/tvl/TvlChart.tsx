@@ -60,6 +60,7 @@ function Chart({
     const point = localPoint(event) || { x: 0 }
     const x = point.x - margins.left
     const domainX = xValueScale.invert(x)
+
     const lastSmallerElement =
       data.reduce(
         (prev, curr) => (curr.date.getTime() < domainX.getTime() ? curr : prev),
@@ -184,7 +185,7 @@ function Chart({
       </svg>
 
       {tooltipData && (
-        <TooltipWithBounds top={20} left={tooltipLeft + 40} unstyled applyPositionStyle>
+        <TooltipWithBounds top={20} left={tooltipLeft + 40} unstyled applyPositionStyle className="pointer-events-none">
           <TooltipContent data={tooltipData} />
         </TooltipWithBounds>
       )}
