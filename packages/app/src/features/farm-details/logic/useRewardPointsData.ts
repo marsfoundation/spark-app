@@ -44,7 +44,7 @@ function rewardPointsDataQueryOptions({ farm, account = zeroAddress }: UseReward
         rewardTokensPerSecond: data.reward_tokens_per_second,
         rewardBalance: data.reward_balance,
         balance: data.balance,
-        updateTimestamp: Date.now(),
+        updateTimestamp: data.reward_datetime_updated?.getTime() ?? Date.now(),
       }
     },
     refetchInterval: (query) => {
@@ -79,4 +79,5 @@ const rewardsPointsDataResponseSchema = z.object({
     .string()
     .optional()
     .transform((value) => NormalizedUnitNumber(value ?? '0')),
+  reward_datetime_updated: z.coerce.date().optional(),
 })
