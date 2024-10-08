@@ -74,7 +74,10 @@ export function ActiveFarmInfoPanel({
         />
         {pointsSyncStatus && (
           <DelayedComponent>
-            <RewardPointsSyncWarning status={pointsSyncStatus} />
+            <RewardPointsSyncWarning
+              status={pointsSyncStatus}
+              data-testid={testIds.farmDetails.activeFarmInfoPanel.pointsSyncWarning}
+            />
           </DelayedComponent>
         )}
       </div>

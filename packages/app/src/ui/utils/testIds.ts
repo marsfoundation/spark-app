@@ -258,6 +258,7 @@ export const testIds = makeTestIds({
       unstakeButton: true,
       claimButton: true,
       staked: true,
+      pointsSyncWarning: true,
     },
   },
 })

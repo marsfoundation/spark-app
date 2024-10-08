@@ -4,21 +4,22 @@ import { assertNever } from '@/utils/assertNever'
 
 export interface RewardPointsSyncWarningProps {
   status: RewardPointsSyncStatus
+  'data-testid'?: string
 }
 
-export function RewardPointsSyncWarning({ status }: RewardPointsSyncWarningProps) {
+export function RewardPointsSyncWarning({ status, ...rest }: RewardPointsSyncWarningProps) {
   switch (status) {
     case 'synced':
       return null
     case 'out-of-sync':
       return (
-        <Alert variant="warning" size="small">
+        <Alert variant="warning" size="small" {...rest}>
           Reward points data is out of sync. Please wait.
         </Alert>
       )
     case 'sync-failed':
       return (
-        <Alert variant="danger" size="small">
+        <Alert variant="danger" size="small" {...rest}>
           Reward points data could not be synced.
         </Alert>
       )

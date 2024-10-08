@@ -18,12 +18,6 @@ export class StakeDialogPageObject extends DialogPageObject {
 
   // #region assertions
   async expectTransactionOverview(transactionOverview: TransactionOverview): Promise<void> {
-    await expect(
-      this.page.getByTestId(testIds.farmDetails.stakeDialog.transactionOverview.estimatedRewards.apy),
-    ).toContainText(transactionOverview.estimatedRewards.apy)
-    await expect(
-      this.page.getByTestId(testIds.farmDetails.stakeDialog.transactionOverview.estimatedRewards.description),
-    ).toContainText(transactionOverview.estimatedRewards.description)
     for (let i = 0; i < transactionOverview.route.swaps.length; i++) {
       await expect(
         this.page.getByTestId(testIds.dialog.transactionOverview.routeItem.tokenWithAmount(i)),
@@ -41,6 +35,21 @@ export class StakeDialogPageObject extends DialogPageObject {
     await expect(this.page.getByTestId(testIds.farmDetails.stakeDialog.transactionOverview.outcome)).toContainText(
       transactionOverview.outcome,
     )
+    if (transactionOverview.estimatedRewards) {
+      await expect(
+        this.page.getByTestId(testIds.farmDetails.stakeDialog.transactionOverview.estimatedRewards.apy),
+      ).toContainText(transactionOverview.estimatedRewards.apy)
+      await expect(
+        this.page.getByTestId(testIds.farmDetails.stakeDialog.transactionOverview.estimatedRewards.description),
+      ).toContainText(transactionOverview.estimatedRewards.description)
+    } else {
+      await expect(
+        this.page.getByTestId(testIds.farmDetails.stakeDialog.transactionOverview.estimatedRewards.apy),
+      ).toBeHidden()
+      await expect(
+        this.page.getByTestId(testIds.farmDetails.stakeDialog.transactionOverview.estimatedRewards.description),
+      ).toBeHidden()
+    }
   }
 
   async expectSuccessPage(): Promise<void> {
@@ -51,7 +60,7 @@ export class StakeDialogPageObject extends DialogPageObject {
 }
 
 export interface TransactionOverview {
-  estimatedRewards: {
+  estimatedRewards?: {
     apy: string
     description: string
   }
