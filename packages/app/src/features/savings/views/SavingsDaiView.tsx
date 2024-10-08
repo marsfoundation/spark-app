@@ -23,7 +23,8 @@ export function SavingsDaiView({
   const displaySavingsDai = savingsTokenDetails.tokenWithBalance.balance.gt(0)
 
   const displaySavingsDaiChart = savingsChartsInfo.chartsSupported
-  const displaySavingsOpportunity = opportunityProjections.thirtyDays.gt(0)
+  const displaySavingsOpportunity =
+    opportunityProjections.thirtyDays.gt(0) && (!displaySavingsDai || !displaySavingsDaiChart)
   const displaySavingsNoCash = !displaySavingsDai && !displaySavingsOpportunity
 
   return (
