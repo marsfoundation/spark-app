@@ -25,16 +25,16 @@ export function SavingsDaiAndUsdsView({
   sDaiDetails,
   sUSDSDetails,
   migrationInfo,
+  opportunityProjections,
   originChainId,
   assetsInWallet,
+  maxBalanceToken,
+  totalEligibleCashUSD,
   savingsMeta,
   openDialog,
   showWelcomeDialog,
   saveConfirmedWelcomeDialog,
   savingsChartsInfo,
-  opportunityProjections,
-  maxBalanceToken,
-  totalEligibleCashUSD,
 }: SavingsDaiAndUsdsViewProps) {
   const displaySavingsDai = sDaiDetails.tokenWithBalance.balance.gt(0)
   const displaySavingsUsds = sUSDSDetails.tokenWithBalance.balance.gt(0)
