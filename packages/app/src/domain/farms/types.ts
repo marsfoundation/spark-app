@@ -26,7 +26,7 @@ export type FarmConfig = {
 export interface FarmApiInfo {
   apy: Percentage
   depositors: number
-  rewardTokenPriceUsd: NormalizedUnitNumber
+  rewardTokenPriceUsd?: NormalizedUnitNumber
   totalRewarded: NormalizedUnitNumber
 }
 
