@@ -37,13 +37,8 @@ export interface ChartTab {
   isError: boolean
 }
 
-export function createChartTab<C>({ component, props, id, label }: ChartTabDefinition<C>): ChartTab {
-  return {
-    component,
-    props,
-    id,
-    label,
-  } as unknown as ChartTab
+export function createChartTab<C>(chart: ChartTabDefinition<C>): ChartTab {
+  return chart as unknown as ChartTab
 }
 
 interface ChartTabsPanelProps {
@@ -111,26 +106,26 @@ interface ChartPanelProps extends ChartTab {
 function ChartPanel({ height, component: Chart, isError, isPending, props }: ChartPanelProps) {
   const [ref, { width }] = useParentSize()
 
-  if (isPending) {
-    return (
-      // @note: Delaying spinner to prevent it from flashing on chart load. For most cases loader won't be shown.
-      <DelayedComponent>
-        <Loader2 className="h-8 animate-spin text-basics-grey" data-chromatic="ignore" />
-      </DelayedComponent>
-    )
-  }
-
-  if (isError) {
-    return (
-      <div className="flex items-center rounded-full bg-basics-grey/60 px-3 py-1 text-basics-dark-grey/80 text-sm">
-        <AlertTriangle className="h-4" /> Failed to load chart data
-      </div>
-    )
-  }
-
   return (
     <div ref={ref} className="w-full flex-1">
-      <Chart {...props} height={height} width={width} />
+      {isError && (
+        <div className="flex items-center justify-center" style={{ height }}>
+          <div className="flex items-center rounded-full bg-basics-grey/60 px-3 py-1 text-basics-dark-grey/80 text-sm">
+            <AlertTriangle className="h-4" /> Failed to load chart data
+          </div>
+        </div>
+      )}
+
+      {isPending && (
+        <div className="flex items-center justify-center" style={{ height }}>
+          {/* @note: Delaying spinner to prevent it from flashing on chart load. For most cases loader won't be shown. */}
+          <DelayedComponent>
+            <Loader2 className="h-8 animate-spin text-basics-grey" data-chromatic="ignore" />
+          </DelayedComponent>
+        </div>
+      )}
+
+      {!isError && !isPending && <Chart {...props} height={height} width={width} />}
     </div>
   )
 }
