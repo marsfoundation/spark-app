@@ -38,6 +38,7 @@ const mockFarm = {
       apy: Percentage(0.05),
       totalRewarded: NormalizedUnitNumber(24520),
       depositors: 6,
+      rewardTokenPriceUsd: tokens.SKY.unitPriceUsd,
     },
   },
 } satisfies Farm

@@ -80,7 +80,7 @@ const farm = {
       apy: Percentage(0.05),
       depositors: 1111,
       totalRewarded: NormalizedUnitNumber(12345),
-      rewardTokenPriceUsd: NormalizedUnitNumber('0.06'),
+      rewardTokenPriceUsd: tokens.SKY.unitPriceUsd,
     },
   },
 } satisfies Farm
