@@ -4,9 +4,9 @@ import { raise } from '@/utils/assert'
 import { SavingsSkeleton } from './components/skeleton/SavingsSkeleton'
 import { useSavings } from './logic/useSavings'
 import { GuestView } from './views/GuestView'
-import { SavingsDaiAndUSDSView } from './views/SavingsDaiAndUSDSView'
+import { SavingsDaiAndUsdsView } from './views/SavingsDaiAndUSDSView'
 import { SavingsDaiView } from './views/SavingsDaiView'
-import { SavingsUSDSView } from './views/SavingsUSDSView'
+import { SavingsUsdsView } from './views/SavingsUSDSView'
 import { UnsupportedChainView } from './views/UnsupportedChainView'
 
 function SavingsContainer() {
@@ -40,7 +40,7 @@ function SavingsContainer() {
 
   if (sDaiDetails && sUSDSDetails) {
     return (
-      <SavingsDaiAndUSDSView
+      <SavingsDaiAndUsdsView
         {...savingsDetails}
         sDaiDetails={sDaiDetails}
         sUSDSDetails={sUSDSDetails}
@@ -54,7 +54,7 @@ function SavingsContainer() {
   }
 
   if (sUSDSDetails) {
-    return <SavingsUSDSView {...savingsDetails} savingsTokenDetails={sUSDSDetails} openDialog={openDialog} />
+    return <SavingsUsdsView {...savingsDetails} savingsTokenDetails={sUSDSDetails} openDialog={openDialog} />
   }
 
   raise('Invalid savings state')

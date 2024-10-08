@@ -35,10 +35,13 @@ export function myEarningsInfoQueryKey({ chainId, address }: Omit<MyEarningsQuer
   return ['my-earnings', chainId, address]
 }
 
+const MS_PER_DAY = 24 * 60 * 60 * 1000
+
 const myEarningsDataResponseSchema = z
   .array(
     z.object({
-      date: dateSchema,
+      // @note blockanalitica data seems to be off by 1 day
+      date: dateSchema.transform((value) => new Date(value.getTime() + MS_PER_DAY)),
       balance: normalizedUnitNumberSchema,
     }),
   )

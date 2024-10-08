@@ -1,12 +1,13 @@
 import { PageHeader } from '../components/PageHeader'
 import { PageLayout } from '../components/PageLayout'
+import { UsdsSavingsCharts } from '../components/savings-charts/UsdsSavingsCharts'
 import { SavingsOpportunity } from '../components/savings-opportunity/SavingsOpportunity'
 import { SavingsOpportunityNoCash } from '../components/savings-opportunity/SavingsOpportunityNoCash'
 import { SavingsTokenPanel } from '../components/savings-token-panel/SavingsTokenPanel'
 import { StablecoinsInWallet } from '../components/stablecoins-in-wallet/StablecoinsInWallet'
 import { SavingsViewContentProps } from './types'
 
-export function SavingsUSDSView({
+export function SavingsUsdsView({
   savingsTokenDetails,
   migrationInfo,
   originChainId,
@@ -16,23 +17,27 @@ export function SavingsUSDSView({
   opportunityProjections,
   openDialog,
   savingsMeta,
+  savingsChartsInfo,
 }: SavingsViewContentProps) {
-  const displaySavingsUSDS = savingsTokenDetails.tokenWithBalance.balance.gt(0)
-  const displaySavingsOpportunity = opportunityProjections.thirtyDays.gt(0)
-  const displaySavingsNoCash = !displaySavingsUSDS && !displaySavingsOpportunity
+  const displaySavingsUsds = savingsTokenDetails.tokenWithBalance.balance.gt(0)
+  const displaySavingsOpportunity = !displaySavingsUsds && opportunityProjections.thirtyDays.gt(0)
+  const displaySavingsNoCash = !displaySavingsUsds && !displaySavingsOpportunity
 
   return (
     <PageLayout>
       <PageHeader />
       <div className="flex flex-col gap-6 sm:flex-row">
-        {displaySavingsUSDS && (
-          <SavingsTokenPanel
-            variant="usds"
-            originChainId={originChainId}
-            openDialog={openDialog}
-            savingsMetaItem={savingsMeta.primary}
-            {...savingsTokenDetails}
-          />
+        {displaySavingsUsds && (
+          <>
+            <SavingsTokenPanel
+              variant="usds"
+              originChainId={originChainId}
+              openDialog={openDialog}
+              savingsMetaItem={savingsMeta.primary}
+              {...savingsTokenDetails}
+            />
+            <UsdsSavingsCharts {...savingsChartsInfo} />
+          </>
         )}
         {displaySavingsOpportunity && (
           <SavingsOpportunity

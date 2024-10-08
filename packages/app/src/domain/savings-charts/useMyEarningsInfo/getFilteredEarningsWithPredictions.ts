@@ -1,3 +1,4 @@
+import { TokenWithBalance } from '@/domain/common/types'
 import { SavingsInfo } from '@/domain/savings-info/types'
 import { Timeframe } from '@/ui/charts/defaults'
 import { filterDataByTimeframe } from '@/ui/charts/utils'
@@ -8,7 +9,8 @@ interface GetFilteredEarningsWithPredictionsParams {
   currentTimestamp: number
   timeframe: Timeframe
   myEarningsInfo: MyEarningsInfoItem[]
-  savingsInfo: SavingsInfo
+  savingsInfo: SavingsInfo | null
+  savingsTokenWithBalance: TokenWithBalance | undefined
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -17,24 +19,39 @@ export function getFilteredEarningsWithPredictions({
   timeframe,
   myEarningsInfo,
   savingsInfo,
+  savingsTokenWithBalance,
 }: GetFilteredEarningsWithPredictionsParams) {
+  if (!savingsInfo || !savingsTokenWithBalance) {
+    return {
+      data: [],
+      predictions: [],
+    }
+  }
+
   const filteredData = filterDataByTimeframe({
     data: myEarningsInfo,
     timeframe,
     currentTimestamp,
   })
 
-  const lastItem = filteredData.at(-1)
+  filteredData.pop()
 
-  const predictions = lastItem
-    ? calculatePredictions({
-        savingsInfo,
-        timeframe,
-        timestamp: lastItem.date.getTime() / 1000,
-        balance: lastItem.balance,
-        dataLength: filteredData.length,
-      })
-    : []
+  const todaysItem = {
+    date: new Date(),
+    balance: savingsInfo.convertToAssets({ shares: savingsTokenWithBalance.balance }),
+  }
+
+  const calculatedPredictions = calculatePredictions({
+    savingsInfo,
+    timeframe,
+    timestamp: Math.floor(todaysItem.date.getTime() / 1000),
+    shares: savingsTokenWithBalance.balance,
+    dataLength: filteredData.length,
+  })
+
+  filteredData.push(todaysItem)
+  // @note todaysItems shows the current balance so we put it into predictions to preserve the chart line continuity
+  const predictions = [todaysItem, ...calculatedPredictions]
 
   return {
     data: filteredData,

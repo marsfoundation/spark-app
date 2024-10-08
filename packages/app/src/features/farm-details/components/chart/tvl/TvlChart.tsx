@@ -3,8 +3,7 @@ import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { ChartTooltipContent } from '@/ui/charts/ChartTooltipContent'
 import { colors } from '@/ui/charts/colors'
 import { Margins, defaultMargins } from '@/ui/charts/defaults'
-import { formatTooltipDate, formatUSDTicks } from '@/ui/charts/utils'
-import { useParentSize } from '@/ui/utils/useParentSize'
+import { formatTooltipDate, formatUSDTicks, getVerticalDomainWithPadding } from '@/ui/charts/utils'
 import { AxisBottom, AxisLeft } from '@visx/axis'
 import { curveStepAfter } from '@visx/curve'
 import { localPoint } from '@visx/event'
@@ -24,7 +23,8 @@ export interface ChartDataPoint {
 }
 
 export interface ChartProps {
-  height?: number
+  height: number
+  width: number
   margins?: Margins
   xAxisNumTicks?: number
   yAxisNumTicks?: number
@@ -32,7 +32,8 @@ export interface ChartProps {
 }
 
 function Chart({
-  height = 300, // @todo: will be refactored/extended
+  height,
+  width,
   margins = defaultMargins,
   xAxisNumTicks = 5,
   yAxisNumTicks = 5,
@@ -42,8 +43,6 @@ function Chart({
   tooltipLeft = 0,
   data,
 }: ChartProps & WithTooltipProvidedProps<ChartDataPoint>) {
-  const [ref, { width }] = useParentSize()
-
   const innerWidth = width - margins.left - margins.right
   const innerHeight = height - margins.top - margins.bottom
 
@@ -73,7 +72,7 @@ function Chart({
   }
 
   return (
-    <div ref={ref}>
+    <div>
       <svg width={width} height={height}>
         <Group left={margins.left} top={margins.top}>
           <GridRows
@@ -205,11 +204,7 @@ function calculateTvlDomain(data: ChartDataPoint[]): ContinuousDomain {
   const minTvl = min(data, (d) => d.totalStaked.toNumber()) || 0
   const maxTvl = max(data, (d) => d.totalStaked.toNumber()) || 0
 
-  if (minTvl === maxTvl) {
-    return [minTvl - 0.1, maxTvl + 0.1]
-  }
-
-  return [minTvl, maxTvl * 1.1] // 10% padding on top
+  return getVerticalDomainWithPadding(minTvl, maxTvl)
 }
 
 const ChartWithTooltip = withTooltip<ChartProps, ChartDataPoint>(Chart)

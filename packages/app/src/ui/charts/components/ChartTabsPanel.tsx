@@ -1,16 +1,22 @@
 import { DelayedComponent } from '@/ui/atoms/delayed-component/DelayedComponent'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/atoms/tabs/Tabs'
+import { useParentSize } from '@/ui/utils/useParentSize'
 import { assert } from '@/utils/assert'
 import { AlertTriangle, Loader2 } from 'lucide-react'
 import { Timeframe } from '../defaults'
 import { TimeframeButtons } from './TimeframeButtons'
 
+export interface ChartTabComponentProps {
+  height: number
+  width: number
+}
+
 type ChartTabDefinition<C> = C extends React.ComponentType<infer P>
-  ? P extends { height?: number }
+  ? P extends ChartTabComponentProps
     ? {
         component: C
-        props: P
+        props: Omit<P, keyof ChartTabComponentProps>
         id: string
         label: string
         isPending: boolean
@@ -22,8 +28,8 @@ type ChartTabDefinition<C> = C extends React.ComponentType<infer P>
 declare const __CHART_TAB_OPAQUE_TYPE__: unique symbol
 
 export interface ChartTab {
-  component: React.ComponentType<{ height: number }>
-  props: { height: number }
+  component: React.ComponentType<ChartTabComponentProps>
+  props: ChartTabComponentProps
   id: string
   label: string
   readonly [__CHART_TAB_OPAQUE_TYPE__]: true
@@ -103,6 +109,8 @@ interface ChartPanelProps extends ChartTab {
 }
 
 function ChartPanel({ height, component: Chart, isError, isPending, props }: ChartPanelProps) {
+  const [ref, { width }] = useParentSize()
+
   if (isPending) {
     return (
       // @note: Delaying spinner to prevent it from flashing on chart load. For most cases loader won't be shown.
@@ -120,5 +128,9 @@ function ChartPanel({ height, component: Chart, isError, isPending, props }: Cha
     )
   }
 
-  return <Chart {...props} height={height} />
+  return (
+    <div ref={ref} className="w-full flex-1">
+      <Chart {...props} height={height} width={width} />
+    </div>
+  )
 }

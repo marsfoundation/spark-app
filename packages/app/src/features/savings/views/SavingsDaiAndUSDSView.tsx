@@ -1,6 +1,9 @@
+import { UseSavingsChartsInfoQueryResult } from '@/domain/savings-charts/useSavingsChartsInfoQuery'
 import { assert, raise } from '@/utils/assert'
 import { PageHeader } from '../components/PageHeader'
 import { PageLayout } from '../components/PageLayout'
+import { DaiSavingsCharts } from '../components/savings-charts/DaiSavingsCharts'
+import { UsdsSavingsCharts } from '../components/savings-charts/UsdsSavingsCharts'
 import { SavingsOpportunity } from '../components/savings-opportunity/SavingsOpportunity'
 import { SavingsOpportunityNoCash } from '../components/savings-opportunity/SavingsOpportunityNoCash'
 import { SavingsTokenPanel } from '../components/savings-token-panel/SavingsTokenPanel'
@@ -10,14 +13,15 @@ import { WelcomeDialog } from '../components/welcome-dialog/WelcomeDialog'
 import { SavingsTokenDetails } from '../logic/useSavings'
 import { SavingsViewContentProps } from './types'
 
-export interface SavingsDaiAndUSDSViewProps extends Omit<SavingsViewContentProps, 'savingsTokenDetails'> {
+export interface SavingsDaiAndUsdsViewProps extends Omit<SavingsViewContentProps, 'savingsTokenDetails'> {
   sDaiDetails: SavingsTokenDetails
   sUSDSDetails: SavingsTokenDetails
   showWelcomeDialog: boolean
   saveConfirmedWelcomeDialog: (confirmedWelcomeDialog: boolean) => void
+  savingsChartsInfo: UseSavingsChartsInfoQueryResult
 }
 
-export function SavingsDaiAndUSDSView({
+export function SavingsDaiAndUsdsView({
   sDaiDetails,
   sUSDSDetails,
   migrationInfo,
@@ -30,12 +34,17 @@ export function SavingsDaiAndUSDSView({
   openDialog,
   showWelcomeDialog,
   saveConfirmedWelcomeDialog,
-}: SavingsDaiAndUSDSViewProps) {
+  savingsChartsInfo,
+}: SavingsDaiAndUsdsViewProps) {
   const displaySavingsDai = sDaiDetails.tokenWithBalance.balance.gt(0)
-  const displaySavingsUSDS = sUSDSDetails.tokenWithBalance.balance.gt(0)
-  const displaySavingsOpportunity =
-    (!displaySavingsDai || !displaySavingsUSDS) && opportunityProjections.thirtyDays.gt(0)
-  const displaySavingsNoCash = !displaySavingsDai && !displaySavingsUSDS && !displaySavingsOpportunity
+  const displaySavingsUsds = sUSDSDetails.tokenWithBalance.balance.gt(0)
+
+  const displaySavingsDaiCharts = displaySavingsDai && !displaySavingsUsds
+  const displaySavingsUsdsCharts = displaySavingsUsds && !displaySavingsDai
+
+  const noSavingsDisplay = !displaySavingsDai && !displaySavingsUsds
+  const displaySavingsOpportunity = noSavingsDisplay && opportunityProjections.thirtyDays.gt(0)
+  const displaySavingsNoCash = noSavingsDisplay && !displaySavingsOpportunity
 
   assert(migrationInfo, 'Migration info should be defined in sDai and sUSDS view')
 
@@ -49,7 +58,7 @@ export function SavingsDaiAndUSDSView({
         />
       )}
       <div className="flex flex-col gap-6 sm:flex-row">
-        {displaySavingsUSDS && (
+        {displaySavingsUsds && (
           <SavingsTokenPanel
             variant="usds"
             originChainId={originChainId}
@@ -58,6 +67,8 @@ export function SavingsDaiAndUSDSView({
             {...sUSDSDetails}
           />
         )}
+        {displaySavingsUsdsCharts && <UsdsSavingsCharts {...savingsChartsInfo} />}
+
         {displaySavingsDai && (
           <SavingsTokenPanel
             variant="dai"
@@ -67,6 +78,8 @@ export function SavingsDaiAndUSDSView({
             {...sDaiDetails}
           />
         )}
+        {displaySavingsDaiCharts && <DaiSavingsCharts {...savingsChartsInfo} />}
+
         {displaySavingsOpportunity && (
           <SavingsOpportunity
             APY={sUSDSDetails.APY}

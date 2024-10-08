@@ -69,3 +69,13 @@ export function filterDataByTimeframe<Data extends { date: Date }>({
       return data
   }
 }
+
+export function getVerticalDomainWithPadding(min: number, max: number): [number, number] {
+  const delta = max - min
+
+  if (delta === 0) {
+    return [min * 0.9, max * 1.1]
+  }
+
+  return [Math.max(0, min - delta * 0.1), max + delta * 0.1]
+}

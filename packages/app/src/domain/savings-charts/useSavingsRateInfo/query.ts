@@ -1,6 +1,5 @@
 import { infoSkyApiUrl } from '@/config/consts'
-import { normalizedUnitNumberSchema } from '@/domain/common/validation'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { percentageAboveOneSchema } from '@/domain/common/validation'
 import { dateSchema } from '@/utils/schemas'
 import { queryOptions } from '@tanstack/react-query'
 import { sort } from 'd3-array'
@@ -37,12 +36,8 @@ const savingsRateDataResponseSchema = z
   .array(
     z.object({
       date: dateSchema,
-      rate: normalizedUnitNumberSchema,
-      dsr_rate: normalizedUnitNumberSchema,
-      ssr_rate: z
-        .string()
-        .nullable()
-        .transform((value) => (value ? NormalizedUnitNumber(value) : null)),
+      dsr_rate: percentageAboveOneSchema,
+      ssr_rate: z.nullable(percentageAboveOneSchema),
     }),
   )
   .transform((data) => {

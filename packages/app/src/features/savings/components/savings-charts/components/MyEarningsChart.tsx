@@ -8,47 +8,39 @@ import { ContinuousDomain, scaleLinear, scaleTime } from '@visx/scale'
 import { AreaClosed, Bar, Line, LinePath } from '@visx/shape'
 import { TooltipWithBounds, withTooltip } from '@visx/tooltip'
 import { WithTooltipProvidedProps } from '@visx/tooltip/lib/enhancers/withTooltip'
-import { extent, max, min, minIndex } from 'd3-array'
+import { extent, max, min } from 'd3-array'
 import { MouseEvent, TouchEvent } from 'react'
 
-import { formatPercentage } from '@/domain/common/format'
-import { Percentage } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { ChartTooltipContent } from '@/ui/charts/ChartTooltipContent'
 import { colors as colorsPreset } from '@/ui/charts/colors'
-import { Margins, defaultMargins } from '@/ui/charts/defaults'
-import { formatDateTick, formatPercentageTick, formatTooltipDate } from '@/ui/charts/utils'
-import { useParentSize } from '@/ui/utils/useParentSize'
+import { Margins, POINT_RADIUS, defaultMargins } from '@/ui/charts/defaults'
+import { formatDateTick, formatTooltipDate, formatUSDTicks, getVerticalDomainWithPadding } from '@/ui/charts/utils'
 
 export interface ChartDataPoint {
+  balance: NormalizedUnitNumber
   date: Date
-  rate: Percentage
-}
-
-interface Colors {
-  primary: string
-  backgroundLine: string
-  axisTickLabel: string
-  tooltipLine: string
-  dot: string
-  dotStroke: string
 }
 
 const colors = {
   ...colorsPreset,
-  primary: '#6EC275',
+  secondary: '#BECAF9',
 }
 
-export interface SavingsRateChartProps {
-  height?: number
+export interface ChartProps {
+  height: number
+  width: number
   margins?: Margins
   xAxisNumTicks?: number
   yAxisNumTicks?: number
   data: ChartDataPoint[]
-  tooltipLabel: string
+  predictions: ChartDataPoint[]
 }
 
-function SavingsRateChart({
-  height = 300, // @todo: will be refactored/extended
+function MyEarningsChart({
+  height,
+  width,
   margins = defaultMargins,
   xAxisNumTicks = 5,
   yAxisNumTicks = 5,
@@ -57,38 +49,56 @@ function SavingsRateChart({
   tooltipData,
   tooltipLeft = 0,
   data,
-  tooltipLabel,
-}: SavingsRateChartProps & WithTooltipProvidedProps<ChartDataPoint>) {
-  const [ref, { width }] = useParentSize()
-
+  predictions,
+}: ChartProps & WithTooltipProvidedProps<ChartDataPoint>) {
   const innerWidth = width - margins.left - margins.right
   const innerHeight = height - margins.top - margins.bottom
+  const xAxisData = [...data, ...predictions]
 
   const xValueScale = scaleTime({
     range: [0, innerWidth],
-    domain: extent(data, ({ date }) => date) as [Date, Date],
+    domain: extent(xAxisData, ({ date }) => date) as [Date, Date],
   })
   const yValueScale = scaleLinear({
     range: [innerHeight, 0],
-    domain: calculateRateDomain(data),
+    domain: calculateBalanceDomain(xAxisData),
     nice: true,
   })
 
   function handleTooltip(event: TouchEvent<SVGRectElement> | MouseEvent<SVGRectElement>): void {
     const point = localPoint(event) || { x: 0 }
-    const x = point.x - margins.left
+    // @note radius is added to make last point accessible for tooltip
+    const x = point.x - margins.left + POINT_RADIUS
     const domainX = xValueScale.invert(x)
-
-    const tooltipElement = data[minIndex(data, (d) => Math.abs(d.date.getTime() - domainX.getTime()))]
+    const lastSmallerElement =
+      xAxisData.reduce(
+        (prev, curr) => (curr.date.getTime() < domainX.getTime() ? curr : prev),
+        null as ChartDataPoint | null,
+      ) || xAxisData[0]
 
     showTooltip({
-      tooltipData: tooltipElement,
+      tooltipData: lastSmallerElement,
       tooltipLeft: x,
     })
   }
 
+  const dataLastElement = data[data.length - 1]
+
+  const chartParts = [
+    {
+      key: 'predictions',
+      balance: predictions,
+      color: colors.secondary,
+    },
+    {
+      key: 'data',
+      balance: data,
+      color: colors.primary,
+    },
+  ]
+
   return (
-    <div ref={ref}>
+    <div>
       <svg width={width} height={height}>
         <Group left={margins.left} top={margins.top}>
           <GridRows
@@ -98,34 +108,43 @@ function SavingsRateChart({
             stroke={colors.backgroundLine}
             strokeWidth={1}
             pointerEvents="none"
+            numTicks={yAxisNumTicks}
           />
 
-          <LinearGradient
-            id="area-gradient"
-            from={colors.primary}
-            to={colors.primary}
-            fromOpacity={0.5}
-            toOpacity={0}
-          />
+          {chartParts.map(({ balance, color, key }) => (
+            <g key={key}>
+              <LinearGradient id={`area-gradient-${key}`} from={color} to={color} fromOpacity={0.5} toOpacity={0} />
 
-          <AreaClosed
-            strokeWidth={2}
-            data={data}
-            x={(data) => xValueScale(data.date)}
-            y={(data) => yValueScale(data.rate.toNumber())}
-            yScale={yValueScale}
-            curve={curveStepAfter}
-            fill="url(#area-gradient)"
-          />
+              <AreaClosed
+                strokeWidth={2}
+                data={balance}
+                x={(data) => xValueScale(data.date)}
+                y={(data) => yValueScale(data.balance.toNumber())}
+                yScale={yValueScale}
+                curve={curveStepAfter}
+                fill={`url(#area-gradient-${key})`}
+              />
 
-          <LinePath
-            stroke={colors.primary}
-            strokeWidth={2}
-            data={data}
-            x={(data) => xValueScale(data.date)}
-            y={(data) => yValueScale(data.rate.toNumber())}
-            curve={curveStepAfter}
-          />
+              <LinePath
+                stroke={color}
+                strokeWidth={2}
+                data={balance}
+                x={(data) => xValueScale(data.date)}
+                y={(data) => yValueScale(data.balance.toNumber())}
+                curve={curveStepAfter}
+              />
+            </g>
+          ))}
+
+          {dataLastElement && (
+            <circle
+              cx={xValueScale(dataLastElement.date)}
+              cy={yValueScale(dataLastElement.balance.toNumber())}
+              r={POINT_RADIUS}
+              fill={colors.primary}
+              pointerEvents="none"
+            />
+          )}
 
           <AxisBottom
             top={innerHeight - margins.bottom / 4}
@@ -146,7 +165,7 @@ function SavingsRateChart({
             scale={yValueScale}
             strokeWidth={0}
             numTicks={yAxisNumTicks}
-            tickFormat={formatPercentageTick}
+            tickFormat={formatUSDTicks}
             tickLabelProps={() => ({
               fill: colors.axisTickLabel,
               fontSize: 10,
@@ -177,14 +196,14 @@ function SavingsRateChart({
               />
               <circle
                 cx={tooltipLeft}
-                cy={yValueScale(tooltipData.rate.toNumber())}
+                cy={yValueScale(tooltipData.balance.toNumber())}
                 r={8}
                 fill={colors.primary}
                 pointerEvents="none"
               />
               <circle
                 cx={tooltipLeft}
-                cy={yValueScale(tooltipData.rate.toNumber())}
+                cy={yValueScale(tooltipData.balance.toNumber())}
                 r={4}
                 fill={colors.dot}
                 stroke={colors.dotStroke}
@@ -198,36 +217,38 @@ function SavingsRateChart({
 
       {tooltipData && (
         <TooltipWithBounds top={20} left={tooltipLeft + 40} unstyled applyPositionStyle>
-          <TooltipContent data={tooltipData} colors={colors} tooltipLabel={tooltipLabel} />
+          <TooltipContent data={tooltipData} />
         </TooltipWithBounds>
       )}
     </div>
   )
 }
 
-function TooltipContent({ data, tooltipLabel }: { data: ChartDataPoint; colors: Colors; tooltipLabel: string }) {
+function TooltipContent({ data }: { data: ChartDataPoint }) {
+  const isPrediction = isDataPointPrediction(data)
+
   return (
     <ChartTooltipContent>
       <ChartTooltipContent.Date>{formatTooltipDate(data.date)}</ChartTooltipContent.Date>
-      <ChartTooltipContent.Value dotColor={colors.primary}>
-        {tooltipLabel}:{' '}
-        <span className="font-semibold">{formatPercentage(data.rate, { minimumFractionDigits: 0 })}</span>
+      <ChartTooltipContent.Value dotColor={isPrediction ? colors.secondary : colors.primary}>
+        Savings{isPrediction && ' Prediction'}:{' '}
+        <span className="font-semibold">{USD_MOCK_TOKEN.formatUSD(data.balance)}</span>
       </ChartTooltipContent.Value>
     </ChartTooltipContent>
   )
 }
 
-function calculateRateDomain(data: ChartDataPoint[]): ContinuousDomain {
-  const minRate = min(data, (d) => d.rate.toNumber()) || 0
-  const maxRate = max(data, (d) => d.rate.toNumber()) || 0
-
-  if (minRate === maxRate) {
-    return [minRate - 0.01, maxRate + 0.01]
-  }
-
-  return [minRate * 0.9, maxRate * 1.1] // 10% padding on top
+function isDataPointPrediction(dataPoint: ChartDataPoint): boolean {
+  return Date.now() < dataPoint.date.getTime()
 }
 
-const SavingsRateChartWithTooltip = withTooltip<SavingsRateChartProps, ChartDataPoint>(SavingsRateChart)
+function calculateBalanceDomain(data: ChartDataPoint[]): ContinuousDomain {
+  const minBalance = min(data, (d) => d.balance.toNumber()) || 0
+  const maxBalance = max(data, (d) => d.balance.toNumber()) || 0
 
-export { SavingsRateChartWithTooltip as SavingsRateChart }
+  return getVerticalDomainWithPadding(minBalance, maxBalance)
+}
+
+const MyEarningsChartWithTooltip = withTooltip<ChartProps, ChartDataPoint>(MyEarningsChart)
+
+export { MyEarningsChartWithTooltip as MyEarningsChart }

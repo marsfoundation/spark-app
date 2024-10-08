@@ -9,7 +9,7 @@ const SECONDS_PER_DAY = 24 * 60 * 60
 
 export interface CalculatePredictionsParams {
   timestamp: number // in seconds
-  balance: NormalizedUnitNumber
+  shares: NormalizedUnitNumber
   savingsInfo: SavingsInfo
   timeframe: Timeframe
   dataLength: number
@@ -17,27 +17,26 @@ export interface CalculatePredictionsParams {
 
 export function calculatePredictions({
   timestamp,
-  balance,
+  shares,
   savingsInfo,
   timeframe,
   dataLength,
 }: CalculatePredictionsParams): MyEarningsInfoItem[] {
-  const optimalPredictionsLength = Math.floor(dataLength * 0.33)
+  const optimalPredictionsLength = Math.floor(dataLength * 1.66)
 
   switch (timeframe) {
     case '7D':
       return calculatePredictionsIncomeByDays({
-        // @note Ensure to have proportional length of projections to the data length
-        days: Math.min(optimalPredictionsLength, 3),
-        balance,
+        days: Math.max(optimalPredictionsLength, 7),
+        shares,
         timestamp,
         savingsInfo,
       })
 
     case '1M':
       return calculatePredictionsIncomeByDays({
-        days: Math.min(optimalPredictionsLength, 7),
-        balance,
+        days: Math.max(optimalPredictionsLength, 30),
+        shares,
         timestamp,
         savingsInfo,
       })
@@ -45,8 +44,9 @@ export function calculatePredictions({
     case '1Y':
     case 'All':
       return calculatePredictionsIncomeByDays({
-        days: Math.min(optimalPredictionsLength, 60),
-        balance,
+        // setting upper bounds due to visible performance problems
+        days: Math.max(Math.min(optimalPredictionsLength, 360), 180),
+        shares,
         timestamp,
         savingsInfo,
       })
@@ -59,17 +59,15 @@ export function calculatePredictions({
 function calculatePredictionsIncomeByDays({
   days,
   savingsInfo,
-  balance,
+  shares,
   timestamp,
 }: {
   days: number
   savingsInfo: SavingsInfo
-  balance: NormalizedUnitNumber
+  shares: NormalizedUnitNumber
   timestamp: number
 }): MyEarningsInfoItem[] {
-  const shares = savingsInfo.convertToShares({ assets: balance })
-
-  // @note We have data for current day already but on chart we want to start from actual day not the next one
+  // @note For today we have only current balance (with slight delay) but we need also balance for next data-point
   return range(0, days).map((day) => {
     const dayTimestamp = timestamp + day * SECONDS_PER_DAY
 

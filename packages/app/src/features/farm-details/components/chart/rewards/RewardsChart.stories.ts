@@ -10,6 +10,7 @@ const meta: Meta<typeof RewardsChart> = {
   decorators: [WithClassname('max-w-lg')],
   args: {
     height: 320,
+    width: 512,
     data: mockRewardsChartData,
   },
 }
@@ -18,5 +19,11 @@ export default meta
 type Story = StoryObj<typeof RewardsChart>
 
 export const Desktop: Story = {}
-export const Mobile = getMobileStory(Desktop)
 export const Tablet = getTabletStory(Desktop)
+
+const MobileStory: Story = {
+  args: {
+    width: 340,
+  },
+}
+export const Mobile = getMobileStory(MobileStory)

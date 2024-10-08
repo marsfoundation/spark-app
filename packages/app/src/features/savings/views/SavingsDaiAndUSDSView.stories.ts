@@ -5,7 +5,12 @@ import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { mainnet } from 'viem/chains'
-import { SavingsDaiAndUSDSView } from './SavingsDaiAndUSDSView'
+import {
+  mockEarningsChartData,
+  mockEarningsPredictionsChartData,
+} from '../components/savings-charts/fixtures/mockEarningsChartData'
+import { mockDsrChartData, mockSsrChartData } from '../components/savings-charts/fixtures/mockSavingsRateChartData'
+import { SavingsDaiAndUsdsView } from './SavingsDaiAndUSDSView'
 
 const savingsViewBaseArgs = {
   chainId: mainnet.id,
@@ -59,6 +64,27 @@ const savingsViewBaseArgs = {
   } as const,
   totalEligibleCashUSD: NormalizedUnitNumber(45454),
   openDialog: () => {},
+  savingsChartsInfo: {
+    selectedTimeframe: '1M' as const,
+    setSelectedTimeframe: () => {},
+    myEarningsInfo: {
+      data: {
+        data: mockEarningsChartData,
+        predictions: mockEarningsPredictionsChartData,
+      },
+      isError: false,
+      isLoading: false,
+      shouldDisplayMyEarnings: true,
+    },
+    savingsRateInfo: {
+      data: {
+        ssr: mockSsrChartData,
+        dsr: mockDsrChartData,
+      },
+      isError: false,
+      isLoading: false,
+    },
+  },
 }
 
 const sUSDSDetails = {
@@ -83,9 +109,9 @@ const sDaiDetails = {
   depositedUSDPrecision: 2,
 }
 
-const meta: Meta<typeof SavingsDaiAndUSDSView> = {
-  title: 'Features/Savings/Views/SavingsDaiAndUSDSView',
-  component: SavingsDaiAndUSDSView,
+const meta: Meta<typeof SavingsDaiAndUsdsView> = {
+  title: 'Features/Savings/Views/SavingsDaiAndUsdsView',
+  component: SavingsDaiAndUsdsView,
   decorators: [WithTooltipProvider()],
   parameters: {
     layout: 'fullscreen',
@@ -93,7 +119,7 @@ const meta: Meta<typeof SavingsDaiAndUSDSView> = {
 }
 
 export default meta
-type Story = StoryObj<typeof SavingsDaiAndUSDSView>
+type Story = StoryObj<typeof SavingsDaiAndUsdsView>
 
 export const Desktop: Story = { args: { ...savingsViewBaseArgs, sDaiDetails, sUSDSDetails } }
 export const Mobile = getMobileStory(Desktop)

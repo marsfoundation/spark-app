@@ -5,6 +5,11 @@ import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { mainnet } from 'viem/chains'
+import {
+  mockEarningsChartData,
+  mockEarningsPredictionsChartData,
+} from '../components/savings-charts/fixtures/mockEarningsChartData'
+import { mockDsrChartData, mockSsrChartData } from '../components/savings-charts/fixtures/mockSavingsRateChartData'
 import { SavingsDaiView } from './SavingsDaiView'
 
 const savingsViewBaseArgs = {
@@ -39,6 +44,27 @@ const savingsViewBaseArgs = {
       rateName: 'DAI Savings Rate',
     },
   } as const,
+  savingsChartsInfo: {
+    selectedTimeframe: '1M' as const,
+    setSelectedTimeframe: () => {},
+    myEarningsInfo: {
+      data: {
+        data: mockEarningsChartData,
+        predictions: mockEarningsPredictionsChartData,
+      },
+      isError: false,
+      isLoading: false,
+      shouldDisplayMyEarnings: true,
+    },
+    savingsRateInfo: {
+      data: {
+        ssr: mockSsrChartData,
+        dsr: mockDsrChartData,
+      },
+      isError: false,
+      isLoading: false,
+    },
+  },
 }
 
 const savingsTokenDetails = {

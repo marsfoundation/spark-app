@@ -3,8 +3,7 @@ import { Percentage } from '@/domain/types/NumericValues'
 import { ChartTooltipContent } from '@/ui/charts/ChartTooltipContent'
 import { colors } from '@/ui/charts/colors'
 import { Margins, defaultMargins } from '@/ui/charts/defaults'
-import { formatPercentageTick, formatTooltipDate } from '@/ui/charts/utils'
-import { useParentSize } from '@/ui/utils/useParentSize'
+import { formatPercentageTick, formatTooltipDate, getVerticalDomainWithPadding } from '@/ui/charts/utils'
 import { AxisBottom, AxisLeft } from '@visx/axis'
 import { curveStepAfter } from '@visx/curve'
 import { localPoint } from '@visx/event'
@@ -24,7 +23,8 @@ export interface ChartDataPoint {
 }
 
 export interface ChartProps {
-  height?: number
+  height: number
+  width: number
   margins?: Margins
   xAxisNumTicks?: number
   yAxisNumTicks?: number
@@ -32,7 +32,8 @@ export interface ChartProps {
 }
 
 function Chart({
-  height = 300, // @todo: will be refactored/extended
+  height,
+  width,
   margins = defaultMargins,
   xAxisNumTicks = 5,
   yAxisNumTicks = 5,
@@ -42,8 +43,6 @@ function Chart({
   tooltipLeft = 0,
   data,
 }: ChartProps & WithTooltipProvidedProps<ChartDataPoint>) {
-  const [ref, { width }] = useParentSize()
-
   const innerWidth = width - margins.left - margins.right
   const innerHeight = height - margins.top - margins.bottom
 
@@ -73,7 +72,7 @@ function Chart({
   }
 
   return (
-    <div ref={ref}>
+    <div>
       <svg width={width} height={height}>
         <Group left={margins.left} top={margins.top}>
           <GridRows
@@ -205,11 +204,7 @@ function calculateAprDomain(data: ChartDataPoint[]): ContinuousDomain {
   const minApr = min(data, (d) => d.apr.toNumber()) || 0
   const maxApr = max(data, (d) => d.apr.toNumber()) || 0
 
-  if (minApr === maxApr) {
-    return [minApr - 0.1, maxApr + 0.1]
-  }
-
-  return [minApr, maxApr * 1.1] // 10% padding on top
+  return getVerticalDomainWithPadding(minApr, maxApr)
 }
 
 const ChartWithTooltip = withTooltip<ChartProps, ChartDataPoint>(Chart)
