@@ -34,17 +34,18 @@ export function getFilteredEarningsWithPredictions({
     currentTimestamp,
   })
 
+  // @note we remove the last item which is the todays current balance and create our own to avoid delayed values
   filteredData.pop()
 
   const todaysItem = {
-    date: new Date(),
+    date: new Date(currentTimestamp * 1000),
     balance: savingsInfo.convertToAssets({ shares: savingsTokenWithBalance.balance }),
   }
 
   const calculatedPredictions = calculatePredictions({
     savingsInfo,
     timeframe,
-    timestamp: Math.floor(todaysItem.date.getTime() / 1000),
+    timestamp: Math.floor(getEndOfDayTimestamp(todaysItem.date) / 1000),
     shares: savingsTokenWithBalance.balance,
     dataLength: filteredData.length,
   })
@@ -57,4 +58,9 @@ export function getFilteredEarningsWithPredictions({
     data: filteredData,
     predictions,
   }
+}
+
+function getEndOfDayTimestamp(date: Date): number {
+  const endOfDayUTC = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), 23, 59, 59, 9999)
+  return endOfDayUTC
 }

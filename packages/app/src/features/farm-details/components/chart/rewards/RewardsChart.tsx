@@ -181,7 +181,7 @@ function Chart({
       </svg>
 
       {tooltipData && (
-        <TooltipWithBounds top={20} left={tooltipLeft + 40} unstyled applyPositionStyle>
+        <TooltipWithBounds top={20} left={tooltipLeft + 40} unstyled applyPositionStyle className="pointer-events-none">
           <TooltipContent data={tooltipData} />
         </TooltipWithBounds>
       )}

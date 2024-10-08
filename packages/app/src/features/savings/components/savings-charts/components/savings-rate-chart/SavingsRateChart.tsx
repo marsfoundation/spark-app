@@ -8,14 +8,14 @@ import { ContinuousDomain, scaleLinear, scaleTime } from '@visx/scale'
 import { AreaClosed, Bar, Line, LinePath } from '@visx/shape'
 import { TooltipWithBounds, withTooltip } from '@visx/tooltip'
 import { WithTooltipProvidedProps } from '@visx/tooltip/lib/enhancers/withTooltip'
-import { extent, max, min, minIndex } from 'd3-array'
+import { extent, max, min } from 'd3-array'
 import { MouseEvent, TouchEvent } from 'react'
 
 import { formatPercentage } from '@/domain/common/format'
 import { Percentage } from '@/domain/types/NumericValues'
 import { ChartTooltipContent } from '@/ui/charts/ChartTooltipContent'
 import { colors as colorsPreset } from '@/ui/charts/colors'
-import { Margins, defaultMargins } from '@/ui/charts/defaults'
+import { Margins, POINT_RADIUS, defaultMargins } from '@/ui/charts/defaults'
 import {
   formatDateTick,
   formatPercentageTick,
@@ -80,13 +80,17 @@ function SavingsRateChart({
 
   function handleTooltip(event: TouchEvent<SVGRectElement> | MouseEvent<SVGRectElement>): void {
     const point = localPoint(event) || { x: 0 }
-    const x = point.x - margins.left
+    const x = point.x - margins.left + POINT_RADIUS
     const domainX = xValueScale.invert(x)
 
-    const tooltipElement = data[minIndex(data, (d) => Math.abs(d.date.getTime() - domainX.getTime()))]
+    const lastSmallerElement =
+      data.reduce(
+        (prev, curr) => (curr.date.getTime() < domainX.getTime() ? curr : prev),
+        null as ChartDataPoint | null,
+      ) || data[0]
 
     showTooltip({
-      tooltipData: tooltipElement,
+      tooltipData: lastSmallerElement,
       tooltipLeft: x,
     })
   }
@@ -201,7 +205,7 @@ function SavingsRateChart({
       </svg>
 
       {tooltipData && (
-        <TooltipWithBounds top={20} left={tooltipLeft + 40} unstyled applyPositionStyle>
+        <TooltipWithBounds top={20} left={tooltipLeft + 40} unstyled applyPositionStyle className="pointer-events-none">
           <TooltipContent data={tooltipData} colors={colors} tooltipLabel={tooltipLabel} />
         </TooltipWithBounds>
       )}
