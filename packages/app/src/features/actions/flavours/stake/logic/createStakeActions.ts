@@ -19,7 +19,7 @@ export function createStakeActions(objective: StakeObjective, context: ActionCon
   const { sDaiSymbol, sUSDSSymbol, daiSymbol, USDSSymbol } = getChainConfigEntry(chainId)
 
   assert(farmsInfo, 'Farms info is required for stake action')
-  const { stakingToken, rewardToken } = farmsInfo.findOneFarmByAddress(objective.farm)
+  const { stakingToken, rewardToken } = farmsInfo.findOneFarmByAddress(objective.farm).blockchainInfo
 
   const approveStakeAction: ApproveAction = {
     type: 'approve',

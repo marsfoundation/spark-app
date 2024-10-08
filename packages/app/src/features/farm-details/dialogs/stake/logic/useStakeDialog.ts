@@ -41,7 +41,7 @@ export interface UseStakeDialogResult {
 
 export function useStakeDialog({ farm, initialToken }: UseStakeDialogParams): UseStakeDialogResult {
   const [pageStatus, setPageStatus] = useState<PageState>('form')
-  const { farmsInfo } = useFarmsInfo()
+  const farmsInfo = useFarmsInfo()
   const { tokensInfo, entryTokens } = useFarmEntryTokens(farm)
   assert(entryTokens[0], 'There should be at least one entry token')
   const { savingsDaiInfo } = useSavingsDaiInfo()
@@ -71,7 +71,7 @@ export function useStakeDialog({ farm, initialToken }: UseStakeDialogParams): Us
       type: 'stake',
       amount: formValues.value,
       token: formValues.token,
-      farm: farm.address,
+      farm: farm.blockchainInfo.address,
     },
   ]
 
@@ -88,7 +88,7 @@ export function useStakeDialog({ farm, initialToken }: UseStakeDialogParams): Us
       ? txOverview.routeToStakingToken.at(-1) ?? raise('Route should be defined')
       : undefined
   const stakedToken = {
-    token: farm.stakingToken,
+    token: farm.blockchainInfo.stakingToken,
     value: stakingTokenRouteItem?.value ?? NormalizedUnitNumber(0),
   }
 

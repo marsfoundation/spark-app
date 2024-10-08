@@ -33,10 +33,10 @@ export function ActiveFarmInfoPanel({
   openUnstakeDialog,
   pointsSyncStatus,
 }: ActiveFarmInfoPanelProps) {
-  if (farm.rewardType === 'points') {
+  if (farm.blockchainInfo.rewardType === 'points') {
     assert(pointsSyncStatus, 'pointsSyncStatus should be defined')
   }
-  const { rewardToken, staked } = farm
+  const { rewardToken, staked, totalSupply, address, stakingToken } = farm.blockchainInfo
 
   return (
     <Panel.Wrapper className="flex min-h-[380px] w-full flex-1 flex-col self-stretch px-6 py-6 md:px-[32px]">
@@ -83,25 +83,29 @@ export function ActiveFarmInfoPanel({
         <div
           className={cn(
             'flex flex-col items-start gap-2 md:flex-row md:items-center',
-            farm.apy.gt(0) ? 'w-full text-sm md:justify-between' : 'md:gap-12',
+            farm.apiInfo.data?.apy.gt(0) ? 'w-full text-sm md:justify-between' : 'md:gap-12',
           )}
         >
-          <DetailsItem title="Participants">
-            <div className="font-semibold">{farm.depositors}</div>
-          </DetailsItem>
+          {/* @todo: Handle loading error states for farm api info */}
+          {farm.apiInfo.data && (
+            <DetailsItem title="Participants">
+              <div className="font-semibold">{farm.apiInfo.data.depositors}</div>
+            </DetailsItem>
+          )}
+
           <DetailsItem title="TVL">
-            <div className="font-semibold">{USD_MOCK_TOKEN.formatUSD(farm.totalSupply, { compact: true })}</div>
+            <div className="font-semibold">{USD_MOCK_TOKEN.formatUSD(totalSupply, { compact: true })}</div>
           </DetailsItem>
-          {farm.apy.gt(0) && (
-            <DetailsItem title="APY" explainer={<ApyTooltip farmAddress={farm.address} />}>
+          {farm.apiInfo.data?.apy.gt(0) && (
+            <DetailsItem title="APY" explainer={<ApyTooltip farmAddress={address} />}>
               <div className="font-semibold text-[#3F66EF]">
-                {formatPercentage(farm.apy, { minimumFractionDigits: 0 })}
+                {formatPercentage(farm.apiInfo.data.apy, { minimumFractionDigits: 0 })}
               </div>
             </DetailsItem>
           )}
           <DetailsItem title="My Deposit">
             <div className="font-semibold" data-testid={testIds.farmDetails.activeFarmInfoPanel.staked}>
-              {farm.stakingToken.format(farm.staked, { style: 'auto' })} {farm.stakingToken.symbol}
+              {stakingToken.format(staked, { style: 'auto' })} {stakingToken.symbol}
             </div>
           </DetailsItem>
         </div>

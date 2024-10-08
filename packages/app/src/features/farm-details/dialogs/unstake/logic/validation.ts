@@ -11,7 +11,7 @@ export function getUnstakeDialogFormValidator(farm: Farm, tokensInfo: TokensInfo
     const value = NormalizedUnitNumber(field.value === '' ? '0' : field.value)
     const isMaxSelected = field.isMaxSelected
 
-    const usdBalance = farm.stakingToken.toUSD(farm.staked)
+    const usdBalance = farm.blockchainInfo.stakingToken.toUSD(farm.blockchainInfo.staked)
     const token = tokensInfo.findOneTokenBySymbol(field.symbol)
     const tokenBalance = NormalizedUnitNumber(usdBalance.dividedBy(token.unitPriceUsd))
 

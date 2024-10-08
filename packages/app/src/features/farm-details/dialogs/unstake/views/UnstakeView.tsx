@@ -42,7 +42,7 @@ export function UnstakeView({
 
   return (
     <MultiPanelDialog panelRef={ref}>
-      <DialogTitle>Withdraw from {farm.name}</DialogTitle>
+      <DialogTitle>Withdraw from {farm.blockchainInfo.name}</DialogTitle>
 
       <FormAndOverviewWrapper>
         <DialogForm form={form} assetsFields={assetsFields} selectorAssets={selectableAssets} />

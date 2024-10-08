@@ -49,7 +49,7 @@ export function useUnstakeDialog({ farm, initialToken }: UseStakeDialogParams): 
     updateTimestamp()
   }, [updateTimestamp])
   const [pageStatus, setPageStatus] = useState<PageState>('form')
-  const { farmsInfo } = useFarmsInfo()
+  const farmsInfo = useFarmsInfo()
   const { tokensInfo, exitTokens } = useFarmExitTokens(farm)
   const [exitFarmSwitchChecked, setExitFarmSwitchChecked] = useState(false)
 
@@ -76,7 +76,7 @@ export function useUnstakeDialog({ farm, initialToken }: UseStakeDialogParams): 
   const objectives: UnstakeObjective[] = [
     {
       type: 'unstake',
-      farm: farm.address,
+      farm: farm.blockchainInfo.address,
       token: formValues.token,
       amount: formValues.value,
       exit: exitFarmSwitchChecked,
@@ -84,13 +84,13 @@ export function useUnstakeDialog({ farm, initialToken }: UseStakeDialogParams): 
   ]
 
   const earnedRewards = calculateReward({
-    earned: farm.earned,
-    staked: farm.staked,
-    rewardRate: farm.rewardRate,
-    earnedTimestamp: farm.earnedTimestamp,
-    periodFinish: farm.periodFinish,
+    earned: farm.blockchainInfo.earned,
+    staked: farm.blockchainInfo.staked,
+    rewardRate: farm.blockchainInfo.rewardRate,
+    earnedTimestamp: farm.blockchainInfo.earnedTimestamp,
+    periodFinish: farm.blockchainInfo.periodFinish,
     timestampInMs: timestamp * 1000,
-    totalSupply: farm.totalSupply,
+    totalSupply: farm.blockchainInfo.totalSupply,
   })
 
   const txOverview = createTxOverview({
@@ -106,12 +106,12 @@ export function useUnstakeDialog({ farm, initialToken }: UseStakeDialogParams): 
       : undefined
 
   const outcomeToken = {
-    token: outcomeTokenRouteItem?.token ?? farm.stakingToken,
+    token: outcomeTokenRouteItem?.token ?? farm.blockchainInfo.stakingToken,
     value: outcomeTokenRouteItem?.value ?? NormalizedUnitNumber(0),
   }
 
   const actionsEnabled = formValues.value.gt(0) && isFormValid && !isDebouncing
-  const canClaim = farm.earned.gt(0) || farm.rewardRate.gt(0)
+  const canClaim = farm.blockchainInfo.earned.gt(0) || farm.blockchainInfo.rewardRate.gt(0)
 
   return {
     selectableAssets: exitTokens,
@@ -130,7 +130,7 @@ export function useUnstakeDialog({ farm, initialToken }: UseStakeDialogParams): 
       onSwitch: () => setExitFarmSwitchChecked((exitFarmSwitchChecked) => !exitFarmSwitchChecked),
       checked: exitFarmSwitchChecked,
       reward: {
-        token: farm.rewardToken,
+        token: farm.blockchainInfo.rewardToken, // @todo: figure out formatting without price, wait for price
         value: earnedRewards,
       },
     },

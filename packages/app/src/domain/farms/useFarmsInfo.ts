@@ -22,10 +22,11 @@ export function useFarmsInfo(params: UseFarmsInfoParams = {}): FarmsInfo {
   const { farms: farmConfigs, extraTokens } = getChainConfigEntry(chainId)
   const { tokensInfo } = useTokensInfo({ tokens: extraTokens, chainId })
 
+  const farmsApiInfoResult = useQuery(farmsApiInfoQueryOptions({ farmConfigs }))
+
   const farmsBlockchainInfo = useSuspenseQuery(
     farmsBlockchainInfoQueryOptions({ farmConfigs, wagmiConfig, tokensInfo, chainId, account }),
   )
-  const farmsApiInfoResult = useQuery(farmsApiInfoQueryOptions({ farmConfigs }))
 
   const farms = farmsBlockchainInfo.data.map((farmBlockchainInfo) => ({
     blockchainInfo: farmBlockchainInfo,

@@ -25,32 +25,32 @@ export type TxOverview = { showEstimatedRewards: boolean } & (
 
 export function createTxOverview({ formValues, farm }: CreateTxOverviewParams): TxOverview {
   const value = formValues.value
-  const showEstimatedRewards = farm.rewardType !== 'points'
+  const showEstimatedRewards = farm.blockchainInfo.rewardType !== 'points'
   if (value.eq(0)) {
     return { status: 'no-overview', showEstimatedRewards }
   }
 
   const routeToStakingToken: TxOverviewRouteItem[] = createRouteToStakingToken({
     formValues,
-    stakingToken: farm.stakingToken,
+    stakingToken: farm.blockchainInfo.stakingToken,
   })
 
   const stakedAmountUsd = formValues.token.toUSD(formValues.value)
   const rewardsPerYear = NormalizedUnitNumber(
     stakedAmountUsd
-      .multipliedBy(farm.rewardRate)
-      .dividedBy(farm.totalSupply.plus(formValues.value))
+      .multipliedBy(farm.blockchainInfo.rewardRate)
+      .dividedBy(farm.blockchainInfo.totalSupply.plus(formValues.value))
       .multipliedBy(SECONDS_PER_YEAR),
   )
-  const rewardsPerYearUsd = farm.rewardToken.toUSD(rewardsPerYear)
+  const rewardsPerYearUsd = farm.blockchainInfo.rewardToken.toUSD(rewardsPerYear)
   const apy = stakedAmountUsd.gt(0) ? Percentage(rewardsPerYearUsd.dividedBy(stakedAmountUsd), true) : Percentage(0)
 
   return {
     status: 'success',
     showEstimatedRewards,
     apy,
-    stakingToken: farm.stakingToken,
-    rewardToken: farm.rewardToken,
+    stakingToken: farm.blockchainInfo.stakingToken,
+    rewardToken: farm.blockchainInfo.rewardToken, // @todo: Handle non existing price for failed api call
     rewardsPerYear,
     routeToStakingToken,
   }

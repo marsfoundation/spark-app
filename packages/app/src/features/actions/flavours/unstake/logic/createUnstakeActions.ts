@@ -14,7 +14,7 @@ export function createUnstakeActions(objective: UnstakeObjective, context: Actio
   const { daiSymbol, USDSSymbol } = getChainConfigEntry(chainId)
 
   assert(farmsInfo, 'Farms info is required for stake action')
-  const { stakingToken, rewardToken } = farmsInfo.findOneFarmByAddress(objective.farm)
+  const { stakingToken, rewardToken } = farmsInfo.findOneFarmByAddress(objective.farm).blockchainInfo
 
   const unstakeAction: UnstakeAction = {
     type: 'unstake',

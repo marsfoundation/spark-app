@@ -61,7 +61,12 @@ export function FarmDetailsView({
   return (
     <div className="w-full max-w-5xl pt-12 pb-8 lg:mx-auto sm:mx-3">
       <BackNav chainId={chainId} />
-      <Header token={farm.rewardToken} farmName={farm.name} chainId={chainId} chainMismatch={chainMismatch} />
+      <Header
+        token={farm.blockchainInfo.rewardToken}
+        farmName={farm.blockchainInfo.name}
+        chainId={chainId}
+        chainMismatch={chainMismatch}
+      />
       <div className="flex flex-col gap-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-6">
           {isFarmActive ? (
@@ -76,7 +81,7 @@ export function FarmDetailsView({
             />
           ) : (
             <InactiveFarmInfoPanel
-              assetsGroupType={farm.entryAssetsGroup.type}
+              assetsGroupType={farm.blockchainInfo.entryAssetsGroup.type}
               farm={farm}
               walletConnected={walletConnected}
               hasTokensToDeposit={hasTokensToDeposit}
@@ -114,7 +119,7 @@ export function FarmDetailsView({
         {!walletConnected && (
           <ConnectOrSandboxCTAPanel
             header="Connect your wallet and start farming!"
-            iconPaths={farm.entryAssetsGroup.assets.map((token) => getTokenImage(token))}
+            iconPaths={farm.blockchainInfo.entryAssetsGroup.assets.map((token) => getTokenImage(token))}
             action={openConnectModal}
             buttonText="Connect wallet"
             openSandboxModal={openSandboxModal}

@@ -38,7 +38,7 @@ export interface FarmBlockchainInfo {
   rewardType: FarmConfig['rewardType']
   name: string
   stakingToken: Token
-  rewardTokenAddress: CheckedAddress
+  rewardToken: Token
   rewardRate: NormalizedUnitNumber
   periodFinish: number
   totalSupply: NormalizedUnitNumber

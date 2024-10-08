@@ -24,15 +24,16 @@ export async function getFarmBlockchainInfo({
 }: GetFarmParams): Promise<FarmBlockchainInfo> {
   const contractData = await getFarmContractData({ farmConfig, wagmiConfig, chainId, account })
 
-  const rewardTokenAddress = CheckedAddress(contractData.rewardTokenAddress)
   const rewardToken =
-    farmConfig.rewardType === 'token' ? tokensInfo.findOneTokenByAddress(rewardTokenAddress) : farmConfig.rewardPoints
+    farmConfig.rewardType === 'token'
+      ? tokensInfo.findOneTokenByAddress(CheckedAddress(contractData.rewardTokenAddress))
+      : farmConfig.rewardPoints
   const stakingToken = tokensInfo.findOneTokenByAddress(CheckedAddress(contractData.stakingTokenAddress))
 
   return {
     ...farmConfig,
     name: `${rewardToken.symbol} ${farmConfig.rewardType === 'points' ? 'points' : ''} Farm`,
-    rewardTokenAddress,
+    rewardToken, // @todo: Reward token price might not be correct - we don't provide oracles for all tokens in tokens info
     stakingToken,
     rewardRate: NormalizedUnitNumber(rewardToken.fromBaseUnit(BaseUnitNumber(contractData.rewardRate))),
     periodFinish: Number(contractData.periodFinish),

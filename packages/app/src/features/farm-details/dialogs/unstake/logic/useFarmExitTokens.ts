@@ -14,7 +14,7 @@ export function useFarmExitTokens(farm: Farm): UseFarmExitTokensResult {
   const { extraTokens, sDaiSymbol, sUSDSSymbol } = useChainConfigEntry()
   const { tokensInfo } = useTokensInfo({ tokens: extraTokens })
 
-  const nonSavingExitAssets = farm.entryAssetsGroup.assets.filter(
+  const nonSavingExitAssets = farm.blockchainInfo.entryAssetsGroup.assets.filter(
     (symbol) => symbol !== sDaiSymbol && symbol !== sUSDSSymbol,
   )
 
