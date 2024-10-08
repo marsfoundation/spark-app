@@ -13,6 +13,7 @@ export async function getFarmApiInfo({ farmConfig }: GetFarmParams): Promise<Far
   const rewardTokenPriceUsd = farmConfig.rewardType === 'token' ? baData.rewardTokenPriceUsd : undefined
 
   return {
+    address: farmConfig.address,
     apy: baData.apy,
     totalRewarded: baData.totalRewarded,
     rewardTokenPriceUsd,

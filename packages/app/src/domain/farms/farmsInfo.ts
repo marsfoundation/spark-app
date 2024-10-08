@@ -10,7 +10,7 @@ export class FarmsInfo {
   }
 
   findFarmByAddress(address: CheckedAddress): Farm | undefined {
-    return this.farms.find((farm) => farm.address === address)
+    return this.farms.find((farm) => farm.blockchainInfo.address === address)
   }
 
   findOneFarmByAddress(address: CheckedAddress): Farm {
@@ -18,9 +18,9 @@ export class FarmsInfo {
   }
 
   getActiveFarms(): Farm[] {
-    return this.farms.filter((farm) => farm.staked.gt(0))
+    return this.farms.filter((farm) => farm.blockchainInfo.staked.gt(0))
   }
   getInactiveFarms(): Farm[] {
-    return this.farms.filter((farm) => farm.staked.eq(0))
+    return this.farms.filter((farm) => farm.blockchainInfo.staked.eq(0))
   }
 }

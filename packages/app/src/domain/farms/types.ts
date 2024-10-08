@@ -1,3 +1,4 @@
+import { QueryResultState } from '@/utils/transformQueryResult'
 import { CheckedAddress } from '../types/CheckedAddress'
 import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
 import { Token } from '../types/Token'
@@ -24,6 +25,7 @@ export type FarmConfig = {
 )
 
 export interface FarmApiInfo {
+  address: CheckedAddress
   apy: Percentage
   depositors: number
   rewardTokenPriceUsd?: NormalizedUnitNumber
@@ -31,8 +33,12 @@ export interface FarmApiInfo {
 }
 
 export interface FarmBlockchainInfo {
+  address: CheckedAddress
+  entryAssetsGroup: AssetsGroup
+  rewardType: FarmConfig['rewardType']
+  name: string
+  stakingToken: Token
   rewardTokenAddress: CheckedAddress
-  stakingTokenAddress: CheckedAddress
   rewardRate: NormalizedUnitNumber
   periodFinish: number
   totalSupply: NormalizedUnitNumber
@@ -41,11 +47,7 @@ export interface FarmBlockchainInfo {
   earnedTimestamp: number
 }
 
-export interface Farm extends FarmApiInfo, FarmBlockchainInfo {
-  address: CheckedAddress
-  entryAssetsGroup: AssetsGroup
-  rewardType: FarmConfig['rewardType']
-  name: string
-  rewardToken: Token
-  stakingToken: Token
+export interface Farm {
+  blockchainInfo: FarmBlockchainInfo
+  apiInfo: QueryResultState<FarmApiInfo>
 }
