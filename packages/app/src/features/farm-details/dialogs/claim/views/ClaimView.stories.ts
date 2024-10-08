@@ -13,7 +13,8 @@ const meta: Meta<typeof ClaimView> = {
     txOverview: {
       reward: {
         token: tokens.SKY,
-        value: NormalizedUnitNumber(500.89),
+        tokenPrice: tokens.SKY.unitPriceUsd,
+        amount: NormalizedUnitNumber(500.89),
       },
     },
     objectives: [

@@ -1,4 +1,5 @@
-import { TokenWithValue } from '@/domain/common/types'
+import { TokenWithAmountAndOptionalPrice, TokenWithValue } from '@/domain/common/types'
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPanelTitle'
 import { SuccessViewCheckmark } from '@/features/dialogs/common/components/success-view/SuccessViewCheckmark'
 import { SuccessViewContent } from '@/features/dialogs/common/components/success-view/SuccessViewContent'
@@ -10,7 +11,7 @@ import { testIds } from '@/ui/utils/testIds'
 
 export interface SuccessViewProps {
   outcome: TokenWithValue
-  reward: TokenWithValue
+  reward: TokenWithAmountAndOptionalPrice
   closeDialog: () => void
   isExiting: boolean
 }
@@ -45,11 +46,15 @@ export function SuccessView({ outcome, reward, closeDialog, isExiting }: Success
                 </div>
                 <div className="flex grow flex-col">
                   <Typography className="text-right font-primary">
-                    {reward.token.format(reward.value, { style: 'auto' })}
+                    {reward.token
+                      .clone({ unitPriceUsd: reward.tokenPrice ?? NormalizedUnitNumber(1) })
+                      .format(reward.amount, { style: 'auto' })}
                   </Typography>
-                  <Typography variant="prompt" className="text-right">
-                    {reward.token.formatUSD(reward.value)}
-                  </Typography>
+                  {reward.tokenPrice && (
+                    <Typography variant="prompt" className="text-right">
+                      {reward.token.clone({ unitPriceUsd: reward.tokenPrice }).formatUSD(reward.amount)}
+                    </Typography>
+                  )}
                 </div>
               </div>
             </>

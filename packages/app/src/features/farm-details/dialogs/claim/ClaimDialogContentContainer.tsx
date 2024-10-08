@@ -1,9 +1,9 @@
 import { Farm } from '@/domain/farms/types'
 import { DialogContentSkeleton } from '@/features/dialogs/common/components/skeletons/DialogContentSkeleton'
-import { SuccessView } from '@/features/dialogs/common/views/SuccessView'
 import { withSuspense } from '@/ui/utils/withSuspense'
 import { useClaimDialog } from './logic/useClaimDialog'
 import { ClaimView } from './views/ClaimView'
+import { SuccessView } from './views/SuccessView'
 
 export interface ClaimContainerProps {
   farm: Farm
@@ -11,19 +11,12 @@ export interface ClaimContainerProps {
 }
 
 function ClaimDialogContentContainer({ farm, closeDialog }: ClaimContainerProps) {
-  const { txOverview, objectives, actionsContext, pageStatus, reward } = useClaimDialog({
+  const { txOverview, objectives, actionsContext, pageStatus } = useClaimDialog({
     farm,
   })
 
   if (pageStatus.state === 'success') {
-    return (
-      <SuccessView
-        objectiveType="claimFarmRewards"
-        tokenWithValue={reward}
-        proceedText="Back to Farm"
-        onProceed={closeDialog}
-      />
-    )
+    return <SuccessView reward={txOverview.reward} closeDialog={closeDialog} />
   }
 
   return (

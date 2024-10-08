@@ -1,6 +1,6 @@
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { assets } from '@/ui/assets'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
-
 import { ActionRow } from '../../components/action-row/ActionRow'
 import { UpDownMarker } from '../../components/action-row/UpDownMarker'
 import { ActionRowBaseProps } from '../../components/action-row/types'
@@ -28,7 +28,11 @@ export function ClaimFarmRewardsActionRow({
       </ActionRow.Title>
 
       <ActionRow.Description successMessage="Rewards claimed!" actionStatus={status} variant={variant}>
-        <UpDownMarker token={action.rewardToken} value={action.rewardAmount} direction="up" />
+        <UpDownMarker
+          token={action.rewardToken.clone({ unitPriceUsd: action.rewardTokenPrice ?? NormalizedUnitNumber(1) })}
+          value={action.rewardAmount}
+          direction="up"
+        />
       </ActionRow.Description>
 
       <ActionRow.ErrorWarning variant={variant} actionHandlerState={actionHandlerState} />

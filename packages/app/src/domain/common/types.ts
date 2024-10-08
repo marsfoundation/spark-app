@@ -1,6 +1,6 @@
 import { Reserve } from '../market-info/marketInfo'
 import { NormalizedUnitNumber } from '../types/NumericValues'
-import { Token } from '../types/Token'
+import { Token, TokenWithoutPrice } from '../types/Token'
 
 export interface TokenWithBalance {
   token: Token
@@ -21,4 +21,10 @@ export interface TokenWithValue {
 export interface ReserveWithValue {
   reserve: Reserve
   value: NormalizedUnitNumber
+}
+
+export interface TokenWithAmountAndOptionalPrice {
+  token: TokenWithoutPrice
+  amount: NormalizedUnitNumber
+  tokenPrice?: NormalizedUnitNumber
 }

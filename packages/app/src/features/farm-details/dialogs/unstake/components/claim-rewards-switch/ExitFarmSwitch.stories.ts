@@ -12,7 +12,8 @@ const meta: Meta<typeof ExitFarmSwitch> = {
     onSwitch: () => {},
     reward: {
       token: tokens.SKY,
-      value: NormalizedUnitNumber(2311.34),
+      tokenPrice: tokens.SKY.unitPriceUsd,
+      amount: NormalizedUnitNumber(2311.34),
     },
   },
 }

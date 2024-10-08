@@ -1,10 +1,13 @@
 import { getChainConfigEntry } from '@/config/chain'
-import { Token } from '@/domain/types/Token'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { Alert } from '@/features/dialogs/common/components/alert/Alert'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 
 interface HeaderProps {
-  token: Token
+  token: {
+    symbol: TokenSymbol
+    isAToken: boolean
+  }
   farmName: string
   chainId: number
   chainMismatch: boolean

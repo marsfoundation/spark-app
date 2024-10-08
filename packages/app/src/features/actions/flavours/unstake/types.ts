@@ -1,6 +1,6 @@
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { Token } from '@/domain/types/Token'
+import { Token, TokenWithoutPrice } from '@/domain/types/Token'
 
 export interface UnstakeObjective {
   type: 'unstake'
@@ -13,7 +13,7 @@ export interface UnstakeObjective {
 export interface UnstakeAction {
   type: 'unstake'
   stakingToken: Token
-  rewardToken: Token
+  rewardToken: TokenWithoutPrice
   amount: NormalizedUnitNumber
   exit: boolean
   farm: CheckedAddress

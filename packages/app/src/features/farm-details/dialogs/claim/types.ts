@@ -1,5 +1,5 @@
-import { TokenWithValue } from '@/domain/common/types'
+import { TokenWithAmountAndOptionalPrice } from '@/domain/common/types'
 
 export interface TxOverview {
-  reward: TokenWithValue
+  reward: TokenWithAmountAndOptionalPrice
 }

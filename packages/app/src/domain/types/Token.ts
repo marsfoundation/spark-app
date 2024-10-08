@@ -7,6 +7,8 @@ import { CheckedAddress } from './CheckedAddress'
 import { BaseUnitNumber, NormalizedUnitNumber } from './NumericValues'
 import { TokenSymbol } from './TokenSymbol'
 
+export type TokenWithoutPrice = Omit<Token, 'unitPriceUsd' | 'toUSD' | 'format' | 'formatUSD'>
+
 export class Token {
   readonly symbol: TokenSymbol
   readonly name: string

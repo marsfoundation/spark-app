@@ -1,11 +1,12 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { Token } from '@/domain/types/Token'
+import { TokenWithoutPrice } from '@/domain/types/Token'
 import { TxOverviewRouteItem } from '@/features/dialogs/common/types'
 import { testIds } from '@/ui/utils/testIds'
 
 export interface TransactionOutcomeProps {
   outcomeTokenRouteItem: TxOverviewRouteItem
-  rewardToken: Token
+  rewardToken: TokenWithoutPrice
+  rewardTokenPrice: NormalizedUnitNumber | undefined
   isExiting: boolean
   earnedRewards: NormalizedUnitNumber
 }
@@ -13,18 +14,21 @@ export interface TransactionOutcomeProps {
 export function TransactionOutcome({
   outcomeTokenRouteItem,
   rewardToken,
+  rewardTokenPrice,
   isExiting,
   earnedRewards,
 }: TransactionOutcomeProps) {
   const outcomeToken = outcomeTokenRouteItem.token
   const outcomeTokenAmount = outcomeToken.format(outcomeTokenRouteItem.value, { style: 'auto' })
   const outcomeTokenUsdValue = outcomeToken.formatUSD(outcomeTokenRouteItem.usdValue)
-  const earnedRewardsAmount = rewardToken.format(earnedRewards, { style: 'auto' })
-  const earnedRewardsUsdValue = rewardToken.formatUSD(earnedRewards)
+  const earnedRewardsAmount = rewardToken.clone({ unitPriceUsd: rewardTokenPrice ?? NormalizedUnitNumber(1) })
+  const earnedRewardsUsdValueText = rewardTokenPrice
+    ? ` (~${rewardToken.clone({ unitPriceUsd: rewardTokenPrice }).formatUSD(earnedRewards)})`
+    : ''
 
   const [textContent, mobileTextContent] = (() => {
     if (isExiting) {
-      const exitText = `${outcomeTokenAmount} ${outcomeToken.symbol} (${outcomeTokenUsdValue}) + ~${earnedRewardsAmount} ${rewardToken.symbol} (~${earnedRewardsUsdValue})`
+      const exitText = `${outcomeTokenAmount} ${outcomeToken.symbol} (${outcomeTokenUsdValue}) + ~${earnedRewardsAmount} ${rewardToken.symbol}${earnedRewardsUsdValueText}`
       const exitTextMobile = `${outcomeTokenAmount} ${outcomeToken.symbol} + ~${earnedRewardsAmount} ${rewardToken.symbol}`
       return [exitText, exitTextMobile]
     }

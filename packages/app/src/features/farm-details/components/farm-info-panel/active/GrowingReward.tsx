@@ -1,5 +1,5 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { Token } from '@/domain/types/Token'
+import { TokenWithoutPrice } from '@/domain/types/Token'
 import { getTokenImage } from '@/ui/assets'
 import { testIds } from '@/ui/utils/testIds'
 import { getFractionalPart, getWholePart } from '@/utils/bigNumber'
@@ -8,12 +8,18 @@ import { useTimestamp } from '@/utils/useTimestamp'
 const STEP_IN_MS = 50
 
 export interface GrowingRewardProps {
-  rewardToken: Token
+  rewardToken: TokenWithoutPrice
+  rewardTokenPrice: NormalizedUnitNumber | undefined
   calculateReward: (timestampInMs: number) => NormalizedUnitNumber
   refreshIntervalInMs: number | undefined
 }
 
-export function GrowingReward({ rewardToken, calculateReward, refreshIntervalInMs }: GrowingRewardProps) {
+export function GrowingReward({
+  rewardToken,
+  rewardTokenPrice,
+  calculateReward,
+  refreshIntervalInMs,
+}: GrowingRewardProps) {
   const { timestampInMs } = useTimestamp({
     refreshIntervalInMs,
   })
@@ -34,11 +40,11 @@ export function GrowingReward({ rewardToken, calculateReward, refreshIntervalInM
           <div className="font-semibold text-lg md:text-2xl">{getFractionalPart(currentReward, precision)}</div>
         </div>
       </div>
-      {rewardToken.unitPriceUsd.gt(0) && (
+      {rewardTokenPrice && (
         <div className="font-semibold text-basics-dark-grey text-xs tracking-wide">
           &#8776;
           <span data-testid={testIds.farmDetails.activeFarmInfoPanel.rewardsUsd}>
-            {rewardToken.formatUSD(currentReward)}
+            {rewardToken.clone({ unitPriceUsd: rewardTokenPrice }).formatUSD(currentReward)}
           </span>
         </div>
       )}

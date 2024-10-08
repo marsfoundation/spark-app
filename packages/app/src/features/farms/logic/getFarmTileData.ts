@@ -12,7 +12,7 @@ export function getFarmTileProps({ farm, chainId }: GetFarmTileDataParams): Farm
     apy: farm.apiInfo.data?.apy,
     detailsLink: generatePath(paths.farmDetails, { chainId: chainId.toString(), address: farm.blockchainInfo.address }),
     entryAssetsGroup: farm.blockchainInfo.entryAssetsGroup,
-    rewardToken: farm.blockchainInfo.rewardToken, // @todo: Check if price is not impacting formatting
+    rewardTokenSymbol: farm.blockchainInfo.rewardToken.symbol,
     stakingToken: farm.blockchainInfo.stakingToken,
     staked: farm.blockchainInfo.staked,
     isPointsFarm: farm.blockchainInfo.rewardType === 'points',

@@ -1,3 +1,4 @@
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { DialogPanel } from '@/features/dialogs/common/components/DialogPanel'
 import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPanelTitle'
 import { getTokenImage } from '@/ui/assets'
@@ -10,7 +11,7 @@ export interface TransactionOverviewProps {
 
 export function TransactionOverview({ txOverview }: TransactionOverviewProps) {
   const {
-    reward: { token, value },
+    reward: { token, tokenPrice, amount },
   } = txOverview
 
   return (
@@ -40,14 +41,15 @@ export function TransactionOverview({ txOverview }: TransactionOverviewProps) {
               className="text-primary"
               data-testid={testIds.farmDetails.claimDialog.transactionOverview.rewardAmount}
             >
-              {token.format(value, { style: 'auto' })} {token.symbol}
+              {token.clone({ unitPriceUsd: tokenPrice ?? NormalizedUnitNumber(1) }).format(amount, { style: 'auto' })}{' '}
+              {token.symbol}
             </div>
-            {token.unitPriceUsd.gt(0) && (
+            {tokenPrice && (
               <div
                 className="text-prompt-foreground text-sm"
                 data-testid={testIds.farmDetails.claimDialog.transactionOverview.rewardAmountUSD}
               >
-                ~{token.formatUSD(value)}
+                ~{token.clone({ unitPriceUsd: tokenPrice }).formatUSD(amount)}
               </div>
             )}
           </div>

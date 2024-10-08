@@ -28,7 +28,7 @@ export function TransactionOverview({ txOverview, selectedToken }: TransactionOv
       />
     )
   }
-  const { apy, stakingToken, rewardToken, rewardsPerYear, routeToStakingToken } = txOverview
+  const { apy, stakingToken, rewardToken, rewardTokenPrice, rewardsPerYear, routeToStakingToken } = txOverview
 
   assert(routeToStakingToken.length > 0, 'Route must have at least one item')
   const stakingTokenRouteItem = routeToStakingToken.at(-1)!
@@ -42,7 +42,12 @@ export function TransactionOverview({ txOverview, selectedToken }: TransactionOv
         <DialogPanelTitle>Transaction overview</DialogPanelTitle>
         {txOverview.showEstimatedRewards && (
           <TransactionOverviewDetailsItem label="Estimated Rewards">
-            <RewardsDetails apy={apy} rewardsPerYear={rewardsPerYear} rewardToken={rewardToken} />
+            <RewardsDetails
+              apy={apy}
+              rewardsPerYear={rewardsPerYear}
+              rewardToken={rewardToken}
+              rewardTokenPrice={rewardTokenPrice}
+            />
           </TransactionOverviewDetailsItem>
         )}
         <TransactionOverviewDetailsItem label="Route">

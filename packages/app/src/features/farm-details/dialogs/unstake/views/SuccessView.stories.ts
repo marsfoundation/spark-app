@@ -16,7 +16,8 @@ const meta: Meta<typeof SuccessView> = {
     },
     reward: {
       token: tokens.SKY,
-      value: NormalizedUnitNumber(500),
+      tokenPrice: tokens.SKY.unitPriceUsd,
+      amount: NormalizedUnitNumber(500),
     },
     isExiting: false,
     closeDialog: () => {},

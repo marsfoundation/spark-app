@@ -1,7 +1,7 @@
 import { QueryResultState } from '@/utils/transformQueryResult'
 import { CheckedAddress } from '../types/CheckedAddress'
 import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
-import { Token } from '../types/Token'
+import { Token, TokenWithoutPrice } from '../types/Token'
 import { TokenSymbol } from '../types/TokenSymbol'
 
 export interface AssetsGroup {
@@ -38,7 +38,7 @@ export interface FarmBlockchainInfo {
   rewardType: FarmConfig['rewardType']
   name: string
   stakingToken: Token
-  rewardToken: Token
+  rewardToken: TokenWithoutPrice
   rewardRate: NormalizedUnitNumber
   periodFinish: number
   totalSupply: NormalizedUnitNumber

@@ -2,6 +2,7 @@ import { formatPercentage } from '@/domain/common/format'
 import { AssetsGroup } from '@/domain/farms/types'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { getTokenColor, getTokenImage } from '@/ui/assets'
 import { LinkDecorator } from '@/ui/atoms/link-decorator/LinkDecorator'
 import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
@@ -14,7 +15,7 @@ export interface FarmTileProps {
   apy?: Percentage // @todo: Handle loading error states
   stakingToken: Token
   staked: NormalizedUnitNumber
-  rewardToken: Token
+  rewardTokenSymbol: TokenSymbol
   detailsLink: string
   isPointsFarm: boolean
   'data-testid'?: string
@@ -25,14 +26,13 @@ export function FarmTile({
   apy,
   stakingToken,
   staked,
-  rewardToken,
+  rewardTokenSymbol,
   detailsLink,
   isPointsFarm,
   'data-testid': dataTestId,
 }: FarmTileProps) {
   const [isHovered, setIsHovered] = useState(false)
 
-  const rewardTokenSymbol = rewardToken.symbol
   const borderAccentColor = getTokenColor(rewardTokenSymbol, { alpha: Percentage(0.7) })
   const headerAccentColor = getTokenColor(rewardTokenSymbol, { alpha: Percentage(0.5) })
   const rewardIcon = getTokenImage(rewardTokenSymbol)

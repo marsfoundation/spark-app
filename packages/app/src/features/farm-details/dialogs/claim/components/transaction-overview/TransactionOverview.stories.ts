@@ -13,7 +13,8 @@ const meta: Meta<typeof TransactionOverview> = {
     txOverview: {
       reward: {
         token: tokens.SKY,
-        value: NormalizedUnitNumber(500.89),
+        tokenPrice: tokens.SKY.unitPriceUsd,
+        amount: NormalizedUnitNumber(500.89),
       },
     },
   },
@@ -30,8 +31,9 @@ export const DesktopZeroApy: Story = {
   args: {
     txOverview: {
       reward: {
-        token: tokens.SKY.clone({ unitPriceUsd: NormalizedUnitNumber(0) }),
-        value: NormalizedUnitNumber(500.89),
+        token: tokens.SKY,
+        tokenPrice: undefined,
+        amount: NormalizedUnitNumber(500.89),
       },
     },
   },

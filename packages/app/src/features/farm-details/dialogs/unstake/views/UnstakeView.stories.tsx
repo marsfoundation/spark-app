@@ -157,7 +157,8 @@ const meta: Meta<typeof UnstakeView> = {
       checked: false,
       reward: {
         token: tokens.SKY,
-        value: NormalizedUnitNumber(2311.34),
+        tokenPrice: tokens.SKY.unitPriceUsd,
+        amount: NormalizedUnitNumber(2311.34),
       },
     },
     actionsContext: {
@@ -184,7 +185,8 @@ export const WithExitFarmSwitch: Story = {
       checked: true,
       reward: {
         token: tokens.SKY,
-        value: NormalizedUnitNumber(2311.34),
+        tokenPrice: tokens.SKY.unitPriceUsd,
+        amount: NormalizedUnitNumber(2311.34),
       },
     },
     objectives: [
@@ -228,8 +230,9 @@ export const WithExitFarmSwitchZeroApy: Story = {
       onSwitch: () => {},
       checked: true,
       reward: {
-        token: tokens.SKY.clone({ unitPriceUsd: NormalizedUnitNumber(0) }),
-        value: NormalizedUnitNumber(2311.34),
+        token: tokens.SKY,
+        tokenPrice: undefined,
+        amount: NormalizedUnitNumber(2311.34),
       },
     },
   },
@@ -243,7 +246,8 @@ export const WithExitFarmSwitchUnchecked: Story = {
       checked: false,
       reward: {
         token: tokens.SKY,
-        value: NormalizedUnitNumber(2311.34),
+        tokenPrice: tokens.SKY.unitPriceUsd,
+        amount: NormalizedUnitNumber(2311.34),
       },
     },
     assetsFields: {

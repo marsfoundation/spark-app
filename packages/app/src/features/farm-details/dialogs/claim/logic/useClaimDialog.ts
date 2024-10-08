@@ -1,4 +1,3 @@
-import { TokenWithValue } from '@/domain/common/types'
 import { Farm } from '@/domain/farms/types'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { PageState, PageStatus } from '@/features/dialogs/common/types'
@@ -16,7 +15,6 @@ export interface UseClaimDialogResult {
   pageStatus: PageStatus
   actionsContext: InjectedActionsContext
   objectives: Objective[]
-  reward: TokenWithValue
 }
 
 export function useClaimDialog({ farm }: UseClaimDialogParams): UseClaimDialogResult {
@@ -41,7 +39,8 @@ export function useClaimDialog({ farm }: UseClaimDialogParams): UseClaimDialogRe
     txOverview: {
       reward: {
         token: farm.blockchainInfo.rewardToken,
-        value: rewardAmount,
+        tokenPrice: farm.apiInfo.data?.rewardTokenPriceUsd,
+        amount: rewardAmount,
       },
     },
     pageStatus: {
@@ -58,9 +57,5 @@ export function useClaimDialog({ farm }: UseClaimDialogParams): UseClaimDialogRe
         rewardAmount,
       },
     ],
-    reward: {
-      token: farm.blockchainInfo.rewardToken, // @todo: take care of proper formatting when no price available
-      value: rewardAmount,
-    },
   }
 }

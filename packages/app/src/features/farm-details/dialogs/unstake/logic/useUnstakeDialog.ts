@@ -1,4 +1,4 @@
-import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
+import { TokenWithAmountAndOptionalPrice, TokenWithBalance, TokenWithValue } from '@/domain/common/types'
 import { Farm } from '@/domain/farms/types'
 import { useFarmsInfo } from '@/domain/farms/useFarmsInfo'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
@@ -40,7 +40,7 @@ export interface ExitFarmSwitchInfo {
   showSwitch: boolean
   checked: boolean
   onSwitch: () => void
-  reward: TokenWithValue
+  reward: TokenWithAmountAndOptionalPrice
 }
 
 export function useUnstakeDialog({ farm, initialToken }: UseStakeDialogParams): UseUnstakeDialogResult {
@@ -130,8 +130,9 @@ export function useUnstakeDialog({ farm, initialToken }: UseStakeDialogParams): 
       onSwitch: () => setExitFarmSwitchChecked((exitFarmSwitchChecked) => !exitFarmSwitchChecked),
       checked: exitFarmSwitchChecked,
       reward: {
-        token: farm.blockchainInfo.rewardToken, // @todo: figure out formatting without price, wait for price
-        value: earnedRewards,
+        token: farm.blockchainInfo.rewardToken,
+        tokenPrice: farm.apiInfo.data?.rewardTokenPriceUsd,
+        amount: earnedRewards,
       },
     },
     actionsContext: {

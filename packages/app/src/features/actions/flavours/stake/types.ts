@@ -1,6 +1,6 @@
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { Token } from '@/domain/types/Token'
+import { Token, TokenWithoutPrice } from '@/domain/types/Token'
 
 export interface StakeObjective {
   type: 'stake'
@@ -13,6 +13,6 @@ export interface StakeAction {
   type: 'stake'
   stakingToken: Token // e.g. usds for Sky farms
   stakeAmount: NormalizedUnitNumber
-  rewardToken: Token
+  rewardToken: TokenWithoutPrice
   farm: CheckedAddress
 }

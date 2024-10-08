@@ -1,11 +1,12 @@
-import { SVGProps, forwardRef } from 'react'
-
-import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { getTokenImage } from '@/ui/assets'
+import { SVGProps, forwardRef } from 'react'
 
 export interface TokenIconProps extends SVGProps<SVGSVGElement> {
-  token: Token
+  token: {
+    symbol: TokenSymbol
+    isAToken: boolean
+  }
 }
 export const TokenIcon = forwardRef<SVGSVGElement, TokenIconProps>(({ token, ...rest }, ref) => {
   if (token.isAToken) {

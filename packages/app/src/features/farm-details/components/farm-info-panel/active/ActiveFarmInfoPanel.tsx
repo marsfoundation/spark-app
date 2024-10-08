@@ -69,6 +69,7 @@ export function ActiveFarmInfoPanel({
       <div className="flex flex-grow flex-col items-center justify-center gap-2">
         <GrowingReward
           rewardToken={rewardToken}
+          rewardTokenPrice={farm.apiInfo.data?.rewardTokenPriceUsd}
           calculateReward={calculateReward}
           refreshIntervalInMs={refreshGrowingRewardIntervalInMs}
         />
@@ -86,7 +87,6 @@ export function ActiveFarmInfoPanel({
             farm.apiInfo.data?.apy.gt(0) ? 'w-full text-sm md:justify-between' : 'md:gap-12',
           )}
         >
-          {/* @todo: Handle loading error states for farm api info */}
           {farm.apiInfo.data && (
             <DetailsItem title="Participants">
               <div className="font-semibold">{farm.apiInfo.data.depositors}</div>

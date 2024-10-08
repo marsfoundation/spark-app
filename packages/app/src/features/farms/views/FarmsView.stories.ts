@@ -26,7 +26,7 @@ const meta: Meta<typeof FarmsView> = {
       {
         apy: Percentage(0.051),
         staked: NormalizedUnitNumber(0),
-        rewardToken: tokens.wstETH,
+        rewardTokenSymbol: tokens.wstETH.symbol,
         stakingToken: tokens.DAI,
         detailsLink: 'farm-details/1/0x1234567890123456789012345678901234567890',
         entryAssetsGroup,
@@ -35,7 +35,7 @@ const meta: Meta<typeof FarmsView> = {
       {
         apy: Percentage(0.076),
         staked: NormalizedUnitNumber(0),
-        rewardToken: tokens.SKY,
+        rewardTokenSymbol: tokens.SKY.symbol,
         stakingToken: tokens.USDS,
         detailsLink: 'farm-details/1/0x1234567890123456789012345678901234567891',
         entryAssetsGroup,
@@ -46,7 +46,7 @@ const meta: Meta<typeof FarmsView> = {
       {
         apy: Percentage(0.034),
         staked: NormalizedUnitNumber(100),
-        rewardToken: tokens.weETH,
+        rewardTokenSymbol: tokens.weETH.symbol,
         stakingToken: tokens.USDS,
         detailsLink: 'farm-details/1/0x1234567890123456789012345678901234567892',
         entryAssetsGroup,

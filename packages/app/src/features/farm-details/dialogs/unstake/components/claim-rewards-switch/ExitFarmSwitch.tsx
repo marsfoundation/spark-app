@@ -1,4 +1,5 @@
-import { TokenWithValue } from '@/domain/common/types'
+import { TokenWithAmountAndOptionalPrice } from '@/domain/common/types'
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { getTokenImage } from '@/ui/assets'
 import { Switch } from '@/ui/atoms/switch/Switch'
 import { testIds } from '@/ui/utils/testIds'
@@ -7,13 +8,17 @@ import { cva } from 'class-variance-authority'
 export interface UpgradeToSusdsSwitchProps {
   checked: boolean
   onSwitch: () => void
-  reward: TokenWithValue
+  reward: TokenWithAmountAndOptionalPrice
 }
 
 export function ExitFarmSwitch({ checked, onSwitch, reward }: UpgradeToSusdsSwitchProps) {
   const rewardIcon = getTokenImage(reward.token.symbol)
-  const rewardAmount = reward.token.format(reward.value, { style: 'auto' })
-  const rewardUsdValue = reward.token.formatUSD(reward.value)
+  const rewardAmount = reward.token
+    .clone({ unitPriceUsd: reward.tokenPrice ?? NormalizedUnitNumber(1) })
+    .format(reward.amount, { style: 'auto' })
+  const rewardUsdValueText = reward.tokenPrice
+    ? ` (~${reward.token.clone({ unitPriceUsd: reward.tokenPrice }).formatUSD(reward.amount)})`
+    : ''
 
   return (
     <div className={variants({ checked })}>
@@ -27,7 +32,8 @@ export function ExitFarmSwitch({ checked, onSwitch, reward }: UpgradeToSusdsSwit
             className="text-basics-dark-grey text-xs"
             data-testid={testIds.farmDetails.unstakeDialog.exitFarmSwitchPanel.reward}
           >
-            ~{rewardAmount} {reward.token.symbol} {reward.token.unitPriceUsd.gt(0) && `(~${rewardUsdValue})`}
+            ~{rewardAmount} {reward.token.symbol}
+            {rewardUsdValueText}
           </div>
         </div>
       </div>

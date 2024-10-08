@@ -22,7 +22,7 @@ export function TransactionOverview({ txOverview, selectedToken }: TransactionOv
   if (txOverview.status !== 'success') {
     return <TransactionOverviewPlaceholder badgeToken={selectedToken} />
   }
-  const { rewardToken, routeToOutcomeToken, stakingToken, earnedRewards, isExiting } = txOverview
+  const { rewardToken, rewardTokenPrice, routeToOutcomeToken, stakingToken, earnedRewards, isExiting } = txOverview
 
   assert(routeToOutcomeToken.length > 0, 'Route must have at least one item')
   const outcomeTokenRouteItem = routeToOutcomeToken.at(-1)!
@@ -56,6 +56,7 @@ export function TransactionOverview({ txOverview, selectedToken }: TransactionOv
           <TransactionOutcome
             outcomeTokenRouteItem={outcomeTokenRouteItem}
             rewardToken={rewardToken}
+            rewardTokenPrice={rewardTokenPrice}
             isExiting={isExiting}
             earnedRewards={earnedRewards}
           />

@@ -1,6 +1,6 @@
 import { Farm } from '@/domain/farms/types'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
-import { Token } from '@/domain/types/Token'
+import { Token, TokenWithoutPrice } from '@/domain/types/Token'
 import { TransferFromUserFormNormalizedData } from '@/features/dialogs/common/logic/transfer-from-user/form'
 import { TxOverviewRouteItem } from '@/features/dialogs/common/types'
 
@@ -15,9 +15,10 @@ export type TxOverview = { showEstimatedRewards: boolean } & (
   | { status: 'no-overview' }
   | {
       status: 'success'
-      apy: Percentage
+      apy?: Percentage
       stakingToken: Token
-      rewardToken: Token
+      rewardToken: TokenWithoutPrice
+      rewardTokenPrice?: NormalizedUnitNumber
       rewardsPerYear: NormalizedUnitNumber
       routeToStakingToken: TxOverviewRouteItem[]
     }
@@ -42,15 +43,23 @@ export function createTxOverview({ formValues, farm }: CreateTxOverviewParams): 
       .dividedBy(farm.blockchainInfo.totalSupply.plus(formValues.value))
       .multipliedBy(SECONDS_PER_YEAR),
   )
-  const rewardsPerYearUsd = farm.blockchainInfo.rewardToken.toUSD(rewardsPerYear)
-  const apy = stakedAmountUsd.gt(0) ? Percentage(rewardsPerYearUsd.dividedBy(stakedAmountUsd), true) : Percentage(0)
+  const rewardsPerYearUsd = farm.apiInfo.data?.rewardTokenPriceUsd
+    ? farm.blockchainInfo.rewardToken
+        .clone({ unitPriceUsd: farm.apiInfo.data.rewardTokenPriceUsd })
+        .toUSD(rewardsPerYear)
+    : undefined
+  const apy =
+    stakedAmountUsd.gt(0) && rewardsPerYearUsd
+      ? Percentage(rewardsPerYearUsd.dividedBy(stakedAmountUsd), true)
+      : undefined
 
   return {
     status: 'success',
     showEstimatedRewards,
     apy,
     stakingToken: farm.blockchainInfo.stakingToken,
-    rewardToken: farm.blockchainInfo.rewardToken, // @todo: Handle non existing price for failed api call
+    rewardToken: farm.blockchainInfo.rewardToken,
+    rewardTokenPrice: farm.apiInfo.data?.rewardTokenPriceUsd,
     rewardsPerYear,
     routeToStakingToken,
   }
