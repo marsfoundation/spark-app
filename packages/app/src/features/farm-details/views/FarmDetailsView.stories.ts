@@ -1,4 +1,5 @@
 import { MAINNET_USDS_SKY_FARM_ADDRESS } from '@/config/chain/constants'
+import { Farm } from '@/domain/farms/types'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
@@ -9,6 +10,38 @@ import { mockChartData } from '../fixtures/mockChartData'
 import { FarmHistoryQueryResult } from '../logic/historic/useFarmHistory'
 import { FarmDetailsView } from './FarmDetailsView'
 
+const mockFarm = {
+  blockchainInfo: {
+    address: MAINNET_USDS_SKY_FARM_ADDRESS,
+    name: 'SKY Farm',
+    rewardType: 'token',
+    entryAssetsGroup: {
+      type: 'stablecoins',
+      name: 'Stablecoins',
+      assets: [tokens.DAI.symbol, tokens.sDAI.symbol, tokens.USDC.symbol, tokens.USDS.symbol, tokens.sUSDS.symbol],
+    },
+    rewardToken: tokens.SKY,
+    stakingToken: tokens.USDS,
+    earned: NormalizedUnitNumber(71.2345783),
+    staked: NormalizedUnitNumber(10_000),
+    rewardRate: NormalizedUnitNumber(0.0000000003756),
+    earnedTimestamp: 1724337615,
+    periodFinish: 2677721600,
+    totalSupply: NormalizedUnitNumber(100_000),
+  },
+  apiInfo: {
+    isPending: false,
+    isError: false,
+    error: null,
+    data: {
+      address: MAINNET_USDS_SKY_FARM_ADDRESS,
+      apy: Percentage(0.05),
+      totalRewarded: NormalizedUnitNumber(24520),
+      depositors: 6,
+    },
+  },
+} satisfies Farm
+
 const meta: Meta<typeof FarmDetailsView> = {
   title: 'Features/FarmDetails/Views/FarmDetailsView',
   component: FarmDetailsView,
@@ -17,27 +50,7 @@ const meta: Meta<typeof FarmDetailsView> = {
     chainId: 1,
     chainMismatch: false,
     walletConnected: true,
-    farm: {
-      address: MAINNET_USDS_SKY_FARM_ADDRESS,
-      apy: Percentage(0.05),
-      name: 'SKY Farm',
-      rewardType: 'token',
-      entryAssetsGroup: {
-        type: 'stablecoins',
-        name: 'Stablecoins',
-        assets: [tokens.DAI.symbol, tokens.sDAI.symbol, tokens.USDC.symbol, tokens.USDS.symbol, tokens.sUSDS.symbol],
-      },
-      rewardToken: tokens.SKY,
-      stakingToken: tokens.USDS,
-      earned: NormalizedUnitNumber(71.2345783),
-      staked: NormalizedUnitNumber(10_000),
-      totalRewarded: NormalizedUnitNumber(24520),
-      rewardRate: NormalizedUnitNumber(0.0000000003756),
-      earnedTimestamp: 1724337615,
-      periodFinish: 2677721600,
-      totalSupply: NormalizedUnitNumber(100_000),
-      depositors: 6,
-    },
+    farm: mockFarm,
     isFarmActive: true,
     canClaim: true,
     tokensToDeposit: [
@@ -84,25 +97,11 @@ export const ActiveTablet = getTabletStory(ActiveDesktop)
 export const NoDepositWithRewards: Story = {
   args: {
     farm: {
-      address: MAINNET_USDS_SKY_FARM_ADDRESS,
-      name: 'SKY Farm',
-      rewardType: 'token',
-      apy: Percentage(0.05),
-      entryAssetsGroup: {
-        type: 'stablecoins',
-        name: 'Stablecoins',
-        assets: [tokens.DAI.symbol, tokens.sDAI.symbol, tokens.USDC.symbol, tokens.USDS.symbol, tokens.sUSDS.symbol],
+      ...mockFarm,
+      blockchainInfo: {
+        ...mockFarm.blockchainInfo,
+        staked: NormalizedUnitNumber(0),
       },
-      rewardToken: tokens.SKY,
-      stakingToken: tokens.USDS,
-      earned: NormalizedUnitNumber(71.2345783),
-      staked: NormalizedUnitNumber(0),
-      rewardRate: NormalizedUnitNumber(0.0000000003756),
-      totalRewarded: NormalizedUnitNumber(24520),
-      earnedTimestamp: 1724337615,
-      periodFinish: 2677721600,
-      totalSupply: NormalizedUnitNumber(100_000),
-      depositors: 6,
     },
   },
 }
@@ -112,25 +111,12 @@ export const NoDepositWithRewardsTablet = getTabletStory(NoDepositWithRewards)
 export const InactiveDesktop: Story = {
   args: {
     farm: {
-      address: MAINNET_USDS_SKY_FARM_ADDRESS,
-      apy: Percentage(0.05),
-      name: 'SKY Farm',
-      rewardType: 'token',
-      entryAssetsGroup: {
-        type: 'stablecoins',
-        name: 'Stablecoins',
-        assets: [tokens.DAI.symbol, tokens.sDAI.symbol, tokens.USDC.symbol, tokens.USDS.symbol, tokens.sUSDS.symbol],
+      ...mockFarm,
+      blockchainInfo: {
+        ...mockFarm.blockchainInfo,
+        earned: NormalizedUnitNumber(0),
+        staked: NormalizedUnitNumber(0),
       },
-      rewardToken: tokens.SKY,
-      stakingToken: tokens.USDS,
-      earned: NormalizedUnitNumber(0),
-      staked: NormalizedUnitNumber(0),
-      totalRewarded: NormalizedUnitNumber(24520),
-      rewardRate: NormalizedUnitNumber(0.0000000003756),
-      earnedTimestamp: 1724337615,
-      periodFinish: 2677721600,
-      totalSupply: NormalizedUnitNumber(100_000),
-      depositors: 6,
     },
     isFarmActive: false,
   },
@@ -141,25 +127,12 @@ export const InactiveTablet = getTabletStory(InactiveDesktop)
 export const NotConnectedDesktop: Story = {
   args: {
     farm: {
-      address: MAINNET_USDS_SKY_FARM_ADDRESS,
-      name: 'SKY Farm',
-      rewardType: 'token',
-      apy: Percentage(0.05),
-      entryAssetsGroup: {
-        type: 'stablecoins',
-        name: 'Stablecoins',
-        assets: [tokens.DAI.symbol, tokens.sDAI.symbol, tokens.USDC.symbol, tokens.USDS.symbol, tokens.sUSDS.symbol],
+      ...mockFarm,
+      blockchainInfo: {
+        ...mockFarm.blockchainInfo,
+        earned: NormalizedUnitNumber(0),
+        staked: NormalizedUnitNumber(0),
       },
-      rewardToken: tokens.SKY,
-      stakingToken: tokens.USDS,
-      earned: NormalizedUnitNumber(0),
-      staked: NormalizedUnitNumber(0),
-      totalRewarded: NormalizedUnitNumber(24520),
-      rewardRate: NormalizedUnitNumber(0.0000000003756),
-      earnedTimestamp: 1724337615,
-      periodFinish: 2677721600,
-      totalSupply: NormalizedUnitNumber(100_000),
-      depositors: 6,
     },
     isFarmActive: false,
     walletConnected: false,

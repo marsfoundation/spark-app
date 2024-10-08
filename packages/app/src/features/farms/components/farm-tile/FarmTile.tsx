@@ -11,7 +11,7 @@ import { useState } from 'react'
 
 export interface FarmTileProps {
   entryAssetsGroup: AssetsGroup
-  apy: Percentage
+  apy?: Percentage // @todo: Handle loading error states
   stakingToken: Token
   staked: NormalizedUnitNumber
   rewardToken: Token
@@ -69,7 +69,7 @@ export function FarmTile({
             <div className="font-semibold text-2xl" data-testid={testIds.farms.tile.rewardText}>
               Earn {rewardTokenSymbol} {isPointsFarm ? 'points' : ''}
             </div>
-            {apy.gt(0) && (
+            {apy?.gt(0) && (
               <>
                 <div className="justify-self-end text-basics-dark-grey text-sm">APY</div>
                 <div className="justify-self-end font-semibold text-2xl" data-testid={testIds.farms.tile.apy}>

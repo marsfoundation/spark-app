@@ -9,12 +9,12 @@ export interface GetFarmTileDataParams {
 }
 export function getFarmTileProps({ farm, chainId }: GetFarmTileDataParams): FarmTileProps {
   return {
-    apy: farm.apy,
-    detailsLink: generatePath(paths.farmDetails, { chainId: chainId.toString(), address: farm.address }),
-    entryAssetsGroup: farm.entryAssetsGroup,
-    rewardToken: farm.rewardToken,
-    stakingToken: farm.stakingToken,
-    staked: farm.staked,
-    isPointsFarm: farm.rewardType === 'points',
+    apy: farm.apiInfo.data?.apy,
+    detailsLink: generatePath(paths.farmDetails, { chainId: chainId.toString(), address: farm.blockchainInfo.address }),
+    entryAssetsGroup: farm.blockchainInfo.entryAssetsGroup,
+    rewardToken: farm.blockchainInfo.rewardToken, // @todo: Check if price is not impacting formatting
+    stakingToken: farm.blockchainInfo.stakingToken,
+    staked: farm.blockchainInfo.staked,
+    isPointsFarm: farm.blockchainInfo.rewardType === 'points',
   }
 }

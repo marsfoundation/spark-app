@@ -7,27 +7,38 @@ import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { InactiveFarmInfoPanel } from './InactiveFarmInfoPanel'
 
-const mockFarm: Farm = {
-  address: MAINNET_USDS_SKY_FARM_ADDRESS,
-  apy: Percentage(0.05),
-  name: 'SKY Farm',
-  rewardType: 'token',
-  entryAssetsGroup: {
-    type: 'stablecoins',
-    name: 'Stablecoins',
-    assets: [tokens.DAI.symbol, tokens.sDAI.symbol, tokens.USDC.symbol, tokens.USDS.symbol, tokens.sUSDS.symbol],
+const mockFarm = {
+  blockchainInfo: {
+    address: MAINNET_USDS_SKY_FARM_ADDRESS,
+    name: 'SKY Farm',
+    rewardType: 'token',
+    entryAssetsGroup: {
+      type: 'stablecoins',
+      name: 'Stablecoins',
+      assets: [tokens.DAI.symbol, tokens.sDAI.symbol, tokens.USDC.symbol, tokens.USDS.symbol, tokens.sUSDS.symbol],
+    },
+    rewardToken: tokens.SKY,
+    stakingToken: tokens.USDS,
+    earned: NormalizedUnitNumber(71.2345783),
+    staked: NormalizedUnitNumber(10_000),
+    rewardRate: NormalizedUnitNumber(0.0000000003756),
+    earnedTimestamp: 1724337615,
+    periodFinish: 2677721600,
+    totalSupply: NormalizedUnitNumber(100_000),
   },
-  rewardToken: tokens.SKY,
-  stakingToken: tokens.USDS,
-  earned: NormalizedUnitNumber(71.2345783),
-  staked: NormalizedUnitNumber(10_000),
-  rewardRate: NormalizedUnitNumber(0.0000000003756),
-  totalRewarded: NormalizedUnitNumber(24520),
-  earnedTimestamp: 1724337615,
-  periodFinish: 2677721600,
-  totalSupply: NormalizedUnitNumber(100_000),
-  depositors: 6,
-}
+  apiInfo: {
+    isPending: false,
+    isError: false,
+    error: null,
+    data: {
+      address: MAINNET_USDS_SKY_FARM_ADDRESS,
+      apy: Percentage(0.05),
+      depositors: 6,
+      totalRewarded: NormalizedUnitNumber(24520),
+      rewardTokenPriceUsd: NormalizedUnitNumber('0.06'),
+    },
+  },
+} satisfies Farm
 
 const meta: Meta<typeof InactiveFarmInfoPanel> = {
   title: 'Features/FarmDetails/Components/FarmInfoPanel/InactiveFarmInfoPanel',
@@ -51,7 +62,13 @@ export const DesktopZeroAPY: Story = {
   args: {
     farm: {
       ...mockFarm,
-      apy: Percentage(0),
+      apiInfo: {
+        ...mockFarm.apiInfo,
+        data: {
+          ...mockFarm.apiInfo.data,
+          apy: Percentage(0),
+        },
+      },
     },
   },
 }

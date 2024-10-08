@@ -34,13 +34,20 @@ export function InactiveFarmInfoPanel({
           Deposit {assetsGroupToText(assetsGroupType)} <br />
           and earn{' '}
           <span className="text-[#3F66EF]">
-            {farm.apy.gt(0) ? formatPercentage(farm.apy, { minimumFractionDigits: 0 }) : farm.rewardToken.symbol}
+            {/* @todo: Handle loading error states for farm api info nicer */}
+            {farm.apiInfo.isPending
+              ? ''
+              : farm.apiInfo.data?.apy.gt(0)
+                ? formatPercentage(farm.apiInfo?.data.apy, { minimumFractionDigits: 0 })
+                : farm.blockchainInfo.rewardToken.symbol}
           </span>{' '}
           in rewards
         </h2>
         <div className="max-w-[75%] text-basics-dark-grey">
-          {farm.apy.gt(0) && (
-            <>Deposit any of the tokens listed below and start farming {farm.rewardToken.symbol} tokens.</>
+          {farm.apiInfo.data?.apy.gt(0) && (
+            <>
+              Deposit any of the tokens listed below and start farming {farm.blockchainInfo.rewardToken.symbol} tokens.
+            </>
           )}{' '}
           Learn more about farming{' '}
           <Link to={links.docs.farmingRewards} external>
@@ -51,25 +58,35 @@ export function InactiveFarmInfoPanel({
       </div>
       <div className="flex flex-col gap-4">
         <div className="flex flex-col items-start gap-2 md:flex-row md:items-center md:gap-12">
-          <DetailsItem title="Participants">
-            <div className="font-semibold">{farm.depositors}</div>
-          </DetailsItem>
-          <DetailsItem title="TVL">
-            <div className="font-semibold">{USD_MOCK_TOKEN.formatUSD(farm.totalSupply, { compact: true })}</div>
-          </DetailsItem>
-          {farm.apy.gt(0) ? (
-            <DetailsItem title="APY" explainer={<ApyTooltip farmAddress={farm.address} />}>
-              <div className="font-semibold text-[#3F66EF]">
-                {formatPercentage(farm.apy, { minimumFractionDigits: 0 })}
-              </div>
-            </DetailsItem>
-          ) : (
-            <DetailsItem title="Total rewarded">
-              <div className="font-semibold">
-                {farm.rewardToken.format(farm.totalRewarded, { style: 'compact' })} {farm.rewardToken.symbol}
-              </div>
+          {farm.apiInfo.data && (
+            <DetailsItem title="Participants">
+              <div className="font-semibold">{farm.apiInfo.data.depositors}</div>
             </DetailsItem>
           )}
+          <DetailsItem title="TVL">
+            <div className="font-semibold">
+              {USD_MOCK_TOKEN.formatUSD(farm.blockchainInfo.totalSupply, { compact: true })}
+            </div>
+          </DetailsItem>
+          {/* @todo: Handle loading error states elegantly */}
+          {farm.apiInfo.data ? (
+            farm.blockchainInfo.rewardType === 'token' ? (
+              <DetailsItem title="APY" explainer={<ApyTooltip farmAddress={farm.apiInfo.data.address} />}>
+                <div className="font-semibold text-[#3F66EF]">
+                  {formatPercentage(farm.apiInfo.data.apy, { minimumFractionDigits: 0 })}
+                </div>
+              </DetailsItem>
+            ) : (
+              <DetailsItem title="Total rewarded">
+                <div className="font-semibold">
+                  {farm.blockchainInfo.rewardToken
+                    .clone({ unitPriceUsd: farm.apiInfo.data.rewardTokenPriceUsd })
+                    .format(farm.apiInfo.data.totalRewarded, { style: 'compact' })}{' '}
+                  {farm.blockchainInfo.rewardToken.symbol}
+                </div>
+              </DetailsItem>
+            )
+          ) : null}
         </div>
         <div className="hidden border-basics-border border-t md:block" />
         <Button

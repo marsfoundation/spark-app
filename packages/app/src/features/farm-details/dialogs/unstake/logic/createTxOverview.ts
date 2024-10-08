@@ -30,13 +30,13 @@ export function createTxOverview({ formValues, farm, isExiting, earnedRewards }:
 
   const routeToOutcomeToken: TxOverviewRouteItem[] = createRouteToOutcomeToken({
     formValues,
-    stakingToken: farm.stakingToken,
+    stakingToken: farm.blockchainInfo.stakingToken,
   })
 
   return {
     status: 'success',
-    stakingToken: farm.stakingToken,
-    rewardToken: farm.rewardToken,
+    stakingToken: farm.blockchainInfo.stakingToken,
+    rewardToken: farm.blockchainInfo.rewardToken, // @todo: Handle non existing price for failed api call
     earnedRewards,
     routeToOutcomeToken,
     isExiting,

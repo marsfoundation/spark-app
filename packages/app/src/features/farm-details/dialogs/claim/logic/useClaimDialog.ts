@@ -28,19 +28,19 @@ export function useClaimDialog({ farm }: UseClaimDialogParams): UseClaimDialogRe
   const [pageStatus, setPageStatus] = useState<PageState>('form')
 
   const rewardAmount = calculateReward({
-    earned: farm.earned,
-    staked: farm.staked,
-    rewardRate: farm.rewardRate,
-    earnedTimestamp: farm.earnedTimestamp,
-    periodFinish: farm.periodFinish,
+    earned: farm.blockchainInfo.earned,
+    staked: farm.blockchainInfo.staked,
+    rewardRate: farm.blockchainInfo.rewardRate,
+    earnedTimestamp: farm.blockchainInfo.earnedTimestamp,
+    periodFinish: farm.blockchainInfo.periodFinish,
     timestampInMs: timestamp * 1000,
-    totalSupply: farm.totalSupply,
+    totalSupply: farm.blockchainInfo.totalSupply,
   })
 
   return {
     txOverview: {
       reward: {
-        token: farm.rewardToken,
+        token: farm.blockchainInfo.rewardToken,
         value: rewardAmount,
       },
     },
@@ -53,13 +53,13 @@ export function useClaimDialog({ farm }: UseClaimDialogParams): UseClaimDialogRe
     objectives: [
       {
         type: 'claimFarmRewards',
-        farm: farm.address,
-        rewardToken: farm.rewardToken,
+        farm: farm.blockchainInfo.address,
+        rewardToken: farm.blockchainInfo.rewardToken,
         rewardAmount,
       },
     ],
     reward: {
-      token: farm.rewardToken,
+      token: farm.blockchainInfo.rewardToken, // @todo: take care of proper formatting when no price available
       value: rewardAmount,
     },
   }

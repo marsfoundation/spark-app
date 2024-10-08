@@ -52,27 +52,38 @@ const mockSavingsUsdsInfo = new PotSavingsInfo({
   currentTimestamp: timestamp + 24 * 60 * 60,
 })
 
-const farm: Farm = {
-  address: MAINNET_USDS_SKY_FARM_ADDRESS,
-  apy: Percentage(0.05),
-  name: 'SKY Farm',
-  rewardType: 'token',
-  rewardToken: tokens.SKY,
-  stakingToken: tokens.USDS,
-  entryAssetsGroup: {
-    type: 'stablecoins',
-    name: 'Stablecoins',
-    assets: [tokens.DAI.symbol, tokens.USDC.symbol],
+const farm = {
+  blockchainInfo: {
+    address: MAINNET_USDS_SKY_FARM_ADDRESS,
+    name: 'SKY Farm',
+    rewardType: 'token',
+    rewardToken: tokens.SKY,
+    stakingToken: tokens.USDS,
+    entryAssetsGroup: {
+      type: 'stablecoins',
+      name: 'Stablecoins',
+      assets: [tokens.DAI.symbol, tokens.USDC.symbol],
+    },
+    rewardRate: NormalizedUnitNumber(100),
+    earnedTimestamp: timestamp,
+    periodFinish: timestamp * 5,
+    totalSupply: NormalizedUnitNumber(123456),
+    earned: NormalizedUnitNumber(52),
+    staked: NormalizedUnitNumber(100),
   },
-  rewardRate: NormalizedUnitNumber(100),
-  earnedTimestamp: timestamp,
-  periodFinish: timestamp * 5,
-  totalSupply: NormalizedUnitNumber(123456),
-  totalRewarded: NormalizedUnitNumber(12345),
-  depositors: 1111,
-  earned: NormalizedUnitNumber(52),
-  staked: NormalizedUnitNumber(100),
-}
+  apiInfo: {
+    isPending: false,
+    isError: false,
+    error: null,
+    data: {
+      address: MAINNET_USDS_SKY_FARM_ADDRESS,
+      apy: Percentage(0.05),
+      depositors: 1111,
+      totalRewarded: NormalizedUnitNumber(12345),
+      rewardTokenPriceUsd: NormalizedUnitNumber('0.06'),
+    },
+  },
+} satisfies Farm
 
 const mockedFarmsInfo = new FarmsInfo([farm])
 
@@ -113,7 +124,7 @@ const meta: Meta<typeof StakeView> = {
         type: 'stake',
         token: tokens.USDS,
         amount: NormalizedUnitNumber(100),
-        farm: farm.address,
+        farm: farm.blockchainInfo.address,
       },
     ],
     pageStatus: {
@@ -167,7 +178,7 @@ export const SacrificeYield: Story = {
         type: 'stake',
         token: tokens.sDAI,
         amount: NormalizedUnitNumber(100),
-        farm: farm.address,
+        farm: farm.blockchainInfo.address,
       },
     ],
     txOverview: {
