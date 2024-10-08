@@ -6,16 +6,19 @@ import { TransactionOverviewDetailsItem } from '../../../common/components/Trans
 
 export interface TransactionOverviewPlaceholder {
   badgeToken: Token
+  showEstimatedRewards: boolean
 }
-export function TransactionOverviewPlaceholder({ badgeToken }: TransactionOverviewPlaceholder) {
+export function TransactionOverviewPlaceholder({ badgeToken, showEstimatedRewards }: TransactionOverviewPlaceholder) {
   const placeholder = '-'
   return (
     <div className="isolate">
       <DialogPanel className="shadow-none">
         <DialogPanelTitle>Transaction overview</DialogPanelTitle>
-        <TransactionOverviewDetailsItem label="Estimated Rewards">
-          <div className="min-h-[46px]">{placeholder}</div>
-        </TransactionOverviewDetailsItem>
+        {showEstimatedRewards && (
+          <TransactionOverviewDetailsItem label="Estimated Rewards">
+            <div className="min-h-[46px]">{placeholder}</div>
+          </TransactionOverviewDetailsItem>
+        )}
         <TransactionOverviewDetailsItem label="Route">
           <div className="flex min-h-[46px] flex-col items-end justify-between">
             <div>{placeholder}</div>

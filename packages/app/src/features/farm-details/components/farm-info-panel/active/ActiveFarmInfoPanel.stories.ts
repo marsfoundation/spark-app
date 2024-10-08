@@ -1,6 +1,7 @@
+import { MAINNET_USDS_SKY_FARM_ADDRESS } from '@/config/chain/constants'
 import { Farm } from '@/domain/farms/types'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
@@ -8,13 +9,14 @@ import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { ActiveFarmInfoPanel } from './ActiveFarmInfoPanel'
 
 const mockFarm: Farm = {
-  address: CheckedAddress('0x0650CAF159C5A49f711e8169D4336ECB9b950275'),
+  address: MAINNET_USDS_SKY_FARM_ADDRESS,
   apy: Percentage(0.05),
   entryAssetsGroup: {
     type: 'stablecoins',
     name: 'Stablecoins',
     assets: [tokens.DAI.symbol, tokens.sDAI.symbol, tokens.USDC.symbol, tokens.USDS.symbol, tokens.sUSDS.symbol],
   },
+  name: 'SKY Farm',
   rewardToken: tokens.SKY,
   stakingToken: tokens.USDS,
   earned: NormalizedUnitNumber(71.2345783),
@@ -25,6 +27,7 @@ const mockFarm: Farm = {
   periodFinish: 2677721600,
   totalSupply: NormalizedUnitNumber(100_000),
   depositors: 6,
+  rewardType: 'token',
 }
 
 const meta: Meta<typeof ActiveFarmInfoPanel> = {
@@ -33,6 +36,8 @@ const meta: Meta<typeof ActiveFarmInfoPanel> = {
   decorators: [WithClassname('max-w-lg'), WithTooltipProvider()],
   args: {
     farm: mockFarm,
+    canClaim: true,
+    calculateReward: () => NormalizedUnitNumber(71.2345783),
   },
 }
 
@@ -49,5 +54,17 @@ export const DesktopZeroAPY: Story = {
       ...mockFarm,
       apy: Percentage(0),
     },
+  },
+}
+export const DesktopPointsOutOfSync: Story = {
+  args: {
+    farm: {
+      ...mockFarm,
+      rewardToken: mockFarm.rewardToken.clone({ symbol: TokenSymbol('CLE'), unitPriceUsd: NormalizedUnitNumber(0) }),
+      apy: Percentage(0),
+      rewardType: 'points',
+    },
+    canClaim: false,
+    pointsSyncStatus: 'out-of-sync',
   },
 }

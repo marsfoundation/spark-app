@@ -1,6 +1,6 @@
-import { usdsSkyRewardsConfig } from '@/config/contracts-generated'
+import { stakingRewardsAbi } from '@/config/abis/stakingRewardsAbi'
+import { MAINNET_USDS_SKY_FARM_ADDRESS } from '@/config/chain/constants'
 import { getFarmsInfoQueryKey } from '@/domain/farms/query'
-import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
@@ -23,7 +23,7 @@ const hookRenderer = setupUseContractActionRenderer({
   args: {
     action: {
       type: 'claimFarmRewards',
-      farm: getContractAddress(usdsSkyRewardsConfig.address, chainId),
+      farm: MAINNET_USDS_SKY_FARM_ADDRESS,
       rewardToken,
       rewardAmount,
     },
@@ -36,8 +36,8 @@ describe(createClaimFarmRewardsActionConfig.name, () => {
     const { result, queryInvalidationManager } = hookRenderer({
       extraHandlers: [
         handlers.contractCall({
-          to: getContractAddress(usdsSkyRewardsConfig.address, chainId),
-          abi: usdsSkyRewardsConfig.abi,
+          to: MAINNET_USDS_SKY_FARM_ADDRESS,
+          abi: stakingRewardsAbi,
           functionName: 'getReward',
           from: account,
           result: undefined,

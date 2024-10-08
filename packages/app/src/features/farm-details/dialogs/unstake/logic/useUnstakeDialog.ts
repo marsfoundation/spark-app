@@ -111,6 +111,7 @@ export function useUnstakeDialog({ farm, initialToken }: UseStakeDialogParams): 
   }
 
   const actionsEnabled = formValues.value.gt(0) && isFormValid && !isDebouncing
+  const canClaim = farm.earned.gt(0) || farm.rewardRate.gt(0)
 
   return {
     selectableAssets: exitTokens,
@@ -125,7 +126,7 @@ export function useUnstakeDialog({ farm, initialToken }: UseStakeDialogParams): 
       goToSuccessScreen: () => setPageStatus('success'),
     },
     exitFarmSwitchInfo: {
-      showSwitch: formValues.isMaxSelected,
+      showSwitch: formValues.isMaxSelected && canClaim,
       onSwitch: () => setExitFarmSwitchChecked((exitFarmSwitchChecked) => !exitFarmSwitchChecked),
       checked: exitFarmSwitchChecked,
       reward: {

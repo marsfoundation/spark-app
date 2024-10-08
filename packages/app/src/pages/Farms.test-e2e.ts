@@ -17,14 +17,15 @@ test.describe('Farms', () => {
         type: 'not-connected',
       },
     })
-    await overrideInfoSkyRouteWithHAR({ page, key: '1-sky-farm-with-0-apy' })
+    await overrideInfoSkyRouteWithHAR({ page, key: '1-sky-farm-with-8_51-apy' })
 
     farmsPage = new FarmsPageObject(page)
   })
 
   test('farms list', async () => {
     await farmsPage.expectInactiveFarms([
-      { apy: '839.13%', staked: '0', rewardText: 'Earn SKY', stakeText: 'Deposit Stablecoins' },
+      { apy: '8.51%', staked: '0', rewardText: 'Earn SKY', stakeText: 'Deposit Stablecoins' },
+      { staked: '0', rewardText: 'Earn CLE points', stakeText: 'Deposit Stablecoins' },
     ])
 
     await farmsPage.expectActiveFarmsListToBeEmpty()

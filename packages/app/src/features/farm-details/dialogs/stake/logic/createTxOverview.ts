@@ -11,7 +11,7 @@ export interface CreateTxOverviewParams {
   farm: Farm
 }
 
-export type TxOverview =
+export type TxOverview = { showEstimatedRewards: boolean } & (
   | { status: 'no-overview' }
   | {
       status: 'success'
@@ -21,11 +21,13 @@ export type TxOverview =
       rewardsPerYear: NormalizedUnitNumber
       routeToStakingToken: TxOverviewRouteItem[]
     }
+)
 
 export function createTxOverview({ formValues, farm }: CreateTxOverviewParams): TxOverview {
   const value = formValues.value
+  const showEstimatedRewards = farm.rewardType !== 'points'
   if (value.eq(0)) {
-    return { status: 'no-overview' }
+    return { status: 'no-overview', showEstimatedRewards }
   }
 
   const routeToStakingToken: TxOverviewRouteItem[] = createRouteToStakingToken({
@@ -45,6 +47,7 @@ export function createTxOverview({ formValues, farm }: CreateTxOverviewParams): 
 
   return {
     status: 'success',
+    showEstimatedRewards,
     apy,
     stakingToken: farm.stakingToken,
     rewardToken: farm.rewardToken,

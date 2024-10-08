@@ -11,3 +11,5 @@ export interface FarmInfo {
   periodFinish: number
   totalSupply: NormalizedUnitNumber
 }
+
+export type RewardPointsSyncStatus = 'synced' | 'out-of-sync' | 'sync-failed'

@@ -21,7 +21,12 @@ export interface TransactionOverviewProps {
 
 export function TransactionOverview({ txOverview, selectedToken }: TransactionOverviewProps) {
   if (txOverview.status !== 'success') {
-    return <TransactionOverviewPlaceholder badgeToken={selectedToken} />
+    return (
+      <TransactionOverviewPlaceholder
+        badgeToken={selectedToken}
+        showEstimatedRewards={txOverview.showEstimatedRewards}
+      />
+    )
   }
   const { apy, stakingToken, rewardToken, rewardsPerYear, routeToStakingToken } = txOverview
 
@@ -35,9 +40,11 @@ export function TransactionOverview({ txOverview, selectedToken }: TransactionOv
     <div className="isolate">
       <DialogPanel className="shadow-none">
         <DialogPanelTitle>Transaction overview</DialogPanelTitle>
-        <TransactionOverviewDetailsItem label="Estimated Rewards">
-          <RewardsDetails apy={apy} rewardsPerYear={rewardsPerYear} rewardToken={rewardToken} />
-        </TransactionOverviewDetailsItem>
+        {txOverview.showEstimatedRewards && (
+          <TransactionOverviewDetailsItem label="Estimated Rewards">
+            <RewardsDetails apy={apy} rewardsPerYear={rewardsPerYear} rewardToken={rewardToken} />
+          </TransactionOverviewDetailsItem>
+        )}
         <TransactionOverviewDetailsItem label="Route">
           <div className={cn('flex flex-col items-end gap-2', !displayRouteVertically && 'md:flex-row')}>
             {routeToStakingToken.map((item, index) => (

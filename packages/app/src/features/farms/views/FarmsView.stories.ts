@@ -30,6 +30,7 @@ const meta: Meta<typeof FarmsView> = {
         stakingToken: tokens.DAI,
         detailsLink: 'farm-details/1/0x1234567890123456789012345678901234567890',
         entryAssetsGroup,
+        isPointsFarm: false,
       },
       {
         apy: Percentage(0.076),
@@ -38,6 +39,7 @@ const meta: Meta<typeof FarmsView> = {
         stakingToken: tokens.USDS,
         detailsLink: 'farm-details/1/0x1234567890123456789012345678901234567891',
         entryAssetsGroup,
+        isPointsFarm: true,
       },
     ],
     activeFarms: [
@@ -48,6 +50,7 @@ const meta: Meta<typeof FarmsView> = {
         stakingToken: tokens.USDS,
         detailsLink: 'farm-details/1/0x1234567890123456789012345678901234567892',
         entryAssetsGroup,
+        isPointsFarm: false,
       },
     ],
     chainId: mainnet.id,

@@ -1,7 +1,7 @@
+import { MAINNET_USDS_SKY_FARM_ADDRESS } from '@/config/chain/constants'
 import { FarmsInfo } from '@/domain/farms/farmsInfo'
 import { Farm } from '@/domain/farms/types'
 import { PotSavingsInfo } from '@/domain/savings-info/potSavingsInfo'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { bigNumberify } from '@/utils/bigNumber'
@@ -53,8 +53,10 @@ const mockSavingsUsdsInfo = new PotSavingsInfo({
 })
 
 const farm: Farm = {
-  address: CheckedAddress('0x0650CAF159C5A49f711e8169D4336ECB9b950275'),
+  address: MAINNET_USDS_SKY_FARM_ADDRESS,
   apy: Percentage(0.05),
+  name: 'SKY Farm',
+  rewardType: 'token',
   rewardToken: tokens.SKY,
   stakingToken: tokens.USDS,
   entryAssetsGroup: {
@@ -121,6 +123,7 @@ const meta: Meta<typeof StakeView> = {
     },
     txOverview: {
       status: 'success',
+      showEstimatedRewards: true,
       apy: Percentage(0.05),
       stakingToken: tokens.USDS,
       rewardToken: tokens.SKY,
@@ -170,6 +173,7 @@ export const SacrificeYield: Story = {
     txOverview: {
       status: 'success',
       apy: Percentage(0.05),
+      showEstimatedRewards: true,
       stakingToken: tokens.USDS,
       rewardToken: tokens.SKY,
       rewardsPerYear: NormalizedUnitNumber(542),
@@ -188,6 +192,7 @@ export const DesktopZeroApy: Story = {
     txOverview: {
       status: 'success',
       apy: Percentage(0),
+      showEstimatedRewards: true,
       stakingToken: tokens.USDS,
       rewardToken: tokens.SKY,
       rewardsPerYear: NormalizedUnitNumber(542),

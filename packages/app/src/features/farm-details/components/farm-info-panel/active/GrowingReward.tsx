@@ -1,41 +1,25 @@
-import { Farm } from '@/domain/farms/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { Token } from '@/domain/types/Token'
 import { getTokenImage } from '@/ui/assets'
 import { testIds } from '@/ui/utils/testIds'
 import { getFractionalPart, getWholePart } from '@/utils/bigNumber'
 import { useTimestamp } from '@/utils/useTimestamp'
-import { calculateReward } from '../../../logic/calculateReward'
 
 const STEP_IN_MS = 50
 
 export interface GrowingRewardProps {
-  farm: Farm
+  rewardToken: Token
+  calculateReward: (timestampInMs: number) => NormalizedUnitNumber
+  refreshIntervalInMs: number | undefined
 }
 
-export function GrowingReward({ farm }: GrowingRewardProps) {
-  const { rewardToken, earned, staked, rewardRate, earnedTimestamp, periodFinish, totalSupply } = farm
+export function GrowingReward({ rewardToken, calculateReward, refreshIntervalInMs }: GrowingRewardProps) {
   const { timestampInMs } = useTimestamp({
-    refreshIntervalInMs: rewardRate.gt(0) && totalSupply.gt(0) ? STEP_IN_MS : undefined,
+    refreshIntervalInMs,
   })
 
-  const currentReward = calculateReward({
-    earned,
-    staked,
-    rewardRate,
-    earnedTimestamp,
-    periodFinish,
-    timestampInMs,
-    totalSupply,
-  })
-  const rewardIn1Step = calculateReward({
-    earned,
-    staked,
-    rewardRate,
-    earnedTimestamp,
-    periodFinish,
-    timestampInMs: timestampInMs + STEP_IN_MS,
-    totalSupply,
-  })
+  const currentReward = calculateReward(timestampInMs)
+  const rewardIn1Step = calculateReward(timestampInMs + STEP_IN_MS)
   const precision = calculatePrecision({ currentReward, rewardIn1Step })
 
   return (
@@ -68,7 +52,7 @@ interface CalculatePrecisionParams {
 }
 function calculatePrecision({ currentReward, rewardIn1Step }: CalculatePrecisionParams): number {
   const precision = rewardIn1Step.minus(currentReward).lt(1e-12)
-    ? 0
+    ? 6
     : -Math.floor(Math.log10(rewardIn1Step.minus(currentReward).toNumber()))
 
   return Math.max(precision, 2)

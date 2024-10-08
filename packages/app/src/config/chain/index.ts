@@ -1,6 +1,5 @@
 import { gnosis, mainnet } from 'viem/chains'
 
-import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { getOriginChainId } from '@/domain/hooks/useOriginChainId'
 import {
   fetchRethOracleInfo,
@@ -13,12 +12,14 @@ import { mainnetSavingsDaiInfoQuery, mainnetSavingsUsdsInfoQuery } from '@/domai
 import { useStore } from '@/domain/state'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { assets } from '@/ui/assets'
+import { zeroAddress } from 'viem'
 import { NATIVE_ASSET_MOCK_ADDRESS, stablecoinsGroup } from '../consts'
-import { usdsSkyRewardsConfig } from '../contracts-generated'
 import { AppConfig } from '../feature-flags'
 import { PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY } from '../wagmi/config.e2e'
+import { MAINNET_USDS_SKY_FARM_ADDRESS } from './constants'
 import { ChainConfig, ChainConfigEntry, ChainMeta } from './types'
 
 const commonTokenSymbolToReplacedName = {
@@ -128,9 +129,24 @@ const chainConfig: ChainConfig = {
     ],
     farms: [
       {
-        address: getContractAddress(usdsSkyRewardsConfig.address, mainnet.id),
+        rewardType: 'token',
+        address: CheckedAddress(MAINNET_USDS_SKY_FARM_ADDRESS),
         entryAssetsGroup: stablecoinsGroup,
         historyCutoff: new Date('2024-09-17T00:00:00.000Z'),
+      },
+      {
+        // CRO Farm
+        rewardType: 'points',
+        address: CheckedAddress('0x10ab606B067C9C461d8893c47C7512472E19e2Ce'),
+        entryAssetsGroup: stablecoinsGroup,
+        historyCutoff: new Date('2024-09-17T00:00:00.000Z'),
+        rewardPoints: new Token({
+          address: CheckedAddress(zeroAddress),
+          decimals: 18,
+          name: 'CLE points',
+          symbol: TokenSymbol('CLE'),
+          unitPriceUsd: '0',
+        }),
       },
     ],
     oracles: {
