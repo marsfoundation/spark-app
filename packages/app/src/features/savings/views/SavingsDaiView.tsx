@@ -21,7 +21,9 @@ export function SavingsDaiView({
   savingsChartsInfo,
 }: SavingsViewContentProps) {
   const displaySavingsDai = savingsTokenDetails.tokenWithBalance.balance.gt(0)
-  const displaySavingsOpportunity = !displaySavingsDai && opportunityProjections.thirtyDays.gt(0)
+
+  const displaySavingsDaiChart = savingsChartsInfo.chartsSupported
+  const displaySavingsOpportunity = !displaySavingsDaiChart && opportunityProjections.thirtyDays.gt(0)
   const displaySavingsNoCash = !displaySavingsDai && !displaySavingsOpportunity
 
   return (
@@ -43,7 +45,6 @@ export function SavingsDaiView({
               savingsMetaItem={savingsMeta.primary}
               {...savingsTokenDetails}
             />
-            <DaiSavingsCharts {...savingsChartsInfo} />
           </>
         )}
 
@@ -66,6 +67,8 @@ export function SavingsDaiView({
             savingsMeta={savingsMeta}
           />
         )}
+
+        {displaySavingsDaiChart && <DaiSavingsCharts {...savingsChartsInfo} />}
       </div>
       <StablecoinsInWallet assets={assetsInWallet} openDialog={openDialog} migrationInfo={migrationInfo} />
     </PageLayout>

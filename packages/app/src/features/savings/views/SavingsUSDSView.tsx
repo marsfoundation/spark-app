@@ -20,6 +20,8 @@ export function SavingsUsdsView({
   savingsChartsInfo,
 }: SavingsViewContentProps) {
   const displaySavingsUsds = savingsTokenDetails.tokenWithBalance.balance.gt(0)
+
+  const displaySavingsUsdsChart = savingsChartsInfo.chartsSupported
   const displaySavingsOpportunity = !displaySavingsUsds && opportunityProjections.thirtyDays.gt(0)
   const displaySavingsNoCash = !displaySavingsUsds && !displaySavingsOpportunity
 
@@ -36,7 +38,6 @@ export function SavingsUsdsView({
               savingsMetaItem={savingsMeta.primary}
               {...savingsTokenDetails}
             />
-            <UsdsSavingsCharts {...savingsChartsInfo} />
           </>
         )}
         {displaySavingsOpportunity && (
@@ -57,6 +58,7 @@ export function SavingsUsdsView({
             savingsMeta={savingsMeta}
           />
         )}
+        {displaySavingsUsdsChart && <UsdsSavingsCharts {...savingsChartsInfo} />}
       </div>
       <StablecoinsInWallet assets={assetsInWallet} openDialog={openDialog} migrationInfo={migrationInfo} />
     </PageLayout>

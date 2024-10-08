@@ -10,6 +10,7 @@ export interface UseSavingsRateInfoParams {
   timeframe: Timeframe
   currentTimestamp: number
   staleTime: number
+  chartsSupported: boolean
 }
 export type UseSavingsRateInfoResult = {
   data: SavingsRateInfo | undefined
@@ -22,6 +23,7 @@ export function useSavingsRateInfo({
   timeframe,
   currentTimestamp,
   staleTime,
+  chartsSupported,
 }: UseSavingsRateInfoParams): UseSavingsRateInfoResult {
   const { data, isError, isLoading } = useQuery({
     ...savingsRateQueryOptions({
@@ -33,6 +35,7 @@ export function useSavingsRateInfo({
       [timeframe, currentTimestamp],
     ),
     staleTime,
+    enabled: chartsSupported,
   })
 
   return {

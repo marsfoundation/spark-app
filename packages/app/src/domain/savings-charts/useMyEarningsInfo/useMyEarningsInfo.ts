@@ -21,6 +21,7 @@ export interface UseMyEarningsInfoParams {
   sUSDSWithBalance: TokenWithBalance | undefined
   savingsDaiInfo: SavingsInfo | null
   sDaiWithBalance: TokenWithBalance | undefined
+  chartsSupported: boolean
 }
 export type UseMyEarningsInfoResult = {
   data:
@@ -44,6 +45,7 @@ export function useMyEarningsInfo({
   sUSDSWithBalance,
   savingsDaiInfo,
   sDaiWithBalance,
+  chartsSupported,
 }: UseMyEarningsInfoParams): UseMyEarningsInfoResult {
   const displayType = getSavingsDisplayType({
     savingsUsdsInfo,
@@ -76,7 +78,7 @@ export function useMyEarningsInfo({
         }),
       [timeframe, currentTimestamp, savingsInfo, savingsTokenWithBalance],
     ),
-    enabled: !!savingsInfo && !!savingsTokenWithBalance,
+    enabled: chartsSupported && !!savingsInfo && !!savingsTokenWithBalance,
     staleTime,
   })
 

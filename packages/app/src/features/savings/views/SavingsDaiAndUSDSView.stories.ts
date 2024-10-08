@@ -84,6 +84,7 @@ const savingsViewBaseArgs = {
       isError: false,
       isLoading: false,
     },
+    chartsSupported: true,
   },
 }
 

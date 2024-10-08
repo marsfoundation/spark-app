@@ -39,8 +39,8 @@ export function SavingsDaiAndUsdsView({
   const displaySavingsDai = sDaiDetails.tokenWithBalance.balance.gt(0)
   const displaySavingsUsds = sUSDSDetails.tokenWithBalance.balance.gt(0)
 
-  const displaySavingsDaiCharts = displaySavingsDai && !displaySavingsUsds
-  const displaySavingsUsdsCharts = displaySavingsUsds && !displaySavingsDai
+  const displaySavingsDaiCharts = displaySavingsDai && !displaySavingsUsds && savingsChartsInfo.chartsSupported
+  const displaySavingsUsdsCharts = displaySavingsUsds && !displaySavingsDai && savingsChartsInfo.chartsSupported
 
   const noSavingsDisplay = !displaySavingsDai && !displaySavingsUsds
   const displaySavingsOpportunity = noSavingsDisplay && opportunityProjections.thirtyDays.gt(0)
@@ -91,6 +91,7 @@ export function SavingsDaiAndUsdsView({
             savingsMeta={savingsMeta}
           />
         )}
+
         {displaySavingsNoCash && (
           <SavingsOpportunityNoCash APY={sUSDSDetails.APY} originChainId={originChainId} savingsMeta={savingsMeta} />
         )}

@@ -1,8 +1,10 @@
 import { Timeframe } from '@/ui/charts/defaults'
 import { useTimestamp } from '@/utils/useTimestamp'
 import { useState } from 'react'
-import { useAccount, useChainId } from 'wagmi'
+import { mainnet } from 'viem/chains'
+import { useAccount } from 'wagmi'
 import { TokenWithBalance } from '../common/types'
+import { useOriginChainId } from '../hooks/useOriginChainId'
 import { SavingsInfo } from '../savings-info/types'
 import { UseMyEarningsInfoResult, useMyEarningsInfo } from './useMyEarningsInfo/useMyEarningsInfo'
 import { UseSavingsRateInfoResult, useSavingsRateInfo } from './useSavingsRateInfo/useSavingsRateInfo'
@@ -12,6 +14,7 @@ export type UseSavingsChartsInfoQueryResult = {
   setSelectedTimeframe: (timeframe: Timeframe) => void
   myEarningsInfo: UseMyEarningsInfoResult
   savingsRateInfo: UseSavingsRateInfoResult
+  chartsSupported: boolean
 }
 
 const REFRESH_INTERVAL_IN_MS = 60 * 60 * 1_000 // 1 hour
@@ -30,10 +33,12 @@ export function useSavingsChartsInfoQuery({
   sUSDSWithBalance,
 }: UseSavingsChartsInfoParams): UseSavingsChartsInfoQueryResult {
   const [selectedTimeframe, setSelectedTimeframe] = useState<Timeframe>('All')
-  const chainId = useChainId()
+  const chainId = useOriginChainId()
 
   const { address } = useAccount()
   const { timestamp } = useTimestamp({ refreshIntervalInMs: REFRESH_INTERVAL_IN_MS })
+
+  const chartsSupported = chainId === mainnet.id
 
   const myEarningsInfo = useMyEarningsInfo({
     address,
@@ -45,6 +50,7 @@ export function useSavingsChartsInfoQuery({
     sDaiWithBalance,
     savingsUsdsInfo,
     sUSDSWithBalance,
+    chartsSupported,
   })
 
   const savingsRateInfo = useSavingsRateInfo({
@@ -52,6 +58,7 @@ export function useSavingsChartsInfoQuery({
     timeframe: selectedTimeframe,
     currentTimestamp: timestamp,
     staleTime: REFRESH_INTERVAL_IN_MS,
+    chartsSupported,
   })
 
   return {
@@ -59,5 +66,6 @@ export function useSavingsChartsInfoQuery({
     setSelectedTimeframe,
     myEarningsInfo,
     savingsRateInfo,
+    chartsSupported,
   }
 }
