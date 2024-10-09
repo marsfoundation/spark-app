@@ -186,7 +186,7 @@ test.describe('Withdraw max USDS from CLE farm', () => {
         },
       },
     })
-    await overrideInfoSkyRouteWithHAR({ page, key: `3-cle-farm-10000-balance-${harSuffix}` })
+    await overrideInfoSkyRouteWithHAR({ page, key: `2-cle-farm-0-balance-${harSuffix}` })
 
     farmDetailsPage = new FarmDetailsPageObject(page)
     await farmDetailsPage.clickInfoPanelStakeButtonAction()
@@ -194,6 +194,7 @@ test.describe('Withdraw max USDS from CLE farm', () => {
     await stakeDialog.fillAmountAction(10_000)
     await stakeDialog.actionsContainer.acceptAllActionsAction(2)
     await stakeDialog.clickBackToFarmAction()
+    await overrideInfoSkyRouteWithHAR({ page, key: `3-cle-farm-10000-balance-${harSuffix}` })
 
     await farmDetailsPage.clickInfoPanelUnstakeButtonAction()
     unstakeDialog = new UnstakeDialogPageObject(page)
