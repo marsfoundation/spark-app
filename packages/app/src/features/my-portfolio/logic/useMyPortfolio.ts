@@ -11,6 +11,7 @@ import { makeLiquidationDetails } from './makeLiquidationDetails'
 import { makePositionSummary } from './position'
 import { PositionSummary } from './types'
 import { WalletCompositionInfo, makeWalletComposition } from './wallet-composition'
+import { usePageChainId } from '@/domain/hooks/usePageChainId'
 
 export interface UseMyPortfolioResults {
   positionSummary: PositionSummary
@@ -24,8 +25,9 @@ export interface UseMyPortfolioResults {
 }
 
 export function useMyPortfolio(): UseMyPortfolioResults {
-  const { marketInfo } = useMarketInfo()
-  const walletInfo = useMarketWalletInfo()
+  const pageChainId = usePageChainId()
+  const { marketInfo } = useMarketInfo({ chainId: pageChainId })
+  const walletInfo = useMarketWalletInfo({ chainId: pageChainId })
   const [compositionWithDeposits, setCompositionWithDeposits] = useState(true)
   const nativeAssetInfo = getNativeAssetInfo(marketInfo.chainId)
   const openDialog = useOpenDialog()
