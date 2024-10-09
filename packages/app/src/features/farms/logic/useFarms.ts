@@ -1,5 +1,5 @@
 import { useFarmsInfo } from '@/domain/farms/useFarmsInfo'
-import { useChainId } from 'wagmi'
+import { usePageChainId } from '@/domain/hooks/usePageChainId'
 import { FarmTileProps } from '../components/farm-tile/FarmTile'
 import { getFarmTileProps } from './getFarmTileData'
 
@@ -11,8 +11,8 @@ export interface UseFarmsResult {
 }
 
 export function useFarms(): UseFarmsResult {
-  const { farmsInfo } = useFarmsInfo()
-  const chainId = useChainId()
+  const chainId = usePageChainId()
+  const { farmsInfo } = useFarmsInfo({ chainId })
 
   const hasFarms = farmsInfo.getHasFarms()
   const activeFarms = farmsInfo.getActiveFarms().map((farm) => getFarmTileProps({ farm, chainId }))

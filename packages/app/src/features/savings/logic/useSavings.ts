@@ -1,8 +1,9 @@
+import { getChainConfigEntry } from '@/config/chain'
 import { SupportedChainId } from '@/config/chain/types'
 import { sortByUsdValueWithUsdsPriority } from '@/domain/common/sorters'
 import { TokenWithBalance } from '@/domain/common/types'
-import { useChainConfigEntry } from '@/domain/hooks/useChainConfigEntry'
 import { useGetBlockExplorerAddressLink } from '@/domain/hooks/useGetBlockExplorerAddressLink'
+import { usePageChainId } from '@/domain/hooks/usePageChainId'
 import {
   UseSavingsChartsInfoQueryResult,
   useSavingsChartsInfoQuery,
@@ -18,14 +19,11 @@ import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { raise } from '@/utils/assert'
 import { useTimestamp } from '@/utils/useTimestamp'
 import { useMemo } from 'react'
-import { useChainId } from 'wagmi'
 import { Projections } from '../types'
 import { MigrationInfo, makeMigrationInfo } from './makeMigrationInfo'
 import { SavingsMeta, makeSavingsMeta } from './makeSavingsMeta'
 import { makeSavingsTokenDetails } from './makeSavingsTokenDetails'
 import { useWelcomeDialog } from './useWelcomeDialog'
-import { usePageChainId } from '@/domain/hooks/usePageChainId'
-import { getChainConfigEntry } from '@/config/chain'
 
 const stepInMs = 50
 
