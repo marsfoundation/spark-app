@@ -62,18 +62,18 @@ export interface UseSavingsResults {
     | { state: 'unsupported' }
 }
 export function useSavings(): UseSavingsResults {
-  const pageChainId = usePageChainId()
-  const { savingsDaiInfo } = useSavingsDaiInfo({ chainId: pageChainId })
-  const { savingsUsdsInfo } = useSavingsUsdsInfo({ chainId: pageChainId })
-  const { inputTokens, sDaiWithBalance, sUSDSWithBalance } = useSavingsTokens({ chainId: pageChainId })
-  const { id: originChainId, extraTokens } = getChainConfigEntry(pageChainId)
-  const { tokensInfo } = useTokensInfo({ tokens: extraTokens, chainId: pageChainId })
+  const { chainId } = usePageChainId()
+  const { savingsDaiInfo } = useSavingsDaiInfo({ chainId })
+  const { savingsUsdsInfo } = useSavingsUsdsInfo({ chainId })
+  const { inputTokens, sDaiWithBalance, sUSDSWithBalance } = useSavingsTokens({ chainId })
+  const { id: originChainId, extraTokens } = getChainConfigEntry(chainId)
+  const { tokensInfo } = useTokensInfo({ tokens: extraTokens, chainId })
   const { timestamp, timestampInMs } = useTimestamp({
     refreshIntervalInMs: savingsDaiInfo?.supportsRealTimeInterestAccrual ? stepInMs : undefined,
   })
   const openDialog = useOpenDialog()
   const { showWelcomeDialog, saveConfirmedWelcomeDialog } = useWelcomeDialog({
-    chainId: pageChainId,
+    chainId,
   })
   const getBlockExplorerLink = useGetBlockExplorerAddressLink()
 
@@ -135,7 +135,7 @@ export function useSavings(): UseSavingsResults {
     blockExplorerLink: getBlockExplorerLink(tokenWithBalance.token.address),
   }))
 
-  const savingsMeta = makeSavingsMeta(pageChainId)
+  const savingsMeta = makeSavingsMeta(chainId)
 
   return {
     openDialog,

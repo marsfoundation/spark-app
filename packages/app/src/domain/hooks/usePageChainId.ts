@@ -4,7 +4,12 @@ import { matchPath, useLocation } from 'react-router-dom'
 import { mainnet } from 'viem/chains'
 import { useChainId } from 'wagmi'
 
-export function usePageChainId(): number {
+export interface UsePageChainIdResult {
+  chainId: number
+  pageSupported: boolean
+}
+
+export function usePageChainId(): UsePageChainIdResult {
   const chainId = useChainId()
   const location = useLocation()
   const supportedPages = getChainConfigEntry(chainId).supportedPages
@@ -12,8 +17,8 @@ export function usePageChainId(): number {
   const currentPage = Object.entries(paths).find(([_, path]) => matchPath(path, location.pathname))?.[0]
 
   if (currentPage && supportedPages.includes(currentPage as keyof typeof paths)) {
-    return chainId
+    return { chainId, pageSupported: true }
   }
 
-  return mainnet.id
+  return { chainId: mainnet.id, pageSupported: false }
 }

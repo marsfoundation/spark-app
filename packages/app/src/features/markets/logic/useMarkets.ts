@@ -16,7 +16,7 @@ export interface UseMarketsResults {
 }
 
 export function useMarkets(): UseMarketsResults {
-  const chainId = usePageChainId()
+  const { chainId } = usePageChainId()
   const { marketInfo } = useMarketInfo({ chainId })
   const { D3MInfo } = useD3MInfo({ chainId })
   const { meta: chainMeta } = getChainConfigEntry(chainId)

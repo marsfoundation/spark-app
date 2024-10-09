@@ -67,12 +67,12 @@ export interface UseEasyBorrowResults {
 
 export function useEasyBorrow(): UseEasyBorrowResults {
   const account = useAccount()
-  const pageChainId = usePageChainId()
+  const { chainId, pageSupported } = usePageChainId()
   const guestMode = !account.address
   const openDialog = useOpenDialog()
-  const { aaveData } = useAaveDataLayer({ chainId: pageChainId })
-  const { marketInfo } = useMarketInfo({ chainId: pageChainId })
-  const { marketInfo: marketInfoIn1Epoch } = useMarketInfo({ timeAdvance: EPOCH_LENGTH, chainId: pageChainId })
+  const { aaveData } = useAaveDataLayer({ chainId })
+  const { marketInfo } = useMarketInfo({ chainId })
+  const { marketInfo: marketInfoIn1Epoch } = useMarketInfo({ timeAdvance: EPOCH_LENGTH, chainId })
   const {
     nativeAssetInfo,
     extraTokens,
@@ -80,10 +80,10 @@ export function useEasyBorrow(): UseEasyBorrowResults {
     USDSSymbol,
     meta: { defaultAssetToBorrow },
   } = getChainConfigEntry(marketInfo.chainId)
-  const { tokensInfo } = useTokensInfo({ tokens: extraTokens, chainId: pageChainId })
-  const walletInfo = useMarketWalletInfo({ chainId: pageChainId })
+  const { tokensInfo } = useTokensInfo({ tokens: extraTokens, chainId })
+  const walletInfo = useMarketWalletInfo({ chainId })
 
-  const upgradeOptions = useUpgradeOptions({ chainId: pageChainId })
+  const upgradeOptions = useUpgradeOptions({ chainId })
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')
   const healthFactorPanelRef = useRef<HTMLDivElement>(null)
