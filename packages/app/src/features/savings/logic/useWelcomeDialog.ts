@@ -2,10 +2,9 @@ import { useSavingsDaiInfo } from '@/domain/savings-info/useSavingsDaiInfo'
 import { useSavingsUsdsInfo } from '@/domain/savings-info/useSavingsUsdsInfo'
 import { useSavingsStore } from '@/domain/state/savings'
 import { useCompliance } from '@/features/compliance/logic/useCompliance'
-import { useChainId } from 'wagmi'
 
 export interface UseWelcomeDialogParams {
-  chainId?: number
+  chainId: number
 }
 
 export interface UseWelcomeDialogResult {
@@ -13,9 +12,7 @@ export interface UseWelcomeDialogResult {
   saveConfirmedWelcomeDialog: (confirmedWelcomeDialog: boolean) => void
 }
 
-export function useWelcomeDialog(params: UseWelcomeDialogParams): UseWelcomeDialogResult {
-  const currentChainId = useChainId()
-  const chainId = params.chainId ?? currentChainId
+export function useWelcomeDialog({ chainId }: UseWelcomeDialogParams): UseWelcomeDialogResult {
   const { confirmedWelcomeDialog, saveConfirmedWelcomeDialog } = useSavingsStore()
   const { visibleModal: complianceModal } = useCompliance()
   const { savingsUsdsInfo } = useSavingsUsdsInfo({

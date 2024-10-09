@@ -3,6 +3,7 @@ import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { Objective } from '@/features/actions/logic/types'
 import { Reward } from '@/features/navbar/components/rewards-badge/types'
 import { useState } from 'react'
+import { useChainId } from 'wagmi'
 import { PageState, PageStatus } from '../../common/types'
 import { createClaimMarketRewardsObjectives } from './createClaimMarketRewardsObjectives'
 import { getRewardsToClaim } from './getRewardsToClaim'
@@ -14,7 +15,8 @@ export interface UseClaimRewardsDialogResult {
 }
 
 export function useClaimRewardsDialog(): UseClaimRewardsDialogResult {
-  const { marketInfo } = useMarketInfo()
+  const chainId = useChainId()
+  const { marketInfo } = useMarketInfo({ chainId })
   const [pageStatus, setPageStatus] = useState<PageState>('form')
 
   const objectives = createClaimMarketRewardsObjectives(marketInfo)
