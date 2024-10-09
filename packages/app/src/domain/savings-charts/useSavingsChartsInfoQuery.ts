@@ -1,3 +1,4 @@
+import { getChainConfigEntry } from '@/config/chain'
 import { Timeframe } from '@/ui/charts/defaults'
 import { useTimestamp } from '@/utils/useTimestamp'
 import { useState } from 'react'
@@ -12,6 +13,7 @@ export type UseSavingsChartsInfoQueryResult = {
   setSelectedTimeframe: (timeframe: Timeframe) => void
   myEarningsInfo: UseMyEarningsInfoResult
   savingsRateInfo: UseSavingsRateInfoResult
+  chartsSupported: boolean
 }
 
 const REFRESH_INTERVAL_IN_MS = 60 * 60 * 1_000 // 1 hour
@@ -35,6 +37,8 @@ export function useSavingsChartsInfoQuery({
   const { address } = useAccount()
   const { timestamp } = useTimestamp({ refreshIntervalInMs: REFRESH_INTERVAL_IN_MS })
 
+  const chartsSupported = getChainConfigEntry(chainId).savingsChartsSupported
+
   const myEarningsInfo = useMyEarningsInfo({
     address,
     chainId,
@@ -45,6 +49,7 @@ export function useSavingsChartsInfoQuery({
     sDaiWithBalance,
     savingsUsdsInfo,
     sUSDSWithBalance,
+    chartsSupported,
   })
 
   const savingsRateInfo = useSavingsRateInfo({
@@ -52,6 +57,7 @@ export function useSavingsChartsInfoQuery({
     timeframe: selectedTimeframe,
     currentTimestamp: timestamp,
     staleTime: REFRESH_INTERVAL_IN_MS,
+    chartsSupported,
   })
 
   return {
@@ -59,5 +65,6 @@ export function useSavingsChartsInfoQuery({
     setSelectedTimeframe,
     myEarningsInfo,
     savingsRateInfo,
+    chartsSupported,
   }
 }

@@ -14,12 +14,15 @@ const meta: Meta<typeof DaiSavingsCharts> = {
     selectedTimeframe: '1M' as const,
     setSelectedTimeframe: () => {},
     myEarningsInfo: {
-      data: {
-        data: mockEarningsChartData,
-        predictions: mockEarningsPredictionsChartData,
+      queryResult: {
+        data: {
+          data: mockEarningsChartData,
+          predictions: mockEarningsPredictionsChartData,
+        },
+        isError: false,
+        isPending: false,
+        error: null,
       },
-      isError: false,
-      isLoading: false,
       shouldDisplayMyEarnings: true,
     },
     savingsRateInfo: {
@@ -28,7 +31,8 @@ const meta: Meta<typeof DaiSavingsCharts> = {
         dsr: mockDsrChartData,
       },
       isError: false,
-      isLoading: false,
+      isPending: false,
+      error: null,
     },
   },
 }
@@ -44,9 +48,12 @@ export const NoEarningsHistoryDesktop: Story = {
   args: {
     ...Desktop.args,
     myEarningsInfo: {
-      data: { data: [], predictions: [] },
-      isError: false,
-      isLoading: false,
+      queryResult: {
+        isPending: false,
+        isError: false,
+        error: null,
+        data: { data: [], predictions: [] },
+      },
       shouldDisplayMyEarnings: false,
     },
   },

@@ -1,3 +1,5 @@
+import { UseMyEarningsInfoResult } from '@/domain/savings-charts/useMyEarningsInfo/useMyEarningsInfo'
+import { UseSavingsRateInfoResult } from '@/domain/savings-charts/useSavingsRateInfo/useSavingsRateInfo'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { WithTooltipProvider } from '@storybook/decorators'
@@ -11,6 +13,37 @@ import {
 } from '../components/savings-charts/fixtures/mockEarningsChartData'
 import { mockDsrChartData, mockSsrChartData } from '../components/savings-charts/fixtures/mockSavingsRateChartData'
 import { SavingsDaiAndUsdsView } from './SavingsDaiAndUSDSView'
+
+const myEarningsInfo = {
+  queryResult: {
+    data: {
+      data: mockEarningsChartData,
+      predictions: mockEarningsPredictionsChartData,
+    },
+    isError: false,
+    isPending: false,
+    error: null,
+  },
+  shouldDisplayMyEarnings: true,
+} satisfies UseMyEarningsInfoResult
+
+const savingsRateInfo = {
+  data: {
+    ssr: mockSsrChartData,
+    dsr: mockDsrChartData,
+  },
+  isError: false,
+  isPending: false,
+  error: null,
+} satisfies UseSavingsRateInfoResult
+
+const savingsChartsInfo = {
+  selectedTimeframe: '1M' as const,
+  setSelectedTimeframe: () => {},
+  myEarningsInfo,
+  savingsRateInfo,
+  chartsSupported: true,
+}
 
 const savingsViewBaseArgs = {
   chainId: mainnet.id,
@@ -64,27 +97,7 @@ const savingsViewBaseArgs = {
   } as const,
   totalEligibleCashUSD: NormalizedUnitNumber(45454),
   openDialog: () => {},
-  savingsChartsInfo: {
-    selectedTimeframe: '1M' as const,
-    setSelectedTimeframe: () => {},
-    myEarningsInfo: {
-      data: {
-        data: mockEarningsChartData,
-        predictions: mockEarningsPredictionsChartData,
-      },
-      isError: false,
-      isLoading: false,
-      shouldDisplayMyEarnings: true,
-    },
-    savingsRateInfo: {
-      data: {
-        ssr: mockSsrChartData,
-        dsr: mockDsrChartData,
-      },
-      isError: false,
-      isLoading: false,
-    },
-  },
+  savingsChartsInfo,
 }
 
 const sUSDSDetails = {
@@ -129,6 +142,13 @@ export const NoDeposit: Story = {
   name: 'No deposit',
   args: {
     ...savingsViewBaseArgs,
+    savingsChartsInfo: {
+      ...savingsChartsInfo,
+      myEarningsInfo: {
+        ...myEarningsInfo,
+        shouldDisplayMyEarnings: false,
+      },
+    },
     sDaiDetails: {
       ...sDaiDetails,
       tokenWithBalance: { balance: NormalizedUnitNumber(0), token: tokens.sDAI },
@@ -151,6 +171,86 @@ export const NoDeposit: Story = {
 }
 export const NoDepositMobile = getMobileStory(NoDeposit)
 export const NoDepositTablet = getTabletStory(NoDeposit)
+
+export const OnlySavingsDaiBalance: Story = {
+  args: {
+    ...savingsViewBaseArgs,
+    totalEligibleCashUSD: NormalizedUnitNumber(0),
+    opportunityProjections: {
+      thirtyDays: NormalizedUnitNumber(0),
+      oneYear: NormalizedUnitNumber(0),
+    },
+    sUSDSDetails: {
+      ...sUSDSDetails,
+      tokenWithBalance: { balance: NormalizedUnitNumber(0), token: tokens.sUSDS },
+      currentProjections: {
+        thirtyDays: NormalizedUnitNumber(0),
+        oneYear: NormalizedUnitNumber(0),
+      },
+      depositedUSD: NormalizedUnitNumber(0),
+    },
+    sDaiDetails,
+    assetsInWallet: [
+      {
+        token: tokens.DAI,
+        balance: NormalizedUnitNumber(0),
+        blockExplorerLink: '/',
+      },
+      {
+        token: tokens.USDS,
+        balance: NormalizedUnitNumber(0),
+        blockExplorerLink: '/',
+      },
+      {
+        token: tokens.USDC,
+        balance: NormalizedUnitNumber(0),
+        blockExplorerLink: '/',
+      },
+    ],
+  },
+}
+export const OnlySavingsDaiBalanceMobile = getMobileStory(OnlySavingsDaiBalance)
+export const OnlySavingsDaiBalanceTablet = getTabletStory(OnlySavingsDaiBalance)
+
+export const OnlySavingsUsdsBalance: Story = {
+  args: {
+    ...savingsViewBaseArgs,
+    totalEligibleCashUSD: NormalizedUnitNumber(0),
+    opportunityProjections: {
+      thirtyDays: NormalizedUnitNumber(0),
+      oneYear: NormalizedUnitNumber(0),
+    },
+    sUSDSDetails,
+    sDaiDetails: {
+      ...sDaiDetails,
+      tokenWithBalance: { balance: NormalizedUnitNumber(0), token: tokens.sDAI },
+      currentProjections: {
+        thirtyDays: NormalizedUnitNumber(0),
+        oneYear: NormalizedUnitNumber(0),
+      },
+      depositedUSD: NormalizedUnitNumber(0),
+    },
+    assetsInWallet: [
+      {
+        token: tokens.DAI,
+        balance: NormalizedUnitNumber(0),
+        blockExplorerLink: '/',
+      },
+      {
+        token: tokens.USDS,
+        balance: NormalizedUnitNumber(0),
+        blockExplorerLink: '/',
+      },
+      {
+        token: tokens.USDC,
+        balance: NormalizedUnitNumber(0),
+        blockExplorerLink: '/',
+      },
+    ],
+  },
+}
+export const OnlySavingsUsdsBalanceMobile = getMobileStory(OnlySavingsDaiBalance)
+export const OnlySavingsUsdsBalanceTablet = getTabletStory(OnlySavingsDaiBalance)
 
 export const AllIn: Story = {
   name: 'All in',
@@ -189,6 +289,13 @@ export const NoDepositNoCash: Story = {
   name: 'No deposit, no cash',
   args: {
     ...savingsViewBaseArgs,
+    savingsChartsInfo: {
+      ...savingsChartsInfo,
+      myEarningsInfo: {
+        ...myEarningsInfo,
+        shouldDisplayMyEarnings: false,
+      },
+    },
     totalEligibleCashUSD: NormalizedUnitNumber(0),
     opportunityProjections: {
       thirtyDays: NormalizedUnitNumber(0),

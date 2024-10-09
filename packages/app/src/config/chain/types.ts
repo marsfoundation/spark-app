@@ -83,6 +83,7 @@ export interface ChainConfigEntry {
   extraTokens: TokenWithOracleType[]
   farms: FarmConfig[]
   oracles: Record<TokenSymbol, ReserveOracleType>
+  savingsChartsSupported: boolean
 }
 
 export type ChainConfig = Record<SupportedChainId, ChainConfigEntry>

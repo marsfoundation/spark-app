@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import { TokenWithBalance } from '@/domain/common/types'
 import { SavingsInfo } from '@/domain/savings-info/types'
 import { Timeframe } from '@/ui/charts/defaults'
+import { SimplifiedQueryResult } from '@/utils/types'
 import { useCallback } from 'react'
 import { Address } from 'viem'
 import { getFilteredEarningsWithPredictions } from './getFilteredEarningsWithPredictions'
@@ -21,16 +22,18 @@ export interface UseMyEarningsInfoParams {
   sUSDSWithBalance: TokenWithBalance | undefined
   savingsDaiInfo: SavingsInfo | null
   sDaiWithBalance: TokenWithBalance | undefined
+  chartsSupported: boolean
 }
-export type UseMyEarningsInfoResult = {
-  data:
-    | {
-        data: MyEarningsInfoItem[]
-        predictions: MyEarningsInfoItem[]
-      }
-    | undefined
-  isLoading: boolean
-  isError: boolean
+
+export type MyEarningsInfo =
+  | {
+      data: MyEarningsInfoItem[]
+      predictions: MyEarningsInfoItem[]
+    }
+  | undefined
+
+export interface UseMyEarningsInfoResult {
+  queryResult: SimplifiedQueryResult<MyEarningsInfo>
   shouldDisplayMyEarnings: boolean
 }
 
@@ -44,6 +47,7 @@ export function useMyEarningsInfo({
   sUSDSWithBalance,
   savingsDaiInfo,
   sDaiWithBalance,
+  chartsSupported,
 }: UseMyEarningsInfoParams): UseMyEarningsInfoResult {
   const displayType = getSavingsDisplayType({
     savingsUsdsInfo,
@@ -60,7 +64,7 @@ export function useMyEarningsInfo({
     displayType,
   })
 
-  const { data, isLoading, isError } = useQuery({
+  const queryResult = useQuery({
     ...myEarningsQueryOptions({
       address,
       chainId,
@@ -76,17 +80,15 @@ export function useMyEarningsInfo({
         }),
       [timeframe, currentTimestamp, savingsInfo, savingsTokenWithBalance],
     ),
-    enabled: !!savingsInfo && !!savingsTokenWithBalance,
+    enabled: chartsSupported && !!savingsInfo && !!savingsTokenWithBalance,
     staleTime,
   })
 
-  const hasHistoricalData = (data?.data?.length ?? 0) > 0
+  const hasHistoricalData = (queryResult.data?.data?.length ?? 0) > 0
   const hasSavingTokenBalance = savingsTokenWithBalance?.balance.gt(0) ?? false
 
   return {
-    data,
-    isLoading,
-    isError,
+    queryResult,
     shouldDisplayMyEarnings: hasHistoricalData || hasSavingTokenBalance,
   }
 }
