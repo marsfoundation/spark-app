@@ -138,6 +138,7 @@ const meta: Meta<typeof StakeView> = {
       apy: Percentage(0.05),
       stakingToken: tokens.USDS,
       rewardToken: tokens.SKY,
+      rewardTokenPrice: tokens.SKY.unitPriceUsd,
       rewardsPerYear: NormalizedUnitNumber(542),
       routeToStakingToken: [
         { token: tokens.USDC, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },
@@ -187,6 +188,7 @@ export const SacrificeYield: Story = {
       showEstimatedRewards: true,
       stakingToken: tokens.USDS,
       rewardToken: tokens.SKY,
+      rewardTokenPrice: tokens.SKY.unitPriceUsd,
       rewardsPerYear: NormalizedUnitNumber(542),
       routeToStakingToken: [
         { token: tokens.sDAI, value: NormalizedUnitNumber(1180.74), usdValue: NormalizedUnitNumber(1300.74) },
@@ -206,6 +208,7 @@ export const DesktopZeroApy: Story = {
       showEstimatedRewards: true,
       stakingToken: tokens.USDS,
       rewardToken: tokens.SKY,
+      rewardTokenPrice: tokens.SKY.unitPriceUsd,
       rewardsPerYear: NormalizedUnitNumber(542),
       routeToStakingToken: [
         { token: tokens.USDC, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },

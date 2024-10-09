@@ -54,6 +54,7 @@ export function useClaimDialog({ farm }: UseClaimDialogParams): UseClaimDialogRe
         type: 'claimFarmRewards',
         farm: farm.blockchainDetails.address,
         rewardToken: farm.blockchainDetails.rewardToken,
+        rewardTokenPrice: farm.apiDetails.data?.rewardTokenPriceUsd,
         rewardAmount,
       },
     ],

@@ -26,6 +26,7 @@ const hookRenderer = setupUseContractActionRenderer({
       farm: MAINNET_USDS_SKY_FARM_ADDRESS,
       rewardToken,
       rewardAmount,
+      rewardTokenPrice: undefined,
     },
     enabled: true,
   },

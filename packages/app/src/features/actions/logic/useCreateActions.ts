@@ -272,6 +272,7 @@ export function useCreateActions({ objectives, actionsSettings, actionContext }:
             farm: objective.farm,
             rewardToken: objective.rewardToken,
             rewardAmount: objective.rewardAmount,
+            rewardTokenPrice: objective.rewardTokenPrice,
           },
         ]
       }

@@ -6,6 +6,7 @@ export interface ClaimFarmRewardsObjective {
   type: 'claimFarmRewards'
   farm: CheckedAddress
   rewardToken: TokenWithoutPrice
+  rewardTokenPrice: NormalizedUnitNumber | undefined
   rewardAmount: NormalizedUnitNumber
 }
 
@@ -13,6 +14,6 @@ export interface ClaimFarmRewardsAction {
   type: 'claimFarmRewards'
   farm: CheckedAddress
   rewardToken: TokenWithoutPrice
-  rewardTokenPrice?: NormalizedUnitNumber
+  rewardTokenPrice: NormalizedUnitNumber | undefined
   rewardAmount: NormalizedUnitNumber
 }

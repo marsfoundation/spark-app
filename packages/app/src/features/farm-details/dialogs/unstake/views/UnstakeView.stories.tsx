@@ -212,6 +212,7 @@ export const WithExitFarmSwitch: Story = {
       status: 'success',
       stakingToken: tokens.USDS,
       rewardToken: tokens.SKY,
+      rewardTokenPrice: tokens.SKY.unitPriceUsd,
       isExiting: true,
       earnedRewards: NormalizedUnitNumber(2311.34),
       routeToOutcomeToken: [

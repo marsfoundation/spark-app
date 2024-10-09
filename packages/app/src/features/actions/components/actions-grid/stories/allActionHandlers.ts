@@ -182,6 +182,7 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
       type: 'claimFarmRewards',
       farm: CheckedAddress(zeroAddress),
       rewardToken: tokens.USDS,
+      rewardTokenPrice: tokens.USDS.unitPriceUsd,
       rewardAmount: NormalizedUnitNumber(1),
     },
     state: { status: 'ready' },

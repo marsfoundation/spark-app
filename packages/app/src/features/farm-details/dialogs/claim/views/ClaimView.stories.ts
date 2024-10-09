@@ -22,6 +22,7 @@ const meta: Meta<typeof ClaimView> = {
         type: 'claimFarmRewards',
         farm: tokens.USDS.address,
         rewardToken: tokens.SKY,
+        rewardTokenPrice: tokens.SKY.unitPriceUsd,
         rewardAmount: NormalizedUnitNumber(500.89),
       },
     ],
