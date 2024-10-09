@@ -1,6 +1,7 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { TokenWithValue } from '@/domain/common/types'
 import { useConditionalFreeze } from '@/domain/hooks/useConditionalFreeze'
+import { usePageChainId } from '@/domain/hooks/usePageChainId'
 import { RiskAcknowledgementInfo } from '@/domain/liquidation-risk-warning/types'
 import { useLiquidationRiskWarning } from '@/domain/liquidation-risk-warning/useLiquidationRiskWarning'
 import { useAaveDataLayer } from '@/domain/market-info/aave-data-layer/useAaveDataLayer'
@@ -35,7 +36,6 @@ import { ExistingPosition, PageState, PageStatus } from './types'
 import { useCreateObjectives } from './useCreateObjectives'
 import { useLiquidationDetails } from './useLiquidationDetails'
 import { useUpgradeOptions } from './useUpgradeOptions'
-import { usePageChainId } from '@/domain/hooks/usePageChainId'
 
 export interface BorrowDetails {
   borrowRate: Percentage
