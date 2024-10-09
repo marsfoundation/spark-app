@@ -34,9 +34,13 @@ export class FarmDetailsPageObject extends BasePageObject {
     await expect(row.getByRole('cell', { name: value })).toBeVisible()
   }
 
-  async expectReward({ reward, rewardUsd }: { reward: string; rewardUsd: string }): Promise<void> {
+  async expectReward({ reward, rewardUsd }: { reward: string; rewardUsd?: string }): Promise<void> {
     await expect(this.page.getByTestId(testIds.farmDetails.activeFarmInfoPanel.rewards)).toContainText(reward)
-    await expect(this.page.getByTestId(testIds.farmDetails.activeFarmInfoPanel.rewardsUsd)).toContainText(rewardUsd)
+    if (rewardUsd) {
+      await expect(this.page.getByTestId(testIds.farmDetails.activeFarmInfoPanel.rewardsUsd)).toContainText(rewardUsd)
+    } else {
+      await expect(this.page.getByTestId(testIds.farmDetails.activeFarmInfoPanel.rewardsUsd)).toBeHidden()
+    }
   }
 
   async expectStaked(staked: string): Promise<void> {
@@ -68,6 +72,20 @@ export class FarmDetailsPageObject extends BasePageObject {
     })
     expect(balance.toNumber()).toBeGreaterThanOrEqual(minBalance)
     expect(balance.toNumber()).toBeLessThanOrEqual(maxBalance)
+  }
+
+  async expectPointsSyncWarning(): Promise<void> {
+    await expect(this.page.getByTestId(testIds.farmDetails.activeFarmInfoPanel.pointsSyncWarning)).toContainText(
+      'Reward points data is out of sync. Please wait.',
+    )
+  }
+
+  async expectPointsSyncWarningToBeHidden(): Promise<void> {
+    await expect(this.page.getByTestId(testIds.farmDetails.activeFarmInfoPanel.pointsSyncWarning)).toBeHidden()
+  }
+
+  async expectInfoPanelClaimButtonToBeHidden(): Promise<void> {
+    await expect(this.page.getByTestId(testIds.farmDetails.activeFarmInfoPanel.claimButton)).toBeHidden()
   }
   // #endregion
 }
