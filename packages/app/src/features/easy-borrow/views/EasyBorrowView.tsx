@@ -31,6 +31,7 @@ export interface EasyBorrowViewProps {
   openSandboxModal: () => void
   healthFactorPanelRef: React.RefObject<HTMLDivElement>
   actionsContext: InjectedActionsContext
+  interactive: boolean
 }
 
 export function EasyBorrowView(props: EasyBorrowViewProps) {

@@ -22,6 +22,7 @@ export interface UseMyPortfolioResults {
   eModeCategoryId: EModeCategoryId
   liquidationDetails?: LiquidationDetails
   openSandboxModal: () => void
+  interactive: boolean
 }
 
 export function useMyPortfolio(): UseMyPortfolioResults {
@@ -67,5 +68,6 @@ export function useMyPortfolio(): UseMyPortfolioResults {
     guestMode: !walletInfo.isConnected,
     liquidationDetails,
     openSandboxModal,
+    interactive: pageSupported,
   }
 }

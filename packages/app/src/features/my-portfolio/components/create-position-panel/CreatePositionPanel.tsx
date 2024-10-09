@@ -9,10 +9,11 @@ import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
 const TOKEN_ICON_PATHS = ['DAI', 'ETH', 'USDC', 'WBTC'].map(TokenSymbol).map(getTokenImage)
 
 interface CreatePositionPanelProps {
+  disabled?: boolean
   className?: string
 }
 
-export function CreatePositionPanel({ className }: CreatePositionPanelProps) {
+export function CreatePositionPanel({ disabled=false, className }: CreatePositionPanelProps) {
   return (
     <Panel.Wrapper className={className}>
       <Panel.Content className="flex flex-col gap-6 p-6 text-center md:px-8">
@@ -22,7 +23,7 @@ export function CreatePositionPanel({ className }: CreatePositionPanelProps) {
             Quickly deposit your assets and borrow DAI with our Easy Borrow Flow
           </Typography>
         </div>
-        <LinkButton to={paths.easyBorrow}>Create position</LinkButton>
+        <LinkButton to={paths.easyBorrow} disabled={disabled}>Create position</LinkButton>
       </Panel.Content>
     </Panel.Wrapper>
   )

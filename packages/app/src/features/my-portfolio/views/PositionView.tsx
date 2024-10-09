@@ -21,6 +21,7 @@ export interface PositionViewProps {
   walletComposition: WalletCompositionInfo
   openDialog: OpenDialogFunction
   liquidationDetails: LiquidationDetails | undefined
+  interactive: boolean
 }
 
 export function PositionView({
@@ -31,6 +32,7 @@ export function PositionView({
   walletComposition,
   openDialog,
   liquidationDetails,
+  interactive,
 }: PositionViewProps) {
   return (
     <PageLayout className="max-w-6xl px-3 lg:px-0">
@@ -42,10 +44,10 @@ export function PositionView({
           liquidationDetails={liquidationDetails}
         />
         <Position className="order-3 flex-grow md:order-2" positionSummary={positionSummary} />
-        {!positionSummary.hasDeposits && <CreatePositionPanel className="order-2 flex-grow md:order-3" />}
+        {!positionSummary.hasDeposits && <CreatePositionPanel disabled={!interactive} className="order-2 flex-grow md:order-3" />}
       </div>
-      <DepositTable assets={deposits} openDialog={openDialog} />
-      <BorrowTable assets={borrows} eModeCategoryId={eModeCategoryId} openDialog={openDialog} />
+      <DepositTable assets={deposits} openDialog={openDialog} interactive={interactive}/>
+      <BorrowTable assets={borrows} eModeCategoryId={eModeCategoryId} openDialog={openDialog} interactive={interactive}/>
       <WalletComposition {...walletComposition} />
     </PageLayout>
   )

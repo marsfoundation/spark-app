@@ -6,16 +6,17 @@ import { EModeButton } from './EModeButton'
 interface EModeIndicatorProps {
   eModeCategoryId: EModeCategoryId
   onButtonClick: () => void
+  disabled?: boolean
 }
 
-export function EModeIndicator({ eModeCategoryId, onButtonClick }: EModeIndicatorProps) {
+export function EModeIndicator({ eModeCategoryId, onButtonClick, disabled = false }: EModeIndicatorProps) {
   return (
     <div className="mt-1.5 ml-4 flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
       <div className="flex flex-row items-center gap-0.5">
         <p className="text-basics-dark-grey text-xs">E-Mode</p>
         <Info>Efficiency mode (E-Mode) increases your LTV for a selected category of assets up to 97%.</Info>
       </div>
-      <EModeButton categoryId={eModeCategoryId} onClick={onButtonClick} />
+      <EModeButton categoryId={eModeCategoryId} onClick={onButtonClick} disabled={disabled} />
     </div>
   )
 }

@@ -63,6 +63,7 @@ export interface UseEasyBorrowResults {
   openSandboxModal: () => void
   healthFactorPanelRef: React.RefObject<HTMLDivElement>
   actionsContext: InjectedActionsContext
+  interactive: boolean
 }
 
 export function useEasyBorrow(): UseEasyBorrowResults {
@@ -245,5 +246,6 @@ export function useEasyBorrow(): UseEasyBorrowResults {
       marketInfo,
       tokensInfo,
     },
+    interactive: pageSupported,
   }
 }

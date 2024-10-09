@@ -18,12 +18,13 @@ function MyPortfolioContainer() {
     guestMode,
     liquidationDetails,
     openSandboxModal,
+    interactive,
   } = useMyPortfolio()
   const { openConnectModal = () => {} } = useConnectModal()
   const openDialog = useOpenDialog()
 
   if (guestMode) {
-    return <GuestView openConnectModal={openConnectModal} openSandboxModal={openSandboxModal} />
+    return <GuestView openConnectModal={openConnectModal} openSandboxModal={openSandboxModal} interactive={interactive} />
   }
 
   return (
@@ -35,6 +36,7 @@ function MyPortfolioContainer() {
       eModeCategoryId={eModeCategoryId}
       openDialog={openDialog}
       liquidationDetails={liquidationDetails}
+      interactive={interactive}
     />
   )
 }

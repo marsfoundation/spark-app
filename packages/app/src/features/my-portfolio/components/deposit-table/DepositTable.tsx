@@ -17,9 +17,10 @@ import { Deposit } from '../../logic/assets'
 export interface DepositTableProps {
   assets: Deposit[]
   openDialog: OpenDialogFunction
+  interactive: boolean
 }
 
-export function DepositTable({ assets, openDialog }: DepositTableProps) {
+export function DepositTable({ assets, openDialog, interactive }: DepositTableProps) {
   return (
     <Panel collapsibleOptions={{ collapsible: true, collapsibleAbove: 'md' }}>
       <Panel.Header>
@@ -75,6 +76,7 @@ export function DepositTable({ assets, openDialog }: DepositTableProps) {
                     })
                   }}
                   mobileViewOptions={mobileViewOptions}
+                  disabled={!interactive}
                 />
               ),
             },
@@ -89,7 +91,7 @@ export function DepositTable({ assets, openDialog }: DepositTableProps) {
                       onClick={() => {
                         openDialog(depositDialogConfig, { token })
                       }}
-                      disabled={reserveStatus === 'frozen'}
+                      disabled={reserveStatus === 'frozen' || !interactive}
                     >
                       Deposit
                     </Button>
@@ -97,7 +99,7 @@ export function DepositTable({ assets, openDialog }: DepositTableProps) {
                       variant="secondary"
                       size="sm"
                       className="w-full"
-                      disabled={deposit.isZero()}
+                      disabled={deposit.isZero() || !interactive}
                       onClick={() => {
                         openDialog(withdrawDialogConfig, { token })
                       }}

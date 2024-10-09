@@ -37,6 +37,7 @@ export interface EasyBorrowPanelProps {
   openSandboxModal: () => void
   healthFactorPanelRef: React.RefObject<HTMLDivElement>
   actionsContext: InjectedActionsContext
+  interactive: boolean
 }
 
 export function EasyBorrowPanel(props: EasyBorrowPanelProps) {
@@ -60,7 +61,7 @@ export function EasyBorrowPanel(props: EasyBorrowPanelProps) {
         {...props}
         borrowRate={props.borrowDetails.borrowRate}
         onSubmit={pageStatus.submitForm}
-        disabled={pageStatus.state !== 'form'}
+        disabled={pageStatus.state !== 'form' || !props.interactive}
       />
 
       {pageStatus.state === 'confirmation' && (

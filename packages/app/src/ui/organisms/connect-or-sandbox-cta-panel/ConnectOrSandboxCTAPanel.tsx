@@ -8,6 +8,7 @@ interface ConnectOrSandboxCTAPanelProps {
   buttonText: string
   action: () => void
   openSandboxModal: () => void
+  disabled?: boolean
 }
 
 export function ConnectOrSandboxCTAPanel({
@@ -16,6 +17,7 @@ export function ConnectOrSandboxCTAPanel({
   buttonText,
   action,
   openSandboxModal,
+  disabled,
 }: ConnectOrSandboxCTAPanelProps) {
   return (
     <Panel.Wrapper>
@@ -27,6 +29,7 @@ export function ConnectOrSandboxCTAPanel({
             action={action}
             buttonText={buttonText}
             openSandboxModal={openSandboxModal}
+            disabled={disabled}
           />
         </div>
       </Panel.Content>

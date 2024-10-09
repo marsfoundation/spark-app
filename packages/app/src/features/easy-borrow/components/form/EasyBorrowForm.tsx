@@ -101,6 +101,7 @@ export function EasyBorrowForm(props: EasyBorrowFlowProps) {
             buttonText="Connect wallet"
             action={openConnectModal}
             openSandboxModal={openSandboxModal}
+            disabled={disabled}
           />
         ) : (
           !disabled && (

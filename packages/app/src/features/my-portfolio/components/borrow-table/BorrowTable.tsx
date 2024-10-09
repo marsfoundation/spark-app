@@ -19,9 +19,10 @@ export interface BorrowTableProps {
   assets: Borrow[]
   openDialog: OpenDialogFunction
   eModeCategoryId: EModeCategoryId
+  interactive: boolean
 }
 
-export function BorrowTable({ assets, openDialog, eModeCategoryId }: BorrowTableProps) {
+export function BorrowTable({ assets, openDialog, eModeCategoryId, interactive }: BorrowTableProps) {
   return (
     <Panel collapsibleOptions={{ collapsible: true, collapsibleAbove: 'md' }}>
       <Panel.Header>
@@ -80,7 +81,7 @@ export function BorrowTable({ assets, openDialog, eModeCategoryId }: BorrowTable
                       onClick={() => {
                         openDialog(borrowDialogConfig, { token })
                       }}
-                      disabled={reserveStatus === 'frozen'}
+                      disabled={reserveStatus === 'frozen' || !interactive}
                     >
                       Borrow
                     </Button>
@@ -88,7 +89,7 @@ export function BorrowTable({ assets, openDialog, eModeCategoryId }: BorrowTable
                       variant="secondary"
                       className="w-full"
                       size="sm"
-                      disabled={debt.isZero()}
+                      disabled={debt.isZero() || !interactive}
                       onClick={() => {
                         openDialog(repayDialogConfig, { token })
                       }}

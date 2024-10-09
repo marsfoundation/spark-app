@@ -28,6 +28,7 @@ function EasyBorrowContainer() {
     healthFactorPanelRef,
     riskAcknowledgement,
     actionsContext,
+    interactive,
   } = useEasyBorrow()
   const { openConnectModal = () => {} } = useConnectModal()
 
@@ -56,6 +57,7 @@ function EasyBorrowContainer() {
       healthFactorPanelRef={healthFactorPanelRef}
       riskAcknowledgement={riskAcknowledgement}
       actionsContext={actionsContext}
+      interactive={interactive}
     />
   )
 }
