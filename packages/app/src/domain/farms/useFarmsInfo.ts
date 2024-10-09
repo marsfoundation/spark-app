@@ -2,23 +2,21 @@ import { getChainConfigEntry } from '@/config/chain'
 import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { SuspenseQueryWith } from '@/utils/types'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { useAccount, useChainId, useConfig } from 'wagmi'
+import { useAccount, useConfig } from 'wagmi'
 import { FarmsInfo } from './farmsInfo'
 import { farmsInfoQueryOptions } from './query'
 
 export interface UseFarmsInfoParams {
-  chainId?: number
+  chainId: number
 }
 
 export type UseFarmsInfoResultOnSuccess = SuspenseQueryWith<{
   farmsInfo: FarmsInfo
 }>
 
-export function useFarmsInfo(params: UseFarmsInfoParams = {}): UseFarmsInfoResultOnSuccess {
+export function useFarmsInfo({ chainId }: UseFarmsInfoParams): UseFarmsInfoResultOnSuccess {
   const wagmiConfig = useConfig()
   const { address: account } = useAccount()
-  const _chainId = useChainId()
-  const chainId = params.chainId ?? _chainId
 
   const chainConfig = getChainConfigEntry(chainId)
   const { tokensInfo } = useTokensInfo({ tokens: chainConfig.extraTokens, chainId })

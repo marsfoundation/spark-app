@@ -17,6 +17,7 @@ import { assert } from '@/utils/assert'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
+import { useChainId } from 'wagmi'
 import { MigrateDialogTxOverview } from '../types'
 import { createMigrateObjectives } from './createMigrateObjectives'
 import { createTxOverview } from './createTxOverview'
@@ -43,11 +44,12 @@ export interface UseMigrateDialogResult {
 }
 
 export function useMigrateDialog({ type, fromToken, toToken }: UseMigrateDialogParams): UseMigrateDialogResult {
+  const chainId = useChainId()
   const [pageStatus, setPageStatus] = useState<PageState>('form')
   const { extraTokens, daiSymbol, sDaiSymbol } = useChainConfigEntry()
   const { tokensInfo } = useTokensInfo({ tokens: extraTokens })
-  const { savingsUsdsInfo } = useSavingsUsdsInfo()
-  const { savingsDaiInfo } = useSavingsDaiInfo()
+  const { savingsUsdsInfo } = useSavingsUsdsInfo({ chainId })
+  const { savingsDaiInfo } = useSavingsDaiInfo({ chainId })
   const fromTokenWithBalance = useFromTokenInfo(fromToken.symbol)
   assert(savingsUsdsInfo, 'USDS savings info is required for upgrade dialog')
   assert(savingsDaiInfo, 'DAI savings info is required for upgrade dialog')

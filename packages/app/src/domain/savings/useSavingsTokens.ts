@@ -2,10 +2,9 @@ import { getChainConfigEntry } from '@/config/chain'
 import { TokenWithBalance } from '@/domain/common/types'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
-import { useChainId } from 'wagmi'
 
 export interface UseSavingsTokensParams {
-  chainId?: number
+  chainId: number
 }
 
 export interface UseSavingsTokensResult {
@@ -15,9 +14,7 @@ export interface UseSavingsTokensResult {
   sUSDSWithBalance?: TokenWithBalance
 }
 
-export function useSavingsTokens(params: UseSavingsTokensParams = {}): UseSavingsTokensResult {
-  const currentChainId = useChainId()
-  const chainId = params.chainId ?? currentChainId
+export function useSavingsTokens({ chainId }: UseSavingsTokensParams): UseSavingsTokensResult {
   const chainConfig = getChainConfigEntry(chainId)
   const { tokensInfo } = useTokensInfo({ tokens: chainConfig.extraTokens, chainId })
 
