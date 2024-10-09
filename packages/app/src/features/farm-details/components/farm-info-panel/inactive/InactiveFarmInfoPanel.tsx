@@ -69,9 +69,8 @@ export function InactiveFarmInfoPanel({
               {USD_MOCK_TOKEN.formatUSD(farm.blockchainDetails.totalSupply, { compact: true })}
             </div>
           </DetailsItem>
-          {/* @todo: Handle loading error states elegantly */}
           {farm.apiDetails.data ? (
-            farm.blockchainDetails.rewardType === 'token' ? (
+            farm.blockchainDetails.rewardType === 'token' && farm.apiDetails.data.apy.gt(0) ? (
               <DetailsItem title="APY" explainer={<ApyTooltip farmAddress={farm.apiDetails.data.address} />}>
                 <div className="font-semibold text-[#3F66EF]">
                   {formatPercentage(farm.apiDetails.data.apy, { minimumFractionDigits: 0 })}
