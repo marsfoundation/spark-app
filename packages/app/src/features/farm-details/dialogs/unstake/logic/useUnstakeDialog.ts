@@ -76,7 +76,7 @@ export function useUnstakeDialog({ farm, initialToken }: UseStakeDialogParams): 
   const objectives: UnstakeObjective[] = [
     {
       type: 'unstake',
-      farm: farm.blockchainInfo.address,
+      farm: farm.blockchainDetails.address,
       token: formValues.token,
       amount: formValues.value,
       exit: exitFarmSwitchChecked,
@@ -84,13 +84,13 @@ export function useUnstakeDialog({ farm, initialToken }: UseStakeDialogParams): 
   ]
 
   const earnedRewards = calculateReward({
-    earned: farm.blockchainInfo.earned,
-    staked: farm.blockchainInfo.staked,
-    rewardRate: farm.blockchainInfo.rewardRate,
-    earnedTimestamp: farm.blockchainInfo.earnedTimestamp,
-    periodFinish: farm.blockchainInfo.periodFinish,
+    earned: farm.blockchainDetails.earned,
+    staked: farm.blockchainDetails.staked,
+    rewardRate: farm.blockchainDetails.rewardRate,
+    earnedTimestamp: farm.blockchainDetails.earnedTimestamp,
+    periodFinish: farm.blockchainDetails.periodFinish,
     timestampInMs: timestamp * 1000,
-    totalSupply: farm.blockchainInfo.totalSupply,
+    totalSupply: farm.blockchainDetails.totalSupply,
   })
 
   const txOverview = createTxOverview({
@@ -106,12 +106,12 @@ export function useUnstakeDialog({ farm, initialToken }: UseStakeDialogParams): 
       : undefined
 
   const outcomeToken = {
-    token: outcomeTokenRouteItem?.token ?? farm.blockchainInfo.stakingToken,
+    token: outcomeTokenRouteItem?.token ?? farm.blockchainDetails.stakingToken,
     value: outcomeTokenRouteItem?.value ?? NormalizedUnitNumber(0),
   }
 
   const actionsEnabled = formValues.value.gt(0) && isFormValid && !isDebouncing
-  const canClaim = farm.blockchainInfo.earned.gt(0) || farm.blockchainInfo.rewardRate.gt(0)
+  const canClaim = farm.blockchainDetails.earned.gt(0) || farm.blockchainDetails.rewardRate.gt(0)
 
   return {
     selectableAssets: exitTokens,
@@ -130,8 +130,8 @@ export function useUnstakeDialog({ farm, initialToken }: UseStakeDialogParams): 
       onSwitch: () => setExitFarmSwitchChecked((exitFarmSwitchChecked) => !exitFarmSwitchChecked),
       checked: exitFarmSwitchChecked,
       reward: {
-        token: farm.blockchainInfo.rewardToken,
-        tokenPrice: farm.apiInfo.data?.rewardTokenPriceUsd,
+        token: farm.blockchainDetails.rewardToken,
+        tokenPrice: farm.apiDetails.data?.rewardTokenPriceUsd,
         amount: earnedRewards,
       },
     },

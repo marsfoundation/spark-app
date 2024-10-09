@@ -4,8 +4,8 @@ import { raise } from '@/utils/assert'
 import { transformQueryResult } from '@/utils/transformQueryResult'
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { useAccount, useChainId, useConfig } from 'wagmi'
-import { farmsApiInfoQueryOptions } from './farmApiInfoQuery'
-import { farmsBlockchainInfoQueryOptions } from './farmBlockchainInfoQuery'
+import { farmsApiDetailsQueryOptions } from './farmApiDetailsQuery'
+import { farmsBlockchainDetailsQueryOptions } from './farmBlockchainDetailsQuery'
 import { FarmsInfo } from './farmsInfo'
 
 export interface UseFarmsInfoParams {
@@ -21,19 +21,19 @@ export function useFarmsInfo(params: UseFarmsInfoParams = {}): FarmsInfo {
   const { farms: farmConfigs, extraTokens } = getChainConfigEntry(chainId)
   const { tokensInfo } = useTokensInfo({ tokens: extraTokens, chainId })
 
-  const farmsApiInfoResult = useQuery(farmsApiInfoQueryOptions({ farmConfigs }))
+  const farmsApiDetailsResult = useQuery(farmsApiDetailsQueryOptions({ farmConfigs }))
 
-  const farmsBlockchainInfo = useSuspenseQuery(
-    farmsBlockchainInfoQueryOptions({ farmConfigs, wagmiConfig, tokensInfo, chainId, account }),
+  const farmsBlockchainDetails = useSuspenseQuery(
+    farmsBlockchainDetailsQueryOptions({ farmConfigs, wagmiConfig, tokensInfo, chainId, account }),
   )
 
-  const farms = farmsBlockchainInfo.data.map((farmBlockchainInfo) => ({
-    blockchainInfo: farmBlockchainInfo,
-    apiInfo: transformQueryResult(
-      farmsApiInfoResult,
+  const farms = farmsBlockchainDetails.data.map((blockchainDetails) => ({
+    blockchainDetails,
+    apiDetails: transformQueryResult(
+      farmsApiDetailsResult,
       (farmsApiInfo) =>
-        farmsApiInfo.find((farm) => farm.address === farmBlockchainInfo.address) ??
-        raise(`Farm with address ${farmBlockchainInfo.address} not found`),
+        farmsApiInfo.find((apiDetails) => apiDetails.address === blockchainDetails.address) ??
+        raise(`Farm with address ${blockchainDetails.address} not found`),
     ),
   }))
 

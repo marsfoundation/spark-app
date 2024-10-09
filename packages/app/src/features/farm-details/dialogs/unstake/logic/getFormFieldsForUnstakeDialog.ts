@@ -29,7 +29,7 @@ export function getFormFieldsForUnstakeDialog({
   const { symbol, value } = form.getValues()
   const token = tokensInfo.findOneTokenBySymbol(symbol)
 
-  const usdStakedBalance = farm.blockchainInfo.stakingToken.toUSD(farm.blockchainInfo.staked)
+  const usdStakedBalance = farm.blockchainDetails.stakingToken.toUSD(farm.blockchainDetails.staked)
   const tokenBalance = NormalizedUnitNumber(usdStakedBalance.dividedBy(token.unitPriceUsd))
 
   return {

@@ -1,5 +1,5 @@
 import { infoSkyApiUrl } from '@/config/consts'
-import { FarmApiInfo, FarmConfig } from '@/domain/farms/types'
+import { FarmApiDetails, FarmConfig } from '@/domain/farms/types'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { z } from 'zod'
 import { normalizedUnitNumberSchema, percentageAboveOneSchema } from '../common/validation'
@@ -8,7 +8,7 @@ export interface GetFarmParams {
   farmConfig: FarmConfig
 }
 
-export async function getFarmApiInfo({ farmConfig }: GetFarmParams): Promise<FarmApiInfo> {
+export async function getFarmApiDetails({ farmConfig }: GetFarmParams): Promise<FarmApiDetails> {
   const baData = await getBAFarmData({ farmConfig })
   const rewardTokenPriceUsd = farmConfig.rewardType === 'token' ? baData.rewardTokenPriceUsd : undefined
 

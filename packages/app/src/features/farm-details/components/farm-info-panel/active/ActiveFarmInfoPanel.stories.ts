@@ -9,7 +9,7 @@ import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { ActiveFarmInfoPanel } from './ActiveFarmInfoPanel'
 
 const mockFarm = {
-  blockchainInfo: {
+  blockchainDetails: {
     address: MAINNET_USDS_SKY_FARM_ADDRESS,
     entryAssetsGroup: {
       type: 'stablecoins',
@@ -27,7 +27,7 @@ const mockFarm = {
     totalSupply: NormalizedUnitNumber(100_000),
     rewardType: 'token',
   },
-  apiInfo: {
+  apiDetails: {
     isPending: false,
     isError: false,
     error: null,
@@ -63,10 +63,10 @@ export const DesktopZeroAPY: Story = {
   args: {
     farm: {
       ...mockFarm,
-      apiInfo: {
-        ...mockFarm.apiInfo,
+      apiDetails: {
+        ...mockFarm.apiDetails,
         data: {
-          ...mockFarm.apiInfo.data,
+          ...mockFarm.apiDetails.data,
           apy: Percentage(0),
         },
       },
@@ -77,18 +77,18 @@ export const DesktopPointsOutOfSync: Story = {
   args: {
     farm: {
       ...mockFarm,
-      blockchainInfo: {
-        ...mockFarm.blockchainInfo,
+      blockchainDetails: {
+        ...mockFarm.blockchainDetails,
         rewardType: 'points',
-        rewardToken: mockFarm.blockchainInfo.rewardToken.clone({
+        rewardToken: mockFarm.blockchainDetails.rewardToken.clone({
           symbol: TokenSymbol('CLE'),
           unitPriceUsd: NormalizedUnitNumber(0),
         }),
       },
-      apiInfo: {
-        ...mockFarm.apiInfo,
+      apiDetails: {
+        ...mockFarm.apiDetails,
         data: {
-          ...mockFarm.apiInfo.data,
+          ...mockFarm.apiDetails.data,
           rewardTokenPriceUsd: undefined,
           apy: Percentage(0),
         },

@@ -11,7 +11,7 @@ import { FarmHistoryQueryResult } from '../logic/historic/useFarmHistory'
 import { FarmDetailsView } from './FarmDetailsView'
 
 const mockFarm = {
-  blockchainInfo: {
+  blockchainDetails: {
     address: MAINNET_USDS_SKY_FARM_ADDRESS,
     name: 'SKY Farm',
     rewardType: 'token',
@@ -29,7 +29,7 @@ const mockFarm = {
     periodFinish: 2677721600,
     totalSupply: NormalizedUnitNumber(100_000),
   },
-  apiInfo: {
+  apiDetails: {
     isPending: false,
     isError: false,
     error: null,
@@ -99,8 +99,8 @@ export const NoDepositWithRewards: Story = {
   args: {
     farm: {
       ...mockFarm,
-      blockchainInfo: {
-        ...mockFarm.blockchainInfo,
+      blockchainDetails: {
+        ...mockFarm.blockchainDetails,
         staked: NormalizedUnitNumber(0),
       },
     },
@@ -113,8 +113,8 @@ export const InactiveDesktop: Story = {
   args: {
     farm: {
       ...mockFarm,
-      blockchainInfo: {
-        ...mockFarm.blockchainInfo,
+      blockchainDetails: {
+        ...mockFarm.blockchainDetails,
         earned: NormalizedUnitNumber(0),
         staked: NormalizedUnitNumber(0),
       },
@@ -129,8 +129,8 @@ export const NotConnectedDesktop: Story = {
   args: {
     farm: {
       ...mockFarm,
-      blockchainInfo: {
-        ...mockFarm.blockchainInfo,
+      blockchainDetails: {
+        ...mockFarm.blockchainDetails,
         earned: NormalizedUnitNumber(0),
         staked: NormalizedUnitNumber(0),
       },

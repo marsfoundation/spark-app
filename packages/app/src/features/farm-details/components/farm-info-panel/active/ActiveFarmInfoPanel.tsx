@@ -33,10 +33,10 @@ export function ActiveFarmInfoPanel({
   openUnstakeDialog,
   pointsSyncStatus,
 }: ActiveFarmInfoPanelProps) {
-  if (farm.blockchainInfo.rewardType === 'points') {
+  if (farm.blockchainDetails.rewardType === 'points') {
     assert(pointsSyncStatus, 'pointsSyncStatus should be defined')
   }
-  const { rewardToken, staked, totalSupply, address, stakingToken } = farm.blockchainInfo
+  const { rewardToken, staked, totalSupply, address, stakingToken } = farm.blockchainDetails
 
   return (
     <Panel.Wrapper className="flex min-h-[380px] w-full flex-1 flex-col self-stretch px-6 py-6 md:px-[32px]">
@@ -69,7 +69,7 @@ export function ActiveFarmInfoPanel({
       <div className="flex flex-grow flex-col items-center justify-center gap-2">
         <GrowingReward
           rewardToken={rewardToken}
-          rewardTokenPrice={farm.apiInfo.data?.rewardTokenPriceUsd}
+          rewardTokenPrice={farm.apiDetails.data?.rewardTokenPriceUsd}
           calculateReward={calculateReward}
           refreshIntervalInMs={refreshGrowingRewardIntervalInMs}
         />
@@ -84,22 +84,22 @@ export function ActiveFarmInfoPanel({
         <div
           className={cn(
             'flex flex-col items-start gap-2 md:flex-row md:items-center',
-            farm.apiInfo.data?.apy.gt(0) ? 'w-full text-sm md:justify-between' : 'md:gap-12',
+            farm.apiDetails.data?.apy.gt(0) ? 'w-full text-sm md:justify-between' : 'md:gap-12',
           )}
         >
-          {farm.apiInfo.data && (
+          {farm.apiDetails.data && (
             <DetailsItem title="Participants">
-              <div className="font-semibold">{farm.apiInfo.data.depositors}</div>
+              <div className="font-semibold">{farm.apiDetails.data.depositors}</div>
             </DetailsItem>
           )}
 
           <DetailsItem title="TVL">
             <div className="font-semibold">{USD_MOCK_TOKEN.formatUSD(totalSupply, { compact: true })}</div>
           </DetailsItem>
-          {farm.apiInfo.data?.apy.gt(0) && (
+          {farm.apiDetails.data?.apy.gt(0) && (
             <DetailsItem title="APY" explainer={<ApyTooltip farmAddress={address} />}>
               <div className="font-semibold text-[#3F66EF]">
-                {formatPercentage(farm.apiInfo.data.apy, { minimumFractionDigits: 0 })}
+                {formatPercentage(farm.apiDetails.data.apy, { minimumFractionDigits: 0 })}
               </div>
             </DetailsItem>
           )}

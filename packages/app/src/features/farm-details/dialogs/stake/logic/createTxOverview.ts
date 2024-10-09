@@ -26,26 +26,26 @@ export type TxOverview = { showEstimatedRewards: boolean } & (
 
 export function createTxOverview({ formValues, farm }: CreateTxOverviewParams): TxOverview {
   const value = formValues.value
-  const showEstimatedRewards = farm.blockchainInfo.rewardType !== 'points'
+  const showEstimatedRewards = farm.blockchainDetails.rewardType !== 'points'
   if (value.eq(0)) {
     return { status: 'no-overview', showEstimatedRewards }
   }
 
   const routeToStakingToken: TxOverviewRouteItem[] = createRouteToStakingToken({
     formValues,
-    stakingToken: farm.blockchainInfo.stakingToken,
+    stakingToken: farm.blockchainDetails.stakingToken,
   })
 
   const stakedAmountUsd = formValues.token.toUSD(formValues.value)
   const rewardsPerYear = NormalizedUnitNumber(
     stakedAmountUsd
-      .multipliedBy(farm.blockchainInfo.rewardRate)
-      .dividedBy(farm.blockchainInfo.totalSupply.plus(formValues.value))
+      .multipliedBy(farm.blockchainDetails.rewardRate)
+      .dividedBy(farm.blockchainDetails.totalSupply.plus(formValues.value))
       .multipliedBy(SECONDS_PER_YEAR),
   )
-  const rewardsPerYearUsd = farm.apiInfo.data?.rewardTokenPriceUsd
-    ? farm.blockchainInfo.rewardToken
-        .clone({ unitPriceUsd: farm.apiInfo.data.rewardTokenPriceUsd })
+  const rewardsPerYearUsd = farm.apiDetails.data?.rewardTokenPriceUsd
+    ? farm.blockchainDetails.rewardToken
+        .clone({ unitPriceUsd: farm.apiDetails.data.rewardTokenPriceUsd })
         .toUSD(rewardsPerYear)
     : undefined
   const apy =
@@ -57,9 +57,9 @@ export function createTxOverview({ formValues, farm }: CreateTxOverviewParams): 
     status: 'success',
     showEstimatedRewards,
     apy,
-    stakingToken: farm.blockchainInfo.stakingToken,
-    rewardToken: farm.blockchainInfo.rewardToken,
-    rewardTokenPrice: farm.apiInfo.data?.rewardTokenPriceUsd,
+    stakingToken: farm.blockchainDetails.stakingToken,
+    rewardToken: farm.blockchainDetails.rewardToken,
+    rewardTokenPrice: farm.apiDetails.data?.rewardTokenPriceUsd,
     rewardsPerYear,
     routeToStakingToken,
   }

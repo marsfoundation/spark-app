@@ -8,7 +8,7 @@ import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { InactiveFarmInfoPanel } from './InactiveFarmInfoPanel'
 
 const mockFarm = {
-  blockchainInfo: {
+  blockchainDetails: {
     address: MAINNET_USDS_SKY_FARM_ADDRESS,
     name: 'SKY Farm',
     rewardType: 'token',
@@ -26,7 +26,7 @@ const mockFarm = {
     periodFinish: 2677721600,
     totalSupply: NormalizedUnitNumber(100_000),
   },
-  apiInfo: {
+  apiDetails: {
     isPending: false,
     isError: false,
     error: null,
@@ -62,10 +62,10 @@ export const DesktopZeroAPY: Story = {
   args: {
     farm: {
       ...mockFarm,
-      apiInfo: {
-        ...mockFarm.apiInfo,
+      apiDetails: {
+        ...mockFarm.apiDetails,
         data: {
-          ...mockFarm.apiInfo.data,
+          ...mockFarm.apiDetails.data,
           apy: Percentage(0),
         },
       },

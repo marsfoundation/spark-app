@@ -1,6 +1,6 @@
 import { stakingRewardsAbi } from '@/config/abis/stakingRewardsAbi'
 import { MAINNET_USDS_SKY_FARM_ADDRESS } from '@/config/chain/constants'
-import { getFarmsBlockchainInfoQueryKey } from '@/domain/farms/farmBlockchainInfoQuery'
+import { getFarmsBlockchainDetailsQueryKey } from '@/domain/farms/farmBlockchainDetailsQuery'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
@@ -65,7 +65,7 @@ describe(createStakeActionConfig.name, () => {
       getBalancesQueryKeyPrefix({ account, chainId }),
     )
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
-      getFarmsBlockchainInfoQueryKey({ account, chainId }),
+      getFarmsBlockchainDetailsQueryKey({ account, chainId }),
     )
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
       allowanceQueryKey({

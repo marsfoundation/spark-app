@@ -71,7 +71,7 @@ export function useStakeDialog({ farm, initialToken }: UseStakeDialogParams): Us
       type: 'stake',
       amount: formValues.value,
       token: formValues.token,
-      farm: farm.blockchainInfo.address,
+      farm: farm.blockchainDetails.address,
     },
   ]
 
@@ -88,7 +88,7 @@ export function useStakeDialog({ farm, initialToken }: UseStakeDialogParams): Us
       ? txOverview.routeToStakingToken.at(-1) ?? raise('Route should be defined')
       : undefined
   const stakedToken = {
-    token: farm.blockchainInfo.stakingToken,
+    token: farm.blockchainDetails.stakingToken,
     value: stakingTokenRouteItem?.value ?? NormalizedUnitNumber(0),
   }
 

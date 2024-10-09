@@ -1,5 +1,5 @@
 import { stakingRewardsAbi } from '@/config/abis/stakingRewardsAbi'
-import { FarmBlockchainInfo, FarmConfig } from '@/domain/farms/types'
+import { FarmBlockchainDetails, FarmConfig } from '@/domain/farms/types'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { BaseUnitNumber, NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
@@ -7,7 +7,7 @@ import { Address } from 'viem'
 import { Config } from 'wagmi'
 import { readContract } from 'wagmi/actions'
 
-export interface GetFarmParams {
+export interface GetFarmBlockchainDetailsParams {
   farmConfig: FarmConfig
   wagmiConfig: Config
   tokensInfo: TokensInfo
@@ -15,13 +15,13 @@ export interface GetFarmParams {
   account: Address | undefined
 }
 
-export async function getFarmBlockchainInfo({
+export async function getFarmBlockchainDetails({
   farmConfig,
   wagmiConfig,
   tokensInfo,
   chainId,
   account,
-}: GetFarmParams): Promise<FarmBlockchainInfo> {
+}: GetFarmBlockchainDetailsParams): Promise<FarmBlockchainDetails> {
   const contractData = await getFarmContractData({ farmConfig, wagmiConfig, chainId, account })
 
   const rewardToken =

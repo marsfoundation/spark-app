@@ -1,5 +1,5 @@
 import { stakingRewardsAbi } from '@/config/abis/stakingRewardsAbi'
-import { getFarmsBlockchainInfoQueryKey } from '@/domain/farms/farmBlockchainInfoQuery'
+import { getFarmsBlockchainDetailsQueryKey } from '@/domain/farms/farmBlockchainDetailsQuery'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { ActionConfig, ActionContext } from '@/features/actions/logic/types'
@@ -21,7 +21,7 @@ export function createClaimFarmRewardsActionConfig(
     },
 
     invalidates: () => [
-      getFarmsBlockchainInfoQueryKey({ chainId, account }),
+      getFarmsBlockchainDetailsQueryKey({ chainId, account }),
       getBalancesQueryKeyPrefix({ chainId, account }),
     ],
   }

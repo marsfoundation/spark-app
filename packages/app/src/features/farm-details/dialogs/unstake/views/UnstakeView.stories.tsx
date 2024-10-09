@@ -54,7 +54,7 @@ const mockSavingsUsdsInfo = new PotSavingsInfo({
 })
 
 const farm: Farm = {
-  blockchainInfo: {
+  blockchainDetails: {
     address: MAINNET_USDS_SKY_FARM_ADDRESS,
     name: 'SKY Farm',
     rewardToken: tokens.SKY,
@@ -72,7 +72,7 @@ const farm: Farm = {
     staked: NormalizedUnitNumber(100),
     rewardType: 'token',
   },
-  apiInfo: {
+  apiDetails: {
     isPending: false,
     isError: false,
     error: null,
@@ -131,7 +131,7 @@ const meta: Meta<typeof UnstakeView> = {
         type: 'unstake',
         token: tokens.USDS,
         amount: NormalizedUnitNumber(100),
-        farm: farm.blockchainInfo.address,
+        farm: farm.blockchainDetails.address,
         exit: false,
       },
     ],
@@ -194,7 +194,7 @@ export const WithExitFarmSwitch: Story = {
         type: 'unstake',
         token: tokens.USDS,
         amount: NormalizedUnitNumber(100),
-        farm: farm.blockchainInfo.address,
+        farm: farm.blockchainDetails.address,
         exit: true,
       },
     ],
@@ -265,7 +265,7 @@ export const WithExitFarmSwitchUnchecked: Story = {
         type: 'unstake',
         token: tokens.USDS,
         amount: NormalizedUnitNumber(100),
-        farm: farm.blockchainInfo.address,
+        farm: farm.blockchainDetails.address,
         exit: false,
       },
     ],

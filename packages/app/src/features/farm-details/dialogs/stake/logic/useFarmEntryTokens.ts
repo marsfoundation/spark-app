@@ -14,7 +14,7 @@ export function useFarmEntryTokens(farm: Farm): UseFarmEntryTokensResult {
   const chainConfig = useChainConfigEntry()
   const { tokensInfo } = useTokensInfo({ tokens: chainConfig.extraTokens })
 
-  const entryTokensUnsorted = farm.blockchainInfo.entryAssetsGroup.assets.map((symbol) =>
+  const entryTokensUnsorted = farm.blockchainDetails.entryAssetsGroup.assets.map((symbol) =>
     tokensInfo.findOneTokenWithBalanceBySymbol(symbol),
   )
 

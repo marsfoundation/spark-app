@@ -23,3 +23,23 @@ export type Serializable<T> = T extends string | boolean | number
       : T extends any[]
         ? Serializable<T[number]>[]
         : never
+
+export type SimplifiedQueryResult<T, E = unknown> =
+  | {
+      isPending: true
+      isError: false
+      error: null
+      data: undefined
+    }
+  | {
+      isPending: false
+      isError: false
+      error: null
+      data: T
+    }
+  | {
+      isPending: false
+      isError: true
+      error: E
+      data: T | undefined
+    }

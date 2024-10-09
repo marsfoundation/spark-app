@@ -1,4 +1,4 @@
-import { QueryResultState } from '@/utils/transformQueryResult'
+import { SimplifiedQueryResult } from '@/utils/types'
 import { CheckedAddress } from '../types/CheckedAddress'
 import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
 import { Token, TokenWithoutPrice } from '../types/Token'
@@ -24,7 +24,7 @@ export type FarmConfig = {
     }
 )
 
-export interface FarmApiInfo {
+export interface FarmApiDetails {
   address: CheckedAddress
   apy: Percentage
   depositors: number
@@ -32,7 +32,7 @@ export interface FarmApiInfo {
   totalRewarded: NormalizedUnitNumber
 }
 
-export interface FarmBlockchainInfo {
+export interface FarmBlockchainDetails {
   address: CheckedAddress
   entryAssetsGroup: AssetsGroup
   rewardType: FarmConfig['rewardType']
@@ -48,6 +48,6 @@ export interface FarmBlockchainInfo {
 }
 
 export interface Farm {
-  blockchainInfo: FarmBlockchainInfo
-  apiInfo: QueryResultState<FarmApiInfo>
+  blockchainDetails: FarmBlockchainDetails
+  apiDetails: SimplifiedQueryResult<FarmApiDetails>
 }

@@ -83,12 +83,12 @@ export function useFarmDetails(): UseFarmDetailsResult {
     account,
   })
 
-  const tokensToDeposit = farm.blockchainInfo.entryAssetsGroup.assets.map((symbol) =>
+  const tokensToDeposit = farm.blockchainDetails.entryAssetsGroup.assets.map((symbol) =>
     tokensInfo.findOneTokenWithBalanceBySymbol(symbol),
   )
   const hasTokensToDeposit = tokensToDeposit.some((token) => token.balance.gt(0))
   const mostValuableToken = sortByUsdValueWithUsdsPriority(tokensToDeposit, tokensInfo)[0]
-  const canClaim = farm.blockchainInfo.earned.gt(0) || farm.blockchainInfo.rewardRate.gt(0)
+  const canClaim = farm.blockchainDetails.earned.gt(0) || farm.blockchainDetails.rewardRate.gt(0)
 
   function calculateReward(timestampInMs: number): NormalizedUnitNumber {
     if (farmConfig.rewardType === 'points' && rewardPointsData?.data) {
@@ -102,19 +102,19 @@ export function useFarmDetails(): UseFarmDetailsResult {
     }
 
     return _calculateReward({
-      earned: farm.blockchainInfo.earned,
-      staked: farm.blockchainInfo.staked,
-      rewardRate: farm.blockchainInfo.rewardRate,
-      earnedTimestamp: farm.blockchainInfo.earnedTimestamp,
-      periodFinish: farm.blockchainInfo.periodFinish,
+      earned: farm.blockchainDetails.earned,
+      staked: farm.blockchainDetails.staked,
+      rewardRate: farm.blockchainDetails.rewardRate,
+      earnedTimestamp: farm.blockchainDetails.earnedTimestamp,
+      periodFinish: farm.blockchainDetails.periodFinish,
       timestampInMs,
-      totalSupply: farm.blockchainInfo.totalSupply,
+      totalSupply: farm.blockchainDetails.totalSupply,
     })
   }
 
   const refreshGrowingRewardIntervalInMs =
     rewardPointsData?.data?.rewardTokensPerSecond.gt(0) ||
-    (farm.blockchainInfo.staked.gt(0) && farm.blockchainInfo.rewardRate.gt(0))
+    (farm.blockchainDetails.staked.gt(0) && farm.blockchainDetails.rewardRate.gt(0))
       ? GROWING_REWARD_REFRESH_INTERVAL_IN_MS
       : undefined
 
@@ -131,8 +131,8 @@ export function useFarmDetails(): UseFarmDetailsResult {
     tokensToDeposit,
     hasTokensToDeposit,
     canClaim,
-    isFarmActive: farm.blockchainInfo.staked.gt(0) || farm.blockchainInfo.earned.gt(0),
-    showApyChart: farm.blockchainInfo.rewardType !== 'points',
+    isFarmActive: farm.blockchainDetails.staked.gt(0) || farm.blockchainDetails.earned.gt(0),
+    showApyChart: farm.blockchainDetails.rewardType !== 'points',
     chartDetails: {
       farmHistory,
       onTimeframeChange,
@@ -140,7 +140,8 @@ export function useFarmDetails(): UseFarmDetailsResult {
     },
     calculateReward,
     refreshGrowingRewardIntervalInMs,
-    openUnstakeDialog: () => openDialog(unstakeDialogConfig, { farm, initialToken: farm.blockchainInfo.stakingToken }),
+    openUnstakeDialog: () =>
+      openDialog(unstakeDialogConfig, { farm, initialToken: farm.blockchainDetails.stakingToken }),
     openStakeDialog: (initialToken: Token) => openDialog(stakeDialogConfig, { farm, initialToken }),
     openDefaultedStakeDialog: () =>
       mostValuableToken ? openDialog(stakeDialogConfig, { farm, initialToken: mostValuableToken.token }) : undefined,

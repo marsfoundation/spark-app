@@ -23,12 +23,12 @@ export function useRewardPointsData({ farm, account }: UseRewardPointsDataParams
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function rewardPointsDataQueryOptions({ farm, account = zeroAddress }: UseRewardPointsDataParams) {
-  const farmAddress = farm.blockchainInfo.address
+  const farmAddress = farm.blockchainDetails.address
 
   return queryOptions({
     queryKey: getRewardPointsDataQueryKey({ farmAddress, account }),
     queryFn: async () => {
-      if (farm.blockchainInfo.rewardType !== 'points') {
+      if (farm.blockchainDetails.rewardType !== 'points') {
         return null
       }
 
@@ -48,7 +48,7 @@ function rewardPointsDataQueryOptions({ farm, account = zeroAddress }: UseReward
       }
     },
     refetchInterval: (query) => {
-      if (query.state.data?.balance && !query.state.data.balance.isEqualTo(farm.blockchainInfo.staked)) {
+      if (query.state.data?.balance && !query.state.data.balance.isEqualTo(farm.blockchainDetails.staked)) {
         return 2_000
       }
 

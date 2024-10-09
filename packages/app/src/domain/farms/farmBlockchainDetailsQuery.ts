@@ -3,9 +3,9 @@ import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { QueryKey, queryOptions } from '@tanstack/react-query'
 import { Address } from 'viem'
 import { Config } from 'wagmi'
-import { getFarmBlockchainInfo } from './getFarmBlockchainInfo'
+import { getFarmBlockchainDetails } from './getFarmBlockchainDetails'
 
-export interface FarmsBlockchainInfoQueryOptionsParams {
+export interface FarmsBlockchainDetailsQueryOptionsParams {
   farmConfigs: FarmConfig[]
   wagmiConfig: Config
   tokensInfo: TokensInfo
@@ -14,30 +14,33 @@ export interface FarmsBlockchainInfoQueryOptionsParams {
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function farmsBlockchainInfoQueryOptions({
+export function farmsBlockchainDetailsQueryOptions({
   farmConfigs,
   wagmiConfig,
   tokensInfo,
   chainId,
   account,
-}: FarmsBlockchainInfoQueryOptionsParams) {
+}: FarmsBlockchainDetailsQueryOptionsParams) {
   return queryOptions({
-    queryKey: getFarmsBlockchainInfoQueryKey({ account, chainId }),
+    queryKey: getFarmsBlockchainDetailsQueryKey({ account, chainId }),
     queryFn: async () => {
       return await Promise.all(
         farmConfigs.map((farmConfig) =>
-          getFarmBlockchainInfo({ farmConfig, wagmiConfig, tokensInfo, chainId, account }),
+          getFarmBlockchainDetails({ farmConfig, wagmiConfig, tokensInfo, chainId, account }),
         ),
       )
     },
   })
 }
 
-export interface GetFarmsBlockchainInfoQueryKeyParams {
+export interface GetFarmsBlockchainDetailsQueryKeyParams {
   chainId: number
   account: Address | undefined
 }
 
-export function getFarmsBlockchainInfoQueryKey({ account, chainId }: GetFarmsBlockchainInfoQueryKeyParams): QueryKey {
+export function getFarmsBlockchainDetailsQueryKey({
+  account,
+  chainId,
+}: GetFarmsBlockchainDetailsQueryKeyParams): QueryKey {
   return ['farmsBlockchainInfo', chainId, account]
 }

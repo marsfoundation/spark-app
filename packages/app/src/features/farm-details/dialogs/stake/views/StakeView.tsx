@@ -41,7 +41,7 @@ export function StakeView({
 
   return (
     <MultiPanelDialog panelRef={ref}>
-      <DialogTitle>Deposit into {farm.blockchainInfo.name}</DialogTitle>
+      <DialogTitle>Deposit into {farm.blockchainDetails.name}</DialogTitle>
 
       <FormAndOverviewWrapper>
         <DialogForm form={form} assetsFields={assetsFields} selectorAssets={selectableAssets} />

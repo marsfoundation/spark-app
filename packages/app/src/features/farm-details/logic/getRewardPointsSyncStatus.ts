@@ -6,11 +6,11 @@ export function getRewardPointsSyncStatus({
   farm,
   rewardPointsData,
 }: { farm: Farm; rewardPointsData: UseRewardPointsDataResult }): RewardPointsSyncStatus | undefined {
-  if (farm.blockchainInfo.rewardType !== 'points') {
+  if (farm.blockchainDetails.rewardType !== 'points') {
     return undefined
   }
 
-  if (rewardPointsData.data?.rewardBalance && farm.blockchainInfo.staked.eq(rewardPointsData.data?.balance)) {
+  if (rewardPointsData.data?.rewardBalance && farm.blockchainDetails.staked.eq(rewardPointsData.data?.balance)) {
     return 'synced'
   }
 

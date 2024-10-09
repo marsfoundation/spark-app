@@ -35,18 +35,19 @@ export function InactiveFarmInfoPanel({
           and earn{' '}
           <span className="text-[#3F66EF]">
             {/* @todo: Handle loading error states for farm api info nicer */}
-            {farm.apiInfo.isPending
+            {farm.apiDetails.isPending
               ? ''
-              : farm.apiInfo.data?.apy.gt(0)
-                ? formatPercentage(farm.apiInfo?.data.apy, { minimumFractionDigits: 0 })
-                : farm.blockchainInfo.rewardToken.symbol}
+              : farm.apiDetails.data?.apy.gt(0)
+                ? formatPercentage(farm.apiDetails?.data.apy, { minimumFractionDigits: 0 })
+                : farm.blockchainDetails.rewardToken.symbol}
           </span>{' '}
           in rewards
         </h2>
         <div className="max-w-[75%] text-basics-dark-grey">
-          {farm.apiInfo.data?.apy.gt(0) && (
+          {farm.apiDetails.data?.apy.gt(0) && (
             <>
-              Deposit any of the tokens listed below and start farming {farm.blockchainInfo.rewardToken.symbol} tokens.
+              Deposit any of the tokens listed below and start farming {farm.blockchainDetails.rewardToken.symbol}{' '}
+              tokens.
             </>
           )}{' '}
           Learn more about farming{' '}
@@ -58,31 +59,31 @@ export function InactiveFarmInfoPanel({
       </div>
       <div className="flex flex-col gap-4">
         <div className="flex flex-col items-start gap-2 md:flex-row md:items-center md:gap-12">
-          {farm.apiInfo.data && (
+          {farm.apiDetails.data && (
             <DetailsItem title="Participants">
-              <div className="font-semibold">{farm.apiInfo.data.depositors}</div>
+              <div className="font-semibold">{farm.apiDetails.data.depositors}</div>
             </DetailsItem>
           )}
           <DetailsItem title="TVL">
             <div className="font-semibold">
-              {USD_MOCK_TOKEN.formatUSD(farm.blockchainInfo.totalSupply, { compact: true })}
+              {USD_MOCK_TOKEN.formatUSD(farm.blockchainDetails.totalSupply, { compact: true })}
             </div>
           </DetailsItem>
           {/* @todo: Handle loading error states elegantly */}
-          {farm.apiInfo.data ? (
-            farm.blockchainInfo.rewardType === 'token' ? (
-              <DetailsItem title="APY" explainer={<ApyTooltip farmAddress={farm.apiInfo.data.address} />}>
+          {farm.apiDetails.data ? (
+            farm.blockchainDetails.rewardType === 'token' ? (
+              <DetailsItem title="APY" explainer={<ApyTooltip farmAddress={farm.apiDetails.data.address} />}>
                 <div className="font-semibold text-[#3F66EF]">
-                  {formatPercentage(farm.apiInfo.data.apy, { minimumFractionDigits: 0 })}
+                  {formatPercentage(farm.apiDetails.data.apy, { minimumFractionDigits: 0 })}
                 </div>
               </DetailsItem>
             ) : (
               <DetailsItem title="Total rewarded">
                 <div className="font-semibold">
-                  {farm.blockchainInfo.rewardToken
-                    .clone({ unitPriceUsd: farm.apiInfo.data.rewardTokenPriceUsd })
-                    .format(farm.apiInfo.data.totalRewarded, { style: 'compact' })}{' '}
-                  {farm.blockchainInfo.rewardToken.symbol}
+                  {farm.blockchainDetails.rewardToken
+                    .clone({ unitPriceUsd: farm.apiDetails.data.rewardTokenPriceUsd })
+                    .format(farm.apiDetails.data.totalRewarded, { style: 'compact' })}{' '}
+                  {farm.blockchainDetails.rewardToken.symbol}
                 </div>
               </DetailsItem>
             )

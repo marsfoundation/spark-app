@@ -31,14 +31,14 @@ export function createTxOverview({ formValues, farm, isExiting, earnedRewards }:
 
   const routeToOutcomeToken: TxOverviewRouteItem[] = createRouteToOutcomeToken({
     formValues,
-    stakingToken: farm.blockchainInfo.stakingToken,
+    stakingToken: farm.blockchainDetails.stakingToken,
   })
 
   return {
     status: 'success',
-    stakingToken: farm.blockchainInfo.stakingToken,
-    rewardToken: farm.blockchainInfo.rewardToken,
-    rewardTokenPrice: farm.apiInfo.data?.rewardTokenPriceUsd,
+    stakingToken: farm.blockchainDetails.stakingToken,
+    rewardToken: farm.blockchainDetails.rewardToken,
+    rewardTokenPrice: farm.apiDetails.data?.rewardTokenPriceUsd,
     earnedRewards,
     routeToOutcomeToken,
     isExiting,
