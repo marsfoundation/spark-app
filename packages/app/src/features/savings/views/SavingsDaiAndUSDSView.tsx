@@ -39,12 +39,18 @@ export function SavingsDaiAndUsdsView({
   const displaySavingsDai = sDaiDetails.tokenWithBalance.balance.gt(0)
   const displaySavingsUsds = sUSDSDetails.tokenWithBalance.balance.gt(0)
 
-  const displaySavingsDaiCharts = displaySavingsDai && !displaySavingsUsds && savingsChartsInfo.chartsSupported
-  const displaySavingsUsdsCharts = displaySavingsUsds && !displaySavingsDai && savingsChartsInfo.chartsSupported
+  const noSavings = !displaySavingsDai && !displaySavingsUsds
+  const displaySavingsOpportunity = noSavings && opportunityProjections.thirtyDays.gt(0)
+  const displaySavingsNoCash = noSavings && !displaySavingsOpportunity
 
-  const noSavingsDisplay = !displaySavingsDai && !displaySavingsUsds
-  const displaySavingsOpportunity = noSavingsDisplay && opportunityProjections.thirtyDays.gt(0)
-  const displaySavingsNoCash = noSavingsDisplay && !displaySavingsOpportunity
+  const displaySavingsUsdsCharts =
+    savingsChartsInfo.chartsSupported &&
+    ((displaySavingsUsds && !displaySavingsDai) || displaySavingsOpportunity || displaySavingsNoCash)
+
+  const displaySavingsDaiCharts =
+    savingsChartsInfo.chartsSupported &&
+    !displaySavingsUsdsCharts &&
+    ((displaySavingsDai && !displaySavingsUsds) || displaySavingsOpportunity || displaySavingsNoCash)
 
   assert(migrationInfo, 'Migration info should be defined in sDai and sUSDS view')
 
@@ -57,7 +63,7 @@ export function SavingsDaiAndUsdsView({
           apyImprovement={migrationInfo.apyImprovement}
         />
       )}
-      <div className="flex flex-col gap-6 sm:flex-row">
+      <div className="flex flex-col gap-6 sm:grid sm:grid-cols-2">
         {displaySavingsUsds && (
           <SavingsTokenPanel
             variant="usds"
@@ -67,7 +73,6 @@ export function SavingsDaiAndUsdsView({
             {...sUSDSDetails}
           />
         )}
-        {displaySavingsUsdsCharts && <UsdsSavingsCharts {...savingsChartsInfo} />}
 
         {displaySavingsDai && (
           <SavingsTokenPanel
@@ -78,7 +83,6 @@ export function SavingsDaiAndUsdsView({
             {...sDaiDetails}
           />
         )}
-        {displaySavingsDaiCharts && <DaiSavingsCharts {...savingsChartsInfo} />}
 
         {displaySavingsOpportunity && (
           <SavingsOpportunity
@@ -95,6 +99,10 @@ export function SavingsDaiAndUsdsView({
         {displaySavingsNoCash && (
           <SavingsOpportunityNoCash APY={sUSDSDetails.APY} originChainId={originChainId} savingsMeta={savingsMeta} />
         )}
+
+        {displaySavingsUsdsCharts && <UsdsSavingsCharts {...savingsChartsInfo} />}
+
+        {displaySavingsDaiCharts && <DaiSavingsCharts {...savingsChartsInfo} />}
       </div>
       <StablecoinsInWallet assets={assetsInWallet} openDialog={openDialog} migrationInfo={migrationInfo} />
       {import.meta.env.VITE_FEATURE_SAVINGS_WELCOME_DIALOG === '1' && (

@@ -36,7 +36,7 @@ export function SavingsDaiView({
           apyImprovement={migrationInfo.apyImprovement}
         />
       )}
-      <div className="flex flex-col gap-6 sm:flex-row">
+      <div className="flex flex-col gap-6 sm:grid sm:grid-cols-2">
         {displaySavingsDai && (
           <>
             <SavingsTokenPanel

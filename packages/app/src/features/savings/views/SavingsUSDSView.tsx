@@ -22,13 +22,14 @@ export function SavingsUsdsView({
   const displaySavingsUsds = savingsTokenDetails.tokenWithBalance.balance.gt(0)
 
   const displaySavingsUsdsChart = savingsChartsInfo.chartsSupported
-  const displaySavingsOpportunity = opportunityProjections.thirtyDays.gt(0)
+  const displaySavingsOpportunity =
+    opportunityProjections.thirtyDays.gt(0) && (!displaySavingsUsds || !displaySavingsUsdsChart)
   const displaySavingsNoCash = !displaySavingsUsds && !displaySavingsOpportunity
 
   return (
     <PageLayout>
       <PageHeader />
-      <div className="flex flex-col gap-6 sm:flex-row">
+      <div className="flex-col gap-6 sm:grid sm:grid-cols-2">
         {displaySavingsUsds && (
           <>
             <SavingsTokenPanel
@@ -40,6 +41,7 @@ export function SavingsUsdsView({
             />
           </>
         )}
+
         {displaySavingsOpportunity && (
           <SavingsOpportunity
             APY={savingsTokenDetails.APY}
@@ -51,6 +53,7 @@ export function SavingsUsdsView({
             savingsMeta={savingsMeta}
           />
         )}
+
         {displaySavingsNoCash && (
           <SavingsOpportunityNoCash
             APY={savingsTokenDetails.APY}
@@ -58,6 +61,7 @@ export function SavingsUsdsView({
             savingsMeta={savingsMeta}
           />
         )}
+
         {displaySavingsUsdsChart && <UsdsSavingsCharts {...savingsChartsInfo} />}
       </div>
       <StablecoinsInWallet assets={assetsInWallet} openDialog={openDialog} migrationInfo={migrationInfo} />
