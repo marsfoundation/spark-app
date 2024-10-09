@@ -7,6 +7,7 @@ import { FarmConfig } from '@/domain/farms/types'
 import { OracleInfoFetcherParams, OracleInfoFetcherResult } from '@/domain/oracles/oracleInfoFetchers'
 import { OracleType } from '@/domain/wallet/useTokens/types'
 import { SUPPORTED_CHAIN_IDS } from './constants'
+import { paths } from '../paths'
 
 export type SupportedChainId = (typeof SUPPORTED_CHAIN_IDS)[number]
 
@@ -84,6 +85,7 @@ export interface ChainConfigEntry {
   farms: FarmConfig[]
   oracles: Record<TokenSymbol, ReserveOracleType>
   savingsChartsSupported: boolean
+  supportedPages: (keyof typeof paths)[]
 }
 
 export type ChainConfig = Record<SupportedChainId, ChainConfigEntry>

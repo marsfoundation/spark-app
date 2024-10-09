@@ -43,6 +43,7 @@ export function marketBalances({ wagmiConfig, account, chainId }: MarketBalances
         abi: walletBalanceProviderAbi,
         functionName: 'getUserWalletBalances',
         args: [lendingPoolAddressProvider, account],
+        chainId,
       })
 
       return addresses

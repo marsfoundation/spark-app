@@ -24,6 +24,8 @@ import { MigrationInfo, makeMigrationInfo } from './makeMigrationInfo'
 import { SavingsMeta, makeSavingsMeta } from './makeSavingsMeta'
 import { makeSavingsTokenDetails } from './makeSavingsTokenDetails'
 import { useWelcomeDialog } from './useWelcomeDialog'
+import { usePageChainId } from '@/domain/hooks/usePageChainId'
+import { getChainConfigEntry } from '@/config/chain'
 
 const stepInMs = 50
 
@@ -62,17 +64,19 @@ export interface UseSavingsResults {
     | { state: 'unsupported' }
 }
 export function useSavings(): UseSavingsResults {
-  const chainId = useChainId()
-  const { savingsDaiInfo } = useSavingsDaiInfo()
-  const { savingsUsdsInfo } = useSavingsUsdsInfo()
-  const { inputTokens, sDaiWithBalance, sUSDSWithBalance } = useSavingsTokens()
-  const { id: originChainId, extraTokens } = useChainConfigEntry()
-  const { tokensInfo } = useTokensInfo({ tokens: extraTokens })
+  const pageChainId = usePageChainId()
+  const { savingsDaiInfo } = useSavingsDaiInfo({ chainId: pageChainId })
+  const { savingsUsdsInfo } = useSavingsUsdsInfo({ chainId: pageChainId })
+  const { inputTokens, sDaiWithBalance, sUSDSWithBalance } = useSavingsTokens({ chainId: pageChainId })
+  const { id: originChainId, extraTokens } = getChainConfigEntry(pageChainId)
+  const { tokensInfo } = useTokensInfo({ tokens: extraTokens, chainId: pageChainId })
   const { timestamp, timestampInMs } = useTimestamp({
     refreshIntervalInMs: savingsDaiInfo?.supportsRealTimeInterestAccrual ? stepInMs : undefined,
   })
   const openDialog = useOpenDialog()
-  const { showWelcomeDialog, saveConfirmedWelcomeDialog } = useWelcomeDialog()
+  const { showWelcomeDialog, saveConfirmedWelcomeDialog } = useWelcomeDialog({
+    chainId: pageChainId,
+  })
   const getBlockExplorerLink = useGetBlockExplorerAddressLink()
 
   const { totalUSD: totalEligibleCashUSD, maxBalanceToken } = calculateMaxBalanceTokenAndTotal({
@@ -133,7 +137,7 @@ export function useSavings(): UseSavingsResults {
     blockExplorerLink: getBlockExplorerLink(tokenWithBalance.token.address),
   }))
 
-  const savingsMeta = makeSavingsMeta(chainId)
+  const savingsMeta = makeSavingsMeta(pageChainId)
 
   return {
     openDialog,
