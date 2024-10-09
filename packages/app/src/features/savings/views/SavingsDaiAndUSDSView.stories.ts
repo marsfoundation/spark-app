@@ -289,6 +289,13 @@ export const NoDepositNoCash: Story = {
   name: 'No deposit, no cash',
   args: {
     ...savingsViewBaseArgs,
+    savingsChartsInfo: {
+      ...savingsChartsInfo,
+      myEarningsInfo: {
+        ...myEarningsInfo,
+        shouldDisplayMyEarnings: false,
+      },
+    },
     totalEligibleCashUSD: NormalizedUnitNumber(0),
     opportunityProjections: {
       thirtyDays: NormalizedUnitNumber(0),

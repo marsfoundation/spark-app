@@ -55,7 +55,7 @@ export function ChartTabsPanel({ tabs, onTimeframeChange, selectedTimeframe, hei
   if (tabs.length === 1) {
     return (
       <Panel.Wrapper className="flex min-h-[380px] w-full flex-1 flex-col justify-between self-stretch px-6 py-6 md:px-[32px]">
-        <div className="flex flex-wrap items-center justify-between gap-2 sm:flex-nowrap">
+        <div className="flex flex-wrap items-center justify-between gap-2 md:flex-nowrap">
           <div className="flex items-center gap-1 font-semibold text-lg md:text-xl">{firstTab.label}</div>
           <TimeframeButtons onTimeframeChange={onTimeframeChange} selectedTimeframe={selectedTimeframe} />
         </div>
@@ -70,7 +70,7 @@ export function ChartTabsPanel({ tabs, onTimeframeChange, selectedTimeframe, hei
   return (
     <Panel.Wrapper className="flex min-h-[380px] w-full flex-1 flex-col justify-between self-stretch px-6 py-6 md:px-[32px]">
       <Tabs defaultValue={firstTab.id} className="flex flex-1 flex-col">
-        <div className="flex flex-wrap items-center justify-between gap-2 sm:flex-nowrap">
+        <div className="flex flex-wrap items-center justify-between gap-2 md:flex-nowrap">
           <TabsList className="justify-start">
             {tabs.map((tab) => (
               <TabsTrigger

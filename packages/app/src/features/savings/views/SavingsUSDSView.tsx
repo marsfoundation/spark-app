@@ -29,7 +29,7 @@ export function SavingsUsdsView({
   return (
     <PageLayout>
       <PageHeader />
-      <div className="flex-col gap-6 sm:grid sm:grid-cols-2">
+      <div className="flex flex-col gap-6 sm:grid sm:grid-cols-2">
         {displaySavingsUsds && (
           <>
             <SavingsTokenPanel
