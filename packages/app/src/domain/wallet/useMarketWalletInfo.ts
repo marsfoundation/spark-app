@@ -13,6 +13,10 @@ export interface WalletBalance {
   token: Token
 }
 
+export interface MarketWalletInfoParams {
+  chainId?: number
+}
+
 export interface MarketWalletInfo {
   isConnected: boolean
   walletBalances: WalletBalance[]
@@ -21,11 +25,12 @@ export interface MarketWalletInfo {
   findWalletBalanceForSymbol: (symbol: TokenSymbol) => NormalizedUnitNumber
 }
 
-export function useMarketWalletInfo(): MarketWalletInfo {
+export function useMarketWalletInfo(params: MarketWalletInfoParams = {}): MarketWalletInfo {
   const { address, isConnected } = useAccount()
-  const chainId = useChainId()
+  const currentChainId = useChainId()
+  const chainId = params.chainId ?? currentChainId
   const wagmiConfig = useConfig()
-  const { marketInfo } = useMarketInfo()
+  const { marketInfo } = useMarketInfo({ chainId })
 
   const { data: balanceData } = useSuspenseQuery({
     ...marketBalances({

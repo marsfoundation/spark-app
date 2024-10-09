@@ -35,6 +35,7 @@ import { ExistingPosition, PageState, PageStatus } from './types'
 import { useCreateObjectives } from './useCreateObjectives'
 import { useLiquidationDetails } from './useLiquidationDetails'
 import { useUpgradeOptions } from './useUpgradeOptions'
+import { usePageChainId } from '@/domain/hooks/usePageChainId'
 
 export interface BorrowDetails {
   borrowRate: Percentage
@@ -66,11 +67,12 @@ export interface UseEasyBorrowResults {
 
 export function useEasyBorrow(): UseEasyBorrowResults {
   const account = useAccount()
+  const pageChainId = usePageChainId()
   const guestMode = !account.address
   const openDialog = useOpenDialog()
-  const { aaveData } = useAaveDataLayer()
-  const { marketInfo } = useMarketInfo()
-  const { marketInfo: marketInfoIn1Epoch } = useMarketInfo({ timeAdvance: EPOCH_LENGTH })
+  const { aaveData } = useAaveDataLayer({ chainId: pageChainId })
+  const { marketInfo } = useMarketInfo({ chainId: pageChainId })
+  const { marketInfo: marketInfoIn1Epoch } = useMarketInfo({ timeAdvance: EPOCH_LENGTH, chainId: pageChainId })
   const {
     nativeAssetInfo,
     extraTokens,
@@ -78,10 +80,10 @@ export function useEasyBorrow(): UseEasyBorrowResults {
     USDSSymbol,
     meta: { defaultAssetToBorrow },
   } = getChainConfigEntry(marketInfo.chainId)
-  const { tokensInfo } = useTokensInfo({ tokens: extraTokens })
+  const { tokensInfo } = useTokensInfo({ tokens: extraTokens, chainId: pageChainId })
+  const walletInfo = useMarketWalletInfo({ chainId: pageChainId })
 
-  const walletInfo = useMarketWalletInfo()
-  const upgradeOptions = useUpgradeOptions()
+  const upgradeOptions = useUpgradeOptions({ chainId: pageChainId })
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')
   const healthFactorPanelRef = useRef<HTMLDivElement>(null)
