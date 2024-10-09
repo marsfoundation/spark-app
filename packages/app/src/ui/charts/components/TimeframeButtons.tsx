@@ -8,7 +8,7 @@ export interface TimeframeButtonsProps {
 
 export function TimeframeButtons({ onTimeframeChange, selectedTimeframe }: TimeframeButtonsProps) {
   return (
-    <div className="ml-auto flex w-fit rounded-lg border border-basics-border">
+    <div className="ml-auto grid w-full grid-cols-4 rounded-lg border border-basics-border">
       {AVAILABLE_TIMEFRAMES.map((timeframe) => (
         <TimeframeButton
           key={timeframe}
