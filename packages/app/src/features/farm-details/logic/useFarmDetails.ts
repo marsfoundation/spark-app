@@ -130,7 +130,7 @@ export function useFarmDetails(): UseFarmDetailsResult {
     tokensToDeposit,
     hasTokensToDeposit,
     canClaim,
-    isFarmActive: farm.staked.gt(0) || farm.earned.gt(0),
+    isFarmActive: farm.staked.gt(0) || farm.earned.gt(0) || !!rewardPointsData?.data?.rewardBalance.gt(0),
     showApyChart: farm.rewardType !== 'points',
     chartDetails: {
       farmHistory,

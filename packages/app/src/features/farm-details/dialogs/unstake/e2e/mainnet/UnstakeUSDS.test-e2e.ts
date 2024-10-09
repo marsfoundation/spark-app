@@ -97,7 +97,7 @@ test.describe('Unstake USDS from SKY farm', () => {
   })
 })
 
-test.describe('Unstake USDS to CLE farm', () => {
+test.describe('Unstake USDS from CLE farm', () => {
   const testUserPKey = '0xa9f2d3eda4403df2fe54b97291d65d69824e0e2b3134c33b7145cf9b912966d5'
   const testUserAddress = privateKeyToAddress('0xa9f2d3eda4403df2fe54b97291d65d69824e0e2b3134c33b7145cf9b912966d5')
   const harSuffix = testUserAddress.slice(0, 10)
@@ -122,7 +122,7 @@ test.describe('Unstake USDS to CLE farm', () => {
         },
       },
     })
-    await overrideInfoSkyRouteWithHAR({ page, key: `3-cle-farm-10000-balance-${harSuffix}` })
+    await overrideInfoSkyRouteWithHAR({ page, key: `2-cle-farm-0-balance-${harSuffix}` })
 
     farmDetailsPage = new FarmDetailsPageObject(page)
     await farmDetailsPage.clickInfoPanelStakeButtonAction()
@@ -131,6 +131,7 @@ test.describe('Unstake USDS to CLE farm', () => {
     await stakeDialog.actionsContainer.acceptAllActionsAction(2)
     await stakeDialog.clickBackToFarmAction()
 
+    await overrideInfoSkyRouteWithHAR({ page, key: `3-cle-farm-10000-balance-${harSuffix}` })
     await farmDetailsPage.clickInfoPanelUnstakeButtonAction()
     unstakeDialog = new UnstakeDialogPageObject(page)
 
