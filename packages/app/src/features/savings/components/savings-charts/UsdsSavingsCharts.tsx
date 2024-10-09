@@ -27,9 +27,12 @@ export function UsdsSavingsCharts({
                 id: 'my-earnings',
                 label: 'My Earnings',
                 component: MyEarningsChart,
-                isError: myEarningsInfo.isError,
-                isPending: myEarningsInfo.isLoading,
-                props: { data: myEarningsInfo.data?.data ?? [], predictions: myEarningsInfo.data?.predictions ?? [] },
+                isError: myEarningsInfo.queryResult.isError,
+                isPending: myEarningsInfo.queryResult.isPending,
+                props: {
+                  data: myEarningsInfo.queryResult.data?.data ?? [],
+                  predictions: myEarningsInfo.queryResult.data?.predictions ?? [],
+                },
               }),
             ]
           : []),
@@ -38,7 +41,7 @@ export function UsdsSavingsCharts({
           label: 'SSR',
           component: SsrChart,
           isError: savingsRateInfo.isError,
-          isPending: savingsRateInfo.isLoading,
+          isPending: savingsRateInfo.isPending,
           props: { data: savingsRateInfo.data?.ssr ?? [] },
         }),
       ]}

@@ -48,12 +48,15 @@ const savingsViewBaseArgs = {
     selectedTimeframe: '1M' as const,
     setSelectedTimeframe: () => {},
     myEarningsInfo: {
-      data: {
-        data: mockEarningsChartData,
-        predictions: mockEarningsPredictionsChartData,
-      },
-      isError: false,
-      isLoading: false,
+      queryResult: {
+        data: {
+          data: mockEarningsChartData,
+          predictions: mockEarningsPredictionsChartData,
+        },
+        isError: false,
+        isPending: false,
+        error: null,
+      } as const,
       shouldDisplayMyEarnings: true,
     },
     savingsRateInfo: {
@@ -62,8 +65,9 @@ const savingsViewBaseArgs = {
         dsr: mockDsrChartData,
       },
       isError: false,
-      isLoading: false,
-    },
+      isPending: false,
+      error: null,
+    } as const,
     chartsSupported: true,
   },
 }

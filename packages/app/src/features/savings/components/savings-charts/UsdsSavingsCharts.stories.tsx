@@ -14,12 +14,15 @@ const meta: Meta<typeof UsdsSavingsCharts> = {
     selectedTimeframe: '1M' as const,
     setSelectedTimeframe: () => {},
     myEarningsInfo: {
-      data: {
-        data: mockEarningsChartData,
-        predictions: mockEarningsPredictionsChartData,
+      queryResult: {
+        isError: false,
+        isPending: false,
+        error: null,
+        data: {
+          data: mockEarningsChartData,
+          predictions: mockEarningsPredictionsChartData,
+        },
       },
-      isError: false,
-      isLoading: false,
       shouldDisplayMyEarnings: true,
     },
     savingsRateInfo: {
@@ -28,7 +31,8 @@ const meta: Meta<typeof UsdsSavingsCharts> = {
         dsr: mockDsrChartData,
       },
       isError: false,
-      isLoading: false,
+      isPending: false,
+      error: null,
     },
   },
 }
@@ -44,9 +48,12 @@ export const NoEarningsHistoryDesktop: Story = {
   args: {
     ...Desktop.args,
     myEarningsInfo: {
-      data: { data: [], predictions: [] },
-      isError: false,
-      isLoading: false,
+      queryResult: {
+        data: { data: [], predictions: [] },
+        isError: false,
+        isPending: false,
+        error: null,
+      },
       shouldDisplayMyEarnings: false,
     },
   },

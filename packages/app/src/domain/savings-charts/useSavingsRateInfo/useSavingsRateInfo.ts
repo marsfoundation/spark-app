@@ -1,4 +1,5 @@
 import { Timeframe } from '@/ui/charts/defaults'
+import { SimplifiedQueryResult } from '@/utils/types'
 import { useQuery } from '@tanstack/react-query'
 import { useCallback } from 'react'
 import { getFilteredSavingsRateData } from './getFilteredSavingsRateData'
@@ -12,11 +13,8 @@ export interface UseSavingsRateInfoParams {
   staleTime: number
   chartsSupported: boolean
 }
-export type UseSavingsRateInfoResult = {
-  data: SavingsRateInfo | undefined
-  isLoading: boolean
-  isError: boolean
-}
+
+export type UseSavingsRateInfoResult = SimplifiedQueryResult<SavingsRateInfo>
 
 export function useSavingsRateInfo({
   chainId,
@@ -25,7 +23,7 @@ export function useSavingsRateInfo({
   staleTime,
   chartsSupported,
 }: UseSavingsRateInfoParams): UseSavingsRateInfoResult {
-  const { data, isError, isLoading } = useQuery({
+  return useQuery({
     ...savingsRateQueryOptions({
       chainId,
     }),
@@ -37,10 +35,4 @@ export function useSavingsRateInfo({
     staleTime,
     enabled: chartsSupported,
   })
-
-  return {
-    data,
-    isLoading,
-    isError,
-  }
 }

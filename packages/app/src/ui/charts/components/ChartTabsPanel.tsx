@@ -106,26 +106,29 @@ interface ChartPanelProps extends ChartTab {
 function ChartPanel({ height, component: Chart, isError, isPending, props }: ChartPanelProps) {
   const [ref, { width }] = useParentSize()
 
+  if (isPending) {
+    return (
+      <div className="flex items-center justify-center" style={{ height }} ref={ref}>
+        <DelayedComponent>
+          <Loader2 className="h-8 animate-spin text-basics-grey" data-chromatic="ignore" />
+        </DelayedComponent>
+      </div>
+    )
+  }
+
+  if (isError) {
+    return (
+      <div className="flex items-center justify-center" style={{ height }} ref={ref}>
+        <div className="flex items-center rounded-full bg-basics-grey/60 px-3 py-1 text-basics-dark-grey/80 text-sm">
+          <AlertTriangle className="h-4" /> Failed to load chart data
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div ref={ref} className="w-full flex-1">
-      {isError && !isPending && (
-        <div className="flex items-center justify-center" style={{ height }}>
-          <div className="flex items-center rounded-full bg-basics-grey/60 px-3 py-1 text-basics-dark-grey/80 text-sm">
-            <AlertTriangle className="h-4" /> Failed to load chart data
-          </div>
-        </div>
-      )}
-
-      {isPending && (
-        <div className="flex items-center justify-center" style={{ height }}>
-          {/* @note: Delaying spinner to prevent it from flashing on chart load. For most cases loader won't be shown. */}
-          <DelayedComponent>
-            <Loader2 className="h-8 animate-spin text-basics-grey" data-chromatic="ignore" />
-          </DelayedComponent>
-        </div>
-      )}
-
-      {!isError && !isPending && <Chart {...props} height={height} width={width} />}
+      <Chart {...props} height={height} width={width} />
     </div>
   )
 }
