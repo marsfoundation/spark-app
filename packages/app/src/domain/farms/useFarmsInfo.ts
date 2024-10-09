@@ -5,7 +5,7 @@ import { transformQueryResult } from '@/utils/transformQueryResult'
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { useAccount, useChainId, useConfig } from 'wagmi'
 import { farmsApiInfoQueryOptions } from './farmApiInfoQuery'
-import { farmsBlockchainInfoQueryOptions } from './farmBlockchainInfoQuery copy'
+import { farmsBlockchainInfoQueryOptions } from './farmBlockchainInfoQuery'
 import { FarmsInfo } from './farmsInfo'
 
 export interface UseFarmsInfoParams {

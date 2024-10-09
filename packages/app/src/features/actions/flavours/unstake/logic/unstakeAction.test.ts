@@ -1,6 +1,6 @@
 import { stakingRewardsAbi } from '@/config/abis/stakingRewardsAbi'
 import { MAINNET_USDS_SKY_FARM_ADDRESS } from '@/config/chain/constants'
-import { getFarmsBlockchainInfoQueryKey } from '@/domain/farms/farmBlockchainInfoQuery copy'
+import { getFarmsBlockchainInfoQueryKey } from '@/domain/farms/farmBlockchainInfoQuery'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'

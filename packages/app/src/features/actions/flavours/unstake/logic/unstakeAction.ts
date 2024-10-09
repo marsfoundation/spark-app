@@ -1,5 +1,5 @@
 import { stakingRewardsAbi } from '@/config/abis/stakingRewardsAbi'
-import { getFarmsBlockchainInfoQueryKey } from '@/domain/farms/farmBlockchainInfoQuery copy'
+import { getFarmsBlockchainInfoQueryKey } from '@/domain/farms/farmBlockchainInfoQuery'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { ActionConfig, ActionContext } from '@/features/actions/logic/types'
