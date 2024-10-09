@@ -11,7 +11,7 @@ export interface UseFarmsResult {
 }
 
 export function useFarms(): UseFarmsResult {
-  const chainId = usePageChainId()
+  const { chainId } = usePageChainId()
   const { farmsInfo } = useFarmsInfo({ chainId })
 
   const hasFarms = farmsInfo.getHasFarms()
