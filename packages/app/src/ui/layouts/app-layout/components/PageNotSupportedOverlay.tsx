@@ -3,16 +3,16 @@ import { useEffect } from 'react'
 import { PageNotSupportedWarning } from './PageNotSupportedWarning'
 
 export interface PageNotSupportedOverlayProps {
-  navHeight: number
+  contentHeight: number
   pageName: string
 }
 
-export function PageNotSupportedOverlay({ navHeight, pageName }: PageNotSupportedOverlayProps) {
+export function PageNotSupportedOverlay({ contentHeight, pageName }: PageNotSupportedOverlayProps) {
   const { height: windowHeight } = useWindowSize()
 
   useEffect(() => {
     const overflowStyle = (() => {
-      if (navHeight >= windowHeight) {
+      if (contentHeight >= windowHeight) {
         // allow to scroll non collapsed mobile navbar
         return 'auto'
       }
@@ -25,13 +25,13 @@ export function PageNotSupportedOverlay({ navHeight, pageName }: PageNotSupporte
     return () => {
       document.body.style.overflow = originalStyle
     }
-  }, [navHeight, windowHeight])
+  }, [contentHeight, windowHeight])
 
   return (
     <div
       className="absolute inset-0 z-[9999] flex flex-col justify-between bg-gray-100/30 backdrop-blur-[1.5px]"
       style={{
-        top: navHeight,
+        top: windowHeight - contentHeight,
       }}
       aria-hidden="true"
     >
