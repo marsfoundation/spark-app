@@ -12,7 +12,7 @@ export function PageNotSupportedOverlay({ contentHeight, pageName }: PageNotSupp
 
   useEffect(() => {
     const overflowStyle = (() => {
-      if (contentHeight >= windowHeight) {
+      if (contentHeight === 0) {
         // allow to scroll non collapsed mobile navbar
         return 'auto'
       }
@@ -25,7 +25,7 @@ export function PageNotSupportedOverlay({ contentHeight, pageName }: PageNotSupp
     return () => {
       document.body.style.overflow = originalStyle
     }
-  }, [contentHeight, windowHeight])
+  }, [contentHeight])
 
   return (
     <div
