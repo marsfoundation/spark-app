@@ -25,7 +25,7 @@ export interface UseMyPortfolioResults {
 }
 
 export function useMyPortfolio(): UseMyPortfolioResults {
-  const { chainId, pageSupported } = usePageChainId()
+  const { chainId } = usePageChainId()
   const { marketInfo } = useMarketInfo({ chainId })
   const walletInfo = useMarketWalletInfo({ chainId })
   const [compositionWithDeposits, setCompositionWithDeposits] = useState(true)

@@ -67,7 +67,7 @@ export interface UseEasyBorrowResults {
 
 export function useEasyBorrow(): UseEasyBorrowResults {
   const account = useAccount()
-  const { chainId, pageSupported } = usePageChainId()
+  const { chainId } = usePageChainId()
   const guestMode = !account.address
   const openDialog = useOpenDialog()
   const { aaveData } = useAaveDataLayer({ chainId })
