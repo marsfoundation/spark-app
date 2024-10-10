@@ -33,14 +33,10 @@ export function InactiveFarmInfoPanel({
         <h2 className="font-semibold text-2xl md:text-3xl">
           Deposit {assetsGroupToText(assetsGroupType)} <br />
           and earn{' '}
-          {farm.apy?.gt(0) ? (
-            <>
-              <span className="text-[#3F66EF]">{formatPercentage(farm.apy, { minimumFractionDigits: 0 })}</span> in
-              rewards
-            </>
-          ) : (
-            'rewards'
-          )}
+          <span className="text-[#3F66EF]">
+            {farm.apy?.gt(0) ? formatPercentage(farm.apy, { minimumFractionDigits: 0 }) : farm.rewardToken.symbol}
+          </span>{' '}
+          in rewards
         </h2>
         <div className="max-w-[75%] text-basics-dark-grey">
           {farm.apy?.gt(0) && (
@@ -70,7 +66,7 @@ export function InactiveFarmInfoPanel({
               </div>
             </DetailsItem>
           )}
-          {farm.totalRewarded && (
+          {farm.apy?.isZero() && farm.totalRewarded && (
             <DetailsItem title="Total rewarded">
               <div className="font-semibold">
                 {farm.rewardToken.format(farm.totalRewarded, { style: 'compact' })} {farm.rewardToken.symbol}
