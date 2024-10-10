@@ -7,6 +7,18 @@ import { CheckedAddress } from './CheckedAddress'
 import { BaseUnitNumber, NormalizedUnitNumber } from './NumericValues'
 import { TokenSymbol } from './TokenSymbol'
 
+const ZERO_PRICE_FORMAT_PLACEHOLDER = '$ N/A'
+const FALLBACK_FORMAT_PRECISION = 4
+
+export interface TokenConstructorParams {
+  symbol: TokenSymbol
+  name: string
+  decimals: number
+  address: CheckedAddress
+  unitPriceUsd: string
+  isAToken?: boolean
+}
+
 export class Token {
   readonly symbol: TokenSymbol
   readonly name: string
@@ -46,6 +58,10 @@ export class Token {
     value: NormalizedUnitNumber,
     { compact = false, showCents = 'always' }: FormatUSDOptions = {},
   ): string {
+    if (this.unitPriceUsd.isZero()) {
+      return ZERO_PRICE_FORMAT_PLACEHOLDER
+    }
+
     const USDValue = this.toUSD(value)
     if (value.gt(0) && USDValue.lt(0.01)) {
       return '<$0.01'
@@ -73,6 +89,7 @@ export class Token {
     if (style === 'auto') {
       return formatAuto(value, this.unitPriceUsd)
     }
+
     return formatCompact(value)
   }
 
@@ -149,7 +166,7 @@ export const SPK_MOCK_TOKEN = new Token({
 })
 
 function formatAuto(value: NormalizedUnitNumber, unitPriceUsd: NormalizedUnitNumber): string {
-  const precision = findSignificantPrecision(unitPriceUsd)
+  const precision = unitPriceUsd.isZero() ? FALLBACK_FORMAT_PRECISION : findSignificantPrecision(unitPriceUsd)
   const leastSignificantValue = BigNumber(1).shiftedBy(-precision)
   const rounded = BigNumber(value.toFixed(precision))
   if (value.gt(0) && rounded.lt(leastSignificantValue)) {
