@@ -33,3 +33,15 @@ export const TabletWithdraw = getTabletStory(Desktop)
 export const Exit: Story = { args: { isExiting: true } }
 export const ExitMobile = getMobileStory(Exit)
 export const ExitTablet = getTabletStory(Exit)
+
+export const ExitNoApiData: Story = {
+  args: {
+    isExiting: true,
+    reward: {
+      token: tokens.SKY.clone({ unitPriceUsd: NormalizedUnitNumber(0) }),
+      value: NormalizedUnitNumber(500),
+    },
+  },
+}
+export const ExitNoApiDataMobile = getMobileStory(ExitNoApiData)
+export const ExitNoApiDataTablet = getTabletStory(ExitNoApiData)

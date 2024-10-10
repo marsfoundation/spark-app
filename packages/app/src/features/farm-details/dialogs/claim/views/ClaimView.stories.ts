@@ -39,3 +39,16 @@ type Story = StoryObj<typeof ClaimView>
 export const Desktop: Story = {}
 export const Mobile = getMobileStory(Desktop)
 export const Tablet = getTabletStory(Desktop)
+
+export const NoApiData: Story = {
+  args: {
+    txOverview: {
+      reward: {
+        token: tokens.SKY.clone({ unitPriceUsd: NormalizedUnitNumber(0) }),
+        value: NormalizedUnitNumber(500.89),
+      },
+    },
+  },
+}
+export const NoApiDataMobile = getMobileStory(NoApiData)
+export const NoApiDataTablet = getTabletStory(NoApiData)

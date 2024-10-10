@@ -259,3 +259,70 @@ export const WithExitFarmSwitchUnchecked: Story = {
 }
 export const WithExitFarmSwitchUncheckedMobile = getMobileStory(WithExitFarmSwitch)
 export const WithExitFarmSwitchUncheckedTablet = getTabletStory(WithExitFarmSwitch)
+
+export const NoApiData: Story = {
+  args: {
+    farm: {
+      ...farm,
+      apy: undefined,
+      totalRewarded: undefined,
+      depositors: undefined,
+      rewardToken: tokens.SKY.clone({ unitPriceUsd: NormalizedUnitNumber(0) }),
+    },
+  },
+}
+export const NoApiDataMobile = getMobileStory(NoApiData)
+export const NoApiDataTablet = getTabletStory(NoApiData)
+
+export const NoApiDataMaxValue: Story = {
+  args: {
+    farm: {
+      ...farm,
+      apy: undefined,
+      totalRewarded: undefined,
+      depositors: undefined,
+      rewardToken: tokens.SKY.clone({ unitPriceUsd: NormalizedUnitNumber(0) }),
+    },
+    exitFarmSwitchInfo: {
+      showSwitch: true,
+      onSwitch: () => {},
+      checked: false,
+      reward: {
+        token: tokens.SKY.clone({ unitPriceUsd: NormalizedUnitNumber(0) }),
+        value: NormalizedUnitNumber(2311.34),
+      },
+    },
+    txOverview: {
+      status: 'success',
+      stakingToken: tokens.USDS,
+      rewardToken: tokens.SKY.clone({ unitPriceUsd: NormalizedUnitNumber(0) }),
+      isExiting: false,
+      earnedRewards: NormalizedUnitNumber(2311.34),
+      routeToOutcomeToken: [
+        { token: tokens.USDS, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },
+        { token: tokens.USDC, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },
+      ],
+    },
+    assetsFields: {
+      selectedAsset: {
+        token: tokens.USDS,
+        balance: NormalizedUnitNumber(50_000),
+        value: '50000',
+      },
+      maxValue: NormalizedUnitNumber(50_000),
+      maxSelectedFieldName: 'isMaxSelected',
+      changeAsset: () => {},
+    },
+    objectives: [
+      {
+        type: 'unstake',
+        token: tokens.USDS,
+        amount: NormalizedUnitNumber(100),
+        farm: farm.address,
+        exit: false,
+      },
+    ],
+  },
+}
+export const NoApiDataMaxValueMobile = getMobileStory(NoApiDataMaxValue)
+export const NoApiDataMaxValueTablet = getTabletStory(NoApiDataMaxValue)
