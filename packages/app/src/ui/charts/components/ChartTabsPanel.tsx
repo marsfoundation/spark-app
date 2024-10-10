@@ -37,13 +37,8 @@ export interface ChartTab {
   isError: boolean
 }
 
-export function createChartTab<C>({ component, props, id, label }: ChartTabDefinition<C>): ChartTab {
-  return {
-    component,
-    props,
-    id,
-    label,
-  } as unknown as ChartTab
+export function createChartTab<C>(chart: ChartTabDefinition<C>): ChartTab {
+  return chart as unknown as ChartTab
 }
 
 interface ChartTabsPanelProps {
@@ -60,7 +55,7 @@ export function ChartTabsPanel({ tabs, onTimeframeChange, selectedTimeframe, hei
   if (tabs.length === 1) {
     return (
       <Panel.Wrapper className="flex min-h-[380px] w-full flex-1 flex-col justify-between self-stretch px-6 py-6 md:px-[32px]">
-        <div className="flex flex-wrap items-center justify-between gap-2 sm:flex-nowrap">
+        <div className="grid grid-cols-1 grid-rows-2 items-center gap-4 lg:grid-cols-2 lg:grid-rows-1">
           <div className="flex items-center gap-1 font-semibold text-lg md:text-xl">{firstTab.label}</div>
           <TimeframeButtons onTimeframeChange={onTimeframeChange} selectedTimeframe={selectedTimeframe} />
         </div>
@@ -75,7 +70,7 @@ export function ChartTabsPanel({ tabs, onTimeframeChange, selectedTimeframe, hei
   return (
     <Panel.Wrapper className="flex min-h-[380px] w-full flex-1 flex-col justify-between self-stretch px-6 py-6 md:px-[32px]">
       <Tabs defaultValue={firstTab.id} className="flex flex-1 flex-col">
-        <div className="flex flex-wrap items-center justify-between gap-2 sm:flex-nowrap">
+        <div className="flex flex-wrap items-center justify-between gap-2 md:flex-nowrap">
           <TabsList className="justify-start">
             {tabs.map((tab) => (
               <TabsTrigger
@@ -113,17 +108,20 @@ function ChartPanel({ height, component: Chart, isError, isPending, props }: Cha
 
   if (isPending) {
     return (
-      // @note: Delaying spinner to prevent it from flashing on chart load. For most cases loader won't be shown.
-      <DelayedComponent>
-        <Loader2 className="h-8 animate-spin text-basics-grey" data-chromatic="ignore" />
-      </DelayedComponent>
+      <div className="flex items-center justify-center" style={{ height }} ref={ref}>
+        <DelayedComponent>
+          <Loader2 className="h-8 animate-spin text-basics-grey" data-chromatic="ignore" />
+        </DelayedComponent>
+      </div>
     )
   }
 
   if (isError) {
     return (
-      <div className="flex items-center rounded-full bg-basics-grey/60 px-3 py-1 text-basics-dark-grey/80 text-sm">
-        <AlertTriangle className="h-4" /> Failed to load chart data
+      <div className="flex items-center justify-center" style={{ height }} ref={ref}>
+        <div className="flex items-center rounded-full bg-basics-grey/60 px-3 py-1 text-basics-dark-grey/80 text-sm">
+          <AlertTriangle className="h-4" /> Failed to load chart data
+        </div>
       </div>
     )
   }

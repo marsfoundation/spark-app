@@ -131,7 +131,10 @@ export function useFarmDetails(): UseFarmDetailsResult {
     tokensToDeposit,
     hasTokensToDeposit,
     canClaim,
-    isFarmActive: farm.blockchainDetails.staked.gt(0) || farm.blockchainDetails.earned.gt(0),
+    isFarmActive:
+      farm.blockchainDetails.staked.gt(0) ||
+      farm.blockchainDetails.earned.gt(0) ||
+      !!rewardPointsData?.data?.rewardBalance.gt(0),
     showApyChart: farm.blockchainDetails.rewardType !== 'points',
     chartDetails: {
       farmHistory,

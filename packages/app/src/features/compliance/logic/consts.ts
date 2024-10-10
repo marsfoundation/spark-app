@@ -32,6 +32,4 @@ export const blockedCountryCodes = [
   'US', // United States
 ]
 
-export const blockedPagesByCountryCode: Record<string, (keyof typeof paths)[]> = {
-  GB: ['farms', 'farmDetails'],
-}
+export const blockedPagesByCountryCode: Record<string, (keyof typeof paths)[]> = {}

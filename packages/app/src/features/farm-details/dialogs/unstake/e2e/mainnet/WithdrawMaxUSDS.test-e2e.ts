@@ -5,6 +5,7 @@ import { overrideInfoSkyRouteWithHAR } from '@/test/e2e/info-sky'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { Address } from 'viem'
+import { privateKeyToAddress } from 'viem/accounts'
 import { mainnet } from 'viem/chains'
 import { StakeDialogPageObject } from '../../../stake/StakeDialog.PageObject'
 import { UnstakeDialogPageObject } from '../../UnstakeDialog.PageObject'
@@ -157,5 +158,60 @@ test.describe('Withdraw max USDS from SKY farm', () => {
       minBalance: 3_525,
       maxBalance: 3_545,
     })
+  })
+})
+
+test.describe('Withdraw max USDS from CLE farm', () => {
+  const testUserPKey = '0xa9f2d3eda4403df2fe54b97291d65d69824e0e2b3134c33b7145cf9b912966d5'
+  const testUserAddress = privateKeyToAddress('0xa9f2d3eda4403df2fe54b97291d65d69824e0e2b3134c33b7145cf9b912966d5')
+  const harSuffix = testUserAddress.slice(0, 10)
+
+  const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
+  let farmDetailsPage: FarmDetailsPageObject
+  let unstakeDialog: UnstakeDialogPageObject
+
+  test.beforeEach(async ({ page }) => {
+    await setup(page, fork, {
+      initialPage: 'farmDetails',
+      initialPageParams: {
+        chainId: mainnet.id.toString(),
+        address: '0x10ab606B067C9C461d8893c47C7512472E19e2Ce',
+      },
+      account: {
+        type: 'connected-pkey',
+        privateKey: testUserPKey,
+        assetBalances: {
+          ETH: 1,
+          USDS: 10_000,
+        },
+      },
+    })
+    await overrideInfoSkyRouteWithHAR({ page, key: `2-cle-farm-0-balance-${harSuffix}` })
+
+    farmDetailsPage = new FarmDetailsPageObject(page)
+    await farmDetailsPage.clickInfoPanelStakeButtonAction()
+    const stakeDialog = new StakeDialogPageObject(page)
+    await stakeDialog.fillAmountAction(10_000)
+    await stakeDialog.actionsContainer.acceptAllActionsAction(2)
+    await stakeDialog.clickBackToFarmAction()
+    await overrideInfoSkyRouteWithHAR({ page, key: `3-cle-farm-10000-balance-${harSuffix}` })
+
+    await farmDetailsPage.clickInfoPanelUnstakeButtonAction()
+    unstakeDialog = new UnstakeDialogPageObject(page)
+
+    await unstakeDialog.selectAssetAction('USDS')
+    await unstakeDialog.clickMaxAmountAction()
+  })
+
+  test('keeps the exit switch hidden', async () => {
+    await unstakeDialog.actionsContainer.expectEnabledActionAtIndex(0)
+    await unstakeDialog.expectExitFarmSwitchToBeHidden()
+  })
+
+  test('has correct action plan', async () => {
+    await unstakeDialog.actionsContainer.expectEnabledActionAtIndex(0)
+    await unstakeDialog.actionsContainer.expectActions([
+      { type: 'unstake', stakingToken: 'USDS', rewardToken: 'CLE', exit: false },
+    ])
   })
 })
