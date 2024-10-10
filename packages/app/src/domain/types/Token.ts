@@ -7,7 +7,7 @@ import { CheckedAddress } from './CheckedAddress'
 import { BaseUnitNumber, NormalizedUnitNumber } from './NumericValues'
 import { TokenSymbol } from './TokenSymbol'
 
-const ZERO_PRICE_FORMAT_PLACEHOLDER = '-'
+const ZERO_PRICE_FORMAT_PLACEHOLDER = '$ N/A'
 const FALLBACK_FORMAT_PRECISION = 4
 
 export interface TokenConstructorParams {
