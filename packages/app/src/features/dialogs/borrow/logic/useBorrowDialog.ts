@@ -13,6 +13,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import BigNumber from 'bignumber.js'
 import { useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
+import { useChainId } from 'wagmi'
 import { AssetInputSchema, useDebouncedDialogFormValues } from '../../common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '../../common/types'
 import { getBorrowOptions } from './assets'
@@ -37,10 +38,11 @@ export interface UseBorrowDialogResult {
 }
 
 export function useBorrowDialog({ initialToken }: UseBorrowDialogOptions): UseBorrowDialogResult {
-  const { aaveData } = useAaveDataLayer()
-  const { marketInfo } = useMarketInfo()
-  const { marketInfo: marketInfoIn1Epoch } = useMarketInfo({ timeAdvance: EPOCH_LENGTH })
-  const walletInfo = useMarketWalletInfo()
+  const chainId = useChainId()
+  const { aaveData } = useAaveDataLayer({ chainId })
+  const { marketInfo } = useMarketInfo({ chainId })
+  const { marketInfo: marketInfoIn1Epoch } = useMarketInfo({ timeAdvance: EPOCH_LENGTH, chainId })
+  const walletInfo = useMarketWalletInfo({ chainId })
   const nativeAssetInfo = getNativeAssetInfo(marketInfo.chainId)
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')

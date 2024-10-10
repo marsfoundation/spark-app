@@ -18,6 +18,7 @@ import { assert, raise } from '@/utils/assert'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
+import { useChainId } from 'wagmi'
 import { TxOverview, createTxOverview } from './createTxOverview'
 import { useFarmEntryTokens } from './useFarmEntryTokens'
 import { validationIssueToMessage } from './validation'
@@ -40,12 +41,13 @@ export interface UseStakeDialogResult {
 }
 
 export function useStakeDialog({ farm, initialToken }: UseStakeDialogParams): UseStakeDialogResult {
+  const chainId = useChainId()
   const [pageStatus, setPageStatus] = useState<PageState>('form')
-  const { farmsInfo } = useFarmsInfo()
+  const { farmsInfo } = useFarmsInfo({ chainId })
   const { tokensInfo, entryTokens } = useFarmEntryTokens(farm)
   assert(entryTokens[0], 'There should be at least one entry token')
-  const { savingsDaiInfo } = useSavingsDaiInfo()
-  const { savingsUsdsInfo } = useSavingsUsdsInfo()
+  const { savingsDaiInfo } = useSavingsDaiInfo({ chainId })
+  const { savingsUsdsInfo } = useSavingsUsdsInfo({ chainId })
   assert(savingsDaiInfo && savingsUsdsInfo, 'Savings dai and usds info is required for stake dialog')
 
   const form = useForm<AssetInputSchema>({

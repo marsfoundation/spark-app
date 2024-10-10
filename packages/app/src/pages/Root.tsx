@@ -6,8 +6,8 @@ import { Debug } from '@/features/debug'
 import { DialogDispatcherContainer } from '@/features/dialogs/dispatcher/DialogDispatcherContainer'
 import { ErrorBoundary } from '@/features/errors'
 import { ErrorFallback } from '@/features/errors/ErrorFallback'
-import { AppLayout } from '@/ui/layouts/AppLayout'
 import { FallbackLayout } from '@/ui/layouts/FallbackLayout'
+import { AppLayout } from '@/ui/layouts/app-layout/AppLayout'
 
 export function RootRoute() {
   return (

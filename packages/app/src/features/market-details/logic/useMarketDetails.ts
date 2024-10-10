@@ -37,7 +37,7 @@ export function useMarketDetails(): UseMarketDetailsResult {
 
   const { marketInfo } = useMarketInfo({ chainId })
   const { D3MInfo } = useD3MInfo({ chainId })
-  const walletInfo = useMarketWalletInfo()
+  const walletInfo = useMarketWalletInfo({ chainId })
   const { meta: chainMeta } = getChainConfigEntry(chainId)
   const connectedChainId = useChainId()
 

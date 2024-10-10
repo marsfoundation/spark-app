@@ -12,6 +12,7 @@ import {
 } from '@/domain/market-validators/validateSetUserEMode'
 import { Objective } from '@/features/actions/logic/types'
 import { useState } from 'react'
+import { useChainId } from 'wagmi'
 import { PageState, PageStatus } from '../../common/types'
 import { EModeCategory, PositionOverview } from '../types'
 import { createEModeObjectives } from './createEModeObjectives'
@@ -34,8 +35,9 @@ export interface UseEModeDialogResult {
 }
 
 export function useEModeDialog({ userEModeCategoryId }: UseEModeDialogParams): UseEModeDialogResult {
-  const { aaveData } = useAaveDataLayer()
-  const { marketInfo } = useMarketInfo()
+  const chainId = useChainId()
+  const { aaveData } = useAaveDataLayer({ chainId })
+  const { marketInfo } = useMarketInfo({ chainId })
   const nativeAssetInfo = getNativeAssetInfo(marketInfo.chainId)
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')

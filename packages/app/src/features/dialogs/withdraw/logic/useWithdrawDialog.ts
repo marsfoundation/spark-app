@@ -13,6 +13,7 @@ import { InjectedActionsContext, Objective } from '@/features/actions/logic/type
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
+import { useChainId } from 'wagmi'
 import { AssetInputSchema, useDebouncedDialogFormValues } from '../../common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '../../common/types'
 import { getTokenSupply, getWithdrawOptions } from './assets'
@@ -38,10 +39,11 @@ export interface UseWithdrawDialogResult {
 }
 
 export function useWithdrawDialog({ initialToken }: UseWithdrawDialogOptions): UseWithdrawDialogResult {
-  const { aaveData } = useAaveDataLayer()
-  const { marketInfo } = useMarketInfo()
-  const { marketInfo: marketInfoIn1Epoch } = useMarketInfo({ timeAdvance: EPOCH_LENGTH })
-  const walletInfo = useMarketWalletInfo()
+  const chainId = useChainId()
+  const { aaveData } = useAaveDataLayer({ chainId })
+  const { marketInfo } = useMarketInfo({ chainId })
+  const { marketInfo: marketInfoIn1Epoch } = useMarketInfo({ timeAdvance: EPOCH_LENGTH, chainId })
+  const walletInfo = useMarketWalletInfo({ chainId })
   const nativeAssetInfo = getNativeAssetInfo(marketInfo.chainId)
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')

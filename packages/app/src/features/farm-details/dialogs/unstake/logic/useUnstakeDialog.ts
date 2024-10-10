@@ -14,6 +14,7 @@ import { useTimestamp } from '@/utils/useTimestamp'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
+import { useChainId } from 'wagmi'
 import { TxOverview, createTxOverview } from './createTxOverview'
 import { getFormFieldsForUnstakeDialog } from './getFormFieldsForUnstakeDialog'
 import { useFarmExitTokens } from './useFarmExitTokens'
@@ -44,12 +45,13 @@ export interface ExitFarmSwitchInfo {
 }
 
 export function useUnstakeDialog({ farm, initialToken }: UseStakeDialogParams): UseUnstakeDialogResult {
+  const chainId = useChainId()
   const { timestamp, updateTimestamp } = useTimestamp()
   useEffect(() => {
     updateTimestamp()
   }, [updateTimestamp])
   const [pageStatus, setPageStatus] = useState<PageState>('form')
-  const { farmsInfo } = useFarmsInfo()
+  const { farmsInfo } = useFarmsInfo({ chainId })
   const { tokensInfo, exitTokens } = useFarmExitTokens(farm)
   const [exitFarmSwitchChecked, setExitFarmSwitchChecked] = useState(false)
 

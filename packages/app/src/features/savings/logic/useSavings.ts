@@ -1,8 +1,9 @@
+import { getChainConfigEntry } from '@/config/chain'
 import { SupportedChainId } from '@/config/chain/types'
 import { sortByUsdValueWithUsdsPriority } from '@/domain/common/sorters'
 import { TokenWithBalance } from '@/domain/common/types'
-import { useChainConfigEntry } from '@/domain/hooks/useChainConfigEntry'
 import { useGetBlockExplorerAddressLink } from '@/domain/hooks/useGetBlockExplorerAddressLink'
+import { usePageChainId } from '@/domain/hooks/usePageChainId'
 import {
   UseSavingsChartsInfoQueryResult,
   useSavingsChartsInfoQuery,
@@ -18,7 +19,6 @@ import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { raise } from '@/utils/assert'
 import { useTimestamp } from '@/utils/useTimestamp'
 import { useMemo } from 'react'
-import { useChainId } from 'wagmi'
 import { Projections } from '../types'
 import { MigrationInfo, makeMigrationInfo } from './makeMigrationInfo'
 import { SavingsMeta, makeSavingsMeta } from './makeSavingsMeta'
@@ -62,17 +62,19 @@ export interface UseSavingsResults {
     | { state: 'unsupported' }
 }
 export function useSavings(): UseSavingsResults {
-  const chainId = useChainId()
-  const { savingsDaiInfo } = useSavingsDaiInfo()
-  const { savingsUsdsInfo } = useSavingsUsdsInfo()
-  const { inputTokens, sDaiWithBalance, sUSDSWithBalance } = useSavingsTokens()
-  const { id: originChainId, extraTokens } = useChainConfigEntry()
-  const { tokensInfo } = useTokensInfo({ tokens: extraTokens })
+  const { chainId } = usePageChainId()
+  const { savingsDaiInfo } = useSavingsDaiInfo({ chainId })
+  const { savingsUsdsInfo } = useSavingsUsdsInfo({ chainId })
+  const { inputTokens, sDaiWithBalance, sUSDSWithBalance } = useSavingsTokens({ chainId })
+  const { id: originChainId, extraTokens } = getChainConfigEntry(chainId)
+  const { tokensInfo } = useTokensInfo({ tokens: extraTokens, chainId })
   const { timestamp, timestampInMs } = useTimestamp({
     refreshIntervalInMs: savingsDaiInfo?.supportsRealTimeInterestAccrual ? stepInMs : undefined,
   })
   const openDialog = useOpenDialog()
-  const { showWelcomeDialog, saveConfirmedWelcomeDialog } = useWelcomeDialog()
+  const { showWelcomeDialog, saveConfirmedWelcomeDialog } = useWelcomeDialog({
+    chainId,
+  })
   const getBlockExplorerLink = useGetBlockExplorerAddressLink()
 
   const { totalUSD: totalEligibleCashUSD, maxBalanceToken } = calculateMaxBalanceTokenAndTotal({

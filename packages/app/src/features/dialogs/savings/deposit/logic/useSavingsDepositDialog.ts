@@ -17,6 +17,7 @@ import { assert, raise } from '@/utils/assert'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
+import { useChainId } from 'wagmi'
 import { SavingsDialogTxOverview } from '../../common/types'
 import { createTxOverview } from './createTxOverview'
 import { createObjectives } from './objectives'
@@ -48,11 +49,12 @@ export interface SavingsUsdsSwitchInfo {
 export function useSavingsDepositDialog({
   initialToken,
 }: UseSavingsDepositDialogParams): UseSavingsDepositDialogResults {
-  const { savingsDaiInfo } = useSavingsDaiInfo()
-  const { savingsUsdsInfo } = useSavingsUsdsInfo()
+  const chainId = useChainId()
+  const { savingsDaiInfo } = useSavingsDaiInfo({ chainId })
+  const { savingsUsdsInfo } = useSavingsUsdsInfo({ chainId })
   assert(savingsDaiInfo || savingsUsdsInfo, 'Neither sDai nor sUSDS is supported')
 
-  const { tokensInfo, inputTokens } = useSavingsTokens()
+  const { tokensInfo, inputTokens } = useSavingsTokens({ chainId })
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')
   const [upgradeSwitchChecked, setUpgradeSwitchChecked] = useState(true)

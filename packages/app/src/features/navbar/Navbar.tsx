@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom'
 
 import { assets } from '@/ui/assets'
 import { cn } from '@/ui/utils/style'
-
 import { useBlockedPages } from '../compliance/logic/useBlockedPages'
 import { MobileMenuButton } from './components/MobileMenuButton'
 import { NavbarActions } from './components/NavbarActions'
