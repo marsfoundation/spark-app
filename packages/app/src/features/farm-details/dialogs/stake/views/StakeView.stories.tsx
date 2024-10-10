@@ -208,7 +208,7 @@ export const DesktopZeroApy: Story = {
       showEstimatedRewards: true,
       stakingToken: tokens.USDS,
       rewardToken: tokens.SKY,
-      rewardTokenPrice: tokens.SKY.unitPriceUsd,
+      rewardTokenPrice: undefined,
       rewardsPerYear: NormalizedUnitNumber(542),
       routeToStakingToken: [
         { token: tokens.USDC, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },

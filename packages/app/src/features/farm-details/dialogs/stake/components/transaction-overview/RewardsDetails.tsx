@@ -14,13 +14,13 @@ export interface RewardsDetailsProps {
 export function RewardsDetails({ apy, rewardToken, rewardsPerYear, rewardTokenPrice }: RewardsDetailsProps) {
   return (
     <div className="flex flex-col items-end gap-0.5">
-      {apy && (
+      {apy?.gt(0) && (
         <div data-testid={testIds.farmDetails.stakeDialog.transactionOverview.estimatedRewards.apy}>
           {formatPercentage(apy)}
         </div>
       )}
       <div
-        className={cn(apy && 'text-basics-dark-grey text-sm')}
+        className={cn(apy?.gt(0) && 'text-basics-dark-grey text-sm')}
         data-testid={testIds.farmDetails.stakeDialog.transactionOverview.estimatedRewards.description}
       >
         <span className="hidden sm:inline">Earn </span>~
