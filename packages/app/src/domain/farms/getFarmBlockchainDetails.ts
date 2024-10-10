@@ -6,6 +6,7 @@ import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { Address } from 'viem'
 import { Config } from 'wagmi'
 import { readContract } from 'wagmi/actions'
+import { TokenWithoutPrice } from '../types/Token'
 
 export interface GetFarmBlockchainDetailsParams {
   farmConfig: FarmConfig
@@ -26,7 +27,7 @@ export async function getFarmBlockchainDetails({
 
   const rewardToken =
     farmConfig.rewardType === 'token'
-      ? tokensInfo.findOneTokenByAddress(CheckedAddress(contractData.rewardTokenAddress))
+      ? TokenWithoutPrice.from(tokensInfo.findOneTokenByAddress(CheckedAddress(contractData.rewardTokenAddress)))
       : farmConfig.rewardPoints
   const stakingToken = tokensInfo.findOneTokenByAddress(CheckedAddress(contractData.stakingTokenAddress))
 

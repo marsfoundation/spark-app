@@ -21,11 +21,12 @@ export function TransactionOutcome({
   const outcomeToken = outcomeTokenRouteItem.token
   const outcomeTokenAmount = outcomeToken.format(outcomeTokenRouteItem.value, { style: 'auto' })
   const outcomeTokenUsdValue = outcomeToken.formatUSD(outcomeTokenRouteItem.usdValue)
-  const earnedRewardsAmount = rewardToken
-    .clone({ unitPriceUsd: rewardTokenPrice ?? NormalizedUnitNumber(1) })
-    .format(earnedRewards, { style: 'auto' })
+  const earnedRewardsAmount = rewardToken.format(earnedRewards, {
+    style: 'auto',
+    tokenUnitPriceOverride: rewardTokenPrice,
+  })
   const earnedRewardsUsdValueText = rewardTokenPrice
-    ? ` (~${rewardToken.clone({ unitPriceUsd: rewardTokenPrice }).formatUSD(earnedRewards)})`
+    ? ` (~${rewardToken.formatUSD(earnedRewards, { tokenUnitPriceOverride: rewardTokenPrice })})`
     : ''
 
   const [textContent, mobileTextContent] = (() => {

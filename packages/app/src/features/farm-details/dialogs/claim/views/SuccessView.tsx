@@ -1,5 +1,4 @@
 import { TokenWithAmountAndOptionalPrice } from '@/domain/common/types'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { SuccessViewCheckmark } from '@/features/dialogs/common/components/success-view/SuccessViewCheckmark'
 import { SuccessViewContent } from '@/features/dialogs/common/components/success-view/SuccessViewContent'
 import { SuccessViewProceedButton } from '@/features/dialogs/common/components/success-view/SuccessViewProceedButton'
@@ -25,11 +24,11 @@ export function SuccessView({ reward, closeDialog }: SuccessViewProps) {
         </div>
         <div className="flex grow flex-col">
           <Typography className="text-right font-primary">
-            {token.clone({ unitPriceUsd: tokenPrice ?? NormalizedUnitNumber(1) }).format(amount, { style: 'auto' })}
+            {token.format(amount, { style: 'auto', tokenUnitPriceOverride: tokenPrice })}
           </Typography>
           {tokenPrice && (
             <Typography variant="prompt" className="text-right">
-              {token.clone({ unitPriceUsd: tokenPrice }).formatUSD(amount)}
+              {token.formatUSD(amount, { tokenUnitPriceOverride: tokenPrice })}
             </Typography>
           )}
         </div>

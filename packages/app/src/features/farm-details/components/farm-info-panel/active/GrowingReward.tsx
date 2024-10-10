@@ -44,7 +44,7 @@ export function GrowingReward({
         <div className="font-semibold text-basics-dark-grey text-xs tracking-wide">
           &#8776;
           <span data-testid={testIds.farmDetails.activeFarmInfoPanel.rewardsUsd}>
-            {rewardToken.clone({ unitPriceUsd: rewardTokenPrice }).formatUSD(currentReward)}
+            {rewardToken.formatUSD(currentReward, { tokenUnitPriceOverride: rewardTokenPrice })}
           </span>
         </div>
       )}

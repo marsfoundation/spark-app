@@ -20,7 +20,7 @@ export type FarmConfig = {
     }
   | {
       rewardType: 'points'
-      rewardPoints: Token
+      rewardPoints: TokenWithoutPrice
     }
 )
 

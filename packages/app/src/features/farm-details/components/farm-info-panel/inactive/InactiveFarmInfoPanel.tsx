@@ -79,9 +79,10 @@ export function InactiveFarmInfoPanel({
             ) : (
               <DetailsItem title="Total rewarded">
                 <div className="font-semibold">
-                  {farm.blockchainDetails.rewardToken
-                    .clone({ unitPriceUsd: farm.apiDetails.data.rewardTokenPriceUsd })
-                    .format(farm.apiDetails.data.totalRewarded, { style: 'compact' })}{' '}
+                  {farm.blockchainDetails.rewardToken.format(farm.apiDetails.data.totalRewarded, {
+                    style: 'compact',
+                    tokenUnitPriceOverride: farm.apiDetails.data.rewardTokenPriceUsd,
+                  })}{' '}
                   {farm.blockchainDetails.rewardToken.symbol}
                 </div>
               </DetailsItem>

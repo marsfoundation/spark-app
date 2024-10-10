@@ -1,5 +1,4 @@
 import { TokenWithAmountAndOptionalPrice } from '@/domain/common/types'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { getTokenImage } from '@/ui/assets'
 import { Switch } from '@/ui/atoms/switch/Switch'
 import { testIds } from '@/ui/utils/testIds'
@@ -13,11 +12,9 @@ export interface UpgradeToSusdsSwitchProps {
 
 export function ExitFarmSwitch({ checked, onSwitch, reward }: UpgradeToSusdsSwitchProps) {
   const rewardIcon = getTokenImage(reward.token.symbol)
-  const rewardAmount = reward.token
-    .clone({ unitPriceUsd: reward.tokenPrice ?? NormalizedUnitNumber(1) })
-    .format(reward.amount, { style: 'auto' })
+  const rewardAmount = reward.token.format(reward.amount, { style: 'auto', tokenUnitPriceOverride: reward.tokenPrice })
   const rewardUsdValueText = reward.tokenPrice
-    ? ` (~${reward.token.clone({ unitPriceUsd: reward.tokenPrice }).formatUSD(reward.amount)})`
+    ? ` (~${reward.token.formatUSD(reward.amount, { tokenUnitPriceOverride: reward.tokenPrice })})`
     : ''
 
   return (

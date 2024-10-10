@@ -24,9 +24,7 @@ export function RewardsDetails({ apy, rewardToken, rewardsPerYear, rewardTokenPr
         data-testid={testIds.farmDetails.stakeDialog.transactionOverview.estimatedRewards.description}
       >
         <span className="hidden sm:inline">Earn </span>~
-        {rewardToken
-          .clone({ unitPriceUsd: rewardTokenPrice ?? NormalizedUnitNumber(1) })
-          .format(rewardsPerYear, { style: 'auto' })}{' '}
+        {rewardToken.format(rewardsPerYear, { style: 'auto', tokenUnitPriceOverride: rewardTokenPrice })}{' '}
         {rewardToken.symbol}/year
       </div>
     </div>

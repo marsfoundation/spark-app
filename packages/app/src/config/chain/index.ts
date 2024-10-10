@@ -12,7 +12,7 @@ import { mainnetSavingsDaiInfoQuery, mainnetSavingsUsdsInfoQuery } from '@/domai
 import { useStore } from '@/domain/state'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { Token } from '@/domain/types/Token'
+import { TokenWithoutPrice } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { assets } from '@/ui/assets'
 import { zeroAddress } from 'viem'
@@ -140,12 +140,11 @@ const chainConfig: ChainConfig = {
         address: CheckedAddress('0x10ab606B067C9C461d8893c47C7512472E19e2Ce'),
         entryAssetsGroup: stablecoinsGroup,
         historyCutoff: new Date('2024-09-17T00:00:00.000Z'),
-        rewardPoints: new Token({
+        rewardPoints: new TokenWithoutPrice({
           address: CheckedAddress(zeroAddress),
           decimals: 18,
           name: 'CLE points',
           symbol: TokenSymbol('CLE'),
-          unitPriceUsd: '0',
         }),
       },
     ],

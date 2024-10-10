@@ -7,7 +7,18 @@ import { CheckedAddress } from './CheckedAddress'
 import { BaseUnitNumber, NormalizedUnitNumber } from './NumericValues'
 import { TokenSymbol } from './TokenSymbol'
 
-export type TokenWithoutPrice = Omit<Token, 'unitPriceUsd' | 'toUSD' | 'format' | 'formatUSD'>
+export interface TokenConstructorParams {
+  symbol: TokenSymbol
+  name: string
+  decimals: number
+  address: CheckedAddress
+  unitPriceUsd: string
+  isAToken?: boolean
+}
+
+export type TokenCloneParams = Partial<Omit<TokenConstructorParams, 'unitPriceUsd'>> & {
+  unitPriceUsd?: NormalizedUnitNumber
+}
 
 export class Token {
   readonly symbol: TokenSymbol
@@ -17,21 +28,7 @@ export class Token {
   readonly unitPriceUsd: NormalizedUnitNumber
   readonly isAToken: boolean
 
-  constructor({
-    symbol,
-    name,
-    decimals,
-    address,
-    unitPriceUsd,
-    isAToken = false,
-  }: {
-    symbol: TokenSymbol
-    name: string
-    decimals: number
-    address: CheckedAddress
-    unitPriceUsd: string
-    isAToken?: boolean
-  }) {
+  constructor({ symbol, name, decimals, address, unitPriceUsd, isAToken = false }: TokenConstructorParams) {
     // sanity checks
     assert(decimals >= 2, 'decimals value should be greater than 2')
     assert(decimals <= 30, 'decimals value should be less than 30')
@@ -46,9 +43,9 @@ export class Token {
 
   public formatUSD(
     value: NormalizedUnitNumber,
-    { compact = false, showCents = 'always' }: FormatUSDOptions = {},
+    { compact = false, showCents = 'always', tokenUnitPriceOverride }: FormatUSDOptions = {},
   ): string {
-    const USDValue = this.toUSD(value)
+    const USDValue = this.toUSD(value, tokenUnitPriceOverride)
     if (value.gt(0) && USDValue.lt(0.01)) {
       return '<$0.01'
     }
@@ -71,9 +68,9 @@ export class Token {
     return usdFormatter.format(USDValue.toNumber())
   }
 
-  public format(value: NormalizedUnitNumber, { style }: FormatOptions): string {
-    if (style === 'auto') {
-      return formatAuto(value, this.unitPriceUsd)
+  public format(value: NormalizedUnitNumber, options: FormatOptions): string {
+    if (options.style === 'auto') {
+      return formatAuto({ value, unitPriceUsd: this.unitPriceUsd, options })
     }
     return formatCompact(value)
   }
@@ -87,25 +84,11 @@ export class Token {
     return NormalizedUnitNumber(value.shiftedBy(-this.decimals))
   }
 
-  public toUSD(value: NormalizedUnitNumber): NormalizedUnitNumber {
-    return NormalizedUnitNumber(value.multipliedBy(this.unitPriceUsd))
+  public toUSD(value: NormalizedUnitNumber, tokenUnitPriceOverride?: NormalizedUnitNumber): NormalizedUnitNumber {
+    return NormalizedUnitNumber(value.multipliedBy(tokenUnitPriceOverride ?? this.unitPriceUsd))
   }
 
-  public clone({
-    address,
-    symbol,
-    name,
-    isAToken,
-    decimals,
-    unitPriceUsd,
-  }: {
-    address?: CheckedAddress
-    symbol?: TokenSymbol
-    name?: string
-    isAToken?: boolean
-    decimals?: number
-    unitPriceUsd?: NormalizedUnitNumber
-  }): Token {
+  public clone({ address, symbol, name, isAToken, decimals, unitPriceUsd }: TokenCloneParams): Token {
     return new Token({
       address: address ?? this.address,
       symbol: symbol ?? this.symbol,
@@ -128,10 +111,12 @@ export class Token {
 export interface FormatUSDOptions {
   compact?: boolean
   showCents?: 'always' | 'when-not-round' | 'never'
+  tokenUnitPriceOverride?: NormalizedUnitNumber
 }
 
 export interface FormatOptions {
   style?: 'auto' | 'compact'
+  tokenUnitPriceOverride?: NormalizedUnitNumber
 }
 
 export const USD_MOCK_TOKEN = new Token({
@@ -150,8 +135,25 @@ export const SPK_MOCK_TOKEN = new Token({
   unitPriceUsd: '10',
 })
 
-function formatAuto(value: NormalizedUnitNumber, unitPriceUsd: NormalizedUnitNumber): string {
-  const precision = findSignificantPrecision(unitPriceUsd)
+interface FormatAutoParams {
+  value: NormalizedUnitNumber
+  unitPriceUsd?: NormalizedUnitNumber
+  options?: Omit<FormatOptions, 'style'>
+}
+
+const FALLBACK_PRECISION = 4
+
+function formatAuto({ value, unitPriceUsd, options }: FormatAutoParams): string {
+  let precision: number
+
+  if (!unitPriceUsd) {
+    precision = options?.tokenUnitPriceOverride
+      ? findSignificantPrecision(options.tokenUnitPriceOverride)
+      : FALLBACK_PRECISION
+  } else {
+    precision = findSignificantPrecision(unitPriceUsd)
+  }
+
   const leastSignificantValue = BigNumber(1).shiftedBy(-precision)
   const rounded = BigNumber(value.toFixed(precision))
   if (value.gt(0) && rounded.lt(leastSignificantValue)) {
@@ -197,5 +199,53 @@ function getFormatterOptions(n: number): Intl.NumberFormatOptions {
   return {
     notation: 'compact',
     maximumFractionDigits: Math.max(0, 4 - countSignificantDigits(n)),
+  }
+}
+
+type TokenWithoutPriceParams = Omit<TokenConstructorParams, 'unitPriceUsd'>
+
+export class TokenWithoutPrice extends Token {
+  constructor(params: TokenWithoutPriceParams) {
+    super({ ...params, unitPriceUsd: '0' })
+  }
+
+  public toUSD(value: NormalizedUnitNumber, tokenUnitPriceOverride: NormalizedUnitNumber): NormalizedUnitNumber {
+    return super.toUSD(value, tokenUnitPriceOverride)
+  }
+
+  public formatUSD(
+    value: NormalizedUnitNumber,
+    options: Omit<FormatUSDOptions, 'tokenUnitPriceOverride'> & {
+      tokenUnitPriceOverride: NormalizedUnitNumber | undefined
+    },
+  ): string {
+    return super.formatUSD(value, options)
+  }
+
+  public format(
+    value: NormalizedUnitNumber,
+    options: Omit<FormatOptions, 'tokenUnitPriceOverride'> & {
+      tokenUnitPriceOverride: NormalizedUnitNumber | undefined
+    },
+  ): string {
+    return super.format(value, options)
+  }
+
+  public clone(_: TokenCloneParams): Token {
+    throw new Error(`clone method is not allowed for ${this.name}`)
+  }
+
+  public createAToken(_: CheckedAddress): Token {
+    throw new Error(`createAToken method is not allowed for ${this.name}`)
+  }
+
+  public static from(token: Token): TokenWithoutPrice {
+    return new TokenWithoutPrice({
+      symbol: token.symbol,
+      name: token.name,
+      decimals: token.decimals,
+      address: token.address,
+      isAToken: token.isAToken,
+    })
   }
 }

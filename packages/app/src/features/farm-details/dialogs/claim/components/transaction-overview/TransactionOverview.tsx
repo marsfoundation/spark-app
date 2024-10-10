@@ -1,4 +1,3 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { DialogPanel } from '@/features/dialogs/common/components/DialogPanel'
 import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPanelTitle'
 import { getTokenImage } from '@/ui/assets'
@@ -41,15 +40,14 @@ export function TransactionOverview({ txOverview }: TransactionOverviewProps) {
               className="text-primary"
               data-testid={testIds.farmDetails.claimDialog.transactionOverview.rewardAmount}
             >
-              {token.clone({ unitPriceUsd: tokenPrice ?? NormalizedUnitNumber(1) }).format(amount, { style: 'auto' })}{' '}
-              {token.symbol}
+              {token.format(amount, { style: 'auto', tokenUnitPriceOverride: tokenPrice })} {token.symbol}
             </div>
             {tokenPrice && (
               <div
                 className="text-prompt-foreground text-sm"
                 data-testid={testIds.farmDetails.claimDialog.transactionOverview.rewardAmountUSD}
               >
-                ~{token.clone({ unitPriceUsd: tokenPrice }).formatUSD(amount)}
+                ~{token.formatUSD(amount, { tokenUnitPriceOverride: tokenPrice })}
               </div>
             )}
           </div>

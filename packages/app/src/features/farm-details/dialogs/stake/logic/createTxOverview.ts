@@ -44,9 +44,7 @@ export function createTxOverview({ formValues, farm }: CreateTxOverviewParams): 
       .multipliedBy(SECONDS_PER_YEAR),
   )
   const rewardsPerYearUsd = farm.apiDetails.data?.rewardTokenPriceUsd
-    ? farm.blockchainDetails.rewardToken
-        .clone({ unitPriceUsd: farm.apiDetails.data.rewardTokenPriceUsd })
-        .toUSD(rewardsPerYear)
+    ? farm.blockchainDetails.rewardToken.toUSD(rewardsPerYear, farm.apiDetails.data.rewardTokenPriceUsd)
     : undefined
   const apy =
     stakedAmountUsd.gt(0) && rewardsPerYearUsd
