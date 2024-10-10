@@ -33,13 +33,17 @@ export function InactiveFarmInfoPanel({
         <h2 className="font-semibold text-2xl md:text-3xl">
           Deposit {assetsGroupToText(assetsGroupType)} <br />
           and earn{' '}
-          <span className="text-[#3F66EF]">
-            {farm.apy.gt(0) ? formatPercentage(farm.apy, { minimumFractionDigits: 0 }) : farm.rewardToken.symbol}
-          </span>{' '}
-          in rewards
+          {farm.apy?.gt(0) ? (
+            <>
+              <span className="text-[#3F66EF]">{formatPercentage(farm.apy, { minimumFractionDigits: 0 })}</span> in
+              rewards
+            </>
+          ) : (
+            'rewards'
+          )}
         </h2>
         <div className="max-w-[75%] text-basics-dark-grey">
-          {farm.apy.gt(0) && (
+          {farm.apy?.gt(0) && (
             <>Deposit any of the tokens listed below and start farming {farm.rewardToken.symbol} tokens.</>
           )}{' '}
           Learn more about farming{' '}
@@ -51,19 +55,22 @@ export function InactiveFarmInfoPanel({
       </div>
       <div className="flex flex-col gap-4">
         <div className="flex flex-col items-start gap-2 md:flex-row md:items-center md:gap-12">
-          <DetailsItem title="Participants">
-            <div className="font-semibold">{farm.depositors}</div>
-          </DetailsItem>
+          {farm.depositors && (
+            <DetailsItem title="Participants">
+              <div className="font-semibold">{farm.depositors}</div>
+            </DetailsItem>
+          )}
           <DetailsItem title="TVL">
             <div className="font-semibold">{USD_MOCK_TOKEN.formatUSD(farm.totalSupply, { compact: true })}</div>
           </DetailsItem>
-          {farm.apy.gt(0) ? (
+          {farm.apy?.gt(0) && (
             <DetailsItem title="APY" explainer={<ApyTooltip farmAddress={farm.address} />}>
               <div className="font-semibold text-[#3F66EF]">
                 {formatPercentage(farm.apy, { minimumFractionDigits: 0 })}
               </div>
             </DetailsItem>
-          ) : (
+          )}
+          {farm.totalRewarded && (
             <DetailsItem title="Total rewarded">
               <div className="font-semibold">
                 {farm.rewardToken.format(farm.totalRewarded, { style: 'compact' })} {farm.rewardToken.symbol}

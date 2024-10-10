@@ -1,5 +1,6 @@
 import { stakingRewardsAbi } from '@/config/abis/stakingRewardsAbi'
-import { getFarmsInfoQueryKey } from '@/domain/farms/query'
+import { getFarmsApiDetailsQueryKey } from '@/domain/farms/farmApiDetailsQuery'
+import { getFarmsBlockchainDetailsQueryKey } from '@/domain/farms/farmBlockchainDetailsQuery'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { ActionConfig, ActionContext } from '@/features/actions/logic/types'
@@ -27,7 +28,8 @@ export function createStakeActionConfig(action: StakeAction, context: ActionCont
       return [
         allowanceQueryKey({ token: action.stakingToken.address, spender: action.farm, account, chainId }),
         getBalancesQueryKeyPrefix({ account, chainId }),
-        getFarmsInfoQueryKey({ account, chainId }),
+        getFarmsBlockchainDetailsQueryKey({ account, chainId }),
+        getFarmsApiDetailsQueryKey(),
       ]
     },
   }

@@ -36,7 +36,6 @@ export function ActiveFarmInfoPanel({
   if (farm.rewardType === 'points') {
     assert(pointsSyncStatus, 'pointsSyncStatus should be defined')
   }
-  const { rewardToken, staked } = farm
 
   return (
     <Panel.Wrapper className="flex min-h-[380px] w-full flex-1 flex-col self-stretch px-6 py-6 md:px-[32px]">
@@ -51,10 +50,10 @@ export function ActiveFarmInfoPanel({
               onClick={openClaimDialog}
               data-testid={testIds.farmDetails.activeFarmInfoPanel.claimButton}
             >
-              Claim {rewardToken.symbol}
+              Claim {farm.rewardToken.symbol}
             </Button>
           )}
-          {staked.gt(0) && (
+          {farm.staked.gt(0) && (
             <Button
               size="sm"
               variant="secondary"
@@ -68,7 +67,7 @@ export function ActiveFarmInfoPanel({
       </div>
       <div className="flex flex-grow flex-col items-center justify-center gap-2">
         <GrowingReward
-          rewardToken={rewardToken}
+          rewardToken={farm.rewardToken}
           calculateReward={calculateReward}
           refreshIntervalInMs={refreshGrowingRewardIntervalInMs}
         />
@@ -86,16 +85,19 @@ export function ActiveFarmInfoPanel({
         <div
           className={cn(
             'flex flex-col items-start gap-2 md:flex-row md:items-center',
-            farm.apy.gt(0) ? 'w-full text-sm md:justify-between' : 'md:gap-12',
+            farm.apy?.gt(0) ? 'w-full text-sm md:justify-between' : 'md:gap-12',
           )}
         >
-          <DetailsItem title="Participants">
-            <div className="font-semibold">{farm.depositors}</div>
-          </DetailsItem>
+          {farm.depositors && (
+            <DetailsItem title="Participants">
+              <div className="font-semibold">{farm.depositors}</div>
+            </DetailsItem>
+          )}
+
           <DetailsItem title="TVL">
             <div className="font-semibold">{USD_MOCK_TOKEN.formatUSD(farm.totalSupply, { compact: true })}</div>
           </DetailsItem>
-          {farm.apy.gt(0) && (
+          {farm.apy?.gt(0) && (
             <DetailsItem title="APY" explainer={<ApyTooltip farmAddress={farm.address} />}>
               <div className="font-semibold text-[#3F66EF]">
                 {formatPercentage(farm.apy, { minimumFractionDigits: 0 })}
