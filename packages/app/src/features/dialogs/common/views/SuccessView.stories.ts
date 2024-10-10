@@ -55,3 +55,17 @@ export const DesktopWithdraw: Story = {
 }
 export const MobileWithdraw = getMobileStory(DesktopWithdraw)
 export const TabletWithdraw = getTabletStory(DesktopWithdraw)
+
+export const ZeroPriceToken = getMobileStory({
+  args: {
+    objectiveType: 'claimFarmRewards',
+    tokenWithValue: {
+      token: tokens.SKY.clone({ unitPriceUsd: NormalizedUnitNumber(0) }),
+      value: NormalizedUnitNumber(2000),
+    },
+    onProceed: () => {},
+    proceedText: 'View in portfolio',
+  },
+})
+export const ZeroPriceTokenMobile = getMobileStory(ZeroPriceToken)
+export const ZeroPriceTokenTablet = getTabletStory(ZeroPriceToken)
