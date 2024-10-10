@@ -216,7 +216,7 @@ export class TokenWithoutPrice extends Token {
   public formatUSD(
     value: NormalizedUnitNumber,
     options: Omit<FormatUSDOptions, 'tokenUnitPriceOverride'> & {
-      tokenUnitPriceOverride: NormalizedUnitNumber | undefined
+      tokenUnitPriceOverride: NormalizedUnitNumber
     },
   ): string {
     return super.formatUSD(value, options)
