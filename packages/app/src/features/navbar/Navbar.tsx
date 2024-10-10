@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { assets } from '@/ui/assets'
 import { cn } from '@/ui/utils/style'
 
+import { RefObject } from 'react'
 import { useBlockedPages } from '../compliance/logic/useBlockedPages'
 import { MobileMenuButton } from './components/MobileMenuButton'
 import { NavbarActions } from './components/NavbarActions'
@@ -12,9 +13,10 @@ import { useNavbar } from './logic/useNavbar'
 export interface NavbarProps {
   mobileMenuCollapsed: boolean
   setMobileMenuCollapsed: (collapsed: boolean) => void
+  navRef?: RefObject<HTMLDivElement>
 }
 
-export function Navbar({ mobileMenuCollapsed, setMobileMenuCollapsed }: NavbarProps) {
+export function Navbar({ mobileMenuCollapsed, setMobileMenuCollapsed, navRef }: NavbarProps) {
   const {
     currentChain,
     supportedChains,
@@ -44,6 +46,7 @@ export function Navbar({ mobileMenuCollapsed, setMobileMenuCollapsed }: NavbarPr
         'lg:grid lg:grid-cols-[auto_1fr_auto]',
         !mobileMenuCollapsed && 'h-screen lg:h-auto',
       )}
+      ref={navRef}
     >
       <div className="-mr-4 flex h-20 shrink-0 flex-row items-center justify-between">
         <Link to="/">
