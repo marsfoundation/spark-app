@@ -17,6 +17,8 @@ describe(Token.name, () => {
     address: CheckedAddress(testAddresses.token),
   })
 
+  const zeroPriceToken = token.clone({ unitPriceUsd: NormalizedUnitNumber(0) })
+
   describe(Token.prototype.formatUSD.name, () => {
     const tokenB = new Token({
       symbol: TokenSymbol('TEST'),
@@ -100,6 +102,10 @@ describe(Token.name, () => {
     test('formats with thousand places separator', () => {
       expect(token.formatUSD(NormalizedUnitNumber(123456789.12))).toEqual('$123,456,789.12')
     })
+
+    test('returns placeholer for zero price', () => {
+      expect(zeroPriceToken.formatUSD(NormalizedUnitNumber(0))).toEqual('$ N/A')
+    })
   })
 
   describe(Token.prototype.format.name, () => {
@@ -158,6 +164,10 @@ describe(Token.name, () => {
         expect(token.format(NormalizedUnitNumber(0.001), { style: 'compact' })).toEqual('0.001')
         expect(token.format(NormalizedUnitNumber(0.12345), { style: 'compact' })).toEqual('0.123')
       })
+
+      test('formats correctly for token zero price', () => {
+        expect(zeroPriceToken.format(NormalizedUnitNumber(12340000), { style: 'compact' })).toEqual('12.34M')
+      })
     })
 
     describe('auto style', () => {
@@ -182,6 +192,10 @@ describe(Token.name, () => {
 
         test('formats numbers with thousands separators', () => {
           expect(token.format(NormalizedUnitNumber(123456789), { style: 'auto' })).toEqual('123,456,789.00')
+        })
+
+        test('formats with default precision for zero price token', () => {
+          expect(zeroPriceToken.format(NormalizedUnitNumber(1234.12345678), { style: 'auto' })).toEqual('1,234.1235')
         })
       })
 
