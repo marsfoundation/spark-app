@@ -1,5 +1,6 @@
 import { stakingRewardsAbi } from '@/config/abis/stakingRewardsAbi'
-import { getFarmsInfoQueryKey } from '@/domain/farms/query'
+import { getFarmsApiDetailsQueryKey } from '@/domain/farms/farmApiDetailsQuery'
+import { getFarmsBlockchainDetailsQueryKey } from '@/domain/farms/farmBlockchainDetailsQuery'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { ActionConfig, ActionContext } from '@/features/actions/logic/types'
@@ -31,6 +32,10 @@ export function createUnstakeActionConfig(action: UnstakeAction, context: Action
       })
     },
 
-    invalidates: () => [getFarmsInfoQueryKey({ chainId, account }), getBalancesQueryKeyPrefix({ chainId, account })],
+    invalidates: () => [
+      getFarmsBlockchainDetailsQueryKey({ chainId, account }),
+      getBalancesQueryKeyPrefix({ chainId, account }),
+      getFarmsApiDetailsQueryKey(),
+    ],
   }
 }

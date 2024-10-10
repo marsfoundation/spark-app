@@ -29,24 +29,26 @@ export type FarmConfig = {
     }
 )
 
-export interface Farm {
+export interface FarmApiDetails {
+  apy: Percentage
+  depositors: number
+  rewardTokenPriceUsd?: NormalizedUnitNumber
+  totalRewarded: NormalizedUnitNumber
+}
+
+export interface FarmBlockchainDetails {
   address: CheckedAddress
   entryAssetsGroup: AssetsGroup
   rewardType: FarmConfig['rewardType']
-
   name: string
-
-  apy: Percentage
   rewardToken: Token
   stakingToken: Token
   rewardRate: NormalizedUnitNumber
   earnedTimestamp: number
   periodFinish: number
   totalSupply: NormalizedUnitNumber
-  totalRewarded: NormalizedUnitNumber
-
   earned: NormalizedUnitNumber
   staked: NormalizedUnitNumber
-
-  depositors: number
 }
+
+export type Farm = Partial<FarmApiDetails> & FarmBlockchainDetails

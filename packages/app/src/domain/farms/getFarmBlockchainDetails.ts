@@ -1,16 +1,13 @@
 import { stakingRewardsAbi } from '@/config/abis/stakingRewardsAbi'
-import { infoSkyApiUrl } from '@/config/consts'
-import { FarmConfig } from '@/domain/farms/types'
+import { FarmBlockchainDetails, FarmConfig } from '@/domain/farms/types'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
-import { BaseUnitNumber, NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
+import { BaseUnitNumber, NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { Address } from 'viem'
 import { Config } from 'wagmi'
 import { readContract } from 'wagmi/actions'
-import { z } from 'zod'
-import { Farm } from './types'
 
-export interface GetFarmParams {
+export interface GetFarmBlockchainDetailsParams {
   farmConfig: FarmConfig
   wagmiConfig: Config
   tokensInfo: TokensInfo
@@ -18,38 +15,34 @@ export interface GetFarmParams {
   account: Address | undefined
 }
 
-export async function getFarm({ farmConfig, wagmiConfig, tokensInfo, chainId, account }: GetFarmParams): Promise<Farm> {
-  const [contractData, baData] = await Promise.all([
-    getFarmContractData({ farmConfig, wagmiConfig, chainId, account }),
-    getBAFarmData({ farmConfig }),
-  ])
+export async function getFarmBlockchainDetails({
+  farmConfig,
+  wagmiConfig,
+  tokensInfo,
+  chainId,
+  account,
+}: GetFarmBlockchainDetailsParams): Promise<FarmBlockchainDetails> {
+  const contractData = await getFarmContractData({ farmConfig, wagmiConfig, chainId, account })
 
   const rewardToken =
     farmConfig.rewardType === 'token'
       ? tokensInfo
           .findOneTokenByAddress(CheckedAddress(contractData.rewardTokenAddress))
-          .clone({ unitPriceUsd: baData.rewardTokenPriceUsd })
+          .clone({ unitPriceUsd: NormalizedUnitNumber(0) }) // @note: Setting token price to 0 since we depending on api to fetch it
       : farmConfig.rewardPoints
   const stakingToken = tokensInfo.findOneTokenByAddress(CheckedAddress(contractData.stakingTokenAddress))
 
   return {
     ...farmConfig,
-
     name: `${rewardToken.symbol} ${farmConfig.rewardType === 'points' ? 'points' : ''} Farm`,
-
-    apy: baData.apy,
-    rewardToken,
+    rewardToken, // @todo: Reward token price might not be correct - we don't provide oracles for all tokens in tokens info
     stakingToken,
     rewardRate: NormalizedUnitNumber(rewardToken.fromBaseUnit(BaseUnitNumber(contractData.rewardRate))),
     periodFinish: Number(contractData.periodFinish),
     totalSupply: NormalizedUnitNumber(stakingToken.fromBaseUnit(BaseUnitNumber(contractData.totalSupply))),
-    totalRewarded: baData.totalRewarded,
-
     earned: NormalizedUnitNumber(rewardToken.fromBaseUnit(BaseUnitNumber(contractData.earned))),
     staked: NormalizedUnitNumber(stakingToken.fromBaseUnit(BaseUnitNumber(contractData.staked))),
     earnedTimestamp: Number(contractData.earnedTimestamp),
-
-    depositors: baData.depositors,
   }
 }
 
@@ -170,37 +163,3 @@ async function getFarmContractData({
     totalSupply,
   }
 }
-
-interface GetFarmBADataParams {
-  farmConfig: FarmConfig
-}
-
-interface GetFarmBADataResult {
-  apy: Percentage
-  depositors: number
-  rewardTokenPriceUsd: NormalizedUnitNumber
-  totalRewarded: NormalizedUnitNumber
-}
-
-async function getBAFarmData({ farmConfig }: GetFarmBADataParams): Promise<GetFarmBADataResult> {
-  const res = await fetch(`${infoSkyApiUrl}/farms/${farmConfig.address.toLowerCase()}/`)
-  if (!res.ok) {
-    throw new Error(`Failed to fetch farm data: ${res.statusText}`)
-  }
-
-  return baFarmDataResponseSchema.parse(await res.json())
-}
-
-const baFarmDataResponseSchema = z
-  .object({
-    apy: z.string().transform((value) => Percentage(value, true)),
-    depositors: z.number(),
-    price: z.string().transform((value) => NormalizedUnitNumber(value)),
-    total_farmed: z.string().transform((value) => NormalizedUnitNumber(value)),
-  })
-  .transform(({ apy, depositors, price, total_farmed }) => ({
-    apy,
-    depositors,
-    rewardTokenPriceUsd: NormalizedUnitNumber(price),
-    totalRewarded: total_farmed,
-  }))
