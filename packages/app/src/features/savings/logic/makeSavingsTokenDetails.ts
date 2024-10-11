@@ -2,7 +2,6 @@ import { TokenWithBalance } from '@/domain/common/types'
 import { SavingsInfo } from '@/domain/savings-info/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { assert } from '@/utils/assert'
-import { Projections } from '../types'
 import { makeSavingsOverview } from './makeSavingsOverview'
 import { calculateProjections } from './projections'
 import { SavingsTokenDetails } from './useSavings'
@@ -16,7 +15,7 @@ export interface MakeSavingsTokenDetailsParams {
   stepInMs: number
 }
 
-export type MakeSavingsTokenDetailsResult = (SavingsTokenDetails & { opportunityProjections: Projections }) | undefined
+export type MakeSavingsTokenDetailsResult = SavingsTokenDetails | undefined
 
 export function makeSavingsTokenDetails({
   savingsInfo,
@@ -32,7 +31,7 @@ export function makeSavingsTokenDetails({
 
   assert(savingsTokenWithBalance, 'Savings token with balance should be defined when savings info is defined')
 
-  const { potentialShares, depositedUSD, depositedUSDPrecision } = makeSavingsOverview({
+  const { depositedUSD, depositedUSDPrecision } = makeSavingsOverview({
     savingsTokenWithBalance,
     savingsInfo,
     eligibleCashUSD,
@@ -45,16 +44,10 @@ export function makeSavingsTokenDetails({
     shares: savingsTokenWithBalance.balance,
     savingsInfo,
   })
-  const opportunityProjections = calculateProjections({
-    timestamp,
-    shares: potentialShares,
-    savingsInfo,
-  })
 
   return {
     APY: savingsInfo.apy,
     currentProjections,
-    opportunityProjections,
     tokenWithBalance: savingsTokenWithBalance,
     depositedUSD,
     depositedUSDPrecision,

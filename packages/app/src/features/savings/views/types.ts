@@ -6,7 +6,6 @@ import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { MigrationInfo } from '../logic/makeMigrationInfo'
 import { SavingsMeta } from '../logic/makeSavingsMeta'
 import { AssetInWallet, SavingsTokenDetails } from '../logic/useSavings'
-import { Projections } from '../types'
 
 export interface SavingsViewContentProps {
   savingsTokenDetails: SavingsTokenDetails
@@ -15,7 +14,6 @@ export interface SavingsViewContentProps {
   originChainId: SupportedChainId
   maxBalanceToken: TokenWithBalance
   totalEligibleCashUSD: NormalizedUnitNumber
-  opportunityProjections: Projections
   savingsMeta: SavingsMeta
   openDialog: OpenDialogFunction
   savingsChartsInfo: UseSavingsChartsInfoQueryResult
