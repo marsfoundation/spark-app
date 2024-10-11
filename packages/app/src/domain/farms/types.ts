@@ -3,11 +3,17 @@ import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
 import { Token } from '../types/Token'
 import { TokenSymbol } from '../types/TokenSymbol'
 
-export interface AssetsGroup {
-  type: 'stablecoins' | 'governance'
-  name: string
-  assets: TokenSymbol[]
-}
+export type AssetsGroup =
+  | {
+      type: 'stablecoins'
+      name: 'Stablecoins'
+      assets: TokenSymbol[]
+    }
+  | {
+      type: 'governance'
+      name: 'Governance Tokens'
+      assets: TokenSymbol[]
+    }
 
 export type FarmConfig = {
   address: CheckedAddress

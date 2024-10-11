@@ -9,7 +9,7 @@ import {
 } from '@/config/wagmi/config.e2e'
 
 import { http, createPublicClient, zeroAddress } from 'viem'
-import { mainnet } from 'viem/chains'
+import { base, mainnet } from 'viem/chains'
 import { ForkContext } from './forking/setupFork'
 import { InjectableWallet } from './setup'
 
@@ -103,6 +103,10 @@ async function isSudsDeployed(forkContext: ForkContext): Promise<boolean> {
   const susdsAddress = (() => {
     if (forkContext.chainId === mainnet.id) {
       return '0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD'
+    }
+
+    if (forkContext.chainId === base.id) {
+      return '0x02Edc8718799a22fCBeBEd0C58a1D09657C81bC8'
     }
 
     return zeroAddress

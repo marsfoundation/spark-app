@@ -1,5 +1,6 @@
-import { gnosis, mainnet } from 'viem/chains'
+import { base, gnosis, mainnet } from 'viem/chains'
 
+import { createGovernanceAssetsGroup } from '@/domain/farms/utils'
 import { getOriginChainId } from '@/domain/hooks/useOriginChainId'
 import {
   fetchRethOracleInfo,
@@ -16,11 +17,11 @@ import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { assets } from '@/ui/assets'
 import { zeroAddress } from 'viem'
-import { NATIVE_ASSET_MOCK_ADDRESS, stablecoinsGroup } from '../consts'
+import { NATIVE_ASSET_MOCK_ADDRESS } from '../consts'
 import { AppConfig } from '../feature-flags'
 import { PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY } from '../wagmi/config.e2e'
-import { MAINNET_USDS_SKY_FARM_ADDRESS } from './constants'
-import { ChainConfig, ChainConfigEntry, ChainMeta } from './types'
+import { MAINNET_USDS_SKY_FARM_ADDRESS, baseDevNetFarms, farmStablecoinsEntryGroup } from './constants'
+import { ChainConfig, ChainConfigEntry, ChainMeta, SupportedChainId } from './types'
 
 const commonTokenSymbolToReplacedName = {
   [TokenSymbol('DAI')]: { name: 'DAI Stablecoin', symbol: TokenSymbol('DAI') },
@@ -131,15 +132,15 @@ const chainConfig: ChainConfig = {
     farms: [
       {
         rewardType: 'token',
-        address: CheckedAddress(MAINNET_USDS_SKY_FARM_ADDRESS),
-        entryAssetsGroup: stablecoinsGroup,
+        address: MAINNET_USDS_SKY_FARM_ADDRESS,
+        entryAssetsGroup: farmStablecoinsEntryGroup[mainnet.id],
         historyCutoff: new Date('2024-09-17T00:00:00.000Z'),
       },
       {
         // CRO Farm
         rewardType: 'points',
         address: CheckedAddress('0x10ab606B067C9C461d8893c47C7512472E19e2Ce'),
-        entryAssetsGroup: stablecoinsGroup,
+        entryAssetsGroup: farmStablecoinsEntryGroup[mainnet.id],
         historyCutoff: new Date('2024-09-17T00:00:00.000Z'),
         rewardPoints: new Token({
           address: CheckedAddress(zeroAddress),
@@ -291,6 +292,93 @@ const chainConfig: ChainConfig = {
 }
 
 export function getChainConfigEntry(chainId: number): ChainConfigEntry {
+  if (typeof import.meta.env.VITE_DEV_BASE_DEVNET_RPC_URL === 'string' && chainId === base.id) {
+    return {
+      id: base.id as SupportedChainId,
+      meta: {
+        name: 'Base DevNet',
+        logo: assets.chain.baseDevNet,
+      },
+      nativeAssetInfo: {
+        nativeAssetName: 'Ethereum',
+        wrappedNativeAssetSymbol: TokenSymbol('WETH'),
+        wrappedNativeAssetAddress: CheckedAddress('0x4200000000000000000000000000000000000006'),
+        nativeAssetSymbol: TokenSymbol('ETH'),
+        minRemainingNativeAssetBalance: NormalizedUnitNumber(0.001),
+      },
+      erc20TokensWithApproveFnMalformed: [],
+      permitSupport: {},
+      tokenSymbolToReplacedName: {},
+      airdrop: {},
+      savingsDaiInfoQuery: undefined,
+      savingsUsdsInfoQuery: undefined, // @todo: Will be defined after implementing savings info query
+      savingsChartsSupported: true,
+      daiSymbol: TokenSymbol('DAI'), // @todo: Needs to be optional after refactor, we don't need it on base
+      sDaiSymbol: TokenSymbol('sDAI'), // @todo: Same as dai
+      USDSSymbol: PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE ? undefined : TokenSymbol('USDS'),
+      sUSDSSymbol: PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE ? undefined : TokenSymbol('sUSDS'),
+      mergedDaiAndSDaiMarkets: false, // @todo: Maybe we should refactor config to cover categories like markets/savings/farms, and make some of them optional
+      savingsInputTokens: [
+        TokenSymbol('USDC'),
+        ...(PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE ? [] : [TokenSymbol('USDS')]),
+      ],
+      extraTokens: [
+        {
+          symbol: TokenSymbol('USDC'),
+          oracleType: 'fixed-usd',
+          address: CheckedAddress('0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'),
+        },
+        ...(PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE
+          ? []
+          : ([
+              {
+                symbol: TokenSymbol('sUSDS'),
+                oracleType: 'vault',
+                address: CheckedAddress('0x02Edc8718799a22fCBeBEd0C58a1D09657C81bC8'),
+              },
+              {
+                symbol: TokenSymbol('USDS'),
+                oracleType: 'fixed-usd',
+                address: CheckedAddress('0x21F5b5dF683B6885D6A88f330C4474ADeE2A6ed3'),
+              },
+              {
+                symbol: TokenSymbol('SKY'),
+                oracleType: 'fixed-usd', // @todo: Add proper oracle
+                address: CheckedAddress('0xA40D3Ad0dEdED3df8cDf02108AFf90220C437B82'),
+              },
+              {
+                symbol: TokenSymbol('SPK'),
+                oracleType: 'fixed-usd', // @todo: Add proper oracle
+                address: CheckedAddress('0xe3437a9489bCde35d241ce60253BAF359cF36fA9'),
+              },
+            ] as const)),
+      ],
+      farms: [
+        {
+          rewardType: 'token',
+          address: baseDevNetFarms.skyUsds,
+          entryAssetsGroup: farmStablecoinsEntryGroup[base.id],
+        },
+        {
+          rewardType: 'token',
+          address: baseDevNetFarms.spkUsds,
+          entryAssetsGroup: farmStablecoinsEntryGroup[base.id],
+        },
+        {
+          rewardType: 'token',
+          address: baseDevNetFarms.skySpk,
+          entryAssetsGroup: createGovernanceAssetsGroup([TokenSymbol('SPK')]),
+        },
+        {
+          rewardType: 'token',
+          address: baseDevNetFarms.spkSky,
+          entryAssetsGroup: createGovernanceAssetsGroup([TokenSymbol('SKY')]),
+        },
+      ],
+      oracles: {},
+    }
+  }
+
   const sandboxConfig = useStore.getState().appConfig.sandbox
   const sandbox = useStore.getState().sandbox.network
 

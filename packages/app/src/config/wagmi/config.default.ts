@@ -1,6 +1,6 @@
 import { getDefaultConfig } from '@rainbow-me/rainbowkit'
 import { Chain } from 'viem'
-import { gnosis, mainnet } from 'viem/chains'
+import { base, gnosis, mainnet } from 'viem/chains'
 import { Config } from 'wagmi'
 
 import { SandboxNetwork } from '@/domain/state/sandbox'
@@ -15,8 +15,9 @@ const wallets = getWallets()
 
 export function getConfig(sandboxNetwork?: SandboxNetwork): Config {
   const forkChain = getForkChainFromSandboxConfig(sandboxNetwork)
-  const transports = getTransports({ forkChain })
-  const chains = getChains({ forkChain })
+  const baseDevNetChain = getBaseDevNetChain()
+  const transports = getTransports({ forkChain, baseDevNetChain })
+  const chains = getChains({ forkChain, baseDevNetChain })
   const storage = createWagmiStorage()
 
   const config = getDefaultConfig({
@@ -53,6 +54,21 @@ function getForkChainFromSandboxConfig(sandboxNetwork?: SandboxNetwork): Chain |
     rpcUrls: {
       public: { http: [sandboxNetwork.forkUrl] },
       default: { http: [sandboxNetwork.forkUrl] },
+    },
+  }
+}
+
+function getBaseDevNetChain(): Chain | undefined {
+  if (typeof import.meta.env.VITE_DEV_BASE_DEVNET_RPC_URL !== 'string') {
+    return undefined
+  }
+
+  return {
+    ...base,
+    name: 'Base DevNet',
+    rpcUrls: {
+      public: { http: [import.meta.env.VITE_DEV_BASE_DEVNET_RPC_URL] },
+      default: { http: [import.meta.env.VITE_DEV_BASE_DEVNET_RPC_URL] },
     },
   }
 }

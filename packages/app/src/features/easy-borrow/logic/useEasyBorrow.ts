@@ -80,6 +80,7 @@ export function useEasyBorrow(): UseEasyBorrowResults {
     USDSSymbol,
     meta: { defaultAssetToBorrow },
   } = getChainConfigEntry(marketInfo.chainId)
+  assert(defaultAssetToBorrow, 'Default asset to borrow should be defined for easy borrow')
   const { tokensInfo } = useTokensInfo({ tokens: extraTokens, chainId })
   const walletInfo = useMarketWalletInfo({ chainId })
 
