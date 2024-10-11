@@ -9,9 +9,9 @@ import { SavingsOpportunityGuestMode } from './SavingsOpportunityGuestMode'
 const meta: Meta<typeof SavingsOpportunityGuestMode> = {
   title: 'Features/Savings/Components/SavingsOpportunityGuestMode',
   component: SavingsOpportunityGuestMode,
-  decorators: [WithTooltipProvider(), WithClassname('max-w-5xl')],
+  decorators: [WithTooltipProvider(), WithClassname('max-w-5xl flex flex-col gap-6 sm:grid sm:grid-cols-2')],
   args: {
-    APY: Percentage(0.05),
+    APY: Percentage(0.065),
     originChainId: mainnet.id,
     openConnectModal: () => {},
     savingsMeta: {
@@ -22,6 +22,7 @@ const meta: Meta<typeof SavingsOpportunityGuestMode> = {
         rateName: 'Sky Savings Rate',
       },
     },
+    compact: false,
   },
 }
 
@@ -31,3 +32,12 @@ type Story = StoryObj<typeof SavingsOpportunityGuestMode>
 export const Desktop: Story = {}
 export const Mobile = getMobileStory(Desktop)
 export const Tablet = getTabletStory(Desktop)
+
+export const CompactDesktop: Story = {
+  args: {
+    compact: true,
+  },
+}
+
+export const CompactMobile = getMobileStory(CompactDesktop)
+export const CompactTablet = getTabletStory(CompactDesktop)

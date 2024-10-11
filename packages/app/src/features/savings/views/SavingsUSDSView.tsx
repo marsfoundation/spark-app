@@ -2,7 +2,6 @@ import { PageHeader } from '../components/PageHeader'
 import { PageLayout } from '../components/PageLayout'
 import { UsdsSavingsCharts } from '../components/savings-charts/UsdsSavingsCharts'
 import { SavingsOpportunity } from '../components/savings-opportunity/SavingsOpportunity'
-import { SavingsOpportunityNoCash } from '../components/savings-opportunity/SavingsOpportunityNoCash'
 import { SavingsTokenPanel } from '../components/savings-token-panel/SavingsTokenPanel'
 import { StablecoinsInWallet } from '../components/stablecoins-in-wallet/StablecoinsInWallet'
 import { SavingsViewContentProps } from './types'
@@ -14,7 +13,6 @@ export function SavingsUsdsView({
   assetsInWallet,
   maxBalanceToken,
   totalEligibleCashUSD,
-  opportunityProjections,
   openDialog,
   savingsMeta,
   savingsChartsInfo,
@@ -22,43 +20,31 @@ export function SavingsUsdsView({
   const displaySavingsUsds = savingsTokenDetails.tokenWithBalance.balance.gt(0)
 
   const displaySavingsUsdsChart = savingsChartsInfo.chartsSupported
-  const displaySavingsOpportunity =
-    opportunityProjections.thirtyDays.gt(0) && (!displaySavingsUsds || !displaySavingsUsdsChart)
-  const displaySavingsNoCash = !displaySavingsUsds && !displaySavingsOpportunity
+  const displaySavingsOpportunity = !displaySavingsUsds || !displaySavingsUsdsChart
 
   return (
     <PageLayout>
       <PageHeader />
       <div className="flex flex-col gap-6 sm:grid sm:grid-cols-2">
         {displaySavingsUsds && (
-          <>
-            <SavingsTokenPanel
-              variant="usds"
-              originChainId={originChainId}
-              openDialog={openDialog}
-              savingsMetaItem={savingsMeta.primary}
-              {...savingsTokenDetails}
-            />
-          </>
+          <SavingsTokenPanel
+            variant="usds"
+            originChainId={originChainId}
+            openDialog={openDialog}
+            savingsMetaItem={savingsMeta.primary}
+            {...savingsTokenDetails}
+          />
         )}
 
         {displaySavingsOpportunity && (
           <SavingsOpportunity
             APY={savingsTokenDetails.APY}
             originChainId={originChainId}
-            projections={opportunityProjections}
             maxBalanceToken={maxBalanceToken}
             openDialog={openDialog}
             totalEligibleCashUSD={totalEligibleCashUSD}
             savingsMeta={savingsMeta}
-          />
-        )}
-
-        {displaySavingsNoCash && (
-          <SavingsOpportunityNoCash
-            APY={savingsTokenDetails.APY}
-            originChainId={originChainId}
-            savingsMeta={savingsMeta}
+            compact={displaySavingsUsdsChart || displaySavingsUsds}
           />
         )}
 
