@@ -87,7 +87,6 @@ export function useSavings(): UseSavingsResults {
   const sDaiDetails = makeSavingsTokenDetails({
     savingsInfo: savingsDaiInfo,
     savingsTokenWithBalance: sDaiWithBalance,
-    eligibleCashUSD: totalEligibleCashUSD,
     timestamp,
     timestampInMs,
     stepInMs,
@@ -96,7 +95,6 @@ export function useSavings(): UseSavingsResults {
   const sUSDSDetails = makeSavingsTokenDetails({
     savingsInfo: savingsUsdsInfo,
     savingsTokenWithBalance: sUSDSWithBalance,
-    eligibleCashUSD: totalEligibleCashUSD,
     timestamp,
     timestampInMs,
     stepInMs,
