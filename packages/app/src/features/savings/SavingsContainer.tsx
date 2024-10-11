@@ -24,7 +24,7 @@ function SavingsContainer() {
     )
   }
 
-  const { sDaiDetails, sUSDSDetails } = savingsDetails
+  const { sDaiDetails, sUSDSDetails, savingsChartsInfo } = savingsDetails
   const APY = sUSDSDetails?.APY ?? sDaiDetails?.APY ?? raise('Savings APY should be defined')
 
   if (isGuestMode) {
@@ -34,6 +34,7 @@ function SavingsContainer() {
         APY={APY}
         openConnectModal={openConnectModal}
         openSandboxModal={openSandboxModal}
+        savingsChartsInfo={savingsChartsInfo}
       />
     )
   }
