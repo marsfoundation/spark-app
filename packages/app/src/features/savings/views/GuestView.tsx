@@ -38,6 +38,7 @@ export function GuestView({
           openConnectModal={openConnectModal}
           savingsMeta={savingsMeta}
           compact={displaySavingsChart}
+          openSandboxModal={openSandboxModal}
         />
         {displaySavingsChart && <UsdsSavingsCharts {...savingsChartsInfo} />}
       </div>

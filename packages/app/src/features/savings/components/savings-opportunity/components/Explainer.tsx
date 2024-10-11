@@ -37,7 +37,8 @@ function Header({ stablecoinValue, savingsMeta }: ExplainerProps) {
   const { savingsToken, stablecoin, rateAcronym, rateName } = savingsMeta.primary
   return (
     <h2 className="flex items-center gap-1 whitespace-nowrap font-semibold text-base text-basics-black sm:text-xl">
-      Savings{' '}
+      Savings {stablecoin}
+      {savingsMeta.secondary && ` & ${savingsMeta.secondary.stablecoin}`}
       <Info>
         Savings {stablecoin}, or {savingsToken}, provides you with fractional ownership of the entire pool of{' '}
         {stablecoin} deposited into the {rateName}. The value of your {savingsToken} holdings gradually increases

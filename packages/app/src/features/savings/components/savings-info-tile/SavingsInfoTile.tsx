@@ -31,9 +31,10 @@ function Label({ children, tooltipContent: tooltipText }: LabelProps) {
 
 export interface ValueProps extends VariantProps<typeof valueVariants> {
   children: ReactNode
+  className?: string
 }
-function Value({ children, size, color }: ValueProps) {
-  return <p className={cn(valueVariants({ size, color }))}>{children}</p>
+function Value({ children, size, color, className }: ValueProps) {
+  return <p className={cn(valueVariants({ size, color }), className)}>{children}</p>
 }
 
 const savingsInfoTileVariants = cva('inline-flex flex-col gap-1', {

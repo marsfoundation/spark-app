@@ -21,6 +21,12 @@ const meta: Meta<typeof SavingsOpportunityGuestMode> = {
         rateAcronym: 'SSR',
         rateName: 'Sky Savings Rate',
       },
+      secondary: {
+        savingsToken: TokenSymbol('sDAI'),
+        stablecoin: TokenSymbol('DAI'),
+        rateAcronym: 'DSR',
+        rateName: 'DAI Savings Rate',
+      },
     },
     compact: false,
   },
