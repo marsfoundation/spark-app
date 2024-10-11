@@ -52,7 +52,7 @@ export function SavingsOpportunity({
 
           <div className="flex items-end justify-between gap-5">
             <SavingsInfoTile>
-              <SavingsInfoTile.Value size="large">
+              <SavingsInfoTile.Value size="extraLarge">
                 {formatPercentage(APY, { minimumFractionDigits: 0 })}
               </SavingsInfoTile.Value>
               <DSRLabel originChainId={originChainId} savingsMetaItem={savingsMeta.primary} />

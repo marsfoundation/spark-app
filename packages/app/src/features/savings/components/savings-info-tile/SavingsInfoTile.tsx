@@ -56,6 +56,7 @@ const valueVariants = cva('font-semibold text-basics-black', {
       base: 'text-sm md:text-base',
       medium: 'text-lg md:text-2xl',
       large: 'text-2xl md:text-4xl',
+      extraLarge: 'text-3xl md:text-5xl',
       huge: 'text-5xl leading-tight md:text-7xl',
     },
     color: {
