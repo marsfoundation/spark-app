@@ -33,7 +33,7 @@ const commonTokenSymbolToReplacedName = {
   [TokenSymbol('weETH')]: { name: 'Ether.fi Staked ETH', symbol: TokenSymbol('weETH') },
 }
 
-const PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE =
+const PLAYWRIGHT_MAINNET_USDS_CONTRACTS_NOT_AVAILABLE =
   import.meta.env.VITE_PLAYWRIGHT === '1' && (window as any)[PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY] === true
 
 const chainConfig: ChainConfig = {
@@ -81,17 +81,17 @@ const chainConfig: ChainConfig = {
       },
     },
     savingsDaiInfoQuery: mainnetSavingsDaiInfoQuery,
-    savingsUsdsInfoQuery: PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE ? undefined : mainnetSavingsUsdsInfoQuery,
+    savingsUsdsInfoQuery: PLAYWRIGHT_MAINNET_USDS_CONTRACTS_NOT_AVAILABLE ? undefined : mainnetSavingsUsdsInfoQuery,
     savingsChartsSupported: true,
     daiSymbol: TokenSymbol('DAI'),
     sDaiSymbol: TokenSymbol('sDAI'),
-    USDSSymbol: PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE ? undefined : TokenSymbol('USDS'),
-    sUSDSSymbol: PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE ? undefined : TokenSymbol('sUSDS'),
+    USDSSymbol: PLAYWRIGHT_MAINNET_USDS_CONTRACTS_NOT_AVAILABLE ? undefined : TokenSymbol('USDS'),
+    sUSDSSymbol: PLAYWRIGHT_MAINNET_USDS_CONTRACTS_NOT_AVAILABLE ? undefined : TokenSymbol('sUSDS'),
     mergedDaiAndSDaiMarkets: true,
     savingsInputTokens: [
       TokenSymbol('DAI'),
       TokenSymbol('USDC'),
-      ...(PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE ? [] : [TokenSymbol('USDS')]),
+      ...(PLAYWRIGHT_MAINNET_USDS_CONTRACTS_NOT_AVAILABLE ? [] : [TokenSymbol('USDS')]),
     ],
     extraTokens: [
       {
@@ -109,7 +109,7 @@ const chainConfig: ChainConfig = {
         oracleType: 'vault',
         address: CheckedAddress('0x83f20f44975d03b1b09e64809b757c47f942beea'),
       },
-      ...(PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE
+      ...(PLAYWRIGHT_MAINNET_USDS_CONTRACTS_NOT_AVAILABLE
         ? []
         : ([
             {
@@ -315,44 +315,37 @@ export function getChainConfigEntry(chainId: number): ChainConfigEntry {
       savingsChartsSupported: true,
       daiSymbol: TokenSymbol('DAI'), // @todo: Needs to be optional after refactor, we don't need it on base
       sDaiSymbol: TokenSymbol('sDAI'), // @todo: Same as dai
-      USDSSymbol: PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE ? undefined : TokenSymbol('USDS'),
-      sUSDSSymbol: PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE ? undefined : TokenSymbol('sUSDS'),
+      USDSSymbol: TokenSymbol('USDS'),
+      sUSDSSymbol: TokenSymbol('sUSDS'),
       mergedDaiAndSDaiMarkets: false, // @todo: Maybe we should refactor config to cover categories like markets/savings/farms, and make some of them optional
-      savingsInputTokens: [
-        TokenSymbol('USDC'),
-        ...(PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE ? [] : [TokenSymbol('USDS')]),
-      ],
+      savingsInputTokens: [TokenSymbol('USDC'), TokenSymbol('USDS')],
       extraTokens: [
         {
           symbol: TokenSymbol('USDC'),
           oracleType: 'fixed-usd',
           address: CheckedAddress('0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'),
         },
-        ...(PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE
-          ? []
-          : ([
-              {
-                symbol: TokenSymbol('sUSDS'),
-                oracleType: 'vault',
-                address: CheckedAddress('0x02Edc8718799a22fCBeBEd0C58a1D09657C81bC8'),
-              },
-              {
-                symbol: TokenSymbol('USDS'),
-                oracleType: 'fixed-usd',
-                address: CheckedAddress('0x21F5b5dF683B6885D6A88f330C4474ADeE2A6ed3'),
-              },
-              {
-                symbol: TokenSymbol('SKY'),
-                oracleType: 'fixed-usd', // @todo: Add proper oracle
-                address: CheckedAddress('0xA40D3Ad0dEdED3df8cDf02108AFf90220C437B82'),
-              },
-              {
-                symbol: TokenSymbol('SPK'),
-                oracleType: 'fixed-usd', // @todo: Add proper oracle
-                address: CheckedAddress('0xe3437a9489bCde35d241ce60253BAF359cF36fA9'),
-              },
-            ] as const)),
-      ],
+        {
+          symbol: TokenSymbol('sUSDS'),
+          oracleType: 'vault',
+          address: CheckedAddress('0x02Edc8718799a22fCBeBEd0C58a1D09657C81bC8'),
+        },
+        {
+          symbol: TokenSymbol('USDS'),
+          oracleType: 'fixed-usd',
+          address: CheckedAddress('0x21F5b5dF683B6885D6A88f330C4474ADeE2A6ed3'),
+        },
+        {
+          symbol: TokenSymbol('SKY'),
+          oracleType: 'fixed-usd', // @todo: Add proper oracle
+          address: CheckedAddress('0xA40D3Ad0dEdED3df8cDf02108AFf90220C437B82'),
+        },
+        {
+          symbol: TokenSymbol('SPK'),
+          oracleType: 'fixed-usd', // @todo: Add proper oracle
+          address: CheckedAddress('0xe3437a9489bCde35d241ce60253BAF359cF36fA9'),
+        },
+      ] as const,
       farms: [
         {
           rewardType: 'token',
