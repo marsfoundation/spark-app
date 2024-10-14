@@ -6,7 +6,7 @@ export interface PageNotSupportedWarningProps {
 
 export function PageNotSupportedWarning({ pageName }: PageNotSupportedWarningProps) {
   return (
-    <div className="flex w-full items-center justify-center gap-2.5 bg-white p-4">
+    <div className="sticky bottom-0 z-20 flex w-full items-center justify-center gap-2.5 bg-white p-4 shadow-[0_0_128px_rgba(0,0,0,0.1)]">
       <AlertTriangle className="h-8 w-8 text-[#FC4F37]" />
       <div className="flex flex-col gap-0.5">
         <div className="font-semibold text-primary text-sm lg:text-base">

@@ -39,7 +39,7 @@ export function Navbar({ mobileMenuCollapsed, setMobileMenuCollapsed }: NavbarPr
   return (
     <nav
       className={cn(
-        'relative flex flex-col bg-white px-6 shadow-nav',
+        'relative z-20 flex flex-col bg-white px-6 shadow-nav',
         'lg:grid lg:grid-cols-[auto_1fr_auto]',
         !mobileMenuCollapsed && 'h-screen lg:h-auto',
       )}

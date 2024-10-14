@@ -12,7 +12,7 @@ export const SKY_MIGRATION_TOP_BANNER_ID = 'sky-migration-top-banner'
 
 export function SkyMigrationTopBanner({ onClose }: SkyMigrationTopBannerProps) {
   return (
-    <div className="relative flex w-full flex-col items-center justify-center gap-2 bg-gradient-to-b from-[#9042C9] to-[#A047CC] p-1.5 text-center text-basics-white/85 text-sm sm:flex-row sm:text-base">
+    <div className="relative z-10 flex w-full flex-col items-center justify-center gap-2 bg-gradient-to-b from-[#9042C9] to-[#A047CC] p-1.5 text-center text-basics-white/85 text-sm sm:flex-row sm:text-base">
       <span className="flex items-center gap-2">
         <img src={assets.banners.mkrToSkyTransform} />
         <span>

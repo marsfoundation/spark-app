@@ -286,7 +286,7 @@ const chainConfig: ChainConfig = {
         oracleFetcher: fetchSdaiOracleInfoGnosis,
       },
     },
-    supportedPages: ['easyBorrow', 'myPortfolio', 'markets', 'marketDetails', 'savings'],
+    supportedPages: ['easyBorrow', 'markets', 'marketDetails', 'savings'],
   },
 }
 
