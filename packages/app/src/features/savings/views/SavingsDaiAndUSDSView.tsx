@@ -1,4 +1,5 @@
 import { UseSavingsChartsInfoQueryResult } from '@/domain/savings-charts/useSavingsChartsInfoQuery'
+import { cn } from '@/ui/utils/style'
 import { assert, raise } from '@/utils/assert'
 import { PageHeader } from '../components/PageHeader'
 import { PageLayout } from '../components/PageLayout'
@@ -60,7 +61,12 @@ export function SavingsDaiAndUsdsView({
           apyImprovement={migrationInfo.apyImprovement}
         />
       )}
-      <div className="flex flex-col gap-6 sm:grid sm:grid-cols-2">
+      <div
+        className={cn(
+          'flex flex-col gap-6 sm:grid sm:grid-cols-2',
+          (displaySavingsUsds || displaySavingsDai) && 'sm:min-h-[384px]',
+        )}
+      >
         {displaySavingsUsds && (
           <SavingsTokenPanel
             variant="usds"

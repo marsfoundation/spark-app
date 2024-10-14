@@ -1,3 +1,4 @@
+import { cn } from '@/ui/utils/style'
 import { PageHeader } from '../components/PageHeader'
 import { PageLayout } from '../components/PageLayout'
 import { UsdsSavingsCharts } from '../components/savings-charts/UsdsSavingsCharts'
@@ -25,7 +26,7 @@ export function SavingsUsdsView({
   return (
     <PageLayout>
       <PageHeader />
-      <div className="flex flex-col gap-6 sm:grid sm:grid-cols-2">
+      <div className={cn('flex flex-col gap-6 sm:grid sm:grid-cols-2', displaySavingsUsds && 'sm:min-h-[384px]')}>
         {displaySavingsUsds && (
           <SavingsTokenPanel
             variant="usds"
