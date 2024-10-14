@@ -4,6 +4,7 @@ import { SavingsMeta } from '@/features/savings/logic/makeSavingsMeta'
 import { Link } from '@/ui/atoms/link/Link'
 import { links } from '@/ui/constants/links'
 import { Info } from '@/ui/molecules/info/Info'
+import { testIds } from '@/ui/utils/testIds'
 
 export interface ExplainerProps {
   stablecoinValue?: NormalizedUnitNumber
@@ -18,8 +19,11 @@ export function Explainer({ stablecoinValue, savingsMeta }: ExplainerProps) {
       <p className="text-basics-black/50 text-sm sm:text-base">
         {stablecoinValue ? (
           <>
-            You have ~<span className="font-bold">{USD_MOCK_TOKEN.formatUSD(stablecoinValue)}</span> worth of
-            stablecoins in your wallet. Earn while you hold it!
+            You have{' '}
+            <span className="font-bold" data-testid={testIds.savings.stablecoinsAmount}>
+              ~{USD_MOCK_TOKEN.formatUSD(stablecoinValue)}
+            </span>{' '}
+            worth of stablecoins in your wallet. Earn while you hold it!
           </>
         ) : (
           `Deposit your stablecoins into Savings ${stablecoin} to tap into the ${rateName}, which grants you a predictable APY in ${stablecoin}.`

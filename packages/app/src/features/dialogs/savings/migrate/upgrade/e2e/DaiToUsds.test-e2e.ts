@@ -21,8 +21,7 @@ test.describe('Upgrade DAI to USDS', () => {
     const savingsPage = new SavingsPageObject(page)
 
     // wait to load
-    await savingsPage.expectPotentialProjection('$49.95', '30-day')
-    await savingsPage.expectPotentialProjection('$625.00', '1-year')
+    await savingsPage.expectOpportunityStablecoinsAmount('~$10,000.00')
 
     await savingsPage.expectUpgradeDaiToUsdsButtonToBeHidden()
   })

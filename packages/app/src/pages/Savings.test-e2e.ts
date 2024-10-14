@@ -57,7 +57,7 @@ test.describe('Savings', () => {
     await savingsPage.expectCurrentProjection('$5.36', '1-year')
   })
 
-  test('calculates opportunity projections', async ({ page }) => {
+  test('sum value of stablecoins in wallet', async ({ page }) => {
     await setup(page, fork, {
       initialPage: 'savings',
       account: {
@@ -71,7 +71,6 @@ test.describe('Savings', () => {
 
     const savingsPage = new SavingsPageObject(page)
 
-    await savingsPage.expectPotentialProjection('$0.80', '30-day')
-    await savingsPage.expectPotentialProjection('$10.00', '1-year')
+    await savingsPage.expectOpportunityStablecoinsAmount('~$200.00')
   })
 })
