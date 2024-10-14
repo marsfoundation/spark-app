@@ -369,6 +369,7 @@ export function getChainConfigEntry(chainId: number): ChainConfigEntry {
         },
       ],
       oracles: {},
+      supportedPages: ['farms', 'farmDetails', 'savings'],
     }
   }
 
