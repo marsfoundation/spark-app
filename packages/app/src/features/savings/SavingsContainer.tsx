@@ -35,6 +35,7 @@ function SavingsContainer() {
         openConnectModal={openConnectModal}
         openSandboxModal={openSandboxModal}
         savingsChartsInfo={savingsChartsInfo}
+        savingsTokenDetails={sUSDSDetails ?? sDaiDetails ?? raise('Savings details should be defined')}
       />
     )
   }

@@ -1,3 +1,4 @@
+import { getChainConfigEntry } from '@/config/chain'
 import { SupportedChainId } from '@/config/chain/types'
 import { UseSavingsChartsInfoQueryResult } from '@/domain/savings-charts/useSavingsChartsInfoQuery'
 import { Percentage } from '@/domain/types/NumericValues'
@@ -5,9 +6,11 @@ import { assets } from '@/ui/assets'
 import { ConnectOrSandboxCTAPanel } from '@/ui/organisms/connect-or-sandbox-cta-panel/ConnectOrSandboxCTAPanel'
 import { PageHeader } from '../components/PageHeader'
 import { PageLayout } from '../components/PageLayout'
+import { DaiSavingsCharts } from '../components/savings-charts/DaiSavingsCharts'
 import { UsdsSavingsCharts } from '../components/savings-charts/UsdsSavingsCharts'
 import { SavingsOpportunityGuestMode } from '../components/savings-opportunity/SavingsOpportunityGuestMode'
 import { SavingsMeta } from '../logic/makeSavingsMeta'
+import { SavingsTokenDetails } from '../logic/useSavings'
 
 interface GuestViewProps {
   APY: Percentage
@@ -16,6 +19,7 @@ interface GuestViewProps {
   openConnectModal: () => void
   openSandboxModal: () => void
   savingsChartsInfo: UseSavingsChartsInfoQueryResult
+  savingsTokenDetails: SavingsTokenDetails
 }
 
 export function GuestView({
@@ -25,8 +29,13 @@ export function GuestView({
   openSandboxModal,
   savingsMeta,
   savingsChartsInfo,
+  savingsTokenDetails,
 }: GuestViewProps) {
   const displaySavingsChart = savingsChartsInfo.chartsSupported
+
+  const { USDSSymbol } = getChainConfigEntry(originChainId)
+
+  const Charts = savingsTokenDetails.tokenWithBalance.token.symbol === USDSSymbol ? UsdsSavingsCharts : DaiSavingsCharts
 
   return (
     <PageLayout>
@@ -40,7 +49,7 @@ export function GuestView({
           compact={displaySavingsChart}
           openSandboxModal={openSandboxModal}
         />
-        {displaySavingsChart && <UsdsSavingsCharts {...savingsChartsInfo} />}
+        {displaySavingsChart && <Charts {...savingsChartsInfo} />}
       </div>
 
       <ConnectOrSandboxCTAPanel
