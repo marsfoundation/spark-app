@@ -22,7 +22,7 @@ export interface NativeAssetInfo {
 export interface ChainMeta {
   name: string
   logo: string
-  defaultAssetToBorrow: TokenSymbol
+  defaultAssetToBorrow?: TokenSymbol
 }
 
 export type PermitSupport = Record<CheckedAddress, boolean>

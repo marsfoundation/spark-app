@@ -14,6 +14,7 @@ import mkrToSkyTransform from './banners/mkr-to-sky-transform.svg'
 import newSavingsWelcome from './banners/new-savings-welcome.webp'
 import sdaiToSusdsUpgrade from './banners/sdai-to-susds-upgrade.webp'
 import boxArrowTopRight from './box-arrow-top-right.svg'
+import baseDevNet from './chains/baseDevNet.svg'
 import ethereum from './chains/ethereum.svg'
 import gnosis from './chains/gnosis.svg'
 import checkCircle from './check-circle.svg'
@@ -145,6 +146,7 @@ export const assets = {
     gnosis,
     ethereum,
     unknown,
+    baseDevNet,
   },
   token: {
     dai,

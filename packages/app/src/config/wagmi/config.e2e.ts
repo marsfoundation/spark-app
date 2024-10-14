@@ -1,6 +1,6 @@
 import { http, Chain, Transport, createWalletClient } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
-import { gnosis, mainnet } from 'viem/chains'
+import { base, gnosis, mainnet } from 'viem/chains'
 import { Config, createConfig } from 'wagmi'
 import { z } from 'zod'
 
@@ -77,4 +77,8 @@ export function getMockConfig(sandboxNetwork?: SandboxNetwork): Config {
 const chainIdToChain: Record<number, Chain> = {
   [gnosis.id]: gnosis,
   [mainnet.id]: mainnet,
+  [base.id]: {
+    ...base,
+    name: 'Base DevNet',
+  },
 }

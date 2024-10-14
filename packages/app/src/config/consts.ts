@@ -1,6 +1,4 @@
-import { AssetsGroup } from '@/domain/farms/types'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
 
 export enum InterestRate {
   Stable = 1,
@@ -20,14 +18,3 @@ export const infoSkyApiUrl = import.meta.env.VITE_INFO_SKY_API_URL ?? '/info-sky
 
 // @note: all sandboxes created by the app begin (when expressed as strings) with this chain id. Ex: 30301719211032
 export const SANDBOX_NETWORKS_CHAIN_ID_PREFIX = 3030
-
-export const stablecoinsGroup: AssetsGroup = {
-  type: 'stablecoins',
-  name: 'Stablecoins',
-  assets: [
-    TokenSymbol('DAI'),
-    TokenSymbol('USDC'),
-    TokenSymbol('USDS'),
-    ...(import.meta.env.VITE_DEV_STAKE_SAVINGS_TOKENS === '1' ? [TokenSymbol('sDAI'), TokenSymbol('sUSDS')] : []),
-  ],
-}

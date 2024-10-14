@@ -132,6 +132,8 @@ jobs:
           TENDERLY_API_KEY: "${{ secrets.TENDERLY_API_KEY }}"
           TENDERLY_ACCOUNT: phoenixlabs
           TENDERLY_PROJECT: sparklend
+          TENDERLY_BASE_DEVNET_CONTAINER_ID: "${{ secrets.TENDERLY_BASE_DEVNET_CONTAINER_ID }}"
+          VITE_DEV_BASE_DEVNET_RPC_URL: "${{ secrets.VITE_DEV_BASE_DEVNET_RPC_URL }}"
           PLAYWRIGHT_TRACE: 1
       - name: Upload report to GitHub Actions Artifacts
         if: failure()
