@@ -12,6 +12,7 @@ import { Objective } from '@/features/actions/logic/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
+import { useChainId } from 'wagmi'
 import { AssetInputSchema, DialogFormNormalizedData, useDebouncedDialogFormValues } from '../../common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '../../common/types'
 import { getRepayOptions, getTokenDebt } from './assets'
@@ -36,12 +37,13 @@ export interface UseRepayDialogResult {
 }
 
 export function useRepayDialog({ initialToken }: UseRepayDialogOptions): UseRepayDialogResult {
-  const { aaveData } = useAaveDataLayer()
-  const { marketInfo } = useMarketInfo()
-  const { marketInfo: marketInfoIn1Epoch } = useMarketInfo({ timeAdvance: EPOCH_LENGTH })
-  const { marketInfo: marketInfoIn2Epochs } = useMarketInfo({ timeAdvance: 2 * EPOCH_LENGTH })
+  const chainId = useChainId()
+  const { aaveData } = useAaveDataLayer({ chainId })
+  const { marketInfo } = useMarketInfo({ chainId })
+  const { marketInfo: marketInfoIn1Epoch } = useMarketInfo({ timeAdvance: EPOCH_LENGTH, chainId })
+  const { marketInfo: marketInfoIn2Epochs } = useMarketInfo({ timeAdvance: 2 * EPOCH_LENGTH, chainId })
 
-  const walletInfo = useMarketWalletInfo()
+  const walletInfo = useMarketWalletInfo({ chainId })
 
   const nativeAssetInfo = getNativeAssetInfo(marketInfo.chainId)
 

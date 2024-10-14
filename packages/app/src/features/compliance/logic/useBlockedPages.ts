@@ -1,10 +1,10 @@
 import { apiUrl } from '@/config/consts'
-import { paths } from '@/config/paths'
+import { Path } from '@/config/paths'
 
 import { blockedPagesByCountryCode } from './consts'
 import { useVpnCheck } from './useVpnCheck'
 
-export function useBlockedPages(): (keyof typeof paths)[] {
+export function useBlockedPages(): Path[] {
   if (import.meta.env.VITE_FEATURE_AUTH_IP_AND_ADDRESS_CHECKS !== '1') {
     return []
   }

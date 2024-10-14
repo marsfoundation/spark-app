@@ -13,6 +13,7 @@ import { Token } from '@/domain/types/Token'
 import { Objective } from '@/features/actions/logic/types'
 import BigNumber from 'bignumber.js'
 import { useState } from 'react'
+import { useChainId } from 'wagmi'
 import { PageState, PageStatus } from '../../common/types'
 import { createCollateralObjectives } from './createCollateralObjectives'
 import { getUpdatedUserSummary } from './getUpdatedUserSummary'
@@ -33,8 +34,9 @@ export interface UseCollateralDialogResult {
 }
 
 export function useCollateralDialog({ useAsCollateral, token }: UseCollateralDialogParams): UseCollateralDialogResult {
-  const { aaveData } = useAaveDataLayer()
-  const { marketInfo } = useMarketInfo()
+  const chainId = useChainId()
+  const { aaveData } = useAaveDataLayer({ chainId })
+  const { marketInfo } = useMarketInfo({ chainId })
   const nativeAssetInfo = getNativeAssetInfo(marketInfo.chainId)
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')

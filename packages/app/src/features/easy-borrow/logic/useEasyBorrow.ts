@@ -1,6 +1,7 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { TokenWithValue } from '@/domain/common/types'
 import { useConditionalFreeze } from '@/domain/hooks/useConditionalFreeze'
+import { usePageChainId } from '@/domain/hooks/usePageChainId'
 import { RiskAcknowledgementInfo } from '@/domain/liquidation-risk-warning/types'
 import { useLiquidationRiskWarning } from '@/domain/liquidation-risk-warning/useLiquidationRiskWarning'
 import { useAaveDataLayer } from '@/domain/market-info/aave-data-layer/useAaveDataLayer'
@@ -66,11 +67,12 @@ export interface UseEasyBorrowResults {
 
 export function useEasyBorrow(): UseEasyBorrowResults {
   const account = useAccount()
+  const { chainId } = usePageChainId()
   const guestMode = !account.address
   const openDialog = useOpenDialog()
-  const { aaveData } = useAaveDataLayer()
-  const { marketInfo } = useMarketInfo()
-  const { marketInfo: marketInfoIn1Epoch } = useMarketInfo({ timeAdvance: EPOCH_LENGTH })
+  const { aaveData } = useAaveDataLayer({ chainId })
+  const { marketInfo } = useMarketInfo({ chainId })
+  const { marketInfo: marketInfoIn1Epoch } = useMarketInfo({ timeAdvance: EPOCH_LENGTH, chainId })
   const {
     nativeAssetInfo,
     extraTokens,
@@ -78,10 +80,10 @@ export function useEasyBorrow(): UseEasyBorrowResults {
     USDSSymbol,
     meta: { defaultAssetToBorrow },
   } = getChainConfigEntry(marketInfo.chainId)
-  const { tokensInfo } = useTokensInfo({ tokens: extraTokens })
+  const { tokensInfo } = useTokensInfo({ tokens: extraTokens, chainId })
+  const walletInfo = useMarketWalletInfo({ chainId })
 
-  const walletInfo = useMarketWalletInfo()
-  const upgradeOptions = useUpgradeOptions()
+  const upgradeOptions = useUpgradeOptions({ chainId })
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')
   const healthFactorPanelRef = useRef<HTMLDivElement>(null)

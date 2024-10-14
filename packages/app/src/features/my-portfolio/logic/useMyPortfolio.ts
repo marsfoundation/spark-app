@@ -1,5 +1,6 @@
 import { getNativeAssetInfo } from '@/config/chain/utils/getNativeAssetInfo'
 import { EModeCategoryId } from '@/domain/e-mode/types'
+import { usePageChainId } from '@/domain/hooks/usePageChainId'
 import { LiquidationDetails } from '@/domain/market-info/getLiquidationDetails'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { useOpenDialog } from '@/domain/state/dialogs'
@@ -24,8 +25,9 @@ export interface UseMyPortfolioResults {
 }
 
 export function useMyPortfolio(): UseMyPortfolioResults {
-  const { marketInfo } = useMarketInfo()
-  const walletInfo = useMarketWalletInfo()
+  const { chainId } = usePageChainId()
+  const { marketInfo } = useMarketInfo({ chainId })
+  const walletInfo = useMarketWalletInfo({ chainId })
   const [compositionWithDeposits, setCompositionWithDeposits] = useState(true)
   const nativeAssetInfo = getNativeAssetInfo(marketInfo.chainId)
   const openDialog = useOpenDialog()

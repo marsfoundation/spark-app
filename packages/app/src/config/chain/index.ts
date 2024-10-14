@@ -191,6 +191,7 @@ const chainConfig: ChainConfig = {
         asset: 'BTC',
       },
     },
+    supportedPages: ['easyBorrow', 'myPortfolio', 'markets', 'marketDetails', 'farms', 'farmDetails', 'savings'],
   },
   [gnosis.id]: {
     id: gnosis.id,
@@ -285,6 +286,7 @@ const chainConfig: ChainConfig = {
         oracleFetcher: fetchSdaiOracleInfoGnosis,
       },
     },
+    supportedPages: ['easyBorrow', 'myPortfolio', 'markets', 'marketDetails', 'savings'],
   },
 }
 
