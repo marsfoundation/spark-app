@@ -9,7 +9,7 @@ import {
   SKY_MIGRATION_TOP_BANNER_ID,
   SkyMigrationTopBanner,
 } from '../../atoms/sky-migration-top-banner/SkyMigrationTopBanner'
-import { PageNotSupportedOverlay } from './components/PageNotSupportedOverlay'
+import { PageNotSupportedWarning } from './components/PageNotSupportedWarning'
 
 interface AppLayoutProps {
   children: React.ReactNode
@@ -25,10 +25,19 @@ export function AppLayout({ children }: AppLayoutProps) {
       {import.meta.env.VITE_FEATURE_TOP_BANNER === '1' && showBanner && (
         <SkyMigrationTopBanner onClose={handleCloseBanner} />
       )}
-      <Navbar mobileMenuCollapsed={mobileMenuCollapsed} setMobileMenuCollapsed={setMobileMenuCollapsed} />
+      <Navbar
+        mobileMenuCollapsed={mobileMenuCollapsed}
+        setMobileMenuCollapsed={setMobileMenuCollapsed}
+        className="z-20"
+      />
       <main className={cx('isolate flex w-full grow flex-col', !mobileMenuCollapsed && 'hidden lg:flex')}>
         {children}
-        {!pageSupported && <PageNotSupportedOverlay pageName={pageName} />}
+        {!pageSupported && (
+          <>
+            <div className="fixed inset-0 z-10 bg-gray-100/30 backdrop-blur-[1.5px]" aria-hidden="true" />
+            <PageNotSupportedWarning pageName={pageName} className="z-20" />
+          </>
+        )}
       </main>
     </div>
   )
