@@ -1,7 +1,6 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { SupportedChainId } from '@/config/chain/types'
 import { UseSavingsChartsInfoQueryResult } from '@/domain/savings-charts/useSavingsChartsInfoQuery'
-import { Percentage } from '@/domain/types/NumericValues'
 import { assets } from '@/ui/assets'
 import { ConnectOrSandboxCTAPanel } from '@/ui/organisms/connect-or-sandbox-cta-panel/ConnectOrSandboxCTAPanel'
 import { PageHeader } from '../components/PageHeader'
@@ -13,7 +12,6 @@ import { SavingsMeta } from '../logic/makeSavingsMeta'
 import { SavingsTokenDetails } from '../logic/useSavings'
 
 interface GuestViewProps {
-  APY: Percentage
   originChainId: SupportedChainId
   savingsMeta: SavingsMeta
   openConnectModal: () => void
@@ -23,7 +21,6 @@ interface GuestViewProps {
 }
 
 export function GuestView({
-  APY,
   originChainId,
   openConnectModal,
   openSandboxModal,
@@ -42,7 +39,7 @@ export function GuestView({
       <PageHeader />
       <div className="flex flex-col gap-6 sm:grid sm:grid-cols-2">
         <SavingsOpportunityGuestMode
-          APY={APY}
+          APY={savingsTokenDetails.APY}
           originChainId={originChainId}
           openConnectModal={openConnectModal}
           savingsMeta={savingsMeta}

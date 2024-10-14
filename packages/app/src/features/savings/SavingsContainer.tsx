@@ -25,13 +25,11 @@ function SavingsContainer() {
   }
 
   const { sDaiDetails, sUSDSDetails, savingsChartsInfo } = savingsDetails
-  const APY = sUSDSDetails?.APY ?? sDaiDetails?.APY ?? raise('Savings APY should be defined')
 
   if (isGuestMode) {
     return (
       <GuestView
         {...savingsDetails}
-        APY={APY}
         openConnectModal={openConnectModal}
         openSandboxModal={openSandboxModal}
         savingsChartsInfo={savingsChartsInfo}
