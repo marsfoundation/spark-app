@@ -1,6 +1,6 @@
 import { RouteObject, createBrowserRouter, redirect } from 'react-router-dom'
 
-import { paths } from './config/paths'
+import { Path, paths } from './config/paths'
 import { RouterErrorFallback } from './features/errors'
 import { NotFound } from './features/errors/NotFound'
 import { EasyBorrowPage } from './pages/Borrow'
@@ -63,7 +63,7 @@ export const rootRouter = createBrowserRouter([
 ])
 
 interface PathAliases {
-  path: (typeof paths)[keyof typeof paths]
+  path: (typeof paths)[Path]
   aliases: string[]
 }
 

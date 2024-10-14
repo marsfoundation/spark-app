@@ -2,7 +2,7 @@ import { Page } from '@playwright/test'
 import { generatePath } from 'react-router-dom'
 import { Address, Hash, parseEther, parseUnits } from 'viem'
 
-import { paths } from '@/config/paths'
+import { Path, paths } from '@/config/paths'
 import { BaseUnitNumber } from '@/domain/types/NumericValues'
 
 import { tenderlyRpcActions } from '@/domain/tenderly/TenderlyRpcActions'
@@ -13,8 +13,8 @@ import { generateAccount } from './utils'
 
 export type InjectableWallet = { address: Address } | { privateKey: string }
 
-type PathParams<K extends keyof typeof paths> = Parameters<typeof generatePath<(typeof paths)[K]>>[1]
-export function buildUrl<T extends keyof typeof paths>(key: T, pathParams?: PathParams<T>): string {
+type PathParams<K extends Path> = Parameters<typeof generatePath<(typeof paths)[K]>>[1]
+export function buildUrl<T extends Path>(key: T, pathParams?: PathParams<T>): string {
   return `http://localhost:4000${generatePath(paths[key], pathParams)}`
 }
 
@@ -43,7 +43,7 @@ export type AccountOptions<T extends ConnectionType> = T extends 'not-connected'
           }
         : never
 
-export interface SetupOptions<K extends keyof typeof paths, T extends ConnectionType> {
+export interface SetupOptions<K extends Path, T extends ConnectionType> {
   initialPage: K
   initialPageParams?: PathParams<K>
   account: AccountOptions<T>
@@ -60,7 +60,7 @@ export type SetupReturn<T extends ConnectionType> = T extends 'not-connected'
     }
 
 // should be called at the beginning of any test
-export async function setup<K extends keyof typeof paths, T extends ConnectionType>(
+export async function setup<K extends Path, T extends ConnectionType>(
   page: Page,
   forkContext: ForkContext,
   options: SetupOptions<K, T>,
