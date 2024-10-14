@@ -13,6 +13,7 @@ export interface ExplainerProps {
 
 export function Explainer({ stablecoinValue, savingsMeta }: ExplainerProps) {
   const { stablecoin, rateName } = savingsMeta.primary
+
   return (
     <div className="flex flex-col gap-1 md:max-w-[28ch]">
       <Header savingsMeta={savingsMeta} stablecoinValue={stablecoinValue} />
@@ -26,7 +27,11 @@ export function Explainer({ stablecoinValue, savingsMeta }: ExplainerProps) {
             worth of stablecoins in your wallet. Earn while you hold it!
           </>
         ) : (
-          `Deposit your stablecoins into Savings ${stablecoin} to tap into the ${rateName}, which grants you a predictable APY in ${stablecoin}.`
+          <>
+            Deposit your stablecoins into Savings {stablecoin} to tap into the {rateName}, which grants you a
+            predictable APY in {stablecoin}.
+            {savingsMeta.secondary && ` You can alway opt out and use ${savingsMeta.secondary.stablecoin}`}
+          </>
         )}
       </p>
     </div>
@@ -39,6 +44,7 @@ function Header({ stablecoinValue, savingsMeta }: ExplainerProps) {
   }
 
   const { savingsToken, stablecoin, rateAcronym, rateName } = savingsMeta.primary
+
   return (
     <h2 className="flex items-center gap-1 whitespace-nowrap font-semibold text-base text-basics-black sm:text-xl">
       Savings {stablecoin}
@@ -50,7 +56,7 @@ function Header({ stablecoinValue, savingsMeta }: ExplainerProps) {
         <Link to={links.docs.newSavings} external>
           here
         </Link>
-        .
+        .{savingsMeta.secondary && `You can alway opt out and use ${savingsMeta.secondary.stablecoin}`}
       </Info>
     </h2>
   )
