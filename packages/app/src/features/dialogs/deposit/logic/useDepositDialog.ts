@@ -10,6 +10,7 @@ import { Objective } from '@/features/actions/logic/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
+import { useChainId } from 'wagmi'
 import { AssetInputSchema, useDebouncedDialogFormValues } from '../../common/logic/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '../../common/types'
 import { getDepositOptions } from './assets'
@@ -34,10 +35,11 @@ export interface UseDepositDialogResult {
 }
 
 export function useDepositDialog({ initialToken }: UseDepositDialogOptions): UseDepositDialogResult {
-  const { aaveData } = useAaveDataLayer()
-  const { marketInfo } = useMarketInfo()
-  const { marketInfo: marketInfoIn1Epoch } = useMarketInfo({ timeAdvance: EPOCH_LENGTH })
-  const walletInfo = useMarketWalletInfo()
+  const chainId = useChainId()
+  const { aaveData } = useAaveDataLayer({ chainId })
+  const { marketInfo } = useMarketInfo({ chainId })
+  const { marketInfo: marketInfoIn1Epoch } = useMarketInfo({ timeAdvance: EPOCH_LENGTH, chainId })
+  const walletInfo = useMarketWalletInfo({ chainId })
   const nativeAssetInfo = getNativeAssetInfo(marketInfo.chainId)
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')

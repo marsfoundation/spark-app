@@ -13,6 +13,7 @@ import { raise } from '@/utils/assert'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
+import { useChainId } from 'wagmi'
 import { SavingsDialogTxOverview } from '../../common/types'
 import { Mode, SavingsType, SendModeExtension } from '../types'
 import { createObjectives } from './createObjectives'
@@ -42,10 +43,11 @@ export function useSavingsWithdrawDialog({
   mode,
   savingsType,
 }: UseSavingsWithdrawDialogParams): UseSavingsWithdrawDialogResults {
-  const { tokensInfo, inputTokens, sDaiWithBalance, sUSDSWithBalance } = useSavingsTokens()
+  const chainId = useChainId()
+  const { tokensInfo, inputTokens, sDaiWithBalance, sUSDSWithBalance } = useSavingsTokens({ chainId })
 
-  const { savingsDaiInfo } = useSavingsDaiInfo()
-  const { savingsUsdsInfo } = useSavingsUsdsInfo()
+  const { savingsDaiInfo } = useSavingsDaiInfo({ chainId })
+  const { savingsUsdsInfo } = useSavingsUsdsInfo({ chainId })
 
   const savingsInfo =
     (savingsType === 'sdai' ? savingsDaiInfo : savingsUsdsInfo) ??

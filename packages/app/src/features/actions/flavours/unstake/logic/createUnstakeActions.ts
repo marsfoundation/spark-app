@@ -1,19 +1,18 @@
-import { getChainConfigEntry } from '@/config/chain'
 import { migrationActionsConfig, usdsPsmWrapperConfig } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { Action, ActionContext } from '@/features/actions/logic/types'
 import { assert, raise } from '@/utils/assert'
+import { assertNever } from '@/utils/assertNever'
 import { ApproveAction } from '../../approve/types'
 import { DowngradeAction } from '../../downgrade/types'
 import { UsdsPsmConvertAction } from '../../usds-psm-convert/types'
 import { UnstakeAction, UnstakeObjective } from '../types'
+import { getUnstakeActionPath } from './getUnstakeActionPath'
 
 export function createUnstakeActions(objective: UnstakeObjective, context: ActionContext): Action[] {
-  const { farmsInfo, chainId } = context
-  const { daiSymbol, USDSSymbol } = getChainConfigEntry(chainId)
+  const { farmsInfo, chainId, tokensInfo } = context
+  assert(farmsInfo && tokensInfo, 'Farms info and tokens info are required for stake action')
 
-  assert(farmsInfo, 'Farms info is required for stake action')
   const { stakingToken, rewardToken } = farmsInfo.findOneFarmByAddress(objective.farm)
 
   const unstakeAction: UnstakeAction = {
@@ -25,8 +24,17 @@ export function createUnstakeActions(objective: UnstakeObjective, context: Actio
     amount: objective.amount,
   }
 
-  if (stakingToken.symbol === USDSSymbol) {
-    if (objective.token.symbol === daiSymbol) {
+  const actionPath = getUnstakeActionPath({
+    token: objective.token,
+    tokensInfo,
+    stakingToken,
+  })
+
+  switch (actionPath) {
+    case 'farm-to-usds':
+      return [unstakeAction]
+
+    case 'farm-to-usds-to-dai': {
       const approveDowngradeAction: ApproveAction = {
         type: 'approve',
         token: stakingToken,
@@ -44,9 +52,7 @@ export function createUnstakeActions(objective: UnstakeObjective, context: Actio
       return [unstakeAction, approveDowngradeAction, downgradeAction]
     }
 
-    assert(context.tokensInfo, 'Tokens info is required for unstake action')
-    const usdc = context.tokensInfo.findOneTokenBySymbol(TokenSymbol('USDC'))
-    if (objective.token.symbol === usdc.symbol) {
+    case 'farm-to-usds-to-usdc': {
       const approveConvertAction: ApproveAction = {
         type: 'approve',
         token: stakingToken,
@@ -56,14 +62,15 @@ export function createUnstakeActions(objective: UnstakeObjective, context: Actio
 
       const convertToUsdcAction: UsdsPsmConvertAction = {
         type: 'usdsPsmConvert',
-        inToken: context.tokensInfo.USDS ?? raise('USDS token is required for usds psm convert action'),
+        inToken: tokensInfo.USDS ?? raise('USDS token is required for usds psm convert action'),
         outToken: objective.token,
         amount: objective.amount,
       }
 
       return [unstakeAction, approveConvertAction, convertToUsdcAction]
     }
-  }
 
-  return [unstakeAction]
+    default:
+      assertNever(actionPath)
+  }
 }

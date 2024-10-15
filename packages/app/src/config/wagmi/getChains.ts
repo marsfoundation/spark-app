@@ -3,8 +3,9 @@ import { SUPPORTED_CHAINS } from '../chain/constants'
 
 export interface GetChainsParams {
   forkChain?: Chain
+  baseDevNetChain?: Chain
 }
 
-export function getChains({ forkChain }: GetChainsParams): readonly [Chain, ...Chain[]] {
-  return [...SUPPORTED_CHAINS, forkChain].filter(Boolean) as [Chain, ...Chain[]]
+export function getChains({ forkChain, baseDevNetChain }: GetChainsParams): readonly [Chain, ...Chain[]] {
+  return [...SUPPORTED_CHAINS, forkChain, baseDevNetChain].filter(Boolean) as [Chain, ...Chain[]]
 }

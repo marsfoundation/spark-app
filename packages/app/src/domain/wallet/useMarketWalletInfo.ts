@@ -1,5 +1,5 @@
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { useAccount, useChainId, useConfig } from 'wagmi'
+import { useAccount, useConfig } from 'wagmi'
 
 import { useMarketInfo } from '../market-info/useMarketInfo'
 import { CheckedAddress } from '../types/CheckedAddress'
@@ -13,6 +13,10 @@ export interface WalletBalance {
   token: Token
 }
 
+export interface MarketWalletInfoParams {
+  chainId: number
+}
+
 export interface MarketWalletInfo {
   isConnected: boolean
   walletBalances: WalletBalance[]
@@ -21,11 +25,10 @@ export interface MarketWalletInfo {
   findWalletBalanceForSymbol: (symbol: TokenSymbol) => NormalizedUnitNumber
 }
 
-export function useMarketWalletInfo(): MarketWalletInfo {
+export function useMarketWalletInfo({ chainId }: MarketWalletInfoParams): MarketWalletInfo {
   const { address, isConnected } = useAccount()
-  const chainId = useChainId()
   const wagmiConfig = useConfig()
-  const { marketInfo } = useMarketInfo()
+  const { marketInfo } = useMarketInfo({ chainId })
 
   const { data: balanceData } = useSuspenseQuery({
     ...marketBalances({

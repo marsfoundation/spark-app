@@ -6,6 +6,7 @@ import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { FarmConfig } from '@/domain/farms/types'
 import { OracleInfoFetcherParams, OracleInfoFetcherResult } from '@/domain/oracles/oracleInfoFetchers'
 import { OracleType } from '@/domain/wallet/useTokens/types'
+import { Path } from '../paths'
 import { SUPPORTED_CHAIN_IDS } from './constants'
 
 export type SupportedChainId = (typeof SUPPORTED_CHAIN_IDS)[number]
@@ -21,7 +22,7 @@ export interface NativeAssetInfo {
 export interface ChainMeta {
   name: string
   logo: string
-  defaultAssetToBorrow: TokenSymbol
+  defaultAssetToBorrow?: TokenSymbol
 }
 
 export type PermitSupport = Record<CheckedAddress, boolean>
@@ -84,6 +85,7 @@ export interface ChainConfigEntry {
   farms: FarmConfig[]
   oracles: Record<TokenSymbol, ReserveOracleType>
   savingsChartsSupported: boolean
+  supportedPages: Path[]
 }
 
 export type ChainConfig = Record<SupportedChainId, ChainConfigEntry>

@@ -1,12 +1,10 @@
-import { multicall } from 'wagmi/actions'
-
-import { potAbi, potAddress } from '@/config/contracts-generated'
-import { getContractAddress } from '@/domain/hooks/useContractAddress'
-import { bigNumberify } from '@/utils/bigNumber'
-
 import { susdsAbi } from '@/config/abis/susdsAbi'
 import { getChainConfigEntry } from '@/config/chain'
+import { potAbi, potAddress } from '@/config/contracts-generated'
+import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { raise } from '@/utils/assert'
+import { bigNumberify } from '@/utils/bigNumber'
+import { multicall } from 'wagmi/actions'
 import { PotSavingsInfo } from './potSavingsInfo'
 import { SavingsInfoQueryOptions, SavingsInfoQueryParams } from './types'
 

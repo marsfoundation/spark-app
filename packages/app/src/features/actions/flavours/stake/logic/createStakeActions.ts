@@ -1,11 +1,10 @@
-import { getChainConfigEntry } from '@/config/chain'
 import { migrationActionsConfig, usdsPsmWrapperConfig } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { BaseUnitNumber, NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { Action, ActionContext } from '@/features/actions/logic/types'
 import { assert, raise } from '@/utils/assert'
+import { assertNever } from '@/utils/assertNever'
 import { TransactionReceipt, decodeEventLog, erc4626Abi } from 'viem'
 import { ApproveAction } from '../../approve/types'
 import { UpgradeAction } from '../../upgrade/types'
@@ -13,12 +12,12 @@ import { UsdsPsmConvertAction } from '../../usds-psm-convert/types'
 import { createWithdrawFromSavingsActions } from '../../withdraw-from-savings/logic/createWithdrawFromSavingsActions'
 import { WithdrawFromSavingsObjective } from '../../withdraw-from-savings/types'
 import { StakeAction, StakeObjective } from '../types'
+import { getStakeActionPath } from './getStakeActionPath'
 
 export function createStakeActions(objective: StakeObjective, context: ActionContext): Action[] {
-  const { farmsInfo, chainId } = context
-  const { sDaiSymbol, sUSDSSymbol, daiSymbol, USDSSymbol } = getChainConfigEntry(chainId)
+  const { farmsInfo, chainId, tokensInfo } = context
+  assert(farmsInfo && tokensInfo, 'Farms info and tokens info are required for stake action')
 
-  assert(farmsInfo, 'Farms info is required for stake action')
   const { stakingToken, rewardToken } = farmsInfo.findOneFarmByAddress(objective.farm)
 
   const approveStakeAction: ApproveAction = {
@@ -36,8 +35,17 @@ export function createStakeActions(objective: StakeObjective, context: ActionCon
     stakingToken,
   }
 
-  if (stakingToken.symbol === USDSSymbol) {
-    if (objective.token.symbol === daiSymbol) {
+  const actionPath = getStakeActionPath({
+    token: objective.token,
+    tokensInfo,
+    stakingToken,
+  })
+
+  switch (actionPath) {
+    case 'usds-to-farm':
+      return [approveStakeAction, stakeAction]
+
+    case 'dai-to-usds-to-farm': {
       const approveUpgradeAction: ApproveAction = {
         type: 'approve',
         token: objective.token,
@@ -55,7 +63,8 @@ export function createStakeActions(objective: StakeObjective, context: ActionCon
       return [approveUpgradeAction, upgradeAction, approveStakeAction, stakeAction]
     }
 
-    if (objective.token.symbol === sDaiSymbol || objective.token.symbol === sUSDSSymbol) {
+    case 'susds-to-usds-to-farm':
+    case 'sdai-to-usds-to-farm': {
       const withdrawObjective: WithdrawFromSavingsObjective = {
         type: 'withdrawFromSavings',
         token: stakingToken,
@@ -77,10 +86,7 @@ export function createStakeActions(objective: StakeObjective, context: ActionCon
       ]
     }
 
-    assert(context.tokensInfo, 'Tokens info is required for stake action')
-    const usdc = context.tokensInfo.findOneTokenBySymbol(TokenSymbol('USDC'))
-
-    if (objective.token.symbol === usdc.symbol) {
+    case 'usdc-to-usds-to-farm': {
       const approveConvertAction: ApproveAction = {
         type: 'approve',
         token: objective.token,
@@ -91,15 +97,16 @@ export function createStakeActions(objective: StakeObjective, context: ActionCon
       const convertToUsdsAction: UsdsPsmConvertAction = {
         type: 'usdsPsmConvert',
         inToken: objective.token,
-        outToken: context.tokensInfo.USDS ?? raise('USDS token is required for usds psm convert action'),
+        outToken: tokensInfo.USDS ?? raise('USDS token is required for usds psm convert action'),
         amount: objective.amount,
       }
 
       return [approveConvertAction, convertToUsdsAction, approveStakeAction, stakeAction]
     }
-  }
 
-  return [approveStakeAction, stakeAction]
+    default:
+      assertNever(actionPath)
+  }
 }
 
 function getStakeAmountFromWithdrawReceipt(token: Token, receipt: TransactionReceipt): NormalizedUnitNumber {

@@ -1,34 +1,54 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
-import { SuspenseQueryWith } from '@/utils/types'
-import { useSuspenseQuery } from '@tanstack/react-query'
-import { useAccount, useChainId, useConfig } from 'wagmi'
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
+import { useCallback } from 'react'
+import { useAccount, useConfig } from 'wagmi'
+import { farmsApiDetailsQueryOptions } from './farmApiDetailsQuery'
+import { farmsBlockchainDetailsQueryOptions } from './farmBlockchainDetailsQuery'
 import { FarmsInfo } from './farmsInfo'
-import { farmsInfoQueryOptions } from './query'
+import { Farm, FarmApiDetails, FarmBlockchainDetails } from './types'
 
 export interface UseFarmsInfoParams {
-  chainId?: number
+  chainId: number
 }
 
-export type UseFarmsInfoResultOnSuccess = SuspenseQueryWith<{
+export interface UseFarmsInfoResult {
   farmsInfo: FarmsInfo
-}>
+}
 
-export function useFarmsInfo(params: UseFarmsInfoParams = {}): UseFarmsInfoResultOnSuccess {
+export function useFarmsInfo({ chainId }: UseFarmsInfoParams): UseFarmsInfoResult {
   const wagmiConfig = useConfig()
   const { address: account } = useAccount()
-  const _chainId = useChainId()
-  const chainId = params.chainId ?? _chainId
 
-  const chainConfig = getChainConfigEntry(chainId)
-  const { tokensInfo } = useTokensInfo({ tokens: chainConfig.extraTokens, chainId })
+  const { farms: farmConfigs, extraTokens } = getChainConfigEntry(chainId)
+  const { tokensInfo } = useTokensInfo({ tokens: extraTokens, chainId })
 
-  const res = useSuspenseQuery(
-    farmsInfoQueryOptions({ farmConfigs: chainConfig.farms, wagmiConfig, tokensInfo, chainId, account }),
-  )
+  const farmsApiDetailsResult = useQuery(farmsApiDetailsQueryOptions({ farmConfigs }))
 
-  return {
-    ...res,
-    farmsInfo: res.data,
-  }
+  const { data: farms } = useSuspenseQuery({
+    ...farmsBlockchainDetailsQueryOptions({ farmConfigs, wagmiConfig, tokensInfo, chainId, account }),
+    select: useCallback(
+      (data: FarmBlockchainDetails[]) => mergeBlockchainAndApiDetails(data, farmsApiDetailsResult.data),
+      [farmsApiDetailsResult.data],
+    ),
+  })
+
+  return { farmsInfo: new FarmsInfo(farms) }
+}
+
+function mergeBlockchainAndApiDetails(
+  blockchainDetails: FarmBlockchainDetails[],
+  apiDetails: FarmApiDetails[] | undefined,
+): Farm[] {
+  return blockchainDetails.map((blockchainDetail, index) => {
+    const rewardTokenPrice = apiDetails?.[index]?.rewardTokenPriceUsd
+    const rewardToken = rewardTokenPrice
+      ? blockchainDetail.rewardToken.clone({ unitPriceUsd: rewardTokenPrice })
+      : blockchainDetail.rewardToken
+    return {
+      ...(apiDetails?.[index] ?? {}),
+      ...blockchainDetail,
+      rewardToken,
+    }
+  })
 }

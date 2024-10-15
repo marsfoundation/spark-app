@@ -1,4 +1,4 @@
-import { paths } from '@/config/paths'
+import { Path } from '@/config/paths'
 
 export const blockedCountryCodes = [
   'AF', // Afghanistan
@@ -32,4 +32,4 @@ export const blockedCountryCodes = [
   'US', // United States
 ]
 
-export const blockedPagesByCountryCode: Record<string, (keyof typeof paths)[]> = {}
+export const blockedPagesByCountryCode: Record<string, Path[]> = {}

@@ -1,6 +1,6 @@
 import { ChevronDown } from 'lucide-react'
 
-import { paths } from '@/config/paths'
+import { Path, paths } from '@/config/paths'
 import { SavingsAPYBadge } from '@/features/savings/components/navbar-item/SavingsAPYBadge'
 import { cn } from '@/ui/utils/style'
 
@@ -29,7 +29,7 @@ export interface PageLinksProps {
   mobileMenuCollapsed: boolean
   closeMobileMenu: () => void
   savingsInfo: SavingsInfoQueryResults | undefined
-  blockedPages: (keyof typeof paths)[]
+  blockedPages: Path[]
   pageLinksInfo: PageLinksInfo
 }
 
