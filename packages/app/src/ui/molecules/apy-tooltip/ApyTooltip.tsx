@@ -48,7 +48,7 @@ const variantToText: Record<ApyTooltipProps['variant'], ReactNode> = {
       <p>
         This, in turn, affects the APY for borrowers, as it influences the nominal interest rate applied to their loans.
       </p>
-      <p> This doesn't apply to DAI as Sky DPE Governance defines the borrowing rate.</p>
+      <p> This doesn't apply to DAI as Sky Ecosystem Governance defines the borrowing rate.</p>
       <p>
         <Link to={links.docs.borrowing} external>
           Learn more
