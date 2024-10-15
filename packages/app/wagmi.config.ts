@@ -1,6 +1,6 @@
 import { defineConfig } from '@wagmi/cli'
 import { etherscan } from '@wagmi/cli/plugins'
-import { gnosis, mainnet } from 'wagmi/chains'
+import { base, gnosis, mainnet } from 'wagmi/chains'
 import { z } from 'zod'
 import 'dotenv/config'
 
@@ -151,6 +151,22 @@ export default defineConfig({
           name: 'SavingsXDai',
           address: {
             [gnosis.id]: '0xaf204776c7245bF4147c2612BF6e5972Ee483701',
+          },
+        },
+      ],
+    }),
+    etherscan({
+      apiKey: z.string().parse(process.env.BASESCAN_API_KEY, {
+        errorMap: () => ({
+          message: "Couldn't process BASESCAN_API_KEY env variable",
+        }),
+      }),
+      chainId: base.id,
+      contracts: [
+        {
+          name: 'SSRAuthOracle',
+          address: {
+            [base.id]: '0x65d946e533748A998B1f0E430803e39A6388f7a1',
           },
         },
       ],
