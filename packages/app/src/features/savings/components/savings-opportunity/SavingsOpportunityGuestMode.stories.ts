@@ -9,9 +9,9 @@ import { SavingsOpportunityGuestMode } from './SavingsOpportunityGuestMode'
 const meta: Meta<typeof SavingsOpportunityGuestMode> = {
   title: 'Features/Savings/Components/SavingsOpportunityGuestMode',
   component: SavingsOpportunityGuestMode,
-  decorators: [WithTooltipProvider(), WithClassname('max-w-5xl')],
+  decorators: [WithTooltipProvider(), WithClassname('max-w-5xl flex flex-col gap-6 sm:grid sm:grid-cols-2')],
   args: {
-    APY: Percentage(0.05),
+    APY: Percentage(0.065),
     originChainId: mainnet.id,
     openConnectModal: () => {},
     savingsMeta: {
@@ -20,6 +20,12 @@ const meta: Meta<typeof SavingsOpportunityGuestMode> = {
         stablecoin: TokenSymbol('USDS'),
         rateAcronym: 'SSR',
         rateName: 'Sky Savings Rate',
+      },
+      secondary: {
+        savingsToken: TokenSymbol('sDAI'),
+        stablecoin: TokenSymbol('DAI'),
+        rateAcronym: 'DSR',
+        rateName: 'DAI Savings Rate',
       },
     },
   },

@@ -13,6 +13,7 @@ interface SavingsOpportunityGuestModeProps {
   originChainId: SupportedChainId
   savingsMeta: SavingsMeta
   openConnectModal: () => void
+  openSandboxModal: () => void
 }
 
 export function SavingsOpportunityGuestMode({
@@ -20,20 +21,26 @@ export function SavingsOpportunityGuestMode({
   originChainId,
   savingsMeta,
   openConnectModal,
+  openSandboxModal,
 }: SavingsOpportunityGuestModeProps) {
   return (
-    <Panel.Wrapper variant="green">
-      <div className="flex flex-col justify-between gap-10 px-8 py-6 sm:flex-row">
-        <SavingsInfoTile alignItems="center" className="mx-auto">
-          <SavingsInfoTile.Value size="huge">
+    <Panel.Wrapper variant="green" className="p-6 md:px-8">
+      <div className="flex h-full flex-col justify-between gap-5">
+        <Explainer savingsMeta={savingsMeta} />
+
+        <SavingsInfoTile className="mt-auto flex flex-row items-baseline gap-2">
+          <SavingsInfoTile.Value size="extraLarge" className="leading-none md:leading-none">
             {formatPercentage(APY, { minimumFractionDigits: 0 })}
           </SavingsInfoTile.Value>
           <DSRLabel originChainId={originChainId} savingsMetaItem={savingsMeta.primary} />
         </SavingsInfoTile>
-        <div className="grid grid-cols-1 items-center gap-5 sm:grid-cols-[auto_1fr] md:gap-10">
-          <Explainer savingsMeta={savingsMeta} />
-          <Button variant="green" onClick={openConnectModal}>
+
+        <div className="flex flex-wrap gap-2 md:gap-4">
+          <Button variant="green" onClick={openConnectModal} className="flex-1">
             Connect wallet
+          </Button>
+          <Button variant="secondary" onClick={openSandboxModal} className="flex-1">
+            Activate sandbox
           </Button>
         </div>
       </div>

@@ -34,7 +34,8 @@ function TimeframeButton({ selected, ...props }: TimeframeButtonProps) {
       className={cn(
         'h-8 gap-1 rounded-none px-3 py-2 text-xs',
         'font-normal text-prompt-foreground hover:bg-basics-grey hover:text-black',
-        'last:rounded-r-lg first:rounded-l-lg',
+        // radius has to be calculated because of the border of wrapper - more details https://www.30secondsofcode.org/css/s/nested-border-radius/
+        'last:rounded-r-[calc(var(--radius)-1px)] first:rounded-l-[calc(var(--radius)-1px)]',
         selected && 'bg-basics-grey text-black',
       )}
       {...props}

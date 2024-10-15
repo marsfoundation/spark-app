@@ -75,8 +75,7 @@ test.describe('Withdraw USDC from sUSDS', () => {
     await withdrawDialog.expectSuccessPage()
     await withdrawDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectPotentialProjection('$49.95', '30-day')
-    await savingsPage.expectPotentialProjection('$625.00', '1-year')
+    await savingsPage.expectOpportunityStablecoinsAmount('~$10,000.00')
     await savingsPage.expectStablecoinsInWalletAssetBalance('USDC', '10,000')
   })
 })
@@ -143,8 +142,7 @@ test.describe('Withdraw USDC from sDAI', () => {
     await withdrawDialog.expectSuccessPage()
     await withdrawDialog.clickBackToSavingsButton()
 
+    await savingsPage.expectOpportunityStablecoinsAmount('~$11,085.91')
     await savingsPage.expectStablecoinsInWalletAssetBalance('USDC', '11,085.91')
-    await savingsPage.expectPotentialProjection('$55.38', '30-day')
-    await savingsPage.expectPotentialProjection('$692.87', '1-year')
   })
 })

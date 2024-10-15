@@ -145,11 +145,8 @@ export class SavingsPageObject extends BasePageObject {
     ).toBeVisible()
   }
 
-  async expectPotentialProjection(value: string, type: '30-day' | '1-year'): Promise<void> {
-    const title = type === '30-day' ? '30-day projection' : '1-year projection'
-    await expect(
-      this.locateSavingsOpportunityPanel().getByRole('generic').filter({ hasText: title }).getByText(value),
-    ).toBeVisible()
+  async expectOpportunityStablecoinsAmount(value: string): Promise<void> {
+    await expect(this.page.getByTestId(testIds.savings.stablecoinsAmount).getByText(value)).toBeVisible()
   }
 
   async expectStablecoinsInWalletAssetBalance(assetName: string, value: string): Promise<void> {
