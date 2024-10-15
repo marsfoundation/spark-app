@@ -32,7 +32,7 @@ export function SavingsOpportunityGuestMode({
         <div className="flex h-full flex-col justify-between gap-5">
           <Explainer savingsMeta={savingsMeta} />
 
-          <SavingsInfoTile className="mt-auto flex flex-row items-end gap-2">
+          <SavingsInfoTile className="mt-auto flex flex-row items-baseline gap-2">
             <SavingsInfoTile.Value size="extraLarge" className="leading-none md:leading-none">
               {formatPercentage(APY, { minimumFractionDigits: 0 })}
             </SavingsInfoTile.Value>
