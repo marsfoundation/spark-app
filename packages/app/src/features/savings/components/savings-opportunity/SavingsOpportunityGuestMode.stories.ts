@@ -28,7 +28,6 @@ const meta: Meta<typeof SavingsOpportunityGuestMode> = {
         rateName: 'DAI Savings Rate',
       },
     },
-    compact: false,
   },
 }
 
@@ -38,12 +37,3 @@ type Story = StoryObj<typeof SavingsOpportunityGuestMode>
 export const Desktop: Story = {}
 export const Mobile = getMobileStory(Desktop)
 export const Tablet = getTabletStory(Desktop)
-
-export const CompactDesktop: Story = {
-  args: {
-    compact: true,
-  },
-}
-
-export const CompactMobile = getMobileStory(CompactDesktop)
-export const CompactTablet = getTabletStory(CompactDesktop)

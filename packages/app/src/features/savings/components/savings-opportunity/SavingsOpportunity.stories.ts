@@ -27,40 +27,20 @@ const meta: Meta<typeof SavingsOpportunity> = {
 export default meta
 type Story = StoryObj<typeof SavingsOpportunity>
 
-export const NoCashDesktopDefault: Story = {
+export const NoCashDesktop: Story = {
   args: {
     totalEligibleCashUSD: NormalizedUnitNumber(0),
   },
 }
 
-export const NoCashMobileDefault: Story = getMobileStory(NoCashDesktopDefault)
-export const NoCashTabletDefault: Story = getTabletStory(NoCashDesktopDefault)
+export const NoCashMobile: Story = getMobileStory(NoCashDesktop)
+export const NoCashTablet: Story = getTabletStory(NoCashDesktop)
 
-export const NoCashDesktopCompact: Story = {
-  args: {
-    totalEligibleCashUSD: NormalizedUnitNumber(0),
-    compact: true,
-  },
-}
-
-export const NoCashMobileCompact: Story = getMobileStory(NoCashDesktopCompact)
-export const NoCashTabletCompact: Story = getTabletStory(NoCashDesktopCompact)
-
-export const WithCashDesktopDefault: Story = {
+export const WithCashDesktop: Story = {
   args: {
     totalEligibleCashUSD: NormalizedUnitNumber(1_000_000),
   },
 }
 
-export const WithCashMobileDefault: Story = getMobileStory(WithCashDesktopDefault)
-export const WithCashTabletDefault: Story = getTabletStory(WithCashDesktopDefault)
-
-export const WithCashDesktopCompact: Story = {
-  args: {
-    totalEligibleCashUSD: NormalizedUnitNumber(1_000_000),
-    compact: true,
-  },
-}
-
-export const WithCashMobileCompact: Story = getMobileStory(WithCashDesktopCompact)
-export const WithCashTabletCompact: Story = getTabletStory(WithCashDesktopCompact)
+export const WithCashMobile: Story = getMobileStory(WithCashDesktop)
+export const WithCashTablet: Story = getTabletStory(WithCashDesktop)

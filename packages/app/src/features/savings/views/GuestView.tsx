@@ -8,6 +8,7 @@ import { PageLayout } from '../components/PageLayout'
 import { DaiSavingsCharts } from '../components/savings-charts/DaiSavingsCharts'
 import { UsdsSavingsCharts } from '../components/savings-charts/UsdsSavingsCharts'
 import { SavingsOpportunityGuestMode } from '../components/savings-opportunity/SavingsOpportunityGuestMode'
+import { SavingsViewGrid } from '../components/savings-view-grid/SavingsViewGrid'
 import { SavingsMeta } from '../logic/makeSavingsMeta'
 import { SavingsTokenDetails } from '../logic/useSavings'
 
@@ -38,17 +39,16 @@ export function GuestView({
   return (
     <PageLayout>
       <PageHeader />
-      <div className="flex flex-col gap-6 sm:grid sm:grid-cols-2">
+      <SavingsViewGrid>
         <SavingsOpportunityGuestMode
           APY={savingsTokenDetails.APY}
           originChainId={originChainId}
           openConnectModal={openConnectModal}
           savingsMeta={savingsMeta}
-          compact={displaySavingsChart}
           openSandboxModal={openSandboxModal}
         />
         {displaySavingsChart && <Charts {...savingsChartsInfo} />}
-      </div>
+      </SavingsViewGrid>
 
       <ConnectOrSandboxCTAPanel
         header="Connect your wallet and start saving!"

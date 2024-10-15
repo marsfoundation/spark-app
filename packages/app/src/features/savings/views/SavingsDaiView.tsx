@@ -1,9 +1,9 @@
-import { cn } from '@/ui/utils/style'
 import { PageHeader } from '../components/PageHeader'
 import { PageLayout } from '../components/PageLayout'
 import { DaiSavingsCharts } from '../components/savings-charts/DaiSavingsCharts'
 import { SavingsOpportunity } from '../components/savings-opportunity/SavingsOpportunity'
 import { SavingsTokenPanel } from '../components/savings-token-panel/SavingsTokenPanel'
+import { SavingsViewGrid } from '../components/savings-view-grid/SavingsViewGrid'
 import { StablecoinsInWallet } from '../components/stablecoins-in-wallet/StablecoinsInWallet'
 import { UpgradeSavingsBanner } from '../components/upgrade-savings-banner/UpgradeSavingsBanner'
 import { SavingsViewContentProps } from './types'
@@ -33,7 +33,7 @@ export function SavingsDaiView({
           apyImprovement={migrationInfo.apyImprovement}
         />
       )}
-      <div className={cn('flex flex-col gap-6 sm:grid sm:grid-cols-2', displaySavingsDai && 'sm:min-h-[384px]')}>
+      <SavingsViewGrid>
         {displaySavingsDai && (
           <SavingsTokenPanel
             variant="dai"
@@ -52,12 +52,11 @@ export function SavingsDaiView({
             openDialog={openDialog}
             totalEligibleCashUSD={totalEligibleCashUSD}
             savingsMeta={savingsMeta}
-            compact={displaySavingsDaiChart || displaySavingsDai}
           />
         )}
 
         {displaySavingsDaiChart && <DaiSavingsCharts {...savingsChartsInfo} />}
-      </div>
+      </SavingsViewGrid>
       <StablecoinsInWallet assets={assetsInWallet} openDialog={openDialog} migrationInfo={migrationInfo} />
     </PageLayout>
   )

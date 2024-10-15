@@ -1,9 +1,9 @@
-import { cn } from '@/ui/utils/style'
 import { PageHeader } from '../components/PageHeader'
 import { PageLayout } from '../components/PageLayout'
 import { UsdsSavingsCharts } from '../components/savings-charts/UsdsSavingsCharts'
 import { SavingsOpportunity } from '../components/savings-opportunity/SavingsOpportunity'
 import { SavingsTokenPanel } from '../components/savings-token-panel/SavingsTokenPanel'
+import { SavingsViewGrid } from '../components/savings-view-grid/SavingsViewGrid'
 import { StablecoinsInWallet } from '../components/stablecoins-in-wallet/StablecoinsInWallet'
 import { SavingsViewContentProps } from './types'
 
@@ -26,7 +26,7 @@ export function SavingsUsdsView({
   return (
     <PageLayout>
       <PageHeader />
-      <div className={cn('flex flex-col gap-6 sm:grid sm:grid-cols-2', displaySavingsUsds && 'sm:min-h-[384px]')}>
+      <SavingsViewGrid>
         {displaySavingsUsds && (
           <SavingsTokenPanel
             variant="usds"
@@ -45,12 +45,11 @@ export function SavingsUsdsView({
             openDialog={openDialog}
             totalEligibleCashUSD={totalEligibleCashUSD}
             savingsMeta={savingsMeta}
-            compact={displaySavingsUsdsChart || displaySavingsUsds}
           />
         )}
 
         {displaySavingsUsdsChart && <UsdsSavingsCharts {...savingsChartsInfo} />}
-      </div>
+      </SavingsViewGrid>
       <StablecoinsInWallet assets={assetsInWallet} openDialog={openDialog} migrationInfo={migrationInfo} />
     </PageLayout>
   )
