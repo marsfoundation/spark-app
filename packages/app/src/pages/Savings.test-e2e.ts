@@ -57,7 +57,7 @@ test.describe('Savings', () => {
     await savingsPage.expectCurrentProjection('$5.36', '1-year')
   })
 
-  test('sum value of stablecoins in wallet', async ({ page }) => {
+  test('displays the total value of stablecoins in the wallet', async ({ page }) => {
     await setup(page, fork, {
       initialPage: 'savings',
       account: {
