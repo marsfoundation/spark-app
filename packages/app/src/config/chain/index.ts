@@ -5,6 +5,7 @@ import {
   fetchWeethOracleInfo,
   fetchWstethOracleInfoMainnet,
 } from '@/domain/oracles/oracleInfoFetchers'
+import { baseSavingsInfoQueryOptions } from '@/domain/savings-info/baseSavingsInfo'
 import { gnosisSavingsDaiInfoQuery } from '@/domain/savings-info/gnosisSavingsInfo'
 import { mainnetSavingsDaiInfoQuery, mainnetSavingsUsdsInfoQuery } from '@/domain/savings-info/mainnetSavingsInfo'
 import { useStore } from '@/domain/state'
@@ -309,7 +310,7 @@ export function getChainConfigEntry(chainId: number): ChainConfigEntry {
       tokenSymbolToReplacedName: {},
       airdrop: {},
       savingsDaiInfoQuery: undefined,
-      savingsUsdsInfoQuery: undefined, // @todo: Will be defined after implementing savings info query
+      savingsUsdsInfoQuery: baseSavingsInfoQueryOptions,
       savingsChartsSupported: true,
       daiSymbol: TokenSymbol('DAI'), // @todo: Needs to be optional after refactor, we don't need it on base
       sDaiSymbol: TokenSymbol('sDAI'), // @todo: Same as dai
