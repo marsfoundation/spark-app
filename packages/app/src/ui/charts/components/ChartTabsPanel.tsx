@@ -76,7 +76,7 @@ export function ChartTabsPanel({ tabs, onTimeframeChange, selectedTimeframe, hei
               <TabsTrigger
                 key={tab.id}
                 value={tab.id}
-                className="w-max grow-0 px-4"
+                className="w-max grow-0 px-3 text-sm"
                 indicatorClassName="w-[calc(100%+1rem)]"
               >
                 {tab.label}
