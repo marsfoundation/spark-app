@@ -173,3 +173,37 @@ export const ActiveDesktopChainMismatch: Story = {
     chainMismatch: true,
   },
 }
+
+export const NoApiData: Story = {
+  args: {
+    farm: {
+      apy: undefined,
+      totalRewarded: undefined,
+      depositors: undefined,
+      rewardToken: tokens.SKY.clone({ unitPriceUsd: NormalizedUnitNumber(0) }),
+      address: MAINNET_USDS_SKY_FARM_ADDRESS,
+      name: 'SKY Farm',
+      rewardType: 'token',
+      entryAssetsGroup: {
+        type: 'stablecoins',
+        name: 'Stablecoins',
+        assets: [tokens.DAI.symbol, tokens.sDAI.symbol, tokens.USDC.symbol, tokens.USDS.symbol, tokens.sUSDS.symbol],
+      },
+      stakingToken: tokens.USDS,
+      earned: NormalizedUnitNumber(71.2345783),
+      staked: NormalizedUnitNumber(0),
+      rewardRate: NormalizedUnitNumber(0.0000000003756),
+      earnedTimestamp: 1724337615,
+      periodFinish: 2677721600,
+      totalSupply: NormalizedUnitNumber(100_000),
+    },
+    chartDetails: {
+      farmHistory: { isError: true } as FarmHistoryQueryResult,
+      onTimeframeChange: () => {},
+      timeframe: 'All',
+    },
+  },
+}
+
+export const NoApiDataMobile = getMobileStory(NoApiData)
+export const NoApiDataTablet = getTabletStory(NoApiData)

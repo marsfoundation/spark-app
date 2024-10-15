@@ -1,6 +1,3 @@
-import { base, gnosis, mainnet } from 'viem/chains'
-
-import { createGovernanceAssetsGroup } from '@/domain/farms/utils'
 import { getOriginChainId } from '@/domain/hooks/useOriginChainId'
 import {
   fetchRethOracleInfo,
@@ -17,6 +14,7 @@ import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { assets } from '@/ui/assets'
 import { zeroAddress } from 'viem'
+import { base, gnosis, mainnet } from 'viem/chains'
 import { NATIVE_ASSET_MOCK_ADDRESS } from '../consts'
 import { AppConfig } from '../feature-flags'
 import { PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY } from '../wagmi/config.e2e'
@@ -124,7 +122,7 @@ const chainConfig: ChainConfig = {
             },
             {
               symbol: TokenSymbol('SKY'),
-              oracleType: 'fixed-usd', // @todo: this is not correct, but it's not used in the app for now
+              oracleType: 'zero-price',
               address: CheckedAddress('0x56072C95FAA701256059aa122697B133aDEd9279'),
             },
           ] as const)),
@@ -337,13 +335,8 @@ export function getChainConfigEntry(chainId: number): ChainConfigEntry {
         },
         {
           symbol: TokenSymbol('SKY'),
-          oracleType: 'fixed-usd', // @todo: Add proper oracle
+          oracleType: 'zero-price',
           address: CheckedAddress('0xA40D3Ad0dEdED3df8cDf02108AFf90220C437B82'),
-        },
-        {
-          symbol: TokenSymbol('SPK'),
-          oracleType: 'fixed-usd', // @todo: Add proper oracle
-          address: CheckedAddress('0xe3437a9489bCde35d241ce60253BAF359cF36fA9'),
         },
       ] as const,
       farms: [
@@ -351,21 +344,6 @@ export function getChainConfigEntry(chainId: number): ChainConfigEntry {
           rewardType: 'token',
           address: baseDevNetFarms.skyUsds,
           entryAssetsGroup: farmStablecoinsEntryGroup[base.id],
-        },
-        {
-          rewardType: 'token',
-          address: baseDevNetFarms.spkUsds,
-          entryAssetsGroup: farmStablecoinsEntryGroup[base.id],
-        },
-        {
-          rewardType: 'token',
-          address: baseDevNetFarms.skySpk,
-          entryAssetsGroup: createGovernanceAssetsGroup([TokenSymbol('SPK')]),
-        },
-        {
-          rewardType: 'token',
-          address: baseDevNetFarms.spkSky,
-          entryAssetsGroup: createGovernanceAssetsGroup([TokenSymbol('SKY')]),
         },
       ],
       oracles: {},
