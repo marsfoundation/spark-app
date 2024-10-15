@@ -2,7 +2,7 @@ import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { raise } from '@/utils/assert'
-import { gnosis } from 'viem/chains'
+import { base, gnosis } from 'viem/chains'
 
 export type SavingsDepositActionPath =
   | 'usds-to-susds'
@@ -11,6 +11,8 @@ export type SavingsDepositActionPath =
   | 'dai-to-sdai'
   | 'usdc-to-sdai'
   | 'sexy-dai-to-sdai'
+  | 'base-usds-to-susds'
+  | 'base-usdc-to-susds'
 
 export interface GetSavingsActionPathParams {
   token: Token
@@ -31,6 +33,16 @@ export function getSavingsDepositActionPath({
     chainId === gnosis.id
   ) {
     return 'sexy-dai-to-sdai'
+  }
+
+  if (chainId === base.id) {
+    if (token.symbol === tokensInfo.USDS?.symbol && savingsToken.symbol === tokensInfo.sUSDS?.symbol) {
+      return 'base-usds-to-susds'
+    }
+
+    if (token.symbol === TokenSymbol('USDC') && savingsToken.symbol === tokensInfo.sUSDS?.symbol) {
+      return 'base-usdc-to-susds'
+    }
   }
 
   if (token.symbol === tokensInfo.USDS?.symbol && savingsToken.symbol === tokensInfo.sUSDS?.symbol) {

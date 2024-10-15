@@ -1,3 +1,4 @@
+import { basePsm3Abi, basePsm3Address } from '@/config/abis/basePsm3Abi'
 import {
   migrationActionsConfig,
   psmActionsConfig,
@@ -19,8 +20,9 @@ import { assertNever } from '@/utils/assertNever'
 import { toBigInt } from '@/utils/bigNumber'
 import { QueryKey } from '@tanstack/react-query'
 import { Address, erc4626Abi } from 'viem'
-import { gnosis } from 'viem/chains'
+import { base, gnosis } from 'viem/chains'
 import { DepositToSavingsAction } from '../types'
+import { getAssetMinAmountOut } from './common'
 import { getSavingsDepositActionPath } from './getSavingsDepositActionPath'
 
 export function createDepositToSavingsActionConfig(
@@ -44,6 +46,7 @@ export function createDepositToSavingsActionConfig(
       switch (actionPath) {
         case 'usds-to-susds':
         case 'dai-to-sdai':
+        case 'base-usds-to-susds':
           return ensureConfigTypes({
             address: savingsToken.address,
             abi: erc4626Abi,
@@ -88,6 +91,17 @@ export function createDepositToSavingsActionConfig(
             value: assetsAmount,
           })
 
+        case 'base-usdc-to-susds': {
+          const assetsMinAmountOut = getAssetMinAmountOut({ action, token, savingsToken })
+
+          return ensureConfigTypes({
+            address: basePsm3Address[base.id],
+            abi: basePsm3Abi,
+            functionName: 'swapExactIn',
+            args: [token.address, savingsToken.address, assetsAmount, assetsMinAmountOut, account, 1n], // @todo: base get referralCode + put into config?
+          })
+        }
+
         default:
           assertNever(actionPath)
       }
@@ -116,7 +130,12 @@ export function createDepositToSavingsActionConfig(
           ]
         case 'dai-to-sdai':
         case 'usds-to-susds':
+        case 'base-usds-to-susds':
           return [balancesQueryKeyPrefix, getAllowanceQueryKey(action.savingsToken.address)]
+
+        case 'base-usdc-to-susds':
+          return [balancesQueryKeyPrefix, getAllowanceQueryKey(getContractAddress(basePsm3Address, chainId))]
+
         default:
           assertNever(actionPath)
       }
