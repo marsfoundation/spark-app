@@ -11,7 +11,7 @@ test.describe('Withdraw XDAI on Gnosis', () => {
   const fork = setupFork({
     blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER,
     chainId: gnosis.id,
-    simulationDateOverride: new Date('2024-06-19T10:21:19Z'),
+    useTenderlyVnet: true,
   })
   let savingsPage: SavingsPageObject
   let withdrawalDialog: SavingsDialogPageObject
@@ -61,7 +61,7 @@ test.describe('Withdraw XDAI on Gnosis', () => {
 
   test('executes withdrawal', async () => {
     const actionsContainer = new ActionsPageObject(withdrawalDialog.locatePanelByHeader('Actions'))
-    await actionsContainer.acceptAllActionsAction(2)
+    await actionsContainer.acceptAllActionsAction(2, fork)
 
     await withdrawalDialog.expectSuccessPage()
     await withdrawalDialog.clickBackToSavingsButton()

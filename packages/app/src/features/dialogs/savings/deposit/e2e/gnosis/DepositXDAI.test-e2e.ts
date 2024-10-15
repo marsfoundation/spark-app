@@ -11,7 +11,7 @@ test.describe('Deposit XDAI on Gnosis', () => {
   const fork = setupFork({
     blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER,
     chainId: gnosis.id,
-    simulationDateOverride: new Date('2024-06-19T10:21:19Z'),
+    useTenderlyVnet: true,
   })
   let savingsPage: SavingsPageObject
   let depositDialog: SavingsDialogPageObject
@@ -63,12 +63,12 @@ test.describe('Deposit XDAI on Gnosis', () => {
 
   test('executes deposit', async () => {
     const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
-    await actionsContainer.acceptAllActionsAction(1)
+    await actionsContainer.acceptAllActionsAction(1, fork)
 
     await depositDialog.expectSuccessPage()
     await depositDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsDAIBalance({ sDaiBalance: '9,192.48 sDAI', estimatedDaiValue: '9,999.67' })
+    await savingsPage.expectSavingsDAIBalance({ sDaiBalance: '9,192.32 sDAI', estimatedDaiValue: '9,999.48' })
     await savingsPage.expectStablecoinsInWalletAssetBalance('XDAI', '100')
   })
 })

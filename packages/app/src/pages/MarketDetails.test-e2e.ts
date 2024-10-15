@@ -496,7 +496,7 @@ test.describe('Market details Gnosis', () => {
   const fork = setupFork({
     blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER,
     chainId: gnosis.id,
-    simulationDateOverride: new Date('2024-08-28T12:06:48.220Z'),
+    useTenderlyVnet: true,
   })
 
   test.describe('Cap automator', () => {
