@@ -26,9 +26,7 @@ export async function getFarmBlockchainDetails({
 
   const rewardToken =
     farmConfig.rewardType === 'token'
-      ? tokensInfo
-          .findOneTokenByAddress(CheckedAddress(contractData.rewardTokenAddress))
-          .clone({ unitPriceUsd: NormalizedUnitNumber(0) }) // @note: Setting token price to 0 since we depending on api to fetch it
+      ? tokensInfo.findOneTokenByAddress(CheckedAddress(contractData.rewardTokenAddress))
       : farmConfig.rewardPoints
   const stakingToken = tokensInfo.findOneTokenByAddress(CheckedAddress(contractData.stakingTokenAddress))
 

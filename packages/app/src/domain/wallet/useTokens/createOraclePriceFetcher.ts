@@ -15,6 +15,10 @@ export function createOraclePriceFetcher({
   wagmiConfig,
   chainId,
 }: CreateOraclePriceFetcherParams): () => Promise<NormalizedUnitNumber> {
+  if (tokenConfig.oracleType === 'zero-price') {
+    return async () => NormalizedUnitNumber(0)
+  }
+
   if (tokenConfig.oracleType === 'fixed-usd') {
     return async () => NormalizedUnitNumber(1)
   }
