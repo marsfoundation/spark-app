@@ -30,7 +30,6 @@ export function Explainer({ stablecoinValue, savingsMeta }: ExplainerProps) {
           <>
             Deposit your stablecoins into Savings {stablecoin} to tap into the {rateName}, which grants you a
             predictable APY in {stablecoin}.
-            {savingsMeta.secondary && ` You can alway opt out and use ${savingsMeta.secondary.stablecoin}`}
           </>
         )}
       </p>
@@ -56,7 +55,7 @@ function Header({ stablecoinValue, savingsMeta }: ExplainerProps) {
         <Link to={links.docs.newSavings} external>
           here
         </Link>
-        .{savingsMeta.secondary && `You can alway opt out and use ${savingsMeta.secondary.stablecoin}`}
+        .
       </Info>
     </h2>
   )

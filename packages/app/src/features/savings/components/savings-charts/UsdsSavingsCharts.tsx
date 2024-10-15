@@ -38,7 +38,7 @@ export function UsdsSavingsCharts({
           : []),
         createChartTab({
           id: 'ssr',
-          label: 'SSR',
+          label: 'Sky Savings Rate',
           component: SsrChart,
           isError: savingsRateInfo.isError,
           isPending: savingsRateInfo.isPending,

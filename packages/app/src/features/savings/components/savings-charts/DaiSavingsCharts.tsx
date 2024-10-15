@@ -38,7 +38,7 @@ export function DaiSavingsCharts({
           : []),
         createChartTab({
           id: 'dsr',
-          label: 'DSR',
+          label: 'Dai Savings Rate',
           component: DsrChart,
           isError: savingsRateInfo.isError,
           isPending: savingsRateInfo.isPending,
