@@ -16,7 +16,7 @@ export type UseSavingsDaiInfoResult = SuspenseQueryWith<{
 export function useSavingsDaiInfo({ chainId }: UseSavingsDaiInfoParams): UseSavingsDaiInfoResult {
   const wagmiConfig = useConfig()
   const { timestamp } = useTimestamp()
-  const queryOptions = getChainConfigEntry(chainId).savingsDaiInfoQuery
+  const queryOptions = getChainConfigEntry(chainId).savings?.savingsDaiInfoQuery
 
   const result = useSuspenseQuery(
     queryOptions

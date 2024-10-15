@@ -10,7 +10,7 @@ export interface UseSavingsTokensParams {
 export interface UseSavingsTokensResult {
   tokensInfo: TokensInfo
   inputTokens: TokenWithBalance[]
-  sDaiWithBalance: TokenWithBalance
+  sDaiWithBalance?: TokenWithBalance
   sUSDSWithBalance?: TokenWithBalance
 }
 
@@ -18,10 +18,13 @@ export function useSavingsTokens({ chainId }: UseSavingsTokensParams): UseSaving
   const chainConfig = getChainConfigEntry(chainId)
   const { tokensInfo } = useTokensInfo({ tokens: chainConfig.extraTokens, chainId })
 
-  const inputTokens = tokensInfo.filter(({ token }) => chainConfig.savingsInputTokens.includes(token.symbol))
-  const sDaiWithBalance = tokensInfo.findOneTokenWithBalanceBySymbol(chainConfig.sDaiSymbol)
-  const sUSDSWithBalance =
-    chainConfig.sUSDSSymbol && tokensInfo.findOneTokenWithBalanceBySymbol(chainConfig.sUSDSSymbol)
+  const inputTokens = tokensInfo.filter(({ token }) => Boolean(chainConfig.savings?.inputTokens.includes(token.symbol)))
+  const sDaiWithBalance = chainConfig.sdaiSymbol
+    ? tokensInfo.findOneTokenWithBalanceBySymbol(chainConfig.sdaiSymbol)
+    : undefined
+  const sUSDSWithBalance = chainConfig.susdsSymbol
+    ? tokensInfo.findOneTokenWithBalanceBySymbol(chainConfig.susdsSymbol)
+    : undefined
 
   return {
     tokensInfo,

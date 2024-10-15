@@ -6,8 +6,8 @@ import { getChainConfigEntry } from '@/config/chain'
  * Unfortunately, some tokens do not follow the ERC20 standard, so we need to use a slightly modified ABI for them.
  */
 export function normalizeErc20AbiForToken(chainId: number, token: Address): typeof erc20Abi {
-  const { erc20TokensWithApproveFnMalformed } = getChainConfigEntry(chainId)
-  if (erc20TokensWithApproveFnMalformed.find((t) => t.toLowerCase() === token.toLowerCase())) {
+  const { tokensWithMalformedApprove } = getChainConfigEntry(chainId)
+  if (tokensWithMalformedApprove.find((t) => t.toLowerCase() === token.toLowerCase())) {
     return erc20AbiWithApproveFnMalformed as any
   }
 

@@ -33,7 +33,7 @@ export interface UseCreateActionsParams {
 export function useCreateActions({ objectives, actionsSettings, actionContext }: UseCreateActionsParams): Action[] {
   const chainConfig = useChainConfigEntry()
   const chainId = useChainId()
-  const nativeAssetInfo = chainConfig.nativeAssetInfo
+  const nativeAssetSymbol = chainConfig.markets?.nativeAssetInfo.nativeAssetSymbol
   const wethGateway = useContractAddress(wethGatewayAddress)
   const lendingPool = useContractAddress(lendingPoolAddress)
 
@@ -49,7 +49,7 @@ export function useCreateActions({ objectives, actionsSettings, actionContext }:
           value: objective.value,
         }
 
-        if (objective.token.symbol === nativeAssetInfo.nativeAssetSymbol) {
+        if (objective.token.symbol === nativeAssetSymbol) {
           return [depositAction]
         }
 
@@ -78,7 +78,7 @@ export function useCreateActions({ objectives, actionsSettings, actionContext }:
           ? objective.reserve.token.fromBaseUnit(BaseUnitNumber(maxUint256))
           : objective.value
 
-        if (objective.reserve.token.symbol === nativeAssetInfo.nativeAssetSymbol) {
+        if (objective.reserve.token.symbol === nativeAssetSymbol) {
           assert(objective.gatewayApprovalValue, 'gatewayApprovalValue is required for native asset')
           const approveAction: ApproveAction = {
             type: 'approve',
@@ -104,7 +104,7 @@ export function useCreateActions({ objectives, actionsSettings, actionContext }:
       }
 
       case 'borrow': {
-        if (objective.token.symbol === nativeAssetInfo.nativeAssetSymbol) {
+        if (objective.token.symbol === nativeAssetSymbol) {
           const approveDelegationAction: ApproveDelegationAction = {
             type: 'approveDelegation',
             token: objective.token,
@@ -119,7 +119,7 @@ export function useCreateActions({ objectives, actionsSettings, actionContext }:
           return [approveDelegationAction, borrowAction]
         }
 
-        if (objective.token.symbol === chainConfig.USDSSymbol) {
+        if (objective.token.symbol === chainConfig.usdsSymbol) {
           const marketInfo = actionContext.marketInfo ?? raise('Market info is required for borrow action')
 
           const borrowAction: BorrowAction = {
@@ -160,7 +160,7 @@ export function useCreateActions({ objectives, actionsSettings, actionContext }:
           useAToken: objective.useAToken,
         }
 
-        if (objective.reserve.token.symbol === nativeAssetInfo.nativeAssetSymbol || objective.useAToken) {
+        if (objective.reserve.token.symbol === nativeAssetSymbol || objective.useAToken) {
           return [repayAction]
         }
 

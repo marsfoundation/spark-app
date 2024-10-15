@@ -112,11 +112,11 @@ export function useNavbar(): UseNavbarResults {
     }
   })()
 
-  const { daiSymbol, USDSSymbol } = getChainConfigEntry(currentChain.id)
+  const { daiSymbol, usdsSymbol } = getChainConfigEntry(currentChain.id)
 
   const pageLinksInfo = {
     daiSymbol,
-    USDSSymbol,
+    usdsSymbol,
   }
 
   function openSandboxDialog(): void {

@@ -11,11 +11,11 @@ export interface UseFarmExitTokensResult {
 }
 
 export function useFarmExitTokens(farm: Farm): UseFarmExitTokensResult {
-  const { extraTokens, sDaiSymbol, sUSDSSymbol } = useChainConfigEntry()
+  const { extraTokens, sdaiSymbol, susdsSymbol } = useChainConfigEntry()
   const { tokensInfo } = useTokensInfo({ tokens: extraTokens })
 
   const nonSavingExitAssets = farm.entryAssetsGroup.assets.filter(
-    (symbol) => symbol !== sDaiSymbol && symbol !== sUSDSSymbol,
+    (symbol) => symbol !== sdaiSymbol && symbol !== susdsSymbol,
   )
 
   const exitTokensUnsorted = nonSavingExitAssets.map((symbol) => tokensInfo.findOneTokenWithBalanceBySymbol(symbol))

@@ -46,13 +46,12 @@ export interface UseMigrateDialogResult {
 export function useMigrateDialog({ type, fromToken, toToken }: UseMigrateDialogParams): UseMigrateDialogResult {
   const chainId = useChainId()
   const [pageStatus, setPageStatus] = useState<PageState>('form')
-  const { extraTokens, daiSymbol, sDaiSymbol } = useChainConfigEntry()
+  const { extraTokens, daiSymbol, sdaiSymbol } = useChainConfigEntry()
   const { tokensInfo } = useTokensInfo({ tokens: extraTokens })
   const { savingsUsdsInfo } = useSavingsUsdsInfo({ chainId })
   const { savingsDaiInfo } = useSavingsDaiInfo({ chainId })
   const fromTokenWithBalance = useFromTokenInfo(fromToken.symbol)
-  assert(savingsUsdsInfo, 'USDS savings info is required for upgrade dialog')
-  assert(savingsDaiInfo, 'DAI savings info is required for upgrade dialog')
+  assert(savingsUsdsInfo && savingsDaiInfo && daiSymbol && sdaiSymbol, 'Incorrect chain config for savings migration')
 
   const form = useForm<AssetInputSchema>({
     resolver: zodResolver(getMigrateDialogFormValidator(tokensInfo)),
@@ -100,6 +99,6 @@ export function useMigrateDialog({ type, fromToken, toToken }: UseMigrateDialogP
     },
     txOverview,
     dai: daiSymbol,
-    sdai: sDaiSymbol,
+    sdai: sdaiSymbol,
   }
 }

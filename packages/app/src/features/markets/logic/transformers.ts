@@ -1,5 +1,3 @@
-import { generatePath } from 'react-router-dom'
-
 import { getChainConfigEntry } from '@/config/chain'
 import { getAirdropsData } from '@/config/chain/utils/airdrops'
 import { paths } from '@/config/paths'
@@ -7,7 +5,8 @@ import { MarketInfo, Reserve } from '@/domain/market-info/marketInfo'
 import { Percentage } from '@/domain/types/NumericValues'
 import { RowClickOptions } from '@/ui/molecules/data-table/DataTable'
 import { Transformer, TransformerResult, applyTransformers } from '@/utils/applyTransformers'
-
+import { raise } from '@/utils/assert'
+import { generatePath } from 'react-router-dom'
 import { MarketEntry } from '../types'
 
 export interface MarketEntryRowData extends MarketEntry {
@@ -36,7 +35,8 @@ function skipInactiveReserves(_: number, reserve: Reserve): undefined | null {
 }
 
 function renameReserve(chainId: number, reserve: Reserve): MarketEntryRowData | undefined {
-  const { tokenSymbolToReplacedName } = getChainConfigEntry(chainId)
+  const { tokenSymbolToReplacedName } =
+    getChainConfigEntry(chainId).markets ?? raise('Markets config is not defined on this chain')
   if (Object.keys(tokenSymbolToReplacedName).includes(reserve.token.symbol)) {
     return makeMarketEntry(chainId, {
       ...reserve,
@@ -54,7 +54,8 @@ function mergeDaiMarkets(
   allReserves: Reserve[],
 ): MarketEntryRowData | undefined | null {
   const sDAIMarket = allReserves.find((r) => r.token.symbol === 'sDAI')
-  const { tokenSymbolToReplacedName, mergedDaiAndSDaiMarkets } = getChainConfigEntry(chainId)
+  const { tokenSymbolToReplacedName, mergedDaiAndSDaiMarkets } =
+    getChainConfigEntry(chainId).markets ?? raise('Markets config is not defined on this chain')
   // @note: this can happen on some domains when DAI rollout is not yet complete
   // Maker info is only available on mainnet now, so we don't merge DAI markets on other chains
   if (!sDAIMarket || !mergedDaiAndSDaiMarkets) return

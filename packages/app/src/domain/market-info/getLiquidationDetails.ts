@@ -6,7 +6,7 @@ import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 
-import { assert } from '@/utils/assert'
+import { raise } from '@/utils/assert'
 import { eModeCategoryIdToName } from '../e-mode/constants'
 
 export interface LiquidationDetails {
@@ -30,8 +30,8 @@ export function getLiquidationDetails({
   marketInfo,
   liquidationThreshold,
 }: GetLiquidationDetailsParams): LiquidationDetails | undefined {
-  const defaultAssetToBorrow = getChainConfigEntry(marketInfo.chainId).meta.defaultAssetToBorrow
-  assert(defaultAssetToBorrow, 'Default asset to borrow should be defined for liquidation details')
+  const { defaultAssetToBorrow } =
+    getChainConfigEntry(marketInfo.chainId).markets ?? raise('Markets config is not defined on this chain')
 
   if (borrows.length !== 1 || borrows[0]!.token.symbol !== defaultAssetToBorrow) {
     return undefined

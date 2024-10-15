@@ -21,8 +21,8 @@ import { NavLink, NavLinkComponent } from './nav-link/NavLink'
 import { NewPageBadge } from './new-page-badge/NewPageBadge'
 
 export interface PageLinksInfo {
-  daiSymbol: string
-  USDSSymbol?: string
+  daiSymbol?: string
+  usdsSymbol?: string
 }
 
 export interface PageLinksProps {
@@ -51,7 +51,7 @@ export function PageLinks({
   const dropdownLinks = [
     {
       to: paths.easyBorrow,
-      label: `Borrow ${pageLinksInfo.daiSymbol}${pageLinksInfo.USDSSymbol ? ` and ${pageLinksInfo.USDSSymbol}` : ''}`,
+      label: `Borrow ${pageLinksInfo.daiSymbol ?? ''}${pageLinksInfo.usdsSymbol ? ` and ${pageLinksInfo.usdsSymbol}` : ''}`,
       onClick: handleNavigate,
     },
     {

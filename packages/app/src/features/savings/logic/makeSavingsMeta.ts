@@ -15,29 +15,29 @@ export interface SavingsMeta {
 }
 
 export function makeSavingsMeta(chainId: number): SavingsMeta {
-  const { daiSymbol, sDaiSymbol, USDSSymbol, sUSDSSymbol, savingsDaiInfoQuery, savingsUsdsInfoQuery } =
-    getChainConfigEntry(chainId)
+  const { daiSymbol, sdaiSymbol, usdsSymbol, susdsSymbol, savings } = getChainConfigEntry(chainId)
+  const { savingsDaiInfoQuery, savingsUsdsInfoQuery } = savings ?? {}
 
   if (savingsUsdsInfoQuery && savingsDaiInfoQuery) {
-    assert(USDSSymbol && sUSDSSymbol, 'usds and susds symbols should be defined when savingsUsdsInfoQuery is defined')
-    assert(daiSymbol && sDaiSymbol, 'dai and sdai symbols should be defined when savingsDaiInfoQuery is defined')
+    assert(usdsSymbol && susdsSymbol, 'usds and susds symbols should be defined when savingsUsdsInfoQuery is defined')
+    assert(daiSymbol && sdaiSymbol, 'dai and sdai symbols should be defined when savingsDaiInfoQuery is defined')
     return {
-      primary: getSavingsMeta({ stablecoin: USDSSymbol, savingsToken: sUSDSSymbol, type: 'ssr' }),
-      secondary: getSavingsMeta({ stablecoin: daiSymbol, savingsToken: sDaiSymbol, type: 'dsr' }),
+      primary: getSavingsMeta({ stablecoin: usdsSymbol, savingsToken: susdsSymbol, type: 'ssr' }),
+      secondary: getSavingsMeta({ stablecoin: daiSymbol, savingsToken: sdaiSymbol, type: 'dsr' }),
     }
   }
 
   if (savingsDaiInfoQuery) {
-    assert(daiSymbol && sDaiSymbol, 'dai and sdai symbols should be defined when savingsDaiInfoQuery is defined')
+    assert(daiSymbol && sdaiSymbol, 'dai and sdai symbols should be defined when savingsDaiInfoQuery is defined')
     return {
-      primary: getSavingsMeta({ stablecoin: daiSymbol, savingsToken: sDaiSymbol, type: 'dsr' }),
+      primary: getSavingsMeta({ stablecoin: daiSymbol, savingsToken: sdaiSymbol, type: 'dsr' }),
     }
   }
 
   if (savingsUsdsInfoQuery) {
-    assert(USDSSymbol && sUSDSSymbol, 'usds and susds symbols should be defined when savingsUsdsInfoQuery is defined')
+    assert(usdsSymbol && susdsSymbol, 'usds and susds symbols should be defined when savingsUsdsInfoQuery is defined')
     return {
-      primary: getSavingsMeta({ stablecoin: USDSSymbol, savingsToken: sUSDSSymbol, type: 'ssr' }),
+      primary: getSavingsMeta({ stablecoin: usdsSymbol, savingsToken: susdsSymbol, type: 'ssr' }),
     }
   }
 

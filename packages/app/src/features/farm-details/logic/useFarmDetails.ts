@@ -65,7 +65,7 @@ export function useFarmDetails(): UseFarmDetailsResult {
   const { openConnectModal = () => {} } = useConnectModal()
   const openDialog = useOpenDialog()
   const chainConfig = getChainConfigEntry(chainId)
-  const farmConfig = chainConfig.farms.find((farm) => farm.address === farmAddress) ?? raise('Farm not configured')
+  const farmConfig = chainConfig.farms?.find((farm) => farm.address === farmAddress) ?? raise('Farm not configured')
 
   useSandboxPageRedirect({
     basePath: paths.farmDetails,

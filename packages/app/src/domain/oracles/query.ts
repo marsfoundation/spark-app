@@ -17,7 +17,7 @@ export function oracleQueryOptions({ reserve, marketInfo, wagmiConfig }: OracleQ
   return queryOptions<OracleInfo>({
     queryKey: oracleInfoQueryKey({ reserve, marketInfo }),
     queryFn: async () => {
-      const oracleConfig = getChainConfigEntry(marketInfo.chainId).oracles[reserve.token.symbol]
+      const oracleConfig = getChainConfigEntry(marketInfo.chainId).markets?.oracles[reserve.token.symbol]
 
       const oracleInfoBase: OracleInfoBase = {
         token: reserve.token,

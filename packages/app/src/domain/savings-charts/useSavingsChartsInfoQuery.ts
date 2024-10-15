@@ -1,5 +1,6 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { Timeframe } from '@/ui/charts/defaults'
+import { raise } from '@/utils/assert'
 import { useTimestamp } from '@/utils/useTimestamp'
 import { useState } from 'react'
 import { useAccount, useChainId } from 'wagmi'
@@ -37,7 +38,8 @@ export function useSavingsChartsInfoQuery({
   const { address } = useAccount()
   const { timestamp } = useTimestamp({ refreshIntervalInMs: REFRESH_INTERVAL_IN_MS })
 
-  const chartsSupported = getChainConfigEntry(chainId).savingsChartsSupported
+  const { chartsSupported } =
+    getChainConfigEntry(chainId).savings ?? raise('Savings config is not defined on this chain')
 
   const myEarningsInfo = useMyEarningsInfo({
     address,

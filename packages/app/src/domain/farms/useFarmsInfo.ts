@@ -1,5 +1,6 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
+import { assert } from '@/utils/assert'
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { useCallback } from 'react'
 import { useAccount, useConfig } from 'wagmi'
@@ -23,6 +24,7 @@ export function useFarmsInfo({ chainId }: UseFarmsInfoParams): UseFarmsInfoResul
   const { farms: farmConfigs, extraTokens } = getChainConfigEntry(chainId)
   const { tokensInfo } = useTokensInfo({ tokens: extraTokens, chainId })
 
+  assert(farmConfigs, 'Farms config is not defined on this chain')
   const farmsApiDetailsResult = useQuery(farmsApiDetailsQueryOptions({ farmConfigs }))
 
   const { data: farms } = useSuspenseQuery({
