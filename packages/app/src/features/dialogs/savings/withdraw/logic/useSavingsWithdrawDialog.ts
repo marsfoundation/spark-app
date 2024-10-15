@@ -9,7 +9,7 @@ import { InjectedActionsContext, Objective } from '@/features/actions/logic/type
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { useDebouncedFormValues } from '@/features/dialogs/common/logic/transfer-from-user/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
-import { raise } from '@/utils/assert'
+import { assert, raise } from '@/utils/assert'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
@@ -52,6 +52,7 @@ export function useSavingsWithdrawDialog({
   const savingsInfo =
     (savingsType === 'sdai' ? savingsDaiInfo : savingsUsdsInfo) ??
     raise(`Savings info is not available for ${savingsType}`)
+  assert(savingsDaiInfo || savingsUsdsInfo, 'Savings info is not available')
 
   const [pageState, setPageState] = useState<PageState>('form')
   const sendModeExtension = useSendModeExtension({ mode, tokensInfo })
@@ -118,7 +119,8 @@ export function useSavingsWithdrawDialog({
     txOverview,
     actionsContext: {
       tokensInfo,
-      savingsDaiInfo: savingsInfo,
+      savingsDaiInfo: savingsDaiInfo ?? undefined,
+      savingsUsdsInfo: savingsUsdsInfo ?? undefined,
     },
     sendModeExtension,
   }
