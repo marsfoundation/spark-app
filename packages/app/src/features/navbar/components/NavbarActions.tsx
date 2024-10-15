@@ -11,7 +11,7 @@ export interface NavbarActionsProps {
   mobileMenuCollapsed: boolean
   currentChain: SupportedChain
   supportedChains: SupportedChain[]
-  onNetworkChange: (chainId: number) => void
+  openSelectNetworkDialog: () => void
   openConnectModal: () => void
   connectedWalletInfo: ConnectedWalletInfo | undefined
   airdropInfo: AirdropInfo
@@ -25,8 +25,7 @@ export interface NavbarActionsProps {
 export function NavbarActions({
   mobileMenuCollapsed,
   currentChain,
-  supportedChains,
-  onNetworkChange,
+  openSelectNetworkDialog,
   openConnectModal,
   connectedWalletInfo,
   airdropInfo,
@@ -46,11 +45,7 @@ export function NavbarActions({
     >
       <RewardsBadge {...rewardsInfo} />
       <AirdropBadge {...airdropInfo} />
-      <NetworkSelector
-        currentChain={currentChain}
-        supportedChains={supportedChains}
-        onNetworkChange={onNetworkChange}
-      />
+      <NetworkSelector currentChain={currentChain} openSelectNetworkDialog={openSelectNetworkDialog} />
       <WalletDropdown onConnect={openConnectModal} connectedWalletInfo={connectedWalletInfo} />
       <SettingsDropdown
         onSandboxModeClick={openSandboxDialog}

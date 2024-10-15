@@ -7,6 +7,7 @@ import { useOpenDialog } from '@/domain/state/dialogs'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { EnsName } from '@/domain/types/EnsName'
 import { sandboxDialogConfig } from '@/features/dialogs/sandbox/SandboxDialog'
+import { selectNetworkDialogConfig } from '@/features/dialogs/select-network/SelectNetworkDialog'
 import { raise } from '@/utils/assert'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { useQuery } from '@tanstack/react-query'
@@ -26,7 +27,7 @@ import { useTotalBalance } from './useTotalBalance'
 export interface UseNavbarResults {
   currentChain: SupportedChain
   supportedChains: SupportedChain[]
-  onNetworkChange: (chainId: number) => void
+  openSelectNetworkDialog: () => void
   openConnectModal: () => void
   openSandboxDialog: () => void
   openDevSandboxDialog: () => void
@@ -67,7 +68,7 @@ export function useNavbar(): UseNavbarResults {
   const balanceInfo = useTotalBalance({ marketInfo })
   const airdropInfo = useAirdropInfo({ refreshIntervalInMs: 100 })
   const { isInSandbox, isSandboxEnabled, isDevSandboxEnabled, isEphemeralAccount, deleteSandbox } = useSandboxState()
-  const { changeNetwork, changeNetworkAsync } = useNetworkChange()
+  const { changeNetworkAsync } = useNetworkChange()
   const { disconnect } = useDisconnect({
     changeNetworkAsync,
     deleteSandbox,
@@ -126,10 +127,14 @@ export function useNavbar(): UseNavbarResults {
     openDialog(sandboxDialogConfig, { mode: 'persisting' } as const)
   }
 
+  function openSelectNetworkDialog(): void {
+    openDialog(selectNetworkDialogConfig, {})
+  }
+
   return {
     currentChain,
     supportedChains,
-    onNetworkChange: changeNetwork,
+    openSelectNetworkDialog,
     openConnectModal,
     savingsInfo,
     connectedWalletInfo,

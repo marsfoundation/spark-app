@@ -18,7 +18,7 @@ export function Navbar({ mobileMenuCollapsed, setMobileMenuCollapsed, className 
   const {
     currentChain,
     supportedChains,
-    onNetworkChange,
+    openSelectNetworkDialog,
     openConnectModal,
     openDevSandboxDialog,
     openSandboxDialog,
@@ -66,7 +66,7 @@ export function Navbar({ mobileMenuCollapsed, setMobileMenuCollapsed, className 
         mobileMenuCollapsed={mobileMenuCollapsed}
         currentChain={currentChain}
         supportedChains={supportedChains}
-        onNetworkChange={onNetworkChange}
+        openSelectNetworkDialog={openSelectNetworkDialog}
         openConnectModal={openConnectModal}
         openDevSandboxDialog={openDevSandboxDialog}
         openSandboxDialog={openSandboxDialog}
