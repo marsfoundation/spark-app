@@ -70,7 +70,7 @@ export function ChartTabsPanel({ tabs, onTimeframeChange, selectedTimeframe, hei
   return (
     <Panel.Wrapper className="flex min-h-[380px] w-full flex-1 flex-col justify-between self-stretch px-6 py-6 md:px-[32px]">
       <Tabs defaultValue={firstTab.id} className="flex flex-1 flex-col">
-        <div className="flex flex-wrap items-center justify-between gap-2 md:flex-nowrap">
+        <div className="flex flex-wrap items-center justify-between gap-2 lg:flex-nowrap">
           <TabsList className="justify-start">
             {tabs.map((tab) => (
               <TabsTrigger
