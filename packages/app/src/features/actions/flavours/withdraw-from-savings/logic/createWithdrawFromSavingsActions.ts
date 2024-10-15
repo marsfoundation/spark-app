@@ -15,6 +15,7 @@ import { gnosis } from 'viem/chains'
 import { ApproveAction } from '../../approve/types'
 import { WithdrawFromSavingsAction, WithdrawFromSavingsObjective } from '../types'
 import { getSavingsWithdrawActionPath } from './getSavingsWithdrawActionPath'
+import { basePsm3Address } from '@/config/abis/basePsm3Abi'
 
 export function createWithdrawFromSavingsActions(
   objective: WithdrawFromSavingsObjective,
@@ -57,6 +58,7 @@ export function createWithdrawFromSavingsActions(
   switch (actionPath) {
     case 'susds-to-usds':
     case 'sdai-to-dai':
+    case 'base-susds-to-usds':
       return [withdrawAction]
 
     case 'sdai-to-usdc':
@@ -70,6 +72,9 @@ export function createWithdrawFromSavingsActions(
 
     case 'sdai-to-sexy-dai':
       return [getApproveAction(CheckedAddress(savingsXDaiAdapterAddress[gnosis.id])), withdrawAction]
+
+    case 'base-susds-to-usdc':
+      return [getApproveAction(getContractAddress(basePsm3Address, chainId))]
 
     default:
       assertNever(actionPath)
