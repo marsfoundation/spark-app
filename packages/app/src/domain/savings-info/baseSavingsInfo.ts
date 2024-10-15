@@ -2,7 +2,7 @@ import { ssrAuthOracleConfig } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { bigNumberify } from '@/utils/bigNumber'
 import { QueryKey } from '@tanstack/react-query'
-import { readContract } from 'viem/actions'
+import { readContract } from 'wagmi/actions'
 import { PotSavingsInfo } from './potSavingsInfo'
 import { SavingsInfoQueryOptions, SavingsInfoQueryParams } from './types'
 
