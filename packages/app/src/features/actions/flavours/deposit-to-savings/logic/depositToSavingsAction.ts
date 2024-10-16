@@ -92,13 +92,14 @@ export function createDepositToSavingsActionConfig(
 
         case 'base-usds-to-susds':
         case 'base-usdc-to-susds': {
+          const referralCode = 0n
           const assetsMinAmountOut = getAssetMinAmountOut({ action, token, savingsToken })
 
           return ensureConfigTypes({
             address: basePsm3Address[base.id],
             abi: basePsm3Abi,
             functionName: 'swapExactIn',
-            args: [token.address, savingsToken.address, assetsAmount, assetsMinAmountOut, account, 1n], // @todo: base get referralCode + put into config?
+            args: [token.address, savingsToken.address, assetsAmount, assetsMinAmountOut, account, referralCode],
           })
         }
 

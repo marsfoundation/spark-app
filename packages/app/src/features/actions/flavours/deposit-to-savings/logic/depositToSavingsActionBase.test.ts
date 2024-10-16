@@ -17,6 +17,7 @@ const depositValue = NormalizedUnitNumber(1)
 const usds = testTokens.USDS
 const susds = testTokens.sUSDS
 const usdc = testTokens.USDC
+const referralCode = 0n
 const mockTokensInfo = new TokensInfo(
   [
     { token: usds, balance: NormalizedUnitNumber(100) },
@@ -57,9 +58,8 @@ describe(createDepositToSavingsActionConfig.name, () => {
             susds.address,
             toBigInt(usds.toBaseUnit(depositValue)),
             toBigInt(usds.toBaseUnit(depositValue)),
-            // toBigInt(usds.toBaseUnit(depositValue).multipliedBy(BigNumber(10).pow(susds.decimals - usds.decimals))),
             account,
-            1n,
+            referralCode,
           ],
           from: account,
           result: 1n,
@@ -106,7 +106,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
             toBigInt(usdc.toBaseUnit(depositValue)),
             toBigInt(usdc.toBaseUnit(depositValue).multipliedBy(1e12)),
             account,
-            1n,
+            referralCode,
           ],
           from: account,
           result: 1n,

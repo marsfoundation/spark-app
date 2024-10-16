@@ -104,6 +104,8 @@ export function createWithdrawFromSavingsActionConfig(
 
         case 'base-susds-to-usds':
         case 'base-susds-to-usdc': {
+          const referralCode = 0n
+
           if (isRedeem) {
             assert(context.savingsUsdsInfo, 'Savings info is required for usdc psm withdraw from savings action')
 
@@ -118,7 +120,7 @@ export function createWithdrawFromSavingsActionConfig(
               address: getContractAddress(basePsm3Address, chainId),
               abi: basePsm3Abi,
               functionName: 'swapExactIn',
-              args: [savingsToken.address, token.address, argsAmount, gemMinAmountOut, receiver, 1n], // @todo: base get referralCode
+              args: [savingsToken.address, token.address, argsAmount, gemMinAmountOut, receiver, referralCode],
             })
           }
 
@@ -132,7 +134,7 @@ export function createWithdrawFromSavingsActionConfig(
             address: getContractAddress(basePsm3Address, chainId),
             abi: basePsm3Abi,
             functionName: 'swapExactOut',
-            args: [savingsToken.address, token.address, argsAmount, assetMaxAmountIn, receiver, 1n], // @todo: base get referralCode
+            args: [savingsToken.address, token.address, argsAmount, assetMaxAmountIn, receiver, referralCode],
           })
         }
 
