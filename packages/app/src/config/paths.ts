@@ -10,8 +10,8 @@ export const paths = {
 
 export type Path = keyof typeof paths
 
-export const pathGroups: Record<string, Path[]> = {
-  Borrow: ['easyBorrow', 'myPortfolio', 'markets', 'marketDetails'],
-  Savings: ['savings'],
-  Farms: ['farms', 'farmDetails'],
-}
+export const pathGroups = {
+  borrow: ['easyBorrow', 'myPortfolio', 'markets', 'marketDetails'],
+  savings: ['savings'],
+  farms: ['farms', 'farmDetails'],
+} satisfies Record<'borrow' | 'savings' | 'farms', Path[]>

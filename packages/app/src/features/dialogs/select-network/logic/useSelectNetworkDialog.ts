@@ -47,8 +47,19 @@ export function useSelectNetworkDialog({ closeDialog }: UseSelectNetworkDialogPa
 }
 
 function formatSupportedPages(supportedPages: Path[]): string[] {
-  const pageGroupNames = supportedPages.map(
+  const pageGroups = supportedPages.map(
     (path) => Object.entries(pathGroups).find(([, paths]) => paths.includes(path))?.[0],
   )
-  return pageGroupNames.filter((pageGroupName, index, self) => self.indexOf(pageGroupName) === index) as string[]
+  const pageGroupNames = pageGroups.map((group) => group && pageGroupToName[group])
+  const uniquePageGroupNames = pageGroupNames.filter(
+    (pageGroupName, index, self) => self.indexOf(pageGroupName) === index,
+  ) as string[]
+
+  return uniquePageGroupNames
+}
+
+const pageGroupToName: Record<string, string> = {
+  borrow: 'Borrow',
+  savings: 'Savings',
+  farms: 'Farms',
 }
