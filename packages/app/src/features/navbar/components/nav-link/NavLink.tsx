@@ -11,7 +11,7 @@ export interface NavLinkProps extends NavLinkComponentProps {
 }
 
 export function NavLink({ to, children, onClick, className, ...rest }: NavLinkProps) {
-  const selected = !!useMatch(to)
+  const selected = !!useMatch(`${to}/*`)
 
   return (
     <Link

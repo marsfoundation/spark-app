@@ -15,7 +15,7 @@ import { useBreakpoint } from '@/ui/utils/useBreakpoint'
 
 import { Button } from '@/ui/atoms/button/Button'
 import { useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { matchPath, useLocation } from 'react-router-dom'
 import { SavingsInfoQueryResults } from '../types'
 import { NavLink, NavLinkComponent } from './nav-link/NavLink'
 import { NewPageBadge } from './new-page-badge/NewPageBadge'
@@ -67,7 +67,7 @@ export function PageLinks({
   ]
 
   const location = useLocation()
-  const isLinkFromDropdownActive = dropdownLinks.some((link) => link.to === location.pathname)
+  const isLinkFromDropdownActive = dropdownLinks.some((link) => matchPath(`${link.to}/*`, location.pathname))
 
   return (
     <div
@@ -139,11 +139,9 @@ export function PageLinks({
         </NavLink>
       )}
 
-      {import.meta.env.VITE_DEV_FARMS === '1' && (
-        <NavLink to={paths.farms} onClick={closeMobileMenu} postfix={<NewPageBadge />}>
-          Farms
-        </NavLink>
-      )}
+      <NavLink to={paths.farms} onClick={closeMobileMenu} postfix={<NewPageBadge />}>
+        Farms
+      </NavLink>
     </div>
   )
 }
