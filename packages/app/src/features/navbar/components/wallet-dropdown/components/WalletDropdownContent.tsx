@@ -1,10 +1,8 @@
-import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { WalletDropdownContentInfo } from '@/features/navbar/types'
 import BoxArrowTopRight from '@/ui/assets/box-arrow-top-right.svg?react'
 import { Address } from '@/ui/atoms/address/Address'
 import { Button } from '@/ui/atoms/button/Button'
 import { Link } from '@/ui/atoms/link/Link'
-import { Skeleton } from '@/ui/atoms/skeleton/Skeleton'
 
 export interface WalletDropdownContentProps extends WalletDropdownContentInfo {}
 
@@ -12,7 +10,6 @@ export function WalletDropdownContent({
   walletIcon,
   address,
   onDisconnect,
-  balanceInfo,
   isEphemeralAccount,
   isInSandbox,
   blockExplorerAddressLink,
@@ -30,16 +27,6 @@ export function WalletDropdownContent({
           <Button size="sm" variant="secondary" onClick={onDisconnect}>
             {isInSandbox ? 'Exit sandbox' : 'Disconnect'}
           </Button>
-        </div>
-        <div className="flex flex-col gap-1">
-          <div className="text-basics-dark-grey text-xs leading-none">Balance</div>
-          {balanceInfo.isLoading ? (
-            <Skeleton className="h-6 w-12" />
-          ) : (
-            <div className="font-semibold text-basics-black text-xl leading-relaxed tracking-wide">
-              {USD_MOCK_TOKEN.formatUSD(balanceInfo.totalBalanceUSD)}
-            </div>
-          )}
         </div>
       </div>
       {!isEphemeralAccount && blockExplorerAddressLink && (

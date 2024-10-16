@@ -317,7 +317,7 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
             },
             {
               symbol: TokenSymbol('sUSDS'),
-              oracleType: 'vault',
+              oracleType: 'ssr-auth-oracle',
               address: CheckedAddress('0x02Edc8718799a22fCBeBEd0C58a1D09657C81bC8'),
             },
             {

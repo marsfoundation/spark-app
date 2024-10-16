@@ -1,11 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/react'
-import { userEvent, within } from '@storybook/test'
-
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { EnsName } from '@/domain/types/EnsName'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { assets } from '@/ui/assets'
-
+import type { Meta, StoryObj } from '@storybook/react'
+import { userEvent, within } from '@storybook/test'
 import { DEFAULT_WALLET_AVATAR } from '../../logic/generateWalletAvatar'
 import { WalletDropdown, WalletDropdownProps } from './WalletDropdown'
 
@@ -32,10 +29,6 @@ const args = {
       walletIcon: assets.walletIcons.metamask,
       address: CheckedAddress('0x1234567890123456789012345678901234567890'),
       onDisconnect: () => {},
-      balanceInfo: {
-        isLoading: false,
-        totalBalanceUSD: NormalizedUnitNumber(123_002),
-      },
       isEphemeralAccount: false,
       isInSandbox: false,
       blockExplorerAddressLink: '/',
