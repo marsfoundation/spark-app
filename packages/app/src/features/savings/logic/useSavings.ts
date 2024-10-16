@@ -67,7 +67,7 @@ export function useSavings(): UseSavingsResults {
   const { id: originChainId, extraTokens } = getChainConfigEntry(chainId)
   const { tokensInfo } = useTokensInfo({ tokens: extraTokens, chainId })
   const { timestamp, timestampInMs } = useTimestamp({
-    refreshIntervalInMs: savingsDaiInfo?.supportsRealTimeInterestAccrual ? stepInMs : undefined,
+    refreshIntervalInMs: (savingsDaiInfo ?? savingsUsdsInfo)?.supportsRealTimeInterestAccrual ? stepInMs : undefined,
   })
   const openDialog = useOpenDialog()
   const { showWelcomeDialog, saveConfirmedWelcomeDialog } = useWelcomeDialog({
