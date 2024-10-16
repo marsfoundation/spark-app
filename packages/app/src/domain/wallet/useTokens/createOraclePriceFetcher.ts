@@ -2,6 +2,8 @@ import { ssrAuthOracleConfig } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { assertNever } from '@/utils/assertNever'
+import { bigNumberify } from '@/utils/bigNumber'
+import { fromRay } from '@/utils/math'
 import { erc4626Abi, etherUnits, formatUnits, parseUnits } from 'viem'
 import { Config } from 'wagmi'
 import { readContract } from 'wagmi/actions'
@@ -47,7 +49,7 @@ export function createOraclePriceFetcher({
           chainId,
         })
 
-        return NormalizedUnitNumber(chi)
+        return NormalizedUnitNumber(fromRay(bigNumberify(chi)))
       }
 
     default:
