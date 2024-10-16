@@ -1,6 +1,7 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { useBlockExplorerAddressLink } from '@/domain/hooks/useBlockExplorerAddressLink'
-import { aaveDataLayer } from '@/domain/market-info/aave-data-layer/query'
+import { useChainConfigEntry } from '@/domain/hooks/useChainConfigEntry'
+import { aaveDataLayer, aaveDataLayerQueryKey } from '@/domain/market-info/aave-data-layer/query'
 import { marketInfoSelectFn } from '@/domain/market-info/marketInfo'
 import { useSandboxState } from '@/domain/sandbox/useSandboxState'
 import { useOpenDialog } from '@/domain/state/dialogs'
@@ -10,7 +11,7 @@ import { sandboxDialogConfig } from '@/features/dialogs/sandbox/SandboxDialog'
 import { selectNetworkDialogConfig } from '@/features/dialogs/select-network/SelectNetworkDialog'
 import { raise } from '@/utils/assert'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
-import { useQuery } from '@tanstack/react-query'
+import { skipToken, useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { useAccount, useChainId, useChains, useConfig, useEnsAvatar, useEnsName } from 'wagmi'
 import { PageLinksInfo } from '../components/PageLinks'
@@ -22,7 +23,6 @@ import { useDisconnect } from './useDisconnect'
 import { useNavbarSavingsInfo } from './useNavbarSavingsInfo'
 import { useNetworkChange } from './useNetworkChange'
 import { useRewardsInfo } from './useRewardsInfo'
-import { useTotalBalance } from './useTotalBalance'
 
 export interface UseNavbarResults {
   currentChain: SupportedChain
@@ -43,6 +43,7 @@ export interface UseNavbarResults {
 export function useNavbar(): UseNavbarResults {
   const currentChainId = useChainId()
   const chains = useChains()
+  const { markets: marketsConfig } = useChainConfigEntry()
   const { openConnectModal = () => {} } = useConnectModal()
   const { address, connector } = useAccount()
   const { data: ensName } = useEnsName({
@@ -58,14 +59,12 @@ export function useNavbar(): UseNavbarResults {
 
   const savingsInfo = useNavbarSavingsInfo()
   const marketInfo = useQuery({
-    ...aaveDataLayer({
-      wagmiConfig,
-      account: address && CheckedAddress(address),
-      chainId: currentChainId,
-    }),
+    queryKey: aaveDataLayerQueryKey({ chainId: currentChainId, account: address && CheckedAddress(address) }),
+    queryFn: marketsConfig
+      ? aaveDataLayer({ wagmiConfig, account: address && CheckedAddress(address), chainId: currentChainId }).queryFn
+      : skipToken,
     select: useMemo(() => marketInfoSelectFn(), []),
   })
-  const balanceInfo = useTotalBalance({ marketInfo })
   const airdropInfo = useAirdropInfo({ refreshIntervalInMs: 100 })
   const { isInSandbox, isSandboxEnabled, isDevSandboxEnabled, isEphemeralAccount, deleteSandbox } = useSandboxState()
   const { changeNetworkAsync } = useNetworkChange()
@@ -104,7 +103,6 @@ export function useNavbar(): UseNavbarResults {
         walletIcon: getWalletIcon(connector),
         address: CheckedAddress(address),
         onDisconnect: disconnect,
-        balanceInfo,
         blockExplorerAddressLink,
         isEphemeralAccount: isEphemeralAccount(address),
         isInSandbox,

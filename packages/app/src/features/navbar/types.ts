@@ -25,15 +25,9 @@ export interface WalletDropdownContentInfo {
   walletIcon: string
   address: CheckedAddress
   onDisconnect: () => void
-  balanceInfo: BalanceInfo
   isEphemeralAccount: boolean
   isInSandbox: boolean
   blockExplorerAddressLink: string | undefined
-}
-
-export interface BalanceInfo {
-  totalBalanceUSD: NormalizedUnitNumber
-  isLoading: boolean
 }
 
 export interface SavingsInfoQueryResults {
