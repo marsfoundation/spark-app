@@ -44,7 +44,7 @@ export function useSavingsWithdrawDialog({
   savingsType,
 }: UseSavingsWithdrawDialogParams): UseSavingsWithdrawDialogResults {
   const chainId = useChainId()
-  const { tokensInfo, inputTokens, sDaiWithBalance, sUSDSWithBalance } = useSavingsTokens({ chainId })
+  const { tokensInfo, inputTokens, sdaiWithBalance, susdsWithBalance } = useSavingsTokens({ chainId })
 
   const { savingsDaiInfo } = useSavingsDaiInfo({ chainId })
   const { savingsUsdsInfo } = useSavingsUsdsInfo({ chainId })
@@ -57,7 +57,7 @@ export function useSavingsWithdrawDialog({
   const [pageState, setPageState] = useState<PageState>('form')
   const sendModeExtension = useSendModeExtension({ mode, tokensInfo })
   const savingsTokenWithBalance =
-    (savingsType === 'sdai' ? sDaiWithBalance : sUSDSWithBalance) ??
+    (savingsType === 'sdai' ? sdaiWithBalance : susdsWithBalance) ??
     raise(`Savings token balance is not available for ${savingsType}`)
   const defaultWithdrawToken = savingsType === 'sdai' ? tokensInfo.DAI : tokensInfo.USDS
 

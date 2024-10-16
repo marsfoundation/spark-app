@@ -18,7 +18,6 @@ import { zeroAddress } from 'viem'
 import { base, gnosis, mainnet } from 'viem/chains'
 import { NATIVE_ASSET_MOCK_ADDRESS } from '../consts'
 import { AppConfig } from '../feature-flags'
-import { Path, pathGroups } from '../paths'
 import { PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY } from '../wagmi/config.e2e'
 import { MAINNET_USDS_SKY_FARM_ADDRESS, baseDevNetFarms, farmStablecoinsEntryGroup } from './constants'
 import { ChainConfigEntry, ChainMeta, SupportedChainId } from './types'
@@ -36,7 +35,7 @@ const commonTokenSymbolToReplacedName = {
 const PLAYWRIGHT_MAINNET_USDS_CONTRACTS_NOT_AVAILABLE =
   import.meta.env.VITE_PLAYWRIGHT === '1' && (window as any)[PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY] === true
 
-const chainConfig: Record<SupportedChainId, Omit<ChainConfigEntry, 'supportedPages'>> = {
+const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
   [mainnet.id]: {
     id: mainnet.id,
     daiSymbol: TokenSymbol('DAI'),
@@ -295,63 +294,64 @@ const chainConfig: Record<SupportedChainId, Omit<ChainConfigEntry, 'supportedPag
     },
     farms: undefined,
   },
+  ...(typeof import.meta.env.VITE_DEV_BASE_DEVNET_RPC_URL === 'string'
+    ? [
+        {
+          id: base.id as SupportedChainId,
+          daiSymbol: undefined,
+          sdaiSymbol: undefined,
+          usdsSymbol: TokenSymbol('USDS'),
+          susdsSymbol: TokenSymbol('sUSDS'),
+          meta: {
+            name: 'Base DevNet',
+            logo: assets.chain.baseDevNet,
+          },
+          tokensWithMalformedApprove: [],
+          permitSupport: {},
+          airdrop: {},
+          extraTokens: [
+            {
+              symbol: TokenSymbol('USDC'),
+              oracleType: 'fixed-usd',
+              address: CheckedAddress('0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'),
+            },
+            {
+              symbol: TokenSymbol('sUSDS'),
+              oracleType: 'vault',
+              address: CheckedAddress('0x02Edc8718799a22fCBeBEd0C58a1D09657C81bC8'),
+            },
+            {
+              symbol: TokenSymbol('USDS'),
+              oracleType: 'fixed-usd',
+              address: CheckedAddress('0x21F5b5dF683B6885D6A88f330C4474ADeE2A6ed3'),
+            },
+            {
+              symbol: TokenSymbol('SKY'),
+              oracleType: 'zero-price',
+              address: CheckedAddress('0xA40D3Ad0dEdED3df8cDf02108AFf90220C437B82'),
+            },
+          ] as const,
+          markets: undefined,
+          savings: {
+            chartsSupported: true,
+            savingsDaiInfoQuery: undefined,
+            savingsUsdsInfoQuery: baseSavingsInfoQueryOptions,
+            inputTokens: [TokenSymbol('USDC'), TokenSymbol('USDS')],
+          },
+          farms: [
+            {
+              rewardType: 'token',
+              address: baseDevNetFarms.skyUsds,
+              entryAssetsGroup: farmStablecoinsEntryGroup[base.id],
+            },
+          ],
+          supportedPages: ['farms', 'farmDetails', 'savings'],
+        },
+      ]
+    : []),
 }
 
 export function getChainConfigEntry(chainId: number): ChainConfigEntry {
-  if (typeof import.meta.env.VITE_DEV_BASE_DEVNET_RPC_URL === 'string' && chainId === base.id) {
-    return {
-      id: base.id as SupportedChainId,
-      daiSymbol: undefined,
-      sdaiSymbol: undefined,
-      usdsSymbol: TokenSymbol('USDS'),
-      susdsSymbol: TokenSymbol('sUSDS'),
-      meta: {
-        name: 'Base DevNet',
-        logo: assets.chain.baseDevNet,
-      },
-      tokensWithMalformedApprove: [],
-      permitSupport: {},
-      airdrop: {},
-      extraTokens: [
-        {
-          symbol: TokenSymbol('USDC'),
-          oracleType: 'fixed-usd',
-          address: CheckedAddress('0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'),
-        },
-        {
-          symbol: TokenSymbol('sUSDS'),
-          oracleType: 'vault',
-          address: CheckedAddress('0x02Edc8718799a22fCBeBEd0C58a1D09657C81bC8'),
-        },
-        {
-          symbol: TokenSymbol('USDS'),
-          oracleType: 'fixed-usd',
-          address: CheckedAddress('0x21F5b5dF683B6885D6A88f330C4474ADeE2A6ed3'),
-        },
-        {
-          symbol: TokenSymbol('SKY'),
-          oracleType: 'zero-price',
-          address: CheckedAddress('0xA40D3Ad0dEdED3df8cDf02108AFf90220C437B82'),
-        },
-      ] as const,
-      markets: undefined,
-      savings: {
-        chartsSupported: true,
-        savingsDaiInfoQuery: undefined,
-        savingsUsdsInfoQuery: baseSavingsInfoQueryOptions,
-        inputTokens: [TokenSymbol('USDC'), TokenSymbol('USDS')],
-      },
-      farms: [
-        {
-          rewardType: 'token',
-          address: baseDevNetFarms.skyUsds,
-          entryAssetsGroup: farmStablecoinsEntryGroup[base.id],
-        },
-      ],
-      supportedPages: ['farms', 'farmDetails', 'savings'],
-    }
-  }
-
   const sandboxConfig = useStore.getState().appConfig.sandbox
   const sandbox = useStore.getState().sandbox.network
 
@@ -360,11 +360,10 @@ export function getChainConfigEntry(chainId: number): ChainConfigEntry {
     return {
       ...chainConfig[originChainId],
       meta: getSandboxChainMeta(chainConfig[originChainId].meta, sandboxConfig),
-      supportedPages: getSupportedPages(chainConfig[originChainId]),
     }
   }
 
-  return { ...chainConfig[chainId], supportedPages: getSupportedPages(chainConfig[chainId]) }
+  return chainConfig[chainId]
 }
 
 function getSandboxChainMeta(originChainMeta: ChainMeta, sandboxConfig: AppConfig['sandbox']): ChainMeta {
@@ -373,12 +372,4 @@ function getSandboxChainMeta(originChainMeta: ChainMeta, sandboxConfig: AppConfi
     name: sandboxConfig?.chainName || originChainMeta.name,
     logo: assets.magicWandCircle,
   }
-}
-
-function getSupportedPages(chainConfigEntry: Omit<ChainConfigEntry, 'supportedPages'>): Path[] {
-  return [
-    ...(chainConfigEntry.markets ? pathGroups.borrow : []),
-    ...(chainConfigEntry.savings ? pathGroups.savings : []),
-    ...(chainConfigEntry.farms ? pathGroups.farms : []),
-  ]
 }
