@@ -75,7 +75,6 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
       },
       chain: base,
       extraHandlers: [
-        handlers.chainIdCall({ chainId }),
         handlers.contractCall({
           to: basePsm3Address[base.id],
           abi: basePsm3Abi,
@@ -126,7 +125,6 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
       },
       chain: base,
       extraHandlers: [
-        handlers.chainIdCall({ chainId }),
         handlers.contractCall({
           to: basePsm3Address[base.id],
           abi: basePsm3Abi,
@@ -178,7 +176,6 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
       },
       chain: base,
       extraHandlers: [
-        handlers.chainIdCall({ chainId }),
         handlers.contractCall({
           to: basePsm3Address[base.id],
           abi: basePsm3Abi,
@@ -230,7 +227,6 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
       },
       chain: base,
       extraHandlers: [
-        handlers.chainIdCall({ chainId }),
         handlers.contractCall({
           to: basePsm3Address[base.id],
           abi: basePsm3Abi,
@@ -281,7 +277,6 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
       },
       chain: base,
       extraHandlers: [
-        handlers.chainIdCall({ chainId }),
         handlers.contractCall({
           to: basePsm3Address[base.id],
           abi: basePsm3Abi,
