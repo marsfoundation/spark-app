@@ -103,10 +103,11 @@ type InitialParamsQueryOptions = UseQueryOptions<any, Error, InitialParamsBase, 
 export type InitialParamsQueryResult = UseQueryResult<InitialParamsBase>
 type VerifyTransactionQueryOptions = UseQueryOptions<any, Error, VerifyTransactionResultBase, QueryKey>
 export type VerifyTransactionResult = UseQueryResult<VerifyTransactionResultBase>
+export type GetWriteConfigResult = Parameters<typeof useWrite>[0]
 
 export interface ActionConfig {
   initialParamsQueryOptions?: () => InitialParamsQueryOptions
-  getWriteConfig: (initialParams: InitialParamsQueryResult) => Parameters<typeof useWrite>[0]
+  getWriteConfig: (initialParams: InitialParamsQueryResult) => GetWriteConfigResult
   verifyTransactionQueryOptions?: () => VerifyTransactionQueryOptions
   invalidates: () => QueryKey[]
   beforeWriteCheck?: () => void

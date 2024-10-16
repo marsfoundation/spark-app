@@ -12,7 +12,7 @@ import { assertWithdraw } from '@/domain/savings/assertWithdraw'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
-import { ActionConfig, ActionContext } from '@/features/actions/logic/types'
+import { ActionConfig, ActionContext, GetWriteConfigResult } from '@/features/actions/logic/types'
 import { calculateGemConversionFactor } from '@/features/actions/utils/savings'
 import { raise } from '@/utils/assert'
 import { assertNever } from '@/utils/assertNever'
@@ -46,7 +46,10 @@ export function createWithdrawFromSavingsActionConfig(
         ? toBigInt(savingsToken.toBaseUnit(action.amount))
         : toBigInt(token.toBaseUnit(action.amount))
 
-      function getUsdcWithdrawActionConfig(psmActionsAddress: CheckedAddress, savingsInfo: SavingsInfo) {
+      function getUsdcWithdrawConfig(
+        psmActionsAddress: CheckedAddress,
+        savingsInfo: SavingsInfo,
+      ): GetWriteConfigResult {
         if (isRedeem) {
           const assetsAmount = savingsInfo.convertToAssets({ shares: action.amount })
           const gemMinAmountOut = calculateGemMinAmountOut({
@@ -104,13 +107,13 @@ export function createWithdrawFromSavingsActionConfig(
           })
 
         case 'sdai-to-usdc': {
-          return getUsdcWithdrawActionConfig(
+          return getUsdcWithdrawConfig(
             getContractAddress(psmActionsConfig.address, chainId),
             context.savingsDaiInfo ?? raise('Savings dai info is required to withdraw from sdai to usdc'),
           )
         }
         case 'susds-to-usdc': {
-          return getUsdcWithdrawActionConfig(
+          return getUsdcWithdrawConfig(
             getContractAddress(usdsPsmActionsConfig.address, chainId),
             context.savingsUsdsInfo ?? raise('Savings usds info is required to withdraw from susds to usdc'),
           )
