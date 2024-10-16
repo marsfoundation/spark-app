@@ -295,9 +295,9 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
     farms: undefined,
   },
   ...(typeof import.meta.env.VITE_DEV_BASE_DEVNET_RPC_URL === 'string'
-    ? [
-        {
-          id: base.id as SupportedChainId,
+    ? {
+        [base.id]: {
+          id: base.id,
           daiSymbol: undefined,
           sdaiSymbol: undefined,
           usdsSymbol: TokenSymbol('USDS'),
@@ -345,10 +345,9 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
               entryAssetsGroup: farmStablecoinsEntryGroup[base.id],
             },
           ],
-          supportedPages: ['farms', 'farmDetails', 'savings'],
         },
-      ]
-    : []),
+      }
+    : {}),
 }
 
 export function getChainConfigEntry(chainId: number): ChainConfigEntry {
