@@ -1,3 +1,4 @@
+import { basePsm3Address } from '@/config/abis/basePsm3Abi'
 import {
   migrationActionsConfig,
   psmActionsConfig,
@@ -15,7 +16,6 @@ import { gnosis } from 'viem/chains'
 import { ApproveAction } from '../../approve/types'
 import { WithdrawFromSavingsAction, WithdrawFromSavingsObjective } from '../types'
 import { getSavingsWithdrawActionPath } from './getSavingsWithdrawActionPath'
-import { basePsm3Address } from '@/config/abis/basePsm3Abi'
 
 export function createWithdrawFromSavingsActions(
   objective: WithdrawFromSavingsObjective,
@@ -74,7 +74,7 @@ export function createWithdrawFromSavingsActions(
       return [getApproveAction(CheckedAddress(savingsXDaiAdapterAddress[gnosis.id])), withdrawAction]
 
     case 'base-susds-to-usdc':
-      return [getApproveAction(getContractAddress(basePsm3Address, chainId))]
+      return [getApproveAction(getContractAddress(basePsm3Address, chainId)), withdrawAction]
 
     default:
       assertNever(actionPath)
