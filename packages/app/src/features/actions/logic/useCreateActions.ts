@@ -3,6 +3,7 @@ import { useChainConfigEntry } from '@/domain/hooks/useChainConfigEntry'
 import { getContractAddress, useContractAddress } from '@/domain/hooks/useContractAddress'
 import { ActionsSettings } from '@/domain/state/actions-settings'
 import { BaseUnitNumber } from '@/domain/types/NumericValues'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { assert, raise } from '@/utils/assert'
 import { maxUint256 } from 'viem'
 import { useChainId } from 'wagmi'
@@ -33,9 +34,12 @@ export interface UseCreateActionsParams {
 export function useCreateActions({ objectives, actionsSettings, actionContext }: UseCreateActionsParams): Action[] {
   const chainConfig = useChainConfigEntry()
   const chainId = useChainId()
-  const nativeAssetSymbol = chainConfig.markets?.nativeAssetInfo.nativeAssetSymbol
   const wethGateway = useContractAddress(wethGatewayAddress)
   const lendingPool = useContractAddress(lendingPoolAddress)
+
+  function getNativeAssetInfoSymbol(): TokenSymbol {
+    return chainConfig.markets?.nativeAssetInfo.nativeAssetSymbol ?? raise('Native asset info is not defined')
+  }
 
   return objectives.flatMap((objective): Action[] => {
     // @note: you can create hooks (actions) conditionally, but ensure that component will be re-mounted when condition changes
@@ -49,7 +53,7 @@ export function useCreateActions({ objectives, actionsSettings, actionContext }:
           value: objective.value,
         }
 
-        if (objective.token.symbol === nativeAssetSymbol) {
+        if (objective.token.symbol === getNativeAssetInfoSymbol()) {
           return [depositAction]
         }
 
@@ -78,7 +82,7 @@ export function useCreateActions({ objectives, actionsSettings, actionContext }:
           ? objective.reserve.token.fromBaseUnit(BaseUnitNumber(maxUint256))
           : objective.value
 
-        if (objective.reserve.token.symbol === nativeAssetSymbol) {
+        if (objective.reserve.token.symbol === getNativeAssetInfoSymbol()) {
           assert(objective.gatewayApprovalValue, 'gatewayApprovalValue is required for native asset')
           const approveAction: ApproveAction = {
             type: 'approve',
@@ -104,7 +108,7 @@ export function useCreateActions({ objectives, actionsSettings, actionContext }:
       }
 
       case 'borrow': {
-        if (objective.token.symbol === nativeAssetSymbol) {
+        if (objective.token.symbol === getNativeAssetInfoSymbol()) {
           const approveDelegationAction: ApproveDelegationAction = {
             type: 'approveDelegation',
             token: objective.token,
@@ -160,7 +164,7 @@ export function useCreateActions({ objectives, actionsSettings, actionContext }:
           useAToken: objective.useAToken,
         }
 
-        if (objective.reserve.token.symbol === nativeAssetSymbol || objective.useAToken) {
+        if (objective.reserve.token.symbol === getNativeAssetInfoSymbol() || objective.useAToken) {
           return [repayAction]
         }
 

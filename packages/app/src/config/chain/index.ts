@@ -18,9 +18,10 @@ import { zeroAddress } from 'viem'
 import { base, gnosis, mainnet } from 'viem/chains'
 import { NATIVE_ASSET_MOCK_ADDRESS } from '../consts'
 import { AppConfig } from '../feature-flags'
+import { Path, pathGroups } from '../paths'
 import { PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY } from '../wagmi/config.e2e'
 import { MAINNET_USDS_SKY_FARM_ADDRESS, baseDevNetFarms, farmStablecoinsEntryGroup } from './constants'
-import { ChainConfig, ChainConfigEntry, ChainMeta, SupportedChainId } from './types'
+import { ChainConfigEntry, ChainMeta, SupportedChainId } from './types'
 
 const commonTokenSymbolToReplacedName = {
   [TokenSymbol('DAI')]: { name: 'DAI Stablecoin', symbol: TokenSymbol('DAI') },
@@ -35,7 +36,7 @@ const commonTokenSymbolToReplacedName = {
 const PLAYWRIGHT_MAINNET_USDS_CONTRACTS_NOT_AVAILABLE =
   import.meta.env.VITE_PLAYWRIGHT === '1' && (window as any)[PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY] === true
 
-const chainConfig: ChainConfig = {
+const chainConfig: Record<SupportedChainId, Omit<ChainConfigEntry, 'supportedPages'>> = {
   [mainnet.id]: {
     id: mainnet.id,
     daiSymbol: TokenSymbol('DAI'),
@@ -108,7 +109,6 @@ const chainConfig: ChainConfig = {
             },
           ] as const)),
     ],
-    supportedPages: ['easyBorrow', 'myPortfolio', 'markets', 'marketDetails', 'farms', 'farmDetails', 'savings'],
     markets: {
       defaultAssetToBorrow: TokenSymbol('DAI'),
       mergedDaiAndSDaiMarkets: true,
@@ -231,7 +231,6 @@ const chainConfig: ChainConfig = {
         address: CheckedAddress('0xaf204776c7245bF4147c2612BF6e5972Ee483701'),
       },
     ],
-    supportedPages: ['easyBorrow', 'myPortfolio', 'markets', 'marketDetails', 'savings'],
     markets: {
       defaultAssetToBorrow: TokenSymbol('WXDAI'),
       mergedDaiAndSDaiMarkets: false,
@@ -361,10 +360,11 @@ export function getChainConfigEntry(chainId: number): ChainConfigEntry {
     return {
       ...chainConfig[originChainId],
       meta: getSandboxChainMeta(chainConfig[originChainId].meta, sandboxConfig),
+      supportedPages: getSupportedPages(chainConfig[originChainId]),
     }
   }
 
-  return chainConfig[chainId]
+  return { ...chainConfig[chainId], supportedPages: getSupportedPages(chainConfig[chainId]) }
 }
 
 function getSandboxChainMeta(originChainMeta: ChainMeta, sandboxConfig: AppConfig['sandbox']): ChainMeta {
@@ -373,4 +373,12 @@ function getSandboxChainMeta(originChainMeta: ChainMeta, sandboxConfig: AppConfi
     name: sandboxConfig?.chainName || originChainMeta.name,
     logo: assets.magicWandCircle,
   }
+}
+
+function getSupportedPages(chainConfigEntry: Omit<ChainConfigEntry, 'supportedPages'>): Path[] {
+  return [
+    ...(chainConfigEntry.markets ? pathGroups.borrow : []),
+    ...(chainConfigEntry.savings ? pathGroups.savings : []),
+    ...(chainConfigEntry.farms ? pathGroups.farms : []),
+  ]
 }

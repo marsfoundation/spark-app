@@ -48,7 +48,7 @@ export function useStakeDialog({ farm, initialToken }: UseStakeDialogParams): Us
   assert(entryTokens[0], 'There should be at least one entry token')
   const { savingsDaiInfo } = useSavingsDaiInfo({ chainId })
   const { savingsUsdsInfo } = useSavingsUsdsInfo({ chainId })
-  assert(savingsDaiInfo && savingsUsdsInfo, 'Savings dai and usds info is required for stake dialog')
+  assert(savingsDaiInfo || savingsUsdsInfo, 'Savings info is not available')
 
   const form = useForm<AssetInputSchema>({
     resolver: zodResolver(getTransferFromUserFormValidator(tokensInfo, validationIssueToMessage)),
@@ -112,8 +112,8 @@ export function useStakeDialog({ farm, initialToken }: UseStakeDialogParams): Us
     actionsContext: {
       tokensInfo,
       farmsInfo,
-      savingsDaiInfo,
-      savingsUsdsInfo,
+      savingsDaiInfo: savingsDaiInfo ?? undefined,
+      savingsUsdsInfo: savingsUsdsInfo ?? undefined,
     },
   }
 }
