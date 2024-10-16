@@ -59,7 +59,6 @@ export function createWithdrawFromSavingsActions(
   switch (actionPath) {
     case 'susds-to-usds':
     case 'sdai-to-dai':
-    case 'base-susds-to-usds':
       return [withdrawAction]
 
     case 'sdai-to-usdc':
@@ -75,6 +74,7 @@ export function createWithdrawFromSavingsActions(
       return [getApproveAction(CheckedAddress(savingsXDaiAdapterAddress[gnosis.id])), withdrawAction]
 
     case 'base-susds-to-usdc':
+    case 'base-susds-to-usds':
       return [getApproveAction(getContractAddress(basePsm3Address, chainId)), withdrawAction]
 
     default:

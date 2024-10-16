@@ -50,11 +50,11 @@ export function createDepositToSavingsActions(objective: DepositToSavingsObjecti
 
     case 'dai-to-sdai':
     case 'usds-to-susds':
-    case 'base-usds-to-susds':
       return [getApproveAction(objective.savingsToken.address), depositAction]
 
     case 'base-usdc-to-susds':
-      return [getApproveAction(getContractAddress(basePsm3Address, chainId))]
+    case 'base-usds-to-susds':
+      return [getApproveAction(getContractAddress(basePsm3Address, chainId)), depositAction]
 
     default:
       assertNever(actionPath)
