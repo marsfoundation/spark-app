@@ -333,7 +333,7 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
           ] as const,
           markets: undefined,
           savings: {
-            chartsSupported: true,
+            chartsSupported: false,
             savingsDaiInfoQuery: undefined,
             savingsUsdsInfoQuery: baseSavingsInfoQueryOptions,
             inputTokens: [TokenSymbol('USDC'), TokenSymbol('USDS')],
