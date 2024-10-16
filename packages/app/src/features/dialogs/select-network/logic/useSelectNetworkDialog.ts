@@ -1,5 +1,5 @@
 import { getChainConfigEntry } from '@/config/chain'
-import { Path, pathGroups } from '@/config/paths'
+import { Path, getSupportedPages, pathGroups } from '@/config/paths'
 import { useChainId, useChains, useSwitchChain } from 'wagmi'
 import { Chain } from '../types'
 
@@ -26,7 +26,7 @@ export function useSelectNetworkDialog({ closeDialog }: UseSelectNetworkDialogPa
     return {
       name: config.meta.name,
       logo: config.meta.logo,
-      supportedPages: formatSupportedPages(config.supportedPages),
+      supportedPages: formatSupportedPages(getSupportedPages(config)),
       selected: chain.id === currentChainId,
       onSelect: () => {
         if (chain.id === currentChainId) {

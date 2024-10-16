@@ -1,6 +1,5 @@
 import { getChainConfigEntry } from '@/config/chain'
-import { ChainConfigEntry } from '@/config/chain/types'
-import { Path, pathGroups, paths } from '@/config/paths'
+import { Path, getSupportedPages, paths } from '@/config/paths'
 import { matchPath, useLocation } from 'react-router-dom'
 import { mainnet } from 'viem/chains'
 import { useChainId } from 'wagmi'
@@ -34,12 +33,4 @@ const pageNamesMap: Record<Path, string> = {
   savings: 'Savings',
   farms: 'Farms',
   farmDetails: 'Farm',
-}
-
-function getSupportedPages(chainConfigEntry: ChainConfigEntry): Path[] {
-  return [
-    ...(chainConfigEntry.markets ? pathGroups.borrow : []),
-    ...(chainConfigEntry.savings ? pathGroups.savings : []),
-    ...(chainConfigEntry.farms ? pathGroups.farms : []),
-  ]
 }
