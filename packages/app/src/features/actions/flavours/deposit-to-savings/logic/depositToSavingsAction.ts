@@ -15,14 +15,13 @@ import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPr
 import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
 import { ActionConfig, ActionContext, GetWriteConfigResult } from '@/features/actions/logic/types'
 import { calculateGemConversionFactor } from '@/features/actions/utils/savings'
-import { raise } from '@/utils/assert'
+import { assert, raise } from '@/utils/assert'
 import { assertNever } from '@/utils/assertNever'
 import { toBigInt } from '@/utils/bigNumber'
 import { QueryKey } from '@tanstack/react-query'
 import { Address, erc4626Abi } from 'viem'
 import { base, gnosis } from 'viem/chains'
 import { DepositToSavingsAction } from '../types'
-import { getAssetMinAmountOut } from './common'
 import { getSavingsDepositActionPath } from './getSavingsDepositActionPath'
 
 export function createDepositToSavingsActionConfig(
@@ -93,13 +92,17 @@ export function createDepositToSavingsActionConfig(
         case 'base-usds-to-susds':
         case 'base-usdc-to-susds': {
           const referralCode = 0n
-          const assetsMinAmountOut = getAssetMinAmountOut({ action, token, savingsToken })
+
+          assert(context.savingsUsdsInfo, 'Savings info is required for usdc psm withdraw from savings action')
+
+          const minimalSharesAmount = context.savingsUsdsInfo.convertToShares({ assets: action.value })
+          const minAmountOut = toBigInt(savingsToken.toBaseUnit(minimalSharesAmount))
 
           return ensureConfigTypes({
             address: basePsm3Address[base.id],
             abi: basePsm3Abi,
             functionName: 'swapExactIn',
-            args: [token.address, savingsToken.address, assetsAmount, assetsMinAmountOut, account, referralCode],
+            args: [token.address, savingsToken.address, assetsAmount, minAmountOut, account, referralCode],
           })
         }
 

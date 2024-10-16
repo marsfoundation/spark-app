@@ -24,9 +24,8 @@ import { QueryKey } from '@tanstack/react-query'
 import { Address, erc4626Abi } from 'viem'
 import { gnosis } from 'viem/chains'
 import { WithdrawFromSavingsAction } from '../types'
-import { getAssetMaxAmountIn, getGemMinAmountOut } from './common'
-import { getSavingsWithdrawActionPath } from './getSavingsWithdrawActionPath'
 import { calculateGemMinAmountOut } from './calculateGemMinAmountOut'
+import { getSavingsWithdrawActionPath } from './getSavingsWithdrawActionPath'
 
 export function createWithdrawFromSavingsActionConfig(
   action: WithdrawFromSavingsAction,
@@ -106,35 +105,35 @@ export function createWithdrawFromSavingsActionConfig(
         case 'base-susds-to-usdc': {
           const referralCode = 0n
 
-          if (isRedeem) {
-            assert(context.savingsUsdsInfo, 'Savings info is required for usdc psm withdraw from savings action')
+          assert(context.savingsUsdsInfo, 'Savings info is required for usdc psm withdraw from savings action')
 
-            const gemMinAmountOut = getGemMinAmountOut({
-              action,
-              token,
-              savingsToken,
-              savingsInfo: context.savingsUsdsInfo,
+          if (isRedeem) {
+            const minAssetsAmount = context.savingsUsdsInfo.convertToAssets({ shares: action.amount })
+
+            const minAmountOut = calculateGemMinAmountOut({
+              gemDecimals: token.decimals,
+              assetsTokenDecimals: savingsToken.decimals,
+              assetsAmount: toBigInt(savingsToken.toBaseUnit(minAssetsAmount)),
             })
 
             return ensureConfigTypes({
               address: getContractAddress(basePsm3Address, chainId),
               abi: basePsm3Abi,
               functionName: 'swapExactIn',
-              args: [savingsToken.address, token.address, argsAmount, gemMinAmountOut, receiver, referralCode],
+              args: [savingsToken.address, token.address, argsAmount, minAmountOut, receiver, referralCode],
             })
           }
 
-          const assetMaxAmountIn = getAssetMaxAmountIn({
-            action,
-            token,
-            savingsToken,
+          const maxSharesAmount = context.savingsUsdsInfo.convertToShares({
+            assets: action.amount,
           })
+          const maxAmountIn = toBigInt(savingsToken.toBaseUnit(maxSharesAmount))
 
           return ensureConfigTypes({
             address: getContractAddress(basePsm3Address, chainId),
             abi: basePsm3Abi,
             functionName: 'swapExactOut',
-            args: [savingsToken.address, token.address, argsAmount, assetMaxAmountIn, receiver, referralCode],
+            args: [savingsToken.address, token.address, argsAmount, maxAmountIn, receiver, referralCode],
           })
         }
 
