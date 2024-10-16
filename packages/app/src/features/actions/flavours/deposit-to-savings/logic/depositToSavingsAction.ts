@@ -24,6 +24,8 @@ import { base, gnosis } from 'viem/chains'
 import { DepositToSavingsAction } from '../types'
 import { getSavingsDepositActionPath } from './getSavingsDepositActionPath'
 
+const HALF_HOUR_IN_SEC = 60 * 30
+
 export function createDepositToSavingsActionConfig(
   action: DepositToSavingsAction,
   context: ActionContext,
@@ -95,7 +97,12 @@ export function createDepositToSavingsActionConfig(
 
           assert(context.savingsUsdsInfo, 'Savings info is required for usdc psm withdraw from savings action')
 
-          const minimalSharesAmount = context.savingsUsdsInfo.convertToShares({ assets: action.value })
+          const currentTimestamp = Math.floor(Date.now() / 1000)
+          // we need to calculate the minAmountOut for future time to prevent PSM3/amountOut-too-low revert
+          const minimalSharesAmount = context.savingsUsdsInfo.predictAssetsValue({
+            assets: action.value,
+            timestamp: currentTimestamp + HALF_HOUR_IN_SEC,
+          })
           const minAmountOut = toBigInt(savingsToken.toBaseUnit(minimalSharesAmount))
 
           return ensureConfigTypes({

@@ -1,6 +1,6 @@
 import { lendingPoolAddress, migrationActionsConfig, wethGatewayAddress } from '@/config/contracts-generated'
 import { useChainConfigEntry } from '@/domain/hooks/useChainConfigEntry'
-import { getContractAddress, useContractAddress } from '@/domain/hooks/useContractAddress'
+import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ActionsSettings } from '@/domain/state/actions-settings'
 import { BaseUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
@@ -34,8 +34,6 @@ export interface UseCreateActionsParams {
 export function useCreateActions({ objectives, actionsSettings, actionContext }: UseCreateActionsParams): Action[] {
   const chainConfig = useChainConfigEntry()
   const chainId = useChainId()
-  const wethGateway = useContractAddress(wethGatewayAddress)
-  const lendingPool = useContractAddress(lendingPoolAddress)
 
   function getNativeAssetInfoSymbol(): TokenSymbol {
     return chainConfig.markets?.nativeAssetInfo.nativeAssetSymbol ?? raise('Native asset info is not defined')
@@ -47,6 +45,8 @@ export function useCreateActions({ objectives, actionsSettings, actionContext }:
 
     switch (objective.type) {
       case 'deposit': {
+        const lendingPool = getContractAddress(lendingPoolAddress, chainId)
+
         const depositAction: DepositAction = {
           type: 'deposit',
           token: objective.token,
@@ -78,6 +78,8 @@ export function useCreateActions({ objectives, actionsSettings, actionContext }:
       }
 
       case 'withdraw': {
+        const wethGateway = getContractAddress(wethGatewayAddress, chainId)
+
         const withdrawValue = objective.all
           ? objective.reserve.token.fromBaseUnit(BaseUnitNumber(maxUint256))
           : objective.value
@@ -157,6 +159,8 @@ export function useCreateActions({ objectives, actionsSettings, actionContext }:
       }
 
       case 'repay': {
+        const lendingPool = getContractAddress(lendingPoolAddress, chainId)
+
         const repayAction: RepayAction = {
           type: 'repay',
           reserve: objective.reserve,
