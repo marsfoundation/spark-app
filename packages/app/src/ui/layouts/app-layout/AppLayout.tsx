@@ -3,6 +3,8 @@ import { useState } from 'react'
 
 import { usePageChainId } from '@/domain/hooks/usePageChainId'
 import { useBannerVisibility } from '@/domain/state/bannersVisibility'
+import { useOpenDialog } from '@/domain/state/dialogs'
+import { selectNetworkDialogConfig } from '@/features/dialogs/select-network/SelectNetworkDialog'
 import { Navbar } from '@/features/navbar/Navbar'
 import { cn } from '@/ui/utils/style'
 import {
@@ -19,6 +21,7 @@ export function AppLayout({ children }: AppLayoutProps) {
   const [mobileMenuCollapsed, setMobileMenuCollapsed] = useState(true)
   const { pageSupported, pageName } = usePageChainId()
   const { handleCloseBanner, showBanner } = useBannerVisibility(SKY_MIGRATION_TOP_BANNER_ID)
+  const openDialog = useOpenDialog()
 
   return (
     <div className={cn('flex min-h-screen flex-col')}>
@@ -35,7 +38,11 @@ export function AppLayout({ children }: AppLayoutProps) {
         {!pageSupported && (
           <>
             <div className="fixed inset-0 z-10 bg-gray-100/30 backdrop-blur-[1.5px]" aria-hidden="true" />
-            <PageNotSupportedWarning pageName={pageName} className="z-20" />
+            <PageNotSupportedWarning
+              pageName={pageName}
+              openNetworkSelectDialog={() => openDialog(selectNetworkDialogConfig, {})}
+              className="z-20"
+            />
           </>
         )}
       </main>
