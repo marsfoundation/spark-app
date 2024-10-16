@@ -40,13 +40,23 @@ export const rootRouter = createBrowserRouter([
             path: paths.marketDetails,
             element: <MarketDetails />,
           },
-          ...(import.meta.env.VITE_DEV_FARMS === '1'
-            ? [
-                { path: paths.farms, element: <Farms /> },
-                { path: paths.farmDetails, element: <FarmDetails /> },
-              ]
-            : []),
+          {
+            path: paths.farms,
+            element: <Farms />,
+          },
+          {
+            path: paths.farmDetails,
+            element: <FarmDetails />,
+          },
           ...createAliasRoutes([
+            {
+              path: paths.marketDetails,
+              aliases: ['/market-details/:chainId/:asset'],
+            },
+            {
+              path: paths.farmDetails,
+              aliases: ['/farm-details/:chainId/:address'],
+            },
             {
               path: paths.myPortfolio,
               aliases: ['/dashboard'],
@@ -68,10 +78,17 @@ interface PathAliases {
 }
 
 function createAliasRoutes(paths: PathAliases[]): RouteObject[] {
-  return paths.flatMap(({ aliases, path }) =>
-    aliases.map((alias) => ({
+  return paths.flatMap(({ aliases, path }) => {
+    return aliases.map((alias) => ({
       path: alias,
-      loader: () => redirect(path),
-    })),
-  )
+      loader: ({ params }) => {
+        const { chainId, address, asset } = params
+        const redirectPath = path
+          .replace(':chainId', chainId ?? '')
+          .replace(':address', address ?? '')
+          .replace(':asset', asset ?? '')
+        return redirect(redirectPath)
+      },
+    }))
+  })
 }

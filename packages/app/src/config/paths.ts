@@ -6,8 +6,8 @@ export const paths = {
   markets: '/markets',
   savings: '/savings',
   farms: '/farms',
-  marketDetails: '/market-details/:chainId/:asset',
-  farmDetails: '/farm-details/:chainId/:address',
+  marketDetails: '/markets/market-details/:chainId/:asset',
+  farmDetails: '/farms/farm-details/:chainId/:address',
 } as const
 
 export type Path = keyof typeof paths
