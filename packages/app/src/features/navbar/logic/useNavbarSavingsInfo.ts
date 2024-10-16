@@ -10,7 +10,7 @@ export function useNavbarSavingsInfo(): SavingsInfoQueryResults | undefined {
   const wagmiConfig = useConfig()
   const { timestamp } = useTimestamp()
 
-  const { savingsDaiInfoQuery, savingsUsdsInfoQuery } = getChainConfigEntry(chainId)
+  const { savingsDaiInfoQuery, savingsUsdsInfoQuery } = getChainConfigEntry(chainId).savings ?? {}
   function getSavingsInfoQuery(): SavingsInfoQuery | undefined {
     if (savingsUsdsInfoQuery) return savingsUsdsInfoQuery
     if (savingsDaiInfoQuery) return savingsDaiInfoQuery

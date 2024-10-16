@@ -1,3 +1,5 @@
+import { ChainConfigEntry } from './chain/types'
+
 export const paths = {
   easyBorrow: '/',
   myPortfolio: '/my-portfolio',
@@ -15,3 +17,11 @@ export const pathGroups = {
   savings: ['savings'],
   farms: ['farms', 'farmDetails'],
 } satisfies Record<'borrow' | 'savings' | 'farms', Path[]>
+
+export function getSupportedPages(chainConfigEntry: ChainConfigEntry): Path[] {
+  return [
+    ...(chainConfigEntry.markets ? pathGroups.borrow : []),
+    ...(chainConfigEntry.savings ? pathGroups.savings : []),
+    ...(chainConfigEntry.farms ? pathGroups.farms : []),
+  ]
+}

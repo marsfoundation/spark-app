@@ -6,25 +6,25 @@ import { assertNever } from '@/utils/assertNever'
 interface SelectSavingsDataByDisplayTypeParams {
   displayType: SavingsDisplayType
   savingsUsdsInfo: SavingsInfo | null
-  sUSDSWithBalance: TokenWithBalance | undefined
+  susdsWithBalance: TokenWithBalance | undefined
   savingsDaiInfo: SavingsInfo | null
-  sDaiWithBalance: TokenWithBalance | undefined
+  sdaiWithBalance: TokenWithBalance | undefined
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function selectMyEarningsSavingsDataByDisplayType({
   displayType,
   savingsUsdsInfo,
-  sUSDSWithBalance,
+  susdsWithBalance,
   savingsDaiInfo,
-  sDaiWithBalance,
+  sdaiWithBalance,
 }: SelectSavingsDataByDisplayTypeParams) {
   switch (displayType) {
     case 'usds':
-      return { savingsInfo: savingsUsdsInfo, savingsTokenWithBalance: sUSDSWithBalance }
+      return { savingsInfo: savingsUsdsInfo, savingsTokenWithBalance: susdsWithBalance }
 
     case 'dai':
-      return { savingsInfo: savingsDaiInfo, savingsTokenWithBalance: sDaiWithBalance }
+      return { savingsInfo: savingsDaiInfo, savingsTokenWithBalance: sdaiWithBalance }
 
     case 'all':
     case 'none':

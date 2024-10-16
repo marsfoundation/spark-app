@@ -62,7 +62,7 @@ export function mainnetSavingsUsdsInfoQuery({
     queryKey: ['savings-usds-info', { chainId }],
     queryFn: async () => {
       const chainConfig = getChainConfigEntry(chainId)
-      const susdsSymbol = chainConfig.sUSDSSymbol
+      const susdsSymbol = chainConfig.susdsSymbol
       const susdsAddress =
         chainConfig.extraTokens.find(({ symbol }) => symbol === susdsSymbol)?.address ??
         raise('sUSDS address not found')

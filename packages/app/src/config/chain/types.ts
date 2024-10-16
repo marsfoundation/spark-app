@@ -6,7 +6,6 @@ import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { FarmConfig } from '@/domain/farms/types'
 import { OracleInfoFetcherParams, OracleInfoFetcherResult } from '@/domain/oracles/oracleInfoFetchers'
 import { OracleType } from '@/domain/wallet/useTokens/types'
-import { Path } from '../paths'
 import { SUPPORTED_CHAIN_IDS } from './constants'
 
 export type SupportedChainId = (typeof SUPPORTED_CHAIN_IDS)[number]
@@ -22,14 +21,13 @@ export interface NativeAssetInfo {
 export interface ChainMeta {
   name: string
   logo: string
-  defaultAssetToBorrow?: TokenSymbol
 }
 
 export type PermitSupport = Record<CheckedAddress, boolean>
 
-export type Erc20TokensWithApproveFnMalformed = CheckedAddress[]
+export type TokensWithMalformedApprove = CheckedAddress[]
 
-export type TokenSymbolToReplacedName = Record<TokenSymbol, { name: string; symbol: TokenSymbol }>
+export type TokenSymbolToNameReplacement = Record<TokenSymbol, { name: string; symbol: TokenSymbol }>
 
 export interface TokenToAirdropAmounts {
   [token: TokenSymbol]: {
@@ -65,27 +63,35 @@ export type ReserveOracleType =
 
 export type SavingsInfoQuery = (args: SavingsInfoQueryParams) => SavingsInfoQueryOptions
 
-export interface ChainConfigEntry {
-  id: SupportedChainId
-  meta: ChainMeta
+export interface MarketsConfig {
+  defaultAssetToBorrow: TokenSymbol
+  mergedDaiAndSDaiMarkets: boolean
   nativeAssetInfo: NativeAssetInfo
-  permitSupport: PermitSupport
-  erc20TokensWithApproveFnMalformed: Erc20TokensWithApproveFnMalformed
-  tokenSymbolToReplacedName: TokenSymbolToReplacedName
-  airdrop: Airdrop
+  tokenSymbolToReplacedName: TokenSymbolToNameReplacement
+  oracles: Record<TokenSymbol, ReserveOracleType>
+}
+
+export interface SavingsConfig {
+  inputTokens: TokenSymbol[]
+  chartsSupported: boolean
   savingsDaiInfoQuery: SavingsInfoQuery | undefined
   savingsUsdsInfoQuery: SavingsInfoQuery | undefined
-  daiSymbol: TokenSymbol
-  sDaiSymbol: TokenSymbol
-  USDSSymbol: TokenSymbol | undefined
-  sUSDSSymbol: TokenSymbol | undefined
-  mergedDaiAndSDaiMarkets: boolean
-  savingsInputTokens: TokenSymbol[]
+}
+
+export interface ChainConfigEntry {
+  id: SupportedChainId
+  daiSymbol: TokenSymbol | undefined
+  sdaiSymbol: TokenSymbol | undefined
+  usdsSymbol: TokenSymbol | undefined
+  susdsSymbol: TokenSymbol | undefined
+  meta: ChainMeta
+  permitSupport: PermitSupport
+  tokensWithMalformedApprove: TokensWithMalformedApprove
+  airdrop: Airdrop
   extraTokens: TokenWithOracleType[]
-  farms: FarmConfig[]
-  oracles: Record<TokenSymbol, ReserveOracleType>
-  savingsChartsSupported: boolean
-  supportedPages: Path[]
+  markets: MarketsConfig | undefined
+  savings: SavingsConfig | undefined
+  farms: FarmConfig[] | undefined
 }
 
 export type ChainConfig = Record<SupportedChainId, ChainConfigEntry>

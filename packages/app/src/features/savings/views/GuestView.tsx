@@ -31,10 +31,10 @@ export function GuestView({
 }: GuestViewProps) {
   const displaySavingsChart = savingsChartsInfo.chartsSupported
 
-  const { sUSDSSymbol } = getChainConfigEntry(originChainId)
+  const { susdsSymbol } = getChainConfigEntry(originChainId)
 
   const Charts =
-    savingsTokenDetails.tokenWithBalance.token.symbol === sUSDSSymbol ? UsdsSavingsCharts : DaiSavingsCharts
+    savingsTokenDetails.tokenWithBalance.token.symbol === susdsSymbol ? UsdsSavingsCharts : DaiSavingsCharts
 
   return (
     <PageLayout>

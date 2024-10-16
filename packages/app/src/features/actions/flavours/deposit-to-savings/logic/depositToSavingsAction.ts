@@ -8,15 +8,17 @@ import {
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { Token } from '@/domain/types/Token'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
-import { ActionConfig, ActionContext } from '@/features/actions/logic/types'
+import { ActionConfig, ActionContext, GetWriteConfigResult } from '@/features/actions/logic/types'
 import { calculateGemConversionFactor } from '@/features/actions/utils/savings'
 import { raise } from '@/utils/assert'
 import { assertNever } from '@/utils/assertNever'
 import { toBigInt } from '@/utils/bigNumber'
 import { QueryKey } from '@tanstack/react-query'
-import { erc4626Abi } from 'viem'
+import { Address, erc4626Abi } from 'viem'
 import { gnosis } from 'viem/chains'
 import { DepositToSavingsAction } from '../types'
 import { getSavingsDepositActionPath } from './getSavingsDepositActionPath'
@@ -58,26 +60,24 @@ export function createDepositToSavingsActionConfig(
           })
 
         case 'usdc-to-susds':
-        case 'usdc-to-sdai': {
-          const gemConversionFactor = calculateGemConversionFactor({
-            gemDecimals: token.decimals,
-            assetsTokenDecimals: savingsToken.decimals,
+          return getUsdcDepositConfig({
+            psmActionsAddress: getContractAddress(usdsPsmActionsConfig.address, chainId),
+            token,
+            savingsToken,
+            actionValue: action.value,
+            account,
+            assetsAmount,
           })
-          const assetsMinAmountOut = toBigInt(token.toBaseUnit(action.value).multipliedBy(gemConversionFactor))
 
-          const sdaiSymbol = tokensInfo.sDAI?.symbol ?? raise('sDAI token is required for savings deposit action')
-          const address =
-            savingsToken.symbol === sdaiSymbol
-              ? getContractAddress(psmActionsConfig.address, chainId)
-              : getContractAddress(usdsPsmActionsConfig.address, chainId)
-
-          return ensureConfigTypes({
-            address,
-            abi: psmActionsConfig.abi,
-            functionName: 'swapAndDeposit',
-            args: [account, assetsAmount, assetsMinAmountOut],
+        case 'usdc-to-sdai':
+          return getUsdcDepositConfig({
+            psmActionsAddress: getContractAddress(psmActionsConfig.address, chainId),
+            token,
+            savingsToken,
+            actionValue: action.value,
+            account,
+            assetsAmount,
           })
-        }
 
         case 'sexy-dai-to-sdai':
           return ensureConfigTypes({
@@ -122,4 +122,35 @@ export function createDepositToSavingsActionConfig(
       }
     },
   }
+}
+
+interface GetUsdcDepositConfigParams {
+  psmActionsAddress: CheckedAddress
+  token: Token
+  savingsToken: Token
+  actionValue: NormalizedUnitNumber
+  account: Address
+  assetsAmount: bigint
+}
+
+function getUsdcDepositConfig({
+  psmActionsAddress,
+  token,
+  savingsToken,
+  actionValue,
+  account,
+  assetsAmount,
+}: GetUsdcDepositConfigParams): GetWriteConfigResult {
+  const gemConversionFactor = calculateGemConversionFactor({
+    gemDecimals: token.decimals,
+    assetsTokenDecimals: savingsToken.decimals,
+  })
+  const assetsMinAmountOut = toBigInt(token.toBaseUnit(actionValue).multipliedBy(gemConversionFactor))
+
+  return ensureConfigTypes({
+    address: psmActionsAddress,
+    abi: psmActionsConfig.abi,
+    functionName: 'swapAndDeposit',
+    args: [account, assetsAmount, assetsMinAmountOut],
+  })
 }

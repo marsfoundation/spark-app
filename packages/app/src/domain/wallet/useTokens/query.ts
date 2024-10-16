@@ -45,9 +45,9 @@ export function tokensQueryOptions({ tokens, wagmiConfig, chainId, account }: To
 
       const featuredTokens = {
         DAI: chainConfig.daiSymbol,
-        sDAI: chainConfig.sDaiSymbol,
-        USDS: chainConfig.USDSSymbol,
-        sUSDS: chainConfig.sUSDSSymbol,
+        sDAI: chainConfig.sdaiSymbol,
+        USDS: chainConfig.usdsSymbol,
+        sUSDS: chainConfig.susdsSymbol,
       }
 
       return new TokensInfo(tokensWithBalances, featuredTokens)

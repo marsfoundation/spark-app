@@ -2,6 +2,7 @@ import { getChainConfigEntry } from '@/config/chain'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { Timeframe } from '@/ui/charts/defaults'
 import { useFilterChartDataByTimeframe } from '@/ui/charts/logic/useFilterDataByTimeframe'
+import { raise } from '@/utils/assert'
 import { UseQueryResult, useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { farmHistoricDataQueryOptions } from './query'
@@ -24,7 +25,8 @@ export function useFarmHistory({ chainId, farmAddress }: UseFarmHistoryParams): 
   const [timeframe, setTimeframe] = useState<Timeframe>('All')
   const filterDataByTimeframe = useFilterChartDataByTimeframe(timeframe)
 
-  const farmConfig = getChainConfigEntry(chainId).farms.find((farm) => farm.address === farmAddress)
+  const farmsConfig = getChainConfigEntry(chainId).farms ?? raise('Farms config is not defined on this chain')
+  const farmConfig = farmsConfig.find((farm) => farm.address === farmAddress)
   const farmHistory = useQuery({
     ...farmHistoricDataQueryOptions({
       chainId,

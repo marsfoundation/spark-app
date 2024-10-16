@@ -63,7 +63,7 @@ export function useSavings(): UseSavingsResults {
   const { chainId } = usePageChainId()
   const { savingsDaiInfo } = useSavingsDaiInfo({ chainId })
   const { savingsUsdsInfo } = useSavingsUsdsInfo({ chainId })
-  const { inputTokens, sDaiWithBalance, sUSDSWithBalance } = useSavingsTokens({ chainId })
+  const { inputTokens, sdaiWithBalance, susdsWithBalance } = useSavingsTokens({ chainId })
   const { id: originChainId, extraTokens } = getChainConfigEntry(chainId)
   const { tokensInfo } = useTokensInfo({ tokens: extraTokens, chainId })
   const { timestamp, timestampInMs } = useTimestamp({
@@ -82,13 +82,13 @@ export function useSavings(): UseSavingsResults {
   const savingsChartsInfo = useSavingsChartsInfoQuery({
     savingsDaiInfo,
     savingsUsdsInfo,
-    sDaiWithBalance,
-    sUSDSWithBalance,
+    sdaiWithBalance,
+    susdsWithBalance,
   })
 
   const sDaiDetails = makeSavingsTokenDetails({
     savingsInfo: savingsDaiInfo,
-    savingsTokenWithBalance: sDaiWithBalance,
+    savingsTokenWithBalance: sdaiWithBalance,
     timestamp,
     timestampInMs,
     stepInMs,
@@ -96,7 +96,7 @@ export function useSavings(): UseSavingsResults {
 
   const sUSDSDetails = makeSavingsTokenDetails({
     savingsInfo: savingsUsdsInfo,
-    savingsTokenWithBalance: sUSDSWithBalance,
+    savingsTokenWithBalance: susdsWithBalance,
     timestamp,
     timestampInMs,
     stepInMs,

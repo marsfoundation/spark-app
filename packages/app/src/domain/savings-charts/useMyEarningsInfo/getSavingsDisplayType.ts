@@ -3,23 +3,23 @@ import { SavingsInfo } from '@/domain/savings-info/types'
 
 interface GetSavingsDisplayTypeParams {
   savingsUsdsInfo: SavingsInfo | null
-  sUSDSWithBalance: TokenWithBalance | undefined
+  susdsWithBalance: TokenWithBalance | undefined
   savingsDaiInfo: SavingsInfo | null
-  sDaiWithBalance: TokenWithBalance | undefined
+  sdaiWithBalance: TokenWithBalance | undefined
 }
 
 export type SavingsDisplayType = 'all' | 'dai' | 'usds' | 'unsupported' | 'none'
 
 export function getSavingsDisplayType({
   savingsUsdsInfo,
-  sUSDSWithBalance,
+  susdsWithBalance,
   savingsDaiInfo,
-  sDaiWithBalance,
+  sdaiWithBalance,
 }: GetSavingsDisplayTypeParams): SavingsDisplayType {
   if (!savingsUsdsInfo && !savingsDaiInfo) return 'unsupported'
 
-  const hasDaiBalance = sDaiWithBalance?.balance.gt(0) ?? false
-  const hasUsdsBalance = sUSDSWithBalance?.balance.gt(0) ?? false
+  const hasDaiBalance = sdaiWithBalance?.balance.gt(0) ?? false
+  const hasUsdsBalance = susdsWithBalance?.balance.gt(0) ?? false
 
   if (hasDaiBalance && hasUsdsBalance) return 'all'
   if (hasDaiBalance) return 'dai'

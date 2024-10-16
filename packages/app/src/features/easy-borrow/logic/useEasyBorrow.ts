@@ -73,18 +73,16 @@ export function useEasyBorrow(): UseEasyBorrowResults {
   const { aaveData } = useAaveDataLayer({ chainId })
   const { marketInfo } = useMarketInfo({ chainId })
   const { marketInfo: marketInfoIn1Epoch } = useMarketInfo({ timeAdvance: EPOCH_LENGTH, chainId })
-  const {
-    nativeAssetInfo,
-    extraTokens,
-    daiSymbol,
-    USDSSymbol,
-    meta: { defaultAssetToBorrow },
-  } = getChainConfigEntry(marketInfo.chainId)
-  assert(defaultAssetToBorrow, 'Default asset to borrow should be defined for easy borrow')
+  const { extraTokens, daiSymbol, usdsSymbol, markets } = getChainConfigEntry(marketInfo.chainId)
+  const { nativeAssetInfo, defaultAssetToBorrow } = markets ?? {}
+  assert(
+    nativeAssetInfo && defaultAssetToBorrow && daiSymbol,
+    'Markets config and dai symbol are required for easy borrow',
+  )
   const { tokensInfo } = useTokensInfo({ tokens: extraTokens, chainId })
   const walletInfo = useMarketWalletInfo({ chainId })
 
-  const upgradeOptions = useUpgradeOptions({ chainId })
+  const upgradeOptions = useUpgradeOptions({ chainId, daiSymbol })
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')
   const healthFactorPanelRef = useRef<HTMLDivElement>(null)
@@ -165,7 +163,12 @@ export function useEasyBorrow(): UseEasyBorrowResults {
     upgradeOptions,
   })
   const updatedUserSummary = useConditionalFreeze(
-    updatePositionSummary({ ...formValuesAsUnderlyingReserves, marketInfo, aaveData, nativeAssetInfo }),
+    updatePositionSummary({
+      ...formValuesAsUnderlyingReserves,
+      marketInfo,
+      aaveData,
+      nativeAssetInfo,
+    }),
     pageStatus === 'confirmation',
   )
 
@@ -182,9 +185,9 @@ export function useEasyBorrow(): UseEasyBorrowResults {
 
   const borrowDetails = {
     dai: daiSymbol,
-    usds: USDSSymbol,
+    usds: usdsSymbol,
     borrowRate: marketInfo.findOneReserveBySymbol(defaultAssetToBorrow).variableBorrowApy ?? raise('No borrow rate'),
-    isUpgradingToUsds: formValues.borrows[0]?.token.symbol === USDSSymbol,
+    isUpgradingToUsds: formValues.borrows[0]?.token.symbol === usdsSymbol,
   }
 
   // biome-ignore lint/correctness/useExhaustiveDependencies:

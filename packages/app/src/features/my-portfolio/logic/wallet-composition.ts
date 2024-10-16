@@ -6,6 +6,7 @@ import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { MarketWalletInfo, WalletBalance } from '@/domain/wallet/useMarketWalletInfo'
+import { raise } from '@/utils/assert'
 import { generatePath } from 'react-router-dom'
 import { AssetsTableRow } from '../components/wallet-composition/AssetTable'
 
@@ -44,11 +45,10 @@ interface GetDetailsLinkParams {
   chainId: number
 }
 function getDetailsLink({ marketInfo, token, chainId }: GetDetailsLinkParams): string {
-  const chainConfig = getChainConfigEntry(chainId)
+  const { mergedDaiAndSDaiMarkets } =
+    getChainConfigEntry(chainId).markets ?? raise('Markets config is not defined on this chain')
   const address =
-    token.symbol === marketInfo.sDAI.symbol && chainConfig.mergedDaiAndSDaiMarkets
-      ? marketInfo.DAI.address
-      : token.address
+    token.symbol === marketInfo.sDAI.symbol && mergedDaiAndSDaiMarkets ? marketInfo.DAI.address : token.address
 
   return generatePath(paths.marketDetails, { asset: address, chainId: chainId.toString() })
 }

@@ -7,17 +7,20 @@ import {
 } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
+import { SavingsInfo } from '@/domain/savings-info/types'
 import { assertWithdraw } from '@/domain/savings/assertWithdraw'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { Token } from '@/domain/types/Token'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
-import { ActionConfig, ActionContext } from '@/features/actions/logic/types'
+import { ActionConfig, ActionContext, GetWriteConfigResult } from '@/features/actions/logic/types'
 import { calculateGemConversionFactor } from '@/features/actions/utils/savings'
-import { assert, raise } from '@/utils/assert'
+import { raise } from '@/utils/assert'
 import { assertNever } from '@/utils/assertNever'
 import { toBigInt } from '@/utils/bigNumber'
 import { QueryKey } from '@tanstack/react-query'
-import { erc4626Abi } from 'viem'
+import { Address, erc4626Abi } from 'viem'
 import { gnosis } from 'viem/chains'
 import { WithdrawFromSavingsAction } from '../types'
 import { calculateGemMinAmountOut } from './calculateGemMinAmountOut'
@@ -71,43 +74,29 @@ export function createWithdrawFromSavingsActionConfig(
             args: [receiver, argsAmount],
           })
 
-        case 'sdai-to-usdc':
-        case 'susds-to-usdc': {
-          const sdaiSymbol = tokensInfo.sDAI?.symbol ?? raise('sDAI token is required for savings deposit action')
-          const address =
-            savingsToken.symbol === sdaiSymbol
-              ? getContractAddress(psmActionsConfig.address, chainId)
-              : getContractAddress(usdsPsmActionsConfig.address, chainId)
-
-          assert(context.savingsDaiInfo, 'Savings info is required for usdc psm withdraw from savings action')
-
-          if (isRedeem) {
-            const assetsAmount = context.savingsDaiInfo.convertToAssets({ shares: action.amount })
-            const gemMinAmountOut = calculateGemMinAmountOut({
-              gemDecimals: token.decimals,
-              assetsTokenDecimals: savingsToken.decimals,
-              assetsAmount: toBigInt(savingsToken.toBaseUnit(assetsAmount)),
-            })
-
-            return ensureConfigTypes({
-              address,
-              abi: psmActionsConfig.abi,
-              functionName: 'redeemAndSwap',
-              args: [receiver, argsAmount, gemMinAmountOut],
-            })
-          }
-
-          const gemConversionFactor = calculateGemConversionFactor({
-            gemDecimals: token.decimals,
-            assetsTokenDecimals: savingsToken.decimals,
+        case 'sdai-to-usdc': {
+          return getUsdcWithdrawConfig({
+            psmActionsAddress: getContractAddress(psmActionsConfig.address, chainId),
+            savingsInfo: context.savingsDaiInfo ?? raise('Savings dai info is required to withdraw from sdai to usdc'),
+            isRedeem,
+            actionAmount: action.amount,
+            token,
+            savingsToken,
+            receiver,
+            argsAmount,
           })
-          const assetsMaxAmountIn = toBigInt(token.toBaseUnit(action.amount).multipliedBy(gemConversionFactor))
-
-          return ensureConfigTypes({
-            address,
-            abi: psmActionsConfig.abi,
-            functionName: 'withdrawAndSwap',
-            args: [receiver, argsAmount, assetsMaxAmountIn],
+        }
+        case 'susds-to-usdc': {
+          return getUsdcWithdrawConfig({
+            psmActionsAddress: getContractAddress(usdsPsmActionsConfig.address, chainId),
+            savingsInfo:
+              context.savingsUsdsInfo ?? raise('Savings usds info is required to withdraw from susds to usdc'),
+            isRedeem,
+            actionAmount: action.amount,
+            token,
+            savingsToken,
+            receiver,
+            argsAmount,
           })
         }
 
@@ -160,4 +149,55 @@ export function createWithdrawFromSavingsActionConfig(
       })
     },
   }
+}
+
+interface GetUsdcWithdrawConfigParams {
+  psmActionsAddress: CheckedAddress
+  savingsInfo: SavingsInfo
+  isRedeem: boolean
+  actionAmount: NormalizedUnitNumber
+  token: Token
+  savingsToken: Token
+  receiver: Address
+  argsAmount: bigint
+}
+
+function getUsdcWithdrawConfig({
+  psmActionsAddress,
+  savingsInfo,
+  isRedeem,
+  actionAmount,
+  token,
+  savingsToken,
+  receiver,
+  argsAmount,
+}: GetUsdcWithdrawConfigParams): GetWriteConfigResult {
+  if (isRedeem) {
+    const assetsAmount = savingsInfo.convertToAssets({ shares: actionAmount })
+    const gemMinAmountOut = calculateGemMinAmountOut({
+      gemDecimals: token.decimals,
+      assetsTokenDecimals: savingsToken.decimals,
+      assetsAmount: toBigInt(savingsToken.toBaseUnit(assetsAmount)),
+    })
+
+    return ensureConfigTypes({
+      address: psmActionsAddress,
+      abi: psmActionsConfig.abi,
+      functionName: 'redeemAndSwap',
+      args: [receiver, argsAmount, gemMinAmountOut],
+    })
+  }
+
+  const gemConversionFactor = calculateGemConversionFactor({
+    gemDecimals: token.decimals,
+    assetsTokenDecimals: savingsToken.decimals,
+  })
+  const assetsMaxAmountIn = toBigInt(token.toBaseUnit(actionAmount).multipliedBy(gemConversionFactor))
+
+  return ensureConfigTypes({
+    address: psmActionsAddress,
+    abi: psmActionsConfig.abi,
+    functionName: 'withdrawAndSwap',
+    args: [receiver, argsAmount, assetsMaxAmountIn],
+  })
 }

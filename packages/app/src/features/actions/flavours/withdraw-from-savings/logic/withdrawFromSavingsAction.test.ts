@@ -44,7 +44,7 @@ const mockTokensInfo = new TokensInfo(
   },
 )
 const timestamp = 1000
-const mockSavingsDaiInfo = new PotSavingsInfo({
+const mockSavingsInfo = new PotSavingsInfo({
   potParams: {
     dsr: bigNumberify('1000001103127689513476993127'), // 10% / day
     rho: bigNumberify(timestamp),
@@ -261,7 +261,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           mode: 'withdraw',
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo, savingsDaiInfo: mockSavingsDaiInfo },
+        context: { tokensInfo: mockTokensInfo, savingsDaiInfo: mockSavingsInfo },
       },
       extraHandlers: [
         handlers.contractCall({
@@ -306,7 +306,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           mode: 'withdraw',
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo, savingsDaiInfo: mockSavingsDaiInfo },
+        context: { tokensInfo: mockTokensInfo, savingsDaiInfo: mockSavingsInfo },
       },
       extraHandlers: [
         handlers.contractCall({
@@ -356,7 +356,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           receiver,
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo, savingsDaiInfo: mockSavingsDaiInfo },
+        context: { tokensInfo: mockTokensInfo, savingsDaiInfo: mockSavingsInfo },
       },
       extraHandlers: [
         handlers.contractCall({
@@ -402,7 +402,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           receiver,
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo, savingsDaiInfo: mockSavingsDaiInfo },
+        context: { tokensInfo: mockTokensInfo, savingsDaiInfo: mockSavingsInfo },
       },
       extraHandlers: [
         handlers.contractCall({
@@ -451,7 +451,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           mode: 'withdraw',
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo, savingsDaiInfo: mockSavingsDaiInfo },
+        context: { tokensInfo: mockTokensInfo, savingsUsdsInfo: mockSavingsInfo },
       },
       extraHandlers: [
         handlers.contractCall({
@@ -501,7 +501,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           mode: 'withdraw',
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo, savingsDaiInfo: mockSavingsDaiInfo },
+        context: { tokensInfo: mockTokensInfo, savingsUsdsInfo: mockSavingsInfo },
       },
       extraHandlers: [
         handlers.contractCall({
@@ -510,7 +510,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           functionName: 'redeemAndSwap',
           args: [
             account,
-            toBigInt(sdai.toBaseUnit(withdrawAmount)),
+            toBigInt(susds.toBaseUnit(withdrawAmount)),
             toBigInt(usdc.toBaseUnit(NormalizedUnitNumber(1.1))),
           ],
           from: account,
@@ -556,14 +556,14 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           receiver,
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo, savingsDaiInfo: mockSavingsDaiInfo },
+        context: { tokensInfo: mockTokensInfo, savingsUsdsInfo: mockSavingsInfo },
       },
       extraHandlers: [
         handlers.contractCall({
           to: getContractAddress(usdsPsmActionsConfig.address, chainId),
           abi: psmActionsAbi,
           functionName: 'withdrawAndSwap',
-          args: [receiver, toBigInt(usdc.toBaseUnit(withdrawAmount)), toBigInt(sdai.toBaseUnit(withdrawAmount))],
+          args: [receiver, toBigInt(usdc.toBaseUnit(withdrawAmount)), toBigInt(susds.toBaseUnit(withdrawAmount))],
           from: account,
           result: 1n,
         }),
@@ -607,7 +607,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           receiver,
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo, savingsDaiInfo: mockSavingsDaiInfo },
+        context: { tokensInfo: mockTokensInfo, savingsUsdsInfo: mockSavingsInfo },
       },
       extraHandlers: [
         handlers.contractCall({
@@ -616,7 +616,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           functionName: 'redeemAndSwap',
           args: [
             receiver,
-            toBigInt(sdai.toBaseUnit(withdrawAmount)),
+            toBigInt(susds.toBaseUnit(withdrawAmount)),
             toBigInt(usdc.toBaseUnit(NormalizedUnitNumber(1.1))),
           ],
           from: account,
