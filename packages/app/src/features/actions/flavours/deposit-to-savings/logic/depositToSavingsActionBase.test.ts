@@ -1,3 +1,4 @@
+import { basePsm3Abi, basePsm3Address } from '@/config/abis/basePsm3Abi'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
@@ -7,7 +8,6 @@ import { handlers } from '@/test/integration/mockTransport'
 import { setupUseContractActionRenderer } from '@/test/integration/setupUseContractActionRenderer'
 import { toBigInt } from '@/utils/bigNumber'
 import { waitFor } from '@testing-library/react'
-import { erc4626Abi } from 'viem'
 import { base } from 'viem/chains'
 import { describe, test } from 'vitest'
 import { createDepositToSavingsActionConfig } from './depositToSavingsAction'
@@ -49,10 +49,65 @@ describe(createDepositToSavingsActionConfig.name, () => {
       extraHandlers: [
         handlers.chainIdCall({ chainId }),
         handlers.contractCall({
-          to: susds.address,
-          abi: erc4626Abi,
-          functionName: 'deposit',
-          args: [toBigInt(usds.toBaseUnit(depositValue)), account],
+          to: basePsm3Address[base.id],
+          abi: basePsm3Abi,
+          functionName: 'swapExactIn',
+          args: [
+            usds.address,
+            susds.address,
+            toBigInt(usds.toBaseUnit(depositValue)),
+            toBigInt(usds.toBaseUnit(depositValue)),
+            // toBigInt(usds.toBaseUnit(depositValue).multipliedBy(BigNumber(10).pow(susds.decimals - usds.decimals))),
+            account,
+            1n,
+          ],
+          from: account,
+          result: 1n,
+        }),
+        handlers.mineTransaction(),
+      ],
+    })
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('ready')
+    })
+
+    result.current.onAction()
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('success')
+    })
+
+    await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+      getBalancesQueryKeyPrefix({ account, chainId }),
+    )
+
+    await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+      allowanceQueryKey({ token: usds.address, spender: basePsm3Address[base.id], account, chainId }),
+    )
+  })
+
+  test('deposits usdc to susds', async () => {
+    const { result, queryInvalidationManager } = hookRenderer({
+      args: {
+        action: { type: 'depositToSavings', token: usdc, savingsToken: susds, value: depositValue },
+        enabled: true,
+        context: { tokensInfo: mockTokensInfo },
+      },
+      chain: base,
+      extraHandlers: [
+        handlers.contractCall({
+          to: basePsm3Address[base.id],
+          abi: basePsm3Abi,
+          functionName: 'swapExactIn',
+          args: [
+            usdc.address,
+            susds.address,
+            toBigInt(usdc.toBaseUnit(depositValue)),
+            toBigInt(usdc.toBaseUnit(depositValue).multipliedBy(1e12)),
+            account,
+            1n,
+          ],
           from: account,
           result: 1n,
         }),
@@ -74,54 +129,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
       getBalancesQueryKeyPrefix({ account, chainId }),
     )
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
-      allowanceQueryKey({ token: usds.address, spender: susds.address, account, chainId }),
+      allowanceQueryKey({ token: usdc.address, spender: basePsm3Address[base.id], account, chainId }),
     )
   })
-
-  // @todo: base fix this test
-  // test('deposits usdc to susds', async () => {
-  //   const { result, queryInvalidationManager } = hookRenderer({
-  //     args: {
-  //       action: { type: 'depositToSavings', token: usdc, savingsToken: susds, value: depositValue },
-  //       enabled: true,
-  //       context: { tokensInfo: mockTokensInfo },
-  //     },
-  //     chain: base,
-  //     extraHandlers: [
-  //       handlers.contractCall({
-  //         to: basePsm3Address[base.id],
-  //         abi: basePsm3Abi,
-  //         functionName: 'swapExactIn',
-  //         args: [
-  //           usdc.address,
-  //           usds.address,
-  //           toBigInt(usdc.toBaseUnit(depositValue)),
-  //           toBigInt(usdc.toBaseUnit(depositValue).multipliedBy(1e12)),
-  //           account,
-  //           1n,
-  //         ],
-  //         from: account,
-  //         result: 1n,
-  //       }),
-  //       handlers.mineTransaction(),
-  //     ],
-  //   })
-
-  //   await waitFor(() => {
-  //     expect(result.current.state.status).toBe('ready')
-  //   })
-
-  //   result.current.onAction()
-
-  //   await waitFor(() => {
-  //     expect(result.current.state.status).toBe('success')
-  //   })
-
-  //   await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
-  //     getBalancesQueryKeyPrefix({ account, chainId }),
-  //   )
-  //   await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
-  //     allowanceQueryKey({ token: usdc.address, spender: basePsm3Address[base.id], account, chainId }),
-  //   )
-  // })
 })

@@ -9,7 +9,6 @@ import { handlers } from '@/test/integration/mockTransport'
 import { setupUseContractActionRenderer } from '@/test/integration/setupUseContractActionRenderer'
 import { bigNumberify, toBigInt } from '@/utils/bigNumber'
 import { waitFor } from '@testing-library/react'
-import { erc4626Abi } from 'viem'
 import { base } from 'viem/chains'
 import { describe, test } from 'vitest'
 import { createWithdrawFromSavingsActionConfig } from './withdrawFromSavingsAction'
@@ -71,16 +70,23 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           mode: 'withdraw',
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo },
+        context: { tokensInfo: mockTokensInfo, savingsUsdsInfo: mockSavingsUsdsInfo },
       },
       chain: base,
       extraHandlers: [
         handlers.chainIdCall({ chainId }),
         handlers.contractCall({
-          to: susds.address,
-          abi: erc4626Abi,
-          functionName: 'withdraw',
-          args: [toBigInt(usds.toBaseUnit(withdrawAmount)), account, account],
+          to: basePsm3Address[base.id],
+          abi: basePsm3Abi,
+          functionName: 'swapExactOut',
+          args: [
+            susds.address,
+            usds.address,
+            toBigInt(susds.toBaseUnit(withdrawAmount)),
+            toBigInt(usds.toBaseUnit(withdrawAmount)),
+            account,
+            1n,
+          ],
           from: account,
           result: 1n,
         }),
@@ -115,16 +121,23 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           mode: 'withdraw',
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo },
+        context: { tokensInfo: mockTokensInfo, savingsUsdsInfo: mockSavingsUsdsInfo },
       },
       chain: base,
       extraHandlers: [
         handlers.chainIdCall({ chainId }),
         handlers.contractCall({
-          to: susds.address,
-          abi: erc4626Abi,
-          functionName: 'redeem',
-          args: [toBigInt(susds.toBaseUnit(withdrawAmount)), account, account],
+          to: basePsm3Address[base.id],
+          abi: basePsm3Abi,
+          functionName: 'swapExactIn',
+          args: [
+            susds.address,
+            usds.address,
+            toBigInt(susds.toBaseUnit(withdrawAmount)),
+            toBigInt(usds.toBaseUnit(NormalizedUnitNumber(1.1))),
+            account,
+            1n,
+          ],
           from: account,
           result: 1n,
         }),
@@ -160,16 +173,23 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           receiver,
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo },
+        context: { tokensInfo: mockTokensInfo, savingsUsdsInfo: mockSavingsUsdsInfo },
       },
       chain: base,
       extraHandlers: [
         handlers.chainIdCall({ chainId }),
         handlers.contractCall({
-          to: susds.address,
-          abi: erc4626Abi,
-          functionName: 'withdraw',
-          args: [toBigInt(usds.toBaseUnit(withdrawAmount)), receiver, account],
+          to: basePsm3Address[base.id],
+          abi: basePsm3Abi,
+          functionName: 'swapExactOut',
+          args: [
+            susds.address,
+            usds.address,
+            toBigInt(susds.toBaseUnit(withdrawAmount)),
+            toBigInt(usds.toBaseUnit(withdrawAmount)),
+            receiver,
+            1n,
+          ],
           from: account,
           result: 1n,
         }),
@@ -205,16 +225,23 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           receiver,
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo },
+        context: { tokensInfo: mockTokensInfo, savingsUsdsInfo: mockSavingsUsdsInfo },
       },
       chain: base,
       extraHandlers: [
         handlers.chainIdCall({ chainId }),
         handlers.contractCall({
-          to: susds.address,
-          abi: erc4626Abi,
-          functionName: 'redeem',
-          args: [toBigInt(susds.toBaseUnit(withdrawAmount)), receiver, account],
+          to: basePsm3Address[base.id],
+          abi: basePsm3Abi,
+          functionName: 'swapExactIn',
+          args: [
+            susds.address,
+            usds.address,
+            toBigInt(susds.toBaseUnit(withdrawAmount)),
+            toBigInt(usds.toBaseUnit(NormalizedUnitNumber(1.1))),
+            receiver,
+            1n,
+          ],
           from: account,
           result: 1n,
         }),
@@ -249,10 +276,11 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           mode: 'withdraw',
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo },
+        context: { tokensInfo: mockTokensInfo, savingsUsdsInfo: mockSavingsUsdsInfo },
       },
       chain: base,
       extraHandlers: [
+        handlers.chainIdCall({ chainId }),
         handlers.contractCall({
           to: basePsm3Address[base.id],
           abi: basePsm3Abi,
