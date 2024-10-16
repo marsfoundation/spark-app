@@ -1,4 +1,5 @@
 import { basePsm3Abi, basePsm3Address } from '@/config/abis/basePsm3Abi'
+import { PotSavingsInfo } from '@/domain/savings-info/potSavingsInfo'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
@@ -6,7 +7,7 @@ import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/que
 import { testAddresses, testTokens } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
 import { setupUseContractActionRenderer } from '@/test/integration/setupUseContractActionRenderer'
-import { toBigInt } from '@/utils/bigNumber'
+import { bigNumberify, toBigInt } from '@/utils/bigNumber'
 import { waitFor } from '@testing-library/react'
 import { base } from 'viem/chains'
 import { describe, test } from 'vitest'
@@ -29,7 +30,15 @@ const mockTokensInfo = new TokensInfo(
     sUSDS: susds.symbol,
   },
 )
-
+const timestamp = 1000
+const mockSavingsUsdsInfo = new PotSavingsInfo({
+  potParams: {
+    dsr: bigNumberify('1000001103127689513476993127'), // 10% / day
+    rho: bigNumberify(timestamp),
+    chi: bigNumberify('1000000000000000000000000000'), // 1
+  },
+  currentTimestamp: timestamp + 24 * 60 * 60,
+})
 const chainId = base.id
 
 const hookRenderer = setupUseContractActionRenderer({
@@ -44,7 +53,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
       args: {
         action: { type: 'depositToSavings', token: usds, savingsToken: susds, value: depositValue },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo },
+        context: { tokensInfo: mockTokensInfo, savingsUsdsInfo: mockSavingsUsdsInfo },
       },
       chain: base,
       extraHandlers: [
@@ -57,7 +66,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
             usds.address,
             susds.address,
             toBigInt(usds.toBaseUnit(depositValue)),
-            toBigInt(usds.toBaseUnit(depositValue)),
+            toBigInt(susds.toBaseUnit(NormalizedUnitNumber(depositValue.dividedBy(1.1)))),
             account,
             referralCode,
           ],
@@ -92,7 +101,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
       args: {
         action: { type: 'depositToSavings', token: usdc, savingsToken: susds, value: depositValue },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo },
+        context: { tokensInfo: mockTokensInfo, savingsUsdsInfo: mockSavingsUsdsInfo },
       },
       chain: base,
       extraHandlers: [
@@ -104,7 +113,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
             usdc.address,
             susds.address,
             toBigInt(usdc.toBaseUnit(depositValue)),
-            toBigInt(usdc.toBaseUnit(depositValue).multipliedBy(1e12)),
+            toBigInt(susds.toBaseUnit(NormalizedUnitNumber(depositValue.dividedBy(1.1)))),
             account,
             referralCode,
           ],
