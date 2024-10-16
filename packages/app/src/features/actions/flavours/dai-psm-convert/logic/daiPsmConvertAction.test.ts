@@ -1,4 +1,4 @@
-import { usdsPsmWrapperConfig } from '@/config/contracts-generated'
+import { dssPsmLiteConfig } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
@@ -12,18 +12,18 @@ import { waitFor } from '@testing-library/react'
 import { mainnet } from 'viem/chains'
 import { describe, test } from 'vitest'
 import { allowanceQueryKey } from '../../approve/logic/query'
-import { createUsdsPsmConvertActionConfig } from './usdsPsmConvertAction'
+import { createDaiPsmConvertActionConfig } from './daiPsmConvertAction'
 
 const account = testAddresses.alice
 const chainId = mainnet.id
 const usdc = getMockToken({ symbol: TokenSymbol('USDC'), decimals: 6 })
-const usds = getMockToken({ symbol: TokenSymbol('USDS') })
+const dai = getMockToken({ symbol: TokenSymbol('DAI') })
 const amount = NormalizedUnitNumber(1)
 
 const mockTokensInfo = new TokensInfo([{ token: usdc, balance: NormalizedUnitNumber(100) }], {
   DAI: testTokens.DAI.symbol,
   sDAI: testTokens.sDAI.symbol,
-  USDS: usds.symbol,
+  USDS: dai.symbol,
   sUSDS: testTokens.sUSDS.symbol,
 })
 
@@ -32,9 +32,9 @@ const hookRenderer = setupUseContractActionRenderer({
   handlers: [handlers.chainIdCall({ chainId }), handlers.balanceCall({ balance: 0n, address: account })],
   args: {
     action: {
-      type: 'usdsPsmConvert',
+      type: 'daiPsmConvert',
       inToken: usdc,
-      outToken: usds,
+      outToken: dai,
       amount,
     },
     enabled: true,
@@ -42,17 +42,17 @@ const hookRenderer = setupUseContractActionRenderer({
   },
 })
 
-describe(createUsdsPsmConvertActionConfig.name, () => {
-  test('converts usdc to usds', async () => {
+describe(createDaiPsmConvertActionConfig.name, () => {
+  test('converts usdc to dai', async () => {
     const { result, queryInvalidationManager } = hookRenderer({
       extraHandlers: [
         handlers.contractCall({
-          to: getContractAddress(usdsPsmWrapperConfig.address, chainId),
-          abi: usdsPsmWrapperConfig.abi,
+          to: getContractAddress(dssPsmLiteConfig.address, chainId),
+          abi: dssPsmLiteConfig.abi,
           functionName: 'sellGem',
           args: [account, toBigInt(usdc.toBaseUnit(amount))],
           from: account,
-          result: toBigInt(usds.toBaseUnit(amount)),
+          result: toBigInt(dai.toBaseUnit(amount)),
         }),
         handlers.mineTransaction(),
       ],
@@ -74,19 +74,19 @@ describe(createUsdsPsmConvertActionConfig.name, () => {
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
       allowanceQueryKey({
         token: usdc.address,
-        spender: getContractAddress(usdsPsmWrapperConfig.address, chainId),
+        spender: getContractAddress(dssPsmLiteConfig.address, chainId),
         account,
         chainId,
       }),
     )
   })
 
-  test('converts usds to usdc', async () => {
+  test('converts dai to usdc', async () => {
     const { result, queryInvalidationManager } = hookRenderer({
       args: {
         action: {
-          type: 'usdsPsmConvert',
-          inToken: usds,
+          type: 'daiPsmConvert',
+          inToken: dai,
           outToken: usdc,
           amount,
         },
@@ -95,12 +95,12 @@ describe(createUsdsPsmConvertActionConfig.name, () => {
       },
       extraHandlers: [
         handlers.contractCall({
-          to: getContractAddress(usdsPsmWrapperConfig.address, chainId),
-          abi: usdsPsmWrapperConfig.abi,
+          to: getContractAddress(dssPsmLiteConfig.address, chainId),
+          abi: dssPsmLiteConfig.abi,
           functionName: 'buyGem',
           args: [account, toBigInt(usdc.toBaseUnit(amount))],
           from: account,
-          result: toBigInt(usds.toBaseUnit(amount)),
+          result: toBigInt(dai.toBaseUnit(amount)),
         }),
         handlers.mineTransaction(),
       ],
@@ -121,8 +121,8 @@ describe(createUsdsPsmConvertActionConfig.name, () => {
     )
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
       allowanceQueryKey({
-        token: usds.address,
-        spender: getContractAddress(usdsPsmWrapperConfig.address, chainId),
+        token: dai.address,
+        spender: getContractAddress(dssPsmLiteConfig.address, chainId),
         account,
         chainId,
       }),

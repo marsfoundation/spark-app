@@ -120,6 +120,12 @@ export default defineConfig({
           },
         },
         {
+          name: 'DssPsmLite',
+          address: {
+            [mainnet.id]: '0xf6e72Db5454dd049d0788e411b06CfAF16853042',
+          },
+        },
+        {
           name: 'MigrationActions',
           address: {
             [mainnet.id]: '0xf86141a5657Cf52AEB3E30eBccA5Ad3a8f714B89',

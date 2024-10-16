@@ -177,6 +177,16 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
     state: { status: 'ready' },
     onAction: () => {},
   },
+  daiPsmConvert: {
+    action: {
+      type: 'daiPsmConvert',
+      inToken: tokens.USDC,
+      outToken: tokens.DAI,
+      amount: NormalizedUnitNumber(1),
+    },
+    state: { status: 'ready' },
+    onAction: () => {},
+  },
   claimFarmRewards: {
     action: {
       type: 'claimFarmRewards',
