@@ -39,8 +39,7 @@ export class PotSavingsInfo implements SavingsInfo {
   }
 
   convertToShares({ assets }: { assets: NormalizedUnitNumber }): NormalizedUnitNumber {
-    const updatedChi = this.getUpdatedChi(this.currentTimestamp)
-    return NormalizedUnitNumber(assets.dividedBy(updatedChi))
+    return this.predictAssetsValue({ timestamp: this.currentTimestamp, assets })
   }
 
   convertToAssets({ shares }: { shares: NormalizedUnitNumber }): NormalizedUnitNumber {
@@ -50,5 +49,10 @@ export class PotSavingsInfo implements SavingsInfo {
   predictSharesValue({ timestamp, shares }: { timestamp: number; shares: NormalizedUnitNumber }): NormalizedUnitNumber {
     const updatedChi = this.getUpdatedChi(timestamp)
     return NormalizedUnitNumber(shares.multipliedBy(updatedChi))
+  }
+
+  predictAssetsValue({ timestamp, assets }: { timestamp: number; assets: NormalizedUnitNumber }): NormalizedUnitNumber {
+    const updatedChi = this.getUpdatedChi(timestamp)
+    return NormalizedUnitNumber(assets.dividedBy(updatedChi))
   }
 }

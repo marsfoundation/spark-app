@@ -97,8 +97,12 @@ export class GnosisSavingsInfo implements SavingsInfo {
   }
 
   predictSharesValue({ timestamp, shares }: { timestamp: number; shares: NormalizedUnitNumber }): NormalizedUnitNumber {
+    return this.predictAssetsValue({ timestamp, assets: this.convertToAssets({ shares }) })
+  }
+
+  predictAssetsValue({ timestamp, assets }: { timestamp: number; assets: NormalizedUnitNumber }): NormalizedUnitNumber {
     return NormalizedUnitNumber(
-      this.convertToAssets({ shares }).multipliedBy(
+      assets.multipliedBy(
         this.vaultAPY
           .dividedBy(365 * 24 * 60 * 60)
           .multipliedBy(timestamp - this.currentTimestamp)
