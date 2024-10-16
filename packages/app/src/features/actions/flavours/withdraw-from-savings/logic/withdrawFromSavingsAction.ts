@@ -53,7 +53,6 @@ export function createWithdrawFromSavingsActionConfig(
       switch (actionPath) {
         case 'susds-to-usds':
         case 'sdai-to-dai':
-        case 'base-susds-to-usds':
           return ensureConfigTypes({
             address: savingsToken.address,
             abi: erc4626Abi,
@@ -103,6 +102,7 @@ export function createWithdrawFromSavingsActionConfig(
           })
         }
 
+        case 'base-susds-to-usds':
         case 'base-susds-to-usdc': {
           if (isRedeem) {
             assert(context.savingsUsdsInfo, 'Savings info is required for usdc psm withdraw from savings action')
@@ -155,7 +155,6 @@ export function createWithdrawFromSavingsActionConfig(
       switch (actionPath) {
         case 'sdai-to-dai':
         case 'susds-to-usds':
-        case 'base-susds-to-usds':
           return [balancesQueryKeyPrefix]
         case 'sdai-to-sexy-dai':
           return [balancesQueryKeyPrefix, getAllowanceQueryKey(CheckedAddress(savingsXDaiAdapterAddress[gnosis.id]))]
@@ -173,6 +172,7 @@ export function createWithdrawFromSavingsActionConfig(
           ]
 
         case 'base-susds-to-usdc':
+        case 'base-susds-to-usds':
           return [balancesQueryKeyPrefix, getAllowanceQueryKey(getContractAddress(basePsm3Address, chainId))]
         default:
           assertNever(actionPath)

@@ -46,7 +46,6 @@ export function createDepositToSavingsActionConfig(
       switch (actionPath) {
         case 'usds-to-susds':
         case 'dai-to-sdai':
-        case 'base-usds-to-susds':
           return ensureConfigTypes({
             address: savingsToken.address,
             abi: erc4626Abi,
@@ -91,6 +90,7 @@ export function createDepositToSavingsActionConfig(
             value: assetsAmount,
           })
 
+        case 'base-usds-to-susds':
         case 'base-usdc-to-susds': {
           const assetsMinAmountOut = getAssetMinAmountOut({ action, token, savingsToken })
 
@@ -130,9 +130,9 @@ export function createDepositToSavingsActionConfig(
           ]
         case 'dai-to-sdai':
         case 'usds-to-susds':
-        case 'base-usds-to-susds':
           return [balancesQueryKeyPrefix, getAllowanceQueryKey(action.savingsToken.address)]
 
+        case 'base-usds-to-susds':
         case 'base-usdc-to-susds':
           return [balancesQueryKeyPrefix, getAllowanceQueryKey(getContractAddress(basePsm3Address, chainId))]
 

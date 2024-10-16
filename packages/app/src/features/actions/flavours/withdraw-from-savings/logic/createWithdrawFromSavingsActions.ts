@@ -34,8 +34,9 @@ export function createWithdrawFromSavingsActions(
     receiver: objective.mode === 'send' ? objective.receiver : undefined,
   }
 
-  assert(context.savingsDaiInfo, 'Savings info is required for withdraw from savings action approval')
-  const sDaiValueEstimate = context.savingsDaiInfo.convertToAssets({ shares: objective.amount })
+  const savingInfo = context.savingsDaiInfo ?? context.savingsUsdsInfo
+  assert(savingInfo, 'Savings info is required for withdraw from savings action approval')
+  const sDaiValueEstimate = savingInfo.convertToAssets({ shares: objective.amount })
 
   function getApproveAction(spender: CheckedAddress): ApproveAction {
     return {

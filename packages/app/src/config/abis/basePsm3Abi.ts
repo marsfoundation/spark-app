@@ -1,4 +1,3 @@
-// temporary solution until its deployed
 export const basePsm3Address = {
   8453: '0x4225Eb956Fc453D3Ee8559C2762B252ffFF45f0a',
 } satisfies Record<number, `0x${string}`>
