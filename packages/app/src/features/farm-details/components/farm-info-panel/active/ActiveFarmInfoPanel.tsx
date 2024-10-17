@@ -1,3 +1,5 @@
+import { getChainConfigEntry } from '@/config/chain'
+import { farmAddresses } from '@/config/chain/constants'
 import { formatPercentage } from '@/domain/common/format'
 import { Farm } from '@/domain/farms/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
@@ -9,13 +11,16 @@ import { Panel } from '@/ui/atoms/panel/Panel'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { assert } from '@/utils/assert'
+import { mainnet } from 'viem/chains'
 import { ApyTooltip } from '../../apy-tooltip/ApyTooltip'
+import { ChroniclePointsTooltip } from '../../chronicle-points-tooltip/ChroniclePointsTooltip'
 import { DetailsItem } from '../common/DetailsItem'
 import { GrowingReward } from './GrowingReward'
 import { RewardPointsSyncWarning } from './RewardPointsSyncWarning'
 
 export interface ActiveFarmInfoPanelProps {
   farm: Farm
+  chainId: number
   canClaim: boolean
   calculateReward: (timestampInMs: number) => NormalizedUnitNumber
   refreshGrowingRewardIntervalInMs: number | undefined
@@ -26,6 +31,7 @@ export interface ActiveFarmInfoPanelProps {
 
 export function ActiveFarmInfoPanel({
   farm,
+  chainId,
   canClaim,
   calculateReward,
   refreshGrowingRewardIntervalInMs,
@@ -36,6 +42,10 @@ export function ActiveFarmInfoPanel({
   if (farm.rewardType === 'points') {
     assert(pointsSyncStatus, 'pointsSyncStatus should be defined')
   }
+
+  const isChroniclePointsFarm =
+    farm.address === farmAddresses[mainnet.id].chroniclePoints &&
+    getChainConfigEntry(chainId).originChainId === mainnet.id
 
   return (
     <Panel.Wrapper className="flex min-h-[380px] w-full flex-1 flex-col self-stretch px-6 py-6 md:px-[32px]">
@@ -66,11 +76,14 @@ export function ActiveFarmInfoPanel({
         </div>
       </div>
       <div className="flex flex-grow flex-col items-center justify-center gap-2">
-        <GrowingReward
-          rewardToken={farm.rewardToken}
-          calculateReward={calculateReward}
-          refreshIntervalInMs={refreshGrowingRewardIntervalInMs}
-        />
+        <div className="flex items-center gap-2 md:items-baseline">
+          <GrowingReward
+            rewardToken={farm.rewardToken}
+            calculateReward={calculateReward}
+            refreshIntervalInMs={refreshGrowingRewardIntervalInMs}
+          />
+          {isChroniclePointsFarm && <ChroniclePointsTooltip className="mt-2 md:mt-0" />}
+        </div>
         {pointsSyncStatus && (
           <DelayedComponent>
             <RewardPointsSyncWarning

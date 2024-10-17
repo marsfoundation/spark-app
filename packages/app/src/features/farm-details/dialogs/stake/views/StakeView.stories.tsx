@@ -1,4 +1,4 @@
-import { MAINNET_USDS_SKY_FARM_ADDRESS } from '@/config/chain/constants'
+import { farmAddresses } from '@/config/chain/constants'
 import { FarmsInfo } from '@/domain/farms/farmsInfo'
 import { Farm } from '@/domain/farms/types'
 import { PotSavingsInfo } from '@/domain/savings-info/potSavingsInfo'
@@ -10,6 +10,7 @@ import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { useForm } from 'react-hook-form'
+import { mainnet } from 'viem/chains'
 import { StakeView } from './StakeView'
 
 const dai = tokens.DAI
@@ -53,7 +54,7 @@ const mockSavingsUsdsInfo = new PotSavingsInfo({
 })
 
 const farm: Farm = {
-  address: MAINNET_USDS_SKY_FARM_ADDRESS,
+  address: farmAddresses[mainnet.id].skyUsds,
   apy: Percentage(0.05),
   name: 'SKY Farm',
   rewardType: 'token',

@@ -76,7 +76,7 @@ export class FarmDetailsPageObject extends BasePageObject {
 
   async expectPointsSyncWarning(): Promise<void> {
     await expect(this.page.getByTestId(testIds.farmDetails.activeFarmInfoPanel.pointsSyncWarning)).toContainText(
-      'Reward points data is out of sync. Please wait.',
+      'Points data is out of sync. Please wait.',
     )
   }
 

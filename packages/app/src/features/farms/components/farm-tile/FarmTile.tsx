@@ -67,7 +67,7 @@ export function FarmTile({
               Deposit {entryAssetsGroup.name}
             </div>
             <div className="font-semibold text-2xl" data-testid={testIds.farms.tile.rewardText}>
-              Earn {rewardTokenSymbol} {isPointsFarm ? 'points' : ''}
+              Earn {isPointsFarm ? `${rewardToken.name} points` : rewardTokenSymbol}
             </div>
             {apy?.gt(0) && (
               <>
