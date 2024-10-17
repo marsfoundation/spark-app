@@ -8,6 +8,7 @@ import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { mainnet } from 'viem/chains'
 import { mockDsrChartData, mockSsrChartData } from '../components/savings-charts/fixtures/mockSavingsRateChartData'
+import { SavingsTokenDetails } from '../logic/useSavings'
 import { GuestView } from './GuestView'
 
 const myEarningsInfo = {
@@ -43,14 +44,18 @@ const savingsChartsInfo = {
 
 const savingsTokenDetails = {
   APY: Percentage(0.065),
-  tokenWithBalance: { balance: NormalizedUnitNumber(20_000), token: tokens.sUSDS },
+  savingsTokenWithBalance: { balance: NormalizedUnitNumber(20_000), token: tokens.sUSDS },
+  assetsToken: tokens.USDS,
+  balanceRefreshIntervalInMs: 50,
   currentProjections: {
     thirtyDays: NormalizedUnitNumber(500),
     oneYear: NormalizedUnitNumber(2500),
   },
-  depositedUSD: NormalizedUnitNumber(20765.7654),
-  depositedUSDPrecision: 2,
-}
+  calculateSavingsBalance: () => ({
+    depositedAssets: NormalizedUnitNumber(20765.7654),
+    depositedAssetsPrecision: 2,
+  }),
+} satisfies SavingsTokenDetails
 
 const meta: Meta<typeof GuestView> = {
   title: 'Features/Savings/Views/GuestView',
