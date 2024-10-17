@@ -1,4 +1,4 @@
-import { dssPsmLiteConfig, migrationActionsConfig, usdsPsmWrapperConfig } from '@/config/contracts-generated'
+import { dssLitePsmConfig, migrationActionsConfig, usdsPsmWrapperConfig } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { Token } from '@/domain/types/Token'
@@ -32,7 +32,7 @@ export function createConvertStablesActions(objective: ConvertStablesObjective, 
     case 'dai-usdc':
     case 'usdc-dai':
       return [
-        getApproveAction(getContractAddress(dssPsmLiteConfig.address, chainId)),
+        getApproveAction(getContractAddress(dssLitePsmConfig.address, chainId)),
         {
           type: 'daiPsmConvert',
           inToken: objective.inToken,
