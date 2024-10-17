@@ -13,6 +13,7 @@ import { createApproveActionConfig } from '../flavours/approve/logic/approveActi
 import { createBorrowActionConfig } from '../flavours/borrow/logic/borrowAction'
 import { createClaimFarmRewardsActionConfig } from '../flavours/claim-farm-rewards/logic/claimFarmRewardsAction'
 import { createClaimMarketRewardsActionConfig } from '../flavours/claim-market-rewards/logic/claimMarketRewardsAction'
+import { createDaiPsmConvertActionConfig } from '../flavours/dai-psm-convert/logic/daiPsmConvertAction'
 import { createDepositToSavingsActionConfig } from '../flavours/deposit-to-savings/logic/depositToSavingsAction'
 import { createDepositActionConfig } from '../flavours/deposit/logic/depositAction'
 import { createDowngradeActionConfig } from '../flavours/downgrade/logic/downgradeAction'
@@ -161,6 +162,8 @@ function actionToConfig(action: Action, context: ActionContext): ActionConfig {
       return createUnstakeActionConfig(action, context)
     case 'usdsPsmConvert':
       return createUsdsPsmConvertActionConfig(action, context)
+    case 'daiPsmConvert':
+      return createDaiPsmConvertActionConfig(action, context)
     case 'claimFarmRewards':
       return createClaimFarmRewardsActionConfig(action, context)
     case 'permit':

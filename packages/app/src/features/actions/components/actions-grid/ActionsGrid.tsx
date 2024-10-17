@@ -4,6 +4,7 @@ import { ApproveActionRow } from '../../flavours/approve/ApproveActionRow'
 import { BorrowActionRow } from '../../flavours/borrow/BorrowActionRow'
 import { ClaimFarmRewardsActionRow } from '../../flavours/claim-farm-rewards/ClaimFarmRewardsActionRow'
 import { ClaimMarketRewardsActionRow } from '../../flavours/claim-market-rewards/ClaimMarketRewardsActionRow'
+import { DaiPsmConvertActionRow } from '../../flavours/dai-psm-convert/DaiPsmConvertActionRow'
 import { DepositToSavingsActionRow } from '../../flavours/deposit-to-savings/DepositToSavingsActionRow'
 import { DepositActionRow } from '../../flavours/deposit/DepositActionRow'
 import { DowngradeActionRow } from '../../flavours/downgrade/DowngradeActionRow'
@@ -72,6 +73,8 @@ export function ActionsGrid({ actionHandlers, variant }: ActionsGridProps) {
             return <UnstakeActionRow action={handler.action} {...props} />
           case 'usdsPsmConvert':
             return <UsdsPsmConvertActionRow action={handler.action} {...props} />
+          case 'daiPsmConvert':
+            return <DaiPsmConvertActionRow action={handler.action} {...props} />
           case 'claimFarmRewards':
             return <ClaimFarmRewardsActionRow action={handler.action} {...props} />
           default:
