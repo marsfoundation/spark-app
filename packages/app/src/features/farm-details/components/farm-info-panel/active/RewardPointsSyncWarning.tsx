@@ -14,13 +14,13 @@ export function RewardPointsSyncWarning({ status, ...rest }: RewardPointsSyncWar
     case 'out-of-sync':
       return (
         <Alert variant="warning" size="small" {...rest}>
-          Reward points data is out of sync. Please wait.
+          Points data is out of sync. Please wait.
         </Alert>
       )
     case 'sync-failed':
       return (
         <Alert variant="danger" size="small" {...rest}>
-          Reward points data could not be synced.
+          Points data could not be synced.
         </Alert>
       )
     default:
