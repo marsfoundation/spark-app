@@ -1,4 +1,4 @@
-import { dssPsmLiteConfig } from '@/config/contracts-generated'
+import { dssLitePsmConfig } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
@@ -47,8 +47,8 @@ describe(createDaiPsmConvertActionConfig.name, () => {
     const { result, queryInvalidationManager } = hookRenderer({
       extraHandlers: [
         handlers.contractCall({
-          to: getContractAddress(dssPsmLiteConfig.address, chainId),
-          abi: dssPsmLiteConfig.abi,
+          to: getContractAddress(dssLitePsmConfig.address, chainId),
+          abi: dssLitePsmConfig.abi,
           functionName: 'sellGem',
           args: [account, toBigInt(usdc.toBaseUnit(amount))],
           from: account,
@@ -74,7 +74,7 @@ describe(createDaiPsmConvertActionConfig.name, () => {
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
       allowanceQueryKey({
         token: usdc.address,
-        spender: getContractAddress(dssPsmLiteConfig.address, chainId),
+        spender: getContractAddress(dssLitePsmConfig.address, chainId),
         account,
         chainId,
       }),
@@ -95,8 +95,8 @@ describe(createDaiPsmConvertActionConfig.name, () => {
       },
       extraHandlers: [
         handlers.contractCall({
-          to: getContractAddress(dssPsmLiteConfig.address, chainId),
-          abi: dssPsmLiteConfig.abi,
+          to: getContractAddress(dssLitePsmConfig.address, chainId),
+          abi: dssLitePsmConfig.abi,
           functionName: 'buyGem',
           args: [account, toBigInt(usdc.toBaseUnit(amount))],
           from: account,
@@ -122,7 +122,7 @@ describe(createDaiPsmConvertActionConfig.name, () => {
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
       allowanceQueryKey({
         token: dai.address,
-        spender: getContractAddress(dssPsmLiteConfig.address, chainId),
+        spender: getContractAddress(dssLitePsmConfig.address, chainId),
         account,
         chainId,
       }),

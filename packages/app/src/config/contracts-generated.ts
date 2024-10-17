@@ -634,13 +634,13 @@ export const collectorConfig = {
 } as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// DssPsmLite
+// DssLitePsm
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xf6e72Db5454dd049d0788e411b06CfAF16853042)
  */
-export const dssPsmLiteAbi = [
+export const dssLitePsmAbi = [
   {
     type: 'constructor',
     inputs: [
@@ -1015,16 +1015,16 @@ export const dssPsmLiteAbi = [
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xf6e72Db5454dd049d0788e411b06CfAF16853042)
  */
-export const dssPsmLiteAddress = {
+export const dssLitePsmAddress = {
   1: '0xf6e72Db5454dd049d0788e411b06CfAF16853042',
 } as const
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xf6e72Db5454dd049d0788e411b06CfAF16853042)
  */
-export const dssPsmLiteConfig = {
-  address: dssPsmLiteAddress,
-  abi: dssPsmLiteAbi,
+export const dssLitePsmConfig = {
+  address: dssLitePsmAddress,
+  abi: dssLitePsmAbi,
 } as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

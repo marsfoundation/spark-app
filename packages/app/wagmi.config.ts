@@ -120,7 +120,7 @@ export default defineConfig({
           },
         },
         {
-          name: 'DssPsmLite',
+          name: 'DssLitePsm',
           address: {
             [mainnet.id]: '0xf6e72Db5454dd049d0788e411b06CfAF16853042',
           },

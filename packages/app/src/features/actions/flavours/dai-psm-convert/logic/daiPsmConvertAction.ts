@@ -1,4 +1,4 @@
-import { dssPsmLiteConfig } from '@/config/contracts-generated'
+import { dssLitePsmConfig } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
@@ -19,8 +19,8 @@ export function createDaiPsmConvertActionConfig(action: DaiPsmConvertAction, con
       const usdcAmount = toBigInt(usdc.toBaseUnit(action.amount))
 
       return ensureConfigTypes({
-        address: getContractAddress(dssPsmLiteConfig.address, chainId),
-        abi: dssPsmLiteConfig.abi,
+        address: getContractAddress(dssLitePsmConfig.address, chainId),
+        abi: dssLitePsmConfig.abi,
         functionName: action.outToken.symbol === usdc.symbol ? 'buyGem' : 'sellGem',
         args: [account, usdcAmount],
       })
@@ -30,7 +30,7 @@ export function createDaiPsmConvertActionConfig(action: DaiPsmConvertAction, con
       return [
         allowanceQueryKey({
           token: action.inToken.address,
-          spender: getContractAddress(dssPsmLiteConfig.address, chainId),
+          spender: getContractAddress(dssLitePsmConfig.address, chainId),
           account,
           chainId,
         }),
