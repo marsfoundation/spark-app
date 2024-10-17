@@ -19,7 +19,7 @@ export function SavingsDaiView({
   openDialog,
   savingsChartsInfo,
 }: SavingsViewContentProps) {
-  const displaySavingsDai = savingsTokenDetails.tokenWithBalance.balance.gt(0)
+  const displaySavingsDai = savingsTokenDetails.savingsTokenWithBalance.balance.gt(0)
 
   const displaySavingsDaiChart = savingsChartsInfo.chartsSupported
   const displaySavingsOpportunity = !displaySavingsDai || !displaySavingsDaiChart

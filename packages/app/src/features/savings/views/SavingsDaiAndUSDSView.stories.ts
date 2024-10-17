@@ -12,6 +12,7 @@ import {
   mockEarningsPredictionsChartData,
 } from '../components/savings-charts/fixtures/mockEarningsChartData'
 import { mockDsrChartData, mockSsrChartData } from '../components/savings-charts/fixtures/mockSavingsRateChartData'
+import { SavingsTokenDetails } from '../logic/useSavings'
 import { SavingsDaiAndUsdsView } from './SavingsDaiAndUSDSView'
 
 const myEarningsInfo = {
@@ -98,25 +99,30 @@ const savingsViewBaseArgs = {
 
 const sUSDSDetails = {
   APY: Percentage(0.05),
-  tokenWithBalance: { balance: NormalizedUnitNumber(10_000), token: tokens.sUSDS },
+  savingsTokenWithBalance: { balance: NormalizedUnitNumber(10_000), token: tokens.sUSDS },
+  assetsToken: tokens.USDS,
+  balanceRefreshIntervalInMs: 50,
   currentProjections: {
     thirtyDays: NormalizedUnitNumber(250),
     oneYear: NormalizedUnitNumber(1250),
   },
-  depositedUSD: NormalizedUnitNumber(10365.7654),
-  depositedUSDPrecision: 2,
-}
+  calculateSavingsBalance: () => ({
+    depositedAssets: NormalizedUnitNumber(10365.7654),
+    depositedAssetsPrecision: 2,
+  }),
+} satisfies SavingsTokenDetails
 
 const sDaiDetails = {
   APY: Percentage(0.05),
-  tokenWithBalance: { balance: NormalizedUnitNumber(20_000), token: tokens.sDAI },
+  savingsTokenWithBalance: { balance: NormalizedUnitNumber(20_000), token: tokens.sDAI },
+  assetsToken: tokens.DAI,
+  balanceRefreshIntervalInMs: 50,
   currentProjections: {
     thirtyDays: NormalizedUnitNumber(500),
     oneYear: NormalizedUnitNumber(2500),
   },
-  depositedUSD: NormalizedUnitNumber(20765.7654),
-  depositedUSDPrecision: 2,
-}
+  calculateSavingsBalance: () => ({ depositedAssets: NormalizedUnitNumber(20765.7654), depositedAssetsPrecision: 2 }),
+} satisfies SavingsTokenDetails
 
 const meta: Meta<typeof SavingsDaiAndUsdsView> = {
   title: 'Features/Savings/Views/SavingsDaiAndUsdsView',
@@ -147,21 +153,21 @@ export const NoDeposit: Story = {
     },
     sDaiDetails: {
       ...sDaiDetails,
-      tokenWithBalance: { balance: NormalizedUnitNumber(0), token: tokens.sDAI },
+      savingsTokenWithBalance: { balance: NormalizedUnitNumber(0), token: tokens.sDAI },
       currentProjections: {
         thirtyDays: NormalizedUnitNumber(0),
         oneYear: NormalizedUnitNumber(0),
       },
-      depositedUSD: NormalizedUnitNumber(0),
+      calculateSavingsBalance: () => ({ depositedAssets: NormalizedUnitNumber(0), depositedAssetsPrecision: 2 }),
     },
     sUSDSDetails: {
       ...sUSDSDetails,
-      tokenWithBalance: { balance: NormalizedUnitNumber(0), token: tokens.sUSDS },
+      savingsTokenWithBalance: { balance: NormalizedUnitNumber(0), token: tokens.sUSDS },
       currentProjections: {
         thirtyDays: NormalizedUnitNumber(0),
         oneYear: NormalizedUnitNumber(0),
       },
-      depositedUSD: NormalizedUnitNumber(0),
+      calculateSavingsBalance: () => ({ depositedAssets: NormalizedUnitNumber(0), depositedAssetsPrecision: 2 }),
     },
   },
 }
@@ -174,12 +180,12 @@ export const OnlySavingsDaiBalance: Story = {
     totalEligibleCashUSD: NormalizedUnitNumber(0),
     sUSDSDetails: {
       ...sUSDSDetails,
-      tokenWithBalance: { balance: NormalizedUnitNumber(0), token: tokens.sUSDS },
+      savingsTokenWithBalance: { balance: NormalizedUnitNumber(0), token: tokens.sUSDS },
       currentProjections: {
         thirtyDays: NormalizedUnitNumber(0),
         oneYear: NormalizedUnitNumber(0),
       },
-      depositedUSD: NormalizedUnitNumber(0),
+      calculateSavingsBalance: () => ({ depositedAssets: NormalizedUnitNumber(0), depositedAssetsPrecision: 2 }),
     },
     sDaiDetails,
     assetsInWallet: [
@@ -211,12 +217,12 @@ export const OnlySavingsUsdsBalance: Story = {
     sUSDSDetails,
     sDaiDetails: {
       ...sDaiDetails,
-      tokenWithBalance: { balance: NormalizedUnitNumber(0), token: tokens.sDAI },
+      savingsTokenWithBalance: { balance: NormalizedUnitNumber(0), token: tokens.sDAI },
       currentProjections: {
         thirtyDays: NormalizedUnitNumber(0),
         oneYear: NormalizedUnitNumber(0),
       },
-      depositedUSD: NormalizedUnitNumber(0),
+      calculateSavingsBalance: () => ({ depositedAssets: NormalizedUnitNumber(0), depositedAssetsPrecision: 2 }),
     },
     assetsInWallet: [
       {
@@ -283,21 +289,21 @@ export const NoDepositNoCash: Story = {
     totalEligibleCashUSD: NormalizedUnitNumber(0),
     sDaiDetails: {
       ...sDaiDetails,
-      tokenWithBalance: { balance: NormalizedUnitNumber(0), token: tokens.sDAI },
+      savingsTokenWithBalance: { balance: NormalizedUnitNumber(0), token: tokens.sDAI },
       currentProjections: {
         thirtyDays: NormalizedUnitNumber(0),
         oneYear: NormalizedUnitNumber(0),
       },
-      depositedUSD: NormalizedUnitNumber(0),
+      calculateSavingsBalance: () => ({ depositedAssets: NormalizedUnitNumber(0), depositedAssetsPrecision: 2 }),
     },
     sUSDSDetails: {
       ...sUSDSDetails,
-      tokenWithBalance: { balance: NormalizedUnitNumber(0), token: tokens.sUSDS },
+      savingsTokenWithBalance: { balance: NormalizedUnitNumber(0), token: tokens.sUSDS },
       currentProjections: {
         thirtyDays: NormalizedUnitNumber(0),
         oneYear: NormalizedUnitNumber(0),
       },
-      depositedUSD: NormalizedUnitNumber(0),
+      calculateSavingsBalance: () => ({ depositedAssets: NormalizedUnitNumber(0), depositedAssetsPrecision: 2 }),
     },
     assetsInWallet: [
       {
@@ -327,23 +333,31 @@ export const BigNumbersDesktop: Story = {
     ...savingsViewBaseArgs,
     sDaiDetails: {
       APY: Percentage(0.05),
-      tokenWithBalance: { balance: NormalizedUnitNumber(134000000.0), token: tokens.sDAI },
+      assetsToken: tokens.DAI,
+      balanceRefreshIntervalInMs: 50,
+      savingsTokenWithBalance: { balance: NormalizedUnitNumber(134000000.0), token: tokens.sDAI },
       currentProjections: {
         thirtyDays: NormalizedUnitNumber(1224300.923423423),
         oneYear: NormalizedUnitNumber(6345543.32945601),
       },
-      depositedUSD: NormalizedUnitNumber('134395765.123482934245'),
-      depositedUSDPrecision: 0,
+      calculateSavingsBalance: () => ({
+        depositedAssets: NormalizedUnitNumber('134395765.123482934245'),
+        depositedAssetsPrecision: 0,
+      }),
     },
     sUSDSDetails: {
       APY: Percentage(0.05),
-      tokenWithBalance: { balance: NormalizedUnitNumber(134000000.0), token: tokens.sUSDS },
+      savingsTokenWithBalance: { balance: NormalizedUnitNumber(134000000.0), token: tokens.sUSDS },
+      assetsToken: tokens.USDS,
+      balanceRefreshIntervalInMs: 50,
       currentProjections: {
         thirtyDays: NormalizedUnitNumber(1224300.923423423),
         oneYear: NormalizedUnitNumber(6345543.32945601),
       },
-      depositedUSD: NormalizedUnitNumber('134395765.123482934245'),
-      depositedUSDPrecision: 0,
+      calculateSavingsBalance: () => ({
+        depositedAssets: NormalizedUnitNumber('134395765.123482934245'),
+        depositedAssetsPrecision: 0,
+      }),
     },
 
     assetsInWallet: [
@@ -374,12 +388,12 @@ export const DepositSavingDaiOnlyChartsUnsupported: Story = {
     totalEligibleCashUSD: NormalizedUnitNumber(12345),
     sUSDSDetails: {
       ...sUSDSDetails,
-      tokenWithBalance: { balance: NormalizedUnitNumber(0), token: tokens.sUSDS },
+      savingsTokenWithBalance: { balance: NormalizedUnitNumber(0), token: tokens.sUSDS },
       currentProjections: {
         thirtyDays: NormalizedUnitNumber(0),
         oneYear: NormalizedUnitNumber(0),
       },
-      depositedUSD: NormalizedUnitNumber(0),
+      calculateSavingsBalance: () => ({ depositedAssets: NormalizedUnitNumber(0), depositedAssetsPrecision: 2 }),
     },
     sDaiDetails,
     assetsInWallet: [

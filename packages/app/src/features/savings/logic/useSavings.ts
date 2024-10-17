@@ -21,17 +21,17 @@ import { useMemo } from 'react'
 import { Projections } from '../types'
 import { MigrationInfo, makeMigrationInfo } from './makeMigrationInfo'
 import { SavingsMeta, makeSavingsMeta } from './makeSavingsMeta'
+import { SavingsOverview } from './makeSavingsOverview'
 import { makeSavingsTokenDetails } from './makeSavingsTokenDetails'
 import { useWelcomeDialog } from './useWelcomeDialog'
 
-const stepInMs = 50
-
 export interface SavingsTokenDetails {
   APY: Percentage
-  tokenWithBalance: TokenWithBalance
   currentProjections: Projections
-  depositedUSD: NormalizedUnitNumber
-  depositedUSDPrecision: number
+  savingsTokenWithBalance: TokenWithBalance
+  assetsToken: Token
+  calculateSavingsBalance: (timestampInMs: number) => SavingsOverview
+  balanceRefreshIntervalInMs: number | undefined
 }
 
 export interface AssetInWallet {
@@ -66,9 +66,7 @@ export function useSavings(): UseSavingsResults {
   const { inputTokens, sdaiWithBalance, susdsWithBalance } = useSavingsTokens({ chainId })
   const { originChainId, extraTokens } = getChainConfigEntry(chainId)
   const { tokensInfo } = useTokensInfo({ tokens: extraTokens, chainId })
-  const { timestamp, timestampInMs } = useTimestamp({
-    refreshIntervalInMs: (savingsDaiInfo ?? savingsUsdsInfo)?.supportsRealTimeInterestAccrual ? stepInMs : undefined,
-  })
+  const { timestamp } = useTimestamp()
   const openDialog = useOpenDialog()
   const { showWelcomeDialog, saveConfirmedWelcomeDialog } = useWelcomeDialog({
     chainId,
@@ -89,17 +87,15 @@ export function useSavings(): UseSavingsResults {
   const sDaiDetails = makeSavingsTokenDetails({
     savingsInfo: savingsDaiInfo,
     savingsTokenWithBalance: sdaiWithBalance,
+    assetsToken: tokensInfo.DAI,
     timestamp,
-    timestampInMs,
-    stepInMs,
   })
 
   const sUSDSDetails = makeSavingsTokenDetails({
     savingsInfo: savingsUsdsInfo,
     savingsTokenWithBalance: susdsWithBalance,
+    assetsToken: tokensInfo.USDS,
     timestamp,
-    timestampInMs,
-    stepInMs,
   })
 
   // biome-ignore lint/correctness/useExhaustiveDependencies:

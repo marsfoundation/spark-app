@@ -35,8 +35,8 @@ export function SavingsDaiAndUsdsView({
   saveConfirmedWelcomeDialog,
   savingsChartsInfo,
 }: SavingsDaiAndUsdsViewProps) {
-  const displaySavingsDai = sDaiDetails.tokenWithBalance.balance.gt(0)
-  const displaySavingsUsds = sUSDSDetails.tokenWithBalance.balance.gt(0)
+  const displaySavingsDai = sDaiDetails.savingsTokenWithBalance.balance.gt(0)
+  const displaySavingsUsds = sUSDSDetails.savingsTokenWithBalance.balance.gt(0)
 
   const displaySavingsOpportunity =
     (!displaySavingsDai && !displaySavingsUsds) ||
