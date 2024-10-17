@@ -97,7 +97,7 @@ export function createDepositToSavingsActionConfig(
           assert(context.savingsUsdsInfo, 'Savings info is required for usdc psm withdraw from savings action')
 
           const currentTimestamp = context.savingsUsdsInfo.currentTimestamp
-          // / We don't know when the block with transaction will be mined, so we calculate the minimal amount of sUSDS to receive as the amount the user ould receive in 1 epoch (30 miniutes)
+          // / We don't know when the block with transaction will be mined, so we calculate the minimal amount of sUSDS to receive as the amount the user would receive in 1 epoch (30 minutes)
           const minimalSharesAmount = context.savingsUsdsInfo.predictSharesAmount({
             assets: action.value, // we pass NormalizedUnitNumber, so 1 USDC = 1 USDS
             timestamp: currentTimestamp + EPOCH_LENGTH,
