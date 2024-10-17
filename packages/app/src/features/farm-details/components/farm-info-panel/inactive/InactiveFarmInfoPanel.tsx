@@ -85,7 +85,8 @@ function PointsFarmDetails({
   chainId,
 }: { farm: Farm; assetsGroupType: AssetsGroup['type']; chainId: number }) {
   const isChroniclePointsFarm =
-    farm.address === farmAddresses[mainnet.id].chroniclePoints && getChainConfigEntry(chainId).id === mainnet.id
+    farm.address === farmAddresses[mainnet.id].chroniclePoints &&
+    getChainConfigEntry(chainId).originChainId === mainnet.id
 
   return (
     <div className="flex flex-col gap-4">

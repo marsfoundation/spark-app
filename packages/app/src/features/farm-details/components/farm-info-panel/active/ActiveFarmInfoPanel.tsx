@@ -44,7 +44,8 @@ export function ActiveFarmInfoPanel({
   }
 
   const isChroniclePointsFarm =
-    farm.address === farmAddresses[mainnet.id].chroniclePoints && getChainConfigEntry(chainId).id === mainnet.id
+    farm.address === farmAddresses[mainnet.id].chroniclePoints &&
+    getChainConfigEntry(chainId).originChainId === mainnet.id
 
   return (
     <Panel.Wrapper className="flex min-h-[380px] w-full flex-1 flex-col self-stretch px-6 py-6 md:px-[32px]">

@@ -64,7 +64,7 @@ export function useSavings(): UseSavingsResults {
   const { savingsDaiInfo } = useSavingsDaiInfo({ chainId })
   const { savingsUsdsInfo } = useSavingsUsdsInfo({ chainId })
   const { inputTokens, sdaiWithBalance, susdsWithBalance } = useSavingsTokens({ chainId })
-  const { id: originChainId, extraTokens } = getChainConfigEntry(chainId)
+  const { originChainId, extraTokens } = getChainConfigEntry(chainId)
   const { tokensInfo } = useTokensInfo({ tokens: extraTokens, chainId })
   const { timestamp, timestampInMs } = useTimestamp({
     refreshIntervalInMs: (savingsDaiInfo ?? savingsUsdsInfo)?.supportsRealTimeInterestAccrual ? stepInMs : undefined,

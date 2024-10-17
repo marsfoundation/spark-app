@@ -37,7 +37,7 @@ const PLAYWRIGHT_MAINNET_USDS_CONTRACTS_NOT_AVAILABLE =
 
 const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
   [mainnet.id]: {
-    id: mainnet.id,
+    originChainId: mainnet.id,
     daiSymbol: TokenSymbol('DAI'),
     sdaiSymbol: TokenSymbol('sDAI'),
     usdsSymbol: PLAYWRIGHT_MAINNET_USDS_CONTRACTS_NOT_AVAILABLE ? undefined : TokenSymbol('USDS'),
@@ -197,7 +197,7 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
     ],
   },
   [gnosis.id]: {
-    id: gnosis.id,
+    originChainId: gnosis.id,
     daiSymbol: TokenSymbol('XDAI'),
     sdaiSymbol: TokenSymbol('sDAI'),
     usdsSymbol: undefined,
@@ -297,7 +297,7 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
   ...(typeof import.meta.env.VITE_DEV_BASE_DEVNET_RPC_URL === 'string'
     ? {
         [base.id]: {
-          id: base.id,
+          originChainId: base.id,
           daiSymbol: undefined,
           sdaiSymbol: undefined,
           usdsSymbol: TokenSymbol('USDS'),

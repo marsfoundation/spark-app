@@ -79,7 +79,7 @@ export interface SavingsConfig {
 }
 
 export interface ChainConfigEntry {
-  id: SupportedChainId
+  originChainId: SupportedChainId
   daiSymbol: TokenSymbol | undefined
   sdaiSymbol: TokenSymbol | undefined
   usdsSymbol: TokenSymbol | undefined
