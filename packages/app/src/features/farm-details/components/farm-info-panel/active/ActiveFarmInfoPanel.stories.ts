@@ -49,7 +49,7 @@ export const Desktop: Story = {}
 export const Mobile: Story = getMobileStory(Desktop)
 export const Tablet: Story = getTabletStory(Desktop)
 
-export const DesktopZeroAPY: Story = {
+export const ZeroAPY: Story = {
   args: {
     farm: {
       ...mockFarm,
@@ -57,16 +57,34 @@ export const DesktopZeroAPY: Story = {
     },
   },
 }
-export const DesktopPointsOutOfSync: Story = {
+export const ZeroAPYMobile = getMobileStory(ZeroAPY)
+export const ZeroAPYTablet = getTabletStory(ZeroAPY)
+
+export const Points: Story = {
+  args: {
+    farm: {
+      ...mockFarm,
+      address: farmAddresses[mainnet.id].chroniclePoints,
+      rewardType: 'points',
+      rewardToken: tokens.CLE,
+    },
+    pointsSyncStatus: 'synced',
+  },
+}
+export const PointsMobile = getMobileStory(Points)
+export const PointsTablet = getTabletStory(Points)
+
+export const PointsOutOfSync: Story = {
   args: {
     farm: {
       ...mockFarm,
       address: farmAddresses[mainnet.id].chroniclePoints,
       rewardToken: tokens.CLE,
-      apy: Percentage(0),
       rewardType: 'points',
     },
     canClaim: false,
     pointsSyncStatus: 'out-of-sync',
   },
 }
+export const PointsOutOfSyncMobile = getMobileStory(PointsOutOfSync)
+export const PointsOutOfSyncTablet = getTabletStory(PointsOutOfSync)

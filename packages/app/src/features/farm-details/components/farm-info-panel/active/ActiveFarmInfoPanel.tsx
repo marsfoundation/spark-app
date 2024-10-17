@@ -75,13 +75,13 @@ export function ActiveFarmInfoPanel({
         </div>
       </div>
       <div className="flex flex-grow flex-col items-center justify-center gap-2">
-        <div className="flex items-baseline gap-2">
+        <div className="flex items-center gap-2 md:items-baseline">
           <GrowingReward
             rewardToken={farm.rewardToken}
             calculateReward={calculateReward}
             refreshIntervalInMs={refreshGrowingRewardIntervalInMs}
           />
-          {isChroniclePointsFarm && <ChroniclePointsTooltip />}
+          {isChroniclePointsFarm && <ChroniclePointsTooltip className="mt-2 md:mt-0" />}
         </div>
         {pointsSyncStatus && (
           <DelayedComponent>
