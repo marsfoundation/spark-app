@@ -84,7 +84,8 @@ interface CreateApproveActionFromSavingsInfoParams {
 
 function createApproveActionFromSavingsInfo({ objective, savingInfo }: CreateApproveActionFromSavingsInfoParams) {
   return (spender: CheckedAddress): ApproveAction => {
-    // @note This assert is here to prevent raising an error while only one of the savings info is provided
+    // @note This assert is here and not on the callsite
+    // to prevent raising an error while only one of the savings info is provided
     assert(savingInfo, 'Savings info is required for withdraw from savings action approval')
     const savingTokenApprovalAmountEstimate = savingInfo.convertToShares({ assets: objective.amount })
 

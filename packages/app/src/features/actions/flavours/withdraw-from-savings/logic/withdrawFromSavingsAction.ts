@@ -107,6 +107,9 @@ export function createWithdrawFromSavingsActionConfig(
 
           assert(context.savingsUsdsInfo, 'Savings info is required for usdc psm withdraw from savings action')
 
+          // @note We don't need to use savings prediction here, because
+          // the savings token value increases with time.
+
           if (isRedeem) {
             const minAssetsAmount = context.savingsUsdsInfo.convertToAssets({ shares: action.amount })
 
