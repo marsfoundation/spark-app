@@ -1,4 +1,5 @@
 import { basePsm3Abi, basePsm3Address } from '@/config/abis/basePsm3Abi'
+import { EPOCH_LENGTH } from '@/domain/market-info/consts'
 import { PotSavingsInfo } from '@/domain/savings-info/potSavingsInfo'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
@@ -70,7 +71,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
               susds.toBaseUnit(
                 mockSavingsUsdsInfo.predictSharesAmount({
                   assets: depositValue,
-                  timestamp: savingsInfoTimestamp + 30 * 60,
+                  timestamp: savingsInfoTimestamp + EPOCH_LENGTH,
                 }),
               ),
             ),
@@ -124,7 +125,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
               susds.toBaseUnit(
                 mockSavingsUsdsInfo.predictSharesAmount({
                   assets: depositValue,
-                  timestamp: savingsInfoTimestamp + 30 * 60,
+                  timestamp: savingsInfoTimestamp + EPOCH_LENGTH,
                 }),
               ),
             ),
