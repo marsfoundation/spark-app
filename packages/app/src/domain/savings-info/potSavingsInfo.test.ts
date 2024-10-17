@@ -152,8 +152,7 @@ describe(PotSavingsInfo.name, () => {
         shares,
       })
       const assetsViaConvert = savingsInfo.convertToAssets({ shares })
-
-      expect(assetsViaPredict.minus(assetsViaConvert).abs().lt(1e-12)).toEqual(true)
+      expect(assetsViaPredict.eq(assetsViaConvert)).toEqual(true)
     })
   })
 
@@ -197,7 +196,7 @@ describe(PotSavingsInfo.name, () => {
       })
       const sharesViaConvert = savingsInfo.convertToShares({ assets })
 
-      expect(sharesViaPredict.minus(sharesViaConvert).abs().lt(1e-12)).toEqual(true)
+      expect(sharesViaPredict.eq(sharesViaConvert)).toEqual(true)
     })
   })
 })

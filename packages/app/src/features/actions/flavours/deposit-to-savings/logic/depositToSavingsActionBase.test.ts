@@ -41,6 +41,12 @@ const mockSavingsUsdsInfo = new PotSavingsInfo({
   },
   currentTimestamp: savingsInfoTimestamp,
 })
+
+const minAmountOut = mockSavingsUsdsInfo.predictSharesAmount({
+  assets: depositValue,
+  timestamp: savingsInfoTimestamp + EPOCH_LENGTH,
+})
+
 const chainId = base.id
 
 const hookRenderer = setupUseContractActionRenderer({
@@ -67,14 +73,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
             usds.address,
             susds.address,
             toBigInt(usds.toBaseUnit(depositValue)),
-            toBigInt(
-              susds.toBaseUnit(
-                mockSavingsUsdsInfo.predictSharesAmount({
-                  assets: depositValue,
-                  timestamp: savingsInfoTimestamp + EPOCH_LENGTH,
-                }),
-              ),
-            ),
+            toBigInt(susds.toBaseUnit(minAmountOut)),
             account,
             referralCode,
           ],
@@ -121,14 +120,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
             usdc.address,
             susds.address,
             toBigInt(usdc.toBaseUnit(depositValue)),
-            toBigInt(
-              susds.toBaseUnit(
-                mockSavingsUsdsInfo.predictSharesAmount({
-                  assets: depositValue,
-                  timestamp: savingsInfoTimestamp + EPOCH_LENGTH,
-                }),
-              ),
-            ),
+            toBigInt(susds.toBaseUnit(minAmountOut)),
             account,
             referralCode,
           ],
