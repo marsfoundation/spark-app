@@ -86,7 +86,7 @@ function createApproveActionFromSavingsInfo({ objective, savingInfo }: CreateApp
   return (spender: CheckedAddress): ApproveAction => {
     // @note This assert is here to prevent raising an error while only one of the savings info is provided
     assert(savingInfo, 'Savings info is required for withdraw from savings action approval')
-    const savingTokenValueEstimate = savingInfo.convertToAssets({ shares: objective.amount })
+    const savingTokenApprovalAmountEstimate = savingInfo.convertToShares({ assets: objective.amount })
 
     return {
       type: 'approve',
@@ -94,7 +94,9 @@ function createApproveActionFromSavingsInfo({ objective, savingInfo }: CreateApp
       spender,
       value: objective.isRedeem
         ? objective.amount
-        : NormalizedUnitNumber(savingTokenValueEstimate.toFixed(objective.savingsToken.decimals, BigNumber.ROUND_UP)),
+        : NormalizedUnitNumber(
+            savingTokenApprovalAmountEstimate.toFixed(objective.savingsToken.decimals, BigNumber.ROUND_UP),
+          ),
     }
   }
 }
