@@ -1,14 +1,15 @@
-import { MAINNET_USDS_SKY_FARM_ADDRESS } from '@/config/chain/constants'
+import { farmAddresses } from '@/config/chain/constants'
 import { Farm } from '@/domain/farms/types'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
+import { mainnet } from 'viem/chains'
 import { InactiveFarmInfoPanel } from './InactiveFarmInfoPanel'
 
 const mockFarm: Farm = {
-  address: MAINNET_USDS_SKY_FARM_ADDRESS,
+  address: farmAddresses[mainnet.id].skyUsds,
   apy: Percentage(0.05),
   name: 'SKY Farm',
   rewardType: 'token',
@@ -37,6 +38,7 @@ const meta: Meta<typeof InactiveFarmInfoPanel> = {
     assetsGroupType: 'stablecoins',
     farm: mockFarm,
     walletConnected: true,
+    chainId: mainnet.id,
   },
 }
 
@@ -47,7 +49,7 @@ export const Desktop: Story = {}
 export const Mobile: Story = getMobileStory(Desktop)
 export const Tablet: Story = getTabletStory(Desktop)
 
-export const DesktopZeroAPY: Story = {
+export const ZeroApy: Story = {
   args: {
     farm: {
       ...mockFarm,
@@ -55,3 +57,18 @@ export const DesktopZeroAPY: Story = {
     },
   },
 }
+export const ZeroApyMobile = getMobileStory(ZeroApy)
+export const ZeroApyTablet = getTabletStory(ZeroApy)
+
+export const ChroniclePoints: Story = {
+  args: {
+    farm: {
+      ...mockFarm,
+      address: farmAddresses[mainnet.id].chroniclePoints,
+      rewardType: 'points',
+      rewardToken: tokens.CLE,
+    },
+  },
+}
+export const ChroniclePointsMobile = getMobileStory(ChroniclePoints)
+export const ChroniclePointsTablet = getTabletStory(ChroniclePoints)

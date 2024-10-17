@@ -67,6 +67,7 @@ export function FarmDetailsView({
           {isFarmActive ? (
             <ActiveFarmInfoPanel
               farm={farm}
+              chainId={chainId}
               canClaim={canClaim}
               calculateReward={calculateReward}
               refreshGrowingRewardIntervalInMs={refreshGrowingRewardIntervalInMs}
@@ -78,6 +79,7 @@ export function FarmDetailsView({
             <InactiveFarmInfoPanel
               assetsGroupType={farm.entryAssetsGroup.type}
               farm={farm}
+              chainId={chainId}
               walletConnected={walletConnected}
               hasTokensToDeposit={hasTokensToDeposit}
               openStakeDialog={openDefaultedStakeDialog}

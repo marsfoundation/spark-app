@@ -27,7 +27,7 @@ const inactiveFarms = [
   {
     apy: Percentage(0),
     staked: NormalizedUnitNumber(0),
-    rewardToken: tokens.SKY,
+    rewardToken: tokens.CLE,
     stakingToken: tokens.USDS,
     detailsLink: 'farm-details/1/0x1234567890123456789012345678901234567891',
     entryAssetsGroup,

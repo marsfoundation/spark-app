@@ -19,7 +19,7 @@ import { base, gnosis, mainnet } from 'viem/chains'
 import { NATIVE_ASSET_MOCK_ADDRESS } from '../consts'
 import { AppConfig } from '../feature-flags'
 import { PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY } from '../wagmi/config.e2e'
-import { MAINNET_USDS_SKY_FARM_ADDRESS, baseDevNetFarms, farmStablecoinsEntryGroup } from './constants'
+import { farmAddresses, farmStablecoinsEntryGroup } from './constants'
 import { ChainConfigEntry, ChainMeta, SupportedChainId } from './types'
 
 const commonTokenSymbolToReplacedName = {
@@ -176,20 +176,20 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
     farms: [
       {
         rewardType: 'token',
-        address: MAINNET_USDS_SKY_FARM_ADDRESS,
+        address: farmAddresses[mainnet.id].skyUsds,
         entryAssetsGroup: farmStablecoinsEntryGroup[mainnet.id],
         historyCutoff: new Date('2024-09-17T00:00:00.000Z'),
       },
       {
-        // CRO Farm
+        // Chronicle farm
         rewardType: 'points',
-        address: CheckedAddress('0x10ab606B067C9C461d8893c47C7512472E19e2Ce'),
+        address: farmAddresses[mainnet.id].chroniclePoints,
         entryAssetsGroup: farmStablecoinsEntryGroup[mainnet.id],
         historyCutoff: new Date('2024-09-17T00:00:00.000Z'),
         rewardPoints: new Token({
           address: CheckedAddress(zeroAddress),
           decimals: 18,
-          name: 'CLE points',
+          name: 'Chronicle',
           symbol: TokenSymbol('CLE'),
           unitPriceUsd: '0',
         }),
@@ -341,7 +341,7 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
           farms: [
             {
               rewardType: 'token',
-              address: baseDevNetFarms.skyUsds,
+              address: farmAddresses[base.id].skyUsds,
               entryAssetsGroup: farmStablecoinsEntryGroup[base.id],
             },
           ],

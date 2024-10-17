@@ -1,5 +1,5 @@
 import { stakingRewardsAbi } from '@/config/abis/stakingRewardsAbi'
-import { MAINNET_USDS_SKY_FARM_ADDRESS } from '@/config/chain/constants'
+import { farmAddresses } from '@/config/chain/constants'
 import { getFarmsApiDetailsQueryKey } from '@/domain/farms/farmApiDetailsQuery'
 import { getFarmsBlockchainDetailsQueryKey } from '@/domain/farms/farmBlockchainDetailsQuery'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
@@ -27,7 +27,7 @@ const hookRenderer = setupUseContractActionRenderer({
   args: {
     action: {
       type: 'stake',
-      farm: MAINNET_USDS_SKY_FARM_ADDRESS,
+      farm: farmAddresses[mainnet.id].skyUsds,
       stakeAmount,
       stakingToken,
       rewardToken,
@@ -41,7 +41,7 @@ describe(createStakeActionConfig.name, () => {
     const { result, queryInvalidationManager } = hookRenderer({
       extraHandlers: [
         handlers.contractCall({
-          to: MAINNET_USDS_SKY_FARM_ADDRESS,
+          to: farmAddresses[mainnet.id].skyUsds,
           abi: stakingRewardsAbi,
           functionName: 'stake',
           args: [toBigInt(stakingToken.toBaseUnit(stakeAmount))],
@@ -72,7 +72,7 @@ describe(createStakeActionConfig.name, () => {
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
       allowanceQueryKey({
         token: stakingToken.address,
-        spender: MAINNET_USDS_SKY_FARM_ADDRESS,
+        spender: farmAddresses[mainnet.id].skyUsds,
         account,
         chainId,
       }),

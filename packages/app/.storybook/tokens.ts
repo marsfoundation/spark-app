@@ -1,3 +1,4 @@
+import { zeroAddress } from 'viem'
 import { CheckedAddress } from '../src/domain/types/CheckedAddress'
 import { Token } from '../src/domain/types/Token'
 import { TokenSymbol } from '../src/domain/types/TokenSymbol'
@@ -128,5 +129,12 @@ export const tokens = {
     name: 'EURe',
     decimals: 18,
     address: CheckedAddress('0xcb444e90d8198415266c6a2724b7900fb12fc56e'),
+  }),
+  CLE: new Token({
+    address: CheckedAddress(zeroAddress),
+    decimals: 18,
+    name: 'Chronicle',
+    symbol: TokenSymbol('CLE'),
+    unitPriceUsd: '0',
   }),
 }

@@ -1,15 +1,15 @@
-import { MAINNET_USDS_SKY_FARM_ADDRESS } from '@/config/chain/constants'
+import { farmAddresses } from '@/config/chain/constants'
 import { Farm } from '@/domain/farms/types'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
+import { mainnet } from 'viem/chains'
 import { ActiveFarmInfoPanel } from './ActiveFarmInfoPanel'
 
 const mockFarm: Farm = {
-  address: MAINNET_USDS_SKY_FARM_ADDRESS,
+  address: farmAddresses[mainnet.id].skyUsds,
   apy: Percentage(0.05),
   entryAssetsGroup: {
     type: 'stablecoins',
@@ -38,6 +38,7 @@ const meta: Meta<typeof ActiveFarmInfoPanel> = {
     farm: mockFarm,
     canClaim: true,
     calculateReward: () => NormalizedUnitNumber(71.2345783),
+    chainId: mainnet.id,
   },
 }
 
@@ -60,7 +61,8 @@ export const DesktopPointsOutOfSync: Story = {
   args: {
     farm: {
       ...mockFarm,
-      rewardToken: mockFarm.rewardToken.clone({ symbol: TokenSymbol('CLE'), unitPriceUsd: NormalizedUnitNumber(0) }),
+      address: farmAddresses[mainnet.id].chroniclePoints,
+      rewardToken: tokens.CLE,
       apy: Percentage(0),
       rewardType: 'points',
     },

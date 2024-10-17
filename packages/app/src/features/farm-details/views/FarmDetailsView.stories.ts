@@ -1,10 +1,11 @@
-import { MAINNET_USDS_SKY_FARM_ADDRESS } from '@/config/chain/constants'
+import { farmAddresses } from '@/config/chain/constants'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { withRouter } from 'storybook-addon-remix-react-router'
+import { mainnet } from 'viem/chains'
 import { mockChartData } from '../fixtures/mockChartData'
 import { FarmHistoryQueryResult } from '../logic/historic/useFarmHistory'
 import { FarmDetailsView } from './FarmDetailsView'
@@ -14,11 +15,11 @@ const meta: Meta<typeof FarmDetailsView> = {
   component: FarmDetailsView,
   decorators: [WithTooltipProvider(), withRouter],
   args: {
-    chainId: 1,
+    chainId: mainnet.id,
     chainMismatch: false,
     walletConnected: true,
     farm: {
-      address: MAINNET_USDS_SKY_FARM_ADDRESS,
+      address: farmAddresses[mainnet.id].skyUsds,
       apy: Percentage(0.05),
       name: 'SKY Farm',
       rewardType: 'token',
@@ -84,7 +85,7 @@ export const ActiveTablet = getTabletStory(ActiveDesktop)
 export const NoDepositWithRewards: Story = {
   args: {
     farm: {
-      address: MAINNET_USDS_SKY_FARM_ADDRESS,
+      address: farmAddresses[mainnet.id].skyUsds,
       name: 'SKY Farm',
       rewardType: 'token',
       apy: Percentage(0.05),
@@ -112,7 +113,7 @@ export const NoDepositWithRewardsTablet = getTabletStory(NoDepositWithRewards)
 export const InactiveDesktop: Story = {
   args: {
     farm: {
-      address: MAINNET_USDS_SKY_FARM_ADDRESS,
+      address: farmAddresses[mainnet.id].skyUsds,
       apy: Percentage(0.05),
       name: 'SKY Farm',
       rewardType: 'token',
@@ -141,7 +142,7 @@ export const InactiveTablet = getTabletStory(InactiveDesktop)
 export const NotConnectedDesktop: Story = {
   args: {
     farm: {
-      address: MAINNET_USDS_SKY_FARM_ADDRESS,
+      address: farmAddresses[mainnet.id].skyUsds,
       name: 'SKY Farm',
       rewardType: 'token',
       apy: Percentage(0.05),
@@ -181,7 +182,7 @@ export const NoApiData: Story = {
       totalRewarded: undefined,
       depositors: undefined,
       rewardToken: tokens.SKY.clone({ unitPriceUsd: NormalizedUnitNumber(0) }),
-      address: MAINNET_USDS_SKY_FARM_ADDRESS,
+      address: farmAddresses[mainnet.id].skyUsds,
       name: 'SKY Farm',
       rewardType: 'token',
       entryAssetsGroup: {
