@@ -32,7 +32,7 @@ export async function getFarmBlockchainDetails({
 
   return {
     ...farmConfig,
-    name: `${farmConfig.rewardType === 'points' ? rewardToken.name : rewardToken.symbol} Farm`,
+    name: farmConfig.rewardType === 'points' ? `${rewardToken.name} Points Farm` : `${rewardToken.symbol} Farm`,
     rewardToken, // @todo: Reward token price might not be correct - we don't provide oracles for all tokens in tokens info
     stakingToken,
     rewardRate: NormalizedUnitNumber(rewardToken.fromBaseUnit(BaseUnitNumber(contractData.rewardRate))),
