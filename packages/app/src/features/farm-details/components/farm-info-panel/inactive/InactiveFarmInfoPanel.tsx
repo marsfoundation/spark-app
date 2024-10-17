@@ -95,7 +95,7 @@ function PointsFarmDetails({
         and earn <span className="text-[#3F66EF]">{farm.rewardToken.name}</span>{' '}
         <div className="inline-flex items-baseline gap-1">
           points
-          <ChroniclePointsTooltip />
+          {isChroniclePointsFarm && <ChroniclePointsTooltip />}
         </div>
       </h2>
       <div className=" text-basics-dark-grey text-sm">
