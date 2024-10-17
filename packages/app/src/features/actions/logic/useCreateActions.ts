@@ -11,6 +11,7 @@ import { ApproveDelegationAction } from '../flavours/approve-delegation/types'
 import { ApproveAction } from '../flavours/approve/types'
 import { BorrowAction } from '../flavours/borrow/types'
 import { ClaimMarketRewardsAction } from '../flavours/claim-market-rewards/types'
+import { createConvertStablesActions } from '../flavours/convert-stables/logic/createConvertStablesActions'
 import { createDepositToSavingsActions } from '../flavours/deposit-to-savings/logic/createDepositToSavingsActions'
 import { DepositAction } from '../flavours/deposit/types'
 import { DowngradeAction } from '../flavours/downgrade/types'
@@ -282,6 +283,10 @@ export function useCreateActions({ objectives, actionsSettings, actionContext }:
             rewardAmount: objective.rewardAmount,
           },
         ]
+      }
+
+      case 'convertStables': {
+        return createConvertStablesActions(objective, actionContext)
       }
     }
   })
