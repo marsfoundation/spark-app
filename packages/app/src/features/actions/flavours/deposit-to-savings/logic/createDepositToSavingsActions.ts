@@ -1,3 +1,4 @@
+import { basePsm3Address } from '@/config/abis/basePsm3Abi'
 import { migrationActionsConfig, psmActionsConfig, usdsPsmActionsConfig } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
@@ -50,6 +51,10 @@ export function createDepositToSavingsActions(objective: DepositToSavingsObjecti
     case 'dai-to-sdai':
     case 'usds-to-susds':
       return [getApproveAction(objective.savingsToken.address), depositAction]
+
+    case 'base-usdc-to-susds':
+    case 'base-usds-to-susds':
+      return [getApproveAction(getContractAddress(basePsm3Address, chainId)), depositAction]
 
     default:
       assertNever(actionPath)

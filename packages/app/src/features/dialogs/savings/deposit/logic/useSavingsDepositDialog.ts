@@ -132,6 +132,7 @@ export function useSavingsDepositDialog({
     },
     actionsContext: {
       tokensInfo,
+      savingsUsdsInfo: savingsUsdsInfo ?? undefined,
     },
   }
 }

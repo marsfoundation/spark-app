@@ -1,3 +1,4 @@
+import { basePsm3Abi, basePsm3Address } from '@/config/abis/basePsm3Abi'
 import {
   migrationActionsConfig,
   psmActionsConfig,
@@ -7,6 +8,7 @@ import {
 } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
+import { EPOCH_LENGTH } from '@/domain/market-info/consts'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
@@ -14,12 +16,12 @@ import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPr
 import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
 import { ActionConfig, ActionContext, GetWriteConfigResult } from '@/features/actions/logic/types'
 import { calculateGemConversionFactor } from '@/features/actions/utils/savings'
-import { raise } from '@/utils/assert'
+import { assert, raise } from '@/utils/assert'
 import { assertNever } from '@/utils/assertNever'
 import { toBigInt } from '@/utils/bigNumber'
 import { QueryKey } from '@tanstack/react-query'
 import { Address, erc4626Abi } from 'viem'
-import { gnosis } from 'viem/chains'
+import { base, gnosis } from 'viem/chains'
 import { DepositToSavingsAction } from '../types'
 import { getSavingsDepositActionPath } from './getSavingsDepositActionPath'
 
@@ -88,6 +90,31 @@ export function createDepositToSavingsActionConfig(
             value: assetsAmount,
           })
 
+        case 'base-usds-to-susds':
+        case 'base-usdc-to-susds': {
+          const referralCode = 0n
+
+          assert(context.savingsUsdsInfo, 'Savings info is required for usdc psm withdraw from savings action')
+
+          const currentTimestamp = context.savingsUsdsInfo.currentTimestamp
+          // We don't know when the block with transaction will be mined so
+          // we calculate the minimal amount of sUSDS to receive as the amount
+          // the user would receive in 1 epoch (30 minutes)
+          const minimalSharesAmount = context.savingsUsdsInfo.predictSharesAmount({
+            assets: action.value, // we pass NormalizedUnitNumber, so 1 USDC = 1 USDS
+            timestamp: currentTimestamp + EPOCH_LENGTH,
+          })
+
+          const minAmountOut = toBigInt(savingsToken.toBaseUnit(minimalSharesAmount))
+
+          return ensureConfigTypes({
+            address: basePsm3Address[base.id],
+            abi: basePsm3Abi,
+            functionName: 'swapExactIn',
+            args: [token.address, savingsToken.address, assetsAmount, minAmountOut, account, referralCode],
+          })
+        }
+
         default:
           assertNever(actionPath)
       }
@@ -117,6 +144,11 @@ export function createDepositToSavingsActionConfig(
         case 'dai-to-sdai':
         case 'usds-to-susds':
           return [balancesQueryKeyPrefix, getAllowanceQueryKey(action.savingsToken.address)]
+
+        case 'base-usds-to-susds':
+        case 'base-usdc-to-susds':
+          return [balancesQueryKeyPrefix, getAllowanceQueryKey(getContractAddress(basePsm3Address, chainId))]
+
         default:
           assertNever(actionPath)
       }

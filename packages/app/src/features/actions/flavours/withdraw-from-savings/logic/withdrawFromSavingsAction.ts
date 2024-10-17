@@ -1,3 +1,4 @@
+import { basePsm3Abi, basePsm3Address } from '@/config/abis/basePsm3Abi'
 import {
   migrationActionsConfig,
   psmActionsConfig,
@@ -16,7 +17,7 @@ import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPr
 import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
 import { ActionConfig, ActionContext, GetWriteConfigResult } from '@/features/actions/logic/types'
 import { calculateGemConversionFactor } from '@/features/actions/utils/savings'
-import { raise } from '@/utils/assert'
+import { assert, raise } from '@/utils/assert'
 import { assertNever } from '@/utils/assertNever'
 import { toBigInt } from '@/utils/bigNumber'
 import { QueryKey } from '@tanstack/react-query'
@@ -100,6 +101,45 @@ export function createWithdrawFromSavingsActionConfig(
           })
         }
 
+        case 'base-susds-to-usds':
+        case 'base-susds-to-usdc': {
+          const referralCode = 0n
+
+          assert(context.savingsUsdsInfo, 'Savings info is required for usdc psm withdraw from savings action')
+
+          // @note We don't need to use savings prediction here, because
+          // the savings token value increases with time.
+
+          if (isRedeem) {
+            const minAssetsAmount = context.savingsUsdsInfo.convertToAssets({ shares: action.amount })
+
+            const minAmountOut = calculateGemMinAmountOut({
+              gemDecimals: token.decimals,
+              assetsTokenDecimals: savingsToken.decimals,
+              assetsAmount: toBigInt(savingsToken.toBaseUnit(minAssetsAmount)),
+            })
+
+            return ensureConfigTypes({
+              address: getContractAddress(basePsm3Address, chainId),
+              abi: basePsm3Abi,
+              functionName: 'swapExactIn',
+              args: [savingsToken.address, token.address, argsAmount, minAmountOut, receiver, referralCode],
+            })
+          }
+
+          const maxSharesAmount = context.savingsUsdsInfo.convertToShares({
+            assets: action.amount,
+          })
+          const maxAmountIn = toBigInt(savingsToken.toBaseUnit(maxSharesAmount))
+
+          return ensureConfigTypes({
+            address: getContractAddress(basePsm3Address, chainId),
+            abi: basePsm3Abi,
+            functionName: 'swapExactOut',
+            args: [savingsToken.address, token.address, argsAmount, maxAmountIn, receiver, referralCode],
+          })
+        }
+
         default:
           assertNever(actionPath)
       }
@@ -134,6 +174,10 @@ export function createWithdrawFromSavingsActionConfig(
             balancesQueryKeyPrefix,
             getAllowanceQueryKey(getContractAddress(usdsPsmActionsConfig.address, chainId)),
           ]
+
+        case 'base-susds-to-usdc':
+        case 'base-susds-to-usds':
+          return [balancesQueryKeyPrefix, getAllowanceQueryKey(getContractAddress(basePsm3Address, chainId))]
         default:
           assertNever(actionPath)
       }

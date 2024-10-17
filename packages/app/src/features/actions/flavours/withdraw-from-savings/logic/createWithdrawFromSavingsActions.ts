@@ -1,3 +1,4 @@
+import { basePsm3Address } from '@/config/abis/basePsm3Abi'
 import {
   migrationActionsConfig,
   psmActionsConfig,
@@ -5,6 +6,7 @@ import {
   usdsPsmActionsConfig,
 } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
+import { SavingsInfo } from '@/domain/savings-info/types'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Action, ActionContext } from '@/features/actions/logic/types'
@@ -33,19 +35,14 @@ export function createWithdrawFromSavingsActions(
     receiver: objective.mode === 'send' ? objective.receiver : undefined,
   }
 
-  assert(context.savingsDaiInfo, 'Savings info is required for withdraw from savings action approval')
-  const sDaiValueEstimate = context.savingsDaiInfo.convertToAssets({ shares: objective.amount })
-
-  function getApproveAction(spender: CheckedAddress): ApproveAction {
-    return {
-      type: 'approve',
-      token: objective.savingsToken,
-      spender,
-      value: objective.isRedeem
-        ? objective.amount
-        : NormalizedUnitNumber(sDaiValueEstimate.toFixed(objective.savingsToken.decimals, BigNumber.ROUND_UP)),
-    }
-  }
+  const getSusdsApproveAction = createApproveActionFromSavingsInfo({
+    objective,
+    savingInfo: context.savingsUsdsInfo,
+  })
+  const getSdaiApproveAction = createApproveActionFromSavingsInfo({
+    objective,
+    savingInfo: context.savingsDaiInfo,
+  })
 
   const actionPath = getSavingsWithdrawActionPath({
     token: objective.token,
@@ -60,18 +57,47 @@ export function createWithdrawFromSavingsActions(
       return [withdrawAction]
 
     case 'sdai-to-usdc':
-      return [getApproveAction(getContractAddress(psmActionsConfig.address, chainId)), withdrawAction]
+      return [getSdaiApproveAction(getContractAddress(psmActionsConfig.address, chainId)), withdrawAction]
 
     case 'susds-to-usdc':
-      return [getApproveAction(getContractAddress(usdsPsmActionsConfig.address, chainId)), withdrawAction]
+      return [getSusdsApproveAction(getContractAddress(usdsPsmActionsConfig.address, chainId)), withdrawAction]
 
     case 'sdai-to-usds':
-      return [getApproveAction(getContractAddress(migrationActionsConfig.address, chainId)), withdrawAction]
+      return [getSdaiApproveAction(getContractAddress(migrationActionsConfig.address, chainId)), withdrawAction]
 
     case 'sdai-to-sexy-dai':
-      return [getApproveAction(CheckedAddress(savingsXDaiAdapterAddress[gnosis.id])), withdrawAction]
+      return [getSdaiApproveAction(CheckedAddress(savingsXDaiAdapterAddress[gnosis.id])), withdrawAction]
+
+    case 'base-susds-to-usdc':
+    case 'base-susds-to-usds':
+      return [getSusdsApproveAction(getContractAddress(basePsm3Address, chainId)), withdrawAction]
 
     default:
       assertNever(actionPath)
+  }
+}
+
+interface CreateApproveActionFromSavingsInfoParams {
+  objective: WithdrawFromSavingsObjective
+  savingInfo?: SavingsInfo
+}
+
+function createApproveActionFromSavingsInfo({ objective, savingInfo }: CreateApproveActionFromSavingsInfoParams) {
+  return (spender: CheckedAddress): ApproveAction => {
+    // @note This assert is here and not on the callsite
+    // to prevent raising an error while only one of the savings info is provided
+    assert(savingInfo, 'Savings info is required for withdraw from savings action approval')
+    const savingTokenApprovalAmountEstimate = savingInfo.convertToShares({ assets: objective.amount })
+
+    return {
+      type: 'approve',
+      token: objective.savingsToken,
+      spender,
+      value: objective.isRedeem
+        ? objective.amount
+        : NormalizedUnitNumber(
+            savingTokenApprovalAmountEstimate.toFixed(objective.savingsToken.decimals, BigNumber.ROUND_UP),
+          ),
+    }
   }
 }

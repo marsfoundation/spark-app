@@ -71,8 +71,8 @@ function interpolateSharesToAssets({
 }: InterpolateSharesToDaiParams): NormalizedUnitNumber {
   const timestamp = Math.floor(timestampInMs / 1000)
 
-  const now = savingsInfo.predictSharesValue({ timestamp, shares })
-  const inASecond = savingsInfo.predictSharesValue({ timestamp: timestamp + 1, shares })
+  const now = savingsInfo.predictAssetsAmount({ timestamp, shares })
+  const inASecond = savingsInfo.predictAssetsAmount({ timestamp: timestamp + 1, shares })
 
   const linearApproximation = NormalizedUnitNumber(now.plus(inASecond.minus(now).times((timestampInMs % 1000) / 1000)))
   return linearApproximation

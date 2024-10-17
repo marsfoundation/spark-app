@@ -3,11 +3,13 @@ import { Config } from 'wagmi'
 import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
 
 export interface SavingsInfo {
-  predictSharesValue({ timestamp, shares }: { timestamp: number; shares: NormalizedUnitNumber }): NormalizedUnitNumber
+  predictAssetsAmount({ timestamp, shares }: { timestamp: number; shares: NormalizedUnitNumber }): NormalizedUnitNumber
+  predictSharesAmount({ timestamp, assets }: { timestamp: number; assets: NormalizedUnitNumber }): NormalizedUnitNumber
   convertToShares({ assets }: { assets: NormalizedUnitNumber }): NormalizedUnitNumber
   convertToAssets({ shares }: { shares: NormalizedUnitNumber }): NormalizedUnitNumber
   apy: Percentage
   supportsRealTimeInterestAccrual: boolean
+  readonly currentTimestamp: number
 }
 
 export interface SavingsInfoQueryParams {
