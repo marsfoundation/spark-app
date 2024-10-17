@@ -45,6 +45,7 @@ export const DaiTablet: Story = getTabletStory(Dai)
 export const USDS: Story = {
   args: {
     variant: 'usds',
+    assetsToken: tokens.USDS,
     savingsTokenWithBalance: { balance: NormalizedUnitNumber(20000.0), token: tokens.sUSDS },
   },
 }
