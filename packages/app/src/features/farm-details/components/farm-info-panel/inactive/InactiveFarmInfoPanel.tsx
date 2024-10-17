@@ -100,9 +100,8 @@ function PointsFarmDetails({
       <div className=" text-basics-dark-grey text-sm">
         {isChroniclePointsFarm && (
           <div className="mb-2">
-            What is Chronicle? Chronicle is the original oracle on Ethereum built within MakerDAO for the creation of
-            DAI. Today, Chronicle's decentralized oracle network secures Sky, Spark, and many other DeFi and RWA
-            protocols.
+            Chronicle is the original oracle on Ethereum built within MakerDAO for the creation of DAI. Today,
+            Chronicle's decentralized oracle network secures Sky, Spark, and many other DeFi and RWA protocols.
           </div>
         )}
         Learn more about farming{' '}
