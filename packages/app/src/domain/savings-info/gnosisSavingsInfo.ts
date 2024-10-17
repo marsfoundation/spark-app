@@ -11,6 +11,7 @@ import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { bigNumberify } from '@/utils/bigNumber'
 import { fromWad } from '@/utils/math'
 
+import BigNumber from 'bignumber.js'
 import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
 import { SavingsInfo, SavingsInfoQueryOptions, SavingsInfoQueryParams } from './types'
 
@@ -71,7 +72,7 @@ export class GnosisSavingsInfo implements SavingsInfo {
   private vaultAPY: Percentage
   private totalSupply: NormalizedUnitNumber
   private totalAssets: NormalizedUnitNumber
-  private currentTimestamp: number
+  readonly currentTimestamp: number
 
   constructor(params: GnosisSavingsInfoParams) {
     this.vaultAPY = params.vaultAPY
@@ -88,6 +89,13 @@ export class GnosisSavingsInfo implements SavingsInfo {
     return false
   }
 
+  private getGrowthFactor(timestamp: number): BigNumber {
+    return this.vaultAPY
+      .dividedBy(365 * 24 * 60 * 60)
+      .multipliedBy(timestamp - this.currentTimestamp)
+      .plus(1)
+  }
+
   convertToShares({ assets }: { assets: NormalizedUnitNumber }): NormalizedUnitNumber {
     return NormalizedUnitNumber(assets.multipliedBy(this.totalAssets.plus(1)).dividedBy(this.totalSupply.plus(1)))
   }
@@ -100,21 +108,16 @@ export class GnosisSavingsInfo implements SavingsInfo {
     timestamp,
     shares,
   }: { timestamp: number; shares: NormalizedUnitNumber }): NormalizedUnitNumber {
-    return this.predictSharesAmount({ timestamp, assets: this.convertToAssets({ shares }) })
+    const growthFactor = this.getGrowthFactor(timestamp)
+    return NormalizedUnitNumber(shares.multipliedBy(growthFactor))
   }
 
   predictSharesAmount({
     timestamp,
     assets,
   }: { timestamp: number; assets: NormalizedUnitNumber }): NormalizedUnitNumber {
-    return NormalizedUnitNumber(
-      assets.multipliedBy(
-        this.vaultAPY
-          .dividedBy(365 * 24 * 60 * 60)
-          .multipliedBy(timestamp - this.currentTimestamp)
-          .plus(1),
-      ),
-    )
+    const growthFactor = this.getGrowthFactor(timestamp)
+    return NormalizedUnitNumber(assets.dividedBy(growthFactor))
   }
 }
 
