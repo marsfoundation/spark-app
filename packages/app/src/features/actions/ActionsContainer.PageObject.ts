@@ -179,6 +179,12 @@ type SimplifiedUsdsPsmConvertAction = {
   outToken: string
 }
 
+type SimplifiedDaiPsmConvertAction = {
+  type: 'daiPsmConvert'
+  inToken: string
+  outToken: string
+}
+
 type SimplifiedGenericAction = BaseAction & {
   type: Exclude<
     ActionType,
@@ -191,6 +197,7 @@ type SimplifiedGenericAction = BaseAction & {
     | 'stake'
     | 'unstake'
     | 'usdsPsmConvert'
+    | 'daiPsmConvert'
   >
 }
 
@@ -214,6 +221,7 @@ type SimplifiedAction =
   | SimplifiedStakeAction
   | SimplifiedUnstakeAction
   | SimplifiedUsdsPsmConvertAction
+  | SimplifiedDaiPsmConvertAction
 
 function actionToTitle(action: SimplifiedAction): string {
   switch (action.type) {
@@ -254,6 +262,7 @@ function actionToTitle(action: SimplifiedAction): string {
     case 'claimFarmRewards':
       return 'Claim rewards'
     case 'usdsPsmConvert':
+    case 'daiPsmConvert':
       return `Convert ${action.inToken} to ${action.outToken}`
   }
 }

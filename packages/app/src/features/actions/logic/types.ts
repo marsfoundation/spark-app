@@ -11,6 +11,7 @@ import { ApproveAction } from '../flavours/approve/types'
 import { BorrowAction, BorrowObjective } from '../flavours/borrow/types'
 import { ClaimFarmRewardsAction, ClaimFarmRewardsObjective } from '../flavours/claim-farm-rewards/types'
 import { ClaimMarketRewardsAction, ClaimMarketRewardsObjective } from '../flavours/claim-market-rewards/types'
+import { DaiPsmConvertAction } from '../flavours/dai-psm-convert/types'
 import { DepositToSavingsAction, DepositToSavingsObjective } from '../flavours/deposit-to-savings/types'
 import { DepositAction, DepositObjective } from '../flavours/deposit/types'
 import { DowngradeAction, DowngradeObjective } from '../flavours/downgrade/types'
@@ -65,6 +66,7 @@ export type Action =
   | StakeAction
   | UnstakeAction
   | UsdsPsmConvertAction
+  | DaiPsmConvertAction
   | ClaimFarmRewardsAction
 export type ActionType = Action['type']
 
