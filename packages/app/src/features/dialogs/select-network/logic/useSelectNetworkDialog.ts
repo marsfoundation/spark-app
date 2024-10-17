@@ -1,6 +1,7 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { Path, getSupportedPages, pathGroups } from '@/config/paths'
-import { useChainId, useChains, useSwitchChain } from 'wagmi'
+import { useNetworkChange } from '@/features/navbar/logic/useNetworkChange'
+import { useChainId, useChains } from 'wagmi'
 import { Chain } from '../types'
 
 export interface UseSelectNetworkDialogParams {
@@ -14,9 +15,9 @@ export interface UseSelectNetworkDialogResult {
 export function useSelectNetworkDialog({ closeDialog }: UseSelectNetworkDialogParams): UseSelectNetworkDialogResult {
   const currentChainId = useChainId()
   const supportedChains = useChains()
-  const { switchChain } = useSwitchChain({
-    mutation: {
-      onSuccess: () => closeDialog(),
+  const { changeNetwork } = useNetworkChange({
+    onSuccess: () => {
+      closeDialog()
     },
   })
 
@@ -34,9 +35,7 @@ export function useSelectNetworkDialog({ closeDialog }: UseSelectNetworkDialogPa
           return
         }
 
-        switchChain({
-          chainId: chain.id,
-        })
+        changeNetwork(chain.id)
       },
     }
   })
