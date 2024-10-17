@@ -71,7 +71,7 @@ function calculatePredictionsIncomeByDays({
   return range(0, days).map((day) => {
     const dayTimestamp = timestamp + day * SECONDS_PER_DAY
 
-    const dayIncomePrediction = savingsInfo.predictSharesValue({
+    const dayIncomePrediction = savingsInfo.predictAssetsAmount({
       timestamp: dayTimestamp,
       shares,
     })

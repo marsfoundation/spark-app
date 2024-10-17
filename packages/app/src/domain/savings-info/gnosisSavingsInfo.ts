@@ -96,11 +96,17 @@ export class GnosisSavingsInfo implements SavingsInfo {
     return NormalizedUnitNumber(shares.multipliedBy(this.totalSupply.plus(1)).dividedBy(this.totalAssets.plus(1)))
   }
 
-  predictSharesValue({ timestamp, shares }: { timestamp: number; shares: NormalizedUnitNumber }): NormalizedUnitNumber {
-    return this.predictAssetsValue({ timestamp, assets: this.convertToAssets({ shares }) })
+  predictAssetsAmount({
+    timestamp,
+    shares,
+  }: { timestamp: number; shares: NormalizedUnitNumber }): NormalizedUnitNumber {
+    return this.predictSharesAmount({ timestamp, assets: this.convertToAssets({ shares }) })
   }
 
-  predictAssetsValue({ timestamp, assets }: { timestamp: number; assets: NormalizedUnitNumber }): NormalizedUnitNumber {
+  predictSharesAmount({
+    timestamp,
+    assets,
+  }: { timestamp: number; assets: NormalizedUnitNumber }): NormalizedUnitNumber {
     return NormalizedUnitNumber(
       assets.multipliedBy(
         this.vaultAPY

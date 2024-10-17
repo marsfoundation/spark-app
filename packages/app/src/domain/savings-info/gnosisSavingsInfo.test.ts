@@ -5,7 +5,7 @@ import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { GnosisSavingsInfo } from './gnosisSavingsInfo'
 
 describe(GnosisSavingsInfo.name, () => {
-  describe(GnosisSavingsInfo.prototype.predictSharesValue.name, () => {
+  describe(GnosisSavingsInfo.prototype.predictAssetsAmount.name, () => {
     test('predicts for 5% apy', () => {
       const timestamp = 1000
       const shares = NormalizedUnitNumber(100)
@@ -15,7 +15,7 @@ describe(GnosisSavingsInfo.name, () => {
         totalSupply: NormalizedUnitNumber(100),
         currentTimestamp: timestamp,
       })
-      const fivePercentYield = savingsInfo.predictSharesValue({
+      const fivePercentYield = savingsInfo.predictAssetsAmount({
         shares,
         timestamp: timestamp + 24 * 60 * 60,
       })
@@ -31,7 +31,7 @@ describe(GnosisSavingsInfo.name, () => {
         totalSupply: NormalizedUnitNumber(100),
         currentTimestamp: timestamp,
       })
-      const fivePercentYield = savingsInfo.predictSharesValue({
+      const fivePercentYield = savingsInfo.predictAssetsAmount({
         shares,
         timestamp: timestamp + 24 * 60 * 60,
       })

@@ -13,10 +13,10 @@ export interface CalculateProjectionsParams {
 export function calculateProjections({ timestamp, shares, savingsInfo }: CalculateProjectionsParams): Projections {
   const base = savingsInfo.convertToAssets({ shares })
   const thirtyDays = NormalizedUnitNumber(
-    savingsInfo.predictSharesValue({ timestamp: timestamp + 30 * SECONDS_PER_DAY, shares }).minus(base),
+    savingsInfo.predictAssetsAmount({ timestamp: timestamp + 30 * SECONDS_PER_DAY, shares }).minus(base),
   )
   const oneYear = NormalizedUnitNumber(
-    savingsInfo.predictSharesValue({ timestamp: timestamp + 365 * SECONDS_PER_DAY, shares }).minus(base),
+    savingsInfo.predictAssetsAmount({ timestamp: timestamp + 365 * SECONDS_PER_DAY, shares }).minus(base),
   )
 
   return {
