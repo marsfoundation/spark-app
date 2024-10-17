@@ -31,13 +31,14 @@ const mockTokensInfo = new TokensInfo(
   },
 )
 const timestamp = 1000
+const savingsInfoTimestamp = timestamp + 24 * 60 * 60
 const mockSavingsUsdsInfo = new PotSavingsInfo({
   potParams: {
     dsr: bigNumberify('1000001103127689513476993127'), // 10% / day
     rho: bigNumberify(timestamp),
     chi: bigNumberify('1000000000000000000000000000'), // 1
   },
-  currentTimestamp: timestamp + 24 * 60 * 60,
+  currentTimestamp: savingsInfoTimestamp,
 })
 const chainId = base.id
 
@@ -65,7 +66,14 @@ describe(createDepositToSavingsActionConfig.name, () => {
             usds.address,
             susds.address,
             toBigInt(usds.toBaseUnit(depositValue)),
-            toBigInt(susds.toBaseUnit(NormalizedUnitNumber(depositValue.dividedBy(1.1)))),
+            toBigInt(
+              susds.toBaseUnit(
+                mockSavingsUsdsInfo.predictSharesAmount({
+                  assets: depositValue,
+                  timestamp: savingsInfoTimestamp + 30 * 60,
+                }),
+              ),
+            ),
             account,
             referralCode,
           ],
@@ -112,7 +120,14 @@ describe(createDepositToSavingsActionConfig.name, () => {
             usdc.address,
             susds.address,
             toBigInt(usdc.toBaseUnit(depositValue)),
-            toBigInt(susds.toBaseUnit(NormalizedUnitNumber(depositValue.dividedBy(1.1)))),
+            toBigInt(
+              susds.toBaseUnit(
+                mockSavingsUsdsInfo.predictSharesAmount({
+                  assets: depositValue,
+                  timestamp: savingsInfoTimestamp + 30 * 60,
+                }),
+              ),
+            ),
             account,
             referralCode,
           ],
