@@ -8,6 +8,7 @@ import {
 } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
+import { EPOCH_LENGTH } from '@/domain/market-info/consts'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
@@ -23,8 +24,6 @@ import { Address, erc4626Abi } from 'viem'
 import { base, gnosis } from 'viem/chains'
 import { DepositToSavingsAction } from '../types'
 import { getSavingsDepositActionPath } from './getSavingsDepositActionPath'
-
-const HALF_HOUR_IN_SEC = 60 * 30
 
 export function createDepositToSavingsActionConfig(
   action: DepositToSavingsAction,
@@ -97,12 +96,14 @@ export function createDepositToSavingsActionConfig(
 
           assert(context.savingsUsdsInfo, 'Savings info is required for usdc psm withdraw from savings action')
 
-          const currentTimestamp = Math.floor(Date.now() / 1000)
+          // const currentTimestamp = Math.floor(Date.now() / 1000)
+          const currentTimestamp = context.savingsUsdsInfo.currentTimestamp
           // we need to calculate the minAmountOut for future time to prevent PSM3/amountOut-too-low revert
-          const minimalSharesAmount = context.savingsUsdsInfo.predictAssetsValue({
+          const minimalSharesAmount = context.savingsUsdsInfo.predictSharesAmount({
             assets: action.value,
-            timestamp: currentTimestamp + HALF_HOUR_IN_SEC,
+            timestamp: currentTimestamp + EPOCH_LENGTH,
           })
+
           const minAmountOut = toBigInt(savingsToken.toBaseUnit(minimalSharesAmount))
 
           return ensureConfigTypes({

@@ -9,6 +9,7 @@ export interface SavingsInfo {
   convertToAssets({ shares }: { shares: NormalizedUnitNumber }): NormalizedUnitNumber
   apy: Percentage
   supportsRealTimeInterestAccrual: boolean
+  currentTimestamp: number
 }
 
 export interface SavingsInfoQueryParams {
