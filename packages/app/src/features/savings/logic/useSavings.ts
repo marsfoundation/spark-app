@@ -54,6 +54,7 @@ export interface UseSavingsResults {
         sUSDSDetails?: SavingsTokenDetails
         savingsMeta: SavingsMeta
         showWelcomeDialog: boolean
+        showConvertDialogButton: boolean
         saveConfirmedWelcomeDialog: (confirmedWelcomeDialog: boolean) => void
         savingsChartsInfo: UseSavingsChartsInfoQueryResult
       }
@@ -64,7 +65,7 @@ export function useSavings(): UseSavingsResults {
   const { savingsDaiInfo } = useSavingsDaiInfo({ chainId })
   const { savingsUsdsInfo } = useSavingsUsdsInfo({ chainId })
   const { inputTokens, sdaiWithBalance, susdsWithBalance } = useSavingsTokens({ chainId })
-  const { originChainId, extraTokens } = getChainConfigEntry(chainId)
+  const { originChainId, extraTokens, psmStables } = getChainConfigEntry(chainId)
   const { tokensInfo } = useTokensInfo({ tokens: extraTokens, chainId })
   const { timestamp } = useTimestamp()
   const openDialog = useOpenDialog()
@@ -137,6 +138,7 @@ export function useSavings(): UseSavingsResults {
       savingsMeta,
       migrationInfo,
       showWelcomeDialog,
+      showConvertDialogButton: Boolean(psmStables && psmStables.length > 1),
       saveConfirmedWelcomeDialog,
       savingsChartsInfo,
     },

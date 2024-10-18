@@ -44,6 +44,7 @@ export const Desktop: Story = {
       openSDaiToSUsdsUpgradeDialog: () => {},
     },
     openDialog: () => {},
+    showConvertDialogButton: true,
   },
 }
 
