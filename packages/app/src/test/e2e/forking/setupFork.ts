@@ -1,7 +1,7 @@
 import { tenderlyRpcActions } from '@/domain/tenderly/TenderlyRpcActions'
 import { Page, test } from '@playwright/test'
 import { http, createPublicClient } from 'viem'
-import { mainnet } from 'viem/chains'
+import { base, gnosis, mainnet } from 'viem/chains'
 import { injectUpdatedDate } from '../injectSetup'
 import { processEnv } from '../processEnv'
 import { ITestForkService } from './ITestForkService'
@@ -24,6 +24,7 @@ export interface ForkContext {
 // used only with tenderly forks (not vnets)
 export const _simulationDate = new Date('2024-06-04T10:21:19Z')
 
+type AvailableChainId = typeof mainnet.id | typeof gnosis.id
 /**
  * Fork is shared across the whole test file and is fixed to a single block number.
  * It's created once and deleted after all tests are finished but after each test it's reverted to the initial state.
@@ -31,14 +32,17 @@ export const _simulationDate = new Date('2024-06-04T10:21:19Z')
 export type SetupForkOptions =
   | {
       blockNumber: bigint
-      chainId: 1 | 100
+      chainId: AvailableChainId
       useTenderlyVnet?: false // using tenderly forks is the default
       simulationDateOverride?: Date
     }
   | {
       blockNumber: bigint
-      chainId: 1 | 100
+      chainId: AvailableChainId
       useTenderlyVnet: true // vnets are more powerful forks alternative provided by Tenderly
+    }
+  | {
+      chainId: typeof base.id
     }
 
 export function setupFork(options: SetupForkOptions): ForkContext {
@@ -46,9 +50,11 @@ export function setupFork(options: SetupForkOptions): ForkContext {
   const tenderlyAccount = processEnv('TENDERLY_ACCOUNT')
   const tenderlyProject = processEnv('TENDERLY_PROJECT')
 
-  const isVnet = !!options.useTenderlyVnet
+  const isVnet = options.chainId === base.id || !!options.useTenderlyVnet
   const chainId = options.chainId
-  const simulationDateOverride = !isVnet ? options.simulationDateOverride : undefined
+  const simulationDateOverride =
+    // !isVnet ?
+    options.chainId !== base.id && !options.useTenderlyVnet ? options.simulationDateOverride : undefined
 
   const forkService: ITestForkService = isVnet
     ? new TestTenderlyVnetService({ apiKey, account: tenderlyAccount, project: tenderlyProject })
@@ -77,11 +83,15 @@ export function setupFork(options: SetupForkOptions): ForkContext {
   // @todo refactor after dropping tenderly fork support
 
   test.beforeAll(async () => {
-    forkContext.forkUrl = await forkService.createFork({
-      blockNumber: options.blockNumber,
-      originChainId: chainId,
-      forkChainId: chainId,
-    })
+    if (options.chainId !== base.id) {
+      forkContext.forkUrl = await forkService.createFork({
+        blockNumber: options.blockNumber,
+        originChainId: chainId,
+        forkChainId: chainId,
+      })
+    } else {
+      forkContext.forkUrl = await (forkService as TestTenderlyVnetService).cloneBaseDevNetFork()
+    }
 
     if (simulationDate) {
       const deltaTimeForward = Math.floor((simulationDate.getTime() - Date.now()) / 1000)
