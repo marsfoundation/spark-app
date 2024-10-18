@@ -30,16 +30,16 @@ test.describe('Savings Mainnet', () => {
       account: {
         type: 'connected-random',
         assetBalances: {
-          sUSDS: 100,
+          sDAI: 100,
         },
       },
     })
 
     const savingsPage = new SavingsPageObject(page)
 
-    await savingsPage.expectSavingsUsdsBalance({
-      susdsBalance: '100.00',
-      estimatedUsdsValue: '100.4302',
+    await savingsPage.expectSavingsDaiBalance({
+      sdaiBalance: '100.00',
+      estimatedDaiValue: '107.1505',
     })
   })
 
@@ -49,15 +49,15 @@ test.describe('Savings Mainnet', () => {
       account: {
         type: 'connected-random',
         assetBalances: {
-          sUSDS: 100,
+          sDAI: 100,
         },
       },
     })
 
     const savingsPage = new SavingsPageObject(page)
 
-    await savingsPage.expectSavingUsdsCurrentProjection('$0.43', '30-day')
-    await savingsPage.expectSavingUsdsCurrentProjection('$5.36', '1-year')
+    await savingsPage.expectSavingDaiCurrentProjection('$0.43', '30-day')
+    await savingsPage.expectSavingDaiCurrentProjection('$5.36', '1-year')
   })
 
   test('displays the total value of stablecoins in the wallet', async ({ page }) => {
@@ -66,7 +66,7 @@ test.describe('Savings Mainnet', () => {
       account: {
         type: 'connected-random',
         assetBalances: {
-          USDS: 100,
+          DAI: 100,
           USDC: 100,
         },
       },
