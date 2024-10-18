@@ -37,9 +37,9 @@ test.describe('Savings Mainnet', () => {
 
     const savingsPage = new SavingsPageObject(page)
 
-    await savingsPage.expectSavingsDaiBalance({
-      sdaiBalance: '100.00',
-      estimatedDaiValue: '100.4302',
+    await savingsPage.expectSavingsUsdsBalance({
+      susdsBalance: '100.00',
+      estimatedUsdsValue: '100.4302',
     })
   })
 
@@ -56,8 +56,8 @@ test.describe('Savings Mainnet', () => {
 
     const savingsPage = new SavingsPageObject(page)
 
-    await savingsPage.expectSavingDaiCurrentProjection('$0.43', '30-day')
-    await savingsPage.expectSavingDaiCurrentProjection('$5.36', '1-year')
+    await savingsPage.expectSavingUsdsCurrentProjection('$0.43', '30-day')
+    await savingsPage.expectSavingUsdsCurrentProjection('$5.36', '1-year')
   })
 
   test('displays the total value of stablecoins in the wallet', async ({ page }) => {
@@ -108,7 +108,10 @@ test.describe('Savings Gnosis', () => {
 
     const savingsPage = new SavingsPageObject(page)
 
-    await savingsPage.expectCurrentWorth('108.780942')
+    await savingsPage.expectSavingsDaiBalance({
+      sdaiBalance: '100.00',
+      estimatedDaiValue: '108.780942',
+    })
   })
 
   test('calculates current projections', async ({ page }) => {
@@ -124,8 +127,8 @@ test.describe('Savings Gnosis', () => {
 
     const savingsPage = new SavingsPageObject(page)
 
-    await savingsPage.expectCurrentProjection('$0.95', '30-day')
-    await savingsPage.expectCurrentProjection('$11.53', '1-year')
+    await savingsPage.expectSavingDaiCurrentProjection('$0.95', '30-day')
+    await savingsPage.expectSavingDaiCurrentProjection('$11.53', '1-year')
   })
 
   test('displays the total value of stablecoins in the wallet', async ({ page }) => {
