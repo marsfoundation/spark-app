@@ -22,7 +22,7 @@ export function SkyBadge({ tokens, 'data-testid': dataTestId }: SkyBadgeProps) {
       <div className="flex-1 font-light">
         <span className="hidden font-medium md:inline">Powered by Sky </span>
         <span className="hidden md:inline">(prev. MakerDAO). </span>
-        No slippage & fees for {tokens.join(' and ')}.
+        No slippage & fees for {formatTokens(tokens)}.
       </div>
       <Info className="text-inherit">
         The conversion between DAI, USDS, and USDC is conducted through the Sky PSM, a component of Sky that allows
@@ -30,4 +30,14 @@ export function SkyBadge({ tokens, 'data-testid': dataTestId }: SkyBadgeProps) {
       </Info>
     </div>
   )
+}
+
+function formatTokens(tokens: TokenSymbol[]): string {
+  if (tokens.length === 1) {
+    return tokens[0]!
+  }
+  if (tokens.length === 2) {
+    return `${tokens[0]} and ${tokens[1]}`
+  }
+  return `${tokens.slice(0, -1).join(', ')} and ${tokens[tokens.length - 1]}`
 }
