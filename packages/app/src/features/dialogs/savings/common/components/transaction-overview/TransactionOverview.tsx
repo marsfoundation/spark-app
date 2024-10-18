@@ -4,11 +4,12 @@ import { DialogPanel } from '@/features/dialogs/common/components/DialogPanel'
 import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPanelTitle'
 import { RouteItem } from '@/features/dialogs/common/components/transaction-overview/RouteItem'
 import { SkyBadge } from '@/features/dialogs/common/components/transaction-overview/SkyBadge'
+import { TransactionOutcome } from '@/features/dialogs/common/components/transaction-overview/TransactionOutcome'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { assert } from '@/utils/assert'
 import { SavingsDialogTxOverview } from '../../types'
-import { APYDetails, TransactionOutcome, TransactionOverviewDetailsItem } from './components'
+import { APYDetails, TransactionOverviewDetailsItem } from './components'
 import { TransactionOverviewPlaceholder } from './components/TransactionOverviewPlaceholder'
 
 export interface TransactionOverviewProps {
