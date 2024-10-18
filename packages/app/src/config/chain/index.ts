@@ -42,6 +42,7 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
     sdaiSymbol: TokenSymbol('sDAI'),
     usdsSymbol: PLAYWRIGHT_MAINNET_USDS_CONTRACTS_NOT_AVAILABLE ? undefined : TokenSymbol('USDS'),
     susdsSymbol: PLAYWRIGHT_MAINNET_USDS_CONTRACTS_NOT_AVAILABLE ? undefined : TokenSymbol('sUSDS'),
+    psmStables: [TokenSymbol('DAI'), TokenSymbol('USDC'), TokenSymbol('USDS')],
     meta: {
       name: 'Ethereum Mainnet',
       logo: assets.chain.ethereum,
