@@ -31,6 +31,7 @@ export function SavingsDaiAndUsdsView({
   totalEligibleCashUSD,
   savingsMeta,
   openDialog,
+  showConvertDialogButton,
   showWelcomeDialog,
   saveConfirmedWelcomeDialog,
   savingsChartsInfo,
@@ -97,7 +98,12 @@ export function SavingsDaiAndUsdsView({
 
         {displaySavingsDaiCharts && <DaiSavingsCharts {...savingsChartsInfo} />}
       </SavingsViewGrid>
-      <StablecoinsInWallet assets={assetsInWallet} openDialog={openDialog} migrationInfo={migrationInfo} />
+      <StablecoinsInWallet
+        assets={assetsInWallet}
+        openDialog={openDialog}
+        showConvertDialogButton={showConvertDialogButton}
+        migrationInfo={migrationInfo}
+      />
       {import.meta.env.VITE_FEATURE_SAVINGS_WELCOME_DIALOG === '1' && (
         <WelcomeDialog
           open={showWelcomeDialog}

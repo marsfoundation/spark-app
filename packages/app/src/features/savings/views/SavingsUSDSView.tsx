@@ -15,6 +15,7 @@ export function SavingsUsdsView({
   maxBalanceToken,
   totalEligibleCashUSD,
   openDialog,
+  showConvertDialogButton,
   savingsMeta,
   savingsChartsInfo,
 }: SavingsViewContentProps) {
@@ -50,7 +51,12 @@ export function SavingsUsdsView({
 
         {displaySavingsUsdsChart && <UsdsSavingsCharts {...savingsChartsInfo} />}
       </SavingsViewGrid>
-      <StablecoinsInWallet assets={assetsInWallet} openDialog={openDialog} migrationInfo={migrationInfo} />
+      <StablecoinsInWallet
+        assets={assetsInWallet}
+        openDialog={openDialog}
+        showConvertDialogButton={showConvertDialogButton}
+        migrationInfo={migrationInfo}
+      />
     </PageLayout>
   )
 }

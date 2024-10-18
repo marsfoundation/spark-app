@@ -16,5 +16,6 @@ export interface SavingsViewContentProps {
   totalEligibleCashUSD: NormalizedUnitNumber
   savingsMeta: SavingsMeta
   openDialog: OpenDialogFunction
+  showConvertDialogButton: boolean
   savingsChartsInfo: UseSavingsChartsInfoQueryResult
 }

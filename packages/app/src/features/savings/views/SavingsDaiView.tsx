@@ -17,6 +17,7 @@ export function SavingsDaiView({
   totalEligibleCashUSD,
   savingsMeta,
   openDialog,
+  showConvertDialogButton,
   savingsChartsInfo,
 }: SavingsViewContentProps) {
   const displaySavingsDai = savingsTokenDetails.savingsTokenWithBalance.balance.gt(0)
@@ -57,7 +58,12 @@ export function SavingsDaiView({
 
         {displaySavingsDaiChart && <DaiSavingsCharts {...savingsChartsInfo} />}
       </SavingsViewGrid>
-      <StablecoinsInWallet assets={assetsInWallet} openDialog={openDialog} migrationInfo={migrationInfo} />
+      <StablecoinsInWallet
+        assets={assetsInWallet}
+        openDialog={openDialog}
+        showConvertDialogButton={showConvertDialogButton}
+        migrationInfo={migrationInfo}
+      />
     </PageLayout>
   )
 }
