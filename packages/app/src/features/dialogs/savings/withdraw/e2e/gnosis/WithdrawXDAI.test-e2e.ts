@@ -66,7 +66,7 @@ test.describe('Withdraw XDAI on Gnosis', () => {
     await withdrawalDialog.expectSuccessPage()
     await withdrawalDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsDAIBalance({ sDaiBalance: '3,565.05 sDAI', estimatedDaiValue: '3,878.09' })
+    await savingsPage.expectSavingsDaiBalance({ sdaiBalance: '3,565.05 sDAI', estimatedDaiValue: '3,878.09' })
     await savingsPage.expectStablecoinsInWalletAssetBalance('XDAI', '7,100.00')
   })
 })

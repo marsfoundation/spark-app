@@ -11,6 +11,7 @@ export interface GrowingBalanceProps {
   assetsToken: Token
   calculateSavingsBalance: (timestampInMs: number) => SavingsOverview
   balanceRefreshIntervalInMs: number | undefined
+  savingsType: 'sdai' | 'susds'
 }
 
 export function GrowingBalance({
@@ -18,6 +19,7 @@ export function GrowingBalance({
   assetsToken,
   calculateSavingsBalance,
   balanceRefreshIntervalInMs,
+  savingsType,
 }: GrowingBalanceProps) {
   const { timestampInMs } = useTimestamp({ refreshIntervalInMs: balanceRefreshIntervalInMs })
   const { depositedAssets, depositedAssetsPrecision } = calculateSavingsBalance(timestampInMs)
@@ -28,7 +30,7 @@ export function GrowingBalance({
         <img src={getTokenImage(assetsToken.symbol)} className="h-5 md:h-8" />
         <div
           className="flex flex-row items-end justify-center slashed-zero tabular-nums"
-          data-testid={testIds.savings.sDaiBalanceInDai}
+          data-testid={testIds.savings[savingsType].balanceInAsset}
         >
           <div className="font-semibold text-3xl md:text-5xl">{getWholePart(depositedAssets)}</div>
           {depositedAssetsPrecision > 0 && (
@@ -40,7 +42,7 @@ export function GrowingBalance({
       </div>
       <div className="font-semibold text-basics-dark-grey text-xs tracking-wide">
         =
-        <span data-testid={testIds.savings.sDaiBalance}>
+        <span data-testid={testIds.savings[savingsType].balance}>
           {savingsTokenWithBalance.token.format(savingsTokenWithBalance.balance, { style: 'auto' })}{' '}
           {savingsTokenWithBalance.token.symbol}
         </span>

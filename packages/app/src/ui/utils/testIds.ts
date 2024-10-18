@@ -71,6 +71,16 @@ export const testIds = makeTestIds({
       moreDropdown: true,
       downgradeUsdsToDai: true,
     },
+    sdai: {
+      panel: true,
+      balance: true,
+      balanceInAsset: true,
+    },
+    susds: {
+      panel: true,
+      balance: true,
+      balanceInAsset: true,
+    },
   },
   dialog: {
     transactionOverview: {
