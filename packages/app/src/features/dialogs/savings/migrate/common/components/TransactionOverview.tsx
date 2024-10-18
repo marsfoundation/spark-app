@@ -4,11 +4,11 @@ import { DialogPanel } from '@/features/dialogs/common/components/DialogPanel'
 import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPanelTitle'
 import { RouteItem } from '@/features/dialogs/common/components/transaction-overview/RouteItem'
 import { SkyBadge } from '@/features/dialogs/common/components/transaction-overview/SkyBadge'
+import { TransactionOutcome } from '@/features/dialogs/common/components/transaction-overview/TransactionOutcome'
 import { TransactionOverviewDetailsItem } from '@/features/dialogs/common/components/transaction-overview/TransactionOverviewDetailsItem'
 import { assets } from '@/ui/assets'
 import { testIds } from '@/ui/utils/testIds'
 import { assert } from '@/utils/assert'
-import { TransactionOutcome } from '../../../common/components/transaction-overview/components'
 import { TransactionOverviewPlaceholder } from '../../../common/components/transaction-overview/components/TransactionOverviewPlaceholder'
 import { MigrateDialogTxOverview } from '../types'
 
@@ -20,7 +20,7 @@ export interface TransactionOverviewProps {
 
 export function TransactionOverview({ txOverview, selectedToken, showAPY }: TransactionOverviewProps) {
   if (txOverview.status !== 'success') {
-    return <TransactionOverviewPlaceholder badgeToken={selectedToken} showAPY={showAPY} />
+    return <TransactionOverviewPlaceholder badgeToken={selectedToken.symbol} showAPY={showAPY} />
   }
   const { apyChange, route } = txOverview
 
@@ -63,7 +63,7 @@ export function TransactionOverview({ txOverview, selectedToken, showAPY }: Tran
         </TransactionOverviewDetailsItem>
       </DialogPanel>
 
-      <SkyBadge token={inputToken} data-testid={testIds.dialog.transactionOverview.skyBadge} />
+      <SkyBadge tokens={[inputToken.symbol]} data-testid={testIds.dialog.transactionOverview.skyBadge} />
     </div>
   )
 }

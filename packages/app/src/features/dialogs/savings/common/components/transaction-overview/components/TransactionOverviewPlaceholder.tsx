@@ -1,11 +1,11 @@
-import { Token } from '@/domain/types/Token'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { DialogPanel } from '@/features/dialogs/common/components/DialogPanel'
 import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPanelTitle'
 import { SkyBadge } from '@/features/dialogs/common/components/transaction-overview/SkyBadge'
 import { TransactionOverviewDetailsItem } from './TransactionOverviewDetailsItem'
 
 export interface TransactionOverviewPlaceholder {
-  badgeToken: Token
+  badgeToken: TokenSymbol
   showAPY?: boolean
 }
 export function TransactionOverviewPlaceholder({ badgeToken, showAPY }: TransactionOverviewPlaceholder) {
@@ -26,7 +26,7 @@ export function TransactionOverviewPlaceholder({ badgeToken, showAPY }: Transact
         </TransactionOverviewDetailsItem>
         <TransactionOverviewDetailsItem label="Outcome">{placeholder}</TransactionOverviewDetailsItem>
       </DialogPanel>
-      <SkyBadge token={badgeToken} />
+      <SkyBadge tokens={[badgeToken]} />
     </div>
   )
 }

@@ -20,7 +20,7 @@ export interface TransactionOverviewProps {
 
 export function TransactionOverview({ txOverview, selectedToken }: TransactionOverviewProps) {
   if (txOverview.status !== 'success') {
-    return <TransactionOverviewPlaceholder badgeToken={selectedToken} />
+    return <TransactionOverviewPlaceholder badgeToken={selectedToken.symbol} />
   }
   const { rewardToken, routeToOutcomeToken, stakingToken, earnedRewards, isExiting } = txOverview
 
@@ -62,7 +62,7 @@ export function TransactionOverview({ txOverview, selectedToken }: TransactionOv
         </TransactionOverviewDetailsItem>
       </DialogPanel>
 
-      <SkyBadge token={selectedToken} data-testid={testIds.dialog.transactionOverview.skyBadge} />
+      <SkyBadge tokens={[selectedToken.symbol]} data-testid={testIds.dialog.transactionOverview.skyBadge} />
     </div>
   )
 }

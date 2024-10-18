@@ -2,12 +2,12 @@ import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { DialogPanel } from '@/features/dialogs/common/components/DialogPanel'
 import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPanelTitle'
 import { SkyBadge } from '@/features/dialogs/common/components/transaction-overview/SkyBadge'
-import { TransactionOverviewDetailsItem } from '../../../common/components/TransactionOverviewDetailsItem'
+import { TransactionOverviewDetailsItem } from './TransactionOverviewDetailsItem'
 
 export interface TransactionOverviewPlaceholder {
-  badgeToken: TokenSymbol
+  badgeTokens: TokenSymbol[]
 }
-export function TransactionOverviewPlaceholder({ badgeToken }: TransactionOverviewPlaceholder) {
+export function TransactionOverviewPlaceholder({ badgeTokens }: TransactionOverviewPlaceholder) {
   const placeholder = '-'
   return (
     <div className="isolate">
@@ -20,7 +20,7 @@ export function TransactionOverviewPlaceholder({ badgeToken }: TransactionOvervi
         </TransactionOverviewDetailsItem>
         <TransactionOverviewDetailsItem label="Outcome">{placeholder}</TransactionOverviewDetailsItem>
       </DialogPanel>
-      <SkyBadge tokens={[badgeToken]} />
+      <SkyBadge tokens={badgeTokens} />
     </div>
   )
 }
