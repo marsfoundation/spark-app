@@ -109,7 +109,8 @@ export class GnosisSavingsInfo implements SavingsInfo {
     shares,
   }: { timestamp: number; shares: NormalizedUnitNumber }): NormalizedUnitNumber {
     const growthFactor = this.getGrowthFactor(timestamp)
-    return NormalizedUnitNumber(shares.multipliedBy(growthFactor))
+    const assets = this.convertToAssets({ shares })
+    return NormalizedUnitNumber(assets.multipliedBy(growthFactor))
   }
 
   predictSharesAmount({
@@ -117,7 +118,8 @@ export class GnosisSavingsInfo implements SavingsInfo {
     assets,
   }: { timestamp: number; assets: NormalizedUnitNumber }): NormalizedUnitNumber {
     const growthFactor = this.getGrowthFactor(timestamp)
-    return NormalizedUnitNumber(assets.dividedBy(growthFactor))
+    const predictedAssetsAmount = NormalizedUnitNumber(assets.multipliedBy(growthFactor))
+    return NormalizedUnitNumber(this.convertToShares({ assets: predictedAssetsAmount }))
   }
 }
 
