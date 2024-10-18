@@ -1,39 +1,28 @@
 import { TokenWithBalance } from '@/domain/common/types'
 import { SavingsInfo } from '@/domain/savings-info/types'
-import { assert } from '@/utils/assert'
-import { makeSavingsOverview } from './makeSavingsOverview'
+import { Token } from '@/domain/types/Token'
+import { STEP_IN_MS, SavingsOverview, makeSavingsOverview } from './makeSavingsOverview'
 import { calculateProjections } from './projections'
 import { SavingsTokenDetails } from './useSavings'
 
 export interface MakeSavingsTokenDetailsParams {
   savingsInfo: SavingsInfo | null
+  assetsToken: Token | undefined
   savingsTokenWithBalance: TokenWithBalance | undefined
   timestamp: number
-  timestampInMs: number
-  stepInMs: number
 }
 
 export type MakeSavingsTokenDetailsResult = SavingsTokenDetails | undefined
 
 export function makeSavingsTokenDetails({
   savingsInfo,
+  assetsToken,
   savingsTokenWithBalance,
   timestamp,
-  timestampInMs,
-  stepInMs,
 }: MakeSavingsTokenDetailsParams): MakeSavingsTokenDetailsResult {
-  if (!savingsInfo) {
+  if (!savingsInfo || !savingsTokenWithBalance || !assetsToken) {
     return undefined
   }
-
-  assert(savingsTokenWithBalance, 'Savings token with balance should be defined when savings info is defined')
-
-  const { depositedUSD, depositedUSDPrecision } = makeSavingsOverview({
-    savingsTokenWithBalance,
-    savingsInfo,
-    timestampInMs,
-    stepInMs,
-  })
 
   const currentProjections = calculateProjections({
     timestamp,
@@ -41,11 +30,25 @@ export function makeSavingsTokenDetails({
     savingsInfo,
   })
 
+  const balanceRefreshIntervalInMs = savingsInfo.supportsRealTimeInterestAccrual ? STEP_IN_MS : undefined
+  const calculateSavingsBalance = calculateSavingsBalanceFactory(savingsInfo, savingsTokenWithBalance)
+
   return {
     APY: savingsInfo.apy,
     currentProjections,
-    tokenWithBalance: savingsTokenWithBalance,
-    depositedUSD,
-    depositedUSDPrecision,
+    savingsTokenWithBalance,
+    assetsToken,
+    calculateSavingsBalance,
+    balanceRefreshIntervalInMs,
+  }
+}
+
+function calculateSavingsBalanceFactory(savingsInfo: SavingsInfo, savingsTokenWithBalance: TokenWithBalance) {
+  return function calculateSavingsBalance(timestampInMs: number): SavingsOverview {
+    return makeSavingsOverview({
+      timestampInMs,
+      savingsTokenWithBalance,
+      savingsInfo,
+    })
   }
 }

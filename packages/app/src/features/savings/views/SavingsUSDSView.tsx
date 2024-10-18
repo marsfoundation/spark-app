@@ -18,7 +18,7 @@ export function SavingsUsdsView({
   savingsMeta,
   savingsChartsInfo,
 }: SavingsViewContentProps) {
-  const displaySavingsUsds = savingsTokenDetails.tokenWithBalance.balance.gt(0)
+  const displaySavingsUsds = savingsTokenDetails.savingsTokenWithBalance.balance.gt(0)
 
   const displaySavingsUsdsChart = savingsChartsInfo.chartsSupported
   const displaySavingsOpportunity = !displaySavingsUsds || !displaySavingsUsdsChart

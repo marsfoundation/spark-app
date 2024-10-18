@@ -12,7 +12,7 @@ export const tokens = {
     address: CheckedAddress('0x7D5afF7ab67b431cDFA6A94d50d3124cC4AB2611'),
   }),
   DAI: new Token({
-    unitPriceUsd: '1.00001023',
+    unitPriceUsd: '1',
     symbol: TokenSymbol('DAI'),
     name: 'Dai Stablecoin',
     decimals: 18,
