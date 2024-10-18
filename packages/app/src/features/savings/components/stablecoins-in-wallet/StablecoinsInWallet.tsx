@@ -71,7 +71,7 @@ export function StablecoinsInWallet({
     <section className="rounded-lg border border-basics-border bg-white shadow-sm">
       <div className={cn('flex flex-col gap-6 p-4 md:px-8 md:py-6', showConvertDialogButton && 'pb-0 md:pb-0')}>
         <div className="flex flex-row items-center gap-1">
-          <h3 className="font-semibold text-2xl leading-none tracking-tight">Stablecoins in wallet</h3>
+          <h3 className="text-primary font-semibold text-2xl leading-none tracking-tight">Stablecoins in wallet</h3>
         </div>
         <DataTable
           gridTemplateColumnsClassName="grid-cols-[repeat(2,_1fr)_120px] sm:grid-cols-[repeat(2,_1fr)_140px]"
