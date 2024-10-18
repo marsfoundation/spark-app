@@ -1,19 +1,27 @@
-import { z } from 'zod'
-
 import { TokenWithBalance } from '@/domain/common/types'
+import { SavingsInfo } from '@/domain/savings-info/types'
 import { receiverValidationIssueToMessage, validateReceiver } from '@/domain/savings/validateReceiver'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { Address } from 'viem'
+import { z } from 'zod'
 import { ReceiverFormSchema } from '../types'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function getSavingsWithdrawDialogFormValidator(sDaiBalance: TokenWithBalance) {
+export function getSavingsWithdrawDialogFormValidator({
+  savingsTokenWithBalance,
+  savingsInfo,
+}: {
+  savingsTokenWithBalance: TokenWithBalance
+  savingsInfo: SavingsInfo
+}) {
   return AssetInputSchema.superRefine((field, ctx) => {
     const value = NormalizedUnitNumber(field.value === '' ? '0' : field.value)
     const isMaxSelected = field.isMaxSelected
-    const usdBalance = sDaiBalance.token.toUSD(sDaiBalance.balance)
+    const usdBalance = savingsInfo.convertToAssets({
+      shares: savingsTokenWithBalance.balance,
+    })
 
     const issue = validateWithdraw({
       value,
