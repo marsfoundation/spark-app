@@ -203,6 +203,7 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
     sdaiSymbol: TokenSymbol('sDAI'),
     usdsSymbol: undefined,
     susdsSymbol: undefined,
+    psmStables: undefined,
     meta: {
       name: 'Gnosis Chain',
       logo: assets.chain.gnosis,
@@ -303,6 +304,7 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
           sdaiSymbol: undefined,
           usdsSymbol: TokenSymbol('USDS'),
           susdsSymbol: TokenSymbol('sUSDS'),
+          psmStables: undefined,
           meta: {
             name: 'Base DevNet',
             logo: assets.chain.baseDevNet,

@@ -12,12 +12,12 @@ export interface ConvertStablesFormProps {
 
 export function ConvertStablesForm({ formFields, form }: ConvertStablesFormProps) {
   const {
-    selectedAsset1,
-    selectedAsset2,
-    changeAsset1,
-    changeAsset2,
-    asset1Options,
-    asset2Options,
+    selectedAssetFrom,
+    selectedAssetTo,
+    changeAssetFrom,
+    changeAssetTo,
+    assetFromOptions,
+    assetToOptions,
     maxSelectedFieldName,
   } = formFields
 
@@ -27,22 +27,22 @@ export function ConvertStablesForm({ formFields, form }: ConvertStablesFormProps
       <AssetSelectorWithInput
         fieldName="amount"
         control={form.control}
-        selectorAssets={asset1Options}
-        selectedAsset={selectedAsset1}
-        setSelectedAsset={changeAsset1}
+        selectorAssets={assetFromOptions}
+        selectedAsset={selectedAssetFrom}
+        setSelectedAsset={changeAssetFrom}
         maxSelectedFieldName={maxSelectedFieldName}
-        maxValue={selectedAsset1.balance}
+        maxValue={selectedAssetFrom.balance}
         showError
       />
       <SelectorWithInputHeader>To</SelectorWithInputHeader>
       <AssetSelectorWithInput
         fieldName="amount"
         control={form.control}
-        selectorAssets={asset2Options}
-        selectedAsset={selectedAsset2}
-        setSelectedAsset={changeAsset2}
+        selectorAssets={assetToOptions}
+        selectedAsset={selectedAssetTo}
+        setSelectedAsset={changeAssetTo}
         maxSelectedFieldName={maxSelectedFieldName}
-        maxValue={selectedAsset1.balance}
+        maxValue={selectedAssetFrom.balance}
       />
     </Form>
   )

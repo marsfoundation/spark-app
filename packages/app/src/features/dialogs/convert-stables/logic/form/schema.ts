@@ -2,8 +2,8 @@ import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { z } from 'zod'
 
 export const ConvertStablesFormSchema = z.object({
-  symbol1: z.string().transform(TokenSymbol),
-  symbol2: z.string().transform(TokenSymbol),
+  symbolFrom: z.string().transform(TokenSymbol),
+  symbolTo: z.string().transform(TokenSymbol),
   amount: z.string().refine(
     (data) => {
       const value = Number.parseFloat(data)

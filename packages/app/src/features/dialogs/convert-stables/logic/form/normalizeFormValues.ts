@@ -12,8 +12,8 @@ export function normalizeFormValues({
   formValues,
   tokensInfo,
 }: NormalizeFormValuesParams): NormalizedConvertStablesFormValues {
-  const from = tokensInfo.findOneTokenBySymbol(formValues.symbol1)
-  const to = tokensInfo.findOneTokenBySymbol(formValues.symbol2)
+  const from = tokensInfo.findOneTokenBySymbol(formValues.symbolFrom)
+  const to = tokensInfo.findOneTokenBySymbol(formValues.symbolTo)
   const amount = NormalizedUnitNumber(formValues.amount === '' ? '0' : formValues.amount)
 
   return {

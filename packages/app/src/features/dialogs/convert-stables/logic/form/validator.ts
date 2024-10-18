@@ -11,7 +11,7 @@ import { ConvertStablesFormSchema } from './schema'
 export function getConvertStablesFormValidator(tokensInfo: TokensInfo) {
   return ConvertStablesFormSchema.superRefine((field, ctx) => {
     const amount = NormalizedUnitNumber(field.amount === '' ? '0' : field.amount)
-    const balance = tokensInfo.findOneBalanceBySymbol(field.symbol1)
+    const balance = tokensInfo.findOneBalanceBySymbol(field.symbolFrom)
 
     const issue = validateTransferFromUser({
       value: amount,

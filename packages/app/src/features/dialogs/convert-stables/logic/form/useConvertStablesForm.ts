@@ -32,8 +32,8 @@ export function useConvertStablesForm({
   const form = useForm<ConvertStablesFormSchema>({
     defaultValues: {
       isMaxSelected: false,
-      symbol1: psmStables[0],
-      symbol2: psmStables[1],
+      symbolFrom: psmStables[0],
+      symbolTo: psmStables[1],
       amount: '',
     },
   })

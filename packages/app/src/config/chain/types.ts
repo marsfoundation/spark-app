@@ -84,7 +84,7 @@ export interface ChainConfigEntry {
   sdaiSymbol: TokenSymbol | undefined
   usdsSymbol: TokenSymbol | undefined
   susdsSymbol: TokenSymbol | undefined
-  psmStables?: TokenSymbol[]
+  psmStables: TokenSymbol[] | undefined
   meta: ChainMeta
   permitSupport: PermitSupport
   tokensWithMalformedApprove: TokensWithMalformedApprove
