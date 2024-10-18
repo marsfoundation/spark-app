@@ -68,7 +68,7 @@ test.describe('Deposit USDS', () => {
     await depositDialog.expectSuccessPage()
     await depositDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsUSDSBalance({ sUsdsBalance: '9,999.77 sUSDS', estimatedUsdsValue: '10,000' })
+    await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '9,999.77 sUSDS', estimatedUsdsValue: '10,000' })
     await savingsPage.expectStablecoinsInWalletAssetBalance('USDS', '-')
   })
 })
