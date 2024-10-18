@@ -17,9 +17,7 @@ export interface NavbarActionsProps {
   airdropInfo: AirdropInfo
   rewardsInfo: RewardsInfo
   openSandboxDialog: () => void
-  openDevSandboxDialog: () => void
   isSandboxEnabled: boolean
-  isDevSandboxEnabled: boolean
 }
 
 export function NavbarActions({
@@ -31,9 +29,7 @@ export function NavbarActions({
   airdropInfo,
   rewardsInfo,
   openSandboxDialog,
-  openDevSandboxDialog,
   isSandboxEnabled,
-  isDevSandboxEnabled,
 }: NavbarActionsProps) {
   return (
     <div
@@ -47,12 +43,7 @@ export function NavbarActions({
       <AirdropBadge {...airdropInfo} />
       <NetworkSelector currentChain={currentChain} openSelectNetworkDialog={openSelectNetworkDialog} />
       <WalletDropdown onConnect={openConnectModal} connectedWalletInfo={connectedWalletInfo} />
-      <SettingsDropdown
-        onSandboxModeClick={openSandboxDialog}
-        isSandboxEnabled={isSandboxEnabled}
-        onDevSandBoxModeClick={openDevSandboxDialog}
-        isDevSandboxEnabled={isDevSandboxEnabled}
-      />
+      <SettingsDropdown onSandboxModeClick={openSandboxDialog} isSandboxEnabled={isSandboxEnabled} />
     </div>
   )
 }

@@ -4,12 +4,16 @@ import { useChainId, useConnect, useConnections, useDisconnect, useSwitchAccount
 import { createSandboxConnector } from '@/domain/sandbox/createSandboxConnector'
 import { useStore } from '@/domain/state'
 
+export interface UseNetworkChangeParams {
+  onSuccess?: () => void
+}
+
 export type UseNetworkChangeResult = Omit<UseMutationResult<void, Error, number, unknown>, 'mutate' | 'mutateAsync'> & {
   changeNetwork: (chainId: number) => void
   changeNetworkAsync: (chainId: number) => Promise<void>
 }
 
-export function useNetworkChange(): UseNetworkChangeResult {
+export function useNetworkChange(parameters: UseNetworkChangeParams = {}): UseNetworkChangeResult {
   const { switchChainAsync } = useSwitchChain()
   const { switchAccountAsync } = useSwitchAccount()
   const { disconnectAsync } = useDisconnect()
@@ -100,6 +104,7 @@ export function useNetworkChange(): UseNetworkChangeResult {
 
   const mutation = useMutation({
     mutationFn: changeNetwork,
+    ...parameters,
   })
 
   return {

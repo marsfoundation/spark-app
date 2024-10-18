@@ -20,14 +20,12 @@ export function Navbar({ mobileMenuCollapsed, setMobileMenuCollapsed, className 
     supportedChains,
     openSelectNetworkDialog,
     openConnectModal,
-    openDevSandboxDialog,
     openSandboxDialog,
     savingsInfo,
     connectedWalletInfo,
     airdropInfo,
     rewardsInfo,
     isSandboxEnabled,
-    isDevSandboxEnabled,
     pageLinksInfo,
   } = useNavbar()
 
@@ -68,13 +66,11 @@ export function Navbar({ mobileMenuCollapsed, setMobileMenuCollapsed, className 
         supportedChains={supportedChains}
         openSelectNetworkDialog={openSelectNetworkDialog}
         openConnectModal={openConnectModal}
-        openDevSandboxDialog={openDevSandboxDialog}
         openSandboxDialog={openSandboxDialog}
         connectedWalletInfo={connectedWalletInfo}
         airdropInfo={airdropInfo}
         rewardsInfo={rewardsInfo}
         isSandboxEnabled={isSandboxEnabled}
-        isDevSandboxEnabled={isDevSandboxEnabled}
       />
     </nav>
   )

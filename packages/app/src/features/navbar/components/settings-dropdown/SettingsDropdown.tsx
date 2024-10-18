@@ -18,16 +18,9 @@ import { SettingsDropdownItem } from './SettingsDropdownItem'
 export interface SettingsDropdownProps {
   onSandboxModeClick: () => void
   isSandboxEnabled: boolean
-  onDevSandBoxModeClick: () => void
-  isDevSandboxEnabled: boolean
 }
 
-export function SettingsDropdown({
-  onSandboxModeClick,
-  isSandboxEnabled,
-  onDevSandBoxModeClick,
-  isDevSandboxEnabled,
-}: SettingsDropdownProps) {
+export function SettingsDropdown({ onSandboxModeClick, isSandboxEnabled }: SettingsDropdownProps) {
   return (
     <NavbarActionWrapper label="Other">
       <DropdownWrapper>
@@ -39,18 +32,6 @@ export function SettingsDropdown({
             </SettingsDropdownItem.Title>
             <SettingsDropdownItem.Content>
               Explore Spark <br /> with unlimited tokens
-            </SettingsDropdownItem.Content>
-          </SettingsDropdownItem>
-        )}
-
-        {isDevSandboxEnabled && (
-          <SettingsDropdownItem onClick={onDevSandBoxModeClick}>
-            <SettingsDropdownItem.Title>
-              <MagicWand className="h-5 w-5 lg:h-3 lg:w-3" />
-              Dev Sandbox Mode
-            </SettingsDropdownItem.Title>
-            <SettingsDropdownItem.Content>
-              Debug Spark <br /> with unlimited tokens
             </SettingsDropdownItem.Content>
           </SettingsDropdownItem>
         )}

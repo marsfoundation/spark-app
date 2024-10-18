@@ -30,9 +30,7 @@ export interface UseNavbarResults {
   openSelectNetworkDialog: () => void
   openConnectModal: () => void
   openSandboxDialog: () => void
-  openDevSandboxDialog: () => void
   isSandboxEnabled: boolean
-  isDevSandboxEnabled: boolean
   savingsInfo?: SavingsInfoQueryResults
   connectedWalletInfo?: ConnectedWalletInfo
   airdropInfo: AirdropInfo
@@ -66,7 +64,7 @@ export function useNavbar(): UseNavbarResults {
     select: useMemo(() => marketInfoSelectFn(), []),
   })
   const airdropInfo = useAirdropInfo({ refreshIntervalInMs: 100 })
-  const { isInSandbox, isSandboxEnabled, isDevSandboxEnabled, isEphemeralAccount, deleteSandbox } = useSandboxState()
+  const { isInSandbox, isSandboxEnabled, isEphemeralAccount, deleteSandbox } = useSandboxState()
   const { changeNetworkAsync } = useNetworkChange()
   const { disconnect } = useDisconnect({
     changeNetworkAsync,
@@ -121,10 +119,6 @@ export function useNavbar(): UseNavbarResults {
     openDialog(sandboxDialogConfig, { mode: 'ephemeral' } as const)
   }
 
-  function openDevSandboxDialog(): void {
-    openDialog(sandboxDialogConfig, { mode: 'persisting' } as const)
-  }
-
   function openSelectNetworkDialog(): void {
     openDialog(selectNetworkDialogConfig, {})
   }
@@ -139,9 +133,7 @@ export function useNavbar(): UseNavbarResults {
     airdropInfo,
     rewardsInfo,
     openSandboxDialog,
-    openDevSandboxDialog,
     isSandboxEnabled,
-    isDevSandboxEnabled,
     pageLinksInfo,
   }
 }
