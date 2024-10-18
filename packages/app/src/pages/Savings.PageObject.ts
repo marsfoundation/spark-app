@@ -9,16 +9,18 @@ export class SavingsPageObject extends BasePageObject {
     return this.locatePanelByHeader('Savings')
   }
 
+  // @note using locatePanelByHeader didn't work for base chain because savings opportunity
+  // panel header which is exactly the same as the token panel header
   locateSavingsDaiPanel(): Locator {
-    return this.locatePanelByHeader('Savings DAI')
+    return this.page.getByTestId(testIds.savings.sdai.panel)
+  }
+
+  locateSavingsUsdsPanel(): Locator {
+    return this.page.getByTestId(testIds.savings.susds.panel)
   }
 
   locateUpgradeSDaiBanner(): Locator {
     return this.page.getByTestId(testIds.savings.upgradeSDaiBanner)
-  }
-
-  locateSavingsUsdsPanel(): Locator {
-    return this.locatePanelByHeader('Savings USDS')
   }
 
   locateStablecoinsInWalletPanel(): Locator {
@@ -98,21 +100,14 @@ export class SavingsPageObject extends BasePageObject {
     ).toBeVisible()
   }
 
-  async expectCurrentWorth(approximateValue: string): Promise<void> {
-    await expect(this.locatePanelByHeader('Savings DAI').getByText(approximateValue)).toBeVisible()
-  }
-
-  async expectSavingsDAIBalance({
-    sDaiBalance,
+  async expectSavingsDaiBalance({
+    sdaiBalance,
     estimatedDaiValue,
-  }: { sDaiBalance: string; estimatedDaiValue: string }): Promise<void> {
-    await expect(this.locatePanelByHeader('Savings DAI').getByTestId(testIds.savings.sDaiBalance)).toHaveText(
-      sDaiBalance,
-      {
-        timeout: 60_000, // potentially should wait a bit for balance to reach the value because of timing issues in e2e tests
-      },
-    )
-    await expect(this.locatePanelByHeader('Savings DAI').getByTestId(testIds.savings.sDaiBalanceInDai)).toContainText(
+  }: { sdaiBalance: string; estimatedDaiValue: string }): Promise<void> {
+    await expect(this.locateSavingsDaiPanel().getByTestId(testIds.savings.sdai.balance)).toContainText(sdaiBalance, {
+      timeout: 60_000, // potentially should wait a bit for balance to reach the value because of timing issues in e2e tests
+    })
+    await expect(this.locateSavingsDaiPanel().getByTestId(testIds.savings.sdai.balanceInAsset)).toContainText(
       estimatedDaiValue,
       {
         timeout: 60_000,
@@ -120,17 +115,14 @@ export class SavingsPageObject extends BasePageObject {
     )
   }
 
-  async expectSavingsUSDSBalance({
-    sUsdsBalance,
+  async expectSavingsUsdsBalance({
+    susdsBalance,
     estimatedUsdsValue,
-  }: { sUsdsBalance: string; estimatedUsdsValue: string }): Promise<void> {
-    await expect(this.locatePanelByHeader('Savings USDS').getByTestId(testIds.savings.sDaiBalance)).toHaveText(
-      sUsdsBalance,
-      {
-        timeout: 60_000,
-      },
-    )
-    await expect(this.locatePanelByHeader('Savings USDS').getByTestId(testIds.savings.sDaiBalanceInDai)).toContainText(
+  }: { susdsBalance: string; estimatedUsdsValue: string }): Promise<void> {
+    await expect(this.locateSavingsUsdsPanel().getByTestId(testIds.savings.susds.balance)).toContainText(susdsBalance, {
+      timeout: 60_000,
+    })
+    await expect(this.locateSavingsUsdsPanel().getByTestId(testIds.savings.susds.balanceInAsset)).toContainText(
       estimatedUsdsValue,
       {
         timeout: 60_000,
@@ -138,10 +130,17 @@ export class SavingsPageObject extends BasePageObject {
     )
   }
 
-  async expectCurrentProjection(value: string, type: '30-day' | '1-year'): Promise<void> {
+  async expectSavingDaiCurrentProjection(value: string, type: '30-day' | '1-year'): Promise<void> {
     const title = type === '30-day' ? '30-day projection' : '1-year projection'
     await expect(
       this.locateSavingsDaiPanel().getByRole('generic').filter({ hasText: title }).getByText(value),
+    ).toBeVisible()
+  }
+
+  async expectSavingUsdsCurrentProjection(value: string, type: '30-day' | '1-year'): Promise<void> {
+    const title = type === '30-day' ? '30-day projection' : '1-year projection'
+    await expect(
+      this.locateSavingsUsdsPanel().getByRole('generic').filter({ hasText: title }).getByText(value),
     ).toBeVisible()
   }
 
