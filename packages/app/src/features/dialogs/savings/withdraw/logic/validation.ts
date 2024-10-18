@@ -1,6 +1,7 @@
 import { z } from 'zod'
 
 import { TokenWithBalance } from '@/domain/common/types'
+import { SavingsInfo } from '@/domain/savings-info/types'
 import { receiverValidationIssueToMessage, validateReceiver } from '@/domain/savings/validateReceiver'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
@@ -9,11 +10,22 @@ import { Address } from 'viem'
 import { ReceiverFormSchema } from '../types'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function getSavingsWithdrawDialogFormValidator(sDaiBalance: TokenWithBalance) {
+export function getSavingsWithdrawDialogFormValidator({
+  savingsTokenWithBalance,
+  savingsInfo,
+  timestamp
+}: {
+  savingsTokenWithBalance: TokenWithBalance
+  savingsInfo: SavingsInfo
+  timestamp: number
+}) {
   return AssetInputSchema.superRefine((field, ctx) => {
     const value = NormalizedUnitNumber(field.value === '' ? '0' : field.value)
     const isMaxSelected = field.isMaxSelected
-    const usdBalance = sDaiBalance.token.toUSD(sDaiBalance.balance)
+    const usdBalance = savingsInfo.predictAssetsAmount({
+      shares: savingsTokenWithBalance.balance,
+      timestamp,
+    })
 
     const issue = validateWithdraw({
       value,

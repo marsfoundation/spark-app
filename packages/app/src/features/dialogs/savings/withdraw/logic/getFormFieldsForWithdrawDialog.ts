@@ -1,4 +1,5 @@
 import { TokenWithBalance } from '@/domain/common/types'
+import { SavingsInfo } from '@/domain/savings-info/types'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
@@ -9,12 +10,16 @@ export interface GetFormFieldsForWithdrawDialogParams {
   form: UseFormReturn<AssetInputSchema>
   tokensInfo: TokensInfo
   savingsTokenWithBalance: TokenWithBalance
+  savingsInfo: SavingsInfo
+  timestamp: number
 }
 
 export function getFormFieldsForWithdrawDialog({
   form,
   tokensInfo,
   savingsTokenWithBalance,
+  savingsInfo,
+  timestamp,
 }: GetFormFieldsForWithdrawDialogParams): FormFieldsForDialog {
   // eslint-disable-next-line func-style
   const changeAsset = (newSymbol: TokenSymbol): void => {
@@ -27,7 +32,10 @@ export function getFormFieldsForWithdrawDialog({
 
   const { symbol, value } = form.getValues()
   const token = tokensInfo.findOneTokenBySymbol(symbol)
-  const usdBalance = savingsTokenWithBalance.token.toUSD(savingsTokenWithBalance.balance)
+  const usdBalance = savingsInfo.predictAssetsAmount({
+    shares: savingsTokenWithBalance.balance,
+    timestamp,
+  })
 
   return {
     selectedAsset: {

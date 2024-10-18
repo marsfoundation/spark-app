@@ -12,12 +12,14 @@ export interface CreateTxOverviewParams {
   tokensInfo: TokensInfo
   savingsInfo: SavingsInfo
   savingsToken: Token
+  timestamp: number
 }
 export function createTxOverview({
   formValues,
   tokensInfo,
   savingsInfo,
   savingsToken,
+  timestamp,
 }: CreateTxOverviewParams): SavingsDialogTxOverview {
   const [tokenValue, savingsTokenValue] = (() => {
     if (formValues.isMaxSelected) {
@@ -43,6 +45,7 @@ export function createTxOverview({
     savingsInfo,
     savingsToken,
     savingsTokenValue,
+    timestamp,
   })
 
   return {
@@ -64,6 +67,7 @@ export interface GetWithdrawRouteParams {
   savingsInfo: SavingsInfo
   savingsToken: Token
   savingsTokenValue: NormalizedUnitNumber
+  timestamp: number
 }
 function getWithdrawRoute({
   formValues,
@@ -71,6 +75,7 @@ function getWithdrawRoute({
   savingsInfo,
   savingsToken,
   savingsTokenValue,
+  timestamp,
 }: GetWithdrawRouteParams): TxOverviewRouteItem[] {
   const value = formValues.value
   const intermediary =
@@ -81,7 +86,7 @@ function getWithdrawRoute({
     {
       token: savingsToken,
       value: savingsTokenValue,
-      usdValue: savingsInfo.convertToAssets({ shares: savingsTokenValue }),
+      usdValue: savingsInfo.predictAssetsAmount({ shares: savingsTokenValue, timestamp }),
     },
     {
       token: intermediary,
