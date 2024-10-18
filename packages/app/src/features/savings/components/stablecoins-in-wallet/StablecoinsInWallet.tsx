@@ -3,6 +3,7 @@ import { savingsDepositDialogConfig } from '@/features/dialogs/savings/deposit/S
 import { assets as uiAssets } from '@/ui/assets'
 import { Button } from '@/ui/atoms/button/Button'
 import { DataTable, DataTableProps } from '@/ui/molecules/data-table/DataTable'
+import { cn } from '@/ui/utils/style'
 import { useMemo } from 'react'
 import { MigrationInfo } from '../../logic/makeMigrationInfo'
 import { AssetInWallet } from '../../logic/useSavings'
@@ -68,7 +69,7 @@ export function StablecoinsInWallet({
 
   return (
     <section className="rounded-lg border border-basics-border bg-white shadow-sm">
-      <div className="flex flex-col gap-6 px-4 pt-4 md:px-8 md:pt-6">
+      <div className={cn('flex flex-col gap-6 p-4 md:px-8 md:py-6', showConvertDialogButton && 'pb-0 md:pb-0')}>
         <div className="flex flex-row items-center gap-1">
           <h3 className="font-semibold text-2xl leading-none tracking-tight">Stablecoins in wallet</h3>
         </div>
