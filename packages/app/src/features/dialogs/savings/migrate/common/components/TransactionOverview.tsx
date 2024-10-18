@@ -20,7 +20,7 @@ export interface TransactionOverviewProps {
 
 export function TransactionOverview({ txOverview, selectedToken, showAPY }: TransactionOverviewProps) {
   if (txOverview.status !== 'success') {
-    return <TransactionOverviewPlaceholder badgeToken={selectedToken} showAPY={showAPY} />
+    return <TransactionOverviewPlaceholder badgeToken={selectedToken.symbol} showAPY={showAPY} />
   }
   const { apyChange, route } = txOverview
 
@@ -63,7 +63,7 @@ export function TransactionOverview({ txOverview, selectedToken, showAPY }: Tran
         </TransactionOverviewDetailsItem>
       </DialogPanel>
 
-      <SkyBadge token={inputToken} data-testid={testIds.dialog.transactionOverview.skyBadge} />
+      <SkyBadge tokens={[inputToken.symbol]} data-testid={testIds.dialog.transactionOverview.skyBadge} />
     </div>
   )
 }

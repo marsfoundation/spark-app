@@ -11,6 +11,7 @@ const meta: Meta<typeof TransactionOverview> = {
   decorators: [WithClassname('max-w-xl'), WithTooltipProvider()],
   args: {
     from: tokens.DAI,
+    to: tokens.USDC,
     txOverview: {
       status: 'success',
       route: [

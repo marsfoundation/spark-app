@@ -11,13 +11,17 @@ import { TxOverview } from '../logic/createTxOverview'
 
 export interface TransactionOverviewProps {
   from: Token
+  to: Token
   txOverview: TxOverview
 }
 
-export function TransactionOverview({ from, txOverview }: TransactionOverviewProps) {
+export function TransactionOverview({ from, to, txOverview }: TransactionOverviewProps) {
+  const badgeTokens = [from.symbol, to.symbol]
+
   if (txOverview.status !== 'success') {
-    return <TransactionOverviewPlaceholder badgeToken={from} />
+    return <TransactionOverviewPlaceholder badgeTokens={badgeTokens} />
   }
+
   const { route, outcome } = txOverview
 
   return (
@@ -42,7 +46,7 @@ export function TransactionOverview({ from, txOverview }: TransactionOverviewPro
         </TransactionOverviewDetailsItem>
       </DialogPanel>
 
-      <SkyBadge token={from} data-testid={testIds.dialog.transactionOverview.skyBadge} />
+      <SkyBadge tokens={badgeTokens} data-testid={testIds.dialog.transactionOverview.skyBadge} />
     </div>
   )
 }

@@ -23,7 +23,7 @@ export function TransactionOverview({ txOverview, selectedToken }: TransactionOv
   if (txOverview.status !== 'success') {
     return (
       <TransactionOverviewPlaceholder
-        badgeToken={selectedToken}
+        badgeToken={selectedToken.symbol}
         showEstimatedRewards={txOverview.showEstimatedRewards}
       />
     )
@@ -68,7 +68,7 @@ export function TransactionOverview({ txOverview, selectedToken }: TransactionOv
         </TransactionOverviewDetailsItem>
       </DialogPanel>
 
-      <SkyBadge token={selectedToken} data-testid={testIds.dialog.transactionOverview.skyBadge} />
+      <SkyBadge tokens={[selectedToken.symbol]} data-testid={testIds.dialog.transactionOverview.skyBadge} />
     </div>
   )
 }

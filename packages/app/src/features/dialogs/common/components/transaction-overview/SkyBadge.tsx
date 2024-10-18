@@ -1,14 +1,14 @@
-import { Token } from '@/domain/types/Token'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { assets } from '@/ui/assets'
 import { Info } from '@/ui/molecules/info/Info'
 import { cn } from '@/ui/utils/style'
 
 export interface SkyBadgeProps {
-  token: Token
+  tokens: TokenSymbol[]
   'data-testid'?: string
 }
 
-export function SkyBadge({ token, 'data-testid': dataTestId }: SkyBadgeProps) {
+export function SkyBadge({ tokens, 'data-testid': dataTestId }: SkyBadgeProps) {
   return (
     <div
       className={cn(
@@ -22,7 +22,7 @@ export function SkyBadge({ token, 'data-testid': dataTestId }: SkyBadgeProps) {
       <div className="flex-1 font-light">
         <span className="hidden font-medium md:inline">Powered by Sky </span>
         <span className="hidden md:inline">(prev. MakerDAO). </span>
-        No slippage & fees for {token.symbol}.
+        No slippage & fees for {tokens.join(' and ')}.
       </div>
       <Info className="text-inherit">
         The conversion between DAI, USDS, and USDC is conducted through the Sky PSM, a component of Sky that allows
