@@ -7,7 +7,7 @@ import { test } from '@playwright/test'
 import { base, gnosis, mainnet } from 'viem/chains'
 import { SavingsDialogPageObject } from '../common/e2e/SavingsDialog.PageObject'
 
-test.describe('Savings withdraw dialog', () => {
+test.describe('Savings deposit dialog', () => {
   test.describe('Mainnet', () => {
     const fork = setupFork({
       blockNumber: LITE_PSM_ACTIONS_OPERABLE,
@@ -22,37 +22,40 @@ test.describe('Savings withdraw dialog', () => {
           type: 'connected-random',
           assetBalances: {
             ETH: 1,
-            sDAI: 1000,
+            DAI: 1000,
+            USDC: 1000,
           },
         },
       })
 
       const savingsPage = new SavingsPageObject(page)
 
-      await savingsPage.clickWithdrawSDaiButtonAction()
+      await savingsPage.clickStartSavingButtonAction()
 
-      const withdrawalDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
-      const actionsContainer = new ActionsPageObject(withdrawalDialog.locatePanelByHeader('Actions'))
+      const depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
+      const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
 
-      await withdrawalDialog.fillAmountAction(1000)
+      await depositDialog.fillAmountAction(1000)
       await actionsContainer.expectEnabledActionAtIndex(0)
       await actionsContainer.expectActions([
-        { type: 'withdrawFromSavings', asset: 'DAI', savingsAsset: 'sDAI', mode: 'withdraw' },
+        { type: 'approve', asset: 'DAI' },
+        { type: 'depositToSavings', asset: 'DAI', savingsAsset: 'sDAI' },
       ])
 
-      await withdrawalDialog.selectAssetAction('USDC')
-      await withdrawalDialog.fillAmountAction(1000)
+      await depositDialog.selectAssetAction('USDC')
+      await depositDialog.fillAmountAction(1000)
       await actionsContainer.expectEnabledActionAtIndex(0)
       await actionsContainer.expectActions([
-        { type: 'approve', asset: 'sDAI' },
-        { type: 'withdrawFromSavings', asset: 'USDC', savingsAsset: 'sDAI', mode: 'withdraw' },
+        { type: 'approve', asset: 'USDC' },
+        { type: 'depositToSavings', asset: 'USDC', savingsAsset: 'sDAI' },
       ])
 
-      await withdrawalDialog.selectAssetAction('DAI')
-      await withdrawalDialog.fillAmountAction(1000)
+      await depositDialog.selectAssetAction('DAI')
+      await depositDialog.fillAmountAction(1000)
       await actionsContainer.expectEnabledActionAtIndex(0)
       await actionsContainer.expectActions([
-        { type: 'withdrawFromSavings', asset: 'DAI', savingsAsset: 'sDAI', mode: 'withdraw' },
+        { type: 'approve', asset: 'DAI' },
+        { type: 'depositToSavings', asset: 'DAI', savingsAsset: 'sDAI' },
       ])
     })
   })
@@ -69,39 +72,40 @@ test.describe('Savings withdraw dialog', () => {
           type: 'connected-random',
           assetBalances: {
             ETH: 1,
-            sUSDS: 1000,
+            USDS: 2000,
+            USDC: 1000,
           },
         },
       })
 
       const savingsPage = new SavingsPageObject(page)
 
-      await savingsPage.clickWithdrawSUsdsButtonAction()
+      await savingsPage.clickStartSavingButtonAction()
 
-      const withdrawalDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
-      const actionsContainer = new ActionsPageObject(withdrawalDialog.locatePanelByHeader('Actions'))
+      const depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
+      const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
 
-      await withdrawalDialog.fillAmountAction(1000)
+      await depositDialog.fillAmountAction(1000)
       await actionsContainer.expectEnabledActionAtIndex(0)
       await actionsContainer.expectActions([
-        { type: 'approve', asset: 'sUSDS' },
-        { type: 'withdrawFromSavings', asset: 'USDS', savingsAsset: 'sUSDS', mode: 'withdraw' },
+        { type: 'approve', asset: 'USDS' },
+        { type: 'depositToSavings', asset: 'USDS', savingsAsset: 'sUSDS' },
       ])
 
-      await withdrawalDialog.selectAssetAction('USDC')
-      await withdrawalDialog.fillAmountAction(1000)
+      await depositDialog.selectAssetAction('USDC')
+      await depositDialog.fillAmountAction(1000)
       await actionsContainer.expectEnabledActionAtIndex(0)
       await actionsContainer.expectActions([
-        { type: 'approve', asset: 'sUSDS' },
-        { type: 'withdrawFromSavings', asset: 'USDC', savingsAsset: 'sUSDS', mode: 'withdraw' },
+        { type: 'approve', asset: 'USDC' },
+        { type: 'depositToSavings', asset: 'USDC', savingsAsset: 'sUSDS' },
       ])
 
-      await withdrawalDialog.selectAssetAction('USDS')
-      await withdrawalDialog.fillAmountAction(1000)
+      await depositDialog.selectAssetAction('USDS')
+      await depositDialog.fillAmountAction(1000)
       await actionsContainer.expectEnabledActionAtIndex(0)
       await actionsContainer.expectActions([
-        { type: 'approve', asset: 'sUSDS' },
-        { type: 'withdrawFromSavings', asset: 'USDS', savingsAsset: 'sUSDS', mode: 'withdraw' },
+        { type: 'approve', asset: 'USDS' },
+        { type: 'depositToSavings', asset: 'USDS', savingsAsset: 'sUSDS' },
       ])
     })
   })
@@ -120,15 +124,15 @@ test.describe('Savings withdraw dialog send mode', () => {
           type: 'connected-random',
           assetBalances: {
             ETH: 1,
-            sDAI: 10_000,
+            DAI: 10_000,
           },
         },
       })
 
       savingsPage = new SavingsPageObject(page)
-      await savingsPage.clickSendSDaiButtonAction()
+      await savingsPage.clickStartSavingButtonAction()
 
-      sendDialog = new SavingsDialogPageObject({ page, type: 'send' })
+      sendDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
     })
 
     test('can select only supported assets', async () => {
@@ -149,15 +153,14 @@ test.describe('Savings withdraw dialog send mode', () => {
           type: 'connected-random',
           assetBalances: {
             XDAI: 100,
-            sDAI: 10_000,
           },
         },
       })
 
       savingsPage = new SavingsPageObject(page)
-      await savingsPage.clickSendSDaiButtonAction()
+      await savingsPage.clickStartSavingButtonAction()
 
-      sendDialog = new SavingsDialogPageObject({ page, type: 'send' })
+      sendDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
     })
 
     test('can select only supported assets', async () => {
@@ -178,15 +181,14 @@ test.describe('Savings withdraw dialog send mode', () => {
           type: 'connected-random',
           assetBalances: {
             USDS: 100,
-            sUSDS: 10_000,
           },
         },
       })
 
       savingsPage = new SavingsPageObject(page)
-      await savingsPage.clickSendSUsdsButtonAction()
+      await savingsPage.clickStartSavingButtonAction()
 
-      sendDialog = new SavingsDialogPageObject({ page, type: 'send' })
+      sendDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
     })
 
     test('can select only supported assets', async () => {
