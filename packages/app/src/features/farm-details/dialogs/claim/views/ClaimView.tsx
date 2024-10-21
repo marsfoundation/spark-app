@@ -4,7 +4,6 @@ import { FormAndOverviewWrapper } from '@/features/dialogs/common/components/For
 import { MultiPanelDialog } from '@/features/dialogs/common/components/MultiPanelDialog'
 import { PageStatus } from '@/features/dialogs/common/types'
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
-import { useRef } from 'react'
 import { TransactionOverview } from '../components/transaction-overview/TransactionOverview'
 import { TxOverview } from '../types'
 
@@ -16,10 +15,8 @@ export interface ClaimViewProps {
 }
 
 export function ClaimView({ objectives, pageStatus, txOverview, actionsContext }: ClaimViewProps) {
-  const ref = useRef<HTMLDivElement>(null)
-
   return (
-    <MultiPanelDialog panelRef={ref}>
+    <MultiPanelDialog>
       <DialogTitle>Claim rewards</DialogTitle>
 
       <FormAndOverviewWrapper>

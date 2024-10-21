@@ -4,17 +4,17 @@ import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 
 export interface ConvertStablesFormFields {
-  selectedAssetFrom: TokenWithBalance
-  selectedAssetTo: TokenWithBalance
-  assetFromOptions: TokenWithBalance[]
-  assetToOptions: TokenWithBalance[]
-  changeAssetFrom: (newSymbol: TokenSymbol) => void
-  changeAssetTo: (newSymbol: TokenSymbol) => void
+  selectedAssetIn: TokenWithBalance
+  selectedAssetOut: TokenWithBalance
+  assetInOptions: TokenWithBalance[]
+  assetOutOptions: TokenWithBalance[]
+  changeAssetIn: (newSymbol: TokenSymbol) => void
+  changeAssetOut: (newSymbol: TokenSymbol) => void
   maxSelectedFieldName: string
 }
 
 export interface NormalizedConvertStablesFormValues {
-  from: Token
-  to: Token
+  inToken: Token
+  outToken: Token
   amount: NormalizedUnitNumber
 }

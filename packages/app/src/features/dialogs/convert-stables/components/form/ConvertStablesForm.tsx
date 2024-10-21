@@ -12,38 +12,40 @@ export interface ConvertStablesFormProps {
 
 export function ConvertStablesForm({ formFields, form }: ConvertStablesFormProps) {
   const {
-    selectedAssetFrom,
-    selectedAssetTo,
-    changeAssetFrom,
-    changeAssetTo,
-    assetFromOptions,
-    assetToOptions,
+    selectedAssetIn,
+    selectedAssetOut,
+    changeAssetIn,
+    changeAssetOut,
+    assetInOptions,
+    assetOutOptions,
     maxSelectedFieldName,
   } = formFields
 
   return (
     <Form {...form}>
-      <SelectorWithInputHeader>From</SelectorWithInputHeader>
-      <AssetSelectorWithInput
-        fieldName="amount"
-        control={form.control}
-        selectorAssets={assetFromOptions}
-        selectedAsset={selectedAssetFrom}
-        setSelectedAsset={changeAssetFrom}
-        maxSelectedFieldName={maxSelectedFieldName}
-        maxValue={selectedAssetFrom.balance}
-        showError
-      />
-      <SelectorWithInputHeader>To</SelectorWithInputHeader>
-      <AssetSelectorWithInput
-        fieldName="amount"
-        control={form.control}
-        selectorAssets={assetToOptions}
-        selectedAsset={selectedAssetTo}
-        setSelectedAsset={changeAssetTo}
-        maxSelectedFieldName={maxSelectedFieldName}
-        maxValue={selectedAssetFrom.balance}
-      />
+      <div>
+        <SelectorWithInputHeader>From</SelectorWithInputHeader>
+        <AssetSelectorWithInput
+          fieldName="amount"
+          control={form.control}
+          selectorAssets={assetInOptions}
+          selectedAsset={selectedAssetIn}
+          setSelectedAsset={changeAssetIn}
+          maxSelectedFieldName={maxSelectedFieldName}
+          maxValue={selectedAssetIn.balance}
+          showError
+        />
+        <SelectorWithInputHeader>To</SelectorWithInputHeader>
+        <AssetSelectorWithInput
+          fieldName="amount"
+          control={form.control}
+          selectorAssets={assetOutOptions}
+          selectedAsset={selectedAssetOut}
+          setSelectedAsset={changeAssetOut}
+          maxSelectedFieldName={maxSelectedFieldName}
+          maxValue={selectedAssetIn.balance}
+        />
+      </div>
     </Form>
   )
 }

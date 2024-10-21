@@ -14,38 +14,38 @@ export function getConvertStablesFormFields({
   tokensInfo,
   psmStables,
 }: GetConvertStablesFormFieldsParams): ConvertStablesFormFields {
-  const { symbolFrom, symbolTo } = form.watch()
-  const selectedAssetFrom = tokensInfo.findOneTokenWithBalanceBySymbol(symbolFrom)
-  const selectedAssetTo = tokensInfo.findOneTokenWithBalanceBySymbol(symbolTo)
+  const { inTokenSymbol, outTokenSymbol } = form.watch()
+  const selectedAssetIn = tokensInfo.findOneTokenWithBalanceBySymbol(inTokenSymbol)
+  const selectedAssetOut = tokensInfo.findOneTokenWithBalanceBySymbol(outTokenSymbol)
 
   const allStables = psmStables.map((symbol) => tokensInfo.findTokenWithBalanceBySymbol(symbol)).filter(Boolean)
-  const assetFromOptions = allStables.filter(({ token }) => token.symbol !== selectedAssetFrom.token.symbol)
-  const assetToOptions = allStables.filter(
-    ({ token }) => token.symbol !== selectedAssetTo.token.symbol && token.symbol !== selectedAssetFrom.token.symbol,
+  const assetInOptions = allStables.filter(({ token }) => token.symbol !== selectedAssetIn.token.symbol)
+  const assetOutOptions = allStables.filter(
+    ({ token }) => token.symbol !== selectedAssetOut.token.symbol && token.symbol !== selectedAssetIn.token.symbol,
   )
 
-  function changeAssetFrom(newSymbol: TokenSymbol): void {
-    if (newSymbol === symbolTo) {
-      form.setValue('symbolTo', symbolFrom)
+  function changeAssetIn(newSymbol: TokenSymbol): void {
+    if (newSymbol === outTokenSymbol) {
+      form.setValue('outTokenSymbol', inTokenSymbol)
     }
-    form.setValue('symbolFrom', newSymbol)
+    form.setValue('inTokenSymbol', newSymbol)
     form.setValue('amount', '')
     form.setValue('isMaxSelected', false)
     form.clearErrors()
   }
 
-  function changeAssetTo(newSymbol: TokenSymbol): void {
-    form.setValue('symbolTo', newSymbol)
+  function changeAssetOut(newSymbol: TokenSymbol): void {
+    form.setValue('outTokenSymbol', newSymbol)
     form.clearErrors()
   }
 
   return {
-    selectedAssetFrom,
-    selectedAssetTo,
-    assetFromOptions,
-    assetToOptions,
-    changeAssetFrom,
-    changeAssetTo,
+    selectedAssetIn,
+    selectedAssetOut,
+    assetInOptions,
+    assetOutOptions,
+    changeAssetIn,
+    changeAssetOut,
     maxSelectedFieldName: 'isMaxSelected',
   }
 }

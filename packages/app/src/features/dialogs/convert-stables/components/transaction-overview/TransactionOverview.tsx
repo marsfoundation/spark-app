@@ -5,18 +5,18 @@ import { RouteItem } from '@/features/dialogs/common/components/transaction-over
 import { SkyBadge } from '@/features/dialogs/common/components/transaction-overview/SkyBadge'
 import { TransactionOverviewDetailsItem } from '@/features/dialogs/common/components/transaction-overview/TransactionOverviewDetailsItem'
 import { testIds } from '@/ui/utils/testIds'
-import { TransactionOutcome } from '../../common/components/transaction-overview/TransactionOutcome'
-import { TransactionOverviewPlaceholder } from '../../common/components/transaction-overview/TransactionOverviewPlaceholder'
-import { TxOverview } from '../logic/createTxOverview'
+import { TransactionOutcome } from '../../../common/components/transaction-overview/TransactionOutcome'
+import { TransactionOverviewPlaceholder } from '../../../common/components/transaction-overview/TransactionOverviewPlaceholder'
+import { TxOverview } from '../../logic/createTxOverview'
 
 export interface TransactionOverviewProps {
-  from: Token
-  to: Token
+  inToken: Token
+  outToken: Token
   txOverview: TxOverview
 }
 
-export function TransactionOverview({ from, to, txOverview }: TransactionOverviewProps) {
-  const badgeTokens = [from.symbol, to.symbol]
+export function TransactionOverview({ inToken, outToken, txOverview }: TransactionOverviewProps) {
+  const badgeTokens = [inToken.symbol, outToken.symbol]
 
   if (txOverview.status !== 'success') {
     return <TransactionOverviewPlaceholder badgeTokens={badgeTokens} />

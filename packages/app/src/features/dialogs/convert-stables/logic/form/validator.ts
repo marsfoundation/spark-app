@@ -11,7 +11,7 @@ import { ConvertStablesFormSchema } from './schema'
 export function getConvertStablesFormValidator(tokensInfo: TokensInfo) {
   return ConvertStablesFormSchema.superRefine((field, ctx) => {
     const amount = NormalizedUnitNumber(field.amount === '' ? '0' : field.amount)
-    const balance = tokensInfo.findOneBalanceBySymbol(field.symbolFrom)
+    const balance = tokensInfo.findOneBalanceBySymbol(field.inTokenSymbol)
 
     const issue = validateTransferFromUser({
       value: amount,
@@ -28,6 +28,6 @@ export function getConvertStablesFormValidator(tokensInfo: TokensInfo) {
 }
 
 const issueToMessage: Record<TransferFromUserValidationIssue, string> = {
-  'value-not-positive': 'From amount should be positive',
+  'value-not-positive': 'Amount should be positive',
   'exceeds-balance': 'Exceeds your balance',
 }
