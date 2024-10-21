@@ -5,7 +5,6 @@ import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPan
 import { RouteItem } from '@/features/dialogs/common/components/transaction-overview/RouteItem'
 import { SkyBadge } from '@/features/dialogs/common/components/transaction-overview/SkyBadge'
 import { cn } from '@/ui/utils/style'
-import { testIds } from '@/ui/utils/testIds'
 import { assert } from '@/utils/assert'
 import { TransactionOverviewDetailsItem } from '../../../common/components/TransactionOverviewDetailsItem'
 import { TxOverview } from '../../logic/createTxOverview'
@@ -68,7 +67,7 @@ export function TransactionOverview({ txOverview, selectedToken }: TransactionOv
         </TransactionOverviewDetailsItem>
       </DialogPanel>
 
-      <SkyBadge tokens={[selectedToken.symbol]} data-testid={testIds.dialog.transactionOverview.skyBadge} />
+      <SkyBadge tokens={[selectedToken.symbol]} />
     </div>
   )
 }
