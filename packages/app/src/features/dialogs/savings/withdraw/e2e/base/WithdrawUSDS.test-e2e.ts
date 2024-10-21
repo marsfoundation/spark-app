@@ -18,18 +18,12 @@ test.describe('Withdraw USDS', () => {
         type: 'connected-random',
         assetBalances: {
           ETH: 1,
-          USDS: 10_000,
+          sUSDS: 10_000,
         },
       },
     })
 
     savingsPage = new SavingsPageObject(page)
-
-    await savingsPage.clickDepositButtonAction('USDS')
-    const depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
-    await depositDialog.fillAmountAction(10_000)
-    await depositDialog.actionsContainer.acceptAllActionsAction(2, fork)
-    await depositDialog.clickBackToSavingsButton()
 
     await savingsPage.clickWithdrawSUsdsButtonAction()
     withdrawDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
@@ -47,7 +41,7 @@ test.describe('Withdraw USDS', () => {
     await withdrawDialog.expectNativeRouteTransactionOverview({
       routeItems: [
         {
-          tokenAmount: '994.82 sUSDS',
+          tokenAmount: '994.31 sUSDS',
           tokenUsdValue: '$1,000.00',
         },
         {
@@ -69,7 +63,7 @@ test.describe('Withdraw USDS', () => {
     await withdrawDialog.expectSuccessPage()
     await withdrawDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '8,953.42 sUSDS', estimatedUsdsValue: '9,000' })
+    await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '9,005.69 sUSDS', estimatedUsdsValue: '9,057' })
     await savingsPage.expectStablecoinsInWalletAssetBalance('USDS', '1,000')
   })
 })

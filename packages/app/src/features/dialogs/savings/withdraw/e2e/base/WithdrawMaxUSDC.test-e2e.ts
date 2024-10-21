@@ -18,18 +18,12 @@ test.describe('Withdraw Max USDC', () => {
         type: 'connected-random',
         assetBalances: {
           ETH: 1,
-          USDS: 10_000,
+          sUSDS: 10_000,
         },
       },
     })
 
     savingsPage = new SavingsPageObject(page)
-
-    await savingsPage.clickDepositButtonAction('USDS')
-    const depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
-    await depositDialog.fillAmountAction(10_000)
-    await depositDialog.actionsContainer.acceptAllActionsAction(2, fork)
-    await depositDialog.clickBackToSavingsButton()
 
     await savingsPage.clickWithdrawSUsdsButtonAction()
     withdrawDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
@@ -48,19 +42,15 @@ test.describe('Withdraw Max USDC', () => {
     await withdrawDialog.expectNativeRouteTransactionOverview({
       routeItems: [
         {
-          tokenAmount: '9,948.25 sUSDS',
-          tokenUsdValue: '$10,000.00',
+          tokenAmount: '10,000.00 sUSDS',
+          tokenUsdValue: '$10,057.24',
         },
         {
-          tokenAmount: '10,000.00 USDS',
-          tokenUsdValue: '$10,000.00',
-        },
-        {
-          tokenAmount: '10,000.00 USDC',
-          tokenUsdValue: '$10,000.00',
+          tokenAmount: '10,057.24 USDS',
+          tokenUsdValue: '$10,057.24',
         },
       ],
-      outcome: '10,000.00 USDC worth $10,000.00',
+      outcome: '10,057.24 USDC worth $10,057.24',
       badgeToken: 'USDC',
     })
 
@@ -74,7 +64,7 @@ test.describe('Withdraw Max USDC', () => {
     await withdrawDialog.expectSuccessPage()
     await withdrawDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectOpportunityStablecoinsAmount('~$10,000.00')
-    await savingsPage.expectStablecoinsInWalletAssetBalance('USDC', '10,000')
+    await savingsPage.expectOpportunityStablecoinsAmount('~$10,057.24')
+    await savingsPage.expectStablecoinsInWalletAssetBalance('USDC', '10,057.24')
   })
 })

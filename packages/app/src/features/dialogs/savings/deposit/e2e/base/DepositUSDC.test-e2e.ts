@@ -54,11 +54,11 @@ test.describe('Deposit USDC', () => {
           tokenUsdValue: '$10,000.00',
         },
         {
-          tokenAmount: '9,948.25 sUSDS',
+          tokenAmount: '9,943.09 sUSDS',
           tokenUsdValue: '$10,000.00',
         },
       ],
-      outcome: '9,948.25 sUSDS worth $10,000.00',
+      outcome: '9,943.09 sUSDS worth $10,000.00',
       badgeToken: 'USDC',
     })
   })
@@ -70,7 +70,7 @@ test.describe('Deposit USDC', () => {
     await depositDialog.expectSuccessPage()
     await depositDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '9,948.25 sUSDS', estimatedUsdsValue: '10,000' })
+    await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '9,943.08 sUSDS', estimatedUsdsValue: '10,000' })
     await savingsPage.expectStablecoinsInWalletAssetBalance('USDC', '-')
   })
 })

@@ -24,19 +24,12 @@ test.describe('Send USDC', () => {
         type: 'connected-random',
         assetBalances: {
           ETH: 1,
-          USDS: 10_000,
+          sUSDS: 10_000,
         },
       },
     })
 
     savingsPage = new SavingsPageObject(page)
-
-    await savingsPage.clickDepositButtonAction('USDS')
-    const depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
-
-    await depositDialog.fillAmountAction(10_000)
-    await depositDialog.actionsContainer.acceptAllActionsAction(2, fork)
-    await depositDialog.clickBackToSavingsButton()
 
     await savingsPage.clickSendSUsdsButtonAction()
     sendDialog = new SavingsDialogPageObject({ page, type: 'send' })
@@ -57,7 +50,7 @@ test.describe('Send USDC', () => {
     await sendDialog.expectNativeRouteTransactionOverview({
       routeItems: [
         {
-          tokenAmount: '6,963.77 sUSDS',
+          tokenAmount: '6,960.16 sUSDS',
           tokenUsdValue: '$7,000.00',
         },
         {
@@ -93,7 +86,7 @@ test.describe('Send USDC', () => {
     })
 
     await sendDialog.clickBackToSavingsButton()
-    await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '2,984.47 sUSDS', estimatedUsdsValue: '3,000' })
+    await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '3,039.84 sUSDS', estimatedUsdsValue: '3,057' })
     await savingsPage.expectStablecoinsInWalletAssetBalance('USDC', '-')
   })
 })
