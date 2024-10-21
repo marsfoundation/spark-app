@@ -7,6 +7,7 @@ import { Token } from '@/domain/types/Token'
 import { savingsWithdrawDialogConfig } from '@/features/dialogs/savings/withdraw/SavingsWithdrawDialog'
 import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
+import { testIds } from '@/ui/utils/testIds'
 import { SavingsMetaItem } from '../../logic/makeSavingsMeta'
 import { SavingsOverview } from '../../logic/makeSavingsOverview'
 import { Projections } from '../../types'
@@ -43,7 +44,10 @@ export function SavingsTokenPanel({
   const savingsType = variant === 'dai' ? 'sdai' : 'susds'
 
   return (
-    <Panel.Wrapper className="flex min-h-[260px] w-full flex-1 flex-col justify-between self-stretch px-6 py-6 md:px-[32px]">
+    <Panel.Wrapper
+      className="flex min-h-[260px] w-full flex-1 flex-col justify-between self-stretch px-6 py-6 md:px-[32px]"
+      data-testid={testIds.savings[savingsType].panel}
+    >
       <div className="flex w-full flex-row items-center justify-between">
         <div className="flex flex-row items-center gap-1">
           <h2 className="whitespace-nowrap font-semibold text-base text-basics-black sm:text-xl">
@@ -72,6 +76,7 @@ export function SavingsTokenPanel({
         assetsToken={assetsToken}
         calculateSavingsBalance={calculateSavingsBalance}
         balanceRefreshIntervalInMs={balanceRefreshIntervalInMs}
+        savingsType={savingsType}
       />
       <div className="flex flex-row items-end justify-between border-t pt-6">
         <SavingsInfoTile>

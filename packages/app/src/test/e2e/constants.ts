@@ -96,9 +96,26 @@ export const TOKENS_ON_FORK = {
       decimals: 18,
     },
   },
+  8453: {
+    USDC: {
+      address: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',
+      decimals: 6,
+    },
+    USDS: {
+      address: '0x21F5b5dF683B6885D6A88f330C4474ADeE2A6ed3',
+      decimals: 18,
+    },
+    sUSDS: {
+      address: '0x02Edc8718799a22fCBeBEd0C58a1D09657C81bC8',
+      decimals: 18,
+    },
+  },
 } as const
 
-type NonNativeTokens = keyof (typeof TOKENS_ON_FORK)[1] | keyof (typeof TOKENS_ON_FORK)[100]
+type NonNativeTokens =
+  | keyof (typeof TOKENS_ON_FORK)[1]
+  | keyof (typeof TOKENS_ON_FORK)[100]
+  | keyof (typeof TOKENS_ON_FORK)[8453]
 export type AssetsInTests = 'ETH' | 'XDAI' | NonNativeTokens
 
 // @note At this block number:
