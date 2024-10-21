@@ -53,7 +53,6 @@ export function setupFork(options: SetupForkOptions): ForkContext {
   const isVnet = options.chainId === base.id || !!options.useTenderlyVnet
   const chainId = options.chainId
   const simulationDateOverride =
-    // !isVnet ?
     options.chainId !== base.id && !options.useTenderlyVnet ? options.simulationDateOverride : undefined
 
   const forkService: ITestForkService = isVnet
