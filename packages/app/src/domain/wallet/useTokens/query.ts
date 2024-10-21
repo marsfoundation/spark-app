@@ -12,22 +12,21 @@ import { OracleType } from './types'
 
 interface TokensParams {
   tokens: { address: CheckedAddress; oracleType: OracleType }[]
-  timestamp: number
   wagmiConfig: Config
   chainId: number
   account?: Address
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function tokensQueryOptions({ tokens, timestamp, wagmiConfig, chainId, account }: TokensParams) {
+export function tokensQueryOptions({ tokens, wagmiConfig, chainId, account }: TokensParams) {
   return queryOptions<TokensInfo>({
-    queryKey: tokensQueryKey({ tokens, timestamp, account, chainId }),
+    queryKey: tokensQueryKey({ tokens, account, chainId }),
     queryFn: async () => {
       const chainConfig = getChainConfigEntry(chainId)
 
       const tokensWithBalances = await Promise.all(
         tokens.map(async (tokenConfig) => {
-          const getOraclePrice = createOraclePriceFetcher({ tokenConfig, timestamp, wagmiConfig, chainId })
+          const getOraclePrice = createOraclePriceFetcher({ tokenConfig, wagmiConfig, chainId })
           const getAssetData = createAssetDataFetcher({ tokenConfig, wagmiConfig, chainId, account })
 
           const [assetData, oraclePrice] = await Promise.all([getAssetData(), getOraclePrice()])
@@ -56,6 +55,6 @@ export function tokensQueryOptions({ tokens, timestamp, wagmiConfig, chainId, ac
   })
 }
 
-export function tokensQueryKey({ tokens, timestamp, account, chainId }: Omit<TokensParams, 'wagmiConfig'>): unknown[] {
-  return [...getBalancesQueryKeyPrefix({ account, chainId }), 'tokens', tokens, timestamp]
+export function tokensQueryKey({ tokens, account, chainId }: Omit<TokensParams, 'wagmiConfig'>): unknown[] {
+  return [...getBalancesQueryKeyPrefix({ account, chainId }), 'tokens', tokens]
 }
