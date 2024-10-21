@@ -10,13 +10,13 @@ import { TransactionOverviewPlaceholder } from '../../../common/components/trans
 import { TxOverview } from '../../logic/createTxOverview'
 
 export interface TransactionOverviewProps {
-  from: Token
-  to: Token
+  inToken: Token
+  outToken: Token
   txOverview: TxOverview
 }
 
-export function TransactionOverview({ from, to, txOverview }: TransactionOverviewProps) {
-  const badgeTokens = [from.symbol, to.symbol]
+export function TransactionOverview({ inToken, outToken, txOverview }: TransactionOverviewProps) {
+  const badgeTokens = [inToken.symbol, outToken.symbol]
 
   if (txOverview.status !== 'success') {
     return <TransactionOverviewPlaceholder badgeTokens={badgeTokens} />

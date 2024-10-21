@@ -10,7 +10,7 @@ export interface CreateTxOverviewParams {
 
 export type TxOverview =
   | { status: 'no-overview' }
-  | { status: 'success'; route: TxOverviewRouteItem[]; outcome: TxOverviewRouteItem }
+  | { status: 'success'; route: TxOverviewRouteItem[]; inToken: Token; outcome: TxOverviewRouteItem }
 
 export function createTxOverview({ inToken, outToken, amount }: CreateTxOverviewParams): TxOverview {
   const outcome = {
@@ -31,6 +31,7 @@ export function createTxOverview({ inToken, outToken, amount }: CreateTxOverview
   return {
     status: 'success',
     route,
+    inToken,
     outcome,
   }
 }

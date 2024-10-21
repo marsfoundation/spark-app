@@ -4,23 +4,41 @@ import { FormAndOverviewWrapper } from '@/features/dialogs/common/components/For
 import { MultiPanelDialog } from '@/features/dialogs/common/components/MultiPanelDialog'
 import { PageStatus } from '@/features/dialogs/common/types'
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
+import { UseFormReturn } from 'react-hook-form'
+import { ConvertStablesForm } from '../components/form/ConvertStablesForm'
 import { TransactionOverview } from '../components/transaction-overview/TransactionOverview'
-import { TxOverview } from '../types'
+import { TxOverview } from '../logic/createTxOverview'
+import { ConvertStablesFormSchema } from '../logic/form/schema'
+import { ConvertStablesFormFields } from '../types'
 
-export interface ClaimViewProps {
+export interface ConvertStablesViewProps {
+  formFields: ConvertStablesFormFields
+  form: UseFormReturn<ConvertStablesFormSchema>
   objectives: Objective[]
   pageStatus: PageStatus
   txOverview: TxOverview
   actionsContext: InjectedActionsContext
 }
 
-export function ClaimView({ objectives, pageStatus, txOverview, actionsContext }: ClaimViewProps) {
+export function ConvertStablesView({
+  formFields,
+  form,
+  objectives,
+  pageStatus,
+  txOverview,
+  actionsContext,
+}: ConvertStablesViewProps) {
   return (
     <MultiPanelDialog>
-      <DialogTitle>Claim rewards</DialogTitle>
+      <DialogTitle>Convert Tokens</DialogTitle>
 
       <FormAndOverviewWrapper>
-        <TransactionOverview txOverview={txOverview} />
+        <ConvertStablesForm form={form} formFields={formFields} />
+        <TransactionOverview
+          txOverview={txOverview}
+          inToken={formFields.selectedAssetIn.token}
+          outToken={formFields.selectedAssetOut.token}
+        />
       </FormAndOverviewWrapper>
 
       <DialogActionsPanel

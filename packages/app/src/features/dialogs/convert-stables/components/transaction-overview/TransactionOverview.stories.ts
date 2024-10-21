@@ -10,14 +10,15 @@ const meta: Meta<typeof TransactionOverview> = {
   component: TransactionOverview,
   decorators: [WithClassname('max-w-xl'), WithTooltipProvider()],
   args: {
-    from: tokens.DAI,
-    to: tokens.USDC,
+    inToken: tokens.DAI,
+    outToken: tokens.USDC,
     txOverview: {
       status: 'success',
       route: [
         { token: tokens.DAI, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },
         { token: tokens.USDC, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },
       ],
+      inToken: tokens.DAI,
       outcome: { token: tokens.USDC, value: NormalizedUnitNumber(1300.74), usdValue: NormalizedUnitNumber(1300.74) },
     },
   },

@@ -3,6 +3,7 @@ import { WithClassname, ZeroAllowanceWagmiDecorator } from '@storybook/decorator
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
+import { TxOverview } from '../logic/createTxOverview'
 import { SuccessView } from './SuccessView'
 
 const meta: Meta<typeof SuccessView> = {
@@ -10,9 +11,11 @@ const meta: Meta<typeof SuccessView> = {
   component: SuccessView,
   decorators: [WithClassname('max-w-xl'), ZeroAllowanceWagmiDecorator()],
   args: {
-    from: tokens.DAI,
-    to: tokens.USDC,
-    amount: NormalizedUnitNumber(2000),
+    txOverview: {
+      status: 'success',
+      inToken: tokens.DAI,
+      outcome: { token: tokens.USDC, value: NormalizedUnitNumber(2000) },
+    } as TxOverview,
     onProceed: () => {},
     proceedText: 'Back to Savings',
   },
