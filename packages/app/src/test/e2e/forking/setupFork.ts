@@ -52,8 +52,7 @@ export function setupFork(options: SetupForkOptions): ForkContext {
 
   const isVnet = options.chainId === base.id || !!options.useTenderlyVnet
   const chainId = options.chainId
-  const simulationDateOverride =
-    options.chainId !== base.id && !options.useTenderlyVnet ? options.simulationDateOverride : undefined
+  const simulationDateOverride = !isVnet ? options.simulationDateOverride : undefined
 
   const forkService: ITestForkService = isVnet
     ? new TestTenderlyVnetService({ apiKey, account: tenderlyAccount, project: tenderlyProject })
