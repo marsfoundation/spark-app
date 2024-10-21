@@ -14,7 +14,7 @@ export function TransactionOverviewPlaceholder({ badgeTokens }: TransactionOverv
       <DialogPanel className="shadow-none">
         <DialogPanelTitle>Transaction overview</DialogPanelTitle>
         <TransactionOverviewDetailsItem label="Route">
-          <div className="flex min-h-[46px] flex-col items-end justify-between">
+          <div className="flex min-h-[46px] flex-col justify-center">
             <div>{placeholder}</div>
           </div>
         </TransactionOverviewDetailsItem>

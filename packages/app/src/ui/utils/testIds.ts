@@ -38,6 +38,7 @@ export const testIds = makeTestIds({
       input: true,
       error: true,
     },
+    ConvertStablesButton: true,
   },
   easyBorrow: {
     form: {
