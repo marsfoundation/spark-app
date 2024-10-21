@@ -9,7 +9,6 @@ import { DialogForm } from '@/features/dialogs/common/components/form/DialogForm
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageStatus } from '@/features/dialogs/common/types'
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
-import { useRef } from 'react'
 import { UseFormReturn } from 'react-hook-form'
 import { TransactionOverview } from '../components/transaction-overview/TransactionOverview'
 import { TxOverview } from '../logic/createTxOverview'
@@ -37,10 +36,8 @@ export function StakeView({
   txOverview,
   actionsContext,
 }: StakeViewProps) {
-  const ref = useRef<HTMLDivElement>(null)
-
   return (
-    <MultiPanelDialog panelRef={ref}>
+    <MultiPanelDialog>
       <DialogTitle>Deposit into {farm.name}</DialogTitle>
 
       <FormAndOverviewWrapper>

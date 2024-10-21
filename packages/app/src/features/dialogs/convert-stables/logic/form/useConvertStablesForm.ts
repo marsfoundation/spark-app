@@ -1,4 +1,4 @@
-import { getChainConfigEntry } from '@/config/chain'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { assert } from '@/utils/assert'
 import { useDebounce } from '@/utils/useDebounce'
@@ -10,7 +10,7 @@ import { ConvertStablesFormSchema } from './schema'
 
 export interface UseConvertStablesFormParams {
   tokensInfo: TokensInfo
-  chainId: number
+  psmStables: TokenSymbol[] | undefined
 }
 
 export interface UseConvertStablesFormResult {
@@ -23,17 +23,16 @@ export interface UseConvertStablesFormResult {
 
 export function useConvertStablesForm({
   tokensInfo,
-  chainId,
+  psmStables,
 }: UseConvertStablesFormParams): UseConvertStablesFormResult {
-  const { psmStables } = getChainConfigEntry(chainId)
   assert(psmStables, 'PSM stables are not defined on this chain')
   assert(psmStables.length > 1, 'PSM stables should have at least 2 stables to be able to convert')
 
   const form = useForm<ConvertStablesFormSchema>({
     defaultValues: {
       isMaxSelected: false,
-      symbolFrom: psmStables[0],
-      symbolTo: psmStables[1],
+      inTokenSymbol: psmStables[0],
+      outTokenSymbol: psmStables[1],
       amount: '',
     },
   })

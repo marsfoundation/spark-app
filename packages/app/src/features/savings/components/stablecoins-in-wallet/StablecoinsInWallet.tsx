@@ -1,4 +1,5 @@
 import { OpenDialogFunction } from '@/domain/state/dialogs'
+import { convertStablesDialogConfig } from '@/features/dialogs/convert-stables/ConvertStablesDialog'
 import { savingsDepositDialogConfig } from '@/features/dialogs/savings/deposit/SavingsDepositDialog'
 import { assets as uiAssets } from '@/ui/assets'
 import { Button } from '@/ui/atoms/button/Button'
@@ -93,7 +94,11 @@ export function StablecoinsInWallet({
                 </div>
               </div>
             </div>
-            <Button size="sm" variant="secondary">
+            <Button
+              size="sm"
+              variant="secondary"
+              onClick={() => openDialog(convertStablesDialogConfig, { proceedText: 'View in Savings' })}
+            >
               Convert
             </Button>
           </div>

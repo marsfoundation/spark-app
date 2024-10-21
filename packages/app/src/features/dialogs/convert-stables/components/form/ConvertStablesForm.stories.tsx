@@ -4,7 +4,6 @@ import { WithClassname } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
-import { mainnet } from 'viem/chains'
 import { useConvertStablesForm } from '../../logic/form/useConvertStablesForm'
 import { ConvertStablesForm } from './ConvertStablesForm'
 
@@ -22,13 +21,14 @@ const mockTokensInfo = new TokensInfo(
     USDS: usds.symbol,
   },
 )
+const psmStables = [tokens.DAI.symbol, tokens.USDC.symbol, tokens.USDS.symbol]
 
 const meta: Meta<typeof ConvertStablesForm> = {
   title: 'Features/Dialogs/ConvertStables/Components/Form',
   component: () => {
     const { form, formFields } = useConvertStablesForm({
       tokensInfo: mockTokensInfo,
-      chainId: mainnet.id,
+      psmStables,
     })
 
     return <ConvertStablesForm form={form} formFields={formFields} />

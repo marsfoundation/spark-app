@@ -8,7 +8,6 @@ import { DialogForm } from '@/features/dialogs/common/components/form/DialogForm
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageStatus } from '@/features/dialogs/common/types'
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
-import { useRef } from 'react'
 import { UseFormReturn } from 'react-hook-form'
 import { ExitFarmSwitch } from '../components/claim-rewards-switch/ExitFarmSwitch'
 import { TransactionOverview } from '../components/transaction-overview/TransactionOverview'
@@ -38,10 +37,8 @@ export function UnstakeView({
   exitFarmSwitchInfo,
   actionsContext,
 }: StakeViewProps) {
-  const ref = useRef<HTMLDivElement>(null)
-
   return (
-    <MultiPanelDialog panelRef={ref}>
+    <MultiPanelDialog>
       <DialogTitle>Withdraw from {farm.name}</DialogTitle>
 
       <FormAndOverviewWrapper>
