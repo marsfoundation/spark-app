@@ -90,6 +90,7 @@ export const testIds = makeTestIds({
         tokenUsdValue: (index: number) => index,
       },
       skyBadge: true,
+      outcome: true,
     },
     healthFactor: {
       before: true,
@@ -106,7 +107,6 @@ export const testIds = makeTestIds({
           before: true,
           after: true,
         },
-        outcome: true,
       },
       send: {
         addressIsSmartContractWarning: true,

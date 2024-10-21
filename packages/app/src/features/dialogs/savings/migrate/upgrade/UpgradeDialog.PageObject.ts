@@ -1,4 +1,4 @@
-import { DialogPageObject } from '@/features/dialogs/common/Dialog.PageObject'
+import { DialogPageObject, TxOverviewWithRoute } from '@/features/dialogs/common/Dialog.PageObject'
 import { testIds } from '@/ui/utils/testIds'
 import { Page, expect } from '@playwright/test'
 
@@ -21,7 +21,6 @@ export class UpgradeDialogPageObject extends DialogPageObject {
     const panel = this.locatePanelByHeader('Transaction overview')
     await expect(panel).toBeVisible()
     const savingsTxOverviewTestIds = testIds.dialog.savings.transactionOverview
-    const txOverviewTestIds = testIds.dialog.transactionOverview
 
     if (transactionOverview.apyChange) {
       const currentApyValue = panel.getByTestId(savingsTxOverviewTestIds.apyChange.before)
@@ -30,20 +29,9 @@ export class UpgradeDialogPageObject extends DialogPageObject {
       await expect(updatedApyValue).toContainText(transactionOverview.apyChange.updated)
     }
 
-    for (const [index, { tokenAmount: tokenWithAmount, tokenUsdValue }] of transactionOverview.routeItems.entries()) {
-      const routeItem = panel.getByTestId(txOverviewTestIds.routeItem.tokenWithAmount(index))
-      const routeItemUSD = panel.getByTestId(txOverviewTestIds.routeItem.tokenUsdValue(index))
-      await expect(routeItem).toContainText(tokenWithAmount)
-      await expect(routeItemUSD).toContainText(tokenUsdValue)
-    }
-
-    const skyBadge = this.page.getByTestId(txOverviewTestIds.skyBadge)
-    await expect(skyBadge).toContainText(
-      `Powered by Sky (prev. MakerDAO). No slippage & fees for ${transactionOverview.badgeToken}.`,
-    )
-
-    const outcome = panel.getByTestId(savingsTxOverviewTestIds.outcome)
-    await expect(outcome).toContainText(transactionOverview.outcome)
+    await this.expectTransactionOverviewRoute(transactionOverview.routeItems)
+    await this.expectSkyBadgeForTokens(transactionOverview.badgeTokens)
+    await this.expectOutcomeText(transactionOverview.outcome)
   }
 
   async expectUpgradeSuccessPage({
@@ -58,15 +46,9 @@ export class UpgradeDialogPageObject extends DialogPageObject {
   // #endregion assertions
 }
 
-interface UpgradeTxOverview {
+interface UpgradeTxOverview extends TxOverviewWithRoute {
   apyChange?: {
     current: string
     updated: string
   }
-  routeItems: {
-    tokenAmount: string
-    tokenUsdValue: string
-  }[]
-  outcome: string
-  badgeToken: string
 }

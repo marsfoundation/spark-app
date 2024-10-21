@@ -2,7 +2,7 @@ import { getBalance, getTokenBalance } from '@/test/e2e/utils'
 import { testIds } from '@/ui/utils/testIds'
 import { Locator, Page, expect } from '@playwright/test'
 import { Address } from 'viem'
-import { DialogPageObject } from '../../../common/Dialog.PageObject'
+import { DialogPageObject, TxOverviewWithRoute } from '../../../common/Dialog.PageObject'
 
 export class SavingsDialogPageObject extends DialogPageObject {
   private readonly type: 'deposit' | 'withdraw' | 'send'
@@ -74,7 +74,6 @@ export class SavingsDialogPageObject extends DialogPageObject {
   async expectNativeRouteTransactionOverview(transactionOverview: NativeRouteTransactionOverview): Promise<void> {
     const panel = this.locatePanelByHeader('Transaction overview')
     await expect(panel).toBeVisible()
-    const txOverviewTestIds = testIds.dialog.transactionOverview
     const savingsTxOverviewTestIds = testIds.dialog.savings.transactionOverview
 
     if (transactionOverview.apy) {
@@ -84,20 +83,9 @@ export class SavingsDialogPageObject extends DialogPageObject {
       await expect(apyDescription).toContainText(transactionOverview.apy.description)
     }
 
-    for (const [index, { tokenAmount: tokenWithAmount, tokenUsdValue }] of transactionOverview.routeItems.entries()) {
-      const routeItem = panel.getByTestId(txOverviewTestIds.routeItem.tokenWithAmount(index))
-      const routeItemUSD = panel.getByTestId(txOverviewTestIds.routeItem.tokenUsdValue(index))
-      await expect(routeItem).toContainText(tokenWithAmount)
-      await expect(routeItemUSD).toContainText(tokenUsdValue)
-    }
-
-    const skyBadge = this.page.getByTestId(txOverviewTestIds.skyBadge)
-    await expect(skyBadge).toContainText(
-      `Powered by Sky (prev. MakerDAO). No slippage & fees for ${transactionOverview.badgeToken}.`,
-    )
-
-    const outcome = panel.getByTestId(savingsTxOverviewTestIds.outcome)
-    await expect(outcome).toContainText(transactionOverview.outcome)
+    await this.expectTransactionOverviewRoute(transactionOverview.routeItems)
+    await this.expectSkyBadgeForTokens(transactionOverview.badgeTokens)
+    await this.expectOutcomeText(transactionOverview.outcome)
   }
 
   async expectSuccessPage(): Promise<void> {
@@ -153,15 +141,9 @@ export class SavingsDialogPageObject extends DialogPageObject {
 
 type TransactionOverview = [string, string][]
 
-interface NativeRouteTransactionOverview {
+interface NativeRouteTransactionOverview extends TxOverviewWithRoute {
   apy?: {
     value: string
     description: string
   }
-  routeItems: {
-    tokenAmount: string
-    tokenUsdValue: string
-  }[]
-  outcome: string
-  badgeToken: string
 }

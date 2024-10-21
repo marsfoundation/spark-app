@@ -1,8 +1,8 @@
-import { DialogPageObject } from '@/features/dialogs/common/Dialog.PageObject'
+import { DialogPageObject, TxOverviewWithRoute } from '@/features/dialogs/common/Dialog.PageObject'
 import { testIds } from '@/ui/utils/testIds'
 import { Locator, Page, expect } from '@playwright/test'
 
-export class ConvertStablesDialog extends DialogPageObject {
+export class ConvertStablesDialogPageObject extends DialogPageObject {
   constructor(page: Page) {
     super(page, /Convert Tokens/)
   }
@@ -72,6 +72,12 @@ export class ConvertStablesDialog extends DialogPageObject {
   // #region assertions
   async expectSuccessPage(): Promise<void> {
     await expect(this.page.getByText('Congrats, all done!')).toBeVisible()
+  }
+
+  async expectTransactionOverview(transactionOverview: TxOverviewWithRoute): Promise<void> {
+    await this.expectTransactionOverviewRoute(transactionOverview.routeItems)
+    await this.expectSkyBadgeForTokens(transactionOverview.badgeTokens)
+    await this.expectOutcomeText(transactionOverview.outcome)
   }
   // #endregion
 }
