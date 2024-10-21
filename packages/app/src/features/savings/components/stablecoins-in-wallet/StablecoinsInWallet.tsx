@@ -5,6 +5,7 @@ import { assets as uiAssets } from '@/ui/assets'
 import { Button } from '@/ui/atoms/button/Button'
 import { DataTable, DataTableProps } from '@/ui/molecules/data-table/DataTable'
 import { cn } from '@/ui/utils/style'
+import { testIds } from '@/ui/utils/testIds'
 import { useMemo } from 'react'
 import { MigrationInfo } from '../../logic/makeMigrationInfo'
 import { AssetInWallet } from '../../logic/useSavings'
@@ -98,6 +99,7 @@ export function StablecoinsInWallet({
               size="sm"
               variant="secondary"
               onClick={() => openDialog(convertStablesDialogConfig, { proceedText: 'Back to Savings' })}
+              data-testid={testIds.component.ConvertStablesButton}
             >
               Convert
             </Button>
