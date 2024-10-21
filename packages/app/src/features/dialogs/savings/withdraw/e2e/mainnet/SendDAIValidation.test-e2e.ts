@@ -59,7 +59,7 @@ test.describe('Asset input validation', () => {
           },
         ],
         outcome: '200.00 DAI worth $200.00',
-        badgeToken: 'DAI',
+        badgeTokens: 'DAI',
       })
     })
   })
@@ -162,7 +162,7 @@ test.describe('Receiver input validation', () => {
           },
         ],
         outcome: '50.00 DAI worth $50.00',
-        badgeToken: 'DAI',
+        badgeTokens: 'DAI',
       })
     })
   })

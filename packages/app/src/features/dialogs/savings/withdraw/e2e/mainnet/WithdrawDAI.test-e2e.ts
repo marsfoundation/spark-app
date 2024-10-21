@@ -51,7 +51,7 @@ test.describe('Withdraw DAI on Mainnet', () => {
         },
       ],
       outcome: '7,000.00 DAI worth $7,000.00',
-      badgeToken: 'DAI',
+      badgeTokens: 'DAI',
     })
   })
 
@@ -115,7 +115,7 @@ test.describe('Validation', () => {
           },
         ],
         outcome: '200.00 DAI worth $200.00',
-        badgeToken: 'DAI',
+        badgeTokens: 'DAI',
       })
     })
   })

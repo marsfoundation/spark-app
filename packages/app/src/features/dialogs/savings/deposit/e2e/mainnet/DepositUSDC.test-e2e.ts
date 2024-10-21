@@ -60,7 +60,7 @@ test.describe('Deposit USDC', () => {
           },
         ],
         outcome: '9,999.77 sUSDS worth $10,000.00',
-        badgeToken: 'USDC',
+        badgeTokens: 'USDC',
       })
     })
 
@@ -109,7 +109,7 @@ test.describe('Deposit USDC', () => {
           },
         ],
         outcome: '9,020.46 sDAI worth $10,000.00',
-        badgeToken: 'USDC',
+        badgeTokens: 'USDC',
       })
     })
 

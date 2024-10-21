@@ -55,7 +55,7 @@ test.describe('Withdraw max XDAI on Gnosis', () => {
         },
       ],
       outcome: '10,878.09 XDAI worth $10,878.09',
-      badgeToken: 'XDAI',
+      badgeTokens: 'XDAI',
     })
   })
 

@@ -66,7 +66,7 @@ test.describe('Send USDC (withdrawing from sUSDS)', () => {
         },
       ],
       outcome: '7,000.00 USDC worth $7,000.00',
-      badgeToken: 'USDC',
+      badgeTokens: 'USDC',
     })
   })
 
@@ -147,7 +147,7 @@ test.describe('Send USDC (withdrawing from sDAI)', () => {
         },
       ],
       outcome: '7,000.00 USDC worth $7,000.00',
-      badgeToken: 'USDC',
+      badgeTokens: 'USDC',
     })
   })
 

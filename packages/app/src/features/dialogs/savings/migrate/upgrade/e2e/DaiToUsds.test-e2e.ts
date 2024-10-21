@@ -73,7 +73,7 @@ test.describe('Upgrade DAI to USDS', () => {
         },
       ],
       outcome: '10,000.00 USDS worth $10,000.00',
-      badgeToken: 'DAI',
+      badgeTokens: 'DAI',
     })
   })
 
