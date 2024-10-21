@@ -2,13 +2,13 @@ import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { assets } from '@/ui/assets'
 import { Info } from '@/ui/molecules/info/Info'
 import { cn } from '@/ui/utils/style'
+import { testIds } from '@/ui/utils/testIds'
 
 export interface SkyBadgeProps {
   tokens: TokenSymbol[]
-  'data-testid'?: string
 }
 
-export function SkyBadge({ tokens, 'data-testid': dataTestId }: SkyBadgeProps) {
+export function SkyBadge({ tokens }: SkyBadgeProps) {
   return (
     <div
       className={cn(
@@ -16,7 +16,7 @@ export function SkyBadge({ tokens, 'data-testid': dataTestId }: SkyBadgeProps) {
         '-mt-4 -z-10 px-4 pt-7 pb-3',
         'rounded-lg border border-basics-border bg-[#EADEF8] text-[#6F21D3] text-xs',
       )}
-      data-testid={dataTestId}
+      data-testid={testIds.dialog.transactionOverview.skyBadge}
     >
       <img src={assets.token.sky} className="h-5 w-5 rounded-full border-2 border-[#DBCAF4]" />
       <div className="flex-1 font-light">
