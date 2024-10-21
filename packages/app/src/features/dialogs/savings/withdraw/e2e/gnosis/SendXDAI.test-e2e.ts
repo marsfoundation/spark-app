@@ -54,7 +54,7 @@ test.describe('Send XDAI on Gnosis', () => {
         },
       ],
       outcome: '7,000.00 XDAI worth $7,000.00',
-      badgeToken: 'XDAI',
+      badgeTokens: 'XDAI',
     })
   })
 

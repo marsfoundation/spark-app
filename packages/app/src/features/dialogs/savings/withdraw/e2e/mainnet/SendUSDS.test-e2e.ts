@@ -60,7 +60,7 @@ test.describe('Send USDS (withdrawing from sUSDS)', () => {
         },
       ],
       outcome: '7,000.00 USDS worth $7,000.00',
-      badgeToken: 'USDS',
+      badgeTokens: 'USDS',
     })
   })
 
@@ -141,7 +141,7 @@ test.describe('Send USDS (withdrawing from sDAI)', () => {
         },
       ],
       outcome: '7,000.00 USDS worth $7,000.00',
-      badgeToken: 'USDS',
+      badgeTokens: 'USDS',
     })
   })
 

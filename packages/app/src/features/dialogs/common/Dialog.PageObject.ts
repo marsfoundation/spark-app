@@ -126,5 +126,33 @@ export class DialogPageObject extends BasePageObject {
   async expectMaxButtonDisabled(): Promise<void> {
     await expect(this.region.getByRole('button', { name: 'MAX' })).toBeDisabled()
   }
+
+  async expectTransactionOverviewRoute(route: { tokenAmount: string; tokenUsdValue: string }[]): Promise<void> {
+    for (const [index, { tokenAmount: tokenWithAmount, tokenUsdValue }] of route.entries()) {
+      const routeItem = this.page.getByTestId(testIds.dialog.transactionOverview.routeItem.tokenWithAmount(index))
+      const routeItemUSD = this.page.getByTestId(testIds.dialog.transactionOverview.routeItem.tokenUsdValue(index))
+      await expect(routeItem).toContainText(tokenWithAmount)
+      await expect(routeItemUSD).toContainText(tokenUsdValue)
+    }
+  }
+
+  async expectSkyBadgeForTokens(tokens: string): Promise<void> {
+    const skyBadge = this.page.getByTestId(testIds.dialog.transactionOverview.skyBadge)
+    await expect(skyBadge).toContainText(`Powered by Sky (prev. MakerDAO). No slippage & fees for ${tokens}.`)
+  }
+
+  async expectOutcomeText(text: string): Promise<void> {
+    const outcome = this.page.getByTestId(testIds.dialog.transactionOverview.outcome)
+    await expect(outcome).toContainText(text)
+  }
   // #endregion
+}
+
+export interface TxOverviewWithRoute {
+  routeItems: {
+    tokenAmount: string
+    tokenUsdValue: string
+  }[]
+  outcome: string
+  badgeTokens: string
 }
