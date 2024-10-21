@@ -30,3 +30,13 @@ type Story = StoryObj<typeof TransactionOverview>
 export const Desktop: Story = {}
 export const Mobile = getMobileStory(Desktop)
 export const Tablet = getTabletStory(Desktop)
+
+export const NoOverview: Story = {
+  args: {
+    inToken: tokens.DAI,
+    outToken: tokens.USDC,
+    txOverview: {
+      status: 'no-overview',
+    },
+  },
+}

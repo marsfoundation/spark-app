@@ -13,6 +13,10 @@ export type TxOverview =
   | { status: 'success'; route: TxOverviewRouteItem[]; inToken: Token; outcome: TxOverviewRouteItem }
 
 export function createTxOverview({ inToken, outToken, amount }: CreateTxOverviewParams): TxOverview {
+  if (amount.isZero()) {
+    return { status: 'no-overview' }
+  }
+
   const outcome = {
     token: outToken,
     value: amount,

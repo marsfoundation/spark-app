@@ -1,6 +1,5 @@
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { DialogActionsPanel } from '@/features/dialogs/common/components/DialogActionsPanel'
-import { FormAndOverviewWrapper } from '@/features/dialogs/common/components/FormAndOverviewWrapper'
 import { MultiPanelDialog } from '@/features/dialogs/common/components/MultiPanelDialog'
 import { PageStatus } from '@/features/dialogs/common/types'
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
@@ -32,14 +31,13 @@ export function ConvertStablesView({
     <MultiPanelDialog>
       <DialogTitle>Convert Tokens</DialogTitle>
 
-      <FormAndOverviewWrapper>
-        <ConvertStablesForm form={form} formFields={formFields} />
-        <TransactionOverview
-          txOverview={txOverview}
-          inToken={formFields.selectedAssetIn.token}
-          outToken={formFields.selectedAssetOut.token}
-        />
-      </FormAndOverviewWrapper>
+      <ConvertStablesForm form={form} formFields={formFields} />
+
+      <TransactionOverview
+        txOverview={txOverview}
+        inToken={formFields.selectedAssetIn.token}
+        outToken={formFields.selectedAssetOut.token}
+      />
 
       <DialogActionsPanel
         objectives={objectives}

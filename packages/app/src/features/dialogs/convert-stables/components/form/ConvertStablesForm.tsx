@@ -23,27 +23,29 @@ export function ConvertStablesForm({ formFields, form }: ConvertStablesFormProps
 
   return (
     <Form {...form}>
-      <SelectorWithInputHeader>From</SelectorWithInputHeader>
-      <AssetSelectorWithInput
-        fieldName="amount"
-        control={form.control}
-        selectorAssets={assetInOptions}
-        selectedAsset={selectedAssetIn}
-        setSelectedAsset={changeAssetIn}
-        maxSelectedFieldName={maxSelectedFieldName}
-        maxValue={selectedAssetIn.balance}
-        showError
-      />
-      <SelectorWithInputHeader>To</SelectorWithInputHeader>
-      <AssetSelectorWithInput
-        fieldName="amount"
-        control={form.control}
-        selectorAssets={assetOutOptions}
-        selectedAsset={selectedAssetOut}
-        setSelectedAsset={changeAssetOut}
-        maxSelectedFieldName={maxSelectedFieldName}
-        maxValue={selectedAssetIn.balance}
-      />
+      <div>
+        <SelectorWithInputHeader>From</SelectorWithInputHeader>
+        <AssetSelectorWithInput
+          fieldName="amount"
+          control={form.control}
+          selectorAssets={assetInOptions}
+          selectedAsset={selectedAssetIn}
+          setSelectedAsset={changeAssetIn}
+          maxSelectedFieldName={maxSelectedFieldName}
+          maxValue={selectedAssetIn.balance}
+          showError
+        />
+        <SelectorWithInputHeader>To</SelectorWithInputHeader>
+        <AssetSelectorWithInput
+          fieldName="amount"
+          control={form.control}
+          selectorAssets={assetOutOptions}
+          selectedAsset={selectedAssetOut}
+          setSelectedAsset={changeAssetOut}
+          maxSelectedFieldName={maxSelectedFieldName}
+          maxValue={selectedAssetIn.balance}
+        />
+      </div>
     </Form>
   )
 }
