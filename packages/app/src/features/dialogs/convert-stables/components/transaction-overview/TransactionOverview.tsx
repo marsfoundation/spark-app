@@ -5,9 +5,9 @@ import { RouteItem } from '@/features/dialogs/common/components/transaction-over
 import { SkyBadge } from '@/features/dialogs/common/components/transaction-overview/SkyBadge'
 import { TransactionOverviewDetailsItem } from '@/features/dialogs/common/components/transaction-overview/TransactionOverviewDetailsItem'
 import { testIds } from '@/ui/utils/testIds'
-import { TransactionOutcome } from '../../common/components/transaction-overview/TransactionOutcome'
-import { TransactionOverviewPlaceholder } from '../../common/components/transaction-overview/TransactionOverviewPlaceholder'
-import { TxOverview } from '../logic/createTxOverview'
+import { TransactionOutcome } from '../../../common/components/transaction-overview/TransactionOutcome'
+import { TransactionOverviewPlaceholder } from '../../../common/components/transaction-overview/TransactionOverviewPlaceholder'
+import { TxOverview } from '../../logic/createTxOverview'
 
 export interface TransactionOverviewProps {
   from: Token

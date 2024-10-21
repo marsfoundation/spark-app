@@ -3,8 +3,8 @@ import { Token } from '@/domain/types/Token'
 import { TxOverviewRouteItem } from '@/features/dialogs/common/types'
 
 export interface CreateTxOverviewParams {
-  from: Token
-  to: Token
+  inToken: Token
+  outToken: Token
   amount: NormalizedUnitNumber
 }
 
@@ -12,18 +12,18 @@ export type TxOverview =
   | { status: 'no-overview' }
   | { status: 'success'; route: TxOverviewRouteItem[]; outcome: TxOverviewRouteItem }
 
-export function createTxOverview({ from, to, amount }: CreateTxOverviewParams): TxOverview {
+export function createTxOverview({ inToken, outToken, amount }: CreateTxOverviewParams): TxOverview {
   const outcome = {
-    token: to,
+    token: outToken,
     value: amount,
-    usdValue: to.toUSD(amount),
+    usdValue: outToken.toUSD(amount),
   }
 
   const route = [
     {
-      token: from,
+      token: inToken,
       value: amount,
-      usdValue: from.toUSD(amount),
+      usdValue: inToken.toUSD(amount),
     },
     outcome,
   ]
