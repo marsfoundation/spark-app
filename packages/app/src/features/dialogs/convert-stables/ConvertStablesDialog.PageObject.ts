@@ -1,0 +1,77 @@
+import { DialogPageObject } from '@/features/dialogs/common/Dialog.PageObject'
+import { testIds } from '@/ui/utils/testIds'
+import { Locator, Page, expect } from '@playwright/test'
+
+export class ConvertStablesDialog extends DialogPageObject {
+  constructor(page: Page) {
+    super(page, /Convert Tokens/)
+  }
+
+  // # region locators
+  locateAssetInSelector(): Locator {
+    return this.region.getByTestId(testIds.component.AssetSelector.trigger).first()
+  }
+
+  locateAssetOutSelector(): Locator {
+    return this.region.getByTestId(testIds.component.AssetSelector.trigger).last()
+  }
+
+  locateAssetInInput(): Locator {
+    return this.region.getByTestId(testIds.component.AssetInput.input).first()
+  }
+
+  locateAssetOutInput(): Locator {
+    return this.region.getByTestId(testIds.component.AssetInput.input).last()
+  }
+
+  // #endregion locators
+
+  // #region actions
+  async selectAssetInAction(asset: string): Promise<void> {
+    const selector = this.locateAssetInSelector()
+    await this.selectOptionByLabelAction(selector, asset)
+  }
+
+  async selectAssetOutAction(asset: string): Promise<void> {
+    const selector = this.locateAssetOutSelector()
+    await this.selectOptionByLabelAction(selector, asset)
+  }
+
+  async openAssetInSelectorAction(): Promise<void> {
+    await this.locateAssetInSelector().click()
+  }
+
+  async openAssetOutSelectorAction(): Promise<void> {
+    await this.locateAssetOutSelector().click()
+  }
+
+  async fillAmountInAction(amount: number): Promise<void> {
+    await this.locateAssetInInput().fill(amount.toString())
+  }
+
+  async fillAmountOutAction(amount: number): Promise<void> {
+    await this.locateAssetOutInput().fill(amount.toString())
+  }
+
+  async clickMaxAmountInAction(): Promise<void> {
+    await this.locateAssetInInput().getByRole('button', { name: 'MAX' }).click()
+  }
+
+  async clickMaxAmountOutAction(): Promise<void> {
+    await this.locateAssetOutInput().getByRole('button', { name: 'MAX' }).click()
+  }
+
+  async clickBackToSavingsButton(): Promise<void> {
+    await this.page.getByRole('button', { name: 'Back to Savings' }).click()
+    await this.region.waitFor({
+      state: 'detached',
+    })
+  }
+  //
+
+  // #region assertions
+  async expectSuccessPage(): Promise<void> {
+    await expect(this.page.getByText('Congrats, all done!')).toBeVisible()
+  }
+  // #endregion
+}

@@ -97,7 +97,7 @@ export function StablecoinsInWallet({
             <Button
               size="sm"
               variant="secondary"
-              onClick={() => openDialog(convertStablesDialogConfig, { proceedText: 'View in Savings' })}
+              onClick={() => openDialog(convertStablesDialogConfig, { proceedText: 'Back to Savings' })}
             >
               Convert
             </Button>

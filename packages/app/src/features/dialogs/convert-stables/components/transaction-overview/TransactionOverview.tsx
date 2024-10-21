@@ -29,7 +29,7 @@ export function TransactionOverview({ inToken, outToken, txOverview }: Transacti
       <DialogPanel className="shadow-none">
         <DialogPanelTitle>Transaction overview</DialogPanelTitle>
         <TransactionOverviewDetailsItem label="Route">
-          <div className="flex flex-col items-end gap-2 md:flex-row">
+          <div className="flex flex-col items-end items-center gap-2 md:flex-row">
             {route.map((item, index) => (
               <RouteItem
                 key={item.token.symbol}
