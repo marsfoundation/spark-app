@@ -123,7 +123,6 @@ export type AssetsInTests = 'ETH' | 'XDAI' | NonNativeTokens
 // GNO is offboarded
 export const DEFAULT_BLOCK_NUMBER = 19092430n
 export const GNOSIS_DEFAULT_BLOCK_NUMBER = 34543308n
-export const BASE_DEVNET_BLOCK_NUMBER = 20836690n
 export const USDS_ACTIVATED_BLOCK_NUMBER = 20771186n
 
 export const LITE_PSM_ACTIONS_OPERABLE = 20618776n
