@@ -295,7 +295,6 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
     savings: {
       savingsDaiInfoQuery: gnosisSavingsDaiInfoQuery,
       savingsUsdsInfoQuery: undefined,
-      charts: undefined,
       inputTokens: [TokenSymbol('XDAI')],
     },
     farms: undefined,
@@ -341,7 +340,6 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
           ] as const,
           markets: undefined,
           savings: {
-            charts: undefined,
             savingsDaiInfoQuery: undefined,
             savingsUsdsInfoQuery: baseSavingsInfoQueryOptions,
             inputTokens: [TokenSymbol('USDC'), TokenSymbol('USDS')],

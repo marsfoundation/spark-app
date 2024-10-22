@@ -78,10 +78,6 @@ export interface SavingsConfig {
   inputTokens: TokenSymbol[]
   savingsDaiInfoQuery: SavingsInfoQuery | undefined
   savingsUsdsInfoQuery: SavingsInfoQuery | undefined
-  charts?: {
-    getEarningsApiUrl?: (address: Address) => string
-    getSavingsRateApiUrl?: () => string
-  }
 }
 
 export interface ApiUrlsConfig {
