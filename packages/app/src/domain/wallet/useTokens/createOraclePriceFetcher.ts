@@ -1,6 +1,9 @@
-import { baseSavingsInfoQueryFunction } from '@/domain/savings-info/baseSavingsInfo'
+import { ssrAuthOracleConfig } from '@/config/contracts-generated'
+import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { assertNever } from '@/utils/assertNever'
+import { bigNumberify } from '@/utils/bigNumber'
+import { fromRay } from '@/utils/math'
 import { erc4626Abi, etherUnits, formatUnits, parseUnits } from 'viem'
 import { Config } from 'wagmi'
 import { readContract } from 'wagmi/actions'
@@ -9,14 +12,12 @@ import { TokenConfig } from './types'
 export interface CreateOraclePriceFetcherParams {
   tokenConfig: TokenConfig
   wagmiConfig: Config
-  timestamp: number
   chainId: number
 }
 
 export function createOraclePriceFetcher({
   tokenConfig,
   wagmiConfig,
-  timestamp,
   chainId,
 }: CreateOraclePriceFetcherParams): () => Promise<NormalizedUnitNumber> {
   switch (tokenConfig.oracleType) {
@@ -41,8 +42,14 @@ export function createOraclePriceFetcher({
 
     case 'ssr-auth-oracle':
       return async () => {
-        const savingsInfo = await baseSavingsInfoQueryFunction({ wagmiConfig, timestamp, chainId })
-        return savingsInfo.convertToAssets({ shares: NormalizedUnitNumber(1) })
+        const result = await readContract(wagmiConfig, {
+          abi: ssrAuthOracleConfig.abi,
+          address: getContractAddress(ssrAuthOracleConfig.address, chainId),
+          functionName: 'getConversionRate',
+          chainId,
+        })
+
+        return NormalizedUnitNumber(fromRay(bigNumberify(result)))
       }
 
     default:

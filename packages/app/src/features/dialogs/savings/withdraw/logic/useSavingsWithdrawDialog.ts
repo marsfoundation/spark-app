@@ -10,9 +10,8 @@ import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { useDebouncedFormValues } from '@/features/dialogs/common/logic/transfer-from-user/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
 import { assert, raise } from '@/utils/assert'
-import { useTimestamp } from '@/utils/useTimestamp'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
 import { useChainId } from 'wagmi'
 import { SavingsDialogTxOverview } from '../../common/types'
@@ -62,13 +61,8 @@ export function useSavingsWithdrawDialog({
     raise(`Savings token balance is not available for ${savingsType}`)
   const defaultWithdrawToken = savingsType === 'sdai' ? tokensInfo.DAI : tokensInfo.USDS
 
-  const { updateTimestamp } = useTimestamp()
-  useEffect(() => {
-    updateTimestamp()
-  }, [updateTimestamp])
-
   const form = useForm<AssetInputSchema>({
-    resolver: zodResolver(getSavingsWithdrawDialogFormValidator({ savingsTokenWithBalance, savingsInfo })),
+    resolver: zodResolver(getSavingsWithdrawDialogFormValidator({ savingsTokenWithBalance })),
     defaultValues: {
       symbol: defaultWithdrawToken?.symbol,
       value: '',
@@ -113,7 +107,7 @@ export function useSavingsWithdrawDialog({
 
   return {
     selectableAssets: filterInputTokens({ inputTokens, savingsType, tokensInfo }),
-    assetsFields: getFormFieldsForWithdrawDialog({ form, tokensInfo, savingsTokenWithBalance, savingsInfo }),
+    assetsFields: getFormFieldsForWithdrawDialog({ form, tokensInfo, savingsTokenWithBalance }),
     form,
     objectives,
     tokenToWithdraw,
