@@ -50,7 +50,7 @@ test.describe('Withdraw USDS', () => {
         },
       ],
       outcome: '1,000.00 USDS worth $1,000.00',
-      badgeToken: 'USDS',
+      badgeTokens: 'USDS',
     })
 
     await withdrawDialog.expectUpgradeSwitchToBeHidden()
