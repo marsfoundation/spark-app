@@ -18,6 +18,7 @@ export const testIds = makeTestIds({
     AssetInput: {
       input: true,
       error: true,
+      maxButton: true,
     },
     Action: {
       title: true,
@@ -38,6 +39,7 @@ export const testIds = makeTestIds({
       input: true,
       error: true,
     },
+    ConvertStablesButton: true,
   },
   easyBorrow: {
     form: {
@@ -89,6 +91,7 @@ export const testIds = makeTestIds({
         tokenUsdValue: (index: number) => index,
       },
       skyBadge: true,
+      outcome: true,
     },
     healthFactor: {
       before: true,
@@ -105,7 +108,6 @@ export const testIds = makeTestIds({
           before: true,
           after: true,
         },
-        outcome: true,
       },
       send: {
         addressIsSmartContractWarning: true,

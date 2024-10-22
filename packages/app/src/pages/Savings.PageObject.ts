@@ -40,6 +40,10 @@ export class SavingsPageObject extends BasePageObject {
     const usdsRow = panel.getByRole('row').filter({ has: this.page.getByRole('cell', { name: 'USDS', exact: true }) })
     return usdsRow.getByTestId(testIds.savings.stablecoinsInWallet.moreDropdown)
   }
+
+  locateConvertStablesButton(): Locator {
+    return this.page.getByTestId(testIds.component.ConvertStablesButton)
+  }
   // #endregion
 
   // #region actions
@@ -80,6 +84,10 @@ export class SavingsPageObject extends BasePageObject {
   async clickDowngradeUsdsToDaiOption(): Promise<void> {
     await this.locateUsdsMoreDropdown().click()
     await this.page.getByRole('menuitem', { name: 'Downgrade to DAI' }).click()
+  }
+
+  async clickConvertStablesButtonAction(): Promise<void> {
+    await this.locateConvertStablesButton().click()
   }
   // #endregion
 
