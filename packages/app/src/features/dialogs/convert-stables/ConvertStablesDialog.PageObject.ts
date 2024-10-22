@@ -31,7 +31,6 @@ export class ConvertStablesDialogPageObject extends DialogPageObject {
   locateAssetOutMaxButton(): Locator {
     return this.region.getByTestId(testIds.component.AssetInput.maxButton).last()
   }
-
   // #endregion locators
 
   // #region actions
@@ -75,7 +74,7 @@ export class ConvertStablesDialogPageObject extends DialogPageObject {
       state: 'detached',
     })
   }
-  //
+  // #endregion actions
 
   // #region assertions
   async expectSuccessPage(): Promise<void> {
@@ -112,5 +111,11 @@ export class ConvertStablesDialogPageObject extends DialogPageObject {
   async expectAssetOutInputValue(value: string): Promise<void> {
     await expect(this.locateAssetOutInput()).toHaveValue(value)
   }
-  // #endregion
+
+  async expectSingleInputError(error: string): Promise<void> {
+    const inputError = this.page.getByTestId(testIds.component.AssetInput.error)
+    await expect(inputError).toHaveCount(1)
+    await expect(inputError).toHaveText(error)
+  }
+  // #endregion assertions
 }

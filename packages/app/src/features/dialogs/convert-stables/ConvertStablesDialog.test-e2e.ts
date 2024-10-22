@@ -67,4 +67,9 @@ test.describe('Convert Stables Dialog', () => {
     await convertStablesDialog.expectAssetInInputValue('10000')
     await convertStablesDialog.expectAssetOutInputValue('10000')
   })
+
+  test('displays validation error only for first input', async () => {
+    await convertStablesDialog.fillAmountInAction(20_000)
+    await convertStablesDialog.expectSingleInputError('Exceeds your balance')
+  })
 })
