@@ -24,6 +24,14 @@ export class ConvertStablesDialogPageObject extends DialogPageObject {
     return this.region.getByTestId(testIds.component.AssetInput.input).last()
   }
 
+  locateAssetInMaxButton(): Locator {
+    return this.region.getByTestId(testIds.component.AssetInput.maxButton).first()
+  }
+
+  locateAssetOutMaxButton(): Locator {
+    return this.region.getByTestId(testIds.component.AssetInput.maxButton).last()
+  }
+
   // #endregion locators
 
   // #region actions
@@ -54,11 +62,11 @@ export class ConvertStablesDialogPageObject extends DialogPageObject {
   }
 
   async clickMaxAmountInAction(): Promise<void> {
-    await this.locateAssetInInput().getByRole('button', { name: 'MAX' }).click()
+    await this.locateAssetInMaxButton().click()
   }
 
   async clickMaxAmountOutAction(): Promise<void> {
-    await this.locateAssetOutInput().getByRole('button', { name: 'MAX' }).click()
+    await this.locateAssetOutMaxButton().click()
   }
 
   async clickBackToSavingsButton(): Promise<void> {

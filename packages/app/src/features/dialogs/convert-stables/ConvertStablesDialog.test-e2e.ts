@@ -51,11 +51,20 @@ test.describe('Convert Stables Dialog', () => {
   })
 
   test('changing value of any input updates both inputs', async () => {
-    await convertStablesDialog.fillAmountInAction(10_000)
+    await convertStablesDialog.fillAmountInAction(5000)
+    await convertStablesDialog.expectAssetInInputValue('5000')
+    await convertStablesDialog.expectAssetOutInputValue('5000')
+
+    await convertStablesDialog.clickMaxAmountInAction()
     await convertStablesDialog.expectAssetInInputValue('10000')
     await convertStablesDialog.expectAssetOutInputValue('10000')
-    await convertStablesDialog.fillAmountOutAction(20_000)
-    await convertStablesDialog.expectAssetInInputValue('20000')
-    await convertStablesDialog.expectAssetOutInputValue('20000')
+
+    await convertStablesDialog.fillAmountOutAction(8_000)
+    await convertStablesDialog.expectAssetInInputValue('8000')
+    await convertStablesDialog.expectAssetOutInputValue('8000')
+
+    await convertStablesDialog.clickMaxAmountOutAction()
+    await convertStablesDialog.expectAssetInInputValue('10000')
+    await convertStablesDialog.expectAssetOutInputValue('10000')
   })
 })

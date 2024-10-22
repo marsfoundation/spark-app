@@ -18,6 +18,7 @@ export const testIds = makeTestIds({
     AssetInput: {
       input: true,
       error: true,
+      maxButton: true,
     },
     Action: {
       title: true,
