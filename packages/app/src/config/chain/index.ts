@@ -172,32 +172,32 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
         TokenSymbol('USDC'),
         ...(PLAYWRIGHT_MAINNET_USDS_CONTRACTS_NOT_AVAILABLE ? [] : [TokenSymbol('USDS')]),
       ],
-    },
-    farms: [
-      {
-        rewardType: 'token',
-        address: farmAddresses[mainnet.id].skyUsds,
-        entryAssetsGroup: farmStablecoinsEntryGroup[mainnet.id],
-        historyCutoff: new Date('2024-09-17T00:00:00.000Z'),
-      },
-      {
-        // Chronicle farm
-        rewardType: 'points',
-        address: farmAddresses[mainnet.id].chroniclePoints,
-        entryAssetsGroup: farmStablecoinsEntryGroup[mainnet.id],
-        historyCutoff: new Date('2024-09-17T00:00:00.000Z'),
-        rewardPoints: new Token({
-          address: CheckedAddress(zeroAddress),
-          decimals: 18,
-          name: 'Chronicle',
-          symbol: TokenSymbol('CLE'),
-          unitPriceUsd: '0',
-        }),
-      },
-    ],
-    apiUrls: {
       getEarningsApiUrl: (address) => `${infoSkyApiUrl}/savings-rate/wallets/${address.toLowerCase()}/?days_ago=9999`,
       getSavingsRateApiUrl: () => `${infoSkyApiUrl}/savings-rate/`,
+    },
+    farms: {
+      farmConfigs: [
+        {
+          rewardType: 'token',
+          address: farmAddresses[mainnet.id].skyUsds,
+          entryAssetsGroup: farmStablecoinsEntryGroup[mainnet.id],
+          historyCutoff: new Date('2024-09-17T00:00:00.000Z'),
+        },
+        {
+          // Chronicle farm
+          rewardType: 'points',
+          address: farmAddresses[mainnet.id].chroniclePoints,
+          entryAssetsGroup: farmStablecoinsEntryGroup[mainnet.id],
+          historyCutoff: new Date('2024-09-17T00:00:00.000Z'),
+          rewardPoints: new Token({
+            address: CheckedAddress(zeroAddress),
+            decimals: 18,
+            name: 'Chronicle',
+            symbol: TokenSymbol('CLE'),
+            unitPriceUsd: '0',
+          }),
+        },
+      ],
       getFarmDetailsApiUrl: (address) => `${infoSkyApiUrl}/farms/${address.toLowerCase()}/historic/`,
     },
   },
@@ -296,9 +296,10 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
       savingsDaiInfoQuery: gnosisSavingsDaiInfoQuery,
       savingsUsdsInfoQuery: undefined,
       inputTokens: [TokenSymbol('XDAI')],
+      getEarningsApiUrl: undefined,
+      getSavingsRateApiUrl: undefined,
     },
     farms: undefined,
-    apiUrls: undefined,
   },
   ...(typeof import.meta.env.VITE_DEV_BASE_DEVNET_RPC_URL === 'string'
     ? {
@@ -343,15 +344,19 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
             savingsDaiInfoQuery: undefined,
             savingsUsdsInfoQuery: baseSavingsInfoQueryOptions,
             inputTokens: [TokenSymbol('USDC'), TokenSymbol('USDS')],
+            getEarningsApiUrl: undefined,
+            getSavingsRateApiUrl: undefined,
           },
-          farms: [
-            {
-              rewardType: 'token',
-              address: farmAddresses[base.id].skyUsds,
-              entryAssetsGroup: farmStablecoinsEntryGroup[base.id],
-            },
-          ],
-          apiUrls: undefined,
+          farms: {
+            farmConfigs: [
+              {
+                rewardType: 'token',
+                address: farmAddresses[base.id].skyUsds,
+                entryAssetsGroup: farmStablecoinsEntryGroup[base.id],
+              },
+            ],
+            getFarmDetailsApiUrl: undefined,
+          },
         },
       }
     : {}),

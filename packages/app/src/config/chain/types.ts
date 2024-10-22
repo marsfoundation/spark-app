@@ -78,12 +78,13 @@ export interface SavingsConfig {
   inputTokens: TokenSymbol[]
   savingsDaiInfoQuery: SavingsInfoQuery | undefined
   savingsUsdsInfoQuery: SavingsInfoQuery | undefined
-}
-
-export interface ApiUrlsConfig {
   getSavingsRateApiUrl: GetApiUrl<void>
   getEarningsApiUrl: GetApiUrl<Address>
+}
+
+export interface FarmsConfig {
   getFarmDetailsApiUrl: GetApiUrl<CheckedAddress>
+  farmConfigs: FarmConfig[]
 }
 
 export interface ChainConfigEntry {
@@ -100,8 +101,7 @@ export interface ChainConfigEntry {
   extraTokens: TokenWithOracleType[]
   markets: MarketsConfig | undefined
   savings: SavingsConfig | undefined
-  farms: FarmConfig[] | undefined
-  apiUrls: ApiUrlsConfig | undefined
+  farms: FarmsConfig | undefined
 }
 
 export type ChainConfig = Record<SupportedChainId, ChainConfigEntry>

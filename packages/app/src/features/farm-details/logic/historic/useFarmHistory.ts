@@ -25,13 +25,12 @@ export function useFarmHistory({ chainId, farmAddress }: UseFarmHistoryParams): 
   const [timeframe, setTimeframe] = useState<Timeframe>('All')
   const filterDataByTimeframe = useFilterChartDataByTimeframe(timeframe)
 
-  const chainConfig = getChainConfigEntry(chainId)
-  const farms = chainConfig.farms ?? raise('Farms config is not defined on this chain')
+  const farmsConfig = getChainConfigEntry(chainId).farms ?? raise('Farms config is not defined on this chain')
 
-  const farmConfig = farms.find((farm) => farm.address === farmAddress)
+  const farmConfig = farmsConfig.farmConfigs.find((farm) => farm.address === farmAddress)
 
-  // @todo we should raise when apiUrls is missing but there is no config for Base yet
-  const getFarmDetailsApiUrl = chainConfig.apiUrls?.getFarmDetailsApiUrl
+  // @todo we should raise when getFarmDetailsApiUrl is missing but there is no apiUrl for Base yet
+  const getFarmDetailsApiUrl = farmsConfig.getFarmDetailsApiUrl
 
   const farmHistory = useQuery({
     ...farmHistoricDataQueryOptions({
