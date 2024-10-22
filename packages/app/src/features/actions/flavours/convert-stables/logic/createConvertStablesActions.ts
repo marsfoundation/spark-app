@@ -6,6 +6,8 @@ import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { Action, ActionContext } from '@/features/actions/logic/types'
 import { assert, raise } from '@/utils/assert'
+import { assertNever } from '@/utils/assertNever'
+import { base } from 'viem/chains'
 import { ApproveAction } from '../../approve/types'
 import { ConvertStablesObjective } from '../types'
 
@@ -17,6 +19,7 @@ export function createConvertStablesActions(objective: ConvertStablesObjective, 
     inToken: objective.inToken,
     outToken: objective.outToken,
     tokensInfo,
+    chainId,
   })
 
   function getApproveAction(spender: CheckedAddress): ApproveAction {
@@ -71,19 +74,40 @@ export function createConvertStablesActions(objective: ConvertStablesObjective, 
           amount: objective.amount,
         },
       ]
+    default:
+      assertNever(actionPath)
   }
 }
 
-export type ConvertStablesActionPath = 'dai-usdc' | 'usdc-dai' | 'usdc-usds' | 'usds-usdc' | 'dai-usds' | 'usds-dai'
+export type ConvertStablesActionPath =
+  | 'dai-usdc'
+  | 'usdc-dai'
+  | 'usdc-usds'
+  | 'usds-usdc'
+  | 'dai-usds'
+  | 'usds-dai'
+  | 'base-usdc-usds'
+  | 'base-usds-usdc'
 
 function getConvertStablesActionPath({
   inToken,
   outToken,
   tokensInfo,
-}: { inToken: Token; outToken: Token; tokensInfo: TokensInfo }): ConvertStablesActionPath {
+  chainId,
+}: { inToken: Token; outToken: Token; tokensInfo: TokensInfo; chainId: number }): ConvertStablesActionPath {
   const dai = tokensInfo.DAI?.symbol
   const usdc = TokenSymbol('USDC')
   const usds = tokensInfo.USDS?.symbol
+
+  if (chainId === base.id) {
+    if (inToken.symbol === usdc && outToken.symbol === usds) {
+      return 'base-usdc-usds'
+    }
+
+    if (inToken.symbol === usds && outToken.symbol === usdc) {
+      return 'base-usds-usdc'
+    }
+  }
 
   if (inToken.symbol === dai && outToken.symbol === usdc) {
     return 'dai-usdc'
