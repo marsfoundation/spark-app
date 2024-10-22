@@ -723,3 +723,8 @@ export const basePsm3Abi = [
     ],
   },
 ] as const
+
+export const basePsm3Config = {
+  address: basePsm3Address,
+  abi: basePsm3Abi,
+} as const

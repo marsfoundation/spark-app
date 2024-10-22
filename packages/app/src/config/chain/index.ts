@@ -19,7 +19,7 @@ import { base, gnosis, mainnet } from 'viem/chains'
 import { NATIVE_ASSET_MOCK_ADDRESS } from '../consts'
 import { AppConfig } from '../feature-flags'
 import { PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY } from '../wagmi/config.e2e'
-import { farmAddresses, farmStablecoinsEntryGroup } from './constants'
+import { farmAddresses, farmStablecoinsEntryGroup, susdsAddresses } from './constants'
 import { ChainConfigEntry, ChainMeta, SupportedChainId } from './types'
 
 const commonTokenSymbolToReplacedName = {
@@ -95,7 +95,7 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
             {
               symbol: TokenSymbol('sUSDS'),
               oracleType: 'vault',
-              address: CheckedAddress('0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD'),
+              address: susdsAddresses[mainnet.id],
             },
             {
               symbol: TokenSymbol('USDS'),
