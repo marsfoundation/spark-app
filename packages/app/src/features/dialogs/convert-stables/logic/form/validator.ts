@@ -21,7 +21,7 @@ export function getConvertStablesFormValidator(tokensInfo: TokensInfo) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: issueToMessage[issue],
-        path: ['value'],
+        path: ['amount'],
       })
     }
   })
