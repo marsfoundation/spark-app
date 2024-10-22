@@ -79,5 +79,30 @@ export class ConvertStablesDialogPageObject extends DialogPageObject {
     await this.expectSkyBadgeForTokens(transactionOverview.badgeTokens)
     await this.expectOutcomeText(transactionOverview.outcome)
   }
+
+  async expectAssetInSelectorSelectedOption(option: string): Promise<void> {
+    await expect(this.locateAssetInSelector()).toHaveText(option)
+  }
+
+  async expectAssetOutSelectorSelectedOption(option: string): Promise<void> {
+    await expect(this.locateAssetOutSelector()).toHaveText(option)
+  }
+
+  async expectSelectorOptions(options: string[]): Promise<void> {
+    const selectorOptions = await this.page.getByTestId(testIds.component.AssetSelector.option).all()
+    expect(selectorOptions).toHaveLength(options.length)
+
+    for (const [index, option] of selectorOptions.entries()) {
+      await expect(option).toHaveText(options[index]!)
+    }
+  }
+
+  async expectAssetInInputValue(value: string): Promise<void> {
+    await expect(this.locateAssetInInput()).toHaveValue(value)
+  }
+
+  async expectAssetOutInputValue(value: string): Promise<void> {
+    await expect(this.locateAssetOutInput()).toHaveValue(value)
+  }
   // #endregion
 }
