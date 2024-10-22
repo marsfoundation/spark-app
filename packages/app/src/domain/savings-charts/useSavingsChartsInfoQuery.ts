@@ -1,6 +1,5 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { Timeframe } from '@/ui/charts/defaults'
-import { raise } from '@/utils/assert'
 import { useTimestamp } from '@/utils/useTimestamp'
 import { useState } from 'react'
 import { useAccount, useChainId } from 'wagmi'
@@ -38,8 +37,8 @@ export function useSavingsChartsInfoQuery({
   const { address } = useAccount()
   const { timestamp } = useTimestamp({ refreshIntervalInMs: REFRESH_INTERVAL_IN_MS })
 
-  const { getEarningsApiUrl, getSavingsRateApiUrl } =
-    getChainConfigEntry(chainId).apiUrls ?? raise('Api urls config is not defined on this chain')
+  // savings are supposed to work without apiUrls
+  const { apiUrls } = getChainConfigEntry(chainId)
 
   const myEarningsInfo = useMyEarningsInfo({
     address,
@@ -51,7 +50,7 @@ export function useSavingsChartsInfoQuery({
     sdaiWithBalance,
     savingsUsdsInfo,
     susdsWithBalance,
-    getEarningsApiUrl,
+    getEarningsApiUrl: apiUrls?.getEarningsApiUrl,
   })
 
   const savingsRateInfo = useSavingsRateInfo({
@@ -59,7 +58,7 @@ export function useSavingsChartsInfoQuery({
     timeframe: selectedTimeframe,
     currentTimestamp: timestamp,
     staleTime: REFRESH_INTERVAL_IN_MS,
-    getSavingsRateApiUrl,
+    getSavingsRateApiUrl: apiUrls?.getSavingsRateApiUrl,
   })
 
   return {
@@ -67,6 +66,6 @@ export function useSavingsChartsInfoQuery({
     setSelectedTimeframe,
     myEarningsInfo,
     savingsRateInfo,
-    chartsSupported: !!getSavingsRateApiUrl || !!getEarningsApiUrl,
+    chartsSupported: !!apiUrls?.getSavingsRateApiUrl || !!apiUrls?.getEarningsApiUrl,
   }
 }
