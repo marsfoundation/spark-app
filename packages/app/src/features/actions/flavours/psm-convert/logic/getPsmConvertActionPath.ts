@@ -2,10 +2,15 @@ import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { raise } from '@/utils/assert'
+import { base } from 'viem/chains'
 
-export type PsmConvertActionPath = 'dai-usdc' | 'usdc-dai' | 'usdc-usds' | 'usds-usdc'
-// | 'base-usdc-usds'
-// | 'base-usds-usdc'
+export type PsmConvertActionPath =
+  | 'dai-usdc'
+  | 'usdc-dai'
+  | 'usdc-usds'
+  | 'usds-usdc'
+  | 'base-usdc-usds'
+  | 'base-usds-usdc'
 
 export interface GetPsmConvertActionPathParams {
   inToken: Token
@@ -18,21 +23,21 @@ export function getPsmConvertActionPath({
   inToken,
   outToken,
   tokensInfo,
-  // chainId,
+  chainId,
 }: { inToken: Token; outToken: Token; tokensInfo: TokensInfo; chainId: number }): PsmConvertActionPath {
   const dai = tokensInfo.DAI?.symbol
   const usdc = TokenSymbol('USDC')
   const usds = tokensInfo.USDS?.symbol
 
-  // if (chainId === base.id) {
-  //   if (inToken.symbol === usdc && outToken.symbol === usds) {
-  //     return 'base-usdc-usds'
-  //   }
+  if (chainId === base.id) {
+    if (inToken.symbol === usdc && outToken.symbol === usds) {
+      return 'base-usdc-usds'
+    }
 
-  //   if (inToken.symbol === usds && outToken.symbol === usdc) {
-  //     return 'base-usds-usdc'
-  //   }
-  // }
+    if (inToken.symbol === usds && outToken.symbol === usdc) {
+      return 'base-usds-usdc'
+    }
+  }
 
   if (inToken.symbol === dai && outToken.symbol === usdc) {
     return 'dai-usdc'

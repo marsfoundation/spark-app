@@ -1,3 +1,4 @@
+import { basePsm3Abi, basePsm3Address } from '@/config/abis/basePsm3Abi'
 import { dssLitePsmConfig, usdsPsmWrapperConfig } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
@@ -9,6 +10,7 @@ import { assert } from '@/utils/assert'
 import { assertNever } from '@/utils/assertNever'
 import { toBigInt } from '@/utils/bigNumber'
 import { QueryKey } from '@tanstack/react-query'
+import { base } from 'viem/chains'
 import { allowanceQueryKey } from '../../approve/logic/query'
 import { PsmConvertAction } from '../types'
 import { getPsmConvertActionPath } from './getPsmConvertActionPath'
@@ -49,6 +51,23 @@ export function createPsmConvertActionConfig(action: PsmConvertAction, context: 
             args: [account, usdcAmount],
           })
         }
+
+        case 'base-usdc-usds':
+        case 'base-usds-usdc': {
+          const assetIn = action.inToken.address
+          const assetOut = action.outToken.address
+          const amountIn = toBigInt(action.inToken.toBaseUnit(action.amount))
+          const minAmountOut = toBigInt(action.outToken.toBaseUnit(action.amount))
+          const receiver = account
+          const referralCode = 0n
+
+          return ensureConfigTypes({
+            address: basePsm3Address[base.id],
+            abi: basePsm3Abi,
+            functionName: 'swapExactIn',
+            args: [assetIn, assetOut, amountIn, minAmountOut, receiver, referralCode],
+          })
+        }
         default:
           assertNever(actionPath)
       }
@@ -71,6 +90,10 @@ export function createPsmConvertActionConfig(action: PsmConvertAction, context: 
             balancesQueryKeyPrefix,
             getAllowanceQueryKey(getContractAddress(usdsPsmWrapperConfig.address, chainId)),
           ]
+
+        case 'base-usdc-usds':
+        case 'base-usds-usdc':
+          return [balancesQueryKeyPrefix, getAllowanceQueryKey(getContractAddress(basePsm3Address, chainId))]
 
         default:
           assertNever(actionPath)
