@@ -4,7 +4,7 @@ import { DEFAULT_BLOCK_NUMBER, GNOSIS_DEFAULT_BLOCK_NUMBER, LITE_PSM_ACTIONS_OPE
 import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
-import { gnosis, mainnet } from 'viem/chains'
+import { base, gnosis, mainnet } from 'viem/chains'
 import { SavingsDialogPageObject } from '../common/e2e/SavingsDialog.PageObject'
 
 test.describe('Savings withdraw dialog', () => {
@@ -53,6 +53,55 @@ test.describe('Savings withdraw dialog', () => {
       await actionsContainer.expectEnabledActionAtIndex(0)
       await actionsContainer.expectActions([
         { type: 'withdrawFromSavings', asset: 'DAI', savingsAsset: 'sDAI', mode: 'withdraw' },
+      ])
+    })
+  })
+
+  test.describe('Base', () => {
+    const fork = setupFork({
+      chainId: base.id,
+    })
+
+    test('can switch between tokens', async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'savings',
+        account: {
+          type: 'connected-random',
+          assetBalances: {
+            ETH: 1,
+            sUSDS: 1000,
+          },
+        },
+      })
+
+      const savingsPage = new SavingsPageObject(page)
+
+      await savingsPage.clickWithdrawSUsdsButtonAction()
+
+      const withdrawalDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
+      const actionsContainer = new ActionsPageObject(withdrawalDialog.locatePanelByHeader('Actions'))
+
+      await withdrawalDialog.fillAmountAction(1000)
+      await actionsContainer.expectEnabledActionAtIndex(0)
+      await actionsContainer.expectActions([
+        { type: 'approve', asset: 'sUSDS' },
+        { type: 'withdrawFromSavings', asset: 'USDS', savingsAsset: 'sUSDS', mode: 'withdraw' },
+      ])
+
+      await withdrawalDialog.selectAssetAction('USDC')
+      await withdrawalDialog.fillAmountAction(1000)
+      await actionsContainer.expectEnabledActionAtIndex(0)
+      await actionsContainer.expectActions([
+        { type: 'approve', asset: 'sUSDS' },
+        { type: 'withdrawFromSavings', asset: 'USDC', savingsAsset: 'sUSDS', mode: 'withdraw' },
+      ])
+
+      await withdrawalDialog.selectAssetAction('USDS')
+      await withdrawalDialog.fillAmountAction(1000)
+      await actionsContainer.expectEnabledActionAtIndex(0)
+      await actionsContainer.expectActions([
+        { type: 'approve', asset: 'sUSDS' },
+        { type: 'withdrawFromSavings', asset: 'USDS', savingsAsset: 'sUSDS', mode: 'withdraw' },
       ])
     })
   })
@@ -114,6 +163,35 @@ test.describe('Savings withdraw dialog send mode', () => {
     test('can select only supported assets', async () => {
       await sendDialog.openAssetSelectorAction()
       await sendDialog.expectAssetSelectorOptions(['XDAI'])
+    })
+  })
+
+  test.describe('Base', () => {
+    const fork = setupFork({ chainId: base.id })
+    let savingsPage: SavingsPageObject
+    let sendDialog: SavingsDialogPageObject
+
+    test.beforeEach(async ({ page }) => {
+      await setup(page, fork, {
+        initialPage: 'savings',
+        account: {
+          type: 'connected-random',
+          assetBalances: {
+            USDS: 100,
+            sUSDS: 10_000,
+          },
+        },
+      })
+
+      savingsPage = new SavingsPageObject(page)
+      await savingsPage.clickSendSUsdsButtonAction()
+
+      sendDialog = new SavingsDialogPageObject({ page, type: 'send' })
+    })
+
+    test('can select only supported assets', async () => {
+      await sendDialog.openAssetSelectorAction()
+      await sendDialog.expectAssetSelectorOptions(['USDC', 'USDS'])
     })
   })
 })
