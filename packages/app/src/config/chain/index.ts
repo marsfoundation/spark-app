@@ -16,7 +16,7 @@ import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { assets } from '@/ui/assets'
 import { zeroAddress } from 'viem'
 import { base, gnosis, mainnet } from 'viem/chains'
-import { NATIVE_ASSET_MOCK_ADDRESS } from '../consts'
+import { NATIVE_ASSET_MOCK_ADDRESS, infoSkyApiUrl } from '../consts'
 import { AppConfig } from '../feature-flags'
 import { PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY } from '../wagmi/config.e2e'
 import { farmAddresses, farmStablecoinsEntryGroup } from './constants'
@@ -167,7 +167,11 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
     savings: {
       savingsDaiInfoQuery: mainnetSavingsDaiInfoQuery,
       savingsUsdsInfoQuery: PLAYWRIGHT_MAINNET_USDS_CONTRACTS_NOT_AVAILABLE ? undefined : mainnetSavingsUsdsInfoQuery,
-      chartsSupported: true,
+      charts: {
+        getEarningsApiUrl: (address) =>
+          `${infoSkyApiUrl}/savings-rate/wallets/${address.toLowerCase()}/?days_ago=9999`,
+        getSavingsRateApiUrl: () => `${infoSkyApiUrl}/savings-rate/`,
+      },
       inputTokens: [
         TokenSymbol('DAI'),
         TokenSymbol('USDC'),
@@ -291,7 +295,7 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
     savings: {
       savingsDaiInfoQuery: gnosisSavingsDaiInfoQuery,
       savingsUsdsInfoQuery: undefined,
-      chartsSupported: false,
+      charts: undefined,
       inputTokens: [TokenSymbol('XDAI')],
     },
     farms: undefined,
@@ -336,7 +340,7 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
           ] as const,
           markets: undefined,
           savings: {
-            chartsSupported: false,
+            charts: undefined,
             savingsDaiInfoQuery: undefined,
             savingsUsdsInfoQuery: baseSavingsInfoQueryOptions,
             inputTokens: [TokenSymbol('USDC'), TokenSymbol('USDS')],

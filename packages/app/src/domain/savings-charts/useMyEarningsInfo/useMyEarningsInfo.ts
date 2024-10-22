@@ -22,7 +22,7 @@ export interface UseMyEarningsInfoParams {
   susdsWithBalance: TokenWithBalance | undefined
   savingsDaiInfo: SavingsInfo | null
   sdaiWithBalance: TokenWithBalance | undefined
-  chartsSupported: boolean
+  getEarningsApiUrl: ((address: Address) => string) | undefined
 }
 
 export type MyEarningsInfo =
@@ -47,7 +47,7 @@ export function useMyEarningsInfo({
   susdsWithBalance,
   savingsDaiInfo,
   sdaiWithBalance,
-  chartsSupported,
+  getEarningsApiUrl,
 }: UseMyEarningsInfoParams): UseMyEarningsInfoResult {
   const displayType = getSavingsDisplayType({
     savingsUsdsInfo,
@@ -68,6 +68,7 @@ export function useMyEarningsInfo({
     ...myEarningsQueryOptions({
       address,
       chainId,
+      getEarningsApiUrl,
     }),
     select: useCallback(
       (myEarningsInfo: MyEarningsInfoItem[]) =>
@@ -80,7 +81,7 @@ export function useMyEarningsInfo({
         }),
       [timeframe, currentTimestamp, savingsInfo, savingsTokenWithBalance],
     ),
-    enabled: chartsSupported && !!savingsInfo && !!savingsTokenWithBalance,
+    enabled: !!getEarningsApiUrl && !!savingsInfo && !!savingsTokenWithBalance,
     staleTime,
   })
 

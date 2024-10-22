@@ -6,6 +6,7 @@ import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { FarmConfig } from '@/domain/farms/types'
 import { OracleInfoFetcherParams, OracleInfoFetcherResult } from '@/domain/oracles/oracleInfoFetchers'
 import { OracleType } from '@/domain/wallet/useTokens/types'
+import { Address } from 'viem'
 import { SUPPORTED_CHAIN_IDS } from './constants'
 
 export type SupportedChainId = (typeof SUPPORTED_CHAIN_IDS)[number]
@@ -73,9 +74,12 @@ export interface MarketsConfig {
 
 export interface SavingsConfig {
   inputTokens: TokenSymbol[]
-  chartsSupported: boolean
   savingsDaiInfoQuery: SavingsInfoQuery | undefined
   savingsUsdsInfoQuery: SavingsInfoQuery | undefined
+  charts?: {
+    getEarningsApiUrl?: (address: Address) => string
+    getSavingsRateApiUrl?: () => string
+  }
 }
 
 export interface ChainConfigEntry {
