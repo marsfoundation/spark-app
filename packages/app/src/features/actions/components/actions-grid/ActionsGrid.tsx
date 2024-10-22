@@ -4,18 +4,17 @@ import { ApproveActionRow } from '../../flavours/approve/ApproveActionRow'
 import { BorrowActionRow } from '../../flavours/borrow/BorrowActionRow'
 import { ClaimFarmRewardsActionRow } from '../../flavours/claim-farm-rewards/ClaimFarmRewardsActionRow'
 import { ClaimMarketRewardsActionRow } from '../../flavours/claim-market-rewards/ClaimMarketRewardsActionRow'
-import { DaiPsmConvertActionRow } from '../../flavours/dai-psm-convert/DaiPsmConvertActionRow'
 import { DepositToSavingsActionRow } from '../../flavours/deposit-to-savings/DepositToSavingsActionRow'
 import { DepositActionRow } from '../../flavours/deposit/DepositActionRow'
 import { DowngradeActionRow } from '../../flavours/downgrade/DowngradeActionRow'
 import { PermitActionRow } from '../../flavours/permit/PermitActionRow'
+import { PsmConvertActionRow } from '../../flavours/psm-convert/PsmConvertActionRow'
 import { RepayActionRow } from '../../flavours/repay/RepayActionRow'
 import { SetUseAsCollateralActionRow } from '../../flavours/set-use-as-collateral/SetUseAsCollateralActionRow'
 import { SetUserEModeActionRow } from '../../flavours/set-user-e-mode/SetUserEModeActionRow'
 import { StakeActionRow } from '../../flavours/stake/StakeActionRow'
 import { UnstakeActionRow } from '../../flavours/unstake/UnstakeActionRow'
 import { UpgradeActionRow } from '../../flavours/upgrade/UpgradeActionRow'
-import { UsdsPsmConvertActionRow } from '../../flavours/usds-psm-convert/UsdsPsmConvertActionRow'
 import { WithdrawFromSavingsActionRow } from '../../flavours/withdraw-from-savings/WithdrawFromSavingsActionRow'
 import { WithdrawActionRow } from '../../flavours/withdraw/WithdrawActionRow'
 import { ActionHandler } from '../../logic/types'
@@ -71,10 +70,8 @@ export function ActionsGrid({ actionHandlers, variant }: ActionsGridProps) {
             return <StakeActionRow action={handler.action} {...props} />
           case 'unstake':
             return <UnstakeActionRow action={handler.action} {...props} />
-          case 'usdsPsmConvert':
-            return <UsdsPsmConvertActionRow action={handler.action} {...props} />
-          case 'daiPsmConvert':
-            return <DaiPsmConvertActionRow action={handler.action} {...props} />
+          case 'psmConvert':
+            return <PsmConvertActionRow action={handler.action} {...props} />
           case 'claimFarmRewards':
             return <ClaimFarmRewardsActionRow action={handler.action} {...props} />
           default:

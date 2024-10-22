@@ -173,14 +173,8 @@ type SimplifiedUnstakeAction = {
   exit: boolean
 }
 
-type SimplifiedUsdsPsmConvertAction = {
-  type: 'usdsPsmConvert'
-  inToken: string
-  outToken: string
-}
-
-type SimplifiedDaiPsmConvertAction = {
-  type: 'daiPsmConvert'
+type SimplifiedPsmConvertAction = {
+  type: 'psmConvert'
   inToken: string
   outToken: string
 }
@@ -196,8 +190,7 @@ type SimplifiedGenericAction = BaseAction & {
     | 'downgrade'
     | 'stake'
     | 'unstake'
-    | 'usdsPsmConvert'
-    | 'daiPsmConvert'
+    | 'psmConvert'
   >
 }
 
@@ -220,8 +213,7 @@ type SimplifiedAction =
   | SimplifiedDowngradeAction
   | SimplifiedStakeAction
   | SimplifiedUnstakeAction
-  | SimplifiedUsdsPsmConvertAction
-  | SimplifiedDaiPsmConvertAction
+  | SimplifiedPsmConvertAction
 
 function actionToTitle(action: SimplifiedAction): string {
   switch (action.type) {
@@ -261,8 +253,7 @@ function actionToTitle(action: SimplifiedAction): string {
         : `Withdraw ${action.stakingToken} from ${action.rewardToken} Farm`
     case 'claimFarmRewards':
       return 'Claim rewards'
-    case 'usdsPsmConvert':
-    case 'daiPsmConvert':
+    case 'psmConvert':
       return `Convert ${action.inToken} to ${action.outToken}`
   }
 }

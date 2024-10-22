@@ -3,19 +3,19 @@ import { UpDownMarker } from '@/features/actions/components/action-row/UpDownMar
 import { ActionRowBaseProps } from '@/features/actions/components/action-row/types'
 import { assets, getTokenImage } from '@/ui/assets'
 import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
-import { DaiPsmConvertAction } from './types'
+import { PsmConvertAction } from './types'
 
-export interface DaiPsmConvertActionRowProps extends ActionRowBaseProps {
-  action: DaiPsmConvertAction
+export interface PsmConvertActionRowProps extends ActionRowBaseProps {
+  action: PsmConvertAction
 }
 
-export function DaiPsmConvertActionRow({
+export function PsmConvertActionRow({
   action,
   index,
   actionHandlerState,
   onAction,
   variant,
-}: DaiPsmConvertActionRowProps) {
+}: PsmConvertActionRowProps) {
   const { inToken, outToken } = action
   const tokenIconPaths = [getTokenImage(inToken.symbol), getTokenImage(outToken.symbol)]
   const status = actionHandlerState.status
