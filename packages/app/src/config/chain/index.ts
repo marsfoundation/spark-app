@@ -299,11 +299,7 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
       inputTokens: [TokenSymbol('XDAI')],
     },
     farms: undefined,
-    apiUrls: {
-      getEarningsApiUrl: undefined,
-      getSavingsRateApiUrl: undefined,
-      getFarmDetailsApiUrl: undefined,
-    },
+    apiUrls: undefined,
   },
   ...(typeof import.meta.env.VITE_DEV_BASE_DEVNET_RPC_URL === 'string'
     ? {
@@ -357,11 +353,7 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
               entryAssetsGroup: farmStablecoinsEntryGroup[base.id],
             },
           ],
-          apiUrls: {
-            getEarningsApiUrl: undefined,
-            getSavingsRateApiUrl: undefined,
-            getFarmDetailsApiUrl: undefined,
-          },
+          apiUrls: undefined,
         },
       }
     : {}),

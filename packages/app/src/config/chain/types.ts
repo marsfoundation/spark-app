@@ -84,6 +84,12 @@ export interface SavingsConfig {
   }
 }
 
+export interface ApiUrlsConfig {
+  getSavingsRateApiUrl: GetApiUrl<void>
+  getEarningsApiUrl: GetApiUrl<Address>
+  getFarmDetailsApiUrl: GetApiUrl<CheckedAddress>
+}
+
 export interface ChainConfigEntry {
   originChainId: SupportedChainId
   daiSymbol: TokenSymbol | undefined
@@ -99,11 +105,7 @@ export interface ChainConfigEntry {
   markets: MarketsConfig | undefined
   savings: SavingsConfig | undefined
   farms: FarmConfig[] | undefined
-  apiUrls: {
-    getSavingsRateApiUrl: GetApiUrl<void>
-    getEarningsApiUrl: GetApiUrl<Address>
-    getFarmDetailsApiUrl: GetApiUrl<CheckedAddress>
-  }
+  apiUrls: ApiUrlsConfig | undefined
 }
 
 export type ChainConfig = Record<SupportedChainId, ChainConfigEntry>
