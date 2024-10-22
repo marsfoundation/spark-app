@@ -167,11 +167,6 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
     savings: {
       savingsDaiInfoQuery: mainnetSavingsDaiInfoQuery,
       savingsUsdsInfoQuery: PLAYWRIGHT_MAINNET_USDS_CONTRACTS_NOT_AVAILABLE ? undefined : mainnetSavingsUsdsInfoQuery,
-      charts: {
-        getEarningsApiUrl: (address) =>
-          `${infoSkyApiUrl}/savings-rate/wallets/${address.toLowerCase()}/?days_ago=9999`,
-        getSavingsRateApiUrl: () => `${infoSkyApiUrl}/savings-rate/`,
-      },
       inputTokens: [
         TokenSymbol('DAI'),
         TokenSymbol('USDC'),
@@ -200,6 +195,11 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
         }),
       },
     ],
+    apiUrls: {
+      getEarningsApiUrl: (address) => `${infoSkyApiUrl}/savings-rate/wallets/${address.toLowerCase()}/?days_ago=9999`,
+      getSavingsRateApiUrl: () => `${infoSkyApiUrl}/savings-rate/`,
+      getFarmDetailsApiUrl: (address) => `${infoSkyApiUrl}/farms/${address.toLowerCase()}/historic/`,
+    },
   },
   [gnosis.id]: {
     originChainId: gnosis.id,
@@ -299,6 +299,11 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
       inputTokens: [TokenSymbol('XDAI')],
     },
     farms: undefined,
+    apiUrls: {
+      getEarningsApiUrl: undefined,
+      getSavingsRateApiUrl: undefined,
+      getFarmDetailsApiUrl: undefined,
+    },
   },
   ...(typeof import.meta.env.VITE_DEV_BASE_DEVNET_RPC_URL === 'string'
     ? {
@@ -352,6 +357,11 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
               entryAssetsGroup: farmStablecoinsEntryGroup[base.id],
             },
           ],
+          apiUrls: {
+            getEarningsApiUrl: undefined,
+            getSavingsRateApiUrl: undefined,
+            getFarmDetailsApiUrl: undefined,
+          },
         },
       }
     : {}),

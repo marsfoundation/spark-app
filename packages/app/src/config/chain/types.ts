@@ -11,6 +11,8 @@ import { SUPPORTED_CHAIN_IDS } from './constants'
 
 export type SupportedChainId = (typeof SUPPORTED_CHAIN_IDS)[number]
 
+export type GetApiUrl<Param> = ((param: Param) => string) | undefined
+
 export interface NativeAssetInfo {
   nativeAssetName: string
   nativeAssetSymbol: TokenSymbol
@@ -97,6 +99,11 @@ export interface ChainConfigEntry {
   markets: MarketsConfig | undefined
   savings: SavingsConfig | undefined
   farms: FarmConfig[] | undefined
+  apiUrls: {
+    getSavingsRateApiUrl: GetApiUrl<void>
+    getEarningsApiUrl: GetApiUrl<Address>
+    getFarmDetailsApiUrl: GetApiUrl<CheckedAddress>
+  }
 }
 
 export type ChainConfig = Record<SupportedChainId, ChainConfigEntry>

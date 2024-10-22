@@ -38,7 +38,8 @@ export function useSavingsChartsInfoQuery({
   const { address } = useAccount()
   const { timestamp } = useTimestamp({ refreshIntervalInMs: REFRESH_INTERVAL_IN_MS })
 
-  const { charts } = getChainConfigEntry(chainId).savings ?? raise('Savings config is not defined on this chain')
+  const { getEarningsApiUrl, getSavingsRateApiUrl } =
+    getChainConfigEntry(chainId).apiUrls ?? raise('Api urls config is not defined on this chain')
 
   const myEarningsInfo = useMyEarningsInfo({
     address,
@@ -50,7 +51,7 @@ export function useSavingsChartsInfoQuery({
     sdaiWithBalance,
     savingsUsdsInfo,
     susdsWithBalance,
-    getEarningsApiUrl: charts?.getEarningsApiUrl,
+    getEarningsApiUrl,
   })
 
   const savingsRateInfo = useSavingsRateInfo({
@@ -58,7 +59,7 @@ export function useSavingsChartsInfoQuery({
     timeframe: selectedTimeframe,
     currentTimestamp: timestamp,
     staleTime: REFRESH_INTERVAL_IN_MS,
-    getSavingsRateApiUrl: charts?.getSavingsRateApiUrl,
+    getSavingsRateApiUrl,
   })
 
   return {
@@ -66,6 +67,6 @@ export function useSavingsChartsInfoQuery({
     setSelectedTimeframe,
     myEarningsInfo,
     savingsRateInfo,
-    chartsSupported: !!charts?.getSavingsRateApiUrl || !!charts?.getEarningsApiUrl,
+    chartsSupported: !!getSavingsRateApiUrl || !!getEarningsApiUrl,
   }
 }

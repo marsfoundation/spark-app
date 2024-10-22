@@ -26,7 +26,7 @@ export function useSavingsRateInfo({
   return useQuery({
     ...savingsRateQueryOptions({
       chainId,
-      getSavingsRateApiUrl
+      getSavingsRateApiUrl,
     }),
     select: useCallback(
       (savingsRateInfo: SavingsRateInfo) =>
