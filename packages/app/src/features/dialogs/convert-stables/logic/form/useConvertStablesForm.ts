@@ -2,11 +2,13 @@ import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { assert } from '@/utils/assert'
 import { useDebounce } from '@/utils/useDebounce'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { UseFormReturn, useForm } from 'react-hook-form'
 import { ConvertStablesFormFields, NormalizedConvertStablesFormValues } from '../../types'
 import { getConvertStablesFormFields } from './getConvertStablesFormFields'
 import { getNormalizedFormValuesKey, normalizeFormValues } from './normalizeFormValues'
 import { ConvertStablesFormSchema } from './schema'
+import { getConvertStablesFormValidator } from './validator'
 
 export interface UseConvertStablesFormParams {
   tokensInfo: TokensInfo
@@ -29,6 +31,7 @@ export function useConvertStablesForm({
   assert(psmStables.length > 1, 'PSM stables should have at least 2 stables to be able to convert')
 
   const form = useForm<ConvertStablesFormSchema>({
+    resolver: zodResolver(getConvertStablesFormValidator(tokensInfo)),
     defaultValues: {
       isMaxSelected: false,
       inTokenSymbol: psmStables[0],
