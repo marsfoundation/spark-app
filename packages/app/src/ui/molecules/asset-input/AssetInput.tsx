@@ -105,6 +105,7 @@ export const AssetInput = forwardRef<HTMLInputElement, AssetInputProps>(
                   className={cn('p-1', balance && 'p-0 text-xs')}
                   disabled={isMaxSelected}
                   variant="text"
+                  data-testid={testIds.component.AssetInput.maxButton}
                 >
                   MAX
                 </Button>

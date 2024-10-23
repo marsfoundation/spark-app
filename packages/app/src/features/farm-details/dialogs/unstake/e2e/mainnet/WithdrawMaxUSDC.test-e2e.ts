@@ -60,7 +60,7 @@ test.describe('Withdraw max USDC from SKY farm', () => {
     await unstakeDialog.actionsContainer.expectActions([
       { type: 'unstake', stakingToken: 'USDS', rewardToken: 'SKY', exit: false },
       { type: 'approve', asset: 'USDS' },
-      { type: 'usdsPsmConvert', inToken: 'USDS', outToken: 'USDC' },
+      { type: 'psmConvert', inToken: 'USDS', outToken: 'USDC' },
     ])
   })
 
@@ -69,7 +69,7 @@ test.describe('Withdraw max USDC from SKY farm', () => {
     await unstakeDialog.actionsContainer.expectActions([
       { type: 'unstake', stakingToken: 'USDS', rewardToken: 'SKY', exit: true },
       { type: 'approve', asset: 'USDS' },
-      { type: 'usdsPsmConvert', inToken: 'USDS', outToken: 'USDC' },
+      { type: 'psmConvert', inToken: 'USDS', outToken: 'USDC' },
     ])
   })
 

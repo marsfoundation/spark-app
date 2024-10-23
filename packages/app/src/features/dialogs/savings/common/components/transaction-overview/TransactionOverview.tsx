@@ -6,7 +6,6 @@ import { RouteItem } from '@/features/dialogs/common/components/transaction-over
 import { SkyBadge } from '@/features/dialogs/common/components/transaction-overview/SkyBadge'
 import { TransactionOutcome } from '@/features/dialogs/common/components/transaction-overview/TransactionOutcome'
 import { cn } from '@/ui/utils/style'
-import { testIds } from '@/ui/utils/testIds'
 import { assert } from '@/utils/assert'
 import { SavingsDialogTxOverview } from '../../types'
 import { APYDetails, TransactionOverviewDetailsItem } from './components'
@@ -51,11 +50,11 @@ export function TransactionOverview({ txOverview, selectedToken, showAPY }: Tran
           </div>
         </TransactionOverviewDetailsItem>
         <TransactionOverviewDetailsItem label="Outcome">
-          <TransactionOutcome outcome={outcome} data-testid={testIds.dialog.savings.transactionOverview.outcome} />
+          <TransactionOutcome outcome={outcome} />
         </TransactionOverviewDetailsItem>
       </DialogPanel>
 
-      <SkyBadge tokens={[skyBadgeToken.symbol]} data-testid={testIds.dialog.transactionOverview.skyBadge} />
+      <SkyBadge tokens={[skyBadgeToken.symbol]} />
     </div>
   )
 }

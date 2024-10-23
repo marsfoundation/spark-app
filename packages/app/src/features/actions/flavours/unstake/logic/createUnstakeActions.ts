@@ -5,7 +5,7 @@ import { assert, raise } from '@/utils/assert'
 import { assertNever } from '@/utils/assertNever'
 import { ApproveAction } from '../../approve/types'
 import { DowngradeAction } from '../../downgrade/types'
-import { UsdsPsmConvertAction } from '../../usds-psm-convert/types'
+import { PsmConvertAction } from '../../psm-convert/types'
 import { UnstakeAction, UnstakeObjective } from '../types'
 import { getUnstakeActionPath } from './getUnstakeActionPath'
 
@@ -60,8 +60,8 @@ export function createUnstakeActions(objective: UnstakeObjective, context: Actio
         value: objective.amount,
       }
 
-      const convertToUsdcAction: UsdsPsmConvertAction = {
-        type: 'usdsPsmConvert',
+      const convertToUsdcAction: PsmConvertAction = {
+        type: 'psmConvert',
         inToken: tokensInfo.USDS ?? raise('USDS token is required for usds psm convert action'),
         outToken: objective.token,
         amount: objective.amount,

@@ -1,5 +1,4 @@
-import { usdsPsmWrapperConfig } from '@/config/contracts-generated'
-import { getContractAddress } from '@/domain/hooks/useContractAddress'
+import { basePsm3Abi, basePsm3Address } from '@/config/abis/basePsm3Abi'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
@@ -9,30 +8,35 @@ import { handlers } from '@/test/integration/mockTransport'
 import { setupUseContractActionRenderer } from '@/test/integration/setupUseContractActionRenderer'
 import { toBigInt } from '@/utils/bigNumber'
 import { waitFor } from '@testing-library/react'
-import { mainnet } from 'viem/chains'
+import { base } from 'viem/chains'
 import { describe, test } from 'vitest'
 import { allowanceQueryKey } from '../../approve/logic/query'
-import { createUsdsPsmConvertActionConfig } from './usdsPsmConvertAction'
+import { createPsmConvertActionConfig } from './psmConvertAction'
 
 const account = testAddresses.alice
-const chainId = mainnet.id
+const chainId = base.id
 const usdc = getMockToken({ symbol: TokenSymbol('USDC'), decimals: 6 })
 const usds = getMockToken({ symbol: TokenSymbol('USDS') })
 const amount = NormalizedUnitNumber(1)
 
-const mockTokensInfo = new TokensInfo([{ token: usdc, balance: NormalizedUnitNumber(100) }], {
-  DAI: testTokens.DAI.symbol,
-  sDAI: testTokens.sDAI.symbol,
-  USDS: usds.symbol,
-  sUSDS: testTokens.sUSDS.symbol,
-})
+const mockTokensInfo = new TokensInfo(
+  [
+    { token: usdc, balance: NormalizedUnitNumber(100) },
+    { token: usds, balance: NormalizedUnitNumber(100) },
+  ],
+  {
+    USDS: testTokens.USDS.symbol,
+    sUSDS: testTokens.sUSDS.symbol,
+  },
+)
 
 const hookRenderer = setupUseContractActionRenderer({
   account,
+  chain: base,
   handlers: [handlers.chainIdCall({ chainId }), handlers.balanceCall({ balance: 0n, address: account })],
   args: {
     action: {
-      type: 'usdsPsmConvert',
+      type: 'psmConvert',
       inToken: usdc,
       outToken: usds,
       amount,
@@ -42,17 +46,24 @@ const hookRenderer = setupUseContractActionRenderer({
   },
 })
 
-describe(createUsdsPsmConvertActionConfig.name, () => {
+describe(createPsmConvertActionConfig.name, () => {
   test('converts usdc to usds', async () => {
     const { result, queryInvalidationManager } = hookRenderer({
       extraHandlers: [
         handlers.contractCall({
-          to: getContractAddress(usdsPsmWrapperConfig.address, chainId),
-          abi: usdsPsmWrapperConfig.abi,
-          functionName: 'sellGem',
-          args: [account, toBigInt(usdc.toBaseUnit(amount))],
+          to: basePsm3Address[base.id],
+          abi: basePsm3Abi,
+          functionName: 'swapExactIn',
+          args: [
+            usdc.address,
+            usds.address,
+            toBigInt(usdc.toBaseUnit(amount)),
+            toBigInt(usds.toBaseUnit(amount)),
+            account,
+            0n,
+          ],
           from: account,
-          result: toBigInt(usds.toBaseUnit(amount)),
+          result: toBigInt(usdc.toBaseUnit(amount)),
         }),
         handlers.mineTransaction(),
       ],
@@ -74,7 +85,7 @@ describe(createUsdsPsmConvertActionConfig.name, () => {
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
       allowanceQueryKey({
         token: usdc.address,
-        spender: getContractAddress(usdsPsmWrapperConfig.address, chainId),
+        spender: basePsm3Address[base.id],
         account,
         chainId,
       }),
@@ -85,7 +96,7 @@ describe(createUsdsPsmConvertActionConfig.name, () => {
     const { result, queryInvalidationManager } = hookRenderer({
       args: {
         action: {
-          type: 'usdsPsmConvert',
+          type: 'psmConvert',
           inToken: usds,
           outToken: usdc,
           amount,
@@ -95,12 +106,19 @@ describe(createUsdsPsmConvertActionConfig.name, () => {
       },
       extraHandlers: [
         handlers.contractCall({
-          to: getContractAddress(usdsPsmWrapperConfig.address, chainId),
-          abi: usdsPsmWrapperConfig.abi,
-          functionName: 'buyGem',
-          args: [account, toBigInt(usdc.toBaseUnit(amount))],
+          to: basePsm3Address[base.id],
+          abi: basePsm3Abi,
+          functionName: 'swapExactIn',
+          args: [
+            usds.address,
+            usdc.address,
+            toBigInt(usds.toBaseUnit(amount)),
+            toBigInt(usdc.toBaseUnit(amount)),
+            account,
+            0n,
+          ],
           from: account,
-          result: toBigInt(usds.toBaseUnit(amount)),
+          result: toBigInt(usdc.toBaseUnit(amount)),
         }),
         handlers.mineTransaction(),
       ],
@@ -122,7 +140,7 @@ describe(createUsdsPsmConvertActionConfig.name, () => {
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
       allowanceQueryKey({
         token: usds.address,
-        spender: getContractAddress(usdsPsmWrapperConfig.address, chainId),
+        spender: basePsm3Address[base.id],
         account,
         chainId,
       }),

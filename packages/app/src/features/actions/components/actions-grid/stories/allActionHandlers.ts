@@ -167,19 +167,9 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
     state: { status: 'ready' },
     onAction: () => {},
   },
-  usdsPsmConvert: {
+  psmConvert: {
     action: {
-      type: 'usdsPsmConvert',
-      inToken: tokens.USDC,
-      outToken: tokens.USDS,
-      amount: NormalizedUnitNumber(1),
-    },
-    state: { status: 'ready' },
-    onAction: () => {},
-  },
-  daiPsmConvert: {
-    action: {
-      type: 'daiPsmConvert',
+      type: 'psmConvert',
       inToken: tokens.USDC,
       outToken: tokens.DAI,
       amount: NormalizedUnitNumber(1),

@@ -63,7 +63,7 @@ test.describe('Send USDC', () => {
         },
       ],
       outcome: '7,000.00 USDC worth $7,000.00',
-      badgeToken: 'USDC',
+      badgeTokens: 'USDC',
     })
   })
 

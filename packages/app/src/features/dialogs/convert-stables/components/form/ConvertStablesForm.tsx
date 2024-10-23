@@ -44,6 +44,7 @@ export function ConvertStablesForm({ formFields, form }: ConvertStablesFormProps
           setSelectedAsset={changeAssetOut}
           maxSelectedFieldName={maxSelectedFieldName}
           maxValue={selectedAssetIn.balance}
+          showError={false}
         />
       </div>
     </Form>
