@@ -9,8 +9,8 @@ import {
   DropdownMenuTrigger,
 } from '@/ui/atoms/dropdown/DropdownMenu'
 import { Link } from '@/ui/atoms/link/Link'
+import { links } from '@/ui/constants/links'
 import { useBreakpoint } from '@/ui/utils/useBreakpoint'
-
 import { NavbarActionWrapper } from '../NavbarActionWrapper'
 import { BuildInfoItem } from './BuildInfoItem'
 import { SettingsDropdownItem } from './SettingsDropdownItem'
@@ -36,18 +36,10 @@ export function SettingsDropdown({ onSandboxModeClick, isSandboxEnabled }: Setti
           </SettingsDropdownItem>
         )}
 
-        <Link to="https://spark.fi/terms-of-use.html" external>
+        <Link to={links.termsOfUse} external>
           <SettingsDropdownItem>
             <SettingsDropdownItem.Content icon={<BoxArrowTopRight className="h-4 w-4" />}>
               Terms of Service
-            </SettingsDropdownItem.Content>
-          </SettingsDropdownItem>
-        </Link>
-
-        <Link to="https://legacy-app.spark.fi/" external>
-          <SettingsDropdownItem>
-            <SettingsDropdownItem.Content icon={<BoxArrowTopRight className="h-4 w-4" />}>
-              Legacy interface
             </SettingsDropdownItem.Content>
           </SettingsDropdownItem>
         </Link>
