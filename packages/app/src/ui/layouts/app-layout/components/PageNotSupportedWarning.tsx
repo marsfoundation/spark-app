@@ -1,5 +1,6 @@
 import { Button } from '@/ui/atoms/button/Button'
 import { cn } from '@/ui/utils/style'
+import { testIds } from '@/ui/utils/testIds'
 import { AlertTriangle } from 'lucide-react'
 
 export interface PageNotSupportedWarningProps {
@@ -32,7 +33,11 @@ export function PageNotSupportedWarning({
           </div>
         </div>
       </div>
-      <Button className="w-full px-20 lg:w-fit" onClick={openNetworkSelectDialog}>
+      <Button
+        className="w-full px-20 lg:w-fit"
+        onClick={openNetworkSelectDialog}
+        data-testid={testIds.component.SwitchNotSupportedNetworkButton}
+      >
         Switch network
       </Button>
     </div>
