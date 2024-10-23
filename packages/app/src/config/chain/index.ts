@@ -304,7 +304,7 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
   ...(typeof import.meta.env.VITE_DEV_BASE_DEVNET_RPC_URL === 'string'
     ? {
         [base.id]: {
-          originChainId: base.id,
+          originChainId: base.id as SupportedChainId,
           daiSymbol: undefined,
           sdaiSymbol: undefined,
           usdsSymbol: TokenSymbol('USDS'),
@@ -345,10 +345,10 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
             savingsUsdsInfoQuery: baseSavingsInfoQueryOptions,
             inputTokens: [TokenSymbol('USDC'), TokenSymbol('USDS')],
             getEarningsApiUrl: undefined,
-            getSavingsRateApiUrl: undefined,
+            savingsRateApiUrl: undefined,
           },
           farms: undefined,
-        },
+        } satisfies ChainConfigEntry,
       }
     : {}),
 }
