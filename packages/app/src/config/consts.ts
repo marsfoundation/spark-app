@@ -18,3 +18,6 @@ export const infoSkyApiUrl = import.meta.env.VITE_INFO_SKY_API_URL ?? '/info-sky
 
 // @note: all sandboxes created by the app begin (when expressed as strings) with this chain id. Ex: 30301719211032
 export const SANDBOX_NETWORKS_CHAIN_ID_PREFIX = 3030
+
+export const SPARK_UI_REFERRAL_CODE = 128 // 0x80
+export const SPARK_UI_REFERRAL_CODE_BIGINT = BigInt(SPARK_UI_REFERRAL_CODE)

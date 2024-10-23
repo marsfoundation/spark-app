@@ -1,4 +1,5 @@
 import { basePsm3Abi, basePsm3Address } from '@/config/abis/basePsm3Abi'
+import { SPARK_UI_REFERRAL_CODE_BIGINT } from '@/config/consts'
 import {
   migrationActionsConfig,
   psmActionsConfig,
@@ -92,8 +93,6 @@ export function createDepositToSavingsActionConfig(
 
         case 'base-usds-to-susds':
         case 'base-usdc-to-susds': {
-          const referralCode = 0n
-
           assert(context.savingsUsdsInfo, 'Savings info is required for usdc psm withdraw from savings action')
 
           const currentTimestamp = context.savingsUsdsInfo.currentTimestamp
@@ -111,7 +110,14 @@ export function createDepositToSavingsActionConfig(
             address: basePsm3Address[base.id],
             abi: basePsm3Abi,
             functionName: 'swapExactIn',
-            args: [token.address, savingsToken.address, assetsAmount, minAmountOut, account, referralCode],
+            args: [
+              token.address,
+              savingsToken.address,
+              assetsAmount,
+              minAmountOut,
+              account,
+              SPARK_UI_REFERRAL_CODE_BIGINT,
+            ],
           })
         }
 
