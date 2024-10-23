@@ -7,16 +7,16 @@ import { SavingsRateInfo } from './types'
 
 interface SavingsRateQueryParams {
   chainId: number
-  getSavingsRateApiUrl: (() => string) | undefined
+  savingsRateApiUrl: string | undefined
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function savingsRateQueryOptions({ chainId, getSavingsRateApiUrl }: SavingsRateQueryParams) {
+export function savingsRateQueryOptions({ chainId, savingsRateApiUrl }: SavingsRateQueryParams) {
   return queryOptions<SavingsRateInfo>({
     queryKey: savingsRateInfoQueryKey({ chainId }),
-    queryFn: getSavingsRateApiUrl
+    queryFn: savingsRateApiUrl
       ? async () => {
-          const res = await fetch(getSavingsRateApiUrl())
+          const res = await fetch(savingsRateApiUrl)
 
           if (!res.ok) {
             throw new Error(`Failed to fetch savings rate data: ${res.statusText}`)
@@ -30,7 +30,7 @@ export function savingsRateQueryOptions({ chainId, getSavingsRateApiUrl }: Savin
   })
 }
 
-export function savingsRateInfoQueryKey({ chainId }: Omit<SavingsRateQueryParams, 'getSavingsRateApiUrl'>): unknown[] {
+export function savingsRateInfoQueryKey({ chainId }: Omit<SavingsRateQueryParams, 'savingsRateApiUrl'>): unknown[] {
   return ['savings-rate', chainId]
 }
 

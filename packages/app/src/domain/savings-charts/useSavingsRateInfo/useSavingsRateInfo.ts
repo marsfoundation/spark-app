@@ -11,7 +11,7 @@ export interface UseSavingsRateInfoParams {
   timeframe: Timeframe
   currentTimestamp: number
   staleTime: number
-  getSavingsRateApiUrl: (() => string) | undefined
+  savingsRateApiUrl: string | undefined
 }
 
 export type UseSavingsRateInfoResult = SimplifiedQueryResult<SavingsRateInfo>
@@ -21,12 +21,12 @@ export function useSavingsRateInfo({
   timeframe,
   currentTimestamp,
   staleTime,
-  getSavingsRateApiUrl,
+  savingsRateApiUrl,
 }: UseSavingsRateInfoParams): UseSavingsRateInfoResult {
   return useQuery({
     ...savingsRateQueryOptions({
       chainId,
-      getSavingsRateApiUrl,
+      savingsRateApiUrl,
     }),
     select: useCallback(
       (savingsRateInfo: SavingsRateInfo) =>
@@ -34,6 +34,6 @@ export function useSavingsRateInfo({
       [timeframe, currentTimestamp],
     ),
     staleTime,
-    enabled: !!getSavingsRateApiUrl,
+    enabled: !!savingsRateApiUrl,
   })
 }

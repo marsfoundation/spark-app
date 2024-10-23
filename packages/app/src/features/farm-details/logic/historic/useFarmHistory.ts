@@ -27,7 +27,7 @@ export function useFarmHistory({ chainId, farmAddress }: UseFarmHistoryParams): 
 
   const farmsConfig = getChainConfigEntry(chainId).farms ?? raise('Farms config is not defined on this chain')
 
-  const farmConfig = farmsConfig.farmConfigs.find((farm) => farm.address === farmAddress)
+  const farmConfig = farmsConfig.configs.find((farm) => farm.address === farmAddress)
 
   // @todo we should raise when getFarmDetailsApiUrl is missing but there is no apiUrl for Base yet
   const getFarmDetailsApiUrl = farmsConfig.getFarmDetailsApiUrl

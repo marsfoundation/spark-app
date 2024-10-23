@@ -1,14 +1,14 @@
 import { normalizedUnitNumberSchema } from '@/domain/common/validation'
+import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { dateSchema } from '@/utils/schemas'
 import { queryOptions, skipToken } from '@tanstack/react-query'
 import { sort } from 'd3-array'
-import { Address } from 'viem'
 import { z } from 'zod'
 
 interface MyEarningsQueryParams {
   chainId: number
-  address?: Address
-  getEarningsApiUrl: ((address: Address) => string) | undefined
+  address?: CheckedAddress
+  getEarningsApiUrl: ((address: CheckedAddress) => string) | undefined
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type

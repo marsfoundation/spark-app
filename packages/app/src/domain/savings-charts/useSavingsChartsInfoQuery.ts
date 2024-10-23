@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { useAccount, useChainId } from 'wagmi'
 import { TokenWithBalance } from '../common/types'
 import { SavingsInfo } from '../savings-info/types'
+import { CheckedAddress } from '../types/CheckedAddress'
 import { UseMyEarningsInfoResult, useMyEarningsInfo } from './useMyEarningsInfo/useMyEarningsInfo'
 import { UseSavingsRateInfoResult, useSavingsRateInfo } from './useSavingsRateInfo/useSavingsRateInfo'
 
@@ -42,10 +43,10 @@ export function useSavingsChartsInfoQuery({
 
   assert(savings, 'Savings are not supported on this chain')
 
-  const { getEarningsApiUrl, getSavingsRateApiUrl } = savings
+  const { getEarningsApiUrl, savingsRateApiUrl } = savings
 
   const myEarningsInfo = useMyEarningsInfo({
-    address,
+    address: address ? CheckedAddress(address) : address,
     chainId,
     timeframe: selectedTimeframe,
     currentTimestamp: timestamp,
@@ -62,7 +63,7 @@ export function useSavingsChartsInfoQuery({
     timeframe: selectedTimeframe,
     currentTimestamp: timestamp,
     staleTime: REFRESH_INTERVAL_IN_MS,
-    getSavingsRateApiUrl,
+    savingsRateApiUrl,
   })
 
   return {
@@ -70,6 +71,6 @@ export function useSavingsChartsInfoQuery({
     setSelectedTimeframe,
     myEarningsInfo,
     savingsRateInfo,
-    chartsSupported: !!getSavingsRateApiUrl || !!getEarningsApiUrl,
+    chartsSupported: !!savingsRateApiUrl || !!getEarningsApiUrl,
   }
 }

@@ -6,12 +6,11 @@ import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { FarmConfig } from '@/domain/farms/types'
 import { OracleInfoFetcherParams, OracleInfoFetcherResult } from '@/domain/oracles/oracleInfoFetchers'
 import { OracleType } from '@/domain/wallet/useTokens/types'
-import { Address } from 'viem'
 import { SUPPORTED_CHAIN_IDS } from './constants'
 
 export type SupportedChainId = (typeof SUPPORTED_CHAIN_IDS)[number]
 
-export type GetApiUrl<Param> = ((param: Param) => string) | undefined
+export type GetApiUrl = (address: CheckedAddress) => string
 
 export interface NativeAssetInfo {
   nativeAssetName: string
@@ -78,13 +77,13 @@ export interface SavingsConfig {
   inputTokens: TokenSymbol[]
   savingsDaiInfoQuery: SavingsInfoQuery | undefined
   savingsUsdsInfoQuery: SavingsInfoQuery | undefined
-  getSavingsRateApiUrl: GetApiUrl<void>
-  getEarningsApiUrl: GetApiUrl<Address>
+  savingsRateApiUrl: string | undefined
+  getEarningsApiUrl: GetApiUrl | undefined
 }
 
 export interface FarmsConfig {
-  getFarmDetailsApiUrl: GetApiUrl<CheckedAddress>
-  farmConfigs: FarmConfig[]
+  getFarmDetailsApiUrl: GetApiUrl | undefined
+  configs: FarmConfig[]
 }
 
 export interface ChainConfigEntry {

@@ -173,10 +173,10 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
         ...(PLAYWRIGHT_MAINNET_USDS_CONTRACTS_NOT_AVAILABLE ? [] : [TokenSymbol('USDS')]),
       ],
       getEarningsApiUrl: (address) => `${infoSkyApiUrl}/savings-rate/wallets/${address.toLowerCase()}/?days_ago=9999`,
-      getSavingsRateApiUrl: () => `${infoSkyApiUrl}/savings-rate/`,
+      savingsRateApiUrl: `${infoSkyApiUrl}/savings-rate/`,
     },
     farms: {
-      farmConfigs: [
+      configs: [
         {
           rewardType: 'token',
           address: farmAddresses[mainnet.id].skyUsds,
@@ -297,7 +297,7 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
       savingsUsdsInfoQuery: undefined,
       inputTokens: [TokenSymbol('XDAI')],
       getEarningsApiUrl: undefined,
-      getSavingsRateApiUrl: undefined,
+      savingsRateApiUrl: undefined,
     },
     farms: undefined,
   },

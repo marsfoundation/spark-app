@@ -2,10 +2,10 @@ import { useQuery } from '@tanstack/react-query'
 
 import { TokenWithBalance } from '@/domain/common/types'
 import { SavingsInfo } from '@/domain/savings-info/types'
+import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { Timeframe } from '@/ui/charts/defaults'
 import { SimplifiedQueryResult } from '@/utils/types'
 import { useCallback } from 'react'
-import { Address } from 'viem'
 import { getFilteredEarningsWithPredictions } from './getFilteredEarningsWithPredictions'
 import { getSavingsDisplayType } from './getSavingsDisplayType'
 import { myEarningsQueryOptions } from './query'
@@ -13,7 +13,7 @@ import { selectMyEarningsSavingsDataByDisplayType } from './selectMyEarningsSavi
 import { MyEarningsInfoItem } from './types'
 
 export interface UseMyEarningsInfoParams {
-  address?: Address
+  address?: CheckedAddress
   chainId: number
   timeframe: Timeframe
   currentTimestamp: number
@@ -22,7 +22,7 @@ export interface UseMyEarningsInfoParams {
   susdsWithBalance: TokenWithBalance | undefined
   savingsDaiInfo: SavingsInfo | null
   sdaiWithBalance: TokenWithBalance | undefined
-  getEarningsApiUrl: ((address: Address) => string) | undefined
+  getEarningsApiUrl: ((address: CheckedAddress) => string) | undefined
 }
 
 export type MyEarningsInfo =
