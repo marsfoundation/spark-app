@@ -28,3 +28,7 @@ export const farmAddresses = {
     skyUsds: CheckedAddress('0x711b139b1f20DFc4416bFf875402015aeB05B4F2'),
   },
 } as const
+
+export const susdsAddresses = {
+  [mainnet.id]: CheckedAddress('0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD'),
+} as const

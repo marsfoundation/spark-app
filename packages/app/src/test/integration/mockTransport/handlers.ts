@@ -76,6 +76,10 @@ function contractCall<TAbi extends Abi | readonly unknown[], TFunctionName exten
       return undefined
     }
 
+    if (method === 'eth_estimateGas') {
+      return encodeRpcQuantity(100_000n)
+    }
+
     return encodeFunctionResult({
       abi: opts.abi,
       functionName: opts.functionName,
