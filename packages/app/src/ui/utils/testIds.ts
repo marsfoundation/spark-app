@@ -40,7 +40,7 @@ export const testIds = makeTestIds({
       error: true,
     },
     ConvertStablesButton: true,
-    SwitchNotSupportedNetworkButton: true
+    SwitchNotSupportedNetworkButton: true,
   },
   easyBorrow: {
     form: {
