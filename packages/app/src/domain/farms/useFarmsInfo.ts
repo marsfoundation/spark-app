@@ -21,13 +21,14 @@ export function useFarmsInfo({ chainId }: UseFarmsInfoParams): UseFarmsInfoResul
   const wagmiConfig = useConfig()
   const { address: account } = useAccount()
 
-  const { farms: farmConfigs, extraTokens } = getChainConfigEntry(chainId)
+  const { farms, extraTokens } = getChainConfigEntry(chainId)
   const { tokensInfo } = useTokensInfo({ tokens: extraTokens, chainId })
+  assert(farms, 'Farms config is not defined on this chain')
+  const farmConfigs = farms.configs
 
-  assert(farmConfigs, 'Farms config is not defined on this chain')
   const farmsApiDetailsResult = useQuery(farmsApiDetailsQueryOptions({ farmConfigs }))
 
-  const { data: farms } = useSuspenseQuery({
+  const { data } = useSuspenseQuery({
     ...farmsBlockchainDetailsQueryOptions({ farmConfigs, wagmiConfig, tokensInfo, chainId, account }),
     select: useCallback(
       (data: FarmBlockchainDetails[]) => mergeBlockchainAndApiDetails(data, farmsApiDetailsResult.data),
@@ -35,7 +36,7 @@ export function useFarmsInfo({ chainId }: UseFarmsInfoParams): UseFarmsInfoResul
     ),
   })
 
-  return { farmsInfo: new FarmsInfo(farms) }
+  return { farmsInfo: new FarmsInfo(data) }
 }
 
 function mergeBlockchainAndApiDetails(

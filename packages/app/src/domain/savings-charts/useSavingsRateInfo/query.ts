@@ -1,34 +1,36 @@
-import { infoSkyApiUrl } from '@/config/consts'
 import { percentageAboveOneSchema } from '@/domain/common/validation'
 import { dateSchema } from '@/utils/schemas'
-import { queryOptions } from '@tanstack/react-query'
+import { queryOptions, skipToken } from '@tanstack/react-query'
 import { sort } from 'd3-array'
 import { z } from 'zod'
 import { SavingsRateInfo } from './types'
 
 interface SavingsRateQueryParams {
   chainId: number
+  savingsRateApiUrl: string | undefined
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function savingsRateQueryOptions({ chainId }: SavingsRateQueryParams) {
+export function savingsRateQueryOptions({ chainId, savingsRateApiUrl }: SavingsRateQueryParams) {
   return queryOptions<SavingsRateInfo>({
     queryKey: savingsRateInfoQueryKey({ chainId }),
-    queryFn: async () => {
-      const res = await fetch(`${infoSkyApiUrl}/savings-rate/`)
+    queryFn: savingsRateApiUrl
+      ? async () => {
+          const res = await fetch(savingsRateApiUrl)
 
-      if (!res.ok) {
-        throw new Error(`Failed to fetch savings rate data: ${res.statusText}`)
-      }
+          if (!res.ok) {
+            throw new Error(`Failed to fetch savings rate data: ${res.statusText}`)
+          }
 
-      const data = savingsRateDataResponseSchema.parse(await res.json())
+          const data = savingsRateDataResponseSchema.parse(await res.json())
 
-      return data
-    },
+          return data
+        }
+      : skipToken,
   })
 }
 
-export function savingsRateInfoQueryKey({ chainId }: SavingsRateQueryParams): unknown[] {
+export function savingsRateInfoQueryKey({ chainId }: Omit<SavingsRateQueryParams, 'savingsRateApiUrl'>): unknown[] {
   return ['savings-rate', chainId]
 }
 
