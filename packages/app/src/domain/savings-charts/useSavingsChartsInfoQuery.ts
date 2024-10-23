@@ -46,7 +46,7 @@ export function useSavingsChartsInfoQuery({
   const { getEarningsApiUrl, savingsRateApiUrl } = savings
 
   const myEarningsInfo = useMyEarningsInfo({
-    address: address ? CheckedAddress(address) : address,
+    address: address ? CheckedAddress(address) : undefined,
     chainId,
     timeframe: selectedTimeframe,
     currentTimestamp: timestamp,
