@@ -2,7 +2,6 @@ import { getChainConfigEntry } from '@/config/chain'
 import { getAirdropsData } from '@/config/chain/utils/airdrops'
 import { paths } from '@/config/paths'
 import { MarketInfo, Reserve } from '@/domain/market-info/marketInfo'
-import { Percentage } from '@/domain/types/NumericValues'
 import { RowClickOptions } from '@/ui/molecules/data-table/DataTable'
 import { Transformer, TransformerResult, applyTransformers } from '@/utils/applyTransformers'
 import { raise } from '@/utils/assert'
@@ -16,7 +15,7 @@ export interface MarketEntryRowData extends MarketEntry {
 type MarketEntryTransformer = Transformer<[number, Reserve, Reserve[]], TransformerResult<MarketEntryRowData>>
 
 function getTransformers(): MarketEntryTransformer[] {
-  return [skipInactiveReserves, mergeDaiMarkets, renameReserve, makeMarketEntry]
+  return [skipInactiveReserves, renameReserve, makeMarketEntry]
 }
 
 export function transformReserves(marketInfo: MarketInfo): MarketEntry[] {
@@ -45,38 +44,6 @@ function renameReserve(chainId: number, reserve: Reserve): MarketEntryRowData | 
         name: tokenSymbolToReplacedName[reserve.token.symbol]!.name,
       }),
     })
-  }
-}
-
-function mergeDaiMarkets(
-  chainId: number,
-  reserve: Reserve,
-  allReserves: Reserve[],
-): MarketEntryRowData | undefined | null {
-  const sDAIMarket = allReserves.find((r) => r.token.symbol === 'sDAI')
-  const { tokenSymbolToReplacedName, mergedDaiAndSDaiMarkets } =
-    getChainConfigEntry(chainId).markets ?? raise('Markets config is not defined on this chain')
-  // @note: this can happen on some domains when DAI rollout is not yet complete
-  // Maker info is only available on mainnet now, so we don't merge DAI markets on other chains
-  if (!sDAIMarket || !mergedDaiAndSDaiMarkets) return
-
-  if (reserve.token.symbol === 'DAI') {
-    return makeMarketEntry(chainId, {
-      ...reserve,
-      token: reserve.token.clone({
-        symbol: tokenSymbolToReplacedName[reserve.token.symbol]!.symbol,
-        name: tokenSymbolToReplacedName[reserve.token.symbol]!.name,
-      }),
-      ...(import.meta.env.VITE_FEATURE_DISABLE_DAI_LEND === '1' && {
-        supplyAvailabilityStatus: 'no',
-        supplyAPY: Percentage(0),
-      }),
-      collateralEligibilityStatus: sDAIMarket.collateralEligibilityStatus,
-    })
-  }
-
-  if (reserve.token.symbol === 'sDAI') {
-    return null
   }
 }
 

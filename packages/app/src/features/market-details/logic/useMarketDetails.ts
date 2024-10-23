@@ -69,7 +69,6 @@ export function useMarketDetails(): UseMarketDetailsResult {
         reserve,
         marketInfo,
         D3MInfo,
-        sDaiCapAutomatorInfo: capAutomatorInfo,
       })
     : makeMarketOverview({
         reserve,

@@ -2,7 +2,6 @@ import { D3MInfo } from '@/domain/d3m-info/types'
 import { MarketInfo, Reserve } from '@/domain/market-info/marketInfo'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 
-import { CapAutomatorInfo } from '@/domain/cap-automator/types'
 import { MarketOverview } from '../types'
 import { makeMarketOverview } from './makeMarketOverview'
 
@@ -10,15 +9,9 @@ export interface MakeDaiMarketOverviewParams {
   reserve: Reserve
   marketInfo: MarketInfo
   D3MInfo: D3MInfo
-  sDaiCapAutomatorInfo: CapAutomatorInfo
 }
 
-export function makeDaiMarketOverview({
-  reserve,
-  marketInfo,
-  D3MInfo,
-  sDaiCapAutomatorInfo,
-}: MakeDaiMarketOverviewParams): MarketOverview {
+export function makeDaiMarketOverview({ reserve, marketInfo, D3MInfo }: MakeDaiMarketOverviewParams): MarketOverview {
   const baseOverview = makeMarketOverview({
     reserve,
     marketInfo,
@@ -27,13 +20,7 @@ export function makeDaiMarketOverview({
       supplyCap: undefined,
     },
   })
-  const sDAI = marketInfo.findOneReserveByToken(marketInfo.sDAI)
 
-  const sDaiOverview = makeMarketOverview({
-    reserve: sDAI,
-    marketInfo,
-    capAutomatorInfo: sDaiCapAutomatorInfo,
-  })
   const skyCapacity = NormalizedUnitNumber(D3MInfo.maxDebtCeiling.minus(D3MInfo.D3MCurrentDebtUSD))
   const marketSize = NormalizedUnitNumber(reserve.totalLiquidity.plus(skyCapacity))
   const totalAvailable = NormalizedUnitNumber(marketSize.minus(reserve.totalDebt))
@@ -50,20 +37,9 @@ export function makeDaiMarketOverview({
             totalLent: reserve.totalLiquidity,
             apy: reserve.supplyAPY,
           },
-    collateral: {
-      ...sDaiOverview.collateral,
-      status: 'yes',
-      supplyReplacement: {
-        token: sDAI.token,
-        totalSupplied: sDAI.totalLiquidity,
-        supplyAPY: sDAI.supplyAPY,
-        supplyCap: sDAI.supplyCap,
-        capAutomatorInfo: sDaiCapAutomatorInfo.supplyCap,
-      },
-    },
+    collateral: baseOverview.collateral,
     borrow: {
       ...baseOverview.borrow,
-      showTokenBadge: true,
       capAutomatorInfo: undefined,
     },
 
@@ -83,16 +59,6 @@ export function makeDaiMarketOverview({
         lastUpdateBlock: D3MInfo.lastUpdateBlock,
       },
     },
-    ...(sDAI.eModeCategory &&
-      (sDAI.eModeCategory.id === 1 || sDAI.eModeCategory.id === 2) && {
-        eMode: {
-          maxLtv: sDAI.eModeCategory.ltv,
-          liquidationThreshold: sDAI.eModeCategory.liquidationThreshold,
-          liquidationPenalty: sDAI.eModeCategory.liquidationBonus,
-          categoryId: sDAI.eModeCategory.id,
-          token: sDAI.token,
-          eModeCategoryTokens: sDaiOverview.eMode!.eModeCategoryTokens,
-        },
-      }),
+    eMode: baseOverview.eMode,
   }
 }

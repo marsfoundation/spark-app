@@ -1,6 +1,5 @@
 import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
-import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { withRouter } from 'storybook-addon-remix-react-router'
 
@@ -83,19 +82,6 @@ export const Dai: Story = {
     maxLtv: Percentage(0.8),
     liquidationThreshold: Percentage(0.825),
     liquidationPenalty: Percentage(0.05),
-    supplyReplacement: {
-      token: tokens.sDAI,
-      totalSupplied: NormalizedUnitNumber(72_000),
-      supplyAPY: Percentage(0.05),
-      supplyCap: NormalizedUnitNumber(112_000),
-      capAutomatorInfo: {
-        maxCap: NormalizedUnitNumber(200_000),
-        gap: NormalizedUnitNumber(0),
-        increaseCooldown: 43200,
-        lastIncreaseTimestamp: Math.floor(Date.now() / 1000 - 41903),
-        lastUpdateBlock: 0,
-      },
-    },
   },
 }
 export const DaiMobile = {

@@ -67,7 +67,6 @@ export type SavingsInfoQuery = (args: SavingsInfoQueryParams) => SavingsInfoQuer
 
 export interface MarketsConfig {
   defaultAssetToBorrow: TokenSymbol
-  mergedDaiAndSDaiMarkets: boolean
   nativeAssetInfo: NativeAssetInfo
   tokenSymbolToReplacedName: TokenSymbolToNameReplacement
   oracles: Record<TokenSymbol, ReserveOracleType>
