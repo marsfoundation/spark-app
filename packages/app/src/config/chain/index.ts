@@ -309,7 +309,7 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
           sdaiSymbol: undefined,
           usdsSymbol: TokenSymbol('USDS'),
           susdsSymbol: TokenSymbol('sUSDS'),
-          psmStables: undefined,
+          psmStables: [TokenSymbol('USDC'), TokenSymbol('USDS')],
           meta: {
             name: 'Base DevNet',
             logo: assets.chain.baseDevNet,
