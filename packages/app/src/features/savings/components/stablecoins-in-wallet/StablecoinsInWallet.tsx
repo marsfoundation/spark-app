@@ -87,9 +87,7 @@ export function StablecoinsInWallet({
             <div className="flex items-center gap-3">
               <img src={uiAssets.token.sky} className="h-8 w-8 rounded-full border-2 border-[#DBCAF4]" />
               <div className="flex flex-col">
-                <div className="font-semibold text-primary text-sm">
-                  Convert stablecoins without fees and slippages!
-                </div>
+                <div className="font-semibold text-primary text-sm">Convert stablecoins without fees and slippage!</div>
                 <div className="text-prompt-foreground text-xs">
                   Use SKY infrastructure to convert between supported stablecoins.
                 </div>
