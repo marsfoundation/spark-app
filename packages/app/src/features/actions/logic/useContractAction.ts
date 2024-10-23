@@ -13,17 +13,16 @@ import { createApproveActionConfig } from '../flavours/approve/logic/approveActi
 import { createBorrowActionConfig } from '../flavours/borrow/logic/borrowAction'
 import { createClaimFarmRewardsActionConfig } from '../flavours/claim-farm-rewards/logic/claimFarmRewardsAction'
 import { createClaimMarketRewardsActionConfig } from '../flavours/claim-market-rewards/logic/claimMarketRewardsAction'
-import { createDaiPsmConvertActionConfig } from '../flavours/dai-psm-convert/logic/daiPsmConvertAction'
 import { createDepositToSavingsActionConfig } from '../flavours/deposit-to-savings/logic/depositToSavingsAction'
 import { createDepositActionConfig } from '../flavours/deposit/logic/depositAction'
 import { createDowngradeActionConfig } from '../flavours/downgrade/logic/downgradeAction'
+import { createPsmConvertActionConfig } from '../flavours/psm-convert/logic/psmConvertAction'
 import { createRepayActionConfig } from '../flavours/repay/logic/repayAction'
 import { createSetUseAsCollateralActionConfig } from '../flavours/set-use-as-collateral/logic/setUseAsCollateralAction'
 import { createSetUserEModeActionConfig } from '../flavours/set-user-e-mode/logic/setUserEModeAction'
 import { createStakeActionConfig } from '../flavours/stake/logic/stakeAction'
 import { createUnstakeActionConfig } from '../flavours/unstake/logic/unstakeAction'
 import { createUpgradeActionConfig } from '../flavours/upgrade/logic/upgradeAction'
-import { createUsdsPsmConvertActionConfig } from '../flavours/usds-psm-convert/logic/usdsPsmConvertAction'
 import { createWithdrawFromSavingsActionConfig } from '../flavours/withdraw-from-savings/logic/withdrawFromSavingsAction'
 import { createWithdrawActionConfig } from '../flavours/withdraw/logic/withdrawAction'
 import { ActionConfig, ActionContext, InitialParamsQueryResult, VerifyTransactionResult } from './types'
@@ -160,10 +159,8 @@ function actionToConfig(action: Action, context: ActionContext): ActionConfig {
       return createStakeActionConfig(action, context)
     case 'unstake':
       return createUnstakeActionConfig(action, context)
-    case 'usdsPsmConvert':
-      return createUsdsPsmConvertActionConfig(action, context)
-    case 'daiPsmConvert':
-      return createDaiPsmConvertActionConfig(action, context)
+    case 'psmConvert':
+      return createPsmConvertActionConfig(action, context)
     case 'claimFarmRewards':
       return createClaimFarmRewardsActionConfig(action, context)
     case 'permit':

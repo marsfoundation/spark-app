@@ -7,8 +7,8 @@ import { assert, raise } from '@/utils/assert'
 import { assertNever } from '@/utils/assertNever'
 import { TransactionReceipt, decodeEventLog, erc4626Abi } from 'viem'
 import { ApproveAction } from '../../approve/types'
+import { PsmConvertAction } from '../../psm-convert/types'
 import { UpgradeAction } from '../../upgrade/types'
-import { UsdsPsmConvertAction } from '../../usds-psm-convert/types'
 import { createWithdrawFromSavingsActions } from '../../withdraw-from-savings/logic/createWithdrawFromSavingsActions'
 import { WithdrawFromSavingsObjective } from '../../withdraw-from-savings/types'
 import { StakeAction, StakeObjective } from '../types'
@@ -94,8 +94,8 @@ export function createStakeActions(objective: StakeObjective, context: ActionCon
         value: objective.amount,
       }
 
-      const convertToUsdsAction: UsdsPsmConvertAction = {
-        type: 'usdsPsmConvert',
+      const convertToUsdsAction: PsmConvertAction = {
+        type: 'psmConvert',
         inToken: objective.token,
         outToken: tokensInfo.USDS ?? raise('USDS token is required for usds psm convert action'),
         amount: objective.amount,

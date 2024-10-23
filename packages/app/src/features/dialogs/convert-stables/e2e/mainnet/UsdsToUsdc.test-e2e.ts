@@ -36,7 +36,7 @@ test.describe('Convert USDS to USDC', () => {
     await convertStablesDialog.actionsContainer.expectEnabledActionAtIndex(0)
     await convertStablesDialog.actionsContainer.expectActions([
       { type: 'approve', asset: 'USDS' },
-      { type: 'usdsPsmConvert', inToken: 'USDS', outToken: 'USDC' },
+      { type: 'psmConvert', inToken: 'USDS', outToken: 'USDC' },
     ])
   })
 

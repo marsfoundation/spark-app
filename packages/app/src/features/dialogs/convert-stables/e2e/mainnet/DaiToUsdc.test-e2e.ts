@@ -36,7 +36,7 @@ test.describe('Convert DAI to USDC', () => {
     await convertStablesDialog.actionsContainer.expectEnabledActionAtIndex(0)
     await convertStablesDialog.actionsContainer.expectActions([
       { type: 'approve', asset: 'DAI' },
-      { type: 'daiPsmConvert', inToken: 'DAI', outToken: 'USDC' },
+      { type: 'psmConvert', inToken: 'DAI', outToken: 'USDC' },
     ])
   })
 

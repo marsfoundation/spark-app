@@ -12,18 +12,17 @@ import { BorrowAction, BorrowObjective } from '../flavours/borrow/types'
 import { ClaimFarmRewardsAction, ClaimFarmRewardsObjective } from '../flavours/claim-farm-rewards/types'
 import { ClaimMarketRewardsAction, ClaimMarketRewardsObjective } from '../flavours/claim-market-rewards/types'
 import { ConvertStablesObjective } from '../flavours/convert-stables/types'
-import { DaiPsmConvertAction } from '../flavours/dai-psm-convert/types'
 import { DepositToSavingsAction, DepositToSavingsObjective } from '../flavours/deposit-to-savings/types'
 import { DepositAction, DepositObjective } from '../flavours/deposit/types'
 import { DowngradeAction, DowngradeObjective } from '../flavours/downgrade/types'
 import { PermitAction } from '../flavours/permit/types'
+import { PsmConvertAction } from '../flavours/psm-convert/types'
 import { RepayAction, RepayObjective } from '../flavours/repay/types'
 import { SetUseAsCollateralAction, SetUseAsCollateralObjective } from '../flavours/set-use-as-collateral/types'
 import { SetUserEModeAction, SetUserEModeObjective } from '../flavours/set-user-e-mode/logic/types'
 import { StakeAction, StakeObjective } from '../flavours/stake/types'
 import { UnstakeAction, UnstakeObjective } from '../flavours/unstake/types'
 import { UpgradeAction, UpgradeObjective } from '../flavours/upgrade/types'
-import { UsdsPsmConvertAction } from '../flavours/usds-psm-convert/types'
 import { WithdrawFromSavingsAction, WithdrawFromSavingsObjective } from '../flavours/withdraw-from-savings/types'
 import { WithdrawAction, WithdrawObjective } from '../flavours/withdraw/types'
 import { PermitStore } from './permits'
@@ -67,8 +66,7 @@ export type Action =
   | DowngradeAction
   | StakeAction
   | UnstakeAction
-  | UsdsPsmConvertAction
-  | DaiPsmConvertAction
+  | PsmConvertAction
   | ClaimFarmRewardsAction
 export type ActionType = Action['type']
 
