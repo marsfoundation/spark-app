@@ -74,21 +74,3 @@ export const CannotBeUsedAsCollateralTablet = {
   ...getTabletStory(CannotBeUsedAsCollateral as any),
   name: 'Cannot Be Used As Collateral (Tablet)',
 }
-
-export const Dai: Story = {
-  name: 'DAI',
-  args: {
-    status: 'yes',
-    maxLtv: Percentage(0.8),
-    liquidationThreshold: Percentage(0.825),
-    liquidationPenalty: Percentage(0.05),
-  },
-}
-export const DaiMobile = {
-  ...getMobileStory(Dai as any),
-  name: 'DAI (Mobile)',
-}
-export const DaiTablet = {
-  ...getTabletStory(Dai as any),
-  name: 'DAI (Tablet)',
-}
