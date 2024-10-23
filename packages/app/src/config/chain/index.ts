@@ -347,16 +347,7 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
             getEarningsApiUrl: undefined,
             getSavingsRateApiUrl: undefined,
           },
-          farms: {
-            farmConfigs: [
-              {
-                rewardType: 'token',
-                address: farmAddresses[base.id].skyUsds,
-                entryAssetsGroup: farmStablecoinsEntryGroup[base.id],
-              },
-            ],
-            getFarmDetailsApiUrl: undefined,
-          },
+          farms: undefined,
         },
       }
     : {}),
