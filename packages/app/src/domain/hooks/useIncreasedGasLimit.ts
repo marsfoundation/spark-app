@@ -2,7 +2,7 @@ import { basePsm3Config } from '@/config/abis/basePsm3Abi'
 import { susdsAddresses } from '@/config/chain/constants'
 import { savingsDaiConfig } from '@/config/contracts-generated'
 import { JSONStringifyRich } from '@/utils/object'
-import { useQuery } from '@tanstack/react-query'
+import { skipToken, useQuery } from '@tanstack/react-query'
 import { Abi, Address, ContractFunctionName, erc4626Abi, isAddressEqual } from 'viem'
 import { estimateContractGas } from 'viem/actions'
 import { base, mainnet } from 'viem/chains'
@@ -73,24 +73,22 @@ export function useIncreasedGasLimit(params: UseSimulateContractParameters<Abi, 
         config.functionName === functionName,
     )
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ['estimate-gas', chainId, address, account, functionName, JSONStringifyRich(args)],
-    queryFn: async () => {
-      if (!client || !account || !abi || !functionName || !address) {
-        throw new Error('Client, account, abi, function name and address are required')
-      }
+    queryFn:
+      client && address && abi && functionName && shouldIncreaseGasLimit
+        ? async () => {
+            const gas = await estimateContractGas(client, {
+              account,
+              address,
+              abi,
+              functionName,
+              args,
+            })
 
-      const gas = await estimateContractGas(client, {
-        account,
-        address,
-        abi,
-        functionName,
-        args,
-      })
-
-      return gas
-    },
-    enabled: Boolean(client && address && abi && functionName && shouldIncreaseGasLimit),
+            return gas
+          }
+        : skipToken,
     retry: 0, //do not retry as it's just an approximation that helps transactions fail less frequently
     gcTime: 0,
   })
@@ -98,7 +96,7 @@ export function useIncreasedGasLimit(params: UseSimulateContractParameters<Abi, 
   return {
     data: data && data + GAS_LIMIT_BUFFER,
     isLoading,
-    isReady: !shouldIncreaseGasLimit || !!data,
+    isReady: !shouldIncreaseGasLimit || !!data || isError, // if error, ignore trying to increase gas limit
   }
 }
 
