@@ -10,9 +10,6 @@ export class PageNotSupportedWarningPageObject extends BasePageObject {
   }
   // #endregion
 
-  // #region actions
-  // #endregion
-
   // #region assertions
   async expectSwitchNetworkVisible(): Promise<void> {
     await expect(this.locateSwitchNetworkButton()).toBeVisible()
