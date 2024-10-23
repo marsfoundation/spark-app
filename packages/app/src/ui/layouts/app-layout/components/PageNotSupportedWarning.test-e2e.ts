@@ -7,7 +7,7 @@ import { buildUrl, setup } from '@/test/e2e/setup'
 import { PageNotSupportedWarningPageObject } from './PageNotSupportedWarning.PageObject'
 
 test.describe('PageNotSupportedWarning', () => {
-  const fork = setupFork({ blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER, chainId: gnosis.id })
+  const fork = setupFork({ blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER, chainId: gnosis.id, useTenderlyVnet: true })
 
   test('Displays not supported warning on unsupported page', async ({ page }) => {
     await setup(page, fork, {
