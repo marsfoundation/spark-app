@@ -18,7 +18,13 @@ export function usePageChainId(): UsePageChainIdResult {
   const currentPage = Object.entries(paths).find(([_, path]) => matchPath(path, location.pathname))?.[0]
   const pageName = pageNamesMap[currentPage as Path]
 
-  if (currentPage && supportedPages.includes(currentPage)) {
+  if (!currentPage) {
+    // @note When the current page is not found in the paths that means the page is
+    // not existent *but* supported so we can display 404 page
+    return { chainId, pageSupported: true, pageName: '' }
+  }
+
+  if (supportedPages.includes(currentPage)) {
     return { chainId, pageSupported: true, pageName }
   }
 

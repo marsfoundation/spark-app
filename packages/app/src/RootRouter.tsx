@@ -61,6 +61,10 @@ export const rootRouter = createBrowserRouter([
               path: paths.myPortfolio,
               aliases: ['/dashboard'],
             },
+            {
+              path: paths.savings,
+              aliases: ['/savings'],
+            },
           ]),
           {
             path: '*',
