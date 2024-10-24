@@ -10,10 +10,6 @@ export function formatTooltipDate(date: Date): string {
   return `${day}.${month}.${year}`
 }
 
-export function formatDateTick(date: any): string {
-  return date.toLocaleDateString('en-US', { day: '2-digit', month: 'short' })
-}
-
 export function formatPercentageTick(value: { valueOf(): number }): string {
   const tickFormatter = new Intl.NumberFormat('en-US', {
     maximumFractionDigits: 2,
