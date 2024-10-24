@@ -22,10 +22,6 @@ msgstr ""
 #~ msgid "Borrow {0}"
 #~ msgstr ""
 
-#: src/features/navbar/components/PageLinks.tsx:44
-#~ msgid "Savings"
-#~ msgstr ""
-
 #: src/features/easy-borrow/deposit/DepositBorrow.tsx:132
 #~ msgid "Connect your wallet"
 #~ msgstr ""
@@ -48,4 +44,8 @@ msgstr ""
 
 #: src/features/navbar/components/PageLinks.tsx:32
 #~ msgid "My Portfolio"
+#~ msgstr ""
+
+#: src/features/navbar/components/PageLinks.tsx:44
+#~ msgid "Savings"
 #~ msgstr ""
