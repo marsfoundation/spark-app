@@ -22,6 +22,38 @@ export default {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
       },
       colors: {
+        reskin: {
+          base: {
+            white: 'rgba(var(--base-white) / <alpha-value>)',
+            black: 'rgba(var(--base-black) / <alpha-value>)',
+          },
+          neutral: {
+            50: 'rgba(var(--neutral-50) / <alpha-value>)',
+            100: 'rgba(var(--neutral-100) / <alpha-value>)',
+            200: 'rgba(var(--neutral-200) / <alpha-value>)',
+            300: 'rgba(var(--neutral-300) / <alpha-value>)',
+            400: 'rgba(var(--neutral-400) / <alpha-value>)',
+            500: 'rgba(var(--neutral-500) / <alpha-value>)',
+            600: 'rgba(var(--neutral-600) / <alpha-value>)',
+            700: 'rgba(var(--neutral-700) / <alpha-value>)',
+            800: 'rgba(var(--neutral-800) / <alpha-value>)',
+            900: 'rgba(var(--neutral-900) / <alpha-value>)',
+            950: 'rgba(var(--neutral-950) / <alpha-value>)',
+          },
+          primary: {
+            50: 'rgba(var(--primary-50) / <alpha-value>)',
+            100: 'rgba(var(--primary-100) / <alpha-value>)',
+            200: 'rgba(var(--primary-200) / <alpha-value>)',
+            300: 'rgba(var(--primary-300) / <alpha-value>)',
+            400: 'rgba(var(--primary-400) / <alpha-value>)',
+            500: 'rgba(var(--primary-500) / <alpha-value>)',
+            600: 'rgba(var(--primary-600) / <alpha-value>)',
+            700: 'rgba(var(--primary-700) / <alpha-value>)',
+            800: 'rgba(var(--primary-800) / <alpha-value>)',
+            900: 'rgba(var(--primary-900) / <alpha-value>)',
+            950: 'rgba(var(--primary-950) / <alpha-value>)',
+          },
+        },
         basics: {
           black: 'rgba(var(--basics-black) / <alpha-value>)',
           white: 'rgba(var(--basics-white) / <alpha-value>)',
