@@ -16,12 +16,7 @@ import { Percentage } from '@/domain/types/NumericValues'
 import { ChartTooltipContent } from '@/ui/charts/ChartTooltipContent'
 import { colors as colorsPreset } from '@/ui/charts/colors'
 import { Margins, POINT_RADIUS, defaultMargins } from '@/ui/charts/defaults'
-import {
-  formatDateTick,
-  formatPercentageTick,
-  formatTooltipDate,
-  getVerticalDomainWithPadding,
-} from '@/ui/charts/utils'
+import { formatPercentageTick, formatTooltipDate, getVerticalDomainWithPadding } from '@/ui/charts/utils'
 
 export interface ChartDataPoint {
   date: Date
@@ -139,7 +134,6 @@ function SavingsRateChart({
             top={innerHeight - margins.bottom / 4}
             scale={xValueScale}
             strokeWidth={0}
-            tickFormat={formatDateTick}
             numTicks={xAxisNumTicks}
             tickLabelProps={() => ({
               fill: colors.axisTickLabel,
