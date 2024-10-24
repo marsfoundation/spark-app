@@ -356,25 +356,6 @@ test.describe('Market details Mainnet', () => {
       await marketDetailsPage.expectBorrowCapCooldown('0h 00m 00s')
     })
 
-    test('DAI', async ({ page }) => {
-      await setup(page, fork, {
-        initialPage: 'marketDetails',
-        initialPageParams: { asset: DAI, chainId: fork.chainId.toString() },
-        account: {
-          type: 'not-connected',
-        },
-      })
-
-      const marketDetailsPage = new MarketDetailsPageObject(page)
-
-      await marketDetailsPage.expectSupplyPanelNotVisible()
-      await marketDetailsPage.expectBorrowPanelNotVisible()
-
-      await marketDetailsPage.expectCollateralCap('57.24M sDAI')
-      await marketDetailsPage.expectCollateralMaxCap('1B sDAI')
-      await marketDetailsPage.expectCollateralCapCooldown('0h 00m 00s')
-    })
-
     test('USDC', async ({ page }) => {
       await setup(page, fork, {
         initialPage: 'marketDetails',

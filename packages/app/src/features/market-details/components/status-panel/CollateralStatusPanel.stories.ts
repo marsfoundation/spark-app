@@ -1,6 +1,5 @@
 import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
-import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { withRouter } from 'storybook-addon-remix-react-router'
 
@@ -74,35 +73,4 @@ export const CannotBeUsedAsCollateralMobile = {
 export const CannotBeUsedAsCollateralTablet = {
   ...getTabletStory(CannotBeUsedAsCollateral as any),
   name: 'Cannot Be Used As Collateral (Tablet)',
-}
-
-export const Dai: Story = {
-  name: 'DAI',
-  args: {
-    status: 'yes',
-    maxLtv: Percentage(0.8),
-    liquidationThreshold: Percentage(0.825),
-    liquidationPenalty: Percentage(0.05),
-    supplyReplacement: {
-      token: tokens.sDAI,
-      totalSupplied: NormalizedUnitNumber(72_000),
-      supplyAPY: Percentage(0.05),
-      supplyCap: NormalizedUnitNumber(112_000),
-      capAutomatorInfo: {
-        maxCap: NormalizedUnitNumber(200_000),
-        gap: NormalizedUnitNumber(0),
-        increaseCooldown: 43200,
-        lastIncreaseTimestamp: Math.floor(Date.now() / 1000 - 41903),
-        lastUpdateBlock: 0,
-      },
-    },
-  },
-}
-export const DaiMobile = {
-  ...getMobileStory(Dai as any),
-  name: 'DAI (Mobile)',
-}
-export const DaiTablet = {
-  ...getTabletStory(Dai as any),
-  name: 'DAI (Tablet)',
 }

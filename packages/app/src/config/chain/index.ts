@@ -111,7 +111,6 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
     ],
     markets: {
       defaultAssetToBorrow: TokenSymbol('DAI'),
-      mergedDaiAndSDaiMarkets: true,
       nativeAssetInfo: {
         nativeAssetName: 'Ethereum',
         wrappedNativeAssetSymbol: TokenSymbol('WETH'),
@@ -238,7 +237,6 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
     ],
     markets: {
       defaultAssetToBorrow: TokenSymbol('WXDAI'),
-      mergedDaiAndSDaiMarkets: false,
       nativeAssetInfo: {
         nativeAssetName: 'XDAI',
         wrappedNativeAssetSymbol: TokenSymbol('WXDAI'),

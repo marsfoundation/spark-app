@@ -18,7 +18,6 @@ import { InfoTilesGrid } from './components/InfoTilesGrid'
 import { StatusPanelGrid } from './components/StatusPanelGrid'
 import { Subheader } from './components/Subheader'
 import { StatusIcon } from './components/status-icon/StatusIcon'
-import { TokenBadge } from './components/token-badge/TokenBadge'
 
 interface BorrowStatusPanelProps {
   status: BorrowEligibilityStatus
@@ -41,7 +40,6 @@ export function BorrowStatusPanel({
   reserveFactor,
   apy,
   chartProps,
-  showTokenBadge = false,
   hasSparkAirdrop,
   capAutomatorInfo,
 }: BorrowStatusPanelProps) {
@@ -55,7 +53,6 @@ export function BorrowStatusPanel({
         <StatusIcon status={status} />
         <Header status={status} variant="borrow" />
         <Subheader status={status} />
-        {showTokenBadge && <TokenBadge symbol={token.symbol} />}
         <InfoTilesGrid>
           <InfoTile>
             <InfoTile.Label>Total borrowed</InfoTile.Label>

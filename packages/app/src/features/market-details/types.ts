@@ -11,14 +11,6 @@ import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { CapAutomatorConfig } from '@/domain/cap-automator/types'
 import { InterestYieldChartProps } from './components/charts/interest-yield/InterestYieldChart'
 
-export interface SupplyReplacementInfo {
-  token: Token
-  totalSupplied: NormalizedUnitNumber
-  supplyAPY: Percentage | undefined
-  capAutomatorInfo: CapAutomatorConfig | undefined
-  supplyCap: NormalizedUnitNumber | undefined
-}
-
 export interface DssAutoline {
   maxDebtCeiling: NormalizedUnitNumber
   gap: NormalizedUnitNumber
@@ -43,7 +35,6 @@ export type CollateralStatusInfo = (
   maxLtv: Percentage
   liquidationThreshold: Percentage
   liquidationPenalty: Percentage
-  supplyReplacement?: SupplyReplacementInfo
 }
 export interface MarketOverview {
   supply?: {
@@ -63,7 +54,6 @@ export interface MarketOverview {
     apy: Percentage | undefined
     reserveFactor: Percentage
     chartProps: InterestYieldChartProps
-    showTokenBadge?: boolean
     capAutomatorInfo?: CapAutomatorConfig
   }
   lend?: {

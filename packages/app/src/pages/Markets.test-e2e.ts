@@ -55,8 +55,28 @@ test.describe('Markets', () => {
         status: {
           // @note: This value is different in production since VITE_FEATURE_DISABLE_DAI_LEND is disabled in playwright tests
           supply: 'Can be supplied',
-          collateral: 'Can be used as collateral',
+          collateral: 'Cannot be used as collateral',
           borrow: 'Can be borrowed',
+        },
+      },
+      {
+        asset: {
+          name: 'Savings Dai',
+          symbol: 'sDAI',
+        },
+        totalSupplied: {
+          tokenAmount: '13.49M',
+          usdValue: '$14.73M',
+        },
+        depositAPY: {
+          value: '0.00%',
+        },
+        totalBorrowed: undefined,
+        borrowAPY: undefined,
+        status: {
+          supply: 'Can be supplied',
+          collateral: 'Can be used as collateral',
+          borrow: 'Cannot be borrowed',
         },
       },
       {
