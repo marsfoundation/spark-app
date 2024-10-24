@@ -27,28 +27,31 @@ export function calculatePredictions({
   switch (timeframe) {
     case '7D':
       return calculatePredictionsIncomeByDays({
-        days: Math.max(optimalPredictionsLength, 7),
+        visibleDays: Math.max(optimalPredictionsLength, 7),
         shares,
         timestamp,
         savingsInfo,
+        step: 1,
       })
 
     case '1M':
       return calculatePredictionsIncomeByDays({
-        days: Math.max(optimalPredictionsLength, 30),
+        visibleDays: Math.max(optimalPredictionsLength, 30),
         shares,
         timestamp,
         savingsInfo,
+        step: 1,
       })
 
     case '1Y':
     case 'All':
       return calculatePredictionsIncomeByDays({
         // setting upper bounds due to visible performance problems
-        days: Math.max(Math.min(optimalPredictionsLength, 270), 90),
+        visibleDays: Math.max(Math.min(optimalPredictionsLength, 360), 90),
         shares,
         timestamp,
         savingsInfo,
+        step: 3,
       })
 
     default:
@@ -57,18 +60,20 @@ export function calculatePredictions({
 }
 
 function calculatePredictionsIncomeByDays({
-  days,
+  visibleDays,
   savingsInfo,
   shares,
   timestamp,
+  step,
 }: {
-  days: number
+  visibleDays: number
   savingsInfo: SavingsInfo
   shares: NormalizedUnitNumber
   timestamp: number
+  step: number
 }): MyEarningsInfoItem[] {
   // @note For today we have only current balance (with slight delay) but we need also balance for next data-point
-  return range(0, days).map((day) => {
+  return range(0, visibleDays * step, step).map((day) => {
     const dayTimestamp = timestamp + day * SECONDS_PER_DAY
 
     const dayIncomePrediction = savingsInfo.predictAssetsAmount({
