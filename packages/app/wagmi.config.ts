@@ -4,7 +4,7 @@ import { base, gnosis, mainnet } from 'wagmi/chains'
 import { z } from 'zod'
 import 'dotenv/config'
 
-export default defineConfig({
+const config: ReturnType<typeof defineConfig> = defineConfig({
   out: 'src/config/contracts-generated.ts',
   contracts: [],
   plugins: [
@@ -179,3 +179,5 @@ export default defineConfig({
     }),
   ],
 })
+
+export default config

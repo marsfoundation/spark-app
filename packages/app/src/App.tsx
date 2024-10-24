@@ -4,6 +4,9 @@ import { RainbowKitProvider, lightTheme } from '@rainbow-me/rainbowkit'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { Toaster } from 'react-hot-toast'
 import { RouterProvider } from 'react-router-dom'
+import { DynamicContextProvider } from '@dynamic-labs/sdk-react-core'
+import { DynamicWagmiConnector } from '@dynamic-labs/wagmi-connector'
+import { EthereumWalletConnectors } from '@dynamic-labs/ethereum'
 import { WagmiProvider } from 'wagmi'
 
 import { getConfig } from '@/config/wagmi'
@@ -29,23 +32,32 @@ function App() {
   }
 
   return (
-    <WagmiProvider config={config}>
-      <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider
-          theme={lightTheme({
-            accentColor: '#3E64EF',
-            borderRadius: 'medium',
-          })}
-        >
-          <I18nAppProvider>
-            <Toaster position="top-right" containerClassName="toast-notifications" />
-            <TooltipProvider delayDuration={0}>
-              <RouterProvider router={rootRouter} />
-            </TooltipProvider>
-          </I18nAppProvider>
-        </RainbowKitProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
+    <DynamicContextProvider
+      settings={{
+        environmentId: import.meta.env.VITE_DYNAMIC_ENVIRONMENT_ID || '',
+        walletConnectors: [EthereumWalletConnectors],
+      }}
+    >
+      <WagmiProvider config={config}>
+        <QueryClientProvider client={queryClient}>
+          <RainbowKitProvider
+            theme={lightTheme({
+              accentColor: '#3E64EF',
+              borderRadius: 'medium',
+            })}
+          >
+            <DynamicWagmiConnector>
+              <I18nAppProvider>
+                <Toaster position="top-right" containerClassName="toast-notifications" />
+                <TooltipProvider delayDuration={0}>
+                  <RouterProvider router={rootRouter} />
+                </TooltipProvider>
+              </I18nAppProvider>
+            </DynamicWagmiConnector>
+          </RainbowKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>
+    </DynamicContextProvider>
   )
 }
 

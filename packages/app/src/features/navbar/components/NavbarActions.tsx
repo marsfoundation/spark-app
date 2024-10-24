@@ -5,7 +5,7 @@ import { AirdropBadge } from './airdrop-badge/AirdropBadge'
 import { NetworkSelector } from './network-selector/NetworkSelector'
 import { RewardsBadge } from './rewards-badge/RewardsBadge'
 import { SettingsDropdown } from './settings-dropdown/SettingsDropdown'
-import { WalletDropdown } from './wallet-dropdown/WalletDropdown'
+import { DynamicWidget } from '@dynamic-labs/sdk-react-core'
 
 export interface NavbarActionsProps {
   mobileMenuCollapsed: boolean
@@ -24,8 +24,6 @@ export function NavbarActions({
   mobileMenuCollapsed,
   currentChain,
   openSelectNetworkDialog,
-  openConnectModal,
-  connectedWalletInfo,
   airdropInfo,
   rewardsInfo,
   openSandboxDialog,
@@ -42,7 +40,7 @@ export function NavbarActions({
       <RewardsBadge {...rewardsInfo} />
       <AirdropBadge {...airdropInfo} />
       <NetworkSelector currentChain={currentChain} openSelectNetworkDialog={openSelectNetworkDialog} />
-      <WalletDropdown onConnect={openConnectModal} connectedWalletInfo={connectedWalletInfo} />
+      <DynamicWidget />
       <SettingsDropdown onSandboxModeClick={openSandboxDialog} isSandboxEnabled={isSandboxEnabled} />
     </div>
   )
