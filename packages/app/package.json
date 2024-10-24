@@ -11,6 +11,7 @@
     "dev": "vite --port 4000",
     "build": "tsc && pnpm run lingui:extract && vite build",
     "build:staging": "pnpm run build --mode staging",
+    "preview": "vite preview",
     "lint": "eslint src",
     "lint:custom": "tsx ./scripts/verify-svgs.ts",
     "verify": "concurrently --names \"LINT,TEST,TYPECHECK,LINT-CUSTOM\" -c \"bgMagenta.bold,bgGreen.bold,bgBlue.bold,bgCyan.bold\" \"pnpm run lint\" \"pnpm run test --silent\" \"pnpm run typecheck\" \"pnpm run lint:custom\"",
