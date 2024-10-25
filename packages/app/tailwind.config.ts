@@ -30,6 +30,7 @@ export default {
             black: 'rgb(var(--base-black))',
           },
           neutral: {
+            DEFAULT: 'rgb(var(--neutral-500))',
             50: 'rgb(var(--neutral-50))',
             100: 'rgb(var(--neutral-100))',
             200: 'rgb(var(--neutral-200))',
@@ -43,6 +44,7 @@ export default {
             950: 'rgb(var(--neutral-950))',
           },
           primary: {
+            DEFAULT: 'rgb(var(--primary-800))',
             50: 'rgb(var(--primary-50))',
             100: 'rgb(var(--primary-100))',
             200: 'rgb(var(--primary-200))',
@@ -56,6 +58,7 @@ export default {
             950: 'rgb(var(--primary-950))',
           },
           success: {
+            DEFAULT: 'rgb(var(--success-600))',
             50: 'rgb(var(--success-50))',
             100: 'rgb(var(--success-100))',
             200: 'rgb(var(--success-200))',
@@ -69,6 +72,7 @@ export default {
             950: 'rgb(var(--success-950))',
           },
           warning: {
+            DEFAULT: 'rgb(var(--warning-600))',
             50: 'rgb(var(--warning-50))',
             100: 'rgb(var(--warning-100))',
             200: 'rgb(var(--warning-200))',
@@ -82,6 +86,7 @@ export default {
             950: 'rgb(var(--warning-950))',
           },
           error: {
+            DEFAULT: 'rgb(var(--error-700))',
             50: 'rgb(var(--error-50))',
             100: 'rgb(var(--error-100))',
             200: 'rgb(var(--error-200))',
@@ -95,6 +100,7 @@ export default {
             950: 'rgb(var(--error-950))',
           },
           green: {
+            DEFAULT: 'rgb(var(--green-600))',
             50: 'rgb(var(--green-50))',
             100: 'rgb(var(--green-100))',
             200: 'rgb(var(--green-200))',
@@ -108,6 +114,7 @@ export default {
             950: 'rgb(var(--green-950))',
           },
           orange: {
+            DEFAULT: 'rgb(var(--orange-600))',
             50: 'rgb(var(--orange-50))',
             100: 'rgb(var(--orange-100))',
             200: 'rgb(var(--orange-200))',
@@ -121,6 +128,7 @@ export default {
             950: 'rgb(var(--orange-950))',
           },
           magenta: {
+            DEFAULT: 'rgb(var(--magenta-600))',
             50: 'rgb(var(--magenta-50))',
             100: 'rgb(var(--magenta-100))',
             200: 'rgb(var(--magenta-200))',
@@ -257,6 +265,10 @@ export default {
         'light-blue': 'rgb(var(--nav-primary))',
         'product-dark-blue': 'rgb(var(--product-dark-blue))',
       },
+      fontWeight: {
+        regular: '400',
+        medium: '500',
+      },
       boxShadow: {
         nav: '0px 20px 40px 0px var(--nav-shadow)',
         tooltip: '0px 4px 30px 7px var(--tooltip-shadow)',
@@ -331,7 +343,7 @@ export default {
   plugins: [
     require('tailwindcss-animate'),
     plugin(({ addUtilities, theme }) => {
-      const baseTypography = {
+      addUtilities({
         // @note text-display-* font weight is intentionally set to 500
         // Downloadable link contains only 500 weight variant of Roobert font
         // according to the guideline only 500 should be used for headings so that might be possible reason
@@ -512,9 +524,7 @@ export default {
           fontWeight: '500',
           fontFamily: theme('fontFamily.roobert'),
         },
-      }
 
-      const desktopTypography = {
         '@screen sm': {
           '.text-display-1': {
             fontSize: '7.25rem', // 116px
@@ -626,11 +636,43 @@ export default {
             lineHeight: '1rem', // 16px
           },
         },
-      }
+      })
 
       addUtilities({
-        ...baseTypography,
-        ...desktopTypography,
+        '.leading-spacious': {
+          lineHeight: '150%',
+        },
+        '.leading-normal': {
+          lineHeight: '125%',
+        },
+        '.leading-dense': {
+          lineHeight: '100%',
+        },
+
+        // needed to override the default line heights
+        '@screen sm': {
+          '.leading-spacious': {
+            lineHeight: '150%',
+          },
+          '.leading-normal': {
+            lineHeight: '125%',
+          },
+          '.leading-dense': {
+            lineHeight: '100%',
+          },
+        },
+      })
+
+      addUtilities({
+        '.icon-xs': {
+          height: '16px',
+        },
+        '.icon-sm': {
+          height: '20px',
+        },
+        '.icon-md': {
+          height: '24px',
+        },
       })
     }),
   ],
