@@ -8,7 +8,7 @@
     "jsx": "react",
     "baseUrl": ".",
     "paths": {
-      "@app/*": ["packages/app/src/*"]
+      "@app/*": ["packages/app/*"]
     },
     "esModuleInterop": true,
     "skipLibCheck": true,

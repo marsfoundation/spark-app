@@ -1,5 +1,3 @@
-import { useConnectModal } from '@rainbow-me/rainbowkit'
-
 import { useOpenDialog } from '@/domain/state/dialogs'
 import { withSuspense } from '@/ui/utils/withSuspense'
 
@@ -7,6 +5,7 @@ import { MyPortfolioSkeleton } from './components/skeleton/MyPortfolioSkeleton'
 import { useMyPortfolio } from './logic/useMyPortfolio'
 import { GuestView } from './views/GuestView'
 import { PositionView } from './views/PositionView'
+import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 
 function MyPortfolioContainer() {
   const {
@@ -19,11 +18,11 @@ function MyPortfolioContainer() {
     liquidationDetails,
     openSandboxModal,
   } = useMyPortfolio()
-  const { openConnectModal = () => {} } = useConnectModal()
+  const { setShowAuthFlow } = useDynamicContext()
   const openDialog = useOpenDialog()
 
   if (guestMode) {
-    return <GuestView openConnectModal={openConnectModal} openSandboxModal={openSandboxModal} />
+    return <GuestView openConnectModal={() => setShowAuthFlow(true)} openSandboxModal={openSandboxModal} />
   }
 
   return (

@@ -1,9 +1,9 @@
 /* eslint-disable react-refresh/only-export-components */
-import { useConnectModal } from '@rainbow-me/rainbowkit'
 import React from 'react'
 
 import { NotConnectedError } from '../src/domain/errors/not-connected'
 import { Button } from '../src/ui/atoms/button/Button'
+import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 
 interface ErrorBoundaryProps {
   children: React.ReactNode
@@ -35,10 +35,10 @@ export class StorybookErrorBoundary extends React.Component<ErrorBoundaryProps, 
 }
 
 function ErrorComponent({ error }: { error: Error }) {
-  const { openConnectModal } = useConnectModal()
+  const { setShowAuthFlow } = useDynamicContext()
 
   if (error instanceof NotConnectedError) {
-    return <Button onClick={openConnectModal}>Connect wallet</Button>
+    return <Button onClick={() => setShowAuthFlow(true)}>Connect wallet</Button>
   }
   return <>Unknown error: {error.message}</>
 }

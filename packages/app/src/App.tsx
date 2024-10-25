@@ -1,6 +1,3 @@
-import '@rainbow-me/rainbowkit/styles.css'
-
-import { RainbowKitProvider, lightTheme } from '@rainbow-me/rainbowkit'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { Toaster } from 'react-hot-toast'
 import { RouterProvider } from 'react-router-dom'
@@ -40,21 +37,14 @@ function App() {
     >
       <WagmiProvider config={config}>
         <QueryClientProvider client={queryClient}>
-          <RainbowKitProvider
-            theme={lightTheme({
-              accentColor: '#3E64EF',
-              borderRadius: 'medium',
-            })}
-          >
-            <DynamicWagmiConnector>
-              <I18nAppProvider>
-                <Toaster position="top-right" containerClassName="toast-notifications" />
-                <TooltipProvider delayDuration={0}>
-                  <RouterProvider router={rootRouter} />
-                </TooltipProvider>
-              </I18nAppProvider>
-            </DynamicWagmiConnector>
-          </RainbowKitProvider>
+          <DynamicWagmiConnector>
+            <I18nAppProvider>
+              <Toaster position="top-right" containerClassName="toast-notifications" />
+              <TooltipProvider delayDuration={0}>
+                <RouterProvider router={rootRouter} />
+              </TooltipProvider>
+            </I18nAppProvider>
+          </DynamicWagmiConnector>
         </QueryClientProvider>
       </WagmiProvider>
     </DynamicContextProvider>

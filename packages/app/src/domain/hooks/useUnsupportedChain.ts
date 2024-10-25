@@ -1,12 +1,11 @@
 import { sandboxDialogConfig } from '@/features/dialogs/sandbox/SandboxDialog'
-import { useChainModal, useConnectModal } from '@rainbow-me/rainbowkit'
 import { useAccount, useSwitchChain } from 'wagmi'
 import { useOpenDialog } from '../state/dialogs'
+import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 
 export interface UseUnsupportedChainResult {
   isGuestMode: boolean
   openConnectModal: () => void
-  openChainModal: () => void
   openSandboxModal: () => void
   switchChain: (chainId: number) => void
 }
@@ -14,8 +13,8 @@ export interface UseUnsupportedChainResult {
 export function useUnsupportedChain(): UseUnsupportedChainResult {
   const openDialog = useOpenDialog()
   const isGuestMode = useAccount().isConnected === false
-  const { openConnectModal = () => {} } = useConnectModal()
-  const { openChainModal = () => {} } = useChainModal()
+  const { setShowAuthFlow } = useDynamicContext()
+
   const { switchChain } = useSwitchChain()
 
   function openSandboxModal(): void {
@@ -24,8 +23,7 @@ export function useUnsupportedChain(): UseUnsupportedChainResult {
 
   return {
     isGuestMode,
-    openConnectModal,
-    openChainModal,
+    openConnectModal: () => setShowAuthFlow(true),
     openSandboxModal,
     switchChain: (chainId: number) => switchChain({ chainId }),
   }
