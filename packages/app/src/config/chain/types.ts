@@ -10,6 +10,8 @@ import { SUPPORTED_CHAIN_IDS } from './constants'
 
 export type SupportedChainId = (typeof SUPPORTED_CHAIN_IDS)[number]
 
+export type GetApiUrl = (address: CheckedAddress) => string
+
 export interface NativeAssetInfo {
   nativeAssetName: string
   nativeAssetSymbol: TokenSymbol
@@ -65,7 +67,6 @@ export type SavingsInfoQuery = (args: SavingsInfoQueryParams) => SavingsInfoQuer
 
 export interface MarketsConfig {
   defaultAssetToBorrow: TokenSymbol
-  mergedDaiAndSDaiMarkets: boolean
   nativeAssetInfo: NativeAssetInfo
   tokenSymbolToReplacedName: TokenSymbolToNameReplacement
   oracles: Record<TokenSymbol, ReserveOracleType>
@@ -73,9 +74,15 @@ export interface MarketsConfig {
 
 export interface SavingsConfig {
   inputTokens: TokenSymbol[]
-  chartsSupported: boolean
   savingsDaiInfoQuery: SavingsInfoQuery | undefined
   savingsUsdsInfoQuery: SavingsInfoQuery | undefined
+  savingsRateApiUrl: string | undefined
+  getEarningsApiUrl: GetApiUrl | undefined
+}
+
+export interface FarmsConfig {
+  getFarmDetailsApiUrl: GetApiUrl | undefined
+  configs: FarmConfig[]
 }
 
 export interface ChainConfigEntry {
@@ -92,7 +99,7 @@ export interface ChainConfigEntry {
   extraTokens: TokenWithOracleType[]
   markets: MarketsConfig | undefined
   savings: SavingsConfig | undefined
-  farms: FarmConfig[] | undefined
+  farms: FarmsConfig | undefined
 }
 
 export type ChainConfig = Record<SupportedChainId, ChainConfigEntry>

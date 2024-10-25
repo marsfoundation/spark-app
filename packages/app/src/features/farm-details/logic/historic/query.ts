@@ -1,33 +1,40 @@
-import { infoSkyApiUrl } from '@/config/consts'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
-import { queryOptions } from '@tanstack/react-query'
+import { queryOptions, skipToken } from '@tanstack/react-query'
 import { z } from 'zod'
 
 export interface FarmHistoricDataParameters {
   chainId: number
   farmAddress: CheckedAddress
   historyCutoff?: Date
+  getFarmDetailsApiUrl: ((address: CheckedAddress) => string) | undefined
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function farmHistoricDataQueryOptions({ chainId, farmAddress, historyCutoff }: FarmHistoricDataParameters) {
+export function farmHistoricDataQueryOptions({
+  chainId,
+  farmAddress,
+  historyCutoff,
+  getFarmDetailsApiUrl,
+}: FarmHistoricDataParameters) {
   return queryOptions({
     queryKey: ['farm-historic-data', chainId, farmAddress],
-    queryFn: async () => {
-      const res = await fetch(`${infoSkyApiUrl}/farms/${farmAddress.toLowerCase()}/historic/`)
-      if (!res.ok) {
-        throw new Error(`Failed to fetch farm data: ${res.statusText}`)
-      }
+    queryFn: getFarmDetailsApiUrl
+      ? async () => {
+          const res = await fetch(getFarmDetailsApiUrl(farmAddress))
+          if (!res.ok) {
+            throw new Error(`Failed to fetch farm data: ${res.statusText}`)
+          }
 
-      const data = historicDataResponseSchema.parse(await res.json())
+          const data = historicDataResponseSchema.parse(await res.json())
 
-      if (historyCutoff) {
-        return data.filter((result) => result.date >= historyCutoff)
-      }
+          if (historyCutoff) {
+            return data.filter((result) => result.date >= historyCutoff)
+          }
 
-      return data
-    },
+          return data
+        }
+      : skipToken,
   })
 }
 

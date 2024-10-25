@@ -78,6 +78,19 @@ export function PageLinks({
         mobileMenuCollapsed && 'hidden lg:flex',
       )}
     >
+      {!blockedPages.some((page) => page === 'savings') && ( // some instead of includes for better type inference
+        <NavLink
+          to={paths.savings}
+          onClick={closeMobileMenu}
+          postfix={
+            savingsInfo?.data || savingsInfo?.isLoading ? (
+              <SavingsAPYBadge APY={savingsInfo.data?.apy} isLoading={savingsInfo.isLoading} />
+            ) : undefined
+          }
+        >
+          Savings
+        </NavLink>
+      )}
       {isMobile ? (
         // TODO: fix accordion initial open state animation
         <Accordion type="single" collapsible className="pr-1">
@@ -123,20 +136,6 @@ export function PageLinks({
             ))}
           </DropdownMenuContent>
         </DropdownMenu>
-      )}
-
-      {!blockedPages.some((page) => page === 'savings') && ( // some instead of includes for better type inference
-        <NavLink
-          to={paths.savings}
-          onClick={closeMobileMenu}
-          postfix={
-            savingsInfo?.data || savingsInfo?.isLoading ? (
-              <SavingsAPYBadge APY={savingsInfo.data?.apy} isLoading={savingsInfo.isLoading} />
-            ) : undefined
-          }
-        >
-          Savings
-        </NavLink>
       )}
 
       <NavLink to={paths.farms} onClick={closeMobileMenu} postfix={<NewPageBadge />}>

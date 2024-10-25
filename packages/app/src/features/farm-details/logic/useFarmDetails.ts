@@ -64,8 +64,9 @@ export function useFarmDetails(): UseFarmDetailsResult {
   const chainMismatch = walletConnected && connectedChainId !== chainId
   const { openConnectModal = () => {} } = useConnectModal()
   const openDialog = useOpenDialog()
-  const chainConfig = getChainConfigEntry(chainId)
-  const farmConfig = chainConfig.farms?.find((farm) => farm.address === farmAddress) ?? raise('Farm not configured')
+
+  const { farms, extraTokens } = getChainConfigEntry(chainId)
+  const farmConfig = farms?.configs.find((farm) => farm.address === farmAddress) ?? raise('Farm not configured')
 
   useSandboxPageRedirect({
     basePath: paths.farmDetails,
@@ -76,8 +77,11 @@ export function useFarmDetails(): UseFarmDetailsResult {
   const { farmsInfo } = useFarmsInfo({ chainId })
   const farm = farmsInfo.findFarmByAddress(farmAddress) ?? raise(new NotFoundError())
 
-  const { farmHistory, onTimeframeChange, timeframe } = useFarmHistory({ chainId, farmAddress })
-  const { tokensInfo } = useTokensInfo({ tokens: chainConfig.extraTokens, chainId })
+  const { farmHistory, onTimeframeChange, timeframe } = useFarmHistory({
+    chainId,
+    farmAddress,
+  })
+  const { tokensInfo } = useTokensInfo({ tokens: extraTokens, chainId })
   const rewardPointsData = useRewardPointsData({
     farm,
     account,

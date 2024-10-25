@@ -15,6 +15,7 @@ import { MutationKey, useMutation } from '@tanstack/react-query'
 import { writeContractMutationOptions } from 'wagmi/query'
 import { recordEvent } from '../analytics'
 import { sanityCheckTx } from './sanityChecks'
+import { useIncreasedGasLimit } from './useIncreasedGasLimit'
 import { useOriginChainId } from './useOriginChainId'
 import { useWaitForTransactionReceiptUniversal } from './useWaitForTransactionReceiptUniversal'
 import { useWalletType } from './useWalletType'
@@ -57,6 +58,12 @@ export function useWrite<TAbi extends Abi, TFunctionName extends ContractFunctio
 
   const { address: account } = useAccount()
   const walletType = useWalletType() // needed for analytics
+
+  const {
+    data: gasLimit,
+    isLoading: isGasLimitLoading,
+    isReady: isGasLimitReady,
+  } = useIncreasedGasLimit({ ...args } as any)
   const {
     data: parameters,
     error: _simulationError,
@@ -64,10 +71,11 @@ export function useWrite<TAbi extends Abi, TFunctionName extends ContractFunctio
     isLoading: isSimulationLoading,
   } = useSimulateContract({
     account,
+    gas: gasLimit,
     ...args,
     query: {
       gcTime: 0,
-      enabled,
+      enabled: enabled && isGasLimitReady,
       ...args.query,
     },
   } as any)
@@ -102,7 +110,7 @@ export function useWrite<TAbi extends Abi, TFunctionName extends ContractFunctio
     if (!enabled) {
       return { kind: 'disabled' }
     }
-    if (isSimulationLoading) {
+    if (isSimulationLoading || isGasLimitLoading) {
       return { kind: 'simulating' }
     }
     if (simulationError) {

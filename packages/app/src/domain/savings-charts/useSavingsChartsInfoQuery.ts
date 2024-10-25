@@ -1,11 +1,12 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { Timeframe } from '@/ui/charts/defaults'
-import { raise } from '@/utils/assert'
+import { assert } from '@/utils/assert'
 import { useTimestamp } from '@/utils/useTimestamp'
 import { useState } from 'react'
 import { useAccount, useChainId } from 'wagmi'
 import { TokenWithBalance } from '../common/types'
 import { SavingsInfo } from '../savings-info/types'
+import { CheckedAddress } from '../types/CheckedAddress'
 import { UseMyEarningsInfoResult, useMyEarningsInfo } from './useMyEarningsInfo/useMyEarningsInfo'
 import { UseSavingsRateInfoResult, useSavingsRateInfo } from './useSavingsRateInfo/useSavingsRateInfo'
 
@@ -38,11 +39,14 @@ export function useSavingsChartsInfoQuery({
   const { address } = useAccount()
   const { timestamp } = useTimestamp({ refreshIntervalInMs: REFRESH_INTERVAL_IN_MS })
 
-  const { chartsSupported } =
-    getChainConfigEntry(chainId).savings ?? raise('Savings config is not defined on this chain')
+  const { savings } = getChainConfigEntry(chainId)
+
+  assert(savings, 'Savings are not supported on this chain')
+
+  const { getEarningsApiUrl, savingsRateApiUrl } = savings
 
   const myEarningsInfo = useMyEarningsInfo({
-    address,
+    address: address ? CheckedAddress(address) : undefined,
     chainId,
     timeframe: selectedTimeframe,
     currentTimestamp: timestamp,
@@ -51,7 +55,7 @@ export function useSavingsChartsInfoQuery({
     sdaiWithBalance,
     savingsUsdsInfo,
     susdsWithBalance,
-    chartsSupported,
+    getEarningsApiUrl,
   })
 
   const savingsRateInfo = useSavingsRateInfo({
@@ -59,7 +63,7 @@ export function useSavingsChartsInfoQuery({
     timeframe: selectedTimeframe,
     currentTimestamp: timestamp,
     staleTime: REFRESH_INTERVAL_IN_MS,
-    chartsSupported,
+    savingsRateApiUrl,
   })
 
   return {
@@ -67,6 +71,6 @@ export function useSavingsChartsInfoQuery({
     setSelectedTimeframe,
     myEarningsInfo,
     savingsRateInfo,
-    chartsSupported,
+    chartsSupported: !!savingsRateApiUrl || !!getEarningsApiUrl,
   }
 }

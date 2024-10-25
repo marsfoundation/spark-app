@@ -1,5 +1,5 @@
 import { poolAbi } from '@/config/abis/poolAbi'
-import { InterestRate, NATIVE_ASSET_MOCK_ADDRESS } from '@/config/consts'
+import { InterestRate, NATIVE_ASSET_MOCK_ADDRESS, SPARK_UI_REFERRAL_CODE } from '@/config/consts'
 import { lendingPoolConfig, wethGatewayConfig } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
@@ -20,14 +20,13 @@ export function createBorrowActionConfig(action: BorrowAction, context: ActionCo
     getWriteConfig: () => {
       const borrowAmount = toBigInt(action.token.toBaseUnit(action.value))
       const interestRateMode = BigInt(InterestRate.Variable)
-      const referralCode = 0
 
       if (borrowTokenAddress === NATIVE_ASSET_MOCK_ADDRESS) {
         return ensureConfigTypes({
           abi: wethGatewayConfig.abi,
           address: wethGatewayAddress,
           functionName: 'borrowETH',
-          args: [lendingPoolAddress, borrowAmount, interestRateMode, referralCode],
+          args: [lendingPoolAddress, borrowAmount, interestRateMode, SPARK_UI_REFERRAL_CODE],
         })
       }
 
@@ -35,7 +34,7 @@ export function createBorrowActionConfig(action: BorrowAction, context: ActionCo
         abi: poolAbi,
         address: lendingPoolAddress,
         functionName: 'borrow',
-        args: [borrowTokenAddress, borrowAmount, interestRateMode, referralCode, account],
+        args: [borrowTokenAddress, borrowAmount, interestRateMode, SPARK_UI_REFERRAL_CODE, account],
       })
     },
 

@@ -1,5 +1,5 @@
 import { poolAbi } from '@/config/abis/poolAbi'
-import { NATIVE_ASSET_MOCK_ADDRESS } from '@/config/consts'
+import { NATIVE_ASSET_MOCK_ADDRESS, SPARK_UI_REFERRAL_CODE } from '@/config/consts'
 import { lendingPoolAddress, wethGatewayConfig } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
@@ -21,7 +21,6 @@ export function createDepositActionConfig(action: DepositAction, context: Action
     getWriteConfig: () => {
       const value = toBigInt(action.token.toBaseUnit(action.value))
       const token = action.token.address
-      const referralCode = 0
       const permit = permitStore?.find(action.token)
 
       if (token === NATIVE_ASSET_MOCK_ADDRESS) {
@@ -30,7 +29,7 @@ export function createDepositActionConfig(action: DepositAction, context: Action
           address: wethGateway,
           functionName: 'depositETH',
           value,
-          args: [lendingPool, context.account, referralCode],
+          args: [lendingPool, context.account, SPARK_UI_REFERRAL_CODE],
         })
       }
 
@@ -43,7 +42,7 @@ export function createDepositActionConfig(action: DepositAction, context: Action
             token,
             value,
             context.account,
-            referralCode,
+            SPARK_UI_REFERRAL_CODE,
             toBigInt(getTimestampInSeconds(permit.deadline)),
             Number(permit.signature.v),
             permit.signature.r,
@@ -56,7 +55,7 @@ export function createDepositActionConfig(action: DepositAction, context: Action
         address: lendingPool,
         abi: poolAbi,
         functionName: 'supply',
-        args: [token, value, context.account, referralCode],
+        args: [token, value, context.account, SPARK_UI_REFERRAL_CODE],
       })
     },
 

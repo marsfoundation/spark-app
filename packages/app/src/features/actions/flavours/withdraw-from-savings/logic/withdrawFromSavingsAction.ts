@@ -1,4 +1,5 @@
 import { basePsm3Abi, basePsm3Address } from '@/config/abis/basePsm3Abi'
+import { SPARK_UI_REFERRAL_CODE_BIGINT } from '@/config/consts'
 import {
   migrationActionsConfig,
   psmActionsConfig,
@@ -103,8 +104,6 @@ export function createWithdrawFromSavingsActionConfig(
 
         case 'base-susds-to-usds':
         case 'base-susds-to-usdc': {
-          const referralCode = 0n
-
           assert(context.savingsUsdsInfo, 'Savings info is required for usdc psm withdraw from savings action')
 
           // @note We don't need to use savings prediction here, because
@@ -123,7 +122,14 @@ export function createWithdrawFromSavingsActionConfig(
               address: getContractAddress(basePsm3Address, chainId),
               abi: basePsm3Abi,
               functionName: 'swapExactIn',
-              args: [savingsToken.address, token.address, argsAmount, minAmountOut, receiver, referralCode],
+              args: [
+                savingsToken.address,
+                token.address,
+                argsAmount,
+                minAmountOut,
+                receiver,
+                SPARK_UI_REFERRAL_CODE_BIGINT,
+              ],
             })
           }
 
@@ -136,7 +142,14 @@ export function createWithdrawFromSavingsActionConfig(
             address: getContractAddress(basePsm3Address, chainId),
             abi: basePsm3Abi,
             functionName: 'swapExactOut',
-            args: [savingsToken.address, token.address, argsAmount, maxAmountIn, receiver, referralCode],
+            args: [
+              savingsToken.address,
+              token.address,
+              argsAmount,
+              maxAmountIn,
+              receiver,
+              SPARK_UI_REFERRAL_CODE_BIGINT,
+            ],
           })
         }
 

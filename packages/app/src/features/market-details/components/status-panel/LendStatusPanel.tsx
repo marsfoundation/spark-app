@@ -8,7 +8,6 @@ import { Header } from './components/Header'
 import { InfoTilesGrid } from './components/InfoTilesGrid'
 import { StatusPanelGrid } from './components/StatusPanelGrid'
 import { StatusIcon } from './components/status-icon/StatusIcon'
-import { TokenBadge } from './components/token-badge/TokenBadge'
 
 interface LendStatusPanelProps {
   status: 'yes' // only for dai
@@ -23,7 +22,6 @@ export function LendStatusPanel({ status, token, totalLent, apy }: LendStatusPan
       <StatusPanelGrid>
         <StatusIcon status={status} />
         <Header status={status} variant="lend" />
-        <TokenBadge symbol={token.symbol} />
         <InfoTilesGrid>
           <InfoTile>
             <InfoTile.Label>Total {token.symbol} lent</InfoTile.Label>

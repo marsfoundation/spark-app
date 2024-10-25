@@ -16,10 +16,10 @@ import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { assets } from '@/ui/assets'
 import { zeroAddress } from 'viem'
 import { base, gnosis, mainnet } from 'viem/chains'
-import { NATIVE_ASSET_MOCK_ADDRESS } from '../consts'
+import { NATIVE_ASSET_MOCK_ADDRESS, infoSkyApiUrl } from '../consts'
 import { AppConfig } from '../feature-flags'
 import { PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY } from '../wagmi/config.e2e'
-import { farmAddresses, farmStablecoinsEntryGroup } from './constants'
+import { farmAddresses, farmStablecoinsEntryGroup, susdsAddresses } from './constants'
 import { ChainConfigEntry, ChainMeta, SupportedChainId } from './types'
 
 const commonTokenSymbolToReplacedName = {
@@ -95,7 +95,7 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
             {
               symbol: TokenSymbol('sUSDS'),
               oracleType: 'vault',
-              address: CheckedAddress('0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD'),
+              address: susdsAddresses[mainnet.id],
             },
             {
               symbol: TokenSymbol('USDS'),
@@ -111,7 +111,6 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
     ],
     markets: {
       defaultAssetToBorrow: TokenSymbol('DAI'),
-      mergedDaiAndSDaiMarkets: true,
       nativeAssetInfo: {
         nativeAssetName: 'Ethereum',
         wrappedNativeAssetSymbol: TokenSymbol('WETH'),
@@ -167,35 +166,39 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
     savings: {
       savingsDaiInfoQuery: mainnetSavingsDaiInfoQuery,
       savingsUsdsInfoQuery: PLAYWRIGHT_MAINNET_USDS_CONTRACTS_NOT_AVAILABLE ? undefined : mainnetSavingsUsdsInfoQuery,
-      chartsSupported: true,
       inputTokens: [
         TokenSymbol('DAI'),
         TokenSymbol('USDC'),
         ...(PLAYWRIGHT_MAINNET_USDS_CONTRACTS_NOT_AVAILABLE ? [] : [TokenSymbol('USDS')]),
       ],
+      getEarningsApiUrl: (address) => `${infoSkyApiUrl}/savings-rate/wallets/${address.toLowerCase()}/?days_ago=9999`,
+      savingsRateApiUrl: `${infoSkyApiUrl}/savings-rate/`,
     },
-    farms: [
-      {
-        rewardType: 'token',
-        address: farmAddresses[mainnet.id].skyUsds,
-        entryAssetsGroup: farmStablecoinsEntryGroup[mainnet.id],
-        historyCutoff: new Date('2024-09-17T00:00:00.000Z'),
-      },
-      {
-        // Chronicle farm
-        rewardType: 'points',
-        address: farmAddresses[mainnet.id].chroniclePoints,
-        entryAssetsGroup: farmStablecoinsEntryGroup[mainnet.id],
-        historyCutoff: new Date('2024-09-17T00:00:00.000Z'),
-        rewardPoints: new Token({
-          address: CheckedAddress(zeroAddress),
-          decimals: 18,
-          name: 'Chronicle',
-          symbol: TokenSymbol('CLE'),
-          unitPriceUsd: '0',
-        }),
-      },
-    ],
+    farms: {
+      configs: [
+        {
+          rewardType: 'token',
+          address: farmAddresses[mainnet.id].skyUsds,
+          entryAssetsGroup: farmStablecoinsEntryGroup[mainnet.id],
+          historyCutoff: new Date('2024-09-17T00:00:00.000Z'),
+        },
+        {
+          // Chronicle farm
+          rewardType: 'points',
+          address: farmAddresses[mainnet.id].chroniclePoints,
+          entryAssetsGroup: farmStablecoinsEntryGroup[mainnet.id],
+          historyCutoff: new Date('2024-09-17T00:00:00.000Z'),
+          rewardPoints: new Token({
+            address: CheckedAddress(zeroAddress),
+            decimals: 18,
+            name: 'Chronicle',
+            symbol: TokenSymbol('CLE'),
+            unitPriceUsd: '0',
+          }),
+        },
+      ],
+      getFarmDetailsApiUrl: (address) => `${infoSkyApiUrl}/farms/${address.toLowerCase()}/historic/`,
+    },
   },
   [gnosis.id]: {
     originChainId: gnosis.id,
@@ -234,7 +237,6 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
     ],
     markets: {
       defaultAssetToBorrow: TokenSymbol('WXDAI'),
-      mergedDaiAndSDaiMarkets: false,
       nativeAssetInfo: {
         nativeAssetName: 'XDAI',
         wrappedNativeAssetSymbol: TokenSymbol('WXDAI'),
@@ -291,15 +293,16 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
     savings: {
       savingsDaiInfoQuery: gnosisSavingsDaiInfoQuery,
       savingsUsdsInfoQuery: undefined,
-      chartsSupported: false,
       inputTokens: [TokenSymbol('XDAI')],
+      getEarningsApiUrl: undefined,
+      savingsRateApiUrl: undefined,
     },
     farms: undefined,
   },
   ...(typeof import.meta.env.VITE_DEV_BASE_DEVNET_RPC_URL === 'string'
     ? {
         [base.id]: {
-          originChainId: base.id,
+          originChainId: base.id as SupportedChainId,
           daiSymbol: undefined,
           sdaiSymbol: undefined,
           usdsSymbol: TokenSymbol('USDS'),
@@ -336,19 +339,14 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
           ] as const,
           markets: undefined,
           savings: {
-            chartsSupported: false,
             savingsDaiInfoQuery: undefined,
             savingsUsdsInfoQuery: baseSavingsInfoQueryOptions,
             inputTokens: [TokenSymbol('USDC'), TokenSymbol('USDS')],
+            getEarningsApiUrl: undefined,
+            savingsRateApiUrl: undefined,
           },
-          farms: [
-            {
-              rewardType: 'token',
-              address: farmAddresses[base.id].skyUsds,
-              entryAssetsGroup: farmStablecoinsEntryGroup[base.id],
-            },
-          ],
-        },
+          farms: undefined,
+        } satisfies ChainConfigEntry,
       }
     : {}),
 }
