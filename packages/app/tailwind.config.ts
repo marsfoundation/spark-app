@@ -260,6 +260,13 @@ export default {
       boxShadow: {
         nav: '0px 20px 40px 0px var(--nav-shadow)',
         tooltip: '0px 4px 30px 7px var(--tooltip-shadow)',
+        xs: '0px 1px 4px rgba(16, 16, 20, 0.05)',
+        sm: '0px 1px 10px rgba(16, 16, 20, 0.1), 0px 1px 2px rgba(16, 16, 20, 0.06)',
+        md: '0px 4px 14px -2px rgba(16, 16, 20, 0.1), 0px 2px 8px -2px rgba(16, 16, 20, 0.04)',
+        lg: '0px 12px 16px -4px rgba(16, 16, 20, 0.08), 0px 4px 6px -2px rgba(16, 16, 20, 0.03)',
+        xl: '0px 20px 24px -4px rgba(16, 16, 20, 0.08), 0px 8px 8px -4px rgba(16, 16, 20, 0.03)',
+        '2xl': '0px 24px 48px -12px rgba(16, 16, 20, 0.18)',
+        '3xl': '0px 32px 64px -12px rgba(16, 16, 20, 0.24)'
       },
       borderRadius: {
         '3xl': 'calc(var(--radius) + 16px)',
