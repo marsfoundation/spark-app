@@ -1,8 +1,8 @@
-import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { useChainId } from 'wagmi'
 
 import { withSuspense } from '@/ui/utils/withSuspense'
 
+import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 import { EasyBorrowSkeleton } from './components/skeleton/EasyBorrowSkeleton'
 import { useEasyBorrow } from './logic/useEasyBorrow'
 import { EasyBorrowView } from './views/EasyBorrowView'
@@ -29,7 +29,7 @@ function EasyBorrowContainer() {
     riskAcknowledgement,
     actionsContext,
   } = useEasyBorrow()
-  const { openConnectModal = () => {} } = useConnectModal()
+  const { setShowAuthFlow } = useDynamicContext()
 
   if (pageStatus.state === 'success') {
     return (
@@ -51,7 +51,7 @@ function EasyBorrowContainer() {
       objectives={actions}
       borrowDetails={borrowDetails}
       guestMode={guestMode}
-      openConnectModal={openConnectModal}
+      openConnectModal={() => setShowAuthFlow(true)}
       openSandboxModal={openSandboxModal}
       healthFactorPanelRef={healthFactorPanelRef}
       riskAcknowledgement={riskAcknowledgement}

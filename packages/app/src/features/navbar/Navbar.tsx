@@ -19,7 +19,6 @@ export function Navbar({ mobileMenuCollapsed, setMobileMenuCollapsed, className 
     currentChain,
     supportedChains,
     openSelectNetworkDialog,
-    openConnectModal,
     openSandboxDialog,
     savingsInfo,
     connectedWalletInfo,
@@ -65,7 +64,6 @@ export function Navbar({ mobileMenuCollapsed, setMobileMenuCollapsed, className 
         currentChain={currentChain}
         supportedChains={supportedChains}
         openSelectNetworkDialog={openSelectNetworkDialog}
-        openConnectModal={openConnectModal}
         openSandboxDialog={openSandboxDialog}
         connectedWalletInfo={connectedWalletInfo}
         airdropInfo={airdropInfo}

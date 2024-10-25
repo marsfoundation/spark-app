@@ -9,7 +9,7 @@ module.exports = tseslint.config(
     languageOptions: {
       parserOptions: {
         parser: '@typescript-eslint/parser',
-        project: ['./packages/app/tsconfig.json'],
+        project: ['./tsconfig.json'],
       },
     },
     rules: {
@@ -28,7 +28,7 @@ module.exports = tseslint.config(
     languageOptions: {
       parserOptions: {
         parser: '@typescript-eslint/parser',
-        project: ['./packages/app/tsconfig.json'],
+        project: ['./tsconfig.json'],
       },
     },
     rules: {

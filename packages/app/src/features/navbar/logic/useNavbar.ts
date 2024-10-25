@@ -10,7 +10,6 @@ import { EnsName } from '@/domain/types/EnsName'
 import { sandboxDialogConfig } from '@/features/dialogs/sandbox/SandboxDialog'
 import { selectNetworkDialogConfig } from '@/features/dialogs/select-network/SelectNetworkDialog'
 import { raise } from '@/utils/assert'
-import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { skipToken, useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { useAccount, useChainId, useChains, useConfig, useEnsAvatar, useEnsName } from 'wagmi'
@@ -28,7 +27,6 @@ export interface UseNavbarResults {
   currentChain: SupportedChain
   supportedChains: SupportedChain[]
   openSelectNetworkDialog: () => void
-  openConnectModal: () => void
   openSandboxDialog: () => void
   isSandboxEnabled: boolean
   savingsInfo?: SavingsInfoQueryResults
@@ -42,7 +40,6 @@ export function useNavbar(): UseNavbarResults {
   const currentChainId = useChainId()
   const chains = useChains()
   const { markets: marketsConfig } = useChainConfigEntry()
-  const { openConnectModal = () => {} } = useConnectModal()
   const { address, connector } = useAccount()
   const { data: ensName } = useEnsName({
     address,
@@ -127,7 +124,6 @@ export function useNavbar(): UseNavbarResults {
     currentChain,
     supportedChains,
     openSelectNetworkDialog,
-    openConnectModal,
     savingsInfo,
     connectedWalletInfo,
     airdropInfo,

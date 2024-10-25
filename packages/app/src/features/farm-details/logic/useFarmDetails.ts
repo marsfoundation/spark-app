@@ -13,7 +13,7 @@ import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { sandboxDialogConfig } from '@/features/dialogs/sandbox/SandboxDialog'
 import { Timeframe } from '@/ui/charts/defaults'
 import { raise } from '@/utils/assert'
-import { useConnectModal } from '@rainbow-me/rainbowkit'
+import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 import { useAccount, useChainId } from 'wagmi'
 import { claimDialogConfig } from '../dialogs/claim/ClaimDialog'
 import { stakeDialogConfig } from '../dialogs/stake/StakeDialog'
@@ -62,7 +62,7 @@ export function useFarmDetails(): UseFarmDetailsResult {
 
   const connectedChainId = useChainId()
   const chainMismatch = walletConnected && connectedChainId !== chainId
-  const { openConnectModal = () => {} } = useConnectModal()
+  const { setShowAuthFlow } = useDynamicContext()
   const openDialog = useOpenDialog()
 
   const { farms, extraTokens } = getChainConfigEntry(chainId)
@@ -148,7 +148,7 @@ export function useFarmDetails(): UseFarmDetailsResult {
     openDefaultedStakeDialog: () =>
       mostValuableToken ? openDialog(stakeDialogConfig, { farm, initialToken: mostValuableToken.token }) : undefined,
     openClaimDialog: () => openDialog(claimDialogConfig, { farm }),
-    openConnectModal,
+    openConnectModal: () => setShowAuthFlow(true),
     openSandboxModal(): void {
       openDialog(sandboxDialogConfig, { mode: 'ephemeral' } as const)
     },

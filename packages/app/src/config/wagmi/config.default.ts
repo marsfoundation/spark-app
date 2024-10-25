@@ -1,17 +1,12 @@
-import { getDefaultConfig } from '@rainbow-me/rainbowkit'
 import { Chain } from 'viem'
 import { base, gnosis, mainnet } from 'viem/chains'
-import { Config } from 'wagmi'
+import { Config, createConfig } from 'wagmi'
 
 import { SandboxNetwork } from '@/domain/state/sandbox'
-import { raise } from '@/utils/assert'
 
 import { getChains } from './getChains'
 import { getTransports } from './getTransports'
-import { getWallets } from './getWallets'
 import { createWagmiStorage } from './storage'
-
-const wallets = getWallets()
 
 export function getConfig(sandboxNetwork?: SandboxNetwork): Config {
   const forkChain = getForkChainFromSandboxConfig(sandboxNetwork)
@@ -20,13 +15,11 @@ export function getConfig(sandboxNetwork?: SandboxNetwork): Config {
   const chains = getChains({ forkChain, baseDevNetChain })
   const storage = createWagmiStorage()
 
-  const config = getDefaultConfig({
-    appName: 'Spark',
-    projectId: import.meta.env.VITE_WALLET_CONNECT_ID || raise('Missing VITE_WALLET_CONNECT_ID'),
+  const config = createConfig({
     chains,
     transports,
-    wallets,
     storage,
+    multiInjectedProviderDiscovery: false,
   })
 
   return config
