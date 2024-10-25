@@ -268,6 +268,13 @@ export default {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
+        'reskin-xss': '2px',
+        'reskin-xs': '6px',
+        'reskin-sm': '8px',
+        'reskin-md': '12px',
+        'reskin-lg': '16px',
+        'reskin-xl': '24px',
+        'reskin-2xl': '36px',
       },
       keyframes: {
         'accordion-down': {
