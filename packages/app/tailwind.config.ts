@@ -276,6 +276,24 @@ export default {
         'reskin-xl': '24px',
         'reskin-2xl': '36px',
       },
+      blur: {
+        xs: '4px',
+        sm: '8px',
+        md: '12px',
+        lg: '16px',
+        xl: '24px',
+        '2xl': '40px',
+        '3xl': '60px',
+      },
+      backdropBlur: {
+        xs: '4px',
+        sm: '8px',
+        md: '12px',
+        lg: '16px',
+        xl: '24px',
+        '2xl': '40px',
+        '3xl': '60px',
+      },
       keyframes: {
         'accordion-down': {
           from: { height: '0px' },
