@@ -42,7 +42,7 @@ function MyEarningsChart({
   height,
   width,
   margins = defaultMargins,
-  xAxisNumTicks = 5,
+  xAxisNumTicks = 3,
   yAxisNumTicks = 5,
   showTooltip,
   hideTooltip,
