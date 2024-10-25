@@ -1,6 +1,7 @@
 import { join } from 'node:path'
 import type { Config } from 'tailwindcss'
 import defaultTheme from 'tailwindcss/defaultTheme'
+import plugin from 'tailwindcss/plugin'
 
 export default {
   darkMode: ['class'],
@@ -20,36 +21,7 @@ export default {
       },
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
-      },
-      fontSize: {
-        'display-1-desktop': [
-          '7.25rem',
-          { lineHeight: '7.25rem', letterSpacing: 'calc(-2 * 0.01em)', fontWeight: 400 },
-        ], // 116/116
-        'display-2-desktop': ['4.5rem', { lineHeight: '4.5rem', letterSpacing: 'calc(-2 * 0.01em)', fontWeight: 400 }], // 72/72
-        'display-3-desktop': ['3.5rem', { lineHeight: '3.5rem', letterSpacing: 'calc(-1 * 0.01em)', fontWeight: 400 }], // 56/56
-        'heading-1-desktop': ['3rem', { lineHeight: '3.75rem', letterSpacing: 'calc(-1 * 0.01em)', fontWeight: 500 }], // 48/60
-        'heading-2-desktop': ['2.625rem', { lineHeight: '3rem', letterSpacing: 'calc(-1 * 0.01em)', fontWeight: 500 }], // 42/48
-        'heading-3-desktop': ['2rem', { lineHeight: '2.5rem', letterSpacing: 'calc(-1 * 0.01em)', fontWeight: 500 }], // 32/40
-        'heading-4-desktop': ['1.5rem', { lineHeight: '1.75rem', letterSpacing: 'calc(-1 * 0.01em)', fontWeight: 500 }], // 24/28
-        'heading-5-desktop': ['1.25rem', { lineHeight: '1.5rem', letterSpacing: 'calc(-1 * 0.01em)', fontWeight: 500 }], // 20/24
-        'body-1-desktop': ['1.5rem', { lineHeight: '2.25rem', letterSpacing: 'calc(-1 * 0.01em)', fontWeight: 400 }], // 24/36
-        'body-2-desktop': ['1.25rem', { lineHeight: '1.875rem', letterSpacing: 'calc(-1 * 0.01em)', fontWeight: 400 }], // 20/30
-        'body-3-desktop': ['1.125rem', { lineHeight: '1.75rem', letterSpacing: 'calc(-1 * 0.01em)', fontWeight: 400 }], // 18/28
-        'body-4-desktop': ['1rem', { lineHeight: '1.5rem', letterSpacing: 'calc(-1 * 0.01em)', fontWeight: 400 }], // 16/24
-        'body-5-desktop': ['0.875rem', { lineHeight: '1.25rem', letterSpacing: 'calc(-1 * 0.01em)', fontWeight: 400 }], // 14/20
-        'body-6-desktop': ['0.75rem', { lineHeight: '1.125rem', letterSpacing: 'calc(-1 * 0.01em)', fontWeight: 400 }], // 12/18
-        'label-1-desktop': ['1.5rem', { lineHeight: '1.75rem', letterSpacing: 'calc(-1 * 0.01em)', fontWeight: 500 }], // 24/28
-        'label-2-desktop': ['1.25rem', { lineHeight: '1.5rem', letterSpacing: 'calc(-1 * 0.01em)', fontWeight: 500 }], // 20/24
-        'label-3-desktop': [
-          '1.125rem',
-          { lineHeight: '1.375rem', letterSpacing: 'calc(-0.5 * 0.01em)', fontWeight: 500 },
-        ], // 18/22
-        'label-4-desktop': ['1rem', { lineHeight: '1.125rem', letterSpacing: 'calc(-0.5 * 0.01em)', fontWeight: 500 }], // 16/18
-        'label-5-desktop': ['0.875rem', { lineHeight: '1rem', letterSpacing: '0px', fontWeight: 500 }], // 14/16
-        'label-6-desktop': ['0.75rem', { lineHeight: '1rem', letterSpacing: '0px', fontWeight: 500 }], // 12/16
-        'button-1-desktop': ['1rem', { lineHeight: '1.25rem', letterSpacing: '0px', fontWeight: 500 }], // 16/20
-        'button-2-desktop': ['0.875rem', { lineHeight: '1rem', letterSpacing: '0px', fontWeight: 500 }], // 14/16
+        roobert: ['Roobert', ...defaultTheme.fontFamily.sans],
       },
       colors: {
         reskin: {
@@ -324,5 +296,310 @@ export default {
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [
+    require('tailwindcss-animate'),
+    plugin(({ addUtilities, theme }) => {
+      const baseTypography = {
+        // @note text-display-* font weight is intentionally set to 500
+        // Downloadable link contains only 500 weight variant of Roobert font
+        // according to the guideline only 500 should be used for headings so that might be possible reason
+        // (each weight has to be bought independently) - Need to clarify with design team
+        '.text-display-1': {
+          fontSize: '2.375rem', // 38px
+          lineHeight: '2.375rem', // 38px
+          letterSpacing: 'calc(-2 * 0.01em)',
+          fontWeight: '500',
+          fontFamily: theme('fontFamily.roobert'),
+        },
+
+        '.text-display-2': {
+          fontSize: '1.875rem', // 30px
+          lineHeight: '1.875rem', // 30px
+          letterSpacing: 'calc(-2 * 0.01em)',
+          fontWeight: '500',
+          fontFamily: theme('fontFamily.roobert'),
+        },
+
+        '.text-display-3': {
+          fontSize: '1.5rem', // 24px
+          lineHeight: '1.5rem', // 24px
+          letterSpacing: 'calc(-1 * 0.01em)',
+          fontWeight: '500',
+          fontFamily: theme('fontFamily.roobert'),
+        },
+
+        '.text-heading-1': {
+          fontSize: '2.625rem', // 42px
+          lineHeight: '3rem', // 48px
+          letterSpacing: 'calc(-1 * 0.01em)',
+          fontWeight: '500',
+          fontFamily: theme('fontFamily.roobert'),
+        },
+
+        '.text-heading-2': {
+          fontSize: '2rem', // 32px
+          lineHeight: '2.5rem', // 40px
+          letterSpacing: 'calc(-1 * 0.01em)',
+          fontWeight: '500',
+          fontFamily: theme('fontFamily.roobert'),
+        },
+
+        '.text-heading-3': {
+          fontSize: '1.5rem', // 24px
+          lineHeight: '1.75rem', // 28px
+          letterSpacing: 'calc(-1 * 0.01em)',
+          fontWeight: '500',
+          fontFamily: theme('fontFamily.roobert'),
+        },
+
+        '.text-heading-4': {
+          fontSize: '1.25rem', // 20px
+          lineHeight: '1.5rem', // 24px
+          letterSpacing: 'calc(-1 * 0.01em)',
+          fontWeight: '500',
+          fontFamily: theme('fontFamily.roobert'),
+        },
+
+        '.text-heading-5': {
+          fontSize: '1.125rem', // 18px
+          lineHeight: '1.25rem', // 20px
+          letterSpacing: 'calc(-1 * 0.01em)',
+          fontWeight: '500',
+          fontFamily: theme('fontFamily.roobert'),
+        },
+
+        '.text-body-1': {
+          fontSize: '1.25rem', // 20px
+          lineHeight: '1.875rem', // 30px
+          letterSpacing: 'calc(-1 * 0.01em)',
+          fontWeight: '400',
+          fontFamily: theme('fontFamily.sans'),
+        },
+
+        '.text-body-2': {
+          fontSize: '1.125rem', // 18px
+          lineHeight: '1.75rem', // 28px
+          letterSpacing: 'calc(-1 * 0.01em)',
+          fontWeight: '400',
+          fontFamily: theme('fontFamily.sans'),
+        },
+
+        '.text-body-3': {
+          fontSize: '1rem', // 16px
+          lineHeight: '1.5rem', // 24px
+          letterSpacing: 'calc(-1 * 0.01em)',
+          fontWeight: '400',
+          fontFamily: theme('fontFamily.sans'),
+        },
+
+        '.text-body-4': {
+          fontSize: '0.875rem', // 14px
+          lineHeight: '1.25rem', // 20px
+          letterSpacing: 'calc(-1 * 0.01em)',
+          fontWeight: '400',
+          fontFamily: theme('fontFamily.sans'),
+        },
+
+        '.text-body-5': {
+          fontSize: '0.75rem', // 12px
+          lineHeight: '1.125rem', // 18px
+          letterSpacing: 'calc(-1 * 0.01em)',
+          fontWeight: '400',
+          fontFamily: theme('fontFamily.sans'),
+        },
+
+        '.text-body-6': {
+          fontSize: '0.625rem', // 10px
+          lineHeight: '0.875rem', // 14px
+          letterSpacing: 'calc(-1 * 0.01em)',
+          fontWeight: '400',
+          fontFamily: theme('fontFamily.sans'),
+        },
+
+        // @todo update typography below when added
+        '.text-label-1': {
+          fontSize: '1.5rem',
+          lineHeight: '1.75rem',
+          letterSpacing: 'calc(-1 * 0.01em)',
+          fontWeight: '500',
+          fontFamily: theme('fontFamily.roobert'),
+        },
+
+        '.text-label-2': {
+          fontSize: '1.25rem',
+          lineHeight: '1.5rem',
+          letterSpacing: 'calc(-1 * 0.01em)',
+          fontWeight: '500',
+          fontFamily: theme('fontFamily.roobert'),
+        },
+
+        '.text-label-3': {
+          fontSize: '1.125rem',
+          lineHeight: '1.375rem',
+          letterSpacing: 'calc(-0.5 * 0.01em)',
+          fontWeight: '500',
+          fontFamily: theme('fontFamily.roobert'),
+        },
+
+        '.text-label-4': {
+          fontSize: '1rem',
+          lineHeight: '1.125rem',
+          letterSpacing: 'calc(-0.5 * 0.01em)',
+          fontWeight: '500',
+          fontFamily: theme('fontFamily.roobert'),
+        },
+
+        '.text-label-5': {
+          fontSize: '0.875rem',
+          lineHeight: '1rem',
+          letterSpacing: '0px',
+          fontWeight: '500',
+          fontFamily: theme('fontFamily.roobert'),
+        },
+
+        '.text-label-6': {
+          fontSize: '0.75rem',
+          lineHeight: '1rem',
+          letterSpacing: '0px',
+          fontWeight: '500',
+          fontFamily: theme('fontFamily.roobert'),
+        },
+
+        '.text-button-1': {
+          fontSize: '1rem',
+          lineHeight: '1.25rem',
+          letterSpacing: '0px',
+          fontWeight: '500',
+          fontFamily: theme('fontFamily.roobert'),
+        },
+
+        '.text-button-2': {
+          fontSize: '0.875rem',
+          lineHeight: '1rem',
+          letterSpacing: '0px',
+          fontWeight: '500',
+          fontFamily: theme('fontFamily.roobert'),
+        },
+      }
+
+      const desktopTypography = {
+        '@screen sm': {
+          '.text-display-1': {
+            fontSize: '7.25rem', // 116px
+            lineHeight: '7.25rem', // 116px
+          },
+
+          '.text-display-2': {
+            fontSize: '4.5rem', // 72px
+            lineHeight: '4.5rem', // 72px
+          },
+
+          '.text-display-3': {
+            fontSize: '3.5rem', // 56px
+            lineHeight: '3.5rem', // 56px
+          },
+
+          '.text-heading-1': {
+            fontSize: '3rem', // 48px
+            lineHeight: '3.75rem', // 60px
+          },
+
+          '.text-heading-2': {
+            fontSize: '2.625rem', // 42px
+            lineHeight: '3rem', // 48px
+          },
+
+          '.text-heading-3': {
+            fontSize: '2rem', // 32px
+            lineHeight: '2.5rem', // 40px
+          },
+
+          '.text-heading-4': {
+            fontSize: '1.5rem', // 24px
+            lineHeight: '1.75rem', // 28px
+          },
+
+          '.text-heading-5': {
+            fontSize: '1.25rem', // 20px
+            lineHeight: '1.5rem', // 24px
+          },
+
+          '.text-body-1': {
+            fontSize: '1.5rem', // 24px
+            lineHeight: '2.25rem', // 36px
+          },
+
+          '.text-body-2': {
+            fontSize: '1.25rem', // 20px
+            lineHeight: '1.875rem', // 30px
+          },
+
+          '.text-body-3': {
+            fontSize: '1.125rem', // 18px
+            lineHeight: '1.75rem', // 28px
+          },
+
+          '.text-body-4': {
+            fontSize: '1rem', // 16px
+            lineHeight: '1.5rem', // 24px
+          },
+
+          '.text-body-5': {
+            fontSize: '0.875rem', // 14px
+            lineHeight: '1.25rem', // 20px
+          },
+
+          '.text-body-6': {
+            fontSize: '0.75rem', // 12px
+            lineHeight: '1.125rem', // 18px
+          },
+
+          '.text-label-1': {
+            fontSize: '1.5rem', // 24px
+            lineHeight: '1.75rem', // 28px
+          },
+
+          '.text-label-2': {
+            fontSize: '1.25rem', // 20px
+            lineHeight: '1.5rem', // 24px
+          },
+
+          '.text-label-3': {
+            fontSize: '1.125rem', // 18px
+            lineHeight: '1.375rem', // 22px
+          },
+
+          '.text-label-4': {
+            fontSize: '1rem', // 16px
+            lineHeight: '1.125rem', // 18px
+          },
+
+          '.text-label-5': {
+            fontSize: '0.875rem', // 14px
+            lineHeight: '1rem', // 16px
+          },
+
+          '.text-label-6': {
+            fontSize: '0.75rem', // 12px
+            lineHeight: '1rem', // 16px
+          },
+
+          '.text-button-1': {
+            fontSize: '1rem', // 16px
+            lineHeight: '1.25rem', // 20px
+          },
+
+          '.text-button-2': {
+            fontSize: '0.875rem', // 14px
+            lineHeight: '1rem', // 16px
+          },
+        },
+      }
+
+      addUtilities({
+        ...baseTypography,
+        ...desktopTypography,
+      })
+    }),
+  ],
 } satisfies Config
