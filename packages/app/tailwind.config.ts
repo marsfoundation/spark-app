@@ -265,6 +265,13 @@ export default {
         'light-blue': 'rgb(var(--nav-primary))',
         'product-dark-blue': 'rgb(var(--product-dark-blue))',
       },
+      backgroundImage: {
+        'gradient-spark-primary': 'linear-gradient(270.98deg, #FFCD4D -5.71%, #FA43BD 102.6%)',
+        'gradient-orange': 'linear-gradient(89.87deg, #FF895D 0.14%, #FFE6A4 50.03%, #FFFFFF 99.92%)',
+        'gradient-purple': 'linear-gradient(90.22deg, #7A6BFF 0.12%, #BDDEFF 49.95%, #FFFFFF 99.78%)',
+        'gradient-magenta': 'linear-gradient(89.84deg, #FA43BD -2.08%, #FFB5B5 48.92%, #FFFFFF 99.92%)',
+        'gradient-green': 'linear-gradient(90deg, #11B93E 0%, #40DA69 50.47%, #FFFFFF 100%)',
+      },
       fontWeight: {
         regular: '400',
         medium: '500',
