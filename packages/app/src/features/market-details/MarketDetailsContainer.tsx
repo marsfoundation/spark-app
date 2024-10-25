@@ -1,10 +1,10 @@
 import { useOpenDialog } from '@/domain/state/dialogs'
 import { withSuspense } from '@/ui/utils/withSuspense'
 
+import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 import { MarketDetailsSkeleton } from './components/skeleton/MarketDetailsSkeleton'
 import { useMarketDetails } from './logic/useMarketDetails'
 import { MarketDetailsView } from './views/MarketDetailsView'
-import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 
 function MarketDetailsContainer() {
   const { setShowAuthFlow } = useDynamicContext()

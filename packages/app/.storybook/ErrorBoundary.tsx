@@ -1,9 +1,9 @@
 /* eslint-disable react-refresh/only-export-components */
 import React from 'react'
 
+import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 import { NotConnectedError } from '../src/domain/errors/not-connected'
 import { Button } from '../src/ui/atoms/button/Button'
-import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 
 interface ErrorBoundaryProps {
   children: React.ReactNode

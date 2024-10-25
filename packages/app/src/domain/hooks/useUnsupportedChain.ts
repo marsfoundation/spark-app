@@ -1,7 +1,7 @@
 import { sandboxDialogConfig } from '@/features/dialogs/sandbox/SandboxDialog'
+import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 import { useAccount, useSwitchChain } from 'wagmi'
 import { useOpenDialog } from '../state/dialogs'
-import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 
 export interface UseUnsupportedChainResult {
   isGuestMode: boolean

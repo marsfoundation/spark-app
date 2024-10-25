@@ -1,18 +1,17 @@
 import { cn } from '@/ui/utils/style'
 
+import { DynamicWidget } from '@dynamic-labs/sdk-react-core'
 import { AirdropInfo, ConnectedWalletInfo, RewardsInfo, SupportedChain } from '../types'
 import { AirdropBadge } from './airdrop-badge/AirdropBadge'
 import { NetworkSelector } from './network-selector/NetworkSelector'
 import { RewardsBadge } from './rewards-badge/RewardsBadge'
 import { SettingsDropdown } from './settings-dropdown/SettingsDropdown'
-import { DynamicWidget } from '@dynamic-labs/sdk-react-core'
 
 export interface NavbarActionsProps {
   mobileMenuCollapsed: boolean
   currentChain: SupportedChain
   supportedChains: SupportedChain[]
   openSelectNetworkDialog: () => void
-  openConnectModal: () => void
   connectedWalletInfo: ConnectedWalletInfo | undefined
   airdropInfo: AirdropInfo
   rewardsInfo: RewardsInfo

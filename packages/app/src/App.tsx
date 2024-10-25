@@ -1,9 +1,9 @@
+import { EthereumWalletConnectors } from '@dynamic-labs/ethereum'
+import { DynamicContextProvider } from '@dynamic-labs/sdk-react-core'
+import { DynamicWagmiConnector } from '@dynamic-labs/wagmi-connector'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { Toaster } from 'react-hot-toast'
 import { RouterProvider } from 'react-router-dom'
-import { DynamicContextProvider } from '@dynamic-labs/sdk-react-core'
-import { DynamicWagmiConnector } from '@dynamic-labs/wagmi-connector'
-import { EthereumWalletConnectors } from '@dynamic-labs/ethereum'
 import { WagmiProvider } from 'wagmi'
 
 import { getConfig } from '@/config/wagmi'

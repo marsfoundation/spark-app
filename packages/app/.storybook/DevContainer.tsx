@@ -7,9 +7,9 @@ import { getConfig } from '@/config/wagmi'
 import { I18nAppProvider } from '@/domain/i18n/I18nAppProvider'
 import { TooltipProvider } from '@/ui/atoms/tooltip/Tooltip'
 
-import { StorybookErrorBoundary } from './ErrorBoundary'
 import { EthereumWalletConnectors } from '@dynamic-labs/ethereum'
 import { DynamicContextProvider } from '@dynamic-labs/sdk-react-core'
+import { StorybookErrorBoundary } from './ErrorBoundary'
 
 interface DevContainerProps {
   children: React.ReactNode

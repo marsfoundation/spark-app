@@ -1,11 +1,11 @@
 import { useOpenDialog } from '@/domain/state/dialogs'
 import { withSuspense } from '@/ui/utils/withSuspense'
 
+import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 import { MyPortfolioSkeleton } from './components/skeleton/MyPortfolioSkeleton'
 import { useMyPortfolio } from './logic/useMyPortfolio'
 import { GuestView } from './views/GuestView'
 import { PositionView } from './views/PositionView'
-import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 
 function MyPortfolioContainer() {
   const {

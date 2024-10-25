@@ -2,11 +2,11 @@ import { useChainId } from 'wagmi'
 
 import { withSuspense } from '@/ui/utils/withSuspense'
 
+import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 import { EasyBorrowSkeleton } from './components/skeleton/EasyBorrowSkeleton'
 import { useEasyBorrow } from './logic/useEasyBorrow'
 import { EasyBorrowView } from './views/EasyBorrowView'
 import { SuccessView } from './views/SuccessView'
-import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 
 function EasyBorrowContainer() {
   const {

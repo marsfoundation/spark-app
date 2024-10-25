@@ -13,6 +13,7 @@ import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { sandboxDialogConfig } from '@/features/dialogs/sandbox/SandboxDialog'
 import { Timeframe } from '@/ui/charts/defaults'
 import { raise } from '@/utils/assert'
+import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 import { useAccount, useChainId } from 'wagmi'
 import { claimDialogConfig } from '../dialogs/claim/ClaimDialog'
 import { stakeDialogConfig } from '../dialogs/stake/StakeDialog'
@@ -23,7 +24,6 @@ import { getRewardPointsSyncStatus } from './getRewardPointsSyncStatus'
 import { FarmHistoryQueryResult, useFarmHistory } from './historic/useFarmHistory'
 import { useFarmDetailsParams } from './useFarmDetailsParams'
 import { useRewardPointsData } from './useRewardPointsData'
-import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 
 const GROWING_REWARD_REFRESH_INTERVAL_IN_MS = 50
 
