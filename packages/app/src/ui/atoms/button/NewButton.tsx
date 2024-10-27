@@ -6,17 +6,18 @@ import { cn } from '@/ui/utils/style'
 import { Loader } from '../loader/Loader'
 
 const buttonVariants = cva(
-  'relative isolate inline-flex select-none items-center justify-center gap-1 overflow-hidden whitespace-nowrap rounded-reskin-sm transition-colors disabled:cursor-not-allowed disabled:bg-reskin-neutral-50 disabled:text-reskin-neutral-500 focus-visible:outline-none focus-visible:ring focus-visible:ring-reskin-primary-200 focus-visible:ring-offset-0',
+  'relative isolate inline-flex select-none items-center justify-center gap-1 overflow-hidden whitespace-nowrap rounded-reskin-sm transition-colors focus-visible:bg-reskin-base-white focus-visible:text-reskin-neutral-950 focus-visible:outline-none focus-visible:ring focus-visible:ring-reskin-primary-200 focus-visible:ring-offset-0',
   {
     variants: {
       variant: {
         primary:
-          'before:-z-10 bg-gradient-spark-primary text-reskin-base-white before:absolute before:inset-0 active:enabled:before:bg-reskin-neutral-800 disabled:bg-none hover:enabled:before:bg-reskin-base-black before:transition-colors before:content-[""]',
+          'before:-z-10 bg-gradient-spark-primary text-reskin-base-white before:absolute before:inset-0 active:before:bg-reskin-neutral-800 focus-visible:before:bg-reskin-base-white hover:before:bg-reskin-neutral-950 active:text-reskin-base-white before:transition-colors before:content-[""]',
         secondary:
-          'bg-reskin-base-black text-reskin-base-white active:enabled:bg-reskin-base-black hover:enabled:bg-reskin-neutral-800',
+          'bg-reskin-neutral-950 text-reskin-base-white active:bg-reskin-neutral-950 hover:bg-reskin-neutral-800 active:text-reskin-base-white',
         tertiary:
-          'border border-reskin-border-primary border-solid bg-reskin-base-white text-reskin-base-black shadow-xs disabled:border-none active:enabled:bg-reskin-neutral-100 hover:enabled:bg-reskin-neutral-50 disabled:shadow-none',
+          'border border-reskin-border-primary border-solid bg-reskin-base-white text-reskin-neutral-950 shadow-xs active:bg-reskin-neutral-100 hover:bg-reskin-neutral-50 ',
         loading: 'cursor-wait bg-reskin-neutral-50',
+        disabled: 'cursor-not-allowed bg-reskin-neutral-50 disabled:text-reskin-neutral-500',
       },
       size: {
         l: 'typography-button-1 h-12 px-3 py-3.5',
@@ -44,7 +45,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       className,
-      variant,
+      variant: _variant,
       size = 'm',
       asChild = false,
       type = 'button',
@@ -52,16 +53,20 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       postfixIcon,
       loading = false,
       children,
+      disabled,
       ...props
     },
     ref,
   ) => {
     const Comp = asChild ? Slot : 'button'
 
+    const variant = loading ? 'loading' : disabled ? 'disabled' : _variant
+
     return (
       <Comp
         {...props}
-        className={cn(buttonVariants({ variant: loading ? 'loading' : variant, size }), className)}
+        disabled={disabled || loading}
+        className={cn(buttonVariants({ variant, size }), className)}
         ref={ref}
         type={type}
       >
