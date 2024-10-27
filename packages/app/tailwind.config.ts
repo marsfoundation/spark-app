@@ -23,6 +23,16 @@ export default {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
         roobert: ['Roobert', ...defaultTheme.fontFamily.sans],
       },
+      textColor: {
+        primary: 'var(--base-black)',
+        secondary: 'var(--neutral-500)',
+        tertiary: 'var(--neutral-300)',
+        brand: 'var(--primary-800)',
+        inverse: 'var(--base-white)',
+        success: 'var(--success-600)',
+        warning: 'var(--warning-600)',
+        error: 'var(--error-700)',
+      },
       colors: {
         reskin: {
           base: {
@@ -146,31 +156,70 @@ export default {
             secondary: 'rgb(var(--neutral-100))',
             tertiary: 'rgb(var(--neutral-200))',
             quaternary: 'rgb(var(--neutral-300))',
+            inverse: {
+              primary: 'rgb(var(--base-black))',
+              secondary: 'rgb(var(--neutral-950))',
+            },
             brand: {
-              primary: 'rgb(var(--primary-50))',
-              secondary: 'rgb(var(--primary-100))',
-              tertiary: 'rgb(var(--primary-200))',
+              primary: 'rgb(var(--primary-100))',
+              secondary: 'rgb(var(--primary-200))',
+              tertiary: 'rgb(var(--primary-300))',
             },
             system: {
-              success: 'rgb(var(--success-200))',
-              warning: 'rgb(var(--warning-200))',
-              error: 'rgb(var(--error-200))',
+              success: {
+                primary: 'rgb(var(--success-100))',
+                secondary: 'rgb(var(--success-200))',
+              },
+              warning: {
+                primary: 'rgb(var(--warning-100))',
+                secondary: 'rgb(var(--warning-200))',
+              },
+              error: {
+                primary: 'rgb(var(--error-100))',
+                secondary: 'rgb(var(--error-200))',
+              },
+              info: {
+                primary: 'rgb(var(--magenta-100))',
+                secondary: 'rgb(var(--magenta-200))',
+              },
             },
           },
           fg: {
-            primary: 'rgb(var(--neutral-900))',
+            primary: 'rgb(var(--neutral-950))',
             secondary: 'rgb(var(--neutral-800))',
             tertiary: 'rgb(var(--neutral-600))',
+            quaternary: 'rgb(var(--neutral-500))',
+            inverse: {
+              primary: 'rgb(var(--neutral-50))',
+              secondary: 'rgb(var(--neutral-200))',
+            },
             brand: {
               primary: 'rgb(var(--primary-500))',
               secondary: 'rgb(var(--primary-600))',
               tertiary: 'rgb(var(--primary-700))',
+              quaternary: 'rgb(var(--primary-800))',
             },
             system: {
-              success: 'rgb(var(--success-800))',
-              warning: 'rgb(var(--warning-800))',
-              error: 'rgb(var(--error-800))',
+              success: {
+                primary: 'rgb(var(--success-500))',
+                secondary: 'rgb(var(--success-600))',
+              },
+              warning: {
+                primary: 'rgb(var(--warning-500))',
+                secondary: 'rgb(var(--warning-600))',
+              },
+              error: {
+                primary: 'rgb(var(--error-500))',
+                secondary: 'rgb(var(--error-600))',
+              },
+              info: {
+                primary: 'rgb(var(--magenta-500))',
+                secondary: 'rgb(var(--magenta-600))',
+              },
             },
+          },
+          alpha: {
+            dialog: 'color-mix(in srgb, rgb(var(--base-black)) 40%, transparent)',
           },
           border: {
             primary: 'rgb(var(--neutral-100))',
@@ -183,9 +232,22 @@ export default {
               tertiary: 'rgb(var(--primary-600))',
             },
             system: {
-              success: 'rgb(var(--success-400))',
-              warning: 'rgb(var(--warning-400))',
-              error: 'rgb(var(--error-400))',
+              success: {
+                primary: 'rgb(var(--success-500))',
+                secondary: 'rgb(var(--success-600))',
+              },
+              warning: {
+                primary: 'rgb(var(--warning-500))',
+                secondary: 'rgb(var(--warning-600))',
+              },
+              error: {
+                primary: 'rgb(var(--error-500))',
+                secondary: 'rgb(var(--error-600))',
+              },
+              info: {
+                primary: 'rgb(var(--magenta-500))',
+                secondary: 'rgb(var(--magenta-600))',
+              },
             },
             focus: 'rgb(var(--primary-200))',
           },
