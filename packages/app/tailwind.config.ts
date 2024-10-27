@@ -173,10 +173,10 @@ export default {
             },
           },
           border: {
-            primary: 'rgb(var(--base-white))',
-            secondary: 'rgb(var(--neutral-100))',
-            tertiary: 'rgb(var(--neutral-200))',
-            quaternary: 'rgb(var(--neutral-300))',
+            primary: 'rgb(var(--neutral-100))',
+            secondary: 'rgb(var(--neutral-200))',
+            tertiary: 'rgb(var(--neutral-300))',
+            quaternary: 'rgb(var(--neutral-400))',
             brand: {
               primary: 'rgb(var(--primary-400))',
               secondary: 'rgb(var(--primary-500))',
