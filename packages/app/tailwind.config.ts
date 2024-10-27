@@ -355,7 +355,7 @@ export default {
         // Downloadable link contains only 500 weight variant of Roobert font
         // according to the guideline only 500 should be used for headings so that might be possible reason
         // (each weight has to be bought independently) - Need to clarify with design team
-        '.text-display-1': {
+        '.typography-display-1': {
           fontSize: '2.375rem', // 38px
           lineHeight: '2.375rem', // 38px
           letterSpacing: 'calc(-2 * 0.01em)',
@@ -363,7 +363,7 @@ export default {
           fontFamily: theme('fontFamily.roobert'),
         },
 
-        '.text-display-2': {
+        '.typography-display-2': {
           fontSize: '1.875rem', // 30px
           lineHeight: '1.875rem', // 30px
           letterSpacing: 'calc(-2 * 0.01em)',
@@ -371,7 +371,7 @@ export default {
           fontFamily: theme('fontFamily.roobert'),
         },
 
-        '.text-display-3': {
+        '.typography-display-3': {
           fontSize: '1.5rem', // 24px
           lineHeight: '1.5rem', // 24px
           letterSpacing: 'calc(-1 * 0.01em)',
@@ -379,7 +379,7 @@ export default {
           fontFamily: theme('fontFamily.roobert'),
         },
 
-        '.text-heading-1': {
+        '.typography-heading-1': {
           fontSize: '2.625rem', // 42px
           lineHeight: '3rem', // 48px
           letterSpacing: 'calc(-1 * 0.01em)',
@@ -387,7 +387,7 @@ export default {
           fontFamily: theme('fontFamily.roobert'),
         },
 
-        '.text-heading-2': {
+        '.typography-heading-2': {
           fontSize: '2rem', // 32px
           lineHeight: '2.5rem', // 40px
           letterSpacing: 'calc(-1 * 0.01em)',
@@ -395,7 +395,7 @@ export default {
           fontFamily: theme('fontFamily.roobert'),
         },
 
-        '.text-heading-3': {
+        '.typography-heading-3': {
           fontSize: '1.5rem', // 24px
           lineHeight: '1.75rem', // 28px
           letterSpacing: 'calc(-1 * 0.01em)',
@@ -403,7 +403,7 @@ export default {
           fontFamily: theme('fontFamily.roobert'),
         },
 
-        '.text-heading-4': {
+        '.typography-heading-4': {
           fontSize: '1.25rem', // 20px
           lineHeight: '1.5rem', // 24px
           letterSpacing: 'calc(-1 * 0.01em)',
@@ -411,7 +411,7 @@ export default {
           fontFamily: theme('fontFamily.roobert'),
         },
 
-        '.text-heading-5': {
+        '.typography-heading-5': {
           fontSize: '1.125rem', // 18px
           lineHeight: '1.25rem', // 20px
           letterSpacing: 'calc(-1 * 0.01em)',
@@ -419,7 +419,7 @@ export default {
           fontFamily: theme('fontFamily.roobert'),
         },
 
-        '.text-body-1': {
+        '.typography-body-1': {
           fontSize: '1.25rem', // 20px
           lineHeight: '1.875rem', // 30px
           letterSpacing: 'calc(-1 * 0.01em)',
@@ -427,7 +427,7 @@ export default {
           fontFamily: theme('fontFamily.sans'),
         },
 
-        '.text-body-2': {
+        '.typography-body-2': {
           fontSize: '1.125rem', // 18px
           lineHeight: '1.75rem', // 28px
           letterSpacing: 'calc(-1 * 0.01em)',
@@ -435,7 +435,7 @@ export default {
           fontFamily: theme('fontFamily.sans'),
         },
 
-        '.text-body-3': {
+        '.typography-body-3': {
           fontSize: '1rem', // 16px
           lineHeight: '1.5rem', // 24px
           letterSpacing: 'calc(-1 * 0.01em)',
@@ -443,7 +443,7 @@ export default {
           fontFamily: theme('fontFamily.sans'),
         },
 
-        '.text-body-4': {
+        '.typography-body-4': {
           fontSize: '0.875rem', // 14px
           lineHeight: '1.25rem', // 20px
           letterSpacing: 'calc(-1 * 0.01em)',
@@ -451,7 +451,7 @@ export default {
           fontFamily: theme('fontFamily.sans'),
         },
 
-        '.text-body-5': {
+        '.typography-body-5': {
           fontSize: '0.75rem', // 12px
           lineHeight: '1.125rem', // 18px
           letterSpacing: 'calc(-1 * 0.01em)',
@@ -459,7 +459,7 @@ export default {
           fontFamily: theme('fontFamily.sans'),
         },
 
-        '.text-body-6': {
+        '.typography-body-6': {
           fontSize: '0.625rem', // 10px
           lineHeight: '0.875rem', // 14px
           letterSpacing: 'calc(-1 * 0.01em)',
@@ -468,7 +468,7 @@ export default {
         },
 
         // @todo update typography below when added
-        '.text-label-1': {
+        '.typography-label-1': {
           fontSize: '1.5rem',
           lineHeight: '1.75rem',
           letterSpacing: 'calc(-1 * 0.01em)',
@@ -476,7 +476,7 @@ export default {
           fontFamily: theme('fontFamily.roobert'),
         },
 
-        '.text-label-2': {
+        '.typography-label-2': {
           fontSize: '1.25rem',
           lineHeight: '1.5rem',
           letterSpacing: 'calc(-1 * 0.01em)',
@@ -484,7 +484,7 @@ export default {
           fontFamily: theme('fontFamily.roobert'),
         },
 
-        '.text-label-3': {
+        '.typography-label-3': {
           fontSize: '1.125rem',
           lineHeight: '1.375rem',
           letterSpacing: 'calc(-0.5 * 0.01em)',
@@ -492,7 +492,7 @@ export default {
           fontFamily: theme('fontFamily.roobert'),
         },
 
-        '.text-label-4': {
+        '.typography-label-4': {
           fontSize: '1rem',
           lineHeight: '1.125rem',
           letterSpacing: 'calc(-0.5 * 0.01em)',
@@ -500,7 +500,7 @@ export default {
           fontFamily: theme('fontFamily.roobert'),
         },
 
-        '.text-label-5': {
+        '.typography-label-5': {
           fontSize: '0.875rem',
           lineHeight: '1rem',
           letterSpacing: '0px',
@@ -508,7 +508,7 @@ export default {
           fontFamily: theme('fontFamily.roobert'),
         },
 
-        '.text-label-6': {
+        '.typography-label-6': {
           fontSize: '0.75rem',
           lineHeight: '1rem',
           letterSpacing: '0px',
@@ -516,7 +516,7 @@ export default {
           fontFamily: theme('fontFamily.roobert'),
         },
 
-        '.text-button-1': {
+        '.typography-button-1': {
           fontSize: '1rem',
           lineHeight: '1.25rem',
           letterSpacing: '0px',
@@ -524,7 +524,7 @@ export default {
           fontFamily: theme('fontFamily.roobert'),
         },
 
-        '.text-button-2': {
+        '.typography-button-2': {
           fontSize: '0.875rem',
           lineHeight: '1rem',
           letterSpacing: '0px',
@@ -533,112 +533,112 @@ export default {
         },
 
         '@screen sm': {
-          '.text-display-1': {
+          '.typography-display-1': {
             fontSize: '7.25rem', // 116px
             lineHeight: '7.25rem', // 116px
           },
 
-          '.text-display-2': {
+          '.typography-display-2': {
             fontSize: '4.5rem', // 72px
             lineHeight: '4.5rem', // 72px
           },
 
-          '.text-display-3': {
+          '.typography-display-3': {
             fontSize: '3.5rem', // 56px
             lineHeight: '3.5rem', // 56px
           },
 
-          '.text-heading-1': {
+          '.typography-heading-1': {
             fontSize: '3rem', // 48px
             lineHeight: '3.75rem', // 60px
           },
 
-          '.text-heading-2': {
+          '.typography-heading-2': {
             fontSize: '2.625rem', // 42px
             lineHeight: '3rem', // 48px
           },
 
-          '.text-heading-3': {
+          '.typography-heading-3': {
             fontSize: '2rem', // 32px
             lineHeight: '2.5rem', // 40px
           },
 
-          '.text-heading-4': {
+          '.typography-heading-4': {
             fontSize: '1.5rem', // 24px
             lineHeight: '1.75rem', // 28px
           },
 
-          '.text-heading-5': {
+          '.typography-heading-5': {
             fontSize: '1.25rem', // 20px
             lineHeight: '1.5rem', // 24px
           },
 
-          '.text-body-1': {
+          '.typography-body-1': {
             fontSize: '1.5rem', // 24px
             lineHeight: '2.25rem', // 36px
           },
 
-          '.text-body-2': {
+          '.typography-body-2': {
             fontSize: '1.25rem', // 20px
             lineHeight: '1.875rem', // 30px
           },
 
-          '.text-body-3': {
+          '.typography-body-3': {
             fontSize: '1.125rem', // 18px
             lineHeight: '1.75rem', // 28px
           },
 
-          '.text-body-4': {
+          '.typography-body-4': {
             fontSize: '1rem', // 16px
             lineHeight: '1.5rem', // 24px
           },
 
-          '.text-body-5': {
+          '.typography-body-5': {
             fontSize: '0.875rem', // 14px
             lineHeight: '1.25rem', // 20px
           },
 
-          '.text-body-6': {
+          '.typography-body-6': {
             fontSize: '0.75rem', // 12px
             lineHeight: '1.125rem', // 18px
           },
 
-          '.text-label-1': {
+          '.typography-label-1': {
             fontSize: '1.5rem', // 24px
             lineHeight: '1.75rem', // 28px
           },
 
-          '.text-label-2': {
+          '.typography-label-2': {
             fontSize: '1.25rem', // 20px
             lineHeight: '1.5rem', // 24px
           },
 
-          '.text-label-3': {
+          '.typography-label-3': {
             fontSize: '1.125rem', // 18px
             lineHeight: '1.375rem', // 22px
           },
 
-          '.text-label-4': {
+          '.typography-label-4': {
             fontSize: '1rem', // 16px
             lineHeight: '1.125rem', // 18px
           },
 
-          '.text-label-5': {
+          '.typography-label-5': {
             fontSize: '0.875rem', // 14px
             lineHeight: '1rem', // 16px
           },
 
-          '.text-label-6': {
+          '.typography-label-6': {
             fontSize: '0.75rem', // 12px
             lineHeight: '1rem', // 16px
           },
 
-          '.text-button-1': {
+          '.typography-button-1': {
             fontSize: '1rem', // 16px
             lineHeight: '1.25rem', // 20px
           },
 
-          '.text-button-2': {
+          '.typography-button-2': {
             fontSize: '0.875rem', // 14px
             lineHeight: '1rem', // 16px
           },
