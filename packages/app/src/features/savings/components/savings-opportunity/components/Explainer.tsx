@@ -17,7 +17,7 @@ export function Explainer({ stablecoinValue, savingsMeta }: ExplainerProps) {
   return (
     <div className="flex flex-col gap-1 md:max-w-[28ch]">
       <Header savingsMeta={savingsMeta} stablecoinValue={stablecoinValue} />
-      <p className="text-basics-black/50 text-sm sm:text-base">
+      <p className="text-sm text-white/80 sm:text-base">
         {stablecoinValue ? (
           <>
             You have{' '}
@@ -39,13 +39,13 @@ export function Explainer({ stablecoinValue, savingsMeta }: ExplainerProps) {
 
 function Header({ stablecoinValue, savingsMeta }: ExplainerProps) {
   if (stablecoinValue) {
-    return <h2 className="font-semibold text-base text-basics-black sm:text-xl">Savings opportunity</h2>
+    return <h2 className="font-semibold text-base text-primary sm:text-xl">Savings opportunity</h2>
   }
 
   const { savingsToken, stablecoin, rateAcronym, rateName } = savingsMeta.primary
 
   return (
-    <h2 className="flex items-center gap-1 whitespace-nowrap font-semibold text-base text-basics-black sm:text-xl">
+    <h2 className="flex items-center gap-1 whitespace-nowrap font-semibold text-base sm:text-xl">
       Savings {stablecoin}
       {savingsMeta.secondary && ` & ${savingsMeta.secondary.stablecoin}`}
       <Info>

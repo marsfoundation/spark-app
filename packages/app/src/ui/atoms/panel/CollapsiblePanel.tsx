@@ -44,10 +44,7 @@ export const CollapsiblePanel: CollapsiblePanelType = forwardRef<HTMLDivElement,
     return (
       <CollapsiblePrimitive.Root open={open} onOpenChange={setOpen}>
         <section
-          className={cn(
-            'flex flex-col gap-6 rounded-lg border border-panel-border bg-inherit bg-white px-6 py-4 shadow-sm',
-            className,
-          )}
+          className={cn('flex flex-col gap-6 rounded-lg border border-panel-border px-6 py-4 shadow-sm', className)}
           ref={ref}
         >
           <CollapsiblePanelContext.Provider value={{ open }}>{Header}</CollapsiblePanelContext.Provider>

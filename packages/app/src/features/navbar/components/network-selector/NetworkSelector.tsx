@@ -17,7 +17,7 @@ export function NetworkSelector({ currentChain, openSelectNetworkDialog }: Netwo
       <Button
         variant="secondary"
         size="md"
-        className="h-auto w-full bg-white px-3 lg:h-10 lg:w-fit"
+        className="h-auto w-full bg-white/10 px-3 lg:h-10 lg:w-fit"
         onClick={() => openSelectNetworkDialog()}
       >
         <div className="flex flex-row items-center gap-3">

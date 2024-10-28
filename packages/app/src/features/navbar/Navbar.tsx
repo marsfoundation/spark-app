@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom'
 
 import { assets } from '@/ui/assets'
 import { cn } from '@/ui/utils/style'
-import { useBlockedPages } from '../compliance/logic/useBlockedPages'
 import { MobileMenuButton } from './components/MobileMenuButton'
 import { NavbarActions } from './components/NavbarActions'
 import { PageLinks } from './components/PageLinks'
@@ -15,20 +14,8 @@ export interface NavbarProps {
 }
 
 export function Navbar({ mobileMenuCollapsed, setMobileMenuCollapsed, className }: NavbarProps) {
-  const {
-    currentChain,
-    supportedChains,
-    openSelectNetworkDialog,
-    openSandboxDialog,
-    savingsInfo,
-    connectedWalletInfo,
-    airdropInfo,
-    rewardsInfo,
-    isSandboxEnabled,
-    pageLinksInfo,
-  } = useNavbar()
-
-  const blockedPages = useBlockedPages()
+  const { openSandboxDialog, savingsInfo, connectedWalletInfo, rewardsInfo, isSandboxEnabled, pageLinksInfo } =
+    useNavbar()
 
   function closeMobileMenu() {
     setMobileMenuCollapsed(true)
@@ -37,13 +24,14 @@ export function Navbar({ mobileMenuCollapsed, setMobileMenuCollapsed, className 
   return (
     <nav
       className={cn(
-        'relative flex flex-col bg-white px-6 shadow-nav',
-        'lg:grid lg:grid-cols-[auto_1fr_auto]',
+        'relative flex flex-col px-6',
+        'lg:grid lg:grid-cols-[auto_1fr_auto] lg:gap-6',
+
         !mobileMenuCollapsed && 'h-full lg:h-auto',
         className,
       )}
     >
-      <div className="-mr-4 flex h-20 shrink-0 flex-row items-center justify-between">
+      <div className="flex h-20 shrink-0 flex-row items-center justify-between">
         <Link to="/">
           <img src={assets.sparkLogo} alt="Spark logo" style={{ height: '2.72rem' }} />
         </Link>
@@ -54,19 +42,14 @@ export function Navbar({ mobileMenuCollapsed, setMobileMenuCollapsed, className 
       <PageLinks
         closeMobileMenu={closeMobileMenu}
         mobileMenuCollapsed={mobileMenuCollapsed}
-        blockedPages={blockedPages}
         savingsInfo={savingsInfo}
         pageLinksInfo={pageLinksInfo}
       />
 
       <NavbarActions
         mobileMenuCollapsed={mobileMenuCollapsed}
-        currentChain={currentChain}
-        supportedChains={supportedChains}
-        openSelectNetworkDialog={openSelectNetworkDialog}
         openSandboxDialog={openSandboxDialog}
         connectedWalletInfo={connectedWalletInfo}
-        airdropInfo={airdropInfo}
         rewardsInfo={rewardsInfo}
         isSandboxEnabled={isSandboxEnabled}
       />
