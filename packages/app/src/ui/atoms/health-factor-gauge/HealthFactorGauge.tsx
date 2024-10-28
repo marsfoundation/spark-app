@@ -17,7 +17,7 @@ const COLORS: Record<RiskLevel, string> = {
   moderate: 'text-product-orange',
   healthy: 'text-product-green',
   'no debt': 'text-product-green',
-  unknown: 'text-zinc-100',
+  unknown: 'text-white/10',
 }
 
 export function HealthFactorGauge(props: HealthFactorGaugeProps) {
@@ -159,7 +159,7 @@ export function HealthFactorGauge(props: HealthFactorGaugeProps) {
         <line x1="374.76" y1="190.84" x2="364.77" y2="191.36" />
         <line x1="375.0" y1="200.0" x2="365.0" y2="200.0" />
       </g>
-      <g fontSize="24" fill="black" textAnchor="middle">
+      <g fontSize="24" fill="white" textAnchor="middle">
         {LABELS_COORDINATES.map(({ x, y, value }) => (
           <LabelComponent key={JSON.stringify({ x, y })} x={x} y={y} value={value} />
         ))}
@@ -171,7 +171,7 @@ export function HealthFactorGauge(props: HealthFactorGaugeProps) {
         fill="currentColor"
         transform={`rotate(${arrowRotation} 200 200)`}
       >
-        <circle cx="200" cy="200" r="100" fill="white" />
+        <circle cx="200" cy="200" r="100" fill="white/10" />
         {riskLevel === 'unknown' ? null : (
           <path
             d="M206.98 100.24
@@ -239,7 +239,7 @@ const INACTIVE_COLORS: Record<RiskLevel, string> = {
   moderate: 'text-product-orange/inactive',
   healthy: 'text-product-green/inactive',
   'no debt': 'text-product-green/inactive',
-  unknown: 'text-zinc-100',
+  unknown: 'text-white/10',
 }
 
 function getStripeClass(riskLevel: RiskLevel, stripeRiskLevel: RiskLevel): string {

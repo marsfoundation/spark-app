@@ -78,13 +78,14 @@ Panel.Wrapper = PanelWrapper
 const panelWrapperVariants = cva('rounded-lg border shadow-sm', {
   variants: {
     variant: {
+      default: 'bg-panel-bg backdrop-blur-sm',
       white: 'border-basics-border bg-white',
-      green: 'border-[#6DC275] bg-basics-green/5',
+      green: 'border-[#6DC275] bg-basics-green/5 bg-panel-bg',
       blue: 'border-[#3F66EF] bg-[#3F66EF]/10',
     },
   },
   defaultVariants: {
-    variant: 'white',
+    variant: 'default',
   },
 })
 

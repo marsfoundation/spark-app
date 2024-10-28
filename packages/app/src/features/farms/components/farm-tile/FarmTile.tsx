@@ -43,7 +43,7 @@ export function FarmTile({
       <div
         style={isHovered ? { borderColor: borderAccentColor } : {}}
         className={cn(
-          'flex w-full cursor-pointer flex-col overflow-hidden rounded-2xl',
+          'flex w-full cursor-pointer flex-col overflow-hidden rounded-2xl bg-panel-bg',
           'group hover:-translate-y-1 border border-basics-border',
           'transition-all duration-300 hover:shadow-tooltip',
         )}

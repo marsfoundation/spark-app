@@ -20,6 +20,7 @@ export default {
       },
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
+        grotesk: ['BDLifelessGrotesk', ...defaultTheme.fontFamily.sans],
       },
       colors: {
         basics: {
@@ -38,8 +39,8 @@ export default {
         sec: {
           green: 'rgba(var(--sec-green) / <alpha-value>)',
         },
-        border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
+        border: 'hsl(var(--border) / .1)',
+        input: 'hsl(var(--input)/ .1)',
         ring: 'hsl(var(--ring))',
         body: 'hsl(var(--body-background))',
         background: 'hsl(var(--background))',
@@ -71,15 +72,15 @@ export default {
           foreground: 'hsl(var(--popover-foreground))',
         },
         card: {
-          DEFAULT: 'hsl(var(--card))',
+          DEFAULT: 'hsl(var(--card) / .44)',
           foreground: 'hsl(var(--card-foreground))',
         },
         nav: {
-          primary: 'rgb(var(--nav-primary))',
+          primary: 'hsl(var(--nav-primary))',
         },
         panel: {
           border: 'var(--panel-border)',
-          bg: 'var(--panel-bg)',
+          bg: 'hsla(var(--panel-bg) / .44)',
         },
         'input-background': 'var(--input-background)',
         'icon-foreground': 'rgba(var(--icon-foreground) / <alpha-value>)',

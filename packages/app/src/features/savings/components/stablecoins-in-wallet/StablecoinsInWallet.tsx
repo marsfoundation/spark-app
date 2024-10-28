@@ -70,7 +70,7 @@ export function StablecoinsInWallet({
   )
 
   return (
-    <section className="rounded-lg border border-basics-border bg-white shadow-sm">
+    <section className="rounded-lg border border-basics-border bg-panel-bg shadow-sm">
       <div className={cn('flex flex-col gap-6 p-4 md:px-8 md:py-6', showConvertDialogButton && 'pb-0 md:pb-0')}>
         <div className="flex flex-row items-center gap-1">
           <h3 className="font-semibold text-2xl text-primary leading-none tracking-tight">Stablecoins in wallet</h3>

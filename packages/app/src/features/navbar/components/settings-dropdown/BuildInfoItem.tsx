@@ -10,7 +10,7 @@ export function BuildInfoItem() {
   return (
     <LinkDecorator to={links.github} external>
       <SettingsDropdownItem variant="footnote">
-        <div className="flex flex-row items-center gap-1 text-[9px] text-basics-dark-grey">
+        <div className="flex flex-row items-center gap-1 text-[9px]">
           Built from {buildSha} at {buildTime}
         </div>
       </SettingsDropdownItem>

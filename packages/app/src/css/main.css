@@ -4,48 +4,47 @@
 
 @layer base {
   :root {
-    --body-background: 210 20% 98%;
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    --body-background: 0 0% 0%;
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
 
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
+    --muted: 0 0% 15.1%;
+    --muted-foreground: 255 0% 100%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
+    --popover: 0 0 0%;
+    --popover-foreground: 210 40% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --card: 273 40% 5%;
+    --card-foreground: 255 0% 100%;
 
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
+    --border: 0 0% 100%;
+    --input: 0 0% 100%;
+    --ring: 258.8 60.6% 50%;
 
-    --primary: #0b2140;
-    --primary-bg: 227, 85%, 59%;
+    --primary-bg: 258.8 60.6% 50%;
+    --primary-hover: 251.6 80.6% 75.3%;
+    --primary: 258.8 60.6% 50%;
     --primary-foreground: 0 0% 100%;
-    --primary-hover: 215, 71%, 15%;
 
-    --secondary: 240, 20%, 98%;
-    --secondary-foreground: 215, 71%, 15%;
+    --secondary: 251.6 80.6% 75.3%;
+    --secondary-foreground: 255 0% 100%;
 
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
+    --accent: 0 0% 5%;
+    --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
 
-    --nav-primary: 63 102 239;
-    --nav-shadow: rgba(11, 33, 64, 0.08);
+    --nav-primary: 251.6 80.6% 75.3%;
+    --nav-shadow: 0 0% 0%;
 
     --tooltip-shadow: rgba(9, 24, 44, 0.07);
 
-    --ring: 240 5% 64.9%;
-
-    --radius: 0.5rem;
+    --radius: 1rem;
 
     --panel-border: rgba(35, 66, 84, 0.1);
-    --panel-bg: #f9f9fb;
-    --input-background: #f9f9fb;
+    --panel-bg: 0 0% 5%;
+    --input-background: 0 0% 5%;
     --icon-foreground: 106 118 146;
 
     --product-green: 109 194 117;
@@ -111,10 +110,40 @@
     @apply border-border;
   }
   body {
-    @apply bg-body text-foreground slashed-zero;
+    @apply bg-body text-foreground slashed-zero relative min-h-screen font-grotesk;
   }
   input {
     background: none;
     @apply slashed-zero;
   }
+
+  .bg-last-gradient {
+    background-image: radial-gradient(
+        circle at center,
+        hsl(20, 100%, 54%),
+        transparent
+      ),
+      radial-gradient(circle at center, rgb(43, 27, 218), transparent);
+    background-size:
+      689px 639px,
+      1276px 1276px;
+    background-position:
+      150px 100px,
+      center -170px;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+    filter: blur(120px);
+    opacity: 0.6;
+  }
+
+  .bg-last-noise {
+    opacity: 60%;
+
+    background-image: url('/backgrounds/noise.webp');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+
 }
