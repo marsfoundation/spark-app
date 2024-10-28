@@ -10,7 +10,7 @@ const meta: Meta<typeof Button> = {
 export default meta
 type Story = StoryObj<typeof Button>
 
-export const Buttons: Story = {
+export const Default: Story = {
   render: () => {
     const buttonProps: ButtonProps = {
       children: 'Button',
@@ -19,77 +19,190 @@ export const Buttons: Story = {
     }
 
     return (
-      <div className="grid w-fit grid-cols-6 justify-items-start gap-x-12 gap-y-4">
+      <div className="grid w-fit grid-cols-3 justify-items-center gap-x-12 gap-y-4">
+        <div> Primary </div>
+        <div> Secondary </div>
+        <div> Tertiary </div>
+
         <Button variant="primary" size="l" {...buttonProps} />
-        <Button variant="primary" size="l" id="primary_l_focused" {...buttonProps} />
-        <Button variant="primary" size="l" id="primary_l_hovered" {...buttonProps} />
-        <Button variant="primary" size="l" id="primary_l_pressed" {...buttonProps} />
-        <Button variant="primary" size="l" disabled {...buttonProps} />
-        <Button variant="primary" size="l" loading {...buttonProps} />
+        <Button variant="secondary" size="l" {...buttonProps} />
+        <Button variant="tertiary" size="l" {...buttonProps} />
 
         <Button variant="primary" size="m" {...buttonProps} />
-        <Button variant="primary" size="m" id="primary_l_focused" {...buttonProps} />
-        <Button variant="primary" size="m" id="primary_l_hovered" {...buttonProps} />
-        <Button variant="primary" size="m" id="primary_l_pressed" {...buttonProps} />
-        <Button variant="primary" size="m" disabled {...buttonProps} />
-        <Button variant="primary" size="m" loading {...buttonProps} />
+        <Button variant="secondary" size="m" {...buttonProps} />
+        <Button variant="tertiary" size="m" {...buttonProps} />
 
         <Button variant="primary" size="s" {...buttonProps} />
-        <Button variant="primary" size="s" id="primary_l_focused" {...buttonProps} />
-        <Button variant="primary" size="s" id="primary_l_hovered" {...buttonProps} />
-        <Button variant="primary" size="s" id="primary_l_pressed" {...buttonProps} />
-        <Button variant="primary" size="s" disabled {...buttonProps} />
-        <Button variant="primary" size="s" loading {...buttonProps} />
-
-        <Button variant="secondary" size="l" {...buttonProps} />
-        <Button variant="secondary" size="l" id="primary_l_focused" {...buttonProps} />
-        <Button variant="secondary" size="l" id="primary_l_hovered" {...buttonProps} />
-        <Button variant="secondary" size="l" id="primary_l_pressed" {...buttonProps} />
-        <Button variant="secondary" size="l" disabled {...buttonProps} />
-        <Button variant="secondary" size="l" loading {...buttonProps} />
-
-        <Button variant="secondary" size="m" {...buttonProps} />
-        <Button variant="secondary" size="m" id="primary_l_focused" {...buttonProps} />
-        <Button variant="secondary" size="m" id="primary_l_hovered" {...buttonProps} />
-        <Button variant="secondary" size="m" id="primary_l_pressed" {...buttonProps} />
-        <Button variant="secondary" size="m" disabled {...buttonProps} />
-        <Button variant="secondary" size="m" loading {...buttonProps} />
-
         <Button variant="secondary" size="s" {...buttonProps} />
-        <Button variant="secondary" size="s" id="primary_l_focused" {...buttonProps} />
-        <Button variant="secondary" size="s" id="primary_l_hovered" {...buttonProps} />
-        <Button variant="secondary" size="s" id="primary_l_pressed" {...buttonProps} />
-        <Button variant="secondary" size="s" disabled {...buttonProps} />
-        <Button variant="secondary" size="s" loading {...buttonProps} />
-
-        <Button variant="tertiary" size="l" {...buttonProps} />
-        <Button variant="tertiary" size="l" id="primary_l_focused" {...buttonProps} />
-        <Button variant="tertiary" size="l" id="primary_l_hovered" {...buttonProps} />
-        <Button variant="tertiary" size="l" id="primary_l_pressed" {...buttonProps} />
-        <Button variant="tertiary" size="l" disabled {...buttonProps} />
-        <Button variant="tertiary" size="l" loading {...buttonProps} />
-
-        <Button variant="tertiary" size="m" {...buttonProps} />
-        <Button variant="tertiary" size="m" id="primary_l_focused" {...buttonProps} />
-        <Button variant="tertiary" size="m" id="primary_l_hovered" {...buttonProps} />
-        <Button variant="tertiary" size="m" id="primary_l_pressed" {...buttonProps} />
-        <Button variant="tertiary" size="m" disabled {...buttonProps} />
-        <Button variant="tertiary" size="m" loading {...buttonProps} />
-
         <Button variant="tertiary" size="s" {...buttonProps} />
-        <Button variant="tertiary" size="s" id="primary_l_focused" {...buttonProps} />
-        <Button variant="tertiary" size="s" id="primary_l_hovered" {...buttonProps} />
-        <Button variant="tertiary" size="s" id="primary_l_pressed" {...buttonProps} />
-        <Button variant="tertiary" size="s" disabled {...buttonProps} />
-        <Button variant="tertiary" size="s" loading {...buttonProps} />
+      </div>
+    )
+  },
+}
+
+export const Hovered: Story = {
+  render: () => {
+    const buttonProps: ButtonProps = {
+      children: 'Button',
+      prefixIcon: PlusIcon,
+      postfixIcon: ChevronRightIcon,
+    }
+
+    return (
+      <div className="grid w-fit grid-cols-3 justify-items-center gap-x-12 gap-y-4">
+        <div> Primary </div>
+        <div> Secondary </div>
+        <div> Tertiary </div>
+
+        <Button variant="primary" size="l" {...buttonProps} />
+        <Button variant="secondary" size="l" {...buttonProps} />
+        <Button variant="tertiary" size="l" {...buttonProps} />
+
+        <Button variant="primary" size="m" {...buttonProps} />
+        <Button variant="secondary" size="m" {...buttonProps} />
+        <Button variant="tertiary" size="m" {...buttonProps} />
+
+        <Button variant="primary" size="s" {...buttonProps} />
+        <Button variant="secondary" size="s" {...buttonProps} />
+        <Button variant="tertiary" size="s" {...buttonProps} />
       </div>
     )
   },
   parameters: {
     pseudo: {
-      hover: ['#primary_l_hovered', '#primary_m_hovered', '#primary_s_hovered'],
-      focusVisible: ['#primary_l_focused', '#primary_m_focused', '#primary_s_focused'],
-      active: ['#primary_l_pressed', '#primary_m_pressed', '#primary_s_pressed'],
+      hover: true,
     },
+  },
+}
+
+export const Focused: Story = {
+  render: () => {
+    const buttonProps: ButtonProps = {
+      children: 'Button',
+      prefixIcon: PlusIcon,
+      postfixIcon: ChevronRightIcon,
+    }
+
+    return (
+      <div className="grid w-fit grid-cols-3 justify-items-center gap-x-12 gap-y-4">
+        <div> Primary </div>
+        <div> Secondary </div>
+        <div> Tertiary </div>
+
+        <Button variant="primary" size="l" {...buttonProps} />
+        <Button variant="secondary" size="l" {...buttonProps} />
+        <Button variant="tertiary" size="l" {...buttonProps} />
+
+        <Button variant="primary" size="m" {...buttonProps} />
+        <Button variant="secondary" size="m" {...buttonProps} />
+        <Button variant="tertiary" size="m" {...buttonProps} />
+
+        <Button variant="primary" size="s" {...buttonProps} />
+        <Button variant="secondary" size="s" {...buttonProps} />
+        <Button variant="tertiary" size="s" {...buttonProps} />
+      </div>
+    )
+  },
+  parameters: {
+    pseudo: {
+      focusVisible: true,
+    },
+  },
+}
+
+export const Pressed: Story = {
+  render: () => {
+    const buttonProps: ButtonProps = {
+      children: 'Button',
+      prefixIcon: PlusIcon,
+      postfixIcon: ChevronRightIcon,
+    }
+
+    return (
+      <div className="grid w-fit grid-cols-3 justify-items-center gap-x-12 gap-y-4">
+        <div> Primary </div>
+        <div> Secondary </div>
+        <div> Tertiary </div>
+
+        <Button variant="primary" size="l" {...buttonProps} />
+        <Button variant="secondary" size="l" {...buttonProps} />
+        <Button variant="tertiary" size="l" {...buttonProps} />
+
+        <Button variant="primary" size="m" {...buttonProps} />
+        <Button variant="secondary" size="m" {...buttonProps} />
+        <Button variant="tertiary" size="m" {...buttonProps} />
+
+        <Button variant="primary" size="s" {...buttonProps} />
+        <Button variant="secondary" size="s" {...buttonProps} />
+        <Button variant="tertiary" size="s" {...buttonProps} />
+      </div>
+    )
+  },
+  parameters: {
+    pseudo: {
+      active: true,
+    },
+  },
+}
+
+export const Disabled: Story = {
+  render: () => {
+    const buttonProps: ButtonProps = {
+      children: 'Button',
+      prefixIcon: PlusIcon,
+      postfixIcon: ChevronRightIcon,
+      disabled: true,
+    }
+
+    return (
+      <div className="grid w-fit grid-cols-3 justify-items-center gap-x-12 gap-y-4">
+        <div> Primary </div>
+        <div> Secondary </div>
+        <div> Tertiary </div>
+
+        <Button variant="primary" size="l" {...buttonProps} />
+        <Button variant="secondary" size="l" {...buttonProps} />
+        <Button variant="tertiary" size="l" {...buttonProps} />
+
+        <Button variant="primary" size="m" {...buttonProps} />
+        <Button variant="secondary" size="m" {...buttonProps} />
+        <Button variant="tertiary" size="m" {...buttonProps} />
+
+        <Button variant="primary" size="s" {...buttonProps} />
+        <Button variant="secondary" size="s" {...buttonProps} />
+        <Button variant="tertiary" size="s" {...buttonProps} />
+      </div>
+    )
+  },
+}
+
+export const Loading: Story = {
+  render: () => {
+    const buttonProps: ButtonProps = {
+      children: 'Button',
+      prefixIcon: PlusIcon,
+      postfixIcon: ChevronRightIcon,
+      loading: true,
+    }
+
+    return (
+      <div className="grid w-fit grid-cols-3 justify-items-center gap-x-12 gap-y-4">
+        <div> Primary </div>
+        <div> Secondary </div>
+        <div> Tertiary </div>
+
+        <Button variant="primary" size="l" {...buttonProps} />
+        <Button variant="secondary" size="l" {...buttonProps} />
+        <Button variant="tertiary" size="l" {...buttonProps} />
+
+        <Button variant="primary" size="m" {...buttonProps} />
+        <Button variant="secondary" size="m" {...buttonProps} />
+        <Button variant="tertiary" size="m" {...buttonProps} />
+
+        <Button variant="primary" size="s" {...buttonProps} />
+        <Button variant="secondary" size="s" {...buttonProps} />
+        <Button variant="tertiary" size="s" {...buttonProps} />
+      </div>
+    )
   },
 }
