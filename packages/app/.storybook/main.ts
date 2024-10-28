@@ -14,6 +14,7 @@ const config: StorybookConfig = {
     '@storybook/addon-themes',
     'storybook-addon-remix-react-router',
     '@chromatic-com/storybook',
+    'storybook-addon-pseudo-states',
   ],
 
   framework: {
@@ -37,9 +38,3 @@ const config: StorybookConfig = {
     }),
 }
 export default config
-
-// This addon can cause random Chrome crashes ("Snap!" errors) but works well in production.
-// We need it to be able to force components into desired states for screenshots
-if (process.env.NODE_ENV === 'production') {
-  config.addons!.push('storybook-addon-pseudo-states')
-}
