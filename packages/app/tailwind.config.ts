@@ -24,14 +24,14 @@ export default {
         roobert: ['Roobert', ...defaultTheme.fontFamily.sans],
       },
       textColor: {
-        primary: 'var(--base-black)',
-        secondary: 'var(--neutral-500)',
-        tertiary: 'var(--neutral-300)',
-        brand: 'var(--primary-800)',
-        inverse: 'var(--base-white)',
-        success: 'var(--success-600)',
-        warning: 'var(--warning-600)',
-        error: 'var(--error-700)',
+        primary: 'rgb(var(--base-black))',
+        secondary: 'rgb(var(--neutral-500))',
+        tertiary: 'rgb(var(--neutral-300))',
+        brand: 'rgb(var(--primary-800))',
+        inverse: 'rgb(var(--base-white))',
+        success: 'rgb(var(--success-600))',
+        warning: 'rgb(var(--warning-600))',
+        error: 'rgb(var(--error-700))',
       },
       colors: {
         reskin: {

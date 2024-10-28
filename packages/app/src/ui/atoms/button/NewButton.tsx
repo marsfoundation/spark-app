@@ -26,7 +26,7 @@ const buttonVariants = cva(
         ),
         tertiary: cn(
           'border border-reskin-border-primary border-solid bg-reskin-base-white',
-          'text-reskin-neutral-950 shadow-xs active:bg-reskin-neutral-100 hover:bg-reskin-neutral-50'
+          'text-reskin-neutral-950 shadow-xs active:bg-reskin-neutral-100 hover:bg-reskin-neutral-50',
         ),
         loading: 'cursor-wait bg-reskin-neutral-50 text-reskin-base-white',
         disabled: 'cursor-not-allowed bg-reskin-neutral-50 disabled:text-reskin-neutral-500',
@@ -44,12 +44,24 @@ const buttonVariants = cva(
   },
 )
 
+const buttonIconVariants = cva('', {
+  variants: {
+    size: {
+      l: 'icon-sm',
+      m: 'icon-sm',
+      s: 'icon-xs',
+    },
+  },
+})
+
+type IconType = React.FC<{ className?: string }>
+
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean
-  prefixIcon?: React.ReactNode
-  postfixIcon?: React.ReactNode
+  prefixIcon?: IconType
+  postfixIcon?: IconType
   loading?: boolean
 }
 
@@ -61,8 +73,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       size = 'm',
       asChild = false,
       type = 'button',
-      prefixIcon,
-      postfixIcon,
+      prefixIcon: PrefixIcon,
+      postfixIcon: PostfixIcon,
       loading = false,
       children,
       disabled,
@@ -88,9 +100,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           </div>
         )}
         <>
-          {prefixIcon}
+          {PrefixIcon && <PrefixIcon className={buttonIconVariants({ size })} />}
           <div className="px-1">{children}</div>
-          {postfixIcon}
+          {PostfixIcon && <PostfixIcon className={buttonIconVariants({ size })} />}
         </>
       </Comp>
     )

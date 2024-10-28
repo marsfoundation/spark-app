@@ -132,14 +132,14 @@ export const WithPrefixIconL: Story = {
   args: {
     size: 'l',
     children: 'With Prefix',
-    prefixIcon: <Fingerprint size={20} />,
+    prefixIcon: Fingerprint,
   },
 }
 
 export const WithPrefixIconM: Story = {
   args: {
     children: 'With Prefix',
-    prefixIcon: <Fingerprint size={20} />,
+    prefixIcon: Fingerprint,
   },
 }
 
@@ -147,14 +147,14 @@ export const WithPrefixIconS: Story = {
   args: {
     size: 's',
     children: 'With Prefix',
-    prefixIcon: <Fingerprint size={16} />,
+    prefixIcon: Fingerprint,
   },
 }
 
 export const WithPrefixIconDisabled: Story = {
   args: {
     children: 'With Prefix Disabled',
-    prefixIcon: <Fingerprint size={20} />,
+    prefixIcon: Fingerprint,
     disabled: true,
   },
 }
@@ -162,14 +162,14 @@ export const WithPrefixIconDisabled: Story = {
 export const WithPostfixIcon: Story = {
   args: {
     children: 'With Postfix',
-    postfixIcon: <Candy size={20} />,
+    postfixIcon: Candy,
   },
 }
 
 export const WithPrefixAndPostfixIcons: Story = {
   args: {
     children: 'With Prefix and Postfix',
-    prefixIcon: <Fingerprint size={20} />,
-    postfixIcon: <Candy size={20} />,
+    prefixIcon: Fingerprint,
+    postfixIcon: Candy,
   },
 }
