@@ -11,12 +11,12 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          'before:-z-10 bg-gradient-spark-primary text-reskin-base-white before:absolute before:inset-0 active:before:bg-reskin-neutral-800 focus-visible:before:bg-reskin-base-white hover:before:bg-reskin-neutral-950 active:text-reskin-base-white before:transition-colors before:content-[""]',
+          'before:-z-10 bg-gradient-spark-primary text-reskin-base-white before:absolute before:inset-0 active:before:bg-reskin-neutral-800 focus-visible:before:bg-reskin-base-white hover:before:bg-reskin-neutral-950 active:text-reskin-base-white before:transition-colors',
         secondary:
           'bg-reskin-neutral-950 text-reskin-base-white active:bg-reskin-neutral-950 hover:bg-reskin-neutral-800 active:text-reskin-base-white',
         tertiary:
           'border border-reskin-border-primary border-solid bg-reskin-base-white text-reskin-neutral-950 shadow-xs active:bg-reskin-neutral-100 hover:bg-reskin-neutral-50 ',
-        loading: 'cursor-wait bg-reskin-neutral-50',
+        loading: 'cursor-wait bg-reskin-neutral-50 text-reskin-base-white',
         disabled: 'cursor-not-allowed bg-reskin-neutral-50 disabled:text-reskin-neutral-500',
       },
       size: {
@@ -71,7 +71,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         type={type}
       >
         {loading && (
-          <div className="absolute inset-0 flex items-center justify-center bg-reskin-neutral-50">
+          <div className="absolute inset-0 flex animate-reveal items-center justify-center bg-reskin-neutral-50">
             <Loader size={20} />
           </div>
         )}

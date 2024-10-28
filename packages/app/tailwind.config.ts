@@ -400,12 +400,17 @@ export default {
           '50%': { transform: 'scale(1)' },
           '100%': { transform: 'scale(0)' },
         },
+        reveal: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'sprinkle-spin': 'sprinkle-spin 1s linear',
         'sprinkle-come-in-out': 'sprinkle-come-in-out 700ms forwards',
+        reveal: 'reveal 0.25s ease-out',
       },
     },
   },

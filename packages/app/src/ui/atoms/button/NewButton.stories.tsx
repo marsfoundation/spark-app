@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Candy, Fingerprint } from 'lucide-react'
-
 import { Button } from './NewButton'
 
 const meta: Meta<typeof Button> = {
