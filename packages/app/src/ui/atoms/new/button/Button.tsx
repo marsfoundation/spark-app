@@ -54,7 +54,7 @@ const buttonIconVariants = cva('', {
   },
 })
 
-type IconType = React.FC<{ className?: string }>
+type IconType = React.ComponentType<{ className?: string }>
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
