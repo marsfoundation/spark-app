@@ -33,6 +33,14 @@ export const PrimaryS: Story = {
     size: 's',
   },
 }
+export const PrimaryHovered: Story = {
+  args: PrimaryArgs,
+  parameters: { pseudo: { hover: true } },
+}
+export const PrimaryPressed: Story = {
+  args: PrimaryArgs,
+  parameters: { pseudo: { active: true } },
+}
 
 const SecondaryArgs = {
   variant: 'secondary',
@@ -56,6 +64,14 @@ export const SecondaryS: Story = {
     ...SecondaryArgs,
     size: 's',
   },
+}
+export const SecondaryHovered: Story = {
+  args: SecondaryArgs,
+  parameters: { pseudo: { hover: true } },
+}
+export const SecondaryPressed: Story = {
+  args: SecondaryArgs,
+  parameters: { pseudo: { active: true } },
 }
 
 const TertiaryArgs = {
@@ -81,12 +97,28 @@ export const TertiaryS: Story = {
     size: 's',
   },
 }
+export const TertiaryHovered: Story = {
+  args: TertiaryArgs,
+  parameters: { pseudo: { hover: true } },
+}
+
+export const TertiaryPressed: Story = {
+  args: TertiaryArgs,
+  parameters: { pseudo: { active: true } },
+}
 
 export const Disabled: Story = {
   args: {
     disabled: true,
     children: 'Disabled Button',
   },
+}
+
+export const Focused: Story = {
+  args: {
+    children: 'Focused Button',
+  },
+  parameters: { pseudo: { focusWithin: true } },
 }
 
 export const Loading: Story = {
@@ -140,25 +172,4 @@ export const WithPrefixAndPostfixIcons: Story = {
     prefixIcon: <Fingerprint size={20} />,
     postfixIcon: <Candy size={20} />,
   },
-}
-
-export const Hovered: Story = {
-  args: {
-    children: 'Hovered',
-  },
-  parameters: { pseudo: { hover: true } },
-}
-
-export const Focused: Story = {
-  args: {
-    children: 'Focused',
-  },
-  parameters: { pseudo: { focusVisible: true } },
-}
-
-export const Pressed: Story = {
-  args: {
-    children: 'Pressed',
-  },
-  parameters: { pseudo: { active: true } },
 }
