@@ -21,20 +21,18 @@ export interface SettingsDropdownProps {
 }
 
 export function SettingsDropdown({ onSandboxModeClick, isSandboxEnabled }: SettingsDropdownProps) {
-  return (
+  return isSandboxEnabled ? (
     <NavbarActionWrapper label="Other">
       <DropdownWrapper>
-        {isSandboxEnabled && (
-          <SettingsDropdownItem onClick={onSandboxModeClick}>
-            <SettingsDropdownItem.Title>
-              <MagicWand className="h-5 w-5 lg:h-3 lg:w-3" />
-              Sandbox Mode
-            </SettingsDropdownItem.Title>
-            <SettingsDropdownItem.Content>
-              Explore Spark <br /> with unlimited tokens
-            </SettingsDropdownItem.Content>
-          </SettingsDropdownItem>
-        )}
+        <SettingsDropdownItem onClick={onSandboxModeClick}>
+          <SettingsDropdownItem.Title>
+            <MagicWand className="h-5 w-5 lg:h-3 lg:w-3" />
+            Sandbox Mode
+          </SettingsDropdownItem.Title>
+          <SettingsDropdownItem.Content>
+            Explore Spark <br /> with unlimited tokens
+          </SettingsDropdownItem.Content>
+        </SettingsDropdownItem>
 
         <Link to={links.termsOfUse} external>
           <SettingsDropdownItem>
@@ -50,7 +48,7 @@ export function SettingsDropdown({ onSandboxModeClick, isSandboxEnabled }: Setti
         </div>
       </DropdownWrapper>
     </NavbarActionWrapper>
-  )
+  ) : null
 }
 
 function DropdownWrapper({ children }: { children: React.ReactNode }) {
