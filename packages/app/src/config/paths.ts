@@ -1,10 +1,10 @@
 import { ChainConfigEntry } from './chain/types'
 
 export const paths = {
-  easyBorrow: '/borrow',
+  easyBorrow: '/',
   myPortfolio: '/my-portfolio',
   markets: '/markets',
-  savings: '/',
+  savings: '/savings',
   farms: '/farms',
   marketDetails: '/markets/:chainId/:asset',
   farmDetails: '/farms/:chainId/:address',
