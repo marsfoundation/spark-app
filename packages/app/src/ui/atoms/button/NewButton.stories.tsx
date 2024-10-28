@@ -142,3 +142,24 @@ export const WithPrefixAndPostfixIcons: Story = {
     postfixIcon: <Candy size={20} />,
   },
 }
+
+export const Hovered: Story = {
+  args: {
+    children: 'Hovered',
+  },
+  parameters: { pseudo: { hover: true } },
+}
+
+export const Focused: Story = {
+  args: {
+    children: 'Focused',
+  },
+  parameters: { pseudo: { focusVisible: true } },
+}
+
+export const Pressed: Story = {
+  args: {
+    children: 'Pressed',
+  },
+  parameters: { pseudo: { active: true } },
+}
