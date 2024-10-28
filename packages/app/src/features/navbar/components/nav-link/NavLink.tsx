@@ -8,6 +8,7 @@ export interface NavLinkProps extends NavLinkComponentProps {
   to: string
   onClick?: () => void
   className?: string
+  withIndicator?: boolean
 }
 
 export function NavLink({ to, children, onClick, className, ...rest }: NavLinkProps) {
@@ -38,6 +39,7 @@ interface NavLinkComponentProps {
   size?: 'sm' | 'md'
   shady?: boolean
   className?: string
+  withIndicator?: boolean
 }
 export function NavLinkComponent({
   children,
@@ -47,6 +49,7 @@ export function NavLinkComponent({
   size = 'md',
   shady,
   className,
+  withIndicator = false,
 }: NavLinkComponentProps) {
   return (
     <NavLinkBox>
@@ -60,7 +63,7 @@ export function NavLinkComponent({
       >
         {children}
       </NavLinkBox.Content>
-      <NavLinkBox.Indicator selected={selected} variant={variant} />
+      {withIndicator && <NavLinkBox.Indicator selected={selected} variant={variant} />}
     </NavLinkBox>
   )
 }
@@ -107,7 +110,7 @@ export function NavLinkIndicator({
   )
 }
 
-const contentVariants = cva('flex h-full w-full flex-row items-center gap-1 font-semibold text-primary', {
+const contentVariants = cva('flex h-full w-full flex-row items-center gap-1 text-primary', {
   variants: {
     variant: {
       horizontal: 'lg:justify-center',
