@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { Candy, Fingerprint } from 'lucide-react'
-import { Button } from './NewButton'
+import { ChevronRightIcon, PlusIcon } from 'lucide-react'
+import { Button, ButtonProps } from './NewButton'
 
 const meta: Meta<typeof Button> = {
   title: 'Components/Atoms/NewButton',
@@ -10,166 +10,86 @@ const meta: Meta<typeof Button> = {
 export default meta
 type Story = StoryObj<typeof Button>
 
-const PrimaryArgs = {
-  variant: 'primary',
-  children: 'Primary Button',
-} as const
+export const Buttons: Story = {
+  render: () => {
+    const buttonProps: ButtonProps = {
+      children: 'Button',
+      prefixIcon: PlusIcon,
+      postfixIcon: ChevronRightIcon,
+    }
 
-export const PrimaryL: Story = {
-  args: {
-    ...PrimaryArgs,
-    size: 'l',
-  },
-}
-export const PrimaryM: Story = {
-  args: {
-    ...PrimaryArgs,
-    size: 'm',
-  },
-}
-export const PrimaryS: Story = {
-  args: {
-    ...PrimaryArgs,
-    size: 's',
-  },
-}
-export const PrimaryHovered: Story = {
-  args: PrimaryArgs,
-  parameters: { pseudo: { hover: true } },
-}
-export const PrimaryPressed: Story = {
-  args: PrimaryArgs,
-  parameters: { pseudo: { active: true } },
-}
+    return (
+      <div className="grid w-fit grid-cols-6 justify-items-start gap-x-12 gap-y-4">
+        <Button variant="primary" size="l" {...buttonProps} />
+        <Button variant="primary" size="l" id="primary_l_focused" {...buttonProps} />
+        <Button variant="primary" size="l" id="primary_l_hovered" {...buttonProps} />
+        <Button variant="primary" size="l" id="primary_l_pressed" {...buttonProps} />
+        <Button variant="primary" size="l" disabled {...buttonProps} />
+        <Button variant="primary" size="l" loading {...buttonProps} />
 
-const SecondaryArgs = {
-  variant: 'secondary',
-  children: 'Secondary Button',
-} as const
+        <Button variant="primary" size="m" {...buttonProps} />
+        <Button variant="primary" size="m" id="primary_l_focused" {...buttonProps} />
+        <Button variant="primary" size="m" id="primary_l_hovered" {...buttonProps} />
+        <Button variant="primary" size="m" id="primary_l_pressed" {...buttonProps} />
+        <Button variant="primary" size="m" disabled {...buttonProps} />
+        <Button variant="primary" size="m" loading {...buttonProps} />
 
-export const SecondaryL: Story = {
-  args: {
-    ...SecondaryArgs,
-    size: 'l',
-  },
-}
-export const SecondaryM: Story = {
-  args: {
-    ...SecondaryArgs,
-    size: 'm',
-  },
-}
-export const SecondaryS: Story = {
-  args: {
-    ...SecondaryArgs,
-    size: 's',
-  },
-}
-export const SecondaryHovered: Story = {
-  args: SecondaryArgs,
-  parameters: { pseudo: { hover: true } },
-}
-export const SecondaryPressed: Story = {
-  args: SecondaryArgs,
-  parameters: { pseudo: { active: true } },
-}
+        <Button variant="primary" size="s" {...buttonProps} />
+        <Button variant="primary" size="s" id="primary_l_focused" {...buttonProps} />
+        <Button variant="primary" size="s" id="primary_l_hovered" {...buttonProps} />
+        <Button variant="primary" size="s" id="primary_l_pressed" {...buttonProps} />
+        <Button variant="primary" size="s" disabled {...buttonProps} />
+        <Button variant="primary" size="s" loading {...buttonProps} />
 
-const TertiaryArgs = {
-  variant: 'tertiary',
-  children: 'Tertiary Button',
-} as const
+        <Button variant="secondary" size="l" {...buttonProps} />
+        <Button variant="secondary" size="l" id="primary_l_focused" {...buttonProps} />
+        <Button variant="secondary" size="l" id="primary_l_hovered" {...buttonProps} />
+        <Button variant="secondary" size="l" id="primary_l_pressed" {...buttonProps} />
+        <Button variant="secondary" size="l" disabled {...buttonProps} />
+        <Button variant="secondary" size="l" loading {...buttonProps} />
 
-export const TertiaryL: Story = {
-  args: {
-    ...TertiaryArgs,
-    size: 'l',
-  },
-}
-export const TertiaryM: Story = {
-  args: {
-    ...TertiaryArgs,
-    size: 'm',
-  },
-}
-export const TertiaryS: Story = {
-  args: {
-    ...TertiaryArgs,
-    size: 's',
-  },
-}
-export const TertiaryHovered: Story = {
-  args: TertiaryArgs,
-  parameters: { pseudo: { hover: true } },
-}
+        <Button variant="secondary" size="m" {...buttonProps} />
+        <Button variant="secondary" size="m" id="primary_l_focused" {...buttonProps} />
+        <Button variant="secondary" size="m" id="primary_l_hovered" {...buttonProps} />
+        <Button variant="secondary" size="m" id="primary_l_pressed" {...buttonProps} />
+        <Button variant="secondary" size="m" disabled {...buttonProps} />
+        <Button variant="secondary" size="m" loading {...buttonProps} />
 
-export const TertiaryPressed: Story = {
-  args: TertiaryArgs,
-  parameters: { pseudo: { active: true } },
-}
+        <Button variant="secondary" size="s" {...buttonProps} />
+        <Button variant="secondary" size="s" id="primary_l_focused" {...buttonProps} />
+        <Button variant="secondary" size="s" id="primary_l_hovered" {...buttonProps} />
+        <Button variant="secondary" size="s" id="primary_l_pressed" {...buttonProps} />
+        <Button variant="secondary" size="s" disabled {...buttonProps} />
+        <Button variant="secondary" size="s" loading {...buttonProps} />
 
-export const Disabled: Story = {
-  args: {
-    disabled: true,
-    children: 'Disabled Button',
+        <Button variant="tertiary" size="l" {...buttonProps} />
+        <Button variant="tertiary" size="l" id="primary_l_focused" {...buttonProps} />
+        <Button variant="tertiary" size="l" id="primary_l_hovered" {...buttonProps} />
+        <Button variant="tertiary" size="l" id="primary_l_pressed" {...buttonProps} />
+        <Button variant="tertiary" size="l" disabled {...buttonProps} />
+        <Button variant="tertiary" size="l" loading {...buttonProps} />
+
+        <Button variant="tertiary" size="m" {...buttonProps} />
+        <Button variant="tertiary" size="m" id="primary_l_focused" {...buttonProps} />
+        <Button variant="tertiary" size="m" id="primary_l_hovered" {...buttonProps} />
+        <Button variant="tertiary" size="m" id="primary_l_pressed" {...buttonProps} />
+        <Button variant="tertiary" size="m" disabled {...buttonProps} />
+        <Button variant="tertiary" size="m" loading {...buttonProps} />
+
+        <Button variant="tertiary" size="s" {...buttonProps} />
+        <Button variant="tertiary" size="s" id="primary_l_focused" {...buttonProps} />
+        <Button variant="tertiary" size="s" id="primary_l_hovered" {...buttonProps} />
+        <Button variant="tertiary" size="s" id="primary_l_pressed" {...buttonProps} />
+        <Button variant="tertiary" size="s" disabled {...buttonProps} />
+        <Button variant="tertiary" size="s" loading {...buttonProps} />
+      </div>
+    )
   },
-}
-
-export const Focused: Story = {
-  args: {
-    children: 'Focused Button',
-  },
-  parameters: { pseudo: { focusWithin: true } },
-}
-
-export const Loading: Story = {
-  args: {
-    loading: true,
-    children: 'Loading Button',
-  },
-}
-
-export const WithPrefixIconL: Story = {
-  args: {
-    size: 'l',
-    children: 'With Prefix',
-    prefixIcon: Fingerprint,
-  },
-}
-
-export const WithPrefixIconM: Story = {
-  args: {
-    children: 'With Prefix',
-    prefixIcon: Fingerprint,
-  },
-}
-
-export const WithPrefixIconS: Story = {
-  args: {
-    size: 's',
-    children: 'With Prefix',
-    prefixIcon: Fingerprint,
-  },
-}
-
-export const WithPrefixIconDisabled: Story = {
-  args: {
-    children: 'With Prefix Disabled',
-    prefixIcon: Fingerprint,
-    disabled: true,
-  },
-}
-
-export const WithPostfixIcon: Story = {
-  args: {
-    children: 'With Postfix',
-    postfixIcon: Candy,
-  },
-}
-
-export const WithPrefixAndPostfixIcons: Story = {
-  args: {
-    children: 'With Prefix and Postfix',
-    prefixIcon: Fingerprint,
-    postfixIcon: Candy,
+  parameters: {
+    pseudo: {
+      hover: ['#primary_l_hovered', '#primary_m_hovered', '#primary_s_hovered'],
+      focusVisible: ['#primary_l_focused', '#primary_m_focused', '#primary_s_focused'],
+      active: ['#primary_l_pressed', '#primary_m_pressed', '#primary_s_pressed'],
+    },
   },
 }
