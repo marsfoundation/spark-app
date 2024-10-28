@@ -3,7 +3,7 @@ import { ChevronRightIcon, PlusIcon } from 'lucide-react'
 import { Button, ButtonProps } from './Button'
 
 const meta: Meta<typeof Button> = {
-  title: 'Components/Atoms/NewButton',
+  title: 'Components/Atoms/New/Button',
   component: Button,
 }
 
