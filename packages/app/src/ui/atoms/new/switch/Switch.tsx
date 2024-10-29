@@ -10,18 +10,19 @@ const Switch = React.forwardRef<
   <SwitchPrimitives.Root
     className={cn(
       'padding-2 peer inline-flex h-5 w-9 shrink-0 items-center rounded-xss transition-all ',
-      'data-[state=checked]:bg-reskin-fg-system-success-primary data-[state=unchecked]:bg-reskin-bg-secondary',
+      'data-[state=checked]:bg-reskin-fg-system-success-primary',
+      'data-[state=unchecked]:bg-reskin-bg-secondary',
       'data-[state=unchecked]:ring-1 data-[state=unchecked]:ring-reskin-border-primary',
       // hover
-      'data-[state=checked]:hover:ring data-[state=checked]:hover:ring-[#01BF9F40]/25',
-      'data-[state=unchecked]:hover:bg-reskin-bg-tertiary data-[state=unchecked]:hover:ring-reskin-border-secondary',
+      'hover:data-[state=checked]:ring hover:data-[state=checked]:ring-[#01BF9F40]/25',
+      'hover:data-[state=unchecked]:bg-reskin-bg-tertiary hover:data-[state=unchecked]:ring-reskin-border-secondary',
       // active (pressed)
-      'data-[state=checked]:active:bg-reskin-fg-system-success-secondary data-[state=checked]:active:ring-0',
-      'data-[state=unchecked]:active:bg-reskin-bg-primary data-[state=unchecked]:active:ring-reskin-border-primary',
+      'active:data-[state=checked]:bg-reskin-fg-system-success-secondary active:data-[state=checked]:ring-0',
+      'active:data-[state=unchecked]:bg-reskin-bg-primary active:data-[state=unchecked]:ring-reskin-border-primary',
       // disabled
       'disabled:cursor-not-allowed',
-      'data-[state=checked]:disabled:bg-reskin-fg-system-success-secondary/30',
-      'data-[state=unchecked]:disabled:bg-reskin-bg-primary data-[state=unchecked]:disabled:ring-reskin-border-primary',
+      'disabled:data-[state=checked]:bg-reskin-fg-system-success-secondary/30',
+      'disabled:data-[state=unchecked]:bg-reskin-bg-primary disabled:data-[state=unchecked]:ring-reskin-border-primary',
       className,
     )}
     {...props}
@@ -36,9 +37,9 @@ const Switch = React.forwardRef<
         'data-[state=checked]:translate-x-[18px]',
         'data-[state=checked]:shadow-md',
         // active (pressed)
-        'data-[state=unchecked]:active:bg-reskin-fg-tertiary',
+        'active:data-[state=unchecked]:bg-reskin-fg-tertiary',
         // disabled
-        'data-[state=unchecked]:active:bg-reskin-fg-secondary-inverse',
+        'active:data-[state=unchecked]:bg-reskin-fg-secondary-inverse',
       )}
     />
   </SwitchPrimitives.Root>
