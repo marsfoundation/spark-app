@@ -1,4 +1,4 @@
-import { cn } from '../utils/style'
+import { cn } from '@/ui/utils/style'
 
 export function StoryGrid({ children, className }: { children: React.ReactNode; className?: string }) {
   return (

@@ -1,4 +1,4 @@
-import { StoryGrid } from '@/ui/storybook/StoryGrid'
+import { StoryGrid } from '@sb/components/StoryGrid'
 import { Meta, StoryObj } from '@storybook/react'
 import { IconBox } from './IconBox'
 

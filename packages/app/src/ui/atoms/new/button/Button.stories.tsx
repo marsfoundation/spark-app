@@ -1,4 +1,4 @@
-import { StoryGrid } from '@/ui/storybook/StoryGrid'
+import { StoryGrid } from '@sb/components/StoryGrid'
 import type { Meta, StoryObj } from '@storybook/react'
 import { ChevronRightIcon, PlusIcon } from 'lucide-react'
 import { Button, ButtonProps } from './Button'
