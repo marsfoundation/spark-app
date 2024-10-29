@@ -152,14 +152,16 @@ export default {
             950: 'rgb(var(--magenta-950))',
           },
           bg: {
-            primary: 'rgb(var(--base-white))',
-            secondary: 'rgb(var(--neutral-100))',
-            tertiary: 'rgb(var(--neutral-200))',
-            quaternary: 'rgb(var(--neutral-300))',
-            inverse: {
-              primary: 'rgb(var(--base-black))',
-              secondary: 'rgb(var(--neutral-950))',
+            primary: {
+              DEFAULT: 'rgb(var(--base-white))',
+              inverse: 'rgb(var(--base-black))',
             },
+            secondary: {
+              DEFAULT: 'rgb(var(--neutral-50))',
+              inverse: 'rgb(var(--neutral-950))',
+            },
+            tertiary: 'rgb(var(--neutral-100))',
+            quaternary: 'rgb(var(--neutral-200))',
             brand: {
               primary: 'rgb(var(--primary-100))',
               secondary: 'rgb(var(--primary-200))',
@@ -185,14 +187,16 @@ export default {
             },
           },
           fg: {
-            primary: 'rgb(var(--neutral-950))',
-            secondary: 'rgb(var(--neutral-800))',
+            primary: {
+              DEFAULT: 'rgb(var(--neutral-950))',
+              inverse: 'rgb(var(--neutral-50))',
+            },
+            secondary: {
+              DEFAULT: 'rgb(var(--neutral-800))',
+              inverse: 'rgb(var(--neutral-200))',
+            },
             tertiary: 'rgb(var(--neutral-600))',
             quaternary: 'rgb(var(--neutral-500))',
-            inverse: {
-              primary: 'rgb(var(--neutral-50))',
-              secondary: 'rgb(var(--neutral-200))',
-            },
             brand: {
               primary: 'rgb(var(--primary-500))',
               secondary: 'rgb(var(--primary-600))',
@@ -350,19 +354,13 @@ export default {
         '3xl': '0px 32px 64px -12px rgba(16, 16, 20, 0.24)',
       },
       borderRadius: {
-        '3xl': 'calc(var(--radius) + 16px)',
-        '2xl': 'calc(var(--radius) + 8px)',
-        xl: 'calc(var(--radius) + 4px)',
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
-        'reskin-xss': '2px',
-        'reskin-xs': '6px',
-        'reskin-sm': '8px',
-        'reskin-md': '12px',
-        'reskin-lg': '16px',
-        'reskin-xl': '24px',
-        'reskin-2xl': '36px',
+        xss: '4px',
+        xs: '6px',
+        sm: '8px',
+        md: '12px',
+        lg: '16px',
+        xl: '24px',
+        '2xl': '36px',
       },
       blur: {
         xs: '4px',
