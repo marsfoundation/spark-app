@@ -9,7 +9,7 @@ const Switch = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SwitchPrimitives.Root
     className={cn(
-      'padding-2 peer inline-flex h-5 w-9 shrink-0 items-center rounded-xss transition-all ',
+      'group padding-2 inline-flex h-5 w-9 shrink-0 items-center rounded-xss transition-all ',
       'data-[state=checked]:bg-reskin-fg-system-success-primary',
       'data-[state=unchecked]:bg-reskin-bg-secondary',
       'data-[state=unchecked]:ring-1 data-[state=unchecked]:ring-reskin-border-primary',
@@ -21,7 +21,7 @@ const Switch = React.forwardRef<
       'active:data-[state=unchecked]:bg-reskin-bg-primary active:data-[state=unchecked]:ring-reskin-border-primary',
       // disabled
       'disabled:cursor-not-allowed',
-      'disabled:data-[state=checked]:bg-reskin-fg-system-success-secondary/30',
+      'disabled:data-[state=checked]:bg-reskin-fg-system-success-secondary/30 disabled:data-[state=checked]:ring-0',
       'disabled:data-[state=unchecked]:bg-reskin-bg-primary disabled:data-[state=unchecked]:ring-reskin-border-primary',
       className,
     )}
@@ -37,9 +37,9 @@ const Switch = React.forwardRef<
         'data-[state=checked]:translate-x-[18px]',
         'data-[state=checked]:shadow-md',
         // active (pressed)
-        'active:data-[state=unchecked]:bg-reskin-fg-tertiary',
+        'group-active:data-[state=unchecked]:bg-reskin-fg-tertiary',
         // disabled
-        'data-[state=unchecked]:data-[disabled]:bg-reskin-fg-secondary-inverse',
+        'group-disabled:data-[state=unchecked]:bg-reskin-fg-secondary-inverse',
       )}
     />
   </SwitchPrimitives.Root>
