@@ -1,34 +1,24 @@
 import { Meta, StoryObj } from '@storybook/react'
-
 import { Switch } from './Switch'
 
 const meta: Meta<typeof Switch> = {
   title: 'Components/Atoms/New/Switch',
+  component: ({ disabled }: { disabled?: boolean }) => (
+    <div className="grid w-fit grid-cols-2 justify-items-center gap-x-12 gap-y-4 bg-white p-6">
+      <div className="typography-label-6 text-reskin-neutral-500">ON</div>
+      <div className="typography-label-6 text-reskin-neutral-500">OFF</div>
+      <Switch checked disabled={disabled} />
+      <Switch disabled={disabled} />
+    </div>
+  ),
 }
 
 export default meta
 type Story = StoryObj<typeof Switch>
 
-export const Default: Story = {
-  render: () => (
-    <div className="grid w-fit grid-cols-2 justify-items-center gap-x-12 gap-y-4">
-      <div>Checked</div>
-      <div>Unchecked</div>
-      <Switch checked />
-      <Switch />
-    </div>
-  ),
-}
+export const Default: Story = {}
 
 export const Hovered: Story = {
-  render: () => (
-    <div className="grid w-fit grid-cols-2 justify-items-center gap-x-12 gap-y-4">
-      <div>Checked</div>
-      <div>Unchecked</div>
-      <Switch checked />
-      <Switch />
-    </div>
-  ),
   parameters: {
     pseudo: {
       hover: true,
@@ -37,14 +27,6 @@ export const Hovered: Story = {
 }
 
 export const Fucused: Story = {
-  render: () => (
-    <div className="grid w-fit grid-cols-2 justify-items-center gap-x-12 gap-y-4">
-      <div>Checked</div>
-      <div>Unchecked</div>
-      <Switch checked />
-      <Switch />
-    </div>
-  ),
   parameters: {
     pseudo: {
       focusVisible: true,
@@ -53,14 +35,6 @@ export const Fucused: Story = {
 }
 
 export const Pressed: Story = {
-  render: () => (
-    <div className="grid w-fit grid-cols-2 justify-items-center gap-x-12 gap-y-4">
-      <div>Checked</div>
-      <div>Unchecked</div>
-      <Switch checked />
-      <Switch />
-    </div>
-  ),
   parameters: {
     pseudo: {
       active: true,
@@ -69,12 +43,7 @@ export const Pressed: Story = {
 }
 
 export const Disabled: Story = {
-  render: () => (
-    <div className="grid w-fit grid-cols-2 justify-items-center gap-x-12 gap-y-4">
-      <div>Checked</div>
-      <div>Unchecked</div>
-      <Switch checked disabled />
-      <Switch disabled />
-    </div>
-  ),
+  args: {
+    disabled: true,
+  },
 }

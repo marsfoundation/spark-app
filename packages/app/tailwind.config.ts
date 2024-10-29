@@ -152,14 +152,16 @@ export default {
             950: 'rgb(var(--magenta-950))',
           },
           bg: {
-            primary: 'rgb(var(--base-white))',
-            secondary: 'rgb(var(--neutral-50))',
+            primary: {
+              DEFAULT: 'rgb(var(--base-white))',
+              inverse: 'rgb(var(--base-black))',
+            },
+            secondary: {
+              DEFAULT: 'rgb(var(--neutral-50))',
+              inverse: 'rgb(var(--neutral-950))',
+            },
             tertiary: 'rgb(var(--neutral-100))',
             quaternary: 'rgb(var(--neutral-200))',
-            inverse: {
-              primary: 'rgb(var(--base-black))',
-              secondary: 'rgb(var(--neutral-950))',
-            },
             brand: {
               primary: 'rgb(var(--primary-100))',
               secondary: 'rgb(var(--primary-200))',
@@ -185,14 +187,16 @@ export default {
             },
           },
           fg: {
-            primary: 'rgb(var(--neutral-950))',
-            secondary: 'rgb(var(--neutral-800))',
+            primary: {
+              DEFAULT: 'rgb(var(--neutral-950))',
+              inverse: 'rgb(var(--neutral-50))',
+            },
+            secondary: {
+              DEFAULT: 'rgb(var(--neutral-800))',
+              inverse: 'rgb(var(--neutral-200))',
+            },
             tertiary: 'rgb(var(--neutral-600))',
             quaternary: 'rgb(var(--neutral-500))',
-            inverse: {
-              primary: 'rgb(var(--neutral-50))',
-              secondary: 'rgb(var(--neutral-200))',
-            },
             brand: {
               primary: 'rgb(var(--primary-500))',
               secondary: 'rgb(var(--primary-600))',

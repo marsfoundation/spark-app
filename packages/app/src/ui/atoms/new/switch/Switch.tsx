@@ -32,14 +32,14 @@ const Switch = React.forwardRef<
       className={cn(
         'pointer-events-none block h-4 w-4 rounded-xss',
         'transition-all data-[state=unchecked]:translate-x-[2px]',
-        'data-[state=unchecked]:bg-reskin-bg-inverse-primary',
+        'data-[state=unchecked]:bg-reskin-bg-primary-inverse',
         'data-[state=checked]:bg-reskin-bg-primary',
         'data-[state=checked]:translate-x-[18px]',
         'data-[state=checked]:shadow-md',
         // active (pressed)
         'active:data-[state=unchecked]:bg-reskin-fg-tertiary',
         // disabled
-        'active:data-[state=unchecked]:bg-reskin-fg-secondary-inverse',
+        'data-[state=unchecked]:data-[disabled]:bg-reskin-fg-secondary-inverse',
       )}
     />
   </SwitchPrimitives.Root>
