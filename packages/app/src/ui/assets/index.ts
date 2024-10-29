@@ -45,6 +45,9 @@ import multiply from './multiply.svg'
 import chainlink from './oracle-providers/chainlink.svg'
 import chronicle from './oracle-providers/chronicle.svg'
 import lido from './oracle-providers/lido.svg'
+import borrowIcon from './page/borrow-icon.svg'
+import farmsIcon from './page/farms-icon.svg'
+import savingsIcon from './page/savings-icon.svg'
 import pause from './pause.svg'
 import rocket from './rocket.svg'
 import sliderThumb from './slider-thumb.svg'
@@ -191,6 +194,12 @@ export const assets = {
     chainlink,
     chronicle,
     lido,
+  },
+
+  page: {
+    savings: savingsIcon,
+    farms: farmsIcon,
+    borrow: borrowIcon,
   },
 }
 
