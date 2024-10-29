@@ -1,7 +1,7 @@
+import { getMobileStory, getTabletStory } from '@storybook-config/viewports'
 import { Meta, StoryObj } from '@storybook/react'
-import { getMobileStory, getTabletStory } from '@storybook/viewports'
 
-import { WithClassname } from '@storybook/decorators'
+import { WithClassname } from '@storybook-config/decorators'
 import { mockDsrChartData } from '../../fixtures/mockSavingsRateChartData'
 import { DsrChart } from './DsrChart'
 

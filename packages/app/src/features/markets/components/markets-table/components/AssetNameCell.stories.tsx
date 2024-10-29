@@ -1,6 +1,6 @@
-import { WithTooltipProvider } from '@storybook/decorators'
+import { WithTooltipProvider } from '@storybook-config/decorators'
+import { tokens } from '@storybook-config/tokens'
 import { Meta, StoryObj } from '@storybook/react'
-import { tokens } from '@storybook/tokens'
 
 import { AssetNameCell } from './AssetNameCell'
 

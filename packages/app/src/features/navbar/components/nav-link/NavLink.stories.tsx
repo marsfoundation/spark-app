@@ -1,4 +1,4 @@
-import { WithClassname } from '@storybook/decorators'
+import { WithClassname } from '@storybook-config/decorators'
 import type { Meta, StoryObj } from '@storybook/react'
 import { withRouter } from 'storybook-addon-remix-react-router'
 

@@ -1,6 +1,6 @@
-import { WithClassname } from '@storybook/decorators'
+import { WithClassname } from '@storybook-config/decorators'
+import { getMobileStory, getTabletStory } from '@storybook-config/viewports'
 import { Meta, StoryObj } from '@storybook/react'
-import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { withRouter } from 'storybook-addon-remix-react-router'
 
 import { SkyMigrationTopBanner } from './SkyMigrationTopBanner'

@@ -1,7 +1,7 @@
-import { WithTooltipProvider } from '@storybook/decorators'
+import { WithTooltipProvider } from '@storybook-config/decorators'
+import { getHoveredStory } from '@storybook-config/utils'
+import { getMobileStory, getTabletStory } from '@storybook-config/viewports'
 import { Meta } from '@storybook/react'
-import { getHoveredStory } from '@storybook/utils'
-import { getMobileStory, getTabletStory } from '@storybook/viewports'
 
 import { assets } from '@/ui/assets'
 

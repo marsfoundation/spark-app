@@ -1,6 +1,6 @@
-import { WithTooltipProvider } from '@storybook/decorators'
+import { WithTooltipProvider } from '@storybook-config/decorators'
+import { getMobileStory, getTabletStory } from '@storybook-config/viewports'
 import type { Meta, StoryObj } from '@storybook/react'
-import { getMobileStory, getTabletStory } from '@storybook/viewports'
 
 import { Percentage } from '@/domain/types/NumericValues'
 import { withRouter } from 'storybook-addon-remix-react-router'

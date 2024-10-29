@@ -8,11 +8,11 @@ import {
   WithTooltipProvider,
   WithWrappingDialog,
   ZeroAllowanceWagmiDecorator,
-} from '@storybook/decorators'
+} from '@storybook-config/decorators'
+import { tokens } from '@storybook-config/tokens'
+import { getMobileStory, getTabletStory } from '@storybook-config/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 import { expect, waitFor, within } from '@storybook/test'
-import { tokens } from '@storybook/tokens'
-import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { useForm } from 'react-hook-form'
 import { SavingsDepositView } from './SavingsDepositView'
 

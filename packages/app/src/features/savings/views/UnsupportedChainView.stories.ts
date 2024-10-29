@@ -1,6 +1,6 @@
-import { WithTooltipProvider } from '@storybook/decorators'
+import { WithTooltipProvider } from '@storybook-config/decorators'
+import { getMobileStory, getTabletStory } from '@storybook-config/viewports'
 import { Meta, StoryObj } from '@storybook/react'
-import { getMobileStory, getTabletStory } from '@storybook/viewports'
 
 import { UnsupportedChainView } from './UnsupportedChainView'
 

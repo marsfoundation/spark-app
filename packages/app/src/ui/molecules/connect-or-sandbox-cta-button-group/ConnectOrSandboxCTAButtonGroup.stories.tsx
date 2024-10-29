@@ -1,5 +1,5 @@
+import { getMobileStory, getTabletStory } from '@storybook-config/viewports'
 import { Meta, StoryObj } from '@storybook/react'
-import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { ConnectOrSandboxCTAButtonGroup } from './ConnectOrSandboxCTAButtonGroup'
 
 const meta: Meta<typeof ConnectOrSandboxCTAButtonGroup> = {

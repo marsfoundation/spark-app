@@ -1,9 +1,9 @@
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
-import { WithClassname } from '@storybook/decorators'
+import { WithClassname } from '@storybook-config/decorators'
+import { tokens } from '@storybook-config/tokens'
+import { getMobileStory, getTabletStory } from '@storybook-config/viewports'
 import type { Meta, StoryObj } from '@storybook/react'
 import { userEvent, within } from '@storybook/test'
-import { tokens } from '@storybook/tokens'
-import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { withRouter } from 'storybook-addon-remix-react-router'
 import { MoreDropdown } from './MoreDropdown'
 

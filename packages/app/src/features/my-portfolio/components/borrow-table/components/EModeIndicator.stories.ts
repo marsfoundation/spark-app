@@ -1,4 +1,4 @@
-import { WithTooltipProvider } from '@storybook/decorators'
+import { WithTooltipProvider } from '@storybook-config/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 
 import { EModeIndicator } from './EModeIndicator'

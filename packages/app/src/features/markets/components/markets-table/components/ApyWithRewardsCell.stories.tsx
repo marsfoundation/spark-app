@@ -1,6 +1,6 @@
-import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
+import { WithClassname, WithTooltipProvider } from '@storybook-config/decorators'
+import { tokens } from '@storybook-config/tokens'
 import { Meta, StoryObj } from '@storybook/react'
-import { tokens } from '@storybook/tokens'
 import { withRouter } from 'storybook-addon-remix-react-router'
 
 import { Percentage } from '@/domain/types/NumericValues'

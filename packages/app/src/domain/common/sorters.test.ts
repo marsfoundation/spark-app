@@ -1,4 +1,4 @@
-import { tokens } from '@storybook/tokens'
+import { tokens } from '@storybook-config/tokens'
 
 import { NormalizedUnitNumber } from '../types/NumericValues'
 import { sortByUsdValue } from './sorters'

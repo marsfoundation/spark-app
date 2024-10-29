@@ -1,6 +1,6 @@
-import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
+import { WithClassname, WithTooltipProvider } from '@storybook-config/decorators'
+import { getMobileStory, getTabletStory } from '@storybook-config/viewports'
 import { Meta, StoryObj } from '@storybook/react'
-import { getMobileStory, getTabletStory } from '@storybook/viewports'
 
 import { ActionsGrid } from '../ActionsGrid'
 import { allActionHandlers } from './allActionHandlers'

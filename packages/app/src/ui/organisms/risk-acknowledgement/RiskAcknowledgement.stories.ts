@@ -1,6 +1,6 @@
-import { WithClassname } from '@storybook/decorators'
+import { WithClassname } from '@storybook-config/decorators'
+import { getMobileStory } from '@storybook-config/viewports'
 import { Meta, StoryObj } from '@storybook/react'
-import { getMobileStory } from '@storybook/viewports'
 import { RiskAcknowledgement } from './RiskAcknowledgement'
 
 const meta: Meta<typeof RiskAcknowledgement> = {

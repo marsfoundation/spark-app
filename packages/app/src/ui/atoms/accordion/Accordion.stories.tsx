@@ -1,7 +1,7 @@
-import { WithClassname } from '@storybook/decorators'
+import { WithClassname } from '@storybook-config/decorators'
+import { getMobileStory, getTabletStory } from '@storybook-config/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 import { within } from '@storybook/test'
-import { getMobileStory, getTabletStory } from '@storybook/viewports'
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './Accordion'
 

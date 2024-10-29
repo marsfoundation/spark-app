@@ -1,9 +1,9 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
-import { WithClassname, WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@storybook/decorators'
+import { WithClassname, WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@storybook-config/decorators'
+import { tokens } from '@storybook-config/tokens'
+import { getMobileStory, getTabletStory } from '@storybook-config/viewports'
 import { Meta, StoryObj } from '@storybook/react'
-import { tokens } from '@storybook/tokens'
-import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { useConvertStablesForm } from '../logic/form/useConvertStablesForm'
 import { ConvertStablesView } from './ConvertStablesView'
 

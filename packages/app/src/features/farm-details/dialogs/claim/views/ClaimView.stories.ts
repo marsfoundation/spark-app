@@ -1,8 +1,8 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { WithClassname, ZeroAllowanceWagmiDecorator } from '@storybook/decorators'
+import { WithClassname, ZeroAllowanceWagmiDecorator } from '@storybook-config/decorators'
+import { tokens } from '@storybook-config/tokens'
+import { getMobileStory, getTabletStory } from '@storybook-config/viewports'
 import { Meta, StoryObj } from '@storybook/react'
-import { tokens } from '@storybook/tokens'
-import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { ClaimView } from './ClaimView'
 
 const meta: Meta<typeof ClaimView> = {

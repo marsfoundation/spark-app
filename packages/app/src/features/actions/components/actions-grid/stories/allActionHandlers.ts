@@ -1,4 +1,4 @@
-import { tokens } from '@storybook/tokens'
+import { tokens } from '@storybook-config/tokens'
 import { zeroAddress } from 'viem'
 
 import { CheckedAddress } from '@/domain/types/CheckedAddress'

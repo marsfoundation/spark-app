@@ -1,4 +1,4 @@
-import { StorybookErrorBoundary } from '@storybook/ErrorBoundary'
+import { StorybookErrorBoundary } from '@storybook-config/ErrorBoundary'
 import { render } from '@testing-library/react'
 import { ReactNode } from 'react'
 

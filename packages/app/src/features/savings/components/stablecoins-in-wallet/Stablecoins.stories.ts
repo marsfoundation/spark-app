@@ -1,7 +1,7 @@
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
+import { tokens } from '@storybook-config/tokens'
+import { getMobileStory, getTabletStory } from '@storybook-config/viewports'
 import type { Meta, StoryObj } from '@storybook/react'
-import { tokens } from '@storybook/tokens'
-import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { withRouter } from 'storybook-addon-remix-react-router'
 import { StablecoinsInWallet } from './StablecoinsInWallet'
 

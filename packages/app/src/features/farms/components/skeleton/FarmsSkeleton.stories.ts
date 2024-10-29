@@ -1,5 +1,5 @@
+import { getMobileStory, getTabletStory } from '@storybook-config/viewports'
 import { Meta, StoryObj } from '@storybook/react'
-import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { FarmsSkeleton } from './FarmsSkeleton'
 
 const meta: Meta<typeof FarmsSkeleton> = {

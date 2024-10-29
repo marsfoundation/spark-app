@@ -1,8 +1,8 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
+import { WithClassname, WithTooltipProvider } from '@storybook-config/decorators'
+import { tokens } from '@storybook-config/tokens'
+import { getMobileStory, getTabletStory } from '@storybook-config/viewports'
 import { Meta, StoryObj } from '@storybook/react'
-import { tokens } from '@storybook/tokens'
-import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { TransactionOverview } from './TransactionOverview'
 
 const meta: Meta<typeof TransactionOverview> = {

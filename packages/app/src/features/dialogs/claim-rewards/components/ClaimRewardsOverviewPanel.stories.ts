@@ -1,9 +1,9 @@
+import { getMobileStory, getTabletStory } from '@storybook-config/viewports'
 import { Meta, StoryObj } from '@storybook/react'
-import { getMobileStory, getTabletStory } from '@storybook/viewports'
 
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 
-import { tokens } from '@storybook/tokens'
+import { tokens } from '@storybook-config/tokens'
 import { ClaimRewardsOverviewPanel } from './ClaimRewardsOverviewPanel'
 
 const meta: Meta<typeof ClaimRewardsOverviewPanel> = {

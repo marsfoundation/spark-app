@@ -1,6 +1,6 @@
-import { WithClassname } from '@storybook/decorators'
+import { WithClassname } from '@storybook-config/decorators'
+import { tokens } from '@storybook-config/tokens'
 import type { Meta, StoryFn, StoryObj } from '@storybook/react'
-import { tokens } from '@storybook/tokens'
 import { useForm } from 'react-hook-form'
 
 import { TokenWithBalance } from '@/domain/common/types'

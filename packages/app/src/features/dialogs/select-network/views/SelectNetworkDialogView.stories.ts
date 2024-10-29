@@ -1,6 +1,6 @@
-import { WithClassname } from '@storybook/decorators'
+import { WithClassname } from '@storybook-config/decorators'
+import { getMobileStory, getTabletStory } from '@storybook-config/viewports'
 import { Meta, StoryObj } from '@storybook/react'
-import { getMobileStory, getTabletStory } from '@storybook/viewports'
 
 import { assets } from '@/ui/assets'
 import { SelectNetworkDialogView } from './SelectNetworkDialogView'

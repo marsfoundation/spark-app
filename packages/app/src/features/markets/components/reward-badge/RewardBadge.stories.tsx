@@ -1,7 +1,7 @@
-import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
+import { WithClassname, WithTooltipProvider } from '@storybook-config/decorators'
+import { tokens } from '@storybook-config/tokens'
+import { getHoveredStory } from '@storybook-config/utils'
 import { Meta, StoryObj } from '@storybook/react'
-import { tokens } from '@storybook/tokens'
-import { getHoveredStory } from '@storybook/utils'
 
 import { Percentage } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'

@@ -1,4 +1,4 @@
-import { WithClassname } from '@storybook/decorators'
+import { WithClassname } from '@storybook-config/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 
 import { DoughnutChart } from './DoughnutChart'

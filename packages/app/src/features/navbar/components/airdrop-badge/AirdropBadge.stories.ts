@@ -1,7 +1,7 @@
-import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
+import { WithClassname, WithTooltipProvider } from '@storybook-config/decorators'
+import { getHoveredStory } from '@storybook-config/utils'
+import { getMobileStory, getTabletStory } from '@storybook-config/viewports'
 import { Meta, StoryObj } from '@storybook/react'
-import { getHoveredStory } from '@storybook/utils'
-import { getMobileStory, getTabletStory } from '@storybook/viewports'
 
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 
