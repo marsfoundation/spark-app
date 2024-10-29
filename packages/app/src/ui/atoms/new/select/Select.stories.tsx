@@ -5,20 +5,22 @@ import { Select, SelectContent, SelectItem, SelectTrigger } from './Select'
 
 function Selector({ disabled }: { disabled?: boolean }) {
   return (
-    <div className="w-[120px]">
-      <Select disabled={disabled}>
-        <SelectTrigger>
-          <div>Apple</div>
-        </SelectTrigger>
+    <div className='w-[200px] h-[400px]' >
+      <div className="w-[120px]">
+        <Select disabled={disabled}>
+          <SelectTrigger>
+            <div>Apple</div>
+          </SelectTrigger>
 
-        <SelectContent>
-          <SelectItem value="apple">Apple</SelectItem>
-          <SelectItem value="banana">Banana</SelectItem>
-          <SelectItem value="blueberry">Blueberry</SelectItem>
-          <SelectItem value="grapes">Grapes</SelectItem>
-          <SelectItem value="pineapple">Pineapple</SelectItem>
-        </SelectContent>
-      </Select>
+          <SelectContent>
+            <SelectItem value="apple">Apple</SelectItem>
+            <SelectItem value="banana">Banana</SelectItem>
+            <SelectItem value="blueberry">Blueberry</SelectItem>
+            <SelectItem value="grapes">Grapes</SelectItem>
+            <SelectItem value="pineapple">Pineapple</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
     </div>
   )
 }
