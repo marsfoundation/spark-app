@@ -261,6 +261,18 @@ export default {
             },
             focus: 'rgb(var(--primary-200))',
           },
+          text: {
+            primary: 'rgb(var(--base-black))',
+            secondary: 'rgb(var(--neutral-500))',
+            brand: {
+              primary: 'rgb(var(--primary-800))',
+            },
+            system: {
+              error: {
+                primary: 'rgb(var(--error-500))',
+              },
+            },
+          },
         },
         basics: {
           black: 'rgb(var(--basics-black))',
