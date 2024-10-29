@@ -41,6 +41,36 @@ export default {
         warning: 'rgb(var(--warning-600))',
         error: 'rgb(var(--error-700))',
       },
+      outlineColor: {
+        primary: 'rgb(var(--neutral-100))',
+        secondary: 'rgb(var(--neutral-200))',
+        tertiary: 'rgb(var(--neutral-300))',
+        quaternary: 'rgb(var(--neutral-400))',
+        brand: {
+          primary: 'rgb(var(--primary-400))',
+          secondary: 'rgb(var(--primary-500))',
+          tertiary: 'rgb(var(--primary-600))',
+        },
+        system: {
+          success: {
+            primary: 'rgb(var(--success-500))',
+            secondary: 'rgb(var(--success-600))',
+          },
+          warning: {
+            primary: 'rgb(var(--warning-500))',
+            secondary: 'rgb(var(--warning-600))',
+          },
+          error: {
+            primary: 'rgb(var(--error-500))',
+            secondary: 'rgb(var(--error-600))',
+          },
+          info: {
+            primary: 'rgb(var(--magenta-500))',
+            secondary: 'rgb(var(--magenta-600))',
+          },
+        },
+        focus: 'rgb(var(--primary-200))',
+      },
       borderColor: {
         primary: 'rgb(var(--neutral-100))',
         secondary: 'rgb(var(--neutral-200))',
