@@ -5,7 +5,13 @@ import plugin from 'tailwindcss/plugin'
 
 export default {
   darkMode: ['class'],
-  content: ['./pages/**/*.{ts,tsx}', './components/**/*.{ts,tsx}', './app/**/*.{ts,tsx}', './src/**/*.{ts,tsx}'],
+  content: [
+    './pages/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx}',
+    './src/**/*.{ts,tsx}',
+    '.storybook/components/**/*.{ts,tsx}',
+  ],
   theme: {
     container: {
       center: true,

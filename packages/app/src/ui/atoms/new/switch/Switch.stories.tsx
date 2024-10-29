@@ -1,15 +1,16 @@
+import { StoryGrid } from '@sb/components/StoryGrid'
 import { Meta, StoryObj } from '@storybook/react'
 import { Switch } from './Switch'
 
 const meta: Meta<typeof Switch> = {
   title: 'Components/Atoms/New/Switch',
   component: ({ disabled }: { disabled?: boolean }) => (
-    <div className="grid w-fit grid-cols-2 justify-items-center gap-x-12 gap-y-4 bg-white p-6">
-      <div className="typography-label-6 text-reskin-neutral-500">ON</div>
-      <div className="typography-label-6 text-reskin-neutral-500">OFF</div>
+    <StoryGrid className="grid-cols-2">
+      <StoryGrid.Label>ON</StoryGrid.Label>
+      <StoryGrid.Label>OFF</StoryGrid.Label>
       <Switch checked disabled={disabled} />
       <Switch disabled={disabled} />
-    </div>
+    </StoryGrid>
   ),
 }
 
