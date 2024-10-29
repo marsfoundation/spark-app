@@ -90,4 +90,5 @@ const SelectItem = React.forwardRef<
 ))
 SelectItem.displayName = SelectPrimitive.Item.displayName
 
+// not a complete list of elements - refer to https://ui.shadcn.com/docs/components/select for more
 export { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger }
