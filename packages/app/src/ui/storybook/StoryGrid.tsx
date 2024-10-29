@@ -2,7 +2,7 @@ import { cn } from '../utils/style'
 
 export function StoryGrid({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={cn('grid w-fit items-center justify-items-center gap-x-12 gap-y-6 bg-white p-6', className)}>
+    <div className={cn('grid w-fit items-center justify-items-center gap-x-12 gap-y-4 bg-white p-6', className)}>
       {children}
     </div>
   )
