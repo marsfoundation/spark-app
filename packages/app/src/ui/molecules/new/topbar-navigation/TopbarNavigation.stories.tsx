@@ -1,6 +1,7 @@
 import { paths } from '@/config/paths'
 import { Percentage } from '@/domain/types/NumericValues'
 import { Meta, StoryObj } from '@storybook/react'
+import { userEvent, within } from '@storybook/test'
 import { reactRouterParameters, withRouter } from 'storybook-addon-remix-react-router'
 import { TopbarNavigation } from './TopbarNavigation'
 
@@ -52,5 +53,37 @@ export const MarketsPage: Story = {
         path: paths.markets,
       },
     }),
+  },
+}
+
+export const SavingsDropdownOpenPage: Story = {
+  parameters: {
+    reactRouter: reactRouterParameters({
+      routing: {
+        path: paths.savings,
+      },
+    }),
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement.ownerDocument.body)
+    const button = await canvas.findByRole('button', { name: /Borrow/i })
+
+    await userEvent.click(button)
+  },
+}
+
+export const MarketsDropdownOpenPage: Story = {
+  parameters: {
+    reactRouter: reactRouterParameters({
+      routing: {
+        path: paths.markets,
+      },
+    }),
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement.ownerDocument.body)
+    const button = await canvas.findByRole('button', { name: /Borrow/i })
+
+    await userEvent.click(button)
   },
 }
