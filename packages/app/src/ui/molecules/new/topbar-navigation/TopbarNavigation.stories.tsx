@@ -4,10 +4,11 @@ import { Meta, StoryObj } from '@storybook/react'
 import { userEvent, within } from '@storybook/test'
 import { reactRouterParameters, withRouter } from 'storybook-addon-remix-react-router'
 import { TopbarNavigation } from './TopbarNavigation'
+import { WithClassname } from '@sb/decorators'
 
 const meta: Meta<typeof TopbarNavigation> = {
   title: 'Components/Molecules/New/TopbarNavigation',
-  decorators: [withRouter],
+  decorators: [withRouter, WithClassname('min-w-[400px] min-h-[400px] p-4')],
   component: TopbarNavigation,
   args: {
     topbarNavigationInfo: {
