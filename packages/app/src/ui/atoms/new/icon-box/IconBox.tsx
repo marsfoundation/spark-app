@@ -1,36 +1,33 @@
-import { cn } from '@/ui/utils/style'
 import { assertNever } from '@/utils/assertNever'
 import { RequiredProps } from '@/utils/types'
 import { type VariantProps, cva } from 'class-variance-authority'
 import { AlertTriangleIcon, CheckCircle2Icon, InfoIcon } from 'lucide-react'
 
-export interface IconBoxProps
-  extends React.HTMLAttributes<HTMLDivElement>,
-    RequiredProps<VariantProps<typeof iconBoxVariants>> {}
+export interface IconBoxProps extends RequiredProps<VariantProps<typeof iconBoxVariants>> {}
 
-export function IconBox({ className, variant, size, ...props }: IconBoxProps) {
+export function IconBox({ variant, size }: IconBoxProps) {
   switch (variant) {
     case 'success':
       return (
-        <div className={cn(iconBoxVariants({ variant, size }), className)} {...props}>
+        <div className={iconBoxVariants({ variant, size })}>
           <CheckCircle2Icon className="h-full w-full" />
         </div>
       )
     case 'warning':
       return (
-        <div className={cn(iconBoxVariants({ variant, size }), className)} {...props}>
+        <div className={iconBoxVariants({ variant, size })}>
           <AlertTriangleIcon className="h-full w-full" />
         </div>
       )
     case 'info':
       return (
-        <div className={cn(iconBoxVariants({ variant, size }), className)} {...props}>
+        <div className={iconBoxVariants({ variant, size })}>
           <InfoIcon className="h-full w-full" />
         </div>
       )
     case 'error':
       return (
-        <div className={cn(iconBoxVariants({ variant, size }), className)} {...props}>
+        <div className={iconBoxVariants({ variant, size })}>
           <AlertTriangleIcon className="h-full w-full" />
         </div>
       )
