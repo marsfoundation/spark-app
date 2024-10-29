@@ -157,6 +157,11 @@ export default {
             900: 'rgb(var(--magenta-900))',
             950: 'rgb(var(--magenta-950))',
           },
+          page: {
+            savings: 'rgb(var(--page-savings))',
+            borrow: 'rgb(var(--page-borrow))',
+            farms: 'rgb(var(--page-farms))',
+          },
           bg: {
             primary: {
               DEFAULT: 'rgb(var(--base-white))',
@@ -343,6 +348,7 @@ export default {
         'gradient-purple': 'linear-gradient(90.22deg, #7A6BFF 0.12%, #BDDEFF 49.95%, #FFFFFF 99.78%)',
         'gradient-magenta': 'linear-gradient(89.84deg, #FA43BD -2.08%, #FFB5B5 48.92%, #FFFFFF 99.92%)',
         'gradient-green': 'linear-gradient(90deg, #11B93E 0%, #40DA69 50.47%, #FFFFFF 100%)',
+        'savings-gradient': 'radial-gradient(155.75% 155.75% at 50% 155.75%, #FFEF79 0%, #00C2A1 100%)',
       },
       fontWeight: {
         regular: '400',

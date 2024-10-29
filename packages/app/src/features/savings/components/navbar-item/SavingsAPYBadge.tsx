@@ -8,13 +8,16 @@ export interface SavingsAPYBadgeProps {
 }
 
 export function SavingsAPYBadge({ APY, isLoading }: SavingsAPYBadgeProps) {
-  // @note: The colors are hardcoded because it looks like this is the only place where these specific colors are used.
   return (
-    <div className="flex h-8 w-fit flex-col justify-center rounded-2xl border border-[#3E8545]/10 bg-[#BBDEBE]/40 px-2.5 font-semibold text-[#3E8545]">
+    <div className="inline-flex h-5 min-w-8 items-center justify-center rounded-md bg-savings-gradient px-1.5">
       {isLoading ? (
-        <Skeleton className="h-5 w-7 bg-[#3E8545]/20" />
+        <Skeleton className="h-4 w-5 rounded-sm bg-reskin-base-white/80 backdrop-brightness-75" />
       ) : (
-        APY && formatPercentage(APY, { minimumFractionDigits: 0 })
+        APY && (
+          <span className="typography-label-5 text-reskin-base-white">
+            {formatPercentage(APY, { minimumFractionDigits: 0 })}
+          </span>
+        )
       )}
     </div>
   )
