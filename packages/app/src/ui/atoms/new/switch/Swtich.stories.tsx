@@ -26,7 +26,7 @@ export const Hovered: Story = {
   },
 }
 
-export const Fucused: Story = {
+export const Focused: Story = {
   parameters: {
     pseudo: {
       focusVisible: true,
