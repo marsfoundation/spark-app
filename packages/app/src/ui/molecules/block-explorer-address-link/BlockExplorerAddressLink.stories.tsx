@@ -1,4 +1,4 @@
-import { ZeroAllowanceWagmiDecorator } from '@storybook-config/decorators'
+import { ZeroAllowanceWagmiDecorator } from '@sb/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 
 import { CheckedAddress } from '@/domain/types/CheckedAddress'

@@ -1,5 +1,5 @@
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { getMobileStory, getTabletStory } from '@storybook-config/viewports'
+import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 
 import { SparkAirdropInfoPanel } from './SparkAirdropInfoPanel'

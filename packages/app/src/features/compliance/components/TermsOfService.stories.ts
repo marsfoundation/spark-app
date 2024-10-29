@@ -1,8 +1,8 @@
-import { getMobileStory, getTabletStory } from '@storybook-config/viewports'
+import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 import { withRouter } from 'storybook-addon-remix-react-router'
 
-import { WithTooltipProvider } from '@storybook-config/decorators'
+import { WithTooltipProvider } from '@sb/decorators'
 import { TermsOfService } from './TermsOfService'
 
 const meta: Meta<typeof TermsOfService> = {

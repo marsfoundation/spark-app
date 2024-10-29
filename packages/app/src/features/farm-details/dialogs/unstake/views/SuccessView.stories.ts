@@ -1,7 +1,7 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { WithClassname, ZeroAllowanceWagmiDecorator } from '@storybook-config/decorators'
-import { tokens } from '@storybook-config/tokens'
-import { getMobileStory, getTabletStory } from '@storybook-config/viewports'
+import { WithClassname, ZeroAllowanceWagmiDecorator } from '@sb/decorators'
+import { tokens } from '@sb/tokens'
+import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 import { SuccessView } from './SuccessView'
 

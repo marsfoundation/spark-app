@@ -1,7 +1,7 @@
-import { WithClassname } from '@storybook-config/decorators'
-import { tokens } from '@storybook-config/tokens'
-import { getHoveredStory } from '@storybook-config/utils'
-import { getMobileStory, getTabletStory } from '@storybook-config/viewports'
+import { WithClassname } from '@sb/decorators'
+import { tokens } from '@sb/tokens'
+import { getHoveredStory } from '@sb/utils'
+import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 
 import { EModeCategoryTile } from './EModeCategoryTile'

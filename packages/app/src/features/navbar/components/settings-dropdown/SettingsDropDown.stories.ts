@@ -1,4 +1,4 @@
-import { getMobileStory, getTabletStory } from '@storybook-config/viewports'
+import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 import { userEvent, within } from '@storybook/test'
 import { withRouter } from 'storybook-addon-remix-react-router'

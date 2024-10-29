@@ -1,6 +1,6 @@
-import { WithClassname, WithTooltipProvider } from '@storybook-config/decorators'
-import { tokens } from '@storybook-config/tokens'
-import { getHoveredStory } from '@storybook-config/utils'
+import { WithClassname, WithTooltipProvider } from '@sb/decorators'
+import { tokens } from '@sb/tokens'
+import { getHoveredStory } from '@sb/utils'
 import { Meta, StoryObj } from '@storybook/react'
 
 import { Percentage } from '@/domain/types/NumericValues'

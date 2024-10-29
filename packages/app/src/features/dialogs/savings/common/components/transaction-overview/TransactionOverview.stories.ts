@@ -1,7 +1,7 @@
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
-import { WithClassname, WithTooltipProvider } from '@storybook-config/decorators'
-import { tokens } from '@storybook-config/tokens'
-import { getMobileStory, getTabletStory } from '@storybook-config/viewports'
+import { WithClassname, WithTooltipProvider } from '@sb/decorators'
+import { tokens } from '@sb/tokens'
+import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 import { TransactionOverview } from './TransactionOverview'
 

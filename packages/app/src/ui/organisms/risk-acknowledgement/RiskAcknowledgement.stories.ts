@@ -1,5 +1,5 @@
-import { WithClassname } from '@storybook-config/decorators'
-import { getMobileStory } from '@storybook-config/viewports'
+import { WithClassname } from '@sb/decorators'
+import { getMobileStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 import { RiskAcknowledgement } from './RiskAcknowledgement'
 

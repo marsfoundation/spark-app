@@ -1,7 +1,7 @@
-import { STORYBOOK_TIMESTAMP } from '@storybook-config/consts'
-import { WithClassname, WithTooltipProvider } from '@storybook-config/decorators'
-import { tokens } from '@storybook-config/tokens'
-import { getMobileStory, getTabletStory } from '@storybook-config/viewports'
+import { STORYBOOK_TIMESTAMP } from '@sb/consts'
+import { WithClassname, WithTooltipProvider } from '@sb/decorators'
+import { tokens } from '@sb/tokens'
+import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 import { withRouter } from 'storybook-addon-remix-react-router'
 

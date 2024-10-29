@@ -1,5 +1,5 @@
-import { WithClassname, WithTooltipProvider } from '@storybook-config/decorators'
-import { tokens } from '@storybook-config/tokens'
+import { WithClassname, WithTooltipProvider } from '@sb/decorators'
+import { tokens } from '@sb/tokens'
 import { Meta, StoryObj } from '@storybook/react'
 import { withRouter } from 'storybook-addon-remix-react-router'
 

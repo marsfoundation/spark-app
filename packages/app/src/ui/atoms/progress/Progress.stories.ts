@@ -1,4 +1,4 @@
-import { WithClassname } from '@storybook-config/decorators'
+import { WithClassname } from '@sb/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 
 import { Progress } from './Progress'

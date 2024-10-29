@@ -1,5 +1,5 @@
-import { tokens } from '@storybook-config/tokens'
-import { getMobileStory, getTabletStory } from '@storybook-config/viewports'
+import { tokens } from '@sb/tokens'
+import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 import { withRouter } from 'storybook-addon-remix-react-router'
 

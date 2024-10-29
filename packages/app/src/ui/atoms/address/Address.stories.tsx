@@ -1,8 +1,8 @@
 import { Meta, StoryObj } from '@storybook/react'
 
 import BoxArrowTopRight from '@/ui/assets/box-arrow-top-right.svg?react'
-import { WithClassname } from '@storybook-config/decorators'
-import { tokens } from '@storybook-config/tokens'
+import { WithClassname } from '@sb/decorators'
+import { tokens } from '@sb/tokens'
 import { Address } from './Address'
 
 const meta: Meta<typeof Address> = {

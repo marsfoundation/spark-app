@@ -1,5 +1,5 @@
-import { tokens } from '@storybook-config/tokens'
-import { getMobileStory, getTabletStory } from '@storybook-config/viewports'
+import { tokens } from '@sb/tokens'
+import { getMobileStory, getTabletStory } from '@sb/viewports'
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'

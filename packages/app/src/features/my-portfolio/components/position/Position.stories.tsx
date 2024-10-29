@@ -1,5 +1,5 @@
-import { WithTooltipProvider } from '@storybook-config/decorators'
-import { tokens } from '@storybook-config/tokens'
+import { WithTooltipProvider } from '@sb/decorators'
+import { tokens } from '@sb/tokens'
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'

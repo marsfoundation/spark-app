@@ -1,4 +1,4 @@
-import { tokens } from '@storybook-config/tokens'
+import { tokens } from '@sb/tokens'
 import { Meta, StoryObj } from '@storybook/react'
 
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'

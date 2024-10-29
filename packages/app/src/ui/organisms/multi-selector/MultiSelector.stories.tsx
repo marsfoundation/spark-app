@@ -1,4 +1,4 @@
-import { tokens } from '@storybook-config/tokens'
+import { tokens } from '@sb/tokens'
 import type { Meta, StoryFn, StoryObj } from '@storybook/react'
 import { useForm } from 'react-hook-form'
 

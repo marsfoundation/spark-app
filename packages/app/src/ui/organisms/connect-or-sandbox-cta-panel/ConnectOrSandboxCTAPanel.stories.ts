@@ -1,5 +1,5 @@
 import { assets } from '@/ui/assets'
-import { getMobileStory, getTabletStory } from '@storybook-config/viewports'
+import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 import { ConnectOrSandboxCTAPanel } from './ConnectOrSandboxCTAPanel'
 

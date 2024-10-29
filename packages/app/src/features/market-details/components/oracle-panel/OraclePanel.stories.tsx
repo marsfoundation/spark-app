@@ -1,12 +1,12 @@
-import { getMobileStory, getTabletStory } from '@storybook-config/viewports'
+import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 
 import { MarketPriceOracleInfo, YieldingFixedOracleInfo } from '@/domain/oracles/types'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { WithClassname, WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@storybook-config/decorators'
-import { tokens } from '@storybook-config/tokens'
+import { WithClassname, WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@sb/decorators'
+import { tokens } from '@sb/tokens'
 import { OraclePanel } from './OraclePanel'
 
 const meta: Meta<typeof OraclePanel> = {

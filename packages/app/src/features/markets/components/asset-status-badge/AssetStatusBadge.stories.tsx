@@ -1,5 +1,5 @@
-import { WithClassname, WithTooltipProvider } from '@storybook-config/decorators'
-import { getMobileStory, getTabletStory } from '@storybook-config/viewports'
+import { WithClassname, WithTooltipProvider } from '@sb/decorators'
+import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 
 import { AssetStatusBadge } from './AssetStatusBadge'

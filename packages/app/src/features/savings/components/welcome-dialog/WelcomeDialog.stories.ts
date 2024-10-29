@@ -1,5 +1,5 @@
 import { Percentage } from '@/domain/types/NumericValues'
-import { getMobileStory, getTabletStory } from '@storybook-config/viewports'
+import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 import { withRouter } from 'storybook-addon-remix-react-router'
 import { WelcomeDialog } from './WelcomeDialog'

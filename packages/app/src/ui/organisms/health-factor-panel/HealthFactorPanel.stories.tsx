@@ -1,5 +1,5 @@
-import { WithTooltipProvider } from '@storybook-config/decorators'
-import { getMobileStory, getTabletStory } from '@storybook-config/viewports'
+import { WithTooltipProvider } from '@sb/decorators'
+import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'

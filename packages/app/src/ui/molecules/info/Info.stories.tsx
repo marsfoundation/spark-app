@@ -1,4 +1,4 @@
-import { WithTooltipProvider } from '@storybook-config/decorators'
+import { WithTooltipProvider } from '@sb/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 
 import { Info } from './Info'
