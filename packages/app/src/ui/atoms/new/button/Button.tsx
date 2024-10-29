@@ -8,7 +8,7 @@ import { Loader } from '../loader/Loader'
 const buttonVariants = cva(
   cn(
     'relative isolate inline-flex select-none items-center justify-center gap-1 ',
-    'overflow-hidden whitespace-nowrap rounded-reskin-sm transition-colors ',
+    'overflow-hidden whitespace-nowrap rounded-sm transition-colors ',
     'focus-visible:bg-reskin-base-white focus-visible:text-reskin-neutral-950 ',
     'focus-visible:outline-none focus-visible:ring focus-visible:ring-reskin-primary-200 focus-visible:ring-offset-0',
   ),
