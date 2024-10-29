@@ -15,20 +15,20 @@ const SelectTrigger = React.forwardRef<
   <SelectPrimitive.Trigger
     ref={ref}
     className={cn(
-      'flex w-full items-center justify-between',
+      'group flex w-full items-center justify-between',
       'rounded-sm border border-reskin-border-primary bg-reskin-bg-primary text-reskin-fg-primary',
       'p-3 ring-offset-background placeholder:text-muted-foreground',
       'hover:border-reskin-border-tertiary hover:shadow-sm',
       'disabled:cursor-not-allowed disabled:border-reskin-border-secondary disabled:opacity-50 disabled:shadow-xs ',
       'focus-visible:outline-none focus-visible:ring focus-visible:ring-reskin-primary-200 focus-visible:ring-offset-0',
-      '[&[data-state=open]>img]:rotate-180 data-[state=open]:border-reskin-border-secondary data-[state=open]:shadow-sm',
+      'data-[state=open]:border-reskin-border-secondary data-[state=open]:shadow-sm',
       className,
     )}
     {...props}
   >
     {children}
     <SelectPrimitive.Icon asChild>
-      <img src={assets.chevronDown} />
+      <img src={assets.chevronDown} className="transition-transform group-data-[state=open]:rotate-180" />
     </SelectPrimitive.Icon>
   </SelectPrimitive.Trigger>
 ))
@@ -76,9 +76,10 @@ const SelectItem = React.forwardRef<
   <SelectPrimitive.Item
     ref={ref}
     className={cn(
-      'relative flex w-full cursor-default select-none items-center px-4 py-4 pr-2 pl-8 outline-none',
+      'relative flex w-full cursor-default select-none items-center px-3 py-4 outline-none',
       'hover:cursor-pointer hover:bg-reskin-bg-secondary',
       'active:bg-reskin-bg-tertiary',
+      'focus-visible:bg-reskin-bg-secondary',
       'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
       className,
     )}
