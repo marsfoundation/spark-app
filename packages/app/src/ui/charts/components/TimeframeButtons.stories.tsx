@@ -1,5 +1,5 @@
+import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
-import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { TimeframeButtons } from './TimeframeButtons'
 
 const meta: Meta<typeof TimeframeButtons> = {

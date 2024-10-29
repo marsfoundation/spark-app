@@ -1,7 +1,7 @@
-import { WithClassname } from '@storybook/decorators'
+import { WithClassname } from '@sb/decorators'
+import { tokens } from '@sb/tokens'
+import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
-import { tokens } from '@storybook/tokens'
-import { getMobileStory, getTabletStory } from '@storybook/viewports'
 
 import { SuccessView } from './SuccessView'
 

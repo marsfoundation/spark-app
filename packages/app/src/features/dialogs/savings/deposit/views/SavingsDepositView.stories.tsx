@@ -3,16 +3,11 @@ import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { DepositToSavingsObjective } from '@/features/actions/flavours/deposit-to-savings/types'
 import { testIds } from '@/ui/utils/testIds'
 import { sleep } from '@/utils/promises'
-import {
-  WithClassname,
-  WithTooltipProvider,
-  WithWrappingDialog,
-  ZeroAllowanceWagmiDecorator,
-} from '@storybook/decorators'
+import { WithClassname, WithTooltipProvider, WithWrappingDialog, ZeroAllowanceWagmiDecorator } from '@sb/decorators'
+import { tokens } from '@sb/tokens'
+import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 import { expect, waitFor, within } from '@storybook/test'
-import { tokens } from '@storybook/tokens'
-import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { useForm } from 'react-hook-form'
 import { SavingsDepositView } from './SavingsDepositView'
 

@@ -1,7 +1,7 @@
-import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
+import { WithClassname, WithTooltipProvider } from '@sb/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 
-import { STORYBOOK_TIMESTAMP } from '@storybook/consts'
+import { STORYBOOK_TIMESTAMP } from '@sb/consts'
 import { CooldownTimer } from './CooldownTimer'
 
 const meta: Meta<typeof CooldownTimer> = {

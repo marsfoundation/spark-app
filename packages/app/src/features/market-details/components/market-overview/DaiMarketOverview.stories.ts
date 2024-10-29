@@ -1,11 +1,11 @@
-import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
+import { WithClassname, WithTooltipProvider } from '@sb/decorators'
+import { tokens } from '@sb/tokens'
+import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
-import { tokens } from '@storybook/tokens'
-import { getMobileStory, getTabletStory } from '@storybook/viewports'
 
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 
-import { STORYBOOK_TIMESTAMP } from '@storybook/consts'
+import { STORYBOOK_TIMESTAMP } from '@sb/consts'
 import { DaiMarketOverview } from './DaiMarketOverview'
 
 const meta: Meta<typeof DaiMarketOverview> = {

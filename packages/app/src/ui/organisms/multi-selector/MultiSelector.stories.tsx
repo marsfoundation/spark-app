@@ -1,5 +1,5 @@
+import { tokens } from '@sb/tokens'
 import type { Meta, StoryFn, StoryObj } from '@storybook/react'
-import { tokens } from '@storybook/tokens'
 import { useForm } from 'react-hook-form'
 
 import { TokenWithBalance, TokenWithFormValue } from '@/domain/common/types'

@@ -1,9 +1,9 @@
-import { STORYBOOK_TIMESTAMP } from '@storybook/consts'
-import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
+import { STORYBOOK_TIMESTAMP } from '@sb/consts'
+import { WithClassname, WithTooltipProvider } from '@sb/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 
-import { tokens } from '@storybook/tokens'
-import { getMobileStory, getTabletStory } from '@storybook/viewports'
+import { tokens } from '@sb/tokens'
+import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { withRouter } from 'storybook-addon-remix-react-router'
 
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'

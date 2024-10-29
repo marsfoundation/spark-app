@@ -1,7 +1,7 @@
+import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
-import { getMobileStory, getTabletStory } from '@storybook/viewports'
 
-import { WithClassname, WithFixedDate } from '@storybook/decorators'
+import { WithClassname, WithFixedDate } from '@sb/decorators'
 import { DaiSavingsCharts } from './DaiSavingsCharts'
 import { mockEarningsChartData, mockEarningsPredictionsChartData } from './fixtures/mockEarningsChartData'
 import { mockDsrChartData, mockSsrChartData } from './fixtures/mockSavingsRateChartData'

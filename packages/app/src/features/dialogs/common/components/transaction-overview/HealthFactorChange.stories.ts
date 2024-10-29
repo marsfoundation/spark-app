@@ -1,4 +1,4 @@
-import { WithClassname } from '@storybook/decorators'
+import { WithClassname } from '@sb/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import BigNumber from 'bignumber.js'
 

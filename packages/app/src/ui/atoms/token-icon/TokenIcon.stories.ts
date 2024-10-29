@@ -1,5 +1,5 @@
+import { tokens } from '@sb/tokens'
 import { Meta, StoryObj } from '@storybook/react'
-import { tokens } from '@storybook/tokens'
 
 import { TokenIcon } from './TokenIcon'
 
