@@ -165,6 +165,10 @@
     --magenta-800: 209 0 125;
     --magenta-900: 173 0 97;
     --magenta-950: 132 1 71;
+
+    --page-savings: 0 200 53;
+    --page-borrow: 255 137 93;
+    --page-farms: 224 61 204;
   }
 
   .dark {
