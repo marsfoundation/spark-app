@@ -93,7 +93,7 @@ jobs:
           workingDir: packages/app
           buildScriptName: storybook:build
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          autoAcceptChanges: main
+          autoAcceptChanges: redesign-october-2024
           onlyChanged: true
           externals: |
             public/**
