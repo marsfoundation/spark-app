@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger } from './Select'
 
 function Selector({ disabled }: { disabled?: boolean }) {
   return (
-    <div className='w-[200px] h-[400px]' >
+    <div className="h-[400px] w-[400px] p-4">
       <div className="w-[120px]">
         <Select disabled={disabled}>
           <SelectTrigger>

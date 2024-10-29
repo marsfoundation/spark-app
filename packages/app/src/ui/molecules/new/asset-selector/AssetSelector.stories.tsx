@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { WithClassname } from '@storybook/decorators'
 import { userEvent } from '@storybook/test'
 import { within } from '@testing-library/react'
 import { AssetSelector } from './AssetSelector'
@@ -10,7 +9,6 @@ import { AssetSelector } from './AssetSelector'
 const meta: Meta<typeof AssetSelector> = {
   title: 'Components/Molecules/New/AssetSelector',
   component: AssetSelector,
-  decorators: [WithClassname('max-w-[120px]')],
   args: {
     assets: [
       { token: tokens.ETH, balance: NormalizedUnitNumber('0.0001') },
@@ -22,6 +20,13 @@ const meta: Meta<typeof AssetSelector> = {
     selectedAsset: tokens.ETH,
     setSelectedAsset: () => {},
   },
+  render: (args) => (
+    <div className="h-[400px] w-[400px] p-4">
+      <div className="w-[120px]">
+        <AssetSelector {...args} />
+      </div>
+    </div>
+  ),
 }
 
 export default meta
