@@ -12,17 +12,17 @@ const Switch = React.forwardRef<
       'group padding-2 inline-flex h-5 w-9 shrink-0 items-center rounded-xss transition-all ',
       'data-[state=checked]:bg-reskin-fg-system-success-primary',
       'data-[state=unchecked]:bg-secondary',
-      'data-[state=unchecked]:ring-1 data-[state=unchecked]:ring-primary',
+      'data-[state=unchecked]:ring-1 data-[state=unchecked]:ring-reskin-neutral-100',
       // hover
       'hover:data-[state=checked]:ring hover:data-[state=checked]:ring-[#01BF9F40]/25',
-      'hover:data-[state=unchecked]:bg-tertiary hover:data-[state=unchecked]:ring-secondary',
+      'hover:data-[state=unchecked]:bg-tertiary hover:data-[state=unchecked]:ring-reskin-neutral-200',
       // active (pressed)
       'active:data-[state=checked]:bg-reskin-fg-system-success-secondary active:data-[state=checked]:ring-0',
-      'active:data-[state=unchecked]:bg-primary active:data-[state=unchecked]:ring-primary',
+      'active:data-[state=unchecked]:bg-primary active:data-[state=unchecked]:ring-reskin-neutral-100',
       // disabled
       'disabled:cursor-not-allowed',
       'disabled:data-[state=checked]:bg-reskin-fg-system-success-secondary/30 disabled:data-[state=checked]:ring-0',
-      'disabled:data-[state=unchecked]:bg-primary disabled:data-[state=unchecked]:ring-primary',
+      'disabled:data-[state=unchecked]:bg-primary disabled:data-[state=unchecked]:ring-reskin-neutral-100',
       className,
     )}
     {...props}
