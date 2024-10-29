@@ -39,6 +39,71 @@ export default {
         warning: 'rgb(var(--warning-600))',
         error: 'rgb(var(--error-700))',
       },
+      borderColor: {
+        primary: 'rgb(var(--neutral-100))',
+        secondary: 'rgb(var(--neutral-200))',
+        tertiary: 'rgb(var(--neutral-300))',
+        quaternary: 'rgb(var(--neutral-400))',
+        brand: {
+          primary: 'rgb(var(--primary-400))',
+          secondary: 'rgb(var(--primary-500))',
+          tertiary: 'rgb(var(--primary-600))',
+        },
+        system: {
+          success: {
+            primary: 'rgb(var(--success-500))',
+            secondary: 'rgb(var(--success-600))',
+          },
+          warning: {
+            primary: 'rgb(var(--warning-500))',
+            secondary: 'rgb(var(--warning-600))',
+          },
+          error: {
+            primary: 'rgb(var(--error-500))',
+            secondary: 'rgb(var(--error-600))',
+          },
+          info: {
+            primary: 'rgb(var(--magenta-500))',
+            secondary: 'rgb(var(--magenta-600))',
+          },
+        },
+        focus: 'rgb(var(--primary-200))',
+      },
+      backgroundColor: {
+        primary: {
+          DEFAULT: 'rgb(var(--base-white))',
+          inverse: 'rgb(var(--base-black))',
+        },
+        secondary: {
+          DEFAULT: 'rgb(var(--neutral-50))',
+          inverse: 'rgb(var(--neutral-950))',
+        },
+        tertiary: 'rgb(var(--neutral-100))',
+        quaternary: 'rgb(var(--neutral-200))',
+        brand: {
+          primary: 'rgb(var(--primary-100))',
+          secondary: 'rgb(var(--primary-200))',
+          tertiary: 'rgb(var(--primary-300))',
+        },
+        system: {
+          success: {
+            primary: 'rgb(var(--success-100))',
+            secondary: 'rgb(var(--success-200))',
+          },
+          warning: {
+            primary: 'rgb(var(--warning-100))',
+            secondary: 'rgb(var(--warning-200))',
+          },
+          error: {
+            primary: 'rgb(var(--error-100))',
+            secondary: 'rgb(var(--error-200))',
+          },
+          info: {
+            primary: 'rgb(var(--magenta-100))',
+            secondary: 'rgb(var(--magenta-200))',
+          },
+        },
+      },
       colors: {
         reskin: {
           base: {
@@ -162,41 +227,6 @@ export default {
             borrow: 'rgb(var(--page-borrow))',
             farms: 'rgb(var(--page-farms))',
           },
-          bg: {
-            primary: {
-              DEFAULT: 'rgb(var(--base-white))',
-              inverse: 'rgb(var(--base-black))',
-            },
-            secondary: {
-              DEFAULT: 'rgb(var(--neutral-50))',
-              inverse: 'rgb(var(--neutral-950))',
-            },
-            tertiary: 'rgb(var(--neutral-100))',
-            quaternary: 'rgb(var(--neutral-200))',
-            brand: {
-              primary: 'rgb(var(--primary-100))',
-              secondary: 'rgb(var(--primary-200))',
-              tertiary: 'rgb(var(--primary-300))',
-            },
-            system: {
-              success: {
-                primary: 'rgb(var(--success-100))',
-                secondary: 'rgb(var(--success-200))',
-              },
-              warning: {
-                primary: 'rgb(var(--warning-100))',
-                secondary: 'rgb(var(--warning-200))',
-              },
-              error: {
-                primary: 'rgb(var(--error-100))',
-                secondary: 'rgb(var(--error-200))',
-              },
-              info: {
-                primary: 'rgb(var(--magenta-100))',
-                secondary: 'rgb(var(--magenta-200))',
-              },
-            },
-          },
           fg: {
             primary: {
               DEFAULT: 'rgb(var(--neutral-950))',
@@ -235,36 +265,6 @@ export default {
           },
           alpha: {
             dialog: 'color-mix(in srgb, rgb(var(--base-black)) 40%, transparent)',
-          },
-          border: {
-            primary: 'rgb(var(--neutral-100))',
-            secondary: 'rgb(var(--neutral-200))',
-            tertiary: 'rgb(var(--neutral-300))',
-            quaternary: 'rgb(var(--neutral-400))',
-            brand: {
-              primary: 'rgb(var(--primary-400))',
-              secondary: 'rgb(var(--primary-500))',
-              tertiary: 'rgb(var(--primary-600))',
-            },
-            system: {
-              success: {
-                primary: 'rgb(var(--success-500))',
-                secondary: 'rgb(var(--success-600))',
-              },
-              warning: {
-                primary: 'rgb(var(--warning-500))',
-                secondary: 'rgb(var(--warning-600))',
-              },
-              error: {
-                primary: 'rgb(var(--error-500))',
-                secondary: 'rgb(var(--error-600))',
-              },
-              info: {
-                primary: 'rgb(var(--magenta-500))',
-                secondary: 'rgb(var(--magenta-600))',
-              },
-            },
-            focus: 'rgb(var(--primary-200))',
           },
         },
         basics: {
