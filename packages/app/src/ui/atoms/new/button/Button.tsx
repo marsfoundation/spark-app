@@ -25,7 +25,7 @@ const buttonVariants = cva(
           'hover:bg-reskin-neutral-800 active:text-reskin-base-white',
         ),
         tertiary: cn(
-          'border border-reskin-border-primary border-solid bg-reskin-base-white',
+          'border border-primary border-solid bg-reskin-base-white',
           'text-reskin-neutral-950 shadow-xs active:bg-reskin-neutral-100 hover:bg-reskin-neutral-50',
         ),
         loading: 'cursor-wait bg-reskin-neutral-50 text-reskin-base-white',

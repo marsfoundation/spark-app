@@ -26,7 +26,7 @@ export function AssetSelector({
       <div
         className={cn(
           'flex w-full items-center justify-between p-3',
-          'rounded-sm border border-reskin-border-primary bg-reskin-bg-primary text-reskin-fg-primary',
+          'rounded-sm border border-primary bg-primary text-reskin-fg-primary',
           disabled && 'cursor-not-allowed opacity-50',
         )}
         data-testid={testIds.component.AssetSelector.trigger}
