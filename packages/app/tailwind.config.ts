@@ -749,12 +749,15 @@ export default {
 
       addUtilities({
         '.icon-xs': {
+          width: '16px',
           height: '16px',
         },
         '.icon-sm': {
+          width: '20px',
           height: '20px',
         },
         '.icon-md': {
+          widtdh: '24px',
           height: '24px',
         },
       })
