@@ -33,7 +33,7 @@ export const CopyButton = forwardRef<HTMLButtonElement, CopyButtonProps>(
             {copied ? (
               <Check className="animate-reveal text-success" />
             ) : (
-              // @note prevent icon from being animated on initial render
+              // @note it prevents icon from being animated on initial render
               <Copy className={cn(isMounted && 'animate-reveal')} />
             )}
           </IconButton>
@@ -45,3 +45,5 @@ export const CopyButton = forwardRef<HTMLButtonElement, CopyButtonProps>(
     )
   },
 )
+
+CopyButton.displayName = 'CopyButton'

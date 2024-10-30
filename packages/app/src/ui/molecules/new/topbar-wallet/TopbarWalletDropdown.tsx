@@ -74,3 +74,5 @@ export function TopbarWalletDropdown({ dropdownTriggerInfo, dropdownContentInfo 
     </DropdownMenu>
   )
 }
+
+TopbarWalletDropdown.displayName = 'TopbarWalletDropdown'

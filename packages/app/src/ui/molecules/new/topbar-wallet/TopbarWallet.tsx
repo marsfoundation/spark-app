@@ -23,3 +23,5 @@ export function TopbarWallet({ connectedWalletInfo, onConnect }: TopbarWalletPro
     </div>
   )
 }
+
+TopbarWallet.displayName = 'TopbarWallet'
