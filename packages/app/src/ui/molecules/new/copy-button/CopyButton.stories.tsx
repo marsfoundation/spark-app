@@ -1,9 +1,11 @@
+import { WithTooltipProvider } from '@sb/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { CopyButton } from './CopyButton'
 
 const meta: Meta<typeof CopyButton> = {
   title: 'Components/Molecules/New/CopyButton',
   component: CopyButton,
+  decorators: [WithTooltipProvider()],
   args: {
     text: 'Hello, world!',
   },
