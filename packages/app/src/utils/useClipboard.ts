@@ -4,7 +4,7 @@ export interface UseClipboardOptions {
   timeout?: number
 }
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function useClipboard({ timeout = 2000 }: UseClipboardOptions = {}) {
+export function useClipboard({ timeout = 1500 }: UseClipboardOptions = {}) {
   const [error, setError] = useState<Error | null>(null)
   const [copied, setCopied] = useState(false)
   /** @note
