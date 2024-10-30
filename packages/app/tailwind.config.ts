@@ -30,11 +30,13 @@ export default {
         roobert: ['Roobert', ...defaultTheme.fontFamily.sans],
       },
       textColor: {
-        primary: 'rgb(var(--base-black))',
+        primary: {
+          DEFAULT: 'rgb(var(--base-black))',
+          inverse: 'rgb(var(--base-white))',
+        },
         secondary: 'rgb(var(--neutral-500))',
         tertiary: 'rgb(var(--neutral-300))',
         brand: 'rgb(var(--primary-800))',
-        inverse: 'rgb(var(--base-white))',
         success: 'rgb(var(--success-600))',
         warning: 'rgb(var(--warning-600))',
         error: 'rgb(var(--error-700))',
@@ -348,7 +350,7 @@ export default {
         'gradient-purple': 'linear-gradient(90.22deg, #7A6BFF 0.12%, #BDDEFF 49.95%, #FFFFFF 99.78%)',
         'gradient-magenta': 'linear-gradient(89.84deg, #FA43BD -2.08%, #FFB5B5 48.92%, #FFFFFF 99.92%)',
         'gradient-green': 'linear-gradient(90deg, #11B93E 0%, #40DA69 50.47%, #FFFFFF 100%)',
-        'savings-gradient': 'radial-gradient(155.75% 155.75% at 50% 155.75%, #FFEF79 0%, #00C2A1 100%)',
+        'gradient-savings': 'radial-gradient(155.75% 155.75% at 50% 155.75%, #FFEF79 0%, #00C2A1 100%)',
       },
       fontWeight: {
         regular: '400',

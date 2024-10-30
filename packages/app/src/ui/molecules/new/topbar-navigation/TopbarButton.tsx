@@ -5,18 +5,26 @@ import { NavLink, To, useMatch } from 'react-router-dom'
 
 const buttonVariants = cva(
   cn(
-    'typography-label-4 inline-flex h-10 flex-nowrap items-center gap-2 rounded-sm bg-reskin-bg-primary px-4 py-3',
-    'group border border-reskin-border-primary border-solid border-opacity-40 shadow-xs transition-colors focus-visible:outline-none focus-visible:ring focus-visible:ring-1 ',
+    'typography-label-4 inline-flex h-10 flex-nowrap items-center',
+    'group gap-2 rounded-sm border border-primary bg-primary px-4 py-3',
+    'border-solid border-opacity-40 shadow-xs transition-colors',
+    'focus-visible:outline-none focus-visible:ring focus-visible:ring-1 ',
   ),
   {
     variants: {
       type: {
-        savings:
-          'active:border-reskin-page-savings hover:border-reskin-page-savings/40 hover:shadow-reskin-page-savings/15 focus-visible:ring-reskin-page-savings',
-        farms:
-          'active:border-reskin-page-farm hover:border-reskin-page-farms/40 hover:shadow-reskin-page-farms/15 focus-visible:ring-reskin-page-farms',
-        borrow:
-          'active:border-reskin-page-borrow hover:border-reskin-page-borrow/40 hover:shadow-reskin-page-borrow/15 focus-visible:ring-reskin-page-borrow',
+        savings: cn(
+          'active:border-reskin-page-savings hover:border-reskin-page-savings/40',
+          'hover:shadow-reskin-page-savings/15 focus-visible:ring-reskin-page-savings',
+        ),
+        farms: cn(
+          'active:border-reskin-page-farm hover:border-reskin-page-farms/40',
+          'hover:shadow-reskin-page-farms/15 focus-visible:ring-reskin-page-farms',
+        ),
+        borrow: cn(
+          'active:border-reskin-page-borrow hover:border-reskin-page-borrow/40',
+          'hover:shadow-reskin-page-borrow/15 focus-visible:ring-reskin-page-borrow',
+        ),
       },
       isActive: {
         false: '',
@@ -66,7 +74,7 @@ export const TopbarButton = forwardRef<HTMLAnchorElement | HTMLButtonElement, To
         {label}
         {postfixSlot &&
           cloneElement(postfixSlot, {
-            className: 'icon-xs transition-colors group-hover:text-reskin-neutral-500',
+            className: 'icon-xs transition-colors group-hover:text-secondary',
           })}
       </>
     )

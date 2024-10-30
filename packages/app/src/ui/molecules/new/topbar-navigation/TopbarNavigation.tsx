@@ -95,7 +95,7 @@ export function TopbarNavigation({ savingsInfo, blockedPages, topbarNavigationIn
                   >
                     <div
                       className={cn(
-                        // @note - pointless to put this into config if its one time use - need to talk with designers about gradients
+                        // @note: one time use gradient
                         'absolute top-0 bottom-0 left-0 hidden w-[3px] bg-gradient-to-br from-[#FFCD4D] to-[#FF895D] opacity-0',
                         isActive && 'block opacity-1',
                       )}

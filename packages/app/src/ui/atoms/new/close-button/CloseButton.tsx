@@ -13,7 +13,7 @@ export const CloseButton = forwardRef<HTMLButtonElement, CloseButtonProps>(({ on
       'rounded-sm p-2 text-secondary transition-colors',
       'hover:text-reskin-neutral-700',
       'active:text-reskin-neutral-900',
-      'focus-visible:outline-none focus-visible:ring focus-visible:ring-reskin-border-focus',
+      'focus-visible:outline-none focus-visible:ring focus-visible:ring-reskin-primary-200',
       'disabled:cursor-not-allowed disabled:text-reskin-neutral-300',
     )}
     onClick={onClose}

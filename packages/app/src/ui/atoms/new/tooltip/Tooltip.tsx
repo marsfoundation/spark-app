@@ -37,7 +37,7 @@ const Tooltip = RadixPrimitive.Root
 const TooltipTrigger = RadixPrimitive.Trigger
 
 const tooltipContentVariants = cva(
-  'typography-label-6 z-50 overflow-hidden rounded-sm bg-reskin-bg-primary-inverse px-3 py-2 text-reskin-fg-primary-inverse shadow-lg ',
+  'typography-label-6 z-50 overflow-hidden rounded-sm bg-primary-inverse px-3 py-2 text-reskin-fg-primary-inverse shadow-lg ',
   {
     variants: {
       variant: {
@@ -64,12 +64,9 @@ const TooltipContent = React.forwardRef<
       {...props}
     >
       {children}
-      <RadixPrimitive.Arrow width={16} height={8} className="fill-reskin-base-black" asChild>
-        <svg width="16" height="8" viewBox="0 0 17 9" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M14.1442 0C15.0351 0 16.5 0 16.5 0L8.78023 7.77818C8.3897 8.16871 7.75654 8.16871 7.36601 7.77818L0.5 0H2.00206H14.1442Z"
-            className="fill-reskin-bg-primary-inverse"
-          />
+      <RadixPrimitive.Arrow width={16} height={8} className="text-primary" asChild>
+        <svg width="16" height="8" viewBox="0 0 17 9" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14.1442 0C15.0351 0 16.5 0 16.5 0L8.78023 7.77818C8.3897 8.16871 7.75654 8.16871 7.36601 7.77818L0.5 0H2.00206H14.1442Z" />
         </svg>
       </RadixPrimitive.Arrow>
     </RadixPrimitive.Content>

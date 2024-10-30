@@ -79,10 +79,10 @@ export function AssetInput<TFieldValues extends FieldValues>({
       <div
         className={cn(
           'grid grid-cols-[auto_1fr_auto] items-center gap-3 p-2 pr-4',
-          'rounded-sm border border-reskin-border-primary bg-reskin-bg-secondary',
-          'focus-within:border-reskin-border-brand-primary',
-          disabled && 'cursor-not-allowed bg-reskin-bg-secondary/50',
-          showError && error && 'border-reskin-bg-system-error-secondary bg-reskin-bg-system-error-primary',
+          'rounded-sm border border-primary bg-secondary',
+          'focus-within:border-brand-primary',
+          disabled && 'cursor-not-allowed bg-secondary/50',
+          showError && error && 'border-reskin-error-200 bg-system-error-primary',
         )}
       >
         <div className="min-w-[120px]">
