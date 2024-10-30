@@ -9,7 +9,7 @@ export const buttonVariants = cva('', {
   variants: {
     variant: {
       primary: cn(
-        'before:-z-10 bg-gradient-spark-primary text-reskin-base-white before:absolute ',
+        'before:-z-10 bg-gradient-spark-secondary text-reskin-base-white before:absolute ',
         'active:before:bg-reskin-neutral-800 focus-visible:before:bg-reskin-base-white ',
         'before:inset-0 hover:before:bg-reskin-neutral-950 active:text-reskin-base-white before:transition-colors',
       ),
