@@ -21,7 +21,7 @@ const badgeVariants = cva('rounded-md px-4 py-1', {
       moderate: 'bg-product-orange',
       healthy: 'bg-product-green',
       'no debt': 'bg-product-green',
-      unknown: 'bg-zinc-300',
+      unknown: 'bg-white/20',
     },
   },
 })

@@ -42,7 +42,7 @@ function ActivityBadge({ variant }: { variant: 'active' | 'inactive' }) {
 const activityBadgeVariants = cva('rounded-lg px-2.5 py-1.5 font-semibold text-xs leading-none tracking-wide', {
   variants: {
     variant: {
-      inactive: 'bg-basics-dark-grey/10 text-basics-dark-grey',
+      inactive: 'bg-white/10 text-white/50',
       active: 'bg-basics-green/10 text-basics-green',
     },
   },
@@ -51,8 +51,8 @@ const activityBadgeVariants = cva('rounded-lg px-2.5 py-1.5 font-semibold text-x
 const headerVariants = cva('font-semibold text-xs sm:text-base', {
   variants: {
     variant: {
-      active: 'text-basics-black',
-      inactive: 'text-basics-dark-grey',
+      active: 'text-white',
+      inactive: 'text-white/50',
     },
   },
 })

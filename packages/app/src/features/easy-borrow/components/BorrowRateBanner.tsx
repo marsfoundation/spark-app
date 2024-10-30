@@ -16,7 +16,7 @@ export function BorrowRateBanner({ assetsToBorrowMeta }: BorrowRateBannerProps) 
       <Typography variant="h3" className="mt-6 text-center text-lg text-prompt-foreground md:text-2xl">
         Borrow {dai}
         {usds ? ` or ${usds}` : ''} at{' '}
-        <span className="rounded bg-primary p-1 text-background">{formatPercentage(borrowRate)}</span> directly from Sky
+        <span className="rounded bg-primary p-1 text-white">{formatPercentage(borrowRate)}</span> directly from Sky
       </Typography>
     </div>
   )

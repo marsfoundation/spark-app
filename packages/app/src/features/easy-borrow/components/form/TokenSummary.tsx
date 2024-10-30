@@ -21,7 +21,7 @@ export function TokenSummary({ position, type, maxSymbols = 3 }: TokenSummaryPro
   return (
     <div className="flex items-center rounded-xl bg-light-blue/10 p-4">
       <IconStack paths={tokenIconPaths} maxIcons={maxSymbols} />
-      <Typography className="ml-3 font-semibold text-product-dark-blue tracking-wide" variant="prompt">
+      <Typography className="ml-3 font-semibold text-secondary tracking-wide" variant="prompt">
         {summary}
       </Typography>
     </div>

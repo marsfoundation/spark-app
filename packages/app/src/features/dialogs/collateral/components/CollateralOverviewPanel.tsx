@@ -20,10 +20,10 @@ export function CollateralOverviewPanel({
       <DialogPanelTitle>Transaction overview</DialogPanelTitle>
       <TransactionOverviewDetailsItem label="Deposit balance">
         <div className="flex flex-col items-end gap-0.5">
-          <p className="text-base text-basics-black">
+          <p className="text-base">
             {token.format(balance, { style: 'auto' })} {token.symbol}
           </p>
-          <div className="text-basics-dark-grey text-xs">{token.formatUSD(balance)}</div>
+          <div className="text-white/50 text-xs">{token.formatUSD(balance)}</div>
         </div>
       </TransactionOverviewDetailsItem>
       <HealthFactorChange currentHealthFactor={currentHealthFactor} updatedHealthFactor={updatedHealthFactor} />

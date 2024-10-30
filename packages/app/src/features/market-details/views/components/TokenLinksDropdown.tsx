@@ -31,7 +31,7 @@ export function TokenLinksDropdown({ token, aToken, variableDebtTokenAddress, ch
   ]
   return (
     <TokenLinksWrapper>
-      <DropdownMenuLabel className="p-4 pb-0 font-normal text-basics-dark-grey">Token Contracts</DropdownMenuLabel>
+      <DropdownMenuLabel className="p-4 pb-0 font-normal">Token Contracts</DropdownMenuLabel>
       {tokenContractsLinks.map((contractLink) => (
         <BlockExplorerAddressLink key={contractLink.address} address={contractLink.address} chainId={chainId}>
           <TokenLinksDropdownItem {...contractLink} />
@@ -45,7 +45,7 @@ function TokenLinksWrapper({ children }: PropsWithChildren) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="secondary" className="bg-white px-3">
+        <Button variant="secondary" className="bg-white/10 px-3">
           <MoreIcon />
         </Button>
       </DropdownMenuTrigger>
@@ -84,11 +84,11 @@ function TokenLinksDropdownItem({ address, token, label }: TokenLinksDropdownIte
       <div className="flex max-w-60 flex-1 flex-col gap-1">
         <div className="flex items-center gap-1">
           <TokenIcon token={token} className="h-4 w-4" />
-          <div className="flex flex-row items-center gap-2.5 font-normal text-basics-dark-grey lg:gap-1 group-hover:text-nav-primary lg:text-xs">
+          <div className="flex flex-row items-center gap-2.5 font-normal text-white/50 lg:gap-1 group-hover:text-nav-primary lg:text-xs">
             {label}
           </div>
         </div>
-        <div className="flex items-center gap-2 font-semibold text-basics-black">
+        <div className="flex items-center gap-2 font-semibold text-white">
           <Address address={address} postfix={<BoxArrowTopRight className="h-3.5 w-3.5" />} />
         </div>
       </div>

@@ -33,7 +33,7 @@ export function MyWallet({ token, tokenBalance, lend, deposit, borrow, openDialo
   return (
     <Panel.Wrapper>
       <WalletPanelContent>
-        <h3 className="font-semibold text-base text-sky-950 md:text-xl">My Wallet</h3>
+        <h3 className="font-semibold text-base md:text-xl">My Wallet</h3>
         <TokenBalance token={token} balance={tokenBalance} />
         {lend && (
           <ActionRow

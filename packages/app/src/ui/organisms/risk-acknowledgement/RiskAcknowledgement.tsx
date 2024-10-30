@@ -12,10 +12,7 @@ export function RiskAcknowledgement({ warning, onStatusChange }: RiskAcknowledge
   return (
     <div className="flex flex-col gap-2">
       <Alert variant="danger">
-        <div
-          className="max-w-[46ch] text-basics-black text-sm"
-          data-testid={testIds.component.RiskAcknowledgement.explanation}
-        >
+        <div className="max-w-[46ch] text-sm" data-testid={testIds.component.RiskAcknowledgement.explanation}>
           {warning.type === 'liquidation-warning-borrow' &&
             'Borrowing this amount puts you at risk of quick liquidation. You may lose part of your collateral.'}
           {warning.type === 'liquidation-warning-withdraw' &&
@@ -27,7 +24,7 @@ export function RiskAcknowledgement({ warning, onStatusChange }: RiskAcknowledge
         </div>
       </Alert>
       <LabeledSwitch onCheckedChange={onStatusChange} data-testid={testIds.component.RiskAcknowledgement.switch}>
-        <div className="font-semibold text-basics-black text-sm">I acknowledge risks involved</div>
+        <div className="font-semibold text-sm">I acknowledge risks involved</div>
       </LabeledSwitch>
     </div>
   )

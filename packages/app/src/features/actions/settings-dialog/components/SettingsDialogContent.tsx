@@ -11,8 +11,8 @@ export function SettingsDialogContent({
       <DialogTitle className="col-span-full">Settings</DialogTitle>
       <DialogPanel className="col-span-full grid grid-cols-subgrid items-center">
         <div className="flex flex-col gap-2">
-          <h3 className="text-basics-black">Use permits when available</h3>
-          <p className="text-basics-dark-grey text-xs">
+          <h3>Use permits when available</h3>
+          <p className="text-white/50 text-xs">
             Permits are a way to save gas by avoiding on-chain approve transactions. Instead signed permits are bundled
             with another transactions such as deposit or borrow.
           </p>

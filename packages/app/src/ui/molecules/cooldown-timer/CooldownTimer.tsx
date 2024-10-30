@@ -29,9 +29,9 @@ export function CooldownTimer({ renewalPeriod, latestUpdateTimestamp, forceOpen 
       </TooltipTrigger>
       <TooltipContentShort className="p-3">
         <div className="max-w-56">
-          <Typography className={cn('text-basics-dark-grey text-xs')}>Cooldown period:</Typography>
+          <Typography className={cn('text-white/70 text-xs')}>Cooldown period:</Typography>
           <Typography className={cn('mt-1 mb-2 font-semibold')}>{secondsToTime(timeLeft)}</Typography>
-          <Typography className={cn('text-basics-dark-grey text-xs')}>
+          <Typography className={cn('text-white/70 text-xs')}>
             {timeLeft === 0
               ? 'The cap renewal cooldown is over. It might be changed at any time.'
               : `The instantly available cap has a renewal time of ${secondsToHours(renewalPeriod)} hours.`}

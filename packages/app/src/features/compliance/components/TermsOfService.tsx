@@ -16,11 +16,7 @@ interface ToSLinkProps {
 }
 function ToSLink({ className }: ToSLinkProps) {
   return (
-    <Link
-      to={links.termsOfUse}
-      className={cn('text-basics-black underline hover:text-basics-black', className)}
-      external
-    >
+    <Link to={links.termsOfUse} className={cn('underline', className)} external>
       Terms of Service
     </Link>
   )

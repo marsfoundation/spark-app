@@ -202,7 +202,7 @@ function BorrowBar({ positionSummary }: BorrowBarProps) {
 function EmptyBar() {
   return (
     <div className="relative flex h-7 flex-row">
-      <div className="w-full rounded-lg border bg-muted" />
+      <div className="w-full rounded-lg border bg-black/10" />
     </div>
   )
 }

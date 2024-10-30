@@ -17,10 +17,10 @@ export function BackNav({ chainId, chainName }: BackNavProps) {
       <LinkButton to={paths.markets} variant="text" size="sm" spaceAround="none" prefixIcon={<ArrowLeft size={16} />}>
         Back to Markets
       </LinkButton>
-      <Minus className="rotate-90 text-slate-700/10" />
+      <Minus className="rotate-90 text-white/20" />
       <div className="flex items-center gap-3">
         <img src={chainImage} className="h-5 w-5" />
-        <span className="font-semibold text-sky-950 text-xs leading-none tracking-wide">{chainName}</span>
+        <span className="font-semibold text-xs leading-none tracking-wide">{chainName}</span>
       </div>
     </div>
   )

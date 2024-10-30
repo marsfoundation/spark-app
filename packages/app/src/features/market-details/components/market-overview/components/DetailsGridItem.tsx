@@ -11,7 +11,7 @@ export function DetailsGridItem({ children }: { children: React.ReactNode }) {
 const titleVariants = cva('text-sm leading-none sm:text-xs', {
   variants: {
     variant: {
-      gray: 'text-zinc-500',
+      gray: 'text-white/50',
       blue: 'text-product-blue',
       green: 'text-product-green',
       orange: 'text-product-orange',
@@ -27,9 +27,7 @@ function Title({ children, variant }: { children: React.ReactNode } & VariantPro
 }
 
 function Value({ children }: { children: React.ReactNode }) {
-  return (
-    <p className="flex min-h-[26px] items-center gap-2 text-sky-950 text-sm leading-none sm:text-base">{children}</p>
-  )
+  return <p className="flex min-h-[26px] items-center gap-2 text-sm leading-none sm:text-base">{children}</p>
 }
 
 DetailsGridItem.Title = Title

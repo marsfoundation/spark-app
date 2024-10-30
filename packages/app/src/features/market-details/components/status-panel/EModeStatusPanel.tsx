@@ -69,7 +69,7 @@ export function EModeStatusPanel({
               <EModeBadge categoryId={categoryId} />
             </InfoTile.Value>
           </InfoTile>
-          <p className="col-span-1 text-slate-500 text-xs sm:col-span-3">
+          <p className="col-span-1 text-white/50 text-xs sm:col-span-3">
             E-Mode for {categoryName} assets increases your LTV within the {categoryName} category. This means that when
             E-Mode is enabled, you will have higher borrowing power for assets in this category:{' '}
             {eModeCategoryTokens.join(', ')}. You can enter E-Mode from your{' '}

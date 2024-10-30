@@ -12,9 +12,9 @@ interface LegendProps {
 export function Legend({ token, total, utilized, utilizationRate }: LegendProps) {
   return (
     <div className="flex flex-col items-center gap-2">
-      <p className="text-xs text-zinc-600 leading-none">Utilization rate</p>
-      <p className="font-semibold text-sky-950 text-xl leading-none">{formatPercentage(utilizationRate)}</p>
-      <p className="text-xs text-zinc-600 leading-none">
+      <p className="text-xs text-white/50 leading-none">Utilization rate</p>
+      <p className="font-semibold text-xl leading-none">{formatPercentage(utilizationRate)}</p>
+      <p className="text-xs text-white/50 leading-none">
         {token.formatUSD(utilized, { compact: true })} of {token.formatUSD(total, { compact: true })}
       </p>
     </div>

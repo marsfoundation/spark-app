@@ -24,7 +24,7 @@ export function SuccessView({ outcome, reward, closeDialog, isExiting }: Success
           <div className="mb-2 flex justify-between">
             <div className="flex items-center gap-2">
               <TokenIcon token={outcome.token} className="h-6" />
-              <span className="font-semibold text-basics-black">{outcome.token.symbol}</span>
+              <span className="font-semibold">{outcome.token.symbol}</span>
             </div>
             <div className="flex grow flex-col">
               <Typography className="text-right font-primary">
@@ -41,7 +41,7 @@ export function SuccessView({ outcome, reward, closeDialog, isExiting }: Success
               <div className="flex justify-between">
                 <div className="flex items-center gap-2">
                   <TokenIcon token={reward.token} className="h-6" />
-                  <span className="font-semibold text-basics-black">{reward.token.symbol}</span>
+                  <span className="font-semibold">{reward.token.symbol}</span>
                 </div>
                 <div className="flex grow flex-col">
                   <Typography className="text-right font-primary">

@@ -26,7 +26,7 @@ export function SelectNetworkDialogView({ chains }: SelectNetworkDialogViewProps
           >
             <div className="mx-4 flex items-center gap-2 border-basics-border border-b py-5">
               <img src={chain.logo} className="h-6 w-6" />
-              <span className="font-semibold text-base text-basics-black">{chain.name}</span>
+              <span className="font-semibold text-base">{chain.name}</span>
             </div>
             <div className="p-4 text-sm">
               <span className="text-prompt-foreground">Network available for:</span> {chain.supportedPages.join(', ')}

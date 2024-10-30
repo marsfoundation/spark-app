@@ -32,7 +32,7 @@ export function AssetNameCell({ token, reserveStatus, 'data-testid': dataTestId 
       )}
       <div className="flex min-w-0 flex-col">
         <TokenName token={token} className={cn(isPaused && 'text-red-600')} />
-        <p className={cn('text-slate-500 text-sx leading-none', isPaused && 'text-red-300')}>{token.symbol}</p>
+        <p className={cn('text-sx text-white/50 leading-none', isPaused && 'text-red-300')}>{token.symbol}</p>
       </div>
       {isFrozen && <FrozenPill data-testid={testIds.markets.frozenPill} />}
       {isPaused && <PausedPill data-testid={testIds.markets.pausedPill} />}

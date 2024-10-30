@@ -25,7 +25,7 @@ export function Alert({ children, variant, size = 'normal', className, 'data-tes
   return (
     <div className={cn(bgVariants({ variant, size }), className)} data-testid={dataTestId}>
       <AlertTriangle className={iconVariants({ variant, size })} />
-      <p data-testid={testIds.component.Alert.message} className="text-basics-black text-xs">
+      <p data-testid={testIds.component.Alert.message} className="text-xs">
         {children}
       </p>
     </div>

@@ -70,7 +70,7 @@ export const AssetInput = forwardRef<HTMLInputElement, AssetInputProps>(
             <input
               type="text"
               inputMode="decimal"
-              className={cn('flex focus:outline-none', error && 'text-error')}
+              className={cn('flex bg-transparent focus:outline-none', error && 'text-error')}
               ref={ref}
               placeholder="0"
               id="asset-input"

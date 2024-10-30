@@ -13,7 +13,7 @@ export function SuccessViewTokenRow({ token, amount }: SuccessViewTokenRowProps)
     <div className="mb-2 flex justify-between">
       <div className="flex items-center gap-2">
         <TokenIcon token={token} className="h-6" />
-        <span className="font-semibold text-basics-black">{token.symbol}</span>
+        <span className="font-semibold">{token.symbol}</span>
       </div>
       <div className="flex grow flex-col">
         <Typography className="text-right font-primary">{token.format(amount, { style: 'auto' })}</Typography>

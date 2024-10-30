@@ -50,7 +50,7 @@ const savingsInfoTileVariants = cva('inline-flex flex-col gap-1', {
   },
 })
 
-const valueVariants = cva('font-semibold text-basics-black', {
+const valueVariants = cva('font-semibold', {
   variants: {
     size: {
       base: 'text-sm md:text-base',
@@ -60,7 +60,7 @@ const valueVariants = cva('font-semibold text-basics-black', {
       huge: 'text-5xl leading-tight md:text-7xl',
     },
     color: {
-      dark: 'text-basics-black',
+      dark: 'text-white',
       green: 'text-sec-green',
     },
   },

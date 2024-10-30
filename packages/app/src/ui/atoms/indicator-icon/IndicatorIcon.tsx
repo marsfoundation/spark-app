@@ -16,7 +16,7 @@ const variants = cva('', {
   variants: {
     variant: {
       green: 'text-product-green',
-      gray: 'text-gray-300',
+      gray: 'text-white/30',
       orange: 'text-product-orange',
       red: 'text-product-red',
     },

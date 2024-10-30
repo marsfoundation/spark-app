@@ -75,21 +75,18 @@ function CompactValue({
 }: CompactValueProps) {
   if (hideEmpty && value.isZero()) {
     return (
-      <div
-        className={cn('flex w-full flex-row justify-end', dimmed && 'text-basics-dark-grey/70')}
-        data-testid={dataTestId}
-      >
+      <div className={cn('flex w-full flex-row justify-end', dimmed && 'text-white/40')} data-testid={dataTestId}>
         —
       </div>
     )
   }
   return (
     <div className={cn('flex flex-col', className)} data-testid={dataTestId}>
-      <div className={cn('flex w-full flex-row justify-end', dimmed && 'text-basics-dark-grey/70')}>
+      <div className={cn('flex w-full flex-row justify-end', dimmed && 'text-white/40')}>
         {token.format(value, { style: compactValue ? 'compact' : 'auto' })}
       </div>
       <div className="flex w-full flex-row justify-end">
-        <Typography variant="prompt" className={cn(dimmed && 'text-basics-dark-grey/30')}>
+        <Typography variant="prompt" className={cn(dimmed && 'text-white/30')}>
           {token.formatUSD(value, { compact: compactValue })}
         </Typography>
       </div>

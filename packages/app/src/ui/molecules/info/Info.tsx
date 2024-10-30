@@ -13,7 +13,7 @@ function Info({ children, size = 14, className }: InfoProps) {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <HelpCircle size={size} className={cn('text-basics-dark-grey/50', className)} />
+        <HelpCircle size={size} className={cn('text-white/50', className)} />
       </TooltipTrigger>
       <TooltipContentShort>{children}</TooltipContentShort>
     </Tooltip>

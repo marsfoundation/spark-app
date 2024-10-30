@@ -10,7 +10,7 @@ interface HeaderProps {
 export function Header({ status, variant }: HeaderProps) {
   return (
     <div className="flex items-center gap-1.5">
-      <h4 className="font-semibold text-base text-sky-950 sm:text-xl">{getHeaderText(status, variant)}</h4>
+      <h4 className="font-semibold text-base sm:text-xl">{getHeaderText(status, variant)}</h4>
       {/* @todo: Introduce info when copy is available */}
       {/* <Info>Info text</Info> */}
     </div>

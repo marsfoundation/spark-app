@@ -41,11 +41,12 @@ export function ResponsiveDataTable<T extends { [k: string]: any }>({
   }
 
   const [rowHeaderDefinition, ...contentDefinitions] = Object.values(columnDefinition)
+
   return (
     <Table data-testid={dataTestId}>
       {!hideTableHeader && (
-        <TableHeader>
-          <TableRow className="flex justify-between pb-3">
+        <TableHeader className="static">
+          <TableRow className="flex justify-between">
             {[rowHeaderDefinition?.header, 'More info'].map((header, index) => (
               <TableHead className="p-0 font-bold text-primary text-xs" key={index}>
                 {header}

@@ -24,11 +24,9 @@ export function UpgradeSavingsBanner({ onUpgradeSavingsClick, apyImprovement }: 
       data-testid={testIds.savings.upgradeSDaiBanner}
     >
       <div className="grid gap-3 md:auto-cols-max">
-        <h2 className="font-semibold text-base text-basics-black sm:text-xl">
-          Upgrade your Savings DAI (sDAI) to Savings USDS (sUSDS)
-        </h2>
+        <h2 className="font-semibold text-base sm:text-xl">Upgrade your Savings DAI (sDAI) to Savings USDS (sUSDS)</h2>
         <div>
-          <div className="grid grid-cols-subgrid text-basics-black text-sm opacity-50">
+          <div className="grid grid-cols-subgrid text-sm opacity-50">
             Upgrade your Savings DAI to Savings USDS and unlock <br /> the full potential of the Sky ecosystem.
           </div>
         </div>

@@ -19,7 +19,7 @@ const baseTooltipContentClassList = cn(
 
 const tooltipContentShortClassList = cn(
   baseTooltipContentClassList,
-  'max-w-[80vw] space-y-2 px-3 py-1.5 text-slate-500 text-sm sm:max-w-[32ch]',
+  'max-w-[80vw] space-y-2 px-3 py-1.5 text-sm text-white sm:max-w-[32ch]',
 )
 const tooltipContentLongClassList = cn(baseTooltipContentClassList, 'px-5 py-4')
 

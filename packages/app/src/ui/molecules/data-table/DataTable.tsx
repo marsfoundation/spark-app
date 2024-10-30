@@ -84,7 +84,7 @@ export function DataTable<T extends RowType>({
       <Wrapper>
         <Table data-testid={dataTestId}>
           {!hideTableHeader && (
-            <TableHeader>
+            <TableHeader className="static">
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id} className={cn('grid w-full gap-2', gridTemplateColumnsClassName)}>
                   {headerGroup.headers.map((header) => {

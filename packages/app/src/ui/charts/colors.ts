@@ -1,9 +1,9 @@
 export const colors = {
-  tooltipLine: '#6A7692',
+  tooltipLine: 'hsla(0, 0%, 100%, 0.7)',
   dot: '#0B2140',
   dotStroke: 'white',
-  backgroundLine: '#D9D9D9',
-  axisTickLabel: '#6A7692',
-  primary: '#627EEA',
+  backgroundLine: 'hsla(0, 0%, 100%, 0.3)',
+  axisTickLabel: 'hsla(0, 0%, 100%, 0.5)',
+  primary: 'hsl(251.6 80.6% 75.3%)',
   secondary: '#F2A52B',
 }

@@ -25,7 +25,7 @@ export function RewardsDetails({ rewards, onClaim }: RewardsDetailsProps) {
             >
               <div className="flex items-center gap-2">
                 <img src={getTokenImage(token.symbol)} className="h-7 lg:h-6" />
-                <div className="font-semibold text-base text-basics-black tabular-nums">
+                <div className="font-semibold text-base tabular-nums">
                   <span data-testid={testIds.navbar.rewards.details.amount}>
                     {token.format(amount, { style: 'auto' })}
                   </span>{' '}

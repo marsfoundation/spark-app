@@ -25,7 +25,7 @@ function ActionRow({ children, className, index }: ActionRowProps) {
       )}
       data-testid={testIds.actions.row(index - 1)}
     >
-      <div className="text-basics-dark-grey text-xs tabular-nums">{index}.</div>
+      <div className="text-white/50 text-xs tabular-nums">{index}.</div>
       {children}
     </div>
   )
@@ -53,12 +53,7 @@ function Title({
       data-testid={testIds.component.Action.title}
     >
       {icon && <div className="order-2 md:order-1">{icon}</div>}
-      <p
-        className={cn(
-          'order-1 text-base text-basics-black md:order-2',
-          actionStatus === 'success' && 'text-basics-dark-grey',
-        )}
-      >
+      <p className={cn('order-1 text-base md:order-2', actionStatus === 'success' && 'text-basics-dark-grey')}>
         {children}
       </p>
     </div>
@@ -125,7 +120,7 @@ function ErrorWarningExtended({ actionHandlerState }: { actionHandlerState: Acti
           <div className="mr-auto flex w-full items-center">
             <img src={assets.warning} alt="warning" className="h-5 w-5" />
             <strong className="ml-0.5 font-semibold text-product-red text-xs">Error:</strong>
-            <p className="ml-1 truncate text-basics-dark-grey text-xs" ref={errorTextRef}>
+            <p className="ml-1 truncate text-white/70 text-xs" ref={errorTextRef}>
               {actionHandlerState.message}
             </p>
           </div>

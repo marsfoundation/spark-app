@@ -12,7 +12,7 @@ const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(({ to, className, ex
     return (
       <a
         href={to.toString()}
-        className={cn('cursor-pointer text-blue-600 hover:text-blue-800', className)}
+        className={cn('cursor-pointer text-secondary hover:text-primary', className)}
         target="_blank"
         rel="noreferrer"
         ref={ref}
@@ -24,7 +24,7 @@ const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(({ to, className, ex
     )
   }
 
-  return <RouterLink to={to} className={cn('text-blue-600 hover:text-blue-800', className)} ref={ref} {...props} />
+  return <RouterLink to={to} className={cn('text-secondary hover:text-primary', className)} ref={ref} {...props} />
 })
 Link.displayName = 'Link'
 
