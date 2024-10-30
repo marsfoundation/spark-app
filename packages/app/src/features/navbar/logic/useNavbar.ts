@@ -9,6 +9,7 @@ import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { EnsName } from '@/domain/types/EnsName'
 import { sandboxDialogConfig } from '@/features/dialogs/sandbox/SandboxDialog'
 import { selectNetworkDialogConfig } from '@/features/dialogs/select-network/SelectNetworkDialog'
+import { assets } from '@/ui/assets'
 import { raise } from '@/utils/assert'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { skipToken, useQuery } from '@tanstack/react-query'
@@ -22,7 +23,6 @@ import { useDisconnect } from './useDisconnect'
 import { useNavbarSavingsInfo } from './useNavbarSavingsInfo'
 import { useNetworkChange } from './useNetworkChange'
 import { useRewardsInfo } from './useRewardsInfo'
-import { assets } from '@/ui/assets'
 
 export interface UseNavbarResults {
   currentChain: SupportedChain

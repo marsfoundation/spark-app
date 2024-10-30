@@ -1,12 +1,12 @@
-import { ChevronDown, ChevronUp } from 'lucide-react'
+import { ChevronUp, Eye } from 'lucide-react'
 import { ButtonHTMLAttributes, forwardRef } from 'react'
 
 import { WalletDropdownTriggerInfo } from '@/features/navbar/types'
-import Eye from '@/ui/assets/eye.svg?react'
 import MagicWandCircle from '@/ui/assets/magic-wand-circle.svg?react'
 import { shortenAddress } from '@/ui/utils/shortenAddress'
 
 import { Button } from '@/ui/atoms/new/button/Button'
+import { cn } from '@/ui/utils/style'
 
 export interface ConnectedButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>, WalletDropdownTriggerInfo {
   open: boolean
@@ -21,7 +21,7 @@ export const ConnectedButton = forwardRef<HTMLButtonElement, ConnectedButtonProp
       variant: 'tertiary',
       size: 'm',
       ref,
-      postfixIcon: <Chevron open={open} />,
+      postfixIcon: <ChevronUp className={cn(open ? 'rotate-180' : 'rotate-0', 'ml-auto')} />,
     } as const
 
     if (mode === 'sandbox') {
@@ -47,11 +47,5 @@ export const ConnectedButton = forwardRef<HTMLButtonElement, ConnectedButtonProp
     )
   },
 )
-ConnectedButton.displayName = 'ConnectedButton'
 
-function Chevron({ open }: { open: boolean }) {
-  if (open) {
-    return <ChevronUp size={16} className="ml-auto text-basics-dark-grey" />
-  }
-  return <ChevronDown size={16} className="ml-auto text-basics-dark-grey" />
-}
+ConnectedButton.displayName = 'ConnectedButton'

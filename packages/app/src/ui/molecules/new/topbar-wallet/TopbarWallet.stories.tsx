@@ -74,6 +74,7 @@ export const Disconnected: Story = {
   args: {
     onConnect: () => {},
   },
+  play: () => {},
 }
 
 export const Sandbox: Story = {
