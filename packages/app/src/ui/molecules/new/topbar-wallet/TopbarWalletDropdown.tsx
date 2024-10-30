@@ -44,7 +44,7 @@ export function TopbarWalletDropdown({ dropdownTriggerInfo, dropdownContentInfo 
             )}
           </div>
         </div>
- 
+
         <DropdownMenuItem asChild>
           <button
             className="cursor-pointer"
