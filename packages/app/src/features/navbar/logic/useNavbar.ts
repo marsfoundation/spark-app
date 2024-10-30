@@ -16,13 +16,13 @@ import { useMemo } from 'react'
 import { useAccount, useChainId, useChains, useConfig, useEnsAvatar, useEnsName } from 'wagmi'
 import { PageLinksInfo } from '../components/PageLinks'
 import { AirdropInfo, ConnectedWalletInfo, RewardsInfo, SavingsInfoQueryResults, SupportedChain } from '../types'
-import { generateWalletAvatar } from './generateWalletAvatar'
 import { getWalletIcon } from './getWalletIcon'
 import { useAirdropInfo } from './use-airdrop-info/useAirdropInfo'
 import { useDisconnect } from './useDisconnect'
 import { useNavbarSavingsInfo } from './useNavbarSavingsInfo'
 import { useNetworkChange } from './useNetworkChange'
 import { useRewardsInfo } from './useRewardsInfo'
+import { assets } from '@/ui/assets'
 
 export interface UseNavbarResults {
   currentChain: SupportedChain
@@ -93,7 +93,7 @@ export function useNavbar(): UseNavbarResults {
     return {
       dropdownTriggerInfo: {
         mode: isInSandbox ? 'sandbox' : 'connected',
-        avatar: ensAvatar ?? generateWalletAvatar(address),
+        avatar: ensAvatar ?? assets.walletIcons.default,
         address: CheckedAddress(address),
         ensName: ensName ? EnsName(ensName) : undefined,
       },
