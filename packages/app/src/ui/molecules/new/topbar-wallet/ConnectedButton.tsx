@@ -17,16 +17,16 @@ export const ConnectedButton = forwardRef<HTMLButtonElement, ConnectedButtonProp
   ({ mode, avatar, address, ensName, open, ...props }, ref) => {
     const buttonProps = {
       ...props,
-      className: 'flex items-center gap-2.5',
+      className: 'w-full flex items-center gap-2.5',
       variant: 'tertiary',
-      size: 'l',
+      size: 'm',
       ref,
       postfixIcon: <Chevron open={open} />,
     } as const
 
     if (mode === 'sandbox') {
       return (
-        <Button prefixIcon={<MagicWandCircle className="h-7 w-7 lg:h-5 lg:w-5" />} {...buttonProps}>
+        <Button prefixIcon={<MagicWandCircle />} {...buttonProps}>
           Sandbox Mode
         </Button>
       )
@@ -34,17 +34,14 @@ export const ConnectedButton = forwardRef<HTMLButtonElement, ConnectedButtonProp
 
     if (mode === 'read-only') {
       return (
-        <Button prefixIcon={<Eye className="h-7 w-7 text-basics-dark-grey lg:h-5 lg:w-5" />} {...buttonProps}>
+        <Button prefixIcon={<Eye />} {...buttonProps}>
           Read-only mode
         </Button>
       )
     }
 
     return (
-      <Button
-        prefixIcon={<img src={avatar} alt="wallet-avatar" className="h-8 w-8 rounded-full lg:h-6 lg:w-6" />}
-        {...buttonProps}
-      >
+      <Button prefixIcon={<img src={avatar} alt="wallet-avatar" className="rounded-full" />} {...buttonProps}>
         <div className="truncate">{ensName ? ensName : shortenAddress(address)}</div>
       </Button>
     )

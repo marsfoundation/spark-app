@@ -86,7 +86,7 @@ export function TopbarNavigation({ savingsInfo, blockedPages, topbarNavigationIn
             <DropdownMenuItem
               key={link.to}
               asChild
-              className="typography-label-4 cursor-pointer p-0 focus-visible:outline-none"
+              className="cursor-pointer border-b border-b-primary p-0 first:rounded-t-xs last:rounded-b-xs last:border-none"
             >
               <NavLink to={link.to} onClick={link.onClick}>
                 {({ isActive }) => (
