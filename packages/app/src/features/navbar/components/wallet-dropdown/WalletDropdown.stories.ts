@@ -3,7 +3,6 @@ import { EnsName } from '@/domain/types/EnsName'
 import { assets } from '@/ui/assets'
 import type { Meta, StoryObj } from '@storybook/react'
 import { userEvent, within } from '@storybook/test'
-import { DEFAULT_WALLET_AVATAR } from '../../logic/generateWalletAvatar'
 import { WalletDropdown, WalletDropdownProps } from './WalletDropdown'
 
 const meta: Meta<typeof WalletDropdown> = {
@@ -22,7 +21,7 @@ const args = {
   connectedWalletInfo: {
     dropdownTriggerInfo: {
       mode: 'connected',
-      avatar: DEFAULT_WALLET_AVATAR,
+      avatar: assets.walletIcons.default,
       address: CheckedAddress('0x1234567890123456789012345678901234567890'),
     },
     dropdownContentInfo: {
