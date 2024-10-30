@@ -5,7 +5,7 @@ import * as React from 'react'
 import { cn } from '@/ui/utils/style'
 import { Loader } from '../loader/Loader'
 
-const buttonVariants = cva(
+export const buttonVariants = cva(
   cn(
     'relative isolate inline-flex select-none items-center justify-center gap-1 ',
     'overflow-hidden whitespace-nowrap rounded-sm transition-colors ',
@@ -36,15 +36,23 @@ const buttonVariants = cva(
         m: 'typography-button-2 h-10 px-2 py-2.5',
         s: 'typography-button-2 h-8 p-2',
       },
+      isIconOnly: {
+        false: '',
+      },
     },
+    compoundVariants: [
+      { size: 'l', isIconOnly: true, class: 'p-3.5' },
+      { size: 'm', isIconOnly: true, class: 'p-2.5' },
+    ],
     defaultVariants: {
       variant: 'primary',
       size: 'm',
+      isIconOnly: false,
     },
   },
 )
 
-const buttonIconVariants = cva('', {
+export const buttonIconVariants = cva('', {
   variants: {
     size: {
       l: 'icon-sm',
@@ -96,7 +104,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       >
         {loading && (
           <div className="absolute inset-0 flex animate-reveal items-center justify-center bg-reskin-neutral-50">
-            <Loader size={20} />
+            <Loader className={buttonIconVariants({ size })} />
           </div>
         )}
         <>
