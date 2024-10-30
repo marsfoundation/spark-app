@@ -14,10 +14,15 @@ const Switch = React.forwardRef<
       'data-[state=unchecked]:bg-secondary',
       'data-[state=unchecked]:ring-1 data-[state=unchecked]:ring-reskin-neutral-100',
       // hover
-      'hover:data-[state=checked]:ring hover:data-[state=checked]:ring-[#01BF9F40]/25',
-      'hover:data-[state=unchecked]:bg-tertiary hover:data-[state=unchecked]:ring-reskin-neutral-200',
+      'hover:data-[state=checked]:bg-reskin-fg-system-success-secondary',
+      'hover:data-[state=unchecked]:bg-tertiary hover:data-[state=unchecked]:ring-reskin-neutral-300',
+      // focus
+      'focus-visible:data-[state=checked]:outline focus-visible:data-[state=checked]:outline-1 focus-visible:data-[state=checked]:outline-system-success-secondary',
+      'focus-visible:data-[state=checked]:ring-4 focus-visible:data-[state=checked]:ring-reskin-success-200',
+      'focus-visible:data-[state=unchecked]:outline focus-visible:data-[state=unchecked]:outline-1 focus-visible:data-[state=unchecked]:outline-brand-primary',
+      'focus-visible:data-[state=unchecked]:ring-4 focus-visible:data-[state=unchecked]:ring-reskin-primary-200',
       // active (pressed)
-      'active:data-[state=checked]:bg-reskin-fg-system-success-secondary active:data-[state=checked]:ring-0',
+      'active:data-[state=checked]:bg-reskin-success-400 active:data-[state=checked]:ring-0',
       'active:data-[state=unchecked]:bg-primary active:data-[state=unchecked]:ring-reskin-neutral-100',
       // disabled
       'disabled:cursor-not-allowed',
