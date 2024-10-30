@@ -1,12 +1,8 @@
-import { WalletDropdownContentInfo, WalletDropdownTriggerInfo } from '@/features/navbar/types'
 import { Button } from '@/ui/atoms/new/button/Button'
-import { TopbarWalletDropdown } from './TopbarWalletDropdown'
+import { TopbarWalletDropdown, TopbarWalletDropdownProps } from './TopbarWalletDropdown'
 
 export interface TopbarWalletProps {
-  connectedWalletInfo?: {
-    dropdownTriggerInfo: WalletDropdownTriggerInfo
-    dropdownContentInfo: WalletDropdownContentInfo
-  }
+  connectedWalletInfo?: TopbarWalletDropdownProps
   onConnect: () => void
 }
 

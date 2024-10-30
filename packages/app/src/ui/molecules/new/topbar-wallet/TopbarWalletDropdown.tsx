@@ -12,7 +12,7 @@ import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
 import { ExternalLink, Unplug } from 'lucide-react'
 import { useState } from 'react'
 import { CopyButton } from '../copy-button/CopyButton'
-import { ConnectedButton } from './ConnectedButton'
+import { TopbarWalletButton } from './TopbarWalletButton'
 
 export interface TopbarWalletDropdownProps {
   dropdownTriggerInfo: WalletDropdownTriggerInfo
@@ -28,7 +28,7 @@ export function TopbarWalletDropdown({ dropdownTriggerInfo, dropdownContentInfo 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
-        <ConnectedButton open={open} {...dropdownTriggerInfo} />
+        <TopbarWalletButton open={open} {...dropdownTriggerInfo} />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="flex w-60 flex-col gap-1.5 p-1">
         <div className="flex flex-col items-center gap-3 rounded-sm bg-secondary p-6">
@@ -44,7 +44,7 @@ export function TopbarWalletDropdown({ dropdownTriggerInfo, dropdownContentInfo 
             )}
           </div>
         </div>
-
+ 
         <DropdownMenuItem asChild>
           <button
             className="cursor-pointer"

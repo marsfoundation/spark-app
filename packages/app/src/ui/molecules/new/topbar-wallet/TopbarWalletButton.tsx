@@ -8,12 +8,12 @@ import { shortenAddress } from '@/ui/utils/shortenAddress'
 import { Button } from '@/ui/atoms/new/button/Button'
 import { cn } from '@/ui/utils/style'
 
-export interface ConnectedButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>, WalletDropdownTriggerInfo {
+export interface TopbarWalletButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>, WalletDropdownTriggerInfo {
   open: boolean
 }
 
 // forwarding ref so dropdown menu trigger works with asChild
-export const ConnectedButton = forwardRef<HTMLButtonElement, ConnectedButtonProps>(
+export const TopbarWalletButton = forwardRef<HTMLButtonElement, TopbarWalletButtonProps>(
   ({ mode, avatar, address, ensName, open, ...props }, ref) => {
     const buttonProps = {
       ...props,
@@ -48,4 +48,4 @@ export const ConnectedButton = forwardRef<HTMLButtonElement, ConnectedButtonProp
   },
 )
 
-ConnectedButton.displayName = 'ConnectedButton'
+TopbarWalletButton.displayName = 'TopbarWalletButton'
