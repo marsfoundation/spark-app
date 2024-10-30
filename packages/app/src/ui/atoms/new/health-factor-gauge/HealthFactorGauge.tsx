@@ -1,5 +1,6 @@
 import { formatHealthFactor } from '@/domain/common/format'
-import { RiskLevel, healthFactorToRiskLevel } from '@/domain/common/risk'
+import { RiskLevel, healthFactorToRiskLevel, riskLevelToTitle } from '@/domain/common/risk'
+import { cn } from '@/ui/utils/style'
 import BigNumber from 'bignumber.js'
 
 const GAUGE_MIN = 1
@@ -28,7 +29,7 @@ export function HealthFactorGauge({ value, className }: HealthFactorGaugeProps) 
   const showIndicatorLine = riskLevel === 'healthy' || riskLevel === 'moderate' || riskLevel === 'risky'
 
   return (
-    <svg width="400" height="400" preserveAspectRatio="xMidYMid meet" viewBox="0 0 400 400" className={className}>
+    <svg preserveAspectRatio="xMidYMid meet" viewBox="0 0 400 200" className={className}>
       <path d="M20 200 A 180 180 0 0 1 380 200" stroke-width="40" stroke="#373642" />
       <mask id="arc-mask">
         <path
@@ -120,9 +121,24 @@ export function HealthFactorGauge({ value, className }: HealthFactorGaugeProps) 
         />
       )}
 
-      <text x="200" y="190" fill="white" textAnchor="middle" className="typography-display-3">
-        {formatHealthFactor(value)}
-      </text>
+      <foreignObject width="100%" height="100%">
+        <div className="flex h-full w-full flex-col items-center justify-end gap-2">
+          <div
+            className={cn(
+              'typography-label-4 rounded-full p-2 text-primary',
+              (riskLevel === 'risky' || riskLevel === 'liquidation') && 'bg-[#EE374F]',
+              riskLevel === 'moderate' && 'bg-[#EDA902]',
+              (riskLevel === 'healthy' || riskLevel === 'no debt') && 'bg-[#00C2A1]',
+              riskLevel === 'unknown' && 'bg-neutral-500',
+            )}
+          >
+            {riskLevelToTitle[riskLevel]}
+          </div>
+          <div className="typography-display-3 text-white">
+            {riskLevel === 'unknown' ? '-' : formatHealthFactor(value)}
+          </div>
+        </div>
+      </foreignObject>
     </svg>
   )
 }
