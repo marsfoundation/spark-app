@@ -7,8 +7,8 @@ const meta: Meta<typeof Button> = {
   title: 'Components/Atoms/New/Button',
   args: {
     children: 'Button',
-    prefixIcon: PlusIcon,
-    postfixIcon: ChevronRightIcon,
+    prefixIcon: <PlusIcon />,
+    postfixIcon: <ChevronRightIcon />,
   },
   component: (props: ButtonProps) => (
     <StoryGrid className="grid-cols-3">
