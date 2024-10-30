@@ -1,6 +1,5 @@
 import { paths } from '@/config/paths'
 import { Percentage } from '@/domain/types/NumericValues'
-import { WithClassname } from '@sb/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { userEvent, within } from '@storybook/test'
 import { reactRouterParameters, withRouter } from 'storybook-addon-remix-react-router'
@@ -8,7 +7,7 @@ import { TopbarNavigation } from './TopbarNavigation'
 
 const meta: Meta<typeof TopbarNavigation> = {
   title: 'Components/Molecules/New/TopbarNavigation',
-  decorators: [withRouter, WithClassname('min-w-[400px] min-h-[400px] p-4')],
+  decorators: [withRouter],
   component: TopbarNavigation,
   args: {
     topbarNavigationInfo: {
