@@ -1,0 +1,15 @@
+import { Meta, StoryObj } from '@storybook/react'
+import { CopyButton } from './CopyButton'
+
+const meta: Meta<typeof CopyButton> = {
+  title: 'Components/Molecules/New/CopyButton',
+  component: CopyButton,
+  args: {
+    text: 'Hello, world!',
+  },
+}
+
+export default meta
+type Story = StoryObj<typeof CopyButton>
+
+export const Default: Story = {}
