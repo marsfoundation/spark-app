@@ -95,11 +95,12 @@ export function AssetInput<TFieldValues extends FieldValues>({
                   type="text"
                   inputMode="decimal"
                   className={cn(
-                    'typography-label-4 text-reskin-text-primary focus:outline-none',
+                    'typography-label-4 text-primary focus:outline-none',
                     disabled && 'cursor-not-allowed opacity-50',
                   )}
                   placeholder="0"
                   size={1} // force minimum width
+                  autoComplete="off"
                   data-testid={testIds.component.AssetInput.input}
                   {...field}
                   disabled={disabled}
@@ -123,7 +124,7 @@ export function AssetInput<TFieldValues extends FieldValues>({
                     }
                   }}
                 />
-                <div className={cn('typography-label-6 text-reskin-text-secondary', disabled && 'opacity-50')}>
+                <div className={cn('typography-label-6 text-secondary', disabled && 'opacity-50')}>
                   {token.formatUSD(NormalizedUnitNumber(parseBigNumber(value, 0)))}
                 </div>
               </div>
@@ -132,7 +133,7 @@ export function AssetInput<TFieldValues extends FieldValues>({
                   <button
                     onClick={disabled ? undefined : setMaxValue}
                     className={cn(
-                      'typography-label-5 text-reskin-text-brand-primary',
+                      'typography-label-5 text-brand disabled:text-secondary',
                       disabled && 'cursor-not-allowed opacity-50',
                     )}
                     disabled={disabled || isMaxSelected}
@@ -140,17 +141,14 @@ export function AssetInput<TFieldValues extends FieldValues>({
                   >
                     MAX
                   </button>
-                  <div className={cn('typography-body-6 text-reskin-text-secondary', disabled && 'opacity-50')}>
+                  <div className={cn('typography-body-6 text-secondary', disabled && 'opacity-50')}>
                     {token.format(maxValue, { style: 'compact' })} {token.symbol}
                   </div>
                 </div>
               )}
             </div>
             {showError && error && (
-              <div
-                data-testid={testIds.component.AssetInput.error}
-                className="typography-label-6 text-reskin-text-system-error-primary"
-              >
+              <div data-testid={testIds.component.AssetInput.error} className="typography-label-6 text-error">
                 {error.message}
               </div>
             )}

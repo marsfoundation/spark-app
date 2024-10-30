@@ -56,6 +56,7 @@ const meta: Meta<typeof AssetInputWrapper> = {
     setSelectedAsset: () => {},
     maxValue: NormalizedUnitNumber('1000'),
     fieldName: 'name',
+    maxSelectedFieldName: 'isMaxSelected',
   },
 }
 
