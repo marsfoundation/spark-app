@@ -1,10 +1,8 @@
-import { Plus } from 'lucide-react'
 import { Control } from 'react-hook-form'
 
 import { TokenWithBalance } from '@/domain/common/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { Button } from '@/ui/atoms/button/Button'
 import { Typography } from '@/ui/atoms/typography/Typography'
 import { MultiAssetSelector } from '@/ui/organisms/multi-selector/MultiSelector'
 import { testIds } from '@/ui/utils/testIds'
@@ -30,7 +28,7 @@ export interface DepositsProps {
 }
 
 export function Deposits(props: DepositsProps) {
-  const { selectedAssets, allAssets, addAsset, alreadyDeposited, disabled } = props
+  const { alreadyDeposited } = props
 
   return (
     <div className="flex flex-1 flex-col" data-testid={testIds.easyBorrow.form.deposits}>
@@ -42,17 +40,6 @@ export function Deposits(props: DepositsProps) {
             <Link to={paths.myPortfolio}>My portfolio</Link> at this time.
           </Info>
         </div>
-
-        <Button
-          className="text-prompt-foreground"
-          onClick={addAsset}
-          disabled={allAssets.length === selectedAssets.length || disabled}
-          variant="text"
-          size="sm"
-          postfixIcon={<Plus />}
-        >
-          Add more
-        </Button>
       </div>
 
       {alreadyDeposited.tokens.length > 0 && <TokenSummary position={alreadyDeposited} type="deposit" />}

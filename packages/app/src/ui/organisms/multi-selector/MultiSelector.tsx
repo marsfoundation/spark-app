@@ -125,6 +125,7 @@ export function ControlledMultiSelectorAssetInput({
             walletIconLabel={walletIconLabel}
             setMax={setMaxValue}
             isMaxSelected={isMaxSelected}
+            autoComplete="off"
             onChange={(e) => {
               field.onChange(e)
               if (maxSelectedFieldName) {
