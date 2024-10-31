@@ -3,7 +3,7 @@ import { cva } from 'class-variance-authority'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { cn } from '@/ui/utils/style'
 
-import { ActionsGrid } from '../components/actions-grid/ActionsGrid'
+import { Actions } from '../components/actions/Actions'
 import { ActionHandler } from '../logic/types'
 import { SettingsDialog } from '../settings-dialog/components/SettingsDialog'
 import { UseSettingsDialogResult } from '../settings-dialog/logic/useSettingsDialog'
@@ -11,8 +11,8 @@ import { UseSettingsDialogResult } from '../settings-dialog/logic/useSettingsDia
 const actionsPanelVariants = cva('', {
   variants: {
     variant: {
-      default: '',
-      dialog: 'gap-0 bg-panel-bg p-4 md:p-4',
+      extended: '',
+      compact: 'gap-0 bg-panel-bg p-4 md:p-4',
     },
   },
 })
@@ -20,16 +20,18 @@ const actionsPanelVariants = cva('', {
 const actionsTitleVariants = cva('', {
   variants: {
     variant: {
-      default: '',
-      dialog: 'mb-1 font-semibold text-primary',
+      extended: '',
+      compact: 'mb-1 font-semibold text-primary',
     },
   },
 })
 
+export type ActionsViewVariant = 'extended' | 'compact'
+
 export interface ActionsViewProps {
   actionHandlers: ActionHandler[]
   settingsDisabled: boolean
-  variant: 'default' | 'dialog'
+  variant: ActionsViewVariant
   settingsDialogProps: UseSettingsDialogResult
 }
 
@@ -38,7 +40,7 @@ export function ActionsView({ actionHandlers, variant, settingsDisabled, setting
     <Panel className={cn(actionsPanelVariants({ variant }))}>
       <Panel.Header className="justify-between">
         <Panel.Title
-          variant={variant === 'dialog' ? 'prompt' : 'h3'}
+          variant={variant === 'compact' ? 'prompt' : 'h3'}
           element="h3"
           className={actionsTitleVariants({ variant })}
         >
@@ -47,7 +49,7 @@ export function ActionsView({ actionHandlers, variant, settingsDisabled, setting
         <SettingsDialog {...settingsDialogProps} disabled={settingsDisabled} />
       </Panel.Header>
       <Panel.Content className="flex flex-col gap-6">
-        <ActionsGrid actionHandlers={actionHandlers} variant={variant === 'default' ? 'extended' : 'compact'} />
+        <Actions actionHandlers={actionHandlers} variant={variant} />
       </Panel.Content>
     </Panel>
   )

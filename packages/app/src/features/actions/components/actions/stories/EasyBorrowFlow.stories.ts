@@ -8,17 +8,17 @@ import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { ActionHandler } from '@/features/actions/logic/types'
 
-import { ActionsGrid } from '../ActionsGrid'
+import { Actions } from '../Actions'
 import { allActionHandlers } from './allActionHandlers'
 
-const meta: Meta<typeof ActionsGrid> = {
+const meta: Meta<typeof Actions> = {
   title: 'Features/Actions/ActionsGrid/EasyBorrowFlow',
-  component: ActionsGrid,
+  component: Actions,
   decorators: [WithTooltipProvider(), WithClassname('max-w-3xl')],
 }
 
 export default meta
-type Story = StoryObj<typeof ActionsGrid>
+type Story = StoryObj<typeof Actions>
 
 const actionHandlers: ActionHandler[] = [
   {

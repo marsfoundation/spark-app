@@ -2,17 +2,17 @@ import { WithClassname, WithTooltipProvider } from '@sb/decorators'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 
-import { ActionsGrid } from '../ActionsGrid'
+import { Actions } from '../Actions'
 import { allActionHandlers } from './allActionHandlers'
 
-const meta: Meta<typeof ActionsGrid> = {
+const meta: Meta<typeof Actions> = {
   title: 'Features/Actions/ActionsGrid/AllActions',
-  component: ActionsGrid,
+  component: Actions,
   decorators: [WithTooltipProvider(), WithClassname('max-w-3xl')],
 }
 
 export default meta
-type Story = StoryObj<typeof ActionsGrid>
+type Story = StoryObj<typeof Actions>
 
 // Extended variant
 export const AllActionsExtended: Story = {
