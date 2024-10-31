@@ -30,12 +30,13 @@ export function HealthFactorGauge({ value, className }: HealthFactorGaugeProps) 
 
   return (
     <svg preserveAspectRatio="xMidYMid meet" viewBox="0 0 400 200" className={className}>
-      <path d="M20 200 A 180 180 0 0 1 380 200" stroke-width="40" stroke="#373642" />
+      <path d="M20 200 A 180 180 0 0 1 380 200" stroke-width="40" stroke="#373642" fill="none" />
       <mask id="arc-mask">
         <path
           d={`M20 200 A 180 180 0 0 1 ${maskSecondPoint.x} ${maskSecondPoint.y}`}
           stroke-width="40"
           stroke="white"
+          fill="none"
         />
       </mask>
       <foreignObject width="100%" height="100%">
@@ -49,13 +50,24 @@ export function HealthFactorGauge({ value, className }: HealthFactorGaugeProps) 
         />
       </foreignObject>
 
-      <path d="M50 200 A150 150 0 0 1 122.74428876349187 71.42490489468315" stroke="#FA5768" stroke-width="2" />
+      <path
+        d="M50 200 A150 150 0 0 1 122.74428876349187 71.42490489468315"
+        stroke="#FA5768"
+        stroke-width="2"
+        fill="none"
+      />
       <path
         d="M127.27855696304945 68.80704392909061 A150 150 0 0 1 272.7214430369506 68.80704392909061"
         stroke="#EDAA00"
         stroke-width="2"
+        fill="none"
       />
-      <path d="M277.25571123650815 71.42490489468315 A150 150 0 0 1 350 200" stroke="#00C2A1" stroke-width="2" />
+      <path
+        d="M277.25571123650815 71.42490489468315 A150 150 0 0 1 350 200"
+        stroke="#00C2A1"
+        stroke-width="2"
+        fill="none"
+      />
 
       <text x="65" y="200" fill="#908E9E" textAnchor="middle" className="typography-label-6">
         1
