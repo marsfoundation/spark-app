@@ -1,10 +1,8 @@
-import { WithTooltipProvider } from '@sb/decorators'
-import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 
-import { TokenAmount } from './TokenAmount'
-import { tokens } from '@sb/tokens'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { tokens } from '@sb/tokens'
+import { TokenAmount } from './TokenAmount'
 
 const meta: Meta<typeof TokenAmount> = {
   title: 'Components/Molecules/New/TokenAmount',
@@ -23,33 +21,33 @@ export const Default: Story = {
   args: {
     token: tokens.USDS,
     amount: NormalizedUnitNumber(100),
-  }
+  },
 }
 export const Horizontal: Story = {
   args: {
     token: tokens.USDS,
     amount: NormalizedUnitNumber(100),
     variant: 'horizontal',
-  }
+  },
 }
 export const LargeAmount: Story = {
   name: 'Large amount',
   args: {
     token: tokens.USDC,
     amount: NormalizedUnitNumber(123435534522354),
-  }
+  },
 }
 export const SmallAmount: Story = {
   name: 'Small amount',
   args: {
     token: tokens.ETH,
     amount: NormalizedUnitNumber(0.00000001),
-  }
+  },
 }
 export const CheapToken: Story = {
   name: 'Cheap token',
   args: {
     token: tokens.SKY,
     amount: NormalizedUnitNumber(0.1),
-  }
+  },
 }
