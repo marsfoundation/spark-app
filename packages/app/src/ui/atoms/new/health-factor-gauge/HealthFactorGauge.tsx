@@ -137,7 +137,7 @@ export function HealthFactorGauge({ value, className }: HealthFactorGaugeProps) 
         <div className="flex h-full w-full flex-col items-center justify-end gap-2">
           <div
             className={cn(
-              'typography-label-4 rounded-full p-2 text-primary',
+              'rounded-full p-2 font-roobert text-[16px] text-primary leading-[18px]',
               (riskLevel === 'risky' || riskLevel === 'liquidation') && 'bg-[#EE374F]',
               riskLevel === 'moderate' && 'bg-[#EDA902]',
               (riskLevel === 'healthy' || riskLevel === 'no debt') && 'bg-[#00C2A1]',
@@ -146,7 +146,7 @@ export function HealthFactorGauge({ value, className }: HealthFactorGaugeProps) 
           >
             {riskLevelToTitle[riskLevel]}
           </div>
-          <div className="typography-display-3 text-white">
+          <div className="text-[56px] text-white leading-[56px]">
             {riskLevel === 'unknown' ? '-' : formatHealthFactor(value)}
           </div>
         </div>
