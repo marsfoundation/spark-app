@@ -5,21 +5,8 @@ import { Percentage } from '@/domain/types/NumericValues'
 
 import { LoanToValueSlider } from './LoanToValueSlider'
 
-const meta: Meta<typeof LoanToValueSlider> = {
-  title: 'Components/Atoms/New/LoanToValueSlider',
-  component: LoanToValueSlider,
-}
-
-export default meta
-type Story = StoryObj<typeof LoanToValueSlider>
-
-export const Default: Story = {
-  name: 'Default',
-  render: () => <Component />,
-}
-
-function Component() {
-  const [value, setValue] = useState<Percentage>(Percentage(0.55))
+function LoanToValueSliderWrapper({ ltv }: { ltv: number }) {
+  const [value, setValue] = useState<Percentage>(Percentage(ltv))
 
   return (
     <LoanToValueSlider
@@ -30,4 +17,28 @@ function Component() {
       onLtvChange={(v) => setValue(v)}
     />
   )
+}
+
+const meta: Meta<typeof LoanToValueSliderWrapper> = {
+  title: 'Components/Atoms/New/LoanToValueSlider',
+  component: LoanToValueSliderWrapper,
+}
+
+export default meta
+type Story = StoryObj<typeof LoanToValueSliderWrapper>
+
+export const Healthy: Story = {
+  args: {
+    ltv: 0.1,
+  },
+}
+export const Moderate: Story = {
+  args: {
+    ltv: 0.35,
+  },
+}
+export const Risky: Story = {
+  args: {
+    ltv: 0.55,
+  },
 }
