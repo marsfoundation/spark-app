@@ -381,6 +381,9 @@ export default {
         'gradient-magenta': 'linear-gradient(89.84deg, #FA43BD -2.08%, #FFB5B5 48.92%, #FFFFFF 99.92%)',
         'gradient-green': 'linear-gradient(90deg, #11B93E 0%, #40DA69 50.47%, #FFFFFF 100%)',
         'gradient-savings': 'radial-gradient(155.75% 155.75% at 50% 155.75%, #FFEF79 0%, #00C2A1 100%)',
+        'gradient-ltv-green': 'linear-gradient(231deg, #00C2A1 0%, #FFEF79 100%)',
+        'gradient-ltv-orange': 'linear-gradient(231deg, #FF895D 0%, #FFCD4D 100%)',
+        'gradient-ltv-red': 'linear-gradient(231deg, #D91838 0%, #FF7881 100%)',
       },
       fontWeight: {
         regular: '400',
@@ -523,6 +526,14 @@ export default {
         '.typography-heading-5': {
           fontSize: '1.125rem', // 18px
           lineHeight: '1.25rem', // 20px
+          letterSpacing: 'calc(-1 * 0.01em)',
+          fontWeight: '500',
+          fontFamily: theme('fontFamily.roobert'),
+        },
+
+        '.typography-heading-7': {
+          fontSize: '0.75rem', // 12px
+          lineHeight: '0.875rem', // 14px
           letterSpacing: 'calc(-1 * 0.01em)',
           fontWeight: '500',
           fontFamily: theme('fontFamily.roobert'),
@@ -789,7 +800,7 @@ export default {
           height: '20px',
         },
         '.icon-md': {
-          widtdh: '24px',
+          width: '24px',
           height: '24px',
         },
       })
