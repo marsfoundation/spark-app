@@ -116,7 +116,7 @@ export function LoanToValueSlider({
             !disabled && 'hover:scale-125',
           )}
         >
-          <img className="h-3.5 w-3.5" src={assets.sliderThumb} />
+          <img className="h-3 w-3" src={assets.sliderThumb} />
         </div>
       </SliderPrimitive.Thumb>
     </SliderPrimitive.Root>
