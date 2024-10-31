@@ -1,32 +1,66 @@
 import { StoryGrid } from '@sb/components/StoryGrid'
 import type { Meta, StoryObj } from '@storybook/react'
 import { ChevronRightIcon, PlusIcon } from 'lucide-react'
-import { Button, ButtonProps } from './Button'
+import { Button, ButtonIcon } from './Button'
 
 const meta: Meta<typeof Button> = {
   title: 'Components/Atoms/New/Button',
   args: {
     children: 'Button',
-    prefixIcon: PlusIcon,
-    postfixIcon: ChevronRightIcon,
   },
-  component: (props: ButtonProps) => (
+  component: (args) => (
     <StoryGrid className="grid-cols-3">
       <StoryGrid.Label>Primary</StoryGrid.Label>
       <StoryGrid.Label>Secondary</StoryGrid.Label>
       <StoryGrid.Label>Tertiary</StoryGrid.Label>
 
-      <Button variant="primary" size="l" {...props} />
-      <Button variant="secondary" size="l" {...props} />
-      <Button variant="tertiary" size="l" {...props} />
+      <Button {...args} variant="primary" size="l">
+        <ButtonIcon icon={PlusIcon} />
+        Button
+        <ButtonIcon icon={ChevronRightIcon} />
+      </Button>
+      <Button {...args} variant="secondary" size="l">
+        <ButtonIcon icon={PlusIcon} />
+        Button
+        <ButtonIcon icon={ChevronRightIcon} />
+      </Button>
+      <Button {...args} variant="tertiary" size="l">
+        <ButtonIcon icon={PlusIcon} />
+        Button
+        <ButtonIcon icon={ChevronRightIcon} />
+      </Button>
 
-      <Button variant="primary" size="m" {...props} />
-      <Button variant="secondary" size="m" {...props} />
-      <Button variant="tertiary" size="m" {...props} />
+      <Button {...args} variant="primary" size="m">
+        <ButtonIcon icon={PlusIcon} />
+        Button
+        <ButtonIcon icon={ChevronRightIcon} />
+      </Button>
+      <Button {...args} variant="secondary" size="m">
+        <ButtonIcon icon={PlusIcon} />
+        Button
+        <ButtonIcon icon={ChevronRightIcon} />
+      </Button>
+      <Button {...args} variant="tertiary" size="m">
+        <ButtonIcon icon={PlusIcon} />
+        Button
+        <ButtonIcon icon={ChevronRightIcon} />
+      </Button>
 
-      <Button variant="primary" size="s" {...props} />
-      <Button variant="secondary" size="s" {...props} />
-      <Button variant="tertiary" size="s" {...props} />
+      <Button {...args} variant="primary" size="s">
+        <ButtonIcon icon={PlusIcon} />
+        Button
+        <ButtonIcon icon={ChevronRightIcon} />
+      </Button>
+      <Button {...args} variant="secondary" size="s">
+        <ButtonIcon icon={PlusIcon} />
+        Button
+        <ButtonIcon icon={ChevronRightIcon} />
+      </Button>
+      <Button {...args} variant="tertiary" size="s">
+        <ButtonIcon icon={PlusIcon} />
+        Button
+        <ButtonIcon icon={ChevronRightIcon} />
+      </Button>
     </StoryGrid>
   ),
 }
