@@ -18,9 +18,9 @@ export function AirdropDetails({ amount, precision, isLoading, isGrowing }: Aird
   return (
     <div className="flex w-[calc(100vw-48px)] flex-col text-basics-dark-grey text-xs lg:w-auto">
       <div className="flex flex-col gap-1 border-basics-grey/50 border-b p-4">
-        Spark Airdrop Tokens
+        LAST points
         <div className="flex items-center gap-2">
-          <img src={assets.sparkIcon} className="h-7 lg:h-6" />
+          <img src={assets.lastLogo} className="h-7 lg:h-6" />
           {isLoading ? (
             <Skeleton className="h-5 w-7" />
           ) : (
@@ -31,7 +31,7 @@ export function AirdropDetails({ amount, precision, isLoading, isGrowing }: Aird
         </div>
       </div>
       <div className="flex max-w-60 flex-col gap-2 p-4">
-        DAI borrowers with volatile assets and ETH depositors will be eligible for a future ⚡ SPK airdrop.
+        DAI borrowers with volatile assets and ETH depositors will be eligible for a future LAST points airdrop.
         <Link
           to={links.docs.sparkAirdrop}
           external

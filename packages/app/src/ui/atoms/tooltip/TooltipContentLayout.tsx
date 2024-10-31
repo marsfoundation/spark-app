@@ -11,7 +11,7 @@ function Header({ children }: ChildrenProps) {
 }
 
 function Icon({ src }: { src: string }) {
-  return <img src={src} className="mr-1 h-5 w-5" />
+  return <img src={src} className="mr-2 h-5 w-5" />
 }
 
 function Title({ children }: ChildrenProps) {

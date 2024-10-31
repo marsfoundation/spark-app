@@ -87,6 +87,7 @@ import walletConnect from './wallet-icons/wallet-connect.svg'
 import wallet from './wallet.svg'
 import warning from './warning.svg'
 import xCircle from './x-circle.svg'
+import lastLogo from './last-logo.svg'
 
 export const assets = {
   sparkLogo,
@@ -125,6 +126,7 @@ export const assets = {
   timer,
   multiply,
   equal,
+  lastLogo,
   markets: {
     chart,
     inputOutput,

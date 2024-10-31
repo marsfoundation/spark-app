@@ -30,7 +30,7 @@ export function AirdropBadgeLayout({
             data-testid={testIds.navbar.airdropBadge}
           >
             <div className="flex h-11 items-center gap-1.5 rounded-lg bg-black p-2 lg:h-[38px]">
-              <img src={assets.sparkIcon} className="h-7 lg:h-6" />
+              <img src={assets.lastLogo} className="h-7 lg:h-6" />
               {isLoading ? (
                 <Skeleton className="h-5 w-7" />
               ) : (
