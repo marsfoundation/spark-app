@@ -20,9 +20,9 @@ export function TransactionOverviewAvailableAssets({ categoryName, tokens }: Tra
   }
 
   return (
-    <div className="typography-label-4 flex items-center gap-2 text-primary">
+    <div className="typography-label-4 flex items-center gap-2.5 text-primary">
       <div data-testid={testIds.dialog.eMode.transactionOverview.availableAssets.category}>{categoryName}</div>
-      <MoveRightIcon size={12} className="text-secondary" />
+      <MoveRightIcon className="icon-xxs text-secondary" />
       <div data-testid={testIds.dialog.eMode.transactionOverview.availableAssets.assets}>
         {tokens.map((token) => token.symbol).join(', ')}
       </div>

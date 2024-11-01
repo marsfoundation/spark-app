@@ -14,11 +14,11 @@ export interface TransactionOverviewRouteProps {
 
 export function TransactionOverviewRoute({ route }: TransactionOverviewRouteProps) {
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2.5">
       {route.map(({ token, amount, usdAmount }, index) => (
         <Fragment key={token.symbol}>
           <TokenAmount token={token} amount={amount} usdAmount={usdAmount} />
-          {index !== route.length - 1 && <MoveRightIcon size={12} className="m-[3px] text-secondary" />}
+          {index !== route.length - 1 && <MoveRightIcon className="icon-xxs mt-[3px] text-secondary" />}
         </Fragment>
       ))}
     </div>

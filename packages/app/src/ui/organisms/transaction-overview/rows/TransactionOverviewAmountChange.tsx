@@ -15,11 +15,11 @@ export function TransactionOverviewAmountChange({
   updatedAmount,
 }: TransactionOverviewAmountChangeProps) {
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2.5">
       <TokenAmount token={token} amount={currentAmount} />
       {updatedAmount && (
         <>
-          <MoveRightIcon size={12} className="m-[3px] text-secondary" />
+          <MoveRightIcon className="icon-xxs mt-[3px] text-secondary" />
           <TokenAmount token={token} amount={updatedAmount} />
         </>
       )}

@@ -801,6 +801,10 @@ export default {
       })
 
       addUtilities({
+        '.icon-xxs': {
+          width: '12px',
+          height: '12px',
+        },
         '.icon-xs': {
           width: '16px',
           height: '16px',

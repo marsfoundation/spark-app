@@ -8,7 +8,7 @@ const variants = ['success', 'warning', 'error', 'neutral'] as const
 const sizes = ['xs', 'sm'] as const
 const appearances = ['soft', 'solid'] as const
 
-const BadgeExample = ({
+function BadgeExample({
   appearance,
   size,
   variant,
@@ -16,13 +16,15 @@ const BadgeExample = ({
   appearance: (typeof appearances)[number]
   size: (typeof sizes)[number]
   variant: (typeof variants)[number]
-}) => (
-  <Badge appearance={appearance} size={size} variant={variant}>
-    <BadgeIcon icon={MagnetIcon} />
-    Badge
-    <BadgeIcon icon={SkullIcon} />
-  </Badge>
-)
+}) {
+  return (
+    <Badge appearance={appearance} size={size} variant={variant}>
+      <BadgeIcon icon={MagnetIcon} />
+      Badge
+      <BadgeIcon icon={SkullIcon} />
+    </Badge>
+  )
+}
 
 const meta: Meta<typeof Badge> = {
   title: 'Components/Atoms/New/Badge',
