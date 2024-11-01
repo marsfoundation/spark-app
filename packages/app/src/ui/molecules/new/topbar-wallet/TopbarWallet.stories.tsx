@@ -93,6 +93,7 @@ export const Sandbox: Story = {
       },
     },
   },
+  play: () => {},
 }
 
 export const ReadOnly: Story = {
