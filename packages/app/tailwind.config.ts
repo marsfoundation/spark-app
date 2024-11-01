@@ -36,10 +36,20 @@ export default {
         },
         secondary: 'rgb(var(--neutral-500))',
         tertiary: 'rgb(var(--neutral-300))',
-        brand: 'rgb(var(--primary-800))',
-        success: 'rgb(var(--success-600))',
-        warning: 'rgb(var(--warning-600))',
-        error: 'rgb(var(--error-700))',
+        brand: {
+          primary: 'rgb(var(--primary-800))',
+        },
+        system: {
+          success: {
+            primary: 'rgb(var(--success-600))',
+          },
+          warning: {
+            primary: 'rgb(var(--warning-600))',
+          },
+          error: {
+            primary: 'rgb(var(--error-700))',
+          },
+        },
       },
       outlineColor: {
         primary: 'rgb(var(--neutral-100))',
@@ -791,6 +801,10 @@ export default {
       })
 
       addUtilities({
+        '.icon-xxs': {
+          width: '12px',
+          height: '12px',
+        },
         '.icon-xs': {
           width: '16px',
           height: '16px',

@@ -43,7 +43,7 @@ export const iconBoxVariants = cva('inline-flex items-center justify-center roun
     variant: {
       success: 'bg-reskin-fg-system-success-secondary text-white',
       warning: 'bg-reskin-fg-system-warning-primary text-white',
-      info: 'bg-brand-secondary text-brand',
+      info: 'bg-brand-secondary text-brand-primary',
       error: 'bg-reskin-fg-system-error-secondary text-white',
     },
     size: {

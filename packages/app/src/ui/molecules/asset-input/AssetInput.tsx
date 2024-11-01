@@ -70,7 +70,7 @@ export const AssetInput = forwardRef<HTMLInputElement, AssetInputProps>(
             <input
               type="text"
               inputMode="decimal"
-              className={cn('flex focus:outline-none', error && 'text-error')}
+              className={cn('flex focus:outline-none', error && 'text-system-error-primary')}
               ref={ref}
               placeholder="0"
               id="asset-input"
@@ -138,7 +138,11 @@ export const AssetInput = forwardRef<HTMLInputElement, AssetInputProps>(
           </div>
         </div>
         {error && (
-          <Typography data-testid={testIds.component.AssetInput.error} variant="prompt" className="text-error">
+          <Typography
+            data-testid={testIds.component.AssetInput.error}
+            variant="prompt"
+            className="text-system-error-primary"
+          >
             {error}
           </Typography>
         )}

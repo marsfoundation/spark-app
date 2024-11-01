@@ -50,9 +50,9 @@ Alert.displayName = 'Alert'
 const alertVariants = cva('typography-label-6 grid grid-cols-[auto_1fr] items-center gap-3 rounded-sm p-4', {
   variants: {
     variant: {
-      info: 'bg-brand-primary text-brand',
-      warning: 'bg-system-warning-primary text-warning',
-      error: 'bg-system-error-primary text-error',
+      info: 'bg-brand-primary text-brand-primary',
+      warning: 'bg-system-warning-primary text-system-warning-primary',
+      error: 'bg-system-error-primary text-system-error-primary',
     },
     closable: {
       true: 'grid-cols-[auto_1fr_auto]',
