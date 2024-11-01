@@ -22,7 +22,7 @@ export interface TopbarWalletDropdownProps {
 export function TopbarWalletDropdown({ dropdownTriggerInfo, dropdownContentInfo }: TopbarWalletDropdownProps) {
   const [open, setOpen] = useState(false)
 
-  const { address, blockExplorerAddressLink, isInSandbox, isEphemeralAccount, walletIcon, onDisconnect } =
+  const { address, blockExplorerAddressLink, isEphemeralAccount, walletIcon, onDisconnect } =
     dropdownContentInfo
 
   if (dropdownTriggerInfo.mode === 'sandbox') {
@@ -61,7 +61,7 @@ export function TopbarWalletDropdown({ dropdownTriggerInfo, dropdownContentInfo 
             }}
           >
             <DropdownMenuItemIcon icon={Unplug} />
-            {isInSandbox ? 'Exit sandbox' : 'Disconnect'}
+            Disconnect
           </button>
         </DropdownMenuItem>
 
