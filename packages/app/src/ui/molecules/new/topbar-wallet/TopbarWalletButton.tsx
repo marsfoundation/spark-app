@@ -5,7 +5,7 @@ import { WalletDropdownTriggerInfo } from '@/features/navbar/types'
 import MagicWandCircle from '@/ui/assets/magic-wand-circle.svg?react'
 import { shortenAddress } from '@/ui/utils/shortenAddress'
 
-import { Button } from '@/ui/atoms/new/button/Button'
+import { Button, ButtonIcon } from '@/ui/atoms/new/button/Button'
 import { cn } from '@/ui/utils/style'
 
 export interface TopbarWalletButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>, WalletDropdownTriggerInfo {
@@ -17,32 +17,43 @@ export const TopbarWalletButton = forwardRef<HTMLButtonElement, TopbarWalletButt
   ({ mode, avatar, address, ensName, open, ...props }, ref) => {
     const buttonProps = {
       ...props,
-      className: 'w-full flex items-center gap-2.5',
+      className: 'w-full flex items-center justify-start gap-2.5',
       variant: 'tertiary',
       size: 'm',
       ref,
-      postfixIcon: <ChevronUp className={cn(open ? 'rotate-180' : 'rotate-0', 'ml-auto')} />,
     } as const
 
     if (mode === 'sandbox') {
       return (
-        <Button prefixIcon={<MagicWandCircle />} {...buttonProps}>
+        <Button {...buttonProps} className={cn(buttonProps.className, 'pointer-events-none')}>
+          <ButtonIcon icon={MagicWandCircle} />
           Sandbox Mode
         </Button>
       )
     }
 
+    const chevron = (
+      <ButtonIcon
+        icon={ChevronUp}
+        className={cn(open ? 'rotate-180 text-brand' : 'rotate-0 text-secondary', '!icon-xs ml-auto')}
+      />
+    )
+
     if (mode === 'read-only') {
       return (
-        <Button prefixIcon={<Eye />} {...buttonProps}>
+        <Button {...buttonProps}>
+          <ButtonIcon icon={Eye} />
           Read-only mode
+          {chevron}
         </Button>
       )
     }
 
     return (
-      <Button prefixIcon={<img src={avatar} alt="wallet-avatar" className="rounded-full" />} {...buttonProps}>
+      <Button {...buttonProps}>
+        <img src={avatar} alt="wallet-avatar" className="rounded-full" />
         <div className="truncate">{ensName ? ensName : shortenAddress(address)}</div>
+        {chevron}
       </Button>
     )
   },

@@ -12,7 +12,7 @@ export function TopbarWallet({ connectedWalletInfo, onConnect }: TopbarWalletPro
       {connectedWalletInfo ? (
         <TopbarWalletDropdown {...connectedWalletInfo} />
       ) : (
-        <Button variant="primary" className="w-full" onClick={onConnect}>
+        <Button size="m" variant="primary" className="w-full" onClick={onConnect}>
           Connect Wallet
         </Button>
       )}

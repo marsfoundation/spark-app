@@ -3,8 +3,8 @@ import { Address } from '@/ui/atoms/address/Address'
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuIcon,
   DropdownMenuItem,
+  DropdownMenuItemIcon,
   DropdownMenuSeparator,
 } from '@/ui/atoms/dropdown/DropdownMenu'
 import { Link } from '@/ui/atoms/link/Link'
@@ -25,6 +25,10 @@ export function TopbarWalletDropdown({ dropdownTriggerInfo, dropdownContentInfo 
   const { address, blockExplorerAddressLink, isInSandbox, isEphemeralAccount, walletIcon, onDisconnect } =
     dropdownContentInfo
 
+  if (dropdownTriggerInfo.mode === 'sandbox') {
+    return <TopbarWalletButton open={open} {...dropdownTriggerInfo} />
+  }
+
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
@@ -33,14 +37,17 @@ export function TopbarWalletDropdown({ dropdownTriggerInfo, dropdownContentInfo 
       <DropdownMenuContent align="end" className="flex w-60 flex-col gap-1.5 p-1">
         <div className="flex flex-col items-center gap-3 rounded-sm bg-secondary p-6">
           <div className="rounded-full bg-primary p-1">
-            <img src={walletIcon} alt="Wallet icon" className="h-6 w-6" />
+            <img src={walletIcon} alt="Wallet icon" width={24} height={24} />
           </div>
 
           <div className="typography-label-4 overflow-hidden text-primary">
             {isEphemeralAccount ? (
               'Ephemeral account'
             ) : (
-              <Address compact address={address} postfix={<CopyButton className="p-1" text={address} size="s" />} />
+              <div className="flex items-center gap-1">
+                <Address compact address={address} />
+                <CopyButton text={address} />
+              </div>
             )}
           </div>
         </div>
@@ -53,7 +60,7 @@ export function TopbarWalletDropdown({ dropdownTriggerInfo, dropdownContentInfo 
               onDisconnect()
             }}
           >
-            <DropdownMenuIcon icon={<Unplug />} />
+            <DropdownMenuItemIcon icon={Unplug} />
             {isInSandbox ? 'Exit sandbox' : 'Disconnect'}
           </button>
         </DropdownMenuItem>
@@ -64,7 +71,7 @@ export function TopbarWalletDropdown({ dropdownTriggerInfo, dropdownContentInfo 
 
             <DropdownMenuItem asChild>
               <Link to={blockExplorerAddressLink} external className="cursor-pointer text-primary hover:text-primary">
-                <DropdownMenuIcon icon={<ExternalLink />} />
+                <DropdownMenuItemIcon icon={ExternalLink} />
                 View on Explorer
               </Link>
             </DropdownMenuItem>
