@@ -60,8 +60,8 @@ test.describe('Borrow page', () => {
       await borrowPage.submitAction()
 
       await actionsContainer.expectExtendedActions([
-        { type: 'deposit', asset: 'ETH', amount: deposit.amount },
-        { type: 'borrow', asset: 'DAI', amount: borrow.amount },
+        { type: 'deposit', asset: 'ETH', amount: '1.00' },
+        { type: 'borrow', asset: 'DAI', amount: '1,000.00' },
       ])
       await screenshot(page, 'deposit-eth-actions-plan')
     })
@@ -142,9 +142,9 @@ test.describe('Borrow page', () => {
       await borrowPage.submitAction()
 
       await actionsContainer.expectExtendedActions([
-        { type: 'permit', ...wstETHdeposit },
-        { type: 'deposit', ...wstETHdeposit },
-        { type: 'borrow', asset: 'DAI', amount: borrow.amount },
+        { type: 'permit', asset: 'wstETH', amount: '1.00' },
+        { type: 'deposit', asset: 'wstETH', amount: '1.00' },
+        { type: 'borrow', asset: 'DAI', amount: '1,000.00' },
       ])
       await screenshot(page, 'deposit-wsteth-permit-actions-plan')
     })
@@ -156,9 +156,9 @@ test.describe('Borrow page', () => {
       await borrowPage.submitAction()
 
       await actionsContainer.expectExtendedActions([
-        { type: 'approve', ...rETHdeposit },
-        { type: 'deposit', ...rETHdeposit },
-        { type: 'borrow', asset: 'DAI', amount: borrow.amount },
+        { type: 'approve', asset: 'rETH', amount: '1.00' },
+        { type: 'deposit', asset: 'rETH', amount: '1.00' },
+        { type: 'borrow', asset: 'DAI', amount: '1,000.00' },
       ])
       await screenshot(page, 'deposit-reth-approve-actions-plan')
     })
@@ -171,9 +171,9 @@ test.describe('Borrow page', () => {
 
       await actionsContainer.switchPreferPermitsAction()
       await actionsContainer.expectExtendedActions([
-        { type: 'approve', ...wstETHdeposit },
-        { type: 'deposit', ...wstETHdeposit },
-        { type: 'borrow', asset: 'DAI', amount: borrow.amount },
+        { type: 'approve', asset: 'wstETH', amount: '1.00' },
+        { type: 'deposit', asset: 'wstETH', amount: '1.00' },
+        { type: 'borrow', asset: 'DAI', amount: '1,000.00' },
       ])
       await screenshot(page, 'deposit-wsteth-approve-actions-plan')
     })
@@ -187,11 +187,11 @@ test.describe('Borrow page', () => {
       await borrowPage.submitAction()
 
       await actionsContainer.expectExtendedActions([
-        { type: 'permit', ...wstETHdeposit },
-        { type: 'deposit', ...wstETHdeposit },
-        { type: 'approve', ...rETHdeposit },
-        { type: 'deposit', ...rETHdeposit },
-        { type: 'borrow', asset: 'DAI', amount: borrow.amount },
+        { type: 'permit', asset: 'wstETH', amount: '1.00' },
+        { type: 'deposit', asset: 'wstETH', amount: '1.00' },
+        { type: 'approve', asset: 'rETH', amount: '1.00' },
+        { type: 'deposit', asset: 'rETH', amount: '1.00' },
+        { type: 'borrow', asset: 'DAI', amount: '1,000.00' },
       ])
       await screenshot(page, 'deposit-wsteth-reth-actions-plan')
     })
@@ -281,7 +281,7 @@ test.describe('Borrow page', () => {
 
       await borrowPage.submitAction()
 
-      await actionsContainer.expectExtendedActions([{ type: 'borrow', asset: 'DAI', amount: borrow.amount }])
+      await actionsContainer.expectExtendedActions([{ type: 'borrow', asset: 'DAI', amount: '1,000.00' }])
       await screenshot(page, 'borrow-with-no-deposit-actions-plan')
     })
 

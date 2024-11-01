@@ -5,7 +5,6 @@ import SuccessIcon from '@/ui/assets/icons/success.svg?react'
 import WarningIcon from '@/ui/assets/icons/warning.svg?react'
 import { Button } from '@/ui/atoms/new/button/Button'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/new/tooltip/Tooltip'
-import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
@@ -36,7 +35,9 @@ function ActionRow({ children, actionHandlerState, actionIndex, onAction, layout
   return (
     <div
       className={cn(
-        'col-span-full grid min-h-[80px] grid-cols-subgrid items-center gap-y-3 border-b border-b-primary p-4 last:border-none sm:p-5',
+        'col-span-full grid grid-cols-subgrid items-center',
+        'gap-y-3 border-b border-b-primary p-4 last:border-none sm:p-5',
+        layout === 'compact' && 'sm:p-4',
       )}
       data-testid={testIds.actions.row(actionIndex)}
     >
@@ -87,12 +88,12 @@ function Title({ children }: { children: ReactNode }) {
   return (
     <div
       className={cn(
-        'typography-label-4 col-span-2 flex items-center gap-1.5 overflow-x-auto overflow-y-hidden text-nowrap md:col-span-1',
+        'typography-label-4 col-span-2 flex items-center gap-1.5 overflow-x-auto',
+        'overflow-y-hidden text-nowrap md:col-span-1 sm:overflow-visible',
         isTruncated &&
-          '-ml-2 pr-3 pl-2 [mask-image:linear-gradient(to_right,transparent,black_7%,black_85%,transparent)]',
+          '-ml-2 pr-3 pl-2 [mask-image:linear-gradient(to_right,transparent,black_7%,black_85%,transparent)] sm:[mask-image:none]',
         actionHandlerState.status === 'success' && 'text-secondary',
       )}
-      data-testid={testIds.component.Action.title}
       ref={titleRef}
     >
       {children}
@@ -102,16 +103,8 @@ function Title({ children }: { children: ReactNode }) {
 
 function TitleTokens({ tokens }: { tokens: Token[] }) {
   const { actionHandlerState } = useActionRowContext()
-
   const icons = tokens.map((token) => getTokenImage(token.symbol))
-  if (tokens.length === 1) {
-    return (
-      <TokenIcon
-        token={tokens[0]!}
-        className={cn('h-6 shrink-0', actionHandlerState.status === 'success' && 'opacity-60')}
-      />
-    )
-  }
+
   return (
     <IconStack
       paths={icons}
@@ -146,7 +139,7 @@ function Amount({ token, amount }: { token: Token; amount: NormalizedUnitNumber 
 
 function ErrorWarning() {
   const { actionHandlerState, layout } = useActionRowContext()
-  const [errorTextRef, isTruncated] = useIsTruncated()
+  const [errorTextRef, isTruncated] = useIsTruncated({ enabled: actionHandlerState.status === 'error' })
 
   if (actionHandlerState.status !== 'error') {
     return null

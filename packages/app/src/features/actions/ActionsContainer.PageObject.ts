@@ -133,7 +133,8 @@ export class ActionsPageObject extends BasePageObject {
 
   async expectExtendedActionAtIndex(index: number, expectedAction: SimplifiedExtendedAction): Promise<void> {
     const row = this.locateActionAtIndex(index)
-    await expect(row).toContainText(extendedActionToTitle(expectedAction))
+    await expect(row).toContainText(actionToTitle(expectedAction))
+    await expect(row).toContainText(`${expectedAction.amount} ${expectedAction.asset}`)
   }
   // #endregion assertions
 }
@@ -277,23 +278,7 @@ const actionVerbs = [
 const actionButtonRegex = new RegExp(`^(${actionVerbs.join('|')})$`)
 
 type SimplifiedExtendedAction =
-  | { type: 'approve'; asset: string; amount: number }
-  | { type: 'permit'; asset: string; amount: number }
-  | { type: 'deposit'; asset: string; amount: number }
-  | { type: 'borrow'; asset: string; amount: number }
-
-function extendedActionToTitle(action: SimplifiedExtendedAction): string {
-  const formatter = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-  const amountFormatted = formatter.format(action.amount)
-
-  switch (action.type) {
-    case 'approve':
-      return `Approve ${action.asset}${amountFormatted} ${action.asset}`
-    case 'deposit':
-      return `Deposit ${action.asset}${amountFormatted} ${action.asset}`
-    case 'borrow':
-      return `Borrow ${action.asset}${amountFormatted} ${action.asset}`
-    case 'permit':
-      return `Permit ${action.asset}${amountFormatted} ${action.asset}`
-  }
-}
+  | { type: 'approve'; asset: string; amount: string }
+  | { type: 'permit'; asset: string; amount: string }
+  | { type: 'deposit'; asset: string; amount: string }
+  | { type: 'borrow'; asset: string; amount: string }

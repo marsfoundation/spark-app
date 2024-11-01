@@ -16,8 +16,8 @@ export const actionGridVariants = cva(
   {
     variants: {
       layout: {
-        compact: 'md:grid-cols-[auto_auto_1fr_auto]',
-        extended: 'md:grid-cols-[auto_auto_auto_1fr_auto]',
+        compact: 'md:grid-cols-[auto_auto_1fr_auto] sm:gap-x-4',
+        extended: 'md:grid-cols-[auto_auto_auto_1fr_auto] sm:gap-x-8',
       },
     },
   },
