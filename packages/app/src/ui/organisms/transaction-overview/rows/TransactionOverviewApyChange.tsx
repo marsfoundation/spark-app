@@ -11,14 +11,14 @@ export interface TransactionOverviewApyChangeProps {
 
 export function TransactionOverviewApyChange({ currentApy, updatedApy }: TransactionOverviewApyChangeProps) {
   return (
-    <div className="flex flex-row items-center gap-2">
+    <div className="flex flex-row items-center gap-2.5">
       <div
         data-testid={testIds.dialog.savings.transactionOverview.apyChange.before}
         className="typography-label-4 text-primary"
       >
         {formatPercentage(currentApy)}
       </div>
-      <MoveRightIcon size={12} className="text-secondary" />
+      <MoveRightIcon className="icon-xxs text-secondary" />
       <div
         data-testid={testIds.dialog.savings.transactionOverview.apyChange.after}
         className={cn(

@@ -17,7 +17,7 @@ export const AddressInput = forwardRef<HTMLInputElement, AddressInputProps>(
           className={cn(
             'relative flex h-14 border-basics-border bg-input-background text-basics-dark-grey',
             'w-full flex-grow items-center rounded-xl border text-[0.7rem] leading-none sm:text-base',
-            error && 'border-error bg-error/10 text-error',
+            error && 'border-error bg-error/10 text-system-error-primary',
           )}
         >
           <input
@@ -37,13 +37,13 @@ export const AddressInput = forwardRef<HTMLInputElement, AddressInputProps>(
                 external
                 className="flex items-center gap-2.5 font-medium text-basics-dark-grey text-sm"
               >
-                <BoxArrowTopRight className={cn('h-4 w-4', error && 'text-error')} />
+                <BoxArrowTopRight className={cn('h-4 w-4', error && 'text-system-error-primary')} />
               </Link>
             </div>
           )}
         </div>
         {error && (
-          <div className="text-error text-xs" data-testid={testIds.component.AddressInput.error}>
+          <div className="text-system-error-primary text-xs" data-testid={testIds.component.AddressInput.error}>
             {error}
           </div>
         )}

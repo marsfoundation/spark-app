@@ -133,7 +133,7 @@ export function AssetInput<TFieldValues extends FieldValues>({
             <button
               onClick={disabled ? undefined : setMaxValue}
               className={cn(
-                'typography-label-5 text-brand disabled:text-secondary',
+                'typography-label-5 text-brand-primary disabled:text-secondary',
                 disabled && 'cursor-not-allowed opacity-50',
               )}
               disabled={disabled || isMaxSelected}
@@ -148,7 +148,7 @@ export function AssetInput<TFieldValues extends FieldValues>({
         )}
       </div>
       {showError && error && (
-        <div data-testid={testIds.component.AssetInput.error} className="typography-label-6 text-error">
+        <div data-testid={testIds.component.AssetInput.error} className="typography-label-6 text-system-error-primary">
           {error.message}
         </div>
       )}
