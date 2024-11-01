@@ -22,8 +22,7 @@ export interface TopbarWalletDropdownProps {
 export function TopbarWalletDropdown({ dropdownTriggerInfo, dropdownContentInfo }: TopbarWalletDropdownProps) {
   const [open, setOpen] = useState(false)
 
-  const { address, blockExplorerAddressLink, isEphemeralAccount, walletIcon, onDisconnect } =
-    dropdownContentInfo
+  const { address, blockExplorerAddressLink, isEphemeralAccount, walletIcon, onDisconnect } = dropdownContentInfo
 
   if (dropdownTriggerInfo.mode === 'sandbox') {
     return <TopbarWalletButton open={open} {...dropdownTriggerInfo} />
