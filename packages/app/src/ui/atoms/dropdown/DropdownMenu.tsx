@@ -101,11 +101,11 @@ const DropdownMenuItem = React.forwardRef<
 ))
 DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName
 
-// @note it has to be done this way if we want to use asChild mechanism
-function DropdownMenuIcon({ icon }: { icon: JSX.Element }) {
-  return React.cloneElement(icon, {
-    className: cn('icon-xs text-secondary group-hover:text-brand', icon.props.className),
-  })
+function DropdownMenuItemIcon({
+  icon: Icon,
+  className,
+}: { icon: React.ComponentType<{ className?: string }>; className?: string }) {
+  return <Icon className={cn('icon-xs text-secondary group-hover:text-brand', className)} />
 }
 
 const DropdownMenuCheckboxItem = React.forwardRef<
@@ -196,5 +196,5 @@ export {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-  DropdownMenuIcon,
+  DropdownMenuItemIcon,
 }
