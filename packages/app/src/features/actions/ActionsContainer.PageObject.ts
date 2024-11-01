@@ -288,12 +288,12 @@ function extendedActionToTitle(action: SimplifiedExtendedAction): string {
 
   switch (action.type) {
     case 'approve':
-      return `Approve ${amountFormatted} ${action.asset}`
+      return `Approve ${action.asset}${amountFormatted} ${action.asset}`
     case 'deposit':
-      return `Deposit ${amountFormatted} ${action.asset}`
+      return `Deposit ${action.asset}${amountFormatted} ${action.asset}`
     case 'borrow':
-      return `Borrow ${amountFormatted} ${action.asset}`
+      return `Borrow ${action.asset}${amountFormatted} ${action.asset}`
     case 'permit':
-      return `Permit ${amountFormatted} ${action.asset}`
+      return `Permit ${action.asset}${amountFormatted} ${action.asset}`
   }
 }
