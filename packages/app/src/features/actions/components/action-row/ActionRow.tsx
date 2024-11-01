@@ -1,9 +1,12 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
+import { getTokenImage } from '@/ui/assets'
 import SuccessIcon from '@/ui/assets/icons/success.svg?react'
 import WarningIcon from '@/ui/assets/icons/warning.svg?react'
 import { Button } from '@/ui/atoms/new/button/Button'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/new/tooltip/Tooltip'
+import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
+import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { useIsTruncated } from '@/ui/utils/useIsTruncated'
@@ -13,18 +16,15 @@ import { ComponentType, ReactNode, createContext, useContext } from 'react'
 import { ActionHandlerState } from '../../logic/types'
 import { ActionsGridLayout } from '../../types'
 
-interface ActionRowProps {
+export interface ActionRowProps {
   actionIndex: number
   actionHandlerState: ActionHandlerState
+  onAction: () => void
+  layout: ActionsGridLayout
   children: ReactNode
 }
 
-interface ActionRowContext {
-  actionHandlerState: ActionHandlerState
-  actionIndex: number
-}
-
-const ActionRowContext = createContext<ActionRowContext | null>(null)
+const ActionRowContext = createContext<Omit<ActionRowProps, 'children'> | null>(null)
 
 function useActionRowContext() {
   const context = useContext(ActionRowContext)
@@ -32,7 +32,7 @@ function useActionRowContext() {
   return context
 }
 
-function ActionRow({ actionIndex, actionHandlerState, children }: ActionRowProps) {
+function ActionRow({ children, actionHandlerState, actionIndex, onAction, layout }: ActionRowProps) {
   return (
     <div
       className={cn(
@@ -40,7 +40,9 @@ function ActionRow({ actionIndex, actionHandlerState, children }: ActionRowProps
       )}
       data-testid={testIds.actions.row(actionIndex)}
     >
-      <ActionRowContext.Provider value={{ actionHandlerState, actionIndex }}>{children}</ActionRowContext.Provider>
+      <ActionRowContext.Provider value={{ actionHandlerState, actionIndex, onAction, layout }}>
+        {children}
+      </ActionRowContext.Provider>
     </div>
   )
 }
@@ -91,9 +93,17 @@ function Title({ children }: { children: ReactNode }) {
   )
 }
 
+function TitleTokens({ tokens }: { tokens: Token[] }) {
+  const icons = tokens.map((token) => getTokenImage(token.symbol))
+  if (tokens.length === 1) {
+    return <TokenIcon token={tokens[0]!} className="h-6" />
+  }
+  return <IconStack paths={icons} stackingOrder="last-on-top" />
+}
+
 // @note: Optional component, displayed only in extended action row layout
-function Amount({ token, amount, layout }: { token: Token; amount: NormalizedUnitNumber; layout: ActionsGridLayout }) {
-  const { actionHandlerState } = useActionRowContext()
+function Amount({ token, amount }: { token: Token; amount: NormalizedUnitNumber }) {
+  const { actionHandlerState, layout } = useActionRowContext()
 
   if (layout === 'compact') {
     return null
@@ -133,14 +143,8 @@ function ErrorWarning() {
   )
 }
 
-function Trigger({
-  children,
-  onAction,
-}: {
-  children: ReactNode
-  onAction: () => void
-}) {
-  const { actionHandlerState } = useActionRowContext()
+function Trigger({ children }: { children: ReactNode }) {
+  const { actionHandlerState, onAction } = useActionRowContext()
 
   if (actionHandlerState.status === 'success') {
     return null
@@ -162,6 +166,7 @@ function Trigger({
 
 ActionRow.Icon = Icon
 ActionRow.Title = Title
+Title.Tokens = TitleTokens
 ActionRow.Amount = Amount
 ActionRow.ErrorWarning = ErrorWarning
 ActionRow.Trigger = Trigger

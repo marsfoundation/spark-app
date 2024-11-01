@@ -7,7 +7,7 @@ export interface SetUserEModeActionRowProps extends ActionRowBaseProps {
   action: SetUserEModeAction
 }
 
-export function SetUserEModeActionRow({ action, onAction, layout, ...props }: SetUserEModeActionRowProps) {
+export function SetUserEModeActionRow({ action, ...props }: SetUserEModeActionRowProps) {
   const actionTitle = action.eModeCategoryId !== 0 ? 'Enable' : 'Disable'
 
   return (
@@ -18,7 +18,7 @@ export function SetUserEModeActionRow({ action, onAction, layout, ...props }: Se
 
       <ActionRow.ErrorWarning />
 
-      <ActionRow.Trigger onAction={onAction}>{actionTitle}</ActionRow.Trigger>
+      <ActionRow.Trigger>{actionTitle}</ActionRow.Trigger>
     </ActionRow>
   )
 }

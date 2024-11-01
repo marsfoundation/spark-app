@@ -14,7 +14,7 @@ const meta: Meta<typeof ActionsView> = {
   component: ActionsView,
   decorators: [WithTooltipProvider()],
   args: {
-    variant: 'default',
+    actionsGridLayout: 'extended',
     actionHandlers: [
       {
         action: {
@@ -73,7 +73,7 @@ type Story = StoryObj<typeof ActionsView>
 export const Extended: Story = {}
 export const Compact: Story = {
   args: {
-    variant: 'dialog',
+    actionsGridLayout: 'compact',
   },
 }
 export const ExtendedMobile = getMobileStory(Extended)

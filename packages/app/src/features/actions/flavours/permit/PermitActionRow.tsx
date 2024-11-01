@@ -1,4 +1,3 @@
-import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 import { FileCheck2Icon } from 'lucide-react'
 import { ActionRow } from '../../components/action-row/ActionRow'
 import { ActionRowBaseProps } from '../../components/action-row/types'
@@ -8,21 +7,21 @@ export interface PermitActionRowProps extends ActionRowBaseProps {
   action: PermitAction
 }
 
-export function PermitActionRow({ action, onAction, layout, ...props }: PermitActionRowProps) {
+export function PermitActionRow({ action, ...props }: PermitActionRowProps) {
   return (
     <ActionRow {...props}>
       <ActionRow.Icon icon={FileCheck2Icon} />
 
       <ActionRow.Title>
-        <TokenIcon token={action.token} className="h-6" />
+        <ActionRow.Title.Tokens tokens={[action.token]} />
         Permit {action.token.symbol}
       </ActionRow.Title>
 
-      <ActionRow.Amount token={action.token} amount={action.value} layout={layout} />
+      <ActionRow.Amount token={action.token} amount={action.value} />
 
       <ActionRow.ErrorWarning />
 
-      <ActionRow.Trigger onAction={onAction}>Permit</ActionRow.Trigger>
+      <ActionRow.Trigger>Permit</ActionRow.Trigger>
     </ActionRow>
   )
 }

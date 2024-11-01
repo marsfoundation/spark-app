@@ -1,7 +1,5 @@
 import { ActionRow } from '@/features/actions/components/action-row/ActionRow'
 import { ActionRowBaseProps } from '@/features/actions/components/action-row/types'
-import { getTokenImage } from '@/ui/assets'
-import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
 import { ArrowBigUpDashIcon } from 'lucide-react'
 import { UpgradeAction } from './types'
 
@@ -9,27 +7,21 @@ export interface UpgradeActionRowProps extends ActionRowBaseProps {
   action: UpgradeAction
 }
 
-export function UpgradeActionRow({
-  action: { fromToken, toToken, amount },
-  onAction,
-  layout,
-  ...props
-}: UpgradeActionRowProps) {
-  const tokenIcons = [getTokenImage(fromToken.symbol), getTokenImage(toToken.symbol)]
+export function UpgradeActionRow({ action: { fromToken, toToken, amount }, ...props }: UpgradeActionRowProps) {
   return (
     <ActionRow {...props}>
       <ActionRow.Icon icon={ArrowBigUpDashIcon} />
 
       <ActionRow.Title>
-        <IconStack paths={tokenIcons} stackingOrder="last-on-top" />
+        <ActionRow.Title.Tokens tokens={[fromToken, toToken]} />
         Upgrade {fromToken.symbol} to {toToken.symbol}
       </ActionRow.Title>
 
-      <ActionRow.Amount token={fromToken} amount={amount} layout={layout} />
+      <ActionRow.Amount token={fromToken} amount={amount} />
 
       <ActionRow.ErrorWarning />
 
-      <ActionRow.Trigger onAction={onAction}>Upgrade</ActionRow.Trigger>
+      <ActionRow.Trigger>Upgrade</ActionRow.Trigger>
     </ActionRow>
   )
 }

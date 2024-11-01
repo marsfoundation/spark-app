@@ -14,12 +14,12 @@ const meta: Meta<typeof Actions> = {
 export default meta
 type Story = StoryObj<typeof Actions>
 
-// Extended variant
+// Extended layout
 export const AllActionsExtended: Story = {
   name: 'All Actions (Extended)',
   args: {
     actionHandlers: Object.values(allActionHandlers),
-    variant: 'extended',
+    layout: 'extended',
   },
 }
 export const AllActionExtendedMobile = { name: 'All Actions (Extended, Mobile)', ...getMobileStory(AllActionsExtended) }
@@ -35,7 +35,7 @@ export const AllActionsExtendedError: Story = {
       ...handler,
       state: { status: 'error', message: 'Transaction rejected by user. This is lengthy error message. Layout test.' },
     })),
-    variant: 'extended',
+    layout: 'extended',
   },
 }
 
@@ -52,7 +52,7 @@ export const AllActionsExtendedLoading: Story = {
   name: 'All Actions (Extended, Loading)',
   args: {
     actionHandlers: Object.values(allActionHandlers).map((handler) => ({ ...handler, state: { status: 'loading' } })),
-    variant: 'extended',
+    layout: 'extended',
   },
 }
 export const AllActionsLoadingMobile = {
@@ -68,7 +68,7 @@ export const AllActionsExtendedSuccess: Story = {
   name: 'All Actions (Extended, Success)',
   args: {
     actionHandlers: Object.values(allActionHandlers).map((handler) => ({ ...handler, state: { status: 'success' } })),
-    variant: 'extended',
+    layout: 'extended',
   },
 }
 export const AllActionsSuccessMobile = {
@@ -80,12 +80,12 @@ export const AllActionsSuccessTablet = {
   ...getTabletStory(AllActionsExtendedSuccess),
 }
 
-// Compact variant
+// Compact layout
 export const AllActionsCompact: Story = {
   name: 'All Actions (Compact)',
   args: {
     actionHandlers: Object.values(allActionHandlers),
-    variant: 'compact',
+    layout: 'compact',
   },
 }
 export const AllActionsCompactMobile = { name: 'All Actions (Compact, Mobile)', ...getMobileStory(AllActionsCompact) }
@@ -98,7 +98,7 @@ export const AllActionsCompactError: Story = {
       ...handler,
       state: { status: 'error', message: 'Transaction rejected by user. This is lengthy error message. Layout test.' },
     })),
-    variant: 'compact',
+    layout: 'compact',
   },
 }
 export const AllActionsCompactErrorMobile = {
@@ -114,7 +114,7 @@ export const AllActionsCompactLoading: Story = {
   name: 'All Actions (Compact, Loading)',
   args: {
     actionHandlers: Object.values(allActionHandlers).map((handler) => ({ ...handler, state: { status: 'loading' } })),
-    variant: 'compact',
+    layout: 'compact',
   },
 }
 export const AllActionsCompactLoadingMobile = {
@@ -130,7 +130,7 @@ export const AllActionsCompactSuccess: Story = {
   name: 'All Actions (Compact, Success)',
   args: {
     actionHandlers: Object.values(allActionHandlers).map((handler) => ({ ...handler, state: { status: 'success' } })),
-    variant: 'compact',
+    layout: 'compact',
   },
 }
 export const AllActionsCompactSuccessMobile = {

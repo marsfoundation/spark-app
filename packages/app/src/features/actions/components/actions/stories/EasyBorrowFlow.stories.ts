@@ -66,7 +66,7 @@ export const EasyBorrowFlow: Story = {
   name: 'Easy Borrow Flow',
   args: {
     actionHandlers,
-    variant: 'extended',
+    layout: 'extended',
   },
 }
 

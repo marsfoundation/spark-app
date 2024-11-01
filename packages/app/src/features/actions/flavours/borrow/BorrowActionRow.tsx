@@ -1,4 +1,3 @@
-import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 import { ArrowUpFromLineIcon } from 'lucide-react'
 import { ActionRow } from '../../components/action-row/ActionRow'
 import { ActionRowBaseProps } from '../../components/action-row/types'
@@ -8,21 +7,21 @@ export interface BorrowActionRowProps extends ActionRowBaseProps {
   action: BorrowAction
 }
 
-export function BorrowActionRow({ action, onAction, layout, ...props }: BorrowActionRowProps) {
+export function BorrowActionRow({ action, ...props }: BorrowActionRowProps) {
   return (
     <ActionRow {...props}>
       <ActionRow.Icon icon={ArrowUpFromLineIcon} />
 
       <ActionRow.Title>
-        <TokenIcon token={action.token} className="h-6" />
+        <ActionRow.Title.Tokens tokens={[action.token]} />
         Borrow {action.token.symbol}
       </ActionRow.Title>
 
-      <ActionRow.Amount token={action.token} amount={action.value} layout={layout} />
+      <ActionRow.Amount token={action.token} amount={action.value} />
 
       <ActionRow.ErrorWarning />
 
-      <ActionRow.Trigger onAction={onAction}>Borrow</ActionRow.Trigger>
+      <ActionRow.Trigger>Borrow</ActionRow.Trigger>
     </ActionRow>
   )
 }
