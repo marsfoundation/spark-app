@@ -18,24 +18,24 @@ import { UpgradeActionRow } from '../../flavours/upgrade/UpgradeActionRow'
 import { WithdrawFromSavingsActionRow } from '../../flavours/withdraw-from-savings/WithdrawFromSavingsActionRow'
 import { WithdrawActionRow } from '../../flavours/withdraw/WithdrawActionRow'
 import { ActionHandler } from '../../logic/types'
-import { ActionRowVariant } from '../action-row/types'
+import { ActionsGridLayout } from '../../types'
 import { ActionsGrid } from '../actions-grid/ActionsGrid'
 
 interface ActionsProps {
   actionHandlers: ActionHandler[]
-  variant: ActionRowVariant
+  layout: ActionsGridLayout
 }
 
-export function Actions({ actionHandlers, variant }: ActionsProps) {
+export function Actions({ actionHandlers, layout }: ActionsProps) {
   return (
-    <ActionsGrid variant={variant}>
+    <ActionsGrid layout={layout}>
       {actionHandlers.map((handler, index) => {
         const props = {
           key: index,
-          index: index + 1,
+          actionIndex: index,
           actionHandlerState: handler.state,
           onAction: handler.onAction,
-          variant,
+          layout,
         }
 
         switch (handler.action.type) {

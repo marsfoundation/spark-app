@@ -9,5 +9,5 @@ export interface DialogActionsPanelProps {
 }
 
 export function DialogActionsPanel(props: DialogActionsPanelProps) {
-  return <ActionsContainer {...props} variant="dialog" />
+  return <ActionsContainer {...props} actionsGridLayout="compact" />
 }

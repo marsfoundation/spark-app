@@ -1,119 +1,120 @@
-import { ReactNode } from 'react'
-
-import { assets } from '@/ui/assets'
-import { Tooltip, TooltipContentShort, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
-import { ActionButton } from '@/ui/molecules/action-button/ActionButton'
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { Token } from '@/domain/types/Token'
+import SuccessIcon from '@/ui/assets/icons/success.svg?react'
+import WarningIcon from '@/ui/assets/icons/warning.svg?react'
+import { Button } from '@/ui/atoms/new/button/Button'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/new/tooltip/Tooltip'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { useIsTruncated } from '@/ui/utils/useIsTruncated'
-
+import { assert } from '@/utils/assert'
+import { cva } from 'class-variance-authority'
+import { ComponentType, ReactNode, createContext, useContext } from 'react'
 import { ActionHandlerState } from '../../logic/types'
-import { ActionRowVariant } from './types'
+import { ActionsGridLayout } from '../../types'
 
 interface ActionRowProps {
+  actionIndex: number
+  actionHandlerState: ActionHandlerState
   children: ReactNode
-  className?: string
-  index: number
 }
 
-function ActionRow({ children, className, index }: ActionRowProps) {
+interface ActionRowContext {
+  actionHandlerState: ActionHandlerState
+  actionIndex: number
+}
+
+const ActionRowContext = createContext<ActionRowContext | null>(null)
+
+function useActionRowContext() {
+  const context = useContext(ActionRowContext)
+  assert(context, 'useActionRowContext must be used within ActionRow')
+  return context
+}
+
+function ActionRow({ actionIndex, actionHandlerState, children }: ActionRowProps) {
   return (
     <div
       className={cn(
-        'col-span-full grid min-h-[65px] grid-cols-subgrid items-center gap-y-2 border-basics-dark-grey/20 border-b py-4 last:border-none',
-        className,
+        'col-span-full grid min-h-[80px] grid-cols-subgrid items-center gap-y-3 border-b border-b-primary px-6 py-5 last:border-none',
       )}
-      data-testid={testIds.actions.row(index - 1)}
+      data-testid={testIds.actions.row(actionIndex)}
     >
-      <div className="text-basics-dark-grey text-xs tabular-nums">{index}.</div>
+      <ActionRowContext.Provider value={{ actionHandlerState, actionIndex }}>{children}</ActionRowContext.Provider>
+    </div>
+  )
+}
+
+const indexedIconVariants = cva(
+  cn('typography-label-5 grid grid-cols-[1fr_1px_1fr] items-center justify-items-center', 'h-8 w-16 rounded-xs'),
+  {
+    variants: {
+      variant: {
+        disabled: 'bg-secondary text-primary',
+        ready: 'bg-brand-primary text-brand',
+        loading: 'bg-reskin-orange-600/10 text-reskin-orange-600',
+        success: 'bg-system-success-primary text-success',
+        error: 'bg-system-error-primary text-error',
+      },
+    },
+  },
+)
+
+function Icon({ icon }: { icon: ComponentType<{ className?: string }> }) {
+  const { actionIndex, actionHandlerState } = useActionRowContext()
+
+  const Icon =
+    actionHandlerState.status === 'success' ? SuccessIcon : actionHandlerState.status === 'error' ? WarningIcon : icon
+
+  return (
+    <div className={indexedIconVariants({ variant: actionHandlerState.status })}>
+      <div className="text-primary">{actionIndex + 1}</div>
+      <div className="h-full w-px bg-reskin-base-white" />
+      <Icon className="icon-xs" />
+    </div>
+  )
+}
+
+function Title({ children }: { children: ReactNode }) {
+  const { actionHandlerState } = useActionRowContext()
+
+  return (
+    <div
+      className={cn(
+        'typography-label-4 col-span-2 flex items-center gap-1.5 md:col-span-1',
+        actionHandlerState.status === 'success' && 'opacity-60',
+      )}
+      data-testid={testIds.component.Action.title}
+    >
       {children}
     </div>
   )
 }
 
-function Icon({ path, actionStatus }: { path: string; actionStatus?: ActionHandlerState['status'] }) {
-  if (actionStatus === 'success') {
-    return <img src={assets.actions.done} alt="action-success-icon" className="h-4 w-4 shrink-0" />
-  }
-  return <img src={path} alt="action-icon" className="h-4 w-4 shrink-0" />
-}
+// @note: Optional component, displayed only in extended action row layout
+function Amount({ token, amount, layout }: { token: Token; amount: NormalizedUnitNumber; layout: ActionsGridLayout }) {
+  const { actionHandlerState } = useActionRowContext()
 
-function Title({
-  children,
-  icon,
-  actionStatus,
-}: {
-  children: ReactNode
-  icon?: ReactNode
-  actionStatus: ActionHandlerState['status']
-}) {
+  if (layout === 'compact') {
+    return null
+  }
+
   return (
     <div
-      className="col-span-2 flex items-center justify-between gap-1.5 md:col-span-1 md:justify-start"
-      data-testid={testIds.component.Action.title}
+      className={cn(
+        'typography-label-4 col-span-full col-start-2 md:col-span-1',
+        actionHandlerState.status === 'success' && 'opacity-60',
+      )}
     >
-      {icon && <div className="order-2 md:order-1">{icon}</div>}
-      <p
-        className={cn(
-          'order-1 text-base text-basics-black md:order-2',
-          actionStatus === 'success' && 'text-basics-dark-grey',
-        )}
-      >
-        {children}
-      </p>
+      {token.format(amount, { style: 'auto' })} <span className="text-secondary">{token.symbol}</span>
     </div>
   )
 }
 
-function Description({
-  children,
-  successMessage,
-  actionStatus,
-  variant,
-}: {
-  children?: ReactNode
-  successMessage: string
-  actionStatus: ActionHandlerState['status']
-  variant: ActionRowVariant
-}) {
-  if (variant === 'compact') {
-    return null
-  }
-
-  // success row message
-  if (actionStatus === 'success') {
-    return (
-      <div className="col-span-full col-start-3 text-basics-dark-grey text-sm md:col-span-1 md:ml-10">
-        {successMessage}
-      </div>
-    )
-  }
-
-  // description
-  if (['disabled', 'ready', 'loading'].includes(actionStatus)) {
-    return (
-      <div className="col-span-full col-start-3 text-basics-dark-grey text-sm md:col-span-1 md:ml-10">{children}</div>
-    )
-  }
-
-  return null
-}
-
-function ErrorWarning({
-  variant,
-  actionHandlerState,
-}: {
-  variant: ActionRowVariant
-  actionHandlerState: ActionHandlerState
-}) {
-  if (variant === 'compact') {
-    return <ErrorWarningCompact actionHandlerState={actionHandlerState} />
-  }
-  return <ErrorWarningExtended actionHandlerState={actionHandlerState} />
-}
-
-function ErrorWarningExtended({ actionHandlerState }: { actionHandlerState: ActionHandlerState }) {
+function ErrorWarning() {
+  const { actionHandlerState } = useActionRowContext()
   const [errorTextRef, isTruncated] = useIsTruncated()
+
   if (actionHandlerState.status !== 'error') {
     return null
   }
@@ -121,68 +122,48 @@ function ErrorWarningExtended({ actionHandlerState }: { actionHandlerState: Acti
   return (
     <Tooltip open={!isTruncated ? false : undefined}>
       <TooltipTrigger asChild>
-        <div className="col-span-full col-start-3 inline-flex min-w-0 md:col-span-1 md:ml-10">
-          <div className="mr-auto flex w-full items-center">
-            <img src={assets.warning} alt="warning" className="h-5 w-5" />
-            <strong className="ml-0.5 font-semibold text-product-red text-xs">Error:</strong>
-            <p className="ml-1 truncate text-basics-dark-grey text-xs" ref={errorTextRef}>
-              {actionHandlerState.message}
-            </p>
+        <div className="typography-label-5 typography-label-4 col-span-full col-start-2 inline-flex min-w-0 text-secondary md:col-span-1">
+          <div className="truncate" ref={errorTextRef}>
+            {actionHandlerState.message}
           </div>
         </div>
       </TooltipTrigger>
-      <TooltipContentShort>{actionHandlerState.message}</TooltipContentShort>
+      <TooltipContent>{actionHandlerState.message}</TooltipContent>
     </Tooltip>
   )
 }
 
-function ErrorWarningCompact({ actionHandlerState }: { actionHandlerState: ActionHandlerState }) {
-  if (actionHandlerState.status !== 'error') {
+function Trigger({
+  children,
+  onAction,
+}: {
+  children: ReactNode
+  onAction: () => void
+}) {
+  const { actionHandlerState } = useActionRowContext()
+
+  if (actionHandlerState.status === 'success') {
     return null
   }
 
   return (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <div className="col-span-full col-start-3 inline-flex items-center md:col-span-1 md:mr-2 md:ml-auto">
-          <img src={assets.warning} alt="warning" className="h-5 w-5" />
-          <strong className="ml-0.5 font-semibold text-product-red text-xs">Error</strong>
-        </div>
-      </TooltipTrigger>
-      <TooltipContentShort>{actionHandlerState.message}</TooltipContentShort>
-    </Tooltip>
-  )
-}
-
-function Action({
-  children,
-  status,
-  onAction,
-}: {
-  children: ReactNode
-  status: ActionHandlerState['status']
-  onAction: () => void
-}) {
-  return (
-    <ActionButton
-      className={cn(
-        'col-span-full ml-auto w-full min-w-[5rem] md:col-span-1 md:col-start-[-1] md:w-auto',
-        status === 'success' && 'hidden md:invisible',
-      )}
-      size="sm"
-      isLoading={status === 'loading'}
-      disabled={status === 'disabled'}
-      onClick={onAction}
-    >
-      {children}
-    </ActionButton>
+    <div className="col-span-full ml-auto w-full min-w-[5rem] md:col-span-1 md:col-start-[-1] md:w-auto">
+      <Button
+        onClick={onAction}
+        loading={actionHandlerState.status === 'loading'}
+        disabled={actionHandlerState.status === 'disabled'}
+        className="w-full"
+      >
+        {actionHandlerState.status === 'error' ? 'Try Again' : children}
+      </Button>
+    </div>
   )
 }
 
 ActionRow.Icon = Icon
 ActionRow.Title = Title
-ActionRow.Description = Description
+ActionRow.Amount = Amount
 ActionRow.ErrorWarning = ErrorWarning
-ActionRow.Action = Action
+ActionRow.Trigger = Trigger
 
 export { ActionRow }

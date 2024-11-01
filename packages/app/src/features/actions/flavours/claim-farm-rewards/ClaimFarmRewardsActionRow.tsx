@@ -1,8 +1,6 @@
-import { assets } from '@/ui/assets'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
-
+import { ArrowUpToLineIcon } from 'lucide-react'
 import { ActionRow } from '../../components/action-row/ActionRow'
-import { UpDownMarker } from '../../components/action-row/UpDownMarker'
 import { ActionRowBaseProps } from '../../components/action-row/types'
 import { ClaimFarmRewardsAction } from './types'
 
@@ -10,32 +8,21 @@ export interface ClaimFarmRewardsActionRowProps extends ActionRowBaseProps {
   action: ClaimFarmRewardsAction
 }
 
-export function ClaimFarmRewardsActionRow({
-  index,
-  action,
-  actionHandlerState,
-  onAction,
-  variant,
-}: ClaimFarmRewardsActionRowProps) {
-  const status = actionHandlerState.status
-
+export function ClaimFarmRewardsActionRow({ action, onAction, layout, ...props }: ClaimFarmRewardsActionRowProps) {
   return (
-    <ActionRow index={index}>
-      <ActionRow.Icon path={assets.actions.withdraw} actionStatus={status} />
+    <ActionRow {...props}>
+      <ActionRow.Icon icon={ArrowUpToLineIcon} />
 
-      <ActionRow.Title icon={<TokenIcon token={action.rewardToken} className="h-6" />} actionStatus={status}>
+      <ActionRow.Title>
+        <TokenIcon token={action.rewardToken} className="h-6" />
         Claim rewards
       </ActionRow.Title>
 
-      <ActionRow.Description successMessage="Rewards claimed!" actionStatus={status} variant={variant}>
-        <UpDownMarker token={action.rewardToken} value={action.rewardAmount} direction="up" />
-      </ActionRow.Description>
+      <ActionRow.Amount token={action.rewardToken} amount={action.rewardAmount} layout={layout} />
 
-      <ActionRow.ErrorWarning variant={variant} actionHandlerState={actionHandlerState} />
+      <ActionRow.ErrorWarning />
 
-      <ActionRow.Action onAction={onAction} status={status}>
-        Claim
-      </ActionRow.Action>
+      <ActionRow.Trigger onAction={onAction}>Claim</ActionRow.Trigger>
     </ActionRow>
   )
 }

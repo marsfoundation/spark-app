@@ -1,8 +1,8 @@
 import { ActionRow } from '@/features/actions/components/action-row/ActionRow'
-import { UpDownMarker } from '@/features/actions/components/action-row/UpDownMarker'
 import { ActionRowBaseProps } from '@/features/actions/components/action-row/types'
-import { assets, getTokenImage } from '@/ui/assets'
+import { getTokenImage } from '@/ui/assets'
 import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
+import { ArrowRightLeftIcon } from 'lucide-react'
 import { PsmConvertAction } from './types'
 
 export interface PsmConvertActionRowProps extends ActionRowBaseProps {
@@ -10,34 +10,27 @@ export interface PsmConvertActionRowProps extends ActionRowBaseProps {
 }
 
 export function PsmConvertActionRow({
-  action,
-  index,
-  actionHandlerState,
+  action: { inToken, outToken, amount },
   onAction,
-  variant,
+  layout,
+  ...props
 }: PsmConvertActionRowProps) {
-  const { inToken, outToken } = action
-  const tokenIconPaths = [getTokenImage(inToken.symbol), getTokenImage(outToken.symbol)]
-  const status = actionHandlerState.status
-  const successMessage = `Converted ${inToken.format(action.amount, { style: 'auto' })} ${inToken.symbol}!`
+  const tokenIcons = [getTokenImage(inToken.symbol), getTokenImage(outToken.symbol)]
 
   return (
-    <ActionRow index={index}>
-      <ActionRow.Icon path={assets.actions.exchange} actionStatus={status} />
+    <ActionRow {...props}>
+      <ActionRow.Icon icon={ArrowRightLeftIcon} />
 
-      <ActionRow.Title icon={<IconStack paths={tokenIconPaths} stackingOrder="last-on-top" />} actionStatus={status}>
+      <ActionRow.Title>
+        <IconStack paths={tokenIcons} stackingOrder="last-on-top" />
         Convert {inToken.symbol} to {outToken.symbol}
       </ActionRow.Title>
 
-      <ActionRow.Description successMessage={successMessage} actionStatus={status} variant={variant}>
-        <UpDownMarker token={inToken} value={action.amount} direction="down" />
-      </ActionRow.Description>
+      <ActionRow.Amount token={inToken} amount={amount} layout={layout} />
 
-      <ActionRow.ErrorWarning variant={variant} actionHandlerState={actionHandlerState} />
+      <ActionRow.ErrorWarning />
 
-      <ActionRow.Action onAction={onAction} status={status}>
-        Convert
-      </ActionRow.Action>
+      <ActionRow.Trigger onAction={onAction}>Convert</ActionRow.Trigger>
     </ActionRow>
   )
 }

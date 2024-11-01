@@ -1,36 +1,36 @@
 import { ActionRow } from '@/features/actions/components/action-row/ActionRow'
-import { UpDownMarker } from '@/features/actions/components/action-row/UpDownMarker'
 import { ActionRowBaseProps } from '@/features/actions/components/action-row/types'
-import { assets, getTokenImage } from '@/ui/assets'
+import { getTokenImage } from '@/ui/assets'
 import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
+import { ArrowDownToLineIcon } from 'lucide-react'
 import { StakeAction } from './types'
 
 export interface StakeActionRowProps extends ActionRowBaseProps {
   action: StakeAction
 }
 
-export function StakeActionRow({ action, index, actionHandlerState, onAction, variant }: StakeActionRowProps) {
-  const tokenIconPaths = [getTokenImage(action.stakingToken.symbol), getTokenImage(action.rewardToken.symbol)]
-  const status = actionHandlerState.status
-  const successMessage = `Deposited ${action.stakingToken.format(action.stakeAmount, { style: 'auto' })} ${action.stakingToken.symbol}!`
+export function StakeActionRow({
+  action: { stakingToken, rewardToken, stakeAmount },
+  onAction,
+  layout,
+  ...props
+}: StakeActionRowProps) {
+  const tokenIcons = [getTokenImage(stakingToken.symbol), getTokenImage(rewardToken.symbol)]
 
   return (
-    <ActionRow index={index}>
-      <ActionRow.Icon path={assets.actions.deposit} actionStatus={status} />
+    <ActionRow {...props}>
+      <ActionRow.Icon icon={ArrowDownToLineIcon} />
 
-      <ActionRow.Title icon={<IconStack paths={tokenIconPaths} stackingOrder="last-on-top" />} actionStatus={status}>
-        Deposit {action.stakingToken.symbol} into {action.rewardToken.symbol} Farm
+      <ActionRow.Title>
+        <IconStack paths={tokenIcons} stackingOrder="last-on-top" />
+        Deposit {stakingToken.symbol} into {rewardToken.symbol} Farm
       </ActionRow.Title>
 
-      <ActionRow.Description successMessage={successMessage} actionStatus={status} variant={variant}>
-        <UpDownMarker token={action.stakingToken} value={action.stakeAmount} direction="down" />
-      </ActionRow.Description>
+      <ActionRow.Amount token={stakingToken} amount={stakeAmount} layout={layout} />
 
-      <ActionRow.ErrorWarning variant={variant} actionHandlerState={actionHandlerState} />
+      <ActionRow.ErrorWarning />
 
-      <ActionRow.Action onAction={onAction} status={status}>
-        Deposit
-      </ActionRow.Action>
+      <ActionRow.Trigger onAction={onAction}>Deposit</ActionRow.Trigger>
     </ActionRow>
   )
 }

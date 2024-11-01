@@ -1,18 +1,18 @@
 import { withSuspense } from '@/ui/utils/withSuspense'
 import { RequireKeys } from '@/utils/types'
-
 import { ActionsSkeleton } from './components/skeleton/ActionsSkeleton'
 import { stringifyObjectivesToStableActions } from './logic/stringifyObjectives'
 import { InjectedActionsContext, Objective } from './logic/types'
 import { useActionHandlers } from './logic/useActionHandlers'
 import { useSettingsDialog } from './settings-dialog/logic/useSettingsDialog'
-import { ActionsView, ActionsViewVariant } from './views/ActionsView'
+import { ActionsGridLayout } from './types'
+import { ActionsView } from './views/ActionsView'
 
 export interface ActionsContainerProps {
   objectives: Objective[]
   context?: InjectedActionsContext
   onFinish?: () => void // called only once, after render when all actions are marked successful
-  variant?: ActionsViewVariant
+  actionsGridLayout: ActionsGridLayout
   enabled?: boolean
 }
 
@@ -20,7 +20,7 @@ function ActionsContainer({
   objectives,
   context,
   onFinish,
-  variant = 'extended',
+  actionsGridLayout,
   enabled,
 }: RequireKeys<ActionsContainerProps, 'enabled'>) {
   const { handlers, settingsDisabled } = useActionHandlers(objectives, {
@@ -32,7 +32,7 @@ function ActionsContainer({
 
   return (
     <ActionsView
-      variant={variant}
+      actionsGridLayout={actionsGridLayout}
       actionHandlers={handlers}
       settingsDisabled={settingsDisabled}
       settingsDialogProps={settingsDialogProps}

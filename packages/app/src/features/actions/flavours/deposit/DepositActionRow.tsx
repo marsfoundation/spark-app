@@ -1,37 +1,29 @@
-import { assets } from '@/ui/assets'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 
+import { ArrowDownToLineIcon } from 'lucide-react'
 import { ActionRow } from '../../components/action-row/ActionRow'
-import { UpDownMarker } from '../../components/action-row/UpDownMarker'
 import { ActionRowBaseProps } from '../../components/action-row/types'
-import { getFormattedValue } from '../../components/action-row/utils'
 import { DepositAction } from './types'
 
 export interface DepositActionRowProps extends ActionRowBaseProps {
   action: DepositAction
 }
 
-export function DepositActionRow({ index, action, actionHandlerState, onAction, variant }: DepositActionRowProps) {
-  const status = actionHandlerState.status
-  const formattedValue = getFormattedValue(action.value, action.token, variant)
-
+export function DepositActionRow({ action, onAction, layout, ...props }: DepositActionRowProps) {
   return (
-    <ActionRow index={index}>
-      <ActionRow.Icon path={assets.actions.deposit} actionStatus={status} />
+    <ActionRow {...props}>
+      <ActionRow.Icon icon={ArrowDownToLineIcon} />
 
-      <ActionRow.Title icon={<TokenIcon token={action.token} className="h-6" />} actionStatus={status}>
-        Deposit {formattedValue}
+      <ActionRow.Title>
+        <TokenIcon token={action.token} className="h-6" />
+        Deposit {action.token.symbol}
       </ActionRow.Title>
 
-      <ActionRow.Description successMessage={`Deposited ${formattedValue}!`} actionStatus={status} variant={variant}>
-        <UpDownMarker token={action.token} value={action.value} direction="down" />
-      </ActionRow.Description>
+      <ActionRow.Amount token={action.token} amount={action.value} layout={layout} />
 
-      <ActionRow.ErrorWarning variant={variant} actionHandlerState={actionHandlerState} />
+      <ActionRow.ErrorWarning />
 
-      <ActionRow.Action onAction={onAction} status={status}>
-        Deposit
-      </ActionRow.Action>
+      <ActionRow.Trigger onAction={onAction}>Deposit</ActionRow.Trigger>
     </ActionRow>
   )
 }

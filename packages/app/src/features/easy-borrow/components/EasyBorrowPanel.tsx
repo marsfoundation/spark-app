@@ -85,6 +85,7 @@ export function EasyBorrowPanel(props: EasyBorrowPanelProps) {
             context={actionsContext}
             onFinish={pageStatus.goToSuccessScreen}
             enabled={pageStatus.actionsEnabled}
+            actionsGridLayout="extended"
           />
         </div>
       )}

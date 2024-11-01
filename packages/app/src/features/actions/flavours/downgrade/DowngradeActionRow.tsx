@@ -1,36 +1,35 @@
 import { ActionRow } from '@/features/actions/components/action-row/ActionRow'
-import { UpDownMarker } from '@/features/actions/components/action-row/UpDownMarker'
 import { ActionRowBaseProps } from '@/features/actions/components/action-row/types'
-import { assets, getTokenImage } from '@/ui/assets'
+import { getTokenImage } from '@/ui/assets'
 import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
+import { ArrowBigDownDashIcon } from 'lucide-react'
 import { DowngradeAction } from './types'
 
 export interface DowngradeActionRowProps extends ActionRowBaseProps {
   action: DowngradeAction
 }
 
-export function DowngradeActionRow({ action, index, actionHandlerState, onAction, variant }: DowngradeActionRowProps) {
-  const tokenIconPaths = [getTokenImage(action.fromToken.symbol), getTokenImage(action.toToken.symbol)]
-  const status = actionHandlerState.status
-  const successMessage = `Downgraded ${action.fromToken.symbol}!`
-
+export function DowngradeActionRow({
+  action: { fromToken, toToken, amount },
+  onAction,
+  layout,
+  ...props
+}: DowngradeActionRowProps) {
+  const tokenIcons = [getTokenImage(fromToken.symbol), getTokenImage(toToken.symbol)]
   return (
-    <ActionRow index={index}>
-      <ActionRow.Icon path={assets.actions.downgrade} actionStatus={status} />
+    <ActionRow {...props}>
+      <ActionRow.Icon icon={ArrowBigDownDashIcon} />
 
-      <ActionRow.Title icon={<IconStack paths={tokenIconPaths} stackingOrder="last-on-top" />} actionStatus={status}>
-        Downgrade {action.fromToken.symbol} to {action.toToken.symbol}
+      <ActionRow.Title>
+        <IconStack paths={tokenIcons} stackingOrder="last-on-top" />
+        Downgrade {fromToken.symbol} to {toToken.symbol}
       </ActionRow.Title>
 
-      <ActionRow.Description successMessage={successMessage} actionStatus={status} variant={variant}>
-        <UpDownMarker token={action.fromToken} value={action.amount} direction="down" />
-      </ActionRow.Description>
+      <ActionRow.Amount token={fromToken} amount={amount} layout={layout} />
 
-      <ActionRow.ErrorWarning variant={variant} actionHandlerState={actionHandlerState} />
+      <ActionRow.ErrorWarning />
 
-      <ActionRow.Action onAction={onAction} status={status}>
-        Downgrade
-      </ActionRow.Action>
+      <ActionRow.Trigger onAction={onAction}>Downgrade</ActionRow.Trigger>
     </ActionRow>
   )
 }

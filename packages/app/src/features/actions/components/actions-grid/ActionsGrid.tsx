@@ -1,22 +1,21 @@
-import { VariantProps, cva } from 'class-variance-authority'
+import { cva } from 'class-variance-authority'
 import { ReactNode } from 'react'
-
-export type ActionGridVariant = NonNullable<VariantProps<typeof actionGridVariants>['variant']>
+import { ActionsGridLayout } from '../../types'
 
 export interface ActionsGridProps {
   children: ReactNode
-  variant: ActionGridVariant
+  layout: ActionsGridLayout
 }
 
-export function ActionsGrid({ children, variant }: ActionsGridProps) {
-  return <div className={actionGridVariants({ variant })}>{children}</div>
+export function ActionsGrid({ children, layout }: ActionsGridProps) {
+  return <div className={actionGridVariants({ layout })}>{children}</div>
 }
 
-export const actionGridVariants = cva('grid grid-cols-[auto_1fr_auto]', {
+export const actionGridVariants = cva('grid grid-cols-[auto_1fr_auto] gap-x-4 rounded-xs border border-primary', {
   variants: {
-    variant: {
-      compact: 'gap-x-6 md:grid-cols-[auto_auto_1fr_auto]',
-      extended: 'gap-x-8 md:grid-cols-[auto_auto_auto_1fr_auto]',
+    layout: {
+      compact: 'md:grid-cols-[auto_auto_1fr_auto] sm:gap-x-6',
+      extended: 'md:grid-cols-[auto_auto_auto_1fr_auto] sm:gap-x-8',
     },
   },
 })

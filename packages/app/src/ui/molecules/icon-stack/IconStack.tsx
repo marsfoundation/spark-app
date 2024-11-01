@@ -60,7 +60,7 @@ const iconVariants = cva('rounded-full', {
       lg: 'h-10 w-10',
     },
     iconBorder: {
-      true: 'box-content border border-[1.5px] border-white',
+      true: 'box-content border-[1.5px] border-white',
     },
   },
 })
