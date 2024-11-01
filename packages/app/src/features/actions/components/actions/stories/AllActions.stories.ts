@@ -8,7 +8,7 @@ import { allActionHandlers } from './allActionHandlers'
 const meta: Meta<typeof Actions> = {
   title: 'Features/Actions/ActionsGrid/AllActions',
   component: Actions,
-  decorators: [WithTooltipProvider(), WithClassname('max-w-3xl')],
+  decorators: [WithTooltipProvider(), WithClassname('max-w-[856px]')],
 }
 
 export default meta

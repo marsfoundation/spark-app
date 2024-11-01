@@ -36,7 +36,7 @@ function ActionRow({ children, actionHandlerState, actionIndex, onAction, layout
   return (
     <div
       className={cn(
-        'col-span-full grid min-h-[80px] grid-cols-subgrid items-center gap-y-3 border-b border-b-primary px-6 py-5 last:border-none',
+        'col-span-full grid min-h-[80px] grid-cols-subgrid items-center gap-y-3 border-b border-b-primary p-4 last:border-none sm:px-6 sm:py-5',
       )}
       data-testid={testIds.actions.row(actionIndex)}
     >
@@ -47,8 +47,8 @@ function ActionRow({ children, actionHandlerState, actionIndex, onAction, layout
   )
 }
 
-const indexedIconVariants = cva(
-  cn('typography-label-5 grid grid-cols-[1fr_1px_1fr] items-center justify-items-center', 'h-8 w-16 rounded-xs'),
+const indexVariants = cva(
+  'typography-label-5 grid h-6 w-12 grid-cols-[1fr_1px_1fr] items-center justify-items-center rounded-xs sm:h-8 sm:w-16',
   {
     variants: {
       variant: {
@@ -69,7 +69,7 @@ function Icon({ icon }: { icon: ComponentType<{ className?: string }> }) {
     actionHandlerState.status === 'success' ? SuccessIcon : actionHandlerState.status === 'error' ? WarningIcon : icon
 
   return (
-    <div className={indexedIconVariants({ variant: actionHandlerState.status })}>
+    <div className={indexVariants({ variant: actionHandlerState.status })}>
       <div className="text-primary">{actionIndex + 1}</div>
       <div className="h-full w-px bg-reskin-base-white" />
       <Icon className="icon-xs" />
@@ -79,14 +79,18 @@ function Icon({ icon }: { icon: ComponentType<{ className?: string }> }) {
 
 function Title({ children }: { children: ReactNode }) {
   const { actionHandlerState } = useActionRowContext()
+  const [titleRef, isTruncated] = useIsTruncated()
 
   return (
     <div
       className={cn(
-        'typography-label-4 col-span-2 flex items-center gap-1.5 md:col-span-1',
-        actionHandlerState.status === 'success' && 'opacity-60',
+        'typography-label-4 col-span-2 flex items-center gap-1.5 overflow-x-auto overflow-y-hidden text-nowrap md:col-span-1',
+        isTruncated &&
+          '-ml-2 pr-3 pl-2 [mask-image:linear-gradient(to_right,transparent,black_7%,black_85%,transparent)]',
+        actionHandlerState.status === 'success' && 'text-secondary',
       )}
       data-testid={testIds.component.Action.title}
+      ref={titleRef}
     >
       {children}
     </div>
@@ -94,11 +98,24 @@ function Title({ children }: { children: ReactNode }) {
 }
 
 function TitleTokens({ tokens }: { tokens: Token[] }) {
+  const { actionHandlerState } = useActionRowContext()
+
   const icons = tokens.map((token) => getTokenImage(token.symbol))
   if (tokens.length === 1) {
-    return <TokenIcon token={tokens[0]!} className="h-6" />
+    return (
+      <TokenIcon
+        token={tokens[0]!}
+        className={cn('h-6 shrink-0', actionHandlerState.status === 'success' && 'opacity-60')}
+      />
+    )
   }
-  return <IconStack paths={icons} stackingOrder="last-on-top" />
+  return (
+    <IconStack
+      paths={icons}
+      className={cn('shrink-0', actionHandlerState.status === 'success' && 'opacity-60')}
+      stackingOrder="last-on-top"
+    />
+  )
 }
 
 // @note: Optional component, displayed only in extended action row layout
@@ -113,16 +130,19 @@ function Amount({ token, amount }: { token: Token; amount: NormalizedUnitNumber 
     <div
       className={cn(
         'typography-label-4 col-span-full col-start-2 md:col-span-1',
-        actionHandlerState.status === 'success' && 'opacity-60',
+        actionHandlerState.status === 'success' && 'text-secondary',
       )}
     >
-      {token.format(amount, { style: 'auto' })} <span className="text-secondary">{token.symbol}</span>
+      {token.format(amount, { style: 'auto' })}{' '}
+      <span className={cn('text-secondary', actionHandlerState.status === 'success' && 'text-tertiary')}>
+        {token.symbol}
+      </span>
     </div>
   )
 }
 
 function ErrorWarning() {
-  const { actionHandlerState } = useActionRowContext()
+  const { actionHandlerState, layout } = useActionRowContext()
   const [errorTextRef, isTruncated] = useIsTruncated()
 
   if (actionHandlerState.status !== 'error') {
@@ -132,7 +152,12 @@ function ErrorWarning() {
   return (
     <Tooltip open={!isTruncated ? false : undefined}>
       <TooltipTrigger asChild>
-        <div className="typography-label-5 typography-label-4 col-span-full col-start-2 inline-flex min-w-0 text-secondary md:col-span-1">
+        <div
+          className={cn(
+            'typography-label-5 typography-label-4 col-span-full col-start-2 inline-flex min-w-0 text-secondary md:col-span-1',
+            layout === 'compact' ? 'md:col-start-3' : 'md:col-start-4',
+          )}
+        >
           <div className="truncate" ref={errorTextRef}>
             {actionHandlerState.message}
           </div>
@@ -151,7 +176,7 @@ function Trigger({ children }: { children: ReactNode }) {
   }
 
   return (
-    <div className="col-span-full ml-auto w-full min-w-[5rem] md:col-span-1 md:col-start-[-1] md:w-auto">
+    <div className="col-span-full min-w-[5rem] md:col-span-1 md:col-start-[-1] md:w-auto">
       <Button
         onClick={onAction}
         loading={actionHandlerState.status === 'loading'}
