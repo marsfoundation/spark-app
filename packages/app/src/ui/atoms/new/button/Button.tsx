@@ -118,9 +118,10 @@ Button.displayName = 'Button'
 
 interface ButtonIconProps {
   icon: ButtonIconType
+  className?: string
 }
 
-export function ButtonIcon({ icon: Icon }: ButtonIconProps) {
+export function ButtonIcon({ icon: Icon, className }: ButtonIconProps) {
   const { size } = useButtonContext()
-  return <Icon className={buttonIconVariants({ size })} />
+  return <Icon className={cn(buttonIconVariants({ size }), className)} />
 }
