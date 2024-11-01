@@ -174,6 +174,8 @@ function Trigger({ children }: { children: ReactNode }) {
   return (
     <div className="col-span-full min-w-[5rem] md:col-span-1 md:col-start-[-1] md:w-auto">
       <Button
+        variant="primary"
+        size="m"
         onClick={onAction}
         loading={actionHandlerState.status === 'loading'}
         disabled={actionHandlerState.status === 'disabled'}
