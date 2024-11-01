@@ -1,4 +1,11 @@
+import { cn } from '@/ui/utils/style'
+import { HTMLAttributes } from 'react'
+import { TransactionOverviewAmountChange } from './rows/TransactionOverviewAmountChange'
 import { TransactionOverviewApy } from './rows/TransactionOverviewApy'
+import { TransactionOverviewApyChange } from './rows/TransactionOverviewApyChange'
+import { TransactionOverviewAvailableAssets } from './rows/TransactionOverviewAvailableAssets'
+import { TransactionOverviewHealthFactorChange } from './rows/TransactionOverviewHealthFactorChange'
+import { TransactionOverviewMaxLtvChange } from './rows/TransactionOverviewMaxLtvChange'
 import { TransactionOverviewOutcome } from './rows/TransactionOverviewOutcome'
 import { TransactionOverviewRoute } from './rows/TransactionOverviewRoute'
 
@@ -29,11 +36,21 @@ function TransactionOverviewRow({ children }: { children: React.ReactNode }) {
   )
 }
 
+function TransactionOverviewGenericRow({ className, ...rest }: HTMLAttributes<HTMLDivElement>) {
+  return <div {...rest} className={cn('typography-label-4 text-primary', className)} />
+}
+
 TransactionOverview.Label = TransactionOverviewLabel
 TransactionOverview.Row = TransactionOverviewRow
 
 TransactionOverview.Outcome = TransactionOverviewOutcome
 TransactionOverview.Route = TransactionOverviewRoute
 TransactionOverview.Apy = TransactionOverviewApy
+TransactionOverview.ApyChange = TransactionOverviewApyChange
+TransactionOverview.AmountChange = TransactionOverviewAmountChange
+TransactionOverview.HealthFactorChange = TransactionOverviewHealthFactorChange
+TransactionOverview.AvailableAssets = TransactionOverviewAvailableAssets
+TransactionOverview.MaxLtvChange = TransactionOverviewMaxLtvChange
+TransactionOverview.Generic = TransactionOverviewGenericRow
 
 export { TransactionOverview }

@@ -18,11 +18,7 @@ export function TransactionOverviewRoute({ route }: TransactionOverviewRouteProp
       {route.map(({ token, amount, usdAmount }, index) => (
         <Fragment key={token.symbol}>
           <TokenAmount token={token} amount={amount} usdAmount={usdAmount} />
-          {index !== route.length - 1 && (
-            <div className="p-0.5">
-              <MoveRightIcon size={12} className="text-secondary" />
-            </div>
-          )}
+          {index !== route.length - 1 && <MoveRightIcon size={12} className="m-[3px] text-secondary" />}
         </Fragment>
       ))}
     </div>

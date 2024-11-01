@@ -40,6 +40,14 @@ export default {
         success: 'rgb(var(--success-600))',
         warning: 'rgb(var(--warning-600))',
         error: 'rgb(var(--error-700))',
+        system: {
+          success: {
+            primary: 'rgb(var(--success-600))',
+          },
+          error: {
+            primary: 'rgb(var(--error-700))',
+          },
+        },
       },
       outlineColor: {
         primary: 'rgb(var(--neutral-100))',
