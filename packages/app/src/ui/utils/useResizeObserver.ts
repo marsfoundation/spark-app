@@ -9,6 +9,7 @@ type Size = {
 
 type UseResizeObserverOptions<T extends HTMLElement = HTMLElement> = {
   ref: RefObject<T>
+  enabled?: boolean
   onResize?: (size: Size) => void
 }
 
@@ -19,13 +20,13 @@ const initialSize: Size = {
 
 // Based on https://usehooks-ts.com/react-hook/use-resize-observer
 export function useResizeObserver<T extends HTMLElement = HTMLElement>(options: UseResizeObserverOptions<T>): Size {
-  const { ref } = options
+  const { ref, enabled = true } = options
   const [{ width, height }, setSize] = useState<Size>(initialSize)
   const previousSize = useRef<Size>({ ...initialSize })
   const onResize = useRef<((size: Size) => void) | undefined>(options.onResize)
 
   useEffect(() => {
-    if (!ref.current) return
+    if (!ref.current || !enabled) return
 
     if (typeof window === 'undefined' || !('ResizeObserver' in window)) return
 
@@ -55,7 +56,7 @@ export function useResizeObserver<T extends HTMLElement = HTMLElement>(options: 
     return () => {
       observer.disconnect()
     }
-  }, [ref])
+  }, [ref, enabled])
 
   return { width, height }
 }

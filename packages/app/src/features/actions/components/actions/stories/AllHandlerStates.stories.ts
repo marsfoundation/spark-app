@@ -2,21 +2,21 @@ import { WithClassname, WithTooltipProvider } from '@sb/decorators'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 
-import { ActionsGrid } from '../ActionsGrid'
+import { Actions } from '../Actions'
 import { allActionHandlers } from './allActionHandlers'
 
-const meta: Meta<typeof ActionsGrid> = {
+const meta: Meta<typeof Actions> = {
   title: 'Features/Actions/ActionsGrid/AllHandlersStates',
-  component: ActionsGrid,
+  component: Actions,
   decorators: [WithTooltipProvider(), WithClassname('max-w-3xl')],
 }
 
 export default meta
-type Story = StoryObj<typeof ActionsGrid>
+type Story = StoryObj<typeof Actions>
 
 const message = 'Transaction rejected by user. This is lengthy error message. Layout test.'
 
-// Extended variant
+// Extended layout
 export const ApproveExtended: Story = {
   name: 'Approve (Extended)',
   args: {
@@ -27,7 +27,7 @@ export const ApproveExtended: Story = {
       { ...allActionHandlers.approve, state: { status: 'disabled' } },
       { ...allActionHandlers.approve, state: { status: 'error', message } },
     ],
-    variant: 'extended',
+    layout: 'extended',
   },
 }
 export const ApproveExtendedMobile = { name: 'Approve (Extended, Mobile)', ...getMobileStory(ApproveExtended) }
@@ -43,7 +43,7 @@ export const PermitExtended: Story = {
       { ...allActionHandlers.permit, state: { status: 'disabled' } },
       { ...allActionHandlers.permit, state: { status: 'error', message } },
     ],
-    variant: 'extended',
+    layout: 'extended',
   },
 }
 export const PermitExtendedMobile = { name: 'Permit (Extended, Mobile)', ...getMobileStory(PermitExtended) }
@@ -59,7 +59,7 @@ export const ApproveDelegationExtended: Story = {
       { ...allActionHandlers.approveDelegation, state: { status: 'disabled' } },
       { ...allActionHandlers.approveDelegation, state: { status: 'error', message } },
     ],
-    variant: 'extended',
+    layout: 'extended',
   },
 }
 export const ApproveDelegationExtendedMobile = {
@@ -81,7 +81,7 @@ export const BorrowExtended: Story = {
       { ...allActionHandlers.borrow, state: { status: 'disabled' } },
       { ...allActionHandlers.borrow, state: { status: 'error', message } },
     ],
-    variant: 'extended',
+    layout: 'extended',
   },
 }
 export const BorrowExtendedMobile = { name: 'Borrow (Extended, Mobile)', ...getMobileStory(BorrowExtended) }
@@ -97,7 +97,7 @@ export const DepositExtended: Story = {
       { ...allActionHandlers.deposit, state: { status: 'disabled' } },
       { ...allActionHandlers.deposit, state: { status: 'error', message } },
     ],
-    variant: 'extended',
+    layout: 'extended',
   },
 }
 export const DepositExtendedMobile = { name: 'Deposit (Extended, Mobile)', ...getMobileStory(DepositExtended) }
@@ -113,7 +113,7 @@ export const RepayExtended: Story = {
       { ...allActionHandlers.repay, state: { status: 'disabled' } },
       { ...allActionHandlers.repay, state: { status: 'error', message } },
     ],
-    variant: 'extended',
+    layout: 'extended',
   },
 }
 export const RepayExtendedMobile = { name: 'Repay (Extended, Mobile)', ...getMobileStory(RepayExtended) }
@@ -129,7 +129,7 @@ export const SetUseAsCollateralExtended: Story = {
       { ...allActionHandlers.setUseAsCollateral, state: { status: 'disabled' } },
       { ...allActionHandlers.setUseAsCollateral, state: { status: 'error', message } },
     ],
-    variant: 'extended',
+    layout: 'extended',
   },
 }
 export const SetUseAsCollateralExtendedMobile = {
@@ -151,7 +151,7 @@ export const SetUserEModeExtended: Story = {
       { ...allActionHandlers.setUserEMode, state: { status: 'disabled' } },
       { ...allActionHandlers.setUserEMode, state: { status: 'error', message } },
     ],
-    variant: 'extended',
+    layout: 'extended',
   },
 }
 export const SetUserEModeExtendedMobile = {
@@ -173,13 +173,13 @@ export const WithdrawExtended: Story = {
       { ...allActionHandlers.withdraw, state: { status: 'disabled' } },
       { ...allActionHandlers.withdraw, state: { status: 'error', message } },
     ],
-    variant: 'extended',
+    layout: 'extended',
   },
 }
 export const WithdrawExtendedMobile = { name: 'Withdraw (Extended, Mobile)', ...getMobileStory(WithdrawExtended) }
 export const WithdrawExtendedTablet = { name: 'Withdraw (Extended, Tablet)', ...getTabletStory(WithdrawExtended) }
 
-// Compact variant
+// Compact layout
 export const ApproveCompact: Story = {
   name: 'Approve (Compact)',
   args: {
@@ -190,7 +190,7 @@ export const ApproveCompact: Story = {
       { ...allActionHandlers.approve, state: { status: 'disabled' } },
       { ...allActionHandlers.approve, state: { status: 'error', message } },
     ],
-    variant: 'compact',
+    layout: 'compact',
   },
 }
 export const ApproveCompactMobile = { name: 'Approve (Compact, Mobile)', ...getMobileStory(ApproveCompact) }
@@ -206,7 +206,7 @@ export const PermitCompact: Story = {
       { ...allActionHandlers.permit, state: { status: 'disabled' } },
       { ...allActionHandlers.permit, state: { status: 'error', message } },
     ],
-    variant: 'compact',
+    layout: 'compact',
   },
 }
 export const PermitCompactMobile = { name: 'Permit (Compact, Mobile)', ...getMobileStory(PermitCompact) }
@@ -222,7 +222,7 @@ export const ApproveDelegationCompact: Story = {
       { ...allActionHandlers.approveDelegation, state: { status: 'disabled' } },
       { ...allActionHandlers.approveDelegation, state: { status: 'error', message } },
     ],
-    variant: 'compact',
+    layout: 'compact',
   },
 }
 export const ApproveDelegationCompactMobile = {
@@ -244,7 +244,7 @@ export const BorrowCompact: Story = {
       { ...allActionHandlers.borrow, state: { status: 'disabled' } },
       { ...allActionHandlers.borrow, state: { status: 'error', message } },
     ],
-    variant: 'compact',
+    layout: 'compact',
   },
 }
 export const BorrowCompactMobile = { name: 'Borrow (Compact, Mobile)', ...getMobileStory(BorrowCompact) }
@@ -260,7 +260,7 @@ export const DepositCompact: Story = {
       { ...allActionHandlers.deposit, state: { status: 'disabled' } },
       { ...allActionHandlers.deposit, state: { status: 'error', message } },
     ],
-    variant: 'compact',
+    layout: 'compact',
   },
 }
 export const DepositCompactMobile = { name: 'Deposit (Compact, Mobile)', ...getMobileStory(DepositCompact) }
@@ -276,7 +276,7 @@ export const RepayCompact: Story = {
       { ...allActionHandlers.repay, state: { status: 'disabled' } },
       { ...allActionHandlers.repay, state: { status: 'error', message } },
     ],
-    variant: 'compact',
+    layout: 'compact',
   },
 }
 export const RepayCompactMobile = { name: 'Repay (Compact, Mobile)', ...getMobileStory(RepayCompact) }
@@ -292,7 +292,7 @@ export const SetUseAsCollateralCompact: Story = {
       { ...allActionHandlers.setUseAsCollateral, state: { status: 'disabled' } },
       { ...allActionHandlers.setUseAsCollateral, state: { status: 'error', message } },
     ],
-    variant: 'compact',
+    layout: 'compact',
   },
 }
 export const SetUseAsCollateralCompactMobile = {
@@ -314,7 +314,7 @@ export const SetUserEModeCompact: Story = {
       { ...allActionHandlers.setUserEMode, state: { status: 'disabled' } },
       { ...allActionHandlers.setUserEMode, state: { status: 'error', message } },
     ],
-    variant: 'compact',
+    layout: 'compact',
   },
 }
 export const SetUserEModeCompactMobile = {
@@ -336,7 +336,7 @@ export const WithdrawCompact: Story = {
       { ...allActionHandlers.withdraw, state: { status: 'disabled' } },
       { ...allActionHandlers.withdraw, state: { status: 'error', message } },
     ],
-    variant: 'compact',
+    layout: 'compact',
   },
 }
 export const WithdrawCompactMobile = { name: 'Withdraw (Compact, Mobile)', ...getMobileStory(WithdrawCompact) }

@@ -1,37 +1,27 @@
-import { assets } from '@/ui/assets'
-import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
-
+import { ArrowUpFromLineIcon } from 'lucide-react'
 import { ActionRow } from '../../components/action-row/ActionRow'
-import { UpDownMarker } from '../../components/action-row/UpDownMarker'
 import { ActionRowBaseProps } from '../../components/action-row/types'
-import { getFormattedValue } from '../../components/action-row/utils'
 import { BorrowAction } from './types'
 
 export interface BorrowActionRowProps extends ActionRowBaseProps {
   action: BorrowAction
 }
 
-export function BorrowActionRow({ index, action, actionHandlerState, onAction, variant }: BorrowActionRowProps) {
-  const status = actionHandlerState.status
-  const formattedValue = getFormattedValue(action.value, action.token, variant)
-
+export function BorrowActionRow({ action, ...props }: BorrowActionRowProps) {
   return (
-    <ActionRow index={index}>
-      <ActionRow.Icon path={assets.actions.borrow} actionStatus={status} />
+    <ActionRow {...props}>
+      <ActionRow.Icon icon={ArrowUpFromLineIcon} />
 
-      <ActionRow.Title icon={<TokenIcon token={action.token} className="h-6" />} actionStatus={status}>
-        Borrow {formattedValue}
+      <ActionRow.Title>
+        <ActionRow.Title.Tokens tokens={[action.token]} />
+        Borrow {action.token.symbol}
       </ActionRow.Title>
 
-      <ActionRow.Description successMessage={`Borrowed ${formattedValue}!`} actionStatus={status} variant={variant}>
-        <UpDownMarker token={action.token} value={action.value} direction="up" />
-      </ActionRow.Description>
+      <ActionRow.Amount token={action.token} amount={action.value} />
 
-      <ActionRow.ErrorWarning variant={variant} actionHandlerState={actionHandlerState} />
+      <ActionRow.ErrorWarning />
 
-      <ActionRow.Action onAction={onAction} status={status}>
-        Borrow
-      </ActionRow.Action>
+      <ActionRow.Trigger>Borrow</ActionRow.Trigger>
     </ActionRow>
   )
 }

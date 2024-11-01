@@ -20,9 +20,6 @@ export const testIds = makeTestIds({
       error: true,
       maxButton: true,
     },
-    Action: {
-      title: true,
-    },
     Alert: {
       message: true,
     },

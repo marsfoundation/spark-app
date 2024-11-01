@@ -1,6 +1,4 @@
-import { assets } from '@/ui/assets'
-import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
-
+import { ArrowUpToLineIcon } from 'lucide-react'
 import { ActionRow } from '../../components/action-row/ActionRow'
 import { ActionRowBaseProps } from '../../components/action-row/types'
 import { ClaimMarketRewardsAction } from './types'
@@ -9,30 +7,19 @@ export interface ClaimMarketRewardsActionRowProps extends ActionRowBaseProps {
   action: ClaimMarketRewardsAction
 }
 
-export function ClaimMarketRewardsActionRow({
-  index,
-  action,
-  actionHandlerState,
-  onAction,
-  variant,
-}: ClaimMarketRewardsActionRowProps) {
-  const status = actionHandlerState.status
-
+export function ClaimMarketRewardsActionRow({ action, ...props }: ClaimMarketRewardsActionRowProps) {
   return (
-    <ActionRow index={index}>
-      <ActionRow.Icon path={assets.actions.withdraw} actionStatus={status} />
+    <ActionRow {...props}>
+      <ActionRow.Icon icon={ArrowUpToLineIcon} />
 
-      <ActionRow.Title icon={<TokenIcon token={action.token} className="h-6" />} actionStatus={status}>
+      <ActionRow.Title>
+        <ActionRow.Title.Tokens tokens={[action.token]} />
         Claim rewards
       </ActionRow.Title>
 
-      <ActionRow.Description successMessage="Rewards claimed!" actionStatus={status} variant={variant} />
+      <ActionRow.ErrorWarning />
 
-      <ActionRow.ErrorWarning variant={variant} actionHandlerState={actionHandlerState} />
-
-      <ActionRow.Action onAction={onAction} status={status}>
-        Claim
-      </ActionRow.Action>
+      <ActionRow.Trigger>Claim</ActionRow.Trigger>
     </ActionRow>
   )
 }

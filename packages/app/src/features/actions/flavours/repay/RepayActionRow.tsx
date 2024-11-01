@@ -1,38 +1,29 @@
-import { assets } from '@/ui/assets'
-import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
-
+import { ArrowsUpFromLineIcon } from 'lucide-react'
 import { ActionRow } from '../../components/action-row/ActionRow'
-import { UpDownMarker } from '../../components/action-row/UpDownMarker'
 import { ActionRowBaseProps } from '../../components/action-row/types'
-import { getFormattedValue } from '../../components/action-row/utils'
 import { RepayAction } from './types'
 
 export interface RepayActionRowProps extends ActionRowBaseProps {
   action: RepayAction
 }
 
-export function RepayActionRow({ index, action, actionHandlerState, onAction, variant }: RepayActionRowProps) {
+export function RepayActionRow({ action, ...props }: RepayActionRowProps) {
   const token = action.useAToken ? action.reserve.aToken : action.reserve.token
-  const status = actionHandlerState.status
-  const formattedValue = getFormattedValue(action.value, token, variant)
 
   return (
-    <ActionRow index={index}>
-      <ActionRow.Icon path={assets.actions.repay} actionStatus={status} />
+    <ActionRow {...props}>
+      <ActionRow.Icon icon={ArrowsUpFromLineIcon} />
 
-      <ActionRow.Title icon={<TokenIcon token={token} className="h-6" />} actionStatus={status}>
-        Repay with {formattedValue}
+      <ActionRow.Title>
+        <ActionRow.Title.Tokens tokens={[token]} />
+        Repay with {token.symbol}
       </ActionRow.Title>
 
-      <ActionRow.Description successMessage={`Repaid ${formattedValue}!`} actionStatus={status} variant={variant}>
-        <UpDownMarker token={token} value={action.value} direction="down" />
-      </ActionRow.Description>
+      <ActionRow.Amount token={token} amount={action.value} />
 
-      <ActionRow.ErrorWarning variant={variant} actionHandlerState={actionHandlerState} />
+      <ActionRow.ErrorWarning />
 
-      <ActionRow.Action onAction={onAction} status={actionHandlerState.status}>
-        Repay
-      </ActionRow.Action>
+      <ActionRow.Trigger>Repay</ActionRow.Trigger>
     </ActionRow>
   )
 }

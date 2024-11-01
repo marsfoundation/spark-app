@@ -1,10 +1,9 @@
 import { ActionHandler } from '../../logic/types'
-
-export type ActionRowVariant = 'extended' | 'compact'
+import { ActionsGridLayout } from '../../types'
 
 export interface ActionRowBaseProps {
-  index: number
+  actionIndex: number
   actionHandlerState: ActionHandler['state']
   onAction: ActionHandler['onAction']
-  variant: ActionRowVariant
+  layout: ActionsGridLayout
 }
