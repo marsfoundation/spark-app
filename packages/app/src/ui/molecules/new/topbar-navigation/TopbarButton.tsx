@@ -8,7 +8,7 @@ const buttonVariants = cva(
     'typography-label-4 inline-flex h-10 flex-nowrap items-center',
     'group gap-2 rounded-sm border border-primary bg-primary px-4 py-3',
     'border-solid border-opacity-40 shadow-xs transition-colors',
-    'focus-visible:outline-none focus-visible:ring focus-visible:ring-1 ',
+    'focus-visible:outline-none focus-visible:ring-1 ',
   ),
   {
     variants: {
