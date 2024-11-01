@@ -57,10 +57,10 @@ const iconVariants = cva(
     variants: {
       variant: {
         disabled: 'bg-secondary text-primary',
-        ready: 'bg-brand-primary text-brand',
+        ready: 'bg-brand-primary text-brand-primary',
         loading: 'bg-reskin-orange-600/10 text-reskin-orange-600',
-        success: 'bg-system-success-primary text-success',
-        error: 'bg-system-error-primary text-error',
+        success: 'bg-system-success-primary text-system-success-primary',
+        error: 'bg-system-error-primary text-system-error-primary',
       },
     },
   },
