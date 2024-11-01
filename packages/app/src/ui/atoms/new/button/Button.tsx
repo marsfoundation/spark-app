@@ -49,8 +49,8 @@ const buttonVariants = cva(
 const buttonIconVariants = cva('', {
   variants: {
     size: {
-      l: 'icon-sm only:mx-0.5',
-      m: 'icon-sm only:mx-0.5',
+      l: 'icon-sm',
+      m: 'icon-sm',
       s: 'icon-xs',
     },
   },
@@ -68,7 +68,7 @@ function useButtonContext(): ButtonContextProps {
   return context
 }
 
-type IconType = React.ComponentType<{ className?: string }>
+export type ButtonIconType = React.ComponentType<{ className?: string }>
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
@@ -117,7 +117,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 Button.displayName = 'Button'
 
 interface ButtonIconProps {
-  icon: IconType
+  icon: ButtonIconType
 }
 
 export function ButtonIcon({ icon: Icon }: ButtonIconProps) {
