@@ -146,4 +146,7 @@
     background-attachment: fixed;
   }
 
+  .TooltipContent[data-side="bottom"] > span >svg {
+    transform: translateY(100%);
+  }
 }

@@ -12,34 +12,37 @@ const Tooltip = RadixPrimitive.Root
 const TooltipTrigger = RadixPrimitive.Trigger
 
 const baseTooltipContentClassList = cn(
+  'TooltipContent',
   'z-50 overflow-hidden',
-  'outline outline-1 outline-black/5',
+  'outline outline-1 outline-white/10',
   'rounded-md bg-popover shadow-tooltip',
 )
 
 const tooltipContentShortClassList = cn(
   baseTooltipContentClassList,
-  'max-w-[80vw] space-y-2 px-3 py-1.5 text-sm text-white sm:max-w-[32ch]',
+  'max-w-[80vw] space-y-2 px-4 py-3 text-sm text-white sm:max-w-[32ch]',
 )
 const tooltipContentLongClassList = cn(baseTooltipContentClassList, 'px-5 py-4')
 
 const TooltipContentShort = React.forwardRef<
   React.ElementRef<typeof RadixPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof RadixPrimitive.Content>
->(({ className, sideOffset = 4, children, ...props }, ref) => (
-  <RadixPrimitive.Portal>
-    <RadixPrimitive.Content
-      ref={ref}
-      sideOffset={sideOffset}
-      className={cn(tooltipContentShortClassList, className)}
-      onClick={(e) => e.stopPropagation()}
-      {...props}
-    >
-      {children}
-      <RadixPrimitive.Arrow width={16} height={8} fill="white" />
-    </RadixPrimitive.Content>
-  </RadixPrimitive.Portal>
-))
+>(({ className, sideOffset = 4, children, ...props }, ref) => {
+  return (
+    <RadixPrimitive.Portal>
+      <RadixPrimitive.Content
+        ref={ref}
+        sideOffset={sideOffset}
+        className={cn(tooltipContentShortClassList, className)}
+        onClick={(e) => e.stopPropagation()}
+        {...props}
+      >
+        {children}
+        <RadixPrimitive.Arrow width={16} height={8} fill="black" />
+      </RadixPrimitive.Content>
+    </RadixPrimitive.Portal>
+  )
+})
 TooltipContentShort.displayName = 'TooltipContentShort'
 
 const TooltipContentLong = React.forwardRef<
@@ -55,7 +58,7 @@ const TooltipContentLong = React.forwardRef<
       {...props}
     >
       {children}
-      <RadixPrimitive.Arrow width={16} height={8} fill="white" />
+      <RadixPrimitive.Arrow width={16} height={8} fill="black" />
     </RadixPrimitive.Content>
   </RadixPrimitive.Portal>
 ))
