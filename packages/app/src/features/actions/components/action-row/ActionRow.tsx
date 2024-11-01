@@ -36,7 +36,7 @@ function ActionRow({ children, actionHandlerState, actionIndex, onAction, layout
   return (
     <div
       className={cn(
-        'col-span-full grid min-h-[80px] grid-cols-subgrid items-center gap-y-3 border-b border-b-primary p-4 last:border-none sm:px-6 sm:py-5',
+        'col-span-full grid min-h-[80px] grid-cols-subgrid items-center gap-y-3 border-b border-b-primary p-4 last:border-none sm:p-5',
       )}
       data-testid={testIds.actions.row(actionIndex)}
     >
@@ -47,8 +47,11 @@ function ActionRow({ children, actionHandlerState, actionIndex, onAction, layout
   )
 }
 
-const indexVariants = cva(
-  'typography-label-5 grid h-6 w-12 grid-cols-[1fr_1px_1fr] items-center justify-items-center rounded-xs sm:h-8 sm:w-16',
+const iconVariants = cva(
+  cn(
+    'typography-label-5 grid h-6 w-12 grid-cols-[1fr_1px_1fr] items-center',
+    'justify-items-center rounded-xs transition-all delay-500 duration-200 sm:h-8 sm:w-16',
+  ),
   {
     variants: {
       variant: {
@@ -69,7 +72,7 @@ function Icon({ icon }: { icon: ComponentType<{ className?: string }> }) {
     actionHandlerState.status === 'success' ? SuccessIcon : actionHandlerState.status === 'error' ? WarningIcon : icon
 
   return (
-    <div className={indexVariants({ variant: actionHandlerState.status })}>
+    <div className={cn(iconVariants({ variant: actionHandlerState.status }), actionIndex === 0 && 'delay-0')}>
       <div className="text-primary">{actionIndex + 1}</div>
       <div className="h-full w-px bg-reskin-base-white" />
       <Icon className="icon-xs" />
