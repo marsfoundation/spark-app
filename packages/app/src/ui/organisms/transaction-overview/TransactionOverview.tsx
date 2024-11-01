@@ -1,3 +1,4 @@
+import { TransactionOverviewApy } from './rows/TransactionOverviewApy'
 import { TransactionOverviewOutcome } from './rows/TransactionOverviewOutcome'
 import { TransactionOverviewRoute } from './rows/TransactionOverviewRoute'
 
@@ -33,5 +34,6 @@ TransactionOverview.Row = TransactionOverviewRow
 
 TransactionOverview.Outcome = TransactionOverviewOutcome
 TransactionOverview.Route = TransactionOverviewRoute
+TransactionOverview.Apy = TransactionOverviewApy
 
 export { TransactionOverview }

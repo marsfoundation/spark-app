@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react'
 
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { WithClassname } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
 import { TransactionOverview } from './TransactionOverview'
@@ -19,6 +19,14 @@ export const Default: Story = {
   render: () => {
     return (
       <TransactionOverview>
+        <TransactionOverview.Row>
+          <TransactionOverview.Label>APY</TransactionOverview.Label>
+          <TransactionOverview.Apy
+            apy={Percentage(0.05)}
+            rewardsPerYear={NormalizedUnitNumber(100)}
+            rewardToken={tokens.USDS}
+          />
+        </TransactionOverview.Row>
         <TransactionOverview.Row>
           <TransactionOverview.Label>Route</TransactionOverview.Label>
           <TransactionOverview.Route

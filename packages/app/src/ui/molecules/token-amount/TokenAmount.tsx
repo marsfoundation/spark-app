@@ -17,9 +17,9 @@ export function TokenAmount({ token, amount, usdAmount, variant = 'vertical' }: 
     return (
       <div className="flex w-fit items-center gap-1.5">
         <TokenIcon token={token} className="h-4 w-4" />
-        <div className="flex items-end gap-0.5">
-          <div className="typography-label-4 !leading-none text-primary">{formattedAmount}</div>
-          <div className="typography-body-6 !leading-none text-secondary">{formattedUsdAmount}</div>
+        <div className="flex items-baseline gap-0.5">
+          <div className="typography-label-4 text-primary">{formattedAmount}</div>
+          <div className="typography-body-6 text-secondary">{formattedUsdAmount}</div>
         </div>
       </div>
     )
@@ -28,9 +28,9 @@ export function TokenAmount({ token, amount, usdAmount, variant = 'vertical' }: 
   return (
     <div className="grid w-fit grid-cols-[auto_auto] grid-rows-[auto_auto] items-center gap-x-1.5 gap-y-0.5">
       <TokenIcon token={token} className="h-4 w-4" />
-      <div className="typography-label-4 !leading-none text-primary">{formattedAmount}</div>
+      <div className="typography-label-4 text-primary">{formattedAmount}</div>
       <div />
-      <div className="typography-body-6 !leading-none text-secondary">{formattedUsdAmount}</div>
+      <div className="typography-body-6 text-secondary">{formattedUsdAmount}</div>
     </div>
   )
 }
