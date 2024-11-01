@@ -208,11 +208,10 @@
     @apply border-border;
   }
   body {
-    @apply bg-body text-foreground slashed-zero;
+    @apply bg-body text-foreground;
   }
   input {
     background: none;
-    @apply slashed-zero;
   }
 }
 

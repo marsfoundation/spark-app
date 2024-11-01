@@ -19,8 +19,24 @@ export const Default: Story = {
   render: () => {
     return (
       <TransactionOverview>
-        <TransactionOverview.Label>Outcome</TransactionOverview.Label>
-        <TransactionOverview.Outcome token={tokens.USDS} amount={NormalizedUnitNumber(100)} />
+        <TransactionOverview.Row>
+          <TransactionOverview.Label>Route</TransactionOverview.Label>
+          <TransactionOverview.Route
+            route={[
+              { token: tokens.USDC, amount: NormalizedUnitNumber(100), usdAmount: NormalizedUnitNumber(100) },
+              { token: tokens.USDS, amount: NormalizedUnitNumber(100), usdAmount: NormalizedUnitNumber(100) },
+              {
+                token: tokens.sUSDS,
+                amount: NormalizedUnitNumber(91.345035308238),
+                usdAmount: NormalizedUnitNumber(100),
+              },
+            ]}
+          />
+        </TransactionOverview.Row>
+        <TransactionOverview.Row>
+          <TransactionOverview.Label>Outcome</TransactionOverview.Label>
+          <TransactionOverview.Outcome token={tokens.USDS} amount={NormalizedUnitNumber(100)} />
+        </TransactionOverview.Row>
       </TransactionOverview>
     )
   },
