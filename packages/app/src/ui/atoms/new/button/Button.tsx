@@ -3,11 +3,13 @@ import { type VariantProps, cva } from 'class-variance-authority'
 import * as React from 'react'
 
 import { cn } from '@/ui/utils/style'
+import { assert } from '@/utils/assert'
+import { RequiredProps } from '@/utils/types'
 import { Loader } from '../loader/Loader'
 
 const buttonVariants = cva(
   cn(
-    'relative isolate inline-flex select-none items-center justify-center gap-1 ',
+    'relative isolate inline-flex select-none items-center justify-center gap-2 ',
     'overflow-hidden whitespace-nowrap rounded-sm transition-colors ',
     'focus-visible:bg-reskin-base-white focus-visible:text-reskin-neutral-950 ',
     'focus-visible:outline-none focus-visible:ring focus-visible:ring-reskin-primary-200 focus-visible:ring-offset-0',
@@ -54,14 +56,24 @@ const buttonIconVariants = cva('', {
   },
 })
 
-type IconType = React.ComponentType<{ className?: string }>
+type ButtonIconSize = NonNullable<VariantProps<typeof buttonIconVariants>['size']>
+interface ButtonContextProps {
+  size: ButtonIconSize
+}
+const ButtonContext = React.createContext<ButtonContextProps | null>(null)
+
+function useButtonContext(): ButtonContextProps {
+  const context = React.useContext(ButtonContext)
+  assert(context, 'useButtonContext must be used within a Button component')
+  return context
+}
+
+export type ButtonIconType = React.ComponentType<{ className?: string }>
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+    RequiredProps<VariantProps<typeof buttonVariants>> {
   asChild?: boolean
-  prefixIcon?: IconType
-  postfixIcon?: IconType
   loading?: boolean
 }
 
@@ -73,8 +85,6 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       size = 'm',
       asChild = false,
       type = 'button',
-      prefixIcon: PrefixIcon,
-      postfixIcon: PostfixIcon,
       loading = false,
       children,
       disabled,
@@ -99,14 +109,18 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             <Loader size={20} />
           </div>
         )}
-        <>
-          {PrefixIcon && <PrefixIcon className={buttonIconVariants({ size })} />}
-          <div className="px-1">{children}</div>
-          {PostfixIcon && <PostfixIcon className={buttonIconVariants({ size })} />}
-        </>
+        <ButtonContext.Provider value={{ size }}>{children}</ButtonContext.Provider>
       </Comp>
     )
   },
 )
-
 Button.displayName = 'Button'
+
+interface ButtonIconProps {
+  icon: ButtonIconType
+}
+
+export function ButtonIcon({ icon: Icon }: ButtonIconProps) {
+  const { size } = useButtonContext()
+  return <Icon className={buttonIconVariants({ size })} />
+}
