@@ -88,11 +88,10 @@ export function AssetInput<TFieldValues extends FieldValues>({
           'focus-within:border-brand-primary',
           disabled && 'cursor-not-allowed bg-secondary/50',
           showError && error && 'border-reskin-error-200 bg-system-error-primary',
+          optionalGridColsNum === 0 && 'grid-cols-[auto_1fr]',
+          optionalGridColsNum === 1 && 'grid-cols-[auto_1fr_auto]',
+          optionalGridColsNum === 2 && 'grid-cols-[auto_1fr_auto_auto]',
         )}
-        style={{
-          gridAutoFlow: 'column',
-          gridTemplateColumns: `auto 1fr repeat(${optionalGridColsNum}, auto)`,
-        }}
       >
         <div className="min-w-[120px]">
           <AssetSelector

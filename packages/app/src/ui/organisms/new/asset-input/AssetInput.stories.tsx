@@ -84,3 +84,9 @@ export const WithRemove: Story = {
     onRemove: () => {},
   },
 }
+export const NoMaxValue: Story = {
+  name: 'Without max button',
+  args: {
+    maxValue: undefined,
+  },
+}
