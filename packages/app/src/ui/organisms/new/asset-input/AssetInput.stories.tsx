@@ -78,3 +78,9 @@ export const Errored: Story = {
     await expect(error).toBeVisible()
   },
 }
+export const WithRemove: Story = {
+  name: 'With remove button',
+  args: {
+    onRemove: () => {},
+  },
+}
