@@ -10,38 +10,47 @@ interface ConvertStablesTransactionOverviewProps {
 }
 
 function ConvertStablesTransactionOverview({ txOverview }: ConvertStablesTransactionOverviewProps) {
-  const placeholder = <TransactionOverview.Generic>-</TransactionOverview.Generic>
+  if (txOverview.status !== 'success') {
+    const placeholder = '-'
+
+    return (
+      <TransactionOverview>
+        <TransactionOverview.Row>
+          <TransactionOverview.Label>Route</TransactionOverview.Label>
+          <TransactionOverview.Generic>{placeholder}</TransactionOverview.Generic>
+        </TransactionOverview.Row>
+        <TransactionOverview.Row>
+          <TransactionOverview.Label>Outcome</TransactionOverview.Label>
+          <TransactionOverview.Generic>{placeholder}</TransactionOverview.Generic>
+        </TransactionOverview.Row>
+      </TransactionOverview>
+    )
+  }
+
+  const { route, outcome } = txOverview
 
   return (
     <TransactionOverview>
       <TransactionOverview.Row>
         <TransactionOverview.Label>Route</TransactionOverview.Label>
-        {txOverview.status !== 'success' ? (
-          placeholder
-        ) : (
-          <TransactionOverview.Route
-            route={txOverview.route.map((item) => ({
-              type: 'token-amount',
-              token: item.token,
-              amount: item.value,
-              usdAmount: item.usdValue,
-            }))}
-          />
-        )}
+        <TransactionOverview.Route
+          route={route.map((item) => ({
+            type: 'token-amount',
+            token: item.token,
+            amount: item.value,
+            usdAmount: item.usdValue,
+          }))}
+        />
       </TransactionOverview.Row>
       <TransactionOverview.Row>
         <TransactionOverview.Label>Outcome</TransactionOverview.Label>
-        {txOverview.status !== 'success' ? (
-          placeholder
-        ) : (
-          <TransactionOverview.TokenAmount
-            token={txOverview.outcome.token}
-            amount={txOverview.outcome.value}
-            usdAmount={txOverview.outcome.usdValue}
-            amountDataTestId={testIds.dialog.transactionOverview.outcome}
-            usdAmountDataTestId={testIds.dialog.transactionOverview.outcomeUsd}
-          />
-        )}
+        <TransactionOverview.TokenAmount
+          token={outcome.token}
+          amount={outcome.value}
+          usdAmount={outcome.usdValue}
+          amountDataTestId={testIds.dialog.transactionOverview.outcome}
+          usdAmountDataTestId={testIds.dialog.transactionOverview.outcomeUsd}
+        />
       </TransactionOverview.Row>
     </TransactionOverview>
   )
