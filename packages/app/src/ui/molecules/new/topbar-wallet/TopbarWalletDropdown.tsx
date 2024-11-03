@@ -22,7 +22,7 @@ export interface TopbarWalletDropdownProps {
 export function TopbarWalletDropdown({ dropdownTriggerInfo, dropdownContentInfo }: TopbarWalletDropdownProps) {
   const [open, setOpen] = useState(false)
 
-  const { address, blockExplorerAddressLink, isEphemeralAccount, walletIcon, onDisconnect } = dropdownContentInfo
+  const { address, blockExplorerAddressLink, walletIcon, onDisconnect } = dropdownContentInfo
 
   if (dropdownTriggerInfo.mode === 'sandbox') {
     return <TopbarWalletButton open={open} {...dropdownTriggerInfo} />
@@ -40,14 +40,10 @@ export function TopbarWalletDropdown({ dropdownTriggerInfo, dropdownContentInfo 
           </div>
 
           <div className="typography-label-4 overflow-hidden text-primary">
-            {isEphemeralAccount ? (
-              'Ephemeral account'
-            ) : (
-              <div className="flex items-center gap-1">
-                <Address compact address={address} />
-                <CopyButton text={address} />
-              </div>
-            )}
+            <div className="flex items-center gap-1">
+              <Address compact address={address} />
+              <CopyButton text={address} />
+            </div>
           </div>
         </div>
 
@@ -64,7 +60,7 @@ export function TopbarWalletDropdown({ dropdownTriggerInfo, dropdownContentInfo 
           </button>
         </DropdownMenuItem>
 
-        {!isEphemeralAccount && blockExplorerAddressLink && (
+        { blockExplorerAddressLink && (
           <>
             <DropdownMenuSeparator className="mx-1" />
 

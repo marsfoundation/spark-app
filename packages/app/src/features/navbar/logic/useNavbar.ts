@@ -102,8 +102,6 @@ export function useNavbar(): UseNavbarResults {
         address: CheckedAddress(address),
         onDisconnect: disconnect,
         blockExplorerAddressLink,
-        isEphemeralAccount: isEphemeralAccount(address),
-        isInSandbox,
       },
     }
   })()
