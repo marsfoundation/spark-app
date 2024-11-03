@@ -541,6 +541,14 @@ export default {
           fontFamily: theme('fontFamily.roobert'),
         },
 
+        '.typography-heading-6': {
+          fontSize: '0.875rem', // 14px
+          lineHeight: '1rem', // 20px
+          letterSpacing: 'calc(-1 * 0.01em)',
+          fontWeight: '500',
+          fontFamily: theme('fontFamily.roobert'),
+        },
+
         '.typography-heading-7': {
           fontSize: '0.75rem', // 12px
           lineHeight: '0.875rem', // 14px
