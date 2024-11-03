@@ -45,13 +45,12 @@ function HealthFactorBadge({ healthFactor, 'data-testid': dataTestId }: HealthFa
   const title = riskLevelToTitle[riskLevel]
 
   return (
-    <div className="flex items-center gap-1.5">
+    // @todo: split health factor and risk level test ids
+    <div className="flex items-center gap-1.5" data-testid={dataTestId}>
       <Badge appearance="solid" size="xs" variant={riskLevelToStateVariant[riskLevel]}>
         {title}
       </Badge>
-      <div className="typography-label-4 text-primary" data-testid={dataTestId}>
-        {formatHealthFactor(healthFactor)}
-      </div>
+      <div className="typography-label-4 text-primary">{formatHealthFactor(healthFactor)}</div>
     </div>
   )
 }
