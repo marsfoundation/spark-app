@@ -22,7 +22,7 @@ export const Default: Story = {
       <TransactionOverview>
         <TransactionOverview.Row>
           <TransactionOverview.Label>APY</TransactionOverview.Label>
-          <TransactionOverview.Apy
+          <TransactionOverview.FarmApy
             apy={Percentage(0.05)}
             rewardsPerYear={NormalizedUnitNumber(100)}
             rewardToken={tokens.USDS}

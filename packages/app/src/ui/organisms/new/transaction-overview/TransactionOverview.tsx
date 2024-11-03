@@ -1,11 +1,12 @@
 import { cn } from '@/ui/utils/style'
 import { HTMLAttributes } from 'react'
-import { TransactionOverviewApy } from './rows/TransactionOverviewApy'
 import { TransactionOverviewApyChange } from './rows/TransactionOverviewApyChange'
 import { TransactionOverviewAvailableAssets } from './rows/TransactionOverviewAvailableAssets'
+import { TransactionOverviewFarmApy } from './rows/TransactionOverviewFarmApy'
 import { TransactionOverviewHealthFactorChange } from './rows/TransactionOverviewHealthFactorChange'
 import { TransactionOverviewMaxLtvChange } from './rows/TransactionOverviewMaxLtvChange'
 import { TransactionOverviewRoute } from './rows/TransactionOverviewRoute'
+import { TransactionOverviewSavingsApy } from './rows/TransactionOverviewSavingsApy'
 import { TransactionOverviewTokenAmount } from './rows/TransactionOverviewTokenAmount'
 import { TransactionOverviewTokenAmountChange } from './rows/TransactionOverviewTokenAmountChange'
 
@@ -48,7 +49,8 @@ TransactionOverview.Row = TransactionOverviewRow
 
 TransactionOverview.TokenAmount = TransactionOverviewTokenAmount
 TransactionOverview.Route = TransactionOverviewRoute
-TransactionOverview.Apy = TransactionOverviewApy
+TransactionOverview.FarmApy = TransactionOverviewFarmApy
+TransactionOverview.SavingsApy = TransactionOverviewSavingsApy
 TransactionOverview.ApyChange = TransactionOverviewApyChange
 TransactionOverview.TokenAmountChange = TransactionOverviewTokenAmountChange
 TransactionOverview.HealthFactorChange = TransactionOverviewHealthFactorChange

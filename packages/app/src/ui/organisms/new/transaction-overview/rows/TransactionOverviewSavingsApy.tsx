@@ -3,18 +3,18 @@ import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { testIds } from '@/ui/utils/testIds'
 
-export interface TransactionOverviewApyProps {
+export interface TransactionOverviewSavingsApyProps {
   apy: Percentage
-  rewardsPerYear: NormalizedUnitNumber
-  rewardToken: Token
+  stableEarnRate: NormalizedUnitNumber
+  baseStable: Token
 }
 
-export function TransactionOverviewApy({ apy, rewardsPerYear, rewardToken }: TransactionOverviewApyProps) {
+export function TransactionOverviewSavingsApy({ apy, stableEarnRate, baseStable }: TransactionOverviewSavingsApyProps) {
   return (
     <div className="flex items-baseline gap-2">
       {apy.gt(0) && (
         <div
-          data-testid={testIds.farmDetails.stakeDialog.transactionOverview.estimatedRewards.apy}
+          data-testid={testIds.dialog.savings.transactionOverview.apy.value}
           className="typography-label-4 text-primary"
         >
           {formatPercentage(apy)}
@@ -22,9 +22,9 @@ export function TransactionOverviewApy({ apy, rewardsPerYear, rewardToken }: Tra
       )}
       <div
         className="typography-body-6 text-secondary"
-        data-testid={testIds.farmDetails.stakeDialog.transactionOverview.estimatedRewards.description}
+        data-testid={testIds.dialog.savings.transactionOverview.apy.description}
       >
-        Earn ~{rewardToken.format(rewardsPerYear, { style: 'auto' })} {rewardToken.symbol}/year
+        Earn ~{baseStable.format(stableEarnRate, { style: 'auto' })} {baseStable.symbol}/year
       </div>
     </div>
   )

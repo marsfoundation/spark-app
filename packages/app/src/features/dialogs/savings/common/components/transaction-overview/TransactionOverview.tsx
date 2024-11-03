@@ -24,7 +24,7 @@ export function SavingsTransactionOverview({ txOverview, selectedToken, showAPY 
       {showAPY && (
         <TransactionOverview.Row>
           <TransactionOverview.Label>APY</TransactionOverview.Label>
-          <TransactionOverview.Apy apy={APY} rewardsPerYear={stableEarnRate} rewardToken={baseStable} />
+          <TransactionOverview.SavingsApy apy={APY} stableEarnRate={stableEarnRate} baseStable={baseStable} />
         </TransactionOverview.Row>
       )}
       <TransactionOverview.Row>
