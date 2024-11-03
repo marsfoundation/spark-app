@@ -5,9 +5,9 @@ import { OpenDialogFunction } from '@/domain/state/dialogs'
 import { Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { savingsWithdrawDialogConfig } from '@/features/dialogs/savings/withdraw/SavingsWithdrawDialog'
-import { Button } from '@/ui/atoms/button/Button'
-import { Panel } from '@/ui/atoms/panel/Panel'
-import { testIds } from '@/ui/utils/testIds'
+import { Button } from '@/ui/atoms/new/button/Button'
+import { Panel } from '@/ui/atoms/new/panel/Panel'
+import { cn } from '@/ui/utils/style'
 import { SavingsMetaItem } from '../../logic/makeSavingsMeta'
 import { SavingsOverview } from '../../logic/makeSavingsOverview'
 import { Projections } from '../../types'
@@ -44,27 +44,30 @@ export function SavingsTokenPanel({
   const savingsType = variant === 'dai' ? 'sdai' : 'susds'
 
   return (
-    <Panel.Wrapper
-      className="flex min-h-[260px] w-full flex-1 flex-col justify-between self-stretch px-6 py-6 md:px-[32px]"
-      data-testid={testIds.savings[savingsType].panel}
+    <Panel
+      spacing="m"
+      className={cn(
+        'flex flex-col justify-between bg-right bg-no-repeat',
+        savingsType === 'sdai' ? 'bg-savings-dai-token-panel' : 'bg-savings-usds-token-panel',
+      )}
     >
       <div className="flex w-full flex-row items-center justify-between">
         <div className="flex flex-row items-center gap-1">
-          <h2 className="whitespace-nowrap font-semibold text-base text-basics-black sm:text-xl">
+          <div className="typography-heading-4 text-primary-inverse">
             {savingsType === 'sdai' ? 'Savings DAI' : 'Savings USDS'}
-          </h2>
+          </div>
         </div>
-        <div className="flex flex-row gap-2">
+        <div className="-mt-2 -mr-2 flex flex-row gap-1">
           <Button
-            variant="secondary"
-            size="sm"
+            variant="tertiary"
+            size="m"
             onClick={() => openDialog(savingsWithdrawDialogConfig, { mode: 'send', savingsType } as const)}
           >
             Send
           </Button>
           <Button
-            variant="secondary"
-            size="sm"
+            variant="tertiary"
+            size="m"
             onClick={() => openDialog(savingsWithdrawDialogConfig, { mode: 'withdraw', savingsType } as const)}
           >
             Withdraw
@@ -78,13 +81,13 @@ export function SavingsTokenPanel({
         balanceRefreshIntervalInMs={balanceRefreshIntervalInMs}
         savingsType={savingsType}
       />
-      <div className="flex flex-row items-end justify-between border-t pt-6">
+      <div className="flex gap-6">
         <SavingsInfoTile>
           <SavingsInfoTile.Label tooltipContent="This is an estimate of what you could earn in 30 days.">
             <div className="hidden md:block">30-day projection</div>
             <div className="md:hidden"> 30-day </div>
           </SavingsInfoTile.Label>
-          <SavingsInfoTile.Value color="green">
+          <SavingsInfoTile.Value className="text-primary-inverse">
             +
             {assetsToken.formatUSD(currentProjections.thirtyDays, {
               showCents: 'when-not-round',
@@ -93,12 +96,13 @@ export function SavingsTokenPanel({
             {assetsToken.symbol}
           </SavingsInfoTile.Value>
         </SavingsInfoTile>
+        <div className="h-full border-reskin-fg-secondary border-r" />
         <SavingsInfoTile>
           <SavingsInfoTile.Label tooltipContent="This is an estimate of what you could earn in one year.">
             <div className="hidden md:block"> 1-year projection </div>
             <div className="md:hidden"> 1-year </div>
           </SavingsInfoTile.Label>
-          <SavingsInfoTile.Value color="green">
+          <SavingsInfoTile.Value className="text-primary-inverse">
             +
             {assetsToken.formatUSD(currentProjections.oneYear, {
               showCents: 'when-not-round',
@@ -107,13 +111,14 @@ export function SavingsTokenPanel({
             {assetsToken.symbol}
           </SavingsInfoTile.Value>
         </SavingsInfoTile>
+        <div className="h-full border-reskin-fg-secondary border-r" />
         <SavingsInfoTile>
           <DSRLabel originChainId={originChainId} savingsMetaItem={savingsMetaItem} />
-          <SavingsInfoTile.Value color="green">
+          <SavingsInfoTile.Value className="text-primary-inverse">
             {formatPercentage(APY, { minimumFractionDigits: 0 })}
           </SavingsInfoTile.Value>
         </SavingsInfoTile>
       </div>
-    </Panel.Wrapper>
+    </Panel>
   )
 }

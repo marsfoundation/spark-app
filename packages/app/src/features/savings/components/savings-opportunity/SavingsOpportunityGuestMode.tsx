@@ -29,7 +29,7 @@ export function SavingsOpportunityGuestMode({
         <Explainer savingsMeta={savingsMeta} />
 
         <SavingsInfoTile className="mt-auto flex flex-row items-baseline gap-2">
-          <SavingsInfoTile.Value size="extraLarge" className="leading-none md:leading-none">
+          <SavingsInfoTile.Value className="typography-heading-1">
             {formatPercentage(APY, { minimumFractionDigits: 0 })}
           </SavingsInfoTile.Value>
           <DSRLabel originChainId={originChainId} savingsMetaItem={savingsMeta.primary} />

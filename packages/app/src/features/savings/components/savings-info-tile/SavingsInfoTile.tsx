@@ -1,16 +1,14 @@
-import { VariantProps, cva } from 'class-variance-authority'
-import { ReactNode } from 'react'
-
 import { Info } from '@/ui/molecules/info/Info'
 import { cn } from '@/ui/utils/style'
+import { ReactNode } from 'react'
 
-interface SavingsInfoTileProps extends VariantProps<typeof savingsInfoTileVariants> {
+interface SavingsInfoTileProps {
   children: ReactNode
   className?: string
 }
-export function SavingsInfoTile({ children, alignItems, className }: SavingsInfoTileProps) {
+export function SavingsInfoTile({ children, className }: SavingsInfoTileProps) {
   return (
-    <div className={cn(savingsInfoTileVariants({ alignItems }), className)} role="generic">
+    <div className={cn('flex flex-col gap-1', className)} role="generic">
       {children}
     </div>
   )
@@ -23,52 +21,19 @@ interface LabelProps {
 function Label({ children, tooltipContent: tooltipText }: LabelProps) {
   return (
     <div className="flex items-center gap-1">
-      <div className="font-semibold text-basics-dark-grey text-xs leading-none tracking-wide">{children}</div>
-      {tooltipText && <Info>{tooltipText}</Info>}
+      <div className="typography-label-4 text-secondary">{children}</div>
+      {tooltipText && <Info className="text-primary-inverse">{tooltipText}</Info>}
     </div>
   )
 }
 
-export interface ValueProps extends VariantProps<typeof valueVariants> {
+export interface ValueProps {
   children: ReactNode
   className?: string
 }
-function Value({ children, size, color, className }: ValueProps) {
-  return <p className={cn(valueVariants({ size, color }), className)}>{children}</p>
+function Value({ children, className }: ValueProps) {
+  return <p className={cn('typography-label-2 text-primary', className)}>{children}</p>
 }
-
-const savingsInfoTileVariants = cva('inline-flex flex-col gap-1', {
-  variants: {
-    alignItems: {
-      start: 'items-start',
-      center: 'items-center',
-      end: 'items-end',
-    },
-  },
-  defaultVariants: {
-    alignItems: 'start',
-  },
-})
-
-const valueVariants = cva('font-semibold text-basics-black', {
-  variants: {
-    size: {
-      base: 'text-sm md:text-base',
-      medium: 'text-lg md:text-2xl',
-      large: 'text-2xl md:text-4xl',
-      extraLarge: 'text-3xl md:text-5xl',
-      huge: 'text-5xl leading-tight md:text-7xl',
-    },
-    color: {
-      dark: 'text-basics-black',
-      green: 'text-sec-green',
-    },
-  },
-  defaultVariants: {
-    size: 'base',
-    color: 'dark',
-  },
-})
 
 SavingsInfoTile.Label = Label
 SavingsInfoTile.Value = Value
