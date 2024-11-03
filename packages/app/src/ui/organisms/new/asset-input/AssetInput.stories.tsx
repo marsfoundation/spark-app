@@ -78,3 +78,15 @@ export const Errored: Story = {
     await expect(error).toBeVisible()
   },
 }
+export const WithRemove: Story = {
+  name: 'With remove button',
+  args: {
+    onRemove: () => {},
+  },
+}
+export const NoMaxValue: Story = {
+  name: 'Without max button',
+  args: {
+    maxValue: undefined,
+  },
+}

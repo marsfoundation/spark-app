@@ -2,6 +2,7 @@ import { formFormat } from '@/domain/common/format'
 import { TokenWithBalance } from '@/domain/common/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { XButton } from '@/ui/atoms/new/x-button/XButton'
 import { AssetSelector } from '@/ui/molecules/new/asset-selector/AssetSelector'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
@@ -17,6 +18,7 @@ export interface AssetInputProps<TFieldValues extends FieldValues> {
   setSelectedAsset: (selectedAsset: TokenSymbol) => void
   maxValue?: NormalizedUnitNumber
   maxSelectedFieldName?: string
+  onRemove?: () => void
   disabled?: boolean
   showError?: boolean // defaults to show error if field is touched or dirty
 }
@@ -31,6 +33,7 @@ export function AssetInput<TFieldValues extends FieldValues>({
   disabled = false,
   maxValue,
   maxSelectedFieldName,
+  onRemove,
 }: AssetInputProps<TFieldValues>) {
   const { setValue, trigger, getValues } = useFormContext()
   const {
@@ -74,15 +77,20 @@ export function AssetInput<TFieldValues extends FieldValues>({
     return field.value
   })()
 
+  const optionalGridColsNum = Number(!!onRemove) + Number(!!maxValue)
+
   return (
     <div className="flex flex-col gap-0.5">
       <div
         className={cn(
-          'grid grid-cols-[auto_1fr_auto] items-center gap-3 p-2 pr-4',
+          'grid items-center gap-3 p-2 pr-4',
           'rounded-sm border border-primary bg-secondary',
           'focus-within:border-brand-primary',
           disabled && 'cursor-not-allowed bg-secondary/50',
           showError && error && 'border-reskin-error-200 bg-system-error-primary',
+          optionalGridColsNum === 0 && 'grid-cols-[auto_1fr]',
+          optionalGridColsNum === 1 && 'grid-cols-[auto_1fr_auto]',
+          optionalGridColsNum === 2 && 'grid-cols-[auto_1fr_auto_auto]',
         )}
       >
         <div className="min-w-[120px]">
@@ -133,7 +141,7 @@ export function AssetInput<TFieldValues extends FieldValues>({
             <button
               onClick={disabled ? undefined : setMaxValue}
               className={cn(
-                'typography-label-5 text-brand-primary disabled:text-secondary',
+                'typography-label-5 text-brand-primary disabled:text-secondary hover:text-reskin-primary-950',
                 disabled && 'cursor-not-allowed opacity-50',
               )}
               disabled={disabled || isMaxSelected}
@@ -146,6 +154,7 @@ export function AssetInput<TFieldValues extends FieldValues>({
             </div>
           </div>
         )}
+        {onRemove && <XButton onClick={onRemove} spacing="none" />}
       </div>
       {showError && error && (
         <div data-testid={testIds.component.AssetInput.error} className="typography-label-6 text-system-error-primary">
