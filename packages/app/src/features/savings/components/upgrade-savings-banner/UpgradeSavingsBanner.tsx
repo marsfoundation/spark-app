@@ -5,6 +5,7 @@ import { LinkDecorator } from '@/ui/atoms/link-decorator/LinkDecorator'
 import { Button } from '@/ui/atoms/new/button/Button'
 import { Panel } from '@/ui/atoms/new/panel/Panel'
 import { links } from '@/ui/constants/links'
+import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { useBreakpoint } from '@/ui/utils/useBreakpoint'
 import { CheckIcon } from 'lucide-react'
@@ -23,7 +24,12 @@ export function UpgradeSavingsBanner({ onUpgradeSavingsClick, apyImprovement }: 
       data-testid={testIds.savings.upgradeSDaiBanner}
     >
       <img src={assets.banners.savingsUpgrade} alt="savings-upgrade-banner" className="-ml-6 w-32 sm:ml-0 sm:w-auto" />
-      <div className="mx-auto grid grid-rows-[1fr_auto] items-center gap-x-6 gap-y-2 pr-4 lg:grid-cols-[1fr_1fr_auto] md:grid-cols-[1fr_1fr] md:grid-rows-1 sm:gap-y-3 sm:pr-8">
+      <div
+        className={cn(
+          'mx-auto grid grid-rows-[1fr_auto] items-center gap-x-6 gap-y-2 pr-4',
+          'lg:grid-cols-[1fr_1fr_auto] md:grid-cols-[1fr_1fr] md:grid-rows-1 sm:gap-y-3 sm:pr-8',
+        )}
+      >
         <div className="typography-heading-6 sm:typography-heading-5 justify-self-end text-primary">
           Upgrade your <span className="text-[#76C14A]">Savings DAI</span> to{' '}
           <span className="text-system-success-primary">Savings USDS</span>

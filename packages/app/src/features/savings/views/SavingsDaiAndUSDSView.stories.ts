@@ -6,6 +6,7 @@ import { WithTooltipProvider } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
+import { withRouter } from 'storybook-addon-remix-react-router'
 import { mainnet } from 'viem/chains'
 import {
   mockEarningsChartData,
@@ -127,7 +128,7 @@ const sDaiDetails = {
 const meta: Meta<typeof SavingsDaiAndUsdsView> = {
   title: 'Features/Savings/Views/SavingsDaiAndUsdsView',
   component: SavingsDaiAndUsdsView,
-  decorators: [WithTooltipProvider()],
+  decorators: [WithTooltipProvider(), withRouter()],
   parameters: {
     layout: 'fullscreen',
   },
