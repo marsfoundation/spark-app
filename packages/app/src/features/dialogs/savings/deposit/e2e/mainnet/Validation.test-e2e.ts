@@ -47,7 +47,7 @@ test.describe('Validation', () => {
       await depositDialog.expectNativeRouteTransactionOverview({
         apy: {
           value: '5.00%',
-          description: '~500.00 DAI per year',
+          description: 'Earn ~500.00 DAI/year',
         },
         routeItems: [
           {

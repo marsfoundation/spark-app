@@ -41,7 +41,7 @@ test.describe('Deposit USDS', () => {
     await depositDialog.expectNativeRouteTransactionOverview({
       apy: {
         value: '6.50%',
-        description: '~650.00 USDS per year',
+        description: 'Earn ~650.00 USDS/year',
       },
       routeItems: [
         {

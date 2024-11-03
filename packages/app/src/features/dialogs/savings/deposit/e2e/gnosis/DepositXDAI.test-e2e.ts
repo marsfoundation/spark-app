@@ -44,7 +44,7 @@ test.describe('Deposit XDAI on Gnosis', () => {
     await depositDialog.expectNativeRouteTransactionOverview({
       apy: {
         value: '10.60%',
-        description: '~1,059.80 XDAI per year',
+        description: 'Earn ~1,059.80 XDAI/year',
       },
       routeItems: [
         {
