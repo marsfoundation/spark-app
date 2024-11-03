@@ -60,7 +60,7 @@ export function TopbarWalletDropdown({ dropdownTriggerInfo, dropdownContentInfo 
           </button>
         </DropdownMenuItem>
 
-        { blockExplorerAddressLink && (
+        {blockExplorerAddressLink && (
           <>
             <DropdownMenuSeparator className="mx-1" />
 

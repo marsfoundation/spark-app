@@ -28,8 +28,6 @@ const args = {
       walletIcon: assets.walletIcons.metamask,
       address: CheckedAddress('0x1234567890123456789012345678901234567890'),
       onDisconnect: () => {},
-      isEphemeralAccount: false,
-      isInSandbox: false,
       blockExplorerAddressLink: '/',
     },
   },
@@ -78,25 +76,10 @@ export const Sandbox: Story = {
     connectedWalletInfo: {
       dropdownContentInfo: {
         ...args.connectedWalletInfo.dropdownContentInfo,
-        isInSandbox: true,
-        isEphemeralAccount: true,
       },
       dropdownTriggerInfo: {
         ...args.connectedWalletInfo.dropdownTriggerInfo,
         mode: 'sandbox',
-      },
-    },
-  },
-}
-
-export const ReadOnly: Story = {
-  args: {
-    ...args,
-    connectedWalletInfo: {
-      ...args.connectedWalletInfo,
-      dropdownTriggerInfo: {
-        ...args.connectedWalletInfo.dropdownTriggerInfo,
-        mode: 'read-only',
       },
     },
   },

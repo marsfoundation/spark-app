@@ -15,7 +15,7 @@ export interface ConnectedWalletInfo {
 }
 
 export interface WalletDropdownTriggerInfo {
-  mode:  'sandbox' | 'connected'
+  mode: 'sandbox' | 'connected'
   avatar: string
   address: CheckedAddress
   ensName?: EnsName

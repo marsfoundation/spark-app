@@ -39,9 +39,3 @@ export const Sandbox: Story = {
     mode: 'sandbox',
   },
 }
-
-export const ReadOnly: Story = {
-  args: {
-    mode: 'read-only',
-  },
-}

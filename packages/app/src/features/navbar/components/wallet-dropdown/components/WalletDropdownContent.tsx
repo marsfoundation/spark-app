@@ -10,8 +10,6 @@ export function WalletDropdownContent({
   walletIcon,
   address,
   onDisconnect,
-  isEphemeralAccount,
-  isInSandbox,
   blockExplorerAddressLink,
 }: WalletDropdownContentProps) {
   return (
@@ -20,16 +18,16 @@ export function WalletDropdownContent({
         <div className="flex items-center gap-3">
           <img src={walletIcon} alt="Wallet icon" className="h-5 w-5" />
           <div className="overflow-hidden text-basics-black">
-            {isEphemeralAccount ? 'Ephemeral account' : <Address compact address={address} />}
+            <Address compact address={address} />
           </div>
         </div>
         <div className="flex gap-2.5">
           <Button size="sm" variant="secondary" onClick={onDisconnect}>
-            {isInSandbox ? 'Exit sandbox' : 'Disconnect'}
+            Disconnect
           </Button>
         </div>
       </div>
-      {!isEphemeralAccount && blockExplorerAddressLink && (
+      {blockExplorerAddressLink && (
         <div className="flex items-center gap-2.5 p-4">
           <Link
             to={blockExplorerAddressLink}

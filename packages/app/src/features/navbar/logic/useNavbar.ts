@@ -64,7 +64,7 @@ export function useNavbar(): UseNavbarResults {
     select: useMemo(() => marketInfoSelectFn(), []),
   })
   const airdropInfo = useAirdropInfo({ refreshIntervalInMs: 100 })
-  const { isInSandbox, isSandboxEnabled, isEphemeralAccount, deleteSandbox } = useSandboxState()
+  const { isInSandbox, isSandboxEnabled, deleteSandbox } = useSandboxState()
   const { changeNetworkAsync } = useNetworkChange()
   const { disconnect } = useDisconnect({
     changeNetworkAsync,
