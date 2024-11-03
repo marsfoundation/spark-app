@@ -74,7 +74,7 @@ export const TopbarButton = forwardRef<HTMLAnchorElement | HTMLButtonElement, To
         {label}
         {postfixSlot &&
           cloneElement(postfixSlot, {
-            className: 'icon-xs transition-colors group-hover:text-secondary',
+            className: cn('icon-xs transition-colors group-hover:text-secondary', postfixSlot.props.className),
           })}
       </>
     )
