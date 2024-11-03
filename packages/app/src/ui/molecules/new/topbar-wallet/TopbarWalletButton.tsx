@@ -41,7 +41,7 @@ export const TopbarWalletButton = forwardRef<HTMLButtonElement, TopbarWalletButt
 
     return (
       <Button {...buttonProps}>
-        <img src={avatar} alt="wallet-avatar" className="rounded-full" />
+        <img src={avatar} alt="wallet-avatar" className="icon-md rounded-full" />
         <div className="truncate">{ensName ? ensName : shortenAddress(address)}</div>
         {chevron}
       </Button>
