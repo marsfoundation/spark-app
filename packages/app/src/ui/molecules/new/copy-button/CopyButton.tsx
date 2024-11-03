@@ -2,7 +2,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/new/tooltip/
 import { cn } from '@/ui/utils/style'
 import { useClipboard } from '@/utils/useClipboard'
 import { useMounted } from '@/utils/useMounted'
-import { Check, Copy } from 'lucide-react'
+import { CheckIcon, CopyIcon } from 'lucide-react'
 import { forwardRef } from 'react'
 
 export interface CopyButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -12,7 +12,7 @@ export interface CopyButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEl
 export const CopyButton = forwardRef<HTMLButtonElement, CopyButtonProps>(
   ({ className, onClick, text, ...props }, ref) => {
     const { copied, copy } = useClipboard()
-    const isMounted = useMounted()
+    const mounted = useMounted()
 
     function handleCopy(e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
       copy(text)
@@ -36,10 +36,10 @@ export const CopyButton = forwardRef<HTMLButtonElement, CopyButtonProps>(
             {...props}
           >
             {copied ? (
-              <Check size={12} className="animate-reveal text-success" />
+              <CheckIcon className="icon-xxs animate-reveal text-success" />
             ) : (
               // @note it prevents icon from being animated on initial render
-              <Copy size={12} className={cn(isMounted && 'animate-reveal')} />
+              <CopyIcon className={cn('icon-xxs', mounted && 'animate-reveal')} />
             )}
           </button>
         </TooltipTrigger>
