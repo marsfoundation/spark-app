@@ -1,4 +1,4 @@
-import { ChevronUp, Eye } from 'lucide-react'
+import { ChevronUp } from 'lucide-react'
 import { ButtonHTMLAttributes, forwardRef } from 'react'
 
 import { WalletDropdownTriggerInfo } from '@/features/navbar/types'
@@ -38,16 +38,6 @@ export const TopbarWalletButton = forwardRef<HTMLButtonElement, TopbarWalletButt
         className={cn(open ? 'rotate-180 text-brand' : 'rotate-0 text-secondary', '!icon-xs ml-auto')}
       />
     )
-
-    if (mode === 'read-only') {
-      return (
-        <Button {...buttonProps}>
-          <ButtonIcon icon={Eye} />
-          Read-only mode
-          {chevron}
-        </Button>
-      )
-    }
 
     return (
       <Button {...buttonProps}>
