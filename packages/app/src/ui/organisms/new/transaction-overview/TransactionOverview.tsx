@@ -15,15 +15,15 @@ export interface TransactionOverviewProps {
 
 function TransactionOverview({ children }: TransactionOverviewProps) {
   return (
-    <div className="flex flex-col gap-3">
-      <div className="typography-body-5 text-secondary">Transaction overview</div>
+    <section className="flex flex-col gap-3">
+      <h5 className="typography-body-5 text-secondary">Transaction overview</h5>
       <div
         className="grid grid-cols-[auto_1fr] gap-x-6 rounded-sm bg-secondary"
         style={{ gridAutoRows: 'minmax(0, 1fr)' }}
       >
         {children}
       </div>
-    </div>
+    </section>
   )
 }
 
