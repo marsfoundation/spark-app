@@ -46,10 +46,12 @@ function HealthFactorBadge({ healthFactor, 'data-testid': dataTestId }: HealthFa
 
   return (
     <div className="flex items-center gap-1.5">
-      <Badge appearance="solid" size="xs" variant={riskLevelToStateVariant[riskLevel]} data-testid={dataTestId}>
+      <Badge appearance="solid" size="xs" variant={riskLevelToStateVariant[riskLevel]}>
         {title}
       </Badge>
-      <div className="typography-label-4 text-primary">{formatHealthFactor(healthFactor)}</div>
+      <div className="typography-label-4 text-primary" data-testid={dataTestId}>
+        {formatHealthFactor(healthFactor)}
+      </div>
     </div>
   )
 }
