@@ -1,7 +1,7 @@
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { EnsName } from '@/domain/types/EnsName'
 import { assets } from '@/ui/assets'
-import { WithTooltipProvider } from '@sb/decorators'
+import { WithClassname, WithTooltipProvider } from '@sb/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { userEvent, within } from '@storybook/test'
 import { TopbarWallet, TopbarWalletProps } from './TopbarWallet'
@@ -9,7 +9,12 @@ import { TopbarWallet, TopbarWalletProps } from './TopbarWallet'
 const meta: Meta<typeof TopbarWallet> = {
   title: 'Components/Molecules/New/TopbarWallet',
   component: TopbarWallet,
-  decorators: [WithTooltipProvider()],
+  decorators: [WithTooltipProvider(), WithClassname('h-[400px]')],
+  play: async ({ canvasElement }) => {
+    const button = await within(canvasElement).findByRole('button')
+
+    await userEvent.click(button)
+  },
 }
 
 const args = {
@@ -34,11 +39,6 @@ type Story = StoryObj<typeof TopbarWallet>
 
 export const Connected: Story = {
   args,
-  play: async ({ canvasElement }) => {
-    const button = await within(canvasElement).findByRole('button')
-
-    await userEvent.click(button)
-  },
 }
 
 export const ConnectedEnsName: Story = {
@@ -52,11 +52,6 @@ export const ConnectedEnsName: Story = {
       },
     },
   },
-  play: async ({ canvasElement }) => {
-    const button = await within(canvasElement).findByRole('button')
-
-    await userEvent.click(button)
-  },
 }
 
 export const ConnectedEnsLongName: Story = {
@@ -69,11 +64,6 @@ export const ConnectedEnsLongName: Story = {
         ensName: EnsName('phoenixlabs.ens'),
       },
     },
-  },
-  play: async ({ canvasElement }) => {
-    const button = await within(canvasElement).findByRole('button')
-
-    await userEvent.click(button)
   },
 }
 
