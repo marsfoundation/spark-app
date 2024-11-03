@@ -1,20 +1,15 @@
 import { Token } from '@/domain/types/Token'
-import { DialogPanel } from '@/features/dialogs/common/components/DialogPanel'
-import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPanelTitle'
-import { RouteItem } from '@/features/dialogs/common/components/transaction-overview/RouteItem'
-import { SkyBadge } from '@/features/dialogs/common/components/transaction-overview/SkyBadge'
-import { TransactionOverviewDetailsItem } from '@/features/dialogs/common/components/transaction-overview/TransactionOverviewDetailsItem'
-import { TransactionOutcome } from '../../../common/components/transaction-overview/TransactionOutcome'
+import { TransactionOverview } from '@/ui/organisms/new/transaction-overview/TransactionOverview'
 import { TransactionOverviewPlaceholder } from '../../../common/components/transaction-overview/TransactionOverviewPlaceholder'
 import { TxOverview } from '../../logic/createTxOverview'
 
-export interface TransactionOverviewProps {
+interface ConvertStablesTransactionOverviewProps {
   inToken: Token
   outToken: Token
   txOverview: TxOverview
 }
 
-export function TransactionOverview({ inToken, outToken, txOverview }: TransactionOverviewProps) {
+function ConvertStablesTransactionOverview({ inToken, outToken, txOverview }: ConvertStablesTransactionOverviewProps) {
   const badgeTokens = [inToken.symbol, outToken.symbol]
 
   if (txOverview.status !== 'success') {
@@ -24,28 +19,27 @@ export function TransactionOverview({ inToken, outToken, txOverview }: Transacti
   const { route, outcome } = txOverview
 
   return (
-    <div className="isolate">
-      <DialogPanel className="shadow-none">
-        <DialogPanelTitle>Transaction overview</DialogPanelTitle>
-        <TransactionOverviewDetailsItem label="Route">
-          <div className="flex flex-col items-end gap-2 md:flex-row">
-            {route.map((item, index) => (
-              <RouteItem
-                key={item.token.symbol}
-                item={item}
-                index={index}
-                isLast={index === route.length - 1}
-                displayRouteVertically={false}
-              />
-            ))}
-          </div>
-        </TransactionOverviewDetailsItem>
-        <TransactionOverviewDetailsItem label="Outcome">
-          <TransactionOutcome outcome={outcome} />
-        </TransactionOverviewDetailsItem>
-      </DialogPanel>
-
-      <SkyBadge tokens={badgeTokens} />
-    </div>
+    <TransactionOverview>
+      <TransactionOverview.Row>
+        <TransactionOverview.Label>Route</TransactionOverview.Label>
+        <TransactionOverview.Route
+          route={route.map((item) => ({
+            type: 'token-amount',
+            token: item.token,
+            amount: item.value,
+            usdAmount: item.usdValue,
+          }))}
+        />
+      </TransactionOverview.Row>
+      <TransactionOverview.Row>
+        <TransactionOverview.Label>Outcome</TransactionOverview.Label>
+        <TransactionOverview.TokenAmount token={outcome.token} amount={outcome.value} usdAmount={outcome.usdValue} />
+      </TransactionOverview.Row>
+    </TransactionOverview>
   )
+}
+
+export {
+  ConvertStablesTransactionOverview as TransactionOverview,
+  type ConvertStablesTransactionOverviewProps as TransactionOverviewProps,
 }

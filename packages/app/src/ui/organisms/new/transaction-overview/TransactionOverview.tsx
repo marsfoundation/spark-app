@@ -1,13 +1,13 @@
 import { cn } from '@/ui/utils/style'
 import { HTMLAttributes } from 'react'
-import { TransactionOverviewAmountChange } from './rows/TransactionOverviewAmountChange'
 import { TransactionOverviewApy } from './rows/TransactionOverviewApy'
 import { TransactionOverviewApyChange } from './rows/TransactionOverviewApyChange'
 import { TransactionOverviewAvailableAssets } from './rows/TransactionOverviewAvailableAssets'
 import { TransactionOverviewHealthFactorChange } from './rows/TransactionOverviewHealthFactorChange'
 import { TransactionOverviewMaxLtvChange } from './rows/TransactionOverviewMaxLtvChange'
-import { TransactionOverviewOutcome } from './rows/TransactionOverviewOutcome'
 import { TransactionOverviewRoute } from './rows/TransactionOverviewRoute'
+import { TransactionOverviewTokenAmount } from './rows/TransactionOverviewTokenAmount'
+import { TransactionOverviewTokenAmountChange } from './rows/TransactionOverviewTokenAmountChange'
 
 export interface TransactionOverviewProps {
   children: React.ReactNode
@@ -15,11 +15,14 @@ export interface TransactionOverviewProps {
 
 function TransactionOverview({ children }: TransactionOverviewProps) {
   return (
-    <div
-      className="grid grid-cols-[auto_1fr] gap-x-6 rounded-sm bg-secondary"
-      style={{ gridAutoRows: 'minmax(0, 1fr)' }}
-    >
-      {children}
+    <div className="flex flex-col gap-3">
+      <div className="typography-body-5 text-secondary">Transaction overview</div>
+      <div
+        className="grid grid-cols-[auto_1fr] gap-x-6 rounded-sm bg-secondary"
+        style={{ gridAutoRows: 'minmax(0, 1fr)' }}
+      >
+        {children}
+      </div>
     </div>
   )
 }
@@ -43,11 +46,11 @@ function TransactionOverviewGenericRow({ className, ...rest }: HTMLAttributes<HT
 TransactionOverview.Label = TransactionOverviewLabel
 TransactionOverview.Row = TransactionOverviewRow
 
-TransactionOverview.Outcome = TransactionOverviewOutcome
+TransactionOverview.TokenAmount = TransactionOverviewTokenAmount
 TransactionOverview.Route = TransactionOverviewRoute
 TransactionOverview.Apy = TransactionOverviewApy
 TransactionOverview.ApyChange = TransactionOverviewApyChange
-TransactionOverview.AmountChange = TransactionOverviewAmountChange
+TransactionOverview.TokenAmountChange = TransactionOverviewTokenAmountChange
 TransactionOverview.HealthFactorChange = TransactionOverviewHealthFactorChange
 TransactionOverview.AvailableAssets = TransactionOverviewAvailableAssets
 TransactionOverview.MaxLtvChange = TransactionOverviewMaxLtvChange

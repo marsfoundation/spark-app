@@ -3,17 +3,17 @@ import { Token } from '@/domain/types/Token'
 import { TokenAmount } from '@/ui/molecules/token-amount/TokenAmount'
 import { MoveRightIcon } from 'lucide-react'
 
-export interface TransactionOverviewAmountChangeProps {
+export interface TransactionOverviewTokenAmountChangeProps {
   token: Token
   currentAmount: NormalizedUnitNumber
   updatedAmount?: NormalizedUnitNumber
 }
 
-export function TransactionOverviewAmountChange({
+export function TransactionOverviewTokenAmountChange({
   token,
   currentAmount,
   updatedAmount,
-}: TransactionOverviewAmountChangeProps) {
+}: TransactionOverviewTokenAmountChangeProps) {
   return (
     <div className="flex gap-2.5">
       <TokenAmount token={token} amount={currentAmount} />

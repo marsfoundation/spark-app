@@ -36,9 +36,20 @@ export const Default: Story = {
           <TransactionOverview.Label>Route</TransactionOverview.Label>
           <TransactionOverview.Route
             route={[
-              { token: tokens.USDC, amount: NormalizedUnitNumber(100), usdAmount: NormalizedUnitNumber(100) },
-              { token: tokens.USDS, amount: NormalizedUnitNumber(100), usdAmount: NormalizedUnitNumber(100) },
               {
+                type: 'token-amount',
+                token: tokens.USDC,
+                amount: NormalizedUnitNumber(100),
+                usdAmount: NormalizedUnitNumber(100),
+              },
+              {
+                type: 'token-amount',
+                token: tokens.USDS,
+                amount: NormalizedUnitNumber(100),
+                usdAmount: NormalizedUnitNumber(100),
+              },
+              {
+                type: 'token-amount',
                 token: tokens.sUSDS,
                 amount: NormalizedUnitNumber(91.345035308238),
                 usdAmount: NormalizedUnitNumber(100),
@@ -48,11 +59,11 @@ export const Default: Story = {
         </TransactionOverview.Row>
         <TransactionOverview.Row>
           <TransactionOverview.Label>Outcome</TransactionOverview.Label>
-          <TransactionOverview.Outcome token={tokens.USDS} amount={NormalizedUnitNumber(100)} />
+          <TransactionOverview.TokenAmount token={tokens.USDS} amount={NormalizedUnitNumber(100)} />
         </TransactionOverview.Row>
         <TransactionOverview.Row>
           <TransactionOverview.Label>Remaining supply</TransactionOverview.Label>
-          <TransactionOverview.AmountChange
+          <TransactionOverview.TokenAmountChange
             token={tokens.USDC}
             currentAmount={NormalizedUnitNumber(1000000)}
             updatedAmount={NormalizedUnitNumber(1000000)}
