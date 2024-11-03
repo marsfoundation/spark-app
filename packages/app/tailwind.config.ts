@@ -411,7 +411,7 @@ export default {
         '3xl': '0px 32px 64px -12px rgba(16, 16, 20, 0.24)',
       },
       borderRadius: {
-        xss: '4px',
+        xxs: '4px',
         xs: '6px',
         sm: '8px',
         md: '12px',

@@ -1,5 +1,5 @@
-import { CloseButton } from '@/ui/atoms/new/close-button/CloseButton'
 import { IconBox } from '@/ui/atoms/new/icon-box/IconBox'
+import { XButton } from '@/ui/atoms/new/x-button/XButton'
 import { assertNever } from '@/utils/assertNever'
 import { type VariantProps, cva } from 'class-variance-authority'
 import { ReactNode, forwardRef, useState } from 'react'
@@ -22,7 +22,7 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(({ variant, closable
         <div className={alertVariants({ variant, closable })} ref={ref}>
           <IconBox variant="info" size="s" />
           {children}
-          {closable && <CloseButton onClose={() => setVisible(false)} />}
+          {closable && <XButton onClick={() => setVisible(false)} spacing="s" />}
         </div>
       )
     case 'warning':
@@ -30,7 +30,7 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(({ variant, closable
         <div className={alertVariants({ variant, closable })} ref={ref}>
           <IconBox variant="warning" size="s" />
           {children}
-          {closable && <CloseButton onClose={() => setVisible(false)} />}
+          {closable && <XButton onClick={() => setVisible(false)} spacing="s" />}
         </div>
       )
     case 'error':
@@ -38,7 +38,7 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(({ variant, closable
         <div className={alertVariants({ variant, closable })} ref={ref}>
           <IconBox variant="error" size="s" />
           {children}
-          {closable && <CloseButton onClose={() => setVisible(false)} />}
+          {closable && <XButton onClick={() => setVisible(false)} spacing="s" />}
         </div>
       )
     default:
