@@ -59,8 +59,8 @@ test.describe('Validation', () => {
             tokenUsdValue: '$10,000.00',
           },
         ],
-        outcome: '9,332.66 sDAI worth $10,000.00',
-        badgeTokens: 'DAI',
+        outcome: '9,332.66 sDAI',
+        outcomeUsd: '$10,000.00',
       })
     })
   })

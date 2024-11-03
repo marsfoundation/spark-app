@@ -54,8 +54,8 @@ test.describe('Deposit USDS', () => {
           tokenUsdValue: '$10,000.00',
         },
       ],
-      outcome: '9,999.77 sUSDS worth $10,000.00',
-      badgeTokens: 'USDS',
+      outcome: '9,999.77 sUSDS',
+      outcomeUsd: '$10,000.00',
     })
 
     await depositDialog.expectUpgradeSwitchToBeHidden()

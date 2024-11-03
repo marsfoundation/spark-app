@@ -1,5 +1,6 @@
 import { Token } from '@/domain/types/Token'
 import { TransactionOverview } from '@/ui/organisms/new/transaction-overview/TransactionOverview'
+import { testIds } from '@/ui/utils/testIds'
 import { assert } from '@/utils/assert'
 import { SavingsDialogTxOverview } from '../../types'
 import { TransactionOverviewPlaceholder } from './components/TransactionOverviewPlaceholder'
@@ -40,7 +41,13 @@ export function SavingsTransactionOverview({ txOverview, selectedToken, showAPY 
       </TransactionOverview.Row>
       <TransactionOverview.Row>
         <TransactionOverview.Label>Outcome</TransactionOverview.Label>
-        <TransactionOverview.TokenAmount token={outcome.token} amount={outcome.value} usdAmount={outcome.usdValue} />
+        <TransactionOverview.TokenAmount
+          token={outcome.token}
+          amount={outcome.value}
+          usdAmount={outcome.usdValue}
+          amountDataTestId={testIds.dialog.transactionOverview.outcome}
+          usdAmountDataTestId={testIds.dialog.transactionOverview.outcomeUsd}
+        />
       </TransactionOverview.Row>
     </TransactionOverview>
   )

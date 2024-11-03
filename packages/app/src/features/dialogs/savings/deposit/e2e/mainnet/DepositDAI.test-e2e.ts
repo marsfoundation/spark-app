@@ -59,8 +59,8 @@ test.describe('Deposit DAI', () => {
             tokenUsdValue: '$10,000.00',
           },
         ],
-        outcome: '9,999.77 sUSDS worth $10,000.00',
-        badgeTokens: 'DAI',
+        outcome: '9,999.77 sUSDS',
+        outcomeUsd: '$10,000.00',
       })
     })
 
@@ -104,8 +104,8 @@ test.describe('Deposit DAI', () => {
             tokenUsdValue: '$10,000.00',
           },
         ],
-        outcome: '9,020.46 sDAI worth $10,000.00',
-        badgeTokens: 'DAI',
+        outcome: '9,020.46 sDAI',
+        outcomeUsd: '$10,000.00',
       })
     })
 

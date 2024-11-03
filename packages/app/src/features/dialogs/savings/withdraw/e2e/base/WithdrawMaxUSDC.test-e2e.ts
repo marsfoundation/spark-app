@@ -50,8 +50,8 @@ test.describe('Withdraw Max USDC', () => {
           tokenUsdValue: '$10,057.24',
         },
       ],
-      outcome: '10,057.24 USDC worth $10,057.24',
-      badgeTokens: 'USDC',
+      outcome: '10,057.24 USDC',
+      outcomeUsd: '$10,057.24',
     })
 
     await withdrawDialog.expectUpgradeSwitchToBeHidden()
