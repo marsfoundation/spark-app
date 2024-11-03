@@ -9,7 +9,7 @@ import { Link } from '@/ui/atoms/link/Link'
 import { IconButton } from '@/ui/atoms/new/icon-button/IconButton'
 import { Switch } from '@/ui/atoms/new/switch/Switch'
 import { links } from '@/ui/constants/links'
-import { getBuildInfo } from '@/ui/utils/getBuildInfo'
+import { BuildInfo } from '@/ui/utils/getBuildInfo'
 import { cn } from '@/ui/utils/style'
 import { ExternalLink, Menu, ScrollText, Wand } from 'lucide-react'
 import { useState } from 'react'
@@ -17,19 +17,20 @@ import { useState } from 'react'
 export interface TopbarMenuProps {
   onSandboxModeClick: () => void
   isSandboxEnabled: boolean
+  buildInfo: BuildInfo
 }
 
-export function TopbarMenu({ isSandboxEnabled, onSandboxModeClick }: TopbarMenuProps) {
+export function TopbarMenu({ isSandboxEnabled, onSandboxModeClick, buildInfo }: TopbarMenuProps) {
   const [open, setOpen] = useState(false)
 
-  const { buildSha = 'n/a', buildTime = 'n/a' } = getBuildInfo()
+  const { sha = 'n/a', buildTime = 'n/a' } = buildInfo
 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
         <IconButton icon={Menu} variant="tertiary" className={cn(open && 'text-brand')} size="m" />
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" variant="secondary" className="flex w-80 flex-col gap-1.5 bg-secondary p-1">
+      <DropdownMenuContent align="end" variant="secondary" className="flex w-80 flex-col gap-1.5 p-1">
         <DropdownMenuItem
           variant="secondary"
           className="cursor-pointer flex-col items-start py-5"
@@ -51,16 +52,16 @@ export function TopbarMenu({ isSandboxEnabled, onSandboxModeClick }: TopbarMenuP
         </DropdownMenuItem>
 
         <DropdownMenuItem asChild variant="secondary" className="py-6">
-          <Link to={links.termsOfUse} external className="cursor-pointer text-primary hover:text-primary">
+          <Link to={links.termsOfUse} external className="!text-primary cursor-pointer">
             <DropdownMenuItemIcon icon={ScrollText} />
             Terms of Service
             <DropdownMenuItemIcon icon={ExternalLink} className="ml-auto" />
           </Link>
         </DropdownMenuItem>
 
-        <div className="typography-label-6 p-5 text-center text-secondary">
-          Built from {buildSha} at {buildTime}
-        </div>
+        <Link to={links.github} external className="typography-label-6 !text-secondary p-5 text-center">
+          Built from {sha} at {buildTime}
+        </Link>
       </DropdownMenuContent>
     </DropdownMenu>
   )

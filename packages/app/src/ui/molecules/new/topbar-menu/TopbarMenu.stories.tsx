@@ -1,4 +1,4 @@
-import { WithClassname, WithTooltipProvider } from '@sb/decorators'
+import { WithTooltipProvider } from '@sb/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { userEvent, within } from '@storybook/test'
 import { useState } from 'react'
@@ -6,12 +6,7 @@ import { TopbarMenu } from './TopbarMenu'
 
 const meta: Meta<typeof TopbarMenu> = {
   title: 'Components/Molecules/New/TopbarMenu',
-  // @note to make dropdown display in correct position
-  decorators: [WithClassname('flex justify-end'), WithTooltipProvider()],
-  args: {
-    isSandboxEnabled: false,
-    onSandboxModeClick: () => {},
-  },
+  decorators: [WithTooltipProvider()],
   play: async ({ canvasElement }) => {
     const button = await within(canvasElement).findByRole('button')
 
@@ -20,7 +15,16 @@ const meta: Meta<typeof TopbarMenu> = {
   render: () => {
     const [sandboxEnabled, setSandboxEnabled] = useState(false)
 
-    return <TopbarMenu isSandboxEnabled={sandboxEnabled} onSandboxModeClick={() => setSandboxEnabled((p) => !p)} />
+    return (
+      <TopbarMenu
+        isSandboxEnabled={sandboxEnabled}
+        onSandboxModeClick={() => setSandboxEnabled((p) => !p)}
+        buildInfo={{
+          sha: 'bdebc69',
+          buildTime: '25/10/2024, 10:01:51',
+        }}
+      />
+    )
   },
 }
 
