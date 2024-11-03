@@ -11,8 +11,8 @@ export function TopbarNetwork({ currentChain, onSelectNetwork }: TopbarNetworkPr
   const chainImage = getChainConfigEntry(currentChain.id).meta.logo
 
   return (
-    <IconButton variant="tertiary" size="m" onClick={onSelectNetwork}>
-      <img src={chainImage} alt={`Chain ${currentChain.name} logo`} className="h-6 w-6" />
+    <IconButton variant="tertiary" size="m" className="p-2" onClick={onSelectNetwork}>
+      <img src={chainImage} alt={`Chain ${currentChain.name} logo`} className="icon-md" />
     </IconButton>
   )
 }
