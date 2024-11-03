@@ -2,12 +2,12 @@ import { formFormat } from '@/domain/common/format'
 import { TokenWithBalance } from '@/domain/common/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { XButton } from '@/ui/atoms/new/x-button/XButton'
 import { AssetSelector } from '@/ui/molecules/new/asset-selector/AssetSelector'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { parseBigNumber } from '@/utils/bigNumber'
 import BigNumber from 'bignumber.js'
-import { XIcon } from 'lucide-react'
 import { Control, FieldPath, FieldValues, useController, useFormContext } from 'react-hook-form'
 
 export interface AssetInputProps<TFieldValues extends FieldValues> {
@@ -154,10 +154,7 @@ export function AssetInput<TFieldValues extends FieldValues>({
             </div>
           </div>
         )}
-        {onRemove && (
-          // @todo: make consistent with icon button
-          <XIcon className="icon-xs cursor-pointer text-secondary hover:text-reskin-neutral-700" onClick={onRemove} />
-        )}
+        {onRemove && <XButton onClick={onRemove} spacing="none" />}
       </div>
       {showError && error && (
         <div data-testid={testIds.component.AssetInput.error} className="typography-label-6 text-system-error-primary">
