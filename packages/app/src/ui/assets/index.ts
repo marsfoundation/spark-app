@@ -12,6 +12,7 @@ import arrowRight from './arrow-right.svg'
 import daiToUsdsUpgrade from './banners/dai-to-usds-upgrade.webp'
 import mkrToSkyTransform from './banners/mkr-to-sky-transform.svg'
 import newSavingsWelcome from './banners/new-savings-welcome.webp'
+import savingsUpgrade from './banners/savings-upgrade.svg'
 import sdaiToSusdsUpgrade from './banners/sdai-to-susds-upgrade.webp'
 import boxArrowTopRight from './box-arrow-top-right.svg'
 import baseDevNet from './chains/baseDevNet.svg'
@@ -185,6 +186,7 @@ export const assets = {
     default: defaultWallet,
   },
   banners: {
+    savingsUpgrade,
     daiToUsdsUpgrade,
     sdaiToSusdsUpgrade,
     mkrToSkyTransform,
