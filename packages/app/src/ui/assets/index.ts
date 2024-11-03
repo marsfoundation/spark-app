@@ -15,6 +15,8 @@ import newSavingsWelcome from './banners/new-savings-welcome.webp'
 import savingsUpgrade from './banners/savings-upgrade.svg'
 import sdaiToSusdsUpgrade from './banners/sdai-to-susds-upgrade.webp'
 import boxArrowTopRight from './box-arrow-top-right.svg'
+import logo from './brand/logo.svg'
+import base from './chains/base.svg'
 import baseDevNet from './chains/baseDevNet.svg'
 import ethereum from './chains/ethereum.svg'
 import gnosis from './chains/gnosis.svg'
@@ -151,6 +153,7 @@ export const assets = {
     ethereum,
     unknown,
     baseDevNet,
+    base,
   },
   token: {
     dai,
@@ -202,6 +205,10 @@ export const assets = {
     savings: savingsIcon,
     farms: farmsIcon,
     borrow: borrowIcon,
+  },
+
+  brand: {
+    logo,
   },
 }
 
