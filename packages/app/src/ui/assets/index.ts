@@ -15,7 +15,13 @@ import newSavingsWelcome from './banners/new-savings-welcome.webp'
 import savingsUpgrade from './banners/savings-upgrade.svg'
 import sdaiToSusdsUpgrade from './banners/sdai-to-susds-upgrade.webp'
 import boxArrowTopRight from './box-arrow-top-right.svg'
-import logo from './brand/logo.svg'
+import logoDark from './brand/logo-dark.svg'
+import logoGradientDark from './brand/logo-gradient-dark.svg'
+import logoGradientLight from './brand/logo-gradient-light.svg'
+import logoLight from './brand/logo-light.svg'
+import symbolDark from './brand/symbol-dark.svg'
+import symbolGradient from './brand/symbol-gradient.svg'
+import symboLight from './brand/symbol-light.svg'
 import base from './chains/base.svg'
 import baseDevNet from './chains/baseDevNet.svg'
 import ethereum from './chains/ethereum.svg'
@@ -208,7 +214,13 @@ export const assets = {
   },
 
   brand: {
-    logo,
+    symbolGradient,
+    symbolDark,
+    symboLight,
+    logoDark,
+    logoLight,
+    logoGradientLight,
+    logoGradientDark,
   },
 }
 
