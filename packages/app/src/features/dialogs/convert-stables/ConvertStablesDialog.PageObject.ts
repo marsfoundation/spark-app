@@ -83,8 +83,10 @@ export class ConvertStablesDialogPageObject extends DialogPageObject {
 
   async expectTransactionOverview(transactionOverview: TxOverviewWithRoute): Promise<void> {
     await this.expectTransactionOverviewRoute(transactionOverview.routeItems)
-    await this.expectSkyBadgeForTokens(transactionOverview.badgeTokens)
     await this.expectOutcomeText(transactionOverview.outcome)
+    if (transactionOverview.outcomeUsd) {
+      await this.expectOutcomeUsdText(transactionOverview.outcomeUsd)
+    }
   }
 
   async expectAssetInSelectorSelectedOption(option: string): Promise<void> {

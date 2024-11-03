@@ -15,7 +15,7 @@ export function TransactionOverviewHealthFactorChange({
   updatedHealthFactor,
 }: TransactionOverviewHealthFactorChangeProps) {
   if (currentHealthFactor === undefined && updatedHealthFactor !== undefined) {
-    return <HealthFactorBadge healthFactor={updatedHealthFactor} />
+    return <HealthFactorBadge healthFactor={updatedHealthFactor} data-testid={testIds.dialog.healthFactor.after} />
   }
 
   if (currentHealthFactor !== undefined) {

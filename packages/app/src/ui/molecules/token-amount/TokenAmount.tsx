@@ -29,6 +29,7 @@ export function TokenAmount({
         <div className="flex items-baseline gap-0.5">
           <div className="typography-label-4 text-primary" data-testid={amountDataTestId}>
             {formattedAmount}
+            <span className="hidden"> {token.symbol}</span>
           </div>
           <div className="typography-body-6 text-secondary" data-testid={usdAmountDataTestId}>
             {formattedUsdAmount}
@@ -43,6 +44,7 @@ export function TokenAmount({
       <TokenIcon token={token} className="h-4 w-4" />
       <div className="typography-label-4 text-primary" data-testid={amountDataTestId}>
         {formattedAmount}
+        <span className="hidden"> {token.symbol}</span>
       </div>
       <div />
       <div className="typography-body-6 text-secondary" data-testid={usdAmountDataTestId}>

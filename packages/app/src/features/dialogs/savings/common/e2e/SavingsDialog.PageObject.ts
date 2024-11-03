@@ -84,7 +84,9 @@ export class SavingsDialogPageObject extends DialogPageObject {
     }
 
     await this.expectTransactionOverviewRoute(transactionOverview.routeItems)
-    await this.expectSkyBadgeForTokens(transactionOverview.badgeTokens)
+    if (transactionOverview.badgeTokens) {
+      await this.expectSkyBadgeForTokens(transactionOverview.badgeTokens)
+    }
     await this.expectOutcomeText(transactionOverview.outcome)
   }
 

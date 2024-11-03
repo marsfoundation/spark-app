@@ -145,6 +145,11 @@ export class DialogPageObject extends BasePageObject {
     const outcome = this.page.getByTestId(testIds.dialog.transactionOverview.outcome)
     await expect(outcome).toContainText(text)
   }
+
+  async expectOutcomeUsdText(text: string): Promise<void> {
+    const outcome = this.page.getByTestId(testIds.dialog.transactionOverview.outcomeUsd)
+    await expect(outcome).toContainText(text)
+  }
   // #endregion
 }
 
@@ -154,5 +159,6 @@ export interface TxOverviewWithRoute {
     tokenUsdValue: string
   }[]
   outcome: string
-  badgeTokens: string
+  outcomeUsd?: string
+  badgeTokens?: string
 }

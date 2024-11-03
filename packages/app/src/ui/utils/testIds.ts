@@ -90,6 +90,7 @@ export const testIds = makeTestIds({
       },
       skyBadge: true,
       outcome: true,
+      outcomeUsd: true,
     },
     healthFactor: {
       before: true,
