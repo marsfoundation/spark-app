@@ -6,7 +6,7 @@ import { TopbarMenu } from './TopbarMenu'
 
 const meta: Meta<typeof TopbarMenu> = {
   title: 'Components/Molecules/New/TopbarMenu',
-  decorators: [WithTooltipProvider(), WithClassname('h-[400px] w-80 flex justify-end')],
+  decorators: [WithTooltipProvider(), WithClassname('flex justify-end')],
   play: async ({ canvasElement }) => {
     const button = await within(canvasElement).findByRole('button')
 

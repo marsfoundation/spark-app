@@ -10,7 +10,7 @@ const timestampInMs = Date.now() - 30 * 1000 // timestamp snapshot is always bit
 
 const meta: Meta<typeof TopbarAirdrop> = {
   title: 'Features/Topbar/Components/TopbarAirdrop',
-  decorators: [WithTooltipProvider(), WithClassname('flex')],
+  decorators: [WithTooltipProvider(), WithClassname('flex justify-end')],
   component: TopbarAirdrop,
   args: {
     airdrop: {

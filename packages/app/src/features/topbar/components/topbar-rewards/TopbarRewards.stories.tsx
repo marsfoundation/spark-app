@@ -2,14 +2,13 @@ import { WithClassname, WithTooltipProvider } from '@sb/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-
 import { tokens } from '@sb/tokens'
 import { userEvent, within } from '@storybook/test'
 import { TopbarRewards } from './TopbarRewards'
 
 const meta: Meta<typeof TopbarRewards> = {
   title: 'Features/Topbar/Components/TopbarRewards',
-  decorators: [WithTooltipProvider(), WithClassname('flex')],
+  decorators: [WithTooltipProvider(), WithClassname('flex justify-end')],
   component: TopbarRewards,
   args: {
     rewards: [
