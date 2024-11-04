@@ -34,7 +34,7 @@ export function Deposits(props: DepositsProps) {
     <div className="flex flex-1 flex-col" data-testid={testIds.easyBorrow.form.deposits}>
       <div className="flex h-10 flex-row items-center justify-between">
         <div className="flex flex-row gap-1">
-          <Typography variant="h4">Deposit required</Typography>
+          <Typography variant="h4">Deposit</Typography>
           <Info>
             Some assets (e.g., isolated assets) are only accessible via the{' '}
             <Link to={paths.myPortfolio}>My portfolio</Link> at this time.

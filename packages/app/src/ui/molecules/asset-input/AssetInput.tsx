@@ -60,7 +60,7 @@ export const AssetInput = forwardRef<HTMLInputElement, AssetInputProps>(
       <div className="flex-1">
         <div
           className={cn(
-            'flex h-14 min-w-[10rem] flex-row rounded-xl border bg-input-background py-2 pr-2 pl-4',
+            'flex h-14 min-w-[10rem] flex-row rounded-sm border bg-input-background py-2 pr-2 pl-4',
             disabled && 'opacity-70',
             error && 'mb-1 border-error bg-error/10',
             className,

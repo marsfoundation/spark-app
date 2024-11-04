@@ -40,7 +40,7 @@ function Icon({ path, actionStatus }: { path: string; actionStatus?: ActionHandl
 
 function Title({
   children,
-  icon,
+  // icon,
   actionStatus,
 }: {
   children: ReactNode
@@ -52,7 +52,7 @@ function Title({
       className="col-span-2 flex items-center justify-between gap-1.5 md:col-span-1 md:justify-start"
       data-testid={testIds.component.Action.title}
     >
-      {icon && <div className="order-2 md:order-1">{icon}</div>}
+      {/* {icon && <div className="order-2 md:order-1">{icon}</div>} */}
       <p className={cn('order-1 text-base md:order-2', actionStatus === 'success' && 'text-basics-dark-grey')}>
         {children}
       </p>

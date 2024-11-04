@@ -39,7 +39,7 @@ export function EasyBorrowView(props: EasyBorrowViewProps) {
       <BorrowRateBanner assetsToBorrowMeta={props.borrowDetails} />
       <div className="mt-8 flex justify-center">
         <EasyBorrowPanel {...props} />
-        <EasyBorrowSidePanel borrowRate={props.borrowDetails.borrowRate} />
+        {/* <EasyBorrowSidePanel borrowRate={props.borrowDetails.borrowRate} /> */}
       </div>
     </PageLayout>
   )

@@ -44,13 +44,14 @@
 
     --panel-border: rgba(35, 66, 84, 0.1);
     --panel-bg: 0 0% 5%;
-    --input-background: 0 0% 5%;
+    --input-background: 0 0% 100%;
     --icon-foreground: 106 118 146;
 
-    --product-green: 109 194 117;
-    --product-orange: 242 153 20;
-    --product-red: 252 80 56;
+    --product-green: 111 230 122;
+    --product-orange: 254 228 115;
+    --product-red: 252 56 151;
     --product-blue: 62 100 239;
+
     --product-dai: 245 172 55;
     --product-sdai: 38 182 62;
     --prompt-foreground: #ffffff80;

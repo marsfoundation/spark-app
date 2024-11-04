@@ -13,14 +13,14 @@ interface HealthFactorBadgeProps {
   className?: string
 }
 
-const badgeVariants = cva('rounded-md px-4 py-1', {
+const badgeVariants = cva('rounded-[8px] border px-4 py-1', {
   variants: {
     variant: {
-      liquidation: 'bg-product-red',
-      risky: 'bg-product-red',
-      moderate: 'bg-product-orange',
-      healthy: 'bg-product-green',
-      'no debt': 'bg-product-green',
+      liquidation: 'border-product-red/30 bg-product-red/15 text-product-red',
+      risky: 'border-product-red/30 bg-product-red/15 text-product-red',
+      moderate: 'border-product-orange/30 bg-product-orange/15 text-product-orange',
+      healthy: 'border-product-green/30 bg-product-green/15 text-product-green',
+      'no debt': 'border-product-green/30 bg-product-green/15 text-product-green',
       unknown: 'bg-white/20',
     },
   },
@@ -31,7 +31,7 @@ export function HealthFactorBadge({ hf, className }: HealthFactorBadgeProps) {
 
   return (
     <div className={cn(badgeVariants({ variant: riskLevel }), className)}>
-      <Typography variant="span" className="text-white" data-testid={testIds.component.HealthFactorBadge.value}>
+      <Typography variant="span" data-testid={testIds.component.HealthFactorBadge.value}>
         {formatHealthFactor(hf)}
       </Typography>
     </div>

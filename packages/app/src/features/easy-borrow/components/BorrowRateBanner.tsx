@@ -11,12 +11,12 @@ export function BorrowRateBanner({ assetsToBorrowMeta }: BorrowRateBannerProps) 
   return (
     <div className="flex flex-col items-center md:mt-12">
       <Typography variant="h1" className="text-4xl md:text-5xl">
-        Spark your DeFi
+        Mint USDxl
       </Typography>
       <Typography variant="h3" className="mt-6 text-center text-lg text-prompt-foreground md:text-2xl">
         Borrow {dai}
         {usds ? ` or ${usds}` : ''} at{' '}
-        <span className="rounded bg-primary p-1 text-white">{formatPercentage(borrowRate)}</span> directly from Sky
+        <span className="rounded bg-primary p-1 text-white">{formatPercentage(borrowRate)}</span> from Last
       </Typography>
     </div>
   )

@@ -82,7 +82,7 @@ export default {
           border: 'var(--panel-border)',
           bg: 'hsla(var(--panel-bg) / .44)',
         },
-        'input-background': 'var(--input-background)',
+        'input-background': 'hsla(var(--input-background) / .1)',
         'icon-foreground': 'rgba(var(--icon-foreground) / <alpha-value>)',
         'product-blue': 'rgba(var(--product-blue) / <alpha-value>)',
         'product-green': 'rgba(var(--product-green) / <alpha-value>)',

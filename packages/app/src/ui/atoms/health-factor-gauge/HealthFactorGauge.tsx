@@ -12,11 +12,11 @@ const GAUGE_MAX = 4
 const LABELS_COORDINATES = getLabels({ numLabels: 7, labelsStart: GAUGE_MIN, labelsEnd: GAUGE_MAX })
 
 const COLORS: Record<RiskLevel, string> = {
-  liquidation: 'text-[#FC3897]',
-  risky: 'text-[#FC3897]',
-  moderate: 'text-[#FEE473]',
-  healthy: 'text-[#6FE67A]',
-  'no debt': 'text-[#6FE67A]',
+  liquidation: 'text-product-red',
+  risky: 'text-product-red',
+  moderate: 'text-product-orange',
+  healthy: 'text-product-green',
+  'no debt': 'text-product-green',
   unknown: 'text-white/10',
 }
 
@@ -80,9 +80,9 @@ export function HealthFactorGauge(props: HealthFactorGaugeProps) {
     <svg preserveAspectRatio="xMidYMid meet" viewBox="0 0 400 200" className={props.className}>
       <defs>
         <linearGradient id={GRADIENT_IDS.active} gradientUnits="userSpaceOnUse" x1="0" x2="400" y1="100" y2="100">
-          <stop offset="0%" className="text-[#FC3897]" stopColor="currentColor" />
-          <stop offset="50%" className="text-[#FEE473]" stopColor="currentColor" />
-          <stop offset="100%" className="text-[#6FE67A]" stopColor="currentColor" />
+          <stop offset="0%" className="text-product-red" stopColor="currentColor" />
+          <stop offset="50%" className="text-product-orange" stopColor="currentColor" />
+          <stop offset="100%" className="text-product-green" stopColor="currentColor" />
         </linearGradient>
       </defs>
 

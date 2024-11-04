@@ -33,7 +33,7 @@ export function AssetSelector({
   if ((assets.length === 1 && selectedAsset?.symbol === assets[0]!.token.symbol) || assets.length === 0) {
     return (
       <div
-        className="flex h-14 w-36 flex-row items-center justify-center rounded-xl border border-input bg-input-background ring-offset-background"
+        className="flex h-14 w-36 flex-row items-center justify-center rounded-sm border border-input bg-input-background ring-offset-background"
         data-testid={testIds.component.AssetSelector.trigger}
       >
         {selectedAsset ? (
@@ -54,7 +54,7 @@ export function AssetSelector({
         <Wrapper>
           <div className="flex flex-row items-center gap-2">
             {selectedAsset && <TokenIcon token={selectedAsset} className="h-6 w-6" />}
-            <Typography className="text-prompt-foreground">{selectedAsset?.symbol}</Typography>
+            <Typography className="text-white">{selectedAsset?.symbol}</Typography>
           </div>
         </Wrapper>
       </SelectTrigger>
