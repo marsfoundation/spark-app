@@ -58,7 +58,7 @@ function StakeTransactionOverview({ txOverview }: StakeTransactionOverviewProps)
   ]
 
   return (
-    <TransactionOverview>
+    <TransactionOverview showSkyBadge>
       {txOverview.showEstimatedRewards && (
         <TransactionOverview.Row>
           <TransactionOverview.Label>Estimated rewards</TransactionOverview.Label>

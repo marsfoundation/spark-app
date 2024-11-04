@@ -21,7 +21,7 @@ export function SavingsTransactionOverview({ txOverview, selectedToken, showAPY 
   const outcome = route.at(-1)!
 
   return (
-    <TransactionOverview>
+    <TransactionOverview showSkyBadge>
       {showAPY && (
         <TransactionOverview.Row>
           <TransactionOverview.Label>APY</TransactionOverview.Label>

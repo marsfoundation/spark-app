@@ -53,7 +53,7 @@ export function UnstakeTransactionOverview({ txOverview }: UnstakeTransactionOve
   ]
 
   return (
-    <TransactionOverview>
+    <TransactionOverview showSkyBadge>
       <TransactionOverview.Row>
         <TransactionOverview.Label>Route</TransactionOverview.Label>
         <TransactionOverview.Route route={route} />

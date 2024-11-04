@@ -1,4 +1,7 @@
+import { assets } from '@/ui/assets'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/new/tooltip/Tooltip'
 import { cn } from '@/ui/utils/style'
+import { InfoIcon } from 'lucide-react'
 import { HTMLAttributes } from 'react'
 import { TransactionOverviewApyChange } from './rows/TransactionOverviewApyChange'
 import { TransactionOverviewAvailableAssets } from './rows/TransactionOverviewAvailableAssets'
@@ -12,12 +15,27 @@ import { TransactionOverviewTokenAmountChange } from './rows/TransactionOverview
 
 export interface TransactionOverviewProps {
   children: React.ReactNode
+  showSkyBadge?: boolean
 }
 
-function TransactionOverview({ children }: TransactionOverviewProps) {
+function TransactionOverview({ children, showSkyBadge = false }: TransactionOverviewProps) {
   return (
     <section className="flex flex-col gap-3">
-      <h5 className="typography-body-5 text-secondary">Transaction overview</h5>
+      <div className="flex items-center justify-between">
+        <h5 className="typography-body-5 text-secondary">Transaction overview</h5>
+        {showSkyBadge && (
+          <div className="flex items-center gap-1.5">
+            <img src={assets.token.sky} className="icon-xs" />
+            <div className="typography-label-6 text-brand-primary">Powered by Sky</div>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <InfoIcon className="icon-xs text-brand-primary" />
+              </TooltipTrigger>
+              <TooltipContent>The transaction uses infrastructure provided by the Sky Ecosystem.</TooltipContent>
+            </Tooltip>
+          </div>
+        )}
+      </div>
       <div
         className="grid grid-cols-[auto_1fr] gap-x-6 rounded-sm bg-secondary"
         style={{ gridAutoRows: 'minmax(0, 1fr)' }}

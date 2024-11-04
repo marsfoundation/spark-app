@@ -1,14 +1,14 @@
 import { Meta, StoryObj } from '@storybook/react'
 
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
-import { WithClassname } from '@sb/decorators'
+import { WithClassname, WithTooltipProvider } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
 import BigNumber from 'bignumber.js'
 import { TransactionOverview } from './TransactionOverview'
 
 const meta: Meta<typeof TransactionOverview> = {
   title: 'Components/Molecules/New/TransactionOverview',
-  decorators: [WithClassname('max-w-2xl')],
+  decorators: [WithClassname('max-w-2xl'), WithTooltipProvider()],
   component: TransactionOverview,
 }
 
@@ -19,7 +19,7 @@ type Story = StoryObj<typeof TransactionOverview>
 export const Default: Story = {
   render: () => {
     return (
-      <TransactionOverview>
+      <TransactionOverview showSkyBadge>
         <TransactionOverview.Row>
           <TransactionOverview.Label>APY</TransactionOverview.Label>
           <TransactionOverview.FarmApy
