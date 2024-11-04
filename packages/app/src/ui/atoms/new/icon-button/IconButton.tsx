@@ -17,23 +17,15 @@ const iconButtonSizeVariants = cva('aspect-square', {
   },
 })
 
-export type IconButtonProps = Omit<ButtonProps, 'children'> &
-  (
-    | {
-        icon: ButtonIconType
-        children?: never
-      }
-    | {
-        children: React.ReactNode
-        icon?: never
-      }
-  )
+export interface IconButtonProps extends Omit<ButtonProps, 'children'> {
+  icon: ButtonIconType
+}
 
 export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
-  ({ className, size = 'm', icon, children, ...props }, ref) => {
+  ({ className, size = 'm', icon, ...props }, ref) => {
     return (
       <Button {...props} className={cn(iconButtonSizeVariants({ size }), className)} ref={ref} size={size}>
-        {icon ? <ButtonIcon icon={icon} /> : children}
+        <ButtonIcon icon={icon} />
       </Button>
     )
   },
