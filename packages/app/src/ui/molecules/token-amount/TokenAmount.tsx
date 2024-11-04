@@ -29,6 +29,7 @@ export function TokenAmount({
         <div className="flex items-baseline gap-0.5">
           <div className="typography-label-4 text-primary" data-testid={amountDataTestId}>
             {formattedAmount}
+            {/* @note: next line is need to maintain backward compatibility with e2e test - amount should include token symbol */}
             <span className="hidden"> {token.symbol}</span>
           </div>
           <div className="typography-body-6 text-secondary" data-testid={usdAmountDataTestId}>
