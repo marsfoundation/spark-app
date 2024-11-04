@@ -235,6 +235,7 @@ export const testIds = makeTestIds({
           },
         },
         outcome: true,
+        outcomeUsd: true,
       },
     },
     unstakeDialog: {

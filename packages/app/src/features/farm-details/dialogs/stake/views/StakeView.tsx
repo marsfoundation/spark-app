@@ -10,7 +10,7 @@ import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageStatus } from '@/features/dialogs/common/types'
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
 import { UseFormReturn } from 'react-hook-form'
-import { TransactionOverview } from '../components/transaction-overview/TransactionOverview'
+import { TransactionOverview } from '../components/TransactionOverview'
 import { TxOverview } from '../logic/createTxOverview'
 
 export interface StakeViewProps {
