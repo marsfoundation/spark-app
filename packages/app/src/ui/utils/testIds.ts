@@ -247,6 +247,9 @@ export const testIds = makeTestIds({
           },
         },
         outcome: true,
+        outcomeUsd: true,
+        rewardOutcome: true,
+        rewardOutcomeUsd: true,
       },
       exitFarmSwitchPanel: {
         switch: true,

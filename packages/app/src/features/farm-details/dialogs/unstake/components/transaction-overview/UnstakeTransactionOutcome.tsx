@@ -2,6 +2,7 @@ import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { TxOverviewRouteItem } from '@/features/dialogs/common/types'
 import { TokenAmount } from '@/ui/molecules/token-amount/TokenAmount'
+import { testIds } from '@/ui/utils/testIds'
 
 export interface UnstakeTransactionOutcomeProps {
   outcomeTokenRouteItem: TxOverviewRouteItem
@@ -27,9 +28,17 @@ export function UnstakeTransactionOutcome({
             amount={outcomeTokenRouteItem.value}
             usdAmount={outcomeTokenRouteItem.usdValue}
             variant="horizontal"
+            amountDataTestId={testIds.farmDetails.unstakeDialog.transactionOverview.outcome}
+            usdAmountDataTestId={testIds.farmDetails.unstakeDialog.transactionOverview.outcomeUsd}
           />
           <div className="text-secondary">+</div>
-          <TokenAmount token={rewardToken} amount={earnedRewards} variant="horizontal" />
+          <TokenAmount
+            token={rewardToken}
+            amount={earnedRewards}
+            variant="horizontal"
+            amountDataTestId={testIds.farmDetails.unstakeDialog.transactionOverview.rewardOutcome}
+            usdAmountDataTestId={testIds.farmDetails.unstakeDialog.transactionOverview.rewardOutcomeUsd}
+          />
         </div>
       )
     }
@@ -40,6 +49,8 @@ export function UnstakeTransactionOutcome({
         amount={outcomeTokenRouteItem.value}
         usdAmount={outcomeTokenRouteItem.usdValue}
         variant="horizontal"
+        amountDataTestId={testIds.farmDetails.unstakeDialog.transactionOverview.outcome}
+        usdAmountDataTestId={testIds.farmDetails.unstakeDialog.transactionOverview.outcomeUsd}
       />
     )
   })()

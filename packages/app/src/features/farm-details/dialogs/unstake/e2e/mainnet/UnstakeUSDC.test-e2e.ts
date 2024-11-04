@@ -78,7 +78,7 @@ test.describe('Unstake USDC from SKY farm', () => {
           lowerText: 'Deposited',
         },
       },
-      outcome: '5,000.00 USDC worth $5,000.00',
+      outcome: '5,000.00 USDC',
     })
   })
 

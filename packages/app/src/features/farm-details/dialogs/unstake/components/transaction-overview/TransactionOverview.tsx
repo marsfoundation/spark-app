@@ -38,8 +38,8 @@ export function UnstakeTransactionOverview({ txOverview }: UnstakeTransactionOve
       type: 'generic',
       upperText: `${rewardToken.symbol} Farm`,
       lowerText: `${stakingToken.symbol} Deposited`,
-      lowerTextDataTestId: testIds.farmDetails.unstakeDialog.transactionOverview.route.farm.farmName,
-      upperTextDataTestId: testIds.farmDetails.unstakeDialog.transactionOverview.route.farm.stakingToken,
+      upperTextDataTestId: testIds.farmDetails.unstakeDialog.transactionOverview.route.farm.farmName,
+      lowerTextDataTestId: testIds.farmDetails.unstakeDialog.transactionOverview.route.farm.stakingToken,
     },
     ...routeToOutcomeToken.map(
       (item) =>

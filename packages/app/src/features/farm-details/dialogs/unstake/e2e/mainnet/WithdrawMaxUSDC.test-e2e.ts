@@ -91,7 +91,7 @@ test.describe('Withdraw max USDC from SKY farm', () => {
           lowerText: 'Deposited',
         },
       },
-      outcome: '10,000.00 USDC worth $10,000.00',
+      outcome: '10,000.00 USDC',
     })
   })
 
