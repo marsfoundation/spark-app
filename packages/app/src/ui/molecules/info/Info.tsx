@@ -1,4 +1,4 @@
-import { HelpCircle } from 'lucide-react'
+import { InfoIcon } from 'lucide-react'
 
 import { Tooltip, TooltipContentShort, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 import { cn } from '@/ui/utils/style'
@@ -13,7 +13,7 @@ function Info({ children, size = 14, className }: InfoProps) {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <HelpCircle size={size} className={cn('text-basics-dark-grey/50', className)} />
+        <InfoIcon size={size} className={cn('text-basics-dark-grey/50', className)} />
       </TooltipTrigger>
       <TooltipContentShort>{children}</TooltipContentShort>
     </Tooltip>

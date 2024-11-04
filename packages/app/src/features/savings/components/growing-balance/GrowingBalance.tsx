@@ -1,6 +1,7 @@
 import { TokenWithBalance } from '@/domain/common/types'
 import { Token } from '@/domain/types/Token'
 import { getTokenImage } from '@/ui/assets'
+import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { getFractionalPart, getWholePart } from '@/utils/bigNumber'
 import { useTimestamp } from '@/utils/useTimestamp'
@@ -25,27 +26,37 @@ export function GrowingBalance({
   const { depositedAssets, depositedAssetsPrecision } = calculateSavingsBalance(timestampInMs)
 
   return (
-    <div className="flex flex-col items-center gap-1 sm:gap-2">
-      <div className="flex flex-row items-center gap-1.5 md:gap-3">
-        <img src={getTokenImage(assetsToken.symbol)} className="h-5 md:h-8" />
+    <div className="isolate grid grid-cols-[auto_1fr] items-center gap-x-2 lg:gap-x-4 lg:gap-y-2 xl:gap-y-3">
+      <img src={getTokenImage(assetsToken.symbol)} className="h-8 shrink-0 lg:h-12 xl:h-14" />
+      <div className="flex items-baseline tabular-nums" data-testid={testIds.savings[savingsType].balanceInAsset}>
         <div
-          className="flex flex-row items-end justify-center slashed-zero tabular-nums"
-          data-testid={testIds.savings[savingsType].balanceInAsset}
+          className={cn(
+            'typography-heading-3 lg:typography-display-3 xl:typography-display-2 relative bg-clip-text text-transparent',
+            'before:-z-10 before:-inset-2 before:absolute before:bg-reskin-base-black before:blur-sm',
+            savingsType === 'sdai' ? 'bg-gradient-savings-dai-counter' : 'bg-gradient-savings-usds-counter',
+          )}
         >
-          <div className="font-semibold text-3xl md:text-5xl">{getWholePart(depositedAssets)}</div>
-          {depositedAssetsPrecision > 0 && (
-            <div className="font-semibold text-lg md:text-2xl">
+          {getWholePart(depositedAssets)}
+        </div>
+        {depositedAssetsPrecision > 0 && (
+          <div className="relative">
+            <div
+              className={cn(
+                'typography-heading-4 before:-z-10 before:absolute before:inset-0 before:bg-reskin-base-black before:blur-sm',
+                savingsType === 'sdai' ? 'text-[#54AC3D]' : 'text-[#00C2A1]',
+              )}
+            >
               {getFractionalPart(depositedAssets, depositedAssetsPrecision)}
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
-      <div className="font-semibold text-basics-dark-grey text-xs tracking-wide">
-        =
-        <span data-testid={testIds.savings[savingsType].balance}>
-          {savingsTokenWithBalance.token.format(savingsTokenWithBalance.balance, { style: 'auto' })}{' '}
-          {savingsTokenWithBalance.token.symbol}
-        </span>
+      <div
+        className="typography-label-6 col-start-2 ml-1.5 text-primary-inverse"
+        data-testid={testIds.savings[savingsType].balance}
+      >
+        {savingsTokenWithBalance.token.format(savingsTokenWithBalance.balance, { style: 'auto' })}{' '}
+        {savingsTokenWithBalance.token.symbol}
       </div>
     </div>
   )
