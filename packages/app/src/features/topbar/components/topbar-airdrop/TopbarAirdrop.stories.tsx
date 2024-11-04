@@ -73,29 +73,6 @@ export const AlmostZero = {
   },
 }
 
-export const NotGrowing = {
-  args: {
-    airdrop: {
-      tokenReward: NormalizedUnitNumber('7835.158890800802961891'),
-      tokenRatePerSecond: NormalizedUnitNumber(0),
-      tokenRatePrecision: 2,
-      refreshIntervalInMs: 100,
-      timestampInMs,
-    },
-  },
-}
-
-export const NotGrowingSmall = {
-  args: {
-    airdrop: {
-      tokenReward: NormalizedUnitNumber('0.000001'),
-      tokenRatePerSecond: NormalizedUnitNumber(0),
-      tokenRatePrecision: 2,
-      refreshIntervalInMs: 100,
-      timestampInMs,
-    },
-  },
-}
 export const Zero = {
   args: {
     airdrop: undefined,
