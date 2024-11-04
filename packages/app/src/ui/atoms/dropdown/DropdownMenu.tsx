@@ -72,7 +72,7 @@ const DropdownMenuContent = React.forwardRef<
         'data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
         'data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2',
         'data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
-        'z-50 min-w-[8rem] overflow-hidden rounded-md border border-primary',
+        'z-50 min-w-[8rem] overflow-hidden rounded-sm border border-primary',
         'bg-primary text-primary shadow-md data-[state=closed]:animate-out',
         'data-[state=open]:animate-in',
         className,
@@ -90,17 +90,23 @@ const DropdownMenuItem = React.forwardRef<
   <DropdownMenuPrimitive.Item
     ref={ref}
     className={cn(
-      'typography-label-4 relative flex cursor-default select-none items-center',
-      'border-b border-b-primary p-4 text-primary outline-none',
-      'transition-colors data-[disabled]:pointer-events-none first:rounded-t-xs',
-      'last:rounded-b-xs last:border-none focus:bg-secondary',
-      'data-[disabled]:opacity-50',
+      'typography-button-2 group relative flex cursor-default select-none items-center',
+      'gap-2 rounded-sm p-4 text-primary outline-none focus:outline-none',
+      'transition-colors data-[disabled]:pointer-events-none focus:bg-secondary',
+      'w-full justify-start data-[disabled]:opacity-50',
       className,
     )}
     {...props}
   />
 ))
 DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName
+
+function DropdownMenuItemIcon({
+  icon: Icon,
+  className,
+}: { icon: React.ComponentType<{ className?: string }>; className?: string }) {
+  return <Icon className={cn('icon-xs text-secondary group-hover:text-brand', className)} />
+}
 
 const DropdownMenuCheckboxItem = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.CheckboxItem>,
@@ -165,7 +171,7 @@ const DropdownMenuSeparator = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Separator>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Separator>
 >(({ className, ...props }, ref) => (
-  <DropdownMenuPrimitive.Separator ref={ref} className={cn('-mx-1 h-px bg-primary', className)} {...props} />
+  <DropdownMenuPrimitive.Separator ref={ref} className={cn('-mx-1 h-px bg-reskin-neutral-100', className)} {...props} />
 ))
 DropdownMenuSeparator.displayName = DropdownMenuPrimitive.Separator.displayName
 
@@ -190,4 +196,5 @@ export {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
+  DropdownMenuItemIcon,
 }

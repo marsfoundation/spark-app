@@ -1,21 +1,21 @@
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { EnsName } from '@/domain/types/EnsName'
 import { assets } from '@/ui/assets'
-import type { Meta, StoryObj } from '@storybook/react'
+import { WithClassname, WithTooltipProvider } from '@sb/decorators'
+import { Meta, StoryObj } from '@storybook/react'
 import { userEvent, within } from '@storybook/test'
-import { WalletDropdown, WalletDropdownProps } from './WalletDropdown'
+import { TopbarWallet, TopbarWalletProps } from './TopbarWallet'
 
-const meta: Meta<typeof WalletDropdown> = {
-  title: 'Features/Navbar/Components/WalletDropdown',
-  component: WalletDropdown,
+const meta: Meta<typeof TopbarWallet> = {
+  title: 'Components/Molecules/New/TopbarWallet',
+  component: TopbarWallet,
+  decorators: [WithTooltipProvider(), WithClassname('h-[400px]')],
   play: async ({ canvasElement }) => {
     const button = await within(canvasElement).findByRole('button')
+
     await userEvent.click(button)
   },
 }
-
-export default meta
-type Story = StoryObj<typeof WalletDropdown>
 
 const args = {
   connectedWalletInfo: {
@@ -32,7 +32,10 @@ const args = {
     },
   },
   onConnect: () => {},
-} satisfies WalletDropdownProps
+} satisfies TopbarWalletProps
+
+export default meta
+type Story = StoryObj<typeof TopbarWallet>
 
 export const Connected: Story = {
   args,
@@ -45,7 +48,7 @@ export const ConnectedEnsName: Story = {
       ...args.connectedWalletInfo,
       dropdownTriggerInfo: {
         ...args.connectedWalletInfo.dropdownTriggerInfo,
-        ensName: EnsName('maker.ens'),
+        ensName: EnsName('sky.ens'),
       },
     },
   },
@@ -58,7 +61,7 @@ export const ConnectedEnsLongName: Story = {
       ...args.connectedWalletInfo,
       dropdownTriggerInfo: {
         ...args.connectedWalletInfo.dropdownTriggerInfo,
-        ensName: EnsName('makerdaowagmi.ens'),
+        ensName: EnsName('phoenixlabs.ens'),
       },
     },
   },
@@ -68,6 +71,7 @@ export const Disconnected: Story = {
   args: {
     onConnect: () => {},
   },
+  play: () => {},
 }
 
 export const Sandbox: Story = {
@@ -76,6 +80,7 @@ export const Sandbox: Story = {
     connectedWalletInfo: {
       dropdownContentInfo: {
         ...args.connectedWalletInfo.dropdownContentInfo,
+        walletIcon: assets.walletIcons.default,
       },
       dropdownTriggerInfo: {
         ...args.connectedWalletInfo.dropdownTriggerInfo,
@@ -83,4 +88,5 @@ export const Sandbox: Story = {
       },
     },
   },
+  play: () => {},
 }
