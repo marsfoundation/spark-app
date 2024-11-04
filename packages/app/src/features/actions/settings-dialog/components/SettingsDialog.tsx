@@ -29,8 +29,7 @@ export function SettingsDialog(props: SettingsDialogProps) {
       <DialogTrigger asChild>
         <Wrapper>
           <Button
-            variant="secondary"
-            className="h-[30px] w-[30px] p-0 text-white/70"
+            className="h-[30px] w-[30px] rounded-full border-white/10 bg-white/10 p-0 text-white/70"
             prefixIcon={<Settings size={18} />}
             data-testid={testIds.actions.settings.dialog}
             disabled={props.disabled}

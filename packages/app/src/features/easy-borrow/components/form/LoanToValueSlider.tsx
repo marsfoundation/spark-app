@@ -48,12 +48,28 @@ export function LoanToValueSlider({
       value={[value]}
       onValueChange={onValueChange}
     >
-      <SliderPrimitive.Track className="relative h-6 w-full rounded-lg border bg-white">
+      <SliderPrimitive.Track className="relative h-6 w-full rounded-lg border bg-white/20">
+        {steps[0] && steps[1] && steps[2] && (
+          <div
+            className="absolute inset-0 rounded-l-lg"
+            style={{
+              width: `${steps[0].width + steps[1].width + steps[2].width}%`,
+              background: `linear-gradient(to right,
+              #6FE67A ${steps[0].from}%,
+              #6FE67A ${steps[0].width}%,
+              #FEE473 ${steps[0].width + steps[1].width / 3}%,
+              #FEE473 ${steps[0].width + steps[1].width * 0.8}%,
+              #FEE473 ${steps[2].from}%,
+              #FC3897 ${steps[2].from + steps[2].width * 0.3}%)`,
+            }}
+          />
+        )}
+
         {steps.map((step, index) => (
           <div
             key={step.label}
             className={cn(
-              'absolute flex h-full items-center justify-center transition-colors duration-300',
+              'absolute flex h-full items-center justify-center transition-all duration-300',
               (value / maxSliderValue) * 100 >= step.from &&
                 (step.noUpperLimit || (value / maxSliderValue) * 100 < step.from + step.width)
                 ? step.colorActive
@@ -123,24 +139,24 @@ function getSliderSteps(liquidationThreshold: Percentage): Step[] {
   const conservative: Step = {
     from: 0,
     width: healthFactorToLtv(MODERATE_HEALTH_FACTOR_THRESHOLD, liquidationThreshold).toNumber() * 100,
-    colorActive: 'bg-product-green',
-    colorInactive: 'bg-product-green/inactive',
+    colorActive: 'backdrop-brightness-100',
+    colorInactive: 'backdrop-brightness-75',
     label: 'Conservative',
   }
 
   const moderate: Step = {
     from: conservative.width,
     width: healthFactorToLtv(RISKY_HEALTH_FACTOR_THRESHOLD, liquidationThreshold).toNumber() * 100 - conservative.width,
-    colorActive: 'bg-product-orange',
-    colorInactive: 'bg-product-orange/inactive',
+    colorActive: 'backdrop-brightness-100',
+    colorInactive: 'backdrop-brightness-75',
     label: 'Moderate',
   }
 
   const aggressive: Step = {
     from: conservative.width + moderate.width,
     width: liquidationThreshold.toNumber() * 100 - conservative.width - moderate.width,
-    colorActive: 'bg-product-red',
-    colorInactive: 'bg-product-red/inactive',
+    colorActive: 'backdrop-brightness-100',
+    colorInactive: 'backdrop-brightness-75',
     label: 'Aggressive',
     noUpperLimit: true,
   }
