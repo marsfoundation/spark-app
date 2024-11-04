@@ -1,4 +1,5 @@
-import { WalletDropdownContentInfo, WalletDropdownTriggerInfo } from '@/features/navbar/types'
+import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { EnsName } from '@/domain/types/EnsName'
 import { Address } from '@/ui/atoms/address/Address'
 import {
   DropdownMenu,
@@ -11,12 +12,26 @@ import { Link } from '@/ui/atoms/link/Link'
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
 import { ExternalLink, Unplug } from 'lucide-react'
 import { useState } from 'react'
-import { CopyButton } from '../copy-button/CopyButton'
+import { CopyButton } from '../../../../ui/molecules/new/copy-button/CopyButton'
 import { TopbarWalletButton } from './TopbarWalletButton'
 
+export interface TopbarWalletDropdownTriggerInfo {
+  mode: 'sandbox' | 'connected'
+  avatar: string
+  address: CheckedAddress
+  ensName?: EnsName
+}
+
+export interface TopbarWalletDropdownContentInfo {
+  walletIcon: string
+  address: CheckedAddress
+  onDisconnect: () => void
+  blockExplorerAddressLink: string | undefined
+}
+
 export interface TopbarWalletDropdownProps {
-  dropdownTriggerInfo: WalletDropdownTriggerInfo
-  dropdownContentInfo: WalletDropdownContentInfo
+  dropdownTriggerInfo: TopbarWalletDropdownTriggerInfo
+  dropdownContentInfo: TopbarWalletDropdownContentInfo
 }
 
 export function TopbarWalletDropdown({ dropdownTriggerInfo, dropdownContentInfo }: TopbarWalletDropdownProps) {

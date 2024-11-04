@@ -38,6 +38,7 @@ import eye from './eye.svg'
 import flash from './flash.svg'
 import giftbox from './giftbox.svg'
 import greenArrowUp from './green-arrow-up.svg'
+import handCoins from './hand-coins.svg'
 import lifiLogo from './lifi-logo.svg'
 import link from './link.svg'
 import magicWandCircle from './magic-wand-circle.svg'
@@ -137,6 +138,7 @@ export const assets = {
   timer,
   multiply,
   equal,
+  handCoins,
   markets: {
     chart,
     inputOutput,

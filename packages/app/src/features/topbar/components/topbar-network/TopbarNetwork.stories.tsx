@@ -3,7 +3,7 @@ import { mainnet } from 'viem/chains'
 import { TopbarNetwork } from './TopbarNetwork'
 
 const meta: Meta = {
-  title: 'Components/Molecules/New/TopbarNetwork',
+  title: 'Features/Topbar/Components/TopbarNetwork',
   component: TopbarNetwork,
   args: {
     currentChain: {

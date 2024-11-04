@@ -6,7 +6,7 @@ import { reactRouterParameters, withRouter } from 'storybook-addon-remix-react-r
 import { TopbarNavigation } from './TopbarNavigation'
 
 const meta: Meta<typeof TopbarNavigation> = {
-  title: 'Components/Molecules/New/TopbarNavigation',
+  title: 'Features/Topbar/Components/TopbarNavigation',
   decorators: [withRouter],
   component: TopbarNavigation,
   args: {
