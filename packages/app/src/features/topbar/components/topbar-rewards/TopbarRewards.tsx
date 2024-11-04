@@ -20,11 +20,11 @@ export interface Reward {
   amount: NormalizedUnitNumber
 }
 
-export interface RewardsProps {
+export interface TopbarRewardsProps {
   rewards: Reward[]
   onClaim: () => void
 }
-export function TopbarRewards({ rewards, onClaim }: RewardsProps) {
+export function TopbarRewards({ rewards, onClaim }: TopbarRewardsProps) {
   const totalClaimableReward = rewards.reduce(
     (acc, { token, amount }) => NormalizedUnitNumber(acc.plus(token.toUSD(amount))),
     NormalizedUnitNumber(0),
