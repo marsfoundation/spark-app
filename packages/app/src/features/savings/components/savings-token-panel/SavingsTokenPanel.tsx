@@ -8,6 +8,7 @@ import { savingsWithdrawDialogConfig } from '@/features/dialogs/savings/withdraw
 import { Button } from '@/ui/atoms/new/button/Button'
 import { Panel } from '@/ui/atoms/new/panel/Panel'
 import { cn } from '@/ui/utils/style'
+import { testIds } from '@/ui/utils/testIds'
 import { SavingsMetaItem } from '../../logic/makeSavingsMeta'
 import { SavingsOverview } from '../../logic/makeSavingsOverview'
 import { Projections } from '../../types'
@@ -50,6 +51,7 @@ export function SavingsTokenPanel({
         'flex flex-col justify-between bg-right bg-no-repeat',
         savingsType === 'sdai' ? 'bg-savings-dai-token-panel' : 'bg-savings-usds-token-panel',
       )}
+      data-testid={testIds.savings[savingsType].panel}
     >
       <div className="flex w-full flex-row items-center justify-between">
         <div className="flex flex-row items-center gap-1">
