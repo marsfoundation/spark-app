@@ -11,7 +11,7 @@ import { Switch } from '@/ui/atoms/new/switch/Switch'
 import { links } from '@/ui/constants/links'
 import { BuildInfo } from '@/ui/utils/getBuildInfo'
 import { cn } from '@/ui/utils/style'
-import { ExternalLink, Menu, ScrollText, Wand } from 'lucide-react'
+import { ExternalLinkIcon, MenuIcon, ScrollTextIcon, WandIcon } from 'lucide-react'
 import { useState } from 'react'
 
 export interface TopbarMenuProps {
@@ -28,7 +28,7 @@ export function TopbarMenu({ isSandboxEnabled, onSandboxModeClick, buildInfo }: 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
-        <IconButton icon={Menu} variant="tertiary" className={cn(open && 'text-brand')} size="m" />
+        <IconButton icon={MenuIcon} variant="tertiary" className={cn(open && 'text-brand')} size="m" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" variant="secondary" className="flex w-80 flex-col gap-1.5 p-1">
         <DropdownMenuItem
@@ -41,7 +41,7 @@ export function TopbarMenu({ isSandboxEnabled, onSandboxModeClick, buildInfo }: 
           }}
         >
           <div className="flex w-full items-center gap-2">
-            <DropdownMenuItemIcon icon={Wand} />
+            <DropdownMenuItemIcon icon={WandIcon} />
             Sandbox Mode
             <Switch checked={isSandboxEnabled} className="ml-auto" />
           </div>
@@ -53,9 +53,9 @@ export function TopbarMenu({ isSandboxEnabled, onSandboxModeClick, buildInfo }: 
 
         <DropdownMenuItem asChild variant="secondary" className="py-6">
           <Link to={links.termsOfUse} external className="!text-primary cursor-pointer">
-            <DropdownMenuItemIcon icon={ScrollText} />
+            <DropdownMenuItemIcon icon={ScrollTextIcon} />
             Terms of Service
-            <DropdownMenuItemIcon icon={ExternalLink} className="ml-auto" />
+            <DropdownMenuItemIcon icon={ExternalLinkIcon} className="ml-auto" />
           </Link>
         </DropdownMenuItem>
 
