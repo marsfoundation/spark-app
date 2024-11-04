@@ -1,7 +1,7 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token, USD_MOCK_TOKEN } from '@/domain/types/Token'
-import { getTokenImage } from '@/ui/assets'
-import HandCoins from '@/ui/assets/hand-coins.svg?react'
+import { assets, getTokenImage } from '@/ui/assets'
+import HandCoinsIcon from '@/ui/assets/hand-coins.svg?react'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,9 +12,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/ui/atoms/dropdown/DropdownMenu'
-import { Button, ButtonIcon } from '@/ui/atoms/new/button/Button'
+import { Button } from '@/ui/atoms/new/button/Button'
 import { testIds } from '@/ui/utils/testIds'
-import { GiftIcon } from 'lucide-react'
 
 export interface Reward {
   token: Token
@@ -39,7 +38,7 @@ export function TopbarRewards({ rewards, onClaim }: RewardsProps) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button data-testid={testIds.navbar.rewards.badge} size="m" variant="tertiary">
-          <ButtonIcon icon={GiftIcon} />
+          <img src={assets.giftGradient} alt="Gift icon" className="h-6" />
           <span data-testid={testIds.navbar.rewards.claimableRewards}>
             {USD_MOCK_TOKEN.formatUSD(totalClaimableReward, { compact: true })}
           </span>
@@ -75,7 +74,7 @@ export function TopbarRewards({ rewards, onClaim }: RewardsProps) {
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <button className="cursor-pointer" onClick={onClaim}>
-            <DropdownMenuItemIcon icon={HandCoins} />
+            <DropdownMenuItemIcon icon={HandCoinsIcon} />
             Claim rewards
           </button>
         </DropdownMenuItem>
@@ -83,4 +82,3 @@ export function TopbarRewards({ rewards, onClaim }: RewardsProps) {
     </DropdownMenu>
   )
 }
-;<HandCoins />

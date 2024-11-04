@@ -36,6 +36,7 @@ import downgrade from './downgrade.svg'
 import equal from './equal.svg'
 import eye from './eye.svg'
 import flash from './flash.svg'
+import giftGradient from './gift-gradient.svg'
 import giftbox from './giftbox.svg'
 import greenArrowUp from './green-arrow-up.svg'
 import handCoins from './hand-coins.svg'
@@ -139,6 +140,8 @@ export const assets = {
   multiply,
   equal,
   handCoins,
+  giftGradient,
+
   markets: {
     chart,
     inputOutput,

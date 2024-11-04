@@ -12,9 +12,9 @@ import {
   DropdownMenuTrigger,
 } from '@/ui/atoms/dropdown/DropdownMenu'
 import { Link } from '@/ui/atoms/link/Link'
+import { Button } from '@/ui/atoms/new/button/Button'
 import { Skeleton } from '@/ui/atoms/skeleton/Skeleton'
 import { links } from '@/ui/constants/links'
-import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { DropdownMenuGroup } from '@radix-ui/react-dropdown-menu'
 import { ExternalLinkIcon, LibraryIcon } from 'lucide-react'
@@ -37,24 +37,14 @@ export function TopbarAirdropDropdown({
   return (
     <DropdownMenu onOpenChange={(open) => setEnableCounter?.(open)}>
       <DropdownMenuTrigger asChild>
-        <button
-          className={cn(
-            'typography-label-4 inline-flex h-10 flex-nowrap items-center',
-            'group gap-2 rounded-sm transition-colors',
-            'shadow-xs focus-visible:outline-none focus-visible:ring-1',
-            'bg-gradient-spark-secondary p-px focus-visible:ring-reskin-orange',
+        <Button size="m" variant="tertiary" data-testid={testIds.navbar.airdropBadge}>
+          <img src={assets.sparkIcon} className="icon-sm" />
+          {isLoading ? (
+            <Skeleton className="h-5 w-7 rounded-sm" />
+          ) : (
+            <div data-chromatic="ignore">{SPK_MOCK_TOKEN.format(amount, { style: 'compact' })}</div>
           )}
-          data-testid={testIds.navbar.airdropBadge}
-        >
-          <div className="flex h-full items-center gap-1.5 rounded-[7px] bg-white p-2">
-            <img src={assets.sparkIcon} className="icon-sm" />
-            {isLoading ? (
-              <Skeleton className="h-5 w-8 rounded-sm" />
-            ) : (
-              <div data-chromatic="ignore">{SPK_MOCK_TOKEN.format(amount, { style: 'compact' })}</div>
-            )}
-          </div>
-        </button>
+        </Button>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="end" className="w-64 p-1">
