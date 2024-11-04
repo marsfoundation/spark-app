@@ -16,6 +16,7 @@ export interface AssetInputProps<TFieldValues extends FieldValues> {
   selectorAssets: TokenWithBalance[]
   selectedAsset: TokenWithBalance
   setSelectedAsset: (selectedAsset: TokenSymbol) => void
+  label?: string
   maxValue?: NormalizedUnitNumber
   maxSelectedFieldName?: string
   onRemove?: () => void
@@ -29,6 +30,7 @@ export function AssetInput<TFieldValues extends FieldValues>({
   selectorAssets,
   selectedAsset,
   setSelectedAsset,
+  label,
   showError = true,
   disabled = false,
   maxValue,
@@ -80,7 +82,8 @@ export function AssetInput<TFieldValues extends FieldValues>({
   const optionalGridColsNum = Number(!!onRemove) + Number(!!maxValue)
 
   return (
-    <div className="flex flex-col gap-0.5">
+    <div className="flex flex-col gap-2">
+      {label && <div className="typography-label-5 text-secondary">{label}</div>}
       <div
         className={cn(
           'grid items-center gap-3 p-2 pr-4',
