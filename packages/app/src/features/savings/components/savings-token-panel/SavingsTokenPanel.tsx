@@ -48,7 +48,7 @@ export function SavingsTokenPanel({
     <Panel
       spacing="m"
       className={cn(
-        'flex flex-col justify-between bg-right bg-no-repeat',
+        'flex flex-col justify-between gap-4 bg-right bg-no-repeat',
         savingsType === 'sdai' ? 'bg-savings-dai-token-panel' : 'bg-savings-usds-token-panel',
       )}
       data-testid={testIds.savings[savingsType].panel}
@@ -59,7 +59,7 @@ export function SavingsTokenPanel({
             {savingsType === 'sdai' ? 'Savings DAI' : 'Savings USDS'}
           </div>
         </div>
-        <div className="-mt-2 -mr-2 flex flex-row gap-1">
+        <div className="md:-mt-2 md:-mr-2 flex flex-row gap-1">
           <Button
             variant="tertiary"
             size="m"
@@ -83,11 +83,11 @@ export function SavingsTokenPanel({
         balanceRefreshIntervalInMs={balanceRefreshIntervalInMs}
         savingsType={savingsType}
       />
-      <div className="flex gap-6">
+      <div className="flex gap-2 lg:gap-6 md:gap-5 sm:gap-3">
         <SavingsInfoTile>
           <SavingsInfoTile.Label tooltipContent="This is an estimate of what you could earn in 30 days.">
-            <div className="hidden md:block">30-day projection</div>
-            <div className="md:hidden"> 30-day </div>
+            <div className="hidden lg:block">30-day projection</div>
+            <div className="lg:hidden"> 30-day </div>
           </SavingsInfoTile.Label>
           <SavingsInfoTile.Value className="text-primary-inverse">
             +
@@ -98,11 +98,11 @@ export function SavingsTokenPanel({
             {assetsToken.symbol}
           </SavingsInfoTile.Value>
         </SavingsInfoTile>
-        <div className="h-full border-reskin-fg-secondary border-r" />
+        <div className="w-px border-reskin-fg-secondary border-r" />
         <SavingsInfoTile>
           <SavingsInfoTile.Label tooltipContent="This is an estimate of what you could earn in one year.">
-            <div className="hidden md:block"> 1-year projection </div>
-            <div className="md:hidden"> 1-year </div>
+            <div className="hidden lg:block"> 1-year projection </div>
+            <div className="lg:hidden"> 1-year </div>
           </SavingsInfoTile.Label>
           <SavingsInfoTile.Value className="text-primary-inverse">
             +
@@ -113,7 +113,7 @@ export function SavingsTokenPanel({
             {assetsToken.symbol}
           </SavingsInfoTile.Value>
         </SavingsInfoTile>
-        <div className="h-full border-reskin-fg-secondary border-r" />
+        <div className="w-px border-reskin-fg-secondary border-r" />
         <SavingsInfoTile>
           <DSRLabel originChainId={originChainId} savingsMetaItem={savingsMetaItem} />
           <SavingsInfoTile.Value className="text-primary-inverse">

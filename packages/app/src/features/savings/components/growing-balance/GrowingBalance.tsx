@@ -26,20 +26,28 @@ export function GrowingBalance({
   const { depositedAssets, depositedAssetsPrecision } = calculateSavingsBalance(timestampInMs)
 
   return (
-    <div className="grid grid-cols-[auto_1fr] items-baseline gap-x-4 gap-y-3">
-      <img src={getTokenImage(assetsToken.symbol)} className="h-8 md:h-14" />
+    <div className="isolate grid grid-cols-[auto_1fr] items-center gap-x-2 lg:gap-x-4 lg:gap-y-2 xl:gap-y-3">
+      <img src={getTokenImage(assetsToken.symbol)} className="h-8 shrink-0 lg:h-12 xl:h-14" />
       <div className="flex items-baseline tabular-nums" data-testid={testIds.savings[savingsType].balanceInAsset}>
         <div
           className={cn(
-            'typography-display-2 bg-clip-text text-transparent',
+            'typography-heading-3 lg:typography-display-3 xl:typography-display-2 relative bg-clip-text text-transparent',
+            'before:-z-10 before:-inset-2 before:absolute before:bg-reskin-base-black before:blur-sm',
             savingsType === 'sdai' ? 'bg-gradient-savings-dai-counter' : 'bg-gradient-savings-usds-counter',
           )}
         >
           {getWholePart(depositedAssets)}
         </div>
         {depositedAssetsPrecision > 0 && (
-          <div className={cn('typography-heading-4', savingsType === 'sdai' ? 'text-[#54AC3D]' : 'text-[#00C2A1]')}>
-            {getFractionalPart(depositedAssets, depositedAssetsPrecision)}
+          <div className="relative">
+            <div
+              className={cn(
+                'typography-heading-4 before:-z-10 before:absolute before:inset-0 before:bg-reskin-base-black before:blur-sm',
+                savingsType === 'sdai' ? 'text-[#54AC3D]' : 'text-[#00C2A1]',
+              )}
+            >
+              {getFractionalPart(depositedAssets, depositedAssetsPrecision)}
+            </div>
           </div>
         )}
       </div>

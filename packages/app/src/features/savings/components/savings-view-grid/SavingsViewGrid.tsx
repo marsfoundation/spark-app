@@ -5,8 +5,8 @@ export function SavingsViewGrid({ children }: { children: ReactNode[] }) {
   return (
     <div
       className={cn(
-        'flex flex-col gap-6 sm:grid sm:min-h-[384px] ',
-        Children.toArray(children).length > 1 && 'sm:grid-cols-2',
+        'flex flex-col gap-6 sm:grid lg:min-h-[384px] md:min-h-72 ',
+        Children.toArray(children).length > 1 && 'md:grid-cols-2',
       )}
     >
       {children}
