@@ -52,8 +52,8 @@ function StakeTransactionOverview({ txOverview }: StakeTransactionOverviewProps)
       type: 'generic',
       upperText: `${rewardToken.symbol} Farm`,
       lowerText: `${stakingToken.symbol} Deposited`,
-      lowerTextDataTestId: testIds.farmDetails.stakeDialog.transactionOverview.route.destination.farmName,
-      upperTextDataTestId: testIds.farmDetails.stakeDialog.transactionOverview.route.destination.stakingToken,
+      upperTextDataTestId: testIds.farmDetails.stakeDialog.transactionOverview.route.destination.farmName,
+      lowerTextDataTestId: testIds.farmDetails.stakeDialog.transactionOverview.route.destination.stakingToken,
     },
   ]
 
