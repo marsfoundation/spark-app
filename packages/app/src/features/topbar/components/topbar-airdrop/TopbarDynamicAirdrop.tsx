@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useGrowingAirdropAmount } from '../../logic/use-airdrop-info/useGrowingAirdropAmount'
 import { Airdrop } from './TopbarAirdrop'
 import { TopbarAirdropDropdown } from './TopbarAirdropDropdown'
 
