@@ -26,7 +26,7 @@ export function TokenAmount({
     return (
       <div className="flex w-fit items-center gap-1.5">
         <TokenIcon token={token} className="h-4 w-4" />
-        <div className="flex items-baseline gap-0.5">
+        <div className="flex items-baseline gap-1">
           <div className="typography-label-4 text-primary" data-testid={amountDataTestId}>
             {formattedAmount}
             {/* @note: next line is need to maintain backward compatibility with e2e test - amount should include token symbol */}
