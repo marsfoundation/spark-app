@@ -2,8 +2,7 @@ import { assets } from '@/ui/assets'
 import MagicWand from '@/ui/assets/magic-wand.svg?react'
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
 import { ActionButton } from '@/ui/molecules/action-button/ActionButton'
-
-import { Alert } from '../../common/components/alert/Alert'
+import { Alert } from '@/ui/molecules/new/alert/Alert'
 
 export interface SandboxDialogViewProps {
   isInSandbox: boolean

@@ -1,5 +1,6 @@
 import { IconBox } from '@/ui/atoms/new/icon-box/IconBox'
 import { IconButton } from '@/ui/atoms/new/icon-button/IconButton'
+import { cn } from '@/ui/utils/style'
 import { assertNever } from '@/utils/assertNever'
 import { type VariantProps, cva } from 'class-variance-authority'
 import { XIcon } from 'lucide-react'
@@ -8,48 +9,51 @@ import { ReactNode, forwardRef, useState } from 'react'
 interface AlertProps extends VariantProps<typeof alertVariants> {
   children: ReactNode
   variant: NonNullable<VariantProps<typeof alertVariants>['variant']>
+  className?: string
 }
 
-export const Alert = forwardRef<HTMLDivElement, AlertProps>(({ variant, closable = false, children }, ref) => {
-  const [visible, setVisible] = useState(true)
+export const Alert = forwardRef<HTMLDivElement, AlertProps>(
+  ({ variant, closable = false, children, className }, ref) => {
+    const [visible, setVisible] = useState(true)
 
-  if (!visible) {
-    return null
-  }
+    if (!visible) {
+      return null
+    }
 
-  const closeButton = closable && (
-    <IconButton icon={XIcon} onClick={() => setVisible(false)} variant="transparent" size="m" />
-  )
+    const closeButton = closable && (
+      <IconButton icon={XIcon} onClick={() => setVisible(false)} variant="transparent" size="m" />
+    )
 
-  switch (variant) {
-    case 'info':
-      return (
-        <div className={alertVariants({ variant, closable })} ref={ref}>
-          <IconBox variant="info" size="s" />
-          {children}
-          {closeButton}
-        </div>
-      )
-    case 'warning':
-      return (
-        <div className={alertVariants({ variant, closable })} ref={ref}>
-          <IconBox variant="warning" size="s" />
-          {children}
-          {closeButton}
-        </div>
-      )
-    case 'error':
-      return (
-        <div className={alertVariants({ variant, closable })} ref={ref}>
-          <IconBox variant="error" size="s" />
-          {children}
-          {closeButton}
-        </div>
-      )
-    default:
-      assertNever(variant)
-  }
-})
+    switch (variant) {
+      case 'info':
+        return (
+          <div className={cn(alertVariants({ variant, closable }), className)} ref={ref}>
+            <IconBox variant="info" size="s" />
+            {children}
+            {closeButton}
+          </div>
+        )
+      case 'warning':
+        return (
+          <div className={cn(alertVariants({ variant, closable }), className)} ref={ref}>
+            <IconBox variant="warning" size="s" />
+            {children}
+            {closeButton}
+          </div>
+        )
+      case 'error':
+        return (
+          <div className={cn(alertVariants({ variant, closable }), className)} ref={ref}>
+            <IconBox variant="error" size="s" />
+            {children}
+            {closeButton}
+          </div>
+        )
+      default:
+        assertNever(variant)
+    }
+  },
+)
 Alert.displayName = 'Alert'
 
 const alertVariants = cva('typography-label-6 grid grid-cols-[auto_1fr] items-center gap-3 rounded-sm p-4', {

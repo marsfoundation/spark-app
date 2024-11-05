@@ -118,14 +118,13 @@ const DialogContent = React.forwardRef<
 )
 DialogContent.displayName = DialogPrimitive.Content.displayName
 
-const DialogTitle = React.forwardRef<
-  React.ElementRef<typeof DialogPrimitive.Title>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
->(({ children, className, ...props }, ref) => (
-  <DialogPrimitive.Title ref={ref} className={cn('typography-heading-5 text-primary', className)} {...props}>
-    {children}
-  </DialogPrimitive.Title>
-))
+const DialogTitle = React.forwardRef<HTMLHeadingElement, { children: React.ReactNode; className?: string }>(
+  ({ children, className }, ref) => (
+    <h1 ref={ref} className={cn('typography-heading-5 text-primary', className)}>
+      {children}
+    </h1>
+  ),
+)
 DialogTitle.displayName = DialogPrimitive.Title.displayName
 
 type DialogProps = React.ComponentProps<typeof Dialog>
