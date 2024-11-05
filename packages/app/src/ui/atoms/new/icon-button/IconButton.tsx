@@ -1,18 +1,17 @@
 import { cn } from '@/ui/utils/style'
 import { RequiredProps } from '@/utils/types'
 import { VariantProps, cva } from 'class-variance-authority'
-import { forwardRef } from 'react'
+import { ButtonHTMLAttributes, forwardRef } from 'react'
 
-export interface IconButtonProps extends RequiredProps<VariantProps<typeof iconButtonVariants>> {
+export interface IconButtonProps
+  extends RequiredProps<VariantProps<typeof iconButtonVariants>>,
+    ButtonHTMLAttributes<HTMLButtonElement> {
   icon: React.ComponentType<{ className?: string }>
-  onClick?: () => void
-  disabled?: boolean
-  className?: string
 }
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
-  ({ onClick, icon: Icon, disabled, spacing, className }, ref) => (
-    <button className={cn(iconButtonVariants({ spacing }), className)} onClick={onClick} ref={ref} disabled={disabled}>
+  ({ icon: Icon, spacing, className, ...rest }, ref) => (
+    <button className={cn(iconButtonVariants({ spacing }), className)} ref={ref} {...rest}>
       <Icon className="icon-xs" />
     </button>
   ),
