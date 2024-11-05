@@ -14,7 +14,7 @@ export function EmptyStatusPanel({ status, variant }: EmptyStatusPanelProps) {
   return (
     <Panel.Wrapper>
       <StatusPanelGrid>
-        <StatusIcon status={status} />
+        <StatusIcon status={status} noRed />
         <Header status={status} variant={variant} />
       </StatusPanelGrid>
     </Panel.Wrapper>

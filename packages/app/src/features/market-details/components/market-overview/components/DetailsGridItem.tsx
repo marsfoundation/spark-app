@@ -8,13 +8,13 @@ export function DetailsGridItem({ children }: { children: React.ReactNode }) {
   )
 }
 
-const titleVariants = cva('text-sm leading-none sm:text-xs', {
+const titleVariants = cva('h-3 w-3', {
   variants: {
     variant: {
-      gray: 'text-white/50',
-      blue: 'text-product-blue',
-      green: 'text-product-green',
-      orange: 'text-product-orange',
+      gray: 'bg-white/50',
+      blue: 'bg-product-blue',
+      green: 'bg-product-green',
+      orange: 'bg-product-orange',
     },
   },
   defaultVariants: {
@@ -23,7 +23,12 @@ const titleVariants = cva('text-sm leading-none sm:text-xs', {
 })
 
 function Title({ children, variant }: { children: React.ReactNode } & VariantProps<typeof titleVariants>) {
-  return <p className={titleVariants({ variant })}>{children}</p>
+  return (
+    <div className="flex items-center gap-1">
+      {variant && <div className={titleVariants({ variant })} />}
+      <p className="text-sm leading-none opacity-50 sm:text-xs">{children}</p>
+    </div>
+  )
 }
 
 function Value({ children }: { children: React.ReactNode }) {

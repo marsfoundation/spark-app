@@ -3,7 +3,6 @@ import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { BlockExplorerAddressLink } from '@/ui/molecules/block-explorer-address-link/BlockExplorerAddressLink'
 import { InfoTile } from '@/ui/molecules/info-tile/InfoTile'
-import { Info } from '@/ui/molecules/info/Info'
 import { testIds } from '@/ui/utils/testIds'
 
 export function UnderlyingAssetOraclePanel({ asset, chainId, priceOracleAddress, price }: UnderlyingAssetOracleInfo) {
@@ -13,10 +12,6 @@ export function UnderlyingAssetOraclePanel({ asset, chainId, priceOracleAddress,
         <div className="mb-1 text-basics-dark-grey text-sm leading-none sm:text-xs sm:leading-none">Oracle type</div>
         <Panel.Header className="flex items-center gap-2">
           <Panel.Title className="text-xl">Underlying Asset Price</Panel.Title>
-          <Info size={16}>
-            The asset price is derived from a market price oracle tracking the value of the underlying asset. Sky
-            Governance controls which oracle is used.
-          </Info>
         </Panel.Header>
       </div>
       <Panel.Content className="flex flex-col gap-4 sm:gap-6">

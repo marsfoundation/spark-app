@@ -25,7 +25,7 @@ export function FullView({
 }: MarketDetailsViewProps) {
   return (
     <div className="w-full max-w-5xl pt-12 pb-8 lg:mx-auto sm:mx-3">
-      <BackNav chainId={chainId} chainName={chainName} />
+      <BackNav />
       <Header
         token={token}
         aToken={aToken}

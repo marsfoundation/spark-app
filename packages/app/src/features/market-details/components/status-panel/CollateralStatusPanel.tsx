@@ -20,7 +20,7 @@ export function CollateralStatusPanel(props: CollateralStatusInfo) {
   return (
     <Panel.Wrapper>
       <StatusPanelGrid>
-        <StatusIcon status={status} />
+        <StatusIcon status={status} noRed />
         <Header status={status} variant="collateral" />
         <Subheader status={status} />
         <InfoTilesGrid>

@@ -50,7 +50,7 @@ export function BorrowStatusPanel({
   return (
     <Panel.Wrapper>
       <StatusPanelGrid>
-        <StatusIcon status={status} />
+        <StatusIcon status={status} noRed />
         <Header status={status} variant="borrow" />
         <Subheader status={status} />
         <InfoTilesGrid>

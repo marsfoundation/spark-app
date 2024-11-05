@@ -1,5 +1,3 @@
-import { cn } from '@/ui/utils/style'
-
 export interface DoughnutChartProps {
   data: {
     value: number
@@ -28,7 +26,6 @@ export function DoughnutChart({ data, innerRadius = 160, outerRadius = 200, clas
               A${innerRadius} ${innerRadius} 0 ${point.angle > Math.PI ? '1' : '0'} 0 ${point.x4} ${point.y4}
               Z`}
           fill={point.color}
-          className={cn(normalizedData.length > 1 && 'stroke-1 stroke-white')}
           key={`${point.x1}${point.y1}${point.x2}${point.y2}`}
         />
       ))}

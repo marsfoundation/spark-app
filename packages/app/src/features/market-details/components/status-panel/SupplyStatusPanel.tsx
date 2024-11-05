@@ -44,7 +44,7 @@ export function SupplyStatusPanel({
   return (
     <Panel.Wrapper>
       <StatusPanelGrid>
-        <StatusIcon status={status} />
+        <StatusIcon status={status} noRed />
         <Header status={status} variant="supply" />
         <Subheader status={status} />
         <InfoTilesGrid>

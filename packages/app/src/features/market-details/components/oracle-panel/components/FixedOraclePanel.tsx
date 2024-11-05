@@ -3,7 +3,6 @@ import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { BlockExplorerAddressLink } from '@/ui/molecules/block-explorer-address-link/BlockExplorerAddressLink'
 import { InfoTile } from '@/ui/molecules/info-tile/InfoTile'
-import { Info } from '@/ui/molecules/info/Info'
 import { testIds } from '@/ui/utils/testIds'
 
 export function FixedOraclePanel({ chainId, price, priceOracleAddress, token }: FixedOracleInfo) {
@@ -13,10 +12,6 @@ export function FixedOraclePanel({ chainId, price, priceOracleAddress, token }: 
         <div className="mb-1 text-sm text-white/50 leading-none sm:text-xs sm:leading-none">Oracle type</div>
         <Panel.Header className="flex items-center gap-2">
           <Panel.Title className="text-xl">Fixed Price</Panel.Title>
-          <Info size={16}>
-            The asset price is set by a contract at a predefined value, adjustable only through Sky governance
-            decisions.
-          </Info>
         </Panel.Header>
       </div>
       <Panel.Content className="flex flex-col gap-4 sm:gap-6">

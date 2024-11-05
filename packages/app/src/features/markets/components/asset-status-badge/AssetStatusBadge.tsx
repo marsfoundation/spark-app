@@ -24,22 +24,28 @@ export function AssetStatusBadge({
   'data-testid': dataTestId,
 }: AssetStatusBadgeProps) {
   const supplyIcon = (
-    <IndicatorIcon icon={<DownloadIcon className="w-5 md:w-4" />} variant={getVariantFromStatus(supplyStatus)} />
+    <IndicatorIcon
+      icon={<DownloadIcon className="w-5 md:w-4" />}
+      variant={getVariantFromStatus(supplyStatus, { yesWhite: true })}
+    />
   )
   const collateralIcon = (
-    <IndicatorIcon icon={<LayersIcon className="w-5 md:w-4" />} variant={getVariantFromStatus(collateralStatus)} />
+    <IndicatorIcon
+      icon={<LayersIcon className="w-5 md:w-4" />}
+      variant={getVariantFromStatus(collateralStatus, { yesWhite: true })}
+    />
   )
   const borrowIcon = (
-    <IndicatorIcon icon={<UploadIcon className="w-5 md:w-4" />} variant={getVariantFromStatus(borrowStatus)} />
+    <IndicatorIcon
+      icon={<UploadIcon className="w-5 md:w-4" />}
+      variant={getVariantFromStatus(borrowStatus, { yesWhite: true })}
+    />
   )
 
   return (
     <Tooltip disableHoverableContent>
       <TooltipTrigger className="py-2 md:py-0">
-        <div
-          className="inline-flex gap-3 rounded-xl bg-white/10 px-3 py-2 md:gap-2 md:rounded-lg md:px-2.5 md:py-0.5"
-          data-testid={dataTestId}
-        >
+        <div className="inline-flex gap-3 px-3 py-2 md:gap-2 md:px-2.5 md:py-0.5" data-testid={dataTestId}>
           {supplyIcon}
           {collateralIcon}
           {borrowIcon}

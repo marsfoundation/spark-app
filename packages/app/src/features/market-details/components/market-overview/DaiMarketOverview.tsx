@@ -77,7 +77,7 @@ export function DaiMarketOverview({
             </DetailsGridItem.Value>
           </DetailsGridItem>
           <DetailsGridItem>
-            <DetailsGridItem.Title variant="orange">Sky capacity</DetailsGridItem.Title>
+            <DetailsGridItem.Title variant="orange">USDxl capacity</DetailsGridItem.Title>
             <DetailsGridItem.Value>{token.formatUSD(skyCapacity, { compact: true })}</DetailsGridItem.Value>
           </DetailsGridItem>
         </DetailsGrid>

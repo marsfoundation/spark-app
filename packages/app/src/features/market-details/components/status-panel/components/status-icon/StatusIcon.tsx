@@ -6,10 +6,12 @@ import { IndicatorIcon } from '@/ui/atoms/indicator-icon/IndicatorIcon'
 
 interface StatusIconProps {
   status: MarketAssetStatus
+  yesWhite?: boolean
+  noRed?: boolean
 }
 
-export function StatusIcon({ status }: StatusIconProps) {
-  const variant = getVariantFromStatus(status)
+export function StatusIcon({ status, yesWhite, noRed }: StatusIconProps) {
+  const variant = getVariantFromStatus(status, { yesWhite, noRed })
   if (variant === 'green' || variant === 'orange') {
     return <IndicatorIcon icon={<CheckCircle />} variant={variant} className="self-center" />
   }

@@ -1,4 +1,3 @@
-import { getChainConfigEntry } from '@/config/chain'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { Typography } from '@/ui/atoms/typography/Typography'
 import { PageLayout } from '@/ui/layouts/PageLayout'
@@ -12,29 +11,21 @@ import { MarketEntry } from '../types'
 
 export interface MarketsViewProps {
   marketStats: MarketStats
-  chainName: string
   activeAndPausedMarketEntries: MarketEntry[]
   frozenMarketEntries: MarketEntry[]
   chainId: number
 }
 export function MarketsView({
   marketStats,
-  chainName,
   activeAndPausedMarketEntries,
   frozenMarketEntries,
   chainId,
 }: MarketsViewProps) {
   const [showFrozenAssets, setShowFrozenAssets] = useState(false)
-  const chainImage = getChainConfigEntry(chainId).meta.logo
-
   return (
     <PageLayout className="max-w-6xl gap-8 px-3 lg:px-0">
       <div className="flex flex-row items-center gap-4">
         <Typography variant="h2">Markets</Typography>
-        <div className="flex translate-y-0.5 flex-row items-center gap-1">
-          <img src={chainImage} className="h-5 w-5" />
-          <Typography className="font-semibold text-primary text-xs">{chainName}</Typography>
-        </div>
       </div>
       <SummaryTiles marketStats={marketStats} />
       <Panel.Wrapper className="flex flex-col gap-5 p-4 lg:p-8">

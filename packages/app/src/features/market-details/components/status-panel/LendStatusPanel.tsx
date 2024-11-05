@@ -20,7 +20,7 @@ export function LendStatusPanel({ status, token, totalLent, apy }: LendStatusPan
   return (
     <Panel.Wrapper>
       <StatusPanelGrid>
-        <StatusIcon status={status} />
+        <StatusIcon status={status} noRed />
         <Header status={status} variant="lend" />
         <InfoTilesGrid>
           <InfoTile>

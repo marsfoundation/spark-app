@@ -5,7 +5,6 @@ import { GridRows } from '@visx/grid'
 import { Group } from '@visx/group'
 import { scaleLinear } from '@visx/scale'
 import { Bar, Line, LinePath } from '@visx/shape'
-import { Text } from '@visx/text'
 import { TooltipWithBounds, withTooltip } from '@visx/tooltip'
 import { WithTooltipProvidedProps } from '@visx/tooltip/lib/enhancers/withTooltip'
 import { extent, max, minIndex } from 'd3-array'
@@ -209,18 +208,18 @@ export interface UtilizationLineProps {
   innerHeight: number
   marginY?: number
 }
-export function UtilizationLine({ label, value, xValueScale, innerHeight, marginY = 0 }: UtilizationLineProps) {
+export function UtilizationLine({ value, xValueScale, innerHeight, marginY = 0 }: UtilizationLineProps) {
   return (
     <>
       <Line
         from={{ x: xValueScale(value.toNumber()), y: marginY }}
         to={{ x: xValueScale(value.toNumber()), y: innerHeight }}
         stroke={colors.secondary}
-        strokeWidth={2}
+        strokeWidth={1}
         pointerEvents="none"
         strokeDasharray="3"
       />
-      <Text
+      {/* <Text
         x={xValueScale(value.toNumber())}
         y={-23 + marginY}
         width={360}
@@ -230,8 +229,8 @@ export function UtilizationLine({ label, value, xValueScale, innerHeight, margin
         fill={colors.tooltipLine}
       >
         {label}
-      </Text>
-      <Text
+      </Text> */}
+      {/* <Text
         x={xValueScale(value.toNumber())}
         y={-10 + marginY}
         width={360}
@@ -241,7 +240,7 @@ export function UtilizationLine({ label, value, xValueScale, innerHeight, margin
         fill={colors.tooltipLine}
       >
         {formatPercentage(value)}
-      </Text>
+      </Text> */}
     </>
   )
 }

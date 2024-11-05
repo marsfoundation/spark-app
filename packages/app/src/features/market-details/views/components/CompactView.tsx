@@ -27,7 +27,7 @@ export function CompactView({
 }: MarketDetailsViewProps) {
   return (
     <div className="w-full pt-5 pb-8">
-      <BackNav chainId={chainId} chainName={chainName} />
+      <BackNav />
       <Header
         token={token}
         aToken={aToken}

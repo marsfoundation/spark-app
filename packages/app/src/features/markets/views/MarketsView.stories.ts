@@ -29,7 +29,6 @@ export const Desktop: Story = {
       totalAvailableUSD: NormalizedUnitNumber(1.4 * 10 ** 12),
       totalBorrowsUSD: NormalizedUnitNumber(828.48 * 10 ** 9),
     },
-    chainName: 'Ethereum Mainnet',
     activeAndPausedMarketEntries: [
       {
         token: tokens.ETH,

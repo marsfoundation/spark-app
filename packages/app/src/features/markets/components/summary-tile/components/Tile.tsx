@@ -16,7 +16,7 @@ export interface TileProps {
 export function Tile({ icon, title, USDValue, description, 'data-testid': dataTestId }: TileProps) {
   return (
     <div className="flex items-center gap-2 md:gap-3" data-testid={dataTestId}>
-      <div className="flex rounded-lg border bg-white/10 p-1.5 lg:rounded-2xl md:rounded-xl lg:p-4 md:p-3">
+      <div className="flex rounded-sm border bg-white/10 p-1.5 lg:p-4 md:p-3">
         <img src={icon} alt={title} className="w-6 lg:w-8 md:w-7" />
       </div>
       <div className="flex flex-col">

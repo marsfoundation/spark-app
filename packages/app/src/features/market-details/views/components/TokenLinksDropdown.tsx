@@ -45,7 +45,7 @@ function TokenLinksWrapper({ children }: PropsWithChildren) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="secondary" className="bg-white/10 px-3">
+        <Button variant="secondary" className="rounded-sm bg-white/10 px-3">
           <MoreIcon />
         </Button>
       </DropdownMenuTrigger>
