@@ -34,7 +34,6 @@ const buttonVariants = cva(
           'text-secondary transition-colors',
           'hover:text-reskin-neutral-700',
           'active:text-reskin-neutral-900',
-          'focus-visible:outline-none focus-visible:ring focus-visible:ring-reskin-primary-200',
           'disabled:cursor-not-allowed disabled:text-reskin-neutral-300',
         ),
         loading: 'cursor-wait bg-reskin-neutral-50 text-reskin-base-white',
@@ -101,7 +100,14 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const Comp = asChild ? Slot : 'button'
 
-    const variant = loading ? 'loading' : disabled ? 'disabled' : _variant
+    const variant = (() => {
+      if (loading) return 'loading'
+      if (disabled) {
+        if (_variant === 'transparent') return _variant
+        return 'disabled'
+      }
+      return _variant
+    })()
 
     return (
       <Comp
