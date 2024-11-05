@@ -7,9 +7,9 @@ import { userEvent, within } from '@storybook/test'
 import { TopbarWallet, TopbarWalletProps } from './TopbarWallet'
 
 const meta: Meta<typeof TopbarWallet> = {
-  title: 'Components/Molecules/New/TopbarWallet',
+  title: 'Features/Topbar/Components/TopbarWallet',
   component: TopbarWallet,
-  decorators: [WithTooltipProvider(), WithClassname('h-[400px] w-60 flex justify-end')],
+  decorators: [WithTooltipProvider(), WithClassname('flex justify-end')],
   play: async ({ canvasElement }) => {
     const button = await within(canvasElement).findByRole('button')
 

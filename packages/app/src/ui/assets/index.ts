@@ -14,6 +14,14 @@ import mkrToSkyTransform from './banners/mkr-to-sky-transform.svg'
 import newSavingsWelcome from './banners/new-savings-welcome.webp'
 import sdaiToSusdsUpgrade from './banners/sdai-to-susds-upgrade.webp'
 import boxArrowTopRight from './box-arrow-top-right.svg'
+import logoDark from './brand/logo-dark.svg'
+import logoGradientDark from './brand/logo-gradient-dark.svg'
+import logoGradientLight from './brand/logo-gradient-light.svg'
+import logoLight from './brand/logo-light.svg'
+import symbolDark from './brand/symbol-dark.svg'
+import symbolGradient from './brand/symbol-gradient.svg'
+import symboLight from './brand/symbol-light.svg'
+import base from './chains/base.svg'
 import baseDevNet from './chains/baseDevNet.svg'
 import ethereum from './chains/ethereum.svg'
 import gnosis from './chains/gnosis.svg'
@@ -27,8 +35,10 @@ import downgrade from './downgrade.svg'
 import equal from './equal.svg'
 import eye from './eye.svg'
 import flash from './flash.svg'
+import giftGradient from './gift-gradient.svg'
 import giftbox from './giftbox.svg'
 import greenArrowUp from './green-arrow-up.svg'
+import handCoins from './hand-coins.svg'
 import lifiLogo from './lifi-logo.svg'
 import link from './link.svg'
 import magicWandCircle from './magic-wand-circle.svg'
@@ -129,6 +139,9 @@ export const assets = {
   timer,
   multiply,
   equal,
+  handCoins,
+  giftGradient,
+
   markets: {
     chart,
     inputOutput,
@@ -151,6 +164,7 @@ export const assets = {
     ethereum,
     unknown,
     baseDevNet,
+    base,
   },
   token: {
     dai,
@@ -202,6 +216,16 @@ export const assets = {
     savings: savingsIcon,
     farms: farmsIcon,
     borrow: borrowIcon,
+  },
+
+  brand: {
+    symbolGradient,
+    symbolDark,
+    symboLight,
+    logoDark,
+    logoLight,
+    logoGradientLight,
+    logoGradientDark,
   },
 }
 
