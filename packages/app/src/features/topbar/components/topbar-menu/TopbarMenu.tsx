@@ -6,7 +6,7 @@ import {
   DropdownMenuTrigger,
 } from '@/ui/atoms/dropdown/DropdownMenu'
 import { Link } from '@/ui/atoms/link/Link'
-import { IconButton } from '@/ui/atoms/new/icon-button/IconButton'
+import { ButtonWithIcon } from '@/ui/atoms/new/button-with-icon/ButtonWithIcon'
 import { Switch } from '@/ui/atoms/new/switch/Switch'
 import { links } from '@/ui/constants/links'
 import { BuildInfo } from '@/ui/utils/getBuildInfo'
@@ -28,7 +28,7 @@ export function TopbarMenu({ isSandboxEnabled, onSandboxModeClick, buildInfo }: 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
-        <IconButton icon={MenuIcon} variant="tertiary" className={cn(open && 'text-brand')} size="m" />
+        <ButtonWithIcon icon={MenuIcon} variant="tertiary" className={cn(open && 'text-brand')} size="m" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" variant="secondary" className="flex w-80 flex-col gap-1.5 p-1">
         <DropdownMenuItem

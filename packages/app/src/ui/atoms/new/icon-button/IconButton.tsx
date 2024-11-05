@@ -1,34 +1,39 @@
-import { cva } from 'class-variance-authority'
-import * as React from 'react'
-
 import { cn } from '@/ui/utils/style'
-import { Button, ButtonIcon, ButtonIconType, ButtonProps } from '../button/Button'
+import { RequiredProps } from '@/utils/types'
+import { VariantProps, cva } from 'class-variance-authority'
+import { forwardRef } from 'react'
 
-const iconButtonSizeVariants = cva('aspect-square', {
-  variants: {
-    size: {
-      l: 'p-3.5',
-      m: 'p-2.5',
-      s: 'p-2',
-    },
-  },
-  defaultVariants: {
-    size: 'm',
-  },
-})
-
-export interface IconButtonProps extends Omit<ButtonProps, 'children'> {
-  icon: ButtonIconType
+export interface IconButtonProps extends RequiredProps<VariantProps<typeof iconButtonVariants>> {
+  icon: React.ComponentType<{ className?: string }>
+  onClick?: () => void
+  disabled?: boolean
+  className?: string
 }
 
-export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
-  ({ className, size = 'm', icon, ...props }, ref) => {
-    return (
-      <Button {...props} className={cn(iconButtonSizeVariants({ size }), className)} ref={ref} size={size}>
-        <ButtonIcon icon={icon} />
-      </Button>
-    )
+export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
+  ({ onClick, icon: Icon, disabled, spacing, className }, ref) => (
+    <button className={cn(iconButtonVariants({ spacing }), className)} onClick={onClick} ref={ref} disabled={disabled}>
+      <Icon className="icon-xs" />
+    </button>
+  ),
+)
+IconButton.displayName = 'CloseButton'
+
+const iconButtonVariants = cva(
+  cn(
+    'text-secondary transition-colors',
+    'hover:text-reskin-neutral-700',
+    'active:text-reskin-neutral-900',
+    'focus-visible:outline-none focus-visible:ring focus-visible:ring-reskin-primary-200',
+    'disabled:cursor-not-allowed disabled:text-reskin-neutral-300',
+  ),
+  {
+    variants: {
+      spacing: {
+        none: ' rounded-xxs p-0',
+        xs: 'rounded-xs p-1',
+        s: 'rounded-sm p-2',
+      },
+    },
   },
 )
-
-IconButton.displayName = 'Button'

@@ -2,11 +2,11 @@ import { Slot } from '@radix-ui/react-slot'
 import { Settings } from 'lucide-react'
 import React from 'react'
 
-import { Button } from '@/ui/atoms/button/Button'
 import { Dialog, DialogContent, DialogTrigger } from '@/ui/atoms/dialog/Dialog'
 import { Tooltip, TooltipContentShort, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 import { testIds } from '@/ui/utils/testIds'
 
+import { IconButton } from '@/ui/atoms/new/icon-button/IconButton'
 import { UseSettingsDialogResult } from '../logic/useSettingsDialog'
 import { SettingsDialogContent } from './SettingsDialogContent'
 
@@ -28,10 +28,9 @@ export function SettingsDialog(props: SettingsDialogProps) {
     >
       <DialogTrigger asChild>
         <Wrapper>
-          <Button
-            variant="secondary"
-            className="h-[30px] w-[30px] bg-white p-0 text-basics-dark-grey"
-            prefixIcon={<Settings size={18} />}
+          <IconButton
+            icon={Settings}
+            spacing="none"
             data-testid={testIds.actions.settings.dialog}
             disabled={props.disabled}
           />
