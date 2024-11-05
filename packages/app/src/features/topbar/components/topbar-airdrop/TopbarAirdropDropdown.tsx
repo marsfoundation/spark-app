@@ -36,13 +36,20 @@ export function TopbarAirdropDropdown({
   return (
     <DropdownMenu onOpenChange={(open) => setEnableCounter?.(open)}>
       <DropdownMenuTrigger asChild>
-        <Button size="m" variant="tertiary" data-testid={testIds.navbar.airdropBadge}>
+        <Button
+          size="m"
+          variant="tertiary"
+          data-testid={testIds.navbar.airdropBadge}
+          className="aspect-square [@media(min-width:1080px)]:aspect-auto"
+        >
           <img src={assets.brand.symbolGradient} className="icon-sm" />
-          {isLoading ? (
-            <Skeleton className="h-5 w-7 rounded-sm" />
-          ) : (
-            <div data-chromatic="ignore">{SPK_MOCK_TOKEN.format(amount, { style: 'compact' })}</div>
-          )}
+          <span className="hidden [@media(min-width:1080px)]:block">
+            {isLoading ? (
+              <Skeleton className="h-5 w-7 rounded-sm" />
+            ) : (
+              <div data-chromatic="ignore">{SPK_MOCK_TOKEN.format(amount, { style: 'compact' })}</div>
+            )}
+          </span>
         </Button>
       </DropdownMenuTrigger>
 
