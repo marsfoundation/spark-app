@@ -1,8 +1,6 @@
-import { MouseEventHandler } from 'react'
-
-import { Switch } from '@/ui/atoms/switch/Switch'
+import { Switch } from '@/ui/atoms/new/switch/Switch'
 import { Typography } from '@/ui/atoms/typography/Typography'
-
+import { MouseEventHandler } from 'react'
 import { MobileViewOptions } from '../types'
 
 interface SwitchCellProps {
