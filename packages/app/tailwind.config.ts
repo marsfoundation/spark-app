@@ -307,6 +307,7 @@ export default {
           },
           alpha: {
             dialog: 'color-mix(in srgb, rgb(var(--base-black)) 40%, transparent)',
+            overlay: 'color-mix(in srgb, rgb(var(--neutral-100)) 30%, transparent)',
           },
         },
         basics: {
