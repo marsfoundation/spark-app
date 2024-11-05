@@ -6,7 +6,7 @@ import { testIds } from '@/ui/utils/testIds'
 export class SavingsPageObject extends BasePageObject {
   // #region locators
   locateSavingsOpportunityPanel(): Locator {
-    return this.page.getByTestId(testIds.savings.opportunity)
+    return this.page.getByTestId(testIds.savings.opportunity.panel)
   }
 
   // @note using locatePanelByHeader didn't work for base chain because savings opportunity
@@ -93,7 +93,7 @@ export class SavingsPageObject extends BasePageObject {
 
   // #region assertions
   async expectAPY(value: string): Promise<void> {
-    await expect(this.locateSavingsOpportunityPanel().getByRole('paragraph').filter({ hasText: value })).toBeVisible()
+    await expect(this.page.getByTestId(testIds.savings.opportunity.savingsRate)).toHaveText(value)
   }
 
   async expectConnectWalletCTA(): Promise<void> {

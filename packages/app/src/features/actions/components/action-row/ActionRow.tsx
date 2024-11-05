@@ -167,12 +167,13 @@ function ErrorWarning() {
 function Trigger({ children }: { children: ReactNode }) {
   const { actionHandlerState, onAction } = useActionRowContext()
 
-  if (actionHandlerState.status === 'success') {
-    return null
-  }
-
   return (
-    <div className="col-span-full min-w-[5rem] md:col-span-1 md:col-start-[-1] md:w-auto">
+    <div
+      className={cn(
+        'col-span-full min-w-[5rem] md:col-span-1 md:col-start-[-1] md:w-auto',
+        actionHandlerState.status === 'success' && 'hidden md:invisible md:block',
+      )}
+    >
       <Button
         variant="primary"
         size="m"
