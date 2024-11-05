@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { TopbarMenu } from './TopbarMenu'
 
 const meta: Meta<typeof TopbarMenu> = {
-  title: 'Components/Molecules/New/TopbarMenu',
+  title: 'Features/Topbar/Components/TopbarMenu',
   decorators: [WithTooltipProvider(), WithClassname('flex justify-end')],
   play: async ({ canvasElement }) => {
     const button = await within(canvasElement).findByRole('button')

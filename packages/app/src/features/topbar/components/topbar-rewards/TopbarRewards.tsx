@@ -20,11 +20,11 @@ export interface Reward {
   amount: NormalizedUnitNumber
 }
 
-export interface RewardsProps {
+export interface TopbarRewardsProps {
   rewards: Reward[]
   onClaim: () => void
 }
-export function TopbarRewards({ rewards, onClaim }: RewardsProps) {
+export function TopbarRewards({ rewards, onClaim }: TopbarRewardsProps) {
   const totalClaimableReward = rewards.reduce(
     (acc, { token, amount }) => NormalizedUnitNumber(acc.plus(token.toUSD(amount))),
     NormalizedUnitNumber(0),
@@ -37,9 +37,17 @@ export function TopbarRewards({ rewards, onClaim }: RewardsProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button data-testid={testIds.navbar.rewards.badge} size="m" variant="tertiary">
+        <Button
+          data-testid={testIds.navbar.rewards.badge}
+          size="m"
+          variant="tertiary"
+          className="aspect-square [@media(min-width:1080px)]:aspect-auto"
+        >
           <img src={assets.giftGradient} alt="Gift icon" className="h-6" />
-          <span data-testid={testIds.navbar.rewards.claimableRewards}>
+          <span
+            data-testid={testIds.navbar.rewards.claimableRewards}
+            className="hidden [@media(min-width:1080px)]:block"
+          >
             {USD_MOCK_TOKEN.formatUSD(totalClaimableReward, { compact: true })}
           </span>
         </Button>
