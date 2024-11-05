@@ -35,8 +35,8 @@ export function SavingsOpportunity({
   }
 
   return (
-    <Card>
-      <RateGrid>
+    <Card hasNoCash={hasNoCash}>
+      <RateGrid hasNoCash={hasNoCash}>
         <SavingsRate originChainId={originChainId} APY={APY} savingsMetaItem={savingsMeta.primary} />
         {!hasNoCash && <CardButton onClick={openDepositDialog}>Start saving!</CardButton>}
       </RateGrid>
