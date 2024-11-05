@@ -1,7 +1,6 @@
-import { InfoIcon } from 'lucide-react'
-
-import { Tooltip, TooltipContentShort, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/new/tooltip/Tooltip'
 import { cn } from '@/ui/utils/style'
+import { InfoIcon } from 'lucide-react'
 
 interface InfoProps {
   size?: number
@@ -15,7 +14,7 @@ function Info({ children, size = 14, className }: InfoProps) {
       <TooltipTrigger asChild>
         <InfoIcon size={size} className={cn('text-basics-dark-grey/50', className)} />
       </TooltipTrigger>
-      <TooltipContentShort>{children}</TooltipContentShort>
+      <TooltipContent>{children}</TooltipContent>
     </Tooltip>
   )
 }

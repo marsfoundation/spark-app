@@ -14,7 +14,7 @@ import { SavingsOverview } from '../../logic/makeSavingsOverview'
 import { Projections } from '../../types'
 import { GrowingBalance } from '../growing-balance/GrowingBalance'
 import { SavingsInfoTile } from '../savings-info-tile/SavingsInfoTile'
-import { DSRLabel } from '../savings-opportunity/components/DSRLabel'
+import { SavingsRateTooltipContent } from '../savings-rate-tooltip-content/SavingsRateTooltipContent'
 
 export interface SavingsTokenPanelProps {
   variant: 'dai' | 'usds'
@@ -115,7 +115,13 @@ export function SavingsTokenPanel({
         </SavingsInfoTile>
         <div className="w-px border-reskin-fg-secondary border-r" />
         <SavingsInfoTile>
-          <DSRLabel originChainId={originChainId} savingsMetaItem={savingsMetaItem} />
+          <SavingsInfoTile.Label
+            tooltipContent={
+              <SavingsRateTooltipContent originChainId={originChainId} savingsMetaItem={savingsMetaItem} />
+            }
+          >
+            {savingsMetaItem.rateAcronym} Rate
+          </SavingsInfoTile.Label>
           <SavingsInfoTile.Value className="text-primary-inverse">
             {formatPercentage(APY, { minimumFractionDigits: 0 })}
           </SavingsInfoTile.Value>
