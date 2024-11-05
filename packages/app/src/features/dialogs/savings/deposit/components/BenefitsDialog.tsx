@@ -26,7 +26,7 @@ export function BenefitsDialog({ portalContainerRef, apyImprovement }: BenefitsD
           data-testid={testIds.dialog.savings.upgradeDetailsTrigger}
         />
       </DialogTrigger>
-      <DialogContent portalContainerRef={portalContainerRef} overlayVariant="light" contentVerticalPosition="bottom">
+      <DialogContent portalContainerRef={portalContainerRef} overlayVariant="delicate" contentVerticalPosition="bottom">
         <div className="flex flex-col gap-6 p-1">
           <div className="flex flex-col gap-2">
             <h2 className="font-semibold text-basics-black text-xl">Deposit into Savings USDS</h2>

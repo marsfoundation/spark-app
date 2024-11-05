@@ -11,7 +11,7 @@ interface UpgradeDialogProps extends CommonDialogProps {
 function UpgradeDialog({ fromToken, toToken, open, setOpen }: UpgradeDialogProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="p-0" preventAutoFocus>
+      <DialogContent spacing="none" preventAutoFocus>
         <UpgradeDialogContentContainer fromToken={fromToken} toToken={toToken} closeDialog={() => setOpen(false)} />
       </DialogContent>
     </Dialog>
