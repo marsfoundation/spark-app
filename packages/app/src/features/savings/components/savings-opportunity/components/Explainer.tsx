@@ -1,3 +1,5 @@
+import { getChainConfigEntry } from '@/config/chain'
+import { SupportedChainId } from '@/config/chain/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
@@ -9,19 +11,21 @@ import { ArrowRightIcon } from 'lucide-react'
 export interface ExplainerProps {
   stablecoinValue?: NormalizedUnitNumber
   savingsMeta: SavingsMeta
+  originChainId: SupportedChainId
 }
 
-export function Explainer({ stablecoinValue, savingsMeta }: ExplainerProps) {
+export function Explainer({ stablecoinValue, savingsMeta, originChainId }: ExplainerProps) {
   const { stablecoin, rateName } = savingsMeta.primary
+  const { savings, sdaiSymbol, susdsSymbol } = getChainConfigEntry(originChainId)
 
   return (
     <div className="flex flex-col justify-end gap-5">
       <div className="flex items-center gap-1">
-        {['USDS', 'DAI', 'USDC'].map((symbol) => (
+        {savings?.inputTokens.map((symbol) => (
           <img key={symbol} src={getTokenImage(TokenSymbol(symbol))} className="h-6 w-6" />
         ))}
         <ArrowRightIcon className="icon-xs text-primary-inverse" />
-        {['sUSDS', 'sDAI'].map((symbol) => (
+        {[sdaiSymbol, susdsSymbol].filter(Boolean).map((symbol) => (
           <img key={symbol} src={getTokenImage(TokenSymbol(symbol))} className="h-6 w-6" />
         ))}
       </div>

@@ -34,7 +34,7 @@ export function SavingsOpportunityGuestMode({
           </Button>
         </div>
       </RateGrid>
-      <Explainer savingsMeta={savingsMeta} />
+      <Explainer savingsMeta={savingsMeta} originChainId={originChainId} />
     </Card>
   )
 }

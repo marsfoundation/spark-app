@@ -40,7 +40,7 @@ export function SavingsOpportunity({
         <SavingsRate originChainId={originChainId} APY={APY} savingsMetaItem={savingsMeta.primary} />
         {!hasNoCash && <CardButton onClick={openDepositDialog}>Start saving!</CardButton>}
       </RateGrid>
-      <Explainer stablecoinValue={stablecoinValue} savingsMeta={savingsMeta} />
+      <Explainer stablecoinValue={stablecoinValue} savingsMeta={savingsMeta} originChainId={originChainId} />
     </Card>
   )
 }
