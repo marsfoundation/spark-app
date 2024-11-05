@@ -6,7 +6,7 @@ import { testIds } from '@/ui/utils/testIds'
 export class SavingsPageObject extends BasePageObject {
   // #region locators
   locateSavingsOpportunityPanel(): Locator {
-    return this.locatePanelByHeader('Savings')
+    return this.page.getByTestId(testIds.savings.opportunity)
   }
 
   // @note using locatePanelByHeader didn't work for base chain because savings opportunity

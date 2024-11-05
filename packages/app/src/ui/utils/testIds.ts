@@ -71,6 +71,7 @@ export const testIds = makeTestIds({
       moreDropdown: true,
       downgradeUsdsToDai: true,
     },
+    opportunity: true,
     sdai: {
       panel: true,
       balance: true,
