@@ -1,4 +1,5 @@
 import { cn } from '@/ui/utils/style'
+import { testIds } from '@/ui/utils/testIds'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { VariantProps, cva } from 'class-variance-authority'
 import { X } from 'lucide-react'
@@ -106,9 +107,14 @@ const DialogContent = React.forwardRef<
         >
           {children}
           {showCloseButton && (
-            <DialogPrimitive.Close>
-              <IconButton variant="transparent" icon={X} size="l" className="absolute top-6 right-6" />
-              <span className="sr-only">Close</span>
+            <DialogPrimitive.Close asChild>
+              <IconButton
+                variant="transparent"
+                icon={X}
+                size="l"
+                className="absolute top-6 right-6"
+                data-testid={testIds.dialog.closeButton}
+              />
             </DialogPrimitive.Close>
           )}
         </DialogPrimitive.Content>
