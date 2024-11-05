@@ -3,8 +3,7 @@ import BigNumber from 'bignumber.js'
 import { trimCharEnd } from '@/utils/strings'
 
 import { bigNumberify } from '../../utils/bigNumber'
-import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
-import { SPK_MOCK_TOKEN } from '../types/Token'
+import { Percentage } from '../types/NumericValues'
 
 export interface FormatPercentageOptions {
   skipSign?: boolean
@@ -59,21 +58,4 @@ export function findSignificantPrecision(
 ): number {
   const unitPriceUsd = Number(_unitPriceUsd)
   return Math.max(Math.floor(Math.log10(unitPriceUsd)) + desiredPrecisionOfUsd, 0)
-}
-
-export interface FormatAirdropAmountParams {
-  amount: NormalizedUnitNumber
-  precision: number
-  isGrowing?: boolean
-}
-
-export function formatAirdropAmount({ amount, precision, isGrowing }: FormatAirdropAmountParams): string {
-  if (isGrowing) {
-    const formatter = new Intl.NumberFormat('en-US', {
-      minimumFractionDigits: precision,
-      maximumFractionDigits: precision,
-    })
-    return formatter.format(amount.toNumber())
-  }
-  return SPK_MOCK_TOKEN.format(amount, { style: 'auto' })
 }
