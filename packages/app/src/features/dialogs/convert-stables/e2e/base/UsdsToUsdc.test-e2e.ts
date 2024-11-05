@@ -51,8 +51,8 @@ test.describe('Convert USDS to USDC', () => {
           tokenUsdValue: '$10,000.00',
         },
       ],
-      outcome: '10,000.00 USDC worth $10,000.00',
-      badgeTokens: 'USDS and USDC',
+      outcome: '10,000.00 USDC',
+      outcomeUsd: '$10,000.00',
     })
   })
 

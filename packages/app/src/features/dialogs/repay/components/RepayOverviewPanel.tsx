@@ -1,8 +1,5 @@
 import { Token } from '@/domain/types/Token'
-import { DialogPanel } from '@/features/dialogs/common/components/DialogPanel'
-import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPanelTitle'
-import { HealthFactorChange } from '../../common/components/transaction-overview/HealthFactorChange'
-import { TokenValueChange } from '../../common/components/transaction-overview/TokenValueChange'
+import { TransactionOverview } from '@/ui/organisms/new/transaction-overview/TransactionOverview'
 import { PositionOverview } from '../logic/types'
 
 export interface RepayOverviewPanelProps {
@@ -16,18 +13,22 @@ export function RepayOverviewPanel({
   updatedPositionOverview,
 }: RepayOverviewPanelProps) {
   return (
-    <DialogPanel>
-      <DialogPanelTitle>Transaction overview</DialogPanelTitle>
-      <TokenValueChange
-        token={debtAsset}
-        currentValue={currentPositionOverview.debt}
-        updatedValue={updatedPositionOverview?.debt}
-        label="Debt"
-      />
-      <HealthFactorChange
-        currentHealthFactor={currentPositionOverview.healthFactor}
-        updatedHealthFactor={updatedPositionOverview?.healthFactor}
-      />
-    </DialogPanel>
+    <TransactionOverview>
+      <TransactionOverview.Row>
+        <TransactionOverview.Label>Debt</TransactionOverview.Label>
+        <TransactionOverview.TokenAmountChange
+          token={debtAsset}
+          currentAmount={currentPositionOverview.debt}
+          updatedAmount={updatedPositionOverview?.debt}
+        />
+      </TransactionOverview.Row>
+      <TransactionOverview.Row>
+        <TransactionOverview.Label>Health factor</TransactionOverview.Label>
+        <TransactionOverview.HealthFactorChange
+          currentHealthFactor={currentPositionOverview.healthFactor}
+          updatedHealthFactor={updatedPositionOverview?.healthFactor}
+        />
+      </TransactionOverview.Row>
+    </TransactionOverview>
   )
 }

@@ -90,6 +90,7 @@ export const testIds = makeTestIds({
       },
       skyBadge: true,
       outcome: true,
+      outcomeUsd: true,
     },
     healthFactor: {
       before: true,
@@ -234,6 +235,7 @@ export const testIds = makeTestIds({
           },
         },
         outcome: true,
+        outcomeUsd: true,
       },
     },
     unstakeDialog: {
@@ -245,6 +247,9 @@ export const testIds = makeTestIds({
           },
         },
         outcome: true,
+        outcomeUsd: true,
+        rewardOutcome: true,
+        rewardOutcomeUsd: true,
       },
       exitFarmSwitchPanel: {
         switch: true,

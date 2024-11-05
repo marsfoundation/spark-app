@@ -77,7 +77,7 @@ test.describe('Unstake USDS from SKY farm', () => {
           lowerText: 'Deposited',
         },
       },
-      outcome: '5,000.00 USDS worth $5,000.00',
+      outcome: '5,000.00 USDS',
     })
   })
 
@@ -159,7 +159,7 @@ test.describe('Unstake USDS from CLE farm', () => {
           lowerText: 'Deposited',
         },
       },
-      outcome: '5,000.00 USDS worth $5,000.00',
+      outcome: '5,000.00 USDS',
     })
   })
 

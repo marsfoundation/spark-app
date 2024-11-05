@@ -61,7 +61,7 @@ test.describe('Stake USDS to SKY farm', () => {
           lowerText: 'Deposited',
         },
       },
-      outcome: '10,000.00 USDS deposited into SKY Farm',
+      outcome: '10,000.00 USD',
     })
   })
 
@@ -134,7 +134,7 @@ test.describe('Stake USDS to CLE farm', () => {
           lowerText: 'Deposited',
         },
       },
-      outcome: '10,000.00 USDS deposited into CLE Farm',
+      outcome: '10,000.00 USDS',
     })
   })
 

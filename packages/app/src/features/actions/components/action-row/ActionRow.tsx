@@ -4,6 +4,7 @@ import { getTokenImage } from '@/ui/assets'
 import SuccessIcon from '@/ui/assets/icons/success.svg?react'
 import WarningIcon from '@/ui/assets/icons/warning.svg?react'
 import { Button } from '@/ui/atoms/new/button/Button'
+import { HorizontalScroll } from '@/ui/atoms/new/horizontal-scroll/HorizontalScroll'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/new/tooltip/Tooltip'
 import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
 import { cn } from '@/ui/utils/style'
@@ -83,21 +84,17 @@ function Icon({ icon }: { icon: ComponentType<{ className?: string }> }) {
 
 function Title({ children }: { children: ReactNode }) {
   const { actionHandlerState } = useActionRowContext()
-  const [titleRef, isTruncated] = useIsTruncated()
 
   return (
-    <div
+    <HorizontalScroll
       className={cn(
-        'typography-label-4 col-span-2 flex items-center gap-1.5 overflow-x-auto',
-        'overflow-y-hidden text-nowrap md:col-span-1 sm:overflow-visible',
-        isTruncated &&
-          '-ml-2 pr-3 pl-2 [mask-image:linear-gradient(to_right,transparent,black_7%,black_85%,transparent)] sm:[mask-image:none]',
+        'typography-label-4 col-span-2 flex items-center gap-1.5',
+        'md:col-span-1 sm:overflow-visible',
         actionHandlerState.status === 'success' && 'text-secondary',
       )}
-      ref={titleRef}
     >
       {children}
-    </div>
+    </HorizontalScroll>
   )
 }
 

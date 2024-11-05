@@ -78,8 +78,8 @@ test.describe('Upgrade sDAI to sUSDS', () => {
           tokenUsdValue: '$11,085.91',
         },
       ],
-      outcome: '11,085.65 sUSDS worth $11,085.91',
-      badgeTokens: 'sDAI',
+      outcome: '11,085.65 sUSDS',
+      outcomeUsd: '$11,085.91',
     })
   })
 

@@ -1,9 +1,6 @@
 import { TokenWithBalance } from '@/domain/common/types'
-import { DialogPanel } from '@/features/dialogs/common/components/DialogPanel'
-import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPanelTitle'
+import { TransactionOverview } from '@/ui/organisms/new/transaction-overview/TransactionOverview'
 import BigNumber from 'bignumber.js'
-import { HealthFactorChange } from '../../common/components/transaction-overview/HealthFactorChange'
-import { TransactionOverviewDetailsItem } from '../../common/components/transaction-overview/TransactionOverviewDetailsItem'
 
 export interface CollateralOverviewPanelProps {
   collateral: TokenWithBalance
@@ -16,17 +13,18 @@ export function CollateralOverviewPanel({
   updatedHealthFactor,
 }: CollateralOverviewPanelProps) {
   return (
-    <DialogPanel>
-      <DialogPanelTitle>Transaction overview</DialogPanelTitle>
-      <TransactionOverviewDetailsItem label="Deposit balance">
-        <div className="flex flex-col items-end gap-0.5">
-          <p className="text-base text-basics-black">
-            {token.format(balance, { style: 'auto' })} {token.symbol}
-          </p>
-          <div className="text-basics-dark-grey text-xs">{token.formatUSD(balance)}</div>
-        </div>
-      </TransactionOverviewDetailsItem>
-      <HealthFactorChange currentHealthFactor={currentHealthFactor} updatedHealthFactor={updatedHealthFactor} />
-    </DialogPanel>
+    <TransactionOverview>
+      <TransactionOverview.Row>
+        <TransactionOverview.Label>Deposit balance</TransactionOverview.Label>
+        <TransactionOverview.TokenAmount token={token} amount={balance} />
+      </TransactionOverview.Row>
+      <TransactionOverview.Row>
+        <TransactionOverview.Label>Health factor</TransactionOverview.Label>
+        <TransactionOverview.HealthFactorChange
+          currentHealthFactor={currentHealthFactor}
+          updatedHealthFactor={updatedHealthFactor}
+        />
+      </TransactionOverview.Row>
+    </TransactionOverview>
   )
 }

@@ -1,24 +1,17 @@
-import { formatPercentage } from '@/domain/common/format'
 import { Token } from '@/domain/types/Token'
-import { DialogPanel } from '@/features/dialogs/common/components/DialogPanel'
-import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPanelTitle'
-import { RouteItem } from '@/features/dialogs/common/components/transaction-overview/RouteItem'
-import { SkyBadge } from '@/features/dialogs/common/components/transaction-overview/SkyBadge'
-import { TransactionOutcome } from '@/features/dialogs/common/components/transaction-overview/TransactionOutcome'
-import { TransactionOverviewDetailsItem } from '@/features/dialogs/common/components/transaction-overview/TransactionOverviewDetailsItem'
-import { assets } from '@/ui/assets'
+import { TransactionOverview } from '@/ui/organisms/new/transaction-overview/TransactionOverview'
 import { testIds } from '@/ui/utils/testIds'
 import { assert } from '@/utils/assert'
 import { TransactionOverviewPlaceholder } from '../../../common/components/transaction-overview/components/TransactionOverviewPlaceholder'
 import { MigrateDialogTxOverview } from '../types'
 
-export interface TransactionOverviewProps {
+interface MigrateTransactionOverviewProps {
   txOverview: MigrateDialogTxOverview
   selectedToken: Token
   showAPY?: boolean
 }
 
-export function TransactionOverview({ txOverview, selectedToken, showAPY }: TransactionOverviewProps) {
+function MigrateTransactionOverview({ txOverview, selectedToken, showAPY }: MigrateTransactionOverviewProps) {
   if (txOverview.status !== 'success') {
     return <TransactionOverviewPlaceholder badgeToken={selectedToken.symbol} showAPY={showAPY} />
   }
@@ -26,44 +19,41 @@ export function TransactionOverview({ txOverview, selectedToken, showAPY }: Tran
 
   assert(route.length > 0, 'Route must have at least one item')
   const outcome = route.at(-1)!
-  const inputToken = route[0]!.token
 
   return (
-    <div className="isolate">
-      <DialogPanel className="shadow-none">
-        <DialogPanelTitle>Transaction overview</DialogPanelTitle>
-        {apyChange && (
-          <TransactionOverviewDetailsItem label="APY">
-            <div className="flex flex-row items-center gap-2">
-              <div data-testid={testIds.dialog.savings.transactionOverview.apyChange.before}>
-                {formatPercentage(apyChange.current)}
-              </div>
-              <img src={assets.arrowRight} />
-              <div data-testid={testIds.dialog.savings.transactionOverview.apyChange.after}>
-                {formatPercentage(apyChange.updated)}
-              </div>
-            </div>
-          </TransactionOverviewDetailsItem>
-        )}
-        <TransactionOverviewDetailsItem label="Route">
-          <div className="flex flex-col items-end gap-2 md:flex-row">
-            {route.map((item, index) => (
-              <RouteItem
-                key={item.token.symbol}
-                item={item}
-                index={index}
-                isLast={index === route.length - 1}
-                displayRouteVertically={false}
-              />
-            ))}
-          </div>
-        </TransactionOverviewDetailsItem>
-        <TransactionOverviewDetailsItem label="Outcome">
-          <TransactionOutcome outcome={outcome} />
-        </TransactionOverviewDetailsItem>
-      </DialogPanel>
-
-      <SkyBadge tokens={[inputToken.symbol]} />
-    </div>
+    <TransactionOverview>
+      {apyChange && (
+        <TransactionOverview.Row>
+          <TransactionOverview.Label>APY</TransactionOverview.Label>
+          <TransactionOverview.ApyChange currentApy={apyChange.current} updatedApy={apyChange.updated} />
+        </TransactionOverview.Row>
+      )}
+      <TransactionOverview.Row>
+        <TransactionOverview.Label>Route</TransactionOverview.Label>
+        <TransactionOverview.Route
+          route={txOverview.route.map((item) => ({
+            type: 'token-amount',
+            token: item.token,
+            amount: item.value,
+            usdAmount: item.usdValue,
+          }))}
+        />
+      </TransactionOverview.Row>
+      <TransactionOverview.Row>
+        <TransactionOverview.Label>Outcome</TransactionOverview.Label>
+        <TransactionOverview.TokenAmount
+          token={outcome.token}
+          amount={outcome.value}
+          usdAmount={outcome.usdValue}
+          amountDataTestId={testIds.dialog.transactionOverview.outcome}
+          usdAmountDataTestId={testIds.dialog.transactionOverview.outcomeUsd}
+        />
+      </TransactionOverview.Row>
+    </TransactionOverview>
   )
+}
+
+export {
+  MigrateTransactionOverview as TransactionOverview,
+  type MigrateTransactionOverviewProps as TransactionOverviewProps,
 }

@@ -52,8 +52,8 @@ test.describe('Convert USDS to DAI', () => {
           tokenUsdValue: '$10,000.00',
         },
       ],
-      outcome: '10,000.00 DAI worth $10,000.00',
-      badgeTokens: 'USDS and DAI',
+      outcome: '10,000.00 DAI',
+      outcomeUsd: '$10,000.00',
     })
   })
 

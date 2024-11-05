@@ -1,14 +1,14 @@
 import { Meta, StoryObj } from '@storybook/react'
 
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
-import { WithClassname } from '@sb/decorators'
+import { WithClassname, WithTooltipProvider } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
 import BigNumber from 'bignumber.js'
 import { TransactionOverview } from './TransactionOverview'
 
 const meta: Meta<typeof TransactionOverview> = {
   title: 'Components/Molecules/New/TransactionOverview',
-  decorators: [WithClassname('max-w-2xl')],
+  decorators: [WithClassname('max-w-2xl'), WithTooltipProvider()],
   component: TransactionOverview,
 }
 
@@ -19,10 +19,10 @@ type Story = StoryObj<typeof TransactionOverview>
 export const Default: Story = {
   render: () => {
     return (
-      <TransactionOverview>
+      <TransactionOverview showSkyBadge>
         <TransactionOverview.Row>
           <TransactionOverview.Label>APY</TransactionOverview.Label>
-          <TransactionOverview.Apy
+          <TransactionOverview.FarmApy
             apy={Percentage(0.05)}
             rewardsPerYear={NormalizedUnitNumber(100)}
             rewardToken={tokens.USDS}
@@ -36,9 +36,20 @@ export const Default: Story = {
           <TransactionOverview.Label>Route</TransactionOverview.Label>
           <TransactionOverview.Route
             route={[
-              { token: tokens.USDC, amount: NormalizedUnitNumber(100), usdAmount: NormalizedUnitNumber(100) },
-              { token: tokens.USDS, amount: NormalizedUnitNumber(100), usdAmount: NormalizedUnitNumber(100) },
               {
+                type: 'token-amount',
+                token: tokens.USDC,
+                amount: NormalizedUnitNumber(100),
+                usdAmount: NormalizedUnitNumber(100),
+              },
+              {
+                type: 'token-amount',
+                token: tokens.USDS,
+                amount: NormalizedUnitNumber(100),
+                usdAmount: NormalizedUnitNumber(100),
+              },
+              {
+                type: 'token-amount',
                 token: tokens.sUSDS,
                 amount: NormalizedUnitNumber(91.345035308238),
                 usdAmount: NormalizedUnitNumber(100),
@@ -48,11 +59,11 @@ export const Default: Story = {
         </TransactionOverview.Row>
         <TransactionOverview.Row>
           <TransactionOverview.Label>Outcome</TransactionOverview.Label>
-          <TransactionOverview.Outcome token={tokens.USDS} amount={NormalizedUnitNumber(100)} />
+          <TransactionOverview.TokenAmount token={tokens.USDS} amount={NormalizedUnitNumber(100)} />
         </TransactionOverview.Row>
         <TransactionOverview.Row>
           <TransactionOverview.Label>Remaining supply</TransactionOverview.Label>
-          <TransactionOverview.AmountChange
+          <TransactionOverview.TokenAmountChange
             token={tokens.USDC}
             currentAmount={NormalizedUnitNumber(1000000)}
             updatedAmount={NormalizedUnitNumber(1000000)}

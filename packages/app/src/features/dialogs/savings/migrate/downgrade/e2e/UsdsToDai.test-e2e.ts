@@ -73,8 +73,8 @@ test.describe('Downgrade USDS to DAI', () => {
           tokenUsdValue: '$100.00',
         },
       ],
-      outcome: '100.00 DAI worth $100.00',
-      badgeTokens: 'USDS',
+      outcome: '100.00 DAI',
+      outcomeUsd: '$100.00',
     })
   })
 

@@ -43,7 +43,7 @@ test.describe('Deposit USDC', () => {
       await depositDialog.expectNativeRouteTransactionOverview({
         apy: {
           value: '6.25%',
-          description: '~625.00 USDS per year',
+          description: 'Earn ~625.00 USDS/year',
         },
         routeItems: [
           {
@@ -59,8 +59,8 @@ test.describe('Deposit USDC', () => {
             tokenUsdValue: '$10,000.00',
           },
         ],
-        outcome: '9,999.77 sUSDS worth $10,000.00',
-        badgeTokens: 'USDC',
+        outcome: '9,999.77 sUSDS',
+        outcomeUsd: '$10,000.00',
       })
     })
 
@@ -92,7 +92,7 @@ test.describe('Deposit USDC', () => {
       await depositDialog.expectNativeRouteTransactionOverview({
         apy: {
           value: '6.00%',
-          description: '~600.00 DAI per year',
+          description: 'Earn ~600.00 DAI/year',
         },
         routeItems: [
           {
@@ -108,8 +108,8 @@ test.describe('Deposit USDC', () => {
             tokenUsdValue: '$10,000.00',
           },
         ],
-        outcome: '9,020.46 sDAI worth $10,000.00',
-        badgeTokens: 'USDC',
+        outcome: '9,020.46 sDAI',
+        outcomeUsd: '$10,000.00',
       })
     })
 

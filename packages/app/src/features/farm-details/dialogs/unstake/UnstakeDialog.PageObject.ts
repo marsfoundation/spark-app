@@ -55,10 +55,11 @@ export class UnstakeDialogPageObject extends DialogPageObject {
     const txOverviewTestIds = testIds.farmDetails.unstakeDialog.transactionOverview
 
     for (let i = 0; i < route.swaps.length; i++) {
-      await expect(this.page.getByTestId(routeItemTestIds.tokenWithAmount(i))).toContainText(
+      // i + 1 because the first item  in route is farm itself
+      await expect(this.page.getByTestId(routeItemTestIds.tokenWithAmount(i + 1))).toContainText(
         route.swaps[i]!.tokenAmount,
       )
-      await expect(this.page.getByTestId(routeItemTestIds.tokenUsdValue(i))).toContainText(
+      await expect(this.page.getByTestId(routeItemTestIds.tokenUsdValue(i + 1))).toContainText(
         route.swaps[i]!.tokenUsdValue,
       )
     }
@@ -77,23 +78,29 @@ export class UnstakeDialogPageObject extends DialogPageObject {
   async expectExitTransactionOverview({ route, reward, outcome }: ExitTransactionOverview): Promise<void> {
     await this.expectRoutesOverview(route)
 
-    const regexp = /([\d,\.]+) (\w+) \(\$([\d,\.]+)\) \+ ~([\d,\.]+) (\w+) \(~\$([\d,\.]+)\)/
-    const rewardRowText = await this.page
-      .getByTestId(testIds.farmDetails.unstakeDialog.transactionOverview.outcome)
+    await expect(this.page.getByTestId(testIds.farmDetails.unstakeDialog.transactionOverview.outcome)).toContainText(
+      outcome.amount,
+    )
+    await expect(this.page.getByTestId(testIds.farmDetails.unstakeDialog.transactionOverview.outcome)).toContainText(
+      outcome.token,
+    )
+    await expect(this.page.getByTestId(testIds.farmDetails.unstakeDialog.transactionOverview.outcomeUsd)).toContainText(
+      outcome.usdValue,
+    )
+
+    const rewardAmount = await this.page
+      .getByTestId(testIds.farmDetails.unstakeDialog.transactionOverview.rewardOutcome)
       .textContent()
+    const rewardNumber = Number(rewardAmount?.replace(/[^0-9.]/g, ''))
 
-    const match = rewardRowText?.match(regexp)
-    expect(match).toBeDefined()
-
-    const [outcomeAmount, outcomeToken, outcomeUsdValue, rewardAmount, rewardToken, rewardUsdValue] = match!.slice(1)
-    expect(outcomeAmount).toBe(outcome.amount)
-    expect(outcomeToken).toBe(outcome.token)
-    expect(outcomeUsdValue).toBe(outcome.usdValue)
-    const rewardNumber = Number(rewardAmount?.replace(/,/g, ''))
     expect(rewardNumber).toBeGreaterThanOrEqual(reward.min)
     expect(rewardNumber).toBeLessThanOrEqual(reward.max)
-    expect(rewardToken).toBe(reward.token)
-    expect(rewardUsdValue).toContain(reward.usdValue)
+    await expect(
+      this.page.getByTestId(testIds.farmDetails.unstakeDialog.transactionOverview.rewardOutcome),
+    ).toContainText(reward.token)
+    await expect(
+      this.page.getByTestId(testIds.farmDetails.unstakeDialog.transactionOverview.rewardOutcomeUsd),
+    ).toContainText(reward.usdValue)
   }
 
   async expectSuccessPage(): Promise<void> {

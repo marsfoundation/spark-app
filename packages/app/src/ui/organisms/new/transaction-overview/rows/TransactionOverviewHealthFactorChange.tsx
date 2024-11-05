@@ -1,6 +1,7 @@
 import { formatHealthFactor } from '@/domain/common/format'
 import { healthFactorToRiskLevel, riskLevelToStateVariant, riskLevelToTitle } from '@/domain/common/risk'
 import { Badge } from '@/ui/atoms/new/badge/Badge'
+import { HorizontalScroll } from '@/ui/atoms/new/horizontal-scroll/HorizontalScroll'
 import { testIds } from '@/ui/utils/testIds'
 import BigNumber from 'bignumber.js'
 import { MoveRightIcon } from 'lucide-react'
@@ -15,20 +16,22 @@ export function TransactionOverviewHealthFactorChange({
   updatedHealthFactor,
 }: TransactionOverviewHealthFactorChangeProps) {
   if (currentHealthFactor === undefined && updatedHealthFactor !== undefined) {
-    return <HealthFactorBadge healthFactor={updatedHealthFactor} />
+    return <HealthFactorBadge healthFactor={updatedHealthFactor} data-testid={testIds.dialog.healthFactor.after} />
   }
 
   if (currentHealthFactor !== undefined) {
     return (
-      <div className="flex items-center gap-2.5">
-        <HealthFactorBadge healthFactor={currentHealthFactor} data-testid={testIds.dialog.healthFactor.before} />
-        {updatedHealthFactor && (
-          <>
-            <MoveRightIcon className="icon-xxs text-secondary" />
-            <HealthFactorBadge healthFactor={updatedHealthFactor} data-testid={testIds.dialog.healthFactor.after} />
-          </>
-        )}
-      </div>
+      <HorizontalScroll>
+        <div className="flex items-center gap-2.5">
+          <HealthFactorBadge healthFactor={currentHealthFactor} data-testid={testIds.dialog.healthFactor.before} />
+          {updatedHealthFactor && (
+            <>
+              <MoveRightIcon className="icon-xxs text-secondary" />
+              <HealthFactorBadge healthFactor={updatedHealthFactor} data-testid={testIds.dialog.healthFactor.after} />
+            </>
+          )}
+        </div>
+      </HorizontalScroll>
     )
   }
 
@@ -45,8 +48,9 @@ function HealthFactorBadge({ healthFactor, 'data-testid': dataTestId }: HealthFa
   const title = riskLevelToTitle[riskLevel]
 
   return (
-    <div className="flex items-center gap-1.5">
-      <Badge appearance="solid" size="xs" variant={riskLevelToStateVariant[riskLevel]} data-testid={dataTestId}>
+    // @todo: split health factor and risk level test ids
+    <div className="flex items-center gap-1.5" data-testid={dataTestId}>
+      <Badge appearance="solid" size="xs" variant={riskLevelToStateVariant[riskLevel]}>
         {title}
       </Badge>
       <div className="typography-label-4 text-primary">{formatHealthFactor(healthFactor)}</div>

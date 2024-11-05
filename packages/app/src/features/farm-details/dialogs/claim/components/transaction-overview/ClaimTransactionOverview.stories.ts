@@ -3,11 +3,11 @@ import { WithClassname } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
-import { TransactionOverview } from './TransactionOverview'
+import { ClaimTransactionOverview } from './ClaimTransactionOverview'
 
-const meta: Meta<typeof TransactionOverview> = {
+const meta: Meta<typeof ClaimTransactionOverview> = {
   title: 'Features/FarmDetails/Dialogs/Claim/Components/TransactionOverview',
-  component: TransactionOverview,
+  component: ClaimTransactionOverview,
   decorators: [WithClassname('max-w-xl')],
   args: {
     txOverview: {
@@ -20,7 +20,7 @@ const meta: Meta<typeof TransactionOverview> = {
 }
 
 export default meta
-type Story = StoryObj<typeof TransactionOverview>
+type Story = StoryObj<typeof ClaimTransactionOverview>
 
 export const Desktop: Story = {}
 export const Mobile = getMobileStory(Desktop)

@@ -49,8 +49,8 @@ test.describe('Withdraw max DAI on Mainnet', () => {
           tokenUsdValue: '$10,715.05',
         },
       ],
-      outcome: '10,715.05 DAI worth $10,715.05',
-      badgeTokens: 'DAI',
+      outcome: '10,715.05 DAI',
+      outcomeUsd: '$10,715.05',
     })
   })
 

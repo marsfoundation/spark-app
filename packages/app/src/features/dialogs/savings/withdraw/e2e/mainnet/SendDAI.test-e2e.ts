@@ -53,8 +53,8 @@ test.describe('Send DAI on Mainnet', () => {
           tokenUsdValue: '$7,000.00',
         },
       ],
-      outcome: '7,000.00 DAI worth $7,000.00',
-      badgeTokens: 'DAI',
+      outcome: '7,000.00 DAI',
+      outcomeUsd: '$7,000.00',
     })
   })
 
