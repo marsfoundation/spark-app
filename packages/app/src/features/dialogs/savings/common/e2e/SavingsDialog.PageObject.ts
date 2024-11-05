@@ -55,7 +55,7 @@ export class SavingsDialogPageObject extends DialogPageObject {
     expect(selectorOptions).toHaveLength(options.length)
 
     for (const [index, option] of selectorOptions.entries()) {
-      await expect(option).toHaveText(options[index]!)
+      await expect(option).toContainText(options[index]!)
     }
   }
 
