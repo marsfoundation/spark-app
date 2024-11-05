@@ -31,23 +31,32 @@ const DialogOverlay = React.forwardRef<
 ))
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName
 
-const contentVariants = cva('', {
-  variants: {
-    contentVerticalPosition: {
-      center: '-translate-y-1/2 top-1/2',
-      top: 'top-0 translate-y-0',
-      bottom: '-translate-y-full top-full',
+const contentVariants = cva(
+  cn(
+    'fixed top-[50%] left-[50%] z-50 flex max-h-screen min-h-screen w-full max-w-full translate-x-[-50%] md:w-[686px]',
+    'grid overflow-hidden overflow-y-auto bg-primary duration-200 md:max-h-[90vh] md:min-h-fit md:rounded-md',
+    'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
+    'data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2',
+    'data-[state=open]:slide-in-from-top-[48%] data-[state=closed]:animate-out data-[state=open]:animate-in',
+  ),
+  {
+    variants: {
+      contentVerticalPosition: {
+        center: '-translate-y-1/2 top-1/2',
+        top: 'top-0 translate-y-0',
+        bottom: '-translate-y-full top-full',
+      },
+      spacing: {
+        none: 'p-0',
+        default: 'p-8',
+      },
     },
-    spacing: {
-      none: 'p-0',
-      default: 'p-8',
+    defaultVariants: {
+      spacing: 'default',
+      contentVerticalPosition: 'center',
     },
   },
-  defaultVariants: {
-    spacing: 'default',
-    contentVerticalPosition: 'center',
-  },
-})
+)
 
 const overlayVariants = cva('', {
   variants: {
@@ -92,15 +101,7 @@ const DialogContent = React.forwardRef<
           // https://github.com/radix-ui/primitives/issues/2248
           onOpenAutoFocus={preventAutoFocus ? (event) => event.preventDefault() : undefined}
           ref={ref}
-          className={cn(
-            'fixed top-[50%] left-[50%] z-50 flex max-h-screen min-h-screen w-full translate-x-[-50%] flex-col gap-1 overflow-hidden',
-            'overflow-y-auto bg-primary duration-200 sm:max-h-[90vh] md:min-h-fit md:w-[686px] sm:rounded-md',
-            'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
-            'data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2',
-            'data-[state=open]:slide-in-from-top-[48%] data-[state=closed]:animate-out data-[state=open]:animate-in',
-            contentVariants({ contentVerticalPosition, spacing }),
-            className,
-          )}
+          className={cn(contentVariants({ contentVerticalPosition, spacing }), className)}
           {...props}
         >
           {children}
@@ -117,16 +118,6 @@ const DialogContent = React.forwardRef<
 )
 DialogContent.displayName = DialogPrimitive.Content.displayName
 
-function DialogHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn('mb-4 flex flex-col space-y-1.5 text-center sm:text-left', className)} {...props} />
-}
-DialogHeader.displayName = 'DialogHeader'
-
-function DialogFooter({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2', className)} {...props} />
-}
-DialogFooter.displayName = 'DialogFooter'
-
 const DialogTitle = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
@@ -137,26 +128,7 @@ const DialogTitle = React.forwardRef<
 ))
 DialogTitle.displayName = DialogPrimitive.Title.displayName
 
-const DialogDescription = React.forwardRef<
-  React.ElementRef<typeof DialogPrimitive.Description>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
->(({ className, ...props }, ref) => (
-  <DialogPrimitive.Description ref={ref} className={cn('text-muted-foreground text-sm', className)} {...props} />
-))
-DialogDescription.displayName = DialogPrimitive.Description.displayName
-
 type DialogProps = React.ComponentProps<typeof Dialog>
 
-export {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogOverlay,
-  DialogPortal,
-  type DialogProps,
-  DialogTitle,
-  DialogTrigger,
-}
+// @note: Omitting exporting DialogDescription, DialogFooter, DialogHeader because we don't need them
+export { Dialog, DialogClose, DialogContent, DialogOverlay, DialogPortal, type DialogProps, DialogTitle, DialogTrigger }

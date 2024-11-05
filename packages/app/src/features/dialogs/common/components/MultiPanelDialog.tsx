@@ -9,7 +9,7 @@ interface ActionViewWrapperProps {
 
 export function MultiPanelDialog({ children, panelRef, className }: ActionViewWrapperProps) {
   return (
-    <div ref={panelRef} className={cn('flex flex-col gap-4', className)}>
+    <div ref={panelRef} className={cn('flex flex-col gap-4 sm:gap-8', className)}>
       {children}
     </div>
   )
