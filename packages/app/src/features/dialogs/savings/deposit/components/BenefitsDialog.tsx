@@ -1,8 +1,8 @@
 import { formatPercentage } from '@/domain/common/format'
 import { Percentage } from '@/domain/types/NumericValues'
-import { Button } from '@/ui/atoms/button/Button'
 import { Dialog, DialogContent, DialogTrigger } from '@/ui/atoms/dialog/Dialog'
 import { KeyPoints } from '@/ui/atoms/key-points/KeyPoints'
+import { IconButton } from '@/ui/atoms/new/icon-button/IconButton'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { ChevronDown } from 'lucide-react'
@@ -18,9 +18,13 @@ export function BenefitsDialog({ portalContainerRef, apyImprovement }: BenefitsD
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="icon" data-testid={testIds.dialog.savings.upgradeDetailsTrigger}>
-          <ChevronDown className={cn('h-4 w-4 transition-transform duration-300', open && 'rotate-180')} />
-        </Button>
+        <IconButton
+          size="m"
+          variant="transparent"
+          icon={ChevronDown}
+          className={cn('transition-transform duration-300', open && 'rotate-180')}
+          data-testid={testIds.dialog.savings.upgradeDetailsTrigger}
+        />
       </DialogTrigger>
       <DialogContent portalContainerRef={portalContainerRef} overlayVariant="light" contentVerticalPosition="bottom">
         <div className="flex flex-col gap-6 p-1">

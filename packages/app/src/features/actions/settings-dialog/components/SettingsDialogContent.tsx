@@ -1,6 +1,6 @@
 import { DialogPanel } from '@/features/dialogs/common/components/DialogPanel'
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
-import { Switch } from '@/ui/atoms/switch/Switch'
+import { Switch } from '@/ui/atoms/new/switch/Switch'
 import { UseSettingsDialogResult } from '../logic/useSettingsDialog'
 
 export function SettingsDialogContent({

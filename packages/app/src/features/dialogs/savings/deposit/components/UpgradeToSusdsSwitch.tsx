@@ -1,7 +1,7 @@
 import { formatPercentage } from '@/domain/common/format'
 import { Percentage } from '@/domain/types/NumericValues'
 import { assets } from '@/ui/assets'
-import { Switch } from '@/ui/atoms/switch/Switch'
+import { Switch } from '@/ui/atoms/new/switch/Switch'
 import { testIds } from '@/ui/utils/testIds'
 import { RefObject } from 'react'
 import { BenefitsDialog } from './BenefitsDialog'
@@ -20,22 +20,20 @@ export function UpgradeToSusdsSwitch({
   apyImprovement,
 }: UpgradeToSusdsSwitchProps) {
   return (
-    <div className="flex">
-      <div className="flex w-full items-center justify-between rounded-xl rounded-r-none border border-basics-green/50 bg-basics-green/5 p-4">
-        <div className="flex items-center gap-2">
-          <img src={assets.token.susds} className="h-5" />
-          <div className="text-sm">
-            Deposit into Savings USDS and get{' '}
-            {apyImprovement ? (
-              <span className="text-basics-green">{formatPercentage(apyImprovement)} higher APY</span>
-            ) : (
-              'more!'
-            )}
-          </div>
+    <div className="flex w-full items-center justify-between rounded-sm bg-reskin-green-100 px-4 py-5">
+      <div className="flex items-center gap-2">
+        <img src={assets.token.susds} className="h-5" />
+        <div className="typography-label-4 text-primary">
+          Deposit into Savings USDS and get{' '}
+          {apyImprovement ? (
+            <span className="text-reskin-green-600">{formatPercentage(apyImprovement)} higher APY</span>
+          ) : (
+            'more!'
+          )}
         </div>
-        <Switch checked={checked} onClick={onSwitch} data-testid={testIds.dialog.savings.upgradeSwitch} />
       </div>
-      <div className="flex items-center justify-between rounded-xl rounded-l-none border border-basics-green/50 border-l-0 bg-basics-green/5">
+      <div className="flex gap-3">
+        <Switch checked={checked} onClick={onSwitch} data-testid={testIds.dialog.savings.upgradeSwitch} />
         <BenefitsDialog portalContainerRef={benefitsDialogPortalContainerRef} apyImprovement={apyImprovement} />
       </div>
     </div>
