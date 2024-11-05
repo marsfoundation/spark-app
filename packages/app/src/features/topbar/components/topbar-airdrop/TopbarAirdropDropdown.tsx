@@ -77,7 +77,6 @@ export function TopbarAirdropDropdown({
   )
 }
 
-
 export interface FormatAirdropAmountParams {
   amount: NormalizedUnitNumber
   precision: number
