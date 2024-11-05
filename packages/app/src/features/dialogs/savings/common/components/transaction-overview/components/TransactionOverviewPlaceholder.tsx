@@ -17,7 +17,7 @@ export function TransactionOverviewPlaceholder({ showAPY }: TransactionOverviewP
       )}
       <TransactionOverview.Row>
         <TransactionOverview.Label>Route</TransactionOverview.Label>
-        <TransactionOverview.Generic>{placeholder}</TransactionOverview.Generic>
+        <TransactionOverview.RoutePlaceholder>{placeholder}</TransactionOverview.RoutePlaceholder>
       </TransactionOverview.Row>
       <TransactionOverview.Row>
         <TransactionOverview.Label>Outcome</TransactionOverview.Label>

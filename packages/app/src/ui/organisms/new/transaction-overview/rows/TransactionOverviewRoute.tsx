@@ -2,9 +2,10 @@ import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { HorizontalScroll } from '@/ui/atoms/new/horizontal-scroll/HorizontalScroll'
 import { TokenAmount } from '@/ui/molecules/token-amount/TokenAmount'
+import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { MoveRightIcon } from 'lucide-react'
-import { Fragment } from 'react'
+import { Fragment, HTMLAttributes } from 'react'
 
 export type RouteItem =
   | {
@@ -54,5 +55,14 @@ export function TransactionOverviewRoute({ route }: TransactionOverviewRouteProp
         ))}
       </div>
     </HorizontalScroll>
+  )
+}
+
+export function TransactionOverviewRoutePlaceholder({ className, ...rest }: HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div
+      {...rest}
+      className={cn('typography-label-4 flex min-h-[36px] flex-col justify-center text-primary', className)}
+    />
   )
 }
