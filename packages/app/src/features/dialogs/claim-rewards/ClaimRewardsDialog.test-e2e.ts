@@ -38,7 +38,7 @@ test.describe('Claim rewards dialog', () => {
       {
         tokenSymbol: 'wstETH',
         amount: '6.3697',
-        amountUSD: '~$25,583.20',
+        amountUSD: '$25,583.20',
       },
     ])
   })
@@ -59,7 +59,7 @@ test.describe('Claim rewards dialog', () => {
       {
         tokenSymbol: 'wstETH',
         amount: '6.3697',
-        amountUSD: '~$25,583.20',
+        amountUSD: '$25,583.20',
       },
     ])
 

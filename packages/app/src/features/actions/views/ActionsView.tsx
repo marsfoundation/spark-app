@@ -29,7 +29,7 @@ export function ActionsView({
   settingsDialogProps,
 }: ActionsViewProps) {
   return (
-    <div className="flex flex-col gap-2">
+    <section className="flex flex-col gap-2">
       <div className="flex items-center justify-between">
         <h3 className={cn(actionsTitleVariants({ layout: actionsGridLayout }))}>
           {actionsGridLayout === 'compact' ? 'Actions' : 'Follow the next steps'}
@@ -39,6 +39,6 @@ export function ActionsView({
       <div className="rounded-sm border border-primary">
         <Actions actionHandlers={actionHandlers} layout={actionsGridLayout} />
       </div>
-    </div>
+    </section>
   )
 }
