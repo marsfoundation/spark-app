@@ -27,7 +27,7 @@ export function DialogForm({ selectorAssets, assetsFields, form }: DialogFormPro
         control={form.control}
         selectorAssets={selectorAssets}
         selectedAsset={selectedAsset}
-        setSelectedAsset={changeAsset ?? (() => {})}
+        setSelectedAsset={changeAsset}
         maxValue={maxValue}
         maxSelectedFieldName={maxSelectedFieldName}
         showError
