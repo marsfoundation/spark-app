@@ -15,7 +15,7 @@ function StakeTransactionOverview({ txOverview }: StakeTransactionOverviewProps)
     const placeholder = '-'
 
     return (
-      <TransactionOverview>
+      <TransactionOverview showSkyBadge>
         {txOverview.showEstimatedRewards && (
           <TransactionOverview.Row>
             <TransactionOverview.Label>Estimated rewards</TransactionOverview.Label>
