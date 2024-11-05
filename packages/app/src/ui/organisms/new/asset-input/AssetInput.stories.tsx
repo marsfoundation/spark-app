@@ -68,6 +68,12 @@ export const Disabled: Story = {
     disabled: true,
   },
 }
+export const WithLabel: Story = {
+  name: 'With label',
+  args: {
+    label: 'Label',
+  },
+}
 export const Errored: Story = {
   args: {
     error: 'Provided value is incorrect',

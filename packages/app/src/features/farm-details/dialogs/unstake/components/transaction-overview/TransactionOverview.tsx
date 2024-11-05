@@ -20,9 +20,7 @@ export function UnstakeTransactionOverview({ txOverview }: UnstakeTransactionOve
       <TransactionOverview>
         <TransactionOverview.Row>
           <TransactionOverview.Label>Route</TransactionOverview.Label>
-          <TransactionOverview.Generic className="flex min-h-[36px] flex-col justify-center">
-            {placeholder}
-          </TransactionOverview.Generic>
+          <TransactionOverview.RoutePlaceholder>{placeholder}</TransactionOverview.RoutePlaceholder>
         </TransactionOverview.Row>
         <TransactionOverview.Row>
           <TransactionOverview.Label>Outcome</TransactionOverview.Label>

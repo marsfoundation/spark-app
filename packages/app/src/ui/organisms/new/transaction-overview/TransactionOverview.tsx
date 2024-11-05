@@ -8,7 +8,7 @@ import { TransactionOverviewAvailableAssets } from './rows/TransactionOverviewAv
 import { TransactionOverviewFarmApy } from './rows/TransactionOverviewFarmApy'
 import { TransactionOverviewHealthFactorChange } from './rows/TransactionOverviewHealthFactorChange'
 import { TransactionOverviewMaxLtvChange } from './rows/TransactionOverviewMaxLtvChange'
-import { TransactionOverviewRoute } from './rows/TransactionOverviewRoute'
+import { TransactionOverviewRoute, TransactionOverviewRoutePlaceholder } from './rows/TransactionOverviewRoute'
 import { TransactionOverviewSavingsApy } from './rows/TransactionOverviewSavingsApy'
 import { TransactionOverviewTokenAmount } from './rows/TransactionOverviewTokenAmount'
 import { TransactionOverviewTokenAmountChange } from './rows/TransactionOverviewTokenAmountChange'
@@ -67,6 +67,7 @@ TransactionOverview.Row = TransactionOverviewRow
 
 TransactionOverview.TokenAmount = TransactionOverviewTokenAmount
 TransactionOverview.Route = TransactionOverviewRoute
+TransactionOverview.RoutePlaceholder = TransactionOverviewRoutePlaceholder
 TransactionOverview.FarmApy = TransactionOverviewFarmApy
 TransactionOverview.SavingsApy = TransactionOverviewSavingsApy
 TransactionOverview.ApyChange = TransactionOverviewApyChange
