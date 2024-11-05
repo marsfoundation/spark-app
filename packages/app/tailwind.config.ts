@@ -397,10 +397,14 @@ export default {
         'gradient-ltv-red': 'linear-gradient(231deg, #D91838 0%, #FF7881 100%)',
         'gradient-savings-dai-counter': 'linear-gradient(90deg, #FFF 38.9%, #7CC54D 64.65%, #53AB3C 97.76%)',
         'gradient-savings-usds-counter': 'linear-gradient(90deg, #FFF 38.9%, #8CDB8B 64.65%, #00C2A1 97.76%)',
+        'gradient-savings-opportunity-savings-rate':
+          'linear-gradient(125deg, #FFF 19.84%, #8CDB8B 40.17%, #00C2A1 64.6%)',
+        'gradient-savings-opportunity-button': 'linear-gradient(105deg, #43E26B, #10B73D)',
         'savings-dai-token-panel':
           'url(/src/ui/assets/savings/savings-dai-token-panel-bg.svg), linear-gradient(#101014, #101014)',
         'savings-usds-token-panel':
           'url(/src/ui/assets/savings/savings-usds-token-panel-bg.svg), linear-gradient(#101014, #101014)',
+        'savings-opportunity-panel': 'url(/src/ui/assets/savings/savings-opportunity-panel-bg.svg)',
       },
       fontWeight: {
         regular: '400',

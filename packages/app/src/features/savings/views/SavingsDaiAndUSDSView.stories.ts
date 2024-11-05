@@ -48,7 +48,7 @@ const savingsChartsInfo = {
 }
 
 const savingsViewBaseArgs = {
-  chainId: mainnet.id,
+  originChainId: mainnet.id,
   assetsInWallet: [
     {
       token: tokens.DAI,

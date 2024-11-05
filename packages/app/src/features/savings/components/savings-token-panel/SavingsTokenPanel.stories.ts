@@ -47,5 +47,11 @@ export const USDS: Story = {
     variant: 'usds',
     assetsToken: tokens.USDS,
     savingsTokenWithBalance: { balance: NormalizedUnitNumber(20000.0), token: tokens.sUSDS },
+    savingsMetaItem: {
+      savingsToken: TokenSymbol('sUSDS'),
+      stablecoin: TokenSymbol('USDS'),
+      rateAcronym: 'SSR',
+      rateName: 'Sky Savings Rate',
+    },
   },
 }
