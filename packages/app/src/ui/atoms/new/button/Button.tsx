@@ -30,6 +30,13 @@ const buttonVariants = cva(
           'border border-primary border-solid bg-reskin-base-white',
           'text-reskin-neutral-950 shadow-xs active:bg-reskin-neutral-100 hover:bg-reskin-neutral-50',
         ),
+        transparent: cn(
+          'text-secondary transition-colors',
+          'hover:text-reskin-neutral-700',
+          'active:text-reskin-neutral-900',
+          'focus-visible:outline-none focus-visible:ring focus-visible:ring-reskin-primary-200',
+          'disabled:cursor-not-allowed disabled:text-reskin-neutral-300',
+        ),
         loading: 'cursor-wait bg-reskin-neutral-50 text-reskin-base-white',
         disabled: 'cursor-not-allowed bg-reskin-neutral-50 disabled:text-reskin-neutral-500',
       },

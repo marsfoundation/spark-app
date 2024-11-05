@@ -6,11 +6,10 @@ import {
   DropdownMenuTrigger,
 } from '@/ui/atoms/dropdown/DropdownMenu'
 import { Link } from '@/ui/atoms/link/Link'
-import { Button, ButtonIcon } from '@/ui/atoms/new/button/Button'
+import { IconButton } from '@/ui/atoms/new/icon-button/IconButton'
 import { Switch } from '@/ui/atoms/new/switch/Switch'
 import { links } from '@/ui/constants/links'
 import { BuildInfo } from '@/ui/utils/getBuildInfo'
-import { cn } from '@/ui/utils/style'
 import { ExternalLinkIcon, MenuIcon, ScrollTextIcon, WandIcon } from 'lucide-react'
 import { useState } from 'react'
 
@@ -28,9 +27,7 @@ export function TopbarMenu({ isSandboxEnabled, onSandboxModeClick, buildInfo }: 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
-        <Button variant="tertiary" className={cn('aspect-square p-2.5', open && 'text-brand')} size="m">
-          <ButtonIcon icon={MenuIcon} />
-        </Button>
+        <IconButton icon={MenuIcon} variant="tertiary" size="m" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" variant="secondary" className="flex w-80 flex-col gap-1.5 p-1">
         <DropdownMenuItem

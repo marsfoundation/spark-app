@@ -158,7 +158,7 @@ export function AssetInput<TFieldValues extends FieldValues>({
             </div>
           </div>
         )}
-        {onRemove && <IconButton icon={XIcon} onClick={onRemove} spacing="none" />}
+        {onRemove && <IconButton icon={XIcon} onClick={onRemove} variant="transparent" size="m" />}
       </div>
       {showError && error && (
         <div data-testid={testIds.component.AssetInput.error} className="typography-label-6 text-system-error-primary">

@@ -16,7 +16,8 @@ export function SettingsDialog(props: SettingsDialogProps) {
   const settingsIcon = (
     <IconButton
       icon={Settings}
-      spacing="none"
+      size="m"
+      variant="transparent"
       data-testid={testIds.actions.settings.dialog}
       disabled={props.disabled}
     />

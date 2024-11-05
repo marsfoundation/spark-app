@@ -17,7 +17,9 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(({ variant, closable
     return null
   }
 
-  const closeButton = closable && <IconButton icon={XIcon} onClick={() => setVisible(false)} spacing="s" />
+  const closeButton = closable && (
+    <IconButton icon={XIcon} onClick={() => setVisible(false)} variant="transparent" size="m" />
+  )
 
   switch (variant) {
     case 'info':
