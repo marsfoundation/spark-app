@@ -13,7 +13,7 @@ interface SavingsTransactionOverviewProps {
 
 export function SavingsTransactionOverview({ txOverview, selectedToken, showAPY }: SavingsTransactionOverviewProps) {
   if (txOverview.status !== 'success') {
-    return <TransactionOverviewPlaceholder badgeToken={selectedToken.symbol} showAPY={showAPY} />
+    return <TransactionOverviewPlaceholder badgeToken={selectedToken.symbol} showAPY={showAPY} showSkyBadge />
   }
   const { APY, baseStable, stableEarnRate, route } = txOverview
 

@@ -10,7 +10,6 @@ import { IconButton } from '@/ui/atoms/new/icon-button/IconButton'
 import { Switch } from '@/ui/atoms/new/switch/Switch'
 import { links } from '@/ui/constants/links'
 import { BuildInfo } from '@/ui/utils/getBuildInfo'
-import { cn } from '@/ui/utils/style'
 import { ExternalLinkIcon, MenuIcon, ScrollTextIcon, WandIcon } from 'lucide-react'
 import { useState } from 'react'
 
@@ -28,7 +27,7 @@ export function TopbarMenu({ isSandboxEnabled, onSandboxModeClick, buildInfo }: 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
-        <IconButton icon={MenuIcon} variant="tertiary" className={cn(open && 'text-brand')} size="m" />
+        <IconButton icon={MenuIcon} variant="tertiary" size="m" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" variant="secondary" className="flex w-80 flex-col gap-1.5 p-1">
         <DropdownMenuItem

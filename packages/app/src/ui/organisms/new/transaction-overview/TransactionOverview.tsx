@@ -20,7 +20,7 @@ export interface TransactionOverviewProps {
 
 function TransactionOverview({ children, showSkyBadge = false }: TransactionOverviewProps) {
   return (
-    <section className="flex flex-col gap-3">
+    <section className="flex flex-col gap-2">
       <div className="flex items-center justify-between">
         <h5 className="typography-body-5 text-secondary">Transaction overview</h5>
         {showSkyBadge && (

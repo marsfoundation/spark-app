@@ -1,7 +1,5 @@
-import { DialogPanel } from '@/features/dialogs/common/components/DialogPanel'
-import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPanelTitle'
-
 import { Reward } from '@/features/navbar/components/rewards-badge/types'
+import { TransactionOverview } from '@/ui/organisms/new/transaction-overview/TransactionOverview'
 import { RewardsList } from './RewardsList'
 
 export interface ClaimRewardsOverviewPanelProps {
@@ -9,9 +7,13 @@ export interface ClaimRewardsOverviewPanelProps {
 }
 export function ClaimRewardsOverviewPanel({ rewards }: ClaimRewardsOverviewPanelProps) {
   return (
-    <DialogPanel>
-      <DialogPanelTitle>Transaction overview</DialogPanelTitle>
-      <RewardsList rewards={rewards} className="mt-2" />
-    </DialogPanel>
+    <TransactionOverview>
+      <TransactionOverview.Row>
+        <TransactionOverview.Label>Rewards</TransactionOverview.Label>
+        <TransactionOverview.Generic>
+          <RewardsList rewards={rewards} />
+        </TransactionOverview.Generic>
+      </TransactionOverview.Row>
+    </TransactionOverview>
   )
 }

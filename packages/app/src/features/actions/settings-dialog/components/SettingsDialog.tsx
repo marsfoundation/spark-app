@@ -1,12 +1,10 @@
-import { Slot } from '@radix-ui/react-slot'
 import { Settings } from 'lucide-react'
-import React from 'react'
 
-import { Button } from '@/ui/atoms/button/Button'
 import { Dialog, DialogContent, DialogTrigger } from '@/ui/atoms/dialog/Dialog'
-import { Tooltip, TooltipContentShort, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 import { testIds } from '@/ui/utils/testIds'
 
+import { IconButton } from '@/ui/atoms/new/icon-button/IconButton'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/new/tooltip/Tooltip'
 import { UseSettingsDialogResult } from '../logic/useSettingsDialog'
 import { SettingsDialogContent } from './SettingsDialogContent'
 
@@ -15,7 +13,24 @@ export interface SettingsDialogProps extends UseSettingsDialogResult {
 }
 
 export function SettingsDialog(props: SettingsDialogProps) {
-  const Wrapper = props.disabled ? DisabledTooltip : Slot
+  const settingsIcon = (
+    <IconButton
+      icon={Settings}
+      size="m"
+      variant="transparent"
+      data-testid={testIds.actions.settings.dialog}
+      disabled={props.disabled}
+    />
+  )
+
+  if (props.disabled) {
+    return (
+      <Tooltip>
+        <TooltipTrigger asChild>{settingsIcon}</TooltipTrigger>
+        <TooltipContent>Settings are disabled while actions are in progress.</TooltipContent>
+      </Tooltip>
+    )
+  }
 
   return (
     <Dialog
@@ -26,32 +41,10 @@ export function SettingsDialog(props: SettingsDialogProps) {
         }
       }}
     >
-      <DialogTrigger asChild>
-        <Wrapper>
-          <Button
-            variant="secondary"
-            className="h-[30px] w-[30px] bg-white p-0 text-basics-dark-grey"
-            prefixIcon={<Settings size={18} />}
-            data-testid={testIds.actions.settings.dialog}
-            disabled={props.disabled}
-          />
-        </Wrapper>
-      </DialogTrigger>
+      <DialogTrigger asChild>{settingsIcon}</DialogTrigger>
       <DialogContent>
         <SettingsDialogContent {...props} />
       </DialogContent>
     </Dialog>
-  )
-}
-
-interface DisabledTooltipProps {
-  children: React.ReactNode
-}
-function DisabledTooltip({ children }: DisabledTooltipProps) {
-  return (
-    <Tooltip>
-      <TooltipTrigger>{children}</TooltipTrigger>
-      <TooltipContentShort>Settings are disabled while actions are in progress.</TooltipContentShort>
-    </Tooltip>
   )
 }

@@ -3,12 +3,13 @@ import { TransactionOverview } from '@/ui/organisms/new/transaction-overview/Tra
 
 export interface TransactionOverviewPlaceholder {
   badgeToken: TokenSymbol
+  showSkyBadge?: boolean
   showAPY?: boolean
 }
-export function TransactionOverviewPlaceholder({ showAPY }: TransactionOverviewPlaceholder) {
+export function TransactionOverviewPlaceholder({ showAPY, showSkyBadge }: TransactionOverviewPlaceholder) {
   const placeholder = '-'
   return (
-    <TransactionOverview>
+    <TransactionOverview showSkyBadge={showSkyBadge}>
       {showAPY && (
         <TransactionOverview.Row>
           <TransactionOverview.Label>APY</TransactionOverview.Label>

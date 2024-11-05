@@ -21,17 +21,25 @@ const buttonVariants = cva(
           'before:-z-10 bg-gradient-spark-primary text-reskin-base-white before:absolute',
           'active:before:bg-reskin-neutral-800 focus-visible:before:bg-reskin-base-white',
           'before:inset-0 hover:before:bg-reskin-neutral-950 active:text-reskin-base-white before:transition-colors',
+          'disabled:cursor-not-allowed disabled:before:bg-none disabled:before:bg-reskin-neutral-50 disabled:bg-reskin-neutral-50 disabled:text-reskin-neutral-500',
         ),
         secondary: cn(
           'bg-reskin-neutral-950 text-reskin-base-white active:bg-reskin-neutral-950',
           'hover:bg-reskin-neutral-800 active:text-reskin-base-white',
+          'disabled:cursor-not-allowed disabled:border-none disabled:bg-reskin-neutral-50 disabled:text-reskin-neutral-500',
         ),
         tertiary: cn(
           'border border-primary border-solid bg-reskin-base-white',
           'text-reskin-neutral-950 shadow-xs active:bg-reskin-neutral-100 hover:bg-reskin-neutral-50',
+          'disabled:cursor-not-allowed disabled:border-none disabled:bg-reskin-neutral-50 disabled:text-reskin-neutral-500',
+        ),
+        transparent: cn(
+          'text-secondary transition-colors',
+          'hover:text-reskin-neutral-700',
+          'active:text-reskin-neutral-900',
+          'disabled:cursor-not-allowed disabled:text-reskin-neutral-300',
         ),
         loading: 'cursor-wait bg-reskin-neutral-50 text-reskin-base-white',
-        disabled: 'cursor-not-allowed bg-reskin-neutral-50 disabled:text-reskin-neutral-500',
       },
       size: {
         l: 'typography-button-1 h-12 px-3 py-3.5',
@@ -94,7 +102,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const Comp = asChild ? Slot : 'button'
 
-    const variant = loading ? 'loading' : disabled ? 'disabled' : _variant
+    const variant = loading ? 'loading' : _variant
 
     return (
       <Comp

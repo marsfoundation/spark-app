@@ -1,7 +1,8 @@
 import { IconBox } from '@/ui/atoms/new/icon-box/IconBox'
-import { XButton } from '@/ui/atoms/new/x-button/XButton'
+import { IconButton } from '@/ui/atoms/new/icon-button/IconButton'
 import { assertNever } from '@/utils/assertNever'
 import { type VariantProps, cva } from 'class-variance-authority'
+import { XIcon } from 'lucide-react'
 import { ReactNode, forwardRef, useState } from 'react'
 
 interface AlertProps extends VariantProps<typeof alertVariants> {
@@ -16,13 +17,17 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(({ variant, closable
     return null
   }
 
+  const closeButton = closable && (
+    <IconButton icon={XIcon} onClick={() => setVisible(false)} variant="transparent" size="m" />
+  )
+
   switch (variant) {
     case 'info':
       return (
         <div className={alertVariants({ variant, closable })} ref={ref}>
           <IconBox variant="info" size="s" />
           {children}
-          {closable && <XButton onClick={() => setVisible(false)} spacing="s" />}
+          {closeButton}
         </div>
       )
     case 'warning':
@@ -30,7 +35,7 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(({ variant, closable
         <div className={alertVariants({ variant, closable })} ref={ref}>
           <IconBox variant="warning" size="s" />
           {children}
-          {closable && <XButton onClick={() => setVisible(false)} spacing="s" />}
+          {closeButton}
         </div>
       )
     case 'error':
@@ -38,7 +43,7 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(({ variant, closable
         <div className={alertVariants({ variant, closable })} ref={ref}>
           <IconBox variant="error" size="s" />
           {children}
-          {closable && <XButton onClick={() => setVisible(false)} spacing="s" />}
+          {closeButton}
         </div>
       )
     default:

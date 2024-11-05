@@ -17,7 +17,7 @@ export function UnstakeTransactionOverview({ txOverview }: UnstakeTransactionOve
     const placeholder = '-'
 
     return (
-      <TransactionOverview>
+      <TransactionOverview showSkyBadge>
         <TransactionOverview.Row>
           <TransactionOverview.Label>Route</TransactionOverview.Label>
           <TransactionOverview.RoutePlaceholder>{placeholder}</TransactionOverview.RoutePlaceholder>

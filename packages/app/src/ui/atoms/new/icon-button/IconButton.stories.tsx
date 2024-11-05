@@ -1,30 +1,40 @@
 import { StoryGrid } from '@sb/components/StoryGrid'
 import type { Meta, StoryObj } from '@storybook/react'
-import { PlusIcon } from 'lucide-react'
+import { XIcon } from 'lucide-react'
 import { IconButton } from './IconButton'
 
 const meta: Meta<typeof IconButton> = {
   title: 'Components/Atoms/New/IconButton',
   args: {
-    icon: PlusIcon,
+    onClick: () => {},
+    icon: XIcon,
   },
   component: (args) => (
-    <StoryGrid className="grid-cols-3">
+    <StoryGrid className="grid-cols-4">
+      <div />
+      <StoryGrid.Label>S</StoryGrid.Label>
+      <StoryGrid.Label>M</StoryGrid.Label>
+      <StoryGrid.Label>L</StoryGrid.Label>
+
       <StoryGrid.Label>Primary</StoryGrid.Label>
-      <StoryGrid.Label>Secondary</StoryGrid.Label>
-      <StoryGrid.Label>Tertiary</StoryGrid.Label>
-
       <IconButton {...args} variant="primary" size="l" />
-      <IconButton {...args} variant="secondary" size="l" />
-      <IconButton {...args} variant="tertiary" size="l" />
-
       <IconButton {...args} variant="primary" size="m" />
-      <IconButton {...args} variant="secondary" size="m" />
-      <IconButton {...args} variant="tertiary" size="m" />
-
       <IconButton {...args} variant="primary" size="s" />
+
+      <StoryGrid.Label>Secondary</StoryGrid.Label>
+      <IconButton {...args} variant="secondary" size="l" />
+      <IconButton {...args} variant="secondary" size="m" />
       <IconButton {...args} variant="secondary" size="s" />
+
+      <StoryGrid.Label>Tertiary</StoryGrid.Label>
+      <IconButton {...args} variant="tertiary" size="l" />
+      <IconButton {...args} variant="tertiary" size="m" />
       <IconButton {...args} variant="tertiary" size="s" />
+
+      <StoryGrid.Label>Transparent</StoryGrid.Label>
+      <IconButton {...args} variant="transparent" size="l" />
+      <IconButton {...args} variant="transparent" size="m" />
+      <IconButton {...args} variant="transparent" size="s" />
     </StoryGrid>
   ),
 }
@@ -61,11 +71,5 @@ export const Pressed: Story = {
 export const Disabled: Story = {
   args: {
     disabled: true,
-  },
-}
-
-export const Loading: Story = {
-  args: {
-    loading: true,
   },
 }

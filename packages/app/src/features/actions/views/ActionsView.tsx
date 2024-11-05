@@ -1,4 +1,3 @@
-import { Panel } from '@/ui/atoms/panel/Panel'
 import { cn } from '@/ui/utils/style'
 import { cva } from 'class-variance-authority'
 import { Actions } from '../components/actions/Actions'
@@ -7,20 +6,11 @@ import { SettingsDialog } from '../settings-dialog/components/SettingsDialog'
 import { UseSettingsDialogResult } from '../settings-dialog/logic/useSettingsDialog'
 import { ActionsGridLayout } from '../types'
 
-const actionsPanelVariants = cva('', {
-  variants: {
-    layout: {
-      extended: '',
-      compact: 'gap-0 bg-panel-bg p-4 md:p-4',
-    },
-  },
-})
-
 const actionsTitleVariants = cva('', {
   variants: {
     layout: {
-      extended: '',
-      compact: 'mb-1 font-semibold text-primary',
+      extended: 'typography-label-2 text-primary',
+      compact: 'typography-label-5 text-secondary',
     },
   },
 })
@@ -39,20 +29,14 @@ export function ActionsView({
   settingsDialogProps,
 }: ActionsViewProps) {
   return (
-    <Panel className={cn(actionsPanelVariants({ layout: actionsGridLayout }))}>
-      <Panel.Header className="justify-between">
-        <Panel.Title
-          variant={actionsGridLayout === 'compact' ? 'prompt' : 'h3'}
-          element="h3"
-          className={actionsTitleVariants({ layout: actionsGridLayout })}
-        >
-          Actions
-        </Panel.Title>
+    <section className="flex flex-col gap-2">
+      <div className="flex items-center justify-between">
+        <h3 className={cn(actionsTitleVariants({ layout: actionsGridLayout }))}>Actions</h3>
         <SettingsDialog {...settingsDialogProps} disabled={settingsDisabled} />
-      </Panel.Header>
-      <Panel.Content className="flex flex-col gap-6">
+      </div>
+      <div className="rounded-sm border border-primary">
         <Actions actionHandlers={actionHandlers} layout={actionsGridLayout} />
-      </Panel.Content>
-    </Panel>
+      </div>
+    </section>
   )
 }

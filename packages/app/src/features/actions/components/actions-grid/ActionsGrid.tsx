@@ -11,7 +11,7 @@ export function ActionsGrid({ children, layout }: ActionsGridProps) {
   return <div className={actionGridVariants({ layout })}>{children}</div>
 }
 
-export const actionGridVariants = cva('grid grid-cols-[auto_1fr_auto] gap-x-3 rounded-xs border border-primary', {
+export const actionGridVariants = cva('grid grid-cols-[auto_1fr_auto] gap-x-3', {
   variants: {
     layout: {
       compact: 'md:grid-cols-[auto_auto_1fr_auto] sm:gap-x-4',
