@@ -37,7 +37,7 @@ export function TopbarAirdropDropdown({
     <DropdownMenu onOpenChange={(open) => setEnableCounter?.(open)}>
       <DropdownMenuTrigger asChild>
         <Button size="m" variant="tertiary" data-testid={testIds.navbar.airdropBadge}>
-          <img src={assets.sparkIcon} className="icon-sm" />
+          <img src={assets.brand.symbolGradient} className="icon-sm" />
           {isLoading ? (
             <Skeleton className="h-5 w-7 rounded-sm" />
           ) : (
@@ -50,7 +50,7 @@ export function TopbarAirdropDropdown({
         <DropdownMenuGroup className="py-2">
           <DropdownMenuLabel>Spark Airdrop Tokens</DropdownMenuLabel>
           <DropdownMenuItem className="pointer-events-none py-2">
-            <img src={assets.sparkIcon} className="icon-md" />
+            <img src={assets.brand.symbolGradient} className="icon-md" />
             {isLoading ? (
               <Skeleton className="h-6 w-10 rounded-sm" />
             ) : (
