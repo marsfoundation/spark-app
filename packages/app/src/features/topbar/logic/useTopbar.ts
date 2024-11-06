@@ -33,7 +33,6 @@ export function useTopbar(): TopbarProps {
   const rewardsInfo = useRewardsInfo({
     chainId: currentChainId,
     address: address && CheckedAddress(address),
-    enabled: !!address,
   })
 
   const airdropInfo = useAirdropInfo({ refreshIntervalInMs: 100 })
