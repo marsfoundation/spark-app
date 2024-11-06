@@ -27,8 +27,10 @@ export function WithTooltipProvider() {
 export function WithClassname(classname: string) {
   return function WithClassname(Story: StoryFn) {
     return (
-      <div className={classname} data-sb="decorator">
-        <Story />
+      <div data-sb="decorator">
+        <div className={classname}>
+          <Story />
+        </div>
       </div>
     )
   }

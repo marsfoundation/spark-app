@@ -13,7 +13,6 @@ import { ExistingPosition } from '../../logic/types'
 import { EasyBorrowNote } from '../note/EasyBorrowNote'
 import { Borrow } from './Borrow'
 import { Deposits } from './Deposits'
-import { LoanToValue } from './LoanToValue'
 import { LoanToValueSlider } from './LoanToValueSlider'
 
 interface EasyBorrowFlowProps {
@@ -77,12 +76,6 @@ export function EasyBorrowForm(props: EasyBorrowFlowProps) {
             disabled={disabled}
           />
         </div>
-
-        <LoanToValue
-          className="mt-6"
-          loanToValue={updatedPositionSummary.loanToValue}
-          maxLoanToValue={updatedPositionSummary.maxLoanToValue}
-        />
 
         <LoanToValueSlider
           className="mt-10"
