@@ -15,6 +15,13 @@ const meta: Meta<typeof ActionsView> = {
   decorators: [WithTooltipProvider()],
   args: {
     actionsGridLayout: 'extended',
+    settingsDialogProps: {
+      onConfirm: () => {},
+      permitsSettings: {
+        preferPermits: true,
+        togglePreferPermits: () => {},
+      },
+    },
     actionHandlers: [
       {
         action: {
