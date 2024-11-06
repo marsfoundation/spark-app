@@ -52,7 +52,7 @@ export function UpgradeView({
           width={686}
           height={207}
           alt="dai-to-usds-upgrade"
-          className="w-full"
+          className="w-full bg-reskin-base-black"
         />
       )}
       {fromToken.symbol === sdai && (
@@ -61,7 +61,7 @@ export function UpgradeView({
           width={686}
           height={207}
           alt="sdai-to-susds-upgrade"
-          className="w-full"
+          className="w-full bg-reskin-base-black"
         />
       )}
       <MultiPanelDialog className="p-8">
