@@ -32,7 +32,7 @@ export function AppLayout({ children }: AppLayoutProps) {
       {import.meta.env.VITE_FEATURE_TOP_BANNER === '1' && showBanner && (
         <SkyMigrationTopBanner onClose={handleCloseBanner} className="col-span-full " />
       )}
-      <div className="sticky top-0 z-20 col-start-2 col-end-2 mb-6">
+      <div className="sticky top-0 z-30 col-start-2 col-end-2 mb-6">
         <TopbarContainer />
       </div>
 
