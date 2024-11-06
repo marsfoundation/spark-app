@@ -9,6 +9,9 @@ const meta: Meta<typeof Actions> = {
   title: 'Features/Actions/ActionsGrid/AllHandlersStates',
   component: Actions,
   decorators: [WithTooltipProvider(), WithClassname('max-w-3xl')],
+  parameters: {
+    layout: 'fullscreen',
+  },
 }
 
 export default meta

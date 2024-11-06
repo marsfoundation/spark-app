@@ -100,6 +100,7 @@ export const testIds = makeTestIds({
       before: true,
       after: true,
     },
+    closeButton: true,
     success: true,
     savings: {
       transactionOverview: {

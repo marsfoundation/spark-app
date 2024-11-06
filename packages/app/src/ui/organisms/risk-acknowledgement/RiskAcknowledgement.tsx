@@ -1,7 +1,7 @@
 import { RiskWarning } from '@/domain/liquidation-risk-warning/types'
 import { LabeledSwitch } from '@/ui/molecules/labeled-switch/LabeledSwitch'
+import { Alert } from '@/ui/molecules/new/alert/Alert'
 import { testIds } from '@/ui/utils/testIds'
-import { Alert } from '../../../features/dialogs/common/components/alert/Alert'
 
 export interface RiskAcknowledgementProps {
   warning: RiskWarning
@@ -11,11 +11,8 @@ export interface RiskAcknowledgementProps {
 export function RiskAcknowledgement({ warning, onStatusChange }: RiskAcknowledgementProps) {
   return (
     <div className="flex flex-col gap-2">
-      <Alert variant="danger">
-        <div
-          className="max-w-[46ch] text-basics-black text-sm"
-          data-testid={testIds.component.RiskAcknowledgement.explanation}
-        >
+      <Alert variant="error">
+        <div data-testid={testIds.component.RiskAcknowledgement.explanation}>
           {warning.type === 'liquidation-warning-borrow' &&
             'Borrowing this amount puts you at risk of quick liquidation. You may lose part of your collateral.'}
           {warning.type === 'liquidation-warning-withdraw' &&

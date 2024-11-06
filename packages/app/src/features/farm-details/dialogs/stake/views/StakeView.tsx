@@ -4,11 +4,11 @@ import { InjectedActionsContext, Objective } from '@/features/actions/logic/type
 import { DialogActionsPanel } from '@/features/dialogs/common/components/DialogActionsPanel'
 import { FormAndOverviewWrapper } from '@/features/dialogs/common/components/FormAndOverviewWrapper'
 import { MultiPanelDialog } from '@/features/dialogs/common/components/MultiPanelDialog'
-import { Alert } from '@/features/dialogs/common/components/alert/Alert'
 import { DialogForm } from '@/features/dialogs/common/components/form/DialogForm'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageStatus } from '@/features/dialogs/common/types'
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
+import { Alert } from '@/ui/molecules/new/alert/Alert'
 import { UseFormReturn } from 'react-hook-form'
 import { TransactionOverview } from '../components/TransactionOverview'
 import { TxOverview } from '../logic/createTxOverview'
@@ -46,7 +46,7 @@ export function StakeView({
       </FormAndOverviewWrapper>
 
       {sacrificesYield && (
-        <Alert variant="danger">
+        <Alert variant="error">
           <p className="max-w-[60ch]">
             Depositing your savings token means that you will no longer earn yield directly from it. Instead, you will
             receive yield from the specific farm you deposit it into.

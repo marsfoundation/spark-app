@@ -2,8 +2,7 @@ import { assets } from '@/ui/assets'
 import MagicWand from '@/ui/assets/magic-wand.svg?react'
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
 import { ActionButton } from '@/ui/molecules/action-button/ActionButton'
-
-import { Alert } from '../../common/components/alert/Alert'
+import { Alert } from '@/ui/molecules/new/alert/Alert'
 
 export interface SandboxDialogViewProps {
   isInSandbox: boolean
@@ -27,7 +26,7 @@ export function SandboxDialogView({
   const onActionButtonClick = isSuccess || isInSandbox ? closeDialog : startSandbox
 
   return (
-    <div className="flex max-w-xl flex-col gap-5">
+    <div className="flex flex-col gap-5">
       <DialogTitle>
         <div className="flex items-center gap-2">
           <MagicWand className="h-5 w-5 text-basics-dark-grey" />

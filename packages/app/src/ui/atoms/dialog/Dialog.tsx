@@ -1,10 +1,11 @@
 import { cn } from '@/ui/utils/style'
+import { testIds } from '@/ui/utils/testIds'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
-import { cva } from 'class-variance-authority'
+import { VariantProps, cva } from 'class-variance-authority'
 import { X } from 'lucide-react'
 import * as React from 'react'
 import { RefObject } from 'react'
-import { Typography } from '../typography/Typography'
+import { IconButton } from '../new/icon-button/IconButton'
 
 const Dialog = DialogPrimitive.Root
 
@@ -31,40 +32,54 @@ const DialogOverlay = React.forwardRef<
 ))
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName
 
-const contentVariants = cva('', {
-  variants: {
-    contentVerticalPosition: {
-      center: '-translate-y-1/2 top-1/2',
-      top: 'top-0 translate-y-0',
-      bottom: '-translate-y-full top-full',
+const contentVariants = cva(
+  cn(
+    'fixed top-[50%] left-[50%] z-50 flex max-h-screen min-h-screen w-full max-w-full translate-x-[-50%] md:w-[686px]',
+    'grid overflow-hidden overflow-y-auto bg-primary duration-200 md:max-h-[90vh] md:min-h-fit md:rounded-md',
+    'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
+    'data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2',
+    'data-[state=open]:slide-in-from-top-[48%] data-[state=closed]:animate-out data-[state=open]:animate-in',
+  ),
+  {
+    variants: {
+      contentVerticalPosition: {
+        center: '-translate-y-1/2 top-1/2',
+        top: 'top-0 translate-y-0',
+        bottom: '-translate-y-full top-full',
+      },
+      spacing: {
+        none: 'p-0',
+        default: 'p-4 sm:p-8',
+      },
+    },
+    defaultVariants: {
+      spacing: 'default',
+      contentVerticalPosition: 'center',
     },
   },
-  defaultVariants: {
-    contentVerticalPosition: 'center',
-  },
-})
+)
 
 const overlayVariants = cva('', {
   variants: {
     overlayVariant: {
-      moderate: 'bg-background/60 backdrop-blur-sm',
-      light: 'bg-background/30 backdrop-blur-[1.5px]',
+      default: 'bg-reskin-alpha-dialog backdrop-blur-sm',
+      delicate: 'bg-reskin-neutral-950/25 backdrop-blur-[1.5px]',
     },
   },
   defaultVariants: {
-    overlayVariant: 'moderate',
+    overlayVariant: 'default',
   },
 })
 
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & {
-    showCloseButton?: boolean
-    portalContainerRef?: RefObject<HTMLElement>
-    overlayVariant?: 'moderate' | 'light'
-    contentVerticalPosition?: 'center' | 'top' | 'bottom'
-    preventAutoFocus?: boolean
-  }
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> &
+    VariantProps<typeof contentVariants> &
+    VariantProps<typeof overlayVariants> & {
+      showCloseButton?: boolean
+      portalContainerRef?: RefObject<HTMLElement>
+      preventAutoFocus?: boolean
+    }
 >(
   (
     {
@@ -72,6 +87,7 @@ const DialogContent = React.forwardRef<
       children,
       showCloseButton = true,
       portalContainerRef,
+      spacing,
       overlayVariant,
       contentVerticalPosition,
       preventAutoFocus = false,
@@ -80,29 +96,25 @@ const DialogContent = React.forwardRef<
     ref,
   ) => (
     <DialogPortal container={portalContainerRef?.current}>
-      <DialogOverlay className={cn(overlayVariants({ overlayVariant }))}>
+      <DialogOverlay className={overlayVariants({ overlayVariant })}>
         <DialogPrimitive.Content
           // @note: Radix has internal bug that causes issues with autofocus eg. tooltips opened by default
           // https://github.com/radix-ui/primitives/issues/2248
           onOpenAutoFocus={preventAutoFocus ? (event) => event.preventDefault() : undefined}
           ref={ref}
-          className={cn(
-            'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 overflow-hidden',
-            'data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2',
-            'data-[state=open]:slide-in-from-top-[48%] fixed top-[50%] left-[50%] z-50 flex min-h-screen w-full min-w-full max-w-xl',
-            'translate-x-[-50%] flex-col gap-1 bg-background p-6 shadow-lg outline outline-1 outline-border',
-            '-outline-offset-1 duration-200 md:min-h-fit md:min-w-fit data-[state=closed]:animate-out data-[state=open]:animate-in sm:rounded-lg',
-            'max-h-screen overflow-y-auto sm:max-h-[90vh]',
-            contentVariants({ contentVerticalPosition }),
-            className,
-          )}
+          className={cn(contentVariants({ contentVerticalPosition, spacing }), className)}
           {...props}
         >
           {children}
           {showCloseButton && (
-            <DialogPrimitive.Close className="absolute top-6 right-6 rounded-sm opacity-70 ring-offset-background transition-opacity disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
-              <X />
-              <span className="sr-only">Close</span>
+            <DialogPrimitive.Close asChild>
+              <IconButton
+                variant="transparent"
+                icon={X}
+                size="l"
+                className="absolute top-6 right-6"
+                data-testid={testIds.dialog.closeButton}
+              />
             </DialogPrimitive.Close>
           )}
         </DialogPrimitive.Content>
@@ -112,46 +124,16 @@ const DialogContent = React.forwardRef<
 )
 DialogContent.displayName = DialogPrimitive.Content.displayName
 
-function DialogHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn('mb-4 flex flex-col space-y-1.5 text-center sm:text-left', className)} {...props} />
-}
-DialogHeader.displayName = 'DialogHeader'
-
-function DialogFooter({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2', className)} {...props} />
-}
-DialogFooter.displayName = 'DialogFooter'
-
-const DialogTitle = React.forwardRef<
-  React.ElementRef<typeof Typography>,
-  React.ComponentPropsWithoutRef<typeof Typography>
->(({ children, className, ...props }, ref) => (
-  <Typography variant="h3" ref={ref} className={cn('text-xl', className)} {...props}>
-    {children}
-  </Typography>
-))
+const DialogTitle = React.forwardRef<HTMLHeadingElement, { children: React.ReactNode; className?: string }>(
+  ({ children, className }, ref) => (
+    <h1 ref={ref} className={cn('typography-heading-5 text-primary', className)}>
+      {children}
+    </h1>
+  ),
+)
 DialogTitle.displayName = DialogPrimitive.Title.displayName
-
-const DialogDescription = React.forwardRef<
-  React.ElementRef<typeof DialogPrimitive.Description>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
->(({ className, ...props }, ref) => (
-  <DialogPrimitive.Description ref={ref} className={cn('text-muted-foreground text-sm', className)} {...props} />
-))
-DialogDescription.displayName = DialogPrimitive.Description.displayName
 
 type DialogProps = React.ComponentProps<typeof Dialog>
 
-export {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogOverlay,
-  DialogPortal,
-  type DialogProps,
-  DialogTitle,
-  DialogTrigger,
-}
+// @note: Omitting exporting DialogDescription, DialogFooter, DialogHeader because we don't need them
+export { Dialog, DialogClose, DialogContent, DialogOverlay, DialogPortal, type DialogProps, DialogTitle, DialogTrigger }

@@ -11,8 +11,8 @@ import { PageStatus } from '@/features/dialogs/common/types'
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
 import { Link } from '@/ui/atoms/link/Link'
 import { links } from '@/ui/constants/links'
+import { Alert } from '@/ui/molecules/new/alert/Alert'
 import { RiskAcknowledgement } from '@/ui/organisms/risk-acknowledgement/RiskAcknowledgement'
-import { Alert } from '../../common/components/alert/Alert'
 import { CategoriesGrid } from '../components/CategoriesGrid'
 import { EModeCategoryTile } from '../components/EModeCategoryTile'
 import { EModeOverviewPanel } from '../components/EModeOverviewPanel'
@@ -63,7 +63,7 @@ export function EModeView({
         updatedPositionOverview={updatedPositionOverview}
       />
 
-      {validationIssue && <Alert variant="danger">{setUserEModeValidationIssueToMessage[validationIssue]}</Alert>}
+      {validationIssue && <Alert variant="error">{setUserEModeValidationIssueToMessage[validationIssue]}</Alert>}
 
       {riskAcknowledgement.warning && (
         <RiskAcknowledgement

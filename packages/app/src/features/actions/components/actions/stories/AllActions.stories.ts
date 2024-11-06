@@ -1,14 +1,16 @@
 import { WithClassname, WithTooltipProvider } from '@sb/decorators'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
-
 import { Actions } from '../Actions'
 import { allActionHandlers } from './allActionHandlers'
 
 const meta: Meta<typeof Actions> = {
   title: 'Features/Actions/ActionsGrid/AllActions',
   component: Actions,
-  decorators: [WithTooltipProvider(), WithClassname('max-w-[856px]')],
+  parameters: {
+    layout: 'fullscreen',
+  },
+  decorators: [WithTooltipProvider(), WithClassname('max-w-[856px] p-0')],
 }
 
 export default meta
