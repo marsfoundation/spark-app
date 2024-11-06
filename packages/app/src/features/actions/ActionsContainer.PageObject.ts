@@ -54,28 +54,11 @@ export class ActionsPageObject extends BasePageObject {
     await this.region.getByTestId(testIds.actions.settings.dialog).click()
     const settingsDialog = this.locateSettingsDialog()
     await settingsDialog.getByRole('switch', { disabled: false }).click()
-    await settingsDialog.getByTestId(testIds.dialog.closeButton).click()
-  }
-
-  async setSlippageAction(slippage: number, type: 'button' | 'input'): Promise<void> {
-    await this.region.getByTestId(testIds.actions.settings.dialog).click()
-    const settingsDialog = this.locateSettingsDialog()
-    if (type === 'button') {
-      await settingsDialog
-        .getByRole('button', { name: formatPercentage(Percentage(slippage), { minimumFractionDigits: 0 }) })
-        .click()
-    } else {
-      await settingsDialog.getByRole('textbox').fill(formatPercentage(Percentage(slippage), { skipSign: true }))
-    }
-    await settingsDialog.getByTestId(testIds.dialog.closeButton).click()
+    await settingsDialog.getByTestId(testIds.dialog.closeButton).first().click()
   }
 
   async openSettingsDialogAction(): Promise<void> {
     await this.region.getByTestId(testIds.actions.settings.dialog).click()
-  }
-
-  async closeSettingsDialogAction(): Promise<void> {
-    await this.locateSettingsDialog().getByTestId(testIds.dialog.closeButton).click()
   }
 
   async fillSlippageAction(slippage: string | number): Promise<void> {
