@@ -24,8 +24,8 @@ export function Borrow({ selectedAssets, allAssets, changeAsset, alreadyBorrowed
   const showTokenSummary = alreadyBorrowed.tokens.length > 0
 
   return (
-    <Panel className="flex flex-1 flex-col" data-testid={testIds.easyBorrow.form.borrow} spacing="none">
-      <Panel className={cn('flex flex-col gap-4 bg-primary', showTokenSummary && 'rounded-b-none')}>
+    <Panel className="flex flex-col" data-testid={testIds.easyBorrow.form.borrow} spacing="none">
+      <Panel className={cn('flex flex-1 flex-col gap-4 bg-primary', showTokenSummary && 'rounded-b-none')}>
         <h4 className="typography-label-2 h-8 text-primary">Borrow</h4>
 
         <AssetInput

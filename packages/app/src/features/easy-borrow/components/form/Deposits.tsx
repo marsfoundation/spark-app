@@ -45,8 +45,8 @@ export function Deposits({
   const showTokenSummary = alreadyDeposited.tokens.length > 0
 
   return (
-    <Panel className="flex flex-1 flex-col" data-testid={testIds.easyBorrow.form.deposits} spacing="none">
-      <Panel className={cn('flex flex-col gap-4 bg-primary', showTokenSummary && 'rounded-b-none')}>
+    <Panel className="flex flex-col" data-testid={testIds.easyBorrow.form.deposits} spacing="none">
+      <Panel className={cn('flex flex-1 flex-col gap-4 bg-primary', showTokenSummary && 'rounded-b-none')}>
         <div className="flex items-center justify-between">
           <div className="flex h-8 flex-row items-center gap-1">
             <h4 className="typography-label-2 text-primary">Deposit</h4>

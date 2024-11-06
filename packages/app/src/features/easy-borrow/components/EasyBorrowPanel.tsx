@@ -81,13 +81,15 @@ export function EasyBorrowPanel(props: EasyBorrowPanelProps) {
             {props.borrowDetails.isUpgradingToUsds && (
               <UsdsUpgradeAlert borrowDetails={props.borrowDetails} variant="borrow" />
             )}
-            <ActionsContainer
-              objectives={objectives}
-              context={actionsContext}
-              onFinish={pageStatus.goToSuccessScreen}
-              enabled={pageStatus.actionsEnabled}
-              actionsGridLayout="extended"
-            />
+            <Panel>
+              <ActionsContainer
+                objectives={objectives}
+                context={actionsContext}
+                onFinish={pageStatus.goToSuccessScreen}
+                enabled={pageStatus.actionsEnabled}
+                actionsGridLayout="extended"
+              />
+            </Panel>
           </div>
         )}
       </Panel>
