@@ -14,7 +14,7 @@ interface LoanToValuePanelProps {
 }
 export function LoanToValuePanel({ ltv, maxLtv, liquidationLtv, disabled, onLtvChange }: LoanToValuePanelProps) {
   return (
-    <Panel className="p-[32px]">
+    <Panel>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-1">
           <div className="typography-label-2 flex flex-row justify-between text-primary">

@@ -5,7 +5,6 @@ import { Percentage } from '@/domain/types/NumericValues'
 import { ActionsContainer } from '@/features/actions/ActionsContainer'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { Button } from '@/ui/atoms/button/Button'
-import { Panel } from '@/ui/atoms/panel/Panel'
 import { Typography } from '@/ui/atoms/typography/Typography'
 import { HealthFactorPanel } from '@/ui/organisms/health-factor-panel/HealthFactorPanel'
 import { RiskAcknowledgement } from '@/ui/organisms/risk-acknowledgement/RiskAcknowledgement'
@@ -18,6 +17,7 @@ import { ExistingPosition, PageStatus } from '../logic/types'
 import { BorrowDetails } from '../logic/useEasyBorrow'
 import { UsdsUpgradeAlert } from './UsdsUpgradeAlert'
 import { EasyBorrowForm } from './form/EasyBorrowForm'
+import { Panel } from '@/ui/atoms/new/panel/Panel'
 
 export interface EasyBorrowPanelProps {
   pageStatus: PageStatus
@@ -44,7 +44,7 @@ export function EasyBorrowPanel(props: EasyBorrowPanelProps) {
     props
 
   return (
-    <Panel.Wrapper className="flex min-w-full max-w-3xl flex-col self-center p-4 md:p-8">
+    <Panel className="flex min-w-full max-w-3xl flex-col self-center p-4 md:p-8">
       <div className="mb-6 flex h-10 flex-row items-center justify-between">
         <Typography variant="h3">
           <Trans>Borrow</Trans>
@@ -56,39 +56,41 @@ export function EasyBorrowPanel(props: EasyBorrowPanelProps) {
         )}
       </div>
 
-      <EasyBorrowForm
-        {...props}
-        borrowRate={props.borrowDetails.borrowRate}
-        onSubmit={pageStatus.submitForm}
-        disabled={pageStatus.state !== 'form'}
-      />
+      <Panel className='bg-tertiary p-1.5'>
+        <EasyBorrowForm
+          {...props}
+          borrowRate={props.borrowDetails.borrowRate}
+          onSubmit={pageStatus.submitForm}
+          disabled={pageStatus.state !== 'form'}
+        />
 
-      {pageStatus.state === 'confirmation' && (
-        <div className="mt-6 flex flex-col gap-6">
-          <HealthFactorPanel
-            hf={updatedPositionSummary.healthFactor}
-            liquidationDetails={liquidationDetails}
-            variant="full-details"
-            ref={healthFactorPanelRef}
-          />
-          {props.riskAcknowledgement.warning && (
-            <RiskAcknowledgement
-              onStatusChange={props.riskAcknowledgement.onStatusChange}
-              warning={props.riskAcknowledgement.warning}
+        {pageStatus.state === 'confirmation' && (
+          <div className="mt-6 flex flex-col gap-6">
+            <HealthFactorPanel
+              hf={updatedPositionSummary.healthFactor}
+              liquidationDetails={liquidationDetails}
+              variant="full-details"
+              ref={healthFactorPanelRef}
             />
-          )}
-          {props.borrowDetails.isUpgradingToUsds && (
-            <UsdsUpgradeAlert borrowDetails={props.borrowDetails} variant="borrow" />
-          )}
-          <ActionsContainer
-            objectives={objectives}
-            context={actionsContext}
-            onFinish={pageStatus.goToSuccessScreen}
-            enabled={pageStatus.actionsEnabled}
-            actionsGridLayout="extended"
-          />
-        </div>
-      )}
-    </Panel.Wrapper>
+            {props.riskAcknowledgement.warning && (
+              <RiskAcknowledgement
+                onStatusChange={props.riskAcknowledgement.onStatusChange}
+                warning={props.riskAcknowledgement.warning}
+              />
+            )}
+            {props.borrowDetails.isUpgradingToUsds && (
+              <UsdsUpgradeAlert borrowDetails={props.borrowDetails} variant="borrow" />
+            )}
+            <ActionsContainer
+              objectives={objectives}
+              context={actionsContext}
+              onFinish={pageStatus.goToSuccessScreen}
+              enabled={pageStatus.actionsEnabled}
+              actionsGridLayout="extended"
+            />
+          </div>
+        )}
+        </Panel>
+    </Panel>
   )
 }

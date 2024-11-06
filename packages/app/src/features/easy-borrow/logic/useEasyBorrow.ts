@@ -131,6 +131,9 @@ export function useEasyBorrow(): UseEasyBorrowResults {
     defaultValues: getDefaultFormValues(borrowableAssets, depositableAssets),
     mode: 'onChange',
   })
+  console.log({
+    form: easyBorrowForm.getValues(),
+  })
   const assetsToDepositFields = useFormFieldsForAssetClass({
     form: easyBorrowForm,
     marketInfo: marketInfoIn1Epoch, // because we calculate max values based on the future state

@@ -9,7 +9,7 @@ import { Loader } from '../loader/Loader'
 
 const buttonVariants = cva(
   cn(
-    'relative isolate inline-flex select-none items-center justify-center gap-2 ',
+    'relative isolate inline-flex select-none items-center justify-center',
     'overflow-hidden whitespace-nowrap rounded-sm transition-colors',
     'focus-visible:bg-reskin-base-white focus-visible:text-reskin-neutral-950 ',
     'focus-visible:outline-none focus-visible:ring focus-visible:ring-reskin-primary-200 focus-visible:ring-offset-0',
@@ -46,10 +46,16 @@ const buttonVariants = cva(
         m: 'typography-button-2 h-10 px-2 py-2.5',
         s: 'typography-button-2 h-8 p-2',
       },
+      spacing: {
+        s: 'gap-1',
+        m: 'gap-2',
+        l: 'gap-3',
+      },
     },
     defaultVariants: {
       variant: 'primary',
       size: 'm',
+      spacing: 'm',
     },
   },
 )
@@ -80,9 +86,10 @@ export type ButtonIconType = React.ComponentType<{ className?: string }>
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    RequiredProps<VariantProps<typeof buttonVariants>> {
+    RequiredProps<Omit<VariantProps<typeof buttonVariants>, 'spacing'>> {
   asChild?: boolean
   loading?: boolean
+  spacing?: VariantProps<typeof buttonVariants>['spacing']
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -90,6 +97,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     {
       className,
       variant: _variant,
+      spacing,
       size = 'm',
       asChild = false,
       type = 'button',
@@ -108,7 +116,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <Comp
         {...props}
         disabled={disabled || loading}
-        className={cn(buttonVariants({ variant, size }), className)}
+        className={cn(buttonVariants({ variant, size, spacing }), className)}
         ref={ref}
         type={type}
       >

@@ -1,8 +1,7 @@
 import { UserPositionSummary } from '@/domain/market-info/marketInfo'
 import { Percentage } from '@/domain/types/NumericValues'
-import { assets } from '@/ui/assets'
-import { Button } from '@/ui/atoms/button/Button'
 import { Form } from '@/ui/atoms/form/Form'
+import { Button } from '@/ui/atoms/new/button/Button'
 import { ConnectOrSandboxCTAButtonGroup } from '@/ui/molecules/connect-or-sandbox-cta-button-group/ConnectOrSandboxCTAButtonGroup'
 import { nonZeroOrDefault } from '@/utils/bigNumber'
 import { Trans } from '@lingui/macro'
@@ -10,10 +9,10 @@ import { UseFormReturn } from 'react-hook-form'
 import { FormFieldsForAssetClass } from '../../logic/form/form'
 import { EasyBorrowFormSchema } from '../../logic/form/validation'
 import { ExistingPosition } from '../../logic/types'
-import { EasyBorrowNote } from '../note/EasyBorrowNote'
 import { Borrow } from './Borrow'
 import { Deposits } from './Deposits'
-import { LoanToValueSlider } from './LoanToValueSlider'
+import { LoanToValuePanel } from './LoanToValuePanel'
+import { Connector } from './Connector'
 
 interface EasyBorrowFlowProps {
   form: UseFormReturn<EasyBorrowFormSchema>
@@ -42,7 +41,6 @@ export function EasyBorrowForm(props: EasyBorrowFlowProps) {
     updatedPositionSummary,
     setDesiredLoanToValue,
     disabled,
-    borrowRate,
     guestMode,
     openConnectModal,
     openSandboxModal,
@@ -50,8 +48,8 @@ export function EasyBorrowForm(props: EasyBorrowFlowProps) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col">
-        <div className="flex flex-col gap-2 md:flex-row">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-1.5 relative">
           <Deposits
             selectedAssets={assetsToDepositFields.selectedAssets}
             allAssets={assetsToDepositFields.assets}
@@ -64,9 +62,6 @@ export function EasyBorrowForm(props: EasyBorrowFlowProps) {
             control={form.control}
             disabled={disabled}
           />
-          <div>
-            <img src={assets.link} className="m-2 mt-16 hidden md:block" />
-          </div>
           <Borrow
             selectedAssets={assetsToBorrowFields.selectedAssets}
             allAssets={assetsToBorrowFields.assets}
@@ -75,18 +70,16 @@ export function EasyBorrowForm(props: EasyBorrowFlowProps) {
             control={form.control}
             disabled={disabled}
           />
+          <Connector className='w-[68px] absolute left-0 right-0 mx-auto top-[80px] hidden md:block' />
         </div>
 
-        <LoanToValueSlider
-          className="mt-10"
+        <LoanToValuePanel
           ltv={updatedPositionSummary.loanToValue}
-          maxAvailableLtv={nonZeroOrDefault(updatedPositionSummary.maxLoanToValue, Percentage(0.8))}
+          maxLtv={nonZeroOrDefault(updatedPositionSummary.maxLoanToValue, Percentage(0.8))}
           liquidationLtv={nonZeroOrDefault(updatedPositionSummary.currentLiquidationThreshold, Percentage(0.825))}
           onLtvChange={setDesiredLoanToValue}
           disabled={disabled}
         />
-
-        <EasyBorrowNote borrowRate={borrowRate} />
 
         {guestMode ? (
           <ConnectOrSandboxCTAButtonGroup
@@ -97,7 +90,7 @@ export function EasyBorrowForm(props: EasyBorrowFlowProps) {
           />
         ) : (
           !disabled && (
-            <Button type="submit" className="mt-8" disabled={!form.formState.isValid}>
+            <Button type="submit" size="m" variant="primary" disabled={!form.formState.isValid}>
               <Trans>Borrow</Trans>
             </Button>
           )

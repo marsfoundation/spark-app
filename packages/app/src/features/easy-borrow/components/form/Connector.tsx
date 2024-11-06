@@ -24,9 +24,9 @@ export function Connector({ className }: ConnectorProps) {
           width="84"
           height="84"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB"
+          colorInterpolationFilters="sRGB"
         >
-          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feColorMatrix
             in="SourceAlpha"
             type="matrix"
@@ -48,8 +48,8 @@ export function Connector({ className }: ConnectorProps) {
           y2="45.3673"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#FA43BD" />
-          <stop offset="1" stop-color="#FFA930" />
+          <stop stopColor="#FA43BD" />
+          <stop offset="1" stopColor="#FFA930" />
         </linearGradient>
       </defs>
     </svg>
