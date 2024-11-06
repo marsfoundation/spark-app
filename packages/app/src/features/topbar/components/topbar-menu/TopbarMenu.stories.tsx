@@ -17,7 +17,7 @@ const meta: Meta<typeof TopbarMenu> = {
 
     return (
       <TopbarMenu
-        isSandboxEnabled={sandboxEnabled}
+        isInSandbox={sandboxEnabled}
         onSandboxModeClick={() => setSandboxEnabled((p) => !p)}
         buildInfo={{
           sha: 'bdebc69',

@@ -13,6 +13,8 @@ import { useAccount, useChainId, useChains } from 'wagmi'
 import { TopbarProps } from '../components/topbar/Topbar'
 import { useAirdropInfo } from './use-airdrop-info/useAirdropInfo'
 import { useConnectedWalletInfo } from './use-connected-wallet-info/useConnectedWalletInfo'
+import { useDisconnect } from './useDisconnect'
+import { useNetworkChange } from './useNetworkChange'
 import { useRewardsInfo } from './useRewardsInfo'
 import { useSavingsInfo } from './useSavingsInfo'
 
@@ -25,7 +27,7 @@ export function useTopbar(): TopbarProps {
 
   const openDialog = useOpenDialog()
 
-  const { isInSandbox, isSandboxEnabled, deleteSandbox } = useSandboxState()
+  const { isInSandbox, deleteSandbox } = useSandboxState()
 
   const savingsInfo = useSavingsInfo()
   const rewardsInfo = useRewardsInfo({
@@ -36,11 +38,18 @@ export function useTopbar(): TopbarProps {
 
   const airdropInfo = useAirdropInfo({ refreshIntervalInMs: 100 })
 
+  const { changeNetworkAsync } = useNetworkChange()
+  const { disconnect } = useDisconnect({
+    changeNetworkAsync,
+    deleteSandbox,
+    isInSandbox,
+  })
+
   const connectedWalletInfo = useConnectedWalletInfo({
     address: address && CheckedAddress(address),
     connector,
     isInSandbox,
-    deleteSandbox,
+    onDisconnect: disconnect,
   })
 
   const supportedChains: SupportedChain[] = chains.map((chain) => {
@@ -68,8 +77,8 @@ export function useTopbar(): TopbarProps {
 
   return {
     menuInfo: {
-      onSandboxModeClick: openSandboxDialog,
-      isSandboxEnabled,
+      onSandboxModeClick: isInSandbox ? disconnect : openSandboxDialog,
+      isInSandbox,
       buildInfo: getBuildInfo(),
     },
     navigationInfo: {
