@@ -33,7 +33,7 @@ export function PositionView({
   liquidationDetails,
 }: PositionViewProps) {
   return (
-    <PageLayout className="max-w-6xl px-3 lg:px-0">
+    <PageLayout>
       <div className="flex flex-col flex-wrap gap-4 md:flex-row">
         <HealthFactorPanel
           hf={positionSummary.healthFactor}

@@ -1,7 +1,7 @@
 import { assets } from '@/ui/assets'
+import { PageLayout } from '@/ui/layouts/PageLayout'
 import { ConnectOrSandboxCTAPanel } from '@/ui/organisms/connect-or-sandbox-cta-panel/ConnectOrSandboxCTAPanel'
 import { PageHeader } from '../components/PageHeader'
-import { PageLayout } from '../components/PageLayout'
 
 interface UnsupportedChainViewProps {
   openChainModal: () => void

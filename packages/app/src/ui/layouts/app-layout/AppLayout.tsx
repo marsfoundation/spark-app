@@ -24,7 +24,7 @@ export function AppLayout({ children }: AppLayoutProps) {
     <div
       className={cn(
         'grid min-h-screen w-full grid-cols-[1fr_calc(100%-48px)_1fr] grid-rows-[auto_auto_1fr_auto] items-start gap-x-[24px]',
-        'bg-secondary lg:grid-cols-[1fr_min(calc(100%-128px),1440px)_1fr] lg:gap-x-[64px]',
+        'bg-secondary lg:grid-cols-[1fr_min(calc(100%-128px),1312px)_1fr] lg:gap-x-[64px]',
       )}
     >
       <LayoutBackground />
@@ -32,11 +32,11 @@ export function AppLayout({ children }: AppLayoutProps) {
       {import.meta.env.VITE_FEATURE_TOP_BANNER === '1' && showBanner && (
         <SkyMigrationTopBanner onClose={handleCloseBanner} className="col-span-full " />
       )}
-      <div className="sticky top-0 z-30 col-start-2 col-end-2 mb-6">
+      <div className="sticky top-2 z-30 col-start-2 col-end-2 my-2 lg:mt-6 lg:mb-10 sm:mb-8">
         <TopbarContainer />
       </div>
 
-      <main className="isolate z-20 col-span-full grid grid-cols-subgrid [&>*]:col-start-2 [&>*]:col-end-2">
+      <main className="isolate z-20 col-span-full grid grid-cols-subgrid pb-16 [&>*]:col-start-2 [&>*]:col-end-2">
         {children}
       </main>
 

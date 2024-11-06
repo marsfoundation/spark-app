@@ -1,6 +1,5 @@
 import { Skeleton } from '@/ui/atoms/skeleton/Skeleton'
-
-import { PageLayout } from '../PageLayout'
+import { PageLayout } from '@/ui/layouts/PageLayout'
 
 export function SavingsSkeleton() {
   return (

@@ -1,5 +1,5 @@
+import { PageLayout } from '@/ui/layouts/PageLayout'
 import { PageHeader } from '../components/PageHeader'
-import { PageLayout } from '../components/PageLayout'
 import { DaiSavingsCharts } from '../components/savings-charts/DaiSavingsCharts'
 import { SavingsOpportunity } from '../components/savings-opportunity/SavingsOpportunity'
 import { SavingsTokenPanel } from '../components/savings-token-panel/SavingsTokenPanel'
