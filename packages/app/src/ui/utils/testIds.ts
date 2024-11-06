@@ -148,8 +148,11 @@ export const testIds = makeTestIds({
     },
     row: (index: number) => index,
   },
-  navbar: {
-    airdropBadge: true,
+  topbar: {
+    airdrop: {
+      badge: true,
+      dropdown: true,
+    },
     rewards: {
       badge: true,
       claimableRewards: true,
@@ -158,7 +161,7 @@ export const testIds = makeTestIds({
         token: true,
         amount: true,
         amountUSD: true,
-        tooltip: true,
+        dropdown: true,
       },
     },
   },

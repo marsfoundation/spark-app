@@ -39,7 +39,7 @@ export function TopbarAirdropDropdown({
         <Button
           size="m"
           variant="tertiary"
-          data-testid={testIds.navbar.airdropBadge}
+          data-testid={testIds.topbar.airdrop.badge}
           className="aspect-square [@media(min-width:1080px)]:aspect-auto"
         >
           <img src={assets.brand.symbolGradient} className="icon-sm" />
@@ -53,7 +53,7 @@ export function TopbarAirdropDropdown({
         </Button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent align="end" className="w-64 p-1">
+      <DropdownMenuContent align="end" className="w-64 p-1" data-testid={testIds.topbar.airdrop.dropdown}>
         <DropdownMenuGroup className="py-2">
           <DropdownMenuLabel>Spark Airdrop Tokens</DropdownMenuLabel>
           <DropdownMenuItem className="pointer-events-none py-2">
