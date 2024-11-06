@@ -7,7 +7,12 @@ const meta: Meta<typeof SettingsDialog> = {
   component: SettingsDialog,
   render: () => {
     return (
-      <SettingsDialog onConfirm={() => {}} permitsSettings={{ preferPermits: true, togglePreferPermits: () => {} }} />
+      <SettingsDialog
+        onConfirm={() => {}}
+        permitsSettings={{ preferPermits: true, togglePreferPermits: () => {} }}
+        portalContainerRef={undefined}
+        actionsGridLayout="extended"
+      />
     )
   },
 }

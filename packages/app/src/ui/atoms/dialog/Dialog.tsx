@@ -49,7 +49,7 @@ const contentVariants = cva(
       },
       spacing: {
         none: 'p-0',
-        default: 'p-8',
+        default: 'p-4 sm:p-8',
       },
     },
     defaultVariants: {

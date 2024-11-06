@@ -1,5 +1,6 @@
 import { cn } from '@/ui/utils/style'
 import { cva } from 'class-variance-authority'
+import { useRef } from 'react'
 import { Actions } from '../components/actions/Actions'
 import { ActionHandler } from '../logic/types'
 import { SettingsDialog } from '../settings-dialog/components/SettingsDialog'
@@ -28,11 +29,17 @@ export function ActionsView({
   settingsDisabled,
   settingsDialogProps,
 }: ActionsViewProps) {
+  const ref = useRef<HTMLDivElement>(null)
   return (
-    <section className="flex flex-col gap-2">
+    <section className="flex flex-col gap-2" ref={ref}>
       <div className="flex items-center justify-between">
         <h3 className={cn(actionsTitleVariants({ layout: actionsGridLayout }))}>Actions</h3>
-        <SettingsDialog {...settingsDialogProps} disabled={settingsDisabled} />
+        <SettingsDialog
+          {...settingsDialogProps}
+          portalContainerRef={ref}
+          disabled={settingsDisabled}
+          actionsGridLayout={actionsGridLayout}
+        />
       </div>
       <div className="rounded-sm border border-primary">
         <Actions actionHandlers={actionHandlers} layout={actionsGridLayout} />

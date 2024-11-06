@@ -9,7 +9,7 @@ import { ChevronDown } from 'lucide-react'
 import { RefObject, useState } from 'react'
 
 export interface BenefitsDialog {
-  portalContainerRef?: RefObject<HTMLElement>
+  portalContainerRef: RefObject<HTMLElement> | undefined
   apyImprovement?: Percentage
 }
 

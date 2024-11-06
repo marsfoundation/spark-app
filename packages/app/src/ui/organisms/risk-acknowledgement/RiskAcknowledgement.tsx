@@ -12,10 +12,7 @@ export function RiskAcknowledgement({ warning, onStatusChange }: RiskAcknowledge
   return (
     <div className="flex flex-col gap-2">
       <Alert variant="error">
-        <div
-          className="max-w-[46ch] text-basics-black text-sm"
-          data-testid={testIds.component.RiskAcknowledgement.explanation}
-        >
+        <div data-testid={testIds.component.RiskAcknowledgement.explanation}>
           {warning.type === 'liquidation-warning-borrow' &&
             'Borrowing this amount puts you at risk of quick liquidation. You may lose part of your collateral.'}
           {warning.type === 'liquidation-warning-withdraw' &&
