@@ -385,6 +385,7 @@ export default {
         'product-dark-blue': 'rgb(var(--product-dark-blue))',
       },
       backgroundImage: {
+        // gradients
         'gradient-spark-primary': 'linear-gradient(270.98deg, #FFCD4D -5.71%, #FA43BD 102.6%)',
         'gradient-spark-secondary': 'linear-gradient(104.99deg, #FFC555 -21.89%, #FB4AB9 87.44%)',
         'gradient-orange': 'linear-gradient(89.87deg, #FF895D 0.14%, #FFE6A4 50.03%, #FFFFFF 99.92%)',
@@ -400,11 +401,13 @@ export default {
         'gradient-savings-opportunity-savings-rate':
           'linear-gradient(125deg, #FFF 19.84%, #8CDB8B 40.17%, #00C2A1 64.6%)',
         'gradient-savings-opportunity-button': 'linear-gradient(105deg, #43E26B, #10B73D)',
-        'savings-dai-token-panel':
-          'url(/src/ui/assets/savings/savings-dai-token-panel-bg.svg), linear-gradient(#101014, #101014)',
-        'savings-usds-token-panel':
-          'url(/src/ui/assets/savings/savings-usds-token-panel-bg.svg), linear-gradient(#101014, #101014)',
+        // backgrounds with images
+        'sdai-token-panel': 'url(/src/ui/assets/savings/sdai-token-panel-bg.svg), linear-gradient(#101014, #101014)',
+        'susds-token-panel': 'url(/src/ui/assets/savings/susds-token-panel-bg.svg), linear-gradient(#101014, #101014)',
         'savings-opportunity-panel': 'url(/src/ui/assets/savings/savings-opportunity-panel-bg.svg)',
+        'dai-upgrade': 'url(/src/ui/assets/savings/dai-upgrade-bg.svg), linear-gradient(#101014, #101014)',
+        'sdai-upgrade': 'url(/src/ui/assets/savings/sdai-upgrade-bg.svg), linear-gradient(#101014, #101014)',
+        'savings-welcome': 'url(/src/ui/assets/savings/savings-welcome-bg.svg)',
       },
       fontWeight: {
         regular: '400',

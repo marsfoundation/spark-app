@@ -29,19 +29,19 @@ export function BenefitsDialog({ portalContainerRef, apyImprovement }: BenefitsD
       <DialogContent portalContainerRef={portalContainerRef} overlayVariant="delicate" contentVerticalPosition="bottom">
         <div className="flex flex-col gap-6 p-1">
           <div className="flex flex-col gap-2">
-            <h2 className="font-semibold text-basics-black text-xl">Deposit into Savings USDS</h2>
-            <p className="text-basics-dark-grey text-sm">
+            <h2 className="typography-heading-4 text-primary">Deposit into Savings USDS</h2>
+            <p className="typography-body-5 text-secondary">
               By enabling this option, you will be depositing your stablecoins into Savings USDS, thus accessing the SSR
               (Sky Savings Rate), which provides the highest predictable rate in USDS. You can exit Savings USDS at any
               time at your sole discretion.
             </p>
           </div>
-          <KeyPoints>
+          <KeyPoints className="text-primary">
             {apyImprovement && (
               <KeyPoints.Item variant="positive">
                 <div>
-                  <span className="text-basics-green">{formatPercentage(apyImprovement)} higher APY</span> compared to
-                  Savings DAI
+                  <span className="text-system-success-primary">{formatPercentage(apyImprovement)} higher APY</span>{' '}
+                  compared to Savings DAI
                 </div>
               </KeyPoints.Item>
             )}
