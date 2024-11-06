@@ -9,9 +9,20 @@ export interface PanelProps extends VariantProps<typeof panelVariants> {
 }
 
 export const Panel = forwardRef<HTMLDivElement, PanelProps>(
-  ({ children, 'data-testid': dataTestId, className, ...variants }, ref) => {
+  ({ children, 'data-testid': dataTestId, className, spacing, variant, inverse }, ref) => {
     return (
-      <div className={cn(panelVariants(variants), className)} ref={ref} data-testid={dataTestId}>
+      <div
+        className={cn(
+          panelVariants({
+            spacing,
+            variant,
+            inverse,
+          }),
+          className,
+        )}
+        ref={ref}
+        data-testid={dataTestId}
+      >
         {children}
       </div>
     )
@@ -22,10 +33,10 @@ Panel.displayName = 'Panel'
 const panelVariants = cva('rounded-sm', {
   variants: {
     variant: {
-      primary: 'bg-primary text-primary',
-      secondary: 'bg-primary-inverse text-primary-inverse',
-      tertiary: 'bg-tertiary text-primary',
-      quaternary: 'bg-reskin-fg-primary text-primary-inverse',
+      primary: 'bg-reskin-base-white text-primary',
+      secondary: 'bg-primary text-primary',
+      tertiary: 'bg-secondary text-primary',
+      quaternary: 'bg-tertiary text-primary',
     },
     spacing: {
       none: 'p-0',
@@ -33,5 +44,33 @@ const panelVariants = cva('rounded-sm', {
       s: 'p-2 md:p-6 sm:p-3',
       m: 'p-3 md:p-8 sm:p-5',
     },
+    inverse: {
+      true: '',
+    },
+  },
+  compoundVariants: [
+    {
+      variant: 'primary',
+      inverse: true,
+      class: 'bg-primary-inverse text-primary-inverse',
+    },
+    {
+      variant: 'secondary',
+      inverse: true,
+      class: 'bg-reskin-fg-primary text-primary-inverse',
+    },
+    {
+      variant: 'tertiary',
+      inverse: true,
+      class: 'bg-reskin-fg-secondary text-primary-inverse',
+    },
+    {
+      variant: 'quaternary',
+      inverse: true,
+      class: 'bg-reskin-fg-tertiary text-primary-inverse',
+    },
+  ],
+  defaultVariants: {
+    variant: 'primary',
   },
 })

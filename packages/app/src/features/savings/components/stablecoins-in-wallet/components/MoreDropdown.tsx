@@ -5,15 +5,16 @@ import BoxArrowTopRight from '@/ui/assets/box-arrow-top-right.svg?react'
 import DocumentSketchIcon from '@/ui/assets/document-sketch.svg?react'
 import DowngradeIcon from '@/ui/assets/downgrade.svg?react'
 import MoreIcon from '@/ui/assets/more-icon.svg?react'
-import { Button } from '@/ui/atoms/button/Button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuItemIcon,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/ui/atoms/dropdown/DropdownMenu'
 import { LinkDecorator } from '@/ui/atoms/link-decorator/LinkDecorator'
+import { IconButton } from '@/ui/atoms/new/icon-button/IconButton'
 import { testIds } from '@/ui/utils/testIds'
 
 export interface MoreDropdownProps {
@@ -34,7 +35,7 @@ export function MoreDropdown({ token, blockExplorerLink, migrationInfo, disabled
             disabled={balance?.eq(0)}
             data-testid={testIds.savings.stablecoinsInWallet.downgradeUsdsToDai}
           >
-            <DowngradeIcon className="h-4 w-4" />
+            <DropdownMenuItemIcon icon={DowngradeIcon} />
             Downgrade to {migrationInfo.daiSymbol}
           </DropdownItem>
           <DropdownMenuSeparator />
@@ -43,9 +44,9 @@ export function MoreDropdown({ token, blockExplorerLink, migrationInfo, disabled
       {blockExplorerLink && (
         <LinkDecorator to={blockExplorerLink} external>
           <DropdownItem>
-            <DocumentSketchIcon className="h-4 w-4" />
+            <DropdownMenuItemIcon icon={DocumentSketchIcon} />
             View contract
-            <BoxArrowTopRight className="ml-auto h-4 w-4" />
+            <DropdownMenuItemIcon icon={BoxArrowTopRight} />
           </DropdownItem>
         </LinkDecorator>
       )}
@@ -57,17 +58,17 @@ function DropdownWrapper({ children, disabled }: { children?: React.ReactNode; d
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="secondary"
-          size="sm"
-          className="px-2"
+        <IconButton
+          variant="tertiary"
+          size="s"
           disabled={disabled}
           data-testid={testIds.savings.stablecoinsInWallet.moreDropdown}
-        >
-          <MoreIcon />
-        </Button>
+          icon={MoreIcon}
+        />
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">{children}</DropdownMenuContent>
+      <DropdownMenuContent align="end" className="p-1">
+        {children}
+      </DropdownMenuContent>
     </DropdownMenu>
   )
 }
@@ -80,7 +81,7 @@ function DropdownItem({
 }: { children: React.ReactNode; onClick?: () => void; disabled?: boolean; 'data-testid'?: string }) {
   return (
     <DropdownMenuItem
-      className="flex cursor-pointer items-center gap-2 font-medium text-basics-dark-grey"
+      className="flex cursor-pointer items-center gap-2 font-medium text-secondary focus:text-primary"
       onClick={onClick}
       disabled={disabled}
       data-testid={dataTestId}

@@ -1,5 +1,5 @@
 import MagicWand from '@/ui/assets/magic-wand.svg?react'
-import { Button } from '@/ui/atoms/button/Button'
+import { Button, ButtonIcon } from '@/ui/atoms/new/button/Button'
 import { cn } from '@/ui/utils/style'
 
 export interface ConnectOrSandboxCTAButtonGroupProps {
@@ -20,18 +20,15 @@ export function ConnectOrSandboxCTAButtonGroup({
   return (
     <div className={cn('flex w-full flex-col gap-6', className)}>
       <div className="flex flex-col gap-3">
-        <h4 className="text-center font-semibold text-base text-basics-black sm:text-xl">{header}</h4>
-        <Button onClick={action}>{buttonText}</Button>
+        <h4 className="typography-heading-4 text-center">{header}</h4>
+        <Button size="l" onClick={action} variant="secondary">
+          {buttonText}
+        </Button>
       </div>
       <div className="flex flex-col gap-3">
-        <p className="text-center text-basics-dark-grey text-xs sm:text-base">
-          or explore in Sandbox Mode with unlimited tokens
-        </p>
-        <Button
-          prefixIcon={<MagicWand className="h-5 w-5 text-basics-dark-grey" />}
-          onClick={openSandboxModal}
-          variant="secondary"
-        >
+        <p className="typography-body-4 text-center text-secondary">or explore in Sandbox Mode with unlimited tokens</p>
+        <Button size="l" onClick={openSandboxModal} variant="tertiary">
+          <ButtonIcon icon={MagicWand} />
           Activate Sandbox Mode
         </Button>
       </div>

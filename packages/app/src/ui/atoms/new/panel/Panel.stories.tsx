@@ -10,10 +10,15 @@ const spacings = ['none', 'xs', 's', 'm'] as const
 type Variant = (typeof variants)[number]
 type Spacing = (typeof spacings)[number]
 
-function PanelExample({ variant, spacing }: { variant: Variant; spacing: Spacing }) {
+function PanelExample({
+  variant,
+  spacing,
+  inverse = false,
+}: { variant: Variant; spacing: Spacing; inverse?: boolean }) {
   return (
-    <Panel variant={variant} spacing={spacing} className="flex flex-col gap-2">
+    <Panel variant={variant} spacing={spacing} inverse={inverse} className="flex flex-col gap-2">
       <div className="typography-heading-5">{variant}</div>
+      <div className="typography-heading-5">inverse: {inverse.toString()}</div>
       <div className="flex items-end gap-0.5">
         <SquirrelIcon className="icon-md" />
         <NutIcon className="icon-sm" />
@@ -35,7 +40,10 @@ const meta: Meta<typeof Panel> = {
         <Fragment key={spacing}>
           <StoryGrid.Label>spacing {spacing}</StoryGrid.Label>
           {variants.map((variant) => (
-            <PanelExample key={`${variant}-${spacing}`} variant={variant} spacing={spacing} />
+            <div key={`${variant}-${spacing}`}>
+              <PanelExample variant={variant} spacing={spacing} />
+              <PanelExample variant={variant} spacing={spacing} inverse />
+            </div>
           ))}
         </Fragment>
       ))}

@@ -53,7 +53,7 @@ export function IconStack({
   )
 }
 
-const iconVariants = cva('rounded-full', {
+const iconVariants = cva('rounded-full bg-white', {
   variants: {
     size: {
       base: 'h-6 w-6',
