@@ -23,9 +23,9 @@ export function EModeCategoryTile({ eModeCategory }: EModeCategoryTileProps) {
       onClick={eModeCategory.onSelect}
       className={cn(
         'flex w-full flex-col items-start border-basics-border text-start',
-        'h-28 justify-between rounded-xl border bg-basics-white p-2 sm:h-32 sm:p-4',
-        'transition-colors duration-200 hover:bg-basics-light-grey hover:shadow-sm',
-        eModeCategory.isSelected && 'border-main-blue',
+        'h-28 justify-between rounded-xl border bg-white/10 p-2 sm:h-32 sm:p-4',
+        'transition-colors duration-200 hover:bg-white/20 hover:shadow-sm',
+        eModeCategory.isSelected && 'border-primary-bg',
       )}
     >
       <h4 className={headerVariants({ variant })}>{eModeCategory.name}</h4>
