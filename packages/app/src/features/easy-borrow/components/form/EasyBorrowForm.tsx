@@ -10,9 +10,9 @@ import { FormFieldsForAssetClass } from '../../logic/form/form'
 import { EasyBorrowFormSchema } from '../../logic/form/validation'
 import { ExistingPosition } from '../../logic/types'
 import { Borrow } from './Borrow'
+import { Connector } from './Connector'
 import { Deposits } from './Deposits'
 import { LoanToValuePanel } from './LoanToValuePanel'
-import { Connector } from './Connector'
 
 interface EasyBorrowFlowProps {
   form: UseFormReturn<EasyBorrowFormSchema>
@@ -49,7 +49,7 @@ export function EasyBorrowForm(props: EasyBorrowFlowProps) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-3">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-1.5 relative">
+        <div className="relative grid grid-cols-1 gap-1.5 md:grid-cols-2">
           <Deposits
             selectedAssets={assetsToDepositFields.selectedAssets}
             allAssets={assetsToDepositFields.assets}
@@ -70,7 +70,7 @@ export function EasyBorrowForm(props: EasyBorrowFlowProps) {
             control={form.control}
             disabled={disabled}
           />
-          <Connector className='w-[68px] absolute left-0 right-0 mx-auto top-[80px] hidden md:block' />
+          <Connector className="absolute top-[80px] right-0 left-0 mx-auto hidden w-[68px] md:block" />
         </div>
 
         <LoanToValuePanel

@@ -68,6 +68,7 @@ export interface UseEasyBorrowResults {
 export function useEasyBorrow(): UseEasyBorrowResults {
   const account = useAccount()
   const { chainId } = usePageChainId()
+  const [firstRender, setFirstRender] = useState(true)
   const guestMode = !account.address
   const openDialog = useOpenDialog()
   const { aaveData } = useAaveDataLayer({ chainId })
@@ -131,9 +132,6 @@ export function useEasyBorrow(): UseEasyBorrowResults {
     defaultValues: getDefaultFormValues(borrowableAssets, depositableAssets),
     mode: 'onChange',
   })
-  console.log({
-    form: easyBorrowForm.getValues(),
-  })
   const assetsToDepositFields = useFormFieldsForAssetClass({
     form: easyBorrowForm,
     marketInfo: marketInfoIn1Epoch, // because we calculate max values based on the future state
@@ -196,6 +194,10 @@ export function useEasyBorrow(): UseEasyBorrowResults {
   // biome-ignore lint/correctness/useExhaustiveDependencies:
   useEffect(
     function revalidateFormOnNetworkChange() {
+      if (firstRender) {
+        setFirstRender(false)
+        return
+      }
       easyBorrowForm.trigger().catch(console.error)
     },
     [account.chainId],

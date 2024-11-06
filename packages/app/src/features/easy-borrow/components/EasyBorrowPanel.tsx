@@ -5,6 +5,7 @@ import { Percentage } from '@/domain/types/NumericValues'
 import { ActionsContainer } from '@/features/actions/ActionsContainer'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { Button } from '@/ui/atoms/button/Button'
+import { Panel } from '@/ui/atoms/new/panel/Panel'
 import { Typography } from '@/ui/atoms/typography/Typography'
 import { HealthFactorPanel } from '@/ui/organisms/health-factor-panel/HealthFactorPanel'
 import { RiskAcknowledgement } from '@/ui/organisms/risk-acknowledgement/RiskAcknowledgement'
@@ -17,7 +18,6 @@ import { ExistingPosition, PageStatus } from '../logic/types'
 import { BorrowDetails } from '../logic/useEasyBorrow'
 import { UsdsUpgradeAlert } from './UsdsUpgradeAlert'
 import { EasyBorrowForm } from './form/EasyBorrowForm'
-import { Panel } from '@/ui/atoms/new/panel/Panel'
 
 export interface EasyBorrowPanelProps {
   pageStatus: PageStatus
@@ -56,7 +56,7 @@ export function EasyBorrowPanel(props: EasyBorrowPanelProps) {
         )}
       </div>
 
-      <Panel className='bg-tertiary p-1.5'>
+      <Panel className="bg-tertiary p-1.5" spacing="none">
         <EasyBorrowForm
           {...props}
           borrowRate={props.borrowDetails.borrowRate}
@@ -90,7 +90,7 @@ export function EasyBorrowPanel(props: EasyBorrowPanelProps) {
             />
           </div>
         )}
-        </Panel>
+      </Panel>
     </Panel>
   )
 }

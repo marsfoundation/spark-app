@@ -32,7 +32,7 @@ export function AssetInput<TFieldValues extends FieldValues>({
   selectedAsset,
   setSelectedAsset,
   label,
-  showError = true,
+  showError,
   disabled = false,
   maxValue,
   maxSelectedFieldName,
@@ -140,7 +140,7 @@ export function AssetInput<TFieldValues extends FieldValues>({
             {token.formatUSD(NormalizedUnitNumber(parseBigNumber(value, 0)))}
           </div>
         </div>
-        {maxValue && (
+        {maxValue?.gt(0) && (
           <div className="flex flex-col items-end justify-center gap-0.5">
             <button
               onClick={disabled ? undefined : setMaxValue}

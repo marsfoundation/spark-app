@@ -35,7 +35,6 @@ export function Borrow({ selectedAssets, allAssets, changeAsset, alreadyBorrowed
           selectedAsset={selectedAsset}
           setSelectedAsset={(newAsset) => changeAsset(0, newAsset)}
           disabled={disabled}
-          showError
         />
       </Panel>
       {showTokenSummary && (

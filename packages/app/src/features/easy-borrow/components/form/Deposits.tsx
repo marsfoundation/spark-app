@@ -83,7 +83,6 @@ export function Deposits({
                   onRemove={selectedAssets.length > 1 ? () => removeAsset(index) : undefined}
                   maxValue={assetToMaxValue[asset.token.symbol]}
                   disabled={disabled}
-                  showError
                   maxSelectedFieldName={maxSelectedFieldName && `assetsToDeposit.${index}.${maxSelectedFieldName}`}
                 />
               </div>
