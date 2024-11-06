@@ -24,7 +24,7 @@ export function AppLayout({ children }: AppLayoutProps) {
     <div
       className={cn(
         'grid min-h-screen w-full grid-cols-[1fr_calc(100%-48px)_1fr] grid-rows-[auto_auto_1fr_auto] items-start gap-x-[24px]',
-        'bg-secondary lg:grid-cols-[1fr_min(calc(100%-128px),1608px)_1fr] lg:gap-x-[64px]',
+        'bg-secondary lg:grid-cols-[1fr_min(calc(100%-128px),1440px)_1fr] lg:gap-x-[64px]',
       )}
     >
       <LayoutBackground />
