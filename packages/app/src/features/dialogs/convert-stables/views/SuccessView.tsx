@@ -1,10 +1,10 @@
-import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPanelTitle'
+import { SuccessViewPanelTitle } from '@/features/dialogs/common/components/success-view/SuccessPanelTitle'
 import { SuccessViewCheckmark } from '@/features/dialogs/common/components/success-view/SuccessViewCheckmark'
 import { SuccessViewContent } from '@/features/dialogs/common/components/success-view/SuccessViewContent'
 import { SuccessViewProceedButton } from '@/features/dialogs/common/components/success-view/SuccessViewProceedButton'
-import { Panel } from '@/ui/atoms/panel/Panel'
 import { testIds } from '@/ui/utils/testIds'
 import { assert } from '@/utils/assert'
+import { SuccessViewPanel } from '../../common/components/success-view/SuccessViewPanel'
 import { SuccessViewTokenRow } from '../../common/components/success-view/SuccessViewTokenRow'
 import { TxOverview } from '../logic/createTxOverview'
 
@@ -18,15 +18,12 @@ export function SuccessView({ txOverview, onProceed, proceedText }: SuccessViewP
   return (
     <SuccessViewContent>
       <SuccessViewCheckmark />
-      <Panel.Wrapper className="mt-8 flex w-full flex-col gap-4 bg-panel-bg p-4">
-        <div className="flex flex-col gap-2.5" data-testid={testIds.dialog.success}>
-          <DialogPanelTitle>Converted from</DialogPanelTitle>
-          <SuccessViewTokenRow token={txOverview.inToken} amount={txOverview.outcome.value} />
-          <div className="w-full border-b" />
-          <DialogPanelTitle>To</DialogPanelTitle>
-          <SuccessViewTokenRow token={txOverview.outcome.token} amount={txOverview.outcome.value} />
-        </div>
-      </Panel.Wrapper>
+      <SuccessViewPanel data-testid={testIds.dialog.success}>
+        <SuccessViewPanelTitle>Converted from</SuccessViewPanelTitle>
+        <SuccessViewTokenRow token={txOverview.inToken} amount={txOverview.outcome.value} />
+        <SuccessViewPanelTitle>To</SuccessViewPanelTitle>
+        <SuccessViewTokenRow token={txOverview.outcome.token} amount={txOverview.outcome.value} />
+      </SuccessViewPanel>
       <SuccessViewProceedButton onProceed={onProceed}>{proceedText}</SuccessViewProceedButton>
     </SuccessViewContent>
   )

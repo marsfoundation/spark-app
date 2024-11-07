@@ -1,7 +1,6 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
-import { Typography } from '@/ui/atoms/typography/Typography'
 
 export interface SuccessViewTokenRowProps {
   token: Token
@@ -10,16 +9,14 @@ export interface SuccessViewTokenRowProps {
 
 export function SuccessViewTokenRow({ token, amount }: SuccessViewTokenRowProps) {
   return (
-    <div className="mb-2 flex justify-between">
-      <div className="flex items-center gap-2">
-        <TokenIcon token={token} className="h-6" />
-        <span className="font-semibold text-basics-black">{token.symbol}</span>
+    <div className="mb-2 flex w-full justify-between">
+      <div className="flex items-center gap-1">
+        <TokenIcon token={token} className="h-5" />
+        <span className="typography-label-4 text-primary">{token.symbol}</span>
       </div>
-      <div className="flex grow flex-col">
-        <Typography className="text-right font-primary">{token.format(amount, { style: 'auto' })}</Typography>
-        <Typography variant="prompt" className="text-right">
-          {token.formatUSD(amount)}
-        </Typography>
+      <div className="flex grow flex-col text-right">
+        <div className="typography-label-4 text-primary">{token.format(amount, { style: 'auto' })}</div>
+        <div className="typography-label-5 text-secondary"> {token.formatUSD(amount)}</div>
       </div>
     </div>
   )
