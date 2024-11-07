@@ -3,7 +3,7 @@ import { OpenDialogFunction } from '@/domain/state/dialogs'
 import { collateralDialogConfig } from '@/features/dialogs/collateral/CollateralDialog'
 import { depositDialogConfig } from '@/features/dialogs/deposit/DepositDialog'
 import { withdrawDialogConfig } from '@/features/dialogs/withdraw/WithdrawDialog'
-import { Button } from '@/ui/atoms/button/Button'
+import { Button } from '@/ui/atoms/new/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
 import { ActionsCell } from '@/ui/molecules/data-table/components/ActionsCell'
@@ -84,8 +84,9 @@ export function DepositTable({ assets, openDialog }: DepositTableProps) {
                 return (
                   <ActionsCell>
                     <Button
+                      variant="secondary"
                       className="w-full"
-                      size="sm"
+                      size="s"
                       onClick={() => {
                         openDialog(depositDialogConfig, { token })
                       }}
@@ -94,8 +95,8 @@ export function DepositTable({ assets, openDialog }: DepositTableProps) {
                       Deposit
                     </Button>
                     <Button
-                      variant="secondary"
-                      size="sm"
+                      variant="tertiary"
+                      size="s"
                       className="w-full"
                       disabled={deposit.isZero()}
                       onClick={() => {

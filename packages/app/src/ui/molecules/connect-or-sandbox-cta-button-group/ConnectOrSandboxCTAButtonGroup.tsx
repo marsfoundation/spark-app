@@ -1,5 +1,5 @@
 import MagicWand from '@/ui/assets/magic-wand.svg?react'
-import { Button } from '@/ui/atoms/button/Button'
+import { Button, ButtonIcon } from '@/ui/atoms/new/button/Button'
 import { cn } from '@/ui/utils/style'
 
 export interface ConnectOrSandboxCTAButtonGroupProps {
@@ -27,11 +27,8 @@ export function ConnectOrSandboxCTAButtonGroup({
         <p className="text-center text-basics-dark-grey text-xs sm:text-base">
           or explore in Sandbox Mode with unlimited tokens
         </p>
-        <Button
-          prefixIcon={<MagicWand className="h-5 w-5 text-basics-dark-grey" />}
-          onClick={openSandboxModal}
-          variant="secondary"
-        >
+        <Button onClick={openSandboxModal} variant="secondary">
+          <ButtonIcon icon={MagicWand} />
           Activate Sandbox Mode
         </Button>
       </div>

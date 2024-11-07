@@ -1,8 +1,8 @@
 import { assets } from '@/ui/assets'
 import { cn } from '@/ui/utils/style'
 import { XIcon } from 'lucide-react'
-import { Button } from '../button/Button'
 import { Link } from '../link/Link'
+import { IconButton } from '../new/icon-button/IconButton'
 import { Sparkles } from '../sparkles/Sparkles'
 
 interface SkyMigrationTopBannerProps {
@@ -38,9 +38,7 @@ export function SkyMigrationTopBanner({ onClose, className }: SkyMigrationTopBan
       >
         Read the announcement
       </Link>
-      <Button variant="icon" size="sm" className="-translate-y-1/2 absolute top-1/2 right-1.5" onClick={onClose}>
-        <XIcon className="h-5 w-5" />
-      </Button>
+      <IconButton icon={XIcon} size="s" onClick={onClose} className="-translate-y-1/2 absolute top-1/2 right-1.5" />
     </div>
   )
 }

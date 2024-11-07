@@ -51,13 +51,7 @@ export function SandboxDialogView({
         ))}
       </ul>
       {isError && error && <Alert variant="warning">{error.message}</Alert>}
-      <ActionButton
-        isLoading={isPending}
-        onClick={onActionButtonClick}
-        isDone={isInSandbox}
-        variant="primary"
-        size="lg"
-      >
+      <ActionButton isLoading={isPending} onClick={onActionButtonClick} isDone={isInSandbox} variant="primary" size="l">
         {isInSandbox ? 'Sandbox Mode already activated' : 'Activate Sandbox Mode'}
       </ActionButton>
     </div>

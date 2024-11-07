@@ -5,8 +5,8 @@ import { Farm } from '@/domain/farms/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { RewardPointsSyncStatus } from '@/features/farm-details/types'
-import { Button } from '@/ui/atoms/button/Button'
 import { DelayedComponent } from '@/ui/atoms/delayed-component/DelayedComponent'
+import { Button } from '@/ui/atoms/new/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
@@ -56,7 +56,7 @@ export function ActiveFarmInfoPanel({
         <div className="flex items-center gap-1">
           {canClaim && (
             <Button
-              size="sm"
+              size="s"
               onClick={openClaimDialog}
               data-testid={testIds.farmDetails.activeFarmInfoPanel.claimButton}
             >
@@ -65,7 +65,7 @@ export function ActiveFarmInfoPanel({
           )}
           {farm.staked.gt(0) && (
             <Button
-              size="sm"
+              size="s"
               variant="secondary"
               onClick={openUnstakeDialog}
               data-testid={testIds.farmDetails.activeFarmInfoPanel.unstakeButton}

@@ -2,9 +2,7 @@ import { useBlockExplorerAddressLink } from '@/domain/hooks/useBlockExplorerAddr
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { Token } from '@/domain/types/Token'
 import BoxArrowTopRight from '@/ui/assets/box-arrow-top-right.svg?react'
-import MoreIcon from '@/ui/assets/more-icon.svg?react'
 import { Address } from '@/ui/atoms/address/Address'
-import { Button } from '@/ui/atoms/button/Button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,7 +11,9 @@ import {
   DropdownMenuTrigger,
 } from '@/ui/atoms/dropdown/DropdownMenu'
 import { Link } from '@/ui/atoms/link/Link'
+import { IconButton } from '@/ui/atoms/new/icon-button/IconButton'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
+import { MoreVerticalIcon } from 'lucide-react'
 import { PropsWithChildren, ReactNode } from 'react'
 
 export interface TokenLinksDropdownProps {
@@ -45,9 +45,7 @@ function TokenLinksWrapper({ children }: PropsWithChildren) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="secondary" className="bg-white px-3">
-          <MoreIcon />
-        </Button>
+        <IconButton icon={MoreVerticalIcon} variant="tertiary" size="s" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start">{children}</DropdownMenuContent>
     </DropdownMenu>

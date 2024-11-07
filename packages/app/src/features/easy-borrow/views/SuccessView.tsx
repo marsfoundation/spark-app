@@ -1,7 +1,7 @@
 import { paths } from '@/config/paths'
 import { TokenWithValue } from '@/domain/common/types'
 import { assets } from '@/ui/assets'
-import { LinkButton } from '@/ui/atoms/button/Button'
+import { LinkButton } from '@/ui/atoms/new/link-button/LinkButton'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 import { Typography } from '@/ui/atoms/typography/Typography'
@@ -64,7 +64,7 @@ export function SuccessView({ deposited, borrowed, runConfetti, borrowDetails }:
               <UsdsUpgradeAlert borrowDetails={borrowDetails} variant="success" className="mt-2" />
             )}
 
-            <LinkButton size="lg" className="mt-8 w-full" to={paths.myPortfolio}>
+            <LinkButton size="l" className="mt-8 w-full" to={paths.myPortfolio}>
               View in portfolio
             </LinkButton>
           </Panel.Content>

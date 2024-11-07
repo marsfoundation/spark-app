@@ -1,6 +1,5 @@
 import { getChainConfigEntry } from '@/config/chain'
-import { Button } from '@/ui/atoms/button/Button'
-
+import { Button } from '@/ui/atoms/new/button/Button'
 import { SupportedChain } from '../../types'
 import { NavbarActionWrapper } from '../NavbarActionWrapper'
 
@@ -16,7 +15,7 @@ export function NetworkSelector({ currentChain, openSelectNetworkDialog }: Netwo
     <NavbarActionWrapper label="Network">
       <Button
         variant="secondary"
-        size="md"
+        size="m"
         className="h-auto w-full bg-white px-3 lg:h-10 lg:w-fit"
         onClick={() => openSelectNetworkDialog()}
       >

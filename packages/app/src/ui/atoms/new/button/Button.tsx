@@ -4,10 +4,9 @@ import * as React from 'react'
 
 import { cn } from '@/ui/utils/style'
 import { assert } from '@/utils/assert'
-import { RequiredProps } from '@/utils/types'
 import { Loader } from '../loader/Loader'
 
-const buttonVariants = cva(
+export const buttonVariants = cva(
   cn(
     'relative isolate inline-flex select-none items-center justify-center',
     'overflow-hidden whitespace-nowrap rounded-sm transition-colors',
@@ -70,13 +69,13 @@ const buttonIconVariants = cva('', {
   },
 })
 
-type ButtonIconSize = NonNullable<VariantProps<typeof buttonIconVariants>['size']>
-interface ButtonContextProps {
+type ButtonIconSize = VariantProps<typeof buttonIconVariants>['size']
+export interface ButtonContextProps {
   size: ButtonIconSize
 }
-const ButtonContext = React.createContext<ButtonContextProps | null>(null)
+export const ButtonContext = React.createContext<ButtonContextProps | null>(null)
 
-function useButtonContext(): ButtonContextProps {
+export function useButtonContext(): ButtonContextProps {
   const context = React.useContext(ButtonContext)
   assert(context, 'useButtonContext must be used within a Button component')
   return context
@@ -86,10 +85,9 @@ export type ButtonIconType = React.ComponentType<{ className?: string }>
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    RequiredProps<Omit<VariantProps<typeof buttonVariants>, 'spacing'>> {
+    VariantProps<typeof buttonVariants> {
   asChild?: boolean
   loading?: boolean
-  spacing?: VariantProps<typeof buttonVariants>['spacing']
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(

@@ -1,8 +1,8 @@
 import { WalletDropdownContentInfo } from '@/features/navbar/types'
 import BoxArrowTopRight from '@/ui/assets/box-arrow-top-right.svg?react'
 import { Address } from '@/ui/atoms/address/Address'
-import { Button } from '@/ui/atoms/button/Button'
 import { Link } from '@/ui/atoms/link/Link'
+import { Button } from '@/ui/atoms/new/button/Button'
 
 export interface WalletDropdownContentProps extends WalletDropdownContentInfo {}
 
@@ -22,7 +22,7 @@ export function WalletDropdownContent({
           </div>
         </div>
         <div className="flex gap-2.5">
-          <Button size="sm" variant="secondary" onClick={onDisconnect}>
+          <Button size="s" variant="secondary" onClick={onDisconnect}>
             Disconnect
           </Button>
         </div>
