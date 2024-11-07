@@ -28,7 +28,7 @@ export function MarketsView({
   const chainImage = getChainConfigEntry(chainId).meta.logo
 
   return (
-    <PageLayout className="max-w-6xl gap-8 px-3 lg:px-0">
+    <PageLayout className="gap-8">
       <div className="flex flex-row items-center gap-4">
         <Typography variant="h2">Markets</Typography>
         <div className="flex translate-y-0.5 flex-row items-center gap-1">

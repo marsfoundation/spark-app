@@ -3,7 +3,7 @@ import { PageLayout } from '@/ui/layouts/PageLayout'
 
 export function FarmsSkeleton() {
   return (
-    <PageLayout className="max-w-5xl gap-8">
+    <PageLayout compact className="gap-8">
       <div className="flex flex-row items-center gap-4">
         <Skeleton className="h-12 w-56" />
       </div>

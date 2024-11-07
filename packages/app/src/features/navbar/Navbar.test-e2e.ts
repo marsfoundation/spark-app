@@ -23,7 +23,7 @@ test.describe('Navbar', () => {
 
       const navbar = new NavbarPageObject(page)
       await navbar.expectAirdropCompactValue('0')
-      await navbar.hoverOverAirdropBadge()
+      await navbar.openAirdropDropdown()
       await navbar.expectAirdropPreciseValue('0.00 SPK')
     })
 
@@ -39,7 +39,7 @@ test.describe('Navbar', () => {
 
       const navbar = new NavbarPageObject(page)
       await navbar.expectAirdropCompactValue('7.841M')
-      await navbar.hoverOverAirdropBadge()
+      await navbar.openAirdropDropdown()
       await navbar.expectAirdropPreciseValue('7,840,591')
     })
 
@@ -69,7 +69,7 @@ test.describe('Navbar', () => {
 
       const navbar = new NavbarPageObject(page)
       await navbar.expectAirdropCompactValue('0')
-      await navbar.hoverOverAirdropBadge()
+      await navbar.openAirdropDropdown()
       await navbar.expectAirdropPreciseValue('0.00 SPK')
     })
   })
@@ -93,7 +93,7 @@ test.describe('Navbar', () => {
       await navbar.expectClaimableRewardsValue('$25.58K')
     })
 
-    test('Opens tooltip on hover', async ({ page }) => {
+    test('Displays details in dropdown', async ({ page }) => {
       await setup(page, fork, {
         initialPage: 'easyBorrow',
         account: {
@@ -103,19 +103,15 @@ test.describe('Navbar', () => {
       })
 
       const navbar = new NavbarPageObject(page)
-      await navbar.locateRewardsBadge().hover()
-      const rewardsDetails = navbar.locateRewardsDetails()
+      await navbar.openRewardsDropdown()
 
-      await navbar.expectRewards(
-        [
-          {
-            tokenSymbol: 'wstETH',
-            amount: '6.3697',
-            amountUSD: '$25,583.20',
-          },
-        ],
-        rewardsDetails,
-      )
+      await navbar.expectRewards([
+        {
+          tokenSymbol: 'wstETH',
+          amount: '6.3697',
+          amountUSD: '$25,583.20',
+        },
+      ])
     })
 
     test('Does not display badge when no rewards', async ({ page }) => {

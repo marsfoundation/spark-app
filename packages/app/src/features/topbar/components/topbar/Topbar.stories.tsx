@@ -15,7 +15,7 @@ const meta: Meta<typeof Topbar> = {
   component: Topbar,
   args: {
     menuInfo: {
-      isSandboxEnabled: false,
+      isInSandbox: false,
       onSandboxModeClick: () => {},
       buildInfo: {
         sha: 'bdebc69',

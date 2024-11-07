@@ -21,7 +21,7 @@ export interface TopbarProps {
 }
 
 export function Topbar({ walletInfo, menuInfo, navigationInfo, networkInfo, rewardsInfo, airdropInfo }: TopbarProps) {
-  const boxClasses = 'p-3 rounded-md bg-primary backdrop-blur-lg'
+  const boxClasses = 'p-3 rounded-md bg-primary/60 backdrop-blur-lg'
 
   return (
     <nav className="grid h-100% grid-cols-[auto_1fr_auto] place-items-center gap-2">

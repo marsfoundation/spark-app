@@ -12,7 +12,7 @@ export interface FarmsViewProps {
 
 export function FarmsView({ activeFarms, inactiveFarms, chainId }: FarmsViewProps) {
   return (
-    <PageLayout className="max-w-5xl gap-8 px-3 lg:px-0">
+    <PageLayout compact className="gap-8">
       <PageHeader chainId={chainId} />
       <div className="flex flex-col gap-8">
         {activeFarms.length > 0 && (

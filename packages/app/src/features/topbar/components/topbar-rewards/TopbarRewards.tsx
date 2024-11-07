@@ -38,42 +38,42 @@ export function TopbarRewards({ rewards, onClaim }: TopbarRewardsProps) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          data-testid={testIds.navbar.rewards.badge}
+          data-testid={testIds.topbar.rewards.badge}
           size="m"
           variant="tertiary"
           className="aspect-square [@media(min-width:1080px)]:aspect-auto"
         >
           <img src={assets.giftGradient} alt="Gift icon" className="h-6" />
           <span
-            data-testid={testIds.navbar.rewards.claimableRewards}
+            data-testid={testIds.topbar.rewards.claimableRewards}
             className="hidden [@media(min-width:1080px)]:block"
           >
             {USD_MOCK_TOKEN.formatUSD(totalClaimableReward, { compact: true })}
           </span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-80 p-1">
+      <DropdownMenuContent align="end" className="w-80 p-1" data-testid={testIds.topbar.rewards.details.dropdown}>
         <DropdownMenuGroup className="py-2">
-          <DropdownMenuLabel data-testid={testIds.navbar.rewards.details.tooltip}>Rewards</DropdownMenuLabel>
+          <DropdownMenuLabel>Rewards</DropdownMenuLabel>
 
           {rewards.map(({ token, amount }, index) => (
             <DropdownMenuItem
               className="pointer-events-none justify-between py-2"
               key={token.symbol}
-              data-testid={testIds.navbar.rewards.details.row(index)}
+              data-testid={testIds.topbar.rewards.details.row(index)}
             >
               <div className="flex items-center gap-2">
                 <img src={getTokenImage(token.symbol)} alt={`${token.symbol} icon`} className="h-6" />
 
                 <div className="typography-label-4">
-                  <span data-testid={testIds.navbar.rewards.details.amount}>
+                  <span data-testid={testIds.topbar.rewards.details.amount}>
                     {token.format(amount, { style: 'auto' })}
                   </span>{' '}
-                  <span data-testid={testIds.navbar.rewards.details.token}>{token.symbol}</span>
+                  <span data-testid={testIds.topbar.rewards.details.token}>{token.symbol}</span>
                 </div>
               </div>
 
-              <div className="typography-label-6 text-secondary" data-testid={testIds.navbar.rewards.details.amountUSD}>
+              <div className="typography-label-6 text-secondary" data-testid={testIds.topbar.rewards.details.amountUSD}>
                 {token.formatUSD(amount)}
               </div>
             </DropdownMenuItem>

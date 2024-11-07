@@ -15,11 +15,11 @@ import { useState } from 'react'
 
 export interface TopbarMenuProps {
   onSandboxModeClick: () => void
-  isSandboxEnabled: boolean
+  isInSandbox: boolean
   buildInfo: BuildInfo
 }
 
-export function TopbarMenu({ isSandboxEnabled, onSandboxModeClick, buildInfo }: TopbarMenuProps) {
+export function TopbarMenu({ isInSandbox, onSandboxModeClick, buildInfo }: TopbarMenuProps) {
   const [open, setOpen] = useState(false)
 
   const { sha = 'n/a', buildTime = 'n/a' } = buildInfo
@@ -42,7 +42,7 @@ export function TopbarMenu({ isSandboxEnabled, onSandboxModeClick, buildInfo }: 
           <div className="flex w-full items-center gap-2">
             <DropdownMenuItemIcon icon={WandIcon} />
             Sandbox Mode
-            <Switch checked={isSandboxEnabled} className="ml-auto" />
+            <Switch checked={isInSandbox} className="ml-auto" />
           </div>
           <div className="typography-label-5 text-secondary">
             Explore Spark with <br />

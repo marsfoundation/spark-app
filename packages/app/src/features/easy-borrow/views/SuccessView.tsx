@@ -24,7 +24,7 @@ export function SuccessView({ deposited, borrowed, runConfetti, borrowDetails }:
   const desktop = useBreakpoint('md')
 
   return (
-    <PageLayout className={cn('pt-8', desktop && 'pt-28')}>
+    <PageLayout compact className={cn('pt-8', desktop && 'pt-28')}>
       <Confetti run={runConfetti} recycle={false} numberOfPieces={1000} data-testid="react-confetti" />
       <div className="flex flex-col items-center justify-center">
         <img src={assets.success} alt="success-img" />

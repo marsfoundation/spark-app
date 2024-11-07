@@ -1,3 +1,4 @@
+import { getChainConfigEntry } from '@/config/chain'
 import { aaveDataLayer, aaveDataLayerQueryKey } from '@/domain/market-info/aave-data-layer/query'
 import { marketInfoSelectFn } from '@/domain/market-info/marketInfo'
 import { useOpenDialog } from '@/domain/state/dialogs'
@@ -11,17 +12,16 @@ import { useConfig } from 'wagmi'
 interface UseRewardsInfoParams {
   chainId: number
   address: CheckedAddress | undefined
-  enabled: boolean
 }
 
-export function useRewardsInfo({ chainId, address, enabled }: UseRewardsInfoParams): RewardsInfo {
+export function useRewardsInfo({ chainId, address }: UseRewardsInfoParams): RewardsInfo {
   const wagmiConfig = useConfig()
+  const { markets: marketsAvailable } = getChainConfigEntry(chainId)
 
   const marketInfo = useQuery({
     queryKey: aaveDataLayerQueryKey({ chainId, account: address }),
-    queryFn: enabled ? aaveDataLayer({ wagmiConfig, account: address, chainId }).queryFn : skipToken,
+    queryFn: marketsAvailable ? aaveDataLayer({ wagmiConfig, account: address, chainId }).queryFn : skipToken,
     select: useMemo(() => marketInfoSelectFn(), []),
-    enabled,
   })
 
   const openDialog = useOpenDialog()

@@ -3,7 +3,7 @@ import { PageLayout } from '@/ui/layouts/PageLayout'
 
 export function MyPortfolioSkeleton() {
   return (
-    <PageLayout className="max-w-6xl">
+    <PageLayout>
       <div className="flex h-full flex-col gap-6">
         <div className="flex flex-row gap-6">
           <Skeleton className="h-56 w-1/3" />

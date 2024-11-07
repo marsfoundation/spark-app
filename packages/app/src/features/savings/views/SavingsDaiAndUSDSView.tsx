@@ -1,7 +1,7 @@
 import { UseSavingsChartsInfoQueryResult } from '@/domain/savings-charts/useSavingsChartsInfoQuery'
+import { PageLayout } from '@/ui/layouts/PageLayout'
 import { assert, raise } from '@/utils/assert'
 import { PageHeader } from '../components/PageHeader'
-import { PageLayout } from '../components/PageLayout'
 import { DaiSavingsCharts } from '../components/savings-charts/DaiSavingsCharts'
 import { UsdsSavingsCharts } from '../components/savings-charts/UsdsSavingsCharts'
 import { SavingsOpportunity } from '../components/savings-opportunity/SavingsOpportunity'

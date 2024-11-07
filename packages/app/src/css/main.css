@@ -213,5 +213,22 @@
   input {
     background: none;
   }
-}
 
+  @property --gradient-from {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: transparent;
+  }
+
+  @property --gradient-via {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: transparent;
+  }
+
+  @property --gradient-to {
+    syntax: '<color>';
+    initial-value: transparent;
+    inherits: true;
+  }
+}

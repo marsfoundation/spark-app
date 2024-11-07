@@ -5,21 +5,19 @@ import { assets } from '@/ui/assets'
 import { Connector, useEnsAvatar, useEnsName } from 'wagmi'
 import { TopbarWalletProps } from '../../components/topbar-wallet/TopbarWallet'
 import { getWalletIcon } from './getWalletIcon'
-import { useDisconnect } from './useDisconnect'
-import { useNetworkChange } from './useNetworkChange'
 
 interface UseConnectedWalletInfoParams {
   address: CheckedAddress | undefined
   connector: Connector | undefined
   isInSandbox: boolean
-  deleteSandbox: () => void
+  onDisconnect: () => void
 }
 
 export function useConnectedWalletInfo({
   connector,
   address,
   isInSandbox,
-  deleteSandbox,
+  onDisconnect,
 }: UseConnectedWalletInfoParams): TopbarWalletProps['connectedWalletInfo'] {
   const { data: ensName } = useEnsName({
     address,
@@ -30,13 +28,6 @@ export function useConnectedWalletInfo({
   })
 
   const blockExplorerAddressLink = useBlockExplorerAddressLink({ address })
-
-  const { changeNetworkAsync } = useNetworkChange()
-  const { disconnect } = useDisconnect({
-    changeNetworkAsync,
-    deleteSandbox,
-    isInSandbox,
-  })
 
   if (!address || !connector) return undefined
 
@@ -50,7 +41,7 @@ export function useConnectedWalletInfo({
     dropdownContentInfo: {
       walletIcon: getWalletIcon(connector),
       address: CheckedAddress(address),
-      onDisconnect: disconnect,
+      onDisconnect,
       blockExplorerAddressLink,
     },
   }

@@ -1,16 +1,14 @@
-import { cx } from 'class-variance-authority'
-import { useState } from 'react'
-
 import { usePageChainId } from '@/domain/hooks/usePageChainId'
 import { useBannerVisibility } from '@/domain/state/bannersVisibility'
 import { useOpenDialog } from '@/domain/state/dialogs'
 import { selectNetworkDialogConfig } from '@/features/dialogs/select-network/SelectNetworkDialog'
-import { Navbar } from '@/features/navbar/Navbar'
+import { TopbarContainer } from '@/features/topbar/TopbarContainer'
 import { cn } from '@/ui/utils/style'
 import {
   SKY_MIGRATION_TOP_BANNER_ID,
   SkyMigrationTopBanner,
 } from '../../atoms/sky-migration-top-banner/SkyMigrationTopBanner'
+import { LayoutBackground } from './components/LayoutBackground'
 import { PageNotSupportedWarning } from './components/PageNotSupportedWarning'
 
 interface AppLayoutProps {
@@ -18,34 +16,36 @@ interface AppLayoutProps {
 }
 
 export function AppLayout({ children }: AppLayoutProps) {
-  const [mobileMenuCollapsed, setMobileMenuCollapsed] = useState(true)
   const { pageSupported, pageName } = usePageChainId()
   const { handleCloseBanner, showBanner } = useBannerVisibility(SKY_MIGRATION_TOP_BANNER_ID)
   const openDialog = useOpenDialog()
 
   return (
-    <div className={cn('flex min-h-screen flex-col')}>
-      {import.meta.env.VITE_FEATURE_TOP_BANNER === '1' && showBanner && (
-        <SkyMigrationTopBanner onClose={handleCloseBanner} />
+    <div
+      className={cn(
+        'grid min-h-screen w-full grid-cols-[1fr_calc(100%-48px)_1fr] grid-rows-[auto_auto_1fr_auto] items-start gap-x-[24px]',
+        'bg-secondary lg:grid-cols-[1fr_min(calc(100%-128px),1312px)_1fr] lg:gap-x-[64px]',
       )}
-      <Navbar
-        mobileMenuCollapsed={mobileMenuCollapsed}
-        setMobileMenuCollapsed={setMobileMenuCollapsed}
-        className="z-20"
-      />
-      <main className={cx('isolate flex w-full grow flex-col', !mobileMenuCollapsed && 'hidden lg:flex')}>
+    >
+      <LayoutBackground />
+
+      {import.meta.env.VITE_FEATURE_TOP_BANNER === '1' && showBanner && (
+        <SkyMigrationTopBanner onClose={handleCloseBanner} className="col-span-full " />
+      )}
+      <div className="z-30 col-start-2 col-end-2 my-2 lg:mt-6 lg:mb-10 sm:mb-8">
+        <TopbarContainer />
+      </div>
+
+      <main className="isolate z-20 col-span-full grid grid-cols-subgrid pb-16 [&>*]:col-start-2 [&>*]:col-end-2">
         {children}
-        {!pageSupported && (
-          <>
-            <div className="fixed inset-0 z-10 bg-gray-100/30 backdrop-blur-[1.5px]" aria-hidden="true" />
-            <PageNotSupportedWarning
-              pageName={pageName}
-              openNetworkSelectDialog={() => openDialog(selectNetworkDialogConfig, {})}
-              className="z-20"
-            />
-          </>
-        )}
       </main>
+
+      {!pageSupported && (
+        <PageNotSupportedWarning
+          pageName={pageName}
+          openNetworkSelectDialog={() => openDialog(selectNetworkDialogConfig, {})}
+        />
+      )}
     </div>
   )
 }

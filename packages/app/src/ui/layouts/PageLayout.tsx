@@ -1,12 +1,25 @@
+import { VariantProps, cva } from 'class-variance-authority'
 import { cn } from '../utils/style'
 
-export interface PageLayoutProps {
+const layoutVariants = cva('flex w-full flex-col gap-6', {
+  variants: {
+    // @todo: we need to remove this compact variant in the end
+    // since we need to have consistent layout across all pages.
+    // this was to simply adjustment before new designs were complete
+    compact: {
+      true: 'mx-auto max-w-5xl',
+    },
+  },
+  defaultVariants: {
+    compact: false,
+  },
+})
+
+export interface PageLayoutProps extends VariantProps<typeof layoutVariants> {
   children: React.ReactNode
   className?: string
 }
 
-export function PageLayout({ children, className }: PageLayoutProps) {
-  return (
-    <div className={cn('mx-auto flex w-full max-w-4xl flex-1 flex-col gap-4 pt-12 pb-16', className)}>{children}</div>
-  )
+export function PageLayout({ children, className, compact }: PageLayoutProps) {
+  return <div className={cn(layoutVariants({ compact }), className)}>{children}</div>
 }
