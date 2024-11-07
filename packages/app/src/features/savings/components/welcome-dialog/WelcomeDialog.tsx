@@ -22,7 +22,7 @@ export function WelcomeDialog({ open, onConfirm, apyImprovement }: WelcomeDialog
           width={686}
           height={341}
           alt="new-savings-welcome-banner"
-          className=" bg-contain bg-savings-welcome bg-no-repeat"
+          className=" w-full bg-cover bg-savings-welcome bg-no-repeat"
         />
         <div className="flex flex-col gap-8 p-4 sm:p-8">
           <h2 className="typography-heading-2 text-primary-inverse">Welcome USDS, the new upgraded DAI!</h2>
