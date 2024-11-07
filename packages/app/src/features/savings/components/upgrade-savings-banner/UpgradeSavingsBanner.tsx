@@ -23,7 +23,7 @@ export function UpgradeSavingsBanner({ onUpgradeSavingsClick, apyImprovement }: 
       className="flex items-center gap-4 overflow-hidden bg-[#E8F8EC] sm:gap-6"
       data-testid={testIds.savings.upgradeSDaiBanner}
     >
-      <img src={assets.banners.savingsUpgrade} alt="savings-upgrade-banner" className="-ml-6 w-32 sm:ml-0 sm:w-auto" />
+      <img src={assets.savings.upgradeBannerBg} alt="savings-upgrade-banner" className="-ml-6 w-32 sm:ml-0 sm:w-auto" />
       <div
         className={cn(
           'mx-auto grid grid-rows-[1fr_auto] items-center gap-x-6 gap-y-2 pr-4',

@@ -49,7 +49,7 @@ export function SavingsTokenPanel({
       spacing="m"
       className={cn(
         'flex flex-col justify-between gap-4 bg-right bg-no-repeat',
-        savingsType === 'sdai' ? 'bg-savings-dai-token-panel' : 'bg-savings-usds-token-panel',
+        savingsType === 'sdai' ? 'bg-sdai-token-panel' : 'bg-susds-token-panel',
       )}
       data-testid={testIds.savings[savingsType].panel}
     >

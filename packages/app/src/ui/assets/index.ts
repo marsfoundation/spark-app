@@ -1,6 +1,5 @@
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
-
 import { Percentage } from '@/domain/types/NumericValues'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import approve from './actions/approve.svg'
 import borrow from './actions/borrow.svg'
 import deposit from './actions/deposit.svg'
@@ -9,10 +8,7 @@ import exchange from './actions/exchange.svg'
 import repay from './actions/repay.svg'
 import withdraw from './actions/withdraw.svg'
 import arrowRight from './arrow-right.svg'
-import daiToUsdsUpgrade from './banners/dai-to-usds-upgrade.webp'
 import mkrToSkyTransform from './banners/mkr-to-sky-transform.svg'
-import newSavingsWelcome from './banners/new-savings-welcome.webp'
-import sdaiToSusdsUpgrade from './banners/sdai-to-susds-upgrade.webp'
 import boxArrowTopRight from './box-arrow-top-right.svg'
 import logoDark from './brand/logo-dark.svg'
 import logoGradientDark from './brand/logo-gradient-dark.svg'
@@ -60,7 +56,10 @@ import farmsIcon from './page/farms-icon.svg'
 import savingsIcon from './page/savings-icon.svg'
 import pause from './pause.svg'
 import rocket from './rocket.svg'
-import savingsUpgrade from './savings/savings-upgrade.svg'
+import daiUpgrade from './savings/dai-upgrade.webp'
+import savingsWelcome from './savings/savings-welcome.webp'
+import sdaiUpgrade from './savings/sdai-upgrade.webp'
+import upgradeBannerBg from './savings/upgrade-banner-bg.svg'
 import sliderThumb from './slider-thumb.svg'
 import snowflake from './snowflake.svg'
 import sparkIcon from './spark-icon.svg'
@@ -199,12 +198,14 @@ export const assets = {
     walletConnect,
     default: defaultWallet,
   },
+  savings: {
+    upgradeBannerBg,
+    daiUpgrade,
+    sdaiUpgrade,
+    savingsWelcome,
+  },
   banners: {
-    savingsUpgrade,
-    daiToUsdsUpgrade,
-    sdaiToSusdsUpgrade,
     mkrToSkyTransform,
-    newSavingsWelcome,
   },
   oracleProviders: {
     chainlink,
