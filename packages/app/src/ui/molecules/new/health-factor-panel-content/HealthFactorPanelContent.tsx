@@ -39,7 +39,7 @@ export const HealthFactorPanelContent = forwardRef<HTMLDivElement, HealthFactorP
             </p>
           </Info>
         </div>
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-8 p-8 pt-0 sm:p-0">
           <HealthFactorGauge value={hf} />
           {liquidationDetails && (
             <div className="flex flex-col">
