@@ -19,7 +19,7 @@ export function expectAssets(summary: string, assets: TestTokenWithValue[], asse
     }).format(asset.amount)
     const usdValueFormatted = USD_MOCK_TOKEN.formatUSD(NormalizedUnitNumber(worth))
 
-    expect(summary).toMatch(`${asset.asset}${amountFormatted}${usdValueFormatted}`)
+    expect(summary).toMatch(`${asset.asset}${amountFormatted} ${usdValueFormatted}`)
   }
 }
 

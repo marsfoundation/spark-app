@@ -32,7 +32,7 @@ export class DowngradeDialogPageObject extends DialogPageObject {
   }: { token: string; amount: string; usdValue: string }): Promise<void> {
     await expect(this.region.getByText('Congrats, all done!')).toBeVisible()
     const summary = await this.region.getByTestId(testIds.dialog.success).textContent()
-    await expect(summary).toMatch(`${token}${amount}${usdValue}`)
+    await expect(summary).toMatch(`${token}${amount} ${usdValue}`)
   }
   // #endregion assertions
 }

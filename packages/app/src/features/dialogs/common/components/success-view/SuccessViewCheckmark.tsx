@@ -1,10 +1,10 @@
-import { assets } from '@/ui/assets'
+import { IconBox } from '@/ui/atoms/new/icon-box/IconBox'
 
 export function SuccessViewCheckmark() {
   return (
     <div className="flex flex-col items-center gap-5">
-      <img src={assets.success} alt="success-img" />
-      <h2 className="font-semibold text-[1.75rem]">Congrats, all done!</h2>
+      <IconBox variant="success" size="xl" />
+      <h2 className="typography-heading-4 text-primary">Congrats, all done!</h2>
     </div>
   )
 }

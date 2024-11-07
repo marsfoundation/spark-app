@@ -16,12 +16,12 @@ export function SuccessView({ collateralSetting, token, onProceed }: SuccessView
   return (
     <SuccessViewContent>
       <SuccessViewCheckmark />
-      <SuccessViewSummaryPanel>
+      <SuccessViewSummaryPanel className="typography-label-4 text-primary">
         <div className="flex items-center gap-2">
-          <TokenIcon token={token} className="h-6" />
-          <strong className="font-semibold text-basics-black">{token.symbol}</strong>
+          <TokenIcon token={token} className="h-5" />
+          {token.symbol}
         </div>
-        <h3 className="text-basics-black">Collateral {collateralActionToVerb[collateralSetting]}</h3>
+        <h3>Collateral {collateralActionToVerb[collateralSetting]}</h3>
       </SuccessViewSummaryPanel>
       <SuccessViewProceedButton onProceed={onProceed}>View in portfolio</SuccessViewProceedButton>
     </SuccessViewContent>

@@ -1,4 +1,5 @@
 import { Reward } from '@/features/navbar/components/rewards-badge/types'
+import { SuccessViewPanelTitle } from '../../common/components/success-view/SuccessPanelTitle'
 import { SuccessViewCheckmark } from '../../common/components/success-view/SuccessViewCheckmark'
 import { SuccessViewContent } from '../../common/components/success-view/SuccessViewContent'
 import { SuccessViewProceedButton } from '../../common/components/success-view/SuccessViewProceedButton'
@@ -14,10 +15,8 @@ export function SuccessView({ claimedRewards, onClose }: SuccessViewProps) {
     <SuccessViewContent>
       <SuccessViewCheckmark />
       <SuccessViewSummaryPanel>
-        <div className="flex w-full flex-col">
-          <div className="mb-2 font-semibold text-primary text-xs">Claimed</div>
-          <RewardsList rewards={claimedRewards} />
-        </div>
+        <SuccessViewPanelTitle>Claimed</SuccessViewPanelTitle>
+        <RewardsList rewards={claimedRewards} />
       </SuccessViewSummaryPanel>
       <SuccessViewProceedButton onProceed={onClose}>Close</SuccessViewProceedButton>
     </SuccessViewContent>
