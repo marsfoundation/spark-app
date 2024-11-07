@@ -1,12 +1,12 @@
 import { UserPositionSummary } from '@/domain/market-info/marketInfo'
 import { Percentage } from '@/domain/types/NumericValues'
+import EasyBorrowConnector from '@/ui/assets/easy-borrow-connector.svg?react'
 import { nonZeroOrDefault } from '@/utils/bigNumber'
 import { UseFormReturn } from 'react-hook-form'
 import { FormFieldsForAssetClass } from '../../logic/form/form'
 import { EasyBorrowFormSchema } from '../../logic/form/validation'
 import { ExistingPosition } from '../../logic/types'
 import { Borrow } from './Borrow'
-import { Connector } from './Connector'
 import { Deposits } from './Deposits'
 import { LoanToValuePanel } from './LoanToValuePanel'
 
@@ -56,7 +56,7 @@ export function EasyBorrowForm(props: EasyBorrowFlowProps) {
           control={form.control}
           disabled={disabled}
         />
-        <Connector className="absolute top-[80px] right-0 left-0 mx-auto hidden w-[68px] md:block" />
+        <EasyBorrowConnector className="absolute top-[80px] right-0 left-0 mx-auto hidden w-[68px] md:block" />
       </div>
 
       <LoanToValuePanel
