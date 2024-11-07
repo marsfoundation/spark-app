@@ -35,7 +35,7 @@ DialogOverlay.displayName = DialogPrimitive.Overlay.displayName
 const contentVariants = cva(
   cn(
     'fixed top-[50%] left-[50%] z-50 max-h-screen min-h-screen w-full max-w-full translate-x-[-50%] md:w-[686px]',
-    'flex flex-col overflow-hidden overflow-y-auto bg-primary duration-200 md:max-h-[90vh] md:min-h-fit md:rounded-md',
+    '!duration-200 flex flex-col overflow-hidden overflow-y-auto bg-primary md:max-h-[90vh] md:min-h-fit md:rounded-md',
     'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
     'data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2',
     'data-[state=open]:slide-in-from-top-[48%] data-[state=closed]:animate-out data-[state=open]:animate-in',
@@ -45,7 +45,11 @@ const contentVariants = cva(
       contentVerticalPosition: {
         center: '-translate-y-1/2 top-1/2',
         top: 'top-0 translate-y-0',
-        bottom: '-translate-y-full top-full',
+        bottom: cn(
+          '-translate-y-full !zoom-out-100 !zoom-in-100',
+          'data-[state=open]:slide-in-from-top-[0%] data-[state=closed]:fade-out-[100%] data-[state=open]:fade-in-[100%]',
+          '!duration-300 top-full max-h-[90vh] min-h-0 min-h-auto rounded-t-md',
+        ),
       },
       spacing: {
         none: 'p-0',
