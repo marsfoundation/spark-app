@@ -10,26 +10,26 @@ export interface SelectNetworkDialogViewProps {
 export function SelectNetworkDialogView({ chains }: SelectNetworkDialogViewProps) {
   return (
     <MultiPanelDialog>
-      <DialogTitle>Select network</DialogTitle>
-      <div className="flex flex-col gap-4">
+      <DialogTitle className="py-2 md:p-0">Select network</DialogTitle>
+      <div className="flex flex-col gap-3.5">
         {chains.map((chain) => (
           <div
             className={cn(
-              'flex flex-col rounded-xl border border-basics-border',
-              'hover:-translate-y-1 hover:shadow-tooltip',
+              'flex flex-col rounded-sm border border-border-primary',
+              'hover:-translate-y-1 hover:shadow-lg',
               'cursor-pointer transition-all duration-300',
-              chain.selected && 'border-main-blue',
-              !chain.selected && 'hover:border-main-blue/50',
+              chain.selected && 'border-brand-tertiary',
+              !chain.selected && 'hover:border-brand-primary',
             )}
             onClick={() => chain.onSelect()}
             key={chain.name}
           >
-            <div className="mx-4 flex items-center gap-2 border-basics-border border-b py-5">
+            <div className="typography-label-4 flex items-center gap-2 border-b px-4 py-5">
               <img src={chain.logo} className="h-6 w-6" />
-              <span className="font-semibold text-base text-basics-black">{chain.name}</span>
+              {chain.name}
             </div>
-            <div className="p-4 text-sm">
-              <span className="text-prompt-foreground">Network available for:</span> {chain.supportedPages.join(', ')}
+            <div className="typography-label-6 p-4">
+              <span className="text-secondary">Network available for:</span> {chain.supportedPages.join(', ')}
             </div>
           </div>
         ))}
