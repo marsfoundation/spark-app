@@ -26,7 +26,7 @@ export function YieldingFixedOraclePanel({
       <div>
         <div className="mb-1 text-basics-dark-grey text-sm leading-none sm:text-xs sm:leading-none">Oracle type</div>
         <div className="flex items-center gap-2">
-          <div className="typography-label-4 text-primary">
+          <div className="typography-heading-5 text-primary">
             Yielding Fixed Price{' '}
             {providedBy.length > 1 && <span className="font-medium text-basics-dark-grey">(Redundant)</span>}
           </div>

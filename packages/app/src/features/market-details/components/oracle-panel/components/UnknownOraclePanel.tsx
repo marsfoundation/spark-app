@@ -9,7 +9,7 @@ export function UnknownOraclePanel({ chainId, token, price, priceOracleAddress }
   return (
     <Panel className="flex flex-col gap-4">
       <div className="flex items-center gap-2">
-        <div className="typography-label-4 text-primary">Oracle</div>
+        <div className="typography-heading-5 text-primary">Oracle</div>
       </div>
       <div className="flex flex-col gap-4 sm:gap-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:gap-10">

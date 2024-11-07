@@ -12,7 +12,7 @@ export function FixedOraclePanel({ chainId, price, priceOracleAddress, token }: 
       <div>
         <div className="typography-label-6 mb-1 text-secondary">Oracle type</div>
         <div className="flex items-center gap-2">
-          <div className="typography-label-4 text-primary">Fixed Price</div>
+          <div className="typography-heading-5 text-primary">Fixed Price</div>
           <Info size={16}>
             The asset price is set by a contract at a predefined value, adjustable only through Sky governance
             decisions.

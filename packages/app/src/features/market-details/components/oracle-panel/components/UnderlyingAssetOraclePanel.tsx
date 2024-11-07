@@ -12,7 +12,7 @@ export function UnderlyingAssetOraclePanel({ asset, chainId, priceOracleAddress,
       <div>
         <div className="typography-label-6 mb-1 text-secondary">Oracle type</div>
         <div className="flex items-center gap-2">
-          <div className="typography-label-4 text-primary">Underlying Asset Price</div>
+          <div className="typography-heading-5 text-primary">Underlying Asset Price</div>
           <Info size={16}>
             The asset price is derived from a market price oracle tracking the value of the underlying asset. Sky
             Governance controls which oracle is used.

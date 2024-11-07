@@ -13,7 +13,7 @@ export function MarketOraclePanel({ providedBy, chainId, price, priceOracleAddre
       <div>
         <div className="typography-label-6 mb-1 text-secondary">Oracle type</div>
         <div className="flex items-center gap-2">
-          <div className="typography-label-4 text-primary">
+          <div className="typography-heading-5 text-primary">
             Market Price {providedBy.length > 1 && <span className="text-secondary">(Redundant)</span>}
           </div>
           <Info size={16}>
