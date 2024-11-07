@@ -23,7 +23,8 @@ export function AppLayout({ children }: AppLayoutProps) {
   return (
     <div
       className={cn(
-        'grid min-h-screen w-full grid-cols-[1fr_calc(100%-48px)_1fr] grid-rows-[auto_auto_1fr_auto] items-start gap-x-[24px]',
+        // width of the content is calculated by the formula: 100% - 2*padding
+        'grid min-h-screen w-full grid-cols-[1fr_calc(100%-40px)_1fr] grid-rows-[auto_auto_1fr_auto] items-start gap-x-[20px]',
         'bg-secondary lg:grid-cols-[1fr_min(calc(100%-128px),1312px)_1fr] lg:gap-x-[64px]',
       )}
     >
