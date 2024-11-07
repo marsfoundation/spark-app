@@ -71,7 +71,7 @@
     "deepmerge-ts": "^5.1.0",
     "fetch-retry": "^5.0.6",
     "jsbi": "^3.2.5",
-    "lucide-react": "^0.284.0",
+    "lucide-react": "^0.454.0",
     "react": "^18.2.0",
     "react-confetti": "^6.1.0",
     "react-dom": "^18.2.0",
