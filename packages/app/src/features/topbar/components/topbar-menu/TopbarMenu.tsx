@@ -1,3 +1,4 @@
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/ui/atoms/dialog/Dialog'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,28 +8,87 @@ import {
 } from '@/ui/atoms/dropdown/DropdownMenu'
 import { Link } from '@/ui/atoms/link/Link'
 import { IconButton } from '@/ui/atoms/new/icon-button/IconButton'
+import { MenuItem, MenuItemIcon } from '@/ui/atoms/new/menu-item/MenuItem'
 import { Switch } from '@/ui/atoms/new/switch/Switch'
 import { links } from '@/ui/constants/links'
 import { BuildInfo } from '@/ui/utils/getBuildInfo'
 import { ExternalLinkIcon, MenuIcon, ScrollTextIcon, WandIcon } from 'lucide-react'
 import { useState } from 'react'
+import { TopbarAirdropProps } from '../topbar-airdrop/TopbarAirdrop'
+import { TopbarRewardsProps } from '../topbar-rewards/TopbarRewards'
+import { TopbarMenuAirdropItem } from './components/TopbarMenuAirdropItem'
+import { TopbarMenuRewardsItem } from './components/TopbarMenuRewardsItem'
 
 export interface TopbarMenuProps {
   onSandboxModeClick: () => void
   isInSandbox: boolean
+  isMobileDisplay: boolean
   buildInfo: BuildInfo
+  rewardsInfo: TopbarRewardsProps
+  airdropInfo: TopbarAirdropProps
 }
 
-export function TopbarMenu({ isInSandbox, onSandboxModeClick, buildInfo }: TopbarMenuProps) {
+export function TopbarMenu({
+  isInSandbox,
+  onSandboxModeClick,
+  buildInfo,
+  isMobileDisplay,
+  rewardsInfo,
+  airdropInfo,
+}: TopbarMenuProps) {
   const [open, setOpen] = useState(false)
 
   const { sha = 'n/a', buildTime = 'n/a' } = buildInfo
 
+  const triggerButton = <IconButton icon={MenuIcon} variant="tertiary" size="m" />
+
+  if (isMobileDisplay) {
+    return (
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger asChild>{triggerButton}</DialogTrigger>
+        <DialogContent overlayVariant="default" contentVerticalPosition="bottom" className="p-0">
+          <DialogTitle className="border-primary border-b p-5 pt-6">Menu</DialogTitle>
+
+          <TopbarMenuRewardsItem {...rewardsInfo} />
+
+          <TopbarMenuAirdropItem {...airdropInfo} />
+
+          <MenuItem
+            variant="secondary"
+            className="cursor-pointer flex-col items-start rounded-none p-6"
+            onClick={onSandboxModeClick}
+            withSeparator
+          >
+            <div className="flex w-full items-center gap-2">
+              <MenuItemIcon icon={WandIcon} />
+              Sandbox Mode
+              <Switch checked={isInSandbox} className="ml-auto" />
+            </div>
+            <div className="typography-label-5 text-secondary">
+              Explore Spark with <br />
+              unlimited tokens
+            </div>
+          </MenuItem>
+
+          <MenuItem asChild variant="secondary" className="rounded-none p-6" withSeparator>
+            <Link to={links.termsOfUse} external className="!text-primary cursor-pointer">
+              <MenuItemIcon icon={ScrollTextIcon} />
+              Terms of Service
+              <DropdownMenuItemIcon icon={ExternalLinkIcon} className="ml-auto" />
+            </Link>
+          </MenuItem>
+
+          <Link to={links.github} external className="typography-label-6 !text-secondary bg-secondary p-6 text-center">
+            Built from {sha} at {buildTime}
+          </Link>
+        </DialogContent>
+      </Dialog>
+    )
+  }
+
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
-      <DropdownMenuTrigger asChild>
-        <IconButton icon={MenuIcon} variant="tertiary" size="m" />
-      </DropdownMenuTrigger>
+      <DropdownMenuTrigger asChild>{triggerButton}</DropdownMenuTrigger>
       <DropdownMenuContent align="end" variant="secondary" className="flex w-80 flex-col gap-1.5 p-1">
         <DropdownMenuItem
           variant="secondary"
