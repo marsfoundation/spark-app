@@ -13,13 +13,13 @@ export interface EasyBorrowSidePanelProps extends BorrowDetails {
 
 export function EasyBorrowSidePanel({ hf, liquidationDetails, borrowRate, dai, usds }: EasyBorrowSidePanelProps) {
   return (
-    <Panel variant="secondary" spacing="none" className="h-fit">
+    <Panel variant="secondary" spacing="none" className="grid h-fit grid-cols-1 sm:grid-cols-[3fr_2fr] xl:grid-cols-1">
       {hf && (
-        <div className="p-2 md:p-6 sm:p-3">
+        <div className="p-4 md:p-6">
           <HealthFactorPanelContent hf={hf} liquidationDetails={liquidationDetails} />
         </div>
       )}
-      <Panel variant="quaternary" spacing="s" className="flex flex-col gap-3">
+      <Panel variant="quaternary" spacing="m" className="flex flex-col justify-end gap-3 only:col-span-2">
         <h4 className="typography-label-2">Borrow Rate</h4>
         <div className="flex flex-col gap-3">
           <h3
