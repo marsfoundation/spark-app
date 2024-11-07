@@ -1,7 +1,7 @@
 import { assets } from '@/ui/assets'
 import MagicWand from '@/ui/assets/magic-wand.svg?react'
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
-import { ActionButton } from '@/ui/molecules/action-button/ActionButton'
+import { Button } from '@/ui/atoms/new/button/Button'
 import { Alert } from '@/ui/molecules/new/alert/Alert'
 
 export interface SandboxDialogViewProps {
@@ -51,9 +51,9 @@ export function SandboxDialogView({
         ))}
       </ul>
       {isError && error && <Alert variant="warning">{error.message}</Alert>}
-      <ActionButton isLoading={isPending} onClick={onActionButtonClick} isDone={isInSandbox} variant="primary" size="l">
-        {isInSandbox ? 'Sandbox Mode already activated' : 'Activate Sandbox Mode'}
-      </ActionButton>
+      <Button loading={isPending} onClick={onActionButtonClick} size="l">
+        Active Sandbox Mode
+      </Button>
     </div>
   )
 }

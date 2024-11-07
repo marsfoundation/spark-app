@@ -1,5 +1,5 @@
-import { LinkDecorator } from '@/ui/atoms/link-decorator/LinkDecorator'
-import { IconButton } from '@/ui/atoms/new/icon-button/IconButton'
+import { ButtonIcon } from '@/ui/atoms/new/button/Button'
+import { LinkButton } from '@/ui/atoms/new/link-button/LinkButton'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { SquareArrowOutUpRight } from 'lucide-react'
@@ -37,9 +37,9 @@ export const AddressInput = forwardRef<HTMLInputElement, AddressInputProps>(
             {...rest}
           />
           {blockExplorerUrl && (
-            <LinkDecorator to={blockExplorerUrl} external>
-              <IconButton icon={SquareArrowOutUpRight} size="s" variant="transparent" />
-            </LinkDecorator>
+            <LinkButton to={blockExplorerUrl} variant="transparent" size="s" className="h-fit rounded-[1px] p-0">
+              <ButtonIcon icon={SquareArrowOutUpRight} />
+            </LinkButton>
           )}
         </div>
         {error && (

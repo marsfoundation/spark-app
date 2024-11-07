@@ -37,6 +37,7 @@ export const buttonVariants = cva(
           'hover:text-reskin-neutral-700',
           'active:text-reskin-neutral-900',
           'disabled:cursor-not-allowed disabled:text-reskin-neutral-300',
+          'focus-visible:bg-transparent',
         ),
         loading: 'cursor-wait bg-reskin-neutral-50 text-reskin-base-white',
       },
