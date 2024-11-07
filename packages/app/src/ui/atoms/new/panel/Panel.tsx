@@ -34,4 +34,8 @@ const panelVariants = cva('rounded-sm', {
       m: 'p-3 md:p-8 sm:p-5',
     },
   },
+  defaultVariants: {
+    variant: 'primary',
+    spacing: 'm',
+  },
 })

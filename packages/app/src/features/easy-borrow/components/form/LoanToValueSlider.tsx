@@ -2,34 +2,34 @@ import { valueToBigNumber } from '@aave/math-utils'
 import * as SliderPrimitive from '@radix-ui/react-slider'
 
 import { formatPercentage } from '@/domain/common/format'
-import { MODERATE_HEALTH_FACTOR_THRESHOLD, RISKY_HEALTH_FACTOR_THRESHOLD } from '@/domain/common/risk'
+import { MODERATE_HEALTH_FACTOR_THRESHOLD, RISKY_HEALTH_FACTOR_THRESHOLD, RiskLevel } from '@/domain/common/risk'
 import { healthFactorToLtv } from '@/domain/market-info/math'
 import { Percentage } from '@/domain/types/NumericValues'
 import { assets } from '@/ui/assets'
-import { Typography } from '@/ui/atoms/typography/Typography'
 import { cn } from '@/ui/utils/style'
 
 export interface LoanToValueSliderProps {
-  className: string
   ltv: Percentage
   maxAvailableLtv: Percentage
   liquidationLtv: Percentage
-  disabled?: boolean
   onLtvChange: (value: Percentage) => void
+  disabled?: boolean
+  className?: string
 }
 
 export function LoanToValueSlider({
-  className,
   maxAvailableLtv,
   liquidationLtv,
   disabled,
   ltv,
+  className,
   onLtvChange,
 }: LoanToValueSliderProps) {
   const steps = getSliderSteps(liquidationLtv)
   const value = ltv.toNumber() * maxSliderValue
   const maxSelectableValue = maxAvailableLtv.toNumber() * maxSliderValue
   const liquidationValue = liquidationLtv.toNumber() * 100
+  const currentRiskLevel = getRiskLevel(steps, ltv)
 
   // eslint-disable-next-line func-style
   const onValueChange = (values: number[]) => {
@@ -41,70 +41,87 @@ export function LoanToValueSlider({
   }
 
   return (
-    <SliderPrimitive.Root
-      disabled={disabled}
-      className={cn('relative mb-8 flex w-full touch-none select-none items-center', className)}
-      max={maxSliderValue}
-      value={[value]}
-      onValueChange={onValueChange}
-    >
-      <SliderPrimitive.Track className="relative h-6 w-full rounded-lg border bg-white">
-        {steps.map((step, index) => (
-          <div
-            key={step.label}
-            className={cn(
-              'absolute flex h-full items-center justify-center transition-colors duration-300',
-              (value / maxSliderValue) * 100 >= step.from &&
-                (step.noUpperLimit || (value / maxSliderValue) * 100 < step.from + step.width)
-                ? step.colorActive
-                : step.colorInactive,
-              index === 0 && 'rounded-s-lg',
-            )}
-            style={{
-              width: `${step.width}%`,
-              left: `${step.from}%`,
-            }}
-          >
-            <Typography variant="prompt" className={cn('-bottom-6 absolute text-primary')}>
-              {step.label}
-            </Typography>
-          </div>
-        ))}
-
-        <div
-          className="absolute h-full w-1 bg-primary-bg"
+    <div className={cn('px-2.5', className)}>
+      <SliderPrimitive.Root
+        disabled={disabled}
+        className="relative my-8 flex w-full touch-none select-none items-center"
+        max={maxSliderValue}
+        value={[value]}
+        onValueChange={onValueChange}
+      >
+        <SliderPrimitive.Track
+          className="relative grid h-5 w-full gap-0.5"
           style={{
-            left: `${(maxSelectableValue / maxSliderValue) * 100}%`,
-          }}
-        />
-
-        <div
-          className="absolute flex h-full w-1 items-center justify-center bg-product-red"
-          style={{
-            left: `${liquidationValue}%`,
+            gridTemplateColumns: getSliderStepsGridTemplateColumns(steps),
           }}
         >
-          <Typography
-            variant="prompt"
-            className={cn('absolute text-product-red', liquidationValue < 70 ? '-bottom-14' : '-bottom-6')}
+          {steps.map((step, index, arr) => {
+            const isActive = step.level === currentRiskLevel
+            const isFirst = index === 0
+            const isLast = index === arr.length - 1
+
+            return (
+              <div
+                key={step.label}
+                className={cn(
+                  'flex h-full items-center justify-center bg-tertiary transition-colors duration-300',
+                  isFirst && '-ml-2.5 rounded-s-full',
+                  isLast && '-ml-0.5 -mr-1 rounded-e-full',
+                )}
+              >
+                <div className={cn('-bottom-6 typography-label-6 absolute text-secondary', isActive && 'text-primary')}>
+                  {step.label}
+                </div>
+              </div>
+            )
+          })}
+
+          <div
+            className="absolute top-0.5 bottom-0.5 w-0.5 bg-gradient-spark-primary"
+            style={{
+              left: `${(maxSelectableValue / maxSliderValue) * 100}%`,
+            }}
+          />
+
+          <div
+            className="absolute flex h-full w-0.5 justify-center"
+            style={{
+              left: `${liquidationValue}%`,
+            }}
           >
-            Liquidation
-          </Typography>
-          <Typography className={cn('absolute bottom-8 text-product-red')} variant="prompt">
-            {formatPercentage(liquidationLtv)}
-          </Typography>
-        </div>
+            <div
+              className="absolute top-0.5 bottom-0.5 w-0.5 bg-gradient-ltv-red"
+              style={{
+                left: `${(maxSelectableValue / maxSliderValue) * 100}%`,
+              }}
+            />
+            <div className="typography-heading-7 absolute bottom-7 bg-gradient-spark-primary bg-clip-text text-transparent">
+              {formatPercentage(liquidationLtv)}
+            </div>
+          </div>
 
-        <SliderPrimitive.Range className="absolute h-full bg-transparent" />
-      </SliderPrimitive.Track>
+          <SliderPrimitive.Range
+            className={cn(
+              '-mr-2.5 -ml-2.5 absolute h-full rounded-full',
+              currentRiskLevel === 'healthy' && 'bg-gradient-ltv-green',
+              currentRiskLevel === 'moderate' && 'bg-gradient-ltv-orange',
+              currentRiskLevel === 'risky' && 'bg-gradient-ltv-red',
+            )}
+          />
+        </SliderPrimitive.Track>
 
-      <SliderPrimitive.Thumb className="blockshadow transition-colors disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none">
-        <img
-          className={cn('transform transition-transform', !disabled && 'hover:scale-125')}
-          src={assets.sliderThumb}
-        />
-      </SliderPrimitive.Thumb>
-    </SliderPrimitive.Root>
+        <SliderPrimitive.Thumb className="transition-colors disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none">
+          <div
+            className={cn(
+              'flex transform items-center justify-center rounded-full bg-basics-white p-0.5 transition-transform',
+              !disabled && 'hover:scale-125',
+            )}
+          >
+            <img className="h-3 w-3" src={assets.sliderThumb} />
+          </div>
+        </SliderPrimitive.Thumb>
+      </SliderPrimitive.Root>
+    </div>
   )
 }
 
@@ -112,38 +129,50 @@ const maxSliderValue = 10000
 
 interface Step {
   label: string
+  level: RiskLevel
   width: number
   from: number
-  colorActive: string
-  colorInactive: string
-  noUpperLimit?: boolean
 }
 
 function getSliderSteps(liquidationThreshold: Percentage): Step[] {
   const conservative: Step = {
     from: 0,
     width: healthFactorToLtv(MODERATE_HEALTH_FACTOR_THRESHOLD, liquidationThreshold).toNumber() * 100,
-    colorActive: 'bg-product-green',
-    colorInactive: 'bg-product-green/inactive',
+    level: 'healthy',
     label: 'Conservative',
   }
 
   const moderate: Step = {
     from: conservative.width,
     width: healthFactorToLtv(RISKY_HEALTH_FACTOR_THRESHOLD, liquidationThreshold).toNumber() * 100 - conservative.width,
-    colorActive: 'bg-product-orange',
-    colorInactive: 'bg-product-orange/inactive',
+    level: 'moderate',
     label: 'Moderate',
   }
 
   const aggressive: Step = {
     from: conservative.width + moderate.width,
     width: liquidationThreshold.toNumber() * 100 - conservative.width - moderate.width,
-    colorActive: 'bg-product-red',
-    colorInactive: 'bg-product-red/inactive',
+    level: 'risky',
     label: 'Aggressive',
-    noUpperLimit: true,
   }
 
-  return [conservative, moderate, aggressive]
+  const liquidation: Step = {
+    from: conservative.width + moderate.width + aggressive.width,
+    width: 100 - conservative.width - moderate.width - aggressive.width,
+    level: 'liquidation',
+    label: 'Liquidation',
+  }
+
+  return [conservative, moderate, aggressive, liquidation]
+}
+
+function getSliderStepsGridTemplateColumns(steps: Step[]): string {
+  return steps.map((step) => `${step.width.toFixed(2)}%`).join(' ')
+}
+
+function getRiskLevel(steps: Step[], ltv: Percentage): RiskLevel {
+  return (
+    steps.find((step) => ltv.toNumber() * 100 >= step.from && ltv.toNumber() * 100 < step.from + step.width)?.level ??
+    'unknown'
+  )
 }

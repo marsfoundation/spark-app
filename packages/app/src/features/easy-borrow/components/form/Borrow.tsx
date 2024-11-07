@@ -1,8 +1,8 @@
 import { TokenWithBalance } from '@/domain/common/types'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { Typography } from '@/ui/atoms/typography/Typography'
-import { AssetSelector } from '@/ui/molecules/asset-selector/AssetSelector'
-import { ControlledMultiSelectorAssetInput } from '@/ui/organisms/multi-selector/MultiSelector'
+import { Panel } from '@/ui/atoms/new/panel/Panel'
+import { AssetInput } from '@/ui/organisms/new/asset-input/AssetInput'
+import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { raise } from '@/utils/assert'
 import { Control } from 'react-hook-form'
@@ -16,34 +16,32 @@ interface BorrowProps {
   changeAsset: (index: number, newSymbol: TokenSymbol) => void
   alreadyBorrowed: ExistingPosition
   control: Control<EasyBorrowFormSchema>
-  disabled: boolean
+  disabled?: boolean
 }
 
 export function Borrow({ selectedAssets, allAssets, changeAsset, alreadyBorrowed, control, disabled }: BorrowProps) {
-  const { token } = selectedAssets[0] ?? raise('No borrow token selected')
+  const selectedAsset = selectedAssets[0] ?? raise('No borrow token selected')
+  const showTokenSummary = alreadyBorrowed.tokens.length > 0
 
   return (
-    <div data-testid={testIds.easyBorrow.form.borrow} className="flex flex-1 flex-col">
-      <Typography variant="h4" className="flex h-10 items-center">
-        Borrow
-      </Typography>
+    <Panel className="flex flex-col" data-testid={testIds.easyBorrow.form.borrow} spacing="none">
+      <Panel className={cn('flex flex-1 flex-col gap-4 bg-primary', showTokenSummary && 'rounded-b-none')}>
+        <h4 className="typography-label-2 h-8 text-primary">Borrow</h4>
 
-      {alreadyBorrowed.tokens.length > 0 && <TokenSummary position={alreadyBorrowed} type="borrow" />}
-
-      <div className="mt-2 flex flex-row items-start gap-2">
-        <AssetSelector
-          assets={allAssets}
-          selectedAsset={token}
+        <AssetInput
+          fieldName={'assetsToBorrow.0.value'}
+          control={control}
+          selectorAssets={allAssets.filter((s) => !selectedAssets.some((a) => a.token.symbol === s.token.symbol))}
+          selectedAsset={selectedAsset}
           setSelectedAsset={(newAsset) => changeAsset(0, newAsset)}
           disabled={disabled}
         />
-        <ControlledMultiSelectorAssetInput
-          fieldName="assetsToBorrow.0.value"
-          control={control}
-          disabled={disabled}
-          token={token}
-        />
-      </div>
-    </div>
+      </Panel>
+      {showTokenSummary && (
+        <Panel className="rounded-t-none bg-secondary px-8 py-3.5" spacing="none">
+          <TokenSummary position={alreadyBorrowed} type="borrow" />
+        </Panel>
+      )}
+    </Panel>
   )
 }

@@ -77,6 +77,7 @@ export const WithLabel: Story = {
 export const Errored: Story = {
   args: {
     error: 'Provided value is incorrect',
+    showError: true,
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
