@@ -35,7 +35,11 @@ export const TopbarWalletButton = forwardRef<HTMLButtonElement, TopbarWalletButt
     const chevron = (
       <ButtonIcon
         icon={ChevronUp}
-        className={cn(open ? 'rotate-0 text-brand' : 'rotate-180 text-secondary', '!icon-xs ml-auto')}
+        className={cn(
+          'hidden md:block',
+          open ? 'rotate-0 text-brand' : 'rotate-180 text-secondary',
+          '!icon-xs ml-auto',
+        )}
       />
     )
 

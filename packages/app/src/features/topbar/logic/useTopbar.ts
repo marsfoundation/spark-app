@@ -18,7 +18,11 @@ import { useNetworkChange } from './useNetworkChange'
 import { useRewardsInfo } from './useRewardsInfo'
 import { useSavingsInfo } from './useSavingsInfo'
 
-export function useTopbar(): TopbarProps {
+interface UseTopbarParams {
+  isMobileDisplay: boolean
+}
+
+export function useTopbar({ isMobileDisplay }: UseTopbarParams): TopbarProps {
   const currentChainId = useChainId()
   const chains = useChains()
   const { openConnectModal = () => {} } = useConnectModal()
@@ -49,6 +53,7 @@ export function useTopbar(): TopbarProps {
     connector,
     isInSandbox,
     onDisconnect: disconnect,
+    isMobileDisplay,
   })
 
   const supportedChains: SupportedChain[] = chains.map((chain) => {
@@ -67,11 +72,13 @@ export function useTopbar(): TopbarProps {
   const { daiSymbol, usdsSymbol } = getChainConfigEntry(currentChain.id)
 
   function openSandboxDialog(): void {
-    openDialog(sandboxDialogConfig, { mode: 'ephemeral' } as const)
+    openDialog(sandboxDialogConfig, { mode: 'ephemeral', asDrawer: isMobileDisplay } as const)
   }
 
   function openSelectNetworkDialog(): void {
-    openDialog(selectNetworkDialogConfig, {})
+    openDialog(selectNetworkDialogConfig, {
+      asDrawer: isMobileDisplay,
+    })
   }
 
   return {
@@ -79,6 +86,9 @@ export function useTopbar(): TopbarProps {
       onSandboxModeClick: isInSandbox ? disconnect : openSandboxDialog,
       isInSandbox,
       buildInfo: getBuildInfo(),
+      isMobileDisplay,
+      airdropInfo,
+      rewardsInfo,
     },
     navigationInfo: {
       savingsInfo,
@@ -98,5 +108,6 @@ export function useTopbar(): TopbarProps {
     },
     airdropInfo,
     rewardsInfo,
+    isMobileDisplay,
   }
 }

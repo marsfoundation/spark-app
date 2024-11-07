@@ -1,6 +1,6 @@
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { EnsName } from '@/domain/types/EnsName'
-import { Address } from '@/ui/atoms/address/Address'
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/ui/atoms/dialog/Dialog'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,11 +9,12 @@ import {
   DropdownMenuSeparator,
 } from '@/ui/atoms/dropdown/DropdownMenu'
 import { Link } from '@/ui/atoms/link/Link'
+import { MenuItem, MenuItemIcon } from '@/ui/atoms/new/menu-item/MenuItem'
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
-import { ExternalLink, Unplug } from 'lucide-react'
+import { ExternalLink, UnplugIcon } from 'lucide-react'
 import { useState } from 'react'
-import { CopyButton } from '../../../../ui/molecules/new/copy-button/CopyButton'
 import { TopbarWalletButton } from './TopbarWalletButton'
+import { TopbarWalletAddressDisplay } from './components/TopbarWalletAddressDisplay'
 
 export interface TopbarWalletDropdownTriggerInfo {
   mode: 'sandbox' | 'connected'
@@ -32,45 +33,70 @@ export interface TopbarWalletDropdownContentInfo {
 export interface TopbarWalletDropdownProps {
   dropdownTriggerInfo: TopbarWalletDropdownTriggerInfo
   dropdownContentInfo: TopbarWalletDropdownContentInfo
+  isMobileDisplay: boolean
 }
 
-export function TopbarWalletDropdown({ dropdownTriggerInfo, dropdownContentInfo }: TopbarWalletDropdownProps) {
+export function TopbarWalletDropdown({
+  dropdownTriggerInfo,
+  dropdownContentInfo,
+  isMobileDisplay,
+}: TopbarWalletDropdownProps) {
   const [open, setOpen] = useState(false)
 
   const { address, blockExplorerAddressLink, walletIcon, onDisconnect } = dropdownContentInfo
 
+  const triggerButton = <TopbarWalletButton open={open} {...dropdownTriggerInfo} />
+
   if (dropdownTriggerInfo.mode === 'sandbox') {
-    return <TopbarWalletButton open={open} {...dropdownTriggerInfo} />
+    return triggerButton
+  }
+
+  function handleDisconnect() {
+    setOpen(false)
+    onDisconnect()
+  }
+
+  if (isMobileDisplay) {
+    return (
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger asChild>{triggerButton}</DialogTrigger>
+        <DialogContent overlayVariant="default" contentVerticalPosition="bottom" className="gap-1.5">
+          <DialogTitle className="pt-2 pb-4">Wallet</DialogTitle>
+          <TopbarWalletAddressDisplay walletIcon={walletIcon} address={address} />
+
+          <MenuItem asChild>
+            <button className="cursor-pointer" onClick={handleDisconnect}>
+              <MenuItemIcon icon={UnplugIcon} />
+              Disconnect
+            </button>
+          </MenuItem>
+
+          {blockExplorerAddressLink && (
+            <>
+              <div className="border-primary border-t" />
+
+              <MenuItem asChild>
+                <Link to={blockExplorerAddressLink} external className="text-primary hover:text-primary">
+                  <MenuItemIcon icon={ExternalLink} />
+                  View on Explorer
+                </Link>
+              </MenuItem>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
+    )
   }
 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
-      <DropdownMenuTrigger asChild>
-        <TopbarWalletButton open={open} {...dropdownTriggerInfo} />
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="flex w-60 flex-col gap-1.5 p-1">
-        <div className="flex flex-col items-center gap-3 rounded-sm bg-secondary p-6">
-          <div className="rounded-full bg-primary p-1">
-            <img src={walletIcon} alt="Wallet icon" width={24} height={24} />
-          </div>
-
-          <div className="typography-label-4 overflow-hidden text-primary">
-            <div className="flex items-center gap-1">
-              <Address compact address={address} />
-              <CopyButton text={address} />
-            </div>
-          </div>
-        </div>
+      <DropdownMenuTrigger asChild>{triggerButton}</DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="flex w-60 flex-col gap-1.5 p-1 text-primary">
+        <TopbarWalletAddressDisplay walletIcon={walletIcon} address={address} />
 
         <DropdownMenuItem asChild>
-          <button
-            className="cursor-pointer"
-            onClick={() => {
-              setOpen(false)
-              onDisconnect()
-            }}
-          >
-            <DropdownMenuItemIcon icon={Unplug} />
+          <button className="cursor-pointer" onClick={handleDisconnect}>
+            <DropdownMenuItemIcon icon={UnplugIcon} />
             Disconnect
           </button>
         </DropdownMenuItem>
