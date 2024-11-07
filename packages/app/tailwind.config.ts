@@ -402,6 +402,7 @@ export default {
         'gradient-savings-opportunity-savings-rate':
           'linear-gradient(125deg, #FFF 19.84%, #8CDB8B 40.17%, #00C2A1 64.6%)',
         'gradient-savings-opportunity-button': 'linear-gradient(105deg, #43E26B, #10B73D)',
+        'gradient-borrow-rate-orange': 'linear-gradient(89.87deg, #FFFFFF 0.14%, #FFE6A4 50.03%, #FF895D 99.92%)',
         // backgrounds with images
         'sdai-token-panel': 'url(/src/ui/assets/savings/sdai-token-panel-bg.svg), linear-gradient(#101014, #101014)',
         'susds-token-panel': 'url(/src/ui/assets/savings/susds-token-panel-bg.svg), linear-gradient(#101014, #101014)',

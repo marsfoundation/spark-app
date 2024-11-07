@@ -5,7 +5,7 @@ import { nonZeroOrDefault } from '@/utils/bigNumber'
 import { UseFormReturn } from 'react-hook-form'
 import { FormFieldsForAssetClass } from '../../logic/form/form'
 import { EasyBorrowFormSchema } from '../../logic/form/validation'
-import { ExistingPosition } from '../../logic/types'
+import { ExistingPosition, PageStatus } from '../../logic/types'
 import { Borrow } from './Borrow'
 import { Deposits } from './Deposits'
 import { LoanToValuePanel } from './LoanToValuePanel'
@@ -18,6 +18,7 @@ interface EasyBorrowFlowProps {
   alreadyDeposited: ExistingPosition
   alreadyBorrowed: ExistingPosition
   setDesiredLoanToValue: (desiredLtv: Percentage) => void
+  pageStatus: PageStatus
   disabled: boolean // whole form is disabled when when user submitted the form and actions are in progress
 }
 
@@ -30,6 +31,7 @@ export function EasyBorrowForm(props: EasyBorrowFlowProps) {
     alreadyBorrowed,
     updatedPositionSummary,
     setDesiredLoanToValue,
+    pageStatus,
     disabled,
   } = props
 
@@ -54,6 +56,7 @@ export function EasyBorrowForm(props: EasyBorrowFlowProps) {
           changeAsset={assetsToBorrowFields.changeAsset}
           alreadyBorrowed={alreadyBorrowed}
           control={form.control}
+          pageStatus={pageStatus}
           disabled={disabled}
         />
         <EasyBorrowConnector className="absolute top-[80px] right-0 left-0 mx-auto hidden w-[68px] md:block" />

@@ -36,6 +36,13 @@ function BorrowWrapper() {
           tokens: [tokens.DAI],
           totalValueUSD: NormalizedUnitNumber(3000),
         }}
+        pageStatus={{
+          state: 'confirmation',
+          onProceedToForm: () => {},
+          submitForm: () => {},
+          goToSuccessScreen: () => {},
+          actionsEnabled: true,
+        }}
       />
     </Form>
   )
