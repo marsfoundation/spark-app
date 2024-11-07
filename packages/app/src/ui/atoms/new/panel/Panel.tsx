@@ -11,9 +11,9 @@ export interface PanelProps extends VariantProps<typeof panelVariants> {
 export const Panel = forwardRef<HTMLDivElement, PanelProps>(
   ({ children, 'data-testid': dataTestId, className, ...variants }, ref) => {
     return (
-      <div className={cn(panelVariants(variants), className)} ref={ref} data-testid={dataTestId}>
+      <section className={cn(panelVariants(variants), className)} ref={ref} data-testid={dataTestId}>
         {children}
-      </div>
+      </section>
     )
   },
 )
