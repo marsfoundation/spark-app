@@ -21,6 +21,8 @@ const meta: Meta<typeof TopbarRewards> = {
         amount: NormalizedUnitNumber(0.0003498),
       },
     ],
+    onClaim: () => {},
+    totalClaimableReward: NormalizedUnitNumber(0.0029198),
   },
   play: async ({ canvasElement }) => {
     const button = await within(canvasElement).findByRole('button')
