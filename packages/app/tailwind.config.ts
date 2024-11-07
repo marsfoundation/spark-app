@@ -32,7 +32,7 @@ export default {
       textColor: {
         primary: {
           DEFAULT: 'rgb(var(--base-black))',
-          inverse: 'rgb(255, 255, 255)',
+          inverse: 'rgb(var(--base-white))',
         },
         secondary: 'rgb(var(--neutral-500))',
         tertiary: 'rgb(var(--neutral-300))',
@@ -113,7 +113,7 @@ export default {
       },
       backgroundColor: {
         primary: {
-          DEFAULT: 'rgb(255, 255, 255)',
+          DEFAULT: 'rgb(var(--base-white))',
           inverse: 'rgb(var(--base-black))',
         },
         secondary: {
@@ -149,7 +149,7 @@ export default {
       colors: {
         reskin: {
           base: {
-            white: 'rgb(255, 255, 255)',
+            white: 'rgb(var(--base-white))',
             black: 'rgb(var(--base-black))',
           },
           neutral: {

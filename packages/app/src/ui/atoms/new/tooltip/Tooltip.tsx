@@ -47,9 +47,6 @@ const tooltipContentVariants = cva(
         short: 'max-w-[80vw] space-y-2 px-3 py-1.5 sm:max-w-[32ch]',
         long: '',
       },
-      glow: {
-        true: 'shadow-',
-      },
     },
     defaultVariants: {
       variant: 'short',
