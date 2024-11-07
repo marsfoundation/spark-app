@@ -21,7 +21,7 @@ export function SuccessView({ collateralSetting, token, onProceed }: SuccessView
           <TokenIcon token={token} className="h-5" />
           {token.symbol}
         </div>
-        Collateral {collateralActionToVerb[collateralSetting]}
+        <h3>Collateral {collateralActionToVerb[collateralSetting]}</h3>
       </SuccessViewSummaryPanel>
       <SuccessViewProceedButton onProceed={onProceed}>View in portfolio</SuccessViewProceedButton>
     </SuccessViewContent>
