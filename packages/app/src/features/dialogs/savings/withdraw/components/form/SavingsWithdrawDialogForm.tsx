@@ -1,4 +1,3 @@
-import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPanelTitle'
 import { DialogForm, DialogFormProps } from '@/features/dialogs/common/components/form/DialogForm'
 import { ControlledAddressInput } from '@/features/dialogs/savings/withdraw/components/form/ControlledAddressInput'
 import { SendModeExtension } from '@/features/dialogs/savings/withdraw/types'
@@ -12,13 +11,13 @@ export interface SavingsWithdrawDialogFormProps extends DialogFormProps {
 
 export function SavingsWithdrawDialogForm({ sendModeExtension, ...rest }: SavingsWithdrawDialogFormProps) {
   return (
-    <>
+    <div className="flex flex-col gap-2">
       <DialogForm {...rest} />
       {sendModeExtension && (
         <Form {...sendModeExtension.receiverForm}>
           <div className="mt-2 mb-3 flex flex-col gap-2">
-            <DialogPanelTitle>Send to</DialogPanelTitle>
             <ControlledAddressInput
+              label="Send to"
               form={sendModeExtension.receiverForm}
               blockExplorerUrl={sendModeExtension.blockExplorerAddressLink}
             />
@@ -31,6 +30,6 @@ export function SavingsWithdrawDialogForm({ sendModeExtension, ...rest }: Saving
           </div>
         </Form>
       )}
-    </>
+    </div>
   )
 }

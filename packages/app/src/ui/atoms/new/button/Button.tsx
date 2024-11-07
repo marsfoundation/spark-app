@@ -33,7 +33,7 @@ export const buttonVariants = cva(
           'disabled:cursor-not-allowed disabled:border-none disabled:bg-reskin-neutral-50 disabled:text-reskin-neutral-500',
         ),
         transparent: cn(
-          'text-secondary transition-colors',
+          'overflow-visible text-secondary transition-colors',
           'hover:text-reskin-neutral-700',
           'active:text-reskin-neutral-900',
           'disabled:cursor-not-allowed disabled:text-reskin-neutral-300',

@@ -1,20 +1,21 @@
-import { Controller, UseFormReturn } from 'react-hook-form'
+import { UseFormReturn, useController } from 'react-hook-form'
 import { ReceiverFormSchema } from '../../types'
 import { AddressInput } from './AddressInput'
 
 interface ControlledAddressInputProps {
+  label?: string
   form: UseFormReturn<ReceiverFormSchema>
   blockExplorerUrl: string | undefined
 }
 
-export function ControlledAddressInput({ form, blockExplorerUrl }: ControlledAddressInputProps) {
+export function ControlledAddressInput({ label, form, blockExplorerUrl }: ControlledAddressInputProps) {
+  const { field } = useController({ control: form.control, name: 'receiver' })
   return (
-    <Controller
-      control={form.control}
-      name="receiver"
-      render={({ field }) => (
-        <AddressInput {...field} error={form.formState.errors.receiver?.message} blockExplorerUrl={blockExplorerUrl} />
-      )}
+    <AddressInput
+      {...field}
+      label={label}
+      error={form.formState.errors.receiver?.message}
+      blockExplorerUrl={blockExplorerUrl}
     />
   )
 }
