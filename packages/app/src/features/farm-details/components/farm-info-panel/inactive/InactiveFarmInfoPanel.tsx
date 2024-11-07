@@ -5,7 +5,7 @@ import { AssetsGroup, Farm } from '@/domain/farms/types'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { Link } from '@/ui/atoms/link/Link'
 import { Button } from '@/ui/atoms/new/button/Button'
-import { Panel } from '@/ui/atoms/panel/Panel'
+import { Panel } from '@/ui/atoms/new/panel/Panel'
 import { links } from '@/ui/constants/links'
 import { testIds } from '@/ui/utils/testIds'
 import { mainnet } from 'viem/chains'
@@ -31,8 +31,8 @@ export function InactiveFarmInfoPanel({
   openStakeDialog,
 }: InactiveFarmInfoPanelProps) {
   return (
-    <Panel.Wrapper
-      className="flex min-h-[380px] w-full flex-1 flex-col justify-between self-stretch px-6 py-6 md:px-[32px]"
+    <Panel
+      className="flex min-h-[380px] w-full flex-1 flex-col justify-between self-stretch"
       data-testid={testIds.farmDetails.infoPanel.panel}
     >
       {farm.rewardType === 'token' ? (
@@ -75,7 +75,7 @@ export function InactiveFarmInfoPanel({
           Deposit
         </Button>
       </div>
-    </Panel.Wrapper>
+    </Panel>
   )
 }
 

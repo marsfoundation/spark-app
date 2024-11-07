@@ -5,7 +5,7 @@ import { borrowDialogConfig } from '@/features/dialogs/borrow/BorrowDialog'
 import { eModeDialogConfig } from '@/features/dialogs/e-mode/EModeDialog'
 import { repayDialogConfig } from '@/features/dialogs/repay/RepayDialog'
 import { Button } from '@/ui/atoms/new/button/Button'
-import { Panel } from '@/ui/atoms/panel/Panel'
+import { Panel } from '@/ui/atoms/new/panel/Panel'
 import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
 import { ActionsCell } from '@/ui/molecules/data-table/components/ActionsCell'
 import { CompactValueCell } from '@/ui/molecules/data-table/components/CompactValueCell'
@@ -23,87 +23,84 @@ export interface BorrowTableProps {
 
 export function BorrowTable({ assets, openDialog, eModeCategoryId }: BorrowTableProps) {
   return (
-    <Panel collapsibleOptions={{ collapsible: true, collapsibleAbove: 'md' }}>
-      <Panel.Header>
-        <Panel.Title>Borrow</Panel.Title>
+    <Panel className="flex flex-col gap-6">
+      <div className="flex items-center gap-1">
+        <div className="typography-heading-4 text-primary">Borrow</div>
         <EModeIndicator
           eModeCategoryId={eModeCategoryId}
           onButtonClick={() => {
             openDialog(eModeDialogConfig, { userEModeCategoryId: eModeCategoryId })
           }}
         />
-      </Panel.Header>
-
-      <Panel.Content>
-        <ResponsiveDataTable
-          gridTemplateColumnsClassName="grid-cols-[repeat(4,_1fr)_2fr]"
-          columnDefinition={{
-            symbol: {
-              header: 'Assets',
-              renderCell: ({ token, reserveStatus }) => <TokenWithLogo token={token} reserveStatus={reserveStatus} />,
+      </div>
+      <ResponsiveDataTable
+        gridTemplateColumnsClassName="grid-cols-[repeat(4,_1fr)_2fr]"
+        columnDefinition={{
+          symbol: {
+            header: 'Assets',
+            renderCell: ({ token, reserveStatus }) => <TokenWithLogo token={token} reserveStatus={reserveStatus} />,
+          },
+          inWallet: {
+            header: 'Available',
+            sortable: true,
+            sortingFn: (a, b) => sortByUsdValue(a.original, b.original, 'available'),
+            headerAlign: 'right',
+            renderCell: ({ token, available }, mobileViewOptions) => (
+              <CompactValueCell token={token} value={available} mobileViewOptions={mobileViewOptions} hideEmpty />
+            ),
+          },
+          deposit: {
+            header: 'Your borrow',
+            sortable: true,
+            sortingFn: (a, b) => sortByUsdValue(a.original, b.original, 'debt'),
+            headerAlign: 'right',
+            renderCell: ({ token, debt }, mobileViewOptions) => (
+              <CompactValueCell token={token} value={debt} mobileViewOptions={mobileViewOptions} hideEmpty />
+            ),
+          },
+          apy: {
+            header: <ApyTooltip variant="borrow">APY</ApyTooltip>,
+            headerAlign: 'right',
+            sortable: true,
+            sortingFn: (a, b) => sortByAPY(a.original.borrowAPY, b.original.borrowAPY),
+            renderCell: ({ borrowAPY }, mobileViewOptions) => (
+              <PercentageCell value={borrowAPY} mobileViewOptions={mobileViewOptions} />
+            ),
+          },
+          actions: {
+            header: '',
+            renderCell: ({ token, debt, reserveStatus }) => {
+              return (
+                <ActionsCell>
+                  <Button
+                    variant="secondary"
+                    className="w-full"
+                    size="s"
+                    onClick={() => {
+                      openDialog(borrowDialogConfig, { token })
+                    }}
+                    disabled={reserveStatus === 'frozen'}
+                  >
+                    Borrow
+                  </Button>
+                  <Button
+                    variant="tertiary"
+                    className="w-full"
+                    size="s"
+                    disabled={debt.isZero()}
+                    onClick={() => {
+                      openDialog(repayDialogConfig, { token })
+                    }}
+                  >
+                    Repay
+                  </Button>
+                </ActionsCell>
+              )
             },
-            inWallet: {
-              header: 'Available',
-              sortable: true,
-              sortingFn: (a, b) => sortByUsdValue(a.original, b.original, 'available'),
-              headerAlign: 'right',
-              renderCell: ({ token, available }, mobileViewOptions) => (
-                <CompactValueCell token={token} value={available} mobileViewOptions={mobileViewOptions} hideEmpty />
-              ),
-            },
-            deposit: {
-              header: 'Your borrow',
-              sortable: true,
-              sortingFn: (a, b) => sortByUsdValue(a.original, b.original, 'debt'),
-              headerAlign: 'right',
-              renderCell: ({ token, debt }, mobileViewOptions) => (
-                <CompactValueCell token={token} value={debt} mobileViewOptions={mobileViewOptions} hideEmpty />
-              ),
-            },
-            apy: {
-              header: <ApyTooltip variant="borrow">APY</ApyTooltip>,
-              headerAlign: 'right',
-              sortable: true,
-              sortingFn: (a, b) => sortByAPY(a.original.borrowAPY, b.original.borrowAPY),
-              renderCell: ({ borrowAPY }, mobileViewOptions) => (
-                <PercentageCell value={borrowAPY} mobileViewOptions={mobileViewOptions} />
-              ),
-            },
-            actions: {
-              header: '',
-              renderCell: ({ token, debt, reserveStatus }) => {
-                return (
-                  <ActionsCell>
-                    <Button
-                      variant="secondary"
-                      className="w-full"
-                      size="s"
-                      onClick={() => {
-                        openDialog(borrowDialogConfig, { token })
-                      }}
-                      disabled={reserveStatus === 'frozen'}
-                    >
-                      Borrow
-                    </Button>
-                    <Button
-                      variant="tertiary"
-                      className="w-full"
-                      size="s"
-                      disabled={debt.isZero()}
-                      onClick={() => {
-                        openDialog(repayDialogConfig, { token })
-                      }}
-                    >
-                      Repay
-                    </Button>
-                  </ActionsCell>
-                )
-              },
-            },
-          }}
-          data={assets}
-        />
-      </Panel.Content>
+          },
+        }}
+        data={assets}
+      />
     </Panel>
   )
 }

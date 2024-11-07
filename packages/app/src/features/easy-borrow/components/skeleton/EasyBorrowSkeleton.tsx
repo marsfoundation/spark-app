@@ -1,4 +1,4 @@
-import { Panel } from '@/ui/atoms/panel/Panel'
+import { Panel } from '@/ui/atoms/new/panel/Panel'
 import { Skeleton } from '@/ui/atoms/skeleton/Skeleton'
 import { PageLayout } from '@/ui/layouts/PageLayout'
 import { useBreakpoint } from '@/ui/utils/useBreakpoint'
@@ -13,7 +13,7 @@ export function EasyBorrowSkeleton() {
         <Skeleton className="mt-6 h-6 w-64 md:w-96" />
       </div>
       <div className="mt-7 flex justify-center md:mt-10">
-        <Panel.Wrapper className="flex min-w-full max-w-3xl flex-col p-4 md:p-8">
+        <Panel className="flex min-w-full max-w-3xl flex-col">
           <Skeleton className="h-10 w-1/6" />
           <Skeleton className="mt-8 h-8 w-3/12" />
           <Skeleton className="mt-4 h-14 w-full" />
@@ -36,7 +36,7 @@ export function EasyBorrowSkeleton() {
             </>
           )}
           <Skeleton className="mt-8 h-10 w-full" />
-        </Panel.Wrapper>
+        </Panel>
       </div>
     </PageLayout>
   )

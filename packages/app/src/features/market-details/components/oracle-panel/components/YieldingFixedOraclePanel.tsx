@@ -1,7 +1,7 @@
 import { YieldingFixedOracleInfo } from '@/domain/oracles/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { assets } from '@/ui/assets'
-import { Panel } from '@/ui/atoms/panel/Panel'
+import { Panel } from '@/ui/atoms/new/panel/Panel'
 import { BlockExplorerAddressLink } from '@/ui/molecules/block-explorer-address-link/BlockExplorerAddressLink'
 import { InfoTile } from '@/ui/molecules/info-tile/InfoTile'
 import { Info } from '@/ui/molecules/info/Info'
@@ -22,21 +22,21 @@ export function YieldingFixedOraclePanel({
   baseAssetPrice,
 }: YieldingFixedOracleInfo) {
   return (
-    <Panel.Wrapper className="flex flex-col gap-4 p-4 sm:px-8 sm:py-6">
+    <Panel className="flex flex-col gap-4">
       <div>
         <div className="mb-1 text-basics-dark-grey text-sm leading-none sm:text-xs sm:leading-none">Oracle type</div>
-        <Panel.Header className="flex items-center gap-2">
-          <Panel.Title className="text-xl">
+        <div className="flex items-center gap-2">
+          <div className="typography-label-4 text-primary">
             Yielding Fixed Price{' '}
             {providedBy.length > 1 && <span className="font-medium text-basics-dark-grey">(Redundant)</span>}
-          </Panel.Title>
+          </div>
           <Info size={16}>
             The asset price is calculated using both an exchange rate and a market price oracle. Sky Governance controls
             which oracle is used.
           </Info>
-        </Panel.Header>
+        </div>
       </div>
-      <Panel.Content className="flex flex-col gap-4 sm:gap-6">
+      <div className="flex flex-col gap-4 sm:gap-6">
         <div className="grid items-center gap-4 md:grid-cols-[1fr,14px,1fr,14px,1fr] md:gap-3 md:pb-6">
           <div className="relative flex flex-col items-center gap-2">
             <div
@@ -108,8 +108,8 @@ export function YieldingFixedOraclePanel({
           </InfoTile>
         </div>
         <ProvidersList providers={providedBy} />
-      </Panel.Content>
-    </Panel.Wrapper>
+      </div>
+    </Panel>
   )
 }
 

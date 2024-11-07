@@ -1,3 +1,4 @@
+import { Panel } from '@/ui/atoms/new/panel/Panel'
 import { ReactNode } from 'react'
 
 interface WalletPanelContentProps {
@@ -5,5 +6,5 @@ interface WalletPanelContentProps {
 }
 
 export function WalletPanelContent({ children }: WalletPanelContentProps) {
-  return <div className="flex flex-col p-4 md:px-8 md:py-6">{children}</div>
+  return <Panel className="flex flex-col">{children}</Panel>
 }
