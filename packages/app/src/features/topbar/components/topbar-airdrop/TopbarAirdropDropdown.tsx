@@ -61,7 +61,7 @@ export function TopbarAirdropDropdown({
             {isLoading ? (
               <Skeleton className="h-6 w-10 rounded-sm" />
             ) : (
-              <div className="typography-label-4" data-chromatic="ignore">
+              <div className="typography-label-4 tabular-nums" data-chromatic="ignore">
                 {formatAirdropAmount({ amount, precision, isGrowing })} {SPK_MOCK_TOKEN.symbol}
               </div>
             )}

@@ -1,8 +1,8 @@
 import { formatPercentage } from '@/domain/common/format'
 import { Percentage } from '@/domain/types/NumericValues'
 import { assets } from '@/ui/assets'
-import { LinkDecorator } from '@/ui/atoms/link-decorator/LinkDecorator'
 import { Button } from '@/ui/atoms/new/button/Button'
+import { LinkButton } from '@/ui/atoms/new/link-button/LinkButton'
 import { Panel } from '@/ui/atoms/new/panel/Panel'
 import { links } from '@/ui/constants/links'
 import { cn } from '@/ui/utils/style'
@@ -49,11 +49,9 @@ export function UpgradeSavingsBanner({ onUpgradeSavingsClick, apyImprovement }: 
           <Button variant="secondary" size={tablet ? 'm' : 's'} onClick={onUpgradeSavingsClick}>
             Upgrade now
           </Button>
-          <LinkDecorator to={links.docs.upgradeSdai} external>
-            <Button variant="tertiary" size={tablet ? 'm' : 's'}>
-              Learn more
-            </Button>
-          </LinkDecorator>
+          <LinkButton to={links.docs.upgradeSdai} external variant="tertiary" size={tablet ? 'm' : 's'}>
+            Learn more
+          </LinkButton>
         </div>
       </div>
     </Panel>

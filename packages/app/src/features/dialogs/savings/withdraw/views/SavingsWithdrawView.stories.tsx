@@ -8,6 +8,7 @@ import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 import { useForm } from 'react-hook-form'
+import { withRouter } from 'storybook-addon-remix-react-router'
 import { SavingsWithdrawView, SavingsWithdrawViewProps } from './SavingsWithdrawView'
 
 const dai = tokens.DAI
@@ -118,6 +119,7 @@ const sendArgs: Partial<SavingsWithdrawViewProps> = {
 
 const meta: Meta<typeof SavingsWithdrawView> = {
   title: 'Features/Dialogs/Views/Savings/Withdraw',
+  decorators: [ZeroAllowanceWagmiDecorator(), WithClassname('max-w-xl'), WithTooltipProvider(), withRouter()],
   component: (args) => {
     const form = useForm() as any
     return args.sendModeExtension ? (
@@ -130,7 +132,6 @@ const meta: Meta<typeof SavingsWithdrawView> = {
       <SavingsWithdrawView {...args} form={form} />
     )
   },
-  decorators: [ZeroAllowanceWagmiDecorator(), WithClassname('max-w-xl'), WithTooltipProvider()],
 }
 
 export default meta
