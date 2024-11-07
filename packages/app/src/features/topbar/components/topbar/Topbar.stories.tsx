@@ -21,6 +21,32 @@ const meta: Meta<typeof Topbar> = {
         sha: 'bdebc69',
         buildTime: '25/10/2024, 10:01:51',
       },
+      isMobileDisplay: false,
+      rewardsInfo: {
+        rewards: [
+          {
+            token: tokens.wstETH,
+            amount: NormalizedUnitNumber(0.00157),
+          },
+          {
+            token: tokens.WBTC,
+            amount: NormalizedUnitNumber(0.0003498),
+          },
+        ],
+        onClaim: () => {},
+        totalClaimableReward: NormalizedUnitNumber(0.0029198),
+      },
+      airdropInfo: {
+        airdrop: {
+          tokenReward: NormalizedUnitNumber(1_200_345.568),
+          tokenRatePerSecond: NormalizedUnitNumber(1),
+          tokenRatePrecision: 1,
+          refreshIntervalInMs: 100,
+          timestampInMs: Date.now() - 30 * 1000,
+        },
+        isLoading: false,
+        isError: false,
+      },
     },
     walletInfo: {
       connectedWalletInfo: {
@@ -35,6 +61,7 @@ const meta: Meta<typeof Topbar> = {
           onDisconnect: () => {},
           blockExplorerAddressLink: '/',
         },
+        isMobileDisplay: false,
       },
       onConnect: () => {},
     },
@@ -69,6 +96,7 @@ const meta: Meta<typeof Topbar> = {
         },
       ],
       onClaim: () => {},
+      totalClaimableReward: NormalizedUnitNumber(0.0029198),
     },
     airdropInfo: {
       airdrop: {

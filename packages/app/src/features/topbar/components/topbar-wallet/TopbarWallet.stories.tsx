@@ -30,6 +30,7 @@ const args = {
       onDisconnect: () => {},
       blockExplorerAddressLink: '/',
     },
+    isMobileDisplay: false,
   },
   onConnect: () => {},
 } satisfies TopbarWalletProps
@@ -86,6 +87,7 @@ export const Sandbox: Story = {
         ...args.connectedWalletInfo.dropdownTriggerInfo,
         mode: 'sandbox',
       },
+      isMobileDisplay: false,
     },
   },
   play: () => {},

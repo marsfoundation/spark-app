@@ -1,3 +1,4 @@
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { WithClassname, WithTooltipProvider } from '@sb/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { userEvent, within } from '@storybook/test'
@@ -22,6 +23,23 @@ const meta: Meta<typeof TopbarMenu> = {
         buildInfo={{
           sha: 'bdebc69',
           buildTime: '25/10/2024, 10:01:51',
+        }}
+        isMobileDisplay={false}
+        airdropInfo={{
+          airdrop: {
+            tokenReward: NormalizedUnitNumber(1_200_345.568),
+            tokenRatePerSecond: NormalizedUnitNumber(1),
+            tokenRatePrecision: 1,
+            refreshIntervalInMs: 100,
+            timestampInMs: Date.now() - 30 * 1000,
+          },
+          isLoading: false,
+          isError: false,
+        }}
+        rewardsInfo={{
+          rewards: [],
+          totalClaimableReward: NormalizedUnitNumber(0),
+          onClaim: () => {},
         }}
       />
     )
