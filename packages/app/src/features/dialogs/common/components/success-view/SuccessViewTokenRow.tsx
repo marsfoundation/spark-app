@@ -9,7 +9,7 @@ export interface SuccessViewTokenRowProps {
 
 export function SuccessViewTokenRow({ token, amount }: SuccessViewTokenRowProps) {
   return (
-    <div className="mb-2 flex w-full justify-between">
+    <div className="mb-2 flex w-full items-center justify-between">
       <div className="flex items-center gap-1">
         <TokenIcon token={token} className="h-5" />
         <span className="typography-label-4 text-primary">{token.symbol}</span>
