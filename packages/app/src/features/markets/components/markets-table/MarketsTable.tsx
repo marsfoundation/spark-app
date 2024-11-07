@@ -1,6 +1,6 @@
 import { paths } from '@/config/paths'
 import { sortByAPY, sortByUsdValue } from '@/domain/common/sorters'
-import { LinkButton } from '@/ui/atoms/button/Button'
+import { LinkButton } from '@/ui/atoms/new/link-button/LinkButton'
 import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
 import { ActionsCell } from '@/ui/molecules/data-table/components/ActionsCell'
 import { CompactValueCell } from '@/ui/molecules/data-table/components/CompactValueCell'
@@ -119,8 +119,8 @@ export function MarketsTable({ entries, chainId, hideTableHeader, 'data-testid':
               <ActionsCell>
                 <LinkButton
                   className="w-full md:w-auto"
-                  size="sm"
-                  variant={reserveStatus !== 'active' ? 'secondary' : 'primary'}
+                  size="s"
+                  variant={reserveStatus !== 'active' ? 'tertiary' : 'secondary'}
                   to={generatePath(paths.marketDetails, { asset: token.address, chainId: chainId.toString() })}
                 >
                   Details

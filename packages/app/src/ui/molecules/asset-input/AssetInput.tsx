@@ -4,8 +4,8 @@ import { forwardRef } from 'react'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { assets as uiAssets } from '@/ui/assets'
-import { Button } from '@/ui/atoms/button/Button'
 import { type InputProps } from '@/ui/atoms/input/Input'
+import { Button } from '@/ui/atoms/new/button/Button'
 import { Typography } from '@/ui/atoms/typography/Typography'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
@@ -104,7 +104,7 @@ export const AssetInput = forwardRef<HTMLInputElement, AssetInputProps>(
                   onClick={disabled ? undefined : setMax}
                   className={cn('p-1', balance && 'p-0 text-xs')}
                   disabled={isMaxSelected}
-                  variant="text"
+                  variant="transparent"
                   data-testid={testIds.component.AssetInput.maxButton}
                 >
                   MAX
@@ -130,7 +130,7 @@ export const AssetInput = forwardRef<HTMLInputElement, AssetInputProps>(
               <Button
                 onClick={disabled ? undefined : onRemove}
                 className={cn('p-1 text-icon-foreground')}
-                variant="text"
+                variant="transparent"
               >
                 <X />
               </Button>

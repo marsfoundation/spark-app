@@ -4,8 +4,6 @@ import { MigrationInfo } from '@/features/savings/logic/makeMigrationInfo'
 import BoxArrowTopRight from '@/ui/assets/box-arrow-top-right.svg?react'
 import DocumentSketchIcon from '@/ui/assets/document-sketch.svg?react'
 import DowngradeIcon from '@/ui/assets/downgrade.svg?react'
-import MoreIcon from '@/ui/assets/more-icon.svg?react'
-import { Button } from '@/ui/atoms/button/Button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,7 +12,9 @@ import {
   DropdownMenuTrigger,
 } from '@/ui/atoms/dropdown/DropdownMenu'
 import { LinkDecorator } from '@/ui/atoms/link-decorator/LinkDecorator'
+import { IconButton } from '@/ui/atoms/new/icon-button/IconButton'
 import { testIds } from '@/ui/utils/testIds'
+import { MoreVerticalIcon } from 'lucide-react'
 
 export interface MoreDropdownProps {
   token: Token
@@ -57,15 +57,13 @@ function DropdownWrapper({ children, disabled }: { children?: React.ReactNode; d
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="secondary"
-          size="sm"
-          className="px-2"
+        <IconButton
+          variant="tertiary"
+          size="s"
           disabled={disabled}
           data-testid={testIds.savings.stablecoinsInWallet.moreDropdown}
-        >
-          <MoreIcon />
-        </Button>
+          icon={MoreVerticalIcon}
+        />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">{children}</DropdownMenuContent>
     </DropdownMenu>

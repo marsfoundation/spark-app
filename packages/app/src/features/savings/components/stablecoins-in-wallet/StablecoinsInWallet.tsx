@@ -2,7 +2,7 @@ import { OpenDialogFunction } from '@/domain/state/dialogs'
 import { convertStablesDialogConfig } from '@/features/dialogs/convert-stables/ConvertStablesDialog'
 import { savingsDepositDialogConfig } from '@/features/dialogs/savings/deposit/SavingsDepositDialog'
 import { assets as uiAssets } from '@/ui/assets'
-import { Button } from '@/ui/atoms/button/Button'
+import { Button } from '@/ui/atoms/new/button/Button'
 import { DataTable, DataTableProps } from '@/ui/molecules/data-table/DataTable'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
@@ -49,7 +49,7 @@ export function StablecoinsInWallet({
             <div className="flex justify-end gap-1 sm:gap-3">
               <Button
                 variant="secondary"
-                size="sm"
+                size="s"
                 disabled={balance.eq(0)}
                 onClick={() => openDialog(savingsDepositDialogConfig, { initialToken: token })}
               >
@@ -94,7 +94,7 @@ export function StablecoinsInWallet({
               </div>
             </div>
             <Button
-              size="sm"
+              size="s"
               variant="secondary"
               onClick={() => openDialog(convertStablesDialogConfig, { proceedText: 'Back to Savings' })}
               data-testid={testIds.component.ConvertStablesButton}

@@ -13,7 +13,7 @@ import {
 } from '@/ui/atoms/dropdown/DropdownMenu'
 import { useBreakpoint } from '@/ui/utils/useBreakpoint'
 
-import { Button } from '@/ui/atoms/button/Button'
+import { Button } from '@/ui/atoms/new/button/Button'
 import { useState } from 'react'
 import { matchPath, useLocation } from 'react-router-dom'
 import { SavingsInfoQueryResults } from '../types'
@@ -96,7 +96,7 @@ export function PageLinks({
         <Accordion type="single" collapsible className="pr-1">
           <AccordionItem value="borrow">
             <AccordionTrigger className="p-0">
-              <Button variant="text" className="h-full p-0" asChild>
+              <Button variant="transparent" className="h-full p-0" asChild>
                 <NavLinkComponent size="md">Borrow</NavLinkComponent>
               </Button>
             </AccordionTrigger>
@@ -112,7 +112,7 @@ export function PageLinks({
       ) : (
         <DropdownMenu open={linksDropdownOpen} onOpenChange={setLinksDropdownOpen}>
           <DropdownMenuTrigger asChild>
-            <Button variant="text" className="relative h-full p-0">
+            <Button variant="transparent" className="relative h-full p-0">
               <NavLinkComponent
                 shady
                 selected={isLinkFromDropdownActive}

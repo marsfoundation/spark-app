@@ -1,11 +1,10 @@
-import { useMemo } from 'react'
-
 import { TokenWithBalance } from '@/domain/common/types'
 import { Token } from '@/domain/types/Token'
-import { Button } from '@/ui/atoms/button/Button'
+import { Button } from '@/ui/atoms/new/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 import { DataTable, DataTableProps } from '@/ui/molecules/data-table/DataTable'
+import { useMemo } from 'react'
 
 export interface TokensToDepositProps {
   assets: TokenWithBalance[]
@@ -40,7 +39,7 @@ export function TokensToDeposit({ assets, openStakeDialog }: TokensToDepositProp
         renderCell: ({ token, balance }) => {
           return (
             <div className="flex w-full flex-row justify-end">
-              <Button variant="secondary" size="sm" disabled={balance.eq(0)} onClick={() => openStakeDialog(token)}>
+              <Button variant="secondary" size="s" disabled={balance.eq(0)} onClick={() => openStakeDialog(token)}>
                 Deposit
               </Button>
             </div>

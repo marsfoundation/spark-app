@@ -1,7 +1,6 @@
 import BoxArrowTopRight from '@/ui/assets/box-arrow-top-right.svg?react'
 import MagicWand from '@/ui/assets/magic-wand.svg?react'
 import MoreIcon from '@/ui/assets/more-icon.svg?react'
-import { Button } from '@/ui/atoms/button/Button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,6 +8,7 @@ import {
   DropdownMenuTrigger,
 } from '@/ui/atoms/dropdown/DropdownMenu'
 import { Link } from '@/ui/atoms/link/Link'
+import { Button } from '@/ui/atoms/new/button/Button'
 import { links } from '@/ui/constants/links'
 import { useBreakpoint } from '@/ui/utils/useBreakpoint'
 import { NavbarActionWrapper } from '../NavbarActionWrapper'

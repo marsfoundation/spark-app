@@ -1,5 +1,5 @@
 import { getTokenImage } from '@/ui/assets'
-import { Button } from '@/ui/atoms/button/Button'
+import { Button } from '@/ui/atoms/new/button/Button'
 import { Reward } from './types'
 
 export interface RewardsDetailsProps {

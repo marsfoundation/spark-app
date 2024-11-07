@@ -1,7 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react'
 import { within } from '@storybook/test'
-
-import { Button } from '../button/Button'
+import { Button } from '../new/button/Button'
 import { Dialog, DialogClose, DialogContent, DialogTitle, DialogTrigger } from './Dialog'
 
 function DialogExample({ content }: { content: string }) {

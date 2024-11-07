@@ -1,6 +1,5 @@
+import { Button } from '@/ui/atoms/new/button/Button'
 import { ReactNode } from 'react'
-
-import { Button } from '@/ui/atoms/button/Button'
 
 interface SuccessViewProceedButtonProps {
   onProceed: () => void
