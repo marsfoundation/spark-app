@@ -1,6 +1,7 @@
 import { formatHealthFactor } from '@/domain/common/format'
 import { RiskLevel, healthFactorToRiskLevel, riskLevelToTitle } from '@/domain/common/risk'
 import { cn } from '@/ui/utils/style'
+import { testIds } from '@/ui/utils/testIds'
 import BigNumber from 'bignumber.js'
 import { useId } from 'react'
 
@@ -149,7 +150,10 @@ export function HealthFactorGauge({ value, className }: HealthFactorGaugeProps) 
           >
             {riskLevelToTitle[riskLevel]}
           </div>
-          <div className="text-[56px] text-white leading-[56px]">
+          <div
+            className="text-[56px] text-white leading-[56px]"
+            data-testid={testIds.component.HealthFactorGauge.value}
+          >
             {riskLevel === 'unknown' ? '-' : formatHealthFactor(value)}
           </div>
         </div>

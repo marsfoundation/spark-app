@@ -15,6 +15,9 @@ export const testIds = makeTestIds({
     HealthFactorBadge: {
       value: true,
     },
+    HealthFactorGauge: {
+      value: true,
+    },
     AssetInput: {
       input: true,
       error: true,
