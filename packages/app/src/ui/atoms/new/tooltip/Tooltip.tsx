@@ -37,12 +37,18 @@ const Tooltip = RadixPrimitive.Root
 const TooltipTrigger = RadixPrimitive.Trigger
 
 const tooltipContentVariants = cva(
-  'typography-label-6 z-50 overflow-hidden rounded-sm bg-primary-inverse px-3 py-2 text-reskin-fg-primary-inverse shadow-lg ',
+  cn(
+    'typography-label-6 z-50 overflow-hidden rounded-sm bg-primary-inverse',
+    'border-primary/25 border-t px-3 py-2 text-reskin-fg-primary-inverse shadow-glow-lg',
+  ),
   {
     variants: {
       variant: {
         short: 'max-w-[80vw] space-y-2 px-3 py-1.5 sm:max-w-[32ch]',
         long: '',
+      },
+      glow: {
+        true: 'shadow-',
       },
     },
     defaultVariants: {
