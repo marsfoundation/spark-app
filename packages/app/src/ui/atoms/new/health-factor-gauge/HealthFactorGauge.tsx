@@ -1,7 +1,9 @@
 import { formatHealthFactor } from '@/domain/common/format'
 import { RiskLevel, healthFactorToRiskLevel, riskLevelToTitle } from '@/domain/common/risk'
 import { cn } from '@/ui/utils/style'
+import { testIds } from '@/ui/utils/testIds'
 import BigNumber from 'bignumber.js'
+import { useId } from 'react'
 
 const GAUGE_MIN = 1
 const GAUGE_MAX = 4
@@ -12,6 +14,8 @@ export interface HealthFactorGaugeProps {
 }
 
 export function HealthFactorGauge({ value, className }: HealthFactorGaugeProps) {
+  const id = useId()
+
   const croppedValue = Math.max(GAUGE_MIN, Math.min(GAUGE_MAX, value?.toNumber() ?? 0))
   const riskLevel = healthFactorToRiskLevel(value)
   const angle = 180 - ((croppedValue - GAUGE_MIN) / (GAUGE_MAX - GAUGE_MIN)) * 180
@@ -30,11 +34,11 @@ export function HealthFactorGauge({ value, className }: HealthFactorGaugeProps) 
 
   return (
     <svg preserveAspectRatio="xMidYMid meet" viewBox="0 0 400 200" className={className}>
-      <path d="M20 200 A 180 180 0 0 1 380 200" stroke-width="40" stroke="#373642" fill="none" />
-      <mask id="arc-mask">
+      <path d="M20 200 A 180 180 0 0 1 380 200" strokeWidth="40" stroke="#373642" fill="none" />
+      <mask id={`arc-mask-${id}`}>
         <path
           d={`M20 200 A 180 180 0 0 1 ${maskSecondPoint.x} ${maskSecondPoint.y}`}
-          stroke-width="40"
+          strokeWidth="40"
           stroke="white"
           fill="none"
         />
@@ -45,7 +49,7 @@ export function HealthFactorGauge({ value, className }: HealthFactorGaugeProps) 
             width: '400px',
             height: '400px',
             background: gradient,
-            mask: 'url(#arc-mask)',
+            mask: `url(#arc-mask-${id})`,
           }}
         />
       </foreignObject>
@@ -53,19 +57,19 @@ export function HealthFactorGauge({ value, className }: HealthFactorGaugeProps) 
       <path
         d="M50 200 A150 150 0 0 1 122.74428876349187 71.42490489468315"
         stroke="#FA5768"
-        stroke-width="2"
+        strokeWidth="2"
         fill="none"
       />
       <path
         d="M127.27855696304945 68.80704392909061 A150 150 0 0 1 272.7214430369506 68.80704392909061"
         stroke="#EDAA00"
-        stroke-width="2"
+        strokeWidth="2"
         fill="none"
       />
       <path
         d="M277.25571123650815 71.42490489468315 A150 150 0 0 1 350 200"
         stroke="#00C2A1"
-        stroke-width="2"
+        strokeWidth="2"
         fill="none"
       />
 
@@ -119,17 +123,17 @@ export function HealthFactorGauge({ value, className }: HealthFactorGaugeProps) 
         4
       </text>
 
-      <path d="M26.7949 100 L61.4359 120" stroke="black" stroke-width="1" />
-      <path d="M100 26.7949 L120, 61.4359" stroke="black" stroke-width="1" />
-      <path d="M200 0 L200 40" stroke="black" stroke-width="1" />
-      <path d="M300 26.7949 L280 61.4359" stroke="black" stroke-width="1" />
-      <path d="M373.20508 100 L338.564 120" stroke="black" stroke-width="1" />
+      <path d="M26.7949 100 L61.4359 120" stroke="black" strokeWidth="1" />
+      <path d="M100 26.7949 L120, 61.4359" stroke="black" strokeWidth="1" />
+      <path d="M200 0 L200 40" stroke="black" strokeWidth="1" />
+      <path d="M300 26.7949 L280 61.4359" stroke="black" strokeWidth="1" />
+      <path d="M373.20508 100 L338.564 120" stroke="black" strokeWidth="1" />
 
       {showIndicatorLine && (
         <path
           d={`M${indicatorLineCoords.x1} ${indicatorLineCoords.y1} L${indicatorLineCoords.x2} ${indicatorLineCoords.y2}`}
           stroke="white"
-          stroke-width="2"
+          strokeWidth="2"
         />
       )}
 
@@ -146,7 +150,10 @@ export function HealthFactorGauge({ value, className }: HealthFactorGaugeProps) 
           >
             {riskLevelToTitle[riskLevel]}
           </div>
-          <div className="text-[56px] text-white leading-[56px]">
+          <div
+            className="text-[56px] text-white leading-[56px]"
+            data-testid={testIds.component.HealthFactorGauge.value}
+          >
             {riskLevel === 'unknown' ? '-' : formatHealthFactor(value)}
           </div>
         </div>

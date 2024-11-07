@@ -18,6 +18,7 @@ export async function createSandbox(opts: {
     originChainId: opts.originChainId,
     forkChainId: opts.forkChainId,
     apiUrl: `${apiUrl}/sandbox/create`,
+    blockNumber: 21135270n,
   })
 
   await tenderlyRpcActions.setBalance(
