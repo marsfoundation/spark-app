@@ -26,10 +26,10 @@ export function YieldingFixedOraclePanel({
       <div>
         <div className="mb-1 text-basics-dark-grey text-sm leading-none sm:text-xs sm:leading-none">Oracle type</div>
         <div className="flex items-center gap-2">
-          <div className="typography-heading-5 text-primary">
+          <h3 className="typography-heading-5 text-primary">
             Yielding Fixed Price{' '}
             {providedBy.length > 1 && <span className="font-medium text-basics-dark-grey">(Redundant)</span>}
-          </div>
+          </h3>
           <Info size={16}>
             The asset price is calculated using both an exchange rate and a market price oracle. Sky Governance controls
             which oracle is used.

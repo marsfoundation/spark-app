@@ -36,7 +36,7 @@ export function Position({
   return (
     <Panel className={cn('flex flex-col gap-6', className)}>
       <div className="flex items-center gap-1">
-        <div className="typography-heading-4 text-primary">Your position</div>
+        <h3 className="typography-heading-4 text-primary">Your position</h3>
         <Info>Amount of all your assets supplied to the protocol.</Info>
       </div>
 

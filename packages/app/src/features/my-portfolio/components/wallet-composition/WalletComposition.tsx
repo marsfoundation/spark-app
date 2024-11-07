@@ -26,7 +26,7 @@ export function WalletComposition({
   return (
     <Panel className="flex flex-col gap-6">
       <div className="flex items-center gap-1">
-        <div className="typography-heading-4 text-primary">Your wallet</div>
+        <h3 className="typography-heading-4 text-primary">Your wallet</h3>
         <Info>List of assets in your wallet supported by Spark.</Info>
         {hasCollaterals && (
           <div className="ml-5 flex items-center gap-2">

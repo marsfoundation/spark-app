@@ -25,7 +25,7 @@ export function BorrowTable({ assets, openDialog, eModeCategoryId }: BorrowTable
   return (
     <Panel className="flex flex-col gap-6">
       <div className="flex items-center gap-1">
-        <div className="typography-heading-4 text-primary">Borrow</div>
+        <h3 className="typography-heading-4 text-primary">Borrow</h3>
         <EModeIndicator
           eModeCategoryId={eModeCategoryId}
           onButtonClick={() => {

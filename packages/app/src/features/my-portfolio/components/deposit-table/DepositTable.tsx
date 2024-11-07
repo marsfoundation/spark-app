@@ -22,7 +22,7 @@ export interface DepositTableProps {
 export function DepositTable({ assets, openDialog }: DepositTableProps) {
   return (
     <Panel className="flex flex-col gap-6">
-      <div className="typography-heading-4 text-primary">Deposit</div>
+      <h3 className="typography-heading-4 text-primary">Deposit</h3>
       <ResponsiveDataTable
         gridTemplateColumnsClassName="grid-cols-[repeat(4,_3fr)_2fr_4fr]"
         columnDefinition={{

@@ -52,7 +52,7 @@ export function TokensToDeposit({ assets, openStakeDialog }: TokensToDepositProp
 
   return (
     <Panel className="flex flex-col gap-6">
-      <div>Tokens to deposit</div>
+      <h3>Tokens to deposit</h3>
       <DataTable gridTemplateColumnsClassName="grid-cols-[repeat(2,_1fr)_100px]" data={assets} columnDef={columnDef} />
     </Panel>
   )
