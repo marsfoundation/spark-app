@@ -10,12 +10,12 @@ export interface PageNotSupportedWarningProps {
 
 export function PageNotSupportedWarning({ pageName, openNetworkSelectDialog }: PageNotSupportedWarningProps) {
   return (
-    <div className="fixed inset-0 z-30">
+    <div className="fixed inset-0 z-20">
       <div className="fixed inset-0 bg-reskin-alpha-overlay backdrop-blur-[2px]" aria-hidden="true" />
 
       <div
         className={cn(
-          'absolute bottom-0 z-20 flex min-h-28 w-full flex-col items-center justify-center gap-4 lg:flex-row lg:gap-40',
+          'absolute bottom-0 flex min-h-28 w-full flex-col items-center justify-center gap-4 lg:flex-row lg:gap-40',
           'bg-primary p-4 shadow-[0_0_128px_rgba(0,0,0,0.1)]',
         )}
       >
