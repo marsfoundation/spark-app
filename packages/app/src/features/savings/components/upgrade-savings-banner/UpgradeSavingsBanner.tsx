@@ -20,6 +20,7 @@ export function UpgradeSavingsBanner({ onUpgradeSavingsClick, apyImprovement }: 
   const tablet = useBreakpoint('sm')
   return (
     <Panel
+      spacing="none"
       className="flex items-center gap-4 overflow-hidden bg-[#E8F8EC] sm:gap-6"
       data-testid={testIds.savings.upgradeSDaiBanner}
     >
