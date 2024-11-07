@@ -1,10 +1,6 @@
 import { UserPositionSummary } from '@/domain/market-info/marketInfo'
 import { Percentage } from '@/domain/types/NumericValues'
-import { Form } from '@/ui/atoms/form/Form'
-import { Button } from '@/ui/atoms/new/button/Button'
-import { ConnectOrSandboxCTAButtonGroup } from '@/ui/molecules/connect-or-sandbox-cta-button-group/ConnectOrSandboxCTAButtonGroup'
 import { nonZeroOrDefault } from '@/utils/bigNumber'
-import { Trans } from '@lingui/macro'
 import { UseFormReturn } from 'react-hook-form'
 import { FormFieldsForAssetClass } from '../../logic/form/form'
 import { EasyBorrowFormSchema } from '../../logic/form/validation'
@@ -21,19 +17,13 @@ interface EasyBorrowFlowProps {
   assetsToDepositFields: FormFieldsForAssetClass
   alreadyDeposited: ExistingPosition
   alreadyBorrowed: ExistingPosition
-  onSubmit: () => void
   setDesiredLoanToValue: (desiredLtv: Percentage) => void
   disabled: boolean // whole form is disabled when when user submitted the form and actions are in progress
-  borrowRate: Percentage
-  guestMode: boolean
-  openConnectModal: () => void
-  openSandboxModal: () => void
 }
 
 export function EasyBorrowForm(props: EasyBorrowFlowProps) {
   const {
     form,
-    onSubmit,
     assetsToBorrowFields,
     assetsToDepositFields,
     alreadyDeposited,
@@ -41,60 +31,42 @@ export function EasyBorrowForm(props: EasyBorrowFlowProps) {
     updatedPositionSummary,
     setDesiredLoanToValue,
     disabled,
-    guestMode,
-    openConnectModal,
-    openSandboxModal,
   } = props
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-3">
-        <div className="relative grid grid-cols-1 gap-1.5 md:grid-cols-2">
-          <Deposits
-            selectedAssets={assetsToDepositFields.selectedAssets}
-            allAssets={assetsToDepositFields.assets}
-            assetToMaxValue={assetsToDepositFields.assetToMaxValue}
-            addAsset={assetsToDepositFields.addAsset}
-            removeAsset={assetsToDepositFields.removeAsset}
-            changeAsset={assetsToDepositFields.changeAsset}
-            maxSelectedFieldName={assetsToDepositFields.maxSelectedFieldName}
-            alreadyDeposited={alreadyDeposited}
-            control={form.control}
-            disabled={disabled}
-          />
-          <Borrow
-            selectedAssets={assetsToBorrowFields.selectedAssets}
-            allAssets={assetsToBorrowFields.assets}
-            changeAsset={assetsToBorrowFields.changeAsset}
-            alreadyBorrowed={alreadyBorrowed}
-            control={form.control}
-            disabled={disabled}
-          />
-          <Connector className="absolute top-[80px] right-0 left-0 mx-auto hidden w-[68px] md:block" />
-        </div>
-
-        <LoanToValuePanel
-          ltv={updatedPositionSummary.loanToValue}
-          maxLtv={nonZeroOrDefault(updatedPositionSummary.maxLoanToValue, Percentage(0.8))}
-          liquidationLtv={nonZeroOrDefault(updatedPositionSummary.currentLiquidationThreshold, Percentage(0.825))}
-          onLtvChange={setDesiredLoanToValue}
+    <div className="flex flex-col gap-3">
+      <div className="relative grid grid-cols-1 gap-1.5 md:grid-cols-2">
+        <Deposits
+          selectedAssets={assetsToDepositFields.selectedAssets}
+          allAssets={assetsToDepositFields.assets}
+          assetToMaxValue={assetsToDepositFields.assetToMaxValue}
+          addAsset={assetsToDepositFields.addAsset}
+          removeAsset={assetsToDepositFields.removeAsset}
+          changeAsset={assetsToDepositFields.changeAsset}
+          maxSelectedFieldName={assetsToDepositFields.maxSelectedFieldName}
+          alreadyDeposited={alreadyDeposited}
+          control={form.control}
           disabled={disabled}
         />
+        <Borrow
+          selectedAssets={assetsToBorrowFields.selectedAssets}
+          allAssets={assetsToBorrowFields.assets}
+          changeAsset={assetsToBorrowFields.changeAsset}
+          alreadyBorrowed={alreadyBorrowed}
+          control={form.control}
+          disabled={disabled}
+        />
+        <Connector className="absolute top-[80px] right-0 left-0 mx-auto hidden w-[68px] md:block" />
+      </div>
 
-        {guestMode ? (
-          <ConnectOrSandboxCTAButtonGroup
-            buttonText="Connect wallet"
-            action={openConnectModal}
-            openSandboxModal={openSandboxModal}
-          />
-        ) : (
-          !disabled && (
-            <Button type="submit" size="m" variant="primary" disabled={!form.formState.isValid}>
-              <Trans>Borrow</Trans>
-            </Button>
-          )
-        )}
-      </form>
-    </Form>
+      <LoanToValuePanel
+        className="hidden md:block"
+        ltv={updatedPositionSummary.loanToValue}
+        maxLtv={nonZeroOrDefault(updatedPositionSummary.maxLoanToValue, Percentage(0.8))}
+        liquidationLtv={nonZeroOrDefault(updatedPositionSummary.currentLiquidationThreshold, Percentage(0.825))}
+        onLtvChange={setDesiredLoanToValue}
+        disabled={disabled}
+      />
+    </div>
   )
 }

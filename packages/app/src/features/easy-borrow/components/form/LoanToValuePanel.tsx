@@ -9,12 +9,20 @@ interface LoanToValuePanelProps {
   ltv: Percentage
   maxLtv: Percentage
   liquidationLtv: Percentage
-  disabled?: boolean
   onLtvChange: (value: Percentage) => void
+  disabled?: boolean
+  className?: string
 }
-export function LoanToValuePanel({ ltv, maxLtv, liquidationLtv, disabled, onLtvChange }: LoanToValuePanelProps) {
+export function LoanToValuePanel({
+  ltv,
+  maxLtv,
+  liquidationLtv,
+  onLtvChange,
+  disabled,
+  className,
+}: LoanToValuePanelProps) {
   return (
-    <Panel>
+    <Panel className={className}>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-1">
           <div className="typography-label-2 flex flex-row justify-between text-primary">
