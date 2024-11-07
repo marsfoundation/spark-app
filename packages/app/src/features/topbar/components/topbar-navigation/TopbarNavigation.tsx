@@ -54,7 +54,7 @@ export function TopbarNavigation({ savingsInfo, blockedPages, topbarNavigationIn
   const isBorrowSubLinkActive = borrowSubLinks.some((link) => matchPath(`${link.to}/*`, location.pathname))
 
   return (
-    <div className="flex gap-2">
+    <div className="hidden gap-2 sm:flex">
       {!blockedPages.some((page) => page === 'savings') && ( // some instead of includes for better type inference
         <TopbarButton
           to={paths.savings}
@@ -63,7 +63,11 @@ export function TopbarNavigation({ savingsInfo, blockedPages, topbarNavigationIn
           type="savings"
           postfixSlot={
             savingsInfo?.data || savingsInfo?.isLoading ? (
-              <SavingsAPYBadge APY={savingsInfo.data?.apy} isLoading={savingsInfo.isLoading} />
+              <SavingsAPYBadge
+                APY={savingsInfo.data?.apy}
+                isLoading={savingsInfo.isLoading}
+                className="hidden lg:inline-flex"
+              />
             ) : undefined
           }
         />

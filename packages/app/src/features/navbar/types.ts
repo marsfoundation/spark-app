@@ -48,5 +48,6 @@ export interface AirdropInfo {
 
 export interface RewardsInfo {
   rewards: Reward[]
+  totalClaimableReward: NormalizedUnitNumber
   onClaim: () => void
 }
