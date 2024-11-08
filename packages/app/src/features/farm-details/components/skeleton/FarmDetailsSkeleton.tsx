@@ -3,7 +3,7 @@ import { PageLayout } from '@/ui/layouts/PageLayout'
 
 export function FarmDetailsSkeleton() {
   return (
-    <PageLayout compact className="gap-8">
+    <PageLayout className="gap-8">
       <div className="flex flex-row items-center gap-8">
         <Skeleton className="h-6 w-36" />
         <Skeleton className="h-6 w-36" />

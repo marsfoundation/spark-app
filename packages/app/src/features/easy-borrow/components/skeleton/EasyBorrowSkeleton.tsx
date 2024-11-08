@@ -7,7 +7,7 @@ export function EasyBorrowSkeleton() {
   const tablet = useBreakpoint('md')
   const desktop = useBreakpoint('xl')
   return (
-    <PageLayout compact>
+    <PageLayout>
       <div className="flex flex-col items-center md:mt-12">
         <Skeleton className="h-12 w-52 md:w-80" />
         <Skeleton className="mt-6 h-6 w-64 md:w-96" />
