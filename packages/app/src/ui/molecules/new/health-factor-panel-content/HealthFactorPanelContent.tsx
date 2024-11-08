@@ -17,7 +17,7 @@ export interface HealthFactorPanelContentProps {
 export const HealthFactorPanelContent = forwardRef<HTMLDivElement, HealthFactorPanelContentProps>(
   ({ hf, liquidationDetails, className }, ref) => {
     return (
-      <div className={cn('flex flex-col gap-8', className)} ref={ref}>
+      <div className={cn('flex h-full flex-col gap-8', className)} ref={ref}>
         <div className="flex items-center gap-2">
           <h3 className="typography-label-2">Health factor</h3>
           <Info>
@@ -39,10 +39,10 @@ export const HealthFactorPanelContent = forwardRef<HTMLDivElement, HealthFactorP
             </p>
           </Info>
         </div>
-        <div className="flex flex-col gap-8 p-8 pt-0 sm:p-0">
-          <HealthFactorGauge value={hf} />
+        <div className="flex h-full flex-col items-center justify-center gap-8 p-8 pt-0 sm:p-0">
+          <HealthFactorGauge value={hf} className="h-full w-full max-w-[400px]" />
           {liquidationDetails && (
-            <div className="flex flex-col">
+            <div className="flex w-full flex-col">
               <div className="mb-3 flex items-center justify-between border-reskin-fg-primary border-b pb-3">
                 <div className="flex flex-row items-center gap-2">
                   <div className="typography-label-4">Liquidation Price</div>

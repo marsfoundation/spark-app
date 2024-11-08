@@ -22,8 +22,9 @@ export function ColumnHeader<T>({ column, columnDefinition }: ColumnHeaderProps<
       <Button
         variant="transparent"
         className={cn(
-          'h-4 cursor-auto rounded-[1px] p-0 font-bold text-primary text-xs',
-          sortable && 'cursor-pointer hover:text-secondary-foreground',
+          'typography-label-6 h-4 cursor-auto rounded-[1px] p-0 text-secondary',
+          sortable && 'cursor-pointer',
+          !sortable && 'hover:text-secondary',
         )}
         onClick={() => sortable && column.toggleSorting(column.getIsSorted() === 'asc')}
       >

@@ -1,12 +1,8 @@
 import { NativeAssetInfo } from '@/config/chain/types'
-import { paths } from '@/config/paths'
-import { TokenWithValue } from '@/domain/common/types'
+import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { Token } from '@/domain/types/Token'
 import { MarketWalletInfo, WalletBalance } from '@/domain/wallet/useMarketWalletInfo'
-import { generatePath } from 'react-router-dom'
-import { AssetsTableRow } from '../components/wallet-composition/AssetTable'
 
 interface MakeAssetListParams {
   marketInfo: MarketInfo
@@ -20,28 +16,15 @@ function makeAssetList({
   walletInfo,
   includeDeposits,
   nativeAssetInfo,
-  chainId,
-}: MakeAssetListParams): AssetsTableRow[] {
+}: MakeAssetListParams): TokenWithBalance[] {
   return walletInfo.walletBalances
     .map((walletBalance) => calculateCombinedBalance({ walletBalance, marketInfo, includeDeposits, nativeAssetInfo }))
     .filter(({ value }) => value.gt(0))
     .sort((a, b) => b.token.toUSD(b.value).comparedTo(a.token.toUSD(a.value)))
     .map((asset) => ({
       token: asset.token,
-      value: asset.value,
-      detailsLink: getDetailsLink({
-        token: asset.token,
-        chainId,
-      }),
+      balance: asset.value,
     }))
-}
-
-interface GetDetailsLinkParams {
-  token: Token
-  chainId: number
-}
-function getDetailsLink({ token, chainId }: GetDetailsLinkParams): string {
-  return generatePath(paths.marketDetails, { asset: token.address, chainId: chainId.toString() })
 }
 
 interface CalculateCombinedBalanceParams {
@@ -80,11 +63,9 @@ export interface MakeWalletCompositionParams {
 }
 
 export interface WalletCompositionInfo {
-  assets: AssetsTableRow[]
-  chainId: number
+  assets: TokenWithBalance[]
   includeDeposits: boolean
   setIncludeDeposits: (includeDeposits: boolean) => void
-  hasCollaterals: boolean
 }
 
 export function makeWalletComposition({
@@ -96,7 +77,6 @@ export function makeWalletComposition({
   chainId,
 }: MakeWalletCompositionParams): WalletCompositionInfo {
   return {
-    hasCollaterals: marketInfo.userPositionSummary.totalCollateralUSD.gt(0),
     assets: makeAssetList({
       marketInfo,
       walletInfo,
@@ -104,7 +84,6 @@ export function makeWalletComposition({
       nativeAssetInfo,
       chainId,
     }),
-    chainId: marketInfo.chainId,
     includeDeposits: compositionWithDeposits,
     setIncludeDeposits: setCompositionWithDeposits,
   }

@@ -23,7 +23,9 @@ export function TokenWithLogo({ token, reserveStatus }: TokenWithLogoProps) {
           <TokenIcon token={token} className="h-6 w-6" />
         </ColorFilter>
       </div>
-      <div className={cn(isPaused && 'text-basics-red')}>{token.symbol}</div>
+      <div className={cn('typography-label-4 text-primary', isPaused && 'text-system-error-primary')}>
+        {token.symbol}
+      </div>
       {isFrozen && <FrozenPill />}
       {isPaused && <PausedPill />}
     </div>

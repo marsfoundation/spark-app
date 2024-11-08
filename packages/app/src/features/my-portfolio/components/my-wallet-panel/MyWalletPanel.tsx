@@ -23,7 +23,9 @@ export function MyWalletPanel({ assets, includeDeposits, setIncludeDeposits }: M
           <Switch checked={includeDeposits} onCheckedChange={setIncludeDeposits} />
         </div>
       </div>
-      <MyWalletChart assets={assets} className="p-4" />
+      <div className="flex h-full w-full max-w-[340px] items-center">
+        <MyWalletChart assets={assets} className="p-4" />
+      </div>
     </Panel>
   )
 }
