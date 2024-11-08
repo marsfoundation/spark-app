@@ -1,6 +1,6 @@
 import { DelayedComponent } from '@/ui/atoms/delayed-component/DelayedComponent'
 import { Panel } from '@/ui/atoms/new/panel/Panel'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/atoms/tabs/Tabs'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/atoms/new/tabs/Tabs'
 import { useParentSize } from '@/ui/utils/useParentSize'
 import { assert } from '@/utils/assert'
 import { AlertTriangle, Loader2 } from 'lucide-react'
@@ -57,7 +57,11 @@ export function ChartTabsPanel({ tabs, onTimeframeChange, selectedTimeframe, hei
       <Panel className="flex min-h-[380px] w-full flex-1 flex-col justify-between self-stretch">
         <div className="grid grid-cols-1 grid-rows-2 items-center gap-4 lg:grid-cols-2 lg:grid-rows-1">
           <div className="flex items-center gap-1 font-semibold text-lg md:text-xl">{firstTab.label}</div>
-          <TimeframeButtons onTimeframeChange={onTimeframeChange} selectedTimeframe={selectedTimeframe} />
+          <TimeframeButtons
+            onTimeframeChange={onTimeframeChange}
+            selectedTimeframe={selectedTimeframe}
+            className="w-full lg:w-auto"
+          />
         </div>
 
         <div className="flex w-full flex-grow flex-col items-center justify-center">
@@ -70,20 +74,19 @@ export function ChartTabsPanel({ tabs, onTimeframeChange, selectedTimeframe, hei
   return (
     <Panel className="flex min-h-[380px] w-full flex-1 flex-col justify-between self-stretch">
       <Tabs defaultValue={firstTab.id} className="flex flex-1 flex-col">
-        <div className="flex flex-wrap items-center justify-between gap-2 lg:flex-nowrap">
-          <TabsList className="justify-start">
+        <div className="flex flex-col flex-wrap items-center justify-between gap-2 lg:flex-row lg:gap-1">
+          <TabsList className="w-full lg:w-auto" size="s">
             {tabs.map((tab) => (
-              <TabsTrigger
-                key={tab.id}
-                value={tab.id}
-                className="w-max grow-0 px-3 text-sm"
-                indicatorClassName="w-[calc(100%+1rem)]"
-              >
+              <TabsTrigger key={tab.id} value={tab.id} className="typography-label-5 px-1 md:px-1.5 xl:px-5">
                 {tab.label}
               </TabsTrigger>
             ))}
           </TabsList>
-          <TimeframeButtons onTimeframeChange={onTimeframeChange} selectedTimeframe={selectedTimeframe} />
+          <TimeframeButtons
+            onTimeframeChange={onTimeframeChange}
+            selectedTimeframe={selectedTimeframe}
+            className="w-full lg:w-auto"
+          />
         </div>
         {tabs.map((chartTab) => (
           <TabsContent

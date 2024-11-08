@@ -4,11 +4,13 @@ import { AVAILABLE_TIMEFRAMES, Timeframe } from '../defaults'
 export interface TimeframeButtonsProps {
   onTimeframeChange: (timeframe: Timeframe) => void
   selectedTimeframe: Timeframe
+  className?: string
 }
 
-export function TimeframeButtons({ onTimeframeChange, selectedTimeframe }: TimeframeButtonsProps) {
+// @todo this should be build with SegmentControl component
+export function TimeframeButtons({ onTimeframeChange, selectedTimeframe, className }: TimeframeButtonsProps) {
   return (
-    <div className="ml-auto grid w-full grid-cols-4 rounded-lg border border-basics-border">
+    <div className={cn('ml-auto flex flex-nowrap gap-0.5 rounded-sm bg-secondary p-0.5', className)}>
       {AVAILABLE_TIMEFRAMES.map((timeframe) => (
         <TimeframeButton
           key={timeframe}
@@ -32,11 +34,10 @@ function TimeframeButton({ selected, ...props }: TimeframeButtonProps) {
   return (
     <button
       className={cn(
-        'h-8 gap-1 rounded-none px-3 py-2 text-xs',
-        'font-normal text-prompt-foreground hover:bg-basics-grey hover:text-black',
-        // radius has to be calculated because of the border of wrapper - more details https://www.30secondsofcode.org/css/s/nested-border-radius/
-        'last:rounded-r-[calc(var(--radius)-1px)] first:rounded-l-[calc(var(--radius)-1px)]',
-        selected && 'bg-basics-grey text-black',
+        'typography-label-6 border border-transparent p-1.5 text-secondary xl:min-w-9 ',
+        'flex-1 rounded-[6px] transition-colors ease-in hover:bg-tertiary',
+        'focus-visible:outline-none focus-visible:ring focus-visible:ring-reskin-primary-200 focus-visible:ring-offset-0',
+        selected && 'border-primary bg-primary text-primary shadow-xs hover:bg-primary',
       )}
       {...props}
     />
