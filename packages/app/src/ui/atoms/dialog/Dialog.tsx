@@ -46,6 +46,7 @@ const contentVariants = cva(
         center: '-translate-y-1/2 top-1/2',
         top: 'top-0 translate-y-0',
         bottom: cn(
+          // @note overrides didn't work without important flag
           '-translate-y-full !zoom-out-100 !zoom-in-100',
           'data-[state=open]:slide-in-from-top-[0%] data-[state=closed]:fade-out-[100%] data-[state=open]:fade-in-[100%]',
           '!duration-300 top-full max-h-[90vh] min-h-0 min-h-auto rounded-t-md',

@@ -37,6 +37,7 @@ const buttonVariants = cva(
       { type: 'savings', isHighlighted: true, class: 'border-reskin-page-savings/40 shadow-reskin-page-savings/15' },
       { type: 'farms', isHighlighted: true, class: 'border-reskin-page-farms/40 shadow-reskin-page-farms/15' },
       { type: 'borrow', isHighlighted: true, class: 'border-reskin-page-borrow/40 shadow-reskin-page-borrow/15' },
+      // @note overrides didn't work without important flag
       { type: 'savings', isActive: true, class: '!border-reskin-page-savings' },
       { type: 'farms', isActive: true, class: '!border-reskin-page-farms' },
       { type: 'borrow', isActive: true, class: '!border-reskin-page-borrow' },

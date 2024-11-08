@@ -2,7 +2,6 @@ import { getChainConfigEntry } from '@/config/chain'
 import { useSandboxState } from '@/domain/sandbox/useSandboxState'
 import { useOpenDialog } from '@/domain/state/dialogs'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
-import { useBlockedPages } from '@/features/compliance/logic/useBlockedPages'
 import { sandboxDialogConfig } from '@/features/dialogs/sandbox/SandboxDialog'
 import { selectNetworkDialogConfig } from '@/features/dialogs/select-network/SelectNetworkDialog'
 import { SupportedChain } from '@/features/navbar/types'
@@ -14,9 +13,9 @@ import { TopbarProps } from '../components/topbar/Topbar'
 import { useAirdropInfo } from './use-airdrop-info/useAirdropInfo'
 import { useConnectedWalletInfo } from './use-connected-wallet-info/useConnectedWalletInfo'
 import { useDisconnect } from './useDisconnect'
+import { useNavigationInfo } from './useNavigationInfo'
 import { useNetworkChange } from './useNetworkChange'
 import { useRewardsInfo } from './useRewardsInfo'
-import { useSavingsInfo } from './useSavingsInfo'
 
 interface UseTopbarParams {
   isMobileDisplay: boolean
@@ -27,19 +26,18 @@ export function useTopbar({ isMobileDisplay }: UseTopbarParams): TopbarProps {
   const chains = useChains()
   const { openConnectModal = () => {} } = useConnectModal()
   const { address, connector } = useAccount()
-  const blockedPages = useBlockedPages()
 
   const openDialog = useOpenDialog()
 
   const { isInSandbox, deleteSandbox } = useSandboxState()
 
-  const savingsInfo = useSavingsInfo()
   const rewardsInfo = useRewardsInfo({
     chainId: currentChainId,
     address: address && CheckedAddress(address),
   })
 
   const airdropInfo = useAirdropInfo({ refreshIntervalInMs: 100 })
+  const navigationInfo = useNavigationInfo({ chainId: currentChainId })
 
   const { changeNetworkAsync } = useNetworkChange()
   const { disconnect } = useDisconnect({
@@ -69,8 +67,6 @@ export function useTopbar({ isMobileDisplay }: UseTopbarParams): TopbarProps {
     name: supportedChains[0]?.name ?? raise('No supported chains'),
   } // this fallback object is needed when we add new chains
 
-  const { daiSymbol, usdsSymbol } = getChainConfigEntry(currentChain.id)
-
   function openSandboxDialog(): void {
     openDialog(sandboxDialogConfig, { mode: 'ephemeral', asDrawer: isMobileDisplay } as const)
   }
@@ -90,14 +86,7 @@ export function useTopbar({ isMobileDisplay }: UseTopbarParams): TopbarProps {
       airdropInfo,
       rewardsInfo,
     },
-    navigationInfo: {
-      savingsInfo,
-      blockedPages,
-      topbarNavigationInfo: {
-        daiSymbol,
-        usdsSymbol,
-      },
-    },
+    navigationInfo,
     networkInfo: {
       currentChain,
       onSelectNetwork: openSelectNetworkDialog,

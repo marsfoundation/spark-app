@@ -4,24 +4,38 @@ import { WithClassname } from '@sb/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { userEvent, within } from '@storybook/test'
 import { reactRouterParameters, withRouter } from 'storybook-addon-remix-react-router'
-import { TopbarNavigation } from './TopbarNavigation'
+import { TopbarNavigation, TopbarNavigationProps } from './TopbarNavigation'
+
+const args = {
+  borrowSubLinks: [
+    {
+      to: paths.easyBorrow,
+      label: 'Borrow DAI',
+    },
+    {
+      to: paths.myPortfolio,
+      label: 'My portfolio',
+    },
+    {
+      to: paths.markets,
+      label: 'Markets',
+    },
+  ],
+  isBorrowSubLinkActive: false,
+  blockedPages: [],
+  savingsInfo: {
+    data: {
+      apy: Percentage(0.05),
+    } as any,
+    isLoading: false,
+  },
+} satisfies TopbarNavigationProps
 
 const meta: Meta<typeof TopbarNavigation> = {
   title: 'Features/Topbar/Components/TopbarNavigation',
   decorators: [withRouter, WithClassname('h-[400px]')],
   component: TopbarNavigation,
-  args: {
-    topbarNavigationInfo: {
-      daiSymbol: 'DAI',
-    },
-    blockedPages: [],
-    savingsInfo: {
-      data: {
-        apy: Percentage(0.05),
-      } as any,
-      isLoading: false,
-    },
-  },
+  args,
 }
 
 export default meta
@@ -48,6 +62,10 @@ export const FarmsPage: Story = {
 }
 
 export const MarketsPage: Story = {
+  args: {
+    ...args,
+    isBorrowSubLinkActive: true,
+  },
   parameters: {
     reactRouter: reactRouterParameters({
       routing: {
@@ -74,6 +92,10 @@ export const SavingsDropdownOpenPage: Story = {
 }
 
 export const MarketsDropdownOpenPage: Story = {
+  args: {
+    ...args,
+    isBorrowSubLinkActive: true,
+  },
   parameters: {
     reactRouter: reactRouterParameters({
       routing: {

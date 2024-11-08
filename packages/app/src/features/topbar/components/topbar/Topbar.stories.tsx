@@ -63,9 +63,21 @@ const args = {
     onConnect: () => {},
   },
   navigationInfo: {
-    topbarNavigationInfo: {
-      daiSymbol: 'DAI',
-    },
+    borrowSubLinks: [
+      {
+        to: paths.easyBorrow,
+        label: 'Borrow DAI',
+      },
+      {
+        to: paths.myPortfolio,
+        label: 'My portfolio',
+      },
+      {
+        to: paths.markets,
+        label: 'Markets',
+      },
+    ],
+    isBorrowSubLinkActive: false,
     blockedPages: [],
     savingsInfo: {
       data: {

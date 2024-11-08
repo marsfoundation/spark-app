@@ -8,35 +8,22 @@ import { MenuItem } from '@/ui/atoms/new/menu-item/MenuItem'
 import { cn } from '@/ui/utils/style'
 import { ChevronDownIcon } from 'lucide-react'
 import { useState } from 'react'
-import { NavLink, matchPath, useLocation } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { TopbarButton } from './TopbarButton'
 import { TopbarNavigationProps } from './TopbarNavigation'
 import { LINKS_DATA } from './constants'
 
-export function TopbarNavigationDialog({ savingsInfo, blockedPages, topbarNavigationInfo }: TopbarNavigationProps) {
+export function TopbarNavigationDialog({
+  savingsInfo,
+  blockedPages,
+  borrowSubLinks,
+  isBorrowSubLinkActive,
+}: TopbarNavigationProps) {
   const [dialogOpen, setDialogOpen] = useState(false)
 
   function closeDialog() {
     setDialogOpen(false)
   }
-
-  const borrowSubLinks = [
-    {
-      to: paths.easyBorrow,
-      label: `Borrow ${topbarNavigationInfo.daiSymbol ?? ''}${topbarNavigationInfo.usdsSymbol ? ` and ${topbarNavigationInfo.usdsSymbol}` : ''}`,
-    },
-    {
-      to: paths.myPortfolio,
-      label: 'My portfolio',
-    },
-    {
-      to: paths.markets,
-      label: 'Markets',
-    },
-  ]
-
-  const location = useLocation()
-  const isBorrowSubLinkActive = borrowSubLinks.some((link) => matchPath(`${link.to}/*`, location.pathname))
 
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
@@ -77,7 +64,7 @@ export function TopbarNavigationDialog({ savingsInfo, blockedPages, topbarNaviga
                 className="w-full"
               />
             </AccordionTrigger>
-            <AccordionContent className="flex flex-col gap-2 pl-12">
+            <AccordionContent className="flex flex-col gap-2 px-12">
               {borrowSubLinks.map((link) => (
                 <NavLink key={link.to} to={link.to}>
                   {({ isActive }) => (
