@@ -5,9 +5,9 @@ import { NavLink, To, useMatch } from 'react-router-dom'
 
 const buttonVariants = cva(
   cn(
-    'typography-label-4 inline-flex h-10 flex-nowrap items-center',
-    'group gap-2 rounded-sm border border-primary bg-primary px-4 py-3',
-    'border-solid border-opacity-40 shadow-xs transition-colors',
+    'typography-label-4 inline-flex h-20 flex-nowrap items-center sm:h-10',
+    'group gap-2 border-reskin-base-white border-l-4 bg-primary px-4 py-2 sm:rounded-sm sm:border sm:border-primary',
+    'border-solid border-opacity-40 transition-colors sm:shadow-xs',
     'focus-visible:outline-none focus-visible:ring-1 ',
   ),
   {
@@ -37,9 +37,10 @@ const buttonVariants = cva(
       { type: 'savings', isHighlighted: true, class: 'border-reskin-page-savings/40 shadow-reskin-page-savings/15' },
       { type: 'farms', isHighlighted: true, class: 'border-reskin-page-farms/40 shadow-reskin-page-farms/15' },
       { type: 'borrow', isHighlighted: true, class: 'border-reskin-page-borrow/40 shadow-reskin-page-borrow/15' },
-      { type: 'savings', isActive: true, class: 'border-reskin-page-savings' },
-      { type: 'farms', isActive: true, class: 'border-reskin-page-farms' },
-      { type: 'borrow', isActive: true, class: 'border-reskin-page-borrow' },
+      // @note overrides didn't work without important flag
+      { type: 'savings', isActive: true, class: '!border-reskin-page-savings' },
+      { type: 'farms', isActive: true, class: '!border-reskin-page-farms' },
+      { type: 'borrow', isActive: true, class: '!border-reskin-page-borrow' },
     ],
     defaultVariants: {
       isActive: false,
@@ -71,10 +72,11 @@ export const TopbarButton = forwardRef<HTMLAnchorElement | HTMLButtonElement, To
     const content = (
       <>
         {prefixIcon}
-        {label}
+        <span className="inline lg:inline sm:hidden">{label}</span>
+
         {postfixSlot &&
           cloneElement(postfixSlot, {
-            className: cn('icon-xs transition-colors group-hover:text-secondary', postfixSlot.props.className),
+            className: cn('h-5 transition-colors group-hover:text-secondary', postfixSlot.props.className),
           })}
       </>
     )

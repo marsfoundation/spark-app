@@ -4,12 +4,12 @@ import { CommonDialogProps, DialogConfig } from '../common/types'
 import { SandboxDialogContentContainer } from './SandboxDialogContentContainer'
 import { SandboxMode } from './types'
 
-export type SandboxDialogProps = { mode: SandboxMode } & CommonDialogProps
+export type SandboxDialogProps = { mode: SandboxMode; asDrawer?: boolean } & CommonDialogProps
 
-function SandboxDialog({ open, setOpen, mode }: SandboxDialogProps) {
+function SandboxDialog({ open, setOpen, mode, asDrawer = false }: SandboxDialogProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent>
+      <DialogContent contentVerticalPosition={asDrawer ? 'bottom' : 'center'}>
         <SandboxDialogContentContainer mode={mode} closeDialog={() => setOpen(false)} />
       </DialogContent>
     </Dialog>

@@ -4,6 +4,7 @@ import * as React from 'react'
 
 import { cn } from '@/ui/utils/style'
 import { VariantProps, cva } from 'class-variance-authority'
+import { MenuItem, MenuItemIcon } from '../new/menu-item/MenuItem'
 
 const DropdownMenu = DropdownMenuPrimitive.Root
 
@@ -122,23 +123,11 @@ const DropdownMenuItem = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> & VariantProps<typeof dropdownItemVariants>
 >(({ className, variant, ...props }, ref) => (
-  <DropdownMenuPrimitive.Item ref={ref} className={cn(dropdownItemVariants({ variant }), className)} {...props} />
+  <MenuItem asChild className={className}>
+    <DropdownMenuPrimitive.Item ref={ref} {...props} />
+  </MenuItem>
 ))
 DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName
-
-function DropdownMenuItemIcon({
-  icon: Icon,
-  className,
-}: { icon: React.ComponentType<{ className?: string }>; className?: string }) {
-  return (
-    <Icon
-      className={cn(
-        'icon-xs text-secondary group-focus-visible:text-brand-primary group-hover:text-brand-primary',
-        className,
-      )}
-    />
-  )
-}
 
 const DropdownMenuCheckboxItem = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.CheckboxItem>,
@@ -236,5 +225,5 @@ export {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-  DropdownMenuItemIcon,
+  MenuItemIcon as DropdownMenuItemIcon,
 }

@@ -11,6 +11,7 @@ interface UseConnectedWalletInfoParams {
   connector: Connector | undefined
   isInSandbox: boolean
   onDisconnect: () => void
+  isMobileDisplay: boolean
 }
 
 export function useConnectedWalletInfo({
@@ -18,6 +19,7 @@ export function useConnectedWalletInfo({
   address,
   isInSandbox,
   onDisconnect,
+  isMobileDisplay,
 }: UseConnectedWalletInfoParams): TopbarWalletProps['connectedWalletInfo'] {
   const { data: ensName } = useEnsName({
     address,
@@ -44,5 +46,6 @@ export function useConnectedWalletInfo({
       onDisconnect,
       blockExplorerAddressLink,
     },
+    isMobileDisplay,
   }
 }

@@ -23,13 +23,9 @@ export interface Reward {
 export interface TopbarRewardsProps {
   rewards: Reward[]
   onClaim: () => void
+  totalClaimableReward: NormalizedUnitNumber
 }
-export function TopbarRewards({ rewards, onClaim }: TopbarRewardsProps) {
-  const totalClaimableReward = rewards.reduce(
-    (acc, { token, amount }) => NormalizedUnitNumber(acc.plus(token.toUSD(amount))),
-    NormalizedUnitNumber(0),
-  )
-
+export function TopbarRewards({ rewards, onClaim, totalClaimableReward }: TopbarRewardsProps) {
   if (totalClaimableReward.isZero()) {
     return null
   }

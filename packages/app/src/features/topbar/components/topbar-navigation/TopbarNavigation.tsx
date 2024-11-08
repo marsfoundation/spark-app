@@ -10,7 +10,7 @@ import {
 import { cn } from '@/ui/utils/style'
 import { ChevronDown } from 'lucide-react'
 import { useState } from 'react'
-import { NavLink, matchPath, useLocation } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { TopbarButton } from './TopbarButton'
 import { LINKS_DATA } from './constants'
 
@@ -22,39 +22,27 @@ export interface TopbarNavigationInfo {
 export interface TopbarNavigationProps {
   savingsInfo: SavingsInfoQueryResults | undefined
   blockedPages: Path[]
-  topbarNavigationInfo: TopbarNavigationInfo
+  borrowSubLinks: Array<{
+    to: string
+    label: string
+  }>
+  isBorrowSubLinkActive: boolean
 }
 
-export function TopbarNavigation({ savingsInfo, blockedPages, topbarNavigationInfo }: TopbarNavigationProps) {
+export function TopbarNavigation({
+  savingsInfo,
+  blockedPages,
+  borrowSubLinks,
+  isBorrowSubLinkActive,
+}: TopbarNavigationProps) {
   const [linksDropdownOpen, setLinksDropdownOpen] = useState(false)
 
   function handleNavigate() {
     setLinksDropdownOpen(false)
   }
 
-  const borrowSubLinks = [
-    {
-      to: paths.easyBorrow,
-      label: `Borrow ${topbarNavigationInfo.daiSymbol ?? ''}${topbarNavigationInfo.usdsSymbol ? ` and ${topbarNavigationInfo.usdsSymbol}` : ''}`,
-      onClick: handleNavigate,
-    },
-    {
-      to: paths.myPortfolio,
-      label: 'My portfolio',
-      onClick: handleNavigate,
-    },
-    {
-      to: paths.markets,
-      label: 'Markets',
-      onClick: handleNavigate,
-    },
-  ]
-
-  const location = useLocation()
-  const isBorrowSubLinkActive = borrowSubLinks.some((link) => matchPath(`${link.to}/*`, location.pathname))
-
   return (
-    <div className="flex gap-2">
+    <div className="hidden gap-2 sm:flex">
       {!blockedPages.some((page) => page === 'savings') && ( // some instead of includes for better type inference
         <TopbarButton
           to={paths.savings}
@@ -63,7 +51,11 @@ export function TopbarNavigation({ savingsInfo, blockedPages, topbarNavigationIn
           type="savings"
           postfixSlot={
             savingsInfo?.data || savingsInfo?.isLoading ? (
-              <SavingsAPYBadge APY={savingsInfo.data?.apy} isLoading={savingsInfo.isLoading} />
+              <SavingsAPYBadge
+                APY={savingsInfo.data?.apy}
+                isLoading={savingsInfo.isLoading}
+                className="hidden lg:inline-flex"
+              />
             ) : undefined
           }
         />
@@ -88,7 +80,7 @@ export function TopbarNavigation({ savingsInfo, blockedPages, topbarNavigationIn
               asChild
               className="cursor-pointer rounded-none border-b border-b-primary p-0 first:rounded-t-xs last:rounded-b-xs last:border-none"
             >
-              <NavLink to={link.to} onClick={link.onClick}>
+              <NavLink to={link.to} onClick={handleNavigate}>
                 {({ isActive }) => (
                   <div
                     className={cn('relative w-full p-6 text-secondary hover:text-primary', isActive && 'text-primary')}

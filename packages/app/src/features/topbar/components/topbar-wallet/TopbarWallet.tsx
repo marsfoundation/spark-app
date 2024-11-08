@@ -8,12 +8,14 @@ export interface TopbarWalletProps {
 
 export function TopbarWallet({ connectedWalletInfo, onConnect }: TopbarWalletProps) {
   return (
-    <div className="w-44">
+    <div className="md:w-44 sm:w-36">
       {connectedWalletInfo ? (
         <TopbarWalletDropdown {...connectedWalletInfo} />
       ) : (
-        <Button size="m" variant="primary" className="w-full" onClick={onConnect}>
-          Connect Wallet
+        <Button size="m" variant="primary" className="w-full px-3" onClick={onConnect}>
+          <span>
+            Connect <span className="hidden sm:inline">Wallet</span>
+          </span>
         </Button>
       )}
     </div>
