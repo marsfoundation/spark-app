@@ -11,7 +11,7 @@ import { MyWalletPanel } from './MyWalletPanel'
 const meta: Meta<typeof MyWalletPanel> = {
   title: 'Features/MyPortfolio/Components/MyWalletPanel',
   component: MyWalletPanel,
-  decorators: [WithClassname('max-w-[424px]'), WithTooltipProvider()],
+  decorators: [WithClassname('max-w-[425px]'), WithTooltipProvider()],
   args: {
     includeDeposits: true,
     setIncludeDeposits: () => {},

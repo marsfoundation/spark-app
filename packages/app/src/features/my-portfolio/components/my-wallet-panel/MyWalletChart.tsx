@@ -1,12 +1,29 @@
+import { TokenWithBalance } from '@/domain/common/types'
+import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { USD_MOCK_TOKEN } from '@/domain/types/Token'
+import { getTokenColor, getTokenImage } from '@/ui/assets'
+import { getRandomColor } from '@/ui/utils/get-random-color'
+import { useState } from 'react'
 import { ChartItem } from './types'
 
 export interface MyWalletChartProps {
-  data: ChartItem[]
-  highlightedIndex: number | undefined
-  setHighlightedIndex: (index: number | undefined) => void
+  assets: TokenWithBalance[]
+  className?: string
 }
 
-export function MyWalletChart({ data, highlightedIndex, setHighlightedIndex }: MyWalletChartProps) {
+export function MyWalletChart({ assets, className }: MyWalletChartProps) {
+  const totalUsd = assets.reduce(
+    (acc, asset) => NormalizedUnitNumber(acc.plus(asset.token.toUSD(asset.balance))),
+    NormalizedUnitNumber(0),
+  )
+  const nonZeroAssets = assets.filter((asset) => asset.balance.gt(0))
+  const data = nonZeroAssets.map((asset) => ({
+    value: asset.token.toUSD(asset.balance).toNumber(),
+    color: getTokenColor(asset.token.symbol, { fallback: getRandomColor() }),
+  }))
+  const [highlightedIndex, setHighlightedIndex] = useState<number | undefined>(undefined)
+  const highlightedAsset = highlightedIndex === undefined ? undefined : nonZeroAssets[highlightedIndex]
+
   const radius = 175
   const auxiliaryRadius = radius - 40
   const strokeWidth = 50
@@ -15,7 +32,34 @@ export function MyWalletChart({ data, highlightedIndex, setHighlightedIndex }: M
   const separators = getSeparators({ data, cx: 200, cy: 200, radius, mainStrokeWidth: strokeWidth })
 
   return (
-    <svg preserveAspectRatio="xMidYMid meet" viewBox="0 0 400 400">
+    <svg preserveAspectRatio="xMidYMid meet" viewBox="0 0 400 400" className={className}>
+      <foreignObject width="100%" height="100%">
+        <div
+          className="flex h-full w-full animate-reveal flex-col items-center justify-center text-primary-inverse duration-500 ease-out"
+          key={highlightedIndex}
+        >
+          {highlightedAsset === undefined ? (
+            <div className="flex flex-col items-center gap-1.5">
+              <div className="font-roobert text-[14px]">TOTAL</div>
+              <div className="text-[28px]">{USD_MOCK_TOKEN.formatUSD(totalUsd)}</div>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center gap-1.5 text-primary-inverse">
+              <div className="flex items-center gap-2">
+                <img src={getTokenImage(highlightedAsset.token.symbol)} className="h-6 w-6" />
+                <div className="font-roobert text-[14px]">{highlightedAsset.token.symbol}</div>
+              </div>
+              <div className="text-[28px]">
+                {highlightedAsset.token.format(highlightedAsset.balance, { style: 'auto' })}
+              </div>
+              <div className="font-roobert text-[14px] text-secondary">
+                {highlightedAsset.token.formatUSD(highlightedAsset.balance)}
+              </div>
+            </div>
+          )}
+        </div>
+      </foreignObject>
+
       {arcs.map((point, index) => {
         if (point.angle <= 0) {
           return null
@@ -79,8 +123,8 @@ interface Separator {
   y2: number
 }
 function getSeparators({ data, cx, cy, radius, mainStrokeWidth }: GetSeparatorsParams): Separator[] {
-  const starts = getArcs({ data, cx, cy, radius: radius - mainStrokeWidth })
-  const ends = getArcs({ data, cx, cy, radius: radius + mainStrokeWidth })
+  const starts = getArcs({ data, cx, cy, radius: radius - mainStrokeWidth / 2 })
+  const ends = getArcs({ data, cx, cy, radius: radius + mainStrokeWidth / 2 })
 
   return starts
     .map((start, index) => {
