@@ -25,7 +25,7 @@ export function FullView({
   oracleInfo,
 }: MarketDetailsViewProps) {
   return (
-    <PageLayout compact className="gap-0">
+    <PageLayout className="gap-0">
       <BackNav chainId={chainId} chainName={chainName} />
       <Header
         token={token}

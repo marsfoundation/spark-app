@@ -60,7 +60,7 @@ export function FarmDetailsView({
   pointsSyncStatus,
 }: FarmDetailsViewProps) {
   return (
-    <PageLayout compact className="gap-0">
+    <PageLayout className="gap-0">
       <BackNav chainId={chainId} />
       <Header token={farm.rewardToken} farmName={farm.name} chainId={chainId} chainMismatch={chainMismatch} />
       <div className="flex flex-col gap-8">

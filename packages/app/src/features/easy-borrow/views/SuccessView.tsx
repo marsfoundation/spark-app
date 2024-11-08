@@ -25,7 +25,7 @@ export function SuccessView({ deposited, borrowed, runConfetti, borrowDetails }:
   const desktop = useBreakpoint('md')
 
   return (
-    <PageLayout compact className={cn('pt-8', desktop && 'pt-28')}>
+    <PageLayout className={cn('pt-8', desktop && 'pt-28')}>
       <Confetti run={runConfetti} recycle={false} numberOfPieces={1000} data-testid="react-confetti" />
       <Panel>
         <SuccessViewCheckmark />
