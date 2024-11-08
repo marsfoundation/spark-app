@@ -31,12 +31,16 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
     sdaiSymbol: TokenSymbol('USDC'),
     usdsSymbol: undefined,
     susdsSymbol: undefined,
-    psmStables: undefined,
+    psmStables: [TokenSymbol('USDC'), TokenSymbol('USDT')],
     meta: {
       name: 'Last Sepolia',
       logo: assets.lastLogo,
     },
-    permitSupport: {},
+    permitSupport: {
+      [CheckedAddress('0x04f42e29D6057B7D70Ea1cab8E516C0029420B64')]: true, // USDC
+      [CheckedAddress('0xc9Fc065b2e986f29138Bd398E6FaAbd291c58B8E')]: true, // USDT
+      [CheckedAddress('0x7eA65834587ABF89A94d238a404C4A638Fc7641B')]: false, // WETH
+    },
     tokensWithMalformedApprove: [],
     airdrop: {},
     extraTokens: [
