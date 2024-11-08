@@ -58,7 +58,12 @@ test.describe('MyPortfolio', () => {
     const myPortfolioPage = new MyPortfolioPageObject(page)
 
     await myPortfolioPage.expectPositionToBeEmpty()
-    await myPortfolioPage.expectWalletTable(assetBalances)
+    await myPortfolioPage.expectBalancesInDepositTable({
+      WETH: 2,
+      DAI: 200,
+      sDAI: 300,
+      USDC: 400,
+    })
 
     await screenshot(page, 'myPortfolio-no-position')
   })
@@ -87,8 +92,7 @@ test.describe('MyPortfolio', () => {
     await myPortfolioPage.expectBorrowedAssets((await calculateAssetsWorth(fork.forkUrl, { DAI: daiToBorrow })).total)
 
     await myPortfolioPage.expectDepositTable(assetsToDeposit)
-    await myPortfolioPage.expectWalletTable({
-      ...assetsToDeposit,
+    await myPortfolioPage.expectBalancesInDepositTable({
       DAI: daiToBorrow,
     })
 

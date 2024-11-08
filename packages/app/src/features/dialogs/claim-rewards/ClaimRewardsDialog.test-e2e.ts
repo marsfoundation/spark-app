@@ -66,7 +66,7 @@ test.describe('Claim rewards dialog', () => {
     const myPortfolioPage = new MyPortfolioPageObject(page)
     await myPortfolioPage.goToMyPortfolioAction()
 
-    await myPortfolioPage.expectWalletTable({
+    await myPortfolioPage.expectBalancesInDepositTable({
       wstETH: 6.3697,
     })
 
