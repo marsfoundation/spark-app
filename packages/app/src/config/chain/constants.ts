@@ -3,13 +3,7 @@ import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { base, gnosis, mainnet } from 'viem/chains'
 
-export const SUPPORTED_CHAINS = ([mainnet, gnosis, base] as const).filter((chain) => {
-  if (import.meta?.env?.VITE_FEATURE_BASE_SUPPORT !== '1' && chain.id === base.id) {
-    return false
-  }
-
-  return true
-})
+export const SUPPORTED_CHAINS = [mainnet, gnosis, base] as const
 export const SUPPORTED_CHAIN_IDS = SUPPORTED_CHAINS.map((chain) => chain.id)
 
 export const farmStablecoinsEntryGroup: Record<1 | 8453, AssetsGroup> = {
