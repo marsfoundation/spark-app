@@ -4,10 +4,11 @@ import { UserPositionSummary } from '@/domain/market-info/marketInfo'
 import { Percentage } from '@/domain/types/NumericValues'
 import { ActionsContainer } from '@/features/actions/ActionsContainer'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
+import { assets } from '@/ui/assets'
 import { Form } from '@/ui/atoms/form/Form'
 import { Button } from '@/ui/atoms/new/button/Button'
 import { Panel } from '@/ui/atoms/new/panel/Panel'
-import { ConnectOrSandboxCTAButtonGroup } from '@/ui/molecules/connect-or-sandbox-cta-button-group/ConnectOrSandboxCTAButtonGroup'
+import { ConnectOrSandboxCTAPanel } from '@/ui/organisms/connect-or-sandbox-cta-panel/ConnectOrSandboxCTAPanel'
 import { RiskAcknowledgement } from '@/ui/organisms/risk-acknowledgement/RiskAcknowledgement'
 import { UseFormReturn } from 'react-hook-form'
 import { FormFieldsForAssetClass } from '../logic/form/form'
@@ -37,6 +38,8 @@ export interface EasyBorrowPanelProps {
   healthFactorPanelRef: React.RefObject<HTMLDivElement>
   actionsContext: InjectedActionsContext
 }
+
+const TOKEN_ICONS = [assets.token.usds, assets.token.eth, assets.token.dai, assets.token.wsteth, assets.token.usdc]
 
 export function EasyBorrowPanel(props: EasyBorrowPanelProps) {
   const { pageStatus, objectives, actionsContext, form, guestMode, openConnectModal, openSandboxModal } = props
@@ -86,9 +89,11 @@ export function EasyBorrowPanel(props: EasyBorrowPanelProps) {
         </Panel>
 
         {guestMode ? (
-          <ConnectOrSandboxCTAButtonGroup
-            buttonText="Connect wallet"
+          <ConnectOrSandboxCTAPanel
+            header="Connect your wallet to use Spark"
+            iconPaths={TOKEN_ICONS}
             action={openConnectModal}
+            buttonText="Connect wallet"
             openSandboxModal={openSandboxModal}
           />
         ) : (

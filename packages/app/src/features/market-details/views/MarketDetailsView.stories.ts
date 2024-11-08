@@ -88,6 +88,7 @@ const args: MarketDetailsViewProps = {
   },
   openConnectModal: () => {},
   openDialog: () => {},
+  openSandboxModal: () => {},
   oracleInfo: {
     isLoading: false,
     error: null,

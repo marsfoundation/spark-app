@@ -22,6 +22,7 @@ export function FullView({
   walletOverview,
   openConnectModal,
   openDialog,
+  openSandboxModal,
   oracleInfo,
 }: MarketDetailsViewProps) {
   return (
@@ -49,6 +50,7 @@ export function FullView({
             <MarketOverviewPanel token={token} {...marketOverview.summary} />
           )}
           <MyWalletPanel
+            openSandboxModal={openSandboxModal}
             openDialog={openDialog}
             walletOverview={walletOverview}
             openConnectModal={openConnectModal}

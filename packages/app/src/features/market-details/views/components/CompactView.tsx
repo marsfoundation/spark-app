@@ -23,6 +23,7 @@ export function CompactView({
   marketOverview,
   walletOverview,
   openConnectModal,
+  openSandboxModal,
   openDialog,
   oracleInfo,
 }: MarketDetailsViewProps) {
@@ -55,6 +56,7 @@ export function CompactView({
         </TabsContent>
         <TabsContent value="actions" className="px-3">
           <MyWalletPanel
+            openSandboxModal={openSandboxModal}
             openDialog={openDialog}
             walletOverview={walletOverview}
             openConnectModal={openConnectModal}

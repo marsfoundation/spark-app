@@ -18,14 +18,10 @@ export function ConnectOrSandboxCTAPanel({
   openSandboxModal,
 }: ConnectOrSandboxCTAPanelProps) {
   return (
-    <Panel className="flex flex-col items-center gap-6 text-center">
+    <Panel className="flex flex-col items-center gap-6 bg-connect-wallet-cta bg-top bg-no-repeat text-center md:p-12">
+      <h4 className="typography-heading-3 text-primary-inverse drop-shadow-xl md:mt-4">{header}</h4>
       {iconPaths && <IconStack paths={iconPaths} size="lg" stackingOrder="first-on-top" />}
-      <ConnectOrSandboxCTAButtonGroup
-        header={header}
-        action={action}
-        buttonText={buttonText}
-        openSandboxModal={openSandboxModal}
-      />
+      <ConnectOrSandboxCTAButtonGroup action={action} buttonText={buttonText} openSandboxModal={openSandboxModal} />
     </Panel>
   )
 }

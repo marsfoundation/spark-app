@@ -6,7 +6,6 @@ const meta: Meta<typeof ConnectOrSandboxCTAButtonGroup> = {
   title: 'Components/Molecules/ConnectOrSandboxCTAButtonGroup',
   component: ConnectOrSandboxCTAButtonGroup,
   args: {
-    header: 'Connect your wallet and start saving!',
     buttonText: 'Connect wallet',
     action: () => {},
     openSandboxModal: () => {},

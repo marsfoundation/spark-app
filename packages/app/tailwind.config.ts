@@ -410,6 +410,8 @@ export default {
         'dai-upgrade': 'url(/src/ui/assets/savings/dai-upgrade-bg.svg), linear-gradient(#101014, #101014)',
         'sdai-upgrade': 'url(/src/ui/assets/savings/sdai-upgrade-bg.svg), linear-gradient(#101014, #101014)',
         'savings-welcome': 'url(/src/ui/assets/savings/savings-welcome-bg.svg)',
+        'connect-wallet-cta':
+          'url(/src/ui/assets/banners/connect-wallet-cta-bg.svg), linear-gradient(#101014, #101014)',
       },
       fontWeight: {
         regular: '400',
