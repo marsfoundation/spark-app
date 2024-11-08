@@ -1,5 +1,5 @@
 import { getChainConfigEntry } from '@/config/chain'
-import { Panel } from '@/ui/atoms/panel/Panel'
+import { Panel } from '@/ui/atoms/new/panel/Panel'
 import { Typography } from '@/ui/atoms/typography/Typography'
 import { PageLayout } from '@/ui/layouts/PageLayout'
 import { LabeledSwitch } from '@/ui/molecules/labeled-switch/LabeledSwitch'
@@ -37,7 +37,7 @@ export function MarketsView({
         </div>
       </div>
       <SummaryTiles marketStats={marketStats} />
-      <Panel.Wrapper className="flex flex-col gap-5 p-4 lg:p-8">
+      <Panel className="flex flex-col gap-5">
         <MarketsTable
           entries={activeAndPausedMarketEntries}
           chainId={chainId}
@@ -62,7 +62,7 @@ export function MarketsView({
             )}
           </>
         )}
-      </Panel.Wrapper>
+      </Panel>
     </PageLayout>
   )
 }

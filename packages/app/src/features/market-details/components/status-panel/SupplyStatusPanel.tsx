@@ -1,12 +1,10 @@
+import { CapAutomatorConfig } from '@/domain/cap-automator/types'
 import { formatPercentage } from '@/domain/common/format'
 import { SupplyAvailabilityStatus } from '@/domain/market-info/reserve-status'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
-import { Panel } from '@/ui/atoms/panel/Panel'
 import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
 import { CooldownTimer } from '@/ui/molecules/cooldown-timer/CooldownTimer'
-
-import { CapAutomatorConfig } from '@/domain/cap-automator/types'
 import { InfoTile } from '@/ui/molecules/info-tile/InfoTile'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
@@ -42,34 +40,30 @@ export function SupplyStatusPanel({
   }
 
   return (
-    <Panel.Wrapper>
-      <StatusPanelGrid>
-        <StatusIcon status={status} />
-        <Header status={status} variant="supply" />
-        <Subheader status={status} />
-        <InfoTilesGrid>
-          <InfoTile>
-            <InfoTile.Label>Total supplied</InfoTile.Label>
-            <InfoTile.Value>
-              {token.format(totalSupplied, { style: 'compact' })} {token.symbol}
-            </InfoTile.Value>
-            <InfoTile.ComplementaryLine>{token.formatUSD(totalSupplied, { compact: true })}</InfoTile.ComplementaryLine>
-          </InfoTile>
-          <InfoTile>
-            <InfoTile.Label>
-              <ApyTooltip variant="supply">Deposit APY</ApyTooltip>
-            </InfoTile.Label>
-            <InfoTile.Value>{formatPercentage(apy)}</InfoTile.Value>
-          </InfoTile>
+    <StatusPanelGrid>
+      <StatusIcon status={status} />
+      <Header status={status} variant="supply" />
+      <Subheader status={status} />
+      <InfoTilesGrid>
+        <InfoTile>
+          <InfoTile.Label>Total supplied</InfoTile.Label>
+          <InfoTile.Value>
+            {token.format(totalSupplied, { style: 'compact' })} {token.symbol}
+          </InfoTile.Value>
+          <InfoTile.ComplementaryLine>{token.formatUSD(totalSupplied, { compact: true })}</InfoTile.ComplementaryLine>
+        </InfoTile>
+        <InfoTile>
+          <InfoTile.Label>
+            <ApyTooltip variant="supply">Deposit APY</ApyTooltip>
+          </InfoTile.Label>
+          <InfoTile.Value>{formatPercentage(apy)}</InfoTile.Value>
+        </InfoTile>
 
-          {supplyCap && (
-            <CapAutomatorInfoTile token={token} capAutomatorInfo={capAutomatorInfo} supplyCap={supplyCap} />
-          )}
-        </InfoTilesGrid>
+        {supplyCap && <CapAutomatorInfoTile token={token} capAutomatorInfo={capAutomatorInfo} supplyCap={supplyCap} />}
+      </InfoTilesGrid>
 
-        {hasSparkAirdrop && <SparkAirdropInfoPanel variant="deposit" eligibleToken={token.symbol} />}
-      </StatusPanelGrid>
-    </Panel.Wrapper>
+      {hasSparkAirdrop && <SparkAirdropInfoPanel variant="deposit" eligibleToken={token.symbol} />}
+    </StatusPanelGrid>
   )
 }
 

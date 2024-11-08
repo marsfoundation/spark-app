@@ -7,7 +7,7 @@ import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { RewardPointsSyncStatus } from '@/features/farm-details/types'
 import { DelayedComponent } from '@/ui/atoms/delayed-component/DelayedComponent'
 import { Button } from '@/ui/atoms/new/button/Button'
-import { Panel } from '@/ui/atoms/panel/Panel'
+import { Panel } from '@/ui/atoms/new/panel/Panel'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { assert } from '@/utils/assert'
@@ -48,7 +48,7 @@ export function ActiveFarmInfoPanel({
     getChainConfigEntry(chainId).originChainId === mainnet.id
 
   return (
-    <Panel.Wrapper className="flex min-h-[380px] w-full flex-1 flex-col self-stretch px-6 py-6 md:px-[32px]">
+    <Panel className="flex min-h-[380px] w-full flex-1 flex-col self-stretch">
       <div className="flex justify-between">
         <div className="flex items-center gap-1">
           <h2 className="font-semibold text-lg md:text-xl">Overview</h2>
@@ -124,6 +124,6 @@ export function ActiveFarmInfoPanel({
           </DetailsItem>
         </div>
       </div>
-    </Panel.Wrapper>
+    </Panel>
   )
 }

@@ -1,11 +1,12 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { getTokenColor } from '@/ui/assets'
-import { Panel } from '@/ui/atoms/panel/Panel'
+import { Panel } from '@/ui/atoms/new/panel/Panel'
 import { Tooltip, TooltipContentShort, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 import { Typography } from '@/ui/atoms/typography/Typography'
 import { Info } from '@/ui/molecules/info/Info'
 import { getRandomColor } from '@/ui/utils/get-random-color'
+import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { getPositionFormattedValue, getTicks } from '../../logic/position'
 import { PositionSummary } from '../../logic/types'
@@ -33,16 +34,16 @@ export function Position({
   })
 
   return (
-    <Panel className={className}>
-      <Panel.Header>
-        <Panel.Title className="text-xl sm:text-2xl">Your position</Panel.Title>
+    <Panel className={cn('flex flex-col gap-6', className)}>
+      <div className="flex items-center gap-1">
+        <h3 className="typography-heading-4 text-primary">Your position</h3>
         <Info>Amount of all your assets supplied to the protocol.</Info>
-      </Panel.Header>
+      </div>
 
-      <Panel.Content className="mt-auto flex flex-col gap-6">
+      <div className="mt-auto flex flex-col gap-6">
         <Deposited positionSummary={positionSummary} ticks={ticks} />
         <Borrow positionSummary={positionSummary} ticks={ticks} />
-      </Panel.Content>
+      </div>
     </Panel>
   )
 }

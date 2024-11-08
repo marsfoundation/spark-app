@@ -1,6 +1,6 @@
 import { FixedOracleInfo } from '@/domain/oracles/types'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
-import { Panel } from '@/ui/atoms/panel/Panel'
+import { Panel } from '@/ui/atoms/new/panel/Panel'
 import { BlockExplorerAddressLink } from '@/ui/molecules/block-explorer-address-link/BlockExplorerAddressLink'
 import { InfoTile } from '@/ui/molecules/info-tile/InfoTile'
 import { Info } from '@/ui/molecules/info/Info'
@@ -8,18 +8,18 @@ import { testIds } from '@/ui/utils/testIds'
 
 export function FixedOraclePanel({ chainId, price, priceOracleAddress, token }: FixedOracleInfo) {
   return (
-    <Panel.Wrapper className="flex flex-col gap-4 p-4 sm:px-8 sm:py-6">
+    <Panel className="flex flex-col gap-4">
       <div>
-        <div className="mb-1 text-basics-dark-grey text-sm leading-none sm:text-xs sm:leading-none">Oracle type</div>
-        <Panel.Header className="flex items-center gap-2">
-          <Panel.Title className="text-xl">Fixed Price</Panel.Title>
+        <div className="typography-label-6 mb-1 text-secondary">Oracle type</div>
+        <div className="flex items-center gap-2">
+          <h3 className="typography-heading-5 text-primary">Fixed Price</h3>
           <Info size={16}>
             The asset price is set by a contract at a predefined value, adjustable only through Sky governance
             decisions.
           </Info>
-        </Panel.Header>
+        </div>
       </div>
-      <Panel.Content className="flex flex-col gap-4 sm:gap-6">
+      <div className="flex flex-col gap-4 sm:gap-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:gap-10">
           <InfoTile>
             <InfoTile.Label>Price</InfoTile.Label>
@@ -42,7 +42,7 @@ export function FixedOraclePanel({ chainId, price, priceOracleAddress, token }: 
             </InfoTile.Value>
           </InfoTile>
         </div>
-      </Panel.Content>
-    </Panel.Wrapper>
+      </div>
+    </Panel>
   )
 }

@@ -1,7 +1,7 @@
 import { TokenWithBalance } from '@/domain/common/types'
 import { Token } from '@/domain/types/Token'
 import { Button } from '@/ui/atoms/new/button/Button'
-import { Panel } from '@/ui/atoms/panel/Panel'
+import { Panel } from '@/ui/atoms/new/panel/Panel'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 import { DataTable, DataTableProps } from '@/ui/molecules/data-table/DataTable'
 import { useMemo } from 'react'
@@ -51,17 +51,9 @@ export function TokensToDeposit({ assets, openStakeDialog }: TokensToDepositProp
   )
 
   return (
-    <Panel>
-      <Panel.Header>
-        <Panel.Title>Tokens to deposit</Panel.Title>
-      </Panel.Header>
-      <Panel.Content>
-        <DataTable
-          gridTemplateColumnsClassName="grid-cols-[repeat(2,_1fr)_100px]"
-          data={assets}
-          columnDef={columnDef}
-        />
-      </Panel.Content>
+    <Panel className="flex flex-col gap-6">
+      <h3>Tokens to deposit</h3>
+      <DataTable gridTemplateColumnsClassName="grid-cols-[repeat(2,_1fr)_100px]" data={assets} columnDef={columnDef} />
     </Panel>
   )
 }

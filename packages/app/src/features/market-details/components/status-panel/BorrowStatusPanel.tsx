@@ -1,12 +1,10 @@
+import { CapAutomatorConfig } from '@/domain/cap-automator/types'
 import { formatPercentage } from '@/domain/common/format'
 import { BorrowEligibilityStatus } from '@/domain/market-info/reserve-status'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
-import { Panel } from '@/ui/atoms/panel/Panel'
 import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
 import { CooldownTimer } from '@/ui/molecules/cooldown-timer/CooldownTimer'
-
-import { CapAutomatorConfig } from '@/domain/cap-automator/types'
 import { InfoTile } from '@/ui/molecules/info-tile/InfoTile'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
@@ -48,42 +46,38 @@ export function BorrowStatusPanel({
   }
 
   return (
-    <Panel.Wrapper>
-      <StatusPanelGrid>
-        <StatusIcon status={status} />
-        <Header status={status} variant="borrow" />
-        <Subheader status={status} />
-        <InfoTilesGrid>
-          <InfoTile>
-            <InfoTile.Label>Total borrowed</InfoTile.Label>
-            <InfoTile.Value>
-              {token.format(totalBorrowed, { style: 'compact' })} {token.symbol}
-            </InfoTile.Value>
-            <InfoTile.ComplementaryLine>{token.formatUSD(totalBorrowed, { compact: true })}</InfoTile.ComplementaryLine>
-          </InfoTile>
-          <InfoTile>
-            <InfoTile.Label>
-              <ApyTooltip variant="borrow">Borrow APY</ApyTooltip>
-            </InfoTile.Label>
-            <InfoTile.Value>{formatPercentage(apy)}</InfoTile.Value>
-          </InfoTile>
+    <StatusPanelGrid>
+      <StatusIcon status={status} />
+      <Header status={status} variant="borrow" />
+      <Subheader status={status} />
+      <InfoTilesGrid>
+        <InfoTile>
+          <InfoTile.Label>Total borrowed</InfoTile.Label>
+          <InfoTile.Value>
+            {token.format(totalBorrowed, { style: 'compact' })} {token.symbol}
+          </InfoTile.Value>
+          <InfoTile.ComplementaryLine>{token.formatUSD(totalBorrowed, { compact: true })}</InfoTile.ComplementaryLine>
+        </InfoTile>
+        <InfoTile>
+          <InfoTile.Label>
+            <ApyTooltip variant="borrow">Borrow APY</ApyTooltip>
+          </InfoTile.Label>
+          <InfoTile.Value>{formatPercentage(apy)}</InfoTile.Value>
+        </InfoTile>
 
-          <InfoTile>
-            <InfoTile.Label>Reserve factor</InfoTile.Label>
-            <InfoTile.Value>{formatPercentage(reserveFactor)}</InfoTile.Value>
-          </InfoTile>
+        <InfoTile>
+          <InfoTile.Label>Reserve factor</InfoTile.Label>
+          <InfoTile.Value>{formatPercentage(reserveFactor)}</InfoTile.Value>
+        </InfoTile>
 
-          {borrowCap && (
-            <CapAutomatorInfoTile token={token} capAutomatorInfo={capAutomatorInfo} borrowCap={borrowCap} />
-          )}
-        </InfoTilesGrid>
+        {borrowCap && <CapAutomatorInfoTile token={token} capAutomatorInfo={capAutomatorInfo} borrowCap={borrowCap} />}
+      </InfoTilesGrid>
 
-        <div className="col-span-3 mt-6 sm:mt-10">
-          <InterestYieldChart {...chartProps} />
-        </div>
-        {hasSparkAirdrop && <SparkAirdropInfoPanel variant="borrow" eligibleToken={token.symbol} />}
-      </StatusPanelGrid>
-    </Panel.Wrapper>
+      <div className="col-span-3 mt-6 sm:mt-10">
+        <InterestYieldChart {...chartProps} />
+      </div>
+      {hasSparkAirdrop && <SparkAirdropInfoPanel variant="borrow" eligibleToken={token.symbol} />}
+    </StatusPanelGrid>
   )
 }
 
