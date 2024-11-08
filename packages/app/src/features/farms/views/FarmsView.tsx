@@ -17,7 +17,7 @@ export function FarmsView({ activeFarms, inactiveFarms, chainId }: FarmsViewProp
       <div className="flex flex-col gap-8">
         {activeFarms.length > 0 && (
           <div className="flex flex-col gap-4">
-            <h3 className={cn('typography-display-3', inactiveFarms.length === 0 && 'hidden')}>Active farms</h3>
+            <h3 className={cn('typography-heading-4', inactiveFarms.length === 0 && 'hidden')}>Active farms</h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3 sm:grid-cols-2 md:gap-8">
               {activeFarms.map((farm, index) => (
                 <FarmTile key={farm.detailsLink} data-testid={testIds.farms.active.tile(index)} {...farm} />
@@ -28,7 +28,7 @@ export function FarmsView({ activeFarms, inactiveFarms, chainId }: FarmsViewProp
         {activeFarms.length > 0 && inactiveFarms.length > 0 && <div className="border-basics-border border-t" />}
         {inactiveFarms.length > 0 && (
           <div className="flex flex-col gap-4">
-            <h3 className={cn('typography-display-3', activeFarms.length === 0 && 'hidden')}>Available farms</h3>
+            <h3 className={cn('typography-heading-4', activeFarms.length === 0 && 'hidden')}>Available farms</h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3 sm:grid-cols-2 md:gap-8">
               {inactiveFarms.map((farm, index) => (
                 <FarmTile key={farm.detailsLink} data-testid={testIds.farms.inactive.tile(index)} {...farm} />
