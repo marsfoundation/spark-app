@@ -1,7 +1,7 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { ChartTooltipContent } from '@/ui/charts/ChartTooltipContent'
-import { colors } from '@/ui/charts/colors'
+import { colors as colorsPreset } from '@/ui/charts/colors'
 import { Margins, defaultMargins } from '@/ui/charts/defaults'
 import { formatTooltipDate, formatUSDTicks, getVerticalDomainWithPadding } from '@/ui/charts/utils'
 import { AxisBottom, AxisLeft } from '@visx/axis'
@@ -16,6 +16,11 @@ import { TooltipWithBounds, withTooltip } from '@visx/tooltip'
 import { WithTooltipProvidedProps } from '@visx/tooltip/lib/enhancers/withTooltip'
 import { extent, max, min } from 'd3-array'
 import { Fragment, MouseEvent, TouchEvent } from 'react'
+
+export const colors = {
+  ...colorsPreset,
+  primary: '#FA43BD',
+}
 
 export interface ChartDataPoint {
   date: Date

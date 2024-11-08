@@ -19,10 +19,11 @@ export function BackNav({ chainId }: BackNavProps) {
         <ButtonIcon icon={ArrowLeftIcon} />
         Back to Farms
       </LinkButton>
-      <Minus className="rotate-90 text-slate-700/10" />
-      <div className="flex items-center gap-3">
-        <img src={chainImage} className="h-5 w-5" />
-        <span className="font-semibold text-sky-950 text-xs leading-none tracking-wide">{chainName}</span>
+      <Minus className="rotate-90 text-primary/10" />
+      <div className="flex items-center gap-2">
+        <img src={chainImage} className="icon-sm" />
+        {/* todo add badge */}
+        <span className="typography-label-6 leading-none tracking-wide">{chainName}</span>
       </div>
     </div>
   )
