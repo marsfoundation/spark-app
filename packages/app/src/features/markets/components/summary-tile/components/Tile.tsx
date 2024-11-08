@@ -3,6 +3,7 @@ import { HelpCircle } from 'lucide-react'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { Tooltip, TooltipContentShort, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
+import { cn } from '@/ui/utils/style'
 import { ComponentType } from 'react'
 
 export interface TileProps {
@@ -21,7 +22,15 @@ export function Tile({ icon: Icon, title, USDValue, description, 'data-testid': 
       </div>
       <div className="flex flex-col">
         <div className="flex items-center gap-1">
-          <div className="typography-label-6 text-secondary drop-shadow-[0_2px_2px_white]">{title}</div>
+          <div
+            className={cn(
+              'typography-label-6 relative text-secondary',
+              'before:-z-10 before:absolute before:inset-0',
+              'before:bg-reskin-base-white/60 before:blur-xs',
+            )}
+          >
+            {title}
+          </div>
           {description && (
             <Tooltip>
               <TooltipTrigger>
@@ -31,7 +40,13 @@ export function Tile({ icon: Icon, title, USDValue, description, 'data-testid': 
             </Tooltip>
           )}
         </div>
-        <div className="typography-heading-3 text-primary">
+        <div
+          className={cn(
+            'typography-heading-3 relative text-primary',
+            'before:-z-10 before:absolute before:inset-0',
+            'before:bg-reskin-base-white/60 before:blur-sm',
+          )}
+        >
           ${USD_MOCK_TOKEN.format(USDValue, { style: 'compact' })}
         </div>
       </div>
