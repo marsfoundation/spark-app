@@ -1,5 +1,5 @@
 import { poolAbi } from '@/config/abis/poolAbi'
-import { InterestRate, NATIVE_ASSET_MOCK_ADDRESS, SPARK_UI_REFERRAL_CODE } from '@/config/consts'
+import { InterestRate, NATIVE_ASSET_MOCK_ADDRESS, LAST_UI_REFERRAL_CODE } from '@/config/consts'
 import { lendingPoolAddress, wethGatewayAbi, wethGatewayAddress } from '@/config/contracts-generated'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
@@ -18,7 +18,7 @@ const nativeAsset = getMockToken({ address: NATIVE_ASSET_MOCK_ADDRESS })
 const account = testAddresses.alice
 const chainId = mainnet.id
 const interestRateMode = BigInt(InterestRate.Variable)
-const referralCode = SPARK_UI_REFERRAL_CODE
+const referralCode = LAST_UI_REFERRAL_CODE
 
 const hookRenderer = setupUseContractActionRenderer({
   account,

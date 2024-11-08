@@ -1,5 +1,5 @@
 import { basePsm3Abi, basePsm3Address } from '@/config/abis/basePsm3Abi'
-import { SPARK_UI_REFERRAL_CODE_BIGINT } from '@/config/consts'
+import { LAST_UI_REFERRAL_CODE_BIGINT } from '@/config/consts'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
@@ -61,7 +61,7 @@ describe(createPsmConvertActionConfig.name, () => {
             toBigInt(usdc.toBaseUnit(amount)),
             toBigInt(usds.toBaseUnit(amount)),
             account,
-            SPARK_UI_REFERRAL_CODE_BIGINT,
+            LAST_UI_REFERRAL_CODE_BIGINT,
           ],
           from: account,
           result: toBigInt(usdc.toBaseUnit(amount)),
@@ -116,7 +116,7 @@ describe(createPsmConvertActionConfig.name, () => {
             toBigInt(usds.toBaseUnit(amount)),
             toBigInt(usdc.toBaseUnit(amount)),
             account,
-            SPARK_UI_REFERRAL_CODE_BIGINT,
+            LAST_UI_REFERRAL_CODE_BIGINT,
           ],
           from: account,
           result: toBigInt(usdc.toBaseUnit(amount)),

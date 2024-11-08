@@ -1,5 +1,5 @@
 import { poolAbi } from '@/config/abis/poolAbi'
-import { InterestRate, NATIVE_ASSET_MOCK_ADDRESS, SPARK_UI_REFERRAL_CODE } from '@/config/consts'
+import { InterestRate, NATIVE_ASSET_MOCK_ADDRESS, LAST_UI_REFERRAL_CODE } from '@/config/consts'
 import { lendingPoolConfig, wethGatewayConfig } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
@@ -26,7 +26,7 @@ export function createBorrowActionConfig(action: BorrowAction, context: ActionCo
           abi: wethGatewayConfig.abi,
           address: wethGatewayAddress,
           functionName: 'borrowETH',
-          args: [lendingPoolAddress, borrowAmount, SPARK_UI_REFERRAL_CODE],
+          args: [lendingPoolAddress, borrowAmount, LAST_UI_REFERRAL_CODE],
         })
       }
 
@@ -34,7 +34,7 @@ export function createBorrowActionConfig(action: BorrowAction, context: ActionCo
         abi: poolAbi,
         address: lendingPoolAddress,
         functionName: 'borrow',
-        args: [borrowTokenAddress, borrowAmount, interestRateMode, SPARK_UI_REFERRAL_CODE, account],
+        args: [borrowTokenAddress, borrowAmount, interestRateMode, LAST_UI_REFERRAL_CODE, account],
       })
     },
 

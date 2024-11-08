@@ -1,5 +1,5 @@
 import { poolAbi } from '@/config/abis/poolAbi'
-import { NATIVE_ASSET_MOCK_ADDRESS, SPARK_UI_REFERRAL_CODE } from '@/config/consts'
+import { NATIVE_ASSET_MOCK_ADDRESS, LAST_UI_REFERRAL_CODE } from '@/config/consts'
 import { lendingPoolAddress, wethGatewayConfig } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
@@ -29,7 +29,7 @@ export function createDepositActionConfig(action: DepositAction, context: Action
           address: wethGateway,
           functionName: 'depositETH',
           value,
-          args: [lendingPool, context.account, SPARK_UI_REFERRAL_CODE],
+          args: [lendingPool, context.account, LAST_UI_REFERRAL_CODE],
         })
       }
 
@@ -42,7 +42,7 @@ export function createDepositActionConfig(action: DepositAction, context: Action
             token,
             value,
             context.account,
-            SPARK_UI_REFERRAL_CODE,
+            LAST_UI_REFERRAL_CODE,
             toBigInt(getTimestampInSeconds(permit.deadline)),
             Number(permit.signature.v),
             permit.signature.r,
@@ -55,7 +55,7 @@ export function createDepositActionConfig(action: DepositAction, context: Action
         address: lendingPool,
         abi: poolAbi,
         functionName: 'supply',
-        args: [token, value, context.account, SPARK_UI_REFERRAL_CODE],
+        args: [token, value, context.account, LAST_UI_REFERRAL_CODE],
       })
     },
 

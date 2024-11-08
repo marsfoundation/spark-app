@@ -1,5 +1,5 @@
 import { basePsm3Abi, basePsm3Address } from '@/config/abis/basePsm3Abi'
-import { SPARK_UI_REFERRAL_CODE_BIGINT } from '@/config/consts'
+import { LAST_UI_REFERRAL_CODE_BIGINT } from '@/config/consts'
 import { dssLitePsmConfig, usdsPsmWrapperConfig } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
@@ -65,7 +65,7 @@ export function createPsmConvertActionConfig(action: PsmConvertAction, context: 
             address: basePsm3Address[base.id],
             abi: basePsm3Abi,
             functionName: 'swapExactIn',
-            args: [assetIn, assetOut, amountIn, minAmountOut, receiver, SPARK_UI_REFERRAL_CODE_BIGINT],
+            args: [assetIn, assetOut, amountIn, minAmountOut, receiver, LAST_UI_REFERRAL_CODE_BIGINT],
           })
         }
         default:

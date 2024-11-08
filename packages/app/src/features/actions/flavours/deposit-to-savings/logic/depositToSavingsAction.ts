@@ -1,6 +1,6 @@
 import { basePsm3Abi, basePsm3Address } from '@/config/abis/basePsm3Abi'
 import { susdsAbi } from '@/config/abis/susdsAbi'
-import { SPARK_UI_REFERRAL_CODE, SPARK_UI_REFERRAL_CODE_BIGINT } from '@/config/consts'
+import { LAST_UI_REFERRAL_CODE, LAST_UI_REFERRAL_CODE_BIGINT } from '@/config/consts'
 import {
   migrationActionsConfig,
   psmActionsConfig,
@@ -51,7 +51,7 @@ export function createDepositToSavingsActionConfig(
             address: savingsToken.address,
             abi: susdsAbi,
             functionName: 'deposit',
-            args: [assetsAmount, account, SPARK_UI_REFERRAL_CODE],
+            args: [assetsAmount, account, LAST_UI_REFERRAL_CODE],
           })
         case 'dai-to-sdai':
           return ensureConfigTypes({
@@ -123,7 +123,7 @@ export function createDepositToSavingsActionConfig(
               assetsAmount,
               minAmountOut,
               account,
-              SPARK_UI_REFERRAL_CODE_BIGINT,
+              LAST_UI_REFERRAL_CODE_BIGINT,
             ],
           })
         }

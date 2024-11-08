@@ -1,5 +1,5 @@
 import { basePsm3Abi, basePsm3Address } from '@/config/abis/basePsm3Abi'
-import { SPARK_UI_REFERRAL_CODE_BIGINT } from '@/config/consts'
+import { LAST_UI_REFERRAL_CODE_BIGINT } from '@/config/consts'
 import { PotSavingsInfo } from '@/domain/savings-info/potSavingsInfo'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
@@ -20,7 +20,7 @@ const withdrawAmount = NormalizedUnitNumber(1)
 const usds = testTokens.USDS
 const susds = testTokens.sUSDS
 const usdc = testTokens.USDC
-const referralCode = SPARK_UI_REFERRAL_CODE_BIGINT
+const referralCode = LAST_UI_REFERRAL_CODE_BIGINT
 const mockTokensInfo = new TokensInfo(
   [
     { token: usds, balance: NormalizedUnitNumber(100) },
