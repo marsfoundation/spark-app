@@ -3,14 +3,14 @@ import { XIcon } from 'lucide-react'
 import { IconButton } from '../new/icon-button/IconButton'
 import { Sparkles } from '../sparkles/Sparkles'
 
-interface SkyMigrationTopBannerProps {
+interface RedesignTopBannerProps {
   onClose: () => void
   className?: string
 }
 
 export const REDESIGN_TOP_BANNER_ID = 'redesign-top-banner'
 
-export function RedesignTopBanner({ onClose, className }: SkyMigrationTopBannerProps) {
+export function RedesignTopBanner({ onClose, className }: RedesignTopBannerProps) {
   return (
     <div
       className={cn(
