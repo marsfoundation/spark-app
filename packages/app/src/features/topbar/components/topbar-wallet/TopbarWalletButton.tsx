@@ -27,7 +27,9 @@ export const TopbarWalletButton = forwardRef<HTMLButtonElement, TopbarWalletButt
       return (
         <Button {...buttonProps} className={cn(buttonProps.className, 'pointer-events-none')}>
           <ButtonIcon icon={MagicWandCircle} />
-          Sandbox Mode
+          <span>
+            Sandbox <span className="hidden sm:inline">Mode</span>
+          </span>
         </Button>
       )
     }
@@ -46,7 +48,7 @@ export const TopbarWalletButton = forwardRef<HTMLButtonElement, TopbarWalletButt
     return (
       <Button {...buttonProps}>
         <img src={avatar} alt="wallet-avatar" className="icon-md rounded-full" />
-        <div className="truncate">{ensName ? ensName : shortenAddress(address)}</div>
+        <div className="hidden truncate sm:block">{ensName ? ensName : shortenAddress(address)}</div>
         {chevron}
       </Button>
     )
