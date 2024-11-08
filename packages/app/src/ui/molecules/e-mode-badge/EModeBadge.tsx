@@ -27,7 +27,7 @@ const variants = cva(
     variants: {
       state: {
         on: 'border-spark bg-spark/10 text-spark',
-        off: 'border-basics-dark-grey/30 bg-basics-light-grey/30 text-basics-dark-grey/80',
+        off: 'border-reskin-neutral-600/30 bg-reskin-neutral-50/30 text-reskin-neutral-600/80',
       },
     },
   },
