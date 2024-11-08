@@ -42,7 +42,7 @@ test.describe('Withdraw USDC', () => {
     await withdrawDialog.expectNativeRouteTransactionOverview({
       routeItems: [
         {
-          tokenAmount: '991.17 sUSDS',
+          tokenAmount: '991.18 sUSDS',
           tokenUsdValue: '$1,000.00',
         },
         {
@@ -68,7 +68,7 @@ test.describe('Withdraw USDC', () => {
     await withdrawDialog.expectSuccessPage()
     await withdrawDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '9,008.83 sUSDS', estimatedUsdsValue: '9,089' })
+    await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '9,008.82 sUSDS', estimatedUsdsValue: '9,089' })
     await savingsPage.expectStablecoinsInWalletAssetBalance('USDC', '1,000')
   })
 })

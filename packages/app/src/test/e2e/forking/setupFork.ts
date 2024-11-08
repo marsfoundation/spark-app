@@ -86,15 +86,6 @@ export function setupFork(options: SetupForkOptions): ForkContext {
       forkChainId: chainId,
     })
 
-    if (options.chainId === base.id) {
-      // inject liquidity for psm on base
-      await injectFunds(forkContext, basePsm3Address[base.id], {
-        USDS: 10_000_000,
-        sUSDS: 10_000_000,
-        USDC: 10_000_000,
-      })
-    }
-
     if (simulationDate) {
       const deltaTimeForward = Math.floor((simulationDate.getTime() - Date.now()) / 1000)
       await tenderlyRpcActions.evmIncreaseTime(forkContext.forkUrl, deltaTimeForward)
@@ -119,6 +110,15 @@ export function setupFork(options: SetupForkOptions): ForkContext {
       forkContext.simulationDate = new Date(Number(block.timestamp) * 1000)
       forkContext.initialSimulationDate = forkContext.simulationDate
       await tenderlyRpcActions.evmSetNextBlockTimestamp(forkContext.forkUrl, Number(block.timestamp))
+    }
+
+    if (options.chainId === base.id) {
+      // inject liquidity for psm on base
+      await injectFunds(forkContext, basePsm3Address[base.id], {
+        USDS: 10_000_000,
+        sUSDS: 10_000_000,
+        USDC: 10_000_000,
+      })
     }
 
     forkContext.initialSnapshotId = await tenderlyRpcActions.snapshot(forkContext.forkUrl)

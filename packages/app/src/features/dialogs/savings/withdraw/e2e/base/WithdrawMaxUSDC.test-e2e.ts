@@ -43,15 +43,15 @@ test.describe('Withdraw Max USDC', () => {
       routeItems: [
         {
           tokenAmount: '10,000.00 sUSDS',
-          tokenUsdValue: '$10,089.06',
+          tokenUsdValue: '$10,089.01',
         },
         {
-          tokenAmount: '10,089.06 USDS',
-          tokenUsdValue: '$10,089.06',
+          tokenAmount: '10,089.01 USDS',
+          tokenUsdValue: '$10,089.01',
         },
       ],
-      outcome: '10,089.06 USDC',
-      outcomeUsd: '$10,089.06',
+      outcome: '10,089.01 USDC',
+      outcomeUsd: '$10,089.01',
     })
 
     await withdrawDialog.expectUpgradeSwitchToBeHidden()
@@ -64,7 +64,7 @@ test.describe('Withdraw Max USDC', () => {
     await withdrawDialog.expectSuccessPage()
     await withdrawDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectOpportunityStablecoinsAmount('~$10,089.06')
-    await savingsPage.expectStablecoinsInWalletAssetBalance('USDC', '10,089.06')
+    await savingsPage.expectOpportunityStablecoinsAmount('~$10,089.01')
+    await savingsPage.expectStablecoinsInWalletAssetBalance('USDC', '10,089.01')
   })
 })
