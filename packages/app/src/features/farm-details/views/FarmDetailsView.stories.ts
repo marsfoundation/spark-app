@@ -73,6 +73,9 @@ const meta: Meta<typeof FarmDetailsView> = {
       timeframe: 'All',
     },
   },
+  parameters: {
+    layout: 'fullscreen',
+  },
 }
 
 export default meta

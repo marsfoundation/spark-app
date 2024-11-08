@@ -63,8 +63,8 @@ export function FarmDetailsView({
     <PageLayout className="gap-0">
       <BackNav chainId={chainId} />
       <Header token={farm.rewardToken} farmName={farm.name} chainId={chainId} chainMismatch={chainMismatch} />
-      <div className="flex flex-col gap-8">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-6">
+      <div className="flex flex-col gap-5">
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
           {isFarmActive ? (
             <ActiveFarmInfoPanel
               farm={farm}
