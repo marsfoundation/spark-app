@@ -12,7 +12,9 @@ import { useChainId } from 'wagmi'
 import { paths } from '@/config/paths'
 import { UseOracleInfoResult, useOracleInfo } from '@/domain/oracles/useOracleInfo'
 import { useSandboxPageRedirect } from '@/domain/sandbox/useSandboxPageRedirect'
+import { OpenDialogFunction, useOpenDialog } from '@/domain/state/dialogs'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { sandboxDialogConfig } from '@/features/dialogs/sandbox/SandboxDialog'
 import { MarketOverview, WalletOverview } from '../types'
 import { makeDaiMarketOverview } from './makeDaiMarketOverview'
 import { makeMarketOverview } from './makeMarketOverview'
@@ -29,6 +31,8 @@ export interface UseMarketDetailsResult {
   walletOverview: WalletOverview
   chainMismatch: boolean
   oracleInfo: UseOracleInfoResult
+  openDialog: OpenDialogFunction
+  openSandboxModal: () => void
 }
 
 export function useMarketDetails(): UseMarketDetailsResult {
@@ -40,6 +44,11 @@ export function useMarketDetails(): UseMarketDetailsResult {
   const walletInfo = useMarketWalletInfo({ chainId })
   const { meta: chainMeta } = getChainConfigEntry(chainId)
   const connectedChainId = useChainId()
+
+  const openDialog = useOpenDialog()
+  function openSandboxModal(): void {
+    openDialog(sandboxDialogConfig, { mode: 'ephemeral' } as const)
+  }
 
   useSandboxPageRedirect({
     basePath: paths.marketDetails,
@@ -94,5 +103,7 @@ export function useMarketDetails(): UseMarketDetailsResult {
     walletOverview,
     chainMismatch,
     oracleInfo,
+    openDialog,
+    openSandboxModal,
   }
 }

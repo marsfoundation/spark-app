@@ -5,9 +5,9 @@ import { FullView } from './components/FullView'
 import { MarketDetailsViewProps } from './types'
 
 export function MarketDetailsView(props: MarketDetailsViewProps) {
-  const tablet = useBreakpoint('sm')
+  const lg = useBreakpoint('lg')
 
-  if (tablet) {
+  if (lg) {
     return <FullView {...props} />
   }
 

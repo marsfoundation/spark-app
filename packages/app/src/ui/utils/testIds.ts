@@ -41,6 +41,7 @@ export const testIds = makeTestIds({
     },
     ConvertStablesButton: true,
     SwitchNotSupportedNetworkButton: true,
+    ConnectOrSandboxCTAPanel: true,
   },
   easyBorrow: {
     form: {
