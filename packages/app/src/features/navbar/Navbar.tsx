@@ -25,7 +25,7 @@ export function Navbar({ mobileMenuCollapsed, setMobileMenuCollapsed, className 
     <nav
       className={cn(
         'relative flex flex-col px-6',
-        'lg:grid lg:grid-cols-[auto_1fr_auto] lg:gap-6',
+        'lg:grid lg:grid-cols-[auto_1fr_auto] lg:items-center lg:gap-6',
 
         !mobileMenuCollapsed && 'h-full lg:h-auto',
         className,
