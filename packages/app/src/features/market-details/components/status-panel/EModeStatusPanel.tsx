@@ -75,10 +75,10 @@ export function EModeStatusPanel({
             {eModeCategoryTokens.join(', ')}. You can enter E-Mode from your{' '}
             <DocsLink to={paths.myPortfolio}>My portfolio</DocsLink>. To learn more about E-Mode and its applied
             restrictions, visit the{' '}
-            <DocsLink to={links.docs.eMode} external>
+            {/* <DocsLink to={links.docs.eMode} external>
               FAQ
             </DocsLink>{' '}
-            or the{' '}
+            or the{' '} */}
             <DocsLink to={links.aaveTechnicalPaper} external>
               Aave V3 Technical Paper
             </DocsLink>

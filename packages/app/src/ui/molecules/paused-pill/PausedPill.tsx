@@ -22,7 +22,7 @@ export function PausedPill({ 'data-testid': dataTestId }: PausedPillProps) {
           </TooltipContentLayout.Header>
 
           <TooltipContentLayout.Body>
-            This asset is planned to be offboarded due to a Spark community decision.
+            This asset is planned to be offboarded due to a Last community decision.
           </TooltipContentLayout.Body>
         </TooltipContentLayout>
       </TooltipContentLong>

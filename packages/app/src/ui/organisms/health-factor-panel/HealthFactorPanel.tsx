@@ -4,9 +4,9 @@ import { forwardRef } from 'react'
 import { LiquidationDetails } from '@/domain/market-info/getLiquidationDetails'
 import { HealthFactorBadge } from '@/ui/atoms/health-factor-badge/HealthFactorBadge'
 import { HealthFactorGauge } from '@/ui/atoms/health-factor-gauge/HealthFactorGauge'
-import { Link } from '@/ui/atoms/link/Link'
+// import { Link } from '@/ui/atoms/link/Link'
 import { Panel } from '@/ui/atoms/panel/Panel'
-import { links } from '@/ui/constants/links'
+// import { links } from '@/ui/constants/links'
 import { Info } from '@/ui/molecules/info/Info'
 import { cn } from '@/ui/utils/style'
 
@@ -36,12 +36,13 @@ export const HealthFactorPanel = forwardRef<HTMLDivElement, HealthFactorPanelPro
                 the chance of liquidating your assets.
               </p>
               <p>
-                Keep in mind that these calculations follow the protocol's rules, which might change over time. For more
+                Keep in mind that these calculations follow the protocol's rules, which might change over time.
+                {/* For more
                 information about Health Factor, you can visit{' '}
                 <Link to={links.docs.healthFactor} external>
                   docs
                 </Link>
-                .
+                . */}
               </p>
             </Info>
           </div>

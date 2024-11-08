@@ -22,7 +22,7 @@ export function FrozenPill({ 'data-testid': dataTestId }: FrozenPillProps) {
           </TooltipContentLayout.Header>
 
           <TooltipContentLayout.Body>
-            This asset is frozen by Spark community decisions, meaning that further supply / borrow, or rate swap of
+            This asset is frozen by Last community decisions, meaning that further supply / borrow, or rate swap of
             these assets are unavailable. Withdrawals and debt repayments are still allowed.
           </TooltipContentLayout.Body>
         </TooltipContentLayout>

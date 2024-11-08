@@ -33,7 +33,7 @@ export function Navbar({ mobileMenuCollapsed, setMobileMenuCollapsed, className 
     >
       <div className="flex h-20 shrink-0 flex-row items-center justify-between">
         <Link to="/">
-          <img src={assets.lastLogo} alt="Spark logo" style={{ height: '1.875rem' }} />
+          <img src={assets.lastLogo} alt="Last logo" style={{ height: '1.875rem' }} />
         </Link>
 
         <MobileMenuButton mobileMenuCollapsed={mobileMenuCollapsed} setMobileMenuCollapsed={setMobileMenuCollapsed} />

@@ -1,10 +1,10 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { SPK_MOCK_TOKEN } from '@/domain/types/Token'
 import { assets } from '@/ui/assets'
-import BoxArrowTopRight from '@/ui/assets/box-arrow-top-right.svg?react'
-import { Link } from '@/ui/atoms/link/Link'
+// import BoxArrowTopRight from '@/ui/assets/box-arrow-top-right.svg?react'
+// import { Link } from '@/ui/atoms/link/Link'
 import { Skeleton } from '@/ui/atoms/skeleton/Skeleton'
-import { links } from '@/ui/constants/links'
+// import { links } from '@/ui/constants/links'
 import { formatAirdropAmount } from './utils/formatAirdropAmount'
 
 interface AirdropDetailsProps {
@@ -30,7 +30,7 @@ export function AirdropDetails({ amount, precision, isLoading, isGrowing }: Aird
           )}
         </div>
       </div>
-      <div className="flex max-w-60 flex-col gap-2 p-4">
+      {/* <div className="flex max-w-60 flex-col gap-2 p-4">
         DAI borrowers with volatile assets and ETH depositors will be eligible for a future LAST points airdrop.
         <Link
           to={links.docs.sparkAirdrop}
@@ -40,7 +40,7 @@ export function AirdropDetails({ amount, precision, isLoading, isGrowing }: Aird
           <BoxArrowTopRight className="h-4 w-4" />
           Learn more
         </Link>
-      </div>
+      </div> */}
     </div>
   )
 }

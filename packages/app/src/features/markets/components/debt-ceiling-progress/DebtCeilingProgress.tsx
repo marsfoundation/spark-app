@@ -1,8 +1,8 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
-import { Link } from '@/ui/atoms/link/Link'
+// import { Link } from '@/ui/atoms/link/Link'
 import { Progress } from '@/ui/atoms/progress/Progress'
-import { links } from '@/ui/constants/links'
+// import { links } from '@/ui/constants/links'
 import { Info } from '@/ui/molecules/info/Info'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
@@ -26,9 +26,9 @@ export function DebtCeilingProgress({ debt, debtCeiling }: DebtCeilingProgressPr
           <Info>
             Debt ceiling limits the amount possible to borrow against this asset by protocol users. Debt ceiling is
             specific to assets in isolation mode and is denoted in USD.{' '}
-            <Link to={links.docs.isolationModeBorrowingPower} external>
+            {/* <Link to={links.docs.isolationModeBorrowingPower} external>
               Learn more
-            </Link>
+            </Link> */}
           </Info>
         </div>
         <p className="text-xs leading-none">
