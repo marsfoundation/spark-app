@@ -36,7 +36,7 @@ export function MyWalletChart({ assets, className }: MyWalletChartProps) {
       <foreignObject width="100%" height="100%">
         <div
           className="flex h-full w-full animate-reveal flex-col items-center justify-center text-primary-inverse duration-500 ease-out"
-          key={highlightedIndex}
+          key={nonZeroAssets.length > 0 ? highlightedIndex : undefined}
         >
           {highlightedAsset === undefined ? (
             <div className="flex flex-col items-center gap-1.5">
@@ -81,30 +81,32 @@ export function MyWalletChart({ assets, className }: MyWalletChartProps) {
           />
         )
       })}
-      {auxillaryArcs.map((point, index) => {
-        if (point.angle <= 0) {
-          return null
-        }
+      {nonZeroAssets.length > 0 &&
+        auxillaryArcs.map((point, index) => {
+          if (point.angle <= 0) {
+            return null
+          }
 
-        return (
+          return (
+            <path
+              d={`M${point.x1} ${point.y1} A${auxiliaryRadius} ${auxiliaryRadius} 0 ${point.angle > Math.PI ? '1' : '0'} 1 ${point.x2} ${point.y2}`}
+              fill="none"
+              stroke={highlightedIndex === index ? '#FFFFFF' : '#58585B'}
+              strokeWidth={2}
+              key={`${point.x1}${point.y1}${point.x2}${point.y2}`}
+            />
+          )
+        })}
+      {separators.length > 1 &&
+        separators.map((separator) => (
           <path
-            d={`M${point.x1} ${point.y1} A${auxiliaryRadius} ${auxiliaryRadius} 0 ${point.angle > Math.PI ? '1' : '0'} 1 ${point.x2} ${point.y2}`}
+            d={`M${separator.x1} ${separator.y1} L${separator.x2} ${separator.y2}`}
             fill="none"
-            stroke={highlightedIndex === index ? '#FFFFFF' : '#58585B'}
+            stroke="black"
             strokeWidth={2}
-            key={`${point.x1}${point.y1}${point.x2}${point.y2}`}
+            key={`${separator.x1}${separator.y1}${separator.x2}${separator.y2}`}
           />
-        )
-      })}
-      {separators.map((separator) => (
-        <path
-          d={`M${separator.x1} ${separator.y1} L${separator.x2} ${separator.y2}`}
-          fill="none"
-          stroke="black"
-          strokeWidth={2}
-          key={`${separator.x1}${separator.y1}${separator.x2}${separator.y2}`}
-        />
-      ))}
+        ))}
     </svg>
   )
 }
