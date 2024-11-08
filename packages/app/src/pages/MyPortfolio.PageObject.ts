@@ -95,7 +95,7 @@ export class MyPortfolioPageObject extends BasePageObject {
   }
 
   async expectHealthFactor(hf: string): Promise<void> {
-    const locator = this.page.getByTestId(testIds.component.HealthFactorBadge.value)
+    const locator = this.page.getByTestId(testIds.component.HealthFactorGauge.value)
     await expect(locator).toHaveText(hf)
   }
 
