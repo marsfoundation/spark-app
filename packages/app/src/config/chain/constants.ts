@@ -4,7 +4,7 @@ import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { base, gnosis, mainnet } from 'viem/chains'
 
 export const SUPPORTED_CHAINS = ([mainnet, gnosis, base] as const).filter((chain) => {
-  if (import.meta.env.VITE_FEATURE_BASE_SUPPORT !== '1' && chain.id === base.id) {
+  if (import.meta?.env?.VITE_FEATURE_BASE_SUPPORT !== '1' && chain.id === base.id) {
     return false
   }
 
