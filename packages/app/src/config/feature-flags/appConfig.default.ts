@@ -1,12 +1,12 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { mainnet } from 'viem/chains'
 import { AppConfig } from '.'
 import { clientEnv } from './clientEnv'
+import { lastSepolia } from '../chain/constants'
 
 export function getDefaultAppConfig(): AppConfig {
   return {
     sandbox: featureFlag('VITE_FEATURE_SANDBOX') && {
-      originChainId: mainnet.id,
+      originChainId: lastSepolia.id,
       chainName: 'Sandbox Mode',
 
       mintBalances: {

@@ -1,5 +1,5 @@
 import { Chain } from 'viem'
-import { base, gnosis, mainnet } from 'viem/chains'
+import { base } from 'viem/chains'
 import { Config, createConfig } from 'wagmi'
 
 import { SandboxNetwork } from '@/domain/state/sandbox'
@@ -7,6 +7,7 @@ import { SandboxNetwork } from '@/domain/state/sandbox'
 import { getChains } from './getChains'
 import { getTransports } from './getTransports'
 import { createWagmiStorage } from './storage'
+import { lastSepolia } from '../chain/constants'
 
 export function getConfig(sandboxNetwork?: SandboxNetwork): Config {
   const forkChain = getForkChainFromSandboxConfig(sandboxNetwork)
@@ -31,11 +32,8 @@ function getForkChainFromSandboxConfig(sandboxNetwork?: SandboxNetwork): Chain |
   }
 
   const base = (() => {
-    if (sandboxNetwork.originChainId === mainnet.id) {
-      return mainnet
-    }
-    if (sandboxNetwork.originChainId === gnosis.id) {
-      return gnosis
+    if (sandboxNetwork.originChainId === lastSepolia.id) {
+      return lastSepolia
     }
     throw new Error(`Unsupported origin chain = ${sandboxNetwork.originChainId}!`)
   })()

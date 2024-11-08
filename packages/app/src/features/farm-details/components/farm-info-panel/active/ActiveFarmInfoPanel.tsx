@@ -1,5 +1,5 @@
 import { getChainConfigEntry } from '@/config/chain'
-import { farmAddresses } from '@/config/chain/constants'
+import { farmAddresses, lastSepolia } from '@/config/chain/constants'
 import { formatPercentage } from '@/domain/common/format'
 import { Farm } from '@/domain/farms/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
@@ -45,7 +45,7 @@ export function ActiveFarmInfoPanel({
 
   const isChroniclePointsFarm =
     farm.address === farmAddresses[mainnet.id].chroniclePoints &&
-    getChainConfigEntry(chainId).originChainId === mainnet.id
+    getChainConfigEntry(chainId).originChainId === lastSepolia.id
 
   return (
     <Panel.Wrapper className="flex min-h-[380px] w-full flex-1 flex-col self-stretch px-6 py-6 md:px-[32px]">

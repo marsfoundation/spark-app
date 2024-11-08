@@ -162,7 +162,7 @@ export function getValidateBorrowArgs(
       borrowCap: reserve.borrowCap,
       isSiloed: reserve.isSiloedBorrowing,
       borrowableInIsolation: reserve.isBorrowableInIsolation,
-      eModeCategory: reserve.eModeCategory?.id ?? 0,
+      eModeCategory: reserve.eModes[0]?.category.id ?? 0,
     },
     user: {
       maxBorrowBasedOnCollateral: calculateMaxBorrowBasedOnCollateral({

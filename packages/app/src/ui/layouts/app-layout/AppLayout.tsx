@@ -37,7 +37,7 @@ export function AppLayout({ children }: AppLayoutProps) {
         {children}
         {!pageSupported && (
           <>
-            <div className="fixed inset-0 z-10 bg-gray-100/30 backdrop-blur-[1.5px]" aria-hidden="true" />
+            <div className="fixed inset-0 z-10 bg-black/30 backdrop-blur-[1.5px]" aria-hidden="true" />
             <PageNotSupportedWarning
               pageName={pageName}
               openNetworkSelectDialog={() => openDialog(selectNetworkDialogConfig, {})}

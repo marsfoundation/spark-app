@@ -39,7 +39,7 @@ export function getLiquidationDetails({
   const borrowInUSD = borrows[0]!.value.multipliedBy(marketInfo.findOneTokenBySymbol(defaultAssetToBorrow).unitPriceUsd)
 
   const collateralEModeIds = collaterals.map(
-    (collateral) => marketInfo.findOneReserveBySymbol(collateral.token.symbol).eModeCategory?.id,
+    (collateral) => marketInfo.findOneReserveBySymbol(collateral.token.symbol).eModes[0]?.category.id,
   )
   const allCollateralsETHCorrelated = collateralEModeIds.every(
     (id) => eModeCategoryIdToName[id as keyof typeof eModeCategoryIdToName] === 'ETH Correlated',

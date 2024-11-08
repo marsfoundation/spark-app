@@ -12,7 +12,7 @@ export function recordEvent(event: string, props: Record<string, any> = {}): voi
 }
 
 async function recordEventAsync(event: string, props: Record<string, any> = {}): Promise<void> {
-  if (plausibleId === undefined) {
+  if (!plausibleId) {
     return
   }
 

@@ -1,9 +1,9 @@
 import { http, createWalletClient } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
-import { mainnet } from 'viem/chains'
 import { CreateConnectorFn } from 'wagmi'
 
 import { createMockConnector } from '@/domain/wallet/createMockConnector'
+import { lastSepolia } from '@/config/chain/constants'
 
 export interface CreateSandboxWalletArgs {
   privateKey: `0x${string}`
@@ -23,7 +23,7 @@ export function createSandboxConnector({
   const walletClient = createWalletClient({
     transport: http(forkUrl),
     chain: {
-      ...mainnet,
+      ...lastSepolia,
       id: chainId,
       name: chainName,
       rpcUrls: {

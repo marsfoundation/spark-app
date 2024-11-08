@@ -1,7 +1,7 @@
 import { getChainConfigEntry } from '@/config/chain'
+import { lastSepolia } from '@/config/chain/constants'
 import { Path, getSupportedPages, paths } from '@/config/paths'
 import { matchPath, useLocation } from 'react-router-dom'
-import { mainnet } from 'viem/chains'
 import { useChainId } from 'wagmi'
 
 export interface UsePageChainIdResult {
@@ -28,7 +28,7 @@ export function usePageChainId(): UsePageChainIdResult {
     return { chainId, pageSupported: true, pageName }
   }
 
-  return { chainId: mainnet.id, pageSupported: false, pageName }
+  return { chainId: lastSepolia.id, pageSupported: false, pageName }
 }
 
 const pageNamesMap: Record<Path, string> = {

@@ -8,23 +8,26 @@ import { parseRawPercentage } from './math'
 // The easiest way to get information eMode categories is to extract and reconstruct it from the reserves
 export function extractEmodeInfoFromReserves(reserves: AaveFormattedReserve[]): EModeCategories {
   const emodeCategories: EModeCategories = {}
+
   for (const reserve of reserves) {
-    if (reserve.eModeCategoryId === 0) {
-      continue
-    }
-    const eModeCategoryId = reserve.eModeCategoryId
-    if (emodeCategories[eModeCategoryId]) {
+    if (!reserve.eModes?.length) {
       continue
     }
 
-    emodeCategories[eModeCategoryId] = {
-      id: eModeCategoryId,
-      name: reserve.eModeLabel,
-      ltv: parseRawPercentage(reserve.eModeLtv),
-      liquidationBonus: Percentage(
-        parseRawPercentage(reserve.eModeLiquidationBonus, { allowMoreThan1: true }).minus(1),
-      ),
-      liquidationThreshold: parseRawPercentage(reserve.eModeLiquidationThreshold),
+    for (const eMode of reserve.eModes) {
+      if (eMode.id === 0 || emodeCategories[eMode.id]) {
+        continue
+      }
+
+      emodeCategories[eMode.id] = {
+        id: eMode.id,
+        name: eMode.eMode.label,
+        ltv: parseRawPercentage(eMode.eMode.ltv),
+        liquidationBonus: Percentage(
+          parseRawPercentage(eMode.eMode.liquidationBonus, { allowMoreThan1: true }).minus(1),
+        ),
+        liquidationThreshold: parseRawPercentage(eMode.eMode.liquidationThreshold),
+      }
     }
   }
 

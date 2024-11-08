@@ -1,7 +1,7 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { getNativeAssetInfo } from '@/config/chain/utils/getNativeAssetInfo'
 import { useCapAutomatorInfo } from '@/domain/cap-automator/useCapAutomatorInfo'
-import { useD3MInfo } from '@/domain/d3m-info/useD3MInfo'
+// import { useD3MInfo } from '@/domain/d3m-info/useD3MInfo'
 import { NotFoundError } from '@/domain/errors/not-found'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { Token } from '@/domain/types/Token'
@@ -14,7 +14,7 @@ import { UseOracleInfoResult, useOracleInfo } from '@/domain/oracles/useOracleIn
 import { useSandboxPageRedirect } from '@/domain/sandbox/useSandboxPageRedirect'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { MarketOverview, WalletOverview } from '../types'
-import { makeDaiMarketOverview } from './makeDaiMarketOverview'
+// import { makeDaiMarketOverview } from './makeDaiMarketOverview'
 import { makeMarketOverview } from './makeMarketOverview'
 import { makeWalletOverview } from './makeWalletOverview'
 import { useMarketDetailsParams } from './useMarketDetailsParams'
@@ -36,7 +36,7 @@ export function useMarketDetails(): UseMarketDetailsResult {
   const { chainId, asset } = params
 
   const { marketInfo } = useMarketInfo({ chainId })
-  const { D3MInfo } = useD3MInfo({ chainId })
+  // const { D3MInfo } = useD3MInfo({ chainId })
   const walletInfo = useMarketWalletInfo({ chainId })
   const { meta: chainMeta } = getChainConfigEntry(chainId)
   const connectedChainId = useChainId()
@@ -52,11 +52,12 @@ export function useMarketDetails(): UseMarketDetailsResult {
 
   const reserve = marketInfo.findReserveByUnderlyingAsset(asset) ?? raise(new NotFoundError())
 
-  const isDaiOverview = reserve.token.symbol === marketInfo.DAI.symbol && D3MInfo
+  // const isDaiOverview = reserve.token.symbol === marketInfo.DAI.symbol && D3MInfo
 
   const { capAutomatorInfo } = useCapAutomatorInfo({
     chainId,
-    token: isDaiOverview ? marketInfo.sDAI : reserve.token,
+    token: reserve.token,
+    // token: isDaiOverview ? marketInfo.sDAI : reserve.token,
   })
 
   const oracleInfo = useOracleInfo({
@@ -64,17 +65,23 @@ export function useMarketDetails(): UseMarketDetailsResult {
     marketInfo,
   })
 
-  const marketOverview = isDaiOverview
-    ? makeDaiMarketOverview({
-        reserve,
-        marketInfo,
-        D3MInfo,
-      })
-    : makeMarketOverview({
-        reserve,
-        marketInfo,
-        capAutomatorInfo,
-      })
+  // const marketOverview = isDaiOverview
+  //   ? makeDaiMarketOverview({
+  //       reserve,
+  //       marketInfo,
+  //       D3MInfo,
+  //     })
+  //   : makeMarketOverview({
+  //       reserve,
+  //       marketInfo,
+  //       capAutomatorInfo,
+  //     })
+
+  const marketOverview = makeMarketOverview({
+    reserve,
+    marketInfo,
+    capAutomatorInfo,
+  })
 
   const walletOverview = makeWalletOverview({
     reserve,

@@ -16,6 +16,7 @@ import { useStore } from './domain/state'
 import { useAutoConnect } from './domain/wallet/useAutoConnect'
 import { TooltipProvider } from './ui/atoms/tooltip/Tooltip'
 import { AppBg } from './ui/atoms/app-bg/AppBg'
+import { lastSepoliaDynamic } from './config/chain/constants'
 
 function App() {
   const sandboxNetwork = useStore((state) => state.sandbox.network)
@@ -34,6 +35,9 @@ function App() {
       settings={{
         environmentId: import.meta.env.VITE_DYNAMIC_ENVIRONMENT_ID || '',
         walletConnectors: [EthereumWalletConnectors],
+        overrides: {
+          evmNetworks: [lastSepoliaDynamic],
+        },
       }}
     >
       <WagmiProvider config={config}>

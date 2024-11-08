@@ -1,6 +1,5 @@
-import { mainnet } from 'viem/chains'
 import { createStorage, noopStorage } from 'wagmi'
-import { SUPPORTED_CHAINS } from '../chain/constants'
+import { lastSepolia, SUPPORTED_CHAINS } from '../chain/constants'
 
 export function createWagmiStorage(): ReturnType<typeof createStorage> {
   const defaultStorage = createStorage({
@@ -29,7 +28,9 @@ function wrapGetItem(defaultStorage: ReturnType<typeof createStorage>): any {
           return SUPPORTED_CHAINS.some((chain) => chain.id === chainId)
         }),
       )
-      const newChainId = SUPPORTED_CHAINS.some((chain) => chain.id === persistedChainId) ? persistedChainId : mainnet.id
+      const newChainId = SUPPORTED_CHAINS.some((chain) => chain.id === persistedChainId)
+        ? persistedChainId
+        : lastSepolia.id
 
       return {
         ...originalValue,

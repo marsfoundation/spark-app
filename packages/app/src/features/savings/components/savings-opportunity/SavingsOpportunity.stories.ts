@@ -3,8 +3,8 @@ import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
 import type { Meta, StoryObj } from '@storybook/react'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
-import { mainnet } from 'viem/chains'
 import { SavingsOpportunity } from './SavingsOpportunity'
+import { lastSepolia } from '@/config/chain/constants'
 
 const meta: Meta<typeof SavingsOpportunity> = {
   title: 'Features/Savings/Components/SavingsOpportunity',
@@ -12,7 +12,7 @@ const meta: Meta<typeof SavingsOpportunity> = {
   decorators: [WithTooltipProvider(), WithClassname('max-w-5xl flex flex-col gap-6 sm:grid sm:grid-cols-2')],
   args: {
     APY: Percentage(0.065),
-    originChainId: mainnet.id,
+    originChainId: lastSepolia.id,
     savingsMeta: {
       primary: {
         savingsToken: TokenSymbol('sUSDS'),

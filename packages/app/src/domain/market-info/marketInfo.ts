@@ -44,8 +44,11 @@ export interface Reserve {
   isIsolated: boolean
   isBorrowableInIsolation: boolean // in practice this is true only for stablecoins
   isSiloedBorrowing: boolean
-  eModeCategory?: EModeCategory
-
+  eModes: {
+    category: EModeCategory
+    borrowingEnabled: boolean
+    collateralEnabled: boolean
+  }[]
   // @note: available liquidity respects borrow cap, so it can be negative when the cap is reached and breached (interests)
   availableLiquidity: NormalizedUnitNumber
   availableLiquidityUSD: NormalizedUnitNumber
@@ -268,7 +271,6 @@ export function marketInfoSelectFn({ timeAdvance }: MarketInfoSelectFnParams = {
       const supplyAvailabilityStatus = getSupplyAvailabilityStatus(r.reserve)
       const collateralEligibilityStatus = getCollateralEligibilityStatus(r.reserve)
       const borrowEligibilityStatus = getBorrowEligibilityStatus(r.reserve)
-
       return {
         token,
 
@@ -282,11 +284,12 @@ export function marketInfoSelectFn({ timeAdvance }: MarketInfoSelectFnParams = {
         borrowEligibilityStatus,
 
         isIsolated: r.reserve.isIsolated,
-        eModeCategory:
-          r.reserve.eModeCategoryId !== 0
-            ? eModeCategories[r.reserve.eModeCategoryId] ??
-              raise(`EMode category ${r.reserve.eModeCategoryId} not found`)
-            : undefined,
+        eModes:
+          r.reserve.eModes?.map((eMode) => ({
+            category: eModeCategories[eMode.id] ?? raise(`EMode category ${eMode.id} not found`),
+            borrowingEnabled: eMode.borrowingEnabled,
+            collateralEnabled: eMode.collateralEnabled,
+          })) ?? [],
         isSiloedBorrowing: r.reserve.isSiloedBorrowing,
         isBorrowableInIsolation: r.reserve.borrowableInIsolation,
 
@@ -364,7 +367,6 @@ export function marketInfoSelectFn({ timeAdvance }: MarketInfoSelectFnParams = {
         [
           { data: reserve.aIncentivesData, address: reserve.aTokenAddress },
           { data: reserve.vIncentivesData, address: reserve.variableDebtTokenAddress },
-          { data: reserve.sIncentivesData, address: reserve.stableDebtTokenAddress },
         ]
           .filter(({ data }) => data && data.length > 0)
           .map(({ address }) => CheckedAddress(address)),

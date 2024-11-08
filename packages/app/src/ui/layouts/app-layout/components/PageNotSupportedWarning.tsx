@@ -18,7 +18,7 @@ export function PageNotSupportedWarning({
     <div
       className={cn(
         'sticky bottom-0 flex min-h-28 w-full flex-col items-center justify-center gap-2.5 lg:flex-row lg:gap-40',
-        'bg-white p-4 shadow-[0_0_128px_rgba(0,0,0,0.1)]',
+        'bg-black p-4 shadow-[0_0_128px_rgba(0,0,0,0.1)]',
         className,
       )}
     >

@@ -4,8 +4,8 @@ import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
 import type { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
-import { mainnet } from 'viem/chains'
 import { SavingsTokenPanel } from './SavingsTokenPanel'
+import { lastSepolia } from '@/config/chain/constants'
 
 const meta: Meta<typeof SavingsTokenPanel> = {
   title: 'Features/Savings/Components/SavingsTokenPanel',
@@ -21,7 +21,7 @@ const meta: Meta<typeof SavingsTokenPanel> = {
       depositedAssetsPrecision: 4,
     }),
     APY: Percentage(0.05),
-    originChainId: mainnet.id,
+    originChainId: lastSepolia.id,
     savingsMetaItem: {
       savingsToken: TokenSymbol('sDAI'),
       stablecoin: TokenSymbol('DAI'),

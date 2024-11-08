@@ -2,8 +2,8 @@ import { SupportedChainId } from '@/config/chain/types'
 import { SavingsMetaItem } from '@/features/savings/logic/makeSavingsMeta'
 import { Link } from '@/ui/atoms/link/Link'
 import { links } from '@/ui/constants/links'
-import { gnosis } from 'viem/chains'
 import { SavingsInfoTile } from '../../savings-info-tile/SavingsInfoTile'
+import { lastSepolia } from '@/config/chain/constants'
 
 export interface DSRLabelProps {
   originChainId: SupportedChainId
@@ -14,7 +14,8 @@ export function DSRLabel({ originChainId, savingsMetaItem }: DSRLabelProps) {
   return (
     <SavingsInfoTile.Label
       tooltipContent={
-        originChainId === gnosis.id ? <GnosisDsrDetails /> : <TooltipContent savingsMetaItem={savingsMetaItem} />
+        // @TODO: update GnosisDsrDetails
+        originChainId === lastSepolia.id ? <GnosisDsrDetails /> : <TooltipContent savingsMetaItem={savingsMetaItem} />
       }
     >
       {savingsMetaItem.rateAcronym}

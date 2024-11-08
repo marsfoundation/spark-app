@@ -6,10 +6,10 @@ import { WithTooltipProvider } from '@storybook/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { tokens } from '@storybook/tokens'
 import { getMobileStory, getTabletStory } from '@storybook/viewports'
-import { mainnet } from 'viem/chains'
 import { mockDsrChartData, mockSsrChartData } from '../components/savings-charts/fixtures/mockSavingsRateChartData'
 import { SavingsTokenDetails } from '../logic/useSavings'
 import { GuestView } from './GuestView'
+import { lastSepolia } from '@/config/chain/constants'
 
 const myEarningsInfo = {
   queryResult: {
@@ -65,7 +65,7 @@ const meta: Meta<typeof GuestView> = {
     layout: 'fullscreen',
   },
   args: {
-    originChainId: mainnet.id,
+    originChainId: lastSepolia.id,
     openConnectModal: () => {},
     savingsMeta: {
       primary: {

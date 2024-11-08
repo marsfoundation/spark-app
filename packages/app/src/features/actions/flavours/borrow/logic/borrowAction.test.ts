@@ -35,12 +35,7 @@ describe(createBorrowActionConfig.name, () => {
           to: wethGatewayAddress[chainId],
           abi: wethGatewayAbi,
           functionName: 'borrowETH',
-          args: [
-            lendingPoolAddress[chainId],
-            toBigInt(nativeAsset.toBaseUnit(borrowValue)),
-            interestRateMode,
-            referralCode,
-          ],
+          args: [lendingPoolAddress[chainId], toBigInt(nativeAsset.toBaseUnit(borrowValue)), referralCode],
           from: account,
           result: undefined,
         }),

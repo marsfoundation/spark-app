@@ -57,7 +57,7 @@ export function createRepayActionConfig(action: RepayAction, context: ActionCont
           address: wethGateway,
           abi: wethGatewayConfig.abi,
           functionName: 'repayETH',
-          args: [lendingPool, value, interestRateMode, account],
+          args: [lendingPool, value, account],
           value,
         })
       }

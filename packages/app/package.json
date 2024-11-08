@@ -28,7 +28,7 @@
     "chromatic": "npx chromatic --build-script-name storybook:build --exit-zero-on-changes"
   },
   "dependencies": {
-    "@aave/math-utils": "^1.20.0",
+    "@aave/math-utils": "^1.30.5",
     "@dynamic-labs/ethereum": "^3.4.4",
     "@dynamic-labs/sdk-react-core": "^3.4.4",
     "@dynamic-labs/wagmi-connector": "^3.4.4",
