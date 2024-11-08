@@ -3,11 +3,8 @@ import { useBannerVisibility } from '@/domain/state/bannersVisibility'
 import { useOpenDialog } from '@/domain/state/dialogs'
 import { selectNetworkDialogConfig } from '@/features/dialogs/select-network/SelectNetworkDialog'
 import { TopbarContainer } from '@/features/topbar/TopbarContainer'
+import { REDESIGN_TOP_BANNER_ID, RedesignTopBanner } from '@/ui/atoms/redesign-top-banner/RedesignTopBanner'
 import { cn } from '@/ui/utils/style'
-import {
-  SKY_MIGRATION_TOP_BANNER_ID,
-  SkyMigrationTopBanner,
-} from '../../atoms/sky-migration-top-banner/SkyMigrationTopBanner'
 import { LayoutBackground } from './components/LayoutBackground'
 import { PageNotSupportedWarning } from './components/PageNotSupportedWarning'
 
@@ -17,7 +14,7 @@ interface AppLayoutProps {
 
 export function AppLayout({ children }: AppLayoutProps) {
   const { pageSupported, pageName } = usePageChainId()
-  const { handleCloseBanner, showBanner } = useBannerVisibility(SKY_MIGRATION_TOP_BANNER_ID)
+  const { handleCloseBanner, showBanner } = useBannerVisibility(REDESIGN_TOP_BANNER_ID)
   const openDialog = useOpenDialog()
 
   return (
@@ -31,7 +28,7 @@ export function AppLayout({ children }: AppLayoutProps) {
       <LayoutBackground />
 
       {import.meta.env.VITE_FEATURE_TOP_BANNER === '1' && showBanner && (
-        <SkyMigrationTopBanner onClose={handleCloseBanner} className="col-span-full " />
+        <RedesignTopBanner onClose={handleCloseBanner} className="col-span-full " />
       )}
       <div className="z-30 col-start-2 col-end-2 my-2 lg:mt-6 lg:mb-10 sm:mb-8">
         <TopbarContainer />
