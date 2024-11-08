@@ -1,7 +1,6 @@
-import { Path, pathGroups, paths } from '@/config/paths'
+import { usePageChainId } from '@/domain/hooks/usePageChainId'
 import { cn } from '@/ui/utils/style'
 import { CSSProperties } from 'react'
-import { matchPath, useLocation } from 'react-router-dom'
 
 const pageGradients = {
   savings: {
@@ -22,13 +21,9 @@ const pageGradients = {
 }
 
 export function LayoutBackground() {
-  const location = useLocation()
+  const pageInfo = usePageChainId()
 
-  const currentPage = Object.entries(paths).find(([_, path]) => matchPath(path, location.pathname))?.[0] as Path
-
-  const activePathGroup = Object.entries(pathGroups).find(([_, paths]) =>
-    paths.includes(currentPage),
-  )?.[0] as keyof typeof pathGroups
+  const currentPathGroup = pageInfo.activePathGroup ?? 'savings'
 
   return (
     <div
@@ -44,9 +39,9 @@ export function LayoutBackground() {
         )}
         style={
           {
-            '--gradient-from': pageGradients[activePathGroup].from,
-            '--gradient-via': pageGradients[activePathGroup].via,
-            '--gradient-to': pageGradients[activePathGroup].to,
+            '--gradient-from': pageGradients[currentPathGroup].from,
+            '--gradient-via': pageGradients[currentPathGroup].via,
+            '--gradient-to': pageGradients[currentPathGroup].to,
           } as CSSProperties
         }
       />
