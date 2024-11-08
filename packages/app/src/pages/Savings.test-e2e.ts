@@ -149,7 +149,7 @@ test.describe('Savings Gnosis', () => {
 })
 
 test.describe('Savings Base', () => {
-  const fork = setupFork({ chainId: base.id })
+  const fork = setupFork({ chainId: base.id, blockNumber: 22143788n, useTenderlyVnet: true })
 
   test('guest state', async ({ page }) => {
     await setup(page, fork, {

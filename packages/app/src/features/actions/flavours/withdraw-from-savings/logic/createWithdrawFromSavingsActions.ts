@@ -1,5 +1,5 @@
-import { basePsm3Address } from '@/config/abis/basePsm3Abi'
 import {
+  basePsm3Address,
   migrationActionsConfig,
   psmActionsConfig,
   savingsXDaiAdapterAddress,

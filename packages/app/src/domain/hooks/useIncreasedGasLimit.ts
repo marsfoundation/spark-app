@@ -1,6 +1,5 @@
-import { basePsm3Config } from '@/config/abis/basePsm3Abi'
 import { susdsAddresses } from '@/config/chain/constants'
-import { savingsDaiConfig } from '@/config/contracts-generated'
+import { basePsm3Config, savingsDaiConfig } from '@/config/contracts-generated'
 import { JSONStringifyRich } from '@/utils/object'
 import { skipToken, useQuery } from '@tanstack/react-query'
 import { Abi, Address, ContractFunctionName, erc4626Abi, isAddressEqual } from 'viem'

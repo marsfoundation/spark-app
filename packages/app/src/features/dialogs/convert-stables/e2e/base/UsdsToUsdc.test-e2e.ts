@@ -6,7 +6,7 @@ import { base } from 'viem/chains'
 import { ConvertStablesDialogPageObject } from '../../ConvertStablesDialog.PageObject'
 
 test.describe('Convert USDS to USDC', () => {
-  const fork = setupFork({ chainId: base.id })
+  const fork = setupFork({ chainId: base.id, blockNumber: 22143788n, useTenderlyVnet: true })
   let savingsPage: SavingsPageObject
   let convertStablesDialog: ConvertStablesDialogPageObject
 

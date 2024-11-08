@@ -7,7 +7,7 @@ import { base } from 'viem/chains'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 
 test.describe('Withdraw Max USDC', () => {
-  const fork = setupFork({ chainId: base.id })
+  const fork = setupFork({ chainId: base.id, blockNumber: 22143788n, useTenderlyVnet: true })
   let savingsPage: SavingsPageObject
   let withdrawDialog: SavingsDialogPageObject
 
@@ -43,15 +43,15 @@ test.describe('Withdraw Max USDC', () => {
       routeItems: [
         {
           tokenAmount: '10,000.00 sUSDS',
-          tokenUsdValue: '$10,057.24',
+          tokenUsdValue: '$10,089.06',
         },
         {
-          tokenAmount: '10,057.24 USDS',
-          tokenUsdValue: '$10,057.24',
+          tokenAmount: '10,089.06 USDS',
+          tokenUsdValue: '$10,089.06',
         },
       ],
-      outcome: '10,057.24 USDC',
-      outcomeUsd: '$10,057.24',
+      outcome: '10,089.06 USDC',
+      outcomeUsd: '$10,089.06',
     })
 
     await withdrawDialog.expectUpgradeSwitchToBeHidden()
@@ -64,7 +64,7 @@ test.describe('Withdraw Max USDC', () => {
     await withdrawDialog.expectSuccessPage()
     await withdrawDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectOpportunityStablecoinsAmount('~$10,057.24')
-    await savingsPage.expectStablecoinsInWalletAssetBalance('USDC', '10,057.24')
+    await savingsPage.expectOpportunityStablecoinsAmount('~$10,089.06')
+    await savingsPage.expectStablecoinsInWalletAssetBalance('USDC', '10,089.06')
   })
 })

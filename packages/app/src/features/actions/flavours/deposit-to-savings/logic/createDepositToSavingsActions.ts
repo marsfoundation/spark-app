@@ -1,5 +1,9 @@
-import { basePsm3Address } from '@/config/abis/basePsm3Abi'
-import { migrationActionsConfig, psmActionsConfig, usdsPsmActionsConfig } from '@/config/contracts-generated'
+import {
+  basePsm3Address,
+  migrationActionsConfig,
+  psmActionsConfig,
+  usdsPsmActionsConfig,
+} from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { Action, ActionContext } from '@/features/actions/logic/types'

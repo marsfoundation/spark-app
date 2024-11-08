@@ -106,7 +106,7 @@ async function isSudsDeployed(forkContext: ForkContext): Promise<boolean> {
     }
 
     if (forkContext.chainId === base.id) {
-      return '0x02Edc8718799a22fCBeBEd0C58a1D09657C81bC8'
+      return '0x5875eEE11Cf8398102FdAd704C9E96607675467a'
     }
 
     return zeroAddress
