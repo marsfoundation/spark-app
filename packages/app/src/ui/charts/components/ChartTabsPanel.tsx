@@ -57,7 +57,11 @@ export function ChartTabsPanel({ tabs, onTimeframeChange, selectedTimeframe, hei
       <Panel className="flex min-h-[380px] w-full flex-1 flex-col justify-between self-stretch">
         <div className="grid grid-cols-1 grid-rows-2 items-center gap-4 lg:grid-cols-2 lg:grid-rows-1">
           <div className="flex items-center gap-1 font-semibold text-lg md:text-xl">{firstTab.label}</div>
-          <TimeframeButtons onTimeframeChange={onTimeframeChange} selectedTimeframe={selectedTimeframe} />
+          <TimeframeButtons
+            onTimeframeChange={onTimeframeChange}
+            selectedTimeframe={selectedTimeframe}
+            className="w-full lg:w-auto"
+          />
         </div>
 
         <div className="flex w-full flex-grow flex-col items-center justify-center">
