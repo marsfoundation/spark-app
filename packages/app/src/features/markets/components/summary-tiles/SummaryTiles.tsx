@@ -9,7 +9,7 @@ interface SummaryTilesProps {
 export function SummaryTiles({ marketStats }: SummaryTilesProps) {
   let index = 0
   return (
-    <div className="grid grid-cols-2 gap-y-6 sm:flex sm:justify-between lg:gap-16 lg:pr-16">
+    <div className="grid grid-cols-2 gap-y-6 sm:flex sm:justify-between lg:gap-8 lg:pr-8">
       <SummaryTile
         variant="total-market-size"
         USDValue={marketStats.totalMarketSizeUSD}

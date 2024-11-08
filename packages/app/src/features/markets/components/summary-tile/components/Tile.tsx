@@ -3,25 +3,25 @@ import { HelpCircle } from 'lucide-react'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { Tooltip, TooltipContentShort, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
-import { Typography } from '@/ui/atoms/typography/Typography'
+import { ComponentType } from 'react'
 
 export interface TileProps {
-  icon: string
+  icon: ComponentType<{ className?: string }>
   title: string
   USDValue: NormalizedUnitNumber
   description?: string
   'data-testid'?: string
 }
 
-export function Tile({ icon, title, USDValue, description, 'data-testid': dataTestId }: TileProps) {
+export function Tile({ icon: Icon, title, USDValue, description, 'data-testid': dataTestId }: TileProps) {
   return (
     <div className="flex items-center gap-2 md:gap-3" data-testid={dataTestId}>
-      <div className="flex rounded-lg border bg-white p-1.5 lg:rounded-2xl md:rounded-xl lg:p-4 md:p-3">
-        <img src={icon} alt={title} className="w-6 lg:w-8 md:w-7" />
+      <div className="flex rounded-full bg-white p-1.5 lg:p-4 md:p-3">
+        <Icon className="h-6 w-6 text-reskin-orange-400 lg:h-8 md:h-7 lg:w-8 md:w-7" />
       </div>
       <div className="flex flex-col">
         <div className="flex items-center gap-1">
-          <Typography variant="prompt">{title}</Typography>
+          <div className="typography-label-6 text-secondary drop-shadow-[0_2px_2px_white]">{title}</div>
           {description && (
             <Tooltip>
               <TooltipTrigger>
@@ -31,9 +31,8 @@ export function Tile({ icon, title, USDValue, description, 'data-testid': dataTe
             </Tooltip>
           )}
         </div>
-        <div className="flex gap-1 font-semibold text-base md:gap-2 lg:text-2xl md:text-xl">
-          <div className="text-black/30">$</div>
-          <div className=" text-black">{USD_MOCK_TOKEN.format(USDValue, { style: 'compact' })}</div>
+        <div className="typography-heading-3 text-primary">
+          ${USD_MOCK_TOKEN.format(USDValue, { style: 'compact' })}
         </div>
       </div>
     </div>
