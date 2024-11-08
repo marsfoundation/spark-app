@@ -119,30 +119,24 @@ const meta: Meta<typeof PositionView> = {
     ],
     eModeCategoryId: 0,
     walletComposition: {
-      hasCollaterals: true,
       assets: [
         {
           token: tokens.ETH,
-          value: NormalizedUnitNumber(132.28),
-          detailsLink: '',
+          balance: NormalizedUnitNumber(132.28),
         },
         {
           token: tokens.USDC,
-          value: NormalizedUnitNumber(90000),
-          detailsLink: '',
+          balance: NormalizedUnitNumber(90000),
         },
         {
           token: tokens.stETH,
-          value: NormalizedUnitNumber(34.21),
-          detailsLink: '',
+          balance: NormalizedUnitNumber(34.21),
         },
         {
           token: tokens.DAI,
-          value: NormalizedUnitNumber(50000),
-          detailsLink: '',
+          balance: NormalizedUnitNumber(50000),
         },
       ],
-      chainId: 1,
       includeDeposits: true,
       setIncludeDeposits: () => {},
     },

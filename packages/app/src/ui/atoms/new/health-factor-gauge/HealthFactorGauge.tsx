@@ -139,17 +139,18 @@ export function HealthFactorGauge({ value, className }: HealthFactorGaugeProps) 
 
       <foreignObject width="100%" height="100%">
         <div className="flex h-full w-full flex-col items-center justify-end gap-2">
-          <div
-            className={cn(
-              'rounded-full p-2 font-roobert text-[16px] text-primary leading-[18px]',
-              (riskLevel === 'risky' || riskLevel === 'liquidation') && 'bg-[#EE374F]',
-              riskLevel === 'moderate' && 'bg-[#EDA902]',
-              (riskLevel === 'healthy' || riskLevel === 'no debt') && 'bg-[#00C2A1]',
-              riskLevel === 'unknown' && 'bg-neutral-500',
-            )}
-          >
-            {riskLevelToTitle[riskLevel]}
-          </div>
+          {riskLevel !== 'unknown' && (
+            <div
+              className={cn(
+                'rounded-full p-2 font-roobert text-[16px] text-primary leading-[18px]',
+                (riskLevel === 'risky' || riskLevel === 'liquidation') && 'bg-[#EE374F]',
+                riskLevel === 'moderate' && 'bg-[#EDA902]',
+                (riskLevel === 'healthy' || riskLevel === 'no debt') && 'bg-[#00C2A1]',
+              )}
+            >
+              {riskLevelToTitle[riskLevel]}
+            </div>
+          )}
           <div
             className="text-[56px] text-white leading-[56px]"
             data-testid={testIds.component.HealthFactorGauge.value}

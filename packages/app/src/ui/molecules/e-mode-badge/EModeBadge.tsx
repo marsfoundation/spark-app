@@ -22,7 +22,7 @@ export function EModeBadge({ categoryId }: EModeBadgeProps) {
 }
 
 const variants = cva(
-  'flex w-fit flex-row items-center gap-1.5 rounded-sm border px-1 py-0.5 font-semibold text-xs uppercase',
+  'typography-body-6 flex w-fit flex-row items-center gap-1.5 rounded-sm border px-1 py-0.5 text-primary uppercase',
   {
     variants: {
       state: {

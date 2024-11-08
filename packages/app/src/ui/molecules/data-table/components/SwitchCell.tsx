@@ -1,5 +1,4 @@
 import { Switch } from '@/ui/atoms/new/switch/Switch'
-import { Typography } from '@/ui/atoms/typography/Typography'
 import { MouseEventHandler } from 'react'
 import { MobileViewOptions } from '../types'
 
@@ -13,7 +12,7 @@ export function SwitchCell({ checked, onSwitchClick, mobileViewOptions }: Switch
   if (mobileViewOptions?.isMobileView) {
     return (
       <div className="flex flex-row items-center justify-between">
-        <Typography variant="prompt">{mobileViewOptions.rowTitle}</Typography>
+        <div className="typography-label-6 w-full text-secondary">{mobileViewOptions.rowTitle}</div>
         <Switch checked={checked} onClick={onSwitchClick} />
       </div>
     )

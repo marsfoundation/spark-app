@@ -2,8 +2,7 @@ import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { getTokenColor } from '@/ui/assets'
 import { Panel } from '@/ui/atoms/new/panel/Panel'
-import { Tooltip, TooltipContentShort, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
-import { Typography } from '@/ui/atoms/typography/Typography'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/new/tooltip/Tooltip'
 import { Info } from '@/ui/molecules/info/Info'
 import { getRandomColor } from '@/ui/utils/get-random-color'
 import { cn } from '@/ui/utils/style'
@@ -59,8 +58,8 @@ function Ticks({ ticks }: TicksProps) {
     <div className="relative h-8">
       {ticks.map(({ label, x }) => (
         <div className="-translate-x-[50%] absolute flex flex-col items-center" style={{ left: `${x}%` }} key={x}>
-          <div className="h-2 w-[1px] bg-icon-foreground" />
-          <div>{label && <Typography variant="prompt">{label}</Typography>}</div>
+          <div className="h-2 w-[1px] bg-basics-dark-grey" />
+          {label && <div className="typography-body-6 text-secondary">{label}</div>}
         </div>
       ))}
     </div>
@@ -76,10 +75,10 @@ function Deposited({ positionSummary, ticks }: DepositedProps) {
   return (
     <div className="flex flex-col gap-1">
       <div className="flex flex-row justify-between">
-        <Typography className="font-semibold">Collateral deposited</Typography>
-        <Typography className="font-semibold" data-testid={testIds.myPortfolio.deposited}>
+        <div className="typography-label-4 text-primary">Collateral deposited</div>
+        <div className="typography-label-4 text-primary" data-testid={testIds.myPortfolio.deposited}>
           {getPositionFormattedValue(positionSummary?.totalCollateralUSD)}
-        </Typography>
+        </div>
       </div>
       <CollateralBar positionSummary={positionSummary} />
       <Ticks ticks={ticks} />
@@ -107,7 +106,7 @@ function CollateralBar({ positionSummary }: CollateralBarProps) {
         <Tooltip key={c.token.symbol}>
           <TooltipTrigger asChild>
             <div
-              className="rounded-lg"
+              className="rounded-sm"
               style={{
                 width: i === 0 ? `${c.x}%` : `calc(${c.x}% + 1rem)`,
                 marginLeft: i === 0 ? 0 : '-1rem',
@@ -118,9 +117,9 @@ function CollateralBar({ positionSummary }: CollateralBarProps) {
               }}
             />
           </TooltipTrigger>
-          <TooltipContentShort>
+          <TooltipContent>
             You have deposited {USD_MOCK_TOKEN.formatUSD(c.token.toUSD(c.value))} worth of {c.token.symbol}.
-          </TooltipContentShort>
+          </TooltipContent>
         </Tooltip>
       ))}
     </div>
@@ -136,10 +135,10 @@ function Borrow({ positionSummary, ticks }: BorrowProps) {
   return (
     <div className="flex flex-col gap-1">
       <div className="flex flex-row justify-between">
-        <Typography className="font-semibold">Borrow</Typography>
-        <Typography className="font-semibold" data-testid={testIds.myPortfolio.borrowed}>
+        <div className="typography-label-4 text-primary">Borrow</div>
+        <div className="typography-label-4 text-primary" data-testid={testIds.myPortfolio.borrowed}>
           {getPositionFormattedValue(positionSummary?.borrow.current)}
-        </Typography>
+        </div>
       </div>
       <BorrowBar positionSummary={positionSummary} />
       <Ticks ticks={ticks} />
@@ -163,20 +162,18 @@ function BorrowBar({ positionSummary }: BorrowBarProps) {
         <Tooltip>
           <TooltipTrigger asChild>
             <div
-              className="z-[1] rounded-lg bg-product-orange"
+              className="z-[1] rounded-sm bg-gradient-spark-primary"
               style={{
                 width: `${borrow.percents.borrowed}%`,
               }}
             />
           </TooltipTrigger>
-          <TooltipContentShort>
-            You have borrowed {USD_MOCK_TOKEN.formatUSD(positionSummary.borrow.current)}.
-          </TooltipContentShort>
+          <TooltipContent>You have borrowed {USD_MOCK_TOKEN.formatUSD(positionSummary.borrow.current)}.</TooltipContent>
         </Tooltip>
       )}
       {borrow.percents.rest !== 0 && (
         <div
-          className="rounded-lg border bg-muted"
+          className="rounded-sm border bg-muted"
           style={{
             width: borrow.percents.rest === 100 ? '100%' : `calc(${borrow.percents.rest}% + 1rem)`,
             marginLeft: borrow.percents.rest === 100 ? '0' : '-1rem',
@@ -189,12 +186,10 @@ function BorrowBar({ positionSummary }: BorrowBarProps) {
             className="-translate-x-[1px] absolute z-[2] h-7 border-primary border-l-2 pl-2"
             style={{ left: `${borrow.percents.max}%` }}
           >
-            <div className="flex min-h-full flex-col justify-center">max</div>
+            <div className="typography-label-6 flex min-h-full flex-col justify-center text-basics-dark-grey">max</div>
           </div>
         </TooltipTrigger>
-        <TooltipContentShort>
-          You can borrow up to {USD_MOCK_TOKEN.formatUSD(positionSummary.borrow.max)}.
-        </TooltipContentShort>
+        <TooltipContent>You can borrow up to {USD_MOCK_TOKEN.formatUSD(positionSummary.borrow.max)}.</TooltipContent>
       </Tooltip>
     </div>
   )
