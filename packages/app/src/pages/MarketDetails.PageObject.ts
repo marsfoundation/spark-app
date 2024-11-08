@@ -66,7 +66,9 @@ export class MarketDetailsPageObject extends BasePageObject {
   }
 
   async expectConnectWalletButton(): Promise<void> {
-    await expect(this.locateMyWallet().getByRole('button', { name: 'Connect wallet' })).toBeEnabled()
+    await expect(
+      this.page.getByTestId(testIds.component.ConnectOrSandboxCTAPanel).getByRole('button', { name: 'Connect wallet' }),
+    ).toBeEnabled()
   }
 
   async expectDialogButtonToBeActive(type: DialogType): Promise<void> {
@@ -91,7 +93,6 @@ export class MarketDetailsPageObject extends BasePageObject {
 
   async expectToBeLoaded(): Promise<void> {
     await expect(this.locateMarketOverview()).toBeVisible()
-    await expect(this.locateMyWallet()).toBeVisible()
   }
 
   async expectMarketOverviewToBeHidden(): Promise<void> {
