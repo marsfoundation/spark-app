@@ -36,10 +36,8 @@ export function StablecoinsInWallet({
         header: 'Balance',
         headerAlign: 'right',
         renderCell: ({ balance, token }) => (
-          <div>
-            <div className="flex w-full flex-row justify-end">
-              {balance.eq(0) ? '-' : token.format(balance, { style: 'auto' })}
-            </div>
+          <div className="typography-label-4 flex w-full flex-row justify-end">
+            {balance.eq(0) ? '-' : token.format(balance, { style: 'auto' })}
           </div>
         ),
       },
