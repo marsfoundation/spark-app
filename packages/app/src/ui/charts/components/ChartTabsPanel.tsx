@@ -1,9 +1,10 @@
 import { DelayedComponent } from '@/ui/atoms/delayed-component/DelayedComponent'
 import { Panel } from '@/ui/atoms/new/panel/Panel'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/atoms/new/tabs/Tabs'
-import { useParentSize } from '@/ui/utils/useParentSize'
+import { useResizeObserver } from '@/ui/utils/useResizeObserver'
 import { assert } from '@/utils/assert'
 import { AlertTriangle, Loader2 } from 'lucide-react'
+import { useRef } from 'react'
 import { Timeframe } from '../defaults'
 import { TimeframeButtons } from './TimeframeButtons'
 
@@ -54,7 +55,7 @@ export function ChartTabsPanel({ tabs, onTimeframeChange, selectedTimeframe, hei
 
   if (tabs.length === 1) {
     return (
-      <Panel className="flex min-h-[380px] w-full flex-1 flex-col justify-between self-stretch">
+      <Panel className="self-stretchi flex min-h-[380px] w-full flex-1 flex-col justify-between overflow-hidden">
         <div className="grid grid-cols-1 grid-rows-2 items-center gap-4 lg:grid-cols-2 lg:grid-rows-1">
           <div className="flex items-center gap-1 font-semibold text-lg md:text-xl">{firstTab.label}</div>
           <TimeframeButtons
@@ -72,7 +73,7 @@ export function ChartTabsPanel({ tabs, onTimeframeChange, selectedTimeframe, hei
   }
 
   return (
-    <Panel className="flex min-h-[380px] w-full flex-1 flex-col justify-between self-stretch">
+    <Panel className="flex min-h-[380px] w-full flex-1 flex-col justify-between self-stretch overflow-hidden">
       <Tabs defaultValue={firstTab.id} className="flex flex-1 flex-col">
         <div className="flex flex-col flex-wrap items-center justify-between gap-2 lg:flex-row lg:gap-1">
           <TabsList className="w-full lg:w-auto" size="s">
@@ -107,7 +108,8 @@ interface ChartPanelProps extends ChartTab {
 }
 
 function ChartPanel({ height, component: Chart, isError, isPending, props }: ChartPanelProps) {
-  const [ref, { width }] = useParentSize()
+  const ref = useRef<HTMLDivElement>(null)
+  const { width } = useResizeObserver({ ref })
 
   if (isPending) {
     return (
@@ -130,7 +132,7 @@ function ChartPanel({ height, component: Chart, isError, isPending, props }: Cha
   }
 
   return (
-    <div ref={ref} className="w-full flex-1">
+    <div ref={ref} className="flex w-full">
       <Chart {...props} height={height} width={width} />
     </div>
   )
