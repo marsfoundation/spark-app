@@ -5,6 +5,7 @@ import { ComponentType, ReactNode, createContext, forwardRef, useContext } from 
 
 export interface BadgeProps extends RequiredProps<VariantProps<typeof badgeVariants>> {
   children?: ReactNode
+  className?: string
   'data-testid'?: string
 }
 
@@ -21,9 +22,9 @@ function useBadgeContext(): BadgeContext {
 }
 
 export const Badge = forwardRef<HTMLDivElement, BadgeProps>(
-  ({ children, 'data-testid': dataTestId, ...variants }, ref) => {
+  ({ children, 'data-testid': dataTestId, className, ...variants }, ref) => {
     return (
-      <div className={cn(badgeVariants(variants))} ref={ref} data-testid={dataTestId}>
+      <div className={cn(badgeVariants(variants), className)} ref={ref} data-testid={dataTestId}>
         <BadgeContext.Provider value={{ size: variants.size }}>{children}</BadgeContext.Provider>
       </div>
     )

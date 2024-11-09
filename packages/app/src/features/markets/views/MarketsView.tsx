@@ -30,7 +30,7 @@ export function MarketsView({
   return (
     <PageLayout className="gap-8">
       <div className="flex flex-row items-center gap-4">
-        <Typography variant="h2">Markets</Typography>
+        <h1 className="typography-heading-1 text-primary">Markets</h1>
         <div className="flex translate-y-0.5 flex-row items-center gap-1">
           <img src={chainImage} className="h-5 w-5" />
           <Typography className="font-semibold text-primary text-xs">{chainName}</Typography>

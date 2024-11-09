@@ -12,13 +12,13 @@ export interface FarmsViewProps {
 
 export function FarmsView({ activeFarms, inactiveFarms, chainId }: FarmsViewProps) {
   return (
-    <PageLayout className="gap-8">
+    <PageLayout>
       <PageHeader chainId={chainId} />
       <div className="flex flex-col gap-8">
         {activeFarms.length > 0 && (
           <div className="flex flex-col gap-4">
             <h3 className={cn('typography-heading-4', inactiveFarms.length === 0 && 'hidden')}>Active farms</h3>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-3 sm:grid-cols-2 md:gap-8">
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 md:grid-cols-2 md:gap-8">
               {activeFarms.map((farm, index) => (
                 <FarmTile key={farm.detailsLink} data-testid={testIds.farms.active.tile(index)} {...farm} />
               ))}
@@ -29,7 +29,7 @@ export function FarmsView({ activeFarms, inactiveFarms, chainId }: FarmsViewProp
         {inactiveFarms.length > 0 && (
           <div className="flex flex-col gap-4">
             <h3 className={cn('typography-heading-4', activeFarms.length === 0 && 'hidden')}>Available farms</h3>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-3 sm:grid-cols-2 md:gap-8">
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 md:grid-cols-2 md:gap-8">
               {inactiveFarms.map((farm, index) => (
                 <FarmTile key={farm.detailsLink} data-testid={testIds.farms.inactive.tile(index)} {...farm} />
               ))}

@@ -2,7 +2,6 @@ import { ChevronUp } from 'lucide-react'
 import { ButtonHTMLAttributes, forwardRef } from 'react'
 
 import { WalletDropdownTriggerInfo } from '@/features/navbar/types'
-import MagicWandCircle from '@/ui/assets/magic-wand-circle.svg?react'
 import { shortenAddress } from '@/ui/utils/shortenAddress'
 
 import { Button, ButtonIcon } from '@/ui/atoms/new/button/Button'
@@ -25,11 +24,8 @@ export const TopbarWalletButton = forwardRef<HTMLButtonElement, TopbarWalletButt
 
     if (mode === 'sandbox') {
       return (
-        <Button {...buttonProps} className={cn(buttonProps.className, 'pointer-events-none')}>
-          <ButtonIcon icon={MagicWandCircle} />
-          <span>
-            Sandbox <span className="hidden sm:inline">Mode</span>
-          </span>
+        <Button {...buttonProps} className={cn(buttonProps.className, 'pointer-events-none justify-center gap-1')}>
+          Sandbox <span className="hidden sm:inline">Mode</span>
         </Button>
       )
     }

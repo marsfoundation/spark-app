@@ -23,19 +23,23 @@ export function GrowingReward({ rewardToken, calculateReward, refreshIntervalInM
   const precision = calculatePrecision({ currentReward, rewardIn1Step })
 
   return (
-    <div className="flex flex-col items-center gap-1">
-      <div className="flex items-center gap-2">
+    <div className="flex flex-col items-center">
+      <div className="flex items-baseline gap-2">
         <img src={getTokenImage(rewardToken.symbol)} className="h-8 w-8" />
         <div
-          className="flex flex-row items-end justify-center slashed-zero tabular-nums"
+          className="flex flex-row items-baseline justify-center tabular-nums"
           data-testid={testIds.farmDetails.activeFarmInfoPanel.rewards}
         >
-          <div className="font-semibold text-3xl md:text-5xl">{getWholePart(currentReward)}</div>
-          <div className="font-semibold text-lg md:text-2xl">{getFractionalPart(currentReward, precision)}</div>
+          <div className="typography-heading-2 sm:typography-heading-3 xl:typography-heading-1 text-primary">
+            {getWholePart(currentReward)}
+          </div>
+          <div className="typography-heading-5 sm:typography-heading-5 xl:typography-heading-4 text-primary">
+            {getFractionalPart(currentReward, precision)}
+          </div>
         </div>
       </div>
       {rewardToken.unitPriceUsd.gt(0) && (
-        <div className="font-semibold text-basics-dark-grey text-xs tracking-wide">
+        <div className="typography-label-5 text-secondary">
           &#8776;
           <span data-testid={testIds.farmDetails.activeFarmInfoPanel.rewardsUsd}>
             {rewardToken.formatUSD(currentReward)}

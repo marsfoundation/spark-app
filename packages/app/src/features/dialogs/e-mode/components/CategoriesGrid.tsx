@@ -5,10 +5,5 @@ interface CategoriesGridProps {
 }
 
 export function CategoriesGrid({ children }: CategoriesGridProps) {
-  return (
-    <div className="mt-4 mb-2 flex flex-col gap-2">
-      <h3 className="font-semibold text-basics-black text-xs">Category</h3>
-      <div className="grid grid-cols-3 gap-2">{children}</div>
-    </div>
-  )
+  return <div className="my-2 grid grid-cols-3 gap-3">{children}</div>
 }
