@@ -6,6 +6,9 @@ import { SavingsSkeleton } from './SavingsSkeleton'
 const meta: Meta<typeof SavingsSkeleton> = {
   title: 'Features/Savings/Components/Skeleton',
   component: SavingsSkeleton,
+  parameters: {
+    layout: 'fullscreen',
+  },
 }
 
 export default meta

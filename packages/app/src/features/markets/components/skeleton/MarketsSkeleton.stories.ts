@@ -6,6 +6,9 @@ import { MarketsSkeleton } from './MarketsSkeleton'
 const meta: Meta<typeof MarketsSkeleton> = {
   title: 'Features/Markets/Components/Skeleton',
   component: MarketsSkeleton,
+  parameters: {
+    layout: 'fullscreen',
+  },
 }
 
 export default meta

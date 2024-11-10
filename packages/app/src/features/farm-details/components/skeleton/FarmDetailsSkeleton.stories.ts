@@ -6,6 +6,9 @@ import { FarmDetailsSkeleton } from './FarmDetailsSkeleton'
 const meta: Meta<typeof FarmDetailsSkeleton> = {
   title: 'Features/FarmDetails/Components/Skeleton',
   component: FarmDetailsSkeleton,
+  parameters: {
+    layout: 'fullscreen',
+  },
 }
 
 export default meta

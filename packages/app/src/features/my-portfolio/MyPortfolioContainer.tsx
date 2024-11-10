@@ -1,8 +1,6 @@
-import { useConnectModal } from '@rainbow-me/rainbowkit'
-
 import { useOpenDialog } from '@/domain/state/dialogs'
 import { withSuspense } from '@/ui/utils/withSuspense'
-
+import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { MyPortfolioSkeleton } from './components/skeleton/MyPortfolioSkeleton'
 import { useMyPortfolio } from './logic/useMyPortfolio'
 import { GuestView } from './views/GuestView'

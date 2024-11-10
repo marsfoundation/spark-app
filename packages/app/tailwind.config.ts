@@ -498,10 +498,6 @@ export default {
     require('tailwindcss-animate'),
     plugin(({ addUtilities, theme }) => {
       addUtilities({
-        // @note text-display-* font weight is intentionally set to 500
-        // Downloadable link contains only 500 weight variant of Roobert font
-        // according to the guideline only 500 should be used for headings so that might be possible reason
-        // (each weight has to be bought independently) - Need to clarify with design team
         '.typography-display-1': {
           fontSize: '2.375rem', // 38px
           lineHeight: '2.375rem', // 38px

@@ -1,7 +1,7 @@
 import { formatPercentage } from '@/domain/common/format'
 import { Percentage } from '@/domain/types/NumericValues'
 import { ChartTooltipContent } from '@/ui/charts/ChartTooltipContent'
-import { colors } from '@/ui/charts/colors'
+import { colors as colorsPreset } from '@/ui/charts/colors'
 import { Margins, defaultMargins } from '@/ui/charts/defaults'
 import { formatPercentageTick, formatTooltipDate, getVerticalDomainWithPadding } from '@/ui/charts/utils'
 import { AxisBottom, AxisLeft } from '@visx/axis'
@@ -20,6 +20,11 @@ import { Fragment, MouseEvent, TouchEvent } from 'react'
 export interface ChartDataPoint {
   date: Date
   apr: Percentage
+}
+
+export const colors = {
+  ...colorsPreset,
+  primary: '#FA43BD',
 }
 
 export interface ChartProps {

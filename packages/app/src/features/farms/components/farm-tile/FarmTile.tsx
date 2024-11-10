@@ -43,9 +43,9 @@ export function FarmTile({
       <div
         style={isHovered ? { borderColor: borderAccentColor } : {}}
         className={cn(
-          'flex w-full cursor-pointer flex-col overflow-hidden rounded-2xl',
-          'group hover:-translate-y-1 border border-basics-border',
-          'transition-all duration-300 hover:shadow-tooltip',
+          'flex w-full cursor-pointer flex-col overflow-hidden rounded-sm',
+          'group hover:-translate-y-1 border border-primary bg-primary',
+          'transition-all duration-300 hover:shadow-sm',
         )}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -55,42 +55,45 @@ export function FarmTile({
           <div
             style={{ background: `linear-gradient(to bottom, white -20px, ${headerAccentColor})` }}
             className={cn(
-              'absolute opacity-50 transition-opacity duration-300',
-              'z-0 h-20 w-full opacity-50 group-hover:opacity-90',
+              'absolute inset-1 opacity-50 transition-opacity duration-300',
+              'z-0 h-24 rounded-xs opacity-50 group-hover:opacity-90',
             )}
           />
-          <img src={rewardIcon} alt="farm-reward-icon" className="relative z-10 mt-12 mb-5 ml-6 h-16 w-16" />
+          <img src={rewardIcon} alt="farm-reward-icon" className="relative z-10 mt-16 mb-5 ml-6 h-16 w-16" />
         </div>
-        <div className="px-6 pb-7">
-          <div className="grid w-full grid-flow-col grid-cols-[auto,auto] grid-rows-[auto,auto]">
-            <div className="text-basics-dark-grey text-sm" data-testid={testIds.farms.tile.stakeText}>
+        <div className="flex h-full flex-col px-6 pb-7">
+          <div className="mb-auto grid w-full grid-flow-col grid-cols-[auto,auto] grid-rows-[auto,auto]">
+            <div className="typography-label-5 text-secondary" data-testid={testIds.farms.tile.stakeText}>
               Deposit {entryAssetsGroup.name}
             </div>
-            <div className="font-semibold text-2xl" data-testid={testIds.farms.tile.rewardText}>
+            <div className="typography-heading-3 text-primary" data-testid={testIds.farms.tile.rewardText}>
               Earn {isPointsFarm ? `${rewardToken.name} points` : rewardTokenSymbol}
             </div>
             {apy?.gt(0) && (
               <>
-                <div className="justify-self-end text-basics-dark-grey text-sm">APY</div>
-                <div className="justify-self-end font-semibold text-2xl" data-testid={testIds.farms.tile.apy}>
+                <div className="typography-label-5 justify-self-end text-secondary">APY</div>
+                <div
+                  className="typography-heading-3 justify-self-end text-primary"
+                  data-testid={testIds.farms.tile.apy}
+                >
                   {formatPercentage(apy, { minimumFractionDigits: 0 })}
                 </div>
               </>
             )}
           </div>
-          <div className="mt-11 mb-6 border-basics-border border-t" />
+          <div className="mt-11 mb-6 border-primary border-t" />
           {staked.gt(0) ? (
             <>
-              <div className="mb-2 text-basics-dark-grey text-sm">Tokens deposited:</div>
-              <div className="flex items-center gap-1.5 font-medium">
-                <img src={getTokenImage(stakingToken.symbol)} alt="farm-reward-icon" className="h-6 w-6" />
+              <div className="typography-label-5 mb-2 text-secondary">Tokens deposited:</div>
+              <div className="typography-label-4 flex items-center gap-1.5">
+                <img src={getTokenImage(stakingToken.symbol)} alt="farm-reward-icon" className="icon-md" />
                 <span data-testid={testIds.farms.tile.staked}>{stakingToken.format(staked, { style: 'auto' })}</span>{' '}
                 {stakingToken.symbol}
               </div>
             </>
           ) : (
             <>
-              <div className="mb-2 text-basics-dark-grey text-sm">Tokens to deposit:</div>
+              <div className="typography-label-5 mb-2 text-secondary">Tokens to deposit:</div>
               <IconStack paths={entryTokenIcons} iconBorder />
             </>
           )}

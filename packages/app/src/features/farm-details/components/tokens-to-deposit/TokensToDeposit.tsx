@@ -1,8 +1,8 @@
 import { TokenWithBalance } from '@/domain/common/types'
 import { Token } from '@/domain/types/Token'
+import { TokenCell } from '@/features/savings/components/stablecoins-in-wallet/components/TokenCell'
 import { Button } from '@/ui/atoms/new/button/Button'
 import { Panel } from '@/ui/atoms/new/panel/Panel'
-import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 import { DataTable, DataTableProps } from '@/ui/molecules/data-table/DataTable'
 import { useMemo } from 'react'
 
@@ -16,21 +16,14 @@ export function TokensToDeposit({ assets, openStakeDialog }: TokensToDepositProp
     () => ({
       token: {
         header: 'Token',
-        renderCell: ({ token }) => (
-          <div className="flex flex-row items-center gap-2">
-            <TokenIcon token={token} className="h-6 w-6" />
-            {token.symbol}
-          </div>
-        ),
+        renderCell: ({ token }) => <TokenCell token={token} />,
       },
       balance: {
         header: 'Balance',
         headerAlign: 'right',
         renderCell: ({ balance, token }) => (
-          <div>
-            <div className="flex w-full flex-row justify-end">
-              {balance.eq(0) ? '-' : token.format(balance, { style: 'auto' })}
-            </div>
+          <div className="typography-label-4 flex w-full flex-row justify-end">
+            {balance.eq(0) ? '-' : token.format(balance, { style: 'auto' })}
           </div>
         ),
       },
@@ -52,7 +45,7 @@ export function TokensToDeposit({ assets, openStakeDialog }: TokensToDepositProp
 
   return (
     <Panel className="flex flex-col gap-6">
-      <h3>Tokens to deposit</h3>
+      <h3 className="typography-heading-5">Tokens to deposit</h3>
       <DataTable gridTemplateColumnsClassName="grid-cols-[repeat(2,_1fr)_100px]" data={assets} columnDef={columnDef} />
     </Panel>
   )

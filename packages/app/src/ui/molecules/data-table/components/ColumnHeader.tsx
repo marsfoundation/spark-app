@@ -19,17 +19,13 @@ export function ColumnHeader<T>({ column, columnDefinition }: ColumnHeaderProps<
         headerAlign === 'right' && 'justify-end',
       )}
     >
-      <Button
-        variant="transparent"
-        className={cn(
-          'typography-label-6 h-4 cursor-auto rounded-[1px] p-0 text-secondary',
-          sortable && 'cursor-pointer',
-          !sortable && 'hover:text-secondary',
-        )}
-        onClick={() => sortable && column.toggleSorting(column.getIsSorted() === 'asc')}
-      >
-        {sortable &&
-          (column.getIsSorted() !== false ? (
+      {sortable ? (
+        <Button
+          variant="transparent"
+          className="!typography-label-6 h-4 cursor-pointer rounded-[1px] p-0 text-secondary"
+          onClick={() => sortable && column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          {column.getIsSorted() !== false ? (
             <>
               {column.getIsSorted() === 'asc' ? (
                 <ChevronDownIcon className="icon-xs" />
@@ -39,9 +35,12 @@ export function ColumnHeader<T>({ column, columnDefinition }: ColumnHeaderProps<
             </>
           ) : (
             <ChevronsUpDown size={16} />
-          ))}
-        {header}
-      </Button>
+          )}
+          {header}
+        </Button>
+      ) : (
+        <span className="typography-label-6 h-4 text-secondary ">{header}</span>
+      )}
     </div>
   )
 }

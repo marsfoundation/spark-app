@@ -51,7 +51,7 @@ export function ActiveFarmInfoPanel({
     <Panel className="flex min-h-[380px] w-full flex-1 flex-col self-stretch">
       <div className="flex justify-between">
         <div className="flex items-center gap-1">
-          <h2 className="font-semibold text-lg md:text-xl">Overview</h2>
+          <h2 className="typography-heading-4 text-primary">Overview</h2>
         </div>
         <div className="flex items-center gap-1">
           {canClaim && (
@@ -94,7 +94,6 @@ export function ActiveFarmInfoPanel({
         )}
       </div>
       <div className="flex flex-col gap-4">
-        <div className="hidden border-basics-border border-t md:block" />
         <div
           className={cn(
             'flex flex-col items-start gap-2 md:flex-row md:items-center',
@@ -103,22 +102,27 @@ export function ActiveFarmInfoPanel({
         >
           {farm.depositors && (
             <DetailsItem title="Participants">
-              <div className="font-semibold">{farm.depositors}</div>
+              <div className="typography-label-4 text-primary">{farm.depositors}</div>
             </DetailsItem>
           )}
 
           <DetailsItem title="TVL">
-            <div className="font-semibold">{USD_MOCK_TOKEN.formatUSD(farm.totalSupply, { compact: true })}</div>
+            <div className="typography-label-4 text-primary">
+              {USD_MOCK_TOKEN.formatUSD(farm.totalSupply, { compact: true })}
+            </div>
           </DetailsItem>
           {farm.apy?.gt(0) && (
             <DetailsItem title="APY" explainer={<ApyTooltip farmAddress={farm.address} />}>
-              <div className="font-semibold text-[#3F66EF]">
+              <div className="typography-label-4 text-reskin-magenta">
                 {formatPercentage(farm.apy, { minimumFractionDigits: 0 })}
               </div>
             </DetailsItem>
           )}
           <DetailsItem title="My Deposit">
-            <div className="font-semibold" data-testid={testIds.farmDetails.activeFarmInfoPanel.staked}>
+            <div
+              className="typography-label-4 text-primary"
+              data-testid={testIds.farmDetails.activeFarmInfoPanel.staked}
+            >
               {farm.stakingToken.format(farm.staked, { style: 'auto' })} {farm.stakingToken.symbol}
             </div>
           </DetailsItem>
