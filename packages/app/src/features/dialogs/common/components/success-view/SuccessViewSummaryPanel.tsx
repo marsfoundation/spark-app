@@ -1,22 +1,22 @@
-import { ReactNode } from 'react'
-
-import { Panel } from '@/ui/atoms/panel/Panel'
+import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
-
-import { DialogPanelTitle } from '../DialogPanelTitle'
+import { ReactNode } from 'react'
+import { SuccessViewPanelTitle } from './SuccessPanelTitle'
+import { SuccessViewPanel } from './SuccessViewPanel'
 
 interface SuccessViewSummaryPanelProps {
   title?: string
+  className?: string
   children: ReactNode
 }
 
-export function SuccessViewSummaryPanel({ title, children }: SuccessViewSummaryPanelProps) {
+export function SuccessViewSummaryPanel({ title, children, className }: SuccessViewSummaryPanelProps) {
   return (
-    <Panel.Wrapper className="mt-8 flex w-full flex-col gap-4 bg-panel-bg p-4">
-      {title && <DialogPanelTitle>{title}</DialogPanelTitle>}
-      <div className="flex items-center justify-between" data-testid={testIds.dialog.success}>
+    <SuccessViewPanel>
+      {title && <SuccessViewPanelTitle>{title}</SuccessViewPanelTitle>}
+      <div className={cn('flex items-center justify-between', className)} data-testid={testIds.dialog.success}>
         {children}
       </div>
-    </Panel.Wrapper>
+    </SuccessViewPanel>
   )
 }

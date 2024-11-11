@@ -1,6 +1,5 @@
-import { basePsm3Abi, basePsm3Address } from '@/config/abis/basePsm3Abi'
 import { SPARK_UI_REFERRAL_CODE_BIGINT } from '@/config/consts'
-import { dssLitePsmConfig, usdsPsmWrapperConfig } from '@/config/contracts-generated'
+import { basePsm3Abi, basePsm3Address, dssLitePsmConfig, usdsPsmWrapperConfig } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
 import { CheckedAddress } from '@/domain/types/CheckedAddress'

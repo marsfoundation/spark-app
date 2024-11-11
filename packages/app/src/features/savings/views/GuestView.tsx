@@ -1,10 +1,11 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { SupportedChainId } from '@/config/chain/types'
 import { UseSavingsChartsInfoQueryResult } from '@/domain/savings-charts/useSavingsChartsInfoQuery'
-import { assets } from '@/ui/assets'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { getTokenImage } from '@/ui/assets'
+import { PageLayout } from '@/ui/layouts/PageLayout'
 import { ConnectOrSandboxCTAPanel } from '@/ui/organisms/connect-or-sandbox-cta-panel/ConnectOrSandboxCTAPanel'
 import { PageHeader } from '../components/PageHeader'
-import { PageLayout } from '../components/PageLayout'
 import { DaiSavingsCharts } from '../components/savings-charts/DaiSavingsCharts'
 import { UsdsSavingsCharts } from '../components/savings-charts/UsdsSavingsCharts'
 import { SavingsOpportunityGuestMode } from '../components/savings-opportunity/SavingsOpportunityGuestMode'
@@ -30,8 +31,10 @@ export function GuestView({
   savingsTokenDetails,
 }: GuestViewProps) {
   const displaySavingsChart = savingsChartsInfo.chartsSupported
-
-  const { susdsSymbol } = getChainConfigEntry(originChainId)
+  const { savings, sdaiSymbol, susdsSymbol } = getChainConfigEntry(originChainId)
+  const tokenIcons = [susdsSymbol, sdaiSymbol, ...(savings?.inputTokens ?? [])]
+    .filter(Boolean)
+    .map((symbol) => getTokenImage(TokenSymbol(symbol)))
 
   const Charts =
     savingsTokenDetails.savingsTokenWithBalance.token.symbol === susdsSymbol ? UsdsSavingsCharts : DaiSavingsCharts
@@ -52,7 +55,7 @@ export function GuestView({
 
       <ConnectOrSandboxCTAPanel
         header="Connect your wallet and start saving!"
-        iconPaths={TOKEN_ICONS}
+        iconPaths={tokenIcons}
         action={openConnectModal}
         buttonText="Connect wallet"
         openSandboxModal={openSandboxModal}
@@ -60,6 +63,3 @@ export function GuestView({
     </PageLayout>
   )
 }
-
-const tokens = assets.token
-const TOKEN_ICONS = [tokens.sdai, tokens.dai, tokens.usdc, tokens.usdt]

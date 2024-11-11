@@ -1,7 +1,7 @@
-import { WithTooltipProvider } from '@storybook/decorators'
+import { WithTooltipProvider } from '@sb/decorators'
+import { tokens } from '@sb/tokens'
+import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
-import { tokens } from '@storybook/tokens'
-import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { zeroAddress } from 'viem'
 
 import { CheckedAddress } from '@/domain/types/CheckedAddress'
@@ -14,7 +14,14 @@ const meta: Meta<typeof ActionsView> = {
   component: ActionsView,
   decorators: [WithTooltipProvider()],
   args: {
-    variant: 'default',
+    actionsGridLayout: 'extended',
+    settingsDialogProps: {
+      onConfirm: () => {},
+      permitsSettings: {
+        preferPermits: true,
+        togglePreferPermits: () => {},
+      },
+    },
     actionHandlers: [
       {
         action: {
@@ -73,7 +80,7 @@ type Story = StoryObj<typeof ActionsView>
 export const Extended: Story = {}
 export const Compact: Story = {
   args: {
-    variant: 'dialog',
+    actionsGridLayout: 'compact',
   },
 }
 export const ExtendedMobile = getMobileStory(Extended)

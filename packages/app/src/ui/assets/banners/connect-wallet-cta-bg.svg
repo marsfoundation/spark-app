@@ -1,0 +1,38 @@
+<svg width="1312" height="356" viewBox="0 0 1312 356" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_19_238)">
+<g clip-path="url(#clip1_19_238)">
+<rect x="195" y="-60" width="923" height="207" fill="url(#paint0_radial_19_238)"/>
+<path d="M1115.92 123.464L763.866 -1.36875C693.322 -26.3821 616.324 -26.3821 545.78 -1.36873L195.328 122.895" stroke="url(#paint1_radial_19_238)" stroke-width="2.70421"/>
+<path d="M195.471 305.962L569.5 28.8248C620.19 -8.73445 689.479 -8.73442 740.169 28.8248L1115.93 307.243" stroke="url(#paint2_radial_19_238)" stroke-width="2.70421"/>
+<path d="M1116 525L744.488 62.9169C698.435 5.63651 611.215 5.63643 565.162 62.9168L195.323 522.92" stroke="url(#paint3_radial_19_238)" stroke-width="2.70421"/>
+</g>
+</g>
+<defs>
+<radialGradient id="paint0_radial_19_238" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(657.64 -76.6111) rotate(90) scale(223.611 447.009)">
+<stop stop-color="#FFA930"/>
+<stop offset="0.475" stop-color="#FA43BD" stop-opacity="0.4"/>
+<stop offset="1" stop-color="#FA43BD" stop-opacity="0"/>
+</radialGradient>
+<radialGradient id="paint1_radial_19_238" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(655.625 -34.8367) rotate(90) scale(125.244 705.205)">
+<stop stop-color="#FF9F3F"/>
+<stop offset="0.515" stop-color="#FB52AA"/>
+<stop offset="1" stop-color="#FB52AA" stop-opacity="0"/>
+</radialGradient>
+<radialGradient id="paint2_radial_19_238" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(655.699 -23.5453) rotate(90) scale(178.902 481.994)">
+<stop stop-color="#FF9F3F"/>
+<stop offset="0.515" stop-color="#FB52AA"/>
+<stop offset="1" stop-color="#FB52AA" stop-opacity="0"/>
+</radialGradient>
+<radialGradient id="paint3_radial_19_238" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(655.661 -30.3743) rotate(90) scale(213.077 342.003)">
+<stop stop-color="#FF9F3F"/>
+<stop offset="0.515" stop-color="#FB52AA"/>
+<stop offset="1" stop-color="#FB52AA" stop-opacity="0"/>
+</radialGradient>
+<clipPath id="clip0_19_238">
+<rect width="1312" height="356" rx="8" fill="white"/>
+</clipPath>
+<clipPath id="clip1_19_238">
+<rect y="-24" width="1312" height="380" rx="9.6" fill="white"/>
+</clipPath>
+</defs>
+</svg>

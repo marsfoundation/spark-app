@@ -1,6 +1,6 @@
 import { assets } from '@/ui/assets'
+import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
-import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { ConnectOrSandboxCTAPanel } from './ConnectOrSandboxCTAPanel'
 
 const icons = assets.walletIcons

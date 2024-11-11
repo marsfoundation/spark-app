@@ -15,13 +15,13 @@ export const testIds = makeTestIds({
     HealthFactorBadge: {
       value: true,
     },
+    HealthFactorGauge: {
+      value: true,
+    },
     AssetInput: {
       input: true,
       error: true,
       maxButton: true,
-    },
-    Action: {
-      title: true,
     },
     Alert: {
       message: true,
@@ -41,6 +41,7 @@ export const testIds = makeTestIds({
     },
     ConvertStablesButton: true,
     SwitchNotSupportedNetworkButton: true,
+    ConnectOrSandboxCTAPanel: true,
   },
   easyBorrow: {
     form: {
@@ -74,6 +75,10 @@ export const testIds = makeTestIds({
       moreDropdown: true,
       downgradeUsdsToDai: true,
     },
+    opportunity: {
+      panel: true,
+      savingsRate: true,
+    },
     sdai: {
       panel: true,
       balance: true,
@@ -93,11 +98,13 @@ export const testIds = makeTestIds({
       },
       skyBadge: true,
       outcome: true,
+      outcomeUsd: true,
     },
     healthFactor: {
       before: true,
       after: true,
     },
+    closeButton: true,
     success: true,
     savings: {
       transactionOverview: {
@@ -146,8 +153,11 @@ export const testIds = makeTestIds({
     },
     row: (index: number) => index,
   },
-  navbar: {
-    airdropBadge: true,
+  topbar: {
+    airdrop: {
+      badge: true,
+      dropdown: true,
+    },
     rewards: {
       badge: true,
       claimableRewards: true,
@@ -156,7 +166,7 @@ export const testIds = makeTestIds({
         token: true,
         amount: true,
         amountUSD: true,
-        tooltip: true,
+        dropdown: true,
       },
     },
   },
@@ -237,6 +247,7 @@ export const testIds = makeTestIds({
           },
         },
         outcome: true,
+        outcomeUsd: true,
       },
     },
     unstakeDialog: {
@@ -248,6 +259,9 @@ export const testIds = makeTestIds({
           },
         },
         outcome: true,
+        outcomeUsd: true,
+        rewardOutcome: true,
+        rewardOutcomeUsd: true,
       },
       exitFarmSwitchPanel: {
         switch: true,

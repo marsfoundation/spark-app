@@ -1,7 +1,6 @@
-import { ComponentProps, useId } from 'react'
-
 import { Label } from '@/ui/atoms/label/Label'
-import { Switch } from '@/ui/atoms/switch/Switch'
+import { Switch } from '@/ui/atoms/new/switch/Switch'
+import { ComponentProps, useId } from 'react'
 
 interface LabeledSwitchProps extends ComponentProps<typeof Switch> {
   'data-testid'?: string

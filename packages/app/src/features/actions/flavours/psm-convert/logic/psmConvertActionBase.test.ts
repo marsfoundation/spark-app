@@ -1,5 +1,5 @@
-import { basePsm3Abi, basePsm3Address } from '@/config/abis/basePsm3Abi'
 import { SPARK_UI_REFERRAL_CODE_BIGINT } from '@/config/consts'
+import { basePsm3Abi, basePsm3Address } from '@/config/contracts-generated'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'

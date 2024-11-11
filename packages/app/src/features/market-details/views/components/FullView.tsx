@@ -1,3 +1,4 @@
+import { PageLayout } from '@/ui/layouts/PageLayout'
 import { MarketOverview as MarketOverviewPanel } from '../../components/market-overview/MarketOverview'
 import { MyWalletPanel } from '../../components/my-wallet/MyWalletPanel'
 import { OraclePanel } from '../../components/oracle-panel/OraclePanel'
@@ -21,10 +22,11 @@ export function FullView({
   walletOverview,
   openConnectModal,
   openDialog,
+  openSandboxModal,
   oracleInfo,
 }: MarketDetailsViewProps) {
   return (
-    <div className="w-full max-w-5xl pt-12 pb-8 lg:mx-auto sm:mx-3">
+    <PageLayout className="gap-0">
       <BackNav chainId={chainId} chainName={chainName} />
       <Header
         token={token}
@@ -48,6 +50,7 @@ export function FullView({
             <MarketOverviewPanel token={token} {...marketOverview.summary} />
           )}
           <MyWalletPanel
+            openSandboxModal={openSandboxModal}
             openDialog={openDialog}
             walletOverview={walletOverview}
             openConnectModal={openConnectModal}
@@ -55,6 +58,6 @@ export function FullView({
           />
         </div>
       </div>
-    </div>
+    </PageLayout>
   )
 }

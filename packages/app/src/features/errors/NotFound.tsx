@@ -1,5 +1,5 @@
 import { paths } from '@/config/paths'
-import { LinkButton } from '@/ui/atoms/button/Button'
+import { LinkButton } from '@/ui/atoms/new/link-button/LinkButton'
 import { ErrorLayout } from '@/ui/layouts/ErrorLayout'
 
 interface NotFoundProps {

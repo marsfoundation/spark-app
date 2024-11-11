@@ -18,12 +18,6 @@ export class ClaimDialogPageObject extends DialogPageObject {
 
   // #region assertions
   async expectTransactionOverview(transactionOverview: TransactionOverview): Promise<void> {
-    await expect(
-      this.page.getByTestId(testIds.farmDetails.claimDialog.transactionOverview.rewardTokenSymbol),
-    ).toContainText(transactionOverview.reward.token.symbol)
-    await expect(
-      this.page.getByTestId(testIds.farmDetails.claimDialog.transactionOverview.rewardTokenDescription),
-    ).toContainText(transactionOverview.reward.token.description)
     await expect(this.page.getByTestId(testIds.farmDetails.claimDialog.transactionOverview.rewardAmount)).toContainText(
       transactionOverview.reward.amount,
     )
@@ -41,10 +35,6 @@ export class ClaimDialogPageObject extends DialogPageObject {
 
 export interface TransactionOverview {
   reward: {
-    token: {
-      symbol: string
-      description: string
-    }
     amount: string
     amountUSD: string
   }

@@ -1,11 +1,11 @@
-import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
+import { WithClassname, WithTooltipProvider } from '@sb/decorators'
+import { getHoveredStory } from '@sb/utils'
+import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
-import { getHoveredStory } from '@storybook/utils'
-import { getMobileStory, getTabletStory } from '@storybook/viewports'
 
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 
-import { tokens } from '@storybook/tokens'
+import { tokens } from '@sb/tokens'
 import { RewardsBadge } from './RewardsBadge'
 
 const meta: Meta<typeof RewardsBadge> = {

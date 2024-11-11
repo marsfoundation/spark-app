@@ -2,7 +2,8 @@ import { OpenDialogFunction } from '@/domain/state/dialogs'
 import { convertStablesDialogConfig } from '@/features/dialogs/convert-stables/ConvertStablesDialog'
 import { savingsDepositDialogConfig } from '@/features/dialogs/savings/deposit/SavingsDepositDialog'
 import { assets as uiAssets } from '@/ui/assets'
-import { Button } from '@/ui/atoms/button/Button'
+import { Button } from '@/ui/atoms/new/button/Button'
+import { Panel } from '@/ui/atoms/new/panel/Panel'
 import { DataTable, DataTableProps } from '@/ui/molecules/data-table/DataTable'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
@@ -35,10 +36,8 @@ export function StablecoinsInWallet({
         header: 'Balance',
         headerAlign: 'right',
         renderCell: ({ balance, token }) => (
-          <div>
-            <div className="flex w-full flex-row justify-end">
-              {balance.eq(0) ? '-' : token.format(balance, { style: 'auto' })}
-            </div>
+          <div className="typography-label-4 flex w-full flex-row justify-end">
+            {balance.eq(0) ? '-' : token.format(balance, { style: 'auto' })}
           </div>
         ),
       },
@@ -49,7 +48,7 @@ export function StablecoinsInWallet({
             <div className="flex justify-end gap-1 sm:gap-3">
               <Button
                 variant="secondary"
-                size="sm"
+                size="s"
                 disabled={balance.eq(0)}
                 onClick={() => openDialog(savingsDepositDialogConfig, { initialToken: token })}
               >
@@ -70,11 +69,9 @@ export function StablecoinsInWallet({
   )
 
   return (
-    <section className="rounded-lg border border-basics-border bg-white shadow-sm">
+    <Panel spacing="none">
       <div className={cn('flex flex-col gap-6 p-4 md:px-8 md:py-6', showConvertDialogButton && 'pb-0 md:pb-0')}>
-        <div className="flex flex-row items-center gap-1">
-          <h3 className="font-semibold text-2xl text-primary leading-none tracking-tight">Stablecoins in wallet</h3>
-        </div>
+        <h3 className="typography-heading-4 text-primary">Stablecoins in wallet</h3>
         <DataTable
           gridTemplateColumnsClassName="grid-cols-[repeat(2,_1fr)_120px] sm:grid-cols-[repeat(2,_1fr)_140px]"
           data={assets}
@@ -94,7 +91,7 @@ export function StablecoinsInWallet({
               </div>
             </div>
             <Button
-              size="sm"
+              size="s"
               variant="secondary"
               onClick={() => openDialog(convertStablesDialogConfig, { proceedText: 'Back to Savings' })}
               data-testid={testIds.component.ConvertStablesButton}
@@ -104,6 +101,6 @@ export function StablecoinsInWallet({
           </div>
         </div>
       )}
-    </section>
+    </Panel>
   )
 }

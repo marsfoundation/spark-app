@@ -55,7 +55,7 @@ export class SavingsDialogPageObject extends DialogPageObject {
     expect(selectorOptions).toHaveLength(options.length)
 
     for (const [index, option] of selectorOptions.entries()) {
-      await expect(option).toHaveText(options[index]!)
+      await expect(option).toContainText(options[index]!)
     }
   }
 
@@ -84,7 +84,9 @@ export class SavingsDialogPageObject extends DialogPageObject {
     }
 
     await this.expectTransactionOverviewRoute(transactionOverview.routeItems)
-    await this.expectSkyBadgeForTokens(transactionOverview.badgeTokens)
+    if (transactionOverview.badgeTokens) {
+      await this.expectSkyBadgeForTokens(transactionOverview.badgeTokens)
+    }
     await this.expectOutcomeText(transactionOverview.outcome)
   }
 

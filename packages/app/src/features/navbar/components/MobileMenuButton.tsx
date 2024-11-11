@@ -1,5 +1,5 @@
-import { assets } from '@/ui/assets'
-import { Button } from '@/ui/atoms/button/Button'
+import { IconButton } from '@/ui/atoms/new/icon-button/IconButton'
+import { MenuIcon, XIcon } from 'lucide-react'
 
 export interface MobileMenuButtonProps {
   mobileMenuCollapsed: boolean
@@ -8,16 +8,13 @@ export interface MobileMenuButtonProps {
 
 export function MobileMenuButton({ mobileMenuCollapsed, setMobileMenuCollapsed }: MobileMenuButtonProps) {
   return (
-    <Button
-      variant="icon"
+    <IconButton
       data-testid="mobile-menu-button"
       className="lg:hidden"
       onClick={() => {
         setMobileMenuCollapsed(!mobileMenuCollapsed)
       }}
-    >
-      <span className="sr-only">Open main menu</span>
-      <img src={mobileMenuCollapsed ? assets.menu : assets.close} className="h-8 w-8" />
-    </Button>
+      icon={mobileMenuCollapsed ? MenuIcon : XIcon}
+    />
   )
 }

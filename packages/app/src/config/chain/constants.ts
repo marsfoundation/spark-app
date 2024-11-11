@@ -3,7 +3,7 @@ import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { base, gnosis, mainnet } from 'viem/chains'
 
-export const SUPPORTED_CHAINS = [mainnet, gnosis] as const
+export const SUPPORTED_CHAINS = [mainnet, gnosis, base] as const
 export const SUPPORTED_CHAIN_IDS = SUPPORTED_CHAINS.map((chain) => chain.id)
 
 export const farmStablecoinsEntryGroup: Record<1 | 8453, AssetsGroup> = {

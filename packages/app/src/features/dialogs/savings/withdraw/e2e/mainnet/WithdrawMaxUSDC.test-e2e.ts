@@ -61,8 +61,8 @@ test.describe('Withdraw USDC from sUSDS', () => {
           tokenUsdValue: '$10,000.00',
         },
       ],
-      outcome: '10,000.00 USDC worth $10,000.00',
-      badgeTokens: 'USDC',
+      outcome: '10,000.00 USDC',
+      outcomeUsd: '$10,000.00',
     })
 
     await withdrawDialog.expectUpgradeSwitchToBeHidden()
@@ -128,8 +128,8 @@ test.describe('Withdraw USDC from sDAI', () => {
           tokenUsdValue: '$11,085.91',
         },
       ],
-      outcome: '11,085.91 USDC worth $11,085.91',
-      badgeTokens: 'USDC',
+      outcome: '11,085.91 USDC',
+      outcomeUsd: '$11,085.91',
     })
 
     await withdrawDialog.expectUpgradeSwitchToBeHidden()

@@ -20,7 +20,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@storybook/*": [".storybook/*"]
+      "@sb/*": [".storybook/*"]
     }
   },
   "include": ["src", ".storybook"],

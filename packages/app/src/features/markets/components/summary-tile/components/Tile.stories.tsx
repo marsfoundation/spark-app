@@ -1,10 +1,8 @@
-import { WithTooltipProvider } from '@storybook/decorators'
-import { Meta, StoryObj } from '@storybook/react'
-import { getMobileStory, getTabletStory } from '@storybook/viewports'
-
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { assets } from '@/ui/assets'
-
+import { WithTooltipProvider } from '@sb/decorators'
+import { getMobileStory, getTabletStory } from '@sb/viewports'
+import { Meta, StoryObj } from '@storybook/react'
+import { LockIcon } from 'lucide-react'
 import { Tile } from './Tile'
 
 const meta: Meta<typeof Tile> = {
@@ -12,7 +10,7 @@ const meta: Meta<typeof Tile> = {
   component: Tile,
   decorators: [WithTooltipProvider()],
   args: {
-    icon: assets.markets.lock,
+    icon: LockIcon,
     title: 'Total value locked',
     USDValue: NormalizedUnitNumber(12_300_000_000),
     description: 'Total value locked lengthy description',

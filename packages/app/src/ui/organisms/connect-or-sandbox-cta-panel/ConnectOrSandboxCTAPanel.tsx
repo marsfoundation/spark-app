@@ -1,6 +1,7 @@
-import { Panel } from '@/ui/atoms/panel/Panel'
+import { Panel } from '@/ui/atoms/new/panel/Panel'
 import { ConnectOrSandboxCTAButtonGroup } from '@/ui/molecules/connect-or-sandbox-cta-button-group/ConnectOrSandboxCTAButtonGroup'
 import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
+import { testIds } from '@/ui/utils/testIds'
 
 interface ConnectOrSandboxCTAPanelProps {
   iconPaths?: string[]
@@ -18,18 +19,13 @@ export function ConnectOrSandboxCTAPanel({
   openSandboxModal,
 }: ConnectOrSandboxCTAPanelProps) {
   return (
-    <Panel.Wrapper>
-      <Panel.Content className="flex flex-col gap-6 p-6 text-center md:px-8">
-        <div className="flex flex-col items-center gap-6">
-          {iconPaths && <IconStack paths={iconPaths} size="lg" stackingOrder="first-on-top" />}
-          <ConnectOrSandboxCTAButtonGroup
-            header={header}
-            action={action}
-            buttonText={buttonText}
-            openSandboxModal={openSandboxModal}
-          />
-        </div>
-      </Panel.Content>
-    </Panel.Wrapper>
+    <Panel
+      className="flex flex-col items-center gap-6 bg-connect-wallet-cta bg-top bg-no-repeat text-center md:p-12"
+      data-testid={testIds.component.ConnectOrSandboxCTAPanel}
+    >
+      <h4 className="typography-heading-3 text-primary-inverse drop-shadow-xl md:mt-4">{header}</h4>
+      {iconPaths && <IconStack paths={iconPaths} size="lg" stackingOrder="first-on-top" />}
+      <ConnectOrSandboxCTAButtonGroup action={action} buttonText={buttonText} openSandboxModal={openSandboxModal} />
+    </Panel>
   )
 }

@@ -2,8 +2,7 @@ import {
   SetUseAsCollateralValidationIssue,
   setUseAsCollateralValidationIssueToMessage,
 } from '@/domain/market-validators/validateSetUseAsCollateral'
-
-import { Alert } from '../../common/components/alert/Alert'
+import { Alert } from '@/ui/molecules/new/alert/Alert'
 import { CollateralSetting } from '../types'
 
 interface CollateralAlertProps {
@@ -13,7 +12,7 @@ interface CollateralAlertProps {
 
 export function CollateralAlert({ collateralSetting, issue }: CollateralAlertProps) {
   if (issue) {
-    return <Alert variant="danger">{setUseAsCollateralValidationIssueToMessage[issue]}</Alert>
+    return <Alert variant="error">{setUseAsCollateralValidationIssueToMessage[issue]}</Alert>
   }
 
   if (collateralSetting === 'enabled') {

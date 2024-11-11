@@ -1,6 +1,5 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
-import { Typography } from '@/ui/atoms/typography/Typography'
 import { cn } from '@/ui/utils/style'
 
 import { MobileViewOptions } from '../types'
@@ -27,9 +26,7 @@ export function CompactValueCell({
   if (mobileViewOptions?.isMobileView) {
     return (
       <div className="flex flex-row items-center justify-between">
-        <Typography variant="prompt" className="w-full">
-          {mobileViewOptions.rowTitle}
-        </Typography>
+        <div className="typography-label-6 w-full text-secondary">{mobileViewOptions.rowTitle}</div>
         <CompactValue
           token={token}
           value={value}
@@ -85,13 +82,18 @@ function CompactValue({
   }
   return (
     <div className={cn('flex flex-col', className)} data-testid={dataTestId}>
-      <div className={cn('flex w-full flex-row justify-end', dimmed && 'text-basics-dark-grey/70')}>
+      <div
+        className={cn(
+          'typography-label-4 flex w-full flex-row justify-end text-primary',
+          dimmed && 'text-reskin-neutral-600/70',
+        )}
+      >
         {token.format(value, { style: compactValue ? 'compact' : 'auto' })}
       </div>
       <div className="flex w-full flex-row justify-end">
-        <Typography variant="prompt" className={cn(dimmed && 'text-basics-dark-grey/30')}>
+        <div className={cn('typography-body-6 text-secondary', dimmed && 'text-resin-neutral-600/30')}>
           {token.formatUSD(value, { compact: compactValue })}
-        </Typography>
+        </div>
       </div>
     </div>
   )

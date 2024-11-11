@@ -1,12 +1,12 @@
 import { SupportedChainId } from '@/config/chain/types'
-import { formatPercentage } from '@/domain/common/format'
 import { Percentage } from '@/domain/types/NumericValues'
-import { Button } from '@/ui/atoms/button/Button'
-import { Panel } from '@/ui/atoms/panel/Panel'
+import { Button } from '@/ui/atoms/new/button/Button'
 import { SavingsMeta } from '../../logic/makeSavingsMeta'
-import { SavingsInfoTile } from '../savings-info-tile/SavingsInfoTile'
-import { DSRLabel } from './components/DSRLabel'
+import { Card } from './components/Card'
+import { CardButton } from './components/CardButton'
 import { Explainer } from './components/Explainer'
+import { RateGrid } from './components/RateGrid'
+import { SavingsRate } from './components/SavingsRate'
 
 interface SavingsOpportunityGuestModeProps {
   APY: Percentage
@@ -24,26 +24,17 @@ export function SavingsOpportunityGuestMode({
   openSandboxModal,
 }: SavingsOpportunityGuestModeProps) {
   return (
-    <Panel.Wrapper variant="green" className="p-6 md:px-8">
-      <div className="flex h-full flex-col justify-between gap-5">
-        <Explainer savingsMeta={savingsMeta} />
-
-        <SavingsInfoTile className="mt-auto flex flex-row items-baseline gap-2">
-          <SavingsInfoTile.Value size="extraLarge" className="leading-none md:leading-none">
-            {formatPercentage(APY, { minimumFractionDigits: 0 })}
-          </SavingsInfoTile.Value>
-          <DSRLabel originChainId={originChainId} savingsMetaItem={savingsMeta.primary} />
-        </SavingsInfoTile>
-
-        <div className="flex flex-wrap gap-2 md:gap-4">
-          <Button variant="green" onClick={openConnectModal} className="flex-1">
-            Connect wallet
-          </Button>
-          <Button variant="secondary" onClick={openSandboxModal} className="flex-1">
-            Activate sandbox
+    <Card>
+      <RateGrid>
+        <SavingsRate originChainId={originChainId} APY={APY} savingsMetaItem={savingsMeta.primary} />
+        <div className="grid grid-cols-2 gap-2">
+          <CardButton onClick={openConnectModal}>Connect wallet</CardButton>
+          <Button variant="secondary" size="l" onClick={openSandboxModal}>
+            Try in Sandbox
           </Button>
         </div>
-      </div>
-    </Panel.Wrapper>
+      </RateGrid>
+      <Explainer savingsMeta={savingsMeta} originChainId={originChainId} />
+    </Card>
   )
 }

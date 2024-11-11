@@ -58,8 +58,8 @@ test.describe('Asset input validation', () => {
             tokenUsdValue: '$200.00',
           },
         ],
-        outcome: '200.00 DAI worth $200.00',
-        badgeTokens: 'DAI',
+        outcome: '200.00 DAI',
+        outcomeUsd: '$200.00',
       })
     })
   })
@@ -161,8 +161,8 @@ test.describe('Receiver input validation', () => {
             tokenUsdValue: '$50.00',
           },
         ],
-        outcome: '50.00 DAI worth $50.00',
-        badgeTokens: 'DAI',
+        outcome: '50.00 DAI',
+        outcomeUsd: '$50.00',
       })
     })
   })

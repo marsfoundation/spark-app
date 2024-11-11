@@ -22,12 +22,12 @@ export function EModeBadge({ categoryId }: EModeBadgeProps) {
 }
 
 const variants = cva(
-  'flex w-fit flex-row items-center gap-1.5 rounded-sm border px-1 py-0.5 font-semibold text-xs uppercase',
+  'typography-body-6 flex w-fit flex-row items-center gap-1.5 rounded-sm border px-1 py-0.5 text-primary uppercase',
   {
     variants: {
       state: {
         on: 'border-spark bg-spark/10 text-spark',
-        off: 'border-basics-dark-grey/30 bg-basics-light-grey/30 text-basics-dark-grey/80',
+        off: 'border-reskin-neutral-600/30 bg-reskin-neutral-50/30 text-reskin-neutral-600/80',
       },
     },
   },

@@ -53,13 +53,9 @@ test.describe('Claim SKY rewards', () => {
   test('displays transaction overview', async () => {
     await claimDialog.expectTransactionOverview({
       reward: {
-        token: {
-          symbol: 'SKY',
-          description: 'SKY Governance Token',
-        },
         // amount is imprecise because of timing issues in e2e tests
         amount: '3,539',
-        amountUSD: '~$213',
+        amountUSD: '$213',
       },
     })
   })

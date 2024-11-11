@@ -1,10 +1,13 @@
+import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
-import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { FarmsSkeleton } from './FarmsSkeleton'
 
 const meta: Meta<typeof FarmsSkeleton> = {
   title: 'Features/Farms/Components/Skeleton',
   component: FarmsSkeleton,
+  parameters: {
+    layout: 'fullscreen',
+  },
 }
 
 export default meta

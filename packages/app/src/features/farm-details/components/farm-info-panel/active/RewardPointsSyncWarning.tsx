@@ -1,5 +1,5 @@
-import { Alert } from '@/features/dialogs/common/components/alert/Alert'
 import { RewardPointsSyncStatus } from '@/features/farm-details/types'
+import { Alert } from '@/ui/molecules/new/alert/Alert'
 import { assertNever } from '@/utils/assertNever'
 
 export interface RewardPointsSyncWarningProps {
@@ -13,13 +13,13 @@ export function RewardPointsSyncWarning({ status, ...rest }: RewardPointsSyncWar
       return null
     case 'out-of-sync':
       return (
-        <Alert variant="warning" size="small" {...rest}>
+        <Alert variant="warning" className="w-fit gap-2 rounded-full px-2 py-1" {...rest}>
           Points data is out of sync. Please wait.
         </Alert>
       )
     case 'sync-failed':
       return (
-        <Alert variant="danger" size="small" {...rest}>
+        <Alert variant="error" className="w-fit gap-2 rounded-full px-2 py-1" {...rest}>
           Points data could not be synced.
         </Alert>
       )

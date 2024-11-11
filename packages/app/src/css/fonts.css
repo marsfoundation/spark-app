@@ -6,3 +6,11 @@
   font-named-instance: 'Regular';
   src: url('../fonts/InterVariable.woff2') format('woff2');
 }
+
+@font-face {
+  font-family: 'Roobert';
+  font-style: normal;
+  font-weight: 500;
+  font-display: block;
+  src: url('../fonts/RoobertMedium.woff2') format('woff2');
+}

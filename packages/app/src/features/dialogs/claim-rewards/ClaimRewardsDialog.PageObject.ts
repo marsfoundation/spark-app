@@ -18,11 +18,8 @@ export class ClaimRewardsDialogPageObject extends DialogPageObject {
 
     for (const [index, row] of rows.entries()) {
       const rowLocator = this.page.getByTestId(testIds.dialog.claimRewards.transactionOverview.row(index)).first()
-      await expect(rowLocator.getByTestId(testIds.dialog.claimRewards.transactionOverview.token)).toHaveText(
-        row.tokenSymbol,
-      )
       await expect(rowLocator.getByTestId(testIds.dialog.claimRewards.transactionOverview.amount)).toHaveText(
-        row.amount,
+        `${row.amount} ${row.tokenSymbol}`,
       )
       await expect(rowLocator.getByTestId(testIds.dialog.claimRewards.transactionOverview.amountUSD)).toHaveText(
         row.amountUSD,

@@ -2,10 +2,10 @@ import { UseMyEarningsInfoResult } from '@/domain/savings-charts/useMyEarningsIn
 import { UseSavingsRateInfoResult } from '@/domain/savings-charts/useSavingsRateInfo/useSavingsRateInfo'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { WithTooltipProvider } from '@storybook/decorators'
+import { WithTooltipProvider } from '@sb/decorators'
+import { tokens } from '@sb/tokens'
+import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
-import { tokens } from '@storybook/tokens'
-import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { mainnet } from 'viem/chains'
 import {
   mockEarningsChartData,
@@ -47,7 +47,7 @@ const savingsChartsInfo = {
 }
 
 const savingsViewBaseArgs = {
-  chainId: mainnet.id,
+  originChainId: mainnet.id,
   assetsInWallet: [
     {
       token: tokens.DAI,

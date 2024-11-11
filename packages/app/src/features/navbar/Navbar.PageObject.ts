@@ -6,19 +6,19 @@ import { testIds } from '@/ui/utils/testIds'
 export class NavbarPageObject extends BasePageObject {
   // #region locators
   locateAirdropBadge(): Locator {
-    return this.page.getByTestId(testIds.navbar.airdropBadge)
+    return this.page.getByTestId(testIds.topbar.airdrop.badge)
   }
 
   locateRewardsBadge(): Locator {
-    return this.page.getByTestId(testIds.navbar.rewards.badge)
+    return this.page.getByTestId(testIds.topbar.rewards.badge)
   }
 
-  locateRewardsDetails(): Locator {
-    return this.page.getByTestId(testIds.navbar.rewards.details.tooltip)
+  locateRewardsDropdown(): Locator {
+    return this.page.getByTestId(testIds.topbar.rewards.details.dropdown)
   }
 
   locateAirdropPreciseAmount(): Locator {
-    return this.page.getByRole('tooltip').getByText('SPK').first()
+    return this.page.getByTestId(testIds.topbar.airdrop.dropdown).getByText('SPK').first()
   }
 
   locateSavingsLink(): Locator {
@@ -27,18 +27,23 @@ export class NavbarPageObject extends BasePageObject {
   // #endregion
 
   // #region actions
-  async hoverOverAirdropBadge(): Promise<void> {
-    await this.locateAirdropBadge().hover()
+  async openAirdropDropdown(): Promise<void> {
+    await this.locateAirdropBadge().click()
   }
 
-  async clickClaimRewards(tooltip: Locator): Promise<void> {
-    await tooltip.getByRole('button', { name: 'Claim rewards' }).first().click()
+  async openRewardsDropdown(): Promise<void> {
+    await this.locateRewardsBadge().click()
+  }
+
+  async clickClaimRewards(): Promise<void> {
+    const dropdown = this.locateRewardsDropdown()
+
+    await dropdown.getByRole('menuitem', { name: /Claim rewards/ }).click()
   }
 
   async openClaimRewardsDialog(): Promise<void> {
-    const rewardsDetails = this.locateRewardsDetails()
-    await this.locateRewardsBadge().hover()
-    await this.clickClaimRewards(rewardsDetails)
+    await this.openRewardsDropdown()
+    await this.clickClaimRewards()
   }
   // #endregion
 
@@ -60,19 +65,21 @@ export class NavbarPageObject extends BasePageObject {
   }
 
   async expectClaimableRewardsValue(value: string): Promise<void> {
-    await expect(this.page.getByTestId(testIds.navbar.rewards.claimableRewards)).toHaveText(value)
+    await expect(this.page.getByTestId(testIds.topbar.rewards.claimableRewards)).toHaveText(value)
   }
 
   async expectRewardsBadgeNotVisible(): Promise<void> {
     await expect(this.locateRewardsBadge()).not.toBeVisible()
   }
 
-  async expectRewards(rows: Reward[], tooltip: Locator): Promise<void> {
+  async expectRewards(rows: Reward[]): Promise<void> {
+    const dropdown = this.locateRewardsDropdown()
+
     for (const [index, row] of rows.entries()) {
-      const rowLocator = tooltip.getByTestId(testIds.navbar.rewards.details.row(index)).first()
-      await expect(rowLocator.getByTestId(testIds.navbar.rewards.details.token)).toHaveText(row.tokenSymbol)
-      await expect(rowLocator.getByTestId(testIds.navbar.rewards.details.amount)).toHaveText(row.amount)
-      await expect(rowLocator.getByTestId(testIds.navbar.rewards.details.amountUSD)).toHaveText(row.amountUSD)
+      const rowLocator = dropdown.getByTestId(testIds.topbar.rewards.details.row(index)).first()
+      await expect(rowLocator.getByTestId(testIds.topbar.rewards.details.token)).toHaveText(row.tokenSymbol)
+      await expect(rowLocator.getByTestId(testIds.topbar.rewards.details.amount)).toHaveText(row.amount)
+      await expect(rowLocator.getByTestId(testIds.topbar.rewards.details.amountUSD)).toHaveText(row.amountUSD)
     }
   }
   // #endregion

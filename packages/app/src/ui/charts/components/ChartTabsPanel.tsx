@@ -1,9 +1,10 @@
 import { DelayedComponent } from '@/ui/atoms/delayed-component/DelayedComponent'
-import { Panel } from '@/ui/atoms/panel/Panel'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/atoms/tabs/Tabs'
-import { useParentSize } from '@/ui/utils/useParentSize'
+import { Panel } from '@/ui/atoms/new/panel/Panel'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/atoms/new/tabs/Tabs'
+import { useResizeObserver } from '@/ui/utils/useResizeObserver'
 import { assert } from '@/utils/assert'
 import { AlertTriangle, Loader2 } from 'lucide-react'
+import { useRef } from 'react'
 import { Timeframe } from '../defaults'
 import { TimeframeButtons } from './TimeframeButtons'
 
@@ -54,36 +55,39 @@ export function ChartTabsPanel({ tabs, onTimeframeChange, selectedTimeframe, hei
 
   if (tabs.length === 1) {
     return (
-      <Panel.Wrapper className="flex min-h-[380px] w-full flex-1 flex-col justify-between self-stretch px-6 py-6 md:px-[32px]">
+      <Panel className="self-stretchi flex min-h-[380px] w-full flex-1 flex-col justify-between overflow-hidden">
         <div className="grid grid-cols-1 grid-rows-2 items-center gap-4 lg:grid-cols-2 lg:grid-rows-1">
           <div className="flex items-center gap-1 font-semibold text-lg md:text-xl">{firstTab.label}</div>
-          <TimeframeButtons onTimeframeChange={onTimeframeChange} selectedTimeframe={selectedTimeframe} />
+          <TimeframeButtons
+            onTimeframeChange={onTimeframeChange}
+            selectedTimeframe={selectedTimeframe}
+            className="w-full lg:w-auto"
+          />
         </div>
 
         <div className="flex w-full flex-grow flex-col items-center justify-center">
           <ChartPanel {...firstTab} height={height} />
         </div>
-      </Panel.Wrapper>
+      </Panel>
     )
   }
 
   return (
-    <Panel.Wrapper className="flex min-h-[380px] w-full flex-1 flex-col justify-between self-stretch px-6 py-6 md:px-[32px]">
+    <Panel className="flex min-h-[380px] w-full flex-1 flex-col justify-between self-stretch overflow-hidden">
       <Tabs defaultValue={firstTab.id} className="flex flex-1 flex-col">
-        <div className="flex flex-wrap items-center justify-between gap-2 lg:flex-nowrap">
-          <TabsList className="justify-start">
+        <div className="flex flex-col flex-wrap items-center justify-between gap-2 lg:flex-row lg:gap-1">
+          <TabsList className="w-full lg:w-auto" size="s">
             {tabs.map((tab) => (
-              <TabsTrigger
-                key={tab.id}
-                value={tab.id}
-                className="w-max grow-0 px-3 text-sm"
-                indicatorClassName="w-[calc(100%+1rem)]"
-              >
+              <TabsTrigger key={tab.id} value={tab.id} className="typography-label-5 px-1 md:px-1.5 xl:px-5">
                 {tab.label}
               </TabsTrigger>
             ))}
           </TabsList>
-          <TimeframeButtons onTimeframeChange={onTimeframeChange} selectedTimeframe={selectedTimeframe} />
+          <TimeframeButtons
+            onTimeframeChange={onTimeframeChange}
+            selectedTimeframe={selectedTimeframe}
+            className="w-full lg:w-auto"
+          />
         </div>
         {tabs.map((chartTab) => (
           <TabsContent
@@ -95,7 +99,7 @@ export function ChartTabsPanel({ tabs, onTimeframeChange, selectedTimeframe, hei
           </TabsContent>
         ))}
       </Tabs>
-    </Panel.Wrapper>
+    </Panel>
   )
 }
 
@@ -104,7 +108,8 @@ interface ChartPanelProps extends ChartTab {
 }
 
 function ChartPanel({ height, component: Chart, isError, isPending, props }: ChartPanelProps) {
-  const [ref, { width }] = useParentSize()
+  const ref = useRef<HTMLDivElement>(null)
+  const { width } = useResizeObserver({ ref })
 
   if (isPending) {
     return (
@@ -127,7 +132,7 @@ function ChartPanel({ height, component: Chart, isError, isPending, props }: Cha
   }
 
   return (
-    <div ref={ref} className="w-full flex-1">
+    <div ref={ref} className="flex w-full">
       <Chart {...props} height={height} width={width} />
     </div>
   )

@@ -5,7 +5,7 @@ import { DropdownMenuItem } from '@/ui/atoms/dropdown/DropdownMenu'
 import { cn } from '@/ui/utils/style'
 import { useBreakpoint } from '@/ui/utils/useBreakpoint'
 
-export interface SettingsDropdownItemProps extends ComponentProps<typeof DropdownMenuItem> {
+export interface SettingsDropdownItemProps extends Omit<ComponentProps<typeof DropdownMenuItem>, 'variant'> {
   children: React.ReactNode
   variant?: VariantProps<typeof settingsDropdownItemVariants>['variant']
 }

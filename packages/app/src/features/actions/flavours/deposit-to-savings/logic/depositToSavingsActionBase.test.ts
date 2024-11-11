@@ -1,5 +1,5 @@
-import { basePsm3Abi, basePsm3Address } from '@/config/abis/basePsm3Abi'
 import { SPARK_UI_REFERRAL_CODE_BIGINT } from '@/config/consts'
+import { basePsm3Abi, basePsm3Address } from '@/config/contracts-generated'
 import { EPOCH_LENGTH } from '@/domain/market-info/consts'
 import { PotSavingsInfo } from '@/domain/savings-info/potSavingsInfo'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'

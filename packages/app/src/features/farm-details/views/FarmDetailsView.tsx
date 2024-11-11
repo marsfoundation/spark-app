@@ -4,6 +4,7 @@ import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { getTokenImage } from '@/ui/assets'
 import { ChartTabsPanel, createChartTab } from '@/ui/charts/components/ChartTabsPanel'
+import { PageLayout } from '@/ui/layouts/PageLayout'
 import { ConnectOrSandboxCTAPanel } from '@/ui/organisms/connect-or-sandbox-cta-panel/ConnectOrSandboxCTAPanel'
 import { BackNav } from '../components/back-nav/BackNav'
 import { RewardsChart } from '../components/chart/rewards/RewardsChart'
@@ -59,11 +60,11 @@ export function FarmDetailsView({
   pointsSyncStatus,
 }: FarmDetailsViewProps) {
   return (
-    <div className="w-full max-w-5xl pt-12 pb-8 lg:mx-auto sm:mx-3">
+    <PageLayout>
       <BackNav chainId={chainId} />
       <Header token={farm.rewardToken} farmName={farm.name} chainId={chainId} chainMismatch={chainMismatch} />
-      <div className="flex flex-col gap-8">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-6">
+      <div className="flex flex-col gap-5">
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
           {isFarmActive ? (
             <ActiveFarmInfoPanel
               farm={farm}
@@ -123,6 +124,6 @@ export function FarmDetailsView({
           />
         )}
       </div>
-    </div>
+    </PageLayout>
   )
 }

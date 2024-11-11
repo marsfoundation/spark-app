@@ -9,6 +9,7 @@ import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { EnsName } from '@/domain/types/EnsName'
 import { sandboxDialogConfig } from '@/features/dialogs/sandbox/SandboxDialog'
 import { selectNetworkDialogConfig } from '@/features/dialogs/select-network/SelectNetworkDialog'
+import { assets } from '@/ui/assets'
 import { raise } from '@/utils/assert'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { skipToken, useQuery } from '@tanstack/react-query'
@@ -16,7 +17,6 @@ import { useMemo } from 'react'
 import { useAccount, useChainId, useChains, useConfig, useEnsAvatar, useEnsName } from 'wagmi'
 import { PageLinksInfo } from '../components/PageLinks'
 import { AirdropInfo, ConnectedWalletInfo, RewardsInfo, SavingsInfoQueryResults, SupportedChain } from '../types'
-import { generateWalletAvatar } from './generateWalletAvatar'
 import { getWalletIcon } from './getWalletIcon'
 import { useAirdropInfo } from './use-airdrop-info/useAirdropInfo'
 import { useDisconnect } from './useDisconnect'
@@ -64,7 +64,7 @@ export function useNavbar(): UseNavbarResults {
     select: useMemo(() => marketInfoSelectFn(), []),
   })
   const airdropInfo = useAirdropInfo({ refreshIntervalInMs: 100 })
-  const { isInSandbox, isSandboxEnabled, isEphemeralAccount, deleteSandbox } = useSandboxState()
+  const { isInSandbox, isSandboxEnabled, deleteSandbox } = useSandboxState()
   const { changeNetworkAsync } = useNetworkChange()
   const { disconnect } = useDisconnect({
     changeNetworkAsync,
@@ -93,7 +93,7 @@ export function useNavbar(): UseNavbarResults {
     return {
       dropdownTriggerInfo: {
         mode: isInSandbox ? 'sandbox' : 'connected',
-        avatar: ensAvatar ?? generateWalletAvatar(address),
+        avatar: ensAvatar ?? assets.walletIcons.default,
         address: CheckedAddress(address),
         ensName: ensName ? EnsName(ensName) : undefined,
       },
@@ -102,8 +102,6 @@ export function useNavbar(): UseNavbarResults {
         address: CheckedAddress(address),
         onDisconnect: disconnect,
         blockExplorerAddressLink,
-        isEphemeralAccount: isEphemeralAccount(address),
-        isInSandbox,
       },
     }
   })()

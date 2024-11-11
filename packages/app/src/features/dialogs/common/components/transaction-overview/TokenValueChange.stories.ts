@@ -1,9 +1,9 @@
-import { WithClassname } from '@storybook/decorators'
+import { WithClassname } from '@sb/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { tokens } from '@storybook/tokens'
-import { getMobileStory, getTabletStory } from '@storybook/viewports'
+import { tokens } from '@sb/tokens'
+import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { TokenValueChange } from './TokenValueChange'
 
 const meta: Meta<typeof TokenValueChange> = {

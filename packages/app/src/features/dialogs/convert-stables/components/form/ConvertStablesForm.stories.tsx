@@ -1,9 +1,9 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
-import { WithClassname } from '@storybook/decorators'
+import { WithClassname } from '@sb/decorators'
+import { tokens } from '@sb/tokens'
+import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
-import { tokens } from '@storybook/tokens'
-import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { useConvertStablesForm } from '../../logic/form/useConvertStablesForm'
 import { ConvertStablesForm } from './ConvertStablesForm'
 

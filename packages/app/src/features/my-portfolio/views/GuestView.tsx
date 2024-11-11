@@ -9,7 +9,7 @@ export interface GuestViewProps {
 
 export function GuestView({ openConnectModal, openSandboxModal }: GuestViewProps) {
   return (
-    <PageLayout className="max-w-6xl">
+    <PageLayout>
       <ConnectOrSandboxCTAPanel
         header="Connect your wallet to use Spark"
         iconPaths={WALLET_ICONS_PATHS}

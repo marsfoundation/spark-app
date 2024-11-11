@@ -1,5 +1,5 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { assets } from '@/ui/assets'
+import { ArrowUpFromLineIcon, ArrowsUpFromLineIcon, ChartPieIcon, LockIcon } from 'lucide-react'
 import { Tile, TileProps } from './components/Tile'
 
 interface SummaryTileProps {
@@ -14,19 +14,19 @@ export function SummaryTile({ variant, USDValue, 'data-testid': dataTestId }: Su
 
 const tileProps: Record<SummaryTileProps['variant'], Omit<TileProps, 'USDValue' | 'index'>> = {
   'total-market-size': {
-    icon: assets.markets.chart,
+    icon: ChartPieIcon,
     title: 'Total market size',
   },
   'total-value-locked': {
-    icon: assets.markets.lock,
+    icon: LockIcon,
     title: 'Total value locked',
   },
   'total-available': {
-    icon: assets.markets.inputOutput,
+    icon: ArrowsUpFromLineIcon,
     title: 'Total available',
   },
   'total-borrows': {
-    icon: assets.markets.output,
+    icon: ArrowUpFromLineIcon,
     title: 'Total borrows',
   },
 }

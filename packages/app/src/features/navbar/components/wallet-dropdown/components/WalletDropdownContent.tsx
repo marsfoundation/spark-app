@@ -1,8 +1,8 @@
 import { WalletDropdownContentInfo } from '@/features/navbar/types'
 import BoxArrowTopRight from '@/ui/assets/box-arrow-top-right.svg?react'
 import { Address } from '@/ui/atoms/address/Address'
-import { Button } from '@/ui/atoms/button/Button'
 import { Link } from '@/ui/atoms/link/Link'
+import { Button } from '@/ui/atoms/new/button/Button'
 
 export interface WalletDropdownContentProps extends WalletDropdownContentInfo {}
 
@@ -10,8 +10,6 @@ export function WalletDropdownContent({
   walletIcon,
   address,
   onDisconnect,
-  isEphemeralAccount,
-  isInSandbox,
   blockExplorerAddressLink,
 }: WalletDropdownContentProps) {
   return (
@@ -20,16 +18,16 @@ export function WalletDropdownContent({
         <div className="flex items-center gap-3">
           <img src={walletIcon} alt="Wallet icon" className="h-5 w-5" />
           <div className="overflow-hidden text-basics-black">
-            {isEphemeralAccount ? 'Ephemeral account' : <Address compact address={address} />}
+            <Address compact address={address} />
           </div>
         </div>
         <div className="flex gap-2.5">
-          <Button size="sm" variant="secondary" onClick={onDisconnect}>
-            {isInSandbox ? 'Exit sandbox' : 'Disconnect'}
+          <Button size="s" variant="secondary" onClick={onDisconnect}>
+            Disconnect
           </Button>
         </div>
       </div>
-      {!isEphemeralAccount && blockExplorerAddressLink && (
+      {blockExplorerAddressLink && (
         <div className="flex items-center gap-2.5 p-4">
           <Link
             to={blockExplorerAddressLink}

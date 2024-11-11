@@ -1,42 +1,25 @@
-import { Panel } from '@/ui/atoms/panel/Panel'
 import { Skeleton } from '@/ui/atoms/skeleton/Skeleton'
 import { PageLayout } from '@/ui/layouts/PageLayout'
-import { useBreakpoint } from '@/ui/utils/useBreakpoint'
 
 export function EasyBorrowSkeleton() {
-  const tablet = useBreakpoint('md')
-  const desktop = useBreakpoint('xl')
   return (
-    <PageLayout>
-      <div className="flex flex-col items-center md:mt-12">
-        <Skeleton className="h-12 w-52 md:w-80" />
-        <Skeleton className="mt-6 h-6 w-64 md:w-96" />
+    <PageLayout className="gap-8">
+      <Skeleton className="h-[60px] w-56" />
+      <div className="mt-8 hidden h-full grid-cols-[67%_calc(33%-18px)] gap-[18px] xl:grid">
+        <div className="flex flex-col gap-2">
+          <Skeleton className="h-[180px]" />
+          <Skeleton className="h-[224px]" />
+        </div>
+        <div className="flex flex-col gap-6">
+          <Skeleton className="h-[188px]" />
+        </div>
       </div>
-      <div className="mt-7 flex justify-center md:mt-10">
-        <Panel.Wrapper className="flex min-w-full max-w-3xl flex-col p-4 md:p-8">
-          <Skeleton className="h-10 w-1/6" />
-          <Skeleton className="mt-8 h-8 w-3/12" />
-          <Skeleton className="mt-4 h-14 w-full" />
-          {!tablet && (
-            <>
-              <Skeleton className="mt-4 h-8 w-1/12" />
-              <Skeleton className="mt-6 h-14 w-full" />
-            </>
-          )}
-          <Skeleton className="mt-6 h-9 w-3/12" />
-          <Skeleton className="mt-8 h-12 w-full" />
-          {!desktop && (
-            <>
-              <Skeleton className="mt-11 h-8 w-1/6" />
-              <Skeleton className="mt-3 h-8 w-1/2" />
-              <div className="mt-4 flex justify-between">
-                <Skeleton className="h-8 w-1/6" />
-                <Skeleton className="h-8 w-1/6" />
-              </div>
-            </>
-          )}
-          <Skeleton className="mt-8 h-10 w-full" />
-        </Panel.Wrapper>
+      <div className="mt-8 flex flex-col gap-6 xl:hidden">
+        <div className="grid grid-cols-1 gap-6">
+          <Skeleton className="h-[407px] sm:h-[180px]" />
+          <Skeleton className="h-[460px] sm:h-[224px]" />
+        </div>
+        <Skeleton className="h-[276px]" />
       </div>
     </PageLayout>
   )

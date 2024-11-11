@@ -1,5 +1,5 @@
+import { tokens } from '@sb/tokens'
 import type { Meta, StoryObj } from '@storybook/react'
-import { tokens } from '@storybook/tokens'
 import BigNumber from 'bignumber.js'
 
 import { AssetSelector as AssetSelectorComponent } from './AssetSelector'

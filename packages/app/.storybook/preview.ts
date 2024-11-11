@@ -3,6 +3,7 @@ import { WithFixedDate, WithI18n, WithQueryClient } from './decorators'
 
 import '../src/css/fonts.css'
 import '../src/css/main.css'
+import './styles.css'
 import { Preview } from '@storybook/react'
 
 const preview: Preview = {

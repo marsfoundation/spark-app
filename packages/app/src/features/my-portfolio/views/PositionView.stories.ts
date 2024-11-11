@@ -1,7 +1,7 @@
-import { WithTooltipProvider } from '@storybook/decorators'
+import { WithTooltipProvider } from '@sb/decorators'
+import { tokens } from '@sb/tokens'
+import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
-import { tokens } from '@storybook/tokens'
-import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { withRouter } from 'storybook-addon-remix-react-router'
 
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
@@ -119,30 +119,24 @@ const meta: Meta<typeof PositionView> = {
     ],
     eModeCategoryId: 0,
     walletComposition: {
-      hasCollaterals: true,
       assets: [
         {
           token: tokens.ETH,
-          value: NormalizedUnitNumber(132.28),
-          detailsLink: '',
+          balance: NormalizedUnitNumber(132.28),
         },
         {
           token: tokens.USDC,
-          value: NormalizedUnitNumber(90000),
-          detailsLink: '',
+          balance: NormalizedUnitNumber(90000),
         },
         {
           token: tokens.stETH,
-          value: NormalizedUnitNumber(34.21),
-          detailsLink: '',
+          balance: NormalizedUnitNumber(34.21),
         },
         {
           token: tokens.DAI,
-          value: NormalizedUnitNumber(50000),
-          detailsLink: '',
+          balance: NormalizedUnitNumber(50000),
         },
       ],
-      chainId: 1,
       includeDeposits: true,
       setIncludeDeposits: () => {},
     },

@@ -2,7 +2,6 @@ import { ChevronDown, ChevronUp } from 'lucide-react'
 import { ButtonHTMLAttributes, forwardRef } from 'react'
 
 import { WalletDropdownTriggerInfo } from '@/features/navbar/types'
-import Eye from '@/ui/assets/eye.svg?react'
 import MagicWandCircle from '@/ui/assets/magic-wand-circle.svg?react'
 import { shortenAddress } from '@/ui/utils/shortenAddress'
 
@@ -20,16 +19,6 @@ export const ConnectedButton = forwardRef<HTMLButtonElement, ConnectedButtonProp
         <WalletButton ref={ref} {...buttonProps}>
           <MagicWandCircle className="h-7 w-7 lg:h-5 lg:w-5" />
           Sandbox Mode
-          <Chevron open={open} />
-        </WalletButton>
-      )
-    }
-
-    if (mode === 'read-only') {
-      return (
-        <WalletButton ref={ref} {...buttonProps}>
-          <Eye className="h-7 w-7 text-basics-dark-grey lg:h-5 lg:w-5" />
-          Read-only mode
           <Chevron open={open} />
         </WalletButton>
       )

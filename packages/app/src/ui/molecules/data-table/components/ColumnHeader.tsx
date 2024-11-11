@@ -1,9 +1,7 @@
-import { Column } from '@tanstack/react-table'
-import { ChevronDown, ChevronUp, ChevronsUpDown } from 'lucide-react'
-
-import { Button } from '@/ui/atoms/button/Button'
+import { Button } from '@/ui/atoms/new/button/Button'
 import { cn } from '@/ui/utils/style'
-
+import { Column } from '@tanstack/react-table'
+import { ChevronDownIcon, ChevronUpIcon, ChevronsUpDown } from 'lucide-react'
 import { ColumnDefinition } from '../types'
 
 interface ColumnHeaderProps<T> {
@@ -21,24 +19,28 @@ export function ColumnHeader<T>({ column, columnDefinition }: ColumnHeaderProps<
         headerAlign === 'right' && 'justify-end',
       )}
     >
-      <Button
-        variant="text"
-        className={cn(
-          'h-4 cursor-auto p-0 font-bold text-primary text-xs',
-          sortable && 'cursor-pointer hover:text-secondary-foreground',
-        )}
-        onClick={() => sortable && column.toggleSorting(column.getIsSorted() === 'asc')}
-        postfixIcon={
-          sortable &&
-          (column.getIsSorted() !== false ? (
-            <>{column.getIsSorted() === 'asc' ? <ChevronDown size={16} /> : <ChevronUp size={16} />}</>
+      {sortable ? (
+        <Button
+          variant="transparent"
+          className="!typography-label-6 h-4 cursor-pointer rounded-[1px] p-0 text-secondary"
+          onClick={() => sortable && column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          {column.getIsSorted() !== false ? (
+            <>
+              {column.getIsSorted() === 'asc' ? (
+                <ChevronDownIcon className="icon-xs" />
+              ) : (
+                <ChevronUpIcon className="icon-xs" />
+              )}
+            </>
           ) : (
             <ChevronsUpDown size={16} />
-          ))
-        }
-      >
-        {header}
-      </Button>
+          )}
+          {header}
+        </Button>
+      ) : (
+        <span className="typography-label-6 h-4 text-secondary ">{header}</span>
+      )}
     </div>
   )
 }

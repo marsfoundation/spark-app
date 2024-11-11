@@ -3,9 +3,9 @@ import { farmAddresses } from '@/config/chain/constants'
 import { formatPercentage } from '@/domain/common/format'
 import { AssetsGroup, Farm } from '@/domain/farms/types'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
-import { Button } from '@/ui/atoms/button/Button'
 import { Link } from '@/ui/atoms/link/Link'
-import { Panel } from '@/ui/atoms/panel/Panel'
+import { Button } from '@/ui/atoms/new/button/Button'
+import { Panel } from '@/ui/atoms/new/panel/Panel'
 import { links } from '@/ui/constants/links'
 import { testIds } from '@/ui/utils/testIds'
 import { mainnet } from 'viem/chains'
@@ -31,8 +31,8 @@ export function InactiveFarmInfoPanel({
   openStakeDialog,
 }: InactiveFarmInfoPanelProps) {
   return (
-    <Panel.Wrapper
-      className="flex min-h-[380px] w-full flex-1 flex-col justify-between self-stretch px-6 py-6 md:px-[32px]"
+    <Panel
+      className="flex min-h-[380px] w-full flex-1 flex-col justify-between self-stretch"
       data-testid={testIds.farmDetails.infoPanel.panel}
     >
       {farm.rewardType === 'token' ? (
@@ -52,7 +52,7 @@ export function InactiveFarmInfoPanel({
           </DetailsItem>
           {farm.apy?.gt(0) && (
             <DetailsItem title="APY" explainer={<ApyTooltip farmAddress={farm.address} />}>
-              <div className="font-semibold text-[#3F66EF]">
+              <div className="font-semibold text-reskin-magenta">
                 {formatPercentage(farm.apy, { minimumFractionDigits: 0 })}
               </div>
             </DetailsItem>
@@ -75,7 +75,7 @@ export function InactiveFarmInfoPanel({
           Deposit
         </Button>
       </div>
-    </Panel.Wrapper>
+    </Panel>
   )
 }
 
@@ -92,7 +92,7 @@ function PointsFarmDetails({
     <div className="flex flex-col gap-4">
       <h2 className="font-semibold text-2xl md:text-3xl">
         Deposit {assetsGroupToText(assetsGroupType)} <br />
-        and earn <span className="text-[#3F66EF]">{farm.rewardToken.name}</span>{' '}
+        and earn <span className="text-reskin-magenta">{farm.rewardToken.name}</span>{' '}
         <div className="inline-flex items-baseline gap-1">
           points
           {isChroniclePointsFarm && <ChroniclePointsTooltip />}
@@ -121,7 +121,7 @@ function TokenFarmDetails({ farm, assetsGroupType }: { farm: Farm; assetsGroupTy
       <h2 className="font-semibold text-2xl md:text-3xl">
         Deposit {assetsGroupToText(assetsGroupType)} <br />
         and earn{' '}
-        <span className="text-[#3F66EF]">
+        <span className="text-reskin-magenta">
           {farm.apy?.gt(0) ? formatPercentage(farm.apy, { minimumFractionDigits: 0 }) : farm.rewardToken.symbol}
         </span>{' '}
         in rewards

@@ -1,67 +1,81 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
-import { DialogPanel } from '@/features/dialogs/common/components/DialogPanel'
-import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPanelTitle'
-import { RouteItem } from '@/features/dialogs/common/components/transaction-overview/RouteItem'
-import { SkyBadge } from '@/features/dialogs/common/components/transaction-overview/SkyBadge'
-import { cn } from '@/ui/utils/style'
+import { HorizontalScroll } from '@/ui/atoms/new/horizontal-scroll/HorizontalScroll'
+import { TransactionOverview } from '@/ui/organisms/new/transaction-overview/TransactionOverview'
+import { RouteItem } from '@/ui/organisms/new/transaction-overview/rows/TransactionOverviewRoute'
+import { testIds } from '@/ui/utils/testIds'
 import { assert } from '@/utils/assert'
-import { TransactionOverviewDetailsItem } from '../../../common/components/TransactionOverviewDetailsItem'
 import { TxOverview } from '../../logic/createTxOverview'
-import { FarmRouteItem } from './FarmRouteItem'
-import { TransactionOutcome } from './TransactionOutcome'
-import { TransactionOverviewPlaceholder } from './TransactionOverviewPlaceholder'
+import { UnstakeTransactionOutcome } from './UnstakeTransactionOutcome'
 
-export interface TransactionOverviewProps {
+export interface UnstakeTransactionOverviewProps {
   txOverview: TxOverview
   selectedToken: Token
 }
 
-export function TransactionOverview({ txOverview, selectedToken }: TransactionOverviewProps) {
+export function UnstakeTransactionOverview({ txOverview }: UnstakeTransactionOverviewProps) {
   if (txOverview.status !== 'success') {
-    return <TransactionOverviewPlaceholder badgeToken={selectedToken.symbol} />
+    const placeholder = '-'
+
+    return (
+      <TransactionOverview showSkyBadge>
+        <TransactionOverview.Row>
+          <TransactionOverview.Label>Route</TransactionOverview.Label>
+          <TransactionOverview.RoutePlaceholder>{placeholder}</TransactionOverview.RoutePlaceholder>
+        </TransactionOverview.Row>
+        <TransactionOverview.Row>
+          <TransactionOverview.Label>Outcome</TransactionOverview.Label>
+          <TransactionOverview.Generic>{placeholder}</TransactionOverview.Generic>
+        </TransactionOverview.Row>
+      </TransactionOverview>
+    )
   }
   const { rewardToken, routeToOutcomeToken, stakingToken, earnedRewards, isExiting } = txOverview
 
   assert(routeToOutcomeToken.length > 0, 'Route must have at least one item')
   const outcomeTokenRouteItem = routeToOutcomeToken.at(-1)!
-  const displayRouteVertically = Boolean(
-    routeToOutcomeToken.length > 1 && routeToOutcomeToken[0]?.value?.gte(NormalizedUnitNumber(100_000)),
-  )
+  const route: RouteItem[] = [
+    {
+      type: 'generic',
+      upperText: `${rewardToken.symbol} Farm`,
+      lowerText: `${stakingToken.symbol} Deposited`,
+      upperTextDataTestId: testIds.farmDetails.unstakeDialog.transactionOverview.route.farm.farmName,
+      lowerTextDataTestId: testIds.farmDetails.unstakeDialog.transactionOverview.route.farm.stakingToken,
+    },
+    ...routeToOutcomeToken.map(
+      (item) =>
+        ({
+          type: 'token-amount',
+          token: item.token,
+          amount: item.value,
+          usdAmount: item.usdValue,
+        }) as const,
+    ),
+  ]
 
   return (
-    <div className="isolate">
-      <DialogPanel className="shadow-none">
-        <DialogPanelTitle>Transaction overview</DialogPanelTitle>
-        <TransactionOverviewDetailsItem label="Route">
-          <div className={cn('flex flex-col items-end gap-2', !displayRouteVertically && 'md:flex-row')}>
-            <FarmRouteItem
-              stakingToken={stakingToken.symbol}
-              rewardsToken={rewardToken.symbol}
-              displayRouteVertically={displayRouteVertically}
+    <TransactionOverview showSkyBadge>
+      <TransactionOverview.Row>
+        <TransactionOverview.Label>Route</TransactionOverview.Label>
+        <TransactionOverview.Route route={route} />
+      </TransactionOverview.Row>
+      <TransactionOverview.Row>
+        <TransactionOverview.Label>Outcome</TransactionOverview.Label>
+        <HorizontalScroll>
+          <TransactionOverview.Generic>
+            <UnstakeTransactionOutcome
+              outcomeTokenRouteItem={outcomeTokenRouteItem}
+              rewardToken={rewardToken}
+              isExiting={isExiting}
+              earnedRewards={earnedRewards}
             />
-            {routeToOutcomeToken.map((item, index) => (
-              <RouteItem
-                key={item.token.symbol}
-                item={item}
-                index={index}
-                isLast={index === routeToOutcomeToken.length - 1}
-                displayRouteVertically={displayRouteVertically}
-              />
-            ))}
-          </div>
-        </TransactionOverviewDetailsItem>
-        <TransactionOverviewDetailsItem label="Outcome">
-          <TransactionOutcome
-            outcomeTokenRouteItem={outcomeTokenRouteItem}
-            rewardToken={rewardToken}
-            isExiting={isExiting}
-            earnedRewards={earnedRewards}
-          />
-        </TransactionOverviewDetailsItem>
-      </DialogPanel>
-
-      <SkyBadge tokens={[selectedToken.symbol]} />
-    </div>
+          </TransactionOverview.Generic>
+        </HorizontalScroll>
+      </TransactionOverview.Row>
+    </TransactionOverview>
   )
+}
+
+export {
+  UnstakeTransactionOverview as TransactionOverview,
+  type UnstakeTransactionOverviewProps as TransactionOverviewProps,
 }

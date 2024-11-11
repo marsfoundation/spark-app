@@ -1,12 +1,11 @@
-import { Fragment } from 'react'
-
-import { Panel } from '@/ui/atoms/panel/Panel'
+import { Panel } from '@/ui/atoms/new/panel/Panel'
 import { Skeleton } from '@/ui/atoms/skeleton/Skeleton'
+import { Fragment } from 'react'
 
 export function ActionsSkeleton() {
   const rows = 3
   return (
-    <Panel.Wrapper className="mt-6">
+    <Panel className="mt-6">
       <div className="flex flex-col p-4 md:px-8 md:py-6">
         <Skeleton className="mb-1 h-6 w-1/12" />
         {Array.from({ length: rows }).map((_, index) => (
@@ -17,6 +16,6 @@ export function ActionsSkeleton() {
         ))}
         <Skeleton className="mt-1 h-6 w-1/4 self-end" />
       </div>
-    </Panel.Wrapper>
+    </Panel>
   )
 }

@@ -1,20 +1,39 @@
 import { OpenDialogFunction } from '@/domain/state/dialogs'
 
+import { assets } from '@/ui/assets'
+import { ConnectOrSandboxCTAPanel } from '@/ui/organisms/connect-or-sandbox-cta-panel/ConnectOrSandboxCTAPanel'
 import { WalletOverview } from '../../types'
 import { MyWallet } from './MyWallet'
 import { MyWalletChainMismatch } from './MyWalletChainMismatch'
-import { MyWalletDisconnected } from './MyWalletDisconnected'
 
 interface MyWalletPanelProps {
   chainMismatch: boolean
   openDialog: OpenDialogFunction
   walletOverview: WalletOverview
   openConnectModal: () => void
+  openSandboxModal: () => void
 }
 
-export function MyWalletPanel({ openDialog, walletOverview, openConnectModal, chainMismatch }: MyWalletPanelProps) {
+const icons = assets.walletIcons
+const WALLET_ICONS_PATHS = [icons.metamask, icons.walletConnect, icons.coinbase, icons.enjin, icons.torus]
+
+export function MyWalletPanel({
+  openDialog,
+  walletOverview,
+  openConnectModal,
+  chainMismatch,
+  openSandboxModal,
+}: MyWalletPanelProps) {
   if (walletOverview.guestMode) {
-    return <MyWalletDisconnected openConnectModal={openConnectModal} />
+    return (
+      <ConnectOrSandboxCTAPanel
+        header="Connect your wallet to use Spark"
+        iconPaths={WALLET_ICONS_PATHS}
+        action={openConnectModal}
+        buttonText="Connect wallet"
+        openSandboxModal={openSandboxModal}
+      />
+    )
   }
 
   if (chainMismatch) {

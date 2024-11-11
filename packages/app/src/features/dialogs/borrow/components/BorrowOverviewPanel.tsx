@@ -1,7 +1,5 @@
-import { DialogPanel } from '@/features/dialogs/common/components/DialogPanel'
-import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPanelTitle'
+import { TransactionOverview } from '@/ui/organisms/new/transaction-overview/TransactionOverview'
 import BigNumber from 'bignumber.js'
-import { HealthFactorChange } from '../../common/components/transaction-overview/HealthFactorChange'
 
 export interface BorrowOverviewPanelProps {
   currentHealthFactor?: BigNumber
@@ -13,9 +11,14 @@ export function BorrowOverviewPanel({ currentHealthFactor, updatedHealthFactor }
   }
 
   return (
-    <DialogPanel>
-      <DialogPanelTitle>Transaction overview</DialogPanelTitle>
-      <HealthFactorChange currentHealthFactor={currentHealthFactor} updatedHealthFactor={updatedHealthFactor} />
-    </DialogPanel>
+    <TransactionOverview>
+      <TransactionOverview.Row>
+        <TransactionOverview.Label>Health factor</TransactionOverview.Label>
+        <TransactionOverview.HealthFactorChange
+          currentHealthFactor={currentHealthFactor}
+          updatedHealthFactor={updatedHealthFactor}
+        />
+      </TransactionOverview.Row>
+    </TransactionOverview>
   )
 }

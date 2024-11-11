@@ -38,7 +38,7 @@ test.describe('Claim rewards dialog', () => {
       {
         tokenSymbol: 'wstETH',
         amount: '6.3697',
-        amountUSD: '~$25,583.20',
+        amountUSD: '$25,583.20',
       },
     ])
   })
@@ -59,14 +59,14 @@ test.describe('Claim rewards dialog', () => {
       {
         tokenSymbol: 'wstETH',
         amount: '6.3697',
-        amountUSD: '~$25,583.20',
+        amountUSD: '$25,583.20',
       },
     ])
 
     const myPortfolioPage = new MyPortfolioPageObject(page)
     await myPortfolioPage.goToMyPortfolioAction()
 
-    await myPortfolioPage.expectWalletTable({
+    await myPortfolioPage.expectBalancesInDepositTable({
       wstETH: 6.3697,
     })
 

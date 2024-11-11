@@ -15,7 +15,7 @@ export interface ConnectedWalletInfo {
 }
 
 export interface WalletDropdownTriggerInfo {
-  mode: 'read-only' | 'sandbox' | 'connected'
+  mode: 'sandbox' | 'connected'
   avatar: string
   address: CheckedAddress
   ensName?: EnsName
@@ -25,8 +25,6 @@ export interface WalletDropdownContentInfo {
   walletIcon: string
   address: CheckedAddress
   onDisconnect: () => void
-  isEphemeralAccount: boolean
-  isInSandbox: boolean
   blockExplorerAddressLink: string | undefined
 }
 
@@ -50,5 +48,6 @@ export interface AirdropInfo {
 
 export interface RewardsInfo {
   rewards: Reward[]
+  totalClaimableReward: NormalizedUnitNumber
   onClaim: () => void
 }

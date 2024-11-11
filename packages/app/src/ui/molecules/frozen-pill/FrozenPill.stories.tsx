@@ -1,6 +1,6 @@
-import { WithClassname, WithTooltipProvider } from '@storybook/decorators'
+import { WithClassname, WithTooltipProvider } from '@sb/decorators'
+import { getHoveredStory } from '@sb/utils'
 import { Meta, StoryObj } from '@storybook/react'
-import { getHoveredStory } from '@storybook/utils'
 
 import { FrozenPill } from './FrozenPill'
 

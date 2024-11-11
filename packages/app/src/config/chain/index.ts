@@ -299,56 +299,52 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
     },
     farms: undefined,
   },
-  ...(typeof import.meta.env.VITE_DEV_BASE_DEVNET_RPC_URL === 'string'
-    ? {
-        [base.id]: {
-          originChainId: base.id as SupportedChainId,
-          daiSymbol: undefined,
-          sdaiSymbol: undefined,
-          usdsSymbol: TokenSymbol('USDS'),
-          susdsSymbol: TokenSymbol('sUSDS'),
-          psmStables: [TokenSymbol('USDC'), TokenSymbol('USDS')],
-          meta: {
-            name: 'Base DevNet',
-            logo: assets.chain.baseDevNet,
-          },
-          tokensWithMalformedApprove: [],
-          permitSupport: {},
-          airdrop: {},
-          extraTokens: [
-            {
-              symbol: TokenSymbol('USDC'),
-              oracleType: 'fixed-usd',
-              address: CheckedAddress('0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'),
-            },
-            {
-              symbol: TokenSymbol('sUSDS'),
-              oracleType: 'ssr-auth-oracle',
-              address: CheckedAddress('0x02Edc8718799a22fCBeBEd0C58a1D09657C81bC8'),
-            },
-            {
-              symbol: TokenSymbol('USDS'),
-              oracleType: 'fixed-usd',
-              address: CheckedAddress('0x21F5b5dF683B6885D6A88f330C4474ADeE2A6ed3'),
-            },
-            {
-              symbol: TokenSymbol('SKY'),
-              oracleType: 'zero-price',
-              address: CheckedAddress('0xA40D3Ad0dEdED3df8cDf02108AFf90220C437B82'),
-            },
-          ] as const,
-          markets: undefined,
-          savings: {
-            savingsDaiInfoQuery: undefined,
-            savingsUsdsInfoQuery: baseSavingsInfoQueryOptions,
-            inputTokens: [TokenSymbol('USDC'), TokenSymbol('USDS')],
-            getEarningsApiUrl: undefined,
-            savingsRateApiUrl: undefined,
-          },
-          farms: undefined,
-        } satisfies ChainConfigEntry,
-      }
-    : {}),
+  [base.id]: {
+    originChainId: base.id as SupportedChainId,
+    daiSymbol: undefined,
+    sdaiSymbol: undefined,
+    usdsSymbol: TokenSymbol('USDS'),
+    susdsSymbol: TokenSymbol('sUSDS'),
+    psmStables: [TokenSymbol('USDC'), TokenSymbol('USDS')],
+    meta: {
+      name: 'Base',
+      logo: assets.chain.baseDevNet,
+    },
+    tokensWithMalformedApprove: [],
+    permitSupport: {},
+    airdrop: {},
+    extraTokens: [
+      {
+        symbol: TokenSymbol('USDC'),
+        oracleType: 'fixed-usd',
+        address: CheckedAddress('0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'),
+      },
+      {
+        symbol: TokenSymbol('sUSDS'),
+        oracleType: 'ssr-auth-oracle',
+        address: CheckedAddress('0x5875eEE11Cf8398102FdAd704C9E96607675467a'),
+      },
+      {
+        symbol: TokenSymbol('USDS'),
+        oracleType: 'fixed-usd',
+        address: CheckedAddress('0x820C137fa70C8691f0e44Dc420a5e53c168921Dc'),
+      },
+      {
+        symbol: TokenSymbol('SKY'),
+        oracleType: 'zero-price',
+        address: CheckedAddress('0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a'),
+      },
+    ] as const,
+    markets: undefined,
+    savings: {
+      savingsDaiInfoQuery: undefined,
+      savingsUsdsInfoQuery: baseSavingsInfoQueryOptions,
+      inputTokens: [TokenSymbol('USDC'), TokenSymbol('USDS')],
+      getEarningsApiUrl: undefined,
+      savingsRateApiUrl: undefined,
+    },
+    farms: undefined,
+  },
 }
 
 export function getChainConfigEntry(chainId: number): ChainConfigEntry {

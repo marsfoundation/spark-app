@@ -1,5 +1,5 @@
+import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
-import { getMobileStory, getTabletStory } from '@storybook/viewports'
 import { SettingsDialog } from './SettingsDialog'
 
 const meta: Meta<typeof SettingsDialog> = {
@@ -7,7 +7,12 @@ const meta: Meta<typeof SettingsDialog> = {
   component: SettingsDialog,
   render: () => {
     return (
-      <SettingsDialog onConfirm={() => {}} permitsSettings={{ preferPermits: true, togglePreferPermits: () => {} }} />
+      <SettingsDialog
+        onConfirm={() => {}}
+        permitsSettings={{ preferPermits: true, togglePreferPermits: () => {} }}
+        portalContainerRef={undefined}
+        actionsGridLayout="extended"
+      />
     )
   },
 }

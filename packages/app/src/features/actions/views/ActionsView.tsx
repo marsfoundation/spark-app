@@ -1,27 +1,17 @@
-import { cva } from 'class-variance-authority'
-
-import { Panel } from '@/ui/atoms/panel/Panel'
 import { cn } from '@/ui/utils/style'
-
-import { ActionsGrid } from '../components/actions-grid/ActionsGrid'
+import { cva } from 'class-variance-authority'
+import { useRef } from 'react'
+import { Actions } from '../components/actions/Actions'
 import { ActionHandler } from '../logic/types'
 import { SettingsDialog } from '../settings-dialog/components/SettingsDialog'
 import { UseSettingsDialogResult } from '../settings-dialog/logic/useSettingsDialog'
-
-const actionsPanelVariants = cva('', {
-  variants: {
-    variant: {
-      default: '',
-      dialog: 'gap-0 bg-panel-bg p-4 md:p-4',
-    },
-  },
-})
+import { ActionsGridLayout } from '../types'
 
 const actionsTitleVariants = cva('', {
   variants: {
-    variant: {
-      default: '',
-      dialog: 'mb-1 font-semibold text-primary',
+    layout: {
+      extended: 'typography-label-2 text-primary',
+      compact: 'typography-label-5 text-secondary',
     },
   },
 })
@@ -29,26 +19,31 @@ const actionsTitleVariants = cva('', {
 export interface ActionsViewProps {
   actionHandlers: ActionHandler[]
   settingsDisabled: boolean
-  variant: 'default' | 'dialog'
+  actionsGridLayout: ActionsGridLayout
   settingsDialogProps: UseSettingsDialogResult
 }
 
-export function ActionsView({ actionHandlers, variant, settingsDisabled, settingsDialogProps }: ActionsViewProps) {
+export function ActionsView({
+  actionHandlers,
+  actionsGridLayout,
+  settingsDisabled,
+  settingsDialogProps,
+}: ActionsViewProps) {
+  const ref = useRef<HTMLDivElement>(null)
   return (
-    <Panel className={cn(actionsPanelVariants({ variant }))}>
-      <Panel.Header className="justify-between">
-        <Panel.Title
-          variant={variant === 'dialog' ? 'prompt' : 'h3'}
-          element="h3"
-          className={actionsTitleVariants({ variant })}
-        >
-          Actions
-        </Panel.Title>
-        <SettingsDialog {...settingsDialogProps} disabled={settingsDisabled} />
-      </Panel.Header>
-      <Panel.Content className="flex flex-col gap-6">
-        <ActionsGrid actionHandlers={actionHandlers} variant={variant === 'default' ? 'extended' : 'compact'} />
-      </Panel.Content>
-    </Panel>
+    <section className="flex flex-col gap-2" ref={ref}>
+      <div className="flex items-center justify-between">
+        <h3 className={cn(actionsTitleVariants({ layout: actionsGridLayout }))}>Actions</h3>
+        <SettingsDialog
+          {...settingsDialogProps}
+          portalContainerRef={ref}
+          disabled={settingsDisabled}
+          actionsGridLayout={actionsGridLayout}
+        />
+      </div>
+      <div className="rounded-sm border border-primary">
+        <Actions actionHandlers={actionHandlers} layout={actionsGridLayout} />
+      </div>
+    </section>
   )
 }

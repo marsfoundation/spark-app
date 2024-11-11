@@ -89,7 +89,7 @@ export class BorrowPageObject extends BasePageObject {
   }
 
   async expectHealthFactor(hf: string): Promise<void> {
-    const locator = this.page.getByTestId(testIds.component.HealthFactorBadge.value)
+    const locator = this.page.getByTestId(testIds.component.HealthFactorGauge.value).nth(0) // is rendered twice because of mobile view
     await expect(locator).toHaveText(hf)
   }
 

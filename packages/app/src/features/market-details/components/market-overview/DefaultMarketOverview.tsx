@@ -1,8 +1,6 @@
 import { formatPercentage } from '@/domain/common/format'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
-import { Panel } from '@/ui/atoms/panel/Panel'
-
 import { MarketOverviewChart } from '../charts/market-overview/MarketOverviewChart'
 import { colors } from '../charts/market-overview/colors'
 import { Legend } from '../charts/market-overview/components/Legend'
@@ -31,31 +29,29 @@ export function DefaultMarketOverview({
   ]
 
   return (
-    <Panel.Wrapper>
-      <MarketOverviewContent>
-        <h4 className="font-semibold text-base text-sky-950 md:text-xl">Market Overview</h4>
-        <MarketOverviewChart data={chartData}>
-          <Legend token={token} utilized={borrowed} total={marketSize} utilizationRate={utilizationRate} />
-        </MarketOverviewChart>
-        <DetailsGrid>
-          <DetailsGridItem>
-            <DetailsGridItem.Title>Market size</DetailsGridItem.Title>
-            <DetailsGridItem.Value>{token.formatUSD(marketSize, { compact: true })}</DetailsGridItem.Value>
-          </DetailsGridItem>
-          <DetailsGridItem>
-            <DetailsGridItem.Title>Utilization rate</DetailsGridItem.Title>
-            <DetailsGridItem.Value>{formatPercentage(utilizationRate)}</DetailsGridItem.Value>
-          </DetailsGridItem>
-          <DetailsGridItem>
-            <DetailsGridItem.Title variant="blue">Borrowed</DetailsGridItem.Title>
-            <DetailsGridItem.Value>{token.formatUSD(borrowed, { compact: true })}</DetailsGridItem.Value>
-          </DetailsGridItem>
-          <DetailsGridItem>
-            <DetailsGridItem.Title variant="green">Available</DetailsGridItem.Title>
-            <DetailsGridItem.Value>{token.formatUSD(available, { compact: true })}</DetailsGridItem.Value>
-          </DetailsGridItem>
-        </DetailsGrid>
-      </MarketOverviewContent>
-    </Panel.Wrapper>
+    <MarketOverviewContent>
+      <h4 className="font-semibold text-base text-sky-950 md:text-xl">Market Overview</h4>
+      <MarketOverviewChart data={chartData}>
+        <Legend token={token} utilized={borrowed} total={marketSize} utilizationRate={utilizationRate} />
+      </MarketOverviewChart>
+      <DetailsGrid>
+        <DetailsGridItem>
+          <DetailsGridItem.Title>Market size</DetailsGridItem.Title>
+          <DetailsGridItem.Value>{token.formatUSD(marketSize, { compact: true })}</DetailsGridItem.Value>
+        </DetailsGridItem>
+        <DetailsGridItem>
+          <DetailsGridItem.Title>Utilization rate</DetailsGridItem.Title>
+          <DetailsGridItem.Value>{formatPercentage(utilizationRate)}</DetailsGridItem.Value>
+        </DetailsGridItem>
+        <DetailsGridItem>
+          <DetailsGridItem.Title variant="blue">Borrowed</DetailsGridItem.Title>
+          <DetailsGridItem.Value>{token.formatUSD(borrowed, { compact: true })}</DetailsGridItem.Value>
+        </DetailsGridItem>
+        <DetailsGridItem>
+          <DetailsGridItem.Title variant="green">Available</DetailsGridItem.Title>
+          <DetailsGridItem.Value>{token.formatUSD(available, { compact: true })}</DetailsGridItem.Value>
+        </DetailsGridItem>
+      </DetailsGrid>
+    </MarketOverviewContent>
   )
 }

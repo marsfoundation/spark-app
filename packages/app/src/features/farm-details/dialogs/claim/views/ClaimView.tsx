@@ -4,7 +4,7 @@ import { FormAndOverviewWrapper } from '@/features/dialogs/common/components/For
 import { MultiPanelDialog } from '@/features/dialogs/common/components/MultiPanelDialog'
 import { PageStatus } from '@/features/dialogs/common/types'
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
-import { TransactionOverview } from '../components/transaction-overview/TransactionOverview'
+import { ClaimTransactionOverview } from '../components/transaction-overview/ClaimTransactionOverview'
 import { TxOverview } from '../types'
 
 export interface ClaimViewProps {
@@ -20,7 +20,7 @@ export function ClaimView({ objectives, pageStatus, txOverview, actionsContext }
       <DialogTitle>Claim rewards</DialogTitle>
 
       <FormAndOverviewWrapper>
-        <TransactionOverview txOverview={txOverview} />
+        <ClaimTransactionOverview txOverview={txOverview} />
       </FormAndOverviewWrapper>
 
       <DialogActionsPanel

@@ -30,7 +30,9 @@ export class UpgradeDialogPageObject extends DialogPageObject {
     }
 
     await this.expectTransactionOverviewRoute(transactionOverview.routeItems)
-    await this.expectSkyBadgeForTokens(transactionOverview.badgeTokens)
+    if (transactionOverview.badgeTokens) {
+      await this.expectSkyBadgeForTokens(transactionOverview.badgeTokens)
+    }
     await this.expectOutcomeText(transactionOverview.outcome)
   }
 
@@ -41,7 +43,7 @@ export class UpgradeDialogPageObject extends DialogPageObject {
   }: { token: string; amount: string; usdValue: string }): Promise<void> {
     await expect(this.region.getByText('Congrats, all done!')).toBeVisible()
     const summary = await this.region.getByTestId(testIds.dialog.success).textContent()
-    await expect(summary).toMatch(`${token}${amount}${usdValue}`)
+    await expect(summary).toMatch(`${token}${amount} ${usdValue}`)
   }
   // #endregion assertions
 }

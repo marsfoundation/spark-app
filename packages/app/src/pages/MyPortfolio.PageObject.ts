@@ -95,7 +95,7 @@ export class MyPortfolioPageObject extends BasePageObject {
   }
 
   async expectHealthFactor(hf: string): Promise<void> {
-    const locator = this.page.getByTestId(testIds.component.HealthFactorBadge.value)
+    const locator = this.page.getByTestId(testIds.component.HealthFactorGauge.value)
     await expect(locator).toHaveText(hf)
   }
 
@@ -132,6 +132,22 @@ export class MyPortfolioPageObject extends BasePageObject {
     }).toPass()
   }
 
+  async expectBalancesInDepositTable(assets: Record<string, number>): Promise<void> {
+    await expect(async () => {
+      const depositTable = await this.parseDepositTable()
+
+      for (const [asset, expectedAmount] of Object.entries(assets)) {
+        const row = depositTable.find((row) => row.asset === asset)
+        expect(row, `Couldn't find asset ${asset}`).toBeDefined()
+        assert(row)
+        expect(expectedAmount, `Couldn't find asset ${row.asset}`).toBeDefined()
+        expect(row.inWallet).toBe(expectedAmount)
+      }
+
+      return true
+    }).toPass()
+  }
+
   async expectCollateralSwitch(asset: string, checked: boolean): Promise<void> {
     const panel = this.locatePanelByHeader('Deposit')
     const row = panel.getByRole('row').filter({ has: this.page.getByRole('cell', { name: asset, exact: true }) })
@@ -149,24 +165,6 @@ export class MyPortfolioPageObject extends BasePageObject {
         assert(row)
         expect(expectedAmount, `Couldn't find asset ${row.asset}`).toBeDefined()
         expect(row.yourBorrow).toBe(expectedAmount)
-      }
-
-      return true
-    }).toPass()
-  }
-
-  async expectWalletTable(assets: Record<string, number>): Promise<void> {
-    await expect(async () => {
-      const walletTable = await this.parseWalletTable()
-      for (const [asset, expectedAmount] of Object.entries(assets)) {
-        const row = walletTable.find((row) => row.asset === asset)
-        // skip ETH for now as it's not supported in deposit table
-        if (asset === 'ETH') {
-          continue
-        }
-        assert(row)
-        expect(expectedAmount, `Couldn't find asset ${row.asset}`).toBeDefined()
-        expect(row.amount).toBe(expectedAmount)
       }
 
       return true

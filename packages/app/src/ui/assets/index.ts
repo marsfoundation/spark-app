@@ -1,6 +1,5 @@
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
-
 import { Percentage } from '@/domain/types/NumericValues'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import approve from './actions/approve.svg'
 import borrow from './actions/borrow.svg'
 import deposit from './actions/deposit.svg'
@@ -9,11 +8,16 @@ import exchange from './actions/exchange.svg'
 import repay from './actions/repay.svg'
 import withdraw from './actions/withdraw.svg'
 import arrowRight from './arrow-right.svg'
-import daiToUsdsUpgrade from './banners/dai-to-usds-upgrade.webp'
 import mkrToSkyTransform from './banners/mkr-to-sky-transform.svg'
-import newSavingsWelcome from './banners/new-savings-welcome.webp'
-import sdaiToSusdsUpgrade from './banners/sdai-to-susds-upgrade.webp'
 import boxArrowTopRight from './box-arrow-top-right.svg'
+import logoDark from './brand/logo-dark.svg'
+import logoGradientDark from './brand/logo-gradient-dark.svg'
+import logoGradientLight from './brand/logo-gradient-light.svg'
+import logoLight from './brand/logo-light.svg'
+import symbolDark from './brand/symbol-dark.svg'
+import symbolGradient from './brand/symbol-gradient.svg'
+import symboLight from './brand/symbol-light.svg'
+import base from './chains/base.svg'
 import baseDevNet from './chains/baseDevNet.svg'
 import ethereum from './chains/ethereum.svg'
 import gnosis from './chains/gnosis.svg'
@@ -27,8 +31,10 @@ import downgrade from './downgrade.svg'
 import equal from './equal.svg'
 import eye from './eye.svg'
 import flash from './flash.svg'
+import giftGradient from './gift-gradient.svg'
 import giftbox from './giftbox.svg'
 import greenArrowUp from './green-arrow-up.svg'
+import handCoins from './hand-coins.svg'
 import lifiLogo from './lifi-logo.svg'
 import link from './link.svg'
 import magicWandCircle from './magic-wand-circle.svg'
@@ -45,8 +51,15 @@ import multiply from './multiply.svg'
 import chainlink from './oracle-providers/chainlink.svg'
 import chronicle from './oracle-providers/chronicle.svg'
 import lido from './oracle-providers/lido.svg'
+import borrowIcon from './page/borrow-icon.svg'
+import farmsIcon from './page/farms-icon.svg'
+import savingsIcon from './page/savings-icon.svg'
 import pause from './pause.svg'
 import rocket from './rocket.svg'
+import daiUpgrade from './savings/dai-upgrade.webp'
+import savingsWelcome from './savings/savings-welcome.webp'
+import sdaiUpgrade from './savings/sdai-upgrade.webp'
+import upgradeBannerBg from './savings/upgrade-banner-bg.svg'
 import sliderThumb from './slider-thumb.svg'
 import snowflake from './snowflake.svg'
 import sparkIcon from './spark-icon.svg'
@@ -125,6 +138,9 @@ export const assets = {
   timer,
   multiply,
   equal,
+  handCoins,
+  giftGradient,
+
   markets: {
     chart,
     inputOutput,
@@ -147,6 +163,7 @@ export const assets = {
     ethereum,
     unknown,
     baseDevNet,
+    base,
   },
   token: {
     dai,
@@ -181,16 +198,35 @@ export const assets = {
     walletConnect,
     default: defaultWallet,
   },
+  savings: {
+    upgradeBannerBg,
+    daiUpgrade,
+    sdaiUpgrade,
+    savingsWelcome,
+  },
   banners: {
-    daiToUsdsUpgrade,
-    sdaiToSusdsUpgrade,
     mkrToSkyTransform,
-    newSavingsWelcome,
   },
   oracleProviders: {
     chainlink,
     chronicle,
     lido,
+  },
+
+  page: {
+    savings: savingsIcon,
+    farms: farmsIcon,
+    borrow: borrowIcon,
+  },
+
+  brand: {
+    symbolGradient,
+    symbolDark,
+    symboLight,
+    logoDark,
+    logoLight,
+    logoGradientLight,
+    logoGradientDark,
   },
 }
 

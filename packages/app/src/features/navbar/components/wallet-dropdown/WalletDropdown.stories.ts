@@ -3,7 +3,6 @@ import { EnsName } from '@/domain/types/EnsName'
 import { assets } from '@/ui/assets'
 import type { Meta, StoryObj } from '@storybook/react'
 import { userEvent, within } from '@storybook/test'
-import { DEFAULT_WALLET_AVATAR } from '../../logic/generateWalletAvatar'
 import { WalletDropdown, WalletDropdownProps } from './WalletDropdown'
 
 const meta: Meta<typeof WalletDropdown> = {
@@ -22,15 +21,13 @@ const args = {
   connectedWalletInfo: {
     dropdownTriggerInfo: {
       mode: 'connected',
-      avatar: DEFAULT_WALLET_AVATAR,
+      avatar: assets.walletIcons.default,
       address: CheckedAddress('0x1234567890123456789012345678901234567890'),
     },
     dropdownContentInfo: {
       walletIcon: assets.walletIcons.metamask,
       address: CheckedAddress('0x1234567890123456789012345678901234567890'),
       onDisconnect: () => {},
-      isEphemeralAccount: false,
-      isInSandbox: false,
       blockExplorerAddressLink: '/',
     },
   },
@@ -79,25 +76,10 @@ export const Sandbox: Story = {
     connectedWalletInfo: {
       dropdownContentInfo: {
         ...args.connectedWalletInfo.dropdownContentInfo,
-        isInSandbox: true,
-        isEphemeralAccount: true,
       },
       dropdownTriggerInfo: {
         ...args.connectedWalletInfo.dropdownTriggerInfo,
         mode: 'sandbox',
-      },
-    },
-  },
-}
-
-export const ReadOnly: Story = {
-  args: {
-    ...args,
-    connectedWalletInfo: {
-      ...args.connectedWalletInfo,
-      dropdownTriggerInfo: {
-        ...args.connectedWalletInfo.dropdownTriggerInfo,
-        mode: 'read-only',
       },
     },
   },

@@ -83,8 +83,10 @@ export class ConvertStablesDialogPageObject extends DialogPageObject {
 
   async expectTransactionOverview(transactionOverview: TxOverviewWithRoute): Promise<void> {
     await this.expectTransactionOverviewRoute(transactionOverview.routeItems)
-    await this.expectSkyBadgeForTokens(transactionOverview.badgeTokens)
     await this.expectOutcomeText(transactionOverview.outcome)
+    if (transactionOverview.outcomeUsd) {
+      await this.expectOutcomeUsdText(transactionOverview.outcomeUsd)
+    }
   }
 
   async expectAssetInSelectorSelectedOption(option: string): Promise<void> {
@@ -100,7 +102,7 @@ export class ConvertStablesDialogPageObject extends DialogPageObject {
     expect(selectorOptions).toHaveLength(options.length)
 
     for (const [index, option] of selectorOptions.entries()) {
-      await expect(option).toHaveText(options[index]!)
+      await expect(option).toContainText(options[index]!)
     }
   }
 

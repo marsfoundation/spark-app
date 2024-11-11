@@ -1,8 +1,6 @@
 import { ActionRow } from '@/features/actions/components/action-row/ActionRow'
-import { UpDownMarker } from '@/features/actions/components/action-row/UpDownMarker'
 import { ActionRowBaseProps } from '@/features/actions/components/action-row/types'
-import { assets, getTokenImage } from '@/ui/assets'
-import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
+import { ArrowRightLeftIcon } from 'lucide-react'
 import { WithdrawFromSavingsAction } from './types'
 
 export interface WithdrawFromSavingsActionRowProps extends ActionRowBaseProps {
@@ -11,33 +9,23 @@ export interface WithdrawFromSavingsActionRowProps extends ActionRowBaseProps {
 
 export function WithdrawFromSavingsActionRow({
   action: { savingsToken, token, amount, mode },
-  index,
-  actionHandlerState,
-  onAction,
-  variant,
+  ...props
 }: WithdrawFromSavingsActionRowProps) {
-  const tokenIconPaths = [getTokenImage(savingsToken.symbol), getTokenImage(token.symbol)]
-  const status = actionHandlerState.status
-  const successMessage = `Converted${mode === 'send' ? ' and sent' : ''} ${savingsToken.format(amount, { style: 'auto' })} ${token.symbol}!`
-
   return (
-    <ActionRow index={index}>
-      <ActionRow.Icon path={assets.actions.exchange} actionStatus={status} />
+    <ActionRow {...props}>
+      <ActionRow.Icon icon={ArrowRightLeftIcon} />
 
-      <ActionRow.Title icon={<IconStack paths={tokenIconPaths} stackingOrder="last-on-top" />} actionStatus={status}>
+      <ActionRow.Title>
+        <ActionRow.Title.Tokens tokens={[savingsToken, token]} />
         Convert {savingsToken.symbol} to {token.symbol}
         {mode === 'send' ? ' and send' : ''}
       </ActionRow.Title>
 
-      <ActionRow.Description successMessage={successMessage} actionStatus={status} variant={variant}>
-        <UpDownMarker token={token} value={amount} direction="up" />
-      </ActionRow.Description>
+      <ActionRow.Amount token={savingsToken} amount={amount} />
 
-      <ActionRow.ErrorWarning variant={variant} actionHandlerState={actionHandlerState} />
+      <ActionRow.ErrorWarning />
 
-      <ActionRow.Action onAction={onAction} status={status}>
-        {mode === 'send' ? 'Send' : 'Convert'}
-      </ActionRow.Action>
+      <ActionRow.Trigger>{mode === 'send' ? 'Send' : 'Convert'}</ActionRow.Trigger>
     </ActionRow>
   )
 }

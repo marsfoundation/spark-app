@@ -1,27 +1,33 @@
-import BoxArrowTopRight from '@/ui/assets/box-arrow-top-right.svg?react'
-import { Link } from '@/ui/atoms/link/Link'
+import { ButtonIcon } from '@/ui/atoms/new/button/Button'
+import { LinkButton } from '@/ui/atoms/new/link-button/LinkButton'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
+import { SquareArrowOutUpRight } from 'lucide-react'
 import { InputHTMLAttributes, forwardRef } from 'react'
 
 interface AddressInputProps extends InputHTMLAttributes<HTMLInputElement> {
   error: string | undefined
   blockExplorerUrl: string | undefined
+  label?: string
 }
 
 export const AddressInput = forwardRef<HTMLInputElement, AddressInputProps>(
-  ({ error, blockExplorerUrl, ...rest }, ref) => {
+  ({ error, blockExplorerUrl, label, ...rest }, ref) => {
     return (
       <div className="flex flex-col gap-2">
+        {label && <div className="typography-label-5 text-secondary">{label}</div>}
         <div
           className={cn(
-            'relative flex h-14 border-basics-border bg-input-background text-basics-dark-grey',
-            'w-full flex-grow items-center rounded-xl border text-[0.7rem] leading-none sm:text-base',
-            error && 'border-error bg-error/10 text-error',
+            'grid h-14 grid-cols-[1fr_auto] gap-2',
+            'typography-label-6 sm:typography-label-4 text-primary',
+            'rounded-sm border border-primary bg-secondary',
+            'focus-within:border-brand-primary',
+            'items-center rounded-sm px-3 sm:px-4',
+            error && 'border-reskin-error-200 bg-system-error-primary',
           )}
         >
           <input
-            className={cn('flex h-full w-full rounded-xl pl-3 sm:pl-4 focus:outline-none', error && 'outline-error')}
+            className={cn('flex w-full focus:outline-none')}
             maxLength={42}
             ref={ref}
             placeholder="Receiver address"
@@ -31,19 +37,16 @@ export const AddressInput = forwardRef<HTMLInputElement, AddressInputProps>(
             {...rest}
           />
           {blockExplorerUrl && (
-            <div className="absolute right-0 mr-3 sm:mr-4">
-              <Link
-                to={blockExplorerUrl}
-                external
-                className="flex items-center gap-2.5 font-medium text-basics-dark-grey text-sm"
-              >
-                <BoxArrowTopRight className={cn('h-4 w-4', error && 'text-error')} />
-              </Link>
-            </div>
+            <LinkButton to={blockExplorerUrl} variant="transparent" size="s" className="h-fit rounded-[1px] p-0">
+              <ButtonIcon icon={SquareArrowOutUpRight} />
+            </LinkButton>
           )}
         </div>
         {error && (
-          <div className="text-error text-xs" data-testid={testIds.component.AddressInput.error}>
+          <div
+            className="typography-label-6 text-system-error-primary"
+            data-testid={testIds.component.AddressInput.error}
+          >
             {error}
           </div>
         )}

@@ -7,7 +7,7 @@ import { base } from 'viem/chains'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 
 test.describe('Deposit USDS', () => {
-  const fork = setupFork({ chainId: base.id })
+  const fork = setupFork({ chainId: base.id, blockNumber: 22143788n, useTenderlyVnet: true })
   let savingsPage: SavingsPageObject
   let depositDialog: SavingsDialogPageObject
 
@@ -41,7 +41,7 @@ test.describe('Deposit USDS', () => {
     await depositDialog.expectNativeRouteTransactionOverview({
       apy: {
         value: '6.50%',
-        description: '~650.00 USDS per year',
+        description: 'Earn ~650.00 USDS/year',
       },
       routeItems: [
         {
@@ -49,12 +49,12 @@ test.describe('Deposit USDS', () => {
           tokenUsdValue: '$10,000.00',
         },
         {
-          tokenAmount: '9,943.09 sUSDS',
+          tokenAmount: '9,911.77 sUSDS',
           tokenUsdValue: '$10,000.00',
         },
       ],
-      outcome: '9,943.09 sUSDS worth $10,000.00',
-      badgeTokens: 'USDS',
+      outcome: '9,911.77 sUSDS',
+      outcomeUsd: '$10,000.00',
     })
 
     await depositDialog.expectUpgradeSwitchToBeHidden()
@@ -67,7 +67,7 @@ test.describe('Deposit USDS', () => {
     await depositDialog.expectSuccessPage()
     await depositDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '9,943.08 sUSDS', estimatedUsdsValue: '10,000' })
+    await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '9,911.77 sUSDS', estimatedUsdsValue: '10,000' })
     await savingsPage.expectStablecoinsInWalletAssetBalance('USDS', '-')
   })
 })

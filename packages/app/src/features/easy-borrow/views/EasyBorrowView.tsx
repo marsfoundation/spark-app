@@ -5,9 +5,8 @@ import { Percentage } from '@/domain/types/NumericValues'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { PageLayout } from '@/ui/layouts/PageLayout'
 import { UseFormReturn } from 'react-hook-form'
-import { BorrowRateBanner } from '../components/BorrowRateBanner'
 import { EasyBorrowPanel } from '../components/EasyBorrowPanel'
-import { EasyBorrowSidePanel } from '../components/note/EasyBorrowSidePanel'
+import { EasyBorrowSidePanel } from '../components/side-panel/EasyBorrowSidePanel'
 import { FormFieldsForAssetClass } from '../logic/form/form'
 import { EasyBorrowFormSchema } from '../logic/form/validation'
 import { ExistingPosition, PageStatus } from '../logic/types'
@@ -36,10 +35,19 @@ export interface EasyBorrowViewProps {
 export function EasyBorrowView(props: EasyBorrowViewProps) {
   return (
     <PageLayout>
-      <BorrowRateBanner assetsToBorrowMeta={props.borrowDetails} />
-      <div className="mt-8 flex justify-center">
+      <div className="typography-heading-1 text-primary">
+        Borrow {props.borrowDetails.dai}
+        {props.borrowDetails.usds ? ` or ${props.borrowDetails.usds}` : ''}
+      </div>
+      <div className="mt-8 xl:grid xl:grid-cols-[67%_calc(33%-18px)] xl:gap-[18px]">
         <EasyBorrowPanel {...props} />
-        <EasyBorrowSidePanel borrowRate={props.borrowDetails.borrowRate} />
+        <div className="sticky top-2 hidden h-fit xl:block">
+          <EasyBorrowSidePanel
+            {...props.borrowDetails}
+            hf={props.pageStatus.state === 'confirmation' ? props.updatedPositionSummary.healthFactor : undefined}
+            liquidationDetails={props.liquidationDetails}
+          />
+        </div>
       </div>
     </PageLayout>
   )

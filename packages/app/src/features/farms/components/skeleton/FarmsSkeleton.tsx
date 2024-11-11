@@ -3,12 +3,10 @@ import { PageLayout } from '@/ui/layouts/PageLayout'
 
 export function FarmsSkeleton() {
   return (
-    <PageLayout className="max-w-5xl gap-8">
-      <div className="flex flex-row items-center gap-4">
-        <Skeleton className="h-12 w-56" />
-      </div>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3 sm:grid-cols-2 md:gap-8">
-        {Array.from({ length: 4 }).map((_, index) => (
+    <PageLayout>
+      <Skeleton className="h-[60px] w-[270px]" />
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 md:grid-cols-2 md:gap-8">
+        {Array.from({ length: 2 }).map((_, index) => (
           <Skeleton className="h-80" key={index} />
         ))}
       </div>

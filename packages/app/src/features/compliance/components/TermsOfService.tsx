@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 
 import { MultiPanelDialog } from '@/features/dialogs/common/components/MultiPanelDialog'
 import { assets } from '@/ui/assets'
-import { Button } from '@/ui/atoms/button/Button'
 import { Link } from '@/ui/atoms/link/Link'
+import { Button } from '@/ui/atoms/new/button/Button'
 import { ScrollArea } from '@/ui/atoms/scroll-area/ScrollArea'
 import { Tooltip, TooltipContentShort } from '@/ui/atoms/tooltip/Tooltip'
 import { TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
@@ -106,13 +106,13 @@ export function TermsOfService({ onAgree }: TermsOfServiceProps) {
       </ScrollArea>
 
       {hasUserReadTerms ? (
-        <Button className="mt-2 w-full" size="lg" onClick={onAgree}>
+        <Button className="mt-2 w-full" size="l" onClick={onAgree}>
           Agree and Continue
         </Button>
       ) : (
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button disabled className="mt-2 w-full disabled:pointer-events-auto" size="lg" onClick={onAgree}>
+            <Button disabled className="mt-2 w-full" size="l" onClick={onAgree}>
               Agree and Continue
             </Button>
           </TooltipTrigger>

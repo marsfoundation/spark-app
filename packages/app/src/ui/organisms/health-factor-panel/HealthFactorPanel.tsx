@@ -1,15 +1,14 @@
-import BigNumber from 'bignumber.js'
-import { forwardRef } from 'react'
-
 import { LiquidationDetails } from '@/domain/market-info/getLiquidationDetails'
 import { HealthFactorBadge } from '@/ui/atoms/health-factor-badge/HealthFactorBadge'
 import { HealthFactorGauge } from '@/ui/atoms/health-factor-gauge/HealthFactorGauge'
 import { Link } from '@/ui/atoms/link/Link'
-import { Panel } from '@/ui/atoms/panel/Panel'
 import { links } from '@/ui/constants/links'
 import { Info } from '@/ui/molecules/info/Info'
 import { cn } from '@/ui/utils/style'
+import BigNumber from 'bignumber.js'
+import { forwardRef } from 'react'
 
+import { Panel } from '@/ui/atoms/new/panel/Panel'
 import { LiquidationOverview } from './components/LiquidationOverview'
 
 export interface HealthFactorPanelProps {
@@ -22,10 +21,10 @@ export interface HealthFactorPanelProps {
 export const HealthFactorPanel = forwardRef<HTMLDivElement, HealthFactorPanelProps>(
   ({ hf, liquidationDetails, variant, className }, ref) => {
     return (
-      <Panel className={cn('w-full bg-white px-6 py-4', className)} ref={ref}>
-        <Panel.Header className="flex w-full flex-row justify-between">
+      <Panel className={cn('w-full', className)} ref={ref}>
+        <div className="flex w-full flex-row justify-between">
           <div className="flex flex-row items-center gap-1">
-            <Panel.Title className="text-xl sm:text-2xl">Health Factor</Panel.Title>
+            <div className="text-xl sm:text-2xl">Health Factor</div>
             <Info>
               <p>
                 The health factor is a number that shows how safe your assets are in the protocol. It's calculated by
@@ -47,9 +46,9 @@ export const HealthFactorPanel = forwardRef<HTMLDivElement, HealthFactorPanelPro
           </div>
 
           <HealthFactorBadge hf={hf} />
-        </Panel.Header>
+        </div>
 
-        <Panel.Content className="flex h-full flex-col justify-center">
+        <div className="flex h-full flex-col justify-center">
           <div className={cn('flex flex-col justify-center gap-4', variant === 'full-details' && 'sm:flex-row')}>
             <div
               className={cn(
@@ -62,7 +61,7 @@ export const HealthFactorPanel = forwardRef<HTMLDivElement, HealthFactorPanelPro
             </div>
             <LiquidationOverview liquidationDetails={liquidationDetails} variant={variant} />
           </div>
-        </Panel.Content>
+        </div>
       </Panel>
     )
   },

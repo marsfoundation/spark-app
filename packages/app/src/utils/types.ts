@@ -43,3 +43,6 @@ export type SimplifiedQueryResult<T, E = unknown> =
       error: E
       data: T | undefined
     }
+
+type RequiredKeys<T> = { [K in keyof T]: T[K] extends null | undefined ? never : K }[keyof T]
+export type RequiredProps<T> = { [K in RequiredKeys<T>]: Exclude<T[K], null | undefined> }

@@ -8,7 +8,7 @@ import { base } from 'viem/chains'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 
 test.describe('Send USDS', () => {
-  const fork = setupFork({ chainId: base.id })
+  const fork = setupFork({ chainId: base.id, blockNumber: 22143788n, useTenderlyVnet: true })
   let savingsPage: SavingsPageObject
   let sendDialog: SavingsDialogPageObject
   const receiver = randomAddress('bob')
@@ -46,7 +46,7 @@ test.describe('Send USDS', () => {
     await sendDialog.expectNativeRouteTransactionOverview({
       routeItems: [
         {
-          tokenAmount: '6,960.16 sUSDS',
+          tokenAmount: '6,938.24 sUSDS',
           tokenUsdValue: '$7,000.00',
         },
         {
@@ -54,8 +54,8 @@ test.describe('Send USDS', () => {
           tokenUsdValue: '$7,000.00',
         },
       ],
-      outcome: '7,000.00 USDS worth $7,000.00',
-      badgeTokens: 'USDS',
+      outcome: '7,000.00 USDS',
+      outcomeUsd: '$7,000.00',
     })
   })
 
@@ -78,7 +78,7 @@ test.describe('Send USDS', () => {
     })
 
     await sendDialog.clickBackToSavingsButton()
-    await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '3,039.84 sUSDS', estimatedUsdsValue: '3,057' })
+    await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '3,061.76 sUSDS', estimatedUsdsValue: '3,089' })
     await savingsPage.expectStablecoinsInWalletAssetBalance('USDS', '-')
   })
 })

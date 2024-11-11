@@ -1,5 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/atoms/tabs/Tabs'
 
+import { PageLayout } from '@/ui/layouts/PageLayout'
 import { MarketOverview as MarketOverviewPanel } from '../../components/market-overview/MarketOverview'
 import { MyWalletPanel } from '../../components/my-wallet/MyWalletPanel'
 import { OraclePanel } from '../../components/oracle-panel/OraclePanel'
@@ -22,11 +23,12 @@ export function CompactView({
   marketOverview,
   walletOverview,
   openConnectModal,
+  openSandboxModal,
   openDialog,
   oracleInfo,
 }: MarketDetailsViewProps) {
   return (
-    <div className="w-full pt-5 pb-8">
+    <PageLayout className="gap-0">
       <BackNav chainId={chainId} chainName={chainName} />
       <Header
         token={token}
@@ -37,11 +39,11 @@ export function CompactView({
         chainId={chainId}
       />
       <Tabs defaultValue="overview">
-        <TabsList className="sticky top-0 z-10 bg-body pt-2">
+        <TabsList className="bg-body pt-2">
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="actions">Actions</TabsTrigger>
         </TabsList>
-        <TabsContent value="overview" className="flex flex-col gap-4 px-3">
+        <TabsContent value="overview" className="flex flex-col gap-4">
           {(marketOverview.borrow.status === 'no' ? !marketOverview.summary.borrowed.isZero() : true) && (
             <MarketOverviewPanel token={token} {...marketOverview.summary} />
           )}
@@ -54,6 +56,7 @@ export function CompactView({
         </TabsContent>
         <TabsContent value="actions" className="px-3">
           <MyWalletPanel
+            openSandboxModal={openSandboxModal}
             openDialog={openDialog}
             walletOverview={walletOverview}
             openConnectModal={openConnectModal}
@@ -61,6 +64,6 @@ export function CompactView({
           />
         </TabsContent>
       </Tabs>
-    </div>
+    </PageLayout>
   )
 }

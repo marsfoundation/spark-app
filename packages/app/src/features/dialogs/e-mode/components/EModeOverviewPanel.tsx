@@ -1,9 +1,5 @@
-import { DialogPanel } from '@/features/dialogs/common/components/DialogPanel'
-import { DialogPanelTitle } from '@/features/dialogs/common/components/DialogPanelTitle'
-import { HealthFactorChange } from '../../common/components/transaction-overview/HealthFactorChange'
+import { TransactionOverview } from '@/ui/organisms/new/transaction-overview/TransactionOverview'
 import { EModeCategory, PositionOverview } from '../types'
-import { AvailableAssets } from './AvailableAssets'
-import { LTVChange } from './LTVChange'
 
 export interface EModeOverviewPanelProps {
   eModeCategory: EModeCategory
@@ -16,14 +12,27 @@ export function EModeOverviewPanel({
   updatedPositionOverview,
 }: EModeOverviewPanelProps) {
   return (
-    <DialogPanel>
-      <DialogPanelTitle>Transaction overview</DialogPanelTitle>
-      <AvailableAssets categoryName={eModeCategory.name} tokens={eModeCategory.tokens} />
-      <HealthFactorChange
-        currentHealthFactor={currentPositionOverview.healthFactor}
-        updatedHealthFactor={updatedPositionOverview?.healthFactor}
-      />
-      <LTVChange currentMaxLTV={currentPositionOverview.maxLTV} updatedMaxLTV={updatedPositionOverview?.maxLTV} />
-    </DialogPanel>
+    <TransactionOverview>
+      <TransactionOverview.Row>
+        <TransactionOverview.Label>Available assets</TransactionOverview.Label>
+        <TransactionOverview.AvailableAssets categoryName={eModeCategory.name} tokens={eModeCategory.tokens} />
+      </TransactionOverview.Row>
+      {currentPositionOverview.healthFactor && (
+        <TransactionOverview.Row>
+          <TransactionOverview.Label>Health factor</TransactionOverview.Label>
+          <TransactionOverview.HealthFactorChange
+            currentHealthFactor={currentPositionOverview.healthFactor}
+            updatedHealthFactor={updatedPositionOverview?.healthFactor}
+          />
+        </TransactionOverview.Row>
+      )}
+      <TransactionOverview.Row>
+        <TransactionOverview.Label>Maximum LTV</TransactionOverview.Label>
+        <TransactionOverview.MaxLtvChange
+          currentMaxLTV={currentPositionOverview.maxLTV}
+          updatedMaxLTV={updatedPositionOverview?.maxLTV}
+        />
+      </TransactionOverview.Row>
+    </TransactionOverview>
   )
 }

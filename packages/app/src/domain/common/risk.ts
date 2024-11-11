@@ -38,3 +38,12 @@ export const riskLevelToTitle: Record<RiskLevel, string> = {
   healthy: 'Healthy',
   'no debt': 'No debt',
 }
+
+export const riskLevelToStateVariant: Record<RiskLevel, 'success' | 'warning' | 'error' | 'neutral'> = {
+  unknown: 'neutral',
+  liquidation: 'error',
+  risky: 'error',
+  moderate: 'warning',
+  healthy: 'success',
+  'no debt': 'success',
+}
