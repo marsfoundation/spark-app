@@ -5,13 +5,13 @@ import { getMockToken, testAddresses } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
 import { setupUseContractActionRenderer } from '@/test/integration/setupUseContractActionRenderer'
 import { waitFor } from '@testing-library/react'
-import { mainnet } from 'viem/chains'
 import { describe, test } from 'vitest'
 import { createSetUseAsCollateralActionConfig } from './setUseAsCollateralAction'
+import { lastSepolia } from '@/config/chain/constants'
 
 const collateral = getMockToken({ symbol: TokenSymbol('TEST') })
 const account = testAddresses.alice
-const chainId = mainnet.id
+const chainId = lastSepolia.id
 
 const hookRenderer = setupUseContractActionRenderer({
   account,

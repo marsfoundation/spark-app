@@ -10,15 +10,15 @@ import { createUpdatableHandler } from '@/test/integration/mockTransport/handler
 import { setupUseContractActionRenderer } from '@/test/integration/setupUseContractActionRenderer'
 import { toBigInt } from '@/utils/bigNumber'
 import { waitFor } from '@testing-library/react'
-import { mainnet } from 'viem/chains'
 import { describe, expect, test } from 'vitest'
 import { createApproveDelegationActionConfig } from './approveDelegationAction'
 import { getBorrowAllowanceQueryKey } from './query'
+import { lastSepolia } from '@/config/chain/constants'
 
 const approveValue = NormalizedUnitNumber(1)
 const token = getMockToken({ symbol: TokenSymbol('ETH'), address: NATIVE_ASSET_MOCK_ADDRESS })
 const account = testAddresses.alice
-const chainId = mainnet.id
+const chainId = lastSepolia.id
 const marketInfo = getMockMarketInfo()
 const debtTokenAddress = marketInfo.findOneReserveByToken(token).variableDebtTokenAddress
 const wethGateway = wethGatewayAddress[chainId]

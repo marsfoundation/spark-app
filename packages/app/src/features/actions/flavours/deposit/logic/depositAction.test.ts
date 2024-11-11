@@ -10,16 +10,16 @@ import { toBigInt } from '@/utils/bigNumber'
 import { getTimestampInSeconds } from '@/utils/time'
 import { waitFor } from '@testing-library/react'
 import { generatePrivateKey } from 'viem/accounts'
-import { mainnet } from 'viem/chains'
 import { describe, test } from 'vitest'
 import { createPermitStore } from '../../../logic/permits'
 import { createDepositActionConfig } from './depositAction'
+import { lastSepolia } from '@/config/chain/constants'
 
 const depositValue = NormalizedUnitNumber(1)
 const depositToken = getMockToken({ symbol: TokenSymbol('TEST') })
 const nativeAsset = getMockToken({ address: NATIVE_ASSET_MOCK_ADDRESS })
 const account = testAddresses.alice
-const chainId = mainnet.id
+const chainId = lastSepolia.id
 const referralCode = LAST_UI_REFERRAL_CODE
 
 const hookRenderer = setupUseContractActionRenderer({
@@ -34,10 +34,10 @@ describe(createDepositActionConfig.name, () => {
       args: { action: { type: 'deposit', token: nativeAsset, value: depositValue }, enabled: true },
       extraHandlers: [
         handlers.contractCall({
-          to: wethGatewayAddress[mainnet.id],
+          to: wethGatewayAddress[lastSepolia.id],
           abi: wethGatewayAbi,
           functionName: 'depositETH',
-          args: [lendingPoolAddress[mainnet.id], account, referralCode],
+          args: [lendingPoolAddress[lastSepolia.id], account, referralCode],
           from: account,
           result: undefined,
           value: toBigInt(nativeAsset.toBaseUnit(depositValue)),
@@ -61,7 +61,7 @@ describe(createDepositActionConfig.name, () => {
     const { result } = hookRenderer({
       extraHandlers: [
         handlers.contractCall({
-          to: lendingPoolAddress[mainnet.id],
+          to: lendingPoolAddress[lastSepolia.id],
           abi: poolAbi,
           functionName: 'supply',
           args: [depositToken.address, toBigInt(depositToken.toBaseUnit(depositValue)), account, referralCode],
@@ -100,7 +100,7 @@ describe(createDepositActionConfig.name, () => {
     const { result } = hookRenderer({
       extraHandlers: [
         handlers.contractCall({
-          to: lendingPoolAddress[mainnet.id],
+          to: lendingPoolAddress[lastSepolia.id],
           abi: poolAbi,
           functionName: 'supplyWithPermit',
           args: [

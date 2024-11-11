@@ -14,9 +14,9 @@ import { toBigInt } from '@/utils/bigNumber'
 import { getTimestampInSeconds } from '@/utils/time'
 import { waitFor } from '@testing-library/react'
 import { generatePrivateKey } from 'viem/accounts'
-import { mainnet } from 'viem/chains'
 import { describe, test } from 'vitest'
 import { createRepayActionConfig } from './repayAction'
+import { lastSepolia } from '@/config/chain/constants'
 
 const repayValue = NormalizedUnitNumber(1)
 const repayToken = getMockToken({ symbol: TokenSymbol('TEST') })
@@ -25,7 +25,7 @@ const repayValueBigInt = toBigInt(repayToken.toBaseUnit(repayValue))
 const nativeAsset = getMockToken({ address: NATIVE_ASSET_MOCK_ADDRESS })
 const nativeAssetReserve = getMockReserve({ token: nativeAsset })
 const account = testAddresses.alice
-const chainId = mainnet.id
+const chainId = lastSepolia.id
 const interestRateMode = BigInt(InterestRate.Variable)
 const lendingPool = lendingPoolAddress[chainId]
 
@@ -44,7 +44,7 @@ describe(createRepayActionConfig.name, () => {
       },
       extraHandlers: [
         handlers.contractCall({
-          to: lendingPoolAddress[mainnet.id],
+          to: lendingPoolAddress[lastSepolia.id],
           abi: poolAbi,
           functionName: 'repayWithATokens',
           args: [repayToken.address, repayValueBigInt, interestRateMode],
@@ -82,10 +82,10 @@ describe(createRepayActionConfig.name, () => {
       },
       extraHandlers: [
         handlers.contractCall({
-          to: wethGatewayAddress[mainnet.id],
+          to: wethGatewayAddress[lastSepolia.id],
           abi: wethGatewayAbi,
           functionName: 'repayETH',
-          args: [lendingPoolAddress[mainnet.id], repayValueBigInt, account],
+          args: [lendingPoolAddress[lastSepolia.id], repayValueBigInt, account],
           from: account,
           result: undefined,
           value: repayValueBigInt,
@@ -109,7 +109,7 @@ describe(createRepayActionConfig.name, () => {
     const { result } = hookRenderer({
       extraHandlers: [
         handlers.contractCall({
-          to: lendingPoolAddress[mainnet.id],
+          to: lendingPoolAddress[lastSepolia.id],
           abi: poolAbi,
           functionName: 'repay',
           args: [repayToken.address, repayValueBigInt, interestRateMode, account],
@@ -148,7 +148,7 @@ describe(createRepayActionConfig.name, () => {
     const { result } = hookRenderer({
       extraHandlers: [
         handlers.contractCall({
-          to: lendingPoolAddress[mainnet.id],
+          to: lendingPoolAddress[lastSepolia.id],
           abi: poolAbi,
           functionName: 'repayWithPermit',
           args: [

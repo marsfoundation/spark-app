@@ -39,7 +39,8 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
     permitSupport: {
       [CheckedAddress('0x04f42e29D6057B7D70Ea1cab8E516C0029420B64')]: true, // USDC
       [CheckedAddress('0xc9Fc065b2e986f29138Bd398E6FaAbd291c58B8E')]: true, // USDT
-      [CheckedAddress('0x7eA65834587ABF89A94d238a404C4A638Fc7641B')]: false, // WETH
+      // [CheckedAddress('0x7eA65834587ABF89A94d238a404C4A638Fc7641B')]: false, // WETH
+      [CheckedAddress('0x1A86bA62361DDCc680b2B230c7b3CcF5D777ed7E')]: false, // testWETH
     },
     tokensWithMalformedApprove: [],
     airdrop: {},
@@ -59,8 +60,8 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
       defaultAssetToBorrow: TokenSymbol('USDC'),
       nativeAssetInfo: {
         nativeAssetName: 'Ethereum',
-        wrappedNativeAssetSymbol: TokenSymbol('WETH'),
-        wrappedNativeAssetAddress: CheckedAddress('0x7eA65834587ABF89A94d238a404C4A638Fc7641B'),
+        wrappedNativeAssetSymbol: TokenSymbol('testWETH'),
+        wrappedNativeAssetAddress: CheckedAddress('0x1A86bA62361DDCc680b2B230c7b3CcF5D777ed7E'),
         nativeAssetSymbol: TokenSymbol('ETH'),
         minRemainingNativeAssetBalance: NormalizedUnitNumber(0.001),
       },
@@ -68,7 +69,7 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
         ...commonTokenSymbolToReplacedName,
       },
       oracles: {
-        [TokenSymbol('WETH')]: {
+        [TokenSymbol('testWETH')]: {
           type: 'market-price',
           providedBy: ['chainlink', 'chronicle'],
         },
