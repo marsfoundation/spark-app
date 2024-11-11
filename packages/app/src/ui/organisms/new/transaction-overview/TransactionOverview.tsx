@@ -10,6 +10,7 @@ import { TransactionOverviewHealthFactorChange } from './rows/TransactionOvervie
 import { TransactionOverviewMaxLtvChange } from './rows/TransactionOverviewMaxLtvChange'
 import { TransactionOverviewRoute, TransactionOverviewRoutePlaceholder } from './rows/TransactionOverviewRoute'
 import { TransactionOverviewSavingsApy } from './rows/TransactionOverviewSavingsApy'
+import { TransactionOverviewStakedInFarm } from './rows/TransactionOverviewStakedInFarm'
 import { TransactionOverviewTokenAmount } from './rows/TransactionOverviewTokenAmount'
 import { TransactionOverviewTokenAmountChange } from './rows/TransactionOverviewTokenAmountChange'
 
@@ -75,6 +76,7 @@ TransactionOverview.TokenAmountChange = TransactionOverviewTokenAmountChange
 TransactionOverview.HealthFactorChange = TransactionOverviewHealthFactorChange
 TransactionOverview.AvailableAssets = TransactionOverviewAvailableAssets
 TransactionOverview.MaxLtvChange = TransactionOverviewMaxLtvChange
+TransactionOverview.StakedInFarm = TransactionOverviewStakedInFarm
 TransactionOverview.Generic = TransactionOverviewGenericRow
 
 export { TransactionOverview }

@@ -71,12 +71,10 @@ function StakeTransactionOverview({ txOverview }: StakeTransactionOverviewProps)
       </TransactionOverview.Row>
       <TransactionOverview.Row>
         <TransactionOverview.Label>Outcome</TransactionOverview.Label>
-        <TransactionOverview.TokenAmount
+        <TransactionOverview.StakedInFarm
           token={stakingToken}
           amount={stakingTokenRouteItem.value}
-          usdAmount={stakingTokenRouteItem.usdValue}
-          amountDataTestId={testIds.farmDetails.stakeDialog.transactionOverview.outcome}
-          usdAmountDataTestId={testIds.farmDetails.stakeDialog.transactionOverview.outcomeUsd}
+          farmName={`${rewardToken.symbol} Farm`}
         />
       </TransactionOverview.Row>
     </TransactionOverview>

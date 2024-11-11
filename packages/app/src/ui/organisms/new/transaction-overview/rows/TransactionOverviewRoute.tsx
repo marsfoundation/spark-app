@@ -62,7 +62,7 @@ export function TransactionOverviewRoutePlaceholder({ className, ...rest }: HTML
   return (
     <div
       {...rest}
-      className={cn('typography-label-4 flex min-h-[38px] flex-col justify-center text-primary', className)}
+      className={cn('typography-label-4 flex min-h-[42px] flex-col justify-center text-primary', className)}
     />
   )
 }
