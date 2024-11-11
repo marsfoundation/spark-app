@@ -99,9 +99,7 @@ test.describe('Savings deposit dialog', () => {
   })
 
   test.describe('Base', () => {
-    const fork = setupFork({
-      chainId: base.id,
-    })
+    const fork = setupFork({ chainId: base.id, blockNumber: 22143788n, useTenderlyVnet: true })
 
     let depositDialog: SavingsDialogPageObject
     let savingsPage: SavingsPageObject

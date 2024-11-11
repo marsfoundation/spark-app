@@ -1,5 +1,5 @@
 import { http, Chain, Transport } from 'viem'
-import { gnosis, mainnet } from 'viem/chains'
+import { base, gnosis, mainnet } from 'viem/chains'
 import { VIEM_TIMEOUT_ON_FORKS } from './config.e2e'
 import { getInjectedNetwork } from './getInjectedNetwork'
 
@@ -7,23 +7,19 @@ const ALCHEMY_API_KEY = 'WVOCPHOxAVE1R9PySEqcO7WX2b9_V-9L'
 
 export interface GetTransportsParamsOptions {
   forkChain?: Chain
-  baseDevNetChain?: Chain
 }
 
 export type GetTransportsResult = Record<number, Transport>
 
-export function getTransports({ forkChain, baseDevNetChain }: GetTransportsParamsOptions): GetTransportsResult {
+export function getTransports({ forkChain }: GetTransportsParamsOptions): GetTransportsResult {
   const transports: Record<number, Transport> = {
     [mainnet.id]: http(`https://eth-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`),
     [gnosis.id]: http('https://rpc.ankr.com/gnosis'),
+    [base.id]: http('https://mainnet.base.org'),
   }
 
   if (forkChain) {
     transports[forkChain.id] = http(forkChain.rpcUrls.default.http[0], { timeout: VIEM_TIMEOUT_ON_FORKS })
-  }
-
-  if (baseDevNetChain) {
-    transports[baseDevNetChain.id] = http(baseDevNetChain.rpcUrls.default.http[0])
   }
 
   if (import.meta.env.VITE_FEATURE_RPC_INJECTION_VIA_URL === '1') {

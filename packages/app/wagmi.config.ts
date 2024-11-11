@@ -175,6 +175,12 @@ export default defineConfig({
             [base.id]: '0x65d946e533748A998B1f0E430803e39A6388f7a1',
           },
         },
+        {
+          name: 'BasePsm3',
+          address: {
+            [base.id]: '0x1601843c5E9bC251A3272907010AFa41Fa18347E',
+          },
+        },
       ],
     }),
   ],

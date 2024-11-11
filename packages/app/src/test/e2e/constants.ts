@@ -102,11 +102,11 @@ export const TOKENS_ON_FORK = {
       decimals: 6,
     },
     USDS: {
-      address: '0x21F5b5dF683B6885D6A88f330C4474ADeE2A6ed3',
+      address: '0x820C137fa70C8691f0e44Dc420a5e53c168921Dc',
       decimals: 18,
     },
     sUSDS: {
-      address: '0x02Edc8718799a22fCBeBEd0C58a1D09657C81bC8',
+      address: '0x5875eEE11Cf8398102FdAd704C9E96607675467a',
       decimals: 18,
     },
   },

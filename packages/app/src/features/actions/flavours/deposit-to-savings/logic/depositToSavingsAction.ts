@@ -1,7 +1,8 @@
-import { basePsm3Abi, basePsm3Address } from '@/config/abis/basePsm3Abi'
 import { susdsAbi } from '@/config/abis/susdsAbi'
 import { SPARK_UI_REFERRAL_CODE, SPARK_UI_REFERRAL_CODE_BIGINT } from '@/config/consts'
 import {
+  basePsm3Abi,
+  basePsm3Address,
   migrationActionsConfig,
   psmActionsConfig,
   savingsXDaiAdapterAbi,

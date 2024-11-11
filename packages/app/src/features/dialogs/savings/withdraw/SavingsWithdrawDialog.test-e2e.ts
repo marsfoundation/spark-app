@@ -58,9 +58,7 @@ test.describe('Savings withdraw dialog', () => {
   })
 
   test.describe('Base', () => {
-    const fork = setupFork({
-      chainId: base.id,
-    })
+    const fork = setupFork({ chainId: base.id, blockNumber: 22143788n, useTenderlyVnet: true })
 
     test('can switch between tokens', async ({ page }) => {
       await setup(page, fork, {
@@ -167,7 +165,7 @@ test.describe('Savings withdraw dialog send mode', () => {
   })
 
   test.describe('Base', () => {
-    const fork = setupFork({ chainId: base.id })
+    const fork = setupFork({ chainId: base.id, blockNumber: 22143788n, useTenderlyVnet: true })
     let savingsPage: SavingsPageObject
     let sendDialog: SavingsDialogPageObject
 

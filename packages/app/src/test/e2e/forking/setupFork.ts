@@ -1,9 +1,11 @@
+import { basePsm3Address } from '@/config/contracts-generated'
 import { tenderlyRpcActions } from '@/domain/tenderly/TenderlyRpcActions'
 import { Page, test } from '@playwright/test'
 import { http, createPublicClient } from 'viem'
 import { base, gnosis, mainnet } from 'viem/chains'
 import { injectUpdatedDate } from '../injectSetup'
 import { processEnv } from '../processEnv'
+import { injectFunds } from '../setup'
 import { ITestForkService } from './ITestForkService'
 import { TestTenderlyForkService } from './TestTenderlyForkService'
 import { TestTenderlyVnetService } from './TestTenderlyVnetService'
@@ -24,7 +26,7 @@ export interface ForkContext {
 // used only with tenderly forks (not vnets)
 export const _simulationDate = new Date('2024-06-04T10:21:19Z')
 
-type AvailableChainId = typeof mainnet.id | typeof gnosis.id
+type AvailableChainId = typeof mainnet.id | typeof gnosis.id | typeof base.id
 /**
  * Fork is shared across the whole test file and is fixed to a single block number.
  * It's created once and deleted after all tests are finished but after each test it's reverted to the initial state.
@@ -41,16 +43,13 @@ export type SetupForkOptions =
       chainId: AvailableChainId
       useTenderlyVnet: true // vnets are more powerful forks alternative provided by Tenderly
     }
-  | {
-      chainId: typeof base.id
-    }
 
 export function setupFork(options: SetupForkOptions): ForkContext {
   const apiKey = processEnv('TENDERLY_API_KEY')
   const tenderlyAccount = processEnv('TENDERLY_ACCOUNT')
   const tenderlyProject = processEnv('TENDERLY_PROJECT')
 
-  const isVnet = options.chainId === base.id || !!options.useTenderlyVnet
+  const isVnet = !!options.useTenderlyVnet
   const chainId = options.chainId
   const simulationDateOverride = !isVnet ? options.simulationDateOverride : undefined
 
@@ -81,15 +80,11 @@ export function setupFork(options: SetupForkOptions): ForkContext {
   // @todo refactor after dropping tenderly fork support
 
   test.beforeAll(async () => {
-    if (options.chainId !== base.id) {
-      forkContext.forkUrl = await forkService.createFork({
-        blockNumber: options.blockNumber,
-        originChainId: chainId,
-        forkChainId: chainId,
-      })
-    } else {
-      forkContext.forkUrl = await (forkService as TestTenderlyVnetService).cloneBaseDevNetFork()
-    }
+    forkContext.forkUrl = await forkService.createFork({
+      blockNumber: options.blockNumber,
+      originChainId: chainId,
+      forkChainId: chainId,
+    })
 
     if (simulationDate) {
       const deltaTimeForward = Math.floor((simulationDate.getTime() - Date.now()) / 1000)
@@ -115,6 +110,15 @@ export function setupFork(options: SetupForkOptions): ForkContext {
       forkContext.simulationDate = new Date(Number(block.timestamp) * 1000)
       forkContext.initialSimulationDate = forkContext.simulationDate
       await tenderlyRpcActions.evmSetNextBlockTimestamp(forkContext.forkUrl, Number(block.timestamp))
+    }
+
+    if (options.chainId === base.id) {
+      // inject liquidity for psm on base
+      await injectFunds(forkContext, basePsm3Address[base.id], {
+        USDS: 10_000_000,
+        sUSDS: 10_000_000,
+        USDC: 10_000_000,
+      })
     }
 
     forkContext.initialSnapshotId = await tenderlyRpcActions.snapshot(forkContext.forkUrl)

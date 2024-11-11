@@ -1,6 +1,5 @@
 import { randomHexId } from '@/utils/random'
 import { TenderlyVnetClient } from '../../../domain/tenderly/TenderlyVnetClient'
-import { processEnv } from '../processEnv'
 import { CreateForkArgs, ITestForkService } from './ITestForkService'
 
 export class TestTenderlyVnetService implements ITestForkService {
@@ -16,17 +15,6 @@ export class TestTenderlyVnetService implements ITestForkService {
       originChainId,
       blockNumber,
       name: `test-e2e-${randomHexId()}`,
-    })
-
-    return rpcUrl
-  }
-
-  async cloneBaseDevNetFork(): Promise<string> {
-    const BASE_DEVNET_CONTAINER_ID = processEnv('TENDERLY_BASE_DEVNET_CONTAINER_ID')
-
-    const { rpcUrl } = await this.client.clone({
-      displayName: `base-devnet-clone-test-e2e-${randomHexId()}`,
-      srcContainerId: BASE_DEVNET_CONTAINER_ID,
     })
 
     return rpcUrl
