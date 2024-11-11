@@ -74,7 +74,6 @@ function StakeTransactionOverview({ txOverview }: StakeTransactionOverviewProps)
         <TransactionOverview.StakedInFarm
           token={stakingToken}
           amount={stakingTokenRouteItem.value}
-          usdAmount={stakingTokenRouteItem.usdValue}
           farmName={`${rewardToken.symbol} Farm`}
         />
       </TransactionOverview.Row>

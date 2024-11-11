@@ -6,7 +6,7 @@ import { Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { assets } from '@/ui/assets'
-import { DocsLink } from '@/ui/atoms/docs-link/DocsLink'
+import { Link } from '@/ui/atoms/link/Link'
 import { links } from '@/ui/constants/links'
 import { EModeBadge } from '@/ui/molecules/e-mode-badge/EModeBadge'
 import { InfoTile } from '@/ui/molecules/info-tile/InfoTile'
@@ -70,15 +70,15 @@ export function EModeStatusPanel({
           E-Mode for {categoryName} assets increases your LTV within the {categoryName} category. This means that when
           E-Mode is enabled, you will have higher borrowing power for assets in this category:{' '}
           {eModeCategoryTokens.join(', ')}. You can enter E-Mode from your{' '}
-          <DocsLink to={paths.myPortfolio}>My portfolio</DocsLink>. To learn more about E-Mode and its applied
-          restrictions, visit the{' '}
-          <DocsLink to={links.docs.eMode} external>
+          <Link to={paths.myPortfolio}>My portfolio</Link>. To learn more about E-Mode and its applied restrictions,
+          visit the{' '}
+          <Link to={links.docs.eMode} external>
             FAQ
-          </DocsLink>{' '}
+          </Link>{' '}
           or the{' '}
-          <DocsLink to={links.aaveTechnicalPaper} external>
+          <Link to={links.aaveTechnicalPaper} external>
             Aave V3 Technical Paper
-          </DocsLink>
+          </Link>
           .
         </p>
       </InfoTilesGrid>
