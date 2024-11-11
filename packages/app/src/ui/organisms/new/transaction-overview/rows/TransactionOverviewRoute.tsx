@@ -29,7 +29,7 @@ export interface TransactionOverviewRouteProps {
 export function TransactionOverviewRoute({ route }: TransactionOverviewRouteProps) {
   return (
     <HorizontalScroll>
-      <div className="flex gap-2.5">
+      <div className="flex min-h-[42px] items-center gap-2.5">
         {route.map((item, index) => (
           <Fragment key={item.type === 'token-amount' ? item.token.symbol : item.upperText}>
             {item.type === 'token-amount' ? (
