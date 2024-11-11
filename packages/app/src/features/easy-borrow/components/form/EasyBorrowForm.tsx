@@ -63,7 +63,6 @@ export function EasyBorrowForm(props: EasyBorrowFlowProps) {
       </div>
 
       <LoanToValuePanel
-        className="hidden md:block"
         ltv={updatedPositionSummary.loanToValue}
         maxLtv={nonZeroOrDefault(updatedPositionSummary.maxLoanToValue, Percentage(0.8))}
         liquidationLtv={nonZeroOrDefault(updatedPositionSummary.currentLiquidationThreshold, Percentage(0.825))}
