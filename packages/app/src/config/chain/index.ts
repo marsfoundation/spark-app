@@ -340,8 +340,9 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
       savingsDaiInfoQuery: undefined,
       savingsUsdsInfoQuery: baseSavingsInfoQueryOptions,
       inputTokens: [TokenSymbol('USDC'), TokenSymbol('USDS')],
-      getEarningsApiUrl: undefined,
-      savingsRateApiUrl: undefined,
+      getEarningsApiUrl: (address) =>
+        `${infoSkyApiUrl}/savings-rate/wallets/${address.toLowerCase()}/?days_ago=9999&chainId=${base.id}`,
+      savingsRateApiUrl: `${infoSkyApiUrl}/savings-rate/?chainId=${base.id}`,
     },
     farms: undefined,
   },
