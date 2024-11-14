@@ -80,7 +80,7 @@ export function StablecoinsInWallet({
       </div>
       {showConvertDialogButton && (
         <div className="w-full gap-6 border-basics-border border-t p-4 md:px-8 md:py-6">
-          <div className="flex items-center justify-between">
+          <div className="grid grid-cols-[1fr_auto] items-center gap-3">
             <div className="flex items-center gap-3">
               <img src={uiAssets.token.sky} className="h-8 w-8 rounded-full border-2 border-[#DBCAF4]" />
               <div className="flex flex-col">
