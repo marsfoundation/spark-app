@@ -19,9 +19,13 @@ export function HealthFactorGauge({ value, className }: HealthFactorGaugeProps) 
   const croppedValue = Math.max(GAUGE_MIN, Math.min(GAUGE_MAX, value?.toNumber() ?? 0))
   const riskLevel = healthFactorToRiskLevel(value)
   const angle = 180 - ((croppedValue - GAUGE_MIN) / (GAUGE_MAX - GAUGE_MIN)) * 180
-  const maskSecondPoint = {
-    x: 200 + Math.cos((angle * Math.PI) / 180) * 180,
-    y: 200 - Math.sin((angle * Math.PI) / 180) * 180,
+  const gradientSecondPoint = {
+    x: 200 + Math.cos((angle * Math.PI) / 180) * 200,
+    y: 200 - Math.sin((angle * Math.PI) / 180) * 200,
+  }
+  const gradientThirdPoint = {
+    x: 200 + Math.cos((angle * Math.PI) / 180) * 160,
+    y: 200 - Math.sin((angle * Math.PI) / 180) * 160,
   }
   const indicatorLineCoords = {
     x1: 200 + Math.cos((angle * Math.PI) / 180) * 200,
@@ -62,15 +66,15 @@ export function HealthFactorGauge({ value, className }: HealthFactorGaugeProps) 
         <path d="M20 200 A 180 180 0 0 1 380 200" strokeWidth="40" stroke="#373642" fill="none" />
         <defs>
           <linearGradient id={gradientRiskyId}>
-            <stop offset="0%" stopColor="white" />
-            <stop offset="33.33%" stopColor="#FA5768" />
+            <stop offset="0%" stopColor="#FFDDDF" />
+            <stop offset="100%" stopColor="#FA5768" />
           </linearGradient>
           <linearGradient id={gradientModerateId}>
-            <stop offset="0%" stopColor="white" />
-            <stop offset="66.67%" stopColor="#EDAA00" />
+            <stop offset="0%" stopColor="#FDF8EB" />
+            <stop offset="100%" stopColor="#EDAA00" />
           </linearGradient>
           <linearGradient id={gradientHealthyId}>
-            <stop offset="0%" stopColor="white" />
+            <stop offset="0%" stopColor="#D7F5F0" />
             <stop offset="100%" stopColor="#00C2A1" />
           </linearGradient>
           <linearGradient id={gradientUnknownId}>
@@ -79,10 +83,8 @@ export function HealthFactorGauge({ value, className }: HealthFactorGaugeProps) 
           </linearGradient>
         </defs>
         <path
-          d={`M20 200 A 180 180 0 0 1 ${maskSecondPoint.x} ${maskSecondPoint.y}`}
-          strokeWidth="40"
-          stroke={`url(#${gradientId})`}
-          fill="none"
+          d={`M0 200 A 200 200 0 0 1 ${gradientSecondPoint.x} ${gradientSecondPoint.y} L ${gradientThirdPoint.x} ${gradientThirdPoint.y} A 160 160 0 0 0 40 200 Z`}
+          fill={`url(#${gradientId})`}
         />
 
         <path
