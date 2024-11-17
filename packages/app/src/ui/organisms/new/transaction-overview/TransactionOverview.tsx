@@ -53,7 +53,13 @@ function TransactionOverviewLabel({ children }: { children: React.ReactNode }) {
 
 function TransactionOverviewRow({ children }: { children: React.ReactNode }) {
   return (
-    <div className="col-span-full grid grid-cols-subgrid items-center border-primary border-b px-5 py-4 last:border-none">
+    <div
+      className={cn(
+        'col-span-full grid grid-cols-subgrid items-center',
+        'border-primary border-b px-5 py-4 last:border-none',
+        '[&:not(:has(>*:nth-child(2)))]:hidden', // there is no second child, e.g. either or both label and content are missing
+      )}
+    >
       {children}
     </div>
   )

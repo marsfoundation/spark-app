@@ -17,15 +17,13 @@ export function EModeOverviewPanel({
         <TransactionOverview.Label>Available assets</TransactionOverview.Label>
         <TransactionOverview.AvailableAssets categoryName={eModeCategory.name} tokens={eModeCategory.tokens} />
       </TransactionOverview.Row>
-      {currentPositionOverview.healthFactor && (
-        <TransactionOverview.Row>
-          <TransactionOverview.Label>Health factor</TransactionOverview.Label>
-          <TransactionOverview.HealthFactorChange
-            currentHealthFactor={currentPositionOverview.healthFactor}
-            updatedHealthFactor={updatedPositionOverview?.healthFactor}
-          />
-        </TransactionOverview.Row>
-      )}
+      <TransactionOverview.Row>
+        <TransactionOverview.Label>Health factor</TransactionOverview.Label>
+        <TransactionOverview.HealthFactorChange
+          currentHealthFactor={currentPositionOverview.healthFactor}
+          updatedHealthFactor={updatedPositionOverview?.healthFactor}
+        />
+      </TransactionOverview.Row>
       <TransactionOverview.Row>
         <TransactionOverview.Label>Maximum LTV</TransactionOverview.Label>
         <TransactionOverview.MaxLtvChange
