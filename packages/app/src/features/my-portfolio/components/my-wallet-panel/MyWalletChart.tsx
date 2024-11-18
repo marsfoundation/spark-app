@@ -95,19 +95,19 @@ export function MyWalletChart({ assets, className }: MyWalletChartProps) {
         >
           {highlightedAsset === undefined ? (
             <div className="flex flex-col items-center gap-[1.5cqw]">
-              <div className="font-roobert text-[4.5cqw]">TOTAL</div>
+              <div className="font-roobert text-[3.5cqw]">TOTAL</div>
               <div className="text-[7cqw]">{USD_MOCK_TOKEN.formatUSD(totalUsd)}</div>
             </div>
           ) : (
             <div className="flex flex-col items-center gap-[1.5cqw] text-primary-inverse">
               <div className="flex items-center gap-[2cqw]">
-                <img src={getTokenImage(highlightedAsset.token.symbol)} className="h-[7cqw] w-[7cqw]" />
-                <div className="font-roobert text-[4.5cqw]">{highlightedAsset.token.symbol}</div>
+                <img src={getTokenImage(highlightedAsset.token.symbol)} className="h-[6cqw] w-[6cqw]" />
+                <div className="font-roobert text-[3.5cqw]">{highlightedAsset.token.symbol}</div>
               </div>
               <div className="text-[7cqw]">
                 {highlightedAsset.token.format(highlightedAsset.balance, { style: 'auto' })}
               </div>
-              <div className="font-roobert text-[4.5cqw] text-secondary">
+              <div className="font-roobert text-[3.5cqw] text-secondary">
                 {highlightedAsset.token.formatUSD(highlightedAsset.balance)}
               </div>
             </div>
