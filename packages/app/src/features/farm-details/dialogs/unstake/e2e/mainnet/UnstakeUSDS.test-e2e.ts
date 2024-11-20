@@ -169,7 +169,7 @@ test.describe('Unstake USDS from CLE farm', () => {
     await unstakeDialog.expectSuccessPage()
     await unstakeDialog.clickBackToFarmAction()
 
-    await farmDetailsPage.expectTokenToDepositBalance('USDS', '-')
+    await farmDetailsPage.expectTokenToDepositBalance('USDS', '5,000.00')
     await farmDetailsPage.expectReward({
       reward: '257.6',
     })
