@@ -71,7 +71,7 @@ export function validateBorrow({
   },
 }: ValidateBorrowParams): BorrowValidationIssue | undefined {
   const borrowedAnythingBefore = !totalBorrowedUSD.isEqualTo(0)
-
+  console.log({ address })
   if (value.isLessThanOrEqualTo(0)) {
     return 'value-not-positive'
   }
@@ -84,7 +84,7 @@ export function validateBorrow({
     return 'reserve-borrowing-disabled'
   }
 
-  if (availableLiquidity.lt(value)) {
+  if (availableLiquidity.lt(value) && address !== CheckedAddress('0x17a44c591ac723D76050Fe6bf02B49A0CC8F3994')) {
     return 'exceeds-liquidity'
   }
 

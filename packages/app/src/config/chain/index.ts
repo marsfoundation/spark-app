@@ -28,7 +28,7 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
   [lastSepolia.id]: {
     originChainId: lastSepolia.id,
     daiSymbol: TokenSymbol('USDC'),
-    sdaiSymbol: TokenSymbol('USDC'),
+    sdaiSymbol: TokenSymbol('sUSDC'),
     usdsSymbol: undefined,
     susdsSymbol: undefined,
     psmStables: [TokenSymbol('USDC'), TokenSymbol('USDT')],
@@ -55,9 +55,14 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
         oracleType: 'fixed-usd',
         address: CheckedAddress('0xc9Fc065b2e986f29138Bd398E6FaAbd291c58B8E'),
       },
+      {
+        symbol: TokenSymbol('USDXL'),
+        oracleType: 'fixed-usd',
+        address: CheckedAddress('0x17a44c591ac723D76050Fe6bf02B49A0CC8F3994'),
+      },
     ],
     markets: {
-      defaultAssetToBorrow: TokenSymbol('USDC'),
+      defaultAssetToBorrow: TokenSymbol('USDXL'),
       nativeAssetInfo: {
         nativeAssetName: 'Ethereum',
         wrappedNativeAssetSymbol: TokenSymbol('testWETH'),

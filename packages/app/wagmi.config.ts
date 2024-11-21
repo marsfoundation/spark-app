@@ -36,7 +36,7 @@ const config: ReturnType<typeof defineConfig> = defineConfig({
       name: 'WETHGateway',
       abi: wethGatewayABI,
       address: {
-        [LAST_SEPOLIA_ID]: '0x54C14149c74AF0C1c117E37516F801260E96000e',
+        [LAST_SEPOLIA_ID]: '0xDc61577918C467e8d39869482bbD074e7a53853F',
       },
     },
     {

@@ -56,6 +56,8 @@ export function useWrite<TAbi extends Abi, TFunctionName extends ContractFunctio
   const enabled = args.enabled ?? true
   // used to reset the write state when the args change
 
+  console.log(args)
+
   const { address: account } = useAccount()
   const walletType = useWalletType() // needed for analytics
 
@@ -81,6 +83,8 @@ export function useWrite<TAbi extends Abi, TFunctionName extends ContractFunctio
   } as any)
   // @note: workaround for wagmi serving results from cache even if enabled = false. https://github.com/wevm/wagmi/issues/888
   const simulationError = enabled ? _simulationError : undefined
+
+  console.log({ simulationError })
 
   const {
     writeContract,
