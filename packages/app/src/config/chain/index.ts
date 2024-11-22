@@ -10,6 +10,7 @@ import { AppConfig } from '../feature-flags'
 import { PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY } from '../wagmi/config.e2e'
 import { lastSepolia } from './constants'
 import { ChainConfigEntry, ChainMeta, SupportedChainId } from './types'
+import { USDXL_ADDRESS } from '../consts'
 
 const commonTokenSymbolToReplacedName = {
   [TokenSymbol('DAI')]: { name: 'DAI Stablecoin', symbol: TokenSymbol('DAI') },
@@ -28,7 +29,7 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
   [lastSepolia.id]: {
     originChainId: lastSepolia.id,
     daiSymbol: TokenSymbol('USDC'),
-    sdaiSymbol: TokenSymbol('sUSDC'),
+    sdaiSymbol: TokenSymbol('USDC'),
     usdsSymbol: undefined,
     susdsSymbol: undefined,
     psmStables: [TokenSymbol('USDC'), TokenSymbol('USDT')],
@@ -58,7 +59,7 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
       {
         symbol: TokenSymbol('USDXL'),
         oracleType: 'fixed-usd',
-        address: CheckedAddress('0x17a44c591ac723D76050Fe6bf02B49A0CC8F3994'),
+        address: USDXL_ADDRESS,
       },
     ],
     markets: {

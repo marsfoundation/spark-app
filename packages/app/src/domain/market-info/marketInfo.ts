@@ -258,8 +258,6 @@ export function marketInfoSelectFn({ timeAdvance }: MarketInfoSelectFnParams = {
         }),
     )
 
-    console.log(tokens)
-
     /* eslint-disable func-style */
     const findOneTokenBySymbol = (symbol: TokenSymbol): Token => {
       return tokens.find((t) => t.symbol === symbol) ?? raise(`Token ${symbol} not found`)

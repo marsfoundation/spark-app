@@ -108,7 +108,7 @@ export function HealthFactorGauge(props: HealthFactorGaugeProps) {
         fill="currentColor"
         transform={`rotate(${arrowRotation} 200 200)`}
       >
-        {riskLevel === 'unknown' ? null : <path d="M 200 0 L 200 25" stroke="white" stroke-width="1" />}
+        {riskLevel === 'unknown' ? null : <path d="M 200 0 L 200 25" stroke="white" strokeWidth="1" />}
       </g>
     </svg>
   )

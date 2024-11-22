@@ -5,6 +5,7 @@ import { MarketInfo, Reserve, UserPositionSummary } from '../market-info/marketI
 import { ReserveStatus } from '../market-info/reserve-status'
 import { CheckedAddress } from '../types/CheckedAddress'
 import { NormalizedUnitNumber } from '../types/NumericValues'
+import { USDXL_ADDRESS } from '@/config/consts'
 
 export interface ValidateBorrowParams {
   value: NormalizedUnitNumber
@@ -71,7 +72,6 @@ export function validateBorrow({
   },
 }: ValidateBorrowParams): BorrowValidationIssue | undefined {
   const borrowedAnythingBefore = !totalBorrowedUSD.isEqualTo(0)
-  console.log({ address })
   if (value.isLessThanOrEqualTo(0)) {
     return 'value-not-positive'
   }
@@ -84,7 +84,7 @@ export function validateBorrow({
     return 'reserve-borrowing-disabled'
   }
 
-  if (availableLiquidity.lt(value) && address !== CheckedAddress('0x17a44c591ac723D76050Fe6bf02B49A0CC8F3994')) {
+  if (availableLiquidity.lt(value) && address !== USDXL_ADDRESS) {
     return 'exceeds-liquidity'
   }
 
