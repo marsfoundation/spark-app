@@ -5,7 +5,7 @@ import { blockedPagesByCountryCode } from './consts'
 import { useVpnCheck } from './useVpnCheck'
 
 export function useBlockedPages(): Path[] {
-  if (import.meta.env.VITE_FEATURE_AUTH_IP_AND_ADDRESS_CHECKS !== '1') {
+  if (import.meta.env.VITE_FEATURE_AUTH_REGION !== '1') {
     return []
   }
   // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
