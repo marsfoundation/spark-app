@@ -19,7 +19,7 @@ type BlockedByRegion = {
 export type UseIPAndAddressCheck = NotBlocked | BlockedByVpn | BlockedByAddress | BlockedByRegion
 export function useIPAndAddressCheck(): UseIPAndAddressCheck {
   const addressCheck: NotBlocked | BlockedByAddress = (() => {
-    if (import.meta.env.VITE_FEATURE_AUTH_ADDRESS !== '1') {
+    if (import.meta.env.VITE_FEATURE_VERIFY_ADDRESS !== '1') {
       return { blocked: false }
     }
 
@@ -42,7 +42,7 @@ export function useIPAndAddressCheck(): UseIPAndAddressCheck {
   })()
 
   const vpnCheck: NotBlocked | BlockedByVpn = (() => {
-    if (import.meta.env.VITE_FEATURE_AUTH_VPN !== '1') {
+    if (import.meta.env.VITE_FEATURE_BLOCK_VPN !== '1') {
       return { blocked: false }
     }
 
@@ -57,7 +57,7 @@ export function useIPAndAddressCheck(): UseIPAndAddressCheck {
   })()
 
   const regionCheck: NotBlocked | BlockedByRegion = (() => {
-    if (import.meta.env.VITE_FEATURE_AUTH_REGION !== '1') {
+    if (import.meta.env.VITE_FEATURE_BLOCK_REGIONS !== '1') {
       return { blocked: false }
     }
 
