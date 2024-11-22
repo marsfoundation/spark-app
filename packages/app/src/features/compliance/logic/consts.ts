@@ -29,7 +29,6 @@ export const blockedCountryCodes = [
   'VE', // Venezuela
   'YE', // Yemen
   'ZW', // Zimbabwe
-  'US', // United States
 ]
 
 export const blockedPagesByCountryCode: Record<string, Path[]> = {}
