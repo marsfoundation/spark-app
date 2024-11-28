@@ -26,12 +26,18 @@ export function CooldownTimer({ renewalPeriod, latestUpdateTimestamp, forceOpen 
         <IconPill icon={assets.timer} />
       </TooltipTrigger>
       <TooltipContentShort className="p-3">
-        <div className="typography-label-6 flex max-w-44 flex-col gap-2 text-secondary">
+        <div className="typography-label-6 flex flex-col gap-2 text-secondary">
           Cooldown period:
           <div className="typography-label-4 text-primary">{secondsToTime(timeLeft)}</div>
-          {timeLeft === 0
-            ? 'The cap renewal cooldown is over. It might be changed at any time.'
-            : `The instantly available cap has a\u00A0renewal time of ${secondsToHours(renewalPeriod)} hours.`}
+          {timeLeft === 0 ? (
+            <>
+              The cap renewal cooldown is over. <br /> It might be changed at any time.
+            </>
+          ) : (
+            <>
+              The instantly available cap has <br /> a renewal time of {secondsToHours(renewalPeriod)} hours.
+            </>
+          )}
         </div>
       </TooltipContentShort>
     </Tooltip>

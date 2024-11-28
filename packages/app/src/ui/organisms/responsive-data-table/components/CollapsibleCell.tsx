@@ -21,6 +21,7 @@ export function CollapsibleCell({ children }: CollapsibleCellProps) {
             {TriggerContent}
             <div className="flex cursor-pointer flex-col justify-center">
               <IconButton
+                role="switch"
                 size="m"
                 variant="transparent"
                 icon={ChevronDown}
