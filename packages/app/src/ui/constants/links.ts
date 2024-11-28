@@ -19,7 +19,7 @@ export const links = {
     farmingRewards: 'https://docs.spark.fi/user-guides/farming-rewards',
   },
   aaveTechnicalPaper: 'https://github.com/aave/aave-v3-core/blob/master/techpaper/Aave_V3_Technical_Paper.pdf',
-  termsOfUse: 'https://spark.fi/terms-of-use.html',
-  privacyPolicy: 'https://spark.fi/privacy-policy.html',
+  termsOfUse: 'https://spark.fi/terms-of-use',
+  privacyPolicy: 'https://spark.fi/privacy-policy',
   github: 'https://github.com/marsfoundation/spark-app',
 } as const
