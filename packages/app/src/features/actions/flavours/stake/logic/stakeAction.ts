@@ -1,4 +1,5 @@
 import { stakingRewardsAbi } from '@/config/abis/stakingRewardsAbi'
+import { SPARK_UI_REFERRAL_CODE } from '@/config/consts'
 import { getFarmsApiDetailsQueryKey } from '@/domain/farms/farmApiDetailsQuery'
 import { getFarmsBlockchainDetailsQueryKey } from '@/domain/farms/farmBlockchainDetailsQuery'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
@@ -20,7 +21,7 @@ export function createStakeActionConfig(action: StakeAction, context: ActionCont
         address: farm,
         abi: stakingRewardsAbi,
         functionName: 'stake',
-        args: [amount],
+        args: [amount, SPARK_UI_REFERRAL_CODE],
       })
     },
 
