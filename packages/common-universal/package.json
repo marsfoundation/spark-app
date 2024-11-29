@@ -1,0 +1,32 @@
+{
+  "name": "@marsfoundation/common-universal",
+  "private": true,
+  "version": "0.1.0",
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "type": "module",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    }
+  },
+  "scripts": {
+    "lint": "eslint src",
+    "verify": "concurrently --names \"LINT,TEST,TYPECHECK,LINT-CUSTOM\" -c \"bgMagenta.bold,bgGreen.bold,bgBlue.bold,bgCyan.bold\" \"pnpm run lint\" \"pnpm run test --silent\" \"pnpm run typecheck\"",
+    "fix": "cd ../../ && pnpm run check:fix && cd - && pnpm run verify",
+    "test": "true",
+    "typecheck": "tsc --noEmit",
+    "build:cjs": "tsc -p tsconfig.cjs.json",
+    "build:esm": "tsc -p tsconfig.esm.json",
+    "build": "pnpm run build:cjs && pnpm run build:esm",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "viem": "^2.9.21"
+  }
+}
