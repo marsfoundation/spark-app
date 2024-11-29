@@ -1,5 +1,5 @@
 import { withThemeByClassName } from '@storybook/addon-themes'
-import { WithFixedDate, WithI18n, WithQueryClient } from './decorators'
+import { WithFixedDate, WithQueryClient } from './decorators'
 
 import '../src/css/fonts.css'
 import '../src/css/main.css'
