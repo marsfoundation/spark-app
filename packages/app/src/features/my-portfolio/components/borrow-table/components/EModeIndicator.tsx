@@ -1,6 +1,5 @@
 import { EModeCategoryId } from '@/domain/e-mode/types'
 import { Button } from '@/ui/atoms/new/button/Button'
-
 import { EModeBadge } from '@/ui/molecules/e-mode-badge/EModeBadge'
 import { testIds } from '@/ui/utils/testIds'
 import { useBreakpoint } from '@/ui/utils/useBreakpoint'
