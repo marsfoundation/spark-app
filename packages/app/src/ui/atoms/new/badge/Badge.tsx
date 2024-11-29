@@ -51,7 +51,7 @@ const badgeVariants = cva('typography-label-5 inline-flex w-fit items-center gap
     },
   },
   compoundVariants: [
-    { appearance: 'soft', variant: 'brand', class: 'bg-brand-secondary text-brand-secondary' },
+    { appearance: 'soft', variant: 'brand', class: 'bg-brand-secondary text-brand-primary' },
     { appearance: 'soft', variant: 'success', class: 'bg-system-success-primary text-system-success-primary' },
     { appearance: 'soft', variant: 'warning', class: 'bg-system-warning-primary text-system-warning-primary' },
     { appearance: 'soft', variant: 'error', class: 'bg-system-error-primary text-system-error-primary' },

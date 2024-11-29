@@ -37,8 +37,7 @@ export default {
         secondary: 'rgb(var(--neutral-500))',
         tertiary: 'rgb(var(--neutral-300))',
         brand: {
-          primary: 'rgb(var(--primary-700))',
-          secondary: 'rgb(var(--primary-800))',
+          primary: 'rgb(var(--primary-800))',
         },
         system: {
           success: {
