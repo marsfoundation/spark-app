@@ -11,6 +11,14 @@ pnpm run dev # runs application in dev mode
 pnpm run storybook # runs storybook in dev mode
 ```
 
+### pnpm version
+
+Exact pnpm version `9.14.2` is required. Install with:
+
+```sh
+curl -fsSL https://get.pnpm.io/install.sh | env PNPM_VERSION=9.14.2 sh -
+```
+
 ## Directory structure
 
 - `ui` folder should only contain reusable chunks of code responsible only for rendering, any data should be passed via
