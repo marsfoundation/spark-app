@@ -22,7 +22,7 @@ export function RouteItem({ item, index, isLast, displayRouteVertically }: Route
         {item.token.format(item.value, { style: 'auto' })} {item.token.symbol}
       </div>
       <div
-        className={cn('justify-self-end text-basics-dark-grey text-sm', !displayRouteVertically && 'md:order-last')}
+        className={cn('justify-self-end text-secondary text-sm', !displayRouteVertically && 'md:order-last')}
         data-testid={testIds.dialog.transactionOverview.routeItem.tokenUsdValue(index)}
       >
         {USD_MOCK_TOKEN.formatUSD(item.usdValue)}

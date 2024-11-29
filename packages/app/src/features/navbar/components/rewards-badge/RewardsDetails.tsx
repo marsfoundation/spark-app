@@ -9,7 +9,7 @@ export interface RewardsDetailsProps {
 
 export function RewardsDetails({ rewards, onClaim }: RewardsDetailsProps) {
   return (
-    <div className="flex w-[calc(100vw-48px)] min-w-72 flex-col gap-4 p-4 text-basics-dark-grey text-xs lg:w-auto">
+    <div className="flex w-[calc(100vw-48px)] min-w-72 flex-col gap-4 p-4 text-secondary text-xs lg:w-auto">
       <div className="flex flex-col gap-2 border-basics-grey/50 border-b pb-4">
         Rewards
         <div className="flex flex-col items-stretch gap-3">

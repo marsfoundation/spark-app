@@ -16,7 +16,7 @@ interface AirdropDetailsProps {
 
 export function AirdropDetails({ amount, precision, isLoading, isGrowing }: AirdropDetailsProps) {
   return (
-    <div className="flex w-[calc(100vw-48px)] flex-col text-basics-dark-grey text-xs lg:w-auto">
+    <div className="flex w-[calc(100vw-48px)] flex-col text-secondary text-xs lg:w-auto">
       <div className="flex flex-col gap-1 border-basics-grey/50 border-b p-4">
         Spark Airdrop Tokens
         <div className="flex items-center gap-2">
@@ -35,7 +35,7 @@ export function AirdropDetails({ amount, precision, isLoading, isGrowing }: Aird
         <Link
           to={links.docs.sparkAirdrop}
           external
-          className="flex items-center gap-2.5 font-medium text-basics-dark-grey text-sm"
+          className="flex items-center gap-2.5 font-medium text-secondary text-sm"
         >
           <BoxArrowTopRight className="h-4 w-4" />
           Learn more

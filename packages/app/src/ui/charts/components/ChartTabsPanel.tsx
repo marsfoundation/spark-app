@@ -124,7 +124,7 @@ function ChartPanel({ height, component: Chart, isError, isPending, props }: Cha
   if (isError) {
     return (
       <div className="flex items-center justify-center" style={{ height }} ref={ref}>
-        <div className="flex items-center rounded-full bg-basics-grey/60 px-3 py-1 text-basics-dark-grey/80 text-sm">
+        <div className="flex items-center rounded-full bg-basics-grey/60 px-3 py-1 text-secondary/80 text-sm">
           <AlertTriangle className="h-4" /> Failed to load chart data
         </div>
       </div>

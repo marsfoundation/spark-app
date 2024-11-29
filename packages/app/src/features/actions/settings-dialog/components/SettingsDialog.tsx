@@ -55,7 +55,7 @@ export function SettingsDialog(props: SettingsDialogProps) {
           <div className="flex items-center gap-8 rounded-sm bg-secondary p-6">
             <div className="flex flex-col gap-2">
               <h3 className="text-primary">Use permits when available</h3>
-              <p className="text-basics-dark-grey text-xs">
+              <p className="text-secondary text-xs">
                 Permits are a way to save gas by avoiding on-chain approve transactions. Instead signed permits are
                 bundled with another transactions such as deposit or borrow.
               </p>

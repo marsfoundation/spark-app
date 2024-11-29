@@ -22,7 +22,7 @@ export function DebtCeilingProgress({ debt, debtCeiling }: DebtCeilingProgressPr
     <div className="col-span-3 mt-6 flex flex-col gap-4 rounded-2xl border border-primary p-4 sm:col-span-2 sm:col-start-2 sm:mt-8">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1">
-          <p className="text-basics-dark-grey text-xs leading-none">Isolated Debt Ceiling</p>
+          <p className="text-secondary text-xs leading-none">Isolated Debt Ceiling</p>
           <Info>
             Debt ceiling limits the amount possible to borrow against this asset by protocol users. Debt ceiling is
             specific to assets in isolation mode and is denoted in USD.{' '}
@@ -38,7 +38,7 @@ export function DebtCeilingProgress({ debt, debtCeiling }: DebtCeilingProgressPr
           >
             {USD_MOCK_TOKEN.formatUSD(debt, { compact: true })}
           </span>
-          <span className="text-basics-dark-grey">
+          <span className="text-secondary">
             {' '}
             of{' '}
             <span data-testid={testIds.marketDetails.collateralStatusPanel.debtCeiling}>

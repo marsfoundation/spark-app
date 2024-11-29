@@ -32,7 +32,7 @@ export function WalletDropdownContent({
           <Link
             to={blockExplorerAddressLink}
             external
-            className="flex items-center gap-2.5 font-medium text-basics-dark-grey text-sm"
+            className="flex items-center gap-2.5 font-medium text-secondary text-sm"
           >
             <BoxArrowTopRight className="h-4 w-4" />
             View on Explorer

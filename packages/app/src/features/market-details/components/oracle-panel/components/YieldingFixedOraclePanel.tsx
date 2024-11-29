@@ -24,11 +24,11 @@ export function YieldingFixedOraclePanel({
   return (
     <Panel className="flex flex-col gap-4">
       <div>
-        <div className="mb-1 text-basics-dark-grey text-sm leading-none sm:text-xs sm:leading-none">Oracle type</div>
+        <div className="mb-1 text-secondary text-sm leading-none sm:text-xs sm:leading-none">Oracle type</div>
         <div className="flex items-center gap-2">
           <h3 className="typography-heading-5 text-primary">
             Yielding Fixed Price{' '}
-            {providedBy.length > 1 && <span className="font-medium text-basics-dark-grey">(Redundant)</span>}
+            {providedBy.length > 1 && <span className="font-medium text-secondary">(Redundant)</span>}
           </h3>
           <Info size={16}>
             The asset price is calculated using both an exchange rate and a market price oracle. Sky Governance controls
@@ -45,7 +45,7 @@ export function YieldingFixedOraclePanel({
             >
               {ratio.toFixed(4)}
             </div>
-            <div className="md:-bottom-6 text-basics-dark-grey text-xs md:absolute">
+            <div className="md:-bottom-6 text-secondary text-xs md:absolute">
               <span data-testid={oracleTestIds.asset}>{token.symbol}</span> to {baseAssetSymbol} Ratio
             </div>
           </div>
@@ -57,7 +57,7 @@ export function YieldingFixedOraclePanel({
             >
               {formatUSDPriceWithPrecision(baseAssetPrice)}
             </div>
-            <div className="md:-bottom-6 text-basics-dark-grey text-xs md:absolute">
+            <div className="md:-bottom-6 text-secondary text-xs md:absolute">
               <span data-testid={oracleTestIds.yieldingFixed.baseAssetSymbol}>{baseAssetSymbol}</span> Oracle Price
             </div>
           </div>
@@ -69,7 +69,7 @@ export function YieldingFixedOraclePanel({
             >
               {formatUSDPriceWithPrecision(price)}
             </div>
-            <div className="md:-bottom-6 text-basics-dark-grey text-xs md:absolute">Final Price</div>
+            <div className="md:-bottom-6 text-secondary text-xs md:absolute">Final Price</div>
           </div>
         </div>
 

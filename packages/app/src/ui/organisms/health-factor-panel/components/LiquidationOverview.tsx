@@ -38,10 +38,7 @@ interface DetailsRowProps {
 function DetailsRow({ children, variant }: DetailsRowProps) {
   return (
     <div
-      className={cn(
-        'flex flex-row justify-between border-basics-dark-grey/20 border-t py-1',
-        variant === 'full-details' && 'py-3',
-      )}
+      className={cn('flex flex-row justify-between border-primary border-t py-1', variant === 'full-details' && 'py-3')}
     >
       {children}
     </div>

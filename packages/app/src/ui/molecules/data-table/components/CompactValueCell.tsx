@@ -72,10 +72,7 @@ function CompactValue({
 }: CompactValueProps) {
   if (hideEmpty && value.isZero()) {
     return (
-      <div
-        className={cn('flex w-full flex-row justify-end', dimmed && 'text-basics-dark-grey/70')}
-        data-testid={dataTestId}
-      >
+      <div className={cn('flex w-full flex-row justify-end', dimmed && 'text-secondary/70')} data-testid={dataTestId}>
         —
       </div>
     )
