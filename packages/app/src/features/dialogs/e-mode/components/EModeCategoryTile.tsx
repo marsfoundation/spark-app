@@ -21,8 +21,8 @@ export function EModeCategoryTile({ eModeCategory }: EModeCategoryTileProps) {
     <button
       onClick={eModeCategory.onSelect}
       className={cn(
-        'grid grid-cols-2 items-center justify-start gap-2 text-end sm:grid-cols-1 sm:grid-rows-3 sm:text-start',
-        'rounded-sm bg-primary p-4 outline outline-1 outline-primary',
+        'grid grid-rows-3 items-center justify-start gap-2 text-start',
+        'rounded-sm bg-primary p-2 outline outline-1 outline-primary sm:p-4',
         'transition-all duration-200 hover:shadow-lg',
         'focus-visible:outline-0 focus-visible:ring focus-visible:ring-reskin-primary-200 focus-visible:ring-offset-0',
         eModeCategory.isSelected && 'outline-0 ring-1 ring-reskin-orange-200 ring-offset-0',
@@ -31,8 +31,8 @@ export function EModeCategoryTile({ eModeCategory }: EModeCategoryTileProps) {
       <Badge variant={variant === 'active' ? 'success' : 'neutral'} appearance="soft" size="sm">
         {variant === 'active' ? 'Active' : 'Inactive'}
       </Badge>
-      <h4 className="typography-label-3">{eModeCategory.name}</h4>
-      <IconStack paths={iconPaths} maxIcons={4} className="hidden sm:flex" />
+      <h4 className="typography-label-6 sm:typography-label-3">{eModeCategory.name}</h4>
+      <IconStack paths={iconPaths} maxIcons={4} />
     </button>
   )
 }
