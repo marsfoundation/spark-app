@@ -311,7 +311,6 @@ export default {
           },
         },
         basics: {
-          red: 'rgb(var(--basics-red))',
           border: 'var(--basics-border)',
           'dark-grey': 'rgb(var(--basics-dark-grey))',
           grey: 'rgb(var(--basics-grey))',
