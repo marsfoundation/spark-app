@@ -16,15 +16,15 @@ jobs:
   build:
     strategy:
       matrix:
-        node: ["20"]
-        os: [ubuntu-latest]
+        node: [ "20" ]
+        os: [ ubuntu-latest ]
     runs-on: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
         with:
-          version: 8.5.0
+          version: 9.14.2
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
@@ -49,15 +49,15 @@ jobs:
   test:
     strategy:
       matrix:
-        node: ["20"]
-        os: [ubuntu-latest]
+        node: [ "20" ]
+        os: [ ubuntu-latest ]
     runs-on: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
         with:
-          version: 8.5.0
+          version: 9.14.2
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
@@ -70,8 +70,8 @@ jobs:
   storybook-visual-regression:
     strategy:
       matrix:
-        node: ["20"]
-        os: [ubicloud-standard-4]
+        node: [ "20" ]
+        os: [ ubicloud-standard-4 ]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
     steps:
@@ -80,7 +80,7 @@ jobs:
           fetch-depth: 0
       - uses: pnpm/action-setup@v4
         with:
-          version: 8.5.0
+          version: 9.14.2
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
@@ -104,15 +104,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: ["20"]
-        os: [ubicloud-standard-16]
+        node: [ "20" ]
+        os: [ ubicloud-standard-16 ]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
         with:
-          version: 8.5.0
+          version: 9.14.2
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}

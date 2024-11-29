@@ -1,5 +1,5 @@
 import { withThemeByClassName } from '@storybook/addon-themes'
-import { WithFixedDate, WithI18n, WithQueryClient } from './decorators'
+import { WithFixedDate, WithQueryClient } from './decorators'
 
 import '../src/css/fonts.css'
 import '../src/css/main.css'
@@ -46,7 +46,6 @@ const preview: Preview = {
   },
 
   decorators: [
-    WithI18n(),
     WithQueryClient(),
     WithFixedDate(),
     // Adds theme switching support.

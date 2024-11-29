@@ -1,5 +1,4 @@
 import { execSync } from 'node:child_process'
-import { lingui } from '@lingui/vite-plugin'
 import { sentryVitePlugin } from '@sentry/vite-plugin'
 import react from '@vitejs/plugin-react-swc'
 import svgr from 'vite-plugin-svgr'
@@ -21,11 +20,8 @@ export default defineConfig({
   },
 
   plugins: [
-    react({
-      plugins: [['@lingui/swc-plugin', {}]],
-    }),
+    react(),
     tsconfigPaths(),
-    lingui(),
     svgr(),
     sentryVitePlugin({
       silent: true,
