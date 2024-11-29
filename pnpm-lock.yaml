@@ -195,7 +195,7 @@ importers:
         version: 1.0.6(tailwindcss@3.4.3)
       viem:
         specifier: ^2.9.21
-        version: 2.9.21(bufferutil@4.0.8)(typescript@5.6.3)(zod@3.22.4)
+        version: 2.9.21(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@6.0.3)(zod@3.22.4)
       wagmi:
         specifier: ^2.5.20
         version: 2.5.20(@react-native-async-storage/async-storage@1.22.0(react-native@0.76.1(@babel/core@7.22.9)(@babel/preset-env@7.24.6(@babel/core@7.22.9))(@types/react@18.2.14)(bufferutil@4.0.8)(react@18.2.0)))(@tanstack/query-core@5.28.8)(@tanstack/react-query@5.28.8(react@18.2.0))(@types/react@18.2.14)(bufferutil@4.0.8)(react-dom@18.2.0(react@18.2.0))(react-native@0.76.1(@babel/core@7.22.9)(@babel/preset-env@7.24.6(@babel/core@7.22.9))(@types/react@18.2.14)(bufferutil@4.0.8)(react@18.2.0))(react@18.2.0)(rollup@4.27.4)(typescript@5.6.3)(viem@2.9.21(bufferutil@4.0.8)(typescript@5.6.3)(zod@3.22.4))(zod@3.22.4)
@@ -342,6 +342,12 @@ importers:
         specifier: 1.6.0
         version: 1.6.0(@types/node@20.4.10)(jsdom@22.1.0(bufferutil@4.0.8))(terser@5.36.0)
 
+  packages/common-universal:
+    dependencies:
+      viem:
+        specifier: ^2.9.21
+        version: 2.9.21(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@6.0.3)(zod@3.22.4)
+
 packages:
 
   '@aashutoshrathi/word-wrap@1.2.6':
@@ -362,9 +368,6 @@ packages:
 
   '@adraffy/ens-normalize@1.10.0':
     resolution: {integrity: sha512-nA9XHtlAkYfJxY7bce8DcN7eKxWWCWkU+1GR9d+U6MbNpfwQp8TI7vqOsBsMcHoT4mBu2kypKoSKnghEzOOq5Q==}
-
-  '@adraffy/ens-normalize@1.9.0':
-    resolution: {integrity: sha512-iowxq3U30sghZotgl4s/oJRci6WPBfNO5YYgk2cIOMCHr3LeGPcsZjCEr+33Q4N+oV3OABDAtA+pyvWjbvBifQ==}
 
   '@alloc/quick-lru@5.2.0':
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
@@ -2472,24 +2475,11 @@ packages:
   '@ndelangen/get-tarball@3.0.9':
     resolution: {integrity: sha512-9JKTEik4vq+yGosHYhZ1tiH/3WpUS0Nh0kej4Agndhox8pAdWhEx5knFVRcb/ya9knCRCs1rPxNrSXTDdfVqpA==}
 
-  '@noble/curves@1.0.0':
-    resolution: {integrity: sha512-2upgEu0iLiDVDZkNLeFV2+ht0BAVgQnEmCk6JsOch9Rp8xfkMCbvbAZlA2pBHQc73dbl+vFOXfqkf4uemdn0bw==}
-
-  '@noble/curves@1.1.0':
-    resolution: {integrity: sha512-091oBExgENk/kGj3AZmtBDMpxQPDtxQABR2B9lb1JbVTs6ytdzZNwvhxQ4MWasRNEzlbEH8jCWFCwhF/Obj5AA==}
-
   '@noble/curves@1.2.0':
     resolution: {integrity: sha512-oYclrNgRaM9SsBUBVbb8M6DTV7ZHRTKugureoYEncY5c65HOmRzvSiTE3y5CYaPYJA/GVkrhXEoF0M3Ya9PMnw==}
 
   '@noble/curves@1.3.0':
     resolution: {integrity: sha512-t01iSXPuN+Eqzb4eBX0S5oubSqXbK/xXa1Ne18Hj8f9pStxztHCE2gfboSp/dZRLSqfuLpRK2nDXDK+W9puocA==}
-
-  '@noble/hashes@1.3.0':
-    resolution: {integrity: sha512-ilHEACi9DwqJB0pw7kv+Apvh50jiiSyR/cQ3y4W7lOR5mhvn/50FLUfsnfJz0BDZtl/RR16kXvptiv6q1msYZg==}
-
-  '@noble/hashes@1.3.1':
-    resolution: {integrity: sha512-EbqwksQwz9xDRGfDST86whPBgM65E0OH/pCgqW0GBVzO22bNE+NuIbeTb714+IfSjU3aRk47EUvXIb5bTsenKA==}
-    engines: {node: '>= 16'}
 
   '@noble/hashes@1.3.2':
     resolution: {integrity: sha512-MVC8EAQp7MvEcm30KWENFjgR+Mkmf+D189XJTkFIlwohU5hcBbn1ZkKq7KVTi2Hme3PMGF390DaL52beVrIihQ==}
@@ -3248,17 +3238,11 @@ packages:
   '@scure/base@1.1.6':
     resolution: {integrity: sha512-ok9AWwhcgYuGG3Zfhyqg+zwl+Wn5uE+dwC0NV/2qQkx4dABbb/bx96vWu8NSj+BNjjSjno+JRYRjle1jV08k3g==}
 
-  '@scure/bip32@1.3.0':
-    resolution: {integrity: sha512-bcKpo1oj54hGholplGLpqPHRbIsnbixFtc06nwuNM5/dwSXOq/AAYoIBRsBmnZJSdfeNW5rnff7NTAz3ZCqR9Q==}
-
   '@scure/bip32@1.3.2':
     resolution: {integrity: sha512-N1ZhksgwD3OBlwTv3R6KFEcPojl/W4ElJOeCZdi+vuI5QmTFwLq3OFf2zd2ROpKvxFdgZ6hUpb0dx9bVNEwYCA==}
 
   '@scure/bip32@1.3.3':
     resolution: {integrity: sha512-LJaN3HwRbfQK0X1xFSi0Q9amqOgzQnnDngIt+ZlsBC3Bm7/nE7K0kwshZHyaru79yIVRv/e1mQAjZyuZG6jOFQ==}
-
-  '@scure/bip39@1.2.0':
-    resolution: {integrity: sha512-SX/uKq52cuxm4YFXWFaVByaSHJh2w3BnokVSeUJVCv6K7WulT9u2BuNRBhuFl8vAuYnzx9bEu9WgpcNYTrYieg==}
 
   '@scure/bip39@1.2.1':
     resolution: {integrity: sha512-Z3/Fsz1yr904dduJD0NpiyRHhRYHdcnyh73FZWiV+/qhWi83wNJ3NWolYqCEN+ZWsUz2TWwajJggcRE9r1zUYg==}
@@ -4158,9 +4142,6 @@ packages:
   '@types/uuid@9.0.8':
     resolution: {integrity: sha512-jg+97EGIcY9AGHJJRaaPVgetKDsrTgbRjQ5Msgjh/DQKEFl0DtyRr/VCOyD1T2R1MNeWPK/u7JoGhlDZnKBAfA==}
 
-  '@types/ws@8.5.5':
-    resolution: {integrity: sha512-lwhs8hktwxSjf9UaZ9tG5M03PGogvFaH8gUgLNbN9HKIg0dvv6q+gkSuJ8HN4/VbyxkuLzCjlN7GquQ0gUJfIg==}
-
   '@types/yargs-parser@21.0.0':
     resolution: {integrity: sha512-iO9ZQHkZxHn4mSakYV0vFHAVDyEOIJQrV2uZ06HxEPcx+mt8swXoZHIbaaJ2crJYFfErySgktuTZ3BeLz+XmFA==}
 
@@ -4471,17 +4452,6 @@ packages:
 
   abab@2.0.6:
     resolution: {integrity: sha512-j2afSsaIENvHZN2B8GOpF566vZ5WVk5opAiMTvWgaQT8DkbOqsTfvNAvHoRGU2zzP8cPoqys+xHTRDWW8L+/BA==}
-
-  abitype@0.9.3:
-    resolution: {integrity: sha512-dz4qCQLurx97FQhnb/EIYTk/ldQ+oafEDUqC0VVIeQS1Q48/YWt/9YNfMmp9SLFqN41ktxny3c8aYxHjmFIB/w==}
-    peerDependencies:
-      typescript: '>=5.0.4'
-      zod: ^3 >=3.19.1
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-      zod:
-        optional: true
 
   abitype@0.9.8:
     resolution: {integrity: sha512-puLifILdm+8sjyss4S+fsUN09obiT1g2YW6CtcQF+QDzxR0euzgEB29MZujC6zMk2a6SVmtttq1fc6+YFA7WYQ==}
@@ -6493,11 +6463,6 @@ packages:
 
   isomorphic-unfetch@3.1.0:
     resolution: {integrity: sha512-geDJjpoZ8N0kWexiwkX8F9NkTsXhetLPVbZFQ+JTW239QNOwvB0gniuR1Wc6f0AMTn7/mFGyXvHTifrCp/GH8Q==}
-
-  isomorphic-ws@5.0.0:
-    resolution: {integrity: sha512-muId7Zzn9ywDsyXgTIafTry2sV3nySZeUDe6YedVd1Hvuuep5AsIlqK+XefWpYTyJG5e503F2xIuT2lcU6rCSw==}
-    peerDependencies:
-      ws: '*'
 
   isows@1.0.3:
     resolution: {integrity: sha512-2cKei4vlmg2cxEjm3wVSqn8pcoRF/LX/wpifuuNquFO4SQmPwarClT+SUCA2lt+l581tTeZIPIZuIDo2jWN1fg==}
@@ -8888,14 +8853,6 @@ packages:
       typescript:
         optional: true
 
-  viem@1.9.5:
-    resolution: {integrity: sha512-o6gxd4hOMof4n1Lm4j58Y2VbAa95O6KrQU4tqvkQjMd0MH/s9u0UBh7pv45gFSr53+NW8036G4hYcEV35nry8g==}
-    peerDependencies:
-      typescript: '>=5.0.4'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-
   viem@2.9.21:
     resolution: {integrity: sha512-8GtxPjPGpiN5cmr19zSX9mb1LX/eON3MPxxAd3QmyUFn69Rp566zlREOqE7zM35y5yX59fXwnz6O3X7e9+C9zg==}
     peerDependencies:
@@ -9127,36 +9084,12 @@ packages:
       utf-8-validate:
         optional: true
 
-  ws@7.5.9:
-    resolution: {integrity: sha512-F+P9Jil7UiSKSkppIiD94dN07AwvFixvLIj1Og1Rl9GGMuNipJnV9JzjD6XuqmAeiswGvUmNLjr5cFuXwNS77Q==}
-    engines: {node: '>=8.3.0'}
-    peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: ^5.0.2
-    peerDependenciesMeta:
-      bufferutil:
-        optional: true
-      utf-8-validate:
-        optional: true
-
   ws@8.11.0:
     resolution: {integrity: sha512-HPG3wQd9sNQoT9xHyNCXoDUa+Xw/VevmY9FoHyQ+g+rrMn4j6FB4np7Z0OhdTgjx6MgQLK7jwSy1YecU1+4Asg==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
       utf-8-validate: ^5.0.2
-    peerDependenciesMeta:
-      bufferutil:
-        optional: true
-      utf-8-validate:
-        optional: true
-
-  ws@8.12.0:
-    resolution: {integrity: sha512-kU62emKIdKVeEIOIKVegvqpXMSTAMLJozpHZaJNDYqBjzlSYXQGviYwN1osDLJ9av68qHd4a2oSjd7yD4pacig==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: '>=5.0.2'
     peerDependenciesMeta:
       bufferutil:
         optional: true
@@ -9280,8 +9213,6 @@ snapshots:
   '@adobe/css-tools@4.3.2': {}
 
   '@adraffy/ens-normalize@1.10.0': {}
-
-  '@adraffy/ens-normalize@1.9.0': {}
 
   '@alloc/quick-lru@5.2.0': {}
 
@@ -11771,14 +11702,6 @@ snapshots:
       pump: 3.0.0
       tar-fs: 2.1.1
 
-  '@noble/curves@1.0.0':
-    dependencies:
-      '@noble/hashes': 1.3.0
-
-  '@noble/curves@1.1.0':
-    dependencies:
-      '@noble/hashes': 1.3.1
-
   '@noble/curves@1.2.0':
     dependencies:
       '@noble/hashes': 1.3.2
@@ -11786,10 +11709,6 @@ snapshots:
   '@noble/curves@1.3.0':
     dependencies:
       '@noble/hashes': 1.3.3
-
-  '@noble/hashes@1.3.0': {}
-
-  '@noble/hashes@1.3.1': {}
 
   '@noble/hashes@1.3.2': {}
 
@@ -12407,7 +12326,7 @@ snapshots:
       react-dom: 18.2.0(react@18.2.0)
       react-remove-scroll: 2.5.7(@types/react@18.2.14)(react@18.2.0)
       ua-parser-js: 1.0.37
-      viem: 2.9.21(bufferutil@4.0.8)(typescript@5.6.3)(zod@3.22.4)
+      viem: 2.9.21(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@6.0.3)(zod@3.22.4)
       wagmi: 2.5.20(@react-native-async-storage/async-storage@1.22.0(react-native@0.76.1(@babel/core@7.22.9)(@babel/preset-env@7.24.6(@babel/core@7.22.9))(@types/react@18.2.14)(bufferutil@4.0.8)(react@18.2.0)))(@tanstack/query-core@5.28.8)(@tanstack/react-query@5.28.8(react@18.2.0))(@types/react@18.2.14)(bufferutil@4.0.8)(react-dom@18.2.0(react@18.2.0))(react-native@0.76.1(@babel/core@7.22.9)(@babel/preset-env@7.24.6(@babel/core@7.22.9))(@types/react@18.2.14)(bufferutil@4.0.8)(react@18.2.0))(react@18.2.0)(rollup@4.27.4)(typescript@5.6.3)(viem@2.9.21(bufferutil@4.0.8)(typescript@5.6.3)(zod@3.22.4))(zod@3.22.4)
     transitivePeerDependencies:
       - '@types/react'
@@ -12644,12 +12563,6 @@ snapshots:
 
   '@scure/base@1.1.6': {}
 
-  '@scure/bip32@1.3.0':
-    dependencies:
-      '@noble/curves': 1.0.0
-      '@noble/hashes': 1.3.0
-      '@scure/base': 1.1.6
-
   '@scure/bip32@1.3.2':
     dependencies:
       '@noble/curves': 1.2.0
@@ -12660,11 +12573,6 @@ snapshots:
     dependencies:
       '@noble/curves': 1.3.0
       '@noble/hashes': 1.3.3
-      '@scure/base': 1.1.6
-
-  '@scure/bip39@1.2.0':
-    dependencies:
-      '@noble/hashes': 1.3.0
       '@scure/base': 1.1.6
 
   '@scure/bip39@1.2.1':
@@ -14039,10 +13947,6 @@ snapshots:
 
   '@types/uuid@9.0.8': {}
 
-  '@types/ws@8.5.5':
-    dependencies:
-      '@types/node': 20.12.7
-
   '@types/yargs-parser@21.0.0': {}
 
   '@types/yargs@17.0.24':
@@ -14161,7 +14065,7 @@ snapshots:
       execa: 7.2.0
       get-port: 6.1.2
       http-proxy: 1.18.1
-      ws: 8.13.0(bufferutil@4.0.8)
+      ws: 8.13.0(bufferutil@4.0.8)(utf-8-validate@6.0.3)
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -14380,7 +14284,7 @@ snapshots:
       picocolors: 1.0.0
       picomatch: 3.0.1
       prettier: 3.2.5
-      viem: 2.9.21(bufferutil@4.0.8)(typescript@5.6.3)(zod@3.22.4)
+      viem: 2.9.21(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@6.0.3)(zod@3.22.4)
       zod: 3.22.4
     optionalDependencies:
       typescript: 5.6.3
@@ -14397,7 +14301,7 @@ snapshots:
       '@wagmi/core': 2.6.17(@tanstack/query-core@5.28.8)(@types/react@18.2.14)(bufferutil@4.0.8)(react@18.2.0)(typescript@5.6.3)(viem@2.9.21(bufferutil@4.0.8)(typescript@5.6.3)(zod@3.22.4))(zod@3.22.4)
       '@walletconnect/ethereum-provider': 2.11.2(@react-native-async-storage/async-storage@1.22.0(react-native@0.76.1(@babel/core@7.22.9)(@babel/preset-env@7.24.6(@babel/core@7.22.9))(@types/react@18.2.14)(bufferutil@4.0.8)(react@18.2.0)))(@types/react@18.2.14)(bufferutil@4.0.8)(react@18.2.0)
       '@walletconnect/modal': 2.6.2(@types/react@18.2.14)(react@18.2.0)
-      viem: 2.9.21(bufferutil@4.0.8)(typescript@5.6.3)(zod@3.22.4)
+      viem: 2.9.21(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@6.0.3)(zod@3.22.4)
     optionalDependencies:
       typescript: 5.6.3
     transitivePeerDependencies:
@@ -14428,7 +14332,7 @@ snapshots:
     dependencies:
       eventemitter3: 5.0.1
       mipd: 0.0.5(bufferutil@4.0.8)(typescript@5.6.3)(zod@3.22.4)
-      viem: 2.9.21(bufferutil@4.0.8)(typescript@5.6.3)(zod@3.22.4)
+      viem: 2.9.21(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@6.0.3)(zod@3.22.4)
       zustand: 4.4.1(@types/react@18.2.14)(react@18.2.0)
     optionalDependencies:
       '@tanstack/query-core': 5.28.8
@@ -14556,7 +14460,7 @@ snapshots:
       '@walletconnect/jsonrpc-utils': 1.0.8
       '@walletconnect/safe-json': 1.0.2
       events: 3.3.0
-      ws: 7.5.9(bufferutil@4.0.8)
+      ws: 7.5.10(bufferutil@4.0.8)
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -14773,11 +14677,6 @@ snapshots:
   '@zeit/schemas@2.29.0': {}
 
   abab@2.0.6: {}
-
-  abitype@0.9.3(typescript@5.6.3)(zod@3.22.4):
-    optionalDependencies:
-      typescript: 5.6.3
-      zod: 3.22.4
 
   abitype@0.9.8(typescript@5.6.3)(zod@3.22.4):
     optionalDependencies:
@@ -16986,13 +16885,9 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  isomorphic-ws@5.0.0(ws@8.12.0(bufferutil@4.0.8)):
+  isows@1.0.3(ws@8.13.0(bufferutil@4.0.8)(utf-8-validate@6.0.3)):
     dependencies:
-      ws: 8.12.0(bufferutil@4.0.8)
-
-  isows@1.0.3(ws@8.13.0(bufferutil@4.0.8)):
-    dependencies:
-      ws: 8.13.0(bufferutil@4.0.8)
+      ws: 8.13.0(bufferutil@4.0.8)(utf-8-validate@6.0.3)
 
   istanbul-lib-coverage@3.2.2: {}
 
@@ -17222,7 +17117,7 @@ snapshots:
       whatwg-encoding: 2.0.0
       whatwg-mimetype: 3.0.0
       whatwg-url: 12.0.1
-      ws: 8.13.0(bufferutil@4.0.8)
+      ws: 8.13.0(bufferutil@4.0.8)(utf-8-validate@6.0.3)
       xml-name-validator: 4.0.0
     transitivePeerDependencies:
       - bufferutil
@@ -17745,7 +17640,7 @@ snapshots:
 
   mipd@0.0.5(bufferutil@4.0.8)(typescript@5.6.3)(zod@3.22.4):
     dependencies:
-      viem: 1.9.5(bufferutil@4.0.8)(typescript@5.6.3)(zod@3.22.4)
+      viem: 1.21.4(bufferutil@4.0.8)(typescript@5.6.3)(zod@3.22.4)
     optionalDependencies:
       typescript: 5.6.3
     transitivePeerDependencies:
@@ -19661,8 +19556,8 @@ snapshots:
       '@scure/bip32': 1.3.2
       '@scure/bip39': 1.2.1
       abitype: 0.9.8(typescript@5.6.3)(zod@3.22.4)
-      isows: 1.0.3(ws@8.13.0(bufferutil@4.0.8))
-      ws: 8.13.0(bufferutil@4.0.8)
+      isows: 1.0.3(ws@8.13.0(bufferutil@4.0.8)(utf-8-validate@6.0.3))
+      ws: 8.13.0(bufferutil@4.0.8)(utf-8-validate@6.0.3)
     optionalDependencies:
       typescript: 5.6.3
     transitivePeerDependencies:
@@ -19670,25 +19565,7 @@ snapshots:
       - utf-8-validate
       - zod
 
-  viem@1.9.5(bufferutil@4.0.8)(typescript@5.6.3)(zod@3.22.4):
-    dependencies:
-      '@adraffy/ens-normalize': 1.9.0
-      '@noble/curves': 1.1.0
-      '@noble/hashes': 1.3.0
-      '@scure/bip32': 1.3.0
-      '@scure/bip39': 1.2.0
-      '@types/ws': 8.5.5
-      abitype: 0.9.3(typescript@5.6.3)(zod@3.22.4)
-      isomorphic-ws: 5.0.0(ws@8.12.0(bufferutil@4.0.8))
-      ws: 8.12.0(bufferutil@4.0.8)
-    optionalDependencies:
-      typescript: 5.6.3
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-      - zod
-
-  viem@2.9.21(bufferutil@4.0.8)(typescript@5.6.3)(zod@3.22.4):
+  viem@2.9.21(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@6.0.3)(zod@3.22.4):
     dependencies:
       '@adraffy/ens-normalize': 1.10.0
       '@noble/curves': 1.2.0
@@ -19696,8 +19573,8 @@ snapshots:
       '@scure/bip32': 1.3.2
       '@scure/bip39': 1.2.1
       abitype: 1.0.0(typescript@5.6.3)(zod@3.22.4)
-      isows: 1.0.3(ws@8.13.0(bufferutil@4.0.8))
-      ws: 8.13.0(bufferutil@4.0.8)
+      isows: 1.0.3(ws@8.13.0(bufferutil@4.0.8)(utf-8-validate@6.0.3))
+      ws: 8.13.0(bufferutil@4.0.8)(utf-8-validate@6.0.3)
     optionalDependencies:
       typescript: 5.6.3
     transitivePeerDependencies:
@@ -19804,7 +19681,7 @@ snapshots:
       '@wagmi/core': 2.6.17(@tanstack/query-core@5.28.8)(@types/react@18.2.14)(bufferutil@4.0.8)(react@18.2.0)(typescript@5.6.3)(viem@2.9.21(bufferutil@4.0.8)(typescript@5.6.3)(zod@3.22.4))(zod@3.22.4)
       react: 18.2.0
       use-sync-external-store: 1.2.0(react@18.2.0)
-      viem: 2.9.21(bufferutil@4.0.8)(typescript@5.6.3)(zod@3.22.4)
+      viem: 2.9.21(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@6.0.3)(zod@3.22.4)
     optionalDependencies:
       typescript: 5.6.3
     transitivePeerDependencies:
@@ -19961,22 +19838,15 @@ snapshots:
     optionalDependencies:
       bufferutil: 4.0.8
 
-  ws@7.5.9(bufferutil@4.0.8):
-    optionalDependencies:
-      bufferutil: 4.0.8
-
   ws@8.11.0(bufferutil@4.0.8)(utf-8-validate@6.0.3):
     optionalDependencies:
       bufferutil: 4.0.8
       utf-8-validate: 6.0.3
 
-  ws@8.12.0(bufferutil@4.0.8):
+  ws@8.13.0(bufferutil@4.0.8)(utf-8-validate@6.0.3):
     optionalDependencies:
       bufferutil: 4.0.8
-
-  ws@8.13.0(bufferutil@4.0.8):
-    optionalDependencies:
-      bufferutil: 4.0.8
+      utf-8-validate: 6.0.3
 
   ws@8.14.2(bufferutil@4.0.8):
     optionalDependencies:
