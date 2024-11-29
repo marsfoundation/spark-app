@@ -19,7 +19,7 @@ export function DebtCeilingProgress({ debt, debtCeiling }: DebtCeilingProgressPr
   const hasCeilingBeenReached = value === 100
 
   return (
-    <div className="col-span-3 mt-6 flex flex-col gap-4 rounded-2xl border border-basics-border p-4 sm:col-span-2 sm:col-start-2 sm:mt-8">
+    <div className="col-span-3 mt-6 flex flex-col gap-4 rounded-2xl border border-primary p-4 sm:col-span-2 sm:col-start-2 sm:mt-8">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1">
           <p className="text-basics-dark-grey text-xs leading-none">Isolated Debt Ceiling</p>

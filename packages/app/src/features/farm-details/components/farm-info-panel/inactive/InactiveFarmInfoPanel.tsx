@@ -65,7 +65,7 @@ export function InactiveFarmInfoPanel({
             </DetailsItem>
           )}
         </div>
-        <div className="hidden border-basics-border border-t md:block" />
+        <div className="hidden border-primary border-t md:block" />
         <Button
           className="w-full"
           disabled={!walletConnected || !hasTokensToDeposit}

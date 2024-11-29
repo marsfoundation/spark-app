@@ -25,7 +25,7 @@ export function FarmsView({ activeFarms, inactiveFarms, chainId }: FarmsViewProp
             </div>
           </div>
         )}
-        {activeFarms.length > 0 && inactiveFarms.length > 0 && <div className="border-basics-border border-t" />}
+        {activeFarms.length > 0 && inactiveFarms.length > 0 && <div className="border-primary border-t" />}
         {inactiveFarms.length > 0 && (
           <div className="flex flex-col gap-4">
             <h3 className={cn('typography-heading-4', activeFarms.length === 0 && 'hidden')}>Available farms</h3>
