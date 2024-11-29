@@ -24,7 +24,7 @@ export function AirdropDetails({ amount, precision, isLoading, isGrowing }: Aird
           {isLoading ? (
             <Skeleton className="h-5 w-7" />
           ) : (
-            <div className="font-semibold text-base text-basics-black tabular-nums" data-chromatic="ignore">
+            <div className="font-semibold text-base text-primary tabular-nums" data-chromatic="ignore">
               {formatAirdropAmount({ amount, precision, isGrowing })} {SPK_MOCK_TOKEN.symbol}
             </div>
           )}

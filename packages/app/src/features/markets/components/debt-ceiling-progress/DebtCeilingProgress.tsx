@@ -33,7 +33,7 @@ export function DebtCeilingProgress({ debt, debtCeiling }: DebtCeilingProgressPr
         </div>
         <p className="text-xs leading-none">
           <span
-            className={cn('text-basics-black', hasCeilingBeenReached && 'text-basics-red')}
+            className={cn('text-primary', hasCeilingBeenReached && 'text-basics-red')}
             data-testid={testIds.marketDetails.collateralStatusPanel.debt}
           >
             {USD_MOCK_TOKEN.formatUSD(debt, { compact: true })}

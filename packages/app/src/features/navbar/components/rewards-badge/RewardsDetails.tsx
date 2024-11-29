@@ -17,7 +17,7 @@ export function RewardsDetails({ rewards, onClaim }: RewardsDetailsProps) {
             <div key={token.symbol} className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <img src={getTokenImage(token.symbol)} className="h-7 lg:h-6" />
-                <div className="font-semibold text-base text-basics-black tabular-nums">
+                <div className="font-semibold text-base text-primary tabular-nums">
                   <span>{token.format(amount, { style: 'auto' })}</span> <span>{token.symbol}</span>
                 </div>
               </div>

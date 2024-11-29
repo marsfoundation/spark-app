@@ -57,7 +57,7 @@ function SettingsDropdownItemContent({ children, icon }: { children: React.React
   )
 }
 
-const settingsDropdownItemContentVariants = cva('hidden font-semibold text-basics-black', {
+const settingsDropdownItemContentVariants = cva('hidden font-semibold text-primary', {
   variants: {
     variant: {
       default: 'first:block lg:block',
