@@ -41,15 +41,18 @@ export function EModeView({
 }: EModeViewProps) {
   return (
     <MultiPanelDialog>
-      <DialogTitle>Set E-Mode Category</DialogTitle>
-
-      <p className="text-basics-dark-grey text-sm leading-tight">
-        E-Mode allows you to borrow assets belonging to the selected category. Please visit our{' '}
-        <Link to={links.docs.eMode} external>
-          FAQ guide
-        </Link>{' '}
-        to learn more about how it works and the applied restrictions.
-      </p>
+      <div className="flex flex-col gap-3">
+        <DialogTitle>Set E-Mode Category</DialogTitle>
+        <p className="text-basics-dark-grey text-sm leading-tight">
+          E-Mode allows you to borrow assets belonging to the selected category.
+          <br />
+          Please visit our{' '}
+          <Link to={links.docs.eMode} external>
+            FAQ guide
+          </Link>{' '}
+          to learn more about how it works and the applied restrictions.
+        </p>
+      </div>
 
       <CategoriesGrid>
         {Object.values(eModeCategories).map((eModeCategory) => (
