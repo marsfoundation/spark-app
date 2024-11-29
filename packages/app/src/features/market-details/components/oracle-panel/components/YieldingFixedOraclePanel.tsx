@@ -40,7 +40,7 @@ export function YieldingFixedOraclePanel({
         <div className="grid items-center gap-4 md:grid-cols-[1fr,14px,1fr,14px,1fr] md:gap-3 md:pb-6">
           <div className="relative flex flex-col items-center gap-2">
             <div
-              className="w-full rounded-lg border border-primary bg-basics-light-grey p-2 text-center text-xl"
+              className="w-full rounded-lg border border-primary bg-secondary p-2 text-center text-xl"
               data-testid={oracleTestIds.yieldingFixed.ratio}
             >
               {ratio.toFixed(4)}
@@ -52,7 +52,7 @@ export function YieldingFixedOraclePanel({
           <img src={assets.multiply} alt="multiply sign" className="w-3.5 place-self-center" />
           <div className="relative flex flex-col items-center gap-2">
             <div
-              className="w-full rounded-lg border border-primary bg-basics-light-grey p-2 text-center text-xl"
+              className="w-full rounded-lg border border-primary bg-secondary p-2 text-center text-xl"
               data-testid={oracleTestIds.yieldingFixed.baseAssetPrice}
             >
               {formatUSDPriceWithPrecision(baseAssetPrice)}
@@ -64,7 +64,7 @@ export function YieldingFixedOraclePanel({
           <img src={assets.equal} alt="equal sign" className="w-3.5 place-self-center" />
           <div className="relative flex flex-col items-center gap-2">
             <div
-              className="w-full rounded-lg border border-primary bg-basics-light-grey p-2 text-center text-xl"
+              className="w-full rounded-lg border border-primary bg-secondary p-2 text-center text-xl"
               data-testid={oracleTestIds.price}
             >
               {formatUSDPriceWithPrecision(price)}
