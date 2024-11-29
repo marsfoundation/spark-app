@@ -1,5 +1,6 @@
 import { stakingRewardsAbi } from '@/config/abis/stakingRewardsAbi'
 import { farmAddresses } from '@/config/chain/constants'
+import { SPARK_UI_REFERRAL_CODE } from '@/config/consts'
 import { getFarmsApiDetailsQueryKey } from '@/domain/farms/farmApiDetailsQuery'
 import { getFarmsBlockchainDetailsQueryKey } from '@/domain/farms/farmBlockchainDetailsQuery'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
@@ -44,7 +45,7 @@ describe(createStakeActionConfig.name, () => {
           to: farmAddresses[mainnet.id].skyUsds,
           abi: stakingRewardsAbi,
           functionName: 'stake',
-          args: [toBigInt(stakingToken.toBaseUnit(stakeAmount))],
+          args: [toBigInt(stakingToken.toBaseUnit(stakeAmount)), SPARK_UI_REFERRAL_CODE],
           from: account,
           result: undefined,
         }),
