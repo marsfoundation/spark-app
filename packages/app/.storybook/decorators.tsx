@@ -4,7 +4,6 @@ import { useEffect, useRef } from 'react'
 import { custom, encodeFunctionResult, zeroAddress } from 'viem'
 import { WagmiProvider, createConfig, useAccount, useConnect } from 'wagmi'
 
-import { I18nAppProvider } from '@/domain/i18n/I18nAppProvider'
 import { TooltipProvider } from '@/ui/atoms/tooltip/Tooltip'
 
 import { Dialog, DialogContent } from '@/ui/atoms/dialog/Dialog'
@@ -97,16 +96,6 @@ export function ZeroAllowanceWagmiDecorator({ requestFnOverride }: { requestFnOv
           <Story />
         </ForceConnectWrapper>
       </WagmiProvider>
-    )
-  }
-}
-
-export function WithI18n() {
-  return function WithI18n(Story: StoryFn) {
-    return (
-      <I18nAppProvider>
-        <Story />
-      </I18nAppProvider>
     )
   }
 }

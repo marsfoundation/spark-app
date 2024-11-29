@@ -46,7 +46,6 @@ const preview: Preview = {
   },
 
   decorators: [
-    WithI18n(),
     WithQueryClient(),
     WithFixedDate(),
     // Adds theme switching support.
