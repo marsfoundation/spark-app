@@ -15,6 +15,9 @@
     "verify": "pnpm run --parallel --aggregate-output --reporter append-only --filter './packages/**' verify",
     "fix": "pnpm run check:fix && pnpm run verify"
   },
+  "dependencies": {
+    "bignumber.js": "^9.1.2"
+  },
   "devDependencies": {
     "@biomejs/biome": "^1.8.1",
     "@eslint/js": "^9.3.0",
