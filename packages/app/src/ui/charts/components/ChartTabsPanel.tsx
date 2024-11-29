@@ -115,7 +115,7 @@ function ChartPanel({ height, component: Chart, isError, isPending, props }: Cha
     return (
       <div className="flex items-center justify-center" style={{ height }} ref={ref}>
         <DelayedComponent>
-          <Loader2 className="h-8 animate-spin text-basics-grey" data-chromatic="ignore" />
+          <Loader2 className="h-8 animate-spin text-reskin-neutral-200" data-chromatic="ignore" />
         </DelayedComponent>
       </div>
     )
@@ -124,7 +124,7 @@ function ChartPanel({ height, component: Chart, isError, isPending, props }: Cha
   if (isError) {
     return (
       <div className="flex items-center justify-center" style={{ height }} ref={ref}>
-        <div className="flex items-center rounded-full bg-basics-grey/60 px-3 py-1 text-secondary/80 text-sm">
+        <div className="flex items-center rounded-full bg-secondary px-3 py-1 text-secondary/80 text-sm">
           <AlertTriangle className="h-4" /> Failed to load chart data
         </div>
       </div>
