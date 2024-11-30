@@ -1,5 +1,5 @@
 import { SavingsInfo } from '@/domain/savings-info/types'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { EnsName } from '@/domain/types/EnsName'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Reward } from './components/rewards-badge/types'

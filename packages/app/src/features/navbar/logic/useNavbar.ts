@@ -5,7 +5,7 @@ import { aaveDataLayer, aaveDataLayerQueryKey } from '@/domain/market-info/aave-
 import { marketInfoSelectFn } from '@/domain/market-info/marketInfo'
 import { useSandboxState } from '@/domain/sandbox/useSandboxState'
 import { useOpenDialog } from '@/domain/state/dialogs'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { EnsName } from '@/domain/types/EnsName'
 import { sandboxDialogConfig } from '@/features/dialogs/sandbox/SandboxDialog'
 import { selectNetworkDialogConfig } from '@/features/dialogs/select-network/SelectNetworkDialog'

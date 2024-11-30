@@ -1,4 +1,4 @@
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 
 // @note: zero-price oracle is used for tokens for which we don't have a price feed yet
 export type OracleType = 'fixed-usd' | 'vault' | 'zero-price' | 'ssr-auth-oracle'

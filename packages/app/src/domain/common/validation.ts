@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { Address, isAddress } from 'viem'
 import * as z from 'zod'
-import { CheckedAddress } from '../types/CheckedAddress'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
 
 // number schemas

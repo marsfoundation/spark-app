@@ -1,5 +1,5 @@
 import { AssetsGroup } from '@/domain/farms/types'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { base, gnosis, mainnet } from 'viem/chains'
 

@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { useAccount, useChainId } from 'wagmi'
 import { TokenWithBalance } from '../common/types'
 import { SavingsInfo } from '../savings-info/types'
-import { CheckedAddress } from '../types/CheckedAddress'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { UseMyEarningsInfoResult, useMyEarningsInfo } from './useMyEarningsInfo/useMyEarningsInfo'
 import { UseSavingsRateInfoResult, useSavingsRateInfo } from './useSavingsRateInfo/useSavingsRateInfo'
 

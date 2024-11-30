@@ -7,7 +7,7 @@ import { withRouter } from 'storybook-addon-remix-react-router'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { bigNumberify } from '@/utils/bigNumber'
 
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { MarketDetailsView } from './MarketDetailsView'
 import { MarketDetailsViewProps } from './types'

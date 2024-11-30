@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 
 import { TokenWithBalance } from '@/domain/common/types'
 import { SavingsInfo } from '@/domain/savings-info/types'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { Timeframe } from '@/ui/charts/defaults'
 import { SimplifiedQueryResult } from '@/utils/types'
 import { useCallback } from 'react'

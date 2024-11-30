@@ -1,4 +1,4 @@
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 
 export enum InterestRate {
   Stable = 1,

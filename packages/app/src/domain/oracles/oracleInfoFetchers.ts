@@ -17,7 +17,7 @@ import { gnosis, mainnet } from 'viem/chains'
 import { Config } from 'wagmi'
 import { readContract } from 'wagmi/actions'
 import { Reserve } from '../market-info/marketInfo'
-import { CheckedAddress } from '../types/CheckedAddress'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { BaseUnitNumber, NormalizedUnitNumber } from '../types/NumericValues'
 
 export interface OracleInfoFetcherParams {

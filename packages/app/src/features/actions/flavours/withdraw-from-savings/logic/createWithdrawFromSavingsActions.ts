@@ -7,7 +7,7 @@ import {
 } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { SavingsInfo } from '@/domain/savings-info/types'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Action, ActionContext } from '@/features/actions/logic/types'
 import { assert, raise } from '@/utils/assert'

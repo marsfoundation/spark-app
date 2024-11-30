@@ -1,4 +1,4 @@
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { Button } from '@/ui/atoms/new/button/Button'
 import { shortenAddress } from '@/ui/utils/shortenAddress'
 import { Banner } from './Banner'

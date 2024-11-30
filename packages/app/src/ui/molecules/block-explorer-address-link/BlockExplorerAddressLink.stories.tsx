@@ -1,7 +1,7 @@
 import { ZeroAllowanceWagmiDecorator } from '@sb/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { BlockExplorerAddressLink } from './BlockExplorerAddressLink'
 
 const meta: Meta<typeof BlockExplorerAddressLink> = {

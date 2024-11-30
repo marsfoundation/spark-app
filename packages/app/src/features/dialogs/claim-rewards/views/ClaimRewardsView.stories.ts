@@ -4,7 +4,7 @@ import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 import { encodeFunctionResult, zeroAddress } from 'viem'
 
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 
 import { incentiveControllerAbi } from '@/config/abis/incentiveControllerAbi'

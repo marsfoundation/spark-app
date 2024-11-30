@@ -2,7 +2,7 @@ import { useAccount, useDisconnect } from 'wagmi'
 
 import { useTermsOfService } from '@/domain/state/compliance'
 import { useCloseDialog } from '@/domain/state/dialogs'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 
 import { useSandboxState } from '@/domain/sandbox/useSandboxState'
 import { useIPAndAddressCheck } from './useIPAndAddressCheck'

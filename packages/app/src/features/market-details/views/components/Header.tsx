@@ -1,4 +1,4 @@
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { Token } from '@/domain/types/Token'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 import { Alert } from '@/ui/molecules/new/alert/Alert'

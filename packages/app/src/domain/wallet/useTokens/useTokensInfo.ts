@@ -1,4 +1,4 @@
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { SuspenseQueryWith } from '@/utils/types'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { useAccount, useChainId, useConfig } from 'wagmi'

@@ -1,5 +1,5 @@
 import { useBlockExplorerAddressLink } from '@/domain/hooks/useBlockExplorerAddressLink'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { Token } from '@/domain/types/Token'
 import BoxArrowTopRight from '@/ui/assets/box-arrow-top-right.svg?react'
 import { Address } from '@/ui/atoms/address/Address'

@@ -1,5 +1,5 @@
 import { farmAddresses } from '@/config/chain/constants'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { Info } from '@/ui/molecules/info/Info'
 import { mainnet } from 'viem/chains'
 

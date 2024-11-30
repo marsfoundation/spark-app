@@ -3,7 +3,7 @@ import { z } from 'zod'
 
 import { blockAnaliticaApiUrl } from '@/config/consts'
 import { normalizedUnitNumberSchema } from '../../../../domain/common/validation'
-import { CheckedAddress } from '../../../../domain/types/CheckedAddress'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 
 const airdropInfoResponseSchema = z
   .object({

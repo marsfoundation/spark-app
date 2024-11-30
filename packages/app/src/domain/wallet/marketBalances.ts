@@ -10,7 +10,7 @@ import {
 } from '@/config/contracts-generated'
 
 import { getContractAddress } from '../hooks/useContractAddress'
-import { CheckedAddress } from '../types/CheckedAddress'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { BaseUnitNumber } from '../types/NumericValues'
 import { getBalancesQueryKeyPrefix } from './getBalancesQueryKeyPrefix'
 

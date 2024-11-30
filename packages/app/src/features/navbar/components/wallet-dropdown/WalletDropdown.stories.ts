@@ -1,4 +1,4 @@
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { EnsName } from '@/domain/types/EnsName'
 import { assets } from '@/ui/assets'
 import type { Meta, StoryObj } from '@storybook/react'

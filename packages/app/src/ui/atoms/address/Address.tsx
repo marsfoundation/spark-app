@@ -1,4 +1,4 @@
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { shortenAddress } from '@/ui/utils/shortenAddress'
 import { cn } from '@/ui/utils/style'
 import { cva } from 'class-variance-authority'

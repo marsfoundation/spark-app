@@ -2,7 +2,7 @@ import { assert } from '@/utils/assert'
 import { formatUserSummary } from '@aave/math-utils'
 
 import { bigNumberify } from '../../utils/bigNumber'
-import { CheckedAddress } from '../types/CheckedAddress'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
 import { AaveBaseCurrency, AaveFormattedReserve, AaveUserSummary, RawAaveUserReserve } from './aave-data-layer/query'
 import type {

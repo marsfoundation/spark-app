@@ -1,6 +1,6 @@
 import { TokenWithBalance } from '@/domain/common/types'
 import { receiverValidationIssueToMessage, validateReceiver } from '@/domain/savings/validateReceiver'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { Address } from 'viem'

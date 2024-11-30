@@ -1,5 +1,5 @@
 import { zeroAddress } from 'viem'
-import { CheckedAddress } from '../src/domain/types/CheckedAddress'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { Token } from '../src/domain/types/Token'
 import { TokenSymbol } from '../src/domain/types/TokenSymbol'
 

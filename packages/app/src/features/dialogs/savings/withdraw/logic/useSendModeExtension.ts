@@ -1,6 +1,6 @@
 import { useBlockExplorerAddressLink } from '@/domain/hooks/useBlockExplorerAddressLink'
 import { useIsSmartContract } from '@/domain/hooks/useIsSmartContract'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { UseFormReturn, useForm } from 'react-hook-form'

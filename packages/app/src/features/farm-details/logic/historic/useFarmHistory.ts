@@ -1,5 +1,5 @@
 import { getChainConfigEntry } from '@/config/chain'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { Timeframe } from '@/ui/charts/defaults'
 import { useFilterChartDataByTimeframe } from '@/ui/charts/logic/useFilterDataByTimeframe'
 import { raise } from '@/utils/assert'

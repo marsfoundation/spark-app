@@ -3,7 +3,7 @@ import { assert } from '@/utils/assert'
 import { calculateMaxBorrowBasedOnCollateral } from '../action-max-value-getters/calculateMaxBorrowBasedOnCollateral'
 import { MarketInfo, Reserve, UserPositionSummary } from '../market-info/marketInfo'
 import { ReserveStatus } from '../market-info/reserve-status'
-import { CheckedAddress } from '../types/CheckedAddress'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { NormalizedUnitNumber } from '../types/NumericValues'
 
 export interface ValidateBorrowParams {

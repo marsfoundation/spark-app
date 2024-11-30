@@ -1,7 +1,7 @@
 import { StateCreator } from 'zustand'
 
 import { StoreState, useStore } from '.'
-import { CheckedAddress } from '../types/CheckedAddress'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 
 export interface Compliance {
   agreedToToSAdresses: CheckedAddress[]

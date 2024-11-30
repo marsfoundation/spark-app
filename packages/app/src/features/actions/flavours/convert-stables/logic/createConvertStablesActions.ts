@@ -5,7 +5,7 @@ import {
   usdsPsmWrapperConfig,
 } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { Action, ActionContext } from '@/features/actions/logic/types'
 import { assert } from '@/utils/assert'
 import { assertNever } from '@/utils/assertNever'

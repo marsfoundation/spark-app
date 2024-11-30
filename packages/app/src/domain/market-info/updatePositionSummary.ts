@@ -8,7 +8,7 @@ import { mergeUserPositionIntoRawUserReserve, recalculateUserSummary } from '@/d
 import { bigNumberify } from '@/utils/bigNumber'
 
 import { ReserveWithValue } from '../common/types'
-import { CheckedAddress } from '../types/CheckedAddress'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { NormalizedUnitNumber } from '../types/NumericValues'
 
 export interface ReserveWithUseAsCollateralFlag {
