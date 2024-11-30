@@ -4,8 +4,8 @@ import { assert, NumberLike, bigNumberify } from '../index'
 import { Opaque } from './Opaque'
 
 /**
- * Represents a percentage as a fraction. ie. 0.5 (50%)
- * Percentages can be often greater that 1 (100%) so we need to allow that.
+ * Represents a percentage as a fraction number i.e. 0.5 (means 50%)
+ * For percentages greater than 1, use the allowMoreThan1 flag.
  */
 export type Percentage = Opaque<BigNumber, 'Percentage'>
 export function Percentage(_value: NumberLike, allowMoreThan1 = false): Percentage {

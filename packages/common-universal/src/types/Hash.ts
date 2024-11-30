@@ -3,6 +3,9 @@ import { assert } from '../assert'
 import { Hex } from './Hex'
 import { Opaque } from './Opaque'
 
+/**
+ * 256 bit hash value i.e. 0x8a214de42955bf98e545d2e37df91e0da9b1c37d54d0b1fb6fbd584b91a4790f
+ */
 export type Hash = Opaque<ViemHash, 'Hash'>
 export function Hash(hash: string): Hash {
   assert(hash.match(/^0x[0-9a-fA-F]{64}$/), `Invalid hash: ${hash}`)

@@ -4,7 +4,7 @@ import { BaseUnitNumber } from './BaseUnitNumber'
 import { Opaque } from './Opaque'
 
 /**
- * Represents a base number divided by decimals. Always positive. ie. 1.5 (DAI)
+ * Represents a base number divided by decimals i.e. 1.5 (DAI)
  */
 export type NormalizedUnitNumber = Opaque<BigNumber, 'NormalizedUnitNumber'>
 export function NormalizedUnitNumber(value: NumberLike): NormalizedUnitNumber {

@@ -12,12 +12,12 @@ describe(BaseUnitNumber.name, () => {
     expect(BaseUnitNumber(new BigNumber(1000))).toEqual(new BigNumber(1000) as BaseUnitNumber)
   })
 
-  it('throws if value argument has decimal points', () => {
-    expect(() => BaseUnitNumber(123.45)).toThrow('Value should not have decimal points in its representation.')
+  it('works with negative numbers', () => {
+    expect(NormalizedUnitNumber(-1)).toEqual(new BigNumber(-1) as NormalizedUnitNumber)
   })
 
-  it('throws if value argument is negative number', () => {
-    expect(NormalizedUnitNumber(-1)).toEqual(new BigNumber(-1) as NormalizedUnitNumber)
+  it('throws if value argument has decimal points', () => {
+    expect(() => BaseUnitNumber(123.45)).toThrow('Value should not have decimal points in its representation.')
   })
 
   it('throws if value argument is non-numeric value', () => {
