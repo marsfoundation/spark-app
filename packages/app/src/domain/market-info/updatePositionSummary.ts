@@ -7,8 +7,8 @@ import { getCompoundedScaledBalance, getScaledBalance } from '@/domain/market-in
 import { mergeUserPositionIntoRawUserReserve, recalculateUserSummary } from '@/domain/market-info/utils'
 import { bigNumberify } from '@/utils/bigNumber'
 
-import { ReserveWithValue } from '../common/types'
 import { CheckedAddress } from '@marsfoundation/common-universal'
+import { ReserveWithValue } from '../common/types'
 import { NormalizedUnitNumber } from '../types/NumericValues'
 
 export interface ReserveWithUseAsCollateralFlag {

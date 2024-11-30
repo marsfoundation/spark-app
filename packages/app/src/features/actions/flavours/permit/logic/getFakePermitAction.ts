@@ -1,7 +1,7 @@
-import { CheckedAddress } from '@marsfoundation/common-universal'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { zeroAddress } from 'viem'
 import { PermitAction } from '../types'
 

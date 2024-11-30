@@ -1,5 +1,5 @@
-import { CheckedAddress } from '@marsfoundation/common-universal'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { queryOptions, skipToken } from '@tanstack/react-query'
 import { z } from 'zod'
 

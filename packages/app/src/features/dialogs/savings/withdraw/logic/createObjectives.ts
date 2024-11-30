@@ -1,7 +1,7 @@
 import { TokenWithBalance } from '@/domain/common/types'
-import { CheckedAddress } from '@marsfoundation/common-universal'
 import { WithdrawFromSavingsObjective } from '@/features/actions/flavours/withdraw-from-savings/types'
 import { TransferFromUserFormNormalizedData } from '@/features/dialogs/common/logic/transfer-from-user/form'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { Mode } from '../types'
 
 export interface CreateObjectivesParams {

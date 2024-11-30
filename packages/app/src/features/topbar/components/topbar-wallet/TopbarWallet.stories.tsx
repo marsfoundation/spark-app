@@ -1,6 +1,6 @@
-import { CheckedAddress } from '@marsfoundation/common-universal'
 import { EnsName } from '@/domain/types/EnsName'
 import { assets } from '@/ui/assets'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { WithClassname, WithTooltipProvider } from '@sb/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { userEvent, within } from '@storybook/test'

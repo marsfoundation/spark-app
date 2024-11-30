@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { CheckedAddress } from '@marsfoundation/common-universal'
 import { EnsName } from '@/domain/types/EnsName'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 
 import { assets } from '@/ui/assets'
 import { ConnectedButton } from './ConnectedButton'

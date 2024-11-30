@@ -1,5 +1,5 @@
-import { isAddress, zeroAddress } from 'viem'
 import { CheckedAddress } from '@marsfoundation/common-universal'
+import { isAddress, zeroAddress } from 'viem'
 
 export type ReceiverValidationIssue =
   | 'undefined-receiver'

@@ -4,9 +4,9 @@ import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 import { zeroAddress } from 'viem'
 
-import { CheckedAddress } from '@marsfoundation/common-universal'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { ActionHandler } from '@/features/actions/logic/types'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 
 import { Actions } from '../Actions'
 import { allActionHandlers } from './allActionHandlers'

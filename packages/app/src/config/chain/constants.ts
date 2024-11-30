@@ -1,6 +1,6 @@
 import { AssetsGroup } from '@/domain/farms/types'
-import { CheckedAddress } from '@marsfoundation/common-universal'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { base, gnosis, mainnet } from 'viem/chains'
 
 export const SUPPORTED_CHAINS = [mainnet, gnosis, base] as const

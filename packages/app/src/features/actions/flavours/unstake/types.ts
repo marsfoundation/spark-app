@@ -1,6 +1,6 @@
-import { CheckedAddress } from '@marsfoundation/common-universal'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 
 export interface UnstakeObjective {
   type: 'unstake'

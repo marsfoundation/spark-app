@@ -1,7 +1,7 @@
 import { SavingsInfoQueryOptions, SavingsInfoQueryParams } from '@/domain/savings-info/types'
-import { CheckedAddress } from '@marsfoundation/common-universal'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 
 import { FarmConfig } from '@/domain/farms/types'
 import { OracleInfoFetcherParams, OracleInfoFetcherResult } from '@/domain/oracles/oracleInfoFetchers'
