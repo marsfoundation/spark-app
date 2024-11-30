@@ -5,7 +5,6 @@
     "strict": true,
     "skipLibCheck": true,
     "noUncheckedIndexedAccess": true,
-    "moduleResolution": "node",
-    "customConditions": ["@marsfoundation/source"]
+    "moduleResolution": "node"
   }
 }

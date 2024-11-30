@@ -15,7 +15,8 @@
     "paths": {
       "@/*": ["./src/*"],
       "@sb/*": [".storybook/*"]
-    }
+    },
+    "customConditions": ["@marsfoundation/source"]
   },
   "include": ["src", ".storybook"],
   "references": [{ "path": "./tsconfig.node.json" }],

@@ -1,6 +1,6 @@
 {
   "name": "@marsfoundation/common-universal",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "engines": {
     "node": ">=18.0.0",
     "pnpm": ">=8.0.0"
@@ -38,7 +38,8 @@
     "clean": "rm -rf dist",
     "prepublishOnly": "pnpm run clean && pnpm run build"
   },
-  "dependencies": {
+  "peerDependencies": {
+    "bignumber.js": "^9.1.2",
     "viem": "^2.9.21"
   },
   "devDependencies": {
