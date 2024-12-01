@@ -199,7 +199,7 @@ importers:
         version: 1.0.6(tailwindcss@3.4.3)
       viem:
         specifier: ^2.9.21
-        version: 2.9.21(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@6.0.3)(zod@3.22.4)
+        version: 2.9.21(bufferutil@4.0.8)(typescript@5.6.3)(zod@3.22.4)
       wagmi:
         specifier: ^2.5.20
         version: 2.5.20(@react-native-async-storage/async-storage@1.22.0(react-native@0.76.1(@babel/core@7.22.9)(@babel/preset-env@7.24.6(@babel/core@7.22.9))(@types/react@18.2.14)(bufferutil@4.0.8)(react@18.2.0)))(@tanstack/query-core@5.28.8)(@tanstack/react-query@5.28.8(react@18.2.0))(@types/react@18.2.14)(bufferutil@4.0.8)(react-dom@18.2.0(react@18.2.0))(react-native@0.76.1(@babel/core@7.22.9)(@babel/preset-env@7.24.6(@babel/core@7.22.9))(@types/react@18.2.14)(bufferutil@4.0.8)(react@18.2.0))(react@18.2.0)(rollup@4.27.4)(typescript@5.6.3)(viem@2.9.21(bufferutil@4.0.8)(typescript@5.6.3)(zod@3.22.4))(zod@3.22.4)
@@ -351,6 +351,12 @@ importers:
       bignumber.js:
         specifier: ^9.1.2
         version: 9.1.2
+      fetch-retry:
+        specifier: ^5.0.6
+        version: 5.0.6
+      p-limit:
+        specifier: ^6.1.0
+        version: 6.1.0
       viem:
         specifier: ^2.9.21
         version: 2.9.21(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@6.0.3)(zod@3.22.4)
@@ -7316,6 +7322,10 @@ packages:
     resolution: {integrity: sha512-/Eaoq+QyLSiXQ4lyYV23f14mZRQcXnxfHrN0vCai+ak9G0pp9iEQukIIZq5NccEvwRB8PUnZT0KsOoDCINS1qQ==}
     engines: {node: '>=18'}
 
+  p-limit@6.1.0:
+    resolution: {integrity: sha512-H0jc0q1vOzlEk0TqAKXKZxdl7kX3OFUzCnNVUnq5Pc3DGo0kpeaMuPqxQn235HibwBEb0/pm9dgKTjXy66fBkg==}
+    engines: {node: '>=18'}
+
   p-locate@3.0.0:
     resolution: {integrity: sha512-x+12w/To+4GFfgJhBEpiDcLozRJGegY+Ei7/z0tSLkMmxGZNybVMSfWj9aJn8Z5Fc7dBUNJOOVgPv2H7IwulSQ==}
     engines: {node: '>=6'}
@@ -9253,6 +9263,10 @@ packages:
 
   yocto-queue@1.0.0:
     resolution: {integrity: sha512-9bnSc/HEW2uRy67wc+T8UwauLuPJVn28jb+GtJY16iiKWyvmYJRXVT4UamsAEGQfPohgr2q4Tq0sQbQlxTfi1g==}
+    engines: {node: '>=12.20'}
+
+  yocto-queue@1.1.1:
+    resolution: {integrity: sha512-b4JR1PFR10y1mKjhHY9LaGo6tmrgjit7hxVIeAmyMw3jegXR4dhYqLaQF5zMXZxY7tLpMyJeLjr1C4rLmkVe8g==}
     engines: {node: '>=12.20'}
 
   zod@3.22.4:
@@ -12400,7 +12414,7 @@ snapshots:
       react-dom: 18.2.0(react@18.2.0)
       react-remove-scroll: 2.5.7(@types/react@18.2.14)(react@18.2.0)
       ua-parser-js: 1.0.37
-      viem: 2.9.21(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@6.0.3)(zod@3.22.4)
+      viem: 2.9.21(bufferutil@4.0.8)(typescript@5.6.3)(zod@3.22.4)
       wagmi: 2.5.20(@react-native-async-storage/async-storage@1.22.0(react-native@0.76.1(@babel/core@7.22.9)(@babel/preset-env@7.24.6(@babel/core@7.22.9))(@types/react@18.2.14)(bufferutil@4.0.8)(react@18.2.0)))(@tanstack/query-core@5.28.8)(@tanstack/react-query@5.28.8(react@18.2.0))(@types/react@18.2.14)(bufferutil@4.0.8)(react-dom@18.2.0(react@18.2.0))(react-native@0.76.1(@babel/core@7.22.9)(@babel/preset-env@7.24.6(@babel/core@7.22.9))(@types/react@18.2.14)(bufferutil@4.0.8)(react@18.2.0))(react@18.2.0)(rollup@4.27.4)(typescript@5.6.3)(viem@2.9.21(bufferutil@4.0.8)(typescript@5.6.3)(zod@3.22.4))(zod@3.22.4)
     transitivePeerDependencies:
       - '@types/react'
@@ -14141,7 +14155,7 @@ snapshots:
       execa: 7.2.0
       get-port: 6.1.2
       http-proxy: 1.18.1
-      ws: 8.13.0(bufferutil@4.0.8)(utf-8-validate@6.0.3)
+      ws: 8.13.0(bufferutil@4.0.8)
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -14360,7 +14374,7 @@ snapshots:
       picocolors: 1.0.0
       picomatch: 3.0.1
       prettier: 3.2.5
-      viem: 2.9.21(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@6.0.3)(zod@3.22.4)
+      viem: 2.9.21(bufferutil@4.0.8)(typescript@5.6.3)(zod@3.22.4)
       zod: 3.22.4
     optionalDependencies:
       typescript: 5.6.3
@@ -14377,7 +14391,7 @@ snapshots:
       '@wagmi/core': 2.6.17(@tanstack/query-core@5.28.8)(@types/react@18.2.14)(bufferutil@4.0.8)(react@18.2.0)(typescript@5.6.3)(viem@2.9.21(bufferutil@4.0.8)(typescript@5.6.3)(zod@3.22.4))(zod@3.22.4)
       '@walletconnect/ethereum-provider': 2.11.2(@react-native-async-storage/async-storage@1.22.0(react-native@0.76.1(@babel/core@7.22.9)(@babel/preset-env@7.24.6(@babel/core@7.22.9))(@types/react@18.2.14)(bufferutil@4.0.8)(react@18.2.0)))(@types/react@18.2.14)(bufferutil@4.0.8)(react@18.2.0)
       '@walletconnect/modal': 2.6.2(@types/react@18.2.14)(react@18.2.0)
-      viem: 2.9.21(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@6.0.3)(zod@3.22.4)
+      viem: 2.9.21(bufferutil@4.0.8)(typescript@5.6.3)(zod@3.22.4)
     optionalDependencies:
       typescript: 5.6.3
     transitivePeerDependencies:
@@ -14408,7 +14422,7 @@ snapshots:
     dependencies:
       eventemitter3: 5.0.1
       mipd: 0.0.5(bufferutil@4.0.8)(typescript@5.6.3)(zod@3.22.4)
-      viem: 2.9.21(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@6.0.3)(zod@3.22.4)
+      viem: 2.9.21(bufferutil@4.0.8)(typescript@5.6.3)(zod@3.22.4)
       zustand: 4.4.1(@types/react@18.2.14)(react@18.2.0)
     optionalDependencies:
       '@tanstack/query-core': 5.28.8
@@ -16991,6 +17005,10 @@ snapshots:
     dependencies:
       ws: 8.13.0(bufferutil@4.0.8)(utf-8-validate@6.0.3)
 
+  isows@1.0.3(ws@8.13.0(bufferutil@4.0.8)):
+    dependencies:
+      ws: 8.13.0(bufferutil@4.0.8)
+
   istanbul-lib-coverage@3.2.2: {}
 
   istanbul-lib-instrument@5.2.1:
@@ -17219,7 +17237,7 @@ snapshots:
       whatwg-encoding: 2.0.0
       whatwg-mimetype: 3.0.0
       whatwg-url: 12.0.1
-      ws: 8.13.0(bufferutil@4.0.8)(utf-8-validate@6.0.3)
+      ws: 8.13.0(bufferutil@4.0.8)
       xml-name-validator: 4.0.0
     transitivePeerDependencies:
       - bufferutil
@@ -18014,6 +18032,10 @@ snapshots:
   p-limit@5.0.0:
     dependencies:
       yocto-queue: 1.0.0
+
+  p-limit@6.1.0:
+    dependencies:
+      yocto-queue: 1.1.1
 
   p-locate@3.0.0:
     dependencies:
@@ -19689,8 +19711,8 @@ snapshots:
       '@scure/bip32': 1.3.2
       '@scure/bip39': 1.2.1
       abitype: 0.9.8(typescript@5.6.3)(zod@3.22.4)
-      isows: 1.0.3(ws@8.13.0(bufferutil@4.0.8)(utf-8-validate@6.0.3))
-      ws: 8.13.0(bufferutil@4.0.8)(utf-8-validate@6.0.3)
+      isows: 1.0.3(ws@8.13.0(bufferutil@4.0.8))
+      ws: 8.13.0(bufferutil@4.0.8)
     optionalDependencies:
       typescript: 5.6.3
     transitivePeerDependencies:
@@ -19708,6 +19730,23 @@ snapshots:
       abitype: 1.0.0(typescript@5.6.3)(zod@3.22.4)
       isows: 1.0.3(ws@8.13.0(bufferutil@4.0.8)(utf-8-validate@6.0.3))
       ws: 8.13.0(bufferutil@4.0.8)(utf-8-validate@6.0.3)
+    optionalDependencies:
+      typescript: 5.6.3
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+      - zod
+
+  viem@2.9.21(bufferutil@4.0.8)(typescript@5.6.3)(zod@3.22.4):
+    dependencies:
+      '@adraffy/ens-normalize': 1.10.0
+      '@noble/curves': 1.2.0
+      '@noble/hashes': 1.3.2
+      '@scure/bip32': 1.3.2
+      '@scure/bip39': 1.2.1
+      abitype: 1.0.0(typescript@5.6.3)(zod@3.22.4)
+      isows: 1.0.3(ws@8.13.0(bufferutil@4.0.8))
+      ws: 8.13.0(bufferutil@4.0.8)
     optionalDependencies:
       typescript: 5.6.3
     transitivePeerDependencies:
@@ -19814,7 +19853,7 @@ snapshots:
       '@wagmi/core': 2.6.17(@tanstack/query-core@5.28.8)(@types/react@18.2.14)(bufferutil@4.0.8)(react@18.2.0)(typescript@5.6.3)(viem@2.9.21(bufferutil@4.0.8)(typescript@5.6.3)(zod@3.22.4))(zod@3.22.4)
       react: 18.2.0
       use-sync-external-store: 1.2.0(react@18.2.0)
-      viem: 2.9.21(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@6.0.3)(zod@3.22.4)
+      viem: 2.9.21(bufferutil@4.0.8)(typescript@5.6.3)(zod@3.22.4)
     optionalDependencies:
       typescript: 5.6.3
     transitivePeerDependencies:
@@ -19978,6 +20017,10 @@ snapshots:
       bufferutil: 4.0.8
       utf-8-validate: 6.0.3
 
+  ws@8.13.0(bufferutil@4.0.8):
+    optionalDependencies:
+      bufferutil: 4.0.8
+
   ws@8.13.0(bufferutil@4.0.8)(utf-8-validate@6.0.3):
     optionalDependencies:
       bufferutil: 4.0.8
@@ -20060,6 +20103,8 @@ snapshots:
   yocto-queue@0.1.0: {}
 
   yocto-queue@1.0.0: {}
+
+  yocto-queue@1.1.1: {}
 
   zod@3.22.4: {}
 
