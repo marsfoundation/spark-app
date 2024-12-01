@@ -2,7 +2,6 @@ import { expect } from 'earl'
 import { describe, it } from 'mocha'
 
 import { Hex } from './Hex'
-import { hexToNumber, hexToString } from 'viem'
 
 describe(Hex.name, () => {
   it('works with an argument correctly representing base value', () => {
