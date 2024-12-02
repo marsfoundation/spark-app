@@ -78,7 +78,7 @@ test.describe('E-Mode dialog', () => {
       await eModeDialog.actionsContainer.acceptAllActionsAction(1)
       await eModeDialog.expectEModeSuccessPage('ETH Correlated')
       await eModeDialog.viewInMyPortfolioAction()
-      await myPortfolioPage.expectEModeButtonText('ETH Correlated')
+      await myPortfolioPage.expectEModeBadgeText('ETH Correlated')
     })
 
     test('cannot switch from no e-mode to stablecoins', async () => {
@@ -93,7 +93,7 @@ test.describe('E-Mode dialog', () => {
     test('can enter eth correlated e-mode and switch back to no e-mode', async () => {
       await myPortfolioPage.clickEModeButtonAction()
       await eModeDialog.setEModeAction('ETH Correlated')
-      await myPortfolioPage.expectEModeButtonText('ETH Correlated')
+      await myPortfolioPage.expectEModeBadgeText('ETH Correlated')
       await myPortfolioPage.clickEModeButtonAction()
 
       await eModeDialog.expectEModeCategoryTileStatus('ETH Correlated', 'Active')
@@ -117,13 +117,13 @@ test.describe('E-Mode dialog', () => {
       await eModeDialog.actionsContainer.acceptAllActionsAction(1)
       await eModeDialog.expectEModeSuccessPage('No E-Mode')
       await eModeDialog.viewInMyPortfolioAction()
-      await myPortfolioPage.expectEModeButtonText('off')
+      await myPortfolioPage.expectEModeBadgeText('E-Mode Off')
     })
 
     test('cannot switch back to no e-mode if hf below 1', async () => {
       await myPortfolioPage.clickEModeButtonAction()
       await eModeDialog.setEModeAction('ETH Correlated')
-      await myPortfolioPage.expectEModeButtonText('ETH Correlated')
+      await myPortfolioPage.expectEModeBadgeText('ETH Correlated')
 
       await myPortfolioPage.clickBorrowButtonAction('WETH')
       await borrowDialog.fillAmountAction(10)
@@ -200,7 +200,7 @@ test.describe('E-Mode dialog', () => {
       await eModeDialog.actionsContainer.acceptAllActionsAction(1)
       await eModeDialog.expectEModeSuccessPage('Stablecoins')
       await eModeDialog.viewInMyPortfolioAction()
-      await myPortfolioPage.expectEModeButtonText('Stablecoins')
+      await myPortfolioPage.expectEModeBadgeText('Stablecoins')
     })
 
     test('cannot switch from no e-mode to eth correlated', async () => {
@@ -215,7 +215,7 @@ test.describe('E-Mode dialog', () => {
     test('can enter stablecoins e-mode and switch back to no e-mode', async () => {
       await myPortfolioPage.clickEModeButtonAction()
       await eModeDialog.setEModeAction('Stablecoins')
-      await myPortfolioPage.expectEModeButtonText('Stablecoins')
+      await myPortfolioPage.expectEModeBadgeText('Stablecoins')
       await myPortfolioPage.clickEModeButtonAction()
 
       await eModeDialog.expectEModeCategoryTileStatus('Stablecoins', 'Active')
@@ -239,7 +239,7 @@ test.describe('E-Mode dialog', () => {
       await eModeDialog.actionsContainer.acceptAllActionsAction(1)
       await eModeDialog.expectEModeSuccessPage('No E-Mode')
       await eModeDialog.viewInMyPortfolioAction()
-      await myPortfolioPage.expectEModeButtonText('off')
+      await myPortfolioPage.expectEModeBadgeText('E-Mode Off')
     })
   })
 
@@ -375,7 +375,7 @@ test.describe('E-Mode dialog', () => {
       await eModeDialog.actionsContainer.acceptAllActionsAction(1)
       await eModeDialog.expectEModeSuccessPage('ETH Correlated')
       await eModeDialog.viewInMyPortfolioAction()
-      await myPortfolioPage.expectEModeButtonText('ETH Correlated')
+      await myPortfolioPage.expectEModeBadgeText('ETH Correlated')
     })
 
     test('can switch from no e-mode to stablecoins', async () => {
@@ -400,13 +400,13 @@ test.describe('E-Mode dialog', () => {
       await eModeDialog.actionsContainer.acceptAllActionsAction(1)
       await eModeDialog.expectEModeSuccessPage('Stablecoins')
       await eModeDialog.viewInMyPortfolioAction()
-      await myPortfolioPage.expectEModeButtonText('Stablecoins')
+      await myPortfolioPage.expectEModeBadgeText('Stablecoins')
     })
 
     test('can enter e-mode and switch back to no e-mode', async () => {
       await myPortfolioPage.clickEModeButtonAction()
       await eModeDialog.setEModeAction('Stablecoins')
-      await myPortfolioPage.expectEModeButtonText('Stablecoins')
+      await myPortfolioPage.expectEModeBadgeText('Stablecoins')
       await myPortfolioPage.clickEModeButtonAction()
 
       await eModeDialog.expectEModeCategoryTileStatus('Stablecoins', 'Active')
@@ -426,7 +426,7 @@ test.describe('E-Mode dialog', () => {
       await eModeDialog.actionsContainer.acceptAllActionsAction(1)
       await eModeDialog.expectEModeSuccessPage('No E-Mode')
       await eModeDialog.viewInMyPortfolioAction()
-      await myPortfolioPage.expectEModeButtonText('off')
+      await myPortfolioPage.expectEModeBadgeText('E-Mode Off')
     })
   })
 
@@ -462,7 +462,7 @@ test.describe('E-Mode dialog', () => {
 
         await myPortfolioPage.clickEModeButtonAction()
         await eModeDialog.setEModeAction('ETH Correlated')
-        await myPortfolioPage.expectEModeButtonText('ETH Correlated')
+        await myPortfolioPage.expectEModeBadgeText('ETH Correlated')
       })
 
       test('shows risk warning', async () => {
