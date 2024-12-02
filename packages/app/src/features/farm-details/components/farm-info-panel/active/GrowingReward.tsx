@@ -24,7 +24,7 @@ export function GrowingReward({ rewardToken, calculateReward, refreshIntervalInM
   const precision = calculatePrecision({ currentReward, rewardIn1Step })
 
   return (
-    <div className="isolate grid grid-cols-[auto_1fr] items-center gap-x-2 lg:gap-x-4 lg:gap-y-2 xl:gap-y-3">
+    <div className="isolate grid grid-cols-[auto_1fr] items-center gap-x-2 lg:gap-x-4 lg:gap-y-2">
       <img src={getTokenImage(rewardToken.symbol)} className="h-8 shrink-0 lg:h-12 xl:h-14" />
       <div className="flex items-baseline tabular-nums" data-testid={testIds.farmDetails.activeFarmInfoPanel.rewards}>
         <div
@@ -50,7 +50,7 @@ export function GrowingReward({ rewardToken, calculateReward, refreshIntervalInM
         )}
       </div>
       {rewardToken.unitPriceUsd.gt(0) && (
-        <div className="typography-label-6 col-start-2 ml-1.5 text-primary-inverse">
+        <div className="typography-label-4 col-start-2 ml-1.5 text-primary-inverse">
           &#8776;
           <span data-testid={testIds.farmDetails.activeFarmInfoPanel.rewardsUsd}>
             {rewardToken.formatUSD(currentReward)}

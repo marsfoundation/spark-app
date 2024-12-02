@@ -5,6 +5,7 @@ import { Farm } from '@/domain/farms/types'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { RewardPointsSyncStatus } from '@/features/farm-details/types'
+import { getTokenImage } from '@/ui/assets'
 import { DelayedComponent } from '@/ui/atoms/delayed-component/DelayedComponent'
 import { Button } from '@/ui/atoms/new/button/Button'
 import { Panel } from '@/ui/atoms/new/panel/Panel'
@@ -48,15 +49,19 @@ export function ActiveFarmInfoPanel({
     getChainConfigEntry(chainId).originChainId === mainnet.id
 
   return (
-    <Panel className="flex min-h-[380px] w-full flex-1 flex-col self-stretch">
-      <div className="flex justify-between">
-        <div className="flex items-center gap-1">
-          <h2 className="typography-heading-4 text-primary">Overview</h2>
+    <Panel
+      spacing="m"
+      className={cn('flex flex-col justify-between gap-4 bg-active-farm-panel bg-contain bg-right bg-no-repeat')}
+    >
+      <div className="flex w-full flex-row items-center justify-between">
+        <div className="flex flex-row items-center gap-1">
+          <h2 className="typography-heading-4 text-primary-inverse">Overview</h2>
         </div>
-        <div className="flex items-center gap-1">
+        <div className="md:-mt-2 md:-mr-2 flex flex-row gap-1">
           {canClaim && (
             <Button
               size="s"
+              variant="tertiary"
               onClick={openClaimDialog}
               data-testid={testIds.farmDetails.activeFarmInfoPanel.claimButton}
             >
@@ -66,7 +71,7 @@ export function ActiveFarmInfoPanel({
           {farm.staked.gt(0) && (
             <Button
               size="s"
-              variant="secondary"
+              variant="tertiary"
               onClick={openUnstakeDialog}
               data-testid={testIds.farmDetails.activeFarmInfoPanel.unstakeButton}
             >
@@ -75,7 +80,7 @@ export function ActiveFarmInfoPanel({
           )}
         </div>
       </div>
-      <div className="flex flex-grow flex-col items-center justify-center gap-2">
+      <div className="flex flex-col gap-4">
         <div className="flex items-center gap-2 md:items-baseline">
           <GrowingReward
             rewardToken={farm.rewardToken}
@@ -93,40 +98,40 @@ export function ActiveFarmInfoPanel({
           </DelayedComponent>
         )}
       </div>
-      <div className="flex flex-col gap-4">
-        <div
-          className={cn(
-            'flex flex-col items-start gap-2 md:flex-row md:items-center',
-            farm.apy?.gt(0) ? 'w-full text-sm md:justify-between' : 'md:gap-12',
-          )}
-        >
-          {farm.depositors && (
-            <DetailsItem title="Participants">
-              <div className="typography-label-4 text-primary">{farm.depositors}</div>
-            </DetailsItem>
-          )}
-
-          <DetailsItem title="TVL">
-            <div className="typography-label-4 text-primary">
-              {USD_MOCK_TOKEN.formatUSD(farm.totalSupply, { compact: true })}
+      <div className="flex gap-3 lg:gap-4 xl:gap-6">
+        {farm.depositors && (
+          <DetailsItem title="Participants">
+            <div className="typography-label-5 lg:typography-label-3 xl:typography-label-2 text-primary-inverse">
+              {farm.depositors}
             </div>
           </DetailsItem>
-          {farm.apy?.gt(0) && (
+        )}
+        <div className="w-px border-reskin-fg-secondary border-r" />
+        <DetailsItem title="TVL">
+          <div className="typography-label-5 lg:typography-label-3 xl:typography-label-2 text-primary-inverse">
+            {USD_MOCK_TOKEN.formatUSD(farm.totalSupply, { compact: true })}
+          </div>
+        </DetailsItem>
+        {farm.apy?.gt(0) && (
+          <>
+            <div className="w-px border-reskin-fg-secondary border-r" />
             <DetailsItem title="APY" explainer={<ApyTooltip farmAddress={farm.address} />}>
-              <div className="typography-label-4 text-reskin-magenta">
+              <div className="typography-label-5 lg:typography-label-3 xl:typography-label-2 text-feature-farms-primary">
                 {formatPercentage(farm.apy, { minimumFractionDigits: 0 })}
               </div>
             </DetailsItem>
-          )}
-          <DetailsItem title="My Deposit">
-            <div
-              className="typography-label-4 text-primary"
-              data-testid={testIds.farmDetails.activeFarmInfoPanel.staked}
-            >
-              {farm.stakingToken.format(farm.staked, { style: 'auto' })} {farm.stakingToken.symbol}
-            </div>
-          </DetailsItem>
-        </div>
+          </>
+        )}
+        <div className="w-px border-reskin-fg-secondary border-r" />
+        <DetailsItem title="My Deposit">
+          <div
+            className="typography-label-5 lg:typography-label-3 xl:typography-label-2 flex items-center gap-1 text-primary-inverse lg:gap-1.5"
+            data-testid={testIds.farmDetails.activeFarmInfoPanel.staked}
+          >
+            <img src={getTokenImage(farm.stakingToken.symbol)} className="h-3 shrink-0 lg:h-4" />
+            {farm.stakingToken.format(farm.staked, { style: 'auto' })}
+          </div>
+        </DetailsItem>
       </div>
     </Panel>
   )

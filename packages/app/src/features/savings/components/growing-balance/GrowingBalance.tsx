@@ -26,7 +26,7 @@ export function GrowingBalance({
   const { depositedAssets, depositedAssetsPrecision } = calculateSavingsBalance(timestampInMs)
 
   return (
-    <div className="isolate grid grid-cols-[auto_1fr] items-center gap-x-2 lg:gap-x-4 lg:gap-y-2 xl:gap-y-3">
+    <div className="isolate grid grid-cols-[auto_1fr] items-center gap-x-2 lg:gap-x-4 lg:gap-y-2">
       <img src={getTokenImage(assetsToken.symbol)} className="h-8 shrink-0 lg:h-12 xl:h-14" />
       <div className="flex items-baseline tabular-nums" data-testid={testIds.savings[savingsType].balanceInAsset}>
         <div
@@ -52,7 +52,7 @@ export function GrowingBalance({
         )}
       </div>
       <div
-        className="typography-label-6 col-start-2 ml-1.5 text-primary-inverse"
+        className="typography-label-4 col-start-2 ml-1.5 text-primary-inverse"
         data-testid={testIds.savings[savingsType].balance}
       >
         {savingsTokenWithBalance.token.format(savingsTokenWithBalance.balance, { style: 'auto' })}{' '}

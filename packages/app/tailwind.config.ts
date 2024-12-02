@@ -411,6 +411,7 @@ export default {
         // backgrounds with images
         'sdai-token-panel': 'url(/src/ui/assets/savings/sdai-token-panel-bg.svg), linear-gradient(#101014, #101014)',
         'susds-token-panel': 'url(/src/ui/assets/savings/susds-token-panel-bg.svg), linear-gradient(#101014, #101014)',
+        'active-farm-panel': 'url(/src/ui/assets/savings/active-farm-panel-bg.svg), linear-gradient(#101014, #101014)',
         'savings-opportunity-panel': 'url(/src/ui/assets/savings/savings-opportunity-panel-bg.svg)',
         'dai-upgrade': 'url(/src/ui/assets/savings/dai-upgrade-bg.svg), linear-gradient(#101014, #101014)',
         'sdai-upgrade': 'url(/src/ui/assets/savings/sdai-upgrade-bg.svg), linear-gradient(#101014, #101014)',
