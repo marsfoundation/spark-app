@@ -1,7 +1,7 @@
 import { EModeCategoryId } from '@/domain/e-mode/types'
-import { Info } from '@/ui/molecules/info/Info'
-
-import { EModeButton } from './EModeButton'
+import { Button } from '@/ui/atoms/new/button/Button'
+import { EModeBadge } from '@/ui/molecules/e-mode-badge/EModeBadge'
+import { testIds } from '@/ui/utils/testIds'
 
 interface EModeIndicatorProps {
   eModeCategoryId: EModeCategoryId
@@ -10,12 +10,17 @@ interface EModeIndicatorProps {
 
 export function EModeIndicator({ eModeCategoryId, onButtonClick }: EModeIndicatorProps) {
   return (
-    <div className="mt-1.5 ml-4 flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
-      <div className="flex flex-row items-center gap-0.5">
-        <div className="typography-label-5 text-secondary">E-Mode</div>
-        <Info>Efficiency mode (E-Mode) increases your LTV for a selected category of assets up to 97%.</Info>
-      </div>
-      <EModeButton categoryId={eModeCategoryId} onClick={onButtonClick} />
+    <div className="flex w-full items-center justify-between">
+      <EModeBadge categoryId={eModeCategoryId} />
+      <Button
+        size="s"
+        spacing="s"
+        variant="tertiary"
+        onClick={onButtonClick}
+        data-testid={testIds.component.EModeButton}
+      >
+        <span className="hidden sm:inline">Change</span> E-Mode
+      </Button>
     </div>
   )
 }
