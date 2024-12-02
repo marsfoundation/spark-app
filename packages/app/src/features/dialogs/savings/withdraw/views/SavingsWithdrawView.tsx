@@ -45,8 +45,6 @@ export function SavingsWithdrawView({
           sendModeExtension={sendModeExtension}
           assetsFields={assetsFields}
           selectorAssets={selectableAssets}
-          variant="usd"
-          walletIconLabel="Savings"
         />
         <TransactionOverview txOverview={txOverview} selectedToken={assetsFields.selectedAsset.token} />
       </FormAndOverviewWrapper>

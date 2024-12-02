@@ -5,7 +5,6 @@ import { ReserveStatus } from '@/domain/market-info/reserve-status'
 import { Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { APYDetails } from '@/features/markets/types'
-import { Typography } from '@/ui/atoms/typography/Typography'
 import { MobileViewOptions } from '@/ui/molecules/data-table/types'
 import { cn } from '@/ui/utils/style'
 
@@ -25,7 +24,7 @@ export function ApyWithRewardsCell({ mobileViewOptions, ...rest }: ApyWithReward
   if (mobileViewOptions?.isMobileView) {
     return (
       <div className="flex flex-row items-center justify-between">
-        <Typography variant="prompt">{mobileViewOptions.rowTitle}</Typography>
+        <div className="typography-label-6 text-secondary">{mobileViewOptions.rowTitle}</div>
         <CellContent {...rest} />
       </div>
     )
@@ -85,7 +84,7 @@ const variants = cva('', {
       true: 'font-bold',
     },
     dimmed: {
-      true: 'text-basics-dark-grey/70',
+      true: 'text-secondary/70',
     },
   },
 })

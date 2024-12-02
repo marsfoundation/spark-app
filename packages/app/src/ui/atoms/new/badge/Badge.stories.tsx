@@ -4,7 +4,7 @@ import { MagnetIcon, SkullIcon } from 'lucide-react'
 import { Fragment } from 'react'
 import { Badge, BadgeIcon } from './Badge'
 
-const variants = ['success', 'warning', 'error', 'neutral'] as const
+const variants = ['brand', 'success', 'warning', 'error', 'neutral'] as const
 const sizes = ['xs', 'sm'] as const
 const appearances = ['soft', 'solid'] as const
 
@@ -32,7 +32,7 @@ const meta: Meta<typeof Badge> = {
     children: 'Badge',
   },
   component: () => (
-    <StoryGrid className="grid-cols-5">
+    <StoryGrid className="grid-cols-6">
       <div />
       {variants.map((variant) => (
         <StoryGrid.Label key={variant}>{variant}</StoryGrid.Label>

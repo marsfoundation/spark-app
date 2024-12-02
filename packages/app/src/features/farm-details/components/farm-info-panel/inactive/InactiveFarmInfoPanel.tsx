@@ -65,7 +65,7 @@ export function InactiveFarmInfoPanel({
             </DetailsItem>
           )}
         </div>
-        <div className="hidden border-basics-border border-t md:block" />
+        <div className="hidden border-primary border-t md:block" />
         <Button
           className="w-full"
           disabled={!walletConnected || !hasTokensToDeposit}
@@ -98,7 +98,7 @@ function PointsFarmDetails({
           {isChroniclePointsFarm && <ChroniclePointsTooltip />}
         </div>
       </h2>
-      <div className=" text-basics-dark-grey text-sm">
+      <div className=" text-secondary text-sm">
         {isChroniclePointsFarm && (
           <div className="mb-2">
             Chronicle is the original oracle on Ethereum built within MakerDAO for the creation of DAI. Today,
@@ -126,7 +126,7 @@ function TokenFarmDetails({ farm, assetsGroupType }: { farm: Farm; assetsGroupTy
         </span>{' '}
         in rewards
       </h2>
-      <div className=" text-basics-dark-grey text-sm">
+      <div className=" text-secondary text-sm">
         {farm.apy?.gt(0) && (
           <>Deposit any of the tokens listed below and start farming {farm.rewardToken.symbol} tokens.</>
         )}{' '}
