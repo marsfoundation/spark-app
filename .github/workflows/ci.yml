@@ -118,6 +118,7 @@ jobs:
           node-version: ${{ matrix.node }}
           cache: "pnpm"
       - run: pnpm install
+      - run: pnpm run build
 
       - name: TMP fix MS repos
         run: |
