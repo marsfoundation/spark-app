@@ -310,16 +310,6 @@ export default {
             overlay: 'color-mix(in srgb, rgb(var(--neutral-100)) 30%, transparent)',
           },
         },
-        basics: {
-          black: 'rgb(var(--basics-black))',
-          white: 'rgb(var(--basics-white))',
-          green: 'rgb(var(--basics-green))',
-          red: 'rgb(var(--basics-red))',
-          border: 'var(--basics-border)',
-          'dark-grey': 'rgb(var(--basics-dark-grey))',
-          grey: 'rgb(var(--basics-grey))',
-          'light-grey': 'rgb(var(--basics-light-grey))',
-        },
         main: {
           blue: 'rgb(var(--main-blue))',
         },

@@ -14,10 +14,10 @@ export function WalletDropdownContent({
 }: WalletDropdownContentProps) {
   return (
     <div className="flex flex-col">
-      <div className="flex w-[calc(100vw-48px)] flex-col gap-4 border-basics-grey/50 border-b p-4 lg:w-64">
+      <div className="flex w-[calc(100vw-48px)] flex-col gap-4 border-primary border-b p-4 lg:w-64">
         <div className="flex items-center gap-3">
           <img src={walletIcon} alt="Wallet icon" className="h-5 w-5" />
-          <div className="overflow-hidden text-basics-black">
+          <div className="overflow-hidden text-primary">
             <Address compact address={address} />
           </div>
         </div>
@@ -32,7 +32,7 @@ export function WalletDropdownContent({
           <Link
             to={blockExplorerAddressLink}
             external
-            className="flex items-center gap-2.5 font-medium text-basics-dark-grey text-sm"
+            className="flex items-center gap-2.5 font-medium text-secondary text-sm"
           >
             <BoxArrowTopRight className="h-4 w-4" />
             View on Explorer

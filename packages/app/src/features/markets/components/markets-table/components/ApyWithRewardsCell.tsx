@@ -84,7 +84,7 @@ const variants = cva('', {
       true: 'font-bold',
     },
     dimmed: {
-      true: 'text-basics-dark-grey/70',
+      true: 'text-secondary/70',
     },
   },
 })
