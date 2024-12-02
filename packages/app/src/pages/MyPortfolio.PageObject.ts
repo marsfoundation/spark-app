@@ -198,8 +198,8 @@ export class MyPortfolioPageObject extends BasePageObject {
     await expect(amount).not.toHaveText('—')
   }
 
-  async expectEModeButtonText(eModeButtonText: string): Promise<void> {
-    await expect(this.page.getByTestId(testIds.component.EModeButton)).toHaveText(eModeButtonText)
+  async expectEModeBadgeText(eModeBadgeText: string): Promise<void> {
+    await expect(this.page.getByTestId(testIds.component.EModeBadge)).toHaveText(eModeBadgeText)
   }
   // #endregion assertions
 }

@@ -32,13 +32,14 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(
 )
 Badge.displayName = 'Badge'
 
-const badgeVariants = cva('typography-label-5 inline-flex items-center gap-1 rounded-full', {
+const badgeVariants = cva('typography-label-5 inline-flex w-fit items-center gap-1 rounded-full', {
   variants: {
     appearance: {
       soft: '',
       solid: '',
     },
     variant: {
+      brand: '',
       success: '',
       warning: '',
       error: '',
@@ -50,14 +51,16 @@ const badgeVariants = cva('typography-label-5 inline-flex items-center gap-1 rou
     },
   },
   compoundVariants: [
+    { appearance: 'soft', variant: 'brand', class: 'bg-brand-secondary text-brand-primary' },
     { appearance: 'soft', variant: 'success', class: 'bg-system-success-primary text-system-success-primary' },
     { appearance: 'soft', variant: 'warning', class: 'bg-system-warning-primary text-system-warning-primary' },
     { appearance: 'soft', variant: 'error', class: 'bg-system-error-primary text-system-error-primary' },
-    { appearance: 'soft', variant: 'neutral', class: 'bg-reskin-fg-secondary-inverse text-primary' },
+    { appearance: 'soft', variant: 'neutral', class: 'bg-secondary text-secondary' },
+    { appearance: 'solid', variant: 'brand', class: 'bg-reskin-fg-brand-tertiary text-primary-inverse' },
     { appearance: 'solid', variant: 'success', class: 'bg-reskin-fg-system-success-secondary text-primary-inverse' },
     { appearance: 'solid', variant: 'warning', class: 'bg-reskin-fg-system-warning-secondary text-primary-inverse' },
     { appearance: 'solid', variant: 'error', class: 'bg-reskin-fg-system-error-secondary text-primary-inverse' },
-    { appearance: 'solid', variant: 'neutral', class: 'bg-reskin-fg-secondary text-primary-inverse' },
+    { appearance: 'solid', variant: 'neutral', class: 'bg-reskin-fg-quaternary text-primary-inverse' },
   ],
 })
 

@@ -34,6 +34,7 @@ export const testIds = makeTestIds({
       explanation: true,
     },
     EModeButton: true,
+    EModeBadge: true,
     SuccessViewContent: true,
     AddressInput: {
       input: true,

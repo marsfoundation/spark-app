@@ -19,7 +19,7 @@ function BannerHeader({ children }: { children: React.ReactNode }) {
 }
 
 function BannerDescription({ children }: { children: React.ReactNode }) {
-  return <p className="text-basics-black">{children}</p>
+  return <p className="text-primary">{children}</p>
 }
 
 Banner.Content = BannerContent

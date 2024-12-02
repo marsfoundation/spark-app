@@ -24,7 +24,7 @@ export interface BorrowTableProps {
 export function BorrowTable({ assets, openDialog, eModeCategoryId }: BorrowTableProps) {
   return (
     <Panel className="flex flex-col gap-6">
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-3">
         <h3 className="typography-heading-4 text-primary">Borrow</h3>
         <EModeIndicator
           eModeCategoryId={eModeCategoryId}

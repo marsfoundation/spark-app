@@ -8,7 +8,7 @@ const indicatorVariants = cva('h-full w-full flex-1 rounded-full transition-all'
   variants: {
     variant: {
       'in-progress': 'bg-main-blue',
-      finished: 'bg-basics-red',
+      finished: 'bg-reskin-error',
     },
   },
   defaultVariants: {

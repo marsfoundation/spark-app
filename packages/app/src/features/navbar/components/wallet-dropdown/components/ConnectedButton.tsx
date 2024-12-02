@@ -37,7 +37,7 @@ ConnectedButton.displayName = 'ConnectedButton'
 
 function Chevron({ open }: { open: boolean }) {
   if (open) {
-    return <ChevronUp size={16} className="ml-auto text-basics-dark-grey" />
+    return <ChevronUp size={16} className="ml-auto text-secondary" />
   }
-  return <ChevronDown size={16} className="ml-auto text-basics-dark-grey" />
+  return <ChevronDown size={16} className="ml-auto text-secondary" />
 }
