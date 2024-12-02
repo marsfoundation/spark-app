@@ -1,7 +1,5 @@
-import { cva } from 'class-variance-authority'
-
-import { Typography } from '@/ui/atoms/typography/Typography'
 import { cn } from '@/ui/utils/style'
+import { cva } from 'class-variance-authority'
 
 interface IconStackProps {
   paths: string[]
@@ -39,15 +37,15 @@ export function IconStack({
         />
       ))}
       {omittedLength > 0 && (
-        <Typography
+        <div
           className={cn(
-            'flex items-center justify-center rounded-full bg-light-blue font-semibold text-white',
+            'flex items-center justify-center rounded-full bg-reskin-primary-600 text-primary-inverse',
+            size === 'base' ? 'typography-label-6' : 'typography-label-4',
             iconVariants({ size }),
           )}
-          variant={size === 'base' ? 'prompt' : 'h4'}
         >
           +{omittedLength}
-        </Typography>
+        </div>
       )}
     </div>
   )

@@ -1,5 +1,4 @@
 import { Button } from '@/ui/atoms/new/button/Button'
-import { Typography } from '@/ui/atoms/typography/Typography'
 import { ErrorLayout } from '@/ui/layouts/ErrorLayout'
 
 export interface ErrorViewProps {
@@ -10,9 +9,11 @@ export interface ErrorViewProps {
 export function ErrorView({ onReload, fullScreen }: ErrorViewProps) {
   return (
     <ErrorLayout fullScreen={fullScreen}>
-      <Typography variant="h1">Oops</Typography>
-      <Typography variant="h3">Something went wrong</Typography>
-      <Button onClick={onReload}>Reload</Button>
+      <div className="my-auto flex flex-col items-center justify-center gap-6 py-8">
+        <div className="typography-display-2 text-secondary">Oops</div>
+        <div className="typography-heading-4">Something went wrong</div>
+        <Button onClick={onReload}>Reload</Button>
+      </div>
     </ErrorLayout>
   )
 }

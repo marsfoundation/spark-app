@@ -67,7 +67,9 @@ export function TopbarNavigation({
             label={LINKS_DATA.borrow.label}
             type="borrow"
             prefixIcon={LINKS_DATA.borrow.icon}
-            postfixSlot={<ChevronDown className={cn(linksDropdownOpen && 'rotate-180')} />}
+            postfixSlot={
+              <ChevronDown className={cn('transition-transform duration-300', linksDropdownOpen && 'rotate-180')} />
+            }
             active={isBorrowSubLinkActive}
             highlighted={linksDropdownOpen}
           />
