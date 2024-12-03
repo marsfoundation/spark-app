@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { userEvent, within } from '@storybook/test'
 
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { assets } from '@/ui/assets'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/ui/atoms/dropdown/DropdownMenu'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 
 import { WalletDropdownContent } from './WalletDropdownContent'
 

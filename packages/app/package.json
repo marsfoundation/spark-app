@@ -24,6 +24,7 @@
     "chromatic": "npx chromatic --build-script-name storybook:build --exit-zero-on-changes"
   },
   "dependencies": {
+    "@marsfoundation/common-universal": "workspace:^",
     "@aave/math-utils": "^1.20.0",
     "@hookform/resolvers": "^3.3.2",
     "@radix-ui/react-accordion": "^1.1.2",
@@ -59,7 +60,6 @@
     "@visx/shape": "^3.5.0",
     "@visx/text": "^3.3.0",
     "@visx/tooltip": "^3.3.0",
-    "bignumber.js": "^9.1.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "d3-array": "^3.2.4",

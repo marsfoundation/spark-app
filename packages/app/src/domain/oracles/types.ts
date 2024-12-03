@@ -2,7 +2,7 @@ import { NormalizedUnitNumber } from '../types/NumericValues'
 import { Token } from '../types/Token'
 
 import { OracleFeedProvider } from '@/config/chain/types'
-import { CheckedAddress } from '../types/CheckedAddress'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { TokenSymbol } from '../types/TokenSymbol'
 
 export interface OracleInfoBase {

@@ -19,6 +19,10 @@ export default defineConfig({
     __BUILD_TIME__: JSON.stringify(buildTime),
   },
 
+  resolve: {
+    conditions: ['@marsfoundation/source'],
+  },
+
   plugins: [
     react(),
     tsconfigPaths(),

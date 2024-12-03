@@ -1,5 +1,5 @@
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { Token } from '@/domain/types/Token'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 
 export interface ClaimMarketRewardsObjective {
   type: 'claimMarketRewards'

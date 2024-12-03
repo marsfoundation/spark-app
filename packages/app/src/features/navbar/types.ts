@@ -1,7 +1,7 @@
 import { SavingsInfo } from '@/domain/savings-info/types'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { EnsName } from '@/domain/types/EnsName'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { Reward } from './components/rewards-badge/types'
 
 export interface SupportedChain {

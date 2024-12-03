@@ -2,8 +2,8 @@ import { queryOptions, skipToken } from '@tanstack/react-query'
 import { z } from 'zod'
 
 import { blockAnaliticaApiUrl } from '@/config/consts'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { normalizedUnitNumberSchema } from '../../../../domain/common/validation'
-import { CheckedAddress } from '../../../../domain/types/CheckedAddress'
 
 const airdropInfoResponseSchema = z
   .object({

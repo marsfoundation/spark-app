@@ -1,6 +1,6 @@
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { Button } from '@/ui/atoms/new/button/Button'
 import { shortenAddress } from '@/ui/utils/shortenAddress'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { Banner } from './Banner'
 
 export interface AddressBlockedProps {

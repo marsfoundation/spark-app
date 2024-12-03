@@ -1,7 +1,7 @@
 import { paths } from '@/config/paths'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { assets } from '@/ui/assets'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { WithTooltipProvider } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
 import { getMobileStory } from '@sb/viewports'

@@ -1,5 +1,4 @@
 import { useBlockExplorerAddressLink } from '@/domain/hooks/useBlockExplorerAddressLink'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { Token } from '@/domain/types/Token'
 import BoxArrowTopRight from '@/ui/assets/box-arrow-top-right.svg?react'
 import { Address } from '@/ui/atoms/address/Address'
@@ -13,6 +12,7 @@ import {
 import { Link } from '@/ui/atoms/link/Link'
 import { IconButton } from '@/ui/atoms/new/icon-button/IconButton'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { MoreVerticalIcon } from 'lucide-react'
 import { PropsWithChildren, ReactNode } from 'react'
 

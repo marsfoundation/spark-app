@@ -1,5 +1,5 @@
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { WithClassname, ZeroAllowanceWagmiDecorator } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'

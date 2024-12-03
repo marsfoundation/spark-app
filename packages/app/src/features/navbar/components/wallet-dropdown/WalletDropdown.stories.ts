@@ -1,6 +1,6 @@
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { EnsName } from '@/domain/types/EnsName'
 import { assets } from '@/ui/assets'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import type { Meta, StoryObj } from '@storybook/react'
 import { userEvent, within } from '@storybook/test'
 import { WalletDropdown, WalletDropdownProps } from './WalletDropdown'

@@ -13,11 +13,11 @@ import {
   wstethRatioMainnetAbi,
 } from '@/config/abis/yieldingTokensRatioAbi'
 import { toBigInt } from '@/utils/bigNumber'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { gnosis, mainnet } from 'viem/chains'
 import { Config } from 'wagmi'
 import { readContract } from 'wagmi/actions'
 import { Reserve } from '../market-info/marketInfo'
-import { CheckedAddress } from '../types/CheckedAddress'
 import { BaseUnitNumber, NormalizedUnitNumber } from '../types/NumericValues'
 
 export interface OracleInfoFetcherParams {

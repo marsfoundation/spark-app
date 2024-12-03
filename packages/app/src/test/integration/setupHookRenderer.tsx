@@ -2,7 +2,7 @@ import { QueryClient } from '@tanstack/react-query'
 import { RenderHookResult, renderHook } from '@testing-library/react'
 import { Chain } from 'wagmi/chains'
 
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 
 import { QueryInvalidationManager } from './QueryInvalidationManager'
 import { TestingWrapper } from './TestingWrapper'

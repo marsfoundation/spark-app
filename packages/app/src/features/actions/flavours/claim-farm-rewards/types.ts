@@ -1,6 +1,6 @@
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 
 export interface ClaimFarmRewardsObjective {
   type: 'claimFarmRewards'

@@ -1,4 +1,4 @@
-import { CheckedAddress } from '../types/CheckedAddress'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
 import { Token } from '../types/Token'
 import { TokenSymbol } from '../types/TokenSymbol'

@@ -1,6 +1,6 @@
 import { farmAddresses } from '@/config/chain/constants'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { Info } from '@/ui/molecules/info/Info'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { mainnet } from 'viem/chains'
 
 export interface ApyTooltipProps {

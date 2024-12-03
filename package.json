@@ -13,7 +13,11 @@
     "check:fix": "biome check --write --unsafe .",
     "build": "pnpm run --parallel --aggregate-output --reporter append-only --filter './packages/**' build",
     "verify": "pnpm run --parallel --aggregate-output --reporter append-only --filter './packages/**' verify",
-    "fix": "pnpm run check:fix && pnpm run verify"
+    "fix": "pnpm run check:fix && pnpm run verify",
+    "clean": "pnpm run --parallel --aggregate-output --reporter append-only --filter './packages/**' clean"
+  },
+  "dependencies": {
+    "bignumber.js": "^9.1.2"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.1",

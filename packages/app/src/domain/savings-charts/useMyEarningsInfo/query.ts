@@ -1,6 +1,6 @@
 import { normalizedUnitNumberSchema } from '@/domain/common/validation'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { dateSchema } from '@/utils/schemas'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { queryOptions, skipToken } from '@tanstack/react-query'
 import { sort } from 'd3-array'
 import { z } from 'zod'

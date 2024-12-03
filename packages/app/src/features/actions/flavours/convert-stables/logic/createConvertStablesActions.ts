@@ -5,10 +5,10 @@ import {
   usdsPsmWrapperConfig,
 } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { Action, ActionContext } from '@/features/actions/logic/types'
 import { assert } from '@/utils/assert'
 import { assertNever } from '@/utils/assertNever'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { base } from 'viem/chains'
 import { ApproveAction } from '../../approve/types'
 import { ConvertStablesObjective } from '../types'

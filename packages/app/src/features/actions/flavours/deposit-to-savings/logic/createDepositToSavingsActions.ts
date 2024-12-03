@@ -5,10 +5,10 @@ import {
   usdsPsmActionsConfig,
 } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { Action, ActionContext } from '@/features/actions/logic/types'
 import { raise } from '@/utils/assert'
 import { assertNever } from '@/utils/assertNever'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { ApproveAction } from '../../approve/types'
 import { DepositToSavingsAction, DepositToSavingsObjective } from '../types'
 import { getSavingsDepositActionPath } from './getSavingsDepositActionPath'
