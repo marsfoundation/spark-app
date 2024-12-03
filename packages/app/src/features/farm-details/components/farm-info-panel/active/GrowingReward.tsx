@@ -37,7 +37,7 @@ export function GrowingReward({ rewardToken, calculateReward, refreshIntervalInM
         </div>
         {precision > 0 && (
           <div className="relative">
-            <div className="typography-heading-4 text-feature-farms-primary">
+            <div className="typography-heading-4 text-feature-farms-primary [text-shadow:_0_1px_4px_rgb(0_0_0)]">
               {getFractionalPart(currentReward, precision)}
             </div>
           </div>

@@ -39,7 +39,12 @@ export function GrowingBalance({
         </div>
         {depositedAssetsPrecision > 0 && (
           <div className="relative">
-            <div className={cn('typography-heading-4', savingsType === 'sdai' ? 'text-[#54AC3D]' : 'text-[#00C2A1]')}>
+            <div
+              className={cn(
+                'typography-heading-4 [text-shadow:_0_1px_4px_rgb(0_0_0)]',
+                savingsType === 'sdai' ? 'text-[#54AC3D]' : 'text-[#00C2A1]',
+              )}
+            >
               {getFractionalPart(depositedAssets, depositedAssetsPrecision)}
             </div>
           </div>
