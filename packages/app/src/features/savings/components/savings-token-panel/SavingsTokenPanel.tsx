@@ -48,7 +48,7 @@ export function SavingsTokenPanel({
     <Panel
       spacing="m"
       className={cn(
-        'flex flex-col justify-between gap-4 bg-right bg-no-repeat md:bg-contain',
+        'flex flex-col justify-between gap-8 bg-right bg-no-repeat md:bg-contain',
         savingsType === 'sdai' ? 'bg-sdai-token-panel' : 'bg-susds-token-panel',
       )}
       data-testid={testIds.savings[savingsType].panel}

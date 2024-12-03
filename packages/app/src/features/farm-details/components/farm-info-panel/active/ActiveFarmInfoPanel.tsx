@@ -51,7 +51,7 @@ export function ActiveFarmInfoPanel({
   return (
     <Panel
       spacing="m"
-      className="flex flex-col justify-between gap-4 bg-active-farm-panel bg-right bg-no-repeat md:bg-contain"
+      className="flex flex-col justify-between gap-8 bg-active-farm-panel bg-right bg-no-repeat md:bg-contain"
     >
       <div className="flex w-full flex-row items-center justify-between">
         <div className="flex flex-row items-center gap-1">
@@ -100,13 +100,15 @@ export function ActiveFarmInfoPanel({
       </div>
       <div className="flex gap-3 lg:gap-4 xl:gap-6">
         {farm.depositors && (
-          <DetailsItem title="Participants">
-            <div className="typography-label-5 lg:typography-label-3 xl:typography-label-2 text-primary-inverse">
-              {farm.depositors}
-            </div>
-          </DetailsItem>
+          <>
+            <DetailsItem title="Participants">
+              <div className="typography-label-5 lg:typography-label-3 xl:typography-label-2 text-primary-inverse">
+                {farm.depositors}
+              </div>
+            </DetailsItem>
+            <div className="w-px border-reskin-fg-secondary border-r" />
+          </>
         )}
-        <div className="w-px border-reskin-fg-secondary border-r" />
         <DetailsItem title="TVL">
           <div className="typography-label-5 lg:typography-label-3 xl:typography-label-2 text-primary-inverse">
             {USD_MOCK_TOKEN.formatUSD(farm.totalSupply, { compact: true })}
