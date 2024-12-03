@@ -5,11 +5,12 @@ import { KeyPoints } from '@/ui/atoms/key-points/KeyPoints'
 import { IconButton } from '@/ui/atoms/new/icon-button/IconButton'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
+import { PortalRef } from '@/ui/utils/usePortalRef'
 import { ChevronDown } from 'lucide-react'
-import { RefObject, useState } from 'react'
+import { useState } from 'react'
 
 export interface BenefitsDialog {
-  portalContainerRef: RefObject<HTMLElement> | undefined
+  portalContainerRef: PortalRef | undefined
   apyImprovement?: Percentage
 }
 

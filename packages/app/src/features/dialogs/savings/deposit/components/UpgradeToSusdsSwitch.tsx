@@ -3,13 +3,13 @@ import { Percentage } from '@/domain/types/NumericValues'
 import { assets } from '@/ui/assets'
 import { Switch } from '@/ui/atoms/new/switch/Switch'
 import { testIds } from '@/ui/utils/testIds'
-import { RefObject } from 'react'
+import { PortalRef } from '@/ui/utils/usePortalRef'
 import { BenefitsDialog } from './BenefitsDialog'
 
 export interface UpgradeToSusdsSwitchProps {
   checked: boolean
   onSwitch: () => void
-  benefitsDialogPortalContainerRef?: RefObject<HTMLElement>
+  benefitsDialogPortalContainerRef?: PortalRef
   apyImprovement?: Percentage
 }
 
