@@ -2,8 +2,7 @@
   "name": "@marsfoundation/common-universal",
   "version": "0.1.6",
   "engines": {
-    "node": ">=18.0.0",
-    "pnpm": ">=8.0.0"
+    "node": ">=18.0.0"
   },
   "type": "module",
   "main": "./dist/cjs/index.js",
