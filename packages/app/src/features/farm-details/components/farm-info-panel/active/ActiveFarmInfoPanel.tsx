@@ -51,7 +51,7 @@ export function ActiveFarmInfoPanel({
   return (
     <Panel
       spacing="m"
-      className={cn('flex flex-col justify-between gap-4 bg-active-farm-panel bg-contain bg-right bg-no-repeat')}
+      className="flex flex-col justify-between gap-4 bg-active-farm-panel bg-right bg-no-repeat md:bg-contain"
     >
       <div className="flex w-full flex-row items-center justify-between">
         <div className="flex flex-row items-center gap-1">
@@ -125,7 +125,10 @@ export function ActiveFarmInfoPanel({
         <div className="w-px border-reskin-fg-secondary border-r" />
         <DetailsItem title="My Deposit">
           <div
-            className="typography-label-5 lg:typography-label-3 xl:typography-label-2 flex items-center gap-1 text-primary-inverse lg:gap-1.5"
+            className={cn(
+              'typography-label-5 lg:typography-label-3 xl:typography-label-2',
+              'flex items-center gap-1 text-primary-inverse lg:gap-1.5',
+            )}
             data-testid={testIds.farmDetails.activeFarmInfoPanel.staked}
           >
             <img

@@ -29,9 +29,9 @@ export function GrowingReward({ rewardToken, calculateReward, refreshIntervalInM
       <div className="flex items-baseline tabular-nums" data-testid={testIds.farmDetails.activeFarmInfoPanel.rewards}>
         <div
           className={cn(
-            'typography-heading-3 lg:typography-display-3 xl:typography-display-2 relative bg-clip-text text-transparent',
+            'typography-heading-3 lg:typography-display-3 xl:typography-display-2 ',
             'before:-z-10 before:-inset-2 before:absolute before:bg-reskin-base-black before:blur-sm',
-            'bg-gradient-farms-1',
+            'relative bg-gradient-farms-1 bg-clip-text text-transparent',
           )}
         >
           {getWholePart(currentReward)}
@@ -40,8 +40,8 @@ export function GrowingReward({ rewardToken, calculateReward, refreshIntervalInM
           <div className="relative">
             <div
               className={cn(
-                'typography-heading-4 before:-z-10 before:absolute before:inset-0 before:bg-reskin-base-black before:blur-sm',
-                'text-feature-farms-primary',
+                'typography-heading-4 before:-z-10 before:absolute before:inset-0',
+                'text-feature-farms-primary before:bg-reskin-base-black before:blur-sm',
               )}
             >
               {getFractionalPart(currentReward, precision)}
