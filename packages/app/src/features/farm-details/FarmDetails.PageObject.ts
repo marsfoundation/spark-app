@@ -43,8 +43,10 @@ export class FarmDetailsPageObject extends BasePageObject {
     }
   }
 
-  async expectStaked(staked: string): Promise<void> {
-    await expect(this.page.getByTestId(testIds.farmDetails.activeFarmInfoPanel.staked)).toContainText(staked)
+  async expectStaked({ amount, asset }: { amount: string; asset: string }): Promise<void> {
+    const stakedLocator = this.page.getByTestId(testIds.farmDetails.activeFarmInfoPanel.staked)
+    await expect(stakedLocator).toContainText(amount)
+    await expect(stakedLocator.getByRole('img')).toHaveAttribute('alt', asset)
   }
 
   async expectInfoPanelToBeVisible(): Promise<void> {

@@ -82,6 +82,6 @@ test.describe('Stake USDC to SKY farm', () => {
       reward: '0.1',
       rewardUsd: '<$0.01',
     })
-    await farmDetailsPage.expectStaked('10,000.00 USDS')
+    await farmDetailsPage.expectStaked({ amount: '10,000.00', asset: 'USDS' })
   })
 })

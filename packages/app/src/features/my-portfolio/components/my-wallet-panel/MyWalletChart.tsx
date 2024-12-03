@@ -18,10 +18,13 @@ export function MyWalletChart({ assets, className }: MyWalletChartProps) {
     NormalizedUnitNumber(0),
   )
   const nonZeroAssets = assets.filter((asset) => asset.balance.gt(0))
-  const data = nonZeroAssets.map((asset) => ({
-    value: asset.token.toUSD(asset.balance).toNumber(),
-    color: getTokenColor(asset.token.symbol, { fallback: getRandomColor() }),
-  }))
+  const data = nonZeroAssets
+    .map((asset) => ({
+      value: asset.token.toUSD(asset.balance).toNumber(),
+      color: getTokenColor(asset.token.symbol, { fallback: getRandomColor() }),
+    }))
+    .filter(({ value }) => value / totalUsd.toNumber() > 0.005) // @note: filter out values that are smaller than 0.5% of total
+
   const [highlightedIndex, setHighlightedIndex] = useState<number | undefined>(undefined)
   const highlightedAsset = highlightedIndex === undefined ? undefined : nonZeroAssets[highlightedIndex]
 

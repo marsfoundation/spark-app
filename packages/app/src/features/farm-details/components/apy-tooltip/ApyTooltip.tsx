@@ -10,7 +10,7 @@ export interface ApyTooltipProps {
 export function ApyTooltip({ farmAddress }: ApyTooltipProps) {
   if (farmAddress === farmAddresses[mainnet.id].skyUsds) {
     return (
-      <Info>
+      <Info className="text-primary-inverse">
         The yield comes from Sky Token Rewards offered by Sky. The APY is calculated based on three factors: your share
         of the total deposits, the token emissions, and the current price of the reward token.
       </Info>
