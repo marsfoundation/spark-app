@@ -98,16 +98,13 @@ export function ActiveFarmInfoPanel({
           </DelayedComponent>
         )}
       </div>
-      <div className="flex gap-3 lg:gap-4 xl:gap-6">
+      <div className="flex divide-x divide-reskin-fg-secondary">
         {farm.depositors && (
-          <>
-            <DetailsItem title="Participants">
-              <div className="typography-label-5 lg:typography-label-3 xl:typography-label-2 text-primary-inverse">
-                {farm.depositors}
-              </div>
-            </DetailsItem>
-            <div className="w-px border-reskin-fg-secondary border-r" />
-          </>
+          <DetailsItem title="Participants">
+            <div className="typography-label-5 lg:typography-label-3 xl:typography-label-2 text-primary-inverse">
+              {farm.depositors}
+            </div>
+          </DetailsItem>
         )}
         <DetailsItem title="TVL">
           <div className="typography-label-5 lg:typography-label-3 xl:typography-label-2 text-primary-inverse">
@@ -115,16 +112,12 @@ export function ActiveFarmInfoPanel({
           </div>
         </DetailsItem>
         {farm.apy?.gt(0) && (
-          <>
-            <div className="w-px border-reskin-fg-secondary border-r" />
-            <DetailsItem title="APY" explainer={<ApyTooltip farmAddress={farm.address} />}>
-              <div className="typography-label-5 lg:typography-label-3 xl:typography-label-2 text-feature-farms-primary">
-                {formatPercentage(farm.apy, { minimumFractionDigits: 0 })}
-              </div>
-            </DetailsItem>
-          </>
+          <DetailsItem title="APY" explainer={<ApyTooltip farmAddress={farm.address} />}>
+            <div className="typography-label-5 lg:typography-label-3 xl:typography-label-2 text-feature-farms-primary">
+              {formatPercentage(farm.apy, { minimumFractionDigits: 0 })}
+            </div>
+          </DetailsItem>
         )}
-        <div className="w-px border-reskin-fg-secondary border-r" />
         <DetailsItem title="My Deposit">
           <div
             className={cn(

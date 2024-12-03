@@ -8,7 +8,7 @@ export interface DetailsItemProps {
 }
 export function DetailsItem({ title, explainer, children }: DetailsItemProps) {
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-1 px-3 xl:px-6 last:pr-0 first:pl-0">
       <div
         className={cn(
           'typography-label-6 md:typography-label-5 lg:typography-label-4',

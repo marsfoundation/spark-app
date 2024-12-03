@@ -83,7 +83,7 @@ export function SavingsTokenPanel({
         balanceRefreshIntervalInMs={balanceRefreshIntervalInMs}
         savingsType={savingsType}
       />
-      <div className="flex gap-2 lg:gap-6 md:gap-5 sm:gap-3">
+      <div className="flex divide-x divide-reskin-fg-secondary">
         <SavingsInfoTile>
           <SavingsInfoTile.Label tooltipContent="This is an estimate of what you could earn in 30 days.">
             <div className="hidden lg:block">30-day projection</div>
@@ -98,7 +98,6 @@ export function SavingsTokenPanel({
             {assetsToken.symbol}
           </SavingsInfoTile.Value>
         </SavingsInfoTile>
-        <div className="w-px border-reskin-fg-secondary border-r" />
         <SavingsInfoTile>
           <SavingsInfoTile.Label tooltipContent="This is an estimate of what you could earn in one year.">
             <div className="hidden lg:block"> 1-year projection </div>
@@ -113,7 +112,6 @@ export function SavingsTokenPanel({
             {assetsToken.symbol}
           </SavingsInfoTile.Value>
         </SavingsInfoTile>
-        <div className="w-px border-reskin-fg-secondary border-r" />
         <SavingsInfoTile>
           <SavingsInfoTile.Label
             tooltipContent={
