@@ -84,6 +84,8 @@ export function FarmDetailsView({
               walletConnected={walletConnected}
               hasTokensToDeposit={hasTokensToDeposit}
               openStakeDialog={openDefaultedStakeDialog}
+              openConnectModal={openConnectModal}
+              openSandboxModal={openSandboxModal}
             />
           )}
           <ChartTabsPanel
