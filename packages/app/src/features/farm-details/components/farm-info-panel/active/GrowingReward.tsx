@@ -30,7 +30,6 @@ export function GrowingReward({ rewardToken, calculateReward, refreshIntervalInM
         <div
           className={cn(
             'typography-heading-3 lg:typography-display-3 xl:typography-display-2 ',
-            'before:-z-10 before:-inset-2 before:absolute before:bg-[#101014] before:blur-sm',
             'relative bg-gradient-farms-1 bg-clip-text text-transparent',
           )}
         >
@@ -38,12 +37,7 @@ export function GrowingReward({ rewardToken, calculateReward, refreshIntervalInM
         </div>
         {precision > 0 && (
           <div className="relative">
-            <div
-              className={cn(
-                'typography-heading-4 before:-z-10 before:absolute before:inset-0',
-                'text-feature-farms-primary before:bg-[#101014] before:blur-sm',
-              )}
-            >
+            <div className="typography-heading-4 text-feature-farms-primary">
               {getFractionalPart(currentReward, precision)}
             </div>
           </div>

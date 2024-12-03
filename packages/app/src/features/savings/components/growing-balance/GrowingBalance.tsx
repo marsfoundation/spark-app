@@ -32,7 +32,6 @@ export function GrowingBalance({
         <div
           className={cn(
             'typography-heading-3 lg:typography-display-3 xl:typography-display-2 relative bg-clip-text text-transparent',
-            'before:-z-10 before:-inset-2 before:absolute before:bg-[#101014] before:blur-sm',
             savingsType === 'sdai' ? 'bg-gradient-savings-dai-counter' : 'bg-gradient-savings-usds-counter',
           )}
         >
@@ -40,12 +39,7 @@ export function GrowingBalance({
         </div>
         {depositedAssetsPrecision > 0 && (
           <div className="relative">
-            <div
-              className={cn(
-                'typography-heading-4 before:-z-10 before:absolute before:inset-0 before:bg-[#101014] before:blur-sm',
-                savingsType === 'sdai' ? 'text-[#54AC3D]' : 'text-[#00C2A1]',
-              )}
-            >
+            <div className={cn('typography-heading-4', savingsType === 'sdai' ? 'text-[#54AC3D]' : 'text-[#00C2A1]')}>
               {getFractionalPart(depositedAssets, depositedAssetsPrecision)}
             </div>
           </div>
