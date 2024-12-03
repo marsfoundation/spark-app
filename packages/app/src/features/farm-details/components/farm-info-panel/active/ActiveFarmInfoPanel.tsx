@@ -128,7 +128,11 @@ export function ActiveFarmInfoPanel({
             className="typography-label-5 lg:typography-label-3 xl:typography-label-2 flex items-center gap-1 text-primary-inverse lg:gap-1.5"
             data-testid={testIds.farmDetails.activeFarmInfoPanel.staked}
           >
-            <img src={getTokenImage(farm.stakingToken.symbol)} className="h-3 shrink-0 lg:h-4" />
+            <img
+              src={getTokenImage(farm.stakingToken.symbol)}
+              className="h-3 shrink-0 lg:h-4"
+              alt={farm.stakingToken.symbol}
+            />
             {farm.stakingToken.format(farm.staked, { style: 'auto' })}
           </div>
         </DetailsItem>

@@ -78,6 +78,6 @@ test.describe('Claim SKY rewards', () => {
       minBalance: 3_525,
       maxBalance: 3_545,
     })
-    await farmDetailsPage.expectStaked('10,000.00 USDS')
+    await farmDetailsPage.expectStaked({ amount: '10,000.00', asset: 'USDS' })
   })
 })
