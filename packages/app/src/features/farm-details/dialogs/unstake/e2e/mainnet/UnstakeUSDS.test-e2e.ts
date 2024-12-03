@@ -93,7 +93,7 @@ test.describe('Unstake USDS from SKY farm', () => {
       reward: '3,539',
       rewardUsd: '$213',
     })
-    await farmDetailsPage.expectStaked('5,000.00 USDS')
+    await farmDetailsPage.expectStaked({ amount: '5,000.00', asset: 'USDS' })
   })
 })
 
@@ -173,7 +173,7 @@ test.describe('Unstake USDS from CLE farm', () => {
     await farmDetailsPage.expectReward({
       reward: '257.6',
     })
-    await farmDetailsPage.expectStaked('5,000.00 USDS')
+    await farmDetailsPage.expectStaked({ amount: '5,000.00', asset: 'USDS' })
     await farmDetailsPage.expectPointsSyncWarning()
 
     await overrideInfoSkyRouteWithHAR({ page, key: `4-cle-farm-5000-balance-${harSuffix}` })
@@ -183,6 +183,6 @@ test.describe('Unstake USDS from CLE farm', () => {
     })
     await farmDetailsPage.expectPointsSyncWarningToBeHidden()
     await farmDetailsPage.expectInfoPanelClaimButtonToBeHidden()
-    await farmDetailsPage.expectStaked('5,000.00 USDS')
+    await farmDetailsPage.expectStaked({ amount: '5,000.00', asset: 'USDS' })
   })
 })

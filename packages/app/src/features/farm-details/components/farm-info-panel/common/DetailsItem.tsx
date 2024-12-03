@@ -1,3 +1,4 @@
+import { cn } from '@/ui/utils/style'
 import { ReactNode } from 'react'
 
 export interface DetailsItemProps {
@@ -7,8 +8,13 @@ export interface DetailsItemProps {
 }
 export function DetailsItem({ title, explainer, children }: DetailsItemProps) {
   return (
-    <div className="flex w-full flex-row items-center justify-between gap-1 md:w-fit md:flex-col md:items-start md:justify-normal">
-      <div className="typography-label-6 flex flex-row items-center gap-1 text-secondary">
+    <div className="flex flex-col gap-1 px-3 xl:px-6 last:pr-0 first:pl-0">
+      <div
+        className={cn(
+          'typography-label-6 md:typography-label-5 lg:typography-label-4',
+          'flex flex-row items-center gap-1 text-secondary',
+        )}
+      >
         {title}
         {explainer}
       </div>

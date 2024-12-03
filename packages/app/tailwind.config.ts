@@ -50,6 +50,20 @@ export default {
             primary: 'rgb(var(--error-700))',
           },
         },
+        feature: {
+          savings: {
+            primary: 'rgb(var(--green-500))',
+            secondary: 'rgb(var(--green-600))',
+          },
+          borrow: {
+            primary: 'rgb(var(--orange-500))',
+            secondary: 'rgb(var(--orange-600))',
+          },
+          farms: {
+            primary: 'rgb(var(--magenta-500))',
+            secondary: 'rgb(var(--magenta-600))',
+          },
+        },
       },
       outlineColor: {
         primary: 'rgb(var(--neutral-100))',
@@ -393,9 +407,11 @@ export default {
           'linear-gradient(125deg, #FFF 19.84%, #8CDB8B 40.17%, #00C2A1 64.6%)',
         'gradient-savings-opportunity-button': 'linear-gradient(105deg, #43E26B, #10B73D)',
         'gradient-borrow-rate-orange': 'linear-gradient(89.87deg, #FFFFFF 0.14%, #FFE6A4 50.03%, #FF895D 99.92%)',
+        'gradient-farms-1': 'linear-gradient(89.84deg, #FFFFFF -2.08%, #FFB5B5 48.92%, #FA43BD 99.92%)',
         // backgrounds with images
         'sdai-token-panel': 'url(/src/ui/assets/savings/sdai-token-panel-bg.svg), linear-gradient(#101014, #101014)',
         'susds-token-panel': 'url(/src/ui/assets/savings/susds-token-panel-bg.svg), linear-gradient(#101014, #101014)',
+        'active-farm-panel': 'url(/src/ui/assets/savings/active-farm-panel-bg.svg), linear-gradient(#101014, #101014)',
         'savings-opportunity-panel': 'url(/src/ui/assets/savings/savings-opportunity-panel-bg.svg)',
         'dai-upgrade': 'url(/src/ui/assets/savings/dai-upgrade-bg.svg), linear-gradient(#101014, #101014)',
         'sdai-upgrade': 'url(/src/ui/assets/savings/sdai-upgrade-bg.svg), linear-gradient(#101014, #101014)',
