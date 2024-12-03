@@ -20,8 +20,6 @@ export interface InactiveFarmInfoPanelProps {
   hasTokensToDeposit: boolean
   walletConnected: boolean
   openStakeDialog: () => void
-  openConnectModal: () => void
-  openSandboxModal: () => void
 }
 
 export function InactiveFarmInfoPanel({
@@ -31,8 +29,6 @@ export function InactiveFarmInfoPanel({
   hasTokensToDeposit,
   walletConnected,
   openStakeDialog,
-  openConnectModal,
-  openSandboxModal,
 }: InactiveFarmInfoPanelProps) {
   return (
     <Panel
@@ -73,25 +69,14 @@ export function InactiveFarmInfoPanel({
             </DetailsItem>
           )}
         </div>
-        {walletConnected ? (
-          <Button
-            className="w-full"
-            disabled={!hasTokensToDeposit}
-            onClick={openStakeDialog}
-            data-testid={testIds.farmDetails.infoPanel.stakeButton}
-          >
-            Deposit
-          </Button>
-        ) : (
-          <div className="grid grid-cols-2 gap-2">
-            <Button variant="primary" size="l" onClick={openConnectModal}>
-              Connect wallet
-            </Button>
-            <Button variant="secondary" size="l" onClick={openSandboxModal}>
-              Try in Sandbox
-            </Button>
-          </div>
-        )}
+        <Button
+          className="w-full"
+          disabled={!walletConnected || !hasTokensToDeposit}
+          onClick={openStakeDialog}
+          data-testid={testIds.farmDetails.infoPanel.stakeButton}
+        >
+          Deposit
+        </Button>
       </div>
     </Panel>
   )
