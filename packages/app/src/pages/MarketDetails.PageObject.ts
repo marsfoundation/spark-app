@@ -60,9 +60,8 @@ export class MarketDetailsPageObject extends BasePageObject {
       this.locateMarketOverview()
         .getByRole('listitem')
         .filter({ has: this.page.getByText(key) })
-        .getByRole('paragraph')
         .last(),
-    ).toHaveText(value)
+    ).toContainText(value)
   }
 
   async expectConnectWalletButton(): Promise<void> {

@@ -13,7 +13,7 @@ interface LegendItemProps {
 
 function LegendItem({ variant, children }: LegendItemProps) {
   return (
-    <div className="flex items-center gap-1.5">
+    <div className="flex items-center gap-1.5" role="listitem">
       <LegendItemBadge variant={variant} />
       <div className="typography-label-5 text-primary-inverse">{children}</div>
     </div>
