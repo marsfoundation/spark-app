@@ -2,8 +2,8 @@ import { ReserveStatus } from '@/domain/market-info/reserve-status'
 import { Token } from '@/domain/types/Token'
 import { getTokenImage } from '@/ui/assets'
 import { ColorFilter } from '@/ui/atoms/color-filter/ColorFilter'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/new/tooltip/Tooltip'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
-import { Tooltip, TooltipContentShort, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 import { FrozenPill } from '@/ui/molecules/frozen-pill/FrozenPill'
 import { PausedPill } from '@/ui/molecules/paused-pill/PausedPill'
 import { cn } from '@/ui/utils/style'
@@ -55,7 +55,7 @@ export function TokenName({ token, className }: TokenNameProps) {
           {token.name}
         </p>
       </TooltipTrigger>
-      <TooltipContentShort>{token.name}</TooltipContentShort>
+      <TooltipContent>{token.name}</TooltipContent>
     </Tooltip>
   )
 }

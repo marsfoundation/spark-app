@@ -1,14 +1,12 @@
+import { Dialog, DialogContent } from '@/ui/atoms/dialog/Dialog'
+import { TooltipProvider } from '@/ui/atoms/new/tooltip/Tooltip'
 import { StoryFn } from '@storybook/react'
 import { QueryClient, QueryClientConfig, QueryClientProvider } from '@tanstack/react-query'
 import { useEffect, useRef } from 'react'
 import { custom, encodeFunctionResult, zeroAddress } from 'viem'
-import { WagmiProvider, createConfig, useAccount, useConnect } from 'wagmi'
-
-import { TooltipProvider } from '@/ui/atoms/tooltip/Tooltip'
-
-import { Dialog, DialogContent } from '@/ui/atoms/dialog/Dialog'
 import { erc20Abi } from 'viem'
 import { mainnet } from 'viem/chains'
+import { WagmiProvider, createConfig, useAccount, useConnect } from 'wagmi'
 import { mock } from 'wagmi/connectors'
 import { DevContainer } from './DevContainer'
 import { STORYBOOK_TIMESTAMP } from './consts'

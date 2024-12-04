@@ -4,9 +4,8 @@ import { MultiPanelDialog } from '@/features/dialogs/common/components/MultiPane
 import { assets } from '@/ui/assets'
 import { Link } from '@/ui/atoms/link/Link'
 import { Button } from '@/ui/atoms/new/button/Button'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/new/tooltip/Tooltip'
 import { ScrollArea } from '@/ui/atoms/scroll-area/ScrollArea'
-import { Tooltip, TooltipContentShort } from '@/ui/atoms/tooltip/Tooltip'
-import { TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 import { links } from '@/ui/constants/links'
 import { cn } from '@/ui/utils/style'
 import { useIsIntersecting } from '@/ui/utils/useIntersecting'
@@ -112,7 +111,7 @@ export function TermsOfService({ onAgree }: TermsOfServiceProps) {
               Agree and Continue
             </Button>
           </TooltipTrigger>
-          <TooltipContentShort>Read terms before accepting</TooltipContentShort>
+          <TooltipContent>Read terms before accepting</TooltipContent>
         </Tooltip>
       )}
     </MultiPanelDialog>

@@ -1,8 +1,8 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { SPK_MOCK_TOKEN } from '@/domain/types/Token'
 import { assets } from '@/ui/assets'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/new/tooltip/Tooltip'
 import { Skeleton } from '@/ui/atoms/skeleton/Skeleton'
-import { Tooltip, TooltipContentLong, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 import { NavbarActionWrapper } from '../NavbarActionWrapper'
 import { AirdropDetails } from './AirdropDetails'
 
@@ -37,9 +37,9 @@ export function AirdropBadgeLayout({
             </div>
           </button>
         </TooltipTrigger>
-        <TooltipContentLong align="start" className="p-0">
+        <TooltipContent variant="long" align="start" className="p-0">
           <AirdropDetails amount={amount} precision={precision} isLoading={isLoading} isGrowing={isGrowing} />
-        </TooltipContentLong>
+        </TooltipContent>
       </Tooltip>
     </NavbarActionWrapper>
   )

@@ -1,12 +1,10 @@
+import { queryClient } from '@/config/query-client'
+import { getConfig } from '@/config/wagmi'
+import { TooltipProvider } from '@/ui/atoms/new/tooltip/Tooltip'
 import { RainbowKitProvider, lightTheme } from '@rainbow-me/rainbowkit'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { Suspense } from 'react'
 import { WagmiProvider } from 'wagmi'
-
-import { queryClient } from '@/config/query-client'
-import { getConfig } from '@/config/wagmi'
-import { TooltipProvider } from '@/ui/atoms/tooltip/Tooltip'
-
 import { StorybookErrorBoundary } from './ErrorBoundary'
 
 interface DevContainerProps {
