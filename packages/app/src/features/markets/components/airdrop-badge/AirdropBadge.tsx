@@ -10,7 +10,7 @@ import {
   TooltipContentLayout,
   TooltipContentTitle,
   TooltipTrigger,
-} from '@/ui/atoms/new/tooltip/Tooltip'
+} from '@/ui/atoms/tooltip/Tooltip'
 import { links } from '@/ui/constants/links'
 
 interface AirdropBadgeProps {

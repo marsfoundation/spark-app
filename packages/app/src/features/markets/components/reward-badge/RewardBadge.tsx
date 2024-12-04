@@ -11,7 +11,7 @@ import {
   TooltipContentLayout,
   TooltipContentTitle,
   TooltipTrigger,
-} from '@/ui/atoms/new/tooltip/Tooltip'
+} from '@/ui/atoms/tooltip/Tooltip'
 import { TokenPill } from '../token-pill/TokenPill'
 
 interface RewardBadgeProps {

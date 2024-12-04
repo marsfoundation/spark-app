@@ -8,7 +8,7 @@ import {
   TooltipContentLayout,
   TooltipContentTitle,
   TooltipTrigger,
-} from '@/ui/atoms/new/tooltip/Tooltip'
+} from '@/ui/atoms/tooltip/Tooltip'
 
 import { IconPill } from '../../atoms/icon-pill/IconPill'
 

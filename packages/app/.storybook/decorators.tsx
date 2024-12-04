@@ -1,5 +1,5 @@
 import { Dialog, DialogContent } from '@/ui/atoms/dialog/Dialog'
-import { TooltipProvider } from '@/ui/atoms/new/tooltip/Tooltip'
+import { TooltipProvider } from '@/ui/atoms/tooltip/Tooltip'
 import { StoryFn } from '@storybook/react'
 import { QueryClient, QueryClientConfig, QueryClientProvider } from '@tanstack/react-query'
 import { useEffect, useRef } from 'react'

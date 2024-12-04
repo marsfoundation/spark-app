@@ -1,7 +1,7 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { assets } from '@/ui/assets'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/new/tooltip/Tooltip'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 import { NavbarActionWrapper } from '../NavbarActionWrapper'
 import { RewardsDetails } from './RewardsDetails'
 import { Reward } from './types'

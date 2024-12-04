@@ -1,8 +1,8 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { SPK_MOCK_TOKEN } from '@/domain/types/Token'
 import { assets } from '@/ui/assets'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/new/tooltip/Tooltip'
 import { Skeleton } from '@/ui/atoms/skeleton/Skeleton'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 import { NavbarActionWrapper } from '../NavbarActionWrapper'
 import { AirdropDetails } from './AirdropDetails'
 

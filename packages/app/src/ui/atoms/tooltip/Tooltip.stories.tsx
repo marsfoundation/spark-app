@@ -16,7 +16,7 @@ import {
 } from './Tooltip'
 
 const meta: Meta<typeof Tooltip> = {
-  title: 'Components/Atoms/New/Tooltip',
+  title: 'Components/Atoms/Tooltip',
   decorators: [WithTooltipProvider()],
 }
 

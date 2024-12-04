@@ -6,7 +6,7 @@ import {
   SupplyAvailabilityStatus,
 } from '@/domain/market-info/reserve-status'
 import { IndicatorIcon } from '@/ui/atoms/indicator-icon/IndicatorIcon'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/new/tooltip/Tooltip'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 import { AssetStatusDescription } from './components/AssetStatusDescription'
 import { getVariantFromStatus } from './getVariantFromStatus'
 

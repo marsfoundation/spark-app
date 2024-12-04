@@ -13,7 +13,7 @@ import { queryClient } from './config/query-client'
 import { useViteErrorOverlay } from './domain/errors/useViteErrorOverlay'
 import { useStore } from './domain/state'
 import { useAutoConnect } from './domain/wallet/useAutoConnect'
-import { TooltipProvider } from './ui/atoms/new/tooltip/Tooltip'
+import { TooltipProvider } from './ui/atoms/tooltip/Tooltip'
 
 function App() {
   const sandboxNetwork = useStore((state) => state.sandbox.network)
