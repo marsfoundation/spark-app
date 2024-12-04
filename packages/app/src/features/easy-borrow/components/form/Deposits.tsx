@@ -2,9 +2,9 @@ import { PlusIcon } from 'lucide-react'
 import { Control } from 'react-hook-form'
 
 import { TokenWithBalance } from '@/domain/common/types'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { testIds } from '@/ui/utils/testIds'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 import { paths } from '@/config/paths'
 import { Link } from '@/ui/atoms/link/Link'

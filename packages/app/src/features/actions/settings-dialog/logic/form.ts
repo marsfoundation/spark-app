@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 import { formatPercentage } from '@/domain/common/format'
-import { Percentage } from '@/domain/types/NumericValues'
+import { Percentage } from '@marsfoundation/common-universal'
 
 export const SlippageInputType = z.enum(['button', 'input'])
 export type SlippageInputType = z.infer<typeof SlippageInputType>

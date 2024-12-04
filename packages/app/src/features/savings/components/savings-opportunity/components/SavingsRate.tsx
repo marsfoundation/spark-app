@@ -1,9 +1,9 @@
 import { SupportedChainId } from '@/config/chain/types'
 import { formatPercentage } from '@/domain/common/format'
-import { Percentage } from '@/domain/types/NumericValues'
 import { SavingsMetaItem } from '@/features/savings/logic/makeSavingsMeta'
 import { Info } from '@/ui/molecules/info/Info'
 import { testIds } from '@/ui/utils/testIds'
+import { Percentage } from '@marsfoundation/common-universal'
 import { SavingsRateTooltipContent } from '../../savings-rate-tooltip-content/SavingsRateTooltipContent'
 
 export interface SavingsRateProps {

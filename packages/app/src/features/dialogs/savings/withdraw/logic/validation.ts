@@ -1,7 +1,7 @@
 import { TokenWithBalance } from '@/domain/common/types'
 import { receiverValidationIssueToMessage, validateReceiver } from '@/domain/savings/validateReceiver'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { CheckedAddress } from '@marsfoundation/common-universal'
 import { Address } from 'viem'
 import { z } from 'zod'

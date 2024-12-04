@@ -1,8 +1,8 @@
 import { SavingsInfo } from '@/domain/savings-info/types'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Timeframe } from '@/ui/charts/defaults'
 import { range } from '@/utils/array'
 import { assertNever } from '@/utils/assertNever'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { MyEarningsInfoItem } from './types'
 
 const SECONDS_PER_DAY = 24 * 60 * 60

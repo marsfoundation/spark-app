@@ -1,4 +1,4 @@
-import { Percentage } from '@/domain/types/NumericValues'
+import { Percentage } from '@marsfoundation/common-universal'
 
 export interface SavingsRateInfoItem {
   date: Date

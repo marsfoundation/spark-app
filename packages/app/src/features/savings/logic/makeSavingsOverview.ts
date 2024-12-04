@@ -1,6 +1,6 @@
 import { TokenWithBalance } from '@/domain/common/types'
 import { SavingsInfo } from '@/domain/savings-info/types'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 const DEFAULT_PRECISION = 6
 export const STEP_IN_MS = 50

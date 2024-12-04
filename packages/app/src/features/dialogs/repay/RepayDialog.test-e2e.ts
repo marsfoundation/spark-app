@@ -11,8 +11,8 @@ import { setup } from '@/test/e2e/setup'
 import { screenshot } from '@/test/e2e/utils'
 
 import { tenderlyRpcActions } from '@/domain/tenderly/TenderlyRpcActions'
-import { BaseUnitNumber, NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { injectFixedDate } from '@/test/e2e/injectSetup'
+import { BaseUnitNumber, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { http, Address, createPublicClient } from 'viem'
 import { DialogPageObject } from '../common/Dialog.PageObject'
 

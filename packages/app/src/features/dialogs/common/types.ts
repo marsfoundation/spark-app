@@ -1,7 +1,7 @@
 import { TokenWithFormValue } from '@/domain/common/types'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { ComponentType } from 'react'
 
 export interface CommonDialogProps {

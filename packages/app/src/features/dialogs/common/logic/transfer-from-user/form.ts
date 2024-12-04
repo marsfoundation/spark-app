@@ -1,9 +1,9 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { useDebounce } from '@/utils/useDebounce'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { UseFormReturn } from 'react-hook-form'
 import { FormFieldsForDialog } from '../../types'
 

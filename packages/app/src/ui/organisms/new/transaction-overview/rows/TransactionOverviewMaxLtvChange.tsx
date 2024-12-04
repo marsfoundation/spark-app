@@ -1,6 +1,6 @@
 import { formatPercentage } from '@/domain/common/format'
-import { Percentage } from '@/domain/types/NumericValues'
 import { testIds } from '@/ui/utils/testIds'
+import { Percentage } from '@marsfoundation/common-universal'
 import { MoveRightIcon } from 'lucide-react'
 
 interface TransactionOverviewMaxLtvChangeProps {

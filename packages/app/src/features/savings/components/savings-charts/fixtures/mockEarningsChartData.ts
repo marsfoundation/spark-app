@@ -1,4 +1,4 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 export const mockEarningsChartData = [
   { balance: NormalizedUnitNumber('40000'), date: new Date('2024-08-01T00:00:00') },

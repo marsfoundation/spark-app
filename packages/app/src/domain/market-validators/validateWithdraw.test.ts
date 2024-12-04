@@ -1,5 +1,5 @@
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { describe, expect, test } from 'vitest'
-import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
 import { validateWithdraw } from './validateWithdraw'
 
 describe(validateWithdraw.name, () => {

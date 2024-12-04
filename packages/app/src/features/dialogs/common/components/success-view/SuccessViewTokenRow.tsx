@@ -1,6 +1,6 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 export interface SuccessViewTokenRowProps {
   token: Token

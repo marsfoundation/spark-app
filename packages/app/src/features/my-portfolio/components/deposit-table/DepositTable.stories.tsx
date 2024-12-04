@@ -5,8 +5,8 @@ import { Meta, StoryObj } from '@storybook/react'
 import { within } from '@storybook/test'
 import { withRouter } from 'storybook-addon-remix-react-router'
 
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { raise } from '@/utils/assert'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 
 import { Deposit } from '../../logic/assets'
 import { DepositTable } from './DepositTable'

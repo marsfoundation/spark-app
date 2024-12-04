@@ -1,11 +1,7 @@
-import { formatPercentage } from '@/domain/common/format'
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
-import { MarketOverviewChart } from '../charts/market-overview/MarketOverviewChart'
-import { colors } from '../charts/market-overview/colors'
-import { Legend } from '../charts/market-overview/components/Legend'
-import { DetailsGrid } from './components/DetailsGrid'
-import { DetailsGridItem } from './components/DetailsGridItem'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
+import { Legend } from './components/LegendItem'
+import { MarketOverviewChart, colors } from './components/MarketOverviewChart'
 import { MarketOverviewContent } from './components/MarketOvierviewContent'
 
 export interface DefaultMarketOverviewProps {
@@ -24,34 +20,24 @@ export function DefaultMarketOverview({
   utilizationRate,
 }: DefaultMarketOverviewProps) {
   const chartData = [
-    { value: borrowed.toNumber(), color: colors.blue },
-    { value: available.toNumber(), color: colors.green },
+    { value: borrowed.toNumber(), color: colors.borrow },
+    { value: available.toNumber(), color: colors.available },
   ]
 
   return (
     <MarketOverviewContent>
-      <h4 className="font-semibold text-base text-sky-950 md:text-xl">Market Overview</h4>
-      <MarketOverviewChart data={chartData}>
-        <Legend token={token} utilized={borrowed} total={marketSize} utilizationRate={utilizationRate} />
-      </MarketOverviewChart>
-      <DetailsGrid>
-        <DetailsGridItem>
-          <DetailsGridItem.Title>Market size</DetailsGridItem.Title>
-          <DetailsGridItem.Value>{token.formatUSD(marketSize, { compact: true })}</DetailsGridItem.Value>
-        </DetailsGridItem>
-        <DetailsGridItem>
-          <DetailsGridItem.Title>Utilization rate</DetailsGridItem.Title>
-          <DetailsGridItem.Value>{formatPercentage(utilizationRate)}</DetailsGridItem.Value>
-        </DetailsGridItem>
-        <DetailsGridItem>
-          <DetailsGridItem.Title variant="blue">Borrowed</DetailsGridItem.Title>
-          <DetailsGridItem.Value>{token.formatUSD(borrowed, { compact: true })}</DetailsGridItem.Value>
-        </DetailsGridItem>
-        <DetailsGridItem>
-          <DetailsGridItem.Title variant="green">Available</DetailsGridItem.Title>
-          <DetailsGridItem.Value>{token.formatUSD(available, { compact: true })}</DetailsGridItem.Value>
-        </DetailsGridItem>
-      </DetailsGrid>
+      <MarketOverviewChart
+        data={chartData}
+        token={token}
+        marketSize={marketSize}
+        borrowed={borrowed}
+        utilizationRate={utilizationRate}
+        className="max-w-md px-12"
+      />
+      <Legend>
+        <Legend.Item variant="borrowed" token={token} value={borrowed} />
+        <Legend.Item variant="instantly-available" token={token} value={available} />
+      </Legend>
     </MarketOverviewContent>
   )
 }

@@ -1,11 +1,11 @@
 import { YieldingFixedOracleInfo } from '@/domain/oracles/types'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { assets } from '@/ui/assets'
 import { Panel } from '@/ui/atoms/new/panel/Panel'
 import { BlockExplorerAddressLink } from '@/ui/molecules/block-explorer-address-link/BlockExplorerAddressLink'
 import { InfoTile } from '@/ui/molecules/info-tile/InfoTile'
 import { Info } from '@/ui/molecules/info/Info'
 import { testIds } from '@/ui/utils/testIds'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { ProvidersList } from './ProvidersList'
 
 const oracleTestIds = testIds.marketDetails.oraclePanel

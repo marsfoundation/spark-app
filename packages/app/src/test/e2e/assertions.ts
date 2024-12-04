@@ -1,7 +1,7 @@
 import { Page, expect } from '@playwright/test'
 
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { Abi, ContractFunctionName, ContractFunctionParameters, encodeFunctionData } from 'viem'
 import { __TX_LIST_KEY } from './constants'
 

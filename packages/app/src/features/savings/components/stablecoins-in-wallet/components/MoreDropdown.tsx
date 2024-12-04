@@ -1,4 +1,3 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { MigrationInfo } from '@/features/savings/logic/makeMigrationInfo'
 import BoxArrowTopRight from '@/ui/assets/box-arrow-top-right.svg?react'
@@ -14,6 +13,7 @@ import {
 import { LinkDecorator } from '@/ui/atoms/link-decorator/LinkDecorator'
 import { IconButton } from '@/ui/atoms/new/icon-button/IconButton'
 import { testIds } from '@/ui/utils/testIds'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { MoreVerticalIcon } from 'lucide-react'
 
 export interface MoreDropdownProps {

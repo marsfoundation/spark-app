@@ -2,10 +2,10 @@ import { UseFormReturn } from 'react-hook-form'
 import { z } from 'zod'
 
 import { MarketInfo, Reserve, UserPosition } from '@/domain/market-info/marketInfo'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { useDebounce } from '@/utils/useDebounce'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 export const AssetInputSchema = z.object({
   symbol: z.string().transform(TokenSymbol),

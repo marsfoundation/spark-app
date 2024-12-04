@@ -1,6 +1,6 @@
 import { assert } from '@/utils/assert'
 
-import { Percentage } from '../types/NumericValues'
+import { Percentage } from '@marsfoundation/common-universal'
 import { AaveFormattedReserve } from './aave-data-layer/query'
 import { EModeCategories, EModeState } from './marketInfo'
 import { parseRawPercentage } from './math'

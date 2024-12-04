@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react'
 
-import { Percentage } from '@/domain/types/NumericValues'
+import { Percentage } from '@marsfoundation/common-universal'
 import { SavingsAPYBadge } from './SavingsAPYBadge'
 
 const meta: Meta<typeof SavingsAPYBadge> = {

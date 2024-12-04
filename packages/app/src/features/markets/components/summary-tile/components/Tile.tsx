@@ -1,9 +1,9 @@
 import { HelpCircle } from 'lucide-react'
 
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 import { cn } from '@/ui/utils/style'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { ComponentType } from 'react'
 
 export interface TileProps {

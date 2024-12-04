@@ -1,7 +1,7 @@
 import { D3MInfo } from '@/domain/d3m-info/types'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { bigNumberify } from '@/utils/bigNumber'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 export interface MarketStats {
   totalMarketSizeUSD: NormalizedUnitNumber

@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 
 import { NumberLike, bigNumberify } from '@/utils/bigNumber'
 
-import { BaseUnitNumber, Percentage } from '../types/NumericValues'
+import { BaseUnitNumber, Percentage } from '@marsfoundation/common-universal'
 
 interface GetScaledBalanceArgs {
   rate: BigNumber

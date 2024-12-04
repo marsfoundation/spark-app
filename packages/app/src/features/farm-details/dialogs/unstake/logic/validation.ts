@@ -1,9 +1,9 @@
 import { z } from 'zod'
 
 import { Farm } from '@/domain/farms/types'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function getUnstakeDialogFormValidator(farm: Farm, tokensInfo: TokensInfo) {

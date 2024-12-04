@@ -1,4 +1,4 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { ArrowUpFromLineIcon, ArrowsUpFromLineIcon, ChartPieIcon, LockIcon } from 'lucide-react'
 import { Tile, TileProps } from './components/Tile'
 

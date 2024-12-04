@@ -1,8 +1,8 @@
 import BigNumber from 'bignumber.js'
 
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { MarketInfo } from '../market-info/marketInfo'
 import { ReserveStatus } from '../market-info/reserve-status'
-import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
 import { Token } from '../types/Token'
 
 export interface ValidateSetUseAsCollateralParams {

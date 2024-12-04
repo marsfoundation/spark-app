@@ -1,7 +1,7 @@
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { useOpenDialog } from '@/domain/state/dialogs'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { claimRewardsDialogConfig } from '@/features/dialogs/claim-rewards/ClaimRewardsDialog'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { UseQueryResult } from '@tanstack/react-query'
 import { RewardsInfo } from '../types'
 

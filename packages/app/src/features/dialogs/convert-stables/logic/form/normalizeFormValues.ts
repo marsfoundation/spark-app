@@ -1,5 +1,5 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { NormalizedConvertStablesFormValues } from '../../types'
 import type { ConvertStablesFormSchema } from './schema'
 

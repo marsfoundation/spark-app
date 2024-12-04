@@ -1,8 +1,8 @@
 import { Farm } from '@/domain/farms/types'
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { TransferFromUserFormNormalizedData } from '@/features/dialogs/common/logic/transfer-from-user/form'
 import { TxOverviewRouteItem } from '@/features/dialogs/common/types'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 
 const SECONDS_PER_YEAR = 60 * 60 * 24 * 365
 

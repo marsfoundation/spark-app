@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { Percentage } from '@/domain/types/NumericValues'
+import { Percentage } from '@marsfoundation/common-universal'
 import { useState } from 'react'
 import { LoanToValuePanel } from './LoanToValuePanel'
 

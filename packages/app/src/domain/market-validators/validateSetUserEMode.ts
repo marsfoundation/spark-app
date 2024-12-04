@@ -2,8 +2,8 @@ import BigNumber from 'bignumber.js'
 
 import { raise } from '@/utils/assert'
 
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { MarketInfo } from '../market-info/marketInfo'
-import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
 
 export interface ValidateSetUserEModeParams {
   requestedEModeCategory: {

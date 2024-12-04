@@ -1,9 +1,9 @@
 import { TokenWithBalance } from '@/domain/common/types'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { getTokenColor, getTokenImage } from '@/ui/assets'
 import { getRandomColor } from '@/ui/utils/get-random-color'
 import { cn } from '@/ui/utils/style'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { useState } from 'react'
 import { ChartItem } from './types'
 
@@ -17,23 +17,28 @@ export function MyWalletChart({ assets, className }: MyWalletChartProps) {
     (acc, asset) => NormalizedUnitNumber(acc.plus(asset.token.toUSD(asset.balance))),
     NormalizedUnitNumber(0),
   )
-  const nonZeroAssets = assets.filter((asset) => asset.balance.gt(0))
-  const data = nonZeroAssets
-    .map((asset) => ({
-      value: asset.token.toUSD(asset.balance).toNumber(),
-      color: getTokenColor(asset.token.symbol, { fallback: getRandomColor() }),
-    }))
-    .filter(({ value }) => value / totalUsd.toNumber() > 0.005) // @note: filter out values that are smaller than 0.5% of total
+  const displayedAssets = assets.filter((asset) => asset.token.toUSD(asset.balance).div(totalUsd).gt(0.005)) // @note: filter out values that are smaller than 0.5% of total
+  const data = displayedAssets.map((asset) => ({
+    value: asset.token.toUSD(asset.balance).toNumber(),
+    color: getTokenColor(asset.token.symbol, { fallback: getRandomColor() }),
+  }))
 
   const [highlightedIndex, setHighlightedIndex] = useState<number | undefined>(undefined)
-  const highlightedAsset = highlightedIndex === undefined ? undefined : nonZeroAssets[highlightedIndex]
+  const highlightedAsset = highlightedIndex === undefined ? undefined : displayedAssets[highlightedIndex]
 
   const radius = 175
   const auxiliaryRadius = radius - 40
   const strokeWidth = 50
   const arcs = getArcs({ data, cx: 200, cy: 200, radius })
   const auxillaryArcs = getArcs({ data, cx: 200, cy: 200, radius: auxiliaryRadius, marginAngle: 1 })
-  const separators = getSeparators({ data, cx: 200, cy: 200, radius, mainStrokeWidth: strokeWidth })
+  const separators = getSeparators({
+    data,
+    dataWasFiltered: data.length !== assets.length,
+    cx: 200,
+    cy: 200,
+    radius,
+    mainStrokeWidth: strokeWidth,
+  })
 
   return (
     <div
@@ -64,7 +69,7 @@ export function MyWalletChart({ assets, className }: MyWalletChartProps) {
             />
           )
         })}
-        {nonZeroAssets.length > 0 &&
+        {displayedAssets.length > 0 &&
           auxillaryArcs.map((point, index) => {
             if (point.angle <= 0) {
               return null
@@ -94,7 +99,7 @@ export function MyWalletChart({ assets, className }: MyWalletChartProps) {
       <div className="-z-10 absolute inset-0">
         <div
           className="flex h-full w-full animate-reveal flex-col items-center justify-center text-primary-inverse duration-500 ease-out"
-          key={nonZeroAssets.length > 0 ? highlightedIndex : undefined}
+          key={displayedAssets.length > 0 ? highlightedIndex : undefined}
         >
           {highlightedAsset === undefined ? (
             <div className="flex flex-col items-center gap-[1.5cqw]">
@@ -123,6 +128,7 @@ export function MyWalletChart({ assets, className }: MyWalletChartProps) {
 
 interface GetSeparatorsParams {
   data: ChartItem[]
+  dataWasFiltered: boolean
   cx: number
   cy: number
   radius: number
@@ -134,7 +140,22 @@ interface Separator {
   x2: number
   y2: number
 }
-function getSeparators({ data, cx, cy, radius, mainStrokeWidth }: GetSeparatorsParams): Separator[] {
+function getSeparators({ data, dataWasFiltered, cx, cy, radius, mainStrokeWidth }: GetSeparatorsParams): Separator[] {
+  if (data.length === 1) {
+    if (dataWasFiltered) {
+      // this is needed to avoid the full circle and pretend small elements are there
+      return [
+        {
+          x1: cx,
+          y1: cy - radius - mainStrokeWidth / 2,
+          x2: cx,
+          y2: cy - radius + mainStrokeWidth / 2,
+        },
+      ]
+    }
+    return []
+  }
+
   const starts = getArcs({ data, cx, cy, radius: radius - mainStrokeWidth / 2 })
   const ends = getArcs({ data, cx, cy, radius: radius + mainStrokeWidth / 2 })
 

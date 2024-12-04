@@ -1,9 +1,9 @@
 import { Address } from 'viem'
 import { UseSignTypedDataReturnType } from 'wagmi'
 
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { toBigInt } from '@/utils/bigNumber'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 const EIP2612_TYPES = {
   Permit: [

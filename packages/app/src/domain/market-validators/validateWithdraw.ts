@@ -1,6 +1,6 @@
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { EModeCategory, EModeState } from '../market-info/marketInfo'
 import { ReserveStatus } from '../market-info/reserve-status'
-import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
 
 export type WithdrawValidationIssue =
   | 'value-not-positive'

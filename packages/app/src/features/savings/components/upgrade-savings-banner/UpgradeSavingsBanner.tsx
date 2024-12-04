@@ -1,5 +1,4 @@
 import { formatPercentage } from '@/domain/common/format'
-import { Percentage } from '@/domain/types/NumericValues'
 import { assets } from '@/ui/assets'
 import { Button } from '@/ui/atoms/new/button/Button'
 import { LinkButton } from '@/ui/atoms/new/link-button/LinkButton'
@@ -8,6 +7,7 @@ import { links } from '@/ui/constants/links'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { useBreakpoint } from '@/ui/utils/useBreakpoint'
+import { Percentage } from '@marsfoundation/common-universal'
 import { CheckIcon } from 'lucide-react'
 import { ReactNode } from 'react'
 

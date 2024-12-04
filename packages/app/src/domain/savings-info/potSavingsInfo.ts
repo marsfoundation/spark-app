@@ -1,7 +1,7 @@
 import { bigNumberify } from '@/utils/bigNumber'
 import { fromRay, pow } from '@/utils/math'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import BigNumber from 'bignumber.js'
-import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
 import { SavingsInfo } from './types'
 
 export interface PotParams {

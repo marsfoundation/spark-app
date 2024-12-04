@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 
 import { FilterObjectValues } from '@/utils/types'
 
-import { Percentage } from '../types/NumericValues'
+import { Percentage } from '@marsfoundation/common-universal'
 import { Token } from '../types/Token'
 import { TokensInfo } from '../wallet/useTokens/TokenInfo'
 import { TokenWithBalance } from './types'

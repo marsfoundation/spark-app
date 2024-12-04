@@ -3,8 +3,8 @@ import { tokens } from '@sb/tokens'
 import { getHoveredStory } from '@sb/utils'
 import { Meta, StoryObj } from '@storybook/react'
 
-import { Percentage } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { Percentage } from '@marsfoundation/common-universal'
 
 import { RewardBadge } from './RewardBadge'
 

@@ -1,8 +1,8 @@
 import BigNumber from 'bignumber.js'
 import { Circle } from 'lucide-react'
 
-import { Percentage } from '@/domain/types/NumericValues'
 import { useParentSize } from '@/ui/utils/useParentSize'
+import { Percentage } from '@marsfoundation/common-universal'
 
 import { colors } from '@/ui/charts/colors'
 import { Margins, defaultMargins } from '@/ui/charts/defaults'

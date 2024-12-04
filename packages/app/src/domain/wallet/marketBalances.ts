@@ -10,8 +10,8 @@ import {
 } from '@/config/contracts-generated'
 
 import { CheckedAddress } from '@marsfoundation/common-universal'
+import { BaseUnitNumber } from '@marsfoundation/common-universal'
 import { getContractAddress } from '../hooks/useContractAddress'
-import { BaseUnitNumber } from '../types/NumericValues'
 import { getBalancesQueryKeyPrefix } from './getBalancesQueryKeyPrefix'
 
 export interface MarketBalancesQueryKeyParams {

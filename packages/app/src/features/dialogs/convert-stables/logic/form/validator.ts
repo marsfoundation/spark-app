@@ -1,9 +1,9 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import {
   TransferFromUserValidationIssue,
   validateTransferFromUser,
 } from '@/features/dialogs/common/logic/transfer-from-user/validation'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { z } from 'zod'
 import { ConvertStablesFormSchema } from './schema'
 

@@ -11,8 +11,8 @@ import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { bigNumberify } from '@/utils/bigNumber'
 import { fromWad } from '@/utils/math'
 
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import BigNumber from 'bignumber.js'
-import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
 import { SavingsInfo, SavingsInfoQueryOptions, SavingsInfoQueryParams } from './types'
 
 export function gnosisSavingsDaiInfoQuery({ wagmiConfig, timestamp }: SavingsInfoQueryParams): SavingsInfoQueryOptions {

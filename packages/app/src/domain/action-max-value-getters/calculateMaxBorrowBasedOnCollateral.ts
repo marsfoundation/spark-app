@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 
-import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 
 interface CalculateMaxBorrowBasedOnCollateralParams {
   totalCollateralUSD: NormalizedUnitNumber

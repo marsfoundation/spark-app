@@ -1,4 +1,3 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { Link } from '@/ui/atoms/link/Link'
 import { Progress } from '@/ui/atoms/progress/Progress'
@@ -6,6 +5,7 @@ import { links } from '@/ui/constants/links'
 import { Info } from '@/ui/molecules/info/Info'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 interface DebtCeilingProgressProps {
   debt: NormalizedUnitNumber

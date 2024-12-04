@@ -1,5 +1,5 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { SPK_MOCK_TOKEN } from '@/domain/types/Token'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 export interface FormatAirdropAmountParams {
   amount: NormalizedUnitNumber

@@ -2,7 +2,7 @@ import { WithClassname } from '@sb/decorators'
 import type { Meta, StoryObj } from '@storybook/react'
 import { withRouter } from 'storybook-addon-remix-react-router'
 
-import { Percentage } from '@/domain/types/NumericValues'
+import { Percentage } from '@marsfoundation/common-universal'
 
 import { SavingsAPYBadge } from '@/features/savings/components/navbar-item/SavingsAPYBadge'
 import { NavLink } from './NavLink'
