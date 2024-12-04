@@ -1,5 +1,4 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/atoms/tabs/Tabs'
-
 import { PageLayout } from '@/ui/layouts/PageLayout'
 import { MarketOverview as MarketOverviewPanel } from '../../components/market-overview/MarketOverview'
 import { MyWalletPanel } from '../../components/my-wallet/MyWalletPanel'
@@ -29,7 +28,7 @@ export function CompactView({
 }: MarketDetailsViewProps) {
   return (
     <PageLayout className="gap-0">
-      <BackNav chainId={chainId} chainName={chainName} />
+      <BackNav chainId={chainId} />
       <Header
         token={token}
         aToken={aToken}

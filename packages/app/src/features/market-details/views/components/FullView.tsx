@@ -27,7 +27,7 @@ export function FullView({
 }: MarketDetailsViewProps) {
   return (
     <PageLayout className="gap-0">
-      <BackNav chainId={chainId} chainName={chainName} />
+      <BackNav chainId={chainId} />
       <Header
         token={token}
         aToken={aToken}

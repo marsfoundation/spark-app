@@ -5,12 +5,11 @@ import { useMarkets } from './logic/useMarkets'
 import { MarketsView } from './views/MarketsView'
 
 function MarketsContainer() {
-  const { marketStats, activeAndPausedMarketEntries, frozenMarketEntries, chainId, chainName } = useMarkets()
+  const { marketStats, activeAndPausedMarketEntries, frozenMarketEntries, chainId } = useMarkets()
 
   return (
     <MarketsView
       marketStats={marketStats}
-      chainName={chainName}
       activeAndPausedMarketEntries={activeAndPausedMarketEntries}
       frozenMarketEntries={frozenMarketEntries}
       chainId={chainId}
