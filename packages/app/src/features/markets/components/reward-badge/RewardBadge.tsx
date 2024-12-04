@@ -2,16 +2,7 @@ import { formatPercentage } from '@/domain/common/format'
 import { Percentage } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { getTokenImage } from '@/ui/assets'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipContentBody,
-  TooltipContentHeader,
-  TooltipContentIcon,
-  TooltipContentLayout,
-  TooltipContentTitle,
-  TooltipTrigger,
-} from '@/ui/atoms/tooltip/Tooltip'
+import { Tooltip, TooltipContent, TooltipContentLayout, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 import { TokenPill } from '../token-pill/TokenPill'
 
 interface RewardBadgeProps {
@@ -37,16 +28,16 @@ export function RewardBadge({
       </TooltipTrigger>
       <TooltipContent variant="long">
         <TooltipContentLayout>
-          <TooltipContentHeader>
-            {tokenImage && <TooltipContentIcon src={tokenImage} />}
-            <TooltipContentTitle>
+          <TooltipContentLayout.Header>
+            {tokenImage && <TooltipContentLayout.Icon src={tokenImage} />}
+            <TooltipContentLayout.Title>
               {rewardToken} - {formattedRewardApr} APR
-            </TooltipContentTitle>
-          </TooltipContentHeader>
+            </TooltipContentLayout.Title>
+          </TooltipContentLayout.Header>
 
-          <TooltipContentBody>
+          <TooltipContentLayout.Body>
             Participating in the {incentivizedReserve} reserve gives annualized rewards.
-          </TooltipContentBody>
+          </TooltipContentLayout.Body>
         </TooltipContentLayout>
       </TooltipContent>
     </Tooltip>

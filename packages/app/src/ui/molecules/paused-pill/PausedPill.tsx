@@ -1,14 +1,5 @@
 import { assets } from '@/ui/assets'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipContentBody,
-  TooltipContentHeader,
-  TooltipContentIcon,
-  TooltipContentLayout,
-  TooltipContentTitle,
-  TooltipTrigger,
-} from '@/ui/atoms/tooltip/Tooltip'
+import { Tooltip, TooltipContent, TooltipContentLayout, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 
 import { IconPill } from '../../atoms/icon-pill/IconPill'
 
@@ -24,14 +15,14 @@ export function PausedPill({ 'data-testid': dataTestId }: PausedPillProps) {
       </TooltipTrigger>
       <TooltipContent variant="long">
         <TooltipContentLayout>
-          <TooltipContentHeader>
-            <TooltipContentIcon src={assets.pause} />
-            <TooltipContentTitle>Paused asset</TooltipContentTitle>
-          </TooltipContentHeader>
+          <TooltipContentLayout.Header>
+            <TooltipContentLayout.Icon src={assets.pause} />
+            <TooltipContentLayout.Title>Paused asset</TooltipContentLayout.Title>
+          </TooltipContentLayout.Header>
 
-          <TooltipContentBody>
+          <TooltipContentLayout.Body>
             This asset is planned to be offboarded due to a Spark community decision.
-          </TooltipContentBody>
+          </TooltipContentLayout.Body>
         </TooltipContentLayout>
       </TooltipContent>
     </Tooltip>

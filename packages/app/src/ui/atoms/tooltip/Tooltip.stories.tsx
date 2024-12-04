@@ -1,19 +1,8 @@
+import { assets } from '@/ui/assets'
 import { WithTooltipProvider } from '@sb/decorators'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta } from '@storybook/react'
-
-import { assets } from '@/ui/assets'
-
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipContentBody,
-  TooltipContentHeader,
-  TooltipContentIcon,
-  TooltipContentLayout,
-  TooltipContentTitle,
-  TooltipTrigger,
-} from './Tooltip'
+import { Tooltip, TooltipContent, TooltipContentLayout, TooltipTrigger } from './Tooltip'
 
 const meta: Meta<typeof Tooltip> = {
   title: 'Components/Atoms/Tooltip',
@@ -51,14 +40,14 @@ export const LongContent = {
       <TooltipTrigger>Hover me</TooltipTrigger>
       <TooltipContent>
         <TooltipContentLayout>
-          <TooltipContentHeader>
-            <TooltipContentIcon src={assets.pause} />
-            <TooltipContentTitle>Paused asset</TooltipContentTitle>
-          </TooltipContentHeader>
+          <TooltipContentLayout.Header>
+            <TooltipContentLayout.Icon src={assets.pause} />
+            <TooltipContentLayout.Title>Paused asset</TooltipContentLayout.Title>
+          </TooltipContentLayout.Header>
 
-          <TooltipContentBody>
+          <TooltipContentLayout.Body>
             This asset is planned to be offboarded due to a Spark community decision.
-          </TooltipContentBody>
+          </TooltipContentLayout.Body>
         </TooltipContentLayout>
       </TooltipContent>
     </Tooltip>

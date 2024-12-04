@@ -13,21 +13,26 @@ function TooltipContentLayout({ children }: ChildrenProps) {
   return <div className="flex flex-col gap-3">{children}</div>
 }
 
-function TooltipContentHeader({ children }: ChildrenProps) {
+function TooltipContentLayoutHeader({ children }: ChildrenProps) {
   return <div className="flex items-center">{children}</div>
 }
 
-function TooltipContentIcon({ src }: { src: string }) {
+function TooltipContentLayoutIcon({ src }: { src: string }) {
   return <img src={src} className="mr-1 h-5 w-5 select-none" />
 }
 
-function TooltipContentTitle({ children }: ChildrenProps) {
+function TooltipContentLayoutTitle({ children }: ChildrenProps) {
   return <h5 className="typography-label-4">{children}</h5>
 }
 
-function TooltipContentBody({ children }: ChildrenProps) {
+function TooltipContentLayoutBody({ children }: ChildrenProps) {
   return <p className="max-w-[32ch]">{children}</p>
 }
+
+TooltipContentLayout.Header = TooltipContentLayoutHeader
+TooltipContentLayout.Icon = TooltipContentLayoutIcon
+TooltipContentLayout.Title = TooltipContentLayoutTitle
+TooltipContentLayout.Body = TooltipContentLayoutBody
 
 const TooltipProvider = TooltipPrimitive.Provider
 const RadixPrimitive = isTouchScreen() ? PopoverPrimitive : TooltipPrimitive
@@ -77,17 +82,7 @@ const TooltipContent = React.forwardRef<
 ))
 TooltipContent.displayName = 'TooltipContent'
 
-export {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-  TooltipContentLayout,
-  TooltipContentHeader,
-  TooltipContentIcon,
-  TooltipContentTitle,
-  TooltipContentBody,
-}
+export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, TooltipContentLayout }
 
 function isTouchScreen(): boolean {
   return 'ontouchstart' in window || navigator.maxTouchPoints > 0
