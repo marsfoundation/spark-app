@@ -2,11 +2,13 @@ import { WithClassname } from '@sb/decorators'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
+import { tokens } from '@sb/tokens'
 import { MarketOverviewChart } from './MarketOverviewChart'
 
 const meta: Meta<typeof MarketOverviewChart> = {
-  title: 'Features/MarketDetails/Components/Charts/MarketOverview',
-  decorators: [WithClassname('max-w-xs')],
+  title: 'Features/MarketDetails/Components/MarketOverview/Components/MarketOverviewChart',
+  decorators: [WithClassname('max-w-xs bg-black p-4')],
   component: MarketOverviewChart,
 }
 
@@ -20,6 +22,10 @@ export const Default: Story = {
       { value: 800_000_000, color: '#3F66EF' },
       { value: 200_000_000, color: '#33BE27' },
     ],
+    token: tokens.ETH,
+    borrowed: NormalizedUnitNumber(800_000_000),
+    marketSize: NormalizedUnitNumber(1_000_000_000),
+    utilizationRate: Percentage(0.8),
   },
 }
 
@@ -33,6 +39,10 @@ export const ZeroUtilization: Story = {
       { value: 0, color: '#3F66EF' },
       { value: 1_000_000_000, color: '#33BE27' },
     ],
+    token: tokens.ETH,
+    borrowed: NormalizedUnitNumber(800_000_000),
+    marketSize: NormalizedUnitNumber(1_000_000_000),
+    utilizationRate: Percentage(0.8),
   },
 }
 export const ZeroUtilizationMobile = getMobileStory(ZeroUtilization)
@@ -45,6 +55,10 @@ export const FullUtilization: Story = {
       { value: 1_000_000_000, color: '#3F66EF' },
       { value: 0, color: '#33BE27' },
     ],
+    token: tokens.ETH,
+    borrowed: NormalizedUnitNumber(800_000_000),
+    marketSize: NormalizedUnitNumber(1_000_000_000),
+    utilizationRate: Percentage(0.8),
   },
 }
 export const FullUtilizationMobile = getMobileStory(FullUtilization)
