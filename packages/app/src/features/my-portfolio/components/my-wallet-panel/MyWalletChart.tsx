@@ -1,12 +1,11 @@
 import { TokenWithBalance } from '@/domain/common/types'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { getTokenColor, getTokenImage } from '@/ui/assets'
+import { getArcs, getSeparators } from '@/ui/utils/chart-math'
 import { getRandomColor } from '@/ui/utils/get-random-color'
 import { cn } from '@/ui/utils/style'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { useState } from 'react'
-import { ChartItem } from './types'
-import { getArcs, getSeparators } from '@/ui/utils/chart-math'
 
 export interface MyWalletChartProps {
   assets: TokenWithBalance[]

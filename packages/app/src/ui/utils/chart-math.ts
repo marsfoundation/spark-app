@@ -111,7 +111,14 @@ export interface Separator {
   y2: number
 }
 
-export function getSeparators({ data, unfilteredData, cx, cy, radius, mainStrokeWidth }: GetSeparatorsParams): Separator[] {
+export function getSeparators({
+  data,
+  unfilteredData,
+  cx,
+  cy,
+  radius,
+  mainStrokeWidth,
+}: GetSeparatorsParams): Separator[] {
   if (data.length === 1) {
     const nonZeroData = unfilteredData.filter(({ value }) => value > 0)
 
