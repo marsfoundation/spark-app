@@ -1,12 +1,8 @@
+import { assets } from '@/ui/assets'
 import { WithTooltipProvider } from '@sb/decorators'
-import { getHoveredStory } from '@sb/utils'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta } from '@storybook/react'
-
-import { assets } from '@/ui/assets'
-
-import { Tooltip, TooltipContentLong, TooltipContentShort, TooltipTrigger } from './Tooltip'
-import { TooltipContentLayout } from './TooltipContentLayout'
+import { Tooltip, TooltipContent, TooltipContentLayout, TooltipTrigger } from './Tooltip'
 
 const meta: Meta<typeof Tooltip> = {
   title: 'Components/Atoms/Tooltip',
@@ -15,57 +11,45 @@ const meta: Meta<typeof Tooltip> = {
 
 export default meta
 
-export const Default = getHoveredStory(
-  {
-    name: 'Default',
-    render: () => (
-      <Tooltip>
-        <TooltipTrigger>Hover me</TooltipTrigger>
-        <TooltipContentShort>Tooltip content</TooltipContentShort>
-      </Tooltip>
-    ),
-  },
-  'button',
-)
+export const Default = {
+  render: () => (
+    <Tooltip defaultOpen>
+      <TooltipTrigger>Hover me</TooltipTrigger>
+      <TooltipContent>Tooltip content</TooltipContent>
+    </Tooltip>
+  ),
+}
 
-export const LengthyText = getHoveredStory(
-  {
-    name: 'Lengthy Text',
-    render: () => (
-      <Tooltip>
-        <TooltipTrigger>Hover me</TooltipTrigger>
-        <TooltipContentShort>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.
-        </TooltipContentShort>
-      </Tooltip>
-    ),
-  },
-  'button',
-)
+export const LengthyText = {
+  render: () => (
+    <Tooltip defaultOpen>
+      <TooltipTrigger>Hover me</TooltipTrigger>
+      <TooltipContent>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.
+      </TooltipContent>
+    </Tooltip>
+  ),
+}
 
 export const LengthyTextMobile = getMobileStory(LengthyText)
 export const LengthyTextTablet = getTabletStory(LengthyText)
 
-export const LongContent = getHoveredStory(
-  {
-    name: 'Long Content',
-    render: () => (
-      <Tooltip>
-        <TooltipTrigger>Hover me</TooltipTrigger>
-        <TooltipContentLong>
-          <TooltipContentLayout>
-            <TooltipContentLayout.Header>
-              <TooltipContentLayout.Icon src={assets.pause} />
-              <TooltipContentLayout.Title>Paused asset</TooltipContentLayout.Title>
-            </TooltipContentLayout.Header>
+export const LongContent = {
+  render: () => (
+    <Tooltip defaultOpen>
+      <TooltipTrigger>Hover me</TooltipTrigger>
+      <TooltipContent>
+        <TooltipContentLayout>
+          <TooltipContentLayout.Header>
+            <TooltipContentLayout.Icon src={assets.pause} />
+            <TooltipContentLayout.Title>Paused asset</TooltipContentLayout.Title>
+          </TooltipContentLayout.Header>
 
-            <TooltipContentLayout.Body>
-              This asset is planned to be offboarded due to a Spark community decision.
-            </TooltipContentLayout.Body>
-          </TooltipContentLayout>
-        </TooltipContentLong>
-      </Tooltip>
-    ),
-  },
-  'button',
-)
+          <TooltipContentLayout.Body>
+            This asset is planned to be offboarded due to a Spark community decision.
+          </TooltipContentLayout.Body>
+        </TooltipContentLayout>
+      </TooltipContent>
+    </Tooltip>
+  ),
+}

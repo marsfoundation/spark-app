@@ -1,7 +1,7 @@
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { assets } from '@/ui/assets'
-import { Tooltip, TooltipContentLong, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 import { NavbarActionWrapper } from '../NavbarActionWrapper'
 import { RewardsDetails } from './RewardsDetails'
 import { Reward } from './types'
@@ -31,9 +31,9 @@ export function RewardsBadge({ rewards, onClaim }: RewardsProps) {
             </div>
           </button>
         </TooltipTrigger>
-        <TooltipContentLong align="start" className="p-0">
+        <TooltipContent variant="long" align="start" className="p-0">
           <RewardsDetails rewards={rewards} onClaim={onClaim} />
-        </TooltipContentLong>
+        </TooltipContent>
       </Tooltip>
     </NavbarActionWrapper>
   )

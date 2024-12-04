@@ -1,16 +1,15 @@
 import { MarketAssetStatus } from '@/domain/market-info/reserve-status'
+import { IndicatorIconVariant } from '@/ui/atoms/indicator-icon/IndicatorIcon'
 
-type StatusVariant = 'green' | 'gray' | 'orange' | 'red'
-
-export function getVariantFromStatus(status: MarketAssetStatus): StatusVariant {
+export function getVariantFromStatus(status: MarketAssetStatus): IndicatorIconVariant {
   if (status === 'yes') {
-    return 'green'
+    return 'success'
   }
   if (status === 'no') {
-    return 'gray'
+    return 'neutral'
   }
   if (status === 'supply-cap-reached' || status === 'borrow-cap-reached') {
-    return 'red'
+    return 'error'
   }
-  return 'orange'
+  return 'warning'
 }

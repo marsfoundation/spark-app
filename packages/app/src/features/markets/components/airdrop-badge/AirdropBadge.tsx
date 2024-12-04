@@ -1,8 +1,7 @@
 import { assets } from '@/ui/assets'
 import { IconPill } from '@/ui/atoms/icon-pill/IconPill'
 import { Link } from '@/ui/atoms/link/Link'
-import { Tooltip, TooltipContentLong, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
-import { TooltipContentLayout } from '@/ui/atoms/tooltip/TooltipContentLayout'
+import { Tooltip, TooltipContent, TooltipContentLayout, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 import { links } from '@/ui/constants/links'
 
 interface AirdropBadgeProps {
@@ -15,7 +14,7 @@ export function AirdropBadge({ 'data-testid': dataTestId }: AirdropBadgeProps) {
       <TooltipTrigger>
         <IconPill icon={assets.sparkIcon} data-testid={dataTestId} />
       </TooltipTrigger>
-      <TooltipContentLong>
+      <TooltipContent variant="long">
         <TooltipContentLayout>
           <TooltipContentLayout.Header>
             <TooltipContentLayout.Icon src={assets.sparkIcon} />
@@ -31,7 +30,7 @@ export function AirdropBadge({ 'data-testid': dataTestId }: AirdropBadgeProps) {
             .
           </TooltipContentLayout.Body>
         </TooltipContentLayout>
-      </TooltipContentLong>
+      </TooltipContent>
     </Tooltip>
   )
 }

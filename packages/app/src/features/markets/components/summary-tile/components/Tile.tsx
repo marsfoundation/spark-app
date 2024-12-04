@@ -2,7 +2,7 @@ import { HelpCircle } from 'lucide-react'
 
 import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
-import { Tooltip, TooltipContentShort, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 import { cn } from '@/ui/utils/style'
 import { ComponentType } from 'react'
 
@@ -36,7 +36,7 @@ export function Tile({ icon: Icon, title, USDValue, description, 'data-testid': 
               <TooltipTrigger>
                 <HelpCircle size={16} className="text-icon-foreground/50" />
               </TooltipTrigger>
-              <TooltipContentShort>{description}</TooltipContentShort>
+              <TooltipContent>{description}</TooltipContent>
             </Tooltip>
           )}
         </div>

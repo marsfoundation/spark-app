@@ -1,6 +1,6 @@
 import { assets } from '@/ui/assets'
 import { IconPill } from '@/ui/atoms/icon-pill/IconPill'
-import { Tooltip, TooltipContentShort, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 import { testIds } from '@/ui/utils/testIds'
 import { useTimestamp } from '@/utils/useTimestamp'
 
@@ -25,10 +25,10 @@ export function CooldownTimer({ renewalPeriod, latestUpdateTimestamp, forceOpen 
       <TooltipTrigger data-testid={testIds.marketDetails.capAutomator.cooldownTimer}>
         <IconPill icon={assets.timer} />
       </TooltipTrigger>
-      <TooltipContentShort className="p-3">
-        <div className="typography-label-6 flex flex-col gap-2 text-secondary">
+      <TooltipContent className="p-3">
+        <div className="typography-label-6 flex flex-col gap-2 text-tertiary">
           Cooldown period:
-          <div className="typography-label-4 text-primary">{secondsToTime(timeLeft)}</div>
+          <div className="typography-label-4 text-primary-inverse">{secondsToTime(timeLeft)}</div>
           {timeLeft === 0 ? (
             <>
               The cap renewal cooldown is over. <br /> It might be changed at any time.
@@ -39,7 +39,7 @@ export function CooldownTimer({ renewalPeriod, latestUpdateTimestamp, forceOpen 
             </>
           )}
         </div>
-      </TooltipContentShort>
+      </TooltipContent>
     </Tooltip>
   )
 }
