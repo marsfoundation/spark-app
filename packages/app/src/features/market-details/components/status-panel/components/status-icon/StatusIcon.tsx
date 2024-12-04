@@ -10,8 +10,8 @@ interface StatusIconProps {
 
 export function StatusIcon({ status }: StatusIconProps) {
   const variant = getVariantFromStatus(status)
-  if (variant === 'green' || variant === 'orange') {
-    return <IndicatorIcon icon={<CheckCircle />} variant={variant} className="self-center" />
+  if (variant === 'success' || variant === 'warning') {
+    return <IndicatorIcon icon={CheckCircle} variant={variant} size="md" className="self-center" />
   }
-  return <IndicatorIcon icon={<XCircle />} variant={variant} className="self-center" />
+  return <IndicatorIcon icon={XCircle} variant={variant} size="md" className="self-center" />
 }
