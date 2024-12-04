@@ -35,8 +35,8 @@ export function DefaultMarketOverview({
         className="max-w-md px-12"
       />
       <Legend>
-        <Legend.Item variant="borrowed" token={token} value={borrowed} />
-        <Legend.Item variant="instantly-available" token={token} value={available} />
+        <Legend.Item variant="borrowed">{token.formatUSD(borrowed, { compact: true })}</Legend.Item>
+        <Legend.Item variant="instantly-available">{token.formatUSD(available, { compact: true })}</Legend.Item>
       </Legend>
     </MarketOverviewContent>
   )

@@ -1,5 +1,3 @@
-import { Token } from '@/domain/types/Token'
-import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { VariantProps, cva } from 'class-variance-authority'
 import { Circle } from 'lucide-react'
 import React from 'react'
@@ -10,15 +8,14 @@ function Legend({ children }: { children: React.ReactNode }) {
 
 interface LegendItemProps {
   variant: LegendItemVariant
-  token: Token
-  value: NormalizedUnitNumber
+  children: React.ReactNode
 }
 
-function LegendItem({ variant, token, value }: LegendItemProps) {
+function LegendItem({ variant, children }: LegendItemProps) {
   return (
     <div className="flex items-center gap-1.5">
       <LegendItemBadge variant={variant} />
-      <div className="typography-label-5 text-primary-inverse">{token.formatUSD(value, { compact: true })}</div>
+      <div className="typography-label-5 text-primary-inverse">{children}</div>
     </div>
   )
 }

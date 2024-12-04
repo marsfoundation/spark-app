@@ -1,4 +1,5 @@
 import { Token } from '@/domain/types/Token'
+import { CooldownTimer } from '@/ui/molecules/cooldown-timer/CooldownTimer'
 import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { DssAutoline } from '../../types'
 import { Legend } from './components/LegendItem'
@@ -23,6 +24,7 @@ export function DaiMarketOverview({
   instantlyAvailable,
   skyCapacity,
   utilizationRate,
+  dssAutoline,
 }: DaiMarketOverviewProps) {
   const chartData = [
     { value: borrowed.toNumber(), color: colors.borrow },
@@ -41,9 +43,17 @@ export function DaiMarketOverview({
         className="max-w-md px-12"
       />
       <Legend>
-        <Legend.Item variant="borrowed" token={token} value={borrowed} />
-        <Legend.Item variant="instantly-available" token={token} value={instantlyAvailable} />
-        <Legend.Item variant="sky-capacity" token={token} value={skyCapacity} />
+        <Legend.Item variant="borrowed">{token.formatUSD(borrowed, { compact: true })}</Legend.Item>
+        <Legend.Item variant="instantly-available">
+          <div className="flex items-center gap-1.5">
+            <div>{token.formatUSD(instantlyAvailable, { compact: true })}</div>
+            <CooldownTimer
+              renewalPeriod={dssAutoline.increaseCooldown}
+              latestUpdateTimestamp={dssAutoline.lastIncreaseTimestamp}
+            />
+          </div>
+        </Legend.Item>
+        <Legend.Item variant="sky-capacity">{token.formatUSD(skyCapacity, { compact: true })}</Legend.Item>
       </Legend>
     </MarketOverviewContent>
   )
