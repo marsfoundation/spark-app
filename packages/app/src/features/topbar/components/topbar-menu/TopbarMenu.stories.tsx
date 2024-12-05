@@ -3,11 +3,12 @@ import { WithClassname, WithTooltipProvider } from '@sb/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { userEvent, within } from '@storybook/test'
 import { useState } from 'react'
+import { withRouter } from 'storybook-addon-remix-react-router'
 import { TopbarMenu } from './TopbarMenu'
 
 const meta: Meta<typeof TopbarMenu> = {
   title: 'Features/Topbar/Components/TopbarMenu',
-  decorators: [WithTooltipProvider(), WithClassname('flex justify-end')],
+  decorators: [WithTooltipProvider(), WithClassname('flex justify-end'), withRouter()],
   play: async ({ canvasElement }) => {
     const button = await within(canvasElement).findByRole('button')
 

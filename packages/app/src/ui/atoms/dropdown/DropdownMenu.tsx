@@ -123,7 +123,7 @@ const DropdownMenuItem = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> & VariantProps<typeof dropdownItemVariants>
 >(({ className, variant, ...props }, ref) => (
-  <MenuItem asChild className={className}>
+  <MenuItem asChild variant={variant} className={className}>
     <DropdownMenuPrimitive.Item ref={ref} {...props} />
   </MenuItem>
 ))

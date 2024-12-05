@@ -4,12 +4,13 @@ import { CheckedAddress } from '@marsfoundation/common-universal'
 import { WithClassname, WithTooltipProvider } from '@sb/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { userEvent, within } from '@storybook/test'
+import { withRouter } from 'storybook-addon-remix-react-router'
 import { TopbarWallet, TopbarWalletProps } from './TopbarWallet'
 
 const meta: Meta<typeof TopbarWallet> = {
   title: 'Features/Topbar/Components/TopbarWallet',
   component: TopbarWallet,
-  decorators: [WithTooltipProvider(), WithClassname('flex justify-end')],
+  decorators: [WithTooltipProvider(), WithClassname('flex justify-end'), withRouter()],
   play: async ({ canvasElement }) => {
     const button = await within(canvasElement).findByRole('button')
 
