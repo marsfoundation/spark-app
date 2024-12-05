@@ -34,7 +34,7 @@ export function AppLayout({ children }: AppLayoutProps) {
         <TopbarContainer />
       </div>
 
-      <main className="isolate z-20 col-span-full grid grid-cols-subgrid pb-16 [&>*]:col-start-2 [&>*]:col-end-2">
+      <main className="isolate z-20 col-span-full grid h-full grid-cols-subgrid pb-16 [&>*]:col-start-2 [&>*]:col-end-2">
         {children}
       </main>
 
