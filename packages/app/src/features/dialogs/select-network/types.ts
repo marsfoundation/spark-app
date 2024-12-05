@@ -3,5 +3,6 @@ export interface Chain {
   name: string
   supportedPages: string[]
   selected: boolean
+  isInSwitchingProcess: boolean
   onSelect: () => void
 }
