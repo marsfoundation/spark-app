@@ -19,6 +19,12 @@ Exact pnpm version `9.14.2` is required. Install with:
 curl -fsSL https://get.pnpm.io/install.sh | env PNPM_VERSION=9.14.2 sh -
 ```
 
+To enforce Vercel build to use exact pnpm version, add environment variable at Vercel project settings. This way Vercel will use exact pnpm version specified in root package.json.
+```sh
+ENABLE_EXPERIMENTAL_COREPACK=1
+```
+
+
 ## Directory structure
 
 - `ui` folder should only contain reusable chunks of code responsible only for rendering, any data should be passed via
