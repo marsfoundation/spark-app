@@ -32,7 +32,7 @@ const meta: Meta<typeof SelectNetworkDialogView> = {
         name: 'Base',
         supportedPages: ['Savings', 'Farms'],
         selected: true,
-        isInSwitchingProcess: false,
+        isInSwitchingProcess: true,
         onSelect: () => {},
       },
     ],
