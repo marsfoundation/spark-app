@@ -1,3 +1,4 @@
+import { cn } from '@/ui/utils/style'
 import { VariantProps, cva } from 'class-variance-authority'
 import { CheckIcon, LoaderIcon } from 'lucide-react'
 
@@ -19,7 +20,7 @@ export function NetworkStatusBadge({ status }: NetworkStatusBadgeProps) {
 
   return (
     <div className={networkStatusBadgeVariants({ status })}>
-      <Icon className="icon-xxs" />
+      <Icon className={cn('icon-xxs', status === 'pending' && 'animate-[spin_2s_linear_infinite]')} />
       <div className="typography-label-6">{text}</div>
     </div>
   )

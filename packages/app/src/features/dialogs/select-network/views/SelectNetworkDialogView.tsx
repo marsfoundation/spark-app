@@ -18,11 +18,11 @@ export function SelectNetworkDialogView({ chains }: SelectNetworkDialogViewProps
             className={cn(
               'relative isolate flex flex-col rounded-sm border border-border-primary',
               'hover:-translate-y-1 hover:shadow-lg',
-              'focus-visible:border-none focus-visible:outline-none focus-visible:ring focus-visible:ring-reskin-primary-200 focus-visible:ring-offset-0',
+              'focus-visible:border-transparent focus-visible:outline-none focus-visible:ring focus-visible:ring-reskin-primary-200 focus-visible:ring-offset-0',
               'cursor-pointer transition-all duration-300',
               !chain.selected && 'hover:border-brand-tertiary',
               chain.selected && [
-                'before:absolute before:inset-[-1px] before:z-[-2] before:rounded-sm before:bg-gradient-spark-primary',
+                'before:absolute before:inset-[-1px] before:z-[-2] before:rounded-[9px] before:bg-gradient-spark-primary',
                 'after:absolute after:inset-0 after:z-[-1] after:rounded-sm after:bg-primary',
                 'focus-visible:after:hidden focus-visible:before:hidden',
               ],
