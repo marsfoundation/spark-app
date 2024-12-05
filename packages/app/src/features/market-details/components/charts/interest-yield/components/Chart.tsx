@@ -1,23 +1,24 @@
+import { formatPercentage } from '@/domain/common/format'
+import { colors as chartColors } from '@/ui/charts/colors'
+import { Margins, defaultMargins } from '@/ui/charts/defaults'
+import { formatPercentageTick } from '@/ui/charts/utils'
+import { Percentage } from '@marsfoundation/common-universal'
 import { AxisBottom, AxisLeft } from '@visx/axis'
 import { curveLinear } from '@visx/curve'
 import { localPoint } from '@visx/event'
+import { LinearGradient } from '@visx/gradient'
 import { GridRows } from '@visx/grid'
 import { Group } from '@visx/group'
 import { scaleLinear } from '@visx/scale'
-import { Bar, Line, LinePath } from '@visx/shape'
+import { AreaClosed, Bar, Line, LinePath } from '@visx/shape'
 import { Text } from '@visx/text'
 import { TooltipWithBounds, withTooltip } from '@visx/tooltip'
 import { WithTooltipProvidedProps } from '@visx/tooltip/lib/enhancers/withTooltip'
 import { extent, max, minIndex } from 'd3-array'
 import { Fragment, MouseEvent, TouchEvent } from 'react'
-
-import { formatPercentage } from '@/domain/common/format'
-import { Percentage } from '@marsfoundation/common-universal'
-
-import { colors } from '@/ui/charts/colors'
-import { Margins, defaultMargins } from '@/ui/charts/defaults'
-import { formatPercentageTick } from '@/ui/charts/utils'
 import { GraphDataPoint } from '../types'
+
+const colors = { ...chartColors, primary: '#FFA480', secondary: '#7A6BFF' }
 
 export interface ChartProps {
   width: number
@@ -91,6 +92,24 @@ function Chart({
             x={(data) => xValueScale(data.x)}
             y={(data) => yValueScale(data.y)}
             curve={curveLinear}
+          />
+
+          <LinearGradient
+            id="area-gradient"
+            from={colors.primary}
+            to={colors.primary}
+            fromOpacity={0.5}
+            toOpacity={0}
+          />
+
+          <AreaClosed
+            strokeWidth={2}
+            data={data}
+            x={(data) => xValueScale(data.x)}
+            y={(data) => yValueScale(data.y)}
+            yScale={yValueScale}
+            curve={curveLinear}
+            fill="url(#area-gradient)"
           />
 
           <AxisBottom
