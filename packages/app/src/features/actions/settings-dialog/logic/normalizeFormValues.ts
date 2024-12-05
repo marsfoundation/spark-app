@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 
-import { Percentage } from '@/domain/types/NumericValues'
+import { Percentage } from '@marsfoundation/common-universal'
 
 import { ActionSettingsSchema, SlippageInputType } from './form'
 

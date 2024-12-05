@@ -1,7 +1,7 @@
 import { formatGwei } from 'viem'
 
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { toBigInt } from '@/utils/bigNumber'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 export function formatGasPrice(gasPrice: NormalizedUnitNumber): string {
   const formattedGwei = formatGwei(toBigInt(gasPrice.shiftedBy(18)))

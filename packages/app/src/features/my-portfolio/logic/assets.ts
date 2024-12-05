@@ -2,10 +2,10 @@ import { NativeAssetInfo } from '@/config/chain/types'
 import { assetCanBeBorrowed } from '@/domain/common/assets'
 import { MarketInfo, UserPosition } from '@/domain/market-info/marketInfo'
 import { ReserveStatus } from '@/domain/market-info/reserve-status'
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { MarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 import { applyTransformers } from '@/utils/applyTransformers'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 
 export interface Deposit {
   token: Token

@@ -1,5 +1,5 @@
-import { BaseUnitNumber } from '@/domain/types/NumericValues'
 import { toHex } from '@/utils/bigNumber'
+import { BaseUnitNumber } from '@marsfoundation/common-universal'
 import { z } from 'zod'
 import { request } from '../sandbox/request'
 

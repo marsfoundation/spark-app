@@ -1,9 +1,9 @@
 import { tokens } from '@sb/tokens'
 import { zeroAddress } from 'viem'
 
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { ActionHandler, ActionType } from '@/features/actions/logic/types'
 import { getMockReserve } from '@/test/integration/constants'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { CheckedAddress } from '@marsfoundation/common-universal'
 
 export const allActionHandlers: Record<ActionType, ActionHandler> = {

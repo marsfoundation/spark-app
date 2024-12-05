@@ -1,7 +1,7 @@
 import { UserPositionSummary } from '@/domain/market-info/marketInfo'
-import { Percentage } from '@/domain/types/NumericValues'
 import EasyBorrowConnector from '@/ui/assets/easy-borrow-connector.svg?react'
 import { nonZeroOrDefault } from '@/utils/bigNumber'
+import { Percentage } from '@marsfoundation/common-universal'
 import { UseFormReturn } from 'react-hook-form'
 import { FormFieldsForAssetClass } from '../../logic/form/form'
 import { EasyBorrowFormSchema } from '../../logic/form/validation'

@@ -1,6 +1,6 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { TxOverviewRouteItem } from '@/features/dialogs/common/types'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 export interface CreateTxOverviewParams {
   inToken: Token

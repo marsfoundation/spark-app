@@ -1,7 +1,7 @@
 import { describe, test } from 'vitest'
 
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { bigNumberify } from '@/utils/bigNumber'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 import { PotSavingsInfo } from './potSavingsInfo'
 

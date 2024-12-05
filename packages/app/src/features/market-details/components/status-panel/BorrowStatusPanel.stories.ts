@@ -5,8 +5,8 @@ import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 import { withRouter } from 'storybook-addon-remix-react-router'
 
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { bigNumberify } from '@/utils/bigNumber'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 
 import { BorrowStatusPanel } from './BorrowStatusPanel'
 

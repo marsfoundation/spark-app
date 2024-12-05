@@ -1,7 +1,7 @@
 import { stakingRewardsAbi } from '@/config/abis/stakingRewardsAbi'
 import { FarmBlockchainDetails, FarmConfig } from '@/domain/farms/types'
-import { BaseUnitNumber, NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
+import { BaseUnitNumber, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { CheckedAddress } from '@marsfoundation/common-universal'
 import { Address } from 'viem'
 import { Config } from 'wagmi'

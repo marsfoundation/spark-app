@@ -1,7 +1,7 @@
 import { tokens } from '@sb/tokens'
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { WithClassname } from '@sb/decorators'
 import { userEvent } from '@storybook/test'
 import { within } from '@testing-library/react'

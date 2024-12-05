@@ -3,7 +3,7 @@ import { getHoveredStory } from '@sb/utils'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 import { tokens } from '@sb/tokens'
 import { RewardsBadge } from './RewardsBadge'

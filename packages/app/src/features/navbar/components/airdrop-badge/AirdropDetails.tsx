@@ -1,10 +1,10 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { SPK_MOCK_TOKEN } from '@/domain/types/Token'
 import { assets } from '@/ui/assets'
 import BoxArrowTopRight from '@/ui/assets/box-arrow-top-right.svg?react'
 import { Link } from '@/ui/atoms/link/Link'
 import { Skeleton } from '@/ui/atoms/skeleton/Skeleton'
 import { links } from '@/ui/constants/links'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { formatAirdropAmount } from './utils/formatAirdropAmount'
 
 interface AirdropDetailsProps {

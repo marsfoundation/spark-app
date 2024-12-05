@@ -35,9 +35,6 @@ test.describe('Market details Mainnet', () => {
 
       const marketDetailsPage = new MarketDetailsPageObject(page)
       await marketDetailsPage.expectMarketOverviewValue('Borrowed', '$910.8M')
-      await marketDetailsPage.expectMarketOverviewValue('Market size', '$2.541B')
-      await marketDetailsPage.expectMarketOverviewValue('Total available', '$1.63B')
-      await marketDetailsPage.expectMarketOverviewValue('Utilization rate', '35.85%')
       await marketDetailsPage.expectMarketOverviewValue('Instantly available', '$44.01M')
       await marketDetailsPage.expectMarketOverviewValue('Sky capacity', '$1.586B')
 
@@ -54,10 +51,8 @@ test.describe('Market details Mainnet', () => {
       })
 
       const marketDetailsPage = new MarketDetailsPageObject(page)
-      await marketDetailsPage.expectMarketOverviewValue('Market size', '$696.5M')
-      await marketDetailsPage.expectMarketOverviewValue('Utilization rate', '81.99%')
       await marketDetailsPage.expectMarketOverviewValue('Borrowed', '$571.1M')
-      await marketDetailsPage.expectMarketOverviewValue('Available', '$125.4M')
+      await marketDetailsPage.expectMarketOverviewValue('Instantly available', '$125.4M')
 
       await screenshot(page, 'market-details-weth')
     })

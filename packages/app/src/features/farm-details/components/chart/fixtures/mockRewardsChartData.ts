@@ -1,4 +1,4 @@
-import { Percentage } from '@/domain/types/NumericValues'
+import { Percentage } from '@marsfoundation/common-universal'
 
 export const mockRewardsChartData = [
   { apr: Percentage('0.04'), date: new Date('2024-07-01') },

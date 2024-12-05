@@ -1,4 +1,4 @@
-import { NormalizedUnitNumber } from '../types/NumericValues'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { Token } from '../types/Token'
 
 import { OracleFeedProvider } from '@/config/chain/types'

@@ -1,4 +1,4 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 export function formatWithHighPrecision(value: NormalizedUnitNumber): string {
   const formatter = new Intl.NumberFormat('en-US', {

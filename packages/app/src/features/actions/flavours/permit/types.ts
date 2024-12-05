@@ -1,7 +1,7 @@
 import { Address } from 'viem'
 
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 export interface PermitAction {
   type: 'permit'

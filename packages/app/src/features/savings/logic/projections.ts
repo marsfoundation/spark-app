@@ -1,5 +1,5 @@
 import { SavingsInfo } from '@/domain/savings-info/types'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 import { Projections } from '../types'
 

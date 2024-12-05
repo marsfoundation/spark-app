@@ -4,9 +4,9 @@ import * as SliderPrimitive from '@radix-ui/react-slider'
 import { formatPercentage } from '@/domain/common/format'
 import { MODERATE_HEALTH_FACTOR_THRESHOLD, RISKY_HEALTH_FACTOR_THRESHOLD, RiskLevel } from '@/domain/common/risk'
 import { healthFactorToLtv } from '@/domain/market-info/math'
-import { Percentage } from '@/domain/types/NumericValues'
 import { assets } from '@/ui/assets'
 import { cn } from '@/ui/utils/style'
+import { Percentage } from '@marsfoundation/common-universal'
 
 export interface LoanToValueSliderProps {
   ltv: Percentage

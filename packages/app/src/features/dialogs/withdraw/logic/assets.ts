@@ -1,11 +1,11 @@
 import { NativeAssetInfo } from '@/config/chain/types'
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { MarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 import { applyTransformers } from '@/utils/applyTransformers'
 import { assert } from '@/utils/assert'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 export function getTokenSupply(marketInfo: MarketInfo, withdrawAsset: TokenWithValue): NormalizedUnitNumber {
   const position = marketInfo.findOnePositionBySymbol(withdrawAsset.token.symbol)

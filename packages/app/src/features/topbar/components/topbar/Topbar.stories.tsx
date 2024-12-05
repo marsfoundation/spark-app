@@ -1,6 +1,6 @@
 import { paths } from '@/config/paths'
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { assets } from '@/ui/assets'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { CheckedAddress } from '@marsfoundation/common-universal'
 import { WithTooltipProvider } from '@sb/decorators'
 import { tokens } from '@sb/tokens'

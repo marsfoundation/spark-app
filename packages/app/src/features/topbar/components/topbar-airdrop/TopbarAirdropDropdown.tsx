@@ -1,4 +1,3 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { SPK_MOCK_TOKEN } from '@/domain/types/Token'
 import { assets } from '@/ui/assets'
 import {
@@ -15,6 +14,7 @@ import { Button } from '@/ui/atoms/new/button/Button'
 import { Skeleton } from '@/ui/atoms/skeleton/Skeleton'
 import { links } from '@/ui/constants/links'
 import { testIds } from '@/ui/utils/testIds'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { DropdownMenuGroup } from '@radix-ui/react-dropdown-menu'
 import { ExternalLinkIcon, LibraryIcon } from 'lucide-react'
 

@@ -1,5 +1,5 @@
 import { SavingsInfo } from '@/domain/savings-info/types'
-import { Percentage } from '@/domain/types/NumericValues'
+import { Percentage } from '@marsfoundation/common-universal'
 
 export interface DetermineApyImprovementParams {
   savingsUsdsInfo: SavingsInfo | null

@@ -1,8 +1,8 @@
 import { RAY, rayDiv, rayMul, valueToBigNumber } from '@aave/math-utils'
 import BigNumber from 'bignumber.js'
 
-import { Percentage } from '@/domain/types/NumericValues'
 import { fromRay, toRay } from '@/utils/math'
+import { Percentage } from '@marsfoundation/common-universal'
 
 import { GraphDataPoint } from '../types'
 

@@ -1,7 +1,7 @@
 import { formatEther } from 'viem'
 import { useGasPrice as useWagmiGasPrice } from 'wagmi'
 
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 export function useGasPrice(): NormalizedUnitNumber | undefined {
   const { data } = useWagmiGasPrice()

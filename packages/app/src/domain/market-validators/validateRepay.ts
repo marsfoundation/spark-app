@@ -1,5 +1,5 @@
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { ReserveStatus } from '../market-info/reserve-status'
-import { NormalizedUnitNumber } from '../types/NumericValues'
 
 export type RepayValidationIssue =
   | 'value-not-positive'

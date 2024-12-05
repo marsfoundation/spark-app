@@ -1,8 +1,7 @@
-import { assets } from '@/ui/assets'
-import { IconPill } from '@/ui/atoms/icon-pill/IconPill'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 import { testIds } from '@/ui/utils/testIds'
 import { useTimestamp } from '@/utils/useTimestamp'
+import { TimerResetIcon } from 'lucide-react'
 
 interface CooldownTimerProps {
   renewalPeriod: number
@@ -23,7 +22,7 @@ export function CooldownTimer({ renewalPeriod, latestUpdateTimestamp, forceOpen 
   return (
     <Tooltip open={forceOpen}>
       <TooltipTrigger data-testid={testIds.marketDetails.capAutomator.cooldownTimer}>
-        <IconPill icon={assets.timer} />
+        <TimerResetIcon size={16} className="text-reskin-fg-brand-tertiary" />
       </TooltipTrigger>
       <TooltipContent className="p-3">
         <div className="typography-label-6 flex flex-col gap-2 text-tertiary">

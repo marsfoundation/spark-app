@@ -1,4 +1,4 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 import { getDefaultAppConfig } from './appConfig.default'
 import { getTestingAppConfig } from './appConfig.testing'

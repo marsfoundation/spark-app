@@ -12,7 +12,7 @@ import { extent, max, minIndex } from 'd3-array'
 import { Fragment, MouseEvent, TouchEvent } from 'react'
 
 import { formatPercentage } from '@/domain/common/format'
-import { Percentage } from '@/domain/types/NumericValues'
+import { Percentage } from '@marsfoundation/common-universal'
 
 import { colors } from '@/ui/charts/colors'
 import { Margins, defaultMargins } from '@/ui/charts/defaults'

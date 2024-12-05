@@ -3,8 +3,8 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { FieldValues, useForm } from 'react-hook-form'
 
 import { TokenWithBalance } from '@/domain/common/types'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Form } from '@/ui/atoms/form/Form'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 import { testIds } from '@/ui/utils/testIds'
 import { expect, within } from '@storybook/test'

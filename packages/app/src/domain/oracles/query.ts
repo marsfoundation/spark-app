@@ -1,9 +1,9 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { assertNever } from '@/utils/assertNever'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { queryOptions } from '@tanstack/react-query'
 import { Config } from 'wagmi'
 import { MarketInfo, Reserve } from '../market-info/marketInfo'
-import { NormalizedUnitNumber } from '../types/NumericValues'
 import { OracleInfo, OracleInfoBase } from './types'
 
 interface OracleQueryParams {

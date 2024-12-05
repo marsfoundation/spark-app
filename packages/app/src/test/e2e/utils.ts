@@ -3,9 +3,9 @@ import {
   uiPoolDataProviderAbi,
   uiPoolDataProviderAddress,
 } from '@/config/contracts-generated'
-import { BaseUnitNumber, NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { bigNumberify } from '@/utils/bigNumber'
+import { BaseUnitNumber, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { Locator, Page } from '@playwright/test'
 import { http, Address, createPublicClient, erc20Abi, weiUnits } from 'viem'
 import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts'

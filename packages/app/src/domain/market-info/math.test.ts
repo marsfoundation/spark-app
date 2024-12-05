@@ -1,6 +1,6 @@
 import { bigNumberify } from '@/utils/bigNumber'
 
-import { Percentage } from '../types/NumericValues'
+import { Percentage } from '@marsfoundation/common-universal'
 import { healthFactorToLtv } from './math'
 
 describe(healthFactorToLtv.name, () => {

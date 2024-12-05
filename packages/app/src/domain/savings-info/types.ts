@@ -1,6 +1,6 @@
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { QueryKey } from '@tanstack/react-query'
 import { Config } from 'wagmi'
-import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
 
 export interface SavingsInfo {
   predictAssetsAmount({ timestamp, shares }: { timestamp: number; shares: NormalizedUnitNumber }): NormalizedUnitNumber

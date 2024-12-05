@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Form } from '@/ui/atoms/form/Form'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { WithClassname, WithTooltipProvider } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
 import { useForm } from 'react-hook-form'

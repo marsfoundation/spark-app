@@ -1,8 +1,8 @@
 import { formatPercentage } from '@/domain/common/format'
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { HorizontalScroll } from '@/ui/atoms/new/horizontal-scroll/HorizontalScroll'
 import { testIds } from '@/ui/utils/testIds'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 
 export interface TransactionOverviewSavingsApyProps {
   apy: Percentage

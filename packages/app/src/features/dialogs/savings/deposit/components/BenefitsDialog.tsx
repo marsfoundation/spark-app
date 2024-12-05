@@ -1,11 +1,11 @@
 import { formatPercentage } from '@/domain/common/format'
-import { Percentage } from '@/domain/types/NumericValues'
 import { Dialog, DialogContent, DialogTrigger } from '@/ui/atoms/dialog/Dialog'
 import { KeyPoints } from '@/ui/atoms/key-points/KeyPoints'
 import { IconButton } from '@/ui/atoms/new/icon-button/IconButton'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { PortalRef } from '@/ui/utils/usePortalRef'
+import { Percentage } from '@marsfoundation/common-universal'
 import { ChevronDown } from 'lucide-react'
 import { useState } from 'react'
 

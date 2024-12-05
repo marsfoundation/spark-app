@@ -1,12 +1,12 @@
 import { formatPercentage } from '@/domain/common/format'
 import { AssetsGroup } from '@/domain/farms/types'
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { getTokenColor, getTokenImage } from '@/ui/assets'
 import { LinkDecorator } from '@/ui/atoms/link-decorator/LinkDecorator'
 import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { useState } from 'react'
 
 export interface FarmTileProps {

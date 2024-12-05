@@ -1,8 +1,9 @@
 import { formatPercentage } from '@/domain/common/format'
-import { Percentage } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { getTokenImage } from '@/ui/assets'
 import { Tooltip, TooltipContent, TooltipContentLayout, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
+import { Percentage } from '@marsfoundation/common-universal'
+
 import { TokenPill } from '../token-pill/TokenPill'
 
 interface RewardBadgeProps {

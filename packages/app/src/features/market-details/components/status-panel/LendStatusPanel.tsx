@@ -1,7 +1,7 @@
 import { formatPercentage } from '@/domain/common/format'
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { InfoTile } from '@/ui/molecules/info-tile/InfoTile'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { Header } from './components/Header'
 import { InfoTilesGrid } from './components/InfoTilesGrid'
 import { StatusPanelGrid } from './components/StatusPanelGrid'

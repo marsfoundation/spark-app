@@ -5,7 +5,7 @@ import { AppConfig } from '@/config/feature-flags'
 import { recordEvent } from '@/domain/analytics'
 import { createTenderlyFork } from '@/domain/sandbox/createTenderlyFork'
 import { tenderlyRpcActions } from '@/domain/tenderly/TenderlyRpcActions'
-import { BaseUnitNumber } from '@/domain/types/NumericValues'
+import { BaseUnitNumber } from '@marsfoundation/common-universal'
 
 export async function createSandbox(opts: {
   originChainId: number

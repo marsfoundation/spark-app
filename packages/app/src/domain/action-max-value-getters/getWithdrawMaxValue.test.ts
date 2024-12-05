@@ -1,6 +1,6 @@
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import BigNumber from 'bignumber.js'
 import { describe, expect, test } from 'vitest'
-import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
 import { getWithdrawMaxValue } from './getWithdrawMaxValue'
 
 describe(getWithdrawMaxValue.name, () => {

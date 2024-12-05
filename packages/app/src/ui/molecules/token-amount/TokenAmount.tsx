@@ -1,6 +1,6 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token, USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 export interface TokenAmountProps {
   token: Token

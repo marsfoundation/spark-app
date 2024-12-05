@@ -2,7 +2,7 @@ import { describe } from 'vitest'
 
 import { bigNumberify } from '@/utils/bigNumber'
 
-import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { findSignificantPrecision, formFormat, formatHealthFactor, formatPercentage } from './format'
 
 describe(formatPercentage.name, () => {

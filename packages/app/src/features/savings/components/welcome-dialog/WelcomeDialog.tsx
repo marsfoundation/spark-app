@@ -1,11 +1,11 @@
 import { formatPercentage } from '@/domain/common/format'
-import { Percentage } from '@/domain/types/NumericValues'
 import { assets } from '@/ui/assets'
 import { Dialog, DialogContent } from '@/ui/atoms/dialog/Dialog'
 import { KeyPoints } from '@/ui/atoms/key-points/KeyPoints'
 import { Link } from '@/ui/atoms/link/Link'
 import { Button } from '@/ui/atoms/new/button/Button'
 import { links } from '@/ui/constants/links'
+import { Percentage } from '@marsfoundation/common-universal'
 
 export interface WelcomeDialogProps {
   open: boolean

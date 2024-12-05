@@ -1,7 +1,7 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { assets } from '@/ui/assets'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { NavbarActionWrapper } from '../NavbarActionWrapper'
 import { RewardsDetails } from './RewardsDetails'
 import { Reward } from './types'

@@ -11,12 +11,12 @@ import { WithTooltipProvidedProps } from '@visx/tooltip/lib/enhancers/withToolti
 import { extent, max, min } from 'd3-array'
 import { MouseEvent, TouchEvent } from 'react'
 
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { ChartTooltipContent } from '@/ui/charts/ChartTooltipContent'
 import { colors as colorsPreset } from '@/ui/charts/colors'
 import { Margins, POINT_RADIUS, defaultMargins } from '@/ui/charts/defaults'
 import { formatTooltipDate, formatUSDTicks, getVerticalDomainWithPadding } from '@/ui/charts/utils'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 export interface ChartDataPoint {
   balance: NormalizedUnitNumber

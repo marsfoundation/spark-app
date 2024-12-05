@@ -5,9 +5,9 @@ import {
   ReserveStatus,
   SupplyAvailabilityStatus,
 } from '@/domain/market-info/reserve-status'
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 
 export interface MarketStatus {
   supplyAvailabilityStatus: SupplyAvailabilityStatus

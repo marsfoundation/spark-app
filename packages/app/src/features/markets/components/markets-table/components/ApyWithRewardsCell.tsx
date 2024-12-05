@@ -2,11 +2,11 @@ import { VariantProps, cva } from 'class-variance-authority'
 
 import { formatPercentage } from '@/domain/common/format'
 import { ReserveStatus } from '@/domain/market-info/reserve-status'
-import { Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { APYDetails } from '@/features/markets/types'
 import { MobileViewOptions } from '@/ui/molecules/data-table/types'
 import { cn } from '@/ui/utils/style'
+import { Percentage } from '@marsfoundation/common-universal'
 
 import { testIds } from '@/ui/utils/testIds'
 import { AirdropBadge } from '../../airdrop-badge/AirdropBadge'

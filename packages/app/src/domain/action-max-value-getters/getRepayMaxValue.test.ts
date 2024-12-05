@@ -1,6 +1,6 @@
 import { describe, test } from 'vitest'
 
-import { NormalizedUnitNumber } from '../types/NumericValues'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { getRepayMaxValue } from './getRepayMaxValue'
 
 describe(getRepayMaxValue.name, () => {

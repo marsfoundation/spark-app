@@ -1,7 +1,7 @@
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import BigNumber from 'bignumber.js'
 import { EModeCategory, EModeState } from '../market-info/marketInfo'
 import { ReserveStatus } from '../market-info/reserve-status'
-import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
 
 interface GetWithdrawMaxValueParams {
   user: {

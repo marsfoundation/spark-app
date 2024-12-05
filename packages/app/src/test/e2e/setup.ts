@@ -3,7 +3,7 @@ import { generatePath } from 'react-router-dom'
 import { Address, Hash, parseEther, parseUnits } from 'viem'
 
 import { Path, paths } from '@/config/paths'
-import { BaseUnitNumber } from '@/domain/types/NumericValues'
+import { BaseUnitNumber } from '@marsfoundation/common-universal'
 
 import { tenderlyRpcActions } from '@/domain/tenderly/TenderlyRpcActions'
 import { AssetsInTests, TOKENS_ON_FORK } from './constants'

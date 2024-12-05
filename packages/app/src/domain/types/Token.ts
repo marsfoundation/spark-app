@@ -2,9 +2,8 @@ import { assert } from '@/utils/assert'
 import BigNumber from 'bignumber.js'
 import { zeroAddress } from 'viem'
 
-import { CheckedAddress } from '@marsfoundation/common-universal'
+import { BaseUnitNumber, CheckedAddress, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { findSignificantPrecision } from '../common/format'
-import { BaseUnitNumber, NormalizedUnitNumber } from './NumericValues'
 import { TokenSymbol } from './TokenSymbol'
 
 const ZERO_PRICE_FORMAT_PLACEHOLDER = '$ N/A'

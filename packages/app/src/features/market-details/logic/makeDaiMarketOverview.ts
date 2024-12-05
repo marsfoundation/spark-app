@@ -1,6 +1,6 @@
 import { D3MInfo } from '@/domain/d3m-info/types'
 import { MarketInfo, Reserve } from '@/domain/market-info/marketInfo'
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 
 import { MarketOverview } from '../types'
 import { makeMarketOverview } from './makeMarketOverview'

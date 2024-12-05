@@ -1,5 +1,5 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { useTimestamp } from '@/utils/useTimestamp'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { Airdrop } from '../../types'
 import { adjustTokenReward } from './utils/adjustTokenReward'
 

@@ -1,6 +1,6 @@
 import { describe, test } from 'vitest'
 
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 
 import { GnosisSavingsInfo } from './gnosisSavingsInfo'
 

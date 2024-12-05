@@ -1,6 +1,6 @@
 import { SavingsInfo } from '@/domain/savings-info/types'
 import { EnsName } from '@/domain/types/EnsName'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { CheckedAddress } from '@marsfoundation/common-universal'
 import { Reward } from './components/rewards-badge/types'
 

@@ -1,6 +1,6 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { cn } from '@/ui/utils/style'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 import { MobileViewOptions } from '../types'
 
