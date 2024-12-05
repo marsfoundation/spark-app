@@ -7,8 +7,8 @@ import { VariantProps, cva } from 'class-variance-authority'
 const indicatorVariants = cva('h-full w-full flex-1 rounded-full transition-all', {
   variants: {
     variant: {
-      'in-progress': 'bg-main-blue',
-      finished: 'bg-reskin-error',
+      'in-progress': 'bg-gradient-spark-primary',
+      finished: 'bg-reskin-fg-system-error-secondary',
     },
   },
   defaultVariants: {
@@ -22,7 +22,7 @@ const Progress = React.forwardRef<
 >(({ className, variant, value, ...props }, ref) => (
   <ProgressPrimitive.Root
     ref={ref}
-    className={cn('relative h-1 w-full overflow-hidden rounded-full bg-zinc-300', className)}
+    className={cn('relative h-2 w-full overflow-hidden rounded-full bg-secondary', className)}
     {...props}
   >
     <ProgressPrimitive.Indicator

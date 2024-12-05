@@ -1,6 +1,6 @@
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
+import { Progress } from '@/features/markets/components/debt-ceiling-progress/Progress'
 import { Link } from '@/ui/atoms/link/Link'
-import { Progress } from '@/ui/atoms/progress/Progress'
 import { links } from '@/ui/constants/links'
 import { Info } from '@/ui/molecules/info/Info'
 import { cn } from '@/ui/utils/style'
@@ -19,11 +19,11 @@ export function DebtCeilingProgress({ debt, debtCeiling }: DebtCeilingProgressPr
   const hasCeilingBeenReached = value === 100
 
   return (
-    <div className="col-span-3 mt-6 flex flex-col gap-4 rounded-2xl border border-primary p-4 sm:col-span-2 sm:col-start-2 sm:mt-8">
+    <div className="col-span-3 mt-6 flex flex-col gap-4 rounded-sm border border-primary p-4 sm:col-span-2 sm:col-start-2 sm:mt-8">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1">
-          <p className="text-secondary text-xs leading-none">Isolated Debt Ceiling</p>
-          <Info>
+        <div className="flex items-center gap-1 text-secondary">
+          <p className="typography-label-6">Isolated Debt Ceiling</p>
+          <Info className="text-inherit">
             Debt ceiling limits the amount possible to borrow against this asset by protocol users. Debt ceiling is
             specific to assets in isolation mode and is denoted in USD.{' '}
             <Link to={links.docs.isolationModeBorrowingPower} external>
@@ -31,7 +31,7 @@ export function DebtCeilingProgress({ debt, debtCeiling }: DebtCeilingProgressPr
             </Link>
           </Info>
         </div>
-        <p className="text-xs leading-none">
+        <p className="typography-label-6">
           <span
             className={cn('text-primary', hasCeilingBeenReached && 'text-system-error-primary')}
             data-testid={testIds.marketDetails.collateralStatusPanel.debt}
