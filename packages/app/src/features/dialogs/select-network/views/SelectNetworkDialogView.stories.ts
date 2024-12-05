@@ -16,6 +16,7 @@ const meta: Meta<typeof SelectNetworkDialogView> = {
         name: 'Ethereum Mainnet',
         supportedPages: ['Savings', 'Borrow', 'Farms'],
         selected: false,
+        isInSwitchingProcess: false,
         onSelect: () => {},
       },
       {
@@ -23,6 +24,7 @@ const meta: Meta<typeof SelectNetworkDialogView> = {
         name: 'Gnosis Chain',
         supportedPages: ['Savings', 'Borrow'],
         selected: false,
+        isInSwitchingProcess: false,
         onSelect: () => {},
       },
       {
@@ -30,6 +32,7 @@ const meta: Meta<typeof SelectNetworkDialogView> = {
         name: 'Base',
         supportedPages: ['Savings', 'Farms'],
         selected: true,
+        isInSwitchingProcess: false,
         onSelect: () => {},
       },
     ],

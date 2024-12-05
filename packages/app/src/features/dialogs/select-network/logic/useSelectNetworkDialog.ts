@@ -15,7 +15,7 @@ export interface UseSelectNetworkDialogResult {
 export function useSelectNetworkDialog({ closeDialog }: UseSelectNetworkDialogParams): UseSelectNetworkDialogResult {
   const currentChainId = useChainId()
   const supportedChains = useChains()
-  const { changeNetwork } = useNetworkChange({
+  const { changeNetwork, isPending, variables } = useNetworkChange({
     onSuccess: () => {
       closeDialog()
     },
@@ -29,6 +29,7 @@ export function useSelectNetworkDialog({ closeDialog }: UseSelectNetworkDialogPa
       logo: config.meta.logo,
       supportedPages: formatSupportedPages(getSupportedPages(config)),
       selected: chain.id === currentChainId,
+      isInSwitchingProcess: isPending && variables === chain.id,
       onSelect: () => {
         if (chain.id === currentChainId) {
           closeDialog()

@@ -38,10 +38,12 @@ export default {
         tertiary: 'rgb(var(--neutral-300))',
         brand: {
           primary: 'rgb(var(--primary-800))',
+          secondary: 'rgb(var(--primary-800))', // @todo: split primary and secondary
         },
         system: {
           success: {
             primary: 'rgb(var(--success-600))',
+            secondary: 'rgb(var(--success-700))',
           },
           warning: {
             primary: 'rgb(var(--warning-600))',
