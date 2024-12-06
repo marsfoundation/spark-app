@@ -1,5 +1,5 @@
-import { Reward } from '@/features/navbar/components/rewards-badge/types'
-import { TransactionOverview } from '@/ui/organisms/new/transaction-overview/TransactionOverview'
+import { Reward } from '@/features/topbar/types'
+import { TransactionOverview } from '@/ui/organisms/transaction-overview/TransactionOverview'
 import { RewardsList } from './RewardsList'
 
 export interface ClaimRewardsOverviewPanelProps {

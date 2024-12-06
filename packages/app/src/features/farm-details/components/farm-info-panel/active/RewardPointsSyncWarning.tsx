@@ -1,5 +1,5 @@
 import { RewardPointsSyncStatus } from '@/features/farm-details/types'
-import { Alert } from '@/ui/molecules/new/alert/Alert'
+import { Alert } from '@/ui/molecules/alert/Alert'
 import { assertNever } from '@/utils/assertNever'
 
 export interface RewardPointsSyncWarningProps {

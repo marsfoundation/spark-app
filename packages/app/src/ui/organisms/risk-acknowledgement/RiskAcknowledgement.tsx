@@ -1,6 +1,6 @@
 import { RiskWarning } from '@/domain/liquidation-risk-warning/types'
+import { Alert } from '@/ui/molecules/alert/Alert'
 import { LabeledSwitch } from '@/ui/molecules/labeled-switch/LabeledSwitch'
-import { Alert } from '@/ui/molecules/new/alert/Alert'
 import { testIds } from '@/ui/utils/testIds'
 
 export interface RiskAcknowledgementProps {

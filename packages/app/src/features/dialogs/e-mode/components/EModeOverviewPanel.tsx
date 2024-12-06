@@ -1,4 +1,4 @@
-import { TransactionOverview } from '@/ui/organisms/new/transaction-overview/TransactionOverview'
+import { TransactionOverview } from '@/ui/organisms/transaction-overview/TransactionOverview'
 import { EModeCategory, PositionOverview } from '../types'
 
 export interface EModeOverviewPanelProps {

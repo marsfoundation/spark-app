@@ -1,9 +1,8 @@
+import { Objective } from '@/features/actions/logic/types'
 import { DialogActionsPanel } from '@/features/dialogs/common/components/DialogActionsPanel'
 import { MultiPanelDialog } from '@/features/dialogs/common/components/MultiPanelDialog'
+import { Reward } from '@/features/topbar/types'
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
-
-import { Objective } from '@/features/actions/logic/types'
-import { Reward } from '@/features/navbar/components/rewards-badge/types'
 import { PageStatus } from '../../common/types'
 import { ClaimRewardsOverviewPanel } from '../components/ClaimRewardsOverviewPanel'
 

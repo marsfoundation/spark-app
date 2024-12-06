@@ -1,6 +1,6 @@
 import { Path, paths } from '@/config/paths'
-import { SavingsInfoQueryResults } from '@/features/navbar/types'
 import { SavingsAPYBadge } from '@/features/savings/components/navbar-item/SavingsAPYBadge'
+import { SavingsInfoQueryResults } from '@/features/topbar/types'
 import {
   DropdownMenu,
   DropdownMenuContent,

@@ -1,6 +1,7 @@
 import { Token, USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { assets, getTokenImage } from '@/ui/assets'
 import HandCoinsIcon from '@/ui/assets/hand-coins.svg?react'
+import { Button } from '@/ui/atoms/button/Button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,7 +12,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/ui/atoms/dropdown/DropdownMenu'
-import { Button } from '@/ui/atoms/new/button/Button'
 import { testIds } from '@/ui/utils/testIds'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 

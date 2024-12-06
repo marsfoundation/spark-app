@@ -1,4 +1,4 @@
-import { Button } from '@/ui/atoms/new/button/Button'
+import { Button } from '@/ui/atoms/button/Button'
 /* eslint-disable react-refresh/only-export-components */
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import React from 'react'

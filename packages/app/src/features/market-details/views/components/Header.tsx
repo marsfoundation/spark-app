@@ -1,6 +1,6 @@
 import { Token } from '@/domain/types/Token'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
-import { Alert } from '@/ui/molecules/new/alert/Alert'
+import { Alert } from '@/ui/molecules/alert/Alert'
 import { CheckedAddress } from '@marsfoundation/common-universal'
 import { TokenLinksDropdown } from './TokenLinksDropdown'
 

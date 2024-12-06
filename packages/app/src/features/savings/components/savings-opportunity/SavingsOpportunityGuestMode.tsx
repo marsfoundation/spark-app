@@ -1,5 +1,5 @@
 import { SupportedChainId } from '@/config/chain/types'
-import { Button } from '@/ui/atoms/new/button/Button'
+import { Button } from '@/ui/atoms/button/Button'
 import { Percentage } from '@marsfoundation/common-universal'
 import { SavingsMeta } from '../../logic/makeSavingsMeta'
 import { Card } from './components/Card'

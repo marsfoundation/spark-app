@@ -1,10 +1,9 @@
 import { EModeCategoryId } from '@/domain/e-mode/types'
 import { LiquidationDetails } from '@/domain/market-info/getLiquidationDetails'
 import { OpenDialogFunction } from '@/domain/state/dialogs'
+import { Panel } from '@/ui/atoms/panel/Panel'
 import { PageLayout } from '@/ui/layouts/PageLayout'
-
-import { Panel } from '@/ui/atoms/new/panel/Panel'
-import { HealthFactorPanelContent } from '@/ui/molecules/new/health-factor-panel-content/HealthFactorPanelContent'
+import { HealthFactorPanelContent } from '@/ui/molecules/health-factor-panel-content/HealthFactorPanelContent'
 import { BorrowTable } from '../components/borrow-table/BorrowTable'
 import { CreatePositionPanel } from '../components/create-position-panel/CreatePositionPanel'
 import { DepositTable } from '../components/deposit-table/DepositTable'

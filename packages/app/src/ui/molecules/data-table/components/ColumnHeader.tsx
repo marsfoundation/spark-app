@@ -1,4 +1,4 @@
-import { Button } from '@/ui/atoms/new/button/Button'
+import { Button } from '@/ui/atoms/button/Button'
 import { cn } from '@/ui/utils/style'
 import { Column } from '@tanstack/react-table'
 import { ChevronDownIcon, ChevronUpIcon, ChevronsUpDown } from 'lucide-react'

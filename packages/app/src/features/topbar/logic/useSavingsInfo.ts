@@ -1,6 +1,6 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { SavingsInfoQuery } from '@/config/chain/types'
-import { SavingsInfoQueryResults } from '@/features/navbar/types'
+import { SavingsInfoQueryResults } from '@/features/topbar/types'
 import { useTimestamp } from '@/utils/useTimestamp'
 import { skipToken, useQuery } from '@tanstack/react-query'
 import { useChainId, useConfig } from 'wagmi'

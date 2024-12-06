@@ -3,7 +3,7 @@ import { useGrowingAirdropAmount } from '@/features/topbar/logic/use-airdrop-inf
 import { assets } from '@/ui/assets'
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/ui/atoms/dialog/Dialog'
 import { Link } from '@/ui/atoms/link/Link'
-import { MenuItem, MenuItemIcon } from '@/ui/atoms/new/menu-item/MenuItem'
+import { MenuItem, MenuItemIcon } from '@/ui/atoms/menu-item/MenuItem'
 import { Skeleton } from '@/ui/atoms/skeleton/Skeleton'
 import { links } from '@/ui/constants/links'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'

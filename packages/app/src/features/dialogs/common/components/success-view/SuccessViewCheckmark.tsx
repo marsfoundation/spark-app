@@ -1,4 +1,4 @@
-import { IconBox } from '@/ui/atoms/new/icon-box/IconBox'
+import { IconBox } from '@/ui/atoms/icon-box/IconBox'
 
 export function SuccessViewCheckmark() {
   return (

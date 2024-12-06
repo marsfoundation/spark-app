@@ -1,5 +1,5 @@
 import { formatPercentage } from '@/domain/common/format'
-import { TransactionOverview } from '@/ui/organisms/new/transaction-overview/TransactionOverview'
+import { TransactionOverview } from '@/ui/organisms/transaction-overview/TransactionOverview'
 import { collateralTypeToDescription } from '../logic/collateralization'
 import { PositionOverview } from '../logic/types'
 

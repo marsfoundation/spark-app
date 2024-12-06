@@ -2,7 +2,7 @@ import { getTokenImage } from '@/ui/assets'
 import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
 import { cn } from '@/ui/utils/style'
 
-import { Badge } from '@/ui/atoms/new/badge/Badge'
+import { Badge } from '@/ui/atoms/badge/Badge'
 import { EModeCategory } from '../types'
 
 interface EModeCategoryTileProps {

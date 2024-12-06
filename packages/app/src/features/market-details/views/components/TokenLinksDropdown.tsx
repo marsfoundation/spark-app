@@ -9,8 +9,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '@/ui/atoms/dropdown/DropdownMenu'
+import { IconButton } from '@/ui/atoms/icon-button/IconButton'
 import { Link } from '@/ui/atoms/link/Link'
-import { IconButton } from '@/ui/atoms/new/icon-button/IconButton'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 import { CheckedAddress } from '@marsfoundation/common-universal'
 import { MoreVerticalIcon } from 'lucide-react'

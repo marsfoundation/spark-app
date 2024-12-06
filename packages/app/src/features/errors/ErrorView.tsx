@@ -1,4 +1,4 @@
-import { Button } from '@/ui/atoms/new/button/Button'
+import { Button } from '@/ui/atoms/button/Button'
 import { ErrorLayout } from '@/ui/layouts/ErrorLayout'
 
 export interface ErrorViewProps {

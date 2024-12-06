@@ -1,4 +1,4 @@
-import { Switch } from '@/ui/atoms/new/switch/Switch'
+import { Switch } from '@/ui/atoms/switch/Switch'
 import { MouseEventHandler } from 'react'
 import { MobileViewOptions } from '../types'
 

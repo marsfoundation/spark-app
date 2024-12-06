@@ -1,4 +1,4 @@
-import { Button } from '@/ui/atoms/new/button/Button'
+import { Button } from '@/ui/atoms/button/Button'
 import { shortenAddress } from '@/ui/utils/shortenAddress'
 import { CheckedAddress } from '@marsfoundation/common-universal'
 import { Banner } from './Banner'

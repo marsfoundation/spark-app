@@ -1,6 +1,6 @@
 import { TokenWithBalance } from '@/domain/common/types'
 import { Form } from '@/ui/atoms/form/Form'
-import { AssetInput } from '@/ui/organisms/new/asset-input/AssetInput'
+import { AssetInput } from '@/ui/organisms/asset-input/AssetInput'
 import { UseFormReturn } from 'react-hook-form'
 import { AssetInputSchema } from '../../logic/form'
 import { FormFieldsForDialog } from '../../types'

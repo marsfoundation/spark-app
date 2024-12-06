@@ -1,5 +1,5 @@
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { TransactionOverview } from '@/ui/organisms/new/transaction-overview/TransactionOverview'
+import { TransactionOverview } from '@/ui/organisms/transaction-overview/TransactionOverview'
 
 export interface TransactionOverviewPlaceholder {
   badgeToken: TokenSymbol

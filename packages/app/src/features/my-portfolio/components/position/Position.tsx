@@ -1,6 +1,6 @@
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { getTokenColor } from '@/ui/assets'
-import { Panel } from '@/ui/atoms/new/panel/Panel'
+import { Panel } from '@/ui/atoms/panel/Panel'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 import { Info } from '@/ui/molecules/info/Info'
 import { getRandomColor } from '@/ui/utils/get-random-color'

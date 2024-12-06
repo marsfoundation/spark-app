@@ -1,9 +1,8 @@
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { useQuery } from '@tanstack/react-query'
 import { useAccount } from 'wagmi'
-
-import { airdropInfo } from '@/features/navbar/logic/use-airdrop-info/airdropInfo'
-import { CheckedAddress } from '@marsfoundation/common-universal'
 import { TopbarAirdropProps } from '../../components/topbar-airdrop/TopbarAirdrop'
+import { airdropInfo } from './airdropInfo'
 import { extendAirdropResponse } from './utils/extendAirdropResponse'
 
 interface UseAirdropInfoParams {

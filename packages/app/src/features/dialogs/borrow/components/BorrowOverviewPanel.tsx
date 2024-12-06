@@ -1,4 +1,4 @@
-import { TransactionOverview } from '@/ui/organisms/new/transaction-overview/TransactionOverview'
+import { TransactionOverview } from '@/ui/organisms/transaction-overview/TransactionOverview'
 import BigNumber from 'bignumber.js'
 
 export interface BorrowOverviewPanelProps {

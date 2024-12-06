@@ -1,4 +1,4 @@
-import { IconButton } from '@/ui/atoms/new/icon-button/IconButton'
+import { IconButton } from '@/ui/atoms/icon-button/IconButton'
 import { TableCell } from '@/ui/atoms/table/Table'
 import { cn } from '@/ui/utils/style'
 import * as CollapsiblePrimitive from '@radix-ui/react-collapsible'

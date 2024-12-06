@@ -2,7 +2,7 @@ import {
   SetUseAsCollateralValidationIssue,
   setUseAsCollateralValidationIssueToMessage,
 } from '@/domain/market-validators/validateSetUseAsCollateral'
-import { Alert } from '@/ui/molecules/new/alert/Alert'
+import { Alert } from '@/ui/molecules/alert/Alert'
 import { CollateralSetting } from '../types'
 
 interface CollateralAlertProps {

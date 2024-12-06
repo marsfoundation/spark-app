@@ -1,7 +1,7 @@
 import { paths } from '@/config/paths'
-import { ButtonIcon } from '@/ui/atoms/new/button/Button'
-import { LinkButton } from '@/ui/atoms/new/link-button/LinkButton'
-import { NetworkBadge } from '@/ui/atoms/new/network-badge/NetworkBadge'
+import { ButtonIcon } from '@/ui/atoms/button/Button'
+import { LinkButton } from '@/ui/atoms/link-button/LinkButton'
+import { NetworkBadge } from '@/ui/atoms/network-badge/NetworkBadge'
 import { ArrowLeftIcon, MinusIcon } from 'lucide-react'
 
 interface BackNavProps {

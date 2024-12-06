@@ -1,7 +1,7 @@
 import { useConditionalFreeze } from '@/domain/hooks/useConditionalFreeze'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { Objective } from '@/features/actions/logic/types'
-import { Reward } from '@/features/navbar/components/rewards-badge/types'
+import { Reward } from '@/features/topbar/types'
 import { useState } from 'react'
 import { useChainId } from 'wagmi'
 import { PageState, PageStatus } from '../../common/types'

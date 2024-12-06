@@ -1,7 +1,7 @@
 import { formatPercentage } from '@/domain/common/format'
 import { Dialog, DialogContent, DialogTrigger } from '@/ui/atoms/dialog/Dialog'
+import { IconButton } from '@/ui/atoms/icon-button/IconButton'
 import { KeyPoints } from '@/ui/atoms/key-points/KeyPoints'
-import { IconButton } from '@/ui/atoms/new/icon-button/IconButton'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { PortalRef } from '@/ui/utils/usePortalRef'

@@ -1,4 +1,4 @@
-import { NetworkBadge } from '@/ui/atoms/new/network-badge/NetworkBadge'
+import { NetworkBadge } from '@/ui/atoms/network-badge/NetworkBadge'
 
 export interface PageHeaderProps {
   chainId: number
