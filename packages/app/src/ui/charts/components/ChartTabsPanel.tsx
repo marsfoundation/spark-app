@@ -1,6 +1,6 @@
 import { DelayedComponent } from '@/ui/atoms/delayed-component/DelayedComponent'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/atoms/new/tabs/Tabs'
 import { Panel } from '@/ui/atoms/panel/Panel'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/atoms/tabs/Tabs'
 import { useResizeObserver } from '@/ui/utils/useResizeObserver'
 import { assert } from '@/utils/assert'
 import { AlertTriangle, Loader2 } from 'lucide-react'
