@@ -71,7 +71,6 @@
     "react-confetti": "^6.1.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.48.2",
-    "react-hot-toast": "^2.4.1",
     "react-router-dom": "^6.14.2",
     "size-limit": "^10.0.1",
     "tailwind-merge": "^1.14.0",

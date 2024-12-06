@@ -2,7 +2,6 @@ import '@rainbow-me/rainbowkit/styles.css'
 
 import { RainbowKitProvider, lightTheme } from '@rainbow-me/rainbowkit'
 import { QueryClientProvider } from '@tanstack/react-query'
-import { Toaster } from 'react-hot-toast'
 import { RouterProvider } from 'react-router-dom'
 import { WagmiProvider } from 'wagmi'
 
@@ -36,7 +35,6 @@ function App() {
             borderRadius: 'medium',
           })}
         >
-          <Toaster position="top-right" containerClassName="toast-notifications" />
           <TooltipProvider delayDuration={0}>
             <RouterProvider router={rootRouter} />
           </TooltipProvider>
