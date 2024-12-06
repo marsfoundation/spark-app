@@ -7,7 +7,7 @@ const lengthyText = `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
   nisl eget nunc varius tincidunt. Aliquam erat volutpat.`
 
 const meta: Meta<typeof Alert> = {
-  title: 'Components/Molecules/New/Alert',
+  title: 'Components/Molecules/Alert',
   component: () => (
     <StoryGrid className="max-w-7xl grid-cols-[auto_1fr_1fr]">
       <div />

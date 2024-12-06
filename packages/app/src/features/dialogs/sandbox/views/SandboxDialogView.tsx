@@ -1,7 +1,7 @@
 import MagicWand from '@/ui/assets/magic-wand.svg?react'
 import { Button } from '@/ui/atoms/button/Button'
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
-import { Alert } from '@/ui/molecules/new/alert/Alert'
+import { Alert } from '@/ui/molecules/alert/Alert'
 import { CheckIcon } from 'lucide-react'
 
 export interface SandboxDialogViewProps {

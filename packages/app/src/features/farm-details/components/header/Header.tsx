@@ -1,7 +1,7 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { Token } from '@/domain/types/Token'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
-import { Alert } from '@/ui/molecules/new/alert/Alert'
+import { Alert } from '@/ui/molecules/alert/Alert'
 
 interface HeaderProps {
   token: Token

@@ -1,4 +1,4 @@
-import { Alert } from '@/ui/molecules/new/alert/Alert'
+import { Alert } from '@/ui/molecules/alert/Alert'
 import { testIds } from '@/ui/utils/testIds'
 import { BorrowDetails } from '../logic/useEasyBorrow'
 
