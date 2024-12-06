@@ -1,6 +1,6 @@
 import { formatHealthFactor } from '@/domain/common/format'
 import { healthFactorToRiskLevel, riskLevelToStateVariant, riskLevelToTitle } from '@/domain/common/risk'
-import { Badge } from '@/ui/atoms/new/badge/Badge'
+import { Badge } from '@/ui/atoms/badge/Badge'
 import { HorizontalScroll } from '@/ui/atoms/new/horizontal-scroll/HorizontalScroll'
 import { testIds } from '@/ui/utils/testIds'
 import BigNumber from 'bignumber.js'

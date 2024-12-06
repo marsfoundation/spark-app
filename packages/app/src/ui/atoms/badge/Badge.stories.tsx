@@ -27,7 +27,7 @@ function BadgeExample({
 }
 
 const meta: Meta<typeof Badge> = {
-  title: 'Components/Atoms/New/Badge',
+  title: 'Components/Atoms/Badge',
   args: {
     children: 'Badge',
   },

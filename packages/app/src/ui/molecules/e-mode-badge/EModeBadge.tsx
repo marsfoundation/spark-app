@@ -1,7 +1,7 @@
 import { eModeCategoryIdToName } from '@/domain/e-mode/constants'
 import { EModeCategoryId } from '@/domain/e-mode/types'
 import Flash from '@/ui/assets/flash.svg?react'
-import { Badge } from '@/ui/atoms/new/badge/Badge'
+import { Badge } from '@/ui/atoms/badge/Badge'
 import { testIds } from '@/ui/utils/testIds'
 
 export interface EModeBadgeProps {
