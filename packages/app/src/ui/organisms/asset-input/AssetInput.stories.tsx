@@ -48,7 +48,7 @@ function AssetInputWrapper({ error, ...props }: AssetInputProps<FieldValues> & {
 }
 
 const meta: Meta<typeof AssetInputWrapper> = {
-  title: 'Components/Organisms/New/AssetInput',
+  title: 'Components/Organisms/AssetInput',
   component: AssetInputWrapper,
   args: {
     selectorAssets: assets,

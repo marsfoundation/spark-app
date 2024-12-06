@@ -1,7 +1,7 @@
 import { UseFormReturn } from 'react-hook-form'
 
 import { Form } from '@/ui/atoms/form/Form'
-import { AssetInput } from '@/ui/organisms/new/asset-input/AssetInput'
+import { AssetInput } from '@/ui/organisms/asset-input/AssetInput'
 import type { ConvertStablesFormSchema } from '../../logic/form/schema'
 import { ConvertStablesFormFields } from '../../types'
 
