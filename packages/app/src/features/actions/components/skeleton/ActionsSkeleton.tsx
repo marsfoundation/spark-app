@@ -1,4 +1,4 @@
-import { Panel } from '@/ui/atoms/new/panel/Panel'
+import { Panel } from '@/ui/atoms/panel/Panel'
 import { Skeleton } from '@/ui/atoms/skeleton/Skeleton'
 import { Fragment } from 'react'
 

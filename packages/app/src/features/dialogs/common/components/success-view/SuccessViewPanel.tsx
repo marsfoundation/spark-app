@@ -1,4 +1,4 @@
-import { Panel } from '@/ui/atoms/new/panel/Panel'
+import { Panel } from '@/ui/atoms/panel/Panel'
 import { cn } from '@/ui/utils/style'
 import { ReactNode } from 'react'
 

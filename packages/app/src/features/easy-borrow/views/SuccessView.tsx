@@ -5,7 +5,7 @@ import { SuccessViewCheckmark } from '@/features/dialogs/common/components/succe
 import { SuccessViewPanel } from '@/features/dialogs/common/components/success-view/SuccessViewPanel'
 import { SuccessViewTokenRow } from '@/features/dialogs/common/components/success-view/SuccessViewTokenRow'
 import { LinkButton } from '@/ui/atoms/link-button/LinkButton'
-import { Panel } from '@/ui/atoms/new/panel/Panel'
+import { Panel } from '@/ui/atoms/panel/Panel'
 import { PageLayout } from '@/ui/layouts/PageLayout'
 import { Confetti } from '@/ui/molecules/confetti/Confetti'
 import { cn } from '@/ui/utils/style'

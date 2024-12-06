@@ -1,4 +1,4 @@
-import { Panel } from '@/ui/atoms/new/panel/Panel'
+import { Panel } from '@/ui/atoms/panel/Panel'
 import { ConnectOrSandboxCTAButtonGroup } from '@/ui/molecules/connect-or-sandbox-cta-button-group/ConnectOrSandboxCTAButtonGroup'
 import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
 import { testIds } from '@/ui/utils/testIds'

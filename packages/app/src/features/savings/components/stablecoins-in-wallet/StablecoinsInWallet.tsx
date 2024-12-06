@@ -3,7 +3,7 @@ import { convertStablesDialogConfig } from '@/features/dialogs/convert-stables/C
 import { savingsDepositDialogConfig } from '@/features/dialogs/savings/deposit/SavingsDepositDialog'
 import { assets as uiAssets } from '@/ui/assets'
 import { Button } from '@/ui/atoms/button/Button'
-import { Panel } from '@/ui/atoms/new/panel/Panel'
+import { Panel } from '@/ui/atoms/panel/Panel'
 import { DataTable, DataTableProps } from '@/ui/molecules/data-table/DataTable'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'

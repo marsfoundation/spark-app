@@ -1,5 +1,5 @@
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { Panel } from '@/ui/atoms/new/panel/Panel'
+import { Panel } from '@/ui/atoms/panel/Panel'
 import { bigNumberify } from '@/utils/bigNumber'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { WithClassname, WithTooltipProvider } from '@sb/decorators'

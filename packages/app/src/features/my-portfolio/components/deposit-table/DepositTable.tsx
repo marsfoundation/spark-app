@@ -4,7 +4,7 @@ import { collateralDialogConfig } from '@/features/dialogs/collateral/Collateral
 import { depositDialogConfig } from '@/features/dialogs/deposit/DepositDialog'
 import { withdrawDialogConfig } from '@/features/dialogs/withdraw/WithdrawDialog'
 import { Button } from '@/ui/atoms/button/Button'
-import { Panel } from '@/ui/atoms/new/panel/Panel'
+import { Panel } from '@/ui/atoms/panel/Panel'
 import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
 import { ActionsCell } from '@/ui/molecules/data-table/components/ActionsCell'
 import { CompactValueCell } from '@/ui/molecules/data-table/components/CompactValueCell'

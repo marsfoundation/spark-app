@@ -2,7 +2,7 @@ import { paths } from '@/config/paths'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { getTokenImage } from '@/ui/assets'
 import { LinkButton } from '@/ui/atoms/link-button/LinkButton'
-import { Panel } from '@/ui/atoms/new/panel/Panel'
+import { Panel } from '@/ui/atoms/panel/Panel'
 import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
 import { cn } from '@/ui/utils/style'
 

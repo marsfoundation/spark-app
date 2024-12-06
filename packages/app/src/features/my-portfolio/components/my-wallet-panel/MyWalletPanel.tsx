@@ -1,6 +1,6 @@
 import { TokenWithBalance } from '@/domain/common/types'
-import { Panel } from '@/ui/atoms/new/panel/Panel'
 import { Switch } from '@/ui/atoms/new/switch/Switch'
+import { Panel } from '@/ui/atoms/panel/Panel'
 import { Info } from '@/ui/molecules/info/Info'
 import { MyWalletChart } from './MyWalletChart'
 

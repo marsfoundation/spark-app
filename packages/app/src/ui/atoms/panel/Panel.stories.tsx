@@ -23,7 +23,7 @@ function PanelExample({ variant, spacing }: { variant: Variant; spacing: Spacing
 }
 
 const meta: Meta<typeof Panel> = {
-  title: 'Components/Atoms/New/Panel',
+  title: 'Components/Atoms/Panel',
   component: () => (
     <StoryGrid className="grid-cols-5 bg-transparent">
       <div />

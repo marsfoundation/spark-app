@@ -6,7 +6,7 @@ import { InjectedActionsContext, Objective } from '@/features/actions/logic/type
 import { assets } from '@/ui/assets'
 import { Button } from '@/ui/atoms/button/Button'
 import { Form } from '@/ui/atoms/form/Form'
-import { Panel } from '@/ui/atoms/new/panel/Panel'
+import { Panel } from '@/ui/atoms/panel/Panel'
 import { ConnectOrSandboxCTAPanel } from '@/ui/organisms/connect-or-sandbox-cta-panel/ConnectOrSandboxCTAPanel'
 import { RiskAcknowledgement } from '@/ui/organisms/risk-acknowledgement/RiskAcknowledgement'
 import { Percentage } from '@marsfoundation/common-universal'

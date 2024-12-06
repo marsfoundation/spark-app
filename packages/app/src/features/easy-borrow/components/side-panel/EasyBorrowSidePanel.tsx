@@ -1,6 +1,6 @@
 import { formatPercentage } from '@/domain/common/format'
 import { LiquidationDetails } from '@/domain/market-info/getLiquidationDetails'
-import { Panel } from '@/ui/atoms/new/panel/Panel'
+import { Panel } from '@/ui/atoms/panel/Panel'
 import { HealthFactorPanelContent } from '@/ui/molecules/new/health-factor-panel-content/HealthFactorPanelContent'
 import { testIds } from '@/ui/utils/testIds'
 import BigNumber from 'bignumber.js'

@@ -2,7 +2,7 @@ import { TokenWithBalance } from '@/domain/common/types'
 import { Token } from '@/domain/types/Token'
 import { TokenCell } from '@/features/savings/components/stablecoins-in-wallet/components/TokenCell'
 import { Button } from '@/ui/atoms/button/Button'
-import { Panel } from '@/ui/atoms/new/panel/Panel'
+import { Panel } from '@/ui/atoms/panel/Panel'
 import { DataTable, DataTableProps } from '@/ui/molecules/data-table/DataTable'
 import { useMemo } from 'react'
 
