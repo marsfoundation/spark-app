@@ -1,4 +1,4 @@
-import { Reward } from '@/features/navbar/components/rewards-badge/types'
+import { Reward } from '@/features/topbar/types'
 import { SuccessViewPanelTitle } from '../../common/components/success-view/SuccessPanelTitle'
 import { SuccessViewCheckmark } from '../../common/components/success-view/SuccessViewCheckmark'
 import { SuccessViewContent } from '../../common/components/success-view/SuccessViewContent'

@@ -1,4 +1,4 @@
-import { Reward } from '@/features/navbar/components/rewards-badge/types'
+import { Reward } from '@/features/topbar/types'
 import { TokenAmount } from '@/ui/molecules/token-amount/TokenAmount'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'

@@ -1,8 +1,13 @@
 import { SavingsInfo } from '@/domain/savings-info/types'
 import { EnsName } from '@/domain/types/EnsName'
+import { Token } from '@/domain/types/Token'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { CheckedAddress } from '@marsfoundation/common-universal'
-import { Reward } from '../navbar/components/rewards-badge/types'
+
+export interface Reward {
+  token: Token
+  amount: NormalizedUnitNumber
+}
 
 export interface SupportedChain {
   id: number

@@ -2,7 +2,7 @@ import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
 
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
-import { NavbarPageObject } from '@/features/navbar/Navbar.PageObject'
+import { TopbarPageObject } from '@/features/topbar/Topbar.PageObject'
 import { MyPortfolioPageObject } from '@/pages/MyPortfolio.PageObject'
 import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
@@ -13,7 +13,7 @@ test.describe('Claim rewards dialog', () => {
     blockNumber: 20189272n, // block number where the reward program is finished
     chainId: mainnet.id,
   })
-  let navbar: NavbarPageObject
+  let navbar: TopbarPageObject
   let claimRewardsDialog: ClaimRewardsDialogPageObject
   let actionsContainer: ActionsPageObject
 
@@ -26,7 +26,7 @@ test.describe('Claim rewards dialog', () => {
       },
     })
 
-    navbar = new NavbarPageObject(page)
+    navbar = new TopbarPageObject(page)
     await navbar.openClaimRewardsDialog()
 
     claimRewardsDialog = new ClaimRewardsDialogPageObject(page)

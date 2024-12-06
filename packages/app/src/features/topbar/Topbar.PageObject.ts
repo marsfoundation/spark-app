@@ -3,7 +3,7 @@ import { Locator, expect } from '@playwright/test'
 import { BasePageObject } from '@/test/e2e/BasePageObject'
 import { testIds } from '@/ui/utils/testIds'
 
-export class NavbarPageObject extends BasePageObject {
+export class TopbarPageObject extends BasePageObject {
   // #region locators
   locateAirdropBadge(): Locator {
     return this.page.getByTestId(testIds.topbar.airdrop.badge)

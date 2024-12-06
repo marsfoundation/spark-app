@@ -7,9 +7,9 @@ import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
 
 import { MyPortfolioPageObject } from '@/pages/MyPortfolio.PageObject'
-import { NavbarPageObject } from './Navbar.PageObject'
+import { TopbarPageObject } from './Topbar.PageObject'
 
-test.describe('Navbar', () => {
+test.describe('Topbar', () => {
   const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id })
 
   test.describe('Airdrop counter', () => {
@@ -21,10 +21,10 @@ test.describe('Navbar', () => {
         },
       })
 
-      const navbar = new NavbarPageObject(page)
-      await navbar.expectAirdropCompactValue('0')
-      await navbar.openAirdropDropdown()
-      await navbar.expectAirdropPreciseValue('0.00 SPK')
+      const topbar = new TopbarPageObject(page)
+      await topbar.expectAirdropCompactValue('0')
+      await topbar.openAirdropDropdown()
+      await topbar.expectAirdropPreciseValue('0.00 SPK')
     })
 
     test('Connected', async ({ page }) => {
@@ -37,10 +37,10 @@ test.describe('Navbar', () => {
 
       await overrideAirdropInfoRoute(page, { account })
 
-      const navbar = new NavbarPageObject(page)
-      await navbar.expectAirdropCompactValue('7.841M')
-      await navbar.openAirdropDropdown()
-      await navbar.expectAirdropPreciseValue('7,840,591')
+      const topbar = new TopbarPageObject(page)
+      await topbar.expectAirdropCompactValue('7.841M')
+      await topbar.openAirdropDropdown()
+      await topbar.expectAirdropPreciseValue('7,840,591')
     })
 
     test('Api error', async ({ page }) => {
@@ -53,8 +53,8 @@ test.describe('Navbar', () => {
 
       await overrideAirdropInfoRoute(page, { account, shouldFail: true })
 
-      const navbar = new NavbarPageObject(page)
-      await navbar.expectAirdropBadgeNotVisible()
+      const topbar = new TopbarPageObject(page)
+      await topbar.expectAirdropBadgeNotVisible()
     })
 
     test('Wallet with no airdrop', async ({ page }) => {
@@ -67,10 +67,10 @@ test.describe('Navbar', () => {
 
       await overrideAirdropInfoRoute(page, { account, noAirdrop: true })
 
-      const navbar = new NavbarPageObject(page)
-      await navbar.expectAirdropCompactValue('0')
-      await navbar.openAirdropDropdown()
-      await navbar.expectAirdropPreciseValue('0.00 SPK')
+      const topbar = new TopbarPageObject(page)
+      await topbar.expectAirdropCompactValue('0')
+      await topbar.openAirdropDropdown()
+      await topbar.expectAirdropPreciseValue('0.00 SPK')
     })
   })
 
@@ -89,8 +89,8 @@ test.describe('Navbar', () => {
         },
       })
 
-      const navbar = new NavbarPageObject(page)
-      await navbar.expectClaimableRewardsValue('$25.58K')
+      const topbar = new TopbarPageObject(page)
+      await topbar.expectClaimableRewardsValue('$25.58K')
     })
 
     test('Displays details in dropdown', async ({ page }) => {
@@ -102,10 +102,10 @@ test.describe('Navbar', () => {
         },
       })
 
-      const navbar = new NavbarPageObject(page)
-      await navbar.openRewardsDropdown()
+      const topbar = new TopbarPageObject(page)
+      await topbar.openRewardsDropdown()
 
-      await navbar.expectRewards([
+      await topbar.expectRewards([
         {
           tokenSymbol: 'wstETH',
           amount: '6.3697',
@@ -122,11 +122,11 @@ test.describe('Navbar', () => {
         },
       })
 
-      const navbar = new NavbarPageObject(page)
+      const topbar = new TopbarPageObject(page)
       const myPortfolioPage = new MyPortfolioPageObject(page)
 
       await myPortfolioPage.expectPositionToBeEmpty() // waiting for reserves to load
-      await navbar.expectRewardsBadgeNotVisible() // asserting that after reserves are loaded, rewards badge is not visible
+      await topbar.expectRewardsBadgeNotVisible() // asserting that after reserves are loaded, rewards badge is not visible
     })
   })
 
@@ -157,8 +157,8 @@ test.describe('Navbar', () => {
 
       await page.reload()
 
-      const navbar = new NavbarPageObject(page)
-      await navbar.expectSavingsLinkVisible()
+      const topbar = new TopbarPageObject(page)
+      await topbar.expectSavingsLinkVisible()
     })
   })
 })
