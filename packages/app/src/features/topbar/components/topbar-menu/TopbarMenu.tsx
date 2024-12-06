@@ -9,7 +9,7 @@ import {
 import { IconButton } from '@/ui/atoms/icon-button/IconButton'
 import { Link } from '@/ui/atoms/link/Link'
 import { MenuItem, MenuItemIcon } from '@/ui/atoms/menu-item/MenuItem'
-import { Switch } from '@/ui/atoms/new/switch/Switch'
+import { Switch } from '@/ui/atoms/switch/Switch'
 import { links } from '@/ui/constants/links'
 import { BuildInfo } from '@/ui/utils/getBuildInfo'
 import { ExternalLinkIcon, MenuIcon, ScrollTextIcon, WandIcon } from 'lucide-react'

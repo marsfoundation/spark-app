@@ -1,6 +1,6 @@
 import { formatPercentage } from '@/domain/common/format'
 import { assets } from '@/ui/assets'
-import { Switch } from '@/ui/atoms/new/switch/Switch'
+import { Switch } from '@/ui/atoms/switch/Switch'
 import { testIds } from '@/ui/utils/testIds'
 import { PortalRef } from '@/ui/utils/usePortalRef'
 import { Percentage } from '@marsfoundation/common-universal'

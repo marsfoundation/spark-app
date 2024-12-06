@@ -3,7 +3,7 @@ import { Meta, StoryObj } from '@storybook/react'
 import { Switch } from './Switch'
 
 const meta: Meta<typeof Switch> = {
-  title: 'Components/Atoms/New/Switch',
+  title: 'Components/Atoms/Switch',
   component: ({ disabled }: { disabled?: boolean }) => (
     <StoryGrid className="grid-cols-2">
       <StoryGrid.Label>ON</StoryGrid.Label>

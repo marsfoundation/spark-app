@@ -1,6 +1,6 @@
 import { TokenWithValue } from '@/domain/common/types'
 import { getTokenImage } from '@/ui/assets'
-import { Switch } from '@/ui/atoms/new/switch/Switch'
+import { Switch } from '@/ui/atoms/switch/Switch'
 import { testIds } from '@/ui/utils/testIds'
 import { cva } from 'class-variance-authority'
 

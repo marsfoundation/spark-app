@@ -1,7 +1,7 @@
 import { MultiPanelDialog } from '@/features/dialogs/common/components/MultiPanelDialog'
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/ui/atoms/dialog/Dialog'
 import { IconButton } from '@/ui/atoms/icon-button/IconButton'
-import { Switch } from '@/ui/atoms/new/switch/Switch'
+import { Switch } from '@/ui/atoms/switch/Switch'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 import { testIds } from '@/ui/utils/testIds'
 import { PortalRef } from '@/ui/utils/usePortalRef'
