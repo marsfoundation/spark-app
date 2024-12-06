@@ -16,7 +16,7 @@ export function Subheader({ status }: SubheaderProps) {
       <Content variant="orange">
         In Isolation Mode you can only borrow stablecoins up to the debt ceiling and cannot use any other asset as
         collateral.{' '}
-        <Link to={links.docs.isolationMode} variant="underline" external>
+        <Link to={links.docs.isolationMode} external>
           Learn more
         </Link>
         .
@@ -70,11 +70,11 @@ function Content({ children, variant }: ContentProps) {
   return <p className={cn(variants({ variant }), 'col-span-2 col-start-2 mt-1.5 mb-3')}>{children}</p>
 }
 
-const variants = cva('text-xs leading-none', {
+const variants = cva('typography-body-6', {
   variants: {
     variant: {
-      orange: 'text-product-orange',
-      red: 'text-product-red',
+      orange: 'text-system-warning-primary',
+      red: 'text-system-error-primary',
     },
   },
 })

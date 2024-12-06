@@ -23,7 +23,7 @@ function Selector({ disabled }: { disabled?: boolean }) {
 }
 
 const meta: Meta<typeof Selector> = {
-  title: 'Components/Atoms/New/Select',
+  title: 'Components/Atoms/Select',
   component: Selector,
   decorators: [WithClassname('w-[120px]')],
 }
