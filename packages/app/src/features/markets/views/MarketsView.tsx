@@ -1,4 +1,4 @@
-import { NetworkBadge } from '@/ui/atoms/new/network-badge/NetworkBadge'
+import { NetworkBadge } from '@/ui/atoms/network-badge/NetworkBadge'
 import { Panel } from '@/ui/atoms/new/panel/Panel'
 import { PageLayout } from '@/ui/layouts/PageLayout'
 import { LabeledSwitch } from '@/ui/molecules/labeled-switch/LabeledSwitch'

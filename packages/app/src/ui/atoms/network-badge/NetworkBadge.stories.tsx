@@ -4,7 +4,7 @@ import { base, gnosis, mainnet } from 'viem/chains'
 import { NetworkBadge } from './NetworkBadge'
 
 const meta: Meta<typeof NetworkBadge> = {
-  title: 'Components/Atoms/New/NetworkBadge',
+  title: 'Components/Atoms/NetworkBadge',
   component: () => (
     <StoryGrid className="grid-cols-1 justify-items-start bg-reskin-neutral-100">
       <NetworkBadge chainId={mainnet.id} />
