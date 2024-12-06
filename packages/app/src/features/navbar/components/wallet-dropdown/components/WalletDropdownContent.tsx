@@ -1,8 +1,8 @@
 import { WalletDropdownContentInfo } from '@/features/navbar/types'
 import BoxArrowTopRight from '@/ui/assets/box-arrow-top-right.svg?react'
 import { Address } from '@/ui/atoms/address/Address'
+import { Link } from '@/ui/atoms/link/Link'
 import { Button } from '@/ui/atoms/new/button/Button'
-import { Link } from '@/ui/atoms/new/link/Link'
 
 export interface WalletDropdownContentProps extends WalletDropdownContentInfo {}
 
@@ -29,7 +29,8 @@ export function WalletDropdownContent({
       </div>
       {blockExplorerAddressLink && (
         <div className="flex items-center gap-2.5 p-4">
-          <Link variant="unstyled"
+          <Link
+            variant="unstyled"
             to={blockExplorerAddressLink}
             external
             className="flex items-center gap-2.5 font-medium text-secondary text-sm"

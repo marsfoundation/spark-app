@@ -1,4 +1,4 @@
-import { Link } from '@/ui/atoms/new/link/Link'
+import { Link } from '@/ui/atoms/link/Link'
 import { links } from '@/ui/constants/links'
 import { ReactNode } from 'react'
 import { Info } from '../info/Info'

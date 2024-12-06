@@ -8,7 +8,7 @@ import { DialogForm } from '@/features/dialogs/common/components/form/DialogForm
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageStatus } from '@/features/dialogs/common/types'
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
-import { Link } from '@/ui/atoms/new/link/Link'
+import { Link } from '@/ui/atoms/link/Link'
 import { links } from '@/ui/constants/links'
 import { UseFormReturn } from 'react-hook-form'
 import { TransactionOverview } from '../../common/components/TransactionOverview'

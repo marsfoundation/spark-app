@@ -7,13 +7,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/ui/atoms/dropdown/DropdownMenu'
+import { Link } from '@/ui/atoms/link/Link'
 import { Button } from '@/ui/atoms/new/button/Button'
 import { links } from '@/ui/constants/links'
 import { useBreakpoint } from '@/ui/utils/useBreakpoint'
 import { NavbarActionWrapper } from '../NavbarActionWrapper'
 import { BuildInfoItem } from './BuildInfoItem'
 import { SettingsDropdownItem } from './SettingsDropdownItem'
-import { Link } from '@/ui/atoms/new/link/Link'
 
 export interface SettingsDropdownProps {
   onSandboxModeClick: () => void

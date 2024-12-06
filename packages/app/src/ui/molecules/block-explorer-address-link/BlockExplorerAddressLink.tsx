@@ -1,6 +1,6 @@
 import { useBlockExplorerAddressLink } from '@/domain/hooks/useBlockExplorerAddressLink'
 import { Address } from '@/ui/atoms/address/Address'
-import { Link } from '@/ui/atoms/new/link/Link'
+import { Link } from '@/ui/atoms/link/Link'
 import { cn } from '@/ui/utils/style'
 import { CheckedAddress } from '@marsfoundation/common-universal'
 import { SquareArrowOutUpRight } from 'lucide-react'

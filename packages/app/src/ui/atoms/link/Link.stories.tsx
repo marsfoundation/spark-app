@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react'
 import { withRouter } from 'storybook-addon-remix-react-router'
-import { MenuItem } from '../menu-item/MenuItem'
+import { MenuItem } from '../new/menu-item/MenuItem'
 import { Link } from './Link'
 
 const meta: Meta<typeof Link> = {

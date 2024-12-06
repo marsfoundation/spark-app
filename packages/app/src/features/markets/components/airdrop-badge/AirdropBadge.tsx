@@ -1,6 +1,6 @@
 import { assets } from '@/ui/assets'
 import { IconPill } from '@/ui/atoms/icon-pill/IconPill'
-import { Link } from '@/ui/atoms/new/link/Link'
+import { Link } from '@/ui/atoms/link/Link'
 import { Tooltip, TooltipContent, TooltipContentLayout, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 import { links } from '@/ui/constants/links'
 

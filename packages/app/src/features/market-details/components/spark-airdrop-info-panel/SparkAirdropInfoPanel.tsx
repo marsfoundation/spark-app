@@ -1,6 +1,6 @@
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { assets } from '@/ui/assets'
-import { Link } from '@/ui/atoms/new/link/Link'
+import { Link } from '@/ui/atoms/link/Link'
 import { links } from '@/ui/constants/links'
 import { cn } from '@/ui/utils/style'
 
