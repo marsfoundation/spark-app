@@ -1,7 +1,7 @@
 import { LiquidationDetails } from '@/domain/market-info/getLiquidationDetails'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
+import { HealthFactorGauge } from '@/ui/atoms/health-factor-gauge/HealthFactorGauge'
 import { Link } from '@/ui/atoms/link/Link'
-import { HealthFactorGauge } from '@/ui/atoms/new/health-factor-gauge/HealthFactorGauge'
 import { links } from '@/ui/constants/links'
 import { cn } from '@/ui/utils/style'
 import BigNumber from 'bignumber.js'
