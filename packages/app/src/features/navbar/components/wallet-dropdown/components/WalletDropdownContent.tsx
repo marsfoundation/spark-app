@@ -30,6 +30,7 @@ export function WalletDropdownContent({
       {blockExplorerAddressLink && (
         <div className="flex items-center gap-2.5 p-4">
           <Link
+            variant="unstyled"
             to={blockExplorerAddressLink}
             external
             className="flex items-center gap-2.5 font-medium text-secondary text-sm"

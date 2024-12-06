@@ -72,8 +72,8 @@ export function TopbarAirdropDropdown({
           </DropdownMenuItem>
         </DropdownMenuGroup>
 
-        <DropdownMenuItem asChild>
-          <Link to={links.docs.sparkAirdrop} external className="cursor-pointer">
+        <DropdownMenuItem className="cursor-pointer" asChild>
+          <Link to={links.docs.sparkAirdrop} variant="unstyled" external>
             <DropdownMenuItemIcon icon={LibraryIcon} />
             Learn more
             <DropdownMenuItemIcon icon={ExternalLinkIcon} className="ml-auto" />

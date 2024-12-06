@@ -100,8 +100,8 @@ function TopbarMenuAirdropDialog({
             DAI borrowers with volatile assets and ETH depositors will be eligible for a future ⚡ SPK airdrop.
           </span>
 
-          <MenuItem asChild>
-            <Link to={links.docs.sparkAirdrop} external className="cursor-pointer border border-primary">
+          <MenuItem asChild className="cursor-pointer">
+            <Link to={links.docs.sparkAirdrop} variant="unstyled" external>
               Learn more
               <MenuItemIcon icon={ExternalLinkIcon} className="ml-auto" />
             </Link>

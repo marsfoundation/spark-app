@@ -36,7 +36,7 @@ export function SettingsDropdown({ onSandboxModeClick, isSandboxEnabled }: Setti
           </SettingsDropdownItem>
         )}
 
-        <Link to={links.termsOfUse} external>
+        <Link to={links.termsOfUse} variant="unstyled" external>
           <SettingsDropdownItem>
             <SettingsDropdownItem.Content icon={<BoxArrowTopRight className="h-4 w-4" />}>
               Terms of Service

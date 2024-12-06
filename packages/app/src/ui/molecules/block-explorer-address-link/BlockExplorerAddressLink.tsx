@@ -24,6 +24,7 @@ export function BlockExplorerAddressLink({
     <Link
       to={contractLink}
       external
+      variant="unstyled"
       className={cn(
         'flex w-full max-w-64 items-center gap-1 text-inherit hover:text-inherit hover:underline',
         className,

@@ -6,6 +6,7 @@ import {
   DropdownMenuItemIcon,
   DropdownMenuTrigger,
 } from '@/ui/atoms/dropdown/DropdownMenu'
+import { Link } from '@/ui/atoms/link/Link'
 import { IconButton } from '@/ui/atoms/new/icon-button/IconButton'
 import { MenuItem, MenuItemIcon } from '@/ui/atoms/new/menu-item/MenuItem'
 import { Switch } from '@/ui/atoms/new/switch/Switch'
@@ -13,7 +14,6 @@ import { links } from '@/ui/constants/links'
 import { BuildInfo } from '@/ui/utils/getBuildInfo'
 import { ExternalLinkIcon, MenuIcon, ScrollTextIcon, WandIcon } from 'lucide-react'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
 import { TopbarAirdropProps } from '../topbar-airdrop/TopbarAirdrop'
 import { TopbarRewardsProps } from '../topbar-rewards/TopbarRewards'
 import { TopbarMenuAirdropItem } from './components/TopbarMenuAirdropItem'
@@ -71,7 +71,7 @@ export function TopbarMenu({
           </MenuItem>
 
           <MenuItem asChild variant="secondary" className="cursor-pointer rounded-none p-6" withSeparator>
-            <Link to={links.termsOfUse} target="_blank" rel="noreferrer">
+            <Link to={links.termsOfUse} variant="unstyled" external>
               <MenuItemIcon icon={ScrollTextIcon} />
               Terms of Service
               <DropdownMenuItemIcon icon={ExternalLinkIcon} className="ml-auto" />
@@ -80,8 +80,8 @@ export function TopbarMenu({
 
           <Link
             to={links.github}
-            target="_blank"
-            rel="noreferrer"
+            variant="unstyled"
+            external
             className="typography-label-6 bg-secondary p-6 text-center text-secondary"
           >
             Built from {sha} at {buildTime}
@@ -116,7 +116,7 @@ export function TopbarMenu({
         </DropdownMenuItem>
 
         <DropdownMenuItem asChild variant="secondary" className="cursor-pointer py-6">
-          <Link to={links.termsOfUse} target="_blank" rel="noreferrer">
+          <Link to={links.termsOfUse} variant="unstyled" external>
             <DropdownMenuItemIcon icon={ScrollTextIcon} />
             Terms of Service
             <DropdownMenuItemIcon icon={ExternalLinkIcon} className="ml-auto" />
@@ -125,8 +125,8 @@ export function TopbarMenu({
 
         <Link
           to={links.github}
-          target="_blank"
-          rel="noreferrer"
+          variant="unstyled"
+          external
           className="typography-label-6 p-5 text-center text-secondary"
         >
           Built from {sha} at {buildTime}

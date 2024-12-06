@@ -7,12 +7,12 @@ import {
   DropdownMenuItemIcon,
   DropdownMenuSeparator,
 } from '@/ui/atoms/dropdown/DropdownMenu'
+import { Link } from '@/ui/atoms/link/Link'
 import { MenuItem, MenuItemIcon } from '@/ui/atoms/new/menu-item/MenuItem'
 import { CheckedAddress } from '@marsfoundation/common-universal'
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
 import { ExternalLink, UnplugIcon } from 'lucide-react'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
 import { TopbarWalletButton } from './TopbarWalletButton'
 import { TopbarWalletAddressDisplay } from './components/TopbarWalletAddressDisplay'
 
@@ -76,7 +76,7 @@ export function TopbarWalletDropdown({
               <div className="border-primary border-t" />
 
               <MenuItem asChild className="curser-pointer">
-                <Link to={blockExplorerAddressLink} target="_blank" rel="noreferrer">
+                <Link to={blockExplorerAddressLink} variant="unstyled" external>
                   <MenuItemIcon icon={ExternalLink} />
                   View on Explorer
                 </Link>
@@ -106,7 +106,7 @@ export function TopbarWalletDropdown({
             <DropdownMenuSeparator className="mx-1" />
 
             <DropdownMenuItem asChild className="cursor-pointer">
-              <Link to={blockExplorerAddressLink} target="_blank" rel="noreferrer">
+              <Link to={blockExplorerAddressLink} variant="unstyled" external>
                 <DropdownMenuItemIcon icon={ExternalLink} />
                 View on Explorer
               </Link>
