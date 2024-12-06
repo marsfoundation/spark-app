@@ -1,10 +1,9 @@
+import { cn } from '@/ui/utils/style'
+import { assert } from '@/utils/assert'
 import { Slot } from '@radix-ui/react-slot'
 import { type VariantProps, cva } from 'class-variance-authority'
 import * as React from 'react'
-
-import { cn } from '@/ui/utils/style'
-import { assert } from '@/utils/assert'
-import { Loader } from '../loader/Loader'
+import { Loader } from '../new/loader/Loader'
 
 export const buttonVariants = cva(
   cn(

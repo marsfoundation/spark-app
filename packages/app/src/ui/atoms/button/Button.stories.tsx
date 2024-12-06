@@ -4,7 +4,7 @@ import { ChevronRightIcon, PlusIcon } from 'lucide-react'
 import { Button, ButtonIcon } from './Button'
 
 const meta: Meta<typeof Button> = {
-  title: 'Components/Atoms/New/Button',
+  title: 'Components/atoms/button',
   component: (args) => (
     <StoryGrid className="grid-cols-3">
       <StoryGrid.Label>Primary</StoryGrid.Label>

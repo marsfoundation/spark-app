@@ -1,4 +1,4 @@
-import { ButtonIcon } from '@/ui/atoms/new/button/Button'
+import { ButtonIcon } from '@/ui/atoms/button/Button'
 import { LinkButton } from '@/ui/atoms/new/link-button/LinkButton'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'

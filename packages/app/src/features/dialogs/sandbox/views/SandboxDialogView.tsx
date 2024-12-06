@@ -1,6 +1,6 @@
 import MagicWand from '@/ui/assets/magic-wand.svg?react'
+import { Button } from '@/ui/atoms/button/Button'
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
-import { Button } from '@/ui/atoms/new/button/Button'
 import { Alert } from '@/ui/molecules/new/alert/Alert'
 import { CheckIcon } from 'lucide-react'
 

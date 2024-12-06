@@ -1,8 +1,7 @@
 import { cn } from '@/ui/utils/style'
 import { cva } from 'class-variance-authority'
 import { forwardRef } from 'react'
-
-import { Button, ButtonIcon, ButtonIconType, ButtonProps } from '../button/Button'
+import { Button, ButtonIcon, ButtonIconType, ButtonProps } from '../../button/Button'
 
 const iconButtonSizeVariants = cva('aspect-square', {
   variants: {

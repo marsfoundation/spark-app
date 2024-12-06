@@ -1,4 +1,4 @@
-import { Button, ButtonProps } from '@/ui/atoms/new/button/Button'
+import { Button, ButtonProps } from '@/ui/atoms/button/Button'
 import { cn } from '@/ui/utils/style'
 
 export function CardButton({ children, ...props }: Omit<ButtonProps, 'variant' | 'size'>) {

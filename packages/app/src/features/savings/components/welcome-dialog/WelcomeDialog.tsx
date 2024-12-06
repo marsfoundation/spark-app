@@ -1,9 +1,9 @@
 import { formatPercentage } from '@/domain/common/format'
 import { assets } from '@/ui/assets'
+import { Button } from '@/ui/atoms/button/Button'
 import { Dialog, DialogContent } from '@/ui/atoms/dialog/Dialog'
 import { KeyPoints } from '@/ui/atoms/key-points/KeyPoints'
 import { Link } from '@/ui/atoms/link/Link'
-import { Button } from '@/ui/atoms/new/button/Button'
 import { links } from '@/ui/constants/links'
 import { Percentage } from '@marsfoundation/common-universal'
 

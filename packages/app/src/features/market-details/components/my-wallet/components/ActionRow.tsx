@@ -1,5 +1,5 @@
 import { Token } from '@/domain/types/Token'
-import { Button } from '@/ui/atoms/new/button/Button'
+import { Button } from '@/ui/atoms/button/Button'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 import { ActionDetails } from './ActionDetails'

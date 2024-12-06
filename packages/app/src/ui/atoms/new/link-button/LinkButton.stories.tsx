@@ -2,7 +2,7 @@ import { StoryGrid } from '@sb/components/StoryGrid'
 import type { Meta, StoryObj } from '@storybook/react'
 import { ChevronRightIcon, PlusIcon } from 'lucide-react'
 import { withRouter } from 'storybook-addon-remix-react-router'
-import { ButtonIcon } from '../button/Button'
+import { ButtonIcon } from '../../button/Button'
 import { LinkButton } from './LinkButton'
 
 const meta: Meta<typeof LinkButton> = {

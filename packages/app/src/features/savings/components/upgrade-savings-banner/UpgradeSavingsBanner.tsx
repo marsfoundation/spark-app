@@ -1,6 +1,6 @@
 import { formatPercentage } from '@/domain/common/format'
 import { assets } from '@/ui/assets'
-import { Button } from '@/ui/atoms/new/button/Button'
+import { Button } from '@/ui/atoms/button/Button'
 import { LinkButton } from '@/ui/atoms/new/link-button/LinkButton'
 import { Panel } from '@/ui/atoms/new/panel/Panel'
 import { links } from '@/ui/constants/links'

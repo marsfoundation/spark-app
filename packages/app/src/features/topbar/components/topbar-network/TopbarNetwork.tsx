@@ -1,6 +1,6 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { SupportedChain } from '@/features/topbar/types'
-import { Button } from '@/ui/atoms/new/button/Button'
+import { Button } from '@/ui/atoms/button/Button'
 
 export interface TopbarNetworkProps {
   currentChain: SupportedChain
