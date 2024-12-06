@@ -6,8 +6,8 @@ import {
   DropdownMenuItemIcon,
   DropdownMenuTrigger,
 } from '@/ui/atoms/dropdown/DropdownMenu'
+import { IconButton } from '@/ui/atoms/icon-button/IconButton'
 import { Link } from '@/ui/atoms/link/Link'
-import { IconButton } from '@/ui/atoms/new/icon-button/IconButton'
 import { MenuItem, MenuItemIcon } from '@/ui/atoms/new/menu-item/MenuItem'
 import { Switch } from '@/ui/atoms/new/switch/Switch'
 import { links } from '@/ui/constants/links'

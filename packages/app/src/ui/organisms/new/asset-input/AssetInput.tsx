@@ -1,7 +1,7 @@
 import { formFormat } from '@/domain/common/format'
 import { TokenWithBalance } from '@/domain/common/types'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { IconButton } from '@/ui/atoms/new/icon-button/IconButton'
+import { IconButton } from '@/ui/atoms/icon-button/IconButton'
 import { AssetSelector } from '@/ui/molecules/new/asset-selector/AssetSelector'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'

@@ -4,7 +4,7 @@ import { XIcon } from 'lucide-react'
 import { IconButton } from './IconButton'
 
 const meta: Meta<typeof IconButton> = {
-  title: 'Components/Atoms/New/IconButton',
+  title: 'Components/Atoms/IconButton',
   args: {
     onClick: () => {},
     icon: XIcon,

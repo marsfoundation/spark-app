@@ -1,6 +1,6 @@
 import { TokenWithBalance } from '@/domain/common/types'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { IconButton } from '@/ui/atoms/new/icon-button/IconButton'
+import { IconButton } from '@/ui/atoms/icon-button/IconButton'
 import { Panel } from '@/ui/atoms/new/panel/Panel'
 import { AssetInput } from '@/ui/organisms/new/asset-input/AssetInput'
 import { cn } from '@/ui/utils/style'

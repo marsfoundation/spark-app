@@ -1,5 +1,5 @@
 import { IconBox } from '@/ui/atoms/icon-box/IconBox'
-import { IconButton } from '@/ui/atoms/new/icon-button/IconButton'
+import { IconButton } from '@/ui/atoms/icon-button/IconButton'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { type VariantProps, cva } from 'class-variance-authority'

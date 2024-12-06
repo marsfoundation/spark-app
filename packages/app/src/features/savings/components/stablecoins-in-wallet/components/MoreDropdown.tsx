@@ -10,8 +10,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/ui/atoms/dropdown/DropdownMenu'
+import { IconButton } from '@/ui/atoms/icon-button/IconButton'
 import { LinkDecorator } from '@/ui/atoms/link-decorator/LinkDecorator'
-import { IconButton } from '@/ui/atoms/new/icon-button/IconButton'
 import { testIds } from '@/ui/utils/testIds'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { MoreVerticalIcon } from 'lucide-react'

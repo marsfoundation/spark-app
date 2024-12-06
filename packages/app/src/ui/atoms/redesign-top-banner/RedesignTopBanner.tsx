@@ -1,6 +1,6 @@
 import { cn } from '@/ui/utils/style'
 import { XIcon } from 'lucide-react'
-import { IconButton } from '../new/icon-button/IconButton'
+import { IconButton } from '../icon-button/IconButton'
 import { Sparkles } from '../sparkles/Sparkles'
 
 interface RedesignTopBannerProps {
