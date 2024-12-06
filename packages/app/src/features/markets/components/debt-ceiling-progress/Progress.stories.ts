@@ -4,7 +4,7 @@ import { Meta, StoryObj } from '@storybook/react'
 import { Progress } from './Progress'
 
 const meta: Meta<typeof Progress> = {
-  title: 'Components/Atoms/Progress',
+  title: 'Features/Markets/Components/DebtCeilingProgress/Progress',
   component: Progress,
   decorators: [WithClassname('max-w-sm')],
 }
@@ -32,6 +32,7 @@ export const Half: Story = {
 
 export const Full: Story = {
   args: {
+    variant: 'finished',
     value: 100,
   },
 }
