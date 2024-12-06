@@ -3,7 +3,7 @@ import { Meta, StoryObj } from '@storybook/react'
 import { CopyButton } from './CopyButton'
 
 const meta: Meta<typeof CopyButton> = {
-  title: 'Components/Molecules/New/CopyButton',
+  title: 'Components/Molecules/CopyButton',
   component: CopyButton,
   decorators: [WithTooltipProvider()],
   args: {
