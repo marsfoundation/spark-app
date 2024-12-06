@@ -1,7 +1,7 @@
 import { SPK_MOCK_TOKEN } from '@/domain/types/Token'
 import { assets } from '@/ui/assets'
 import BoxArrowTopRight from '@/ui/assets/box-arrow-top-right.svg?react'
-import { Link } from '@/ui/atoms/link/Link'
+import { Link } from '@/ui/atoms/new/link/Link'
 import { Skeleton } from '@/ui/atoms/skeleton/Skeleton'
 import { links } from '@/ui/constants/links'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
@@ -33,6 +33,7 @@ export function AirdropDetails({ amount, precision, isLoading, isGrowing }: Aird
       <div className="flex max-w-60 flex-col gap-2 p-4">
         DAI borrowers with volatile assets and ETH depositors will be eligible for a future ⚡ SPK airdrop.
         <Link
+          variant="unstyled"
           to={links.docs.sparkAirdrop}
           external
           className="flex items-center gap-2.5 font-medium text-secondary text-sm"

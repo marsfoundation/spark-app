@@ -1,6 +1,6 @@
 import { SupportedChainId } from '@/config/chain/types'
 import { SavingsMetaItem } from '@/features/savings/logic/makeSavingsMeta'
-import { Link } from '@/ui/atoms/link/Link'
+import { Link } from '@/ui/atoms/new/link/Link'
 import { links } from '@/ui/constants/links'
 import { gnosis } from 'viem/chains'
 

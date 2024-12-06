@@ -40,7 +40,7 @@ export const Underline: Story = {
   render: () => (
     <div className="typography-body-4 text-system-success-primary">
       Lorem ipsum dolor sit amend{' '}
-      <Link to="" underline>
+      <Link to="" variant="underline">
         consectetur
       </Link>{' '}
       adipiscing elit.
@@ -52,7 +52,7 @@ export const External: Story = {
   render: () => (
     <div className="typography-body-4">
       Lorem ipsum dolor sit amend{' '}
-      <Link to="https://app.spark.fi" underline external>
+      <Link to="https://app.spark.fi" variant="secondary" external>
         consectetur
       </Link>{' '}
       adipiscing elit.
@@ -63,7 +63,9 @@ export const External: Story = {
 export const MergedIntoLink: Story = {
   render: () => (
     <MenuItem asChild className="w-28 cursor-pointer justify-center">
-      <Link to="">Menu Item</Link>
+      <Link to="" variant="unstyled">
+        Menu Item
+      </Link>
     </MenuItem>
   ),
 }

@@ -2,7 +2,7 @@ import { SPK_MOCK_TOKEN } from '@/domain/types/Token'
 import { useGrowingAirdropAmount } from '@/features/topbar/logic/use-airdrop-info/useGrowingAirdropAmount'
 import { assets } from '@/ui/assets'
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/ui/atoms/dialog/Dialog'
-import { Link } from '@/ui/atoms/link/Link'
+import { Link } from '@/ui/atoms/new/link/Link'
 import { MenuItem, MenuItemIcon } from '@/ui/atoms/new/menu-item/MenuItem'
 import { Skeleton } from '@/ui/atoms/skeleton/Skeleton'
 import { links } from '@/ui/constants/links'
@@ -100,8 +100,8 @@ function TopbarMenuAirdropDialog({
             DAI borrowers with volatile assets and ETH depositors will be eligible for a future ⚡ SPK airdrop.
           </span>
 
-          <MenuItem asChild>
-            <Link to={links.docs.sparkAirdrop} external className="cursor-pointer border border-primary">
+          <MenuItem asChild className="cursor-pointer">
+            <Link to={links.docs.sparkAirdrop} variant="unstyled" external>
               Learn more
               <MenuItemIcon icon={ExternalLinkIcon} className="ml-auto" />
             </Link>

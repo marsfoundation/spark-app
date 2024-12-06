@@ -5,7 +5,6 @@ import { EModeCategoryId } from '@/domain/e-mode/types'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { assets } from '@/ui/assets'
-import { Link } from '@/ui/atoms/link/Link'
 import { links } from '@/ui/constants/links'
 import { EModeBadge } from '@/ui/molecules/e-mode-badge/EModeBadge'
 import { InfoTile } from '@/ui/molecules/info-tile/InfoTile'
@@ -16,6 +15,7 @@ import { InfoTilesGrid } from './components/InfoTilesGrid'
 import { StatusPanelGrid } from './components/StatusPanelGrid'
 import { StatusIcon } from './components/status-icon/StatusIcon'
 import { TokenBadge } from './components/token-badge/TokenBadge'
+import { Link } from '@/ui/atoms/new/link/Link'
 
 export interface EModeStatusPanelProps {
   maxLtv: Percentage

@@ -1,6 +1,6 @@
 import { useBlockExplorerAddressLink } from '@/domain/hooks/useBlockExplorerAddressLink'
 import { Address } from '@/ui/atoms/address/Address'
-import { Link } from '@/ui/atoms/link/Link'
+import { Link } from '@/ui/atoms/new/link/Link'
 import { cn } from '@/ui/utils/style'
 import { CheckedAddress } from '@marsfoundation/common-universal'
 import { SquareArrowOutUpRight } from 'lucide-react'
@@ -24,6 +24,7 @@ export function BlockExplorerAddressLink({
     <Link
       to={contractLink}
       external
+      variant="unstyled"
       className={cn(
         'flex w-full max-w-64 items-center gap-1 text-inherit hover:text-inherit hover:underline',
         className,

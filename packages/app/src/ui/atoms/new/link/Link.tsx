@@ -8,11 +8,11 @@ export interface LinkProps extends VariantProps<typeof linkVariants>, RouterLink
 }
 
 export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
-  ({ children, variant, underline, external, className, ...props }, ref) => (
+  ({ children, variant, external, className, ...props }, ref) => (
     <RouterLink
       {...props}
       {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-      className={cn(linkVariants({ variant, underline }), className)}
+      className={cn(linkVariants({ variant }), className)}
       ref={ref}
     >
       {children}
@@ -26,10 +26,12 @@ const linkVariants = cva('cursor-pointer', {
       primary:
         'bg-gradient-spark-secondary bg-clip-text text-transparent active:brightness-[80%] hover:brightness-[90%]',
       secondary: 'text-brand-primary active:brightness-[200%] hover:brightness-[150%]',
+      underline: 'underline underline-offset-2',
+      unstyled: '',
     },
-    underline: {
-      true: 'underline underline-offset-2',
-    },
+  },
+  defaultVariants: {
+    variant: 'primary',
   },
   compoundVariants: [
     {

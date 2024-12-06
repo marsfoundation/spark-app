@@ -9,8 +9,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '@/ui/atoms/dropdown/DropdownMenu'
-import { Link } from '@/ui/atoms/link/Link'
 import { IconButton } from '@/ui/atoms/new/icon-button/IconButton'
+import { Link } from '@/ui/atoms/new/link/Link'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 import { CheckedAddress } from '@marsfoundation/common-universal'
 import { MoreVerticalIcon } from 'lucide-react'
@@ -62,7 +62,7 @@ function BlockExplorerAddressLink({ address, children, chainId }: BlockExplorerA
   const contractLink = useBlockExplorerAddressLink({ address, chainId })
 
   return contractLink ? (
-    <Link to={contractLink} external>
+    <Link to={contractLink} variant="unstyled" external>
       {children}
     </Link>
   ) : (

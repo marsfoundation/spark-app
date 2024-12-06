@@ -9,8 +9,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/ui/atoms/dropdown/DropdownMenu'
-import { Link } from '@/ui/atoms/link/Link'
 import { Button } from '@/ui/atoms/new/button/Button'
+import { Link } from '@/ui/atoms/new/link/Link'
 import { Skeleton } from '@/ui/atoms/skeleton/Skeleton'
 import { links } from '@/ui/constants/links'
 import { testIds } from '@/ui/utils/testIds'
@@ -72,8 +72,8 @@ export function TopbarAirdropDropdown({
           </DropdownMenuItem>
         </DropdownMenuGroup>
 
-        <DropdownMenuItem asChild>
-          <Link to={links.docs.sparkAirdrop} external className="cursor-pointer">
+        <DropdownMenuItem className="cursor-pointer" asChild>
+          <Link to={links.docs.sparkAirdrop} variant="unstyled" external>
             <DropdownMenuItemIcon icon={LibraryIcon} />
             Learn more
             <DropdownMenuItemIcon icon={ExternalLinkIcon} className="ml-auto" />

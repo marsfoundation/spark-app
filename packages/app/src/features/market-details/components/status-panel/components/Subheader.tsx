@@ -2,9 +2,9 @@ import { VariantProps, cva } from 'class-variance-authority'
 import { ReactNode } from 'react'
 
 import { MarketAssetStatus } from '@/domain/market-info/reserve-status'
-import { Link } from '@/ui/atoms/link/Link'
 import { links } from '@/ui/constants/links'
 import { cn } from '@/ui/utils/style'
+import { Link } from '@/ui/atoms/new/link/Link'
 
 interface SubheaderProps {
   status: MarketAssetStatus
@@ -14,9 +14,8 @@ export function Subheader({ status }: SubheaderProps) {
   if (status === 'only-in-isolation-mode') {
     return (
       <Content variant="orange">
-        In Isolation mode, you cannot use other assets as collateral for borrowing. Assets used as collateral in
-        Isolation mode can only be borrowed up to a specific debt ceiling.{' '}
-        <Link to={links.docs.isolationMode} external>
+        In Isolation Mode you can only borrow stablecoins up to the debt ceiling and cannot use any other asset as collateral..{' '}
+        <Link to={links.docs.isolationMode} variant="underline" external>
           Learn more
         </Link>
         .

@@ -9,7 +9,7 @@ import { DialogActionsPanel } from '@/features/dialogs/common/components/DialogA
 import { MultiPanelDialog } from '@/features/dialogs/common/components/MultiPanelDialog'
 import { PageStatus } from '@/features/dialogs/common/types'
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
-import { Link } from '@/ui/atoms/link/Link'
+import { Link } from '@/ui/atoms/new/link/Link'
 import { links } from '@/ui/constants/links'
 import { Alert } from '@/ui/molecules/new/alert/Alert'
 import { RiskAcknowledgement } from '@/ui/organisms/risk-acknowledgement/RiskAcknowledgement'
