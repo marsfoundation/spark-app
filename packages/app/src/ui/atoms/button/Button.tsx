@@ -3,7 +3,7 @@ import { assert } from '@/utils/assert'
 import { Slot } from '@radix-ui/react-slot'
 import { type VariantProps, cva } from 'class-variance-authority'
 import * as React from 'react'
-import { Loader } from '../new/loader/Loader'
+import { Loader } from '../loader/Loader'
 
 export const buttonVariants = cva(
   cn(
