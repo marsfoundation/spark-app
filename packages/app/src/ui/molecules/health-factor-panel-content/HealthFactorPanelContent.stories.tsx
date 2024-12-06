@@ -7,7 +7,7 @@ import { Meta, StoryObj } from '@storybook/react'
 import { HealthFactorPanelContent, HealthFactorPanelContentProps } from './HealthFactorPanelContent'
 
 const meta: Meta<typeof HealthFactorPanelContent> = {
-  title: 'Components/Molecules/New/HealthFactorPanelContent',
+  title: 'Components/Molecules/HealthFactorPanelContent',
   decorators: [WithTooltipProvider(), WithClassname('max-w-[425px]')],
   component: (props: HealthFactorPanelContentProps) => (
     <Panel variant="secondary">

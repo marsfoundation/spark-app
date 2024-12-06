@@ -6,7 +6,7 @@ import { links } from '@/ui/constants/links'
 import { cn } from '@/ui/utils/style'
 import BigNumber from 'bignumber.js'
 import { forwardRef } from 'react'
-import { Info } from '../../info/Info'
+import { Info } from '../info/Info'
 
 export interface HealthFactorPanelContentProps {
   hf?: BigNumber
