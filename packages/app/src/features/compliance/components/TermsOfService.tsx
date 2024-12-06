@@ -73,7 +73,7 @@ export function TermsOfService({ onAgree }: TermsOfServiceProps) {
   return (
     <MultiPanelDialog>
       <div className="typography-heading-5">Terms of Service and Disclaimer</div>
-      <div className="typography-body-4 text-secondary">
+      <div className="typography-body-4">
         By using this site, I represent that I have read and agree to the <ToSLink /> and{' '}
         <Link to={links.privacyPolicy} variant="secondary" external>
           Privacy Policy

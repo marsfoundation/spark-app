@@ -15,7 +15,7 @@ export function Subheader({ status }: SubheaderProps) {
     return (
       <Content variant="orange">
         In Isolation Mode you can only borrow stablecoins up to the debt ceiling and cannot use any other asset as
-        collateral..{' '}
+        collateral.{' '}
         <Link to={links.docs.isolationMode} variant="underline" external>
           Learn more
         </Link>
