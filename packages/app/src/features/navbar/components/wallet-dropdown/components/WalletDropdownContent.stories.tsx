@@ -1,16 +1,16 @@
-import type { Meta, StoryObj } from '@storybook/react'
-import { userEvent, within } from '@storybook/test'
-
 import { assets } from '@/ui/assets'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/ui/atoms/dropdown/DropdownMenu'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { CheckedAddress } from '@marsfoundation/common-universal'
-
+import type { Meta, StoryObj } from '@storybook/react'
+import { userEvent, within } from '@storybook/test'
+import { withRouter } from 'storybook-addon-remix-react-router'
 import { WalletDropdownContent } from './WalletDropdownContent'
 
 const meta: Meta<typeof WalletDropdownContent> = {
   title: 'Features/Navbar/Components/WalletDropdown/WalletDropdownContent',
   component: WalletDropdownContent,
+  decorators: [withRouter],
 }
 
 export default meta

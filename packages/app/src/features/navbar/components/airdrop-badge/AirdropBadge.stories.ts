@@ -1,17 +1,16 @@
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { WithClassname, WithTooltipProvider } from '@sb/decorators'
 import { getHoveredStory } from '@sb/utils'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
-
-import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
-
+import { withRouter } from 'storybook-addon-remix-react-router'
 import { AirdropBadge } from './AirdropBadge'
 
 const timestampInMs = Date.now() - 30 * 1000 // timestamp snapshot is always bit stale
 
 const meta: Meta<typeof AirdropBadge> = {
   title: 'Features/Navbar/Components/AirdropBadge',
-  decorators: [WithTooltipProvider(), WithClassname('flex')],
+  decorators: [WithTooltipProvider(), WithClassname('flex'), withRouter],
   component: AirdropBadge,
   args: {
     airdrop: {

@@ -1,7 +1,7 @@
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { ZeroAllowanceWagmiDecorator } from '@sb/decorators'
 import { Meta, StoryObj } from '@storybook/react'
-
-import { CheckedAddress } from '@marsfoundation/common-universal'
+import { withRouter } from 'storybook-addon-remix-react-router'
 import { BlockExplorerAddressLink } from './BlockExplorerAddressLink'
 
 const meta: Meta<typeof BlockExplorerAddressLink> = {
@@ -10,7 +10,7 @@ const meta: Meta<typeof BlockExplorerAddressLink> = {
   args: {
     address: CheckedAddress('0xBa2C8F2eA5B56690bFb8b709438F049e5Dd76B96'),
   },
-  decorators: [ZeroAllowanceWagmiDecorator()],
+  decorators: [ZeroAllowanceWagmiDecorator(), withRouter],
 }
 
 export default meta

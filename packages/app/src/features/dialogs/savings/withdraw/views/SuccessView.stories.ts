@@ -4,12 +4,13 @@ import { WithClassname, ZeroAllowanceWagmiDecorator } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
+import { withRouter } from 'storybook-addon-remix-react-router'
 import { SuccessView } from './SuccessView'
 
 const meta: Meta<typeof SuccessView> = {
   title: 'Features/Dialogs/Views/Savings/Withdraw/Success',
   component: SuccessView,
-  decorators: [WithClassname('max-w-xl'), ZeroAllowanceWagmiDecorator()],
+  decorators: [WithClassname('max-w-xl'), ZeroAllowanceWagmiDecorator(), withRouter],
   args: {
     tokenToWithdraw: {
       token: tokens.DAI,

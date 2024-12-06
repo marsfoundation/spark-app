@@ -7,12 +7,13 @@ import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { CheckedAddress } from '@marsfoundation/common-universal'
 import { WithClassname, WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
+import { withRouter } from 'storybook-addon-remix-react-router'
 import { OraclePanel } from './OraclePanel'
 
 const meta: Meta<typeof OraclePanel> = {
   title: 'Features/MarketDetails/Components/OraclePanel',
   component: OraclePanel,
-  decorators: [WithTooltipProvider(), ZeroAllowanceWagmiDecorator(), WithClassname('max-w-2xl')],
+  decorators: [WithTooltipProvider(), ZeroAllowanceWagmiDecorator(), WithClassname('max-w-2xl'), withRouter],
   args: {
     isLoading: false,
     error: undefined,

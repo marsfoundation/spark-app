@@ -1,12 +1,13 @@
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
-
+import { withRouter } from 'storybook-addon-remix-react-router'
 import { SparkAirdropInfoPanel } from './SparkAirdropInfoPanel'
 
 const meta: Meta<typeof SparkAirdropInfoPanel> = {
   title: 'Features/MarketDetails/Components/SparkAirdropInfoPanel',
   component: SparkAirdropInfoPanel,
+  decorators: [withRouter],
 }
 
 export default meta

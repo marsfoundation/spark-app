@@ -4,11 +4,12 @@ import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 import { useForm } from 'react-hook-form'
+import { withRouter } from 'storybook-addon-remix-react-router'
 import { DowngradeUSDSToDaiView } from './DowngradeUSDSToDaiView'
 
 const meta: Meta<typeof DowngradeUSDSToDaiView> = {
   title: 'Features/Dialogs/Views/Migrate/Downgrade',
-  decorators: [ZeroAllowanceWagmiDecorator(), WithClassname('max-w-xl'), WithTooltipProvider()],
+  decorators: [ZeroAllowanceWagmiDecorator(), WithClassname('max-w-xl'), WithTooltipProvider(), withRouter],
   component: (args) => {
     const form = useForm() as any
     return <DowngradeUSDSToDaiView {...args} form={form} />

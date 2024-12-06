@@ -3,11 +3,13 @@ import { assets } from '@/ui/assets'
 import { CheckedAddress } from '@marsfoundation/common-universal'
 import type { Meta, StoryObj } from '@storybook/react'
 import { userEvent, within } from '@storybook/test'
+import { withRouter } from 'storybook-addon-remix-react-router'
 import { WalletDropdown, WalletDropdownProps } from './WalletDropdown'
 
 const meta: Meta<typeof WalletDropdown> = {
   title: 'Features/Navbar/Components/WalletDropdown',
   component: WalletDropdown,
+  decorators: [withRouter],
   play: async ({ canvasElement }) => {
     const button = await within(canvasElement).findByRole('button')
     await userEvent.click(button)
