@@ -1,7 +1,7 @@
 import { ChevronUp } from 'lucide-react'
 import { ButtonHTMLAttributes, forwardRef } from 'react'
 
-import { WalletDropdownTriggerInfo } from '@/features/navbar/types'
+import { WalletDropdownTriggerInfo } from '@/features/topbar/types'
 import { shortenAddress } from '@/ui/utils/shortenAddress'
 
 import { Button, ButtonIcon } from '@/ui/atoms/new/button/Button'

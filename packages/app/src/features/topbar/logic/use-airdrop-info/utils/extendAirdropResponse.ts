@@ -1,5 +1,5 @@
 import { AirdropInfoResponse } from '@/features/navbar/logic/use-airdrop-info/airdropInfo'
-import { Airdrop } from '@/features/navbar/types'
+import { Airdrop } from '@/features/topbar/types'
 import { getTokenRatePrecision } from './getTokenRatePrecision'
 
 export interface ExtendAirdropResponseParams {

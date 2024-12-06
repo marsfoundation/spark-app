@@ -2,7 +2,7 @@ import { SavingsInfo } from '@/domain/savings-info/types'
 import { EnsName } from '@/domain/types/EnsName'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { CheckedAddress } from '@marsfoundation/common-universal'
-import { Reward } from './components/rewards-badge/types'
+import { Reward } from '../navbar/components/rewards-badge/types'
 
 export interface SupportedChain {
   id: number
