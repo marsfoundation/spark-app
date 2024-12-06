@@ -1,5 +1,5 @@
 import { Token } from '@/domain/types/Token'
-import { HorizontalScroll } from '@/ui/atoms/new/horizontal-scroll/HorizontalScroll'
+import { HorizontalScroll } from '@/ui/atoms/horizontal-scroll/HorizontalScroll'
 import { TransactionOverview } from '@/ui/organisms/new/transaction-overview/TransactionOverview'
 import { RouteItem } from '@/ui/organisms/new/transaction-overview/rows/TransactionOverviewRoute'
 import { testIds } from '@/ui/utils/testIds'

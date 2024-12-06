@@ -1,5 +1,5 @@
 import { Token } from '@/domain/types/Token'
-import { HorizontalScroll } from '@/ui/atoms/new/horizontal-scroll/HorizontalScroll'
+import { HorizontalScroll } from '@/ui/atoms/horizontal-scroll/HorizontalScroll'
 import { TokenAmount } from '@/ui/molecules/token-amount/TokenAmount'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
