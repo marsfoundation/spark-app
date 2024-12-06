@@ -1,7 +1,7 @@
 import { TokenWithBalance } from '@/domain/common/types'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { Select, SelectContent, SelectItem, SelectTrigger } from '@/ui/atoms/new/select/Select'
+import { Select, SelectContent, SelectItem, SelectTrigger } from '@/ui/atoms/select/Select'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
