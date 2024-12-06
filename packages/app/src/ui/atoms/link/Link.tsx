@@ -20,7 +20,7 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
   ),
 )
 
-const linkVariants = cva('cursor-pointer', {
+const linkVariants = cva('', {
   variants: {
     variant: {
       primary:
@@ -37,9 +37,8 @@ const linkVariants = cva('cursor-pointer', {
     {
       variant: ['primary', 'secondary'],
       className: cn(
-        'rounded-[1px] focus-visible:outline-none focus-visible:ring',
+        'cursor-pointer rounded-[1px] focus-visible:outline-none focus-visible:ring',
         'focus-visible:ring-reskin-primary-200 focus-visible:ring-offset-0',
-        '',
       ),
     },
   ],
