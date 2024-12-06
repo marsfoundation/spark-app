@@ -1,7 +1,7 @@
 import { cn } from '@/ui/utils/style'
 import { forwardRef } from 'react'
 import { Link, LinkProps } from 'react-router-dom'
-import { ButtonContext, ButtonProps, buttonVariants } from '../../button/Button'
+import { ButtonContext, ButtonProps, buttonVariants } from '../button/Button'
 
 export const LinkButton = forwardRef<HTMLAnchorElement, ButtonProps & LinkProps & { external?: boolean }>(
   ({ children, variant, size, spacing, external, className, ...props }, ref) => (

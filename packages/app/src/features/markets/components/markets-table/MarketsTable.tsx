@@ -1,6 +1,6 @@
 import { paths } from '@/config/paths'
 import { sortByAPY, sortByUsdValue } from '@/domain/common/sorters'
-import { LinkButton } from '@/ui/atoms/new/link-button/LinkButton'
+import { LinkButton } from '@/ui/atoms/link-button/LinkButton'
 import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
 import { ActionsCell } from '@/ui/molecules/data-table/components/ActionsCell'
 import { CompactValueCell } from '@/ui/molecules/data-table/components/CompactValueCell'

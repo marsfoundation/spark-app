@@ -1,5 +1,5 @@
 import { ButtonIcon } from '@/ui/atoms/button/Button'
-import { LinkButton } from '@/ui/atoms/new/link-button/LinkButton'
+import { LinkButton } from '@/ui/atoms/link-button/LinkButton'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { SquareArrowOutUpRight } from 'lucide-react'
