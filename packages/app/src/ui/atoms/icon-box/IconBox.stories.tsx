@@ -3,7 +3,7 @@ import { Meta, StoryObj } from '@storybook/react'
 import { IconBox } from './IconBox'
 
 const meta: Meta<typeof IconBox> = {
-  title: 'Components/Atoms/New/IconBox',
+  title: 'Components/Atoms/IconBox',
   component: () => (
     <StoryGrid className="grid-cols-4">
       <div />

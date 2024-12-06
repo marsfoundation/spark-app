@@ -1,4 +1,4 @@
-import { IconBox } from '@/ui/atoms/new/icon-box/IconBox'
+import { IconBox } from '@/ui/atoms/icon-box/IconBox'
 import { IconButton } from '@/ui/atoms/new/icon-button/IconButton'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
