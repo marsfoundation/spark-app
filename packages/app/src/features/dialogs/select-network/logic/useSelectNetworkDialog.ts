@@ -1,8 +1,8 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { Path, getSupportedPages, pathGroups } from '@/config/paths'
-import { useNetworkChange } from '@/features/navbar/logic/useNetworkChange'
 import { useChainId, useChains } from 'wagmi'
 import { Chain } from '../types'
+import { useNetworkChange } from './useNetworkChange'
 
 export interface UseSelectNetworkDialogParams {
   closeDialog: () => void
