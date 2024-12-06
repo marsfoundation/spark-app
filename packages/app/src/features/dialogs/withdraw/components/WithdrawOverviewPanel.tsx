@@ -1,6 +1,6 @@
 import { formatPercentage } from '@/domain/common/format'
 import { TokenWithValue } from '@/domain/common/types'
-import { TransactionOverview } from '@/ui/organisms/new/transaction-overview/TransactionOverview'
+import { TransactionOverview } from '@/ui/organisms/transaction-overview/TransactionOverview'
 import { PositionOverview } from '../logic/types'
 
 export interface WithdrawOverviewPanelProps {

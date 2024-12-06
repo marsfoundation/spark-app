@@ -1,5 +1,5 @@
 import { Token } from '@/domain/types/Token'
-import { TransactionOverview } from '@/ui/organisms/new/transaction-overview/TransactionOverview'
+import { TransactionOverview } from '@/ui/organisms/transaction-overview/TransactionOverview'
 import { testIds } from '@/ui/utils/testIds'
 import { assert } from '@/utils/assert'
 import { TransactionOverviewPlaceholder } from '../../../common/components/transaction-overview/components/TransactionOverviewPlaceholder'

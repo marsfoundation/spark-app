@@ -1,6 +1,6 @@
 import { Token } from '@/domain/types/Token'
-import { TransactionOverview } from '@/ui/organisms/new/transaction-overview/TransactionOverview'
-import { RouteItem } from '@/ui/organisms/new/transaction-overview/rows/TransactionOverviewRoute'
+import { TransactionOverview } from '@/ui/organisms/transaction-overview/TransactionOverview'
+import { RouteItem } from '@/ui/organisms/transaction-overview/rows/TransactionOverviewRoute'
 import { testIds } from '@/ui/utils/testIds'
 import { assert } from '@/utils/assert'
 import type { TxOverview } from '../logic/createTxOverview'

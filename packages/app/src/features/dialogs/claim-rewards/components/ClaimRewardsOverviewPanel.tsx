@@ -1,5 +1,5 @@
 import { Reward } from '@/features/topbar/types'
-import { TransactionOverview } from '@/ui/organisms/new/transaction-overview/TransactionOverview'
+import { TransactionOverview } from '@/ui/organisms/transaction-overview/TransactionOverview'
 import { RewardsList } from './RewardsList'
 
 export interface ClaimRewardsOverviewPanelProps {

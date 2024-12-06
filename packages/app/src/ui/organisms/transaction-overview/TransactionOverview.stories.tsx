@@ -7,7 +7,7 @@ import BigNumber from 'bignumber.js'
 import { TransactionOverview } from './TransactionOverview'
 
 const meta: Meta<typeof TransactionOverview> = {
-  title: 'Components/Molecules/New/TransactionOverview',
+  title: 'Components/Molecules/TransactionOverview',
   decorators: [WithClassname('max-w-2xl'), WithTooltipProvider()],
   component: TransactionOverview,
 }
