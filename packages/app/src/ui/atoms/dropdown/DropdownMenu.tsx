@@ -4,7 +4,7 @@ import * as React from 'react'
 
 import { cn } from '@/ui/utils/style'
 import { VariantProps, cva } from 'class-variance-authority'
-import { MenuItem, MenuItemIcon } from '../new/menu-item/MenuItem'
+import { MenuItem, MenuItemIcon } from '../menu-item/MenuItem'
 
 const DropdownMenu = DropdownMenuPrimitive.Root
 

@@ -8,7 +8,7 @@ import {
   DropdownMenuSeparator,
 } from '@/ui/atoms/dropdown/DropdownMenu'
 import { Link } from '@/ui/atoms/link/Link'
-import { MenuItem, MenuItemIcon } from '@/ui/atoms/new/menu-item/MenuItem'
+import { MenuItem, MenuItemIcon } from '@/ui/atoms/menu-item/MenuItem'
 import { CheckedAddress } from '@marsfoundation/common-universal'
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
 import { ExternalLink, UnplugIcon } from 'lucide-react'

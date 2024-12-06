@@ -8,7 +8,7 @@ import {
 } from '@/ui/atoms/dropdown/DropdownMenu'
 import { IconButton } from '@/ui/atoms/icon-button/IconButton'
 import { Link } from '@/ui/atoms/link/Link'
-import { MenuItem, MenuItemIcon } from '@/ui/atoms/new/menu-item/MenuItem'
+import { MenuItem, MenuItemIcon } from '@/ui/atoms/menu-item/MenuItem'
 import { Switch } from '@/ui/atoms/new/switch/Switch'
 import { links } from '@/ui/constants/links'
 import { BuildInfo } from '@/ui/utils/getBuildInfo'

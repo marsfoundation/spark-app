@@ -2,7 +2,7 @@ import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { assets, getTokenImage } from '@/ui/assets'
 import HandCoinsIcon from '@/ui/assets/hand-coins.svg?react'
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/ui/atoms/dialog/Dialog'
-import { MenuItem, MenuItemIcon } from '@/ui/atoms/new/menu-item/MenuItem'
+import { MenuItem, MenuItemIcon } from '@/ui/atoms/menu-item/MenuItem'
 import { ChevronRight } from 'lucide-react'
 import { TopbarRewardsProps } from '../../topbar-rewards/TopbarRewards'
 
