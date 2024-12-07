@@ -1,4 +1,4 @@
-import { assert } from '../assert'
+import { assert } from '../assert/assert'
 
 export function reverseDictionary<K extends string | number, T extends string | number>(
   dictionary: Record<K, T>,

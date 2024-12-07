@@ -1,6 +1,6 @@
 import { getAddress, isAddress } from 'viem'
 
-import { assert } from '../assert'
+import { assert } from '../assert/assert'
 import { asciiToHex, randomPartialHex } from '../math/hexUtils'
 import { Opaque } from './Opaque'
 

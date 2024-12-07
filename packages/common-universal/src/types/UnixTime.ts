@@ -1,4 +1,4 @@
-import { assert } from '../assert'
+import { assert } from '../assert/assert'
 import { NumberLike, bigNumberify } from '../math/bigNumber'
 import { Opaque } from './Opaque'
 
