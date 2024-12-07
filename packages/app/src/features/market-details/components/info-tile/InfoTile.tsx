@@ -19,14 +19,14 @@ export function InfoTile({ children, 'data-testid': dataTestId, className }: Inf
 }
 
 function Label({ children }: InfoTileProps) {
-  return <div className="typography-label-6 my-auto text-secondary">{children}</div>
+  return <div className="typography-label-5 my-auto text-secondary">{children}</div>
 }
 
 function Value({ children, 'data-testid': dataTestId, className }: InfoTileProps) {
   return (
     <div
       className={cn(
-        'typography-label-2 flex items-center gap-1 justify-self-end text-primary sm:min-h-[26px] sm:justify-self-start sm:text-base sm:leading-none',
+        'typography-body-4 flex items-center gap-1 justify-self-end text-primary sm:min-h-[26px] sm:justify-self-start',
         className,
       )}
       data-testid={dataTestId}
@@ -43,7 +43,7 @@ function ComplementaryLine({ children, 'data-testid': dataTestId, className }: I
         'col-start-2 row-start-2 justify-self-end',
         'typography-label-6 text-secondary',
         'sm:col-start-1 sm:row-start-3',
-        'sm:justify-self-start sm:leading-none',
+        'sm:justify-self-start',
         className,
       )}
       data-testid={dataTestId}
