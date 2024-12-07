@@ -51,7 +51,7 @@ export function TokenName({ token, className }: TokenNameProps) {
   return (
     <Tooltip open={!isTruncated ? false : undefined}>
       <TooltipTrigger asChild>
-        <p className={cn('truncate font-semibold text-base lg:text-base md:text-sm', className)} ref={tokenNameRef}>
+        <p className={cn('typography-label-5 truncate', className)} ref={tokenNameRef}>
           {token.name}
         </p>
       </TooltipTrigger>

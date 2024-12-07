@@ -16,7 +16,7 @@ export function SelectNetworkDialogView({ chains }: SelectNetworkDialogViewProps
         {chains.map((chain) => (
           <button
             className={cn(
-              'relative isolate flex flex-col rounded-sm border border-border-primary',
+              'relative isolate flex flex-col rounded-sm border border-primary',
               'hover:-translate-y-1 hover:shadow-lg',
               'focus-visible:border-transparent focus-visible:outline-none focus-visible:ring focus-visible:ring-reskin-primary-200 focus-visible:ring-offset-0',
               'cursor-pointer transition-all duration-300',

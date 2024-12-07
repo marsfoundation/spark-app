@@ -43,7 +43,7 @@ export function EModeView({
     <MultiPanelDialog>
       <div className="flex flex-col gap-3">
         <DialogTitle>Set E-Mode Category</DialogTitle>
-        <p className="text-secondary text-sm leading-tight">
+        <p className="typography-label-5 text-secondary">
           E-Mode allows you to borrow assets belonging to the selected category.
           <br />
           Please visit our{' '}

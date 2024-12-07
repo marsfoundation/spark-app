@@ -34,7 +34,7 @@ export function Tile({ icon: Icon, title, USDValue, description, 'data-testid': 
           {description && (
             <Tooltip>
               <TooltipTrigger>
-                <HelpCircle size={16} className="text-icon-foreground/50" />
+                <HelpCircle size={16} className="text-secondary/50" />
               </TooltipTrigger>
               <TooltipContent>{description}</TooltipContent>
             </Tooltip>
