@@ -31,7 +31,7 @@ export interface MyWalletProps {
 export function MyWallet({ token, tokenBalance, lend, deposit, borrow, openDialog }: MyWalletProps) {
   return (
     <WalletPanelContent>
-      <h3 className="font-semibold text-base text-sky-950 md:text-xl">My Wallet</h3>
+      <h3 className="typography-heading-5 text-primary">My Wallet</h3>
       <TokenBalance token={token} balance={tokenBalance} />
       {lend && (
         <ActionRow
