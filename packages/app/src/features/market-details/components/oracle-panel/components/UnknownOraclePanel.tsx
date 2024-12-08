@@ -1,8 +1,8 @@
 import { UnknownOracleInfo } from '@/domain/oracles/types'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
+import { InfoTile } from '@/features/market-details/components/info-tile/InfoTile'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { BlockExplorerAddressLink } from '@/ui/molecules/block-explorer-address-link/BlockExplorerAddressLink'
-import { InfoTile } from '@/ui/molecules/info-tile/InfoTile'
 import { testIds } from '@/ui/utils/testIds'
 
 export function UnknownOraclePanel({ chainId, token, price, priceOracleAddress }: UnknownOracleInfo) {

@@ -4,7 +4,7 @@ import { Meta, StoryObj } from '@storybook/react'
 import { InfoTile } from './InfoTile'
 
 const meta: Meta<typeof InfoTile> = {
-  title: 'Components/Molecules/InfoTile',
+  title: 'Features/MarketDetails/Components/MyWallet/InfoTile',
   component: InfoTile,
 }
 

@@ -4,7 +4,7 @@ import { Meta, StoryObj } from '@storybook/react'
 import { Progress } from './Progress'
 
 const meta: Meta<typeof Progress> = {
-  title: 'Features/Markets/Components/DebtCeilingProgress/Progress',
+  title: 'Features/MarketDetails/Components/MyWallet/DebtCeilingProgress/Progress',
   component: Progress,
   decorators: [WithClassname('max-w-sm')],
 }
