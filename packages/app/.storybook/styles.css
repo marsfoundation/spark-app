@@ -1,7 +1,10 @@
 #storybook-root {
   min-width: 375px;
   min-height: 400px;
-  background: rgb(var(--neutral-50));
+}
+
+body {
+  background-color: rgb(var(--neutral-50));
 }
 
 /*
