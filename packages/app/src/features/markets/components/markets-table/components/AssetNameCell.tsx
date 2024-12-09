@@ -30,7 +30,7 @@ export function AssetNameCell({ token, reserveStatus, 'data-testid': dataTestId 
           </ColorFilter>
         </div>
       )}
-      <div className="flex min-w-0 items-baseline gap-2 xs:flex-row">
+      <div className="flex min-w-0 flex-col xl:flex-row xl:items-baseline xl:gap-2">
         <TokenName token={token} className={cn(isPaused && 'text-red-600')} />
         <p className={cn('typography-label-6 text-secondary', isPaused && 'text-red-300')}>{token.symbol}</p>
       </div>
