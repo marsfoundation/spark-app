@@ -91,7 +91,7 @@ export function AssetInput<TFieldValues extends FieldValues>({
           'rounded-sm border border-primary bg-secondary',
           'focus-within:border-brand-primary',
           disabled && 'cursor-not-allowed bg-secondary/50',
-          showError && error && 'border-reskin-error-200 bg-system-error-primary',
+          showError && error && 'border-error-200 bg-system-error-primary',
           optionalGridColsNum === 0 && 'grid-cols-[auto_1fr]',
           optionalGridColsNum === 1 && 'grid-cols-[auto_1fr_auto]',
           optionalGridColsNum === 2 && 'grid-cols-[auto_1fr_auto_auto]',
@@ -145,7 +145,7 @@ export function AssetInput<TFieldValues extends FieldValues>({
             <button
               onClick={disabled ? undefined : setMaxValue}
               className={cn(
-                'typography-label-5 text-brand-primary disabled:text-secondary hover:text-reskin-primary-950',
+                'typography-label-5 text-brand-primary disabled:text-secondary hover:text-primary-950',
                 disabled && 'cursor-not-allowed opacity-50',
               )}
               disabled={disabled || isMaxSelected}

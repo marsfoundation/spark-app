@@ -98,7 +98,7 @@ export function ActiveFarmInfoPanel({
           </DelayedComponent>
         )}
       </div>
-      <div className="flex divide-x divide-reskin-fg-secondary">
+      <div className="flex divide-x divide-fg-secondary">
         {farm.depositors && (
           <DetailsItem title="Participants">
             <div className="typography-label-5 lg:typography-label-3 xl:typography-label-2 text-primary-inverse">

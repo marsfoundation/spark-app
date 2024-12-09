@@ -39,8 +39,8 @@ export function Topbar({
         <Link
           to="/"
           className={cn(
-            'group focus-visible:bg-primary focus-visible:text-reskin-neutral-950 focus-visible:ring',
-            'focus-visible:outline-none focus-visible:ring-reskin-primary-200 focus-visible:ring-offset-0',
+            'group focus-visible:bg-primary focus-visible:text-neutral-950 focus-visible:ring',
+            'focus-visible:outline-none focus-visible:ring-primary-200 focus-visible:ring-offset-0',
             'flex h-14 w-10 shrink-0 items-center justify-center gap-2 sm:w-16',
           )}
         >

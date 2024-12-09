@@ -23,7 +23,7 @@ export const AddressInput = forwardRef<HTMLInputElement, AddressInputProps>(
             'rounded-sm border border-primary bg-secondary',
             'focus-within:border-brand-primary',
             'items-center rounded-sm px-3 sm:px-4',
-            error && 'border-reskin-error-200 bg-system-error-primary',
+            error && 'border-error-200 bg-system-error-primary',
           )}
         >
           <input

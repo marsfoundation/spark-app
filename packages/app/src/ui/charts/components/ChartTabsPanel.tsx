@@ -115,7 +115,7 @@ function ChartPanel({ height, component: Chart, isError, isPending, props }: Cha
     return (
       <div className="flex items-center justify-center" style={{ height }} ref={ref}>
         <DelayedComponent>
-          <Loader2 className="h-8 animate-spin text-reskin-neutral-200" data-chromatic="ignore" />
+          <Loader2 className="h-8 animate-spin text-neutral-200" data-chromatic="ignore" />
         </DelayedComponent>
       </div>
     )

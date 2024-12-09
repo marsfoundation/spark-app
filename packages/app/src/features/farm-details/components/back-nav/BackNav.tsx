@@ -15,7 +15,7 @@ export function BackNav({ chainId }: BackNavProps) {
         <ButtonIcon icon={ArrowLeftIcon} />
         Back to Farms
       </LinkButton>
-      <MinusIcon className="rotate-90 text-reskin-neutral-200" />
+      <MinusIcon className="rotate-90 text-neutral-200" />
       <NetworkBadge chainId={chainId} />
     </div>
   )

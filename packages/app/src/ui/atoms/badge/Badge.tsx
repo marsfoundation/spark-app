@@ -56,11 +56,11 @@ const badgeVariants = cva('typography-label-5 inline-flex w-fit items-center gap
     { appearance: 'soft', variant: 'warning', class: 'bg-system-warning-primary text-system-warning-primary' },
     { appearance: 'soft', variant: 'error', class: 'bg-system-error-primary text-system-error-primary' },
     { appearance: 'soft', variant: 'neutral', class: 'bg-secondary text-secondary' },
-    { appearance: 'solid', variant: 'brand', class: 'bg-reskin-fg-brand-tertiary text-primary-inverse' },
-    { appearance: 'solid', variant: 'success', class: 'bg-reskin-fg-system-success-secondary text-primary-inverse' },
-    { appearance: 'solid', variant: 'warning', class: 'bg-reskin-fg-system-warning-secondary text-primary-inverse' },
-    { appearance: 'solid', variant: 'error', class: 'bg-reskin-fg-system-error-secondary text-primary-inverse' },
-    { appearance: 'solid', variant: 'neutral', class: 'bg-reskin-fg-quaternary text-primary-inverse' },
+    { appearance: 'solid', variant: 'brand', class: 'bg-fg-brand-tertiary text-primary-inverse' },
+    { appearance: 'solid', variant: 'success', class: 'bg-fg-system-success-secondary text-primary-inverse' },
+    { appearance: 'solid', variant: 'warning', class: 'bg-fg-system-warning-secondary text-primary-inverse' },
+    { appearance: 'solid', variant: 'error', class: 'bg-fg-system-error-secondary text-primary-inverse' },
+    { appearance: 'solid', variant: 'neutral', class: 'bg-fg-quaternary text-primary-inverse' },
   ],
 })
 

@@ -43,7 +43,7 @@ export const HealthFactorPanelContent = forwardRef<HTMLDivElement, HealthFactorP
           <HealthFactorGauge value={hf} className="h-full w-full max-w-[400px]" />
           {liquidationDetails && (
             <div className="flex w-full flex-col">
-              <div className="mb-3 flex items-center justify-between border-reskin-fg-primary border-b pb-3">
+              <div className="mb-3 flex items-center justify-between border-fg-primary border-b pb-3">
                 <div className="flex flex-row items-center gap-2">
                   <div className="typography-label-4">Liquidation Price</div>
                   <Info>

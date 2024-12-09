@@ -58,7 +58,7 @@ function Ticks({ ticks }: TicksProps) {
     <div className="relative h-8">
       {ticks.map(({ label, x }) => (
         <div className="-translate-x-[50%] absolute flex flex-col items-center" style={{ left: `${x}%` }} key={x}>
-          <div className="h-2 w-[1px] bg-reskin-neutral-600" />
+          <div className="h-2 w-[1px] bg-neutral-600" />
           {label && <div className="typography-body-6 text-secondary">{label}</div>}
         </div>
       ))}
@@ -173,7 +173,7 @@ function BorrowBar({ positionSummary }: BorrowBarProps) {
       )}
       {borrow.percents.rest !== 0 && (
         <div
-          className="rounded-sm border bg-reskin-neutral-50"
+          className="rounded-sm border bg-neutral-50"
           style={{
             width: borrow.percents.rest === 100 ? '100%' : `calc(${borrow.percents.rest}% + 1rem)`,
             marginLeft: borrow.percents.rest === 100 ? '0' : '-1rem',
@@ -186,9 +186,7 @@ function BorrowBar({ positionSummary }: BorrowBarProps) {
             className="-translate-x-[1px] absolute z-[2] h-7 border-primary border-l-2 pl-2"
             style={{ left: `${borrow.percents.max}%` }}
           >
-            <div className="typography-label-6 flex min-h-full flex-col justify-center text-reskin-neutral-600">
-              max
-            </div>
+            <div className="typography-label-6 flex min-h-full flex-col justify-center text-neutral-600">max</div>
           </div>
         </TooltipTrigger>
         <TooltipContent>You can borrow up to {USD_MOCK_TOKEN.formatUSD(positionSummary.borrow.max)}.</TooltipContent>

@@ -22,7 +22,7 @@ export function CooldownTimer({ renewalPeriod, latestUpdateTimestamp, forceOpen 
   return (
     <Tooltip open={forceOpen}>
       <TooltipTrigger data-testid={testIds.marketDetails.capAutomator.cooldownTimer}>
-        <TimerResetIcon size={16} className="text-reskin-fg-brand-tertiary" />
+        <TimerResetIcon size={16} className="text-fg-brand-tertiary" />
       </TooltipTrigger>
       <TooltipContent className="p-3">
         <div className="typography-label-6 flex flex-col gap-2 text-tertiary">

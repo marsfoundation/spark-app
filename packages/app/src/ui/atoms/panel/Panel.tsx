@@ -25,7 +25,7 @@ const panelVariants = cva('rounded-sm', {
       primary: 'bg-primary text-primary',
       secondary: 'bg-primary-inverse text-primary-inverse',
       tertiary: 'bg-tertiary text-primary',
-      quaternary: 'bg-reskin-fg-primary text-primary-inverse',
+      quaternary: 'bg-fg-primary text-primary-inverse',
     },
     spacing: {
       none: 'p-0',

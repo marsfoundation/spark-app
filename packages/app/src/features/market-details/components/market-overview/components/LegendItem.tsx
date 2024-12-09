@@ -24,8 +24,8 @@ const legendItemBadgeVariants = cva('flex items-center gap-1 rounded-xs px-1.5 p
   variants: {
     variant: {
       borrowed: 'bg-[#F76D36]/15 text-feature-borrow-primary',
-      'instantly-available': 'bg-[#0FEFC5]/25 text-reskin-fg-system-success-primary',
-      'sky-capacity': 'bg-[#6A4DFF]/25 text-reskin-fg-brand-secondary',
+      'instantly-available': 'bg-[#0FEFC5]/25 text-fg-system-success-primary',
+      'sky-capacity': 'bg-[#6A4DFF]/25 text-fg-brand-secondary',
     },
   },
 })

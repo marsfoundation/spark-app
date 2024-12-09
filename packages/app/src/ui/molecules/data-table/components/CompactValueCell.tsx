@@ -82,13 +82,13 @@ function CompactValue({
       <div
         className={cn(
           'typography-label-4 flex w-full flex-row justify-end text-primary',
-          dimmed && 'text-reskin-neutral-600/70',
+          dimmed && 'text-neutral-600/70',
         )}
       >
         {token.format(value, { style: compactValue ? 'compact' : 'auto' })}
       </div>
       <div className="flex w-full flex-row justify-end">
-        <div className={cn('typography-body-6 text-secondary', dimmed && 'text-reskin-neutral-600/30')}>
+        <div className={cn('typography-body-6 text-secondary', dimmed && 'text-neutral-600/30')}>
           {token.formatUSD(value, { compact: compactValue })}
         </div>
       </div>

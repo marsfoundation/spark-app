@@ -18,7 +18,7 @@ export function SelectNetworkDialogView({ chains }: SelectNetworkDialogViewProps
             className={cn(
               'relative isolate flex flex-col rounded-sm border border-primary',
               'hover:-translate-y-1 hover:shadow-lg',
-              'focus-visible:border-transparent focus-visible:outline-none focus-visible:ring focus-visible:ring-reskin-primary-200 focus-visible:ring-offset-0',
+              'focus-visible:border-transparent focus-visible:outline-none focus-visible:ring focus-visible:ring-primary-200 focus-visible:ring-offset-0',
               'cursor-pointer transition-all duration-300',
               !chain.selected && 'hover:border-brand-tertiary',
               chain.selected && [
