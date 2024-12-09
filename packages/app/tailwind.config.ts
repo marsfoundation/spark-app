@@ -50,6 +50,7 @@ export default {
           },
           error: {
             primary: 'rgb(var(--error-700))',
+            secondary: 'rgb(var(--error-800))',
           },
         },
         feature: {

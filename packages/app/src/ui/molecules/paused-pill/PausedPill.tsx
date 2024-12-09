@@ -11,7 +11,11 @@ export function PausedPill({ 'data-testid': dataTestId }: PausedPillProps) {
   return (
     <Tooltip>
       <TooltipTrigger className="flex">
-        <IconPill icon={assets.pause} className="shrink-0 border-none bg-red-100" data-testid={dataTestId} />
+        <IconPill
+          icon={assets.pause}
+          className="shrink-0 border-none bg-system-error-primary"
+          data-testid={dataTestId}
+        />
       </TooltipTrigger>
       <TooltipContent variant="long">
         <TooltipContentLayout>
