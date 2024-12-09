@@ -9,7 +9,9 @@ export * from './types/UnixTime'
 export * from './math/bigNumber'
 export * from './math/hexUtils'
 
-export * from './assert'
+export * from './assert/assert'
+export * from './assert/AssertionError'
+export * from './assert/assertNever'
 
 export * from './async/async'
 export * from './async/promiseAll'

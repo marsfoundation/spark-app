@@ -1,5 +1,5 @@
 import { type Hash as ViemHash, keccak256, toHex } from 'viem'
-import { assert } from '../assert'
+import { assert } from '../assert/assert'
 import { Hex } from './Hex'
 import { Opaque } from './Opaque'
 
