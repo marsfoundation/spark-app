@@ -1,6 +1,6 @@
 {
   "name": "@marsfoundation/common-universal",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "engines": {
     "node": ">=18.0.0"
   },
