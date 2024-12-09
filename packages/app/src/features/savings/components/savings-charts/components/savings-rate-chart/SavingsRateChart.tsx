@@ -212,8 +212,7 @@ function TooltipContent({ data, tooltipLabel }: { data: ChartDataPoint; colors: 
     <ChartTooltipContent>
       <ChartTooltipContent.Date>{formatTooltipDate(data.date)}</ChartTooltipContent.Date>
       <ChartTooltipContent.Value dotColor={colors.primary}>
-        {tooltipLabel}:{' '}
-        <span className="font-semibold">{formatPercentage(data.rate, { minimumFractionDigits: 0 })}</span>
+        {tooltipLabel}: {formatPercentage(data.rate, { minimumFractionDigits: 0 })}
       </ChartTooltipContent.Value>
     </ChartTooltipContent>
   )

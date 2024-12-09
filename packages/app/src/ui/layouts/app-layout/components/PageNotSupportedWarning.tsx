@@ -11,7 +11,7 @@ export interface PageNotSupportedWarningProps {
 export function PageNotSupportedWarning({ pageName, openNetworkSelectDialog }: PageNotSupportedWarningProps) {
   return (
     <div className="fixed inset-0 z-20">
-      <div className="fixed inset-0 bg-reskin-alpha-overlay backdrop-blur-[2px]" aria-hidden="true" />
+      <div className="fixed inset-0 bg-alpha-overlay backdrop-blur-[2px]" aria-hidden="true" />
 
       <div
         className={cn(

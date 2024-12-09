@@ -38,7 +38,7 @@ const linkVariants = cva('', {
       variant: ['primary', 'secondary'],
       className: cn(
         'cursor-pointer rounded-[1px] focus-visible:outline-none focus-visible:ring',
-        'focus-visible:ring-reskin-primary-200 focus-visible:ring-offset-0',
+        'focus-visible:ring-primary-200 focus-visible:ring-offset-0',
       ),
     },
   ],

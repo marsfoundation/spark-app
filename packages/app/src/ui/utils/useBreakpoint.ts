@@ -1,21 +1,15 @@
 import { useQuery } from '@tanstack/react-query'
 import React, { useEffect } from 'react'
 
-import { screensOverrides } from '@/config/tailwind'
-
 // hardcoded defualt values from tailwind
 // this way we don't have to import the whole default config
-const defaultBreakpoints = {
+const breakpoints = {
   all: '0px',
   sm: '640px',
   md: '768px',
   lg: '1024px',
   xl: '1280px',
   '2xl': '1536px',
-}
-const breakpoints = {
-  ...defaultBreakpoints,
-  ...screensOverrides,
 }
 
 export type BreakpointKey = keyof typeof breakpoints

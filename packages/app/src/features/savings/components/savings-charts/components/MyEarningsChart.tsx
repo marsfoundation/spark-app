@@ -232,8 +232,7 @@ function TooltipContent({ data }: { data: ChartDataPoint }) {
     <ChartTooltipContent>
       <ChartTooltipContent.Date>{formatTooltipDate(data.date)}</ChartTooltipContent.Date>
       <ChartTooltipContent.Value dotColor={isPrediction ? colors.secondary : colors.primary}>
-        Savings{isPrediction && ' Prediction'}:{' '}
-        <span className="font-semibold">{USD_MOCK_TOKEN.formatUSD(data.balance)}</span>
+        Savings{isPrediction && ' Prediction'}: {USD_MOCK_TOKEN.formatUSD(data.balance)}
       </ChartTooltipContent.Value>
     </ChartTooltipContent>
   )

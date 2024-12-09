@@ -203,7 +203,7 @@ function TooltipContent({ data }: { data: ChartDataPoint }) {
     <ChartTooltipContent>
       <ChartTooltipContent.Date>{formatTooltipDate(data.date)}</ChartTooltipContent.Date>
       <ChartTooltipContent.Value dotColor={colors.primary}>
-        TVL: <span className="font-semibold">{USD_MOCK_TOKEN.formatUSD(data.totalStaked)}</span>
+        TVL: {USD_MOCK_TOKEN.formatUSD(data.totalStaked)}
       </ChartTooltipContent.Value>
     </ChartTooltipContent>
   )

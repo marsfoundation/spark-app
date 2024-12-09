@@ -31,7 +31,7 @@ const tabsTriggerVariants = cva(
     'flex-1 whitespace-nowrap rounded-[6px] border border-transparent ease-in ',
     'bg-secondary text-secondary transition-colors hover:bg-tertiary',
     'data-[state=active]:border-primary data-[state=active]:bg-primary data-[state=active]:text-primary data-[state=active]:shadow-xs', // shows the blue bar for the active tab
-    'focus-visible:outline-none focus-visible:ring focus-visible:ring-reskin-primary-200 focus-visible:ring-offset-0',
+    'focus-visible:outline-none focus-visible:ring focus-visible:ring-primary-200 focus-visible:ring-offset-0',
   ),
   {
     variants: {
@@ -61,7 +61,7 @@ const TabsContent = React.forwardRef<
   <TabsPrimitive.Content
     ref={ref}
     className={cn(
-      'data-[state=active]:mt-3 focus-visible:outline-none focus-visible:ring focus-visible:ring-reskin-primary-200 focus-visible:ring-offset-0',
+      'data-[state=active]:mt-3 focus-visible:outline-none focus-visible:ring focus-visible:ring-primary-200 focus-visible:ring-offset-0',
       className,
     )}
     {...props}

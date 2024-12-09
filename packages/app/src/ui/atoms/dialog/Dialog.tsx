@@ -67,8 +67,8 @@ const contentVariants = cva(
 const overlayVariants = cva('', {
   variants: {
     overlayVariant: {
-      default: 'bg-reskin-alpha-dialog backdrop-blur-sm',
-      delicate: 'bg-reskin-neutral-950/25 backdrop-blur-[1.5px]',
+      default: 'bg-alpha-dialog backdrop-blur-sm',
+      delicate: 'bg-neutral-950/25 backdrop-blur-[1.5px]',
     },
   },
   defaultVariants: {
