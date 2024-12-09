@@ -26,7 +26,7 @@ export function TransactionOverviewHealthFactorChange({
           <HealthFactorBadge healthFactor={currentHealthFactor} data-testid={testIds.dialog.healthFactor.before} />
           {updatedHealthFactor && (
             <>
-              <MoveRightIcon className="icon-xxs text-secondary" />
+              <MoveRightIcon className="icon-xxs icon-secondary" />
               <HealthFactorBadge healthFactor={updatedHealthFactor} data-testid={testIds.dialog.healthFactor.after} />
             </>
           )}

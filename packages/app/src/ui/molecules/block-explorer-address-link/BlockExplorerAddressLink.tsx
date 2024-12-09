@@ -31,7 +31,7 @@ export function BlockExplorerAddressLink({
       )}
       data-testid={testId}
     >
-      <Address address={address} postfix={<SquareArrowOutUpRight className="icon-xs shrink-0 text-secondary" />} />
+      <Address address={address} postfix={<SquareArrowOutUpRight className="icon-xs icon-secondary shrink-0" />} />
     </Link>
   ) : (
     <span className={cn('flex w-full max-w-64 items-center gap-1', className)} data-testid={testId}>

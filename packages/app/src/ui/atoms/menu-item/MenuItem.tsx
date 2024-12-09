@@ -49,7 +49,7 @@ export function MenuItemIcon({
   return (
     <Icon
       className={cn(
-        'icon-xs text-secondary group-focus-visible:text-brand-primary group-hover:text-brand-primary',
+        'icon-xs icon-secondary group-focus-visible:text-brand-primary group-hover:text-brand-primary',
         className,
       )}
     />

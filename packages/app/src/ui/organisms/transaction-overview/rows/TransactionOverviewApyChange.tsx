@@ -18,7 +18,7 @@ export function TransactionOverviewApyChange({ currentApy, updatedApy }: Transac
       >
         {formatPercentage(currentApy)}
       </div>
-      <MoveRightIcon className="icon-xxs text-secondary" />
+      <MoveRightIcon className="icon-xxs icon-secondary" />
       <div
         data-testid={testIds.dialog.savings.transactionOverview.apyChange.after}
         className={cn(

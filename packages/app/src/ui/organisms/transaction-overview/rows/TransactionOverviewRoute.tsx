@@ -50,7 +50,7 @@ export function TransactionOverviewRoute({ route }: TransactionOverviewRouteProp
                 </div>
               </div>
             )}
-            {index !== route.length - 1 && <MoveRightIcon className="icon-xxs mt-[3px] flex-shrink-0 text-secondary" />}
+            {index !== route.length - 1 && <MoveRightIcon className="icon-xxs icon-secondary mt-[3px] flex-shrink-0" />}
           </Fragment>
         ))}
       </div>

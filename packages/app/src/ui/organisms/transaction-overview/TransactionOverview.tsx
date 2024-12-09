@@ -30,7 +30,7 @@ function TransactionOverview({ children, showSkyBadge = false }: TransactionOver
             <div className="typography-label-6 text-brand-primary">Powered by Sky</div>
             <Tooltip>
               <TooltipTrigger asChild>
-                <InfoIcon className="icon-xs text-brand-primary" />
+                <InfoIcon className="icon-xs icon-brand-primary" />
               </TooltipTrigger>
               <TooltipContent>The transaction uses infrastructure provided by the Sky Ecosystem.</TooltipContent>
             </Tooltip>

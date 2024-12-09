@@ -62,7 +62,7 @@ export function UpgradeSavingsBanner({ onUpgradeSavingsClick, apyImprovement }: 
 function Benefit({ children }: { children: ReactNode }) {
   return (
     <div className="flex items-center gap-2">
-      <CheckIcon className="icon-xs shrink-0 text-system-success-primary" />
+      <CheckIcon className="icon-xs icon-system-success-primary shrink-0" />
       <div className="typography-label-5">{children}</div>
     </div>
   )

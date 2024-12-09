@@ -19,7 +19,7 @@ export function TransactionOverviewTokenAmountChange({
       <TokenAmount token={token} amount={currentAmount} />
       {updatedAmount && (
         <>
-          <MoveRightIcon className="icon-xxs mt-[3px] text-secondary" />
+          <MoveRightIcon className="icon-xxs icon-secondary mt-[3px]" />
           <TokenAmount token={token} amount={updatedAmount} />
         </>
       )}

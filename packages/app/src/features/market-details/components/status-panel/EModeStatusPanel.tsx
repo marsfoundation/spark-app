@@ -89,7 +89,7 @@ function WithArrow({ children, reverseArrow }: WithArrowProps) {
 
   return (
     <div className="flex min-w-[72px] flex-row items-center justify-between gap-1 sm:min-w-fit">
-      <Arrow className="icon-xs text-system-success-primary" />
+      <Arrow className="icon-xs icon-system-success-primary" />
       {children}
     </div>
   )
