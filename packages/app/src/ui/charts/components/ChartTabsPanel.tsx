@@ -55,7 +55,7 @@ export function ChartTabsPanel({ tabs, onTimeframeChange, selectedTimeframe, hei
 
   if (tabs.length === 1) {
     return (
-      <Panel className="self-stretchi flex min-h-[380px] w-full flex-1 flex-col justify-between overflow-hidden">
+      <Panel className="flex min-h-[380px] w-full flex-1 flex-col justify-between self-stretch overflow-hidden">
         <div className="grid grid-cols-1 grid-rows-2 items-center gap-4 lg:grid-cols-2 lg:grid-rows-1">
           <div className="typography-heading-5 flex items-center gap-1">{firstTab.label}</div>
           <TimeframeButtons
@@ -124,7 +124,7 @@ function ChartPanel({ height, component: Chart, isError, isPending, props }: Cha
   if (isError) {
     return (
       <div className="flex items-center justify-center" style={{ height }} ref={ref}>
-        <div className="flex items-center rounded-full bg-secondary px-3 py-1 text-secondary/80 text-sm">
+        <div className="typography-label-5 flex items-center rounded-full bg-secondary px-3 py-1 text-secondary/80">
           <AlertTriangle className="h-4" /> Failed to load chart data
         </div>
       </div>

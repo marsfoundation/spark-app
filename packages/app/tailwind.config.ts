@@ -50,6 +50,7 @@ export default {
           },
           error: {
             primary: 'rgb(var(--error-700))',
+            secondary: 'rgb(var(--error-800))',
           },
         },
         feature: {
@@ -326,70 +327,6 @@ export default {
             overlay: 'color-mix(in srgb, rgb(var(--neutral-100)) 30%, transparent)',
           },
         },
-        main: {
-          blue: 'rgb(var(--main-blue))',
-        },
-        sec: {
-          green: 'rgb(var(--sec-green))',
-        },
-        border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
-        body: 'hsl(var(--body-background))',
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
-        primary: {
-          DEFAULT: 'var(--primary)',
-          bg: 'hsl(var(--primary-bg))',
-          foreground: 'hsl(var(--primary-foreground))',
-          hover: 'hsl(var(--primary-hover))',
-        },
-        secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))',
-        },
-        destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
-          foreground: 'hsl(var(--destructive-foreground))',
-        },
-        muted: {
-          DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))',
-        },
-        accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))',
-        },
-        popover: {
-          DEFAULT: 'hsl(var(--popover))',
-          foreground: 'hsl(var(--popover-foreground))',
-        },
-        card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))',
-        },
-        nav: {
-          primary: 'rgb(var(--nav-primary))',
-        },
-        panel: {
-          border: 'var(--panel-border)',
-          bg: 'var(--panel-bg)',
-        },
-        'input-background': 'var(--input-background)',
-        'icon-foreground': 'rgb(var(--icon-foreground))',
-        'product-blue': 'rgb(var(--product-blue))',
-        'product-green': 'rgb(var(--product-green))',
-        'product-orange': 'rgb(var(--product-orange))',
-        'product-red': 'rgb(var(--product-red))',
-        'product-dai': 'rgb(var(--product-dai))',
-        'product-sdai': 'rgb(var(--product-sdai))',
-        'prompt-foreground': 'var(--prompt-foreground)',
-        'success-background': 'var(--success-background)',
-        spark: 'rgb(var(--spark))',
-        checkbox: 'var(--checkbox)',
-        error: 'rgb(var(--product-red))',
-        'light-blue': 'rgb(var(--nav-primary))',
-        'product-dark-blue': 'rgb(var(--product-dark-blue))',
       },
       backgroundImage: {
         // gradients

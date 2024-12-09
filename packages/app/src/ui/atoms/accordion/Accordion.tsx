@@ -8,7 +8,7 @@ const Accordion = Root
 
 const AccordionItem = React.forwardRef<React.ElementRef<typeof Item>, React.ComponentPropsWithoutRef<typeof Item>>(
   ({ className, ...props }, ref) => (
-    <Item ref={ref} className={cn('border-slate-700/10 border-b last:border-none', className)} {...props} />
+    <Item ref={ref} className={cn('border-primary border-b last:border-none', className)} {...props} />
   ),
 )
 AccordionItem.displayName = 'AccordionItem'

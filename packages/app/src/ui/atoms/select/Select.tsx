@@ -17,7 +17,7 @@ const SelectTrigger = React.forwardRef<
     className={cn(
       'group flex w-full items-center justify-between',
       'rounded-sm border border-primary bg-primary text-reskin-fg-primary',
-      'p-3 ring-offset-background placeholder:text-muted-foreground',
+      'p-3 ring-offset-reskin-base-black placeholder:text-secondary',
       'hover:border-tertiary hover:shadow-sm',
       'disabled:cursor-not-allowed disabled:border-secondary disabled:opacity-50 disabled:shadow-xs ',
       'focus-visible:outline-none focus-visible:ring focus-visible:ring-reskin-primary-200 focus-visible:ring-offset-0',
