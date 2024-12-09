@@ -14,7 +14,7 @@ export function RewardsList({ rewards, className }: RewardsListProps) {
       {rewards.map(({ token, amount }, index) => (
         <div
           key={token.symbol}
-          className="flex items-center justify-between border-b py-4 text-base text-primary last:border-none"
+          className="typography-label-4 flex items-center justify-between border-b py-4 text-primary last:border-none"
           data-testid={testIds.dialog.claimRewards.transactionOverview.row(index)}
         >
           <TokenAmount

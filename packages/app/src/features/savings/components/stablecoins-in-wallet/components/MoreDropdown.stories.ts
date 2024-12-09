@@ -9,7 +9,7 @@ import { MoreDropdown } from './MoreDropdown'
 
 const meta: Meta<typeof MoreDropdown> = {
   title: 'Features/Savings/Components/StablecoinsInWallet/MoreDropdown',
-  decorators: [WithClassname('p-8 bg-white flex justify-end h-48'), withRouter()],
+  decorators: [WithClassname('p-8 bg-primary flex justify-end h-48'), withRouter()],
   component: MoreDropdown,
   args: {
     token: tokens.USDS,

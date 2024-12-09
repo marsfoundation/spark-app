@@ -8,7 +8,7 @@ import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { DebtCeilingProgress } from './DebtCeilingProgress'
 
 const meta: Meta<typeof DebtCeilingProgress> = {
-  title: 'Features/Markets/Components/DebtCeilingProgress',
+  title: 'Features/MarketDetails/Components/MyWallet/DebtCeilingProgress',
   component: DebtCeilingProgress,
   decorators: [WithTooltipProvider(), WithClassname('max-w-2xl'), withRouter],
 }

@@ -1,6 +1,6 @@
 import { formatPercentage } from '@/domain/common/format'
-import { DebtCeilingProgress } from '@/features/markets/components/debt-ceiling-progress/DebtCeilingProgress'
-import { InfoTile } from '@/ui/molecules/info-tile/InfoTile'
+import { DebtCeilingProgress } from '@/features/market-details/components/debt-ceiling-progress/DebtCeilingProgress'
+import { InfoTile } from '@/features/market-details/components/info-tile/InfoTile'
 import { CollateralStatusInfo } from '../../types'
 import { EmptyStatusPanel } from './components/EmptyStatusPanel'
 import { Header } from './components/Header'
