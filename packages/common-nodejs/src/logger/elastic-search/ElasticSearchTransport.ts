@@ -1,9 +1,7 @@
+import { v4 as uuidv4 } from 'uuid'
 import { LoggerTransport } from '../types'
 import { formatDate } from '../utils'
 import { ElasticSearchClient, ElasticSearchClientOptions } from './ElasticSearchClient'
-
-// note: using any because of dynamic loading
-const uuidv4: any = require('uuid/v4')
 
 export interface ElasticSearchTransportOptions extends ElasticSearchClientOptions {
   flushInterval?: number
@@ -75,7 +73,7 @@ export class ElasticSearchTransport implements LoggerTransport {
 
       if (!response.isSuccess) {
         throw new Error(
-          `Failed to push logs to Elastic Search node${JSON.stringify(
+          `Failed to push logs to Elastic Search node: ${JSON.stringify(
             {
               cause: {
                 documentErrors: JSON.stringify(response.errors),

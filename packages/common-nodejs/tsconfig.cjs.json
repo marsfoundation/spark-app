@@ -5,6 +5,7 @@
     "customConditions": null,
     "moduleResolution": "node",
     "outDir": "./dist/cjs",
-    "declaration": false
+    "declaration": true,
+    "declarationDir": "./dist/types"
   }
 }

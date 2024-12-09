@@ -1,9 +1,8 @@
-// note: using any because of dynamic loading
-const Client: any = require('@elastic/elasticsearch').Client
+import { Client } from '@elastic/elasticsearch'
+
 type ErrorCause = any
 type BulkOperationType = any
 type BulkResponseItem = any
-type Client = any
 
 export interface ElasticSearchClientOptions {
   node: string

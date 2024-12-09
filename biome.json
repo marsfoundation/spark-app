@@ -5,7 +5,6 @@
     "ignore": [
       "**/node_modules",
       "**/.vscode",
-      "**/package.json",
       "**/dist/**",
       "**/.vite",
       "packages/app/storybook-static",
@@ -24,7 +23,9 @@
     "lineWidth": 120,
     "attributePosition": "auto"
   },
-  "organizeImports": { "enabled": true },
+  "organizeImports": {
+    "enabled": true
+  },
   "linter": {
     "enabled": true,
     "rules": {
