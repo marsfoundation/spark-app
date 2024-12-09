@@ -12,49 +12,50 @@ export default {
     '.storybook/components/**/*.{ts,tsx}',
   ],
   theme: {
+    textColor: {
+      primary: {
+        DEFAULT: 'rgb(var(--base-black))',
+        inverse: 'rgb(var(--base-white))',
+      },
+      secondary: 'rgb(var(--neutral-500))',
+      tertiary: 'rgb(var(--neutral-300))',
+      brand: {
+        primary: 'rgb(var(--primary-800))',
+        secondary: 'rgb(var(--primary-800))', // @todo: split primary and secondary
+      },
+      system: {
+        success: {
+          primary: 'rgb(var(--success-600))',
+          secondary: 'rgb(var(--success-700))',
+        },
+        warning: {
+          primary: 'rgb(var(--warning-600))',
+        },
+        error: {
+          primary: 'rgb(var(--error-700))',
+          secondary: 'rgb(var(--error-800))',
+        },
+      },
+      feature: {
+        savings: {
+          primary: 'rgb(var(--green-500))',
+          secondary: 'rgb(var(--green-600))',
+        },
+        borrow: {
+          primary: 'rgb(var(--orange-500))',
+          secondary: 'rgb(var(--orange-600))',
+        },
+        farms: {
+          primary: 'rgb(var(--magenta-500))',
+          secondary: 'rgb(var(--magenta-600))',
+        },
+      },
+      transparent: 'rgb(0, 0, 0, 0)',
+    },
     extend: {
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
         roobert: ['Roobert', ...defaultTheme.fontFamily.sans],
-      },
-      textColor: {
-        primary: {
-          DEFAULT: 'rgb(var(--base-black))',
-          inverse: 'rgb(var(--base-white))',
-        },
-        secondary: 'rgb(var(--neutral-500))',
-        tertiary: 'rgb(var(--neutral-300))',
-        brand: {
-          primary: 'rgb(var(--primary-800))',
-          secondary: 'rgb(var(--primary-800))', // @todo: split primary and secondary
-        },
-        system: {
-          success: {
-            primary: 'rgb(var(--success-600))',
-            secondary: 'rgb(var(--success-700))',
-          },
-          warning: {
-            primary: 'rgb(var(--warning-600))',
-          },
-          error: {
-            primary: 'rgb(var(--error-700))',
-            secondary: 'rgb(var(--error-800))',
-          },
-        },
-        feature: {
-          savings: {
-            primary: 'rgb(var(--green-500))',
-            secondary: 'rgb(var(--green-600))',
-          },
-          borrow: {
-            primary: 'rgb(var(--orange-500))',
-            secondary: 'rgb(var(--orange-600))',
-          },
-          farms: {
-            primary: 'rgb(var(--magenta-500))',
-            secondary: 'rgb(var(--magenta-600))',
-          },
-        },
       },
       outlineColor: {
         primary: 'rgb(var(--neutral-100))',
