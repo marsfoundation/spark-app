@@ -1,4 +1,3 @@
-import { join } from 'node:path'
 import type { Config } from 'tailwindcss'
 import defaultTheme from 'tailwindcss/defaultTheme'
 import plugin from 'tailwindcss/plugin'
@@ -13,18 +12,7 @@ export default {
     '.storybook/components/**/*.{ts,tsx}',
   ],
   theme: {
-    container: {
-      center: true,
-      padding: '2rem',
-    },
     extend: {
-      screens: {
-        // needs to be this way to not to break tailwind intellisense
-        ...require(join(__dirname, 'src/config/tailwind')).screensOverrides,
-      },
-      opacity: {
-        inactive: '0.3',
-      },
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
         roobert: ['Roobert', ...defaultTheme.fontFamily.sans],
