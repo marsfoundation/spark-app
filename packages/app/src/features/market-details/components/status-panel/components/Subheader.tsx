@@ -28,7 +28,7 @@ export function Subheader({ status }: SubheaderProps) {
     return (
       <Content variant="orange">
         Siloed borrowing means that the asset can be the only asset borrowed in a position.{' '}
-        <Link to={links.docs.siloedMode} external>
+        <Link to={links.docs.siloedMode} variant="underline" external>
           Learn more
         </Link>
         .
@@ -40,7 +40,7 @@ export function Subheader({ status }: SubheaderProps) {
     return (
       <Content variant="red">
         Maximum amount available to supply is limited because asset supply cap is reached.{' '}
-        <Link to={links.docs.supplyBorrowCaps} external>
+        <Link to={links.docs.supplyBorrowCaps} variant="underline" external>
           Learn more
         </Link>
         .
@@ -52,7 +52,7 @@ export function Subheader({ status }: SubheaderProps) {
     return (
       <Content variant="red">
         Maximum amount available to borrow is limited because asset borrow cap is reached.{' '}
-        <Link to={links.docs.supplyBorrowCaps} external>
+        <Link to={links.docs.supplyBorrowCaps} variant="underline" external>
           Learn more
         </Link>
         .
