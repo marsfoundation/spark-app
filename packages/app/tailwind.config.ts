@@ -51,7 +51,6 @@ export default {
             secondary: 'rgb(var(--magenta-600))',
           },
         },
-        transparent: 'rgb(0, 0, 0, 0)',
       },
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
