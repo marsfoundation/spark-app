@@ -39,7 +39,7 @@ export function Sparkles({ color = DEFAULT_COLOR, children, sizeRange = [10, 18]
       {sparkles.map((sparkle) => (
         <Sparkle key={sparkle.id} color={sparkle.color} size={sparkle.size} style={sparkle.style} />
       ))}
-      <strong className="relative z-10 font-bold">{children}</strong>
+      <strong className="relative z-10">{children}</strong>
     </span>
   )
 }

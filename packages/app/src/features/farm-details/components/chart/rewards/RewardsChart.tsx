@@ -199,7 +199,7 @@ function TooltipContent({ data }: { data: ChartDataPoint }) {
     <ChartTooltipContent>
       <ChartTooltipContent.Date>{formatTooltipDate(data.date)}</ChartTooltipContent.Date>
       <ChartTooltipContent.Value dotColor={colors.primary}>
-        APY: <span className="font-semibold">{formatPercentage(data.apr, { minimumFractionDigits: 0 })}</span>
+        APY: {formatPercentage(data.apr, { minimumFractionDigits: 0 })}
       </ChartTooltipContent.Value>
     </ChartTooltipContent>
   )

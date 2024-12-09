@@ -31,7 +31,7 @@ export function TokenLinksDropdown({ token, aToken, variableDebtTokenAddress, ch
   ]
   return (
     <TokenLinksWrapper>
-      <DropdownMenuLabel className="p-4 pb-0 font-normal text-secondary">Token Contracts</DropdownMenuLabel>
+      <DropdownMenuLabel className="p-4 pb-0 text-secondary">Token Contracts</DropdownMenuLabel>
       {tokenContractsLinks.map((contractLink) => (
         <BlockExplorerAddressLink key={contractLink.address} address={contractLink.address} chainId={chainId}>
           <TokenLinksDropdownItem {...contractLink} />
