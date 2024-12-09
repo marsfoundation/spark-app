@@ -52,11 +52,15 @@ export default {
       },
       transparent: 'rgb(0, 0, 0, 0)',
     },
+    fontFamily: {
+      sans: ['Inter var', ...defaultTheme.fontFamily.sans],
+      roobert: ['Roobert', ...defaultTheme.fontFamily.sans],
+    },
+    fontWeight: {
+      regular: '400',
+      medium: '500',
+    },
     extend: {
-      fontFamily: {
-        sans: ['Inter var', ...defaultTheme.fontFamily.sans],
-        roobert: ['Roobert', ...defaultTheme.fontFamily.sans],
-      },
       outlineColor: {
         primary: 'rgb(var(--neutral-100))',
         secondary: 'rgb(var(--neutral-200))',
@@ -349,10 +353,6 @@ export default {
         'savings-welcome': 'url(/src/ui/assets/savings/savings-welcome-bg.svg)',
         'connect-wallet-cta':
           'url(/src/ui/assets/banners/connect-wallet-cta-bg.svg), linear-gradient(#101014, #101014)',
-      },
-      fontWeight: {
-        regular: '400',
-        medium: '500',
       },
       boxShadow: {
         nav: '0px 20px 40px 0px var(--nav-shadow)',
