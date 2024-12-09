@@ -216,7 +216,7 @@ export default {
           900: 'rgb(var(--error-900))',
           950: 'rgb(var(--error-950))',
         },
-        green: {
+        savings: {
           DEFAULT: 'rgb(var(--savings-600))',
           100: 'rgb(var(--savings-100))',
           200: 'rgb(var(--savings-200))',
