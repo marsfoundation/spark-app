@@ -59,7 +59,7 @@ const iconVariants = cva(
       variant: {
         disabled: 'bg-secondary text-primary',
         ready: 'bg-brand-primary text-brand-primary',
-        loading: 'bg-orange-600/10 text-orange-600',
+        loading: 'bg-brand-primary text-brand-primary',
         success: 'bg-system-success-primary text-system-success-primary',
         error: 'bg-system-error-primary text-system-error-primary',
       },
@@ -77,7 +77,7 @@ function Icon({ icon }: { icon: ComponentType<{ className?: string }> }) {
     <div className={cn(iconVariants({ variant: actionHandlerState.status }), actionIndex === 0 && 'delay-0')}>
       <div className="text-primary">{actionIndex + 1}</div>
       <div className="h-full w-px bg-primary" />
-      <Icon className="icon-xs" />
+      <Icon className="icon-xs icon-brand-secondary" />
     </div>
   )
 }

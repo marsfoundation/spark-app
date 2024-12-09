@@ -43,7 +43,7 @@ export function ExitFarmSwitch({ checked, onSwitch, reward }: UpgradeToSusdsSwit
 const variants = cva('flex w-full items-center justify-between rounded-sm px-4 py-3', {
   variants: {
     checked: {
-      true: 'bg-green-100',
+      true: 'bg-savings-100',
       false: 'bg-secondary',
     },
   },

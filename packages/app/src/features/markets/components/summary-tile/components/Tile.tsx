@@ -18,7 +18,7 @@ export function Tile({ icon: Icon, title, USDValue, description, 'data-testid': 
   return (
     <div className="flex items-center gap-2 md:gap-3" data-testid={dataTestId}>
       <div className="flex rounded-full bg-primary p-1.5 lg:p-4 md:p-3">
-        <Icon className="h-6 w-6 text-orange-400 lg:h-8 md:h-7 lg:w-8 md:w-7" />
+        <Icon className="h-6 w-6 text-borrow-400 lg:h-8 md:h-7 lg:w-8 md:w-7" />
       </div>
       <div className="flex flex-col">
         <div className="flex items-center gap-1">
