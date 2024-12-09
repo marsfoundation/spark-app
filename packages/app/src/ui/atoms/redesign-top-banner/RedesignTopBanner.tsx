@@ -14,7 +14,7 @@ export function RedesignTopBanner({ onClose, className }: RedesignTopBannerProps
   return (
     <div
       className={cn(
-        'relative z-10 flex w-full flex-col items-center justify-center gap-2 bg-white p-2.5 text-center shadow-inner sm:flex-row md:p-1.5',
+        'relative z-10 flex w-full flex-col items-center justify-center gap-2 bg-primary p-2.5 text-center shadow-inner sm:flex-row md:p-1.5',
         className,
       )}
     >
@@ -33,7 +33,7 @@ export function RedesignTopBanner({ onClose, className }: RedesignTopBannerProps
         variant="transparent"
         size="s"
         onClick={onClose}
-        className="-translate-y-1/2 absolute top-1/2 right-3 text-black active:text-black/50 hover:text-black/70"
+        className="-translate-y-1/2 absolute top-1/2 right-3 text-primary active:text-primary/50 hover:text-primary/70"
       />
     </div>
   )

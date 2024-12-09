@@ -10,7 +10,7 @@ const meta: Meta<typeof AirdropBadge> = {
   decorators: [
     WithTooltipProvider(),
     withRouter,
-    WithClassname('bg-white flex justify-center p-8 items-end w-96 h-64'),
+    WithClassname('bg-primary flex justify-center p-8 items-end w-96 h-64'),
   ],
 }
 

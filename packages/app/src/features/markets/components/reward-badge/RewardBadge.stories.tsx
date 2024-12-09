@@ -11,7 +11,7 @@ import { RewardBadge } from './RewardBadge'
 const meta: Meta<typeof RewardBadge> = {
   title: 'Features/Markets/Components/RewardBadge',
   component: RewardBadge,
-  decorators: [WithTooltipProvider(), WithClassname('bg-white flex justify-center p-8 items-end w-96 h-56')],
+  decorators: [WithTooltipProvider(), WithClassname('bg-primary flex justify-center p-8 items-end w-96 h-56')],
 }
 
 export default meta
