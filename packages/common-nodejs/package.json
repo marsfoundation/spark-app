@@ -16,12 +16,12 @@
   "exports": {
     ".": {
       "import": {
-        "@marsfoundation/source": "./src/index.ts",
+        "@marsfoundation/local-spark-monorepo": "./src/index.ts",
         "types": "./dist/types/index.d.ts",
         "default": "./dist/esm/index.js"
       },
       "require": {
-        "@marsfoundation/source": "./src/index.ts",
+        "@marsfoundation/local-spark-monorepo": "./src/index.ts",
         "types": "./dist/types/index.d.ts",
         "default": "./dist/cjs/index.js"
       }
