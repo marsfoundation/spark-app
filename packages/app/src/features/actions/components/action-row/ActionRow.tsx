@@ -76,7 +76,7 @@ function Icon({ icon }: { icon: ComponentType<{ className?: string }> }) {
   return (
     <div className={cn(iconVariants({ variant: actionHandlerState.status }), actionIndex === 0 && 'delay-0')}>
       <div className="text-primary">{actionIndex + 1}</div>
-      <div className="h-full w-px bg-reskin-base-white" />
+      <div className="h-full w-px bg-primary" />
       <Icon className="icon-xs" />
     </div>
   )

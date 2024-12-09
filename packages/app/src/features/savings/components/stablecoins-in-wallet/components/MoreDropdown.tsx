@@ -78,7 +78,7 @@ function DropdownItem({
 }: { children: React.ReactNode; onClick?: () => void; disabled?: boolean; 'data-testid'?: string }) {
   return (
     <DropdownMenuItem
-      className="flex cursor-pointer items-center gap-2 font-medium text-secondary"
+      className="flex cursor-pointer items-center gap-2 text-secondary"
       onClick={onClick}
       disabled={disabled}
       data-testid={dataTestId}

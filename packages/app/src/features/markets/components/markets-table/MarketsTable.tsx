@@ -93,7 +93,6 @@ export function MarketsTable({ entries, chainId, hideTableHeader, 'data-testid':
               incentivizedReserve={token}
               apyDetails={borrowAPYDetails}
               mobileViewOptions={mobileViewOptions}
-              bold
               data-testid={testIds.markets.table.cell.borrowAPY}
             />
           ),
