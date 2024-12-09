@@ -10,7 +10,7 @@ interface ProvidersListProps {
 export function ProvidersList({ providers }: ProvidersListProps) {
   return (
     <div className="grid grid-cols-[auto_1fr] gap-2 border-primary border-t pt-6 sm:gap-6">
-      <div className="typography-label-5 my-auto text-secondary">Provided by</div>
+      <div className="typography-label-6 my-auto text-secondary">Provided by</div>
 
       <div
         className="mt-auto flex flex-row-reverse flex-wrap gap-2 place-self-end sm:flex-row sm:gap-4 sm:place-self-auto"

@@ -8,7 +8,7 @@ import { MarketOverviewChart } from './MarketOverviewChart'
 
 const meta: Meta<typeof MarketOverviewChart> = {
   title: 'Features/MarketDetails/Components/MarketOverview/Components/MarketOverviewChart',
-  decorators: [WithClassname('max-w-xs bg-black p-4')],
+  decorators: [WithClassname('max-w-xs bg-primary-inverse p-4')],
   component: MarketOverviewChart,
 }
 

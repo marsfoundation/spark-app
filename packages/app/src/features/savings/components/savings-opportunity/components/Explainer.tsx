@@ -33,9 +33,7 @@ export function Explainer({ stablecoinValue, savingsMeta, originChainId }: Expla
         {stablecoinValue ? (
           <>
             You have{' '}
-            <span className="font-bold" data-testid={testIds.savings.stablecoinsAmount}>
-              ~{USD_MOCK_TOKEN.formatUSD(stablecoinValue)}
-            </span>{' '}
+            <span data-testid={testIds.savings.stablecoinsAmount}>~{USD_MOCK_TOKEN.formatUSD(stablecoinValue)}</span>{' '}
             worth of stablecoins in your wallet. Earn while you hold it!
           </>
         ) : (

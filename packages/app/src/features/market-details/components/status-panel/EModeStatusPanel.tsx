@@ -3,13 +3,12 @@ import { formatPercentage } from '@/domain/common/format'
 import { eModeCategoryIdToName } from '@/domain/e-mode/constants'
 import { EModeCategoryId } from '@/domain/e-mode/types'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { assets } from '@/ui/assets'
+import { InfoTile } from '@/features/market-details/components/info-tile/InfoTile'
 import { Link } from '@/ui/atoms/link/Link'
 import { links } from '@/ui/constants/links'
 import { EModeBadge } from '@/ui/molecules/e-mode-badge/EModeBadge'
-import { InfoTile } from '@/ui/molecules/info-tile/InfoTile'
-import { cn } from '@/ui/utils/style'
 import { Percentage } from '@marsfoundation/common-universal'
+import { MoveDownIcon, MoveUpIcon } from 'lucide-react'
 import { Header } from './components/Header'
 import { InfoTilesGrid } from './components/InfoTilesGrid'
 import { StatusPanelGrid } from './components/StatusPanelGrid'
@@ -86,9 +85,11 @@ interface WithArrowProps {
   reverseArrow?: boolean
 }
 function WithArrow({ children, reverseArrow }: WithArrowProps) {
+  const Arrow = reverseArrow ? MoveDownIcon : MoveUpIcon
+
   return (
-    <div className="flex min-w-[72px] flex-row justify-between gap-1 sm:min-w-fit">
-      <img src={assets.greenArrowUp} className={cn('h-4 w-4', reverseArrow && 'rotate-180')} />
+    <div className="flex min-w-[72px] flex-row items-center justify-between gap-1 sm:min-w-fit">
+      <Arrow className="icon-xs text-system-success-primary" />
       {children}
     </div>
   )

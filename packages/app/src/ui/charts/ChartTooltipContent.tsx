@@ -3,7 +3,7 @@ import { ReactNode } from 'react'
 
 export function ChartTooltipContent({ children: [date, value] }: { children: ReactNode[] }) {
   return (
-    <div className="flex flex-col gap-3 rounded-xl border border-slate-700/10 bg-white p-3 shadow">
+    <div className="flex flex-col gap-3 rounded-sm border border-primary bg-primary p-3 shadow">
       {date}
       {value}
     </div>

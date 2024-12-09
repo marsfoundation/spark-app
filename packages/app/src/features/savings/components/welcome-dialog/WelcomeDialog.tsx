@@ -16,7 +16,7 @@ export interface WelcomeDialogProps {
 export function WelcomeDialog({ open, onConfirm, apyImprovement }: WelcomeDialogProps) {
   return (
     <Dialog open={open}>
-      <DialogContent showCloseButton={false} spacing="none" className="bg-reskin-base-black">
+      <DialogContent showCloseButton={false} spacing="none" className="bg-primary-inverse">
         <img
           src={assets.savings.savingsWelcome}
           width={686}

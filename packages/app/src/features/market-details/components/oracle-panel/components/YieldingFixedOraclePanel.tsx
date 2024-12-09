@@ -1,8 +1,8 @@
 import { YieldingFixedOracleInfo } from '@/domain/oracles/types'
+import { InfoTile } from '@/features/market-details/components/info-tile/InfoTile'
 import { assets } from '@/ui/assets'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { BlockExplorerAddressLink } from '@/ui/molecules/block-explorer-address-link/BlockExplorerAddressLink'
-import { InfoTile } from '@/ui/molecules/info-tile/InfoTile'
 import { Info } from '@/ui/molecules/info/Info'
 import { testIds } from '@/ui/utils/testIds'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
@@ -24,11 +24,10 @@ export function YieldingFixedOraclePanel({
   return (
     <Panel className="flex flex-col gap-4">
       <div>
-        <div className="typography-label-4 mb-1 text-secondary">Oracle type</div>
+        <div className="typography-label-5 mb-1 text-secondary">Oracle type</div>
         <div className="flex items-center gap-2">
-          <h3 className="typography-heading-5 text-primary">
-            Yielding Fixed Price{' '}
-            {providedBy.length > 1 && <span className="font-medium text-secondary">(Redundant)</span>}
+          <h3 className="typography-label-3 text-primary">
+            Yielding Fixed Price {providedBy.length > 1 && <span className="text-secondary">(Redundant)</span>}
           </h3>
           <Info size={16}>
             The asset price is calculated using both an exchange rate and a market price oracle. Sky Governance controls
@@ -40,7 +39,7 @@ export function YieldingFixedOraclePanel({
         <div className="grid items-center gap-4 md:grid-cols-[1fr,14px,1fr,14px,1fr] md:gap-3 md:pb-6">
           <div className="relative flex flex-col items-center gap-2">
             <div
-              className="typography-label-2 w-full rounded-lg border border-primary bg-secondary p-2 text-center"
+              className="typography-body-2 w-full rounded-lg border border-primary bg-secondary p-2 text-center text-primary"
               data-testid={oracleTestIds.yieldingFixed.ratio}
             >
               {ratio.toFixed(4)}
@@ -52,7 +51,7 @@ export function YieldingFixedOraclePanel({
           <img src={assets.multiply} alt="multiply sign" className="w-3.5 place-self-center" />
           <div className="relative flex flex-col items-center gap-2">
             <div
-              className="typography-label-2 w-full rounded-lg border border-primary bg-secondary p-2 text-center"
+              className="typography-body-2 w-full rounded-lg border border-primary bg-secondary p-2 text-center text-primary"
               data-testid={oracleTestIds.yieldingFixed.baseAssetPrice}
             >
               {formatUSDPriceWithPrecision(baseAssetPrice)}
@@ -64,7 +63,7 @@ export function YieldingFixedOraclePanel({
           <img src={assets.equal} alt="equal sign" className="w-3.5 place-self-center" />
           <div className="relative flex flex-col items-center gap-2">
             <div
-              className="typography-label-2 w-full rounded-lg border border-primary bg-secondary p-2 text-center"
+              className="typography-body-2 w-full rounded-lg border border-primary bg-secondary p-2 text-center text-primary"
               data-testid={oracleTestIds.price}
             >
               {formatUSDPriceWithPrecision(price)}

@@ -34,7 +34,7 @@ export function BorrowRow({ token, availableToBorrow, eligibility, onAction }: B
 function InfoWrapper({ children }: { children: React.ReactNode }) {
   return (
     <div className="grid grid-cols-1 border-primary border-t py-4">
-      <p className="typography-label-6 text-secondary">{children}</p>
+      <p className="typography-body-6 text-secondary">{children}</p>
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
-import { Progress } from '@/features/markets/components/debt-ceiling-progress/Progress'
+import { Progress } from '@/features/market-details/components/debt-ceiling-progress/Progress'
 import { Link } from '@/ui/atoms/link/Link'
 import { links } from '@/ui/constants/links'
 import { Info } from '@/ui/molecules/info/Info'

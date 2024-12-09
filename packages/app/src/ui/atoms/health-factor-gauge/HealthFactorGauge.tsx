@@ -195,7 +195,7 @@ export function HealthFactorGauge({ value, className }: HealthFactorGaugeProps) 
             </div>
           )}
           <div
-            className="text-[14cqw] text-white leading-[14cqw]"
+            className="text-[14cqw] text-primary-inverse leading-[14cqw]"
             data-testid={testIds.component.HealthFactorGauge.value}
           >
             {riskLevel === 'unknown' ? '-' : formatHealthFactor(value)}
