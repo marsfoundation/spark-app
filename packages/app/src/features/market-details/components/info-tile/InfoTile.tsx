@@ -19,7 +19,7 @@ export function InfoTile({ children, 'data-testid': dataTestId, className }: Inf
 }
 
 function Label({ children }: InfoTileProps) {
-  return <div className="typography-label-3 my-auto text-secondary">{children}</div>
+  return <div className="typography-label-4 my-auto text-secondary">{children}</div>
 }
 
 function Value({ children, 'data-testid': dataTestId, className }: InfoTileProps) {

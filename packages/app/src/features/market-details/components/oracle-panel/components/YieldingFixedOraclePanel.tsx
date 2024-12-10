@@ -24,7 +24,7 @@ export function YieldingFixedOraclePanel({
   return (
     <Panel className="flex flex-col gap-4">
       <div>
-        <div className="typography-label-3 mb-1 text-secondary">Oracle type</div>
+        <div className="typography-label-4 mb-1 text-secondary">Oracle type</div>
         <div className="flex items-center gap-2">
           <h3 className="typography-label-1 text-primary">
             Yielding Fixed Price {providedBy.length > 1 && <span className="text-secondary">(Redundant)</span>}
@@ -39,7 +39,7 @@ export function YieldingFixedOraclePanel({
         <div className="grid items-center gap-4 md:grid-cols-[1fr,14px,1fr,14px,1fr] md:gap-3 md:pb-6">
           <div className="relative flex flex-col items-center gap-2">
             <div
-              className="typography-tempbody2 w-full rounded-lg border border-primary bg-secondary p-2 text-center text-primary"
+              className="typography-label-1 w-full rounded-sm bg-secondary p-4 text-center text-primary"
               data-testid={oracleTestIds.yieldingFixed.ratio}
             >
               {ratio.toFixed(4)}
@@ -51,7 +51,7 @@ export function YieldingFixedOraclePanel({
           <img src={assets.multiply} alt="multiply sign" className="w-3.5 place-self-center" />
           <div className="relative flex flex-col items-center gap-2">
             <div
-              className="typography-tempbody2 w-full rounded-lg border border-primary bg-secondary p-2 text-center text-primary"
+              className="typography-label-1 w-full rounded-sm bg-secondary p-4 text-center text-primary"
               data-testid={oracleTestIds.yieldingFixed.baseAssetPrice}
             >
               {formatUSDPriceWithPrecision(baseAssetPrice)}
@@ -63,7 +63,7 @@ export function YieldingFixedOraclePanel({
           <img src={assets.equal} alt="equal sign" className="w-3.5 place-self-center" />
           <div className="relative flex flex-col items-center gap-2">
             <div
-              className="typography-tempbody2 w-full rounded-lg border border-primary bg-secondary p-2 text-center text-primary"
+              className="typography-label-1 w-full rounded-sm bg-secondary p-4 text-center text-primary"
               data-testid={oracleTestIds.price}
             >
               {formatUSDPriceWithPrecision(price)}
@@ -77,6 +77,7 @@ export function YieldingFixedOraclePanel({
             <InfoTile.Label>Ratio Contract</InfoTile.Label>
             <InfoTile.Value className="w-full">
               <BlockExplorerAddressLink
+                className="typography-label-2"
                 address={token.address}
                 chainId={chainId}
                 data-testid={oracleTestIds.yieldingFixed.ratioContract}
@@ -88,6 +89,7 @@ export function YieldingFixedOraclePanel({
             <InfoTile.Label>Oracle Contract</InfoTile.Label>
             <InfoTile.Value className="w-full">
               <BlockExplorerAddressLink
+                className="typography-label-2"
                 address={baseAssetOracle}
                 chainId={chainId}
                 data-testid={oracleTestIds.yieldingFixed.baseAssetOracleContract}
@@ -99,6 +101,7 @@ export function YieldingFixedOraclePanel({
             <InfoTile.Label>Price Contract</InfoTile.Label>
             <InfoTile.Value className="w-full">
               <BlockExplorerAddressLink
+                className="typography-label-2"
                 address={priceOracleAddress}
                 chainId={chainId}
                 data-testid={oracleTestIds.oracleContract}
