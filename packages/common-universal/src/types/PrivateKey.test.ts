@@ -1,7 +1,7 @@
 import { expect } from 'earl'
 import { describe, it } from 'mocha'
 
-import { PrivateKey } from './PrivateKey'
+import { PrivateKey } from './PrivateKey.js'
 
 // Only publicly well known private keys used here
 describe(PrivateKey.name, () => {

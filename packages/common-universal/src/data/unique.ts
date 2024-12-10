@@ -1,4 +1,4 @@
-import { assert } from '../assert/assert'
+import { assert } from '../assert/assert.js'
 
 /**
  * Remove duplicates from an array of objects.

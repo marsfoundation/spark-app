@@ -1,4 +1,4 @@
-import { AssertionError } from './AssertionError'
+import { AssertionError } from './AssertionError.js'
 
 export function assert(condition: unknown, error?: string | Error): asserts condition {
   if (!condition) {

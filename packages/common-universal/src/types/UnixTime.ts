@@ -1,6 +1,6 @@
-import { assert } from '../assert/assert'
-import { NumberLike, bigNumberify } from '../math/bigNumber'
-import { Opaque } from './Opaque'
+import { assert } from '../assert/assert.js'
+import { NumberLike, bigNumberify } from '../math/bigNumber.js'
+import { Opaque } from './Opaque.js'
 
 /**
  * Represents a time span in seconds. i.e. 5.

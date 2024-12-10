@@ -61,7 +61,7 @@ module.exports = tseslint.config(
     },
   },
   {
-    files: ['packages/common-nodejs/**/*.ts'],
+    files: ['packages/common-nodejs/**/*.ts', 'packages/common-universal/**/*.ts'],
     ignores: ['node_modules/**/*', '**/node_modules/**/*'],
     languageOptions: {
       parserOptions: {

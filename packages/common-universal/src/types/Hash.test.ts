@@ -1,6 +1,6 @@
 import { expect } from 'earl'
 import { describe, it } from 'mocha'
-import { Hash } from './Hash'
+import { Hash } from './Hash.js'
 
 describe(Hash.name, () => {
   it('works with an argument correctly representing base value', () => {

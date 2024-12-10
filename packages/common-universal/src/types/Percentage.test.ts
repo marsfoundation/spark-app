@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { expect } from 'earl'
 import { describe, it } from 'mocha'
-import { Percentage } from './Percentage'
+import { Percentage } from './Percentage.js'
 
 describe(Percentage.name, () => {
   it('works with a value from 0 to 1', () => {
