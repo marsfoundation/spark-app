@@ -1,5 +1,5 @@
 import prettyMilliseconds from 'pretty-ms'
-import { Logger } from '../logger/Logger.js'
+import { ILogger } from '../logger/index.js'
 
 interface TracerOptions {
   service?: string
@@ -7,9 +7,9 @@ interface TracerOptions {
 }
 
 export class Tracer {
-  private readonly logger: Logger
+  private readonly logger: ILogger
   constructor(
-    logger: Logger,
+    logger: ILogger,
     private readonly options: TracerOptions,
   ) {
     this.logger = logger.configure({ service: Tracer.name })

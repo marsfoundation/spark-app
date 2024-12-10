@@ -10,10 +10,23 @@ import { resolveError } from './resolveError.js'
 import { tagService } from './tagService.js'
 import { LogEntry, LoggerOptions } from './types.js'
 
+export interface ILogger {
+  critical(...args: unknown[]): void
+  error(...args: unknown[]): void
+  warn(...args: unknown[]): void
+  info(...args: unknown[]): void
+  debug(...args: unknown[]): void
+  trace(...args: unknown[]): void
+
+  configure(options: Partial<LoggerOptions>): ILogger
+  for(object: {} | string): ILogger
+  tag(tag: string | undefined): ILogger
+}
+
 /**
  * [Read full documentation](https://github.com/l2beat/tools/blob/master/packages/backend-tools/src/logger/docs.md)
  */
-export class Logger {
+export class Logger implements ILogger {
   private readonly options: LoggerOptions
   private readonly logLevel: number
   private readonly cwd: string
