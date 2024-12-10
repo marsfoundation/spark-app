@@ -149,7 +149,6 @@ export function useWrite<TAbi extends Abi, TFunctionName extends ContractFunctio
             })
           } else {
             recordEvent('tx-sent', {
-              walletType,
               chainId,
               receiver: parameters.request.address,
               method: parameters.request.functionName,
