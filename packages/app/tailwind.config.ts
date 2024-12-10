@@ -493,22 +493,6 @@ export default {
         },
 
         '.typography-body-1': {
-          fontSize: '1.25rem', // 20px
-          lineHeight: '1.875rem', // 30px
-          letterSpacing: 'calc(-1 * 0.01em)',
-          fontWeight: '400',
-          fontFamily: theme('fontFamily.sans'),
-        },
-
-        '.typography-body-2': {
-          fontSize: '1.125rem', // 18px
-          lineHeight: '1.75rem', // 28px
-          letterSpacing: 'calc(-1 * 0.01em)',
-          fontWeight: '400',
-          fontFamily: theme('fontFamily.sans'),
-        },
-
-        '.typography-body-3': {
           fontSize: '1rem', // 16px
           lineHeight: '1.5rem', // 24px
           letterSpacing: 'calc(-1 * 0.01em)',
@@ -516,7 +500,7 @@ export default {
           fontFamily: theme('fontFamily.sans'),
         },
 
-        '.typography-body-4': {
+        '.typography-body-2': {
           fontSize: '0.875rem', // 14px
           lineHeight: '1.25rem', // 20px
           letterSpacing: 'calc(-1 * 0.01em)',
@@ -524,7 +508,7 @@ export default {
           fontFamily: theme('fontFamily.sans'),
         },
 
-        '.typography-body-5': {
+        '.typography-body-3': {
           fontSize: '0.75rem', // 12px
           lineHeight: '1.125rem', // 18px
           letterSpacing: 'calc(-1 * 0.01em)',
@@ -532,9 +516,9 @@ export default {
           fontFamily: theme('fontFamily.sans'),
         },
 
-        '.typography-body-6': {
-          fontSize: '0.625rem', // 10px
-          lineHeight: '0.875rem', // 14px
+        '.typography-body-4': {
+          fontSize: '0.75rem', // 12px
+          lineHeight: '1.125rem', // 18px
           letterSpacing: 'calc(-1 * 0.01em)',
           fontWeight: '400',
           fontFamily: theme('fontFamily.sans'),
@@ -542,64 +526,48 @@ export default {
 
         // @todo update typography below when added
         '.typography-label-1': {
-          fontSize: '1.5rem',
-          lineHeight: '1.75rem',
+          fontSize: '1rem', // 16px
+          lineHeight: '1.125rem', // 18px
           letterSpacing: 'calc(-1 * 0.01em)',
           fontWeight: '500',
           fontFamily: theme('fontFamily.roobert'),
         },
 
         '.typography-label-2': {
-          fontSize: '1.25rem',
-          lineHeight: '1.5rem',
+          fontSize: '0.875rem', // 14px
+          lineHeight: '1rem', // 16px
           letterSpacing: 'calc(-1 * 0.01em)',
           fontWeight: '500',
           fontFamily: theme('fontFamily.roobert'),
         },
 
         '.typography-label-3': {
-          fontSize: '1.125rem',
-          lineHeight: '1.375rem',
+          fontSize: '0.75rem', // 12px
+          lineHeight: '1rem', // 16px
           letterSpacing: 'calc(-0.5 * 0.01em)',
           fontWeight: '500',
           fontFamily: theme('fontFamily.roobert'),
         },
 
         '.typography-label-4': {
-          fontSize: '1rem',
-          lineHeight: '1.125rem',
+          fontSize: '0.75rem', // 12px
+          lineHeight: '1rem', // 16px
           letterSpacing: 'calc(-0.5 * 0.01em)',
           fontWeight: '500',
           fontFamily: theme('fontFamily.roobert'),
         },
 
-        '.typography-label-5': {
-          fontSize: '0.875rem',
-          lineHeight: '1rem',
-          letterSpacing: '0px',
-          fontWeight: '500',
-          fontFamily: theme('fontFamily.roobert'),
-        },
-
-        '.typography-label-6': {
-          fontSize: '0.75rem',
-          lineHeight: '1rem',
-          letterSpacing: '0px',
-          fontWeight: '500',
-          fontFamily: theme('fontFamily.roobert'),
-        },
-
         '.typography-button-1': {
-          fontSize: '1rem',
-          lineHeight: '1.25rem',
+          fontSize: '1rem', // 16px
+          lineHeight: '1.25rem', // 20px
           letterSpacing: '0px',
           fontWeight: '500',
           fontFamily: theme('fontFamily.roobert'),
         },
 
         '.typography-button-2': {
-          fontSize: '0.875rem',
-          lineHeight: '1rem',
+          fontSize: '0.875rem', // 14px
+          lineHeight: '1rem', // 16px
           letterSpacing: '0px',
           fontWeight: '500',
           fontFamily: theme('fontFamily.roobert'),
@@ -647,61 +615,41 @@ export default {
           },
 
           '.typography-body-1': {
-            fontSize: '1.5rem', // 24px
-            lineHeight: '2.25rem', // 36px
-          },
-
-          '.typography-body-2': {
-            fontSize: '1.25rem', // 20px
-            lineHeight: '1.875rem', // 30px
-          },
-
-          '.typography-body-3': {
             fontSize: '1.125rem', // 18px
             lineHeight: '1.75rem', // 28px
           },
 
-          '.typography-body-4': {
+          '.typography-body-2': {
             fontSize: '1rem', // 16px
             lineHeight: '1.5rem', // 24px
           },
 
-          '.typography-body-5': {
+          '.typography-body-3': {
             fontSize: '0.875rem', // 14px
             lineHeight: '1.25rem', // 20px
           },
 
-          '.typography-body-6': {
+          '.typography-body-4': {
             fontSize: '0.75rem', // 12px
             lineHeight: '1.125rem', // 18px
           },
 
           '.typography-label-1': {
-            fontSize: '1.5rem', // 24px
-            lineHeight: '1.75rem', // 28px
-          },
-
-          '.typography-label-2': {
-            fontSize: '1.25rem', // 20px
-            lineHeight: '1.5rem', // 24px
-          },
-
-          '.typography-label-3': {
             fontSize: '1.125rem', // 18px
             lineHeight: '1.375rem', // 22px
           },
 
-          '.typography-label-4': {
+          '.typography-label-2': {
             fontSize: '1rem', // 16px
             lineHeight: '1.125rem', // 18px
           },
 
-          '.typography-label-5': {
+          '.typography-label-3': {
             fontSize: '0.875rem', // 14px
             lineHeight: '1rem', // 16px
           },
 
-          '.typography-label-6': {
+          '.typography-label-4': {
             fontSize: '0.75rem', // 12px
             lineHeight: '1rem', // 16px
           },
@@ -729,7 +677,6 @@ export default {
           lineHeight: '100%',
         },
 
-        // needed to override the default line heights
         '@screen sm': {
           '.leading-spacious': {
             lineHeight: '150%',
