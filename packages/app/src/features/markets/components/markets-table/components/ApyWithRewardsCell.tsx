@@ -24,7 +24,7 @@ export function ApyWithRewardsCell({ mobileViewOptions, ...rest }: ApyWithReward
   if (mobileViewOptions?.isMobileView) {
     return (
       <div className="flex flex-row items-center justify-between">
-        <div className="typography-label-6 text-secondary">{mobileViewOptions.rowTitle}</div>
+        <div className="typography-label-4 text-secondary">{mobileViewOptions.rowTitle}</div>
         <CellContent {...rest} />
       </div>
     )
@@ -72,7 +72,7 @@ function CellValue({ value, dimmed }: CellValueProps) {
   return <div className={cn(variants({ dimmed }))}>{formatPercentage(value)}</div>
 }
 
-const variants = cva('typography-label-4 text-primary', {
+const variants = cva('typography-label-2 text-primary', {
   variants: {
     dimmed: {
       true: 'text-secondary/70',

@@ -53,7 +53,7 @@ function HealthFactorBadge({ healthFactor, 'data-testid': dataTestId }: HealthFa
       <Badge appearance="solid" size="xs" variant={riskLevelToStateVariant[riskLevel]}>
         {title}
       </Badge>
-      <div className="typography-label-4 text-primary">{formatHealthFactor(healthFactor)}</div>
+      <div className="typography-label-2 text-primary">{formatHealthFactor(healthFactor)}</div>
     </div>
   )
 }

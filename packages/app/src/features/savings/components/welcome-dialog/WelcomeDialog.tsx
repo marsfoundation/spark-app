@@ -26,7 +26,7 @@ export function WelcomeDialog({ open, onConfirm, apyImprovement }: WelcomeDialog
         />
         <div className="flex flex-col gap-8 p-4 sm:p-8">
           <h2 className="typography-heading-2 text-primary-inverse">Welcome USDS, the new upgraded DAI!</h2>
-          <p className="typography-body-5 text-secondary">
+          <p className="typography-body-3 text-secondary">
             USDS is the new version of DAI, the stablecoin that powers the Sky ecosystem. Upgrading to USDS unlocks
             additional benefits, providing you with more opportunities to earn rewards within the ecosystem. The upgrade
             is optional, and you can continue using DAI if you prefer.{' '}

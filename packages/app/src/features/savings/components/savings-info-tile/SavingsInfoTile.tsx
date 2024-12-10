@@ -21,7 +21,7 @@ interface LabelProps {
 function Label({ children, tooltipContent: tooltipText }: LabelProps) {
   return (
     <div className="flex items-center gap-1">
-      <div className="typography-label-6 md:typography-label-5 lg:typography-label-4 text-secondary">{children}</div>
+      <div className="typography-label-4 md:typography-label-3 lg:typography-label-2 text-secondary">{children}</div>
       {tooltipText && <Info className="text-primary-inverse">{tooltipText}</Info>}
     </div>
   )
@@ -33,7 +33,7 @@ export interface ValueProps {
 }
 function Value({ children, className }: ValueProps) {
   return (
-    <p className={cn('typography-label-5 lg:typography-label-3 xl:typography-label-2 text-primary', className)}>
+    <p className={cn('typography-label-3 lg:typography-label-1 xl:typography-heading-5 text-primary', className)}>
       {children}
     </p>
   )

@@ -23,7 +23,7 @@ export function UpgradeTokenButton({
     <div
       className={cn(
         'inline-flex items-center justify-center gap-1.5',
-        'typography-label-4 bg-secondary py-1 pr-1 pl-1 sm:pl-2',
+        'typography-label-2 bg-secondary py-1 pr-1 pl-1 sm:pl-2',
         'rounded-sm bg-secondary text-primary',
       )}
       data-testid={dataTestId}

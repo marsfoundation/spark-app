@@ -51,7 +51,7 @@ export function GrowingBalance({
         )}
       </div>
       <div
-        className="typography-label-4 col-start-2 ml-1.5 text-primary-inverse"
+        className="typography-label-2 col-start-2 ml-1.5 text-primary-inverse"
         data-testid={testIds.savings[savingsType].balance}
       >
         {savingsTokenWithBalance.token.format(savingsTokenWithBalance.balance, { style: 'auto' })}{' '}

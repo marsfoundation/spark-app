@@ -78,7 +78,7 @@ export function ChartTabsPanel({ tabs, onTimeframeChange, selectedTimeframe, hei
         <div className="flex flex-col flex-wrap items-center justify-between gap-2 lg:flex-row lg:gap-1">
           <TabsList className="w-full lg:w-auto" size="s">
             {tabs.map((tab) => (
-              <TabsTrigger key={tab.id} value={tab.id} className="typography-label-5 px-1 md:px-1.5 xl:px-5">
+              <TabsTrigger key={tab.id} value={tab.id} className="typography-label-3 px-1 md:px-1.5 xl:px-5">
                 {tab.label}
               </TabsTrigger>
             ))}
@@ -124,7 +124,7 @@ function ChartPanel({ height, component: Chart, isError, isPending, props }: Cha
   if (isError) {
     return (
       <div className="flex items-center justify-center" style={{ height }} ref={ref}>
-        <div className="typography-label-5 flex items-center rounded-full bg-secondary px-3 py-1 text-secondary/80">
+        <div className="typography-label-3 flex items-center rounded-full bg-secondary px-3 py-1 text-secondary/80">
           <AlertTriangle className="h-4" /> Failed to load chart data
         </div>
       </div>

@@ -59,7 +59,7 @@ function Ticks({ ticks }: TicksProps) {
       {ticks.map(({ label, x }) => (
         <div className="-translate-x-[50%] absolute flex flex-col items-center" style={{ left: `${x}%` }} key={x}>
           <div className="h-2 w-[1px] bg-neutral-600" />
-          {label && <div className="typography-body-6 text-secondary">{label}</div>}
+          {label && <div className="typography-body-4 text-secondary">{label}</div>}
         </div>
       ))}
     </div>
@@ -75,8 +75,8 @@ function Deposited({ positionSummary, ticks }: DepositedProps) {
   return (
     <div className="flex flex-col gap-1">
       <div className="flex flex-row justify-between">
-        <div className="typography-label-4 text-primary">Collateral deposited</div>
-        <div className="typography-label-4 text-primary" data-testid={testIds.myPortfolio.deposited}>
+        <div className="typography-label-2 text-primary">Collateral deposited</div>
+        <div className="typography-label-2 text-primary" data-testid={testIds.myPortfolio.deposited}>
           {getPositionFormattedValue(positionSummary?.totalCollateralUSD)}
         </div>
       </div>
@@ -135,8 +135,8 @@ function Borrow({ positionSummary, ticks }: BorrowProps) {
   return (
     <div className="flex flex-col gap-1">
       <div className="flex flex-row justify-between">
-        <div className="typography-label-4 text-primary">Borrow</div>
-        <div className="typography-label-4 text-primary" data-testid={testIds.myPortfolio.borrowed}>
+        <div className="typography-label-2 text-primary">Borrow</div>
+        <div className="typography-label-2 text-primary" data-testid={testIds.myPortfolio.borrowed}>
           {getPositionFormattedValue(positionSummary?.borrow.current)}
         </div>
       </div>
@@ -186,7 +186,7 @@ function BorrowBar({ positionSummary }: BorrowBarProps) {
             className="-translate-x-[1px] absolute z-[2] h-7 border-primary border-l-2 pl-2"
             style={{ left: `${borrow.percents.max}%` }}
           >
-            <div className="typography-label-6 flex min-h-full flex-col justify-center text-neutral-600">max</div>
+            <div className="typography-label-4 flex min-h-full flex-col justify-center text-neutral-600">max</div>
           </div>
         </TooltipTrigger>
         <TooltipContent>You can borrow up to {USD_MOCK_TOKEN.formatUSD(positionSummary.borrow.max)}.</TooltipContent>

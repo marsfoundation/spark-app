@@ -29,7 +29,7 @@ export function Explainer({ stablecoinValue, savingsMeta, originChainId }: Expla
           <img key={symbol} src={getTokenImage(TokenSymbol(symbol))} className="h-6 w-6" />
         ))}
       </div>
-      <div className="typography-body-6 max-w-[52ch] text-tertiary">
+      <div className="typography-body-4 max-w-[52ch] text-tertiary">
         {stablecoinValue ? (
           <>
             You have{' '}

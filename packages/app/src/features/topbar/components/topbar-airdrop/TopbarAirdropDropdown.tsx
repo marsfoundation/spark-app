@@ -61,13 +61,13 @@ export function TopbarAirdropDropdown({
             {isLoading ? (
               <Skeleton className="h-6 w-10 rounded-sm" />
             ) : (
-              <div className="typography-label-4 tabular-nums" data-chromatic="ignore">
+              <div className="typography-label-2 tabular-nums" data-chromatic="ignore">
                 {formatAirdropAmount({ amount, precision, isGrowing })} {SPK_MOCK_TOKEN.symbol}
               </div>
             )}
           </DropdownMenuItem>
           <DropdownMenuSeparator className="my-2" />
-          <DropdownMenuItem className="!typography-body-6 pointer-events-none py-2 text-secondary">
+          <DropdownMenuItem className="!typography-body-4 pointer-events-none py-2 text-secondary">
             DAI borrowers with volatile assets and ETH depositors will be eligible for a future ⚡ SPK airdrop.
           </DropdownMenuItem>
         </DropdownMenuGroup>

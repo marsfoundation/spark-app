@@ -20,11 +20,11 @@ export function ExitFarmSwitch({ checked, onSwitch, reward }: UpgradeToSusdsSwit
       <div className="flex items-center gap-3">
         <img src={rewardIcon} className="h-6" />
         <div className="flex flex-col">
-          <div className="typography-label-4 text-primary">
+          <div className="typography-label-2 text-primary">
             Withdraw and claim<span className="hidden sm:inline"> rewards in one transaction</span>
           </div>
           <div
-            className="typography-label-6 text-secondary"
+            className="typography-label-4 text-secondary"
             data-testid={testIds.farmDetails.unstakeDialog.exitFarmSwitchPanel.reward}
           >
             ~{rewardAmount} {reward.token.symbol} {reward.token.unitPriceUsd.gt(0) && `(~${rewardUsdValue})`}

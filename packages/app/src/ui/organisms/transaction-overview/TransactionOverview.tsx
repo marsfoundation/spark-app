@@ -23,11 +23,11 @@ function TransactionOverview({ children, showSkyBadge = false }: TransactionOver
   return (
     <section className="flex flex-col gap-2">
       <div className="flex items-center justify-between">
-        <h5 className="typography-body-5 text-secondary">Transaction overview</h5>
+        <h5 className="typography-body-3 text-secondary">Transaction overview</h5>
         {showSkyBadge && (
           <div className="flex items-center gap-1.5">
             <img src={assets.token.sky} className="icon-xs" />
-            <div className="typography-label-6 text-brand-primary">Powered by Sky</div>
+            <div className="typography-label-4 text-brand-primary">Powered by Sky</div>
             <Tooltip>
               <TooltipTrigger asChild>
                 <InfoIcon className="icon-xs icon-brand-primary" />
@@ -48,7 +48,7 @@ function TransactionOverview({ children, showSkyBadge = false }: TransactionOver
 }
 
 function TransactionOverviewLabel({ children }: { children: React.ReactNode }) {
-  return <div className="typography-label-5 text-secondary">{children}:</div>
+  return <div className="typography-label-3 text-secondary">{children}:</div>
 }
 
 function TransactionOverviewRow({ children }: { children: React.ReactNode }) {
@@ -66,7 +66,7 @@ function TransactionOverviewRow({ children }: { children: React.ReactNode }) {
 }
 
 function TransactionOverviewGenericRow({ className, ...rest }: HTMLAttributes<HTMLDivElement>) {
-  return <div {...rest} className={cn('typography-label-4 text-primary', className)} />
+  return <div {...rest} className={cn('typography-label-2 text-primary', className)} />
 }
 
 TransactionOverview.Label = TransactionOverviewLabel

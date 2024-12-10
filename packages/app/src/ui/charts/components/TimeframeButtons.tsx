@@ -34,7 +34,7 @@ function TimeframeButton({ selected, ...props }: TimeframeButtonProps) {
   return (
     <button
       className={cn(
-        'typography-label-6 border border-transparent p-1.5 text-secondary xl:min-w-9 ',
+        'typography-label-4 border border-transparent p-1.5 text-secondary xl:min-w-9 ',
         'flex-1 rounded-[6px] transition-colors ease-in hover:bg-tertiary',
         'focus-visible:outline-none focus-visible:ring focus-visible:ring-primary-200 focus-visible:ring-offset-0',
         selected && 'border-primary bg-primary text-primary shadow-xs hover:bg-primary',

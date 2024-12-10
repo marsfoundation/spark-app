@@ -33,7 +33,7 @@ export function AssetSelector({
       >
         <div className="flex flex-row items-center gap-2" data-testid={testIds.component.AssetSelector.option}>
           <TokenIcon token={selectedAsset} className="h-6 w-6" />
-          <div className="typography-label-4">{selectedAsset.symbol}</div>
+          <div className="typography-label-2">{selectedAsset.symbol}</div>
         </div>
       </div>
     )
@@ -44,7 +44,7 @@ export function AssetSelector({
       <SelectTrigger disabled={disabled} data-testid={testIds.component.AssetSelector.trigger}>
         <div className="flex flex-row items-center gap-2">
           <TokenIcon token={selectedAsset} className="h-6 w-6" />
-          <div className="typography-label-4">{selectedAsset.symbol}</div>
+          <div className="typography-label-2">{selectedAsset.symbol}</div>
         </div>
       </SelectTrigger>
       <SelectContent>
@@ -56,12 +56,12 @@ export function AssetSelector({
             >
               <div className="flex flex-row items-center gap-2">
                 <TokenIcon token={token} className="h-6 w-6" />
-                <div className="typography-label-4">{token.symbol}</div>
+                <div className="typography-label-2">{token.symbol}</div>
               </div>
               {showBalance && (
                 <div className="flex flex-col items-end gap-0.5">
-                  <div className="typography-label-6 text-fg-quaternary">Balance</div>
-                  <div className="typography-label-6 text-fg-primary">
+                  <div className="typography-label-4 text-fg-quaternary">Balance</div>
+                  <div className="typography-label-4 text-fg-primary">
                     {token.format(balance, { style: 'compact' })}
                   </div>
                 </div>

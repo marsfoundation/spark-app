@@ -208,7 +208,7 @@ function Chart({
 
 function TooltipContent({ data }: { data: GraphDataPoint }) {
   return (
-    <div className="typography-label-6 flex gap-3 rounded-sm border border-primary bg-primary p-3 shadow">
+    <div className="typography-label-4 flex gap-3 rounded-sm border border-primary bg-primary p-3 shadow">
       <div className="flex flex-col gap-3 text-secondary">
         <p>Utilization Rate:</p>
         <p>Borrow APY:</p>

@@ -20,7 +20,7 @@ export function EasyBorrowSidePanel({ hf, liquidationDetails, borrowRate, dai, u
         </div>
       )}
       <Panel variant="quaternary" spacing="m" className="flex flex-col justify-end gap-3 only:col-span-2">
-        <h4 className="typography-label-2">Borrow Rate</h4>
+        <h4 className="typography-heading-5">Borrow Rate</h4>
         <div className="flex flex-col gap-3">
           <h3
             className="typography-display-3 bg-gradient-borrow-rate-orange bg-clip-text text-transparent"
@@ -28,7 +28,7 @@ export function EasyBorrowSidePanel({ hf, liquidationDetails, borrowRate, dai, u
           >
             {formatPercentage(borrowRate, { skipSign: true })}%
           </h3>
-          <div className="typography-body-5">
+          <div className="typography-body-3">
             Borrow {dai}
             {usds ? ` or ${usds}` : ''} directly from SKY
           </div>

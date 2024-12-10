@@ -84,7 +84,7 @@ export function AssetInput<TFieldValues extends FieldValues>({
 
   return (
     <div className="flex flex-col gap-2">
-      {label && <div className="typography-label-5 text-secondary">{label}</div>}
+      {label && <div className="typography-label-3 text-secondary">{label}</div>}
       <div
         className={cn(
           'grid items-center gap-3 p-2 pr-4',
@@ -110,7 +110,7 @@ export function AssetInput<TFieldValues extends FieldValues>({
             type="text"
             inputMode="decimal"
             className={cn(
-              'typography-label-4 text-primary focus:outline-none',
+              'typography-label-2 text-primary focus:outline-none',
               disabled && 'cursor-not-allowed opacity-50',
             )}
             placeholder="0"
@@ -136,7 +136,7 @@ export function AssetInput<TFieldValues extends FieldValues>({
               }
             }}
           />
-          <div className={cn('typography-label-6 truncate text-secondary', disabled && 'opacity-50')}>
+          <div className={cn('typography-label-4 truncate text-secondary', disabled && 'opacity-50')}>
             {token.formatUSD(NormalizedUnitNumber(parseBigNumber(value, 0)))}
           </div>
         </div>
@@ -145,7 +145,7 @@ export function AssetInput<TFieldValues extends FieldValues>({
             <button
               onClick={disabled ? undefined : setMaxValue}
               className={cn(
-                'typography-label-5 text-brand-primary disabled:text-secondary hover:text-primary-950',
+                'typography-label-3 text-brand-primary disabled:text-secondary hover:text-primary-950',
                 disabled && 'cursor-not-allowed opacity-50',
               )}
               disabled={disabled || isMaxSelected}
@@ -153,7 +153,7 @@ export function AssetInput<TFieldValues extends FieldValues>({
             >
               MAX
             </button>
-            <div className={cn('typography-body-6 text-secondary', disabled && 'opacity-50')}>
+            <div className={cn('typography-body-4 text-secondary', disabled && 'opacity-50')}>
               {token.format(maxValue, { style: 'compact' })} {token.symbol}
             </div>
           </div>
@@ -161,7 +161,7 @@ export function AssetInput<TFieldValues extends FieldValues>({
         {onRemove && <IconButton icon={XIcon} onClick={onRemove} variant="transparent" size="m" />}
       </div>
       {showError && error && (
-        <div data-testid={testIds.component.AssetInput.error} className="typography-label-6 text-system-error-primary">
+        <div data-testid={testIds.component.AssetInput.error} className="typography-label-4 text-system-error-primary">
           {error.message}
         </div>
       )}

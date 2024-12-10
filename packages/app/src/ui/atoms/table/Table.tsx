@@ -4,7 +4,7 @@ import { cn } from '@/ui/utils/style'
 
 const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableElement>>(
   ({ className, ...props }, ref) => (
-    <table ref={ref} className={cn('typography-body-5 w-full caption-bottom', className)} {...props} />
+    <table ref={ref} className={cn('typography-body-3 w-full caption-bottom', className)} {...props} />
   ),
 )
 Table.displayName = 'Table'
@@ -59,7 +59,7 @@ TableCell.displayName = 'TableCell'
 
 const TableCaption = React.forwardRef<HTMLTableCaptionElement, React.HTMLAttributes<HTMLTableCaptionElement>>(
   ({ className, ...props }, ref) => (
-    <caption ref={ref} className={cn('typography-label-5 mt-4 text-secondary', className)} {...props} />
+    <caption ref={ref} className={cn('typography-label-3 mt-4 text-secondary', className)} {...props} />
   ),
 )
 TableCaption.displayName = 'TableCaption'

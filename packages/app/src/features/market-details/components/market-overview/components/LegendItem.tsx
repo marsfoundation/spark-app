@@ -15,7 +15,7 @@ function LegendItem({ variant, children }: LegendItemProps) {
   return (
     <div className="flex items-center gap-1.5" role="listitem">
       <LegendItemBadge variant={variant} />
-      <div className="typography-label-5 text-primary-inverse">{children}</div>
+      <div className="typography-label-3 text-primary-inverse">{children}</div>
     </div>
   )
 }
@@ -46,7 +46,7 @@ function LegendItemBadge({ variant }: { variant: LegendItemVariant }) {
   return (
     <div className={legendItemBadgeVariants({ variant })}>
       <Circle size={6} fill="currentColor" />
-      <div className="typography-label-6">{badgeText}</div>
+      <div className="typography-label-4">{badgeText}</div>
     </div>
   )
 }

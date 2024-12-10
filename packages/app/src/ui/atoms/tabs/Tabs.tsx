@@ -9,8 +9,8 @@ const Tabs = TabsPrimitive.Root
 const tabsListVariants = cva('inline-flex w-full flex-wrap items-center justify-center rounded-sm bg-secondary', {
   variants: {
     size: {
-      l: 'typography-label-4 gap-2 p-1.5',
-      s: 'typography-label-6 gap-0.5 p-0.5',
+      l: 'typography-label-2 gap-2 p-1.5',
+      s: 'typography-label-4 gap-0.5 p-0.5',
     },
   },
   defaultVariants: {

@@ -47,7 +47,7 @@ export function ResponsiveDataTable<T extends { [k: string]: any }>({
         <TableHeader>
           <TableRow className="flex justify-between pb-3">
             {[rowHeaderDefinition?.header, 'More info'].map((header, index) => (
-              <TableHead className="typography-label-6 p-0 text-secondary" key={index}>
+              <TableHead className="typography-label-4 p-0 text-secondary" key={index}>
                 {header}
               </TableHead>
             ))}

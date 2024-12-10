@@ -14,7 +14,7 @@ type Story = StoryObj<typeof Link>
 
 export const Primary: Story = {
   render: () => (
-    <div className="typography-body-4">
+    <div className="typography-body-2">
       Lorem ipsum dolor sit amend{' '}
       <Link to="" variant="primary">
         consectetur
@@ -26,7 +26,7 @@ export const Primary: Story = {
 
 export const Secondary: Story = {
   render: () => (
-    <div className="typography-body-4">
+    <div className="typography-body-2">
       Lorem ipsum dolor sit amend{' '}
       <Link to="" variant="secondary">
         consectetur
@@ -38,7 +38,7 @@ export const Secondary: Story = {
 
 export const Underline: Story = {
   render: () => (
-    <div className="typography-body-4 text-system-success-primary">
+    <div className="typography-body-2 text-system-success-primary">
       Lorem ipsum dolor sit amend{' '}
       <Link to="" variant="underline">
         consectetur
@@ -50,7 +50,7 @@ export const Underline: Story = {
 
 export const External: Story = {
   render: () => (
-    <div className="typography-body-4">
+    <div className="typography-body-2">
       Lorem ipsum dolor sit amend{' '}
       <Link to="https://app.spark.fi" variant="secondary" external>
         consectetur

@@ -32,7 +32,7 @@ export function AssetNameCell({ token, reserveStatus, 'data-testid': dataTestId 
       )}
       <div className="flex min-w-0 flex-col xl:flex-row xl:items-baseline xl:gap-2">
         <TokenName token={token} className={cn(isPaused && 'text-system-error-secondary')} />
-        <p className={cn('typography-label-6 text-secondary', isPaused && 'text-system-error-secondary/60')}>
+        <p className={cn('typography-label-4 text-secondary', isPaused && 'text-system-error-secondary/60')}>
           {token.symbol}
         </p>
       </div>
@@ -53,7 +53,7 @@ export function TokenName({ token, className }: TokenNameProps) {
   return (
     <Tooltip open={!isTruncated ? false : undefined}>
       <TooltipTrigger asChild>
-        <p className={cn('typography-label-4 truncate', className)} ref={tokenNameRef}>
+        <p className={cn('typography-label-2 truncate', className)} ref={tokenNameRef}>
           {token.name}
         </p>
       </TooltipTrigger>

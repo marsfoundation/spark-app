@@ -24,7 +24,7 @@ export function RiskAcknowledgement({ warning, onStatusChange }: RiskAcknowledge
         </div>
       </Alert>
       <LabeledSwitch onCheckedChange={onStatusChange} data-testid={testIds.component.RiskAcknowledgement.switch}>
-        <div className="typography-label-5 text-primary">I acknowledge risks involved</div>
+        <div className="typography-label-3 text-primary">I acknowledge risks involved</div>
       </LabeledSwitch>
     </div>
   )

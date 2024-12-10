@@ -41,7 +41,7 @@ export function DowngradeUSDSToDaiView({
         Downgrade {fromToken.symbol} to {toToken.symbol}
       </DialogTitle>
 
-      <div className="typography-label-5 mb-2 text-secondary">
+      <div className="typography-label-3 mb-2 text-secondary">
         You can downgrade from USDS to DAI whenever you choose, and you are free to switch back from DAI to USDS in the
         future, at your own sole discretion.{' '}
         <Link to={links.docs.downgradeUsds} external>

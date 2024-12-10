@@ -44,26 +44,26 @@ export function InactiveFarmInfoPanel({
         <div className="flex">
           {farm.depositors && (
             <DetailsItem title="Participants">
-              <div className="typography-label-5 lg:typography-label-3 xl:typography-label-2 text-primary-inverse">
+              <div className="typography-label-3 lg:typography-label-1 xl:typography-heading-5 text-primary-inverse">
                 {farm.depositors}
               </div>
             </DetailsItem>
           )}
           <DetailsItem title="TVL">
-            <div className="typography-label-5 lg:typography-label-3 xl:typography-label-2 text-primary-inverse">
+            <div className="typography-label-3 lg:typography-label-1 xl:typography-heading-5 text-primary-inverse">
               {USD_MOCK_TOKEN.formatUSD(farm.totalSupply, { compact: true })}
             </div>
           </DetailsItem>
           {farm.apy?.gt(0) && (
             <DetailsItem title="APY" explainer={<ApyTooltip farmAddress={farm.address} />}>
-              <div className="typography-label-5 lg:typography-label-3 xl:typography-label-2 text-feature-farms-primary">
+              <div className="typography-label-3 lg:typography-label-1 xl:typography-heading-5 text-feature-farms-primary">
                 {formatPercentage(farm.apy, { minimumFractionDigits: 0 })}
               </div>
             </DetailsItem>
           )}
           {farm.apy?.isZero() && farm.totalRewarded && (
             <DetailsItem title="Total rewarded">
-              <div className="typography-label-5 lg:typography-label-3 xl:typography-label-2 text-primary-inverse">
+              <div className="typography-label-3 lg:typography-label-1 xl:typography-heading-5 text-primary-inverse">
                 {farm.rewardToken.format(farm.totalRewarded, { style: 'compact' })} {farm.rewardToken.symbol}
               </div>
             </DetailsItem>
@@ -101,7 +101,7 @@ function PointsFarmDetails({
           {isChroniclePointsFarm && <ChroniclePointsTooltip />}
         </div>
       </h2>
-      <div className="typography-body-5 text-tertiary">
+      <div className="typography-body-3 text-tertiary">
         {isChroniclePointsFarm && (
           <div className="mb-2">
             Chronicle is the original oracle on Ethereum built within MakerDAO for the creation of DAI. Today,
@@ -129,11 +129,10 @@ function TokenFarmDetails({ farm, assetsGroupType }: { farm: Farm; assetsGroupTy
         </span>{' '}
         in rewards
       </h2>
-      <div className="typography-body-5 text-tertiary">
+      <div className="typography-body-3 text-tertiary">
         {farm.apy?.gt(0) && (
           <>Deposit any of the tokens listed below and start farming {farm.rewardToken.symbol} tokens.</>
-        )}
-        <br />
+        )}{' '}
         Learn more about farming{' '}
         <Link to={links.docs.farmingRewards} external>
           here

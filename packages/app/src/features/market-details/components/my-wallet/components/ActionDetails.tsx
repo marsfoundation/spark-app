@@ -10,11 +10,11 @@ interface ActionDetailsProps {
 export function ActionDetails({ label, token, value }: ActionDetailsProps) {
   return (
     <div className="flex flex-col items-baseline">
-      <p className="typography-label-6 text-secondary">{label}</p>
-      <p className="typography-body-4 text-primary">
+      <p className="typography-label-4 text-secondary">{label}</p>
+      <p className="typography-body-2 text-primary">
         {token.format(value, { style: 'auto' })} {token.symbol}
       </p>
-      <div className="typography-label-6 text-secondary">{token.formatUSD(value)}</div>
+      <div className="typography-label-4 text-secondary">{token.formatUSD(value)}</div>
     </div>
   )
 }

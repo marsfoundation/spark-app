@@ -25,9 +25,9 @@ export function CooldownTimer({ renewalPeriod, latestUpdateTimestamp, forceOpen 
         <TimerResetIcon size={16} className="text-fg-brand-tertiary" />
       </TooltipTrigger>
       <TooltipContent className="p-3">
-        <div className="typography-label-6 flex flex-col gap-2 text-tertiary">
+        <div className="typography-label-4 flex flex-col gap-2 text-tertiary">
           Cooldown period:
-          <div className="typography-label-4 text-primary-inverse">{secondsToTime(timeLeft)}</div>
+          <div className="typography-label-2 text-primary-inverse">{secondsToTime(timeLeft)}</div>
           {timeLeft === 0 ? (
             <>
               The cap renewal cooldown is over. <br /> It might be changed at any time.
