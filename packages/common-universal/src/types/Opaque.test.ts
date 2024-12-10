@@ -1,4 +1,4 @@
-import { Opaque } from './Opaque'
+import { Opaque } from './Opaque.js'
 
 type TestType = Opaque<string, 'TestType'>
 type AnotherTestType = AnotherOpaque<string, 'TestType'>
@@ -36,8 +36,7 @@ describe.skip('[Type-Level] Opaque type helper', () => {
 
 // we copy-pasted opaque type helper again to simulate Opaque type created from another instance of the same package (@marsfoundation/common-universal)
 type StringLiteral<Type> = Type extends string ? (string extends Type ? never : Type) : never
-declare const __OPAQUE_TYPE__: unique symbol
 type WithOpaque<Token extends string> = {
-  readonly [__OPAQUE_TYPE__]: Token
+  readonly __TAG__: Token
 }
 type AnotherOpaque<Type, Token extends string> = Token extends StringLiteral<Token> ? Type & WithOpaque<Token> : never
