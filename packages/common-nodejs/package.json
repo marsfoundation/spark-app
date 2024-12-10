@@ -48,6 +48,13 @@
       }
     }
   },
+  "typesVersions": {
+    "*": {
+      "env": ["dist/types/env/index.d.ts"],
+      "logger": ["dist/types/logger/index.d.ts"],
+      "tracer": ["dist/types/tracer/index.d.ts"]
+    }
+  },
   "files": ["dist"],
   "scripts": {
     "lint": "eslint src",
