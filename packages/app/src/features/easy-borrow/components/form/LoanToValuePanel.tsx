@@ -32,7 +32,7 @@ export function LoanToValuePanel({
 
           <div className="typography-label-3 mt-2 flex flex-row justify-between text-secondary">
             <div>Ratio of the collateral value to the borrowed value</div>
-            <div>max. {formatPercentage(maxLtv)}</div>
+            <div className="text-right">max. {formatPercentage(maxLtv)}</div>
           </div>
         </div>
 
