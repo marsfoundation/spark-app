@@ -1,6 +1,7 @@
 import { Suspense } from 'react'
 import { Outlet } from 'react-router-dom'
 
+import { AnalyticsContainer } from '@/features/analytics/AnalyticsContainer'
 import { ComplianceContainer } from '@/features/compliance/ComplianceContainer'
 import { Debug } from '@/features/debug'
 import { DialogDispatcherContainer } from '@/features/dialogs/dispatcher/DialogDispatcherContainer'
@@ -17,6 +18,7 @@ export function RootRoute() {
           <Outlet />
           <DialogDispatcherContainer />
           <ComplianceContainer />
+          <AnalyticsContainer />
         </ErrorBoundary>
         {import.meta.env.VITE_DEV_DEBUG === '1' && <Debug />}
       </AppLayout>
