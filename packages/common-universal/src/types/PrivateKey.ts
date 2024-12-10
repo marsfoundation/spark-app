@@ -1,7 +1,7 @@
 import type { Hex as ViemHex } from 'viem'
 
-import { Opaque } from './Opaque'
 import { assert } from '../assert/assert'
+import { Opaque } from './Opaque'
 
 export type PrivateKey = Opaque<ViemHex, 'PrivateKey'>
 export function PrivateKey(privateKey: string): PrivateKey {
