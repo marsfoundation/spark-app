@@ -133,7 +133,6 @@ function TokenFarmDetails({ farm, assetsGroupType }: { farm: Farm; assetsGroupTy
         {farm.apy?.gt(0) && (
           <>Deposit any of the tokens listed below and start farming {farm.rewardToken.symbol} tokens.</>
         )}
-        <br />
         Learn more about farming{' '}
         <Link to={links.docs.farmingRewards} external>
           here
