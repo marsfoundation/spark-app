@@ -143,10 +143,15 @@ Read the [Lingui guide](https://lingui.dev/tutorials/setup-react) to understand 
 Note: right now we extract the strings right before building the app to ensure that production build works fine. Read
 [this](https://github.com/lingui/js-lingui/issues/1803) issue to learn more.
 
----
-
-_The IP in this repository was assigned to Mars SPC Limited in respect of the MarsOne SP_
-
 ### Static assets
 
 Images that are used in `img` tags should be put into directory `packages/app/src/ui/assets` and exported in the `assetts` object. Other static assets, for instance the ones that are used as background images, should be put into `packages/app/public` directory and the path to them should be hardcoded in the code.
+
+## Monorepo setup learnings
+
+* ESM builds are problematic because the import paths have to have explicit "js" file extensions. Do not use bundling like tsup as a workaround but rather manually add `.js` extensions to files (there is a linter to enforce this).
+* Use multiple entry points to packages using package.json `exports` field.
+
+---
+
+_The IP in this repository was assigned to Mars SPC Limited in respect of the MarsOne SP_
