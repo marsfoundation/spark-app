@@ -147,7 +147,7 @@ function ErrorWarning() {
       <TooltipTrigger asChild>
         <div
           className={cn(
-            'typography-label-3 typography-label-2 col-span-full col-start-2 inline-flex min-w-0 text-secondary md:col-span-1',
+            'typography-label-2 col-span-full col-start-2 inline-flex min-w-0 text-secondary md:col-span-1',
             layout === 'compact' ? 'md:col-start-3' : 'md:col-start-4',
           )}
         >
