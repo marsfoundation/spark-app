@@ -2,7 +2,7 @@ import { Address, parseEther, parseUnits } from 'viem'
 
 import { apiUrl } from '@/config/consts'
 import { AppConfig } from '@/config/feature-flags'
-import { recordEvent } from '@/domain/analytics'
+import { trackEvent } from '@/domain/analytics/mixpanel'
 import { createTenderlyFork } from '@/domain/sandbox/createTenderlyFork'
 import { tenderlyRpcActions } from '@/domain/tenderly/TenderlyRpcActions'
 import { BaseUnitNumber } from '@marsfoundation/common-universal'
@@ -33,7 +33,7 @@ export async function createSandbox(opts: {
     await tenderlyRpcActions.setTokenBalance(forkUrl, token.address, opts.userAddress, units)
   }
 
-  recordEvent('sandbox-created')
+  trackEvent('sandbox-created')
 
   return forkUrl
 }

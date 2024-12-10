@@ -16,6 +16,7 @@ import {
   persistActionsSettingsSlice,
   unPersistActionsSettingsSlice,
 } from './actions-settings'
+import { AnalyticsSlice, initAnalyticsSlice, persistAnalyticsSlice } from './analytics'
 import { BannersVisibilitySlice, initBannersVisibilitySlice, persistBannersVisibilitySlice } from './bannersVisibility'
 import { ComplianceSlice, PersistedComplianceSlice, initComplianceSlice, persistComplianceSlice } from './compliance'
 import { DialogSlice, initDialogSlice } from './dialogs'
@@ -34,6 +35,7 @@ export type StoreState = {
   SandboxSlice &
   ActionsSettingsSlice &
   ComplianceSlice &
+  AnalyticsSlice &
   SavingsSlice &
   BannersVisibilitySlice
 
@@ -47,6 +49,7 @@ export const storeImplementation = persist<StoreState, [], [], PersistedState>(
       ...initDialogSlice(...a),
       ...initActionsSettingsSlice(...a),
       ...initComplianceSlice(...a),
+      ...initAnalyticsSlice(...a),
       ...initSandboxSlice(...a),
       ...initSavingsSlice(...a),
       ...initBannersVisibilitySlice(...a),
@@ -60,6 +63,7 @@ export const storeImplementation = persist<StoreState, [], [], PersistedState>(
       ...persistSandboxSlice(state),
       ...persistActionsSettingsSlice(state),
       ...persistComplianceSlice(state),
+      ...persistAnalyticsSlice(state),
       ...persistSavingsSlice(state),
       ...persistBannersVisibilitySlice(state),
     }),
