@@ -59,7 +59,7 @@ function Ticks({ ticks }: TicksProps) {
       {ticks.map(({ label, x }) => (
         <div className="-translate-x-[50%] absolute flex flex-col items-center" style={{ left: `${x}%` }} key={x}>
           <div className="h-2 w-[1px] bg-neutral-600" />
-          {label && <div className="typography-body-6 text-secondary">{label}</div>}
+          {label && <div className="typography-body-4 text-secondary">{label}</div>}
         </div>
       ))}
     </div>

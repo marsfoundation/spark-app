@@ -153,7 +153,7 @@ export function AssetInput<TFieldValues extends FieldValues>({
             >
               MAX
             </button>
-            <div className={cn('typography-body-6 text-secondary', disabled && 'opacity-50')}>
+            <div className={cn('typography-body-4 text-secondary', disabled && 'opacity-50')}>
               {token.format(maxValue, { style: 'compact' })} {token.symbol}
             </div>
           </div>

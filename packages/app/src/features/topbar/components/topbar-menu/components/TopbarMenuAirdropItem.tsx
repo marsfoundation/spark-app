@@ -96,7 +96,7 @@ function TopbarMenuAirdropDialog({
         </MenuItem>
 
         <div className="flex flex-col gap-4 bg-secondary p-6">
-          <span className="typography-body-5 text-secondary">
+          <span className="typography-body-3 text-secondary">
             DAI borrowers with volatile assets and ETH depositors will be eligible for a future ⚡ SPK airdrop.
           </span>
 

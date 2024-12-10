@@ -32,7 +32,7 @@ export function TokenAmount({
             {/* @note: next line is need to maintain backward compatibility with e2e test - amount should include token symbol */}
             <span className="hidden"> {token.symbol}</span>
           </div>
-          <div className="typography-body-6 text-secondary" data-testid={usdAmountDataTestId}>
+          <div className="typography-body-4 text-secondary" data-testid={usdAmountDataTestId}>
             {formattedUsdAmount}
           </div>
         </div>
@@ -48,7 +48,7 @@ export function TokenAmount({
         <span className="hidden"> {token.symbol}</span>
       </div>
       <div />
-      <div className="typography-body-6 text-secondary" data-testid={usdAmountDataTestId}>
+      <div className="typography-body-4 text-secondary" data-testid={usdAmountDataTestId}>
         {formattedUsdAmount}
       </div>
     </div>

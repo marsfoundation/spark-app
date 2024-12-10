@@ -45,7 +45,7 @@ export function TransactionOverviewRoute({ route }: TransactionOverviewRouteProp
                 <div className="typography-label-4 text-primary" data-testid={item.upperTextDataTestId}>
                   {item.upperText}
                 </div>
-                <div className="typography-body-6 text-secondary" data-testid={item.lowerTextDataTestId}>
+                <div className="typography-body-4 text-secondary" data-testid={item.lowerTextDataTestId}>
                   {item.lowerText}
                 </div>
               </div>

@@ -101,7 +101,7 @@ function PointsFarmDetails({
           {isChroniclePointsFarm && <ChroniclePointsTooltip />}
         </div>
       </h2>
-      <div className="typography-body-5 text-tertiary">
+      <div className="typography-body-3 text-tertiary">
         {isChroniclePointsFarm && (
           <div className="mb-2">
             Chronicle is the original oracle on Ethereum built within MakerDAO for the creation of DAI. Today,
@@ -129,7 +129,7 @@ function TokenFarmDetails({ farm, assetsGroupType }: { farm: Farm; assetsGroupTy
         </span>{' '}
         in rewards
       </h2>
-      <div className="typography-body-5 text-tertiary">
+      <div className="typography-body-3 text-tertiary">
         {farm.apy?.gt(0) && (
           <>Deposit any of the tokens listed below and start farming {farm.rewardToken.symbol} tokens.</>
         )}

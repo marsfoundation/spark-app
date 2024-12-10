@@ -67,7 +67,7 @@ export function TopbarAirdropDropdown({
             )}
           </DropdownMenuItem>
           <DropdownMenuSeparator className="my-2" />
-          <DropdownMenuItem className="!typography-body-6 pointer-events-none py-2 text-secondary">
+          <DropdownMenuItem className="!typography-body-4 pointer-events-none py-2 text-secondary">
             DAI borrowers with volatile assets and ETH depositors will be eligible for a future ⚡ SPK airdrop.
           </DropdownMenuItem>
         </DropdownMenuGroup>

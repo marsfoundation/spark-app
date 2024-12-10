@@ -25,7 +25,7 @@ export function PageNotSupportedWarning({ pageName, openNetworkSelectDialog }: P
             <div className="typography-label-5 lg:typography-label-4 text-primary">
               {pageName} {pageName.endsWith('s') ? 'are' : 'is'} not supported on the network you are connected to.
             </div>
-            <div className="typography-body-5 text-secondary">
+            <div className="typography-body-3 text-secondary">
               Switch to other supported networks to unlock this page.
             </div>
           </div>

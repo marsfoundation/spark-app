@@ -23,7 +23,7 @@ export function TransactionOverviewFarmApy({ apy, rewardsPerYear, rewardToken }:
           </div>
         )}
         <div
-          className="typography-body-6 text-secondary"
+          className="typography-body-4 text-secondary"
           data-testid={testIds.farmDetails.stakeDialog.transactionOverview.estimatedRewards.description}
         >
           Earn ~{rewardToken.format(rewardsPerYear, { style: 'auto' })} {rewardToken.symbol}/year

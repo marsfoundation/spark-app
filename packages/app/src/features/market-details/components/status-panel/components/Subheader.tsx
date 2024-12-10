@@ -70,7 +70,7 @@ function Content({ children, variant }: ContentProps) {
   return <p className={cn(variants({ variant }), 'col-span-2 col-start-2 mt-1.5 mb-3')}>{children}</p>
 }
 
-const variants = cva('typography-body-6', {
+const variants = cva('typography-body-4', {
   variants: {
     variant: {
       orange: 'text-system-warning-primary',

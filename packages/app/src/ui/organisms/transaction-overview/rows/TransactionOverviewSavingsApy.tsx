@@ -23,7 +23,7 @@ export function TransactionOverviewSavingsApy({ apy, stableEarnRate, baseStable 
           </div>
         )}
         <div
-          className="typography-body-6 text-secondary"
+          className="typography-body-4 text-secondary"
           data-testid={testIds.dialog.savings.transactionOverview.apy.description}
         >
           Earn ~{baseStable.format(stableEarnRate, { style: 'auto' })} {baseStable.symbol}/year

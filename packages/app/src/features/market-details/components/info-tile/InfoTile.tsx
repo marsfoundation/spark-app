@@ -26,7 +26,7 @@ function Value({ children, 'data-testid': dataTestId, className }: InfoTileProps
   return (
     <div
       className={cn(
-        'typography-body-4 flex items-center gap-1 justify-self-end text-primary sm:min-h-[26px] sm:justify-self-start',
+        'typography-body-2 flex items-center gap-1 justify-self-end text-primary sm:min-h-[26px] sm:justify-self-start',
         className,
       )}
       data-testid={dataTestId}

@@ -73,7 +73,7 @@ export function TermsOfService({ onAgree }: TermsOfServiceProps) {
   return (
     <MultiPanelDialog>
       <div className="typography-heading-5">Terms of Service and Disclaimer</div>
-      <div className="typography-body-4">
+      <div className="typography-body-2">
         By using this site, I represent that I have read and agree to the <ToSLink /> and{' '}
         <Link to={links.privacyPolicy} variant="secondary" external>
           Privacy Policy
@@ -82,7 +82,7 @@ export function TermsOfService({ onAgree }: TermsOfServiceProps) {
       </div>
       <ScrollArea
         viewportRef={scrollAreaRef}
-        className="typography-body-4 h-64 rounded-sm bg-secondary pr-3 pl-2 text-primary shadow-inner"
+        className="typography-body-2 h-64 rounded-sm bg-secondary pr-3 pl-2 text-primary shadow-inner"
         type="always"
       >
         <div className="grid grid-cols-[auto_1fr] gap-4">

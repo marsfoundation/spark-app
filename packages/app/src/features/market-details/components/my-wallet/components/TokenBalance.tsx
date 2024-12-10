@@ -14,7 +14,7 @@ export function TokenBalance({ token, balance }: TokenBalanceProps) {
       <p className="typography-label-6 text-secondary">Balance:</p>
       <div className="flex items-center">
         <TokenIcon token={token} className="mr-2 h-6 w-6" />
-        <p className="typography-body-3 text-primary" data-testid={testIds.marketDetails.walletPanel.balance}>
+        <p className="typography-body-1 text-primary" data-testid={testIds.marketDetails.walletPanel.balance}>
           {token.format(balance, { style: 'auto' })} {token.symbol}
         </p>
       </div>

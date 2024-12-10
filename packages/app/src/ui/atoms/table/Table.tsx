@@ -4,7 +4,7 @@ import { cn } from '@/ui/utils/style'
 
 const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableElement>>(
   ({ className, ...props }, ref) => (
-    <table ref={ref} className={cn('typography-body-5 w-full caption-bottom', className)} {...props} />
+    <table ref={ref} className={cn('typography-body-3 w-full caption-bottom', className)} {...props} />
   ),
 )
 Table.displayName = 'Table'

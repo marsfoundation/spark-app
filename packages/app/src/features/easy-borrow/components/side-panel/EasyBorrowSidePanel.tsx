@@ -28,7 +28,7 @@ export function EasyBorrowSidePanel({ hf, liquidationDetails, borrowRate, dai, u
           >
             {formatPercentage(borrowRate, { skipSign: true })}%
           </h3>
-          <div className="typography-body-5">
+          <div className="typography-body-3">
             Borrow {dai}
             {usds ? ` or ${usds}` : ''} directly from SKY
           </div>

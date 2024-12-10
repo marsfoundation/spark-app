@@ -23,7 +23,7 @@ function TransactionOverview({ children, showSkyBadge = false }: TransactionOver
   return (
     <section className="flex flex-col gap-2">
       <div className="flex items-center justify-between">
-        <h5 className="typography-body-5 text-secondary">Transaction overview</h5>
+        <h5 className="typography-body-3 text-secondary">Transaction overview</h5>
         {showSkyBadge && (
           <div className="flex items-center gap-1.5">
             <img src={assets.token.sky} className="icon-xs" />
