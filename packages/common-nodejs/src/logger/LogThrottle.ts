@@ -1,4 +1,4 @@
-import { LogLevel } from './LogLevel'
+import { LogLevel } from './LogLevel.js'
 
 export interface Printer {
   print(logLevel: LogLevel, service: string | undefined, message: string | undefined, parameters: object): void

@@ -5,6 +5,7 @@ export * from './types/CheckedAddress'
 export * from './types/Hash'
 export * from './types/Hex'
 export * from './types/UnixTime'
+export * from './types/PrivateKey'
 
 export * from './math/bigNumber'
 export * from './math/hexUtils'

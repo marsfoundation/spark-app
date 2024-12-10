@@ -1,5 +1,5 @@
-import { LogLevel } from './LogLevel'
-import { ResolvedError } from './resolveError'
+import { LogLevel } from './LogLevel.js'
+import { ResolvedError } from './resolveError.js'
 
 export interface LoggerTransport {
   debug(message: string): void

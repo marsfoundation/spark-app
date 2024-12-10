@@ -35,7 +35,7 @@
     "test": "mocha src/**/*.test.ts",
     "typecheck": "tsc --noEmit",
     "build:cjs": "tsc -p tsconfig.cjs.json",
-    "build:esm": "tsup-node --format esm -d ./dist/esm ./src/index.ts",
+    "build:esm": "tsc -p tsconfig.esm.json",
     "build": "pnpm run build:cjs && pnpm run build:esm",
     "clean": "rm -rf dist",
     "prepublishOnly": "pnpm run clean && pnpm run build"

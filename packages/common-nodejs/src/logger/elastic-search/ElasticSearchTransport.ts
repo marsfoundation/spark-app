@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
-import { LoggerTransport } from '../types'
-import { formatDate } from '../utils'
-import { ElasticSearchClient, ElasticSearchClientOptions } from './ElasticSearchClient'
+import { LoggerTransport } from '../types.js'
+import { formatDate } from '../utils.js'
+import { ElasticSearchClient, ElasticSearchClientOptions } from './ElasticSearchClient.js'
 
 export interface ElasticSearchTransportOptions extends ElasticSearchClientOptions {
   flushInterval?: number

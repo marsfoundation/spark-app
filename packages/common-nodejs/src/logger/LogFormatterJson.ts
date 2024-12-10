@@ -1,5 +1,5 @@
-import { LogEntry, LogFormatter } from './types'
-import { toJSON } from './utils'
+import { LogEntry, LogFormatter } from './types.js'
+import { toJSON } from './utils.js'
 
 export class LogFormatterJson implements LogFormatter {
   public format(entry: LogEntry): string {

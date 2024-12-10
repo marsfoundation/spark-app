@@ -1,14 +1,14 @@
 import { join } from 'node:path'
 
 import { assertNever } from '@marsfoundation/common-universal'
-import { LogFormatterJson } from './LogFormatterJson'
-import { LogFormatterPretty } from './LogFormatterPretty'
-import { LEVEL, LogLevel } from './LogLevel'
-import { LogThrottle, LogThrottleOptions } from './LogThrottle'
-import { parseLogArguments } from './parseLogArguments'
-import { resolveError } from './resolveError'
-import { tagService } from './tagService'
-import { LogEntry, LoggerOptions } from './types'
+import { LogFormatterJson } from './LogFormatterJson.js'
+import { LogFormatterPretty } from './LogFormatterPretty.js'
+import { LEVEL, LogLevel } from './LogLevel.js'
+import { LogThrottle, LogThrottleOptions } from './LogThrottle.js'
+import { parseLogArguments } from './parseLogArguments.js'
+import { resolveError } from './resolveError.js'
+import { tagService } from './tagService.js'
+import { LogEntry, LoggerOptions } from './types.js'
 
 /**
  * [Read full documentation](https://github.com/l2beat/tools/blob/master/packages/backend-tools/src/logger/docs.md)

@@ -5,25 +5,46 @@
     "node": ">=18.0.0"
   },
   "type": "module",
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
-  "types": "./dist/types/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/marsfoundation/spark-app.git",
     "directory": "packages/common-nodejs"
   },
   "exports": {
-    ".": {
+    "./env": {
       "import": {
-        "@marsfoundation/local-spark-monorepo": "./src/index.ts",
-        "types": "./dist/types/index.d.ts",
-        "default": "./dist/esm/index.js"
+        "@marsfoundation/local-spark-monorepo": "./src/env/index.ts",
+        "types": "./dist/types/env/index.d.ts",
+        "default": "./dist/esm/env/index.js"
       },
       "require": {
-        "@marsfoundation/local-spark-monorepo": "./src/index.ts",
-        "types": "./dist/types/index.d.ts",
-        "default": "./dist/cjs/index.js"
+        "@marsfoundation/local-spark-monorepo": "./src/env/index.ts",
+        "types": "./dist/types/env/index.d.ts",
+        "default": "./dist/cjs/env/index.js"
+      }
+    },
+    "./logger": {
+      "import": {
+        "@marsfoundation/local-spark-monorepo": "./src/logger/index.ts",
+        "types": "./dist/types/logger/index.d.ts",
+        "default": "./dist/esm/logger/index.js"
+      },
+      "require": {
+        "@marsfoundation/local-spark-monorepo": "./src/logger/index.ts",
+        "types": "./dist/types/logger/index.d.ts",
+        "default": "./dist/cjs/logger/index.js"
+      }
+    },
+    "./tracer": {
+      "import": {
+        "@marsfoundation/local-spark-monorepo": "./src/tracer/index.ts",
+        "types": "./dist/types/tracer/index.d.ts",
+        "default": "./dist/esm/tracer/index.js"
+      },
+      "require": {
+        "@marsfoundation/local-spark-monorepo": "./src/tracer/index.ts",
+        "types": "./dist/types/tracer/index.d.ts",
+        "default": "./dist/cjs/tracer/index.js"
       }
     }
   },
@@ -35,7 +56,7 @@
     "test": "mocha src/**/*.test.ts",
     "typecheck": "tsc --noEmit",
     "build:cjs": "tsc -p tsconfig.cjs.json",
-    "build:esm": "tsup-node --format esm -d ./dist/esm ./src/index.ts",
+    "build:esm": "tsc -p tsconfig.esm.json",
     "build": "pnpm run build:cjs && pnpm run build:esm",
     "clean": "rm -rf dist",
     "prepublishOnly": "pnpm run clean && pnpm run build"
@@ -55,7 +76,14 @@
     "dotenv": "^16.3.1",
     "error-stack-parser": "^2.1.4",
     "pretty-ms": "^9.2.0",
-    "@elastic/elasticsearch": "^8.16.2",
     "uuid": "^11.0.3"
+  },
+  "peerDependencies": {
+    "@elastic/elasticsearch": "^8.16.2"
+  },
+  "peerDependenciesMeta": {
+    "@elastic/elasticsearch": {
+      "optional": true
+    }
   }
 }
