@@ -413,32 +413,32 @@ export default {
     plugin(({ addUtilities, theme }) => {
       addUtilities({
         '.typography-display-1': {
-          fontSize: '2.375rem', // 38px
-          lineHeight: '2.375rem', // 38px
+          fontSize: '4.5rem', // 72px
+          lineHeight: '4.5rem', // 72px
           letterSpacing: 'calc(-2 * 0.01em)',
           fontWeight: '500',
           fontFamily: theme('fontFamily.roobert'),
         },
 
         '.typography-display-2': {
-          fontSize: '1.875rem', // 30px
-          lineHeight: '1.875rem', // 30px
+          fontSize: '3.5rem', // 56px
+          lineHeight: '3.5rem', // 56px
           letterSpacing: 'calc(-2 * 0.01em)',
           fontWeight: '500',
           fontFamily: theme('fontFamily.roobert'),
         },
 
         '.typography-display-3': {
-          fontSize: '1.5rem', // 24px
-          lineHeight: '1.5rem', // 24px
+          fontSize: '3rem', // 48px
+          lineHeight: '3.75rem', // 60px
           letterSpacing: 'calc(-1 * 0.01em)',
           fontWeight: '500',
           fontFamily: theme('fontFamily.roobert'),
         },
 
         '.typography-heading-1': {
-          fontSize: '2.625rem', // 42px
-          lineHeight: '3rem', // 48px
+          fontSize: '2.25rem', // 36px
+          lineHeight: '2.625rem', // 42px
           letterSpacing: 'calc(-1 * 0.01em)',
           fontWeight: '500',
           fontFamily: theme('fontFamily.roobert'),
@@ -471,22 +471,6 @@ export default {
         '.typography-heading-5': {
           fontSize: '1.125rem', // 18px
           lineHeight: '1.25rem', // 20px
-          letterSpacing: 'calc(-1 * 0.01em)',
-          fontWeight: '500',
-          fontFamily: theme('fontFamily.roobert'),
-        },
-
-        '.typography-heading-6': {
-          fontSize: '0.875rem', // 14px
-          lineHeight: '1rem', // 20px
-          letterSpacing: 'calc(-1 * 0.01em)',
-          fontWeight: '500',
-          fontFamily: theme('fontFamily.roobert'),
-        },
-
-        '.typography-heading-7': {
-          fontSize: '0.75rem', // 12px
-          lineHeight: '0.875rem', // 14px
           letterSpacing: 'calc(-1 * 0.01em)',
           fontWeight: '500',
           fontFamily: theme('fontFamily.roobert'),

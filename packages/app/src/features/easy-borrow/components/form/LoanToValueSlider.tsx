@@ -95,7 +95,7 @@ export function LoanToValueSlider({
                 left: `${(maxSelectableValue / maxSliderValue) * 100}%`,
               }}
             />
-            <div className="typography-heading-7 absolute bottom-7 bg-gradient-spark-primary bg-clip-text text-transparent">
+            <div className="typography-label-4 absolute bottom-7 bg-gradient-spark-primary bg-clip-text text-transparent">
               {formatPercentage(liquidationLtv)}
             </div>
           </div>
