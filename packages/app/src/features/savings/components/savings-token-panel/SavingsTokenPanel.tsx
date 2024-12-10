@@ -83,7 +83,7 @@ export function SavingsTokenPanel({
         balanceRefreshIntervalInMs={balanceRefreshIntervalInMs}
         savingsType={savingsType}
       />
-      <div className="flex divide-x divide-reskin-fg-secondary">
+      <div className="flex divide-x divide-fg-secondary">
         <SavingsInfoTile>
           <SavingsInfoTile.Label tooltipContent="This is an estimate of what you could earn in 30 days.">
             <div className="hidden lg:block">30-day projection</div>

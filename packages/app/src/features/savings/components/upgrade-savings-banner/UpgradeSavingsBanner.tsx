@@ -31,7 +31,7 @@ export function UpgradeSavingsBanner({ onUpgradeSavingsClick, apyImprovement }: 
           'lg:grid-cols-[1fr_1fr_auto] md:grid-cols-[1fr_1fr] md:grid-rows-1 sm:gap-y-3 sm:pr-8',
         )}
       >
-        <div className="typography-heading-6 sm:typography-heading-5 justify-self-end text-primary">
+        <div className="typography-label-2 sm:typography-heading-5 justify-self-end text-primary">
           Upgrade your <span className="text-[#76C14A]">Savings DAI</span> to{' '}
           <span className="text-system-success-primary">Savings USDS</span>
           <span className="hidden sm:inline"> and unlock the full potential of the Sky ecosystem.</span>
@@ -62,8 +62,8 @@ export function UpgradeSavingsBanner({ onUpgradeSavingsClick, apyImprovement }: 
 function Benefit({ children }: { children: ReactNode }) {
   return (
     <div className="flex items-center gap-2">
-      <CheckIcon className="icon-xs shrink-0 text-system-success-primary" />
-      <div className="typography-label-5">{children}</div>
+      <CheckIcon className="icon-xs icon-system-success-primary shrink-0" />
+      <div className="typography-label-3">{children}</div>
     </div>
   )
 }

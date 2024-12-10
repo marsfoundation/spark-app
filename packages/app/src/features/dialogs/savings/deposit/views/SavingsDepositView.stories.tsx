@@ -116,7 +116,7 @@ export const WithSUSDSSwitchMobile = getMobileStory(WithSUSDSSwitch)
 export const WithSUSDSSwitchTablet = getTabletStory(WithSUSDSSwitch)
 
 export const WithBenefitsDrawerOpened: Story = {
-  decorators: [WithWrappingDialog()],
+  decorators: [WithWrappingDialog(), WithClassname('min-h-[900px]')],
   args: {
     savingsUsdsSwitchInfo: {
       showSwitch: true,

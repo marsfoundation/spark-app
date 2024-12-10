@@ -26,7 +26,7 @@ export function TransactionOverviewHealthFactorChange({
           <HealthFactorBadge healthFactor={currentHealthFactor} data-testid={testIds.dialog.healthFactor.before} />
           {updatedHealthFactor && (
             <>
-              <MoveRightIcon className="icon-xxs text-secondary" />
+              <MoveRightIcon className="icon-xxs icon-secondary" />
               <HealthFactorBadge healthFactor={updatedHealthFactor} data-testid={testIds.dialog.healthFactor.after} />
             </>
           )}
@@ -53,7 +53,7 @@ function HealthFactorBadge({ healthFactor, 'data-testid': dataTestId }: HealthFa
       <Badge appearance="solid" size="xs" variant={riskLevelToStateVariant[riskLevel]}>
         {title}
       </Badge>
-      <div className="typography-label-4 text-primary">{formatHealthFactor(healthFactor)}</div>
+      <div className="typography-label-2 text-primary">{formatHealthFactor(healthFactor)}</div>
     </div>
   )
 }

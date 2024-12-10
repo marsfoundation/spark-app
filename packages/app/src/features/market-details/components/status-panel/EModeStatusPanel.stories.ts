@@ -36,19 +36,18 @@ export const ETHTablet: Story = {
   name: 'ETH Correlated (Tablet)',
 }
 
-export const DAIDesktop: Story = {
-  name: 'DAI Correlated',
+export const SdaiDesktop: Story = {
+  name: 'sDAI Correlated',
   args: {
     categoryId: 2,
-    token: tokens.sDAI,
     eModeCategoryTokens: [tokens.sDAI.symbol, tokens.USDC.symbol, tokens.USDT.symbol],
   },
 }
-export const DAIMobile: Story = {
-  ...getMobileStory(DAIDesktop),
-  name: 'DAI Correlated (Mobile)',
+export const SdaiMobile: Story = {
+  ...getMobileStory(SdaiDesktop),
+  name: 'sDAI Correlated (Mobile)',
 }
-export const DAITablet: Story = {
-  ...getTabletStory(DAIDesktop),
-  name: 'DAI Correlated (Tablet)',
+export const SdaiTablet: Story = {
+  ...getTabletStory(SdaiDesktop),
+  name: 'sDAI Correlated (Tablet)',
 }

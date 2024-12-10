@@ -10,7 +10,7 @@ export function FrozenPill({ 'data-testid': dataTestId }: FrozenPillProps) {
   return (
     <Tooltip>
       <TooltipTrigger className="flex">
-        <IconPill icon={assets.snowflake} className="border-none bg-blue-50" data-testid={dataTestId} />
+        <IconPill icon={assets.snowflake} className="border-none bg-brand-primary" data-testid={dataTestId} />
       </TooltipTrigger>
       <TooltipContent variant="long">
         <TooltipContentLayout>

@@ -36,7 +36,7 @@ export function StablecoinsInWallet({
         header: 'Balance',
         headerAlign: 'right',
         renderCell: ({ balance, token }) => (
-          <div className="typography-label-4 flex w-full flex-row justify-end">
+          <div className="typography-label-2 flex w-full flex-row justify-end">
             {balance.eq(0) ? '-' : token.format(balance, { style: 'auto' })}
           </div>
         ),
@@ -84,8 +84,8 @@ export function StablecoinsInWallet({
             <div className="flex items-center gap-3">
               <img src={uiAssets.token.sky} className="h-8 w-8 rounded-full border-2 border-[#DBCAF4]" />
               <div className="flex flex-col">
-                <div className="font-semibold text-primary text-sm">Convert stablecoins without fees and slippage!</div>
-                <div className="text-prompt-foreground text-xs">
+                <div className="typography-label-3 text-primary">Convert stablecoins without fees and slippage!</div>
+                <div className="typography-body-4 text-secondary">
                   Use SKY infrastructure to convert between supported stablecoins.
                 </div>
               </div>

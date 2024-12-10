@@ -15,15 +15,15 @@ export const AddressInput = forwardRef<HTMLInputElement, AddressInputProps>(
   ({ error, blockExplorerUrl, label, ...rest }, ref) => {
     return (
       <div className="flex flex-col gap-2">
-        {label && <div className="typography-label-5 text-secondary">{label}</div>}
+        {label && <div className="typography-label-3 text-secondary">{label}</div>}
         <div
           className={cn(
             'grid h-14 grid-cols-[1fr_auto] gap-2',
-            'typography-label-6 sm:typography-label-4 text-primary',
+            'typography-label-4 sm:typography-label-2 text-primary',
             'rounded-sm border border-primary bg-secondary',
             'focus-within:border-brand-primary',
             'items-center rounded-sm px-3 sm:px-4',
-            error && 'border-reskin-error-200 bg-system-error-primary',
+            error && 'border-error-200 bg-system-error-primary',
           )}
         >
           <input
@@ -44,7 +44,7 @@ export const AddressInput = forwardRef<HTMLInputElement, AddressInputProps>(
         </div>
         {error && (
           <div
-            className="typography-label-6 text-system-error-primary"
+            className="typography-label-4 text-system-error-primary"
             data-testid={testIds.component.AddressInput.error}
           >
             {error}

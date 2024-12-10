@@ -28,15 +28,15 @@ export const CopyButton = forwardRef<HTMLButtonElement, CopyButtonProps>(
             aria-label={`Copy "${text}" to clipboard`}
             className={cn(
               'aspect-square rounded-sm bg-transparent px-2 text-secondary transition-colors',
-              'active:bg-reskin-neutral-100 focus-visible:bg-reskin-base-white hover:bg-reskin-neutral-50',
-              'focus-visible:text-reskin-neutral-950 hover:text-brand-primary focus-visible:outline-none',
-              'focus-visible:ring focus-visible:ring-reskin-primary-200 focus-visible:ring-offset-0',
+              'active:bg-neutral-100 focus-visible:bg-primary hover:bg-neutral-50',
+              'focus-visible:text-neutral-950 hover:text-brand-primary focus-visible:outline-none',
+              'focus-visible:ring focus-visible:ring-primary-200 focus-visible:ring-offset-0',
             )}
             ref={ref}
             {...props}
           >
             {copied ? (
-              <CheckIcon className="icon-xxs animate-reveal text-system-success-primary" />
+              <CheckIcon className="icon-xxs icon-system-success-primary animate-reveal" />
             ) : (
               // @note it prevents icon from being animated on initial render
               <CopyIcon className={cn('icon-xxs', mounted && 'animate-reveal')} />

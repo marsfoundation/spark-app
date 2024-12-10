@@ -21,8 +21,8 @@ export function SparkAirdropInfoPanel({ variant, eligibleToken }: SparkAirdropIn
     >
       <img src={assets.sparkIcon} alt="Spark logo" className="h-[2.75rem]" />
       <div className="flex flex-col gap-1">
-        <h4 className="typography-label-3 text-primary">Eligible for Spark Airdrop</h4>
-        <p className="typography-label-6 text-secondary">
+        <h4 className="typography-label-1 text-primary">Eligible for Spark Airdrop</h4>
+        <p className="typography-label-4 text-secondary">
           {eligibleToken} {participants} will be eligible for a future ⚡&nbsp;SPK airdrop. Please read the details on
           the{' '}
           <Link to={links.docs.sparkAirdrop} external>

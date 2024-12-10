@@ -10,24 +10,24 @@ const Switch = React.forwardRef<
   <SwitchPrimitives.Root
     className={cn(
       'group padding-2 inline-flex h-5 w-9 shrink-0 items-center rounded-xxs transition-all ',
-      'data-[state=checked]:bg-reskin-fg-system-success-primary',
+      'data-[state=checked]:bg-fg-system-success-primary',
       'data-[state=unchecked]:bg-secondary',
-      'data-[state=unchecked]:ring-1 data-[state=unchecked]:ring-reskin-neutral-100',
+      'data-[state=unchecked]:ring-1 data-[state=unchecked]:ring-neutral-100',
       // hover
-      'hover:data-[state=checked]:bg-reskin-fg-system-success-secondary',
-      'hover:data-[state=unchecked]:bg-tertiary hover:data-[state=unchecked]:ring-reskin-neutral-300',
+      'hover:data-[state=checked]:bg-fg-system-success-secondary',
+      'hover:data-[state=unchecked]:bg-tertiary hover:data-[state=unchecked]:ring-neutral-300',
       // focus
       'focus-visible:data-[state=checked]:outline focus-visible:data-[state=checked]:outline-1 focus-visible:data-[state=checked]:outline-system-success-secondary',
-      'focus-visible:data-[state=checked]:ring-4 focus-visible:data-[state=checked]:ring-reskin-success-200',
+      'focus-visible:data-[state=checked]:ring-4 focus-visible:data-[state=checked]:ring-success-200',
       'focus-visible:data-[state=unchecked]:outline focus-visible:data-[state=unchecked]:outline-1 focus-visible:data-[state=unchecked]:outline-brand-primary',
-      'focus-visible:data-[state=unchecked]:ring-4 focus-visible:data-[state=unchecked]:ring-reskin-primary-200',
+      'focus-visible:data-[state=unchecked]:ring-4 focus-visible:data-[state=unchecked]:ring-primary-200',
       // active (pressed)
-      'active:data-[state=checked]:bg-reskin-success-400 active:data-[state=checked]:ring-0',
-      'active:data-[state=unchecked]:bg-primary active:data-[state=unchecked]:ring-reskin-neutral-100',
+      'active:data-[state=checked]:bg-success-400 active:data-[state=checked]:ring-0',
+      'active:data-[state=unchecked]:bg-primary active:data-[state=unchecked]:ring-neutral-100',
       // disabled
       'disabled:cursor-not-allowed',
-      'disabled:data-[state=checked]:bg-reskin-fg-system-success-secondary/30 disabled:data-[state=checked]:ring-0',
-      'disabled:data-[state=unchecked]:bg-primary disabled:data-[state=unchecked]:ring-reskin-neutral-100',
+      'disabled:data-[state=checked]:bg-fg-system-success-secondary/30 disabled:data-[state=checked]:ring-0',
+      'disabled:data-[state=unchecked]:bg-primary disabled:data-[state=unchecked]:ring-neutral-100',
       className,
     )}
     {...props}
@@ -42,9 +42,9 @@ const Switch = React.forwardRef<
         'data-[state=checked]:translate-x-[18px]',
         'data-[state=checked]:shadow-md',
         // active (pressed)
-        'group-active:data-[state=unchecked]:bg-reskin-fg-tertiary',
+        'group-active:data-[state=unchecked]:bg-fg-tertiary',
         // disabled
-        'group-disabled:data-[state=unchecked]:bg-reskin-fg-secondary-inverse',
+        'group-disabled:data-[state=unchecked]:bg-fg-secondary-inverse',
       )}
     />
   </SwitchPrimitives.Root>

@@ -38,7 +38,7 @@ export function Borrow({
     <Panel className="flex flex-col" data-testid={testIds.easyBorrow.form.borrow} spacing="none">
       <Panel className={cn('flex flex-1 flex-col gap-4 bg-primary', showTokenSummary && 'rounded-b-none')}>
         <div className="flex items-center justify-between">
-          <h4 className="typography-label-2 h-8 text-primary">Borrow</h4>
+          <h4 className="typography-heading-5 h-8 text-primary">Borrow</h4>
           {pageStatus.state === 'confirmation' && (
             <IconButton onClick={pageStatus.onProceedToForm} variant="transparent" size="l" icon={XIcon} />
           )}

@@ -42,15 +42,15 @@ export function TransactionOverviewRoute({ route }: TransactionOverviewRouteProp
               />
             ) : (
               <div className="flex flex-col items-end gap-1.5">
-                <div className="typography-label-4 text-primary" data-testid={item.upperTextDataTestId}>
+                <div className="typography-label-2 text-primary" data-testid={item.upperTextDataTestId}>
                   {item.upperText}
                 </div>
-                <div className="typography-body-6 text-secondary" data-testid={item.lowerTextDataTestId}>
+                <div className="typography-body-4 text-secondary" data-testid={item.lowerTextDataTestId}>
                   {item.lowerText}
                 </div>
               </div>
             )}
-            {index !== route.length - 1 && <MoveRightIcon className="icon-xxs mt-[3px] flex-shrink-0 text-secondary" />}
+            {index !== route.length - 1 && <MoveRightIcon className="icon-xxs icon-secondary mt-[3px] flex-shrink-0" />}
           </Fragment>
         ))}
       </div>
@@ -62,7 +62,7 @@ export function TransactionOverviewRoutePlaceholder({ className, ...rest }: HTML
   return (
     <div
       {...rest}
-      className={cn('typography-label-4 flex min-h-[42px] flex-col justify-center text-primary', className)}
+      className={cn('typography-label-2 flex min-h-[42px] flex-col justify-center text-primary', className)}
     />
   )
 }

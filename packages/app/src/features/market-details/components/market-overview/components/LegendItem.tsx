@@ -15,7 +15,7 @@ function LegendItem({ variant, children }: LegendItemProps) {
   return (
     <div className="flex items-center gap-1.5" role="listitem">
       <LegendItemBadge variant={variant} />
-      <div className="typography-label-5 text-primary-inverse">{children}</div>
+      <div className="typography-label-3 text-primary-inverse">{children}</div>
     </div>
   )
 }
@@ -24,8 +24,8 @@ const legendItemBadgeVariants = cva('flex items-center gap-1 rounded-xs px-1.5 p
   variants: {
     variant: {
       borrowed: 'bg-[#F76D36]/15 text-feature-borrow-primary',
-      'instantly-available': 'bg-[#0FEFC5]/25 text-reskin-fg-system-success-primary',
-      'sky-capacity': 'bg-[#6A4DFF]/25 text-reskin-fg-brand-secondary',
+      'instantly-available': 'bg-[#0FEFC5]/25 text-fg-system-success-primary',
+      'sky-capacity': 'bg-[#6A4DFF]/25 text-fg-brand-secondary',
     },
   },
 })
@@ -46,7 +46,7 @@ function LegendItemBadge({ variant }: { variant: LegendItemVariant }) {
   return (
     <div className={legendItemBadgeVariants({ variant })}>
       <Circle size={6} fill="currentColor" />
-      <div className="typography-label-6">{badgeText}</div>
+      <div className="typography-label-4">{badgeText}</div>
     </div>
   )
 }

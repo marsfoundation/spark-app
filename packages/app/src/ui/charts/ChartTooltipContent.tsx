@@ -3,7 +3,7 @@ import { ReactNode } from 'react'
 
 export function ChartTooltipContent({ children: [date, value] }: { children: ReactNode[] }) {
   return (
-    <div className="flex flex-col gap-3 rounded-xl border border-slate-700/10 bg-white p-3 shadow">
+    <div className="flex flex-col gap-1.5 rounded-sm bg-primary-inverse p-3">
       {date}
       {value}
     </div>
@@ -11,12 +11,12 @@ export function ChartTooltipContent({ children: [date, value] }: { children: Rea
 }
 
 function TooltipDate({ children }: { children: ReactNode }) {
-  return <div className="flex flex-col gap-3 text-slate-500 text-xs leading-none">{children}</div>
+  return <div className="typography-label-4 flex flex-col gap-3 text-secondary">{children}</div>
 }
 
 function TooltipValue({ children, dotColor }: { children: ReactNode; dotColor: string }) {
   return (
-    <div className="flex items-center gap-1.5 text-sm leading-none">
+    <div className="typography-label-2 flex items-center gap-1.5 text-primary-inverse">
       <Circle size={8} fill={dotColor} stroke="0" />
       <div>{children}</div>
     </div>

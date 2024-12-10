@@ -30,9 +30,11 @@ export function AssetNameCell({ token, reserveStatus, 'data-testid': dataTestId 
           </ColorFilter>
         </div>
       )}
-      <div className="flex min-w-0 flex-col">
-        <TokenName token={token} className={cn(isPaused && 'text-red-600')} />
-        <p className={cn('text-slate-500 text-sx leading-none', isPaused && 'text-red-300')}>{token.symbol}</p>
+      <div className="flex min-w-0 flex-col xl:flex-row xl:items-baseline xl:gap-2">
+        <TokenName token={token} className={cn(isPaused && 'text-system-error-secondary')} />
+        <p className={cn('typography-label-4 text-secondary', isPaused && 'text-system-error-secondary/60')}>
+          {token.symbol}
+        </p>
       </div>
       {isFrozen && <FrozenPill data-testid={testIds.markets.frozenPill} />}
       {isPaused && <PausedPill data-testid={testIds.markets.pausedPill} />}
@@ -51,7 +53,7 @@ export function TokenName({ token, className }: TokenNameProps) {
   return (
     <Tooltip open={!isTruncated ? false : undefined}>
       <TooltipTrigger asChild>
-        <p className={cn('truncate font-semibold text-base lg:text-base md:text-sm', className)} ref={tokenNameRef}>
+        <p className={cn('typography-label-2 truncate', className)} ref={tokenNameRef}>
           {token.name}
         </p>
       </TooltipTrigger>

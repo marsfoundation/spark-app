@@ -39,8 +39,8 @@ export function IconStack({
       {omittedLength > 0 && (
         <div
           className={cn(
-            'flex items-center justify-center rounded-full bg-reskin-primary-600 text-primary-inverse',
-            size === 'base' ? 'typography-label-6' : 'typography-label-4',
+            'flex items-center justify-center rounded-full bg-primary-600 text-primary-inverse',
+            size === 'base' ? 'typography-label-4' : 'typography-label-2',
             iconVariants({ size }),
           )}
         >

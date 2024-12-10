@@ -44,7 +44,7 @@ export function GrowingReward({ rewardToken, calculateReward, refreshIntervalInM
         )}
       </div>
       {rewardToken.unitPriceUsd.gt(0) && (
-        <div className="typography-label-4 col-start-2 ml-1.5 text-primary-inverse">
+        <div className="typography-label-2 col-start-2 ml-1.5 text-primary-inverse">
           &#8776;
           <span data-testid={testIds.farmDetails.activeFarmInfoPanel.rewardsUsd}>
             {rewardToken.formatUSD(currentReward)}

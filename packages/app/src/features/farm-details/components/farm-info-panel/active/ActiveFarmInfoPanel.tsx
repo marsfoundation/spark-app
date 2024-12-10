@@ -98,22 +98,22 @@ export function ActiveFarmInfoPanel({
           </DelayedComponent>
         )}
       </div>
-      <div className="flex divide-x divide-reskin-fg-secondary">
+      <div className="flex divide-x divide-fg-secondary">
         {farm.depositors && (
           <DetailsItem title="Participants">
-            <div className="typography-label-5 lg:typography-label-3 xl:typography-label-2 text-primary-inverse">
+            <div className="typography-label-3 lg:typography-label-1 xl:typography-heading-5 text-primary-inverse">
               {farm.depositors}
             </div>
           </DetailsItem>
         )}
         <DetailsItem title="TVL">
-          <div className="typography-label-5 lg:typography-label-3 xl:typography-label-2 text-primary-inverse">
+          <div className="typography-label-3 lg:typography-label-1 xl:typography-heading-5 text-primary-inverse">
             {USD_MOCK_TOKEN.formatUSD(farm.totalSupply, { compact: true })}
           </div>
         </DetailsItem>
         {farm.apy?.gt(0) && (
           <DetailsItem title="APY" explainer={<ApyTooltip farmAddress={farm.address} />}>
-            <div className="typography-label-5 lg:typography-label-3 xl:typography-label-2 text-feature-farms-primary">
+            <div className="typography-label-3 lg:typography-label-1 xl:typography-heading-5 text-feature-farms-primary">
               {formatPercentage(farm.apy, { minimumFractionDigits: 0 })}
             </div>
           </DetailsItem>
@@ -121,7 +121,7 @@ export function ActiveFarmInfoPanel({
         <DetailsItem title="My Deposit">
           <div
             className={cn(
-              'typography-label-5 lg:typography-label-3 xl:typography-label-2',
+              'typography-label-3 lg:typography-label-1 xl:typography-heading-5',
               'flex items-center gap-1 text-primary-inverse lg:gap-1.5',
             )}
             data-testid={testIds.farmDetails.activeFarmInfoPanel.staked}

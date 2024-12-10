@@ -20,13 +20,13 @@ export function UpgradeToSusdsSwitch({
   apyImprovement,
 }: UpgradeToSusdsSwitchProps) {
   return (
-    <div className="flex w-full items-center justify-between rounded-sm bg-reskin-green-100 px-4 py-5">
+    <div className="flex w-full items-center justify-between rounded-sm bg-savings-100 px-4 py-5">
       <div className="flex items-center gap-2">
         <img src={assets.token.susds} className="h-5" />
-        <div className="typography-label-4 text-primary">
+        <div className="typography-label-2 text-primary">
           Deposit into Savings USDS and get{' '}
           {apyImprovement ? (
-            <span className="text-reskin-green-600">{formatPercentage(apyImprovement)} higher APY</span>
+            <span className="text-savings-600">{formatPercentage(apyImprovement)} higher APY</span>
           ) : (
             'more!'
           )}

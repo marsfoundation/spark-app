@@ -107,7 +107,7 @@ export function HealthFactorGauge({ value, className }: HealthFactorGaugeProps) 
             fill="none"
           />
 
-          <text x="65" y="200" fill="#908E9E" textAnchor="middle" className="typography-label-6">
+          <text x="65" y="200" fill="#908E9E" textAnchor="middle" className="typography-label-4">
             1
           </text>
           <text
@@ -116,7 +116,7 @@ export function HealthFactorGauge({ value, className }: HealthFactorGaugeProps) 
             fill="#908E9E"
             textAnchor="middle"
             dominantBaseline="middle"
-            className="typography-label-6"
+            className="typography-label-4"
           >
             1.5
           </text>
@@ -126,7 +126,7 @@ export function HealthFactorGauge({ value, className }: HealthFactorGaugeProps) 
             fill="#908E9E"
             textAnchor="middle"
             dominantBaseline="middle"
-            className="typography-label-6"
+            className="typography-label-4"
           >
             2
           </text>
@@ -136,7 +136,7 @@ export function HealthFactorGauge({ value, className }: HealthFactorGaugeProps) 
             fill="#908E9E"
             textAnchor="middle"
             dominantBaseline="middle"
-            className="typography-label-6"
+            className="typography-label-4"
           >
             2.5
           </text>
@@ -146,7 +146,7 @@ export function HealthFactorGauge({ value, className }: HealthFactorGaugeProps) 
             fill="#908E9E"
             textAnchor="middle"
             dominantBaseline="middle"
-            className="typography-label-6"
+            className="typography-label-4"
           >
             3
           </text>
@@ -156,11 +156,11 @@ export function HealthFactorGauge({ value, className }: HealthFactorGaugeProps) 
             fill="#908E9E"
             textAnchor="middle"
             dominantBaseline="middle"
-            className="typography-label-6"
+            className="typography-label-4"
           >
             3.5
           </text>
-          <text x="335" y="200" fill="#908E9E" textAnchor="middle" className="typography-label-6">
+          <text x="335" y="200" fill="#908E9E" textAnchor="middle" className="typography-label-4">
             4
           </text>
 
@@ -195,7 +195,7 @@ export function HealthFactorGauge({ value, className }: HealthFactorGaugeProps) 
             </div>
           )}
           <div
-            className="text-[14cqw] text-white leading-[14cqw]"
+            className="text-[14cqw] text-primary-inverse leading-[14cqw]"
             data-testid={testIds.component.HealthFactorGauge.value}
           >
             {riskLevel === 'unknown' ? '-' : formatHealthFactor(value)}

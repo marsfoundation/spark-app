@@ -6,7 +6,7 @@ import { HealthFactorGauge } from './HealthFactorGauge'
 
 const meta: Meta<typeof HealthFactorGauge> = {
   title: 'Components/Atoms/HealthFactorGauge',
-  decorators: [WithClassname('w-full h-full bg-black p-5'), WithClassname('max-w-md')],
+  decorators: [WithClassname('w-full h-full bg-primary-inverse p-5'), WithClassname('max-w-md')],
   component: HealthFactorGauge,
 }
 

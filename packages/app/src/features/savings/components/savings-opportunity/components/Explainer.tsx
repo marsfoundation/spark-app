@@ -24,18 +24,16 @@ export function Explainer({ stablecoinValue, savingsMeta, originChainId }: Expla
         {savings?.inputTokens.map((symbol) => (
           <img key={symbol} src={getTokenImage(TokenSymbol(symbol))} className="h-6 w-6" />
         ))}
-        <ArrowRightIcon className="icon-xs text-primary-inverse" />
+        <ArrowRightIcon className="icon-xs icon-primary-inverse" />
         {[sdaiSymbol, susdsSymbol].filter(Boolean).map((symbol) => (
           <img key={symbol} src={getTokenImage(TokenSymbol(symbol))} className="h-6 w-6" />
         ))}
       </div>
-      <div className="typography-body-6 max-w-[52ch] text-tertiary">
+      <div className="typography-body-4 max-w-[52ch] text-tertiary">
         {stablecoinValue ? (
           <>
             You have{' '}
-            <span className="font-bold" data-testid={testIds.savings.stablecoinsAmount}>
-              ~{USD_MOCK_TOKEN.formatUSD(stablecoinValue)}
-            </span>{' '}
+            <span data-testid={testIds.savings.stablecoinsAmount}>~{USD_MOCK_TOKEN.formatUSD(stablecoinValue)}</span>{' '}
             worth of stablecoins in your wallet. Earn while you hold it!
           </>
         ) : (

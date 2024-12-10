@@ -19,7 +19,7 @@ export const HealthFactorPanelContent = forwardRef<HTMLDivElement, HealthFactorP
     return (
       <div className={cn('flex h-full flex-col gap-8', className)} ref={ref}>
         <div className="flex items-center gap-2">
-          <h3 className="typography-label-2">Health factor</h3>
+          <h3 className="typography-heading-5">Health factor</h3>
           <Info>
             <p>
               The health factor is a number that shows how safe your assets are in the protocol. It's calculated by
@@ -43,9 +43,9 @@ export const HealthFactorPanelContent = forwardRef<HTMLDivElement, HealthFactorP
           <HealthFactorGauge value={hf} className="h-full w-full max-w-[400px]" />
           {liquidationDetails && (
             <div className="flex w-full flex-col">
-              <div className="mb-3 flex items-center justify-between border-reskin-fg-primary border-b pb-3">
+              <div className="mb-3 flex items-center justify-between border-fg-primary border-b pb-3">
                 <div className="flex flex-row items-center gap-2">
-                  <div className="typography-label-4">Liquidation Price</div>
+                  <div className="typography-label-2">Liquidation Price</div>
                   <Info>
                     Estimated price of {liquidationDetails.tokenWithPrice.symbol} at which the position may be
                     liquidated.
@@ -55,7 +55,7 @@ export const HealthFactorPanelContent = forwardRef<HTMLDivElement, HealthFactorP
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex flex-row items-center gap-2">
-                  <div className="typography-label-4">Current {liquidationDetails.tokenWithPrice.symbol} Price </div>
+                  <div className="typography-label-2">Current {liquidationDetails.tokenWithPrice.symbol} Price </div>
                   <Info>Current price of {liquidationDetails.tokenWithPrice.symbol}.</Info>
                 </div>
                 <div>{USD_MOCK_TOKEN.formatUSD(liquidationDetails.tokenWithPrice.priceInUSD)}</div>

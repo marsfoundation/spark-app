@@ -31,7 +31,7 @@ export function SandboxDialogView({
         <MagicWand className="icon-sm text-secondary" />
         Sandbox Mode
       </DialogTitle>
-      <p className="typography-body-4 text-secondary">
+      <p className="typography-body-2 text-secondary">
         Sandbox Mode is a risk-free environment where you can test the Spark App and understand how it works. When
         you're ready, you can switch back to the real world. Have fun exploring!
       </p>
@@ -42,8 +42,8 @@ export function SandboxDialogView({
           'No real assets involved',
           'Fast – no need to sign transactions',
         ].map((item, index) => (
-          <li key={index} className="typography-heading-6 flex items-center gap-2.5">
-            <CheckIcon className="icon-sm text-system-success-primary" />
+          <li key={index} className="typography-label-2 flex items-center gap-2.5">
+            <CheckIcon className="icon-sm icon-system-success-primary" />
             {item}
           </li>
         ))}

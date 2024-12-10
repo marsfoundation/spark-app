@@ -41,10 +41,10 @@ IconBox.displayName = 'IconBox'
 export const iconBoxVariants = cva('inline-flex items-center justify-center rounded-full', {
   variants: {
     variant: {
-      success: 'bg-reskin-fg-system-success-secondary text-white',
-      warning: 'bg-reskin-fg-system-warning-primary text-white',
-      info: 'bg-brand-secondary text-brand-primary',
-      error: 'bg-reskin-fg-system-error-secondary text-white',
+      success: 'icon-primary-inverse bg-fg-system-success-secondary',
+      warning: 'icon-primary-inverse bg-fg-system-warning-primary',
+      info: 'icon-brand-primary bg-brand-secondary',
+      error: 'icon-primary-inverse bg-fg-system-error-secondary',
     },
     size: {
       xl: 'h-[120px] w-[120px] p-6',

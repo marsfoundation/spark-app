@@ -9,36 +9,36 @@ export const buttonVariants = cva(
   cn(
     'relative isolate inline-flex select-none items-center justify-center',
     'overflow-hidden whitespace-nowrap rounded-sm transition-colors',
-    'focus-visible:bg-reskin-base-white focus-visible:text-reskin-neutral-950 ',
-    'focus-visible:outline-none focus-visible:ring focus-visible:ring-reskin-primary-200 focus-visible:ring-offset-0',
+    'focus-visible:bg-primary focus-visible:text-neutral-950 ',
+    'focus-visible:outline-none focus-visible:ring focus-visible:ring-primary-200 focus-visible:ring-offset-0',
   ),
   {
     variants: {
       variant: {
         primary: cn(
-          'before:-z-10 bg-gradient-spark-primary text-reskin-base-white before:absolute',
-          'active:before:bg-reskin-neutral-800 focus-visible:before:bg-reskin-base-white',
-          'before:inset-0 hover:before:bg-reskin-neutral-950 active:text-reskin-base-white before:transition-colors',
-          'disabled:cursor-not-allowed disabled:before:bg-none disabled:before:bg-reskin-neutral-50 disabled:bg-reskin-neutral-50 disabled:text-reskin-neutral-500',
+          'before:-z-10 bg-gradient-spark-primary text-primary-inverse before:absolute',
+          'active:before:bg-neutral-800 focus-visible:before:bg-primary',
+          'before:inset-0 hover:before:bg-neutral-950 active:text-primary-inverse before:transition-colors',
+          'disabled:cursor-not-allowed disabled:before:bg-neutral-50 disabled:before:bg-none disabled:bg-neutral-50 disabled:text-neutral-500',
         ),
         secondary: cn(
-          'bg-reskin-neutral-950 text-reskin-base-white active:bg-reskin-neutral-950',
-          'hover:bg-reskin-neutral-800 active:text-reskin-base-white',
-          'disabled:cursor-not-allowed disabled:border-none disabled:bg-reskin-neutral-50 disabled:text-reskin-neutral-500',
+          'bg-neutral-950 text-primary-inverse active:bg-neutral-950',
+          'hover:bg-neutral-800 active:text-primary-inverse',
+          'disabled:cursor-not-allowed disabled:border-none disabled:bg-neutral-50 disabled:text-neutral-500',
         ),
         tertiary: cn(
-          'border border-primary border-solid bg-reskin-base-white',
-          'text-reskin-neutral-950 shadow-xs active:bg-reskin-neutral-100 hover:bg-reskin-neutral-50',
-          'disabled:cursor-not-allowed disabled:border-none disabled:bg-reskin-neutral-50 disabled:text-reskin-neutral-500',
+          'border border-primary border-solid bg-primary',
+          'text-neutral-950 shadow-xs active:bg-neutral-100 hover:bg-neutral-50',
+          'disabled:cursor-not-allowed disabled:border-none disabled:bg-neutral-50 disabled:text-neutral-500',
         ),
         transparent: cn(
           'overflow-visible text-secondary transition-colors',
-          'hover:text-reskin-neutral-700',
-          'active:text-reskin-neutral-900',
-          'disabled:cursor-not-allowed disabled:text-reskin-neutral-300',
+          'hover:text-neutral-700',
+          'active:text-neutral-900',
+          'disabled:cursor-not-allowed disabled:text-neutral-300',
           'focus-visible:bg-transparent',
         ),
-        loading: 'cursor-wait bg-reskin-neutral-50 text-reskin-base-white',
+        loading: 'cursor-wait bg-neutral-50 text-primary-inverse',
       },
       size: {
         l: 'typography-button-1 h-12 px-3 py-3.5',
@@ -119,7 +119,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         type={type}
       >
         {loading && (
-          <div className="absolute inset-0 flex animate-reveal items-center justify-center bg-reskin-neutral-50">
+          <div className="absolute inset-0 flex animate-reveal items-center justify-center bg-neutral-50">
             <Loader size={20} />
           </div>
         )}

@@ -55,9 +55,9 @@ export function ChartTabsPanel({ tabs, onTimeframeChange, selectedTimeframe, hei
 
   if (tabs.length === 1) {
     return (
-      <Panel className="self-stretchi flex min-h-[380px] w-full flex-1 flex-col justify-between overflow-hidden">
+      <Panel className="flex min-h-[380px] w-full flex-1 flex-col justify-between self-stretch overflow-hidden">
         <div className="grid grid-cols-1 grid-rows-2 items-center gap-4 lg:grid-cols-2 lg:grid-rows-1">
-          <div className="flex items-center gap-1 font-semibold text-lg md:text-xl">{firstTab.label}</div>
+          <div className="typography-heading-5 flex items-center gap-1">{firstTab.label}</div>
           <TimeframeButtons
             onTimeframeChange={onTimeframeChange}
             selectedTimeframe={selectedTimeframe}
@@ -78,7 +78,7 @@ export function ChartTabsPanel({ tabs, onTimeframeChange, selectedTimeframe, hei
         <div className="flex flex-col flex-wrap items-center justify-between gap-2 lg:flex-row lg:gap-1">
           <TabsList className="w-full lg:w-auto" size="s">
             {tabs.map((tab) => (
-              <TabsTrigger key={tab.id} value={tab.id} className="typography-label-5 px-1 md:px-1.5 xl:px-5">
+              <TabsTrigger key={tab.id} value={tab.id} className="typography-label-3 px-1 md:px-1.5 xl:px-5">
                 {tab.label}
               </TabsTrigger>
             ))}
@@ -115,7 +115,7 @@ function ChartPanel({ height, component: Chart, isError, isPending, props }: Cha
     return (
       <div className="flex items-center justify-center" style={{ height }} ref={ref}>
         <DelayedComponent>
-          <Loader2 className="h-8 animate-spin text-reskin-neutral-200" data-chromatic="ignore" />
+          <Loader2 className="h-8 animate-spin text-neutral-200" data-chromatic="ignore" />
         </DelayedComponent>
       </div>
     )
@@ -124,7 +124,7 @@ function ChartPanel({ height, component: Chart, isError, isPending, props }: Cha
   if (isError) {
     return (
       <div className="flex items-center justify-center" style={{ height }} ref={ref}>
-        <div className="flex items-center rounded-full bg-secondary px-3 py-1 text-secondary/80 text-sm">
+        <div className="typography-label-3 flex items-center rounded-full bg-secondary px-3 py-1 text-secondary/80">
           <AlertTriangle className="h-4" /> Failed to load chart data
         </div>
       </div>

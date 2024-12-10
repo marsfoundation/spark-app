@@ -20,7 +20,7 @@ export function TokenSummary({ position, type, maxSymbols = 3 }: TokenSummaryPro
   return (
     <div className="flex w-fit items-center gap-2">
       <IconStack paths={tokenIconPaths} maxIcons={maxSymbols} />
-      <div className="typography-body-5 text-secondary">{summary}</div>
+      <div className="typography-body-3 text-secondary">{summary}</div>
     </div>
   )
 }

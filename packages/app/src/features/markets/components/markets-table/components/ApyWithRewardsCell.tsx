@@ -24,7 +24,7 @@ export function ApyWithRewardsCell({ mobileViewOptions, ...rest }: ApyWithReward
   if (mobileViewOptions?.isMobileView) {
     return (
       <div className="flex flex-row items-center justify-between">
-        <div className="typography-label-6 text-secondary">{mobileViewOptions.rowTitle}</div>
+        <div className="typography-label-4 text-secondary">{mobileViewOptions.rowTitle}</div>
         <CellContent {...rest} />
       </div>
     )
@@ -35,17 +35,11 @@ export function ApyWithRewardsCell({ mobileViewOptions, ...rest }: ApyWithReward
 
 type CellContentProps = Omit<ApyWithRewardsCellProps, 'mobileViewOptions'>
 
-function CellContent({
-  apyDetails,
-  reserveStatus,
-  incentivizedReserve,
-  bold,
-  'data-testid': dataTestId,
-}: CellContentProps) {
+function CellContent({ apyDetails, reserveStatus, incentivizedReserve, 'data-testid': dataTestId }: CellContentProps) {
   if (reserveStatus !== 'active') {
     return (
       <div className="flex items-center justify-end gap-1.5" data-testid={dataTestId}>
-        <CellValue value={apyDetails.apy} dimmed bold={bold} />
+        <CellValue value={apyDetails.apy} dimmed />
       </div>
     )
   }
@@ -64,7 +58,7 @@ function CellContent({
           data-testid={testIds.markets.rewardBadge}
         />
       ))}
-      <CellValue value={apyDetails.apy} bold={bold} />
+      <CellValue value={apyDetails.apy} />
     </div>
   )
 }
@@ -74,15 +68,12 @@ interface CellValueProps extends VariantProps<typeof variants> {
   dimmed?: boolean
 }
 
-function CellValue({ value, bold, dimmed }: CellValueProps) {
-  return <div className={cn(variants({ bold: value && bold, dimmed }))}>{formatPercentage(value)}</div>
+function CellValue({ value, dimmed }: CellValueProps) {
+  return <div className={cn(variants({ dimmed }))}>{formatPercentage(value)}</div>
 }
 
-const variants = cva('', {
+const variants = cva('typography-label-2 text-primary', {
   variants: {
-    bold: {
-      true: 'font-bold',
-    },
     dimmed: {
       true: 'text-secondary/70',
     },

@@ -21,7 +21,7 @@ export function SavingsAPYBadge({ APY, isLoading, className }: SavingsAPYBadgePr
         <Skeleton className="h-4 w-5 rounded-sm bg-primary/80 backdrop-brightness-75" />
       ) : (
         APY && (
-          <span className="typography-label-5 !leading-none text-primary-inverse">
+          <span className="typography-label-3 !leading-none text-primary-inverse">
             {formatPercentage(APY, { minimumFractionDigits: 0 })}
           </span>
         )

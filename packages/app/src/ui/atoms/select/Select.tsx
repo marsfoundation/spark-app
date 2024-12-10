@@ -16,11 +16,11 @@ const SelectTrigger = React.forwardRef<
     ref={ref}
     className={cn(
       'group flex w-full items-center justify-between',
-      'rounded-sm border border-primary bg-primary text-reskin-fg-primary',
-      'p-3 ring-offset-background placeholder:text-muted-foreground',
+      'rounded-sm border border-primary bg-primary text-fg-primary',
+      'p-3 ring-offset-base-black placeholder:text-secondary',
       'hover:border-tertiary hover:shadow-sm',
       'disabled:cursor-not-allowed disabled:border-secondary disabled:opacity-50 disabled:shadow-xs ',
-      'focus-visible:outline-none focus-visible:ring focus-visible:ring-reskin-primary-200 focus-visible:ring-offset-0',
+      'focus-visible:outline-none focus-visible:ring focus-visible:ring-primary-200 focus-visible:ring-offset-0',
       'data-[state=open]:border-secondary data-[state=open]:shadow-sm',
       className,
     )}
@@ -43,7 +43,7 @@ const SelectContent = React.forwardRef<
       ref={ref}
       className={cn(
         'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[state=closed]:animate-out data-[state=open]:animate-in',
-        'relative z-50 min-w-[8rem] overflow-hidden rounded-sm border border-primary bg-primary text-reskin-fg-primary shadow-xl',
+        'relative z-50 min-w-[8rem] overflow-hidden rounded-sm border border-primary bg-primary text-fg-primary shadow-xl',
         position === 'popper' &&
           'data-[side=left]:-translate-x-1 data-[side=top]:-translate-y-1 data-[side=right]:translate-x-1 data-[side=bottom]:translate-y-1',
         // @note: passing max-h and overflow-y-auto is important to make scroll when there is not enough vertical space
