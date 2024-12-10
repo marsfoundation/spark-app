@@ -8,6 +8,10 @@ exports[`initializes store 1`] = `
     "setExchangeMaxSlippage": [Function],
     "setPreferPermits": [Function],
   },
+  "analytics": {
+    "accepted": undefined,
+    "setAccepted": [Function],
+  },
   "appConfig": {
     "sandbox": undefined,
   },
@@ -42,6 +46,7 @@ exports[`persists state 1`] = `
       "exchangeMaxSlippage": "0.001",
       "preferPermits": true,
     },
+    "analytics": {},
     "bannersVisibility": {
       "bannerVisibilityStatus": {},
     },

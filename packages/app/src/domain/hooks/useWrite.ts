@@ -13,7 +13,7 @@ import { JSONStringifyRich } from '@/utils/object'
 import { useOnDepsChange } from '@/utils/useOnDepsChange'
 import { MutationKey, useMutation } from '@tanstack/react-query'
 import { writeContractMutationOptions } from 'wagmi/query'
-import { recordEvent } from '../analytics'
+import { trackEvent } from '../analytics/mixpanel'
 import { sanityCheckTx } from './sanityChecks'
 import { useIncreasedGasLimit } from './useIncreasedGasLimit'
 import { useOriginChainId } from './useOriginChainId'
@@ -142,19 +142,12 @@ export function useWrite<TAbi extends Abi, TFunctionName extends ContractFunctio
           sanityCheckTx(parameters.request, chainId)
           callbacks.onBeforeWrite?.()
 
-          if (walletType === 'sandbox') {
-            recordEvent('sandbox-tx-sent', {
-              receiver: parameters.request.address,
-              method: parameters.request.functionName,
-            })
-          } else {
-            recordEvent('tx-sent', {
-              walletType,
-              chainId,
-              receiver: parameters.request.address,
-              method: parameters.request.functionName,
-            })
-          }
+          trackEvent('tx-sent', {
+            walletType,
+            chainId,
+            receiver: parameters.request.address,
+            method: parameters.request.functionName,
+          })
 
           writeContract(parameters.request as any)
         }
