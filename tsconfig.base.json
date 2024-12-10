@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "customConditions": ["@marsfoundation/source"],
+    "customConditions": ["@marsfoundation/local-spark-monorepo"],
     "module": "ESNext",
     "esModuleInterop": true,
     "moduleResolution": "bundler",
