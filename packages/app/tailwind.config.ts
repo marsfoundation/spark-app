@@ -479,7 +479,7 @@ export default {
         '.typography-body-1': {
           fontSize: '1rem', // 16px
           lineHeight: '1.5rem', // 24px
-          letterSpacing: 'calc(-1 * 0.01em)',
+          letterSpacing: '0px',
           fontWeight: '400',
           fontFamily: theme('fontFamily.sans'),
         },
@@ -487,7 +487,7 @@ export default {
         '.typography-body-2': {
           fontSize: '0.875rem', // 14px
           lineHeight: '1.25rem', // 20px
-          letterSpacing: 'calc(-1 * 0.01em)',
+          letterSpacing: '0px',
           fontWeight: '400',
           fontFamily: theme('fontFamily.sans'),
         },
@@ -495,7 +495,7 @@ export default {
         '.typography-body-3': {
           fontSize: '0.75rem', // 12px
           lineHeight: '1.125rem', // 18px
-          letterSpacing: 'calc(-1 * 0.01em)',
+          letterSpacing: '0px',
           fontWeight: '400',
           fontFamily: theme('fontFamily.sans'),
         },
@@ -503,7 +503,7 @@ export default {
         '.typography-body-4': {
           fontSize: '0.75rem', // 12px
           lineHeight: '1.125rem', // 18px
-          letterSpacing: 'calc(-1 * 0.01em)',
+          letterSpacing: '0px',
           fontWeight: '400',
           fontFamily: theme('fontFamily.sans'),
         },
@@ -512,7 +512,7 @@ export default {
         '.typography-label-1': {
           fontSize: '1rem', // 16px
           lineHeight: '1.125rem', // 18px
-          letterSpacing: 'calc(-1 * 0.01em)',
+          letterSpacing: 'calc(-0.5 * 0.01em)',
           fontWeight: '500',
           fontFamily: theme('fontFamily.roobert'),
         },
@@ -520,7 +520,7 @@ export default {
         '.typography-label-2': {
           fontSize: '0.875rem', // 14px
           lineHeight: '1rem', // 16px
-          letterSpacing: 'calc(-1 * 0.01em)',
+          letterSpacing: 'calc(-0.5 * 0.01em)',
           fontWeight: '500',
           fontFamily: theme('fontFamily.roobert'),
         },
@@ -528,7 +528,7 @@ export default {
         '.typography-label-3': {
           fontSize: '0.75rem', // 12px
           lineHeight: '1rem', // 16px
-          letterSpacing: 'calc(-0.5 * 0.01em)',
+          letterSpacing: '0px',
           fontWeight: '500',
           fontFamily: theme('fontFamily.roobert'),
         },
@@ -536,7 +536,7 @@ export default {
         '.typography-label-4': {
           fontSize: '0.75rem', // 12px
           lineHeight: '1rem', // 16px
-          letterSpacing: 'calc(-0.5 * 0.01em)',
+          letterSpacing: '0px',
           fontWeight: '500',
           fontFamily: theme('fontFamily.roobert'),
         },
