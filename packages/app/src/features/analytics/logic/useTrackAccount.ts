@@ -3,7 +3,7 @@ import { CheckedAddress } from '@marsfoundation/common-universal'
 import { useEffect } from 'react'
 import { useAccount } from 'wagmi'
 
-export function useTrackAccount() {
+export function useTrackAccount(): void {
   const { address } = useAccount()
   useEffect(() => {
     if (address) {
