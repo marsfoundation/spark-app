@@ -6,6 +6,7 @@ export * from './types/Hash.js'
 export * from './types/Hex.js'
 export * from './types/UnixTime.js'
 export * from './types/PrivateKey.js'
+export * from './types/Opaque.js'
 
 export * from './math/bigNumber.js'
 export * from './math/hexUtils.js'

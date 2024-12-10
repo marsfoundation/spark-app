@@ -1,6 +1,6 @@
 type StringLiteral<Type> = Type extends string ? (string extends Type ? never : Type) : never
 
-export type WithOpaque<Token extends string> = {
+type WithOpaque<Token extends string> = {
   readonly __TAG__: Token
 }
 
