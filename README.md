@@ -151,6 +151,7 @@ Images that are used in `img` tags should be put into directory `packages/app/sr
 
 * ESM builds are problematic because the import paths have to have explicit "js" file extensions. Do not use bundling like tsup as a workaround but rather manually add `.js` extensions to files (there is a linter to enforce this).
 * Use multiple entry points to packages using package.json `exports` field.
+  * `typesVersions` is useful to make package more generic. [Read more](https://github.com/sveltejs/kit/issues/9007#issuecomment-1426900538)
 
 ---
 
