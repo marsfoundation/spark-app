@@ -1,6 +1,6 @@
 {
   "name": "@marsfoundation/common-nodejs",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -78,7 +78,6 @@
     "mocha": "^10.8.2"
   },
   "dependencies": {
-    "@marsfoundation/common-universal": "workspace:^",
     "chalk": "^5.3.0",
     "dotenv": "^16.3.1",
     "error-stack-parser": "^2.1.4",
@@ -86,6 +85,7 @@
     "uuid": "^11.0.3"
   },
   "peerDependencies": {
+    "@marsfoundation/common-universal": "workspace:^",
     "@elastic/elasticsearch": "^8.16.2"
   },
   "peerDependenciesMeta": {
