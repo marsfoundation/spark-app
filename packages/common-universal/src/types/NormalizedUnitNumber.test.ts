@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { expect } from 'earl'
 import { describe, it } from 'mocha'
-import { NormalizedUnitNumber } from './NormalizedUnitNumber'
+import { NormalizedUnitNumber } from './NormalizedUnitNumber.js'
 
 describe(NormalizedUnitNumber.name, () => {
   it('works for a numeric value', () => {

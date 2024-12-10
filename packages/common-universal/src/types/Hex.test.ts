@@ -1,7 +1,7 @@
 import { expect } from 'earl'
 import { describe, it } from 'mocha'
 
-import { Hex } from './Hex'
+import { Hex } from './Hex.js'
 
 describe(Hex.name, () => {
   it('works with an argument correctly representing base value', () => {

@@ -1,7 +1,7 @@
 import { expect } from 'earl'
 import { describe, it } from 'mocha'
 
-import { CheckedAddress } from './CheckedAddress'
+import { CheckedAddress } from './CheckedAddress.js'
 
 const validChecksummedAddress = '0x95222290DD7278Aa3Ddd389Cc1E1d165CC4BAfe5'
 

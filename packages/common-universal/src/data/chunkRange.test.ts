@@ -1,5 +1,5 @@
 import { expect } from 'earl'
-import { chunkRange } from './chunkRange'
+import { chunkRange } from './chunkRange.js'
 
 describe(chunkRange.name, () => {
   it('chunks from 0 to 10', () => {

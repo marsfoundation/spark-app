@@ -1,8 +1,8 @@
-import { expect } from 'earl'
-import { sleep } from './async'
-import { promiseAllWithLimitedConcurrency } from './promiseAllWithLimitedConcurrency'
-
 import * as FakeTimers from '@sinonjs/fake-timers'
+import { expect } from 'earl'
+
+import { sleep } from './async.js'
+import { promiseAllWithLimitedConcurrency } from './promiseAllWithLimitedConcurrency.js'
 
 describe(promiseAllWithLimitedConcurrency.name, () => {
   let clock: FakeTimers.InstalledClock

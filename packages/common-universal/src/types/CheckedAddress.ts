@@ -1,8 +1,8 @@
 import { getAddress, isAddress } from 'viem'
 
-import { assert } from '../assert'
-import { asciiToHex, randomPartialHex } from '../math/hexUtils'
-import { Opaque } from './Opaque'
+import { assert } from '../assert/assert.js'
+import { asciiToHex, randomPartialHex } from '../math/hexUtils.js'
+import { Opaque } from './Opaque.js'
 
 /**
  * Represents an Ethereum address with a checksum. i.e. 0x95222290DD7278Aa3Ddd389Cc1E1d165CC4BAfe5

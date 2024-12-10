@@ -1,7 +1,7 @@
 import type { Hex as ViemHex } from 'viem'
 
-import { assert, asciiToHex, randomPartialHex } from '../index'
-import { Opaque } from './Opaque'
+import { assert, asciiToHex, randomPartialHex } from '../index.js'
+import { Opaque } from './Opaque.js'
 
 /**
  * Any hex value i.e. 0x1234567890abcdefABCDEF.

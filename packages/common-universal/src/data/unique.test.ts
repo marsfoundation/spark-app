@@ -1,5 +1,5 @@
 import { expect } from 'earl'
-import { unique } from './unique'
+import { unique } from './unique.js'
 
 describe(unique.name, () => {
   it('removes duplicates', () => {

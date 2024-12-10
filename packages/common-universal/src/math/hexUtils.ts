@@ -1,4 +1,4 @@
-import { assert } from '../index'
+import { assert } from '../index.js'
 
 export function randomPartialHex(length: number): string {
   const hexChars = '0123456789abcdef'
