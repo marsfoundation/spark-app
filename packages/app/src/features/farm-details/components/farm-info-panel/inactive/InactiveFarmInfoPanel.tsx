@@ -132,7 +132,7 @@ function TokenFarmDetails({ farm, assetsGroupType }: { farm: Farm; assetsGroupTy
       <div className="typography-body-3 text-tertiary">
         {farm.apy?.gt(0) && (
           <>Deposit any of the tokens listed below and start farming {farm.rewardToken.symbol} tokens.</>
-        )}
+        )}{' '}
         Learn more about farming{' '}
         <Link to={links.docs.farmingRewards} external>
           here
