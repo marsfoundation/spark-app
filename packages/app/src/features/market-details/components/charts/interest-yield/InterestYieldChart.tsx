@@ -57,11 +57,11 @@ export function InterestYieldChart({
       <div className="ml-10 flex items-center gap-4">
         <div className="flex items-center gap-1.5">
           <Circle size={4} fill={colors.primary} stroke="0" />
-          <div className="typography-label-6 text-secondary">Borrow APY</div>
+          <div className="typography-label-4 text-secondary">Borrow APY</div>
         </div>
         <div className="flex items-center gap-1.5">
           <Circle size={4} fill={colors.secondary} stroke="0" />
-          <div className="typography-label-6 text-secondary">Utilization Rate</div>
+          <div className="typography-label-4 text-secondary">Utilization Rate</div>
         </div>
       </div>
       <Chart {...chartProps} />

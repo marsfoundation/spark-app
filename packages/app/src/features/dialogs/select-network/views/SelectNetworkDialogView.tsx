@@ -32,7 +32,7 @@ export function SelectNetworkDialogView({ chains }: SelectNetworkDialogViewProps
             key={chain.name}
           >
             <div className="flex w-full items-center justify-between border-b px-4 py-5">
-              <div className="typography-label-4 flex items-center gap-2">
+              <div className="typography-label-2 flex items-center gap-2">
                 <img src={chain.logo} className="h-6 w-6" />
                 {chain.name}
               </div>
@@ -42,7 +42,7 @@ export function SelectNetworkDialogView({ chains }: SelectNetworkDialogViewProps
                 <NetworkStatusBadge status="pending" />
               ) : undefined}
             </div>
-            <div className="typography-label-6 p-4">
+            <div className="typography-label-4 p-4">
               <span className="text-secondary">Network available for:</span> {chain.supportedPages.join(', ')}
             </div>
           </button>

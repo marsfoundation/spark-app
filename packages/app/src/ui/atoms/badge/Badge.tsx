@@ -32,7 +32,7 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(
 )
 Badge.displayName = 'Badge'
 
-const badgeVariants = cva('typography-label-5 inline-flex w-fit items-center gap-1 rounded-full', {
+const badgeVariants = cva('typography-label-3 inline-flex w-fit items-center gap-1 rounded-full', {
   variants: {
     appearance: {
       soft: '',

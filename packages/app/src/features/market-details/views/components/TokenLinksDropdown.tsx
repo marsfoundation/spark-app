@@ -82,7 +82,7 @@ function TokenLinksDropdownItem({ address, token, label }: TokenLinksDropdownIte
       <div className="flex max-w-60 flex-1 flex-col gap-1">
         <div className="flex items-center gap-1">
           <TokenIcon token={token} className="h-4 w-4" />
-          <div className="typography-label-6 flex flex-row items-center gap-2.5 text-secondary lg:gap-1 group-hover:text-brand-primary">
+          <div className="typography-label-4 flex flex-row items-center gap-2.5 text-secondary lg:gap-1 group-hover:text-brand-primary">
             {label}
           </div>
         </div>

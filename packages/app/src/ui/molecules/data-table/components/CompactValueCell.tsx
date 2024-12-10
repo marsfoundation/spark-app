@@ -26,7 +26,7 @@ export function CompactValueCell({
   if (mobileViewOptions?.isMobileView) {
     return (
       <div className="flex flex-row items-center justify-between">
-        <div className="typography-label-6 w-full text-secondary">{mobileViewOptions.rowTitle}</div>
+        <div className="typography-label-4 w-full text-secondary">{mobileViewOptions.rowTitle}</div>
         <CompactValue
           token={token}
           value={value}
@@ -81,7 +81,7 @@ function CompactValue({
     <div className={cn('flex flex-col', className)} data-testid={dataTestId}>
       <div
         className={cn(
-          'typography-label-4 flex w-full flex-row justify-end text-primary',
+          'typography-label-2 flex w-full flex-row justify-end text-primary',
           dimmed && 'text-neutral-600/70',
         )}
       >

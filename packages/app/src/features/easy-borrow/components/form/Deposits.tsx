@@ -47,7 +47,7 @@ export function Deposits({
       <Panel className={cn('flex flex-1 flex-col gap-4 bg-primary', showTokenSummary && 'rounded-b-none')}>
         <div className="flex items-center justify-between">
           <div className="flex h-8 flex-row items-center gap-1">
-            <h4 className="typography-label-2 text-primary">Deposit</h4>
+            <h4 className="typography-heading-5 text-primary">Deposit</h4>
             <Info>
               Some assets (e.g., isolated assets) are only accessible via the{' '}
               <Link to={paths.myPortfolio}>My portfolio</Link> at this time.

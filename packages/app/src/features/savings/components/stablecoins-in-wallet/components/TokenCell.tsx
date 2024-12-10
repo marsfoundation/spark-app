@@ -22,7 +22,7 @@ export function TokenCell({ token, migrationInfo }: TokenCellProps) {
   }
 
   return (
-    <div className="typography-label-4 flex flex-row items-center gap-2">
+    <div className="typography-label-2 flex flex-row items-center gap-2">
       <TokenIcon token={token} className="icon-md" />
       {token.symbol}
     </div>

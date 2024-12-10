@@ -21,7 +21,7 @@ export function NetworkStatusBadge({ status }: NetworkStatusBadgeProps) {
   return (
     <div className={networkStatusBadgeVariants({ status })}>
       <Icon className={cn('icon-xxs', status === 'pending' && 'animate-[spin_2s_linear_infinite]')} />
-      <div className="typography-label-6">{text}</div>
+      <div className="typography-label-4">{text}</div>
     </div>
   )
 }

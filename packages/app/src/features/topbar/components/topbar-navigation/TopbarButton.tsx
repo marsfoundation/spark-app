@@ -5,7 +5,7 @@ import { NavLink, To, useMatch } from 'react-router-dom'
 
 const buttonVariants = cva(
   cn(
-    'typography-label-4 inline-flex h-20 flex-nowrap items-center sm:h-10',
+    'typography-label-2 inline-flex h-20 flex-nowrap items-center sm:h-10',
     'group gap-2 border-base-white border-l-4 bg-primary px-4 py-2 sm:rounded-sm sm:border sm:border-primary',
     'border-solid border-opacity-40 transition-colors sm:shadow-xs',
     'focus-visible:outline-none focus-visible:ring-1 ',

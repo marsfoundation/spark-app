@@ -17,7 +17,7 @@ export function TransactionOverviewStakedInFarm({ token, amount, farmName }: Tra
       <TokenIcon token={token} className="h-4 w-4" />
       <div className="flex items-baseline gap-1">
         <div
-          className="typography-label-4 text-primary"
+          className="typography-label-2 text-primary"
           data-testid={testIds.farmDetails.stakeDialog.transactionOverview.outcome}
         >
           {formattedAmount}

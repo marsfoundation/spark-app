@@ -24,7 +24,7 @@ export function Tile({ icon: Icon, title, USDValue, description, 'data-testid': 
         <div className="flex items-center gap-1">
           <div
             className={cn(
-              'typography-label-6 relative text-secondary',
+              'typography-label-4 relative text-secondary',
               'before:-z-10 before:absolute before:inset-0',
               'before:bg-primary/60 before:blur-xs',
             )}

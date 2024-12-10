@@ -17,7 +17,7 @@ export function TransactionOverviewFarmApy({ apy, rewardsPerYear, rewardToken }:
         {apy.gt(0) && (
           <div
             data-testid={testIds.farmDetails.stakeDialog.transactionOverview.estimatedRewards.apy}
-            className="typography-label-4 text-primary"
+            className="typography-label-2 text-primary"
           >
             {formatPercentage(apy)}
           </div>

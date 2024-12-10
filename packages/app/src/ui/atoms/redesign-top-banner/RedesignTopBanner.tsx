@@ -18,7 +18,7 @@ export function RedesignTopBanner({ onClose, className }: RedesignTopBannerProps
         className,
       )}
     >
-      <div className="typography-label-5 md:typography-label-4 text-primary">
+      <div className="typography-label-3 md:typography-label-2 text-primary">
         Welcome to the{'  '}
         <Sparkles sizeRange={[12, 20]} className="mx-1 whitespace-nowrap">
           <span className="bg-gradient-spark-secondary bg-clip-text text-transparent">New Spark!</span>

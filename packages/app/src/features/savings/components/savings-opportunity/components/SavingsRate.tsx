@@ -16,7 +16,7 @@ export function SavingsRate({ originChainId, APY, savingsMetaItem }: SavingsRate
   return (
     <div className="flex flex-col gap-1.5">
       <div className="flex items-center gap-1.5">
-        <div className="typography-label-1 text-primary-inverse">{savingsMetaItem.rateAcronym} Rate</div>
+        <div className="typography-heading-4 text-primary-inverse">{savingsMetaItem.rateAcronym} Rate</div>
         <Info className="icon-sm text-secondary">
           <SavingsRateTooltipContent originChainId={originChainId} savingsMetaItem={savingsMetaItem} />
         </Info>

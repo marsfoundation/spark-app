@@ -10,8 +10,8 @@ import { ActionsGridLayout } from '../types'
 const actionsTitleVariants = cva('', {
   variants: {
     layout: {
-      extended: 'typography-label-2 text-primary',
-      compact: 'typography-label-5 text-secondary',
+      extended: 'typography-heading-5 text-primary',
+      compact: 'typography-label-3 text-secondary',
     },
   },
 })

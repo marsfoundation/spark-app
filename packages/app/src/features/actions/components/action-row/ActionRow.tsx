@@ -51,7 +51,7 @@ function ActionRow({ children, actionHandlerState, actionIndex, onAction, layout
 
 const iconVariants = cva(
   cn(
-    'typography-label-5 grid h-6 w-12 grid-cols-[1fr_1px_1fr] items-center',
+    'typography-label-3 grid h-6 w-12 grid-cols-[1fr_1px_1fr] items-center',
     'justify-items-center rounded-xs transition-all delay-500 duration-200 sm:h-8 sm:w-16',
   ),
   {
@@ -88,7 +88,7 @@ function Title({ children }: { children: ReactNode }) {
   return (
     <HorizontalScroll
       className={cn(
-        'typography-label-4 col-span-2 flex items-center gap-1.5',
+        'typography-label-2 col-span-2 flex items-center gap-1.5',
         'md:col-span-1 sm:overflow-visible',
         actionHandlerState.status === 'success' && 'text-secondary',
       )}
@@ -122,7 +122,7 @@ function Amount({ token, amount }: { token: Token; amount: NormalizedUnitNumber 
   return (
     <div
       className={cn(
-        'typography-label-4 col-span-full col-start-2 md:col-span-1',
+        'typography-label-2 col-span-full col-start-2 md:col-span-1',
         actionHandlerState.status === 'success' && 'text-secondary',
       )}
     >
@@ -147,7 +147,7 @@ function ErrorWarning() {
       <TooltipTrigger asChild>
         <div
           className={cn(
-            'typography-label-5 typography-label-4 col-span-full col-start-2 inline-flex min-w-0 text-secondary md:col-span-1',
+            'typography-label-3 typography-label-2 col-span-full col-start-2 inline-flex min-w-0 text-secondary md:col-span-1',
             layout === 'compact' ? 'md:col-start-3' : 'md:col-start-4',
           )}
         >

@@ -22,7 +22,7 @@ export function PageNotSupportedWarning({ pageName, openNetworkSelectDialog }: P
         <div className="flex gap-4">
           <AlertTriangle className="h-8 w-8 text-system-error-primary" />
           <div className="flex flex-col gap-0.5">
-            <div className="typography-label-5 lg:typography-label-4 text-primary">
+            <div className="typography-label-3 lg:typography-label-2 text-primary">
               {pageName} {pageName.endsWith('s') ? 'are' : 'is'} not supported on the network you are connected to.
             </div>
             <div className="typography-body-3 text-secondary">

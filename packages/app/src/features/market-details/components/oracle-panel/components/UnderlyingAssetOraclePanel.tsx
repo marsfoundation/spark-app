@@ -10,7 +10,7 @@ export function UnderlyingAssetOraclePanel({ asset, chainId, priceOracleAddress,
   return (
     <Panel className="flex flex-col gap-4">
       <div>
-        <div className="typography-label-6 mb-1 text-secondary">Oracle type</div>
+        <div className="typography-label-4 mb-1 text-secondary">Oracle type</div>
         <div className="flex items-center gap-2">
           <h3 className="typography-heading-5 text-primary">Underlying Asset Price</h3>
           <Info size={16}>

@@ -61,7 +61,7 @@ export function TopbarRewards({ rewards, onClaim, totalClaimableReward }: Topbar
               <div className="flex items-center gap-2">
                 <img src={getTokenImage(token.symbol)} alt={`${token.symbol} icon`} className="h-6" />
 
-                <div className="typography-label-4">
+                <div className="typography-label-2">
                   <span data-testid={testIds.topbar.rewards.details.amount}>
                     {token.format(amount, { style: 'auto' })}
                   </span>{' '}
@@ -69,7 +69,7 @@ export function TopbarRewards({ rewards, onClaim, totalClaimableReward }: Topbar
                 </div>
               </div>
 
-              <div className="typography-label-6 text-secondary" data-testid={testIds.topbar.rewards.details.amountUSD}>
+              <div className="typography-label-4 text-secondary" data-testid={testIds.topbar.rewards.details.amountUSD}>
                 {token.formatUSD(amount)}
               </div>
             </DropdownMenuItem>

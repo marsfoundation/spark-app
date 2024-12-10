@@ -13,7 +13,7 @@ export function SuccessView({ eModeCategoryName, onProceed }: SuccessViewProps) 
   return (
     <SuccessViewContent>
       <SuccessViewCheckmark />
-      <SuccessViewSummaryPanel className="typography-label-4 text-primary">
+      <SuccessViewSummaryPanel className="typography-label-2 text-primary">
         <div>{eModeCategoryName}</div>
         <h3>Option activated</h3>
       </SuccessViewSummaryPanel>

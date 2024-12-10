@@ -22,7 +22,7 @@ export function TokensToDeposit({ assets, openStakeDialog }: TokensToDepositProp
         header: 'Balance',
         headerAlign: 'right',
         renderCell: ({ balance, token }) => (
-          <div className="typography-label-4 flex w-full flex-row justify-end">
+          <div className="typography-label-2 flex w-full flex-row justify-end">
             {balance.eq(0) ? '-' : token.format(balance, { style: 'auto' })}
           </div>
         ),

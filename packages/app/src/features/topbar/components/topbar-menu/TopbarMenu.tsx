@@ -64,7 +64,7 @@ export function TopbarMenu({
               Sandbox Mode
               <Switch checked={isInSandbox} className="ml-auto" />
             </div>
-            <div className="typography-label-5 text-secondary">
+            <div className="typography-label-3 text-secondary">
               Explore Spark with <br />
               unlimited tokens
             </div>
@@ -82,7 +82,7 @@ export function TopbarMenu({
             to={links.github}
             variant="unstyled"
             external
-            className="typography-label-6 bg-secondary p-6 text-center text-secondary"
+            className="typography-label-4 bg-secondary p-6 text-center text-secondary"
           >
             Built from {sha} at {buildTime}
           </Link>
@@ -109,7 +109,7 @@ export function TopbarMenu({
             Sandbox Mode
             <Switch checked={isInSandbox} className="ml-auto" />
           </div>
-          <div className="typography-label-5 text-secondary">
+          <div className="typography-label-3 text-secondary">
             Explore Spark with <br />
             unlimited tokens
           </div>
@@ -127,7 +127,7 @@ export function TopbarMenu({
           to={links.github}
           variant="unstyled"
           external
-          className="typography-label-6 p-5 text-center text-secondary"
+          className="typography-label-4 p-5 text-center text-secondary"
         >
           Built from {sha} at {buildTime}
         </Link>

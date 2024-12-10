@@ -17,7 +17,7 @@ export function TransactionOverviewSavingsApy({ apy, stableEarnRate, baseStable 
         {apy.gt(0) && (
           <div
             data-testid={testIds.dialog.savings.transactionOverview.apy.value}
-            className="typography-label-4 text-primary"
+            className="typography-label-2 text-primary"
           >
             {formatPercentage(apy)}
           </div>

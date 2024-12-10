@@ -24,9 +24,9 @@ export function YieldingFixedOraclePanel({
   return (
     <Panel className="flex flex-col gap-4">
       <div>
-        <div className="typography-label-5 mb-1 text-secondary">Oracle type</div>
+        <div className="typography-label-3 mb-1 text-secondary">Oracle type</div>
         <div className="flex items-center gap-2">
-          <h3 className="typography-label-3 text-primary">
+          <h3 className="typography-label-1 text-primary">
             Yielding Fixed Price {providedBy.length > 1 && <span className="text-secondary">(Redundant)</span>}
           </h3>
           <Info size={16}>
@@ -44,7 +44,7 @@ export function YieldingFixedOraclePanel({
             >
               {ratio.toFixed(4)}
             </div>
-            <div className="md:-bottom-6 typography-label-6 text-secondary md:absolute">
+            <div className="md:-bottom-6 typography-label-4 text-secondary md:absolute">
               <span data-testid={oracleTestIds.asset}>{token.symbol}</span> to {baseAssetSymbol} Ratio
             </div>
           </div>
@@ -56,7 +56,7 @@ export function YieldingFixedOraclePanel({
             >
               {formatUSDPriceWithPrecision(baseAssetPrice)}
             </div>
-            <div className="md:-bottom-6 typography-label-6 text-secondary md:absolute">
+            <div className="md:-bottom-6 typography-label-4 text-secondary md:absolute">
               <span data-testid={oracleTestIds.yieldingFixed.baseAssetSymbol}>{baseAssetSymbol}</span> Oracle Price
             </div>
           </div>
@@ -68,7 +68,7 @@ export function YieldingFixedOraclePanel({
             >
               {formatUSDPriceWithPrecision(price)}
             </div>
-            <div className="md:-bottom-6 typography-label-6 text-secondary md:absolute">Final Price</div>
+            <div className="md:-bottom-6 typography-label-4 text-secondary md:absolute">Final Price</div>
           </div>
         </div>
 

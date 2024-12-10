@@ -9,7 +9,7 @@ export function StoryGrid({ children, className }: { children: React.ReactNode; 
 }
 
 function GridLabel({ children }: { children: React.ReactNode }) {
-  return <div className="typography-label-6 text-neutral-500">{children}</div>
+  return <div className="typography-label-4 text-neutral-500">{children}</div>
 }
 
 StoryGrid.Label = GridLabel

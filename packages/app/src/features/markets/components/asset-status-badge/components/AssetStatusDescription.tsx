@@ -9,7 +9,7 @@ export function AssetStatusDescription({ children }: AssetStatusDescriptionProps
   return (
     <div className="flex items-center gap-3">
       {icon}
-      <p className="typography-label-6 text-primary-inverse">{description}</p>
+      <p className="typography-label-4 text-primary-inverse">{description}</p>
     </div>
   )
 }

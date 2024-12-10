@@ -59,7 +59,7 @@ TableCell.displayName = 'TableCell'
 
 const TableCaption = React.forwardRef<HTMLTableCaptionElement, React.HTMLAttributes<HTMLTableCaptionElement>>(
   ({ className, ...props }, ref) => (
-    <caption ref={ref} className={cn('typography-label-5 mt-4 text-secondary', className)} {...props} />
+    <caption ref={ref} className={cn('typography-label-3 mt-4 text-secondary', className)} {...props} />
   ),
 )
 TableCaption.displayName = 'TableCaption'
