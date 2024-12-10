@@ -36,7 +36,7 @@ export const CopyButton = forwardRef<HTMLButtonElement, CopyButtonProps>(
             {...props}
           >
             {copied ? (
-              <CheckIcon className="icon-xxs animate-reveal text-system-success-primary" />
+              <CheckIcon className="icon-xxs icon-system-success-primary animate-reveal" />
             ) : (
               // @note it prevents icon from being animated on initial render
               <CopyIcon className={cn('icon-xxs', mounted && 'animate-reveal')} />

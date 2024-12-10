@@ -43,7 +43,7 @@ export function SandboxDialogView({
           'Fast – no need to sign transactions',
         ].map((item, index) => (
           <li key={index} className="typography-heading-6 flex items-center gap-2.5">
-            <CheckIcon className="icon-sm text-system-success-primary" />
+            <CheckIcon className="icon-sm icon-system-success-primary" />
             {item}
           </li>
         ))}

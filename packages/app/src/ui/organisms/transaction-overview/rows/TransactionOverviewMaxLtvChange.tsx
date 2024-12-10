@@ -26,7 +26,7 @@ export function TransactionOverviewMaxLtvChange({
   return (
     <div className="typography-label-4 flex items-center gap-2.5 text-primary">
       <div data-testid={testIds.dialog.eMode.transactionOverview.maxLtv.before}>{formatPercentage(currentMaxLTV)}</div>
-      <MoveRightIcon className="icon-xxs text-secondary" />
+      <MoveRightIcon className="icon-xxs icon-secondary" />
       <div data-testid={testIds.dialog.eMode.transactionOverview.maxLtv.after}>{formatPercentage(updatedMaxLTV)}</div>
     </div>
   )

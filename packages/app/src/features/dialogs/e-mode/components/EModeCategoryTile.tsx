@@ -25,7 +25,7 @@ export function EModeCategoryTile({ eModeCategory }: EModeCategoryTileProps) {
         'rounded-sm bg-primary p-2 outline outline-1 outline-primary sm:p-4',
         'transition-all duration-200 hover:shadow-lg',
         'focus-visible:outline-0 focus-visible:ring focus-visible:ring-primary-200 focus-visible:ring-offset-0',
-        eModeCategory.isSelected && 'outline-0 ring-1 ring-orange-200 ring-offset-0',
+        eModeCategory.isSelected && 'outline-0 ring-1 ring-borrow-200 ring-offset-0',
       )}
     >
       <Badge variant={variant === 'active' ? 'success' : 'neutral'} appearance="soft" size="sm">

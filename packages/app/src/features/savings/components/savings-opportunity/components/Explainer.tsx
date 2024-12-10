@@ -24,7 +24,7 @@ export function Explainer({ stablecoinValue, savingsMeta, originChainId }: Expla
         {savings?.inputTokens.map((symbol) => (
           <img key={symbol} src={getTokenImage(TokenSymbol(symbol))} className="h-6 w-6" />
         ))}
-        <ArrowRightIcon className="icon-xs text-primary-inverse" />
+        <ArrowRightIcon className="icon-xs icon-primary-inverse" />
         {[sdaiSymbol, susdsSymbol].filter(Boolean).map((symbol) => (
           <img key={symbol} src={getTokenImage(TokenSymbol(symbol))} className="h-6 w-6" />
         ))}

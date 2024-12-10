@@ -18,7 +18,7 @@ export default {
           DEFAULT: 'rgb(var(--base-black))',
           inverse: 'rgb(var(--base-white))',
         },
-        secondary: 'rgb(var(--neutral-500))',
+        secondary: 'rgb(var(--neutral-600))',
         tertiary: 'rgb(var(--neutral-300))',
         brand: {
           primary: 'rgb(var(--primary-800))',
@@ -39,16 +39,16 @@ export default {
         },
         feature: {
           savings: {
-            primary: 'rgb(var(--green-500))',
-            secondary: 'rgb(var(--green-600))',
+            primary: 'rgb(var(--savings-500))',
+            secondary: 'rgb(var(--savings-600))',
           },
           borrow: {
-            primary: 'rgb(var(--orange-500))',
-            secondary: 'rgb(var(--orange-600))',
+            primary: 'rgb(var(--borrow-500))',
+            secondary: 'rgb(var(--borrow-600))',
           },
           farms: {
-            primary: 'rgb(var(--magenta-500))',
-            secondary: 'rgb(var(--magenta-600))',
+            primary: 'rgb(var(--farms-500))',
+            secondary: 'rgb(var(--farms-600))',
           },
         },
       },
@@ -83,10 +83,6 @@ export default {
             primary: 'rgb(var(--error-500))',
             secondary: 'rgb(var(--error-600))',
           },
-          info: {
-            primary: 'rgb(var(--magenta-500))',
-            secondary: 'rgb(var(--magenta-600))',
-          },
         },
         focus: 'rgb(var(--primary-200))',
       },
@@ -110,12 +106,8 @@ export default {
             secondary: 'rgb(var(--warning-600))',
           },
           error: {
-            primary: 'rgb(var(--error-500))',
-            secondary: 'rgb(var(--error-600))',
-          },
-          info: {
-            primary: 'rgb(var(--magenta-500))',
-            secondary: 'rgb(var(--magenta-600))',
+            primary: 'rgb(var(--error-600))',
+            secondary: 'rgb(var(--error-700))',
           },
         },
         focus: 'rgb(var(--primary-200))',
@@ -132,9 +124,10 @@ export default {
         tertiary: 'rgb(var(--neutral-100))',
         quaternary: 'rgb(var(--neutral-200))',
         brand: {
-          primary: 'rgb(var(--primary-100))',
-          secondary: 'rgb(var(--primary-200))',
-          tertiary: 'rgb(var(--primary-300))',
+          primary: 'rgb(var(--primary-50))',
+          secondary: 'rgb(var(--primary-100))',
+          tertiary: 'rgb(var(--primary-200))',
+          quaternary: 'rgb(var(--primary-300))',
         },
         system: {
           success: {
@@ -148,10 +141,6 @@ export default {
           error: {
             primary: 'rgb(var(--error-100))',
             secondary: 'rgb(var(--error-200))',
-          },
-          info: {
-            primary: 'rgb(var(--magenta-100))',
-            secondary: 'rgb(var(--magenta-200))',
           },
         },
       },
@@ -190,7 +179,6 @@ export default {
         },
         success: {
           DEFAULT: 'rgb(var(--success-600))',
-          50: 'rgb(var(--success-50))',
           100: 'rgb(var(--success-100))',
           200: 'rgb(var(--success-200))',
           300: 'rgb(var(--success-300))',
@@ -204,7 +192,6 @@ export default {
         },
         warning: {
           DEFAULT: 'rgb(var(--warning-600))',
-          50: 'rgb(var(--warning-50))',
           100: 'rgb(var(--warning-100))',
           200: 'rgb(var(--warning-200))',
           300: 'rgb(var(--warning-300))',
@@ -218,7 +205,6 @@ export default {
         },
         error: {
           DEFAULT: 'rgb(var(--error-700))',
-          50: 'rgb(var(--error-50))',
           100: 'rgb(var(--error-100))',
           200: 'rgb(var(--error-200))',
           300: 'rgb(var(--error-300))',
@@ -230,47 +216,45 @@ export default {
           900: 'rgb(var(--error-900))',
           950: 'rgb(var(--error-950))',
         },
-        green: {
-          DEFAULT: 'rgb(var(--green-600))',
-          50: 'rgb(var(--green-50))',
-          100: 'rgb(var(--green-100))',
-          200: 'rgb(var(--green-200))',
-          300: 'rgb(var(--green-300))',
-          400: 'rgb(var(--green-400))',
-          500: 'rgb(var(--green-500))',
-          600: 'rgb(var(--green-600))',
-          700: 'rgb(var(--green-700))',
-          800: 'rgb(var(--green-800))',
-          900: 'rgb(var(--green-900))',
-          950: 'rgb(var(--green-950))',
+        savings: {
+          DEFAULT: 'rgb(var(--savings-600))',
+          100: 'rgb(var(--savings-100))',
+          200: 'rgb(var(--savings-200))',
+          300: 'rgb(var(--savings-300))',
+          400: 'rgb(var(--savings-400))',
+          500: 'rgb(var(--savings-500))',
+          600: 'rgb(var(--savings-600))',
+          700: 'rgb(var(--savings-700))',
+          800: 'rgb(var(--savings-800))',
+          900: 'rgb(var(--savings-900))',
+          950: 'rgb(var(--savings-950))',
         },
-        orange: {
-          DEFAULT: 'rgb(var(--orange-600))',
-          50: 'rgb(var(--orange-50))',
-          100: 'rgb(var(--orange-100))',
-          200: 'rgb(var(--orange-200))',
-          300: 'rgb(var(--orange-300))',
-          400: 'rgb(var(--orange-400))',
-          500: 'rgb(var(--orange-500))',
-          600: 'rgb(var(--orange-600))',
-          700: 'rgb(var(--orange-700))',
-          800: 'rgb(var(--orange-800))',
-          900: 'rgb(var(--orange-900))',
-          950: 'rgb(var(--orange-950))',
+        borrow: {
+          DEFAULT: 'rgb(var(--borrow-600))',
+          100: 'rgb(var(--borrow-100))',
+          200: 'rgb(var(--borrow-200))',
+          300: 'rgb(var(--borrow-300))',
+          400: 'rgb(var(--borrow-400))',
+          500: 'rgb(var(--borrow-500))',
+          600: 'rgb(var(--borrow-600))',
+          700: 'rgb(var(--borrow-700))',
+          800: 'rgb(var(--borrow-800))',
+          900: 'rgb(var(--borrow-900))',
+          950: 'rgb(var(--borrow-950))',
         },
-        magenta: {
-          DEFAULT: 'rgb(var(--magenta-600))',
-          50: 'rgb(var(--magenta-50))',
-          100: 'rgb(var(--magenta-100))',
-          200: 'rgb(var(--magenta-200))',
-          300: 'rgb(var(--magenta-300))',
-          400: 'rgb(var(--magenta-400))',
-          500: 'rgb(var(--magenta-500))',
-          600: 'rgb(var(--magenta-600))',
-          700: 'rgb(var(--magenta-700))',
-          800: 'rgb(var(--magenta-800))',
-          900: 'rgb(var(--magenta-900))',
-          950: 'rgb(var(--magenta-950))',
+        farms: {
+          DEFAULT: 'rgb(var(--farms-600))',
+          50: 'rgb(var(--farms-50))',
+          100: 'rgb(var(--farms-100))',
+          200: 'rgb(var(--farms-200))',
+          300: 'rgb(var(--farms-300))',
+          400: 'rgb(var(--farms-400))',
+          500: 'rgb(var(--farms-500))',
+          600: 'rgb(var(--farms-600))',
+          700: 'rgb(var(--farms-700))',
+          800: 'rgb(var(--farms-800))',
+          900: 'rgb(var(--farms-900))',
+          950: 'rgb(var(--farms-950))',
         },
         page: {
           savings: 'rgb(var(--page-savings))',
@@ -304,12 +288,8 @@ export default {
               secondary: 'rgb(var(--warning-600))',
             },
             error: {
-              primary: 'rgb(var(--error-500))',
-              secondary: 'rgb(var(--error-600))',
-            },
-            info: {
-              primary: 'rgb(var(--magenta-500))',
-              secondary: 'rgb(var(--magenta-600))',
+              primary: 'rgb(var(--error-600))',
+              secondary: 'rgb(var(--error-700))',
             },
           },
         },
@@ -779,6 +759,33 @@ export default {
         '.icon-md': {
           width: '24px',
           height: '24px',
+        },
+      })
+
+      addUtilities({
+        '.icon-primary': {
+          color: 'rgb(var(--base-black))',
+        },
+        '.icon-primary-inverse': {
+          color: 'rgb(var(--base-white))',
+        },
+        '.icon-secondary': {
+          color: 'rgb(var(--neutral-500))',
+        },
+        '.icon-tertiary': {
+          color: 'rgb(var(--neutral-300))',
+        },
+        '.icon-brand-primary': {
+          color: 'rgb(var(--primary-700))',
+        },
+        '.icon-brand-secondary': {
+          color: 'rgb(var(--primary-800))',
+        },
+        '.icon-system-success-primary': {
+          color: 'rgb(var(--success-600))',
+        },
+        '.icon-system-success-secondary': {
+          color: 'rgb(var(--success-700))',
         },
       })
     }),

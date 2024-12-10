@@ -59,7 +59,7 @@ const iconVariants = cva(
       variant: {
         disabled: 'bg-secondary text-primary',
         ready: 'bg-brand-primary text-brand-primary',
-        loading: 'bg-orange-600/10 text-orange-600',
+        loading: 'bg-brand-primary text-brand-primary',
         success: 'bg-system-success-primary text-system-success-primary',
         error: 'bg-system-error-primary text-system-error-primary',
       },

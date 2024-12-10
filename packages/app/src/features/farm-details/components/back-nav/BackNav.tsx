@@ -10,7 +10,7 @@ interface BackNavProps {
 
 export function BackNav({ chainId }: BackNavProps) {
   return (
-    <div className="flex items-center gap-1 px-3 sm:px-0">
+    <div className="flex items-center gap-3 px-3 sm:px-0">
       <LinkButton to={paths.farms} variant="transparent" size="s">
         <ButtonIcon icon={ArrowLeftIcon} />
         Back to Farms
