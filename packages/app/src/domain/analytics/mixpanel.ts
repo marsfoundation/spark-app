@@ -22,13 +22,6 @@ export interface Analytics {
   trackEvent(event: string, props?: Record<string, any>): void
 }
 
-const analyticsDisabled: Analytics = {
-  optInTracking: () => {},
-  optOutTracking: () => {},
-  trackUserAddress: (_address: CheckedAddress) => {},
-  trackEvent: (_event: string, _props: Record<string, any> = {}) => {},
-}
-
 const analyticsEnabled: Analytics = {
   optInTracking: () => {
     if (!mixpanel.has_opted_in_tracking()) {
@@ -46,6 +39,13 @@ const analyticsEnabled: Analytics = {
   trackEvent: (event: string, props: Record<string, any> = {}) => {
     mixpanel.track(event, props)
   },
+}
+
+const analyticsDisabled: Analytics = {
+  optInTracking: () => {},
+  optOutTracking: () => {},
+  trackUserAddress: (_address: CheckedAddress) => {},
+  trackEvent: (_event: string, _props: Record<string, any> = {}) => {},
 }
 
 export const { optInTracking, optOutTracking, trackUserAddress, trackEvent } = MIXPANEL_ENABLED
