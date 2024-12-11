@@ -1,5 +1,5 @@
 import { expect } from 'earl'
-import { UnixTime } from './UnixTime'
+import { UnixTime } from './UnixTime.js'
 
 describe(UnixTime.name, () => {
   it('works with valid unix timestamps', () => {

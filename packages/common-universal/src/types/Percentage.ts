@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 
-import { assert, NumberLike, bigNumberify } from '../index'
-import { Opaque } from './Opaque'
+import { assert, NumberLike, bigNumberify } from '../index.js'
+import { Opaque } from './Opaque.js'
 
 /**
  * Represents a percentage as a fraction number i.e. 0.5 (means 50%)

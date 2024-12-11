@@ -1,8 +1,8 @@
 import BigNumber from 'bignumber.js'
 
-import { assert, NumberLike, bigNumberify } from '../index'
-import { NormalizedUnitNumber } from './NormalizedUnitNumber'
-import { Opaque } from './Opaque'
+import { assert, NumberLike, bigNumberify } from '../index.js'
+import { NormalizedUnitNumber } from './NormalizedUnitNumber.js'
+import { Opaque } from './Opaque.js'
 
 /**
  * Represents a base number i.e. 1.5 * 10^18 (DAI)

@@ -12,7 +12,7 @@
     "storybook": "pnpm run --filter './packages/app' storybook",
     "check": "biome check .",
     "check:fix": "biome check --write --unsafe .",
-    "build": "pnpm run --parallel --aggregate-output --reporter append-only --filter './packages/**' build",
+    "build": "pnpm run --aggregate-output --reporter append-only --filter './packages/**' build",
     "verify": "pnpm run --parallel --aggregate-output --reporter append-only --filter './packages/**' verify",
     "fix": "pnpm run check:fix && pnpm run verify",
     "clean": "pnpm run --parallel --aggregate-output --reporter append-only --filter './packages/**' clean"
@@ -25,6 +25,7 @@
     "@eslint/js": "^9.3.0",
     "concurrently": "^8.2.2",
     "eslint": "^9.3.0",
+    "eslint-plugin-import": "^2.31.0",
     "tsx": "^4.15.6",
     "typescript": "^5.6.2",
     "typescript-eslint": "^7.11.0"

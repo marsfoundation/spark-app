@@ -1,6 +1,6 @@
 {
   "name": "@marsfoundation/common-universal",
-  "version": "0.1.6",
+  "version": "0.1.14",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -8,23 +8,26 @@
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/types/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marsfoundation/spark-app.git",
+    "directory": "packages/common-universal"
+  },
   "exports": {
     ".": {
       "import": {
-        "@marsfoundation/source": "./src/index.ts",
+        "@marsfoundation/local-spark-monorepo": "./src/index.ts",
         "types": "./dist/types/index.d.ts",
         "default": "./dist/esm/index.js"
       },
       "require": {
-        "@marsfoundation/source": "./src/index.ts",
+        "@marsfoundation/local-spark-monorepo": "./src/index.ts",
         "types": "./dist/types/index.d.ts",
         "default": "./dist/cjs/index.js"
       }
     }
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "scripts": {
     "lint": "eslint src",
     "verify": "concurrently --names \"LINT,TEST,TYPECHECK,LINT-CUSTOM\" -c \"bgMagenta.bold,bgGreen.bold,bgBlue.bold,bgCyan.bold\" \"pnpm run lint\" \"pnpm run test --silent\" \"pnpm run typecheck\"",

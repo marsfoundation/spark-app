@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 
-import { assert, BaseUnitNumber } from '../index'
+import { assert, BaseUnitNumber } from '../index.js'
 
 export type NumberLike = string | number | BigNumber | bigint
 

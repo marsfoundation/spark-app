@@ -3,7 +3,7 @@ import { describe, it } from 'mocha'
 
 import BigNumber from 'bignumber.js'
 
-import { bigNumberify, parseBigNumber } from './bigNumber'
+import { bigNumberify, parseBigNumber } from './bigNumber.js'
 
 describe(bigNumberify.name, () => {
   it('throws for non-numeric string', () => {
