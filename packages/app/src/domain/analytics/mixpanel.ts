@@ -13,40 +13,42 @@ mixpanel.init(mixpanelProjectToken, {
   record_mask_text_selector: '',
 })
 
-export const MIXPANEL_ENABLED = mixpanelProjectToken !== undefined && mixpanelProjectToken !== ''
+const MIXPANEL_ENABLED = Boolean(mixpanelProjectToken)
 
-export function optInTracking(): void {
-  if (!MIXPANEL_ENABLED) {
-    return
-  }
-
-  if (!mixpanel.has_opted_in_tracking()) {
-    mixpanel.opt_in_tracking()
-  }
+export interface Analytics {
+  optInTracking(): void
+  optOutTracking(): void
+  trackUserAddress(address: CheckedAddress): void
+  trackEvent(event: string, props?: Record<string, any>): void
 }
 
-export function optOutTracking(): void {
-  if (!MIXPANEL_ENABLED) {
-    return
-  }
-
-  if (!mixpanel.has_opted_out_tracking()) {
-    mixpanel.opt_out_tracking()
-  }
+const analyticsDisabled: Analytics = {
+  optInTracking: () => {},
+  optOutTracking: () => {},
+  trackUserAddress: (_address: CheckedAddress) => {},
+  trackEvent: (_event: string, _props: Record<string, any> = {}) => {},
 }
 
-export function trackUserAddress(address: CheckedAddress): void {
-  if (!MIXPANEL_ENABLED) {
-    return
-  }
-
-  mixpanel.identify(address)
+// Define the real analytics object
+const analyticsEnabled: Analytics = {
+  optInTracking: () => {
+    if (!mixpanel.has_opted_in_tracking()) {
+      mixpanel.opt_in_tracking()
+    }
+  },
+  optOutTracking: () => {
+    if (!mixpanel.has_opted_out_tracking()) {
+      mixpanel.opt_out_tracking()
+    }
+  },
+  trackUserAddress: (address: CheckedAddress) => {
+    mixpanel.identify(address)
+  },
+  trackEvent: (event: string, props: Record<string, any> = {}) => {
+    mixpanel.track(event, props)
+  },
 }
 
-export function trackEvent(event: string, props: Record<string, any> = {}): void {
-  if (!MIXPANEL_ENABLED) {
-    return
-  }
-
-  mixpanel.track(event, props)
-}
+export const { optInTracking, optOutTracking, trackUserAddress, trackEvent } = MIXPANEL_ENABLED
+  ? analyticsEnabled
+  : analyticsDisabled
