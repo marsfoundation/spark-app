@@ -19,6 +19,8 @@ export function useAnalytics(): UseAnalyticsResult {
     optOutTracking()
   }
 
+  // @note: We are delaying showing the banner until the initial data is loaded and skeleton is removed.
+  // This is because we need to drag user's attention to the banner and we don't want to show it too early.
   const initialDataLoaded = useInitialDataLoaded()
 
   return {
