@@ -4,7 +4,7 @@ import { savingsDepositDialogConfig } from '@/features/dialogs/savings/deposit/S
 import { assets as uiAssets } from '@/ui/assets'
 import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
-import { DataTable, DataTableProps } from '@/ui/molecules/data-table/DataTable'
+import { DataTable, DataTableColumnDefinitions } from '@/ui/molecules/data-table/DataTable'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { useMemo } from 'react'
@@ -26,7 +26,7 @@ export function StablecoinsInWallet({
   showConvertDialogButton,
   migrationInfo,
 }: StablecoinsInWalletProps) {
-  const columnDef: DataTableProps<AssetInWallet>['columnDef'] = useMemo(
+  const columnDef: DataTableColumnDefinitions<AssetInWallet> = useMemo(
     () => ({
       token: {
         header: 'Token',

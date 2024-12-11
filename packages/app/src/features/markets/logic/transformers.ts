@@ -1,6 +1,7 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { getAirdropsData } from '@/config/chain/utils/airdrops'
 import { paths } from '@/config/paths'
+import { sortByUsdValue } from '@/domain/common/sorters'
 import { MarketInfo, Reserve } from '@/domain/market-info/marketInfo'
 import { RowClickOptions } from '@/ui/molecules/data-table/DataTable'
 import { Transformer, TransformerResult, applyTransformers } from '@/utils/applyTransformers'
@@ -25,6 +26,7 @@ export function transformReserves(marketInfo: MarketInfo): MarketEntry[] {
       return applyTransformers(marketInfo.chainId, r, marketInfo.reserves)(transformers)
     })
     .filter((r): r is MarketEntryRowData => r !== null)
+    .sort((a, b) => -sortByUsdValue(a, b, 'totalSupplied')) // this is needed for mobile view where we don't have sorting functions
 }
 
 function skipInactiveReserves(_: number, reserve: Reserve): undefined | null {

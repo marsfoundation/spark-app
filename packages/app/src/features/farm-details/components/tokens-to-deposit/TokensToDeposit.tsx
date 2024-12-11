@@ -3,7 +3,7 @@ import { Token } from '@/domain/types/Token'
 import { TokenCell } from '@/features/savings/components/stablecoins-in-wallet/components/TokenCell'
 import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
-import { DataTable, DataTableProps } from '@/ui/molecules/data-table/DataTable'
+import { DataTable, DataTableColumnDefinitions } from '@/ui/molecules/data-table/DataTable'
 import { useMemo } from 'react'
 
 export interface TokensToDepositProps {
@@ -12,7 +12,7 @@ export interface TokensToDepositProps {
 }
 
 export function TokensToDeposit({ assets, openStakeDialog }: TokensToDepositProps) {
-  const columnDef: DataTableProps<TokenWithBalance>['columnDef'] = useMemo(
+  const columnDef: DataTableColumnDefinitions<TokenWithBalance> = useMemo(
     () => ({
       token: {
         header: 'Token',
