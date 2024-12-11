@@ -29,7 +29,6 @@ const analyticsDisabled: Analytics = {
   trackEvent: (_event: string, _props: Record<string, any> = {}) => {},
 }
 
-// Define the real analytics object
 const analyticsEnabled: Analytics = {
   optInTracking: () => {
     if (!mixpanel.has_opted_in_tracking()) {
