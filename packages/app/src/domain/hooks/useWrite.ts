@@ -147,6 +147,7 @@ export function useWrite<TAbi extends Abi, TFunctionName extends ContractFunctio
             chainId,
             receiver: parameters.request.address,
             method: parameters.request.functionName,
+            args: JSONStringifyRich(parameters.request.args),
           })
 
           writeContract(parameters.request as any)
