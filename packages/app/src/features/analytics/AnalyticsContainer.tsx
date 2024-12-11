@@ -10,7 +10,7 @@ export function AnalyticsContainer() {
       onAccept={onAcceptCookieBanner}
       onDecline={onDeclineCookieBanner}
       className={cn(
-        'fixed right-6 bottom-6 z-[1000]',
+        'fixed inset-x-2 bottom-2 z-[1000] sm:right-6 sm:bottom-6 sm:left-auto',
         'transform transition-all duration-500 ease-in-out',
         showCookieBanner ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0',
       )}

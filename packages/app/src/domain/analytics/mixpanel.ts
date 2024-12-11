@@ -13,7 +13,7 @@ mixpanel.init(mixpanelProjectToken, {
   record_mask_text_selector: '',
 })
 
-const MIXPANEL_ENABLED = Boolean(mixpanelProjectToken)
+export const MIXPANEL_ENABLED = Boolean(mixpanelProjectToken)
 
 export interface Analytics {
   optInTracking(): void
