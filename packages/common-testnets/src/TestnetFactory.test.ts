@@ -1,6 +1,6 @@
 import { getEnv } from '@marsfoundation/common-nodejs/env'
 import { expect } from 'earl'
-import { describe, it, before, after } from 'mocha'
+import { after, before, describe, it } from 'mocha'
 import { TestnetClient } from './TestnetClient'
 import { TestnetFactory } from './TestnetFactory'
 import { AnvilTestnetFactory } from './anvil'
@@ -29,7 +29,7 @@ describe('TestnetFactory', () => {
         const expectedTimestamp = 1733909123n + 2n
 
         before(async () => {
-          ({ client: testnetClient, cleanup } = await factory.create({
+          ;({ client: testnetClient, cleanup } = await factory.create({
             id: 'test',
             originChainId: 1,
             forkChainId: expectedChainId,
@@ -73,18 +73,20 @@ describe('TestnetFactory', () => {
         })
 
         it('does not contain tx from future block', async () => {
-          await expect(testnetClient.getTransactionReceipt({
-            hash: '0x7057abf025862e54cb1c33b4f4d4e6f8793383098abb84e58a85d1f10d14b765',
-          })).toBeRejectedWith('The Transaction may not be processed on a block yet.')
+          await expect(
+            testnetClient.getTransactionReceipt({
+              hash: '0x7057abf025862e54cb1c33b4f4d4e6f8793383098abb84e58a85d1f10d14b765',
+            }),
+          ).toBeRejectedWith('The Transaction may not be processed on a block yet.')
         })
       })
-      
+
       describe('Without block specified', () => {
         let testnetClient: TestnetClient
         let cleanup: () => Promise<void>
 
         before(async () => {
-          ({ client: testnetClient, cleanup } = await factory.create({
+          ;({ client: testnetClient, cleanup } = await factory.create({
             id: 'test',
             originChainId: 1,
             forkChainId: expectedChainId,

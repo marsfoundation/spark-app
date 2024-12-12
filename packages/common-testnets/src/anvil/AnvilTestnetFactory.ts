@@ -3,9 +3,9 @@ import { TestnetClient } from '../TestnetClient'
 import { CreateNetworkArgs, TestnetCreateResult, TestnetFactory } from '../TestnetFactory'
 
 import { createAnvil } from '@viem/anvil'
-import { getAnvilClient } from './AnvilClient'
-import { createPublicClient, http } from 'viem'
 import getPort from 'get-port'
+import { http, createPublicClient } from 'viem'
+import { getAnvilClient } from './AnvilClient'
 
 export class AnvilTestnetFactory implements TestnetFactory {
   constructor(private readonly opts: { alchemyApiKey: string }) {}
@@ -20,7 +20,7 @@ export class AnvilTestnetFactory implements TestnetFactory {
         return blockNumber
       }
 
-      const publicClient = createPublicClient({ transport: http(forkUrl)})
+      const publicClient = createPublicClient({ transport: http(forkUrl) })
       return publicClient.getBlockNumber()
     })()
     const port = await getPort({ port: 8545 })
@@ -68,4 +68,3 @@ function originChainIdToForkUrl(originChainId: number, alchemyApiKey: string): s
       throw new Error(`Unsupported origin chain id: ${originChainId}`)
   }
 }
-
