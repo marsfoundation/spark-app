@@ -14,6 +14,7 @@ import { useStore } from './domain/state'
 import { useAutoConnect } from './domain/wallet/useAutoConnect'
 import { TooltipProvider } from './ui/atoms/tooltip/Tooltip'
 
+// Some comment
 function App() {
   const sandboxNetwork = useStore((state) => state.sandbox.network)
   const config = getConfig(sandboxNetwork)
