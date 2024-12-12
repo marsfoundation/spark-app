@@ -19,18 +19,18 @@ export interface RowClickOptions {
   destination: string
   external?: boolean
 }
-interface RowType {
+export interface DataTableRowType {
   [k: string]: any
   rowClickOptions?: RowClickOptions
 }
 
-export interface DataTableProps<T extends RowType> {
-  columnDef: {
-    [key: string]: ColumnDefinition<T>
-  }
+export type DataTableColumnDefinitions<T extends DataTableRowType> = Record<string, ColumnDefinition<T>>
+export interface DataTableProps<T extends DataTableRowType, C extends DataTableColumnDefinitions<T>> {
+  columnDef: C
   scroll?: {
     height: number
   }
+  defaultSortingState?: { id: keyof C; desc: boolean }[]
   hideTableHeader?: boolean
   gridTemplateColumnsClassName?: string
   data: T[]
@@ -43,16 +43,17 @@ export interface DataTableProps<T extends RowType> {
  * If this is the problem, take care of memoizing columnDef outside of the component, so react knows that
  * passed object is the same between renders, which will prevent unnecessary re-mount.
  */
-export function DataTable<T extends RowType>({
+export function DataTable<T extends DataTableRowType, C extends DataTableColumnDefinitions<T>>({
   columnDef,
   data,
   scroll,
   hideTableHeader = false,
+  defaultSortingState = [],
   gridTemplateColumnsClassName,
   footer,
   'data-testid': dataTestId,
-}: DataTableProps<T>) {
-  const [sorting, setSorting] = useState<SortingState>([])
+}: DataTableProps<T, C>) {
+  const [sorting, setSorting] = useState<SortingState>(defaultSortingState as SortingState)
 
   const columns: ColumnDef<T>[] = useMemo(() => {
     return Object.keys(columnDef).map<ColumnDef<T>>((key) => {

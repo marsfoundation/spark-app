@@ -33,6 +33,31 @@ test.describe('Markets', () => {
     await marketsPage.expectActiveMarketsTable([
       {
         asset: {
+          name: 'Lido Staked ETH',
+          symbol: 'wstETH',
+        },
+        totalSupplied: {
+          tokenAmount: '519K',
+          usdValue: '$2.06B',
+        },
+        depositAPY: {
+          value: '<0.01%',
+        },
+        totalBorrowed: {
+          tokenAmount: '51.56',
+          usdValue: '$204.7K',
+        },
+        borrowAPY: {
+          value: '0.25%',
+        },
+        status: {
+          supply: 'Can be supplied',
+          collateral: 'Can be used as collateral',
+          borrow: 'Can be borrowed',
+        },
+      },
+      {
+        asset: {
           name: 'DAI Stablecoin',
           symbol: 'DAI',
         },
@@ -61,51 +86,6 @@ test.describe('Markets', () => {
       },
       {
         asset: {
-          name: 'Savings Dai',
-          symbol: 'sDAI',
-        },
-        totalSupplied: {
-          tokenAmount: '13.49M',
-          usdValue: '$14.73M',
-        },
-        depositAPY: {
-          value: '0.00%',
-        },
-        totalBorrowed: undefined,
-        borrowAPY: undefined,
-        status: {
-          supply: 'Can be supplied',
-          collateral: 'Can be used as collateral',
-          borrow: 'Cannot be borrowed',
-        },
-      },
-      {
-        asset: {
-          name: 'Circle USD',
-          symbol: 'USDC',
-        },
-        totalSupplied: {
-          tokenAmount: '2.559M',
-          usdValue: '$2.559M',
-        },
-        depositAPY: {
-          value: '5.90%',
-        },
-        totalBorrowed: {
-          tokenAmount: '2.077M',
-          usdValue: '$2.077M',
-        },
-        borrowAPY: {
-          value: '7.72%',
-        },
-        status: {
-          supply: 'Can be supplied',
-          collateral: 'Cannot be used as collateral',
-          borrow: 'Can be borrowed',
-        },
-      },
-      {
-        asset: {
           name: 'Ethereum',
           symbol: 'ETH',
         },
@@ -123,31 +103,6 @@ test.describe('Markets', () => {
         },
         borrowAPY: {
           value: '1.97%',
-        },
-        status: {
-          supply: 'Can be supplied',
-          collateral: 'Can be used as collateral',
-          borrow: 'Can be borrowed',
-        },
-      },
-      {
-        asset: {
-          name: 'Lido Staked ETH',
-          symbol: 'wstETH',
-        },
-        totalSupplied: {
-          tokenAmount: '519K',
-          usdValue: '$2.06B',
-        },
-        depositAPY: {
-          value: '<0.01%',
-        },
-        totalBorrowed: {
-          tokenAmount: '51.56',
-          usdValue: '$204.7K',
-        },
-        borrowAPY: {
-          value: '0.25%',
         },
         status: {
           supply: 'Can be supplied',
@@ -207,6 +162,71 @@ test.describe('Markets', () => {
       },
       {
         asset: {
+          name: 'Ether.fi Staked ETH',
+          symbol: 'weETH',
+        },
+        totalSupplied: {
+          tokenAmount: '11.66K',
+          usdValue: '$41.17M',
+        },
+        depositAPY: {
+          value: '0.00%',
+        },
+        totalBorrowed: undefined,
+        borrowAPY: undefined,
+        status: {
+          supply: 'Can be supplied',
+          collateral: 'Can be used as collateral only in isolation mode',
+          borrow: 'Cannot be borrowed',
+        },
+      },
+      {
+        asset: {
+          name: 'Savings Dai',
+          symbol: 'sDAI',
+        },
+        totalSupplied: {
+          tokenAmount: '13.49M',
+          usdValue: '$14.73M',
+        },
+        depositAPY: {
+          value: '0.00%',
+        },
+        totalBorrowed: undefined,
+        borrowAPY: undefined,
+        status: {
+          supply: 'Can be supplied',
+          collateral: 'Can be used as collateral',
+          borrow: 'Cannot be borrowed',
+        },
+      },
+      {
+        asset: {
+          name: 'Circle USD',
+          symbol: 'USDC',
+        },
+        totalSupplied: {
+          tokenAmount: '2.559M',
+          usdValue: '$2.559M',
+        },
+        depositAPY: {
+          value: '5.90%',
+        },
+        totalBorrowed: {
+          tokenAmount: '2.077M',
+          usdValue: '$2.077M',
+        },
+        borrowAPY: {
+          value: '7.72%',
+        },
+        status: {
+          supply: 'Can be supplied',
+          collateral: 'Cannot be used as collateral',
+          borrow: 'Can be borrowed',
+        },
+      },
+      {
+        asset: {
           name: 'Tether USD',
           symbol: 'USDT',
         },
@@ -228,26 +248,6 @@ test.describe('Markets', () => {
           supply: 'Can be supplied',
           collateral: 'Cannot be used as collateral',
           borrow: 'Can be borrowed',
-        },
-      },
-      {
-        asset: {
-          name: 'Ether.fi Staked ETH',
-          symbol: 'weETH',
-        },
-        totalSupplied: {
-          tokenAmount: '11.66K',
-          usdValue: '$41.17M',
-        },
-        depositAPY: {
-          value: '0.00%',
-        },
-        totalBorrowed: undefined,
-        borrowAPY: undefined,
-        status: {
-          supply: 'Can be supplied',
-          collateral: 'Can be used as collateral only in isolation mode',
-          borrow: 'Cannot be borrowed',
         },
       },
     ])

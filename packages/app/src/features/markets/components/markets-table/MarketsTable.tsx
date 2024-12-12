@@ -26,6 +26,7 @@ export function MarketsTable({ entries, chainId, hideTableHeader, 'data-testid':
       hideTableHeader={hideTableHeader}
       data={entries}
       data-testid={dataTestId}
+      defaultSortingState={[{ id: 'totalSupplied', desc: true }]}
       columnDefinition={{
         asset: {
           header: 'Assets',
