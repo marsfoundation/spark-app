@@ -65,18 +65,8 @@ jobs:
       - run: pnpm install
 
       - run: pnpm check
-
-      - name: Verify app
-        working-directory: ./packages/app
-        run: pnpm verify
-      
-      - name: Verify common-universal
-        working-directory: ./packages/app
-        run: pnpm verify
-
-      - name: Verify common-nodejs
-        working-directory: ./packages/app
-        run: pnpm verify
+      - name: Verify # verifies all packages except common-testnets
+        run: pnpm run --parallel --aggregate-output --reporter append-only --filter './packages/{app,common-nodejs,common-universal}' verify 
 
   storybook-visual-regression:
     strategy:
