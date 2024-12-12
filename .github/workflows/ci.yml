@@ -64,18 +64,19 @@ jobs:
           cache: "pnpm"
       - run: pnpm install
 
-      - name: Install Foundry
-        uses: foundry-rs/foundry-toolchain@v1.2.0
-        with:
-          version: nightly-58bf161bc9dd6e74de8cb61e3ae23f701feb5512
-
       - run: pnpm check
-      - run: pnpm verify # does linting, type checking, and tests in parallel
-        env:
-          TENDERLY_API_KEY: "${{ secrets.TENDERLY_API_KEY }}"
-          TENDERLY_ACCOUNT: phoenixlabs
-          TENDERLY_PROJECT: spark-app-e2e-tests
-          TEST_E2E_ALCHEMY_API_KEY: "${{ secrets.ALCHEMY_API_KEY }}"
+
+      - name: Verify app
+        working-directory: ./packages/app
+        run: pnpm verify
+      
+      - name: Verify common-universal
+        working-directory: ./packages/app
+        run: pnpm verify
+
+      - name: Verify common-nodejs
+        working-directory: ./packages/app
+        run: pnpm verify
 
   storybook-visual-regression:
     strategy:
