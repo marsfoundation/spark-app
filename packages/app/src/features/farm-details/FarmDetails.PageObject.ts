@@ -1,8 +1,8 @@
 import { BasePageObject } from '@/test/e2e/BasePageObject'
 import { AssetsInTests, TOKENS_ON_FORK } from '@/test/e2e/constants'
-import { ForkContext } from '@/test/e2e/forking/setupFork'
 import { getTokenBalance } from '@/test/e2e/utils'
 import { testIds } from '@/ui/utils/testIds'
+import { getUrlFromClient, TestnetClient } from '@marsfoundation/common-testnets'
 import { Locator, expect } from '@playwright/test'
 import { Address } from 'viem'
 
@@ -54,26 +54,24 @@ export class FarmDetailsPageObject extends BasePageObject {
   }
 
   async expectTokenBalance({
-    fork,
+    testnetClient,
     symbol,
-    minBalance,
-    maxBalance,
+    balance,
     address,
   }: {
-    fork: ForkContext
+    testnetClient: TestnetClient
     symbol: AssetsInTests
-    minBalance: number
-    maxBalance: number
+    balance: string
     address: Address
   }): Promise<void> {
-    const token: { address: Address; decimals: number } = (TOKENS_ON_FORK as any)[fork.chainId][symbol]
-    const balance = await getTokenBalance({
+    const chainId = await testnetClient.getChainId()
+    const token: { address: Address; decimals: number } = (TOKENS_ON_FORK as any)[chainId][symbol]
+    const actualBalance = await getTokenBalance({
       address,
-      forkUrl: fork.forkUrl,
+      forkUrl: getUrlFromClient(testnetClient),
       token,
     })
-    expect(balance.toNumber()).toBeGreaterThanOrEqual(minBalance)
-    expect(balance.toNumber()).toBeLessThanOrEqual(maxBalance)
+    expect(balance).toBe(actualBalance.toFixed())
   }
 
   async expectPointsSyncWarning(): Promise<void> {

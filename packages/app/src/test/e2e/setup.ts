@@ -56,7 +56,12 @@ export interface SetupOptions<K extends Path, T extends ConnectionType> {
 }
 
 export type SetupReturn<T extends ConnectionType> = (T extends 'not-connected'
-  ? {} : { account: Address }) & { getLogs: () => string[], progressSimulation: () => Promise<void> }
+  ? {} : { account: Address }) & {
+    getLogs: () => string[],
+    testnetClient: TestnetClient,
+    updateBrowserAndNextBlockTime: (seconds: number) => Promise<void>,
+    incrementTime: (seconds: number) => Promise<void>,
+  }
 
 // should be called at the beginning of any test
 export async function setup<K extends Path, T extends ConnectionType>(
@@ -107,18 +112,30 @@ export async function setup<K extends Path, T extends ConnectionType>(
 
   await page.goto(buildUrl(options.initialPage, options.initialPageParams))
 
-  async function progressSimulation(seconds: number): Promise<void> {
-    const currentTimestamp = (await client.getBlock()).timestamp
+  async function updateBrowserAndNextBlockTime(seconds: number): Promise<void> {
+    const { timestamp: currentTimestamp } = await client.getBlock()
+
     const progressedTimestamp = currentTimestamp + BigInt(seconds)
     await client.setNextBlockTimestamp(progressedTimestamp)
+    await injectUpdatedDate(page, new Date(Number(currentTimestamp) * 1000))
+  }
+
+  // @note: Sync time in browser with current time on blockchain,
+  // set next block to be mined timestamp to be 5 seconds more.
+  await updateBrowserAndNextBlockTime(5)
+
+  async function incrementTime(seconds: number): Promise<void> {
+    await updateBrowserAndNextBlockTime(seconds)
     await client.mineBlocks(1n)
-    await injectUpdatedDate(page, new Date(Number(progressedTimestamp) * 1000))
+    await updateBrowserAndNextBlockTime(5)
   }
 
   return {
     account: address,
+    testnetClient: client,
     getLogs: () => errorLogs,
-    progressSimulation,
+    updateBrowserAndNextBlockTime,
+    incrementTime,
   } as any
 }
 
@@ -132,8 +149,9 @@ export async function injectFunds(
   }
 
   const chainId = await testnetClient.getChainId()
-
-  const promises = Object.entries(assetBalances).map(async ([tokenName, balance]) => {
+  for(const [tokenName, balance] of Object.entries(assetBalances)) {
+    const { timestamp } = await testnetClient.getBlock()
+    await testnetClient.setNextBlockTimestamp(timestamp + 1n)
     if (tokenName === 'ETH' || tokenName === 'XDAI') {
       await testnetClient.setBalance(address, parseEther(balance.toString()))
     } else {
@@ -143,6 +161,5 @@ export async function injectFunds(
         parseUnits(balance.toString(), (TOKENS_ON_FORK as any)[chainId][tokenName].decimals),
       )
     }
-  })
-  await Promise.all(promises)
+  }
 }

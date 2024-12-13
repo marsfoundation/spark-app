@@ -7,15 +7,18 @@ import { Address } from 'viem'
 import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
 import { ClaimDialogPageObject } from '../../ClaimDialog.PageObject'
+import { TestnetClient } from '@marsfoundation/common-testnets'
 
 test.describe('Claim SKY rewards', () => {
   let farmDetailsPage: FarmDetailsPageObject
   let claimDialog: ClaimDialogPageObject
   let account: Address
-  let progressSimulation: (seconds: number) => Promise<void>
+  let updateBrowserAndNextBlockTime: (seconds: number) => Promise<void>
+  let incrementTime: (seconds: number) => Promise<void>
+  let testnetClient: TestnetClient
 
   test.beforeEach(async ({ page }) => {
-    ;({ account, progressSimulation } = await setup(page, {
+    ;({ account, testnetClient, updateBrowserAndNextBlockTime, incrementTime } = await setup(page, {
       blockchain: {
         chainId: mainnet.id,
         blockNumber: USDS_ACTIVATED_BLOCK_NUMBER,
@@ -39,9 +42,9 @@ test.describe('Claim SKY rewards', () => {
     await farmDetailsPage.clickInfoPanelStakeButtonAction()
     const stakeDialog = new StakeDialogPageObject(page)
     await stakeDialog.fillAmountAction(10_000)
-    await stakeDialog.actionsContainer.acceptAllActionsAction(2, progressSimulation)
+    await stakeDialog.actionsContainer.acceptAllActionsAction(2, updateBrowserAndNextBlockTime)
     await stakeDialog.clickBackToFarmAction()
-    await progressSimulation(24 * 60 * 60) // 24 hours
+    await incrementTime(24 * 60 * 60) // 24 hours
     await page.reload()
 
     await farmDetailsPage.clickInfoPanelClaimButtonAction()
@@ -53,34 +56,32 @@ test.describe('Claim SKY rewards', () => {
     await claimDialog.actionsContainer.expectActions([{ type: 'claimFarmRewards', asset: 'SKY' }])
   })
 
-  // test('displays transaction overview', async () => {
-  //   await claimDialog.expectTransactionOverview({
-  //     reward: {
-  //       // amount is imprecise because of timing issues in e2e tests
-  //       amount: '3,539',
-  //       amountUSD: '$213',
-  //     },
-  //   })
-  // })
+  test('displays transaction overview', async () => {
+    await claimDialog.expectTransactionOverview({
+      reward: {
+        amount: '3,539.65',
+        amountUSD: '$213.35',
+      },
+    })
+  })
 
-  // test('executes transaction', async () => {
-  //   await claimDialog.actionsContainer.acceptAllActionsAction(1)
+  test('executes transaction', async () => {
+    await claimDialog.actionsContainer.acceptAllActionsAction(1, updateBrowserAndNextBlockTime )
 
-  //   await claimDialog.expectSuccessPage()
-  //   await claimDialog.clickBackToFarmAction()
+    await claimDialog.expectSuccessPage()
+    await claimDialog.clickBackToFarmAction()
 
-  //   await farmDetailsPage.expectTokenToDepositBalance('USDS', '-')
-  //   await farmDetailsPage.expectReward({
-  //     reward: '0',
-  //     rewardUsd: '$0.00',
-  //   })
-  //   await farmDetailsPage.expectTokenBalance({
-  //     address: account,
-  //     fork,
-  //     symbol: 'SKY',
-  //     minBalance: 3_525,
-  //     maxBalance: 3_545,
-  //   })
-  //   await farmDetailsPage.expectStaked({ amount: '10,000.00', asset: 'USDS' })
-  // })
+    await farmDetailsPage.expectTokenToDepositBalance('USDS', '-')
+    await farmDetailsPage.expectReward({
+      reward: '0.1',
+      rewardUsd: '<$0.01',
+    })
+    await farmDetailsPage.expectTokenBalance({
+      address: account,
+      testnetClient,
+      symbol: 'SKY',
+      balance: '3539.85599931941984',
+    })
+    await farmDetailsPage.expectStaked({ amount: '10,000.00', asset: 'USDS' })
+  })
 })
