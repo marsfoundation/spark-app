@@ -10,7 +10,7 @@ on:
       - main
 
 jobs:
-  test:
+  test-e2e:
     strategy:
       matrix:
         node: [ "20" ]
