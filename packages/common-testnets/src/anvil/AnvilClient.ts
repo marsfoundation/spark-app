@@ -41,7 +41,7 @@ export function getAnvilClient(rpc: string): TestnetClient {
 
         assert(result === true, 'revert failed')
 
-        // anvil snapshot are "burned" after revert so we need to create a new one
+        // anvil snapshots are "burned" after revert so we need to create a new one
         return await c.snapshot()
       },
       async mineBlocks(blocks: bigint) {
