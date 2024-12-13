@@ -65,8 +65,7 @@ jobs:
       - run: pnpm install
 
       - run: pnpm check
-      - name: Verify # verifies all packages except common-testnets
-        run: pnpm run --parallel --aggregate-output --reporter append-only --filter './packages/{app,common-nodejs,common-universal}' verify 
+      - run: pnpm verify # runs linting, type checking, and unit tests in parallel
 
   storybook-visual-regression:
     strategy:

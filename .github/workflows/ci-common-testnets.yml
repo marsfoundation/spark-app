@@ -33,8 +33,7 @@ jobs:
         with:
           version: nightly-58bf161bc9dd6e74de8cb61e3ae23f701feb5512
 
-      - run: pnpm check
-      - run: pnpm verify
+      - run: pnpm test-e2e
         working-directory: ./packages/common-testnets
         env:
           TENDERLY_API_KEY: "${{ secrets.TENDERLY_API_KEY }}"

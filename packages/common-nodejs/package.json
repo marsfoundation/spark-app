@@ -59,9 +59,7 @@
   "scripts": {
     "lint": "eslint src",
     "verify": "concurrently --names \"LINT,TEST,TYPECHECK,LINT-CUSTOM\" -c \"bgMagenta.bold,bgGreen.bold,bgBlue.bold,bgCyan.bold\" \"pnpm run lint\" \"pnpm run test --silent\" \"pnpm run typecheck\"",
-    "check": "cd ../../ && pnpm run check && cd -",
-    "check:fix": "cd ../../ && pnpm run check:fix && cd -",
-    "fix": "pnpm run check:fix && pnpm run verify",
+    "fix": "cd ../../ && pnpm run check:fix && cd - && pnpm run verify",
     "test": "mocha src/**/*.test.ts",
     "typecheck": "tsc --noEmit",
     "build:cjs": "tsc -p tsconfig.cjs.json",
