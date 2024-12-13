@@ -5,7 +5,7 @@ export interface TestnetCreateResult {
   cleanup: () => Promise<void>
 }
 /**
- * The created testnet may have a slight deviation in both the final block number
+ * The created testnet will have a small, though known beforehand, difference in both the final block number
  * and its timestamp compared to the requested block. This is due to necessary normalization
  * steps that ensure compatibility with different client implementations.
  */
