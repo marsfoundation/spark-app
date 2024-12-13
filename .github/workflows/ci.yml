@@ -65,7 +65,7 @@ jobs:
       - run: pnpm install
 
       - run: pnpm check
-      - run: pnpm verify # does linting, type checking, and tests in parallel
+      - run: pnpm verify # runs linting, type checking, and unit tests in parallel
 
   storybook-visual-regression:
     strategy:
@@ -132,9 +132,7 @@ jobs:
         env:
           TENDERLY_API_KEY: "${{ secrets.TENDERLY_API_KEY }}"
           TENDERLY_ACCOUNT: phoenixlabs
-          TENDERLY_PROJECT: sparklend
-          TENDERLY_BASE_DEVNET_CONTAINER_ID: "${{ secrets.TENDERLY_BASE_DEVNET_CONTAINER_ID }}"
-          VITE_DEV_BASE_DEVNET_RPC_URL: "${{ secrets.VITE_DEV_BASE_DEVNET_RPC_URL }}"
+          TENDERLY_PROJECT: spark-app-e2e-tests
           PLAYWRIGHT_TRACE: 1
       - name: Upload report to GitHub Actions Artifacts
         if: failure()

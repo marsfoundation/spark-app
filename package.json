@@ -18,7 +18,8 @@
     "clean": "pnpm run --parallel --aggregate-output --reporter append-only --filter './packages/**' clean"
   },
   "dependencies": {
-    "bignumber.js": "^9.1.2"
+    "bignumber.js": "^9.1.2",
+    "zod": "3.22.4"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.1",
