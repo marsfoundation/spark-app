@@ -43,6 +43,8 @@ export class AnvilTestnetFactory implements TestnetFactory {
 
     const client = getAnvilClient(url)
 
+    const lastBlockTimestamp = (await client.getBlock()).timestamp
+    await client.setNextBlockTimestamp(lastBlockTimestamp + 1n) // mineBlocks does not respect interval for the first block
     await client.mineBlocks(2n)
 
     return {
