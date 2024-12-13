@@ -3,58 +3,54 @@ import { StakeDialogPageObject } from '@/features/farm-details/dialogs/stake/Sta
 import { USDS_ACTIVATED_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { overrideInfoSkyRouteWithHAR } from '@/test/e2e/info-sky'
 import { setup } from '@/test/e2e/setup'
-import { test } from '@playwright/test'
 import { Address } from 'viem'
+import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
 import { ClaimDialogPageObject } from '../../ClaimDialog.PageObject'
-import { someObject } from './utils'
-
-console.log('Global test', someObject)
 
 test.describe('Claim SKY rewards', () => {
   let farmDetailsPage: FarmDetailsPageObject
   let claimDialog: ClaimDialogPageObject
   let account: Address
+  let progressSimulation: (seconds: number) => Promise<void>
 
-  // test.beforeEach(async ({ page }) => {
-  //   ;({ account } = await setup(page, {
-  //     blockchain: {
-  //       chainId: mainnet.id,
-  //       blockNumber: USDS_ACTIVATED_BLOCK_NUMBER,
-  //     },
-  //     initialPage: 'farmDetails',
-  //     initialPageParams: {
-  //       chainId: mainnet.id.toString(),
-  //       address: '0x0650CAF159C5A49f711e8169D4336ECB9b950275',
-  //     },
-  //     account: {
-  //       type: 'connected-random',
-  //       assetBalances: {
-  //         ETH: 1,
-  //         USDS: 10_000,
-  //       },
-  //     },
-  //   }))
-  //   await overrideInfoSkyRouteWithHAR({ page, key: '1-sky-farm-with-8_51-apy' })
+  test.beforeEach(async ({ page }) => {
+    ;({ account, progressSimulation } = await setup(page, {
+      blockchain: {
+        chainId: mainnet.id,
+        blockNumber: USDS_ACTIVATED_BLOCK_NUMBER,
+      },
+      initialPage: 'farmDetails',
+      initialPageParams: {
+        chainId: mainnet.id.toString(),
+        address: '0x0650CAF159C5A49f711e8169D4336ECB9b950275',
+      },
+      account: {
+        type: 'connected-random',
+        assetBalances: {
+          ETH: 1,
+          USDS: 10_000,
+        },
+      },
+    }))
+    await overrideInfoSkyRouteWithHAR({ page, key: '1-sky-farm-with-8_51-apy' })
 
-  //   farmDetailsPage = new FarmDetailsPageObject(page)
-  //   await farmDetailsPage.clickInfoPanelStakeButtonAction()
-  //   const stakeDialog = new StakeDialogPageObject(page)
-  //   await stakeDialog.fillAmountAction(10_000)
-  //   await stakeDialog.actionsContainer.acceptAllActionsAction(2)
-  //   await stakeDialog.clickBackToFarmAction()
-  //   await fork.progressSimulation(page, 24 * 60 * 60) // 24 hours
-  //   await page.reload()
+    farmDetailsPage = new FarmDetailsPageObject(page)
+    await farmDetailsPage.clickInfoPanelStakeButtonAction()
+    const stakeDialog = new StakeDialogPageObject(page)
+    await stakeDialog.fillAmountAction(10_000)
+    await stakeDialog.actionsContainer.acceptAllActionsAction(2, progressSimulation)
+    await stakeDialog.clickBackToFarmAction()
+    await progressSimulation(24 * 60 * 60) // 24 hours
+    await page.reload()
 
-  //   await farmDetailsPage.clickInfoPanelClaimButtonAction()
-  //   claimDialog = new ClaimDialogPageObject(page)
-  // })
+    await farmDetailsPage.clickInfoPanelClaimButtonAction()
+    claimDialog = new ClaimDialogPageObject(page)
+  })
 
   test('has correct action plan', async () => {
-    // await claimDialog.actionsContainer.expectEnabledActionAtIndex(0)
-    // await claimDialog.actionsContainer.expectActions([{ type: 'claimFarmRewards', asset: 'SKY' }])
-
-    console.log('Test 1', new Date().toISOString())
+    await claimDialog.actionsContainer.expectEnabledActionAtIndex(0)
+    await claimDialog.actionsContainer.expectActions([{ type: 'claimFarmRewards', asset: 'SKY' }])
   })
 
   // test('displays transaction overview', async () => {

@@ -1,7 +1,6 @@
 import { randomHexId } from "@/utils/random"
 import { TenderlyTestnetFactory, TestnetClient } from "@marsfoundation/common-testnets"
 import { getEnv } from "@marsfoundation/common-nodejs/env"
-import test from "@playwright/test"
 
 interface TestnetContext {
   client: TestnetClient
@@ -11,9 +10,16 @@ interface TestnetContext {
 
 const testnetCache = new Map<string, TestnetContext>()
 
-test.afterAll(async () => {
-  await Promise.all(Array.from(testnetCache.values()).map(({ cleanup }) => cleanup()))
-})
+;([`exit`, `SIGINT`, `SIGUSR1`, `SIGUSR2`, `uncaughtException`, `SIGTERM`].forEach((eventType) => {
+  process.on(eventType, () => {
+    const keys = Array.from(testnetCache.keys())
+    keys.forEach(key => {
+      const context = testnetCache.get(key)!
+      testnetCache.delete(key)
+      context.cleanup()
+    })
+  });
+}))
 
 export async function getTestnetContext({ chainId, blockNumber }: { chainId: number, blockNumber: bigint }) {
   const key = `${chainId}-${blockNumber.toString()}`

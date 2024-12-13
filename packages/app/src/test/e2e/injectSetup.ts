@@ -8,10 +8,10 @@ import {
   PLAYWRIGHT_WALLET_PRIVATE_KEY_KEY,
 } from '@/config/wagmi/config.e2e'
 
-import { http, createPublicClient, zeroAddress } from 'viem'
+import { zeroAddress } from 'viem'
 import { base, mainnet } from 'viem/chains'
-import { ForkContext } from './forking/setupFork'
 import { InjectableWallet } from './setup'
+import { TestnetClient } from '@marsfoundation/common-testnets'
 
 export async function injectWalletConfiguration(page: Page, wallet: InjectableWallet): Promise<void> {
   await page.addInitScript(
@@ -86,8 +86,8 @@ function overrideDateClass(fakeNow: number): void {
   // Date.now = () => fakeNow
 }
 
-export async function injectFlags(page: Page, forkContext: ForkContext): Promise<void> {
-  const susdsDeployed = await isSudsDeployed(forkContext)
+export async function injectFlags(page: Page, testnetClient: TestnetClient): Promise<void> {
+  const susdsDeployed = await isSudsDeployed(testnetClient)
 
   await page.addInitScript(
     ({ PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY, susdsDeployed }) => {
@@ -99,22 +99,22 @@ export async function injectFlags(page: Page, forkContext: ForkContext): Promise
   )
 }
 
-async function isSudsDeployed(forkContext: ForkContext): Promise<boolean> {
+// @todo: Consider deleting this after rewriting tests with vnets
+async function isSudsDeployed(testnetClient: TestnetClient): Promise<boolean> {
+  const chainId = await testnetClient.getChainId()
+
   const susdsAddress = (() => {
-    if (forkContext.chainId === mainnet.id) {
+    if (chainId === mainnet.id) {
       return '0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD'
     }
 
-    if (forkContext.chainId === base.id) {
+    if (chainId === base.id) {
       return '0x5875eEE11Cf8398102FdAd704C9E96607675467a'
     }
 
     return zeroAddress
   })()
-  const publicClient = createPublicClient({
-    transport: http(forkContext.forkUrl),
-  })
-  const susdsBytecode = await publicClient.getBytecode({ address: susdsAddress })
+  const susdsBytecode = await testnetClient.getCode({ address: susdsAddress })
 
   return susdsBytecode !== undefined && susdsBytecode.length > 2
 }
