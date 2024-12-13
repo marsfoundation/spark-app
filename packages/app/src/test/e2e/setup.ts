@@ -10,6 +10,8 @@ import { AssetsInTests, TOKENS_ON_FORK } from './constants'
 import { ForkContext } from './forking/setupFork'
 import { injectFixedDate, injectFlags, injectNetworkConfiguration, injectWalletConfiguration } from './injectSetup'
 import { generateAccount } from './utils'
+import { TenderlyTestnetFactory } from '@marsfoundation/common-testnets'
+import { getTestnetContext } from './testnet-cache'
 
 export type InjectableWallet = { address: Address } | { privateKey: string }
 
@@ -43,7 +45,13 @@ export type AccountOptions<T extends ConnectionType> = T extends 'not-connected'
           }
         : never
 
+
+export interface BlockchainOptions {
+  chainId: number
+  blockNumber: bigint
+}
 export interface SetupOptions<K extends Path, T extends ConnectionType> {
+  blockchain: BlockchainOptions
   initialPage: K
   initialPageParams?: PathParams<K>
   account: AccountOptions<T>
@@ -62,9 +70,10 @@ export type SetupReturn<T extends ConnectionType> = T extends 'not-connected'
 // should be called at the beginning of any test
 export async function setup<K extends Path, T extends ConnectionType>(
   page: Page,
-  forkContext: ForkContext,
   options: SetupOptions<K, T>,
 ): Promise<SetupReturn<T>> {
+  const { client } = await getTestnetContext(options.blockchain)
+
   if (options.skipInjectingNetwork === true) {
     // if explicitly disabled, do not inject network config abort all network requests to RPC providers
     await page.route(/alchemy/, (route) => route.abort())

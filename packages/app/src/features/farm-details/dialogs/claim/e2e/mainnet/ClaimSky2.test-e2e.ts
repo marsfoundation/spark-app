@@ -11,10 +11,13 @@ import { someObject } from './utils'
 
 console.log('Global test', someObject)
 
-test.describe('Claim SKY rewards', () => {
+test.describe('Claim SKY rewards 2', () => {
   let farmDetailsPage: FarmDetailsPageObject
   let claimDialog: ClaimDialogPageObject
   let account: Address
+  test.beforeEach(() => {
+    console.log('Starting test 2')
+  })
 
   // test.beforeEach(async ({ page }) => {
   //   ;({ account } = await setup(page, {
@@ -54,7 +57,7 @@ test.describe('Claim SKY rewards', () => {
     // await claimDialog.actionsContainer.expectEnabledActionAtIndex(0)
     // await claimDialog.actionsContainer.expectActions([{ type: 'claimFarmRewards', asset: 'SKY' }])
 
-    console.log('Test 1', new Date().toISOString())
+    console.log('Test 2', new Date().toISOString())
   })
 
   // test('displays transaction overview', async () => {
