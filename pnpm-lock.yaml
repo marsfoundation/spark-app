@@ -16,6 +16,9 @@ importers:
       bignumber.js:
         specifier: ^9.1.2
         version: 9.1.2
+      zod:
+        specifier: 3.22.4
+        version: 3.22.4
     devDependencies:
       '@biomejs/biome':
         specifier: ^1.8.1
@@ -418,9 +421,6 @@ importers:
       viem-deal:
         specifier: ^2.0.0
         version: 2.0.4(viem@2.21.18(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@6.0.3)(zod@3.24.1))
-      zod:
-        specifier: ^3.23.8
-        version: 3.24.1
     devDependencies:
       '@types/mocha':
         specifier: ^10.0.10
@@ -10059,7 +10059,7 @@ snapshots:
       '@babel/helper-function-name': 7.24.6
       '@babel/helper-member-expression-to-functions': 7.24.6
       '@babel/helper-optimise-call-expression': 7.24.6
-      '@babel/helper-replace-supers': 7.24.6(@babel/core@7.24.5)
+      '@babel/helper-replace-supers': 7.24.6(@babel/core@7.22.9)
       '@babel/helper-skip-transparent-expression-wrappers': 7.24.6
       '@babel/helper-split-export-declaration': 7.24.6
       semver: 6.3.1
@@ -10212,15 +10212,6 @@ snapshots:
       '@babel/helper-split-export-declaration': 7.24.6
       '@babel/helper-validator-identifier': 7.24.6
 
-  '@babel/helper-module-transforms@7.24.6(@babel/core@7.24.5)':
-    dependencies:
-      '@babel/core': 7.24.5
-      '@babel/helper-environment-visitor': 7.24.6
-      '@babel/helper-module-imports': 7.24.6
-      '@babel/helper-simple-access': 7.24.6
-      '@babel/helper-split-export-declaration': 7.24.6
-      '@babel/helper-validator-identifier': 7.24.6
-
   '@babel/helper-module-transforms@7.26.0(@babel/core@7.22.9)':
     dependencies:
       '@babel/core': 7.22.9
@@ -10283,13 +10274,6 @@ snapshots:
   '@babel/helper-replace-supers@7.24.6(@babel/core@7.22.9)':
     dependencies:
       '@babel/core': 7.22.9
-      '@babel/helper-environment-visitor': 7.24.6
-      '@babel/helper-member-expression-to-functions': 7.24.6
-      '@babel/helper-optimise-call-expression': 7.24.6
-
-  '@babel/helper-replace-supers@7.24.6(@babel/core@7.24.5)':
-    dependencies:
-      '@babel/core': 7.24.5
       '@babel/helper-environment-visitor': 7.24.6
       '@babel/helper-member-expression-to-functions': 7.24.6
       '@babel/helper-optimise-call-expression': 7.24.6
@@ -10619,11 +10603,6 @@ snapshots:
       '@babel/core': 7.22.9
       '@babel/helper-plugin-utils': 7.24.6
 
-  '@babel/plugin-syntax-nullish-coalescing-operator@7.8.3(@babel/core@7.24.5)':
-    dependencies:
-      '@babel/core': 7.24.5
-      '@babel/helper-plugin-utils': 7.24.6
-
   '@babel/plugin-syntax-nullish-coalescing-operator@7.8.3(@babel/core@7.26.0)':
     dependencies:
       '@babel/core': 7.26.0
@@ -10647,11 +10626,6 @@ snapshots:
   '@babel/plugin-syntax-optional-chaining@7.8.3(@babel/core@7.22.9)':
     dependencies:
       '@babel/core': 7.22.9
-      '@babel/helper-plugin-utils': 7.24.6
-
-  '@babel/plugin-syntax-optional-chaining@7.8.3(@babel/core@7.24.5)':
-    dependencies:
-      '@babel/core': 7.24.5
       '@babel/helper-plugin-utils': 7.24.6
 
   '@babel/plugin-syntax-optional-chaining@7.8.3(@babel/core@7.26.0)':
@@ -10953,7 +10927,7 @@ snapshots:
   '@babel/plugin-transform-modules-commonjs@7.24.6(@babel/core@7.24.5)':
     dependencies:
       '@babel/core': 7.24.5
-      '@babel/helper-module-transforms': 7.24.6(@babel/core@7.24.5)
+      '@babel/helper-module-transforms': 7.24.6(@babel/core@7.22.9)
       '@babel/helper-plugin-utils': 7.24.6
       '@babel/helper-simple-access': 7.24.6
 
@@ -11016,7 +10990,7 @@ snapshots:
     dependencies:
       '@babel/core': 7.24.5
       '@babel/helper-plugin-utils': 7.24.6
-      '@babel/plugin-syntax-nullish-coalescing-operator': 7.8.3(@babel/core@7.24.5)
+      '@babel/plugin-syntax-nullish-coalescing-operator': 7.8.3(@babel/core@7.22.9)
 
   '@babel/plugin-transform-nullish-coalescing-operator@7.25.9(@babel/core@7.22.9)':
     dependencies:
@@ -11078,7 +11052,7 @@ snapshots:
       '@babel/core': 7.24.5
       '@babel/helper-plugin-utils': 7.24.6
       '@babel/helper-skip-transparent-expression-wrappers': 7.24.6
-      '@babel/plugin-syntax-optional-chaining': 7.8.3(@babel/core@7.24.5)
+      '@babel/plugin-syntax-optional-chaining': 7.8.3(@babel/core@7.22.9)
 
   '@babel/plugin-transform-optional-chaining@7.25.9(@babel/core@7.22.9)':
     dependencies:
@@ -17950,7 +17924,7 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  isows@1.0.3(ws@8.13.0(bufferutil@4.0.8)):
+  isows@1.0.3(ws@8.13.0(bufferutil@4.0.8)(utf-8-validate@6.0.3)):
     dependencies:
       ws: 8.13.0(bufferutil@4.0.8)(utf-8-validate@6.0.3)
 
@@ -20836,7 +20810,7 @@ snapshots:
       '@scure/bip32': 1.3.2
       '@scure/bip39': 1.2.1
       abitype: 0.9.8(typescript@5.6.3)(zod@3.22.4)
-      isows: 1.0.3(ws@8.13.0(bufferutil@4.0.8))
+      isows: 1.0.3(ws@8.13.0(bufferutil@4.0.8)(utf-8-validate@6.0.3))
       ws: 8.13.0(bufferutil@4.0.8)(utf-8-validate@6.0.3)
     optionalDependencies:
       typescript: 5.6.3
@@ -20871,7 +20845,7 @@ snapshots:
       '@scure/bip32': 1.3.2
       '@scure/bip39': 1.2.1
       abitype: 1.0.0(typescript@5.6.3)(zod@3.24.1)
-      isows: 1.0.3(ws@8.13.0(bufferutil@4.0.8))
+      isows: 1.0.3(ws@8.13.0(bufferutil@4.0.8)(utf-8-validate@6.0.3))
       ws: 8.13.0(bufferutil@4.0.8)(utf-8-validate@6.0.3)
     optionalDependencies:
       typescript: 5.6.3
@@ -20888,7 +20862,7 @@ snapshots:
       '@scure/bip32': 1.3.2
       '@scure/bip39': 1.2.1
       abitype: 1.0.0(typescript@5.6.3)(zod@3.22.4)
-      isows: 1.0.3(ws@8.13.0(bufferutil@4.0.8))
+      isows: 1.0.3(ws@8.13.0(bufferutil@4.0.8)(utf-8-validate@6.0.3))
       ws: 8.13.0(bufferutil@4.0.8)(utf-8-validate@6.0.3)
     optionalDependencies:
       typescript: 5.6.3
@@ -21291,7 +21265,8 @@ snapshots:
 
   zod@3.22.4: {}
 
-  zod@3.24.1: {}
+  zod@3.24.1:
+    optional: true
 
   zustand@4.4.1(@types/react@18.2.14)(react@18.2.0):
     dependencies:

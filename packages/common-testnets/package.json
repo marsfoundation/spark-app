@@ -47,8 +47,7 @@
     "@viem/anvil": "^0.0.10",
     "get-port": "^7.1.0",
     "viem": "2.21.18",
-    "viem-deal": "^2.0.0",
-    "zod": "^3.23.8"
+    "viem-deal": "^2.0.0"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.10",
