@@ -1,3 +1,4 @@
+import { assertNever } from '@marsfoundation/common-universal'
 import { sort } from 'd3-array'
 import { Timeframe } from '../defaults'
 
@@ -61,13 +62,28 @@ export function filterDataByTimeframe<T extends BaseChartData>({
       return data.filter((d) => new Date(d.date) >= oneMonthAgo)
     }
 
+    case '3M': {
+      const threeMonthAgo = new Date(now)
+      threeMonthAgo.setMonth(now.getMonth() - 3)
+      return data.filter((d) => new Date(d.date) >= threeMonthAgo)
+    }
+
     case '1Y': {
       const oneYearAgo = new Date(now)
       oneYearAgo.setFullYear(now.getFullYear() - 1)
       return data.filter((d) => new Date(d.date) >= oneYearAgo)
     }
 
+    case '3Y': {
+      const threeYearsAgo = new Date(now)
+      threeYearsAgo.setFullYear(now.getFullYear() - 3)
+      return data.filter((d) => new Date(d.date) >= threeYearsAgo)
+    }
+
     case 'All':
       return data
+
+    default:
+      assertNever(timeframe)
   }
 }

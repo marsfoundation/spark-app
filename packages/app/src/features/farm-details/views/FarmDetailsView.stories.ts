@@ -71,6 +71,7 @@ const meta: Meta<typeof FarmDetailsView> = {
       farmHistory: { data: mockChartData } as FarmHistoryQueryResult,
       onTimeframeChange: () => {},
       timeframe: 'All',
+      availableTimeframes: ['7D', '1M', '1Y', 'All'],
     },
   },
   parameters: {
@@ -205,6 +206,7 @@ export const NoApiData: Story = {
       farmHistory: { isError: true } as FarmHistoryQueryResult,
       onTimeframeChange: () => {},
       timeframe: 'All',
+      availableTimeframes: ['7D', '1M', '1Y', 'All'],
     },
   },
 }

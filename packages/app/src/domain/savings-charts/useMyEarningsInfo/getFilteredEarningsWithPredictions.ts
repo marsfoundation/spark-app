@@ -1,13 +1,13 @@
 import { TokenWithBalance } from '@/domain/common/types'
 import { SavingsInfo } from '@/domain/savings-info/types'
-import { Timeframe } from '@/ui/charts/defaults'
 import { filterDataByTimeframe } from '@/ui/charts/utils'
 import { calculatePredictions } from './calculatePredictions'
+import { MyEarningsTimeframe } from './common'
 import { MyEarningsInfoItem } from './types'
 
 interface GetFilteredEarningsWithPredictionsParams {
   currentTimestamp: number
-  timeframe: Timeframe
+  timeframe: MyEarningsTimeframe
   myEarningsInfo: MyEarningsInfoItem[]
   savingsInfo: SavingsInfo | null
   savingsTokenWithBalance: TokenWithBalance | undefined

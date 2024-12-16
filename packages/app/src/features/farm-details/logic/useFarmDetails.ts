@@ -31,6 +31,7 @@ export interface ChartDetails {
   farmHistory: FarmHistoryQueryResult
   onTimeframeChange: (timeframe: Timeframe) => void
   timeframe: Timeframe
+  availableTimeframes: Timeframe[]
 }
 
 export interface UseFarmDetailsResult {
@@ -77,7 +78,7 @@ export function useFarmDetails(): UseFarmDetailsResult {
   const { farmsInfo } = useFarmsInfo({ chainId })
   const farm = farmsInfo.findFarmByAddress(farmAddress) ?? raise(new NotFoundError())
 
-  const { farmHistory, onTimeframeChange, timeframe } = useFarmHistory({
+  const { farmHistory, onTimeframeChange, timeframe, availableTimeframes } = useFarmHistory({
     chainId,
     farmAddress,
   })
@@ -140,6 +141,7 @@ export function useFarmDetails(): UseFarmDetailsResult {
       farmHistory,
       onTimeframeChange,
       timeframe,
+      availableTimeframes,
     },
     calculateReward,
     refreshGrowingRewardIntervalInMs,

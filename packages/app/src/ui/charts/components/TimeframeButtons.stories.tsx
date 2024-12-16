@@ -5,6 +5,11 @@ import { TimeframeButtons } from './TimeframeButtons'
 const meta: Meta<typeof TimeframeButtons> = {
   title: 'Components/Charts/TimeframeButtons',
   component: TimeframeButtons,
+  args: {
+    availableTimeframes: ['1M', '3M', '1Y', 'All'],
+    onTimeframeChange: () => {},
+    selectedTimeframe: '1M',
+  },
 }
 
 export default meta

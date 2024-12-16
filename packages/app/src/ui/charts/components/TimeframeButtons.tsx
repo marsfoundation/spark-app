@@ -1,17 +1,23 @@
 import { cn } from '@/ui/utils/style'
-import { AVAILABLE_TIMEFRAMES, Timeframe } from '../defaults'
+import { Timeframe } from '../defaults'
 
 export interface TimeframeButtonsProps {
   onTimeframeChange: (timeframe: Timeframe) => void
   selectedTimeframe: Timeframe
+  availableTimeframes: Timeframe[]
   className?: string
 }
 
 // @todo this should be build with SegmentControl component
-export function TimeframeButtons({ onTimeframeChange, selectedTimeframe, className }: TimeframeButtonsProps) {
+export function TimeframeButtons({
+  onTimeframeChange,
+  selectedTimeframe,
+  availableTimeframes,
+  className,
+}: TimeframeButtonsProps) {
   return (
     <div className={cn('ml-auto flex flex-nowrap gap-0.5 rounded-sm bg-secondary p-0.5', className)}>
-      {AVAILABLE_TIMEFRAMES.map((timeframe) => (
+      {availableTimeframes.map((timeframe) => (
         <TimeframeButton
           key={timeframe}
           selected={selectedTimeframe === timeframe}
