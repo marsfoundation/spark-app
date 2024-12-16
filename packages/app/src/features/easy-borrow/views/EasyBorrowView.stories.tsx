@@ -111,7 +111,7 @@ function EasyBorrowViewStory(props: EasyBorrowViewStoryProps) {
       guestMode={guestMode}
       openConnectModal={openConnectModal}
       openSandboxModal={openSandboxModal}
-      healthFactorPanelRef={healthFactorPanelRef}
+      actionsPanelRef={healthFactorPanelRef}
       riskAcknowledgement={riskAcknowledgement}
       actionsContext={{ marketInfo: mockMarketInfo }}
     />

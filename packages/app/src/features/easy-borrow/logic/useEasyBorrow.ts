@@ -61,7 +61,7 @@ export interface UseEasyBorrowResults {
   borrowDetails: BorrowDetails
   guestMode: boolean
   openSandboxModal: () => void
-  healthFactorPanelRef: React.RefObject<HTMLDivElement>
+  actionsPanelRef: React.RefObject<HTMLDivElement>
   actionsContext: InjectedActionsContext
 }
 
@@ -85,7 +85,7 @@ export function useEasyBorrow(): UseEasyBorrowResults {
   const upgradeOptions = useUpgradeOptions({ chainId, daiSymbol })
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')
-  const healthFactorPanelRef = useRef<HTMLDivElement>(null)
+  const actionsPanelRef = useRef<HTMLDivElement>(null)
 
   const userPositions = imputeNativeAsset(marketInfo, nativeAssetInfo)
   const alreadyDeposited = useConditionalFreeze(
@@ -199,7 +199,7 @@ export function useEasyBorrow(): UseEasyBorrowResults {
   )
   useEffect(() => {
     if (pageStatus === 'confirmation') {
-      healthFactorPanelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      actionsPanelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
   }, [pageStatus])
 
@@ -243,7 +243,7 @@ export function useEasyBorrow(): UseEasyBorrowResults {
     borrowDetails,
     guestMode,
     openSandboxModal,
-    healthFactorPanelRef,
+    actionsPanelRef,
     riskAcknowledgement,
     actionsContext: {
       marketInfo,
