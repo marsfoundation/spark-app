@@ -20,9 +20,9 @@ export function CheckedAddress(value: string): CheckedAddress {
  */
 CheckedAddress.random = (asciiPrefix = ''): CheckedAddress => {
   const hexPrefix = asciiToHex(asciiPrefix)
-  const postfixLength = 40 - hexPrefix.length
+  const postfixLength = 40 - hexPrefix.length - 4
   assert(postfixLength >= 0, `Prefix too long: ${asciiPrefix}`)
-  const address = hexPrefix + randomPartialHex(postfixLength)
+  const address = `0000${hexPrefix}${randomPartialHex(postfixLength)}`
 
   return CheckedAddress(`0x${address}`)
 }

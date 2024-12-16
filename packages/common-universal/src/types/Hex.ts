@@ -20,5 +20,6 @@ export function Hex(hex: string, { allowEmpty = false } = {}): Hex {
 
 Hex.random = (ascii = '', length = 64): Hex => {
   assert(ascii.length <= length, `Ascii prefix too long: ${ascii}`)
-  return Hex(`0x${asciiToHex(ascii)}${randomPartialHex(length - ascii.length)}`)
+  assert(length >= 4, `Total length too short: ${length}`)
+  return Hex(`0x0000${asciiToHex(ascii)}${randomPartialHex(length - ascii.length - 4)}`)
 }
