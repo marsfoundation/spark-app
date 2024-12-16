@@ -4,6 +4,7 @@ import { USDS_ACTIVATED_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { overrideInfoSkyRouteWithHAR } from '@/test/e2e/info-sky'
 import { setup } from '@/test/e2e/setup'
 import { TestnetClient } from '@marsfoundation/common-testnets'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { test } from '@playwright/test'
 import { Address } from 'viem'
 import { mainnet } from 'viem/chains'
@@ -80,7 +81,7 @@ test.describe('Claim SKY rewards', () => {
       address: account,
       testnetClient,
       symbol: 'SKY',
-      balance: '3539.85599931941984',
+      balance: NormalizedUnitNumber('3539.85599931941984'),
     })
     await farmDetailsPage.expectStaked({ amount: '10,000.00', asset: 'USDS' })
   })

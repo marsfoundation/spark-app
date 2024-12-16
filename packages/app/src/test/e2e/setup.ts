@@ -60,7 +60,6 @@ export interface SetupOptions<K extends Path, T extends ConnectionType> {
 }
 
 export type SetupReturn<T extends ConnectionType> = (T extends 'not-connected' ? {} : { account: Address }) & {
-  getLogs: () => string[]
   testnetClient: TestnetClient
   updateBrowserAndNextBlockTime: (seconds: number) => Promise<void>
   incrementTime: (seconds: number) => Promise<void>
@@ -71,54 +70,34 @@ export async function setup<K extends Path, T extends ConnectionType>(
   page: Page,
   options: SetupOptions<K, T>,
 ): Promise<SetupReturn<T>> {
-  const { client, initialSnapshotId } = await getTestnetContext(options.blockchain)
-  await client.revert(initialSnapshotId)
-  const blockchainTimestamp = (await client.getBlock()).timestamp
+  const { client: testnetClient, initialSnapshotId } = await getTestnetContext(options.blockchain)
+  await testnetClient.revert(initialSnapshotId)
 
-  if (options.skipInjectingNetwork === true) {
-    // if explicitly disabled, do not inject network config abort all network requests to RPC providers
-    await page.route(/alchemy/, (route) => route.abort())
-    await page.route(/rpc.ankr/, (route) => route.abort())
-  } else {
-    await injectNetworkConfiguration(page, getUrlFromClient(client), options.blockchain.chainId)
-  }
-  await injectFixedDate(page, new Date(Number(blockchainTimestamp) * 1000))
-  await injectFlags(page, client)
-
-  const address = await setupAccount(page, client, options.account)
-
-  const errorLogs = [] as string[]
-
-  page.on('console', (message) => {
-    if (message.type() === 'error') {
-      errorLogs.push(message.text())
-    }
-  })
-
+  await injectPageSetup({ page, testnetClient, options })
+  const address = await setupAccount({ page, testnetClient, options: options.account })
   await page.goto(buildUrl(options.initialPage, options.initialPageParams))
 
   async function updateBrowserAndNextBlockTime(seconds: number): Promise<void> {
-    const { timestamp: currentTimestamp } = await client.getBlock()
+    const { timestamp: currentTimestamp } = await testnetClient.getBlock()
 
     const progressedTimestamp = currentTimestamp + BigInt(seconds)
-    await client.setNextBlockTimestamp(progressedTimestamp)
+    await testnetClient.setNextBlockTimestamp(progressedTimestamp)
     await injectUpdatedDate(page, new Date(Number(currentTimestamp) * 1000))
+  }
+
+  async function incrementTime(seconds: number): Promise<void> {
+    await updateBrowserAndNextBlockTime(seconds)
+    await testnetClient.mineBlocks(1n)
+    await updateBrowserAndNextBlockTime(5)
   }
 
   // @note: Sync time in browser with current time on blockchain,
   // set next block to be mined timestamp to be 5 seconds more.
   await updateBrowserAndNextBlockTime(5)
 
-  async function incrementTime(seconds: number): Promise<void> {
-    await updateBrowserAndNextBlockTime(seconds)
-    await client.mineBlocks(1n)
-    await updateBrowserAndNextBlockTime(5)
-  }
-
   return {
     account: address,
-    testnetClient: client,
-    getLogs: () => errorLogs,
+    testnetClient,
     updateBrowserAndNextBlockTime,
     incrementTime,
   } as any
@@ -149,23 +128,27 @@ export async function injectFunds(
   }
 }
 
-async function setupAccount<T extends ConnectionType>(
-  page: Page,
-  client: TestnetClient,
-  options: AccountOptions<T>,
-): Promise<Address | undefined> {
+async function setupAccount<T extends ConnectionType>({
+  page,
+  testnetClient,
+  options,
+}: {
+  page: Page
+  testnetClient: TestnetClient
+  options: AccountOptions<T>
+}): Promise<Address | undefined> {
   switch (options.type) {
     case 'connected-random': {
       const account = generateAccount({ privateKey: undefined })
       await injectWalletConfiguration(page, account)
-      await injectFunds(client, account.address, options.assetBalances)
+      await injectFunds(testnetClient, account.address, options.assetBalances)
       return account.address
     }
 
     case 'connected-pkey': {
       const account = generateAccount({ privateKey: options.privateKey })
       await injectWalletConfiguration(page, account)
-      await injectFunds(client, account.address, options.assetBalances)
+      await injectFunds(testnetClient, account.address, options.assetBalances)
       return account.address
     }
 
@@ -180,4 +163,26 @@ async function setupAccount<T extends ConnectionType>(
     default:
       assertNever(options)
   }
+}
+
+async function injectPageSetup({
+  page,
+  testnetClient,
+  options,
+}: {
+  page: Page
+  testnetClient: TestnetClient
+  options: SetupOptions<any, any>
+}): Promise<void> {
+  const blockchainTimestamp = (await testnetClient.getBlock()).timestamp
+
+  if (options.skipInjectingNetwork === true) {
+    // if explicitly disabled, do not inject network config abort all network requests to RPC providers
+    await page.route(/alchemy/, (route) => route.abort())
+    await page.route(/rpc.ankr/, (route) => route.abort())
+  } else {
+    await injectNetworkConfiguration(page, getUrlFromClient(testnetClient), options.blockchain.chainId)
+  }
+  await injectFixedDate(page, new Date(Number(blockchainTimestamp) * 1000))
+  await injectFlags(page, testnetClient)
 }
