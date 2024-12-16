@@ -1,10 +1,9 @@
+import { Path, paths } from '@/config/paths'
+import { TestnetClient, getUrlFromClient } from '@marsfoundation/common-testnets'
+import { assertNever } from '@marsfoundation/common-universal'
 import { Page } from '@playwright/test'
 import { generatePath } from 'react-router-dom'
 import { Address, Hash, parseEther, parseUnits } from 'viem'
-
-import { Path, paths } from '@/config/paths'
-import { TestnetClient, getUrlFromClient } from '@marsfoundation/common-testnets'
-
 import { AssetsInTests, TOKENS_ON_FORK } from './constants'
 import {
   injectFixedDate,
@@ -85,26 +84,8 @@ export async function setup<K extends Path, T extends ConnectionType>(
   }
   await injectFixedDate(page, new Date(Number(blockchainTimestamp) * 1000))
   await injectFlags(page, client)
-  let address: Address | undefined
 
-  if (options.account.type !== 'not-connected') {
-    if (options.account.type === 'connected-random') {
-      const account = generateAccount({ privateKey: undefined })
-      address = account.address
-      await injectWalletConfiguration(page, account)
-      await injectFunds(client, account.address, options.account.assetBalances)
-    }
-    if (options.account.type === 'connected-pkey') {
-      const account = generateAccount({ privateKey: options.account.privateKey })
-      address = account.address
-      await injectWalletConfiguration(page, account)
-      await injectFunds(client, account.address, options.account.assetBalances)
-    }
-    if (options.account.type === 'connected-address') {
-      address = options.account.address
-      await injectWalletConfiguration(page, { address })
-    }
-  }
+  const address = await setupAccount(page, client, options.account)
 
   const errorLogs = [] as string[]
 
@@ -165,5 +146,38 @@ export async function injectFunds(
         parseUnits(balance.toString(), (TOKENS_ON_FORK as any)[chainId][tokenName].decimals),
       )
     }
+  }
+}
+
+async function setupAccount<T extends ConnectionType>(
+  page: Page,
+  client: TestnetClient,
+  options: AccountOptions<T>,
+): Promise<Address | undefined> {
+  switch (options.type) {
+    case 'connected-random': {
+      const account = generateAccount({ privateKey: undefined })
+      await injectWalletConfiguration(page, account)
+      await injectFunds(client, account.address, options.assetBalances)
+      return account.address
+    }
+
+    case 'connected-pkey': {
+      const account = generateAccount({ privateKey: options.privateKey })
+      await injectWalletConfiguration(page, account)
+      await injectFunds(client, account.address, options.assetBalances)
+      return account.address
+    }
+
+    case 'connected-address': {
+      await injectWalletConfiguration(page, { address: options.address })
+      return options.address
+    }
+
+    case 'not-connected':
+      return undefined
+
+    default:
+      assertNever(options)
   }
 }
