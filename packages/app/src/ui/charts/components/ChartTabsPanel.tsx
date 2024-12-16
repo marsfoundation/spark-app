@@ -3,7 +3,6 @@ import { Panel } from '@/ui/atoms/panel/Panel'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/atoms/tabs/Tabs'
 import { useResizeObserver } from '@/ui/utils/useResizeObserver'
 import { assert } from '@/utils/assert'
-import { raise } from '@marsfoundation/common-universal'
 import { AlertTriangle, Loader2 } from 'lucide-react'
 import { useRef, useState } from 'react'
 import { Timeframe } from '../defaults'
@@ -59,7 +58,12 @@ export function ChartTabsPanel({ tabs, height = 300 }: ChartTabsPanelProps) {
   assert(firstTab, 'ChartTabsPanel: at least 1 tab is required')
 
   const [selectedTabId, setSelectedTabId] = useState(firstTab.id)
-  const selectedTab = tabs.find((tab) => tab.id === selectedTabId) ?? raise('ChartTabsPanel: selectedTab not found')
+  if (!tabs.some((tab) => tab.id === selectedTabId)) {
+    // If selectedTabId is not found, set it to the first tab.
+    // This is possible when the list of tabs is updated.
+    setSelectedTabId(firstTab.id)
+  }
+  const selectedTab = tabs.find((tab) => tab.id === selectedTabId) ?? firstTab
 
   if (tabs.length === 1) {
     const { selectedTimeframe, setSelectedTimeframe, availableTimeframes } = firstTab

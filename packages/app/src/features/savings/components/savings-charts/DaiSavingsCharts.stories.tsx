@@ -24,7 +24,7 @@ const meta: Meta<typeof DaiSavingsCharts> = {
         error: null,
       },
       shouldDisplayMyEarnings: true,
-      selectedTimeframe: 'All',
+      selectedTimeframe: '1M',
       setSelectedTimeframe: () => {},
       availableTimeframes: MY_EARNINGS_TIMEFRAMES,
     },
