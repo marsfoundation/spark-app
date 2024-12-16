@@ -19,7 +19,7 @@ export function Hex(hex: string, { allowEmpty = false } = {}): Hex {
 }
 
 Hex.random = (ascii = '', length = 64): Hex => {
-  const constantHexPrefix = '0000'
+  const constantHexPrefix = 'deadbeef'
   assert(ascii.length <= length - constantHexPrefix.length, `Ascii prefix too long: ${ascii}`)
   assert(length >= constantHexPrefix.length, `Total length too short: ${length}`)
   return Hex(
