@@ -9,7 +9,6 @@ import { SavingsRateInfo } from './types'
 
 export interface UseSavingsRateInfoParams {
   chainId: number
-  timeframe: Timeframe
   currentTimestamp: number
   staleTime: number
   savingsRateApiUrl: string | undefined
@@ -24,7 +23,6 @@ export interface UseSavingsRateInfoResult {
 
 export function useSavingsRateInfo({
   chainId,
-  timeframe,
   currentTimestamp,
   staleTime,
   savingsRateApiUrl,
@@ -38,8 +36,8 @@ export function useSavingsRateInfo({
     }),
     select: useCallback(
       (savingsRateInfo: SavingsRateInfo) =>
-        getFilteredSavingsRateData({ savingsRateInfo, timeframe, currentTimestamp }),
-      [timeframe, currentTimestamp],
+        getFilteredSavingsRateData({ savingsRateInfo, timeframe: selectedTimeframe, currentTimestamp }),
+      [selectedTimeframe, currentTimestamp],
     ),
     staleTime,
     enabled: !!savingsRateApiUrl,

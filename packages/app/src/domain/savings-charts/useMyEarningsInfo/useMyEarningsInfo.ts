@@ -16,7 +16,6 @@ import { MyEarningsInfoItem } from './types'
 export interface UseMyEarningsInfoParams {
   address?: CheckedAddress
   chainId: number
-  timeframe: Timeframe
   currentTimestamp: number
   staleTime: number
   savingsUsdsInfo: SavingsInfo | null
