@@ -1,6 +1,6 @@
-import { randomHexId } from "@/utils/random"
-import { TenderlyTestnetFactory, TestnetClient } from "@marsfoundation/common-testnets"
-import { getEnv } from "@marsfoundation/common-nodejs/env"
+import { randomHexId } from '@/utils/random'
+import { getEnv } from '@marsfoundation/common-nodejs/env'
+import { TenderlyTestnetFactory, TestnetClient } from '@marsfoundation/common-testnets'
 
 interface TestnetContext {
   client: TestnetClient
@@ -9,19 +9,21 @@ interface TestnetContext {
 }
 
 const testnetCache = new Map<string, TestnetContext>()
-
-;([`exit`, `SIGINT`, `SIGUSR1`, `SIGUSR2`, `uncaughtException`, `SIGTERM`].forEach((eventType) => {
+for (const eventType of ['exit', 'SIGINT', 'SIGUSR1', 'SIGUSR2', 'uncaughtException', 'SIGTERM']) {
   process.on(eventType, () => {
     const keys = Array.from(testnetCache.keys())
-    keys.forEach(key => {
+    for (const key of keys) {
       const context = testnetCache.get(key)!
       testnetCache.delete(key)
-      context.cleanup()
-    })
-  });
-}))
+      return context.cleanup()
+    }
+  })
+}
 
-export async function getTestnetContext({ chainId, blockNumber }: { chainId: number, blockNumber: bigint }) {
+export async function getTestnetContext({
+  chainId,
+  blockNumber,
+}: { chainId: number; blockNumber: bigint }): Promise<TestnetContext> {
   const key = `${chainId}-${blockNumber.toString()}`
   if (testnetCache.has(key)) {
     return testnetCache.get(key)!
@@ -55,4 +57,3 @@ export async function getTestnetContext({ chainId, blockNumber }: { chainId: num
 
   return context
 }
-

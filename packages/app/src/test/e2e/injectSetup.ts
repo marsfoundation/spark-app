@@ -8,10 +8,10 @@ import {
   PLAYWRIGHT_WALLET_PRIVATE_KEY_KEY,
 } from '@/config/wagmi/config.e2e'
 
+import { TestnetClient } from '@marsfoundation/common-testnets'
 import { zeroAddress } from 'viem'
 import { base, mainnet } from 'viem/chains'
 import { InjectableWallet } from './setup'
-import { TestnetClient } from '@marsfoundation/common-testnets'
 
 export async function injectWalletConfiguration(page: Page, wallet: InjectableWallet): Promise<void> {
   await page.addInitScript(

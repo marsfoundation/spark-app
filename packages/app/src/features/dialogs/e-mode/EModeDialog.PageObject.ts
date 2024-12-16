@@ -20,7 +20,10 @@ export class EModeDialogPageObject extends DialogPageObject {
     await this.locateEModeCategoryTile(eModeCategoryName).click()
   }
 
-  async setEModeAction({  eModeCategoryName, updateBrowserAndNextBlockTime }: { eModeCategoryName: EModeCategoryName, updateBrowserAndNextBlockTime: () => Promise<void> }): Promise<void> {
+  async setEModeAction({
+    eModeCategoryName,
+    updateBrowserAndNextBlockTime,
+  }: { eModeCategoryName: EModeCategoryName; updateBrowserAndNextBlockTime: () => Promise<void> }): Promise<void> {
     await this.clickEModeCategoryTileAction(eModeCategoryName)
     await this.acknowledgeIfRiskIsPresent()
     await this.actionsContainer.acceptAllActionsAction(1, updateBrowserAndNextBlockTime)

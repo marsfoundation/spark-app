@@ -5,7 +5,7 @@ import { BasePageObject } from '@/test/e2e/BasePageObject'
 import { TestTokenWithValue, expectAssets } from '@/test/e2e/assertions'
 import { calculateAssetsWorth, isPage } from '@/test/e2e/utils'
 import { testIds } from '@/ui/utils/testIds'
-import { getUrlFromClient, TestnetClient } from '@marsfoundation/common-testnets'
+import { TestnetClient, getUrlFromClient } from '@marsfoundation/common-testnets'
 
 export class DialogPageObject extends BasePageObject {
   public readonly actionsContainer: ActionsPageObject
@@ -58,9 +58,9 @@ export class DialogPageObject extends BasePageObject {
     testnetClient,
     assetWorthOverrides,
   }: {
-    tokenWithValue: TestTokenWithValue[],
-    testnetClient: TestnetClient,
-    assetWorthOverrides?: Record<string, number>,
+    tokenWithValue: TestTokenWithValue[]
+    testnetClient: TestnetClient
+    assetWorthOverrides?: Record<string, number>
   }): Promise<void> {
     await expect(this.region.getByText('Congrats, all done!')).toBeVisible()
 

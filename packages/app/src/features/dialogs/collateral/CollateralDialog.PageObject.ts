@@ -13,7 +13,15 @@ export class CollateralDialogPageObject extends DialogPageObject {
   }
 
   // #region actions
-  async setUseAsCollateralAction({assetName, setting, updateBrowserAndNextBlockTime}: {assetName: string; setting: CollateralSetting, updateBrowserAndNextBlockTime: () => Promise<void>}): Promise<void> {
+  async setUseAsCollateralAction({
+    assetName,
+    setting,
+    updateBrowserAndNextBlockTime,
+  }: {
+    assetName: string
+    setting: CollateralSetting
+    updateBrowserAndNextBlockTime: () => Promise<void>
+  }): Promise<void> {
     const actionsContainer = new ActionsPageObject(this.locatePanelByHeader('Actions'))
     await actionsContainer.acceptAllActionsAction(1, updateBrowserAndNextBlockTime)
 

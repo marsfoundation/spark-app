@@ -2,7 +2,7 @@ import { BasePageObject } from '@/test/e2e/BasePageObject'
 import { AssetsInTests, TOKENS_ON_FORK } from '@/test/e2e/constants'
 import { getTokenBalance } from '@/test/e2e/utils'
 import { testIds } from '@/ui/utils/testIds'
-import { getUrlFromClient, TestnetClient } from '@marsfoundation/common-testnets'
+import { TestnetClient, getUrlFromClient } from '@marsfoundation/common-testnets'
 import { Locator, expect } from '@playwright/test'
 import { Address } from 'viem'
 

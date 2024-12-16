@@ -3,11 +3,11 @@ import { StakeDialogPageObject } from '@/features/farm-details/dialogs/stake/Sta
 import { USDS_ACTIVATED_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { overrideInfoSkyRouteWithHAR } from '@/test/e2e/info-sky'
 import { setup } from '@/test/e2e/setup'
-import { Address } from 'viem'
+import { TestnetClient } from '@marsfoundation/common-testnets'
 import { test } from '@playwright/test'
+import { Address } from 'viem'
 import { mainnet } from 'viem/chains'
 import { ClaimDialogPageObject } from '../../ClaimDialog.PageObject'
-import { TestnetClient } from '@marsfoundation/common-testnets'
 
 test.describe('Claim SKY rewards', () => {
   let farmDetailsPage: FarmDetailsPageObject
@@ -66,7 +66,7 @@ test.describe('Claim SKY rewards', () => {
   })
 
   test('executes transaction', async () => {
-    await claimDialog.actionsContainer.acceptAllActionsAction(1, updateBrowserAndNextBlockTime )
+    await claimDialog.actionsContainer.acceptAllActionsAction(1, updateBrowserAndNextBlockTime)
 
     await claimDialog.expectSuccessPage()
     await claimDialog.clickBackToFarmAction()

@@ -3,12 +3,18 @@ import { generatePath } from 'react-router-dom'
 import { Address, Hash, parseEther, parseUnits } from 'viem'
 
 import { Path, paths } from '@/config/paths'
+import { TestnetClient, getUrlFromClient } from '@marsfoundation/common-testnets'
 
 import { AssetsInTests, TOKENS_ON_FORK } from './constants'
-import { injectFixedDate, injectFlags, injectNetworkConfiguration, injectUpdatedDate, injectWalletConfiguration } from './injectSetup'
-import { generateAccount } from './utils'
-import { getUrlFromClient, TestnetClient } from '@marsfoundation/common-testnets'
+import {
+  injectFixedDate,
+  injectFlags,
+  injectNetworkConfiguration,
+  injectUpdatedDate,
+  injectWalletConfiguration,
+} from './injectSetup'
 import { getTestnetContext } from './testnet-cache'
+import { generateAccount } from './utils'
 
 export type InjectableWallet = { address: Address } | { privateKey: string }
 
@@ -42,7 +48,6 @@ export type AccountOptions<T extends ConnectionType> = T extends 'not-connected'
           }
         : never
 
-
 export interface BlockchainOptions {
   chainId: number
   blockNumber: bigint
@@ -55,13 +60,12 @@ export interface SetupOptions<K extends Path, T extends ConnectionType> {
   skipInjectingNetwork?: boolean
 }
 
-export type SetupReturn<T extends ConnectionType> = (T extends 'not-connected'
-  ? {} : { account: Address }) & {
-    getLogs: () => string[],
-    testnetClient: TestnetClient,
-    updateBrowserAndNextBlockTime: (seconds: number) => Promise<void>,
-    incrementTime: (seconds: number) => Promise<void>,
-  }
+export type SetupReturn<T extends ConnectionType> = (T extends 'not-connected' ? {} : { account: Address }) & {
+  getLogs: () => string[]
+  testnetClient: TestnetClient
+  updateBrowserAndNextBlockTime: (seconds: number) => Promise<void>
+  incrementTime: (seconds: number) => Promise<void>
+}
 
 // should be called at the beginning of any test
 export async function setup<K extends Path, T extends ConnectionType>(
@@ -149,7 +153,7 @@ export async function injectFunds(
   }
 
   const chainId = await testnetClient.getChainId()
-  for(const [tokenName, balance] of Object.entries(assetBalances)) {
+  for (const [tokenName, balance] of Object.entries(assetBalances)) {
     const { timestamp } = await testnetClient.getBlock()
     await testnetClient.setNextBlockTimestamp(timestamp + 1n)
     if (tokenName === 'ETH' || tokenName === 'XDAI') {

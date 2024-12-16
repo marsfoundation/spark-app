@@ -26,7 +26,10 @@ export class ActionsPageObject extends BasePageObject {
   }
 
   // #region actions
-  async acceptAllActionsAction(expectedNumberOfActions: number, updateBrowserAndNextBlockTime: (seconds: number) => Promise<void>): Promise<void> {
+  async acceptAllActionsAction(
+    expectedNumberOfActions: number,
+    updateBrowserAndNextBlockTime: (seconds: number) => Promise<void>,
+  ): Promise<void> {
     for (let index = 0; index < expectedNumberOfActions; index++) {
       const row = this.region.getByTestId(testIds.actions.row(index))
 
@@ -37,7 +40,10 @@ export class ActionsPageObject extends BasePageObject {
     }
   }
 
-  async acceptActionAtIndex(index: number, updateBrowserAndNextBlockTime: (seconds: number) => Promise<void>): Promise<void> {
+  async acceptActionAtIndex(
+    index: number,
+    updateBrowserAndNextBlockTime: (seconds: number) => Promise<void>,
+  ): Promise<void> {
     const row = this.region.getByTestId(testIds.actions.row(index))
     await row.getByRole('button', { name: actionButtonRegex }).click()
     await expect(row.getByRole('button', { name: actionButtonRegex })).not.toBeVisible()
