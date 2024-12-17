@@ -1,8 +1,8 @@
 import { SavingsInfo } from '@/domain/savings-info/types'
-import { Timeframe } from '@/ui/charts/defaults'
 import { range } from '@/utils/array'
 import { assertNever } from '@/utils/assertNever'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
+import { MyEarningsTimeframe } from './common'
 import { MyEarningsInfoItem } from './types'
 
 const SECONDS_PER_DAY = 24 * 60 * 60
@@ -11,7 +11,7 @@ export interface CalculatePredictionsParams {
   timestamp: number // in seconds
   shares: NormalizedUnitNumber
   savingsInfo: SavingsInfo
-  timeframe: Timeframe
+  timeframe: MyEarningsTimeframe
   dataLength: number
 }
 

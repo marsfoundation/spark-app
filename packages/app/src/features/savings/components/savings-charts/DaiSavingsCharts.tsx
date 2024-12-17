@@ -1,23 +1,15 @@
 import { UseMyEarningsInfoResult } from '@/domain/savings-charts/useMyEarningsInfo/useMyEarningsInfo'
 import { UseSavingsRateInfoResult } from '@/domain/savings-charts/useSavingsRateInfo/useSavingsRateInfo'
 import { ChartTabsPanel, createChartTab } from '@/ui/charts/components/ChartTabsPanel'
-import { Timeframe } from '@/ui/charts/defaults'
 import { MyEarningsChart } from './components/MyEarningsChart'
 import { DsrChart } from './components/savings-rate-chart/DsrChart'
 
 interface UsdsSavingsChartsProps {
-  selectedTimeframe: Timeframe
-  setSelectedTimeframe: (timeframe: Timeframe) => void
   myEarningsInfo: UseMyEarningsInfoResult
   savingsRateInfo: UseSavingsRateInfoResult
 }
 
-export function DaiSavingsCharts({
-  selectedTimeframe,
-  setSelectedTimeframe,
-  myEarningsInfo,
-  savingsRateInfo,
-}: UsdsSavingsChartsProps) {
+export function DaiSavingsCharts({ myEarningsInfo, savingsRateInfo }: UsdsSavingsChartsProps) {
   return (
     <ChartTabsPanel
       tabs={[
@@ -33,6 +25,9 @@ export function DaiSavingsCharts({
                   data: myEarningsInfo.queryResult.data?.data ?? [],
                   predictions: myEarningsInfo.queryResult.data?.predictions ?? [],
                 },
+                availableTimeframes: myEarningsInfo.availableTimeframes,
+                setSelectedTimeframe: myEarningsInfo.setSelectedTimeframe,
+                selectedTimeframe: myEarningsInfo.selectedTimeframe,
               }),
             ]
           : []),
@@ -40,13 +35,14 @@ export function DaiSavingsCharts({
           id: 'dsr',
           label: 'Dai Savings Rate',
           component: DsrChart,
-          isError: savingsRateInfo.isError,
-          isPending: savingsRateInfo.isPending,
-          props: { data: savingsRateInfo.data?.dsr ?? [] },
+          isError: savingsRateInfo.queryResult.isError,
+          isPending: savingsRateInfo.queryResult.isPending,
+          props: { data: savingsRateInfo.queryResult.data?.dsr ?? [] },
+          availableTimeframes: savingsRateInfo.availableTimeframes,
+          setSelectedTimeframe: savingsRateInfo.setSelectedTimeframe,
+          selectedTimeframe: savingsRateInfo.selectedTimeframe,
         }),
       ]}
-      selectedTimeframe={selectedTimeframe}
-      onTimeframeChange={setSelectedTimeframe}
     />
   )
 }

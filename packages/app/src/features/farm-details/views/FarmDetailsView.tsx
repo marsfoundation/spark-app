@@ -97,6 +97,9 @@ export function FarmDetailsView({
                       isError: chartDetails.farmHistory.isError,
                       isPending: chartDetails.farmHistory.isLoading,
                       props: { data: chartDetails.farmHistory.data ?? [] },
+                      availableTimeframes: chartDetails.availableTimeframes,
+                      selectedTimeframe: chartDetails.timeframe,
+                      setSelectedTimeframe: chartDetails.onTimeframeChange,
                     }),
                   ]
                 : []),
@@ -107,10 +110,11 @@ export function FarmDetailsView({
                 isError: chartDetails.farmHistory.isError,
                 isPending: chartDetails.farmHistory.isLoading,
                 props: { data: chartDetails.farmHistory.data ?? [] },
+                availableTimeframes: chartDetails.availableTimeframes,
+                selectedTimeframe: chartDetails.timeframe,
+                setSelectedTimeframe: chartDetails.onTimeframeChange,
               }),
             ]}
-            selectedTimeframe={chartDetails.timeframe}
-            onTimeframeChange={chartDetails.onTimeframeChange}
           />
         </div>
         {walletConnected && <TokensToDeposit assets={tokensToDeposit} openStakeDialog={openStakeDialog} />}

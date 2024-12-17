@@ -8,7 +8,7 @@ import { ContinuousDomain, scaleLinear, scaleTime } from '@visx/scale'
 import { AreaClosed, Bar, Line, LinePath } from '@visx/shape'
 import { TooltipWithBounds, withTooltip } from '@visx/tooltip'
 import { WithTooltipProvidedProps } from '@visx/tooltip/lib/enhancers/withTooltip'
-import { extent, max, min } from 'd3-array'
+import { extent, max } from 'd3-array'
 import { MouseEvent, TouchEvent } from 'react'
 
 import { formatPercentage } from '@/domain/common/format'
@@ -219,10 +219,9 @@ function TooltipContent({ data, tooltipLabel }: { data: ChartDataPoint; colors: 
 }
 
 function calculateRateDomain(data: ChartDataPoint[]): ContinuousDomain {
-  const minRate = min(data, (d) => d.rate.toNumber()) || 0
   const maxRate = max(data, (d) => d.rate.toNumber()) || 0
 
-  return getVerticalDomainWithPadding(minRate, maxRate)
+  return getVerticalDomainWithPadding(0, maxRate)
 }
 
 const SavingsRateChartWithTooltip = withTooltip<SavingsRateChartProps, ChartDataPoint>(SavingsRateChart)

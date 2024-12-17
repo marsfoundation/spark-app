@@ -5,7 +5,8 @@ import { SavingsInfo } from '@/domain/savings-info/types'
 import { Timeframe } from '@/ui/charts/defaults'
 import { SimplifiedQueryResult } from '@/utils/types'
 import { CheckedAddress } from '@marsfoundation/common-universal'
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
+import { MY_EARNINGS_TIMEFRAMES, MyEarningsTimeframe } from './common'
 import { getFilteredEarningsWithPredictions } from './getFilteredEarningsWithPredictions'
 import { getSavingsDisplayType } from './getSavingsDisplayType'
 import { myEarningsQueryOptions } from './query'
@@ -15,7 +16,6 @@ import { MyEarningsInfoItem } from './types'
 export interface UseMyEarningsInfoParams {
   address?: CheckedAddress
   chainId: number
-  timeframe: Timeframe
   currentTimestamp: number
   staleTime: number
   savingsUsdsInfo: SavingsInfo | null
@@ -35,12 +35,14 @@ export type MyEarningsInfo =
 export interface UseMyEarningsInfoResult {
   queryResult: SimplifiedQueryResult<MyEarningsInfo>
   shouldDisplayMyEarnings: boolean
+  selectedTimeframe: MyEarningsTimeframe
+  setSelectedTimeframe: (timeframe: Timeframe) => void
+  availableTimeframes: MyEarningsTimeframe[]
 }
 
 export function useMyEarningsInfo({
   address,
   chainId,
-  timeframe,
   currentTimestamp,
   staleTime,
   savingsUsdsInfo,
@@ -49,6 +51,8 @@ export function useMyEarningsInfo({
   sdaiWithBalance,
   getEarningsApiUrl,
 }: UseMyEarningsInfoParams): UseMyEarningsInfoResult {
+  const [selectedTimeframe, setSelectedTimeframe] = useState<MyEarningsTimeframe>('All')
+
   const displayType = getSavingsDisplayType({
     savingsUsdsInfo,
     susdsWithBalance,
@@ -74,12 +78,12 @@ export function useMyEarningsInfo({
       (myEarningsInfo: MyEarningsInfoItem[]) =>
         getFilteredEarningsWithPredictions({
           myEarningsInfo,
-          timeframe,
+          timeframe: selectedTimeframe,
           currentTimestamp,
           savingsInfo,
           savingsTokenWithBalance,
         }),
-      [timeframe, currentTimestamp, savingsInfo, savingsTokenWithBalance],
+      [selectedTimeframe, currentTimestamp, savingsInfo, savingsTokenWithBalance],
     ),
     enabled: !!getEarningsApiUrl && !!savingsInfo && !!savingsTokenWithBalance,
     staleTime,
@@ -91,5 +95,12 @@ export function useMyEarningsInfo({
   return {
     queryResult,
     shouldDisplayMyEarnings: hasHistoricalData || hasSavingTokenBalance,
+    selectedTimeframe,
+    setSelectedTimeframe: (selectedTimeframe) => {
+      if (MY_EARNINGS_TIMEFRAMES.includes(selectedTimeframe)) {
+        setSelectedTimeframe(selectedTimeframe as any)
+      }
+    },
+    availableTimeframes: MY_EARNINGS_TIMEFRAMES,
   }
 }
