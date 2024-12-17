@@ -5,6 +5,7 @@ import { Page } from '@playwright/test'
 import { generatePath } from 'react-router-dom'
 import { Address, Hash, parseEther, parseUnits } from 'viem'
 import { AssetsInTests, TOKENS_ON_FORK } from './constants'
+import { getTestnetContext } from './getTestnetContext'
 import {
   injectFixedDate,
   injectFlags,
@@ -12,7 +13,6 @@ import {
   injectUpdatedDate,
   injectWalletConfiguration,
 } from './injectSetup'
-import { getTestnetContext } from './testnet-cache'
 import { generateAccount } from './utils'
 
 export type InjectableWallet = { address: Address } | { privateKey: string }
