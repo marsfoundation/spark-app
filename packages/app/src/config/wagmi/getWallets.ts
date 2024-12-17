@@ -2,6 +2,7 @@ import { WalletList, getDefaultWallets } from '@rainbow-me/rainbowkit'
 import {
   coinbaseWallet,
   metaMaskWallet,
+  okxWallet,
   rainbowWallet,
   safeWallet,
   walletConnectWallet,
@@ -19,6 +20,7 @@ export function getWallets(): WalletList {
         ...(popularWallets?.wallets ?? [rainbowWallet, coinbaseWallet, metaMaskWallet, walletConnectWallet]),
         // Safe wallet (shown when available)
         safeWallet,
+        okxWallet,
       ],
     },
   ]
