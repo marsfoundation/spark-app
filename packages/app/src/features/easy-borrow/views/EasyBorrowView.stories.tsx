@@ -10,7 +10,6 @@ import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 import BigNumber from 'bignumber.js'
-import { useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { withRouter } from 'storybook-addon-remix-react-router'
 import { EasyBorrowFormSchema } from '../logic/form/validation'
@@ -94,7 +93,7 @@ function EasyBorrowViewStory(props: EasyBorrowViewStoryProps) {
     goToSuccessScreen: () => {},
     submitForm: () => {},
   }
-  const healthFactorPanelRef = useRef<HTMLDivElement>(null)
+  const focusOnActionsPanel = () => {}
 
   return (
     <EasyBorrowView
@@ -111,7 +110,7 @@ function EasyBorrowViewStory(props: EasyBorrowViewStoryProps) {
       guestMode={guestMode}
       openConnectModal={openConnectModal}
       openSandboxModal={openSandboxModal}
-      actionsPanelRef={healthFactorPanelRef}
+      focusOnActionsPanel={focusOnActionsPanel}
       riskAcknowledgement={riskAcknowledgement}
       actionsContext={{ marketInfo: mockMarketInfo }}
     />
