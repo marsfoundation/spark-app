@@ -56,7 +56,7 @@ export function SavingsTokenPanel({
       <div className="flex w-full flex-row items-center justify-between">
         <div className="flex flex-row items-center gap-1">
           <div className="typography-heading-4 text-primary-inverse">
-            {savingsType === 'sdai' ? 'Savings DAI' : 'Savings USDS'}
+            {savingsType === 'sdai' ? 'DAI Savings' : 'USDS Savings'}
           </div>
         </div>
         <div className="md:-mt-2 md:-mr-2 flex flex-row gap-1">

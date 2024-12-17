@@ -14,7 +14,7 @@ export function Card({ children, hasNoCash }: CardProps) {
       spacing="m"
       className={cn(
         'grid grid-cols-1 gap-8 bg-center bg-cover',
-        'bg-savings-opportunity-panel bg-no-repeat lg:grid-cols-[3fr_2fr]',
+        'bg-savings-opportunity-panel bg-no-repeat xl:grid-cols-[3fr_2fr]',
         hasNoCash && 'gap-6 lg:grid-cols-1',
       )}
       data-testid={testIds.savings.opportunity.panel}

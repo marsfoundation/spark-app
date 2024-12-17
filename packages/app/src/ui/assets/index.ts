@@ -18,7 +18,6 @@ import symbolDark from './brand/symbol-dark.svg'
 import symbolGradient from './brand/symbol-gradient.svg'
 import symboLight from './brand/symbol-light.svg'
 import base from './chains/base.svg'
-import baseDevNet from './chains/baseDevNet.svg'
 import ethereum from './chains/ethereum.svg'
 import gnosis from './chains/gnosis.svg'
 import checkCircle from './check-circle.svg'
@@ -162,7 +161,6 @@ export const assets = {
     gnosis,
     ethereum,
     unknown,
-    baseDevNet,
     base,
   },
   token: {
