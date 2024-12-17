@@ -1,10 +1,14 @@
 import { DialogPageObject } from '@/features/dialogs/common/Dialog.PageObject'
+import { TestContext } from '@/test/e2e/setup'
 import { testIds } from '@/ui/utils/testIds'
-import { Page, expect } from '@playwright/test'
+import { expect } from '@playwright/test'
 
 export class ClaimDialogPageObject extends DialogPageObject {
-  constructor(page: Page) {
-    super(page, /Claim/)
+  constructor(testContext: TestContext<any>) {
+    super({
+      testContext,
+      header: /Claim/,
+    })
   }
 
   // #region actions

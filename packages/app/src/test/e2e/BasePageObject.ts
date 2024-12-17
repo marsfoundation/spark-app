@@ -1,21 +1,22 @@
 import { testIds } from '@/ui/utils/testIds'
 import { Locator, Page, expect } from '@playwright/test'
-import { isPage } from './utils'
+import { TestContext } from './setup'
 
 /**
  * BasePageObject is a class that contains common selectors and actions that are shared across the whole app.
  */
 export class BasePageObject {
+  protected readonly testContext: TestContext<any>
   protected readonly page: Page
   protected region: Locator
 
-  constructor(pageOrLocator: Page | Locator) {
-    if (isPage(pageOrLocator)) {
-      this.page = pageOrLocator
-      this.region = pageOrLocator.locator('body')
+  constructor(testContext: TestContext<any>, locator?: Locator) {
+    this.testContext = testContext
+    this.page = testContext.page
+    if (locator) {
+      this.region = locator
     } else {
-      this.page = pageOrLocator.page()
-      this.region = pageOrLocator
+      this.region = this.page.locator('body')
     }
   }
 

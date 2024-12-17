@@ -3,7 +3,6 @@ import { StakeDialogPageObject } from '@/features/farm-details/dialogs/stake/Sta
 import { USDS_ACTIVATED_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { overrideInfoSkyRouteWithHAR } from '@/test/e2e/info-sky'
 import { setup } from '@/test/e2e/setup'
-import { TestnetClient } from '@marsfoundation/common-testnets'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { test } from '@playwright/test'
 import { Address } from 'viem'
@@ -14,12 +13,9 @@ test.describe('Claim SKY rewards', () => {
   let farmDetailsPage: FarmDetailsPageObject
   let claimDialog: ClaimDialogPageObject
   let account: Address
-  let updateBrowserAndNextBlockTime: (seconds: number) => Promise<void>
-  let incrementTime: (seconds: number) => Promise<void>
-  let testnetClient: TestnetClient
 
   test.beforeEach(async ({ page }) => {
-    ;({ account, testnetClient, updateBrowserAndNextBlockTime, incrementTime } = await setup(page, {
+    const testContext = await setup(page, {
       blockchain: {
         chainId: mainnet.id,
         blockNumber: USDS_ACTIVATED_BLOCK_NUMBER,
@@ -36,20 +32,22 @@ test.describe('Claim SKY rewards', () => {
           USDS: 10_000,
         },
       },
-    }))
+    })
+    account = testContext.account
+
     await overrideInfoSkyRouteWithHAR({ page, key: '1-sky-farm-with-8_51-apy' })
 
-    farmDetailsPage = new FarmDetailsPageObject(page)
+    farmDetailsPage = new FarmDetailsPageObject(testContext)
     await farmDetailsPage.clickInfoPanelStakeButtonAction()
-    const stakeDialog = new StakeDialogPageObject(page)
+    const stakeDialog = new StakeDialogPageObject(testContext)
     await stakeDialog.fillAmountAction(10_000)
-    await stakeDialog.actionsContainer.acceptAllActionsAction(2, updateBrowserAndNextBlockTime)
+    await stakeDialog.actionsContainer.acceptAllActionsAction(2)
     await stakeDialog.clickBackToFarmAction()
-    await incrementTime(24 * 60 * 60) // 24 hours
+    await testContext.testnetController.progressSimulationAndMine(24 * 60 * 60) // 24 hours
     await page.reload()
 
     await farmDetailsPage.clickInfoPanelClaimButtonAction()
-    claimDialog = new ClaimDialogPageObject(page)
+    claimDialog = new ClaimDialogPageObject(testContext)
   })
 
   test('has correct action plan', async () => {
@@ -67,7 +65,7 @@ test.describe('Claim SKY rewards', () => {
   })
 
   test('executes transaction', async () => {
-    await claimDialog.actionsContainer.acceptAllActionsAction(1, updateBrowserAndNextBlockTime)
+    await claimDialog.actionsContainer.acceptAllActionsAction(1)
 
     await claimDialog.expectSuccessPage()
     await claimDialog.clickBackToFarmAction()
@@ -79,9 +77,8 @@ test.describe('Claim SKY rewards', () => {
     })
     await farmDetailsPage.expectTokenBalance({
       address: account,
-      testnetClient,
       symbol: 'SKY',
-      balance: NormalizedUnitNumber('3539.85599931941984'),
+      balance: NormalizedUnitNumber('3539.69212658060522'),
     })
     await farmDetailsPage.expectStaked({ amount: '10,000.00', asset: 'USDS' })
   })

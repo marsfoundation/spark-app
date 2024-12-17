@@ -59,17 +59,23 @@ export interface SetupOptions<K extends Path, T extends ConnectionType> {
   skipInjectingNetwork?: boolean
 }
 
-export type SetupReturn<T extends ConnectionType> = (T extends 'not-connected' ? {} : { account: Address }) & {
-  testnetClient: TestnetClient
-  updateBrowserAndNextBlockTime: (seconds: number) => Promise<void>
-  incrementTime: (seconds: number) => Promise<void>
+export type ProgressSimulation = (seconds: number) => Promise<void>
+export interface TestnetController {
+  client: TestnetClient
+  progressSimulation: ProgressSimulation
+  progressSimulationAndMine: ProgressSimulation
+}
+
+export type TestContext<T extends ConnectionType> = (T extends 'not-connected' ? {} : { account: Address }) & {
+  testnetController: TestnetController
+  page: Page
 }
 
 // should be called at the beginning of any test
 export async function setup<K extends Path, T extends ConnectionType>(
   page: Page,
   options: SetupOptions<K, T>,
-): Promise<SetupReturn<T>> {
+): Promise<TestContext<T>> {
   const { client: testnetClient, initialSnapshotId } = await getTestnetContext(options.blockchain)
   await testnetClient.revert(initialSnapshotId)
 
@@ -77,7 +83,7 @@ export async function setup<K extends Path, T extends ConnectionType>(
   const address = await setupAccount({ page, testnetClient, options: options.account })
   await page.goto(buildUrl(options.initialPage, options.initialPageParams))
 
-  async function updateBrowserAndNextBlockTime(seconds: number): Promise<void> {
+  async function progressSimulation(seconds: number): Promise<void> {
     const { timestamp: currentTimestamp } = await testnetClient.getBlock()
 
     const progressedTimestamp = currentTimestamp + BigInt(seconds)
@@ -85,21 +91,25 @@ export async function setup<K extends Path, T extends ConnectionType>(
     await injectUpdatedDate(page, new Date(Number(currentTimestamp) * 1000))
   }
 
-  async function incrementTime(seconds: number): Promise<void> {
-    await updateBrowserAndNextBlockTime(seconds)
+  async function progressSimulationAndMine(seconds: number): Promise<void> {
+    await progressSimulation(seconds)
     await testnetClient.mineBlocks(1n)
-    await updateBrowserAndNextBlockTime(5)
+    await progressSimulation(1)
   }
 
-  // @note: Sync time in browser with current time on blockchain,
-  // set next block to be mined timestamp to be 5 seconds more.
-  await updateBrowserAndNextBlockTime(5)
+  // @note: Set next block to be mined timestamp to be 5 seconds more.
+  await progressSimulation(5)
+
+  const testnetController = {
+    client: testnetClient,
+    progressSimulation,
+    progressSimulationAndMine,
+  }
 
   return {
+    page,
     account: address,
-    testnetClient,
-    updateBrowserAndNextBlockTime,
-    incrementTime,
+    testnetController,
   } as any
 }
 

@@ -2,7 +2,7 @@ import { BasePageObject } from '@/test/e2e/BasePageObject'
 import { AssetsInTests, TOKENS_ON_FORK } from '@/test/e2e/constants'
 import { getTokenBalance } from '@/test/e2e/utils'
 import { testIds } from '@/ui/utils/testIds'
-import { TestnetClient, getUrlFromClient } from '@marsfoundation/common-testnets'
+import { getUrlFromClient } from '@marsfoundation/common-testnets'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { Locator, expect } from '@playwright/test'
 import { Address } from 'viem'
@@ -55,21 +55,19 @@ export class FarmDetailsPageObject extends BasePageObject {
   }
 
   async expectTokenBalance({
-    testnetClient,
     symbol,
     balance,
     address,
   }: {
-    testnetClient: TestnetClient
     symbol: AssetsInTests
     balance: NormalizedUnitNumber
     address: Address
   }): Promise<void> {
-    const chainId = await testnetClient.getChainId()
+    const chainId = await this.testContext.testnetController.client.getChainId()
     const token: { address: Address; decimals: number } = (TOKENS_ON_FORK as any)[chainId][symbol]
     const actualBalance = await getTokenBalance({
       address,
-      forkUrl: getUrlFromClient(testnetClient),
+      forkUrl: getUrlFromClient(this.testContext.testnetController.client),
       token,
     })
     expect(balance.eq(actualBalance)).toBe(true)

@@ -1,22 +1,24 @@
-import { Locator, Page, expect } from '@playwright/test'
+import { Locator, expect } from '@playwright/test'
 
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { BasePageObject } from '@/test/e2e/BasePageObject'
 import { TestTokenWithValue, expectAssets } from '@/test/e2e/assertions'
-import { calculateAssetsWorth, isPage } from '@/test/e2e/utils'
+import { TestContext } from '@/test/e2e/setup'
+import { calculateAssetsWorth } from '@/test/e2e/utils'
 import { testIds } from '@/ui/utils/testIds'
 import { TestnetClient, getUrlFromClient } from '@marsfoundation/common-testnets'
 
+export interface DialogPageObjectParams {
+  testContext: TestContext<any>
+  header: RegExp
+}
+
 export class DialogPageObject extends BasePageObject {
   public readonly actionsContainer: ActionsPageObject
-  constructor(pageOrLocator: Page | Locator, header: RegExp) {
-    if (isPage(pageOrLocator)) {
-      super(pageOrLocator)
-      this.region = this.locateDialogByHeader(header)
-    } else {
-      super(pageOrLocator)
-    }
-    this.actionsContainer = new ActionsPageObject(this.locatePanelByHeader('Actions'))
+  constructor({ testContext, header }: DialogPageObjectParams) {
+    super(testContext)
+    this.region = this.locateDialogByHeader(header)
+    this.actionsContainer = new ActionsPageObject(testContext, this.locatePanelByHeader('Actions'))
   }
 
   getDialog(): Locator {
