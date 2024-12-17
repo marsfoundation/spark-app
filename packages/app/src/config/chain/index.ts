@@ -354,10 +354,11 @@ export const featureAvailability = (function getFeatureAvailability(): Record<
 > {
   // @note: using SUPPORTED_CHAIN instead of Object.values(chainConfig) to maintain chains order,
   // since chain config members are automatically sorted in js (object key is a number).
-  const getSupportedChains = (predicate: (config: ChainConfigEntry) => boolean) =>
-    SUPPORTED_CHAINS.map((chain) => chainConfig[chain.id])
+  function getSupportedChains(predicate: (config: ChainConfigEntry) => boolean): SupportedChainId[] {
+    return SUPPORTED_CHAINS.map((chain) => chainConfig[chain.id])
       .filter(predicate)
       .map((config) => config.originChainId)
+  }
   return {
     savings: getSupportedChains((config) => config.savings !== undefined),
     markets: getSupportedChains((config) => config.markets !== undefined),
