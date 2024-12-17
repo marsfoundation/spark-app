@@ -21,7 +21,7 @@ import { unstakeDialogConfig } from '../dialogs/unstake/UnstakeDialog'
 import { RewardPointsSyncStatus } from '../types'
 import { calculateReward as _calculateReward } from './calculateReward'
 import { getRewardPointsSyncStatus } from './getRewardPointsSyncStatus'
-import { FarmHistoryQueryResult, useFarmHistory } from './historic/useFarmHistory'
+import { FarmHistoryQueryResult, FarmHistoryTimeframe, useFarmHistory } from './historic/useFarmHistory'
 import { useFarmDetailsParams } from './useFarmDetailsParams'
 import { useRewardPointsData } from './useRewardPointsData'
 
@@ -30,8 +30,8 @@ const GROWING_REWARD_REFRESH_INTERVAL_IN_MS = 50
 export interface ChartDetails {
   farmHistory: FarmHistoryQueryResult
   onTimeframeChange: (timeframe: Timeframe) => void
-  timeframe: Timeframe
-  availableTimeframes: Timeframe[]
+  timeframe: FarmHistoryTimeframe
+  availableTimeframes: FarmHistoryTimeframe[]
 }
 
 export interface UseFarmDetailsResult {
