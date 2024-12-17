@@ -84,6 +84,7 @@ function EasyBorrowViewStory(props: EasyBorrowViewStoryProps) {
   const setDesiredLoanToValue = () => {}
   const openConnectModal = () => {}
   const openSandboxModal = () => {}
+  const focusOnActionsPanel = () => {}
   /* eslint-enable func-style */
 
   const pageStatus = {
@@ -93,7 +94,6 @@ function EasyBorrowViewStory(props: EasyBorrowViewStoryProps) {
     goToSuccessScreen: () => {},
     submitForm: () => {},
   }
-  const focusOnActionsPanel = () => {}
 
   return (
     <EasyBorrowView
