@@ -19,10 +19,11 @@ export function CheckedAddress(value: string): CheckedAddress {
  * Generates a random address. Tries to represent desired ascii prefix as hex value. Helps to identify transactions in the logs.
  */
 CheckedAddress.random = (asciiPrefix = ''): CheckedAddress => {
+  const constantAddressPrefix = 'deadbeef'
   const hexPrefix = asciiToHex(asciiPrefix)
-  const postfixLength = 40 - hexPrefix.length
+  const postfixLength = 40 - hexPrefix.length - constantAddressPrefix.length
   assert(postfixLength >= 0, `Prefix too long: ${asciiPrefix}`)
-  const address = hexPrefix + randomPartialHex(postfixLength)
+  const address = `${constantAddressPrefix}${hexPrefix}${randomPartialHex(postfixLength)}`
 
   return CheckedAddress(`0x${address}`)
 }
