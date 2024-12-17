@@ -35,7 +35,7 @@ export interface EasyBorrowPanelProps {
   guestMode: boolean
   openConnectModal: () => void
   openSandboxModal: () => void
-  healthFactorPanelRef: React.RefObject<HTMLDivElement>
+  focusOnActionsPanel: (node: HTMLDivElement | null) => void
   actionsContext: InjectedActionsContext
 }
 
@@ -75,7 +75,7 @@ export function EasyBorrowPanel(props: EasyBorrowPanelProps) {
                   )}
                 </Panel>
               )}
-              <Panel>
+              <Panel ref={props.focusOnActionsPanel}>
                 <ActionsContainer
                   objectives={objectives}
                   context={actionsContext}

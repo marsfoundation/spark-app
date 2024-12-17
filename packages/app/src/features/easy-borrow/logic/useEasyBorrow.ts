@@ -19,7 +19,7 @@ import { sandboxDialogConfig } from '@/features/dialogs/sandbox/SandboxDialog'
 import { assert, raise } from '@/utils/assert'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Percentage } from '@marsfoundation/common-universal'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
 import { useAccount } from 'wagmi'
 import { getBorrowableAssets, getDepositableAssets, imputeNativeAsset, sortByDecreasingBalances } from './assets'
@@ -61,7 +61,7 @@ export interface UseEasyBorrowResults {
   borrowDetails: BorrowDetails
   guestMode: boolean
   openSandboxModal: () => void
-  healthFactorPanelRef: React.RefObject<HTMLDivElement>
+  focusOnActionsPanel: (node: HTMLDivElement | null) => void
   actionsContext: InjectedActionsContext
 }
 
@@ -85,7 +85,6 @@ export function useEasyBorrow(): UseEasyBorrowResults {
   const upgradeOptions = useUpgradeOptions({ chainId, daiSymbol })
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')
-  const healthFactorPanelRef = useRef<HTMLDivElement>(null)
 
   const userPositions = imputeNativeAsset(marketInfo, nativeAssetInfo)
   const alreadyDeposited = useConditionalFreeze(
@@ -197,11 +196,13 @@ export function useEasyBorrow(): UseEasyBorrowResults {
     },
     [account.chainId],
   )
-  useEffect(() => {
-    if (pageStatus === 'confirmation') {
-      healthFactorPanelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+
+  const focusOnActionsPanel = useCallback((node: HTMLDivElement | null) => {
+    if (!node) {
+      return
     }
-  }, [pageStatus])
+    node.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }, [])
 
   function openSandboxModal(): void {
     openDialog(sandboxDialogConfig, { mode: 'ephemeral' } as const)
@@ -243,7 +244,7 @@ export function useEasyBorrow(): UseEasyBorrowResults {
     borrowDetails,
     guestMode,
     openSandboxModal,
-    healthFactorPanelRef,
+    focusOnActionsPanel,
     riskAcknowledgement,
     actionsContext: {
       marketInfo,

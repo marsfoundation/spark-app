@@ -28,7 +28,7 @@ export interface EasyBorrowViewProps {
   guestMode: boolean
   openConnectModal: () => void
   openSandboxModal: () => void
-  healthFactorPanelRef: React.RefObject<HTMLDivElement>
+  focusOnActionsPanel: (node: HTMLDivElement | null) => void
   actionsContext: InjectedActionsContext
 }
 
