@@ -19,7 +19,7 @@ import { base, gnosis, mainnet } from 'viem/chains'
 import { NATIVE_ASSET_MOCK_ADDRESS, infoSkyApiUrl } from '../consts'
 import { AppConfig } from '../feature-flags'
 import { PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY } from '../wagmi/config.e2e'
-import { farmAddresses, farmStablecoinsEntryGroup, susdsAddresses } from './constants'
+import { SUPPORTED_CHAINS, farmAddresses, farmStablecoinsEntryGroup, susdsAddresses } from './constants'
 import { ChainConfigEntry, ChainMeta, SupportedChainId } from './types'
 
 const commonTokenSymbolToReplacedName = {
@@ -308,7 +308,7 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
     psmStables: [TokenSymbol('USDC'), TokenSymbol('USDS')],
     meta: {
       name: 'Base',
-      logo: assets.chain.baseDevNet,
+      logo: assets.chain.base,
     },
     tokensWithMalformedApprove: [],
     permitSupport: {},
@@ -347,6 +347,24 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
     farms: undefined,
   },
 }
+
+export const featureAvailability = (function getFeatureAvailability(): Record<
+  'savings' | 'markets' | 'farms',
+  SupportedChainId[]
+> {
+  // @note: using SUPPORTED_CHAIN instead of Object.values(chainConfig) to maintain chains order,
+  // since chain config members are automatically sorted in js (object key is a number).
+  function getSupportedChains(predicate: (config: ChainConfigEntry) => boolean): SupportedChainId[] {
+    return SUPPORTED_CHAINS.map((chain) => chainConfig[chain.id])
+      .filter(predicate)
+      .map((config) => config.originChainId)
+  }
+  return {
+    savings: getSupportedChains((config) => config.savings !== undefined),
+    markets: getSupportedChains((config) => config.markets !== undefined),
+    farms: getSupportedChains((config) => config.farms !== undefined),
+  }
+})()
 
 export function getChainConfigEntry(chainId: number): ChainConfigEntry {
   const sandboxConfig = useStore.getState().appConfig.sandbox

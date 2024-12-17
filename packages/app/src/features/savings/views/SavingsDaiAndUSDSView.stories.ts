@@ -1,4 +1,6 @@
+import { MY_EARNINGS_TIMEFRAMES } from '@/domain/savings-charts/useMyEarningsInfo/common'
 import { UseMyEarningsInfoResult } from '@/domain/savings-charts/useMyEarningsInfo/useMyEarningsInfo'
+import { SAVINGS_RATE_TIMEFRAMES } from '@/domain/savings-charts/useSavingsRateInfo/common'
 import { UseSavingsRateInfoResult } from '@/domain/savings-charts/useSavingsRateInfo/useSavingsRateInfo'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
@@ -27,16 +29,25 @@ const myEarningsInfo = {
     error: null,
   },
   shouldDisplayMyEarnings: true,
+  selectedTimeframe: 'All',
+  setSelectedTimeframe: () => {},
+  availableTimeframes: MY_EARNINGS_TIMEFRAMES,
 } satisfies UseMyEarningsInfoResult
 
 const savingsRateInfo = {
-  data: {
-    ssr: mockSsrChartData,
-    dsr: mockDsrChartData,
+  queryResult: {
+    data: {
+      ssr: mockSsrChartData,
+      dsr: mockDsrChartData,
+    },
+    isError: false,
+    isPending: false,
+    error: null,
   },
-  isError: false,
-  isPending: false,
-  error: null,
+
+  selectedTimeframe: '3M',
+  setSelectedTimeframe: () => {},
+  availableTimeframes: SAVINGS_RATE_TIMEFRAMES,
 } satisfies UseSavingsRateInfoResult
 
 const savingsChartsInfo = {

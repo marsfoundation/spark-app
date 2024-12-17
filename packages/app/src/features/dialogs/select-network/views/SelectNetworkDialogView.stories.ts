@@ -28,7 +28,7 @@ const meta: Meta<typeof SelectNetworkDialogView> = {
         onSelect: () => {},
       },
       {
-        logo: assets.chain.baseDevNet,
+        logo: assets.chain.base,
         name: 'Base',
         supportedPages: ['Savings', 'Farms'],
         selected: false,

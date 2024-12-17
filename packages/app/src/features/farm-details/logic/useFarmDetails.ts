@@ -21,7 +21,7 @@ import { unstakeDialogConfig } from '../dialogs/unstake/UnstakeDialog'
 import { RewardPointsSyncStatus } from '../types'
 import { calculateReward as _calculateReward } from './calculateReward'
 import { getRewardPointsSyncStatus } from './getRewardPointsSyncStatus'
-import { FarmHistoryQueryResult, useFarmHistory } from './historic/useFarmHistory'
+import { FarmHistoryQueryResult, FarmHistoryTimeframe, useFarmHistory } from './historic/useFarmHistory'
 import { useFarmDetailsParams } from './useFarmDetailsParams'
 import { useRewardPointsData } from './useRewardPointsData'
 
@@ -30,7 +30,8 @@ const GROWING_REWARD_REFRESH_INTERVAL_IN_MS = 50
 export interface ChartDetails {
   farmHistory: FarmHistoryQueryResult
   onTimeframeChange: (timeframe: Timeframe) => void
-  timeframe: Timeframe
+  timeframe: FarmHistoryTimeframe
+  availableTimeframes: FarmHistoryTimeframe[]
 }
 
 export interface UseFarmDetailsResult {
@@ -77,7 +78,7 @@ export function useFarmDetails(): UseFarmDetailsResult {
   const { farmsInfo } = useFarmsInfo({ chainId })
   const farm = farmsInfo.findFarmByAddress(farmAddress) ?? raise(new NotFoundError())
 
-  const { farmHistory, onTimeframeChange, timeframe } = useFarmHistory({
+  const { farmHistory, onTimeframeChange, timeframe, availableTimeframes } = useFarmHistory({
     chainId,
     farmAddress,
   })
@@ -140,6 +141,7 @@ export function useFarmDetails(): UseFarmDetailsResult {
       farmHistory,
       onTimeframeChange,
       timeframe,
+      availableTimeframes,
     },
     calculateReward,
     refreshGrowingRewardIntervalInMs,

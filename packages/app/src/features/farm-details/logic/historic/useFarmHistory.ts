@@ -8,6 +8,9 @@ import { useState } from 'react'
 import { farmHistoricDataQueryOptions } from './query'
 import { FarmHistoryItem } from './types'
 
+export const FARM_HISTORY_TIMEFRAMES = ['7D', '1M', '1Y', 'All'] as const satisfies Timeframe[]
+export type FarmHistoryTimeframe = (typeof FARM_HISTORY_TIMEFRAMES)[number]
+
 export interface UseFarmHistoryParams {
   chainId: number
   farmAddress: CheckedAddress
@@ -18,11 +21,12 @@ export type FarmHistoryQueryResult = UseQueryResult<FarmHistoryItem[]>
 export interface UseFarmHistoryResult {
   farmHistory: FarmHistoryQueryResult
   onTimeframeChange: (timeframe: Timeframe) => void
-  timeframe: Timeframe
+  timeframe: FarmHistoryTimeframe
+  availableTimeframes: FarmHistoryTimeframe[]
 }
 
 export function useFarmHistory({ chainId, farmAddress }: UseFarmHistoryParams): UseFarmHistoryResult {
-  const [timeframe, setTimeframe] = useState<Timeframe>('All')
+  const [timeframe, setTimeframe] = useState<FarmHistoryTimeframe>('All')
   const filterDataByTimeframe = useFilterChartDataByTimeframe(timeframe)
 
   const farmsConfig = getChainConfigEntry(chainId).farms ?? raise('Farms config is not defined on this chain')
@@ -45,7 +49,12 @@ export function useFarmHistory({ chainId, farmAddress }: UseFarmHistoryParams): 
 
   return {
     farmHistory,
-    onTimeframeChange: setTimeframe,
+    onTimeframeChange: (timeframe: Timeframe) => {
+      if (FARM_HISTORY_TIMEFRAMES.includes(timeframe)) {
+        setTimeframe(timeframe as any)
+      }
+    },
     timeframe,
+    availableTimeframes: FARM_HISTORY_TIMEFRAMES,
   }
 }

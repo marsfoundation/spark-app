@@ -47,10 +47,22 @@ export function filterDataByTimeframe<Data extends { date: Date }>({
       return data.filter((d) => new Date(d.date) >= oneMonthAgo)
     }
 
+    case '3M': {
+      const threeMonthsAgo = new Date(now)
+      threeMonthsAgo.setMonth(now.getMonth() - 3)
+      return data.filter((d) => new Date(d.date) >= threeMonthsAgo)
+    }
+
     case '1Y': {
       const oneYearAgo = new Date(now)
       oneYearAgo.setFullYear(now.getFullYear() - 1)
       return data.filter((d) => new Date(d.date) >= oneYearAgo)
+    }
+
+    case '3Y': {
+      const threeYearsAgo = new Date(now)
+      threeYearsAgo.setFullYear(now.getFullYear() - 3)
+      return data.filter((d) => new Date(d.date) >= threeYearsAgo)
     }
 
     case 'All':

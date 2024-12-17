@@ -1,6 +1,8 @@
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 
+import { MY_EARNINGS_TIMEFRAMES } from '@/domain/savings-charts/useMyEarningsInfo/common'
+import { SAVINGS_RATE_TIMEFRAMES } from '@/domain/savings-charts/useSavingsRateInfo/common'
 import { WithClassname, WithFixedDate } from '@sb/decorators'
 import { UsdsSavingsCharts } from './UsdsSavingsCharts'
 import { mockEarningsChartData, mockEarningsPredictionsChartData } from './fixtures/mockEarningsChartData'
@@ -11,8 +13,6 @@ const meta: Meta<typeof UsdsSavingsCharts> = {
   component: UsdsSavingsCharts,
   decorators: [WithClassname('max-w-lg'), WithFixedDate()],
   args: {
-    selectedTimeframe: '1M' as const,
-    setSelectedTimeframe: () => {},
     myEarningsInfo: {
       queryResult: {
         isError: false,
@@ -24,15 +24,23 @@ const meta: Meta<typeof UsdsSavingsCharts> = {
         },
       },
       shouldDisplayMyEarnings: true,
+      selectedTimeframe: '1M' as const,
+      setSelectedTimeframe: () => {},
+      availableTimeframes: MY_EARNINGS_TIMEFRAMES,
     },
     savingsRateInfo: {
-      data: {
-        ssr: mockSsrChartData,
-        dsr: mockDsrChartData,
+      queryResult: {
+        data: {
+          ssr: mockSsrChartData,
+          dsr: mockDsrChartData,
+        },
+        isError: false,
+        isPending: false,
+        error: null,
       },
-      isError: false,
-      isPending: false,
-      error: null,
+      selectedTimeframe: '1M' as const,
+      setSelectedTimeframe: () => {},
+      availableTimeframes: SAVINGS_RATE_TIMEFRAMES,
     },
   },
 }
@@ -55,6 +63,9 @@ export const NoEarningsHistoryDesktop: Story = {
         error: null,
       },
       shouldDisplayMyEarnings: false,
+      selectedTimeframe: '1M' as const,
+      setSelectedTimeframe: () => {},
+      availableTimeframes: MY_EARNINGS_TIMEFRAMES,
     },
   },
 }

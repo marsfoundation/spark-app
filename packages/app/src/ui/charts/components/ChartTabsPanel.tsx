@@ -4,7 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/atoms/tabs/Tabs'
 import { useResizeObserver } from '@/ui/utils/useResizeObserver'
 import { assert } from '@/utils/assert'
 import { AlertTriangle, Loader2 } from 'lucide-react'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { Timeframe } from '../defaults'
 import { TimeframeButtons } from './TimeframeButtons'
 
@@ -22,6 +22,9 @@ type ChartTabDefinition<C> = C extends React.ComponentType<infer P>
         label: string
         isPending: boolean
         isError: boolean
+        selectedTimeframe: Timeframe
+        setSelectedTimeframe: (timeframe: Timeframe) => void
+        availableTimeframes: Timeframe[]
       }
     : never
   : never
@@ -36,6 +39,9 @@ export interface ChartTab {
   readonly [__CHART_TAB_OPAQUE_TYPE__]: true
   isPending: boolean
   isError: boolean
+  selectedTimeframe: Timeframe
+  setSelectedTimeframe: (timeframe: Timeframe) => void
+  availableTimeframes: Timeframe[]
 }
 
 export function createChartTab<C>(chart: ChartTabDefinition<C>): ChartTab {
@@ -43,24 +49,33 @@ export function createChartTab<C>(chart: ChartTabDefinition<C>): ChartTab {
 }
 
 interface ChartTabsPanelProps {
-  selectedTimeframe: Timeframe
-  onTimeframeChange: (timeframe: Timeframe) => void
   height?: number
   tabs: ChartTab[]
 }
 
-export function ChartTabsPanel({ tabs, onTimeframeChange, selectedTimeframe, height = 300 }: ChartTabsPanelProps) {
+export function ChartTabsPanel({ tabs, height = 300 }: ChartTabsPanelProps) {
   const firstTab = tabs[0]
   assert(firstTab, 'ChartTabsPanel: at least 1 tab is required')
 
+  const [selectedTabId, setSelectedTabId] = useState(firstTab.id)
+  if (!tabs.some((tab) => tab.id === selectedTabId)) {
+    // If selectedTabId is not found, set it to the first tab.
+    // This is possible when the list of tabs is updated.
+    setSelectedTabId(firstTab.id)
+  }
+  const selectedTab = tabs.find((tab) => tab.id === selectedTabId) ?? firstTab
+
   if (tabs.length === 1) {
+    const { selectedTimeframe, setSelectedTimeframe, availableTimeframes } = firstTab
+
     return (
       <Panel className="flex min-h-[380px] w-full flex-1 flex-col justify-between self-stretch overflow-hidden">
         <div className="grid grid-cols-1 grid-rows-2 items-center gap-4 lg:grid-cols-2 lg:grid-rows-1">
           <div className="typography-heading-5 flex items-center gap-1">{firstTab.label}</div>
           <TimeframeButtons
-            onTimeframeChange={onTimeframeChange}
+            onTimeframeChange={setSelectedTimeframe}
             selectedTimeframe={selectedTimeframe}
+            availableTimeframes={availableTimeframes}
             className="w-full lg:w-auto"
           />
         </div>
@@ -74,7 +89,12 @@ export function ChartTabsPanel({ tabs, onTimeframeChange, selectedTimeframe, hei
 
   return (
     <Panel className="flex min-h-[380px] w-full flex-1 flex-col justify-between self-stretch overflow-hidden">
-      <Tabs defaultValue={firstTab.id} className="flex flex-1 flex-col">
+      <Tabs
+        defaultValue={firstTab.id}
+        value={selectedTabId}
+        onValueChange={setSelectedTabId}
+        className="flex flex-1 flex-col"
+      >
         <div className="flex flex-col flex-wrap items-center justify-between gap-2 lg:flex-row lg:gap-1">
           <TabsList className="w-full lg:w-auto" size="s">
             {tabs.map((tab) => (
@@ -84,8 +104,9 @@ export function ChartTabsPanel({ tabs, onTimeframeChange, selectedTimeframe, hei
             ))}
           </TabsList>
           <TimeframeButtons
-            onTimeframeChange={onTimeframeChange}
-            selectedTimeframe={selectedTimeframe}
+            onTimeframeChange={selectedTab.setSelectedTimeframe}
+            selectedTimeframe={selectedTab.selectedTimeframe}
+            availableTimeframes={selectedTab.availableTimeframes}
             className="w-full lg:w-auto"
           />
         </div>
