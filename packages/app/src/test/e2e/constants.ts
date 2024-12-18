@@ -56,6 +56,10 @@ const TOKENS_ON_MAINNET = {
     address: '0x56072c95faa701256059aa122697b133aded9279',
     decimals: 18,
   },
+  cbBTC: {
+    address: '0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf',
+    decimals: 8,
+  },
 } as const
 
 export const TOKENS_ON_FORK = {
