@@ -57,8 +57,8 @@ test.describe('E-Mode dialog', () => {
         availableAssets: {
           assets: 'All assets',
         },
-        hf: '1.75',
-        maxLtv: '68.50%',
+        hf: '1.79',
+        maxLtv: '79.00%',
       })
 
       await eModeDialog.clickEModeCategoryTileAction('ETH Correlated')
@@ -70,12 +70,12 @@ test.describe('E-Mode dialog', () => {
           assets: 'WETH, wstETH, rETH',
         },
         hf: {
-          before: '1.75',
-          after: '2.05',
+          before: '1.79',
+          after: '2.08',
         },
         maxLtv: {
-          before: '68.50%',
-          after: '90.00%',
+          before: '79.00%',
+          after: '92.00%',
         },
       })
 
@@ -110,12 +110,12 @@ test.describe('E-Mode dialog', () => {
           assets: 'All assets',
         },
         hf: {
-          before: '2.05',
-          after: '1.75',
+          before: '2.08',
+          after: '1.79',
         },
         maxLtv: {
-          before: '90.00%',
-          after: '68.50%',
+          before: '92.00%',
+          after: '79.00%',
         },
       })
       await eModeDialog.actionsContainer.acceptAllActionsAction(1)
@@ -186,8 +186,8 @@ test.describe('E-Mode dialog', () => {
         availableAssets: {
           assets: 'All assets',
         },
-        hf: '2.08',
-        maxLtv: '68.50%',
+        hf: '3.73',
+        maxLtv: '79.00%',
       })
 
       await eModeDialog.clickEModeCategoryTileAction('Stablecoins')
@@ -199,12 +199,12 @@ test.describe('E-Mode dialog', () => {
           assets: 'sDAI, USDC, USDT',
         },
         hf: {
-          before: '2.08',
-          after: '2.08',
+          before: '3.73',
+          after: '3.73',
         },
         maxLtv: {
-          before: '68.50%',
-          after: '68.50%',
+          before: '79.00%',
+          after: '79.00%',
         },
       })
 
@@ -239,12 +239,12 @@ test.describe('E-Mode dialog', () => {
           assets: 'All assets',
         },
         hf: {
-          before: '2.08',
-          after: '2.08',
+          before: '3.73',
+          after: '3.73',
         },
         maxLtv: {
-          before: '68.50%',
-          after: '68.50%',
+          before: '79.00%',
+          after: '79.00%',
         },
       })
       await eModeDialog.actionsContainer.acceptAllActionsAction(1)
@@ -288,7 +288,7 @@ test.describe('E-Mode dialog', () => {
       await borrowDialog.actionsContainer.acceptAllActionsAction(1)
       await borrowDialog.viewInMyPortfolioAction()
 
-      await myPortfolioPage.clickBorrowButtonAction('WBTC')
+      await myPortfolioPage.clickBorrowButtonAction('cbBTC')
       await borrowDialog.fillAmountAction(0.1)
       await borrowDialog.actionsContainer.acceptAllActionsAction(1)
       await borrowDialog.viewInMyPortfolioAction()
@@ -311,12 +311,12 @@ test.describe('E-Mode dialog', () => {
           assets: 'sDAI, USDC, USDT',
         },
         hf: {
-          before: '3.12',
-          after: '3.12',
+          before: '2.56',
+          after: '2.56',
         },
         maxLtv: {
-          before: '68.50%',
-          after: '68.50%',
+          before: '79.00%',
+          after: '79.00%',
         },
       })
       await eModeDialog.actionsContainer.expectDisabledActions([{ type: 'setUserEMode', eModeCategoryId: 2 }])
@@ -335,12 +335,12 @@ test.describe('E-Mode dialog', () => {
           assets: 'WETH, wstETH, rETH',
         },
         hf: {
-          before: '3.12',
-          after: '3.65',
+          before: '2.56',
+          after: '2.98',
         },
         maxLtv: {
-          before: '68.50%',
-          after: '90.00%',
+          before: '79.00%',
+          after: '92.00%',
         },
       })
       await eModeDialog.expectAlertMessage(
@@ -389,8 +389,8 @@ test.describe('E-Mode dialog', () => {
           assets: 'WETH, wstETH, rETH',
         },
         maxLtv: {
-          before: '68.50%',
-          after: '90.00%',
+          before: '79.00%',
+          after: '92.00%',
         },
       })
 
@@ -414,8 +414,8 @@ test.describe('E-Mode dialog', () => {
           assets: 'sDAI, USDC, USDT',
         },
         maxLtv: {
-          before: '68.50%',
-          after: '68.50%',
+          before: '79.00%',
+          after: '79.00%',
         },
       })
 
@@ -441,8 +441,8 @@ test.describe('E-Mode dialog', () => {
           assets: 'All assets',
         },
         maxLtv: {
-          before: '68.50%',
-          after: '68.50%',
+          before: '79.00%',
+          after: '79.00%',
         },
       })
       await eModeDialog.actionsContainer.acceptAllActionsAction(1)
