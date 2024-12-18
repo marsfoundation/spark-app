@@ -1,7 +1,6 @@
 import { DialogPageObject } from '@/features/dialogs/common/Dialog.PageObject'
 import { DEFAULT_BLOCK_NUMBER, GNOSIS_DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { buildUrl, setup } from '@/test/e2e/setup'
-import { screenshot } from '@/test/e2e/utils'
 import { test } from '@playwright/test'
 import { gnosis, mainnet } from 'viem/chains'
 
@@ -45,8 +44,6 @@ test.describe('Market details Mainnet', () => {
       const marketDetailsPage = new MarketDetailsPageObject(testContext)
       await marketDetailsPage.expectMarketOverviewValue('Borrowed', '$1.365B')
       await marketDetailsPage.expectMarketOverviewValue('Instantly available', '$171M')
-
-      await screenshot(page, 'market-details-weth')
     })
 
     test.describe('token that cannot be borrowed', () => {

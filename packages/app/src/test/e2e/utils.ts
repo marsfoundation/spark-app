@@ -10,54 +10,6 @@ import { Locator, Page } from '@playwright/test'
 import { http, Address, createPublicClient, erc20Abi, weiUnits } from 'viem'
 import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts'
 
-/**
- *  Helper function to take deterministic screenshots.
- */
-export async function screenshot(pageOrLocator: Page | Locator, name: string): Promise<void> {
-  const page = isPage(pageOrLocator) ? pageOrLocator : pageOrLocator.page()
-  const locator = isPage(pageOrLocator) ? page.locator('html') : pageOrLocator
-
-  // note: hide entirely elements that can change in size
-  const selectorsToHide = [
-    `[data-testid="wallet-button"]`, // hide address because it can change
-    '.toast-notifications', // hide notifications because sometimes they are fast to disappear and can't be captured deterministically
-    `[data-testid="react-confetti"]`,
-  ]
-  // note: mask elements that can change but not in size
-  const selectorsToMask: string[] = []
-
-  // hide elements
-  await page.evaluate((selectors) => {
-    for (const selector of selectors) {
-      const element: any = document.querySelector(selector)
-      if (!element) {
-        continue // skip if element not found
-      }
-
-      element.__oldDisplay = element.style.display
-      element.style.display = 'none'
-    }
-  }, selectorsToHide)
-
-  await locator.screenshot({
-    path: `__screenshots-e2e__/${name}-${page.viewportSize()?.width}.png`,
-    animations: 'disabled',
-    mask: selectorsToMask.map((selector) => page.locator(selector)),
-  })
-
-  // unhide elements
-  await page.evaluate((selectors) => {
-    for (const selector of selectors) {
-      const element: any = document.querySelector(selector)
-      if (!element) {
-        return
-      }
-
-      element.style.display = element.__oldDisplay
-    }
-  }, selectorsToHide)
-}
-
 export async function waitForButtonEnabled(page: Page, name: string): Promise<void> {
   await page.waitForFunction((name) => {
     const buttons = document.querySelectorAll('button')
