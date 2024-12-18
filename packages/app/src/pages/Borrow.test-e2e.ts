@@ -11,11 +11,6 @@ import { MyPortfolioPageObject } from './MyPortfolio.PageObject'
 import { SavingsPageObject } from './Savings.PageObject'
 
 test.describe('Borrow page', () => {
-  const blockchainOptions = {
-    chainId: mainnet.id,
-    blockNumber: DEFAULT_BLOCK_NUMBER,
-  }
-
   test.describe('deposit ETH, borrow DAI', () => {
     let borrowPage: BorrowPageObject
     let actionsContainer: ActionsPageObject
@@ -34,7 +29,10 @@ test.describe('Borrow page', () => {
 
     test.beforeEach(async ({ page }) => {
       testContext = await setup(page, {
-        blockchain: blockchainOptions,
+        blockchain: {
+          chainId: mainnet.id,
+          blockNumber: DEFAULT_BLOCK_NUMBER,
+        },
         initialPage: 'easyBorrow',
         account: {
           type: 'connected-random',
@@ -120,7 +118,10 @@ test.describe('Borrow page', () => {
 
     test.beforeEach(async ({ page }) => {
       testContext = await setup(page, {
-        blockchain: blockchainOptions,
+        blockchain: {
+          chainId: mainnet.id,
+          blockNumber: DEFAULT_BLOCK_NUMBER,
+        },
         initialPage: 'easyBorrow',
         account: {
           type: 'connected-random',
@@ -272,7 +273,10 @@ test.describe('Borrow page', () => {
 
     test.beforeEach(async ({ page }) => {
       testContext = await setup(page, {
-        blockchain: blockchainOptions,
+        blockchain: {
+          chainId: mainnet.id,
+          blockNumber: DEFAULT_BLOCK_NUMBER,
+        },
         initialPage: 'easyBorrow',
         account: {
           type: 'connected-random',
@@ -345,7 +349,10 @@ test.describe('Borrow page', () => {
 
     test.beforeEach(async ({ page }) => {
       const testContext = await setup(page, {
-        blockchain: blockchainOptions,
+        blockchain: {
+          chainId: mainnet.id,
+          blockNumber: DEFAULT_BLOCK_NUMBER,
+        },
         initialPage: 'easyBorrow',
         account: {
           type: 'not-connected',
@@ -374,7 +381,10 @@ test.describe('Borrow page', () => {
 
     test.beforeEach(async ({ page }) => {
       const testContext = await setup(page, {
-        blockchain: blockchainOptions,
+        blockchain: {
+          chainId: mainnet.id,
+          blockNumber: DEFAULT_BLOCK_NUMBER,
+        },
         initialPage: 'easyBorrow',
         account: {
           type: 'connected-random',
@@ -448,7 +458,10 @@ test.describe('Borrow page', () => {
     let testContext: TestContext<'connected-random'>
     test.beforeEach(async ({ page }) => {
       testContext = await setup(page, {
-        blockchain: blockchainOptions,
+        blockchain: {
+          chainId: mainnet.id,
+          blockNumber: DEFAULT_BLOCK_NUMBER,
+        },
         initialPage: 'easyBorrow',
         account: {
           type: 'connected-random',
@@ -487,7 +500,10 @@ test.describe('Borrow page', () => {
     test.describe('In danger zone', () => {
       test.beforeEach(async ({ page }) => {
         const testContext = await setup(page, {
-          blockchain: blockchainOptions,
+          blockchain: {
+            chainId: mainnet.id,
+            blockNumber: DEFAULT_BLOCK_NUMBER,
+          },
           initialPage: 'easyBorrow',
           account: {
             type: 'connected-random',
@@ -516,7 +532,10 @@ test.describe('Borrow page', () => {
 
     test('hf above danger zone threshold; risk warning is not shown', async ({ page }) => {
       const testContext = await setup(page, {
-        blockchain: blockchainOptions,
+        blockchain: {
+          chainId: mainnet.id,
+          blockNumber: DEFAULT_BLOCK_NUMBER,
+        },
         initialPage: 'easyBorrow',
         account: {
           type: 'connected-random',
