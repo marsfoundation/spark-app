@@ -1,6 +1,6 @@
 // import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 // import { SavingsPageObject } from '@/pages/Savings.PageObject'
-// import { USDS_ACTIVATED_BLOCK_NUMBER } from '@/test/e2e/constants'
+// import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 // import { setupFork } from '@/test/e2e/forking/setupFork'
 // import { setup } from '@/test/e2e/setup'
 // import { test } from '@playwright/test'
@@ -8,7 +8,7 @@
 // import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 
 // test.describe('Withdraw USDC from sUSDS', () => {
-//   const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
+//   const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
 //   let savingsPage: SavingsPageObject
 //   let withdrawDialog: SavingsDialogPageObject
 
@@ -81,7 +81,7 @@
 // })
 
 // test.describe('Withdraw USDC from sDAI', () => {
-//   const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
+//   const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
 //   let savingsPage: SavingsPageObject
 //   let withdrawDialog: SavingsDialogPageObject
 

@@ -1,6 +1,6 @@
 import { FarmDetailsPageObject } from '@/features/farm-details/FarmDetails.PageObject'
 import { StakeDialogPageObject } from '@/features/farm-details/dialogs/stake/StakeDialog.PageObject'
-import { USDS_ACTIVATED_BLOCK_NUMBER } from '@/test/e2e/constants'
+import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { overrideInfoSkyRouteWithHAR } from '@/test/e2e/info-sky'
 import { setup } from '@/test/e2e/setup'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
@@ -18,7 +18,7 @@ test.describe('Claim SKY rewards', () => {
     const testContext = await setup(page, {
       blockchain: {
         chainId: mainnet.id,
-        blockNumber: USDS_ACTIVATED_BLOCK_NUMBER,
+        blockNumber: DEFAULT_BLOCK_NUMBER,
       },
       initialPage: 'farmDetails',
       initialPageParams: {
@@ -58,8 +58,8 @@ test.describe('Claim SKY rewards', () => {
   test('displays transaction overview', async () => {
     await claimDialog.expectTransactionOverview({
       reward: {
-        amount: '3,539.65',
-        amountUSD: '$213.35',
+        amount: '49.44',
+        amountUSD: '$2.98',
       },
     })
   })
@@ -72,13 +72,13 @@ test.describe('Claim SKY rewards', () => {
 
     await farmDetailsPage.expectTokenToDepositBalance('USDS', '-')
     await farmDetailsPage.expectReward({
-      reward: '0.1',
+      reward: '0.001',
       rewardUsd: '<$0.01',
     })
     await farmDetailsPage.expectTokenBalance({
       address: account,
       symbol: 'SKY',
-      balance: NormalizedUnitNumber('3539.69212658060522'),
+      balance: NormalizedUnitNumber('49.4365427929088'),
     })
     await farmDetailsPage.expectStaked({ amount: '10,000.00', asset: 'USDS' })
   })

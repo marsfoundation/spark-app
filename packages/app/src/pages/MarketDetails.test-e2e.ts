@@ -2,7 +2,7 @@
 // import { gnosis, mainnet } from 'viem/chains'
 
 // import { DialogPageObject } from '@/features/dialogs/common/Dialog.PageObject'
-// import { CAP_AUTOMATOR_BLOCK_NUMBER, GNOSIS_DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
+// import { DEFAULT_BLOCK_NUMBER, GNOSIS_DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 // import { setupFork } from '@/test/e2e/forking/setupFork'
 // import { buildUrl, setup } from '@/test/e2e/setup'
 // import { screenshot } from '@/test/e2e/utils'
@@ -18,7 +18,7 @@
 //   const WBTC = '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599'
 
 //   const fork = setupFork({
-//     blockNumber: CAP_AUTOMATOR_BLOCK_NUMBER,
+//     blockNumber: DEFAULT_BLOCK_NUMBER,
 //     chainId: mainnet.id,
 //     simulationDateOverride: new Date('2024-09-04T14:21:19Z'),
 //   })

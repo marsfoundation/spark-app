@@ -1,6 +1,6 @@
 // import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 // import { SavingsPageObject } from '@/pages/Savings.PageObject'
-// import { GNOSIS_DEFAULT_BLOCK_NUMBER, LITE_PSM_ACTIONS_OPERABLE } from '@/test/e2e/constants'
+// import { GNOSIS_DEFAULT_BLOCK_NUMBER, DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 // import { setupFork } from '@/test/e2e/forking/setupFork'
 // import { setup } from '@/test/e2e/setup'
 // import { test } from '@playwright/test'
@@ -10,7 +10,7 @@
 // test.describe('Savings deposit dialog', () => {
 //   test.describe('Mainnet', () => {
 //     const fork = setupFork({
-//       blockNumber: LITE_PSM_ACTIONS_OPERABLE,
+//       blockNumber: DEFAULT_BLOCK_NUMBER,
 //       chainId: mainnet.id,
 //       useTenderlyVnet: true,
 //     })

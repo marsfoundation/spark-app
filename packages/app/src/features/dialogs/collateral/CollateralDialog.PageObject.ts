@@ -1,44 +1,38 @@
-// import { Page, expect } from '@playwright/test'
+import { TestContext } from '@/test/e2e/setup'
+import { testIds } from '@/ui/utils/testIds'
+import { expect } from '@playwright/test'
+import { CollateralSetting } from '../collateral/types'
+import { DialogPageObject } from '../common/Dialog.PageObject'
 
-// import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
-// import { testIds } from '@/ui/utils/testIds'
+export class CollateralDialogPageObject extends DialogPageObject {
+  constructor(testContext: TestContext<any>) {
+    super({ testContext, header: /Collateral/ })
+  }
 
-// import { CollateralSetting } from '../collateral/types'
-// import { DialogPageObject } from '../common/Dialog.PageObject'
+  // #region actions
+  async setUseAsCollateralAction({
+    assetName,
+    setting,
+  }: {
+    assetName: string
+    setting: CollateralSetting
+  }): Promise<void> {
+    await this.actionsContainer.acceptAllActionsAction(1)
 
-// export class CollateralDialogPageObject extends DialogPageObject {
-//   constructor(page: Page) {
-//     super(page, /.*/)
-//     this.region = this.locateDialogByHeader('Collateral')
-//   }
+    // assertion used for waiting
+    if (setting === 'enabled') {
+      await this.expectSetUseAsCollateralSuccessPage(assetName, 'enabled')
+    } else {
+      await this.expectSetUseAsCollateralSuccessPage(assetName, 'disabled')
+    }
+  }
+  // #endregion actions
 
-//   // #region actions
-//   async setUseAsCollateralAction({
-//     assetName,
-//     setting,
-//     updateBrowserAndNextBlockTime,
-//   }: {
-//     assetName: string
-//     setting: CollateralSetting
-//     updateBrowserAndNextBlockTime: () => Promise<void>
-//   }): Promise<void> {
-//     const actionsContainer = new ActionsPageObject(this.locatePanelByHeader('Actions'))
-//     await actionsContainer.acceptAllActionsAction(1, updateBrowserAndNextBlockTime)
-
-//     // assertion used for waiting
-//     if (setting === 'enabled') {
-//       await this.expectSetUseAsCollateralSuccessPage(assetName, 'enabled')
-//     } else {
-//       await this.expectSetUseAsCollateralSuccessPage(assetName, 'disabled')
-//     }
-//   }
-//   // #endregion actions
-
-//   // #region assertions
-//   async expectSetUseAsCollateralSuccessPage(assetName: string, setting: CollateralSetting): Promise<void> {
-//     await expect(this.region.getByRole('heading', { name: 'Congrats, all done!' })).toBeVisible()
-//     await expect(this.region.getByTestId(testIds.dialog.success)).toContainText(assetName)
-//     await expect(this.region.getByTestId(testIds.dialog.success)).toContainText(`Collateral ${setting}`)
-//   }
-//   // #endregion assertions
-// }
+  // #region assertions
+  async expectSetUseAsCollateralSuccessPage(assetName: string, setting: CollateralSetting): Promise<void> {
+    await expect(this.region.getByRole('heading', { name: 'Congrats, all done!' })).toBeVisible()
+    await expect(this.region.getByTestId(testIds.dialog.success)).toContainText(assetName)
+    await expect(this.region.getByTestId(testIds.dialog.success)).toContainText(`Collateral ${setting}`)
+  }
+  // #endregion assertions
+}
