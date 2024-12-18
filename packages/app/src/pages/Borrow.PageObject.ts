@@ -2,9 +2,7 @@ import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObjec
 import { BasePageObject } from '@/test/e2e/BasePageObject'
 import { TestTokenWithValue, expectAssets } from '@/test/e2e/assertions'
 import { TestContext, buildUrl } from '@/test/e2e/setup'
-import { calculateAssetsWorth } from '@/test/e2e/utils'
 import { testIds } from '@/ui/utils/testIds'
-import { TestnetClient, getUrlFromClient } from '@marsfoundation/common-testnets'
 import { expect } from '@playwright/test'
 
 export class BorrowPageObject extends BasePageObject {
@@ -132,37 +130,19 @@ export class BorrowPageObject extends BasePageObject {
   async expectSuccessPage({
     deposited,
     borrowed,
-    testnetClient,
-    assetsWorthOverride,
   }: {
     deposited: TestTokenWithValue[]
     borrowed: TestTokenWithValue
-    testnetClient: TestnetClient
-    assetsWorthOverride?: Record<string, number>
   }): Promise<void> {
     await expect(this.page.getByText('Congrats, all done!')).toBeVisible()
 
-    const transformed = [...deposited, borrowed].reduce(
-      (acc, { asset, amount: value }) => ({ ...acc, [asset]: value }),
-      {},
-    )
-
-    const assetsWorth = await (async () => {
-      if (assetsWorthOverride) {
-        return assetsWorthOverride
-      }
-
-      const { assetsWorth } = await calculateAssetsWorth(getUrlFromClient(testnetClient), transformed)
-      return assetsWorth
-    })()
-
     if (deposited.length > 0) {
       const depositSummary = await this.page.getByTestId(testIds.easyBorrow.success.deposited).textContent()
-      expectAssets(depositSummary!, deposited, assetsWorth)
+      expectAssets(depositSummary!, deposited)
     }
 
     const borrowSummary = await this.page.getByTestId(testIds.easyBorrow.success.borrowed).textContent()
-    expectAssets(borrowSummary!, [borrowed], assetsWorth)
+    expectAssets(borrowSummary!, [borrowed])
   }
   // #endregion
 }

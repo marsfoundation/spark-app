@@ -49,10 +49,6 @@ export function getDefaultAppConfig(): AppConfig {
             address: '0xdC035D45d973E3EC169d2276DDab16f1e407384F',
             decimals: 18,
           },
-          sUSDS: {
-            address: '0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD',
-            decimals: 18,
-          },
           cbBTC: {
             address: '0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf',
             decimals: 8,

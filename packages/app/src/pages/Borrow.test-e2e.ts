@@ -76,9 +76,8 @@ test.describe('Borrow page', () => {
       await actionsContainer.acceptAllActionsAction(2)
 
       await borrowPage.expectSuccessPage({
-        deposited: [deposit],
-        borrowed: borrow,
-        testnetClient: testContext.testnetController.client,
+        deposited: [{ asset: 'ETH', amount: '1.00', usdValue: '$3,928.31' }],
+        borrowed: { asset: 'DAI', amount: '1,000.00', usdValue: '$1,000.00' },
       })
     })
 
@@ -213,9 +212,11 @@ test.describe('Borrow page', () => {
       await actionsContainer.acceptAllActionsAction(5)
 
       await borrowPage.expectSuccessPage({
-        deposited: [wstETHdeposit, rETHdeposit],
-        borrowed: borrow,
-        testnetClient: testContext.testnetController.client,
+        deposited: [
+          { asset: 'wstETH', amount: '1.00', usdValue: '$4,665.46' },
+          { asset: 'rETH', amount: '1.00', usdValue: '$4,413.26' },
+        ],
+        borrowed: { asset: 'DAI', amount: '1,000.00', usdValue: '$1,000.00' },
       })
     })
 
@@ -231,9 +232,11 @@ test.describe('Borrow page', () => {
       await actionsContainer.acceptAllActionsAction(5)
 
       await borrowPage.expectSuccessPage({
-        deposited: [wstETHdeposit, rETHdeposit],
-        borrowed: borrow,
-        testnetClient: testContext.testnetController.client,
+        deposited: [
+          { asset: 'wstETH', amount: '1.00', usdValue: '$4,665.46' },
+          { asset: 'rETH', amount: '1.00', usdValue: '$4,413.26' },
+        ],
+        borrowed: { asset: 'DAI', amount: '1,000.00', usdValue: '$1,000.00' },
       })
     })
 
@@ -310,8 +313,7 @@ test.describe('Borrow page', () => {
 
       await borrowPage.expectSuccessPage({
         deposited: [],
-        borrowed: borrow,
-        testnetClient: testContext.testnetController.client,
+        borrowed: { asset: 'DAI', amount: '1,000.00', usdValue: '$1,000.00' },
       })
     })
 
@@ -354,17 +356,14 @@ test.describe('Borrow page', () => {
       deposited: [
         {
           asset: 'wstETH',
-          amount: 10,
+          amount: '10.00',
+          usdValue: '$46,654.64',
         },
       ],
       borrowed: {
         asset: 'USDS',
-        amount: 10_000,
-      },
-      testnetClient: testContext.testnetController.client,
-      assetsWorthOverride: {
-        wstETH: 46_654.64,
-        USDS: 10_000,
+        amount: '10,000.00',
+        usdValue: '$10,000.00',
       },
     })
 
