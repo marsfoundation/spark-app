@@ -4,9 +4,7 @@ import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObjec
 import { BasePageObject } from '@/test/e2e/BasePageObject'
 import { TestTokenWithValue, expectAssets } from '@/test/e2e/assertions'
 import { TestContext } from '@/test/e2e/setup'
-import { calculateAssetsWorth } from '@/test/e2e/utils'
 import { testIds } from '@/ui/utils/testIds'
-import { TestnetClient, getUrlFromClient } from '@marsfoundation/common-testnets'
 
 export interface DialogPageObjectParams {
   testContext: TestContext<any>
@@ -57,22 +55,12 @@ export class DialogPageObject extends BasePageObject {
   // #region assertions
   async expectSuccessPage({
     tokenWithValue,
-    testnetClient,
-    assetWorthOverrides,
   }: {
     tokenWithValue: TestTokenWithValue[]
-    testnetClient: TestnetClient
-    assetWorthOverrides?: Record<string, number>
   }): Promise<void> {
     await expect(this.region.getByText('Congrats, all done!')).toBeVisible()
-
-    const transformed = tokenWithValue.reduce((acc, { asset, amount: value }) => ({ ...acc, [asset]: value }), {})
-
-    const { assetsWorth } = await calculateAssetsWorth(getUrlFromClient(testnetClient), transformed)
-    const mergedAssetsWorth = { ...assetsWorth, ...assetWorthOverrides }
-
     const summary = await this.region.getByTestId(testIds.dialog.success).textContent()
-    expectAssets(summary!, tokenWithValue, mergedAssetsWorth)
+    expectAssets(summary!, tokenWithValue)
   }
 
   async expectRiskLevelBefore(riskLevel: string): Promise<void> {
