@@ -1,10 +1,8 @@
-import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { BasePageObject } from '@/test/e2e/BasePageObject'
 import { buildUrl } from '@/test/e2e/setup'
 import { parseTable } from '@/test/e2e/utils'
 import { testIds } from '@/ui/utils/testIds'
 import { assert } from '@/utils/assert'
-import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { expect } from '@playwright/test'
 import { z } from 'zod'
 
@@ -99,21 +97,22 @@ export class MyPortfolioPageObject extends BasePageObject {
     await expect(locator).toHaveText(hf)
   }
 
-  async expectDepositedAssets(total: number): Promise<void> {
+  async expectDepositedAssets(total: string): Promise<void> {
     const locator = this.page.getByTestId(testIds.myPortfolio.deposited)
-    await expect(locator).toHaveText(USD_MOCK_TOKEN.formatUSD(NormalizedUnitNumber(total), { compact: true }))
+    await expect(locator).toHaveText(total)
   }
 
-  async expectBorrowedAssets(total: number): Promise<void> {
+  async expectBorrowedAssets(total: string): Promise<void> {
     const locator = this.page.getByTestId(testIds.myPortfolio.borrowed)
-    await expect(locator).toHaveText(USD_MOCK_TOKEN.formatUSD(NormalizedUnitNumber(total), { compact: true }))
+    await expect(locator).toHaveText(total)
   }
 
   async expectGuestScreen(): Promise<void> {
     await expect(
-      this.page.getByRole('heading', { name: 'This page is available ony for connected users', exact: true }),
+      this.page.getByRole('heading', { name: 'Connect your wallet to use Spark', exact: true }),
     ).toBeVisible()
     await expect(this.page.getByRole('button', { name: 'Connect wallet', exact: true })).toBeVisible()
+    await expect(this.page.getByRole('button', { name: 'Try in Sandbox Mode', exact: true })).toBeVisible()
   }
 
   async expectDepositTable(assets: Record<string, number>): Promise<void> {
