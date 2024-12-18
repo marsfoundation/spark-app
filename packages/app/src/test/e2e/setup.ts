@@ -8,7 +8,6 @@ import { AssetsInTests, TOKENS_ON_FORK } from './constants'
 import { getTestnetContext } from './getTestnetContext'
 import {
   injectFixedDate,
-  injectFlags,
   injectNetworkConfiguration,
   injectUpdatedDate,
   injectWalletConfiguration,
@@ -194,5 +193,4 @@ async function injectPageSetup({
     await injectNetworkConfiguration(page, getUrlFromClient(testnetClient), options.blockchain.chainId)
   }
   await injectFixedDate(page, new Date(Number(blockchainTimestamp) * 1000))
-  await injectFlags(page, testnetClient)
 }

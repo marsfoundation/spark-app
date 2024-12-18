@@ -1,4 +1,4 @@
-// import { WEETH_ACTIVE_BLOCK_NUMBER } from '@/test/e2e/constants'
+// import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 // import { setupFork } from '@/test/e2e/forking/setupFork'
 // import { setup } from '@/test/e2e/setup'
 // import { test } from '@playwright/test'
@@ -6,7 +6,7 @@
 // import { MarketsPageObject } from './Markets.PageObject'
 
 // test.describe('Markets', () => {
-//   const fork = setupFork({ blockNumber: WEETH_ACTIVE_BLOCK_NUMBER, chainId: mainnet.id })
+//   const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id })
 //   let marketsPage: MarketsPageObject
 
 //   test.beforeEach(async ({ page }) => {

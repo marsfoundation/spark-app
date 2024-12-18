@@ -1,5 +1,5 @@
 // import { FarmDetailsPageObject } from '@/features/farm-details/FarmDetails.PageObject'
-// import { USDS_ACTIVATED_BLOCK_NUMBER } from '@/test/e2e/constants'
+// import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 // import { setupFork } from '@/test/e2e/forking/setupFork'
 // import { overrideInfoSkyRouteWithHAR } from '@/test/e2e/info-sky'
 // import { setup } from '@/test/e2e/setup'
@@ -11,7 +11,7 @@
 // import { UnstakeDialogPageObject } from '../../UnstakeDialog.PageObject'
 
 // test.describe('Withdraw max USDS from SKY farm', () => {
-//   const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
+//   const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
 //   let farmDetailsPage: FarmDetailsPageObject
 //   let unstakeDialog: UnstakeDialogPageObject
 //   let stakeDialog: StakeDialogPageObject
@@ -166,7 +166,7 @@
 //   const testUserAddress = privateKeyToAddress('0xa9f2d3eda4403df2fe54b97291d65d69824e0e2b3134c33b7145cf9b912966d5')
 //   const harSuffix = testUserAddress.slice(0, 10)
 
-//   const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
+//   const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
 //   let farmDetailsPage: FarmDetailsPageObject
 //   let unstakeDialog: UnstakeDialogPageObject
 

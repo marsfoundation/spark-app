@@ -1,6 +1,6 @@
 import { FarmDetailsPageObject } from '@/features/farm-details/FarmDetails.PageObject'
 import { StakeDialogPageObject } from '@/features/farm-details/dialogs/stake/StakeDialog.PageObject'
-import { USDS_ACTIVATED_BLOCK_NUMBER } from '@/test/e2e/constants'
+import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { overrideInfoSkyRouteWithHAR } from '@/test/e2e/info-sky'
 import { setup } from '@/test/e2e/setup'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
@@ -18,7 +18,7 @@ test.describe('Claim SKY rewards', () => {
     const testContext = await setup(page, {
       blockchain: {
         chainId: mainnet.id,
-        blockNumber: USDS_ACTIVATED_BLOCK_NUMBER,
+        blockNumber: DEFAULT_BLOCK_NUMBER,
       },
       initialPage: 'farmDetails',
       initialPageParams: {

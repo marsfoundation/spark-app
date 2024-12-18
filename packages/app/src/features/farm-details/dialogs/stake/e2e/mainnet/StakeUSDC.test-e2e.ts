@@ -1,5 +1,5 @@
 // import { FarmDetailsPageObject } from '@/features/farm-details/FarmDetails.PageObject'
-// import { USDS_ACTIVATED_BLOCK_NUMBER } from '@/test/e2e/constants'
+// import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 // import { setupFork } from '@/test/e2e/forking/setupFork'
 // import { overrideInfoSkyRouteWithHAR } from '@/test/e2e/info-sky'
 // import { setup } from '@/test/e2e/setup'
@@ -8,7 +8,7 @@
 // import { StakeDialogPageObject } from '../../StakeDialog.PageObject'
 
 // test.describe('Stake USDC to SKY farm', () => {
-//   const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
+//   const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
 //   let farmDetailsPage: FarmDetailsPageObject
 //   let stakeDialog: StakeDialogPageObject
 

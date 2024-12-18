@@ -1,7 +1,7 @@
 import { borrowValidationIssueToMessage } from '@/domain/market-validators/validateBorrow'
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { CollateralDialogPageObject } from '@/features/dialogs/collateral/CollateralDialog.PageObject'
-import { DEFAULT_BLOCK_NUMBER, USDS_ACTIVATED_BLOCK_NUMBER } from '@/test/e2e/constants'
+import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { TestContext, buildUrl, setup } from '@/test/e2e/setup'
 import { screenshot } from '@/test/e2e/utils'
 import { test } from '@playwright/test'
@@ -562,7 +562,7 @@ test.describe('Borrow page (usds deployed)', () => {
     testContext = await setup(page, {
       blockchain: {
         chainId: mainnet.id,
-        blockNumber: USDS_ACTIVATED_BLOCK_NUMBER,
+        blockNumber: DEFAULT_BLOCK_NUMBER,
       },
       initialPage: 'easyBorrow',
       account: {

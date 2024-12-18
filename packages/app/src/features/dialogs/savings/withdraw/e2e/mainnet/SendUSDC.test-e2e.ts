@@ -1,5 +1,5 @@
 // import { SavingsPageObject } from '@/pages/Savings.PageObject'
-// import { TOKENS_ON_FORK, USDS_ACTIVATED_BLOCK_NUMBER } from '@/test/e2e/constants'
+// import { TOKENS_ON_FORK, DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 // import { setupFork } from '@/test/e2e/forking/setupFork'
 // import { setup } from '@/test/e2e/setup'
 // import { randomAddress } from '@/test/utils/addressUtils'
@@ -8,7 +8,7 @@
 // import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 
 // test.describe('Send USDC (withdrawing from sUSDS)', () => {
-//   const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
+//   const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
 //   let savingsPage: SavingsPageObject
 //   let sendDialog: SavingsDialogPageObject
 //   const receiver = randomAddress('bob')
@@ -95,7 +95,7 @@
 // })
 
 // test.describe('Send USDC (withdrawing from sDAI)', () => {
-//   const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
+//   const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
 //   let savingsPage: SavingsPageObject
 //   let sendDialog: SavingsDialogPageObject
 //   const receiver = randomAddress('bob')
