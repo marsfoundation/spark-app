@@ -1,14 +1,20 @@
-import { expect } from '@playwright/test'
-
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { BasePageObject } from '@/test/e2e/BasePageObject'
 import { TestTokenWithValue, expectAssets } from '@/test/e2e/assertions'
-import { buildUrl } from '@/test/e2e/setup'
+import { TestContext, buildUrl } from '@/test/e2e/setup'
 import { calculateAssetsWorth } from '@/test/e2e/utils'
 import { testIds } from '@/ui/utils/testIds'
 import { TestnetClient, getUrlFromClient } from '@marsfoundation/common-testnets'
+import { expect } from '@playwright/test'
 
 export class BorrowPageObject extends BasePageObject {
+  public readonly actionsContainer: ActionsPageObject
+
+  constructor(testContext: TestContext<any>) {
+    super(testContext)
+    this.actionsContainer = new ActionsPageObject(testContext, this.locatePanelByHeader('Actions'))
+  }
+
   // #region actions
   async fillDepositAssetAction(index: number, asset: string, amount: number): Promise<void> {
     const inputGroup = this.page
@@ -54,38 +60,24 @@ export class BorrowPageObject extends BasePageObject {
   async depositAssetsActions({
     assetsToDeposit,
     daiToBorrow,
-    updateBrowserAndNextBlockTime,
   }: {
     assetsToDeposit: Record<string, number>
     daiToBorrow: number
-    updateBrowserAndNextBlockTime: () => Promise<void>
   }): Promise<void> {
-    const actionsContainer = new ActionsPageObject(this.locatePanelByHeader('Actions'))
     await this.depositWithoutBorrowActions({
       assetsToDeposit,
       daiToBorrow,
-      actionsContainer,
-      updateBrowserAndNextBlockTime,
     })
-    await actionsContainer.acceptActionAtIndex(
-      Object.entries(assetsToDeposit).length * 2,
-      updateBrowserAndNextBlockTime,
-    ) // accept final borrow action
+    await this.actionsContainer.acceptActionAtIndex(Object.entries(assetsToDeposit).length * 2) // accept final borrow action
   }
 
   async depositWithoutBorrowActions({
     assetsToDeposit,
     daiToBorrow,
-    actionsContainer: _actionsContainer,
-    updateBrowserAndNextBlockTime,
   }: {
     assetsToDeposit: Record<string, number>
     daiToBorrow?: number
-    actionsContainer?: ActionsPageObject
-    updateBrowserAndNextBlockTime: () => Promise<void>
   }): Promise<void> {
-    const actionsContainer = _actionsContainer ?? new ActionsPageObject(this.locatePanelByHeader('Actions'))
-
     let index = 0
     for (const [asset, amount] of Object.entries(assetsToDeposit)) {
       if (index !== 0) {
@@ -96,8 +88,8 @@ export class BorrowPageObject extends BasePageObject {
     }
     await this.fillBorrowAssetAction(daiToBorrow ?? 1) // defaulted value won't matter, if only depositing
     await this.submitAction()
-    await actionsContainer.acceptAllActionsAction(2 * index, updateBrowserAndNextBlockTime) // omitting the borrow action
-    await actionsContainer.expectEnabledActionAtIndex(2 * index)
+    await this.actionsContainer.acceptAllActionsAction(2 * index) // omitting the borrow action
+    await this.actionsContainer.expectEnabledActionAtIndex(2 * index)
   }
 
   async goToEasyBorrowAction(): Promise<void> {

@@ -2,21 +2,25 @@ import { borrowValidationIssueToMessage } from '@/domain/market-validators/valid
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { CollateralDialogPageObject } from '@/features/dialogs/collateral/CollateralDialog.PageObject'
 import { DEFAULT_BLOCK_NUMBER, USDS_ACTIVATED_BLOCK_NUMBER } from '@/test/e2e/constants'
-import { setupFork } from '@/test/e2e/forking/setupFork'
-import { buildUrl, setup } from '@/test/e2e/setup'
+import { TestContext, buildUrl, setup } from '@/test/e2e/setup'
 import { screenshot } from '@/test/e2e/utils'
-import { Page, test } from '@playwright/test'
+import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
 import { BorrowPageObject } from './Borrow.PageObject'
 import { MyPortfolioPageObject } from './MyPortfolio.PageObject'
 import { SavingsPageObject } from './Savings.PageObject'
 
 test.describe('Borrow page', () => {
-  const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id })
+  const blockchainOptions = {
+    chainId: mainnet.id,
+    blockNumber: DEFAULT_BLOCK_NUMBER,
+  }
 
   test.describe('deposit ETH, borrow DAI', () => {
     let borrowPage: BorrowPageObject
     let actionsContainer: ActionsPageObject
+    let testContext: TestContext<'connected-random'>
+
     const deposit = {
       asset: 'ETH',
       amount: 1,
@@ -29,7 +33,8 @@ test.describe('Borrow page', () => {
     const expectedHealthFactor = '1.87'
 
     test.beforeEach(async ({ page }) => {
-      await setup(page, fork, {
+      testContext = await setup(page, {
+        blockchain: blockchainOptions,
         initialPage: 'easyBorrow',
         account: {
           type: 'connected-random',
@@ -39,8 +44,8 @@ test.describe('Borrow page', () => {
         },
       })
 
-      borrowPage = new BorrowPageObject(page)
-      actionsContainer = new ActionsPageObject(page)
+      borrowPage = new BorrowPageObject(testContext)
+      actionsContainer = new ActionsPageObject(testContext)
     })
 
     test('calculates LTV correctly', async () => {
@@ -74,24 +79,30 @@ test.describe('Borrow page', () => {
 
       await actionsContainer.acceptAllActionsAction(2)
 
-      await borrowPage.expectSuccessPage([deposit], borrow, fork)
+      await borrowPage.expectSuccessPage({
+        deposited: [deposit],
+        borrowed: borrow,
+        testnetClient: testContext.testnetController.client,
+      })
       await screenshot(page, 'deposit-eth-success')
     })
 
-    test('HF matches after position is created', async ({ page }) => {
+    test('HF matches after position is created', async () => {
       await borrowPage.fillDepositAssetAction(0, deposit.asset, deposit.amount)
       await borrowPage.fillBorrowAssetAction(borrow.amount)
 
       await borrowPage.submitAction()
       await actionsContainer.acceptAllActionsAction(2)
 
-      await expectHFOnMyPortfolio(page, borrowPage, expectedHealthFactor)
+      await expectHFOnMyPortfolio(testContext, borrowPage, expectedHealthFactor)
     })
   })
 
   test.describe('deposit wstETH and rETH, borrow DAI', () => {
     let borrowPage: BorrowPageObject
     let actionsContainer: ActionsPageObject
+    let testContext: TestContext<'connected-random'>
+
     const wstETHdeposit = {
       asset: 'wstETH',
       amount: 1,
@@ -108,7 +119,8 @@ test.describe('Borrow page', () => {
     const expectedHealthFactor = '4.06'
 
     test.beforeEach(async ({ page }) => {
-      await setup(page, fork, {
+      testContext = await setup(page, {
+        blockchain: blockchainOptions,
         initialPage: 'easyBorrow',
         account: {
           type: 'connected-random',
@@ -119,8 +131,8 @@ test.describe('Borrow page', () => {
         },
       })
 
-      borrowPage = new BorrowPageObject(page)
-      actionsContainer = new ActionsPageObject(page)
+      borrowPage = new BorrowPageObject(testContext)
+      actionsContainer = new ActionsPageObject(testContext)
     })
 
     test('calculates LTV correctly', async () => {
@@ -206,7 +218,11 @@ test.describe('Borrow page', () => {
 
       await actionsContainer.acceptAllActionsAction(5)
 
-      await borrowPage.expectSuccessPage([wstETHdeposit, rETHdeposit], borrow, fork)
+      await borrowPage.expectSuccessPage({
+        deposited: [wstETHdeposit, rETHdeposit],
+        borrowed: borrow,
+        testnetClient: testContext.testnetController.client,
+      })
       await screenshot(page, 'deposit-wsteth-reth-success')
     })
 
@@ -221,11 +237,15 @@ test.describe('Borrow page', () => {
       await actionsContainer.switchPreferPermitsAction()
       await actionsContainer.acceptAllActionsAction(5)
 
-      await borrowPage.expectSuccessPage([wstETHdeposit, rETHdeposit], borrow, fork)
+      await borrowPage.expectSuccessPage({
+        deposited: [wstETHdeposit, rETHdeposit],
+        borrowed: borrow,
+        testnetClient: testContext.testnetController.client,
+      })
       await screenshot(page, 'deposit-wsteth-reth-success')
     })
 
-    test('HF matches after position is created', async ({ page }) => {
+    test('HF matches after position is created', async () => {
       await borrowPage.addNewDepositAssetAction()
       await borrowPage.fillDepositAssetAction(0, wstETHdeposit.asset, wstETHdeposit.amount)
       await borrowPage.fillDepositAssetAction(1, rETHdeposit.asset, rETHdeposit.amount)
@@ -234,23 +254,25 @@ test.describe('Borrow page', () => {
       await borrowPage.submitAction()
       await actionsContainer.acceptAllActionsAction(5)
 
-      await expectHFOnMyPortfolio(page, borrowPage, expectedHealthFactor)
+      await expectHFOnMyPortfolio(testContext, borrowPage, expectedHealthFactor)
     })
   })
 
   test.describe('no new deposit, existing position, borrow DAI', () => {
     let borrowPage: BorrowPageObject
     let actionsContainer: ActionsPageObject
+    let testContext: TestContext<'connected-random'>
 
     const borrow = {
       asset: 'DAI',
       amount: 1000,
     }
-    const expectedLTV = '8.04%'
-    const expectedHealthFactor = '9.89'
+    const expectedLTV = '16.08%'
+    const expectedHealthFactor = '4.95'
 
     test.beforeEach(async ({ page }) => {
-      await setup(page, fork, {
+      testContext = await setup(page, {
+        blockchain: blockchainOptions,
         initialPage: 'easyBorrow',
         account: {
           type: 'connected-random',
@@ -261,9 +283,9 @@ test.describe('Borrow page', () => {
         },
       })
 
-      borrowPage = new BorrowPageObject(page)
-      actionsContainer = new ActionsPageObject(page)
-      await borrowPage.depositAssetsActions({ rETH: 5 }, 1000)
+      borrowPage = new BorrowPageObject(testContext)
+      actionsContainer = new ActionsPageObject(testContext)
+      await borrowPage.depositAssetsActions({ assetsToDeposit: { rETH: 5 }, daiToBorrow: 1000 })
       await page.reload()
     })
 
@@ -292,17 +314,21 @@ test.describe('Borrow page', () => {
 
       await actionsContainer.acceptAllActionsAction(1)
 
-      await borrowPage.expectSuccessPage([], borrow, fork)
+      await borrowPage.expectSuccessPage({
+        deposited: [],
+        borrowed: borrow,
+        testnetClient: testContext.testnetController.client,
+      })
       await screenshot(page, 'borrow-with-no-deposit-success')
     })
 
-    test('HF matches after position is created', async ({ page }) => {
+    test('HF matches after position is created', async () => {
       await borrowPage.fillBorrowAssetAction(borrow.amount)
 
       await borrowPage.submitAction()
       await actionsContainer.acceptAllActionsAction(1)
 
-      await expectHFOnMyPortfolio(page, borrowPage, expectedHealthFactor)
+      await expectHFOnMyPortfolio(testContext, borrowPage, expectedHealthFactor)
     })
   })
 
@@ -318,14 +344,15 @@ test.describe('Borrow page', () => {
     }
 
     test.beforeEach(async ({ page }) => {
-      await setup(page, fork, {
+      const testContext = await setup(page, {
+        blockchain: blockchainOptions,
         initialPage: 'easyBorrow',
         account: {
           type: 'not-connected',
         },
       })
 
-      borrowPage = new BorrowPageObject(page)
+      borrowPage = new BorrowPageObject(testContext)
     })
 
     test('shows borrow rate correctly', async ({ page }) => {
@@ -346,7 +373,8 @@ test.describe('Borrow page', () => {
     let borrowPage: BorrowPageObject
 
     test.beforeEach(async ({ page }) => {
-      await setup(page, fork, {
+      const testContext = await setup(page, {
+        blockchain: blockchainOptions,
         initialPage: 'easyBorrow',
         account: {
           type: 'connected-random',
@@ -358,7 +386,7 @@ test.describe('Borrow page', () => {
         },
       })
 
-      borrowPage = new BorrowPageObject(page)
+      borrowPage = new BorrowPageObject(testContext)
     })
 
     test('is invalid when depositing more than available', async ({ page }) => {
@@ -402,7 +430,7 @@ test.describe('Borrow page', () => {
     })
 
     test('is valid when not depositing anything but having existing position', async ({ page }) => {
-      await borrowPage.depositAssetsActions({ rETH: 5 }, 1000)
+      await borrowPage.depositAssetsActions({ assetsToDeposit: { rETH: 5 }, daiToBorrow: 1000 })
       await page.reload()
 
       await borrowPage.fillBorrowAssetAction(1000)
@@ -417,8 +445,10 @@ test.describe('Borrow page', () => {
   })
 
   test.describe('depositable assets', () => {
+    let testContext: TestContext<'connected-random'>
     test.beforeEach(async ({ page }) => {
-      await setup(page, fork, {
+      testContext = await setup(page, {
+        blockchain: blockchainOptions,
         initialPage: 'easyBorrow',
         account: {
           type: 'connected-random',
@@ -427,23 +457,22 @@ test.describe('Borrow page', () => {
       })
     })
 
-    test('deposit asset, turn off usage as collateral, try to deposit again', async ({ page }) => {
+    test('deposit asset, turn off usage as collateral, try to deposit again', async () => {
       const collateral = 'wstETH'
 
       // Only depositing asset
-      const borrowPage = new BorrowPageObject(page)
-      await borrowPage.depositWithoutBorrowActions({ [collateral]: 5 })
-      const myPortfolioPage = new MyPortfolioPageObject(page)
+      const borrowPage = new BorrowPageObject(testContext)
+      await borrowPage.depositWithoutBorrowActions({ assetsToDeposit: { [collateral]: 5 } })
+      const myPortfolioPage = new MyPortfolioPageObject(testContext)
       await myPortfolioPage.goToMyPortfolioAction()
 
       // Turning off usage as collateral at myPortfolio
       await myPortfolioPage.expectCollateralSwitch(collateral, true)
       await myPortfolioPage.clickCollateralSwitchAction(collateral)
-      const collateralDialog = new CollateralDialogPageObject(page)
+      const collateralDialog = new CollateralDialogPageObject(testContext)
       await collateralDialog.expectDialogHeader('Collateral')
       await collateralDialog.expectHealthFactorNotVisible()
-      const actionsContainer = new ActionsPageObject(collateralDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.acceptAllActionsAction(1)
+      await collateralDialog.actionsContainer.acceptAllActionsAction(1)
       await collateralDialog.expectSetUseAsCollateralSuccessPage(collateral, 'disabled')
 
       // Expecting asset not listed in deposit selector after turning off usage as collateral
@@ -457,7 +486,8 @@ test.describe('Borrow page', () => {
 
     test.describe('In danger zone', () => {
       test.beforeEach(async ({ page }) => {
-        await setup(page, fork, {
+        const testContext = await setup(page, {
+          blockchain: blockchainOptions,
           initialPage: 'easyBorrow',
           account: {
             type: 'connected-random',
@@ -465,7 +495,7 @@ test.describe('Borrow page', () => {
           },
         })
 
-        borrowPage = new BorrowPageObject(page)
+        borrowPage = new BorrowPageObject(testContext)
         await borrowPage.fillDepositAssetAction(0, 'rETH', 1)
         await borrowPage.fillBorrowAssetAction(1500)
         await borrowPage.submitAction()
@@ -478,15 +508,15 @@ test.describe('Borrow page', () => {
       })
 
       test('actions stay disabled until risk warning is acknowledged', async () => {
-        const actionsContainer = new ActionsPageObject(borrowPage.locatePanelByHeader('Actions'))
-        await actionsContainer.expectDisabledActionAtIndex(0)
+        await borrowPage.actionsContainer.expectDisabledActionAtIndex(0)
         await borrowPage.clickAcknowledgeRisk()
-        await actionsContainer.expectEnabledActionAtIndex(0)
+        await borrowPage.actionsContainer.expectEnabledActionAtIndex(0)
       })
     })
 
     test('hf above danger zone threshold; risk warning is not shown', async ({ page }) => {
-      await setup(page, fork, {
+      const testContext = await setup(page, {
+        blockchain: blockchainOptions,
         initialPage: 'easyBorrow',
         account: {
           type: 'connected-random',
@@ -494,7 +524,7 @@ test.describe('Borrow page', () => {
         },
       })
 
-      const borrowPage = new BorrowPageObject(page)
+      const borrowPage = new BorrowPageObject(testContext)
       await borrowPage.fillDepositAssetAction(0, 'rETH', 1)
       await borrowPage.fillBorrowAssetAction(1000)
       await borrowPage.submitAction()
@@ -505,12 +535,16 @@ test.describe('Borrow page', () => {
 })
 
 test.describe('Borrow page (usds deployed)', () => {
-  const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
   let borrowPage: BorrowPageObject
   let actionsContainer: ActionsPageObject
+  let testContext: TestContext<'connected-random'>
 
   test.beforeEach(async ({ page }) => {
-    await setup(page, fork, {
+    testContext = await setup(page, {
+      blockchain: {
+        chainId: mainnet.id,
+        blockNumber: USDS_ACTIVATED_BLOCK_NUMBER,
+      },
       initialPage: 'easyBorrow',
       account: {
         type: 'connected-random',
@@ -520,8 +554,8 @@ test.describe('Borrow page (usds deployed)', () => {
       },
     })
 
-    borrowPage = new BorrowPageObject(page)
-    actionsContainer = new ActionsPageObject(page)
+    borrowPage = new BorrowPageObject(testContext)
+    actionsContainer = new ActionsPageObject(testContext)
   })
 
   test('borrows usds', async ({ page }) => {
@@ -532,39 +566,39 @@ test.describe('Borrow page (usds deployed)', () => {
 
     await borrowPage.expectUsdsBorrowAlert()
     await actionsContainer.acceptAllActionsAction(5)
-    await borrowPage.expectSuccessPage(
-      [
+    await borrowPage.expectSuccessPage({
+      deposited: [
         {
           asset: 'wstETH',
           amount: 10,
         },
       ],
-      {
+      borrowed: {
         asset: 'USDS',
         amount: 10_000,
       },
-      fork,
-      {
+      testnetClient: testContext.testnetController.client,
+      assetsWorthOverride: {
         wstETH: 27_843.94,
         USDS: 10_000,
       },
-    )
+    })
 
-    await expectHFOnMyPortfolio(page, borrowPage, '2.23')
+    await expectHFOnMyPortfolio(testContext, borrowPage, '2.23')
 
     await page.goto(buildUrl('savings'))
-    const savingsPage = new SavingsPageObject(page)
+    const savingsPage = new SavingsPageObject(testContext)
     await savingsPage.expectStablecoinsInWalletAssetBalance('USDS', '10,000')
   })
 })
 
 async function expectHFOnMyPortfolio(
-  page: Page,
+  testContext: TestContext<any>,
   borrowPage: BorrowPageObject,
   expectedHealthFactor: string,
 ): Promise<void> {
   await borrowPage.viewInMyPortfolioAction()
-  const myPortfolioPage = new MyPortfolioPageObject(page)
+  const myPortfolioPage = new MyPortfolioPageObject(testContext)
 
   await myPortfolioPage.expectHealthFactor(expectedHealthFactor)
 }
