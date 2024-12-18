@@ -1,8 +1,3 @@
-import {
-  lendingPoolAddressProviderAddress,
-  uiPoolDataProviderAbi,
-  uiPoolDataProviderAddress,
-} from '@/config/contracts-generated'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { bigNumberify } from '@/utils/bigNumber'
 import { BaseUnitNumber, NormalizedUnitNumber } from '@marsfoundation/common-universal'
@@ -63,46 +58,6 @@ export async function parseTable<T>(tableLocator: Locator, parseRow: (row: strin
     table.push(parseRow(parsedRow))
   }
   return table
-}
-
-export async function calculateAssetsWorth(
-  forkUrl: string,
-  balances: Record<string, number>,
-): Promise<{ total: number; assetsWorth: Record<string, number> }> {
-  const publicClient = createPublicClient({
-    transport: http(forkUrl),
-  })
-  const chainId = await publicClient.getChainId()
-
-  const uiPoolDataProvider = uiPoolDataProviderAddress[chainId as keyof typeof uiPoolDataProviderAddress]
-  const lendingPoolAddressProvider =
-    lendingPoolAddressProviderAddress[chainId as keyof typeof lendingPoolAddressProviderAddress]
-  if (!uiPoolDataProvider || !lendingPoolAddressProvider) {
-    throw new Error(`Couldn't find addresses for chain ${chainId}`)
-  }
-
-  const [reserves, baseCurrencyInfo] = await publicClient.readContract({
-    address: uiPoolDataProvider,
-    functionName: 'getReservesData',
-    args: [lendingPoolAddressProvider],
-    abi: uiPoolDataProviderAbi,
-  })
-
-  let total = 0
-  const assetsWorth: Record<string, number> = {}
-  for (const [asset, amount] of Object.entries(balances)) {
-    const price = reserves.find(
-      (reserve) => reserve.symbol === asset || (asset === 'ETH' && reserve.symbol === 'WETH'),
-    )?.priceInMarketReferenceCurrency
-    if (!price) {
-      throw new Error(`Couldn't find price for ${asset}`)
-    }
-
-    total += Number(price) * amount
-    assetsWorth[asset] = (Number(price) * amount) / Number(baseCurrencyInfo.marketReferenceCurrencyPriceInUsd)
-  }
-
-  return { total: total / Number(baseCurrencyInfo.marketReferenceCurrencyPriceInUsd), assetsWorth }
 }
 
 export function isPage(pageOrLocator: Page | Locator): pageOrLocator is Page {
