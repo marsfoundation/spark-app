@@ -1,7 +1,7 @@
 import { expect } from 'earl'
-import { BaseUnitNumber } from '../types/BaseUnitNumber'
-import { NormalizedUnitNumber } from '../types/NormalizedUnitNumber'
-import { RAD, RAY, WAD } from './constants'
+import { BaseUnitNumber } from '../types/BaseUnitNumber.js'
+import { NormalizedUnitNumber } from '../types/NormalizedUnitNumber.js'
+import { RAD, RAY, WAD } from './constants.js'
 
 describe('constants', () => {
   it('work with NormalizedUnitNumbers', () => {
