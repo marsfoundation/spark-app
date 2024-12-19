@@ -91,8 +91,8 @@ test.describe('Deposit DAI', () => {
     test('displays transaction overview', async () => {
       await depositDialog.expectNativeRouteTransactionOverview({
         apy: {
-          value: '6.00%',
-          description: 'Earn ~600.00 DAI/year',
+          value: '11.50%',
+          description: 'Earn ~1,150.00 DAI/year',
         },
         routeItems: [
           {
