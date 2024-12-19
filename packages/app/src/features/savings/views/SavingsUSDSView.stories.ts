@@ -28,7 +28,7 @@ const myEarningsInfo = {
     error: null,
   },
   shouldDisplayMyEarnings: true,
-  selectedTimeframe: '7D',
+  selectedTimeframe: '1M',
   setSelectedTimeframe: () => {},
   availableTimeframes: MY_EARNINGS_TIMEFRAMES,
 } satisfies UseMyEarningsInfoResult

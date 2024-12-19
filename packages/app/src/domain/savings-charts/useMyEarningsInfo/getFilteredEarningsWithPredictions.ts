@@ -1,6 +1,7 @@
 import { TokenWithBalance } from '@/domain/common/types'
 import { SavingsInfo } from '@/domain/savings-info/types'
 import { filterDataByTimeframe } from '@/ui/charts/utils'
+import { assertNever } from '@marsfoundation/common-universal'
 import { calculatePredictions } from './calculatePredictions'
 import { MyEarningsTimeframe } from './common'
 import { MyEarningsInfoItem } from './types'
@@ -42,12 +43,28 @@ export function getFilteredEarningsWithPredictions({
     balance: savingsInfo.convertToAssets({ shares: savingsTokenWithBalance.balance }),
   }
 
+  const predictionsLength = Math.ceil(
+    (() => {
+      switch (timeframe) {
+        case '1M':
+          return 30 * 0.5
+        case '1Y':
+          return 365 * 0.5
+        case '3Y':
+          return 365 * 1.5
+        case 'All':
+          return 365 * 3
+        default:
+          assertNever(timeframe)
+      }
+    })(),
+  )
+
   const calculatedPredictions = calculatePredictions({
     savingsInfo,
-    timeframe,
     timestamp: Math.floor(getEndOfDayTimestamp(todaysItem.date) / 1000),
     shares: savingsTokenWithBalance.balance,
-    dataLength: filteredData.length,
+    days: predictionsLength,
   })
 
   filteredData.push(todaysItem)
