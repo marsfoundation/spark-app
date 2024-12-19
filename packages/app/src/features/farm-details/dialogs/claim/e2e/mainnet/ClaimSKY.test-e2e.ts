@@ -44,6 +44,7 @@ test.describe('Claim SKY rewards', () => {
     await stakeDialog.actionsContainer.acceptAllActionsAction(2)
     await stakeDialog.clickBackToFarmAction()
     await testContext.testnetController.progressSimulationAndMine(24 * 60 * 60) // 24 hours
+    await page.reload()
 
     await farmDetailsPage.clickInfoPanelClaimButtonAction()
     claimDialog = new ClaimDialogPageObject(testContext)
@@ -71,7 +72,7 @@ test.describe('Claim SKY rewards', () => {
 
     await farmDetailsPage.expectTokenToDepositBalance('USDS', '-')
     await farmDetailsPage.expectReward({
-      reward: '0.005',
+      reward: '0.001',
       rewardUsd: '<$0.01',
     })
     await farmDetailsPage.expectTokenBalance({

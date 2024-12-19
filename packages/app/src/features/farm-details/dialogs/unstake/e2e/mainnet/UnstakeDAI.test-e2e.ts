@@ -44,7 +44,8 @@ test.describe('Unstake DAI from SKY farm', () => {
 
     await stakeDialog.clickBackToFarmAction()
 
-    await testContext.testnetController.progressSimulation(24 * 60 * 60) // 24 hours
+    await testContext.testnetController.progressSimulationAndMine(24 * 60 * 60) // 24 hours
+    await page.reload()
 
     await farmDetailsPage.clickInfoPanelUnstakeButtonAction()
     unstakeDialog = new UnstakeDialogPageObject(testContext)

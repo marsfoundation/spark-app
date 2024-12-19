@@ -47,7 +47,8 @@ test.describe('Withdraw max USDC from SKY farm', () => {
 
     await stakeDialog.clickBackToFarmAction()
 
-    await testContext.testnetController.progressSimulation(24 * 60 * 60) // 24 hours
+    await testContext.testnetController.progressSimulationAndMine(24 * 60 * 60) // 24 hours
+    await page.reload()
 
     await farmDetailsPage.clickInfoPanelUnstakeButtonAction()
     unstakeDialog = new UnstakeDialogPageObject(testContext)
@@ -135,7 +136,7 @@ test.describe('Withdraw max USDC from SKY farm', () => {
 
     await farmDetailsPage.expectTokenToDepositBalance('USDC', '20,000.00')
     await farmDetailsPage.expectReward({
-      reward: '49.435971',
+      reward: '49.436543',
       rewardUsd: '$2.98',
     })
   })
@@ -152,7 +153,7 @@ test.describe('Withdraw max USDC from SKY farm', () => {
 
     await farmDetailsPage.expectTokenBalance({
       symbol: 'SKY',
-      balance: NormalizedUnitNumber('49.43597061732295'),
+      balance: NormalizedUnitNumber('49.4365427929088'),
       address: account,
     })
   })

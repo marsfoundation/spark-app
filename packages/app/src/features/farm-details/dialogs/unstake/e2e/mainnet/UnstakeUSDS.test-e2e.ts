@@ -45,7 +45,8 @@ test.describe('Unstake USDS from SKY farm', () => {
 
     await stakeDialog.clickBackToFarmAction()
 
-    await testContext.testnetController.progressSimulation(24 * 60 * 60) // 24 hours
+    await testContext.testnetController.progressSimulationAndMine(24 * 60 * 60) // 24 hours
+    await page.reload()
 
     await farmDetailsPage.clickInfoPanelUnstakeButtonAction()
     unstakeDialog = new UnstakeDialogPageObject(testContext)
@@ -175,7 +176,7 @@ test.describe('Unstake USDS from CLE farm', () => {
 
     await farmDetailsPage.expectTokenToDepositBalance('USDS', '5,000.00')
     await farmDetailsPage.expectReward({
-      reward: '257.5',
+      reward: '257.6',
     })
     await farmDetailsPage.expectStaked({ amount: '5,000.00', asset: 'USDS' })
     await farmDetailsPage.expectPointsSyncWarning()
@@ -183,7 +184,7 @@ test.describe('Unstake USDS from CLE farm', () => {
     await overrideInfoSkyRouteWithHAR({ page, key: `4-cle-farm-5000-balance-${harSuffix}` })
 
     await farmDetailsPage.expectReward({
-      reward: '257.5',
+      reward: '257.6',
     })
     await farmDetailsPage.expectPointsSyncWarningToBeHidden()
     await farmDetailsPage.expectInfoPanelClaimButtonToBeHidden()
