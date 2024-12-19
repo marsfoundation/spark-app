@@ -1,8 +1,8 @@
-import { getSafeOwners, replaceSafeOwner } from './replaceSafeOwner'
-import { createTestnetClientsForE2ETests } from '../test-utils'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { expect } from 'earl'
 import { TestnetClient } from '../TestnetClient'
-import { CheckedAddress } from '@marsfoundation/common-universal'
+import { createTestnetClientsForE2ETests } from '../test-utils'
+import { getSafeOwners, replaceSafeOwner } from './replaceSafeOwner'
 
 describe.only(replaceSafeOwner.name, () => {
   // @note: this test could be run only against a single factory but since we don't have concrete tests for each testnet
@@ -33,12 +33,12 @@ describe.only(replaceSafeOwner.name, () => {
           client: testnetClient,
           safeAddress,
         })
-        const newOwner = CheckedAddress.random('owner')
+        const newOwner = CheckedAddress.random('alice')
 
         await replaceSafeOwner({
           client: testnetClient,
           safeAddress,
-          newOwner: newOwner,
+          newOwner,
           indexToReplace: 0,
         })
 
@@ -54,12 +54,12 @@ describe.only(replaceSafeOwner.name, () => {
           client: testnetClient,
           safeAddress,
         })
-        const newOwner = CheckedAddress.random('owner')
+        const newOwner = CheckedAddress.random('alice')
 
         await replaceSafeOwner({
           client: testnetClient,
           safeAddress,
-          newOwner: newOwner,
+          newOwner,
           indexToReplace: 1,
         })
 
@@ -75,12 +75,12 @@ describe.only(replaceSafeOwner.name, () => {
           client: testnetClient,
           safeAddress,
         })
-        const newOwner = CheckedAddress.random('owner')
+        const newOwner = CheckedAddress.random('alice')
 
         await replaceSafeOwner({
           client: testnetClient,
           safeAddress,
-          newOwner: newOwner,
+          newOwner,
           indexToReplace: 2,
         })
 
@@ -91,12 +91,12 @@ describe.only(replaceSafeOwner.name, () => {
         expect(owners).toEqual([previousOwners[0]!, previousOwners[1]!, newOwner])
       })
 
-      it('throws when attempting to replace owner out of bounds', async () => {
+      it('throws when attempting to replace not existing owner', async () => {
         await expect(() =>
           replaceSafeOwner({
             client: testnetClient,
             safeAddress,
-            newOwner: CheckedAddress.random('owner'),
+            newOwner: CheckedAddress.random('alice'),
             indexToReplace: 3,
           }),
         ).toBeRejectedWith('Index to replace is out of bounds. Safe has only 3 owners.')
