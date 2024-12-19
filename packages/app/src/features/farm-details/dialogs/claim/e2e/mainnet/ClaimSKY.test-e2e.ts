@@ -59,7 +59,7 @@ test.describe('Claim SKY rewards', () => {
     await claimDialog.expectTransactionOverview({
       reward: {
         amount: '49.44',
-        amountUSD: '$2.98',
+        amountUSD: '2.98',
       },
     })
   })
