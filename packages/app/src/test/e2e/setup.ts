@@ -87,7 +87,7 @@ export async function setup<K extends Path, T extends ConnectionType>(
 
     const progressedTimestamp = currentTimestamp + BigInt(seconds)
     await testnetClient.setNextBlockTimestamp(progressedTimestamp)
-    await injectUpdatedDate(page, new Date(Number(currentTimestamp) * 1000))
+    await injectUpdatedDate(page, new Date(Number(progressedTimestamp) * 1000))
   }
 
   async function progressSimulationAndMine(seconds: number): Promise<void> {
