@@ -1,41 +1,39 @@
-// import { Locator, Page, expect } from '@playwright/test'
+import { TestContext } from '@/test/e2e/setup'
+import { testIds } from '@/ui/utils/testIds'
+import { Locator, expect } from '@playwright/test'
+import { DialogPageObject } from '../common/Dialog.PageObject'
 
-// import { testIds } from '@/ui/utils/testIds'
+export class ClaimRewardsDialogPageObject extends DialogPageObject {
+  constructor(testContext: TestContext<any>) {
+    super({ testContext, header: /Claim rewards/ })
+  }
 
-// import { DialogPageObject } from '../common/Dialog.PageObject'
+  // #region assertions
+  async expectRewards(rows: Reward[], locator?: Locator): Promise<void> {
+    if (!locator) {
+      locator = this.region
+    }
 
-// export class ClaimRewardsDialogPageObject extends DialogPageObject {
-//   constructor(page: Page) {
-//     super(page, /.*/)
-//     this.region = this.locateDialogByHeader('Claim rewards')
-//   }
+    for (const [index, row] of rows.entries()) {
+      const rowLocator = this.page.getByTestId(testIds.dialog.claimRewards.transactionOverview.row(index)).first()
+      await expect(rowLocator.getByTestId(testIds.dialog.claimRewards.transactionOverview.amount)).toHaveText(
+        `${row.amount} ${row.tokenSymbol}`,
+      )
+      await expect(rowLocator.getByTestId(testIds.dialog.claimRewards.transactionOverview.amountUSD)).toHaveText(
+        row.amountUSD,
+      )
+    }
+  }
 
-//   // #region assertions
-//   async expectRewards(rows: Reward[], locator?: Locator): Promise<void> {
-//     if (!locator) {
-//       locator = this.region
-//     }
+  async expectClaimRewardsSuccessPage(rows: Reward[]): Promise<void> {
+    await expect(this.page.getByRole('heading', { name: 'Congrats, all done!' })).toBeVisible()
+    await this.expectRewards(rows, this.page.getByTestId(testIds.dialog.success))
+  }
+  // #endregion assertions
+}
 
-//     for (const [index, row] of rows.entries()) {
-//       const rowLocator = this.page.getByTestId(testIds.dialog.claimRewards.transactionOverview.row(index)).first()
-//       await expect(rowLocator.getByTestId(testIds.dialog.claimRewards.transactionOverview.amount)).toHaveText(
-//         `${row.amount} ${row.tokenSymbol}`,
-//       )
-//       await expect(rowLocator.getByTestId(testIds.dialog.claimRewards.transactionOverview.amountUSD)).toHaveText(
-//         row.amountUSD,
-//       )
-//     }
-//   }
-
-//   async expectClaimRewardsSuccessPage(rows: Reward[]): Promise<void> {
-//     await expect(this.page.getByRole('heading', { name: 'Congrats, all done!' })).toBeVisible()
-//     await this.expectRewards(rows, this.page.getByTestId(testIds.dialog.success))
-//   }
-//   // #endregion assertions
-// }
-
-// interface Reward {
-//   tokenSymbol: string
-//   amount: string
-//   amountUSD: string
-// }
+interface Reward {
+  tokenSymbol: string
+  amount: string
+  amountUSD: string
+}
