@@ -4,7 +4,7 @@ import { TestnetClient } from '../TestnetClient'
 import { createTestnetClientsForE2ETests } from '../test-utils'
 import { getSafeOwners, replaceSafeOwner } from './replaceSafeOwner'
 
-describe.only(replaceSafeOwner.name, () => {
+describe(replaceSafeOwner.name, () => {
   // @note: this test could be run only against a single factory but since we don't have concrete tests for each testnet
   // client, I think this suite does a good job as a smoke test for them
   const factories = createTestnetClientsForE2ETests()
