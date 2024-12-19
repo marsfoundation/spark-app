@@ -1,74 +1,74 @@
-// import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
-// import { SavingsPageObject } from '@/pages/Savings.PageObject'
-// import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
-// import { setupFork } from '@/test/e2e/forking/setupFork'
-// import { setup } from '@/test/e2e/setup'
-// import { test } from '@playwright/test'
-// import { mainnet } from 'viem/chains'
-// import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
+import { SavingsPageObject } from '@/pages/Savings.PageObject'
+import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
+import { setup } from '@/test/e2e/setup'
+import { test } from '@playwright/test'
+import { mainnet } from 'viem/chains'
+import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 
-// test.describe('Deposit USDS', () => {
-//   const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
-//   let savingsPage: SavingsPageObject
-//   let depositDialog: SavingsDialogPageObject
+test.describe('Deposit USDS', () => {
+  let savingsPage: SavingsPageObject
+  let depositDialog: SavingsDialogPageObject
 
-//   test.beforeEach(async ({ page }) => {
-//     await setup(page, fork, {
-//       initialPage: 'savings',
-//       account: {
-//         type: 'connected-random',
-//         assetBalances: {
-//           ETH: 1,
-//           USDS: 10_000,
-//         },
-//       },
-//     })
+  test.beforeEach(async ({ page }) => {
+    const testContext = await setup(page, {
+      blockchain: {
+        chainId: mainnet.id,
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+      },
+      initialPage: 'savings',
+      account: {
+        type: 'connected-random',
+        assetBalances: {
+          ETH: 1,
+          USDS: 10_000,
+        },
+      },
+    })
 
-//     savingsPage = new SavingsPageObject(page)
-//     await savingsPage.clickDepositButtonAction('USDS')
+    savingsPage = new SavingsPageObject(testContext)
+    await savingsPage.clickDepositButtonAction('USDS')
 
-//     depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
-//     await depositDialog.fillAmountAction(10_000)
-//   })
+    depositDialog = new SavingsDialogPageObject({ testContext, type: 'deposit' })
+    await depositDialog.fillAmountAction(10_000)
+  })
 
-//   test('uses native sUSDS deposit', async () => {
-//     await depositDialog.actionsContainer.expectActions([
-//       { type: 'approve', asset: 'USDS' },
-//       { type: 'depositToSavings', asset: 'USDS', savingsAsset: 'sUSDS' },
-//     ])
-//   })
+  test('uses native sUSDS deposit', async () => {
+    await depositDialog.actionsContainer.expectActions([
+      { type: 'approve', asset: 'USDS' },
+      { type: 'depositToSavings', asset: 'USDS', savingsAsset: 'sUSDS' },
+    ])
+  })
 
-//   test('displays transaction overview', async () => {
-//     await depositDialog.expectNativeRouteTransactionOverview({
-//       apy: {
-//         value: '6.25%',
-//         description: 'Earn ~625.00 USDS/year',
-//       },
-//       routeItems: [
-//         {
-//           tokenAmount: '10,000.00 USDS',
-//           tokenUsdValue: '$10,000.00',
-//         },
-//         {
-//           tokenAmount: '9,999.77 sUSDS',
-//           tokenUsdValue: '$10,000.00',
-//         },
-//       ],
-//       outcome: '9,999.77 sUSDS',
-//       outcomeUsd: '$10,000.00',
-//     })
+  test('displays transaction overview', async () => {
+    await depositDialog.expectNativeRouteTransactionOverview({
+      apy: {
+        value: '12.50%',
+        description: 'Earn ~1,250.00 USDS/year',
+      },
+      routeItems: [
+        {
+          tokenAmount: '10,000.00 USDS',
+          tokenUsdValue: '$10,000.00',
+        },
+        {
+          tokenAmount: '9,830.34 sUSDS',
+          tokenUsdValue: '$10,000.00',
+        },
+      ],
+      outcome: '9,830.34 sUSDS',
+      outcomeUsd: '$10,000.00',
+    })
 
-//     await depositDialog.expectUpgradeSwitchToBeHidden()
-//   })
+    await depositDialog.expectUpgradeSwitchToBeHidden()
+  })
 
-//   test('executes deposit', async () => {
-//     const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
-//     await actionsContainer.acceptAllActionsAction(2, fork)
+  test('executes deposit', async () => {
+    await depositDialog.actionsContainer.acceptAllActionsAction(2)
 
-//     await depositDialog.expectSuccessPage()
-//     await depositDialog.clickBackToSavingsButton()
+    await depositDialog.expectSuccessPage()
+    await depositDialog.clickBackToSavingsButton()
 
-//     await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '9,999.77 sUSDS', estimatedUsdsValue: '10,000' })
-//     await savingsPage.expectStablecoinsInWalletAssetBalance('USDS', '-')
-//   })
-// })
+    await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '9,830.34 sUSDS', estimatedUsdsValue: '10,000' })
+    await savingsPage.expectStablecoinsInWalletAssetBalance('USDS', '-')
+  })
+})
