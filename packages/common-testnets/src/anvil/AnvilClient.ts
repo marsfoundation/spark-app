@@ -1,4 +1,4 @@
-import { assert } from '@marsfoundation/common-universal'
+import { assert, Hash } from '@marsfoundation/common-universal'
 import { http, Address, createTestClient, numberToHex, publicActions, walletActions } from 'viem'
 import { dealActions } from 'viem-deal'
 import { mainnet } from 'viem/chains'
@@ -25,6 +25,12 @@ export function getAnvilClient(rpc: string): TestnetClient {
         return c.request({
           method: 'anvil_setBalance',
           params: [usr.toString(), `0x${amt.toString(16)}`],
+        } as any)
+      },
+      async setStorageAt(addr: Address, slot: Hash, value: string) {
+        await c.request({
+          method: 'anvil_setStorageAt',
+          params: [addr.toString(), slot, value],
         } as any)
       },
       async snapshot(): Promise<string> {

@@ -1,3 +1,4 @@
+import { Hash } from '@marsfoundation/common-universal'
 import { http, Address, createTestClient, numberToHex, publicActions, walletActions } from 'viem'
 import { mainnet } from 'viem/chains'
 import { TestnetClient } from '../TestnetClient'
@@ -20,6 +21,12 @@ export function getTenderlyClient(rpc: string): TestnetClient {
         return c.request({
           method: 'tenderly_setBalance',
           params: [usr.toString(), numberToHex(amt)],
+        } as any)
+      },
+      async setStorageAt(addr: Address, slot: Hash, value: string) {
+        await c.request({
+          method: 'tenderly_setStorageAt',
+          params: [addr.toString(), slot, value],
         } as any)
       },
       async snapshot(): Promise<string> {
