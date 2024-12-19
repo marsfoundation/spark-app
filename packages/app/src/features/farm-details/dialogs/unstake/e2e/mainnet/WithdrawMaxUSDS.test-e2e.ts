@@ -67,7 +67,7 @@ test.describe('Withdraw max USDS from SKY farm', () => {
     await unstakeDialog.expectExitFarmSwitchReward({
       amount: 49.44,
       token: 'SKY',
-      usdValue: '213',
+      usdValue: '2.98',
     })
   })
 
@@ -139,7 +139,7 @@ test.describe('Withdraw max USDS from SKY farm', () => {
     await farmDetailsPage.expectTokenToDepositBalance('USDS', '10,000.00')
     await farmDetailsPage.expectReward({
       reward: '49.436543',
-      rewardUsd: '$2.98',
+      rewardUsd: '2.98',
     })
   })
 
