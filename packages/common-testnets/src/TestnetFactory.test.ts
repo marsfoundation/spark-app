@@ -1,22 +1,10 @@
-import { getEnv } from '@marsfoundation/common-nodejs/env'
 import { expect } from 'earl'
 import { after, before, describe, it } from 'mocha'
 import { TestnetClient } from './TestnetClient'
-import { TestnetFactory } from './TestnetFactory'
-import { AnvilTestnetFactory } from './anvil'
-import { TenderlyTestnetFactory } from './tenderly'
-
-const env = getEnv()
+import { createTestnetClientsForE2ETests } from './test-utils'
 
 describe('TestnetFactory', () => {
-  const factories: TestnetFactory[] = [
-    new TenderlyTestnetFactory({
-      apiKey: env.string('TENDERLY_API_KEY'),
-      account: env.string('TENDERLY_ACCOUNT'),
-      project: env.string('TENDERLY_PROJECT'),
-    }),
-    new AnvilTestnetFactory({ alchemyApiKey: env.string('TEST_E2E_ALCHEMY_API_KEY') }),
-  ]
+  const factories = createTestnetClientsForE2ETests()
 
   for (const factory of factories) {
     describe(factory.constructor.name, () => {
