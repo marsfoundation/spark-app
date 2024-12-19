@@ -12,10 +12,11 @@ export function NormalizedUnitNumber(value: NumberLike): NormalizedUnitNumber {
   return result as NormalizedUnitNumber
 }
 
-NormalizedUnitNumber.toBaseUnit = (value: NormalizedUnitNumber, decimals: number): BaseUnitNumber => {
-  return BaseUnitNumber(value.shiftedBy(decimals))
+NormalizedUnitNumber.toBaseUnit = function toBaseUnit(value: NormalizedUnitNumber, decimals: number): BaseUnitNumber {
+  const lowerPrecisionNumber = value.decimalPlaces(decimals, BigNumber.ROUND_DOWN)
+  return BaseUnitNumber(lowerPrecisionNumber.shiftedBy(decimals))
 }
 
-NormalizedUnitNumber.min = (a: NormalizedUnitNumber, b: NormalizedUnitNumber): NormalizedUnitNumber => {
+NormalizedUnitNumber.min = function min(a: NormalizedUnitNumber, b: NormalizedUnitNumber): NormalizedUnitNumber {
   return a.lt(b) ? a : b
 }
