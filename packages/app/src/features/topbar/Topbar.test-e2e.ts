@@ -74,11 +74,10 @@ test.describe('Topbar', () => {
   })
 
   test.describe('Rewards badge', () => {
-    const REWARDS_PROGRAM_FINISHED_BLOCK = 20189272n
     test('Displays total rewards in badge', async ({ page }) => {
       const testContext = await setup(page, {
         blockchain: {
-          blockNumber: REWARDS_PROGRAM_FINISHED_BLOCK,
+          blockNumber: DEFAULT_BLOCK_NUMBER,
           chainId: mainnet.id,
         },
         initialPage: 'easyBorrow',
@@ -89,13 +88,13 @@ test.describe('Topbar', () => {
       })
 
       const topbar = new TopbarPageObject(testContext)
-      await topbar.expectClaimableRewardsValue('$25.58K')
+      await topbar.expectClaimableRewardsValue('$29.72K')
     })
 
     test('Displays details in dropdown', async ({ page }) => {
       const testContext = await setup(page, {
         blockchain: {
-          blockNumber: REWARDS_PROGRAM_FINISHED_BLOCK,
+          blockNumber: DEFAULT_BLOCK_NUMBER,
           chainId: mainnet.id,
         },
         initialPage: 'easyBorrow',
@@ -112,7 +111,7 @@ test.describe('Topbar', () => {
         {
           tokenSymbol: 'wstETH',
           amount: '6.3697',
-          amountUSD: '$25,583.20',
+          amountUSD: '$29,717.60',
         },
       ])
     })
@@ -120,7 +119,7 @@ test.describe('Topbar', () => {
     test('Does not display badge when no rewards', async ({ page }) => {
       const testContext = await setup(page, {
         blockchain: {
-          blockNumber: REWARDS_PROGRAM_FINISHED_BLOCK,
+          blockNumber: DEFAULT_BLOCK_NUMBER,
           chainId: mainnet.id,
         },
         initialPage: 'myPortfolio',
