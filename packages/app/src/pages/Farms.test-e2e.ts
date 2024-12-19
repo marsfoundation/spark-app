@@ -1,5 +1,4 @@
-import { USDS_ACTIVATED_BLOCK_NUMBER } from '@/test/e2e/constants'
-import { setupFork } from '@/test/e2e/forking/setupFork'
+import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { overrideInfoSkyRouteWithHAR } from '@/test/e2e/info-sky'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
@@ -7,11 +6,14 @@ import { mainnet } from 'viem/chains'
 import { FarmsPageObject } from './Farms.PageObject'
 
 test.describe('Farms', () => {
-  const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
   let farmsPage: FarmsPageObject
 
   test.beforeEach(async ({ page }) => {
-    await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: {
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+        chainId: mainnet.id,
+      },
       initialPage: 'farms',
       account: {
         type: 'not-connected',
@@ -19,7 +21,7 @@ test.describe('Farms', () => {
     })
     await overrideInfoSkyRouteWithHAR({ page, key: '1-sky-farm-with-8_51-apy' })
 
-    farmsPage = new FarmsPageObject(page)
+    farmsPage = new FarmsPageObject(testContext)
   })
 
   test('farms list', async () => {

@@ -1,31 +1,33 @@
-import { WEETH_ACTIVE_BLOCK_NUMBER } from '@/test/e2e/constants'
-import { setupFork } from '@/test/e2e/forking/setupFork'
+import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
 import { MarketsPageObject } from './Markets.PageObject'
 
 test.describe('Markets', () => {
-  const fork = setupFork({ blockNumber: WEETH_ACTIVE_BLOCK_NUMBER, chainId: mainnet.id })
   let marketsPage: MarketsPageObject
 
   test.beforeEach(async ({ page }) => {
-    await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: {
+        chainId: mainnet.id,
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+      },
       initialPage: 'markets',
       account: {
         type: 'not-connected',
       },
     })
 
-    marketsPage = new MarketsPageObject(page)
+    marketsPage = new MarketsPageObject(testContext)
   })
 
   test('summary', async () => {
     await marketsPage.expectSummary([
-      { description: 'Total market size', value: '$4.441B' },
-      { description: 'Total value locked', value: '$2.869B' },
-      { description: 'Total available', value: '$2.904B' },
-      { description: 'Total borrows', value: '$1.537B' },
+      { description: 'Total market size', value: '$8.145B' },
+      { description: 'Total value locked', value: '$5.068B' },
+      { description: 'Total available', value: '$5.149B' },
+      { description: 'Total borrows', value: '$2.997B' },
     ])
   })
 
@@ -37,15 +39,15 @@ test.describe('Markets', () => {
           symbol: 'wstETH',
         },
         totalSupplied: {
-          tokenAmount: '519K',
-          usdValue: '$2.06B',
+          tokenAmount: '861.3K',
+          usdValue: '$4.018B',
         },
         depositAPY: {
           value: '<0.01%',
         },
         totalBorrowed: {
-          tokenAmount: '51.56',
-          usdValue: '$204.7K',
+          tokenAmount: '98.42',
+          usdValue: '$459.2K',
         },
         borrowAPY: {
           value: '0.25%',
@@ -62,19 +64,19 @@ test.describe('Markets', () => {
           symbol: 'DAI',
         },
         totalSupplied: {
-          tokenAmount: '962.8M',
-          usdValue: '$962.8M',
+          tokenAmount: '1.739B',
+          usdValue: '$1.739B',
         },
         depositAPY: {
           // @note: This value is different in production since VITE_FEATURE_DISABLE_DAI_LEND is disabled in playwright tests
-          value: '8.52%',
+          value: '11.69%',
         },
         totalBorrowed: {
-          tokenAmount: '913.6M',
-          usdValue: '$913.6M',
+          tokenAmount: '1.626B',
+          usdValue: '$1.626B',
         },
         borrowAPY: {
-          value: '9.00%',
+          value: '12.55%',
           hasAirDrop: true,
         },
         status: {
@@ -90,19 +92,19 @@ test.describe('Markets', () => {
           symbol: 'ETH',
         },
         totalSupplied: {
-          tokenAmount: '252.1K',
-          usdValue: '$854.8M',
+          tokenAmount: '391.1K',
+          usdValue: '$1.536B',
         },
         depositAPY: {
-          value: '1.31%',
+          value: '2.03%',
           hasAirDrop: true,
         },
         totalBorrowed: {
-          tokenAmount: '177K',
-          usdValue: '$600M',
+          tokenAmount: '347.6K',
+          usdValue: '$1.365B',
         },
         borrowAPY: {
-          value: '1.97%',
+          value: '2.41%',
         },
         status: {
           supply: 'Can be supplied',
@@ -112,47 +114,22 @@ test.describe('Markets', () => {
       },
       {
         asset: {
-          name: 'Wrapped BTC',
-          symbol: 'WBTC',
+          name: 'Coinbase Wrapped BTC',
+          symbol: 'cbBTC',
         },
         totalSupplied: {
-          tokenAmount: '5,790',
-          usdValue: '$358M',
+          tokenAmount: '2,950',
+          usdValue: '$300M',
         },
         depositAPY: {
           value: '<0.01%',
         },
         totalBorrowed: {
-          tokenAmount: '332.8',
-          usdValue: '$20.58M',
+          tokenAmount: '5.65',
+          usdValue: '$574.6K',
         },
         borrowAPY: {
-          value: '0.19%',
-        },
-        status: {
-          supply: 'Can be supplied',
-          collateral: 'Can be used as collateral',
-          borrow: 'Can be borrowed',
-        },
-      },
-      {
-        asset: {
-          name: 'Rocket Pool Staked ETH',
-          symbol: 'rETH',
-        },
-        totalSupplied: {
-          tokenAmount: '38.95K',
-          usdValue: '$146.5M',
-        },
-        depositAPY: {
-          value: '<0.01%',
-        },
-        totalBorrowed: {
-          tokenAmount: '6.271',
-          usdValue: '$23.59K',
-        },
-        borrowAPY: {
-          value: '0.25%',
+          value: '0.01%',
         },
         status: {
           supply: 'Can be supplied',
@@ -166,8 +143,8 @@ test.describe('Markets', () => {
           symbol: 'weETH',
         },
         totalSupplied: {
-          tokenAmount: '11.66K',
-          usdValue: '$41.17M',
+          tokenAmount: '51.75',
+          usdValue: '$214.5M',
         },
         depositAPY: {
           value: '0.00%',
@@ -182,12 +159,60 @@ test.describe('Markets', () => {
       },
       {
         asset: {
-          name: 'Savings Dai',
-          symbol: 'sDAI',
+          name: 'Wrapped BTC',
+          symbol: 'WBTC',
         },
         totalSupplied: {
-          tokenAmount: '13.49M',
-          usdValue: '$14.73M',
+          tokenAmount: '1,742',
+          usdValue: '$176.8',
+        },
+        depositAPY: {
+          value: '<0.01%',
+        },
+        totalBorrowed: {
+          tokenAmount: '18.12',
+          usdValue: '$1.839M',
+        },
+        borrowAPY: undefined,
+        status: {
+          supply: 'Can be supplied',
+          collateral: 'Cannot be used as collateral',
+          borrow: 'Cannot be borrowed',
+        },
+      },
+      {
+        asset: {
+          name: 'Rocket Pool Staked ETH',
+          symbol: 'rETH',
+        },
+        totalSupplied: {
+          tokenAmount: '34.47K',
+          usdValue: '$152.1M',
+        },
+        depositAPY: {
+          value: '<0.01%',
+        },
+        totalBorrowed: {
+          tokenAmount: '7.991',
+          usdValue: '$35.26K',
+        },
+        borrowAPY: {
+          value: '0.25%',
+        },
+        status: {
+          supply: 'Can be supplied',
+          collateral: 'Can be used as collateral',
+          borrow: 'Can be borrowed',
+        },
+      },
+      {
+        asset: {
+          name: 'Savings USDS',
+          symbol: 'sUSDS',
+        },
+        totalSupplied: {
+          tokenAmount: '4.154M',
+          usdValue: '$4.226M',
         },
         depositAPY: {
           value: '0.00%',
@@ -206,18 +231,18 @@ test.describe('Markets', () => {
           symbol: 'USDC',
         },
         totalSupplied: {
-          tokenAmount: '2.559M',
-          usdValue: '$2.559M',
+          tokenAmount: '1.916M',
+          usdValue: '$1.916M',
         },
         depositAPY: {
-          value: '5.90%',
+          value: '16.20%',
         },
         totalBorrowed: {
-          tokenAmount: '2.077M',
-          usdValue: '$2.077M',
+          tokenAmount: '1.849M',
+          usdValue: '$1.849M',
         },
         borrowAPY: {
-          value: '7.72%',
+          value: '17.79%',
         },
         status: {
           supply: 'Can be supplied',
@@ -227,22 +252,42 @@ test.describe('Markets', () => {
       },
       {
         asset: {
+          name: 'Savings Dai',
+          symbol: 'sDAI',
+        },
+        totalSupplied: {
+          tokenAmount: '1.25M',
+          usdValue: '$1.407M',
+        },
+        depositAPY: {
+          value: '0.00%',
+        },
+        totalBorrowed: undefined,
+        borrowAPY: undefined,
+        status: {
+          supply: 'Can be supplied',
+          collateral: 'Can be used as collateral',
+          borrow: 'Cannot be borrowed',
+        },
+      },
+      {
+        asset: {
           name: 'Tether USD',
           symbol: 'USDT',
         },
         totalSupplied: {
-          tokenAmount: '316.6K',
-          usdValue: '$316.6K',
+          tokenAmount: '579.3K',
+          usdValue: '$579.3K',
         },
         depositAPY: {
-          value: '4.03%',
+          value: '6.58%',
         },
         totalBorrowed: {
-          tokenAmount: '213.2K',
-          usdValue: '$213.2K',
+          tokenAmount: '424.3K',
+          usdValue: '$424.3K',
         },
         borrowAPY: {
-          value: '6.36%',
+          value: '9.60%',
         },
         status: {
           supply: 'Can be supplied',
@@ -263,8 +308,8 @@ test.describe('Markets', () => {
           isFrozen: true,
         },
         totalSupplied: {
-          tokenAmount: '55.1',
-          usdValue: '$15.91K',
+          tokenAmount: '5',
+          usdValue: '$1,459',
         },
         depositAPY: undefined,
         totalBorrowed: undefined,

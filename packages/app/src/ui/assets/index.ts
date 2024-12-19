@@ -267,4 +267,5 @@ const tokenColors: Record<TokenSymbol, `${number} ${number} ${number}`> = {
   [TokenSymbol('WXDAI')]: '253 177 31',
   [TokenSymbol('XDAI')]: '255 192 70',
   [TokenSymbol('CLE')]: '47 208 91',
+  [TokenSymbol('cbBTC')]: '0 82 255',
 }
