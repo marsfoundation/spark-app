@@ -21,26 +21,26 @@ export type AssetBalances = Partial<Record<AssetsInTests, number>>
 export type ConnectionType = 'not-connected' | 'connected-random' | 'connected-pkey' | 'connected-address'
 export type AccountOptions<T extends ConnectionType> = T extends 'not-connected'
   ? {
-      type: T
-    }
+    type: T
+  }
   : T extends 'connected-random'
-    ? {
-        type: T
-        assetBalances?: Partial<Record<AssetsInTests, number>>
-      }
-    : T extends 'connected-pkey'
-      ? {
-          type: T
-          privateKey: Hash
-          assetBalances?: Partial<Record<AssetsInTests, number>>
-        }
-      : T extends 'connected-address'
-        ? {
-            type: T
-            address: Address
-            assetBalances?: Partial<Record<AssetsInTests, number>>
-          }
-        : never
+  ? {
+    type: T
+    assetBalances?: Partial<Record<AssetsInTests, number>>
+  }
+  : T extends 'connected-pkey'
+  ? {
+    type: T
+    privateKey: Hash
+    assetBalances?: Partial<Record<AssetsInTests, number>>
+  }
+  : T extends 'connected-address'
+  ? {
+    type: T
+    address: Address
+    assetBalances?: Partial<Record<AssetsInTests, number>>
+  }
+  : never
 
 export interface BlockchainOptions {
   chainId: number
@@ -183,6 +183,7 @@ async function injectPageSetup({
     // if explicitly disabled, do not inject network config abort all network requests to RPC providers
     await page.route(/alchemy/, (route) => route.abort())
     await page.route(/rpc.ankr/, (route) => route.abort())
+    await page.route(/blockanalitica.com/, (route) => route.abort())
   } else {
     await injectNetworkConfiguration(page, getUrlFromClient(testnetClient), options.blockchain.chainId)
   }
