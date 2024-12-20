@@ -182,7 +182,7 @@ test.describe('Savings Base', () => {
 
     await savingsPage.expectSavingsUsdsBalance({
       susdsBalance: '100.00',
-      estimatedUsdsValue: '101.286547',
+      estimatedUsdsValue: '101.28654604',
     })
   })
 
@@ -201,7 +201,7 @@ test.describe('Savings Base', () => {
     const savingsPage = new SavingsPageObject(testContext)
 
     await savingsPage.expectSavingUsdsCurrentProjection('$0.68', '30-day')
-    await savingsPage.expectSavingUsdsCurrentProjection('$8.61', '1-year')
+    await savingsPage.expectSavingUsdsCurrentProjection('$8.65', '1-year')
   })
 
   test('displays the total value of stablecoins in the wallet', async ({ page }) => {

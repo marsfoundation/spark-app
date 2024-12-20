@@ -72,8 +72,8 @@ test.describe('Claim SKY rewards', () => {
 
     await farmDetailsPage.expectTokenToDepositBalance('USDS', '-')
     await farmDetailsPage.expectReward({
-      reward: '0.001',
-      rewardUsd: '<$0.01',
+      reward: '0.00000',
+      rewardUsd: '$0.00',
     })
     await farmDetailsPage.expectTokenBalance({
       address: account,

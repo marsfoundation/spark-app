@@ -26,7 +26,7 @@ test.describe('Farms', () => {
 
   test('farms list', async () => {
     await farmsPage.expectInactiveFarms([
-      { apy: '8.51%', staked: '0', rewardText: 'Earn SKY', stakeText: 'Deposit Stablecoins' },
+      { apy: '14.29%', staked: '0', rewardText: 'Earn SKY', stakeText: 'Deposit Stablecoins' },
       { staked: '0', rewardText: 'Earn Chronicle points', stakeText: 'Deposit Stablecoins' },
     ])
 

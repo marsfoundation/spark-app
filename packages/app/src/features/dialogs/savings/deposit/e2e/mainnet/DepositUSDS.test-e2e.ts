@@ -1,6 +1,6 @@
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
 import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
-import { setup } from '@/test/e2e/setup'
+import { TestContext, setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
@@ -8,9 +8,10 @@ import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageO
 test.describe('Deposit USDS', () => {
   let savingsPage: SavingsPageObject
   let depositDialog: SavingsDialogPageObject
+  let testContext: TestContext<'connected-random'>
 
   test.beforeEach(async ({ page }) => {
-    const testContext = await setup(page, {
+    testContext = await setup(page, {
       blockchain: {
         chainId: mainnet.id,
         blockNumber: DEFAULT_BLOCK_NUMBER,
@@ -67,8 +68,9 @@ test.describe('Deposit USDS', () => {
 
     await depositDialog.expectSuccessPage()
     await depositDialog.clickBackToSavingsButton()
+    await testContext.testnetController.updateBrowserTime()
 
-    await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '9,830.34 sUSDS', estimatedUsdsValue: '10,000' })
+    await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '9,830.34 sUSDS', estimatedUsdsValue: '10,000.000187' })
     await savingsPage.expectStablecoinsInWalletAssetBalance('USDS', '-')
   })
 })
