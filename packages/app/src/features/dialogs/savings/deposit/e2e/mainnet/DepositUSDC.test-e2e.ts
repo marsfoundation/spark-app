@@ -74,7 +74,7 @@ test.describe('Deposit USDC', () => {
 
       await savingsPage.expectSavingsUsdsBalance({
         susdsBalance: '9,830.34 sUSDS',
-        estimatedUsdsValue: '10,000.000187',
+        estimatedUsdsValue: '10,000.000000',
       })
       await savingsPage.expectStablecoinsInWalletAssetBalance('USDC', '-')
     })
@@ -123,7 +123,7 @@ test.describe('Deposit USDC', () => {
       await depositDialog.expectSuccessPage()
       await depositDialog.clickBackToSavingsButton()
 
-      await savingsPage.expectSavingsDaiBalance({ sdaiBalance: '8,884.16 sDAI', estimatedDaiValue: '10,000.000173' })
+      await savingsPage.expectSavingsDaiBalance({ sdaiBalance: '8,884.16 sDAI', estimatedDaiValue: '10,000.000000' })
       await savingsPage.expectStablecoinsInWalletAssetBalance('USDC', '-')
     })
   })
