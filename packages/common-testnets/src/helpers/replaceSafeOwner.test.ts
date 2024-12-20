@@ -15,17 +15,20 @@ describe(replaceSafeOwner.name, () => {
       let testnetClient: TestnetClient
       let cleanup: () => Promise<void>
 
-      beforeEach(async () => {
+      before(async () => {
         ;({ client: testnetClient, cleanup } = await factory.create({
           id: 'test',
           originChainId: 1,
           forkChainId: 1,
           blockNumber: 21439277n,
         }))
+        await testnetClient.baselineSnapshot()
       })
-
-      afterEach(async () => {
+      after(async () => {
         await cleanup()
+      })
+      beforeEach(async () => {
+        await testnetClient.revertToBaseline()
       })
 
       it('replaces first owner', async () => {

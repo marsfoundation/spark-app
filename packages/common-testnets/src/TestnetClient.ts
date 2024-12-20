@@ -9,6 +9,9 @@ export interface TestnetClient extends WalletClient, PublicActions {
   revert(snapshotId: string): Promise<string> // @note: returns new snapshot id (may be the same as the input)
   mineBlocks(blocks: bigint): Promise<void>
   setNextBlockTimestamp(timestamp: bigint): Promise<void>
+
+  baselineSnapshot(): Promise<void> // @note: baseline snapshot can be created only once, useful to easily revert to a known state. Helper on top of the snapshot method
+  revertToBaseline(): Promise<void> // @note: revert to the baseline snapshot, helper on top of the revert method
 }
 
 export function getUrlFromClient(client: TestnetClient): string {
