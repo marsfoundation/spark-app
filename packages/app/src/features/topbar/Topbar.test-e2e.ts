@@ -23,7 +23,6 @@ test.describe('Topbar', () => {
       await topbar.expectAirdropPreciseValue('0.00 SPK')
     })
 
-    // @todo: Fix airdrop refreshing bug
     test('Connected', async ({ page }) => {
       const testContext = await setup(page, {
         blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id },
@@ -36,7 +35,7 @@ test.describe('Topbar', () => {
       await overrideAirdropInfoRoute(page, { account: testContext.account })
 
       const topbar = new TopbarPageObject(testContext)
-      await topbar.expectAirdropCompactValue('8.239M')
+      await topbar.expectAirdropCompactValue('8.227M')
       await topbar.openAirdropDropdown()
       await topbar.expectAirdropPreciseValue('8,227,011.131')
     })
