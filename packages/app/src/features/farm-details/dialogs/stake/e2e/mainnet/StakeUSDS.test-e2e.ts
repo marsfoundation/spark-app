@@ -75,8 +75,8 @@ test.describe('Stake USDS to SKY farm', () => {
 
     await farmDetailsPage.expectTokenToDepositBalance('USDS', '-')
     await farmDetailsPage.expectReward({
-      reward: '0.001',
-      rewardUsd: '<$0.01',
+      reward: '0.00000',
+      rewardUsd: '$0.00',
     })
     await farmDetailsPage.expectStaked({ amount: '10,000.00', asset: 'USDS' })
   })
@@ -159,7 +159,7 @@ test.describe('Stake USDS to CLE farm', () => {
     await overrideInfoSkyRouteWithHAR({ page, key: `3-cle-farm-10000-balance-${harSuffix}` })
 
     await farmDetailsPage.expectReward({
-      reward: '257.6',
+      reward: '257.460',
     })
     await farmDetailsPage.expectPointsSyncWarningToBeHidden()
     await farmDetailsPage.expectInfoPanelClaimButtonToBeHidden()

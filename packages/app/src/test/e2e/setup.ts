@@ -6,12 +6,7 @@ import { generatePath } from 'react-router-dom'
 import { Address, Hash, parseEther, parseUnits } from 'viem'
 import { AssetsInTests, TOKENS_ON_FORK } from './constants'
 import { getTestnetContext } from './getTestnetContext'
-import {
-  injectFixedDate,
-  injectNetworkConfiguration,
-  injectUpdatedDate,
-  injectWalletConfiguration,
-} from './injectSetup'
+import { injectNetworkConfiguration, injectWalletConfiguration } from './injectSetup'
 import { generateAccount } from './utils'
 
 export type InjectableWallet = { address: Address } | { privateKey: string }
@@ -87,7 +82,7 @@ export async function setup<K extends Path, T extends ConnectionType>(
 
     const progressedTimestamp = currentTimestamp + BigInt(seconds)
     await testnetClient.setNextBlockTimestamp(progressedTimestamp)
-    await injectUpdatedDate(page, new Date(Number(currentTimestamp) * 1000))
+    await page.clock.setFixedTime(Number(currentTimestamp) * 1000)
   }
 
   async function progressSimulationAndMine(seconds: number): Promise<void> {
@@ -99,7 +94,7 @@ export async function setup<K extends Path, T extends ConnectionType>(
   // @note: Set next block to be mined timestamp to be 5 seconds more.
   await progressSimulation(5)
 
-  const testnetController = {
+  const testnetController: TestnetController = {
     client: testnetClient,
     progressSimulation,
     progressSimulationAndMine,
@@ -183,14 +178,15 @@ async function injectPageSetup({
   testnetClient: TestnetClient
   options: SetupOptions<any, any>
 }): Promise<void> {
-  const blockchainTimestamp = (await testnetClient.getBlock()).timestamp
-
   if (options.skipInjectingNetwork === true) {
     // if explicitly disabled, do not inject network config abort all network requests to RPC providers
     await page.route(/alchemy/, (route) => route.abort())
     await page.route(/rpc.ankr/, (route) => route.abort())
+    await page.route(/blockanalitica.com/, (route) => route.abort())
   } else {
     await injectNetworkConfiguration(page, getUrlFromClient(testnetClient), options.blockchain.chainId)
   }
-  await injectFixedDate(page, new Date(Number(blockchainTimestamp) * 1000))
+
+  const { timestamp } = await testnetClient.getBlock()
+  await page.clock.setFixedTime(Number(timestamp) * 1000)
 }

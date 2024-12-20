@@ -182,7 +182,7 @@ test.describe('Savings Base', () => {
 
     await savingsPage.expectSavingsUsdsBalance({
       susdsBalance: '100.00',
-      estimatedUsdsValue: '101.286547',
+      estimatedUsdsValue: '101.28654604',
     })
   })
 

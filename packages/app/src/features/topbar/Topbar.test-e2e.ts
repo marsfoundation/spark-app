@@ -37,7 +37,7 @@ test.describe('Topbar', () => {
       const topbar = new TopbarPageObject(testContext)
       await topbar.expectAirdropCompactValue('8.227M')
       await topbar.openAirdropDropdown()
-      await topbar.expectAirdropPreciseValue('8,227,011.154')
+      await topbar.expectAirdropPreciseValue('8,227,011.131')
     })
 
     test('Api error', async ({ page }) => {
