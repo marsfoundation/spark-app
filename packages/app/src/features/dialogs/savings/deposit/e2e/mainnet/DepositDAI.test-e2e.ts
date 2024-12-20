@@ -71,7 +71,6 @@ test.describe('Deposit DAI', () => {
 
       await depositDialog.expectSuccessPage()
       await depositDialog.clickBackToSavingsButton()
-      await testContext.testnetController.updateBrowserTime()
 
       await savingsPage.expectSavingsUsdsBalance({
         susdsBalance: '9,830.34 sUSDS',
@@ -119,7 +118,6 @@ test.describe('Deposit DAI', () => {
 
       await depositDialog.expectSuccessPage()
       await depositDialog.clickBackToSavingsButton()
-      await testContext.testnetController.updateBrowserTime()
 
       await savingsPage.expectSavingsDaiBalance({ sdaiBalance: '8,884.16 sDAI', estimatedDaiValue: '10,000.000173' })
       await savingsPage.expectStablecoinsInWalletAssetBalance('DAI', '-')
@@ -137,7 +135,6 @@ test.describe('Deposit DAI', () => {
 
     await depositDialog.expectSuccessPage()
     await depositDialog.clickBackToSavingsButton()
-    await testContext.testnetController.updateBrowserTime()
 
     await savingsPage.expectSavingsDaiBalance({ sdaiBalance: '8,884.16 sDAI', estimatedDaiValue: '10,000.173' })
     await savingsPage.expectStablecoinsInWalletAssetBalance('DAI', '-')
@@ -156,7 +153,6 @@ test.describe('Deposit DAI', () => {
 
     await depositDialog.expectSuccessPage()
     await depositDialog.clickBackToSavingsButton()
-    await testContext.testnetController.updateBrowserTime()
 
     await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '9,830.34 sUSDS', estimatedUsdsValue: '10,000.000187' })
     await savingsPage.expectStablecoinsInWalletAssetBalance('DAI', '-')

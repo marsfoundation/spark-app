@@ -55,7 +55,6 @@ export interface SetupOptions<K extends Path, T extends ConnectionType> {
 }
 
 export type ProgressSimulation = (seconds: number) => Promise<void>
-export type UpdateBrowserTime = () => Promise<void>
 export interface TestnetController {
   client: TestnetClient
   progressSimulation: ProgressSimulation

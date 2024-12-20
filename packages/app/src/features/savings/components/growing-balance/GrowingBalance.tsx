@@ -5,8 +5,8 @@ import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { getFractionalPart, getWholePart } from '@/utils/bigNumber'
 import { useTimestamp } from '@/utils/useTimestamp'
-import { SavingsOverview } from '../../logic/makeSavingsOverview'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
+import { SavingsOverview } from '../../logic/makeSavingsOverview'
 
 export interface GrowingBalanceProps {
   savingsTokenWithBalance: TokenWithBalance
