@@ -31,13 +31,6 @@ export function calculateReward({
 
   const accruedEarned = staked.multipliedBy(rewardRate).multipliedBy(BigNumber.max(timeDiff, 0)).dividedBy(totalSupply)
   const earnedInTotal = NormalizedUnitNumber(earned.plus(accruedEarned))
-  console.log({
-    earnedTimestampInMs,
-    timestampInMs,
-    timeDiff,
-    accruedEarned: accruedEarned.toFixed(),
-    earnedInTotal: earnedInTotal.toFixed(),
-  })
 
   return earnedInTotal
 }

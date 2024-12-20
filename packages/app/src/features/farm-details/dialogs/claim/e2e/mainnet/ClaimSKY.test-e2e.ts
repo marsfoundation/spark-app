@@ -3,7 +3,7 @@ import { StakeDialogPageObject } from '@/features/farm-details/dialogs/stake/Sta
 import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { overrideInfoSkyRouteWithHAR } from '@/test/e2e/info-sky'
 import { setup } from '@/test/e2e/setup'
-import { NormalizedUnitNumber, sleep } from '@marsfoundation/common-universal'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { test } from '@playwright/test'
 import { Address } from 'viem'
 import { mainnet } from 'viem/chains'
@@ -62,7 +62,6 @@ test.describe('Claim SKY rewards', () => {
         amountUSD: '2.98',
       },
     })
-    await sleep(100_000)
   })
 
   test('executes transaction', async () => {
