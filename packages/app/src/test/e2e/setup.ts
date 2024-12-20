@@ -7,7 +7,6 @@ import { Address, Hash, parseEther, parseUnits } from 'viem'
 import { AssetsInTests, TOKENS_ON_FORK } from './constants'
 import { getTestnetContext } from './getTestnetContext'
 import { injectNetworkConfiguration, injectWalletConfiguration } from './injectSetup'
-import { syncBrowserTime } from './syncBrowserTime'
 import { generateAccount } from './utils'
 
 export type InjectableWallet = { address: Address } | { privateKey: string }
@@ -83,7 +82,7 @@ export async function setup<K extends Path, T extends ConnectionType>(
 
     const progressedTimestamp = currentTimestamp + BigInt(seconds)
     await testnetClient.setNextBlockTimestamp(progressedTimestamp)
-    await page.evaluate(syncBrowserTime, { rpcUrl: getUrlFromClient(testnetClient) })
+    await page.clock.setFixedTime(Number(currentTimestamp) * 1000)
   }
 
   async function progressSimulationAndMine(seconds: number): Promise<void> {
@@ -188,5 +187,6 @@ async function injectPageSetup({
     await injectNetworkConfiguration(page, getUrlFromClient(testnetClient), options.blockchain.chainId)
   }
 
-  await page.addInitScript(syncBrowserTime, { rpcUrl: getUrlFromClient(testnetClient) })
+  const { timestamp } = await testnetClient.getBlock()
+  await page.clock.setFixedTime(Number(timestamp) * 1000)
 }
