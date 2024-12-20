@@ -632,5 +632,5 @@ async function overrideDaiBalance({
 }: { balance: NormalizedUnitNumber; testContext: TestContext<'connected-random'> }): Promise<void> {
   const dai = TOKENS_ON_FORK[mainnet.id].DAI
   const daiBalance = toBigInt(BaseUnitNumber(balance.shiftedBy(dai.decimals)))
-  testContext.testnetController.client.setErc20Balance(dai.address, testContext.account, daiBalance)
+  return testContext.testnetController.client.setErc20Balance(dai.address, testContext.account, daiBalance)
 }
