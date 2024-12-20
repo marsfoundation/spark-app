@@ -113,6 +113,6 @@ test.describe('Upgrade sDAI to sUSDS', () => {
     await upgradeDialog.expectUpgradeSuccessPage({ token: 'sDAI', amount: '10,000.00', usdValue: '$11,255.99' })
     await upgradeDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '21,065.02 sUSDS', estimatedUsdsValue: '21,428.58' })
+    await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '21,065.02 sUSDS', estimatedUsdsValue: '21,428.579836' })
   })
 })
