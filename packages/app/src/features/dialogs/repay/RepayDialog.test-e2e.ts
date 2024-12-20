@@ -2,7 +2,6 @@ import { repayValidationIssueToMessage } from '@/domain/market-validators/valida
 import { BorrowPageObject } from '@/pages/Borrow.PageObject'
 import { MyPortfolioPageObject } from '@/pages/MyPortfolio.PageObject'
 import { DEFAULT_BLOCK_NUMBER, TOKENS_ON_FORK } from '@/test/e2e/constants'
-import { injectFixedDate } from '@/test/e2e/injectSetup'
 import { TestContext, setup } from '@/test/e2e/setup'
 import { BaseUnitNumber, NormalizedUnitNumber, toBigInt } from '@marsfoundation/common-universal'
 import { test } from '@playwright/test'
@@ -194,9 +193,9 @@ test.describe('Repay dialog', () => {
       await myPortfolioPage.expectHealthFactor('3.73')
 
       // forcefully set browser time to the timestamp of borrow transaction
-      const block = await testContext.testnetController.client.getBlock()
-      await injectFixedDate(page, new Date(Number(block.timestamp) * 1000))
-      await page.reload()
+      // const block = await testContext.testnetController.client.getBlock()
+      // await injectFixedDate(page, new Date(Number(block.timestamp) * 1000))
+      // await page.reload()
     })
 
     test('can repay if balance is less than debt', async ({ page }) => {

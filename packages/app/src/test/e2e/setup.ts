@@ -7,10 +7,10 @@ import { Address, Hash, parseEther, parseUnits } from 'viem'
 import { AssetsInTests, TOKENS_ON_FORK } from './constants'
 import { getTestnetContext } from './getTestnetContext'
 import {
-  injectFixedDate,
   injectNetworkConfiguration,
   injectUpdatedDate,
   injectWalletConfiguration,
+  overrideDateClass,
 } from './injectSetup'
 import { generateAccount } from './utils'
 
@@ -183,8 +183,6 @@ async function injectPageSetup({
   testnetClient: TestnetClient
   options: SetupOptions<any, any>
 }): Promise<void> {
-  const blockchainTimestamp = (await testnetClient.getBlock()).timestamp
-
   if (options.skipInjectingNetwork === true) {
     // if explicitly disabled, do not inject network config abort all network requests to RPC providers
     await page.route(/alchemy/, (route) => route.abort())
@@ -192,5 +190,11 @@ async function injectPageSetup({
   } else {
     await injectNetworkConfiguration(page, getUrlFromClient(testnetClient), options.blockchain.chainId)
   }
-  await injectFixedDate(page, new Date(Number(blockchainTimestamp) * 1000))
+
+  await page.addInitScript(async () => {
+    const { timestamp } = await testnetClient.getBlock()
+    const date = new Date(Number(timestamp) * 1000)
+    overrideDateClass(date.valueOf())
+  }, [testnetClient])
+  // await injectFixedDate(page, new Date(Number(blockchainTimestamp) * 1000))
 }

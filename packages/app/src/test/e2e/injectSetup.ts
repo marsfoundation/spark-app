@@ -58,7 +58,7 @@ export async function injectUpdatedDate(page: Page, date: Date): Promise<void> {
   await page.evaluate(overrideDateClass, fakeNow)
 }
 
-function overrideDateClass(fakeNow: number): void {
+export function overrideDateClass(fakeNow: number): void {
   // biome-ignore lint/suspicious/noGlobalAssign: <explanation>
   // @ts-ignore
   Date = class extends Date {
