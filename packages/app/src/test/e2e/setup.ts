@@ -60,7 +60,6 @@ export interface TestnetController {
   client: TestnetClient
   progressSimulation: ProgressSimulation
   progressSimulationAndMine: ProgressSimulation
-  updateBrowserTime: UpdateBrowserTime
 }
 
 export type TestContext<T extends ConnectionType> = (T extends 'not-connected' ? {} : { account: Address }) & {
@@ -79,11 +78,6 @@ export async function setup<K extends Path, T extends ConnectionType>(
   await injectPageSetup({ page, testnetClient, options })
   const address = await setupAccount({ page, testnetClient, options: options.account })
   await page.goto(buildUrl(options.initialPage, options.initialPageParams))
-
-  async function updateBrowserTime(): Promise<void> {
-    await testnetClient.mineBlocks(1n)
-    await page.evaluate(syncBrowserTime, { rpcUrl: getUrlFromClient(testnetClient) })
-  }
 
   async function progressSimulation(seconds: number): Promise<void> {
     const { timestamp: currentTimestamp } = await testnetClient.getBlock()
@@ -106,7 +100,6 @@ export async function setup<K extends Path, T extends ConnectionType>(
     client: testnetClient,
     progressSimulation,
     progressSimulationAndMine,
-    updateBrowserTime,
   }
 
   return {
