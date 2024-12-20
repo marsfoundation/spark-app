@@ -20,26 +20,26 @@ export type AssetBalances = Partial<Record<AssetsInTests, number>>
 export type ConnectionType = 'not-connected' | 'connected-random' | 'connected-pkey' | 'connected-address'
 export type AccountOptions<T extends ConnectionType> = T extends 'not-connected'
   ? {
-    type: T
-  }
+      type: T
+    }
   : T extends 'connected-random'
-  ? {
-    type: T
-    assetBalances?: Partial<Record<AssetsInTests, number>>
-  }
-  : T extends 'connected-pkey'
-  ? {
-    type: T
-    privateKey: Hash
-    assetBalances?: Partial<Record<AssetsInTests, number>>
-  }
-  : T extends 'connected-address'
-  ? {
-    type: T
-    address: Address
-    assetBalances?: Partial<Record<AssetsInTests, number>>
-  }
-  : never
+    ? {
+        type: T
+        assetBalances?: Partial<Record<AssetsInTests, number>>
+      }
+    : T extends 'connected-pkey'
+      ? {
+          type: T
+          privateKey: Hash
+          assetBalances?: Partial<Record<AssetsInTests, number>>
+        }
+      : T extends 'connected-address'
+        ? {
+            type: T
+            address: Address
+            assetBalances?: Partial<Record<AssetsInTests, number>>
+          }
+        : never
 
 export interface BlockchainOptions {
   chainId: number
