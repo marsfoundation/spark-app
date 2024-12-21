@@ -26,12 +26,11 @@ test.describe('Withdraw dialog', () => {
     } as const
     const daiToBorrow = 3500
 
-    let testContext: TestContext<'connected-random'>
     let withdrawDialog: DialogPageObject
     let myPortfolioPage: MyPortfolioPageObject
 
     test.beforeEach(async ({ page }) => {
-      testContext = await setup(page, {
+      const testContext = await setup(page, {
         blockchain: {
           blockNumber: DEFAULT_BLOCK_NUMBER,
           chainId: mainnet.id,
@@ -66,7 +65,6 @@ test.describe('Withdraw dialog', () => {
     })
 
     test('calculates health factor changes correctly', async () => {
-      const myPortfolioPage = new MyPortfolioPageObject(testContext)
       await myPortfolioPage.clickWithdrawButtonAction('rETH')
 
       await withdrawDialog.fillAmountAction(1)
@@ -112,12 +110,11 @@ test.describe('Withdraw dialog', () => {
     } as const
     const daiToBorrow = 4500
 
-    let testContext: TestContext<'connected-random'>
     let withdrawDialog: DialogPageObject
     let myPortfolioPage: MyPortfolioPageObject
 
     test.beforeEach(async ({ page }) => {
-      testContext = await setup(page, {
+      const testContext = await setup(page, {
         blockchain: {
           blockNumber: DEFAULT_BLOCK_NUMBER,
           chainId: mainnet.id,
@@ -170,12 +167,11 @@ test.describe('Withdraw dialog', () => {
       amount: 1000,
     }
 
-    let testContext: TestContext<'connected-random'>
     let withdrawDialog: DialogPageObject
     let myPortfolioPage: MyPortfolioPageObject
 
     test.beforeEach(async ({ page }) => {
-      testContext = await setup(page, {
+      const testContext = await setup(page, {
         blockchain: {
           blockNumber: DEFAULT_BLOCK_NUMBER,
           chainId: mainnet.id,
@@ -248,12 +244,11 @@ test.describe('Withdraw dialog', () => {
       ETH: 2,
     } as const
 
-    let testContext: TestContext<'connected-random'>
     let withdrawDialog: DialogPageObject
     let myPortfolioPage: MyPortfolioPageObject
 
     test.beforeEach(async ({ page }) => {
-      testContext = await setup(page, {
+      const testContext = await setup(page, {
         blockchain: {
           blockNumber: DEFAULT_BLOCK_NUMBER,
           chainId: mainnet.id,
