@@ -159,7 +159,7 @@ export class SavingsPageObject extends BasePageObject {
   async expectStablecoinsInWalletAssetBalance(assetName: string, value: string): Promise<void> {
     const panel = this.locateStablecoinsInWalletPanel()
     const row = (() => {
-      if (assetName === 'DAI') {
+      if (assetName === 'DAI' && value !== '-') {
         return panel
           .getByRole('row')
           .filter({ has: this.page.getByTestId(testIds.savings.stablecoinsInWallet.upgradeDaiToUsdsCell) })
