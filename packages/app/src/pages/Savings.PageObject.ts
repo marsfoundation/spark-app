@@ -158,7 +158,16 @@ export class SavingsPageObject extends BasePageObject {
 
   async expectStablecoinsInWalletAssetBalance(assetName: string, value: string): Promise<void> {
     const panel = this.locateStablecoinsInWalletPanel()
-    const row = panel.getByRole('row').filter({ has: this.page.getByRole('cell', { name: assetName, exact: true }) })
+    const row = (() => {
+      if (assetName === 'DAI') {
+        return panel
+          .getByRole('row')
+          .filter({ has: this.page.getByTestId(testIds.savings.stablecoinsInWallet.upgradeDaiToUsdsCell) })
+      }
+
+      return panel.getByRole('row').filter({ has: this.page.getByRole('cell', { name: assetName, exact: true }) })
+    })()
+
     await expect(row.getByRole('cell', { name: value })).toBeVisible()
   }
 
