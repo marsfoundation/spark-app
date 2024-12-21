@@ -191,11 +191,6 @@ test.describe('Repay dialog', () => {
       repayDialog = new DialogPageObject({ testContext, header: headerRegExp })
 
       await myPortfolioPage.expectHealthFactor('3.73')
-
-      // forcefully set browser time to the timestamp of borrow transaction
-      // const block = await testContext.testnetController.client.getBlock()
-      // await injectFixedDate(page, new Date(Number(block.timestamp) * 1000))
-      // await page.reload()
     })
 
     test('can repay if balance is less than debt', async ({ page }) => {
