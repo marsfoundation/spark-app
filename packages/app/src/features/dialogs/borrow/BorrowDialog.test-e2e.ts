@@ -194,20 +194,9 @@ test.describe('Borrow dialog', () => {
       const borrowPage = new BorrowPageObject(testContext)
       myPortfolioPage = new MyPortfolioPageObject(testContext)
       borrowDialog = new DialogPageObject({ testContext, header })
-      // to simulate a position with only deposits, we go through the easy borrow flow
-      // but interrupt it before the borrow action, going directly to the myPortfolio
-      // this way we have deposit transactions executed, but no borrow transaction
-      // resulting in a position with only deposits
-      await borrowPage.fillDepositAssetAction(0, 'wstETH', initialDeposits.wstETH)
-      await borrowPage.addNewDepositAssetAction()
-      await borrowPage.fillBorrowAssetAction(1) // doesn't matter, we're not borrowing anything
-      await borrowPage.fillDepositAssetAction(1, 'rETH', initialDeposits.rETH)
-      await borrowPage.submitAction()
-
-      for (let i = 0; i < 4; i++) {
-        await borrowPage.actionsContainer.acceptActionAtIndex(i)
-      }
-      await borrowPage.actionsContainer.expectEnabledActionAtIndex(4)
+      await borrowPage.depositWithoutBorrowActions({
+        assetsToDeposit: { ...initialDeposits },
+      })
 
       await myPortfolioPage.goToMyPortfolioAction()
       await myPortfolioPage.expectDepositedAssets('$18.16K')
