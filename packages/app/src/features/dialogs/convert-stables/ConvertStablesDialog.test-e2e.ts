@@ -10,7 +10,7 @@ test.describe('Convert Stables Dialog', () => {
   let convertStablesDialog: ConvertStablesDialogPageObject
 
   test.beforeEach(async ({ page }) => {
-    const testContext =await setup(page, {
+    const testContext = await setup(page, {
       blockchain: {
         blockNumber: DEFAULT_BLOCK_NUMBER,
         chainId: mainnet.id,

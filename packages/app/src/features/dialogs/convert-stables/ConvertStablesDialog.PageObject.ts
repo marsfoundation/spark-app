@@ -5,7 +5,7 @@ import { Locator, expect } from '@playwright/test'
 
 export class ConvertStablesDialogPageObject extends DialogPageObject {
   constructor(testContext: TestContext<any>) {
-    super({testContext, header: /Convert Tokens/})
+    super({ testContext, header: /Convert Tokens/ })
   }
 
   // # region locators
