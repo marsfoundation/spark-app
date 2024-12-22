@@ -10,13 +10,15 @@ interface TestnetContext {
 
 const testnetCache = new Map<string, TestnetContext>()
 for (const eventType of ['exit', 'SIGINT', 'SIGUSR1', 'SIGUSR2', 'uncaughtException', 'SIGTERM']) {
-  process.on(eventType, () => {
+  process.on(eventType, async () => {
     const keys = Array.from(testnetCache.keys())
-    for (const key of keys) {
-      const context = testnetCache.get(key)!
-      testnetCache.delete(key)
-      return context.cleanup()
-    }
+    return Promise.all(
+      keys.map(async (key) => {
+        const context = testnetCache.get(key)!
+        testnetCache.delete(key)
+        return context.cleanup()
+      }),
+    )
   })
 }
 
