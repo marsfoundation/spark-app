@@ -6,7 +6,10 @@ import { mainnet } from 'viem/chains'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 
 test.describe('Without send mode', () => {
-  test('can switch between tokens', async ({ page }) => {
+  let withdrawalDialog: SavingsDialogPageObject
+  let savingsPage: SavingsPageObject
+
+  test.beforeEach(async ({ page }) => {
     const testContext = await setup(page, {
       blockchain: {
         chainId: mainnet.id,
@@ -22,12 +25,13 @@ test.describe('Without send mode', () => {
       },
     })
 
-    const savingsPage = new SavingsPageObject(testContext)
-
+    savingsPage = new SavingsPageObject(testContext)
     await savingsPage.clickWithdrawSDaiButtonAction()
 
-    const withdrawalDialog = new SavingsDialogPageObject({ testContext, type: 'withdraw' })
+    withdrawalDialog = new SavingsDialogPageObject({ testContext, type: 'withdraw' })
+  })
 
+  test('can switch between tokens', async () => {
     await withdrawalDialog.fillAmountAction(1000)
     await withdrawalDialog.actionsContainer.expectEnabledActionAtIndex(0)
     await withdrawalDialog.actionsContainer.expectActions([
@@ -48,6 +52,16 @@ test.describe('Without send mode', () => {
     await withdrawalDialog.actionsContainer.expectActions([
       { type: 'withdrawFromSavings', asset: 'DAI', savingsAsset: 'sDAI', mode: 'withdraw' },
     ])
+  })
+
+  test('can click max after switching tokens', async () => {
+    await withdrawalDialog.expectInputValue('')
+    await withdrawalDialog.clickMaxAmountAction()
+    await withdrawalDialog.expectInputValue('1125.599162')
+    await withdrawalDialog.selectAssetAction('USDC')
+    await withdrawalDialog.expectInputValue('')
+    await withdrawalDialog.clickMaxAmountAction()
+    await withdrawalDialog.expectInputValue('1125.599162')
   })
 })
 
