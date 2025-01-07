@@ -1,21 +1,23 @@
-import { Page, expect } from '@playwright/test'
-
-import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
+import { TestContext } from '@/test/e2e/setup'
 import { testIds } from '@/ui/utils/testIds'
-
+import { expect } from '@playwright/test'
 import { CollateralSetting } from '../collateral/types'
 import { DialogPageObject } from '../common/Dialog.PageObject'
 
 export class CollateralDialogPageObject extends DialogPageObject {
-  constructor(page: Page) {
-    super(page, /.*/)
-    this.region = this.locateDialogByHeader('Collateral')
+  constructor(testContext: TestContext) {
+    super({ testContext, header: /Collateral/ })
   }
 
   // #region actions
-  async setUseAsCollateralAction(assetName: string, setting: CollateralSetting): Promise<void> {
-    const actionsContainer = new ActionsPageObject(this.locatePanelByHeader('Actions'))
-    await actionsContainer.acceptAllActionsAction(1)
+  async setUseAsCollateralAction({
+    assetName,
+    setting,
+  }: {
+    assetName: string
+    setting: CollateralSetting
+  }): Promise<void> {
+    await this.actionsContainer.acceptAllActionsAction(1)
 
     // assertion used for waiting
     if (setting === 'enabled') {

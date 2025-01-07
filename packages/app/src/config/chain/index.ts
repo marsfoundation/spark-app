@@ -18,7 +18,6 @@ import { zeroAddress } from 'viem'
 import { base, gnosis, mainnet } from 'viem/chains'
 import { NATIVE_ASSET_MOCK_ADDRESS, infoSkyApiUrl } from '../consts'
 import { AppConfig } from '../feature-flags'
-import { PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY } from '../wagmi/config.e2e'
 import { SUPPORTED_CHAINS, farmAddresses, farmStablecoinsEntryGroup, susdsAddresses } from './constants'
 import { ChainConfigEntry, ChainMeta, SupportedChainId } from './types'
 
@@ -32,16 +31,13 @@ const commonTokenSymbolToReplacedName = {
   [TokenSymbol('weETH')]: { name: 'Ether.fi Staked ETH', symbol: TokenSymbol('weETH') },
 }
 
-const PLAYWRIGHT_MAINNET_USDS_CONTRACTS_NOT_AVAILABLE =
-  import.meta.env.VITE_PLAYWRIGHT === '1' && (window as any)[PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY] === true
-
 const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
   [mainnet.id]: {
     originChainId: mainnet.id,
     daiSymbol: TokenSymbol('DAI'),
     sdaiSymbol: TokenSymbol('sDAI'),
-    usdsSymbol: PLAYWRIGHT_MAINNET_USDS_CONTRACTS_NOT_AVAILABLE ? undefined : TokenSymbol('USDS'),
-    susdsSymbol: PLAYWRIGHT_MAINNET_USDS_CONTRACTS_NOT_AVAILABLE ? undefined : TokenSymbol('sUSDS'),
+    usdsSymbol: TokenSymbol('USDS'),
+    susdsSymbol: TokenSymbol('sUSDS'),
     psmStables: [TokenSymbol('DAI'), TokenSymbol('USDC'), TokenSymbol('USDS')],
     meta: {
       name: 'Ethereum Mainnet',
@@ -89,25 +85,21 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
         oracleType: 'vault',
         address: CheckedAddress('0x83f20f44975d03b1b09e64809b757c47f942beea'),
       },
-      ...(PLAYWRIGHT_MAINNET_USDS_CONTRACTS_NOT_AVAILABLE
-        ? []
-        : ([
-            {
-              symbol: TokenSymbol('sUSDS'),
-              oracleType: 'vault',
-              address: susdsAddresses[mainnet.id],
-            },
-            {
-              symbol: TokenSymbol('USDS'),
-              oracleType: 'fixed-usd',
-              address: CheckedAddress('0xdC035D45d973E3EC169d2276DDab16f1e407384F'),
-            },
-            {
-              symbol: TokenSymbol('SKY'),
-              oracleType: 'zero-price',
-              address: CheckedAddress('0x56072C95FAA701256059aa122697B133aDEd9279'),
-            },
-          ] as const)),
+      {
+        symbol: TokenSymbol('sUSDS'),
+        oracleType: 'vault',
+        address: susdsAddresses[mainnet.id],
+      },
+      {
+        symbol: TokenSymbol('USDS'),
+        oracleType: 'fixed-usd',
+        address: CheckedAddress('0xdC035D45d973E3EC169d2276DDab16f1e407384F'),
+      },
+      {
+        symbol: TokenSymbol('SKY'),
+        oracleType: 'zero-price',
+        address: CheckedAddress('0x56072C95FAA701256059aa122697B133aDEd9279'),
+      },
     ],
     markets: {
       defaultAssetToBorrow: TokenSymbol('DAI'),
@@ -165,12 +157,8 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
     },
     savings: {
       savingsDaiInfoQuery: mainnetSavingsDaiInfoQuery,
-      savingsUsdsInfoQuery: PLAYWRIGHT_MAINNET_USDS_CONTRACTS_NOT_AVAILABLE ? undefined : mainnetSavingsUsdsInfoQuery,
-      inputTokens: [
-        TokenSymbol('DAI'),
-        TokenSymbol('USDC'),
-        ...(PLAYWRIGHT_MAINNET_USDS_CONTRACTS_NOT_AVAILABLE ? [] : [TokenSymbol('USDS')]),
-      ],
+      savingsUsdsInfoQuery: mainnetSavingsUsdsInfoQuery,
+      inputTokens: [TokenSymbol('DAI'), TokenSymbol('USDC'), TokenSymbol('USDS')],
       getEarningsApiUrl: (address) => `${infoSkyApiUrl}/savings-rate/wallets/${address.toLowerCase()}/?days_ago=9999`,
       savingsRateApiUrl: `${infoSkyApiUrl}/savings-rate/`,
     },

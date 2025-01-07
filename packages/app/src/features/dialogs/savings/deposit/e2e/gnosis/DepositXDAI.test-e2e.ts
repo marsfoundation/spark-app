@@ -1,23 +1,20 @@
-import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
 import { GNOSIS_DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
-import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { gnosis } from 'viem/chains'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 
 test.describe('Deposit XDAI on Gnosis', () => {
-  const fork = setupFork({
-    blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER,
-    chainId: gnosis.id,
-    useTenderlyVnet: true,
-  })
   let savingsPage: SavingsPageObject
   let depositDialog: SavingsDialogPageObject
 
   test.beforeEach(async ({ page }) => {
-    await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: {
+        chainId: gnosis.id,
+        blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER,
+      },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -27,10 +24,10 @@ test.describe('Deposit XDAI on Gnosis', () => {
       },
     })
 
-    savingsPage = new SavingsPageObject(page)
+    savingsPage = new SavingsPageObject(testContext)
     await savingsPage.clickDepositButtonAction('XDAI')
 
-    depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
+    depositDialog = new SavingsDialogPageObject({ testContext, type: 'deposit' })
     await depositDialog.fillAmountAction(10_000)
   })
 
@@ -62,8 +59,7 @@ test.describe('Deposit XDAI on Gnosis', () => {
   })
 
   test('executes deposit', async () => {
-    const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
-    await actionsContainer.acceptAllActionsAction(1, fork)
+    await depositDialog.actionsContainer.acceptAllActionsAction(1)
 
     await depositDialog.expectSuccessPage()
     await depositDialog.clickBackToSavingsButton()

@@ -1,19 +1,21 @@
-import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { USDS_ACTIVATED_BLOCK_NUMBER } from '@/test/e2e/constants'
-import { setupFork } from '@/test/e2e/forking/setupFork'
-import { setup } from '@/test/e2e/setup'
+import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
+import { TestContext, setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 
 test.describe('Deposit DAI', () => {
-  const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
   let savingsPage: SavingsPageObject
   let depositDialog: SavingsDialogPageObject
+  let testContext: TestContext<'connected-random'>
 
   test.beforeEach(async ({ page }) => {
-    await setup(page, fork, {
+    testContext = await setup(page, {
+      blockchain: {
+        chainId: mainnet.id,
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+      },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -24,10 +26,10 @@ test.describe('Deposit DAI', () => {
       },
     })
 
-    savingsPage = new SavingsPageObject(page)
+    savingsPage = new SavingsPageObject(testContext)
     await savingsPage.clickDepositButtonAction('DAI')
 
-    depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
+    depositDialog = new SavingsDialogPageObject({ testContext, type: 'deposit' })
     await depositDialog.fillAmountAction(10_000)
   })
 
@@ -42,8 +44,8 @@ test.describe('Deposit DAI', () => {
     test('displays transaction overview', async () => {
       await depositDialog.expectNativeRouteTransactionOverview({
         apy: {
-          value: '6.25%',
-          description: 'Earn ~625.00 USDS/year',
+          value: '12.50%',
+          description: 'Earn ~1,250.00 USDS/year',
         },
         routeItems: [
           {
@@ -55,23 +57,25 @@ test.describe('Deposit DAI', () => {
             tokenUsdValue: '$10,000.00',
           },
           {
-            tokenAmount: '9,999.77 sUSDS',
+            tokenAmount: '9,830.34 sUSDS',
             tokenUsdValue: '$10,000.00',
           },
         ],
-        outcome: '9,999.77 sUSDS',
+        outcome: '9,830.34 sUSDS',
         outcomeUsd: '$10,000.00',
       })
     })
 
     test('executes deposit', async () => {
-      const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.acceptAllActionsAction(2)
+      await depositDialog.actionsContainer.acceptAllActionsAction(2)
 
       await depositDialog.expectSuccessPage()
       await depositDialog.clickBackToSavingsButton()
 
-      await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '9,999.77 sUSDS', estimatedUsdsValue: '10,000' })
+      await savingsPage.expectSavingsUsdsBalance({
+        susdsBalance: '9,830.34 sUSDS',
+        estimatedUsdsValue: '10,000.000000',
+      })
       await savingsPage.expectStablecoinsInWalletAssetBalance('DAI', '-')
     })
   })
@@ -91,8 +95,8 @@ test.describe('Deposit DAI', () => {
     test('displays transaction overview', async () => {
       await depositDialog.expectNativeRouteTransactionOverview({
         apy: {
-          value: '6.00%',
-          description: 'Earn ~600.00 DAI/year',
+          value: '11.50%',
+          description: 'Earn ~1,150.00 DAI/year',
         },
         routeItems: [
           {
@@ -100,23 +104,22 @@ test.describe('Deposit DAI', () => {
             tokenUsdValue: '$10,000.00',
           },
           {
-            tokenAmount: '9,020.46 sDAI',
+            tokenAmount: '8,884.16 sDAI',
             tokenUsdValue: '$10,000.00',
           },
         ],
-        outcome: '9,020.46 sDAI',
+        outcome: '8,884.16 sDAI',
         outcomeUsd: '$10,000.00',
       })
     })
 
     test('executes deposit', async () => {
-      const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.acceptAllActionsAction(2)
+      await depositDialog.actionsContainer.acceptAllActionsAction(2)
 
       await depositDialog.expectSuccessPage()
       await depositDialog.clickBackToSavingsButton()
 
-      await savingsPage.expectSavingsDaiBalance({ sdaiBalance: '9,020.46 sDAI', estimatedDaiValue: '10,000' })
+      await savingsPage.expectSavingsDaiBalance({ sdaiBalance: '8,884.16 sDAI', estimatedDaiValue: '10,000.000000' })
       await savingsPage.expectStablecoinsInWalletAssetBalance('DAI', '-')
     })
   })
@@ -133,7 +136,7 @@ test.describe('Deposit DAI', () => {
     await depositDialog.expectSuccessPage()
     await depositDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsDaiBalance({ sdaiBalance: '9,020.46 sDAI', estimatedDaiValue: '10,000' })
+    await savingsPage.expectSavingsDaiBalance({ sdaiBalance: '8,884.16 sDAI', estimatedDaiValue: '10,000.000000' })
     await savingsPage.expectStablecoinsInWalletAssetBalance('DAI', '-')
   })
 
@@ -151,7 +154,7 @@ test.describe('Deposit DAI', () => {
     await depositDialog.expectSuccessPage()
     await depositDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '9,999.77 sUSDS', estimatedUsdsValue: '10,000' })
+    await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '9,830.34 sUSDS', estimatedUsdsValue: '10,000.000000' })
     await savingsPage.expectStablecoinsInWalletAssetBalance('DAI', '-')
   })
 })
