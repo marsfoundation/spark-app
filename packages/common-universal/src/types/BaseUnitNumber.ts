@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 
 import { assert, NumberLike } from '../index.js'
-import { bigNumberify } from '../math/index.js'
+import { bigNumberify } from '../math/bigNumber.js'
 import { NormalizedUnitNumber } from './NormalizedUnitNumber.js'
 import { Opaque } from './Opaque.js'
 

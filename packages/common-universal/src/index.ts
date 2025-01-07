@@ -8,7 +8,8 @@ export * from './types/UnixTime.js'
 export * from './types/PrivateKey.js'
 export * from './types/Opaque.js'
 
-export * from './math/index.js'
+export * from './math/bigNumber.js'
+export * from './math/hexUtils.js'
 
 export * from './assert/assert.js'
 export * from './assert/AssertionError.js'
