@@ -3,7 +3,7 @@ import { TestnetFactory } from '../TestnetFactory'
 import { AnvilTestnetFactory } from '../anvil'
 import { TenderlyTestnetFactory } from '../tenderly'
 
-export function createTestnetClientsForE2ETests(): TestnetFactory[] {
+export function createTestnetFactoriesForE2ETests(): TestnetFactory[] {
   const env = getEnv()
 
   return [

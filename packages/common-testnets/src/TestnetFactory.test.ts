@@ -1,10 +1,10 @@
 import { expect } from 'earl'
 import { after, before, describe, it } from 'mocha'
 import { TestnetClient } from './TestnetClient'
-import { createTestnetClientsForE2ETests } from './test-utils'
+import { createTestnetFactoriesForE2ETests } from './test-utils'
 
 describe('TestnetFactory', () => {
-  const factories = createTestnetClientsForE2ETests()
+  const factories = createTestnetFactoriesForE2ETests()
 
   for (const factory of factories) {
     describe(factory.constructor.name, () => {

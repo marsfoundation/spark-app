@@ -1,1 +1,1 @@
-export { createTestnetClientsForE2ETests } from './createTestnetClientsForE2ETests'
+export { createTestnetFactoriesForE2ETests } from './createTestnetFactoriesForE2ETests'
