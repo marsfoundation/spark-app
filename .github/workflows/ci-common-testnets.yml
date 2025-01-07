@@ -4,7 +4,7 @@ on:
   pull_request:
     paths:
       - "packages/common-testnets/**"
-      - "pnpm-lock.yaml"
+      - ".github/workflows/ci-common-testnets.yml"
   push:
     branches:
       - main
