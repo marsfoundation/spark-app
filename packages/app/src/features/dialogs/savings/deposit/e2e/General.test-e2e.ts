@@ -1,25 +1,21 @@
-import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { GNOSIS_DEFAULT_BLOCK_NUMBER, LITE_PSM_ACTIONS_OPERABLE } from '@/test/e2e/constants'
-import { setupFork } from '@/test/e2e/forking/setupFork'
+import { BASE_DEFAULT_BLOCK_NUMBER, DEFAULT_BLOCK_NUMBER, GNOSIS_DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { base, gnosis, mainnet } from 'viem/chains'
-import { SavingsDialogPageObject } from '../common/e2e/SavingsDialog.PageObject'
+import { SavingsDialogPageObject } from '../../common/e2e/SavingsDialog.PageObject'
 
 test.describe('Savings deposit dialog', () => {
   test.describe('Mainnet', () => {
-    const fork = setupFork({
-      blockNumber: LITE_PSM_ACTIONS_OPERABLE,
-      chainId: mainnet.id,
-      useTenderlyVnet: true,
-    })
-
     let depositDialog: SavingsDialogPageObject
     let savingsPage: SavingsPageObject
 
     test.beforeEach(async ({ page }) => {
-      await setup(page, fork, {
+      const testContext = await setup(page, {
+        blockchain: {
+          chainId: mainnet.id,
+          blockNumber: DEFAULT_BLOCK_NUMBER,
+        },
         initialPage: 'savings',
         account: {
           type: 'connected-random',
@@ -31,52 +27,63 @@ test.describe('Savings deposit dialog', () => {
         },
       })
 
-      savingsPage = new SavingsPageObject(page)
+      savingsPage = new SavingsPageObject(testContext)
       await savingsPage.clickStartSavingButtonAction()
 
-      depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
+      depositDialog = new SavingsDialogPageObject({ testContext, type: 'deposit' })
     })
 
     test('can switch between tokens', async () => {
-      const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
-
       await depositDialog.fillAmountAction(1000)
-      await actionsContainer.expectEnabledActionAtIndex(0)
-      await actionsContainer.expectActions([
+      await depositDialog.actionsContainer.expectEnabledActionAtIndex(0)
+      await depositDialog.actionsContainer.expectActions([
         { type: 'approve', asset: 'DAI' },
-        { type: 'depositToSavings', asset: 'DAI', savingsAsset: 'sDAI' },
+        { type: 'depositToSavings', asset: 'DAI', savingsAsset: 'sUSDS' },
       ])
 
       await depositDialog.selectAssetAction('USDC')
       await depositDialog.fillAmountAction(1000)
-      await actionsContainer.expectEnabledActionAtIndex(0)
-      await actionsContainer.expectActions([
+      await depositDialog.actionsContainer.expectEnabledActionAtIndex(0)
+      await depositDialog.actionsContainer.expectActions([
         { type: 'approve', asset: 'USDC' },
-        { type: 'depositToSavings', asset: 'USDC', savingsAsset: 'sDAI' },
+        { type: 'depositToSavings', asset: 'USDC', savingsAsset: 'sUSDS' },
       ])
 
       await depositDialog.selectAssetAction('DAI')
       await depositDialog.fillAmountAction(1000)
-      await actionsContainer.expectEnabledActionAtIndex(0)
-      await actionsContainer.expectActions([
+      await depositDialog.actionsContainer.expectEnabledActionAtIndex(0)
+      await depositDialog.actionsContainer.expectActions([
         { type: 'approve', asset: 'DAI' },
-        { type: 'depositToSavings', asset: 'DAI', savingsAsset: 'sDAI' },
+        { type: 'depositToSavings', asset: 'DAI', savingsAsset: 'sUSDS' },
       ])
     })
 
     test('can select only supported assets', async () => {
       await depositDialog.openAssetSelectorAction()
-      await depositDialog.expectAssetSelectorOptions(['DAI', 'USDC'])
+      await depositDialog.expectAssetSelectorOptions(['DAI', 'USDC', 'USDS'])
+    })
+
+    test('can click max after switching tokens', async () => {
+      await depositDialog.expectInputValue('')
+      await depositDialog.clickMaxAmountAction()
+      await depositDialog.expectInputValue('10000')
+      await depositDialog.selectAssetAction('USDC')
+      await depositDialog.expectInputValue('')
+      await depositDialog.clickMaxAmountAction()
+      await depositDialog.expectInputValue('10000')
     })
   })
 
   test.describe('Gnosis', () => {
-    const fork = setupFork({ blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER, chainId: gnosis.id, useTenderlyVnet: true })
     let savingsPage: SavingsPageObject
     let depositDialog: SavingsDialogPageObject
 
     test.beforeEach(async ({ page }) => {
-      await setup(page, fork, {
+      const testContext = await setup(page, {
+        blockchain: {
+          chainId: gnosis.id,
+          blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER,
+        },
         initialPage: 'savings',
         account: {
           type: 'connected-random',
@@ -86,10 +93,10 @@ test.describe('Savings deposit dialog', () => {
         },
       })
 
-      savingsPage = new SavingsPageObject(page)
+      savingsPage = new SavingsPageObject(testContext)
       await savingsPage.clickStartSavingButtonAction()
 
-      depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
+      depositDialog = new SavingsDialogPageObject({ testContext, type: 'deposit' })
     })
 
     test('can select only supported assets', async () => {
@@ -99,13 +106,15 @@ test.describe('Savings deposit dialog', () => {
   })
 
   test.describe('Base', () => {
-    const fork = setupFork({ chainId: base.id, blockNumber: 22143788n, useTenderlyVnet: true })
-
     let depositDialog: SavingsDialogPageObject
     let savingsPage: SavingsPageObject
 
     test.beforeEach(async ({ page }) => {
-      await setup(page, fork, {
+      const testContext = await setup(page, {
+        blockchain: {
+          chainId: base.id,
+          blockNumber: BASE_DEFAULT_BLOCK_NUMBER,
+        },
         initialPage: 'savings',
         account: {
           type: 'connected-random',
@@ -116,34 +125,32 @@ test.describe('Savings deposit dialog', () => {
         },
       })
 
-      savingsPage = new SavingsPageObject(page)
+      savingsPage = new SavingsPageObject(testContext)
       await savingsPage.clickStartSavingButtonAction()
 
-      depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
+      depositDialog = new SavingsDialogPageObject({ testContext, type: 'deposit' })
     })
 
     test('can switch between tokens', async () => {
-      const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
-
       await depositDialog.fillAmountAction(1000)
-      await actionsContainer.expectEnabledActionAtIndex(0)
-      await actionsContainer.expectActions([
+      await depositDialog.actionsContainer.expectEnabledActionAtIndex(0)
+      await depositDialog.actionsContainer.expectActions([
         { type: 'approve', asset: 'USDS' },
         { type: 'depositToSavings', asset: 'USDS', savingsAsset: 'sUSDS' },
       ])
 
       await depositDialog.selectAssetAction('USDC')
       await depositDialog.fillAmountAction(1000)
-      await actionsContainer.expectEnabledActionAtIndex(0)
-      await actionsContainer.expectActions([
+      await depositDialog.actionsContainer.expectEnabledActionAtIndex(0)
+      await depositDialog.actionsContainer.expectActions([
         { type: 'approve', asset: 'USDC' },
         { type: 'depositToSavings', asset: 'USDC', savingsAsset: 'sUSDS' },
       ])
 
       await depositDialog.selectAssetAction('USDS')
       await depositDialog.fillAmountAction(1000)
-      await actionsContainer.expectEnabledActionAtIndex(0)
-      await actionsContainer.expectActions([
+      await depositDialog.actionsContainer.expectEnabledActionAtIndex(0)
+      await depositDialog.actionsContainer.expectActions([
         { type: 'approve', asset: 'USDS' },
         { type: 'depositToSavings', asset: 'USDS', savingsAsset: 'sUSDS' },
       ])

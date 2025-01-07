@@ -81,6 +81,8 @@
     "zustand": "^4.4.1"
   },
   "devDependencies": {
+    "@marsfoundation/common-nodejs": "workspace:^",
+    "@marsfoundation/common-testnets": "workspace:^",
     "@chromatic-com/storybook": "^1.5.0",
     "@playwright/test": "^1.47.2",
     "@sentry/react": "^7.114.0",

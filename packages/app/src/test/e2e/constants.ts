@@ -56,6 +56,10 @@ const TOKENS_ON_MAINNET = {
     address: '0x56072c95faa701256059aa122697b133aded9279',
     decimals: 18,
   },
+  cbBTC: {
+    address: '0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf',
+    decimals: 8,
+  },
 } as const
 
 export const TOKENS_ON_FORK = {
@@ -118,22 +122,16 @@ type NonNativeTokens =
   | keyof (typeof TOKENS_ON_FORK)[8453]
 export type AssetsInTests = 'ETH' | 'XDAI' | NonNativeTokens
 
-// @note At this block number:
-// DAI oracle returns exactly 1
-// GNO is offboarded
-export const DEFAULT_BLOCK_NUMBER = 19092430n
-export const GNOSIS_DEFAULT_BLOCK_NUMBER = 34543308n
-export const USDS_ACTIVATED_BLOCK_NUMBER = 20771186n
-
-export const LITE_PSM_ACTIONS_OPERABLE = 20618776n
-export const LITE_PSM_ACTIONS_OPERABLE_DATE = new Date('2024-08-27T08:40:00Z')
-
-export const WBTC_SUPPLY_CAP_REACHED_BLOCK_NUMBER = 19034436n
-
-export const GNO_ACTIVE_BLOCK_NUMBER = 18365842n
-
-export const WEETH_ACTIVE_BLOCK_NUMBER = 20173717n
-
 export const __TX_LIST_KEY = '__PLAYWRIGHT_TX_LIST' as any
 
-export const CAP_AUTOMATOR_BLOCK_NUMBER = 20670518n
+// @note: Block from 14 December 2024:
+// Stable oracles returning exactly 1
+// GNO is offboarded
+// USDS, PSM light are deployed
+export const DEFAULT_BLOCK_NUMBER = 21400000n
+
+// Edge cases
+export const GNO_ACTIVE_BLOCK_NUMBER = 18365842n
+
+export const BASE_DEFAULT_BLOCK_NUMBER = 23000000n
+export const GNOSIS_DEFAULT_BLOCK_NUMBER = 34543308n

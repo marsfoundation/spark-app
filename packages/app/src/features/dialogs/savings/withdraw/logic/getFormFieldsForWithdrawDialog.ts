@@ -21,7 +21,6 @@ export function getFormFieldsForWithdrawDialog({
     form.setValue('symbol', newSymbol)
     form.setValue('value', '')
     form.setValue('isMaxSelected', false)
-
     form.clearErrors()
   }
 

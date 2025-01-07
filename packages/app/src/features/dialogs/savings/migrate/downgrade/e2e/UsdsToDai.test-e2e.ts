@@ -1,16 +1,17 @@
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { USDS_ACTIVATED_BLOCK_NUMBER } from '@/test/e2e/constants'
-import { setupFork } from '@/test/e2e/forking/setupFork'
+import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
 import { DowngradeDialogPageObject } from '../DowngradeDialog.PageObject'
 
 test.describe('Downgrade USDS to DAI', () => {
-  const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
-
   test('downgrade to DAI is disabled when USDS balance is 0', async ({ page }) => {
-    await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: {
+        chainId: mainnet.id,
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+      },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -18,13 +19,17 @@ test.describe('Downgrade USDS to DAI', () => {
       },
     })
 
-    const savingsPage = new SavingsPageObject(page)
+    const savingsPage = new SavingsPageObject(testContext)
 
     await savingsPage.expectDowngradeToDaiToBeDisabled()
   })
 
   test('uses downgrade action', async ({ page }) => {
-    await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: {
+        chainId: mainnet.id,
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+      },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -32,11 +37,11 @@ test.describe('Downgrade USDS to DAI', () => {
       },
     })
 
-    const savingsPage = new SavingsPageObject(page)
+    const savingsPage = new SavingsPageObject(testContext)
 
     await savingsPage.clickDowngradeUsdsToDaiOption()
 
-    const downgradeDialog = new DowngradeDialogPageObject(page)
+    const downgradeDialog = new DowngradeDialogPageObject(testContext)
     await downgradeDialog.fillAmountAction(100)
 
     await downgradeDialog.actionsContainer.expectEnabledActionAtIndex(0)
@@ -47,7 +52,11 @@ test.describe('Downgrade USDS to DAI', () => {
   })
 
   test('displays transaction overview', async ({ page }) => {
-    await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: {
+        chainId: mainnet.id,
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+      },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -55,11 +64,11 @@ test.describe('Downgrade USDS to DAI', () => {
       },
     })
 
-    const savingsPage = new SavingsPageObject(page)
+    const savingsPage = new SavingsPageObject(testContext)
 
     await savingsPage.clickDowngradeUsdsToDaiOption()
 
-    const downgradeDialog = new DowngradeDialogPageObject(page)
+    const downgradeDialog = new DowngradeDialogPageObject(testContext)
     await downgradeDialog.fillAmountAction(100)
 
     await downgradeDialog.expectTransactionOverview({
@@ -79,7 +88,11 @@ test.describe('Downgrade USDS to DAI', () => {
   })
 
   test('executes transaction', async ({ page }) => {
-    await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: {
+        chainId: mainnet.id,
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+      },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -87,15 +100,15 @@ test.describe('Downgrade USDS to DAI', () => {
       },
     })
 
-    const savingsPage = new SavingsPageObject(page)
+    const savingsPage = new SavingsPageObject(testContext)
 
     await savingsPage.expectStablecoinsInWalletAssetBalance('DAI', '-')
     await savingsPage.clickDowngradeUsdsToDaiOption()
 
-    const downgradeDialog = new DowngradeDialogPageObject(page)
+    const downgradeDialog = new DowngradeDialogPageObject(testContext)
     await downgradeDialog.fillAmountAction(10_000)
 
-    await downgradeDialog.actionsContainer.acceptAllActionsAction(2, fork)
+    await downgradeDialog.actionsContainer.acceptAllActionsAction(2)
     await downgradeDialog.expectDowngradeSuccessPage({ token: 'USDS', amount: '10,000.00', usdValue: '$10,000.00' })
     await downgradeDialog.clickBackToSavingsButton()
 

@@ -1,7 +1,5 @@
-import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
 import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
-import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
@@ -9,12 +7,15 @@ import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageO
 import { withdrawValidationIssueToMessage } from '../../logic/validation'
 
 test.describe('Withdraw DAI on Mainnet', () => {
-  const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id })
   let savingsPage: SavingsPageObject
   let withdrawalDialog: SavingsDialogPageObject
 
   test.beforeEach(async ({ page }) => {
-    await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: {
+        chainId: mainnet.id,
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+      },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -25,10 +26,10 @@ test.describe('Withdraw DAI on Mainnet', () => {
       },
     })
 
-    savingsPage = new SavingsPageObject(page)
+    savingsPage = new SavingsPageObject(testContext)
     await savingsPage.clickWithdrawSDaiButtonAction()
 
-    withdrawalDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
+    withdrawalDialog = new SavingsDialogPageObject({ testContext, type: 'withdraw' })
     await withdrawalDialog.fillAmountAction(7000)
   })
 
@@ -42,7 +43,7 @@ test.describe('Withdraw DAI on Mainnet', () => {
     await withdrawalDialog.expectNativeRouteTransactionOverview({
       routeItems: [
         {
-          tokenAmount: '6,532.86 sDAI',
+          tokenAmount: '6,218.91 sDAI',
           tokenUsdValue: '$7,000.00',
         },
         {
@@ -56,25 +57,27 @@ test.describe('Withdraw DAI on Mainnet', () => {
   })
 
   test('executes withdrawal', async () => {
-    const actionsContainer = new ActionsPageObject(withdrawalDialog.locatePanelByHeader('Actions'))
-    await actionsContainer.acceptAllActionsAction(1)
+    await withdrawalDialog.actionsContainer.acceptAllActionsAction(1)
 
     await withdrawalDialog.expectSuccessPage()
     await withdrawalDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsDaiBalance({ sdaiBalance: '3,467.14 sDAI', estimatedDaiValue: '3,715.05' })
+    await savingsPage.expectSavingsDaiBalance({ sdaiBalance: '3,781.09 sDAI', estimatedDaiValue: '4,255.9918184' })
     await savingsPage.expectStablecoinsInWalletAssetBalance('DAI', '7,000.00')
   })
 })
 
 test.describe('Validation', () => {
-  const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id })
   let savingsPage: SavingsPageObject
   let withdrawalDialog: SavingsDialogPageObject
 
   test.describe('Input value exceeds sDAI value', () => {
     test.beforeEach(async ({ page }) => {
-      await setup(page, fork, {
+      const testContext = await setup(page, {
+        blockchain: {
+          chainId: mainnet.id,
+          blockNumber: DEFAULT_BLOCK_NUMBER,
+        },
         initialPage: 'savings',
         account: {
           type: 'connected-random',
@@ -85,10 +88,10 @@ test.describe('Validation', () => {
         },
       })
 
-      savingsPage = new SavingsPageObject(page)
+      savingsPage = new SavingsPageObject(testContext)
       await savingsPage.clickWithdrawSDaiButtonAction()
 
-      withdrawalDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
+      withdrawalDialog = new SavingsDialogPageObject({ testContext, type: 'withdraw' })
       await withdrawalDialog.fillAmountAction(200)
     })
 
@@ -106,7 +109,7 @@ test.describe('Validation', () => {
       await withdrawalDialog.expectNativeRouteTransactionOverview({
         routeItems: [
           {
-            tokenAmount: '186.65 sDAI',
+            tokenAmount: '177.68 sDAI',
             tokenUsdValue: '$200.00',
           },
           {
@@ -121,7 +124,11 @@ test.describe('Validation', () => {
   })
 
   test('displays validation error for dirty input with 0 value', async ({ page }) => {
-    await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: {
+        chainId: mainnet.id,
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+      },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -132,9 +139,9 @@ test.describe('Validation', () => {
       },
     })
 
-    savingsPage = new SavingsPageObject(page)
+    savingsPage = new SavingsPageObject(testContext)
     await savingsPage.clickWithdrawSDaiButtonAction()
-    withdrawalDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
+    withdrawalDialog = new SavingsDialogPageObject({ testContext, type: 'withdraw' })
 
     await withdrawalDialog.fillAmountAction(10)
     await withdrawalDialog.fillAmountAction(0)
