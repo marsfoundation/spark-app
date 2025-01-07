@@ -1,4 +1,4 @@
-import { assert } from '@/utils/assert'
+import { assert } from '@marsfoundation/common-universal'
 
 export function clientEnv(key: string): string {
   const value = import.meta.env[key]

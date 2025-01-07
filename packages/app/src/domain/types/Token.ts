@@ -1,8 +1,6 @@
-import { assert } from '@/utils/assert'
+import { assert, BaseUnitNumber, CheckedAddress, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import BigNumber from 'bignumber.js'
 import { zeroAddress } from 'viem'
-
-import { BaseUnitNumber, CheckedAddress, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { findSignificantPrecision } from '../common/format'
 import { TokenSymbol } from './TokenSymbol'
 

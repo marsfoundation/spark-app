@@ -1,4 +1,4 @@
-import { assertNever } from '@/utils/assertNever'
+import { assertNever } from '@marsfoundation/common-universal'
 import { ApproveDelegationActionRow } from '../../flavours/approve-delegation/ApproveDelegationActionRow'
 import { ApproveActionRow } from '../../flavours/approve/ApproveActionRow'
 import { BorrowActionRow } from '../../flavours/borrow/BorrowActionRow'
