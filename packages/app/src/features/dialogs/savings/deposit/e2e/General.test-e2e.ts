@@ -62,6 +62,16 @@ test.describe('Savings deposit dialog', () => {
       await depositDialog.openAssetSelectorAction()
       await depositDialog.expectAssetSelectorOptions(['DAI', 'USDC', 'USDS'])
     })
+
+    test('can click max after switching tokens', async () => {
+      await depositDialog.expectInputValue('')
+      await depositDialog.clickMaxAmountAction()
+      await depositDialog.expectInputValue('10000')
+      await depositDialog.selectAssetAction('USDC')
+      await depositDialog.expectInputValue('')
+      await depositDialog.clickMaxAmountAction()
+      await depositDialog.expectInputValue('10000')
+    })
   })
 
   test.describe('Gnosis', () => {

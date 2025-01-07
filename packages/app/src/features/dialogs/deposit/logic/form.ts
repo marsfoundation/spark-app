@@ -49,6 +49,7 @@ export function getFormFieldsForDepositDialog({
   const changeAsset = (newSymbol: TokenSymbol): void => {
     form.setValue('symbol', newSymbol)
     form.setValue('value', '')
+    form.setValue('isMaxSelected', false)
     form.clearErrors()
   }
 
