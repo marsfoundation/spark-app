@@ -4,8 +4,7 @@ import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { downgradeDialogConfig } from '@/features/dialogs/savings/migrate/downgrade/DowngradeDialog'
 import { upgradeDialogConfig } from '@/features/dialogs/savings/migrate/upgrade/UpgradeDialog'
-import { assert } from '@/utils/assert'
-import { Percentage } from '@marsfoundation/common-universal'
+import { assert, Percentage } from '@marsfoundation/common-universal'
 import { determineApyImprovement } from './determineApyImprovement'
 
 export interface UseMigrationInfoParams {

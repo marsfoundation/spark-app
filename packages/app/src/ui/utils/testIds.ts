@@ -1,4 +1,4 @@
-import { assert } from '@/utils/assert'
+import { assert } from '@marsfoundation/common-universal'
 
 // @note: only allowed value here is 'true' a function or nested object
 // actual value of data test id (string) is generated based on a path in the object tree

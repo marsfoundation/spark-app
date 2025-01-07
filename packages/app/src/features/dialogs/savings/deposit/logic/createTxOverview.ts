@@ -3,8 +3,7 @@ import { Token } from '@/domain/types/Token'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { TransferFromUserFormNormalizedData } from '@/features/dialogs/common/logic/transfer-from-user/form'
 import { TxOverviewRouteItem } from '@/features/dialogs/common/types'
-import { raise } from '@/utils/assert'
-import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
+import { NormalizedUnitNumber, raise } from '@marsfoundation/common-universal'
 import { SavingsDialogTxOverview } from '../../common/types'
 
 export interface CreateTxOverviewParams {

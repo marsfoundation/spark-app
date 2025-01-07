@@ -4,8 +4,7 @@ import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { Token } from '@/domain/types/Token'
 import { MarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 import { applyTransformers } from '@/utils/applyTransformers'
-import { assert } from '@/utils/assert'
-import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
+import { assert, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 export function getTokenSupply(marketInfo: MarketInfo, withdrawAsset: TokenWithValue): NormalizedUnitNumber {
   const position = marketInfo.findOnePositionBySymbol(withdrawAsset.token.symbol)

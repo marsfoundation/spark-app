@@ -1,12 +1,9 @@
-import BigNumber from 'bignumber.js'
-
 import { getChainConfigEntry } from '@/config/chain'
 import { TokenWithValue } from '@/domain/common/types'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
-
-import { raise } from '@/utils/assert'
+import { NormalizedUnitNumber, Percentage, raise } from '@marsfoundation/common-universal'
+import BigNumber from 'bignumber.js'
 import { eModeCategoryIdToName } from '../e-mode/constants'
 
 export interface LiquidationDetails {

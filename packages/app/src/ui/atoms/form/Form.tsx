@@ -1,4 +1,4 @@
-import { assert } from '@/utils/assert'
+import { assert } from '@marsfoundation/common-universal'
 import * as React from 'react'
 import { FieldPath, FieldValues, FormProvider, useFormContext } from 'react-hook-form'
 

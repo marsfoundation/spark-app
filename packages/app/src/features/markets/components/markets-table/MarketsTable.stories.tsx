@@ -1,14 +1,11 @@
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { NormalizedUnitNumber, Percentage, raise } from '@marsfoundation/common-universal'
 import { WithClassname, WithTooltipProvider } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 import { within } from '@storybook/test'
 import { withRouter } from 'storybook-addon-remix-react-router'
-
-import { raise } from '@/utils/assert'
-import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
-
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { MarketsTable } from './MarketsTable'
 
 const meta: Meta<typeof MarketsTable> = {

@@ -1,4 +1,4 @@
-import { assert } from '@/utils/assert'
+import { assert } from '@marsfoundation/common-universal'
 import { type Address, getAddress } from 'viem'
 import { asciiToHex, randomHexString } from './hexUtils'
 
