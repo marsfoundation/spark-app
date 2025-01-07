@@ -3,7 +3,7 @@ name: CI (common-testnets)
 on:
   pull_request:
     paths:
-      - "packages/common-testnets/**"
+      - "packages/common-*/**"
       - ".github/workflows/ci-common-testnets.yml"
   push:
     branches:
