@@ -1,5 +1,5 @@
-import { assertNever } from '@/utils/assertNever'
 import { JSONStringifyRich } from '@/utils/object'
+import { assertNever } from '@marsfoundation/common-universal'
 import { Objective } from './types'
 
 export function stringifyObjectivesDeep(objectives: Objective[]): string {

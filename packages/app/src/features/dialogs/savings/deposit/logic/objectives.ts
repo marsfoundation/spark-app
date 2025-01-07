@@ -1,7 +1,7 @@
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { DepositToSavingsObjective } from '@/features/actions/flavours/deposit-to-savings/types'
 import { TransferFromUserFormNormalizedData } from '@/features/dialogs/common/logic/transfer-from-user/form'
-import { raise } from '@/utils/assert'
+import { raise } from '@marsfoundation/common-universal'
 
 export interface CreateObjectivesParams {
   formValues: TransferFromUserFormNormalizedData

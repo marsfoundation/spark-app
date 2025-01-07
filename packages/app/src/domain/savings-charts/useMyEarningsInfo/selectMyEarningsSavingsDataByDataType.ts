@@ -1,7 +1,7 @@
 import { TokenWithBalance } from '@/domain/common/types'
 import { SavingsDisplayType } from '@/domain/savings-charts/useMyEarningsInfo/getSavingsDisplayType'
 import { SavingsInfo } from '@/domain/savings-info/types'
-import { assertNever } from '@/utils/assertNever'
+import { assertNever } from '@marsfoundation/common-universal'
 
 interface SelectSavingsDataByDisplayTypeParams {
   displayType: SavingsDisplayType

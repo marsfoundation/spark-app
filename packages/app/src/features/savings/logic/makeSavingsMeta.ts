@@ -1,6 +1,6 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { assert, raise } from '@/utils/assert'
+import { assert, raise } from '@marsfoundation/common-universal'
 
 export interface SavingsMetaItem {
   savingsToken: TokenSymbol
