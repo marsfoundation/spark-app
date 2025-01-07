@@ -30,6 +30,7 @@ export function aggregateStats(marketInfo: MarketInfo, D3MInfo: D3MInfo | undefi
   const D3MProportionInDaiSupply =
     daiReserve && D3MInfo ? Percentage(D3MInfo.D3MCurrentDebtUSD.div(daiReserve.totalLiquidity)) : Percentage(0)
 
+  // Here we assume D3M's share of available DAI is proportional to its share in total supply.
   const totalValueLockedUSD = NormalizedUnitNumber(
     totalAvailableUSD.minus(D3MProportionInDaiSupply.multipliedBy(daiAvailable)),
   )
