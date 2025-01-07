@@ -1,7 +1,6 @@
 import { receiverValidationIssueToMessage } from '@/domain/savings/validateReceiver'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
 import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
-import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { Address, zeroAddress } from 'viem'
@@ -10,14 +9,17 @@ import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageO
 import { withdrawValidationIssueToMessage } from '../../logic/validation'
 
 test.describe('Asset input validation', () => {
-  const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
   let savingsPage: SavingsPageObject
   let sendDialog: SavingsDialogPageObject
   const receiver = '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045'
 
   test.describe('Input value exceeds sDAI value', () => {
     test.beforeEach(async ({ page }) => {
-      await setup(page, fork, {
+      const testContext = await setup(page, {
+        blockchain: {
+          chainId: mainnet.id,
+          blockNumber: DEFAULT_BLOCK_NUMBER,
+        },
         initialPage: 'savings',
         account: {
           type: 'connected-random',
@@ -28,10 +30,10 @@ test.describe('Asset input validation', () => {
         },
       })
 
-      savingsPage = new SavingsPageObject(page)
+      savingsPage = new SavingsPageObject(testContext)
       await savingsPage.clickSendSDaiButtonAction()
 
-      sendDialog = new SavingsDialogPageObject({ page, type: 'send' })
+      sendDialog = new SavingsDialogPageObject({ testContext, type: 'send' })
       await sendDialog.fillAmountAction(200)
       await sendDialog.fillReceiverAction(receiver)
     })
@@ -50,7 +52,7 @@ test.describe('Asset input validation', () => {
       await sendDialog.expectNativeRouteTransactionOverview({
         routeItems: [
           {
-            tokenAmount: '189.92 sDAI',
+            tokenAmount: '177.68 sDAI',
             tokenUsdValue: '$200.00',
           },
           {
@@ -65,7 +67,11 @@ test.describe('Asset input validation', () => {
   })
 
   test('displays validation error for dirty input with 0 value', async ({ page }) => {
-    await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: {
+        chainId: mainnet.id,
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+      },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -76,9 +82,9 @@ test.describe('Asset input validation', () => {
       },
     })
 
-    savingsPage = new SavingsPageObject(page)
+    savingsPage = new SavingsPageObject(testContext)
     await savingsPage.clickSendSDaiButtonAction()
-    sendDialog = new SavingsDialogPageObject({ page, type: 'send' })
+    sendDialog = new SavingsDialogPageObject({ testContext, type: 'send' })
 
     await sendDialog.fillAmountAction(10)
     await sendDialog.fillAmountAction(0)
@@ -88,14 +94,17 @@ test.describe('Asset input validation', () => {
 })
 
 test.describe('Receiver input validation', () => {
-  const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
   let savingsPage: SavingsPageObject
   let sendDialog: SavingsDialogPageObject
   let selfAddress: Address
 
   test.describe('Incorrect receiver address', () => {
     test.beforeEach(async ({ page }) => {
-      const { account } = await setup(page, fork, {
+      const testContext = await setup(page, {
+        blockchain: {
+          chainId: mainnet.id,
+          blockNumber: DEFAULT_BLOCK_NUMBER,
+        },
         initialPage: 'savings',
         account: {
           type: 'connected-random',
@@ -106,12 +115,12 @@ test.describe('Receiver input validation', () => {
         },
       })
 
-      selfAddress = account
+      selfAddress = testContext.account
 
-      savingsPage = new SavingsPageObject(page)
+      savingsPage = new SavingsPageObject(testContext)
       await savingsPage.clickSendSDaiButtonAction()
 
-      sendDialog = new SavingsDialogPageObject({ page, type: 'send' })
+      sendDialog = new SavingsDialogPageObject({ testContext, type: 'send' })
       await sendDialog.fillAmountAction(50) // valid input amount
     })
 
@@ -153,7 +162,7 @@ test.describe('Receiver input validation', () => {
       await sendDialog.expectNativeRouteTransactionOverview({
         routeItems: [
           {
-            tokenAmount: '47.48 sDAI',
+            tokenAmount: '44.42 sDAI',
             tokenUsdValue: '$50.00',
           },
           {
@@ -168,7 +177,11 @@ test.describe('Receiver input validation', () => {
   })
 
   test('displays warning when receiver is smart contract address', async ({ page }) => {
-    await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: {
+        chainId: mainnet.id,
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+      },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -179,9 +192,9 @@ test.describe('Receiver input validation', () => {
       },
     })
 
-    savingsPage = new SavingsPageObject(page)
+    savingsPage = new SavingsPageObject(testContext)
     await savingsPage.clickSendSDaiButtonAction()
-    sendDialog = new SavingsDialogPageObject({ page, type: 'send' })
+    sendDialog = new SavingsDialogPageObject({ testContext, type: 'send' })
     await sendDialog.fillAmountAction(50) // valid input amount
 
     await sendDialog.fillReceiverAction('0x197E90f9FAD81970bA7976f33CbD77088E5D7cf7') // pot address
@@ -190,12 +203,15 @@ test.describe('Receiver input validation', () => {
 })
 
 test.describe('Form validation', () => {
-  const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
   let savingsPage: SavingsPageObject
   let sendDialog: SavingsDialogPageObject
 
   test.beforeEach(async ({ page }) => {
-    await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: {
+        chainId: mainnet.id,
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+      },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -206,10 +222,10 @@ test.describe('Form validation', () => {
       },
     })
 
-    savingsPage = new SavingsPageObject(page)
+    savingsPage = new SavingsPageObject(testContext)
     await savingsPage.clickSendSDaiButtonAction()
 
-    sendDialog = new SavingsDialogPageObject({ page, type: 'send' })
+    sendDialog = new SavingsDialogPageObject({ testContext, type: 'send' })
   })
 
   test('actions are disabled when amount is invalid, but receiver is valid', async () => {

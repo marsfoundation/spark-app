@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { expect } from 'earl'
 import { describe, it } from 'mocha'
+import { BaseUnitNumber } from './BaseUnitNumber.js'
 import { NormalizedUnitNumber } from './NormalizedUnitNumber.js'
 
 describe(NormalizedUnitNumber.name, () => {
@@ -21,5 +22,20 @@ describe(NormalizedUnitNumber.name, () => {
     expect(() => NormalizedUnitNumber('non-numeric')).toThrow(
       'Value argument: non-numeric cannot be converted to BigNumber.',
     )
+  })
+
+  describe(NormalizedUnitNumber.toBaseUnit.name, () => {
+    it('works with standard decimals', () => {
+      expect(NormalizedUnitNumber.toBaseUnit(NormalizedUnitNumber(2.5), 18)).toEqual(
+        BaseUnitNumber(2_500000000000000000n),
+      )
+      expect(NormalizedUnitNumber.toBaseUnit(NormalizedUnitNumber(10), 6)).toEqual(BaseUnitNumber(10_000000))
+    })
+
+    it('rounds down when precision is greater than decimals', () => {
+      expect(
+        NormalizedUnitNumber.toBaseUnit(NormalizedUnitNumber('1.555555555555555555555555555555555555'), 18),
+      ).toEqual(BaseUnitNumber('1555555555555555555'))
+    })
   })
 })

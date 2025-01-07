@@ -1,6 +1,5 @@
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
 import { GNOSIS_DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
-import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
 import { randomAddress } from '@/test/utils/addressUtils'
 import { test } from '@playwright/test'
@@ -8,14 +7,17 @@ import { gnosis } from 'viem/chains'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 
 test.describe('Send XDAI on Gnosis', () => {
-  const fork = setupFork({ blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER, chainId: gnosis.id, useTenderlyVnet: true })
   let savingsPage: SavingsPageObject
   let sendDialog: SavingsDialogPageObject
   const receiver = randomAddress('bob')
   const amount = 7000
 
   test.beforeEach(async ({ page }) => {
-    await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: {
+        chainId: gnosis.id,
+        blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER,
+      },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -26,10 +28,10 @@ test.describe('Send XDAI on Gnosis', () => {
       },
     })
 
-    savingsPage = new SavingsPageObject(page)
+    savingsPage = new SavingsPageObject(testContext)
     await savingsPage.clickSendSDaiButtonAction()
 
-    sendDialog = new SavingsDialogPageObject({ page, type: 'send' })
+    sendDialog = new SavingsDialogPageObject({ testContext, type: 'send' })
     await sendDialog.fillAmountAction(amount)
     await sendDialog.fillReceiverAction(receiver)
   })
@@ -60,16 +62,14 @@ test.describe('Send XDAI on Gnosis', () => {
 
   test('executes send', async () => {
     await sendDialog.expectReceiverBalance({
-      forkUrl: fork.forkUrl,
       receiver,
       expectedBalance: 0,
     })
 
-    await sendDialog.actionsContainer.acceptAllActionsAction(2, fork)
+    await sendDialog.actionsContainer.acceptAllActionsAction(2)
     await sendDialog.expectSuccessPage()
 
     await sendDialog.expectReceiverBalance({
-      forkUrl: fork.forkUrl,
       receiver,
       expectedBalance: amount,
     })

@@ -27,7 +27,7 @@ describe(CheckedAddress.name, () => {
 
     it('generates a random address with prefix', () => {
       const address = CheckedAddress.random('alice')
-      expect(address.toLowerCase()).toMatchRegex(/^0xdeadbeefa11ce[0-9a-f]{27}$/)
+      expect(address.toLowerCase()).toMatchRegex(/^0x00000000a11ce[0-9a-f]{27}$/)
     })
   })
 })

@@ -1,10 +1,14 @@
 import { DialogPageObject, TxOverviewWithRoute } from '@/features/dialogs/common/Dialog.PageObject'
+import { TestContext } from '@/test/e2e/setup'
 import { testIds } from '@/ui/utils/testIds'
-import { Page, expect } from '@playwright/test'
+import { expect } from '@playwright/test'
 
 export class UpgradeDialogPageObject extends DialogPageObject {
-  constructor(page: Page) {
-    super(page, /Upgrade/)
+  constructor(testContext: TestContext) {
+    super({
+      testContext,
+      header: /Upgrade/,
+    })
   }
 
   // #region actions

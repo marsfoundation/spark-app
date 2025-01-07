@@ -1,19 +1,20 @@
-import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { USDS_ACTIVATED_BLOCK_NUMBER } from '@/test/e2e/constants'
-import { setupFork } from '@/test/e2e/forking/setupFork'
+import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 
 test.describe('Withdraw USDC from sUSDS', () => {
-  const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
   let savingsPage: SavingsPageObject
   let withdrawDialog: SavingsDialogPageObject
 
   test.beforeEach(async ({ page }) => {
-    await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: {
+        chainId: mainnet.id,
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+      },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -24,16 +25,16 @@ test.describe('Withdraw USDC from sUSDS', () => {
       },
     })
 
-    savingsPage = new SavingsPageObject(page)
+    savingsPage = new SavingsPageObject(testContext)
 
     await savingsPage.clickDepositButtonAction('USDC')
-    const depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
+    const depositDialog = new SavingsDialogPageObject({ testContext, type: 'deposit' })
     await depositDialog.fillAmountAction(10_000)
-    await depositDialog.actionsContainer.acceptAllActionsAction(2, fork)
+    await depositDialog.actionsContainer.acceptAllActionsAction(2)
     await depositDialog.clickBackToSavingsButton()
 
     await savingsPage.clickWithdrawSUsdsButtonAction()
-    withdrawDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
+    withdrawDialog = new SavingsDialogPageObject({ testContext, type: 'withdraw' })
     await withdrawDialog.selectAssetAction('USDC')
     await withdrawDialog.fillAmountAction(1000)
   })
@@ -49,7 +50,7 @@ test.describe('Withdraw USDC from sUSDS', () => {
     await withdrawDialog.expectNativeRouteTransactionOverview({
       routeItems: [
         {
-          tokenAmount: '999.98 sUSDS',
+          tokenAmount: '983.03 sUSDS',
           tokenUsdValue: '$1,000.00',
         },
         {
@@ -69,24 +70,26 @@ test.describe('Withdraw USDC from sUSDS', () => {
   })
 
   test('executes withdraw', async () => {
-    const actionsContainer = new ActionsPageObject(withdrawDialog.locatePanelByHeader('Actions'))
-    await actionsContainer.acceptAllActionsAction(2, fork)
+    await withdrawDialog.actionsContainer.acceptAllActionsAction(2)
 
     await withdrawDialog.expectSuccessPage()
     await withdrawDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '8,999.79 sUSDS', estimatedUsdsValue: '9,000' })
+    await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '8,847.31 sUSDS', estimatedUsdsValue: '9,000.000373' })
     await savingsPage.expectStablecoinsInWalletAssetBalance('USDC', '1,000')
   })
 })
 
 test.describe('Withdraw USDC from sDAI', () => {
-  const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
   let savingsPage: SavingsPageObject
   let withdrawDialog: SavingsDialogPageObject
 
   test.beforeEach(async ({ page }) => {
-    await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: {
+        chainId: mainnet.id,
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+      },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -97,10 +100,10 @@ test.describe('Withdraw USDC from sDAI', () => {
       },
     })
 
-    savingsPage = new SavingsPageObject(page)
+    savingsPage = new SavingsPageObject(testContext)
 
     await savingsPage.clickWithdrawSDaiButtonAction()
-    withdrawDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
+    withdrawDialog = new SavingsDialogPageObject({ testContext, type: 'withdraw' })
     await withdrawDialog.selectAssetAction('USDC')
     await withdrawDialog.fillAmountAction(1000)
   })
@@ -116,7 +119,7 @@ test.describe('Withdraw USDC from sDAI', () => {
     await withdrawDialog.expectNativeRouteTransactionOverview({
       routeItems: [
         {
-          tokenAmount: '902.05 sDAI',
+          tokenAmount: '888.42 sDAI',
           tokenUsdValue: '$1,000.00',
         },
         {
@@ -136,13 +139,12 @@ test.describe('Withdraw USDC from sDAI', () => {
   })
 
   test('executes withdraw', async () => {
-    const actionsContainer = new ActionsPageObject(withdrawDialog.locatePanelByHeader('Actions'))
-    await actionsContainer.acceptAllActionsAction(2, fork)
+    await withdrawDialog.actionsContainer.acceptAllActionsAction(2)
 
     await withdrawDialog.expectSuccessPage()
     await withdrawDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsDaiBalance({ sdaiBalance: '9,097.95 sDAI', estimatedDaiValue: '10,085.90' })
+    await savingsPage.expectSavingsDaiBalance({ sdaiBalance: '9,111.58 sDAI', estimatedDaiValue: '10,255.992013' })
     await savingsPage.expectStablecoinsInWalletAssetBalance('USDC', '1,000')
   })
 })

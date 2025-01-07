@@ -1,16 +1,17 @@
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { USDS_ACTIVATED_BLOCK_NUMBER } from '@/test/e2e/constants'
-import { setupFork } from '@/test/e2e/forking/setupFork'
+import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
 import { UpgradeDialogPageObject } from '../UpgradeDialog.PageObject'
 
 test.describe('Upgrade DAI to USDS', () => {
-  const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
-
   test('does not show upgrade button when DAI balance is 0', async ({ page }) => {
-    await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: {
+        chainId: mainnet.id,
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+      },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -18,7 +19,7 @@ test.describe('Upgrade DAI to USDS', () => {
       },
     })
 
-    const savingsPage = new SavingsPageObject(page)
+    const savingsPage = new SavingsPageObject(testContext)
 
     // wait to load
     await savingsPage.expectOpportunityStablecoinsAmount('~$10,000.00')
@@ -27,7 +28,11 @@ test.describe('Upgrade DAI to USDS', () => {
   })
 
   test('uses upgrade action', async ({ page }) => {
-    await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: {
+        chainId: mainnet.id,
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+      },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -35,11 +40,11 @@ test.describe('Upgrade DAI to USDS', () => {
       },
     })
 
-    const savingsPage = new SavingsPageObject(page)
+    const savingsPage = new SavingsPageObject(testContext)
 
     await savingsPage.clickUpgradeDaiToUsdsButtonAction()
 
-    const upgradeDialog = new UpgradeDialogPageObject(page)
+    const upgradeDialog = new UpgradeDialogPageObject(testContext)
 
     await upgradeDialog.actionsContainer.expectEnabledActionAtIndex(0)
     await upgradeDialog.actionsContainer.expectActions([
@@ -49,7 +54,11 @@ test.describe('Upgrade DAI to USDS', () => {
   })
 
   test('displays transaction overview', async ({ page }) => {
-    await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: {
+        chainId: mainnet.id,
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+      },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -57,9 +66,9 @@ test.describe('Upgrade DAI to USDS', () => {
       },
     })
 
-    const savingsPage = new SavingsPageObject(page)
+    const savingsPage = new SavingsPageObject(testContext)
     await savingsPage.clickUpgradeDaiToUsdsButtonAction()
-    const upgradeDialog = new UpgradeDialogPageObject(page)
+    const upgradeDialog = new UpgradeDialogPageObject(testContext)
 
     await upgradeDialog.expectTransactionOverview({
       routeItems: [
@@ -78,7 +87,11 @@ test.describe('Upgrade DAI to USDS', () => {
   })
 
   test('executes transaction', async ({ page }) => {
-    await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: {
+        chainId: mainnet.id,
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+      },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -86,23 +99,23 @@ test.describe('Upgrade DAI to USDS', () => {
       },
     })
 
-    const savingsPage = new SavingsPageObject(page)
+    const savingsPage = new SavingsPageObject(testContext)
 
     await savingsPage.expectStablecoinsInWalletAssetBalance('USDS', '-')
     await savingsPage.clickUpgradeDaiToUsdsButtonAction()
 
-    const upgradeDialog = new UpgradeDialogPageObject(page)
+    const upgradeDialog = new UpgradeDialogPageObject(testContext)
 
-    await upgradeDialog.actionsContainer.acceptAllActionsAction(2, fork)
-    await upgradeDialog.expectSuccessPage(
-      [
+    await upgradeDialog.actionsContainer.acceptAllActionsAction(2)
+    await upgradeDialog.expectSuccessPage({
+      tokenWithValue: [
         {
           asset: 'DAI',
-          amount: 10_000,
+          amount: '10,000.00',
+          usdValue: '$10,000.00',
         },
       ],
-      fork,
-    )
+    })
     await upgradeDialog.clickBackToSavingsButton()
 
     await savingsPage.expectStablecoinsInWalletAssetBalance('USDS', '10,000')

@@ -1,17 +1,20 @@
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { setupFork } from '@/test/e2e/forking/setupFork'
+import { BASE_DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { base } from 'viem/chains'
 import { ConvertStablesDialogPageObject } from '../../ConvertStablesDialog.PageObject'
 
 test.describe('Convert USDS to USDC', () => {
-  const fork = setupFork({ chainId: base.id, blockNumber: 22143788n, useTenderlyVnet: true })
   let savingsPage: SavingsPageObject
   let convertStablesDialog: ConvertStablesDialogPageObject
 
   test.beforeEach(async ({ page }) => {
-    await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: {
+        blockNumber: BASE_DEFAULT_BLOCK_NUMBER,
+        chainId: base.id,
+      },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -22,10 +25,10 @@ test.describe('Convert USDS to USDC', () => {
       },
     })
 
-    savingsPage = new SavingsPageObject(page)
+    savingsPage = new SavingsPageObject(testContext)
     await savingsPage.clickConvertStablesButtonAction()
 
-    convertStablesDialog = new ConvertStablesDialogPageObject(page)
+    convertStablesDialog = new ConvertStablesDialogPageObject(testContext)
     await convertStablesDialog.selectAssetInAction('USDS')
     await convertStablesDialog.selectAssetOutAction('USDC')
     await convertStablesDialog.fillAmountInAction(10_000)

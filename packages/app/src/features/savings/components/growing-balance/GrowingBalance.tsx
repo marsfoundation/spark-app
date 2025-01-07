@@ -5,6 +5,7 @@ import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { getFractionalPart, getWholePart } from '@/utils/bigNumber'
 import { useTimestamp } from '@/utils/useTimestamp'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { SavingsOverview } from '../../logic/makeSavingsOverview'
 
 export interface GrowingBalanceProps {
@@ -23,7 +24,8 @@ export function GrowingBalance({
   savingsType,
 }: GrowingBalanceProps) {
   const { timestampInMs } = useTimestamp({ refreshIntervalInMs: balanceRefreshIntervalInMs })
-  const { depositedAssets, depositedAssetsPrecision } = calculateSavingsBalance(timestampInMs)
+  const { depositedAssets: _depositedAssets, depositedAssetsPrecision } = calculateSavingsBalance(timestampInMs)
+  const depositedAssets = NormalizedUnitNumber(_depositedAssets.toFixed(depositedAssetsPrecision))
 
   return (
     <div className="isolate grid grid-cols-[auto_1fr] items-center gap-x-2 lg:gap-x-4 lg:gap-y-2">

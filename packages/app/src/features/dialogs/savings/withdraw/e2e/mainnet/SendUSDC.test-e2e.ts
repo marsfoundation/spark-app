@@ -1,6 +1,5 @@
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { TOKENS_ON_FORK, USDS_ACTIVATED_BLOCK_NUMBER } from '@/test/e2e/constants'
-import { setupFork } from '@/test/e2e/forking/setupFork'
+import { DEFAULT_BLOCK_NUMBER, TOKENS_ON_FORK } from '@/test/e2e/constants'
 import { setup } from '@/test/e2e/setup'
 import { randomAddress } from '@/test/utils/addressUtils'
 import { test } from '@playwright/test'
@@ -8,7 +7,6 @@ import { mainnet } from 'viem/chains'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 
 test.describe('Send USDC (withdrawing from sUSDS)', () => {
-  const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
   let savingsPage: SavingsPageObject
   let sendDialog: SavingsDialogPageObject
   const receiver = randomAddress('bob')
@@ -16,7 +14,11 @@ test.describe('Send USDC (withdrawing from sUSDS)', () => {
   const usdc = TOKENS_ON_FORK[mainnet.id].USDC
 
   test.beforeEach(async ({ page }) => {
-    await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: {
+        chainId: mainnet.id,
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+      },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -27,16 +29,16 @@ test.describe('Send USDC (withdrawing from sUSDS)', () => {
       },
     })
 
-    savingsPage = new SavingsPageObject(page)
+    savingsPage = new SavingsPageObject(testContext)
 
     await savingsPage.clickDepositButtonAction('USDS')
-    const depositDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
+    const depositDialog = new SavingsDialogPageObject({ testContext, type: 'deposit' })
     await depositDialog.fillAmountAction(10_000)
-    await depositDialog.actionsContainer.acceptAllActionsAction(2, fork)
+    await depositDialog.actionsContainer.acceptAllActionsAction(2)
     await depositDialog.clickBackToSavingsButton()
 
     await savingsPage.clickSendSUsdsButtonAction()
-    sendDialog = new SavingsDialogPageObject({ page, type: 'send' })
+    sendDialog = new SavingsDialogPageObject({ testContext, type: 'send' })
     await sendDialog.selectAssetAction('USDC')
     await sendDialog.fillAmountAction(amount)
     await sendDialog.fillReceiverAction(receiver)
@@ -53,7 +55,7 @@ test.describe('Send USDC (withdrawing from sUSDS)', () => {
     await sendDialog.expectNativeRouteTransactionOverview({
       routeItems: [
         {
-          tokenAmount: '6,999.84 sUSDS',
+          tokenAmount: '6,881.24 sUSDS',
           tokenUsdValue: '$7,000.00',
         },
         {
@@ -72,30 +74,27 @@ test.describe('Send USDC (withdrawing from sUSDS)', () => {
 
   test('executes send', async () => {
     await sendDialog.expectReceiverTokenBalance({
-      forkUrl: fork.forkUrl,
       receiver,
       token: usdc,
       expectedBalance: 0,
     })
 
-    await sendDialog.actionsContainer.acceptAllActionsAction(2, fork)
+    await sendDialog.actionsContainer.acceptAllActionsAction(2)
     await sendDialog.expectSuccessPage()
 
     await sendDialog.expectReceiverTokenBalance({
-      forkUrl: fork.forkUrl,
       receiver,
       token: usdc,
       expectedBalance: amount,
     })
 
     await sendDialog.clickBackToSavingsButton()
-    await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '2,999.93 sUSDS', estimatedUsdsValue: '3,000' })
+    await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '2,949.10 sUSDS', estimatedUsdsValue: '3,000.0003735' })
     await savingsPage.expectStablecoinsInWalletAssetBalance('USDC', '-')
   })
 })
 
 test.describe('Send USDC (withdrawing from sDAI)', () => {
-  const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
   let savingsPage: SavingsPageObject
   let sendDialog: SavingsDialogPageObject
   const receiver = randomAddress('bob')
@@ -103,7 +102,11 @@ test.describe('Send USDC (withdrawing from sDAI)', () => {
   const usdc = TOKENS_ON_FORK[mainnet.id].USDC
 
   test.beforeEach(async ({ page }) => {
-    await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: {
+        chainId: mainnet.id,
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+      },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -114,10 +117,10 @@ test.describe('Send USDC (withdrawing from sDAI)', () => {
       },
     })
 
-    savingsPage = new SavingsPageObject(page)
+    savingsPage = new SavingsPageObject(testContext)
 
     await savingsPage.clickSendSDaiButtonAction()
-    sendDialog = new SavingsDialogPageObject({ page, type: 'send' })
+    sendDialog = new SavingsDialogPageObject({ testContext, type: 'send' })
     await sendDialog.selectAssetAction('USDC')
     await sendDialog.fillAmountAction(amount)
     await sendDialog.fillReceiverAction(receiver)
@@ -134,7 +137,7 @@ test.describe('Send USDC (withdrawing from sDAI)', () => {
     await sendDialog.expectNativeRouteTransactionOverview({
       routeItems: [
         {
-          tokenAmount: '6,314.32 sDAI',
+          tokenAmount: '6,218.91 sDAI',
           tokenUsdValue: '$7,000.00',
         },
         {
@@ -153,24 +156,22 @@ test.describe('Send USDC (withdrawing from sDAI)', () => {
 
   test('executes send', async () => {
     await sendDialog.expectReceiverTokenBalance({
-      forkUrl: fork.forkUrl,
       receiver,
       token: usdc,
       expectedBalance: 0,
     })
 
-    await sendDialog.actionsContainer.acceptAllActionsAction(2, fork)
+    await sendDialog.actionsContainer.acceptAllActionsAction(2)
     await sendDialog.expectSuccessPage()
 
     await sendDialog.expectReceiverTokenBalance({
-      forkUrl: fork.forkUrl,
       receiver,
       token: usdc,
       expectedBalance: amount,
     })
 
     await sendDialog.clickBackToSavingsButton()
-    await savingsPage.expectSavingsDaiBalance({ sdaiBalance: '3,685.68 sDAI', estimatedDaiValue: '4,085.90' })
+    await savingsPage.expectSavingsDaiBalance({ sdaiBalance: '3,781.09 sDAI', estimatedDaiValue: '4,255.9920127' })
     await savingsPage.expectStablecoinsInWalletAssetBalance('USDC', '-')
   })
 })

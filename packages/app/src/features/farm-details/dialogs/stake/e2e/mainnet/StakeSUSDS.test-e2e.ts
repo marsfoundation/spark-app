@@ -1,21 +1,23 @@
 import { SavingsDialogPageObject } from '@/features/dialogs/savings/common/e2e/SavingsDialog.PageObject'
 import { FarmDetailsPageObject } from '@/features/farm-details/FarmDetails.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { USDS_ACTIVATED_BLOCK_NUMBER } from '@/test/e2e/constants'
-import { setupFork } from '@/test/e2e/forking/setupFork'
+import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { overrideInfoSkyRouteWithHAR } from '@/test/e2e/info-sky'
 import { buildUrl, setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
 import { StakeDialogPageObject } from '../../StakeDialog.PageObject'
 
-test.describe('Stake sDAI to SKY farm', () => {
-  const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
+test.describe('Stake sUSDS to SKY farm', () => {
   let farmDetailsPage: FarmDetailsPageObject
   let stakeDialog: StakeDialogPageObject
 
   test.beforeEach(async ({ page }) => {
-    await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: {
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+        chainId: mainnet.id,
+      },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -28,9 +30,9 @@ test.describe('Stake sDAI to SKY farm', () => {
     await overrideInfoSkyRouteWithHAR({ page, key: '1-sky-farm-with-8_51-apy' })
 
     // deposit some tokens to sUSDS first so we're able to withdraw them next
-    const savingsPage = new SavingsPageObject(page)
+    const savingsPage = new SavingsPageObject(testContext)
     await savingsPage.clickDepositButtonAction('USDS')
-    const depositToSavingsDialog = new SavingsDialogPageObject({ page, type: 'deposit' })
+    const depositToSavingsDialog = new SavingsDialogPageObject({ testContext, type: 'deposit' })
     await depositToSavingsDialog.clickMaxAmountAction()
     await depositToSavingsDialog.actionsContainer.acceptAllActionsAction(2)
     await depositToSavingsDialog.clickBackToSavingsButton()
@@ -41,9 +43,9 @@ test.describe('Stake sDAI to SKY farm', () => {
       }),
     )
 
-    farmDetailsPage = new FarmDetailsPageObject(page)
+    farmDetailsPage = new FarmDetailsPageObject(testContext)
     await farmDetailsPage.clickInfoPanelStakeButtonAction()
-    stakeDialog = new StakeDialogPageObject(page)
+    stakeDialog = new StakeDialogPageObject(testContext)
     await stakeDialog.selectAssetAction('sUSDS')
     await stakeDialog.fillAmountAction(1_000)
   })
@@ -60,18 +62,18 @@ test.describe('Stake sDAI to SKY farm', () => {
   test('displays transaction overview', async () => {
     await stakeDialog.expectTransactionOverview({
       estimatedRewards: {
-        apy: '780.23%',
-        description: 'Earn ~129,451.12 SKY/year',
+        apy: '10.88%',
+        description: 'Earn ~1,835.60 SKY/year',
       },
       route: {
         swaps: [
           {
             tokenAmount: '1,000.00 sUSDS',
-            tokenUsdValue: '$1,000.02',
+            tokenUsdValue: '$1,017.26',
           },
           {
-            tokenAmount: '1,000.02 USDS',
-            tokenUsdValue: '$1,000.02',
+            tokenAmount: '1,017.26 USDS',
+            tokenUsdValue: '$1,017.26',
           },
         ],
         final: {
@@ -79,7 +81,7 @@ test.describe('Stake sDAI to SKY farm', () => {
           lowerText: 'Deposited',
         },
       },
-      outcome: '1,000.02 USDS',
+      outcome: '1,017.26 USDS',
     })
   })
 
@@ -91,9 +93,9 @@ test.describe('Stake sDAI to SKY farm', () => {
 
     await farmDetailsPage.expectTokenToDepositBalance('USDS', '-') // no dust left
     await farmDetailsPage.expectReward({
-      reward: '0.01',
-      rewardUsd: '<$0.01',
+      reward: '0.00000',
+      rewardUsd: '$0.00',
     })
-    await farmDetailsPage.expectStaked({ amount: '1,000.02', asset: 'USDS' })
+    await farmDetailsPage.expectStaked({ amount: '1,017.26', asset: 'USDS' })
   })
 })

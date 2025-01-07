@@ -19,7 +19,9 @@ export function createApproveActionConfig(action: ApproveAction, context: Action
           account,
           chainId,
         }),
-        select: (data) => ({ canBeSkipped: data >= toBigInt(action.token.toBaseUnit(action.value)) }),
+        select: (data) => ({
+          canBeSkipped: data >= toBigInt(action.token.toBaseUnit(action.requiredValue ?? action.value)),
+        }),
       })
     },
 

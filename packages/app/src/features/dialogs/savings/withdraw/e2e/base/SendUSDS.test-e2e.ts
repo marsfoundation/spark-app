@@ -1,6 +1,5 @@
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { TOKENS_ON_FORK } from '@/test/e2e/constants'
-import { setupFork } from '@/test/e2e/forking/setupFork'
+import { BASE_DEFAULT_BLOCK_NUMBER, TOKENS_ON_FORK } from '@/test/e2e/constants'
 import { setup } from '@/test/e2e/setup'
 import { randomAddress } from '@/test/utils/addressUtils'
 import { test } from '@playwright/test'
@@ -8,7 +7,6 @@ import { base } from 'viem/chains'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 
 test.describe('Send USDS', () => {
-  const fork = setupFork({ chainId: base.id, blockNumber: 22143788n, useTenderlyVnet: true })
   let savingsPage: SavingsPageObject
   let sendDialog: SavingsDialogPageObject
   const receiver = randomAddress('bob')
@@ -16,7 +14,11 @@ test.describe('Send USDS', () => {
   const usds = TOKENS_ON_FORK[base.id].USDS
 
   test.beforeEach(async ({ page }) => {
-    await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: {
+        chainId: base.id,
+        blockNumber: BASE_DEFAULT_BLOCK_NUMBER,
+      },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -27,10 +29,10 @@ test.describe('Send USDS', () => {
       },
     })
 
-    savingsPage = new SavingsPageObject(page)
+    savingsPage = new SavingsPageObject(testContext)
 
     await savingsPage.clickSendSUsdsButtonAction()
-    sendDialog = new SavingsDialogPageObject({ page, type: 'send' })
+    sendDialog = new SavingsDialogPageObject({ testContext, type: 'send' })
     await sendDialog.fillAmountAction(amount)
     await sendDialog.fillReceiverAction(receiver)
   })
@@ -46,7 +48,7 @@ test.describe('Send USDS', () => {
     await sendDialog.expectNativeRouteTransactionOverview({
       routeItems: [
         {
-          tokenAmount: '6,938.24 sUSDS',
+          tokenAmount: '6,911.09 sUSDS',
           tokenUsdValue: '$7,000.00',
         },
         {
@@ -61,24 +63,22 @@ test.describe('Send USDS', () => {
 
   test('executes send', async () => {
     await sendDialog.expectReceiverTokenBalance({
-      forkUrl: fork.forkUrl,
       receiver,
       token: usds,
       expectedBalance: 0,
     })
 
-    await sendDialog.actionsContainer.acceptAllActionsAction(2, fork)
+    await sendDialog.actionsContainer.acceptAllActionsAction(2)
     await sendDialog.expectSuccessPage()
 
     await sendDialog.expectReceiverTokenBalance({
-      forkUrl: fork.forkUrl,
       receiver,
       token: usds,
       expectedBalance: amount,
     })
 
     await sendDialog.clickBackToSavingsButton()
-    await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '3,061.76 sUSDS', estimatedUsdsValue: '3,089' })
+    await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '3,088.91 sUSDS', estimatedUsdsValue: '3,128.6548917' })
     await savingsPage.expectStablecoinsInWalletAssetBalance('USDS', '-')
   })
 })

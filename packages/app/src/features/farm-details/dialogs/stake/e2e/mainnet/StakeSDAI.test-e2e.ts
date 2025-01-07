@@ -1,6 +1,5 @@
 import { FarmDetailsPageObject } from '@/features/farm-details/FarmDetails.PageObject'
-import { USDS_ACTIVATED_BLOCK_NUMBER } from '@/test/e2e/constants'
-import { setupFork } from '@/test/e2e/forking/setupFork'
+import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { overrideInfoSkyRouteWithHAR } from '@/test/e2e/info-sky'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
@@ -8,12 +7,15 @@ import { mainnet } from 'viem/chains'
 import { StakeDialogPageObject } from '../../StakeDialog.PageObject'
 
 test.describe('Stake sDAI to SKY farm', () => {
-  const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
   let farmDetailsPage: FarmDetailsPageObject
   let stakeDialog: StakeDialogPageObject
 
   test.beforeEach(async ({ page }) => {
-    await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: {
+        chainId: mainnet.id,
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+      },
       initialPage: 'farmDetails',
       initialPageParams: {
         chainId: mainnet.id.toString(),
@@ -29,9 +31,9 @@ test.describe('Stake sDAI to SKY farm', () => {
     })
     await overrideInfoSkyRouteWithHAR({ page, key: '1-sky-farm-with-8_51-apy' })
 
-    farmDetailsPage = new FarmDetailsPageObject(page)
+    farmDetailsPage = new FarmDetailsPageObject(testContext)
     await farmDetailsPage.clickInfoPanelStakeButtonAction()
-    stakeDialog = new StakeDialogPageObject(page)
+    stakeDialog = new StakeDialogPageObject(testContext)
     await stakeDialog.selectAssetAction('sDAI')
     await stakeDialog.fillAmountAction(1_000)
   })
@@ -49,18 +51,18 @@ test.describe('Stake sDAI to SKY farm', () => {
   test('displays transaction overview', async () => {
     await stakeDialog.expectTransactionOverview({
       estimatedRewards: {
-        apy: '780.23%',
-        description: 'Earn ~143,505.01 SKY/year',
+        apy: '10.88%',
+        description: 'Earn ~2,031.10 SKY/year',
       },
       route: {
         swaps: [
           {
             tokenAmount: '1,000.00 sDAI',
-            tokenUsdValue: '$1,108.59',
+            tokenUsdValue: '$1,125.60',
           },
           {
-            tokenAmount: '1,108.59 USDS',
-            tokenUsdValue: '$1,108.59',
+            tokenAmount: '1,125.60 USDS',
+            tokenUsdValue: '$1,125.60',
           },
         ],
         final: {
@@ -68,7 +70,7 @@ test.describe('Stake sDAI to SKY farm', () => {
           lowerText: 'Deposited',
         },
       },
-      outcome: '1,108.59 USDS',
+      outcome: '1,125.60 USDS',
     })
   })
 
@@ -81,9 +83,9 @@ test.describe('Stake sDAI to SKY farm', () => {
     await farmDetailsPage.expectTokenToDepositBalance('sDAI', '-')
     await farmDetailsPage.expectTokenToDepositBalance('USDS', '-') // no dust left
     await farmDetailsPage.expectReward({
-      reward: '0.01',
-      rewardUsd: '<$0.01',
+      reward: '0.00000',
+      rewardUsd: '$0.00',
     })
-    await farmDetailsPage.expectStaked({ amount: '1,108.59', asset: 'USDS' })
+    await farmDetailsPage.expectStaked({ amount: '1,125.60', asset: 'USDS' })
   })
 })

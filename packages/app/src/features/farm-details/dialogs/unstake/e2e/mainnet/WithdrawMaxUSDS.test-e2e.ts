@@ -1,8 +1,8 @@
 import { FarmDetailsPageObject } from '@/features/farm-details/FarmDetails.PageObject'
-import { USDS_ACTIVATED_BLOCK_NUMBER } from '@/test/e2e/constants'
-import { setupFork } from '@/test/e2e/forking/setupFork'
+import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { overrideInfoSkyRouteWithHAR } from '@/test/e2e/info-sky'
 import { setup } from '@/test/e2e/setup'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { test } from '@playwright/test'
 import { Address } from 'viem'
 import { privateKeyToAddress } from 'viem/accounts'
@@ -11,14 +11,17 @@ import { StakeDialogPageObject } from '../../../stake/StakeDialog.PageObject'
 import { UnstakeDialogPageObject } from '../../UnstakeDialog.PageObject'
 
 test.describe('Withdraw max USDS from SKY farm', () => {
-  const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
   let farmDetailsPage: FarmDetailsPageObject
   let unstakeDialog: UnstakeDialogPageObject
   let stakeDialog: StakeDialogPageObject
   let account: Address
 
   test.beforeEach(async ({ page }) => {
-    ;({ account } = await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: {
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+        chainId: mainnet.id,
+      },
       initialPage: 'farmDetails',
       initialPageParams: {
         chainId: mainnet.id.toString(),
@@ -33,13 +36,14 @@ test.describe('Withdraw max USDS from SKY farm', () => {
           USDC: 10_000,
         },
       },
-    }))
+    })
 
     await overrideInfoSkyRouteWithHAR({ page, key: '1-sky-farm-with-8_51-apy' })
 
-    farmDetailsPage = new FarmDetailsPageObject(page)
+    farmDetailsPage = new FarmDetailsPageObject(testContext)
     await farmDetailsPage.clickInfoPanelStakeButtonAction()
-    stakeDialog = new StakeDialogPageObject(page)
+    stakeDialog = new StakeDialogPageObject(testContext)
+    account = testContext.account
 
     await stakeDialog.selectAssetAction('USDS')
     await stakeDialog.fillAmountAction(10_000)
@@ -47,11 +51,11 @@ test.describe('Withdraw max USDS from SKY farm', () => {
 
     await stakeDialog.clickBackToFarmAction()
 
-    await fork.progressSimulation(page, 24 * 60 * 60) // 24 hours
+    await testContext.testnetController.progressSimulationAndMine(24 * 60 * 60) // 24 hours
     await page.reload()
 
     await farmDetailsPage.clickInfoPanelUnstakeButtonAction()
-    unstakeDialog = new UnstakeDialogPageObject(page)
+    unstakeDialog = new UnstakeDialogPageObject(testContext)
 
     await unstakeDialog.selectAssetAction('USDS')
     await unstakeDialog.clickMaxAmountAction()
@@ -61,10 +65,9 @@ test.describe('Withdraw max USDS from SKY farm', () => {
     await unstakeDialog.expectExitFarmSwitchToBeVisible()
     await unstakeDialog.expectExitFarmSwitchNotChecked()
     await unstakeDialog.expectExitFarmSwitchReward({
-      min: 3538,
-      max: 3541,
+      amount: 49.44,
       token: 'SKY',
-      usdValue: '213',
+      usdValue: '2.98',
     })
   })
 
@@ -120,9 +123,8 @@ test.describe('Withdraw max USDS from SKY farm', () => {
         usdValue: '10,000.00',
       },
       reward: {
-        min: 3538,
-        max: 3541,
-        usdValue: '213',
+        amount: 49.44,
+        usdValue: '2.98',
         token: 'SKY',
       },
     })
@@ -136,8 +138,8 @@ test.describe('Withdraw max USDS from SKY farm', () => {
 
     await farmDetailsPage.expectTokenToDepositBalance('USDS', '10,000.00')
     await farmDetailsPage.expectReward({
-      reward: '3,539',
-      rewardUsd: '$213',
+      reward: '49.436543',
+      rewardUsd: '2.98',
     })
   })
 
@@ -153,10 +155,8 @@ test.describe('Withdraw max USDS from SKY farm', () => {
 
     await farmDetailsPage.expectTokenBalance({
       address: account,
-      fork,
       symbol: 'SKY',
-      minBalance: 3_525,
-      maxBalance: 3_545,
+      balance: NormalizedUnitNumber('49.4365427929088'),
     })
   })
 })
@@ -166,12 +166,15 @@ test.describe('Withdraw max USDS from CLE farm', () => {
   const testUserAddress = privateKeyToAddress('0xa9f2d3eda4403df2fe54b97291d65d69824e0e2b3134c33b7145cf9b912966d5')
   const harSuffix = testUserAddress.slice(0, 10)
 
-  const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
   let farmDetailsPage: FarmDetailsPageObject
   let unstakeDialog: UnstakeDialogPageObject
 
   test.beforeEach(async ({ page }) => {
-    await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: {
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+        chainId: mainnet.id,
+      },
       initialPage: 'farmDetails',
       initialPageParams: {
         chainId: mainnet.id.toString(),
@@ -188,16 +191,16 @@ test.describe('Withdraw max USDS from CLE farm', () => {
     })
     await overrideInfoSkyRouteWithHAR({ page, key: `2-cle-farm-0-balance-${harSuffix}` })
 
-    farmDetailsPage = new FarmDetailsPageObject(page)
+    farmDetailsPage = new FarmDetailsPageObject(testContext)
     await farmDetailsPage.clickInfoPanelStakeButtonAction()
-    const stakeDialog = new StakeDialogPageObject(page)
+    const stakeDialog = new StakeDialogPageObject(testContext)
     await stakeDialog.fillAmountAction(10_000)
     await stakeDialog.actionsContainer.acceptAllActionsAction(2)
     await stakeDialog.clickBackToFarmAction()
     await overrideInfoSkyRouteWithHAR({ page, key: `3-cle-farm-10000-balance-${harSuffix}` })
 
     await farmDetailsPage.clickInfoPanelUnstakeButtonAction()
-    unstakeDialog = new UnstakeDialogPageObject(page)
+    unstakeDialog = new UnstakeDialogPageObject(testContext)
 
     await unstakeDialog.selectAssetAction('USDS')
     await unstakeDialog.clickMaxAmountAction()
