@@ -7,7 +7,7 @@ import { Address } from 'viem'
 import { DialogPageObject, TxOverviewWithRoute } from '../../../common/Dialog.PageObject'
 
 export interface SavingsDialogPageObjectParams {
-  testContext: TestContext<any>
+  testContext: TestContext
   type: 'deposit' | 'withdraw' | 'send'
 }
 

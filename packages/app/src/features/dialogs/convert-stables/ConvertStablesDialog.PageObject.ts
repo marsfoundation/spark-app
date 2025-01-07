@@ -4,7 +4,7 @@ import { testIds } from '@/ui/utils/testIds'
 import { Locator, expect } from '@playwright/test'
 
 export class ConvertStablesDialogPageObject extends DialogPageObject {
-  constructor(testContext: TestContext<any>) {
+  constructor(testContext: TestContext) {
     super({ testContext, header: /Convert Tokens/ })
   }
 

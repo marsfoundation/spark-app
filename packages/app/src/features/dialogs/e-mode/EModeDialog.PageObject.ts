@@ -5,7 +5,7 @@ import { Locator, expect } from '@playwright/test'
 import { DialogPageObject } from '../common/Dialog.PageObject'
 
 export class EModeDialogPageObject extends DialogPageObject {
-  constructor(testContext: TestContext<any>) {
+  constructor(testContext: TestContext) {
     super({
       testContext,
       header: /Set E-Mode Category/,

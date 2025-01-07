@@ -5,7 +5,7 @@ import { CollateralSetting } from '../collateral/types'
 import { DialogPageObject } from '../common/Dialog.PageObject'
 
 export class CollateralDialogPageObject extends DialogPageObject {
-  constructor(testContext: TestContext<any>) {
+  constructor(testContext: TestContext) {
     super({ testContext, header: /Collateral/ })
   }
 

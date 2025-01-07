@@ -8,7 +8,7 @@ import { expect } from '@playwright/test'
 export class BorrowPageObject extends BasePageObject {
   public readonly actionsContainer: ActionsPageObject
 
-  constructor(testContext: TestContext<any>) {
+  constructor(testContext: TestContext) {
     super(testContext)
     this.actionsContainer = new ActionsPageObject(testContext, this.locatePanelByHeader('Actions'))
   }

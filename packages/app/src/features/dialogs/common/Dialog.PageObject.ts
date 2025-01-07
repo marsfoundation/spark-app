@@ -7,7 +7,7 @@ import { TestContext } from '@/test/e2e/setup'
 import { testIds } from '@/ui/utils/testIds'
 
 export interface DialogPageObjectParams {
-  testContext: TestContext<any>
+  testContext: TestContext
   header: RegExp
 }
 

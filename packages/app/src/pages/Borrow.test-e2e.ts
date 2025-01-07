@@ -13,7 +13,7 @@ test.describe('Borrow page', () => {
   test.describe('deposit ETH, borrow DAI', () => {
     let borrowPage: BorrowPageObject
     let actionsContainer: ActionsPageObject
-    let testContext: TestContext<'connected-random'>
+    let testContext: TestContext
 
     const deposit = {
       asset: 'ETH',
@@ -586,7 +586,7 @@ test.describe('Borrow page', () => {
 })
 
 async function expectHFOnMyPortfolio(
-  testContext: TestContext<any>,
+  testContext: TestContext,
   borrowPage: BorrowPageObject,
   expectedHealthFactor: string,
 ): Promise<void> {

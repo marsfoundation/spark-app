@@ -8,7 +8,7 @@ import { Percentage } from '@marsfoundation/common-universal'
 import { ActionType } from './logic/types'
 
 export class ActionsPageObject extends BasePageObject {
-  constructor(testContext: TestContext<any>, locator?: Locator) {
+  constructor(testContext: TestContext, locator?: Locator) {
     super(testContext, locator)
     if (!locator) {
       this.region = this.locatePanelByHeader('Actions')

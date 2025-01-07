@@ -6,11 +6,11 @@ import { TestContext } from './setup'
  * BasePageObject is a class that contains common selectors and actions that are shared across the whole app.
  */
 export class BasePageObject {
-  protected readonly testContext: TestContext<any>
+  protected readonly testContext: TestContext
   protected readonly page: Page
   protected region: Locator
 
-  constructor(testContext: TestContext<any>, locator?: Locator) {
+  constructor(testContext: TestContext, locator?: Locator) {
     this.testContext = testContext
     this.page = testContext.page
     if (locator) {

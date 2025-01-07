@@ -4,7 +4,7 @@ import { testIds } from '@/ui/utils/testIds'
 import { expect } from '@playwright/test'
 
 export class DowngradeDialogPageObject extends DialogPageObject {
-  constructor(testContext: TestContext<any>) {
+  constructor(testContext: TestContext) {
     super({
       testContext,
       header: /Downgrade/,

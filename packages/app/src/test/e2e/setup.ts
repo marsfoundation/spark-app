@@ -60,7 +60,9 @@ export interface TestnetController {
   progressSimulationAndMine: ProgressSimulation
 }
 
-export type TestContext<T extends ConnectionType> = (T extends 'not-connected' ? {} : { account: Address }) & {
+export type TestContext<T extends ConnectionType = 'not-connected'> = (T extends 'not-connected'
+  ? {}
+  : { account: Address }) & {
   testnetController: TestnetController
   page: Page
 }
