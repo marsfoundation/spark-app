@@ -12,9 +12,8 @@ import {
   useDebouncedFormValues,
 } from '@/features/dialogs/common/logic/transfer-from-user/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
-import { assert } from '@/utils/assert'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
+import { assert, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
 import { useChainId } from 'wagmi'

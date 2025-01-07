@@ -1,7 +1,7 @@
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
-import { raise } from '@/utils/assert'
+import { raise } from '@marsfoundation/common-universal'
 import { base } from 'viem/chains'
 
 export type PsmConvertActionPath =
