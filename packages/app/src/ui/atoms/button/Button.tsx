@@ -1,5 +1,5 @@
 import { cn } from '@/ui/utils/style'
-import { assert } from '@/utils/assert'
+import { assert } from '@marsfoundation/common-universal'
 import { Slot } from '@radix-ui/react-slot'
 import { type VariantProps, cva } from 'class-variance-authority'
 import * as React from 'react'

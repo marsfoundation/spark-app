@@ -1,7 +1,6 @@
 import { getChainConfigEntry } from '@/config/chain'
-import { assert } from '@/utils/assert'
 import { useTimestamp } from '@/utils/useTimestamp'
-import { CheckedAddress } from '@marsfoundation/common-universal'
+import { assert, CheckedAddress } from '@marsfoundation/common-universal'
 import { useAccount, useChainId } from 'wagmi'
 import { TokenWithBalance } from '../common/types'
 import { SavingsInfo } from '../savings-info/types'

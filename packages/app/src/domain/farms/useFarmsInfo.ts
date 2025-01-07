@@ -1,6 +1,6 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
-import { assert } from '@/utils/assert'
+import { assert } from '@marsfoundation/common-universal'
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { useCallback } from 'react'
 import { useAccount, useConfig } from 'wagmi'

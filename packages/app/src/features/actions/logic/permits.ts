@@ -1,8 +1,7 @@
-import { assert } from '@/utils/assert'
-import { Signature } from 'viem'
-
 import { getChainConfigEntry } from '@/config/chain'
 import { Token } from '@/domain/types/Token'
+import { assert } from '@marsfoundation/common-universal'
+import { Signature } from 'viem'
 
 export interface Permit {
   token: Token

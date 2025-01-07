@@ -1,6 +1,6 @@
 import { UseSavingsChartsInfoQueryResult } from '@/domain/savings-charts/useSavingsChartsInfoQuery'
 import { PageLayout } from '@/ui/layouts/PageLayout'
-import { assert, raise } from '@/utils/assert'
+import { assert, raise } from '@marsfoundation/common-universal'
 import { PageHeader } from '../components/PageHeader'
 import { DaiSavingsCharts } from '../components/savings-charts/DaiSavingsCharts'
 import { UsdsSavingsCharts } from '../components/savings-charts/UsdsSavingsCharts'
