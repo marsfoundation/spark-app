@@ -2,10 +2,9 @@ name: CI (common-testnets)
 
 on:
   pull_request:
-    # @todo: uncomment when testnet factories are stable
-    # paths:
-    #   - "packages/common-testnets/**"
-    #   - "pnpm-lock.yaml"
+    paths:
+      - "packages/common-testnets/**"
+      - "pnpm-lock.yaml"
   push:
     branches:
       - main
