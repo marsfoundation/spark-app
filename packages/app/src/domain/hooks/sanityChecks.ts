@@ -1,9 +1,8 @@
-import { assert } from '@/utils/assert'
-import { Address, zeroAddress } from 'viem'
-import { gnosis } from 'viem/chains'
-
 import { NATIVE_ASSET_MOCK_ADDRESS } from '@/config/consts'
 import { wethGatewayAddress } from '@/config/contracts-generated'
+import { assert } from '@marsfoundation/common-universal'
+import { Address, zeroAddress } from 'viem'
+import { gnosis } from 'viem/chains'
 
 /**
  * Do basic sanity checks when sending txs.

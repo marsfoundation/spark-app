@@ -1,6 +1,5 @@
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
-import { raise } from '@/utils/assert'
-import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
+import { NormalizedUnitNumber, raise } from '@marsfoundation/common-universal'
 import { EasyBorrowFormNormalizedData } from '../types'
 import type { AssetInputSchema, EasyBorrowFormSchema } from './validation'
 

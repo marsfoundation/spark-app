@@ -2,7 +2,7 @@ import { BasePageObject } from '@/test/e2e/BasePageObject'
 import { buildUrl } from '@/test/e2e/setup'
 import { parseTable } from '@/test/e2e/utils'
 import { testIds } from '@/ui/utils/testIds'
-import { assert } from '@/utils/assert'
+import { assert } from '@marsfoundation/common-universal'
 import { expect } from '@playwright/test'
 import { z } from 'zod'
 

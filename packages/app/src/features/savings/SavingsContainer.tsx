@@ -1,6 +1,6 @@
 import { useUnsupportedChain } from '@/domain/hooks/useUnsupportedChain'
 import { withSuspense } from '@/ui/utils/withSuspense'
-import { raise } from '@/utils/assert'
+import { raise } from '@marsfoundation/common-universal'
 import { SavingsSkeleton } from './components/skeleton/SavingsSkeleton'
 import { useSavings } from './logic/useSavings'
 import { GuestView } from './views/GuestView'

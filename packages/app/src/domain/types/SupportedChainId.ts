@@ -1,6 +1,6 @@
 import { SUPPORTED_CHAIN_IDS } from '@/config/chain/constants'
-import { assert } from '@/utils/assert'
 import { NumberLike, bigNumberify } from '@/utils/bigNumber'
+import { assert } from '@marsfoundation/common-universal'
 import { Opaque } from './types'
 
 /**

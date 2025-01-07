@@ -1,5 +1,4 @@
-import { assert } from '@/utils/assert'
-
+import { assert } from '@marsfoundation/common-universal'
 import { Opaque } from './types'
 
 /**

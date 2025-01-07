@@ -1,4 +1,4 @@
-import { assert } from '@/utils/assert'
+import { assert } from '@marsfoundation/common-universal'
 import type { Hex } from 'viem'
 
 export function hexStringToHex(input: string): Hex {
