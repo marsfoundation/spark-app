@@ -12,7 +12,7 @@ export function IconPill({ icon, className, 'data-testid': dataTestId }: IconPil
       className={cn('inline-flex shrink-0 rounded-lg border border-secondary p-1', className)}
       data-testid={dataTestId}
     >
-      <img src={icon} className="h-4 w-4 lg:h-4 md:h-3 lg:w-4 md:w-3" />
+      <img src={icon} className="h-4 w-4 md:h-3 md:w-3 lg:h-4 lg:w-4" />
     </div>
   )
 }

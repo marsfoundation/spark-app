@@ -30,7 +30,7 @@ export function AppLayout({ children }: AppLayoutProps) {
       {import.meta.env.VITE_FEATURE_TOP_BANNER === '1' && showBanner && (
         <RedesignTopBanner onClose={handleCloseBanner} className="col-span-full " />
       )}
-      <div className="z-30 col-start-2 col-end-2 my-2 lg:mt-6 lg:mb-10 sm:mb-8">
+      <div className="z-30 col-start-2 col-end-2 my-2 sm:mb-8 lg:mt-6 lg:mb-10">
         <TopbarContainer />
       </div>
 

@@ -33,13 +33,13 @@ export function UpgradeTokenButton({
         {token.symbol}
         <Button
           size="s"
-          className="group h-7 w-7 overflow-hidden px-1 transition-all duration-300 sm:h-8 sm:hover:w-[154px] sm:w-8 sm:justify-start sm:px-2"
+          className="group h-7 w-7 overflow-hidden px-1 transition-all duration-300 sm:h-8 sm:w-8 sm:justify-start sm:px-2 sm:hover:w-[154px]"
           onClick={onUpgradeClick}
           data-testid={testIds.savings.stablecoinsInWallet.upgradeDaiToUsds}
         >
           <div className="flex items-center gap-2">
             <ArrowBigUpDash className="icon-xs" />
-            <span className="hidden opacity-0 transition-opacity delay-50 duration-300 sm:block group-hover:opacity-100">
+            <span className="hidden opacity-0 transition-opacity delay-50 duration-300 group-hover:opacity-100 sm:block">
               Upgrade to {upgradedTokenSymbol}
             </span>
           </div>

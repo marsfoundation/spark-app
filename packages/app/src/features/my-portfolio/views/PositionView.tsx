@@ -45,7 +45,7 @@ export function PositionView({
           <DepositTable assets={deposits} openDialog={openDialog} />
           <BorrowTable assets={borrows} eModeCategoryId={eModeCategoryId} openDialog={openDialog} />
         </div>
-        <div className="order-1 flex flex-col gap-6 xl:order-2 xl:flex md:grid md:grid-cols-2 xl:flex-col">
+        <div className="order-1 flex flex-col gap-6 md:grid md:grid-cols-2 xl:order-2 xl:flex xl:flex-col">
           <Panel variant="secondary">
             <HealthFactorPanelContent hf={hf} liquidationDetails={liquidationDetails} />
           </Panel>

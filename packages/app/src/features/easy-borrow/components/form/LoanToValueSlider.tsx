@@ -110,7 +110,7 @@ export function LoanToValueSlider({
           />
         </SliderPrimitive.Track>
 
-        <SliderPrimitive.Thumb className="transition-colors disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none">
+        <SliderPrimitive.Thumb className="transition-colors focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50">
           <div
             className={cn(
               'flex transform items-center justify-center rounded-full bg-primary p-0.5 transition-transform',

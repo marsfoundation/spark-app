@@ -145,7 +145,7 @@ export function AssetInput<TFieldValues extends FieldValues>({
             <button
               onClick={disabled ? undefined : setMaxValue}
               className={cn(
-                'typography-label-3 text-brand-primary disabled:text-secondary hover:text-primary-950',
+                'typography-label-3 text-brand-primary hover:text-primary-950 disabled:text-secondary',
                 disabled && 'cursor-not-allowed opacity-50',
               )}
               disabled={disabled || isMaxSelected}

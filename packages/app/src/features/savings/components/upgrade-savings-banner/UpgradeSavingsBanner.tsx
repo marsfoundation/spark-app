@@ -28,7 +28,7 @@ export function UpgradeSavingsBanner({ onUpgradeSavingsClick, apyImprovement }: 
       <div
         className={cn(
           'mx-auto grid grid-rows-[1fr_auto] items-center gap-x-6 gap-y-2 pr-4',
-          'lg:grid-cols-[1fr_1fr_auto] md:grid-cols-[1fr_1fr] md:grid-rows-1 sm:gap-y-3 sm:pr-8',
+          'sm:gap-y-3 sm:pr-8 md:grid-cols-[1fr_1fr] md:grid-rows-1 lg:grid-cols-[1fr_1fr_auto]',
         )}
       >
         <div className="typography-label-2 sm:typography-heading-5 justify-self-end text-primary">

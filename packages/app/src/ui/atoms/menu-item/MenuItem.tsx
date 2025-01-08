@@ -13,8 +13,8 @@ const dropdownItemVariants = cva(
   {
     variants: {
       variant: {
-        primary: 'bg-primary focus:bg-secondary hover:bg-secondary',
-        secondary: 'bg-primary focus:bg-tertiary hover:bg-tertiary',
+        primary: 'bg-primary hover:bg-secondary focus:bg-secondary',
+        secondary: 'bg-primary hover:bg-tertiary focus:bg-tertiary',
       },
       withSeparator: {
         true: 'border-primary border-b',
@@ -49,7 +49,7 @@ export function MenuItemIcon({
   return (
     <Icon
       className={cn(
-        'icon-xs icon-secondary group-focus-visible:text-brand-primary group-hover:text-brand-primary',
+        'icon-xs icon-secondary group-hover:text-brand-primary group-focus-visible:text-brand-primary',
         className,
       )}
     />

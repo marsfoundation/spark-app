@@ -26,7 +26,7 @@ export function AssetNameCell({ token, reserveStatus, 'data-testid': dataTestId 
       {tokenImage && (
         <div className="flex shrink-0">
           <ColorFilter variant={isPaused ? 'red' : 'none'}>
-            <TokenIcon token={token} className="flex h-6 w-6 lg:h-6 md:h-5 lg:w-6 md:w-5" />
+            <TokenIcon token={token} className="flex h-6 w-6 md:h-5 md:w-5 lg:h-6 lg:w-6" />
           </ColorFilter>
         </div>
       )}

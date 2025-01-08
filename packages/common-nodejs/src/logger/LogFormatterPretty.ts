@@ -44,7 +44,7 @@ export class LogFormatterPretty implements LogFormatter {
     const serviceOut = this.formatServicePretty(entry.service, this.options.colors)
     const messageOut = entry.message ? ` ${entry.message}` : ''
     const paramsOut = this.formatParametersPretty(
-      this.sanitize(entry.resolvedError ? { ...entry.resolvedError, ...entry.parameters } : entry.parameters ?? {}),
+      this.sanitize(entry.resolvedError ? { ...entry.resolvedError, ...entry.parameters } : (entry.parameters ?? {})),
       this.options.colors,
     )
 

@@ -24,8 +24,8 @@ const linkVariants = cva('', {
   variants: {
     variant: {
       primary:
-        'bg-gradient-spark-secondary bg-clip-text text-transparent active:brightness-[80%] hover:brightness-[90%]',
-      secondary: 'text-brand-primary active:brightness-[200%] hover:brightness-[150%]',
+        'bg-gradient-spark-secondary bg-clip-text text-transparent hover:brightness-[90%] active:brightness-[80%]',
+      secondary: 'text-brand-primary hover:brightness-[150%] active:brightness-[200%]',
       underline: 'underline underline-offset-2',
       unstyled: '',
     },

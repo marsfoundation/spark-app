@@ -283,8 +283,8 @@ export function marketInfoSelectFn({ timeAdvance }: MarketInfoSelectFnParams = {
         isIsolated: r.reserve.isIsolated,
         eModeCategory:
           r.reserve.eModeCategoryId !== 0
-            ? eModeCategories[r.reserve.eModeCategoryId] ??
-              raise(`EMode category ${r.reserve.eModeCategoryId} not found`)
+            ? (eModeCategories[r.reserve.eModeCategoryId] ??
+              raise(`EMode category ${r.reserve.eModeCategoryId} not found`))
             : undefined,
         isSiloedBorrowing: r.reserve.isSiloedBorrowing,
         isBorrowableInIsolation: r.reserve.borrowableInIsolation,
