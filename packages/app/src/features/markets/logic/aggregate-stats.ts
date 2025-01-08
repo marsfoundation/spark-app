@@ -25,7 +25,7 @@ export function aggregateStats(marketInfo: MarketInfo, D3MInfo: D3MInfo | undefi
   const totalAvailableUSD = aggregatedValues.totalLiquidityUSD.minus(aggregatedValues.totalDebtUSD)
   const daiReserve = marketInfo.findReserveByToken(marketInfo.DAI)
   const daiAvailable = daiReserve
-    ? NormalizedUnitNumber(daiReserve.totalLiquidity.minus(daiReserve.totalVariableDebtUSD))
+    ? NormalizedUnitNumber(daiReserve.totalLiquidityUSD.minus(daiReserve.totalDebtUSD))
     : NormalizedUnitNumber(0)
   const D3MProportionInDaiSupply =
     daiReserve && D3MInfo ? Percentage(D3MInfo.D3MCurrentDebtUSD.div(daiReserve.totalLiquidity)) : Percentage(0)
