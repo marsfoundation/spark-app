@@ -17,7 +17,7 @@ import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPr
 import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
 import { ActionConfig, ActionContext, GetWriteConfigResult } from '@/features/actions/logic/types'
 import { calculateGemConversionFactor } from '@/features/actions/utils/savings'
-import { toBigInt } from '@/utils/bigNumber'
+import { BaseUnitNumber, toBigInt } from '@marsfoundation/common-universal'
 import { assert, CheckedAddress, NormalizedUnitNumber, assertNever, raise } from '@marsfoundation/common-universal'
 import { QueryKey } from '@tanstack/react-query'
 import { Address, erc4626Abi } from 'viem'
@@ -247,7 +247,7 @@ function getUsdcWithdrawConfig({
     gemDecimals: token.decimals,
     assetsTokenDecimals: savingsToken.decimals,
   })
-  const assetsMaxAmountIn = toBigInt(token.toBaseUnit(actionAmount).multipliedBy(gemConversionFactor))
+  const assetsMaxAmountIn = toBigInt(BaseUnitNumber(token.toBaseUnit(actionAmount).multipliedBy(gemConversionFactor)))
 
   return ensureConfigTypes({
     address: psmActionsAddress,

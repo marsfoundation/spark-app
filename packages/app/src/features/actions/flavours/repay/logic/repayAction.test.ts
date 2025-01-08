@@ -9,8 +9,7 @@ import { createPermitStore } from '@/features/actions/logic/permits'
 import { getMockReserve, getMockToken, testAddresses } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
 import { setupUseContractActionRenderer } from '@/test/integration/setupUseContractActionRenderer'
-import { toBigInt } from '@/utils/bigNumber'
-import { getTimestampInSeconds } from '@/utils/time'
+import { UnixTime, toBigInt } from '@marsfoundation/common-universal'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { waitFor } from '@testing-library/react'
 import { generatePrivateKey } from 'viem/accounts'
@@ -156,7 +155,7 @@ describe(createRepayActionConfig.name, () => {
             repayValueBigInt,
             interestRateMode,
             account,
-            toBigInt(getTimestampInSeconds(permitDeadline)),
+            UnixTime(permitDeadline),
             0,
             random32Bytes,
             random32Bytes,

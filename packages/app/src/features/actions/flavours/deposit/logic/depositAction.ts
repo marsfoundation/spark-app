@@ -7,8 +7,7 @@ import { aaveDataLayerQueryKey } from '@/domain/market-info/aave-data-layer/quer
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
 import { ActionConfig, ActionContext } from '@/features/actions/logic/types'
-import { toBigInt } from '@/utils/bigNumber'
-import { getTimestampInSeconds } from '@/utils/time'
+import { UnixTime, toBigInt } from '@marsfoundation/common-universal'
 import { DepositAction } from '../types'
 
 export function createDepositActionConfig(action: DepositAction, context: ActionContext): ActionConfig {
@@ -43,7 +42,7 @@ export function createDepositActionConfig(action: DepositAction, context: Action
             value,
             context.account,
             SPARK_UI_REFERRAL_CODE,
-            toBigInt(getTimestampInSeconds(permit.deadline)),
+            UnixTime(permit.deadline),
             Number(permit.signature.v),
             permit.signature.r,
             permit.signature.s,

@@ -1,4 +1,4 @@
-import { bigNumberify } from '@/utils/bigNumber'
+import { bigNumberify } from '@marsfoundation/common-universal'
 
 import { Percentage } from '@marsfoundation/common-universal'
 import { healthFactorToLtv } from './math'

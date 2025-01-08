@@ -7,7 +7,7 @@ import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/que
 import { testAddresses, testTokens } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
 import { setupUseContractActionRenderer } from '@/test/integration/setupUseContractActionRenderer'
-import { bigNumberify, toBigInt } from '@/utils/bigNumber'
+import { bigNumberify, toBigInt } from '@marsfoundation/common-universal'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { waitFor } from '@testing-library/react'
 import { base } from 'viem/chains'

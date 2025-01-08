@@ -7,7 +7,11 @@ import { Opaque } from './Opaque.js'
  * Can be used to represent Unix timestamps. i.e. 1729691675
  */
 export type UnixTime = Opaque<bigint, 'UnixTime'>
-export function UnixTime(value: NumberLike): UnixTime {
+export function UnixTime(value: NumberLike | Date): UnixTime {
+  if (value instanceof Date) {
+    value = Math.floor(value.getTime() / 1000)
+  }
+
   const valueAsBn = bigNumberify(value)
   assert(!valueAsBn.dp(), 'Value should not have decimal points in its representation.')
   const result = BigInt(valueAsBn.toFixed())

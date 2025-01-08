@@ -6,8 +6,7 @@ import { ensureConfigTypes } from '@/domain/hooks/useWrite'
 import { aaveDataLayerQueryKey } from '@/domain/market-info/aave-data-layer/query'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
-import { toBigInt } from '@/utils/bigNumber'
-import { getTimestampInSeconds } from '@/utils/time'
+import { UnixTime, toBigInt } from '@marsfoundation/common-universal'
 import { ActionConfig, ActionContext } from '../../../logic/types'
 import { RepayAction } from '../types'
 
@@ -44,7 +43,7 @@ export function createRepayActionConfig(action: RepayAction, context: ActionCont
             value,
             interestRateMode,
             account,
-            toBigInt(getTimestampInSeconds(permit.deadline)),
+            UnixTime(permit.deadline),
             Number(permit.signature.v),
             permit.signature.r,
             permit.signature.s,
