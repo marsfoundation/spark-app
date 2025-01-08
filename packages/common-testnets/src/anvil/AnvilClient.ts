@@ -2,7 +2,7 @@ import { assert, Hash } from '@marsfoundation/common-universal'
 import { http, Address, createTestClient, numberToHex, publicActions, walletActions } from 'viem'
 import { dealActions } from 'viem-deal'
 import { mainnet } from 'viem/chains'
-import { TestnetClient } from '../TestnetClient'
+import { TestnetClient } from '../TestnetClient.js'
 
 export function getAnvilClient(rpc: string): TestnetClient {
   return createTestClient({

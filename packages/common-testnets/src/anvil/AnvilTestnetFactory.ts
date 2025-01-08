@@ -1,11 +1,11 @@
 import { assert } from '@marsfoundation/common-universal'
-import { TestnetClient } from '../TestnetClient'
-import { CreateNetworkArgs, TestnetCreateResult, TestnetFactory } from '../TestnetFactory'
+import { TestnetClient } from '../TestnetClient.js'
+import { CreateNetworkArgs, TestnetCreateResult, TestnetFactory } from '../TestnetFactory.js'
 
 import { createAnvil } from '@viem/anvil'
 import getPort from 'get-port'
 import { http, createPublicClient } from 'viem'
-import { getAnvilClient } from './AnvilClient'
+import { getAnvilClient } from './AnvilClient.js'
 
 export class AnvilTestnetFactory implements TestnetFactory {
   constructor(private readonly opts: { alchemyApiKey: string }) {}

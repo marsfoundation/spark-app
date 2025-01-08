@@ -1,10 +1,10 @@
 /* eslint-disable */
 import { expect, formatCompact, mockFn } from 'earl'
 
-import { LogFormatterJson } from './LogFormatterJson'
-import { LogFormatterPretty } from './LogFormatterPretty'
-import { Logger } from './Logger'
-import { LogEntry } from './types'
+import { LogFormatterJson } from './LogFormatterJson.js'
+import { LogFormatterPretty } from './LogFormatterPretty.js'
+import { Logger } from './Logger.js'
+import { LogEntry } from './types.js'
 
 describe(Logger.name, () => {
   it('calls correct transport', () => {

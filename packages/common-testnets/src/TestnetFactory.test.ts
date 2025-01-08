@@ -1,7 +1,7 @@
 import { expect } from 'earl'
 import { after, before, describe, it } from 'mocha'
-import { TestnetClient } from './TestnetClient'
-import { createTestnetFactoriesForE2ETests } from './test-utils'
+import { TestnetClient } from './TestnetClient.js'
+import { createTestnetFactoriesForE2ETests } from './test-utils/index.js'
 
 describe('TestnetFactory', () => {
   const factories = createTestnetFactoriesForE2ETests()
