@@ -93,5 +93,28 @@
       "quoteStyle": "single",
       "attributePosition": "auto"
     }
-  }
+  },
+  "overrides": [
+    {
+      "include": ["./packages/common-*/**/*.ts"],
+      "linter": {
+        "enabled": true,
+        "rules": {
+          "correctness": {
+            "useImportExtensions": {
+              "level": "error",
+              "options": {
+                "suggestedExtensions": {
+                  "ts": {
+                    "module": "js",
+                    "component": "js"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
 }

@@ -1,6 +1,6 @@
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { Panel } from '@/ui/atoms/panel/Panel'
-import { bigNumberify } from '@/utils/bigNumber'
+import { bigNumberify } from '@marsfoundation/common-universal'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { WithClassname, WithTooltipProvider } from '@sb/decorators'
 import { Meta, StoryObj } from '@storybook/react'

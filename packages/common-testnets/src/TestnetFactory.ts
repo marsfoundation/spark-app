@@ -1,4 +1,4 @@
-import { TestnetClient } from './TestnetClient'
+import { TestnetClient } from './TestnetClient.js'
 
 export interface TestnetCreateResult {
   client: TestnetClient

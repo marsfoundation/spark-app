@@ -1,2 +1,2 @@
-export * from './AnvilClient'
-export * from './AnvilTestnetFactory'
+export * from './AnvilClient.js'
+export * from './AnvilTestnetFactory.js'

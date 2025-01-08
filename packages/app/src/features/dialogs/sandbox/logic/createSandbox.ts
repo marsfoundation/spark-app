@@ -5,7 +5,7 @@ import { AppConfig } from '@/config/feature-flags'
 import { trackEvent } from '@/domain/analytics/mixpanel'
 import { createTenderlyFork } from '@/domain/sandbox/createTenderlyFork'
 import { tenderlyRpcActions } from '@/domain/tenderly/TenderlyRpcActions'
-import { BaseUnitNumber } from '@marsfoundation/common-universal'
+import { BaseUnitNumber, UnixTime } from '@marsfoundation/common-universal'
 
 export async function createSandbox(opts: {
   originChainId: number
@@ -41,6 +41,6 @@ export async function createSandbox(opts: {
 /**
  * @returns string concatenated prefix and timestamp
  */
-export function getChainIdWithPrefix(prefix: number, timestampSeconds: number): number {
-  return Number.parseInt(prefix.toString() + timestampSeconds.toString())
+export function getChainIdWithPrefix(prefix: number, timestamp: UnixTime): number {
+  return Number.parseInt(prefix.toString() + timestamp.toString())
 }

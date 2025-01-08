@@ -1,5 +1,5 @@
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
-import { bigNumberify } from '@/utils/bigNumber'
+import { bigNumberify } from '@marsfoundation/common-universal'
 import { BaseUnitNumber, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { Locator, Page } from '@playwright/test'
 import { http, Address, createPublicClient, erc20Abi, weiUnits } from 'viem'

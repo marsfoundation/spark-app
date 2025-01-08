@@ -12,7 +12,7 @@ import {
   wstethOracleMainnetAbi,
   wstethRatioMainnetAbi,
 } from '@/config/abis/yieldingTokensRatioAbi'
-import { toBigInt } from '@/utils/bigNumber'
+import { toBigInt } from '@marsfoundation/common-universal'
 import { CheckedAddress } from '@marsfoundation/common-universal'
 import { BaseUnitNumber, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { gnosis, mainnet } from 'viem/chains'
