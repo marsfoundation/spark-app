@@ -88,7 +88,7 @@ function Title({ children }: { children: ReactNode }) {
     <HorizontalScroll
       className={cn(
         'typography-label-2 col-span-2 flex items-center gap-1.5',
-        'md:col-span-1 sm:overflow-visible',
+        'sm:overflow-visible md:col-span-1',
         actionHandlerState.status === 'success' && 'text-secondary',
       )}
     >

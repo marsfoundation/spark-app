@@ -17,9 +17,9 @@ export const buttonVariants = cva(
       variant: {
         primary: cn(
           'before:-z-10 bg-gradient-spark-primary text-primary-inverse before:absolute',
-          'active:before:bg-neutral-800 focus-visible:before:bg-primary',
-          'before:inset-0 hover:before:bg-neutral-950 active:text-primary-inverse before:transition-colors',
-          'disabled:cursor-not-allowed disabled:before:bg-neutral-50 disabled:before:bg-none disabled:bg-neutral-50 disabled:text-neutral-500',
+          'focus-visible:before:bg-primary active:before:bg-neutral-800',
+          'before:inset-0 before:transition-colors hover:before:bg-neutral-950 active:text-primary-inverse',
+          'disabled:cursor-not-allowed disabled:bg-neutral-50 disabled:text-neutral-500 disabled:before:bg-neutral-50 disabled:before:bg-none',
         ),
         secondary: cn(
           'bg-neutral-950 text-primary-inverse active:bg-neutral-950',
@@ -28,7 +28,7 @@ export const buttonVariants = cva(
         ),
         tertiary: cn(
           'border border-primary border-solid bg-primary',
-          'text-neutral-950 shadow-xs active:bg-neutral-100 hover:bg-neutral-50',
+          'text-neutral-950 shadow-xs hover:bg-neutral-50 active:bg-neutral-100',
           'disabled:cursor-not-allowed disabled:border-none disabled:bg-neutral-50 disabled:text-neutral-500',
         ),
         transparent: cn(

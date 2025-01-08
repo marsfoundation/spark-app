@@ -28,8 +28,8 @@ export const CopyButton = forwardRef<HTMLButtonElement, CopyButtonProps>(
             aria-label={`Copy "${text}" to clipboard`}
             className={cn(
               'aspect-square rounded-sm bg-transparent px-2 text-secondary transition-colors',
-              'active:bg-neutral-100 focus-visible:bg-primary hover:bg-neutral-50',
-              'focus-visible:text-neutral-950 hover:text-brand-primary focus-visible:outline-none',
+              'hover:bg-neutral-50 focus-visible:bg-primary active:bg-neutral-100',
+              'hover:text-brand-primary focus-visible:text-neutral-950 focus-visible:outline-none',
               'focus-visible:ring focus-visible:ring-primary-200 focus-visible:ring-offset-0',
             )}
             ref={ref}

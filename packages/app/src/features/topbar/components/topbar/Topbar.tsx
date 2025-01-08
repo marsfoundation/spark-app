@@ -47,7 +47,7 @@ export function Topbar({
           <img
             src={assets.brand.symbolGradient}
             alt="Spark logo"
-            className="aspect-square h-6 select-none brightness-0 transition duration-300 md:h-9 sm:h-8 group-focus-visible:filter-none group-hover:filter-none"
+            className="aspect-square h-6 select-none brightness-0 transition duration-300 group-hover:filter-none group-focus-visible:filter-none sm:h-8 md:h-9"
           />
         </Link>
         {isMobileDisplay && <TopbarNavigationDialog {...navigationInfo} />}

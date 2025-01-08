@@ -14,15 +14,15 @@ const buttonVariants = cva(
     variants: {
       type: {
         savings: cn(
-          'active:border-page-savings hover:border-page-savings/40',
+          'hover:border-page-savings/40 active:border-page-savings',
           'hover:shadow-page-savings/15 focus-visible:ring-page-savings',
         ),
         farms: cn(
-          'active:border-page-farm hover:border-page-farms/40',
+          'hover:border-page-farms/40 active:border-page-farm',
           'hover:shadow-page-farms/15 focus-visible:ring-page-farms',
         ),
         borrow: cn(
-          'active:border-page-borrow hover:border-page-borrow/40',
+          'hover:border-page-borrow/40 active:border-page-borrow',
           'hover:shadow-page-borrow/15 focus-visible:ring-page-borrow',
         ),
       },
@@ -72,7 +72,7 @@ export const TopbarButton = forwardRef<HTMLAnchorElement | HTMLButtonElement, To
     const content = (
       <>
         {prefixIcon}
-        <span className="inline lg:inline sm:hidden">{label}</span>
+        <span className="inline sm:hidden lg:inline">{label}</span>
 
         {postfixSlot &&
           cloneElement(postfixSlot, {

@@ -86,7 +86,7 @@ export function useStakeDialog({ farm, initialToken }: UseStakeDialogParams): Us
 
   const stakingTokenRouteItem =
     txOverview.status === 'success'
-      ? txOverview.routeToStakingToken.at(-1) ?? raise('Route should be defined')
+      ? (txOverview.routeToStakingToken.at(-1) ?? raise('Route should be defined'))
       : undefined
   const stakedToken = {
     token: farm.stakingToken,
