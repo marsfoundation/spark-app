@@ -1,7 +1,7 @@
 import { ssrAuthOracleConfig } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
-import { bigNumberify } from '@/utils/bigNumber'
 import { fromRay } from '@/utils/math'
+import { bigNumberify } from '@marsfoundation/common-universal'
 import { NormalizedUnitNumber, assertNever } from '@marsfoundation/common-universal'
 import { erc4626Abi, etherUnits, formatUnits, parseUnits } from 'viem'
 import { Config } from 'wagmi'

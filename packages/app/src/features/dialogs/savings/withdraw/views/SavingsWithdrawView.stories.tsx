@@ -1,7 +1,7 @@
 import { PotSavingsInfo } from '@/domain/savings-info/potSavingsInfo'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { testAddresses } from '@/test/integration/constants'
-import { bigNumberify } from '@/utils/bigNumber'
+import { bigNumberify } from '@marsfoundation/common-universal'
 import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { WithClassname, WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@sb/decorators'
 import { tokens } from '@sb/tokens'

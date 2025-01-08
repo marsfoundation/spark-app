@@ -1,4 +1,4 @@
-import { bigNumberify } from '@/utils/bigNumber'
+import { bigNumberify } from '@marsfoundation/common-universal'
 
 import { AaveFormattedReserve } from './aave-data-layer/query'
 

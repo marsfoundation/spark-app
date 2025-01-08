@@ -4,7 +4,7 @@ import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { testAddresses, testTokens } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
 import { setupUseContractActionRenderer } from '@/test/integration/setupUseContractActionRenderer'
-import { toBigInt } from '@/utils/bigNumber'
+import { toBigInt } from '@marsfoundation/common-universal'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { waitFor } from '@testing-library/react'
 import { gnosis } from 'viem/chains'
@@ -56,7 +56,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
           abi: savingsXDaiAdapterAbi,
           functionName: 'depositXDAI',
           args: [account],
-          value: toBigInt(toBigInt(dai.toBaseUnit(depositValue))),
+          value: toBigInt(dai.toBaseUnit(depositValue)),
           from: account,
           result: 1n,
         }),
