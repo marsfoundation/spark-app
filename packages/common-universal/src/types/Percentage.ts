@@ -17,3 +17,10 @@ export function Percentage(_value: NumberLike, allowMoreThan1 = false): Percenta
 
   return value as Percentage
 }
+
+const BIPS_PRECISION = new BigNumber('10000')
+
+Percentage.fromBips = function fromBips(_value: NumberLike): Percentage {
+  const value = bigNumberify(_value)
+  return Percentage(value.div(BIPS_PRECISION))
+}
