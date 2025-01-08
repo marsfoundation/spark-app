@@ -1,9 +1,9 @@
 /* eslint-disable */
 import { MockObject, expect, mockFn, mockObject } from 'earl'
 
-import { formatDate } from '../utils'
-import { ElasticSearchClient } from './ElasticSearchClient'
-import { ElasticSearchTransport, ElasticSearchTransportOptions, UuidProvider } from './ElasticSearchTransport'
+import { formatDate } from '../utils.js'
+import { ElasticSearchClient } from './ElasticSearchClient.js'
+import { ElasticSearchTransport, ElasticSearchTransportOptions, UuidProvider } from './ElasticSearchTransport.js'
 
 const flushInterval = 10
 const id = 'some-id'
