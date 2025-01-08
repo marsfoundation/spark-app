@@ -5,7 +5,7 @@ import { AaveData, RawAaveUserReserve } from '@/domain/market-info/aave-data-lay
 import { MarketInfo, Reserve, UserPosition, UserPositionSummary } from '@/domain/market-info/marketInfo'
 import { getCompoundedScaledBalance, getScaledBalance } from '@/domain/market-info/math'
 import { mergeUserPositionIntoRawUserReserve, recalculateUserSummary } from '@/domain/market-info/utils'
-import { bigNumberify } from '@/utils/bigNumber'
+import { bigNumberify } from '@marsfoundation/common-universal'
 
 import { CheckedAddress } from '@marsfoundation/common-universal'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'

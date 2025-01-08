@@ -1,7 +1,7 @@
 import { calculateCompoundedInterest, calculateLinearInterest, rayDiv, rayMul } from '@aave/math-utils'
 import BigNumber from 'bignumber.js'
 
-import { NumberLike, bigNumberify } from '@/utils/bigNumber'
+import { NumberLike, bigNumberify } from '@marsfoundation/common-universal'
 
 import { BaseUnitNumber, Percentage } from '@marsfoundation/common-universal'
 
