@@ -42,7 +42,7 @@ export function createDepositActionConfig(action: DepositAction, context: Action
             value,
             context.account,
             SPARK_UI_REFERRAL_CODE,
-            UnixTime(permit.deadline),
+            UnixTime.fromDate(permit.deadline),
             Number(permit.signature.v),
             permit.signature.r,
             permit.signature.s,

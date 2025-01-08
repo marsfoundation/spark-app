@@ -107,7 +107,7 @@ describe(createDepositActionConfig.name, () => {
             toBigInt(depositToken.toBaseUnit(depositValue)),
             account,
             referralCode,
-            UnixTime(permitDeadline),
+            UnixTime.fromDate(permitDeadline),
             0,
             random32Bytes,
             random32Bytes,

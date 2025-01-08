@@ -46,7 +46,7 @@ export function useSandboxDialog(mode: SandboxMode): UseSandboxDialogResult {
     }
 
     const createdAt = new Date()
-    const forkChainId = getChainIdWithPrefix(SANDBOX_NETWORKS_CHAIN_ID_PREFIX, UnixTime(createdAt))
+    const forkChainId = getChainIdWithPrefix(SANDBOX_NETWORKS_CHAIN_ID_PREFIX, UnixTime.fromDate(createdAt))
 
     if (mode === 'ephemeral') {
       const privateKey = generatePrivateKey()

@@ -43,7 +43,7 @@ export function createRepayActionConfig(action: RepayAction, context: ActionCont
             value,
             interestRateMode,
             account,
-            UnixTime(permit.deadline),
+            UnixTime.fromDate(permit.deadline),
             Number(permit.signature.v),
             permit.signature.r,
             permit.signature.s,

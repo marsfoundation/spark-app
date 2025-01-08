@@ -155,7 +155,7 @@ describe(createRepayActionConfig.name, () => {
             repayValueBigInt,
             interestRateMode,
             account,
-            UnixTime(permitDeadline),
+            UnixTime.fromDate(permitDeadline),
             0,
             random32Bytes,
             random32Bytes,
