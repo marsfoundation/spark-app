@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - "packages/common-*/**"
+      - ".github/workflows/ci-common-testnets.yml"
   push:
     branches:
       - main
