@@ -23,7 +23,7 @@ function ActionsContainer({
   actionsGridLayout,
   enabled,
 }: RequireKeys<ActionsContainerProps, 'enabled'>) {
-  const { handlers, settingsDisabled } = useActionHandlers(objectives, {
+  const { handlers, settingsDisabled, isWalletCapabilitiesCheckPending } = useActionHandlers(objectives, {
     context,
     enabled,
     onFinish,
@@ -36,6 +36,7 @@ function ActionsContainer({
       actionHandlers={handlers}
       settingsDisabled={settingsDisabled}
       settingsDialogProps={settingsDialogProps}
+      loading={isWalletCapabilitiesCheckPending}
     />
   )
 }

@@ -3,6 +3,7 @@ import {
   Action,
   ActionHandler,
   ActionHandlerState,
+  GetWriteConfigResult,
   InitialParamsBase,
   VerifyTransactionResultBase,
 } from '@/features/actions/logic/types'
@@ -127,7 +128,7 @@ function mapStatusesToActionState({
   return mapWriteResultToActionState(write)
 }
 
-function actionToConfig(action: Action, context: ActionContext): ActionConfig {
+export function actionToConfig(action: Action, context: ActionContext): ActionConfig {
   switch (action.type) {
     case 'approve':
       return createApproveActionConfig(action, context)
@@ -171,7 +172,7 @@ function actionToConfig(action: Action, context: ActionContext): ActionConfig {
 function createEmptyActionConfig(): ActionConfig {
   return {
     initialParamsQueryOptions: () => ({ queryKey: [], queryFn: skipToken }),
-    getWriteConfig: () => ({}),
+    getWriteConfig: () => ({}) as GetWriteConfigResult,
     verifyTransactionQueryOptions: () => ({ queryKey: [], queryFn: skipToken }),
     invalidates: () => [],
     beforeWriteCheck: () => {},

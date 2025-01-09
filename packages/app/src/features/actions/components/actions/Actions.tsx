@@ -1,6 +1,7 @@
 import { assertNever } from '@marsfoundation/common-universal'
 import { ApproveDelegationActionRow } from '../../flavours/approve-delegation/ApproveDelegationActionRow'
 import { ApproveActionRow } from '../../flavours/approve/ApproveActionRow'
+import { BatchActionRow } from '../../flavours/batch/BatchActionRow'
 import { BorrowActionRow } from '../../flavours/borrow/BorrowActionRow'
 import { ClaimFarmRewardsActionRow } from '../../flavours/claim-farm-rewards/ClaimFarmRewardsActionRow'
 import { ClaimMarketRewardsActionRow } from '../../flavours/claim-market-rewards/ClaimMarketRewardsActionRow'
@@ -39,6 +40,8 @@ export function Actions({ actionHandlers, layout }: ActionsProps) {
         }
 
         switch (handler.action.type) {
+          case 'batch':
+            return <BatchActionRow action={handler.action} {...props} />
           case 'approve':
             return <ApproveActionRow action={handler.action} {...props} />
           case 'approveDelegation':

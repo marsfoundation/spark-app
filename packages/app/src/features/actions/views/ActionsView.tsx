@@ -1,3 +1,4 @@
+import { Loader } from '@/ui/atoms/loader/Loader'
 import { cn } from '@/ui/utils/style'
 import { usePortalRef } from '@/ui/utils/usePortalRef'
 import { cva } from 'class-variance-authority'
@@ -21,6 +22,7 @@ export interface ActionsViewProps {
   settingsDisabled: boolean
   actionsGridLayout: ActionsGridLayout
   settingsDialogProps: UseSettingsDialogResult
+  loading: boolean
 }
 
 export function ActionsView({
@@ -28,6 +30,7 @@ export function ActionsView({
   actionsGridLayout,
   settingsDisabled,
   settingsDialogProps,
+  loading,
 }: ActionsViewProps) {
   const { portalRef: dialogPortalRef, refCallback: dialogPortalRefCallback } = usePortalRef()
   return (
@@ -42,7 +45,7 @@ export function ActionsView({
         />
       </div>
       <div className="rounded-sm border border-primary">
-        <Actions actionHandlers={actionHandlers} layout={actionsGridLayout} />
+        {loading ? <Loader size={20} /> : <Actions actionHandlers={actionHandlers} layout={actionsGridLayout} />}
       </div>
     </section>
   )

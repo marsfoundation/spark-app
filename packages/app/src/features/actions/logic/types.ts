@@ -8,6 +8,7 @@ import { Address, TransactionReceipt } from 'viem'
 import { Config } from 'wagmi'
 import { ApproveDelegationAction } from '../flavours/approve-delegation/types'
 import { ApproveAction } from '../flavours/approve/types'
+import { BatchAction } from '../flavours/batch/types'
 import { BorrowAction, BorrowObjective } from '../flavours/borrow/types'
 import { ClaimFarmRewardsAction, ClaimFarmRewardsObjective } from '../flavours/claim-farm-rewards/types'
 import { ClaimMarketRewardsAction, ClaimMarketRewardsObjective } from '../flavours/claim-market-rewards/types'
@@ -80,7 +81,7 @@ export type ActionHandlerState =
 export type ActionHandlerErrorKind = 'initial-params' | WriteErrorKind | 'tx-verify'
 
 export interface ActionHandler {
-  action: Action
+  action: Action | BatchAction
   state: ActionHandlerState
   onAction: () => void
 }
@@ -109,7 +110,7 @@ export type GetWriteConfigResult = Parameters<typeof useWrite>[0]
 
 export interface ActionConfig {
   initialParamsQueryOptions?: () => InitialParamsQueryOptions
-  getWriteConfig: (initialParams: InitialParamsQueryResult) => GetWriteConfigResult
+  getWriteConfig: (initialParams?: InitialParamsQueryResult) => GetWriteConfigResult
   verifyTransactionQueryOptions?: () => VerifyTransactionQueryOptions
   invalidates: () => QueryKey[]
   beforeWriteCheck?: () => void
