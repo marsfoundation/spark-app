@@ -8,7 +8,7 @@ interface SavingsInfoTileProps {
 }
 export function SavingsInfoTile({ children, className }: SavingsInfoTileProps) {
   return (
-    <div className={cn('flex flex-col gap-1 px-3 xl:px-6 last:pr-0 first:pl-0', className)} role="generic">
+    <div className={cn('flex flex-col gap-1 px-3 first:pl-0 last:pr-0 xl:px-6', className)} role="generic">
       {children}
     </div>
   )

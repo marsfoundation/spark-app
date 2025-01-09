@@ -4,8 +4,7 @@ import { useSandboxState } from '@/domain/sandbox/useSandboxState'
 import { useStore } from '@/domain/state'
 import { useCloseDialog } from '@/domain/state/dialogs'
 import { NotRetryableError, retry } from '@/utils/promises'
-import { getTimestampInSeconds } from '@/utils/time'
-import { assert } from '@marsfoundation/common-universal'
+import { assert, UnixTime } from '@marsfoundation/common-universal'
 import { UseMutationResult, useMutation } from '@tanstack/react-query'
 import { useRef } from 'react'
 import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts'
@@ -47,7 +46,7 @@ export function useSandboxDialog(mode: SandboxMode): UseSandboxDialogResult {
     }
 
     const createdAt = new Date()
-    const forkChainId = getChainIdWithPrefix(SANDBOX_NETWORKS_CHAIN_ID_PREFIX, getTimestampInSeconds(createdAt))
+    const forkChainId = getChainIdWithPrefix(SANDBOX_NETWORKS_CHAIN_ID_PREFIX, UnixTime.fromDate(createdAt))
 
     if (mode === 'ephemeral') {
       const privateKey = generatePrivateKey()

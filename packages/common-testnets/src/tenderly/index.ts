@@ -1,1 +1,1 @@
-export * from './TenderlyTestnetFactory'
+export * from './TenderlyTestnetFactory.js'

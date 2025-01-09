@@ -1,6 +1,6 @@
 import { assert, CheckedAddress, Hash } from '@marsfoundation/common-universal'
 import { encodeAbiParameters, keccak256, toHex } from 'viem'
-import { TestnetClient } from '../TestnetClient'
+import { TestnetClient } from '../TestnetClient.js'
 
 interface ReplaceSafeOwnerArgs {
   client: TestnetClient

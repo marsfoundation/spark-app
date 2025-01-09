@@ -91,12 +91,11 @@ export class Token {
   }
 
   public toBaseUnit(value: NormalizedUnitNumber): BaseUnitNumber {
-    const normalizedValue = NormalizedUnitNumber(value.decimalPlaces(this.decimals, BigNumber.ROUND_DOWN))
-    return BaseUnitNumber(normalizedValue.shiftedBy(this.decimals))
+    return NormalizedUnitNumber.toBaseUnit(value, this.decimals)
   }
 
   public fromBaseUnit(value: BaseUnitNumber): NormalizedUnitNumber {
-    return NormalizedUnitNumber(value.shiftedBy(-this.decimals))
+    return BaseUnitNumber.toNormalizedUnit(value, this.decimals)
   }
 
   public toUSD(value: NormalizedUnitNumber): NormalizedUnitNumber {

@@ -10,8 +10,8 @@ export function FarmDetailsSkeleton() {
       </div>
       <Skeleton className="h-[60px] w-60" />
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-        <Skeleton className="h-[380px] w-full lg:h-[414px] md:h-[456px]" />
-        <Skeleton className="h-[380px] w-full lg:h-[414px] md:h-[456px]" />
+        <Skeleton className="h-[380px] w-full md:h-[456px] lg:h-[414px]" />
+        <Skeleton className="h-[380px] w-full md:h-[456px] lg:h-[414px]" />
       </div>
       <Skeleton className="h-[469px] w-full" />
     </PageLayout>

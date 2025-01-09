@@ -33,7 +33,7 @@ export function RedesignTopBanner({ onClose, className }: RedesignTopBannerProps
         variant="transparent"
         size="s"
         onClick={onClose}
-        className="-translate-y-1/2 absolute top-1/2 right-3 text-primary active:text-primary/50 hover:text-primary/70"
+        className="-translate-y-1/2 absolute top-1/2 right-3 text-primary hover:text-primary/70 active:text-primary/50"
       />
     </div>
   )

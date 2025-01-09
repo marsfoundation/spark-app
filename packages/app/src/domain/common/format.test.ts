@@ -1,6 +1,6 @@
 import { describe } from 'vitest'
 
-import { bigNumberify } from '@/utils/bigNumber'
+import { bigNumberify } from '@marsfoundation/common-universal'
 
 import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { findSignificantPrecision, formFormat, formatHealthFactor, formatPercentage } from './format'

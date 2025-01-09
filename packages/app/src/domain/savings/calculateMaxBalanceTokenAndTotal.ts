@@ -1,5 +1,5 @@
 import { TokenWithBalance } from '@/domain/common/types'
-import { bigNumberify } from '@/utils/bigNumber'
+import { bigNumberify } from '@marsfoundation/common-universal'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 export interface CalculateMaxBalanceTokenAndTotalParams {

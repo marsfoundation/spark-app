@@ -8,8 +8,8 @@ import {
   savingsXDaiAddress,
 } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
-import { bigNumberify } from '@/utils/bigNumber'
 import { fromWad } from '@/utils/math'
+import { bigNumberify } from '@marsfoundation/common-universal'
 
 import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import BigNumber from 'bignumber.js'

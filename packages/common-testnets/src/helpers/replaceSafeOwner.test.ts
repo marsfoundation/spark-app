@@ -1,8 +1,8 @@
 import { CheckedAddress } from '@marsfoundation/common-universal'
 import { expect } from 'earl'
-import { TestnetClient } from '../TestnetClient'
-import { createTestnetFactoriesForE2ETests } from '../test-utils'
-import { getSafeOwners, replaceSafeOwner } from './replaceSafeOwner'
+import { TestnetClient } from '../TestnetClient.js'
+import { createTestnetFactoriesForE2ETests } from '../test-utils/index.js'
+import { getSafeOwners, replaceSafeOwner } from './replaceSafeOwner.js'
 
 describe(replaceSafeOwner.name, () => {
   // @note: this test could be run only against a single factory but since we don't have concrete tests for each testnet

@@ -5,8 +5,7 @@ import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { getMockToken, testAddresses } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
 import { setupUseContractActionRenderer } from '@/test/integration/setupUseContractActionRenderer'
-import { toBigInt } from '@/utils/bigNumber'
-import { getTimestampInSeconds } from '@/utils/time'
+import { UnixTime, toBigInt } from '@marsfoundation/common-universal'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { waitFor } from '@testing-library/react'
 import { generatePrivateKey } from 'viem/accounts'
@@ -108,7 +107,7 @@ describe(createDepositActionConfig.name, () => {
             toBigInt(depositToken.toBaseUnit(depositValue)),
             account,
             referralCode,
-            toBigInt(getTimestampInSeconds(permitDeadline)),
+            UnixTime.fromDate(permitDeadline),
             0,
             random32Bytes,
             random32Bytes,

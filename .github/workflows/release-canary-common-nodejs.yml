@@ -33,6 +33,10 @@ jobs:
         run: |
           cd packages/common-nodejs
           npm pkg set version=0.2.0-canary.$(date +'%Y%m%d').$(git rev-parse --short HEAD)
+
+          # update workspace dependencies to point to any version
+          jq '.dependencies |= with_entries(if .value == "workspace:^" then .value = "*" else . end)' package.json > temp.json && mv temp.json package.json
+
           echo "Version changed: $(npm pkg get version)"
 
       - name: Publish to npm

@@ -11,7 +11,7 @@ import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/que
 import { testAddresses, testTokens } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
 import { setupUseContractActionRenderer } from '@/test/integration/setupUseContractActionRenderer'
-import { toBigInt } from '@/utils/bigNumber'
+import { BaseUnitNumber, toBigInt } from '@marsfoundation/common-universal'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { waitFor } from '@testing-library/react'
 import { erc4626Abi } from 'viem'
@@ -105,7 +105,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
           args: [
             account,
             toBigInt(usdc.toBaseUnit(depositValue)),
-            toBigInt(usdc.toBaseUnit(depositValue).multipliedBy(1e12)),
+            toBigInt(BaseUnitNumber(usdc.toBaseUnit(depositValue).multipliedBy(1e12))),
           ],
           from: account,
           result: 1n,
@@ -190,7 +190,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
           args: [
             account,
             toBigInt(usdc.toBaseUnit(depositValue)),
-            toBigInt(usdc.toBaseUnit(depositValue).multipliedBy(1e12)),
+            toBigInt(BaseUnitNumber(usdc.toBaseUnit(depositValue).multipliedBy(1e12))),
           ],
           from: account,
           result: 1n,

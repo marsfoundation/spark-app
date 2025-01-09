@@ -4,8 +4,8 @@ import { NATIVE_ASSET_MOCK_ADDRESS } from '@/config/consts'
 import { fromRay } from '@/utils/math'
 import { assert, CheckedAddress, raise } from '@marsfoundation/common-universal'
 import { BaseUnitNumber, NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
+import { bigNumberify } from '@marsfoundation/common-universal'
 import BigNumber from 'bignumber.js'
-import { bigNumberify } from '../../utils/bigNumber'
 import { Token } from '../types/Token'
 import { TokenSymbol } from '../types/TokenSymbol'
 import { AaveDataLayerQueryReturnType, aaveDataLayerSelectFn } from './aave-data-layer/query'
@@ -283,8 +283,8 @@ export function marketInfoSelectFn({ timeAdvance }: MarketInfoSelectFnParams = {
         isIsolated: r.reserve.isIsolated,
         eModeCategory:
           r.reserve.eModeCategoryId !== 0
-            ? eModeCategories[r.reserve.eModeCategoryId] ??
-              raise(`EMode category ${r.reserve.eModeCategoryId} not found`)
+            ? (eModeCategories[r.reserve.eModeCategoryId] ??
+              raise(`EMode category ${r.reserve.eModeCategoryId} not found`))
             : undefined,
         isSiloedBorrowing: r.reserve.isSiloedBorrowing,
         isBorrowableInIsolation: r.reserve.borrowableInIsolation,

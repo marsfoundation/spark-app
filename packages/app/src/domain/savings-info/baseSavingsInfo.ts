@@ -1,6 +1,6 @@
 import { ssrAuthOracleConfig } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
-import { bigNumberify } from '@/utils/bigNumber'
+import { bigNumberify } from '@marsfoundation/common-universal'
 import { QueryKey } from '@tanstack/react-query'
 import { readContract } from 'wagmi/actions'
 import { PotSavingsInfo } from './potSavingsInfo'
