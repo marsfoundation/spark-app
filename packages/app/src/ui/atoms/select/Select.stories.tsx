@@ -25,7 +25,7 @@ function Selector({ disabled }: { disabled?: boolean }) {
 const meta: Meta<typeof Selector> = {
   title: 'Components/Atoms/Select',
   component: Selector,
-  decorators: [WithClassname('w-[120px]')],
+  decorators: [WithClassname('w-[120px] h-96')],
 }
 
 export default meta

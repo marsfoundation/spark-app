@@ -8,7 +8,7 @@ import { TopbarRewards } from './TopbarRewards'
 
 const meta: Meta<typeof TopbarRewards> = {
   title: 'Features/Topbar/Components/TopbarRewards',
-  decorators: [WithTooltipProvider(), WithClassname('flex justify-end')],
+  decorators: [WithTooltipProvider(), WithClassname('flex justify-end h-96')],
   component: TopbarRewards,
   args: {
     rewards: [

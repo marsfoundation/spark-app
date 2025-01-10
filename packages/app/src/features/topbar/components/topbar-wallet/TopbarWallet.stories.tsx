@@ -10,7 +10,7 @@ import { TopbarWallet, TopbarWalletProps } from './TopbarWallet'
 const meta: Meta<typeof TopbarWallet> = {
   title: 'Features/Topbar/Components/TopbarWallet',
   component: TopbarWallet,
-  decorators: [WithTooltipProvider(), WithClassname('flex justify-end'), withRouter()],
+  decorators: [WithTooltipProvider(), WithClassname('flex justify-end h-96'), withRouter()],
   play: async ({ canvasElement }) => {
     const button = await within(canvasElement).findByRole('button')
 
