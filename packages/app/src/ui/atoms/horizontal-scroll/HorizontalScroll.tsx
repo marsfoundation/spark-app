@@ -13,6 +13,7 @@ export function HorizontalScroll({ children, className }: { children: React.Reac
         className,
       )}
       ref={titleRef}
+      data-chromatic="ignore"
     >
       {children}
     </div>
