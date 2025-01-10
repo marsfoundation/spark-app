@@ -8,10 +8,12 @@ export const chromatic = {
 export function getMobileStory<T>(story: StoryObj<T>): StoryObj<T> {
   return {
     ...story,
-    parameters: {
+    globals: {
       viewport: {
-        defaultViewport: 'mobile',
+        value: 'mobile',
       },
+    },
+    parameters: {
       chromatic: {
         viewports: [chromatic.mobile],
       },
@@ -22,10 +24,12 @@ export function getMobileStory<T>(story: StoryObj<T>): StoryObj<T> {
 export function getTabletStory<T>(story: StoryObj<T>): StoryObj<T> {
   return {
     ...story,
-    parameters: {
+    globals: {
       viewport: {
-        defaultViewport: 'tablet',
+        value: 'tablet',
       },
+    },
+    parameters: {
       chromatic: {
         viewports: [chromatic.tablet],
       },
