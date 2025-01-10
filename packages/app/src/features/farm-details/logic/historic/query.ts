@@ -43,7 +43,7 @@ const historicDataResponseSchema = z
     results: z.array(
       z.object({
         date: z.string().transform((value) => new Date(value)),
-        apr: z.string().transform((value) => Percentage(value, true)),
+        apr: z.string().transform((value) => Percentage(value, { allowMoreThan1: true })),
         total_staked: z.string().transform((value) => NormalizedUnitNumber(value)),
       }),
     ),

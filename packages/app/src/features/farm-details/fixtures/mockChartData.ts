@@ -74,11 +74,11 @@ export const mockChartData = [
   {
     date: new Date('2024-08-12'),
     totalStaked: NormalizedUnitNumber('29741295.986447529580084989'),
-    apr: Percentage('1.24832955', true),
+    apr: Percentage('1.24832955', { allowMoreThan1: true }),
   },
   {
     date: new Date('2024-08-11'),
     totalStaked: NormalizedUnitNumber('29741295.986447529580084989'),
-    apr: Percentage('1.24832955', true),
+    apr: Percentage('1.24832955', { allowMoreThan1: true }),
   },
 ]

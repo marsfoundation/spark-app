@@ -17,7 +17,7 @@ describe(formatPercentage.name, () => {
 
     // biome-ignore lint/complexity/noForEach: <explanation>
     tests.forEach(([value, expected]) => {
-      expect(formatPercentage(Percentage(value, true))).toEqual(expected)
+      expect(formatPercentage(Percentage(value, { allowMoreThan1: true }))).toEqual(expected)
     })
   })
 
@@ -40,7 +40,7 @@ describe(formatPercentage.name, () => {
 
     // biome-ignore lint/complexity/noForEach: <explanation>
     tests.forEach(([value, expected]) => {
-      expect(formatPercentage(Percentage(value, true))).toEqual(expected)
+      expect(formatPercentage(Percentage(value, { allowMoreThan1: true }))).toEqual(expected)
     })
   })
 
@@ -55,7 +55,7 @@ describe(formatPercentage.name, () => {
 
     // biome-ignore lint/complexity/noForEach: <explanation>
     tests.forEach(([value, expected]) => {
-      expect(formatPercentage(Percentage(value, true))).toEqual(expected)
+      expect(formatPercentage(Percentage(value, { allowMoreThan1: true }))).toEqual(expected)
     })
   })
 })

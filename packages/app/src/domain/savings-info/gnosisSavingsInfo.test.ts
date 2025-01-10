@@ -10,7 +10,7 @@ describe(GnosisSavingsInfo.name, () => {
       const timestamp = 1000
       const shares = NormalizedUnitNumber(100)
       const savingsInfo = new GnosisSavingsInfo({
-        vaultAPY: Percentage(18.25, true), // 5% / day
+        vaultAPY: Percentage(18.25, { allowMoreThan1: true }), // 5% / day
         totalAssets: NormalizedUnitNumber(100),
         totalSupply: NormalizedUnitNumber(100),
         currentTimestamp: timestamp,
@@ -29,7 +29,7 @@ describe(GnosisSavingsInfo.name, () => {
       const timestamp = 1000
       const shares = NormalizedUnitNumber(100)
       const savingsInfo = new GnosisSavingsInfo({
-        vaultAPY: Percentage(18.25, true), // 5% / day
+        vaultAPY: Percentage(18.25, { allowMoreThan1: true }), // 5% / day
         totalAssets: NormalizedUnitNumber(100),
         totalSupply: NormalizedUnitNumber(100),
         currentTimestamp: timestamp,
@@ -50,7 +50,7 @@ describe(GnosisSavingsInfo.name, () => {
       const timestamp = 1000
       const assets = NormalizedUnitNumber(100)
       const savingsInfo = new GnosisSavingsInfo({
-        vaultAPY: Percentage(18.25, true), // 5% / day
+        vaultAPY: Percentage(18.25, { allowMoreThan1: true }), // 5% / day
         totalAssets: NormalizedUnitNumber(100),
         totalSupply: NormalizedUnitNumber(100),
         currentTimestamp: timestamp,
@@ -68,7 +68,7 @@ describe(GnosisSavingsInfo.name, () => {
       const timestamp = 1000
       const assets = NormalizedUnitNumber(100)
       const savingsInfo = new GnosisSavingsInfo({
-        vaultAPY: Percentage(18.25, true), // 5% / day
+        vaultAPY: Percentage(18.25, { allowMoreThan1: true }), // 5% / day
         totalAssets: NormalizedUnitNumber(100),
         totalSupply: NormalizedUnitNumber(100),
         currentTimestamp: timestamp,
