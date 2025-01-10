@@ -1,17 +1,3 @@
-#storybook-root {
-  min-width: 375px;
-  min-height: 400px;
-}
-
 body {
   background-color: rgb(250, 250, 250);
-}
-
-/*
-prevents reapplying same values when using WithClassname
-decorator in root of story file but doesn't apply to component itself
-*/
-#storybook-root > [data-sb="decorator"] {
-  min-width: 375px;
-  min-height: 400px;
 }
