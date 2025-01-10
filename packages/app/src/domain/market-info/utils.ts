@@ -49,12 +49,12 @@ export function normalizeUserSummary(formattedUserSummary: AaveUserSummary): Use
   const healthFactor = rawHealthFactor.eq(-1) ? undefined : rawHealthFactor
 
   return {
-    loanToValue: Percentage(loanToValue, true),
+    loanToValue: Percentage(loanToValue, { allowMoreThan1: true }),
     healthFactor,
     maxLoanToValue: Percentage(formattedUserSummary.currentLoanToValue),
     availableBorrowsUSD: NormalizedUnitNumber(formattedUserSummary.availableBorrowsUSD),
     totalBorrowsUSD: NormalizedUnitNumber(formattedUserSummary.totalBorrowsUSD),
-    currentLiquidationThreshold: Percentage(formattedUserSummary.currentLiquidationThreshold, true),
+    currentLiquidationThreshold: Percentage(formattedUserSummary.currentLiquidationThreshold, { allowMoreThan1: true }),
     totalCollateralUSD: NormalizedUnitNumber(formattedUserSummary.totalCollateralUSD),
     totalLiquidityUSD: NormalizedUnitNumber(formattedUserSummary.totalLiquidityUSD),
   }

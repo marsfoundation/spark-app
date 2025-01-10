@@ -215,7 +215,7 @@ function TooltipContent({ data }: { data: GraphDataPoint }) {
       </div>
       <div className="flex flex-col gap-3 text-primary">
         <p>{formatPercentage(Percentage(data.x))}</p>
-        <p>{formatPercentage(Percentage(data.y, true))}</p>
+        <p>{formatPercentage(Percentage(data.y, { allowMoreThan1: true }))}</p>
       </div>
     </div>
   )

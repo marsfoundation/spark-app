@@ -22,7 +22,7 @@ export class PotSavingsInfo implements SavingsInfo {
   constructor({ potParams, currentTimestamp }: PotSavingsInfoParams) {
     this.potParams = potParams
     this.currentTimestamp = currentTimestamp
-    this.DSR = Percentage(pow(fromRay(potParams.dsr), 60 * 60 * 24 * 365).minus(1), true)
+    this.DSR = Percentage(pow(fromRay(potParams.dsr), 60 * 60 * 24 * 365).minus(1), { allowMoreThan1: true })
   }
 
   get apy(): Percentage {

@@ -43,7 +43,9 @@ export function createTxOverview({ formValues, farm }: CreateTxOverviewParams): 
       .multipliedBy(SECONDS_PER_YEAR),
   )
   const rewardsPerYearUsd = farm.rewardToken.toUSD(rewardsPerYear)
-  const apy = stakedAmountUsd.gt(0) ? Percentage(rewardsPerYearUsd.dividedBy(stakedAmountUsd), true) : Percentage(0)
+  const apy = stakedAmountUsd.gt(0)
+    ? Percentage(rewardsPerYearUsd.dividedBy(stakedAmountUsd), { allowMoreThan1: true })
+    : Percentage(0)
 
   return {
     status: 'success',
