@@ -10,7 +10,7 @@ import { AssetSelector } from './AssetSelector'
 const meta: Meta<typeof AssetSelector> = {
   title: 'Components/Molecules/New/AssetSelector',
   component: AssetSelector,
-  decorators: [WithClassname('w-[120px]')],
+  decorators: [WithClassname('w-[120px] h-[440px]')],
   args: {
     assets: [
       { token: tokens.ETH, balance: NormalizedUnitNumber('0.0001') },

@@ -8,7 +8,7 @@ import { TopbarMenu } from './TopbarMenu'
 
 const meta: Meta<typeof TopbarMenu> = {
   title: 'Features/Topbar/Components/TopbarMenu',
-  decorators: [WithTooltipProvider(), WithClassname('flex justify-end'), withRouter()],
+  decorators: [WithTooltipProvider(), WithClassname('flex justify-end h-96'), withRouter()],
   play: async ({ canvasElement }) => {
     const button = await within(canvasElement).findByRole('button')
 
