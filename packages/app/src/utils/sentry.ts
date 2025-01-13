@@ -10,6 +10,14 @@ Sentry.init({
   dsn: import.meta.env.VITE_SENTRY_DSN,
   tunnel: `${apiUrl}/sentry/tunnel`,
   environment: import.meta.env.VITE_ENV_NAME,
+  allowUrls: [
+    // main production domain
+    /^https:\/\/app\.spark\.fi/,
+    // vercel staging and production including previews
+    /^https:\/\/spark-app-(staging|production)-[a-z0-9]+-mars-foundation\.vercel\.app/,
+    // localhost
+    ...(import.meta.env.VITE_SENTRY_DSN ? [/^https?:\/\/localhost:[0-9]+/] : []),
+  ],
   integrations: [],
   tracesSampleRate: 0,
   replaysSessionSampleRate: 0,
