@@ -80,6 +80,25 @@ describe(Logger.name, () => {
     expect(transport.log).toHaveBeenOnlyCalledWith(lines.join(''))
   })
 
+  it('marks promised values in pretty output', () => {
+    const transport = createTestTransport()
+    const logger = new Logger({
+      transports: [
+        {
+          transport: transport,
+          formatter: new LogFormatterPretty({ colors: false, utc: true }),
+        },
+      ],
+      logLevel: 'TRACE',
+      getTime: () => new Date(0),
+      utc: true,
+    })
+
+    logger.info({ test: Promise.resolve(1234) })
+    const lines = ['00:00:00.000Z INFO\n', "    { test: 'Promise' }", '']
+    expect(transport.log).toHaveBeenOnlyCalledWith(lines.join(''))
+  })
+
   describe('for', () => {
     function setup() {
       const transport = createTestTransport()
