@@ -32,6 +32,7 @@ export default defineConfig({
       telemetry: false,
       org: process.env.SENTRY_ORG,
       project: process.env.SENTRY_PROJECT,
+      applicationKey: process.env.VITE_SENTRY_APPLICATION_KEY,
     }),
   ],
 
