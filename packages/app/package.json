@@ -43,7 +43,7 @@
     "@radix-ui/react-switch": "^1.0.3",
     "@radix-ui/react-tabs": "^1.0.4",
     "@radix-ui/react-tooltip": "^1.0.7",
-    "@rainbow-me/rainbowkit": "^2.0.5",
+    "@rainbow-me/rainbowkit": "^2.2.1",
     "@sentry/vite-plugin": "^2.16.1",
     "@size-limit/file": "^10.0.1",
     "@storybook/addon-viewport": "^8.4.7",
@@ -77,8 +77,8 @@
     "size-limit": "^10.0.1",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.6",
-    "viem": "^2.9.21",
-    "wagmi": "^2.5.20",
+    "viem": "^2.21.55",
+    "wagmi": "^2.14.3",
     "zustand": "^4.4.1"
   },
   "devDependencies": {
