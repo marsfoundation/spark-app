@@ -310,7 +310,7 @@ function rejectTransactionFromBatch(opts: { blockNumber?: number; sendCallsId?: 
       }
       return {
         status: 'CONFIRMED',
-        receipts: [txReceipt, { ...txReceipt, status: 'reverted' }],
+        receipts: [txReceipt, { ...txReceipt, status: '0x0' }],
       }
     }
 

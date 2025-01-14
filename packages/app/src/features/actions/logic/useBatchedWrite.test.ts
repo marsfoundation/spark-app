@@ -38,7 +38,7 @@ describe(useBatchedWrite.name, () => {
     expect((result.current.status as any).errorKind).toBe('calls-confirmation')
   })
 
-  it('propagates tx-reverted errors', async () => {
+  it('propagates error when one of transactions from batch fails', async () => {
     const { result } = hookRenderer({
       extraHandlers: [handlers.rejectTransactionFromBatch()],
     })
@@ -46,7 +46,7 @@ describe(useBatchedWrite.name, () => {
     await waitFor(() => expect(result.current.status.kind).toBe('ready'))
     result.current.write()
     await waitFor(() => expect(result.current.status.kind).toBe('error'))
-    expect((result.current.status as any).errorKind).toBe('tx-reverted')
+    expect((result.current.status as any).errorKind).toBe('calls-member-tx-reverted')
   })
 
   it('handles disabled state', async () => {
