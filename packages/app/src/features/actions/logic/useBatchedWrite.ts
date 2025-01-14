@@ -12,11 +12,11 @@ const CALLS_STATUS_REFETCH_INTERVAL = 1000
 export type BatchedWriteStatus =
   | { kind: 'disabled' }
   | { kind: 'ready' }
-  | { kind: 'tx-sending' }
-  | { kind: 'tx-confirming' }
+  | { kind: 'calls-sending' }
+  | { kind: 'calls-confirming' }
   | { kind: 'success' }
   | { kind: 'error'; errorKind: BatchedWriteErrorKind; error: Error }
-export type BatchedWriteErrorKind = 'tx-submission' | 'tx-confirmation' | 'tx-reverted'
+export type BatchedWriteErrorKind = 'calls-submission' | 'calls-confirmation' | 'calls-reverted'
 
 export interface UseBatchedWriteResult {
   write: () => void
@@ -28,12 +28,18 @@ export interface UseBatchedWriteCallbacks {
   onTransactionSettled?: (txReceipt: WalletCallReceipt<bigint, 'success' | 'reverted'>[]) => void
 }
 
-export function useBatchedWrite(
-  args: WriteContractsParameters & { enabled?: boolean },
-  callbacks: UseBatchedWriteCallbacks = {},
-): UseBatchedWriteResult {
+export interface UseBatchedWriteParams {
+  contracts: WriteContractsParameters['contracts']
+  enabled?: boolean
+  callbacks?: UseBatchedWriteCallbacks
+}
+
+export function useBatchedWrite({
+  contracts,
+  enabled = true,
+  callbacks = {},
+}: UseBatchedWriteParams): UseBatchedWriteResult {
   const chainId = useOriginChainId()
-  const enabled = args.enabled ?? true
 
   const {
     writeContracts,
@@ -68,27 +74,27 @@ export function useBatchedWrite(
     }
 
     if (writeContractsStatus === 'pending') {
-      return { kind: 'tx-sending' }
+      return { kind: 'calls-sending' }
     }
 
     if (writeContractsError) {
-      return { kind: 'error', errorKind: 'tx-submission', error: writeContractsError }
+      return { kind: 'error', errorKind: 'calls-submission', error: writeContractsError }
     }
 
     if (wasTxSent && (callsStatusStatus === 'pending' || callsStatusData?.status === 'PENDING')) {
-      return { kind: 'tx-confirming' }
+      return { kind: 'calls-confirming' }
     }
 
     if (wasTxSent && callsStatusError) {
-      return { kind: 'error', errorKind: 'tx-confirmation', error: callsStatusError }
+      return { kind: 'error', errorKind: 'calls-confirmation', error: callsStatusError }
     }
 
     if (wasTxSent && callsStatusStatus === 'success') {
       const receipts = callsStatusData?.receipts
       const revertedTxReceipt = receipts?.find((receipt) => receipt.status === 'reverted')
       if (revertedTxReceipt) {
-        // @todo: Consider more fine-grained error handling if safe ui is not enough for displaying detailed error
-        return { kind: 'error', errorKind: 'tx-reverted', error: new Error('Transaction reverted') }
+        // @note: Consider more fine-grained error handling if safe ui is not enough for displaying detailed error
+        return { kind: 'error', errorKind: 'calls-reverted', error: new Error('One of the calls transaction reverted') }
       }
 
       return { kind: 'success' }
@@ -99,17 +105,17 @@ export function useBatchedWrite(
 
   const finalWrite = enabled
     ? () => {
-        for (const contract of args.contracts) {
+        for (const contract of contracts) {
           sanityCheckTx({ address: contract.address, value: contract.value }, chainId)
         }
 
         trackEvent('tx-sent', {
           walletType: 'smart-wallet',
-          args: JSONStringifyRich(args.contracts),
+          args: JSONStringifyRich(contracts),
           chainId,
         })
 
-        writeContracts(args)
+        writeContracts({ contracts })
       }
     : () => {}
 

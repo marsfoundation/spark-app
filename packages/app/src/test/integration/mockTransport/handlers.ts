@@ -1,4 +1,5 @@
 import { isDeepStrictEqual } from 'node:util'
+import { Hex } from '@marsfoundation/common-universal'
 import {
   Abi,
   AbiEvent,
@@ -14,7 +15,6 @@ import {
   isAddressEqual,
   toHex,
 } from 'viem'
-
 import { TestTrigger } from '../trigger'
 import { RpcHandler } from './types'
 import { cleanObject, encodeRpcQuantity, encodeRpcUnformattedData, getEmptyTxData, getEmptyTxReceipt } from './utils'
@@ -237,6 +237,87 @@ function rejectSubmittedTransaction(opts: { blockNumber?: number; txHash?: strin
   }
 }
 
+function mineBatchedTransaction(opts: { blockNumber?: number; sendCallsId?: Hex } = {}): RpcHandler {
+  const blockNumber = opts.blockNumber ?? 0
+  const sendCallsId = Hex('0x1') ?? opts.sendCallsId
+
+  return (method: string, params: any) => {
+    if (method === 'wallet_sendCalls') {
+      return sendCallsId
+    }
+
+    if (method === 'wallet_getCallsStatus') {
+      const txReceipt = {
+        ...getEmptyTxReceipt(),
+        blockNumber: encodeRpcQuantity(blockNumber),
+        transactionHash: Hex('0xdeadbeef'),
+      }
+      return {
+        status: 'CONFIRMED',
+        receipts: [txReceipt, txReceipt],
+      }
+    }
+
+    return blockNumberCall(blockNumber)(method, params)
+  }
+}
+
+function rejectSubmittedBatchedTransaction(opts: { blockNumber?: number } = {}): RpcHandler {
+  const blockNumber = opts.blockNumber ?? 0
+
+  return (method: string, params: any) => {
+    if (method === 'wallet_sendCalls') {
+      throw new Error('wallet rejected sendCalls')
+    }
+
+    return blockNumberCall(blockNumber)(method, params)
+  }
+}
+
+function rejectSubmittedBatchedTransactionStatusCheck(
+  opts: { blockNumber?: number; sendCallsId?: Hex } = {},
+): RpcHandler {
+  const blockNumber = opts.blockNumber ?? 0
+  const sendCallsId = Hex('0x1') ?? opts.sendCallsId
+
+  return (method: string, params: any) => {
+    if (method === 'wallet_sendCalls') {
+      return sendCallsId
+    }
+
+    if (method === 'wallet_getCallsStatus') {
+      throw new Error('Failed to get calls status')
+    }
+
+    return blockNumberCall(blockNumber)(method, params)
+  }
+}
+
+function rejectTransactionFromBatch(opts: { blockNumber?: number; sendCallsId?: Hex } = {}): RpcHandler {
+  const blockNumber = opts.blockNumber ?? 0
+  const sendCallsId = Hex('0x1') ?? opts.sendCallsId
+
+  return (method: string, params: any) => {
+    if (method === 'wallet_sendCalls') {
+      return sendCallsId
+    }
+
+    if (method === 'wallet_getCallsStatus') {
+      const txReceipt = {
+        ...getEmptyTxReceipt(),
+        blockNumber: encodeRpcQuantity(blockNumber),
+        transactionHash: Hex('0xdeadbeef'),
+      }
+      return {
+        status: 'CONFIRMED',
+        receipts: [txReceipt, { ...txReceipt, status: 'reverted' }],
+      }
+    }
+
+    return blockNumberCall(blockNumber)(method, params)
+  }
+}
+
 export class MockError extends Error {
   public readonly code: number
   public readonly data: string
@@ -295,6 +376,10 @@ export const handlers = {
   mineTransaction,
   mineRevertedTransaction,
   rejectSubmittedTransaction,
+  mineBatchedTransaction,
+  rejectSubmittedBatchedTransaction,
+  rejectSubmittedBatchedTransactionStatusCheck,
+  rejectTransactionFromBatch,
   triggerHandler,
   forceCallErrorHandler,
 }
