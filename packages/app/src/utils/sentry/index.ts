@@ -23,7 +23,7 @@ Sentry.init({
     // allows to filter out third party errors (browser extensions, code-injection, etc.)
     Sentry.thirdPartyErrorFilterIntegration({
       filterKeys: [import.meta.env.VITE_SENTRY_APPLICATION_KEY],
-      behaviour: 'drop-error-if-contains-third-party-frames',
+      behaviour: 'drop-error-if-exclusively-contains-third-party-frames',
     }),
   ],
   tracesSampleRate: 0,
