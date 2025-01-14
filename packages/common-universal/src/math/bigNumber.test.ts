@@ -5,6 +5,16 @@ import BigNumber from 'bignumber.js'
 
 import { bigNumberify, parseBigNumber } from './bigNumber.js'
 
+describe(`${BigNumber.name}.${BigNumber.toString.name}`, () => {
+  it('does not use scientific notation for big numbers', () => {
+    expect(new BigNumber((10n ** 100n).toString()).toString()).toEqual(`1${'0'.repeat(100)}`)
+  })
+
+  it('does not use scientific notation for big negative numbers', () => {
+    expect(new BigNumber((10n ** 100n * -1n).toString()).toString()).toEqual(`-1${'0'.repeat(100)}`)
+  })
+})
+
 describe(bigNumberify.name, () => {
   it('throws for non-numeric string', () => {
     expect(() => bigNumberify('123,456')).toThrow('Value argument: 123,456 cannot be converted to BigNumber.')
