@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js'
 
 import { assert, BaseUnitNumber } from '../index.js'
 
+// Only use scientific notation if number's exponent is greater than 1e9 (so 1e9 decimals of precision)
 BigNumber.config({ EXPONENTIAL_AT: 1e9 })
 
 export type NumberLike = string | number | BigNumber | bigint
