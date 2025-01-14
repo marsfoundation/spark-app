@@ -1,5 +1,5 @@
 {
-  "name": "app-monorepo",
+  "name": "@marsfoundation/app-monorepo",
   "private": true,
   "license": "MIT",
   "engines": {
