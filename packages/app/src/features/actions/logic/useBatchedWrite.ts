@@ -16,7 +16,7 @@ export type BatchedWriteStatus =
   | { kind: 'calls-confirming' }
   | { kind: 'success' }
   | { kind: 'error'; errorKind: BatchedWriteErrorKind; error: Error }
-export type BatchedWriteErrorKind = 'calls-submission' | 'calls-confirmation' | 'calls-member-tx-reverted'
+export type BatchedWriteErrorKind = 'calls-submission' | 'calls-confirmation' | 'calls-item-tx-reverted'
 
 export interface UseBatchedWriteResult {
   write: () => void
@@ -96,8 +96,8 @@ export function useBatchedWrite({
         // @note: Consider more fine-grained error handling if safe ui is not enough for displaying detailed error
         return {
           kind: 'error',
-          errorKind: 'calls-member-tx-reverted',
-          error: new Error('One of the calls transaction reverted'),
+          errorKind: 'calls-item-tx-reverted',
+          error: new Error('One of the batch transaction reverted'),
         }
       }
 

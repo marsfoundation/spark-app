@@ -46,7 +46,7 @@ describe(useBatchedWrite.name, () => {
     await waitFor(() => expect(result.current.status.kind).toBe('ready'))
     result.current.write()
     await waitFor(() => expect(result.current.status.kind).toBe('error'))
-    expect((result.current.status as any).errorKind).toBe('calls-member-tx-reverted')
+    expect((result.current.status as any).errorKind).toBe('calls-item-tx-reverted')
   })
 
   it('handles disabled state', async () => {
