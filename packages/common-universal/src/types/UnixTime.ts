@@ -21,12 +21,18 @@ export function UnixTime(value: NumberLike): UnixTime {
   return result as UnixTime
 }
 
-UnixTime.ONE_HOUR = (): UnixTime => {
-  return UnixTime(3600)
+const ONE_MINUTE = 60
+
+UnixTime.ONE_MINUTE = (): UnixTime => {
+  return UnixTime(ONE_MINUTE)
 }
 
 UnixTime.FIFTEEN_MINUTES = (): UnixTime => {
-  return UnixTime(900)
+  return UnixTime(15 * ONE_MINUTE)
+}
+
+UnixTime.ONE_HOUR = (): UnixTime => {
+  return UnixTime(60 * ONE_MINUTE)
 }
 
 UnixTime.fromDate = (date: Date): UnixTime => {
