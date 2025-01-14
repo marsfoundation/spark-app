@@ -24,4 +24,8 @@ describe(BaseUnitNumber.name, () => {
   it('throws if value argument is non-numeric value', () => {
     expect(() => BaseUnitNumber('non-numeric')).toThrow('Value argument: non-numeric cannot be converted to BigNumber.')
   })
+
+  it(`${BaseUnitNumber.toString.name} does not use scientific notation for big numbers`, () => {
+    expect(BaseUnitNumber(10n ** 100n).toString()).toEqual(`1${'0'.repeat(100)}`)
+  })
 })

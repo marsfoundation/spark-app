@@ -24,6 +24,10 @@ describe(NormalizedUnitNumber.name, () => {
     )
   })
 
+  it(`${NormalizedUnitNumber.toString.name} does not use scientific notation for big numbers`, () => {
+    expect(NormalizedUnitNumber(10n ** 100n).toString()).toEqual(`1${'0'.repeat(100)}`)
+  })
+
   describe(NormalizedUnitNumber.toBaseUnit.name, () => {
     it('works with standard decimals', () => {
       expect(NormalizedUnitNumber.toBaseUnit(NormalizedUnitNumber(2.5), 18)).toEqual(
