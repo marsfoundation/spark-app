@@ -27,13 +27,18 @@ export default defineConfig({
     react(),
     tsconfigPaths(),
     svgr(),
-    sentryVitePlugin({
-      silent: true,
-      telemetry: false,
-      org: process.env.SENTRY_ORG,
-      project: process.env.SENTRY_PROJECT,
-      applicationKey: process.env.VITE_SENTRY_APPLICATION_KEY,
-    }),
+    // Excluding sentry plugin from storybook build
+    ...(process.env.STORYBOOK_PREVIEW
+      ? []
+      : [
+          sentryVitePlugin({
+            silent: true,
+            telemetry: false,
+            org: process.env.SENTRY_ORG,
+            project: process.env.SENTRY_PROJECT,
+            applicationKey: process.env.VITE_SENTRY_APPLICATION_KEY,
+          }),
+        ]),
   ],
 
   server: {
