@@ -47,7 +47,6 @@ describe(useBatchWrite.name, () => {
     result.current.write()
     await waitFor(() => expect(result.current.status.kind).toBe('error'), { timeout: 4000 })
     expect((result.current.status as any).errorKind).toBe('batch-item-tx-reverted')
-    expect((result.current.status as any).revertedTxIndex).toBe(1)
   })
 
   it('handles disabled state', async () => {

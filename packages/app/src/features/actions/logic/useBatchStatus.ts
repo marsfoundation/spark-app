@@ -1,7 +1,6 @@
 import { UseQueryResult, queryOptions, skipToken, useQuery } from '@tanstack/react-query'
 import { WalletCallReceipt } from 'viem'
 import { Config, useConfig } from 'wagmi'
-import { waitForTransactionReceipt } from 'wagmi/actions'
 import { getCallsStatus } from 'wagmi/actions/experimental'
 
 const BATCH_STATUS_REFETCH_INTERVAL = 1000
@@ -20,7 +19,6 @@ export type BatchStatusData =
     }
   | {
       status: 'REVERTED'
-      revertedTxIndex: number
       error: Error
     }
 
@@ -48,19 +46,11 @@ export function batchStatusQueryOptions({ batchId, config }: BatchQueryOptionsPa
             } as const
           }
 
-          const revertedReceiptIndex = callsStatus.receipts?.findIndex((receipt) => receipt.status === 'reverted')
-          const revertedReceipt = revertedReceiptIndex ? callsStatus.receipts?.[revertedReceiptIndex] : undefined
-
-          if (revertedReceiptIndex && revertedReceipt) {
-            try {
-              await waitForTransactionReceipt(config, { hash: revertedReceipt.transactionHash })
-            } catch (e: unknown) {
-              return {
-                status: 'REVERTED',
-                revertedTxIndex: revertedReceiptIndex,
-                error: e as Error,
-              } as const
-            }
+          if (callsStatus.receipts?.some((receipt) => receipt.status === 'reverted')) {
+            return {
+              status: 'REVERTED',
+              error: new Error('One of the batch transactions reverted'),
+            } as const
           }
 
           return {

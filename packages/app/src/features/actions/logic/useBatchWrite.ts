@@ -14,8 +14,7 @@ export type BatchWriteStatus =
   | { kind: 'calls-sending' }
   | { kind: 'calls-confirming' }
   | { kind: 'success' }
-  | { kind: 'error'; errorKind: 'batch-submission' | 'batch-confirmation'; error: Error }
-  | { kind: 'error'; errorKind: 'batch-item-tx-reverted'; revertedTxIndex: number; error: Error }
+  | { kind: 'error'; errorKind: 'batch-submission' | 'batch-confirmation' | 'batch-item-tx-reverted'; error: Error }
 
 export interface UseBatchWriteResult {
   write: () => void
@@ -84,7 +83,6 @@ export function useBatchWrite({ contracts, enabled = true, callbacks = {} }: Use
         return {
           kind: 'error',
           errorKind: 'batch-item-tx-reverted',
-          revertedTxIndex: batchStatusData.revertedTxIndex,
           error: batchStatusData.error,
         }
       }
