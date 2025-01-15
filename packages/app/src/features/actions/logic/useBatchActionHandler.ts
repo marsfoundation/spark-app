@@ -6,7 +6,7 @@ import { Action, ActionContext, ActionHandlerState, BatchActionHandler, Injected
 import { BatchWriteStatus, useBatchWrite } from './useBatchWrite'
 import { actionToConfig } from './useContractAction'
 
-export interface GetBatchHandlerParams {
+export interface UseBatchActionHandlerParams {
   actions: Action[]
   enabled: boolean
   onFinish: () => void
@@ -18,7 +18,7 @@ export function useBatchActionHandler({
   enabled,
   onFinish,
   context: injectedContext,
-}: GetBatchHandlerParams): BatchActionHandler {
+}: UseBatchActionHandlerParams): BatchActionHandler {
   const wagmiConfig = useConfig()
   const { account } = useConnectedAddress()
   const chainId = useChainId()
