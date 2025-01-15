@@ -1,7 +1,6 @@
 import { useConnectedAddress } from '@/domain/wallet/useConnectedAddress'
 import { assertNever } from '@marsfoundation/common-universal'
 import { useQueryClient } from '@tanstack/react-query'
-import { ContractFunctionParameters } from 'viem'
 import { useChainId, useConfig } from 'wagmi'
 import { Action, ActionContext, ActionHandlerState, BatchActionHandler, InjectedActionsContext } from './types'
 import { BatchWriteStatus, useBatchWrite } from './useBatchWrite'
@@ -35,7 +34,7 @@ export function useBatchActionHandler({
 
   const batchConfigs = actions.map((action) => actionToConfig(action, context))
 
-  const contracts = batchConfigs.map((config) => config.getWriteConfig()) as ContractFunctionParameters[]
+  const contracts = batchConfigs.map((config) => config.getWriteConfig())
   function onTransactionSettled(): void {
     for (const config of batchConfigs) {
       const queryKeys = config.invalidates()

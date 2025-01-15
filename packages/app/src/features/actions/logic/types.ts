@@ -1,10 +1,10 @@
 import { FarmsInfo } from '@/domain/farms/farmsInfo'
-import { WriteErrorKind, useWrite } from '@/domain/hooks/useWrite'
+import { WriteErrorKind } from '@/domain/hooks/useWrite'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { SavingsInfo } from '@/domain/savings-info/types'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { QueryKey, UseQueryOptions, UseQueryResult } from '@tanstack/react-query'
-import { Address, TransactionReceipt } from 'viem'
+import { Address, ContractFunctionParameters, TransactionReceipt } from 'viem'
 import { Config } from 'wagmi'
 import { ApproveDelegationAction } from '../flavours/approve-delegation/types'
 import { ApproveAction } from '../flavours/approve/types'
@@ -112,7 +112,7 @@ type InitialParamsQueryOptions = UseQueryOptions<any, Error, InitialParamsBase, 
 export type InitialParamsQueryResult = UseQueryResult<InitialParamsBase>
 type VerifyTransactionQueryOptions = UseQueryOptions<any, Error, VerifyTransactionResultBase, QueryKey>
 export type VerifyTransactionResult = UseQueryResult<VerifyTransactionResultBase>
-export type GetWriteConfigResult = Parameters<typeof useWrite>[0]
+export type GetWriteConfigResult = ContractFunctionParameters
 
 export interface ActionConfig {
   initialParamsQueryOptions?: () => InitialParamsQueryOptions

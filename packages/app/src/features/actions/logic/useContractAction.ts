@@ -3,6 +3,7 @@ import {
   Action,
   ActionHandler,
   ActionHandlerState,
+  GetWriteConfigResult,
   InitialParamsBase,
   VerifyTransactionResultBase,
 } from '@/features/actions/logic/types'
@@ -171,7 +172,7 @@ export function actionToConfig(action: Action, context: ActionContext): ActionCo
 function createEmptyActionConfig(): ActionConfig {
   return {
     initialParamsQueryOptions: () => ({ queryKey: [], queryFn: skipToken }),
-    getWriteConfig: () => ({}),
+    getWriteConfig: () => ({}) as GetWriteConfigResult,
     verifyTransactionQueryOptions: () => ({ queryKey: [], queryFn: skipToken }),
     invalidates: () => [],
     beforeWriteCheck: () => {},
