@@ -237,7 +237,7 @@ function rejectSubmittedTransaction(opts: { blockNumber?: number; txHash?: strin
   }
 }
 
-function mineBatchedTransaction(opts: { blockNumber?: number; sendCallsId?: Hex } = {}): RpcHandler {
+function mineBatchTransaction(opts: { blockNumber?: number; sendCallsId?: Hex } = {}): RpcHandler {
   const blockNumber = opts.blockNumber ?? 0
   const sendCallsId = Hex('0x1') ?? opts.sendCallsId
 
@@ -262,7 +262,7 @@ function mineBatchedTransaction(opts: { blockNumber?: number; sendCallsId?: Hex 
   }
 }
 
-function rejectSubmittedBatchedTransaction(opts: { blockNumber?: number } = {}): RpcHandler {
+function rejectSubmittedBatchTransaction(opts: { blockNumber?: number } = {}): RpcHandler {
   const blockNumber = opts.blockNumber ?? 0
 
   return (method: string, params: any) => {
@@ -274,7 +274,7 @@ function rejectSubmittedBatchedTransaction(opts: { blockNumber?: number } = {}):
   }
 }
 
-function rejectSubmittedBatchedTransactionStatusCheck(
+function rejectSubmittedBatchTransactionStatusCheck(
   opts: { blockNumber?: number; sendCallsId?: Hex } = {},
 ): RpcHandler {
   const blockNumber = opts.blockNumber ?? 0
@@ -293,9 +293,12 @@ function rejectSubmittedBatchedTransactionStatusCheck(
   }
 }
 
-function rejectTransactionFromBatch(opts: { blockNumber?: number; sendCallsId?: Hex } = {}): RpcHandler {
+function rejectTransactionFromBatch(
+  opts: { blockNumber?: number; sendCallsId?: Hex; txHash?: string } = {},
+): RpcHandler {
   const blockNumber = opts.blockNumber ?? 0
   const sendCallsId = Hex('0x1') ?? opts.sendCallsId
+  const txHash = Hex('0xdeadbeef') ?? opts.txHash
 
   return (method: string, params: any) => {
     if (method === 'wallet_sendCalls') {
@@ -311,6 +314,14 @@ function rejectTransactionFromBatch(opts: { blockNumber?: number; sendCallsId?: 
       return {
         status: 'CONFIRMED',
         receipts: [txReceipt, { ...txReceipt, status: '0x0' }],
+      }
+    }
+
+    if (method === 'eth_getTransactionByHash') {
+      return {
+        ...getEmptyTxData(),
+        blockNumber: encodeRpcQuantity(blockNumber),
+        txHash,
       }
     }
 
@@ -376,9 +387,9 @@ export const handlers = {
   mineTransaction,
   mineRevertedTransaction,
   rejectSubmittedTransaction,
-  mineBatchedTransaction,
-  rejectSubmittedBatchedTransaction,
-  rejectSubmittedBatchedTransactionStatusCheck,
+  mineBatchTransaction,
+  rejectSubmittedBatchTransaction,
+  rejectSubmittedBatchTransactionStatusCheck,
   rejectTransactionFromBatch,
   triggerHandler,
   forceCallErrorHandler,
