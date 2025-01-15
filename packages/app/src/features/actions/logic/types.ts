@@ -26,6 +26,7 @@ import { UpgradeAction, UpgradeObjective } from '../flavours/upgrade/types'
 import { WithdrawFromSavingsAction, WithdrawFromSavingsObjective } from '../flavours/withdraw-from-savings/types'
 import { WithdrawAction, WithdrawObjective } from '../flavours/withdraw/types'
 import { PermitStore } from './permits'
+import { BatchWriteErrorKind } from './useBatchWrite'
 
 /**
  * Objective is an input to action component. It is a high level description of what user wants to do.
@@ -77,10 +78,16 @@ export type ActionHandlerState =
   | { status: 'success' }
   | { status: 'error'; errorKind?: ActionHandlerErrorKind; message: string }
 
-export type ActionHandlerErrorKind = 'initial-params' | WriteErrorKind | 'tx-verify'
+export type ActionHandlerErrorKind = 'initial-params' | WriteErrorKind | BatchWriteErrorKind | 'tx-verify'
 
 export interface ActionHandler {
   action: Action
+  state: ActionHandlerState
+  onAction: () => void
+}
+
+export interface BatchActionHandler {
+  actions: Action[]
   state: ActionHandlerState
   onAction: () => void
 }
@@ -109,7 +116,7 @@ export type GetWriteConfigResult = Parameters<typeof useWrite>[0]
 
 export interface ActionConfig {
   initialParamsQueryOptions?: () => InitialParamsQueryOptions
-  getWriteConfig: (initialParams: InitialParamsQueryResult) => GetWriteConfigResult
+  getWriteConfig: (initialParams?: InitialParamsQueryResult) => GetWriteConfigResult
   verifyTransactionQueryOptions?: () => VerifyTransactionQueryOptions
   invalidates: () => QueryKey[]
   beforeWriteCheck?: () => void

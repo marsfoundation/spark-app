@@ -127,7 +127,7 @@ function mapStatusesToActionState({
   return mapWriteResultToActionState(write)
 }
 
-function actionToConfig(action: Action, context: ActionContext): ActionConfig {
+export function actionToConfig(action: Action, context: ActionContext): ActionConfig {
   switch (action.type) {
     case 'approve':
       return createApproveActionConfig(action, context)
