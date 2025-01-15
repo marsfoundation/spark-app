@@ -1,8 +1,8 @@
 import { UseQueryResult, queryOptions, skipToken, useQuery } from '@tanstack/react-query'
 import { WalletCallReceipt } from 'viem'
-import { getCallsStatus } from 'viem/experimental'
-import { Config, Connector, useAccount, useConfig } from 'wagmi'
-import { getConnectorClient, waitForTransactionReceipt } from 'wagmi/actions'
+import { Config, useConfig } from 'wagmi'
+import { waitForTransactionReceipt } from 'wagmi/actions'
+import { getCallsStatus } from 'wagmi/actions/experimental'
 
 const BATCH_STATUS_REFETCH_INTERVAL = 1000
 
@@ -26,24 +26,21 @@ export type BatchStatusData =
 
 export function useBatchStatus({ batchId }: UseBatchWriteParams): UseQueryResult<BatchStatusData, Error> {
   const config = useConfig()
-  const { connector } = useAccount()
-  return useQuery(batchStatusQueryOptions({ batchId, config, connector }))
+  return useQuery(batchStatusQueryOptions({ batchId, config }))
 }
 
 export interface BatchQueryOptionsParams extends UseBatchWriteParams {
   config: Config
-  connector: Connector | undefined
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function batchStatusQueryOptions({ batchId, config, connector }: BatchQueryOptionsParams) {
+export function batchStatusQueryOptions({ batchId, config }: BatchQueryOptionsParams) {
   return queryOptions({
     queryKey: batchStatusQueryKey(batchId),
     refetchInterval: (data) => (data.state.data?.status === 'CONFIRMED' ? false : BATCH_STATUS_REFETCH_INTERVAL),
     queryFn: batchId
       ? async () => {
-          const client = await getConnectorClient(config, { connector })
-          const callsStatus = await getCallsStatus(client, { id: batchId })
+          const callsStatus = await getCallsStatus(config, { id: batchId })
 
           if (callsStatus.status === 'PENDING') {
             return {
