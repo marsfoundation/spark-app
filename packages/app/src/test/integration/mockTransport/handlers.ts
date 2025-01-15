@@ -241,7 +241,7 @@ function mineBatchTransaction(opts: { blockNumber?: number; sendCallsId?: Hex } 
   const blockNumber = opts.blockNumber ?? 0
   const sendCallsId = Hex('0x1') ?? opts.sendCallsId
 
-  return (method: string, params: any) => {
+  return (method: string) => {
     if (method === 'wallet_sendCalls') {
       return sendCallsId
     }
@@ -257,30 +257,24 @@ function mineBatchTransaction(opts: { blockNumber?: number; sendCallsId?: Hex } 
         receipts: [txReceipt, txReceipt],
       }
     }
-
-    return blockNumberCall(blockNumber)(method, params)
   }
 }
 
-function rejectSubmittedBatchTransaction(opts: { blockNumber?: number } = {}): RpcHandler {
-  const blockNumber = opts.blockNumber ?? 0
-
-  return (method: string, params: any) => {
+function rejectSubmittedBatchTransaction(): RpcHandler {
+  return (method: string) => {
     if (method === 'wallet_sendCalls') {
       throw new Error('wallet rejected sendCalls')
     }
-
-    return blockNumberCall(blockNumber)(method, params)
+    return undefined
   }
 }
 
 function rejectSubmittedBatchTransactionStatusCheck(
   opts: { blockNumber?: number; sendCallsId?: Hex } = {},
 ): RpcHandler {
-  const blockNumber = opts.blockNumber ?? 0
   const sendCallsId = Hex('0x1') ?? opts.sendCallsId
 
-  return (method: string, params: any) => {
+  return (method: string) => {
     if (method === 'wallet_sendCalls') {
       return sendCallsId
     }
@@ -288,8 +282,6 @@ function rejectSubmittedBatchTransactionStatusCheck(
     if (method === 'wallet_getCallsStatus') {
       throw new Error('Failed to get calls status')
     }
-
-    return blockNumberCall(blockNumber)(method, params)
   }
 }
 
@@ -300,7 +292,7 @@ function rejectTransactionFromBatch(
   const sendCallsId = Hex('0x1') ?? opts.sendCallsId
   const txHash = Hex('0xdeadbeef') ?? opts.txHash
 
-  return (method: string, params: any) => {
+  return (method: string) => {
     if (method === 'wallet_sendCalls') {
       return sendCallsId
     }
@@ -324,8 +316,6 @@ function rejectTransactionFromBatch(
         txHash,
       }
     }
-
-    return blockNumberCall(blockNumber)(method, params)
   }
 }
 
