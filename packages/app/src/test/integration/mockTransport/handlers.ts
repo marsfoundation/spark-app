@@ -285,12 +285,11 @@ function rejectSubmittedBatchTransactionStatusCheck(
   }
 }
 
-function rejectTransactionFromBatch(
+function mineBatchTransactionWithRejectedSubtransaction(
   opts: { blockNumber?: number; sendCallsId?: Hex; txHash?: string } = {},
 ): RpcHandler {
   const blockNumber = opts.blockNumber ?? 0
   const sendCallsId = Hex('0x1') ?? opts.sendCallsId
-  const txHash = Hex('0xdeadbeef') ?? opts.txHash
 
   return (method: string) => {
     if (method === 'wallet_sendCalls') {
@@ -306,14 +305,6 @@ function rejectTransactionFromBatch(
       return {
         status: 'CONFIRMED',
         receipts: [txReceipt, { ...txReceipt, status: '0x0' }],
-      }
-    }
-
-    if (method === 'eth_getTransactionByHash') {
-      return {
-        ...getEmptyTxData(),
-        blockNumber: encodeRpcQuantity(blockNumber),
-        txHash,
       }
     }
   }
@@ -380,7 +371,7 @@ export const handlers = {
   mineBatchTransaction,
   rejectSubmittedBatchTransaction,
   rejectSubmittedBatchTransactionStatusCheck,
-  rejectTransactionFromBatch,
+  mineBatchTransactionWithRejectedSubtransaction,
   triggerHandler,
   forceCallErrorHandler,
 }

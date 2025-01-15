@@ -13,7 +13,7 @@ describe(useBatchWrite.name, () => {
 
     await waitFor(() => expect(result.current.status.kind).toBe('ready'))
     result.current.write()
-    await waitFor(() => expect(result.current.status.kind).toBe('success'), { timeout: 4000 })
+    await waitFor(() => expect(result.current.status.kind).toBe('success'))
   })
 
   it('propagates wallet send calls errors', async () => {
@@ -34,18 +34,18 @@ describe(useBatchWrite.name, () => {
 
     await waitFor(() => expect(result.current.status.kind).toBe('ready'))
     result.current.write()
-    await waitFor(() => expect(result.current.status.kind).toBe('error'), { timeout: 4000 })
+    await waitFor(() => expect(result.current.status.kind).toBe('error'))
     expect((result.current.status as any).errorKind).toBe('batch-confirmation')
   })
 
   it('handles error when one of transactions from batch fails', async () => {
     const { result } = hookRenderer({
-      extraHandlers: [handlers.rejectTransactionFromBatch()],
+      extraHandlers: [handlers.mineBatchTransactionWithRejectedSubtransaction()],
     })
 
     await waitFor(() => expect(result.current.status.kind).toBe('ready'))
     result.current.write()
-    await waitFor(() => expect(result.current.status.kind).toBe('error'), { timeout: 4000 })
+    await waitFor(() => expect(result.current.status.kind).toBe('error'))
     expect((result.current.status as any).errorKind).toBe('batch-item-tx-reverted')
   })
 
@@ -69,7 +69,7 @@ describe(useBatchWrite.name, () => {
 
     await waitFor(() => expect(result.current.status.kind).toBe('ready'))
     result.current.write()
-    await waitFor(() => expect(result.current.status.kind).toBe('success'), { timeout: 4000 })
+    await waitFor(() => expect(result.current.status.kind).toBe('success'))
     expect(onTransactionSettled).toHaveBeenCalled()
   })
 })

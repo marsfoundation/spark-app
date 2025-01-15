@@ -11,8 +11,8 @@ import { useBatchStatus } from './useBatchStatus'
 export type BatchWriteStatus =
   | { kind: 'disabled' }
   | { kind: 'ready' }
-  | { kind: 'calls-sending' }
-  | { kind: 'calls-confirming' }
+  | { kind: 'batch-sending' }
+  | { kind: 'batch-confirming' }
   | { kind: 'success' }
   | { kind: 'error'; errorKind: 'batch-submission' | 'batch-confirmation' | 'batch-item-tx-reverted'; error: Error }
 
@@ -63,7 +63,7 @@ export function useBatchWrite({ contracts, enabled = true, callbacks = {} }: Use
     }
 
     if (writeContractsStatus === 'pending') {
-      return { kind: 'calls-sending' }
+      return { kind: 'batch-sending' }
     }
 
     if (writeContractsError) {
@@ -71,7 +71,7 @@ export function useBatchWrite({ contracts, enabled = true, callbacks = {} }: Use
     }
 
     if (wasTxSent && (isBatchStatusLoading || batchStatusData?.status === 'PENDING')) {
-      return { kind: 'calls-confirming' }
+      return { kind: 'batch-confirming' }
     }
 
     if (wasTxSent && batchStatusError) {
