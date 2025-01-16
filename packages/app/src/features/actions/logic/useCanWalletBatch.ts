@@ -1,17 +1,17 @@
 import { SupportedChainId } from '@/config/chain/types'
 import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
-import { QueryKey, UseQueryResult, queryOptions, skipToken, useQuery } from '@tanstack/react-query'
+import { QueryKey, UseSuspenseQueryResult, queryOptions, skipToken, useSuspenseQuery } from '@tanstack/react-query'
 import { Address } from 'viem'
 import { Config, useAccount, useConfig } from 'wagmi'
 import { getCapabilities } from 'wagmi/actions/experimental'
 
 const CAPABILITIES_QUERY_FN_TIMEOUT = 3000
 
-export function useCanWalletBatch(): UseQueryResult<boolean, Error> {
+export function useCanWalletBatch(): UseSuspenseQueryResult<boolean> {
   const config = useConfig()
   const chainId = useOriginChainId()
   const { address: account } = useAccount()
-  return useQuery(canWalletBatchQueryOptions({ config, chainId, account }))
+  return useSuspenseQuery(canWalletBatchQueryOptions({ config, chainId, account }))
 }
 
 export interface CanWalletBatchQueryOptionsParams {
