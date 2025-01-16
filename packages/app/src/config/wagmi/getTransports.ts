@@ -3,7 +3,7 @@ import { base, gnosis, mainnet } from 'viem/chains'
 import { VIEM_TIMEOUT_ON_FORKS } from './config.e2e'
 import { getInjectedNetwork } from './getInjectedNetwork'
 
-const ALCHEMY_API_KEY = 'WVOCPHOxAVE1R9PySEqcO7WX2b9_V-9L'
+const ALCHEMY_API_KEY = import.meta.env.VITE_ALCHEMY_API_KEY
 
 export interface GetTransportsParamsOptions {
   forkChain?: Chain
