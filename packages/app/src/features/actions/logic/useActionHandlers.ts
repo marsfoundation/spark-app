@@ -1,7 +1,6 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { getFakePermitAction } from '../flavours/permit/logic/getFakePermitAction'
 import { useCreatePermitHandler } from '../flavours/permit/logic/useCreatePermitHandler'
-import { createPermitStore } from './permits'
 import { Action, ActionContext, ActionHandler } from './types'
 import { useContractAction } from './useContractAction'
 
@@ -23,8 +22,6 @@ export function useActionHandlers({
   enabled,
   context,
 }: UseActionHandlersParams): UseActionHandlersResult {
-  const permitStore = useMemo(() => createPermitStore(), []) // useMemo not to call createPermitStore on every render
-
   const [currentActionIndex, setCurrentActionIndex] = useState(0)
   const currentAction = actions[currentActionIndex]!
 
@@ -44,7 +41,7 @@ export function useActionHandlers({
     currentAction.type === 'permit' ? currentAction : getFakePermitAction(),
     {
       enabled: enabled && currentAction.type === 'permit',
-      permitStore,
+      permitStore: context.permitStore,
     },
   )
 

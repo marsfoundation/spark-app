@@ -11,6 +11,7 @@ import {
 } from '@/domain/market-info/marketInfo'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { CheckedAddress } from '@marsfoundation/common-universal'
 import { zeroAddress } from 'viem'
@@ -424,6 +425,24 @@ export const wethLikeReserve = getMockReserve({
     borrow: [],
   },
 })
+
+export function getMockTokensInfo(): TokensInfo {
+  return new TokensInfo(
+    [
+      { token: testTokens.DAI, balance: NormalizedUnitNumber(2000) },
+      { token: testTokens.sDAI, balance: NormalizedUnitNumber(2000) },
+      { token: testTokens.USDS, balance: NormalizedUnitNumber(500) },
+      { token: testTokens.sUSDS, balance: NormalizedUnitNumber(150) },
+      { token: testTokens.USDC, balance: NormalizedUnitNumber(400) },
+    ],
+    {
+      DAI: testTokens.DAI.symbol,
+      sDAI: testTokens.sDAI.symbol,
+      USDS: testTokens.USDS.symbol,
+      sUSDS: testTokens.sUSDS.symbol,
+    },
+  )
+}
 
 export const testTokens = {
   DAI: daiLikeReserve.token,
