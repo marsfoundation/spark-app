@@ -1,36 +1,23 @@
-import { useConnectedAddress } from '@/domain/wallet/useConnectedAddress'
 import { assertNever } from '@marsfoundation/common-universal'
 import { useQueryClient } from '@tanstack/react-query'
-import { useChainId, useConfig } from 'wagmi'
-import { Action, ActionContext, ActionHandlerState, BatchActionHandler, InjectedActionsContext } from './types'
+import { Action, ActionContext, ActionHandlerState, BatchActionHandler } from './types'
 import { BatchWriteStatus, useBatchWrite } from './useBatchWrite'
 import { actionToConfig } from './useContractAction'
 
 export interface UseBatchActionHandlerParams {
   actions: Action[]
   enabled: boolean
-  onFinish: () => void
-  context: InjectedActionsContext | undefined
+  onFinish?: () => void
+  context: ActionContext
 }
 
 export function useBatchActionHandler({
   actions,
   enabled,
   onFinish,
-  context: injectedContext,
+  context,
 }: UseBatchActionHandlerParams): BatchActionHandler {
-  const wagmiConfig = useConfig()
-  const { account } = useConnectedAddress()
-  const chainId = useChainId()
   const queryClient = useQueryClient()
-
-  const context: ActionContext = {
-    ...injectedContext,
-    txReceipts: [],
-    wagmiConfig,
-    account,
-    chainId,
-  }
 
   const batchConfigs = actions.map((action) => actionToConfig(action, context))
 
@@ -42,7 +29,7 @@ export function useBatchActionHandler({
         void queryClient.invalidateQueries({ queryKey })
       }
     }
-    onFinish()
+    onFinish?.()
   }
 
   const { write, status } = useBatchWrite({
