@@ -5,7 +5,7 @@ import {
   PLAYWRIGHT_WALLET_ADDRESS_KEY,
   PLAYWRIGHT_WALLET_FORK_URL_KEY,
   PLAYWRIGHT_WALLET_PRIVATE_KEY_KEY,
-} from '@/config/wagmi/config.e2e'
+} from '@/config/wagmi/e2e-consts'
 import { InjectableWallet } from './setup'
 
 export async function injectWalletConfiguration(page: Page, wallet: InjectableWallet): Promise<void> {

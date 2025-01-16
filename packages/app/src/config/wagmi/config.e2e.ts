@@ -9,11 +9,12 @@ import { createMockConnector } from '@/domain/wallet/createMockConnector'
 
 import { viemAddressSchema } from '@/domain/common/validation'
 import { getConfig } from './config.default'
-
-export const PLAYWRIGHT_CHAIN_ID = '__PLAYWRIGHT_CHAIN_ID' as const
-export const PLAYWRIGHT_WALLET_ADDRESS_KEY = '__PLAYWRIGHT_WALLET_ADDRESS' as const
-export const PLAYWRIGHT_WALLET_PRIVATE_KEY_KEY = '__PLAYWRIGHT_WALLET_PRIVATE_KEY' as const
-export const PLAYWRIGHT_WALLET_FORK_URL_KEY = '__PLAYWRIGHT_WALLET_FORK_URL_KEY' as const
+import {
+  PLAYWRIGHT_CHAIN_ID,
+  PLAYWRIGHT_WALLET_ADDRESS_KEY,
+  PLAYWRIGHT_WALLET_FORK_URL_KEY,
+  PLAYWRIGHT_WALLET_PRIVATE_KEY_KEY,
+} from './e2e-consts'
 
 export const VIEM_TIMEOUT_ON_FORKS = 60_000 // forks tend to be slow. This improves reliability/performance. Default is 10_000
 
