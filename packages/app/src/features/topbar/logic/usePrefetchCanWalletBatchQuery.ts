@@ -10,7 +10,7 @@ export function usePrefetchCanWalletBatchQuery(): void {
 
   useAccountEffect({
     onConnect({ address: account }) {
-      queryClient.prefetchQuery(canWalletBatchQueryOptions({ account, chainId, config }))
+      void queryClient.prefetchQuery(canWalletBatchQueryOptions({ account, chainId, config }))
     },
   })
 }
