@@ -1,3 +1,5 @@
+import { Button } from '@/ui/atoms/button/Button'
+import { cn } from '@/ui/utils/style'
 import { assertNever } from '@marsfoundation/common-universal'
 import { ApproveDelegationActionRow } from '../../flavours/approve-delegation/ApproveDelegationActionRow'
 import { ApproveActionRow } from '../../flavours/approve/ApproveActionRow'
@@ -17,25 +19,35 @@ import { UnstakeActionRow } from '../../flavours/unstake/UnstakeActionRow'
 import { UpgradeActionRow } from '../../flavours/upgrade/UpgradeActionRow'
 import { WithdrawFromSavingsActionRow } from '../../flavours/withdraw-from-savings/WithdrawFromSavingsActionRow'
 import { WithdrawActionRow } from '../../flavours/withdraw/WithdrawActionRow'
-import { ActionHandler } from '../../logic/types'
+import { ActionHandler, BatchActionHandler } from '../../logic/types'
 import { ActionsGridLayout } from '../../types'
 import { ActionsGrid } from '../actions-grid/ActionsGrid'
 
 interface ActionsProps {
   actionHandlers: ActionHandler[]
+  batchActionHandler: BatchActionHandler | undefined
   layout: ActionsGridLayout
 }
 
-export function Actions({ actionHandlers, layout }: ActionsProps) {
+export function Actions({ actionHandlers, batchActionHandler, layout }: ActionsProps) {
   return (
     <ActionsGrid layout={layout}>
       {actionHandlers.map((handler, index) => {
         const props = {
+          layout,
           key: index,
           actionIndex: index,
-          actionHandlerState: handler.state,
-          onAction: handler.onAction,
-          layout,
+          ...(batchActionHandler
+            ? {
+                actionHandlerState: batchActionHandler.state,
+                onAction: batchActionHandler.onAction,
+                variant: 'batch',
+              }
+            : {
+                actionHandlerState: handler.state,
+                onAction: handler.onAction,
+                variant: 'single',
+              }),
         }
 
         switch (handler.action.type) {
@@ -79,6 +91,31 @@ export function Actions({ actionHandlers, layout }: ActionsProps) {
             assertNever(handler.action)
         }
       })}
+      {batchActionHandler && <BatchActionTrigger batchActionHandler={batchActionHandler} layout={layout} />}
     </ActionsGrid>
+  )
+}
+
+export interface BatchActionTriggerProps {
+  batchActionHandler: BatchActionHandler
+  layout: ActionsGridLayout
+}
+
+function BatchActionTrigger({ batchActionHandler, layout }: BatchActionTriggerProps) {
+  const buttonText = batchActionHandler.actions.length > 1 ? 'Execute all actions in one transaction' : 'Execute'
+
+  return (
+    <div className={cn('col-span-full items-center sm:p-5', layout === 'compact' && 'sm:p-4')}>
+      <Button
+        variant="primary"
+        size="l"
+        onClick={batchActionHandler.onAction}
+        loading={batchActionHandler.state.status === 'loading'}
+        disabled={batchActionHandler.state.status === 'disabled'}
+        className="w-full"
+      >
+        {batchActionHandler.state.status === 'error' ? 'Try Again' : buttonText}
+      </Button>
+    </div>
   )
 }

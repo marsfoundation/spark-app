@@ -2,7 +2,7 @@ import { cn } from '@/ui/utils/style'
 import { usePortalRef } from '@/ui/utils/usePortalRef'
 import { cva } from 'class-variance-authority'
 import { Actions } from '../components/actions/Actions'
-import { ActionHandler } from '../logic/types'
+import { ActionHandler, BatchActionHandler } from '../logic/types'
 import { SettingsDialog } from '../settings-dialog/components/SettingsDialog'
 import { UseSettingsDialogResult } from '../settings-dialog/logic/useSettingsDialog'
 import { ActionsGridLayout } from '../types'
@@ -18,6 +18,7 @@ const actionsTitleVariants = cva('', {
 
 export interface ActionsViewProps {
   actionHandlers: ActionHandler[]
+  batchActionHandler: BatchActionHandler | undefined
   settingsDisabled: boolean
   actionsGridLayout: ActionsGridLayout
   settingsDialogProps: UseSettingsDialogResult
@@ -25,6 +26,7 @@ export interface ActionsViewProps {
 
 export function ActionsView({
   actionHandlers,
+  batchActionHandler,
   actionsGridLayout,
   settingsDisabled,
   settingsDialogProps,
@@ -42,7 +44,7 @@ export function ActionsView({
         />
       </div>
       <div className="rounded-sm border border-primary">
-        <Actions actionHandlers={actionHandlers} layout={actionsGridLayout} />
+        <Actions actionHandlers={actionHandlers} batchActionHandler={batchActionHandler} layout={actionsGridLayout} />
       </div>
     </section>
   )

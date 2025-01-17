@@ -12,15 +12,16 @@ import { useIsTruncated } from '@/ui/utils/useIsTruncated'
 import { assert, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { cva } from 'class-variance-authority'
 import { ComponentType, ReactNode, createContext, useContext } from 'react'
-import { ActionHandlerState } from '../../logic/types'
+import { ActionHandlerState, BatchActionHandlerState } from '../../logic/types'
 import { ActionsGridLayout } from '../../types'
 
 export interface ActionRowProps {
   actionIndex: number
-  actionHandlerState: ActionHandlerState
+  actionHandlerState: ActionHandlerState | BatchActionHandlerState
   onAction: () => void
   layout: ActionsGridLayout
   children: ReactNode
+  variant?: 'batch' | 'single'
 }
 
 const ActionRowContext = createContext<Omit<ActionRowProps, 'children'> | null>(null)
@@ -31,7 +32,7 @@ function useActionRowContext() {
   return context
 }
 
-function ActionRow({ children, actionHandlerState, actionIndex, onAction, layout }: ActionRowProps) {
+function ActionRow({ children, actionHandlerState, actionIndex, onAction, layout, variant }: ActionRowProps) {
   return (
     <div
       className={cn(
@@ -41,7 +42,7 @@ function ActionRow({ children, actionHandlerState, actionIndex, onAction, layout
       )}
       data-testid={testIds.actions.row(actionIndex)}
     >
-      <ActionRowContext.Provider value={{ actionHandlerState, actionIndex, onAction, layout }}>
+      <ActionRowContext.Provider value={{ actionHandlerState, actionIndex, onAction, layout, variant }}>
         {children}
       </ActionRowContext.Provider>
     </div>
@@ -161,13 +162,14 @@ function ErrorWarning() {
 }
 
 function Trigger({ children }: { children: ReactNode }) {
-  const { actionHandlerState, onAction } = useActionRowContext()
+  const { actionHandlerState, onAction, variant } = useActionRowContext()
 
   return (
     <div
       className={cn(
         'col-span-full min-w-[5rem] md:col-span-1 md:col-start-[-1] md:w-auto',
         actionHandlerState.status === 'success' && 'hidden md:invisible md:block',
+        variant === 'batch' && 'hidden',
       )}
     >
       <Button
