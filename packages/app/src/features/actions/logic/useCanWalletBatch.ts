@@ -1,6 +1,5 @@
 import { SupportedChainId } from '@/config/chain/types'
 import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
-import { assert } from '@marsfoundation/common-universal'
 import { QueryKey, UseSuspenseQueryResult, queryOptions, useSuspenseQuery } from '@tanstack/react-query'
 import { Address } from 'viem'
 import { Config, useAccount, useConfig } from 'wagmi'
@@ -12,12 +11,11 @@ export function useCanWalletBatch(): UseSuspenseQueryResult<boolean> {
   const config = useConfig()
   const chainId = useOriginChainId()
   const { address: account } = useAccount()
-  assert(account, 'Account is required to fetch wallet capabilities')
   return useSuspenseQuery(canWalletBatchQueryOptions({ config, chainId, account }))
 }
 
 export interface CanWalletBatchQueryOptionsParams {
-  account: Address
+  account: Address | undefined
   chainId: SupportedChainId
   config: Config
 }
@@ -27,6 +25,9 @@ export function canWalletBatchQueryOptions({ account, chainId, config }: CanWall
   return queryOptions({
     queryKey: canWalletBatchQueryKey({ account, chainId }),
     queryFn: async () => {
+      if (!account) {
+        return false
+      }
       try {
         const capabilities = await withTimeout(getCapabilities(config, { account }), CAPABILITIES_QUERY_FN_TIMEOUT)
         return capabilities[chainId]?.atomicBatch?.supported === true
@@ -38,7 +39,7 @@ export function canWalletBatchQueryOptions({ account, chainId, config }: CanWall
 }
 
 export interface CanWalletBatchQueryKeyParams {
-  account: Address
+  account: Address | undefined
   chainId: number
 }
 
