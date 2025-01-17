@@ -21,6 +21,7 @@ export interface CanWalletBatchQueryOptionsParams {
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function canWalletBatchQueryOptions({ account, chainId, config }: CanWalletBatchQueryOptionsParams) {
   return queryOptions({
+    retry: false, // query is prefetched
     queryKey: canWalletBatchQueryKey({ account, chainId }),
     queryFn: async () => {
       if (!account) {
