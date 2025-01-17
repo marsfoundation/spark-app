@@ -14,7 +14,9 @@ export type BatchWriteStatus =
   | { kind: 'batch-sending' }
   | { kind: 'batch-confirming' }
   | { kind: 'success' }
-  | { kind: 'error'; errorKind: 'batch-submission' | 'batch-confirmation' | 'batch-item-tx-reverted'; error: Error }
+  | { kind: 'error'; errorKind: BatchWriteErrorKind; error: Error }
+
+export type BatchWriteErrorKind = 'batch-submission' | 'batch-confirmation' | 'batch-item-tx-reverted'
 
 export interface UseBatchWriteResult {
   write: () => void

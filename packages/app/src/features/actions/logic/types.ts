@@ -1,10 +1,10 @@
 import { FarmsInfo } from '@/domain/farms/farmsInfo'
-import { WriteErrorKind, useWrite } from '@/domain/hooks/useWrite'
+import { WriteErrorKind } from '@/domain/hooks/useWrite'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { SavingsInfo } from '@/domain/savings-info/types'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { QueryKey, UseQueryOptions, UseQueryResult } from '@tanstack/react-query'
-import { Address, TransactionReceipt } from 'viem'
+import { Address, ContractFunctionParameters, TransactionReceipt } from 'viem'
 import { Config } from 'wagmi'
 import { ApproveDelegationAction } from '../flavours/approve-delegation/types'
 import { ApproveAction } from '../flavours/approve/types'
@@ -26,6 +26,7 @@ import { UpgradeAction, UpgradeObjective } from '../flavours/upgrade/types'
 import { WithdrawFromSavingsAction, WithdrawFromSavingsObjective } from '../flavours/withdraw-from-savings/types'
 import { WithdrawAction, WithdrawObjective } from '../flavours/withdraw/types'
 import { PermitStore } from './permits'
+import { BatchWriteErrorKind } from './useBatchWrite'
 
 /**
  * Objective is an input to action component. It is a high level description of what user wants to do.
@@ -70,18 +71,25 @@ export type Action =
   | ClaimFarmRewardsAction
 export type ActionType = Action['type']
 
-export type ActionHandlerState =
+type BaseActionHandlerState<ErrorKind extends string> =
   | { status: 'disabled' }
   | { status: 'ready' }
   | { status: 'loading' }
   | { status: 'success' }
-  | { status: 'error'; errorKind?: ActionHandlerErrorKind; message: string }
+  | { status: 'error'; errorKind?: ErrorKind; message: string }
 
-export type ActionHandlerErrorKind = 'initial-params' | WriteErrorKind | 'tx-verify'
+export type ActionHandlerState = BaseActionHandlerState<'initial-params' | WriteErrorKind | 'tx-verify'>
+export type BatchActionHandlerState = BaseActionHandlerState<BatchWriteErrorKind>
 
 export interface ActionHandler {
   action: Action
   state: ActionHandlerState
+  onAction: () => void
+}
+
+export interface BatchActionHandler {
+  actions: Action[]
+  state: BatchActionHandlerState
   onAction: () => void
 }
 
@@ -105,11 +113,11 @@ type InitialParamsQueryOptions = UseQueryOptions<any, Error, InitialParamsBase, 
 export type InitialParamsQueryResult = UseQueryResult<InitialParamsBase>
 type VerifyTransactionQueryOptions = UseQueryOptions<any, Error, VerifyTransactionResultBase, QueryKey>
 export type VerifyTransactionResult = UseQueryResult<VerifyTransactionResultBase>
-export type GetWriteConfigResult = Parameters<typeof useWrite>[0]
+export type GetWriteConfigResult = ContractFunctionParameters
 
 export interface ActionConfig {
   initialParamsQueryOptions?: () => InitialParamsQueryOptions
-  getWriteConfig: (initialParams: InitialParamsQueryResult) => GetWriteConfigResult
+  getWriteConfig: (initialParams?: InitialParamsQueryResult) => GetWriteConfigResult
   verifyTransactionQueryOptions?: () => VerifyTransactionQueryOptions
   invalidates: () => QueryKey[]
   beforeWriteCheck?: () => void

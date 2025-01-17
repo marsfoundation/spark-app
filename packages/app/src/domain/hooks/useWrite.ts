@@ -1,4 +1,12 @@
-import { Abi, ContractFunctionName, TransactionReceipt, encodeFunctionData } from 'viem'
+import {
+  Abi,
+  AbiStateMutability,
+  ContractFunctionArgs,
+  ContractFunctionName,
+  ContractFunctionParameters,
+  TransactionReceipt,
+  encodeFunctionData,
+} from 'viem'
 import {
   UseSimulateContractParameters,
   UseWriteContractParameters,
@@ -164,9 +172,15 @@ export function useWrite<TAbi extends Abi, TFunctionName extends ContractFunctio
 
 // useful for creating conditional configs without losing type-safety
 export function ensureConfigTypes<
-  TAbi extends Abi,
-  TFunctionName extends ContractFunctionName<TAbi, 'nonpayable' | 'payable'>,
->(config: UseSimulateContractParameters<TAbi, TFunctionName>): UseSimulateContractParameters<Abi, string> {
+  abi extends Abi | readonly unknown[] = Abi,
+  mutability extends AbiStateMutability = AbiStateMutability,
+  functionName extends ContractFunctionName<abi, mutability> = ContractFunctionName<abi, mutability>,
+  args extends ContractFunctionArgs<abi, mutability, functionName> = ContractFunctionArgs<
+    abi,
+    mutability,
+    functionName
+  >,
+>(config: ContractFunctionParameters<abi, mutability, functionName, args> & { value?: bigint }): typeof config {
   return config as any
 }
 
