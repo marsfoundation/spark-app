@@ -1,22 +1,20 @@
-import { SupportedChainId } from '@/config/chain/types'
-import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
 import { QueryKey, UseSuspenseQueryResult, queryOptions, useSuspenseQuery } from '@tanstack/react-query'
 import { Address } from 'viem'
-import { Config, useAccount, useConfig } from 'wagmi'
+import { Config, useAccount, useChainId, useConfig } from 'wagmi'
 import { getCapabilities } from 'wagmi/actions/experimental'
 
 const CAPABILITIES_QUERY_FN_TIMEOUT = 3000
 
 export function useCanWalletBatch(): UseSuspenseQueryResult<boolean> {
   const config = useConfig()
-  const chainId = useOriginChainId()
+  const chainId = useChainId()
   const { address: account } = useAccount()
   return useSuspenseQuery(canWalletBatchQueryOptions({ config, chainId, account }))
 }
 
 export interface CanWalletBatchQueryOptionsParams {
   account: Address | undefined
-  chainId: SupportedChainId
+  chainId: number
   config: Config
 }
 
@@ -31,7 +29,10 @@ export function canWalletBatchQueryOptions({ account, chainId, config }: CanWall
       try {
         const capabilities = await withTimeout(getCapabilities(config, { account }), CAPABILITIES_QUERY_FN_TIMEOUT)
         return capabilities[chainId]?.atomicBatch?.supported === true
-      } catch {
+      } catch (e) {
+        if (e instanceof CanBatchQueryTimeoutError) {
+          console.error('Cannot check if wallet supports atomic batch transactions. Try reconnecting your wallet.', e)
+        }
         return false
       }
     },
@@ -52,7 +53,7 @@ function withTimeout<T>(promise: Promise<T>, timeoutMs: number): Promise<T> {
 
   const rejectTimeoutPromise = new Promise<never>((_, reject) => {
     rejectTimeout = setTimeout(() => {
-      reject(new Error(`Query timed out after ${timeoutMs}ms`))
+      reject(new CanBatchQueryTimeoutError(timeoutMs))
     }, timeoutMs)
   })
 
@@ -62,4 +63,11 @@ function withTimeout<T>(promise: Promise<T>, timeoutMs: number): Promise<T> {
     }),
     rejectTimeoutPromise,
   ])
+}
+
+export class CanBatchQueryTimeoutError extends Error {
+  constructor(timeoutMs: number) {
+    super(`Query timed out after ${timeoutMs}ms`)
+    this.name = 'CanBatchQueryTimeoutError'
+  }
 }

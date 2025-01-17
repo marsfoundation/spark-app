@@ -1,16 +1,14 @@
-import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
 import { canWalletBatchQueryOptions } from '@/features/actions/logic/useCanWalletBatch'
 import { useQueryClient } from '@tanstack/react-query'
-import { useAccountEffect, useConfig } from 'wagmi'
+import { useAccount, useChainId, useConfig } from 'wagmi'
 
 export function usePrefetchCanWalletBatchQuery(): void {
   const queryClient = useQueryClient()
-  const chainId = useOriginChainId()
   const config = useConfig()
+  const { address: account } = useAccount()
+  const chainId = useChainId()
 
-  useAccountEffect({
-    onConnect({ address: account }) {
-      void queryClient.prefetchQuery(canWalletBatchQueryOptions({ account, chainId, config }))
-    },
-  })
+  if (account) {
+    void queryClient.prefetchQuery(canWalletBatchQueryOptions({ account, chainId, config }))
+  }
 }
