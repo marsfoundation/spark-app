@@ -71,14 +71,15 @@ export type Action =
   | ClaimFarmRewardsAction
 export type ActionType = Action['type']
 
-export type ActionHandlerState =
+type BaseActionHandlerState<ErrorKind extends string> =
   | { status: 'disabled' }
   | { status: 'ready' }
   | { status: 'loading' }
   | { status: 'success' }
-  | { status: 'error'; errorKind?: ActionHandlerErrorKind; message: string }
+  | { status: 'error'; errorKind?: ErrorKind; message: string }
 
-export type ActionHandlerErrorKind = 'initial-params' | WriteErrorKind | BatchWriteErrorKind | 'tx-verify'
+export type ActionHandlerState = BaseActionHandlerState<'initial-params' | WriteErrorKind | 'tx-verify'>
+export type BatchActionHandlerState = BaseActionHandlerState<BatchWriteErrorKind>
 
 export interface ActionHandler {
   action: Action
@@ -88,7 +89,7 @@ export interface ActionHandler {
 
 export interface BatchActionHandler {
   actions: Action[]
-  state: ActionHandlerState
+  state: BatchActionHandlerState
   onAction: () => void
 }
 

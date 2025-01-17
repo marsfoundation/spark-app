@@ -1,6 +1,6 @@
 import { assertNever } from '@marsfoundation/common-universal'
 import { useQueryClient } from '@tanstack/react-query'
-import { Action, ActionContext, ActionHandlerState, BatchActionHandler } from './types'
+import { Action, ActionContext, BatchActionHandler, BatchActionHandlerState } from './types'
 import { BatchWriteStatus, useBatchWrite } from './useBatchWrite'
 import { actionToConfig } from './useContractAction'
 
@@ -45,7 +45,7 @@ export function useBatchActionHandler({
   }
 }
 
-function mapBatchWriteStatusToBatchActionState(status: BatchWriteStatus): ActionHandlerState {
+function mapBatchWriteStatusToBatchActionState(status: BatchWriteStatus): BatchActionHandlerState {
   switch (status.kind) {
     case 'disabled':
       return { status: 'disabled' }
