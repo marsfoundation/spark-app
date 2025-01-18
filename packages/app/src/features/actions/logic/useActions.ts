@@ -25,15 +25,16 @@ export function useActions({
   onFinish,
   enabled,
 }: UseActionsParams): UseActionsResult {
-  const actionsSettings = useActionsSettings()
   const {
     data: { canWalletBatch },
   } = useCanWalletBatch()
+  const actionsSettings = useActionsSettings()
   const context = useActionsContext(injectedContext)
   const actions = useCreateActions({
     objectives,
     actionsSettings,
     context,
+    canWalletBatch,
   })
 
   const batchActionHandler = useBatchActionHandler({ actions, enabled: enabled && canWalletBatch, onFinish, context })

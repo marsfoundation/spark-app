@@ -29,11 +29,18 @@ export interface UseCreateActionsParams {
   objectives: Objective[]
   actionsSettings: ActionsSettings
   context: ActionContext
+  canWalletBatch: boolean
 }
 
-export function useCreateActions({ objectives, actionsSettings, context }: UseCreateActionsParams): Action[] {
+export function useCreateActions({
+  objectives,
+  actionsSettings: _actionSettings,
+  context,
+  canWalletBatch,
+}: UseCreateActionsParams): Action[] {
   const chainConfig = useChainConfigEntry()
   const chainId = useChainId()
+  const actionsSettings = { ..._actionSettings, preferPermits: canWalletBatch ? false : _actionSettings.preferPermits }
 
   function getNativeAssetInfoSymbol(): TokenSymbol {
     return chainConfig.markets?.nativeAssetInfo.nativeAssetSymbol ?? raise('Native asset info is not defined')
