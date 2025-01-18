@@ -26,7 +26,9 @@ export function useActions({
   enabled,
 }: UseActionsParams): UseActionsResult {
   const actionsSettings = useActionsSettings()
-  const { data: canWalletBatch } = useCanWalletBatch()
+  const {
+    data: { canWalletBatch },
+  } = useCanWalletBatch()
   const context = useActionsContext(injectedContext)
   const actions = useCreateActions({
     objectives,
