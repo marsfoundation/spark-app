@@ -583,6 +583,37 @@ test.describe('Borrow page', () => {
       await borrowPage.expectLiquidationRiskWarningNotVisible()
     })
   })
+
+  test.describe('One click borrow', () => {
+    test('can borrow DAI', async ({ page }) => {
+      const testContext = await setup(page, {
+        blockchain: {
+          chainId: mainnet.id,
+          blockNumber: DEFAULT_BLOCK_NUMBER,
+        },
+        initialPage: 'easyBorrow',
+        account: {
+          type: 'connected-random',
+          assetBalances: { ETH: 1, rETH: 100 },
+        },
+      })
+
+      const borrowPage = new BorrowPageObject(testContext)
+      await borrowPage.fillDepositAssetAction(0, 'rETH', 2)
+      await borrowPage.fillBorrowAssetAction(3400)
+      await borrowPage.submitAction()
+
+      testContext.testnetController.autoProgressSimulationController.enable(5)
+      await page.getByRole('button', { name: 'Execute all actions in one transaction' }).click()
+      await borrowPage.expectSuccessPage({
+        deposited: [{ asset: 'rETH', amount: '2.00', usdValue: '$8,826.53' }],
+        borrowed: { asset: 'DAI', amount: '3,400.00', usdValue: '$3,400.00' },
+      })
+      testContext.testnetController.autoProgressSimulationController.disable()
+
+      await expectHFOnMyPortfolio(testContext, borrowPage, '2.08')
+    })
+  })
 })
 
 async function expectHFOnMyPortfolio(

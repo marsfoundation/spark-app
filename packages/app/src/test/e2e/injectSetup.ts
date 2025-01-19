@@ -28,7 +28,17 @@ export async function injectWalletConfiguration(page: Page, wallet: InjectableWa
   )
 }
 
-export async function injectNetworkConfiguration(page: Page, rpcUrl: string, chainId: number): Promise<void> {
+interface InjectNetworkConfigurationParams {
+  page: Page
+  rpcUrl: string
+  chainId: number
+}
+
+export async function injectNetworkConfiguration({
+  page,
+  rpcUrl,
+  chainId,
+}: InjectNetworkConfigurationParams): Promise<void> {
   await page.addInitScript(
     ({ PLAYWRIGHT_WALLET_FORK_URL_KEY, PLAYWRIGHT_CHAIN_ID, rpcUrl, chainId }) => {
       ;(window as any)[PLAYWRIGHT_WALLET_FORK_URL_KEY] = rpcUrl

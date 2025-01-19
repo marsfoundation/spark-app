@@ -1,6 +1,6 @@
 import { Path, paths } from '@/config/paths'
 import { TestnetClient, getUrlFromClient } from '@marsfoundation/common-testnets'
-import { assertNever } from '@marsfoundation/common-universal'
+import { assert, assertNever } from '@marsfoundation/common-universal'
 import { Page } from '@playwright/test'
 import { generatePath } from 'react-router-dom'
 import { Address, Hash, parseEther, parseUnits } from 'viem'
@@ -58,6 +58,7 @@ export interface TestnetController {
   client: TestnetClient
   progressSimulation: ProgressSimulation
   progressSimulationAndMine: ProgressSimulation
+  autoProgressSimulationController: AutoSimulationProgressController
 }
 
 export type TestContext<T extends ConnectionType = 'not-connected'> = (T extends 'not-connected'
@@ -75,10 +76,6 @@ export async function setup<K extends Path, T extends ConnectionType>(
   const { client: testnetClient, initialSnapshotId } = await getTestnetContext(options.blockchain)
   await testnetClient.revert(initialSnapshotId)
 
-  await injectPageSetup({ page, testnetClient, options })
-  const address = await setupAccount({ page, testnetClient, options: options.account })
-  await page.goto(buildUrl(options.initialPage, options.initialPageParams))
-
   async function progressSimulation(seconds: number): Promise<void> {
     const { timestamp: currentTimestamp } = await testnetClient.getBlock()
 
@@ -93,6 +90,10 @@ export async function setup<K extends Path, T extends ConnectionType>(
     await progressSimulation(1)
   }
 
+  const autoProgressSimulationController = await injectPageSetup({ page, testnetClient, options, progressSimulation })
+  const address = await setupAccount({ page, testnetClient, options: options.account })
+  await page.goto(buildUrl(options.initialPage, options.initialPageParams))
+
   // @note: Set next block to be mined timestamp to be 5 seconds more.
   await progressSimulation(5)
 
@@ -100,6 +101,7 @@ export async function setup<K extends Path, T extends ConnectionType>(
     client: testnetClient,
     progressSimulation,
     progressSimulationAndMine,
+    autoProgressSimulationController,
   }
 
   return {
@@ -174,21 +176,57 @@ async function setupAccount<T extends ConnectionType>({
 async function injectPageSetup({
   page,
   testnetClient,
+  progressSimulation,
   options,
 }: {
   page: Page
   testnetClient: TestnetClient
+  progressSimulation: (seconds: number) => Promise<void>
   options: SetupOptions<any, any>
-}): Promise<void> {
+}): Promise<AutoSimulationProgressController> {
+  const rpcUrl = getUrlFromClient(testnetClient)
+
   if (options.skipInjectingNetwork === true) {
     // if explicitly disabled, do not inject network config abort all network requests to RPC providers
     await page.route(/alchemy/, (route) => route.abort())
     await page.route(/rpc.ankr/, (route) => route.abort())
     await page.route(/blockanalitica.com/, (route) => route.abort())
   } else {
-    await injectNetworkConfiguration(page, getUrlFromClient(testnetClient), options.blockchain.chainId)
+    await injectNetworkConfiguration({
+      page,
+      rpcUrl,
+      chainId: options.blockchain.chainId,
+    })
+  }
+
+  let autoSimulationProgressDelta: number | undefined
+  await page.route(rpcUrl, async (route) => {
+    const body = await route.request().postDataJSON()
+    if (body.jsonrpc === '2.0' && body.method === 'eth_sendTransaction') {
+      if (autoSimulationProgressDelta) {
+        await progressSimulation(autoSimulationProgressDelta)
+      }
+    }
+    return route.continue()
+  })
+
+  const autoProgressSimulationController: AutoSimulationProgressController = {
+    enable: (deltaSeconds: number) => {
+      assert(deltaSeconds > 0, 'deltaSeconds should be greater than 0')
+      autoSimulationProgressDelta = deltaSeconds
+    },
+    disable: () => {
+      autoSimulationProgressDelta = undefined
+    },
   }
 
   const { timestamp } = await testnetClient.getBlock()
   await page.clock.setFixedTime(Number(timestamp) * 1000)
+
+  return autoProgressSimulationController
+}
+
+export interface AutoSimulationProgressController {
+  enable: (deltaSeconds: number) => void
+  disable: () => void
 }
