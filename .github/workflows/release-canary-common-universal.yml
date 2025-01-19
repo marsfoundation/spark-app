@@ -29,15 +29,10 @@ jobs:
 
       - run: pnpm build
 
-      - name: Set version
+      - name: Set version and update workspace dependencies
         run: |
           cd packages/common-universal
-          npm pkg set version=0.2.0-canary.$(date +'%Y%m%d').$(git rev-parse --short HEAD)
-
-          # update workspace dependencies to point to any version
-          jq '.dependencies |= with_entries(if .value == "workspace:^" then .value = "*" else . end)' package.json > temp.json && mv temp.json package.json
-          
-          echo "Version changed: $(npm pkg get version)"
+          ../../.github/workflows/bump-versions.sh
 
       - name: Publish to npm
         uses: JS-DevTools/npm-publish@0f451a94170d1699fd50710966d48fb26194d939
@@ -45,4 +40,4 @@ jobs:
           package: packages/common-universal/package.json
           token: ${{ secrets.NPM_TOKEN_PHOENIX_LABS_BOT }}
           dry-run: false
-          tag: canary
+          tag: latest
