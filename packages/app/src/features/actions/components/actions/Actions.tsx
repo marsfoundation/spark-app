@@ -1,5 +1,3 @@
-import { Button } from '@/ui/atoms/button/Button'
-import { cn } from '@/ui/utils/style'
 import { assertNever } from '@marsfoundation/common-universal'
 import { ApproveDelegationActionRow } from '../../flavours/approve-delegation/ApproveDelegationActionRow'
 import { ApproveActionRow } from '../../flavours/approve/ApproveActionRow'
@@ -21,6 +19,7 @@ import { WithdrawFromSavingsActionRow } from '../../flavours/withdraw-from-savin
 import { WithdrawActionRow } from '../../flavours/withdraw/WithdrawActionRow'
 import { ActionHandler, BatchActionHandler } from '../../logic/types'
 import { ActionsGridLayout } from '../../types'
+import { BatchActionRow } from '../action-row/BatchActionRow'
 import { ActionsGrid } from '../actions-grid/ActionsGrid'
 
 interface ActionsProps {
@@ -91,31 +90,7 @@ export function Actions({ actionHandlers, batchActionHandler, layout }: ActionsP
             assertNever(handler.action)
         }
       })}
-      {batchActionHandler && <BatchActionTrigger batchActionHandler={batchActionHandler} layout={layout} />}
+      {batchActionHandler && <BatchActionRow batchActionHandler={batchActionHandler} layout={layout} />}
     </ActionsGrid>
-  )
-}
-
-export interface BatchActionTriggerProps {
-  batchActionHandler: BatchActionHandler
-  layout: ActionsGridLayout
-}
-
-function BatchActionTrigger({ batchActionHandler, layout }: BatchActionTriggerProps) {
-  const buttonText = batchActionHandler.actions.length > 1 ? 'Execute all actions in one transaction' : 'Execute'
-
-  return (
-    <div className={cn('col-span-full items-center sm:p-5', layout === 'compact' && 'sm:p-4')}>
-      <Button
-        variant="primary"
-        size="l"
-        onClick={batchActionHandler.onAction}
-        loading={batchActionHandler.state.status === 'loading'}
-        disabled={batchActionHandler.state.status === 'disabled'}
-        className="w-full"
-      >
-        {batchActionHandler.state.status === 'error' ? 'Try Again' : buttonText}
-      </Button>
-    </div>
   )
 }
