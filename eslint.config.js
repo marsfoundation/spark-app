@@ -14,6 +14,7 @@ module.exports = tseslint.config(
     },
     rules: {
       '@typescript-eslint/no-floating-promises': 'error',
+      '@typescript-eslint/await-thenable': 'error',
       'func-style': ['error', 'declaration'],
       '@typescript-eslint/explicit-function-return-type': [
         'error',
@@ -33,6 +34,7 @@ module.exports = tseslint.config(
     },
     rules: {
       '@typescript-eslint/no-floating-promises': 'error',
+      '@typescript-eslint/await-thenable': 'error',
       'func-style': ['error', 'declaration'],
       'object-shorthand': 'error',
       '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
