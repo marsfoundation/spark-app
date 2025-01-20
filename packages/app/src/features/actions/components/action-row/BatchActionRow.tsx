@@ -10,8 +10,6 @@ export interface BatchActionRow {
 }
 
 export function BatchActionRow({ batchActionHandler, layout }: BatchActionRow) {
-  const buttonText = batchActionHandler.actions.length > 1 ? 'Execute all actions in one transaction' : 'Execute'
-
   return (
     <div
       className={cn('col-span-full grid grid-rows-[auto_auto] items-center gap-2 p-5', layout === 'compact' && 'p-4')}
@@ -24,7 +22,7 @@ export function BatchActionRow({ batchActionHandler, layout }: BatchActionRow) {
         disabled={batchActionHandler.state.status === 'disabled'}
         className="w-full"
       >
-        {batchActionHandler.state.status === 'error' ? 'Try Again' : buttonText}
+        {batchActionHandler.state.status === 'error' ? 'Try Again' : 'Execute'}
       </Button>
       {batchActionHandler.state.status === 'error' && <ErrorWarning message={batchActionHandler.state.message} />}
     </div>
