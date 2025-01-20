@@ -1,15 +1,15 @@
-name: Release package (common-testnets)
+name: Release package (common-nodejs)
 
 on:
   push:
     branches:
       - main
     paths:
-      - "packages/common-testnets/**"
-      - ".github/workflows/release-canary-common-testnets.yml"
+      - "packages/common-nodejs/**"
+      - ".github/workflows/release-common-nodejs.yml"
 
 jobs:
-  release-canary:
+  release:
     strategy:
       matrix:
         node: [ "20" ]
@@ -31,13 +31,13 @@ jobs:
 
       - name: Set version and update workspace dependencies
         run: |
-          cd packages/common-testnets
+          cd packages/common-nodejs
           ../../.github/workflows/bump-versions.sh
 
       - name: Publish to npm
         uses: JS-DevTools/npm-publish@0f451a94170d1699fd50710966d48fb26194d939
         with:
-          package: packages/common-testnets/package.json
+          package: packages/common-nodejs/package.json
           token: ${{ secrets.NPM_TOKEN_PHOENIX_LABS_BOT }}
           dry-run: false
           tag: latest

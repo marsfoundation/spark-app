@@ -6,10 +6,10 @@ on:
       - main
     paths:
       - "packages/common-universal/**"
-      - ".github/workflows/release-canary-common-universal.yml"
+      - ".github/workflows/release-common-universal.yml"
 
 jobs:
-  release-canary:
+  release:
     strategy:
       matrix:
         node: [ "20" ]
