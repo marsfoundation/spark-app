@@ -1,15 +1,15 @@
-name: Release package (common-nodejs)
+name: Release package (common-testnets)
 
 on:
   push:
     branches:
       - main
     paths:
-      - "packages/common-nodejs/**"
-      - ".github/workflows/release-canary-common-nodejs.yml"
+      - "packages/common-testnets/**"
+      - ".github/workflows/release-common-testnets.yml"
 
 jobs:
-  release-canary:
+  release:
     strategy:
       matrix:
         node: [ "20" ]
@@ -29,20 +29,15 @@ jobs:
 
       - run: pnpm build
 
-      - name: Set version
+      - name: Set version and update workspace dependencies
         run: |
-          cd packages/common-nodejs
-          npm pkg set version=0.2.0-canary.$(date +'%Y%m%d').$(git rev-parse --short HEAD)
-
-          # update workspace dependencies to point to any version
-          jq '.dependencies |= with_entries(if .value == "workspace:^" then .value = "*" else . end)' package.json > temp.json && mv temp.json package.json
-
-          echo "Version changed: $(npm pkg get version)"
+          cd packages/common-testnets
+          ../../.github/workflows/bump-versions.sh
 
       - name: Publish to npm
         uses: JS-DevTools/npm-publish@0f451a94170d1699fd50710966d48fb26194d939
         with:
-          package: packages/common-nodejs/package.json
+          package: packages/common-testnets/package.json
           token: ${{ secrets.NPM_TOKEN_PHOENIX_LABS_BOT }}
           dry-run: false
-          tag: canary
+          tag: latest
