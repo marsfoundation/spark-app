@@ -22,24 +22,21 @@ export type AccountOptions<T extends ConnectionType> = T extends 'not-connected'
   ? {
       type: T
     }
-  : T extends 'connected-random'
-    ? {
-        type: T
-        assetBalances?: Partial<Record<AssetsInTests, number>>
-      }
-    : T extends 'connected-pkey'
-      ? {
-          type: T
-          privateKey: Hash
-          assetBalances?: Partial<Record<AssetsInTests, number>>
-        }
-      : T extends 'connected-address'
+  : (T extends 'connected-random'
+      ? {}
+      : T extends 'connected-pkey'
         ? {
-            type: T
-            address: Address
-            assetBalances?: Partial<Record<AssetsInTests, number>>
+            privateKey: Hash
           }
-        : never
+        : T extends 'connected-address'
+          ? {
+              address: Address
+            }
+          : never) & {
+      type: T
+      atomicBatchSupported?: boolean
+      assetBalances?: Partial<Record<AssetsInTests, number>>
+    }
 
 export interface BlockchainOptions {
   chainId: number
@@ -76,6 +73,10 @@ export async function setup<K extends Path, T extends ConnectionType>(
   const { client: testnetClient, initialSnapshotId } = await getTestnetContext(options.blockchain)
   await testnetClient.revert(initialSnapshotId)
 
+  const autoProgressSimulationController = await injectPageSetup({ page, testnetClient, options })
+  const address = await setupAccount({ page, testnetClient, options: options.account })
+  await page.goto(buildUrl(options.initialPage, options.initialPageParams))
+
   async function progressSimulation(seconds: number): Promise<void> {
     const { timestamp: currentTimestamp } = await testnetClient.getBlock()
 
@@ -89,10 +90,6 @@ export async function setup<K extends Path, T extends ConnectionType>(
     await testnetClient.mineBlocks(1n)
     await progressSimulation(1)
   }
-
-  const autoProgressSimulationController = await injectPageSetup({ page, testnetClient, options, progressSimulation })
-  const address = await setupAccount({ page, testnetClient, options: options.account })
-  await page.goto(buildUrl(options.initialPage, options.initialPageParams))
 
   // @note: Set next block to be mined timestamp to be 5 seconds more.
   await progressSimulation(5)
@@ -148,20 +145,20 @@ async function setupAccount<T extends ConnectionType>({
   switch (options.type) {
     case 'connected-random': {
       const account = generateAccount({ privateKey: undefined })
-      await injectWalletConfiguration(page, account)
+      await injectWalletConfiguration(page, account, options.atomicBatchSupported)
       await injectFunds(testnetClient, account.address, options.assetBalances)
       return account.address
     }
 
     case 'connected-pkey': {
       const account = generateAccount({ privateKey: options.privateKey })
-      await injectWalletConfiguration(page, account)
+      await injectWalletConfiguration(page, account, options.atomicBatchSupported)
       await injectFunds(testnetClient, account.address, options.assetBalances)
       return account.address
     }
 
     case 'connected-address': {
-      await injectWalletConfiguration(page, { address: options.address })
+      await injectWalletConfiguration(page, { address: options.address }, options.atomicBatchSupported)
       return options.address
     }
 
@@ -176,12 +173,10 @@ async function setupAccount<T extends ConnectionType>({
 async function injectPageSetup({
   page,
   testnetClient,
-  progressSimulation,
   options,
 }: {
   page: Page
   testnetClient: TestnetClient
-  progressSimulation: (seconds: number) => Promise<void>
   options: SetupOptions<any, any>
 }): Promise<AutoSimulationProgressController> {
   const rpcUrl = getUrlFromClient(testnetClient)
@@ -204,7 +199,10 @@ async function injectPageSetup({
     const body = await route.request().postDataJSON()
     if (body.jsonrpc === '2.0' && body.method === 'eth_sendTransaction') {
       if (autoSimulationProgressDelta) {
-        await progressSimulation(autoSimulationProgressDelta)
+        const { timestamp: currentTimestamp } = await testnetClient.getBlock()
+
+        const progressedTimestamp = currentTimestamp + BigInt(autoSimulationProgressDelta)
+        await testnetClient.setNextBlockTimestamp(progressedTimestamp)
       }
     }
     return route.continue()

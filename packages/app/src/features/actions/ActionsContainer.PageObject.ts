@@ -43,6 +43,15 @@ export class ActionsPageObject extends BasePageObject {
     await this.testContext.testnetController.progressSimulation(5)
   }
 
+  async acceptBatchedActions(): Promise<void> {
+    this.testContext.testnetController.autoProgressSimulationController.enable(5)
+    const button = this.region.getByRole('button', { name: 'Execute all actions in one transaction' })
+    await button.click()
+    await expect(button).not.toBeVisible()
+    this.testContext.testnetController.autoProgressSimulationController.disable()
+    await this.testContext.testnetController.progressSimulation(5)
+  }
+
   async switchPreferPermitsAction(): Promise<void> {
     await this.region.getByTestId(testIds.actions.settings.dialog).click()
     const settingsDialog = this.locateSettingsDialog()

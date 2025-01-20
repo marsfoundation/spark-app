@@ -584,8 +584,8 @@ test.describe('Borrow page', () => {
     })
   })
 
-  test.describe('One click borrow', () => {
-    test('can borrow DAI', async ({ page }) => {
+  test.describe('Batched actions', () => {
+    test('can borrow DAI for ETH and cbBTC', async ({ page }) => {
       const testContext = await setup(page, {
         blockchain: {
           chainId: mainnet.id,
@@ -594,24 +594,61 @@ test.describe('Borrow page', () => {
         initialPage: 'easyBorrow',
         account: {
           type: 'connected-random',
-          assetBalances: { ETH: 1, rETH: 100 },
+          assetBalances: { ETH: 5, cbBTC: 0.1 },
+          atomicBatchSupported: true,
         },
       })
 
       const borrowPage = new BorrowPageObject(testContext)
-      await borrowPage.fillDepositAssetAction(0, 'rETH', 2)
+      await borrowPage.fillDepositAssetAction(0, 'ETH', 2)
+      await borrowPage.addNewDepositAssetAction()
+      await borrowPage.fillDepositAssetAction(1, 'cbBTC', 0.1)
+      await borrowPage.fillBorrowAssetAction(6800)
+      await borrowPage.submitAction()
+
+      const actionsPage = new ActionsPageObject(testContext)
+
+      await actionsPage.acceptBatchedActions()
+      await borrowPage.expectSuccessPage({
+        deposited: [
+          { asset: 'ETH', amount: '2.00', usdValue: '$7,856.63' },
+          { asset: 'cbBTC', amount: '0.10', usdValue: '$10,168.30' },
+        ],
+        borrowed: { asset: 'DAI', amount: '6,800.00', usdValue: '$6,800.00' },
+      })
+
+      await expectHFOnMyPortfolio(testContext, borrowPage, '2.08')
+    })
+
+    test('can borrow USDS for wstETH', async ({ page }) => {
+      const testContext = await setup(page, {
+        blockchain: {
+          chainId: mainnet.id,
+          blockNumber: DEFAULT_BLOCK_NUMBER,
+        },
+        initialPage: 'easyBorrow',
+        account: {
+          type: 'connected-random',
+          assetBalances: { ETH: 5, wstETH: 5 },
+          atomicBatchSupported: true,
+        },
+      })
+
+      const borrowPage = new BorrowPageObject(testContext)
+      await borrowPage.fillDepositAssetAction(0, 'wstETH', 2)
+      await borrowPage.selectBorrowAction('USDS')
       await borrowPage.fillBorrowAssetAction(3400)
       await borrowPage.submitAction()
 
-      testContext.testnetController.autoProgressSimulationController.enable(5)
-      await page.getByRole('button', { name: 'Execute all actions in one transaction' }).click()
-      await borrowPage.expectSuccessPage({
-        deposited: [{ asset: 'rETH', amount: '2.00', usdValue: '$8,826.53' }],
-        borrowed: { asset: 'DAI', amount: '3,400.00', usdValue: '$3,400.00' },
-      })
-      testContext.testnetController.autoProgressSimulationController.disable()
+      const actionsPage = new ActionsPageObject(testContext)
 
-      await expectHFOnMyPortfolio(testContext, borrowPage, '2.08')
+      await actionsPage.acceptBatchedActions()
+      await borrowPage.expectSuccessPage({
+        deposited: [{ asset: 'wstETH', amount: '2.00', usdValue: '$9,330.93' }],
+        borrowed: { asset: 'USDS', amount: '3,400.00', usdValue: '$3,400.00' },
+      })
+
+      await expectHFOnMyPortfolio(testContext, borrowPage, '2.2')
     })
   })
 })

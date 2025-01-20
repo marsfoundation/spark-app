@@ -1,15 +1,4 @@
-import {
-  http,
-  Chain,
-  Hex,
-  Transport,
-  WalletCallReceipt,
-  createTransport,
-  createWalletClient,
-  keccak256,
-  stringToHex,
-  toHex,
-} from 'viem'
+import { http, Chain, Transport } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 import { base, gnosis, mainnet } from 'viem/chains'
 import { Config, createConfig } from 'wagmi'
@@ -20,9 +9,11 @@ import { createMockConnector } from '@/domain/wallet/createMockConnector'
 
 import { viemAddressSchema } from '@/domain/common/validation'
 import { getConfig } from './config.default'
+import { createE2ETestWallet } from './createE2ETestWallet'
 import {
   PLAYWRIGHT_CHAIN_ID,
   PLAYWRIGHT_WALLET_ADDRESS_KEY,
+  PLAYWRIGHT_WALLET_ATOMIC_BATCH_SUPPORTED_KEY,
   PLAYWRIGHT_WALLET_FORK_URL_KEY,
   PLAYWRIGHT_WALLET_PRIVATE_KEY_KEY,
 } from './e2e-consts'
@@ -49,84 +40,13 @@ export function getMockConnectors(chain: Chain) {
   const savedPrivateKeySafeParse = privateKeySchema.safeParse((window as any)[PLAYWRIGHT_WALLET_PRIVATE_KEY_KEY])
   const savedPrivateKey = savedPrivateKeySafeParse.success ? savedPrivateKeySafeParse.data : undefined
   const account = savedPrivateKey ? privateKeyToAccount(savedPrivateKey) : savedAddress
+  const atomicBatchSupported = (window as any)[PLAYWRIGHT_WALLET_ATOMIC_BATCH_SUPPORTED_KEY] === true
 
   if (!account) {
     return []
   }
 
-  const walletClient = createWalletClient({
-    transport: (...args) => {
-      const transactionCache = new Map<Hex, Hex[]>()
-
-      const { request: requestByHttp } = getInjectedTransport()(...args)
-
-      return createTransport({
-        key: 'e2e',
-        name: 'E2E JSON-RPC',
-        type: 'e2e',
-        async request({ method, params }) {
-          if (method === 'wallet_getCapabilities') {
-            return {
-              [toHex(chain.id)]: {
-                atomicBatch: {
-                  supported: true,
-                },
-              },
-            }
-          }
-
-          if (method === 'wallet_sendCalls') {
-            const hashes: Hex[] = []
-            const calls = (params as any)[0].calls
-            for (const call of calls) {
-              const result = await requestByHttp({
-                method: 'eth_sendTransaction',
-                params: [
-                  {
-                    ...call,
-                    from: typeof account === 'string' ? account : account.address,
-                  },
-                ],
-              })
-              hashes.push(result as Hex)
-            }
-            const id = keccak256(stringToHex(JSON.stringify(calls)))
-            transactionCache.set(id, hashes)
-            return id
-          }
-
-          if (method === 'wallet_getCallsStatus') {
-            const hashes = transactionCache.get((params as any)[0])
-            if (!hashes) return null
-            const receipts = await Promise.all(
-              hashes.map(async (hash) => {
-                const result = (await requestByHttp({
-                  method: 'eth_getTransactionReceipt',
-                  params: [hash],
-                })) as any
-                return {
-                  blockHash: result.blockHash,
-                  blockNumber: result.blockNumber,
-                  gasUsed: result.gasUsed,
-                  logs: result.logs,
-                  status: result.status,
-                  transactionHash: result.transactionHash,
-                } satisfies WalletCallReceipt
-              }),
-            )
-            if (receipts.some((x) => !x)) return { status: 'PENDING', receipts: [] }
-            return { status: 'CONFIRMED', receipts }
-          }
-
-          return requestByHttp({ method, params }) as any
-        },
-        ...args,
-      })
-    },
-    chain,
-    pollingInterval: 100,
-    account,
-  })
+  const walletClient = createE2ETestWallet({ chain, account, atomicBatchSupported })
 
   const mockConnector = createMockConnector(walletClient)
 
