@@ -16,7 +16,7 @@ export interface ActionsContainerProps {
 }
 
 function ActionsContainer({ objectives, context, onFinish, actionsGridLayout, enabled }: ActionsContainerProps) {
-  const { actionHandlers, settingsDisabled } = useActions({
+  const { actionHandlers, batchActionHandler, settingsDisabled } = useActions({
     objectives,
     context,
     onFinish,
@@ -28,6 +28,7 @@ function ActionsContainer({ objectives, context, onFinish, actionsGridLayout, en
     <ActionsView
       actionsGridLayout={actionsGridLayout}
       actionHandlers={actionHandlers}
+      batchActionHandler={batchActionHandler}
       settingsDisabled={settingsDisabled}
       settingsDialogProps={settingsDialogProps}
     />
