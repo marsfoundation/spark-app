@@ -4,6 +4,6 @@ import { ActionsGridLayout } from '../../types'
 export interface ActionRowBaseProps {
   actionIndex: number
   actionHandlerState: ActionHandler['state']
-  onAction: ActionHandler['onAction']
+  onAction?: () => void
   layout: ActionsGridLayout
 }

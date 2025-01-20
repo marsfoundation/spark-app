@@ -72,10 +72,23 @@ export function createStakeActions(objective: StakeObjective, context: ActionCon
         mode: 'withdraw',
       }
 
+      let fallbackStakeAmount = NormalizedUnitNumber(0)
+
+      if (actionPath === 'susds-to-usds-to-farm') {
+        const { savingsUsdsInfo } = context
+        assert(savingsUsdsInfo, 'Savings usds info is required when input for stake is savings usds token')
+        fallbackStakeAmount = savingsUsdsInfo.convertToAssets({ shares: objective.amount })
+      }
+      if (actionPath === 'sdai-to-usds-to-farm') {
+        const { savingsDaiInfo } = context
+        assert(savingsDaiInfo, 'Savings dai info is required when input for stake is savings dai token')
+        fallbackStakeAmount = savingsDaiInfo.convertToAssets({ shares: objective.amount })
+      }
+
       const [, withdrawReceipt] = context.txReceipts.find(([action]) => action.type === 'withdrawFromSavings') ?? []
       const stakeAmount = withdrawReceipt
         ? getStakeAmountFromWithdrawReceipt(objective.token, withdrawReceipt)
-        : NormalizedUnitNumber(0)
+        : fallbackStakeAmount
 
       return [
         ...createWithdrawFromSavingsActions(withdrawObjective, context),

@@ -14,6 +14,7 @@ import { useConnectedWalletInfo } from './use-connected-wallet-info/useConnected
 import { useDisconnect } from './useDisconnect'
 import { useNavigationInfo } from './useNavigationInfo'
 import { useNetworkChange } from './useNetworkChange'
+import { usePrefetchCanWalletBatchQuery } from './usePrefetchCanWalletBatchQuery'
 import { useRewardsInfo } from './useRewardsInfo'
 
 interface UseTopbarParams {
@@ -25,6 +26,7 @@ export function useTopbar({ isMobileDisplay }: UseTopbarParams): TopbarProps {
   const chains = useChains()
   const { openConnectModal = () => {} } = useConnectModal()
   const { address, connector } = useAccount()
+  usePrefetchCanWalletBatchQuery()
 
   const openDialog = useOpenDialog()
 

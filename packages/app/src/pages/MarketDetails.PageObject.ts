@@ -196,13 +196,13 @@ export class MarketDetailsPageObject extends BasePageObject {
   }
 
   async expectOraclePanelToHaveTitle(title: string): Promise<void> {
-    const panel = await this.locateOraclePanel()
+    const panel = this.locateOraclePanel()
 
     await expect(panel.getByRole('heading', { name: title })).toBeVisible()
   }
 
   async expectOracleToBeRedundant(): Promise<void> {
-    const panel = await this.locateOraclePanel()
+    const panel = this.locateOraclePanel()
 
     await expect(panel.getByRole('heading', { name: /(Redundant)/ })).toBeVisible()
 
@@ -212,11 +212,11 @@ export class MarketDetailsPageObject extends BasePageObject {
       .count()
 
     // should have at least 2 providers
-    await expect(providersAmount).toBeGreaterThan(1)
+    expect(providersAmount).toBeGreaterThan(1)
   }
 
   async expectOracleToBeNotRedundant(): Promise<void> {
-    const panel = await this.locateOraclePanel()
+    const panel = this.locateOraclePanel()
 
     await expect(panel.getByRole('heading', { name: /(Redundant)/ })).not.toBeVisible()
 
@@ -225,7 +225,7 @@ export class MarketDetailsPageObject extends BasePageObject {
       .getByAltText('logo')
       .count()
 
-    await expect(providersAmount).toBe(1)
+    expect(providersAmount).toBe(1)
   }
 
   async expectOracleInfo({ price, asset, oracleContract }: OracleInfo): Promise<void> {

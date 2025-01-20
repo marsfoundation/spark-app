@@ -3,6 +3,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { Action, ActionContext, BatchActionHandler, BatchActionHandlerState } from './types'
 import { BatchWriteStatus, useBatchWrite } from './useBatchWrite'
 import { actionToConfig } from './useContractAction'
+import { parseWriteErrorMessage } from './utils'
 
 export interface UseBatchActionHandlerParams {
   actions: Action[]
@@ -63,7 +64,11 @@ function mapBatchWriteStatusToBatchActionState(status: BatchWriteStatus): BatchA
       return { status: 'success' }
 
     case 'error':
-      return { status: 'error', errorKind: status.errorKind, message: status.error.message }
+      return {
+        status: 'error',
+        errorKind: status.errorKind,
+        message: parseWriteErrorMessage(status.error, { isBatchWrite: true }),
+      }
 
     default:
       assertNever(status)

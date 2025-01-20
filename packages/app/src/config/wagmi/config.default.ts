@@ -9,8 +9,6 @@ import { getTransports } from './getTransports'
 import { getWallets } from './getWallets'
 import { createWagmiStorage } from './storage'
 
-const wallets = getWallets()
-
 export function getConfig(sandboxNetwork?: SandboxNetwork): Config {
   const forkChain = getForkChainFromSandboxConfig(sandboxNetwork)
   const transports = getTransports({ forkChain })
@@ -22,7 +20,7 @@ export function getConfig(sandboxNetwork?: SandboxNetwork): Config {
     projectId: import.meta.env.VITE_WALLET_CONNECT_ID || raise('Missing VITE_WALLET_CONNECT_ID'),
     chains,
     transports,
-    wallets,
+    wallets: getWallets(),
     storage,
   })
 

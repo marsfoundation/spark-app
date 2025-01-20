@@ -99,3 +99,58 @@ test.describe('Stake sUSDS to SKY farm', () => {
     await farmDetailsPage.expectStaked({ amount: '1,017.26', asset: 'USDS' })
   })
 })
+
+test.describe('Stake sUSDS to SKY farm with actions batched', () => {
+  test('executes action', async ({ page }) => {
+    const testContext = await setup(page, {
+      blockchain: {
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+        chainId: mainnet.id,
+      },
+      initialPage: 'savings',
+      account: {
+        type: 'connected-random',
+        assetBalances: {
+          ETH: 1,
+          USDS: 1_100,
+        },
+        atomicBatchSupported: true,
+      },
+    })
+
+    await overrideInfoSkyRouteWithHAR({ page, key: '1-sky-farm-with-8_51-apy' })
+
+    // deposit some tokens to sUSDS first so we're able to withdraw them next
+    const savingsPage = new SavingsPageObject(testContext)
+    await savingsPage.clickDepositButtonAction('USDS')
+    const depositToSavingsDialog = new SavingsDialogPageObject({ testContext, type: 'deposit' })
+    await depositToSavingsDialog.clickMaxAmountAction()
+
+    await depositToSavingsDialog.actionsContainer.acceptBatchedActions()
+    await depositToSavingsDialog.clickBackToSavingsButton()
+    await page.goto(
+      buildUrl('farmDetails', {
+        chainId: mainnet.id.toString(),
+        address: '0x0650CAF159C5A49f711e8169D4336ECB9b950275',
+      }),
+    )
+
+    const farmDetailsPage = new FarmDetailsPageObject(testContext)
+    await farmDetailsPage.clickInfoPanelStakeButtonAction()
+    const stakeDialog = new StakeDialogPageObject(testContext)
+    await stakeDialog.selectAssetAction('sUSDS')
+    await stakeDialog.fillAmountAction(1_000)
+
+    await stakeDialog.actionsContainer.acceptBatchedActions()
+    await stakeDialog.clickBackToFarmAction()
+
+    // @note: Some dust left due to batched actions - cannot determine exact amount of USDS
+    // based on the amount of sUSDS staked, so actions use an estimate instead
+    await farmDetailsPage.expectTokenToDepositBalance('USDS', '<0.01')
+    await farmDetailsPage.expectReward({
+      reward: '0.00000',
+      rewardUsd: '$0.00',
+    })
+    await farmDetailsPage.expectStaked({ amount: '1,017.26', asset: 'USDS' })
+  })
+})

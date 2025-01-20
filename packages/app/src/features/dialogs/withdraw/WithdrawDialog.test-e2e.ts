@@ -609,3 +609,57 @@ test.describe('Withdraw dialog', () => {
     })
   })
 })
+
+test.describe('Withdraw with actions batched', () => {
+  test('can withdraw native asset', async ({ page }) => {
+    const testContext = await setup(page, {
+      blockchain: {
+        chainId: mainnet.id,
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+      },
+      initialPage: 'easyBorrow',
+      account: {
+        type: 'connected-random',
+        assetBalances: {
+          ETH: 20,
+        },
+        atomicBatchSupported: true,
+      },
+    })
+
+    const borrowPage = new BorrowPageObject(testContext)
+    const myPortfolioPage = new MyPortfolioPageObject(testContext)
+    const withdrawDialog = new DialogPageObject({ testContext, header: /Withdr/ })
+
+    await borrowPage.fillDepositAssetAction(0, 'ETH', 10)
+    await borrowPage.fillBorrowAssetAction(1000)
+    await borrowPage.submitAction()
+    await borrowPage.actionsContainer.acceptBatchedActions()
+    await borrowPage.expectSuccessPage({
+      deposited: [{ asset: 'ETH', amount: '10.00', usdValue: '$39,283.13' }],
+      borrowed: { asset: 'DAI', amount: '1,000.00', usdValue: '$1,000.00' },
+    })
+
+    await myPortfolioPage.goToMyPortfolioAction()
+
+    await myPortfolioPage.clickWithdrawButtonAction('WETH')
+
+    await withdrawDialog.selectAssetAction('ETH')
+    await withdrawDialog.fillAmountAction(1)
+    await withdrawDialog.actionsContainer.acceptBatchedActions()
+    await withdrawDialog.expectSuccessPage({
+      tokenWithValue: [
+        {
+          asset: 'ETH',
+          amount: '1.00',
+          usdValue: '$3,928.31',
+        },
+      ],
+    })
+    await withdrawDialog.viewInMyPortfolioAction()
+
+    await myPortfolioPage.expectDepositTable({
+      WETH: 9,
+    })
+  })
+})

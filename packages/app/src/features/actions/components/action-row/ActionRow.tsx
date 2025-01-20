@@ -4,21 +4,20 @@ import SuccessIcon from '@/ui/assets/icons/success.svg?react'
 import WarningIcon from '@/ui/assets/icons/warning.svg?react'
 import { Button } from '@/ui/atoms/button/Button'
 import { HorizontalScroll } from '@/ui/atoms/horizontal-scroll/HorizontalScroll'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
-import { useIsTruncated } from '@/ui/utils/useIsTruncated'
 import { assert, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { cva } from 'class-variance-authority'
 import { ComponentType, ReactNode, createContext, useContext } from 'react'
-import { ActionHandlerState } from '../../logic/types'
+import { ActionHandlerState, BatchActionHandlerState } from '../../logic/types'
 import { ActionsGridLayout } from '../../types'
+import { ErrorWarning as ErrorWarningComponent } from './components/ErrorWarning'
 
 export interface ActionRowProps {
   actionIndex: number
-  actionHandlerState: ActionHandlerState
-  onAction: () => void
+  actionHandlerState: ActionHandlerState | BatchActionHandlerState
+  onAction?: () => void
   layout: ActionsGridLayout
   children: ReactNode
 }
@@ -135,33 +134,28 @@ function Amount({ token, amount }: { token: Token; amount: NormalizedUnitNumber 
 
 function ErrorWarning() {
   const { actionHandlerState, layout } = useActionRowContext()
-  const [errorTextRef, isTruncated] = useIsTruncated({ enabled: actionHandlerState.status === 'error' })
 
   if (actionHandlerState.status !== 'error') {
     return null
   }
 
   return (
-    <Tooltip open={!isTruncated ? false : undefined}>
-      <TooltipTrigger asChild>
-        <div
-          className={cn(
-            'typography-body-3 col-span-full col-start-2 inline-flex min-w-0 text-secondary md:col-span-1',
-            layout === 'compact' ? 'md:col-start-3' : 'md:col-start-4',
-          )}
-        >
-          <div className="truncate" ref={errorTextRef}>
-            {actionHandlerState.message}
-          </div>
-        </div>
-      </TooltipTrigger>
-      <TooltipContent>{actionHandlerState.message}</TooltipContent>
-    </Tooltip>
+    <ErrorWarningComponent
+      message={actionHandlerState.message}
+      className={cn(
+        'col-span-full col-start-2 md:col-span-1',
+        layout === 'compact' ? 'md:col-start-3' : 'md:col-start-4',
+      )}
+    />
   )
 }
 
 function Trigger({ children }: { children: ReactNode }) {
   const { actionHandlerState, onAction } = useActionRowContext()
+
+  if (onAction === undefined) {
+    return null
+  }
 
   return (
     <div

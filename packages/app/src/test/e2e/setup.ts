@@ -1,6 +1,6 @@
 import { Path, paths } from '@/config/paths'
 import { TestnetClient, getUrlFromClient } from '@marsfoundation/common-testnets'
-import { assertNever } from '@marsfoundation/common-universal'
+import { assert, assertNever } from '@marsfoundation/common-universal'
 import { Page } from '@playwright/test'
 import { generatePath } from 'react-router-dom'
 import { Address, Hash, parseEther, parseUnits } from 'viem'
@@ -22,24 +22,21 @@ export type AccountOptions<T extends ConnectionType> = T extends 'not-connected'
   ? {
       type: T
     }
-  : T extends 'connected-random'
-    ? {
-        type: T
-        assetBalances?: Partial<Record<AssetsInTests, number>>
-      }
-    : T extends 'connected-pkey'
-      ? {
-          type: T
-          privateKey: Hash
-          assetBalances?: Partial<Record<AssetsInTests, number>>
-        }
-      : T extends 'connected-address'
+  : (T extends 'connected-random'
+      ? {}
+      : T extends 'connected-pkey'
         ? {
-            type: T
-            address: Address
-            assetBalances?: Partial<Record<AssetsInTests, number>>
+            privateKey: Hash
           }
-        : never
+        : T extends 'connected-address'
+          ? {
+              address: Address
+            }
+          : never) & {
+      type: T
+      atomicBatchSupported?: boolean
+      assetBalances?: Partial<Record<AssetsInTests, number>>
+    }
 
 export interface BlockchainOptions {
   chainId: number
@@ -58,6 +55,7 @@ export interface TestnetController {
   client: TestnetClient
   progressSimulation: ProgressSimulation
   progressSimulationAndMine: ProgressSimulation
+  autoProgressSimulationController: AutoSimulationProgressController
 }
 
 export type TestContext<T extends ConnectionType = 'not-connected'> = (T extends 'not-connected'
@@ -75,7 +73,7 @@ export async function setup<K extends Path, T extends ConnectionType>(
   const { client: testnetClient, initialSnapshotId } = await getTestnetContext(options.blockchain)
   await testnetClient.revert(initialSnapshotId)
 
-  await injectPageSetup({ page, testnetClient, options })
+  const autoProgressSimulationController = await injectPageSetup({ page, testnetClient, options })
   const address = await setupAccount({ page, testnetClient, options: options.account })
   await page.goto(buildUrl(options.initialPage, options.initialPageParams))
 
@@ -100,6 +98,7 @@ export async function setup<K extends Path, T extends ConnectionType>(
     client: testnetClient,
     progressSimulation,
     progressSimulationAndMine,
+    autoProgressSimulationController,
   }
 
   return {
@@ -146,20 +145,20 @@ async function setupAccount<T extends ConnectionType>({
   switch (options.type) {
     case 'connected-random': {
       const account = generateAccount({ privateKey: undefined })
-      await injectWalletConfiguration(page, account)
+      await injectWalletConfiguration(page, account, options.atomicBatchSupported)
       await injectFunds(testnetClient, account.address, options.assetBalances)
       return account.address
     }
 
     case 'connected-pkey': {
       const account = generateAccount({ privateKey: options.privateKey })
-      await injectWalletConfiguration(page, account)
+      await injectWalletConfiguration(page, account, options.atomicBatchSupported)
       await injectFunds(testnetClient, account.address, options.assetBalances)
       return account.address
     }
 
     case 'connected-address': {
-      await injectWalletConfiguration(page, { address: options.address })
+      await injectWalletConfiguration(page, { address: options.address }, options.atomicBatchSupported)
       return options.address
     }
 
@@ -179,16 +178,53 @@ async function injectPageSetup({
   page: Page
   testnetClient: TestnetClient
   options: SetupOptions<any, any>
-}): Promise<void> {
+}): Promise<AutoSimulationProgressController> {
+  const rpcUrl = getUrlFromClient(testnetClient)
+
   if (options.skipInjectingNetwork === true) {
     // if explicitly disabled, do not inject network config abort all network requests to RPC providers
     await page.route(/alchemy/, (route) => route.abort())
     await page.route(/rpc.ankr/, (route) => route.abort())
     await page.route(/blockanalitica.com/, (route) => route.abort())
   } else {
-    await injectNetworkConfiguration(page, getUrlFromClient(testnetClient), options.blockchain.chainId)
+    await injectNetworkConfiguration({
+      page,
+      rpcUrl,
+      chainId: options.blockchain.chainId,
+    })
+  }
+
+  let autoSimulationProgressDelta: number | undefined
+  await page.route(rpcUrl, async (route) => {
+    const body = await route.request().postDataJSON()
+    if (body.jsonrpc === '2.0' && body.method === 'eth_sendTransaction') {
+      if (autoSimulationProgressDelta) {
+        const { timestamp: currentTimestamp } = await testnetClient.getBlock()
+
+        const progressedTimestamp = currentTimestamp + BigInt(autoSimulationProgressDelta)
+        await testnetClient.setNextBlockTimestamp(progressedTimestamp)
+      }
+    }
+    return route.continue()
+  })
+
+  const autoProgressSimulationController: AutoSimulationProgressController = {
+    enable: (deltaSeconds: number) => {
+      assert(deltaSeconds > 0, 'deltaSeconds should be greater than 0')
+      autoSimulationProgressDelta = deltaSeconds
+    },
+    disable: () => {
+      autoSimulationProgressDelta = undefined
+    },
   }
 
   const { timestamp } = await testnetClient.getBlock()
   await page.clock.setFixedTime(Number(timestamp) * 1000)
+
+  return autoProgressSimulationController
+}
+
+export interface AutoSimulationProgressController {
+  enable: (deltaSeconds: number) => void
+  disable: () => void
 }

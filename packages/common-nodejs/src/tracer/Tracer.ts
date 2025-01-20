@@ -3,7 +3,7 @@ import { ILogger } from '../logger/index.js'
 
 interface TracerOptions {
   service?: string
-  externalTrackPerformance: <T>(fullName: string, fn: () => T) => T
+  externalTrackPerformance: <T>(fullName: string, fn: () => T) => Promise<T>
 }
 
 export class Tracer {
