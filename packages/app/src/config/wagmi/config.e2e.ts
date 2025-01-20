@@ -1,4 +1,4 @@
-import { http, Chain, Transport, createWalletClient } from 'viem'
+import { http, Chain, Transport } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 import { base, gnosis, mainnet } from 'viem/chains'
 import { Config, createConfig } from 'wagmi'
@@ -9,9 +9,11 @@ import { createMockConnector } from '@/domain/wallet/createMockConnector'
 
 import { viemAddressSchema } from '@/domain/common/validation'
 import { getConfig } from './config.default'
+import { createE2ETestWallet } from './createE2ETestWallet'
 import {
   PLAYWRIGHT_CHAIN_ID,
   PLAYWRIGHT_WALLET_ADDRESS_KEY,
+  PLAYWRIGHT_WALLET_ATOMIC_BATCH_SUPPORTED_KEY,
   PLAYWRIGHT_WALLET_FORK_URL_KEY,
   PLAYWRIGHT_WALLET_PRIVATE_KEY_KEY,
 } from './e2e-consts'
@@ -38,17 +40,13 @@ export function getMockConnectors(chain: Chain) {
   const savedPrivateKeySafeParse = privateKeySchema.safeParse((window as any)[PLAYWRIGHT_WALLET_PRIVATE_KEY_KEY])
   const savedPrivateKey = savedPrivateKeySafeParse.success ? savedPrivateKeySafeParse.data : undefined
   const account = savedPrivateKey ? privateKeyToAccount(savedPrivateKey) : savedAddress
+  const atomicBatchSupported = (window as any)[PLAYWRIGHT_WALLET_ATOMIC_BATCH_SUPPORTED_KEY] === true
 
   if (!account) {
     return []
   }
 
-  const walletClient = createWalletClient({
-    transport: getInjectedTransport(),
-    chain,
-    pollingInterval: 100,
-    account,
-  })
+  const walletClient = createE2ETestWallet({ chain, account, atomicBatchSupported })
 
   const mockConnector = createMockConnector(walletClient)
 
