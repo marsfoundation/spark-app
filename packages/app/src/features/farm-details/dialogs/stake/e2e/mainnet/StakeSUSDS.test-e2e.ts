@@ -144,6 +144,9 @@ test.describe('Stake sUSDS to SKY farm with actions batched', () => {
     await stakeDialog.actionsContainer.acceptBatchedActions()
     await stakeDialog.clickBackToFarmAction()
 
+    // @note: Some dust left due to batched actions - cannot determine exact amount of USDS
+    // based on the amount of sUSDS staked, so actions use an estimate instead
+    await farmDetailsPage.expectTokenToDepositBalance('USDS', '<0.01')
     await farmDetailsPage.expectReward({
       reward: '0.00000',
       rewardUsd: '$0.00',
