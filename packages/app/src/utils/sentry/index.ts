@@ -15,9 +15,7 @@ Sentry.init({
     // main production domain
     /^https:\/\/app\.spark\.fi/,
     // vercel staging and production
-    /^https:\/\/spark-app-(staging|production)-mars-foundation\.vercel\.app/,
-    // localhost
-    ...(import.meta.env.VITE_SENTRY_DSN ? [/^https?:\/\/localhost:[0-9]+/] : []),
+    /^https:\/\/spark-app-(staging|production)(-mars-foundation)?\.vercel\.app/,
   ],
   integrations: [
     // allows to filter out third party errors (browser extensions, code-injection, etc.)
