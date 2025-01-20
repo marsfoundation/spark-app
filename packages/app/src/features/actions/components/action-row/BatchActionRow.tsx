@@ -11,9 +11,7 @@ export interface BatchActionRow {
 
 export function BatchActionRow({ batchActionHandler, layout }: BatchActionRow) {
   return (
-    <div
-      className={cn('col-span-full grid grid-rows-[auto_auto] items-center gap-2 p-5', layout === 'compact' && 'p-4')}
-    >
+    <div className={cn('col-span-full grid grid-rows-[auto_auto] items-center p-5', layout === 'compact' && 'p-4')}>
       <Button
         variant="primary"
         size="l"
@@ -24,7 +22,9 @@ export function BatchActionRow({ batchActionHandler, layout }: BatchActionRow) {
       >
         {batchActionHandler.state.status === 'error' ? 'Try Again' : 'Execute'}
       </Button>
-      {batchActionHandler.state.status === 'error' && <ErrorWarning message={batchActionHandler.state.message} />}
+      {batchActionHandler.state.status === 'error' && (
+        <ErrorWarning message={batchActionHandler.state.message} className="mt-2" withPrefixIcon />
+      )}
     </div>
   )
 }

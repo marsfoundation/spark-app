@@ -17,10 +17,9 @@ import { ErrorWarning as ErrorWarningComponent } from './components/ErrorWarning
 export interface ActionRowProps {
   actionIndex: number
   actionHandlerState: ActionHandlerState | BatchActionHandlerState
-  onAction: () => void
+  onAction?: () => void
   layout: ActionsGridLayout
   children: ReactNode
-  variant?: 'batch' | 'single'
 }
 
 const ActionRowContext = createContext<Omit<ActionRowProps, 'children'> | null>(null)
@@ -31,7 +30,7 @@ function useActionRowContext() {
   return context
 }
 
-function ActionRow({ children, actionHandlerState, actionIndex, onAction, layout, variant }: ActionRowProps) {
+function ActionRow({ children, actionHandlerState, actionIndex, onAction, layout }: ActionRowProps) {
   return (
     <div
       className={cn(
@@ -41,7 +40,7 @@ function ActionRow({ children, actionHandlerState, actionIndex, onAction, layout
       )}
       data-testid={testIds.actions.row(actionIndex)}
     >
-      <ActionRowContext.Provider value={{ actionHandlerState, actionIndex, onAction, layout, variant }}>
+      <ActionRowContext.Provider value={{ actionHandlerState, actionIndex, onAction, layout }}>
         {children}
       </ActionRowContext.Provider>
     </div>
@@ -134,27 +133,27 @@ function Amount({ token, amount }: { token: Token; amount: NormalizedUnitNumber 
 }
 
 function ErrorWarning() {
-  const { actionHandlerState, layout, variant } = useActionRowContext()
+  const { actionHandlerState, layout } = useActionRowContext()
 
-  if (actionHandlerState.status === 'error' && variant === 'single') {
-    return (
-      <ErrorWarningComponent
-        message={actionHandlerState.message}
-        className={cn(
-          'col-span-full col-start-2 md:col-span-1',
-          layout === 'compact' ? 'md:col-start-3' : 'md:col-start-4',
-        )}
-      />
-    )
+  if (actionHandlerState.status !== 'error') {
+    return null
   }
 
-  return null
+  return (
+    <ErrorWarningComponent
+      message={actionHandlerState.message}
+      className={cn(
+        'col-span-full col-start-2 md:col-span-1',
+        layout === 'compact' ? 'md:col-start-3' : 'md:col-start-4',
+      )}
+    />
+  )
 }
 
 function Trigger({ children }: { children: ReactNode }) {
-  const { actionHandlerState, onAction, variant } = useActionRowContext()
+  const { actionHandlerState, onAction } = useActionRowContext()
 
-  if (variant === 'batch') {
+  if (onAction === undefined) {
     return null
   }
 

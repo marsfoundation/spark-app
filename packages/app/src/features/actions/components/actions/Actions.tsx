@@ -38,14 +38,11 @@ export function Actions({ actionHandlers, batchActionHandler, layout }: ActionsP
           actionIndex: index,
           ...(batchActionHandler
             ? {
-                actionHandlerState: batchActionHandler.state,
-                onAction: batchActionHandler.onAction,
-                variant: 'batch',
+                actionHandlerState: { status: 'disabled' } as const,
               }
             : {
                 actionHandlerState: handler.state,
                 onAction: handler.onAction,
-                variant: 'single',
               }),
         }
 
