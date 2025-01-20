@@ -43,9 +43,7 @@ export function ActionsView({
           actionsGridLayout={actionsGridLayout}
         />
       </div>
-      <div className="rounded-sm border border-primary">
-        <Actions actionHandlers={actionHandlers} batchActionHandler={batchActionHandler} layout={actionsGridLayout} />
-      </div>
+      <Actions actionHandlers={actionHandlers} batchActionHandler={batchActionHandler} layout={actionsGridLayout} />
     </section>
   )
 }

@@ -4,14 +4,19 @@ import { BatchActionHandler } from '../../logic/types'
 import { ActionsGridLayout } from '../../types'
 import { ErrorWarning } from './components/ErrorWarning'
 
-export interface BatchActionRow {
+export interface BatchActionTrigger {
   batchActionHandler: BatchActionHandler
-  layout: ActionsGridLayout
+  actionsGridLayout: ActionsGridLayout
 }
 
-export function BatchActionRow({ batchActionHandler, layout }: BatchActionRow) {
+export function BatchActionTrigger({ batchActionHandler, actionsGridLayout }: BatchActionTrigger) {
   return (
-    <div className={cn('col-span-full grid grid-rows-[auto_auto] items-center p-5', layout === 'compact' && 'p-4')}>
+    <div
+      className={cn(
+        'grid w-full grid-rows-[auto_auto] items-center border-t p-5',
+        actionsGridLayout === 'compact' && 'p-4',
+      )}
+    >
       <Button
         variant="primary"
         size="l"

@@ -19,7 +19,7 @@ import { WithdrawFromSavingsActionRow } from '../../flavours/withdraw-from-savin
 import { WithdrawActionRow } from '../../flavours/withdraw/WithdrawActionRow'
 import { ActionHandler, BatchActionHandler } from '../../logic/types'
 import { ActionsGridLayout } from '../../types'
-import { BatchActionRow } from '../action-row/BatchActionRow'
+import { BatchActionTrigger } from '../action-row/BatchActionTrigger'
 import { ActionsGrid } from '../actions-grid/ActionsGrid'
 
 interface ActionsProps {
@@ -30,64 +30,66 @@ interface ActionsProps {
 
 export function Actions({ actionHandlers, batchActionHandler, layout }: ActionsProps) {
   return (
-    <ActionsGrid layout={layout}>
-      {actionHandlers.map((handler, index) => {
-        const props = {
-          layout,
-          key: index,
-          actionIndex: index,
-          ...(batchActionHandler
-            ? {
-                actionHandlerState: { status: 'disabled' } as const,
-              }
-            : {
-                actionHandlerState: handler.state,
-                onAction: handler.onAction,
-              }),
-        }
+    <div className="rounded-sm border border-primary">
+      <ActionsGrid layout={layout}>
+        {actionHandlers.map((handler, index) => {
+          const props = {
+            layout,
+            key: index,
+            actionIndex: index,
+            ...(batchActionHandler
+              ? {
+                  actionHandlerState: { status: 'disabled' } as const,
+                }
+              : {
+                  actionHandlerState: handler.state,
+                  onAction: handler.onAction,
+                }),
+          }
 
-        switch (handler.action.type) {
-          case 'approve':
-            return <ApproveActionRow action={handler.action} {...props} />
-          case 'approveDelegation':
-            return <ApproveDelegationActionRow action={handler.action} {...props} />
-          case 'borrow':
-            return <BorrowActionRow action={handler.action} {...props} />
-          case 'deposit':
-            return <DepositActionRow action={handler.action} {...props} />
-          case 'permit':
-            return <PermitActionRow action={handler.action} {...props} />
-          case 'repay':
-            return <RepayActionRow action={handler.action} {...props} />
-          case 'setUseAsCollateral':
-            return <SetUseAsCollateralActionRow action={handler.action} {...props} />
-          case 'setUserEMode':
-            return <SetUserEModeActionRow action={handler.action} {...props} />
-          case 'withdraw':
-            return <WithdrawActionRow action={handler.action} {...props} />
-          case 'claimMarketRewards':
-            return <ClaimMarketRewardsActionRow action={handler.action} {...props} />
-          case 'withdrawFromSavings':
-            return <WithdrawFromSavingsActionRow action={handler.action} {...props} />
-          case 'depositToSavings':
-            return <DepositToSavingsActionRow action={handler.action} {...props} />
-          case 'upgrade':
-            return <UpgradeActionRow action={handler.action} {...props} />
-          case 'downgrade':
-            return <DowngradeActionRow action={handler.action} {...props} />
-          case 'stake':
-            return <StakeActionRow action={handler.action} {...props} />
-          case 'unstake':
-            return <UnstakeActionRow action={handler.action} {...props} />
-          case 'psmConvert':
-            return <PsmConvertActionRow action={handler.action} {...props} />
-          case 'claimFarmRewards':
-            return <ClaimFarmRewardsActionRow action={handler.action} {...props} />
-          default:
-            assertNever(handler.action)
-        }
-      })}
-      {batchActionHandler && <BatchActionRow batchActionHandler={batchActionHandler} layout={layout} />}
-    </ActionsGrid>
+          switch (handler.action.type) {
+            case 'approve':
+              return <ApproveActionRow action={handler.action} {...props} />
+            case 'approveDelegation':
+              return <ApproveDelegationActionRow action={handler.action} {...props} />
+            case 'borrow':
+              return <BorrowActionRow action={handler.action} {...props} />
+            case 'deposit':
+              return <DepositActionRow action={handler.action} {...props} />
+            case 'permit':
+              return <PermitActionRow action={handler.action} {...props} />
+            case 'repay':
+              return <RepayActionRow action={handler.action} {...props} />
+            case 'setUseAsCollateral':
+              return <SetUseAsCollateralActionRow action={handler.action} {...props} />
+            case 'setUserEMode':
+              return <SetUserEModeActionRow action={handler.action} {...props} />
+            case 'withdraw':
+              return <WithdrawActionRow action={handler.action} {...props} />
+            case 'claimMarketRewards':
+              return <ClaimMarketRewardsActionRow action={handler.action} {...props} />
+            case 'withdrawFromSavings':
+              return <WithdrawFromSavingsActionRow action={handler.action} {...props} />
+            case 'depositToSavings':
+              return <DepositToSavingsActionRow action={handler.action} {...props} />
+            case 'upgrade':
+              return <UpgradeActionRow action={handler.action} {...props} />
+            case 'downgrade':
+              return <DowngradeActionRow action={handler.action} {...props} />
+            case 'stake':
+              return <StakeActionRow action={handler.action} {...props} />
+            case 'unstake':
+              return <UnstakeActionRow action={handler.action} {...props} />
+            case 'psmConvert':
+              return <PsmConvertActionRow action={handler.action} {...props} />
+            case 'claimFarmRewards':
+              return <ClaimFarmRewardsActionRow action={handler.action} {...props} />
+            default:
+              assertNever(handler.action)
+          }
+        })}
+      </ActionsGrid>
+      {batchActionHandler && <BatchActionTrigger batchActionHandler={batchActionHandler} actionsGridLayout={layout} />}
+    </div>
   )
 }
