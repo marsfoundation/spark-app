@@ -28,10 +28,10 @@ import { Action, ActionContext, Objective } from './types'
 export interface UseCreateActionsParams {
   objectives: Objective[]
   actionsSettings: ActionsSettings
-  actionContext: ActionContext
+  context: ActionContext
 }
 
-export function useCreateActions({ objectives, actionsSettings, actionContext }: UseCreateActionsParams): Action[] {
+export function useCreateActions({ objectives, actionsSettings, context }: UseCreateActionsParams): Action[] {
   const chainConfig = useChainConfigEntry()
   const chainId = useChainId()
 
@@ -126,7 +126,7 @@ export function useCreateActions({ objectives, actionsSettings, actionContext }:
         }
 
         if (objective.token.symbol === chainConfig.usdsSymbol) {
-          const marketInfo = actionContext.marketInfo ?? raise('Market info is required for borrow action')
+          const marketInfo = context.marketInfo ?? raise('Market info is required for borrow action')
 
           const borrowAction: BorrowAction = {
             type: 'borrow',
@@ -258,19 +258,19 @@ export function useCreateActions({ objectives, actionsSettings, actionContext }:
       }
 
       case 'unstake': {
-        return createUnstakeActions(objective, actionContext)
+        return createUnstakeActions(objective, context)
       }
 
       case 'withdrawFromSavings': {
-        return createWithdrawFromSavingsActions(objective, actionContext)
+        return createWithdrawFromSavingsActions(objective, context)
       }
 
       case 'depositToSavings': {
-        return createDepositToSavingsActions(objective, actionContext)
+        return createDepositToSavingsActions(objective, context)
       }
 
       case 'stake': {
-        return createStakeActions(objective, actionContext)
+        return createStakeActions(objective, context)
       }
 
       case 'claimFarmRewards': {
@@ -285,7 +285,7 @@ export function useCreateActions({ objectives, actionsSettings, actionContext }:
       }
 
       case 'convertStables': {
-        return createConvertStablesActions(objective, actionContext)
+        return createConvertStablesActions(objective, context)
       }
     }
   })

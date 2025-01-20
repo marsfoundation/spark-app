@@ -1,3 +1,4 @@
+import { getMockTokensInfo } from '@/test/integration/constants'
 import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { WithClassname, WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
@@ -18,6 +19,9 @@ const meta: Meta<typeof UpgradeView> = {
     toToken: tokens.USDS,
     dai: tokens.DAI.symbol,
     sdai: tokens.sDAI.symbol,
+    actionsContext: {
+      tokensInfo: getMockTokensInfo(),
+    },
     txOverview: {
       status: 'success',
       route: [
@@ -76,6 +80,9 @@ export const sDai: Story = {
   args: {
     fromToken: tokens.sDAI,
     toToken: tokens.sUSDS,
+    actionsContext: {
+      tokensInfo: getMockTokensInfo(),
+    },
     txOverview: {
       status: 'success',
       apyChange: { current: Percentage(0.05), updated: Percentage(0.07) },

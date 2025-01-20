@@ -1,4 +1,4 @@
-import { UseQueryResult, queryOptions, skipToken, useQuery } from '@tanstack/react-query'
+import { QueryKey, UseQueryResult, queryOptions, skipToken, useQuery } from '@tanstack/react-query'
 import { WalletCallReceipt } from 'viem'
 import { Config, useConfig } from 'wagmi'
 import { getCallsStatus } from 'wagmi/actions/experimental'
@@ -62,6 +62,6 @@ export function batchStatusQueryOptions({ batchId, config }: BatchQueryOptionsPa
   })
 }
 
-export function batchStatusQueryKey(batchId: string | undefined): unknown[] {
+export function batchStatusQueryKey(batchId: string | undefined): QueryKey {
   return ['batch-status', batchId]
 }
