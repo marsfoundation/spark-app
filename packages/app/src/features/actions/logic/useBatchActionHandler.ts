@@ -64,7 +64,11 @@ function mapBatchWriteStatusToBatchActionState(status: BatchWriteStatus): BatchA
       return { status: 'success' }
 
     case 'error':
-      return { status: 'error', errorKind: status.errorKind, message: parseWriteErrorMessage(status.error) }
+      return {
+        status: 'error',
+        errorKind: status.errorKind,
+        message: parseWriteErrorMessage(status.error, { isBatchWrite: true }),
+      }
 
     default:
       assertNever(status)

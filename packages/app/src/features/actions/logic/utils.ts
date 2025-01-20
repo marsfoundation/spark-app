@@ -28,18 +28,21 @@ export function mapWriteResultToActionState(result: UseWriteResult): ActionHandl
   }
 }
 
-export function parseWriteErrorMessage(error: Error | undefined): string {
+export function parseWriteErrorMessage(
+  error: Error | undefined,
+  { isBatchWrite }: { isBatchWrite?: boolean } = {},
+): string {
   if (error instanceof BaseError) {
-    return decodeRevertReason(error)
+    return decodeRevertReason(isBatchWrite ? error.details : error.shortMessage)
   }
   return 'Unknown error'
 }
 
-function decodeRevertReason(error: BaseError): string {
-  const match = error.shortMessage.match(/execution reverted:\s*(\d+)/)
+function decodeRevertReason(errorMessage: string): string {
+  const match = errorMessage.match(/execution reverted:\s*(\d+)/)
   const revertReason = match?.[1]
   if (revertReason) {
-    return aaveContractErrors[revertReason] ?? error.shortMessage
+    return aaveContractErrors[revertReason] ?? errorMessage
   }
-  return error.shortMessage
+  return errorMessage
 }
