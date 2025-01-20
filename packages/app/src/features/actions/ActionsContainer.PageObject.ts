@@ -45,7 +45,7 @@ export class ActionsPageObject extends BasePageObject {
 
   async acceptBatchedActions(): Promise<void> {
     this.testContext.testnetController.autoProgressSimulationController.enable(5)
-    const button = this.region.getByRole('button', { name: 'Execute all actions in one transaction' })
+    const button = this.region.getByRole('button', { name: 'Execute' })
     await button.click()
     await expect(button).not.toBeVisible()
     this.testContext.testnetController.autoProgressSimulationController.disable()
