@@ -11,12 +11,6 @@ Sentry.init({
   dsn: import.meta.env.VITE_SENTRY_DSN,
   tunnel: `${apiUrl}/sentry/tunnel`,
   environment: import.meta.env.VITE_ENV_NAME,
-  allowUrls: [
-    // main production domain
-    /^https:\/\/app\.spark\.fi/,
-    // vercel staging and production
-    /^https:\/\/spark-app-(staging|production)(-mars-foundation)?\.vercel\.app/,
-  ],
   integrations: [
     // allows to filter out third party errors (browser extensions, code-injection, etc.)
     Sentry.thirdPartyErrorFilterIntegration({
