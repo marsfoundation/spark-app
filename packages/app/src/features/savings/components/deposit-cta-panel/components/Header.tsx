@@ -3,6 +3,7 @@ import { Token } from '@/domain/types/Token'
 import { cn } from '@/ui/utils/style'
 import { Percentage } from '@marsfoundation/common-universal'
 import { cva } from 'class-variance-authority'
+import { symbolToVariant } from '../utils'
 
 export interface HeaderProps {
   outputToken: Token
@@ -15,7 +16,7 @@ export function Header({ outputToken, savingsRate, inputTokens }: HeaderProps) {
     <div
       className={cn(
         'typography-heading-2 inline-flex bg-clip-text text-primary-inverse',
-        headerBgVariants({ bg: outputToken.symbol.toLowerCase() }),
+        headerBgVariants({ bg: symbolToVariant(outputToken.symbol) }),
       )}
     >
       <div>
@@ -27,7 +28,7 @@ export function Header({ outputToken, savingsRate, inputTokens }: HeaderProps) {
   )
 }
 
-const headerBgVariants = cva<{ bg: Record<string, string> }>('bg-cover bg-right bg-no-repeat', {
+const headerBgVariants = cva('bg-cover bg-right bg-no-repeat', {
   variants: {
     bg: {
       susds: 'bg-[radial-gradient(103.52%_1308.64%_at_8.98%_83.33%,#FFFFFF_0%,#80D98D_50%,#00C2A1_100%)]',

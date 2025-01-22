@@ -7,6 +7,7 @@ import { Actions } from './components/Actions'
 import { Details } from './components/Details'
 import { Header } from './components/Header'
 import { Stats } from './components/Stats'
+import { symbolToVariant } from './utils'
 
 export interface DepositCTAPanelProps {
   globalStats: {
@@ -39,7 +40,7 @@ export function DepositCTAPanel({ inputTokens, outputToken, globalStats, descrip
       spacing="m"
       className={cn(
         'grid grid-cols-1 gap-8 md:grid-cols-[3fr_2fr]',
-        panelBgVariants({ bg: outputToken.symbol.toLowerCase() }),
+        panelBgVariants({ bg: symbolToVariant(outputToken.symbol) }),
       )}
     >
       <div className="flex flex-col gap-4 md:gap-14">
@@ -54,15 +55,12 @@ export function DepositCTAPanel({ inputTokens, outputToken, globalStats, descrip
   )
 }
 
-const panelBgVariants = cva<{ bg: Record<string, string> }>('bg-cover bg-right bg-no-repeat', {
+const panelBgVariants = cva('bg-cover bg-right bg-no-repeat', {
   variants: {
     bg: {
       susds: 'bg-[url(/src/ui/assets/savings/deposit-cta-panel/usds-bg.svg)] bg-primary-inverse',
       susdc: 'bg-[url(/src/ui/assets/savings/deposit-cta-panel/usdc-bg.svg)] bg-primary-inverse',
       sdai: 'bg-[url(/src/ui/assets/savings/deposit-cta-panel/dai-bg.svg)] bg-primary-inverse',
     },
-  },
-  defaultVariants: {
-    bg: 'susds',
   },
 })
