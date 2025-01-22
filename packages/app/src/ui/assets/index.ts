@@ -77,6 +77,7 @@ import reth from './tokens/reth.svg'
 import sdai from './tokens/sdai.svg'
 import sky from './tokens/sky.svg'
 import steth from './tokens/steth.svg'
+import susdc from './tokens/susdc.svg'
 import susds from './tokens/susds.svg'
 import unknown from './tokens/unknown.svg'
 import usdc from './tokens/usdc.svg'
@@ -176,6 +177,7 @@ export const assets = {
     susds,
     steth,
     usdc,
+    susdc,
     'usdc.e': usdc,
     usdt,
     wbtc,
@@ -258,6 +260,7 @@ const tokenColors: Record<TokenSymbol, `${number} ${number} ${number}`> = {
   [TokenSymbol('sUSDS')]: '53 181 82',
   [TokenSymbol('stETH')]: '143 146 236',
   [TokenSymbol('USDC')]: '51 146 248',
+  [TokenSymbol('sUSDC')]: '17 160 179',
   [TokenSymbol('USDC.e')]: '51 146 248',
   [TokenSymbol('USDT')]: '38 161 123',
   [TokenSymbol('WBTC')]: '240 146 66',

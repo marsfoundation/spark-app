@@ -48,7 +48,7 @@ export const FirstOnTop: Story = {
 
 export const IconBorder: Story = {
   args: {
-    iconBorder: true,
+    iconBorder: { borderColorClass: 'border-primary' },
     paths: [tokens.DAI, tokens.ETH, tokens.USDC, tokens.USDT, tokens.GNO].map(({ symbol }) => getTokenImage(symbol)),
   },
 }
