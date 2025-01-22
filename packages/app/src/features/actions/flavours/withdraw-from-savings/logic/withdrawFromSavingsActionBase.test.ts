@@ -10,9 +10,9 @@ import { setupUseContractActionRenderer } from '@/test/integration/setupUseContr
 import { bigNumberify, toBigInt } from '@marsfoundation/common-universal'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { waitFor } from '@testing-library/react'
-import BigNumber from 'bignumber.js'
 import { base } from 'viem/chains'
 import { describe, test } from 'vitest'
+import { formatMaxAmountInForPsm3 } from './formatMaxAmountInForPsm3'
 import { createWithdrawFromSavingsActionConfig } from './withdrawFromSavingsAction'
 
 const account = testAddresses.alice
@@ -62,7 +62,11 @@ const hookRenderer = setupUseContractActionRenderer({
 
 describe(createWithdrawFromSavingsActionConfig.name, () => {
   test('withdraws usds from susds', async () => {
-    const maxAmountIn = NormalizedUnitNumber(withdrawAmount.dividedBy(1.1).toFixed(usds.decimals, BigNumber.ROUND_UP))
+    const maxAmountIn = formatMaxAmountInForPsm3({
+      susds,
+      susdsAmount: NormalizedUnitNumber(withdrawAmount.dividedBy(1.1)),
+      assetOut: usds,
+    })
 
     const { result, queryInvalidationManager } = hookRenderer({
       args: {
@@ -87,7 +91,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
             susds.address,
             usds.address,
             toBigInt(usds.toBaseUnit(withdrawAmount)),
-            toBigInt(susds.toBaseUnit(maxAmountIn)),
+            maxAmountIn,
             account,
             referralCode,
           ],
@@ -166,7 +170,11 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
   })
 
   test('sends usds from susds', async () => {
-    const maxAmountIn = NormalizedUnitNumber(withdrawAmount.dividedBy(1.1).toFixed(usds.decimals, BigNumber.ROUND_UP))
+    const maxAmountIn = formatMaxAmountInForPsm3({
+      susds,
+      susdsAmount: NormalizedUnitNumber(withdrawAmount.dividedBy(1.1)),
+      assetOut: usds,
+    })
 
     const { result, queryInvalidationManager } = hookRenderer({
       args: {
@@ -192,7 +200,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
             susds.address,
             usds.address,
             toBigInt(usds.toBaseUnit(withdrawAmount)),
-            toBigInt(susds.toBaseUnit(maxAmountIn)),
+            maxAmountIn,
             receiver,
             referralCode,
           ],
@@ -272,7 +280,11 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
   })
 
   test('withdraws usdc from susds', async () => {
-    const maxAmountIn = NormalizedUnitNumber(withdrawAmount.dividedBy(1.1).toFixed(usdc.decimals, BigNumber.ROUND_UP))
+    const maxAmountIn = formatMaxAmountInForPsm3({
+      susds,
+      susdsAmount: NormalizedUnitNumber(withdrawAmount.dividedBy(1.1)),
+      assetOut: usdc,
+    })
 
     const { result, queryInvalidationManager } = hookRenderer({
       args: {
@@ -297,7 +309,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
             susds.address,
             usdc.address,
             toBigInt(usdc.toBaseUnit(withdrawAmount)),
-            toBigInt(susds.toBaseUnit(maxAmountIn)),
+            maxAmountIn,
             account,
             referralCode,
           ],
@@ -382,7 +394,11 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
   })
 
   test('sends usdc from susds', async () => {
-    const maxAmountIn = NormalizedUnitNumber(withdrawAmount.dividedBy(1.1).toFixed(usdc.decimals, BigNumber.ROUND_UP))
+    const maxAmountIn = formatMaxAmountInForPsm3({
+      susds,
+      susdsAmount: NormalizedUnitNumber(withdrawAmount.dividedBy(1.1)),
+      assetOut: usdc,
+    })
 
     const { result, queryInvalidationManager } = hookRenderer({
       args: {
@@ -408,7 +424,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
             susds.address,
             usdc.address,
             toBigInt(usdc.toBaseUnit(withdrawAmount)),
-            toBigInt(susds.toBaseUnit(maxAmountIn)),
+            maxAmountIn,
             receiver,
             referralCode,
           ],
