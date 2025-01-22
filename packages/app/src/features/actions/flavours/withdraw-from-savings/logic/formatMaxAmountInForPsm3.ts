@@ -10,7 +10,7 @@ export interface FormatMaxAmountInForPsm3Params {
 
 // Based on calculated precise value of maxAmountIn for PSM3 swapExactOut,
 // format it to the bigint value which is accepted by PSM3 contract.
-// This is needed because the formatted value may be different depended
+// This is needed because the formatted value may be different dependent
 // on the assetOut - for instance, for USDC the sUSDS amount is rounded up
 // to 6 decimals.
 export function formatMaxAmountInForPsm3({ susds, susdsAmount, assetOut }: FormatMaxAmountInForPsm3Params): bigint {
