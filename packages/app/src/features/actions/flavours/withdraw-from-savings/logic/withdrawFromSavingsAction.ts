@@ -20,6 +20,7 @@ import { calculateGemConversionFactor } from '@/features/actions/utils/savings'
 import { BaseUnitNumber, toBigInt } from '@marsfoundation/common-universal'
 import { assert, CheckedAddress, NormalizedUnitNumber, assertNever, raise } from '@marsfoundation/common-universal'
 import { QueryKey } from '@tanstack/react-query'
+import BigNumber from 'bignumber.js'
 import { Address, erc4626Abi } from 'viem'
 import { gnosis } from 'viem/chains'
 import { WithdrawFromSavingsAction } from '../types'
@@ -134,7 +135,13 @@ export function createWithdrawFromSavingsActionConfig(
           const maxSharesAmount = context.savingsUsdsInfo.convertToShares({
             assets: action.amount,
           })
-          const maxAmountIn = toBigInt(savingsToken.toBaseUnit(maxSharesAmount))
+          const maxAmountIn = (() => {
+            if (token.symbol === 'USDC') {
+              return toBigInt(savingsToken.toBaseUnit(NormalizedUnitNumber(maxSharesAmount.toFixed(token.decimals, BigNumber.ROUND_UP))))
+            }
+
+            return toBigInt(savingsToken.toBaseUnit(maxSharesAmount))
+          })()
 
           return ensureConfigTypes({
             address: getContractAddress(basePsm3Address, chainId),

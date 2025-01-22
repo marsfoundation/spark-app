@@ -72,4 +72,15 @@ test.describe('Withdraw USDC', () => {
     await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '9,012.70 sUSDS', estimatedUsdsValue: '9,128.654891' })
     await savingsPage.expectStablecoinsInWalletAssetBalance('USDC', '1,000')
   })
+
+  test('executes withdraw for small amount', async () => {
+    await withdrawDialog.fillAmountAction(1)
+    await withdrawDialog.actionsContainer.acceptAllActionsAction(2)
+
+    await withdrawDialog.expectSuccessPage()
+    await withdrawDialog.clickBackToSavingsButton()
+
+    await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '9,999.01 sUSDS', estimatedUsdsValue: '10,127.654892' })
+    await savingsPage.expectStablecoinsInWalletAssetBalance('USDC', '1')
+  })
 })

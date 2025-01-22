@@ -66,8 +66,23 @@ export function createWithdrawFromSavingsActions(
       return [getSdaiApproveAction(CheckedAddress(savingsXDaiAdapterAddress[gnosis.id])), withdrawAction]
 
     case 'base-susds-to-usdc':
-    case 'base-susds-to-usds':
-      return [getSusdsApproveAction(getContractAddress(basePsm3Address, chainId)), withdrawAction]
+    case 'base-susds-to-usds': {
+      const savingsInfo =
+        context.savingsUsdsInfo ?? raise('Savings info is required for withdraw from savings on base action')
+      const savingsTokenAmountWithdrawnEstimate = savingsInfo.convertToShares({ assets: objective.amount })
+      const maxAmountIn = NormalizedUnitNumber(
+        savingsTokenAmountWithdrawnEstimate.toFixed(objective.token.decimals, BigNumber.ROUND_UP),
+      )
+      return [
+        {
+          type: 'approve',
+          token: objective.savingsToken,
+          spender: getContractAddress(basePsm3Address, chainId),
+          value: objective.isRedeem ? objective.amount : maxAmountIn,
+        },
+        withdrawAction,
+      ]
+    }
 
     default:
       assertNever(actionPath)

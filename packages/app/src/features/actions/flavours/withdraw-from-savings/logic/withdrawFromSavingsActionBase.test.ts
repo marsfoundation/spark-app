@@ -13,6 +13,7 @@ import { waitFor } from '@testing-library/react'
 import { base } from 'viem/chains'
 import { describe, test } from 'vitest'
 import { createWithdrawFromSavingsActionConfig } from './withdrawFromSavingsAction'
+import BigNumber from 'bignumber.js'
 
 const account = testAddresses.alice
 const receiver = testAddresses.bob
@@ -271,7 +272,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
   })
 
   test('withdraws usdc from susds', async () => {
-    const maxAmountIn = NormalizedUnitNumber(withdrawAmount.dividedBy(1.1))
+    const maxAmountIn = NormalizedUnitNumber(withdrawAmount.dividedBy(1.1).toFixed(usdc.decimals, BigNumber.ROUND_UP))
 
     const { result, queryInvalidationManager } = hookRenderer({
       args: {
@@ -381,7 +382,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
   })
 
   test('sends usdc from susds', async () => {
-    const maxAmountIn = NormalizedUnitNumber(withdrawAmount.dividedBy(1.1))
+    const maxAmountIn = NormalizedUnitNumber(withdrawAmount.dividedBy(1.1).toFixed(usdc.decimals, BigNumber.ROUND_UP))
 
     const { result, queryInvalidationManager } = hookRenderer({
       args: {
