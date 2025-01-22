@@ -58,9 +58,9 @@ export function DepositCTAPanel({ inputTokens, outputToken, globalStats, descrip
 const panelBgVariants = cva('bg-cover bg-right bg-no-repeat', {
   variants: {
     bg: {
-      susds: 'bg-[url(/src/ui/assets/savings/deposit-cta-panel/usds-bg.svg)] bg-primary-inverse',
-      susdc: 'bg-[url(/src/ui/assets/savings/deposit-cta-panel/usdc-bg.svg)] bg-primary-inverse',
-      sdai: 'bg-[url(/src/ui/assets/savings/deposit-cta-panel/dai-bg.svg)] bg-primary-inverse',
+      susds: 'bg-[url(/src/ui/assets/savings/accounts/usds-bg.svg)] bg-primary-inverse',
+      susdc: 'bg-[url(/src/ui/assets/savings/accounts/usdc-bg.svg)] bg-primary-inverse',
+      sdai: 'bg-[url(/src/ui/assets/savings/accounts/dai-bg.svg)] bg-primary-inverse',
     },
   },
 })
