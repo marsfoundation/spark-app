@@ -1,4 +1,3 @@
-import { captureError } from '@/utils/sentry'
 import { QueryClient } from '@tanstack/react-query'
 import { hashFn } from 'wagmi/query'
 
@@ -13,16 +12,4 @@ export const queryClient = new QueryClient({
       queryKeyHashFn: hashFn,
     },
   },
-})
-
-queryClient.getQueryCache().subscribe(({ query }) => {
-  if (query.state.status === 'error') {
-    captureError(query.state.error)
-  }
-})
-
-queryClient.getMutationCache().subscribe(({ mutation }) => {
-  if (mutation && mutation.state.status === 'error') {
-    captureError(mutation.state.error)
-  }
 })

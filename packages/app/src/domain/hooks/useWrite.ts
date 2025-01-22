@@ -18,10 +18,12 @@ import {
 
 import { __TX_LIST_KEY } from '@/test/e2e/constants'
 import { JSONStringifyRich } from '@/utils/object'
+import { captureError } from '@/utils/sentry'
 import { useOnDepsChange } from '@/utils/useOnDepsChange'
 import { MutationKey, useMutation } from '@tanstack/react-query'
 import { writeContractMutationOptions } from 'wagmi/query'
 import { trackEvent } from '../analytics/mixpanel'
+import { HandledWriteError } from '../errors/HandledWriteError'
 import { sanityCheckTx } from './sanityChecks'
 import { useIncreasedGasLimit } from './useIncreasedGasLimit'
 import { useOriginChainId } from './useOriginChainId'
@@ -143,6 +145,12 @@ export function useWrite<TAbi extends Abi, TFunctionName extends ContractFunctio
 
     return { kind: 'ready' }
   })()
+
+  useOnDepsChange(() => {
+    if (status.kind === 'error') {
+      captureError(new HandledWriteError(status.error))
+    }
+  }, [status.kind])
 
   const finalWrite =
     parameters && enabled

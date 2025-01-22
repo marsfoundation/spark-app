@@ -1,7 +1,9 @@
 import { trackEvent } from '@/domain/analytics/mixpanel'
+import { HandledWriteError } from '@/domain/errors/HandledWriteError'
 import { sanityCheckTx } from '@/domain/hooks/sanityChecks'
 import { useOriginChainId } from '@/domain/hooks/useOriginChainId'
 import { JSONStringifyRich } from '@/utils/object'
+import { captureError } from '@/utils/sentry'
 import { useOnDepsChange } from '@/utils/useOnDepsChange'
 import { WalletCallReceipt } from 'viem'
 import { WriteContractsParameters } from 'viem/experimental'
@@ -94,6 +96,12 @@ export function useBatchWrite({ contracts, enabled = true, callbacks = {} }: Use
 
     return { kind: 'ready' }
   })()
+
+  useOnDepsChange(() => {
+    if (status.kind === 'error') {
+      captureError(new HandledWriteError(status.error))
+    }
+  }, [status.kind])
 
   const finalWrite = enabled
     ? () => {
