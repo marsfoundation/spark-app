@@ -175,6 +175,7 @@ export const assets = {
     reth,
     sdai,
     susds,
+    susdc,
     steth,
     usdc,
     susdc,
