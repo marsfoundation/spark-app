@@ -62,7 +62,7 @@ const hookRenderer = setupUseContractActionRenderer({
 
 describe(createWithdrawFromSavingsActionConfig.name, () => {
   test('withdraws usds from susds', async () => {
-    const maxAmountIn = NormalizedUnitNumber(withdrawAmount.dividedBy(1.1))
+    const maxAmountIn = NormalizedUnitNumber(withdrawAmount.dividedBy(1.1).toFixed(usds.decimals, BigNumber.ROUND_UP))
 
     const { result, queryInvalidationManager } = hookRenderer({
       args: {
@@ -166,7 +166,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
   })
 
   test('sends usds from susds', async () => {
-    const maxAmountIn = NormalizedUnitNumber(withdrawAmount.dividedBy(1.1))
+    const maxAmountIn = NormalizedUnitNumber(withdrawAmount.dividedBy(1.1).toFixed(usds.decimals, BigNumber.ROUND_UP))
 
     const { result, queryInvalidationManager } = hookRenderer({
       args: {

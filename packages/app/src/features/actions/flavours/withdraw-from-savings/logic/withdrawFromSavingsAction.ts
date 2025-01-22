@@ -135,17 +135,9 @@ export function createWithdrawFromSavingsActionConfig(
           const maxSharesAmount = context.savingsUsdsInfo.convertToShares({
             assets: action.amount,
           })
-          const maxAmountIn = (() => {
-            if (token.symbol === 'USDC') {
-              return toBigInt(
-                savingsToken.toBaseUnit(
-                  NormalizedUnitNumber(maxSharesAmount.toFixed(token.decimals, BigNumber.ROUND_UP)),
-                ),
-              )
-            }
-
-            return toBigInt(savingsToken.toBaseUnit(maxSharesAmount))
-          })()
+          const maxAmountIn = toBigInt(
+            savingsToken.toBaseUnit(NormalizedUnitNumber(maxSharesAmount.toFixed(token.decimals, BigNumber.ROUND_UP))),
+          )
 
           return ensureConfigTypes({
             address: getContractAddress(basePsm3Address, chainId),
