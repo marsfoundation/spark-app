@@ -11,13 +11,6 @@ Sentry.init({
   dsn: import.meta.env.VITE_SENTRY_DSN,
   tunnel: `${apiUrl}/sentry/tunnel`,
   environment: import.meta.env.VITE_ENV_NAME,
-  integrations: [
-    // allows to filter out third party errors (browser extensions, code-injection, etc.)
-    Sentry.thirdPartyErrorFilterIntegration({
-      filterKeys: [import.meta.env.VITE_SENTRY_APPLICATION_KEY],
-      behaviour: 'drop-error-if-exclusively-contains-third-party-frames',
-    }),
-  ],
   tracesSampleRate: 0,
   replaysSessionSampleRate: 0,
   replaysOnErrorSampleRate: 0,
