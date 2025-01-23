@@ -468,6 +468,13 @@ export const testTokens = {
     decimals: 18,
     unitPriceUsd: '1.05',
   }),
+  sUSDC: new Token({
+    address: CheckedAddress('0x47ff5312c027aa733abdce6740c88d4a151e7901'),
+    symbol: TokenSymbol('sUSDC'),
+    name: 'sUSDC',
+    decimals: 18,
+    unitPriceUsd: '1.05',
+  }),
   token1: new Token({
     address: testAddresses.token,
     symbol: TokenSymbol('TKN1'),

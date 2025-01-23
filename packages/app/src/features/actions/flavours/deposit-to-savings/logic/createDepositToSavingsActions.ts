@@ -2,6 +2,7 @@ import {
   basePsm3Address,
   migrationActionsConfig,
   psmActionsConfig,
+  usdcVaultAddress,
   usdsPsmActionsConfig,
 } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
@@ -53,6 +54,10 @@ export function createDepositToSavingsActions(objective: DepositToSavingsObjecti
     case 'dai-to-sdai':
     case 'usds-to-susds':
       return [getApproveAction(objective.savingsToken.address), depositAction]
+
+    case 'usdc-to-susdc':
+    case 'base-usdc-to-susdc':
+      return [getApproveAction(getContractAddress(usdcVaultAddress, chainId)), depositAction]
 
     case 'base-usdc-to-susds':
     case 'base-usds-to-susds':

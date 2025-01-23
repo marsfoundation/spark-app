@@ -137,6 +137,13 @@ export default defineConfig({
             [mainnet.id]: '0xd0A61F2963622e992e6534bde4D52fd0a89F39E0',
           },
         },
+        {
+          name: 'UsdcVault',
+          address: {
+            [mainnet.id]: '0x47ff5312c027aa733abdce6740c88d4a151e7901',
+            [base.id]: '0x62da45546a0f87b23941ffe5ca22f9d2a8fa7df3',
+          },
+        },
       ],
     }),
     etherscan({

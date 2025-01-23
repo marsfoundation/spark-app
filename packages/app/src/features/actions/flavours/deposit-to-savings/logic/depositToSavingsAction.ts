@@ -52,6 +52,8 @@ export function createDepositToSavingsActionConfig(
             args: [assetsAmount, account, SPARK_UI_REFERRAL_CODE],
           })
         case 'dai-to-sdai':
+        case 'usdc-to-susdc':
+        case 'base-usdc-to-susdc':
           return ensureConfigTypes({
             address: savingsToken.address,
             abi: erc4626Abi,
@@ -154,6 +156,8 @@ export function createDepositToSavingsActionConfig(
           ]
         case 'dai-to-sdai':
         case 'usds-to-susds':
+        case 'usdc-to-susdc':
+        case 'base-usdc-to-susdc':
           return [balancesQueryKeyPrefix, getAllowanceQueryKey(action.savingsToken.address)]
 
         case 'base-usds-to-susds':

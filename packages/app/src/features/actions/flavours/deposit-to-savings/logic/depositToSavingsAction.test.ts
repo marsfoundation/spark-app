@@ -2,6 +2,8 @@ import {
   migrationActionsConfig,
   psmActionsAbi,
   psmActionsAddress,
+  usdcVaultAbi,
+  usdcVaultAddress,
   usdsPsmActionsConfig,
 } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
@@ -26,6 +28,7 @@ const sdai = testTokens.sDAI
 const usds = testTokens.USDS
 const susds = testTokens.sUSDS
 const usdc = testTokens.USDC
+const susdc = testTokens.sUSDC
 const mockTokensInfo = new TokensInfo(
   [
     { token: dai, balance: NormalizedUnitNumber(100) },
@@ -216,6 +219,49 @@ describe(createDepositToSavingsActionConfig.name, () => {
       allowanceQueryKey({
         token: usdc.address,
         spender: getContractAddress(usdsPsmActionsConfig.address, chainId),
+        account,
+        chainId,
+      }),
+    )
+  })
+
+  test('deposits usdc to susdc', async () => {
+    const { result, queryInvalidationManager } = hookRenderer({
+      args: {
+        action: { type: 'depositToSavings', token: usdc, savingsToken: susdc, value: depositValue },
+        enabled: true,
+        context: { tokensInfo: mockTokensInfo },
+      },
+      extraHandlers: [
+        handlers.contractCall({
+          to: getContractAddress(usdcVaultAddress, chainId),
+          abi: usdcVaultAbi,
+          functionName: 'deposit',
+          args: [toBigInt(usdc.toBaseUnit(depositValue)), account],
+          from: account,
+          result: 1n,
+        }),
+        handlers.mineTransaction(),
+      ],
+    })
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('ready')
+    })
+
+    result.current.onAction()
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('success')
+    })
+
+    await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+      getBalancesQueryKeyPrefix({ account, chainId }),
+    )
+    await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+      allowanceQueryKey({
+        token: usdc.address,
+        spender: getContractAddress(usdcVaultAddress, chainId),
         account,
         chainId,
       }),
