@@ -3,20 +3,20 @@ import { Token } from '@/domain/types/Token'
 import { cn } from '@/ui/utils/style'
 import { Percentage } from '@marsfoundation/common-universal'
 import { cva } from 'class-variance-authority'
-import { symbolToVariant } from '../utils'
+import { savingsTokenToAccountType } from '../../common/utils'
 
 export interface HeaderProps {
-  outputToken: Token
+  savingsToken: Token
   savingsRate: Percentage
   inputTokens: Token[]
 }
 
-export function Header({ outputToken, savingsRate, inputTokens }: HeaderProps) {
+export function Header({ savingsToken, savingsRate, inputTokens }: HeaderProps) {
   return (
     <div
       className={cn(
         'typography-heading-2 inline-flex bg-clip-text text-primary-inverse',
-        headerBgVariants({ bg: symbolToVariant(outputToken.symbol) }),
+        headerBgVariants({ bg: savingsTokenToAccountType(savingsToken) }),
       )}
     >
       <div>
