@@ -2,8 +2,8 @@ import { assert, solidFetch } from '@marsfoundation/common-universal'
 import { v4 as uuidv4 } from 'uuid'
 import { numberToHex } from 'viem'
 import { z } from 'zod'
-import { TestnetClient } from '../TestnetClient.js'
-import { CreateNetworkArgs, TestnetCreateResult, TestnetFactory } from '../TestnetFactory.js'
+import { TestnetClient } from '../../TestnetClient.js'
+import { CreateNetworkArgs, TestnetCreateResult, TestnetFactory } from '../../TestnetFactory.js'
 import { getTenderlyClient } from './TenderlyClient.js'
 
 export class TenderlyTestnetFactory implements TestnetFactory {

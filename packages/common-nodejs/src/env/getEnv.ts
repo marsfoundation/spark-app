@@ -34,6 +34,22 @@ export class Env {
     throwMissingEnvVar(key)
   }
 
+  stringOf<T extends string[]>(key: string | string[], allowedValues: [...T], fallback?: T[number]): T[number] {
+    const value = this.optionalString(key)
+    if (value !== undefined) {
+      if (!allowedValues.includes(value)) {
+        throw new Error(`Environment variable ${key} is not one of ${allowedValues.join(', ')}!`)
+      }
+      return value
+    }
+
+    if (fallback !== undefined) {
+      return fallback
+    }
+
+    throwMissingEnvVar(key)
+  }
+
   optionalString(key: string | string[]): string | undefined {
     return this.resolve(key)?.value
   }
