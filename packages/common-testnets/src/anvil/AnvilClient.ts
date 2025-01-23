@@ -3,6 +3,7 @@ import { http, Address, createTestClient, numberToHex, publicActions, walletActi
 import { dealActions } from 'viem-deal'
 import { mainnet } from 'viem/chains'
 import { TestnetClient } from '../TestnetClient.js'
+import { extendWithTestnetHelpers } from '../client-helpers.js'
 
 export function getAnvilClient(rpc: string): TestnetClient {
   return createTestClient({
@@ -14,9 +15,7 @@ export function getAnvilClient(rpc: string): TestnetClient {
     .extend(publicActions)
     .extend(dealActions)
     .extend((c) => {
-      let baselineSnapshotId: string | undefined
-
-      const newClient = {
+      return {
         async setErc20Balance(tkn: Address, usr: Address, amt: bigint): Promise<void> {
           return await c.deal({
             erc20: tkn.toLowerCase() as any,
@@ -66,20 +65,7 @@ export function getAnvilClient(rpc: string): TestnetClient {
           })
         },
       }
-
-      return {
-        ...newClient,
-        async baselineSnapshot() {
-          assert(baselineSnapshotId === undefined, 'baseline snapshot already created')
-
-          baselineSnapshotId = await newClient.snapshot()
-        },
-        async revertToBaseline() {
-          assert(baselineSnapshotId !== undefined, 'baseline snapshot not created')
-
-          baselineSnapshotId = await newClient.revert(baselineSnapshotId)
-        },
-      }
     })
     .extend(walletActions)
+    .extend(extendWithTestnetHelpers)
 }

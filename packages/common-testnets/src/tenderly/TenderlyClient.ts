@@ -1,7 +1,8 @@
-import { assert, Hash } from '@marsfoundation/common-universal'
+import { Hash } from '@marsfoundation/common-universal'
 import { http, Address, createTestClient, numberToHex, publicActions, walletActions } from 'viem'
 import { mainnet } from 'viem/chains'
 import { TestnetClient } from '../TestnetClient.js'
+import { extendWithTestnetHelpers } from '../client-helpers.js'
 
 export function getTenderlyClient(rpc: string): TestnetClient {
   return createTestClient({
@@ -11,9 +12,7 @@ export function getTenderlyClient(rpc: string): TestnetClient {
     cacheTime: 0, // do not cache block numbers
   })
     .extend((c) => {
-      let baselineSnapshotId: string | undefined
-
-      const newClient = {
+      return {
         async setErc20Balance(tkn: Address, usr: Address, amt: bigint): Promise<void> {
           return c.request({
             method: 'tenderly_setErc20Balance',
@@ -59,21 +58,8 @@ export function getTenderlyClient(rpc: string): TestnetClient {
           } as any)
         },
       }
-
-      return {
-        ...newClient,
-        async baselineSnapshot() {
-          assert(baselineSnapshotId === undefined, 'baseline snapshot already created')
-
-          baselineSnapshotId = await newClient.snapshot()
-        },
-        async revertToBaseline() {
-          assert(baselineSnapshotId !== undefined, 'baseline snapshot not created')
-
-          baselineSnapshotId = await newClient.revert(baselineSnapshotId)
-        },
-      }
     })
     .extend(walletActions)
     .extend(publicActions)
+    .extend(extendWithTestnetHelpers)
 }
