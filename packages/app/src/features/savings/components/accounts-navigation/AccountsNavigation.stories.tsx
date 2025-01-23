@@ -1,5 +1,5 @@
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
-import { WithClassname, WithTooltipProvider } from '@sb/decorators'
+import { WithTooltipProvider } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
 import { getMobileStory } from '@sb/viewports'
 import type { Meta, StoryObj } from '@storybook/react'
@@ -9,31 +9,31 @@ import { AccountsNavigation } from './AccountsNavigation'
 const meta: Meta<typeof AccountsNavigation> = {
   title: 'Features/Savings/Components/AccountsNavigation',
   component: AccountsNavigation,
-  decorators: [WithTooltipProvider(), WithClassname('max-w-48')],
+  decorators: [WithTooltipProvider()],
 }
 
 export default meta
 type Story = StoryObj<typeof AccountsNavigation>
 
-const InteractiveNavigation = () => {
+function InteractiveNavigation() {
   const [activeToken, setActiveToken] = useState('USDS')
 
   const accounts = [
     {
       token: tokens.USDS,
-      deposit: NormalizedUnitNumber(1_000_000_000),
+      deposited: NormalizedUnitNumber(1_000_000_000),
       active: activeToken === 'USDS',
       onClick: () => setActiveToken('USDS'),
     },
     {
       token: tokens.USDC,
-      deposit: NormalizedUnitNumber(0),
+      deposited: NormalizedUnitNumber(0),
       active: activeToken === 'USDC',
       onClick: () => setActiveToken('USDC'),
     },
     {
       token: tokens.DAI,
-      deposit: NormalizedUnitNumber(200_000),
+      deposited: NormalizedUnitNumber(200_000),
       active: activeToken === 'DAI',
       onClick: () => setActiveToken('DAI'),
     },
@@ -43,6 +43,18 @@ const InteractiveNavigation = () => {
 }
 
 export const Navigation: Story = {
-  render: () => <InteractiveNavigation />,
+  render: () => (
+    <div className="max-w-48">
+      <InteractiveNavigation />
+    </div>
+  ),
 }
-export const Mobile = getMobileStory(Navigation)
+
+export const Mobile: Story = {
+  ...getMobileStory(Navigation),
+  render: () => (
+    <div className="w-full overflow-x-auto p-4">
+      <InteractiveNavigation />
+    </div>
+  ),
+}
