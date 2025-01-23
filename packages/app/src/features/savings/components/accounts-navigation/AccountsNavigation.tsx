@@ -25,7 +25,7 @@ export function AccountsNavigation({ accounts }: AccountsNavigationProps) {
 }
 
 function NavigationItem({ token, deposited, active, onClick }: AccountNavigationItem) {
-  const transitionStyles = 'transition-all duration-200 ease-in-out'
+  const transitionStyles = cn('transition-all duration-200 ease-in-out')
 
   return (
     <button
@@ -51,7 +51,7 @@ function NavigationItem({ token, deposited, active, onClick }: AccountNavigation
         className={cn(
           'sm:-translate-y-1/2 absolute flex translate-x-4 flex-col items-start gap-0.5 sm:translate-x-[52px]',
           deposited.eq(0) ? 'translate-y-6' : 'translate-y-2',
-          active && `sm:translate-x-4 ${deposited.eq(0) ? 'sm:translate-y-6' : 'sm:translate-y-2'}`,
+          active && cn('sm:translate-x-4', deposited.eq(0) ? 'sm:translate-y-6' : 'sm:translate-y-2'),
           transitionStyles,
         )}
       >
