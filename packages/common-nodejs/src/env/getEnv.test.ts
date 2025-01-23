@@ -1,5 +1,6 @@
 import { expect } from 'earl'
 
+import { Equal, Expect } from '@marsfoundation/common-universal'
 import { Env } from './getEnv.js'
 
 describe(Env.name, () => {
@@ -123,7 +124,3 @@ describe(Env.name, () => {
     })
   })
 })
-
-// @todo move to some common test utils or earl
-type Expect<T extends true> = T
-type Equal<X, Y> = (<T>() => T extends X ? 1 : 2) extends <T>() => T extends Y ? 1 : 2 ? true : false
