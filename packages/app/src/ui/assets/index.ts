@@ -57,6 +57,7 @@ import pause from './pause.svg'
 import rocket from './rocket.svg'
 import daiUpgrade from './savings/dai-upgrade.webp'
 import savingsWelcome from './savings/savings-welcome.webp'
+import sdaiUpgradeBannerIcon from './savings/sdai-upgrade-banner-icon.svg'
 import sdaiUpgrade from './savings/sdai-upgrade.webp'
 import upgradeBannerBg from './savings/upgrade-banner-bg.svg'
 import sliderThumb from './slider-thumb.svg'
@@ -199,6 +200,7 @@ export const assets = {
     default: defaultWallet,
   },
   savings: {
+    sdaiUpgradeBannerIcon,
     upgradeBannerBg,
     daiUpgrade,
     sdaiUpgrade,
