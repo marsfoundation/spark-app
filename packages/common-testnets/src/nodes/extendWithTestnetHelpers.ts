@@ -1,5 +1,5 @@
 import { assert } from '@marsfoundation/common-universal'
-import { TestnetClient, TestnetClientHelperActions } from './TestnetClient.js'
+import { TestnetClient, TestnetClientHelperActions } from '../TestnetClient.js'
 
 export function extendWithTestnetHelpers(
   c: Pick<TestnetClient, 'snapshot' | 'revert' | 'writeContract' | 'waitForTransactionReceipt'>,

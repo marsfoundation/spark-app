@@ -1,8 +1,8 @@
 import { Hash } from '@marsfoundation/common-universal'
 import { http, Address, createTestClient, numberToHex, publicActions, walletActions } from 'viem'
 import { mainnet } from 'viem/chains'
-import { TestnetClient } from '../TestnetClient.js'
-import { extendWithTestnetHelpers } from '../client-helpers.js'
+import { TestnetClient } from '../../TestnetClient.js'
+import { extendWithTestnetHelpers } from '../extendWithTestnetHelpers.js'
 
 export function getTenderlyClient(rpc: string): TestnetClient {
   return createTestClient({

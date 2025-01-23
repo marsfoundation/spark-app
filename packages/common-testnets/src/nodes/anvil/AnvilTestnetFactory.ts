@@ -1,6 +1,6 @@
 import { assert } from '@marsfoundation/common-universal'
-import { TestnetClient } from '../TestnetClient.js'
-import { CreateNetworkArgs, TestnetCreateResult, TestnetFactory } from '../TestnetFactory.js'
+import { TestnetClient } from '../../TestnetClient.js'
+import { CreateNetworkArgs, TestnetCreateResult, TestnetFactory } from '../../TestnetFactory.js'
 
 import { createAnvil } from '@viem/anvil'
 import getPort from 'get-port'

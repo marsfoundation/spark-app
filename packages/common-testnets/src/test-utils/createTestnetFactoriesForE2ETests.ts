@@ -1,7 +1,7 @@
 import { getEnv } from '@marsfoundation/common-nodejs/env'
 import { TestnetFactory } from '../TestnetFactory.js'
-import { AnvilTestnetFactory } from '../anvil/index.js'
-import { TenderlyTestnetFactory } from '../tenderly/index.js'
+import { AnvilTestnetFactory } from '../nodes/anvil/index.js'
+import { TenderlyTestnetFactory } from '../nodes/tenderly/index.js'
 
 export function createTestnetFactoriesForE2ETests(): TestnetFactory[] {
   const env = getEnv()
