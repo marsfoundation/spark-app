@@ -24,6 +24,7 @@ import { Address, erc4626Abi } from 'viem'
 import { gnosis } from 'viem/chains'
 import { WithdrawFromSavingsAction } from '../types'
 import { calculateGemMinAmountOut } from './calculateGemMinAmountOut'
+import { formatMaxAmountInForPsm3 } from './formatMaxAmountInForPsm3'
 import { getSavingsWithdrawActionPath } from './getSavingsWithdrawActionPath'
 
 export function createWithdrawFromSavingsActionConfig(
@@ -134,7 +135,11 @@ export function createWithdrawFromSavingsActionConfig(
           const maxSharesAmount = context.savingsUsdsInfo.convertToShares({
             assets: action.amount,
           })
-          const maxAmountIn = toBigInt(savingsToken.toBaseUnit(maxSharesAmount))
+          const maxAmountIn = formatMaxAmountInForPsm3({
+            susds: savingsToken,
+            susdsAmount: maxSharesAmount,
+            assetOut: token,
+          })
 
           return ensureConfigTypes({
             address: getContractAddress(basePsm3Address, chainId),
