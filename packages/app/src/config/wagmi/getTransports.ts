@@ -14,8 +14,8 @@ export type GetTransportsResult = Record<number, Transport>
 export function getTransports({ forkChain }: GetTransportsParamsOptions): GetTransportsResult {
   const transports: Record<number, Transport> = {
     [mainnet.id]: http(`https://eth-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`),
-    [gnosis.id]: http('https://rpc.ankr.com/gnosis'),
-    [base.id]: http('https://mainnet.base.org'),
+    [gnosis.id]: http(`https://gnosis-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`),
+    [base.id]: http(`https://base-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`),
   }
 
   if (forkChain) {
