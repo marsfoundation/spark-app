@@ -6,23 +6,25 @@ import { useTimestamp } from '@/utils/useTimestamp'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { cva } from 'class-variance-authority'
 import { SavingsOverview } from '../../logic/makeSavingsOverview'
-import { underlyingTokenToAccountType } from './utils'
+import { savingsTokenToAccountType } from '../common/utils'
 
 export interface GrowingBalanceProps {
   underlyingToken: Token
+  savingsToken: Token
   calculateUnderlyingTokenBalance: (timestampInMs: number) => SavingsOverview
   balanceRefreshIntervalInMs: number | undefined
 }
 
 export function GrowingBalance({
   underlyingToken,
+  savingsToken,
   calculateUnderlyingTokenBalance,
   balanceRefreshIntervalInMs,
 }: GrowingBalanceProps) {
   const { timestampInMs } = useTimestamp({ refreshIntervalInMs: balanceRefreshIntervalInMs })
   const { depositedAssets: _depositedAssets, depositedAssetsPrecision } = calculateUnderlyingTokenBalance(timestampInMs)
   const depositedAssets = NormalizedUnitNumber(_depositedAssets.toFixed(depositedAssetsPrecision))
-  const accountType = underlyingTokenToAccountType(underlyingToken)
+  const accountType = savingsTokenToAccountType(savingsToken)
 
   return (
     <div className="flex items-center gap-4">
@@ -49,9 +51,6 @@ const wholePartVariants = cva('typography-display-2 relative bg-clip-text text-t
       sdai: 'bg-[linear-gradient(90deg,#FFF_0%,#7CC54D_64.65%,#54AC3D_100%)]',
     },
   },
-  defaultVariants: {
-    accountType: 'susds',
-  },
 })
 
 const fractionalPartVariants = cva('typography-heading-4 [text-shadow:_0_1px_4px_rgb(0_0_0)]', {
@@ -61,8 +60,5 @@ const fractionalPartVariants = cva('typography-heading-4 [text-shadow:_0_1px_4px
       susdc: 'text-[#09B2A9]',
       sdai: 'text-[#54AC3D]',
     },
-  },
-  defaultVariants: {
-    accountType: 'susds',
   },
 })

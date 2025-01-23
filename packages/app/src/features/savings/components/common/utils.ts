@@ -1,13 +1,13 @@
 import { Token } from '@/domain/types/Token'
-import { AccountType } from './types'
+import { AccountType } from '../../types'
 
-export function underlyingTokenToAccountType(token: Token): AccountType {
+export function savingsTokenToAccountType(token: Token): AccountType {
   switch (token.symbol) {
-    case 'USDS':
+    case 'sUSDS':
       return 'susds'
-    case 'USDC':
+    case 'sUSDC':
       return 'susdc'
-    case 'DAI':
+    case 'sDAI':
       return 'sdai'
     default:
       return 'susds'

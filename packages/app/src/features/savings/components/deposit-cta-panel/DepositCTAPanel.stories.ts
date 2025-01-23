@@ -36,7 +36,7 @@ type Story = StoryObj<typeof DepositCTAPanel>
 export const usds: Story = {
   args: {
     inputTokens: [tokens.USDS, tokens.DAI, tokens.USDC],
-    outputToken: tokens.sUSDS,
+    savingsToken: tokens.sUSDS,
     description: {
       text: 'Deposit your stablecoins into Savings USDS to tap into the Sky Savings Rate, which grants you a predictable APY in USDS.',
       docsLink: '',
@@ -49,7 +49,7 @@ export const usdsTablet = getTabletStory(usds)
 export const usdsDisconnected: Story = {
   args: {
     inputTokens: [tokens.USDS, tokens.DAI, tokens.USDC],
-    outputToken: tokens.sUSDS,
+    savingsToken: tokens.sUSDS,
     description: {
       text: 'Deposit your stablecoins into Savings USDS to tap into the Sky Savings Rate, which grants you a predictable APY in USDS.',
       docsLink: '',
@@ -70,7 +70,7 @@ export const usdsDisconnected: Story = {
 export const usdc: Story = {
   args: {
     inputTokens: [tokens.USDC],
-    outputToken: tokens.sUSDC,
+    savingsToken: tokens.sUSDC,
     description: {
       text: 'Deposit your stablecoins into Savings USDC to tap into the Sky Savings Rate, which grants you a predictable APY in USDC.',
       docsLink: '',
@@ -83,7 +83,7 @@ export const usdcTablet = getTabletStory(usdc)
 export const dai: Story = {
   args: {
     inputTokens: [tokens.USDS, tokens.DAI, tokens.USDC],
-    outputToken: tokens.sDAI,
+    savingsToken: tokens.sDAI,
     description: {
       text: 'Deposit your stablecoins into Savings DAI to tap into the Sky Savings Rate, which grants you a predictable APY in DAI.',
       docsLink: '',

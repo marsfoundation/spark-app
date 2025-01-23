@@ -3,8 +3,8 @@ import { Panel } from '@/ui/atoms/panel/Panel'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 import { cn } from '@/ui/utils/style'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
+import { Projections } from '../../types'
 import { AdditionalInfo } from './AdditionalInfo'
-import { Projections } from './types'
 
 export interface BottomPanelProps {
   underlyingToken: Token

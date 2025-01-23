@@ -5,11 +5,11 @@ import { cn } from '@/ui/utils/style'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { cva } from 'class-variance-authority'
 import { SavingsOverview } from '../../logic/makeSavingsOverview'
+import { Projections } from '../../types'
+import { savingsTokenToAccountType } from '../common/utils'
 import { BottomPanel } from './BottomPanel'
 import { GrowingBalance } from './GrowingBalance'
 import { SidePanelGroup } from './SidePanelGroup'
-import { Projections } from './types'
-import { underlyingTokenToAccountType } from './utils'
 
 export interface AccountMainPanelGroupProps {
   underlyingToken: Token
@@ -39,7 +39,7 @@ export function AccountMainPanelGroup({
       <Panel
         variant="secondary"
         className={cn(
-          mainPanelVariants({ bg: underlyingTokenToAccountType(underlyingToken) }),
+          mainPanelVariants({ bg: savingsTokenToAccountType(savingsToken) }),
           'flex flex-col justify-between gap-12',
         )}
       >
@@ -54,6 +54,7 @@ export function AccountMainPanelGroup({
         </div>
         <GrowingBalance
           underlyingToken={underlyingToken}
+          savingsToken={savingsToken}
           calculateUnderlyingTokenBalance={calculateUnderlyingTokenBalance}
           balanceRefreshIntervalInMs={balanceRefreshIntervalInMs}
         />
@@ -113,8 +114,5 @@ const mainPanelVariants = cva('bg-cover bg-right bg-no-repeat', {
       susdc: 'bg-[url(/src/ui/assets/savings/accounts/usdc-bg.svg)] bg-primary-inverse',
       sdai: 'bg-[url(/src/ui/assets/savings/accounts/dai-bg.svg)] bg-primary-inverse',
     },
-  },
-  defaultVariants: {
-    bg: 'susds',
   },
 })

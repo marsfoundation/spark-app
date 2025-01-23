@@ -3,22 +3,22 @@ import { Link } from '@/ui/atoms/link/Link'
 import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
 import { cva } from 'class-variance-authority'
 import { ChevronsRight } from 'lucide-react'
+import { savingsTokenToAccountType } from '../../common/utils'
 import { DepositCTAPanelProps } from '../DepositCTAPanel'
-import { symbolToVariant } from '../utils'
 
-export type DetailsProps = Pick<DepositCTAPanelProps, 'description' | 'inputTokens' | 'outputToken'>
+export type DetailsProps = Pick<DepositCTAPanelProps, 'description' | 'inputTokens' | 'savingsToken'>
 
-export function Details({ description, inputTokens, outputToken }: DetailsProps) {
+export function Details({ description, inputTokens, savingsToken }: DetailsProps) {
   return (
     <div className="flex flex-col gap-4">
-      <div className={tokensRouteVariants({ bg: symbolToVariant(outputToken.symbol) })}>
+      <div className={tokensRouteVariants({ bg: savingsTokenToAccountType(savingsToken) })}>
         <IconStack
           paths={inputTokens.map((token) => getTokenImage(token.symbol))}
           iconBorder={{ borderColorClass: 'border-[#1E3B33]' }}
         />
         <ChevronsRight className="icon-xs icon-primary-inverse" />
         <IconStack
-          paths={[getTokenImage(outputToken.symbol)]}
+          paths={[getTokenImage(savingsToken.symbol)]}
           iconBorder={{ borderColorClass: 'border-transparent' }}
         />
       </div>
