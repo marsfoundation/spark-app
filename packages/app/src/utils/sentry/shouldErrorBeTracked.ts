@@ -16,12 +16,26 @@ function isIgnoredMessage(error: Error): boolean {
     'error loading dynamically imported module',
     'Connection terminated unexpectedly',
   ]
+
+  const unsupportedContractsAndMethods = [
+    'does not support contract "ensUniversalResolver"',
+    'method "wallet_getCapabilities" does not exist',
+  ]
+
+  const walletConnectorMessages = ['Connector not connected']
+
   const walletUserInteractionErrors = [
     'User rejected the request',
     'User rejected methods',
     'User disapproved requested methods',
   ]
-  return [...networkErrorMessages, ...walletUserInteractionErrors].some((message) => error.message?.includes(message))
+
+  return [
+    ...networkErrorMessages,
+    ...walletUserInteractionErrors,
+    ...unsupportedContractsAndMethods,
+    ...walletConnectorMessages,
+  ].some((message) => error.message?.includes(message))
 }
 
 function isIgnoredStackTrace(error: Error): boolean {
@@ -31,6 +45,6 @@ function isIgnoredStackTrace(error: Error): boolean {
 }
 
 function isTrackedErrorType(error: Error): boolean {
-  const trackedErrors = ['TypeError', 'AssertionError', 'ZodError']
+  const trackedErrors = ['TypeError', 'AssertionError', 'ZodError', 'QueryCacheCaughtError']
   return trackedErrors.some((errorName) => error.name === errorName)
 }
