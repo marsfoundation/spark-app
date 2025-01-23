@@ -8,7 +8,14 @@ import {
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { SavingsInfo } from '@/domain/savings-info/types'
 import { Action, ActionContext } from '@/features/actions/logic/types'
-import { assert, CheckedAddress, NormalizedUnitNumber, assertNever, raise, BaseUnitNumber } from '@marsfoundation/common-universal'
+import {
+  assert,
+  BaseUnitNumber,
+  CheckedAddress,
+  NormalizedUnitNumber,
+  assertNever,
+  raise,
+} from '@marsfoundation/common-universal'
 import BigNumber from 'bignumber.js'
 import { gnosis } from 'viem/chains'
 import { ApproveAction } from '../../approve/types'
@@ -71,11 +78,13 @@ export function createWithdrawFromSavingsActions(
       const savingsInfo =
         context.savingsUsdsInfo ?? raise('Savings info is required for withdraw from savings on base action')
       const maxSharesAmount = savingsInfo.convertToShares({ assets: objective.amount })
-      const maxAmountIn = BaseUnitNumber(formatMaxAmountInForPsm3({
-        susds: objective.savingsToken,
-        susdsAmount: maxSharesAmount,
-        assetOut: objective.token,
-      }))
+      const maxAmountIn = BaseUnitNumber(
+        formatMaxAmountInForPsm3({
+          susds: objective.savingsToken,
+          susdsAmount: maxSharesAmount,
+          assetOut: objective.token,
+        }),
+      )
       return [
         {
           type: 'approve',
