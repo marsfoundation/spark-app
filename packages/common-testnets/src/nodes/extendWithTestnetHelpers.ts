@@ -18,7 +18,7 @@ export function extendWithTestnetHelpers(
       baselineSnapshotId = await c.revert(baselineSnapshotId)
     },
     async assertWriteContract(args) {
-      const txHash = await c.writeContract(args)
+      const txHash = await c.writeContract(args as any)
 
       const receipt = await c.waitForTransactionReceipt({
         hash: txHash,

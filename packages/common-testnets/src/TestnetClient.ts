@@ -4,6 +4,7 @@ import {
   Address,
   ContractFunctionArgs,
   ContractFunctionName,
+  PartialBy,
   PublicActions,
   WalletClient,
   WriteContractParameters,
@@ -29,7 +30,7 @@ export type TestnetClientHelperActions = {
     functionName extends ContractFunctionName<abi, 'payable' | 'nonpayable'>,
     args extends ContractFunctionArgs<abi, 'payable' | 'nonpayable', functionName>,
   >(
-    args: WriteContractParameters<abi, functionName, args>,
+    args: PartialBy<WriteContractParameters<abi, functionName, args, undefined>, 'chain'>, // avoids requiring chain parameter
   ) => Promise<WriteContractReturnType>
 }
 
