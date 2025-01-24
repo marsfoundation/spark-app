@@ -23,6 +23,7 @@ import { base, gnosis, mainnet } from 'viem/chains'
 import { NATIVE_ASSET_MOCK_ADDRESS, infoSkyApiUrl } from '../consts'
 import { usdcVaultAddress } from '../contracts-generated'
 import { AppConfig } from '../feature-flags'
+import { PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE_KEY } from '../wagmi/e2e-consts'
 import { SUPPORTED_CHAINS, farmAddresses, farmStablecoinsEntryGroup, susdsAddresses } from './constants'
 import { ChainConfigEntry, ChainMeta, SupportedChainId } from './types'
 
@@ -35,6 +36,9 @@ const commonTokenSymbolToReplacedName = {
   [TokenSymbol('WETH')]: { name: 'Ethereum', symbol: TokenSymbol('ETH') },
   [TokenSymbol('weETH')]: { name: 'Ether.fi Staked ETH', symbol: TokenSymbol('weETH') },
 }
+
+const PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE =
+  import.meta.env.VITE_PLAYWRIGHT !== '1' || (window as any)[PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE_KEY] === true
 
 const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
   [mainnet.id]: {
@@ -96,11 +100,6 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
         address: susdsAddresses[mainnet.id],
       },
       {
-        symbol: TokenSymbol('sUSDC'),
-        oracleType: 'vault',
-        address: CheckedAddress(usdcVaultAddress[mainnet.id]),
-      },
-      {
         symbol: TokenSymbol('USDS'),
         oracleType: 'fixed-usd',
         address: CheckedAddress('0xdC035D45d973E3EC169d2276DDab16f1e407384F'),
@@ -110,6 +109,15 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
         oracleType: 'zero-price',
         address: CheckedAddress('0x56072C95FAA701256059aa122697B133aDEd9279'),
       },
+      ...(PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE
+        ? [
+            {
+              symbol: TokenSymbol('sUSDC'),
+              oracleType: 'vault',
+              address: CheckedAddress(usdcVaultAddress[mainnet.id]),
+            } as const,
+          ]
+        : []),
     ],
     markets: {
       defaultAssetToBorrow: TokenSymbol('DAI'),
@@ -334,6 +342,15 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
         oracleType: 'zero-price',
         address: CheckedAddress('0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a'),
       },
+      ...(PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE
+        ? [
+            {
+              symbol: TokenSymbol('sUSDC'),
+              oracleType: 'vault',
+              address: CheckedAddress(usdcVaultAddress[base.id]),
+            } as const,
+          ]
+        : []),
     ] as const,
     markets: undefined,
     savings: {
