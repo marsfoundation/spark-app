@@ -21,6 +21,10 @@ export function UnixTime(value: NumberLike): UnixTime {
   return result as UnixTime
 }
 
+UnixTime.ONE_SECOND = (): UnixTime => {
+  return UnixTime(1n)
+}
+
 UnixTime.ONE_MINUTE = (): UnixTime => {
   return UnixTime(60n)
 }
