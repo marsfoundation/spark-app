@@ -17,6 +17,17 @@ NormalizedUnitNumber.toBaseUnit = function toBaseUnit(value: NormalizedUnitNumbe
   return BaseUnitNumber(lowerPrecisionNumber.shiftedBy(decimals))
 }
 
-NormalizedUnitNumber.min = function min(a: NormalizedUnitNumber, b: NormalizedUnitNumber): NormalizedUnitNumber {
-  return a.lt(b) ? a : b
+NormalizedUnitNumber.min = function min(
+  a: NormalizedUnitNumber,
+  b: NormalizedUnitNumber,
+  ...rest: NormalizedUnitNumber[]
+): NormalizedUnitNumber {
+  let min = a
+  const values = [b, ...rest]
+  for (const value of values) {
+    if (value.lt(min)) {
+      min = value
+    }
+  }
+  return min
 }

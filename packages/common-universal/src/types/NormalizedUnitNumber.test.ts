@@ -42,4 +42,23 @@ describe(NormalizedUnitNumber.name, () => {
       ).toEqual(BaseUnitNumber('1555555555555555555'))
     })
   })
+
+  describe(NormalizedUnitNumber.min.name, () => {
+    it('returns the smallest value', () => {
+      expect(NormalizedUnitNumber.min(NormalizedUnitNumber(2), NormalizedUnitNumber(1))).toEqual(
+        NormalizedUnitNumber(1),
+      )
+    })
+
+    it('returns the smallest value when there are more than 2 arguments', () => {
+      expect(
+        NormalizedUnitNumber.min(
+          NormalizedUnitNumber(3),
+          NormalizedUnitNumber(1),
+          NormalizedUnitNumber(5),
+          NormalizedUnitNumber(2),
+        ),
+      ).toEqual(NormalizedUnitNumber(1))
+    })
+  })
 })
