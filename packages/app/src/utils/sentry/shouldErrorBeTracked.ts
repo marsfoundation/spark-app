@@ -15,14 +15,21 @@ function isIgnoredMessage(error: Error): boolean {
     'fetch failed',
     'error loading dynamically imported module',
     'Connection terminated unexpectedly',
+    'Request expired',
+    'The request took too long to respond',
   ]
 
-  const unsupportedContractsAndMethods = [
-    'does not support contract "ensUniversalResolver"',
-    'method "wallet_getCapabilities" does not exist',
-  ]
+  const unsupportedContractsAndMethods = ['does not support contract "ensUniversalResolver"', 'wallet_getCapabilities']
 
-  const walletConnectorMessages = ['Connector not connected']
+  const walletConnectorMessages = [
+    'Connector not connected',
+    'connector.getChainId is not a function',
+    'provider.disconnect is not a function',
+    'not found for connector',
+    '.disconnect is not a function',
+    'does not support programmatic chain switching',
+    "does not match the connection's chain",
+  ]
 
   const walletUserInteractionErrors = [
     'User rejected the request',
@@ -30,11 +37,14 @@ function isIgnoredMessage(error: Error): boolean {
     'User disapproved requested methods',
   ]
 
+  const allowanceErrors = ['"approve" reverted', 'transfer amount exceeds allowance', 'insufficient-allowance']
+
   return [
     ...networkErrorMessages,
     ...walletUserInteractionErrors,
     ...unsupportedContractsAndMethods,
     ...walletConnectorMessages,
+    ...allowanceErrors,
   ].some((message) => error.message?.includes(message))
 }
 
@@ -45,6 +55,6 @@ function isIgnoredStackTrace(error: Error): boolean {
 }
 
 function isTrackedErrorType(error: Error): boolean {
-  const trackedErrors = ['TypeError', 'AssertionError', 'ZodError', 'QueryCacheCaughtError']
+  const trackedErrors = ['TypeError', 'AssertionError', 'ZodError', 'HandledWriteError']
   return trackedErrors.some((errorName) => error.name === errorName)
 }
