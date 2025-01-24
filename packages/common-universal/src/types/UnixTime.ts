@@ -23,6 +23,10 @@ export function UnixTime(value: NumberLike): UnixTime {
 
 const ONE_MINUTE = 60
 
+UnixTime.ONE_SECOND = (): UnixTime => {
+  return UnixTime(1)
+}
+
 UnixTime.ONE_MINUTE = (): UnixTime => {
   return UnixTime(ONE_MINUTE)
 }
@@ -33,6 +37,22 @@ UnixTime.FIFTEEN_MINUTES = (): UnixTime => {
 
 UnixTime.ONE_HOUR = (): UnixTime => {
   return UnixTime(60 * ONE_MINUTE)
+}
+
+UnixTime.ONE_DAY = (): UnixTime => {
+  return UnixTime(24 * 60 * ONE_MINUTE)
+}
+
+UnixTime.SEVEN_DAYS = (): UnixTime => {
+  return UnixTime(7 * 24 * 60 * ONE_MINUTE)
+}
+
+UnixTime.THIRTY_DAYS = (): UnixTime => {
+  return UnixTime(30 * 24 * 60 * ONE_MINUTE)
+}
+
+UnixTime.ONE_YEAR = (): UnixTime => {
+  return UnixTime(365 * 24 * 60 * ONE_MINUTE)
 }
 
 UnixTime.fromDate = (date: Date): UnixTime => {
