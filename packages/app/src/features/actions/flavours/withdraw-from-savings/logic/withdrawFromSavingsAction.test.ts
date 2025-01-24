@@ -2,6 +2,7 @@ import {
   migrationActionsConfig,
   psmActionsAbi,
   psmActionsAddress,
+  usdcVaultAbi,
   usdsPsmActionsConfig,
 } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
@@ -27,6 +28,7 @@ const dai = testTokens.DAI
 const sdai = testTokens.sDAI
 const usds = testTokens.USDS
 const susds = testTokens.sUSDS
+const susdc = testTokens.sUSDC
 const usdc = testTokens.USDC
 const mockTokensInfo = new TokensInfo(
   [
@@ -750,6 +752,204 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
         account,
         chainId,
       }),
+    )
+  })
+
+  test('withdraws usdc from susdc', async () => {
+    const { result, queryInvalidationManager } = hookRenderer({
+      args: {
+        action: {
+          type: 'withdrawFromSavings',
+          token: usdc,
+          savingsToken: susdc,
+          amount: withdrawAmount,
+          isRedeem: false,
+          mode: 'withdraw',
+        },
+        enabled: true,
+        context: { tokensInfo: mockTokensInfo, savingsUsdcInfo: mockSavingsInfo },
+      },
+      chain: mainnet,
+      extraHandlers: [
+        handlers.chainIdCall({ chainId }),
+        handlers.contractCall({
+          to: susdc.address,
+          abi: usdcVaultAbi,
+          functionName: 'withdraw',
+          args: [
+            toBigInt(usdc.toBaseUnit(withdrawAmount)),
+            account,
+            account,
+            toBigInt(susdc.toBaseUnit(NormalizedUnitNumber('0.90909090909090909091'))),
+          ],
+          from: account,
+          result: 1n,
+        }),
+        handlers.mineTransaction(),
+      ],
+    })
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('ready')
+    })
+
+    result.current.onAction()
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('success')
+    })
+
+    await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+      getBalancesQueryKeyPrefix({ account, chainId }),
+    )
+  })
+
+  test('withdraws max usdc from susdc', async () => {
+    const { result, queryInvalidationManager } = hookRenderer({
+      args: {
+        action: {
+          type: 'withdrawFromSavings',
+          token: usdc,
+          savingsToken: susdc,
+          amount: withdrawAmount,
+          isRedeem: true,
+          mode: 'withdraw',
+        },
+        enabled: true,
+        context: { tokensInfo: mockTokensInfo, savingsUsdcInfo: mockSavingsInfo },
+      },
+      chain: mainnet,
+      extraHandlers: [
+        handlers.chainIdCall({ chainId }),
+        handlers.contractCall({
+          to: susdc.address,
+          abi: usdcVaultAbi,
+          functionName: 'redeem',
+          args: [
+            toBigInt(susdc.toBaseUnit(withdrawAmount)),
+            account,
+            account,
+            toBigInt(usdc.toBaseUnit(NormalizedUnitNumber(1.1))),
+          ],
+          from: account,
+          result: 1n,
+        }),
+        handlers.mineTransaction(),
+      ],
+    })
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('ready')
+    })
+
+    result.current.onAction()
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('success')
+    })
+
+    await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+      getBalancesQueryKeyPrefix({ account, chainId }),
+    )
+  })
+
+  test('sends usdc from susdc', async () => {
+    const { result, queryInvalidationManager } = hookRenderer({
+      args: {
+        action: {
+          type: 'withdrawFromSavings',
+          token: usdc,
+          savingsToken: susdc,
+          amount: withdrawAmount,
+          isRedeem: false,
+          mode: 'send',
+          receiver,
+        },
+        enabled: true,
+        context: { tokensInfo: mockTokensInfo, savingsUsdcInfo: mockSavingsInfo },
+      },
+      chain: mainnet,
+      extraHandlers: [
+        handlers.chainIdCall({ chainId }),
+        handlers.contractCall({
+          to: susdc.address,
+          abi: usdcVaultAbi,
+          functionName: 'withdraw',
+          args: [
+            toBigInt(usdc.toBaseUnit(withdrawAmount)),
+            receiver,
+            account,
+            toBigInt(susdc.toBaseUnit(NormalizedUnitNumber('0.90909090909090909091'))),
+          ],
+          from: account,
+          result: 1n,
+        }),
+        handlers.mineTransaction(),
+      ],
+    })
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('ready')
+    })
+
+    result.current.onAction()
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('success')
+    })
+
+    await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+      getBalancesQueryKeyPrefix({ account, chainId }),
+    )
+  })
+
+  test('sends max usdc from susdc', async () => {
+    const { result, queryInvalidationManager } = hookRenderer({
+      args: {
+        action: {
+          type: 'withdrawFromSavings',
+          token: usdc,
+          savingsToken: susdc,
+          amount: withdrawAmount,
+          isRedeem: true,
+          mode: 'send',
+          receiver,
+        },
+        enabled: true,
+        context: { tokensInfo: mockTokensInfo, savingsUsdcInfo: mockSavingsInfo },
+      },
+      chain: mainnet,
+      extraHandlers: [
+        handlers.chainIdCall({ chainId }),
+        handlers.contractCall({
+          to: susdc.address,
+          abi: usdcVaultAbi,
+          functionName: 'redeem',
+          args: [
+            toBigInt(susdc.toBaseUnit(withdrawAmount)),
+            receiver,
+            account,
+            toBigInt(usdc.toBaseUnit(NormalizedUnitNumber(1.1))),
+          ],
+          from: account,
+          result: 1n,
+        }),
+        handlers.mineTransaction(),
+      ],
+    })
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('ready')
+    })
+
+    result.current.onAction()
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('success')
+    })
+
+    await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+      getBalancesQueryKeyPrefix({ account, chainId }),
     )
   })
 })

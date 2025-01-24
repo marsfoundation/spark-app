@@ -14,12 +14,14 @@ export interface GetSavingsWithdrawActionPathParams {
 export type SavingsWithdrawActionPath =
   | 'susds-to-usds'
   | 'susds-to-usdc'
+  | 'susdc-to-usdc'
   | 'sdai-to-dai'
   | 'sdai-to-usdc'
   | 'sdai-to-usds'
   | 'sdai-to-sexy-dai'
   | 'base-susds-to-usdc'
   | 'base-susds-to-usds'
+  | 'base-susdc-to-usdc'
 
 export function getSavingsWithdrawActionPath({
   token,
@@ -43,6 +45,10 @@ export function getSavingsWithdrawActionPath({
     if (token.symbol === TokenSymbol('USDC') && savingsToken.symbol === tokensInfo.sUSDS?.symbol) {
       return 'base-susds-to-usdc'
     }
+
+    if (token.symbol === TokenSymbol('USDC') && savingsToken.symbol === TokenSymbol('sUSDC')) {
+      return 'base-susdc-to-usdc'
+    }
   }
 
   if (token.symbol === tokensInfo.USDS?.symbol && savingsToken.symbol === tokensInfo.sUSDS?.symbol) {
@@ -63,6 +69,10 @@ export function getSavingsWithdrawActionPath({
 
   if (token.symbol === tokensInfo.USDS?.symbol && savingsToken.symbol === tokensInfo.sDAI?.symbol) {
     return 'sdai-to-usds'
+  }
+
+  if (token.symbol === TokenSymbol('USDC') && savingsToken.symbol === TokenSymbol('sUSDC')) {
+    return 'susdc-to-usdc'
   }
 
   raise('Savings action type not recognized')

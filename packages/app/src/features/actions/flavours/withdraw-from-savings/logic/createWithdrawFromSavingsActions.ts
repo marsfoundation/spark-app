@@ -59,6 +59,8 @@ export function createWithdrawFromSavingsActions(
   switch (actionPath) {
     case 'susds-to-usds':
     case 'sdai-to-dai':
+    case 'susdc-to-usdc':
+    case 'base-susdc-to-usdc':
       return [withdrawAction]
 
     case 'sdai-to-usdc':
