@@ -20,11 +20,11 @@ NormalizedUnitNumber.toBaseUnit = function toBaseUnit(value: NormalizedUnitNumbe
 
 NormalizedUnitNumber.min = function min(...values: NormalizedUnitNumber[]): NormalizedUnitNumber {
   assert(values.length > 0, 'Requires at least 1 arg')
-  let min = values[0]
-  for (let i = 1; i < values.length; i++) {
-    if (values[i]!.lt(min!)) {
-      min = values[i]
+  let min = values[0]!
+  for (const value of values) {
+    if (value.lt(min)) {
+      min = value
     }
   }
-  return min!
+  return min
 }
