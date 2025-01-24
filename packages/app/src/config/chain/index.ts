@@ -5,9 +5,13 @@ import {
   fetchWeethOracleInfo,
   fetchWstethOracleInfoMainnet,
 } from '@/domain/oracles/oracleInfoFetchers'
-import { baseSavingsInfoQueryOptions } from '@/domain/savings-info/baseSavingsInfo'
+import { baseSavingsUsdcInfoQueryOptions, baseSavingsUsdsInfoQueryOptions } from '@/domain/savings-info/baseSavingsInfo'
 import { gnosisSavingsDaiInfoQuery } from '@/domain/savings-info/gnosisSavingsInfo'
-import { mainnetSavingsDaiInfoQuery, mainnetSavingsUsdsInfoQuery } from '@/domain/savings-info/mainnetSavingsInfo'
+import {
+  mainnetSavingsDaiInfoQuery,
+  mainnetSavingsUsdcInfoQuery,
+  mainnetSavingsUsdsInfoQuery,
+} from '@/domain/savings-info/mainnetSavingsInfo'
 import { useStore } from '@/domain/state'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
@@ -17,6 +21,7 @@ import { CheckedAddress } from '@marsfoundation/common-universal'
 import { zeroAddress } from 'viem'
 import { base, gnosis, mainnet } from 'viem/chains'
 import { NATIVE_ASSET_MOCK_ADDRESS, infoSkyApiUrl } from '../consts'
+import { usdcVaultAddress } from '../contracts-generated'
 import { AppConfig } from '../feature-flags'
 import { SUPPORTED_CHAINS, farmAddresses, farmStablecoinsEntryGroup, susdsAddresses } from './constants'
 import { ChainConfigEntry, ChainMeta, SupportedChainId } from './types'
@@ -91,6 +96,11 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
         address: susdsAddresses[mainnet.id],
       },
       {
+        symbol: TokenSymbol('sUSDC'),
+        oracleType: 'vault',
+        address: CheckedAddress(usdcVaultAddress[mainnet.id]),
+      },
+      {
         symbol: TokenSymbol('USDS'),
         oracleType: 'fixed-usd',
         address: CheckedAddress('0xdC035D45d973E3EC169d2276DDab16f1e407384F'),
@@ -158,6 +168,7 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
     savings: {
       savingsDaiInfoQuery: mainnetSavingsDaiInfoQuery,
       savingsUsdsInfoQuery: mainnetSavingsUsdsInfoQuery,
+      savingsUsdcInfoQuery: mainnetSavingsUsdcInfoQuery,
       inputTokens: [TokenSymbol('DAI'), TokenSymbol('USDC'), TokenSymbol('USDS')],
       getEarningsApiUrl: (address) => `${infoSkyApiUrl}/savings-rate/wallets/${address.toLowerCase()}/?days_ago=9999`,
       savingsRateApiUrl: `${infoSkyApiUrl}/savings-rate/`,
@@ -281,6 +292,7 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
     savings: {
       savingsDaiInfoQuery: gnosisSavingsDaiInfoQuery,
       savingsUsdsInfoQuery: undefined,
+      savingsUsdcInfoQuery: undefined,
       inputTokens: [TokenSymbol('XDAI')],
       getEarningsApiUrl: undefined,
       savingsRateApiUrl: undefined,
@@ -326,7 +338,8 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
     markets: undefined,
     savings: {
       savingsDaiInfoQuery: undefined,
-      savingsUsdsInfoQuery: baseSavingsInfoQueryOptions,
+      savingsUsdsInfoQuery: baseSavingsUsdsInfoQueryOptions,
+      savingsUsdcInfoQuery: baseSavingsUsdcInfoQueryOptions,
       inputTokens: [TokenSymbol('USDC'), TokenSymbol('USDS')],
       getEarningsApiUrl: (address) =>
         `${infoSkyApiUrl}/savings-rate/wallets/${address.toLowerCase()}/?days_ago=9999&chainId=${base.id}`,
