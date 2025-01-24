@@ -37,11 +37,11 @@ UnixTime.ONE_DAY = (): UnixTime => {
   return UnixTime(24n * UnixTime.ONE_HOUR())
 }
 
-UnixTime.SEVEN_DAY = (): UnixTime => {
+UnixTime.SEVEN_DAYS = (): UnixTime => {
   return UnixTime(7n * UnixTime.ONE_DAY())
 }
 
-UnixTime.THIRTY_DAY = (): UnixTime => {
+UnixTime.THIRTY_DAYS = (): UnixTime => {
   return UnixTime(30n * UnixTime.ONE_DAY())
 }
 
