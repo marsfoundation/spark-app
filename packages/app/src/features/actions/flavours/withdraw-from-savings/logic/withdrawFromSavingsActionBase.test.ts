@@ -1,5 +1,6 @@
 import { SPARK_UI_REFERRAL_CODE_BIGINT } from '@/config/consts'
-import { basePsm3Abi, basePsm3Address } from '@/config/contracts-generated'
+import { basePsm3Abi, basePsm3Address, usdcVaultAbi, usdcVaultAddress } from '@/config/contracts-generated'
+import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { PotSavingsInfo } from '@/domain/savings-info/potSavingsInfo'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
@@ -21,6 +22,9 @@ const withdrawAmount = NormalizedUnitNumber(1)
 const usds = testTokens.USDS
 const susds = testTokens.sUSDS
 const usdc = testTokens.USDC
+const susdc = testTokens.sUSDC.clone({
+  address: getContractAddress(usdcVaultAddress, base.id),
+})
 const referralCode = SPARK_UI_REFERRAL_CODE_BIGINT
 const mockTokensInfo = new TokensInfo(
   [
@@ -34,7 +38,7 @@ const mockTokensInfo = new TokensInfo(
   },
 )
 const timestamp = 1000
-const mockSavingsUsdsInfo = new PotSavingsInfo({
+const mockSavingsInfo = new PotSavingsInfo({
   potParams: {
     dsr: bigNumberify('1000001103127689513476993127'), // 10% / day
     rho: bigNumberify(timestamp),
@@ -79,7 +83,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           mode: 'withdraw',
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo, savingsUsdsInfo: mockSavingsUsdsInfo },
+        context: { tokensInfo: mockTokensInfo, savingsUsdsInfo: mockSavingsInfo },
       },
       chain: base,
       extraHandlers: [
@@ -131,7 +135,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           mode: 'withdraw',
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo, savingsUsdsInfo: mockSavingsUsdsInfo },
+        context: { tokensInfo: mockTokensInfo, savingsUsdsInfo: mockSavingsInfo },
       },
       chain: base,
       extraHandlers: [
@@ -188,7 +192,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           receiver,
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo, savingsUsdsInfo: mockSavingsUsdsInfo },
+        context: { tokensInfo: mockTokensInfo, savingsUsdsInfo: mockSavingsInfo },
       },
       chain: base,
       extraHandlers: [
@@ -241,7 +245,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           receiver,
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo, savingsUsdsInfo: mockSavingsUsdsInfo },
+        context: { tokensInfo: mockTokensInfo, savingsUsdsInfo: mockSavingsInfo },
       },
       chain: base,
       extraHandlers: [
@@ -297,7 +301,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           mode: 'withdraw',
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo, savingsUsdsInfo: mockSavingsUsdsInfo },
+        context: { tokensInfo: mockTokensInfo, savingsUsdsInfo: mockSavingsInfo },
       },
       chain: base,
       extraHandlers: [
@@ -352,7 +356,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           mode: 'withdraw',
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo, savingsUsdsInfo: mockSavingsUsdsInfo },
+        context: { tokensInfo: mockTokensInfo, savingsUsdsInfo: mockSavingsInfo },
       },
       chain: base,
       extraHandlers: [
@@ -412,7 +416,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           receiver,
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo, savingsUsdsInfo: mockSavingsUsdsInfo },
+        context: { tokensInfo: mockTokensInfo, savingsUsdsInfo: mockSavingsInfo },
       },
       chain: base,
       extraHandlers: [
@@ -468,7 +472,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           receiver,
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo, savingsUsdsInfo: mockSavingsUsdsInfo },
+        context: { tokensInfo: mockTokensInfo, savingsUsdsInfo: mockSavingsInfo },
       },
       chain: base,
       extraHandlers: [
@@ -506,6 +510,204 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
     )
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
       allowanceQueryKey({ token: susds.address, spender: basePsm3Address[base.id], account, chainId }),
+    )
+  })
+
+  test('withdraws usdc from susdc', async () => {
+    const { result, queryInvalidationManager } = hookRenderer({
+      args: {
+        action: {
+          type: 'withdrawFromSavings',
+          token: usdc,
+          savingsToken: susdc,
+          amount: withdrawAmount,
+          isRedeem: false,
+          mode: 'withdraw',
+        },
+        enabled: true,
+        context: { tokensInfo: mockTokensInfo, savingsUsdcInfo: mockSavingsInfo },
+      },
+      chain: base,
+      extraHandlers: [
+        handlers.chainIdCall({ chainId }),
+        handlers.contractCall({
+          to: susdc.address,
+          abi: usdcVaultAbi,
+          functionName: 'withdraw',
+          args: [
+            toBigInt(usdc.toBaseUnit(withdrawAmount)),
+            account,
+            account,
+            toBigInt(susdc.toBaseUnit(NormalizedUnitNumber('0.90909090909090909091'))),
+          ],
+          from: account,
+          result: 1n,
+        }),
+        handlers.mineTransaction(),
+      ],
+    })
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('ready')
+    })
+
+    result.current.onAction()
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('success')
+    })
+
+    await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+      getBalancesQueryKeyPrefix({ account, chainId }),
+    )
+  })
+
+  test('withdraws max usdc from susdc', async () => {
+    const { result, queryInvalidationManager } = hookRenderer({
+      args: {
+        action: {
+          type: 'withdrawFromSavings',
+          token: usdc,
+          savingsToken: susdc,
+          amount: withdrawAmount,
+          isRedeem: true,
+          mode: 'withdraw',
+        },
+        enabled: true,
+        context: { tokensInfo: mockTokensInfo, savingsUsdcInfo: mockSavingsInfo },
+      },
+      chain: base,
+      extraHandlers: [
+        handlers.chainIdCall({ chainId }),
+        handlers.contractCall({
+          to: susdc.address,
+          abi: usdcVaultAbi,
+          functionName: 'redeem',
+          args: [
+            toBigInt(susdc.toBaseUnit(withdrawAmount)),
+            account,
+            account,
+            toBigInt(usdc.toBaseUnit(NormalizedUnitNumber(1.1))),
+          ],
+          from: account,
+          result: 1n,
+        }),
+        handlers.mineTransaction(),
+      ],
+    })
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('ready')
+    })
+
+    result.current.onAction()
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('success')
+    })
+
+    await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+      getBalancesQueryKeyPrefix({ account, chainId }),
+    )
+  })
+
+  test('sends usdc from susdc', async () => {
+    const { result, queryInvalidationManager } = hookRenderer({
+      args: {
+        action: {
+          type: 'withdrawFromSavings',
+          token: usdc,
+          savingsToken: susdc,
+          amount: withdrawAmount,
+          isRedeem: false,
+          mode: 'send',
+          receiver,
+        },
+        enabled: true,
+        context: { tokensInfo: mockTokensInfo, savingsUsdcInfo: mockSavingsInfo },
+      },
+      chain: base,
+      extraHandlers: [
+        handlers.chainIdCall({ chainId }),
+        handlers.contractCall({
+          to: susdc.address,
+          abi: usdcVaultAbi,
+          functionName: 'withdraw',
+          args: [
+            toBigInt(usdc.toBaseUnit(withdrawAmount)),
+            receiver,
+            account,
+            toBigInt(susdc.toBaseUnit(NormalizedUnitNumber('0.90909090909090909091'))),
+          ],
+          from: account,
+          result: 1n,
+        }),
+        handlers.mineTransaction(),
+      ],
+    })
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('ready')
+    })
+
+    result.current.onAction()
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('success')
+    })
+
+    await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+      getBalancesQueryKeyPrefix({ account, chainId }),
+    )
+  })
+
+  test('sends max usdc from susdc', async () => {
+    const { result, queryInvalidationManager } = hookRenderer({
+      args: {
+        action: {
+          type: 'withdrawFromSavings',
+          token: usdc,
+          savingsToken: susdc,
+          amount: withdrawAmount,
+          isRedeem: true,
+          mode: 'send',
+          receiver,
+        },
+        enabled: true,
+        context: { tokensInfo: mockTokensInfo, savingsUsdcInfo: mockSavingsInfo },
+      },
+      chain: base,
+      extraHandlers: [
+        handlers.chainIdCall({ chainId }),
+        handlers.contractCall({
+          to: susdc.address,
+          abi: usdcVaultAbi,
+          functionName: 'redeem',
+          args: [
+            toBigInt(susdc.toBaseUnit(withdrawAmount)),
+            receiver,
+            account,
+            toBigInt(usdc.toBaseUnit(NormalizedUnitNumber(1.1))),
+          ],
+          from: account,
+          result: 1n,
+        }),
+        handlers.mineTransaction(),
+      ],
+    })
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('ready')
+    })
+
+    result.current.onAction()
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('success')
+    })
+
+    await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+      getBalancesQueryKeyPrefix({ account, chainId }),
     )
   })
 })

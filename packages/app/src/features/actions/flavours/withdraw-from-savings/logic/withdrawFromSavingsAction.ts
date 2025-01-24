@@ -6,6 +6,7 @@ import {
   psmActionsConfig,
   savingsXDaiAdapterAbi,
   savingsXDaiAdapterAddress,
+  usdcVaultAbi,
   usdsPsmActionsConfig,
 } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
@@ -156,6 +157,38 @@ export function createWithdrawFromSavingsActionConfig(
           })
         }
 
+        case 'susdc-to-usdc':
+        case 'base-susdc-to-usdc': {
+          assert(context.savingsUsdcInfo, 'Savings info is required for usdc vault withdrawal')
+          if (isRedeem) {
+            // @note: Assumes no psm fees
+            const minAssetsOut = action.token.toBaseUnit(
+              context.savingsUsdcInfo.convertToAssets({ shares: action.amount }),
+            )
+
+            return ensureConfigTypes({
+              address: savingsToken.address,
+              abi: usdcVaultAbi,
+              functionName: 'redeem',
+              args: [argsAmount, receiver, account, toBigInt(minAssetsOut)],
+            })
+          }
+
+          // @note: Assumes no psm fees
+          const maxSharesIn = action.savingsToken.toBaseUnit(
+            context.savingsUsdcInfo.convertToShares({
+              assets: action.amount,
+            }),
+          )
+
+          return ensureConfigTypes({
+            address: savingsToken.address,
+            abi: usdcVaultAbi,
+            functionName: 'withdraw',
+            args: [argsAmount, receiver, account, toBigInt(maxSharesIn)],
+          })
+        }
+
         default:
           assertNever(actionPath)
       }
@@ -175,6 +208,8 @@ export function createWithdrawFromSavingsActionConfig(
       switch (actionPath) {
         case 'sdai-to-dai':
         case 'susds-to-usds':
+        case 'susdc-to-usdc':
+        case 'base-susdc-to-usdc':
           return [balancesQueryKeyPrefix]
         case 'sdai-to-sexy-dai':
           return [balancesQueryKeyPrefix, getAllowanceQueryKey(CheckedAddress(savingsXDaiAdapterAddress[gnosis.id]))]
@@ -190,7 +225,6 @@ export function createWithdrawFromSavingsActionConfig(
             balancesQueryKeyPrefix,
             getAllowanceQueryKey(getContractAddress(usdsPsmActionsConfig.address, chainId)),
           ]
-
         case 'base-susds-to-usdc':
         case 'base-susds-to-usds':
           return [balancesQueryKeyPrefix, getAllowanceQueryKey(getContractAddress(basePsm3Address, chainId))]
