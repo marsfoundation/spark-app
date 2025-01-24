@@ -98,6 +98,7 @@ export interface ActionContext {
   tokensInfo?: TokensInfo
   savingsDaiInfo?: SavingsInfo
   savingsUsdsInfo?: SavingsInfo
+  savingsUsdcInfo?: SavingsInfo
   permitStore?: PermitStore
   farmsInfo?: FarmsInfo
   txReceipts: [Action, TransactionReceipt][]

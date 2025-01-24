@@ -10,9 +10,11 @@ export type SavingsDepositActionPath =
   | 'usdc-to-susds'
   | 'dai-to-sdai'
   | 'usdc-to-sdai'
+  | 'usdc-to-susdc'
   | 'sexy-dai-to-sdai'
   | 'base-usds-to-susds'
   | 'base-usdc-to-susds'
+  | 'base-usdc-to-susdc'
 
 export interface GetSavingsActionPathParams {
   token: Token
@@ -63,6 +65,10 @@ export function getSavingsDepositActionPath({
 
   if (token.symbol === TokenSymbol('USDC') && savingsToken.symbol === tokensInfo.sDAI?.symbol) {
     return 'usdc-to-sdai'
+  }
+
+  if (token.symbol === TokenSymbol('USDC') && savingsToken.symbol === TokenSymbol('sUSDC')) {
+    return 'usdc-to-susdc'
   }
 
   raise('Savings deposit action type not recognized')

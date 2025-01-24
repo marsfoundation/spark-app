@@ -7,11 +7,13 @@ import {
   psmActionsConfig,
   savingsXDaiAdapterAbi,
   savingsXDaiAdapterAddress,
+  usdcVaultAbi,
   usdsPsmActionsConfig,
 } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
 import { EPOCH_LENGTH } from '@/domain/market-info/consts'
+import { SavingsInfo } from '@/domain/savings-info/types'
 import { Token } from '@/domain/types/Token'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
@@ -59,6 +61,23 @@ export function createDepositToSavingsActionConfig(
             args: [assetsAmount, account],
           })
 
+        case 'usdc-to-susdc':
+        case 'base-usdc-to-susdc': {
+          assert(context.savingsUsdcInfo, 'Savings USDC info is required for usdc deposit to savings action')
+          const minAmountOut = calculateMinSharesAmountOut({
+            savingsInfo: context.savingsUsdcInfo,
+            savingsToken,
+            amountIn: action.value,
+          })
+
+          return ensureConfigTypes({
+            address: savingsToken.address,
+            abi: usdcVaultAbi,
+            functionName: 'deposit',
+            args: [assetsAmount, account, minAmountOut, SPARK_UI_REFERRAL_CODE],
+          })
+        }
+
         case 'dai-to-susds':
           return ensureConfigTypes({
             address: getContractAddress(migrationActionsConfig.address, chainId),
@@ -99,17 +118,11 @@ export function createDepositToSavingsActionConfig(
         case 'base-usds-to-susds':
         case 'base-usdc-to-susds': {
           assert(context.savingsUsdsInfo, 'Savings info is required for usdc psm withdraw from savings action')
-
-          const currentTimestamp = context.savingsUsdsInfo.currentTimestamp
-          // We don't know when the block with transaction will be mined so
-          // we calculate the minimal amount of sUSDS to receive as the amount
-          // the user would receive in 1 epoch (30 minutes)
-          const minimalSharesAmount = context.savingsUsdsInfo.predictSharesAmount({
-            assets: action.value, // we pass NormalizedUnitNumber, so 1 USDC = 1 USDS
-            timestamp: currentTimestamp + EPOCH_LENGTH,
+          const minAmountOut = calculateMinSharesAmountOut({
+            savingsInfo: context.savingsUsdsInfo,
+            savingsToken,
+            amountIn: action.value,
           })
-
-          const minAmountOut = toBigInt(savingsToken.toBaseUnit(minimalSharesAmount))
 
           return ensureConfigTypes({
             address: basePsm3Address[base.id],
@@ -154,6 +167,8 @@ export function createDepositToSavingsActionConfig(
           ]
         case 'dai-to-sdai':
         case 'usds-to-susds':
+        case 'usdc-to-susdc':
+        case 'base-usdc-to-susdc':
           return [balancesQueryKeyPrefix, getAllowanceQueryKey(action.savingsToken.address)]
 
         case 'base-usds-to-susds':
@@ -196,4 +211,26 @@ function getUsdcDepositConfig({
     functionName: 'swapAndDeposit',
     args: [account, assetsAmount, assetsMinAmountOut],
   })
+}
+
+interface CalculateMinSharesAmountOutParams {
+  savingsInfo: SavingsInfo
+  savingsToken: Token
+  amountIn: NormalizedUnitNumber
+}
+function calculateMinSharesAmountOut({
+  savingsInfo,
+  savingsToken,
+  amountIn,
+}: CalculateMinSharesAmountOutParams): bigint {
+  const currentTimestamp = savingsInfo.currentTimestamp
+  // We don't know when the block with transaction will be mined so
+  // we calculate the minimal amount of sUSDS to receive as the amount
+  // the user would receive in 1 epoch (30 minutes)
+  const minimalSharesAmount = savingsInfo.predictSharesAmount({
+    assets: amountIn, // we pass NormalizedUnitNumber, so decimals don't matter
+    timestamp: currentTimestamp + EPOCH_LENGTH,
+  })
+
+  return toBigInt(savingsToken.toBaseUnit(minimalSharesAmount))
 }
