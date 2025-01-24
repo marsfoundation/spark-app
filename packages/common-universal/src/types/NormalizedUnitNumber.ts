@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import { assert } from '../assert/assert.js'
 import { NumberLike, bigNumberify } from '../math/bigNumber.js'
 import { BaseUnitNumber } from './BaseUnitNumber.js'
 import { Opaque } from './Opaque.js'
@@ -17,6 +18,13 @@ NormalizedUnitNumber.toBaseUnit = function toBaseUnit(value: NormalizedUnitNumbe
   return BaseUnitNumber(lowerPrecisionNumber.shiftedBy(decimals))
 }
 
-NormalizedUnitNumber.min = function min(a: NormalizedUnitNumber, b: NormalizedUnitNumber): NormalizedUnitNumber {
-  return a.lt(b) ? a : b
+NormalizedUnitNumber.min = function min(...values: NormalizedUnitNumber[]): NormalizedUnitNumber {
+  assert(values.length > 0, 'Requires at least 1 arg')
+  let min = values[0]!
+  for (const value of values) {
+    if (value.lt(min)) {
+      min = value
+    }
+  }
+  return min
 }

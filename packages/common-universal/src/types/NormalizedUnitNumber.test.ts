@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { expect } from 'earl'
 import { describe, it } from 'mocha'
+import { AssertionError } from '../assert/AssertionError.js'
 import { BaseUnitNumber } from './BaseUnitNumber.js'
 import { NormalizedUnitNumber } from './NormalizedUnitNumber.js'
 
@@ -40,6 +41,38 @@ describe(NormalizedUnitNumber.name, () => {
       expect(
         NormalizedUnitNumber.toBaseUnit(NormalizedUnitNumber('1.555555555555555555555555555555555555'), 18),
       ).toEqual(BaseUnitNumber('1555555555555555555'))
+    })
+  })
+
+  describe(NormalizedUnitNumber.min.name, () => {
+    it('returns the smallest value', () => {
+      expect(NormalizedUnitNumber.min(NormalizedUnitNumber(2), NormalizedUnitNumber(1))).toEqual(
+        NormalizedUnitNumber(1),
+      )
+    })
+
+    it('returns the smallest value when there are more than 2 arguments', () => {
+      expect(
+        NormalizedUnitNumber.min(
+          NormalizedUnitNumber(3),
+          NormalizedUnitNumber(1),
+          NormalizedUnitNumber(5),
+          NormalizedUnitNumber(2),
+        ),
+      ).toEqual(NormalizedUnitNumber(1))
+    })
+
+    it('works with array', () => {
+      const input = [NormalizedUnitNumber(3), NormalizedUnitNumber(1), NormalizedUnitNumber(5), NormalizedUnitNumber(2)]
+      expect(NormalizedUnitNumber.min(...input)).toEqual(NormalizedUnitNumber(1))
+    })
+
+    it('return the argument if there is only 1 element', () => {
+      expect(NormalizedUnitNumber.min(NormalizedUnitNumber(1))).toEqual(NormalizedUnitNumber(1))
+    })
+
+    it('throws if there are no arguments', () => {
+      expect(() => NormalizedUnitNumber.min()).toThrow(AssertionError, 'Requires at least 1 arg')
     })
   })
 })
