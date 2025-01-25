@@ -28,6 +28,7 @@ interface Options {
   utc: boolean
 }
 
+// @note: format methods are protected to allow easy construction of simpler formatters for non-standard environments
 export class LogFormatterPretty implements LogFormatter {
   private readonly options: Options
 
@@ -51,7 +52,7 @@ export class LogFormatterPretty implements LogFormatter {
     return `${timeOut} ${levelOut}${serviceOut}${messageOut}${paramsOut}`
   }
 
-  private formatLevelPretty(level: LogLevel, colors: boolean): string {
+  protected formatLevelPretty(level: LogLevel, colors: boolean): string {
     if (colors) {
       switch (level) {
         case 'CRITICAL':
@@ -70,7 +71,7 @@ export class LogFormatterPretty implements LogFormatter {
     return level.toUpperCase()
   }
 
-  private formatTimePretty(now: Date, utc: boolean, colors: boolean): string {
+  protected formatTimePretty(now: Date, utc: boolean, colors: boolean): string {
     const h = (utc ? now.getUTCHours() : now.getHours()).toString().padStart(2, '0')
     const m = (utc ? now.getUTCMinutes() : now.getMinutes()).toString().padStart(2, '0')
     const s = (utc ? now.getUTCSeconds() : now.getSeconds()).toString().padStart(2, '0')
@@ -84,7 +85,7 @@ export class LogFormatterPretty implements LogFormatter {
     return colors ? chalk.gray(result) : result
   }
 
-  private formatParametersPretty(parameters: object, colors: boolean): string {
+  protected formatParametersPretty(parameters: object, colors: boolean): string {
     const oldStyles = inspect.styles
     inspect.styles = STYLES
 
@@ -111,14 +112,14 @@ export class LogFormatterPretty implements LogFormatter {
     return `\n${indented}`
   }
 
-  private formatServicePretty(service: string | undefined, colors: boolean): string {
+  protected formatServicePretty(service: string | undefined, colors: boolean): string {
     if (!service) {
       return ''
     }
     return colors ? ` ${chalk.gray('[')} ${chalk.yellow(service)} ${chalk.gray(']')}` : ` [ ${service} ]`
   }
 
-  private sanitize(parameters: object): object {
+  protected sanitize(parameters: object): object {
     return JSON.parse(toJSON(parameters))
   }
 }
