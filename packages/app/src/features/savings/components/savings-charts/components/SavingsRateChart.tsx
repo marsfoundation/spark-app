@@ -1,3 +1,9 @@
+import { formatPercentage } from '@/domain/common/format'
+import { ChartTooltipContent } from '@/ui/charts/ChartTooltipContent'
+import { colors as colorsPreset } from '@/ui/charts/colors'
+import { Margins, POINT_RADIUS, defaultMargins } from '@/ui/charts/defaults'
+import { formatPercentageTick, formatTooltipDate, getVerticalDomainWithPadding } from '@/ui/charts/utils'
+import { Percentage } from '@marsfoundation/common-universal'
 import { AxisBottom, AxisLeft } from '@visx/axis'
 import { curveStepAfter } from '@visx/curve'
 import { localPoint } from '@visx/event'
@@ -10,13 +16,6 @@ import { TooltipWithBounds, withTooltip } from '@visx/tooltip'
 import { WithTooltipProvidedProps } from '@visx/tooltip/lib/enhancers/withTooltip'
 import { extent, max } from 'd3-array'
 import { MouseEvent, TouchEvent } from 'react'
-
-import { formatPercentage } from '@/domain/common/format'
-import { ChartTooltipContent } from '@/ui/charts/ChartTooltipContent'
-import { colors as colorsPreset } from '@/ui/charts/colors'
-import { Margins, POINT_RADIUS, defaultMargins } from '@/ui/charts/defaults'
-import { formatPercentageTick, formatTooltipDate, getVerticalDomainWithPadding } from '@/ui/charts/utils'
-import { Percentage } from '@marsfoundation/common-universal'
 
 export interface ChartDataPoint {
   date: Date

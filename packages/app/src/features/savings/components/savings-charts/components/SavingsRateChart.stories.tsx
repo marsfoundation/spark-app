@@ -1,14 +1,15 @@
 import { WithClassname } from '@sb/decorators'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
-import { mockSsrChartData } from '../../fixtures/mockSavingsRateChartData'
-import { SsrChart } from './SsrChart'
+import { mockSsrChartData } from '../fixtures/mockSavingsRateChartData'
+import { SavingsRateChart } from './SavingsRateChart'
 
-const meta: Meta<typeof SsrChart> = {
-  title: 'Features/Savings/Components/SavingsCharts/Components/SsrChart',
-  component: SsrChart,
+const meta: Meta<typeof SavingsRateChart> = {
+  title: 'Features/Savings/Components/SavingsCharts/Components/SavingsRateChart',
+  component: SavingsRateChart,
   decorators: [WithClassname('max-w-lg')],
   args: {
+    tooltipLabel: 'SSR',
     height: 320,
     width: 512,
     data: mockSsrChartData,
@@ -16,7 +17,7 @@ const meta: Meta<typeof SsrChart> = {
 }
 
 export default meta
-type Story = StoryObj<typeof SsrChart>
+type Story = StoryObj<typeof SavingsRateChart>
 
 export const Desktop: Story = {}
 export const Tablet = getTabletStory(Desktop)
