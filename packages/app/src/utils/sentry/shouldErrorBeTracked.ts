@@ -37,7 +37,15 @@ function isIgnoredMessage(error: Error): boolean {
     'User disapproved requested methods',
   ]
 
-  const allowanceErrors = ['"approve" reverted', 'transfer amount exceeds allowance', 'insufficient-allowance']
+  const allowanceErrors = [
+    '"approve" reverted',
+    'transfer amount exceeds allowance',
+    'insufficient-allowance',
+    'transfer-from-failed',
+    'transfer from failed',
+  ]
+
+  const gasErrors = ['to pay the network fees']
 
   return [
     ...networkErrorMessages,
@@ -45,11 +53,12 @@ function isIgnoredMessage(error: Error): boolean {
     ...unsupportedContractsAndMethods,
     ...walletConnectorMessages,
     ...allowanceErrors,
+    ...gasErrors,
   ].some((message) => error.message?.includes(message))
 }
 
 function isIgnoredStackTrace(error: Error): boolean {
-  const ignoredStackTraces = [/@wagmi\/core\/.*\/injected/, /@wagmi\/core\/.*\/disconnect/]
+  const ignoredStackTraces = [/@wagmi[\/\\]core.*[\/\\]injected/, /@wagmi[\/\\]core.*[\/\\]disconnect/]
   const errorStack = error.stack
   return errorStack ? ignoredStackTraces.some((pattern) => pattern.test(errorStack)) : false
 }
