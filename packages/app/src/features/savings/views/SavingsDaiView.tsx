@@ -1,6 +1,6 @@
 import { PageLayout } from '@/ui/layouts/PageLayout'
 import { PageHeader } from '../components/PageHeader'
-import { DaiSavingsCharts } from '../components/savings-charts/DaiSavingsCharts'
+import { SavingsCharts } from '../components/savings-charts/SavingsCharts'
 import { SavingsOpportunity } from '../components/savings-opportunity/SavingsOpportunity'
 import { SavingsTokenPanel } from '../components/savings-token-panel/SavingsTokenPanel'
 import { SavingsViewGrid } from '../components/savings-view-grid/SavingsViewGrid'
@@ -56,7 +56,12 @@ export function SavingsDaiView({
           />
         )}
 
-        {displaySavingsDaiChart && <DaiSavingsCharts {...savingsChartsInfo} />}
+        {displaySavingsDaiChart && (
+          <SavingsCharts
+            savingsTokenSymbol={savingsTokenDetails.savingsTokenWithBalance.token.symbol}
+            {...savingsChartsInfo}
+          />
+        )}
       </SavingsViewGrid>
       <StablecoinsInWallet
         assets={assetsInWallet}

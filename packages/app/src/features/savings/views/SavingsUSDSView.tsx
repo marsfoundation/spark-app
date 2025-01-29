@@ -1,6 +1,6 @@
 import { PageLayout } from '@/ui/layouts/PageLayout'
 import { PageHeader } from '../components/PageHeader'
-import { UsdsSavingsCharts } from '../components/savings-charts/UsdsSavingsCharts'
+import { SavingsCharts } from '../components/savings-charts/SavingsCharts'
 import { SavingsOpportunity } from '../components/savings-opportunity/SavingsOpportunity'
 import { SavingsTokenPanel } from '../components/savings-token-panel/SavingsTokenPanel'
 import { SavingsViewGrid } from '../components/savings-view-grid/SavingsViewGrid'
@@ -49,7 +49,12 @@ export function SavingsUsdsView({
           />
         )}
 
-        {displaySavingsUsdsChart && <UsdsSavingsCharts {...savingsChartsInfo} />}
+        {displaySavingsUsdsChart && (
+          <SavingsCharts
+            savingsTokenSymbol={savingsTokenDetails.savingsTokenWithBalance.token.symbol}
+            {...savingsChartsInfo}
+          />
+        )}
       </SavingsViewGrid>
       <StablecoinsInWallet
         assets={assetsInWallet}

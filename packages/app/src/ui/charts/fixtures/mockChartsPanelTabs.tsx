@@ -1,7 +1,7 @@
 import { MY_EARNINGS_TIMEFRAMES } from '@/domain/savings-charts/useMyEarningsInfo/common'
 import { SAVINGS_RATE_TIMEFRAMES } from '@/domain/savings-charts/useSavingsRateInfo/common'
 import { MyEarningsChart } from '@/features/savings/components/savings-charts/components/MyEarningsChart'
-import { DsrChart } from '@/features/savings/components/savings-charts/components/savings-rate-chart/DsrChart'
+import { SavingsRateChart } from '@/features/savings/components/savings-charts/components/SavingsRateChart'
 import {
   mockEarningsChartData,
   mockEarningsPredictionsChartData,
@@ -27,10 +27,10 @@ export const mockChartsPanelMultipleTabs = [
   createChartTab({
     id: 'dsr',
     label: 'DSR',
-    component: DsrChart,
+    component: SavingsRateChart,
     isError: false,
     isPending: false,
-    props: { data: mockDsrChartData },
+    props: { data: mockDsrChartData, tooltipLabel: 'DSR' },
     selectedTimeframe: '1M' as const,
     setSelectedTimeframe: () => {},
     availableTimeframes: SAVINGS_RATE_TIMEFRAMES,
@@ -38,10 +38,10 @@ export const mockChartsPanelMultipleTabs = [
   createChartTab({
     id: 'ssr',
     label: 'SSR',
-    component: DsrChart,
+    component: SavingsRateChart,
     isError: false,
     isPending: false,
-    props: { data: mockSsrChartData },
+    props: { data: mockSsrChartData, tooltipLabel: 'SSR' },
     selectedTimeframe: '1M' as const,
     setSelectedTimeframe: () => {},
     availableTimeframes: SAVINGS_RATE_TIMEFRAMES,

@@ -6,8 +6,7 @@ import { getTokenImage } from '@/ui/assets'
 import { PageLayout } from '@/ui/layouts/PageLayout'
 import { ConnectOrSandboxCTAPanel } from '@/ui/organisms/connect-or-sandbox-cta-panel/ConnectOrSandboxCTAPanel'
 import { PageHeader } from '../components/PageHeader'
-import { DaiSavingsCharts } from '../components/savings-charts/DaiSavingsCharts'
-import { UsdsSavingsCharts } from '../components/savings-charts/UsdsSavingsCharts'
+import { SavingsCharts } from '../components/savings-charts/SavingsCharts'
 import { SavingsOpportunityGuestMode } from '../components/savings-opportunity/SavingsOpportunityGuestMode'
 import { SavingsViewGrid } from '../components/savings-view-grid/SavingsViewGrid'
 import { SavingsMeta } from '../logic/makeSavingsMeta'
@@ -36,9 +35,6 @@ export function GuestView({
     .filter(Boolean)
     .map((symbol) => getTokenImage(TokenSymbol(symbol)))
 
-  const Charts =
-    savingsTokenDetails.savingsTokenWithBalance.token.symbol === susdsSymbol ? UsdsSavingsCharts : DaiSavingsCharts
-
   return (
     <PageLayout>
       <PageHeader />
@@ -50,7 +46,12 @@ export function GuestView({
           savingsMeta={savingsMeta}
           openSandboxModal={openSandboxModal}
         />
-        {displaySavingsChart && <Charts {...savingsChartsInfo} />}
+        {displaySavingsChart && (
+          <SavingsCharts
+            savingsTokenSymbol={savingsTokenDetails.savingsTokenWithBalance.token.symbol}
+            {...savingsChartsInfo}
+          />
+        )}
       </SavingsViewGrid>
 
       <ConnectOrSandboxCTAPanel
