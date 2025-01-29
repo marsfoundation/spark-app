@@ -1,22 +1,20 @@
 import { UseMyEarningsInfoResult } from '@/domain/savings-charts/useMyEarningsInfo/useMyEarningsInfo'
 import { UseSavingsRateInfoResult } from '@/domain/savings-charts/useSavingsRateInfo/useSavingsRateInfo'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { ChartTabsPanel, createChartTab } from '@/ui/charts/components/ChartTabsPanel'
 import { MyEarningsChart } from './components/MyEarningsChart'
 import { SavingsRateChart } from './components/SavingsRateChart'
+import { getSavingsRateChartMeta } from './utils'
 
 interface SavingsChartsProps {
   myEarningsInfo: UseMyEarningsInfoResult
   savingsRateInfo: UseSavingsRateInfoResult
-  savingsRateTabLabel: string
-  savingsRateChartTooltipLabel: string
+  savingsTokenSymbol: TokenSymbol
 }
 
-export function SavingsCharts({
-  myEarningsInfo,
-  savingsRateInfo,
-  savingsRateTabLabel,
-  savingsRateChartTooltipLabel,
-}: SavingsChartsProps) {
+export function SavingsCharts({ myEarningsInfo, savingsRateInfo, savingsTokenSymbol }: SavingsChartsProps) {
+  const { savingsRateTabLabel, savingsRateChartTooltipLabel } = getSavingsRateChartMeta(savingsTokenSymbol)
+
   return (
     <ChartTabsPanel
       tabs={[

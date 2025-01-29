@@ -3,7 +3,6 @@ import { PageLayout } from '@/ui/layouts/PageLayout'
 import { assert, raise } from '@marsfoundation/common-universal'
 import { PageHeader } from '../components/PageHeader'
 import { SavingsCharts } from '../components/savings-charts/SavingsCharts'
-import { daiSavingsChartMeta, skySavingsChartMeta } from '../components/savings-charts/constants'
 import { SavingsOpportunity } from '../components/savings-opportunity/SavingsOpportunity'
 import { SavingsTokenPanel } from '../components/savings-token-panel/SavingsTokenPanel'
 import { SavingsViewGrid } from '../components/savings-view-grid/SavingsViewGrid'
@@ -94,9 +93,16 @@ export function SavingsDaiAndUsdsView({
           />
         )}
 
-        {displaySavingsUsdsCharts && <SavingsCharts {...skySavingsChartMeta} {...savingsChartsInfo} />}
+        {displaySavingsUsdsCharts && (
+          <SavingsCharts
+            savingsTokenSymbol={sUSDSDetails.savingsTokenWithBalance.token.symbol}
+            {...savingsChartsInfo}
+          />
+        )}
 
-        {displaySavingsDaiCharts && <SavingsCharts {...daiSavingsChartMeta} {...savingsChartsInfo} />}
+        {displaySavingsDaiCharts && (
+          <SavingsCharts savingsTokenSymbol={sDaiDetails.savingsTokenWithBalance.token.symbol} {...savingsChartsInfo} />
+        )}
       </SavingsViewGrid>
       <StablecoinsInWallet
         assets={assetsInWallet}
