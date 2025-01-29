@@ -7,12 +7,9 @@ import { DialogForm } from '@/features/dialogs/common/components/form/DialogForm
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageStatus } from '@/features/dialogs/common/types'
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
-import { usePortalRef } from '@/ui/utils/usePortalRef'
 import { UseFormReturn } from 'react-hook-form'
 import { TransactionOverview } from '../../common/components/transaction-overview'
 import { SavingsDialogTxOverview } from '../../common/types'
-import { UpgradeToSusdsSwitch } from '../components/UpgradeToSusdsSwitch'
-import { SavingsUsdsSwitchInfo } from '../logic/useSavingsDepositDialog'
 
 export interface SavingsDepositViewProps {
   selectableAssets: TokenWithBalance[]
@@ -21,7 +18,6 @@ export interface SavingsDepositViewProps {
   objectives: Objective[]
   pageStatus: PageStatus
   txOverview: SavingsDialogTxOverview
-  savingsUsdsSwitchInfo: SavingsUsdsSwitchInfo
   actionsContext: InjectedActionsContext
 }
 
@@ -32,27 +28,16 @@ export function SavingsDepositView({
   objectives,
   pageStatus,
   txOverview,
-  savingsUsdsSwitchInfo,
   actionsContext,
 }: SavingsDepositViewProps) {
-  const { portalRef: benefitsDialogPortalContainerRef, refCallback: benefitsDialogPortalContainerRefCallback } =
-    usePortalRef()
-
   return (
-    <MultiPanelDialog panelRef={benefitsDialogPortalContainerRefCallback}>
+    <MultiPanelDialog>
       <DialogTitle>Deposit to Savings</DialogTitle>
 
       <FormAndOverviewWrapper>
         <DialogForm form={form} assetsFields={assetsFields} selectorAssets={selectableAssets} />
         <TransactionOverview txOverview={txOverview} selectedToken={assetsFields.selectedAsset.token} showAPY />
       </FormAndOverviewWrapper>
-
-      {savingsUsdsSwitchInfo.showSwitch && (
-        <UpgradeToSusdsSwitch
-          {...savingsUsdsSwitchInfo}
-          benefitsDialogPortalContainerRef={benefitsDialogPortalContainerRef}
-        />
-      )}
 
       <DialogActionsPanel
         objectives={objectives}

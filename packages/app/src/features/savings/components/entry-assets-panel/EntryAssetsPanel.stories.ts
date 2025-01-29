@@ -45,6 +45,7 @@ export const Desktop: Story = {
     },
     openDialog: () => {},
     showConvertDialogButton: true,
+    savingsToken: tokens.sUSDS,
   },
 }
 

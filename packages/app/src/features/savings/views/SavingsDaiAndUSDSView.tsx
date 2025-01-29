@@ -90,6 +90,7 @@ export function SavingsDaiAndUsdsView({
             openDialog={openDialog}
             totalEligibleCashUSD={totalEligibleCashUSD}
             savingsMeta={savingsMeta}
+            savingsToken={sUSDSDetails.savingsTokenWithBalance.token}
           />
         )}
 
@@ -109,6 +110,7 @@ export function SavingsDaiAndUsdsView({
         openDialog={openDialog}
         showConvertDialogButton={showConvertDialogButton}
         migrationInfo={migrationInfo}
+        savingsToken={sUSDSDetails.savingsTokenWithBalance.token}
       />
       {import.meta.env.VITE_FEATURE_SAVINGS_WELCOME_DIALOG === '1' && (
         <WelcomeDialog
