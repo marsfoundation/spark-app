@@ -14,8 +14,8 @@ export const CopyButton = forwardRef<HTMLButtonElement, CopyButtonProps>(
     const { copied, copy } = useClipboard()
     const mounted = useMounted()
 
-    function handleCopy(e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
-      copy(text)
+    async function handleCopy(e: React.MouseEvent<HTMLButtonElement, MouseEvent>): Promise<void> {
+      await copy(text)
       onClick?.(e)
     }
 

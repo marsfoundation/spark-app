@@ -20,11 +20,41 @@ export function useClipboard({ timeout = 1500 }: UseClipboardOptions = {}) {
     setCopied(true)
   }
 
-  function copy(valueToCopy: string): void {
-    if ('clipboard' in navigator) {
-      navigator.clipboard.writeText(valueToCopy).then(handleCopyResult).catch(setError)
-    } else {
-      setError(new Error('useClipboard: navigator.clipboard is not supported'))
+  async function copy(valueToCopy: string): Promise<void> {
+    try {
+      // Try to use modern clipboard api if available
+      if ('clipboard' in navigator) {
+        await navigator.clipboard.writeText(valueToCopy)
+        handleCopyResult()
+      }
+    } catch {
+      // Use fallback solution, might be useful in iframes, where clipboard-write is turned off (Safe)
+      await fallbackCopy(valueToCopy)
+    }
+  }
+
+  async function fallbackCopy(text: string): Promise<void> {
+    const span = Object.assign(document.createElement('span'), {
+      textContent: text,
+      style: 'position: absolute; left: -1000vw; opacity:0;',
+    })
+    document.body.appendChild(span)
+
+    const range = document.createRange()
+    const selection = window.getSelection()
+    range.selectNodeContents(span)
+    selection?.removeAllRanges()
+    selection?.addRange(range)
+
+    try {
+      // @note: execCommand is deprecated but needed for fallback support
+      document.execCommand('copy')
+      handleCopyResult()
+    } catch (e) {
+      setError(new Error(`Failed to copy text: ${e}`))
+    } finally {
+      selection?.removeAllRanges()
+      document.body.removeChild(span)
     }
   }
 
