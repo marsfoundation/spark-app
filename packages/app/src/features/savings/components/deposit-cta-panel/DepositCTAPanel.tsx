@@ -1,21 +1,15 @@
 import { Token } from '@/domain/types/Token'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { cn } from '@/ui/utils/style'
-import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
+import { Percentage } from '@marsfoundation/common-universal'
 import { cva } from 'class-variance-authority'
 import { savingsTokenToAccountType } from '../common/utils'
 import { Actions } from './components/Actions'
 import { Details } from './components/Details'
 import { Header } from './components/Header'
-import { Stats } from './components/Stats'
 
 export interface DepositCTAPanelProps {
-  globalStats: {
-    savingsRate: Percentage
-    tvl: NormalizedUnitNumber
-    liquidity: NormalizedUnitNumber
-    users: NormalizedUnitNumber
-  }
+  savingsRate: Percentage
   inputTokens: Token[]
   savingsToken: Token
   description: {
@@ -35,9 +29,9 @@ export interface DepositCTAPanelProps {
 }
 
 export function DepositCTAPanel({
+  savingsRate,
   inputTokens,
   savingsToken,
-  globalStats,
   description,
   actions,
 }: DepositCTAPanelProps) {
@@ -50,13 +44,10 @@ export function DepositCTAPanel({
       )}
     >
       <div className="flex flex-col gap-4 md:gap-14">
-        <Header savingsRate={globalStats.savingsRate} savingsToken={savingsToken} inputTokens={inputTokens} />
+        <Header savingsRate={savingsRate} savingsToken={savingsToken} inputTokens={inputTokens} />
         <Details inputTokens={inputTokens} savingsToken={savingsToken} description={description} />
       </div>
-      <div className="mt-auto flex flex-col gap-5">
-        <Stats globalStats={globalStats} />
-        <Actions actions={actions} />
-      </div>
+      <Actions actions={actions} className="mt-auto" />
     </Panel>
   )
 }
