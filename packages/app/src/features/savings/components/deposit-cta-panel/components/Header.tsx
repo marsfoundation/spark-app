@@ -22,7 +22,7 @@ export function Header({ savingsToken, savingsRate, inputTokens }: HeaderProps) 
       <div>
         Deposit your {inputTokens.length > 1 ? 'stablecoins' : inputTokens[0]!.symbol}
         <br />
-        and earn <span className="text-transparent">{formatPercentage(savingsRate)}</span>!
+        and earn <span className="text-transparent">{formatPercentage(savingsRate)}</span> APY!
       </div>
     </div>
   )

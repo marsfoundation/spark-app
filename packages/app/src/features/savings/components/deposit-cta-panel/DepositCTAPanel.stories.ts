@@ -1,4 +1,4 @@
-import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
+import { Percentage } from '@marsfoundation/common-universal'
 import { WithClassname, WithTooltipProvider } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
@@ -11,12 +11,7 @@ const meta: Meta<typeof DepositCTAPanel> = {
   component: DepositCTAPanel,
   decorators: [WithTooltipProvider(), withRouter(), WithClassname('max-w-6xl')],
   args: {
-    globalStats: {
-      savingsRate: Percentage(0.12),
-      users: NormalizedUnitNumber(43_232),
-      liquidity: NormalizedUnitNumber(1_000_000),
-      tvl: NormalizedUnitNumber(5_000_123_000),
-    },
+    savingsRate: Percentage(0.12),
     actions: {
       primary: {
         title: 'Deposit',
