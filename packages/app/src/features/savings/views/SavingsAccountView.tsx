@@ -18,6 +18,7 @@ export interface SavingsAccountViewProps {
   mostValuableAsset: TokenWithBalance
   assetsConvertSupported: boolean
   savingsChartsInfo: UseSavingsChartsInfoQueryResult
+  // @todo: Pass separate functions for each dialog after removing old views
   openDialog: OpenDialogFunction
   openSandboxModal: () => void
   openConnectModal: () => void
