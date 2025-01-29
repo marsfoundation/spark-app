@@ -9,7 +9,6 @@ import { AccountMainPanelGroup } from '../components/account-main-panel-group/Ac
 import { DepositCTAPanel } from '../components/deposit-cta-panel/DepositCTAPanel'
 import { EntryAssetsPanel } from '../components/entry-assets-panel/EntryAssetsPanel'
 import { SavingsCharts } from '../components/savings-charts/SavingsCharts'
-import { skySavingsChartMeta } from '../components/savings-charts/constants'
 import { MigrationInfo } from '../logic/makeMigrationInfo'
 import { SavingsAccountEntryAssets, SavingsTokenDetails } from '../logic/useSavings'
 
@@ -84,7 +83,12 @@ export function SavingsAccountView({
             projections={savingsTokenDetails.currentProjections}
           />
         )}
-        {displaySavingsChart && <SavingsCharts {...skySavingsChartMeta} {...savingsChartsInfo} />}
+        {displaySavingsChart && (
+          <SavingsCharts
+            savingsTokenSymbol={savingsTokenDetails.savingsTokenWithBalance.token.symbol}
+            {...savingsChartsInfo}
+          />
+        )}
       </div>
       <EntryAssetsPanel
         assets={entryAssets}
