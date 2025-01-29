@@ -53,6 +53,7 @@ export function SavingsDaiView({
             openDialog={openDialog}
             totalEligibleCashUSD={totalEligibleCashUSD}
             savingsMeta={savingsMeta}
+            savingsToken={savingsTokenDetails.savingsTokenWithBalance.token}
           />
         )}
 
@@ -68,6 +69,7 @@ export function SavingsDaiView({
         openDialog={openDialog}
         showConvertDialogButton={showConvertDialogButton}
         migrationInfo={migrationInfo}
+        savingsToken={savingsTokenDetails.savingsTokenWithBalance.token}
       />
     </PageLayout>
   )
