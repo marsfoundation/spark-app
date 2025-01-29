@@ -8,9 +8,7 @@ import { CheckedAddress } from '@marsfoundation/common-universal'
 import { useCallback, useState } from 'react'
 import { MY_EARNINGS_TIMEFRAMES, MyEarningsTimeframe } from './common'
 import { getFilteredEarningsWithPredictions } from './getFilteredEarningsWithPredictions'
-import { getSavingsDisplayType } from './getSavingsDisplayType'
 import { myEarningsQueryOptions } from './query'
-import { selectMyEarningsSavingsDataByDisplayType } from './selectMyEarningsSavingsDataByDataType'
 import { MyEarningsInfoItem } from './types'
 
 export interface UseMyEarningsInfoParams {
@@ -18,10 +16,8 @@ export interface UseMyEarningsInfoParams {
   chainId: number
   currentTimestamp: number
   staleTime: number
-  savingsUsdsInfo: SavingsInfo | null
-  susdsWithBalance: TokenWithBalance | undefined
-  savingsDaiInfo: SavingsInfo | null
-  sdaiWithBalance: TokenWithBalance | undefined
+  savingsInfo: SavingsInfo | null
+  savingsTokenWithBalance: TokenWithBalance | undefined
   getEarningsApiUrl: ((address: CheckedAddress) => string) | undefined
 }
 
@@ -45,28 +41,11 @@ export function useMyEarningsInfo({
   chainId,
   currentTimestamp,
   staleTime,
-  savingsUsdsInfo,
-  susdsWithBalance,
-  savingsDaiInfo,
-  sdaiWithBalance,
+  savingsInfo,
+  savingsTokenWithBalance,
   getEarningsApiUrl,
 }: UseMyEarningsInfoParams): UseMyEarningsInfoResult {
   const [selectedTimeframe, setSelectedTimeframe] = useState<MyEarningsTimeframe>('All')
-
-  const displayType = getSavingsDisplayType({
-    savingsUsdsInfo,
-    susdsWithBalance,
-    savingsDaiInfo,
-    sdaiWithBalance,
-  })
-
-  const { savingsInfo, savingsTokenWithBalance } = selectMyEarningsSavingsDataByDisplayType({
-    savingsUsdsInfo,
-    savingsDaiInfo,
-    sdaiWithBalance,
-    susdsWithBalance,
-    displayType,
-  })
 
   const queryResult = useQuery({
     ...myEarningsQueryOptions({
