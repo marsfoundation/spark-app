@@ -1,6 +1,7 @@
 import { SupportedChainId } from '@/config/chain/types'
 import { TokenWithBalance } from '@/domain/common/types'
 import { OpenDialogFunction } from '@/domain/state/dialogs'
+import { Token } from '@/domain/types/Token'
 import { savingsDepositDialogConfig } from '@/features/dialogs/savings/deposit/SavingsDepositDialog'
 import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { SavingsMeta } from '../../logic/makeSavingsMeta'
@@ -17,6 +18,7 @@ export interface SavingsOpportunityProps {
   openDialog: OpenDialogFunction
   totalEligibleCashUSD: NormalizedUnitNumber
   savingsMeta: SavingsMeta
+  savingsToken: Token
 }
 
 export function SavingsOpportunity({
@@ -26,12 +28,13 @@ export function SavingsOpportunity({
   openDialog,
   totalEligibleCashUSD,
   savingsMeta,
+  savingsToken,
 }: SavingsOpportunityProps) {
   const hasNoCash = totalEligibleCashUSD.isZero()
   const stablecoinValue = hasNoCash ? undefined : totalEligibleCashUSD
 
   function openDepositDialog(): void {
-    openDialog(savingsDepositDialogConfig, { initialToken: maxBalanceToken.token })
+    openDialog(savingsDepositDialogConfig, { initialToken: maxBalanceToken.token, savingsToken })
   }
 
   return (

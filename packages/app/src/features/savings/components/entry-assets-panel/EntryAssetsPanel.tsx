@@ -1,4 +1,5 @@
 import { OpenDialogFunction } from '@/domain/state/dialogs'
+import { Token } from '@/domain/types/Token'
 import { convertStablesDialogConfig } from '@/features/dialogs/convert-stables/ConvertStablesDialog'
 import { savingsDepositDialogConfig } from '@/features/dialogs/savings/deposit/SavingsDepositDialog'
 import { assets as uiAssets } from '@/ui/assets'
@@ -17,6 +18,7 @@ export interface EntryAssetsPanelProps {
   assets: SavingsAccountEntryAssets[]
   openDialog: OpenDialogFunction
   showConvertDialogButton: boolean
+  savingsToken: Token
   migrationInfo?: MigrationInfo
 }
 
@@ -24,6 +26,7 @@ export function EntryAssetsPanel({
   assets,
   openDialog,
   showConvertDialogButton,
+  savingsToken,
   migrationInfo,
 }: EntryAssetsPanelProps) {
   const columnDef: DataTableColumnDefinitions<SavingsAccountEntryAssets> = useMemo(
@@ -50,7 +53,7 @@ export function EntryAssetsPanel({
                 variant="secondary"
                 size="s"
                 disabled={balance.eq(0)}
-                onClick={() => openDialog(savingsDepositDialogConfig, { initialToken: token })}
+                onClick={() => openDialog(savingsDepositDialogConfig, { initialToken: token, savingsToken })}
               >
                 Deposit
               </Button>
@@ -65,7 +68,7 @@ export function EntryAssetsPanel({
         },
       },
     }),
-    [openDialog, migrationInfo],
+    [openDialog, migrationInfo, savingsToken],
   )
 
   return (

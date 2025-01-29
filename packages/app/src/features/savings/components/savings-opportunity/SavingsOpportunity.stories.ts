@@ -1,6 +1,7 @@
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { WithClassname, WithTooltipProvider } from '@sb/decorators'
+import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import type { Meta, StoryObj } from '@storybook/react'
 import { mainnet } from 'viem/chains'
@@ -21,6 +22,7 @@ const meta: Meta<typeof SavingsOpportunity> = {
         rateName: 'Sky Savings Rate',
       },
     },
+    savingsToken: tokens.sUSDS,
   },
 }
 

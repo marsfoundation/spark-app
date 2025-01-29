@@ -46,6 +46,7 @@ export function SavingsUsdsView({
             openDialog={openDialog}
             totalEligibleCashUSD={totalEligibleCashUSD}
             savingsMeta={savingsMeta}
+            savingsToken={savingsTokenDetails.savingsTokenWithBalance.token}
           />
         )}
 
@@ -61,6 +62,7 @@ export function SavingsUsdsView({
         openDialog={openDialog}
         showConvertDialogButton={showConvertDialogButton}
         migrationInfo={migrationInfo}
+        savingsToken={savingsTokenDetails.savingsTokenWithBalance.token}
       />
     </PageLayout>
   )
