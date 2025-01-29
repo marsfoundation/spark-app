@@ -514,6 +514,12 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
   })
 
   test('withdraws usdc from susdc', async () => {
+    const maxShares = formatMaxAmountInForPsm3({
+      susds,
+      susdsAmount: NormalizedUnitNumber(withdrawAmount.dividedBy(1.1)),
+      assetOut: usdc,
+    })
+
     const { result, queryInvalidationManager } = hookRenderer({
       args: {
         action: {
@@ -534,12 +540,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           to: susdc.address,
           abi: usdcVaultAbi,
           functionName: 'withdraw',
-          args: [
-            toBigInt(usdc.toBaseUnit(withdrawAmount)),
-            account,
-            account,
-            toBigInt(susdc.toBaseUnit(NormalizedUnitNumber('0.90909090909090909091'))),
-          ],
+          args: [toBigInt(usdc.toBaseUnit(withdrawAmount)), account, account, maxShares],
           from: account,
           result: 1n,
         }),
@@ -612,6 +613,12 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
   })
 
   test('sends usdc from susdc', async () => {
+    const maxShares = formatMaxAmountInForPsm3({
+      susds,
+      susdsAmount: NormalizedUnitNumber(withdrawAmount.dividedBy(1.1)),
+      assetOut: usdc,
+    })
+
     const { result, queryInvalidationManager } = hookRenderer({
       args: {
         action: {
@@ -633,12 +640,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           to: susdc.address,
           abi: usdcVaultAbi,
           functionName: 'withdraw',
-          args: [
-            toBigInt(usdc.toBaseUnit(withdrawAmount)),
-            receiver,
-            account,
-            toBigInt(susdc.toBaseUnit(NormalizedUnitNumber('0.90909090909090909091'))),
-          ],
+          args: [toBigInt(usdc.toBaseUnit(withdrawAmount)), receiver, account, maxShares],
           from: account,
           result: 1n,
         }),

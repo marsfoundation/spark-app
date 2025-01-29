@@ -1,10 +1,12 @@
 import { susdsAbi } from '@/config/abis/susdsAbi'
 import { getChainConfigEntry } from '@/config/chain'
+import { SavingsInfoQuery } from '@/config/chain/types'
 import { potAbi, potAddress } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { bigNumberify } from '@marsfoundation/common-universal'
 import { raise } from '@marsfoundation/common-universal'
 import { multicall } from 'wagmi/actions'
+import { TokenSymbol } from '../types/TokenSymbol'
 import { PotSavingsInfo } from './potSavingsInfo'
 import { SavingsInfoQueryOptions, SavingsInfoQueryParams } from './types'
 
@@ -53,52 +55,56 @@ export function mainnetSavingsDaiInfoQuery({
   }
 }
 
-export function mainnetSavingsUsdsInfoQuery({
-  wagmiConfig,
-  chainId,
-  timestamp,
-}: SavingsInfoQueryParams): SavingsInfoQueryOptions {
-  return {
-    queryKey: ['savings-usds-info', { chainId }],
-    queryFn: async () => {
-      const chainConfig = getChainConfigEntry(chainId)
-      const susdsSymbol = chainConfig.susdsSymbol
-      const susdsAddress =
-        chainConfig.extraTokens.find(({ symbol }) => symbol === susdsSymbol)?.address ??
-        raise('sUSDS address not found')
+export const mainnetSavingsUsdsInfoQuery = mainnetSkySavingsInfoQueryFactory(TokenSymbol('sUSDS'))
+export const mainnetSavingsUsdcInfoQuery = mainnetSkySavingsInfoQueryFactory(TokenSymbol('sUSDC'))
 
-      const [ssr, rho, chi] = await multicall(wagmiConfig, {
-        allowFailure: false,
-        contracts: [
-          {
-            address: susdsAddress,
-            functionName: 'ssr',
-            args: [],
-            abi: susdsAbi,
-          },
-          {
-            address: susdsAddress,
-            functionName: 'rho',
-            args: [],
-            abi: susdsAbi,
-          },
-          {
-            address: susdsAddress,
-            functionName: 'chi',
-            args: [],
-            abi: susdsAbi,
-          },
-        ],
-      })
+function mainnetSkySavingsInfoQueryFactory(savingsTokenSymbol: TokenSymbol): SavingsInfoQuery {
+  return function mainnetSkySavingsInfoQuery({
+    wagmiConfig,
+    timestamp,
+    chainId,
+  }: SavingsInfoQueryParams): SavingsInfoQueryOptions {
+    return {
+      queryKey: ['savings-info', savingsTokenSymbol, { chainId }],
+      queryFn: async () => {
+        const chainConfig = getChainConfigEntry(chainId)
+        const savingsTokenAddress =
+          chainConfig.extraTokens.find(({ symbol }) => symbol === savingsTokenSymbol)?.address ??
+          raise(`${savingsTokenSymbol} address not found`)
 
-      return new PotSavingsInfo({
-        potParams: {
-          dsr: bigNumberify(ssr),
-          rho: bigNumberify(rho),
-          chi: bigNumberify(chi),
-        },
-        currentTimestamp: timestamp,
-      })
-    },
+        const [ssr, rho, chi] = await multicall(wagmiConfig, {
+          allowFailure: false,
+          contracts: [
+            {
+              address: savingsTokenAddress,
+              functionName: 'ssr',
+              args: [],
+              abi: susdsAbi,
+            },
+            {
+              address: savingsTokenAddress,
+              functionName: 'rho',
+              args: [],
+              abi: susdsAbi,
+            },
+            {
+              address: savingsTokenAddress,
+              functionName: 'chi',
+              args: [],
+              abi: susdsAbi,
+            },
+          ],
+        })
+
+        return new PotSavingsInfo({
+          potParams: {
+            dsr: bigNumberify(ssr),
+            rho: bigNumberify(rho),
+            chi: bigNumberify(chi),
+          },
+          currentTimestamp: timestamp,
+        })
+      },
+    }
   }
 }

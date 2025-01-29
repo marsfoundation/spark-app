@@ -157,8 +157,7 @@ export function createWithdrawFromSavingsActionConfig(
           })
         }
 
-        case 'susdc-to-usdc':
-        case 'base-susdc-to-usdc': {
+        case 'susdc-to-usdc': {
           assert(context.savingsUsdcInfo, 'Savings info is required for usdc vault withdrawal')
           if (isRedeem) {
             // @note: Assumes no psm fees
@@ -186,6 +185,39 @@ export function createWithdrawFromSavingsActionConfig(
             abi: usdcVaultAbi,
             functionName: 'withdraw',
             args: [argsAmount, receiver, account, toBigInt(maxSharesIn)],
+          })
+        }
+
+        case 'base-susdc-to-usdc': {
+          assert(context.savingsUsdcInfo, 'Savings info is required for usdc vault withdrawal')
+          if (isRedeem) {
+            // @note: Assumes no psm fees
+            const minAssetsOut = action.token.toBaseUnit(
+              context.savingsUsdcInfo.convertToAssets({ shares: action.amount }),
+            )
+
+            return ensureConfigTypes({
+              address: savingsToken.address,
+              abi: usdcVaultAbi,
+              functionName: 'redeem',
+              args: [argsAmount, receiver, account, toBigInt(minAssetsOut)],
+            })
+          }
+
+          // @note: Assumes no psm fees
+          const maxShares = formatMaxAmountInForPsm3({
+            susds: action.savingsToken,
+            susdsAmount: context.savingsUsdcInfo.convertToShares({
+              assets: action.amount,
+            }),
+            assetOut: token,
+          })
+
+          return ensureConfigTypes({
+            address: savingsToken.address,
+            abi: usdcVaultAbi,
+            functionName: 'withdraw',
+            args: [argsAmount, receiver, account, maxShares],
           })
         }
 

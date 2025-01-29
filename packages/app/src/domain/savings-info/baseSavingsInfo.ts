@@ -1,43 +1,78 @@
-import { ssrAuthOracleConfig } from '@/config/contracts-generated'
+import { ssrAuthOracleConfig, usdcVaultAbi, usdcVaultAddress } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { bigNumberify } from '@marsfoundation/common-universal'
-import { QueryKey } from '@tanstack/react-query'
-import { readContract } from 'wagmi/actions'
+import { multicall, readContract } from 'wagmi/actions'
 import { PotSavingsInfo } from './potSavingsInfo'
-import { SavingsInfo, SavingsInfoQueryOptions, SavingsInfoQueryParams } from './types'
+import { SavingsInfoQueryOptions, SavingsInfoQueryParams } from './types'
 
-export function baseSavingsInfoQueryOptions({
+export function baseSavingsUsdsInfoQueryOptions({
   wagmiConfig,
   timestamp,
   chainId,
 }: SavingsInfoQueryParams): SavingsInfoQueryOptions {
   return {
-    queryKey: getBaseSavingsInfoQueryKey({ chainId }),
-    queryFn: () => baseSavingsInfoQueryFunction({ wagmiConfig, timestamp, chainId }),
+    queryKey: ['base-savings-usds-info', { chainId }],
+    queryFn: async () => {
+      const { ssr, chi, rho } = await readContract(wagmiConfig, {
+        abi: ssrAuthOracleConfig.abi,
+        address: getContractAddress(ssrAuthOracleConfig.address, chainId),
+        functionName: 'getSUSDSData',
+      })
+
+      return new PotSavingsInfo({
+        potParams: {
+          dsr: bigNumberify(ssr),
+          rho: bigNumberify(rho),
+          chi: bigNumberify(chi),
+        },
+        currentTimestamp: timestamp,
+      })
+    },
   }
 }
 
-export async function baseSavingsInfoQueryFunction({
+export function baseSavingsUsdcInfoQueryOptions({
   wagmiConfig,
   timestamp,
   chainId,
-}: SavingsInfoQueryParams): Promise<SavingsInfo> {
-  const { ssr, chi, rho } = await readContract(wagmiConfig, {
-    abi: ssrAuthOracleConfig.abi,
-    address: getContractAddress(ssrAuthOracleConfig.address, chainId),
-    functionName: 'getSUSDSData',
-  })
+}: SavingsInfoQueryParams): SavingsInfoQueryOptions {
+  return {
+    queryKey: ['base-savings-usds-info', { chainId }],
+    queryFn: async () => {
+      const susdcAddress = getContractAddress(usdcVaultAddress, chainId)
 
-  return new PotSavingsInfo({
-    potParams: {
-      dsr: bigNumberify(ssr),
-      rho: bigNumberify(rho),
-      chi: bigNumberify(chi),
+      const [ssr, rho, chi] = await multicall(wagmiConfig, {
+        allowFailure: false,
+        contracts: [
+          {
+            address: susdcAddress,
+            functionName: 'ssr',
+            args: [],
+            abi: usdcVaultAbi,
+          },
+          {
+            address: susdcAddress,
+            functionName: 'rho',
+            args: [],
+            abi: usdcVaultAbi,
+          },
+          {
+            address: susdcAddress,
+            functionName: 'chi',
+            args: [],
+            abi: usdcVaultAbi,
+          },
+        ],
+      })
+
+      return new PotSavingsInfo({
+        potParams: {
+          dsr: bigNumberify(ssr),
+          rho: bigNumberify(rho),
+          chi: bigNumberify(chi),
+        },
+        currentTimestamp: timestamp,
+      })
     },
-    currentTimestamp: timestamp,
-  })
-}
-
-export function getBaseSavingsInfoQueryKey({ chainId }: { chainId: number }): QueryKey {
-  return ['base-savings-info', { chainId }]
+  }
 }

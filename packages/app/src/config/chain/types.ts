@@ -76,6 +76,7 @@ export interface SavingsConfig {
   inputTokens: TokenSymbol[]
   savingsDaiInfoQuery: SavingsInfoQuery | undefined
   savingsUsdsInfoQuery: SavingsInfoQuery | undefined
+  savingsUsdcInfoQuery: SavingsInfoQuery | undefined
   savingsRateApiUrl: string | undefined
   getEarningsApiUrl: GetApiUrl | undefined
 }
