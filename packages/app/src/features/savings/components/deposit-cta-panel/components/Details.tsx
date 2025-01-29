@@ -6,14 +6,14 @@ import { ChevronsRight } from 'lucide-react'
 import { savingsTokenToAccountType } from '../../common/utils'
 import { DepositCTAPanelProps } from '../DepositCTAPanel'
 
-export type DetailsProps = Pick<DepositCTAPanelProps, 'description' | 'inputTokens' | 'savingsToken'>
+export type DetailsProps = Pick<DepositCTAPanelProps, 'description' | 'entryTokens' | 'savingsToken'>
 
-export function Details({ description, inputTokens, savingsToken }: DetailsProps) {
+export function Details({ description, entryTokens, savingsToken }: DetailsProps) {
   return (
     <div className="flex flex-col gap-4">
       <div className={tokensRouteVariants({ bg: savingsTokenToAccountType(savingsToken) })}>
         <IconStack
-          paths={inputTokens.map((token) => getTokenImage(token.symbol))}
+          paths={entryTokens.map((token) => getTokenImage(token.symbol))}
           iconBorder={{ borderColorClass: 'border-[#1E3B33]' }}
         />
         <ChevronsRight className="icon-xs icon-primary-inverse" />

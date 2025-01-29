@@ -1,6 +1,6 @@
 import { TokenWithBalance } from '@/domain/common/types'
 import { Token } from '@/domain/types/Token'
-import { TokenCell } from '@/features/savings/components/stablecoins-in-wallet/components/TokenCell'
+import { TokenCell } from '@/features/savings/components/entry-assets-panel/components/TokenCell'
 import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { DataTable, DataTableColumnDefinitions } from '@/ui/molecules/data-table/DataTable'

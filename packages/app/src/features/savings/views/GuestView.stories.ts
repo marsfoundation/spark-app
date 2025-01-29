@@ -56,7 +56,7 @@ const savingsChartsInfo = {
 const savingsTokenDetails = {
   APY: Percentage(0.065),
   savingsTokenWithBalance: { balance: NormalizedUnitNumber(20_000), token: tokens.sUSDS },
-  assetsToken: tokens.USDS,
+  underlyingToken: tokens.USDS,
   balanceRefreshIntervalInMs: 50,
   currentProjections: {
     thirtyDays: NormalizedUnitNumber(500),

@@ -58,7 +58,7 @@ const savingsChartsInfo = {
 
 const savingsViewBaseArgs = {
   originChainId: mainnet.id,
-  assetsInWallet: [
+  entryAssets: [
     {
       token: tokens.DAI,
       balance: NormalizedUnitNumber(22727),
@@ -91,7 +91,7 @@ const savingsViewBaseArgs = {
 const savingsTokenDetails = {
   APY: Percentage(0.05),
   savingsTokenWithBalance: { balance: NormalizedUnitNumber(20_000), token: tokens.sDAI },
-  assetsToken: tokens.DAI,
+  underlyingToken: tokens.DAI,
   balanceRefreshIntervalInMs: 50,
   currentProjections: {
     thirtyDays: NormalizedUnitNumber(500),
@@ -112,7 +112,9 @@ const meta: Meta<typeof SavingsDaiView> = {
 export default meta
 type Story = StoryObj<typeof SavingsDaiView>
 
-export const Desktop: Story = { args: { ...savingsViewBaseArgs, savingsTokenDetails } }
+export const Desktop: Story = {
+  args: { ...savingsViewBaseArgs, savingsTokenDetails },
+}
 export const Mobile = getMobileStory(Desktop)
 export const Tablet = getTabletStory(Desktop)
 
@@ -146,7 +148,7 @@ export const AllIn: Story = {
     ...savingsViewBaseArgs,
     totalEligibleCashUSD: NormalizedUnitNumber(0),
     savingsTokenDetails,
-    assetsInWallet: [
+    entryAssets: [
       {
         token: tokens.DAI,
         balance: NormalizedUnitNumber(0),
@@ -190,7 +192,7 @@ export const NoDepositNoCash: Story = {
       },
       calculateSavingsBalance: () => ({ depositedAssets: NormalizedUnitNumber(0), depositedAssetsPrecision: 2 }),
     },
-    assetsInWallet: [
+    entryAssets: [
       {
         token: tokens.DAI,
         balance: NormalizedUnitNumber(0),
@@ -220,7 +222,7 @@ export const BigNumbersDesktop: Story = {
     savingsTokenDetails: {
       APY: Percentage(0.05),
       savingsTokenWithBalance: { balance: NormalizedUnitNumber(134000000.0), token: tokens.sDAI },
-      assetsToken: tokens.DAI,
+      underlyingToken: tokens.DAI,
       balanceRefreshIntervalInMs: 50,
       currentProjections: {
         thirtyDays: NormalizedUnitNumber(1224300.923423423),
@@ -231,7 +233,7 @@ export const BigNumbersDesktop: Story = {
         depositedAssetsPrecision: 0,
       }),
     },
-    assetsInWallet: [
+    entryAssets: [
       {
         token: tokens.DAI,
         balance: NormalizedUnitNumber(232134925.90911123),

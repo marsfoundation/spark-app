@@ -10,7 +10,7 @@ import { SavingsOverview } from '../../logic/makeSavingsOverview'
 
 export interface GrowingBalanceProps {
   savingsTokenWithBalance: TokenWithBalance
-  assetsToken: Token
+  underlyingToken: Token
   calculateSavingsBalance: (timestampInMs: number) => SavingsOverview
   balanceRefreshIntervalInMs: number | undefined
   savingsType: 'sdai' | 'susds'
@@ -18,7 +18,7 @@ export interface GrowingBalanceProps {
 
 export function GrowingBalance({
   savingsTokenWithBalance,
-  assetsToken,
+  underlyingToken,
   calculateSavingsBalance,
   balanceRefreshIntervalInMs,
   savingsType,
@@ -29,7 +29,7 @@ export function GrowingBalance({
 
   return (
     <div className="isolate grid grid-cols-[auto_1fr] items-center gap-x-2 lg:gap-x-4 lg:gap-y-2">
-      <img src={getTokenImage(assetsToken.symbol)} className="h-8 shrink-0 lg:h-12 xl:h-14" />
+      <img src={getTokenImage(underlyingToken.symbol)} className="h-8 shrink-0 lg:h-12 xl:h-14" />
       <div className="flex items-baseline tabular-nums" data-testid={testIds.savings[savingsType].balanceInAsset}>
         <div
           className={cn(

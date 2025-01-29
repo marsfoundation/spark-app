@@ -5,12 +5,12 @@ import { OpenDialogFunction } from '@/domain/state/dialogs'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { MigrationInfo } from '../logic/makeMigrationInfo'
 import { SavingsMeta } from '../logic/makeSavingsMeta'
-import { AssetInWallet, SavingsTokenDetails } from '../logic/useSavings'
+import { SavingsAccountEntryAssets, SavingsTokenDetails } from '../logic/useSavings'
 
 export interface SavingsViewContentProps {
   savingsTokenDetails: SavingsTokenDetails
   migrationInfo?: MigrationInfo
-  assetsInWallet: AssetInWallet[]
+  entryAssets: SavingsAccountEntryAssets[]
   originChainId: SupportedChainId
   maxBalanceToken: TokenWithBalance
   totalEligibleCashUSD: NormalizedUnitNumber
