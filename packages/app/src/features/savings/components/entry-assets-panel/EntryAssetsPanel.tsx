@@ -22,12 +22,7 @@ export interface EntryAssetsPanelProps {
   migrationInfo?: MigrationInfo
 }
 
-export function EntryAssetsPanel({
-  assets,
-  openDialog,
-  showConvertDialogButton,
-  savingsToken,
-}: EntryAssetsPanelProps) {
+export function EntryAssetsPanel({ assets, openDialog, showConvertDialogButton, savingsToken }: EntryAssetsPanelProps) {
   const columnDef: DataTableColumnDefinitions<SavingsAccountEntryAssets> = useMemo(
     () => ({
       token: {
@@ -56,9 +51,7 @@ export function EntryAssetsPanel({
               >
                 Deposit
               </Button>
-              <MoreDropdown
-                blockExplorerLink={blockExplorerLink}
-              />
+              <MoreDropdown blockExplorerLink={blockExplorerLink} />
             </div>
           )
         },

@@ -1,12 +1,12 @@
-import { getChainConfigEntry } from "@/config/chain"
-import { SavingsInfoQuery } from "@/config/chain/types"
-import { SavingsInfo } from "@/domain/savings-info/types"
-import { Token } from "@/domain/types/Token"
-import { TokenSymbol } from "@/domain/types/TokenSymbol"
-import { useTokensInfo } from "@/domain/wallet/useTokens/useTokensInfo"
-import { useTimestamp } from "@/utils/useTimestamp"
-import { useSuspenseQueries } from "@tanstack/react-query"
-import { useChainId, useConfig } from "wagmi"
+import { getChainConfigEntry } from '@/config/chain'
+import { SavingsInfoQuery } from '@/config/chain/types'
+import { SavingsInfo } from '@/domain/savings-info/types'
+import { Token } from '@/domain/types/Token'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
+import { useTimestamp } from '@/utils/useTimestamp'
+import { useSuspenseQueries } from '@tanstack/react-query'
+import { useChainId, useConfig } from 'wagmi'
 
 export function useSavingsInfos() {
   const chainId = useChainId()
@@ -14,8 +14,8 @@ export function useSavingsInfos() {
   const { timestamp } = useTimestamp()
   const { savings, extraTokens } = getChainConfigEntry(chainId)
   const { tokensInfo } = useTokensInfo({ tokens: extraTokens })
-  const accounts: { savingsInfoQuery: SavingsInfoQuery, savingsToken?: Token }[] = []
-  
+  const accounts: { savingsInfoQuery: SavingsInfoQuery; savingsToken?: Token }[] = []
+
   if (savings?.savingsDaiInfoQuery) {
     accounts.push({
       savingsInfoQuery: savings.savingsDaiInfoQuery,
@@ -47,10 +47,12 @@ export function useSavingsInfos() {
     })),
   })
 
-  const savingsInfos: { savingsInfo: SavingsInfo, savingsToken: Token }[] = results.map((result, index) => ({
-    savingsInfo: result.data,
-    savingsToken: accounts[index]!.savingsToken,
-  })).filter(({ savingsInfo, savingsToken }) => savingsInfo !== null && savingsToken !== undefined) as any[]
+  const savingsInfos: { savingsInfo: SavingsInfo; savingsToken: Token }[] = results
+    .map((result, index) => ({
+      savingsInfo: result.data,
+      savingsToken: accounts[index]!.savingsToken,
+    }))
+    .filter(({ savingsInfo, savingsToken }) => savingsInfo !== null && savingsToken !== undefined) as any[]
 
   return savingsInfos
 }

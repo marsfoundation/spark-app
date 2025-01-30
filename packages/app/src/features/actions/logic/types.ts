@@ -1,7 +1,7 @@
 import { FarmsInfo } from '@/domain/farms/farmsInfo'
 import { WriteErrorKind } from '@/domain/hooks/useWrite'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
-import { SavingsInfo } from '@/domain/savings-info/types'
+import { SavingsAccountRepository, SavingsInfo } from '@/domain/savings-info/types'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { QueryKey, UseQueryOptions, UseQueryResult } from '@tanstack/react-query'
 import { Address, ContractFunctionParameters, TransactionReceipt } from 'viem'
@@ -99,6 +99,7 @@ export interface ActionContext {
   savingsDaiInfo?: SavingsInfo
   savingsUsdsInfo?: SavingsInfo
   savingsUsdcInfo?: SavingsInfo
+  savingsAccounts?: SavingsAccountRepository
   permitStore?: PermitStore
   farmsInfo?: FarmsInfo
   txReceipts: [Action, TransactionReceipt][]
@@ -130,4 +131,5 @@ export interface InjectedActionsContext {
   savingsDaiInfo?: SavingsInfo
   savingsUsdsInfo?: SavingsInfo
   farmsInfo?: FarmsInfo
+  savingsAccounts?: SavingsAccountRepository
 }

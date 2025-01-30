@@ -3,22 +3,24 @@ import { sortByUsdValueWithUsdsPriority } from '@/domain/common/sorters'
 import { TokenWithBalance } from '@/domain/common/types'
 import { useGetBlockExplorerAddressLink } from '@/domain/hooks/useGetBlockExplorerAddressLink'
 import { usePageChainId } from '@/domain/hooks/usePageChainId'
-import { useSavingsChartsInfoQuery, UseSavingsChartsInfoQueryResult } from '@/domain/savings-charts/useSavingsChartsInfoQuery'
+import {
+  UseSavingsChartsInfoQueryResult,
+  useSavingsChartsInfoQuery,
+} from '@/domain/savings-charts/useSavingsChartsInfoQuery'
+import { useSavingsAccountRepository } from '@/domain/savings-info/useSavingsAccountRepository'
 import { calculateMaxBalanceTokenAndTotal } from '@/domain/savings/calculateMaxBalanceTokenAndTotal'
 import { useSavingsTokens } from '@/domain/savings/useSavingsTokens'
 import { OpenDialogFunction, useOpenDialog } from '@/domain/state/dialogs'
 import { Token } from '@/domain/types/Token'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { useTimestamp } from '@/utils/useTimestamp'
-import { NormalizedUnitNumber, Percentage, raise } from '@marsfoundation/common-universal'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { useState } from 'react'
 import { Projections } from '../types'
+import { getInterestData } from './getInterestData'
 import { MigrationInfo, makeMigrationInfo } from './makeMigrationInfo'
 import { SavingsOverview } from './makeSavingsOverview'
-import { getInterestData } from './getInterestData'
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { useSavingsInfos } from './useSavingsInfos'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 
 export interface InterestData {
   APY: Percentage
@@ -62,7 +64,7 @@ export function useSavings(): UseSavingsResults {
   const { inputTokens } = useSavingsTokens({ chainId })
   const { extraTokens, psmStables } = getChainConfigEntry(chainId)
   const { tokensInfo } = useTokensInfo({ tokens: extraTokens, chainId })
-  const savingsInfos = useSavingsInfos()
+  const savingsAccounts = useSavingsAccountRepository({ chainId })
   const { timestamp } = useTimestamp()
   const openDialog = useOpenDialog()
   const getBlockExplorerLink = useGetBlockExplorerAddressLink()
@@ -73,17 +75,21 @@ export function useSavings(): UseSavingsResults {
     assets: inputTokens,
   })
 
-  const selectedAccountData = getSelectedAccountData({ tokensInfo, savingsInfos, selectedAccount })
+  const selectedAccountData = {
+    ...savingsAccounts.findOneAccountBySavingsTokenSymbol(selectedAccount),
+    savingsTokenBalance: tokensInfo.findOneBalanceBySymbol(selectedAccount),
+  }
   const savingsChartsInfo = useSavingsChartsInfoQuery({
-    savingsInfo: selectedAccountData.savingsInfo,
-    savingsTokenWithBalance: { token: selectedAccountData.savingsToken, balance: selectedAccountData.savingsTokenBalance },
+    savingsInfo: selectedAccountData.converter,
+    savingsTokenWithBalance: {
+      token: selectedAccountData.savingsToken,
+      balance: selectedAccountData.savingsTokenBalance,
+    },
   })
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies:
   const migrationInfo = makeMigrationInfo({
     selectedAccount,
-    accounts: savingsInfos,
-    tokensInfo,
+    savingsAccounts,
     openDialog,
   })
 
@@ -92,18 +98,13 @@ export function useSavings(): UseSavingsResults {
     blockExplorerLink: getBlockExplorerLink(tokenWithBalance.token.address),
   }))
 
-  const allAccounts: ShortAccountDefinition[] = savingsInfos.map(({
-    savingsToken,
-  }) => {
-    const underlyingToken = savingsToUnderlyingToken(tokensInfo, savingsToken)
-    return {
-      underlyingToken,
-      underlyingTokenBalance: tokensInfo.findOneBalanceBySymbol(underlyingToken.symbol),
-    }
+  const allAccounts: ShortAccountDefinition[] = savingsAccounts.all().map(({ underlyingToken }) => {
+    const underlyingTokenBalance = tokensInfo.findOneBalanceBySymbol(underlyingToken.symbol)
+    return { underlyingToken, underlyingTokenBalance }
   })
 
   const interestData = getInterestData({
-    savingsInfo: selectedAccountData.savingsInfo,
+    savingsInfo: selectedAccountData.converter,
     savingsToken: selectedAccountData.savingsToken,
     savingsTokenBalance: selectedAccountData.savingsTokenBalance,
     timestamp,
@@ -117,35 +118,11 @@ export function useSavings(): UseSavingsResults {
       interestData,
       savingsToken: selectedAccountData.savingsToken,
       savingsTokenBalance: selectedAccountData.savingsTokenBalance,
-      underlyingToken: savingsToUnderlyingToken(tokensInfo, selectedAccountData.savingsToken),
+      underlyingToken: selectedAccountData.underlyingToken,
       entryAssets,
       mostValuableAsset: maxBalanceToken,
       showConvertDialogButton: Boolean(psmStables && psmStables.length > 1),
       migrationInfo,
     },
   }
-}
-
-function getSelectedAccountData({ tokensInfo, savingsInfos, selectedAccount }: { tokensInfo: TokensInfo, savingsInfos: ReturnType<typeof useSavingsInfos>, selectedAccount: TokenSymbol }) {
-  const account = savingsInfos.find((info) => info.savingsToken.symbol === selectedAccount) ?? raise('Wrong account selected')
-  const savingsTokenWithBalance = tokensInfo.findOneTokenWithBalanceBySymbol(account.savingsToken.symbol)
-
-  return {
-    savingsInfo: account.savingsInfo,
-    savingsToken: account.savingsToken,
-    savingsTokenBalance: savingsTokenWithBalance.balance,
-  }
-}
-
-function savingsToUnderlyingToken(tokensInfo: TokensInfo, savingsToken: Token) {
-  const underlyingTokenSymbol = (() => {
-    switch (savingsToken.symbol) {
-      case TokenSymbol('sUSDS'): return TokenSymbol('USDS')
-      case TokenSymbol('sDAI'): return TokenSymbol('DAI')
-      case TokenSymbol('sUSDC'): return TokenSymbol('USDC')
-      default:
-        throw new Error(`Savings token ${savingsToken.symbol} is not supported`)
-    }
-  })()
-  return tokensInfo.findOneTokenBySymbol(underlyingTokenSymbol)
 }

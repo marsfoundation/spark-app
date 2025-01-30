@@ -1,10 +1,10 @@
 import { TokenWithBalance } from '@/domain/common/types'
 import { SavingsInfo } from '@/domain/savings-info/types'
 import { Token } from '@/domain/types/Token'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { STEP_IN_MS, SavingsOverview, makeSavingsOverview } from './makeSavingsOverview'
 import { calculateProjections } from './projections'
 import { InterestData } from './useSavings'
-import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 export interface GetInterestDataParams {
   savingsInfo: SavingsInfo
