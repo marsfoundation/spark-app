@@ -8,6 +8,7 @@ import { PageHeader } from '../components/PageHeader'
 import { AccountMainPanelGroup } from '../components/account-main-panel-group/AccountMainPanelGroup'
 import { DepositCTAPanel } from '../components/deposit-cta-panel/DepositCTAPanel'
 import { EntryAssetsPanel } from '../components/entry-assets-panel/EntryAssetsPanel'
+import { UpgradeSavingsBanner } from '../components/new-upgrade-savings-baner/UpgradeSavingsBanner'
 import { SavingsCharts } from '../components/savings-charts/SavingsCharts'
 import { MigrationInfo } from '../logic/makeMigrationInfo'
 import { SavingsAccountEntryAssets, SavingsTokenDetails } from '../logic/useSavings'
@@ -40,6 +41,9 @@ export function SavingsAccountView({
 }: SavingsAccountViewProps) {
   const displayDepositCallToAction = guestMode || savingsTokenDetails.savingsTokenWithBalance.balance.eq(0)
   const displaySavingsChart = savingsChartsInfo.chartsSupported
+  const displayUpgradeSavingsBanner =
+    migrationInfo?.sdaiToSusdsUpgradeAvailable && savingsTokenDetails.underlyingToken.symbol === migrationInfo.daiSymbol
+
   const primaryAction = guestMode
     ? { title: 'Connect Wallet' as const, action: openConnectModal }
     : {
@@ -82,6 +86,12 @@ export function SavingsAccountView({
               openDialog(savingsWithdrawDialogConfig, { mode: 'withdraw', savingsType } as const)
             }
             projections={savingsTokenDetails.currentProjections}
+          />
+        )}
+        {displayUpgradeSavingsBanner && (
+          <UpgradeSavingsBanner
+            onUpgradeSavingsClick={migrationInfo.openSDaiToSUsdsUpgradeDialog}
+            apyImprovement={migrationInfo.apyImprovement}
           />
         )}
         {displaySavingsChart && (

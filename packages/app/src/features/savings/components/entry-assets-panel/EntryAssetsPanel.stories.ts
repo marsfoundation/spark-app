@@ -37,6 +37,7 @@ export const Desktop: Story = {
       daiSymbol: tokens.DAI.symbol,
       usdsSymbol: tokens.USDS.symbol,
       daiToUsdsUpgradeAvailable: true,
+      sdaiToSusdsUpgradeAvailable: true,
       apyImprovement: Percentage(0.01),
       openDaiToUsdsUpgradeDialog: () => {},
       openUsdsToDaiDowngradeDialog: () => {},

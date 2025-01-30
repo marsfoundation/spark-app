@@ -18,6 +18,7 @@ export interface MigrationInfo {
   daiSymbol: TokenSymbol
   usdsSymbol: TokenSymbol
   daiToUsdsUpgradeAvailable: boolean
+  sdaiToSusdsUpgradeAvailable: boolean
   apyImprovement?: Percentage
   openDaiToUsdsUpgradeDialog: () => void
   openUsdsToDaiDowngradeDialog: () => void
@@ -43,6 +44,7 @@ export function makeMigrationInfo({
     daiSymbol: DAI.symbol,
     usdsSymbol: USDS.symbol,
     daiToUsdsUpgradeAvailable: tokensInfo.findOneBalanceBySymbol(DAI.symbol).gt(0),
+    sdaiToSusdsUpgradeAvailable: tokensInfo.findOneBalanceBySymbol(sDAI.symbol).gt(0),
     apyImprovement: determineApyImprovement({ savingsUsdsInfo, savingsDaiInfo }),
     openDaiToUsdsUpgradeDialog: () => {
       openDialog(upgradeDialogConfig, { fromToken: DAI, toToken: USDS })
