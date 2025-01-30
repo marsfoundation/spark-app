@@ -1,7 +1,7 @@
+import ms from 'ms'
 import { assert } from '../assert/assert.js'
 import { NumberLike, bigNumberify } from '../math/bigNumber.js'
 import { Opaque } from './Opaque.js'
-import ms from 'ms'
 
 /**
  * Represents a time span in seconds. i.e. 5.
