@@ -3,42 +3,40 @@ import { SavingsInfo } from '@/domain/savings-info/types'
 import { Token } from '@/domain/types/Token'
 import { STEP_IN_MS, SavingsOverview, makeSavingsOverview } from './makeSavingsOverview'
 import { calculateProjections } from './projections'
-import { SavingsTokenDetails } from './useSavings'
+import { InterestData } from './useSavings'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
-export interface MakeSavingsTokenDetailsParams {
-  savingsInfo: SavingsInfo | null
-  underlyingToken: Token | undefined
-  savingsTokenWithBalance: TokenWithBalance | undefined
+export interface GetInterestDataParams {
+  savingsInfo: SavingsInfo
+  savingsToken: Token
+  savingsTokenBalance: NormalizedUnitNumber
   timestamp: number
 }
 
-export type MakeSavingsTokenDetailsResult = SavingsTokenDetails | undefined
+export type MakeSavingsTokenDetailsResult = InterestData | undefined
 
-export function makeSavingsTokenDetails({
+export function getInterestData({
   savingsInfo,
-  underlyingToken,
-  savingsTokenWithBalance,
+  savingsToken,
+  savingsTokenBalance,
   timestamp,
-}: MakeSavingsTokenDetailsParams): MakeSavingsTokenDetailsResult {
-  if (!savingsInfo || !savingsTokenWithBalance || !underlyingToken) {
-    return undefined
-  }
-
+}: GetInterestDataParams): InterestData {
   const currentProjections = calculateProjections({
     timestamp,
-    shares: savingsTokenWithBalance.balance,
+    shares: savingsTokenBalance,
     savingsInfo,
   })
 
   const balanceRefreshIntervalInMs = savingsInfo.supportsRealTimeInterestAccrual ? STEP_IN_MS : undefined
-  const calculateSavingsBalance = calculateSavingsBalanceFactory(savingsInfo, savingsTokenWithBalance)
+  const calculateUnderlyingTokenBalance = calculateSavingsBalanceFactory(savingsInfo, {
+    token: savingsToken,
+    balance: savingsTokenBalance,
+  })
 
   return {
     APY: savingsInfo.apy,
     currentProjections,
-    savingsTokenWithBalance,
-    underlyingToken,
-    calculateSavingsBalance,
+    calculateUnderlyingTokenBalance,
     balanceRefreshIntervalInMs,
   }
 }
