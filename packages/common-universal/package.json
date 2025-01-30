@@ -27,9 +27,7 @@
       }
     }
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "scripts": {
     "lint": "eslint src",
     "verify": "concurrently --names \"LINT,TEST,TYPECHECK,LINT-CUSTOM\" -c \"bgMagenta.bold,bgGreen.bold,bgBlue.bold,bgCyan.bold\" \"pnpm run lint\" \"pnpm run test --silent\" \"pnpm run typecheck\"",
