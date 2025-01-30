@@ -30,7 +30,7 @@ interface Options {
 
 // @note: format methods are protected to allow easy construction of simpler formatters for non-standard environments
 export class LogFormatterPretty implements LogFormatter {
-  private readonly options: Options
+  protected readonly options: Options
 
   constructor(options?: Partial<Options>) {
     this.options = {
