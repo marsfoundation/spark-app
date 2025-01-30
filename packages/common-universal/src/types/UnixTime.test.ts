@@ -44,4 +44,17 @@ describe(UnixTime.name, () => {
       expect(time).toEqual(date)
     })
   })
+
+  describe(UnixTime.formatSpan.name, () => {
+    it('formats a span', () => {
+      expect(UnixTime.formatSpan(UnixTime.ONE_SECOND())).toEqual('1s')
+      expect(UnixTime.formatSpan(UnixTime.ONE_MINUTE())).toEqual('1m')
+      expect(UnixTime.formatSpan(UnixTime.ONE_DAY())).toEqual('1d')
+      expect(UnixTime.formatSpan(UnixTime.SEVEN_DAYS())).toEqual('7d')
+      expect(UnixTime.formatSpan(UnixTime.ONE_MONTH())).toEqual('30d')
+      expect(UnixTime.formatSpan(UnixTime.ONE_YEAR())).toEqual('365d')
+      expect(UnixTime.formatSpan(UnixTime(UnixTime.ONE_YEAR() - UnixTime.SEVEN_DAYS()))).toEqual('358d')
+      expect(UnixTime.formatSpan(UnixTime(UnixTime.ONE_YEAR() - UnixTime.ONE_HOUR()))).toEqual('365d')
+    })
+  })
 })

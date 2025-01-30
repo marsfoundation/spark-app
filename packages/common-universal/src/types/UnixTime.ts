@@ -1,6 +1,7 @@
 import { assert } from '../assert/assert.js'
 import { NumberLike, bigNumberify } from '../math/bigNumber.js'
 import { Opaque } from './Opaque.js'
+import ms from 'ms'
 
 /**
  * Represents a time span in seconds. i.e. 5.
@@ -65,6 +66,10 @@ UnixTime.toDate = (unixTime: UnixTime): Date => {
 
 UnixTime.toMilliseconds = (unixTime: UnixTime): number => {
   return Number(unixTime) * 1000
+}
+
+UnixTime.formatSpan = (span: UnixTime): string => {
+  return ms(UnixTime.toMilliseconds(span))
 }
 
 const YEAR_3000_TIMESTAMP = Math.floor(new Date('3000-01-01T00:00:00.000Z').getTime() / 1000)
