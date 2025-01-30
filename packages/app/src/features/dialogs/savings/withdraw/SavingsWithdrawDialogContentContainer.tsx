@@ -1,17 +1,24 @@
+import { Token } from '@/domain/types/Token'
 import { withSuspense } from '@/ui/utils/withSuspense'
 import { DialogContentSkeleton } from '../../common/components/skeletons/DialogContentSkeleton'
 import { useSavingsWithdrawDialog } from './logic/useSavingsWithdrawDialog'
-import { Mode, SavingsType } from './types'
+import { Mode } from './types'
 import { SavingsWithdrawView } from './views/SavingsWithdrawView'
 import { SuccessView } from './views/SuccessView'
 
 export interface SavingsWithdrawContainerProps {
   closeDialog: () => void
   mode: Mode
-  savingsType: SavingsType
+  savingsToken: Token
+  underlyingToken: Token
 }
 
-function SavingsWithdrawDialogContentContainer({ closeDialog, mode, savingsType }: SavingsWithdrawContainerProps) {
+function SavingsWithdrawDialogContentContainer({
+  closeDialog,
+  mode,
+  savingsToken,
+  underlyingToken,
+}: SavingsWithdrawContainerProps) {
   const {
     selectableAssets,
     assetsFields,
@@ -22,7 +29,7 @@ function SavingsWithdrawDialogContentContainer({ closeDialog, mode, savingsType 
     txOverview,
     sendModeExtension,
     actionsContext,
-  } = useSavingsWithdrawDialog({ mode, savingsType })
+  } = useSavingsWithdrawDialog({ mode, savingsToken, underlyingToken })
 
   if (pageStatus.state === 'success') {
     return (
@@ -32,7 +39,7 @@ function SavingsWithdrawDialogContentContainer({ closeDialog, mode, savingsType 
 
   return (
     <SavingsWithdrawView
-      savingsType={savingsType}
+      savingsToken={savingsToken}
       form={form}
       selectableAssets={selectableAssets}
       assetsFields={assetsFields}
