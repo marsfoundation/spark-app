@@ -22,3 +22,11 @@ type Story = StoryObj<typeof UpgradeSavingsBanner>
 export const Desktop: Story = {}
 export const Mobile: Story = getMobileStory(Desktop)
 export const Tablet: Story = getTabletStory(Desktop)
+
+export const WithoutAPY: Story = {
+  args: {
+    apyImprovement: undefined,
+  },
+}
+export const WithoutAPYMobile = getMobileStory(WithoutAPY)
+export const WithoutAPYTablet = getTabletStory(WithoutAPY)
