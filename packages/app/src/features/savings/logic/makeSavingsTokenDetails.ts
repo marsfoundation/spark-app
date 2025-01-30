@@ -7,7 +7,7 @@ import { SavingsTokenDetails } from './useSavings'
 
 export interface MakeSavingsTokenDetailsParams {
   savingsInfo: SavingsInfo | null
-  assetsToken: Token | undefined
+  underlyingToken: Token | undefined
   savingsTokenWithBalance: TokenWithBalance | undefined
   timestamp: number
 }
@@ -16,11 +16,11 @@ export type MakeSavingsTokenDetailsResult = SavingsTokenDetails | undefined
 
 export function makeSavingsTokenDetails({
   savingsInfo,
-  assetsToken,
+  underlyingToken,
   savingsTokenWithBalance,
   timestamp,
 }: MakeSavingsTokenDetailsParams): MakeSavingsTokenDetailsResult {
-  if (!savingsInfo || !savingsTokenWithBalance || !assetsToken) {
+  if (!savingsInfo || !savingsTokenWithBalance || !underlyingToken) {
     return undefined
   }
 
@@ -37,7 +37,7 @@ export function makeSavingsTokenDetails({
     APY: savingsInfo.apy,
     currentProjections,
     savingsTokenWithBalance,
-    assetsToken,
+    underlyingToken,
     calculateSavingsBalance,
     balanceRefreshIntervalInMs,
   }

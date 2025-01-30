@@ -19,7 +19,7 @@ import { SavingsRateTooltipContent } from '../savings-rate-tooltip-content/Savin
 export interface SavingsTokenPanelProps {
   variant: 'dai' | 'usds'
   savingsTokenWithBalance: TokenWithBalance
-  assetsToken: Token
+  underlyingToken: Token
   calculateSavingsBalance: (timestampInMs: number) => SavingsOverview
   balanceRefreshIntervalInMs: number | undefined
   APY: Percentage
@@ -32,7 +32,7 @@ export interface SavingsTokenPanelProps {
 export function SavingsTokenPanel({
   variant,
   savingsTokenWithBalance,
-  assetsToken,
+  underlyingToken,
   calculateSavingsBalance,
   balanceRefreshIntervalInMs,
   APY,
@@ -78,7 +78,7 @@ export function SavingsTokenPanel({
       </div>
       <GrowingBalance
         savingsTokenWithBalance={savingsTokenWithBalance}
-        assetsToken={assetsToken}
+        underlyingToken={underlyingToken}
         calculateSavingsBalance={calculateSavingsBalance}
         balanceRefreshIntervalInMs={balanceRefreshIntervalInMs}
         savingsType={savingsType}
@@ -91,11 +91,11 @@ export function SavingsTokenPanel({
           </SavingsInfoTile.Label>
           <SavingsInfoTile.Value className="text-primary-inverse">
             +
-            {assetsToken.formatUSD(currentProjections.thirtyDays, {
+            {underlyingToken.formatUSD(currentProjections.thirtyDays, {
               showCents: 'when-not-round',
               compact: compactProjections,
             })}{' '}
-            {assetsToken.symbol}
+            {underlyingToken.symbol}
           </SavingsInfoTile.Value>
         </SavingsInfoTile>
         <SavingsInfoTile>
@@ -105,11 +105,11 @@ export function SavingsTokenPanel({
           </SavingsInfoTile.Label>
           <SavingsInfoTile.Value className="text-primary-inverse">
             +
-            {assetsToken.formatUSD(currentProjections.oneYear, {
+            {underlyingToken.formatUSD(currentProjections.oneYear, {
               showCents: 'when-not-round',
               compact: compactProjections,
             })}{' '}
-            {assetsToken.symbol}
+            {underlyingToken.symbol}
           </SavingsInfoTile.Value>
         </SavingsInfoTile>
         <SavingsInfoTile>

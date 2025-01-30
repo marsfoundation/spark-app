@@ -2,11 +2,11 @@ import { UseSavingsChartsInfoQueryResult } from '@/domain/savings-charts/useSavi
 import { PageLayout } from '@/ui/layouts/PageLayout'
 import { assert, raise } from '@marsfoundation/common-universal'
 import { PageHeader } from '../components/PageHeader'
+import { EntryAssetsPanel } from '../components/entry-assets-panel/EntryAssetsPanel'
 import { SavingsCharts } from '../components/savings-charts/SavingsCharts'
 import { SavingsOpportunity } from '../components/savings-opportunity/SavingsOpportunity'
 import { SavingsTokenPanel } from '../components/savings-token-panel/SavingsTokenPanel'
 import { SavingsViewGrid } from '../components/savings-view-grid/SavingsViewGrid'
-import { StablecoinsInWallet } from '../components/stablecoins-in-wallet/StablecoinsInWallet'
 import { UpgradeSavingsBanner } from '../components/upgrade-savings-banner/UpgradeSavingsBanner'
 import { WelcomeDialog } from '../components/welcome-dialog/WelcomeDialog'
 import { SavingsTokenDetails } from '../logic/useSavings'
@@ -25,7 +25,7 @@ export function SavingsDaiAndUsdsView({
   sUSDSDetails,
   migrationInfo,
   originChainId,
-  assetsInWallet,
+  entryAssets,
   maxBalanceToken,
   totalEligibleCashUSD,
   savingsMeta,
@@ -104,8 +104,8 @@ export function SavingsDaiAndUsdsView({
           <SavingsCharts savingsTokenSymbol={sDaiDetails.savingsTokenWithBalance.token.symbol} {...savingsChartsInfo} />
         )}
       </SavingsViewGrid>
-      <StablecoinsInWallet
-        assets={assetsInWallet}
+      <EntryAssetsPanel
+        assets={entryAssets}
         openDialog={openDialog}
         showConvertDialogButton={showConvertDialogButton}
         migrationInfo={migrationInfo}

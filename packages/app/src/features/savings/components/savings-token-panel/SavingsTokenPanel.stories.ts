@@ -14,7 +14,7 @@ const meta: Meta<typeof SavingsTokenPanel> = {
   args: {
     variant: 'dai',
     savingsTokenWithBalance: { balance: NormalizedUnitNumber(20000.0), token: tokens.sDAI },
-    assetsToken: tokens.DAI,
+    underlyingToken: tokens.DAI,
     balanceRefreshIntervalInMs: 50,
     calculateSavingsBalance: () => ({
       depositedAssets: NormalizedUnitNumber(20765.7654),
@@ -45,7 +45,7 @@ export const DaiTablet: Story = getTabletStory(Dai)
 export const USDS: Story = {
   args: {
     variant: 'usds',
-    assetsToken: tokens.USDS,
+    underlyingToken: tokens.USDS,
     savingsTokenWithBalance: { balance: NormalizedUnitNumber(20000.0), token: tokens.sUSDS },
     savingsMetaItem: {
       savingsToken: TokenSymbol('sUSDS'),

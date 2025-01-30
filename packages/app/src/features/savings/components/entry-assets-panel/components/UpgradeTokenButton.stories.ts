@@ -5,7 +5,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { UpgradeTokenButton } from './UpgradeTokenButton'
 
 const meta: Meta<typeof UpgradeTokenButton> = {
-  title: 'Features/Savings/Components/StablecoinsInWallet/UpgradeTokenButton',
+  title: 'Features/Savings/Components/EntryAssetsPanel/UpgradeTokenButton',
   decorators: [WithClassname('p-8 bg-primary')],
   component: UpgradeTokenButton,
   args: {

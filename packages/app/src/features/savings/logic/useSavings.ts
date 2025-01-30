@@ -27,12 +27,12 @@ export interface SavingsTokenDetails {
   APY: Percentage
   currentProjections: Projections
   savingsTokenWithBalance: TokenWithBalance
-  assetsToken: Token
+  underlyingToken: Token
   calculateSavingsBalance: (timestampInMs: number) => SavingsOverview
   balanceRefreshIntervalInMs: number | undefined
 }
 
-export interface AssetInWallet {
+export interface SavingsAccountEntryAssets {
   token: Token
   balance: NormalizedUnitNumber
   blockExplorerLink: string | undefined
@@ -43,7 +43,7 @@ export interface UseSavingsResults {
   savingsDetails:
     | {
         state: 'supported'
-        assetsInWallet: AssetInWallet[]
+        entryAssets: SavingsAccountEntryAssets[]
         totalEligibleCashUSD: NormalizedUnitNumber
         maxBalanceToken: TokenWithBalance
         originChainId: SupportedChainId
@@ -86,14 +86,14 @@ export function useSavings(): UseSavingsResults {
   const sDaiDetails = makeSavingsTokenDetails({
     savingsInfo: savingsDaiInfo,
     savingsTokenWithBalance: sdaiWithBalance,
-    assetsToken: tokensInfo.DAI,
+    underlyingToken: tokensInfo.DAI,
     timestamp,
   })
 
   const sUSDSDetails = makeSavingsTokenDetails({
     savingsInfo: savingsUsdsInfo,
     savingsTokenWithBalance: susdsWithBalance,
-    assetsToken: tokensInfo.USDS,
+    underlyingToken: tokensInfo.USDS,
     timestamp,
   })
 
@@ -116,7 +116,7 @@ export function useSavings(): UseSavingsResults {
     }
   }
 
-  const assetsInWallet = sortByUsdValueWithUsdsPriority(inputTokens, tokensInfo).map((tokenWithBalance) => ({
+  const entryAssets = sortByUsdValueWithUsdsPriority(inputTokens, tokensInfo).map((tokenWithBalance) => ({
     ...tokenWithBalance,
     blockExplorerLink: getBlockExplorerLink(tokenWithBalance.token.address),
   }))
@@ -127,7 +127,7 @@ export function useSavings(): UseSavingsResults {
     openDialog,
     savingsDetails: {
       state: 'supported',
-      assetsInWallet,
+      entryAssets,
       totalEligibleCashUSD,
       maxBalanceToken,
       originChainId,

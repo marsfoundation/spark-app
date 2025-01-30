@@ -8,7 +8,7 @@ import { withRouter } from 'storybook-addon-remix-react-router'
 import { MoreDropdown } from './MoreDropdown'
 
 const meta: Meta<typeof MoreDropdown> = {
-  title: 'Features/Savings/Components/StablecoinsInWallet/MoreDropdown',
+  title: 'Features/Savings/Components/EntryAssetsPanel/MoreDropdown',
   decorators: [WithClassname('p-8 bg-primary flex justify-end h-48'), withRouter()],
   component: MoreDropdown,
   args: {
@@ -18,6 +18,7 @@ const meta: Meta<typeof MoreDropdown> = {
       daiSymbol: tokens.DAI.symbol,
       usdsSymbol: tokens.USDS.symbol,
       daiToUsdsUpgradeAvailable: true,
+      sdaiToSusdsUpgradeAvailable: true,
       apyImprovement: Percentage(0.01),
       openDaiToUsdsUpgradeDialog: () => {},
       openUsdsToDaiDowngradeDialog: () => {},

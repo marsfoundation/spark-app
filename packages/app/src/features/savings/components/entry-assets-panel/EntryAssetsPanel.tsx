@@ -9,24 +9,24 @@ import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { useMemo } from 'react'
 import { MigrationInfo } from '../../logic/makeMigrationInfo'
-import { AssetInWallet } from '../../logic/useSavings'
+import { SavingsAccountEntryAssets } from '../../logic/useSavings'
 import { MoreDropdown } from './components/MoreDropdown'
 import { TokenCell } from './components/TokenCell'
 
-export interface StablecoinsInWalletProps {
-  assets: AssetInWallet[]
+export interface EntryAssetsPanelProps {
+  assets: SavingsAccountEntryAssets[]
   openDialog: OpenDialogFunction
   showConvertDialogButton: boolean
   migrationInfo?: MigrationInfo
 }
 
-export function StablecoinsInWallet({
+export function EntryAssetsPanel({
   assets,
   openDialog,
   showConvertDialogButton,
   migrationInfo,
-}: StablecoinsInWalletProps) {
-  const columnDef: DataTableColumnDefinitions<AssetInWallet> = useMemo(
+}: EntryAssetsPanelProps) {
+  const columnDef: DataTableColumnDefinitions<SavingsAccountEntryAssets> = useMemo(
     () => ({
       token: {
         header: 'Token',

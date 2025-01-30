@@ -1,17 +1,17 @@
 import { PageLayout } from '@/ui/layouts/PageLayout'
 import { PageHeader } from '../components/PageHeader'
+import { EntryAssetsPanel } from '../components/entry-assets-panel/EntryAssetsPanel'
 import { SavingsCharts } from '../components/savings-charts/SavingsCharts'
 import { SavingsOpportunity } from '../components/savings-opportunity/SavingsOpportunity'
 import { SavingsTokenPanel } from '../components/savings-token-panel/SavingsTokenPanel'
 import { SavingsViewGrid } from '../components/savings-view-grid/SavingsViewGrid'
-import { StablecoinsInWallet } from '../components/stablecoins-in-wallet/StablecoinsInWallet'
 import { SavingsViewContentProps } from './types'
 
 export function SavingsUsdsView({
   savingsTokenDetails,
   migrationInfo,
   originChainId,
-  assetsInWallet,
+  entryAssets,
   maxBalanceToken,
   totalEligibleCashUSD,
   openDialog,
@@ -56,8 +56,8 @@ export function SavingsUsdsView({
           />
         )}
       </SavingsViewGrid>
-      <StablecoinsInWallet
-        assets={assetsInWallet}
+      <EntryAssetsPanel
+        assets={entryAssets}
         openDialog={openDialog}
         showConvertDialogButton={showConvertDialogButton}
         migrationInfo={migrationInfo}

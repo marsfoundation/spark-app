@@ -10,7 +10,7 @@ import { Header } from './components/Header'
 
 export interface DepositCTAPanelProps {
   savingsRate: Percentage
-  inputTokens: Token[]
+  entryTokens: Token[]
   savingsToken: Token
   description: {
     text: string
@@ -30,7 +30,7 @@ export interface DepositCTAPanelProps {
 
 export function DepositCTAPanel({
   savingsRate,
-  inputTokens,
+  entryTokens,
   savingsToken,
   description,
   actions,
@@ -44,8 +44,8 @@ export function DepositCTAPanel({
       )}
     >
       <div className="flex flex-col gap-4 md:gap-14">
-        <Header savingsRate={savingsRate} savingsToken={savingsToken} inputTokens={inputTokens} />
-        <Details inputTokens={inputTokens} savingsToken={savingsToken} description={description} />
+        <Header savingsRate={savingsRate} savingsToken={savingsToken} inputTokens={entryTokens} />
+        <Details entryTokens={entryTokens} savingsToken={savingsToken} description={description} />
       </div>
       <Actions actions={actions} className="mt-auto" />
     </Panel>
