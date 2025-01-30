@@ -1,20 +1,23 @@
+import { Token } from '@/domain/types/Token'
 import { Dialog, DialogContent } from '@/ui/atoms/dialog/Dialog'
 import { CommonDialogProps, DialogConfig } from '../../common/types'
 import { SavingsWithdrawDialogContentContainer } from './SavingsWithdrawDialogContentContainer'
-import { Mode, SavingsType } from './types'
+import { Mode } from './types'
 
 export type SavingsWithdrawDialogProps = CommonDialogProps & {
   mode: Mode
-  savingsType: SavingsType
+  savingsToken: Token
+  underlyingToken: Token
 }
 
-function SavingsWithdrawDialog({ mode, savingsType, open, setOpen }: SavingsWithdrawDialogProps) {
+function SavingsWithdrawDialog({ mode, savingsToken, underlyingToken, open, setOpen }: SavingsWithdrawDialogProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
         <SavingsWithdrawDialogContentContainer
           mode={mode}
-          savingsType={savingsType}
+          savingsToken={savingsToken}
+          underlyingToken={underlyingToken}
           closeDialog={() => setOpen(false)}
         />
       </DialogContent>
