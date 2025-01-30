@@ -16,17 +16,13 @@ export type UseSavingsChartsInfoQueryResult = {
 const REFRESH_INTERVAL_IN_MS = 60 * 60 * 1_000 // 1 hour
 
 interface UseSavingsChartsInfoParams {
-  savingsUsdsInfo: SavingsInfo | null
-  susdsWithBalance: TokenWithBalance | undefined
-  savingsDaiInfo: SavingsInfo | null
-  sdaiWithBalance: TokenWithBalance | undefined
+  savingsInfo: SavingsInfo | null
+  savingsTokenWithBalance: TokenWithBalance | undefined
 }
 
 export function useSavingsChartsInfoQuery({
-  savingsDaiInfo,
-  sdaiWithBalance,
-  savingsUsdsInfo,
-  susdsWithBalance,
+  savingsInfo,
+  savingsTokenWithBalance,
 }: UseSavingsChartsInfoParams): UseSavingsChartsInfoQueryResult {
   const chainId = useChainId()
 
@@ -44,10 +40,8 @@ export function useSavingsChartsInfoQuery({
     chainId,
     currentTimestamp: timestamp,
     staleTime: REFRESH_INTERVAL_IN_MS,
-    savingsDaiInfo,
-    sdaiWithBalance,
-    savingsUsdsInfo,
-    susdsWithBalance,
+    savingsInfo,
+    savingsTokenWithBalance,
     getEarningsApiUrl,
   })
 

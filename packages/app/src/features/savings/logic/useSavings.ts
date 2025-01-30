@@ -4,10 +4,7 @@ import { sortByUsdValueWithUsdsPriority } from '@/domain/common/sorters'
 import { TokenWithBalance } from '@/domain/common/types'
 import { useGetBlockExplorerAddressLink } from '@/domain/hooks/useGetBlockExplorerAddressLink'
 import { usePageChainId } from '@/domain/hooks/usePageChainId'
-import {
-  UseSavingsChartsInfoQueryResult,
-  useSavingsChartsInfoQuery,
-} from '@/domain/savings-charts/useSavingsChartsInfoQuery'
+import { UseSavingsChartsInfoQueryResult } from '@/domain/savings-charts/useSavingsChartsInfoQuery'
 import { useSavingsDaiInfo } from '@/domain/savings-info/useSavingsDaiInfo'
 import { useSavingsUsdsInfo } from '@/domain/savings-info/useSavingsUsdsInfo'
 import { calculateMaxBalanceTokenAndTotal } from '@/domain/savings/calculateMaxBalanceTokenAndTotal'
@@ -23,6 +20,7 @@ import { MigrationInfo, makeMigrationInfo } from './makeMigrationInfo'
 import { SavingsMeta, makeSavingsMeta } from './makeSavingsMeta'
 import { SavingsOverview } from './makeSavingsOverview'
 import { makeSavingsTokenDetails } from './makeSavingsTokenDetails'
+import { useSavingsChartsInfoQueryAdapter } from './useSavingsChartsInfoQueryAdapter'
 import { useWelcomeDialog } from './useWelcomeDialog'
 
 export interface SavingsTokenDetails {
@@ -78,7 +76,7 @@ export function useSavings(): UseSavingsResults {
     assets: inputTokens,
   })
 
-  const savingsChartsInfo = useSavingsChartsInfoQuery({
+  const savingsChartsInfo = useSavingsChartsInfoQueryAdapter({
     savingsDaiInfo,
     savingsUsdsInfo,
     sdaiWithBalance,
