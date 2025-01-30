@@ -63,9 +63,14 @@ export function createDepositToSavingsActionConfig(
 
         case 'usdc-to-susdc':
         case 'base-usdc-to-susdc': {
-          assert(context.savingsUsdcInfo, 'Savings USDC info is required for usdc deposit to savings action')
+          assert(
+            context.savingsAccounts,
+            'Savings account repository info is required for usdc deposit to savings action',
+          )
+          const savingsInfo = context.savingsAccounts.findOneAccountBySavingsToken(savingsToken).converter
+
           const minAmountOut = calculateMinSharesAmountOut({
-            savingsInfo: context.savingsUsdcInfo,
+            savingsInfo,
             savingsToken,
             amountIn: action.value,
           })
