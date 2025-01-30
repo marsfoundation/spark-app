@@ -12,7 +12,7 @@ test.describe('Withdraw USDS from sUSDS', () => {
   test.beforeEach(async ({ page }) => {
     const testContext = await setup(page, {
       blockchain: {
-        chainId: mainnet.id,
+        chain: mainnet,
         blockNumber: DEFAULT_BLOCK_NUMBER,
       },
       initialPage: 'savings',
@@ -81,7 +81,7 @@ test.describe('Withdraw USDS from sDAI', () => {
   test.beforeEach(async ({ page }) => {
     const testContext = await setup(page, {
       blockchain: {
-        chainId: mainnet.id,
+        chain: mainnet,
         blockNumber: DEFAULT_BLOCK_NUMBER,
       },
       initialPage: 'savings',

@@ -17,7 +17,7 @@ test.describe('Market details Mainnet', () => {
   test.describe('Market overview', () => {
     test('DAI', async ({ page }) => {
       const testContext = await setup(page, {
-        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id },
+        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chain: mainnet },
         initialPage: 'marketDetails',
         initialPageParams: { asset: DAI, chainId: mainnet.id.toString() },
         account: {
@@ -33,7 +33,7 @@ test.describe('Market details Mainnet', () => {
 
     test('WETH', async ({ page }) => {
       const testContext = await setup(page, {
-        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id },
+        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chain: mainnet },
         initialPage: 'marketDetails',
         initialPageParams: { asset: WETH, chainId: mainnet.id.toString() },
         account: {
@@ -51,7 +51,7 @@ test.describe('Market details Mainnet', () => {
         const testContext = await setup(page, {
           blockchain: {
             blockNumber: DEFAULT_BLOCK_NUMBER,
-            chainId: mainnet.id,
+            chain: mainnet,
           },
           initialPage: 'marketDetails',
           initialPageParams: { asset: WBTC, chainId: mainnet.id.toString() },
@@ -68,7 +68,7 @@ test.describe('Market details Mainnet', () => {
         const testContext = await setup(page, {
           blockchain: {
             blockNumber: DEFAULT_BLOCK_NUMBER,
-            chainId: mainnet.id,
+            chain: mainnet,
           },
           initialPage: 'marketDetails',
           initialPageParams: { asset: WEETH, chainId: mainnet.id.toString() },
@@ -90,7 +90,7 @@ test.describe('Market details Mainnet', () => {
 
     test('guest state', async ({ page }) => {
       const testContext = await setup(page, {
-        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id },
+        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chain: mainnet },
         initialPage: 'marketDetails',
         initialPageParams: { asset: DAI, chainId: mainnet.id.toString() },
         account: {
@@ -110,7 +110,7 @@ test.describe('Market details Mainnet', () => {
 
     test("can't deposit if not enough balance", async ({ page }) => {
       const testContext = await setup(page, {
-        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id },
+        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chain: mainnet },
         initialPage: 'marketDetails',
         initialPageParams: { asset: WETH, chainId: mainnet.id.toString() },
         account: {
@@ -127,7 +127,7 @@ test.describe('Market details Mainnet', () => {
 
     test("can't lend if not enough balance", async ({ page }) => {
       const testContext = await setup(page, {
-        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id },
+        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chain: mainnet },
         initialPage: 'marketDetails',
         initialPageParams: { asset: DAI, chainId: mainnet.id.toString() },
         account: {
@@ -144,7 +144,7 @@ test.describe('Market details Mainnet', () => {
 
     test("can't borrow if not enough balance", async ({ page }) => {
       const testContext = await setup(page, {
-        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id },
+        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chain: mainnet },
         initialPage: 'marketDetails',
         initialPageParams: { asset: DAI, chainId: mainnet.id.toString() },
         account: {
@@ -162,7 +162,7 @@ test.describe('Market details Mainnet', () => {
 
     test('opens dialogs for DAI', async ({ page }) => {
       const testContext = await setup(page, {
-        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id },
+        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chain: mainnet },
         initialPage: 'easyBorrow',
         account: {
           type: 'connected-random',
@@ -199,7 +199,7 @@ test.describe('Market details Mainnet', () => {
 
     test('opens dialogs for WETH', async ({ page }) => {
       const testContext = await setup(page, {
-        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id },
+        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chain: mainnet },
         initialPage: 'easyBorrow',
         account: {
           type: 'connected-random',
@@ -231,7 +231,7 @@ test.describe('Market details Mainnet', () => {
     // @todo: this scenario is inaccurate, because user has only ETH - in future dialog should open on ETH tab
     test('opens dialogs for WETH when having only ETH', async ({ page }) => {
       const testContext = await setup(page, {
-        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id },
+        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chain: mainnet },
         initialPage: 'easyBorrow',
         account: {
           type: 'connected-random',
@@ -264,7 +264,7 @@ test.describe('Market details Mainnet', () => {
 
     test('wallet displays sum of WETH and ETH', async ({ page }) => {
       const testContext = await setup(page, {
-        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id },
+        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chain: mainnet },
         initialPage: 'marketDetails',
         initialPageParams: {
           asset: WETH,
@@ -289,7 +289,7 @@ test.describe('Market details Mainnet', () => {
   test.describe('Isolated assets', () => {
     test('Correctly displays debt ceiling', async ({ page }) => {
       const testContext = await setup(page, {
-        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id },
+        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chain: mainnet },
         initialPage: 'marketDetails',
         initialPageParams: { asset: WEETH, chainId: mainnet.id.toString() },
         account: {
@@ -308,7 +308,7 @@ test.describe('Market details Mainnet', () => {
 
     test('displays 404 page for unknown chain', async ({ page }) => {
       const testContext = await setup(page, {
-        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id },
+        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chain: mainnet },
         initialPage: 'marketDetails',
         initialPageParams: { asset: DAI, chainId: '12345' },
         account: {
@@ -322,7 +322,7 @@ test.describe('Market details Mainnet', () => {
 
     test('displays 404 page for unknown asset', async ({ page }) => {
       const testContext = await setup(page, {
-        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id },
+        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chain: mainnet },
         initialPage: 'marketDetails',
         initialPageParams: { asset: NOT_A_RESERVE, chainId: mainnet.id.toString() },
         account: {
@@ -338,7 +338,7 @@ test.describe('Market details Mainnet', () => {
   test.describe('Cap automator', () => {
     test('WETH', async ({ page }) => {
       const testContext = await setup(page, {
-        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id },
+        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chain: mainnet },
         initialPage: 'marketDetails',
         initialPageParams: { asset: WETH, chainId: mainnet.id.toString() },
         account: {
@@ -359,7 +359,7 @@ test.describe('Market details Mainnet', () => {
 
     test('USDC', async ({ page }) => {
       const testContext = await setup(page, {
-        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id },
+        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chain: mainnet },
         initialPage: 'marketDetails',
         initialPageParams: { asset: USDC, chainId: mainnet.id.toString() },
         account: {
@@ -378,7 +378,7 @@ test.describe('Market details Mainnet', () => {
 
     test('WBTC', async ({ page }) => {
       const testContext = await setup(page, {
-        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id },
+        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chain: mainnet },
         initialPage: 'marketDetails',
         initialPageParams: { asset: WBTC, chainId: mainnet.id.toString() },
         account: {
@@ -401,7 +401,7 @@ test.describe('Market details Mainnet', () => {
   test.describe('Oracles', () => {
     test('Fixed price', async ({ page }) => {
       const testContext = await setup(page, {
-        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id },
+        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chain: mainnet },
         initialPage: 'marketDetails',
         initialPageParams: { asset: DAI, chainId: mainnet.id.toString() },
         account: {
@@ -421,7 +421,7 @@ test.describe('Market details Mainnet', () => {
     })
     test('Market price - not redundant', async ({ page }) => {
       const testContext = await setup(page, {
-        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id },
+        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chain: mainnet },
         initialPage: 'marketDetails',
         initialPageParams: { asset: WBTC, chainId: mainnet.id.toString() },
         account: {
@@ -443,7 +443,7 @@ test.describe('Market details Mainnet', () => {
 
     test('Yielding fixed price - redundant', async ({ page }) => {
       const testContext = await setup(page, {
-        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id },
+        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chain: mainnet },
         initialPage: 'marketDetails',
         initialPageParams: { asset: WEETH, chainId: mainnet.id.toString() },
         account: {
@@ -483,7 +483,7 @@ test.describe('Market details Gnosis', () => {
   test.describe('Cap automator', () => {
     test('WETH', async ({ page }) => {
       const testContext = await setup(page, {
-        blockchain: { blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER, chainId: gnosis.id },
+        blockchain: { blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER, chain: gnosis },
         initialPage: 'marketDetails',
         initialPageParams: { asset: WETH, chainId: gnosis.id.toString() },
         account: {
@@ -502,7 +502,7 @@ test.describe('Market details Gnosis', () => {
 
     test('XDAI', async ({ page }) => {
       const testContext = await setup(page, {
-        blockchain: { blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER, chainId: gnosis.id },
+        blockchain: { blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER, chain: gnosis },
         initialPage: 'marketDetails',
         initialPageParams: { asset: XDAI, chainId: gnosis.id.toString() },
         account: {
@@ -525,7 +525,7 @@ test.describe('Market details Gnosis', () => {
   test.describe('Oracles', () => {
     test('Fixed price', async ({ page }) => {
       const testContext = await setup(page, {
-        blockchain: { blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER, chainId: gnosis.id },
+        blockchain: { blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER, chain: gnosis },
         initialPage: 'marketDetails',
         initialPageParams: { asset: XDAI, chainId: gnosis.id.toString() },
         account: {
@@ -546,7 +546,7 @@ test.describe('Market details Gnosis', () => {
 
     test('Underlying asset price', async ({ page }) => {
       const testContext = await setup(page, {
-        blockchain: { blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER, chainId: gnosis.id },
+        blockchain: { blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER, chain: gnosis },
         initialPage: 'marketDetails',
         initialPageParams: { asset: EURe, chainId: gnosis.id.toString() },
         account: {
@@ -567,7 +567,7 @@ test.describe('Market details Gnosis', () => {
 
     test('Yielding fixed price - not redundant', async ({ page }) => {
       const testContext = await setup(page, {
-        blockchain: { blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER, chainId: gnosis.id },
+        blockchain: { blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER, chain: gnosis },
         initialPage: 'marketDetails',
         initialPageParams: { asset: sDAI, chainId: gnosis.id.toString() },
         account: {

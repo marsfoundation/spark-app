@@ -17,7 +17,7 @@ test.describe('Asset input validation', () => {
     test.beforeEach(async ({ page }) => {
       const testContext = await setup(page, {
         blockchain: {
-          chainId: mainnet.id,
+          chain: mainnet,
           blockNumber: DEFAULT_BLOCK_NUMBER,
         },
         initialPage: 'savings',
@@ -69,7 +69,7 @@ test.describe('Asset input validation', () => {
   test('displays validation error for dirty input with 0 value', async ({ page }) => {
     const testContext = await setup(page, {
       blockchain: {
-        chainId: mainnet.id,
+        chain: mainnet,
         blockNumber: DEFAULT_BLOCK_NUMBER,
       },
       initialPage: 'savings',
@@ -102,7 +102,7 @@ test.describe('Receiver input validation', () => {
     test.beforeEach(async ({ page }) => {
       const testContext = await setup(page, {
         blockchain: {
-          chainId: mainnet.id,
+          chain: mainnet,
           blockNumber: DEFAULT_BLOCK_NUMBER,
         },
         initialPage: 'savings',
@@ -179,7 +179,7 @@ test.describe('Receiver input validation', () => {
   test('displays warning when receiver is smart contract address', async ({ page }) => {
     const testContext = await setup(page, {
       blockchain: {
-        chainId: mainnet.id,
+        chain: mainnet,
         blockNumber: DEFAULT_BLOCK_NUMBER,
       },
       initialPage: 'savings',
@@ -209,7 +209,7 @@ test.describe('Form validation', () => {
   test.beforeEach(async ({ page }) => {
     const testContext = await setup(page, {
       blockchain: {
-        chainId: mainnet.id,
+        chain: mainnet,
         blockNumber: DEFAULT_BLOCK_NUMBER,
       },
       initialPage: 'savings',

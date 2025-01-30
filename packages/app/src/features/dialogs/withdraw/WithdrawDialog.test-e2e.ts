@@ -33,7 +33,7 @@ test.describe('Withdraw dialog', () => {
       const testContext = await setup(page, {
         blockchain: {
           blockNumber: DEFAULT_BLOCK_NUMBER,
-          chainId: mainnet.id,
+          chain: mainnet,
         },
         initialPage: 'easyBorrow',
         account: {
@@ -117,7 +117,7 @@ test.describe('Withdraw dialog', () => {
       const testContext = await setup(page, {
         blockchain: {
           blockNumber: DEFAULT_BLOCK_NUMBER,
-          chainId: mainnet.id,
+          chain: mainnet,
         },
         initialPage: 'easyBorrow',
         account: {
@@ -174,7 +174,7 @@ test.describe('Withdraw dialog', () => {
       const testContext = await setup(page, {
         blockchain: {
           blockNumber: DEFAULT_BLOCK_NUMBER,
-          chainId: mainnet.id,
+          chain: mainnet,
         },
         initialPage: 'easyBorrow',
         account: {
@@ -251,7 +251,7 @@ test.describe('Withdraw dialog', () => {
       const testContext = await setup(page, {
         blockchain: {
           blockNumber: DEFAULT_BLOCK_NUMBER,
-          chainId: mainnet.id,
+          chain: mainnet,
         },
         initialPage: 'easyBorrow',
         account: {
@@ -356,7 +356,7 @@ test.describe('Withdraw dialog', () => {
       testContext = await setup(page, {
         blockchain: {
           blockNumber: DEFAULT_BLOCK_NUMBER,
-          chainId: mainnet.id,
+          chain: mainnet,
         },
         initialPage: 'easyBorrow',
         account: {
@@ -448,7 +448,7 @@ test.describe('Withdraw dialog', () => {
       testContext = await setup(page, {
         blockchain: {
           blockNumber: DEFAULT_BLOCK_NUMBER,
-          chainId: mainnet.id,
+          chain: mainnet,
         },
         initialPage: 'myPortfolio',
         account: {
@@ -614,7 +614,7 @@ test.describe('Withdraw with actions batched', () => {
   test('can withdraw native asset', async ({ page }) => {
     const testContext = await setup(page, {
       blockchain: {
-        chainId: mainnet.id,
+        chain: mainnet,
         blockNumber: DEFAULT_BLOCK_NUMBER,
       },
       initialPage: 'easyBorrow',

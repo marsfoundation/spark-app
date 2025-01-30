@@ -14,7 +14,7 @@ test.describe('Validation', () => {
     test.beforeEach(async ({ page }) => {
       const testContext = await setup(page, {
         blockchain: {
-          chainId: mainnet.id,
+          chain: mainnet,
           blockNumber: DEFAULT_BLOCK_NUMBER,
         },
         initialPage: 'savings',
@@ -70,7 +70,7 @@ test.describe('Validation', () => {
   test('displays validation error for dirty input with 0 value', async ({ page }) => {
     const testContext = await setup(page, {
       blockchain: {
-        chainId: mainnet.id,
+        chain: mainnet,
         blockNumber: DEFAULT_BLOCK_NUMBER,
       },
       initialPage: 'savings',

@@ -12,7 +12,7 @@ test.describe('Withdraw XDAI on Gnosis', () => {
   test.beforeEach(async ({ page }) => {
     const testContext = await setup(page, {
       blockchain: {
-        chainId: gnosis.id,
+        chain: gnosis,
         blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER,
       },
       initialPage: 'savings',

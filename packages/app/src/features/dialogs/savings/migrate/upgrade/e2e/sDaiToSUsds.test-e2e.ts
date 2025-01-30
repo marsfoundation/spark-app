@@ -9,7 +9,7 @@ test.describe('Upgrade sDAI to sUSDS', () => {
   test('does not show upgrade banner when sDai balance is 0', async ({ page }) => {
     const testContext = await setup(page, {
       blockchain: {
-        chainId: mainnet.id,
+        chain: mainnet,
         blockNumber: DEFAULT_BLOCK_NUMBER,
       },
       initialPage: 'savings',
@@ -30,7 +30,7 @@ test.describe('Upgrade sDAI to sUSDS', () => {
   test('uses upgrade action', async ({ page }) => {
     const testContext = await setup(page, {
       blockchain: {
-        chainId: mainnet.id,
+        chain: mainnet,
         blockNumber: DEFAULT_BLOCK_NUMBER,
       },
       initialPage: 'savings',
@@ -56,7 +56,7 @@ test.describe('Upgrade sDAI to sUSDS', () => {
   test('displays transaction overview', async ({ page }) => {
     const testContext = await setup(page, {
       blockchain: {
-        chainId: mainnet.id,
+        chain: mainnet,
         blockNumber: DEFAULT_BLOCK_NUMBER,
       },
       initialPage: 'savings',
@@ -95,7 +95,7 @@ test.describe('Upgrade sDAI to sUSDS', () => {
   test('executes transaction', async ({ page }) => {
     const testContext = await setup(page, {
       blockchain: {
-        chainId: mainnet.id,
+        chain: mainnet,
         blockNumber: DEFAULT_BLOCK_NUMBER,
       },
       initialPage: 'savings',

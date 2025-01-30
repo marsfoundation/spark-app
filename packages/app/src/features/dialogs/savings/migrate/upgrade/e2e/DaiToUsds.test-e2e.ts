@@ -9,7 +9,7 @@ test.describe('Upgrade DAI to USDS', () => {
   test('does not show upgrade button when DAI balance is 0', async ({ page }) => {
     const testContext = await setup(page, {
       blockchain: {
-        chainId: mainnet.id,
+        chain: mainnet,
         blockNumber: DEFAULT_BLOCK_NUMBER,
       },
       initialPage: 'savings',
@@ -30,7 +30,7 @@ test.describe('Upgrade DAI to USDS', () => {
   test('uses upgrade action', async ({ page }) => {
     const testContext = await setup(page, {
       blockchain: {
-        chainId: mainnet.id,
+        chain: mainnet,
         blockNumber: DEFAULT_BLOCK_NUMBER,
       },
       initialPage: 'savings',
@@ -56,7 +56,7 @@ test.describe('Upgrade DAI to USDS', () => {
   test('displays transaction overview', async ({ page }) => {
     const testContext = await setup(page, {
       blockchain: {
-        chainId: mainnet.id,
+        chain: mainnet,
         blockNumber: DEFAULT_BLOCK_NUMBER,
       },
       initialPage: 'savings',
@@ -89,7 +89,7 @@ test.describe('Upgrade DAI to USDS', () => {
   test('executes transaction', async ({ page }) => {
     const testContext = await setup(page, {
       blockchain: {
-        chainId: mainnet.id,
+        chain: mainnet,
         blockNumber: DEFAULT_BLOCK_NUMBER,
       },
       initialPage: 'savings',

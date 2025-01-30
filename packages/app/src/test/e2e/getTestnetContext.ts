@@ -1,6 +1,7 @@
 import { randomHexId } from '@/utils/random'
 import { getEnv } from '@marsfoundation/common-nodejs/env'
 import { TenderlyTestnetFactory, TestnetClient } from '@marsfoundation/common-testnets'
+import { Chain } from 'viem'
 
 interface TestnetContext {
   client: TestnetClient
@@ -23,10 +24,10 @@ for (const eventType of ['exit', 'SIGINT', 'SIGUSR1', 'SIGUSR2', 'uncaughtExcept
 }
 
 export async function getTestnetContext({
-  chainId,
+  chain,
   blockNumber,
-}: { chainId: number; blockNumber: bigint }): Promise<TestnetContext> {
-  const key = `${chainId}-${blockNumber.toString()}`
+}: { chain: Chain; blockNumber: bigint }): Promise<TestnetContext> {
+  const key = `${chain.id}-${blockNumber.toString()}`
   if (testnetCache.has(key)) {
     return testnetCache.get(key)!
   }
@@ -42,8 +43,8 @@ export async function getTestnetContext({
   const { client, cleanup } = await factory.create({
     id: `test-e2e-${testnetId}`,
     displayName: `Spark E2E Testnet ${testnetId}`,
-    forkChainId: chainId,
-    originChainId: chainId,
+    originChain: chain,
+    forkChainId: chain.id,
     blockNumber,
   })
 

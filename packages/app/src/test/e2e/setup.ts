@@ -3,7 +3,7 @@ import { TestnetClient, getUrlFromClient } from '@marsfoundation/common-testnets
 import { assert, assertNever } from '@marsfoundation/common-universal'
 import { Page } from '@playwright/test'
 import { generatePath } from 'react-router-dom'
-import { Address, Hash, parseEther, parseUnits } from 'viem'
+import { Address, Chain, Hash, parseEther, parseUnits } from 'viem'
 import { AssetsInTests, TOKENS_ON_FORK } from './constants'
 import { getTestnetContext } from './getTestnetContext'
 import { injectNetworkConfiguration, injectWalletConfiguration } from './injectSetup'
@@ -39,7 +39,7 @@ export type AccountOptions<T extends ConnectionType> = T extends 'not-connected'
     }
 
 export interface BlockchainOptions {
-  chainId: number
+  chain: Chain
   blockNumber: bigint
 }
 export interface SetupOptions<K extends Path, T extends ConnectionType> {
@@ -190,7 +190,7 @@ async function injectPageSetup({
     await injectNetworkConfiguration({
       page,
       rpcUrl,
-      chainId: options.blockchain.chainId,
+      chainId: options.blockchain.chain.id,
     })
   }
 

@@ -32,7 +32,7 @@ test.describe('Borrow dialog', () => {
       const testContext = await setup(page, {
         blockchain: {
           blockNumber: DEFAULT_BLOCK_NUMBER,
-          chainId: mainnet.id,
+          chain: mainnet,
         },
         initialPage: 'easyBorrow',
         account: {
@@ -182,7 +182,7 @@ test.describe('Borrow dialog', () => {
       const testContext = await setup(page, {
         blockchain: {
           blockNumber: DEFAULT_BLOCK_NUMBER,
-          chainId: mainnet.id,
+          chain: mainnet,
         },
         initialPage: 'easyBorrow',
         account: {
@@ -276,7 +276,7 @@ test.describe('Borrow dialog', () => {
       const testContext = await setup(page, {
         blockchain: {
           blockNumber: 20230000n,
-          chainId: mainnet.id,
+          chain: mainnet,
         },
         initialPage: 'myPortfolio',
         account: {
@@ -327,7 +327,7 @@ test.describe('Borrow dialog', () => {
       const testContext = await setup(page, {
         blockchain: {
           blockNumber: DEFAULT_BLOCK_NUMBER,
-          chainId: mainnet.id,
+          chain: mainnet,
         },
         initialPage: 'myPortfolio',
         account: {
@@ -378,7 +378,7 @@ test.describe('Borrow dialog', () => {
       const testContext = await setup(page, {
         blockchain: {
           blockNumber: DEFAULT_BLOCK_NUMBER,
-          chainId: mainnet.id,
+          chain: mainnet,
         },
         initialPage: 'easyBorrow',
         account: {

@@ -8,7 +8,7 @@ import { SavingsPageObject } from './Savings.PageObject'
 test.describe('Savings Mainnet', () => {
   test('guest state', async ({ page }) => {
     const testContext = await setup(page, {
-      blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id },
+      blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chain: mainnet },
       initialPage: 'savings',
       account: {
         type: 'not-connected',
@@ -23,7 +23,7 @@ test.describe('Savings Mainnet', () => {
 
   test('calculates current value', async ({ page }) => {
     const testContext = await setup(page, {
-      blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id },
+      blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chain: mainnet },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -43,7 +43,7 @@ test.describe('Savings Mainnet', () => {
 
   test('calculates current projections', async ({ page }) => {
     const testContext = await setup(page, {
-      blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id },
+      blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chain: mainnet },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -61,7 +61,7 @@ test.describe('Savings Mainnet', () => {
 
   test('displays the total value of stablecoins in the wallet', async ({ page }) => {
     const testContext = await setup(page, {
-      blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id },
+      blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chain: mainnet },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -81,7 +81,7 @@ test.describe('Savings Mainnet', () => {
 test.describe('Savings Gnosis', () => {
   test('guest state', async ({ page }) => {
     const testContext = await setup(page, {
-      blockchain: { blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER, chainId: gnosis.id },
+      blockchain: { blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER, chain: gnosis },
       initialPage: 'savings',
       account: {
         type: 'not-connected',
@@ -96,7 +96,7 @@ test.describe('Savings Gnosis', () => {
 
   test('calculates current value', async ({ page }) => {
     const testContext = await setup(page, {
-      blockchain: { blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER, chainId: gnosis.id },
+      blockchain: { blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER, chain: gnosis },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -116,7 +116,7 @@ test.describe('Savings Gnosis', () => {
 
   test('calculates current projections', async ({ page }) => {
     const testContext = await setup(page, {
-      blockchain: { blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER, chainId: gnosis.id },
+      blockchain: { blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER, chain: gnosis },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -134,7 +134,7 @@ test.describe('Savings Gnosis', () => {
 
   test('displays the total value of stablecoins in the wallet', async ({ page }) => {
     const testContext = await setup(page, {
-      blockchain: { blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER, chainId: gnosis.id },
+      blockchain: { blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER, chain: gnosis },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -153,7 +153,7 @@ test.describe('Savings Gnosis', () => {
 test.describe('Savings Base', () => {
   test('guest state', async ({ page }) => {
     const testContext = await setup(page, {
-      blockchain: { blockNumber: BASE_DEFAULT_BLOCK_NUMBER, chainId: base.id },
+      blockchain: { blockNumber: BASE_DEFAULT_BLOCK_NUMBER, chain: base },
       initialPage: 'savings',
       account: {
         type: 'not-connected',
@@ -168,7 +168,7 @@ test.describe('Savings Base', () => {
 
   test('calculates current value', async ({ page }) => {
     const testContext = await setup(page, {
-      blockchain: { blockNumber: BASE_DEFAULT_BLOCK_NUMBER, chainId: base.id },
+      blockchain: { blockNumber: BASE_DEFAULT_BLOCK_NUMBER, chain: base },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -188,7 +188,7 @@ test.describe('Savings Base', () => {
 
   test('calculates current projections', async ({ page }) => {
     const testContext = await setup(page, {
-      blockchain: { blockNumber: BASE_DEFAULT_BLOCK_NUMBER, chainId: base.id },
+      blockchain: { blockNumber: BASE_DEFAULT_BLOCK_NUMBER, chain: base },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -206,7 +206,7 @@ test.describe('Savings Base', () => {
 
   test('displays the total value of stablecoins in the wallet', async ({ page }) => {
     const testContext = await setup(page, {
-      blockchain: { blockNumber: BASE_DEFAULT_BLOCK_NUMBER, chainId: base.id },
+      blockchain: { blockNumber: BASE_DEFAULT_BLOCK_NUMBER, chain: base },
       initialPage: 'savings',
       account: {
         type: 'connected-random',

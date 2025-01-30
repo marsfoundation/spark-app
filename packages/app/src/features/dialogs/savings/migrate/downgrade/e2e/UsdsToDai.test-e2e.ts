@@ -9,7 +9,7 @@ test.describe('Downgrade USDS to DAI', () => {
   test('downgrade to DAI is disabled when USDS balance is 0', async ({ page }) => {
     const testContext = await setup(page, {
       blockchain: {
-        chainId: mainnet.id,
+        chain: mainnet,
         blockNumber: DEFAULT_BLOCK_NUMBER,
       },
       initialPage: 'savings',
@@ -27,7 +27,7 @@ test.describe('Downgrade USDS to DAI', () => {
   test('uses downgrade action', async ({ page }) => {
     const testContext = await setup(page, {
       blockchain: {
-        chainId: mainnet.id,
+        chain: mainnet,
         blockNumber: DEFAULT_BLOCK_NUMBER,
       },
       initialPage: 'savings',
@@ -54,7 +54,7 @@ test.describe('Downgrade USDS to DAI', () => {
   test('displays transaction overview', async ({ page }) => {
     const testContext = await setup(page, {
       blockchain: {
-        chainId: mainnet.id,
+        chain: mainnet,
         blockNumber: DEFAULT_BLOCK_NUMBER,
       },
       initialPage: 'savings',
@@ -90,7 +90,7 @@ test.describe('Downgrade USDS to DAI', () => {
   test('executes transaction', async ({ page }) => {
     const testContext = await setup(page, {
       blockchain: {
-        chainId: mainnet.id,
+        chain: mainnet,
         blockNumber: DEFAULT_BLOCK_NUMBER,
       },
       initialPage: 'savings',

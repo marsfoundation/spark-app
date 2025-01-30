@@ -9,7 +9,7 @@ test.describe('With send mode', () => {
   test('can select only supported assets', async ({ page }) => {
     const testContext = await setup(page, {
       blockchain: {
-        chainId: gnosis.id,
+        chain: gnosis,
         blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER,
       },
       initialPage: 'savings',

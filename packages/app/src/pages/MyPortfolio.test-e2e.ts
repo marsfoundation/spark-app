@@ -10,7 +10,7 @@ test.describe('MyPortfolio', () => {
     const testContext = await setup(page, {
       blockchain: {
         blockNumber: DEFAULT_BLOCK_NUMBER,
-        chainId: mainnet.id,
+        chain: mainnet,
       },
       account: {
         type: 'not-connected',
@@ -26,7 +26,7 @@ test.describe('MyPortfolio', () => {
     const testContext = await setup(page, {
       blockchain: {
         blockNumber: DEFAULT_BLOCK_NUMBER,
-        chainId: mainnet.id,
+        chain: mainnet,
       },
       initialPage: 'myPortfolio',
       account: {
@@ -49,7 +49,7 @@ test.describe('MyPortfolio', () => {
     const testContext = await setup(page, {
       blockchain: {
         blockNumber: DEFAULT_BLOCK_NUMBER,
-        chainId: mainnet.id,
+        chain: mainnet,
       },
       initialPage: 'myPortfolio',
       account: {
@@ -77,7 +77,7 @@ test.describe('MyPortfolio', () => {
     const testContext = await setup(page, {
       blockchain: {
         blockNumber: DEFAULT_BLOCK_NUMBER,
-        chainId: mainnet.id,
+        chain: mainnet,
       },
       initialPage: 'easyBorrow',
       account: {

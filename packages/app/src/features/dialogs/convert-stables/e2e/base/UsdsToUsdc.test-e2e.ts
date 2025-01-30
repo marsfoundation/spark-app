@@ -13,7 +13,7 @@ test.describe('Convert USDS to USDC', () => {
     const testContext = await setup(page, {
       blockchain: {
         blockNumber: BASE_DEFAULT_BLOCK_NUMBER,
-        chainId: base.id,
+        chain: base,
       },
       initialPage: 'savings',
       account: {

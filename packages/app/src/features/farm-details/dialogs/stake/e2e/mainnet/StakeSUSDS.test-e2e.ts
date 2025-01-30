@@ -16,7 +16,7 @@ test.describe('Stake sUSDS to SKY farm', () => {
     const testContext = await setup(page, {
       blockchain: {
         blockNumber: DEFAULT_BLOCK_NUMBER,
-        chainId: mainnet.id,
+        chain: mainnet,
       },
       initialPage: 'savings',
       account: {
@@ -105,7 +105,7 @@ test.describe('Stake sUSDS to SKY farm with actions batched', () => {
     const testContext = await setup(page, {
       blockchain: {
         blockNumber: DEFAULT_BLOCK_NUMBER,
-        chainId: mainnet.id,
+        chain: mainnet,
       },
       initialPage: 'savings',
       account: {

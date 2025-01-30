@@ -16,7 +16,7 @@ test.describe('Unstake DAI from SKY farm', () => {
     const testContext = await setup(page, {
       blockchain: {
         blockNumber: DEFAULT_BLOCK_NUMBER,
-        chainId: mainnet.id,
+        chain: mainnet,
       },
       initialPage: 'farmDetails',
       initialPageParams: {
