@@ -27,7 +27,7 @@ export function GrowingBalance({
   const accountType = savingsTokenToAccountType(savingsToken)
 
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-3 sm:gap-4">
       <TokenIcon token={underlyingToken} className="size-10 lg:size-14" />
       <div className="flex items-baseline tabular-nums" data-testid={testIds.savings.susds.balanceInAsset}>
         <div className={wholePartVariants({ accountType })}>{getWholePart(depositedAssets)}</div>
@@ -43,7 +43,7 @@ export function GrowingBalance({
   )
 }
 
-const wholePartVariants = cva('typography-display-2 relative bg-clip-text text-transparent', {
+const wholePartVariants = cva('typography-heading-1 sm:typography-display-2 relative bg-clip-text text-transparent', {
   variants: {
     accountType: {
       susds: 'bg-[linear-gradient(90deg,#FFF_0%,#80D98D_64.65%,#2CCA9A_100%)]',
@@ -53,7 +53,7 @@ const wholePartVariants = cva('typography-display-2 relative bg-clip-text text-t
   },
 })
 
-const fractionalPartVariants = cva('typography-heading-4 [text-shadow:_0_1px_4px_rgb(0_0_0)]', {
+const fractionalPartVariants = cva('typography-heading-4 sm:typography-heading-3 [text-shadow:_0_1px_4px_rgb(0_0_0)]', {
   variants: {
     accountType: {
       susds: 'text-[#2CCA9A]',
