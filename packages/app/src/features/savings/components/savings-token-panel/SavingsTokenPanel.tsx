@@ -63,14 +63,26 @@ export function SavingsTokenPanel({
           <Button
             variant="tertiary"
             size="m"
-            onClick={() => openDialog(savingsWithdrawDialogConfig, { mode: 'send', savingsType } as const)}
+            onClick={() =>
+              openDialog(savingsWithdrawDialogConfig, {
+                mode: 'send',
+                savingsToken: savingsTokenWithBalance.token,
+                underlyingToken,
+              } as const)
+            }
           >
             Send
           </Button>
           <Button
             variant="tertiary"
             size="m"
-            onClick={() => openDialog(savingsWithdrawDialogConfig, { mode: 'withdraw', savingsType } as const)}
+            onClick={() =>
+              openDialog(savingsWithdrawDialogConfig, {
+                mode: 'withdraw',
+                savingsToken: savingsTokenWithBalance.token,
+                underlyingToken,
+              } as const)
+            }
           >
             Withdraw
           </Button>
