@@ -50,9 +50,6 @@ export function SavingsAccountView({
         title: 'Deposit' as const,
         action: () => openDialog(savingsDepositDialogConfig, { initialToken: mostValuableAsset.token }),
       }
-  // @todo: Temporary until withdraw dialogs accepts savings token as a parameter
-  const savingsType =
-    savingsTokenDetails.savingsTokenWithBalance.token.symbol.toLocaleLowerCase() === 'sdai' ? 'sdai' : 'susds'
 
   return (
     <PageLayout>
@@ -81,9 +78,19 @@ export function SavingsAccountView({
             calculateUnderlyingTokenBalance={savingsTokenDetails.calculateSavingsBalance}
             balanceRefreshIntervalInMs={savingsTokenDetails.balanceRefreshIntervalInMs}
             openDepositDialog={() => openDialog(savingsDepositDialogConfig, { initialToken: mostValuableAsset.token })}
-            openSendDialog={() => openDialog(savingsWithdrawDialogConfig, { mode: 'send', savingsType } as const)}
+            openSendDialog={() =>
+              openDialog(savingsWithdrawDialogConfig, {
+                mode: 'send',
+                savingsToken: savingsTokenDetails.savingsTokenWithBalance.token,
+                underlyingToken: savingsTokenDetails.underlyingToken,
+              } as const)
+            }
             openWithdrawDialog={() =>
-              openDialog(savingsWithdrawDialogConfig, { mode: 'withdraw', savingsType } as const)
+              openDialog(savingsWithdrawDialogConfig, {
+                mode: 'withdraw',
+                savingsToken: savingsTokenDetails.savingsTokenWithBalance.token,
+                underlyingToken: savingsTokenDetails.underlyingToken,
+              } as const)
             }
             projections={savingsTokenDetails.currentProjections}
           />
