@@ -1,5 +1,4 @@
 import { TokenWithBalance } from '@/domain/common/types'
-import { UseSavingsChartsInfoQueryResult } from '@/domain/savings-charts/useSavingsChartsInfoQuery'
 import { OpenDialogFunction } from '@/domain/state/dialogs'
 import { savingsDepositDialogConfig } from '@/features/dialogs/savings/deposit/SavingsDepositDialog'
 import { savingsWithdrawDialogConfig } from '@/features/dialogs/savings/withdraw/SavingsWithdrawDialog'
@@ -8,17 +7,22 @@ import { PageHeader } from '../components/PageHeader'
 import { AccountMainPanelGroup } from '../components/account-main-panel-group/AccountMainPanelGroup'
 import { DepositCTAPanel } from '../components/deposit-cta-panel/DepositCTAPanel'
 import { EntryAssetsPanel } from '../components/entry-assets-panel/EntryAssetsPanel'
-import { UpgradeSavingsBanner } from '../components/new-upgrade-savings-baner/UpgradeSavingsBanner'
+import { UpgradeSavingsBanner } from '../components/upgrade-savings-baner/UpgradeSavingsBanner'
 import { SavingsCharts } from '../components/savings-charts/SavingsCharts'
 import { MigrationInfo } from '../logic/makeMigrationInfo'
-import { SavingsAccountEntryAssets, SavingsTokenDetails } from '../logic/useSavings'
+import { ChartsData, InterestData, SavingsAccountEntryAssets } from '../logic/useSavings'
+import { Token } from '@/domain/types/Token'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 export interface SavingsAccountViewProps {
-  savingsTokenDetails: SavingsTokenDetails
+  savingsToken: Token
+  savingsTokenBalance: NormalizedUnitNumber
+  underlyingToken: Token
+  interestData: InterestData
   entryAssets: SavingsAccountEntryAssets[]
   mostValuableAsset: TokenWithBalance
-  assetsConvertSupported: boolean
-  savingsChartsInfo: UseSavingsChartsInfoQueryResult
+  showConvertDialogButton: boolean
+  chartsData: ChartsData
   // @todo: Pass separate functions for each dialog after removing old views
   openDialog: OpenDialogFunction
   openSandboxModal: () => void
@@ -28,27 +32,27 @@ export interface SavingsAccountViewProps {
 }
 
 export function SavingsAccountView({
-  savingsTokenDetails,
+  savingsToken,
+  savingsTokenBalance,
+  underlyingToken,
+  interestData,
   entryAssets,
   mostValuableAsset,
-  assetsConvertSupported,
-  savingsChartsInfo,
+  showConvertDialogButton,
+  chartsData,
   openDialog,
   openSandboxModal,
   openConnectModal,
   guestMode,
   migrationInfo,
 }: SavingsAccountViewProps) {
-  const displayDepositCallToAction = guestMode || savingsTokenDetails.savingsTokenWithBalance.balance.eq(0)
-  const displaySavingsChart = savingsChartsInfo.chartsSupported
-  const displayUpgradeSavingsBanner =
-    migrationInfo?.sdaiToSusdsUpgradeAvailable && savingsTokenDetails.underlyingToken.symbol === migrationInfo.daiSymbol
+  const displayDepositCallToAction = guestMode || savingsTokenBalance.eq(0)
 
   const primaryAction = guestMode
     ? { title: 'Connect Wallet' as const, action: openConnectModal }
     : {
         title: 'Deposit' as const,
-        action: () => openDialog(savingsDepositDialogConfig, { initialToken: mostValuableAsset.token }),
+        action: () => openDialog(savingsDepositDialogConfig, { initialToken: mostValuableAsset.token, savingsToken }),
       }
 
   return (
@@ -57,9 +61,9 @@ export function SavingsAccountView({
       <div className="flex flex-col gap-6">
         {displayDepositCallToAction ? (
           <DepositCTAPanel
-            savingsRate={savingsTokenDetails.APY}
+            savingsRate={interestData.APY}
             entryTokens={entryAssets.map((asset) => asset.token)}
-            savingsToken={savingsTokenDetails.savingsTokenWithBalance.token}
+            savingsToken={savingsToken}
             // @todo: get description from chain config when available
             description={{
               text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -72,47 +76,48 @@ export function SavingsAccountView({
           />
         ) : (
           <AccountMainPanelGroup
-            underlyingToken={savingsTokenDetails.underlyingToken}
-            savingsToken={savingsTokenDetails.savingsTokenWithBalance.token}
-            savingsTokenBalance={savingsTokenDetails.savingsTokenWithBalance.balance}
-            calculateUnderlyingTokenBalance={savingsTokenDetails.calculateSavingsBalance}
-            balanceRefreshIntervalInMs={savingsTokenDetails.balanceRefreshIntervalInMs}
-            openDepositDialog={() => openDialog(savingsDepositDialogConfig, { initialToken: mostValuableAsset.token })}
+            underlyingToken={underlyingToken}
+            savingsToken={savingsToken}
+            savingsTokenBalance={savingsTokenBalance}
+            calculateUnderlyingTokenBalance={interestData.calculateUnderlyingTokenBalance}
+            balanceRefreshIntervalInMs={interestData.balanceRefreshIntervalInMs}
+            openDepositDialog={() => openDialog(savingsDepositDialogConfig, { initialToken: mostValuableAsset.token, savingsToken })}
             openSendDialog={() =>
               openDialog(savingsWithdrawDialogConfig, {
                 mode: 'send',
-                savingsToken: savingsTokenDetails.savingsTokenWithBalance.token,
-                underlyingToken: savingsTokenDetails.underlyingToken,
+                savingsToken,
+                underlyingToken,
               } as const)
             }
             openWithdrawDialog={() =>
               openDialog(savingsWithdrawDialogConfig, {
                 mode: 'withdraw',
-                savingsToken: savingsTokenDetails.savingsTokenWithBalance.token,
-                underlyingToken: savingsTokenDetails.underlyingToken,
+                savingsToken,
+                underlyingToken,
               } as const)
             }
-            projections={savingsTokenDetails.currentProjections}
+            projections={interestData.currentProjections}
           />
         )}
-        {displayUpgradeSavingsBanner && (
+        {migrationInfo && (
           <UpgradeSavingsBanner
             onUpgradeSavingsClick={migrationInfo.openSDaiToSUsdsUpgradeDialog}
             apyImprovement={migrationInfo.apyImprovement}
           />
         )}
-        {displaySavingsChart && (
+        {chartsData.chartsSupported && (
           <SavingsCharts
-            savingsTokenSymbol={savingsTokenDetails.savingsTokenWithBalance.token.symbol}
-            {...savingsChartsInfo}
+            savingsTokenSymbol={savingsToken.symbol}
+            {...chartsData}
           />
         )}
       </div>
       <EntryAssetsPanel
         assets={entryAssets}
         openDialog={openDialog}
-        showConvertDialogButton={assetsConvertSupported}
+        showConvertDialogButton={showConvertDialogButton}
         migrationInfo={migrationInfo}
+        savingsToken={savingsToken}
       />
     </PageLayout>
   )
