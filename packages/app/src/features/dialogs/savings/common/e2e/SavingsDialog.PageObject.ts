@@ -1,7 +1,6 @@
 import { TestContext } from '@/test/e2e/setup'
 import { getBalance, getTokenBalance } from '@/test/e2e/utils'
 import { testIds } from '@/ui/utils/testIds'
-import { getUrlFromClient } from '@marsfoundation/common-testnets'
 import { Locator, expect } from '@playwright/test'
 import { Address } from 'viem'
 import { DialogPageObject, TxOverviewWithRoute } from '../../../common/Dialog.PageObject'
@@ -120,7 +119,7 @@ export class SavingsDialogPageObject extends DialogPageObject {
     expectedBalance: number
   }): Promise<void> {
     const currentBalance = await getBalance({
-      forkUrl: getUrlFromClient(this.testContext.testnetController.client),
+      client: this.testContext.testnetController.client,
       address: receiver,
     })
     expect(currentBalance.isEqualTo(expectedBalance)).toBe(true)
@@ -136,7 +135,7 @@ export class SavingsDialogPageObject extends DialogPageObject {
     expectedBalance: number
   }): Promise<void> {
     const currentTokenBalance = await getTokenBalance({
-      forkUrl: getUrlFromClient(this.testContext.testnetController.client),
+      client: this.testContext.testnetController.client,
       address: receiver,
       token,
     })

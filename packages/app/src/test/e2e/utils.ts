@@ -1,21 +1,10 @@
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
+import { TestnetClient } from '@marsfoundation/common-testnets'
 import { bigNumberify } from '@marsfoundation/common-universal'
 import { BaseUnitNumber, NormalizedUnitNumber } from '@marsfoundation/common-universal'
-import { Locator, Page } from '@playwright/test'
-import { http, Address, createPublicClient, erc20Abi, weiUnits } from 'viem'
+import { Locator } from '@playwright/test'
+import { Address, erc20Abi, weiUnits } from 'viem'
 import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts'
-
-export async function waitForButtonEnabled(page: Page, name: string): Promise<void> {
-  await page.waitForFunction((name) => {
-    const buttons = document.querySelectorAll('button')
-
-    const button = Array.from(buttons).find((button) => {
-      return button.textContent?.includes(name)
-    })
-
-    return button && !button.disabled
-  }, name)
-}
 
 export interface GenerateAccountOptions {
   privateKey?: `0x${string}`
@@ -26,17 +15,6 @@ export function generateAccount(opts: GenerateAccountOptions): { address: `0x${s
     address: privateKeyToAccount(privateKey).address,
     privateKey,
   }
-}
-
-export async function getTimestampFromBlockNumber(blockNumber: bigint, forkUrl: string): Promise<number> {
-  const client = createPublicClient({
-    transport: http(forkUrl, {
-      retryCount: 5,
-    }),
-  })
-  const block = await client.getBlock({ blockNumber })
-
-  return Number(block.timestamp) * 1000
 }
 
 export async function parseTable<T>(tableLocator: Locator, parseRow: (row: string[]) => T): Promise<T[]> {
@@ -60,12 +38,8 @@ export async function parseTable<T>(tableLocator: Locator, parseRow: (row: strin
   return table
 }
 
-export function isPage(pageOrLocator: Page | Locator): pageOrLocator is Page {
-  return 'addInitScript' in pageOrLocator
-}
-
 export interface GetBalanceArgs {
-  forkUrl: string
+  client: TestnetClient
   address: Address
 }
 
@@ -76,21 +50,13 @@ export interface GetTokenBalanceArgs extends GetBalanceArgs {
   }
 }
 
-export async function getBalance({ forkUrl, address }: GetBalanceArgs): Promise<NormalizedUnitNumber> {
-  const publicClient = createPublicClient({
-    transport: http(forkUrl),
-  })
-
-  const balance = await publicClient.getBalance({ address })
+export async function getBalance({ client, address }: GetBalanceArgs): Promise<NormalizedUnitNumber> {
+  const balance = await client.getBalance({ address })
   return NormalizedUnitNumber(bigNumberify(balance).shiftedBy(weiUnits.ether))
 }
 
-export async function getTokenBalance({ forkUrl, address, token }: GetTokenBalanceArgs): Promise<NormalizedUnitNumber> {
-  const publicClient = createPublicClient({
-    transport: http(forkUrl),
-  })
-
-  const tokenBalance = await publicClient.readContract({
+export async function getTokenBalance({ client, address, token }: GetTokenBalanceArgs): Promise<NormalizedUnitNumber> {
+  const tokenBalance = await client.readContract({
     address: token.address,
     abi: erc20Abi,
     functionName: 'balanceOf',

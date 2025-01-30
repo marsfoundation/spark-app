@@ -1,6 +1,6 @@
 import { Path, paths } from '@/config/paths'
-import { TestnetClient, getUrlFromClient } from '@marsfoundation/common-testnets'
-import { assert, assertNever } from '@marsfoundation/common-universal'
+import { TestnetClient } from '@marsfoundation/common-testnets'
+import { assert, assertNever, extractUrlFromClient } from '@marsfoundation/common-universal'
 import { Page } from '@playwright/test'
 import { generatePath } from 'react-router-dom'
 import { Address, Chain, Hash, parseEther, parseUnits } from 'viem'
@@ -179,7 +179,7 @@ async function injectPageSetup({
   testnetClient: TestnetClient
   options: SetupOptions<any, any>
 }): Promise<AutoSimulationProgressController> {
-  const rpcUrl = getUrlFromClient(testnetClient)
+  const rpcUrl = extractUrlFromClient(testnetClient)
 
   if (options.skipInjectingNetwork === true) {
     // if explicitly disabled, do not inject network config abort all network requests to RPC providers
