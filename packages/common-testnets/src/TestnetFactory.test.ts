@@ -1,5 +1,6 @@
 import { expect } from 'earl'
 import { after, before, describe, it } from 'mocha'
+import { base, mainnet } from 'viem/chains'
 import { TestnetClient } from './TestnetClient.js'
 import { createTestnetFactoriesForE2ETests } from './test-utils/index.js'
 
@@ -19,7 +20,7 @@ describe('TestnetFactory', () => {
         before(async () => {
           ;({ client: testnetClient, cleanup } = await factory.create({
             id: 'test',
-            originChainId: 1,
+            originChain: mainnet,
             forkChainId: expectedChainId,
             blockNumber,
           }))
@@ -76,7 +77,7 @@ describe('TestnetFactory', () => {
         before(async () => {
           ;({ client: testnetClient, cleanup } = await factory.create({
             id: 'test',
-            originChainId: 1,
+            originChain: mainnet,
             forkChainId: expectedChainId,
           }))
         })
@@ -87,6 +88,28 @@ describe('TestnetFactory', () => {
         it('can fetch block number', async () => {
           const currentBlockNumber = await testnetClient.getBlockNumber()
           expect(currentBlockNumber).toBeGreaterThan(21385842n)
+        })
+      })
+
+      describe('client', () => {
+        let testnetClient: TestnetClient
+        let cleanup: () => Promise<void>
+
+        before(async () => {
+          ;({ client: testnetClient, cleanup } = await factory.create({
+            id: 'test',
+            originChain: base,
+            forkChainId: expectedChainId,
+          }))
+        })
+        after(async () => {
+          await cleanup()
+        })
+
+        it('has correct chain id', async () => {
+          expect(await testnetClient.getChainId()).toEqual(expectedChainId)
+
+          expect(testnetClient.chain).toEqual({ ...base, id: expectedChainId })
         })
       })
     })

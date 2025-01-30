@@ -1,13 +1,12 @@
 import { assert, Hash } from '@marsfoundation/common-universal'
-import { http, Address, createTestClient, numberToHex, publicActions, walletActions } from 'viem'
+import { http, Address, Chain, createTestClient, numberToHex, publicActions, walletActions } from 'viem'
 import { dealActions } from 'viem-deal'
-import { mainnet } from 'viem/chains'
 import { TestnetClient } from '../../TestnetClient.js'
 import { extendWithTestnetHelpers } from '../extendWithTestnetHelpers.js'
 
-export function getAnvilClient(rpc: string): TestnetClient {
+export function getAnvilClient(rpc: string, chain: Chain, forkChainId: number): TestnetClient {
   return createTestClient({
-    chain: mainnet,
+    chain: { ...chain, id: forkChainId },
     mode: 'anvil',
     transport: http(rpc),
     cacheTime: 0, // do not cache block numbers

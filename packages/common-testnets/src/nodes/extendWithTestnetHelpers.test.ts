@@ -2,6 +2,7 @@ import { CheckedAddress } from '@marsfoundation/common-universal'
 import { expect } from 'earl'
 import { erc20Abi, parseEther } from 'viem'
 import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts'
+import { mainnet } from 'viem/chains'
 import { TestnetClient } from '../TestnetClient.js'
 import { createTestnetFactoriesForE2ETests } from '../test-utils/index.js'
 import { extendWithTestnetHelpers } from './extendWithTestnetHelpers.js'
@@ -17,7 +18,7 @@ describe(extendWithTestnetHelpers.name, () => {
       before(async () => {
         ;({ client: testnetClient, cleanup } = await factory.create({
           id: 'test',
-          originChainId: 1,
+          originChain: mainnet,
           forkChainId: 1,
           blockNumber: 21439277n,
         }))
