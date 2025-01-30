@@ -1,18 +1,18 @@
 import { TokenWithBalance } from '@/domain/common/types'
 import { OpenDialogFunction } from '@/domain/state/dialogs'
+import { Token } from '@/domain/types/Token'
 import { savingsDepositDialogConfig } from '@/features/dialogs/savings/deposit/SavingsDepositDialog'
 import { savingsWithdrawDialogConfig } from '@/features/dialogs/savings/withdraw/SavingsWithdrawDialog'
 import { PageLayout } from '@/ui/layouts/PageLayout'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { PageHeader } from '../components/PageHeader'
 import { AccountMainPanelGroup } from '../components/account-main-panel-group/AccountMainPanelGroup'
 import { DepositCTAPanel } from '../components/deposit-cta-panel/DepositCTAPanel'
 import { EntryAssetsPanel } from '../components/entry-assets-panel/EntryAssetsPanel'
-import { UpgradeSavingsBanner } from '../components/upgrade-savings-baner/UpgradeSavingsBanner'
 import { SavingsCharts } from '../components/savings-charts/SavingsCharts'
+import { UpgradeSavingsBanner } from '../components/upgrade-savings-baner/UpgradeSavingsBanner'
 import { MigrationInfo } from '../logic/makeMigrationInfo'
 import { ChartsData, InterestData, SavingsAccountEntryAssets } from '../logic/useSavings'
-import { Token } from '@/domain/types/Token'
-import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 export interface SavingsAccountViewProps {
   savingsToken: Token
@@ -81,7 +81,9 @@ export function SavingsAccountView({
             savingsTokenBalance={savingsTokenBalance}
             calculateUnderlyingTokenBalance={interestData.calculateUnderlyingTokenBalance}
             balanceRefreshIntervalInMs={interestData.balanceRefreshIntervalInMs}
-            openDepositDialog={() => openDialog(savingsDepositDialogConfig, { initialToken: mostValuableAsset.token, savingsToken })}
+            openDepositDialog={() =>
+              openDialog(savingsDepositDialogConfig, { initialToken: mostValuableAsset.token, savingsToken })
+            }
             openSendDialog={() =>
               openDialog(savingsWithdrawDialogConfig, {
                 mode: 'send',
@@ -105,12 +107,7 @@ export function SavingsAccountView({
             apyImprovement={migrationInfo.apyImprovement}
           />
         )}
-        {chartsData.chartsSupported && (
-          <SavingsCharts
-            savingsTokenSymbol={savingsToken.symbol}
-            {...chartsData}
-          />
-        )}
+        {chartsData.chartsSupported && <SavingsCharts savingsTokenSymbol={savingsToken.symbol} {...chartsData} />}
       </div>
       <EntryAssetsPanel
         assets={entryAssets}

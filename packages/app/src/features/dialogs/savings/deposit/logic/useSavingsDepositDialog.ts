@@ -1,4 +1,5 @@
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
+import { useSavingsAccountRepository } from '@/domain/savings-info/useSavingsAccountRepository'
 import { useSavingsTokens } from '@/domain/savings/useSavingsTokens'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
@@ -42,6 +43,7 @@ export function useSavingsDepositDialog({
   const chainId = useChainId()
   const savingsInfo = useSavingsInfo({ savingsToken })
   const { tokensInfo, inputTokens } = useSavingsTokens({ chainId })
+  const savingsAccounts = useSavingsAccountRepository({ chainId })
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')
 
@@ -100,6 +102,7 @@ export function useSavingsDepositDialog({
     actionsContext: {
       tokensInfo,
       savingsUsdsInfo: savingsToken.symbol === TokenSymbol('sUSDS') ? savingsInfo : undefined,
+      savingsAccounts,
     },
   }
 }
