@@ -68,6 +68,7 @@ export class TenderlyTestnetFactory implements TestnetFactory {
 
     return {
       client,
+      rpcUrl: adminRpc.url,
       cleanup: () => Promise.resolve(),
     }
   }

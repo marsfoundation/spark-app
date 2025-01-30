@@ -37,11 +37,11 @@ export class AnvilTestnetFactory implements TestnetFactory {
 
     await anvil.start()
 
-    const url = `http://${anvil.host}:${anvil.port}`
+    const rpcUrl = `http://${anvil.host}:${anvil.port}`
 
     assert(anvil.status === 'listening', `Anvil failed to start: ${anvil.status}`)
 
-    const client = getAnvilClient(url, originChain, forkChainId)
+    const client = getAnvilClient(rpcUrl, originChain, forkChainId)
 
     const lastBlockTimestamp = (await client.getBlock()).timestamp
     await client.setNextBlockTimestamp(lastBlockTimestamp + 1n) // mineBlocks does not respect interval for the first block
@@ -49,6 +49,7 @@ export class AnvilTestnetFactory implements TestnetFactory {
 
     return {
       client,
+      rpcUrl,
       cleanup: async () => {
         await anvil.stop()
       },

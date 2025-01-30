@@ -3,6 +3,7 @@ import { TestnetClient } from './TestnetClient.js'
 
 export interface TestnetCreateResult {
   client: TestnetClient
+  rpcUrl: string
   cleanup: () => Promise<void>
 }
 /**
