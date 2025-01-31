@@ -68,7 +68,7 @@ export function SavingsAccountView({
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-[202px_1fr]">
         <div
           className={cn(
-            '-ml-5 -mr-5 flex overflow-x-auto pr-5 pl-5 lg:mr-0 lg:ml-0 lg:block lg:overflow-auto lg:pr-0 lg:pl-0',
+            '-ml-5 -mr-5 flex overflow-x-auto pr-5 pl-5 lg:mr-0 lg:ml-0 lg:block lg:overflow-visible lg:pr-0 lg:pl-0',
             '[mask-image:linear-gradient(to_right,rgb(0,0,0,0.3),black_6%,black_94%,rgb(0,0,0,0.3))] lg:[mask-image:none]',
           )}
         >
