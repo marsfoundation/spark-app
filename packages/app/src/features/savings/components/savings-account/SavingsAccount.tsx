@@ -45,7 +45,7 @@ export function SavingsAccount({
   migrationInfo,
 }: SavingsAccountProps) {
   const displayDepositCallToAction = guestMode || savingsTokenBalance.eq(0)
-
+  const displayUpgradeBanner = migrationInfo !== undefined && savingsTokenBalance.gt(0)
   const primaryAction = guestMode
     ? { title: 'Connect Wallet' as const, action: openConnectModal }
     : {
@@ -97,7 +97,7 @@ export function SavingsAccount({
           projections={interestData.currentProjections}
         />
       )}
-      {migrationInfo && (
+      {displayUpgradeBanner && (
         <UpgradeSavingsBanner
           onUpgradeSavingsClick={migrationInfo.openSDaiToSUsdsUpgradeDialog}
           apyImprovement={migrationInfo.apyImprovement}
@@ -108,7 +108,6 @@ export function SavingsAccount({
         assets={entryAssets}
         openDialog={openDialog}
         showConvertDialogButton={showConvertDialogButton}
-        migrationInfo={migrationInfo}
         savingsToken={savingsToken}
       />
     </div>
