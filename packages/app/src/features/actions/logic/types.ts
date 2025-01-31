@@ -96,9 +96,6 @@ export interface BatchActionHandler {
 export interface ActionContext {
   marketInfo?: MarketInfo
   tokensInfo?: TokensInfo
-  savingsDaiInfo?: SavingsInfo
-  savingsUsdsInfo?: SavingsInfo
-  savingsUsdcInfo?: SavingsInfo
   savingsAccounts?: SavingsAccountRepository
   permitStore?: PermitStore
   farmsInfo?: FarmsInfo

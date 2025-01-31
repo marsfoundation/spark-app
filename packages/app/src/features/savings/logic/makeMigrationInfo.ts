@@ -25,8 +25,8 @@ export function makeMigrationInfo({
     return undefined
   }
 
-  const sdaiAccount = savingsAccounts.findAccountBySavingsTokenSymbol(TokenSymbol('sDAI'))
-  const susdsAccount = savingsAccounts.findAccountBySavingsTokenSymbol(TokenSymbol('sUSDS'))
+  const sdaiAccount = savingsAccounts.findBySavingsTokenSymbol(TokenSymbol('sDAI'))
+  const susdsAccount = savingsAccounts.findBySavingsTokenSymbol(TokenSymbol('sUSDS'))
 
   if (!sdaiAccount || !susdsAccount) {
     return undefined

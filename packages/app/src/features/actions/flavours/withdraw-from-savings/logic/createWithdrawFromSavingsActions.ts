@@ -6,7 +6,8 @@ import {
   usdsPsmActionsConfig,
 } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
-import { SavingsInfo } from '@/domain/savings-info/types'
+import { InterestBearingConverter } from '@/domain/savings-info/types'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { Action, ActionContext } from '@/features/actions/logic/types'
 import {
   assert,
@@ -42,11 +43,11 @@ export function createWithdrawFromSavingsActions(
 
   const getSusdsApproveAction = createApproveActionFromSavingsInfo({
     objective,
-    savingInfo: context.savingsUsdsInfo,
+    converter: context.savingsAccounts?.findBySavingsTokenSymbol(TokenSymbol('sUSDS'))?.converter,
   })
   const getSdaiApproveAction = createApproveActionFromSavingsInfo({
     objective,
-    savingInfo: context.savingsDaiInfo,
+    converter: context.savingsAccounts?.findBySavingsTokenSymbol(TokenSymbol('sDAI'))?.converter,
   })
 
   const actionPath = getSavingsWithdrawActionPath({
@@ -77,9 +78,13 @@ export function createWithdrawFromSavingsActions(
 
     case 'base-susds-to-usdc':
     case 'base-susds-to-usds': {
-      const savingsInfo =
-        context.savingsUsdsInfo ?? raise('Savings info is required for withdraw from savings on base action')
-      const maxSharesAmount = savingsInfo.convertToShares({ assets: objective.amount })
+      assert(
+        context.savingsAccounts,
+        'Savings accounts repository info is required for usdc psm withdraw from savings action',
+      )
+      const { converter } = context.savingsAccounts.findOneBySavingsTokenSymbol(TokenSymbol('sUSDS'))
+
+      const maxSharesAmount = converter.convertToShares({ assets: objective.amount })
       const maxAmountIn = BaseUnitNumber(
         formatMaxAmountInForPsm3({
           susds: objective.savingsToken,
@@ -105,15 +110,15 @@ export function createWithdrawFromSavingsActions(
 
 interface CreateApproveActionFromSavingsInfoParams {
   objective: WithdrawFromSavingsObjective
-  savingInfo?: SavingsInfo
+  converter?: InterestBearingConverter
 }
 
-function createApproveActionFromSavingsInfo({ objective, savingInfo }: CreateApproveActionFromSavingsInfoParams) {
+function createApproveActionFromSavingsInfo({ objective, converter }: CreateApproveActionFromSavingsInfoParams) {
   return (spender: CheckedAddress): ApproveAction => {
     // @note This assert is here and not on the callsite
     // to prevent raising an error while only one of the savings info is provided
-    assert(savingInfo, 'Savings info is required for withdraw from savings action approval')
-    const savingTokenApprovalAmountEstimate = savingInfo.convertToShares({ assets: objective.amount })
+    assert(converter, 'Savings info is required for withdraw from savings action approval')
+    const savingTokenApprovalAmountEstimate = converter.convertToShares({ assets: objective.amount })
 
     return {
       type: 'approve',
