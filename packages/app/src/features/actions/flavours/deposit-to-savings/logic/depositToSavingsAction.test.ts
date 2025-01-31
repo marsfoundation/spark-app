@@ -10,6 +10,7 @@ import {
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { EPOCH_LENGTH } from '@/domain/market-info/consts'
 import { PotSavingsInfo } from '@/domain/savings-info/potSavingsInfo'
+import { SavingsAccountRepository } from '@/domain/savings-info/types'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
@@ -59,6 +60,14 @@ const mockSavingsInfo = new PotSavingsInfo({
   },
   currentTimestamp: savingsInfoTimestamp,
 })
+
+const savingsAccountsWithSusdc = new SavingsAccountRepository([
+  {
+    converter: mockSavingsInfo,
+    savingsToken: susdc,
+    underlyingToken: usdc,
+  },
+])
 
 const minAmountOut = mockSavingsInfo.predictSharesAmount({
   assets: depositValue,
@@ -249,7 +258,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
       args: {
         action: { type: 'depositToSavings', token: usdc, savingsToken: susdc, value: depositValue },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo, savingsUsdcInfo: mockSavingsInfo },
+        context: { tokensInfo: mockTokensInfo, savingsAccounts: savingsAccountsWithSusdc },
       },
       extraHandlers: [
         handlers.contractCall({
