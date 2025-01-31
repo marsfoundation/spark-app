@@ -42,7 +42,7 @@
   },
   "peerDependencies": {
     "bignumber.js": "^9.1.2",
-    "viem": "^2.9.21"
+    "viem": "^2.0.0"
   },
   "devDependencies": {
     "@sinonjs/fake-timers": "^13.0.5",
