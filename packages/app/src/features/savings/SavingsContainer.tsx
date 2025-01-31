@@ -5,24 +5,18 @@ import { useSavings } from './logic/useSavings'
 import { SavingsAccountView } from './views/SavingsAccountView'
 
 function SavingsContainer() {
-  const { openDialog, selectedAccount } = useSavings()
+  const { openDialog, selectedAccount, setSelectedAccount, allAccounts } = useSavings()
   const { isGuestMode, openConnectModal, openSandboxModal } = useUnsupportedChain()
 
   return (
     <SavingsAccountView
-      savingsToken={selectedAccount.savingsToken}
-      savingsTokenBalance={selectedAccount.savingsTokenBalance}
-      underlyingToken={selectedAccount.underlyingToken}
-      interestData={selectedAccount.interestData}
-      entryAssets={selectedAccount.entryAssets}
-      mostValuableAsset={selectedAccount.mostValuableAsset}
-      showConvertDialogButton={selectedAccount.showConvertDialogButton}
-      chartsData={selectedAccount.chartsData}
+      {...selectedAccount}
+      allAccounts={allAccounts}
+      setSelectedAccount={setSelectedAccount}
       openDialog={openDialog}
       openSandboxModal={openSandboxModal}
       openConnectModal={openConnectModal}
       guestMode={isGuestMode}
-      migrationInfo={selectedAccount.migrationInfo}
     />
   )
 }
