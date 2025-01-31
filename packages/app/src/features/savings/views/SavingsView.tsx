@@ -8,7 +8,7 @@ import { SavingsAccount } from '../components/savings-account/SavingsAccount'
 import { ShortAccountDefinition } from '../logic/useSavings'
 import { AccountDefinition } from '../logic/useSavings'
 
-export interface SavingsAccountProps {
+export interface SavingsViewProps {
   selectedAccount: AccountDefinition
   // @todo: Pass separate functions for each dialog after removing old views
   openDialog: OpenDialogFunction
@@ -27,7 +27,7 @@ export function SavingsView({
   guestMode,
   setSelectedAccount,
   allAccounts,
-}: SavingsAccountProps) {
+}: SavingsViewProps) {
   return (
     <PageLayout>
       <PageHeader />

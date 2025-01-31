@@ -9,7 +9,6 @@ import { DataTable, DataTableColumnDefinitions } from '@/ui/molecules/data-table
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { useMemo } from 'react'
-import { MigrationInfo } from '../../logic/makeMigrationInfo'
 import { SavingsAccountEntryAssets } from '../../logic/useSavings'
 import { MoreDropdown } from './components/MoreDropdown'
 import { TokenCell } from './components/TokenCell'
@@ -19,7 +18,6 @@ export interface EntryAssetsPanelProps {
   openDialog: OpenDialogFunction
   showConvertDialogButton: boolean
   savingsToken: Token
-  migrationInfo?: MigrationInfo
 }
 
 export function EntryAssetsPanel({ assets, openDialog, showConvertDialogButton, savingsToken }: EntryAssetsPanelProps) {

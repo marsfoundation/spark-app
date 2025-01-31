@@ -2,6 +2,7 @@ import { farmAddresses } from '@/config/chain/constants'
 import { FarmsInfo } from '@/domain/farms/farmsInfo'
 import { Farm } from '@/domain/farms/types'
 import { PotSavingsInfo } from '@/domain/savings-info/potSavingsInfo'
+import { SavingsAccountRepository } from '@/domain/savings-info/types'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { bigNumberify } from '@marsfoundation/common-universal'
 import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
@@ -52,6 +53,19 @@ const mockSavingsUsdsInfo = new PotSavingsInfo({
   },
   currentTimestamp: timestamp + 24 * 60 * 60,
 })
+
+const mockSavingsAccounts = new SavingsAccountRepository([
+  {
+    converter: mockSavingsDaiInfo,
+    savingsToken: sdai,
+    underlyingToken: dai,
+  },
+  {
+    converter: mockSavingsUsdsInfo,
+    savingsToken: susds,
+    underlyingToken: usds,
+  },
+])
 
 const farm: Farm = {
   address: farmAddresses[mainnet.id].skyUsds,
@@ -136,9 +150,8 @@ const meta: Meta<typeof StakeView> = {
     },
     actionsContext: {
       tokensInfo: mockTokensInfo,
-      savingsDaiInfo: mockSavingsDaiInfo,
-      savingsUsdsInfo: mockSavingsUsdsInfo,
       farmsInfo: mockedFarmsInfo,
+      savingsAccounts: mockSavingsAccounts,
     },
     sacrificesYield: false,
   },
