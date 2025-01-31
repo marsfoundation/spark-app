@@ -1,5 +1,6 @@
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
 import { useConditionalFreeze } from '@/domain/hooks/useConditionalFreeze'
+import { useSavingsAccountRepository } from '@/domain/savings-info/useSavingsAccountRepository'
 import { useSavingsTokens } from '@/domain/savings/useSavingsTokens'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
@@ -12,7 +13,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
 import { useChainId } from 'wagmi'
-import { useSavingsInfo } from '../../common/logic/useSavingsInfo'
 import { SavingsDialogTxOverview } from '../../common/types'
 import { Mode, SendModeExtension } from '../types'
 import { createObjectives } from './createObjectives'
@@ -45,7 +45,7 @@ export function useSavingsWithdrawDialog({
   underlyingToken,
 }: UseSavingsWithdrawDialogParams): UseSavingsWithdrawDialogResults {
   const chainId = useChainId()
-  const savingsInfo = useSavingsInfo({ savingsToken })
+  const savingsAccounts = useSavingsAccountRepository({ chainId })
   const { tokensInfo, inputTokens } = useSavingsTokens({ chainId })
   const [pageState, setPageState] = useState<PageState>('form')
   const sendModeExtension = useSendModeExtension({ mode, tokensInfo })
@@ -79,7 +79,7 @@ export function useSavingsWithdrawDialog({
   const txOverview = createTxOverview({
     formValues,
     tokensInfo,
-    savingsInfo,
+    savingsAccounts,
     savingsToken: savingsTokenWithBalance.token,
   })
   const tokenToWithdraw = useConditionalFreeze<TokenWithValue>(
@@ -109,8 +109,7 @@ export function useSavingsWithdrawDialog({
     txOverview,
     actionsContext: {
       tokensInfo,
-      savingsDaiInfo: savingsToken.symbol === TokenSymbol('sDAI') ? savingsInfo : undefined,
-      savingsUsdsInfo: savingsToken.symbol === TokenSymbol('sUSDS') ? savingsInfo : undefined,
+      savingsAccounts,
     },
     sendModeExtension,
   }

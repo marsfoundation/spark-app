@@ -48,22 +48,21 @@ export class SavingsAccountRepository {
     return this.accounts
   }
 
-  findAccountBySavingsTokenSymbol(savingsTokenSymbol: TokenSymbol): SavingsAccount | undefined {
+  findBySavingsTokenSymbol(savingsTokenSymbol: TokenSymbol): SavingsAccount | undefined {
     return this.accounts.find((account) => account.savingsToken.symbol === savingsTokenSymbol)
   }
 
-  findOneAccountBySavingsTokenSymbol(savingsTokenSymbol: TokenSymbol): SavingsAccount {
+  findOneBySavingsTokenSymbol(savingsTokenSymbol: TokenSymbol): SavingsAccount {
     return (
-      this.findAccountBySavingsTokenSymbol(savingsTokenSymbol) ??
-      raise(`Savings account not found for ${savingsTokenSymbol}`)
+      this.findBySavingsTokenSymbol(savingsTokenSymbol) ?? raise(`Savings account not found for ${savingsTokenSymbol}`)
     )
   }
 
-  findAccountBySavingsToken(savingsToken: Token): SavingsAccount | undefined {
-    return this.findAccountBySavingsTokenSymbol(savingsToken.symbol)
+  findBySavingsToken(savingsToken: Token): SavingsAccount | undefined {
+    return this.findBySavingsTokenSymbol(savingsToken.symbol)
   }
 
-  findOneAccountBySavingsToken(savingsToken: Token): SavingsAccount {
-    return this.findOneAccountBySavingsTokenSymbol(savingsToken.symbol)
+  findOneBySavingsToken(savingsToken: Token): SavingsAccount {
+    return this.findOneBySavingsTokenSymbol(savingsToken.symbol)
   }
 }

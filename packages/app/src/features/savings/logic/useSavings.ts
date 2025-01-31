@@ -78,7 +78,7 @@ export function useSavings(): UseSavingsResults {
   })
 
   const selectedAccountData = {
-    ...savingsAccounts.findOneAccountBySavingsTokenSymbol(selectedAccount),
+    ...savingsAccounts.findOneBySavingsTokenSymbol(selectedAccount),
     savingsTokenBalance: tokensInfo.findOneBalanceBySymbol(selectedAccount),
   }
   const savingsChartsInfo = useSavingsChartsInfoQuery({

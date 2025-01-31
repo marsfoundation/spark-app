@@ -1,4 +1,4 @@
-import { SavingsInfo } from '@/domain/savings-info/types'
+import { InterestBearingConverter, SavingsAccountRepository } from '@/domain/savings-info/types'
 import { Token } from '@/domain/types/Token'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { TransferFromUserFormNormalizedData } from '@/features/dialogs/common/logic/transfer-from-user/form'
@@ -9,25 +9,27 @@ import { SavingsDialogTxOverview } from '../../common/types'
 export interface CreateTxOverviewParams {
   formValues: TransferFromUserFormNormalizedData
   tokensInfo: TokensInfo
-  savingsInfo: SavingsInfo
+  savingsAccounts: SavingsAccountRepository
   savingsToken: Token
 }
 export function createTxOverview({
   formValues,
   tokensInfo,
-  savingsInfo,
+  savingsAccounts,
   savingsToken,
 }: CreateTxOverviewParams): SavingsDialogTxOverview {
+  const converter = savingsAccounts.findOneBySavingsToken(savingsToken).converter
+
   const [tokenValue, savingsTokenValue] = (() => {
     if (formValues.isMaxSelected) {
       const savingsTokenValue = tokensInfo.findOneTokenWithBalanceBySymbol(savingsToken.symbol).balance
-      const tokenValue = savingsInfo.convertToAssets({ shares: savingsTokenValue })
+      const tokenValue = converter.convertToAssets({ shares: savingsTokenValue })
 
       return [tokenValue, savingsTokenValue]
     }
 
     const tokenValue = formValues.value
-    const savingsTokenValue = savingsInfo.convertToShares({ assets: tokenValue })
+    const savingsTokenValue = converter.convertToShares({ assets: tokenValue })
     return [tokenValue, savingsTokenValue]
   })()
 
@@ -35,11 +37,11 @@ export function createTxOverview({
     return { status: 'no-overview' }
   }
 
-  const savingsRate = NormalizedUnitNumber(savingsTokenValue.multipliedBy(savingsInfo.apy))
+  const savingsRate = NormalizedUnitNumber(savingsTokenValue.multipliedBy(converter.apy))
   const route = getWithdrawRoute({
     formValues,
     tokensInfo,
-    savingsInfo,
+    converter,
     savingsToken,
     savingsTokenValue,
   })
@@ -49,7 +51,7 @@ export function createTxOverview({
       (savingsToken.symbol === tokensInfo.sDAI?.symbol ? tokensInfo.DAI : tokensInfo.USDS) ??
       raise('Cannot find stable token'),
     status: 'success',
-    APY: savingsInfo.apy,
+    APY: converter.apy,
     stableEarnRate: savingsRate,
     route,
     skyBadgeToken: formValues.token,
@@ -60,14 +62,14 @@ export function createTxOverview({
 export interface GetWithdrawRouteParams {
   formValues: TransferFromUserFormNormalizedData
   tokensInfo: TokensInfo
-  savingsInfo: SavingsInfo
+  converter: InterestBearingConverter
   savingsToken: Token
   savingsTokenValue: NormalizedUnitNumber
 }
 function getWithdrawRoute({
   formValues,
   tokensInfo,
-  savingsInfo,
+  converter,
   savingsToken,
   savingsTokenValue,
 }: GetWithdrawRouteParams): TxOverviewRouteItem[] {
@@ -80,7 +82,7 @@ function getWithdrawRoute({
     {
       token: savingsToken,
       value: savingsTokenValue,
-      usdValue: savingsInfo.convertToAssets({ shares: savingsTokenValue }),
+      usdValue: converter.convertToAssets({ shares: savingsTokenValue }),
     },
     {
       token: intermediary,

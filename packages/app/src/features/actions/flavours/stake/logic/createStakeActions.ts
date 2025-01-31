@@ -1,6 +1,7 @@
 import { migrationActionsConfig, usdsPsmWrapperConfig } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { Token } from '@/domain/types/Token'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { Action, ActionContext } from '@/features/actions/logic/types'
 import { assert, BaseUnitNumber, NormalizedUnitNumber, assertNever, raise } from '@marsfoundation/common-universal'
 import { TransactionReceipt, decodeEventLog, erc4626Abi } from 'viem'
@@ -75,14 +76,20 @@ export function createStakeActions(objective: StakeObjective, context: ActionCon
       let fallbackStakeAmount = NormalizedUnitNumber(0)
 
       if (actionPath === 'susds-to-usds-to-farm') {
-        const { savingsUsdsInfo } = context
-        assert(savingsUsdsInfo, 'Savings usds info is required when input for stake is savings usds token')
-        fallbackStakeAmount = savingsUsdsInfo.convertToAssets({ shares: objective.amount })
+        assert(
+          context.savingsAccounts,
+          'Savings accounts repository info is required when input for stake is susds token',
+        )
+        const { converter } = context.savingsAccounts.findOneBySavingsTokenSymbol(TokenSymbol('sUSDS'))
+        fallbackStakeAmount = converter.convertToAssets({ shares: objective.amount })
       }
       if (actionPath === 'sdai-to-usds-to-farm') {
-        const { savingsDaiInfo } = context
-        assert(savingsDaiInfo, 'Savings dai info is required when input for stake is savings dai token')
-        fallbackStakeAmount = savingsDaiInfo.convertToAssets({ shares: objective.amount })
+        assert(
+          context.savingsAccounts,
+          'Savings accounts repository info is required when input for stake is sdai token',
+        )
+        const { converter } = context.savingsAccounts.findOneBySavingsTokenSymbol(TokenSymbol('sDAI'))
+        fallbackStakeAmount = converter.convertToAssets({ shares: objective.amount })
       }
 
       const [, withdrawReceipt] = context.txReceipts.find(([action]) => action.type === 'withdrawFromSavings') ?? []
