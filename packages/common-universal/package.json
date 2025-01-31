@@ -47,12 +47,14 @@
   "devDependencies": {
     "@sinonjs/fake-timers": "^13.0.5",
     "@types/mocha": "^10.0.10",
+    "@types/ms": "^2.1.0",
     "@types/sinonjs__fake-timers": "^8.1.5",
     "earl": "^1.3.0",
     "mocha": "^10.8.2"
   },
   "dependencies": {
     "fetch-retry": "^5.0.6",
+    "ms": "^2.1.3",
     "p-limit": "^6.1.0"
   }
 }

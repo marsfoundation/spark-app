@@ -15,7 +15,7 @@ test.describe('Claim rewards dialog', () => {
     testContext = await setup(page, {
       blockchain: {
         blockNumber: DEFAULT_BLOCK_NUMBER,
-        chainId: mainnet.id,
+        chain: mainnet,
       },
       initialPage: 'easyBorrow',
       account: {

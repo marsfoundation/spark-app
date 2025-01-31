@@ -33,7 +33,7 @@ test.describe('Deposit dialog', () => {
     test.beforeEach(async ({ page }) => {
       const testContext = await setup(page, {
         blockchain: {
-          chainId: mainnet.id,
+          chain: mainnet,
           blockNumber: DEFAULT_BLOCK_NUMBER,
         },
         initialPage: 'easyBorrow',
@@ -256,7 +256,7 @@ test.describe('Deposit dialog', () => {
     test.beforeEach(async ({ page }) => {
       const testContext = await setup(page, {
         blockchain: {
-          chainId: mainnet.id,
+          chain: mainnet,
           blockNumber: DEFAULT_BLOCK_NUMBER,
         },
         initialPage: 'easyBorrow',
@@ -308,7 +308,7 @@ test.describe('Deposit dialog', () => {
 
       const testContext = await setup(page, {
         blockchain: {
-          chainId: mainnet.id,
+          chain: mainnet,
           blockNumber: DEFAULT_BLOCK_NUMBER,
         },
         initialPage: 'myPortfolio',
@@ -353,7 +353,7 @@ test.describe('Deposit dialog', () => {
 
       const testContext = await setup(page, {
         blockchain: {
-          chainId: mainnet.id,
+          chain: mainnet,
           blockNumber: DEFAULT_BLOCK_NUMBER,
         },
         initialPage: 'myPortfolio',
@@ -392,7 +392,7 @@ test.describe('Deposit dialog', () => {
     test('retains some native asset when depositing max', async ({ page }) => {
       const testContext = await setup(page, {
         blockchain: {
-          chainId: mainnet.id,
+          chain: mainnet,
           blockNumber: DEFAULT_BLOCK_NUMBER,
         },
         initialPage: 'myPortfolio',

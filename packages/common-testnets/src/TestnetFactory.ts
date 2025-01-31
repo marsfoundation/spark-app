@@ -1,7 +1,9 @@
+import { Chain } from 'viem'
 import { TestnetClient } from './TestnetClient.js'
 
 export interface TestnetCreateResult {
   client: TestnetClient
+  rpcUrl: string
   cleanup: () => Promise<void>
 }
 /**
@@ -11,13 +13,13 @@ export interface TestnetCreateResult {
  */
 export interface TestnetFactory {
   create(network: CreateNetworkArgs): Promise<TestnetCreateResult>
-  createClientFromUrl(rpcUrl: string): TestnetClient
+  createClientFromUrl(rpcUrl: string, chain: Chain, forkChainId: number): TestnetClient
 }
 
 export interface CreateNetworkArgs {
   id: string
   displayName?: string
-  originChainId: number
+  originChain: Chain
   forkChainId: number
   blockNumber?: bigint
 }

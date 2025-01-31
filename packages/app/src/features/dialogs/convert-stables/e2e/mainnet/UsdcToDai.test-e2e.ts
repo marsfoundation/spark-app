@@ -13,7 +13,7 @@ test.describe('Convert USDC to DAI', () => {
     const testContext = await setup(page, {
       blockchain: {
         blockNumber: DEFAULT_BLOCK_NUMBER,
-        chainId: mainnet.id,
+        chain: mainnet,
       },
       initialPage: 'savings',
       account: {

@@ -13,7 +13,7 @@ test.describe('Deposit USDS', () => {
   test.beforeEach(async ({ page }) => {
     testContext = await setup(page, {
       blockchain: {
-        chainId: mainnet.id,
+        chain: mainnet,
         blockNumber: DEFAULT_BLOCK_NUMBER,
       },
       initialPage: 'savings',

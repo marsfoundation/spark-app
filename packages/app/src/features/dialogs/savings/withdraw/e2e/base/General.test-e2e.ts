@@ -9,7 +9,7 @@ test.describe('Without send mode', () => {
   test('can switch between tokens', async ({ page }) => {
     const testContext = await setup(page, {
       blockchain: {
-        chainId: base.id,
+        chain: base,
         blockNumber: BASE_DEFAULT_BLOCK_NUMBER,
       },
       initialPage: 'savings',
@@ -57,7 +57,7 @@ test.describe('With send mode', () => {
   test('can select only supported assets', async ({ page }) => {
     const testContext = await setup(page, {
       blockchain: {
-        chainId: base.id,
+        chain: base,
         blockNumber: BASE_DEFAULT_BLOCK_NUMBER,
       },
       initialPage: 'savings',

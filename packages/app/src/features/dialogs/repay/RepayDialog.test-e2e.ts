@@ -33,7 +33,7 @@ test.describe('Repay dialog', () => {
       testContext = await setup(page, {
         blockchain: {
           blockNumber: DEFAULT_BLOCK_NUMBER,
-          chainId: mainnet.id,
+          chain: mainnet,
         },
         initialPage: 'easyBorrow',
         account: {
@@ -174,7 +174,7 @@ test.describe('Repay dialog', () => {
       testContext = await setup(page, {
         blockchain: {
           blockNumber: DEFAULT_BLOCK_NUMBER,
-          chainId: mainnet.id,
+          chain: mainnet,
         },
         initialPage: 'easyBorrow',
         account: {
@@ -316,7 +316,7 @@ test.describe('Repay dialog', () => {
       testContext = await setup(page, {
         blockchain: {
           blockNumber: DEFAULT_BLOCK_NUMBER,
-          chainId: mainnet.id,
+          chain: mainnet,
         },
         initialPage: 'easyBorrow',
         account: {
@@ -505,7 +505,7 @@ test.describe('Repay dialog', () => {
       testContext = await setup(page, {
         blockchain: {
           blockNumber: DEFAULT_BLOCK_NUMBER,
-          chainId: mainnet.id,
+          chain: mainnet,
         },
         initialPage: 'easyBorrow',
         account: {
@@ -573,7 +573,7 @@ test.describe('Repay dialog', () => {
       testContext = await setup(page, {
         blockchain: {
           blockNumber: DEFAULT_BLOCK_NUMBER,
-          chainId: mainnet.id,
+          chain: mainnet,
         },
         initialPage: 'easyBorrow',
         account: {

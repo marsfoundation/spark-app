@@ -1,4 +1,4 @@
-import { Hash, raise } from '@marsfoundation/common-universal'
+import { Hash } from '@marsfoundation/common-universal'
 import {
   Abi,
   Address,
@@ -32,8 +32,4 @@ export type TestnetClientHelperActions = {
   >(
     args: PartialBy<WriteContractParameters<abi, functionName, args, undefined>, 'chain'>, // avoids requiring chain parameter
   ) => Promise<WriteContractReturnType>
-}
-
-export function getUrlFromClient(client: TestnetClient): string {
-  return client.transport.type === 'http' ? client.transport.url : raise('Only http transport is supported')
 }

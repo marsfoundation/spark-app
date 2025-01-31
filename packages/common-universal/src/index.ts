@@ -26,3 +26,6 @@ export * from './data/unique.js'
 
 export * from './typeHelpers.js'
 export * from './networking/solidFetch.js'
+
+export * from './viem/types.js'
+export * from './viem/extractUrlFromClient.js'

@@ -29,7 +29,7 @@ test.describe('Borrow page', () => {
     test.beforeEach(async ({ page }) => {
       testContext = await setup(page, {
         blockchain: {
-          chainId: mainnet.id,
+          chain: mainnet,
           blockNumber: DEFAULT_BLOCK_NUMBER,
         },
         initialPage: 'easyBorrow',
@@ -115,7 +115,7 @@ test.describe('Borrow page', () => {
     test.beforeEach(async ({ page }) => {
       testContext = await setup(page, {
         blockchain: {
-          chainId: mainnet.id,
+          chain: mainnet,
           blockNumber: DEFAULT_BLOCK_NUMBER,
         },
         initialPage: 'easyBorrow',
@@ -268,7 +268,7 @@ test.describe('Borrow page', () => {
     test.beforeEach(async ({ page }) => {
       testContext = await setup(page, {
         blockchain: {
-          chainId: mainnet.id,
+          chain: mainnet,
           blockNumber: DEFAULT_BLOCK_NUMBER,
         },
         initialPage: 'easyBorrow',
@@ -330,7 +330,7 @@ test.describe('Borrow page', () => {
   test('borrows usds', async ({ page }) => {
     const testContext = await setup(page, {
       blockchain: {
-        chainId: mainnet.id,
+        chain: mainnet,
         blockNumber: DEFAULT_BLOCK_NUMBER,
       },
       initialPage: 'easyBorrow',
@@ -388,7 +388,7 @@ test.describe('Borrow page', () => {
     test.beforeEach(async ({ page }) => {
       const testContext = await setup(page, {
         blockchain: {
-          chainId: mainnet.id,
+          chain: mainnet,
           blockNumber: DEFAULT_BLOCK_NUMBER,
         },
         initialPage: 'easyBorrow',
@@ -418,7 +418,7 @@ test.describe('Borrow page', () => {
     test.beforeEach(async ({ page }) => {
       const testContext = await setup(page, {
         blockchain: {
-          chainId: mainnet.id,
+          chain: mainnet,
           blockNumber: DEFAULT_BLOCK_NUMBER,
         },
         initialPage: 'easyBorrow',
@@ -491,7 +491,7 @@ test.describe('Borrow page', () => {
     test.beforeEach(async ({ page }) => {
       testContext = await setup(page, {
         blockchain: {
-          chainId: mainnet.id,
+          chain: mainnet,
           blockNumber: DEFAULT_BLOCK_NUMBER,
         },
         initialPage: 'easyBorrow',
@@ -533,7 +533,7 @@ test.describe('Borrow page', () => {
       test.beforeEach(async ({ page }) => {
         const testContext = await setup(page, {
           blockchain: {
-            chainId: mainnet.id,
+            chain: mainnet,
             blockNumber: DEFAULT_BLOCK_NUMBER,
           },
           initialPage: 'easyBorrow',
@@ -565,7 +565,7 @@ test.describe('Borrow page', () => {
     test('hf above danger zone threshold; risk warning is not shown', async ({ page }) => {
       const testContext = await setup(page, {
         blockchain: {
-          chainId: mainnet.id,
+          chain: mainnet,
           blockNumber: DEFAULT_BLOCK_NUMBER,
         },
         initialPage: 'easyBorrow',
@@ -588,7 +588,7 @@ test.describe('Borrow page', () => {
     test('can borrow DAI for ETH and cbBTC', async ({ page }) => {
       const testContext = await setup(page, {
         blockchain: {
-          chainId: mainnet.id,
+          chain: mainnet,
           blockNumber: DEFAULT_BLOCK_NUMBER,
         },
         initialPage: 'easyBorrow',
@@ -623,7 +623,7 @@ test.describe('Borrow page', () => {
     test('can borrow USDS for wstETH', async ({ page }) => {
       const testContext = await setup(page, {
         blockchain: {
-          chainId: mainnet.id,
+          chain: mainnet,
           blockNumber: DEFAULT_BLOCK_NUMBER,
         },
         initialPage: 'easyBorrow',

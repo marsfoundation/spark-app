@@ -10,7 +10,7 @@ test.describe('PageNotSupportedWarning', () => {
     const testContext = await setup(page, {
       blockchain: {
         blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER,
-        chainId: gnosis.id,
+        chain: gnosis,
       },
       initialPage: 'farms',
       account: {
@@ -27,7 +27,7 @@ test.describe('PageNotSupportedWarning', () => {
     const testContext = await setup(page, {
       blockchain: {
         blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER,
-        chainId: gnosis.id,
+        chain: gnosis,
       },
       initialPage: 'savings',
       account: {

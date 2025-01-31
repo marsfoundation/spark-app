@@ -4,16 +4,16 @@ import { CreateNetworkArgs, TestnetCreateResult, TestnetFactory } from '../../Te
 
 import { createAnvil } from '@viem/anvil'
 import getPort from 'get-port'
-import { http, createPublicClient } from 'viem'
+import { http, Chain, createPublicClient } from 'viem'
 import { getAnvilClient } from './AnvilClient.js'
 
 export class AnvilTestnetFactory implements TestnetFactory {
   constructor(private readonly opts: { alchemyApiKey: string }) {}
 
   async create(args: CreateNetworkArgs): Promise<TestnetCreateResult> {
-    const { originChainId, forkChainId, blockNumber } = args
+    const { originChain, forkChainId, blockNumber } = args
 
-    const forkUrl = originChainIdToForkUrl(originChainId, this.opts.alchemyApiKey)
+    const forkUrl = originChainIdToForkUrl(originChain.id, this.opts.alchemyApiKey)
     // if forkChainId is specified, anvil requires blockNumber to be specified as well
     const forkBlockNumber = await (async () => {
       if (blockNumber) {
@@ -37,11 +37,11 @@ export class AnvilTestnetFactory implements TestnetFactory {
 
     await anvil.start()
 
-    const url = `http://${anvil.host}:${anvil.port}`
+    const rpcUrl = `http://${anvil.host}:${anvil.port}`
 
     assert(anvil.status === 'listening', `Anvil failed to start: ${anvil.status}`)
 
-    const client = getAnvilClient(url)
+    const client = getAnvilClient(rpcUrl, originChain, forkChainId)
 
     const lastBlockTimestamp = (await client.getBlock()).timestamp
     await client.setNextBlockTimestamp(lastBlockTimestamp + 1n) // mineBlocks does not respect interval for the first block
@@ -49,14 +49,15 @@ export class AnvilTestnetFactory implements TestnetFactory {
 
     return {
       client,
+      rpcUrl,
       cleanup: async () => {
         await anvil.stop()
       },
     }
   }
 
-  createClientFromUrl(rpcUrl: string): TestnetClient {
-    return getAnvilClient(rpcUrl)
+  createClientFromUrl(rpcUrl: string, chain: Chain, forkChainId: number): TestnetClient {
+    return getAnvilClient(rpcUrl, chain, forkChainId)
   }
 }
 

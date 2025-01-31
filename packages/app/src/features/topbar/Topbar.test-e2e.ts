@@ -10,7 +10,7 @@ test.describe('Topbar', () => {
   test.describe('Airdrop counter', () => {
     test('Disconnected', async ({ page }) => {
       const testContext = await setup(page, {
-        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id },
+        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chain: mainnet },
         initialPage: 'easyBorrow',
         account: {
           type: 'not-connected',
@@ -25,7 +25,7 @@ test.describe('Topbar', () => {
 
     test('Connected', async ({ page }) => {
       const testContext = await setup(page, {
-        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id },
+        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chain: mainnet },
         initialPage: 'easyBorrow',
         account: {
           type: 'connected-random',
@@ -42,7 +42,7 @@ test.describe('Topbar', () => {
 
     test('Api error', async ({ page }) => {
       const testContext = await setup(page, {
-        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id },
+        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chain: mainnet },
         initialPage: 'easyBorrow',
         account: {
           type: 'connected-random',
@@ -57,7 +57,7 @@ test.describe('Topbar', () => {
 
     test('Wallet with no airdrop', async ({ page }) => {
       const testContext = await setup(page, {
-        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id },
+        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chain: mainnet },
         initialPage: 'easyBorrow',
         account: {
           type: 'connected-random',
@@ -78,7 +78,7 @@ test.describe('Topbar', () => {
       const testContext = await setup(page, {
         blockchain: {
           blockNumber: DEFAULT_BLOCK_NUMBER,
-          chainId: mainnet.id,
+          chain: mainnet,
         },
         initialPage: 'easyBorrow',
         account: {
@@ -95,7 +95,7 @@ test.describe('Topbar', () => {
       const testContext = await setup(page, {
         blockchain: {
           blockNumber: DEFAULT_BLOCK_NUMBER,
-          chainId: mainnet.id,
+          chain: mainnet,
         },
         initialPage: 'easyBorrow',
         account: {
@@ -120,7 +120,7 @@ test.describe('Topbar', () => {
       const testContext = await setup(page, {
         blockchain: {
           blockNumber: DEFAULT_BLOCK_NUMBER,
-          chainId: mainnet.id,
+          chain: mainnet,
         },
         initialPage: 'myPortfolio',
         account: {
@@ -139,7 +139,7 @@ test.describe('Topbar', () => {
   test.describe('Malformed localStorage', () => {
     test('Sandbox info in wagmi.store but not in zustand-app-store', async ({ page }) => {
       const testContext = await setup(page, {
-        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id },
+        blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chain: mainnet },
         initialPage: 'easyBorrow',
         account: {
           type: 'not-connected',

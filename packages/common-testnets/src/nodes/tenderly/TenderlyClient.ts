@@ -1,14 +1,13 @@
 import { Hash } from '@marsfoundation/common-universal'
-import { http, Address, createTestClient, numberToHex, publicActions, walletActions } from 'viem'
-import { mainnet } from 'viem/chains'
+import { http, Address, Chain, createTestClient, numberToHex, publicActions, walletActions } from 'viem'
 import { TestnetClient } from '../../TestnetClient.js'
 import { extendWithTestnetHelpers } from '../extendWithTestnetHelpers.js'
 
-export function getTenderlyClient(rpc: string): TestnetClient {
+export function getTenderlyClient(rpcUrl: string, chain: Chain, forkChainId: number): TestnetClient {
   return createTestClient({
-    chain: mainnet,
+    chain: { ...chain, id: forkChainId },
     mode: 'anvil',
-    transport: http(rpc),
+    transport: http(rpcUrl),
     cacheTime: 0, // do not cache block numbers
   })
     .extend((c) => {

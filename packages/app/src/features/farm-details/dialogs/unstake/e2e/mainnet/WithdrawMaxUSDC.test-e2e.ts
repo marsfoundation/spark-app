@@ -17,7 +17,7 @@ test.describe('Withdraw max USDC from SKY farm', () => {
 
   test.beforeEach(async ({ page }) => {
     const testContext = await setup(page, {
-      blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id },
+      blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chain: mainnet },
       initialPage: 'farmDetails',
       initialPageParams: {
         chainId: mainnet.id.toString(),
