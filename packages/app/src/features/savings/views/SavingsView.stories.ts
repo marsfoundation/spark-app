@@ -109,7 +109,7 @@ const savingsUsdsAccountDefinition = {
 const shortSavingsUsdsAccountDefinition = {
   savingsToken: tokens.sUSDS,
   underlyingToken: tokens.USDS,
-  underlyingTokenDeposit: NormalizedUnitNumber(10_000),
+  underlyingTokenDeposit: NormalizedUnitNumber(10_365.7654),
 } satisfies ShortAccountDefinition
 
 const savingsUsdcAccountDefinition = {
@@ -132,17 +132,17 @@ const savingsUsdcAccountDefinition = {
 const shortSavingsUsdcAccountDefinition = {
   savingsToken: tokens.sUSDC,
   underlyingToken: tokens.USDC,
-  underlyingTokenDeposit: NormalizedUnitNumber(10_000),
+  underlyingTokenDeposit: NormalizedUnitNumber(10_365.7654),
 } satisfies ShortAccountDefinition
 
 const savingsDaiAccountDefinition = {
   savingsToken: tokens.sDAI,
-  savingsTokenBalance: NormalizedUnitNumber(10_000),
+  savingsTokenBalance: NormalizedUnitNumber(20_000),
   underlyingToken: tokens.DAI,
   entryAssets: [
     {
       token: tokens.DAI,
-      balance: NormalizedUnitNumber(22_245.43),
+      balance: NormalizedUnitNumber(12_000),
       blockExplorerLink: '/',
     },
     {
@@ -156,7 +156,7 @@ const savingsDaiAccountDefinition = {
       blockExplorerLink: '/',
     },
   ],
-  mostValuableAsset: { token: tokens.DAI, balance: NormalizedUnitNumber(22_245.43) },
+  mostValuableAsset: { token: tokens.DAI, balance: NormalizedUnitNumber(12_000) },
   chartsData,
   showConvertDialogButton: true,
   migrationInfo,
@@ -196,7 +196,23 @@ export const UsdsMobile = getMobileStory(Usds)
 export const UsdsTablet = getTabletStory(Usds)
 
 export const Dai: Story = {
-  args: { ...savingsViewSusdsArgs, selectedAccount: savingsDaiAccountDefinition } satisfies SavingsViewProps,
+  args: {
+    ...savingsViewSusdsArgs,
+    selectedAccount: {
+      ...savingsDaiAccountDefinition,
+      interestData: {
+        ...interestData,
+        currentProjections: {
+          thirtyDays: NormalizedUnitNumber(509.7654),
+          oneYear: NormalizedUnitNumber(2548.827),
+        },
+        calculateUnderlyingTokenBalance: () => ({
+          depositedAssets: NormalizedUnitNumber(22_249.7654),
+          depositedAssetsPrecision: 2,
+        }),
+      },
+    },
+  } satisfies SavingsViewProps,
 }
 export const DaiMobile = getMobileStory(Dai)
 export const DaiTablet = getTabletStory(Dai)
@@ -213,6 +229,11 @@ export const UsdcTablet = getTabletStory(Usdc)
 export const NoDeposit: Story = {
   args: {
     ...savingsViewSusdsArgs,
+    allAccounts: [
+      shortSavingsUsdcAccountDefinition,
+      { ...shortSavingsUsdsAccountDefinition, underlyingTokenDeposit: NormalizedUnitNumber(0) },
+      shortSavingsDaiAccountDefinition,
+    ],
     selectedAccount: {
       ...savingsUsdsAccountDefinition,
       savingsTokenBalance: NormalizedUnitNumber(0),
@@ -254,8 +275,14 @@ export const AllInTablet = getTabletStory(AllIn)
 export const BigNumbers: Story = {
   args: {
     ...savingsViewSusdsArgs,
+    allAccounts: [
+      { ...shortSavingsUsdcAccountDefinition, underlyingTokenDeposit: NormalizedUnitNumber(134_395_765) },
+      shortSavingsUsdsAccountDefinition,
+      shortSavingsDaiAccountDefinition,
+    ],
     selectedAccount: {
       ...savingsUsdcAccountDefinition,
+      savingsTokenBalance: NormalizedUnitNumber(110_000_000),
       interestData: {
         ...interestData,
         currentProjections: {
