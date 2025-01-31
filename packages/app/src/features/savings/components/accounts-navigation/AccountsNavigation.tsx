@@ -36,7 +36,7 @@ export function AccountsNavigation({
   )
 }
 
-const accountsNavigationVariants = cva('gap-2', {
+const accountsNavigationVariants = cva('', {
   variants: {
     variant: {
       horizontal: 'flex',
@@ -95,8 +95,8 @@ const navigationItemButtonVariants = cva(
   {
     variants: {
       variant: {
-        horizontal: 'size-28',
-        vertical: 'h-16 w-full',
+        horizontal: 'mr-2 size-28',
+        vertical: 'mb-2 h-16 w-full',
       },
       active: {
         true: 'border-savings-600 hover:border-savings-500',
