@@ -37,6 +37,7 @@ const meta: Meta<typeof SavingsDepositView> = {
   },
   decorators: [ZeroAllowanceWagmiDecorator(), WithClassname('max-w-xl'), WithTooltipProvider()],
   args: {
+    savingsToken: tokens.sDAI,
     selectableAssets: [
       {
         token: tokens.USDC,
