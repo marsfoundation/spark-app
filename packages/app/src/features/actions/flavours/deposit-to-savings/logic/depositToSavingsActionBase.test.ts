@@ -3,6 +3,7 @@ import { basePsm3Abi, basePsm3Address, usdcVaultAbi, usdcVaultAddress } from '@/
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { EPOCH_LENGTH } from '@/domain/market-info/consts'
 import { PotSavingsInfo } from '@/domain/savings-info/potSavingsInfo'
+import { SavingsAccountRepository } from '@/domain/savings-info/types'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
@@ -47,6 +48,21 @@ const mockSavingsInfo = new PotSavingsInfo({
   currentTimestamp: savingsInfoTimestamp,
 })
 
+const savingsAccountsWithSusds = new SavingsAccountRepository([
+  {
+    converter: mockSavingsInfo,
+    savingsToken: susds,
+    underlyingToken: usds,
+  },
+])
+const savingsAccountsWithSusdc = new SavingsAccountRepository([
+  {
+    converter: mockSavingsInfo,
+    savingsToken: susdc,
+    underlyingToken: usdc,
+  },
+])
+
 const minAmountOut = mockSavingsInfo.predictSharesAmount({
   assets: depositValue,
   timestamp: savingsInfoTimestamp + EPOCH_LENGTH,
@@ -66,7 +82,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
       args: {
         action: { type: 'depositToSavings', token: usds, savingsToken: susds, value: depositValue },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo, savingsUsdsInfo: mockSavingsInfo },
+        context: { tokensInfo: mockTokensInfo, savingsAccounts: savingsAccountsWithSusds },
       },
       chain: base,
       extraHandlers: [
@@ -113,7 +129,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
       args: {
         action: { type: 'depositToSavings', token: usdc, savingsToken: susds, value: depositValue },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo, savingsUsdsInfo: mockSavingsInfo },
+        context: { tokensInfo: mockTokensInfo, savingsAccounts: savingsAccountsWithSusds },
       },
       chain: base,
       extraHandlers: [
@@ -159,7 +175,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
       args: {
         action: { type: 'depositToSavings', token: usdc, savingsToken: susdc, value: depositValue },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo, savingsUsdcInfo: mockSavingsInfo },
+        context: { tokensInfo: mockTokensInfo, savingsAccounts: savingsAccountsWithSusdc },
       },
       chain: base,
       extraHandlers: [

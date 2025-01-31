@@ -58,7 +58,7 @@ export function useSavingsAccountRepository({ chainId }: UseSavingsAccountReposi
   return new SavingsAccountRepository(accounts)
 }
 
-function savingsToUnderlyingToken(tokensInfo: TokensInfo, savingsToken: Token) {
+function savingsToUnderlyingToken(tokensInfo: TokensInfo, savingsToken: Token): Token {
   const underlyingTokenSymbol = (() => {
     switch (savingsToken.symbol) {
       case TokenSymbol('sUSDS'):
