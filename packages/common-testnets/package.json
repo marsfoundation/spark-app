@@ -44,7 +44,6 @@
   "dependencies": {
     "@viem/anvil": "^0.0.10",
     "get-port": "^7.1.0",
-    "viem": "^2.21.18",
     "viem-deal": "^2.0.0"
   },
   "devDependencies": {
@@ -55,6 +54,7 @@
     "uuid": "^11.0.2"
   },
   "peerDependencies": {
+    "viem": "^2.0.0",
     "@marsfoundation/common-nodejs": "workspace:^",
     "@marsfoundation/common-universal": "workspace:^"
   }
