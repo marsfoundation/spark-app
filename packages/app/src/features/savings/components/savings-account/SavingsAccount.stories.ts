@@ -8,13 +8,13 @@ import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 import { withRouter } from 'storybook-addon-remix-react-router'
+import { SavingsTokenDetails } from '../../logic/useSavings'
 import {
   mockEarningsChartData,
   mockEarningsPredictionsChartData,
-} from '../components/savings-charts/fixtures/mockEarningsChartData'
-import { mockDsrChartData, mockSsrChartData } from '../components/savings-charts/fixtures/mockSavingsRateChartData'
-import { SavingsTokenDetails } from '../logic/useSavings'
-import { SavingsAccountView, SavingsAccountViewProps } from './SavingsAccountView'
+} from '../savings-charts/fixtures/mockEarningsChartData'
+import { mockDsrChartData, mockSsrChartData } from '../savings-charts/fixtures/mockSavingsRateChartData'
+import { SavingsAccount, SavingsAccountProps } from './SavingsAccount'
 
 const myEarningsInfo = {
   queryResult: {
@@ -107,7 +107,7 @@ const savingsUsdsViewArgs = {
     balance: NormalizedUnitNumber(10_000),
   },
   savingsTokenDetails: savingsUsdsTokenDetails,
-} satisfies SavingsAccountViewProps
+} satisfies SavingsAccountProps
 
 const sdaiTokenDetails = {
   APY: Percentage(0.11),
@@ -133,9 +133,9 @@ const susdcTokenDetails = {
   calculateSavingsBalance: () => ({ depositedAssets: NormalizedUnitNumber(10365.7654), depositedAssetsPrecision: 2 }),
 } satisfies SavingsTokenDetails
 
-const meta: Meta<typeof SavingsAccountView> = {
-  title: 'Features/Savings/Views/SavingsAccountView',
-  component: SavingsAccountView,
+const meta: Meta<typeof SavingsAccount> = {
+  title: 'Features/Savings/Views/SavingsAccount',
+  component: SavingsAccount,
   decorators: [WithTooltipProvider(), withRouter()],
   parameters: {
     layout: 'fullscreen',
@@ -143,7 +143,7 @@ const meta: Meta<typeof SavingsAccountView> = {
 }
 
 export default meta
-type Story = StoryObj<typeof SavingsAccountView>
+type Story = StoryObj<typeof SavingsAccount>
 
 export const Usds: Story = { args: savingsUsdsViewArgs }
 export const UsdsMobile = getMobileStory(Usds)
@@ -171,7 +171,7 @@ export const Dai: Story = {
       },
     ],
     mostValuableAsset: { token: tokens.DAI, balance: NormalizedUnitNumber(22_245.43) },
-  } satisfies SavingsAccountViewProps,
+  } satisfies SavingsAccountProps,
 }
 export const DaiMobile = getMobileStory(Dai)
 export const DaiTablet = getTabletStory(Dai)
@@ -188,7 +188,7 @@ export const Usdc: Story = {
       },
     ],
     mostValuableAsset: { token: tokens.DAI, balance: NormalizedUnitNumber(22_245.43) },
-  } satisfies SavingsAccountViewProps,
+  } satisfies SavingsAccountProps,
 }
 export const UsdcMobile = getMobileStory(Usdc)
 export const UsdcTablet = getTabletStory(Usdc)
@@ -200,7 +200,7 @@ export const NoDeposit: Story = {
       ...savingsUsdsTokenDetails,
       savingsTokenWithBalance: { balance: NormalizedUnitNumber(0), token: tokens.sUSDS },
     },
-  } satisfies SavingsAccountViewProps,
+  } satisfies SavingsAccountProps,
 }
 export const NoDepositMobile = getMobileStory(NoDeposit)
 export const NoDepositTablet = getTabletStory(NoDeposit)
@@ -226,7 +226,7 @@ export const AllIn: Story = {
       },
     ],
     mostValuableAsset: { token: tokens.USDS, balance: NormalizedUnitNumber(0) },
-  } satisfies SavingsAccountViewProps,
+  } satisfies SavingsAccountProps,
 }
 export const AllInMobile = getMobileStory(AllIn)
 export const AllInTablet = getTabletStory(AllIn)
@@ -268,7 +268,7 @@ export const BigNumbers: Story = {
       },
     ],
     mostValuableAsset: { token: tokens.USDS, balance: NormalizedUnitNumber(601234014.134234) },
-  } satisfies SavingsAccountViewProps,
+  } satisfies SavingsAccountProps,
 }
 export const BigNumbersMobile = getMobileStory(BigNumbers)
 export const BigNumbersTablet = getTabletStory(BigNumbers)
