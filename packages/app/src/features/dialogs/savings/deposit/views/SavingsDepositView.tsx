@@ -1,4 +1,5 @@
 import { TokenWithBalance } from '@/domain/common/types'
+import { Token } from '@/domain/types/Token'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { DialogActionsPanel } from '@/features/dialogs/common/components/DialogActionsPanel'
 import { FormAndOverviewWrapper } from '@/features/dialogs/common/components/FormAndOverviewWrapper'
@@ -12,6 +13,7 @@ import { TransactionOverview } from '../../common/components/transaction-overvie
 import { SavingsDialogTxOverview } from '../../common/types'
 
 export interface SavingsDepositViewProps {
+  savingsToken: Token
   selectableAssets: TokenWithBalance[]
   assetsFields: FormFieldsForDialog
   form: UseFormReturn<AssetInputSchema>
@@ -22,6 +24,7 @@ export interface SavingsDepositViewProps {
 }
 
 export function SavingsDepositView({
+  savingsToken,
   selectableAssets,
   assetsFields,
   form,
@@ -32,7 +35,7 @@ export function SavingsDepositView({
 }: SavingsDepositViewProps) {
   return (
     <MultiPanelDialog>
-      <DialogTitle>Deposit to Savings</DialogTitle>
+      <DialogTitle>Deposit to {savingsToken.name}</DialogTitle>
 
       <FormAndOverviewWrapper>
         <DialogForm form={form} assetsFields={assetsFields} selectorAssets={selectableAssets} />

@@ -348,6 +348,7 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
               symbol: TokenSymbol('sUSDC'),
               oracleType: 'vault',
               address: CheckedAddress(usdcVaultAddress[base.id]),
+              assetsDecimals: 6,
             } as const,
           ]
         : []),

@@ -36,6 +36,7 @@ function SavingsDepositDialogContentContainer({
 
   return (
     <SavingsDepositView
+      savingsToken={savingsToken}
       form={form}
       selectableAssets={selectableAssets}
       assetsFields={assetsFields}
