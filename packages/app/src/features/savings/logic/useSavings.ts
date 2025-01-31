@@ -50,14 +50,16 @@ export interface AccountDefinition {
 }
 
 export interface ShortAccountDefinition {
+  savingsToken: Token
   underlyingToken: Token
-  underlyingTokenBalance: NormalizedUnitNumber
+  underlyingTokenDeposit: NormalizedUnitNumber
 }
 
 export interface UseSavingsResults {
   openDialog: OpenDialogFunction
   allAccounts: ShortAccountDefinition[]
   selectedAccount: AccountDefinition
+  setSelectedAccount: (savingsTokenSymbol: TokenSymbol) => void
 }
 export function useSavings(): UseSavingsResults {
   const { chainId } = usePageChainId()
@@ -69,7 +71,7 @@ export function useSavings(): UseSavingsResults {
   const openDialog = useOpenDialog()
   const getBlockExplorerLink = useGetBlockExplorerAddressLink()
 
-  const [selectedAccount] = useState<TokenSymbol>(TokenSymbol('sUSDC'))
+  const [selectedAccount, setSelectedAccount] = useState<TokenSymbol>(TokenSymbol('sUSDC'))
 
   const { maxBalanceToken } = calculateMaxBalanceTokenAndTotal({
     assets: inputTokens,
@@ -98,10 +100,13 @@ export function useSavings(): UseSavingsResults {
     blockExplorerLink: getBlockExplorerLink(tokenWithBalance.token.address),
   }))
 
-  const allAccounts: ShortAccountDefinition[] = savingsAccounts.all().map(({ underlyingToken }) => {
-    const underlyingTokenBalance = tokensInfo.findOneBalanceBySymbol(underlyingToken.symbol)
-    return { underlyingToken, underlyingTokenBalance }
-  })
+  const allAccounts: ShortAccountDefinition[] = savingsAccounts
+    .all()
+    .map(({ underlyingToken, savingsToken, converter }) => {
+      const savingsTokenBalance = tokensInfo.findOneBalanceBySymbol(savingsToken.symbol)
+      const underlyingTokenDeposit = converter.convertToAssets({ shares: savingsTokenBalance })
+      return { savingsToken, underlyingToken, underlyingTokenDeposit }
+    })
 
   const interestData = getInterestData({
     savingsInfo: selectedAccountData.converter,
@@ -113,6 +118,7 @@ export function useSavings(): UseSavingsResults {
   return {
     openDialog,
     allAccounts,
+    setSelectedAccount,
     selectedAccount: {
       chartsData: savingsChartsInfo,
       interestData,
