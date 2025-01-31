@@ -5,7 +5,7 @@ import { CheckedAddress } from '@marsfoundation/common-universal'
 
 import { FarmConfig } from '@/domain/farms/types'
 import { OracleInfoFetcherParams, OracleInfoFetcherResult } from '@/domain/oracles/oracleInfoFetchers'
-import { OracleType } from '@/domain/wallet/useTokens/types'
+import { TokenConfig } from '@/domain/wallet/useTokens/types'
 import { SUPPORTED_CHAIN_IDS } from './constants'
 
 export type SupportedChainId = (typeof SUPPORTED_CHAIN_IDS)[number]
@@ -44,11 +44,9 @@ export interface AirdropsPerAction {
 }
 export type Airdrop = Record<TokenSymbol, AirdropsPerAction>
 
-export interface TokenWithOracleType {
-  oracleType: OracleType
-  address: CheckedAddress
+export type TokenWithOracleType = {
   symbol: TokenSymbol
-}
+} & TokenConfig
 
 export type OracleFeedProvider = 'chainlink' | 'chronicle' | 'redstone'
 
