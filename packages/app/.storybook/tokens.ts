@@ -121,7 +121,7 @@ export const tokens = {
     symbol: TokenSymbol('XDAI'),
     name: 'XDAI',
     decimals: 18,
-    address: CheckedAddress('0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'),
+    address: CheckedAddress.EEEE(),
   }),
   SKY: new Token({
     unitPriceUsd: '0.05',

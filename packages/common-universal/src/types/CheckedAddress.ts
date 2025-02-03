@@ -31,3 +31,8 @@ CheckedAddress.random = (asciiPrefix = ''): CheckedAddress => {
 CheckedAddress.formatShort = (address: CheckedAddress): string => {
   return `0x${address.slice(2, 6)}...${address.slice(-4)}`
 }
+
+CheckedAddress.ZERO = (): CheckedAddress => CheckedAddress('0x0000000000000000000000000000000000000000')
+
+// @note: often used as native token (i.e. ETH) mock address
+CheckedAddress.EEEE = (): CheckedAddress => CheckedAddress('0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')

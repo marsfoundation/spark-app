@@ -37,4 +37,16 @@ describe(CheckedAddress.name, () => {
       expect(CheckedAddress.formatShort(address)).toEqual('0x4838...5f97')
     })
   })
+
+  describe(CheckedAddress.ZERO.name, () => {
+    it('returns zero address', () => {
+      expect(CheckedAddress.ZERO()).toEqual(CheckedAddress('0x0000000000000000000000000000000000000000'))
+    })
+  })
+
+  describe(CheckedAddress.EEEE.name, () => {
+    it('returns mock address', () => {
+      expect(CheckedAddress.EEEE()).toEqual(CheckedAddress('0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'))
+    })
+  })
 })
