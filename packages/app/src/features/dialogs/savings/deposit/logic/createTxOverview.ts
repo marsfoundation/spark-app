@@ -1,4 +1,4 @@
-import { SavingsInfo } from '@/domain/savings-info/types'
+import { SavingsConverter } from '@/domain/savings-converters/types'
 import { Token } from '@/domain/types/Token'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { TransferFromUserFormNormalizedData } from '@/features/dialogs/common/logic/transfer-from-user/form'
@@ -9,13 +9,13 @@ import { SavingsDialogTxOverview } from '../../common/types'
 export interface CreateTxOverviewParams {
   formValues: TransferFromUserFormNormalizedData
   tokensInfo: TokensInfo
-  savingsInfo: SavingsInfo
+  savingsConverter: SavingsConverter
   savingsToken: Token
 }
 export function createTxOverview({
   formValues,
   tokensInfo,
-  savingsInfo,
+  savingsConverter,
   savingsToken,
 }: CreateTxOverviewParams): SavingsDialogTxOverview {
   // the value is normalized, so assuming 1 to 1 conversion rate for USDC
@@ -25,13 +25,13 @@ export function createTxOverview({
     return { status: 'no-overview' }
   }
 
-  const savingsTokenValue = savingsInfo.convertToShares({ assets: value })
-  const stableEarnRate = NormalizedUnitNumber(value.multipliedBy(savingsInfo.apy))
+  const savingsTokenValue = savingsConverter.convertToShares({ assets: value })
+  const stableEarnRate = NormalizedUnitNumber(value.multipliedBy(savingsConverter.apy))
 
   const route: TxOverviewRouteItem[] = getDepositRoute({
     formValues,
     tokensInfo,
-    savingsInfo,
+    savingsConverter,
     savingsToken,
     savingsTokenValue,
   })
@@ -41,7 +41,7 @@ export function createTxOverview({
       (savingsToken.symbol === tokensInfo.sDAI?.symbol ? tokensInfo.DAI : tokensInfo.USDS) ??
       raise('Cannot find stable token'),
     status: 'success',
-    APY: savingsInfo.apy,
+    APY: savingsConverter.apy,
     stableEarnRate,
     route,
     skyBadgeToken: formValues.token,
@@ -52,14 +52,14 @@ export function createTxOverview({
 export interface GetDepositRouteParams {
   formValues: TransferFromUserFormNormalizedData
   tokensInfo: TokensInfo
-  savingsInfo: SavingsInfo
+  savingsConverter: SavingsConverter
   savingsToken: Token
   savingsTokenValue: NormalizedUnitNumber
 }
 function getDepositRoute({
   formValues,
   tokensInfo,
-  savingsInfo,
+  savingsConverter,
   savingsToken,
   savingsTokenValue,
 }: GetDepositRouteParams): TxOverviewRouteItem[] {
@@ -86,7 +86,7 @@ function getDepositRoute({
     {
       token: savingsToken,
       value: savingsTokenValue,
-      usdValue: savingsInfo.convertToAssets({ shares: savingsTokenValue }),
+      usdValue: savingsConverter.convertToAssets({ shares: savingsTokenValue }),
     },
   ]
 }

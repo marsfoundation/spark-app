@@ -3,14 +3,14 @@ import { describe, test } from 'vitest'
 import { bigNumberify } from '@marsfoundation/common-universal'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
-import { PotSavingsInfo } from './potSavingsInfo'
+import { PotSavingsConverter } from './PotSavingsConverter'
 
-describe(PotSavingsInfo.name, () => {
-  describe(PotSavingsInfo.prototype.convertToAssets.name, () => {
+describe(PotSavingsConverter.name, () => {
+  describe(PotSavingsConverter.prototype.convertToAssets.name, () => {
     test('accounts for dsr with 5% yield', () => {
       const timestamp = 1000
       const shares = NormalizedUnitNumber(100)
-      const savingsInfo = new PotSavingsInfo({
+      const savingsConverter = new PotSavingsConverter({
         potParams: {
           dsr: bigNumberify('1000000564701133626865910626'), // 5% / day
           rho: bigNumberify(timestamp),
@@ -18,7 +18,7 @@ describe(PotSavingsInfo.name, () => {
         },
         currentTimestamp: timestamp + 24 * 60 * 60,
       })
-      const fivePercentYield = savingsInfo.convertToAssets({
+      const fivePercentYield = savingsConverter.convertToAssets({
         shares,
       })
       expect(fivePercentYield.minus(NormalizedUnitNumber(105)).abs().lt(1e-18)).toEqual(true)
@@ -27,7 +27,7 @@ describe(PotSavingsInfo.name, () => {
     test('accounts for dsr with 10% yield', () => {
       const timestamp = 1000
       const shares = NormalizedUnitNumber(100)
-      const savingsInfo = new PotSavingsInfo({
+      const savingsConverter = new PotSavingsConverter({
         potParams: {
           dsr: bigNumberify('1000001103127689513476993127'), // 10% / day
           rho: bigNumberify(timestamp),
@@ -35,7 +35,7 @@ describe(PotSavingsInfo.name, () => {
         },
         currentTimestamp: timestamp + 24 * 60 * 60,
       })
-      const tenPercentYield = savingsInfo.convertToAssets({
+      const tenPercentYield = savingsConverter.convertToAssets({
         shares,
       })
       expect(tenPercentYield.minus(NormalizedUnitNumber(110)).abs().lt(1e-18)).toEqual(true)
@@ -44,7 +44,7 @@ describe(PotSavingsInfo.name, () => {
     test('accounts for chi with 5% yield', () => {
       const timestamp = 1000
       const shares = NormalizedUnitNumber(100)
-      const savingsInfo = new PotSavingsInfo({
+      const savingsConverter = new PotSavingsConverter({
         potParams: {
           dsr: bigNumberify('1000000564701133626865910626'), // 5% / day
           rho: bigNumberify(timestamp),
@@ -53,7 +53,7 @@ describe(PotSavingsInfo.name, () => {
         currentTimestamp: timestamp + 24 * 60 * 60,
       })
 
-      const fivePercentYield = savingsInfo.convertToAssets({
+      const fivePercentYield = savingsConverter.convertToAssets({
         shares,
       })
       expect(fivePercentYield.minus(NormalizedUnitNumber(110.25)).abs().lt(1e-18)).toEqual(true)
@@ -62,7 +62,7 @@ describe(PotSavingsInfo.name, () => {
     test('accounts for chi with 10% yield', () => {
       const timestamp = 1000
       const shares = NormalizedUnitNumber(100)
-      const savingsInfo = new PotSavingsInfo({
+      const savingsConverter = new PotSavingsConverter({
         potParams: {
           dsr: bigNumberify('1000001103127689513476993127'), // 10% / day
           rho: bigNumberify(timestamp),
@@ -70,18 +70,18 @@ describe(PotSavingsInfo.name, () => {
         },
         currentTimestamp: timestamp + 24 * 60 * 60,
       })
-      const tenPercentYield = savingsInfo.convertToAssets({
+      const tenPercentYield = savingsConverter.convertToAssets({
         shares,
       })
       expect(tenPercentYield.minus(NormalizedUnitNumber(115.5)).abs().lt(1e-18)).toEqual(true)
     })
   })
 
-  describe(PotSavingsInfo.prototype.convertToShares.name, () => {
+  describe(PotSavingsConverter.prototype.convertToShares.name, () => {
     test('accounts for dsr', () => {
       const timestamp = 1000
       const dai = NormalizedUnitNumber(105)
-      const savingsInfo = new PotSavingsInfo({
+      const savingsConverter = new PotSavingsConverter({
         potParams: {
           dsr: bigNumberify('1000000564701133626865910626'), // 5% / day
           rho: bigNumberify(timestamp),
@@ -89,7 +89,7 @@ describe(PotSavingsInfo.name, () => {
         },
         currentTimestamp: timestamp + 24 * 60 * 60,
       })
-      const result = savingsInfo.convertToShares({
+      const result = savingsConverter.convertToShares({
         assets: dai,
       })
       expect(result.minus(NormalizedUnitNumber(100)).abs().lt(1e-18)).toEqual(true)
@@ -98,7 +98,7 @@ describe(PotSavingsInfo.name, () => {
     test('accounts for chi', () => {
       const timestamp = 1000
       const dai = NormalizedUnitNumber(110.25)
-      const savingsInfo = new PotSavingsInfo({
+      const savingsConverter = new PotSavingsConverter({
         potParams: {
           dsr: bigNumberify('1000000564701133626865910626'), // 5% / day
           rho: bigNumberify(timestamp),
@@ -106,18 +106,18 @@ describe(PotSavingsInfo.name, () => {
         },
         currentTimestamp: timestamp + 24 * 60 * 60,
       })
-      const result = savingsInfo.convertToShares({
+      const result = savingsConverter.convertToShares({
         assets: dai,
       })
       expect(result.minus(NormalizedUnitNumber(100)).abs().lt(1e-18)).toEqual(true)
     })
   })
 
-  describe(PotSavingsInfo.prototype.predictAssetsAmount.name, () => {
+  describe(PotSavingsConverter.prototype.predictAssetsAmount.name, () => {
     test('calculates correct assets for given shares and future timestamp', () => {
       const timestamp = 1000
       const shares = NormalizedUnitNumber(100)
-      const savingsInfo = new PotSavingsInfo({
+      const savingsConverter = new PotSavingsConverter({
         potParams: {
           dsr: bigNumberify('1000000564701133626865910626'), // 5% / day
           rho: bigNumberify(timestamp),
@@ -126,7 +126,7 @@ describe(PotSavingsInfo.name, () => {
         currentTimestamp: timestamp,
       })
 
-      const assetsAtFutureTime = savingsInfo.predictAssetsAmount({
+      const assetsAtFutureTime = savingsConverter.predictAssetsAmount({
         timestamp: timestamp + 24 * 60 * 60, // one day later
         shares,
       })
@@ -138,7 +138,7 @@ describe(PotSavingsInfo.name, () => {
     test('predictAssetsAmount matches convertToAssets at current timestamp', () => {
       const timestamp = 1000
       const shares = NormalizedUnitNumber(100)
-      const savingsInfo = new PotSavingsInfo({
+      const savingsConverter = new PotSavingsConverter({
         potParams: {
           dsr: bigNumberify('1000000564701133626865910626'), // 5% / day
           rho: bigNumberify(timestamp),
@@ -147,20 +147,20 @@ describe(PotSavingsInfo.name, () => {
         currentTimestamp: timestamp + 24 * 60 * 60, // one day later
       })
 
-      const assetsViaPredict = savingsInfo.predictAssetsAmount({
-        timestamp: savingsInfo.currentTimestamp,
+      const assetsViaPredict = savingsConverter.predictAssetsAmount({
+        timestamp: savingsConverter.currentTimestamp,
         shares,
       })
-      const assetsViaConvert = savingsInfo.convertToAssets({ shares })
+      const assetsViaConvert = savingsConverter.convertToAssets({ shares })
       expect(assetsViaPredict.eq(assetsViaConvert)).toEqual(true)
     })
   })
 
-  describe(PotSavingsInfo.prototype.predictSharesAmount.name, () => {
+  describe(PotSavingsConverter.prototype.predictSharesAmount.name, () => {
     test('calculates correct shares for given assets and future timestamp', () => {
       const timestamp = 1000
       const assets = NormalizedUnitNumber(100)
-      const savingsInfo = new PotSavingsInfo({
+      const savingsConverter = new PotSavingsConverter({
         potParams: {
           dsr: bigNumberify('1000000564701133626865910626'), // 5% / day
           rho: bigNumberify(timestamp),
@@ -169,8 +169,8 @@ describe(PotSavingsInfo.name, () => {
         currentTimestamp: timestamp,
       })
 
-      const sharesAtFutureTime = savingsInfo.predictSharesAmount({
-        timestamp: savingsInfo.currentTimestamp + 24 * 60 * 60, // one day later
+      const sharesAtFutureTime = savingsConverter.predictSharesAmount({
+        timestamp: savingsConverter.currentTimestamp + 24 * 60 * 60, // one day later
         assets,
       })
 
@@ -181,7 +181,7 @@ describe(PotSavingsInfo.name, () => {
     test('predictSharesAmount matches convertToShares at current timestamp', () => {
       const timestamp = 1000
       const assets = NormalizedUnitNumber(100)
-      const savingsInfo = new PotSavingsInfo({
+      const savingsConverter = new PotSavingsConverter({
         potParams: {
           dsr: bigNumberify('1000000564701133626865910626'), // 5% / day
           rho: bigNumberify(timestamp),
@@ -190,11 +190,11 @@ describe(PotSavingsInfo.name, () => {
         currentTimestamp: timestamp,
       })
 
-      const sharesViaPredict = savingsInfo.predictSharesAmount({
-        timestamp: savingsInfo.currentTimestamp,
+      const sharesViaPredict = savingsConverter.predictSharesAmount({
+        timestamp: savingsConverter.currentTimestamp,
         assets,
       })
-      const sharesViaConvert = savingsInfo.convertToShares({ assets })
+      const sharesViaConvert = savingsConverter.convertToShares({ assets })
 
       expect(sharesViaPredict.eq(sharesViaConvert)).toEqual(true)
     })

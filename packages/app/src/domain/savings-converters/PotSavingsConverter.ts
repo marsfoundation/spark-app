@@ -2,24 +2,24 @@ import { fromRay, pow } from '@/utils/math'
 import { bigNumberify } from '@marsfoundation/common-universal'
 import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import BigNumber from 'bignumber.js'
-import { SavingsInfo } from './types'
+import { SavingsConverter } from './types'
 
 export interface PotParams {
   dsr: BigNumber
   rho: BigNumber
   chi: BigNumber
 }
-export interface PotSavingsInfoParams {
+export interface PotSavingsConverterParams {
   potParams: PotParams
   currentTimestamp: number
 }
 
-export class PotSavingsInfo implements SavingsInfo {
+export class PotSavingsConverter implements SavingsConverter {
   readonly DSR: Percentage
   readonly potParams: PotParams
   readonly currentTimestamp: number
 
-  constructor({ potParams, currentTimestamp }: PotSavingsInfoParams) {
+  constructor({ potParams, currentTimestamp }: PotSavingsConverterParams) {
     this.potParams = potParams
     this.currentTimestamp = currentTimestamp
     this.DSR = Percentage(pow(fromRay(potParams.dsr), 60 * 60 * 24 * 365).minus(1), { allowMoreThan1: true })
