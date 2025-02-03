@@ -30,4 +30,11 @@ describe(CheckedAddress.name, () => {
       expect(address.toLowerCase()).toMatchRegex(/^0x00000000a11ce[0-9a-f]{27}$/)
     })
   })
+
+  describe(CheckedAddress.formatShort.name, () => {
+    it('formats short address', () => {
+      const address = CheckedAddress('0x4838b106fce9647bdf1e7877bf73ce8b0bad5f97')
+      expect(CheckedAddress.formatShort(address)).toEqual('0x4838...5f97')
+    })
+  })
 })

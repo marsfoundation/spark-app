@@ -27,3 +27,7 @@ CheckedAddress.random = (asciiPrefix = ''): CheckedAddress => {
 
   return CheckedAddress(`0x${address}`)
 }
+
+CheckedAddress.formatShort = (address: CheckedAddress): string => {
+  return `0x${address.slice(2, 6)}...${address.slice(-4)}`
+}
