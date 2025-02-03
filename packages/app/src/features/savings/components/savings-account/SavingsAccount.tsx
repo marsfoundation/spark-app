@@ -69,6 +69,7 @@ export function SavingsAccount({
             primary: primaryAction,
             secondary: { title: 'Try in Sandbox', action: openSandboxModal },
           }}
+          className="min-h-[352px]"
         />
       ) : (
         <AccountMainPanelGroup
@@ -95,6 +96,7 @@ export function SavingsAccount({
             } as const)
           }
           projections={interestData.currentProjections}
+          className="min-h-[352px]"
         />
       )}
       {displayUpgradeBanner && (
