@@ -83,7 +83,7 @@ const savingsUsdsAccountDefinition = {
   savingsToken: tokens.sUSDS,
   savingsTokenBalance: NormalizedUnitNumber(10_000),
   underlyingToken: tokens.USDS,
-  entryAssets: [
+  supportedStablecoins: [
     {
       token: tokens.DAI,
       balance: NormalizedUnitNumber(2245.43),
@@ -117,7 +117,7 @@ const savingsUsdcAccountDefinition = {
   savingsToken: tokens.sUSDC,
   savingsTokenBalance: NormalizedUnitNumber(10_000),
   underlyingToken: tokens.USDC,
-  entryAssets: [
+  supportedStablecoins: [
     {
       token: tokens.USDC,
       balance: NormalizedUnitNumber(10_000),
@@ -141,7 +141,7 @@ const savingsDaiAccountDefinition = {
   savingsToken: tokens.sDAI,
   savingsTokenBalance: NormalizedUnitNumber(20_000),
   underlyingToken: tokens.DAI,
-  entryAssets: [
+  supportedStablecoins: [
     {
       token: tokens.DAI,
       balance: NormalizedUnitNumber(12_000),
@@ -253,7 +253,7 @@ export const AllIn: Story = {
     ...savingsViewSusdsArgs,
     selectedAccount: {
       ...savingsUsdsAccountDefinition,
-      entryAssets: [
+      supportedStablecoins: [
         {
           token: tokens.DAI,
           balance: NormalizedUnitNumber(0),
@@ -299,7 +299,7 @@ export const BigNumbers: Story = {
           depositedAssetsPrecision: 0,
         }),
       },
-      entryAssets: [
+      supportedStablecoins: [
         {
           token: tokens.DAI,
           balance: NormalizedUnitNumber(232134925.90911123),

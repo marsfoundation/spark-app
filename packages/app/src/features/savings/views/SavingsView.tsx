@@ -33,34 +33,38 @@ export function SavingsView({
   users,
   tvl,
 }: SavingsViewProps) {
+  const showNavigation = allAccounts.length > 1
+
   return (
     <PageLayout>
       <div className="flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between">
         <PageHeader />
         <GeneralStatsBar users={users} tvl={tvl} liquidity={selectedAccount.liquidity} />
       </div>
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[202px_1fr]">
-        <div
-          className={cn(
-            '-ml-5 -mr-5 flex overflow-x-auto pr-5 pl-5 lg:mr-0 lg:ml-0 lg:block lg:overflow-visible lg:pr-0 lg:pl-0',
-            '[mask-image:linear-gradient(to_right,rgb(0,0,0,0.3),black_6%,black_94%,rgb(0,0,0,0.3))] lg:[mask-image:none]',
-          )}
-        >
-          <AccountsNavigation
-            accounts={allAccounts}
-            selectedAccount={selectedAccount.savingsToken.symbol}
-            setSelectedAccount={setSelectedAccount}
-            variant="vertical"
-            className="hidden lg:block"
-          />
-          <AccountsNavigation
-            accounts={allAccounts}
-            selectedAccount={selectedAccount.savingsToken.symbol}
-            setSelectedAccount={setSelectedAccount}
-            variant="horizontal"
-            className="lg:hidden"
-          />
-        </div>
+      <div className={cn('grid grid-cols-1 gap-6', showNavigation && 'lg:grid-cols-[202px_1fr]')}>
+        {showNavigation && (
+          <div
+            className={cn(
+              '-ml-5 -mr-5 flex overflow-x-auto pr-5 pl-5 lg:mr-0 lg:ml-0 lg:block lg:overflow-visible lg:pr-0 lg:pl-0',
+              '[mask-image:linear-gradient(to_right,rgb(0,0,0,0.3),black_6%,black_94%,rgb(0,0,0,0.3))] lg:[mask-image:none]',
+            )}
+          >
+            <AccountsNavigation
+              accounts={allAccounts}
+              selectedAccount={selectedAccount.savingsToken.symbol}
+              setSelectedAccount={setSelectedAccount}
+              variant="vertical"
+              className="hidden lg:block"
+            />
+            <AccountsNavigation
+              accounts={allAccounts}
+              selectedAccount={selectedAccount.savingsToken.symbol}
+              setSelectedAccount={setSelectedAccount}
+              variant="horizontal"
+              className="lg:hidden"
+            />
+          </div>
+        )}
         <SavingsAccount
           {...selectedAccount}
           openDialog={openDialog}

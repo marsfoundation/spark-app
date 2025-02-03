@@ -1,7 +1,8 @@
+import { getChainConfigEntry } from '@/config/chain'
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
-import { useSavingsAccountRepository } from '@/domain/savings-info/useSavingsAccountRepository'
-import { useSavingsTokens } from '@/domain/savings/useSavingsTokens'
+import { useSavingsAccountRepository } from '@/domain/savings/useSavingsAccountRepository'
 import { Token } from '@/domain/types/Token'
+import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import {
@@ -11,12 +12,12 @@ import {
 import { getTransferFromUserFormValidator } from '@/features/dialogs/common/logic/transfer-from-user/validation'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { raise } from '@marsfoundation/common-universal'
 import { useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
 import { useChainId } from 'wagmi'
 import { SavingsDialogTxOverview } from '../../common/types'
 import { createTxOverview } from './createTxOverview'
-import { useSavingsInfo } from './useSavingsInfo'
 import { depositValidationIssueToMessage } from './validation'
 
 export interface UseSavingsDepositDialogParams {
@@ -40,9 +41,16 @@ export function useSavingsDepositDialog({
   initialToken,
 }: UseSavingsDepositDialogParams): UseSavingsDepositDialogResults {
   const chainId = useChainId()
-  const savingsInfo = useSavingsInfo({ savingsToken })
-  const { tokensInfo, inputTokens } = useSavingsTokens({ chainId })
+  const chainConfig = getChainConfigEntry(chainId)
+  const { tokensInfo } = useTokensInfo({ tokens: chainConfig.extraTokens, chainId })
+  const selectedAccount =
+    chainConfig.savings?.accounts?.find((account) => account.savingsToken === savingsToken.symbol) ??
+    raise('Savings account is not found')
+  const supportedStablecoins = selectedAccount.supportedStablecoins.map((symbol) =>
+    tokensInfo.findOneTokenWithBalanceBySymbol(symbol),
+  )
   const savingsAccounts = useSavingsAccountRepository({ chainId })
+  const savingsConverter = savingsAccounts.findOneBySavingsToken(savingsToken).converter
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')
 
@@ -76,7 +84,7 @@ export function useSavingsDepositDialog({
   const txOverview = createTxOverview({
     formValues,
     tokensInfo,
-    savingsInfo,
+    savingsConverter,
     savingsToken,
   })
 
@@ -87,7 +95,7 @@ export function useSavingsDepositDialog({
   const actionsEnabled = formValues.value.gt(0) && isFormValid && !isDebouncing
 
   return {
-    selectableAssets: inputTokens,
+    selectableAssets: supportedStablecoins,
     assetsFields: getFieldsForTransferFromUserForm({ form, tokensInfo }),
     form,
     objectives,

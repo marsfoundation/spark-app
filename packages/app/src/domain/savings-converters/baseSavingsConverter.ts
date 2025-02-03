@@ -2,14 +2,14 @@ import { ssrAuthOracleConfig, usdcVaultAbi, usdcVaultAddress } from '@/config/co
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { bigNumberify } from '@marsfoundation/common-universal'
 import { multicall, readContract } from 'wagmi/actions'
-import { PotSavingsInfo } from './potSavingsInfo'
-import { SavingsInfoQueryOptions, SavingsInfoQueryParams } from './types'
+import { PotSavingsConverter } from './PotSavingsConverter'
+import { SavingsConverterQueryOptions, SavingsConverterQueryParams } from './types'
 
 export function baseSavingsUsdsInfoQueryOptions({
   wagmiConfig,
   timestamp,
   chainId,
-}: SavingsInfoQueryParams): SavingsInfoQueryOptions {
+}: SavingsConverterQueryParams): SavingsConverterQueryOptions {
   return {
     queryKey: ['base-savings-usds-info', { chainId }],
     queryFn: async () => {
@@ -19,7 +19,7 @@ export function baseSavingsUsdsInfoQueryOptions({
         functionName: 'getSUSDSData',
       })
 
-      return new PotSavingsInfo({
+      return new PotSavingsConverter({
         potParams: {
           dsr: bigNumberify(ssr),
           rho: bigNumberify(rho),
@@ -35,7 +35,7 @@ export function baseSavingsUsdcInfoQueryOptions({
   wagmiConfig,
   timestamp,
   chainId,
-}: SavingsInfoQueryParams): SavingsInfoQueryOptions {
+}: SavingsConverterQueryParams): SavingsConverterQueryOptions {
   return {
     queryKey: ['base-savings-usds-info', { chainId }],
     queryFn: async () => {
@@ -65,7 +65,7 @@ export function baseSavingsUsdcInfoQueryOptions({
         ],
       })
 
-      return new PotSavingsInfo({
+      return new PotSavingsConverter({
         potParams: {
           dsr: bigNumberify(ssr),
           rho: bigNumberify(rho),

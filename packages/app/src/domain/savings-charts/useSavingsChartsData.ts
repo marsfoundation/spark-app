@@ -1,13 +1,12 @@
-import { getChainConfigEntry } from '@/config/chain'
+import { GetMyEarningsApiUrl } from '@/config/chain/types'
 import { useTimestamp } from '@/utils/useTimestamp'
-import { assert, CheckedAddress } from '@marsfoundation/common-universal'
+import { CheckedAddress, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { useAccount, useChainId } from 'wagmi'
-import { TokenWithBalance } from '../common/types'
-import { SavingsInfo } from '../savings-info/types'
+import { SavingsConverter } from '../savings-converters/types'
 import { UseMyEarningsInfoResult, useMyEarningsInfo } from './useMyEarningsInfo/useMyEarningsInfo'
 import { UseSavingsRateInfoResult, useSavingsRateInfo } from './useSavingsRateInfo/useSavingsRateInfo'
 
-export type UseSavingsChartsInfoQueryResult = {
+export type UseSavingsChartsDataResult = {
   myEarningsInfo: UseMyEarningsInfoResult
   savingsRateInfo: UseSavingsRateInfoResult
   chartsSupported: boolean
@@ -15,33 +14,31 @@ export type UseSavingsChartsInfoQueryResult = {
 
 const REFRESH_INTERVAL_IN_MS = 60 * 60 * 1_000 // 1 hour
 
-interface UseSavingsChartsInfoParams {
-  savingsInfo: SavingsInfo | null
-  savingsTokenWithBalance: TokenWithBalance | undefined
+interface UseSavingsChartsDataParams {
+  savingsConverter: SavingsConverter | null
+  savingsTokenBalance: NormalizedUnitNumber | undefined
+  getEarningsApiUrl: GetMyEarningsApiUrl | undefined
+  savingsRateApiUrl: string | undefined
 }
 
-export function useSavingsChartsInfoQuery({
-  savingsInfo,
-  savingsTokenWithBalance,
-}: UseSavingsChartsInfoParams): UseSavingsChartsInfoQueryResult {
+export function useSavingsChartsData({
+  savingsConverter,
+  savingsTokenBalance,
+  getEarningsApiUrl,
+  savingsRateApiUrl,
+}: UseSavingsChartsDataParams): UseSavingsChartsDataResult {
   const chainId = useChainId()
 
   const { address } = useAccount()
   const { timestamp } = useTimestamp({ refreshIntervalInMs: REFRESH_INTERVAL_IN_MS })
-
-  const { savings } = getChainConfigEntry(chainId)
-
-  assert(savings, 'Savings are not supported on this chain')
-
-  const { getEarningsApiUrl, savingsRateApiUrl } = savings
 
   const myEarningsInfo = useMyEarningsInfo({
     address: address ? CheckedAddress(address) : undefined,
     chainId,
     currentTimestamp: timestamp,
     staleTime: REFRESH_INTERVAL_IN_MS,
-    savingsInfo,
-    savingsTokenWithBalance,
+    savingsConverter,
+    savingsTokenBalance,
     getEarningsApiUrl,
   })
 

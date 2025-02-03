@@ -13,7 +13,7 @@ import {
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
 import { EPOCH_LENGTH } from '@/domain/market-info/consts'
-import { SavingsInfo } from '@/domain/savings-info/types'
+import { SavingsConverter } from '@/domain/savings-converters/types'
 import { Token } from '@/domain/types/Token'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
@@ -67,10 +67,10 @@ export function createDepositToSavingsActionConfig(
             context.savingsAccounts,
             'Savings account repository info is required for usdc deposit to savings action',
           )
-          const savingsInfo = context.savingsAccounts.findOneBySavingsToken(savingsToken).converter
+          const savingsConverter = context.savingsAccounts.findOneBySavingsToken(savingsToken).converter
 
           const minAmountOut = calculateMinSharesAmountOut({
-            savingsInfo,
+            savingsConverter,
             savingsToken,
             amountIn: action.value,
           })
@@ -126,10 +126,10 @@ export function createDepositToSavingsActionConfig(
             context.savingsAccounts,
             'Savings accounts repository is required for usdc psm withdraw from savings action',
           )
-          const savingsInfo = context.savingsAccounts.findOneBySavingsToken(savingsToken).converter
+          const savingsConverter = context.savingsAccounts.findOneBySavingsToken(savingsToken).converter
 
           const minAmountOut = calculateMinSharesAmountOut({
-            savingsInfo,
+            savingsConverter,
             savingsToken,
             amountIn: action.value,
           })
@@ -224,20 +224,20 @@ function getUsdcDepositConfig({
 }
 
 interface CalculateMinSharesAmountOutParams {
-  savingsInfo: SavingsInfo
+  savingsConverter: SavingsConverter
   savingsToken: Token
   amountIn: NormalizedUnitNumber
 }
 function calculateMinSharesAmountOut({
-  savingsInfo,
+  savingsConverter,
   savingsToken,
   amountIn,
 }: CalculateMinSharesAmountOutParams): bigint {
-  const currentTimestamp = savingsInfo.currentTimestamp
+  const currentTimestamp = savingsConverter.currentTimestamp
   // We don't know when the block with transaction will be mined so
   // we calculate the minimal amount of sUSDS to receive as the amount
   // the user would receive in 1 epoch (30 minutes)
-  const minimalSharesAmount = savingsInfo.predictSharesAmount({
+  const minimalSharesAmount = savingsConverter.predictSharesAmount({
     assets: amountIn, // we pass NormalizedUnitNumber, so decimals don't matter
     timestamp: currentTimestamp + EPOCH_LENGTH,
   })
