@@ -1,5 +1,5 @@
 import { TokenWithBalance } from '@/domain/common/types'
-import { SavingsInfo } from '@/domain/savings-info/types'
+import { SavingsConverter } from '@/domain/savings-converters/types'
 import { Token } from '@/domain/types/Token'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { STEP_IN_MS, SavingsOverview, makeSavingsOverview } from './makeSavingsOverview'
@@ -7,7 +7,7 @@ import { calculateProjections } from './projections'
 import { InterestData } from './useSavings'
 
 export interface GetInterestDataParams {
-  savingsInfo: SavingsInfo
+  savingsConverter: SavingsConverter
   savingsToken: Token
   savingsTokenBalance: NormalizedUnitNumber
   timestamp: number
@@ -16,7 +16,7 @@ export interface GetInterestDataParams {
 export type MakeSavingsTokenDetailsResult = InterestData | undefined
 
 export function getInterestData({
-  savingsInfo,
+  savingsConverter,
   savingsToken,
   savingsTokenBalance,
   timestamp,
@@ -24,29 +24,29 @@ export function getInterestData({
   const currentProjections = calculateProjections({
     timestamp,
     shares: savingsTokenBalance,
-    savingsInfo,
+    savingsConverter,
   })
 
-  const balanceRefreshIntervalInMs = savingsInfo.supportsRealTimeInterestAccrual ? STEP_IN_MS : undefined
-  const calculateUnderlyingTokenBalance = calculateSavingsBalanceFactory(savingsInfo, {
+  const balanceRefreshIntervalInMs = savingsConverter.supportsRealTimeInterestAccrual ? STEP_IN_MS : undefined
+  const calculateUnderlyingTokenBalance = calculateSavingsBalanceFactory(savingsConverter, {
     token: savingsToken,
     balance: savingsTokenBalance,
   })
 
   return {
-    APY: savingsInfo.apy,
+    APY: savingsConverter.apy,
     currentProjections,
     calculateUnderlyingTokenBalance,
     balanceRefreshIntervalInMs,
   }
 }
 
-function calculateSavingsBalanceFactory(savingsInfo: SavingsInfo, savingsTokenWithBalance: TokenWithBalance) {
+function calculateSavingsBalanceFactory(savingsConverter: SavingsConverter, savingsTokenWithBalance: TokenWithBalance) {
   return function calculateSavingsBalance(timestampInMs: number): SavingsOverview {
     return makeSavingsOverview({
       timestampInMs,
       savingsTokenWithBalance,
-      savingsInfo,
+      savingsConverter,
     })
   }
 }

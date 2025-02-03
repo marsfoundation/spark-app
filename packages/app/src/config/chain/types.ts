@@ -1,4 +1,4 @@
-import { SavingsInfoQueryOptions, SavingsInfoQueryParams } from '@/domain/savings-info/types'
+import { SavingsConverterQueryOptions, SavingsConverterQueryParams } from '@/domain/savings-converters/types'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { CheckedAddress } from '@marsfoundation/common-universal'
@@ -10,7 +10,7 @@ import { SUPPORTED_CHAIN_IDS } from './constants'
 
 export type SupportedChainId = (typeof SUPPORTED_CHAIN_IDS)[number]
 
-export type GetApiUrl = (address: CheckedAddress) => string
+export type GetMyEarningsApiUrl = (address: CheckedAddress) => string
 
 export interface NativeAssetInfo {
   nativeAssetName: string
@@ -61,7 +61,7 @@ export type ReserveOracleType =
   | { type: 'fixed' }
   | { type: 'underlying-asset'; asset: string }
 
-export type SavingsInfoQuery = (args: SavingsInfoQueryParams) => SavingsInfoQueryOptions
+export type SavingsConverterQuery = (args: SavingsConverterQueryParams) => SavingsConverterQueryOptions
 
 export interface MarketsConfig {
   defaultAssetToBorrow: TokenSymbol
@@ -70,17 +70,21 @@ export interface MarketsConfig {
   oracles: Record<TokenSymbol, ReserveOracleType>
 }
 
-export interface SavingsConfig {
-  inputTokens: TokenSymbol[]
-  savingsDaiInfoQuery: SavingsInfoQuery | undefined
-  savingsUsdsInfoQuery: SavingsInfoQuery | undefined
-  savingsUsdcInfoQuery: SavingsInfoQuery | undefined
+export interface AccountConfig {
+  supportedStablecoins: TokenSymbol[]
+  savingsToken: TokenSymbol
+  underlyingToken: TokenSymbol
+  fetchConverterQuery: (args: SavingsConverterQueryParams) => SavingsConverterQueryOptions
   savingsRateApiUrl: string | undefined
-  getEarningsApiUrl: GetApiUrl | undefined
+  getEarningsApiUrl: GetMyEarningsApiUrl | undefined
+}
+
+export interface SavingsConfig {
+  accounts: AccountConfig[]
 }
 
 export interface FarmsConfig {
-  getFarmDetailsApiUrl: GetApiUrl | undefined
+  getFarmDetailsApiUrl: GetMyEarningsApiUrl | undefined
   configs: FarmConfig[]
 }
 

@@ -1,10 +1,8 @@
-import { useQuery } from '@tanstack/react-query'
-
-import { TokenWithBalance } from '@/domain/common/types'
-import { SavingsInfo } from '@/domain/savings-info/types'
+import { SavingsConverter } from '@/domain/savings-converters/types'
 import { Timeframe } from '@/ui/charts/defaults'
 import { SimplifiedQueryResult } from '@/utils/types'
-import { CheckedAddress } from '@marsfoundation/common-universal'
+import { CheckedAddress, NormalizedUnitNumber } from '@marsfoundation/common-universal'
+import { useQuery } from '@tanstack/react-query'
 import { useCallback, useState } from 'react'
 import { MY_EARNINGS_TIMEFRAMES, MyEarningsTimeframe } from './common'
 import { getFilteredEarningsWithPredictions } from './getFilteredEarningsWithPredictions'
@@ -16,8 +14,8 @@ export interface UseMyEarningsInfoParams {
   chainId: number
   currentTimestamp: number
   staleTime: number
-  savingsInfo: SavingsInfo | null
-  savingsTokenWithBalance: TokenWithBalance | undefined
+  savingsConverter: SavingsConverter | null
+  savingsTokenBalance: NormalizedUnitNumber | undefined
   getEarningsApiUrl: ((address: CheckedAddress) => string) | undefined
 }
 
@@ -41,8 +39,8 @@ export function useMyEarningsInfo({
   chainId,
   currentTimestamp,
   staleTime,
-  savingsInfo,
-  savingsTokenWithBalance,
+  savingsConverter,
+  savingsTokenBalance,
   getEarningsApiUrl,
 }: UseMyEarningsInfoParams): UseMyEarningsInfoResult {
   const [selectedTimeframe, setSelectedTimeframe] = useState<MyEarningsTimeframe>('All')
@@ -59,17 +57,17 @@ export function useMyEarningsInfo({
           myEarningsInfo,
           timeframe: selectedTimeframe,
           currentTimestamp,
-          savingsInfo,
-          savingsTokenWithBalance,
+          savingsConverter,
+          savingsTokenBalance,
         }),
-      [selectedTimeframe, currentTimestamp, savingsInfo, savingsTokenWithBalance],
+      [selectedTimeframe, currentTimestamp, savingsConverter, savingsTokenBalance],
     ),
-    enabled: !!getEarningsApiUrl && !!savingsInfo && !!savingsTokenWithBalance,
+    enabled: !!getEarningsApiUrl && !!savingsConverter && !!savingsTokenBalance,
     staleTime,
   })
 
   const hasHistoricalData = (queryResult.data?.data?.length ?? 0) > 0
-  const hasSavingTokenBalance = savingsTokenWithBalance?.balance.gt(0) ?? false
+  const hasSavingTokenBalance = savingsTokenBalance?.gt(0) ?? false
 
   return {
     queryResult,

@@ -4,7 +4,7 @@ import { Config } from 'wagmi'
 import { Token } from '../types/Token'
 import { TokenSymbol } from '../types/TokenSymbol'
 
-export interface SavingsInfo {
+export interface SavingsConverter {
   predictAssetsAmount({ timestamp, shares }: { timestamp: number; shares: NormalizedUnitNumber }): NormalizedUnitNumber
   predictSharesAmount({ timestamp, assets }: { timestamp: number; assets: NormalizedUnitNumber }): NormalizedUnitNumber
   convertToShares({ assets }: { assets: NormalizedUnitNumber }): NormalizedUnitNumber
@@ -14,18 +14,18 @@ export interface SavingsInfo {
   readonly currentTimestamp: number
 }
 
-export interface SavingsInfoQueryParams {
+export interface SavingsConverterQueryParams {
   wagmiConfig: Config
   chainId: number
   timestamp: number
 }
 
-export interface SavingsInfoQueryOptions {
+export interface SavingsConverterQueryOptions {
   queryKey: QueryKey
-  queryFn: () => Promise<SavingsInfo | null>
+  queryFn: () => Promise<SavingsConverter | null>
 }
 
-export interface InterestBearingConverter {
+export interface SavingsConverter {
   predictAssetsAmount({ timestamp, shares }: { timestamp: number; shares: NormalizedUnitNumber }): NormalizedUnitNumber
   predictSharesAmount({ timestamp, assets }: { timestamp: number; assets: NormalizedUnitNumber }): NormalizedUnitNumber
   convertToShares({ assets }: { assets: NormalizedUnitNumber }): NormalizedUnitNumber
@@ -36,7 +36,7 @@ export interface InterestBearingConverter {
 }
 
 export interface SavingsAccount {
-  converter: InterestBearingConverter
+  converter: SavingsConverter
   savingsToken: Token
   underlyingToken: Token
 }

@@ -1,6 +1,6 @@
 import { Path, paths } from '@/config/paths'
 import { SavingsAPYBadge } from '@/features/savings/components/navbar-item/SavingsAPYBadge'
-import { SavingsInfoQueryResults } from '@/features/topbar/types'
+import { SavingsConverterQueryResults } from '@/features/topbar/types'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,7 +20,7 @@ export interface TopbarNavigationInfo {
 }
 
 export interface TopbarNavigationProps {
-  savingsInfo: SavingsInfoQueryResults | undefined
+  savingsConverter: SavingsConverterQueryResults | undefined
   blockedPages: Path[]
   borrowSubLinks: Array<{
     to: string
@@ -30,7 +30,7 @@ export interface TopbarNavigationProps {
 }
 
 export function TopbarNavigation({
-  savingsInfo,
+  savingsConverter,
   blockedPages,
   borrowSubLinks,
   isBorrowSubLinkActive,
@@ -50,10 +50,10 @@ export function TopbarNavigation({
           prefixIcon={LINKS_DATA.savings.icon}
           type="savings"
           postfixSlot={
-            savingsInfo?.data || savingsInfo?.isLoading ? (
+            savingsConverter?.data || savingsConverter?.isLoading ? (
               <SavingsAPYBadge
-                APY={savingsInfo.data?.apy}
-                isLoading={savingsInfo.isLoading}
+                APY={savingsConverter.data?.apy}
+                isLoading={savingsConverter.isLoading}
                 className="hidden lg:inline-flex"
               />
             ) : undefined

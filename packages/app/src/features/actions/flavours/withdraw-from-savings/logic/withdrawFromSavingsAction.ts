@@ -11,7 +11,7 @@ import {
 } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
-import { InterestBearingConverter } from '@/domain/savings-info/types'
+import { SavingsConverter } from '@/domain/savings-converters/types'
 import { assertWithdraw } from '@/domain/savings/assertWithdraw'
 import { Token } from '@/domain/types/Token'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
@@ -287,7 +287,7 @@ export function createWithdrawFromSavingsActionConfig(
 
 interface GetUsdcWithdrawConfigParams {
   psmActionsAddress: CheckedAddress
-  converter: InterestBearingConverter
+  converter: SavingsConverter
   isRedeem: boolean
   actionAmount: NormalizedUnitNumber
   token: Token

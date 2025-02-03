@@ -2,8 +2,8 @@ import { SPARK_UI_REFERRAL_CODE, SPARK_UI_REFERRAL_CODE_BIGINT } from '@/config/
 import { basePsm3Abi, basePsm3Address, usdcVaultAbi, usdcVaultAddress } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { EPOCH_LENGTH } from '@/domain/market-info/consts'
-import { PotSavingsInfo } from '@/domain/savings-info/potSavingsInfo'
-import { SavingsAccountRepository } from '@/domain/savings-info/types'
+import { PotSavingsConverter } from '@/domain/savings-converters/PotSavingsConverter'
+import { SavingsAccountRepository } from '@/domain/savings-converters/types'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
@@ -38,34 +38,34 @@ const mockTokensInfo = new TokensInfo(
   },
 )
 const timestamp = 1000
-const savingsInfoTimestamp = timestamp + 24 * 60 * 60
-const mockSavingsInfo = new PotSavingsInfo({
+const savingsConverterTimestamp = timestamp + 24 * 60 * 60
+const mockSavingsConverter = new PotSavingsConverter({
   potParams: {
     dsr: bigNumberify('1000001103127689513476993127'), // 10% / day
     rho: bigNumberify(timestamp),
     chi: bigNumberify('1000000000000000000000000000'), // 1
   },
-  currentTimestamp: savingsInfoTimestamp,
+  currentTimestamp: savingsConverterTimestamp,
 })
 
 const savingsAccountsWithSusds = new SavingsAccountRepository([
   {
-    converter: mockSavingsInfo,
+    converter: mockSavingsConverter,
     savingsToken: susds,
     underlyingToken: usds,
   },
 ])
 const savingsAccountsWithSusdc = new SavingsAccountRepository([
   {
-    converter: mockSavingsInfo,
+    converter: mockSavingsConverter,
     savingsToken: susdc,
     underlyingToken: usdc,
   },
 ])
 
-const minAmountOut = mockSavingsInfo.predictSharesAmount({
+const minAmountOut = mockSavingsConverter.predictSharesAmount({
   assets: depositValue,
-  timestamp: savingsInfoTimestamp + EPOCH_LENGTH,
+  timestamp: savingsConverterTimestamp + EPOCH_LENGTH,
 })
 
 const chainId = base.id

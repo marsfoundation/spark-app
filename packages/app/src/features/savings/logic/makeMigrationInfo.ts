@@ -1,4 +1,4 @@
-import { SavingsAccountRepository } from '@/domain/savings-info/types'
+import { SavingsAccountRepository } from '@/domain/savings-converters/types'
 import { OpenDialogFunction } from '@/domain/state/dialogs'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { upgradeDialogConfig } from '@/features/dialogs/savings/migrate/upgrade/UpgradeDialog'

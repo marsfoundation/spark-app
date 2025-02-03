@@ -5,7 +5,7 @@ import { savingsDepositDialogConfig } from '@/features/dialogs/savings/deposit/S
 import { savingsWithdrawDialogConfig } from '@/features/dialogs/savings/withdraw/SavingsWithdrawDialog'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { MigrationInfo } from '../../logic/makeMigrationInfo'
-import { ChartsData, InterestData, SavingsAccountEntryAssets } from '../../logic/useSavings'
+import { ChartsData, InterestData, SavingsAccountSupportedStablecoin } from '../../logic/useSavings'
 import { AccountMainPanelGroup } from '../account-main-panel-group/AccountMainPanelGroup'
 import { DepositCTAPanel } from '../deposit-cta-panel/DepositCTAPanel'
 import { EntryAssetsPanel } from '../entry-assets-panel/EntryAssetsPanel'
@@ -17,7 +17,7 @@ export interface SavingsAccountProps {
   savingsTokenBalance: NormalizedUnitNumber
   underlyingToken: Token
   interestData: InterestData
-  entryAssets: SavingsAccountEntryAssets[]
+  supportedStablecoins: SavingsAccountSupportedStablecoin[]
   mostValuableAsset: TokenWithBalance
   showConvertDialogButton: boolean
   chartsData: ChartsData
@@ -34,7 +34,7 @@ export function SavingsAccount({
   savingsTokenBalance,
   underlyingToken,
   interestData,
-  entryAssets,
+  supportedStablecoins,
   mostValuableAsset,
   showConvertDialogButton,
   chartsData,
@@ -58,7 +58,7 @@ export function SavingsAccount({
       {displayDepositCallToAction ? (
         <DepositCTAPanel
           savingsRate={interestData.APY}
-          entryTokens={entryAssets.map((asset) => asset.token)}
+          entryTokens={supportedStablecoins.map((asset) => asset.token)}
           savingsToken={savingsToken}
           // @todo: get description from chain config when available
           description={{
@@ -107,7 +107,7 @@ export function SavingsAccount({
       )}
       {chartsData.chartsSupported && <SavingsCharts savingsTokenSymbol={savingsToken.symbol} {...chartsData} />}
       <EntryAssetsPanel
-        assets={entryAssets}
+        assets={supportedStablecoins}
         openDialog={openDialog}
         showConvertDialogButton={showConvertDialogButton}
         savingsToken={savingsToken}

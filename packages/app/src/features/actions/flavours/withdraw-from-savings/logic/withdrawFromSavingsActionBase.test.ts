@@ -1,8 +1,8 @@
 import { SPARK_UI_REFERRAL_CODE_BIGINT } from '@/config/consts'
 import { basePsm3Abi, basePsm3Address, usdcVaultAbi, usdcVaultAddress } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
-import { PotSavingsInfo } from '@/domain/savings-info/potSavingsInfo'
-import { SavingsAccountRepository } from '@/domain/savings-info/types'
+import { PotSavingsConverter } from '@/domain/savings-converters/PotSavingsConverter'
+import { SavingsAccountRepository } from '@/domain/savings-converters/types'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
@@ -39,7 +39,7 @@ const mockTokensInfo = new TokensInfo(
   },
 )
 const timestamp = 1000
-const mockSavingsInfo = new PotSavingsInfo({
+const mockSavingsConverter = new PotSavingsConverter({
   potParams: {
     dsr: bigNumberify('1000001103127689513476993127'), // 10% / day
     rho: bigNumberify(timestamp),
@@ -51,14 +51,14 @@ const chainId = base.id
 
 const savingsAccountsWithSusds = new SavingsAccountRepository([
   {
-    converter: mockSavingsInfo,
+    converter: mockSavingsConverter,
     savingsToken: susds,
     underlyingToken: usds,
   },
 ])
 const savingsAccountsWithSusdc = new SavingsAccountRepository([
   {
-    converter: mockSavingsInfo,
+    converter: mockSavingsConverter,
     savingsToken: susdc,
     underlyingToken: usdc,
   },

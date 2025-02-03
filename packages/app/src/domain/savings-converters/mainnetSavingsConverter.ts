@@ -1,20 +1,20 @@
 import { susdsAbi } from '@/config/abis/susdsAbi'
 import { getChainConfigEntry } from '@/config/chain'
-import { SavingsInfoQuery } from '@/config/chain/types'
+import { SavingsConverterQuery } from '@/config/chain/types'
 import { potAbi, potAddress } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { bigNumberify } from '@marsfoundation/common-universal'
 import { raise } from '@marsfoundation/common-universal'
 import { multicall } from 'wagmi/actions'
 import { TokenSymbol } from '../types/TokenSymbol'
-import { PotSavingsInfo } from './potSavingsInfo'
-import { SavingsInfoQueryOptions, SavingsInfoQueryParams } from './types'
+import { PotSavingsConverter } from './PotSavingsConverter'
+import { SavingsConverterQueryOptions, SavingsConverterQueryParams } from './types'
 
 export function mainnetSavingsDaiInfoQuery({
   wagmiConfig,
   timestamp,
   chainId,
-}: SavingsInfoQueryParams): SavingsInfoQueryOptions {
+}: SavingsConverterQueryParams): SavingsConverterQueryOptions {
   const makerPotAddress = getContractAddress(potAddress, chainId)
   return {
     queryKey: ['savings-dai-info', { chainId }],
@@ -43,7 +43,7 @@ export function mainnetSavingsDaiInfoQuery({
         ],
       })
 
-      return new PotSavingsInfo({
+      return new PotSavingsConverter({
         potParams: {
           dsr: bigNumberify(dsr),
           rho: bigNumberify(rho),
@@ -55,15 +55,15 @@ export function mainnetSavingsDaiInfoQuery({
   }
 }
 
-export const mainnetSavingsUsdsInfoQuery = mainnetSkySavingsInfoQueryFactory(TokenSymbol('sUSDS'))
-export const mainnetSavingsUsdcInfoQuery = mainnetSkySavingsInfoQueryFactory(TokenSymbol('sUSDC'))
+export const mainnetSavingsUsdsInfoQuery = mainnetSkySavingsConverterQueryFactory(TokenSymbol('sUSDS'))
+export const mainnetSavingsUsdcInfoQuery = mainnetSkySavingsConverterQueryFactory(TokenSymbol('sUSDC'))
 
-function mainnetSkySavingsInfoQueryFactory(savingsTokenSymbol: TokenSymbol): SavingsInfoQuery {
-  return function mainnetSkySavingsInfoQuery({
+function mainnetSkySavingsConverterQueryFactory(savingsTokenSymbol: TokenSymbol): SavingsConverterQuery {
+  return function mainnetSkySavingsConverterQuery({
     wagmiConfig,
     timestamp,
     chainId,
-  }: SavingsInfoQueryParams): SavingsInfoQueryOptions {
+  }: SavingsConverterQueryParams): SavingsConverterQueryOptions {
     return {
       queryKey: ['savings-info', savingsTokenSymbol, { chainId }],
       queryFn: async () => {
@@ -96,7 +96,7 @@ function mainnetSkySavingsInfoQueryFactory(savingsTokenSymbol: TokenSymbol): Sav
           ],
         })
 
-        return new PotSavingsInfo({
+        return new PotSavingsConverter({
           potParams: {
             dsr: bigNumberify(ssr),
             rho: bigNumberify(rho),

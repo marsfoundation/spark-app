@@ -1,7 +1,7 @@
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
 import { Farm } from '@/domain/farms/types'
 import { useFarmsInfo } from '@/domain/farms/useFarmsInfo'
-import { useSavingsAccountRepository } from '@/domain/savings-info/useSavingsAccountRepository'
+import { useSavingsAccountRepository } from '@/domain/savings/useSavingsAccountRepository'
 import { Token } from '@/domain/types/Token'
 import { StakeObjective } from '@/features/actions/flavours/stake/types'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'

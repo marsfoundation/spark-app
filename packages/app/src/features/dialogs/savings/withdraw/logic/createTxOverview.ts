@@ -1,4 +1,4 @@
-import { InterestBearingConverter, SavingsAccountRepository } from '@/domain/savings-info/types'
+import { SavingsAccountRepository, SavingsConverter } from '@/domain/savings-converters/types'
 import { Token } from '@/domain/types/Token'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { TransferFromUserFormNormalizedData } from '@/features/dialogs/common/logic/transfer-from-user/form'
@@ -62,7 +62,7 @@ export function createTxOverview({
 export interface GetWithdrawRouteParams {
   formValues: TransferFromUserFormNormalizedData
   tokensInfo: TokensInfo
-  converter: InterestBearingConverter
+  converter: SavingsConverter
   savingsToken: Token
   savingsTokenValue: NormalizedUnitNumber
 }

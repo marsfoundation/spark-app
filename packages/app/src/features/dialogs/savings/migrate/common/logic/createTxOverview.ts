@@ -1,4 +1,4 @@
-import { SavingsAccountRepository } from '@/domain/savings-info/types'
+import { SavingsAccountRepository } from '@/domain/savings-converters/types'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'

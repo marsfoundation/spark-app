@@ -5,13 +5,15 @@ import {
   fetchWeethOracleInfo,
   fetchWstethOracleInfoMainnet,
 } from '@/domain/oracles/oracleInfoFetchers'
-import { baseSavingsUsdcInfoQueryOptions, baseSavingsUsdsInfoQueryOptions } from '@/domain/savings-info/baseSavingsInfo'
-import { gnosisSavingsDaiInfoQuery } from '@/domain/savings-info/gnosisSavingsInfo'
+import {
+  baseSavingsUsdcInfoQueryOptions,
+  baseSavingsUsdsInfoQueryOptions,
+} from '@/domain/savings-converters/baseSavingsConverter'
+import { gnosisSavingsDaiConverterQuery } from '@/domain/savings-converters/gnosisSavingsConverter'
 import {
   mainnetSavingsDaiInfoQuery,
   mainnetSavingsUsdcInfoQuery,
-  mainnetSavingsUsdsInfoQuery,
-} from '@/domain/savings-info/mainnetSavingsInfo'
+} from '@/domain/savings-converters/mainnetSavingsConverter'
 import { useStore } from '@/domain/state'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
@@ -174,12 +176,35 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
       },
     },
     savings: {
-      savingsDaiInfoQuery: mainnetSavingsDaiInfoQuery,
-      savingsUsdsInfoQuery: mainnetSavingsUsdsInfoQuery,
-      savingsUsdcInfoQuery: mainnetSavingsUsdcInfoQuery,
-      inputTokens: [TokenSymbol('DAI'), TokenSymbol('USDC'), TokenSymbol('USDS')],
-      getEarningsApiUrl: (address) => `${infoSkyApiUrl}/savings-rate/wallets/${address.toLowerCase()}/?days_ago=9999`,
-      savingsRateApiUrl: `${infoSkyApiUrl}/savings-rate/`,
+      accounts: [
+        {
+          savingsToken: TokenSymbol('sDAI'),
+          underlyingToken: TokenSymbol('DAI'),
+          supportedStablecoins: [TokenSymbol('DAI'), TokenSymbol('USDC')],
+          fetchConverterQuery: mainnetSavingsDaiInfoQuery,
+          savingsRateApiUrl: `${infoSkyApiUrl}/savings-rate/`,
+          getEarningsApiUrl: (address) =>
+            `${infoSkyApiUrl}/savings-rate/wallets/${address.toLowerCase()}/?days_ago=9999`,
+        },
+        {
+          savingsToken: TokenSymbol('sUSDS'),
+          underlyingToken: TokenSymbol('USDS'),
+          supportedStablecoins: [TokenSymbol('USDS'), TokenSymbol('USDC'), TokenSymbol('DAI')],
+          fetchConverterQuery: mainnetSavingsDaiInfoQuery,
+          savingsRateApiUrl: `${infoSkyApiUrl}/savings-rate/`,
+          getEarningsApiUrl: (address) =>
+            `${infoSkyApiUrl}/savings-rate/wallets/${address.toLowerCase()}/?days_ago=9999`,
+        },
+        {
+          savingsToken: TokenSymbol('sUSDC'),
+          underlyingToken: TokenSymbol('USDC'),
+          supportedStablecoins: [TokenSymbol('USDC')],
+          fetchConverterQuery: mainnetSavingsUsdcInfoQuery,
+          savingsRateApiUrl: `${infoSkyApiUrl}/savings-rate/`,
+          getEarningsApiUrl: (address) =>
+            `${infoSkyApiUrl}/savings-rate/wallets/${address.toLowerCase()}/?days_ago=9999`,
+        },
+      ],
     },
     farms: {
       configs: [
@@ -298,12 +323,16 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
       },
     },
     savings: {
-      savingsDaiInfoQuery: gnosisSavingsDaiInfoQuery,
-      savingsUsdsInfoQuery: undefined,
-      savingsUsdcInfoQuery: undefined,
-      inputTokens: [TokenSymbol('XDAI')],
-      getEarningsApiUrl: undefined,
-      savingsRateApiUrl: undefined,
+      accounts: [
+        {
+          savingsToken: TokenSymbol('sDAI'),
+          underlyingToken: TokenSymbol('xDAI'),
+          supportedStablecoins: [TokenSymbol('DAI')],
+          fetchConverterQuery: gnosisSavingsDaiConverterQuery,
+          savingsRateApiUrl: undefined,
+          getEarningsApiUrl: undefined,
+        },
+      ],
     },
     farms: undefined,
   },
@@ -355,13 +384,26 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
     ] as const,
     markets: undefined,
     savings: {
-      savingsDaiInfoQuery: undefined,
-      savingsUsdsInfoQuery: baseSavingsUsdsInfoQueryOptions,
-      savingsUsdcInfoQuery: baseSavingsUsdcInfoQueryOptions,
-      inputTokens: [TokenSymbol('USDC'), TokenSymbol('USDS')],
-      getEarningsApiUrl: (address) =>
-        `${infoSkyApiUrl}/savings-rate/wallets/${address.toLowerCase()}/?days_ago=9999&chainId=${base.id}`,
-      savingsRateApiUrl: `${infoSkyApiUrl}/savings-rate/?chainId=${base.id}`,
+      accounts: [
+        {
+          savingsToken: TokenSymbol('sUSDS'),
+          underlyingToken: TokenSymbol('USDS'),
+          supportedStablecoins: [TokenSymbol('USDS'), TokenSymbol('USDC')],
+          fetchConverterQuery: baseSavingsUsdsInfoQueryOptions,
+          savingsRateApiUrl: `${infoSkyApiUrl}/savings-rate/`,
+          getEarningsApiUrl: (address) =>
+            `${infoSkyApiUrl}/savings-rate/wallets/${address.toLowerCase()}/?days_ago=9999`,
+        },
+        {
+          savingsToken: TokenSymbol('sUSDC'),
+          underlyingToken: TokenSymbol('USDC'),
+          supportedStablecoins: [TokenSymbol('USDC')],
+          fetchConverterQuery: baseSavingsUsdcInfoQueryOptions,
+          savingsRateApiUrl: `${infoSkyApiUrl}/savings-rate/`,
+          getEarningsApiUrl: (address) =>
+            `${infoSkyApiUrl}/savings-rate/wallets/${address.toLowerCase()}/?days_ago=9999`,
+        },
+      ],
     },
     farms: undefined,
   },

@@ -6,7 +6,7 @@ import {
   usdsPsmActionsConfig,
 } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
-import { InterestBearingConverter } from '@/domain/savings-info/types'
+import { SavingsConverter } from '@/domain/savings-converters/types'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { Action, ActionContext } from '@/features/actions/logic/types'
 import {
@@ -41,11 +41,11 @@ export function createWithdrawFromSavingsActions(
     receiver: objective.mode === 'send' ? objective.receiver : undefined,
   }
 
-  const getSusdsApproveAction = createApproveActionFromSavingsInfo({
+  const getSusdsApproveAction = createApproveActionFromSavingsConverter({
     objective,
     converter: context.savingsAccounts?.findBySavingsTokenSymbol(TokenSymbol('sUSDS'))?.converter,
   })
-  const getSdaiApproveAction = createApproveActionFromSavingsInfo({
+  const getSdaiApproveAction = createApproveActionFromSavingsConverter({
     objective,
     converter: context.savingsAccounts?.findBySavingsTokenSymbol(TokenSymbol('sDAI'))?.converter,
   })
@@ -108,12 +108,15 @@ export function createWithdrawFromSavingsActions(
   }
 }
 
-interface CreateApproveActionFromSavingsInfoParams {
+interface CreateApproveActionFromSavingsConverterParams {
   objective: WithdrawFromSavingsObjective
-  converter?: InterestBearingConverter
+  converter?: SavingsConverter
 }
 
-function createApproveActionFromSavingsInfo({ objective, converter }: CreateApproveActionFromSavingsInfoParams) {
+function createApproveActionFromSavingsConverter({
+  objective,
+  converter,
+}: CreateApproveActionFromSavingsConverterParams) {
   return (spender: CheckedAddress): ApproveAction => {
     // @note This assert is here and not on the callsite
     // to prevent raising an error while only one of the savings info is provided

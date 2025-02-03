@@ -1,4 +1,4 @@
-import { PotSavingsInfo } from '@/domain/savings-info/potSavingsInfo'
+import { PotSavingsConverter } from '@/domain/savings-converters/PotSavingsConverter'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { testAddresses } from '@/test/integration/constants'
 import { bigNumberify } from '@marsfoundation/common-universal'
@@ -32,7 +32,7 @@ const mockTokensInfo = new TokensInfo(
   },
 )
 const timestamp = 1000
-const mockSavingsDaiInfo = new PotSavingsInfo({
+const mockSavingsDaiInfo = new PotSavingsConverter({
   potParams: {
     dsr: bigNumberify('1000001103127689513476993127'), // 10% / day
     rho: bigNumberify(timestamp),
