@@ -1,5 +1,7 @@
+import { getChainConfigEntry } from '@/config/chain'
+import { usePageChainId } from '@/domain/hooks/usePageChainId'
 import { useUnsupportedChain } from '@/domain/hooks/useUnsupportedChain'
-import { withSuspense } from '@/ui/utils/withSuspense'
+import { Suspense } from 'react'
 import { SavingsSkeleton } from './components/skeleton/SavingsSkeleton'
 import { useSavings } from './logic/useSavings'
 import { SavingsView } from './views/SavingsView'
@@ -23,5 +25,16 @@ function SavingsContainer() {
   )
 }
 
-const SavingsContainerWithSuspense = withSuspense(SavingsContainer, SavingsSkeleton)
+function SavingsContainerWithSuspense() {
+  const { chainId } = usePageChainId()
+  const chainConfig = getChainConfigEntry(chainId)
+
+  const numberOfAccounts = chainConfig.savings?.accounts?.length ?? 0
+
+  return (
+    <Suspense fallback={<SavingsSkeleton numberOfAccounts={numberOfAccounts} />}>
+      <SavingsContainer />
+    </Suspense>
+  )
+}
 export { SavingsContainerWithSuspense as SavingsContainer }
