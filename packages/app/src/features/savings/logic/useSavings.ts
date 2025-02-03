@@ -11,7 +11,7 @@ import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { useTimestamp } from '@/utils/useTimestamp'
-import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
+import { NormalizedUnitNumber, Percentage, raise } from '@marsfoundation/common-universal'
 import { useState } from 'react'
 import { Projections } from '../types'
 import { getInterestData } from './getInterestData'
@@ -69,11 +69,11 @@ export function useSavings(): UseSavingsResults {
   const openDialog = useOpenDialog()
   const getBlockExplorerLink = useGetBlockExplorerAddressLink()
 
-  const [_selectedAccount, setSelectedAccount] = useState<TokenSymbol | undefined>(savings?.accounts?.[0]?.savingsToken)
-  const selectedAccount =
-    (savings?.accounts?.find(({ savingsToken }) => savingsToken === _selectedAccount)
-      ? _selectedAccount
-      : savings?.accounts[0]?.savingsToken) ?? TokenSymbol('sUSDS')
+  const firstAccountInConfig = savings?.accounts?.[0] ?? raise('There are no accounts in config')
+  const [_selectedAccount, setSelectedAccount] = useState<TokenSymbol>(firstAccountInConfig.savingsToken)
+  const selectedAccount = savings?.accounts?.find(({ savingsToken }) => savingsToken === _selectedAccount)
+    ? _selectedAccount
+    : firstAccountInConfig.savingsToken
   const selectedAccountConfig = savings?.accounts?.find(({ savingsToken }) => savingsToken === selectedAccount)
   const selectedAccountData = {
     ...savingsAccounts.findOneBySavingsTokenSymbol(selectedAccount),

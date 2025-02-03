@@ -14,13 +14,8 @@ export function useSavingsConverter(): SavingsConverterQueryResults | undefined 
   const { accounts } = getChainConfigEntry(chainId).savings ?? {}
 
   function getSavingsConverterQuery(): SavingsConverterQuery | undefined {
-    const susdsAccount = accounts?.find(({ savingsToken }) => savingsToken === TokenSymbol('sUSDS'))
-    if (susdsAccount) {
-      return susdsAccount.fetchConverterQuery
-    }
-    const sdaiAccount = accounts?.find(({ savingsToken }) => savingsToken === TokenSymbol('sDAI'))
-    if (sdaiAccount) {
-      return sdaiAccount.fetchConverterQuery
+    for (const tokenSymbol of [TokenSymbol('sUSDS'), TokenSymbol('sDAI')]) {
+      return accounts?.find(({ savingsToken }) => savingsToken === tokenSymbol)?.fetchConverterQuery
     }
     return undefined
   }
