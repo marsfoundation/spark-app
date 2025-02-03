@@ -13,9 +13,12 @@ import { bigNumberify } from '@marsfoundation/common-universal'
 
 import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import BigNumber from 'bignumber.js'
-import { SavingsInfo, SavingsInfoQueryOptions, SavingsInfoQueryParams } from './types'
+import { SavingsConverter, SavingsConverterQueryOptions, SavingsConverterQueryParams } from './types'
 
-export function gnosisSavingsDaiInfoQuery({ wagmiConfig, timestamp }: SavingsInfoQueryParams): SavingsInfoQueryOptions {
+export function gnosisSavingsDaiConverterQuery({
+  wagmiConfig,
+  timestamp,
+}: SavingsConverterQueryParams): SavingsConverterQueryOptions {
   const sDaiAdapterAddress = getContractAddress(savingsXDaiAdapterAddress, gnosis.id)
   const sDaiAddress = getContractAddress(savingsXDaiAddress, gnosis.id)
   return {
@@ -51,7 +54,7 @@ export function gnosisSavingsDaiInfoQuery({ wagmiConfig, timestamp }: SavingsInf
         allowFailure: false,
       })
 
-      return new GnosisSavingsInfo({
+      return new GnosisSavingsConverter({
         vaultAPY: Percentage(fromWad(bigNumberify(vaultAPY))),
         totalAssets: NormalizedUnitNumber(bigNumberify(totalAssets).shiftedBy(-decimals)),
         totalSupply: NormalizedUnitNumber(bigNumberify(totalSupply).shiftedBy(-decimals)),
@@ -61,20 +64,20 @@ export function gnosisSavingsDaiInfoQuery({ wagmiConfig, timestamp }: SavingsInf
   }
 }
 
-export interface GnosisSavingsInfoParams {
+export interface GnosisSavingsConverterParams {
   vaultAPY: Percentage
   totalSupply: NormalizedUnitNumber
   totalAssets: NormalizedUnitNumber
   currentTimestamp: number
 }
 
-export class GnosisSavingsInfo implements SavingsInfo {
+export class GnosisSavingsConverter implements SavingsConverter {
   private vaultAPY: Percentage
   private totalSupply: NormalizedUnitNumber
   private totalAssets: NormalizedUnitNumber
   readonly currentTimestamp: number
 
-  constructor(params: GnosisSavingsInfoParams) {
+  constructor(params: GnosisSavingsConverterParams) {
     this.vaultAPY = params.vaultAPY
     this.totalSupply = params.totalSupply
     this.totalAssets = params.totalAssets
@@ -123,7 +126,7 @@ export class GnosisSavingsInfo implements SavingsInfo {
   }
 }
 
-export function gnosisSavingsUsdsInfoQuery(): SavingsInfoQueryOptions {
+export function gnosisSavingsUsdsInfoQuery(): SavingsConverterQueryOptions {
   return {
     queryKey: ['gnosis-savings-usds-info'],
     queryFn: async () => null,

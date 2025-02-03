@@ -2,21 +2,21 @@ import { describe, test } from 'vitest'
 
 import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 
-import { GnosisSavingsInfo } from './gnosisSavingsInfo'
+import { GnosisSavingsConverter } from './gnosisSavingsConverter'
 
-describe(GnosisSavingsInfo.name, () => {
-  describe(GnosisSavingsInfo.prototype.predictAssetsAmount.name, () => {
+describe(GnosisSavingsConverter.name, () => {
+  describe(GnosisSavingsConverter.prototype.predictAssetsAmount.name, () => {
     test('calculates correct assets for given shares and future timestamp', () => {
       const timestamp = 1000
       const shares = NormalizedUnitNumber(100)
-      const savingsInfo = new GnosisSavingsInfo({
+      const savingsConverter = new GnosisSavingsConverter({
         vaultAPY: Percentage(18.25, { allowMoreThan1: true }), // 5% / day
         totalAssets: NormalizedUnitNumber(100),
         totalSupply: NormalizedUnitNumber(100),
         currentTimestamp: timestamp,
       })
 
-      const assetsAtFutureTime = savingsInfo.predictAssetsAmount({
+      const assetsAtFutureTime = savingsConverter.predictAssetsAmount({
         timestamp: timestamp + 24 * 60 * 60, // one day later
         shares,
       })
@@ -28,34 +28,34 @@ describe(GnosisSavingsInfo.name, () => {
     test('predictAssetsAmount matches convertToAssets at current timestamp', () => {
       const timestamp = 1000
       const shares = NormalizedUnitNumber(100)
-      const savingsInfo = new GnosisSavingsInfo({
+      const savingsConverter = new GnosisSavingsConverter({
         vaultAPY: Percentage(18.25, { allowMoreThan1: true }), // 5% / day
         totalAssets: NormalizedUnitNumber(100),
         totalSupply: NormalizedUnitNumber(100),
         currentTimestamp: timestamp,
       })
 
-      const assetsViaPredict = savingsInfo.predictAssetsAmount({
-        timestamp: savingsInfo.currentTimestamp,
+      const assetsViaPredict = savingsConverter.predictAssetsAmount({
+        timestamp: savingsConverter.currentTimestamp,
         shares,
       })
-      const assetsViaConvert = savingsInfo.convertToAssets({ shares })
+      const assetsViaConvert = savingsConverter.convertToAssets({ shares })
 
       expect(assetsViaPredict.eq(assetsViaConvert)).toEqual(true)
     })
   })
 
-  describe(GnosisSavingsInfo.prototype.predictSharesAmount.name, () => {
+  describe(GnosisSavingsConverter.prototype.predictSharesAmount.name, () => {
     test('calculates correct shares for given assets and future timestamp', () => {
       const timestamp = 1000
       const assets = NormalizedUnitNumber(100)
-      const savingsInfo = new GnosisSavingsInfo({
+      const savingsConverter = new GnosisSavingsConverter({
         vaultAPY: Percentage(18.25, { allowMoreThan1: true }), // 5% / day
         totalAssets: NormalizedUnitNumber(100),
         totalSupply: NormalizedUnitNumber(100),
         currentTimestamp: timestamp,
       })
-      const sharesAtFutureTime = savingsInfo.predictSharesAmount({
+      const sharesAtFutureTime = savingsConverter.predictSharesAmount({
         timestamp: timestamp + 24 * 60 * 60, // one day later
         assets,
       })
@@ -67,18 +67,18 @@ describe(GnosisSavingsInfo.name, () => {
     test('predictSharesAmount matches convertToShares at current timestamp', () => {
       const timestamp = 1000
       const assets = NormalizedUnitNumber(100)
-      const savingsInfo = new GnosisSavingsInfo({
+      const savingsConverter = new GnosisSavingsConverter({
         vaultAPY: Percentage(18.25, { allowMoreThan1: true }), // 5% / day
         totalAssets: NormalizedUnitNumber(100),
         totalSupply: NormalizedUnitNumber(100),
         currentTimestamp: timestamp,
       })
 
-      const sharesViaPredict = savingsInfo.predictSharesAmount({
-        timestamp: savingsInfo.currentTimestamp,
+      const sharesViaPredict = savingsConverter.predictSharesAmount({
+        timestamp: savingsConverter.currentTimestamp,
         assets,
       })
-      const sharesViaConvert = savingsInfo.convertToShares({ assets })
+      const sharesViaConvert = savingsConverter.convertToShares({ assets })
 
       expect(sharesViaPredict.eq(sharesViaConvert)).toEqual(true)
     })

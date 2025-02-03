@@ -1,6 +1,6 @@
 import { TokenWithBalance } from '@/domain/common/types'
 import { useChainConfigEntry } from '@/domain/hooks/useChainConfigEntry'
-import { useSavingsAccountRepository } from '@/domain/savings-info/useSavingsAccountRepository'
+import { useSavingsAccountRepository } from '@/domain/savings/useSavingsAccountRepository'
 import { Token } from '@/domain/types/Token'
 import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'

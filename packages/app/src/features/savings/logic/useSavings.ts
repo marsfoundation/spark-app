@@ -3,19 +3,15 @@ import { sortByUsdValueWithUsdsPriority } from '@/domain/common/sorters'
 import { TokenWithBalance } from '@/domain/common/types'
 import { useGetBlockExplorerAddressLink } from '@/domain/hooks/useGetBlockExplorerAddressLink'
 import { usePageChainId } from '@/domain/hooks/usePageChainId'
-import {
-  UseSavingsChartsInfoQueryResult,
-  useSavingsChartsInfoQuery,
-} from '@/domain/savings-charts/useSavingsChartsInfoQuery'
-import { useSavingsAccountRepository } from '@/domain/savings-info/useSavingsAccountRepository'
+import { UseSavingsChartsDataResult, useSavingsChartsData } from '@/domain/savings-charts/useSavingsChartsData'
 import { calculateMaxBalanceTokenAndTotal } from '@/domain/savings/calculateMaxBalanceTokenAndTotal'
-import { useSavingsTokens } from '@/domain/savings/useSavingsTokens'
+import { useSavingsAccountRepository } from '@/domain/savings/useSavingsAccountRepository'
 import { OpenDialogFunction, useOpenDialog } from '@/domain/state/dialogs'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { useTimestamp } from '@/utils/useTimestamp'
-import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
+import { NormalizedUnitNumber, Percentage, raise } from '@marsfoundation/common-universal'
 import { useState } from 'react'
 import { Projections } from '../types'
 import { getInterestData } from './getInterestData'
@@ -29,9 +25,9 @@ export interface InterestData {
   balanceRefreshIntervalInMs: number | undefined
 }
 
-export type ChartsData = UseSavingsChartsInfoQueryResult
+export type ChartsData = UseSavingsChartsDataResult
 
-export interface SavingsAccountEntryAssets {
+export interface SavingsAccountSupportedStablecoin {
   token: Token
   balance: NormalizedUnitNumber
   blockExplorerLink: string | undefined
@@ -41,7 +37,7 @@ export interface AccountDefinition {
   savingsToken: Token
   savingsTokenBalance: NormalizedUnitNumber
   underlyingToken: Token
-  entryAssets: SavingsAccountEntryAssets[]
+  supportedStablecoins: SavingsAccountSupportedStablecoin[]
   mostValuableAsset: TokenWithBalance
   interestData: InterestData
   chartsData: ChartsData
@@ -66,30 +62,36 @@ export interface UseSavingsResults {
 }
 export function useSavings(): UseSavingsResults {
   const { chainId } = usePageChainId()
-  const { inputTokens } = useSavingsTokens({ chainId })
-  const { extraTokens, psmStables } = getChainConfigEntry(chainId)
+  const { extraTokens, psmStables, savings } = getChainConfigEntry(chainId)
   const { tokensInfo } = useTokensInfo({ tokens: extraTokens, chainId })
   const savingsAccounts = useSavingsAccountRepository({ chainId })
   const { timestamp } = useTimestamp()
   const openDialog = useOpenDialog()
   const getBlockExplorerLink = useGetBlockExplorerAddressLink()
 
-  const [selectedAccount, setSelectedAccount] = useState<TokenSymbol>(TokenSymbol('sUSDC'))
-
-  const { maxBalanceToken } = calculateMaxBalanceTokenAndTotal({
-    assets: inputTokens,
-  })
-
+  const firstAccountInConfig = savings?.accounts?.[0] ?? raise('There are no accounts in config')
+  const [_selectedAccount, setSelectedAccount] = useState<TokenSymbol>(firstAccountInConfig.savingsToken)
+  const selectedAccount = savings?.accounts?.find(({ savingsToken }) => savingsToken === _selectedAccount)
+    ? _selectedAccount
+    : firstAccountInConfig.savingsToken
+  const selectedAccountConfig = savings?.accounts?.find(({ savingsToken }) => savingsToken === selectedAccount)
   const selectedAccountData = {
     ...savingsAccounts.findOneBySavingsTokenSymbol(selectedAccount),
     savingsTokenBalance: tokensInfo.findOneBalanceBySymbol(selectedAccount),
   }
-  const savingsChartsInfo = useSavingsChartsInfoQuery({
-    savingsInfo: selectedAccountData.converter,
-    savingsTokenWithBalance: {
-      token: selectedAccountData.savingsToken,
-      balance: selectedAccountData.savingsTokenBalance,
-    },
+  const supportedStablecoins = (selectedAccountConfig?.supportedStablecoins ?? []).map((symbol) =>
+    tokensInfo.findOneTokenWithBalanceBySymbol(symbol),
+  )
+
+  const { maxBalanceToken } = calculateMaxBalanceTokenAndTotal({
+    assets: supportedStablecoins,
+  })
+
+  const savingsChartsData = useSavingsChartsData({
+    savingsConverter: selectedAccountData.converter,
+    savingsTokenBalance: selectedAccountData.savingsTokenBalance,
+    getEarningsApiUrl: selectedAccountConfig?.getEarningsApiUrl,
+    savingsRateApiUrl: selectedAccountConfig?.savingsRateApiUrl,
   })
 
   const migrationInfo = makeMigrationInfo({
@@ -98,10 +100,12 @@ export function useSavings(): UseSavingsResults {
     openDialog,
   })
 
-  const entryAssets = sortByUsdValueWithUsdsPriority(inputTokens, tokensInfo).map((tokenWithBalance) => ({
-    ...tokenWithBalance,
-    blockExplorerLink: getBlockExplorerLink(tokenWithBalance.token.address),
-  }))
+  const sortedSupportedStablecoins = sortByUsdValueWithUsdsPriority(supportedStablecoins, tokensInfo).map(
+    (tokenWithBalance) => ({
+      ...tokenWithBalance,
+      blockExplorerLink: getBlockExplorerLink(tokenWithBalance.token.address),
+    }),
+  )
 
   const allAccounts: ShortAccountDefinition[] = savingsAccounts
     .all()
@@ -112,7 +116,7 @@ export function useSavings(): UseSavingsResults {
     })
 
   const interestData = getInterestData({
-    savingsInfo: selectedAccountData.converter,
+    savingsConverter: selectedAccountData.converter,
     savingsToken: selectedAccountData.savingsToken,
     savingsTokenBalance: selectedAccountData.savingsTokenBalance,
     timestamp,
@@ -126,12 +130,12 @@ export function useSavings(): UseSavingsResults {
     users: 4_234,
     tvl: 2_320_691_847,
     selectedAccount: {
-      chartsData: savingsChartsInfo,
+      chartsData: savingsChartsData,
       interestData,
       savingsToken: selectedAccountData.savingsToken,
       savingsTokenBalance: selectedAccountData.savingsTokenBalance,
       underlyingToken: selectedAccountData.underlyingToken,
-      entryAssets,
+      supportedStablecoins: sortedSupportedStablecoins,
       mostValuableAsset: maxBalanceToken,
       showConvertDialogButton: Boolean(psmStables && psmStables.length > 1),
       migrationInfo,

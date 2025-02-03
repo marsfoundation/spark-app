@@ -1,7 +1,7 @@
 import { FarmsInfo } from '@/domain/farms/farmsInfo'
 import { WriteErrorKind } from '@/domain/hooks/useWrite'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
-import { SavingsAccountRepository, SavingsInfo } from '@/domain/savings-info/types'
+import { SavingsAccountRepository, SavingsConverter } from '@/domain/savings-converters/types'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { QueryKey, UseQueryOptions, UseQueryResult } from '@tanstack/react-query'
 import { Address, ContractFunctionParameters, TransactionReceipt } from 'viem'
@@ -125,8 +125,8 @@ export interface ActionConfig {
 export interface InjectedActionsContext {
   marketInfo?: MarketInfo
   tokensInfo?: TokensInfo
-  savingsDaiInfo?: SavingsInfo
-  savingsUsdsInfo?: SavingsInfo
+  savingsDaiInfo?: SavingsConverter
+  savingsUsdsInfo?: SavingsConverter
   farmsInfo?: FarmsInfo
   savingsAccounts?: SavingsAccountRepository
 }

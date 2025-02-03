@@ -9,19 +9,19 @@ import { DataTable, DataTableColumnDefinitions } from '@/ui/molecules/data-table
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { useMemo } from 'react'
-import { SavingsAccountEntryAssets } from '../../logic/useSavings'
+import { SavingsAccountSupportedStablecoin } from '../../logic/useSavings'
 import { MoreDropdown } from './components/MoreDropdown'
 import { TokenCell } from './components/TokenCell'
 
 export interface EntryAssetsPanelProps {
-  assets: SavingsAccountEntryAssets[]
+  assets: SavingsAccountSupportedStablecoin[]
   openDialog: OpenDialogFunction
   showConvertDialogButton: boolean
   savingsToken: Token
 }
 
 export function EntryAssetsPanel({ assets, openDialog, showConvertDialogButton, savingsToken }: EntryAssetsPanelProps) {
-  const columnDef: DataTableColumnDefinitions<SavingsAccountEntryAssets> = useMemo(
+  const columnDef: DataTableColumnDefinitions<SavingsAccountSupportedStablecoin> = useMemo(
     () => ({
       token: {
         header: 'Token',

@@ -1,15 +1,17 @@
+import { getChainConfigEntry } from '@/config/chain'
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
 import { useConditionalFreeze } from '@/domain/hooks/useConditionalFreeze'
-import { useSavingsAccountRepository } from '@/domain/savings-info/useSavingsAccountRepository'
-import { useSavingsTokens } from '@/domain/savings/useSavingsTokens'
+import { useSavingsAccountRepository } from '@/domain/savings/useSavingsAccountRepository'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
+import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { useDebouncedFormValues } from '@/features/dialogs/common/logic/transfer-from-user/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { raise } from '@marsfoundation/common-universal'
 import { useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
 import { useChainId } from 'wagmi'
@@ -46,7 +48,14 @@ export function useSavingsWithdrawDialog({
 }: UseSavingsWithdrawDialogParams): UseSavingsWithdrawDialogResults {
   const chainId = useChainId()
   const savingsAccounts = useSavingsAccountRepository({ chainId })
-  const { tokensInfo, inputTokens } = useSavingsTokens({ chainId })
+  const chainConfig = getChainConfigEntry(chainId)
+  const { tokensInfo } = useTokensInfo({ tokens: chainConfig.extraTokens, chainId })
+  const selectedAccount =
+    chainConfig.savings?.accounts?.find((account) => account.savingsToken === savingsToken.symbol) ??
+    raise('Savings account is not found')
+  const supportedStablecoins = selectedAccount.supportedStablecoins.map((symbol) =>
+    tokensInfo.findOneTokenWithBalanceBySymbol(symbol),
+  )
   const [pageState, setPageState] = useState<PageState>('form')
   const sendModeExtension = useSendModeExtension({ mode, tokensInfo })
   const savingsTokenWithBalance = tokensInfo.findOneTokenWithBalanceBySymbol(savingsToken.symbol)
@@ -96,7 +105,7 @@ export function useSavingsWithdrawDialog({
     (sendModeExtension?.enableActions ?? true)
 
   return {
-    selectableAssets: filterInputTokens({ inputTokens, savingsToken, tokensInfo }),
+    selectableAssets: filterInputTokens({ inputTokens: supportedStablecoins, savingsToken, tokensInfo }),
     assetsFields: getFormFieldsForWithdrawDialog({ form, tokensInfo, savingsTokenWithBalance }),
     form,
     objectives,
