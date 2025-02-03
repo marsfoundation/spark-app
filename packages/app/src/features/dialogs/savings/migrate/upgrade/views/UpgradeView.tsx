@@ -27,8 +27,6 @@ interface UpgradeViewProps {
   assetsFields: FormFieldsForDialog
   selectableAssets: TokenWithBalance[]
   txOverview: MigrateDialogTxOverview
-  dai: TokenSymbol
-  sdai: TokenSymbol
 }
 
 export function UpgradeView({
@@ -41,9 +39,10 @@ export function UpgradeView({
   assetsFields,
   selectableAssets,
   txOverview,
-  dai,
-  sdai,
 }: UpgradeViewProps) {
+  const dai = TokenSymbol('DAI')
+  const sdai = TokenSymbol('sDAI')
+
   return (
     <div>
       {fromToken.symbol === dai && (

@@ -1,22 +1,21 @@
-import { SavingsInfo } from '@/domain/savings-info/types'
+import { SavingsAccountRepository } from '@/domain/savings-converters/types'
 import { Token } from '@/domain/types/Token'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { TransferFromUserFormNormalizedData } from '@/features/dialogs/common/logic/transfer-from-user/form'
 import { MigrateDialogTxOverview } from '../types'
 
 export interface CreateTxOverviewParams {
   formValues: TransferFromUserFormNormalizedData
+  savingsAccounts: SavingsAccountRepository
   tokensInfo: TokensInfo
   outputToken: Token
-  savingsDaiInfo: SavingsInfo
-  savingsUsdsInfo: SavingsInfo
 }
 export function createTxOverview({
   formValues,
+  savingsAccounts,
   tokensInfo,
   outputToken,
-  savingsDaiInfo,
-  savingsUsdsInfo,
 }: CreateTxOverviewParams): MigrateDialogTxOverview {
   const value = formValues.value
   if (value.eq(0)) {
@@ -25,8 +24,11 @@ export function createTxOverview({
 
   // sdai -> susds
   if (formValues.token.symbol === tokensInfo.sDAI?.symbol) {
-    const apyChange = { current: savingsDaiInfo.apy, updated: savingsUsdsInfo.apy }
-    const daiAmount = savingsDaiInfo.convertToAssets({ shares: value })
+    const sdaiConverter = savingsAccounts.findOneBySavingsTokenSymbol(TokenSymbol('sDAI')).converter
+    const susdsConverter = savingsAccounts.findOneBySavingsTokenSymbol(TokenSymbol('sUSDS')).converter
+
+    const apyChange = { current: sdaiConverter.apy, updated: susdsConverter.apy }
+    const daiAmount = sdaiConverter.convertToAssets({ shares: value })
     const route = [
       {
         token: formValues.token,
@@ -35,7 +37,7 @@ export function createTxOverview({
       },
       {
         token: outputToken,
-        value: savingsUsdsInfo.convertToShares({ assets: daiAmount }),
+        value: susdsConverter.convertToShares({ assets: daiAmount }),
         usdValue: daiAmount,
       },
     ]

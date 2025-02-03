@@ -23,7 +23,7 @@ const args = {
   ],
   isBorrowSubLinkActive: false,
   blockedPages: [],
-  savingsInfo: {
+  savingsConverter: {
     data: {
       apy: Percentage(0.05),
     } as any,

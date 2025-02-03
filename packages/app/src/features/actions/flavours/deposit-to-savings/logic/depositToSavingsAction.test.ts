@@ -9,7 +9,8 @@ import {
 } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { EPOCH_LENGTH } from '@/domain/market-info/consts'
-import { PotSavingsInfo } from '@/domain/savings-info/potSavingsInfo'
+import { PotSavingsConverter } from '@/domain/savings-converters/PotSavingsConverter'
+import { SavingsAccountRepository } from '@/domain/savings-converters/types'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
@@ -50,19 +51,27 @@ const mockTokensInfo = new TokensInfo(
 const chainId = mainnet.id
 
 const timestamp = 1000
-const savingsInfoTimestamp = timestamp + 24 * 60 * 60
-const mockSavingsInfo = new PotSavingsInfo({
+const savingsConverterTimestamp = timestamp + 24 * 60 * 60
+const mockSavingsConverter = new PotSavingsConverter({
   potParams: {
     dsr: bigNumberify('1000001103127689513476993127'), // 10% / day
     rho: bigNumberify(timestamp),
     chi: bigNumberify('1000000000000000000000000000'), // 1
   },
-  currentTimestamp: savingsInfoTimestamp,
+  currentTimestamp: savingsConverterTimestamp,
 })
 
-const minAmountOut = mockSavingsInfo.predictSharesAmount({
+const savingsAccountsWithSusdc = new SavingsAccountRepository([
+  {
+    converter: mockSavingsConverter,
+    savingsToken: susdc,
+    underlyingToken: usdc,
+  },
+])
+
+const minAmountOut = mockSavingsConverter.predictSharesAmount({
   assets: depositValue,
-  timestamp: savingsInfoTimestamp + EPOCH_LENGTH,
+  timestamp: savingsConverterTimestamp + EPOCH_LENGTH,
 })
 
 const hookRenderer = setupUseContractActionRenderer({
@@ -249,7 +258,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
       args: {
         action: { type: 'depositToSavings', token: usdc, savingsToken: susdc, value: depositValue },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo, savingsUsdcInfo: mockSavingsInfo },
+        context: { tokensInfo: mockTokensInfo, savingsAccounts: savingsAccountsWithSusdc },
       },
       extraHandlers: [
         handlers.contractCall({

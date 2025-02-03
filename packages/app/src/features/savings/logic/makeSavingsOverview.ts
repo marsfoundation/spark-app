@@ -1,5 +1,5 @@
 import { TokenWithBalance } from '@/domain/common/types'
-import { SavingsInfo } from '@/domain/savings-info/types'
+import { SavingsConverter } from '@/domain/savings-converters/types'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 const DEFAULT_PRECISION = 6
@@ -7,7 +7,7 @@ export const STEP_IN_MS = 50
 
 export interface MakeSavingsOverviewParams {
   savingsTokenWithBalance: TokenWithBalance
-  savingsInfo: SavingsInfo
+  savingsConverter: SavingsConverter
   timestampInMs: number
 }
 export interface SavingsOverview {
@@ -17,12 +17,12 @@ export interface SavingsOverview {
 
 export function makeSavingsOverview({
   savingsTokenWithBalance,
-  savingsInfo,
+  savingsConverter,
   timestampInMs,
 }: MakeSavingsOverviewParams): SavingsOverview {
   const [assets, precision] = convertSharesToAssetsWithPrecision({
     shares: savingsTokenWithBalance.balance,
-    savingsInfo,
+    savingsConverter,
     timestampInMs,
   })
 
@@ -34,20 +34,20 @@ export function makeSavingsOverview({
 
 interface ConvertSharesToAssetsWithPrecisionParams {
   shares: NormalizedUnitNumber
-  savingsInfo: SavingsInfo
+  savingsConverter: SavingsConverter
   timestampInMs: number
 }
 function convertSharesToAssetsWithPrecision({
   shares,
-  savingsInfo,
+  savingsConverter,
   timestampInMs,
 }: ConvertSharesToAssetsWithPrecisionParams): [NormalizedUnitNumber, number] {
-  if (!savingsInfo.supportsRealTimeInterestAccrual) {
-    return [savingsInfo.convertToAssets({ shares }), DEFAULT_PRECISION]
+  if (!savingsConverter.supportsRealTimeInterestAccrual) {
+    return [savingsConverter.convertToAssets({ shares }), DEFAULT_PRECISION]
   }
 
-  const current = interpolateSharesToAssets({ shares, savingsInfo, timestampInMs })
-  const next = interpolateSharesToAssets({ shares, savingsInfo, timestampInMs: timestampInMs + STEP_IN_MS })
+  const current = interpolateSharesToAssets({ shares, savingsConverter, timestampInMs })
+  const next = interpolateSharesToAssets({ shares, savingsConverter, timestampInMs: timestampInMs + STEP_IN_MS })
 
   const precision = calculatePrecision({ current, next })
 
@@ -56,19 +56,19 @@ function convertSharesToAssetsWithPrecision({
 
 interface InterpolateSharesToAssetsParams {
   shares: NormalizedUnitNumber
-  savingsInfo: SavingsInfo
+  savingsConverter: SavingsConverter
   timestampInMs: number
 }
 
 function interpolateSharesToAssets({
   shares,
-  savingsInfo,
+  savingsConverter,
   timestampInMs,
 }: InterpolateSharesToAssetsParams): NormalizedUnitNumber {
   const timestamp = Math.floor(timestampInMs / 1000)
 
-  const now = savingsInfo.predictAssetsAmount({ timestamp, shares })
-  const inASecond = savingsInfo.predictAssetsAmount({ timestamp: timestamp + 1, shares })
+  const now = savingsConverter.predictAssetsAmount({ timestamp, shares })
+  const inASecond = savingsConverter.predictAssetsAmount({ timestamp: timestamp + 1, shares })
 
   const linearApproximation = NormalizedUnitNumber(now.plus(inASecond.minus(now).times((timestampInMs % 1000) / 1000)))
   return linearApproximation

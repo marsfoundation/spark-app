@@ -1,6 +1,4 @@
-import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { WithClassname } from '@sb/decorators'
-import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import type { Meta, StoryObj } from '@storybook/react'
 import { userEvent, within } from '@storybook/test'
@@ -11,21 +9,7 @@ const meta: Meta<typeof MoreDropdown> = {
   title: 'Features/Savings/Components/EntryAssetsPanel/MoreDropdown',
   decorators: [WithClassname('p-8 bg-primary flex justify-end h-48'), withRouter()],
   component: MoreDropdown,
-  args: {
-    token: tokens.USDS,
-    blockExplorerLink: '/',
-    migrationInfo: {
-      daiSymbol: tokens.DAI.symbol,
-      usdsSymbol: tokens.USDS.symbol,
-      daiToUsdsUpgradeAvailable: true,
-      sdaiToSusdsUpgradeAvailable: true,
-      apyImprovement: Percentage(0.01),
-      openDaiToUsdsUpgradeDialog: () => {},
-      openUsdsToDaiDowngradeDialog: () => {},
-      openSDaiToSUsdsUpgradeDialog: () => {},
-    },
-    balance: NormalizedUnitNumber(100),
-  },
+  args: { blockExplorerLink: '/' },
   play: async ({ canvasElement }) => {
     const button = await within(canvasElement).findByRole('button')
     await userEvent.click(button)
@@ -38,18 +22,6 @@ type Story = StoryObj<typeof MoreDropdown>
 export const Desktop: Story = {}
 export const Mobile = getMobileStory(Desktop)
 export const Tablet = getTabletStory(Desktop)
-
-export const WithZeroBalance: Story = {
-  args: {
-    balance: NormalizedUnitNumber(0),
-  },
-}
-
-export const OnlyLearnMore: Story = {
-  args: {
-    token: tokens.DAI,
-  },
-}
 
 export const Disabled: Story = {
   args: {

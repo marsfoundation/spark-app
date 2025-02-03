@@ -5,13 +5,18 @@ import { SavingsDepositDialogContentContainer } from './SavingsDepositDialogCont
 
 export interface SavingsDepositDialogProps extends CommonDialogProps {
   initialToken: Token
+  savingsToken: Token
 }
 
-function SavingsDepositDialog({ initialToken, open, setOpen }: SavingsDepositDialogProps) {
+function SavingsDepositDialog({ initialToken, savingsToken, open, setOpen }: SavingsDepositDialogProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
-        <SavingsDepositDialogContentContainer initialToken={initialToken} closeDialog={() => setOpen(false)} />
+        <SavingsDepositDialogContentContainer
+          initialToken={initialToken}
+          savingsToken={savingsToken}
+          closeDialog={() => setOpen(false)}
+        />
       </DialogContent>
     </Dialog>
   )

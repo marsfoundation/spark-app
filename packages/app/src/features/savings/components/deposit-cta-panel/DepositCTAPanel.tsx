@@ -26,6 +26,7 @@ export interface DepositCTAPanelProps {
       action: () => void
     }
   }
+  className?: string
 }
 
 export function DepositCTAPanel({
@@ -34,6 +35,7 @@ export function DepositCTAPanel({
   savingsToken,
   description,
   actions,
+  className,
 }: DepositCTAPanelProps) {
   return (
     <Panel
@@ -41,9 +43,10 @@ export function DepositCTAPanel({
       className={cn(
         'grid grid-cols-1 gap-8 md:grid-cols-[3fr_2fr]',
         panelBgVariants({ bg: savingsTokenToAccountType(savingsToken) }),
+        className,
       )}
     >
-      <div className="flex flex-col gap-4 md:gap-14">
+      <div className="flex flex-col gap-4 md:justify-between">
         <Header savingsRate={savingsRate} savingsToken={savingsToken} inputTokens={entryTokens} />
         <Details entryTokens={entryTokens} savingsToken={savingsToken} description={description} />
       </div>

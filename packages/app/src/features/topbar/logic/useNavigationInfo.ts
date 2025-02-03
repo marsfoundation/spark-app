@@ -3,7 +3,7 @@ import { paths } from '@/config/paths'
 import { useBlockedPages } from '@/features/compliance/logic/useBlockedPages'
 import { matchPath, useLocation } from 'react-router-dom'
 import { TopbarNavigationProps } from '../components/topbar-navigation/TopbarNavigation'
-import { useSavingsInfo } from './useSavingsInfo'
+import { useSavingsConverter } from './useSavingsConverter'
 
 interface UseNavigationInfoParams {
   chainId: number
@@ -11,7 +11,7 @@ interface UseNavigationInfoParams {
 
 export function useNavigationInfo({ chainId }: UseNavigationInfoParams): TopbarNavigationProps {
   const blockedPages = useBlockedPages()
-  const savingsInfo = useSavingsInfo()
+  const savingsConverter = useSavingsConverter()
   const { daiSymbol, usdsSymbol } = getChainConfigEntry(chainId)
 
   const borrowSubLinks = [
@@ -33,7 +33,7 @@ export function useNavigationInfo({ chainId }: UseNavigationInfoParams): TopbarN
   const isBorrowSubLinkActive = borrowSubLinks.some((link) => matchPath(`${link.to}/*`, location.pathname))
 
   return {
-    savingsInfo,
+    savingsConverter,
     blockedPages,
     borrowSubLinks,
     isBorrowSubLinkActive,

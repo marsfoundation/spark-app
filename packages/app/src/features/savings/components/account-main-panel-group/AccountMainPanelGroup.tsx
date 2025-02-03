@@ -21,6 +21,7 @@ export interface AccountMainPanelGroupProps {
   openSendDialog: () => void
   openWithdrawDialog: () => void
   projections: Projections
+  className?: string
 }
 
 export function AccountMainPanelGroup({
@@ -33,9 +34,10 @@ export function AccountMainPanelGroup({
   openWithdrawDialog,
   calculateUnderlyingTokenBalance,
   balanceRefreshIntervalInMs,
+  className,
 }: AccountMainPanelGroupProps) {
   return (
-    <div className="grid grid-cols-1 gap-2 lg:grid-cols-[1fr_auto]">
+    <div className={cn('grid grid-cols-1 gap-2 lg:grid-cols-[1fr_auto]', className)}>
       <Panel
         variant="secondary"
         className={cn(

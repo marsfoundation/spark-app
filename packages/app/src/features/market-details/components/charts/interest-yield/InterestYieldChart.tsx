@@ -1,11 +1,9 @@
-import BigNumber from 'bignumber.js'
-import { Circle } from 'lucide-react'
-
-import { useParentSize } from '@/ui/utils/useParentSize'
-import { Percentage } from '@marsfoundation/common-universal'
-
 import { colors } from '@/ui/charts/colors'
 import { Margins, defaultMargins } from '@/ui/charts/defaults'
+import { useElementSize } from '@/ui/utils/useElementSize'
+import { Percentage } from '@marsfoundation/common-universal'
+import BigNumber from 'bignumber.js'
+import { Circle } from 'lucide-react'
 import { Chart } from './components/Chart'
 import { getYields } from './logic/getYields'
 
@@ -23,7 +21,8 @@ export function InterestYieldChart({
   variableRateSlope2,
   baseVariableBorrowRate,
 }: InterestYieldChartProps) {
-  const [ref, { width }] = useParentSize()
+  const [ref, { width }] = useElementSize()
+
   const yields = getYields({
     optimalUtilizationRate,
     variableRateSlope1,

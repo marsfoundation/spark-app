@@ -1,10 +1,10 @@
 import { DelayedComponent } from '@/ui/atoms/delayed-component/DelayedComponent'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/atoms/tabs/Tabs'
-import { useResizeObserver } from '@/ui/utils/useResizeObserver'
+import { useElementSize } from '@/ui/utils/useElementSize'
 import { assert } from '@marsfoundation/common-universal'
 import { AlertTriangle, Loader2 } from 'lucide-react'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { Timeframe } from '../defaults'
 import { TimeframeButtons } from './TimeframeButtons'
 
@@ -129,8 +129,7 @@ interface ChartPanelProps extends ChartTab {
 }
 
 function ChartPanel({ height, component: Chart, isError, isPending, props }: ChartPanelProps) {
-  const ref = useRef<HTMLDivElement>(null)
-  const { width } = useResizeObserver({ ref })
+  const [ref, { width }] = useElementSize()
 
   if (isPending) {
     return (
@@ -153,7 +152,7 @@ function ChartPanel({ height, component: Chart, isError, isPending, props }: Cha
   }
 
   return (
-    <div ref={ref} className="flex w-full">
+    <div ref={ref} className="w-full">
       <Chart {...props} height={height} width={width} />
     </div>
   )

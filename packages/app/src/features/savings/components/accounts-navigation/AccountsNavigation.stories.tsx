@@ -1,3 +1,4 @@
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { WithTooltipProvider } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
@@ -15,46 +16,49 @@ const meta: Meta<typeof AccountsNavigation> = {
 export default meta
 type Story = StoryObj<typeof AccountsNavigation>
 
-function InteractiveNavigation() {
-  const [activeToken, setActiveToken] = useState('USDS')
+function InteractiveNavigation({ variant }: { variant: 'vertical' | 'horizontal' }) {
+  const [activeToken, setActiveToken] = useState(TokenSymbol('sUSDS'))
 
   const accounts = [
     {
-      token: tokens.USDS,
-      deposited: NormalizedUnitNumber(1_000_000_000),
-      active: activeToken === 'USDS',
-      onClick: () => setActiveToken('USDS'),
+      underlyingToken: tokens.USDS,
+      savingsToken: tokens.sUSDS,
+      underlyingTokenDeposit: NormalizedUnitNumber(1_000_000_000),
     },
     {
-      token: tokens.USDC,
-      deposited: NormalizedUnitNumber(0),
-      active: activeToken === 'USDC',
-      onClick: () => setActiveToken('USDC'),
+      underlyingToken: tokens.USDC,
+      savingsToken: tokens.sUSDC,
+      underlyingTokenDeposit: NormalizedUnitNumber(0),
     },
     {
-      token: tokens.DAI,
-      deposited: NormalizedUnitNumber(200_000),
-      active: activeToken === 'DAI',
-      onClick: () => setActiveToken('DAI'),
+      underlyingToken: tokens.DAI,
+      savingsToken: tokens.sDAI,
+      underlyingTokenDeposit: NormalizedUnitNumber(200_000),
     },
   ]
 
-  return <AccountsNavigation accounts={accounts} />
+  return (
+    <AccountsNavigation
+      accounts={accounts}
+      selectedAccount={activeToken}
+      setSelectedAccount={setActiveToken}
+      variant={variant}
+    />
+  )
 }
 
-export const Navigation: Story = {
+export const Vertical: Story = {
   render: () => (
     <div className="max-w-48">
-      <InteractiveNavigation />
+      <InteractiveNavigation variant="vertical" />
     </div>
   ),
 }
 
-export const Mobile: Story = {
-  ...getMobileStory(Navigation),
+export const Horizontal: Story = getMobileStory({
   render: () => (
     <div className="w-full overflow-x-auto p-4">
-      <InteractiveNavigation />
+      <InteractiveNavigation variant="horizontal" />
     </div>
   ),
-}
+})

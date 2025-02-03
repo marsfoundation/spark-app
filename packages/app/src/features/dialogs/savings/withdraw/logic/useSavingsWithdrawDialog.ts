@@ -1,21 +1,22 @@
+import { getChainConfigEntry } from '@/config/chain'
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
 import { useConditionalFreeze } from '@/domain/hooks/useConditionalFreeze'
-import { useSavingsDaiInfo } from '@/domain/savings-info/useSavingsDaiInfo'
-import { useSavingsUsdsInfo } from '@/domain/savings-info/useSavingsUsdsInfo'
-import { useSavingsTokens } from '@/domain/savings/useSavingsTokens'
+import { useSavingsAccountRepository } from '@/domain/savings/useSavingsAccountRepository'
+import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
+import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { useDebouncedFormValues } from '@/features/dialogs/common/logic/transfer-from-user/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { assert, raise } from '@marsfoundation/common-universal'
+import { raise } from '@marsfoundation/common-universal'
 import { useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
 import { useChainId } from 'wagmi'
 import { SavingsDialogTxOverview } from '../../common/types'
-import { Mode, SavingsType, SendModeExtension } from '../types'
+import { Mode, SendModeExtension } from '../types'
 import { createObjectives } from './createObjectives'
 import { createTxOverview } from './createTxOverview'
 import { getFormFieldsForWithdrawDialog } from './getFormFieldsForWithdrawDialog'
@@ -24,7 +25,8 @@ import { getSavingsWithdrawDialogFormValidator } from './validation'
 
 export interface UseSavingsWithdrawDialogParams {
   mode: Mode
-  savingsType: 'sdai' | 'susds'
+  savingsToken: Token
+  underlyingToken: Token
 }
 
 export interface UseSavingsWithdrawDialogResults {
@@ -41,30 +43,27 @@ export interface UseSavingsWithdrawDialogResults {
 
 export function useSavingsWithdrawDialog({
   mode,
-  savingsType,
+  savingsToken,
+  underlyingToken,
 }: UseSavingsWithdrawDialogParams): UseSavingsWithdrawDialogResults {
   const chainId = useChainId()
-  const { tokensInfo, inputTokens, sdaiWithBalance, susdsWithBalance } = useSavingsTokens({ chainId })
-
-  const { savingsDaiInfo } = useSavingsDaiInfo({ chainId })
-  const { savingsUsdsInfo } = useSavingsUsdsInfo({ chainId })
-
-  const savingsInfo =
-    (savingsType === 'sdai' ? savingsDaiInfo : savingsUsdsInfo) ??
-    raise(`Savings info is not available for ${savingsType}`)
-  assert(savingsDaiInfo || savingsUsdsInfo, 'Savings info is not available')
-
+  const savingsAccounts = useSavingsAccountRepository({ chainId })
+  const chainConfig = getChainConfigEntry(chainId)
+  const { tokensInfo } = useTokensInfo({ tokens: chainConfig.extraTokens, chainId })
+  const selectedAccount =
+    chainConfig.savings?.accounts?.find((account) => account.savingsToken === savingsToken.symbol) ??
+    raise('Savings account is not found')
+  const supportedStablecoins = selectedAccount.supportedStablecoins.map((symbol) =>
+    tokensInfo.findOneTokenWithBalanceBySymbol(symbol),
+  )
   const [pageState, setPageState] = useState<PageState>('form')
   const sendModeExtension = useSendModeExtension({ mode, tokensInfo })
-  const savingsTokenWithBalance =
-    (savingsType === 'sdai' ? sdaiWithBalance : susdsWithBalance) ??
-    raise(`Savings token balance is not available for ${savingsType}`)
-  const defaultWithdrawToken = savingsType === 'sdai' ? tokensInfo.DAI : tokensInfo.USDS
+  const savingsTokenWithBalance = tokensInfo.findOneTokenWithBalanceBySymbol(savingsToken.symbol)
 
   const form = useForm<AssetInputSchema>({
     resolver: zodResolver(getSavingsWithdrawDialogFormValidator({ savingsTokenWithBalance })),
     defaultValues: {
-      symbol: defaultWithdrawToken?.symbol,
+      symbol: underlyingToken.symbol,
       value: '',
       isMaxSelected: false,
     },
@@ -89,7 +88,7 @@ export function useSavingsWithdrawDialog({
   const txOverview = createTxOverview({
     formValues,
     tokensInfo,
-    savingsInfo,
+    savingsAccounts,
     savingsToken: savingsTokenWithBalance.token,
   })
   const tokenToWithdraw = useConditionalFreeze<TokenWithValue>(
@@ -106,7 +105,7 @@ export function useSavingsWithdrawDialog({
     (sendModeExtension?.enableActions ?? true)
 
   return {
-    selectableAssets: filterInputTokens({ inputTokens, savingsType, tokensInfo }),
+    selectableAssets: filterInputTokens({ inputTokens: supportedStablecoins, savingsToken, tokensInfo }),
     assetsFields: getFormFieldsForWithdrawDialog({ form, tokensInfo, savingsTokenWithBalance }),
     form,
     objectives,
@@ -119,8 +118,7 @@ export function useSavingsWithdrawDialog({
     txOverview,
     actionsContext: {
       tokensInfo,
-      savingsDaiInfo: savingsDaiInfo ?? undefined,
-      savingsUsdsInfo: savingsUsdsInfo ?? undefined,
+      savingsAccounts,
     },
     sendModeExtension,
   }
@@ -128,11 +126,11 @@ export function useSavingsWithdrawDialog({
 
 interface FilterInputTokensParams {
   inputTokens: TokenWithBalance[]
-  savingsType: SavingsType
+  savingsToken: Token
   tokensInfo: TokensInfo
 }
-function filterInputTokens({ inputTokens, savingsType, tokensInfo }: FilterInputTokensParams): TokenWithBalance[] {
-  if (savingsType === 'sdai') {
+function filterInputTokens({ inputTokens, savingsToken, tokensInfo }: FilterInputTokensParams): TokenWithBalance[] {
+  if (savingsToken.symbol === TokenSymbol('sDAI')) {
     return inputTokens
   }
 

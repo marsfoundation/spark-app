@@ -1,4 +1,4 @@
-import { SavingsInfo } from '@/domain/savings-info/types'
+import { SavingsConverter } from '@/domain/savings-converters/types'
 import { range } from '@/utils/array'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { MyEarningsInfoItem } from './types'
@@ -7,12 +7,12 @@ const SECONDS_PER_DAY = 24 * 60 * 60
 
 export function calculatePredictions({
   days,
-  savingsInfo,
+  savingsConverter,
   shares,
   timestamp,
 }: {
   days: number
-  savingsInfo: SavingsInfo
+  savingsConverter: SavingsConverter
   shares: NormalizedUnitNumber
   timestamp: number
 }): MyEarningsInfoItem[] {
@@ -22,7 +22,7 @@ export function calculatePredictions({
   return range(0, days, step).map((day) => {
     const dayTimestamp = timestamp + day * SECONDS_PER_DAY
 
-    const dayIncomePrediction = savingsInfo.predictAssetsAmount({
+    const dayIncomePrediction = savingsConverter.predictAssetsAmount({
       timestamp: dayTimestamp,
       shares,
     })

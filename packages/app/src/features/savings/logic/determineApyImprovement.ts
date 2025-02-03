@@ -1,9 +1,9 @@
-import { SavingsInfo } from '@/domain/savings-info/types'
+import { SavingsConverter } from '@/domain/savings-converters/types'
 import { Percentage } from '@marsfoundation/common-universal'
 
 export interface DetermineApyImprovementParams {
-  savingsUsdsInfo: SavingsInfo | null
-  savingsDaiInfo: SavingsInfo | null
+  savingsUsdsInfo: SavingsConverter | null
+  savingsDaiInfo: SavingsConverter | null
 }
 
 export function determineApyImprovement({

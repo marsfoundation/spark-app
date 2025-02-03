@@ -14,7 +14,7 @@ import { TopbarNavigationProps } from './TopbarNavigation'
 import { LINKS_DATA } from './constants'
 
 export function TopbarNavigationDialog({
-  savingsInfo,
+  savingsConverter,
   blockedPages,
   borrowSubLinks,
   isBorrowSubLinkActive,
@@ -43,8 +43,8 @@ export function TopbarNavigationDialog({
             prefixIcon={LINKS_DATA.savings.icon}
             type="savings"
             postfixSlot={
-              savingsInfo?.data || savingsInfo?.isLoading ? (
-                <SavingsAPYBadge APY={savingsInfo.data?.apy} isLoading={savingsInfo.isLoading} />
+              savingsConverter?.data || savingsConverter?.isLoading ? (
+                <SavingsAPYBadge APY={savingsConverter.data?.apy} isLoading={savingsConverter.isLoading} />
               ) : undefined
             }
             onClick={closeDialog}

@@ -1,7 +1,8 @@
 import { farmAddresses } from '@/config/chain/constants'
 import { FarmsInfo } from '@/domain/farms/farmsInfo'
 import { Farm } from '@/domain/farms/types'
-import { PotSavingsInfo } from '@/domain/savings-info/potSavingsInfo'
+import { PotSavingsConverter } from '@/domain/savings-converters/PotSavingsConverter'
+import { SavingsAccountRepository } from '@/domain/savings-converters/types'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { bigNumberify } from '@marsfoundation/common-universal'
 import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
@@ -35,7 +36,7 @@ const mockTokensInfo = new TokensInfo(
 )
 
 const timestamp = 1000
-const mockSavingsDaiInfo = new PotSavingsInfo({
+const mockSavingsDaiInfo = new PotSavingsConverter({
   potParams: {
     dsr: bigNumberify('1000001103127689513476993127'), // 10% / day
     rho: bigNumberify(timestamp),
@@ -44,7 +45,7 @@ const mockSavingsDaiInfo = new PotSavingsInfo({
   currentTimestamp: timestamp + 24 * 60 * 60,
 })
 
-const mockSavingsUsdsInfo = new PotSavingsInfo({
+const mockSavingsUsdsInfo = new PotSavingsConverter({
   potParams: {
     dsr: bigNumberify('1200001103127689513476993127'), // 12% / day
     rho: bigNumberify(timestamp),
@@ -52,6 +53,19 @@ const mockSavingsUsdsInfo = new PotSavingsInfo({
   },
   currentTimestamp: timestamp + 24 * 60 * 60,
 })
+
+const mockSavingsAccounts = new SavingsAccountRepository([
+  {
+    converter: mockSavingsDaiInfo,
+    savingsToken: sdai,
+    underlyingToken: dai,
+  },
+  {
+    converter: mockSavingsUsdsInfo,
+    savingsToken: susds,
+    underlyingToken: usds,
+  },
+])
 
 const farm: Farm = {
   address: farmAddresses[mainnet.id].skyUsds,
@@ -136,9 +150,8 @@ const meta: Meta<typeof StakeView> = {
     },
     actionsContext: {
       tokensInfo: mockTokensInfo,
-      savingsDaiInfo: mockSavingsDaiInfo,
-      savingsUsdsInfo: mockSavingsUsdsInfo,
       farmsInfo: mockedFarmsInfo,
+      savingsAccounts: mockSavingsAccounts,
     },
     sacrificesYield: false,
   },

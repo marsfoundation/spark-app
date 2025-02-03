@@ -1,8 +1,7 @@
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
 import { Farm } from '@/domain/farms/types'
 import { useFarmsInfo } from '@/domain/farms/useFarmsInfo'
-import { useSavingsDaiInfo } from '@/domain/savings-info/useSavingsDaiInfo'
-import { useSavingsUsdsInfo } from '@/domain/savings-info/useSavingsUsdsInfo'
+import { useSavingsAccountRepository } from '@/domain/savings/useSavingsAccountRepository'
 import { Token } from '@/domain/types/Token'
 import { StakeObjective } from '@/features/actions/flavours/stake/types'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
@@ -45,9 +44,7 @@ export function useStakeDialog({ farm, initialToken }: UseStakeDialogParams): Us
   const { farmsInfo } = useFarmsInfo({ chainId })
   const { tokensInfo, entryTokens } = useFarmEntryTokens(farm)
   assert(entryTokens[0], 'There should be at least one entry token')
-  const { savingsDaiInfo } = useSavingsDaiInfo({ chainId })
-  const { savingsUsdsInfo } = useSavingsUsdsInfo({ chainId })
-  assert(savingsDaiInfo || savingsUsdsInfo, 'Savings info is not available')
+  const savingsAccounts = useSavingsAccountRepository({ chainId })
 
   const form = useForm<AssetInputSchema>({
     resolver: zodResolver(getTransferFromUserFormValidator(tokensInfo, validationIssueToMessage)),
@@ -111,8 +108,7 @@ export function useStakeDialog({ farm, initialToken }: UseStakeDialogParams): Us
     actionsContext: {
       tokensInfo,
       farmsInfo,
-      savingsDaiInfo: savingsDaiInfo ?? undefined,
-      savingsUsdsInfo: savingsUsdsInfo ?? undefined,
+      savingsAccounts,
     },
   }
 }
