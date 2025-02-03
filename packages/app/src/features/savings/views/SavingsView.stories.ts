@@ -104,6 +104,7 @@ const savingsUsdsAccountDefinition = {
   chartsData,
   showConvertDialogButton: true,
   interestData,
+  liquidity: Number.POSITIVE_INFINITY,
 } satisfies AccountDefinition
 
 const shortSavingsUsdsAccountDefinition = {
@@ -127,6 +128,7 @@ const savingsUsdcAccountDefinition = {
   chartsData,
   showConvertDialogButton: true,
   interestData,
+  liquidity: 2_014_589_629,
 } satisfies AccountDefinition
 
 const shortSavingsUsdcAccountDefinition = {
@@ -161,6 +163,7 @@ const savingsDaiAccountDefinition = {
   showConvertDialogButton: true,
   migrationInfo,
   interestData,
+  liquidity: Number.POSITIVE_INFINITY,
 } satisfies AccountDefinition
 
 const shortSavingsDaiAccountDefinition = {
@@ -177,6 +180,8 @@ const savingsViewSusdsArgs = {
   openSandboxModal: () => {},
   guestMode: false,
   allAccounts: [shortSavingsUsdcAccountDefinition, shortSavingsUsdsAccountDefinition, shortSavingsDaiAccountDefinition],
+  users: 4_967,
+  tvl: 2_320_691_847,
 } satisfies SavingsViewProps
 
 const meta: Meta<typeof SavingsView> = {
