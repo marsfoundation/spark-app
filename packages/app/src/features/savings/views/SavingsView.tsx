@@ -4,12 +4,15 @@ import { PageLayout } from '@/ui/layouts/PageLayout'
 import { cn } from '@/ui/utils/style'
 import { PageHeader } from '../components/PageHeader'
 import { AccountsNavigation } from '../components/accounts-navigation/AccountsNavigation'
+import { GeneralStatsBar } from '../components/general-stats-bar/GeneralStatsBar'
 import { SavingsAccount } from '../components/savings-account/SavingsAccount'
 import { ShortAccountDefinition } from '../logic/useSavings'
 import { AccountDefinition } from '../logic/useSavings'
 
 export interface SavingsViewProps {
   selectedAccount: AccountDefinition
+  users: number
+  tvl: number
   // @todo: Pass separate functions for each dialog after removing old views
   openDialog: OpenDialogFunction
   openSandboxModal: () => void
@@ -27,10 +30,15 @@ export function SavingsView({
   guestMode,
   setSelectedAccount,
   allAccounts,
+  users,
+  tvl,
 }: SavingsViewProps) {
   return (
     <PageLayout>
-      <PageHeader />
+      <div className="flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between">
+        <PageHeader />
+        <GeneralStatsBar users={users} tvl={tvl} liquidity={selectedAccount.liquidity} />
+      </div>
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-[202px_1fr]">
         <div
           className={cn(

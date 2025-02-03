@@ -47,6 +47,7 @@ export interface AccountDefinition {
   chartsData: ChartsData
   showConvertDialogButton: boolean
   migrationInfo?: MigrationInfo
+  liquidity: number
 }
 
 export interface ShortAccountDefinition {
@@ -56,10 +57,12 @@ export interface ShortAccountDefinition {
 }
 
 export interface UseSavingsResults {
-  openDialog: OpenDialogFunction
   allAccounts: ShortAccountDefinition[]
   selectedAccount: AccountDefinition
   setSelectedAccount: (savingsTokenSymbol: TokenSymbol) => void
+  users: number
+  tvl: number
+  openDialog: OpenDialogFunction
 }
 export function useSavings(): UseSavingsResults {
   const { chainId } = usePageChainId()
@@ -119,6 +122,9 @@ export function useSavings(): UseSavingsResults {
     openDialog,
     allAccounts,
     setSelectedAccount,
+    // @todo: Populate with real data after adding BA endpoints
+    users: 4_234,
+    tvl: 2_320_691_847,
     selectedAccount: {
       chartsData: savingsChartsInfo,
       interestData,
@@ -129,6 +135,8 @@ export function useSavings(): UseSavingsResults {
       mostValuableAsset: maxBalanceToken,
       showConvertDialogButton: Boolean(psmStables && psmStables.length > 1),
       migrationInfo,
+      // @todo: Populate with real data after adding BA endpoints
+      liquidity: Number.POSITIVE_INFINITY,
     },
   }
 }

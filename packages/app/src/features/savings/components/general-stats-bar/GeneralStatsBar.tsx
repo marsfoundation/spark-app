@@ -22,21 +22,29 @@ export function GeneralStatsBar({ tvl, users, liquidity }: GeneralStatsBarProps)
       </Stat>
       <Stat>
         <Label>Liquidity:</Label>
-        <Value>{USD_MOCK_TOKEN.formatUSD(NormalizedUnitNumber(liquidity), { compact: true })}</Value>
+        <Value>
+          {Number.isFinite(liquidity) ? (
+            USD_MOCK_TOKEN.formatUSD(NormalizedUnitNumber(liquidity), { compact: true })
+          ) : (
+            <>
+              ∞<span className="hidden sm:inline"> (No limits)</span>
+            </>
+          )}
+        </Value>
       </Stat>
     </div>
   )
 }
 
 export function Stat({ children }: { children: ReactNode }) {
-  return <div className="flex gap-1 px-4">{children}</div>
+  return <div className="flex gap-1 px-3 sm:px-4">{children}</div>
 }
 
 function Label({ children }: { children: string }) {
   return <div className="typography-label-3 text-secondary">{children}</div>
 }
 
-function Value({ children }: { children: string }) {
+function Value({ children }: { children: ReactNode }) {
   return <div className="typography-label-3 text-primary">{children}</div>
 }
 
