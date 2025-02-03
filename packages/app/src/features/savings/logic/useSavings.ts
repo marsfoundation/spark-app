@@ -69,9 +69,11 @@ export function useSavings(): UseSavingsResults {
   const openDialog = useOpenDialog()
   const getBlockExplorerLink = useGetBlockExplorerAddressLink()
 
-  const [selectedAccount, setSelectedAccount] = useState<TokenSymbol>(
-    savings?.accounts?.[0]?.savingsToken ?? TokenSymbol('sUSDS'),
-  )
+  const [_selectedAccount, setSelectedAccount] = useState<TokenSymbol | undefined>(savings?.accounts?.[0]?.savingsToken)
+  const selectedAccount =
+    (savings?.accounts?.find(({ savingsToken }) => savingsToken === _selectedAccount)
+      ? _selectedAccount
+      : savings?.accounts[0]?.savingsToken) ?? TokenSymbol('sUSDS')
   const selectedAccountConfig = savings?.accounts?.find(({ savingsToken }) => savingsToken === selectedAccount)
   const selectedAccountData = {
     ...savingsAccounts.findOneBySavingsTokenSymbol(selectedAccount),

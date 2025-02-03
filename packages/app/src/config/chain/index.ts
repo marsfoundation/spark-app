@@ -27,7 +27,7 @@ import { usdcVaultAddress } from '../contracts-generated'
 import { AppConfig } from '../feature-flags'
 import { PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE_KEY } from '../wagmi/e2e-consts'
 import { SUPPORTED_CHAINS, farmAddresses, farmStablecoinsEntryGroup, susdsAddresses } from './constants'
-import { ChainConfigEntry, ChainMeta, SupportedChainId } from './types'
+import { AccountConfig, ChainConfigEntry, ChainMeta, SupportedChainId } from './types'
 
 const commonTokenSymbolToReplacedName = {
   [TokenSymbol('DAI')]: { name: 'DAI Stablecoin', symbol: TokenSymbol('DAI') },
@@ -195,15 +195,19 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
           getEarningsApiUrl: (address) =>
             `${infoSkyApiUrl}/savings-rate/wallets/${address.toLowerCase()}/?days_ago=9999`,
         },
-        {
-          savingsToken: TokenSymbol('sUSDC'),
-          underlyingToken: TokenSymbol('USDC'),
-          supportedStablecoins: [TokenSymbol('USDC')],
-          fetchConverterQuery: mainnetSavingsUsdcInfoQuery,
-          savingsRateApiUrl: `${infoSkyApiUrl}/savings-rate/`,
-          getEarningsApiUrl: (address) =>
-            `${infoSkyApiUrl}/savings-rate/wallets/${address.toLowerCase()}/?days_ago=9999`,
-        },
+        ...(PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE
+          ? [
+              {
+                savingsToken: TokenSymbol('sUSDC'),
+                underlyingToken: TokenSymbol('USDC'),
+                supportedStablecoins: [TokenSymbol('USDC')],
+                fetchConverterQuery: mainnetSavingsUsdcInfoQuery,
+                savingsRateApiUrl: `${infoSkyApiUrl}/savings-rate/`,
+                getEarningsApiUrl: (address) =>
+                  `${infoSkyApiUrl}/savings-rate/wallets/${address.toLowerCase()}/?days_ago=9999`,
+              } satisfies AccountConfig,
+            ]
+          : []),
       ],
     },
     farms: {
@@ -326,8 +330,8 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
       accounts: [
         {
           savingsToken: TokenSymbol('sDAI'),
-          underlyingToken: TokenSymbol('xDAI'),
-          supportedStablecoins: [TokenSymbol('DAI')],
+          underlyingToken: TokenSymbol('XDAI'),
+          supportedStablecoins: [TokenSymbol('XDAI')],
           fetchConverterQuery: gnosisSavingsDaiConverterQuery,
           savingsRateApiUrl: undefined,
           getEarningsApiUrl: undefined,
@@ -394,15 +398,19 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
           getEarningsApiUrl: (address) =>
             `${infoSkyApiUrl}/savings-rate/wallets/${address.toLowerCase()}/?days_ago=9999`,
         },
-        {
-          savingsToken: TokenSymbol('sUSDC'),
-          underlyingToken: TokenSymbol('USDC'),
-          supportedStablecoins: [TokenSymbol('USDC')],
-          fetchConverterQuery: baseSavingsUsdcInfoQueryOptions,
-          savingsRateApiUrl: `${infoSkyApiUrl}/savings-rate/`,
-          getEarningsApiUrl: (address) =>
-            `${infoSkyApiUrl}/savings-rate/wallets/${address.toLowerCase()}/?days_ago=9999`,
-        },
+        ...(PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE
+          ? [
+              {
+                savingsToken: TokenSymbol('sUSDC'),
+                underlyingToken: TokenSymbol('USDC'),
+                supportedStablecoins: [TokenSymbol('USDC')],
+                fetchConverterQuery: baseSavingsUsdcInfoQueryOptions,
+                savingsRateApiUrl: `${infoSkyApiUrl}/savings-rate/`,
+                getEarningsApiUrl: (address) =>
+                  `${infoSkyApiUrl}/savings-rate/wallets/${address.toLowerCase()}/?days_ago=9999`,
+              } satisfies AccountConfig,
+            ]
+          : []),
       ],
     },
     farms: undefined,
