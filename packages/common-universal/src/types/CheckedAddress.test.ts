@@ -30,4 +30,23 @@ describe(CheckedAddress.name, () => {
       expect(address.toLowerCase()).toMatchRegex(/^0x00000000a11ce[0-9a-f]{27}$/)
     })
   })
+
+  describe(CheckedAddress.formatShort.name, () => {
+    it('formats short address', () => {
+      const address = CheckedAddress('0x4838b106fce9647bdf1e7877bf73ce8b0bad5f97')
+      expect(CheckedAddress.formatShort(address)).toEqual('0x4838...5f97')
+    })
+  })
+
+  describe(CheckedAddress.ZERO.name, () => {
+    it('returns zero address', () => {
+      expect(CheckedAddress.ZERO()).toEqual(CheckedAddress('0x0000000000000000000000000000000000000000'))
+    })
+  })
+
+  describe(CheckedAddress.EEEE.name, () => {
+    it('returns mock address', () => {
+      expect(CheckedAddress.EEEE()).toEqual(CheckedAddress('0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'))
+    })
+  })
 })

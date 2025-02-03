@@ -10,6 +10,8 @@ export * from './types/Opaque.js'
 
 export * from './math/bigNumber.js'
 export * from './math/hexUtils.js'
+export * from './math/bigInt.js'
+export * from './math/constants.js'
 
 export * from './assert/assert.js'
 export * from './assert/AssertionError.js'

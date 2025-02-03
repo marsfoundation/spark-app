@@ -5,7 +5,7 @@ export enum InterestRate {
   Variable = 2,
 }
 
-export const NATIVE_ASSET_MOCK_ADDRESS = CheckedAddress('0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE')
+export const NATIVE_ASSET_MOCK_ADDRESS = CheckedAddress.EEEE()
 
 export const MAX_INT = BigInt(2 ** 256 - 1)
 

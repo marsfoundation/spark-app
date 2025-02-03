@@ -1,8 +1,8 @@
-import { RAY, rayDiv, rayMul, valueToBigNumber } from '@aave/math-utils'
+import { rayDiv, rayMul, valueToBigNumber } from '@aave/math-utils'
 import BigNumber from 'bignumber.js'
 
 import { fromRay, toRay } from '@/utils/math'
-import { Percentage } from '@marsfoundation/common-universal'
+import { Percentage, RAY } from '@marsfoundation/common-universal'
 
 import { GraphDataPoint } from '../types'
 
@@ -37,9 +37,9 @@ export function getYields({
         y: rateToYield(rate),
       })
     } else {
-      const excess = RAY.minus(optimalUtilizationRateRay).eq(0)
+      const excess = RAY().minus(optimalUtilizationRateRay).eq(0)
         ? valueToBigNumber(0)
-        : rayDiv(utilizationRay.minus(optimalUtilizationRateRay), RAY.minus(optimalUtilizationRateRay))
+        : rayDiv(utilizationRay.minus(optimalUtilizationRateRay), RAY().minus(optimalUtilizationRateRay))
       const rate = fromRay(
         baseVariableBorrowRate.plus(variableRateSlope1).plus(rayMul(variableRateSlope2, excess)),
       ).toNumber()
