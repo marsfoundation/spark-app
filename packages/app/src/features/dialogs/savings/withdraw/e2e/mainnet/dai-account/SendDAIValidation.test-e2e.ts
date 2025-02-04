@@ -1,12 +1,12 @@
 import { receiverValidationIssueToMessage } from '@/domain/savings/validateReceiver'
+import { SavingsDialogPageObject } from '@/features/dialogs/savings/common/e2e/SavingsDialog.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
 import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { Address, zeroAddress } from 'viem'
 import { mainnet } from 'viem/chains'
-import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
-import { withdrawValidationIssueToMessage } from '../../logic/validation'
+import { withdrawValidationIssueToMessage } from '../../../logic/validation'
 
 test.describe('Asset input validation', () => {
   let savingsPage: SavingsPageObject
@@ -31,6 +31,7 @@ test.describe('Asset input validation', () => {
       })
 
       savingsPage = new SavingsPageObject(testContext)
+      await savingsPage.clickSavingsNavigationItemAction('DAI')
       await savingsPage.clickSendFromAccountButtonAction()
 
       sendDialog = new SavingsDialogPageObject({ testContext, type: 'send' })
@@ -83,6 +84,7 @@ test.describe('Asset input validation', () => {
     })
 
     savingsPage = new SavingsPageObject(testContext)
+    await savingsPage.clickSavingsNavigationItemAction('DAI')
     await savingsPage.clickSendFromAccountButtonAction()
     sendDialog = new SavingsDialogPageObject({ testContext, type: 'send' })
 
@@ -118,6 +120,7 @@ test.describe('Receiver input validation', () => {
       selfAddress = testContext.account
 
       savingsPage = new SavingsPageObject(testContext)
+      await savingsPage.clickSavingsNavigationItemAction('DAI')
       await savingsPage.clickSendFromAccountButtonAction()
 
       sendDialog = new SavingsDialogPageObject({ testContext, type: 'send' })
@@ -193,6 +196,7 @@ test.describe('Receiver input validation', () => {
     })
 
     savingsPage = new SavingsPageObject(testContext)
+    await savingsPage.clickSavingsNavigationItemAction('DAI')
     await savingsPage.clickSendFromAccountButtonAction()
     sendDialog = new SavingsDialogPageObject({ testContext, type: 'send' })
     await sendDialog.fillAmountAction(50) // valid input amount
@@ -223,6 +227,7 @@ test.describe('Form validation', () => {
     })
 
     savingsPage = new SavingsPageObject(testContext)
+    await savingsPage.clickSavingsNavigationItemAction('DAI')
     await savingsPage.clickSendFromAccountButtonAction()
 
     sendDialog = new SavingsDialogPageObject({ testContext, type: 'send' })

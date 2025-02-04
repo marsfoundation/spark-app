@@ -34,7 +34,7 @@ test.describe('Deposit DAI', () => {
     await depositDialog.fillAmountAction(10_000)
   })
 
-  test('uses correct actions', async () => {
+  test('has correct action plan', async () => {
     await depositDialog.actionsContainer.expectActions([
       { type: 'approve', asset: 'DAI' },
       { type: 'depositToSavings', asset: 'DAI', savingsAsset: 'sDAI' },

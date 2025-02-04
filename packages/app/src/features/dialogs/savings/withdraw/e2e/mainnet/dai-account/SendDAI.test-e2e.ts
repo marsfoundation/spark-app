@@ -1,37 +1,38 @@
+import { SavingsDialogPageObject } from '@/features/dialogs/savings/common/e2e/SavingsDialog.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { BASE_DEFAULT_BLOCK_NUMBER, TOKENS_ON_FORK } from '@/test/e2e/constants'
+import { DEFAULT_BLOCK_NUMBER, TOKENS_ON_FORK } from '@/test/e2e/constants'
 import { setup } from '@/test/e2e/setup'
 import { randomAddress } from '@/test/utils/addressUtils'
 import { test } from '@playwright/test'
-import { base } from 'viem/chains'
-import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
+import { mainnet } from 'viem/chains'
 
-test.describe('Send USDS', () => {
+test.describe('Send DAI', () => {
   let savingsPage: SavingsPageObject
   let sendDialog: SavingsDialogPageObject
   const receiver = randomAddress('bob')
   const amount = 7000
-  const usds = TOKENS_ON_FORK[base.id].USDS
+  const dai = TOKENS_ON_FORK[mainnet.id].DAI
 
   test.beforeEach(async ({ page }) => {
     const testContext = await setup(page, {
       blockchain: {
-        chainId: base.id,
-        blockNumber: BASE_DEFAULT_BLOCK_NUMBER,
+        chainId: mainnet.id,
+        blockNumber: DEFAULT_BLOCK_NUMBER,
       },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
         assetBalances: {
           ETH: 1,
-          sUSDS: 10_000,
+          sDAI: 10_000,
         },
       },
     })
 
     savingsPage = new SavingsPageObject(testContext)
-
+    await savingsPage.clickSavingsNavigationItemAction('DAI')
     await savingsPage.clickSendFromAccountButtonAction()
+
     sendDialog = new SavingsDialogPageObject({ testContext, type: 'send' })
     await sendDialog.fillAmountAction(amount)
     await sendDialog.fillReceiverAction(receiver)
@@ -39,8 +40,7 @@ test.describe('Send USDS', () => {
 
   test('has correct action plan', async () => {
     await sendDialog.actionsContainer.expectActions([
-      { type: 'approve', asset: 'sUSDS' },
-      { type: 'withdrawFromSavings', asset: 'USDS', savingsAsset: 'sUSDS', mode: 'send' },
+      { type: 'withdrawFromSavings', asset: 'DAI', savingsAsset: 'sDAI', mode: 'send' },
     ])
   })
 
@@ -48,15 +48,15 @@ test.describe('Send USDS', () => {
     await sendDialog.expectNativeRouteTransactionOverview({
       routeItems: [
         {
-          tokenAmount: '6,911.09 sUSDS',
+          tokenAmount: '6,218.91 sDAI',
           tokenUsdValue: '$7,000.00',
         },
         {
-          tokenAmount: '7,000.00 USDS',
+          tokenAmount: '7,000.00 DAI',
           tokenUsdValue: '$7,000.00',
         },
       ],
-      outcome: '7,000.00 USDS',
+      outcome: '7,000.00 DAI',
       outcomeUsd: '$7,000.00',
     })
   })
@@ -64,21 +64,22 @@ test.describe('Send USDS', () => {
   test('executes send', async () => {
     await sendDialog.expectReceiverTokenBalance({
       receiver,
-      token: usds,
+      token: dai,
       expectedBalance: 0,
     })
 
-    await sendDialog.actionsContainer.acceptAllActionsAction(2)
+    await sendDialog.actionsContainer.acceptAllActionsAction(1)
     await sendDialog.expectSuccessPage()
 
     await sendDialog.expectReceiverTokenBalance({
       receiver,
-      token: usds,
+      token: dai,
       expectedBalance: amount,
     })
 
     await sendDialog.clickBackToSavingsButton()
-    await savingsPage.expectSavingsAccountBalance({ balance: '3,088.91', estimatedValue: '3,128.6548917' })
-    await savingsPage.expectSupportedStablecoinBalance('USDS', '-')
+
+    await savingsPage.expectSavingsAccountBalance({ balance: '3,781.09', estimatedValue: '4,255.9918184' })
+    await savingsPage.expectSupportedStablecoinBalance('DAI', '-')
   })
 })

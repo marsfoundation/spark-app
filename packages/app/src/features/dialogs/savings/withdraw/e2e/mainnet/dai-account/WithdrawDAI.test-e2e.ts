@@ -1,12 +1,12 @@
+import { SavingsDialogPageObject } from '@/features/dialogs/savings/common/e2e/SavingsDialog.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
 import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
-import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
-import { withdrawValidationIssueToMessage } from '../../logic/validation'
+import { withdrawValidationIssueToMessage } from '../../../logic/validation'
 
-test.describe('Withdraw DAI on Mainnet', () => {
+test.describe('Withdraw DAI', () => {
   let savingsPage: SavingsPageObject
   let withdrawalDialog: SavingsDialogPageObject
 
@@ -27,6 +27,7 @@ test.describe('Withdraw DAI on Mainnet', () => {
     })
 
     savingsPage = new SavingsPageObject(testContext)
+    await savingsPage.clickSavingsNavigationItemAction('DAI')
     await savingsPage.clickWithdrawFromAccountButtonAction()
 
     withdrawalDialog = new SavingsDialogPageObject({ testContext, type: 'withdraw' })
@@ -89,6 +90,7 @@ test.describe('Validation', () => {
       })
 
       savingsPage = new SavingsPageObject(testContext)
+      await savingsPage.clickSavingsNavigationItemAction('DAI')
       await savingsPage.clickWithdrawFromAccountButtonAction()
 
       withdrawalDialog = new SavingsDialogPageObject({ testContext, type: 'withdraw' })
@@ -140,6 +142,7 @@ test.describe('Validation', () => {
     })
 
     savingsPage = new SavingsPageObject(testContext)
+    await savingsPage.clickSavingsNavigationItemAction('DAI')
     await savingsPage.clickWithdrawFromAccountButtonAction()
     withdrawalDialog = new SavingsDialogPageObject({ testContext, type: 'withdraw' })
 

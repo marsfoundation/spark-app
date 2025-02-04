@@ -1,11 +1,11 @@
+import { SavingsDialogPageObject } from '@/features/dialogs/savings/common/e2e/SavingsDialog.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
 import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
-import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 
-test.describe('Withdraw max DAI on Mainnet', () => {
+test.describe('Withdraw max DAI', () => {
   let savingsPage: SavingsPageObject
   let withdrawalDialog: SavingsDialogPageObject
 
@@ -26,13 +26,14 @@ test.describe('Withdraw max DAI on Mainnet', () => {
     })
 
     savingsPage = new SavingsPageObject(testContext)
+    await savingsPage.clickSavingsNavigationItemAction('DAI')
     await savingsPage.clickWithdrawFromAccountButtonAction()
 
     withdrawalDialog = new SavingsDialogPageObject({ testContext, type: 'withdraw' })
     await withdrawalDialog.clickMaxAmountAction()
   })
 
-  test('uses native sDai withdrawal', async () => {
+  test('has correct action plan', async () => {
     await withdrawalDialog.actionsContainer.expectActions([
       { type: 'withdrawFromSavings', asset: 'DAI', savingsAsset: 'sDAI', mode: 'withdraw' },
     ])

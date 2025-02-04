@@ -76,6 +76,6 @@ test.describe('With send mode', () => {
     const sendDialog = new SavingsDialogPageObject({ testContext, type: 'send' })
 
     await sendDialog.openAssetSelectorAction()
-    await sendDialog.expectAssetSelectorOptions(['USDC', 'USDS'])
+    await sendDialog.expectAssetSelectorOptions(['USDS', 'USDC'])
   })
 })

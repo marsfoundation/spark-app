@@ -27,13 +27,14 @@ test.describe('Deposit USDS', () => {
     })
 
     savingsPage = new SavingsPageObject(testContext)
+    await savingsPage.clickSavingsNavigationItemAction('USDS')
     await savingsPage.clickDepositButtonAction('USDS')
 
     depositDialog = new SavingsDialogPageObject({ testContext, type: 'deposit' })
     await depositDialog.fillAmountAction(10_000)
   })
 
-  test('uses correct actions', async () => {
+  test('has correct action plan', async () => {
     await depositDialog.actionsContainer.expectActions([
       { type: 'approve', asset: 'USDS' },
       { type: 'depositToSavings', asset: 'USDS', savingsAsset: 'sUSDS' },
