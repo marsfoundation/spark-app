@@ -140,7 +140,7 @@ export default defineConfig({
         {
           name: 'UsdcVault',
           address: {
-            [mainnet.id]: '0x47ff5312c027aa733abdce6740c88d4a151e7901',
+            [mainnet.id]: '0x29bd15f2c80f2807c29d2428aa835f2be1098a62',
             [base.id]: '0x62da45546a0f87b23941ffe5ca22f9d2a8fa7df3',
           },
         },
