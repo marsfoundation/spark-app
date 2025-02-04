@@ -18,7 +18,7 @@ export function SavingsAccountsTopBanner({ onClose, className }: SavingsAccounts
       className={cn(
         'relative z-10 flex w-full flex-col items-center justify-center',
         'gap-2 p-2.5 text-center shadow-inner sm:flex-row md:p-1.5',
-        'bg-[radial-gradient(155.75%_155.75%_at_50%_-55.75%,#FFEF79_0%,#00C2A1_100%)]',
+        'bg-[#FB5EAB]',
         className,
       )}
     >
