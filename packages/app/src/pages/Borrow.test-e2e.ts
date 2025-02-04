@@ -371,7 +371,7 @@ test.describe('Borrow page', () => {
 
     await page.goto(buildUrl('savings'))
     const savingsPage = new SavingsPageObject(testContext)
-    await savingsPage.expectStablecoinsInWalletAssetBalance('USDS', '10,000')
+    await savingsPage.expectSupportedStablecoinBalance('USDS', '10,000')
   })
 
   test.describe('no wallet connected', () => {

@@ -29,7 +29,10 @@ export function GrowingBalance({
   return (
     <div className="flex items-center gap-3 sm:gap-4">
       <TokenIcon token={underlyingToken} className="size-10 lg:size-14" />
-      <div className="flex items-baseline tabular-nums" data-testid={testIds.savings.susds.balanceInAsset}>
+      <div
+        className="flex items-baseline tabular-nums"
+        data-testid={testIds.savings.account.savingsToken.balanceInUnderlyingToken}
+      >
         <div className={wholePartVariants({ accountType })}>{getWholePart(depositedAssets)}</div>
         {depositedAssetsPrecision > 0 && (
           <div className="relative">

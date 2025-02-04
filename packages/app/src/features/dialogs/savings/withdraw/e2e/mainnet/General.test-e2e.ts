@@ -26,7 +26,8 @@ test.describe('Without send mode', () => {
     })
 
     savingsPage = new SavingsPageObject(testContext)
-    await savingsPage.clickWithdrawSDaiButtonAction()
+    await savingsPage.clickSavingsNavigationItemAction('DAI')
+    await savingsPage.clickWithdrawFromAccountButtonAction()
 
     withdrawalDialog = new SavingsDialogPageObject({ testContext, type: 'withdraw' })
   })
@@ -83,11 +84,12 @@ test.describe('With send mode', () => {
     })
 
     const savingsPage = new SavingsPageObject(testContext)
-    await savingsPage.clickSendSDaiButtonAction()
+    await savingsPage.clickSavingsNavigationItemAction('DAI')
+    await savingsPage.clickSendFromAccountButtonAction()
 
     const sendDialog = new SavingsDialogPageObject({ testContext, type: 'send' })
 
     await sendDialog.openAssetSelectorAction()
-    await sendDialog.expectAssetSelectorOptions(['DAI', 'USDC', 'USDS'])
+    await sendDialog.expectAssetSelectorOptions(['DAI', 'USDC'])
   })
 })

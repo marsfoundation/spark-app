@@ -22,26 +22,18 @@ test.describe('Savings deposit dialog', () => {
           assetBalances: {
             ETH: 1,
             DAI: 10_000,
-            USDC: 10_000,
+            USDC: 20_000,
           },
         },
       })
 
       savingsPage = new SavingsPageObject(testContext)
-      await savingsPage.clickStartSavingButtonAction()
+      await savingsPage.clickCTADepositButtonAction()
 
       depositDialog = new SavingsDialogPageObject({ testContext, type: 'deposit' })
     })
 
     test('can switch between tokens', async () => {
-      await depositDialog.fillAmountAction(1000)
-      await depositDialog.actionsContainer.expectEnabledActionAtIndex(0)
-      await depositDialog.actionsContainer.expectActions([
-        { type: 'approve', asset: 'DAI' },
-        { type: 'depositToSavings', asset: 'DAI', savingsAsset: 'sUSDS' },
-      ])
-
-      await depositDialog.selectAssetAction('USDC')
       await depositDialog.fillAmountAction(1000)
       await depositDialog.actionsContainer.expectEnabledActionAtIndex(0)
       await depositDialog.actionsContainer.expectActions([
@@ -56,18 +48,26 @@ test.describe('Savings deposit dialog', () => {
         { type: 'approve', asset: 'DAI' },
         { type: 'depositToSavings', asset: 'DAI', savingsAsset: 'sUSDS' },
       ])
+
+      await depositDialog.selectAssetAction('USDC')
+      await depositDialog.fillAmountAction(1000)
+      await depositDialog.actionsContainer.expectEnabledActionAtIndex(0)
+      await depositDialog.actionsContainer.expectActions([
+        { type: 'approve', asset: 'USDC' },
+        { type: 'depositToSavings', asset: 'USDC', savingsAsset: 'sUSDS' },
+      ])
     })
 
     test('can select only supported assets', async () => {
       await depositDialog.openAssetSelectorAction()
-      await depositDialog.expectAssetSelectorOptions(['DAI', 'USDC', 'USDS'])
+      await depositDialog.expectAssetSelectorOptions(['USDS', 'USDC', 'DAI'])
     })
 
     test('can click max after switching tokens', async () => {
       await depositDialog.expectInputValue('')
       await depositDialog.clickMaxAmountAction()
-      await depositDialog.expectInputValue('10000')
-      await depositDialog.selectAssetAction('USDC')
+      await depositDialog.expectInputValue('20000')
+      await depositDialog.selectAssetAction('DAI')
       await depositDialog.expectInputValue('')
       await depositDialog.clickMaxAmountAction()
       await depositDialog.expectInputValue('10000')
@@ -94,7 +94,7 @@ test.describe('Savings deposit dialog', () => {
       })
 
       savingsPage = new SavingsPageObject(testContext)
-      await savingsPage.clickStartSavingButtonAction()
+      await savingsPage.clickCTADepositButtonAction()
 
       depositDialog = new SavingsDialogPageObject({ testContext, type: 'deposit' })
     })
@@ -126,7 +126,7 @@ test.describe('Savings deposit dialog', () => {
       })
 
       savingsPage = new SavingsPageObject(testContext)
-      await savingsPage.clickStartSavingButtonAction()
+      await savingsPage.clickCTADepositButtonAction()
 
       depositDialog = new SavingsDialogPageObject({ testContext, type: 'deposit' })
     })
@@ -158,7 +158,7 @@ test.describe('Savings deposit dialog', () => {
 
     test('can select only supported assets', async () => {
       await depositDialog.openAssetSelectorAction()
-      await depositDialog.expectAssetSelectorOptions(['USDC', 'USDS'])
+      await depositDialog.expectAssetSelectorOptions(['USDS', 'USDC'])
     })
   })
 })

@@ -1,6 +1,7 @@
 import { Token } from '@/domain/types/Token'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { cn } from '@/ui/utils/style'
+import { testIds } from '@/ui/utils/testIds'
 import { Percentage } from '@marsfoundation/common-universal'
 import { cva } from 'class-variance-authority'
 import { savingsTokenToAccountType } from '../common/utils'
@@ -45,6 +46,7 @@ export function DepositCTAPanel({
         panelBgVariants({ bg: savingsTokenToAccountType(savingsToken) }),
         className,
       )}
+      data-testid={testIds.savings.account.depositCTA.panel}
     >
       <div className="flex flex-col gap-4 md:justify-between">
         <Header savingsRate={savingsRate} savingsToken={savingsToken} inputTokens={entryTokens} />

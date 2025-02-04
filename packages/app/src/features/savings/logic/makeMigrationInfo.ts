@@ -34,8 +34,8 @@ export function makeMigrationInfo({
 
   return {
     apyImprovement: determineApyImprovement({
-      savingsUsdsInfo: susdsAccount.converter,
-      savingsDaiInfo: sdaiAccount.converter,
+      savingsUsdsConverter: susdsAccount.converter,
+      savingsDaiConverter: sdaiAccount.converter,
     }),
     openSDaiToSUsdsUpgradeDialog: () => {
       openDialog(upgradeDialogConfig, { fromToken: sdaiAccount.savingsToken, toToken: susdsAccount.savingsToken })

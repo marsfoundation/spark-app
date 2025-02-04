@@ -2,17 +2,17 @@ import { SavingsConverter } from '@/domain/savings-converters/types'
 import { Percentage } from '@marsfoundation/common-universal'
 
 export interface DetermineApyImprovementParams {
-  savingsUsdsInfo: SavingsConverter | null
-  savingsDaiInfo: SavingsConverter | null
+  savingsUsdsConverter: SavingsConverter | null
+  savingsDaiConverter: SavingsConverter | null
 }
 
 export function determineApyImprovement({
-  savingsUsdsInfo,
-  savingsDaiInfo,
+  savingsUsdsConverter,
+  savingsDaiConverter,
 }: DetermineApyImprovementParams): Percentage | undefined {
-  if (!savingsUsdsInfo || !savingsDaiInfo) {
+  if (!savingsUsdsConverter || !savingsDaiConverter) {
     return undefined
   }
-  const apyDifference = savingsUsdsInfo.apy.minus(savingsDaiInfo.apy)
+  const apyDifference = savingsUsdsConverter.apy.minus(savingsDaiConverter.apy)
   return apyDifference.gt(0) ? Percentage(apyDifference) : undefined
 }

@@ -5,6 +5,7 @@ import { LinkButton } from '@/ui/atoms/link-button/LinkButton'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { links } from '@/ui/constants/links'
 import { cn } from '@/ui/utils/style'
+import { testIds } from '@/ui/utils/testIds'
 import { Percentage } from '@marsfoundation/common-universal'
 
 export interface UpgradeSavingsBannerProps {
@@ -14,7 +15,11 @@ export interface UpgradeSavingsBannerProps {
 
 export function UpgradeSavingsBanner({ onUpgradeSavingsClick, apyImprovement }: UpgradeSavingsBannerProps) {
   return (
-    <Panel spacing="xs" className="flex items-center gap-3 bg-primary sm:gap-8">
+    <Panel
+      spacing="xs"
+      className="flex items-center gap-3 bg-primary sm:gap-8"
+      data-testid={testIds.savings.upgradeSDaiBanner}
+    >
       <img
         src={assets.savings.sdaiUpgradeBannerIcon}
         alt="savings-upgrade-banner-icon"
