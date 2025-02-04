@@ -27,7 +27,7 @@ test.describe('Withdraw USDC', () => {
 
     savingsPage = new SavingsPageObject(testContext)
 
-    await savingsPage.clickWithdrawSUsdsButtonAction()
+    await savingsPage.clickWithdrawFromAccountButtonAction()
     withdrawDialog = new SavingsDialogPageObject({ testContext, type: 'withdraw' })
     await withdrawDialog.selectAssetAction('USDC')
     await withdrawDialog.fillAmountAction(1000)
@@ -69,7 +69,7 @@ test.describe('Withdraw USDC', () => {
     await withdrawDialog.expectSuccessPage()
     await withdrawDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '9,012.70 sUSDS', estimatedUsdsValue: '9,128.654891' })
+    await savingsPage.expectSavingsAccountBalance({ balance: '9,012.70', estimatedValue: '9,128.654891' })
     await savingsPage.expectSupportedStablecoinBalance('USDC', '1,000')
   })
 
@@ -80,7 +80,7 @@ test.describe('Withdraw USDC', () => {
     await withdrawDialog.expectSuccessPage()
     await withdrawDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '9,999.01 sUSDS', estimatedUsdsValue: '10,127.654892' })
+    await savingsPage.expectSavingsAccountBalance({ balance: '9,999.01', estimatedValue: '10,127.654892' })
     await savingsPage.expectSupportedStablecoinBalance('USDC', '1')
   })
 })

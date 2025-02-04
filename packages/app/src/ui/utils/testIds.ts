@@ -66,26 +66,23 @@ export const testIds = makeTestIds({
     },
   },
   savings: {
-    sDaiBalance: true,
-    sDaiBalanceInDai: true,
+    navigation: {
+      item: true,
+    },
     upgradeSDaiBanner: true,
-    stablecoinsAmount: true,
     supportedStablecoins: {
       moreDropdown: true,
     },
-    opportunity: {
-      panel: true,
-      savingsRate: true,
-    },
-    sdai: {
-      panel: true,
-      balance: true,
-      balanceInAsset: true,
-    },
-    susds: {
-      panel: true,
-      balance: true,
-      balanceInAsset: true,
+    account: {
+      depositCTA: {
+        panel: true,
+        apy: true,
+      },
+      mainPanel: true,
+      savingsToken: {
+        balance: true,
+        balanceInUnderlyingToken: true,
+      },
     },
   },
   dialog: {

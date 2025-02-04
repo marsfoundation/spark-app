@@ -1,6 +1,7 @@
 import { Token } from '@/domain/types/Token'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
+import { testIds } from '@/ui/utils/testIds'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { Projections } from '../../types'
 import { AdditionalInfo } from './AdditionalInfo'
@@ -41,7 +42,10 @@ export function SidePanelGroup({
         <SidePanel>
           <AdditionalInfo.Label> Your {savingsToken.symbol} Balance </AdditionalInfo.Label>
           <AdditionalInfo.Content>
-            <div className="typography-heading-5 flex items-center gap-1.5">
+            <div
+              className="typography-heading-5 flex items-center gap-1.5"
+              data-testid={testIds.savings.account.savingsToken.balance}
+            >
               {savingsToken.format(savingsTokenBalance, { style: 'auto' })}
               <TokenIcon token={savingsToken} className="size-5" />
             </div>

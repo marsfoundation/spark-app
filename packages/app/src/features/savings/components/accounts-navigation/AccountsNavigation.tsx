@@ -2,6 +2,7 @@ import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 import { cn } from '@/ui/utils/style'
+import { testIds } from '@/ui/utils/testIds'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { cva } from 'class-variance-authority'
 import { ShortAccountDefinition } from '../../logic/useSavings'
@@ -63,7 +64,11 @@ function NavigationItem({
   const transitionStyles = cn('transition-all duration-200 ease-in-out')
 
   return (
-    <button onClick={onClick} className={cn(navigationItemButtonVariants({ variant, active }), transitionStyles)}>
+    <button
+      onClick={onClick}
+      className={cn(navigationItemButtonVariants({ variant, active }), transitionStyles)}
+      data-testid={testIds.savings.navigation.item}
+    >
       <TokenIcon
         token={underlyingToken}
         className={cn(navigationItemTokenIconVariants({ variant, active }), transitionStyles)}

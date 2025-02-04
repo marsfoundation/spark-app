@@ -27,7 +27,7 @@ test.describe('Withdraw Max USDC', () => {
 
     savingsPage = new SavingsPageObject(testContext)
 
-    await savingsPage.clickWithdrawSUsdsButtonAction()
+    await savingsPage.clickWithdrawFromAccountButtonAction()
     withdrawDialog = new SavingsDialogPageObject({ testContext, type: 'withdraw' })
     await withdrawDialog.selectAssetAction('USDC')
     await withdrawDialog.clickMaxAmountAction()
@@ -65,7 +65,6 @@ test.describe('Withdraw Max USDC', () => {
     await withdrawDialog.expectSuccessPage()
     await withdrawDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectOpportunityStablecoinsAmount('~$10,128.65')
     await savingsPage.expectSupportedStablecoinBalance('USDC', '10,128.65')
   })
 })

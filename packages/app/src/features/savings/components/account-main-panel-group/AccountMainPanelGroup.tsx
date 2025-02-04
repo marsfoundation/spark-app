@@ -2,6 +2,7 @@ import { Token } from '@/domain/types/Token'
 import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { cn } from '@/ui/utils/style'
+import { testIds } from '@/ui/utils/testIds'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { cva } from 'class-variance-authority'
 import { SavingsOverview } from '../../logic/makeSavingsOverview'
@@ -37,7 +38,10 @@ export function AccountMainPanelGroup({
   className,
 }: AccountMainPanelGroupProps) {
   return (
-    <div className={cn('grid grid-cols-1 gap-2 lg:grid-cols-[1fr_auto]', className)}>
+    <div
+      className={cn('grid grid-cols-1 gap-2 lg:grid-cols-[1fr_auto]', className)}
+      data-testid={testIds.savings.account.mainPanel}
+    >
       <Panel
         variant="secondary"
         className={cn(

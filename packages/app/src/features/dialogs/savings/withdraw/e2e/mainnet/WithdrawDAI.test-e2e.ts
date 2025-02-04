@@ -27,7 +27,7 @@ test.describe('Withdraw DAI on Mainnet', () => {
     })
 
     savingsPage = new SavingsPageObject(testContext)
-    await savingsPage.clickWithdrawSDaiButtonAction()
+    await savingsPage.clickWithdrawFromAccountButtonAction()
 
     withdrawalDialog = new SavingsDialogPageObject({ testContext, type: 'withdraw' })
     await withdrawalDialog.fillAmountAction(7000)
@@ -62,7 +62,7 @@ test.describe('Withdraw DAI on Mainnet', () => {
     await withdrawalDialog.expectSuccessPage()
     await withdrawalDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsDaiBalance({ sdaiBalance: '3,781.09 sDAI', estimatedDaiValue: '4,255.9918184' })
+    await savingsPage.expectSavingsAccountBalance({ balance: '3,781.09', estimatedValue: '4,255.9918184' })
     await savingsPage.expectSupportedStablecoinBalance('DAI', '7,000.00')
   })
 })
@@ -89,7 +89,7 @@ test.describe('Validation', () => {
       })
 
       savingsPage = new SavingsPageObject(testContext)
-      await savingsPage.clickWithdrawSDaiButtonAction()
+      await savingsPage.clickWithdrawFromAccountButtonAction()
 
       withdrawalDialog = new SavingsDialogPageObject({ testContext, type: 'withdraw' })
       await withdrawalDialog.fillAmountAction(200)
@@ -140,7 +140,7 @@ test.describe('Validation', () => {
     })
 
     savingsPage = new SavingsPageObject(testContext)
-    await savingsPage.clickWithdrawSDaiButtonAction()
+    await savingsPage.clickWithdrawFromAccountButtonAction()
     withdrawalDialog = new SavingsDialogPageObject({ testContext, type: 'withdraw' })
 
     await withdrawalDialog.fillAmountAction(10)

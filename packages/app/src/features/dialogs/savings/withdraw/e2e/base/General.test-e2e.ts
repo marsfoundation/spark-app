@@ -24,7 +24,7 @@ test.describe('Without send mode', () => {
 
     const savingsPage = new SavingsPageObject(testContext)
 
-    await savingsPage.clickWithdrawSUsdsButtonAction()
+    await savingsPage.clickWithdrawFromAccountButtonAction()
 
     const withdrawalDialog = new SavingsDialogPageObject({ testContext, type: 'withdraw' })
 
@@ -71,7 +71,7 @@ test.describe('With send mode', () => {
     })
 
     const savingsPage = new SavingsPageObject(testContext)
-    await savingsPage.clickSendSUsdsButtonAction()
+    await savingsPage.clickSendFromAccountButtonAction()
 
     const sendDialog = new SavingsDialogPageObject({ testContext, type: 'send' })
 

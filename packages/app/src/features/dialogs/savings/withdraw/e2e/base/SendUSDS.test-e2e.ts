@@ -31,7 +31,7 @@ test.describe('Send USDS', () => {
 
     savingsPage = new SavingsPageObject(testContext)
 
-    await savingsPage.clickSendSUsdsButtonAction()
+    await savingsPage.clickSendFromAccountButtonAction()
     sendDialog = new SavingsDialogPageObject({ testContext, type: 'send' })
     await sendDialog.fillAmountAction(amount)
     await sendDialog.fillReceiverAction(receiver)
@@ -78,7 +78,7 @@ test.describe('Send USDS', () => {
     })
 
     await sendDialog.clickBackToSavingsButton()
-    await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '3,088.91 sUSDS', estimatedUsdsValue: '3,128.6548917' })
+    await savingsPage.expectSavingsAccountBalance({ balance: '3,088.91', estimatedValue: '3,128.6548917' })
     await savingsPage.expectSupportedStablecoinBalance('USDS', '-')
   })
 })

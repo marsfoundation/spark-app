@@ -32,7 +32,7 @@ test.describe('Send USDC', () => {
 
     savingsPage = new SavingsPageObject(testContext)
 
-    await savingsPage.clickSendSUsdsButtonAction()
+    await savingsPage.clickSendFromAccountButtonAction()
     sendDialog = new SavingsDialogPageObject({ testContext, type: 'send' })
 
     await sendDialog.selectAssetAction('USDC')
@@ -85,7 +85,7 @@ test.describe('Send USDC', () => {
     })
 
     await sendDialog.clickBackToSavingsButton()
-    await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '3,088.91 sUSDS', estimatedUsdsValue: '3,128.6548910' })
+    await savingsPage.expectSavingsAccountBalance({ balance: '3,088.91', estimatedValue: '3,128.6548910' })
     await savingsPage.expectSupportedStablecoinBalance('USDC', '-')
   })
 })

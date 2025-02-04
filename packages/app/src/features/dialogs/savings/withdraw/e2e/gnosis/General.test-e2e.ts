@@ -23,7 +23,7 @@ test.describe('With send mode', () => {
     })
 
     const savingsPage = new SavingsPageObject(testContext)
-    await savingsPage.clickSendSDaiButtonAction()
+    await savingsPage.clickSendFromAccountButtonAction()
 
     const sendDialog = new SavingsDialogPageObject({ testContext, type: 'send' })
 

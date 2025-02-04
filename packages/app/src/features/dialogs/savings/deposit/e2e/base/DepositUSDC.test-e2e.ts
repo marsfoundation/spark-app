@@ -70,9 +70,9 @@ test.describe('Deposit USDC', () => {
     await depositDialog.expectSuccessPage()
     await depositDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsUsdsBalance({
-      susdsBalance: '9,872.98 sUSDS',
-      estimatedUsdsValue: '9,999.999999', // USDC has 6 decimals, so the value is rounded down. This is consistent with the data in the smart contract
+    await savingsPage.expectSavingsAccountBalance({
+      balance: '9,872.98',
+      estimatedValue: '9,999.999999', // USDC has 6 decimals, so the value is rounded down. This is consistent with the data in the smart contract
     })
     await savingsPage.expectSupportedStablecoinBalance('USDC', '-')
   })

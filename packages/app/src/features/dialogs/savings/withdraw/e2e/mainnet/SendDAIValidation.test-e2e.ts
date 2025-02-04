@@ -31,7 +31,7 @@ test.describe('Asset input validation', () => {
       })
 
       savingsPage = new SavingsPageObject(testContext)
-      await savingsPage.clickSendSDaiButtonAction()
+      await savingsPage.clickSendFromAccountButtonAction()
 
       sendDialog = new SavingsDialogPageObject({ testContext, type: 'send' })
       await sendDialog.fillAmountAction(200)
@@ -83,7 +83,7 @@ test.describe('Asset input validation', () => {
     })
 
     savingsPage = new SavingsPageObject(testContext)
-    await savingsPage.clickSendSDaiButtonAction()
+    await savingsPage.clickSendFromAccountButtonAction()
     sendDialog = new SavingsDialogPageObject({ testContext, type: 'send' })
 
     await sendDialog.fillAmountAction(10)
@@ -118,7 +118,7 @@ test.describe('Receiver input validation', () => {
       selfAddress = testContext.account
 
       savingsPage = new SavingsPageObject(testContext)
-      await savingsPage.clickSendSDaiButtonAction()
+      await savingsPage.clickSendFromAccountButtonAction()
 
       sendDialog = new SavingsDialogPageObject({ testContext, type: 'send' })
       await sendDialog.fillAmountAction(50) // valid input amount
@@ -193,7 +193,7 @@ test.describe('Receiver input validation', () => {
     })
 
     savingsPage = new SavingsPageObject(testContext)
-    await savingsPage.clickSendSDaiButtonAction()
+    await savingsPage.clickSendFromAccountButtonAction()
     sendDialog = new SavingsDialogPageObject({ testContext, type: 'send' })
     await sendDialog.fillAmountAction(50) // valid input amount
 
@@ -223,7 +223,7 @@ test.describe('Form validation', () => {
     })
 
     savingsPage = new SavingsPageObject(testContext)
-    await savingsPage.clickSendSDaiButtonAction()
+    await savingsPage.clickSendFromAccountButtonAction()
 
     sendDialog = new SavingsDialogPageObject({ testContext, type: 'send' })
   })

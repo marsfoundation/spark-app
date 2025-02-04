@@ -28,7 +28,7 @@ test.describe('Savings deposit dialog', () => {
       })
 
       savingsPage = new SavingsPageObject(testContext)
-      await savingsPage.clickStartSavingButtonAction()
+      await savingsPage.clickCTADepositButtonAction()
 
       depositDialog = new SavingsDialogPageObject({ testContext, type: 'deposit' })
     })
@@ -94,7 +94,7 @@ test.describe('Savings deposit dialog', () => {
       })
 
       savingsPage = new SavingsPageObject(testContext)
-      await savingsPage.clickStartSavingButtonAction()
+      await savingsPage.clickCTADepositButtonAction()
 
       depositDialog = new SavingsDialogPageObject({ testContext, type: 'deposit' })
     })
@@ -126,7 +126,7 @@ test.describe('Savings deposit dialog', () => {
       })
 
       savingsPage = new SavingsPageObject(testContext)
-      await savingsPage.clickStartSavingButtonAction()
+      await savingsPage.clickCTADepositButtonAction()
 
       depositDialog = new SavingsDialogPageObject({ testContext, type: 'deposit' })
     })
