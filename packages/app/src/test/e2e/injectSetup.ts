@@ -2,11 +2,15 @@ import { Page } from '@playwright/test'
 
 import {
   PLAYWRIGHT_CHAIN_ID,
+  PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE_KEY,
   PLAYWRIGHT_WALLET_ADDRESS_KEY,
   PLAYWRIGHT_WALLET_ATOMIC_BATCH_SUPPORTED_KEY,
   PLAYWRIGHT_WALLET_FORK_URL_KEY,
   PLAYWRIGHT_WALLET_PRIVATE_KEY_KEY,
 } from '@/config/wagmi/e2e-consts'
+import { TestnetClient } from '@marsfoundation/common-testnets'
+import { zeroAddress } from 'viem'
+import { base, mainnet } from 'viem/chains'
 import { InjectableWallet } from './setup'
 
 export async function injectWalletConfiguration(
@@ -70,4 +74,32 @@ export async function injectNetworkConfiguration({
       chainId,
     },
   )
+}
+
+export async function injectFlags(page: Page, testnetClient: TestnetClient, chainId: number): Promise<void> {
+  const isSusdcDeployed = await isSudcDeployed(testnetClient, chainId)
+
+  await page.addInitScript(
+    ({ PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE_KEY, isSusdcDeployed }) => {
+      if (isSusdcDeployed) {
+        ;(window as any)[PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE_KEY] = true
+      }
+    },
+    { PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE_KEY, isSusdcDeployed },
+  )
+}
+
+async function isSudcDeployed(testnetClient: TestnetClient, chainId: number): Promise<boolean> {
+  const susdsAddress = (() => {
+    if (chainId === mainnet.id) {
+      return '0x47ff5312c027aa733abdce6740c88d4a151e7901'
+    }
+    if (chainId === base.id) {
+      return '0x62da45546a0f87b23941ffe5ca22f9d2a8fa7df3'
+    }
+    return zeroAddress
+  })()
+
+  const susdcBytecode = await testnetClient.getCode({ address: susdsAddress })
+  return susdcBytecode !== undefined && susdcBytecode.length > 2
 }
