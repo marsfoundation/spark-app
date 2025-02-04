@@ -2,8 +2,9 @@ import { receiverValidationIssueToMessage } from '@/domain/savings/validateRecei
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
 import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setup } from '@/test/e2e/setup'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { test } from '@playwright/test'
-import { Address, zeroAddress } from 'viem'
+import { Address } from 'viem'
 import { mainnet } from 'viem/chains'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 import { withdrawValidationIssueToMessage } from '../../logic/validation'
@@ -134,7 +135,7 @@ test.describe('Receiver input validation', () => {
       await sendDialog.expectAddressInputError(receiverValidationIssueToMessage['invalid-address'])
 
       // zero address is not valid
-      await sendDialog.fillReceiverAction(zeroAddress)
+      await sendDialog.fillReceiverAction(CheckedAddress.ZERO())
       await sendDialog.expectAddressInputError(receiverValidationIssueToMessage['zero-address'])
 
       // reserve address is not valid
