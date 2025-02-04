@@ -5,6 +5,7 @@ import { TransferFromUserFormNormalizedData } from '@/features/dialogs/common/lo
 import { TxOverviewRouteItem } from '@/features/dialogs/common/types'
 import { NormalizedUnitNumber, raise } from '@marsfoundation/common-universal'
 import { SavingsDialogTxOverview } from '../../common/types'
+import { findUnderlyingToken } from '../../common/utils'
 
 export interface CreateTxOverviewParams {
   formValues: TransferFromUserFormNormalizedData
@@ -37,9 +38,7 @@ export function createTxOverview({
   })
 
   return {
-    baseStable:
-      (savingsToken.symbol === tokensInfo.sDAI?.symbol ? tokensInfo.DAI : tokensInfo.USDS) ??
-      raise('Cannot find stable token'),
+    underlyingToken: findUnderlyingToken(savingsToken, tokensInfo) ?? raise('Cannot find underlying token'),
     status: 'success',
     APY: savingsConverter.apy,
     stableEarnRate,
@@ -64,9 +63,7 @@ function getDepositRoute({
   savingsTokenValue,
 }: GetDepositRouteParams): TxOverviewRouteItem[] {
   const value = formValues.value
-  const intermediary =
-    (savingsToken.symbol === tokensInfo.sDAI?.symbol ? tokensInfo.DAI : tokensInfo.USDS) ??
-    raise('Cannot find intermediary token')
+  const intermediary = findUnderlyingToken(savingsToken, tokensInfo) ?? raise('Cannot find intermediary token')
 
   return [
     ...(intermediary.symbol !== formValues.token.symbol
