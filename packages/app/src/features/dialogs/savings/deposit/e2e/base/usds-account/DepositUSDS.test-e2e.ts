@@ -1,20 +1,19 @@
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
-import { TestContext, setup } from '@/test/e2e/setup'
+import { BASE_DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
+import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
-import { mainnet } from 'viem/chains'
-import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
+import { base } from 'viem/chains'
+import { SavingsDialogPageObject } from '../../../../common/e2e/SavingsDialog.PageObject'
 
 test.describe('Deposit USDS', () => {
   let savingsPage: SavingsPageObject
   let depositDialog: SavingsDialogPageObject
-  let testContext: TestContext<'connected-random'>
 
   test.beforeEach(async ({ page }) => {
-    testContext = await setup(page, {
+    const testContext = await setup(page, {
       blockchain: {
-        chainId: mainnet.id,
-        blockNumber: DEFAULT_BLOCK_NUMBER,
+        chainId: base.id,
+        blockNumber: BASE_DEFAULT_BLOCK_NUMBER,
       },
       initialPage: 'savings',
       account: {
@@ -33,7 +32,7 @@ test.describe('Deposit USDS', () => {
     await depositDialog.fillAmountAction(10_000)
   })
 
-  test('uses native sUSDS deposit', async () => {
+  test('has correct action plan', async () => {
     await depositDialog.actionsContainer.expectActions([
       { type: 'approve', asset: 'USDS' },
       { type: 'depositToSavings', asset: 'USDS', savingsAsset: 'sUSDS' },
@@ -43,8 +42,8 @@ test.describe('Deposit USDS', () => {
   test('displays transaction overview', async () => {
     await depositDialog.expectNativeRouteTransactionOverview({
       apy: {
-        value: '12.50%',
-        description: 'Earn ~1,250.00 USDS/year',
+        value: '8.50%',
+        description: 'Earn ~850.00 USDS/year',
       },
       routeItems: [
         {
@@ -52,11 +51,11 @@ test.describe('Deposit USDS', () => {
           tokenUsdValue: '$10,000.00',
         },
         {
-          tokenAmount: '9,830.34 sUSDS',
+          tokenAmount: '9,872.98 sUSDS',
           tokenUsdValue: '$10,000.00',
         },
       ],
-      outcome: '9,830.34 sUSDS',
+      outcome: '9,872.98 sUSDS',
       outcomeUsd: '$10,000.00',
     })
 
@@ -69,7 +68,7 @@ test.describe('Deposit USDS', () => {
     await depositDialog.expectSuccessPage()
     await depositDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsAccountBalance({ balance: '9,830.34', estimatedValue: '10,000.000000' })
+    await savingsPage.expectSavingsAccountBalance({ balance: '9,872.98', estimatedValue: '10,000' })
     await savingsPage.expectSupportedStablecoinBalance('USDS', '-')
   })
 })

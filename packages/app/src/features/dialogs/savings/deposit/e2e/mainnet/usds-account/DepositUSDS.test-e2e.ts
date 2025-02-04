@@ -1,67 +1,66 @@
+import { SavingsDialogPageObject } from '@/features/dialogs/savings/common/e2e/SavingsDialog.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { BASE_DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
-import { setup } from '@/test/e2e/setup'
+import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
+import { TestContext, setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
-import { base } from 'viem/chains'
-import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
+import { mainnet } from 'viem/chains'
 
-test.describe('Deposit USDC', () => {
+test.describe('Deposit USDS', () => {
   let savingsPage: SavingsPageObject
   let depositDialog: SavingsDialogPageObject
+  let testContext: TestContext<'connected-random'>
 
   test.beforeEach(async ({ page }) => {
-    const testContext = await setup(page, {
+    testContext = await setup(page, {
       blockchain: {
-        chainId: base.id,
-        blockNumber: BASE_DEFAULT_BLOCK_NUMBER,
+        chainId: mainnet.id,
+        blockNumber: DEFAULT_BLOCK_NUMBER,
       },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
         assetBalances: {
           ETH: 1,
-          USDC: 10_000,
+          USDS: 10_000,
         },
       },
     })
 
     savingsPage = new SavingsPageObject(testContext)
-    await savingsPage.clickDepositButtonAction('USDC')
+    await savingsPage.clickDepositButtonAction('USDS')
 
     depositDialog = new SavingsDialogPageObject({ testContext, type: 'deposit' })
     await depositDialog.fillAmountAction(10_000)
   })
 
-  test('has correct action plan', async () => {
+  test('uses correct actions', async () => {
     await depositDialog.actionsContainer.expectActions([
-      { type: 'approve', asset: 'USDC' },
-      { type: 'depositToSavings', asset: 'USDC', savingsAsset: 'sUSDS' },
+      { type: 'approve', asset: 'USDS' },
+      { type: 'depositToSavings', asset: 'USDS', savingsAsset: 'sUSDS' },
     ])
   })
 
   test('displays transaction overview', async () => {
     await depositDialog.expectNativeRouteTransactionOverview({
       apy: {
-        value: '8.50%',
-        description: 'Earn ~850.00 USDS/year',
+        value: '12.50%',
+        description: 'Earn ~1,250.00 USDS/year',
       },
       routeItems: [
-        {
-          tokenAmount: '10,000.00 USDC',
-          tokenUsdValue: '$10,000.00',
-        },
         {
           tokenAmount: '10,000.00 USDS',
           tokenUsdValue: '$10,000.00',
         },
         {
-          tokenAmount: '9,872.98 sUSDS',
+          tokenAmount: '9,830.34 sUSDS',
           tokenUsdValue: '$10,000.00',
         },
       ],
-      outcome: '9,872.98 sUSDS',
+      outcome: '9,830.34 sUSDS',
       outcomeUsd: '$10,000.00',
     })
+
+    await depositDialog.expectUpgradeSwitchToBeHidden()
   })
 
   test('executes deposit', async () => {
@@ -70,10 +69,7 @@ test.describe('Deposit USDC', () => {
     await depositDialog.expectSuccessPage()
     await depositDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsAccountBalance({
-      balance: '9,872.98',
-      estimatedValue: '9,999.999999', // USDC has 6 decimals, so the value is rounded down. This is consistent with the data in the smart contract
-    })
-    await savingsPage.expectSupportedStablecoinBalance('USDC', '-')
+    await savingsPage.expectSavingsAccountBalance({ balance: '9,830.34', estimatedValue: '10,000.000000' })
+    await savingsPage.expectSupportedStablecoinBalance('USDS', '-')
   })
 })
