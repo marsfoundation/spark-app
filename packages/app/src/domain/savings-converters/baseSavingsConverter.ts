@@ -5,7 +5,7 @@ import { multicall, readContract } from 'wagmi/actions'
 import { PotSavingsConverter } from './PotSavingsConverter'
 import { SavingsConverterQueryOptions, SavingsConverterQueryParams } from './types'
 
-export function baseSavingsUsdsInfoQueryOptions({
+export function baseSavingsUsdsConverterQueryOptions({
   wagmiConfig,
   timestamp,
   chainId,
@@ -31,7 +31,7 @@ export function baseSavingsUsdsInfoQueryOptions({
   }
 }
 
-export function baseSavingsUsdcInfoQueryOptions({
+export function baseSavingsUsdcConverterQueryOptions({
   wagmiConfig,
   timestamp,
   chainId,

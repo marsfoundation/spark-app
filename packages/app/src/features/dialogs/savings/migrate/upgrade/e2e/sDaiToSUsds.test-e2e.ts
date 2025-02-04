@@ -21,10 +21,8 @@ test.describe('Upgrade sDAI to sUSDS', () => {
 
     const savingsPage = new SavingsPageObject(testContext)
 
-    // wait to load
-    await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '10,000.00 sUSDS', estimatedUsdsValue: '10,172.58' })
-
-    await savingsPage.expectUpgradeDaiToUsdsButtonToBeHidden()
+    await savingsPage.clickSavingsNavigationItemAction('DAI')
+    await savingsPage.expectUpgradeSDaiBannerToBeHidden()
   })
 
   test('uses upgrade action', async ({ page }) => {
@@ -42,6 +40,7 @@ test.describe('Upgrade sDAI to sUSDS', () => {
 
     const savingsPage = new SavingsPageObject(testContext)
 
+    await savingsPage.clickSavingsNavigationItemAction('DAI')
     await savingsPage.clickUpgradeSDaiButtonAction()
 
     const upgradeDialog = new UpgradeDialogPageObject(testContext)
@@ -68,6 +67,7 @@ test.describe('Upgrade sDAI to sUSDS', () => {
 
     const savingsPage = new SavingsPageObject(testContext)
 
+    await savingsPage.clickSavingsNavigationItemAction('DAI')
     await savingsPage.clickUpgradeSDaiButtonAction()
 
     const upgradeDialog = new UpgradeDialogPageObject(testContext)
@@ -106,6 +106,8 @@ test.describe('Upgrade sDAI to sUSDS', () => {
     })
 
     const savingsPage = new SavingsPageObject(testContext)
+
+    await savingsPage.clickSavingsNavigationItemAction('DAI')
     await savingsPage.clickUpgradeSDaiButtonAction()
 
     const upgradeDialog = new UpgradeDialogPageObject(testContext)
@@ -113,6 +115,7 @@ test.describe('Upgrade sDAI to sUSDS', () => {
     await upgradeDialog.expectUpgradeSuccessPage({ token: 'sDAI', amount: '10,000.00', usdValue: '$11,255.99' })
     await upgradeDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '21,065.02 sUSDS', estimatedUsdsValue: '21,428.579836' })
+    await savingsPage.clickSavingsNavigationItemAction('USDS')
+    await savingsPage.expectSavingsAccountBalance({ balance: '21,065.02', estimatedValue: '21,428.579836' })
   })
 })

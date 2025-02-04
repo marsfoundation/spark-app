@@ -10,7 +10,7 @@ import { TokenSymbol } from '../types/TokenSymbol'
 import { PotSavingsConverter } from './PotSavingsConverter'
 import { SavingsConverterQueryOptions, SavingsConverterQueryParams } from './types'
 
-export function mainnetSavingsDaiInfoQuery({
+export function mainnetSavingsDaiConverterQuery({
   wagmiConfig,
   timestamp,
   chainId,
@@ -55,8 +55,8 @@ export function mainnetSavingsDaiInfoQuery({
   }
 }
 
-export const mainnetSavingsUsdsInfoQuery = mainnetSkySavingsConverterQueryFactory(TokenSymbol('sUSDS'))
-export const mainnetSavingsUsdcInfoQuery = mainnetSkySavingsConverterQueryFactory(TokenSymbol('sUSDC'))
+export const mainnetSavingsUsdsConverterQuery = mainnetSkySavingsConverterQueryFactory(TokenSymbol('sUSDS'))
+export const mainnetSavingsUsdcConverterQuery = mainnetSkySavingsConverterQueryFactory(TokenSymbol('sUSDC'))
 
 function mainnetSkySavingsConverterQueryFactory(savingsTokenSymbol: TokenSymbol): SavingsConverterQuery {
   return function mainnetSkySavingsConverterQuery({

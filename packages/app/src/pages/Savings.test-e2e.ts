@@ -16,8 +16,9 @@ test.describe('Savings Mainnet', () => {
     })
 
     const savingsPage = new SavingsPageObject(testContext)
+    await savingsPage.clickSavingsNavigationItemAction('USDS')
 
-    await savingsPage.expectAPY('12.5%')
+    await savingsPage.expectDepositCtaPanelApy('12.5%')
     await savingsPage.expectConnectWalletCTA()
   })
 
@@ -28,16 +29,17 @@ test.describe('Savings Mainnet', () => {
       account: {
         type: 'connected-random',
         assetBalances: {
-          sDAI: 100,
+          sUSDS: 100,
         },
       },
     })
 
     const savingsPage = new SavingsPageObject(testContext)
+    await savingsPage.clickSavingsNavigationItemAction('USDS')
 
-    await savingsPage.expectSavingsDaiBalance({
-      sdaiBalance: '100.00',
-      estimatedDaiValue: '112.55991',
+    await savingsPage.expectSavingsAccountBalance({
+      balance: '100.00',
+      estimatedValue: '101.72587405',
     })
   })
 
@@ -48,33 +50,16 @@ test.describe('Savings Mainnet', () => {
       account: {
         type: 'connected-random',
         assetBalances: {
-          sDAI: 100,
+          sUSDS: 100,
         },
       },
     })
 
     const savingsPage = new SavingsPageObject(testContext)
+    await savingsPage.clickSavingsNavigationItemAction('USDS')
 
-    await savingsPage.expectSavingDaiCurrentProjection('$1.01', '30-day')
-    await savingsPage.expectSavingDaiCurrentProjection('$12.94', '1-year')
-  })
-
-  test('displays the total value of stablecoins in the wallet', async ({ page }) => {
-    const testContext = await setup(page, {
-      blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chain: mainnet },
-      initialPage: 'savings',
-      account: {
-        type: 'connected-random',
-        assetBalances: {
-          DAI: 100,
-          USDC: 100,
-        },
-      },
-    })
-
-    const savingsPage = new SavingsPageObject(testContext)
-
-    await savingsPage.expectOpportunityStablecoinsAmount('~$200.00')
+    await savingsPage.expect30DaysProjection('+0.99')
+    await savingsPage.expect1YearProjection('+12.72')
   })
 })
 
@@ -90,7 +75,7 @@ test.describe('Savings Gnosis', () => {
 
     const savingsPage = new SavingsPageObject(testContext)
 
-    await savingsPage.expectAPY('10.6%')
+    await savingsPage.expectDepositCtaPanelApy('10.6%')
     await savingsPage.expectConnectWalletCTA()
   })
 
@@ -108,9 +93,9 @@ test.describe('Savings Gnosis', () => {
 
     const savingsPage = new SavingsPageObject(testContext)
 
-    await savingsPage.expectSavingsDaiBalance({
-      sdaiBalance: '100.00',
-      estimatedDaiValue: '108.780942',
+    await savingsPage.expectSavingsAccountBalance({
+      balance: '100.00',
+      estimatedValue: '108.780942',
     })
   })
 
@@ -128,25 +113,8 @@ test.describe('Savings Gnosis', () => {
 
     const savingsPage = new SavingsPageObject(testContext)
 
-    await savingsPage.expectSavingDaiCurrentProjection('$0.95', '30-day')
-    await savingsPage.expectSavingDaiCurrentProjection('$11.53', '1-year')
-  })
-
-  test('displays the total value of stablecoins in the wallet', async ({ page }) => {
-    const testContext = await setup(page, {
-      blockchain: { blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER, chain: gnosis },
-      initialPage: 'savings',
-      account: {
-        type: 'connected-random',
-        assetBalances: {
-          XDAI: 100,
-        },
-      },
-    })
-
-    const savingsPage = new SavingsPageObject(testContext)
-
-    await savingsPage.expectOpportunityStablecoinsAmount('~$100.00')
+    await savingsPage.expect30DaysProjection('+0.95')
+    await savingsPage.expect1YearProjection('+11.53')
   })
 })
 
@@ -162,7 +130,7 @@ test.describe('Savings Base', () => {
 
     const savingsPage = new SavingsPageObject(testContext)
 
-    await savingsPage.expectAPY('8.5%')
+    await savingsPage.expectDepositCtaPanelApy('8.5%')
     await savingsPage.expectConnectWalletCTA()
   })
 
@@ -180,9 +148,9 @@ test.describe('Savings Base', () => {
 
     const savingsPage = new SavingsPageObject(testContext)
 
-    await savingsPage.expectSavingsUsdsBalance({
-      susdsBalance: '100.00',
-      estimatedUsdsValue: '101.28654604',
+    await savingsPage.expectSavingsAccountBalance({
+      balance: '100.00',
+      estimatedValue: '101.28654604',
     })
   })
 
@@ -200,25 +168,7 @@ test.describe('Savings Base', () => {
 
     const savingsPage = new SavingsPageObject(testContext)
 
-    await savingsPage.expectSavingUsdsCurrentProjection('$0.68', '30-day')
-    await savingsPage.expectSavingUsdsCurrentProjection('$8.61', '1-year')
-  })
-
-  test('displays the total value of stablecoins in the wallet', async ({ page }) => {
-    const testContext = await setup(page, {
-      blockchain: { blockNumber: BASE_DEFAULT_BLOCK_NUMBER, chain: base },
-      initialPage: 'savings',
-      account: {
-        type: 'connected-random',
-        assetBalances: {
-          USDC: 100,
-          USDS: 100,
-        },
-      },
-    })
-
-    const savingsPage = new SavingsPageObject(testContext)
-
-    await savingsPage.expectOpportunityStablecoinsAmount('~$200.00')
+    await savingsPage.expect30DaysProjection('+0.68')
+    await savingsPage.expect1YearProjection('+8.61')
   })
 })

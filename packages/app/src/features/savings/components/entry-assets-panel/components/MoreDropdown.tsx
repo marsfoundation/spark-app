@@ -40,7 +40,7 @@ function DropdownWrapper({ children, disabled }: { children?: React.ReactNode; d
           variant="tertiary"
           size="s"
           disabled={disabled}
-          data-testid={testIds.savings.stablecoinsInWallet.moreDropdown}
+          data-testid={testIds.savings.supportedStablecoins.moreDropdown}
           icon={MoreVerticalIcon}
         />
       </DropdownMenuTrigger>
