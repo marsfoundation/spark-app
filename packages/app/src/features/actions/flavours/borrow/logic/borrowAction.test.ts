@@ -1,11 +1,11 @@
 import { poolAbi } from '@/config/abis/poolAbi'
-import { InterestRate, NATIVE_ASSET_MOCK_ADDRESS, SPARK_UI_REFERRAL_CODE } from '@/config/consts'
+import { InterestRate, SPARK_UI_REFERRAL_CODE } from '@/config/consts'
 import { lendingPoolAddress, wethGatewayAbi, wethGatewayAddress } from '@/config/contracts-generated'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { getMockToken, testAddresses } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
 import { setupUseContractActionRenderer } from '@/test/integration/setupUseContractActionRenderer'
-import { toBigInt } from '@marsfoundation/common-universal'
+import { CheckedAddress, toBigInt } from '@marsfoundation/common-universal'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { waitFor } from '@testing-library/react'
 import { mainnet } from 'viem/chains'
@@ -14,7 +14,7 @@ import { createBorrowActionConfig } from './borrowAction'
 
 const borrowValue = NormalizedUnitNumber(1)
 const borrowToken = getMockToken({ symbol: TokenSymbol('TEST') })
-const nativeAsset = getMockToken({ address: NATIVE_ASSET_MOCK_ADDRESS })
+const nativeAsset = getMockToken({ address: CheckedAddress.EEEE() })
 const account = testAddresses.alice
 const chainId = mainnet.id
 const interestRateMode = BigInt(InterestRate.Variable)

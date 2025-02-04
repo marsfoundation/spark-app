@@ -18,9 +18,8 @@ import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { assets } from '@/ui/assets'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { CheckedAddress } from '@marsfoundation/common-universal'
-import { zeroAddress } from 'viem'
 import { base, gnosis, mainnet } from 'viem/chains'
-import { NATIVE_ASSET_MOCK_ADDRESS, infoSkyApiUrl } from '../consts'
+import { infoSkyApiUrl } from '../consts'
 import { usdcVaultAddress } from '../contracts-generated'
 import { AppConfig } from '../feature-flags'
 import { PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE_KEY } from '../wagmi/e2e-consts'
@@ -196,7 +195,7 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
           entryAssetsGroup: farmStablecoinsEntryGroup[mainnet.id],
           historyCutoff: new Date('2024-09-17T00:00:00.000Z'),
           rewardPoints: new Token({
-            address: CheckedAddress(zeroAddress),
+            address: CheckedAddress.ZERO(),
             decimals: 18,
             name: 'Chronicle',
             symbol: TokenSymbol('CLE'),
@@ -234,7 +233,7 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
       {
         symbol: TokenSymbol('XDAI'),
         oracleType: 'fixed-usd',
-        address: NATIVE_ASSET_MOCK_ADDRESS,
+        address: CheckedAddress.EEEE(),
       },
       {
         symbol: TokenSymbol('sDAI'),

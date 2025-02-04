@@ -1,8 +1,7 @@
-import { NATIVE_ASSET_MOCK_ADDRESS } from '@/config/consts'
 import { testAddresses } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
 import { setupHookRenderer } from '@/test/integration/setupHookRenderer'
-import { BaseUnitNumber, NormalizedUnitNumber } from '@marsfoundation/common-universal'
+import { BaseUnitNumber, CheckedAddress, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { waitFor } from '@testing-library/react'
 import { erc20Abi, erc4626Abi, parseEther, zeroAddress } from 'viem'
 import { gnosis, mainnet } from 'viem/chains'
@@ -239,7 +238,7 @@ describe(useTokensInfo.name, () => {
       args: {
         tokens: [
           {
-            address: NATIVE_ASSET_MOCK_ADDRESS,
+            address: CheckedAddress.EEEE(),
             oracleType: 'fixed-usd',
           },
         ],
@@ -252,7 +251,7 @@ describe(useTokensInfo.name, () => {
         token: {
           name,
           decimals,
-          address: NATIVE_ASSET_MOCK_ADDRESS,
+          address: CheckedAddress.EEEE(),
           symbol,
           unitPriceUsd: NormalizedUnitNumber(1),
           isAToken: false,
@@ -286,7 +285,7 @@ describe(useTokensInfo.name, () => {
       args: {
         tokens: [
           {
-            address: NATIVE_ASSET_MOCK_ADDRESS,
+            address: CheckedAddress.EEEE(),
             oracleType: 'fixed-usd',
           },
         ],
@@ -299,7 +298,7 @@ describe(useTokensInfo.name, () => {
         token: {
           name,
           decimals,
-          address: NATIVE_ASSET_MOCK_ADDRESS,
+          address: CheckedAddress.EEEE(),
           symbol,
           unitPriceUsd: NormalizedUnitNumber(1),
           isAToken: false,

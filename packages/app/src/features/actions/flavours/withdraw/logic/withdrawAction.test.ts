@@ -1,5 +1,4 @@
 import { poolAbi } from '@/config/abis/poolAbi'
-import { NATIVE_ASSET_MOCK_ADDRESS } from '@/config/consts'
 import { lendingPoolAddress, wethGatewayAbi, wethGatewayAddress } from '@/config/contracts-generated'
 import { aaveDataLayerQueryKey } from '@/domain/market-info/aave-data-layer/query'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
@@ -8,7 +7,7 @@ import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/que
 import { getMockMarketInfo, getMockToken, testAddresses } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
 import { setupUseContractActionRenderer } from '@/test/integration/setupUseContractActionRenderer'
-import { toBigInt } from '@marsfoundation/common-universal'
+import { CheckedAddress, toBigInt } from '@marsfoundation/common-universal'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { waitFor } from '@testing-library/react'
 import { mainnet } from 'viem/chains'
@@ -18,7 +17,7 @@ import { createWithdrawActionConfig } from './withdrawAction'
 const withdrawValue = NormalizedUnitNumber(1)
 const marketInfo = getMockMarketInfo()
 const withdrawToken = getMockToken({ symbol: TokenSymbol('DAI') })
-const nativeAsset = getMockToken({ symbol: TokenSymbol('ETH'), address: NATIVE_ASSET_MOCK_ADDRESS })
+const nativeAsset = getMockToken({ symbol: TokenSymbol('ETH'), address: CheckedAddress.EEEE() })
 const aToken = marketInfo.findOneReserveBySymbol(TokenSymbol('DAI')).aToken
 const account = testAddresses.alice
 const chainId = mainnet.id

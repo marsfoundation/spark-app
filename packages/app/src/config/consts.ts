@@ -1,11 +1,7 @@
-import { CheckedAddress } from '@marsfoundation/common-universal'
-
 export enum InterestRate {
   Stable = 1,
   Variable = 2,
 }
-
-export const NATIVE_ASSET_MOCK_ADDRESS = CheckedAddress.EEEE()
 
 export const MAX_INT = BigInt(2 ** 256 - 1)
 

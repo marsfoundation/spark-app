@@ -1,11 +1,11 @@
 import { poolAbi } from '@/config/abis/poolAbi'
-import { NATIVE_ASSET_MOCK_ADDRESS, SPARK_UI_REFERRAL_CODE } from '@/config/consts'
+import { SPARK_UI_REFERRAL_CODE } from '@/config/consts'
 import { lendingPoolAddress, wethGatewayAbi, wethGatewayAddress } from '@/config/contracts-generated'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { getMockToken, testAddresses } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
 import { setupUseContractActionRenderer } from '@/test/integration/setupUseContractActionRenderer'
-import { UnixTime, toBigInt } from '@marsfoundation/common-universal'
+import { CheckedAddress, UnixTime, toBigInt } from '@marsfoundation/common-universal'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { waitFor } from '@testing-library/react'
 import { generatePrivateKey } from 'viem/accounts'
@@ -16,7 +16,7 @@ import { createDepositActionConfig } from './depositAction'
 
 const depositValue = NormalizedUnitNumber(1)
 const depositToken = getMockToken({ symbol: TokenSymbol('TEST') })
-const nativeAsset = getMockToken({ address: NATIVE_ASSET_MOCK_ADDRESS })
+const nativeAsset = getMockToken({ address: CheckedAddress.EEEE() })
 const account = testAddresses.alice
 const chainId = mainnet.id
 const referralCode = SPARK_UI_REFERRAL_CODE
