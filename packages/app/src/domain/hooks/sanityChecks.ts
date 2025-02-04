@@ -1,6 +1,5 @@
-import { NATIVE_ASSET_MOCK_ADDRESS } from '@/config/consts'
 import { wethGatewayAddress } from '@/config/contracts-generated'
-import { assert } from '@marsfoundation/common-universal'
+import { assert, CheckedAddress } from '@marsfoundation/common-universal'
 import { Address, zeroAddress } from 'viem'
 import { gnosis } from 'viem/chains'
 
@@ -10,7 +9,7 @@ import { gnosis } from 'viem/chains'
  */
 export function sanityCheckTx(tx: { address?: Address; value?: bigint }, chainId: number): void {
   assert(tx.address, 'Address is required')
-  assert(tx.address.toLowerCase() !== NATIVE_ASSET_MOCK_ADDRESS.toLowerCase(), 'Cannot interact with ETH mock address')
+  assert(tx.address.toLowerCase() !== CheckedAddress.EEEE().toLowerCase(), 'Cannot interact with ETH mock address')
   assert(tx.address !== zeroAddress, 'Cannot interact with zero address')
 
   if (tx.value && chainId !== gnosis.id) {

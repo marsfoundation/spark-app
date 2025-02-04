@@ -1,9 +1,10 @@
 import { Dialog, DialogContent } from '@/ui/atoms/dialog/Dialog'
 import { TooltipProvider } from '@/ui/atoms/tooltip/Tooltip'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { StoryFn } from '@storybook/react'
 import { QueryClient, QueryClientConfig, QueryClientProvider } from '@tanstack/react-query'
 import { useEffect, useRef } from 'react'
-import { custom, encodeFunctionResult, zeroAddress } from 'viem'
+import { custom, encodeFunctionResult } from 'viem'
 import { erc20Abi } from 'viem'
 import { mainnet } from 'viem/chains'
 import { WagmiProvider, createConfig, useAccount, useConnect } from 'wagmi'
@@ -61,7 +62,7 @@ export function ZeroAllowanceWagmiDecorator({ requestFnOverride }: { requestFnOv
     },
     connectors: [
       mock({
-        accounts: [zeroAddress],
+        accounts: [CheckedAddress.ZERO()],
       }),
     ],
     batch: {

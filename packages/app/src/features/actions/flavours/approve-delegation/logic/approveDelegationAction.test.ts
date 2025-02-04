@@ -1,5 +1,4 @@
 import { debtTokenAbi } from '@/config/abis/debtTokenAbi'
-import { NATIVE_ASSET_MOCK_ADDRESS } from '@/config/consts'
 import { wethGatewayAddress } from '@/config/contracts-generated'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { getMockMarketInfo, getMockToken, testAddresses } from '@/test/integration/constants'
@@ -7,7 +6,7 @@ import { expectToStay } from '@/test/integration/expect'
 import { handlers } from '@/test/integration/mockTransport'
 import { createUpdatableHandler } from '@/test/integration/mockTransport/handlers'
 import { setupUseContractActionRenderer } from '@/test/integration/setupUseContractActionRenderer'
-import { toBigInt } from '@marsfoundation/common-universal'
+import { CheckedAddress, toBigInt } from '@marsfoundation/common-universal'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { waitFor } from '@testing-library/react'
 import { mainnet } from 'viem/chains'
@@ -16,7 +15,7 @@ import { createApproveDelegationActionConfig } from './approveDelegationAction'
 import { getBorrowAllowanceQueryKey } from './query'
 
 const approveValue = NormalizedUnitNumber(1)
-const token = getMockToken({ symbol: TokenSymbol('ETH'), address: NATIVE_ASSET_MOCK_ADDRESS })
+const token = getMockToken({ symbol: TokenSymbol('ETH'), address: CheckedAddress.EEEE() })
 const account = testAddresses.alice
 const chainId = mainnet.id
 const marketInfo = getMockMarketInfo()

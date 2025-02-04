@@ -1,7 +1,6 @@
 import { getNativeAssetInfo } from '@/config/chain/utils/getNativeAssetInfo'
-import { NATIVE_ASSET_MOCK_ADDRESS } from '@/config/consts'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { BaseUnitNumber, NormalizedUnitNumber } from '@marsfoundation/common-universal'
+import { BaseUnitNumber, CheckedAddress, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { Address, erc20Abi, zeroAddress } from 'viem'
 import { Config as WagmiConfig } from 'wagmi'
 import { getBalance, readContract } from 'wagmi/actions'
@@ -22,7 +21,7 @@ export interface AssetData {
 }
 
 export function createAssetDataFetcher({ tokenConfig, wagmiConfig, account, chainId }: CreateAssetDataFetcherParams) {
-  if (tokenConfig.address === NATIVE_ASSET_MOCK_ADDRESS) {
+  if (tokenConfig.address === CheckedAddress.EEEE()) {
     return () => getNativeAssetData({ wagmiConfig, chainId, account })
   }
 

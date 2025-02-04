@@ -1,4 +1,3 @@
-import { shortenAddress } from '@/ui/utils/shortenAddress'
 import { cn } from '@/ui/utils/style'
 import { CheckedAddress } from '@marsfoundation/common-universal'
 import { cva } from 'class-variance-authority'
@@ -26,7 +25,7 @@ export function Address({ className, address, postfix, compact }: AddressProps) 
   return (
     <span className={cn('flex min-w-0 flex-row flex-nowrap items-center gap-2', className)} aria-label={address}>
       <span aria-hidden="true" className={addressVariants({ compact })}>
-        {compact ? shortenAddress(address) : address}
+        {compact ? CheckedAddress.formatShort(address) : address}
       </span>
       {postfix && <span className="flex-shrink-0">{postfix}</span>}
     </span>

@@ -1,5 +1,5 @@
 import { poolAbi } from '@/config/abis/poolAbi'
-import { InterestRate, NATIVE_ASSET_MOCK_ADDRESS } from '@/config/consts'
+import { InterestRate } from '@/config/consts'
 import { lendingPoolAddress, wethGatewayAbi, wethGatewayAddress } from '@/config/contracts-generated'
 import { aaveDataLayerQueryKey } from '@/domain/market-info/aave-data-layer/query'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
@@ -9,7 +9,7 @@ import { createPermitStore } from '@/features/actions/logic/permits'
 import { getMockReserve, getMockToken, testAddresses } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
 import { setupUseContractActionRenderer } from '@/test/integration/setupUseContractActionRenderer'
-import { UnixTime, toBigInt } from '@marsfoundation/common-universal'
+import { CheckedAddress, UnixTime, toBigInt } from '@marsfoundation/common-universal'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { waitFor } from '@testing-library/react'
 import { generatePrivateKey } from 'viem/accounts'
@@ -21,7 +21,7 @@ const repayValue = NormalizedUnitNumber(1)
 const repayToken = getMockToken({ symbol: TokenSymbol('TEST') })
 const repayTokenReserve = getMockReserve({ token: repayToken })
 const repayValueBigInt = toBigInt(repayToken.toBaseUnit(repayValue))
-const nativeAsset = getMockToken({ address: NATIVE_ASSET_MOCK_ADDRESS })
+const nativeAsset = getMockToken({ address: CheckedAddress.EEEE() })
 const nativeAssetReserve = getMockReserve({ token: nativeAsset })
 const account = testAddresses.alice
 const chainId = mainnet.id

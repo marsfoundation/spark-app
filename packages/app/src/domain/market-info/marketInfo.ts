@@ -1,6 +1,5 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { NativeAssetInfo } from '@/config/chain/types'
-import { NATIVE_ASSET_MOCK_ADDRESS } from '@/config/consts'
 import { fromRay } from '@/utils/math'
 import { assert, CheckedAddress, raise } from '@marsfoundation/common-universal'
 import { BaseUnitNumber, NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
@@ -158,7 +157,7 @@ export class MarketInfo {
       token: wrappedNativeToken.clone({
         symbol: nativeAssetInfo.nativeAssetSymbol,
         name: nativeAssetInfo.nativeAssetName,
-        address: NATIVE_ASSET_MOCK_ADDRESS,
+        address: CheckedAddress.EEEE(),
       }),
     }
     this.nativePosition = {
@@ -193,7 +192,7 @@ export class MarketInfo {
     return this.findReserveBySymbol(token.symbol)
   }
   findReserveByUnderlyingAsset(underlyingAsset: CheckedAddress): Reserve | undefined {
-    if (underlyingAsset === NATIVE_ASSET_MOCK_ADDRESS) {
+    if (underlyingAsset === CheckedAddress.EEEE()) {
       return this.nativePosition.reserve
     }
 

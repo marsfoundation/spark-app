@@ -3,8 +3,9 @@ import { Address } from 'viem'
 import { Config } from 'wagmi'
 import { readContract } from 'wagmi/actions'
 
-import { MAX_INT, NATIVE_ASSET_MOCK_ADDRESS } from '@/config/consts'
+import { MAX_INT } from '@/config/consts'
 
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { normalizeErc20AbiForToken } from './normalizeErc20Abi'
 
 export interface AllowanceOptions {
@@ -20,7 +21,7 @@ export function allowance({ wagmiConfig, token, spender, account, chainId }: All
   return queryOptions<bigint>({
     queryKey: allowanceQueryKey({ token, spender, account, chainId }),
     queryFn: () => {
-      if (token === NATIVE_ASSET_MOCK_ADDRESS) {
+      if (token === CheckedAddress.EEEE()) {
         return MAX_INT
       }
 
