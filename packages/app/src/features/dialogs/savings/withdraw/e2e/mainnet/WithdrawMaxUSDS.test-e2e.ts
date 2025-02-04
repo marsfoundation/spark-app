@@ -70,7 +70,7 @@ test.describe('Withdraw USDS from sUSDS', () => {
     await withdrawDialog.clickBackToSavingsButton()
 
     await savingsPage.expectOpportunityStablecoinsAmount('~$10,000.00')
-    await savingsPage.expectStablecoinsInWalletAssetBalance('USDS', '10,000')
+    await savingsPage.expectSupportedStablecoinBalance('USDS', '10,000')
   })
 })
 
@@ -139,6 +139,6 @@ test.describe('Withdraw USDS from sDAI', () => {
     await withdrawDialog.clickBackToSavingsButton()
 
     await savingsPage.expectOpportunityStablecoinsAmount('~$11,255.99')
-    await savingsPage.expectStablecoinsInWalletAssetBalance('USDS', '11,255.99')
+    await savingsPage.expectSupportedStablecoinBalance('USDS', '11,255.99')
   })
 })

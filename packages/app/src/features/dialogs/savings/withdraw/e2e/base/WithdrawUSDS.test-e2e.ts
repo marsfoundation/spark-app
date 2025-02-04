@@ -65,6 +65,6 @@ test.describe('Withdraw USDS', () => {
     await withdrawDialog.clickBackToSavingsButton()
 
     await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '9,012.70 sUSDS', estimatedUsdsValue: '9,128.654892' })
-    await savingsPage.expectStablecoinsInWalletAssetBalance('USDS', '1,000')
+    await savingsPage.expectSupportedStablecoinBalance('USDS', '1,000')
   })
 })

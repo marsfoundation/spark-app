@@ -74,6 +74,6 @@ test.describe('Deposit USDC', () => {
       susdsBalance: '9,872.98 sUSDS',
       estimatedUsdsValue: '9,999.999999', // USDC has 6 decimals, so the value is rounded down. This is consistent with the data in the smart contract
     })
-    await savingsPage.expectStablecoinsInWalletAssetBalance('USDC', '-')
+    await savingsPage.expectSupportedStablecoinBalance('USDC', '-')
   })
 })

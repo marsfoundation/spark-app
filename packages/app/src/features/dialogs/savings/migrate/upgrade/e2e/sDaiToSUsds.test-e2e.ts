@@ -24,7 +24,7 @@ test.describe('Upgrade sDAI to sUSDS', () => {
     // wait to load
     await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '10,000.00 sUSDS', estimatedUsdsValue: '10,172.58' })
 
-    await savingsPage.expectUpgradeDaiToUsdsButtonToBeHidden()
+    await savingsPage.expectUpgradeSDaiBannerToBeHidden()
   })
 
   test('uses upgrade action', async ({ page }) => {

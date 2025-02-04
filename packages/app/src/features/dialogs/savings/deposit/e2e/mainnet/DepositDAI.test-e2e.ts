@@ -76,7 +76,7 @@ test.describe('Deposit DAI', () => {
         susdsBalance: '9,830.34 sUSDS',
         estimatedUsdsValue: '10,000.000000',
       })
-      await savingsPage.expectStablecoinsInWalletAssetBalance('DAI', '-')
+      await savingsPage.expectSupportedStablecoinBalance('DAI', '-')
     })
   })
 
@@ -120,7 +120,7 @@ test.describe('Deposit DAI', () => {
       await depositDialog.clickBackToSavingsButton()
 
       await savingsPage.expectSavingsDaiBalance({ sdaiBalance: '8,884.16 sDAI', estimatedDaiValue: '10,000.000000' })
-      await savingsPage.expectStablecoinsInWalletAssetBalance('DAI', '-')
+      await savingsPage.expectSupportedStablecoinBalance('DAI', '-')
     })
   })
 
@@ -137,7 +137,7 @@ test.describe('Deposit DAI', () => {
     await depositDialog.clickBackToSavingsButton()
 
     await savingsPage.expectSavingsDaiBalance({ sdaiBalance: '8,884.16 sDAI', estimatedDaiValue: '10,000.000000' })
-    await savingsPage.expectStablecoinsInWalletAssetBalance('DAI', '-')
+    await savingsPage.expectSupportedStablecoinBalance('DAI', '-')
   })
 
   test('executes sUsds deposit after switching from already approved sUsds and back', async () => {
@@ -155,6 +155,6 @@ test.describe('Deposit DAI', () => {
     await depositDialog.clickBackToSavingsButton()
 
     await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '9,830.34 sUSDS', estimatedUsdsValue: '10,000.000000' })
-    await savingsPage.expectStablecoinsInWalletAssetBalance('DAI', '-')
+    await savingsPage.expectSupportedStablecoinBalance('DAI', '-')
   })
 })

@@ -79,6 +79,6 @@ test.describe('Send USDS', () => {
 
     await sendDialog.clickBackToSavingsButton()
     await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '3,088.91 sUSDS', estimatedUsdsValue: '3,128.6548917' })
-    await savingsPage.expectStablecoinsInWalletAssetBalance('USDS', '-')
+    await savingsPage.expectSupportedStablecoinBalance('USDS', '-')
   })
 })

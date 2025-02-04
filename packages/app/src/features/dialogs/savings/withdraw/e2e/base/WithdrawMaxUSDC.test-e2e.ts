@@ -66,6 +66,6 @@ test.describe('Withdraw Max USDC', () => {
     await withdrawDialog.clickBackToSavingsButton()
 
     await savingsPage.expectOpportunityStablecoinsAmount('~$10,128.65')
-    await savingsPage.expectStablecoinsInWalletAssetBalance('USDC', '10,128.65')
+    await savingsPage.expectSupportedStablecoinBalance('USDC', '10,128.65')
   })
 })

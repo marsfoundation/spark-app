@@ -23,22 +23,14 @@ export class SavingsPageObject extends BasePageObject {
     return this.page.getByTestId(testIds.savings.upgradeSDaiBanner)
   }
 
-  locateStablecoinsInWalletPanel(): Locator {
-    return this.locatePanelByHeader('Stablecoins in wallet')
-  }
-
-  locateUpgradeDaiToUsdsButton(): Locator {
-    return this.page.getByTestId(testIds.savings.stablecoinsInWallet.upgradeDaiToUsds)
-  }
-
-  locateDowngradeUsdsToDaiButton(): Locator {
-    return this.page.getByTestId(testIds.savings.stablecoinsInWallet.downgradeUsdsToDai)
+  locateSupportedStablecoinsPanel(): Locator {
+    return this.locatePanelByHeader('Supported stablecoins')
   }
 
   locateUsdsMoreDropdown(): Locator {
-    const panel = this.locateStablecoinsInWalletPanel()
+    const panel = this.locateSupportedStablecoinsPanel()
     const usdsRow = panel.getByRole('row').filter({ has: this.page.getByRole('cell', { name: 'USDS', exact: true }) })
-    return usdsRow.getByTestId(testIds.savings.stablecoinsInWallet.moreDropdown)
+    return usdsRow.getByTestId(testIds.savings.supportedStablecoins.moreDropdown)
   }
 
   locateConvertStablesButton(): Locator {
@@ -52,7 +44,7 @@ export class SavingsPageObject extends BasePageObject {
   }
 
   async clickDepositButtonAction(assetName: string): Promise<void> {
-    const panel = this.locatePanelByHeader('Stablecoins in wallet')
+    const panel = this.locatePanelByHeader('Supported stablecoins')
     const row = panel.getByRole('row').filter({ hasText: assetName }) // @todo: won't work for assets with names that contain other assets name, like sDAI
     await row.getByRole('button', { name: 'Deposit' }).click()
   }
@@ -75,15 +67,6 @@ export class SavingsPageObject extends BasePageObject {
 
   async clickUpgradeSDaiButtonAction(): Promise<void> {
     await this.locateUpgradeSDaiBanner().getByRole('button', { name: 'Upgrade now' }).click()
-  }
-
-  async clickUpgradeDaiToUsdsButtonAction(): Promise<void> {
-    await this.locateUpgradeDaiToUsdsButton().click()
-  }
-
-  async clickDowngradeUsdsToDaiOption(): Promise<void> {
-    await this.locateUsdsMoreDropdown().click()
-    await this.page.getByRole('menuitem', { name: 'Downgrade to DAI' }).click()
   }
 
   async clickConvertStablesButtonAction(): Promise<void> {
@@ -156,41 +139,15 @@ export class SavingsPageObject extends BasePageObject {
     await expect(this.page.getByTestId(testIds.savings.stablecoinsAmount).getByText(value)).toBeVisible()
   }
 
-  async expectStablecoinsInWalletAssetBalance(assetName: string, value: string): Promise<void> {
-    const panel = this.locateStablecoinsInWalletPanel()
-    const row = (() => {
-      if (assetName === 'DAI' && value !== '-') {
-        return panel
-          .getByRole('row')
-          .filter({ has: this.page.getByTestId(testIds.savings.stablecoinsInWallet.upgradeDaiToUsdsCell) })
-      }
-
-      return panel.getByRole('row').filter({ has: this.page.getByRole('cell', { name: assetName, exact: true }) })
-    })()
-
+  async expectSupportedStablecoinBalance(assetName: string, value: string): Promise<void> {
+    const panel = this.locateSupportedStablecoinsPanel()
+    const row = panel.getByRole('row').filter({ has: this.page.getByRole('cell', { name: assetName, exact: true }) })
     await expect(row.getByRole('cell', { name: value })).toBeVisible()
-  }
-
-  expectUpgradeDaiToUsdsButtonToBeHidden(): Promise<void> {
-    return expect(this.locateUpgradeDaiToUsdsButton()).toBeHidden()
   }
 
   expectUpgradeSDaiBannerToBeHidden(): Promise<void> {
     return expect(this.locateUpgradeSDaiBanner()).toBeHidden()
   }
 
-  async expectDowngradeToDaiToBeDisabled(): Promise<void> {
-    await this.locateUsdsMoreDropdown().click()
-
-    return expect(this.locateDowngradeUsdsToDaiButton()).toBeDisabled()
-  }
-
-  async expectUpgradableDaiBalance(value: string): Promise<void> {
-    const panel = this.locateStablecoinsInWalletPanel()
-    const row = panel
-      .getByRole('row')
-      .filter({ has: this.page.getByTestId(testIds.savings.stablecoinsInWallet.upgradeDaiToUsds) })
-    await expect(row.getByRole('cell', { name: value })).toBeVisible()
-  }
   // #endregion
 }

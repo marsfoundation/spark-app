@@ -63,6 +63,6 @@ test.describe('Withdraw max XDAI on Gnosis', () => {
     await withdrawalDialog.clickBackToSavingsButton()
 
     await savingsPage.expectOpportunityStablecoinsAmount('~$10,978.09')
-    await savingsPage.expectStablecoinsInWalletAssetBalance('XDAI', '10,978.09')
+    await savingsPage.expectSupportedStablecoinBalance('XDAI', '10,978.09')
   })
 })

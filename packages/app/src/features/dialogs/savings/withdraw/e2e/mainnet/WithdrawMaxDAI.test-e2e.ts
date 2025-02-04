@@ -62,6 +62,6 @@ test.describe('Withdraw max DAI on Mainnet', () => {
     await withdrawalDialog.clickBackToSavingsButton()
 
     await savingsPage.expectOpportunityStablecoinsAmount('~$11,255.99')
-    await savingsPage.expectStablecoinsInWalletAssetBalance('DAI', '11,255.99')
+    await savingsPage.expectSupportedStablecoinBalance('DAI', '11,255.99')
   })
 })

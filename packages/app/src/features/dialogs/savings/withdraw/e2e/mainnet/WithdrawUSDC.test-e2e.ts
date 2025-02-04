@@ -76,7 +76,7 @@ test.describe('Withdraw USDC from sUSDS', () => {
     await withdrawDialog.clickBackToSavingsButton()
 
     await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '8,847.31 sUSDS', estimatedUsdsValue: '9,000.000373' })
-    await savingsPage.expectStablecoinsInWalletAssetBalance('USDC', '1,000')
+    await savingsPage.expectSupportedStablecoinBalance('USDC', '1,000')
   })
 })
 
@@ -145,6 +145,6 @@ test.describe('Withdraw USDC from sDAI', () => {
     await withdrawDialog.clickBackToSavingsButton()
 
     await savingsPage.expectSavingsDaiBalance({ sdaiBalance: '9,111.58 sDAI', estimatedDaiValue: '10,255.992013' })
-    await savingsPage.expectStablecoinsInWalletAssetBalance('USDC', '1,000')
+    await savingsPage.expectSupportedStablecoinBalance('USDC', '1,000')
   })
 })
