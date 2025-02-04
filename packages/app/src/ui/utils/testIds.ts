@@ -78,7 +78,13 @@ export const testIds = makeTestIds({
         panel: true,
         apy: true,
       },
-      mainPanel: true,
+      mainPanel: {
+        container: true,
+        projections: {
+          thirtyDays: true,
+          oneYear: true,
+        },
+      },
       savingsToken: {
         balance: true,
         balanceInUnderlyingToken: true,

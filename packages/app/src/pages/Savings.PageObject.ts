@@ -13,7 +13,7 @@ export class SavingsPageObject extends BasePageObject {
   }
 
   locateAccountMainPanel(): Locator {
-    return this.page.getByTestId(testIds.savings.account.mainPanel)
+    return this.page.getByTestId(testIds.savings.account.mainPanel.container)
   }
 
   locateUpgradeSDaiBanner(): Locator {
@@ -94,11 +94,16 @@ export class SavingsPageObject extends BasePageObject {
     ).toContainText(estimatedValue)
   }
 
-  async expectSavingsAccountProjections(value: string, type: '30-day' | '1-year'): Promise<void> {
-    const title = type === '30-day' ? '30-day projection' : '1-year projection'
+  async expect30DaysProjection(value: string): Promise<void> {
     await expect(
-      this.locateAccountMainPanel().getByRole('generic').filter({ hasText: title }).getByText(value),
-    ).toBeVisible()
+      this.locateAccountMainPanel().getByTestId(testIds.savings.account.mainPanel.projections.thirtyDays),
+    ).toHaveText(value)
+  }
+
+  async expect1YearProjection(value: string): Promise<void> {
+    await expect(
+      this.locateAccountMainPanel().getByTestId(testIds.savings.account.mainPanel.projections.oneYear),
+    ).toHaveText(value)
   }
 
   async expectSupportedStablecoinBalance(assetName: string, value: string): Promise<void> {

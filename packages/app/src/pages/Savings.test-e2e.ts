@@ -16,6 +16,7 @@ test.describe('Savings Mainnet', () => {
     })
 
     const savingsPage = new SavingsPageObject(testContext)
+    await savingsPage.clickSavingsNavigationItemAction('USDS')
 
     await savingsPage.expectDepositCtaPanelApy('12.5%')
     await savingsPage.expectConnectWalletCTA()
@@ -28,16 +29,17 @@ test.describe('Savings Mainnet', () => {
       account: {
         type: 'connected-random',
         assetBalances: {
-          sDAI: 100,
+          sUSDS: 100,
         },
       },
     })
 
     const savingsPage = new SavingsPageObject(testContext)
+    await savingsPage.clickSavingsNavigationItemAction('USDS')
 
     await savingsPage.expectSavingsAccountBalance({
       balance: '100.00',
-      estimatedValue: '112.55991',
+      estimatedValue: '101.72587405',
     })
   })
 
@@ -48,15 +50,16 @@ test.describe('Savings Mainnet', () => {
       account: {
         type: 'connected-random',
         assetBalances: {
-          sDAI: 100,
+          sUSDS: 100,
         },
       },
     })
 
     const savingsPage = new SavingsPageObject(testContext)
+    await savingsPage.clickSavingsNavigationItemAction('USDS')
 
-    await savingsPage.expectSavingsAccountProjections('$1.01', '30-day')
-    await savingsPage.expectSavingsAccountProjections('$12.94', '1-year')
+    await savingsPage.expect30DaysProjection('+0.99')
+    await savingsPage.expect1YearProjection('+12.72')
   })
 })
 
@@ -110,8 +113,8 @@ test.describe('Savings Gnosis', () => {
 
     const savingsPage = new SavingsPageObject(testContext)
 
-    await savingsPage.expectSavingsAccountProjections('$0.95', '30-day')
-    await savingsPage.expectSavingsAccountProjections('$11.53', '1-year')
+    await savingsPage.expect30DaysProjection('+0.95')
+    await savingsPage.expect1YearProjection('+11.53')
   })
 })
 
@@ -165,7 +168,7 @@ test.describe('Savings Base', () => {
 
     const savingsPage = new SavingsPageObject(testContext)
 
-    await savingsPage.expectSavingsAccountProjections('$0.68', '30-day')
-    await savingsPage.expectSavingsAccountProjections('$8.61', '1-year')
+    await savingsPage.expect30DaysProjection('+0.68')
+    await savingsPage.expect1YearProjection('+8.61')
   })
 })

@@ -40,7 +40,7 @@ export function AccountMainPanelGroup({
   return (
     <div
       className={cn('grid grid-cols-1 gap-2 lg:grid-cols-[1fr_auto]', className)}
-      data-testid={testIds.savings.account.mainPanel}
+      data-testid={testIds.savings.account.mainPanel.container}
     >
       <Panel
         variant="secondary"
