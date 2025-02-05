@@ -1,9 +1,9 @@
+import { SavingsDialogPageObject } from '@/features/dialogs/savings/common/e2e/SavingsDialog.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
 import { BASE_DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { base } from 'viem/chains'
-import { SavingsDialogPageObject } from '../../../../common/e2e/SavingsDialog.PageObject'
 
 test.describe('Withdraw Max USDS', () => {
   let savingsPage: SavingsPageObject
@@ -26,8 +26,9 @@ test.describe('Withdraw Max USDS', () => {
     })
 
     savingsPage = new SavingsPageObject(testContext)
-
+    await savingsPage.clickSavingsNavigationItemAction('USDS')
     await savingsPage.clickWithdrawFromAccountButtonAction()
+
     withdrawDialog = new SavingsDialogPageObject({ testContext, type: 'withdraw' })
     await withdrawDialog.clickMaxAmountAction()
   })

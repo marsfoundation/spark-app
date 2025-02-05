@@ -1,10 +1,10 @@
+import { SavingsDialogPageObject } from '@/features/dialogs/savings/common/e2e/SavingsDialog.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
 import { BASE_DEFAULT_BLOCK_NUMBER, TOKENS_ON_FORK } from '@/test/e2e/constants'
 import { setup } from '@/test/e2e/setup'
 import { randomAddress } from '@/test/utils/addressUtils'
 import { test } from '@playwright/test'
 import { base } from 'viem/chains'
-import { SavingsDialogPageObject } from '../../../../common/e2e/SavingsDialog.PageObject'
 
 test.describe('Send USDC', () => {
   let savingsPage: SavingsPageObject
@@ -31,6 +31,7 @@ test.describe('Send USDC', () => {
     })
 
     savingsPage = new SavingsPageObject(testContext)
+    await savingsPage.clickSavingsNavigationItemAction('USDS')
     await savingsPage.clickSendFromAccountButtonAction()
 
     sendDialog = new SavingsDialogPageObject({ testContext, type: 'send' })
