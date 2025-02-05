@@ -92,7 +92,7 @@ export async function injectFlags(page: Page, testnetClient: TestnetClient, chai
 async function isSudcDeployed(testnetClient: TestnetClient, chainId: number): Promise<boolean> {
   const susdsAddress = (() => {
     if (chainId === mainnet.id) {
-      return '0x47ff5312c027aa733abdce6740c88d4a151e7901'
+      return '0x29bd15f2c80f2807c29d2428aa835f2be1098a62'
     }
     if (chainId === base.id) {
       return '0x62da45546a0f87b23941ffe5ca22f9d2a8fa7df3'

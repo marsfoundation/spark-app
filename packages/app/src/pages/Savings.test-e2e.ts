@@ -1,4 +1,9 @@
-import { BASE_DEFAULT_BLOCK_NUMBER, DEFAULT_BLOCK_NUMBER, GNOSIS_DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
+import {
+  BASE_DEFAULT_BLOCK_NUMBER,
+  DEFAULT_BLOCK_NUMBER,
+  GNOSIS_DEFAULT_BLOCK_NUMBER,
+  MOCK_SUSDC_ACTIVE_BLOCK_NUMBER,
+} from '@/test/e2e/constants'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { base, gnosis, mainnet } from 'viem/chains'
@@ -60,6 +65,45 @@ test.describe('Savings Mainnet', () => {
 
     await savingsPage.expect30DaysProjection('+0.99')
     await savingsPage.expect1YearProjection('+12.72')
+  })
+
+  test('can switch between accounts', async ({ page }) => {
+    const testContext = await setup(page, {
+      blockchain: {
+        chainId: mainnet.id,
+        blockNumber: MOCK_SUSDC_ACTIVE_BLOCK_NUMBER,
+      },
+      initialPage: 'savings',
+      account: {
+        type: 'connected-random',
+        assetBalances: {
+          ETH: 1,
+          sUSDC: 10_000,
+          sUSDS: 10_000,
+          sDAI: 0,
+        },
+      },
+    })
+
+    const savingsPage = new SavingsPageObject(testContext)
+
+    await savingsPage.clickSavingsNavigationItemAction('USDS')
+    await savingsPage.expectNavigationItemBalance('USDS', '$10.34K')
+    await savingsPage.expectSavingsAccountBalance({
+      balance: '10,000.00',
+      estimatedValue: '10,344.638455',
+    })
+
+    await savingsPage.clickSavingsNavigationItemAction('USDC')
+    await savingsPage.expectNavigationItemBalance('USDC', '$10.34K')
+    await savingsPage.expectSavingsAccountBalance({
+      balance: '10,000.00',
+      estimatedValue: '10,344.638455',
+    })
+
+    await savingsPage.clickSavingsNavigationItemAction('DAI')
+    await savingsPage.expectNavigationItemBalanceToBeInvisible('DAI')
+    await savingsPage.expectDepositCtaPanelApy('11.25%')
   })
 })
 

@@ -67,7 +67,9 @@ export const testIds = makeTestIds({
   },
   savings: {
     navigation: {
+      container: true,
       item: true,
+      itemBalance: true,
     },
     upgradeSDaiBanner: true,
     supportedStablecoins: {
