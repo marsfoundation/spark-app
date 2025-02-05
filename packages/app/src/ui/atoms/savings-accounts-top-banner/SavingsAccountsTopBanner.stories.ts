@@ -1,4 +1,4 @@
-import { WithClassname } from '@sb/decorators'
+import { WithClassname, ZeroAllowanceWagmiDecorator } from '@sb/decorators'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 import { withRouter } from 'storybook-addon-remix-react-router'
@@ -8,7 +8,7 @@ import { SavingsAccountsTopBanner } from './SavingsAccountsTopBanner'
 const meta: Meta<typeof SavingsAccountsTopBanner> = {
   title: 'Components/Atoms/SavingsAccountsTopBanner',
   component: SavingsAccountsTopBanner,
-  decorators: [WithClassname('w-full'), withRouter],
+  decorators: [WithClassname('w-full'), withRouter, ZeroAllowanceWagmiDecorator()],
 }
 
 export default meta
