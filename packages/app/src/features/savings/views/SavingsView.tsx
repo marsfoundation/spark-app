@@ -41,12 +41,12 @@ export function SavingsView({
         <PageHeader />
         <GeneralStatsBar users={users} tvl={tvl} liquidity={selectedAccount.liquidity} />
       </div>
-      <div className={cn('grid grid-cols-1 gap-6', showNavigation && 'lg:grid-cols-[202px_1fr]')}>
+      <div className={cn('grid grid-cols-1 gap-6', showNavigation && 'xl:grid-cols-[202px_1fr]')}>
         {showNavigation && (
           <div
             className={cn(
-              '-ml-5 -mr-5 flex overflow-x-auto pr-5 pl-5 lg:mr-0 lg:ml-0 lg:block lg:overflow-visible lg:pr-0 lg:pl-0',
-              '[mask-image:linear-gradient(to_right,rgb(0,0,0,0.3),black_6%,black_94%,rgb(0,0,0,0.3))] lg:[mask-image:none]',
+              '-ml-5 -mr-5 flex overflow-x-auto pr-5 pl-5 xl:mr-0 xl:ml-0 xl:block xl:overflow-visible xl:pr-0 xl:pl-0',
+              '[mask-image:linear-gradient(to_right,rgb(0,0,0,0.3),black_6%,black_94%,rgb(0,0,0,0.3))] xl:[mask-image:none]',
             )}
           >
             <AccountsNavigation
@@ -54,14 +54,14 @@ export function SavingsView({
               selectedAccount={selectedAccount.savingsToken.symbol}
               setSelectedAccount={setSelectedAccount}
               variant="vertical"
-              className="hidden lg:block"
+              className="hidden xl:block"
             />
             <AccountsNavigation
               accounts={allAccounts}
               selectedAccount={selectedAccount.savingsToken.symbol}
               setSelectedAccount={setSelectedAccount}
               variant="horizontal"
-              className="lg:hidden"
+              className="xl:hidden"
             />
           </div>
         )}

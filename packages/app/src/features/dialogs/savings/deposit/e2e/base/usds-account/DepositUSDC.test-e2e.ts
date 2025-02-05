@@ -1,6 +1,6 @@
 import { SavingsDialogPageObject } from '@/features/dialogs/savings/common/e2e/SavingsDialog.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { BASE_DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
+import { BASE_MOCK_SUSDC_ACTIVE_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { base } from 'viem/chains'
@@ -13,7 +13,7 @@ test.describe('Deposit USDC', () => {
     const testContext = await setup(page, {
       blockchain: {
         chain: base,
-        blockNumber: BASE_DEFAULT_BLOCK_NUMBER,
+        blockNumber: BASE_MOCK_SUSDC_ACTIVE_BLOCK_NUMBER,
       },
       initialPage: 'savings',
       account: {
@@ -26,6 +26,7 @@ test.describe('Deposit USDC', () => {
     })
 
     savingsPage = new SavingsPageObject(testContext)
+    await savingsPage.clickSavingsNavigationItemAction('USDS')
     await savingsPage.clickDepositButtonAction('USDC')
 
     depositDialog = new SavingsDialogPageObject({ testContext, type: 'deposit' })
@@ -42,8 +43,8 @@ test.describe('Deposit USDC', () => {
   test('displays transaction overview', async () => {
     await depositDialog.expectNativeRouteTransactionOverview({
       apy: {
-        value: '8.50%',
-        description: 'Earn ~850.00 USDS/year',
+        value: '12.50%',
+        description: 'Earn ~1,250.00 USDS/year',
       },
       routeItems: [
         {
@@ -55,11 +56,11 @@ test.describe('Deposit USDC', () => {
           tokenUsdValue: '$10,000.00',
         },
         {
-          tokenAmount: '9,872.98 sUSDS',
+          tokenAmount: '9,666.53 sUSDS',
           tokenUsdValue: '$10,000.00',
         },
       ],
-      outcome: '9,872.98 sUSDS',
+      outcome: '9,666.53 sUSDS',
       outcomeUsd: '$10,000.00',
     })
   })
@@ -71,8 +72,8 @@ test.describe('Deposit USDC', () => {
     await depositDialog.clickBackToSavingsButton()
 
     await savingsPage.expectSavingsAccountBalance({
-      balance: '9,872.98',
-      estimatedValue: '9,999.999999', // USDC has 6 decimals, so the value is rounded down. This is consistent with the data in the smart contract
+      balance: '9,666.53',
+      estimatedValue: '10,000.000000', // USDC has 6 decimals, so the value is rounded down. This is consistent with the data in the smart contract
     })
     await savingsPage.expectSupportedStablecoinBalance('USDC', '-')
   })

@@ -70,7 +70,7 @@ test.describe('Savings Mainnet', () => {
   test('can switch between accounts', async ({ page }) => {
     const testContext = await setup(page, {
       blockchain: {
-        chainId: mainnet.id,
+        chain: mainnet,
         blockNumber: MOCK_SUSDC_ACTIVE_BLOCK_NUMBER,
       },
       initialPage: 'savings',
@@ -159,6 +159,22 @@ test.describe('Savings Gnosis', () => {
 
     await savingsPage.expect30DaysProjection('+0.95')
     await savingsPage.expect1YearProjection('+11.53')
+  })
+
+  test('hides navigation when single account', async ({ page }) => {
+    const testContext = await setup(page, {
+      blockchain: { blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER, chain: gnosis },
+      initialPage: 'savings',
+      account: {
+        type: 'connected-random',
+        assetBalances: {
+          sDAI: 100,
+        },
+      },
+    })
+
+    const savingsPage = new SavingsPageObject(testContext)
+    await savingsPage.expectNavigationToBeInvisible()
   })
 })
 

@@ -194,7 +194,7 @@ async function injectPageSetup({
     })
   }
 
-  await injectFlags(page, testnetClient, options.blockchain.chainId)
+  await injectFlags(page, testnetClient, options.blockchain.chain.id)
 
   let autoSimulationProgressDelta: number | undefined
   await page.route(rpcUrl, async (route) => {

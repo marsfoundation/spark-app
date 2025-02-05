@@ -16,7 +16,7 @@ test.describe('Send USDC', () => {
   test.beforeEach(async ({ page }) => {
     const testContext = await setup(page, {
       blockchain: {
-        chainId: mainnet.id,
+        chain: mainnet,
         blockNumber: MOCK_SUSDC_ACTIVE_BLOCK_NUMBER,
       },
       initialPage: 'savings',

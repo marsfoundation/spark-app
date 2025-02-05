@@ -69,6 +69,7 @@ export const testIds = makeTestIds({
     navigation: {
       container: true,
       item: true,
+      itemLabel: true,
       itemBalance: true,
     },
     upgradeSDaiBanner: true,

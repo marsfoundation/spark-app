@@ -12,7 +12,7 @@ test.describe('Deposit USDC', () => {
   test.beforeEach(async ({ page }) => {
     const testContext = await setup(page, {
       blockchain: {
-        chainId: base.id,
+        chain: base,
         blockNumber: BASE_MOCK_SUSDC_ACTIVE_BLOCK_NUMBER,
       },
       initialPage: 'savings',
@@ -26,6 +26,7 @@ test.describe('Deposit USDC', () => {
     })
 
     savingsPage = new SavingsPageObject(testContext)
+    await savingsPage.clickSavingsNavigationItemAction('USDC')
     await savingsPage.clickDepositButtonAction('USDC')
 
     depositDialog = new SavingsDialogPageObject({ testContext, type: 'deposit' })
