@@ -2,7 +2,7 @@ import { paths } from '@/config/paths'
 import { usePageChainId } from '@/domain/hooks/usePageChainId'
 import { cn } from '@/ui/utils/style'
 import { Slot } from '@radix-ui/react-slot'
-import { ArrowUpRightIcon, XIcon } from 'lucide-react'
+import { XIcon } from 'lucide-react'
 import { ReactNode } from 'react'
 import { IconButton } from '../icon-button/IconButton'
 import { LinkDecorator } from '../link-decorator/LinkDecorator'
@@ -33,8 +33,7 @@ export function SavingsAccountsTopBanner({ onClose, className }: SavingsAccounts
         )}
       >
         <div className="typography-body-3 flex max-w-[80%] items-center text-primary-inverse">
-          <div>New! Savings Accounts are here - start saving today</div>
-          {!isOnSavingsPage && <ArrowUpRightIcon strokeWidth={1.25} />}
+          New! Savings Accounts are here - start saving today.
         </div>
 
         <IconButton
