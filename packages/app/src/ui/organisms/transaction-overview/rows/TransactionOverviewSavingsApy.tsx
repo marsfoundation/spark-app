@@ -7,10 +7,14 @@ import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-univers
 export interface TransactionOverviewSavingsApyProps {
   apy: Percentage
   stableEarnRate: NormalizedUnitNumber
-  baseStable: Token
+  underlyingToken: Token
 }
 
-export function TransactionOverviewSavingsApy({ apy, stableEarnRate, baseStable }: TransactionOverviewSavingsApyProps) {
+export function TransactionOverviewSavingsApy({
+  apy,
+  stableEarnRate,
+  underlyingToken,
+}: TransactionOverviewSavingsApyProps) {
   return (
     <HorizontalScroll>
       <div className="flex items-baseline gap-2">
@@ -26,7 +30,7 @@ export function TransactionOverviewSavingsApy({ apy, stableEarnRate, baseStable 
           className="typography-body-4 text-secondary"
           data-testid={testIds.dialog.savings.transactionOverview.apy.description}
         >
-          Earn ~{baseStable.format(stableEarnRate, { style: 'auto' })} {baseStable.symbol}/year
+          Earn ~{underlyingToken.format(stableEarnRate, { style: 'auto' })} {underlyingToken.symbol}/year
         </div>
       </div>
     </HorizontalScroll>

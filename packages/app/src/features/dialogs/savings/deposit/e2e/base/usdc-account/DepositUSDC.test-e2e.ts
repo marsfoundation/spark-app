@@ -26,7 +26,7 @@ test.describe('Deposit USDC', () => {
     })
 
     savingsPage = new SavingsPageObject(testContext)
-    await savingsPage.clickSavingsNavigationItemAction('USDS')
+    await savingsPage.clickSavingsNavigationItemAction('USDC')
     await savingsPage.clickDepositButtonAction('USDC')
 
     depositDialog = new SavingsDialogPageObject({ testContext, type: 'deposit' })
@@ -36,7 +36,7 @@ test.describe('Deposit USDC', () => {
   test('has correct action plan', async () => {
     await depositDialog.actionsContainer.expectActions([
       { type: 'approve', asset: 'USDC' },
-      { type: 'depositToSavings', asset: 'USDC', savingsAsset: 'sUSDS' },
+      { type: 'depositToSavings', asset: 'USDC', savingsAsset: 'sUSDC' },
     ])
   })
 
@@ -44,7 +44,7 @@ test.describe('Deposit USDC', () => {
     await depositDialog.expectNativeRouteTransactionOverview({
       apy: {
         value: '12.50%',
-        description: 'Earn ~1,250.00 USDS/year',
+        description: 'Earn ~1,250.00 USDC/year',
       },
       routeItems: [
         {
@@ -52,15 +52,11 @@ test.describe('Deposit USDC', () => {
           tokenUsdValue: '$10,000.00',
         },
         {
-          tokenAmount: '10,000.00 USDS',
-          tokenUsdValue: '$10,000.00',
-        },
-        {
-          tokenAmount: '9,666.53 sUSDS',
+          tokenAmount: '9,666.53 sUSDC',
           tokenUsdValue: '$10,000.00',
         },
       ],
-      outcome: '9,666.53 sUSDS',
+      outcome: '9,666.53 sUSDC',
       outcomeUsd: '$10,000.00',
     })
   })
@@ -73,7 +69,7 @@ test.describe('Deposit USDC', () => {
 
     await savingsPage.expectSavingsAccountBalance({
       balance: '9,666.53',
-      estimatedValue: '10,000.000000', // USDC has 6 decimals, so the value is rounded down. This is consistent with the data in the smart contract
+      estimatedValue: '10,000.000000',
     })
     await savingsPage.expectSupportedStablecoinBalance('USDC', '-')
   })

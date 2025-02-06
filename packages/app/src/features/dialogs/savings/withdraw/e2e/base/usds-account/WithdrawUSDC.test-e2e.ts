@@ -1,9 +1,9 @@
+import { SavingsDialogPageObject } from '@/features/dialogs/savings/common/e2e/SavingsDialog.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { BASE_DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
+import { BASE_MOCK_SUSDC_ACTIVE_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { base } from 'viem/chains'
-import { SavingsDialogPageObject } from '../../../../common/e2e/SavingsDialog.PageObject'
 
 test.describe('Withdraw USDC', () => {
   let savingsPage: SavingsPageObject
@@ -13,7 +13,7 @@ test.describe('Withdraw USDC', () => {
     const testContext = await setup(page, {
       blockchain: {
         chain: base,
-        blockNumber: BASE_DEFAULT_BLOCK_NUMBER,
+        blockNumber: BASE_MOCK_SUSDC_ACTIVE_BLOCK_NUMBER,
       },
       initialPage: 'savings',
       account: {
@@ -26,8 +26,9 @@ test.describe('Withdraw USDC', () => {
     })
 
     savingsPage = new SavingsPageObject(testContext)
-
+    await savingsPage.clickSavingsNavigationItemAction('USDS')
     await savingsPage.clickWithdrawFromAccountButtonAction()
+
     withdrawDialog = new SavingsDialogPageObject({ testContext, type: 'withdraw' })
     await withdrawDialog.selectAssetAction('USDC')
     await withdrawDialog.fillAmountAction(1000)
@@ -44,7 +45,7 @@ test.describe('Withdraw USDC', () => {
     await withdrawDialog.expectNativeRouteTransactionOverview({
       routeItems: [
         {
-          tokenAmount: '987.30 sUSDS',
+          tokenAmount: '966.65 sUSDS',
           tokenUsdValue: '$1,000.00',
         },
         {
@@ -69,7 +70,7 @@ test.describe('Withdraw USDC', () => {
     await withdrawDialog.expectSuccessPage()
     await withdrawDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsAccountBalance({ balance: '9,012.70', estimatedValue: '9,128.654891' })
+    await savingsPage.expectSavingsAccountBalance({ balance: '9,033.35', estimatedValue: '9,344.969493' })
     await savingsPage.expectSupportedStablecoinBalance('USDC', '1,000')
   })
 
@@ -80,7 +81,7 @@ test.describe('Withdraw USDC', () => {
     await withdrawDialog.expectSuccessPage()
     await withdrawDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsAccountBalance({ balance: '9,999.01', estimatedValue: '10,127.654892' })
+    await savingsPage.expectSavingsAccountBalance({ balance: '9,999.03', estimatedValue: '10,343.969493' })
     await savingsPage.expectSupportedStablecoinBalance('USDC', '1')
   })
 })

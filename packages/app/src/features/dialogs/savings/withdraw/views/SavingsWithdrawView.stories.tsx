@@ -81,7 +81,7 @@ const withdrawArgs: Partial<SavingsWithdrawViewProps> = {
     },
   ],
   txOverview: {
-    baseStable: tokens.DAI,
+    underlyingToken: tokens.DAI,
     status: 'success',
     APY: Percentage(0.05),
     stableEarnRate: NormalizedUnitNumber(542),

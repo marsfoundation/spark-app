@@ -16,9 +16,7 @@ export class SavingsDialogPageObject extends DialogPageObject {
   constructor({ testContext, type }: SavingsDialogPageObjectParams) {
     super({
       testContext,
-      header: new RegExp(
-        `${type === 'deposit' ? 'Deposit to' : type === 'send' ? 'Send from' : 'Withdraw from'} Savings`,
-      ),
+      header: new RegExp(`${type === 'deposit' ? 'Deposit to' : type === 'send' ? 'Send from' : 'Withdraw from'}`),
     })
     this.type = type
   }

@@ -87,10 +87,10 @@ export function useSavingsWithdrawDialog({
   })
   const txOverview = createTxOverview({
     formValues,
-    tokensInfo,
-    savingsAccounts,
-    savingsToken: savingsTokenWithBalance.token,
+    savingsTokenBalance: savingsTokenWithBalance.balance,
+    savingsAccount: savingsAccounts.findOneBySavingsToken(savingsTokenWithBalance.token),
   })
+
   const tokenToWithdraw = useConditionalFreeze<TokenWithValue>(
     {
       token: formValues.token,

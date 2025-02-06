@@ -71,7 +71,7 @@ const meta: Meta<typeof SavingsDepositView> = {
       goToSuccessScreen: () => {},
     },
     txOverview: {
-      baseStable: tokens.DAI,
+      underlyingToken: tokens.DAI,
       status: 'success',
       APY: Percentage(0.05),
       stableEarnRate: NormalizedUnitNumber(542),
