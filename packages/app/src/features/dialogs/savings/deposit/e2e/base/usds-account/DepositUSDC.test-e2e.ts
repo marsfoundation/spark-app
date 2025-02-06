@@ -1,16 +1,19 @@
-import { SavingsDialogPageObject } from '@/features/dialogs/savings/common/e2e/SavingsDialog.PageObject'
+import { basePsm3Address } from '@/config/contracts-generated'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { BASE_MOCK_SUSDC_ACTIVE_BLOCK_NUMBER } from '@/test/e2e/constants'
-import { setup } from '@/test/e2e/setup'
+import { BASE_MOCK_SUSDC_ACTIVE_BLOCK_NUMBER, TOKENS_ON_FORK } from '@/test/e2e/constants'
+import { TestContext, setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { base } from 'viem/chains'
+import { SavingsDialogPageObject } from '../../../../common/e2e/SavingsDialog.PageObject'
+import { depositValidationIssueToMessage } from '../../../logic/validation'
 
 test.describe('Deposit USDC', () => {
   let savingsPage: SavingsPageObject
   let depositDialog: SavingsDialogPageObject
+  let testContext: TestContext
 
   test.beforeEach(async ({ page }) => {
-    const testContext = await setup(page, {
+    testContext = await setup(page, {
       blockchain: {
         chain: base,
         blockNumber: BASE_MOCK_SUSDC_ACTIVE_BLOCK_NUMBER,
@@ -76,5 +79,22 @@ test.describe('Deposit USDC', () => {
       estimatedValue: '10,000.000000', // USDC has 6 decimals, so the value is rounded down. This is consistent with the data in the smart contract
     })
     await savingsPage.expectSupportedStablecoinBalance('USDC', '-')
+  })
+
+  test('fails validation if psm3 usds balance is too low', async ({ page }) => {
+    await testContext.testnetController.client.setErc20Balance(
+      TOKENS_ON_FORK[base.id].sUSDS.address,
+      basePsm3Address[base.id],
+      0n,
+    )
+    await testContext.testnetController.progressSimulation(5)
+    await page.reload()
+    await savingsPage.clickSavingsNavigationItemAction('USDS')
+
+    await savingsPage.clickDepositButtonAction('USDC')
+
+    depositDialog = new SavingsDialogPageObject({ testContext, type: 'deposit' })
+    await depositDialog.fillAmountAction(10_000)
+    await depositDialog.expectAssetInputError(depositValidationIssueToMessage['exceeds-psm3-balance'])
   })
 })

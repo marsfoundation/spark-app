@@ -17,6 +17,7 @@ import { UseGeneralStatsResult, useGeneralStats } from './general-stats/useGener
 import { getInterestData } from './getInterestData'
 import { MigrationInfo, makeMigrationInfo } from './makeMigrationInfo'
 import { SavingsOverview } from './makeSavingsOverview'
+import { usePrefetchValidators } from './usePrefetchValidators'
 
 export interface InterestData {
   APY: Percentage
@@ -65,6 +66,8 @@ export function useSavings(): UseSavingsResults {
   const { timestamp } = useTimestamp()
   const openDialog = useOpenDialog()
   const getBlockExplorerLink = useGetBlockExplorerAddressLink()
+
+  usePrefetchValidators({ chainId, tokensInfo, savingsAccounts })
 
   const firstAccountInConfig = savings?.accounts?.[0] ?? raise('There are no accounts in config')
   const [_selectedAccount, setSelectedAccount] = useState<TokenSymbol>(firstAccountInConfig.savingsToken)

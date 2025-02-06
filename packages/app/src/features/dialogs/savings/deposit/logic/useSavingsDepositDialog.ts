@@ -9,7 +9,6 @@ import {
   getFieldsForTransferFromUserForm,
   useDebouncedFormValues,
 } from '@/features/dialogs/common/logic/transfer-from-user/form'
-import { getTransferFromUserFormValidator } from '@/features/dialogs/common/logic/transfer-from-user/validation'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { raise } from '@marsfoundation/common-universal'
@@ -18,7 +17,7 @@ import { UseFormReturn, useForm } from 'react-hook-form'
 import { useChainId } from 'wagmi'
 import { SavingsDialogTxOverview } from '../../common/types'
 import { createTxOverview } from './createTxOverview'
-import { depositValidationIssueToMessage } from './validation'
+import { useDepositToSavingsValidator } from './useDepositToSavingsValidator'
 
 export interface UseSavingsDepositDialogParams {
   initialToken: Token
@@ -43,18 +42,24 @@ export function useSavingsDepositDialog({
   const chainId = useChainId()
   const chainConfig = getChainConfigEntry(chainId)
   const { tokensInfo } = useTokensInfo({ tokens: chainConfig.extraTokens, chainId })
-  const selectedAccount =
+  const selectedAccountConfig =
     chainConfig.savings?.accounts?.find((account) => account.savingsToken === savingsToken.symbol) ??
     raise('Savings account is not found')
-  const supportedStablecoins = selectedAccount.supportedStablecoins.map((symbol) =>
+  const supportedStablecoins = selectedAccountConfig.supportedStablecoins.map((symbol) =>
     tokensInfo.findOneTokenWithBalanceBySymbol(symbol),
   )
   const savingsAccounts = useSavingsAccountRepository({ chainId })
+  const savingsAccount = savingsAccounts.findOneBySavingsToken(savingsToken)
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')
 
+  const validator = useDepositToSavingsValidator({
+    chainId,
+    tokensInfo,
+    savingsAccount,
+  })
   const form = useForm<AssetInputSchema>({
-    resolver: zodResolver(getTransferFromUserFormValidator(tokensInfo, depositValidationIssueToMessage)),
+    resolver: zodResolver(validator),
     defaultValues: {
       symbol: initialToken.symbol,
       value: '',
@@ -82,7 +87,7 @@ export function useSavingsDepositDialog({
 
   const txOverview = createTxOverview({
     formValues,
-    savingsAccount: savingsAccounts.findOneBySavingsToken(savingsToken),
+    savingsAccount,
   })
 
   const tokenToDeposit: TokenWithValue = {
