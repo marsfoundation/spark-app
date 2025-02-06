@@ -26,7 +26,6 @@ import { useWithdrawFromSavingsValidator } from './useWithdrawFromSavingsValidat
 export interface UseSavingsWithdrawDialogParams {
   mode: Mode
   savingsToken: Token
-  underlyingToken: Token
 }
 
 export interface UseSavingsWithdrawDialogResults {
@@ -38,22 +37,23 @@ export interface UseSavingsWithdrawDialogResults {
   pageStatus: PageStatus
   txOverview: SavingsDialogTxOverview
   actionsContext: InjectedActionsContext
+  underlyingToken: Token
   sendModeExtension?: SendModeExtension
 }
 
 export function useSavingsWithdrawDialog({
   mode,
   savingsToken,
-  underlyingToken,
 }: UseSavingsWithdrawDialogParams): UseSavingsWithdrawDialogResults {
   const chainId = useChainId()
   const savingsAccounts = useSavingsAccountRepository({ chainId })
   const chainConfig = getChainConfigEntry(chainId)
   const { tokensInfo } = useTokensInfo({ tokens: chainConfig.extraTokens, chainId })
-  const selectedAccount =
+  const selectedAccountConfig =
     chainConfig.savings?.accounts?.find((account) => account.savingsToken === savingsToken.symbol) ??
     raise('Savings account is not found')
-  const supportedStablecoins = selectedAccount.supportedStablecoins.map((symbol) =>
+  const selectedAccount = savingsAccounts.findOneBySavingsToken(savingsToken)
+  const supportedStablecoins = selectedAccountConfig.supportedStablecoins.map((symbol) =>
     tokensInfo.findOneTokenWithBalanceBySymbol(symbol),
   )
   const [pageState, setPageState] = useState<PageState>('form')
@@ -69,7 +69,7 @@ export function useSavingsWithdrawDialog({
   const form = useForm<AssetInputSchema>({
     resolver: zodResolver(validator),
     defaultValues: {
-      symbol: underlyingToken.symbol,
+      symbol: selectedAccount.underlyingToken.symbol,
       value: '',
       isMaxSelected: false,
     },
@@ -127,6 +127,7 @@ export function useSavingsWithdrawDialog({
       savingsAccounts,
     },
     sendModeExtension,
+    underlyingToken: selectedAccount.underlyingToken,
   }
 }
 

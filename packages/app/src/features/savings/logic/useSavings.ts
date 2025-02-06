@@ -136,9 +136,8 @@ export function useSavings(): UseSavingsResults {
       openDialog(savingsDepositDialogConfig, {
         initialToken: tokenToDeposit,
         savingsToken: selectedAccountData.savingsToken,
-        underlyingToken: selectedAccountData.underlyingToken,
       }),
-    [openDialog, selectedAccountData.savingsToken, selectedAccountData.underlyingToken],
+    [openDialog, selectedAccountData.savingsToken],
   )
 
   function openConvertStablesDialog(): void {
@@ -148,14 +147,12 @@ export function useSavings(): UseSavingsResults {
     openDialog(savingsWithdrawDialogConfig, {
       mode: 'send' as const,
       savingsToken: selectedAccountData.savingsToken,
-      underlyingToken: selectedAccountData.underlyingToken,
     })
   }
   function openWithdrawDialog(): void {
     openDialog(savingsWithdrawDialogConfig, {
       mode: 'withdraw' as const,
       savingsToken: selectedAccountData.savingsToken,
-      underlyingToken: selectedAccountData.underlyingToken,
     })
   }
 

@@ -1,6 +1,5 @@
 import { Token } from '@/domain/types/Token'
 import { withSuspense } from '@/ui/utils/withSuspense'
-
 import { DialogContentSkeleton } from '../../common/components/skeletons/DialogContentSkeleton'
 import { SuccessView } from '../../common/views/SuccessView'
 import { useSavingsDepositDialog } from './logic/useSavingsDepositDialog'
@@ -9,21 +8,28 @@ import { SavingsDepositView } from './views/SavingsDepositView'
 export interface SavingsDepositContainerProps {
   initialToken: Token
   savingsToken: Token
-  underlyingToken: Token
   closeDialog: () => void
 }
 
 function SavingsDepositDialogContentContainer({
   initialToken,
   savingsToken,
-  underlyingToken,
   closeDialog,
 }: SavingsDepositContainerProps) {
-  const { selectableAssets, assetsFields, form, tokenToDeposit, objectives, pageStatus, txOverview, actionsContext } =
-    useSavingsDepositDialog({
-      savingsToken,
-      initialToken,
-    })
+  const {
+    selectableAssets,
+    assetsFields,
+    form,
+    tokenToDeposit,
+    objectives,
+    pageStatus,
+    txOverview,
+    actionsContext,
+    underlyingToken,
+  } = useSavingsDepositDialog({
+    savingsToken,
+    initialToken,
+  })
 
   if (pageStatus.state === 'success') {
     return (

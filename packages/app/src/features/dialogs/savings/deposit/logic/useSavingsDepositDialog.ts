@@ -33,6 +33,7 @@ export interface UseSavingsDepositDialogResults {
   pageStatus: PageStatus
   txOverview: SavingsDialogTxOverview
   actionsContext: InjectedActionsContext
+  underlyingToken: Token
 }
 
 export function useSavingsDepositDialog({
@@ -99,6 +100,7 @@ export function useSavingsDepositDialog({
   return {
     selectableAssets: supportedStablecoins,
     assetsFields: getFieldsForTransferFromUserForm({ form, tokensInfo }),
+    underlyingToken: savingsAccount.underlyingToken,
     form,
     objectives,
     tokenToDeposit,
