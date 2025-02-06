@@ -7,17 +7,15 @@ import { Mode } from './types'
 export type SavingsWithdrawDialogProps = CommonDialogProps & {
   mode: Mode
   savingsToken: Token
-  underlyingToken: Token
 }
 
-function SavingsWithdrawDialog({ mode, savingsToken, underlyingToken, open, setOpen }: SavingsWithdrawDialogProps) {
+function SavingsWithdrawDialog({ mode, savingsToken, open, setOpen }: SavingsWithdrawDialogProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
         <SavingsWithdrawDialogContentContainer
           mode={mode}
           savingsToken={savingsToken}
-          underlyingToken={underlyingToken}
           closeDialog={() => setOpen(false)}
         />
       </DialogContent>

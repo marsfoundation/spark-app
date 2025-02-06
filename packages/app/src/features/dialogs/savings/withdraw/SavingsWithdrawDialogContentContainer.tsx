@@ -10,15 +10,9 @@ export interface SavingsWithdrawContainerProps {
   closeDialog: () => void
   mode: Mode
   savingsToken: Token
-  underlyingToken: Token
 }
 
-function SavingsWithdrawDialogContentContainer({
-  closeDialog,
-  mode,
-  savingsToken,
-  underlyingToken,
-}: SavingsWithdrawContainerProps) {
+function SavingsWithdrawDialogContentContainer({ closeDialog, mode, savingsToken }: SavingsWithdrawContainerProps) {
   const {
     selectableAssets,
     assetsFields,
@@ -29,7 +23,8 @@ function SavingsWithdrawDialogContentContainer({
     txOverview,
     sendModeExtension,
     actionsContext,
-  } = useSavingsWithdrawDialog({ mode, savingsToken, underlyingToken })
+    underlyingToken,
+  } = useSavingsWithdrawDialog({ mode, savingsToken })
 
   if (pageStatus.state === 'success') {
     return (
@@ -39,7 +34,7 @@ function SavingsWithdrawDialogContentContainer({
 
   return (
     <SavingsWithdrawView
-      savingsToken={savingsToken}
+      underlyingToken={underlyingToken}
       form={form}
       selectableAssets={selectableAssets}
       assetsFields={assetsFields}

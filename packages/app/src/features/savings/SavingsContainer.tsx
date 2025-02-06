@@ -7,7 +7,16 @@ import { useSavings } from './logic/useSavings'
 import { SavingsView } from './views/SavingsView'
 
 function SavingsContainer() {
-  const { openDialog, selectedAccount, setSelectedAccount, allAccounts, generalStats } = useSavings()
+  const {
+    selectedAccount,
+    setSelectedAccount,
+    allAccounts,
+    generalStats,
+    openDepositDialog,
+    openConvertStablesDialog,
+    openSendDialog,
+    openWithdrawDialog,
+  } = useSavings()
   const { isGuestMode, openConnectModal, openSandboxModal } = useUnsupportedChain()
 
   return (
@@ -15,11 +24,14 @@ function SavingsContainer() {
       selectedAccount={selectedAccount}
       allAccounts={allAccounts}
       setSelectedAccount={setSelectedAccount}
-      openDialog={openDialog}
       openSandboxModal={openSandboxModal}
       openConnectModal={openConnectModal}
       guestMode={isGuestMode}
       generalStats={generalStats}
+      openDepositDialog={openDepositDialog}
+      openConvertStablesDialog={openConvertStablesDialog}
+      openSendDialog={openSendDialog}
+      openWithdrawDialog={openWithdrawDialog}
     />
   )
 }

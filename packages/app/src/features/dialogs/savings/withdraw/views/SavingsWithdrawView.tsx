@@ -14,7 +14,7 @@ import { SavingsWithdrawDialogForm } from '../components/form/SavingsWithdrawDia
 import { SendModeExtension } from '../types'
 
 export interface SavingsWithdrawViewProps {
-  savingsToken: Token
+  underlyingToken: Token
   selectableAssets: TokenWithBalance[]
   assetsFields: FormFieldsForDialog
   form: UseFormReturn<AssetInputSchema>
@@ -26,7 +26,7 @@ export interface SavingsWithdrawViewProps {
 }
 
 export function SavingsWithdrawView({
-  savingsToken,
+  underlyingToken,
   selectableAssets,
   assetsFields,
   form,
@@ -38,7 +38,7 @@ export function SavingsWithdrawView({
 }: SavingsWithdrawViewProps) {
   return (
     <MultiPanelDialog>
-      <DialogTitle>{`${sendModeExtension ? 'Send' : 'Withdraw'} from ${savingsToken.name}`}</DialogTitle>
+      <DialogTitle>{`${sendModeExtension ? 'Send' : 'Withdraw'} from Savings ${underlyingToken.symbol}`}</DialogTitle>
 
       <FormAndOverviewWrapper>
         <SavingsWithdrawDialogForm

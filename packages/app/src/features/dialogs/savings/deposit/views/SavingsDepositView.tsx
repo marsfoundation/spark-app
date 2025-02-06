@@ -13,7 +13,7 @@ import { TransactionOverview } from '../../common/components/transaction-overvie
 import { SavingsDialogTxOverview } from '../../common/types'
 
 export interface SavingsDepositViewProps {
-  savingsToken: Token
+  underlyingToken: Token
   selectableAssets: TokenWithBalance[]
   assetsFields: FormFieldsForDialog
   form: UseFormReturn<AssetInputSchema>
@@ -24,7 +24,7 @@ export interface SavingsDepositViewProps {
 }
 
 export function SavingsDepositView({
-  savingsToken,
+  underlyingToken,
   selectableAssets,
   assetsFields,
   form,
@@ -35,7 +35,7 @@ export function SavingsDepositView({
 }: SavingsDepositViewProps) {
   return (
     <MultiPanelDialog>
-      <DialogTitle>Deposit to {savingsToken.name}</DialogTitle>
+      <DialogTitle>Deposit to Savings {underlyingToken.symbol}</DialogTitle>
 
       <FormAndOverviewWrapper>
         <DialogForm form={form} assetsFields={assetsFields} selectorAssets={selectableAssets} />

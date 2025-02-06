@@ -1,4 +1,4 @@
-import { OpenDialogFunction } from '@/domain/state/dialogs'
+import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { PageLayout } from '@/ui/layouts/PageLayout'
 import { cn } from '@/ui/utils/style'
@@ -13,8 +13,10 @@ import { AccountDefinition } from '../logic/useSavings'
 export interface SavingsViewProps {
   selectedAccount: AccountDefinition
   generalStats: UseGeneralStatsResult
-  // @todo: Pass separate functions for each dialog after removing old views
-  openDialog: OpenDialogFunction
+  openDepositDialog: (tokenToDeposit: Token) => void
+  openConvertStablesDialog: () => void
+  openSendDialog: () => void
+  openWithdrawDialog: () => void
   openSandboxModal: () => void
   openConnectModal: () => void
   guestMode: boolean
@@ -24,7 +26,10 @@ export interface SavingsViewProps {
 
 export function SavingsView({
   selectedAccount,
-  openDialog,
+  openDepositDialog,
+  openConvertStablesDialog,
+  openSendDialog,
+  openWithdrawDialog,
   openSandboxModal,
   openConnectModal,
   guestMode,
@@ -66,7 +71,10 @@ export function SavingsView({
         )}
         <SavingsAccount
           {...selectedAccount}
-          openDialog={openDialog}
+          openDepositDialog={openDepositDialog}
+          openConvertStablesDialog={openConvertStablesDialog}
+          openSendDialog={openSendDialog}
+          openWithdrawDialog={openWithdrawDialog}
           openSandboxModal={openSandboxModal}
           openConnectModal={openConnectModal}
           guestMode={guestMode}
