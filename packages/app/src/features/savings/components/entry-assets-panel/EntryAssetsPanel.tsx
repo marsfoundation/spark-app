@@ -1,7 +1,4 @@
-import { OpenDialogFunction } from '@/domain/state/dialogs'
 import { Token } from '@/domain/types/Token'
-import { convertStablesDialogConfig } from '@/features/dialogs/convert-stables/ConvertStablesDialog'
-import { savingsDepositDialogConfig } from '@/features/dialogs/savings/deposit/SavingsDepositDialog'
 import { assets as uiAssets } from '@/ui/assets'
 import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
@@ -15,12 +12,17 @@ import { TokenCell } from './components/TokenCell'
 
 export interface EntryAssetsPanelProps {
   assets: SavingsAccountSupportedStablecoin[]
-  openDialog: OpenDialogFunction
+  openDepositDialog: (tokenToDeposit: Token) => void
+  openConvertStablesDialog: () => void
   showConvertDialogButton: boolean
-  savingsToken: Token
 }
 
-export function EntryAssetsPanel({ assets, openDialog, showConvertDialogButton, savingsToken }: EntryAssetsPanelProps) {
+export function EntryAssetsPanel({
+  assets,
+  openDepositDialog,
+  openConvertStablesDialog,
+  showConvertDialogButton,
+}: EntryAssetsPanelProps) {
   const columnDef: DataTableColumnDefinitions<SavingsAccountSupportedStablecoin> = useMemo(
     () => ({
       token: {
@@ -41,12 +43,7 @@ export function EntryAssetsPanel({ assets, openDialog, showConvertDialogButton, 
         renderCell: ({ token, balance, blockExplorerLink }) => {
           return (
             <div className="flex justify-end gap-1 sm:gap-3">
-              <Button
-                variant="secondary"
-                size="s"
-                disabled={balance.eq(0)}
-                onClick={() => openDialog(savingsDepositDialogConfig, { initialToken: token, savingsToken })}
-              >
+              <Button variant="secondary" size="s" disabled={balance.eq(0)} onClick={() => openDepositDialog(token)}>
                 Deposit
               </Button>
               <MoreDropdown blockExplorerLink={blockExplorerLink} />
@@ -55,7 +52,7 @@ export function EntryAssetsPanel({ assets, openDialog, showConvertDialogButton, 
         },
       },
     }),
-    [openDialog, savingsToken],
+    [openDepositDialog],
   )
 
   return (
@@ -83,7 +80,7 @@ export function EntryAssetsPanel({ assets, openDialog, showConvertDialogButton, 
             <Button
               size="s"
               variant="secondary"
-              onClick={() => openDialog(convertStablesDialogConfig, { proceedText: 'Back to Savings' })}
+              onClick={openConvertStablesDialog}
               data-testid={testIds.component.ConvertStablesButton}
             >
               Convert

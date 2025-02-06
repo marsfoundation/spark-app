@@ -6,13 +6,16 @@ import { usePageChainId } from '@/domain/hooks/usePageChainId'
 import { UseSavingsChartsDataResult, useSavingsChartsData } from '@/domain/savings-charts/useSavingsChartsData'
 import { calculateMaxBalanceTokenAndTotal } from '@/domain/savings/calculateMaxBalanceTokenAndTotal'
 import { useSavingsAccountRepository } from '@/domain/savings/useSavingsAccountRepository'
-import { OpenDialogFunction, useOpenDialog } from '@/domain/state/dialogs'
+import { useOpenDialog } from '@/domain/state/dialogs'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
+import { convertStablesDialogConfig } from '@/features/dialogs/convert-stables/ConvertStablesDialog'
+import { savingsDepositDialogConfig } from '@/features/dialogs/savings/deposit/SavingsDepositDialog'
+import { savingsWithdrawDialogConfig } from '@/features/dialogs/savings/withdraw/SavingsWithdrawDialog'
 import { useTimestamp } from '@/utils/useTimestamp'
 import { NormalizedUnitNumber, Percentage, raise } from '@marsfoundation/common-universal'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { UseGeneralStatsResult, useGeneralStats } from './general-stats/useGeneralStats'
 import { getInterestData } from './getInterestData'
 import { MigrationInfo, makeMigrationInfo } from './makeMigrationInfo'
@@ -56,7 +59,10 @@ export interface UseSavingsResults {
   selectedAccount: AccountDefinition
   setSelectedAccount: (savingsTokenSymbol: TokenSymbol) => void
   generalStats: UseGeneralStatsResult
-  openDialog: OpenDialogFunction
+  openDepositDialog: (tokenToDeposit: Token) => void
+  openSendDialog: () => void
+  openWithdrawDialog: () => void
+  openConvertStablesDialog: () => void
 }
 export function useSavings(): UseSavingsResults {
   const { chainId } = usePageChainId()
@@ -124,11 +130,43 @@ export function useSavings(): UseSavingsResults {
 
   const generalStats = useGeneralStats()
 
+  // @note: Memoized for tanstack table
+  const openDepositDialog = useCallback(
+    (tokenToDeposit: Token) =>
+      openDialog(savingsDepositDialogConfig, {
+        initialToken: tokenToDeposit,
+        savingsToken: selectedAccountData.savingsToken,
+        underlyingToken: selectedAccountData.underlyingToken,
+      }),
+    [openDialog, selectedAccountData.savingsToken, selectedAccountData.underlyingToken],
+  )
+
+  function openConvertStablesDialog(): void {
+    openDialog(convertStablesDialogConfig, { proceedText: 'Back to Savings' })
+  }
+  function openSendDialog(): void {
+    openDialog(savingsWithdrawDialogConfig, {
+      mode: 'send' as const,
+      savingsToken: selectedAccountData.savingsToken,
+      underlyingToken: selectedAccountData.underlyingToken,
+    })
+  }
+  function openWithdrawDialog(): void {
+    openDialog(savingsWithdrawDialogConfig, {
+      mode: 'withdraw' as const,
+      savingsToken: selectedAccountData.savingsToken,
+      underlyingToken: selectedAccountData.underlyingToken,
+    })
+  }
+
   return {
-    openDialog,
     allAccounts,
     setSelectedAccount,
     generalStats,
+    openDepositDialog,
+    openSendDialog,
+    openWithdrawDialog,
+    openConvertStablesDialog,
     selectedAccount: {
       chartsData: savingsChartsData,
       interestData,

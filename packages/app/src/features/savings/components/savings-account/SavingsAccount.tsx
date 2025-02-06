@@ -1,8 +1,6 @@
 import { TokenWithBalance } from '@/domain/common/types'
-import { OpenDialogFunction } from '@/domain/state/dialogs'
 import { Token } from '@/domain/types/Token'
-import { savingsDepositDialogConfig } from '@/features/dialogs/savings/deposit/SavingsDepositDialog'
-import { savingsWithdrawDialogConfig } from '@/features/dialogs/savings/withdraw/SavingsWithdrawDialog'
+import { links } from '@/ui/constants/links'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { MigrationInfo } from '../../logic/makeMigrationInfo'
 import { ChartsData, InterestData, SavingsAccountSupportedStablecoin } from '../../logic/useSavings'
@@ -21,8 +19,10 @@ export interface SavingsAccountProps {
   mostValuableAsset: TokenWithBalance
   showConvertDialogButton: boolean
   chartsData: ChartsData
-  // @todo: Pass separate functions for each dialog after removing old views
-  openDialog: OpenDialogFunction
+  openDepositDialog: (tokenToDeposit: Token) => void
+  openSendDialog: () => void
+  openWithdrawDialog: () => void
+  openConvertStablesDialog: () => void
   openSandboxModal: () => void
   openConnectModal: () => void
   guestMode: boolean
@@ -38,7 +38,10 @@ export function SavingsAccount({
   mostValuableAsset,
   showConvertDialogButton,
   chartsData,
-  openDialog,
+  openDepositDialog,
+  openSendDialog,
+  openWithdrawDialog,
+  openConvertStablesDialog,
   openSandboxModal,
   openConnectModal,
   guestMode,
@@ -50,7 +53,7 @@ export function SavingsAccount({
     ? { title: 'Connect Wallet' as const, action: openConnectModal }
     : {
         title: 'Deposit' as const,
-        action: () => openDialog(savingsDepositDialogConfig, { initialToken: mostValuableAsset.token, savingsToken }),
+        action: () => openDepositDialog(mostValuableAsset.token),
       }
 
   return (
@@ -60,10 +63,9 @@ export function SavingsAccount({
           savingsRate={interestData.APY}
           entryTokens={supportedStablecoins.map((asset) => asset.token)}
           savingsToken={savingsToken}
-          // @todo: get description from chain config when available
           description={{
-            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-            docsLink: '',
+            text: `Deposit to Savings ${underlyingToken.symbol} to tap into the most predictable savings rate at scale! Learn more about it `,
+            docsLink: links.docs.earningSavings,
           }}
           actions={{
             primary: primaryAction,
@@ -78,23 +80,9 @@ export function SavingsAccount({
           savingsTokenBalance={savingsTokenBalance}
           calculateUnderlyingTokenBalance={interestData.calculateUnderlyingTokenBalance}
           balanceRefreshIntervalInMs={interestData.balanceRefreshIntervalInMs}
-          openDepositDialog={() =>
-            openDialog(savingsDepositDialogConfig, { initialToken: mostValuableAsset.token, savingsToken })
-          }
-          openSendDialog={() =>
-            openDialog(savingsWithdrawDialogConfig, {
-              mode: 'send',
-              savingsToken,
-              underlyingToken,
-            } as const)
-          }
-          openWithdrawDialog={() =>
-            openDialog(savingsWithdrawDialogConfig, {
-              mode: 'withdraw',
-              savingsToken,
-              underlyingToken,
-            } as const)
-          }
+          openDepositDialog={() => openDepositDialog(mostValuableAsset.token)}
+          openSendDialog={openSendDialog}
+          openWithdrawDialog={openWithdrawDialog}
           oneYearProjection={interestData.oneYearProjection}
           apy={interestData.APY}
           className="min-h-[352px]"
@@ -109,9 +97,9 @@ export function SavingsAccount({
       {chartsData.chartsSupported && <SavingsCharts savingsTokenSymbol={savingsToken.symbol} {...chartsData} />}
       <EntryAssetsPanel
         assets={supportedStablecoins}
-        openDialog={openDialog}
+        openDepositDialog={openDepositDialog}
+        openConvertStablesDialog={openConvertStablesDialog}
         showConvertDialogButton={showConvertDialogButton}
-        savingsToken={savingsToken}
       />
     </div>
   )
