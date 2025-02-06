@@ -61,7 +61,7 @@ export type ReserveOracleType =
       oracleFetcher: (params: OracleInfoFetcherParams) => Promise<OracleInfoFetcherResult>
     }
   | { type: 'fixed' }
-  | { type: 'underlying-asset'; asset: string }
+  | { type: 'underlying-asset'; asset: string; providedBy?: OracleFeedProvider[] }
 
 export type SavingsInfoQuery = (args: SavingsInfoQueryParams) => SavingsInfoQueryOptions
 

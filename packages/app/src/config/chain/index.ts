@@ -169,6 +169,7 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
         [TokenSymbol('cbBTC')]: {
           type: 'underlying-asset',
           asset: 'BTC',
+          providedBy: ['chainlink', 'chronicle', 'redstone'],
         },
       },
     },
