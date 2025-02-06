@@ -23,7 +23,10 @@ export function AccountsNavigation({
   className,
 }: AccountsNavigationProps) {
   return (
-    <div className={cn(accountsNavigationVariants({ variant }), className)}>
+    <div
+      className={cn(accountsNavigationVariants({ variant }), className)}
+      data-testid={testIds.savings.navigation.container}
+    >
       {accounts.map((account) => (
         <NavigationItem
           key={account.underlyingToken.symbol}
@@ -79,9 +82,11 @@ function NavigationItem({
           transitionStyles,
         )}
       >
-        <div className="typography-label-3 text-primary">{underlyingToken.symbol}</div>
+        <div className="typography-label-3 text-primary" data-testid={testIds.savings.navigation.itemLabel}>
+          {underlyingToken.symbol}
+        </div>
         {underlyingTokenDeposit.gt(0) && (
-          <div className="typography-label-4 text-secondary">
+          <div className="typography-label-4 text-secondary" data-testid={testIds.savings.navigation.itemBalance}>
             {underlyingToken.formatUSD(underlyingTokenDeposit, { compact: true })}
           </div>
         )}

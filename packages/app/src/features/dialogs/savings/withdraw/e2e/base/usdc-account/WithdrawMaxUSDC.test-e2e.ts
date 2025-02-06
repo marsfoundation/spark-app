@@ -5,7 +5,7 @@ import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { base } from 'viem/chains'
 
-test.describe('Withdraw USDS', () => {
+test.describe('Withdraw Max USDC', () => {
   let savingsPage: SavingsPageObject
   let withdrawDialog: SavingsDialogPageObject
 
@@ -20,23 +20,29 @@ test.describe('Withdraw USDS', () => {
         type: 'connected-random',
         assetBalances: {
           ETH: 1,
-          sUSDS: 10_000,
+          USDC: 10_000,
         },
       },
     })
 
     savingsPage = new SavingsPageObject(testContext)
-    await savingsPage.clickSavingsNavigationItemAction('USDS')
-    await savingsPage.clickWithdrawFromAccountButtonAction()
+    await savingsPage.clickSavingsNavigationItemAction('USDC')
+    await savingsPage.clickDepositButtonAction('USDC')
 
+    const depositDialog = new SavingsDialogPageObject({ testContext, type: 'deposit' })
+    await depositDialog.fillAmountAction(10_000)
+    await depositDialog.actionsContainer.acceptAllActionsAction(2)
+    await depositDialog.clickBackToSavingsButton()
+
+    await savingsPage.clickWithdrawFromAccountButtonAction()
     withdrawDialog = new SavingsDialogPageObject({ testContext, type: 'withdraw' })
-    await withdrawDialog.fillAmountAction(1000)
+    await withdrawDialog.selectAssetAction('USDC')
+    await withdrawDialog.clickMaxAmountAction()
   })
 
   test('has correct action plan', async () => {
     await withdrawDialog.actionsContainer.expectActions([
-      { type: 'approve', asset: 'sUSDS' },
-      { type: 'withdrawFromSavings', asset: 'USDS', savingsAsset: 'sUSDS', mode: 'withdraw' },
+      { type: 'withdrawFromSavings', asset: 'USDC', savingsAsset: 'sUSDC', mode: 'withdraw' },
     ])
   })
 
@@ -44,28 +50,27 @@ test.describe('Withdraw USDS', () => {
     await withdrawDialog.expectNativeRouteTransactionOverview({
       routeItems: [
         {
-          tokenAmount: '966.65 sUSDS',
-          tokenUsdValue: '$1,000.00',
+          tokenAmount: '9,666.53 sUSDC',
+          tokenUsdValue: '$10,000.00',
         },
         {
-          tokenAmount: '1,000.00 USDS',
-          tokenUsdValue: '$1,000.00',
+          tokenAmount: '9,999.99 USDC',
+          tokenUsdValue: '$9,999.99',
         },
       ],
-      outcome: '1,000.00 USDS',
-      outcomeUsd: '$1,000.00',
+      outcome: '9,999.99 USDC',
+      outcomeUsd: '$9,999.99',
     })
 
     await withdrawDialog.expectUpgradeSwitchToBeHidden()
   })
 
   test('executes withdraw', async () => {
-    await withdrawDialog.actionsContainer.acceptAllActionsAction(2)
+    await withdrawDialog.actionsContainer.acceptAllActionsAction(1)
 
     await withdrawDialog.expectSuccessPage()
     await withdrawDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsAccountBalance({ balance: '9,033.35', estimatedValue: '9,344.969493' })
-    await savingsPage.expectSupportedStablecoinBalance('USDS', '1,000')
+    await savingsPage.expectSupportedStablecoinBalance('USDC', '10,000.00')
   })
 })

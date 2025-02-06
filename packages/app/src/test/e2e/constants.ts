@@ -12,6 +12,10 @@ const TOKENS_ON_MAINNET = {
     address: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
     decimals: 6,
   },
+  sUSDC: {
+    address: '0x29bd15f2c80f2807c29d2428aa835f2be1098a62',
+    decimals: 18,
+  },
   sDAI: {
     address: '0x83F20F44975D03b1b09e64809B757c47f942BEeA',
     decimals: 18,
@@ -113,6 +117,10 @@ export const TOKENS_ON_FORK = {
       address: '0x5875eEE11Cf8398102FdAd704C9E96607675467a',
       decimals: 18,
     },
+    sUSDC: {
+      address: '0x62da45546a0f87b23941ffe5ca22f9d2a8fa7df3',
+      decimals: 18,
+    },
   },
 } as const
 
@@ -132,6 +140,8 @@ export const DEFAULT_BLOCK_NUMBER = 21400000n
 
 // Edge cases
 export const GNO_ACTIVE_BLOCK_NUMBER = 18365842n
+export const MOCK_SUSDC_ACTIVE_BLOCK_NUMBER = 21772200n
 
 export const BASE_DEFAULT_BLOCK_NUMBER = 23000000n
+export const BASE_MOCK_SUSDC_ACTIVE_BLOCK_NUMBER = 25940000n
 export const GNOSIS_DEFAULT_BLOCK_NUMBER = 34543308n

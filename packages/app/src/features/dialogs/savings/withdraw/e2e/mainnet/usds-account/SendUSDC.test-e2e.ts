@@ -30,14 +30,14 @@ test.describe('Send USDC', () => {
     })
 
     savingsPage = new SavingsPageObject(testContext)
-
+    await savingsPage.clickSavingsNavigationItemAction('USDS')
     await savingsPage.clickDepositButtonAction('USDS')
+
     const depositDialog = new SavingsDialogPageObject({ testContext, type: 'deposit' })
     await depositDialog.fillAmountAction(10_000)
     await depositDialog.actionsContainer.acceptAllActionsAction(2)
     await depositDialog.clickBackToSavingsButton()
 
-    await savingsPage.clickSavingsNavigationItemAction('USDS')
     await savingsPage.clickSendFromAccountButtonAction()
     sendDialog = new SavingsDialogPageObject({ testContext, type: 'send' })
     await sendDialog.selectAssetAction('USDC')

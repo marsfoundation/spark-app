@@ -94,6 +94,22 @@ export class SavingsPageObject extends BasePageObject {
     ).toContainText(estimatedValue)
   }
 
+  async expectNavigationItemBalance(account: string, balance: string): Promise<void> {
+    await expect(
+      this.locateSavingsNavigationItem(account).getByTestId(testIds.savings.navigation.itemBalance),
+    ).toHaveText(balance)
+  }
+
+  async expectNavigationItemBalanceToBeInvisible(account: string): Promise<void> {
+    await expect(
+      this.locateSavingsNavigationItem(account).getByTestId(testIds.savings.navigation.itemBalance),
+    ).toBeHidden()
+  }
+
+  async expectNavigationToBeInvisible(): Promise<void> {
+    await expect(this.page.getByTestId(testIds.savings.navigation.container)).toBeHidden()
+  }
+
   async expect30DaysProjection(value: string): Promise<void> {
     await expect(
       this.locateAccountMainPanel().getByTestId(testIds.savings.account.mainPanel.projections.thirtyDays),
@@ -112,8 +128,8 @@ export class SavingsPageObject extends BasePageObject {
     await expect(row.getByRole('cell', { name: value })).toBeVisible()
   }
 
-  expectUpgradeSDaiBannerToBeHidden(): Promise<void> {
-    return expect(this.locateUpgradeSDaiBanner()).toBeHidden()
+  async expectUpgradeSDaiBannerToBeHidden(): Promise<void> {
+    await expect(this.locateUpgradeSDaiBanner()).toBeHidden()
   }
 
   // #endregion

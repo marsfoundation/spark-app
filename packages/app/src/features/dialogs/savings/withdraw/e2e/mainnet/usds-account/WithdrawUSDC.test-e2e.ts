@@ -26,14 +26,14 @@ test.describe('Withdraw USDC', () => {
     })
 
     savingsPage = new SavingsPageObject(testContext)
-
+    await savingsPage.clickSavingsNavigationItemAction('USDS')
     await savingsPage.clickDepositButtonAction('USDC')
+
     const depositDialog = new SavingsDialogPageObject({ testContext, type: 'deposit' })
     await depositDialog.fillAmountAction(10_000)
     await depositDialog.actionsContainer.acceptAllActionsAction(2)
     await depositDialog.clickBackToSavingsButton()
 
-    await savingsPage.clickSavingsNavigationItemAction('USDS')
     await savingsPage.clickWithdrawFromAccountButtonAction()
     withdrawDialog = new SavingsDialogPageObject({ testContext, type: 'withdraw' })
     await withdrawDialog.selectAssetAction('USDC')

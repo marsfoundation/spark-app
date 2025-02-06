@@ -6,7 +6,7 @@ import { generatePath } from 'react-router-dom'
 import { Address, Chain, Hash, parseEther, parseUnits } from 'viem'
 import { AssetsInTests, TOKENS_ON_FORK } from './constants'
 import { getTestnetContext } from './getTestnetContext'
-import { injectNetworkConfiguration, injectWalletConfiguration } from './injectSetup'
+import { injectFlags, injectNetworkConfiguration, injectWalletConfiguration } from './injectSetup'
 import { generateAccount } from './utils'
 
 export type InjectableWallet = { address: Address } | { privateKey: string }
@@ -193,6 +193,8 @@ async function injectPageSetup({
       chainId: options.blockchain.chain.id,
     })
   }
+
+  await injectFlags(page, testnetClient, options.blockchain.chain.id)
 
   let autoSimulationProgressDelta: number | undefined
   await page.route(rpcUrl, async (route) => {
