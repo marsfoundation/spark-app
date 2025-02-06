@@ -3,13 +3,16 @@ import fetchRetry from 'fetch-retry'
 // @todo redo as HttpClient class
 
 export const solidFetch = fetchRetry(fetch, {
-  retries: 5,
-  async retryOn(_attempt, error, response) {
+  async retryOn(attempt, error, response) {
+    if (attempt > 4) {
+      return false
+    }
+
     const retry = error !== null || !response?.ok
     if (retry) {
       const errorMsg = await response?.text()
       // biome-ignore lint/suspicious/noConsoleLog: debugging
-      console.log('[solidFetch] Retrying error', { error, response, errorMsg })
+      console.log('[solidFetch] Retrying error', { error, response, errorMsg, attempt })
     }
 
     return retry
