@@ -80,6 +80,7 @@ test.describe('Withdraw USDS', () => {
     )
     await testContext.testnetController.progressSimulation(5)
     await page.reload()
+    await savingsPage.clickSavingsNavigationItemAction('USDS')
 
     await savingsPage.clickWithdrawFromAccountButtonAction()
     withdrawDialog = new SavingsDialogPageObject({ testContext, type: 'withdraw' })

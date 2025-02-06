@@ -84,6 +84,7 @@ test.describe('Deposit USDS', () => {
     )
     await testContext.testnetController.progressSimulation(5)
     await page.reload()
+    await savingsPage.clickSavingsNavigationItemAction('USDS')
 
     await savingsPage.clickDepositButtonAction('USDS')
 
