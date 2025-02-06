@@ -64,7 +64,7 @@ test.describe('Savings Mainnet', () => {
     await savingsPage.clickSavingsNavigationItemAction('USDS')
 
     await savingsPage.expectAccountMainPanelApy('12.5%')
-    await savingsPage.expect1YearProjection('+12.72')
+    await savingsPage.expectOneYearProjection('+12.72')
   })
 
   test('can switch between accounts', async ({ page }) => {
@@ -158,7 +158,7 @@ test.describe('Savings Gnosis', () => {
     const savingsPage = new SavingsPageObject(testContext)
 
     await savingsPage.expectAccountMainPanelApy('10.6%')
-    await savingsPage.expect1YearProjection('+11.53')
+    await savingsPage.expectOneYearProjection('+11.53')
   })
 
   test('hides navigation when single account', async ({ page }) => {
@@ -229,6 +229,6 @@ test.describe('Savings Base', () => {
     const savingsPage = new SavingsPageObject(testContext)
 
     await savingsPage.expectAccountMainPanelApy('8.5%')
-    await savingsPage.expect1YearProjection('+8.61')
+    await savingsPage.expectOneYearProjection('+8.61')
   })
 })

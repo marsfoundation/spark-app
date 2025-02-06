@@ -1,4 +1,4 @@
-import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { WithClassname, WithTooltipProvider } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
@@ -20,10 +20,8 @@ const meta: Meta<typeof AccountMainPanelGroup> = {
     openDepositDialog: () => {},
     openSendDialog: () => {},
     openWithdrawDialog: () => {},
-    projections: {
-      thirtyDays: NormalizedUnitNumber(260.4),
-      oneYear: NormalizedUnitNumber(3125.0),
-    },
+    oneYearProjection: NormalizedUnitNumber(3125.0),
+    apy: Percentage(0.125),
   },
 }
 

@@ -3,7 +3,7 @@ import { SavingsConverter } from '@/domain/savings-converters/types'
 import { Token } from '@/domain/types/Token'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { STEP_IN_MS, SavingsOverview, makeSavingsOverview } from './makeSavingsOverview'
-import { calculateProjections } from './projections'
+import { calculateOneYearProjection } from './projections'
 import { InterestData } from './useSavings'
 
 export interface GetInterestDataParams {
@@ -21,7 +21,7 @@ export function getInterestData({
   savingsTokenBalance,
   timestamp,
 }: GetInterestDataParams): InterestData {
-  const currentProjections = calculateProjections({
+  const oneYearProjection = calculateOneYearProjection({
     timestamp,
     shares: savingsTokenBalance,
     savingsConverter,
@@ -35,7 +35,7 @@ export function getInterestData({
 
   return {
     APY: savingsConverter.apy,
-    currentProjections,
+    oneYearProjection,
     calculateUnderlyingTokenBalance,
     balanceRefreshIntervalInMs,
   }

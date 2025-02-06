@@ -69,10 +69,7 @@ const migrationInfo = {
 const interestData = {
   APY: Percentage(0.12),
   balanceRefreshIntervalInMs: 50,
-  currentProjections: {
-    thirtyDays: NormalizedUnitNumber(250),
-    oneYear: NormalizedUnitNumber(1250),
-  },
+  oneYearProjection: NormalizedUnitNumber(1250),
   calculateUnderlyingTokenBalance: () => ({
     depositedAssets: NormalizedUnitNumber(10365.7654),
     depositedAssetsPrecision: 2,
@@ -212,10 +209,7 @@ export const Dai: Story = {
       ...savingsDaiAccountDefinition,
       interestData: {
         ...interestData,
-        currentProjections: {
-          thirtyDays: NormalizedUnitNumber(509.7654),
-          oneYear: NormalizedUnitNumber(2548.827),
-        },
+        oneYearProjection: NormalizedUnitNumber(2548.827),
         calculateUnderlyingTokenBalance: () => ({
           depositedAssets: NormalizedUnitNumber(22_249.7654),
           depositedAssetsPrecision: 2,
@@ -295,10 +289,7 @@ export const BigNumbers: Story = {
       savingsTokenBalance: NormalizedUnitNumber(110_000_000),
       interestData: {
         ...interestData,
-        currentProjections: {
-          thirtyDays: NormalizedUnitNumber(1224300.923423423),
-          oneYear: NormalizedUnitNumber(6345543.32945601),
-        },
+        oneYearProjection: NormalizedUnitNumber(6345543.32945601),
         calculateUnderlyingTokenBalance: () => ({
           depositedAssets: NormalizedUnitNumber('134395765.123482934245'),
           depositedAssetsPrecision: 0,

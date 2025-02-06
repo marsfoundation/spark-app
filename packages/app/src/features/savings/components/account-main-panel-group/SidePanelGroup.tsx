@@ -4,14 +4,13 @@ import { Panel } from '@/ui/atoms/panel/Panel'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 import { testIds } from '@/ui/utils/testIds'
 import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
-import { Projections } from '../../types'
 import { AdditionalInfo } from './AdditionalInfo'
 
 export interface SidePanelGroupProps {
   underlyingToken: Token
   savingsToken: Token
   savingsTokenBalance: NormalizedUnitNumber
-  projections: Projections
+  oneYearProjection: NormalizedUnitNumber
   apy: Percentage
   className?: string
 }
@@ -19,7 +18,7 @@ export function SidePanelGroup({
   underlyingToken,
   savingsToken,
   savingsTokenBalance,
-  projections,
+  oneYearProjection,
   apy,
   className,
 }: SidePanelGroupProps) {
@@ -51,7 +50,7 @@ export function SidePanelGroup({
               <div className="typography-heading-5 flex gap-[1px]">
                 <div className="text-feature-savings-primary">+</div>
                 <div className="text-primary-inverse">
-                  {underlyingToken.format(projections.oneYear, { style: 'auto' })}
+                  {underlyingToken.format(oneYearProjection, { style: 'auto' })}
                 </div>
               </div>
               <TokenIcon token={underlyingToken} className="size-5" />

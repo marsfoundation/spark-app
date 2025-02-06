@@ -111,12 +111,14 @@ export class SavingsPageObject extends BasePageObject {
   }
 
   async expectAccountMainPanelApy(value: string): Promise<void> {
-    await expect(this.locateAccountMainPanel().getByTestId(testIds.savings.account.mainPanel.apy)).toHaveText(value)
+    await expect(this.locateAccountMainPanel().getByTestId(testIds.savings.account.mainPanel.apy).first()).toHaveText(
+      value,
+    )
   }
 
-  async expect1YearProjection(value: string): Promise<void> {
+  async expectOneYearProjection(value: string): Promise<void> {
     await expect(
-      this.locateAccountMainPanel().getByTestId(testIds.savings.account.mainPanel.oneYearProjection),
+      this.locateAccountMainPanel().getByTestId(testIds.savings.account.mainPanel.oneYearProjection).first(),
     ).toHaveText(value)
   }
 
