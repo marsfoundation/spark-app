@@ -25,8 +25,9 @@ export function Details({ description, entryTokens, savingsToken }: DetailsProps
       <div className="typography-body-3 max-w-96 text-tertiary">
         {description.text}{' '}
         <Link to={description.docsLink} className="text-savings" external>
-          Learn more
+          here
         </Link>
+        .
       </div>
     </div>
   )

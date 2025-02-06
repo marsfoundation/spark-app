@@ -169,7 +169,10 @@ const shortSavingsDaiAccountDefinition = {
 const savingsViewSusdsArgs = {
   selectedAccount: savingsUsdsAccountDefinition,
   setSelectedAccount: () => {},
-  openDialog: () => {},
+  openDepositDialog: () => {},
+  openConvertStablesDialog: () => {},
+  openSendDialog: () => {},
+  openWithdrawDialog: () => {},
   openConnectModal: () => {},
   openSandboxModal: () => {},
   guestMode: false,

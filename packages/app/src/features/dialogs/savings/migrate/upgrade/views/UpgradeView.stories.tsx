@@ -15,67 +15,6 @@ const meta: Meta<typeof UpgradeView> = {
     return <UpgradeView {...args} form={form} />
   },
   args: {
-    fromToken: tokens.DAI,
-    toToken: tokens.USDS,
-    actionsContext: {
-      tokensInfo: getMockTokensInfo(),
-    },
-    txOverview: {
-      status: 'success',
-      route: [
-        {
-          token: tokens.DAI,
-          value: NormalizedUnitNumber(5000),
-          usdValue: NormalizedUnitNumber(5000),
-        },
-        {
-          token: tokens.USDS,
-          value: NormalizedUnitNumber(5000),
-          usdValue: NormalizedUnitNumber(5000),
-        },
-      ],
-    },
-    selectableAssets: [
-      {
-        token: tokens.DAI,
-        balance: NormalizedUnitNumber(5000),
-      },
-    ],
-    assetsFields: {
-      selectedAsset: {
-        token: tokens.DAI,
-        balance: NormalizedUnitNumber(5000),
-        value: '2000',
-      },
-      maxValue: NormalizedUnitNumber(5000),
-      changeAsset: () => {},
-    },
-    objectives: [
-      {
-        type: 'upgrade',
-        fromToken: tokens.DAI,
-        toToken: tokens.USDS,
-        amount: NormalizedUnitNumber(1),
-      },
-    ],
-    pageStatus: {
-      state: 'form',
-      actionsEnabled: true,
-      goToSuccessScreen: () => {},
-    },
-  },
-}
-
-export default meta
-type Story = StoryObj<typeof UpgradeView>
-
-export const Desktop: Story = {}
-export const Mobile = getMobileStory(Desktop)
-export const Tablet = getTabletStory(Desktop)
-
-export const sDai: Story = {
-  name: 'sDai',
-  args: {
     fromToken: tokens.sDAI,
     toToken: tokens.sUSDS,
     actionsContext: {
@@ -120,5 +59,17 @@ export const sDai: Story = {
         amount: NormalizedUnitNumber(1),
       },
     ],
+    pageStatus: {
+      state: 'form',
+      actionsEnabled: true,
+      goToSuccessScreen: () => {},
+    },
   },
 }
+
+export default meta
+type Story = StoryObj<typeof UpgradeView>
+
+export const Desktop: Story = {}
+export const Mobile = getMobileStory(Desktop)
+export const Tablet = getTabletStory(Desktop)

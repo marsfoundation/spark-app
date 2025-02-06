@@ -33,9 +33,9 @@ export const Desktop: Story = {
         blockExplorerLink: '/',
       },
     ],
-    openDialog: () => {},
+    openDepositDialog: () => {},
+    openConvertStablesDialog: () => {},
     showConvertDialogButton: true,
-    savingsToken: tokens.sUSDS,
   },
 }
 
