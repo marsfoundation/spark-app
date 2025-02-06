@@ -34,7 +34,7 @@ export function GeneralStatsBar({ accountSavingsToken, generalStatsResult }: Gen
       <Stat>
         <Label>Liquidity:</Label>
         <Value>
-          {Number.isFinite(liquidity) ? (
+          {liquidity.isFinite() ? (
             USD_MOCK_TOKEN.formatUSD(NormalizedUnitNumber(liquidity), { compact: true })
           ) : (
             <>

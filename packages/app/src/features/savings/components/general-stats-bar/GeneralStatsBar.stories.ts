@@ -1,3 +1,4 @@
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import type { Meta, StoryObj } from '@storybook/react'
 import { GeneralStatsBar } from './GeneralStatsBar'
@@ -8,8 +9,8 @@ const meta: Meta<typeof GeneralStatsBar> = {
   args: {
     generalStatsResult: {
       data: {
-        tvl: 5_000_123_000,
-        getLiquidity: () => 1_000_000,
+        tvl: NormalizedUnitNumber(5_000_123_000),
+        getLiquidity: () => NormalizedUnitNumber(1_000_000),
         users: 43_232,
       },
       isPending: false,
@@ -30,8 +31,8 @@ export const HighValues: Story = {
   args: {
     generalStatsResult: {
       data: {
-        tvl: 10_000_000_000,
-        getLiquidity: () => Number.POSITIVE_INFINITY,
+        tvl: NormalizedUnitNumber(10_000_000_000),
+        getLiquidity: () => NormalizedUnitNumber(Number.POSITIVE_INFINITY),
         users: 1_000_000,
       },
       isPending: false,
@@ -45,8 +46,8 @@ export const LowValues: Story = {
   args: {
     generalStatsResult: {
       data: {
-        tvl: 100_000,
-        getLiquidity: () => 50_000,
+        tvl: NormalizedUnitNumber(100_000),
+        getLiquidity: () => NormalizedUnitNumber(50_000),
         users: 100,
       },
       isPending: false,

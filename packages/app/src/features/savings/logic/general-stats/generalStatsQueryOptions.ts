@@ -1,14 +1,15 @@
 import { infoSkyApiUrl } from '@/config/consts'
-import { normalizedNumberSchema } from '@/domain/common/validation'
+import { normalizedUnitNumberSchema } from '@/domain/common/validation'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { queryOptions } from '@tanstack/react-query'
 import { z } from 'zod'
 
 export interface GeneralStatsQueryResult {
-  tvl: number
+  tvl: NormalizedUnitNumber
   users: number
-  getLiquidity: (accountSavingsToken: Token) => number
+  getLiquidity: (accountSavingsToken: Token) => NormalizedUnitNumber
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -29,7 +30,7 @@ export function generalStatsQueryOptions() {
         getLiquidity: (accountSavingsToken: Token) =>
           accountSavingsToken.symbol === TokenSymbol('sUSDC')
             ? parsedResult.liquidityMap.usdc
-            : Number.POSITIVE_INFINITY,
+            : NormalizedUnitNumber(Number.POSITIVE_INFINITY),
       }
     },
   })
@@ -37,10 +38,10 @@ export function generalStatsQueryOptions() {
 
 const generalStatsResponseSchema = z
   .object({
-    savings_tvl: normalizedNumberSchema,
+    savings_tvl: normalizedUnitNumberSchema,
     number_of_wallets: z.number(),
     liquidity: z.object({
-      usdc: normalizedNumberSchema,
+      usdc: normalizedUnitNumberSchema,
     }),
   })
   .transform((o) => ({

@@ -179,8 +179,8 @@ const savingsViewSusdsArgs = {
   allAccounts: [shortSavingsUsdcAccountDefinition, shortSavingsUsdsAccountDefinition, shortSavingsDaiAccountDefinition],
   generalStats: {
     data: {
-      tvl: 2_320_691_847,
-      getLiquidity: () => 2_320_691_847,
+      tvl: NormalizedUnitNumber(2_320_691_847),
+      getLiquidity: () => NormalizedUnitNumber(2_320_691_847),
       users: 4_967,
     },
     isPending: false,
