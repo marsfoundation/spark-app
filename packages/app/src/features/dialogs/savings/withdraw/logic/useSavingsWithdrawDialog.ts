@@ -21,7 +21,7 @@ import { createObjectives } from './createObjectives'
 import { createTxOverview } from './createTxOverview'
 import { getFormFieldsForWithdrawDialog } from './getFormFieldsForWithdrawDialog'
 import { useSendModeExtension } from './useSendModeExtension'
-import { getSavingsWithdrawDialogFormValidator } from './validation'
+import { useWithdrawFromSavingsValidator } from './useWithdrawFromSavingsValidator'
 
 export interface UseSavingsWithdrawDialogParams {
   mode: Mode
@@ -60,8 +60,14 @@ export function useSavingsWithdrawDialog({
   const sendModeExtension = useSendModeExtension({ mode, tokensInfo })
   const savingsTokenWithBalance = tokensInfo.findOneTokenWithBalanceBySymbol(savingsToken.symbol)
 
+  const validator = useWithdrawFromSavingsValidator({
+    chainId,
+    tokensInfo,
+    savingsToken: savingsTokenWithBalance.token,
+    savingsTokenBalance: savingsTokenWithBalance.balance,
+  })
   const form = useForm<AssetInputSchema>({
-    resolver: zodResolver(getSavingsWithdrawDialogFormValidator({ savingsTokenWithBalance })),
+    resolver: zodResolver(validator),
     defaultValues: {
       symbol: underlyingToken.symbol,
       value: '',

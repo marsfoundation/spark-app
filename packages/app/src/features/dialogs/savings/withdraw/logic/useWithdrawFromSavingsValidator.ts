@@ -1,0 +1,136 @@
+import { basePsm3Address } from '@/config/contracts-generated'
+import { DynamicValidatorConfig, ensureDynamicValidatorConfigTypes } from '@/domain/common/dynamicValidator'
+import { getContractAddress } from '@/domain/hooks/useContractAddress'
+import { Token } from '@/domain/types/Token'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
+import { BaseUnitNumber, NormalizedUnitNumber } from '@marsfoundation/common-universal'
+import { QueryKey, useSuspenseQuery } from '@tanstack/react-query'
+import { erc20Abi } from 'viem'
+import { base } from 'viem/chains'
+import { Config, useConfig } from 'wagmi'
+import { readContract } from 'wagmi/actions'
+import { z } from 'zod'
+import {
+  getSavingsWithdrawDialogFormValidator,
+  validateWithdrawFromSavingsOnBase,
+  withdrawValidationIssueToMessage,
+} from './validation'
+
+export type WithdrawFromSavingsValidator = z.ZodSchema<{
+  symbol: string
+  value: string
+  isMaxSelected?: boolean | undefined
+}>
+
+export interface UseWithdrawFromSavingsValidatorParams {
+  chainId: number
+  tokensInfo: TokensInfo
+  savingsToken: Token
+  savingsTokenBalance: NormalizedUnitNumber
+}
+
+export function useWithdrawFromSavingsValidator({
+  chainId,
+  tokensInfo,
+  savingsToken,
+  savingsTokenBalance,
+}: UseWithdrawFromSavingsValidatorParams): WithdrawFromSavingsValidator {
+  const wagmiConfig = useConfig()
+
+  const { fetchParamsQueryKey, fetchParamsQueryFn, createValidator } = getValidatorConfig({
+    chainId,
+    tokensInfo,
+    wagmiConfig,
+    savingsToken,
+    savingsTokenBalance,
+  })
+
+  const { data } = useSuspenseQuery({
+    queryKey: fetchParamsQueryKey,
+    queryFn: fetchParamsQueryFn,
+  })
+
+  return createValidator(data)
+}
+
+export interface GetValidatorConfigParams {
+  chainId: number
+  tokensInfo: TokensInfo
+  wagmiConfig: Config
+  savingsToken: Token
+  savingsTokenBalance: NormalizedUnitNumber
+}
+export function getValidatorConfig({
+  chainId,
+  tokensInfo,
+  wagmiConfig,
+  savingsToken,
+  savingsTokenBalance,
+}: GetValidatorConfigParams): DynamicValidatorConfig {
+  if (chainId === base.id) {
+    const usds = tokensInfo.findOneTokenBySymbol(TokenSymbol('USDS'))
+    const usdc = tokensInfo.findOneTokenBySymbol(TokenSymbol('USDC'))
+    const psm3 = getContractAddress(basePsm3Address, chainId)
+
+    return ensureDynamicValidatorConfigTypes({
+      fetchParamsQueryKey: getCreateValidatorConfigQueryKey(savingsToken, chainId),
+      fetchParamsQueryFn: async () => {
+        const [psm3UsdsBalance, psm3UsdcBalance] = await Promise.all([
+          readContract(wagmiConfig, {
+            address: usds.address,
+            abi: erc20Abi,
+            functionName: 'balanceOf',
+            args: [psm3],
+          }),
+          readContract(wagmiConfig, {
+            address: usdc.address,
+            abi: erc20Abi,
+            functionName: 'balanceOf',
+            args: [psm3],
+          }),
+        ])
+
+        return {
+          psm3UsdsBalance: usds.fromBaseUnit(BaseUnitNumber(psm3UsdsBalance)),
+          psm3UsdcBalance: usdc.fromBaseUnit(BaseUnitNumber(psm3UsdcBalance)),
+        }
+      },
+      createValidator: ({ psm3UsdcBalance, psm3UsdsBalance }) =>
+        getSavingsWithdrawDialogFormValidator({ savingsToken, savingsTokenBalance }).superRefine((field, ctx) => {
+          const value = NormalizedUnitNumber(field.value === '' ? '0' : field.value)
+          const isUsdcWithdraw = field.symbol === usdc.symbol
+          const isMaxSelected = field.isMaxSelected
+          const usdBalance = savingsToken.toUSD(savingsTokenBalance)
+
+          const issue = validateWithdrawFromSavingsOnBase({
+            value,
+            isUsdcWithdraw,
+            isMaxSelected,
+            user: { balance: usdBalance },
+            psm3: {
+              usdsBalance: psm3UsdsBalance,
+              usdcBalance: psm3UsdcBalance,
+            },
+          })
+          if (issue) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: withdrawValidationIssueToMessage[issue],
+              path: ['value'],
+            })
+          }
+        }),
+    })
+  }
+
+  return ensureDynamicValidatorConfigTypes({
+    fetchParamsQueryKey: getCreateValidatorConfigQueryKey(savingsToken, chainId),
+    fetchParamsQueryFn: () => Promise.resolve({}),
+    createValidator: () => getSavingsWithdrawDialogFormValidator({ savingsToken, savingsTokenBalance }),
+  })
+}
+
+function getCreateValidatorConfigQueryKey(savingsToken: Token, chainId: number): QueryKey {
+  return [chainId, 'dynamic-validator-withdraw-from-savings', savingsToken.symbol]
+}
