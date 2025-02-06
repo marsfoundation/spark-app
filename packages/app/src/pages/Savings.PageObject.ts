@@ -110,15 +110,15 @@ export class SavingsPageObject extends BasePageObject {
     await expect(this.page.getByTestId(testIds.savings.navigation.container)).toBeHidden()
   }
 
-  async expect30DaysProjection(value: string): Promise<void> {
-    await expect(
-      this.locateAccountMainPanel().getByTestId(testIds.savings.account.mainPanel.projections.thirtyDays),
-    ).toHaveText(value)
+  async expectAccountMainPanelApy(value: string): Promise<void> {
+    await expect(this.locateAccountMainPanel().getByTestId(testIds.savings.account.mainPanel.apy).first()).toHaveText(
+      value,
+    )
   }
 
-  async expect1YearProjection(value: string): Promise<void> {
+  async expectOneYearProjection(value: string): Promise<void> {
     await expect(
-      this.locateAccountMainPanel().getByTestId(testIds.savings.account.mainPanel.projections.oneYear),
+      this.locateAccountMainPanel().getByTestId(testIds.savings.account.mainPanel.oneYearProjection).first(),
     ).toHaveText(value)
   }
 

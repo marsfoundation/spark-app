@@ -48,7 +48,7 @@ test.describe('Savings Mainnet', () => {
     })
   })
 
-  test('calculates current projections', async ({ page }) => {
+  test('shows correct apy and projection', async ({ page }) => {
     const testContext = await setup(page, {
       blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chain: mainnet },
       initialPage: 'savings',
@@ -63,8 +63,8 @@ test.describe('Savings Mainnet', () => {
     const savingsPage = new SavingsPageObject(testContext)
     await savingsPage.clickSavingsNavigationItemAction('USDS')
 
-    await savingsPage.expect30DaysProjection('+0.99')
-    await savingsPage.expect1YearProjection('+12.72')
+    await savingsPage.expectAccountMainPanelApy('12.5%')
+    await savingsPage.expectOneYearProjection('+12.72')
   })
 
   test('can switch between accounts', async ({ page }) => {
@@ -143,7 +143,7 @@ test.describe('Savings Gnosis', () => {
     })
   })
 
-  test('calculates current projections', async ({ page }) => {
+  test('shows correct apy and projection', async ({ page }) => {
     const testContext = await setup(page, {
       blockchain: { blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER, chain: gnosis },
       initialPage: 'savings',
@@ -157,8 +157,8 @@ test.describe('Savings Gnosis', () => {
 
     const savingsPage = new SavingsPageObject(testContext)
 
-    await savingsPage.expect30DaysProjection('+0.95')
-    await savingsPage.expect1YearProjection('+11.53')
+    await savingsPage.expectAccountMainPanelApy('10.6%')
+    await savingsPage.expectOneYearProjection('+11.53')
   })
 
   test('hides navigation when single account', async ({ page }) => {
@@ -214,7 +214,7 @@ test.describe('Savings Base', () => {
     })
   })
 
-  test('calculates current projections', async ({ page }) => {
+  test('shows correct apy and projection', async ({ page }) => {
     const testContext = await setup(page, {
       blockchain: { blockNumber: BASE_DEFAULT_BLOCK_NUMBER, chain: base },
       initialPage: 'savings',
@@ -228,7 +228,7 @@ test.describe('Savings Base', () => {
 
     const savingsPage = new SavingsPageObject(testContext)
 
-    await savingsPage.expect30DaysProjection('+0.68')
-    await savingsPage.expect1YearProjection('+8.61')
+    await savingsPage.expectAccountMainPanelApy('8.5%')
+    await savingsPage.expectOneYearProjection('+8.61')
   })
 })
