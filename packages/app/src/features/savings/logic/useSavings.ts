@@ -13,7 +13,6 @@ import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { useTimestamp } from '@/utils/useTimestamp'
 import { NormalizedUnitNumber, Percentage, raise } from '@marsfoundation/common-universal'
 import { useState } from 'react'
-import { Projections } from '../types'
 import { UseGeneralStatsResult, useGeneralStats } from './general-stats/useGeneralStats'
 import { getInterestData } from './getInterestData'
 import { MigrationInfo, makeMigrationInfo } from './makeMigrationInfo'
@@ -21,7 +20,7 @@ import { SavingsOverview } from './makeSavingsOverview'
 
 export interface InterestData {
   APY: Percentage
-  currentProjections: Projections
+  oneYearProjection: NormalizedUnitNumber
   calculateUnderlyingTokenBalance: (timestampInMs: number) => SavingsOverview
   balanceRefreshIntervalInMs: number | undefined
 }

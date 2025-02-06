@@ -95,7 +95,8 @@ export function SavingsAccount({
               underlyingToken,
             } as const)
           }
-          projections={interestData.currentProjections}
+          oneYearProjection={interestData.oneYearProjection}
+          apy={interestData.APY}
           className="min-h-[352px]"
         />
       )}

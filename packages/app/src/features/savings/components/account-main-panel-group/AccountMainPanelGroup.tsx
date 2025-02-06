@@ -3,10 +3,9 @@ import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
-import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { cva } from 'class-variance-authority'
 import { SavingsOverview } from '../../logic/makeSavingsOverview'
-import { Projections } from '../../types'
 import { savingsTokenToAccountType } from '../common/utils'
 import { BottomPanel } from './BottomPanel'
 import { GrowingBalance } from './GrowingBalance'
@@ -21,13 +20,15 @@ export interface AccountMainPanelGroupProps {
   openDepositDialog: () => void
   openSendDialog: () => void
   openWithdrawDialog: () => void
-  projections: Projections
+  oneYearProjection: NormalizedUnitNumber
+  apy: Percentage
   className?: string
 }
 
 export function AccountMainPanelGroup({
   underlyingToken,
-  projections,
+  oneYearProjection,
+  apy,
   savingsToken,
   savingsTokenBalance,
   openDepositDialog,
@@ -75,14 +76,16 @@ export function AccountMainPanelGroup({
         underlyingToken={underlyingToken}
         savingsToken={savingsToken}
         savingsTokenBalance={savingsTokenBalance}
-        projections={projections}
+        apy={apy}
+        oneYearProjection={oneYearProjection}
         className="hidden lg:block"
       />
       <BottomPanel
         underlyingToken={underlyingToken}
         savingsToken={savingsToken}
         savingsTokenBalance={savingsTokenBalance}
-        projections={projections}
+        apy={apy}
+        oneYearProjection={oneYearProjection}
         className="lg:hidden"
       />
     </div>
