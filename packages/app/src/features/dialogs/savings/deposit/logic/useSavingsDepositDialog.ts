@@ -50,7 +50,6 @@ export function useSavingsDepositDialog({
     tokensInfo.findOneTokenWithBalanceBySymbol(symbol),
   )
   const savingsAccounts = useSavingsAccountRepository({ chainId })
-  const savingsConverter = savingsAccounts.findOneBySavingsToken(savingsToken).converter
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')
 
@@ -83,9 +82,7 @@ export function useSavingsDepositDialog({
 
   const txOverview = createTxOverview({
     formValues,
-    tokensInfo,
-    savingsConverter,
-    savingsToken,
+    savingsAccount: savingsAccounts.findOneBySavingsToken(savingsToken),
   })
 
   const tokenToDeposit: TokenWithValue = {
