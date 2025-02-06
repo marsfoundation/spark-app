@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { generalStatsQueryOptions } from './generalStatsQueryOptions'
 
-export function usePrefetchSavingsGeneralStats() {
+export function usePrefetchSavingsGeneralStats(): void {
   const queryClient = useQueryClient()
-  queryClient.prefetchQuery(generalStatsQueryOptions())
+  void queryClient.prefetchQuery(generalStatsQueryOptions())
 }
