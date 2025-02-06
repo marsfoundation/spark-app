@@ -14,6 +14,7 @@ import { useTimestamp } from '@/utils/useTimestamp'
 import { NormalizedUnitNumber, Percentage, raise } from '@marsfoundation/common-universal'
 import { useState } from 'react'
 import { Projections } from '../types'
+import { UseGeneralStatsResult, useGeneralStats } from './general-stats/useGeneralStats'
 import { getInterestData } from './getInterestData'
 import { MigrationInfo, makeMigrationInfo } from './makeMigrationInfo'
 import { SavingsOverview } from './makeSavingsOverview'
@@ -43,7 +44,6 @@ export interface AccountDefinition {
   chartsData: ChartsData
   showConvertDialogButton: boolean
   migrationInfo?: MigrationInfo
-  liquidity: number
 }
 
 export interface ShortAccountDefinition {
@@ -51,13 +51,11 @@ export interface ShortAccountDefinition {
   underlyingToken: Token
   underlyingTokenDeposit: NormalizedUnitNumber
 }
-
 export interface UseSavingsResults {
   allAccounts: ShortAccountDefinition[]
   selectedAccount: AccountDefinition
   setSelectedAccount: (savingsTokenSymbol: TokenSymbol) => void
-  users: number
-  tvl: number
+  generalStats: UseGeneralStatsResult
   openDialog: OpenDialogFunction
 }
 export function useSavings(): UseSavingsResults {
@@ -122,13 +120,13 @@ export function useSavings(): UseSavingsResults {
     timestamp,
   })
 
+  const generalStats = useGeneralStats()
+
   return {
     openDialog,
     allAccounts,
     setSelectedAccount,
-    // @todo: Populate with real data after adding BA endpoints
-    users: 4_234,
-    tvl: 2_320_691_847,
+    generalStats,
     selectedAccount: {
       chartsData: savingsChartsData,
       interestData,
@@ -139,8 +137,6 @@ export function useSavings(): UseSavingsResults {
       mostValuableAsset: maxBalanceToken,
       showConvertDialogButton: Boolean(psmStables && psmStables.length > 1),
       migrationInfo,
-      // @todo: Populate with real data after adding BA endpoints
-      liquidity: Number.POSITIVE_INFINITY,
     },
   }
 }
