@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 import { randomHexId } from '@/utils/random'
-import { solidFetch } from '@/utils/solidFetch'
+import { solidFetch } from '@marsfoundation/common-universal'
 
 const createForkResponseSchema = z.object({
   simulation_fork: z.object({

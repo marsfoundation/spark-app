@@ -1,4 +1,4 @@
-import { solidFetch } from '@/utils/solidFetch'
+import { solidFetch } from '@marsfoundation/common-universal'
 
 export interface CreateTenderlyVnetArgs {
   name: string
