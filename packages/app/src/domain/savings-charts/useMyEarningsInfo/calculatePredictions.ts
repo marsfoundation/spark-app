@@ -16,7 +16,20 @@ export function calculatePredictions({
   shares: NormalizedUnitNumber
   timestamp: number
 }): MyEarningsInfoItem[] {
-  const step = days > 366 ? 3 : 1
+  const step = (() => {
+    switch (true) {
+      case days > 1000:
+        return 30
+      case days > 366:
+        return 15
+      case days > 180:
+        return 10
+      case days > 60:
+        return 5
+      default:
+        return 1
+    }
+  })()
 
   // @note For today we have only current balance (with slight delay) but we need also balance for next data-point
   return range(0, days, step).map((day) => {
