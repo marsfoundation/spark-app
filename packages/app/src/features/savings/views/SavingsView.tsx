@@ -6,13 +6,13 @@ import { PageHeader } from '../components/PageHeader'
 import { AccountsNavigation } from '../components/accounts-navigation/AccountsNavigation'
 import { GeneralStatsBar } from '../components/general-stats-bar/GeneralStatsBar'
 import { SavingsAccount } from '../components/savings-account/SavingsAccount'
+import { UseGeneralStatsResult } from '../logic/general-stats/useGeneralStats'
 import { ShortAccountDefinition } from '../logic/useSavings'
 import { AccountDefinition } from '../logic/useSavings'
 
 export interface SavingsViewProps {
   selectedAccount: AccountDefinition
-  users: number
-  tvl: number
+  generalStats: UseGeneralStatsResult
   // @todo: Pass separate functions for each dialog after removing old views
   openDialog: OpenDialogFunction
   openSandboxModal: () => void
@@ -30,8 +30,7 @@ export function SavingsView({
   guestMode,
   setSelectedAccount,
   allAccounts,
-  users,
-  tvl,
+  generalStats,
 }: SavingsViewProps) {
   const showNavigation = allAccounts.length > 1
 
@@ -39,7 +38,7 @@ export function SavingsView({
     <PageLayout>
       <div className="flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between">
         <PageHeader />
-        <GeneralStatsBar users={users} tvl={tvl} liquidity={selectedAccount.liquidity} />
+        <GeneralStatsBar accountSavingsToken={selectedAccount.savingsToken} generalStatsResult={generalStats} />
       </div>
       <div className={cn('grid grid-cols-1 gap-6', showNavigation && 'xl:grid-cols-[202px_1fr]')}>
         {showNavigation && (

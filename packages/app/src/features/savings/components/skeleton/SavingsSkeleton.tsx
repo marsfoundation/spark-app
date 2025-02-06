@@ -9,9 +9,9 @@ export interface SavingsSkeletonProps {
 export function SavingsSkeleton({ numberOfAccounts }: SavingsSkeletonProps) {
   return (
     <PageLayout>
-      <div className="flex flex-col gap-4 lg:flex-row lg:justify-between">
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <Skeleton className="h-[60px] w-[190px]" />
-        <Skeleton className="h-[45px] w-full lg:w-[340px]" />
+        <Skeleton className="h-10 w-full max-w-[400px]" />
       </div>
       <div className={cn('grid grid-cols-1 gap-6', numberOfAccounts > 1 && 'lg:grid-cols-[202px_1fr]')}>
         {numberOfAccounts > 1 && (
