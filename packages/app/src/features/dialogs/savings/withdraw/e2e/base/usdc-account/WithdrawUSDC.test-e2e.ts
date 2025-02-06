@@ -97,11 +97,9 @@ test.describe('Withdraw USDC', () => {
     )
     await testContext.testnetController.progressSimulation(5)
     await page.reload()
-    await savingsPage.clickSavingsNavigationItemAction('USDS')
 
     await savingsPage.clickWithdrawFromAccountButtonAction()
     withdrawDialog = new SavingsDialogPageObject({ testContext, type: 'withdraw' })
-    await withdrawDialog.selectAssetAction('USDC')
     await withdrawDialog.fillAmountAction(1000)
 
     await withdrawDialog.expectAssetInputError(withdrawValidationIssueToMessage['usdc-withdraw-cap-reached'])
