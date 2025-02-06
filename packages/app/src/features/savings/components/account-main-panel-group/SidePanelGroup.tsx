@@ -1,8 +1,9 @@
+import { formatPercentage } from '@/domain/common/format'
 import { Token } from '@/domain/types/Token'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 import { testIds } from '@/ui/utils/testIds'
-import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { Projections } from '../../types'
 import { AdditionalInfo } from './AdditionalInfo'
 
@@ -11,6 +12,7 @@ export interface SidePanelGroupProps {
   savingsToken: Token
   savingsTokenBalance: NormalizedUnitNumber
   projections: Projections
+  apy: Percentage
   className?: string
 }
 export function SidePanelGroup({
@@ -18,21 +20,23 @@ export function SidePanelGroup({
   savingsToken,
   savingsTokenBalance,
   projections,
+  apy,
   className,
 }: SidePanelGroupProps) {
   return (
     <div className={className}>
       <div className="grid grid-rows-3 gap-2">
         <SidePanel>
-          <AdditionalInfo.Label tooltipText="This is an estimate of what you could earn in 30 days.">
-            30-days Projection
+          <AdditionalInfo.Label tooltipText="Current annual interest rate. It is determined on-chain by the Sky Ecosystem Governance.">
+            APY
           </AdditionalInfo.Label>
           <AdditionalInfo.Content>
-            <Projection
-              token={underlyingToken}
-              value={projections.thirtyDays}
-              data-testid={testIds.savings.account.mainPanel.projections.thirtyDays}
-            />
+            <div
+              className="typography-heading-5 text-primary-inverse"
+              data-testid={testIds.savings.account.mainPanel.apy}
+            >
+              {formatPercentage(apy, { minimumFractionDigits: 1 })}
+            </div>
           </AdditionalInfo.Content>
         </SidePanel>
         <SidePanel>
@@ -40,11 +44,18 @@ export function SidePanelGroup({
             1-year Projection
           </AdditionalInfo.Label>
           <AdditionalInfo.Content>
-            <Projection
-              token={underlyingToken}
-              value={projections.oneYear}
-              data-testid={testIds.savings.account.mainPanel.projections.oneYear}
-            />
+            <div
+              className="flex items-center gap-1.5"
+              data-testid={testIds.savings.account.mainPanel.oneYearProjection}
+            >
+              <div className="typography-heading-5 flex gap-[1px]">
+                <div className="text-feature-savings-primary">+</div>
+                <div className="text-primary-inverse">
+                  {underlyingToken.format(projections.oneYear, { style: 'auto' })}
+                </div>
+              </div>
+              <TokenIcon token={underlyingToken} className="size-5" />
+            </div>
           </AdditionalInfo.Content>
         </SidePanel>
         <SidePanel>
@@ -69,25 +80,5 @@ function SidePanel({ children }: { children: React.ReactNode }) {
     <Panel variant="secondary" className="flex w-[325px] flex-col gap-2 py-7">
       {children}
     </Panel>
-  )
-}
-
-function Projection({
-  token,
-  value,
-  'data-testid': dataTestId,
-}: {
-  token: Token
-  value: NormalizedUnitNumber
-  'data-testid'?: string
-}) {
-  return (
-    <div className="flex items-center gap-1.5" data-testid={dataTestId}>
-      <div className="typography-heading-5 flex gap-[1px]">
-        <div className="text-feature-savings-primary">+</div>
-        <div className="text-primary-inverse">{token.format(value, { style: 'auto' })}</div>
-      </div>
-      <TokenIcon token={token} className="size-5" />
-    </div>
   )
 }

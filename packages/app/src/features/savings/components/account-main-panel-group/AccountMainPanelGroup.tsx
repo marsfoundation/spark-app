@@ -3,7 +3,7 @@ import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
-import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { cva } from 'class-variance-authority'
 import { SavingsOverview } from '../../logic/makeSavingsOverview'
 import { Projections } from '../../types'
@@ -22,12 +22,14 @@ export interface AccountMainPanelGroupProps {
   openSendDialog: () => void
   openWithdrawDialog: () => void
   projections: Projections
+  apy: Percentage
   className?: string
 }
 
 export function AccountMainPanelGroup({
   underlyingToken,
   projections,
+  apy,
   savingsToken,
   savingsTokenBalance,
   openDepositDialog,
@@ -75,6 +77,7 @@ export function AccountMainPanelGroup({
         underlyingToken={underlyingToken}
         savingsToken={savingsToken}
         savingsTokenBalance={savingsTokenBalance}
+        apy={apy}
         projections={projections}
         className="hidden lg:block"
       />

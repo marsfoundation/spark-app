@@ -96,6 +96,7 @@ export function SavingsAccount({
             } as const)
           }
           projections={interestData.currentProjections}
+          apy={interestData.APY}
           className="min-h-[352px]"
         />
       )}
