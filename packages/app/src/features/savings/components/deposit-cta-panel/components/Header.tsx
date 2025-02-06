@@ -25,7 +25,7 @@ export function Header({ savingsToken, savingsRate, inputTokens }: HeaderProps) 
         <br />
         and earn{' '}
         <span className="text-transparent" data-testid={testIds.savings.account.depositCTA.apy}>
-          {formatPercentage(savingsRate, { minimumFractionDigits: 1 })}
+          {formatPercentage(savingsRate, { minimumFractionDigits: 0 })}
         </span>{' '}
         APY!
       </div>

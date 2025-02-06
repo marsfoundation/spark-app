@@ -32,7 +32,7 @@ export function BottomPanel({
         </AdditionalInfo.Label>
         <AdditionalInfo.Content>
           <div className="typography-label-2 text-primary-inverse" data-testid={testIds.savings.account.mainPanel.apy}>
-            {formatPercentage(apy, { minimumFractionDigits: 1 })}
+            {formatPercentage(apy, { minimumFractionDigits: 0 })}
           </div>
         </AdditionalInfo.Content>
       </BottomPanelItem>

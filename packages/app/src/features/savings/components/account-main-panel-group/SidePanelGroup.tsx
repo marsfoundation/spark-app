@@ -34,7 +34,7 @@ export function SidePanelGroup({
               className="typography-heading-5 text-primary-inverse"
               data-testid={testIds.savings.account.mainPanel.apy}
             >
-              {formatPercentage(apy, { minimumFractionDigits: 1 })}
+              {formatPercentage(apy, { minimumFractionDigits: 0 })}
             </div>
           </AdditionalInfo.Content>
         </SidePanel>
