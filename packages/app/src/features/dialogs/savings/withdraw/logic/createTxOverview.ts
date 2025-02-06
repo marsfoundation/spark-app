@@ -36,7 +36,7 @@ export function createTxOverview({
   const route = getWithdrawRoute({
     formValues,
     savingsAccount,
-    savingsTokenInAmount: savingsTokenInAmount,
+    savingsTokenInAmount,
   })
 
   return {

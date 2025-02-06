@@ -90,7 +90,7 @@ export async function injectFlags(page: Page, testnetClient: TestnetClient, chai
 }
 
 async function isSudcDeployed(testnetClient: TestnetClient, chainId: number): Promise<boolean> {
-  const susdsAddress = (() => {
+  const susdcAddress = (() => {
     if (chainId === mainnet.id) {
       return '0x29bd15f2c80f2807c29d2428aa835f2be1098a62'
     }
@@ -100,6 +100,6 @@ async function isSudcDeployed(testnetClient: TestnetClient, chainId: number): Pr
     return zeroAddress
   })()
 
-  const susdcBytecode = await testnetClient.getCode({ address: susdsAddress })
+  const susdcBytecode = await testnetClient.getCode({ address: susdcAddress })
   return susdcBytecode !== undefined && susdcBytecode.length > 2
 }
