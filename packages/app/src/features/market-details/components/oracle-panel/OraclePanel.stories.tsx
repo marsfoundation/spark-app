@@ -54,7 +54,7 @@ export const MarketPriceRedundantDesktop: Story = {
   args: {
     data: {
       ...marketPriceData,
-      providedBy: ['chainlink', 'chronicle'],
+      providedBy: ['chainlink', 'chronicle', 'redstone'],
     },
   },
 }
@@ -98,7 +98,7 @@ export const YieldingFixedRedundantDesktop: Story = {
   args: {
     data: {
       ...yieldingFixedData,
-      providedBy: ['chainlink', 'chronicle'],
+      providedBy: ['chainlink', 'chronicle', 'redstone'],
     },
   },
 }

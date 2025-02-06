@@ -133,7 +133,7 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
       oracles: {
         [TokenSymbol('WETH')]: {
           type: 'market-price',
-          providedBy: ['chainlink', 'chronicle'],
+          providedBy: ['chainlink', 'chronicle', 'redstone'],
         },
         [TokenSymbol('WBTC')]: {
           type: 'market-price',
@@ -142,19 +142,19 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
         [TokenSymbol('wstETH')]: {
           type: 'yielding-fixed',
           baseAssetSymbol: TokenSymbol('WETH'),
-          providedBy: ['chainlink', 'chronicle'],
+          providedBy: ['chainlink', 'chronicle', 'redstone'],
           oracleFetcher: fetchWstethOracleInfoMainnet,
         },
         [TokenSymbol('rETH')]: {
           type: 'yielding-fixed',
           baseAssetSymbol: TokenSymbol('WETH'),
-          providedBy: ['chainlink', 'chronicle'],
+          providedBy: ['chainlink', 'chronicle', 'redstone'],
           oracleFetcher: fetchRethOracleInfo,
         },
         [TokenSymbol('weETH')]: {
           type: 'yielding-fixed',
           baseAssetSymbol: TokenSymbol('WETH'),
-          providedBy: ['chainlink', 'chronicle'],
+          providedBy: ['chainlink', 'chronicle', 'redstone'],
           oracleFetcher: fetchWeethOracleInfo,
         },
         [TokenSymbol('USDC')]: {

@@ -50,7 +50,7 @@ export interface TokenWithOracleType {
   symbol: TokenSymbol
 }
 
-export type OracleFeedProvider = 'chainlink' | 'chronicle'
+export type OracleFeedProvider = 'chainlink' | 'chronicle' | 'redstone'
 
 export type ReserveOracleType =
   | { type: 'market-price'; providedBy: OracleFeedProvider[] }
