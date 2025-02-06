@@ -39,7 +39,7 @@ function SavingsWithdrawDialogContentContainer({
 
   return (
     <SavingsWithdrawView
-      savingsToken={savingsToken}
+      underlyingToken={underlyingToken}
       form={form}
       selectableAssets={selectableAssets}
       assetsFields={assetsFields}

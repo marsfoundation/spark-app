@@ -9,12 +9,14 @@ import { SavingsDepositView } from './views/SavingsDepositView'
 export interface SavingsDepositContainerProps {
   initialToken: Token
   savingsToken: Token
+  underlyingToken: Token
   closeDialog: () => void
 }
 
 function SavingsDepositDialogContentContainer({
   initialToken,
   savingsToken,
+  underlyingToken,
   closeDialog,
 }: SavingsDepositContainerProps) {
   const { selectableAssets, assetsFields, form, tokenToDeposit, objectives, pageStatus, txOverview, actionsContext } =
@@ -36,7 +38,7 @@ function SavingsDepositDialogContentContainer({
 
   return (
     <SavingsDepositView
-      savingsToken={savingsToken}
+      underlyingToken={underlyingToken}
       form={form}
       selectableAssets={selectableAssets}
       assetsFields={assetsFields}
