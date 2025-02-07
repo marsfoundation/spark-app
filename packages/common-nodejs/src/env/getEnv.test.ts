@@ -44,6 +44,14 @@ describe(Env.name, () => {
       expect(result).toEqual('bar')
     })
 
+    it('works with const arrays', () => {
+      const env = new Env({ TEST_A: 'zar' })
+      const options = ['foo', 'bar', 'zar'] as const
+
+      const result = env.stringOf('TEST_A', options)
+      expect(result).toEqual('zar')
+    })
+
     it('throws if variable is not present and there is no fallback', () => {
       const env = new Env({})
 
