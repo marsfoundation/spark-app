@@ -65,6 +65,7 @@ export function useSavingsWithdrawDialog({
     tokensInfo,
     savingsToken: savingsTokenWithBalance.token,
     savingsTokenBalance: savingsTokenWithBalance.balance,
+    savingsConverter: selectedAccount.converter,
   })
   const form = useForm<AssetInputSchema>({
     resolver: zodResolver(validator),
@@ -112,7 +113,12 @@ export function useSavingsWithdrawDialog({
 
   return {
     selectableAssets: filterInputTokens({ inputTokens: supportedStablecoins, savingsToken, tokensInfo }),
-    assetsFields: getFormFieldsForWithdrawDialog({ form, tokensInfo, savingsTokenWithBalance }),
+    assetsFields: getFormFieldsForWithdrawDialog({
+      form,
+      tokensInfo,
+      savingsTokenWithBalance,
+      savingsConverter: selectedAccount.converter,
+    }),
     form,
     objectives,
     tokenToWithdraw,

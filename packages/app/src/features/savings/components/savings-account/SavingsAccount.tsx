@@ -27,6 +27,7 @@ export interface SavingsAccountProps {
   openConnectModal: () => void
   guestMode: boolean
   migrationInfo?: MigrationInfo
+  invalidateSavingsConverterQuery: () => void
 }
 
 export function SavingsAccount({
@@ -46,6 +47,7 @@ export function SavingsAccount({
   openConnectModal,
   guestMode,
   migrationInfo,
+  invalidateSavingsConverterQuery,
 }: SavingsAccountProps) {
   const displayDepositCallToAction = guestMode || savingsTokenBalance.eq(0)
   const displayUpgradeBanner = migrationInfo !== undefined && savingsTokenBalance.gt(0)
@@ -86,6 +88,7 @@ export function SavingsAccount({
           oneYearProjection={interestData.oneYearProjection}
           apy={interestData.APY}
           className="min-h-[352px]"
+          invalidateSavingsConverterQuery={invalidateSavingsConverterQuery}
         />
       )}
       {displayUpgradeBanner && (

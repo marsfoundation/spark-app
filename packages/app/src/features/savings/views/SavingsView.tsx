@@ -22,6 +22,7 @@ export interface SavingsViewProps {
   guestMode: boolean
   allAccounts: ShortAccountDefinition[]
   setSelectedAccount: (savingsTokenSymbol: TokenSymbol) => void
+  invalidateSavingsConverterQuery: () => void
 }
 
 export function SavingsView({
@@ -36,6 +37,7 @@ export function SavingsView({
   setSelectedAccount,
   allAccounts,
   generalStats,
+  invalidateSavingsConverterQuery,
 }: SavingsViewProps) {
   const showNavigation = allAccounts.length > 1
 
@@ -71,6 +73,7 @@ export function SavingsView({
         )}
         <SavingsAccount
           {...selectedAccount}
+          invalidateSavingsConverterQuery={invalidateSavingsConverterQuery}
           openDepositDialog={openDepositDialog}
           openConvertStablesDialog={openConvertStablesDialog}
           openSendDialog={openSendDialog}

@@ -23,6 +23,7 @@ export interface AccountMainPanelGroupProps {
   oneYearProjection: NormalizedUnitNumber
   apy: Percentage
   className?: string
+  invalidateSavingsConverterQuery: () => void
 }
 
 export function AccountMainPanelGroup({
@@ -37,6 +38,7 @@ export function AccountMainPanelGroup({
   calculateUnderlyingTokenBalance,
   balanceRefreshIntervalInMs,
   className,
+  invalidateSavingsConverterQuery,
 }: AccountMainPanelGroupProps) {
   return (
     <div
@@ -57,6 +59,7 @@ export function AccountMainPanelGroup({
             openDepositDialog={openDepositDialog}
             openSendDialog={openSendDialog}
             openWithdrawDialog={openWithdrawDialog}
+            invalidateSavingsConverterQuery={invalidateSavingsConverterQuery}
           />
         </div>
         <GrowingBalance
@@ -70,6 +73,7 @@ export function AccountMainPanelGroup({
           openDepositDialog={openDepositDialog}
           openSendDialog={openSendDialog}
           openWithdrawDialog={openWithdrawDialog}
+          invalidateSavingsConverterQuery={invalidateSavingsConverterQuery}
         />
       </Panel>
       <SidePanelGroup
@@ -97,8 +101,15 @@ interface MainPanelActionsProps {
   openSendDialog: () => void
   openWithdrawDialog: () => void
   className?: string
+  invalidateSavingsConverterQuery: () => void
 }
-function MainPanelActions({ openDepositDialog, openSendDialog, openWithdrawDialog, className }: MainPanelActionsProps) {
+function MainPanelActions({
+  openDepositDialog,
+  openSendDialog,
+  openWithdrawDialog,
+  className,
+  invalidateSavingsConverterQuery,
+}: MainPanelActionsProps) {
   return (
     <div className={className}>
       <div className="grid grid-cols-3 items-center gap-2.5 lg:flex">
@@ -108,7 +119,13 @@ function MainPanelActions({ openDepositDialog, openSendDialog, openWithdrawDialo
         <Button variant="secondary" onClick={openSendDialog} className="lg:px-6">
           Send
         </Button>
-        <Button variant="secondary" onClick={openWithdrawDialog} className="lg:px-6">
+        <Button
+          variant="secondary"
+          onClick={openWithdrawDialog}
+          className="lg:px-6"
+          onMouseEnter={invalidateSavingsConverterQuery}
+          onTouchStart={invalidateSavingsConverterQuery}
+        >
           Withdraw
         </Button>
       </div>

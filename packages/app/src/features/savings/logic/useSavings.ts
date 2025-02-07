@@ -15,6 +15,7 @@ import { savingsDepositDialogConfig } from '@/features/dialogs/savings/deposit/S
 import { savingsWithdrawDialogConfig } from '@/features/dialogs/savings/withdraw/SavingsWithdrawDialog'
 import { useTimestamp } from '@/utils/useTimestamp'
 import { NormalizedUnitNumber, Percentage, raise } from '@marsfoundation/common-universal'
+import { useQueryClient } from '@tanstack/react-query'
 import { useCallback, useState } from 'react'
 import { UseGeneralStatsResult, useGeneralStats } from './general-stats/useGeneralStats'
 import { getInterestData } from './getInterestData'
@@ -63,6 +64,7 @@ export interface UseSavingsResults {
   openSendDialog: () => void
   openWithdrawDialog: () => void
   openConvertStablesDialog: () => void
+  invalidateSavingsConverterQuery: () => void
 }
 export function useSavings(): UseSavingsResults {
   const { chainId } = usePageChainId()
@@ -156,6 +158,13 @@ export function useSavings(): UseSavingsResults {
     })
   }
 
+  const queryClient = useQueryClient()
+  function invalidateSavingsConverterQuery() {
+    queryClient.invalidateQueries({
+      queryKey: ['savings-info', selectedAccountData.savingsToken.symbol, { chainId }],
+    })
+  }
+
   return {
     allAccounts,
     setSelectedAccount,
@@ -164,6 +173,7 @@ export function useSavings(): UseSavingsResults {
     openSendDialog,
     openWithdrawDialog,
     openConvertStablesDialog,
+    invalidateSavingsConverterQuery,
     selectedAccount: {
       chartsData: savingsChartsData,
       interestData,
