@@ -1,7 +1,6 @@
 import { MY_EARNINGS_TIMEFRAMES } from '@/domain/savings-charts/useMyEarningsInfo/common'
 import { SAVINGS_RATE_TIMEFRAMES } from '@/domain/savings-charts/useSavingsRateInfo/common'
 import { WithClassname, WithFixedDate } from '@sb/decorators'
-import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 import { SavingsCharts } from './SavingsCharts'
@@ -42,7 +41,6 @@ const meta: Meta<typeof SavingsCharts> = {
       setSelectedTimeframe: () => {},
       availableTimeframes: SAVINGS_RATE_TIMEFRAMES,
     },
-    savingsTokenSymbol: tokens.sUSDS.symbol,
   },
 }
 
