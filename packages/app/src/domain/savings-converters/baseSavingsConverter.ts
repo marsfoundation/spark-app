@@ -1,23 +1,25 @@
 import { ssrAuthOracleConfig, usdcVaultAbi, usdcVaultAddress } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { bigNumberify } from '@marsfoundation/common-universal'
-import { multicall, readContract } from 'wagmi/actions'
+import { getBlock, multicall, readContract } from 'wagmi/actions'
 import { PotSavingsConverter } from './PotSavingsConverter'
 import { SavingsConverterQueryOptions, SavingsConverterQueryParams } from './types'
 
 export function baseSavingsUsdsConverterQueryOptions({
   wagmiConfig,
-  timestamp,
   chainId,
 }: SavingsConverterQueryParams): SavingsConverterQueryOptions {
   return {
     queryKey: ['base-savings-usds-info', { chainId }],
     queryFn: async () => {
-      const { ssr, chi, rho } = await readContract(wagmiConfig, {
-        abi: ssrAuthOracleConfig.abi,
-        address: getContractAddress(ssrAuthOracleConfig.address, chainId),
-        functionName: 'getSUSDSData',
-      })
+      const [{ timestamp }, { ssr, chi, rho }] = await Promise.all([
+        getBlock(wagmiConfig),
+        readContract(wagmiConfig, {
+          abi: ssrAuthOracleConfig.abi,
+          address: getContractAddress(ssrAuthOracleConfig.address, chainId),
+          functionName: 'getSUSDSData',
+        }),
+      ])
 
       return new PotSavingsConverter({
         potParams: {
@@ -25,7 +27,7 @@ export function baseSavingsUsdsConverterQueryOptions({
           rho: bigNumberify(rho),
           chi: bigNumberify(chi),
         },
-        currentTimestamp: timestamp,
+        currentTimestamp: Number(timestamp),
       })
     },
   }
@@ -33,7 +35,6 @@ export function baseSavingsUsdsConverterQueryOptions({
 
 export function baseSavingsUsdcConverterQueryOptions({
   wagmiConfig,
-  timestamp,
   chainId,
 }: SavingsConverterQueryParams): SavingsConverterQueryOptions {
   return {
@@ -41,29 +42,32 @@ export function baseSavingsUsdcConverterQueryOptions({
     queryFn: async () => {
       const susdcAddress = getContractAddress(usdcVaultAddress, chainId)
 
-      const [ssr, rho, chi] = await multicall(wagmiConfig, {
-        allowFailure: false,
-        contracts: [
-          {
-            address: susdcAddress,
-            functionName: 'ssr',
-            args: [],
-            abi: usdcVaultAbi,
-          },
-          {
-            address: susdcAddress,
-            functionName: 'rho',
-            args: [],
-            abi: usdcVaultAbi,
-          },
-          {
-            address: susdcAddress,
-            functionName: 'chi',
-            args: [],
-            abi: usdcVaultAbi,
-          },
-        ],
-      })
+      const [{ timestamp }, [ssr, rho, chi]] = await Promise.all([
+        getBlock(wagmiConfig),
+        multicall(wagmiConfig, {
+          allowFailure: false,
+          contracts: [
+            {
+              address: susdcAddress,
+              functionName: 'ssr',
+              args: [],
+              abi: usdcVaultAbi,
+            },
+            {
+              address: susdcAddress,
+              functionName: 'rho',
+              args: [],
+              abi: usdcVaultAbi,
+            },
+            {
+              address: susdcAddress,
+              functionName: 'chi',
+              args: [],
+              abi: usdcVaultAbi,
+            },
+          ],
+        }),
+      ])
 
       return new PotSavingsConverter({
         potParams: {
@@ -71,7 +75,7 @@ export function baseSavingsUsdcConverterQueryOptions({
           rho: bigNumberify(rho),
           chi: bigNumberify(chi),
         },
-        currentTimestamp: timestamp,
+        currentTimestamp: Number(timestamp),
       })
     },
   }
