@@ -96,7 +96,7 @@ export function useSavings(): UseSavingsResults {
   const savingsChartsData = useSavingsChartsData({
     savingsConverter: selectedAccountData.converter,
     savingsTokenBalance: selectedAccountData.savingsTokenBalance,
-    getEarningsApiUrl: selectedAccountConfig?.getEarningsApiUrl,
+    myEarningsQuery: selectedAccountConfig?.myEarningsQuery,
     savingsRateApiUrl: selectedAccountConfig?.savingsRateApiUrl,
   })
 

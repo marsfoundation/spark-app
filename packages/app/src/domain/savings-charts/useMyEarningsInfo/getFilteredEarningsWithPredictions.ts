@@ -28,6 +28,18 @@ export function getFilteredEarningsWithPredictions({
     }
   }
 
+  const todaysItem = {
+    date: new Date(currentTimestamp * 1000),
+    balance: savingsConverter.convertToAssets({ shares: savingsTokenBalance }),
+  }
+
+  if (myEarningsInfo.length === 0 && todaysItem.balance.lte(0)) {
+    return {
+      data: [],
+      predictions: [],
+    }
+  }
+
   const filteredData = filterDataByTimeframe({
     data: myEarningsInfo,
     timeframe,
@@ -36,11 +48,6 @@ export function getFilteredEarningsWithPredictions({
 
   // @note we remove the last item which is the todays current balance and create our own to avoid delayed values
   filteredData.pop()
-
-  const todaysItem = {
-    date: new Date(currentTimestamp * 1000),
-    balance: savingsConverter.convertToAssets({ shares: savingsTokenBalance }),
-  }
 
   const predictionsLength = Math.ceil(
     (() => {
