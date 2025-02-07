@@ -17,7 +17,6 @@ export interface SavingsConverter {
 export interface SavingsConverterQueryParams {
   wagmiConfig: Config
   chainId: number
-  timestamp: number
 }
 
 export interface SavingsConverterQueryOptions {

@@ -1,5 +1,4 @@
 import { getChainConfigEntry } from '@/config/chain'
-import { useTimestamp } from '@/utils/useTimestamp'
 import { useSuspenseQueries } from '@tanstack/react-query'
 import { useConfig } from 'wagmi'
 import { SavingsAccount, SavingsAccountRepository } from '../savings-converters/types'
@@ -11,7 +10,6 @@ export interface UseSavingsAccountRepositoryParams {
 
 export function useSavingsAccountRepository({ chainId }: UseSavingsAccountRepositoryParams): SavingsAccountRepository {
   const wagmiConfig = useConfig()
-  const { timestamp } = useTimestamp()
   const { savings, extraTokens } = getChainConfigEntry(chainId)
   const { tokensInfo } = useTokensInfo({ tokens: extraTokens })
   const fetchConverterQueries = savings?.accounts.map(({ fetchConverterQuery }) => fetchConverterQuery) ?? []
@@ -21,7 +19,6 @@ export function useSavingsAccountRepository({ chainId }: UseSavingsAccountReposi
       ...query({
         wagmiConfig,
         chainId,
-        timestamp,
       }),
     })),
   })
