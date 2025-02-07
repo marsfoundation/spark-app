@@ -5,6 +5,7 @@ import { CreateNetworkArgs, TestnetCreateResult, TestnetFactory } from '../../Te
 import { createAnvil } from '@viem/anvil'
 import getPort from 'get-port'
 import { http, Chain, createPublicClient } from 'viem'
+import { arbitrum, base, gnosis, mainnet } from 'viem/chains'
 import { getAnvilClient } from './AnvilClient.js'
 
 export class AnvilTestnetFactory implements TestnetFactory {
@@ -63,10 +64,14 @@ export class AnvilTestnetFactory implements TestnetFactory {
 
 function originChainIdToForkUrl(originChainId: number, alchemyApiKey: string): string {
   switch (originChainId) {
-    case 1:
+    case mainnet.id:
       return `https://eth-mainnet.g.alchemy.com/v2/${alchemyApiKey}`
-    case 8453:
+    case base.id:
       return `https://base-mainnet.g.alchemy.com/v2/${alchemyApiKey}`
+    case gnosis.id:
+      return `https://gnosis-mainnet.g.alchemy.com/v2/${alchemyApiKey}`
+    case arbitrum.id:
+      return `https://arb-mainnet.g.alchemy.com/v2/${alchemyApiKey}`
     default:
       throw new Error(`Unsupported origin chain id: ${originChainId}`)
   }
