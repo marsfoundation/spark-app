@@ -5,12 +5,14 @@ import { CheckedAddress } from '@marsfoundation/common-universal'
 
 import { FarmConfig } from '@/domain/farms/types'
 import { OracleInfoFetcherParams, OracleInfoFetcherResult } from '@/domain/oracles/oracleInfoFetchers'
+import { MyEarningsResult } from '@/domain/savings-charts/my-earnings-query/mainnet'
 import { TokenConfig } from '@/domain/wallet/useTokens/types'
+import { UseQueryOptions } from '@tanstack/react-query'
 import { SUPPORTED_CHAIN_IDS } from './constants'
 
 export type SupportedChainId = (typeof SUPPORTED_CHAIN_IDS)[number]
 
-export type GetMyEarningsApiUrl = (address: CheckedAddress) => string
+export type MyEarningsQuery = (wallet: CheckedAddress) => UseQueryOptions<any, any, MyEarningsResult>
 
 export interface NativeAssetInfo {
   nativeAssetName: string
@@ -76,7 +78,7 @@ export interface AccountConfig {
   underlyingToken: TokenSymbol
   fetchConverterQuery: (args: SavingsConverterQueryParams) => SavingsConverterQueryOptions
   savingsRateApiUrl: string | undefined
-  getEarningsApiUrl: GetMyEarningsApiUrl | undefined
+  myEarningsQuery: MyEarningsQuery | undefined
 }
 
 export interface SavingsConfig {
@@ -84,7 +86,7 @@ export interface SavingsConfig {
 }
 
 export interface FarmsConfig {
-  getFarmDetailsApiUrl: GetMyEarningsApiUrl | undefined
+  getFarmDetailsApiUrl: (address: CheckedAddress) => string
   configs: FarmConfig[]
 }
 

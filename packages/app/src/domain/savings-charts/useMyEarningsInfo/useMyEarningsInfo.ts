@@ -1,22 +1,21 @@
+import { MyEarningsQuery } from '@/config/chain/types'
 import { SavingsConverter } from '@/domain/savings-converters/types'
 import { Timeframe } from '@/ui/charts/defaults'
 import { SimplifiedQueryResult } from '@/utils/types'
 import { CheckedAddress, NormalizedUnitNumber } from '@marsfoundation/common-universal'
-import { useQuery } from '@tanstack/react-query'
-import { useCallback, useState } from 'react'
+import { skipToken, useQuery } from '@tanstack/react-query'
+import { useMemo, useState } from 'react'
 import { MY_EARNINGS_TIMEFRAMES, MyEarningsTimeframe } from './common'
 import { getFilteredEarningsWithPredictions } from './getFilteredEarningsWithPredictions'
-import { myEarningsQueryOptions } from './query'
 import { MyEarningsInfoItem } from './types'
 
 export interface UseMyEarningsInfoParams {
   address?: CheckedAddress
-  chainId: number
   currentTimestamp: number
   staleTime: number
   savingsConverter: SavingsConverter | null
   savingsTokenBalance: NormalizedUnitNumber | undefined
-  getEarningsApiUrl: ((address: CheckedAddress) => string) | undefined
+  myEarningsQuery: MyEarningsQuery | undefined
 }
 
 export type MyEarningsInfo =
@@ -36,42 +35,50 @@ export interface UseMyEarningsInfoResult {
 
 export function useMyEarningsInfo({
   address,
-  chainId,
   currentTimestamp,
   staleTime,
   savingsConverter,
   savingsTokenBalance,
-  getEarningsApiUrl,
+  myEarningsQuery,
 }: UseMyEarningsInfoParams): UseMyEarningsInfoResult {
   const [selectedTimeframe, setSelectedTimeframe] = useState<MyEarningsTimeframe>('All')
 
   const queryResult = useQuery({
-    ...myEarningsQueryOptions({
-      address,
-      chainId,
-      getEarningsApiUrl,
-    }),
-    select: useCallback(
-      (myEarningsInfo: MyEarningsInfoItem[]) =>
-        getFilteredEarningsWithPredictions({
-          myEarningsInfo,
-          timeframe: selectedTimeframe,
-          currentTimestamp,
-          savingsConverter,
-          savingsTokenBalance,
-        }),
-      [selectedTimeframe, currentTimestamp, savingsConverter, savingsTokenBalance],
-    ),
-    enabled: !!getEarningsApiUrl && !!savingsConverter && !!savingsTokenBalance,
+    ...(myEarningsQuery && address
+      ? myEarningsQuery(address)
+      : { queryKey: ['unsupported-my-earnings-query'], queryFn: skipToken }),
     staleTime,
   })
 
-  const hasHistoricalData = (queryResult.data?.data?.length ?? 0) > 0
+  const dataWithPredictions = useMemo(() => {
+    if (!queryResult.data) {
+      return undefined
+    }
+
+    return getFilteredEarningsWithPredictions({
+      currentTimestamp,
+      timeframe: selectedTimeframe,
+      myEarningsInfo: queryResult.data,
+      savingsConverter,
+      savingsTokenBalance,
+    })
+  }, [queryResult.data, selectedTimeframe, currentTimestamp, savingsConverter, savingsTokenBalance])
+
+  const queryResultWithPredictions = useMemo(
+    () =>
+      ({
+        ...queryResult,
+        data: dataWithPredictions,
+      }) as SimplifiedQueryResult<MyEarningsInfo>,
+    [queryResult, dataWithPredictions],
+  )
+
+  const hasHistoricalData = (queryResultWithPredictions.data?.data?.length ?? 0) > 0
   const hasSavingTokenBalance = savingsTokenBalance?.gt(0) ?? false
 
   return {
-    queryResult,
-    shouldDisplayMyEarnings: hasHistoricalData || hasSavingTokenBalance,
+    queryResult: queryResultWithPredictions,
+    shouldDisplayMyEarnings: Boolean(myEarningsQuery && address && (hasHistoricalData || hasSavingTokenBalance)),
     selectedTimeframe,
     setSelectedTimeframe: (selectedTimeframe) => {
       if (MY_EARNINGS_TIMEFRAMES.includes(selectedTimeframe)) {
