@@ -25,6 +25,7 @@ export interface DepositCTAPanelProps {
     secondary: {
       title: 'Try in Sandbox'
       action: () => void
+      isInSandbox: boolean
     }
   }
   className?: string

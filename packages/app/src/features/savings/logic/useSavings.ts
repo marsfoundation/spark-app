@@ -3,6 +3,7 @@ import { sortByUsdValueWithUsdsPriority } from '@/domain/common/sorters'
 import { TokenWithBalance } from '@/domain/common/types'
 import { useGetBlockExplorerAddressLink } from '@/domain/hooks/useGetBlockExplorerAddressLink'
 import { usePageChainId } from '@/domain/hooks/usePageChainId'
+import { useSandboxState } from '@/domain/sandbox/useSandboxState'
 import { UseSavingsChartsDataResult, useSavingsChartsData } from '@/domain/savings-charts/useSavingsChartsData'
 import { calculateMaxBalanceTokenAndTotal } from '@/domain/savings/calculateMaxBalanceTokenAndTotal'
 import { useSavingsAccountRepository } from '@/domain/savings/useSavingsAccountRepository'
@@ -65,6 +66,7 @@ export interface UseSavingsResults {
   openWithdrawDialog: () => void
   openConvertStablesDialog: () => void
   invalidateSavingsConverterQuery: () => void
+  isInSandbox: boolean
 }
 export function useSavings(): UseSavingsResults {
   const { chainId } = usePageChainId()
@@ -165,6 +167,8 @@ export function useSavings(): UseSavingsResults {
     })
   }
 
+  const { isInSandbox } = useSandboxState()
+
   return {
     allAccounts,
     setSelectedAccount,
@@ -174,6 +178,7 @@ export function useSavings(): UseSavingsResults {
     openWithdrawDialog,
     openConvertStablesDialog,
     invalidateSavingsConverterQuery,
+    isInSandbox,
     selectedAccount: {
       chartsData: savingsChartsData,
       interestData,

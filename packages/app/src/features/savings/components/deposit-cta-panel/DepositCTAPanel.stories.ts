@@ -21,6 +21,7 @@ const meta: Meta<typeof DepositCTAPanel> = {
       secondary: {
         title: 'Try in Sandbox',
         action: () => {},
+        isInSandbox: false,
       },
     },
   },
@@ -58,6 +59,7 @@ export const usdsDisconnected: Story = {
       secondary: {
         title: 'Try in Sandbox',
         action: () => {},
+        isInSandbox: false,
       },
     },
   },

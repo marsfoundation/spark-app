@@ -13,7 +13,7 @@ export function Actions({ actions, className }: ActionsProps) {
       <Button variant="primary" size="l" onClick={actions.primary.action}>
         {actions.primary.title}
       </Button>
-      <Button variant="secondary" size="l" onClick={actions.secondary.action}>
+      <Button variant="secondary" size="l" onClick={actions.secondary.action} disabled={actions.secondary.isInSandbox}>
         {actions.secondary.title}
       </Button>
     </div>

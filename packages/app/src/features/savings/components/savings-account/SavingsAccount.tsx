@@ -28,6 +28,7 @@ export interface SavingsAccountProps {
   guestMode: boolean
   migrationInfo?: MigrationInfo
   invalidateSavingsConverterQuery: () => void
+  isInSandbox: boolean
 }
 
 export function SavingsAccount({
@@ -48,6 +49,7 @@ export function SavingsAccount({
   guestMode,
   migrationInfo,
   invalidateSavingsConverterQuery,
+  isInSandbox,
 }: SavingsAccountProps) {
   const displayDepositCallToAction = guestMode || savingsTokenBalance.eq(0)
   const displayUpgradeBanner = migrationInfo !== undefined && savingsTokenBalance.gt(0)
@@ -71,7 +73,7 @@ export function SavingsAccount({
           }}
           actions={{
             primary: primaryAction,
-            secondary: { title: 'Try in Sandbox', action: openSandboxModal },
+            secondary: { title: 'Try in Sandbox', action: openSandboxModal, isInSandbox },
           }}
           className="min-h-[352px]"
         />

@@ -188,6 +188,7 @@ const savingsViewSusdsArgs = {
     error: null,
   },
   invalidateSavingsConverterQuery: () => {},
+  isInSandbox: false,
 } satisfies SavingsViewProps
 
 const meta: Meta<typeof SavingsView> = {
