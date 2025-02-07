@@ -159,8 +159,8 @@ export function useSavings(): UseSavingsResults {
   }
 
   const queryClient = useQueryClient()
-  function invalidateSavingsConverterQuery() {
-    queryClient.invalidateQueries({
+  function invalidateSavingsConverterQuery(): void {
+    void queryClient.invalidateQueries({
       queryKey: ['savings-info', selectedAccountData.savingsToken.symbol, { chainId }],
     })
   }

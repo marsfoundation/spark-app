@@ -22,6 +22,7 @@ const meta: Meta<typeof AccountMainPanelGroup> = {
     openWithdrawDialog: () => {},
     oneYearProjection: NormalizedUnitNumber(3125.0),
     apy: Percentage(0.125),
+    invalidateSavingsConverterQuery: () => {},
   },
 }
 
