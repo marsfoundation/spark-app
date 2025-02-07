@@ -54,7 +54,7 @@ export const MarketPriceRedundantDesktop: Story = {
   args: {
     data: {
       ...marketPriceData,
-      providedBy: ['chainlink', 'chronicle'],
+      providedBy: ['chainlink', 'chronicle', 'redstone'],
     },
   },
 }
@@ -70,6 +70,7 @@ export const UnderlyingAssetDesktop: Story = {
       price: NormalizedUnitNumber(1.24),
       chainId: 1,
       priceOracleAddress: CheckedAddress('0x1234567890123456789012345678901234567890'),
+      providedBy: ['chainlink', 'chronicle', 'redstone'],
     },
   },
 }
@@ -98,7 +99,7 @@ export const YieldingFixedRedundantDesktop: Story = {
   args: {
     data: {
       ...yieldingFixedData,
-      providedBy: ['chainlink', 'chronicle'],
+      providedBy: ['chainlink', 'chronicle', 'redstone'],
     },
   },
 }

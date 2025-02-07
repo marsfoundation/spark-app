@@ -34,7 +34,11 @@ export class Env {
     throwMissingEnvVar(key)
   }
 
-  stringOf<T extends string[]>(key: string | string[], allowedValues: [...T], fallback?: T[number]): T[number] {
+  stringOf<T extends string[]>(
+    key: string | string[],
+    allowedValues: readonly [...T],
+    fallback?: T[number],
+  ): T[number] {
     const value = this.optionalString(key)
     if (value !== undefined) {
       if (!allowedValues.includes(value)) {

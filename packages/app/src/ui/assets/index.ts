@@ -50,6 +50,7 @@ import multiply from './multiply.svg'
 import chainlink from './oracle-providers/chainlink.svg'
 import chronicle from './oracle-providers/chronicle.svg'
 import lido from './oracle-providers/lido.svg'
+import redstone from './oracle-providers/redstone.svg'
 import borrowIcon from './page/borrow-icon.svg'
 import farmsIcon from './page/farms-icon.svg'
 import savingsIcon from './page/savings-icon.svg'
@@ -212,6 +213,7 @@ export const assets = {
   oracleProviders: {
     chainlink,
     chronicle,
+    redstone,
     lido,
   },
 
