@@ -78,7 +78,7 @@ function mainnetSusdcSelectQuery(data: MyEarningsDataResponseSchema): MyEarnings
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function susdcMyEarningsQueryOptions(wallet: CheckedAddress) {
+export function mainnetSusdcMyEarningsQueryOptions(wallet: CheckedAddress) {
   return queryOptions({
     ...myEarningsQueryOptions(wallet),
     select: mainnetSusdcSelectQuery,

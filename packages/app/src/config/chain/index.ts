@@ -8,8 +8,8 @@ import {
 import { baseMyEarningsQueryOptions } from '@/domain/savings-charts/my-earnings-query/base'
 import {
   mainnetSdaiMyEarningsQueryOptions,
+  mainnetSusdcMyEarningsQueryOptions,
   mainnetSusdsMyEarningsQueryOptions,
-  susdcMyEarningsQueryOptions,
 } from '@/domain/savings-charts/my-earnings-query/mainnet'
 import {
   baseSavingsUsdcConverterQueryOptions,
@@ -200,7 +200,7 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
                 supportedStablecoins: [TokenSymbol('USDC')],
                 fetchConverterQuery: mainnetSavingsUsdcConverterQuery,
                 savingsRateApiUrl: `${infoSkyApiUrl}/savings-rate/`,
-                myEarningsQuery: susdcMyEarningsQueryOptions,
+                myEarningsQuery: mainnetSusdcMyEarningsQueryOptions,
               } satisfies AccountConfig,
             ]
           : []),
