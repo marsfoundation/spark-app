@@ -51,6 +51,7 @@ export function oracleQueryOptions({ reserve, marketInfo, wagmiConfig }: OracleQ
         case 'underlying-asset': {
           return {
             ...oracleInfoBase,
+            providedBy: oracleConfig.providedBy,
             asset: oracleConfig.asset,
             type: oracleConfig.type,
           }

@@ -5,8 +5,15 @@ import { Panel } from '@/ui/atoms/panel/Panel'
 import { BlockExplorerAddressLink } from '@/ui/molecules/block-explorer-address-link/BlockExplorerAddressLink'
 import { Info } from '@/ui/molecules/info/Info'
 import { testIds } from '@/ui/utils/testIds'
+import { ProvidersList } from './ProvidersList'
 
-export function UnderlyingAssetOraclePanel({ asset, chainId, priceOracleAddress, price }: UnderlyingAssetOracleInfo) {
+export function UnderlyingAssetOraclePanel({
+  asset,
+  chainId,
+  priceOracleAddress,
+  price,
+  providedBy,
+}: UnderlyingAssetOracleInfo) {
   return (
     <Panel className="flex flex-col gap-4">
       <div>
@@ -42,6 +49,7 @@ export function UnderlyingAssetOraclePanel({ asset, chainId, priceOracleAddress,
             </InfoTile.Value>
           </InfoTile>
         </div>
+        {providedBy && <ProvidersList providers={providedBy} />}
       </div>
     </Panel>
   )

@@ -33,6 +33,7 @@ export interface FixedOracleInfo extends OracleInfoBase {
 export interface UnderlyingAssetOracleInfo extends OracleInfoBase {
   type: 'underlying-asset'
   asset: string
+  providedBy?: OracleFeedProvider[]
 }
 
 export interface UnknownOracleInfo extends OracleInfoBase {
