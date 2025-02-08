@@ -1,5 +1,5 @@
 import { gnosis } from 'viem/chains'
-import { getBlock, multicall } from 'wagmi/actions'
+import { multicall } from 'wagmi/actions'
 
 import {
   savingsXDaiAbi,
@@ -17,50 +17,56 @@ import { SavingsConverter, SavingsConverterQueryOptions, SavingsConverterQueryPa
 
 export function gnosisSavingsDaiConverterQuery({
   wagmiConfig,
+  timestamp,
 }: SavingsConverterQueryParams): SavingsConverterQueryOptions {
   const sDaiAdapterAddress = getContractAddress(savingsXDaiAdapterAddress, gnosis.id)
   const sDaiAddress = getContractAddress(savingsXDaiAddress, gnosis.id)
   return {
     queryKey: ['gnosis-savings-dai-info'],
     queryFn: async () => {
-      const [{ timestamp }, [vaultAPY, totalAssets, totalSupply, decimals]] = await Promise.all([
-        getBlock(wagmiConfig),
-        multicall(wagmiConfig, {
-          contracts: [
-            {
-              address: sDaiAdapterAddress,
-              functionName: 'vaultAPY',
-              args: [],
-              abi: savingsXDaiAdapterAbi,
-            },
-            {
-              address: sDaiAddress,
-              functionName: 'totalSupply',
-              args: [],
-              abi: savingsXDaiAbi,
-            },
-            {
-              address: sDaiAddress,
-              functionName: 'totalAssets',
-              args: [],
-              abi: savingsXDaiAbi,
-            },
-            {
-              address: sDaiAddress,
-              functionName: 'decimals',
-              args: [],
-              abi: savingsXDaiAbi,
-            },
-          ],
-          allowFailure: false,
-        }),
-      ])
+      const [vaultAPY, totalAssets, totalSupply, decimals] = await multicall(wagmiConfig, {
+        contracts: [
+          {
+            address: sDaiAdapterAddress,
+            functionName: 'vaultAPY',
+            args: [],
+            abi: savingsXDaiAdapterAbi,
+          },
+          {
+            address: sDaiAddress,
+            functionName: 'totalSupply',
+            args: [],
+            abi: savingsXDaiAbi,
+          },
+          {
+            address: sDaiAddress,
+            functionName: 'totalAssets',
+            args: [],
+            abi: savingsXDaiAbi,
+          },
+          {
+            address: sDaiAddress,
+            functionName: 'decimals',
+            args: [],
+            abi: savingsXDaiAbi,
+          },
+        ],
+        allowFailure: false,
+      })
 
+      return {
+        vaultAPY,
+        totalAssets,
+        totalSupply,
+        decimals,
+      }
+    },
+    select: ({ vaultAPY, totalAssets, totalSupply, decimals }) => {
       return new GnosisSavingsConverter({
         vaultAPY: Percentage(fromWad(bigNumberify(vaultAPY))),
         totalAssets: NormalizedUnitNumber(bigNumberify(totalAssets).shiftedBy(-decimals)),
         totalSupply: NormalizedUnitNumber(bigNumberify(totalSupply).shiftedBy(-decimals)),
-        currentTimestamp: Number(timestamp),
+        currentTimestamp: timestamp,
       })
     },
   }

@@ -82,6 +82,7 @@ export function useWrite<TAbi extends Abi, TFunctionName extends ContractFunctio
   } = useSimulateContract({
     account,
     gas: gasLimit,
+    blockTag: 'pending',
     ...args,
     query: {
       gcTime: 0,

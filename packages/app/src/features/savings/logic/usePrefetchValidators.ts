@@ -36,6 +36,7 @@ export function usePrefetchValidators({ chainId, tokensInfo, savingsAccounts }: 
         wagmiConfig,
         savingsToken: savingsAccount.savingsToken,
         savingsTokenBalance: tokensInfo.findOneBalanceBySymbol(savingsAccount.savingsToken.symbol),
+        savingsConverter: savingsAccount.converter,
       })
 
       void queryClient.prefetchQuery({

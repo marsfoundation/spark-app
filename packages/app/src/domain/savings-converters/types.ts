@@ -1,5 +1,5 @@
 import { NormalizedUnitNumber, Percentage, raise } from '@marsfoundation/common-universal'
-import { QueryKey } from '@tanstack/react-query'
+import { UseQueryOptions } from '@tanstack/react-query'
 import { Config } from 'wagmi'
 import { Token } from '../types/Token'
 import { TokenSymbol } from '../types/TokenSymbol'
@@ -17,12 +17,10 @@ export interface SavingsConverter {
 export interface SavingsConverterQueryParams {
   wagmiConfig: Config
   chainId: number
+  timestamp: number
 }
 
-export interface SavingsConverterQueryOptions {
-  queryKey: QueryKey
-  queryFn: () => Promise<SavingsConverter | null>
-}
+export type SavingsConverterQueryOptions = UseQueryOptions<any, any, SavingsConverter>
 
 export interface SavingsConverter {
   predictAssetsAmount({ timestamp, shares }: { timestamp: number; shares: NormalizedUnitNumber }): NormalizedUnitNumber

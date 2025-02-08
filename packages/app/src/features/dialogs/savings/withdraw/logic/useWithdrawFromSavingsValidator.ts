@@ -1,6 +1,7 @@
 import { basePsm3Address } from '@/config/contracts-generated'
 import { DynamicValidatorConfig, ensureDynamicValidatorConfigTypes } from '@/domain/common/dynamicValidator'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
+import { SavingsConverter } from '@/domain/savings-converters/types'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
@@ -28,6 +29,7 @@ export interface UseWithdrawFromSavingsValidatorParams {
   tokensInfo: TokensInfo
   savingsToken: Token
   savingsTokenBalance: NormalizedUnitNumber
+  savingsConverter: SavingsConverter
 }
 
 export function useWithdrawFromSavingsValidator({
@@ -35,6 +37,7 @@ export function useWithdrawFromSavingsValidator({
   tokensInfo,
   savingsToken,
   savingsTokenBalance,
+  savingsConverter,
 }: UseWithdrawFromSavingsValidatorParams): WithdrawFromSavingsValidator {
   const wagmiConfig = useConfig()
 
@@ -44,6 +47,7 @@ export function useWithdrawFromSavingsValidator({
     wagmiConfig,
     savingsToken,
     savingsTokenBalance,
+    savingsConverter,
   })
 
   const { data } = useSuspenseQuery({
@@ -60,6 +64,7 @@ export interface GetValidatorConfigParams {
   wagmiConfig: Config
   savingsToken: Token
   savingsTokenBalance: NormalizedUnitNumber
+  savingsConverter: SavingsConverter
 }
 export function getValidatorConfig({
   chainId,
@@ -67,6 +72,7 @@ export function getValidatorConfig({
   wagmiConfig,
   savingsToken,
   savingsTokenBalance,
+  savingsConverter,
 }: GetValidatorConfigParams): DynamicValidatorConfig {
   if (chainId === base.id) {
     const usds = tokensInfo.findOneTokenBySymbol(TokenSymbol('USDS'))
@@ -97,7 +103,7 @@ export function getValidatorConfig({
         }
       },
       createValidator: ({ psm3UsdcBalance, psm3UsdsBalance }) =>
-        getSavingsWithdrawDialogFormValidator({ savingsToken, savingsTokenBalance }).superRefine((field, ctx) => {
+        getSavingsWithdrawDialogFormValidator({ savingsConverter, savingsTokenBalance }).superRefine((field, ctx) => {
           const value = NormalizedUnitNumber(field.value === '' ? '0' : field.value)
           const isUsdcWithdraw = field.symbol === usdc.symbol
           const isMaxSelected = field.isMaxSelected
@@ -127,7 +133,7 @@ export function getValidatorConfig({
   return ensureDynamicValidatorConfigTypes({
     fetchParamsQueryKey: getCreateValidatorConfigQueryKey(savingsToken, chainId),
     fetchParamsQueryFn: () => Promise.resolve({}),
-    createValidator: () => getSavingsWithdrawDialogFormValidator({ savingsToken, savingsTokenBalance }),
+    createValidator: () => getSavingsWithdrawDialogFormValidator({ savingsConverter, savingsTokenBalance }),
   })
 }
 
