@@ -4,7 +4,7 @@ import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { SavingsAccountRepository, SavingsConverter } from '@/domain/savings-converters/types'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { QueryKey, UseQueryOptions, UseQueryResult } from '@tanstack/react-query'
-import { Address, ContractFunctionParameters, TransactionReceipt } from 'viem'
+import { Address, BlockTag, ContractFunctionParameters, TransactionReceipt } from 'viem'
 import { Config } from 'wagmi'
 import { ApproveDelegationAction } from '../flavours/approve-delegation/types'
 import { ApproveAction } from '../flavours/approve/types'
@@ -112,7 +112,7 @@ type InitialParamsQueryOptions = UseQueryOptions<any, Error, InitialParamsBase, 
 export type InitialParamsQueryResult = UseQueryResult<InitialParamsBase>
 type VerifyTransactionQueryOptions = UseQueryOptions<any, Error, VerifyTransactionResultBase, QueryKey>
 export type VerifyTransactionResult = UseQueryResult<VerifyTransactionResultBase>
-export type GetWriteConfigResult = ContractFunctionParameters
+export type GetWriteConfigResult = ContractFunctionParameters & { simulationBlockTag?: BlockTag }
 
 export interface ActionConfig {
   initialParamsQueryOptions?: () => InitialParamsQueryOptions

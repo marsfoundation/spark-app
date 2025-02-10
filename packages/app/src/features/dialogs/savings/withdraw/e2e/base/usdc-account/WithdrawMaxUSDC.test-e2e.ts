@@ -54,12 +54,12 @@ test.describe('Withdraw Max USDC', () => {
           tokenUsdValue: '$10,000.00',
         },
         {
-          tokenAmount: '9,999.99 USDC',
-          tokenUsdValue: '$9,999.99',
+          tokenAmount: '10,000.00 USDC',
+          tokenUsdValue: '$10,000.00',
         },
       ],
-      outcome: '9,999.99 USDC',
-      outcomeUsd: '$9,999.99',
+      outcome: '10,000.00 USDC',
+      outcomeUsd: '$10,000.00',
     })
 
     await withdrawDialog.expectUpgradeSwitchToBeHidden()

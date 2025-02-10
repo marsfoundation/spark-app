@@ -1,6 +1,7 @@
 import {
   Abi,
   AbiStateMutability,
+  BlockTag,
   ContractFunctionArgs,
   ContractFunctionName,
   ContractFunctionParameters,
@@ -188,7 +189,12 @@ export function ensureConfigTypes<
     mutability,
     functionName
   >,
->(config: ContractFunctionParameters<abi, mutability, functionName, args> & { value?: bigint }): typeof config {
+>(
+  config: ContractFunctionParameters<abi, mutability, functionName, args> & {
+    value?: bigint
+    simulationBlockTag?: BlockTag
+  },
+): typeof config {
   return config as any
 }
 
