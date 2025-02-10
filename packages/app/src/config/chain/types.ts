@@ -1,18 +1,20 @@
-import { SavingsConverterQueryOptions, SavingsConverterQueryParams } from '@/domain/savings-converters/types'
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
-import { CheckedAddress } from '@marsfoundation/common-universal'
-
 import { FarmConfig } from '@/domain/farms/types'
 import { OracleInfoFetcherParams, OracleInfoFetcherResult } from '@/domain/oracles/oracleInfoFetchers'
 import { MyEarningsResult } from '@/domain/savings-charts/my-earnings-query/mainnet'
+import { SavingsRateQueryResult } from '@/domain/savings-charts/savings-rate-query/query'
+import { SavingsRateChartData } from '@/domain/savings-charts/savings-rate-query/types'
+import { SavingsConverterQueryOptions, SavingsConverterQueryParams } from '@/domain/savings-converters/types'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { TokenConfig } from '@/domain/wallet/useTokens/types'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { UseQueryOptions } from '@tanstack/react-query'
 import { SUPPORTED_CHAIN_IDS } from './constants'
 
 export type SupportedChainId = (typeof SUPPORTED_CHAIN_IDS)[number]
 
-export type MyEarningsQuery = (wallet: CheckedAddress) => UseQueryOptions<any, any, MyEarningsResult>
+export type MyEarningsQueryOptions = (wallet: CheckedAddress) => UseQueryOptions<any, any, MyEarningsResult>
+export type SavingsRateQueryOptions = () => UseQueryOptions<SavingsRateQueryResult, Error, SavingsRateChartData>
 
 export interface NativeAssetInfo {
   nativeAssetName: string
@@ -77,8 +79,8 @@ export interface AccountConfig {
   savingsToken: TokenSymbol
   underlyingToken: TokenSymbol
   fetchConverterQuery: (args: SavingsConverterQueryParams) => SavingsConverterQueryOptions
-  savingsRateApiUrl: string | undefined
-  myEarningsQuery: MyEarningsQuery | undefined
+  savingsRateQueryOptions: SavingsRateQueryOptions | undefined
+  myEarningsQueryOptions: MyEarningsQueryOptions | undefined
 }
 
 export interface SavingsConfig {

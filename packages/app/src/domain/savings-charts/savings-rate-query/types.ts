@@ -5,7 +5,6 @@ export interface SavingsRateInfoItem {
   rate: Percentage
 }
 
-export type SavingsRateInfo = {
-  ssr: SavingsRateInfoItem[]
-  dsr: SavingsRateInfoItem[]
+export type SavingsRateChartData = {
+  apy: SavingsRateInfoItem[]
 }

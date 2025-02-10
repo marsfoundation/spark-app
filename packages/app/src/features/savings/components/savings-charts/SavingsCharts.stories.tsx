@@ -1,11 +1,12 @@
 import { MY_EARNINGS_TIMEFRAMES } from '@/domain/savings-charts/useMyEarningsInfo/common'
 import { SAVINGS_RATE_TIMEFRAMES } from '@/domain/savings-charts/useSavingsRateInfo/common'
 import { WithClassname, WithFixedDate } from '@sb/decorators'
+import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 import { SavingsCharts } from './SavingsCharts'
 import { mockEarningsChartData, mockEarningsPredictionsChartData } from './fixtures/mockEarningsChartData'
-import { mockDsrChartData, mockSsrChartData } from './fixtures/mockSavingsRateChartData'
+import { mockSsrChartData } from './fixtures/mockSavingsRateChartData'
 
 const meta: Meta<typeof SavingsCharts> = {
   title: 'Features/Savings/Components/SavingsCharts',
@@ -30,8 +31,7 @@ const meta: Meta<typeof SavingsCharts> = {
     savingsRateInfo: {
       queryResult: {
         data: {
-          ssr: mockSsrChartData,
-          dsr: mockDsrChartData,
+          apy: mockSsrChartData,
         },
         isError: false,
         isPending: false,
@@ -41,6 +41,7 @@ const meta: Meta<typeof SavingsCharts> = {
       setSelectedTimeframe: () => {},
       availableTimeframes: SAVINGS_RATE_TIMEFRAMES,
     },
+    savingsToken: tokens.sUSDS,
   },
 }
 

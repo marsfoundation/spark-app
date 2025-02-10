@@ -32,11 +32,24 @@ const myEarningsInfo = {
   availableTimeframes: MY_EARNINGS_TIMEFRAMES,
 } satisfies UseMyEarningsInfoResult
 
-const savingsRateInfo = {
+const savingsSsrRateInfo = {
   queryResult: {
     data: {
-      ssr: mockSsrChartData,
-      dsr: mockDsrChartData,
+      apy: mockSsrChartData,
+    },
+    isError: false,
+    isPending: false,
+    error: null,
+  },
+  selectedTimeframe: '1M',
+  setSelectedTimeframe: () => {},
+  availableTimeframes: SAVINGS_RATE_TIMEFRAMES,
+} satisfies UseSavingsRateInfoResult
+
+const savingsDsrRateInfo = {
+  queryResult: {
+    data: {
+      apy: mockDsrChartData,
     },
     isError: false,
     isPending: false,
@@ -51,7 +64,7 @@ const chartsData = {
   selectedTimeframe: '1M' as const,
   setSelectedTimeframe: () => {},
   myEarningsInfo,
-  savingsRateInfo,
+  savingsRateInfo: savingsSsrRateInfo,
   chartsSupported: true,
 }
 
@@ -154,7 +167,10 @@ const savingsDaiAccountDefinition = {
     },
   ],
   mostValuableAsset: { token: tokens.DAI, balance: NormalizedUnitNumber(12_000) },
-  chartsData,
+  chartsData: {
+    ...chartsData,
+    savingsRateInfo: savingsDsrRateInfo,
+  },
   showConvertDialogButton: true,
   migrationInfo,
   interestData,

@@ -1,4 +1,5 @@
 import { WithClassname } from '@sb/decorators'
+import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 import { mockSsrChartData } from '../fixtures/mockSavingsRateChartData'
@@ -9,10 +10,11 @@ const meta: Meta<typeof SavingsRateChart> = {
   component: SavingsRateChart,
   decorators: [WithClassname('max-w-lg')],
   args: {
-    tooltipLabel: 'SSR',
+    tooltipLabel: 'Savings Rate',
     height: 320,
     width: 512,
     data: mockSsrChartData,
+    savingsToken: tokens.sUSDS,
   },
 }
 
