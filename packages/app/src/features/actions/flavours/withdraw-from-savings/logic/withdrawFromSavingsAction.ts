@@ -139,6 +139,7 @@ export function createWithdrawFromSavingsActionConfig(
                 receiver,
                 SPARK_UI_REFERRAL_CODE_BIGINT,
               ],
+              simulationBlockTag: 'pending',
             })
           }
 
@@ -178,6 +179,7 @@ export function createWithdrawFromSavingsActionConfig(
               abi: usdcVaultAbi,
               functionName: 'redeem',
               args: [argsAmount, receiver, account, toBigInt(minAssetsOut)],
+              simulationBlockTag: 'pending',
             })
           }
 
@@ -209,6 +211,7 @@ export function createWithdrawFromSavingsActionConfig(
               abi: usdcVaultAbi,
               functionName: 'redeem',
               args: [argsAmount, receiver, account, toBigInt(minAssetsOut)],
+              simulationBlockTag: 'pending',
             })
           }
 
@@ -319,6 +322,7 @@ function getUsdcWithdrawConfig({
       abi: psmActionsConfig.abi,
       functionName: 'redeemAndSwap',
       args: [receiver, argsAmount, gemMinAmountOut],
+      simulationBlockTag: 'pending',
     })
   }
 
