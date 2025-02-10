@@ -100,8 +100,8 @@ export function useSavings(): UseSavingsResults {
   const savingsChartsData = useSavingsChartsData({
     savingsConverter: selectedAccountData.converter,
     savingsTokenBalance: selectedAccountData.savingsTokenBalance,
-    myEarningsQuery: selectedAccountConfig?.myEarningsQuery,
-    savingsRateApiUrl: selectedAccountConfig?.savingsRateApiUrl,
+    myEarningsQueryOptions: selectedAccountConfig?.myEarningsQueryOptions,
+    savingsRateQueryOptions: selectedAccountConfig?.savingsRateQueryOptions,
   })
 
   const migrationInfo = makeMigrationInfo({

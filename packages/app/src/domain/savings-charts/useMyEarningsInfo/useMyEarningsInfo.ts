@@ -1,4 +1,4 @@
-import { MyEarningsQuery } from '@/config/chain/types'
+import { MyEarningsQueryOptions } from '@/config/chain/types'
 import { SavingsConverter } from '@/domain/savings-converters/types'
 import { Timeframe } from '@/ui/charts/defaults'
 import { SimplifiedQueryResult } from '@/utils/types'
@@ -15,7 +15,7 @@ export interface UseMyEarningsInfoParams {
   staleTime: number
   savingsConverter: SavingsConverter | null
   savingsTokenBalance: NormalizedUnitNumber | undefined
-  myEarningsQuery: MyEarningsQuery | undefined
+  myEarningsQueryOptions: MyEarningsQueryOptions | undefined
 }
 
 export type MyEarningsInfo =
@@ -39,13 +39,13 @@ export function useMyEarningsInfo({
   staleTime,
   savingsConverter,
   savingsTokenBalance,
-  myEarningsQuery,
+  myEarningsQueryOptions,
 }: UseMyEarningsInfoParams): UseMyEarningsInfoResult {
   const [selectedTimeframe, setSelectedTimeframe] = useState<MyEarningsTimeframe>('All')
 
   const queryResult = useQuery({
-    ...(myEarningsQuery && address
-      ? myEarningsQuery(address)
+    ...(myEarningsQueryOptions && address
+      ? myEarningsQueryOptions(address)
       : { queryKey: ['unsupported-my-earnings-query'], queryFn: skipToken }),
     staleTime,
   })
@@ -78,7 +78,7 @@ export function useMyEarningsInfo({
 
   return {
     queryResult: queryResultWithPredictions,
-    shouldDisplayMyEarnings: Boolean(myEarningsQuery && address && (hasHistoricalData || hasSavingTokenBalance)),
+    shouldDisplayMyEarnings: Boolean(myEarningsQueryOptions && address && (hasHistoricalData || hasSavingTokenBalance)),
     selectedTimeframe,
     setSelectedTimeframe: (selectedTimeframe) => {
       if (MY_EARNINGS_TIMEFRAMES.includes(selectedTimeframe)) {

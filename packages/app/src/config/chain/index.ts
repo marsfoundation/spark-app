@@ -12,6 +12,15 @@ import {
   mainnetSusdsMyEarningsQueryOptions,
 } from '@/domain/savings-charts/my-earnings-query/mainnet'
 import {
+  baseSusdcSavingsRateQueryOptions,
+  baseSusdsSavingsRateQueryOptions,
+} from '@/domain/savings-charts/savings-rate-query/base'
+import {
+  mainnetSdaiSavingsRateQueryOptions,
+  mainnetSusdcSavingsRateQueryOptions,
+  mainnetSusdsSavingsRateQueryOptions,
+} from '@/domain/savings-charts/savings-rate-query/mainnet'
+import {
   baseSavingsUsdcConverterQueryOptions,
   baseSavingsUsdsConverterQueryOptions,
 } from '@/domain/savings-converters/baseSavingsConverter'
@@ -191,8 +200,8 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
           underlyingToken: TokenSymbol('USDS'),
           supportedStablecoins: [TokenSymbol('USDS'), TokenSymbol('USDC'), TokenSymbol('DAI')],
           fetchConverterQuery: mainnetSavingsUsdsConverterQuery,
-          savingsRateApiUrl: `${infoSkyApiUrl}/savings-rate/`,
-          myEarningsQuery: mainnetSusdsMyEarningsQueryOptions,
+          savingsRateQueryOptions: mainnetSusdsSavingsRateQueryOptions,
+          myEarningsQueryOptions: mainnetSusdsMyEarningsQueryOptions,
         },
         ...(USDC_ACCOUNT_ENABLED
           ? [
@@ -201,8 +210,8 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
                 underlyingToken: TokenSymbol('USDC'),
                 supportedStablecoins: [TokenSymbol('USDC')],
                 fetchConverterQuery: mainnetSavingsUsdcConverterQuery,
-                savingsRateApiUrl: `${infoSkyApiUrl}/savings-rate/`,
-                myEarningsQuery: mainnetSusdcMyEarningsQueryOptions,
+                savingsRateQueryOptions: mainnetSusdcSavingsRateQueryOptions,
+                myEarningsQueryOptions: mainnetSusdcMyEarningsQueryOptions,
               } satisfies AccountConfig,
             ]
           : []),
@@ -211,8 +220,8 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
           underlyingToken: TokenSymbol('DAI'),
           supportedStablecoins: [TokenSymbol('DAI'), TokenSymbol('USDC')],
           fetchConverterQuery: mainnetSavingsDaiConverterQuery,
-          savingsRateApiUrl: `${infoSkyApiUrl}/savings-rate/`,
-          myEarningsQuery: mainnetSdaiMyEarningsQueryOptions,
+          savingsRateQueryOptions: mainnetSdaiSavingsRateQueryOptions,
+          myEarningsQueryOptions: mainnetSdaiMyEarningsQueryOptions,
         },
       ],
     },
@@ -339,8 +348,8 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
           underlyingToken: TokenSymbol('XDAI'),
           supportedStablecoins: [TokenSymbol('XDAI')],
           fetchConverterQuery: gnosisSavingsDaiConverterQuery,
-          savingsRateApiUrl: undefined,
-          myEarningsQuery: undefined,
+          savingsRateQueryOptions: undefined,
+          myEarningsQueryOptions: undefined,
         },
       ],
     },
@@ -402,8 +411,8 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
                 underlyingToken: TokenSymbol('USDC'),
                 supportedStablecoins: [TokenSymbol('USDC')],
                 fetchConverterQuery: baseSavingsUsdcConverterQueryOptions,
-                savingsRateApiUrl: `${infoSkyApiUrl}/savings-rate/`,
-                myEarningsQuery: undefined,
+                savingsRateQueryOptions: baseSusdcSavingsRateQueryOptions,
+                myEarningsQueryOptions: undefined,
               } satisfies AccountConfig,
             ]
           : []),
@@ -412,8 +421,8 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
           underlyingToken: TokenSymbol('USDS'),
           supportedStablecoins: [TokenSymbol('USDS'), TokenSymbol('USDC')],
           fetchConverterQuery: baseSavingsUsdsConverterQueryOptions,
-          savingsRateApiUrl: `${infoSkyApiUrl}/savings-rate/`,
-          myEarningsQuery: baseMyEarningsQueryOptions,
+          savingsRateQueryOptions: baseSusdsSavingsRateQueryOptions,
+          myEarningsQueryOptions: baseMyEarningsQueryOptions,
         },
       ],
     },

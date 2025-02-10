@@ -1,4 +1,4 @@
-import { MyEarningsQuery } from '@/config/chain/types'
+import { MyEarningsQueryOptions, SavingsRateQueryOptions } from '@/config/chain/types'
 import { useTimestamp } from '@/utils/useTimestamp'
 import { CheckedAddress, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { useAccount, useChainId } from 'wagmi'
@@ -17,15 +17,15 @@ const REFRESH_INTERVAL_IN_MS = 60 * 60 * 1_000 // 1 hour
 interface UseSavingsChartsDataParams {
   savingsConverter: SavingsConverter | null
   savingsTokenBalance: NormalizedUnitNumber | undefined
-  myEarningsQuery: MyEarningsQuery | undefined
-  savingsRateApiUrl: string | undefined
+  myEarningsQueryOptions: MyEarningsQueryOptions | undefined
+  savingsRateQueryOptions: SavingsRateQueryOptions | undefined
 }
 
 export function useSavingsChartsData({
   savingsConverter,
   savingsTokenBalance,
-  myEarningsQuery,
-  savingsRateApiUrl,
+  myEarningsQueryOptions,
+  savingsRateQueryOptions,
 }: UseSavingsChartsDataParams): UseSavingsChartsDataResult {
   const chainId = useChainId()
 
@@ -38,19 +38,19 @@ export function useSavingsChartsData({
     staleTime: REFRESH_INTERVAL_IN_MS,
     savingsConverter,
     savingsTokenBalance,
-    myEarningsQuery,
+    myEarningsQueryOptions,
   })
 
   const savingsRateInfo = useSavingsRateInfo({
     chainId,
     currentTimestamp: timestamp,
     staleTime: REFRESH_INTERVAL_IN_MS,
-    savingsRateApiUrl,
+    savingsRateQueryOptions,
   })
 
   return {
     myEarningsInfo,
     savingsRateInfo,
-    chartsSupported: !!savingsRateApiUrl || !!myEarningsQuery,
+    chartsSupported: !!savingsRateQueryOptions || !!myEarningsQueryOptions,
   }
 }

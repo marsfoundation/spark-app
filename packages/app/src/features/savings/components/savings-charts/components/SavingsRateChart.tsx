@@ -1,6 +1,7 @@
 import { formatPercentage } from '@/domain/common/format'
+import { Token } from '@/domain/types/Token'
 import { ChartTooltipContent } from '@/ui/charts/ChartTooltipContent'
-import { colors as colorsPreset } from '@/ui/charts/colors'
+import { colors } from '@/ui/charts/colors'
 import { Margins, POINT_RADIUS, defaultMargins } from '@/ui/charts/defaults'
 import { formatPercentageTick, formatTooltipDate, getVerticalDomainWithPadding } from '@/ui/charts/utils'
 import { Percentage } from '@marsfoundation/common-universal'
@@ -22,20 +23,6 @@ export interface ChartDataPoint {
   rate: Percentage
 }
 
-interface Colors {
-  primary: string
-  backgroundLine: string
-  axisTickLabel: string
-  tooltipLine: string
-  dot: string
-  dotStroke: string
-}
-
-const colors = {
-  ...colorsPreset,
-  primary: '#6EC275',
-}
-
 export interface SavingsRateChartProps {
   height: number
   width: number
@@ -44,6 +31,7 @@ export interface SavingsRateChartProps {
   yAxisNumTicks?: number
   data: ChartDataPoint[]
   tooltipLabel: string
+  savingsToken: Token
 }
 
 function SavingsRateChart({
@@ -58,9 +46,11 @@ function SavingsRateChart({
   tooltipLeft = 0,
   data,
   tooltipLabel,
+  savingsToken,
 }: SavingsRateChartProps & WithTooltipProvidedProps<ChartDataPoint>) {
   const innerWidth = width - margins.left - margins.right
   const innerHeight = height - margins.top - margins.bottom
+  const primaryColor = savingsTokenToAccentColor(savingsToken)
 
   const xValueScale = scaleTime({
     range: [0, innerWidth],
@@ -102,13 +92,7 @@ function SavingsRateChart({
             pointerEvents="none"
           />
 
-          <LinearGradient
-            id="area-gradient"
-            from={colors.primary}
-            to={colors.primary}
-            fromOpacity={0.5}
-            toOpacity={0}
-          />
+          <LinearGradient id="area-gradient" from={primaryColor} to={primaryColor} fromOpacity={0.5} toOpacity={0} />
 
           <AreaClosed
             strokeWidth={2}
@@ -121,7 +105,7 @@ function SavingsRateChart({
           />
 
           <LinePath
-            stroke={colors.primary}
+            stroke={primaryColor}
             strokeWidth={2}
             data={data}
             x={(data) => xValueScale(data.date)}
@@ -180,7 +164,7 @@ function SavingsRateChart({
                 cx={tooltipLeft}
                 cy={yValueScale(tooltipData.rate.toNumber())}
                 r={8}
-                fill={colors.primary}
+                fill={primaryColor}
                 pointerEvents="none"
               />
               <circle
@@ -199,18 +183,22 @@ function SavingsRateChart({
 
       {tooltipData && (
         <TooltipWithBounds top={20} left={tooltipLeft + 40} unstyled applyPositionStyle className="pointer-events-none">
-          <TooltipContent data={tooltipData} colors={colors} tooltipLabel={tooltipLabel} />
+          <TooltipContent data={tooltipData} tooltipLabel={tooltipLabel} primaryColor={primaryColor} />
         </TooltipWithBounds>
       )}
     </div>
   )
 }
 
-function TooltipContent({ data, tooltipLabel }: { data: ChartDataPoint; colors: Colors; tooltipLabel: string }) {
+function TooltipContent({
+  data,
+  tooltipLabel,
+  primaryColor,
+}: { data: ChartDataPoint; tooltipLabel: string; primaryColor: string }) {
   return (
     <ChartTooltipContent>
       <ChartTooltipContent.Date>{formatTooltipDate(data.date)}</ChartTooltipContent.Date>
-      <ChartTooltipContent.Value dotColor={colors.primary}>
+      <ChartTooltipContent.Value dotColor={primaryColor}>
         {tooltipLabel}: {formatPercentage(data.rate, { minimumFractionDigits: 0 })}
       </ChartTooltipContent.Value>
     </ChartTooltipContent>
@@ -226,3 +214,16 @@ function calculateRateDomain(data: ChartDataPoint[]): ContinuousDomain {
 const SavingsRateChartWithTooltip = withTooltip<SavingsRateChartProps, ChartDataPoint>(SavingsRateChart)
 
 export { SavingsRateChartWithTooltip as SavingsRateChart }
+
+function savingsTokenToAccentColor(savingsToken: Token): string {
+  switch (savingsToken.symbol.toLowerCase()) {
+    case 'susdc':
+      return '#61B7A1'
+    case 'sdai':
+      return '#91CF51'
+    case 'susds':
+      return '#6EC275'
+    default:
+      return '#6EC275'
+  }
+}

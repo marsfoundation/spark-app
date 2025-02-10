@@ -97,7 +97,7 @@ export function SavingsAccount({
           apyImprovement={migrationInfo.apyImprovement}
         />
       )}
-      {chartsData.chartsSupported && <SavingsCharts {...chartsData} />}
+      {chartsData.chartsSupported && <SavingsCharts savingsToken={savingsToken} {...chartsData} />}
       <EntryAssetsPanel
         assets={supportedStablecoins}
         openDepositDialog={openDepositDialog}
