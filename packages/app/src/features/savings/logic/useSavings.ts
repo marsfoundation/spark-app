@@ -3,6 +3,7 @@ import { sortByUsdValueWithUsdsPriority } from '@/domain/common/sorters'
 import { TokenWithBalance } from '@/domain/common/types'
 import { useGetBlockExplorerAddressLink } from '@/domain/hooks/useGetBlockExplorerAddressLink'
 import { usePageChainId } from '@/domain/hooks/usePageChainId'
+import { useSandboxState } from '@/domain/sandbox/useSandboxState'
 import { UseSavingsChartsDataResult, useSavingsChartsData } from '@/domain/savings-charts/useSavingsChartsData'
 import { calculateMaxBalanceTokenAndTotal } from '@/domain/savings/calculateMaxBalanceTokenAndTotal'
 import { useSavingsAccountRepository } from '@/domain/savings/useSavingsAccountRepository'
@@ -63,7 +64,9 @@ export interface UseSavingsResults {
   openSendDialog: () => void
   openWithdrawDialog: () => void
   openConvertStablesDialog: () => void
+  isInSandbox: boolean
 }
+
 export function useSavings(): UseSavingsResults {
   const { chainId } = usePageChainId()
   const { extraTokens, psmStables, savings } = getChainConfigEntry(chainId)
@@ -72,6 +75,7 @@ export function useSavings(): UseSavingsResults {
   const { timestamp } = useTimestamp()
   const openDialog = useOpenDialog()
   const getBlockExplorerLink = useGetBlockExplorerAddressLink()
+  const { isInSandbox } = useSandboxState()
 
   usePrefetchValidators({ chainId, tokensInfo, savingsAccounts })
 
@@ -164,6 +168,7 @@ export function useSavings(): UseSavingsResults {
     openSendDialog,
     openWithdrawDialog,
     openConvertStablesDialog,
+    isInSandbox,
     selectedAccount: {
       chartsData: savingsChartsData,
       interestData,

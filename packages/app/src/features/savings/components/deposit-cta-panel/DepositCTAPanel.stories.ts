@@ -23,6 +23,7 @@ const meta: Meta<typeof DepositCTAPanel> = {
         action: () => {},
       },
     },
+    isInSandbox: false,
   },
 }
 
@@ -88,3 +89,12 @@ export const dai: Story = {
 }
 export const daiMobile = getMobileStory(dai)
 export const daiTablet = getTabletStory(dai)
+
+export const inSandbox: Story = {
+  args: {
+    ...usds.args,
+    isInSandbox: true,
+  },
+}
+export const inSandboxMobile = getMobileStory(inSandbox)
+export const inSandboxTablet = getTabletStory(inSandbox)
