@@ -1,5 +1,5 @@
+import { SavingsConverter } from '@/domain/savings-converters/types'
 import { receiverValidationIssueToMessage, validateReceiver } from '@/domain/savings/validateReceiver'
-import { Token } from '@/domain/types/Token'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { CheckedAddress } from '@marsfoundation/common-universal'
@@ -9,13 +9,16 @@ import { ReceiverFormSchema } from '../types'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function getSavingsWithdrawDialogFormValidator({
-  savingsToken,
   savingsTokenBalance,
-}: { savingsToken: Token; savingsTokenBalance: NormalizedUnitNumber }) {
+  savingsConverter,
+}: {
+  savingsTokenBalance: NormalizedUnitNumber
+  savingsConverter: SavingsConverter
+}) {
   return AssetInputSchema.superRefine((field, ctx) => {
     const value = NormalizedUnitNumber(field.value === '' ? '0' : field.value)
     const isMaxSelected = field.isMaxSelected
-    const usdBalance = savingsToken.toUSD(savingsTokenBalance)
+    const usdBalance = savingsConverter.convertToAssets({ shares: savingsTokenBalance })
 
     const issue = validateWithdraw({
       value,

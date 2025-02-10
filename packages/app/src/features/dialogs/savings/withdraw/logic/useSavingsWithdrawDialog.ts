@@ -10,9 +10,10 @@ import { InjectedActionsContext, Objective } from '@/features/actions/logic/type
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { useDebouncedFormValues } from '@/features/dialogs/common/logic/transfer-from-user/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
+import { useTimestamp } from '@/utils/useTimestamp'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { raise } from '@marsfoundation/common-universal'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
 import { useChainId } from 'wagmi'
 import { SavingsDialogTxOverview } from '../../common/types'
@@ -45,6 +46,11 @@ export function useSavingsWithdrawDialog({
   mode,
   savingsToken,
 }: UseSavingsWithdrawDialogParams): UseSavingsWithdrawDialogResults {
+  const { updateTimestamp } = useTimestamp()
+  useEffect(() => {
+    updateTimestamp()
+  }, [updateTimestamp])
+
   const chainId = useChainId()
   const savingsAccounts = useSavingsAccountRepository({ chainId })
   const chainConfig = getChainConfigEntry(chainId)
@@ -65,6 +71,7 @@ export function useSavingsWithdrawDialog({
     tokensInfo,
     savingsToken: savingsTokenWithBalance.token,
     savingsTokenBalance: savingsTokenWithBalance.balance,
+    savingsConverter: selectedAccount.converter,
   })
   const form = useForm<AssetInputSchema>({
     resolver: zodResolver(validator),
@@ -112,7 +119,12 @@ export function useSavingsWithdrawDialog({
 
   return {
     selectableAssets: filterInputTokens({ inputTokens: supportedStablecoins, savingsToken, tokensInfo }),
-    assetsFields: getFormFieldsForWithdrawDialog({ form, tokensInfo, savingsTokenWithBalance }),
+    assetsFields: getFormFieldsForWithdrawDialog({
+      form,
+      tokensInfo,
+      savingsConverter: selectedAccount.converter,
+      savingsTokenBalance: savingsTokenWithBalance.balance,
+    }),
     form,
     objectives,
     tokenToWithdraw,
