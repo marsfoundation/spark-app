@@ -107,7 +107,7 @@ export function getValidatorConfig({
           const value = NormalizedUnitNumber(field.value === '' ? '0' : field.value)
           const isUsdcWithdraw = field.symbol === usdc.symbol
           const isMaxSelected = field.isMaxSelected
-          const usdBalance = savingsToken.toUSD(savingsTokenBalance)
+          const usdBalance = savingsConverter.convertToAssets({ shares: savingsTokenBalance })
 
           const issue = validateWithdrawFromSavingsOnBase({
             value,
