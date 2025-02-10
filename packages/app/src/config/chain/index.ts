@@ -45,9 +45,10 @@ const commonTokenSymbolToReplacedName = {
   [TokenSymbol('weETH')]: { name: 'Ether.fi Staked ETH', symbol: TokenSymbol('weETH') },
 }
 
-const PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE =
-  import.meta.env.VITE_PLAYWRIGHT !== '1' || (window as any)[PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE_KEY] === true
-const USDC_ACCOUNT_ENABLED = PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE && import.meta.env.VITE_FEATURE_USDC_ACCOUNT === '1'
+const PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE = (window as any)[PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE_KEY] === true
+const USDC_ACCOUNT_ENABLED =
+  PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE ||
+  (import.meta.env.VITE_PLAYWRIGHT !== '1' && import.meta.env.VITE_FEATURE_USDC_ACCOUNT === '1')
 
 const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
   [mainnet.id]: {
