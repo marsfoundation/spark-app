@@ -16,6 +16,7 @@ function SavingsContainer() {
     openConvertStablesDialog,
     openSendDialog,
     openWithdrawDialog,
+    isInSandbox,
   } = useSavings()
   const { isGuestMode, openConnectModal, openSandboxModal } = useUnsupportedChain()
 
@@ -32,6 +33,7 @@ function SavingsContainer() {
       openConvertStablesDialog={openConvertStablesDialog}
       openSendDialog={openSendDialog}
       openWithdrawDialog={openWithdrawDialog}
+      isInSandbox={isInSandbox}
     />
   )
 }

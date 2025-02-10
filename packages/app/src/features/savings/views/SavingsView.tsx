@@ -22,6 +22,7 @@ export interface SavingsViewProps {
   guestMode: boolean
   allAccounts: ShortAccountDefinition[]
   setSelectedAccount: (savingsTokenSymbol: TokenSymbol) => void
+  isInSandbox: boolean
 }
 
 export function SavingsView({
@@ -36,6 +37,7 @@ export function SavingsView({
   setSelectedAccount,
   allAccounts,
   generalStats,
+  isInSandbox,
 }: SavingsViewProps) {
   const showNavigation = allAccounts.length > 1
 
@@ -78,6 +80,7 @@ export function SavingsView({
           openSandboxModal={openSandboxModal}
           openConnectModal={openConnectModal}
           guestMode={guestMode}
+          isInSandbox={isInSandbox}
         />
       </div>
     </PageLayout>

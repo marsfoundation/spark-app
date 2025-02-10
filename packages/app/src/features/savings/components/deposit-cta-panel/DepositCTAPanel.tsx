@@ -27,6 +27,7 @@ export interface DepositCTAPanelProps {
       action: () => void
     }
   }
+  isInSandbox: boolean
   className?: string
 }
 
@@ -36,6 +37,7 @@ export function DepositCTAPanel({
   savingsToken,
   description,
   actions,
+  isInSandbox,
   className,
 }: DepositCTAPanelProps) {
   return (
@@ -52,7 +54,7 @@ export function DepositCTAPanel({
         <Header savingsRate={savingsRate} savingsToken={savingsToken} inputTokens={entryTokens} />
         <Details entryTokens={entryTokens} savingsToken={savingsToken} description={description} />
       </div>
-      <Actions actions={actions} className="mt-auto" />
+      <Actions actions={actions} isInSandbox={isInSandbox} className="mt-auto" />
     </Panel>
   )
 }
