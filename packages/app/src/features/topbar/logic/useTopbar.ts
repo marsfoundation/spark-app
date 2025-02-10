@@ -3,6 +3,7 @@ import { useSandboxState } from '@/domain/sandbox/useSandboxState'
 import { useOpenDialog } from '@/domain/state/dialogs'
 import { sandboxDialogConfig } from '@/features/dialogs/sandbox/SandboxDialog'
 import { selectNetworkDialogConfig } from '@/features/dialogs/select-network/SelectNetworkDialog'
+import { usePrefetchSavingsGeneralStats } from '@/features/savings/logic/general-stats/usePrefetchSavingsGeneralStats'
 import { SupportedChain } from '@/features/topbar/types'
 import { getBuildInfo } from '@/ui/utils/getBuildInfo'
 import { CheckedAddress, raise } from '@marsfoundation/common-universal'
@@ -27,6 +28,7 @@ export function useTopbar({ isMobileDisplay }: UseTopbarParams): TopbarProps {
   const { openConnectModal = () => {} } = useConnectModal()
   const { address, connector } = useAccount()
   usePrefetchCanWalletBatchQuery()
+  usePrefetchSavingsGeneralStats()
 
   const openDialog = useOpenDialog()
 

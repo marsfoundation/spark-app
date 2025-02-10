@@ -1,45 +1,24 @@
-import { Token } from '@/domain/types/Token'
-import { MigrationInfo } from '@/features/savings/logic/makeMigrationInfo'
 import BoxArrowTopRight from '@/ui/assets/box-arrow-top-right.svg?react'
 import DocumentSketchIcon from '@/ui/assets/document-sketch.svg?react'
-import DowngradeIcon from '@/ui/assets/downgrade.svg?react'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/ui/atoms/dropdown/DropdownMenu'
 import { IconButton } from '@/ui/atoms/icon-button/IconButton'
 import { LinkDecorator } from '@/ui/atoms/link-decorator/LinkDecorator'
 import { testIds } from '@/ui/utils/testIds'
-import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { MoreVerticalIcon } from 'lucide-react'
 
 export interface MoreDropdownProps {
-  token: Token
-  disabled?: boolean
-  migrationInfo?: MigrationInfo
   blockExplorerLink: string | undefined
-  balance?: NormalizedUnitNumber
+  disabled?: boolean
 }
 
-export function MoreDropdown({ token, blockExplorerLink, migrationInfo, disabled, balance }: MoreDropdownProps) {
+export function MoreDropdown({ blockExplorerLink, disabled }: MoreDropdownProps) {
   return (
     <DropdownWrapper disabled={disabled}>
-      {migrationInfo?.usdsSymbol === token.symbol && (
-        <>
-          <DropdownItem
-            onClick={migrationInfo.openUsdsToDaiDowngradeDialog}
-            disabled={balance?.eq(0)}
-            data-testid={testIds.savings.stablecoinsInWallet.downgradeUsdsToDai}
-          >
-            <DowngradeIcon className="h-4 w-4" />
-            Downgrade to {migrationInfo.daiSymbol}
-          </DropdownItem>
-          <DropdownMenuSeparator />
-        </>
-      )}
       {blockExplorerLink && (
         <LinkDecorator to={blockExplorerLink} external>
           <DropdownItem>
@@ -61,7 +40,7 @@ function DropdownWrapper({ children, disabled }: { children?: React.ReactNode; d
           variant="tertiary"
           size="s"
           disabled={disabled}
-          data-testid={testIds.savings.stablecoinsInWallet.moreDropdown}
+          data-testid={testIds.savings.supportedStablecoins.moreDropdown}
           icon={MoreVerticalIcon}
         />
       </DropdownMenuTrigger>

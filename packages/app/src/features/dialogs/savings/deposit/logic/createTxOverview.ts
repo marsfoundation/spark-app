@@ -1,23 +1,14 @@
-import { SavingsInfo } from '@/domain/savings-info/types'
-import { Token } from '@/domain/types/Token'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
+import { SavingsAccount } from '@/domain/savings-converters/types'
 import { TransferFromUserFormNormalizedData } from '@/features/dialogs/common/logic/transfer-from-user/form'
 import { TxOverviewRouteItem } from '@/features/dialogs/common/types'
-import { NormalizedUnitNumber, raise } from '@marsfoundation/common-universal'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { SavingsDialogTxOverview } from '../../common/types'
 
 export interface CreateTxOverviewParams {
   formValues: TransferFromUserFormNormalizedData
-  tokensInfo: TokensInfo
-  savingsInfo: SavingsInfo
-  type: 'sdai' | 'susds'
+  savingsAccount: SavingsAccount
 }
-export function createTxOverview({
-  formValues,
-  tokensInfo,
-  savingsInfo,
-  type,
-}: CreateTxOverviewParams): SavingsDialogTxOverview {
+export function createTxOverview({ formValues, savingsAccount }: CreateTxOverviewParams): SavingsDialogTxOverview {
   // the value is normalized, so assuming 1 to 1 conversion rate for USDC
   // value denominated in DAI equals to value denominated in USDC
   const value = formValues.value
@@ -25,47 +16,38 @@ export function createTxOverview({
     return { status: 'no-overview' }
   }
 
-  const savingsTokenValue = savingsInfo.convertToShares({ assets: value })
-  const savingsToken = (type === 'sdai' ? tokensInfo.sDAI : tokensInfo.sUSDS) ?? raise('Cannot find savings token')
-  const stableEarnRate = NormalizedUnitNumber(value.multipliedBy(savingsInfo.apy))
+  const savingsTokenOutAmount = savingsAccount.converter.convertToShares({ assets: value })
+  const stableEarnRate = NormalizedUnitNumber(value.multipliedBy(savingsAccount.converter.apy))
 
   const route: TxOverviewRouteItem[] = getDepositRoute({
     formValues,
-    tokensInfo,
-    savingsInfo,
-    savingsToken,
-    savingsTokenValue,
+    savingsAccount,
+    savingsTokenOutAmount,
   })
 
   return {
-    baseStable: (type === 'sdai' ? tokensInfo.DAI : tokensInfo.USDS) ?? raise('Cannot find stable token'),
+    underlyingToken: savingsAccount.underlyingToken,
     status: 'success',
-    APY: savingsInfo.apy,
+    APY: savingsAccount.converter.apy,
     stableEarnRate,
     route,
     skyBadgeToken: formValues.token,
-    outTokenAmount: savingsTokenValue,
+    outTokenAmount: savingsTokenOutAmount,
   }
 }
 
 export interface GetDepositRouteParams {
   formValues: TransferFromUserFormNormalizedData
-  tokensInfo: TokensInfo
-  savingsInfo: SavingsInfo
-  savingsToken: Token
-  savingsTokenValue: NormalizedUnitNumber
+  savingsAccount: SavingsAccount
+  savingsTokenOutAmount: NormalizedUnitNumber
 }
 function getDepositRoute({
   formValues,
-  tokensInfo,
-  savingsInfo,
-  savingsToken,
-  savingsTokenValue,
+  savingsAccount,
+  savingsTokenOutAmount,
 }: GetDepositRouteParams): TxOverviewRouteItem[] {
   const value = formValues.value
-  const intermediary =
-    (savingsToken.symbol === tokensInfo.sDAI?.symbol ? tokensInfo.DAI : tokensInfo.USDS) ??
-    raise('Cannot find intermediary token')
+  const intermediary = savingsAccount.underlyingToken
 
   return [
     ...(intermediary.symbol !== formValues.token.symbol
@@ -83,9 +65,9 @@ function getDepositRoute({
       value,
     },
     {
-      token: savingsToken,
-      value: savingsTokenValue,
-      usdValue: savingsInfo.convertToAssets({ shares: savingsTokenValue }),
+      token: savingsAccount.savingsToken,
+      value: savingsTokenOutAmount,
+      usdValue: savingsAccount.converter.convertToAssets({ shares: savingsTokenOutAmount }),
     },
   ]
 }

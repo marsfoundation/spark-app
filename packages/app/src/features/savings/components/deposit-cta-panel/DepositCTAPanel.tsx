@@ -1,6 +1,7 @@
 import { Token } from '@/domain/types/Token'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { cn } from '@/ui/utils/style'
+import { testIds } from '@/ui/utils/testIds'
 import { Percentage } from '@marsfoundation/common-universal'
 import { cva } from 'class-variance-authority'
 import { savingsTokenToAccountType } from '../common/utils'
@@ -26,6 +27,8 @@ export interface DepositCTAPanelProps {
       action: () => void
     }
   }
+  isInSandbox: boolean
+  className?: string
 }
 
 export function DepositCTAPanel({
@@ -34,6 +37,8 @@ export function DepositCTAPanel({
   savingsToken,
   description,
   actions,
+  isInSandbox,
+  className,
 }: DepositCTAPanelProps) {
   return (
     <Panel
@@ -41,13 +46,15 @@ export function DepositCTAPanel({
       className={cn(
         'grid grid-cols-1 gap-8 md:grid-cols-[3fr_2fr]',
         panelBgVariants({ bg: savingsTokenToAccountType(savingsToken) }),
+        className,
       )}
+      data-testid={testIds.savings.account.depositCTA.panel}
     >
-      <div className="flex flex-col gap-4 md:gap-14">
+      <div className="flex flex-col gap-4 md:justify-between">
         <Header savingsRate={savingsRate} savingsToken={savingsToken} inputTokens={entryTokens} />
         <Details entryTokens={entryTokens} savingsToken={savingsToken} description={description} />
       </div>
-      <Actions actions={actions} className="mt-auto" />
+      <Actions actions={actions} isInSandbox={isInSandbox} className="mt-auto" />
     </Panel>
   )
 }

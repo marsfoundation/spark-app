@@ -6082,8 +6082,8 @@ export const usdcVaultAbi = [
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x62da45546a0f87b23941ffe5ca22f9d2a8fa7df3)
  */
 export const usdcVaultAddress = {
-  1: '0x47FF5312C027aa733aBDCe6740c88D4a151e7901',
-  8453: '0x62DA45546A0F87b23941FFE5CA22f9D2A8fa7DF3',
+  1: '0x29bd15f2c80f2807c29d2428aa835f2be1098a62',
+  8453: '0x62da45546a0f87b23941ffe5ca22f9d2a8fa7df3',
 } as const
 
 /**

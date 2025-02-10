@@ -1,6 +1,4 @@
-import { OpenDialogFunction } from '@/domain/state/dialogs'
-import { convertStablesDialogConfig } from '@/features/dialogs/convert-stables/ConvertStablesDialog'
-import { savingsDepositDialogConfig } from '@/features/dialogs/savings/deposit/SavingsDepositDialog'
+import { Token } from '@/domain/types/Token'
 import { assets as uiAssets } from '@/ui/assets'
 import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
@@ -8,29 +6,28 @@ import { DataTable, DataTableColumnDefinitions } from '@/ui/molecules/data-table
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { useMemo } from 'react'
-import { MigrationInfo } from '../../logic/makeMigrationInfo'
-import { SavingsAccountEntryAssets } from '../../logic/useSavings'
+import { SavingsAccountSupportedStablecoin } from '../../logic/useSavings'
 import { MoreDropdown } from './components/MoreDropdown'
 import { TokenCell } from './components/TokenCell'
 
 export interface EntryAssetsPanelProps {
-  assets: SavingsAccountEntryAssets[]
-  openDialog: OpenDialogFunction
+  assets: SavingsAccountSupportedStablecoin[]
+  openDepositDialog: (tokenToDeposit: Token) => void
+  openConvertStablesDialog: () => void
   showConvertDialogButton: boolean
-  migrationInfo?: MigrationInfo
 }
 
 export function EntryAssetsPanel({
   assets,
-  openDialog,
+  openDepositDialog,
+  openConvertStablesDialog,
   showConvertDialogButton,
-  migrationInfo,
 }: EntryAssetsPanelProps) {
-  const columnDef: DataTableColumnDefinitions<SavingsAccountEntryAssets> = useMemo(
+  const columnDef: DataTableColumnDefinitions<SavingsAccountSupportedStablecoin> = useMemo(
     () => ({
       token: {
         header: 'Token',
-        renderCell: ({ token }) => <TokenCell token={token} migrationInfo={migrationInfo} />,
+        renderCell: ({ token }) => <TokenCell token={token} />,
       },
       balance: {
         header: 'Balance',
@@ -46,32 +43,22 @@ export function EntryAssetsPanel({
         renderCell: ({ token, balance, blockExplorerLink }) => {
           return (
             <div className="flex justify-end gap-1 sm:gap-3">
-              <Button
-                variant="secondary"
-                size="s"
-                disabled={balance.eq(0)}
-                onClick={() => openDialog(savingsDepositDialogConfig, { initialToken: token })}
-              >
+              <Button variant="secondary" size="s" disabled={balance.eq(0)} onClick={() => openDepositDialog(token)}>
                 Deposit
               </Button>
-              <MoreDropdown
-                token={token}
-                migrationInfo={migrationInfo}
-                blockExplorerLink={blockExplorerLink}
-                balance={balance}
-              />
+              <MoreDropdown blockExplorerLink={blockExplorerLink} />
             </div>
           )
         },
       },
     }),
-    [openDialog, migrationInfo],
+    [openDepositDialog],
   )
 
   return (
     <Panel spacing="none">
       <div className={cn('flex flex-col gap-6 p-4 md:px-8 md:py-6', showConvertDialogButton && 'pb-0 md:pb-0')}>
-        <h3 className="typography-heading-4 text-primary">Stablecoins in wallet</h3>
+        <h3 className="typography-heading-4 text-primary">Supported stablecoins</h3>
         <DataTable
           gridTemplateColumnsClassName="grid-cols-[repeat(2,_1fr)_120px] sm:grid-cols-[repeat(2,_1fr)_140px]"
           data={assets}
@@ -93,7 +80,7 @@ export function EntryAssetsPanel({
             <Button
               size="s"
               variant="secondary"
-              onClick={() => openDialog(convertStablesDialogConfig, { proceedText: 'Back to Savings' })}
+              onClick={openConvertStablesDialog}
               data-testid={testIds.component.ConvertStablesButton}
             >
               Convert

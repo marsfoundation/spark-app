@@ -1,6 +1,7 @@
 import { formatPercentage } from '@/domain/common/format'
 import { Token } from '@/domain/types/Token'
 import { cn } from '@/ui/utils/style'
+import { testIds } from '@/ui/utils/testIds'
 import { Percentage } from '@marsfoundation/common-universal'
 import { cva } from 'class-variance-authority'
 import { savingsTokenToAccountType } from '../../common/utils'
@@ -22,7 +23,11 @@ export function Header({ savingsToken, savingsRate, inputTokens }: HeaderProps) 
       <div>
         Deposit your {inputTokens.length > 1 ? 'stablecoins' : inputTokens[0]!.symbol}
         <br />
-        and earn <span className="text-transparent">{formatPercentage(savingsRate)}</span> APY!
+        and earn{' '}
+        <span className="text-transparent" data-testid={testIds.savings.account.depositCTA.apy}>
+          {formatPercentage(savingsRate, { minimumFractionDigits: 0 })}
+        </span>{' '}
+        APY!
       </div>
     </div>
   )

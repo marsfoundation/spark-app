@@ -1,4 +1,4 @@
-import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import type { Meta, StoryObj } from '@storybook/react'
@@ -33,17 +33,8 @@ export const Desktop: Story = {
         blockExplorerLink: '/',
       },
     ],
-    migrationInfo: {
-      daiSymbol: tokens.DAI.symbol,
-      usdsSymbol: tokens.USDS.symbol,
-      daiToUsdsUpgradeAvailable: true,
-      sdaiToSusdsUpgradeAvailable: true,
-      apyImprovement: Percentage(0.01),
-      openDaiToUsdsUpgradeDialog: () => {},
-      openUsdsToDaiDowngradeDialog: () => {},
-      openSDaiToSUsdsUpgradeDialog: () => {},
-    },
-    openDialog: () => {},
+    openDepositDialog: () => {},
+    openConvertStablesDialog: () => {},
     showConvertDialogButton: true,
   },
 }

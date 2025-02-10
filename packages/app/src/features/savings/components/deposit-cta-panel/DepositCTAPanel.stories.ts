@@ -1,3 +1,4 @@
+import { links } from '@/ui/constants/links'
 import { Percentage } from '@marsfoundation/common-universal'
 import { WithClassname, WithTooltipProvider } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
@@ -9,7 +10,7 @@ import { DepositCTAPanel } from './DepositCTAPanel'
 const meta: Meta<typeof DepositCTAPanel> = {
   title: 'Features/Savings/Components/DepositCTAPanel',
   component: DepositCTAPanel,
-  decorators: [WithTooltipProvider(), withRouter(), WithClassname('max-w-6xl')],
+  decorators: [WithTooltipProvider(), withRouter(), WithClassname('max-w-6xl grid md:h-[352px]')],
   args: {
     savingsRate: Percentage(0.12),
     actions: {
@@ -22,6 +23,7 @@ const meta: Meta<typeof DepositCTAPanel> = {
         action: () => {},
       },
     },
+    isInSandbox: false,
   },
 }
 
@@ -33,8 +35,8 @@ export const usds: Story = {
     entryTokens: [tokens.USDS, tokens.DAI, tokens.USDC],
     savingsToken: tokens.sUSDS,
     description: {
-      text: 'Deposit your stablecoins into Savings USDS to tap into the Sky Savings Rate, which grants you a predictable APY in USDS.',
-      docsLink: '',
+      text: 'Deposit to Savings USDS to tap into the most predictable savings rate at scale! Learn more about it ',
+      docsLink: links.docs.earningSavings,
     },
   },
 }
@@ -46,8 +48,8 @@ export const usdsDisconnected: Story = {
     entryTokens: [tokens.USDS, tokens.DAI, tokens.USDC],
     savingsToken: tokens.sUSDS,
     description: {
-      text: 'Deposit your stablecoins into Savings USDS to tap into the Sky Savings Rate, which grants you a predictable APY in USDS.',
-      docsLink: '',
+      text: 'Deposit to Savings USDS to tap into the most predictable savings rate at scale! Learn more about it ',
+      docsLink: links.docs.earningSavings,
     },
     actions: {
       primary: {
@@ -67,8 +69,8 @@ export const usdc: Story = {
     entryTokens: [tokens.USDC],
     savingsToken: tokens.sUSDC,
     description: {
-      text: 'Deposit your stablecoins into Savings USDC to tap into the Sky Savings Rate, which grants you a predictable APY in USDC.',
-      docsLink: '',
+      text: 'Deposit to Savings USDC to tap into the most predictable savings rate at scale! Learn more about it ',
+      docsLink: links.docs.earningSavings,
     },
   },
 }
@@ -80,10 +82,19 @@ export const dai: Story = {
     entryTokens: [tokens.USDS, tokens.DAI, tokens.USDC],
     savingsToken: tokens.sDAI,
     description: {
-      text: 'Deposit your stablecoins into Savings DAI to tap into the Sky Savings Rate, which grants you a predictable APY in DAI.',
-      docsLink: '',
+      text: 'Deposit to Savings DAI to tap into the most predictable savings rate at scale! Learn more about it ',
+      docsLink: links.docs.earningSavings,
     },
   },
 }
 export const daiMobile = getMobileStory(dai)
 export const daiTablet = getTabletStory(dai)
+
+export const inSandbox: Story = {
+  args: {
+    ...usds.args,
+    isInSandbox: true,
+  },
+}
+export const inSandboxMobile = getMobileStory(inSandbox)
+export const inSandboxTablet = getTabletStory(inSandbox)

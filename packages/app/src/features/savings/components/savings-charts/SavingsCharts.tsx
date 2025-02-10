@@ -1,20 +1,17 @@
 import { UseMyEarningsInfoResult } from '@/domain/savings-charts/useMyEarningsInfo/useMyEarningsInfo'
 import { UseSavingsRateInfoResult } from '@/domain/savings-charts/useSavingsRateInfo/useSavingsRateInfo'
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { Token } from '@/domain/types/Token'
 import { ChartTabsPanel, createChartTab } from '@/ui/charts/components/ChartTabsPanel'
 import { MyEarningsChart } from './components/MyEarningsChart'
 import { SavingsRateChart } from './components/SavingsRateChart'
-import { getSavingsRateChartMeta } from './utils'
 
 interface SavingsChartsProps {
   myEarningsInfo: UseMyEarningsInfoResult
   savingsRateInfo: UseSavingsRateInfoResult
-  savingsTokenSymbol: TokenSymbol
+  savingsToken: Token
 }
 
-export function SavingsCharts({ myEarningsInfo, savingsRateInfo, savingsTokenSymbol }: SavingsChartsProps) {
-  const { savingsRateTabLabel, savingsRateChartTooltipLabel } = getSavingsRateChartMeta(savingsTokenSymbol)
-
+export function SavingsCharts({ myEarningsInfo, savingsRateInfo, savingsToken }: SavingsChartsProps) {
   return (
     <ChartTabsPanel
       tabs={[
@@ -38,11 +35,15 @@ export function SavingsCharts({ myEarningsInfo, savingsRateInfo, savingsTokenSym
           : []),
         createChartTab({
           id: 'savings-rate',
-          label: savingsRateTabLabel,
+          label: 'Savings Rate',
           component: SavingsRateChart,
           isError: savingsRateInfo.queryResult.isError,
           isPending: savingsRateInfo.queryResult.isPending,
-          props: { data: savingsRateInfo.queryResult.data?.ssr ?? [], tooltipLabel: savingsRateChartTooltipLabel },
+          props: {
+            data: savingsRateInfo.queryResult.data?.apy ?? [],
+            tooltipLabel: 'Savings Rate',
+            savingsToken,
+          },
           availableTimeframes: savingsRateInfo.availableTimeframes,
           setSelectedTimeframe: savingsRateInfo.setSelectedTimeframe,
           selectedTimeframe: savingsRateInfo.selectedTimeframe,

@@ -2,10 +2,10 @@ import { Token } from '@/domain/types/Token'
 import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { cn } from '@/ui/utils/style'
-import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
+import { testIds } from '@/ui/utils/testIds'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { cva } from 'class-variance-authority'
 import { SavingsOverview } from '../../logic/makeSavingsOverview'
-import { Projections } from '../../types'
 import { savingsTokenToAccountType } from '../common/utils'
 import { BottomPanel } from './BottomPanel'
 import { GrowingBalance } from './GrowingBalance'
@@ -20,12 +20,15 @@ export interface AccountMainPanelGroupProps {
   openDepositDialog: () => void
   openSendDialog: () => void
   openWithdrawDialog: () => void
-  projections: Projections
+  oneYearProjection: NormalizedUnitNumber
+  apy: Percentage
+  className?: string
 }
 
 export function AccountMainPanelGroup({
   underlyingToken,
-  projections,
+  oneYearProjection,
+  apy,
   savingsToken,
   savingsTokenBalance,
   openDepositDialog,
@@ -33,9 +36,13 @@ export function AccountMainPanelGroup({
   openWithdrawDialog,
   calculateUnderlyingTokenBalance,
   balanceRefreshIntervalInMs,
+  className,
 }: AccountMainPanelGroupProps) {
   return (
-    <div className="grid grid-cols-1 gap-2 lg:grid-cols-[1fr_auto]">
+    <div
+      className={cn('grid grid-cols-1 gap-2 lg:grid-cols-[1fr_auto]', className)}
+      data-testid={testIds.savings.account.mainPanel.container}
+    >
       <Panel
         variant="secondary"
         className={cn(
@@ -69,14 +76,16 @@ export function AccountMainPanelGroup({
         underlyingToken={underlyingToken}
         savingsToken={savingsToken}
         savingsTokenBalance={savingsTokenBalance}
-        projections={projections}
+        apy={apy}
+        oneYearProjection={oneYearProjection}
         className="hidden lg:block"
       />
       <BottomPanel
         underlyingToken={underlyingToken}
         savingsToken={savingsToken}
         savingsTokenBalance={savingsTokenBalance}
-        projections={projections}
+        apy={apy}
+        oneYearProjection={oneYearProjection}
         className="lg:hidden"
       />
     </div>

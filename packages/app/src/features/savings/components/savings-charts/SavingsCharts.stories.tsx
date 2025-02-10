@@ -6,7 +6,7 @@ import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 import { SavingsCharts } from './SavingsCharts'
 import { mockEarningsChartData, mockEarningsPredictionsChartData } from './fixtures/mockEarningsChartData'
-import { mockDsrChartData, mockSsrChartData } from './fixtures/mockSavingsRateChartData'
+import { mockSsrChartData } from './fixtures/mockSavingsRateChartData'
 
 const meta: Meta<typeof SavingsCharts> = {
   title: 'Features/Savings/Components/SavingsCharts',
@@ -31,8 +31,7 @@ const meta: Meta<typeof SavingsCharts> = {
     savingsRateInfo: {
       queryResult: {
         data: {
-          ssr: mockSsrChartData,
-          dsr: mockDsrChartData,
+          apy: mockSsrChartData,
         },
         isError: false,
         isPending: false,
@@ -42,7 +41,7 @@ const meta: Meta<typeof SavingsCharts> = {
       setSelectedTimeframe: () => {},
       availableTimeframes: SAVINGS_RATE_TIMEFRAMES,
     },
-    savingsTokenSymbol: tokens.sUSDS.symbol,
+    savingsToken: tokens.sUSDS,
   },
 }
 

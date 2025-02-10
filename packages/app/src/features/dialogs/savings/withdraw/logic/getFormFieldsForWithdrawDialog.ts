@@ -1,20 +1,23 @@
-import { TokenWithBalance } from '@/domain/common/types'
+import { SavingsConverter } from '@/domain/savings-converters/types'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog } from '@/features/dialogs/common/types'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { UseFormReturn } from 'react-hook-form'
 
 export interface GetFormFieldsForWithdrawDialogParams {
   form: UseFormReturn<AssetInputSchema>
   tokensInfo: TokensInfo
-  savingsTokenWithBalance: TokenWithBalance
+  savingsConverter: SavingsConverter
+  savingsTokenBalance: NormalizedUnitNumber
 }
 
 export function getFormFieldsForWithdrawDialog({
   form,
   tokensInfo,
-  savingsTokenWithBalance,
+  savingsConverter,
+  savingsTokenBalance,
 }: GetFormFieldsForWithdrawDialogParams): FormFieldsForDialog {
   // eslint-disable-next-line func-style
   const changeAsset = (newSymbol: TokenSymbol): void => {
@@ -26,7 +29,7 @@ export function getFormFieldsForWithdrawDialog({
 
   const { symbol, value } = form.getValues()
   const token = tokensInfo.findOneTokenBySymbol(symbol)
-  const usdBalance = savingsTokenWithBalance.token.toUSD(savingsTokenWithBalance.balance)
+  const usdBalance = savingsConverter.convertToAssets({ shares: savingsTokenBalance })
 
   return {
     selectedAsset: {

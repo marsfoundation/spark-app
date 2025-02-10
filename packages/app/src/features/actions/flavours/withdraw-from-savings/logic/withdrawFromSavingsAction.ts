@@ -11,7 +11,7 @@ import {
 } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
-import { SavingsInfo } from '@/domain/savings-info/types'
+import { SavingsConverter } from '@/domain/savings-converters/types'
 import { assertWithdraw } from '@/domain/savings/assertWithdraw'
 import { Token } from '@/domain/types/Token'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
@@ -77,9 +77,12 @@ export function createWithdrawFromSavingsActionConfig(
           })
 
         case 'sdai-to-usdc': {
+          assert(context.savingsAccounts, 'Savings accounts repository is required for sdai to usdc')
+          const { converter } = context.savingsAccounts.findOneBySavingsToken(savingsToken)
+
           return getUsdcWithdrawConfig({
             psmActionsAddress: getContractAddress(psmActionsConfig.address, chainId),
-            savingsInfo: context.savingsDaiInfo ?? raise('Savings dai info is required to withdraw from sdai to usdc'),
+            converter,
             isRedeem,
             actionAmount: action.amount,
             token,
@@ -89,10 +92,12 @@ export function createWithdrawFromSavingsActionConfig(
           })
         }
         case 'susds-to-usdc': {
+          assert(context.savingsAccounts, 'Savings accounts repository is required for sdai to usdc')
+          const { converter } = context.savingsAccounts.findOneBySavingsToken(savingsToken)
+
           return getUsdcWithdrawConfig({
             psmActionsAddress: getContractAddress(usdsPsmActionsConfig.address, chainId),
-            savingsInfo:
-              context.savingsUsdsInfo ?? raise('Savings usds info is required to withdraw from susds to usdc'),
+            converter,
             isRedeem,
             actionAmount: action.amount,
             token,
@@ -104,13 +109,17 @@ export function createWithdrawFromSavingsActionConfig(
 
         case 'base-susds-to-usds':
         case 'base-susds-to-usdc': {
-          assert(context.savingsUsdsInfo, 'Savings info is required for usdc psm withdraw from savings action')
+          assert(
+            context.savingsAccounts,
+            'Savings accounts repository is required for usdc psm withdraw from savings action',
+          )
+          const { converter } = context.savingsAccounts.findOneBySavingsToken(savingsToken)
 
           // @note We don't need to use savings prediction here, because
           // the savings token value increases with time.
 
           if (isRedeem) {
-            const minAssetsAmount = context.savingsUsdsInfo.convertToAssets({ shares: action.amount })
+            const minAssetsAmount = converter.convertToAssets({ shares: action.amount })
 
             const minAmountOut = calculateGemMinAmountOut({
               gemDecimals: token.decimals,
@@ -130,10 +139,11 @@ export function createWithdrawFromSavingsActionConfig(
                 receiver,
                 SPARK_UI_REFERRAL_CODE_BIGINT,
               ],
+              simulationBlockTag: 'pending',
             })
           }
 
-          const maxSharesAmount = context.savingsUsdsInfo.convertToShares({
+          const maxSharesAmount = converter.convertToShares({
             assets: action.amount,
           })
           const maxAmountIn = formatMaxAmountInForPsm3({
@@ -154,60 +164,69 @@ export function createWithdrawFromSavingsActionConfig(
               receiver,
               SPARK_UI_REFERRAL_CODE_BIGINT,
             ],
+            simulationBlockTag: 'pending',
           })
         }
 
         case 'susdc-to-usdc': {
-          assert(context.savingsUsdcInfo, 'Savings info is required for usdc vault withdrawal')
+          assert(context.savingsAccounts, 'Savings accounts repository is required for usdc vault withdrawal')
+          const { converter } = context.savingsAccounts.findOneBySavingsToken(savingsToken)
           if (isRedeem) {
             // @note: Assumes no psm fees
-            const minAssetsOut = action.token.toBaseUnit(
-              context.savingsUsdcInfo.convertToAssets({ shares: action.amount }),
-            )
+            const minAssetsOut = action.token.toBaseUnit(converter.convertToAssets({ shares: action.amount }))
 
+            // @note: We need simulationBlockTag to be 'pending' because we calculate minAssetsOut based
+            // on the timestamp from the browser. It may be bigger than the timestamp from the
+            // blockchain so the simulation based on the latest block may fail.
             return ensureConfigTypes({
               address: savingsToken.address,
               abi: usdcVaultAbi,
               functionName: 'redeem',
               args: [argsAmount, receiver, account, toBigInt(minAssetsOut)],
+              simulationBlockTag: 'pending',
             })
           }
 
           // @note: Assumes no psm fees
           const maxSharesIn = action.savingsToken.toBaseUnit(
-            context.savingsUsdcInfo.convertToShares({
+            converter.convertToShares({
               assets: action.amount,
             }),
           )
 
+          // @note: We need simulationBlockTag to be 'pending' because we calculate maxShares based
+          // on the timestamp from the browser. It may be bigger than the timestamp from the
+          // blockchain so the simulation based on the latest block may fail.
           return ensureConfigTypes({
             address: savingsToken.address,
             abi: usdcVaultAbi,
             functionName: 'withdraw',
             args: [argsAmount, receiver, account, toBigInt(maxSharesIn)],
+            simulationBlockTag: 'pending',
           })
         }
 
         case 'base-susdc-to-usdc': {
-          assert(context.savingsUsdcInfo, 'Savings info is required for usdc vault withdrawal')
+          assert(context.savingsAccounts, 'Savings accounts repository is required for usdc vault withdrawal')
+          const { converter } = context.savingsAccounts.findOneBySavingsToken(savingsToken)
+
           if (isRedeem) {
             // @note: Assumes no psm fees
-            const minAssetsOut = action.token.toBaseUnit(
-              context.savingsUsdcInfo.convertToAssets({ shares: action.amount }),
-            )
+            const minAssetsOut = action.token.toBaseUnit(converter.convertToAssets({ shares: action.amount }))
 
             return ensureConfigTypes({
               address: savingsToken.address,
               abi: usdcVaultAbi,
               functionName: 'redeem',
               args: [argsAmount, receiver, account, toBigInt(minAssetsOut)],
+              simulationBlockTag: 'pending',
             })
           }
 
           // @note: Assumes no psm fees
           const maxShares = formatMaxAmountInForPsm3({
             susds: action.savingsToken,
-            susdsAmount: context.savingsUsdcInfo.convertToShares({
+            susdsAmount: converter.convertToShares({
               assets: action.amount,
             }),
             assetOut: token,
@@ -218,6 +237,7 @@ export function createWithdrawFromSavingsActionConfig(
             abi: usdcVaultAbi,
             functionName: 'withdraw',
             args: [argsAmount, receiver, account, maxShares],
+            simulationBlockTag: 'pending',
           })
         }
 
@@ -279,7 +299,7 @@ export function createWithdrawFromSavingsActionConfig(
 
 interface GetUsdcWithdrawConfigParams {
   psmActionsAddress: CheckedAddress
-  savingsInfo: SavingsInfo
+  converter: SavingsConverter
   isRedeem: boolean
   actionAmount: NormalizedUnitNumber
   token: Token
@@ -290,7 +310,7 @@ interface GetUsdcWithdrawConfigParams {
 
 function getUsdcWithdrawConfig({
   psmActionsAddress,
-  savingsInfo,
+  converter,
   isRedeem,
   actionAmount,
   token,
@@ -299,7 +319,7 @@ function getUsdcWithdrawConfig({
   argsAmount,
 }: GetUsdcWithdrawConfigParams): GetWriteConfigResult {
   if (isRedeem) {
-    const assetsAmount = savingsInfo.convertToAssets({ shares: actionAmount })
+    const assetsAmount = converter.convertToAssets({ shares: actionAmount })
     const gemMinAmountOut = calculateGemMinAmountOut({
       gemDecimals: token.decimals,
       assetsTokenDecimals: savingsToken.decimals,
@@ -311,6 +331,7 @@ function getUsdcWithdrawConfig({
       abi: psmActionsConfig.abi,
       functionName: 'redeemAndSwap',
       args: [receiver, argsAmount, gemMinAmountOut],
+      simulationBlockTag: 'pending',
     })
   }
 

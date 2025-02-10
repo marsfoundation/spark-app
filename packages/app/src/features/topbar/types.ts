@@ -1,4 +1,4 @@
-import { SavingsInfo } from '@/domain/savings-info/types'
+import { SavingsConverter } from '@/domain/savings-converters/types'
 import { EnsName } from '@/domain/types/EnsName'
 import { Token } from '@/domain/types/Token'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
@@ -33,8 +33,8 @@ export interface WalletDropdownContentInfo {
   blockExplorerAddressLink: string | undefined
 }
 
-export interface SavingsInfoQueryResults {
-  data: SavingsInfo | null | undefined
+export interface SavingsConverterQueryResults {
+  data: SavingsConverter | null | undefined
   isLoading: boolean
 }
 

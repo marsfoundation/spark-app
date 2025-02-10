@@ -3,7 +3,7 @@ import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { fromRay } from '@/utils/math'
 import { bigNumberify } from '@marsfoundation/common-universal'
 import { NormalizedUnitNumber, assertNever } from '@marsfoundation/common-universal'
-import { erc4626Abi, etherUnits, formatUnits, parseUnits } from 'viem'
+import { erc4626Abi, formatUnits, parseUnits } from 'viem'
 import { Config } from 'wagmi'
 import { readContract } from 'wagmi/actions'
 import { TokenConfig } from './types'
@@ -28,15 +28,18 @@ export function createOraclePriceFetcher({
 
     case 'vault':
       return async () => {
+        const sharesDecimals = tokenConfig.sharesDecimals ?? 18
+        const assetsDecimals = tokenConfig.assetsDecimals ?? 18
+
         const result = await readContract(wagmiConfig, {
           abi: erc4626Abi,
           address: tokenConfig.address,
           functionName: 'convertToAssets',
-          args: [parseUnits('1', etherUnits.wei)],
+          args: [parseUnits('1', sharesDecimals)],
           chainId,
         })
 
-        return NormalizedUnitNumber(formatUnits(result, etherUnits.wei))
+        return NormalizedUnitNumber(formatUnits(result, assetsDecimals))
       }
 
     case 'ssr-auth-oracle':
@@ -52,6 +55,6 @@ export function createOraclePriceFetcher({
       }
 
     default:
-      assertNever(tokenConfig.oracleType)
+      assertNever(tokenConfig)
   }
 }

@@ -1,16 +1,20 @@
-import { SavingsInfoQueryOptions, SavingsInfoQueryParams } from '@/domain/savings-info/types'
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
-import { CheckedAddress } from '@marsfoundation/common-universal'
-
 import { FarmConfig } from '@/domain/farms/types'
 import { OracleInfoFetcherParams, OracleInfoFetcherResult } from '@/domain/oracles/oracleInfoFetchers'
-import { OracleType } from '@/domain/wallet/useTokens/types'
+import { MyEarningsResult } from '@/domain/savings-charts/my-earnings-query/mainnet'
+import { SavingsRateQueryResult } from '@/domain/savings-charts/savings-rate-query/query'
+import { SavingsRateChartData } from '@/domain/savings-charts/savings-rate-query/types'
+import { SavingsConverterQueryOptions, SavingsConverterQueryParams } from '@/domain/savings-converters/types'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { TokenConfig } from '@/domain/wallet/useTokens/types'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
+import { CheckedAddress } from '@marsfoundation/common-universal'
+import { UseQueryOptions } from '@tanstack/react-query'
 import { SUPPORTED_CHAIN_IDS } from './constants'
 
 export type SupportedChainId = (typeof SUPPORTED_CHAIN_IDS)[number]
 
-export type GetApiUrl = (address: CheckedAddress) => string
+export type MyEarningsQueryOptions = (wallet: CheckedAddress) => UseQueryOptions<any, any, MyEarningsResult>
+export type SavingsRateQueryOptions = () => UseQueryOptions<SavingsRateQueryResult, Error, SavingsRateChartData>
 
 export interface NativeAssetInfo {
   nativeAssetName: string
@@ -44,11 +48,9 @@ export interface AirdropsPerAction {
 }
 export type Airdrop = Record<TokenSymbol, AirdropsPerAction>
 
-export interface TokenWithOracleType {
-  oracleType: OracleType
-  address: CheckedAddress
+export type TokenWithOracleType = {
   symbol: TokenSymbol
-}
+} & TokenConfig
 
 export type OracleFeedProvider = 'chainlink' | 'chronicle' | 'redstone'
 
@@ -63,7 +65,7 @@ export type ReserveOracleType =
   | { type: 'fixed' }
   | { type: 'underlying-asset'; asset: string; providedBy?: OracleFeedProvider[] }
 
-export type SavingsInfoQuery = (args: SavingsInfoQueryParams) => SavingsInfoQueryOptions
+export type SavingsConverterQuery = (args: SavingsConverterQueryParams) => SavingsConverterQueryOptions
 
 export interface MarketsConfig {
   defaultAssetToBorrow: TokenSymbol
@@ -72,17 +74,21 @@ export interface MarketsConfig {
   oracles: Record<TokenSymbol, ReserveOracleType>
 }
 
+export interface AccountConfig {
+  supportedStablecoins: TokenSymbol[]
+  savingsToken: TokenSymbol
+  underlyingToken: TokenSymbol
+  fetchConverterQuery: (args: SavingsConverterQueryParams) => SavingsConverterQueryOptions
+  savingsRateQueryOptions: SavingsRateQueryOptions | undefined
+  myEarningsQueryOptions: MyEarningsQueryOptions | undefined
+}
+
 export interface SavingsConfig {
-  inputTokens: TokenSymbol[]
-  savingsDaiInfoQuery: SavingsInfoQuery | undefined
-  savingsUsdsInfoQuery: SavingsInfoQuery | undefined
-  savingsUsdcInfoQuery: SavingsInfoQuery | undefined
-  savingsRateApiUrl: string | undefined
-  getEarningsApiUrl: GetApiUrl | undefined
+  accounts: AccountConfig[]
 }
 
 export interface FarmsConfig {
-  getFarmDetailsApiUrl: GetApiUrl | undefined
+  getFarmDetailsApiUrl: (address: CheckedAddress) => string
   configs: FarmConfig[]
 }
 

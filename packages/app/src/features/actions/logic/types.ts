@@ -1,10 +1,10 @@
 import { FarmsInfo } from '@/domain/farms/farmsInfo'
 import { WriteErrorKind } from '@/domain/hooks/useWrite'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
-import { SavingsInfo } from '@/domain/savings-info/types'
+import { SavingsAccountRepository, SavingsConverter } from '@/domain/savings-converters/types'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { QueryKey, UseQueryOptions, UseQueryResult } from '@tanstack/react-query'
-import { Address, ContractFunctionParameters, TransactionReceipt } from 'viem'
+import { Address, BlockTag, ContractFunctionParameters, TransactionReceipt } from 'viem'
 import { Config } from 'wagmi'
 import { ApproveDelegationAction } from '../flavours/approve-delegation/types'
 import { ApproveAction } from '../flavours/approve/types'
@@ -96,9 +96,7 @@ export interface BatchActionHandler {
 export interface ActionContext {
   marketInfo?: MarketInfo
   tokensInfo?: TokensInfo
-  savingsDaiInfo?: SavingsInfo
-  savingsUsdsInfo?: SavingsInfo
-  savingsUsdcInfo?: SavingsInfo
+  savingsAccounts?: SavingsAccountRepository
   permitStore?: PermitStore
   farmsInfo?: FarmsInfo
   txReceipts: [Action, TransactionReceipt][]
@@ -114,7 +112,7 @@ type InitialParamsQueryOptions = UseQueryOptions<any, Error, InitialParamsBase, 
 export type InitialParamsQueryResult = UseQueryResult<InitialParamsBase>
 type VerifyTransactionQueryOptions = UseQueryOptions<any, Error, VerifyTransactionResultBase, QueryKey>
 export type VerifyTransactionResult = UseQueryResult<VerifyTransactionResultBase>
-export type GetWriteConfigResult = ContractFunctionParameters
+export type GetWriteConfigResult = ContractFunctionParameters & { simulationBlockTag?: BlockTag }
 
 export interface ActionConfig {
   initialParamsQueryOptions?: () => InitialParamsQueryOptions
@@ -127,7 +125,8 @@ export interface ActionConfig {
 export interface InjectedActionsContext {
   marketInfo?: MarketInfo
   tokensInfo?: TokensInfo
-  savingsDaiInfo?: SavingsInfo
-  savingsUsdsInfo?: SavingsInfo
+  savingsDaiInfo?: SavingsConverter
+  savingsUsdsInfo?: SavingsConverter
   farmsInfo?: FarmsInfo
+  savingsAccounts?: SavingsAccountRepository
 }

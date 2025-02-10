@@ -1,13 +1,10 @@
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { DepositToSavingsObjective } from '@/features/actions/flavours/deposit-to-savings/types'
-import { testIds } from '@/ui/utils/testIds'
-import { sleep } from '@/utils/promises'
 import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
-import { WithClassname, WithTooltipProvider, WithWrappingDialog, ZeroAllowanceWagmiDecorator } from '@sb/decorators'
+import { WithClassname, WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
-import { expect, waitFor, within } from '@storybook/test'
 import { useForm } from 'react-hook-form'
 import { SavingsDepositView } from './SavingsDepositView'
 
@@ -40,6 +37,7 @@ const meta: Meta<typeof SavingsDepositView> = {
   },
   decorators: [ZeroAllowanceWagmiDecorator(), WithClassname('max-w-xl'), WithTooltipProvider()],
   args: {
+    underlyingToken: tokens.DAI,
     selectableAssets: [
       {
         token: tokens.USDC,
@@ -73,7 +71,7 @@ const meta: Meta<typeof SavingsDepositView> = {
       goToSuccessScreen: () => {},
     },
     txOverview: {
-      baseStable: tokens.DAI,
+      underlyingToken: tokens.DAI,
       status: 'success',
       APY: Percentage(0.05),
       stableEarnRate: NormalizedUnitNumber(542),
@@ -84,11 +82,6 @@ const meta: Meta<typeof SavingsDepositView> = {
       ],
       skyBadgeToken: tokens.USDC,
       outTokenAmount: NormalizedUnitNumber(925.75),
-    },
-    savingsUsdsSwitchInfo: {
-      showSwitch: false,
-      onSwitch: () => {},
-      checked: false,
     },
     actionsContext: {
       tokensInfo: mockTokensInfo,
@@ -102,36 +95,3 @@ type Story = StoryObj<typeof SavingsDepositView>
 export const Desktop: Story = {}
 export const Mobile = getMobileStory(Desktop)
 export const Tablet = getTabletStory(Desktop)
-
-export const WithSUSDSSwitch: Story = {
-  args: {
-    savingsUsdsSwitchInfo: {
-      showSwitch: true,
-      onSwitch: () => {},
-      checked: true,
-    },
-  },
-}
-export const WithSUSDSSwitchMobile = getMobileStory(WithSUSDSSwitch)
-export const WithSUSDSSwitchTablet = getTabletStory(WithSUSDSSwitch)
-
-export const WithBenefitsDrawerOpened: Story = {
-  decorators: [WithWrappingDialog(), WithClassname('min-h-[900px]')],
-  args: {
-    savingsUsdsSwitchInfo: {
-      showSwitch: true,
-      onSwitch: () => {},
-      checked: true,
-    },
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement.ownerDocument.body)
-    // @note: Storybook renders dialog twice. Sleeping for a bit to make sure that dialog isn't unmounted.
-    await sleep(200)
-    ;(await canvas.findByTestId(testIds.dialog.savings.upgradeDetailsTrigger)).click()
-    await waitFor(async () => {
-      const heading = await canvas.findByRole('heading', { name: 'Deposit into Savings USDS' })
-      await expect(heading).toBeVisible()
-    })
-  },
-}

@@ -1,4 +1,5 @@
 import { TokenWithBalance } from '@/domain/common/types'
+import { Token } from '@/domain/types/Token'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { DialogActionsPanel } from '@/features/dialogs/common/components/DialogActionsPanel'
 import { FormAndOverviewWrapper } from '@/features/dialogs/common/components/FormAndOverviewWrapper'
@@ -10,10 +11,10 @@ import { UseFormReturn } from 'react-hook-form'
 import { TransactionOverview } from '../../common/components/transaction-overview'
 import { SavingsDialogTxOverview } from '../../common/types'
 import { SavingsWithdrawDialogForm } from '../components/form/SavingsWithdrawDialogForm'
-import { SavingsType, SendModeExtension } from '../types'
+import { SendModeExtension } from '../types'
 
 export interface SavingsWithdrawViewProps {
-  savingsType: SavingsType
+  underlyingToken: Token
   selectableAssets: TokenWithBalance[]
   assetsFields: FormFieldsForDialog
   form: UseFormReturn<AssetInputSchema>
@@ -25,7 +26,7 @@ export interface SavingsWithdrawViewProps {
 }
 
 export function SavingsWithdrawView({
-  savingsType,
+  underlyingToken,
   selectableAssets,
   assetsFields,
   form,
@@ -37,7 +38,7 @@ export function SavingsWithdrawView({
 }: SavingsWithdrawViewProps) {
   return (
     <MultiPanelDialog>
-      <DialogTitle>{`${sendModeExtension ? 'Send' : 'Withdraw'} from Savings ${savingsType === 'sdai' ? 'DAI' : 'USDS'}`}</DialogTitle>
+      <DialogTitle>{`${sendModeExtension ? 'Send' : 'Withdraw'} from Savings ${underlyingToken.symbol}`}</DialogTitle>
 
       <FormAndOverviewWrapper>
         <SavingsWithdrawDialogForm

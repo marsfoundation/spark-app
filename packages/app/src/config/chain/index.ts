@@ -5,13 +5,31 @@ import {
   fetchWeethOracleInfo,
   fetchWstethOracleInfoMainnet,
 } from '@/domain/oracles/oracleInfoFetchers'
-import { baseSavingsUsdcInfoQueryOptions, baseSavingsUsdsInfoQueryOptions } from '@/domain/savings-info/baseSavingsInfo'
-import { gnosisSavingsDaiInfoQuery } from '@/domain/savings-info/gnosisSavingsInfo'
+import { baseMyEarningsQueryOptions } from '@/domain/savings-charts/my-earnings-query/base'
 import {
-  mainnetSavingsDaiInfoQuery,
-  mainnetSavingsUsdcInfoQuery,
-  mainnetSavingsUsdsInfoQuery,
-} from '@/domain/savings-info/mainnetSavingsInfo'
+  mainnetSdaiMyEarningsQueryOptions,
+  mainnetSusdcMyEarningsQueryOptions,
+  mainnetSusdsMyEarningsQueryOptions,
+} from '@/domain/savings-charts/my-earnings-query/mainnet'
+import {
+  baseSusdcSavingsRateQueryOptions,
+  baseSusdsSavingsRateQueryOptions,
+} from '@/domain/savings-charts/savings-rate-query/base'
+import {
+  mainnetSdaiSavingsRateQueryOptions,
+  mainnetSusdcSavingsRateQueryOptions,
+  mainnetSusdsSavingsRateQueryOptions,
+} from '@/domain/savings-charts/savings-rate-query/mainnet'
+import {
+  baseSavingsUsdcConverterQueryOptions,
+  baseSavingsUsdsConverterQueryOptions,
+} from '@/domain/savings-converters/baseSavingsConverter'
+import { gnosisSavingsDaiConverterQuery } from '@/domain/savings-converters/gnosisSavingsConverter'
+import {
+  mainnetSavingsDaiConverterQuery,
+  mainnetSavingsUsdcConverterQuery,
+  mainnetSavingsUsdsConverterQuery,
+} from '@/domain/savings-converters/mainnetSavingsConverter'
 import { useStore } from '@/domain/state'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
@@ -24,7 +42,7 @@ import { usdcVaultAddress } from '../contracts-generated'
 import { AppConfig } from '../feature-flags'
 import { PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE_KEY } from '../wagmi/e2e-consts'
 import { SUPPORTED_CHAINS, farmAddresses, farmStablecoinsEntryGroup, susdsAddresses } from './constants'
-import { ChainConfigEntry, ChainMeta, SupportedChainId } from './types'
+import { AccountConfig, ChainConfigEntry, ChainMeta, SupportedChainId } from './types'
 
 const commonTokenSymbolToReplacedName = {
   [TokenSymbol('DAI')]: { name: 'DAI Stablecoin', symbol: TokenSymbol('DAI') },
@@ -36,8 +54,10 @@ const commonTokenSymbolToReplacedName = {
   [TokenSymbol('weETH')]: { name: 'Ether.fi Staked ETH', symbol: TokenSymbol('weETH') },
 }
 
-const PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE =
-  import.meta.env.VITE_PLAYWRIGHT !== '1' || (window as any)[PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE_KEY] === true
+const PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE = (window as any)[PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE_KEY] === true
+const USDC_ACCOUNT_ENABLED =
+  PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE ||
+  (import.meta.env.VITE_PLAYWRIGHT !== '1' && import.meta.env.VITE_FEATURE_USDC_ACCOUNT === '1')
 
 const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
   [mainnet.id]: {
@@ -108,12 +128,13 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
         oracleType: 'zero-price',
         address: CheckedAddress('0x56072C95FAA701256059aa122697B133aDEd9279'),
       },
-      ...(PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE
+      ...(USDC_ACCOUNT_ENABLED
         ? [
             {
               symbol: TokenSymbol('sUSDC'),
               oracleType: 'vault',
               address: CheckedAddress(usdcVaultAddress[mainnet.id]),
+              assetsDecimals: 6,
             } as const,
           ]
         : []),
@@ -174,12 +195,36 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
       },
     },
     savings: {
-      savingsDaiInfoQuery: mainnetSavingsDaiInfoQuery,
-      savingsUsdsInfoQuery: mainnetSavingsUsdsInfoQuery,
-      savingsUsdcInfoQuery: mainnetSavingsUsdcInfoQuery,
-      inputTokens: [TokenSymbol('DAI'), TokenSymbol('USDC'), TokenSymbol('USDS')],
-      getEarningsApiUrl: (address) => `${infoSkyApiUrl}/savings-rate/wallets/${address.toLowerCase()}/?days_ago=9999`,
-      savingsRateApiUrl: `${infoSkyApiUrl}/savings-rate/`,
+      accounts: [
+        {
+          savingsToken: TokenSymbol('sUSDS'),
+          underlyingToken: TokenSymbol('USDS'),
+          supportedStablecoins: [TokenSymbol('USDS'), TokenSymbol('USDC'), TokenSymbol('DAI')],
+          fetchConverterQuery: mainnetSavingsUsdsConverterQuery,
+          savingsRateQueryOptions: mainnetSusdsSavingsRateQueryOptions,
+          myEarningsQueryOptions: mainnetSusdsMyEarningsQueryOptions,
+        },
+        ...(USDC_ACCOUNT_ENABLED
+          ? [
+              {
+                savingsToken: TokenSymbol('sUSDC'),
+                underlyingToken: TokenSymbol('USDC'),
+                supportedStablecoins: [TokenSymbol('USDC')],
+                fetchConverterQuery: mainnetSavingsUsdcConverterQuery,
+                savingsRateQueryOptions: mainnetSusdcSavingsRateQueryOptions,
+                myEarningsQueryOptions: mainnetSusdcMyEarningsQueryOptions,
+              } satisfies AccountConfig,
+            ]
+          : []),
+        {
+          savingsToken: TokenSymbol('sDAI'),
+          underlyingToken: TokenSymbol('DAI'),
+          supportedStablecoins: [TokenSymbol('DAI'), TokenSymbol('USDC')],
+          fetchConverterQuery: mainnetSavingsDaiConverterQuery,
+          savingsRateQueryOptions: mainnetSdaiSavingsRateQueryOptions,
+          myEarningsQueryOptions: mainnetSdaiMyEarningsQueryOptions,
+        },
+      ],
     },
     farms: {
       configs: [
@@ -298,12 +343,16 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
       },
     },
     savings: {
-      savingsDaiInfoQuery: gnosisSavingsDaiInfoQuery,
-      savingsUsdsInfoQuery: undefined,
-      savingsUsdcInfoQuery: undefined,
-      inputTokens: [TokenSymbol('XDAI')],
-      getEarningsApiUrl: undefined,
-      savingsRateApiUrl: undefined,
+      accounts: [
+        {
+          savingsToken: TokenSymbol('sDAI'),
+          underlyingToken: TokenSymbol('XDAI'),
+          supportedStablecoins: [TokenSymbol('XDAI')],
+          fetchConverterQuery: gnosisSavingsDaiConverterQuery,
+          savingsRateQueryOptions: undefined,
+          myEarningsQueryOptions: undefined,
+        },
+      ],
     },
     farms: undefined,
   },
@@ -342,25 +391,41 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
         oracleType: 'zero-price',
         address: CheckedAddress('0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a'),
       },
-      ...(PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE
+      ...(USDC_ACCOUNT_ENABLED
         ? [
             {
               symbol: TokenSymbol('sUSDC'),
               oracleType: 'vault',
               address: CheckedAddress(usdcVaultAddress[base.id]),
+              assetsDecimals: 6,
             } as const,
           ]
         : []),
     ] as const,
     markets: undefined,
     savings: {
-      savingsDaiInfoQuery: undefined,
-      savingsUsdsInfoQuery: baseSavingsUsdsInfoQueryOptions,
-      savingsUsdcInfoQuery: baseSavingsUsdcInfoQueryOptions,
-      inputTokens: [TokenSymbol('USDC'), TokenSymbol('USDS')],
-      getEarningsApiUrl: (address) =>
-        `${infoSkyApiUrl}/savings-rate/wallets/${address.toLowerCase()}/?days_ago=9999&chainId=${base.id}`,
-      savingsRateApiUrl: `${infoSkyApiUrl}/savings-rate/?chainId=${base.id}`,
+      accounts: [
+        ...(USDC_ACCOUNT_ENABLED
+          ? [
+              {
+                savingsToken: TokenSymbol('sUSDC'),
+                underlyingToken: TokenSymbol('USDC'),
+                supportedStablecoins: [TokenSymbol('USDC')],
+                fetchConverterQuery: baseSavingsUsdcConverterQueryOptions,
+                savingsRateQueryOptions: baseSusdcSavingsRateQueryOptions,
+                myEarningsQueryOptions: undefined,
+              } satisfies AccountConfig,
+            ]
+          : []),
+        {
+          savingsToken: TokenSymbol('sUSDS'),
+          underlyingToken: TokenSymbol('USDS'),
+          supportedStablecoins: [TokenSymbol('USDS'), TokenSymbol('USDC')],
+          fetchConverterQuery: baseSavingsUsdsConverterQueryOptions,
+          savingsRateQueryOptions: baseSusdsSavingsRateQueryOptions,
+          myEarningsQueryOptions: baseMyEarningsQueryOptions,
+        },
+      ],
     },
     farms: undefined,
   },
