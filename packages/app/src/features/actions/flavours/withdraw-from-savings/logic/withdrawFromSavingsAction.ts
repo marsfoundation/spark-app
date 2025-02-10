@@ -164,6 +164,7 @@ export function createWithdrawFromSavingsActionConfig(
               receiver,
               SPARK_UI_REFERRAL_CODE_BIGINT,
             ],
+            simulationBlockTag: 'pending',
           })
         }
 
@@ -195,6 +196,7 @@ export function createWithdrawFromSavingsActionConfig(
             abi: usdcVaultAbi,
             functionName: 'withdraw',
             args: [argsAmount, receiver, account, toBigInt(maxSharesIn)],
+            simulationBlockTag: 'pending',
           })
         }
 
@@ -229,6 +231,7 @@ export function createWithdrawFromSavingsActionConfig(
             abi: usdcVaultAbi,
             functionName: 'withdraw',
             args: [argsAmount, receiver, account, maxShares],
+            simulationBlockTag: 'pending',
           })
         }
 
