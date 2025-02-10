@@ -45,8 +45,10 @@ const commonTokenSymbolToReplacedName = {
   [TokenSymbol('weETH')]: { name: 'Ether.fi Staked ETH', symbol: TokenSymbol('weETH') },
 }
 
-const PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE =
-  import.meta.env.VITE_PLAYWRIGHT !== '1' || (window as any)[PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE_KEY] === true
+const PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE = (window as any)[PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE_KEY] === true
+const USDC_ACCOUNT_ENABLED =
+  PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE ||
+  (import.meta.env.VITE_PLAYWRIGHT !== '1' && import.meta.env.VITE_FEATURE_USDC_ACCOUNT === '1')
 
 const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
   [mainnet.id]: {
@@ -117,7 +119,7 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
         oracleType: 'zero-price',
         address: CheckedAddress('0x56072C95FAA701256059aa122697B133aDEd9279'),
       },
-      ...(PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE
+      ...(USDC_ACCOUNT_ENABLED
         ? [
             {
               symbol: TokenSymbol('sUSDC'),
@@ -192,7 +194,7 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
           savingsRateApiUrl: `${infoSkyApiUrl}/savings-rate/`,
           myEarningsQuery: mainnetSusdsMyEarningsQueryOptions,
         },
-        ...(PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE
+        ...(USDC_ACCOUNT_ENABLED
           ? [
               {
                 savingsToken: TokenSymbol('sUSDC'),
@@ -379,7 +381,7 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
         oracleType: 'zero-price',
         address: CheckedAddress('0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a'),
       },
-      ...(PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE
+      ...(USDC_ACCOUNT_ENABLED
         ? [
             {
               symbol: TokenSymbol('sUSDC'),
@@ -393,7 +395,7 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
     markets: undefined,
     savings: {
       accounts: [
-        ...(PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE
+        ...(USDC_ACCOUNT_ENABLED
           ? [
               {
                 savingsToken: TokenSymbol('sUSDC'),
