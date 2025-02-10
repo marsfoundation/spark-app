@@ -26,6 +26,7 @@ export interface SavingsAccountProps {
   openSandboxModal: () => void
   openConnectModal: () => void
   guestMode: boolean
+  isInSandbox: boolean
   migrationInfo?: MigrationInfo
 }
 
@@ -45,6 +46,7 @@ export function SavingsAccount({
   openSandboxModal,
   openConnectModal,
   guestMode,
+  isInSandbox,
   migrationInfo,
 }: SavingsAccountProps) {
   const displayDepositCallToAction = guestMode || savingsTokenBalance.eq(0)
@@ -63,6 +65,7 @@ export function SavingsAccount({
           savingsRate={interestData.APY}
           entryTokens={supportedStablecoins.map((asset) => asset.token)}
           savingsToken={savingsToken}
+          isInSandbox={isInSandbox}
           description={{
             text: `Deposit to Savings ${underlyingToken.symbol} to tap into the most predictable savings rate at scale! Learn more about it `,
             docsLink: links.docs.earningSavings,

@@ -176,6 +176,7 @@ const savingsViewSusdsArgs = {
   openConnectModal: () => {},
   openSandboxModal: () => {},
   guestMode: false,
+  isInSandbox: false,
   allAccounts: [shortSavingsUsdcAccountDefinition, shortSavingsUsdsAccountDefinition, shortSavingsDaiAccountDefinition],
   generalStats: {
     data: {
@@ -336,3 +337,12 @@ export const ChartsNotSupported: Story = {
 }
 export const ChartsNotSupportedMobile = getMobileStory(ChartsNotSupported)
 export const ChartsNotSupportedTablet = getTabletStory(ChartsNotSupported)
+
+export const InSandbox: Story = {
+  args: {
+    ...NoDeposit.args,
+    isInSandbox: true,
+  },
+}
+export const InSandboxMobile = getMobileStory(InSandbox)
+export const InSandboxTablet = getTabletStory(InSandbox)
