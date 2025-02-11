@@ -2,7 +2,13 @@ import BigNumber from 'bignumber.js'
 
 import { NativeAssetInfo } from '@/config/chain/types'
 import { AaveData, RawAaveUserReserve } from '@/domain/market-info/aave-data-layer/query'
-import { MarketInfo, Reserve, UserPosition, UserPositionSummary } from '@/domain/market-info/marketInfo'
+import {
+  MarketInfo,
+  Reserve,
+  UserConfiguration,
+  UserPosition,
+  UserPositionSummary,
+} from '@/domain/market-info/marketInfo'
 import { getCompoundedScaledBalance, getScaledBalance } from '@/domain/market-info/math'
 import { mergeUserPositionIntoRawUserReserve, recalculateUserSummary } from '@/domain/market-info/utils'
 import { bigNumberify } from '@marsfoundation/common-universal'
@@ -40,11 +46,18 @@ export function updatePositionSummary({
   nativeAssetInfo,
 }: UpdatePositionSummaryParams): UserPositionSummary {
   const timestamp = marketInfo.timestamp
+
+  const mapperCommonArgs = {
+    timestamp,
+    nativeAssetInfo,
+    userPositionSummary: marketInfo.userPositionSummary,
+    userConfiguration: marketInfo.userConfiguration,
+  }
   const newUserPositions = marketInfo.userPositions
-    .map(getUserPositionMapper(timestamp, deposits, nativeAssetInfo, 'deposit'))
-    .map(getUserPositionMapper(timestamp, withdrawals, nativeAssetInfo, 'withdraw'))
-    .map(getUserPositionMapper(timestamp, borrows, nativeAssetInfo, 'borrow'))
-    .map(getUserPositionMapper(timestamp, repays, nativeAssetInfo, 'repay'))
+    .map(getUserPositionMapper({ affectedReserves: deposits, type: 'deposit', ...mapperCommonArgs }))
+    .map(getUserPositionMapper({ affectedReserves: withdrawals, type: 'withdraw', ...mapperCommonArgs }))
+    .map(getUserPositionMapper({ affectedReserves: borrows, type: 'borrow', ...mapperCommonArgs }))
+    .map(getUserPositionMapper({ affectedReserves: repays, type: 'repay', ...mapperCommonArgs }))
 
   const newRawUserReserves = mergeUserPositionIntoRawUserReserve(newUserPositions, aaveData.rawUserReserves).map(
     (r, index) =>
@@ -73,20 +86,30 @@ export function updatePositionSummary({
   return userSummary
 }
 
-function getUserPositionMapper(
-  timestamp: number,
-  reserves: ReserveWithValue[],
-  nativeAssetInfo: NativeAssetInfo,
-  type: 'deposit' | 'withdraw' | 'borrow' | 'repay',
-) {
+interface GetUserPositionMapperArgs {
+  timestamp: number
+  affectedReserves: ReserveWithValue[]
+  nativeAssetInfo: NativeAssetInfo
+  userPositionSummary: UserPositionSummary
+  userConfiguration: UserConfiguration
+  type: 'deposit' | 'withdraw' | 'borrow' | 'repay'
+}
+function getUserPositionMapper({
+  timestamp,
+  affectedReserves,
+  nativeAssetInfo,
+  userPositionSummary,
+  userConfiguration,
+  type,
+}: GetUserPositionMapperArgs) {
   return (userPosition: UserPosition): UserPosition => {
-    const value = getValueForUserPosition(userPosition, reserves, nativeAssetInfo)
+    const value = getValueForUserPosition(userPosition, affectedReserves, nativeAssetInfo)
     if (!value) {
       return userPosition
     }
 
     if (type === 'deposit' || type === 'withdraw') {
-      return tweakDepositPosition(timestamp, type, value, userPosition)
+      return tweakDepositPosition(timestamp, type, value, userPosition, userPositionSummary, userConfiguration)
     }
 
     return tweakBorrowPosition(timestamp, type, value, userPosition)
@@ -127,11 +150,22 @@ function tweakDepositPosition(
   type: 'deposit' | 'withdraw',
   value: NormalizedUnitNumber,
   userPosition: UserPosition,
+  userPositionSummary: UserPositionSummary,
+  userConfiguration: UserConfiguration,
 ): UserPosition {
   if (value.eq(0)) {
     return userPosition
   }
   const reserve = userPosition.reserve
+
+  if (type === 'deposit') {
+    const isFirstDeposit = userPosition.scaledATokenBalance.eq(0)
+    if (isFirstDeposit && !validateAutomaticUseAsCollateral({ reserve, userPositionSummary, userConfiguration })) {
+      // If reserve should not be automatically used as collateral,
+      //  the scaledATokenBalance will be 0.
+      return userPosition
+    }
+  }
 
   const updatedBalance = getScaledBalance({
     balance: reserve.token.toBaseUnit(value),
@@ -221,4 +255,26 @@ function tweakUseAsCollateral({
   }
 
   return updatedRawUserReserve
+}
+
+interface ValidateAutomaticUseAsCollateralParams {
+  reserve: Reserve
+  userPositionSummary: UserPositionSummary
+  userConfiguration: UserConfiguration
+}
+function validateAutomaticUseAsCollateral({
+  reserve,
+  userPositionSummary,
+  userConfiguration,
+}: ValidateAutomaticUseAsCollateralParams): boolean {
+  if (reserve.maxLtv.isZero()) {
+    return false
+  }
+
+  // nothing is used as collateral
+  if (userPositionSummary.totalCollateralUSD.isZero()) {
+    return true
+  }
+
+  return !userConfiguration.isolationModeState.enabled && reserve.debtCeiling.isZero()
 }
