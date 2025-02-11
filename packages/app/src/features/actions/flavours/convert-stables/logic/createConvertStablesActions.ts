@@ -1,7 +1,7 @@
 import {
-  basePsm3Address,
   dssLitePsmConfig,
   migrationActionsConfig,
+  psm3Address,
   usdsPsmWrapperConfig,
 } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
@@ -49,7 +49,7 @@ export function createConvertStablesActions(objective: ConvertStablesObjective, 
 
     case 'base-usdc-usds':
     case 'base-usds-usdc':
-      return [getApproveAction(CheckedAddress(basePsm3Address[base.id])), createPsmConvertAction(objective)]
+      return [getApproveAction(CheckedAddress(psm3Address[base.id])), createPsmConvertAction(objective)]
 
     case 'dai-usds':
       return [

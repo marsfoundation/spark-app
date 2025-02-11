@@ -1,4 +1,4 @@
-import { basePsm3Address } from '@/config/contracts-generated'
+import { psm3Address } from '@/config/contracts-generated'
 import { DynamicValidatorConfig, ensureDynamicValidatorConfigTypes } from '@/domain/common/dynamicValidator'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { SavingsConverter } from '@/domain/savings-converters/types'
@@ -77,7 +77,7 @@ export function getValidatorConfig({
   if (chainId === base.id) {
     const usds = tokensInfo.findOneTokenBySymbol(TokenSymbol('USDS'))
     const usdc = tokensInfo.findOneTokenBySymbol(TokenSymbol('USDC'))
-    const psm3 = getContractAddress(basePsm3Address, chainId)
+    const psm3 = getContractAddress(psm3Address, chainId)
 
     return ensureDynamicValidatorConfigTypes({
       fetchParamsQueryKey: getCreateValidatorConfigQueryKey(savingsToken, chainId),

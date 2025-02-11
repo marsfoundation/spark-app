@@ -1,6 +1,6 @@
 import {
-  basePsm3Address,
   migrationActionsConfig,
+  psm3Address,
   psmActionsConfig,
   usdcVaultAddress,
   usdsPsmActionsConfig,
@@ -61,7 +61,7 @@ export function createDepositToSavingsActions(objective: DepositToSavingsObjecti
 
     case 'base-usdc-to-susds':
     case 'base-usds-to-susds':
-      return [getApproveAction(getContractAddress(basePsm3Address, chainId)), depositAction]
+      return [getApproveAction(getContractAddress(psm3Address, chainId)), depositAction]
 
     default:
       assertNever(actionPath)

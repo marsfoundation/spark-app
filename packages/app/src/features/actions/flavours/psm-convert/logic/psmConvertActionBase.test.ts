@@ -1,5 +1,5 @@
 import { SPARK_UI_REFERRAL_CODE_BIGINT } from '@/config/consts'
-import { basePsm3Abi, basePsm3Address } from '@/config/contracts-generated'
+import { psm3Abi, psm3Address } from '@/config/contracts-generated'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
@@ -52,8 +52,8 @@ describe(createPsmConvertActionConfig.name, () => {
     const { result, queryInvalidationManager } = hookRenderer({
       extraHandlers: [
         handlers.contractCall({
-          to: basePsm3Address[base.id],
-          abi: basePsm3Abi,
+          to: psm3Address[base.id],
+          abi: psm3Abi,
           functionName: 'swapExactIn',
           args: [
             usdc.address,
@@ -86,7 +86,7 @@ describe(createPsmConvertActionConfig.name, () => {
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
       allowanceQueryKey({
         token: usdc.address,
-        spender: basePsm3Address[base.id],
+        spender: psm3Address[base.id],
         account,
         chainId,
       }),
@@ -107,8 +107,8 @@ describe(createPsmConvertActionConfig.name, () => {
       },
       extraHandlers: [
         handlers.contractCall({
-          to: basePsm3Address[base.id],
-          abi: basePsm3Abi,
+          to: psm3Address[base.id],
+          abi: psm3Abi,
           functionName: 'swapExactIn',
           args: [
             usds.address,
@@ -141,7 +141,7 @@ describe(createPsmConvertActionConfig.name, () => {
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
       allowanceQueryKey({
         token: usds.address,
-        spender: basePsm3Address[base.id],
+        spender: psm3Address[base.id],
         account,
         chainId,
       }),

@@ -1,4 +1,4 @@
-import { basePsm3Address } from '@/config/contracts-generated'
+import { psm3Address } from '@/config/contracts-generated'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
 import { BASE_MOCK_SUSDC_ACTIVE_BLOCK_NUMBER, TOKENS_ON_FORK } from '@/test/e2e/constants'
 import { TestContext, setup } from '@/test/e2e/setup'
@@ -91,7 +91,7 @@ test.describe('Withdraw USDC', () => {
   test('fails validation if psm3 usds balance is too low', async ({ page }) => {
     await testContext.testnetController.client.setErc20Balance(
       TOKENS_ON_FORK[base.id].USDC.address,
-      basePsm3Address[base.id],
+      psm3Address[base.id],
       0n,
     )
     await testContext.testnetController.progressSimulation(5)
