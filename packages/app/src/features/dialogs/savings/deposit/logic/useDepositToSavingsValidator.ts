@@ -9,11 +9,11 @@ import { getTransferFromUserFormValidator } from '@/features/dialogs/common/logi
 import { BaseUnitNumber, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { QueryKey, useSuspenseQuery } from '@tanstack/react-query'
 import { erc20Abi } from 'viem'
-import { base } from 'viem/chains'
+import { arbitrum, base } from 'viem/chains'
 import { Config, useConfig } from 'wagmi'
 import { readContract } from 'wagmi/actions'
 import { z } from 'zod'
-import { depositValidationIssueToMessage, validateDepositToSavingsOnBase } from './validation'
+import { depositValidationIssueToMessage, validateDepositToSavingsWithPsm3 } from './validation'
 
 export type AssetInputValidator = z.ZodSchema<{
   symbol: string
@@ -61,7 +61,7 @@ export function getValidatorConfig({
   wagmiConfig,
   savingsAccount,
 }: GetValidatorConfigParams): DynamicValidatorConfig {
-  if (chainId === base.id) {
+  if (chainId === base.id || chainId === arbitrum.id) {
     const susds = tokensInfo.findOneTokenBySymbol(TokenSymbol('sUSDS'))
     const psm3 = getContractAddress(psm3Address, chainId)
 
@@ -81,7 +81,7 @@ export function getValidatorConfig({
         getTransferFromUserFormValidator(tokensInfo, depositValidationIssueToMessage).superRefine((field, ctx) => {
           const value = NormalizedUnitNumber(field.value === '' ? '0' : field.value)
           const estimatedSusdsReceived = savingsAccount.converter.convertToShares({ assets: value })
-          const issue = validateDepositToSavingsOnBase({
+          const issue = validateDepositToSavingsWithPsm3({
             psm3SusdsBalance,
             estimatedSusdsReceived,
           })

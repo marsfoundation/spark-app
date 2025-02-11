@@ -13,7 +13,7 @@ export interface ValidateDepositToSavingsOnBaseParams {
   psm3SusdsBalance: NormalizedUnitNumber
   estimatedSusdsReceived: NormalizedUnitNumber
 }
-export function validateDepositToSavingsOnBase({
+export function validateDepositToSavingsWithPsm3({
   psm3SusdsBalance,
   estimatedSusdsReceived,
 }: ValidateDepositToSavingsOnBaseParams): DepositToSavingsValidationIssue | undefined {
