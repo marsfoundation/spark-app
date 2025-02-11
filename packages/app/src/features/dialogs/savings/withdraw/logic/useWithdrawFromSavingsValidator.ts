@@ -8,13 +8,13 @@ import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { BaseUnitNumber, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { QueryKey, useSuspenseQuery } from '@tanstack/react-query'
 import { erc20Abi } from 'viem'
-import { base } from 'viem/chains'
+import { arbitrum, base } from 'viem/chains'
 import { Config, useConfig } from 'wagmi'
 import { readContract } from 'wagmi/actions'
 import { z } from 'zod'
 import {
   getSavingsWithdrawDialogFormValidator,
-  validateWithdrawFromSavingsOnBase,
+  validateWithdrawFromSavingsWithPsm3,
   withdrawValidationIssueToMessage,
 } from './validation'
 
@@ -74,7 +74,7 @@ export function getValidatorConfig({
   savingsTokenBalance,
   savingsConverter,
 }: GetValidatorConfigParams): DynamicValidatorConfig {
-  if (chainId === base.id) {
+  if (chainId === base.id || chainId === arbitrum.id) {
     const usds = tokensInfo.findOneTokenBySymbol(TokenSymbol('USDS'))
     const usdc = tokensInfo.findOneTokenBySymbol(TokenSymbol('USDC'))
     const psm3 = getContractAddress(psm3Address, chainId)
@@ -109,7 +109,7 @@ export function getValidatorConfig({
           const isMaxSelected = field.isMaxSelected
           const usdBalance = savingsConverter.convertToAssets({ shares: savingsTokenBalance })
 
-          const issue = validateWithdrawFromSavingsOnBase({
+          const issue = validateWithdrawFromSavingsWithPsm3({
             value,
             isUsdcWithdraw,
             isMaxSelected,
