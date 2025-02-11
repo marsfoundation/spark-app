@@ -9,7 +9,6 @@ import { toBigInt } from '@marsfoundation/common-universal'
 import { assert, assertNever } from '@marsfoundation/common-universal'
 import { CheckedAddress } from '@marsfoundation/common-universal'
 import { QueryKey } from '@tanstack/react-query'
-import { base } from 'viem/chains'
 import { allowanceQueryKey } from '../../approve/logic/query'
 import { PsmConvertAction } from '../types'
 import { getPsmConvertActionPath } from './getPsmConvertActionPath'
@@ -52,7 +51,9 @@ export function createPsmConvertActionConfig(action: PsmConvertAction, context: 
         }
 
         case 'base-usdc-usds':
-        case 'base-usds-usdc': {
+        case 'base-usds-usdc':
+        case 'arbitrum-usdc-usds':
+        case 'arbitrum-usds-usdc': {
           const assetIn = action.inToken.address
           const assetOut = action.outToken.address
           const amountIn = toBigInt(action.inToken.toBaseUnit(action.amount))
@@ -60,7 +61,7 @@ export function createPsmConvertActionConfig(action: PsmConvertAction, context: 
           const receiver = account
 
           return ensureConfigTypes({
-            address: psm3Address[base.id],
+            address: getContractAddress(psm3Address, chainId),
             abi: psm3Abi,
             functionName: 'swapExactIn',
             args: [assetIn, assetOut, amountIn, minAmountOut, receiver, SPARK_UI_REFERRAL_CODE_BIGINT],
@@ -91,6 +92,8 @@ export function createPsmConvertActionConfig(action: PsmConvertAction, context: 
 
         case 'base-usdc-usds':
         case 'base-usds-usdc':
+        case 'arbitrum-usdc-usds':
+        case 'arbitrum-usds-usdc':
           return [balancesQueryKeyPrefix, getAllowanceQueryKey(getContractAddress(psm3Address, chainId))]
 
         default:

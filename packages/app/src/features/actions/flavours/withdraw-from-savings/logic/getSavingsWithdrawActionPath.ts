@@ -31,59 +31,62 @@ export function getSavingsWithdrawActionPath({
   tokensInfo,
   chainId,
 }: GetSavingsWithdrawActionPathParams): SavingsWithdrawActionPath {
-  if (
-    token.symbol === tokensInfo.DAI?.symbol &&
-    savingsToken.symbol === tokensInfo.sDAI?.symbol &&
-    chainId === gnosis.id
-  ) {
+  const dai = tokensInfo.DAI?.symbol
+  const sdai = tokensInfo.sDAI?.symbol
+  const usds = tokensInfo.USDS?.symbol
+  const susds = tokensInfo.sUSDS?.symbol
+  const usdc = TokenSymbol('USDC')
+  const susdc = TokenSymbol('sUSDC')
+
+  if (token.symbol === dai && savingsToken.symbol === sdai && chainId === gnosis.id) {
     return 'sdai-to-sexy-dai'
   }
 
   if (chainId === base.id) {
-    if (token.symbol === tokensInfo.USDS?.symbol && savingsToken.symbol === tokensInfo.sUSDS?.symbol) {
+    if (token.symbol === usds && savingsToken.symbol === susds) {
       return 'base-susds-to-usds'
     }
 
-    if (token.symbol === TokenSymbol('USDC') && savingsToken.symbol === tokensInfo.sUSDS?.symbol) {
+    if (token.symbol === usdc && savingsToken.symbol === susds) {
       return 'base-susds-to-usdc'
     }
 
-    if (token.symbol === TokenSymbol('USDC') && savingsToken.symbol === TokenSymbol('sUSDC')) {
+    if (token.symbol === usdc && savingsToken.symbol === susdc) {
       return 'base-susdc-to-usdc'
     }
   }
 
   if (chainId === arbitrum.id) {
-    if (token.symbol === tokensInfo.USDS?.symbol && savingsToken.symbol === tokensInfo.sUSDS?.symbol) {
+    if (token.symbol === usds && savingsToken.symbol === susds) {
       return 'arbitrum-susds-to-usds'
     }
 
-    if (token.symbol === TokenSymbol('USDC') && savingsToken.symbol === tokensInfo.sUSDS?.symbol) {
+    if (token.symbol === usdc && savingsToken.symbol === susds) {
       return 'arbitrum-susds-to-usdc'
     }
   }
 
-  if (token.symbol === tokensInfo.USDS?.symbol && savingsToken.symbol === tokensInfo.sUSDS?.symbol) {
+  if (token.symbol === usds && savingsToken.symbol === susds) {
     return 'susds-to-usds'
   }
 
-  if (token.symbol === TokenSymbol('USDC') && savingsToken.symbol === tokensInfo.sUSDS?.symbol) {
+  if (token.symbol === usdc && savingsToken.symbol === susds) {
     return 'susds-to-usdc'
   }
 
-  if (token.symbol === tokensInfo.DAI?.symbol && savingsToken.symbol === tokensInfo.sDAI?.symbol) {
+  if (token.symbol === dai && savingsToken.symbol === sdai) {
     return 'sdai-to-dai'
   }
 
-  if (token.symbol === TokenSymbol('USDC') && savingsToken.symbol === tokensInfo.sDAI?.symbol) {
+  if (token.symbol === usdc && savingsToken.symbol === sdai) {
     return 'sdai-to-usdc'
   }
 
-  if (token.symbol === tokensInfo.USDS?.symbol && savingsToken.symbol === tokensInfo.sDAI?.symbol) {
+  if (token.symbol === usds && savingsToken.symbol === sdai) {
     return 'sdai-to-usds'
   }
 
-  if (token.symbol === TokenSymbol('USDC') && savingsToken.symbol === TokenSymbol('sUSDC')) {
+  if (token.symbol === usdc && savingsToken.symbol === susdc) {
     return 'susdc-to-usdc'
   }
 
