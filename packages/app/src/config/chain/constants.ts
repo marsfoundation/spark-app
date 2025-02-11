@@ -6,8 +6,8 @@ import { arbitrum, base, gnosis, mainnet } from 'viem/chains'
 export const SUPPORTED_CHAINS = [
   mainnet,
   base,
-  gnosis,
   ...(import.meta.env.VITE_FEATURE_ARBITRUM === '1' ? [arbitrum] : []),
+  gnosis,
 ] as const
 export const SUPPORTED_CHAIN_IDS = SUPPORTED_CHAINS.map((chain) => chain.id)
 
