@@ -1,11 +1,11 @@
-import { usdcVaultAbi, usdcVaultAddress } from '@/config/contracts-generated'
+import { ssrAuthOracleConfig } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { bigNumberify } from '@marsfoundation/common-universal'
-import { multicall } from 'wagmi/actions'
+import { readContract } from 'wagmi/actions'
 import { PotSavingsConverter } from './PotSavingsConverter'
 import { SavingsConverterQueryOptions, SavingsConverterQueryParams } from './types'
 
-export function baseSavingsUsdcConverterQueryOptions({
+export function susdsSsrAuthOracleConverterQueryOptions({
   wagmiConfig,
   timestamp,
   chainId,
@@ -13,30 +13,10 @@ export function baseSavingsUsdcConverterQueryOptions({
   return {
     queryKey: ['base-savings-usds-info', { chainId }],
     queryFn: async () => {
-      const susdcAddress = getContractAddress(usdcVaultAddress, chainId)
-
-      const [ssr, rho, chi] = await multicall(wagmiConfig, {
-        allowFailure: false,
-        contracts: [
-          {
-            address: susdcAddress,
-            functionName: 'ssr',
-            args: [],
-            abi: usdcVaultAbi,
-          },
-          {
-            address: susdcAddress,
-            functionName: 'rho',
-            args: [],
-            abi: usdcVaultAbi,
-          },
-          {
-            address: susdcAddress,
-            functionName: 'chi',
-            args: [],
-            abi: usdcVaultAbi,
-          },
-        ],
+      const { ssr, chi, rho } = await readContract(wagmiConfig, {
+        abi: ssrAuthOracleConfig.abi,
+        address: getContractAddress(ssrAuthOracleConfig.address, chainId),
+        functionName: 'getSUSDSData',
       })
 
       return {

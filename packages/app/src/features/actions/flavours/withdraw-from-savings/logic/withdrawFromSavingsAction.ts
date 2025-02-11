@@ -108,10 +108,12 @@ export function createWithdrawFromSavingsActionConfig(
         }
 
         case 'base-susds-to-usds':
-        case 'base-susds-to-usdc': {
+        case 'base-susds-to-usdc':
+        case 'arbitrum-susds-to-usds':
+        case 'arbitrum-susds-to-usdc': {
           assert(
             context.savingsAccounts,
-            'Savings accounts repository is required for usdc psm withdraw from savings action',
+            'Savings accounts repository is required for psm withdraw from savings action',
           )
           const { converter } = context.savingsAccounts.findOneBySavingsToken(savingsToken)
 
@@ -279,6 +281,8 @@ export function createWithdrawFromSavingsActionConfig(
           ]
         case 'base-susds-to-usdc':
         case 'base-susds-to-usds':
+        case 'arbitrum-susds-to-usdc':
+        case 'arbitrum-susds-to-usds':
           return [balancesQueryKeyPrefix, getAllowanceQueryKey(getContractAddress(psm3Address, chainId))]
         default:
           assertNever(actionPath)

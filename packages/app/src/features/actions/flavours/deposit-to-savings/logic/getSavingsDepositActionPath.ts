@@ -2,7 +2,7 @@ import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { raise } from '@marsfoundation/common-universal'
-import { base, gnosis } from 'viem/chains'
+import { arbitrum, base, gnosis } from 'viem/chains'
 
 export type SavingsDepositActionPath =
   | 'usds-to-susds'
@@ -15,6 +15,8 @@ export type SavingsDepositActionPath =
   | 'base-usds-to-susds'
   | 'base-usdc-to-susds'
   | 'base-usdc-to-susdc'
+  | 'arbitrum-usds-to-susds'
+  | 'arbitrum-usdc-to-susds'
 
 export interface GetSavingsActionPathParams {
   token: Token
@@ -44,6 +46,16 @@ export function getSavingsDepositActionPath({
 
     if (token.symbol === TokenSymbol('USDC') && savingsToken.symbol === tokensInfo.sUSDS?.symbol) {
       return 'base-usdc-to-susds'
+    }
+  }
+
+  if (chainId === arbitrum.id) {
+    if (token.symbol === tokensInfo.USDS?.symbol && savingsToken.symbol === tokensInfo.sUSDS?.symbol) {
+      return 'arbitrum-usds-to-susds'
+    }
+
+    if (token.symbol === TokenSymbol('USDC') && savingsToken.symbol === tokensInfo.sUSDS?.symbol) {
+      return 'arbitrum-usdc-to-susds'
     }
   }
 
