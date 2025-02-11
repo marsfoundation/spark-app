@@ -1,5 +1,5 @@
 import { http, Chain, Transport } from 'viem'
-import { base, gnosis, mainnet } from 'viem/chains'
+import { arbitrum, base, gnosis, mainnet } from 'viem/chains'
 import { VIEM_TIMEOUT_ON_FORKS } from './config.e2e'
 import { getInjectedNetwork } from './getInjectedNetwork'
 
@@ -16,6 +16,7 @@ export function getTransports({ forkChain }: GetTransportsParamsOptions): GetTra
     [mainnet.id]: http(`https://eth-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`),
     [gnosis.id]: http(`https://gnosis-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`),
     [base.id]: http(`https://base-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`),
+    [arbitrum.id]: http(`https://arb-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`),
   }
 
   if (forkChain) {
