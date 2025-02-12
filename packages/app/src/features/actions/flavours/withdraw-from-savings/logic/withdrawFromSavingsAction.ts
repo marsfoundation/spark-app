@@ -1,8 +1,8 @@
 import { SPARK_UI_REFERRAL_CODE_BIGINT } from '@/config/consts'
 import {
-  basePsm3Abi,
-  basePsm3Address,
   migrationActionsConfig,
+  psm3Abi,
+  psm3Address,
   psmActionsConfig,
   savingsXDaiAdapterAbi,
   savingsXDaiAdapterAddress,
@@ -128,8 +128,8 @@ export function createWithdrawFromSavingsActionConfig(
             })
 
             return ensureConfigTypes({
-              address: getContractAddress(basePsm3Address, chainId),
-              abi: basePsm3Abi,
+              address: getContractAddress(psm3Address, chainId),
+              abi: psm3Abi,
               functionName: 'swapExactIn',
               args: [
                 savingsToken.address,
@@ -153,8 +153,8 @@ export function createWithdrawFromSavingsActionConfig(
           })
 
           return ensureConfigTypes({
-            address: getContractAddress(basePsm3Address, chainId),
-            abi: basePsm3Abi,
+            address: getContractAddress(psm3Address, chainId),
+            abi: psm3Abi,
             functionName: 'swapExactOut',
             args: [
               savingsToken.address,
@@ -279,7 +279,7 @@ export function createWithdrawFromSavingsActionConfig(
           ]
         case 'base-susds-to-usdc':
         case 'base-susds-to-usds':
-          return [balancesQueryKeyPrefix, getAllowanceQueryKey(getContractAddress(basePsm3Address, chainId))]
+          return [balancesQueryKeyPrefix, getAllowanceQueryKey(getContractAddress(psm3Address, chainId))]
         default:
           assertNever(actionPath)
       }

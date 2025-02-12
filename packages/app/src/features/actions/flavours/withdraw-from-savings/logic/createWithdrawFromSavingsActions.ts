@@ -1,6 +1,6 @@
 import {
-  basePsm3Address,
   migrationActionsConfig,
+  psm3Address,
   psmActionsConfig,
   savingsXDaiAdapterAddress,
   usdsPsmActionsConfig,
@@ -96,7 +96,7 @@ export function createWithdrawFromSavingsActions(
         {
           type: 'approve',
           token: objective.savingsToken,
-          spender: getContractAddress(basePsm3Address, chainId),
+          spender: getContractAddress(psm3Address, chainId),
           value: objective.isRedeem ? objective.amount : objective.savingsToken.fromBaseUnit(maxAmountIn),
         },
         withdrawAction,

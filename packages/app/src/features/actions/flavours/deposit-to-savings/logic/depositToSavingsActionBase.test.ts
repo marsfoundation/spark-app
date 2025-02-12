@@ -1,5 +1,5 @@
 import { SPARK_UI_REFERRAL_CODE, SPARK_UI_REFERRAL_CODE_BIGINT } from '@/config/consts'
-import { basePsm3Abi, basePsm3Address, usdcVaultAbi, usdcVaultAddress } from '@/config/contracts-generated'
+import { psm3Abi, psm3Address, usdcVaultAbi, usdcVaultAddress } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { EPOCH_LENGTH } from '@/domain/market-info/consts'
 import { PotSavingsConverter } from '@/domain/savings-converters/PotSavingsConverter'
@@ -87,8 +87,8 @@ describe(createDepositToSavingsActionConfig.name, () => {
       chain: base,
       extraHandlers: [
         handlers.contractCall({
-          to: basePsm3Address[base.id],
-          abi: basePsm3Abi,
+          to: psm3Address[base.id],
+          abi: psm3Abi,
           functionName: 'swapExactIn',
           args: [
             usds.address,
@@ -120,7 +120,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
     )
 
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
-      allowanceQueryKey({ token: usds.address, spender: basePsm3Address[base.id], account, chainId }),
+      allowanceQueryKey({ token: usds.address, spender: psm3Address[base.id], account, chainId }),
     )
   })
 
@@ -134,8 +134,8 @@ describe(createDepositToSavingsActionConfig.name, () => {
       chain: base,
       extraHandlers: [
         handlers.contractCall({
-          to: basePsm3Address[base.id],
-          abi: basePsm3Abi,
+          to: psm3Address[base.id],
+          abi: psm3Abi,
           functionName: 'swapExactIn',
           args: [
             usdc.address,
@@ -166,7 +166,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
       getBalancesQueryKeyPrefix({ account, chainId }),
     )
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
-      allowanceQueryKey({ token: usdc.address, spender: basePsm3Address[base.id], account, chainId }),
+      allowanceQueryKey({ token: usdc.address, spender: psm3Address[base.id], account, chainId }),
     )
   })
 

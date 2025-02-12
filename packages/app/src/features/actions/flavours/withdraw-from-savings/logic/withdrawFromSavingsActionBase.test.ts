@@ -1,5 +1,5 @@
 import { SPARK_UI_REFERRAL_CODE_BIGINT } from '@/config/consts'
-import { basePsm3Abi, basePsm3Address, usdcVaultAbi, usdcVaultAddress } from '@/config/contracts-generated'
+import { psm3Abi, psm3Address, usdcVaultAbi, usdcVaultAddress } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { PotSavingsConverter } from '@/domain/savings-converters/PotSavingsConverter'
 import { SavingsAccountRepository } from '@/domain/savings-converters/types'
@@ -104,8 +104,8 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
       chain: base,
       extraHandlers: [
         handlers.contractCall({
-          to: basePsm3Address[base.id],
-          abi: basePsm3Abi,
+          to: psm3Address[base.id],
+          abi: psm3Abi,
           functionName: 'swapExactOut',
           args: [
             susds.address,
@@ -156,8 +156,8 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
       chain: base,
       extraHandlers: [
         handlers.contractCall({
-          to: basePsm3Address[base.id],
-          abi: basePsm3Abi,
+          to: psm3Address[base.id],
+          abi: psm3Abi,
           functionName: 'swapExactIn',
           args: [
             susds.address,
@@ -213,8 +213,8 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
       chain: base,
       extraHandlers: [
         handlers.contractCall({
-          to: basePsm3Address[base.id],
-          abi: basePsm3Abi,
+          to: psm3Address[base.id],
+          abi: psm3Abi,
           functionName: 'swapExactOut',
           args: [
             susds.address,
@@ -266,8 +266,8 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
       chain: base,
       extraHandlers: [
         handlers.contractCall({
-          to: basePsm3Address[base.id],
-          abi: basePsm3Abi,
+          to: psm3Address[base.id],
+          abi: psm3Abi,
           functionName: 'swapExactIn',
           args: [
             susds.address,
@@ -322,8 +322,8 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
       chain: base,
       extraHandlers: [
         handlers.contractCall({
-          to: basePsm3Address[base.id],
-          abi: basePsm3Abi,
+          to: psm3Address[base.id],
+          abi: psm3Abi,
           functionName: 'swapExactOut',
           args: [
             susds.address,
@@ -354,7 +354,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
       getBalancesQueryKeyPrefix({ account, chainId }),
     )
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
-      allowanceQueryKey({ token: susds.address, spender: basePsm3Address[base.id], account, chainId }),
+      allowanceQueryKey({ token: susds.address, spender: psm3Address[base.id], account, chainId }),
     )
   })
 
@@ -377,8 +377,8 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
       chain: base,
       extraHandlers: [
         handlers.contractCall({
-          to: basePsm3Address[base.id],
-          abi: basePsm3Abi,
+          to: psm3Address[base.id],
+          abi: psm3Abi,
           functionName: 'swapExactIn',
           args: [
             susds.address,
@@ -409,7 +409,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
       getBalancesQueryKeyPrefix({ account, chainId }),
     )
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
-      allowanceQueryKey({ token: susds.address, spender: basePsm3Address[base.id], account, chainId }),
+      allowanceQueryKey({ token: susds.address, spender: psm3Address[base.id], account, chainId }),
     )
   })
 
@@ -437,8 +437,8 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
       chain: base,
       extraHandlers: [
         handlers.contractCall({
-          to: basePsm3Address[base.id],
-          abi: basePsm3Abi,
+          to: psm3Address[base.id],
+          abi: psm3Abi,
           functionName: 'swapExactOut',
           args: [
             susds.address,
@@ -469,7 +469,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
       getBalancesQueryKeyPrefix({ account, chainId }),
     )
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
-      allowanceQueryKey({ token: susds.address, spender: basePsm3Address[base.id], account, chainId }),
+      allowanceQueryKey({ token: susds.address, spender: psm3Address[base.id], account, chainId }),
     )
   })
 
@@ -493,8 +493,8 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
       chain: base,
       extraHandlers: [
         handlers.contractCall({
-          to: basePsm3Address[base.id],
-          abi: basePsm3Abi,
+          to: psm3Address[base.id],
+          abi: psm3Abi,
           functionName: 'swapExactIn',
           args: [
             susds.address,
@@ -525,7 +525,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
       getBalancesQueryKeyPrefix({ account, chainId }),
     )
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
-      allowanceQueryKey({ token: susds.address, spender: basePsm3Address[base.id], account, chainId }),
+      allowanceQueryKey({ token: susds.address, spender: psm3Address[base.id], account, chainId }),
     )
   })
 

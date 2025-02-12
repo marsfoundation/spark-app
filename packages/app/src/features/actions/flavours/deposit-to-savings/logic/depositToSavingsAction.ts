@@ -1,9 +1,9 @@
 import { susdsAbi } from '@/config/abis/susdsAbi'
 import { SPARK_UI_REFERRAL_CODE, SPARK_UI_REFERRAL_CODE_BIGINT } from '@/config/consts'
 import {
-  basePsm3Abi,
-  basePsm3Address,
   migrationActionsConfig,
+  psm3Abi,
+  psm3Address,
   psmActionsConfig,
   savingsXDaiAdapterAbi,
   savingsXDaiAdapterAddress,
@@ -135,8 +135,8 @@ export function createDepositToSavingsActionConfig(
           })
 
           return ensureConfigTypes({
-            address: basePsm3Address[base.id],
-            abi: basePsm3Abi,
+            address: psm3Address[base.id],
+            abi: psm3Abi,
             functionName: 'swapExactIn',
             args: [
               token.address,
@@ -183,7 +183,7 @@ export function createDepositToSavingsActionConfig(
 
         case 'base-usds-to-susds':
         case 'base-usdc-to-susds':
-          return [balancesQueryKeyPrefix, getAllowanceQueryKey(getContractAddress(basePsm3Address, chainId))]
+          return [balancesQueryKeyPrefix, getAllowanceQueryKey(getContractAddress(psm3Address, chainId))]
 
         default:
           assertNever(actionPath)

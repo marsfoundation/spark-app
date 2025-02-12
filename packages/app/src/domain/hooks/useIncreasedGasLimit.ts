@@ -1,5 +1,5 @@
 import { susdsAddresses } from '@/config/chain/constants'
-import { basePsm3Config, savingsDaiConfig } from '@/config/contracts-generated'
+import { psm3Config, savingsDaiConfig } from '@/config/contracts-generated'
 import { JSONStringifyRich } from '@/utils/object'
 import { skipToken, useQuery } from '@tanstack/react-query'
 import { Abi, Address, ContractFunctionName, erc4626Abi, isAddressEqual } from 'viem'
@@ -36,14 +36,14 @@ const TRANSACTIONS_WITH_INCREASED_GAS_LIMIT = [
   }),
   createConfigEntry({
     chainId: base.id,
-    address: basePsm3Config.address[base.id],
-    abi: basePsm3Config.abi,
+    address: psm3Config.address[base.id],
+    abi: psm3Config.abi,
     functionName: 'swapExactIn',
   }),
   createConfigEntry({
     chainId: base.id,
-    address: basePsm3Config.address[base.id],
-    abi: basePsm3Config.abi,
+    address: psm3Config.address[base.id],
+    abi: psm3Config.abi,
     functionName: 'swapExactOut',
   }),
 ]

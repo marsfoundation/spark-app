@@ -1,5 +1,5 @@
 import { SPARK_UI_REFERRAL_CODE_BIGINT } from '@/config/consts'
-import { basePsm3Abi, basePsm3Address, dssLitePsmConfig, usdsPsmWrapperConfig } from '@/config/contracts-generated'
+import { dssLitePsmConfig, psm3Abi, psm3Address, usdsPsmWrapperConfig } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
@@ -60,8 +60,8 @@ export function createPsmConvertActionConfig(action: PsmConvertAction, context: 
           const receiver = account
 
           return ensureConfigTypes({
-            address: basePsm3Address[base.id],
-            abi: basePsm3Abi,
+            address: psm3Address[base.id],
+            abi: psm3Abi,
             functionName: 'swapExactIn',
             args: [assetIn, assetOut, amountIn, minAmountOut, receiver, SPARK_UI_REFERRAL_CODE_BIGINT],
           })
@@ -91,7 +91,7 @@ export function createPsmConvertActionConfig(action: PsmConvertAction, context: 
 
         case 'base-usdc-usds':
         case 'base-usds-usdc':
-          return [balancesQueryKeyPrefix, getAllowanceQueryKey(getContractAddress(basePsm3Address, chainId))]
+          return [balancesQueryKeyPrefix, getAllowanceQueryKey(getContractAddress(psm3Address, chainId))]
 
         default:
           assertNever(actionPath)
