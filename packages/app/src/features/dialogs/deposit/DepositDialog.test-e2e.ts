@@ -39,7 +39,7 @@ test.describe('Deposit dialog', () => {
         initialPage: 'easyBorrow',
         account: {
           type: 'connected-random',
-          assetBalances: { ...initialBalances },
+          assetBalances: { ...initialBalances, WBTC: 1, weETH: 1 },
         },
       })
 
@@ -242,6 +242,27 @@ test.describe('Deposit dialog', () => {
 
       await depositDialog.actionsContainer.expectEnabledActionAtIndex(0, { type: 'permit', asset: depositAsset })
     })
+
+    test('health factor matches when depositing new asset with zero maxLtv ', async () => {
+      await myPortfolioPage.clickDepositButtonAction('WBTC')
+      await depositDialog.fillAmountAction(1)
+      await depositDialog.actionsContainer.expectEnabledActionAtIndex(0)
+
+      await depositDialog.expectRiskLevelBefore('Healthy')
+      await depositDialog.expectHealthFactorBefore(expectedInitialHealthFactor)
+      await depositDialog.expectRiskLevelAfter('Healthy')
+      // Depositing previously unused asset with zero maxLtv doesn't trigger
+      // automatic setting of usage as collateral, therefore health factor
+      // should not change.
+      await depositDialog.expectHealthFactorAfter(expectedInitialHealthFactor)
+    })
+
+    test('depositing isolated asset does not affect health factor', async () => {
+      await myPortfolioPage.clickDepositButtonAction('weETH')
+      await depositDialog.fillAmountAction(1)
+      await depositDialog.expectHealthFactorBefore(expectedInitialHealthFactor)
+      await depositDialog.expectHealthFactorAfter(expectedInitialHealthFactor)
+    })
   })
 
   test.describe('Position with only deposit', () => {
@@ -415,6 +436,81 @@ test.describe('Deposit dialog', () => {
       await depositDialog.expectMaxButtonDisabled()
       await depositDialog.actionsContainer.expectEnabledActionAtIndex(0)
       await depositDialog.actionsContainer.expectActions([{ type: 'deposit', asset: 'ETH' }])
+    })
+  })
+
+  test.describe('Position in isolated mode', () => {
+    let myPortfolioPage: MyPortfolioPageObject
+    let depositDialog: DialogPageObject
+
+    test.beforeEach(async ({ page }) => {
+      const testContext = await setup(page, {
+        blockchain: {
+          chain: mainnet,
+          blockNumber: DEFAULT_BLOCK_NUMBER,
+        },
+        initialPage: 'myPortfolio',
+        account: {
+          type: 'connected-random',
+          assetBalances: { weETH: 2, wstETH: 1 },
+        },
+      })
+
+      myPortfolioPage = new MyPortfolioPageObject(testContext)
+      await myPortfolioPage.goToMyPortfolioAction()
+
+      depositDialog = new DialogPageObject({
+        testContext,
+        header: headerRegExp,
+      })
+
+      await myPortfolioPage.clickDepositButtonAction('weETH')
+      await depositDialog.fillAmountAction(1)
+      await depositDialog.actionsContainer.acceptAllActionsAction(2)
+
+      await depositDialog.viewInMyPortfolioAction()
+      await myPortfolioPage.expectDepositTable({
+        weETH: 1,
+      })
+
+      await myPortfolioPage.clickCollateralSwitchAction('weETH')
+      const collateralSwitchDialog = new DialogPageObject({
+        testContext,
+        header: /Collateral*/,
+      })
+      await collateralSwitchDialog.actionsContainer.acceptAllActionsAction(1)
+      await collateralSwitchDialog.viewInMyPortfolioAction()
+      await myPortfolioPage.expectCollateralSwitch('weETH', true)
+
+      const borrowDialog = new DialogPageObject({
+        testContext,
+        header: /Borrow*/,
+      })
+
+      await myPortfolioPage.clickBorrowButtonAction('DAI')
+      await borrowDialog.fillAmountAction(1500)
+      await borrowDialog.actionsContainer.acceptAllActionsAction(1)
+      await borrowDialog.viewInMyPortfolioAction()
+
+      await myPortfolioPage.expectHealthFactor('2.02')
+    })
+
+    test('can add collateral', async () => {
+      await myPortfolioPage.clickDepositButtonAction('weETH')
+      await depositDialog.fillAmountAction(1)
+      await depositDialog.expectHealthFactorBefore('2.02')
+      await depositDialog.expectHealthFactorAfter('4.03')
+
+      await depositDialog.actionsContainer.acceptAllActionsAction(2)
+      await depositDialog.viewInMyPortfolioAction()
+      await myPortfolioPage.expectHealthFactor('4.03')
+    })
+
+    test('depositing other asset does not affect health factor', async () => {
+      await myPortfolioPage.clickDepositButtonAction('wstETH')
+      await depositDialog.fillAmountAction(1)
+      await depositDialog.expectHealthFactorBefore('2.02')
+      await depositDialog.expectHealthFactorAfter('2.02')
     })
   })
 })
