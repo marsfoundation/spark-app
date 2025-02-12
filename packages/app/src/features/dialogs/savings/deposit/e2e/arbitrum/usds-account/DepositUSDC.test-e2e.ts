@@ -3,7 +3,6 @@ import { SavingsPageObject } from '@/pages/Savings.PageObject'
 import { ARBITRUM_DEFAULT_BLOCK_NUMBER, TOKENS_ON_FORK } from '@/test/e2e/constants'
 import { TestContext, setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
-import { parseUnits } from 'viem'
 import { arbitrum } from 'viem/chains'
 import { SavingsDialogPageObject } from '../../../../common/e2e/SavingsDialog.PageObject'
 import { depositValidationIssueToMessage } from '../../../logic/validation'
@@ -27,15 +26,12 @@ test.describe('Deposit USDC', () => {
           USDC: 10_000,
         },
       },
+      overriddenBalances: {
+        [psm3Address[arbitrum.id]]: {
+          sUSDS: 100_000,
+        },
+      },
     })
-
-    // @note: set susds balance cause no liquidity in psm3 yet
-    const susds = TOKENS_ON_FORK[arbitrum.id].sUSDS
-    await testContext.testnetController.client.setErc20Balance(
-      susds.address,
-      psm3Address[arbitrum.id],
-      parseUnits('100000', susds.decimals),
-    )
 
     savingsPage = new SavingsPageObject(testContext)
     await savingsPage.clickDepositButtonAction('USDC')
@@ -84,7 +80,7 @@ test.describe('Deposit USDC', () => {
 
     await savingsPage.expectSavingsAccountBalance({
       balance: '9,643.72',
-      estimatedValue: '10,000.000000', // USDC has 6 decimals, so the value is rounded down. This is consistent with the data in the smart contract
+      estimatedValue: '10,000.000000',
     })
     await savingsPage.expectSupportedStablecoinBalance('USDC', '-')
   })

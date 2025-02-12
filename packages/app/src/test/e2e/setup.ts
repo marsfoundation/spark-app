@@ -48,6 +48,7 @@ export interface SetupOptions<K extends Path, T extends ConnectionType> {
   initialPageParams?: PathParams<K>
   account: AccountOptions<T>
   skipInjectingNetwork?: boolean
+  overriddenBalances?: Record<Address, Partial<Record<AssetsInTests, number>>>
 }
 
 export type ProgressSimulation = (seconds: number) => Promise<void>
@@ -72,6 +73,12 @@ export async function setup<K extends Path, T extends ConnectionType>(
 ): Promise<TestContext<T>> {
   const { client: testnetClient, initialSnapshotId } = await getTestnetContext(options.blockchain)
   await testnetClient.revert(initialSnapshotId)
+
+  if (options.overriddenBalances) {
+    for (const [address, balances] of Object.entries(options.overriddenBalances)) {
+      await injectFunds(testnetClient, address as Address, balances)
+    }
+  }
 
   const autoProgressSimulationController = await injectPageSetup({ page, testnetClient, options })
   const address = await setupAccount({ page, testnetClient, options: options.account })
@@ -108,7 +115,7 @@ export async function setup<K extends Path, T extends ConnectionType>(
   } as any
 }
 
-export async function injectFunds(
+async function injectFunds(
   testnetClient: TestnetClient,
   address: Address,
   assetBalances?: AssetBalances,
