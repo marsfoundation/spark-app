@@ -17,6 +17,7 @@ import logoLight from './brand/logo-light.svg'
 import symbolDark from './brand/symbol-dark.svg'
 import symbolGradient from './brand/symbol-gradient.svg'
 import symboLight from './brand/symbol-light.svg'
+import arbitrum from './chains/arbitrum.svg'
 import base from './chains/base.svg'
 import ethereum from './chains/ethereum.svg'
 import gnosis from './chains/gnosis.svg'
@@ -165,6 +166,7 @@ export const assets = {
     ethereum,
     unknown,
     base,
+    arbitrum,
   },
   token: {
     dai,

@@ -67,20 +67,20 @@ export function validateWithdraw({
   }
 }
 
-export interface ValidateWithdrawFromSavingsOnBaseArgs extends ValidateWithdrawArgs {
+export interface ValidateWithdrawFromSavingsWithPsm3Args extends ValidateWithdrawArgs {
   isUsdcWithdraw: boolean
   psm3: {
     usdsBalance: NormalizedUnitNumber
     usdcBalance: NormalizedUnitNumber
   }
 }
-export function validateWithdrawFromSavingsOnBase({
+export function validateWithdrawFromSavingsWithPsm3({
   value,
   isUsdcWithdraw,
   isMaxSelected,
   user: { balance },
   psm3: { usdsBalance, usdcBalance },
-}: ValidateWithdrawFromSavingsOnBaseArgs): WithdrawValidationIssue | undefined {
+}: ValidateWithdrawFromSavingsWithPsm3Args): WithdrawValidationIssue | undefined {
   if (isUsdcWithdraw) {
     if (usdcBalance.lt(value)) {
       return 'usdc-withdraw-cap-reached'

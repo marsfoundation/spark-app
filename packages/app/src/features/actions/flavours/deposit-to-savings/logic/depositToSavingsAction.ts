@@ -23,7 +23,7 @@ import { BaseUnitNumber, toBigInt } from '@marsfoundation/common-universal'
 import { assert, CheckedAddress, NormalizedUnitNumber, assertNever, raise } from '@marsfoundation/common-universal'
 import { QueryKey } from '@tanstack/react-query'
 import { Address, erc4626Abi } from 'viem'
-import { base, gnosis } from 'viem/chains'
+import { gnosis } from 'viem/chains'
 import { DepositToSavingsAction } from '../types'
 import { getSavingsDepositActionPath } from './getSavingsDepositActionPath'
 
@@ -121,10 +121,12 @@ export function createDepositToSavingsActionConfig(
           })
 
         case 'base-usds-to-susds':
-        case 'base-usdc-to-susds': {
+        case 'base-usdc-to-susds':
+        case 'arbitrum-usds-to-susds':
+        case 'arbitrum-usdc-to-susds': {
           assert(
             context.savingsAccounts,
-            'Savings accounts repository is required for usdc psm withdraw from savings action',
+            'Savings accounts repository is required for psm withdraw from savings action',
           )
           const savingsConverter = context.savingsAccounts.findOneBySavingsToken(savingsToken).converter
 
@@ -135,7 +137,7 @@ export function createDepositToSavingsActionConfig(
           })
 
           return ensureConfigTypes({
-            address: psm3Address[base.id],
+            address: getContractAddress(psm3Address, chainId),
             abi: psm3Abi,
             functionName: 'swapExactIn',
             args: [
@@ -183,6 +185,8 @@ export function createDepositToSavingsActionConfig(
 
         case 'base-usds-to-susds':
         case 'base-usdc-to-susds':
+        case 'arbitrum-usds-to-susds':
+        case 'arbitrum-usdc-to-susds':
           return [balancesQueryKeyPrefix, getAllowanceQueryKey(getContractAddress(psm3Address, chainId))]
 
         default:

@@ -11,6 +11,7 @@ import {
   mainnetSusdcMyEarningsQueryOptions,
   mainnetSusdsMyEarningsQueryOptions,
 } from '@/domain/savings-charts/my-earnings-query/mainnet'
+import { arbitrumSusdsSavingsRateQueryOptions } from '@/domain/savings-charts/savings-rate-query/arbitrum'
 import {
   baseSusdcSavingsRateQueryOptions,
   baseSusdsSavingsRateQueryOptions,
@@ -20,23 +21,21 @@ import {
   mainnetSusdcSavingsRateQueryOptions,
   mainnetSusdsSavingsRateQueryOptions,
 } from '@/domain/savings-charts/savings-rate-query/mainnet'
-import {
-  baseSavingsUsdcConverterQueryOptions,
-  baseSavingsUsdsConverterQueryOptions,
-} from '@/domain/savings-converters/baseSavingsConverter'
+import { baseSavingsUsdcConverterQueryOptions } from '@/domain/savings-converters/baseSavingsConverter'
 import { gnosisSavingsDaiConverterQuery } from '@/domain/savings-converters/gnosisSavingsConverter'
 import {
   mainnetSavingsDaiConverterQuery,
   mainnetSavingsUsdcConverterQuery,
   mainnetSavingsUsdsConverterQuery,
 } from '@/domain/savings-converters/mainnetSavingsConverter'
+import { susdsSsrAuthOracleConverterQueryOptions } from '@/domain/savings-converters/susdsSsrAuthOracleConverter'
 import { useStore } from '@/domain/state'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { assets } from '@/ui/assets'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { CheckedAddress } from '@marsfoundation/common-universal'
-import { base, gnosis, mainnet } from 'viem/chains'
+import { arbitrum, base, gnosis, mainnet } from 'viem/chains'
 import { infoSkyApiUrl } from '../consts'
 import { usdcVaultAddress } from '../contracts-generated'
 import { AppConfig } from '../feature-flags'
@@ -54,10 +53,11 @@ const commonTokenSymbolToReplacedName = {
   [TokenSymbol('weETH')]: { name: 'Ether.fi Staked ETH', symbol: TokenSymbol('weETH') },
 }
 
+const IS_NOT_PLAYWRIGHT = import.meta.env.VITE_PLAYWRIGHT !== '1'
+
 const PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE = (window as any)[PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE_KEY] === true
 const USDC_ACCOUNT_ENABLED =
-  PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE ||
-  (import.meta.env.VITE_PLAYWRIGHT !== '1' && import.meta.env.VITE_FEATURE_USDC_ACCOUNT === '1')
+  PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE || (IS_NOT_PLAYWRIGHT && import.meta.env.VITE_FEATURE_USDC_ACCOUNT === '1')
 
 const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
   [mainnet.id]: {
@@ -421,13 +421,59 @@ const chainConfig: Record<SupportedChainId, ChainConfigEntry> = {
           savingsToken: TokenSymbol('sUSDS'),
           underlyingToken: TokenSymbol('USDS'),
           supportedStablecoins: [TokenSymbol('USDS'), TokenSymbol('USDC')],
-          fetchConverterQuery: baseSavingsUsdsConverterQueryOptions,
+          fetchConverterQuery: susdsSsrAuthOracleConverterQueryOptions,
           savingsRateQueryOptions: baseSusdsSavingsRateQueryOptions,
           myEarningsQueryOptions: baseMyEarningsQueryOptions,
         },
       ],
     },
     farms: undefined,
+  },
+  [arbitrum.id]: {
+    originChainId: base.id as SupportedChainId,
+    daiSymbol: undefined,
+    sdaiSymbol: undefined,
+    usdsSymbol: TokenSymbol('USDS'),
+    susdsSymbol: TokenSymbol('sUSDS'),
+    psmStables: [TokenSymbol('USDC'), TokenSymbol('USDS')],
+    meta: {
+      name: 'Arbitrum',
+      logo: assets.chain.arbitrum,
+    },
+    tokensWithMalformedApprove: [],
+    permitSupport: {},
+    airdrop: {},
+    extraTokens: [
+      {
+        symbol: TokenSymbol('USDC'),
+        oracleType: 'fixed-usd',
+        address: CheckedAddress('0xaf88d065e77c8cC2239327C5EDb3A432268e5831'),
+      },
+      {
+        symbol: TokenSymbol('USDS'),
+        oracleType: 'fixed-usd',
+        address: CheckedAddress('0x6491c05A82219b8D1479057361ff1654749b876b'),
+      },
+      {
+        symbol: TokenSymbol('sUSDS'),
+        oracleType: 'ssr-auth-oracle',
+        address: CheckedAddress('0xdDb46999F8891663a8F2828d25298f70416d7610'),
+      },
+    ] as const,
+    markets: undefined,
+    farms: undefined,
+    savings: {
+      accounts: [
+        {
+          savingsToken: TokenSymbol('sUSDS'),
+          underlyingToken: TokenSymbol('USDS'),
+          supportedStablecoins: [TokenSymbol('USDS'), TokenSymbol('USDC')],
+          fetchConverterQuery: susdsSsrAuthOracleConverterQueryOptions,
+          savingsRateQueryOptions: arbitrumSusdsSavingsRateQueryOptions,
+          myEarningsQueryOptions: undefined,
+        },
+      ],
+    },
   },
 }
 

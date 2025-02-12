@@ -77,10 +77,12 @@ export function createWithdrawFromSavingsActions(
       return [getSdaiApproveAction(CheckedAddress(savingsXDaiAdapterAddress[gnosis.id])), withdrawAction]
 
     case 'base-susds-to-usdc':
-    case 'base-susds-to-usds': {
+    case 'base-susds-to-usds':
+    case 'arbitrum-susds-to-usds':
+    case 'arbitrum-susds-to-usdc': {
       assert(
         context.savingsAccounts,
-        'Savings accounts repository info is required for usdc psm withdraw from savings action',
+        'Savings accounts repository info is required for psm withdraw from savings action',
       )
       const { converter } = context.savingsAccounts.findOneBySavingsTokenSymbol(TokenSymbol('sUSDS'))
 

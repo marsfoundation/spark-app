@@ -2,7 +2,7 @@ import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { raise } from '@marsfoundation/common-universal'
-import { base } from 'viem/chains'
+import { arbitrum, base } from 'viem/chains'
 
 export type PsmConvertActionPath =
   | 'dai-usdc'
@@ -11,6 +11,8 @@ export type PsmConvertActionPath =
   | 'usds-usdc'
   | 'base-usdc-usds'
   | 'base-usds-usdc'
+  | 'arbitrum-usdc-usds'
+  | 'arbitrum-usds-usdc'
 
 export interface GetPsmConvertActionPathParams {
   inToken: Token
@@ -36,6 +38,16 @@ export function getPsmConvertActionPath({
 
     if (inToken.symbol === usds && outToken.symbol === usdc) {
       return 'base-usds-usdc'
+    }
+  }
+
+  if (chainId === arbitrum.id) {
+    if (inToken.symbol === usdc && outToken.symbol === usds) {
+      return 'arbitrum-usdc-usds'
+    }
+
+    if (inToken.symbol === usds && outToken.symbol === usdc) {
+      return 'arbitrum-usds-usdc'
     }
   }
 

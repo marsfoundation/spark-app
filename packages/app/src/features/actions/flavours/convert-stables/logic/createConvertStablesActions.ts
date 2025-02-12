@@ -7,7 +7,6 @@ import {
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { Action, ActionContext } from '@/features/actions/logic/types'
 import { assert, CheckedAddress, assertNever } from '@marsfoundation/common-universal'
-import { base } from 'viem/chains'
 import { ApproveAction } from '../../approve/types'
 import { ConvertStablesObjective } from '../types'
 import { getConvertStablesActionPath } from './getConvertStablesActionPath'
@@ -49,7 +48,9 @@ export function createConvertStablesActions(objective: ConvertStablesObjective, 
 
     case 'base-usdc-usds':
     case 'base-usds-usdc':
-      return [getApproveAction(CheckedAddress(psm3Address[base.id])), createPsmConvertAction(objective)]
+    case 'arbitrum-usdc-usds':
+    case 'arbitrum-usds-usdc':
+      return [getApproveAction(getContractAddress(psm3Address, chainId)), createPsmConvertAction(objective)]
 
     case 'dai-usds':
       return [

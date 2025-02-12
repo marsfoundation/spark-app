@@ -2,7 +2,7 @@ import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { raise } from '@marsfoundation/common-universal'
-import { base, gnosis } from 'viem/chains'
+import { arbitrum, base, gnosis } from 'viem/chains'
 
 export type SavingsDepositActionPath =
   | 'usds-to-susds'
@@ -15,6 +15,8 @@ export type SavingsDepositActionPath =
   | 'base-usds-to-susds'
   | 'base-usdc-to-susds'
   | 'base-usdc-to-susdc'
+  | 'arbitrum-usds-to-susds'
+  | 'arbitrum-usdc-to-susds'
 
 export interface GetSavingsActionPathParams {
   token: Token
@@ -29,45 +31,58 @@ export function getSavingsDepositActionPath({
   tokensInfo,
   chainId,
 }: GetSavingsActionPathParams): SavingsDepositActionPath {
-  if (
-    token.symbol === tokensInfo.DAI?.symbol &&
-    savingsToken.symbol === tokensInfo.sDAI?.symbol &&
-    chainId === gnosis.id
-  ) {
+  const usds = tokensInfo.USDS?.symbol
+  const usdc = TokenSymbol('USDC')
+  const dai = tokensInfo.DAI?.symbol
+  const sdai = tokensInfo.sDAI?.symbol
+  const susds = tokensInfo.sUSDS?.symbol
+  const susdc = TokenSymbol('sUSDC')
+
+  if (token.symbol === dai && savingsToken.symbol === sdai && chainId === gnosis.id) {
     return 'sexy-dai-to-sdai'
   }
 
   if (chainId === base.id) {
-    if (token.symbol === tokensInfo.USDS?.symbol && savingsToken.symbol === tokensInfo.sUSDS?.symbol) {
+    if (token.symbol === usds && savingsToken.symbol === susds) {
       return 'base-usds-to-susds'
     }
 
-    if (token.symbol === TokenSymbol('USDC') && savingsToken.symbol === tokensInfo.sUSDS?.symbol) {
+    if (token.symbol === usdc && savingsToken.symbol === susds) {
       return 'base-usdc-to-susds'
     }
   }
 
-  if (token.symbol === tokensInfo.USDS?.symbol && savingsToken.symbol === tokensInfo.sUSDS?.symbol) {
+  if (chainId === arbitrum.id) {
+    if (token.symbol === usds && savingsToken.symbol === susds) {
+      return 'arbitrum-usds-to-susds'
+    }
+
+    if (token.symbol === usdc && savingsToken.symbol === susds) {
+      return 'arbitrum-usdc-to-susds'
+    }
+  }
+
+  if (token.symbol === usds && savingsToken.symbol === susds) {
     return 'usds-to-susds'
   }
 
-  if (token.symbol === tokensInfo.DAI?.symbol && savingsToken.symbol === tokensInfo.sUSDS?.symbol) {
+  if (token.symbol === dai && savingsToken.symbol === susds) {
     return 'dai-to-susds'
   }
 
-  if (token.symbol === TokenSymbol('USDC') && savingsToken.symbol === tokensInfo.sUSDS?.symbol) {
+  if (token.symbol === usdc && savingsToken.symbol === susds) {
     return 'usdc-to-susds'
   }
 
-  if (token.symbol === tokensInfo.DAI?.symbol && savingsToken.symbol === tokensInfo.sDAI?.symbol) {
+  if (token.symbol === dai && savingsToken.symbol === sdai) {
     return 'dai-to-sdai'
   }
 
-  if (token.symbol === TokenSymbol('USDC') && savingsToken.symbol === tokensInfo.sDAI?.symbol) {
+  if (token.symbol === usdc && savingsToken.symbol === sdai) {
     return 'usdc-to-sdai'
   }
 
-  if (token.symbol === TokenSymbol('USDC') && savingsToken.symbol === TokenSymbol('sUSDC')) {
+  if (token.symbol === usdc && savingsToken.symbol === susdc) {
     return 'usdc-to-susdc'
   }
 
