@@ -122,6 +122,20 @@ export const TOKENS_ON_FORK = {
       decimals: 18,
     },
   },
+  42161: {
+    USDC: {
+      address: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831',
+      decimals: 6,
+    },
+    USDS: {
+      address: '0x6491c05A82219b8D1479057361ff1654749b876b',
+      decimals: 18,
+    },
+    sUSDS: {
+      address: '0xdDb46999F8891663a8F2828d25298f70416d7610',
+      decimals: 18,
+    },
+  },
 } as const
 
 type NonNativeTokens =
@@ -145,3 +159,4 @@ export const MOCK_SUSDC_ACTIVE_BLOCK_NUMBER = 21772200n
 export const BASE_DEFAULT_BLOCK_NUMBER = 23000000n
 export const BASE_MOCK_SUSDC_ACTIVE_BLOCK_NUMBER = 25940000n
 export const GNOSIS_DEFAULT_BLOCK_NUMBER = 34543308n
+export const ARBITRUM_DEFAULT_BLOCK_NUMBER = 305215000n
