@@ -26,7 +26,7 @@ test.describe('Deposit USDC', () => {
           USDC: 10_000,
         },
       },
-      overriddenBalances: {
+      balanceOverrides: {
         [psm3Address[arbitrum.id]]: {
           sUSDS: 100_000,
         },

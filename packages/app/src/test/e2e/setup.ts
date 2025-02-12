@@ -48,7 +48,7 @@ export interface SetupOptions<K extends Path, T extends ConnectionType> {
   initialPageParams?: PathParams<K>
   account: AccountOptions<T>
   skipInjectingNetwork?: boolean
-  overriddenBalances?: Record<Address, Partial<Record<AssetsInTests, number>>>
+  balanceOverrides?: Record<Address, Partial<Record<AssetsInTests, number>>>
 }
 
 export type ProgressSimulation = (seconds: number) => Promise<void>
@@ -74,8 +74,8 @@ export async function setup<K extends Path, T extends ConnectionType>(
   const { client: testnetClient, initialSnapshotId } = await getTestnetContext(options.blockchain)
   await testnetClient.revert(initialSnapshotId)
 
-  if (options.overriddenBalances) {
-    for (const [address, balances] of Object.entries(options.overriddenBalances)) {
+  if (options.balanceOverrides) {
+    for (const [address, balances] of Object.entries(options.balanceOverrides)) {
       await injectFunds(testnetClient, address as Address, balances)
     }
   }
