@@ -1,6 +1,6 @@
 import { promiseWithTimeout } from '@/utils/promiseWithTimeout'
 import { QueryKey, UseSuspenseQueryResult, useSuspenseQuery } from '@tanstack/react-query'
-import { Address } from 'viem'
+import { Address, MethodNotFoundRpcError, MethodNotSupportedRpcError } from 'viem'
 import { Config, useAccount, useChainId, useConfig } from 'wagmi'
 import { getCapabilities } from 'wagmi/actions/experimental'
 
@@ -26,7 +26,7 @@ export function useCanWalletBatch(): UseSuspenseQueryResult<CanWalletBatchResult
 
 export interface CanWalletBatchQueryKeyParams {
   account: Address | undefined
-  chainId: number
+  chainId: number | undefined
 }
 
 export function canWalletBatchQueryKey({ account, chainId }: CanWalletBatchQueryKeyParams): QueryKey {
@@ -35,7 +35,7 @@ export function canWalletBatchQueryKey({ account, chainId }: CanWalletBatchQuery
 
 interface CanWalletBatchQueryFnParams {
   account: Address | undefined
-  chainId: number
+  chainId: number | undefined
   config: Config
 }
 type CanWalletBatchQueryFnOptions =
@@ -51,10 +51,16 @@ export async function canWalletBatchQueryFn(
   { account, chainId, config }: CanWalletBatchQueryFnParams,
   options: CanWalletBatchQueryFnOptions,
 ): Promise<CanWalletBatchResult> {
+  if (!account || !chainId) {
+    return { canWalletBatch: false }
+  }
   try {
     const capabilities = await promiseWithTimeout(getCapabilities(config, { account }), CAPABILITIES_QUERY_FN_TIMEOUT)
     return { canWalletBatch: capabilities[chainId]?.atomicBatch?.supported === true }
   } catch (e) {
+    if (e instanceof MethodNotFoundRpcError || e instanceof MethodNotSupportedRpcError) {
+      return { canWalletBatch: false }
+    }
     if (options.throwOnError) {
       throw e
     }
