@@ -1,9 +1,8 @@
 import { psm3Address } from '@/config/contracts-generated'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { ARBITRUM_DEFAULT_BLOCK_NUMBER, TOKENS_ON_FORK } from '@/test/e2e/constants'
+import { ARBITRUM_DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
-import { parseUnits } from 'viem'
 import { arbitrum } from 'viem/chains'
 import { ConvertStablesDialogPageObject } from '../../ConvertStablesDialog.PageObject'
 
@@ -25,21 +24,13 @@ test.describe('Convert USDC to USDS', () => {
           USDC: 10_000,
         },
       },
+      balanceOverrides: {
+        [psm3Address[arbitrum.id]]: {
+          USDC: 100_000,
+          USDS: 100_000,
+        },
+      },
     })
-
-    // @note: set psm3 balances cause no liquidity in psm3 yet
-    const usdc = TOKENS_ON_FORK[arbitrum.id].USDC
-    await testContext.testnetController.client.setErc20Balance(
-      usdc.address,
-      psm3Address[arbitrum.id],
-      parseUnits('100000', usdc.decimals),
-    )
-    const usds = TOKENS_ON_FORK[arbitrum.id].USDS
-    await testContext.testnetController.client.setErc20Balance(
-      usds.address,
-      psm3Address[arbitrum.id],
-      parseUnits('100000', usds.decimals),
-    )
 
     savingsPage = new SavingsPageObject(testContext)
     await savingsPage.clickConvertStablesButtonAction()
