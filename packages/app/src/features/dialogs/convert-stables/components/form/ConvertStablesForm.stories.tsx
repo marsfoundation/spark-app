@@ -1,4 +1,4 @@
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { WithClassname } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
@@ -10,7 +10,7 @@ import { ConvertStablesForm } from './ConvertStablesForm'
 const dai = tokens.DAI
 const usds = tokens.USDS
 const usdc = tokens.USDC
-const mockTokensInfo = new TokensInfo(
+const mockTokenRepository = new TokenRepository(
   [
     { token: dai, balance: NormalizedUnitNumber(2000) },
     { token: usds, balance: NormalizedUnitNumber(0) },
@@ -27,7 +27,7 @@ const meta: Meta<typeof ConvertStablesForm> = {
   title: 'Features/Dialogs/ConvertStables/Components/Form',
   component: () => {
     const { form, formFields } = useConvertStablesForm({
-      tokensInfo: mockTokensInfo,
+      tokenRepository: mockTokenRepository,
       psmStables,
     })
 

@@ -14,14 +14,14 @@ import { PsmConvertAction } from '../types'
 import { getPsmConvertActionPath } from './getPsmConvertActionPath'
 
 export function createPsmConvertActionConfig(action: PsmConvertAction, context: ActionContext): ActionConfig {
-  const { account, chainId, tokensInfo } = context
-  assert(tokensInfo, 'Tokens info is required for psm convert action')
-  const usdc = tokensInfo.findOneTokenBySymbol(TokenSymbol('USDC'))
+  const { account, chainId, tokenRepository } = context
+  assert(tokenRepository, 'Tokens info is required for psm convert action')
+  const usdc = tokenRepository.findOneTokenBySymbol(TokenSymbol('USDC'))
 
   const actionPath = getPsmConvertActionPath({
     inToken: action.inToken,
     outToken: action.outToken,
-    tokensInfo,
+    tokenRepository,
     chainId,
   })
 

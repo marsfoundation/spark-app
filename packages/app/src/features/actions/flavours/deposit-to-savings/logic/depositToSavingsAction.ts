@@ -32,11 +32,11 @@ export function createDepositToSavingsActionConfig(
   context: ActionContext,
 ): ActionConfig {
   const { account, chainId } = context
-  const tokensInfo = context.tokensInfo ?? raise('Tokens info is required for deposit to savings action')
+  const tokenRepository = context.tokenRepository ?? raise('Tokens info is required for deposit to savings action')
   const actionPath = getSavingsDepositActionPath({
     token: action.token,
     savingsToken: action.savingsToken,
-    tokensInfo,
+    tokenRepository,
     chainId,
   })
 

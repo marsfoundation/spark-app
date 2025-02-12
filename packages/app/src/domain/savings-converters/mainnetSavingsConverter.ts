@@ -77,7 +77,7 @@ function mainnetSkySavingsConverterQueryFactory(savingsTokenSymbol: TokenSymbol)
       queryFn: async () => {
         const chainConfig = getChainConfigEntry(chainId)
         const savingsTokenAddress =
-          chainConfig.extraTokens.find(({ symbol }) => symbol === savingsTokenSymbol)?.address ??
+          chainConfig.definedTokens.find(({ symbol }) => symbol === savingsTokenSymbol)?.address ??
           raise(`${savingsTokenSymbol} address not found`)
 
         const [ssr, rho, chi] = await multicall(wagmiConfig, {

@@ -33,11 +33,11 @@ export function createWithdrawFromSavingsActionConfig(
   context: ActionContext,
 ): ActionConfig {
   const { account, chainId } = context
-  const tokensInfo = context.tokensInfo ?? raise('Tokens info is required for deposit to savings action')
+  const tokenRepository = context.tokenRepository ?? raise('Tokens info is required for deposit to savings action')
   const actionPath = getSavingsWithdrawActionPath({
     token: action.token,
     savingsToken: action.savingsToken,
-    tokensInfo,
+    tokenRepository,
     chainId,
   })
 
@@ -290,7 +290,7 @@ export function createWithdrawFromSavingsActionConfig(
     },
 
     beforeWriteCheck: () => {
-      const reserveAddresses = tokensInfo.all().map(({ token }) => token.address)
+      const reserveAddresses = tokenRepository.all().map(({ token }) => token.address)
       assertWithdraw({
         mode: action.mode,
         receiver: action.receiver,

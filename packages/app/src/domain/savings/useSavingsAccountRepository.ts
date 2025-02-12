@@ -3,7 +3,7 @@ import { useTimestamp } from '@/utils/useTimestamp'
 import { useSuspenseQueries } from '@tanstack/react-query'
 import { useConfig } from 'wagmi'
 import { SavingsAccount, SavingsAccountRepository } from '../savings-converters/types'
-import { useTokensInfo } from '../wallet/useTokens/useTokensInfo'
+import { useTokenRepositoryForFeature } from '../token-repository/useTokenRepositoryForFeature'
 
 export interface UseSavingsAccountRepositoryParams {
   chainId: number
@@ -12,8 +12,8 @@ export interface UseSavingsAccountRepositoryParams {
 export function useSavingsAccountRepository({ chainId }: UseSavingsAccountRepositoryParams): SavingsAccountRepository {
   const wagmiConfig = useConfig()
   const { timestamp } = useTimestamp()
-  const { savings, extraTokens } = getChainConfigEntry(chainId)
-  const { tokensInfo } = useTokensInfo({ tokens: extraTokens })
+  const { savings } = getChainConfigEntry(chainId)
+  const { tokenRepository } = useTokenRepositoryForFeature({ chainId, featureGroup: 'savings' })
   const fetchConverterQueries = savings?.accounts.map(({ fetchConverterQuery }) => fetchConverterQuery) ?? []
 
   const converterQueries = useSuspenseQueries({
@@ -31,8 +31,8 @@ export function useSavingsAccountRepository({ chainId }: UseSavingsAccountReposi
       ({ data }, index) =>
         data && {
           converter: data,
-          savingsToken: tokensInfo.findOneTokenBySymbol(savings!.accounts[index]!.savingsToken),
-          underlyingToken: tokensInfo.findOneTokenBySymbol(savings!.accounts[index]!.underlyingToken),
+          savingsToken: tokenRepository.findOneTokenBySymbol(savings!.accounts[index]!.savingsToken),
+          underlyingToken: tokenRepository.findOneTokenBySymbol(savings!.accounts[index]!.underlyingToken),
         },
     )
     .filter(Boolean)

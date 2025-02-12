@@ -1,10 +1,10 @@
+import { TokenConfig } from '@/config/chain/types'
 import { getNativeAssetInfo } from '@/config/chain/utils/getNativeAssetInfo'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { BaseUnitNumber, CheckedAddress, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { Address, erc20Abi, zeroAddress } from 'viem'
 import { Config as WagmiConfig } from 'wagmi'
 import { getBalance, readContract } from 'wagmi/actions'
-import { TokenConfig } from './types'
 
 export interface CreateAssetDataFetcherParams {
   wagmiConfig: WagmiConfig

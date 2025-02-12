@@ -1,4 +1,4 @@
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { DepositToSavingsObjective } from '@/features/actions/flavours/deposit-to-savings/types'
 import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { WithClassname, WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@sb/decorators'
@@ -13,7 +13,7 @@ const sdai = tokens.sDAI
 const usds = tokens.USDS
 const susds = tokens.sUSDS
 const usdc = tokens.USDC
-const mockTokensInfo = new TokensInfo(
+const mockTokenRepository = new TokenRepository(
   [
     { token: dai, balance: NormalizedUnitNumber(100) },
     { token: sdai, balance: NormalizedUnitNumber(100) },
@@ -84,7 +84,7 @@ const meta: Meta<typeof SavingsDepositView> = {
       outTokenAmount: NormalizedUnitNumber(925.75),
     },
     actionsContext: {
-      tokensInfo: mockTokensInfo,
+      tokenRepository: mockTokenRepository,
     },
   },
 }

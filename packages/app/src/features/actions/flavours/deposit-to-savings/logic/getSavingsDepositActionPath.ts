@@ -1,6 +1,6 @@
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { raise } from '@marsfoundation/common-universal'
 import { arbitrum, base, gnosis } from 'viem/chains'
 
@@ -21,21 +21,21 @@ export type SavingsDepositActionPath =
 export interface GetSavingsActionPathParams {
   token: Token
   savingsToken: Token
-  tokensInfo: TokensInfo
+  tokenRepository: TokenRepository
   chainId: number
 }
 
 export function getSavingsDepositActionPath({
   token,
   savingsToken,
-  tokensInfo,
+  tokenRepository,
   chainId,
 }: GetSavingsActionPathParams): SavingsDepositActionPath {
-  const usds = tokensInfo.USDS?.symbol
+  const usds = tokenRepository.USDS?.symbol
   const usdc = TokenSymbol('USDC')
-  const dai = tokensInfo.DAI?.symbol
-  const sdai = tokensInfo.sDAI?.symbol
-  const susds = tokensInfo.sUSDS?.symbol
+  const dai = tokenRepository.DAI?.symbol
+  const sdai = tokenRepository.sDAI?.symbol
+  const susds = tokenRepository.sUSDS?.symbol
   const susdc = TokenSymbol('sUSDC')
 
   if (token.symbol === dai && savingsToken.symbol === sdai && chainId === gnosis.id) {

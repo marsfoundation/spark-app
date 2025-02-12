@@ -1,5 +1,5 @@
 import { SavingsAccountRepository } from '@/domain/savings-converters/types'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { getValidatorConfig as getDepositValidatorConfig } from '@/features/dialogs/savings/deposit/logic/useDepositToSavingsValidator'
 import { getValidatorConfig as getWithdrawValidatorConfig } from '@/features/dialogs/savings/withdraw/logic/useWithdrawFromSavingsValidator'
 import { useQueryClient } from '@tanstack/react-query'
@@ -8,20 +8,24 @@ import { useConfig } from 'wagmi'
 
 export interface UsePrefetchValidatorsParams {
   chainId: number
-  tokensInfo: TokensInfo
+  tokenRepository: TokenRepository
   savingsAccounts: SavingsAccountRepository
 }
 
-export function usePrefetchValidators({ chainId, tokensInfo, savingsAccounts }: UsePrefetchValidatorsParams): void {
+export function usePrefetchValidators({
+  chainId,
+  tokenRepository,
+  savingsAccounts,
+}: UsePrefetchValidatorsParams): void {
   const queryClient = useQueryClient()
   const wagmiConfig = useConfig()
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: tokensInfo and savingsAccounts are not referentially stable
+  // biome-ignore lint/correctness/useExhaustiveDependencies: tokenRepository and savingsAccounts are not referentially stable
   useEffect(() => {
     for (const savingsAccount of savingsAccounts.all()) {
       const depositValidatorConfig = getDepositValidatorConfig({
         chainId,
-        tokensInfo,
+        tokenRepository,
         wagmiConfig,
         savingsAccount,
       })
@@ -32,10 +36,10 @@ export function usePrefetchValidators({ chainId, tokensInfo, savingsAccounts }: 
 
       const withdrawValidatorConfig = getWithdrawValidatorConfig({
         chainId,
-        tokensInfo,
+        tokenRepository,
         wagmiConfig,
         savingsToken: savingsAccount.savingsToken,
-        savingsTokenBalance: tokensInfo.findOneBalanceBySymbol(savingsAccount.savingsToken.symbol),
+        savingsTokenBalance: tokenRepository.findOneBalanceBySymbol(savingsAccount.savingsToken.symbol),
         savingsConverter: savingsAccount.converter,
       })
 

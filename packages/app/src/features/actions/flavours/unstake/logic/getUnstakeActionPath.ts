@@ -1,23 +1,23 @@
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { raise } from '@marsfoundation/common-universal'
 
 export type UnstakeActionPath = 'farm-to-usds' | 'farm-to-usds-to-usdc' | 'farm-to-usds-to-dai'
 
 export interface GetUnstakeActionPathParams {
   token: Token
-  tokensInfo: TokensInfo
+  tokenRepository: TokenRepository
   stakingToken: Token
 }
 
 export function getUnstakeActionPath({
   token,
-  tokensInfo,
+  tokenRepository,
   stakingToken,
 }: GetUnstakeActionPathParams): UnstakeActionPath {
-  if (stakingToken.symbol === tokensInfo.USDS?.symbol) {
-    if (token.symbol === tokensInfo.USDS?.symbol) {
+  if (stakingToken.symbol === tokenRepository.USDS?.symbol) {
+    if (token.symbol === tokenRepository.USDS?.symbol) {
       return 'farm-to-usds'
     }
 
@@ -25,7 +25,7 @@ export function getUnstakeActionPath({
       return 'farm-to-usds-to-usdc'
     }
 
-    if (token.symbol === tokensInfo.DAI?.symbol) {
+    if (token.symbol === tokenRepository.DAI?.symbol) {
       return 'farm-to-usds-to-dai'
     }
   }

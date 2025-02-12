@@ -1,8 +1,7 @@
 import { TokenWithBalance } from '@/domain/common/types'
-import { useChainConfigEntry } from '@/domain/hooks/useChainConfigEntry'
 import { useSavingsAccountRepository } from '@/domain/savings/useSavingsAccountRepository'
+import { useTokenRepositoryForFeature } from '@/domain/token-repository/useTokenRepositoryForFeature'
 import { Token } from '@/domain/types/Token'
-import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import {
@@ -18,7 +17,6 @@ import { useChainId } from 'wagmi'
 import { MigrateDialogTxOverview } from '../types'
 import { createMigrateObjectives } from './createMigrateObjectives'
 import { createTxOverview } from './createTxOverview'
-import { useFromTokenInfo } from './useFromTokenInfo'
 import { getMigrateDialogFormValidator } from './validation'
 
 export interface UseMigrateDialogParams {
@@ -41,13 +39,12 @@ export interface UseMigrateDialogResult {
 export function useMigrateDialog({ type, fromToken, toToken }: UseMigrateDialogParams): UseMigrateDialogResult {
   const chainId = useChainId()
   const [pageStatus, setPageStatus] = useState<PageState>('form')
-  const { extraTokens } = useChainConfigEntry()
-  const { tokensInfo } = useTokensInfo({ tokens: extraTokens })
+  const { tokenRepository } = useTokenRepositoryForFeature({ chainId, featureGroup: 'savings' })
   const savingsAccounts = useSavingsAccountRepository({ chainId })
-  const fromTokenWithBalance = useFromTokenInfo(fromToken.symbol)
+  const fromTokenWithBalance = tokenRepository.findOneTokenWithBalanceBySymbol(fromToken.symbol)
 
   const form = useForm<AssetInputSchema>({
-    resolver: zodResolver(getMigrateDialogFormValidator(tokensInfo)),
+    resolver: zodResolver(getMigrateDialogFormValidator(tokenRepository)),
     defaultValues: {
       symbol: fromToken.symbol,
       value: type === 'downgrade' ? '' : fromTokenWithBalance.balance.toFixed(),
@@ -62,7 +59,7 @@ export function useMigrateDialog({ type, fromToken, toToken }: UseMigrateDialogP
     isFormValid,
   } = useDebouncedFormValues({
     form,
-    tokensInfo,
+    tokenRepository,
   })
 
   const objectives = createMigrateObjectives({ type, fromToken, toToken, amount: formValues.value })
@@ -71,18 +68,18 @@ export function useMigrateDialog({ type, fromToken, toToken }: UseMigrateDialogP
   const txOverview = createTxOverview({
     formValues,
     savingsAccounts,
-    tokensInfo,
+    tokenRepository,
     outputToken: toToken,
   })
 
   return {
     selectableAssets: [fromTokenWithBalance],
-    assetsFields: getFieldsForTransferFromUserForm({ form, tokensInfo }),
+    assetsFields: getFieldsForTransferFromUserForm({ form, tokenRepository }),
     form,
     objectives,
     migrationAmount: formValues.value,
     actionsContext: {
-      tokensInfo,
+      tokenRepository,
     },
     pageStatus: {
       actionsEnabled,

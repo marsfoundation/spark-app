@@ -2,10 +2,10 @@ import { getChainConfigEntry } from '@/config/chain'
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
 import { useConditionalFreeze } from '@/domain/hooks/useConditionalFreeze'
 import { useSavingsAccountRepository } from '@/domain/savings/useSavingsAccountRepository'
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
+import { useTokenRepositoryForFeature } from '@/domain/token-repository/useTokenRepositoryForFeature'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
-import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { useDebouncedFormValues } from '@/features/dialogs/common/logic/transfer-from-user/form'
@@ -54,21 +54,21 @@ export function useSavingsWithdrawDialog({
   const chainId = useChainId()
   const savingsAccounts = useSavingsAccountRepository({ chainId })
   const chainConfig = getChainConfigEntry(chainId)
-  const { tokensInfo } = useTokensInfo({ tokens: chainConfig.extraTokens, chainId })
+  const { tokenRepository } = useTokenRepositoryForFeature({ chainId, featureGroup: 'savings' })
   const selectedAccountConfig =
     chainConfig.savings?.accounts?.find((account) => account.savingsToken === savingsToken.symbol) ??
     raise('Savings account is not found')
   const selectedAccount = savingsAccounts.findOneBySavingsToken(savingsToken)
   const supportedStablecoins = selectedAccountConfig.supportedStablecoins.map((symbol) =>
-    tokensInfo.findOneTokenWithBalanceBySymbol(symbol),
+    tokenRepository.findOneTokenWithBalanceBySymbol(symbol),
   )
   const [pageState, setPageState] = useState<PageState>('form')
-  const sendModeExtension = useSendModeExtension({ mode, tokensInfo })
-  const savingsTokenWithBalance = tokensInfo.findOneTokenWithBalanceBySymbol(savingsToken.symbol)
+  const sendModeExtension = useSendModeExtension({ mode, tokenRepository })
+  const savingsTokenWithBalance = tokenRepository.findOneTokenWithBalanceBySymbol(savingsToken.symbol)
 
   const validator = useWithdrawFromSavingsValidator({
     chainId,
-    tokensInfo,
+    tokenRepository,
     savingsToken: savingsTokenWithBalance.token,
     savingsTokenBalance: savingsTokenWithBalance.balance,
     savingsConverter: selectedAccount.converter,
@@ -89,7 +89,7 @@ export function useSavingsWithdrawDialog({
     isFormValid,
   } = useDebouncedFormValues({
     form,
-    tokensInfo,
+    tokenRepository,
   })
 
   const objectives = createObjectives({
@@ -118,10 +118,10 @@ export function useSavingsWithdrawDialog({
     (sendModeExtension?.enableActions ?? true)
 
   return {
-    selectableAssets: filterInputTokens({ inputTokens: supportedStablecoins, savingsToken, tokensInfo }),
+    selectableAssets: filterInputTokens({ inputTokens: supportedStablecoins, savingsToken, tokenRepository }),
     assetsFields: getFormFieldsForWithdrawDialog({
       form,
-      tokensInfo,
+      tokenRepository,
       savingsConverter: selectedAccount.converter,
       savingsTokenBalance: savingsTokenWithBalance.balance,
     }),
@@ -135,7 +135,7 @@ export function useSavingsWithdrawDialog({
     },
     txOverview,
     actionsContext: {
-      tokensInfo,
+      tokenRepository,
       savingsAccounts,
     },
     sendModeExtension,
@@ -146,12 +146,16 @@ export function useSavingsWithdrawDialog({
 interface FilterInputTokensParams {
   inputTokens: TokenWithBalance[]
   savingsToken: Token
-  tokensInfo: TokensInfo
+  tokenRepository: TokenRepository
 }
-function filterInputTokens({ inputTokens, savingsToken, tokensInfo }: FilterInputTokensParams): TokenWithBalance[] {
+function filterInputTokens({
+  inputTokens,
+  savingsToken,
+  tokenRepository,
+}: FilterInputTokensParams): TokenWithBalance[] {
   if (savingsToken.symbol === TokenSymbol('sDAI')) {
     return inputTokens
   }
 
-  return inputTokens.filter(({ token }) => [tokensInfo.USDS?.symbol, TokenSymbol('USDC')].includes(token.symbol))
+  return inputTokens.filter(({ token }) => [tokenRepository.USDS?.symbol, TokenSymbol('USDC')].includes(token.symbol))
 }

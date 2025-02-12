@@ -1,8 +1,8 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
 import { useSavingsAccountRepository } from '@/domain/savings/useSavingsAccountRepository'
+import { useTokenRepositoryForFeature } from '@/domain/token-repository/useTokenRepositoryForFeature'
 import { Token } from '@/domain/types/Token'
-import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import {
@@ -42,12 +42,12 @@ export function useSavingsDepositDialog({
 }: UseSavingsDepositDialogParams): UseSavingsDepositDialogResults {
   const chainId = useChainId()
   const chainConfig = getChainConfigEntry(chainId)
-  const { tokensInfo } = useTokensInfo({ tokens: chainConfig.extraTokens, chainId })
+  const { tokenRepository } = useTokenRepositoryForFeature({ chainId, featureGroup: 'savings' })
   const selectedAccountConfig =
     chainConfig.savings?.accounts?.find((account) => account.savingsToken === savingsToken.symbol) ??
     raise('Savings account is not found')
   const supportedStablecoins = selectedAccountConfig.supportedStablecoins.map((symbol) =>
-    tokensInfo.findOneTokenWithBalanceBySymbol(symbol),
+    tokenRepository.findOneTokenWithBalanceBySymbol(symbol),
   )
   const savingsAccounts = useSavingsAccountRepository({ chainId })
   const savingsAccount = savingsAccounts.findOneBySavingsToken(savingsToken)
@@ -56,7 +56,7 @@ export function useSavingsDepositDialog({
 
   const validator = useDepositToSavingsValidator({
     chainId,
-    tokensInfo,
+    tokenRepository,
     savingsAccount,
   })
   const form = useForm<AssetInputSchema>({
@@ -74,7 +74,7 @@ export function useSavingsDepositDialog({
     isFormValid,
   } = useDebouncedFormValues({
     form,
-    tokensInfo,
+    tokenRepository,
   })
 
   const objectives: Objective[] = [
@@ -99,7 +99,7 @@ export function useSavingsDepositDialog({
 
   return {
     selectableAssets: supportedStablecoins,
-    assetsFields: getFieldsForTransferFromUserForm({ form, tokensInfo }),
+    assetsFields: getFieldsForTransferFromUserForm({ form, tokenRepository }),
     underlyingToken: savingsAccount.underlyingToken,
     form,
     objectives,
@@ -111,7 +111,7 @@ export function useSavingsDepositDialog({
       goToSuccessScreen: () => setPageStatus('success'),
     },
     actionsContext: {
-      tokensInfo,
+      tokenRepository,
       savingsAccounts,
     },
   }

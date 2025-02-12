@@ -2,9 +2,9 @@ import { psm3Address } from '@/config/contracts-generated'
 import { DynamicValidatorConfig, ensureDynamicValidatorConfigTypes } from '@/domain/common/dynamicValidator'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { SavingsConverter } from '@/domain/savings-converters/types'
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { BaseUnitNumber, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { QueryKey, useSuspenseQuery } from '@tanstack/react-query'
 import { erc20Abi } from 'viem'
@@ -26,7 +26,7 @@ export type WithdrawFromSavingsValidator = z.ZodSchema<{
 
 export interface UseWithdrawFromSavingsValidatorParams {
   chainId: number
-  tokensInfo: TokensInfo
+  tokenRepository: TokenRepository
   savingsToken: Token
   savingsTokenBalance: NormalizedUnitNumber
   savingsConverter: SavingsConverter
@@ -34,7 +34,7 @@ export interface UseWithdrawFromSavingsValidatorParams {
 
 export function useWithdrawFromSavingsValidator({
   chainId,
-  tokensInfo,
+  tokenRepository,
   savingsToken,
   savingsTokenBalance,
   savingsConverter,
@@ -43,7 +43,7 @@ export function useWithdrawFromSavingsValidator({
 
   const { fetchParamsQueryKey, fetchParamsQueryFn, createValidator } = getValidatorConfig({
     chainId,
-    tokensInfo,
+    tokenRepository,
     wagmiConfig,
     savingsToken,
     savingsTokenBalance,
@@ -60,7 +60,7 @@ export function useWithdrawFromSavingsValidator({
 
 export interface GetValidatorConfigParams {
   chainId: number
-  tokensInfo: TokensInfo
+  tokenRepository: TokenRepository
   wagmiConfig: Config
   savingsToken: Token
   savingsTokenBalance: NormalizedUnitNumber
@@ -68,15 +68,15 @@ export interface GetValidatorConfigParams {
 }
 export function getValidatorConfig({
   chainId,
-  tokensInfo,
+  tokenRepository,
   wagmiConfig,
   savingsToken,
   savingsTokenBalance,
   savingsConverter,
 }: GetValidatorConfigParams): DynamicValidatorConfig {
   if (chainId === base.id || chainId === arbitrum.id) {
-    const usds = tokensInfo.findOneTokenBySymbol(TokenSymbol('USDS'))
-    const usdc = tokensInfo.findOneTokenBySymbol(TokenSymbol('USDC'))
+    const usds = tokenRepository.findOneTokenBySymbol(TokenSymbol('USDS'))
+    const usdc = tokenRepository.findOneTokenBySymbol(TokenSymbol('USDC'))
     const psm3 = getContractAddress(psm3Address, chainId)
 
     return ensureDynamicValidatorConfigTypes({

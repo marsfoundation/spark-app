@@ -3,7 +3,7 @@ import { RiskAcknowledgementInfo } from '@/domain/liquidation-risk-warning/types
 import { UserPositionSummary } from '@/domain/market-info/marketInfo'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { Objective } from '@/features/actions/logic/types'
-import { getMockMarketInfo, getMockTokensInfo } from '@/test/integration/constants'
+import { getMockMarketInfo, getMockTokenRepository } from '@/test/integration/constants'
 import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
@@ -18,7 +18,7 @@ import { BorrowDetails } from '../logic/useEasyBorrow'
 import { EasyBorrowView } from './EasyBorrowView'
 
 const mockMarketInfo = getMockMarketInfo()
-const mockTokensInfo = getMockTokensInfo()
+const mockTokenRepository = getMockTokenRepository()
 
 interface EasyBorrowViewStoryProps {
   assetsToDeposit: TokenWithFormValue[]
@@ -113,7 +113,7 @@ function EasyBorrowViewStory(props: EasyBorrowViewStoryProps) {
       openSandboxModal={openSandboxModal}
       focusOnActionsPanel={focusOnActionsPanel}
       riskAcknowledgement={riskAcknowledgement}
-      actionsContext={{ marketInfo: mockMarketInfo, tokensInfo: mockTokensInfo }}
+      actionsContext={{ marketInfo: mockMarketInfo, tokenRepository: mockTokenRepository }}
     />
   )
 }

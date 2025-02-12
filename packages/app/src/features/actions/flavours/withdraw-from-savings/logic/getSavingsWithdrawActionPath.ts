@@ -1,13 +1,13 @@
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { raise } from '@marsfoundation/common-universal'
 import { arbitrum, base, gnosis } from 'viem/chains'
 
 export interface GetSavingsWithdrawActionPathParams {
   token: Token
   savingsToken: Token
-  tokensInfo: TokensInfo
+  tokenRepository: TokenRepository
   chainId: number
 }
 
@@ -28,13 +28,13 @@ export type SavingsWithdrawActionPath =
 export function getSavingsWithdrawActionPath({
   token,
   savingsToken,
-  tokensInfo,
+  tokenRepository,
   chainId,
 }: GetSavingsWithdrawActionPathParams): SavingsWithdrawActionPath {
-  const dai = tokensInfo.DAI?.symbol
-  const sdai = tokensInfo.sDAI?.symbol
-  const usds = tokensInfo.USDS?.symbol
-  const susds = tokensInfo.sUSDS?.symbol
+  const dai = tokenRepository.DAI?.symbol
+  const sdai = tokenRepository.sDAI?.symbol
+  const usds = tokenRepository.USDS?.symbol
+  const susds = tokenRepository.sUSDS?.symbol
   const usdc = TokenSymbol('USDC')
   const susdc = TokenSymbol('sUSDC')
 

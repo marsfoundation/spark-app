@@ -1,6 +1,6 @@
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { raise } from '@marsfoundation/common-universal'
 import { arbitrum, base } from 'viem/chains'
 
@@ -17,19 +17,19 @@ export type PsmConvertActionPath =
 export interface GetPsmConvertActionPathParams {
   inToken: Token
   outToken: Token
-  tokensInfo: TokensInfo
+  tokenRepository: TokenRepository
   chainId: number
 }
 
 export function getPsmConvertActionPath({
   inToken,
   outToken,
-  tokensInfo,
+  tokenRepository,
   chainId,
-}: { inToken: Token; outToken: Token; tokensInfo: TokensInfo; chainId: number }): PsmConvertActionPath {
-  const dai = tokensInfo.DAI?.symbol
+}: { inToken: Token; outToken: Token; tokenRepository: TokenRepository; chainId: number }): PsmConvertActionPath {
+  const dai = tokenRepository.DAI?.symbol
   const usdc = TokenSymbol('USDC')
-  const usds = tokensInfo.USDS?.symbol
+  const usds = tokenRepository.USDS?.symbol
 
   if (chainId === base.id) {
     if (inToken.symbol === usdc && outToken.symbol === usds) {

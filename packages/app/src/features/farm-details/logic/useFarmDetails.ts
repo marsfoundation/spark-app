@@ -7,8 +7,8 @@ import { Farm } from '@/domain/farms/types'
 import { useFarmsInfo } from '@/domain/farms/useFarmsInfo'
 import { useSandboxPageRedirect } from '@/domain/sandbox/useSandboxPageRedirect'
 import { useOpenDialog } from '@/domain/state/dialogs'
+import { useTokenRepositoryForFeature } from '@/domain/token-repository/useTokenRepositoryForFeature'
 import { Token } from '@/domain/types/Token'
-import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { sandboxDialogConfig } from '@/features/dialogs/sandbox/SandboxDialog'
 import { Timeframe } from '@/ui/charts/defaults'
 import { NormalizedUnitNumber, raise } from '@marsfoundation/common-universal'
@@ -65,7 +65,7 @@ export function useFarmDetails(): UseFarmDetailsResult {
   const { openConnectModal = () => {} } = useConnectModal()
   const openDialog = useOpenDialog()
 
-  const { farms, extraTokens } = getChainConfigEntry(chainId)
+  const { farms } = getChainConfigEntry(chainId)
   const farmConfig = farms?.configs.find((farm) => farm.address === farmAddress) ?? raise('Farm not configured')
 
   useSandboxPageRedirect({
@@ -81,17 +81,17 @@ export function useFarmDetails(): UseFarmDetailsResult {
     chainId,
     farmAddress,
   })
-  const { tokensInfo } = useTokensInfo({ tokens: extraTokens, chainId })
+  const { tokenRepository } = useTokenRepositoryForFeature({ chainId, featureGroup: 'farms' })
   const rewardPointsData = useRewardPointsData({
     farm,
     account,
   })
 
   const tokensToDeposit = farm.entryAssetsGroup.assets.map((symbol) =>
-    tokensInfo.findOneTokenWithBalanceBySymbol(symbol),
+    tokenRepository.findOneTokenWithBalanceBySymbol(symbol),
   )
   const hasTokensToDeposit = tokensToDeposit.some((token) => token.balance.gt(0))
-  const mostValuableToken = sortByUsdValueWithUsdsPriority(tokensToDeposit, tokensInfo)[0]
+  const mostValuableToken = sortByUsdValueWithUsdsPriority(tokensToDeposit, tokenRepository)[0]
   const canClaim = farm.earned.gt(0) || farm.rewardRate.gt(0)
 
   function calculateReward(timestampInMs: number): NormalizedUnitNumber {

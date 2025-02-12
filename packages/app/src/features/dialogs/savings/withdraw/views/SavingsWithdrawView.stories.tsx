@@ -1,5 +1,5 @@
 import { PotSavingsConverter } from '@/domain/savings-converters/PotSavingsConverter'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { testAddresses } from '@/test/integration/constants'
 import { bigNumberify } from '@marsfoundation/common-universal'
 import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
@@ -16,7 +16,7 @@ const sdai = tokens.sDAI
 const usds = tokens.USDS
 const susds = tokens.sUSDS
 const usdc = tokens.USDC
-const mockTokensInfo = new TokensInfo(
+const mockTokenRepository = new TokenRepository(
   [
     { token: dai, balance: NormalizedUnitNumber(100) },
     { token: sdai, balance: NormalizedUnitNumber(100) },
@@ -92,7 +92,7 @@ const withdrawArgs: Partial<SavingsWithdrawViewProps> = {
     skyBadgeToken: tokens.DAI,
     outTokenAmount: NormalizedUnitNumber(925.75),
   },
-  actionsContext: { tokensInfo: mockTokensInfo, savingsDaiInfo: mockSavingsDaiInfo },
+  actionsContext: { tokenRepository: mockTokenRepository, savingsDaiInfo: mockSavingsDaiInfo },
   underlyingToken: tokens.DAI,
 }
 

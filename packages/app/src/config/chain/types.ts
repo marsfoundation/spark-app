@@ -1,11 +1,10 @@
-import { FarmConfig } from '@/domain/farms/types'
 import { OracleInfoFetcherParams, OracleInfoFetcherResult } from '@/domain/oracles/oracleInfoFetchers'
 import { MyEarningsResult } from '@/domain/savings-charts/my-earnings-query/mainnet'
 import { SavingsRateQueryResult } from '@/domain/savings-charts/savings-rate-query/query'
 import { SavingsRateChartData } from '@/domain/savings-charts/savings-rate-query/types'
 import { SavingsConverterQueryOptions, SavingsConverterQueryParams } from '@/domain/savings-converters/types'
+import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { TokenConfig } from '@/domain/wallet/useTokens/types'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { CheckedAddress } from '@marsfoundation/common-universal'
 import { UseQueryOptions } from '@tanstack/react-query'
@@ -48,10 +47,6 @@ export interface AirdropsPerAction {
 }
 export type Airdrop = Record<TokenSymbol, AirdropsPerAction>
 
-export type TokenWithOracleType = {
-  symbol: TokenSymbol
-} & TokenConfig
-
 export type OracleFeedProvider = 'chainlink' | 'chronicle' | 'redstone'
 
 export type ReserveOracleType =
@@ -67,8 +62,13 @@ export type ReserveOracleType =
 
 export type SavingsConverterQuery = (args: SavingsConverterQueryParams) => SavingsConverterQueryOptions
 
+export interface DefaultAssetToBorrowConfig {
+  symbol: TokenSymbol
+  upgradeOptions: TokenSymbol[] | undefined
+}
+
 export interface MarketsConfig {
-  defaultAssetToBorrow: TokenSymbol
+  defaultAssetToBorrow: DefaultAssetToBorrowConfig
   nativeAssetInfo: NativeAssetInfo
   tokenSymbolToReplacedName: TokenSymbolToNameReplacement
   oracles: Record<TokenSymbol, ReserveOracleType>
@@ -85,7 +85,35 @@ export interface AccountConfig {
 
 export interface SavingsConfig {
   accounts: AccountConfig[]
+  psmStables: TokenSymbol[] | undefined
 }
+
+export type AssetsGroup =
+  | {
+      type: 'stablecoins'
+      name: 'Stablecoins'
+      assets: TokenSymbol[]
+    }
+  | {
+      type: 'governance'
+      name: 'Governance Tokens'
+      assets: TokenSymbol[]
+    }
+
+export type FarmConfig = {
+  address: CheckedAddress
+  entryAssetsGroup: AssetsGroup
+  historyCutoff?: Date
+} & (
+  | {
+      rewardType: 'token'
+      rewardToken: TokenSymbol
+    }
+  | {
+      rewardType: 'points'
+      rewardPoints: Token
+    }
+)
 
 export interface FarmsConfig {
   getFarmDetailsApiUrl: (address: CheckedAddress) => string
@@ -98,15 +126,30 @@ export interface ChainConfigEntry {
   sdaiSymbol: TokenSymbol | undefined
   usdsSymbol: TokenSymbol | undefined
   susdsSymbol: TokenSymbol | undefined
-  psmStables: TokenSymbol[] | undefined
   meta: ChainMeta
   permitSupport: PermitSupport
   tokensWithMalformedApprove: TokensWithMalformedApprove
   airdrop: Airdrop
-  extraTokens: TokenWithOracleType[]
   markets: MarketsConfig | undefined
   savings: SavingsConfig | undefined
   farms: FarmsConfig | undefined
+  definedTokens: TokenConfig[]
 }
 
 export type ChainConfig = Record<SupportedChainId, ChainConfigEntry>
+
+// @note: zero-price oracle is used for tokens for which we don't have a price feed yet
+export type OracleType = 'fixed-usd' | 'vault' | 'zero-price' | 'ssr-auth-oracle'
+
+export type TokenConfig = { symbol: TokenSymbol } & (
+  | {
+      address: CheckedAddress
+      oracleType: Exclude<OracleType, 'vault'>
+    }
+  | {
+      address: CheckedAddress
+      oracleType: 'vault'
+      sharesDecimals?: number
+      assetsDecimals?: number
+    }
+)

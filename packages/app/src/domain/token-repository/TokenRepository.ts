@@ -10,7 +10,7 @@ export interface FeaturedTokens {
   sUSDS?: TokenSymbol
 }
 
-export class TokensInfo {
+export class TokenRepository {
   constructor(
     private readonly tokens: TokenWithBalance[],
     private readonly featured: FeaturedTokens,

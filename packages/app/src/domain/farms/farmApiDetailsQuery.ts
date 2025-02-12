@@ -1,4 +1,4 @@
-import { FarmConfig } from '@/domain/farms/types'
+import { FarmConfig } from '@/config/chain/types'
 import { QueryKey, queryOptions } from '@tanstack/react-query'
 import { getFarmApiDetails } from './getFarmApiDetails'
 

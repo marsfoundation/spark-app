@@ -1,3 +1,4 @@
+import { TokenConfig } from '@/config/chain/types'
 import { ssrAuthOracleConfig } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { fromRay } from '@/utils/math'
@@ -6,7 +7,6 @@ import { NormalizedUnitNumber, assertNever } from '@marsfoundation/common-univer
 import { erc4626Abi, formatUnits, parseUnits } from 'viem'
 import { Config } from 'wagmi'
 import { readContract } from 'wagmi/actions'
-import { TokenConfig } from './types'
 
 export interface CreateOraclePriceFetcherParams {
   tokenConfig: TokenConfig

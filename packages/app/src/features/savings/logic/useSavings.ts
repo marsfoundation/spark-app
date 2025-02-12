@@ -8,9 +8,9 @@ import { UseSavingsChartsDataResult, useSavingsChartsData } from '@/domain/savin
 import { calculateMaxBalanceTokenAndTotal } from '@/domain/savings/calculateMaxBalanceTokenAndTotal'
 import { useSavingsAccountRepository } from '@/domain/savings/useSavingsAccountRepository'
 import { useOpenDialog } from '@/domain/state/dialogs'
+import { useTokenRepositoryForFeature } from '@/domain/token-repository/useTokenRepositoryForFeature'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { convertStablesDialogConfig } from '@/features/dialogs/convert-stables/ConvertStablesDialog'
 import { savingsDepositDialogConfig } from '@/features/dialogs/savings/deposit/SavingsDepositDialog'
 import { savingsWithdrawDialogConfig } from '@/features/dialogs/savings/withdraw/SavingsWithdrawDialog'
@@ -71,15 +71,16 @@ export interface UseSavingsResults {
 
 export function useSavings(): UseSavingsResults {
   const { chainId } = usePageChainId()
-  const { extraTokens, psmStables, savings } = getChainConfigEntry(chainId)
-  const { tokensInfo } = useTokensInfo({ tokens: extraTokens, chainId })
+  const { savings } = getChainConfigEntry(chainId)
+  const psmStables = savings?.psmStables
+  const { tokenRepository } = useTokenRepositoryForFeature({ chainId, featureGroup: 'savings' })
   const savingsAccounts = useSavingsAccountRepository({ chainId })
   const { timestamp } = useTimestamp()
   const openDialog = useOpenDialog()
   const getBlockExplorerLink = useGetBlockExplorerAddressLink()
   const { isInSandbox } = useSandboxState()
 
-  usePrefetchValidators({ chainId, tokensInfo, savingsAccounts })
+  usePrefetchValidators({ chainId, tokenRepository, savingsAccounts })
 
   const firstAccountInConfig = savings?.accounts?.[0] ?? raise('There are no accounts in config')
   const [_selectedAccount, setSelectedAccount] = useState<TokenSymbol>(firstAccountInConfig.savingsToken)
@@ -89,10 +90,10 @@ export function useSavings(): UseSavingsResults {
   const selectedAccountConfig = savings?.accounts?.find(({ savingsToken }) => savingsToken === selectedAccount)
   const selectedAccountData = {
     ...savingsAccounts.findOneBySavingsTokenSymbol(selectedAccount),
-    savingsTokenBalance: tokensInfo.findOneBalanceBySymbol(selectedAccount),
+    savingsTokenBalance: tokenRepository.findOneBalanceBySymbol(selectedAccount),
   }
   const supportedStablecoins = (selectedAccountConfig?.supportedStablecoins ?? []).map((symbol) =>
-    tokensInfo.findOneTokenWithBalanceBySymbol(symbol),
+    tokenRepository.findOneTokenWithBalanceBySymbol(symbol),
   )
 
   const { maxBalanceToken } = calculateMaxBalanceTokenAndTotal({
@@ -112,7 +113,7 @@ export function useSavings(): UseSavingsResults {
     openDialog,
   })
 
-  const sortedSupportedStablecoins = sortByUsdValueWithUsdsPriority(supportedStablecoins, tokensInfo).map(
+  const sortedSupportedStablecoins = sortByUsdValueWithUsdsPriority(supportedStablecoins, tokenRepository).map(
     (tokenWithBalance) => ({
       ...tokenWithBalance,
       blockExplorerLink: getBlockExplorerLink(tokenWithBalance.token.address),
@@ -122,7 +123,7 @@ export function useSavings(): UseSavingsResults {
   const allAccounts: ShortAccountDefinition[] = savingsAccounts
     .all()
     .map(({ underlyingToken, savingsToken, converter }) => {
-      const savingsTokenBalance = tokensInfo.findOneBalanceBySymbol(savingsToken.symbol)
+      const savingsTokenBalance = tokenRepository.findOneBalanceBySymbol(savingsToken.symbol)
       const underlyingTokenDeposit = converter.convertToAssets({ shares: savingsTokenBalance })
       return { savingsToken, underlyingToken, underlyingTokenDeposit }
     })

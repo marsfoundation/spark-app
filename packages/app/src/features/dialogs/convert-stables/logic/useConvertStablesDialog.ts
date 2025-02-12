@@ -1,5 +1,5 @@
 import { useChainConfigEntry } from '@/domain/hooks/useChainConfigEntry'
-import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
+import { useTokenRepositoryForFeature } from '@/domain/token-repository/useTokenRepositoryForFeature'
 import { ConvertStablesObjective } from '@/features/actions/flavours/convert-stables/types'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { PageState, PageStatus } from '@/features/dialogs/common/types'
@@ -20,11 +20,14 @@ export interface UseConvertStablesDialogResult {
 }
 
 export function useConvertStablesDialog(): UseConvertStablesDialogResult {
-  const { psmStables, extraTokens } = useChainConfigEntry()
-  const { tokensInfo } = useTokensInfo({ tokens: extraTokens })
+  const chainConfig = useChainConfigEntry()
+  const { tokenRepository } = useTokenRepositoryForFeature({ featureGroup: 'savings' })
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')
-  const { form, formValues, formFields, isDebouncing, isFormValid } = useConvertStablesForm({ tokensInfo, psmStables })
+  const { form, formValues, formFields, isDebouncing, isFormValid } = useConvertStablesForm({
+    tokenRepository,
+    psmStables: chainConfig.savings?.psmStables,
+  })
   const objectives: ConvertStablesObjective[] = [{ type: 'convertStables', ...formValues }]
   const txOverview = createTxOverview({ ...formValues })
   const actionsEnabled = formValues.amount.gt(0) && isFormValid && !isDebouncing
@@ -39,6 +42,6 @@ export function useConvertStablesDialog(): UseConvertStablesDialogResult {
       actionsEnabled,
       goToSuccessScreen: () => setPageStatus('success'),
     },
-    actionsContext: { tokensInfo },
+    actionsContext: { tokenRepository },
   }
 }
