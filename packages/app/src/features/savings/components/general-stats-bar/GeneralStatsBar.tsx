@@ -1,7 +1,11 @@
 import { Token, USD_MOCK_TOKEN } from '@/domain/types/Token'
+import { IconButton } from '@/ui/atoms/icon-button/IconButton'
+import { Link } from '@/ui/atoms/link/Link'
 import { Skeleton } from '@/ui/atoms/skeleton/Skeleton'
+import { links } from '@/ui/constants/links'
 import { cn } from '@/ui/utils/style'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
+import { ExternalLinkIcon } from 'lucide-react'
 import { ReactNode } from 'react'
 import { UseGeneralStatsResult } from '../../logic/general-stats/useGeneralStats'
 
@@ -42,6 +46,11 @@ export function GeneralStatsBar({ accountSavingsToken, generalStatsResult }: Gen
             </>
           )}
         </Value>
+      </Stat>
+      <Stat>
+        <Link to={links.skyInfoSavingsDashboard} variant="decorator" className="flex" external>
+          <IconButton variant="transparent" size="s" icon={ExternalLinkIcon} />
+        </Link>
       </Stat>
     </div>
   )

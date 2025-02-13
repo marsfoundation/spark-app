@@ -1,11 +1,13 @@
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import type { Meta, StoryObj } from '@storybook/react'
+import { withRouter } from 'storybook-addon-remix-react-router'
 import { GeneralStatsBar } from './GeneralStatsBar'
 
 const meta: Meta<typeof GeneralStatsBar> = {
   title: 'Features/Savings/Components/GeneralStatsBar',
   component: GeneralStatsBar,
+  decorators: [withRouter()],
   args: {
     generalStatsResult: {
       data: {
