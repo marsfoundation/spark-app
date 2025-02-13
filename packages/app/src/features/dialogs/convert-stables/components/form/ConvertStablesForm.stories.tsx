@@ -27,7 +27,13 @@ const psmStables = [tokens.DAI.symbol, tokens.USDC.symbol, tokens.USDS.symbol]
 const meta: Meta<typeof ConvertStablesForm> = {
   title: 'Features/Dialogs/ConvertStables/Components/Form',
   component: () => {
-    const form = useForm() as any
+    const form = useForm({
+      defaultValues: {
+        inTokenSymbol: tokens.USDS.symbol,
+        outTokenSymbol: tokens.DAI.symbol,
+        amount: '1000',
+      },
+    }) as any
     const formFields = getConvertStablesFormFields({
       form,
       tokenRepository: mockTokenRepository,

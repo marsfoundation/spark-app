@@ -28,7 +28,13 @@ const meta: Meta<typeof ConvertStablesView> = {
   title: 'Features/Dialogs/Views/ConvertStables/ConvertStablesView',
   decorators: [ZeroAllowanceWagmiDecorator(), WithClassname('max-w-xl'), WithTooltipProvider()],
   component: (args) => {
-    const form = useForm() as any
+    const form = useForm({
+      defaultValues: {
+        inTokenSymbol: tokens.USDS.symbol,
+        outTokenSymbol: tokens.DAI.symbol,
+        amount: '1000',
+      },
+    }) as any
     const formFields = getConvertStablesFormFields({
       form,
       tokenRepository: mockTokenRepository,
