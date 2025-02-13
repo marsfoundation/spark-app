@@ -27,6 +27,7 @@ export default defineConfig({
   plugins: [
     // nodePolyfills needs to be first
     nodePolyfills({
+      // buffer is needed when connecting with a coinbase wallet installed on a phone
       include: ['buffer'],
     }),
     react(),
