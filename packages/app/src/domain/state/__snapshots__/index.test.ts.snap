@@ -32,10 +32,6 @@ exports[`initializes store 1`] = `
     "network": undefined,
     "setNetwork": [Function],
   },
-  "savings": {
-    "confirmedWelcomeDialog": false,
-    "setConfirmedWelcomeDialog": [Function],
-  },
 }
 `;
 
@@ -54,9 +50,6 @@ exports[`persists state 1`] = `
       "agreedToToSAdresses": [],
     },
     "sandbox": {},
-    "savings": {
-      "confirmedWelcomeDialog": false,
-    },
   },
   "version": 2,
 }
