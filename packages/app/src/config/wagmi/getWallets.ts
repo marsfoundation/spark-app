@@ -1,7 +1,8 @@
+// biome-ignore lint/style/useNodejsImportProtocol:
+import { Buffer } from 'buffer'
 import { assert } from '@marsfoundation/common-universal'
 import { WalletList, getDefaultWallets } from '@rainbow-me/rainbowkit'
 import { okxWallet, safeWallet } from '@rainbow-me/rainbowkit/wallets'
-import { Buffer } from 'buffer'
 
 export function getWallets(): WalletList {
   // @note: polyfill Buffer for browser to support coinbase wallet mobile connection
