@@ -4,11 +4,12 @@ import { useDebounce } from '@/utils/useDebounce'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { assert } from '@marsfoundation/common-universal'
 import { UseFormReturn, useForm } from 'react-hook-form'
+import { useChainId } from 'wagmi'
 import { ConvertStablesFormFields, NormalizedConvertStablesFormValues } from '../../types'
 import { getConvertStablesFormFields } from './getConvertStablesFormFields'
 import { getNormalizedFormValuesKey, normalizeFormValues } from './normalizeFormValues'
 import { ConvertStablesFormSchema } from './schema'
-import { getConvertStablesFormValidator } from './validator'
+import { useConvertStablesValidator } from './useConvertStablesValidator'
 
 export interface UseConvertStablesFormParams {
   tokenRepository: TokenRepository
@@ -29,9 +30,11 @@ export function useConvertStablesForm({
 }: UseConvertStablesFormParams): UseConvertStablesFormResult {
   assert(psmStables, 'PSM stables are not defined on this chain')
   assert(psmStables.length > 1, 'PSM stables should have at least 2 stables to be able to convert')
+  const chainId = useChainId()
+  const validator = useConvertStablesValidator({ chainId, tokenRepository })
 
   const form = useForm<ConvertStablesFormSchema>({
-    resolver: zodResolver(getConvertStablesFormValidator(tokenRepository)),
+    resolver: zodResolver(validator),
     defaultValues: {
       isMaxSelected: false,
       inTokenSymbol: psmStables[0],
