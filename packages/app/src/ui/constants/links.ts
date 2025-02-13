@@ -18,4 +18,5 @@ export const links = {
   termsOfUse: 'https://spark.fi/terms-of-use',
   privacyPolicy: 'https://spark.fi/privacy-policy',
   github: 'https://github.com/marsfoundation/spark-app',
+  skyInfoSavingsDashboard: 'https://info.sky.money/savings',
 } as const

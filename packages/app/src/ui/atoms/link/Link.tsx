@@ -27,6 +27,7 @@ const linkVariants = cva('', {
         'bg-gradient-spark-secondary bg-clip-text text-transparent hover:brightness-[90%] active:brightness-[80%]',
       secondary: 'text-brand-primary hover:brightness-[150%] active:brightness-[200%]',
       underline: 'underline underline-offset-2',
+      decorator: '',
       unstyled: '',
     },
   },
@@ -35,7 +36,7 @@ const linkVariants = cva('', {
   },
   compoundVariants: [
     {
-      variant: ['primary', 'secondary'],
+      variant: ['primary', 'secondary', 'decorator'],
       className: cn(
         'cursor-pointer rounded-[1px] focus-visible:outline-none focus-visible:ring',
         'focus-visible:ring-primary-200 focus-visible:ring-offset-0',

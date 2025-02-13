@@ -1,3 +1,4 @@
+import { WithClassname } from '@sb/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { withRouter } from 'storybook-addon-remix-react-router'
 import { MenuItem } from '../menu-item/MenuItem'
@@ -46,6 +47,26 @@ export const Underline: Story = {
       adipiscing elit.
     </div>
   ),
+}
+
+export const Decorator: Story = {
+  render: () => (
+    <div className="flex">
+      <Link to="" variant="decorator">
+        <div className="inline-flex items-center justify-center bg-slate-100 px-4 py-2">Focus me</div>
+      </Link>
+    </div>
+  ),
+}
+
+export const DecoratorFocused: Story = {
+  ...Decorator,
+  decorators: [WithClassname('p-2')],
+  parameters: {
+    pseudo: {
+      focusVisible: true,
+    },
+  },
 }
 
 export const External: Story = {
