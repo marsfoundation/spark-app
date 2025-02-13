@@ -23,23 +23,23 @@ export function DaiLegacyAccountBanner({ apyImprovement }: UpgradeSavingsBannerP
           'grid w-full grid-rows-[1fr_auto] items-center gap-2 sm:gap-4 lg:grid-cols-[1fr_auto] lg:grid-rows-1 lg:gap-6',
         )}
       >
-        <div className="flex max-w-[420px] flex-col gap-1">
+        <div className="flex max-w-[380px] flex-col gap-1">
           <div className="typography-label-2 sm:typography-heading-5 text-primary">
             This is a legacy Savings Account.
             <br />
-            We encourage you to deposit into other accounts
+            You can deposit your DAI to Savings USDS
             {apyImprovement ? (
               <>
                 {' '}
-                to get up to <span className="text-system-success-primary">{formatPercentage(apyImprovement)}</span>{' '}
-                higher APY!
+                and get <span className="text-system-success-primary">{formatPercentage(apyImprovement)}</span> higher
+                APY!
               </>
             ) : (
-              <> to unlock the full potential of Spark Savings.</>
+              <> and unlock the full potential of Spark Savings.</>
             )}
           </div>
         </div>
-        <LinkButton to={links.docs.savings.newSavings} external variant="tertiary" size="m">
+        <LinkButton to={links.docs.savings.newSavings} external variant="tertiary" className="sm:mr-4" size="m">
           Learn more
         </LinkButton>
       </div>
