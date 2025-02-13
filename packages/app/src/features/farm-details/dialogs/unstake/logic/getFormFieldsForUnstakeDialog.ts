@@ -1,6 +1,6 @@
 import { Farm } from '@/domain/farms/types'
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog } from '@/features/dialogs/common/types'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
@@ -8,13 +8,13 @@ import { UseFormReturn } from 'react-hook-form'
 
 export interface GetFormFieldsForWithdrawDialogParams {
   form: UseFormReturn<AssetInputSchema>
-  tokensInfo: TokensInfo
+  tokenRepository: TokenRepository
   farm: Farm
 }
 
 export function getFormFieldsForUnstakeDialog({
   form,
-  tokensInfo,
+  tokenRepository,
   farm,
 }: GetFormFieldsForWithdrawDialogParams): FormFieldsForDialog {
   // eslint-disable-next-line func-style
@@ -26,7 +26,7 @@ export function getFormFieldsForUnstakeDialog({
   }
 
   const { symbol, value } = form.getValues()
-  const token = tokensInfo.findOneTokenBySymbol(symbol)
+  const token = tokenRepository.findOneTokenBySymbol(symbol)
 
   const usdStakedBalance = farm.stakingToken.toUSD(farm.staked)
   const tokenBalance = NormalizedUnitNumber(usdStakedBalance.dividedBy(token.unitPriceUsd))

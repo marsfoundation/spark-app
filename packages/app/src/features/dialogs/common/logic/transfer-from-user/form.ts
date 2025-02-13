@@ -1,6 +1,6 @@
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { useDebounce } from '@/utils/useDebounce'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
@@ -15,10 +15,10 @@ export interface TransferFromUserFormNormalizedData {
 
 export function normalizeFormValues(
   asset: AssetInputSchema,
-  tokensInfo: TokensInfo,
+  tokenRepository: TokenRepository,
 ): TransferFromUserFormNormalizedData {
   const value = NormalizedUnitNumber(asset.value === '' ? '0' : asset.value)
-  const token = tokensInfo.findOneTokenBySymbol(asset.symbol)
+  const token = tokenRepository.findOneTokenBySymbol(asset.symbol)
 
   return {
     token,
@@ -38,15 +38,18 @@ function getNormalizedFormValuesKey(values: TransferFromUserFormNormalizedData):
 
 export interface UseDebouncedFormValuesArgs {
   form: UseFormReturn<AssetInputSchema>
-  tokensInfo: TokensInfo
+  tokenRepository: TokenRepository
 }
 export interface UseDebouncedFormValuesResult {
   debouncedFormValues: TransferFromUserFormNormalizedData
   isFormValid: boolean
   isDebouncing: boolean
 }
-export function useDebouncedFormValues({ form, tokensInfo }: UseDebouncedFormValuesArgs): UseDebouncedFormValuesResult {
-  const formValues = normalizeFormValues(form.watch(), tokensInfo)
+export function useDebouncedFormValues({
+  form,
+  tokenRepository,
+}: UseDebouncedFormValuesArgs): UseDebouncedFormValuesResult {
+  const formValues = normalizeFormValues(form.watch(), tokenRepository)
   const isFormValid = form.formState.isValid
   const { debouncedValue, isDebouncing } = useDebounce(
     { formValues, isFormValid },
@@ -62,13 +65,13 @@ export function useDebouncedFormValues({ form, tokensInfo }: UseDebouncedFormVal
 
 export interface GetFieldsForTransferFromUserFormParams {
   form: UseFormReturn<AssetInputSchema>
-  tokensInfo: TokensInfo
+  tokenRepository: TokenRepository
 }
 
 // @note: Can be used for dialogs where input is token and max value is token balance
 export function getFieldsForTransferFromUserForm({
   form,
-  tokensInfo,
+  tokenRepository,
 }: GetFieldsForTransferFromUserFormParams): FormFieldsForDialog {
   // eslint-disable-next-line func-style
   const changeAsset = (newSymbol: TokenSymbol): void => {
@@ -79,7 +82,7 @@ export function getFieldsForTransferFromUserForm({
   }
 
   const { symbol, value } = form.getValues()
-  const { token, balance } = tokensInfo.findOneTokenWithBalanceBySymbol(symbol)
+  const { token, balance } = tokenRepository.findOneTokenWithBalanceBySymbol(symbol)
 
   return {
     selectedAsset: {

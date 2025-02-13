@@ -30,10 +30,12 @@ export function getLiquidationDetails({
   const { defaultAssetToBorrow } =
     getChainConfigEntry(marketInfo.chainId).markets ?? raise('Markets config is not defined on this chain')
 
-  if (borrows.length !== 1 || borrows[0]!.token.symbol !== defaultAssetToBorrow) {
+  if (borrows.length !== 1 || borrows[0]!.token.symbol !== defaultAssetToBorrow.symbol) {
     return undefined
   }
-  const borrowInUSD = borrows[0]!.value.multipliedBy(marketInfo.findOneTokenBySymbol(defaultAssetToBorrow).unitPriceUsd)
+  const borrowInUSD = borrows[0]!.value.multipliedBy(
+    marketInfo.findOneTokenBySymbol(defaultAssetToBorrow.symbol).unitPriceUsd,
+  )
 
   const collateralEModeIds = collaterals.map(
     (collateral) => marketInfo.findOneReserveBySymbol(collateral.token.symbol).eModeCategory?.id,

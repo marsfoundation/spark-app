@@ -2,9 +2,9 @@ import { psm3Address } from '@/config/contracts-generated'
 import { DynamicValidatorConfig, ensureDynamicValidatorConfigTypes } from '@/domain/common/dynamicValidator'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { SavingsAccount } from '@/domain/savings-converters/types'
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { getTransferFromUserFormValidator } from '@/features/dialogs/common/logic/transfer-from-user/validation'
 import { BaseUnitNumber, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { QueryKey, useSuspenseQuery } from '@tanstack/react-query'
@@ -23,20 +23,20 @@ export type AssetInputValidator = z.ZodSchema<{
 
 export interface UseDepositToSavingsValidatorParams {
   chainId: number
-  tokensInfo: TokensInfo
+  tokenRepository: TokenRepository
   savingsAccount: SavingsAccount
 }
 
 export function useDepositToSavingsValidator({
   chainId,
-  tokensInfo,
+  tokenRepository,
   savingsAccount,
 }: UseDepositToSavingsValidatorParams): AssetInputValidator {
   const wagmiConfig = useConfig()
 
   const { fetchParamsQueryKey, fetchParamsQueryFn, createValidator } = getValidatorConfig({
     chainId,
-    tokensInfo,
+    tokenRepository,
     wagmiConfig,
     savingsAccount,
   })
@@ -51,18 +51,18 @@ export function useDepositToSavingsValidator({
 
 export interface GetValidatorConfigParams {
   chainId: number
-  tokensInfo: TokensInfo
+  tokenRepository: TokenRepository
   wagmiConfig: Config
   savingsAccount: SavingsAccount
 }
 export function getValidatorConfig({
   chainId,
-  tokensInfo,
+  tokenRepository,
   wagmiConfig,
   savingsAccount,
 }: GetValidatorConfigParams): DynamicValidatorConfig {
   if (chainId === base.id || chainId === arbitrum.id) {
-    const susds = tokensInfo.findOneTokenBySymbol(TokenSymbol('sUSDS'))
+    const susds = tokenRepository.findOneTokenBySymbol(TokenSymbol('sUSDS'))
     const psm3 = getContractAddress(psm3Address, chainId)
 
     return ensureDynamicValidatorConfigTypes({
@@ -78,7 +78,7 @@ export function getValidatorConfig({
         return susds.fromBaseUnit(BaseUnitNumber(psm3SusdsBalance))
       },
       createValidator: (psm3SusdsBalance) =>
-        getTransferFromUserFormValidator(tokensInfo, depositValidationIssueToMessage).superRefine((field, ctx) => {
+        getTransferFromUserFormValidator(tokenRepository, depositValidationIssueToMessage).superRefine((field, ctx) => {
           const value = NormalizedUnitNumber(field.value === '' ? '0' : field.value)
           const estimatedSusdsReceived = savingsAccount.converter.convertToShares({ assets: value })
           const issue = validateDepositToSavingsWithPsm3({
@@ -100,7 +100,7 @@ export function getValidatorConfig({
   return ensureDynamicValidatorConfigTypes({
     fetchParamsQueryKey: getCreateValidatorConfigQueryKey(savingsAccount.savingsToken, chainId),
     fetchParamsQueryFn: () => Promise.resolve({}),
-    createValidator: () => getTransferFromUserFormValidator(tokensInfo, depositValidationIssueToMessage),
+    createValidator: () => getTransferFromUserFormValidator(tokenRepository, depositValidationIssueToMessage),
   })
 }
 

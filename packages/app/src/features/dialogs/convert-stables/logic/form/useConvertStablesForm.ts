@@ -1,5 +1,5 @@
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { useDebounce } from '@/utils/useDebounce'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { assert } from '@marsfoundation/common-universal'
@@ -11,7 +11,7 @@ import { ConvertStablesFormSchema } from './schema'
 import { getConvertStablesFormValidator } from './validator'
 
 export interface UseConvertStablesFormParams {
-  tokensInfo: TokensInfo
+  tokenRepository: TokenRepository
   psmStables: TokenSymbol[] | undefined
 }
 
@@ -24,14 +24,14 @@ export interface UseConvertStablesFormResult {
 }
 
 export function useConvertStablesForm({
-  tokensInfo,
+  tokenRepository,
   psmStables,
 }: UseConvertStablesFormParams): UseConvertStablesFormResult {
   assert(psmStables, 'PSM stables are not defined on this chain')
   assert(psmStables.length > 1, 'PSM stables should have at least 2 stables to be able to convert')
 
   const form = useForm<ConvertStablesFormSchema>({
-    resolver: zodResolver(getConvertStablesFormValidator(tokensInfo)),
+    resolver: zodResolver(getConvertStablesFormValidator(tokenRepository)),
     defaultValues: {
       isMaxSelected: false,
       inTokenSymbol: psmStables[0],
@@ -41,12 +41,12 @@ export function useConvertStablesForm({
   })
   const formFields = getConvertStablesFormFields({
     form,
-    tokensInfo,
+    tokenRepository,
     psmStables,
   })
   const formValues = normalizeFormValues({
     formValues: form.watch(),
-    tokensInfo,
+    tokenRepository,
   })
 
   const isFormValid = form.formState.isValid

@@ -1,4 +1,4 @@
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { WithClassname, WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
@@ -10,7 +10,7 @@ import { ConvertStablesView } from './ConvertStablesView'
 const dai = tokens.DAI
 const usds = tokens.USDS
 const usdc = tokens.USDC
-const mockTokensInfo = new TokensInfo(
+const mockTokenRepository = new TokenRepository(
   [
     { token: dai, balance: NormalizedUnitNumber(2000) },
     { token: usds, balance: NormalizedUnitNumber(0) },
@@ -28,7 +28,7 @@ const meta: Meta<typeof ConvertStablesView> = {
   decorators: [ZeroAllowanceWagmiDecorator(), WithClassname('max-w-xl'), WithTooltipProvider()],
   component: (args) => {
     const { form, formFields } = useConvertStablesForm({
-      tokensInfo: mockTokensInfo,
+      tokenRepository: mockTokenRepository,
       psmStables,
     })
     return <ConvertStablesView {...args} form={form} formFields={formFields} />
@@ -57,7 +57,7 @@ const meta: Meta<typeof ConvertStablesView> = {
       ],
     },
     actionsContext: {
-      tokensInfo: mockTokensInfo,
+      tokenRepository: mockTokenRepository,
     },
   },
 }

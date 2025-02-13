@@ -13,7 +13,7 @@ import { DepositToSavingsAction, DepositToSavingsObjective } from '../types'
 import { getSavingsDepositActionPath } from './getSavingsDepositActionPath'
 
 export function createDepositToSavingsActions(objective: DepositToSavingsObjective, context: ActionContext): Action[] {
-  const tokensInfo = context.tokensInfo ?? raise('Tokens info is required for deposit to savings action')
+  const tokenRepository = context.tokenRepository ?? raise('Tokens info is required for deposit to savings action')
   const chainId = context.chainId
 
   const depositAction: DepositToSavingsAction = {
@@ -34,7 +34,7 @@ export function createDepositToSavingsActions(objective: DepositToSavingsObjecti
   const actionPath = getSavingsDepositActionPath({
     token: objective.token,
     savingsToken: objective.savingsToken,
-    tokensInfo,
+    tokenRepository,
     chainId,
   })
 

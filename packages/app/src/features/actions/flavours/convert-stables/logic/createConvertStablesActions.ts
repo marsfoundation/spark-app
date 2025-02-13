@@ -12,13 +12,13 @@ import { ConvertStablesObjective } from '../types'
 import { getConvertStablesActionPath } from './getConvertStablesActionPath'
 
 export function createConvertStablesActions(objective: ConvertStablesObjective, context: ActionContext): Action[] {
-  const { chainId, tokensInfo } = context
-  assert(tokensInfo, 'Tokens info is required for convert stables objective')
+  const { chainId, tokenRepository } = context
+  assert(tokenRepository, 'Tokens info is required for convert stables objective')
 
   const actionPath = getConvertStablesActionPath({
     inToken: objective.inToken,
     outToken: objective.outToken,
-    tokensInfo,
+    tokenRepository,
     chainId,
   })
 

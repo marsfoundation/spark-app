@@ -1,6 +1,7 @@
 import { stakingRewardsAbi } from '@/config/abis/stakingRewardsAbi'
-import { FarmBlockchainDetails, FarmConfig } from '@/domain/farms/types'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
+import { FarmConfig } from '@/config/chain/types'
+import { FarmBlockchainDetails } from '@/domain/farms/types'
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { BaseUnitNumber, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { CheckedAddress } from '@marsfoundation/common-universal'
 import { Address } from 'viem'
@@ -10,7 +11,7 @@ import { readContract } from 'wagmi/actions'
 export interface GetFarmBlockchainDetailsParams {
   farmConfig: FarmConfig
   wagmiConfig: Config
-  tokensInfo: TokensInfo
+  tokenRepository: TokenRepository
   chainId: number
   account: Address | undefined
 }
@@ -18,7 +19,7 @@ export interface GetFarmBlockchainDetailsParams {
 export async function getFarmBlockchainDetails({
   farmConfig,
   wagmiConfig,
-  tokensInfo,
+  tokenRepository,
   chainId,
   account,
 }: GetFarmBlockchainDetailsParams): Promise<FarmBlockchainDetails> {
@@ -26,9 +27,9 @@ export async function getFarmBlockchainDetails({
 
   const rewardToken =
     farmConfig.rewardType === 'token'
-      ? tokensInfo.findOneTokenByAddress(CheckedAddress(contractData.rewardTokenAddress))
+      ? tokenRepository.findOneTokenByAddress(CheckedAddress(contractData.rewardTokenAddress))
       : farmConfig.rewardPoints
-  const stakingToken = tokensInfo.findOneTokenByAddress(CheckedAddress(contractData.stakingTokenAddress))
+  const stakingToken = tokenRepository.findOneTokenByAddress(CheckedAddress(contractData.stakingTokenAddress))
 
   return {
     ...farmConfig,

@@ -42,12 +42,12 @@ export function useStakeDialog({ farm, initialToken }: UseStakeDialogParams): Us
   const chainId = useChainId()
   const [pageStatus, setPageStatus] = useState<PageState>('form')
   const { farmsInfo } = useFarmsInfo({ chainId })
-  const { tokensInfo, entryTokens } = useFarmEntryTokens(farm)
+  const { tokenRepository, entryTokens } = useFarmEntryTokens(farm)
   assert(entryTokens[0], 'There should be at least one entry token')
   const savingsAccounts = useSavingsAccountRepository({ chainId })
 
   const form = useForm<AssetInputSchema>({
-    resolver: zodResolver(getTransferFromUserFormValidator(tokensInfo, validationIssueToMessage)),
+    resolver: zodResolver(getTransferFromUserFormValidator(tokenRepository, validationIssueToMessage)),
     defaultValues: {
       symbol: initialToken.symbol,
       value: '',
@@ -61,7 +61,7 @@ export function useStakeDialog({ farm, initialToken }: UseStakeDialogParams): Us
     isFormValid,
   } = useDebouncedFormValues({
     form,
-    tokensInfo,
+    tokenRepository,
   })
 
   const objectives: StakeObjective[] = [
@@ -79,7 +79,8 @@ export function useStakeDialog({ farm, initialToken }: UseStakeDialogParams): Us
   })
 
   const sacrificesYield =
-    formValues.token.symbol === tokensInfo.sDAI?.symbol || formValues.token.symbol === tokensInfo.sUSDS?.symbol
+    formValues.token.symbol === tokenRepository.sDAI?.symbol ||
+    formValues.token.symbol === tokenRepository.sUSDS?.symbol
 
   const stakingTokenRouteItem =
     txOverview.status === 'success'
@@ -94,7 +95,7 @@ export function useStakeDialog({ farm, initialToken }: UseStakeDialogParams): Us
 
   return {
     selectableAssets: entryTokens,
-    assetsFields: getFieldsForTransferFromUserForm({ form, tokensInfo }),
+    assetsFields: getFieldsForTransferFromUserForm({ form, tokenRepository }),
     form,
     objectives,
     stakedToken,
@@ -106,7 +107,7 @@ export function useStakeDialog({ farm, initialToken }: UseStakeDialogParams): Us
       goToSuccessScreen: () => setPageStatus('success'),
     },
     actionsContext: {
-      tokensInfo,
+      tokenRepository,
       farmsInfo,
       savingsAccounts,
     },

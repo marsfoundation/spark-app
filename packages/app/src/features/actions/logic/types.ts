@@ -2,7 +2,7 @@ import { FarmsInfo } from '@/domain/farms/farmsInfo'
 import { WriteErrorKind } from '@/domain/hooks/useWrite'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
 import { SavingsAccountRepository, SavingsConverter } from '@/domain/savings-converters/types'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { QueryKey, UseQueryOptions, UseQueryResult } from '@tanstack/react-query'
 import { Address, BlockTag, ContractFunctionParameters, TransactionReceipt } from 'viem'
 import { Config } from 'wagmi'
@@ -95,7 +95,7 @@ export interface BatchActionHandler {
 
 export interface ActionContext {
   marketInfo?: MarketInfo
-  tokensInfo?: TokensInfo
+  tokenRepository?: TokenRepository
   savingsAccounts?: SavingsAccountRepository
   permitStore?: PermitStore
   farmsInfo?: FarmsInfo
@@ -124,7 +124,7 @@ export interface ActionConfig {
 
 export interface InjectedActionsContext {
   marketInfo?: MarketInfo
-  tokensInfo?: TokensInfo
+  tokenRepository?: TokenRepository
   savingsDaiInfo?: SavingsConverter
   savingsUsdsInfo?: SavingsConverter
   farmsInfo?: FarmsInfo

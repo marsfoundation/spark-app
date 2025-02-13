@@ -51,13 +51,13 @@ export function useUnstakeDialog({ farm, initialToken }: UseStakeDialogParams): 
   }, [updateTimestamp])
   const [pageStatus, setPageStatus] = useState<PageState>('form')
   const { farmsInfo } = useFarmsInfo({ chainId })
-  const { tokensInfo, exitTokens } = useFarmExitTokens(farm)
+  const { tokenRepository, exitTokens } = useFarmExitTokens(farm)
   const [exitFarmSwitchChecked, setExitFarmSwitchChecked] = useState(false)
 
   assert(exitTokens[0], 'There should be at least one exit token')
 
   const form = useForm<AssetInputSchema>({
-    resolver: zodResolver(getUnstakeDialogFormValidator(farm, tokensInfo)),
+    resolver: zodResolver(getUnstakeDialogFormValidator(farm, tokenRepository)),
     defaultValues: {
       symbol: initialToken.symbol,
       value: '',
@@ -71,7 +71,7 @@ export function useUnstakeDialog({ farm, initialToken }: UseStakeDialogParams): 
     isFormValid,
   } = useDebouncedFormValues({
     form,
-    tokensInfo,
+    tokenRepository,
   })
 
   const objectives: UnstakeObjective[] = [
@@ -116,7 +116,7 @@ export function useUnstakeDialog({ farm, initialToken }: UseStakeDialogParams): 
 
   return {
     selectableAssets: exitTokens,
-    assetsFields: getFormFieldsForUnstakeDialog({ form, tokensInfo, farm }),
+    assetsFields: getFormFieldsForUnstakeDialog({ form, tokenRepository, farm }),
     form,
     objectives,
     outcomeToken,
@@ -136,7 +136,7 @@ export function useUnstakeDialog({ farm, initialToken }: UseStakeDialogParams): 
       },
     },
     actionsContext: {
-      tokensInfo,
+      tokenRepository,
       farmsInfo,
     },
   }

@@ -1,5 +1,5 @@
+import { AssetsGroup } from '@/config/chain/types'
 import { formatPercentage } from '@/domain/common/format'
-import { AssetsGroup } from '@/domain/farms/types'
 import { Token } from '@/domain/types/Token'
 import { getTokenColor, getTokenImage } from '@/ui/assets'
 import { LinkDecorator } from '@/ui/atoms/link-decorator/LinkDecorator'

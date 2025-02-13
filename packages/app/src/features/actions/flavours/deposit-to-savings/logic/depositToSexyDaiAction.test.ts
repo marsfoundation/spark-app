@@ -1,6 +1,6 @@
 import { savingsXDaiAdapterAbi, savingsXDaiAdapterAddress } from '@/config/contracts-generated'
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { testAddresses, testTokens } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
 import { setupUseContractActionRenderer } from '@/test/integration/setupUseContractActionRenderer'
@@ -18,7 +18,7 @@ const sdai = testTokens.sDAI
 const usds = testTokens.USDS
 const susds = testTokens.sUSDS
 const usdc = testTokens.USDC
-const mockTokensInfo = new TokensInfo(
+const mockTokenRepository = new TokenRepository(
   [
     { token: dai, balance: NormalizedUnitNumber(100) },
     { token: sdai, balance: NormalizedUnitNumber(100) },
@@ -48,7 +48,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
       args: {
         action: { type: 'depositToSavings', token: dai, savingsToken: sdai, value: depositValue },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo },
+        context: { tokenRepository: mockTokenRepository },
       },
       extraHandlers: [
         handlers.contractCall({

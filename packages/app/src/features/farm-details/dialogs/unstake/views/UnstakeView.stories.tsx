@@ -2,7 +2,7 @@ import { farmAddresses } from '@/config/chain/constants'
 import { FarmsInfo } from '@/domain/farms/farmsInfo'
 import { Farm } from '@/domain/farms/types'
 import { PotSavingsConverter } from '@/domain/savings-converters/PotSavingsConverter'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { bigNumberify } from '@marsfoundation/common-universal'
 import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
@@ -19,7 +19,7 @@ const sdai = tokens.sDAI
 const usds = tokens.USDS
 const susds = tokens.sUSDS
 const usdc = tokens.USDC
-const mockTokensInfo = new TokensInfo(
+const mockTokenRepository = new TokenRepository(
   [
     { token: dai, balance: NormalizedUnitNumber(100) },
     { token: sdai, balance: NormalizedUnitNumber(100) },
@@ -152,7 +152,7 @@ const meta: Meta<typeof UnstakeView> = {
       },
     },
     actionsContext: {
-      tokensInfo: mockTokensInfo,
+      tokenRepository: mockTokenRepository,
       savingsDaiInfo: mockSavingsDaiInfo,
       savingsUsdsInfo: mockSavingsUsdsInfo,
       farmsInfo: mockedFarmsInfo,

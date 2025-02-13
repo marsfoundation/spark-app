@@ -1,4 +1,4 @@
-import { getMockTokensInfo } from '@/test/integration/constants'
+import { getMockTokenRepository } from '@/test/integration/constants'
 import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { WithClassname, WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
@@ -18,7 +18,7 @@ const meta: Meta<typeof UpgradeView> = {
     fromToken: tokens.sDAI,
     toToken: tokens.sUSDS,
     actionsContext: {
-      tokensInfo: getMockTokensInfo(),
+      tokenRepository: getMockTokenRepository(),
     },
     txOverview: {
       status: 'success',

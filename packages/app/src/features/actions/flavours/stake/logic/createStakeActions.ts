@@ -14,8 +14,8 @@ import { StakeAction, StakeObjective } from '../types'
 import { getStakeActionPath } from './getStakeActionPath'
 
 export function createStakeActions(objective: StakeObjective, context: ActionContext): Action[] {
-  const { farmsInfo, chainId, tokensInfo } = context
-  assert(farmsInfo && tokensInfo, 'Farms info and tokens info are required for stake action')
+  const { farmsInfo, chainId, tokenRepository } = context
+  assert(farmsInfo && tokenRepository, 'Farms info and tokens info are required for stake action')
 
   const { stakingToken, rewardToken } = farmsInfo.findOneFarmByAddress(objective.farm)
 
@@ -36,7 +36,7 @@ export function createStakeActions(objective: StakeObjective, context: ActionCon
 
   const actionPath = getStakeActionPath({
     token: objective.token,
-    tokensInfo,
+    tokenRepository,
     stakingToken,
   })
 
@@ -115,7 +115,7 @@ export function createStakeActions(objective: StakeObjective, context: ActionCon
       const convertToUsdsAction: PsmConvertAction = {
         type: 'psmConvert',
         inToken: objective.token,
-        outToken: tokensInfo.USDS ?? raise('USDS token is required for usds psm convert action'),
+        outToken: tokenRepository.USDS ?? raise('USDS token is required for usds psm convert action'),
         amount: objective.amount,
       }
 

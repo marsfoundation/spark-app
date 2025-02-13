@@ -1,20 +1,20 @@
 import { SavingsAccountRepository } from '@/domain/savings-converters/types'
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { TransferFromUserFormNormalizedData } from '@/features/dialogs/common/logic/transfer-from-user/form'
 import { MigrateDialogTxOverview } from '../types'
 
 export interface CreateTxOverviewParams {
   formValues: TransferFromUserFormNormalizedData
   savingsAccounts: SavingsAccountRepository
-  tokensInfo: TokensInfo
+  tokenRepository: TokenRepository
   outputToken: Token
 }
 export function createTxOverview({
   formValues,
   savingsAccounts,
-  tokensInfo,
+  tokenRepository,
   outputToken,
 }: CreateTxOverviewParams): MigrateDialogTxOverview {
   const value = formValues.value
@@ -23,7 +23,7 @@ export function createTxOverview({
   }
 
   // sdai -> susds
-  if (formValues.token.symbol === tokensInfo.sDAI?.symbol) {
+  if (formValues.token.symbol === tokenRepository.sDAI?.symbol) {
     const sdaiConverter = savingsAccounts.findOneBySavingsTokenSymbol(TokenSymbol('sDAI')).converter
     const susdsConverter = savingsAccounts.findOneBySavingsTokenSymbol(TokenSymbol('sUSDS')).converter
 

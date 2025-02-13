@@ -1,6 +1,6 @@
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { raise } from '@marsfoundation/common-universal'
 
 export type StakeActionPath =
@@ -12,13 +12,17 @@ export type StakeActionPath =
 
 export interface GetStakeActionPathParams {
   token: Token
-  tokensInfo: TokensInfo
+  tokenRepository: TokenRepository
   stakingToken: Token
 }
 
-export function getStakeActionPath({ token, tokensInfo, stakingToken }: GetStakeActionPathParams): StakeActionPath {
-  if (stakingToken.symbol === tokensInfo.USDS?.symbol) {
-    if (token.symbol === tokensInfo.USDS?.symbol) {
+export function getStakeActionPath({
+  token,
+  tokenRepository,
+  stakingToken,
+}: GetStakeActionPathParams): StakeActionPath {
+  if (stakingToken.symbol === tokenRepository.USDS?.symbol) {
+    if (token.symbol === tokenRepository.USDS?.symbol) {
       return 'usds-to-farm'
     }
 
@@ -26,15 +30,15 @@ export function getStakeActionPath({ token, tokensInfo, stakingToken }: GetStake
       return 'usdc-to-usds-to-farm'
     }
 
-    if (token.symbol === tokensInfo.DAI?.symbol) {
+    if (token.symbol === tokenRepository.DAI?.symbol) {
       return 'dai-to-usds-to-farm'
     }
 
-    if (token.symbol === tokensInfo.sUSDS?.symbol) {
+    if (token.symbol === tokenRepository.sUSDS?.symbol) {
       return 'susds-to-usds-to-farm'
     }
 
-    if (token.symbol === tokensInfo.sDAI?.symbol) {
+    if (token.symbol === tokenRepository.sDAI?.symbol) {
       return 'sdai-to-usds-to-farm'
     }
   }

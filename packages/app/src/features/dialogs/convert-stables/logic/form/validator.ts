@@ -1,4 +1,4 @@
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import {
   TransferFromUserValidationIssue,
   validateTransferFromUser,
@@ -8,10 +8,10 @@ import { z } from 'zod'
 import { ConvertStablesFormSchema } from './schema'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function getConvertStablesFormValidator(tokensInfo: TokensInfo) {
+export function getConvertStablesFormValidator(tokenRepository: TokenRepository) {
   return ConvertStablesFormSchema.superRefine((field, ctx) => {
     const amount = NormalizedUnitNumber(field.amount === '' ? '0' : field.amount)
-    const balance = tokensInfo.findOneBalanceBySymbol(field.inTokenSymbol)
+    const balance = tokenRepository.findOneBalanceBySymbol(field.inTokenSymbol)
 
     const issue = validateTransferFromUser({
       value: amount,

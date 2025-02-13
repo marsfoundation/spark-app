@@ -1,3 +1,4 @@
+import { defineToken } from '@/config/chain/utils/defineToken'
 import { testAddresses } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
 import { setupHookRenderer } from '@/test/integration/setupHookRenderer'
@@ -6,7 +7,8 @@ import { waitFor } from '@testing-library/react'
 import { erc20Abi, erc4626Abi, parseEther, zeroAddress } from 'viem'
 import { gnosis, mainnet } from 'viem/chains'
 import { describe, test } from 'vitest'
-import { useTokensInfo } from './useTokensInfo'
+import { TokenSymbol } from '../types/TokenSymbol'
+import { useTokenRepository } from './useTokenRepository'
 
 const token = testAddresses.token
 const alice = testAddresses.alice
@@ -14,20 +16,21 @@ const alice = testAddresses.alice
 const chainIdCall = handlers.chainIdCall({ chainId: mainnet.id })
 
 const hookRenderer = setupHookRenderer({
-  hook: useTokensInfo,
+  hook: useTokenRepository,
   account: undefined,
   handlers: [chainIdCall],
   args: {
-    tokens: [
-      {
+    tokenConfigs: [
+      defineToken({
+        symbol: TokenSymbol('TEST'),
         address: token,
         oracleType: 'vault',
-      },
+      }),
     ],
   },
 })
 
-describe(useTokensInfo.name, () => {
+describe(useTokenRepository.name, () => {
   test('fetches data for ERC20 token with vault oracle', async () => {
     const balance = 543217812381398n
     const decimals = 18
@@ -71,10 +74,19 @@ describe(useTokensInfo.name, () => {
           result: price,
         }),
       ],
+      args: {
+        tokenConfigs: [
+          defineToken({
+            symbol: TokenSymbol('sDAI'),
+            address: token,
+            oracleType: 'vault',
+          }),
+        ],
+      },
     })
 
-    await waitFor(() => expect(result.current.status).toBe('success'))
-    expect(result.current.tokensInfo.all()).toEqual([
+    await waitFor(() => expect(result.current.tokenRepository).not.toBeNull())
+    expect(result.current.tokenRepository.all()).toEqual([
       {
         token: {
           name,
@@ -125,17 +137,18 @@ describe(useTokensInfo.name, () => {
         }),
       ],
       args: {
-        tokens: [
-          {
+        tokenConfigs: [
+          defineToken({
+            symbol: TokenSymbol('DAI'),
             address: token,
             oracleType: 'fixed-usd',
-          },
+          }),
         ],
       },
     })
 
-    await waitFor(() => expect(result.current.status).toBe('success'))
-    expect(result.current.tokensInfo.all()).toEqual([
+    await waitFor(() => expect(result.current.tokenRepository).not.toBeNull())
+    expect(result.current.tokenRepository.all()).toEqual([
       {
         token: {
           name,
@@ -192,17 +205,18 @@ describe(useTokensInfo.name, () => {
         }),
       ],
       args: {
-        tokens: [
-          {
+        tokenConfigs: [
+          defineToken({
+            symbol: TokenSymbol('DAI'),
             address: token,
             oracleType: 'fixed-usd',
-          },
+          }),
         ],
       },
     })
 
-    await waitFor(() => expect(result.current.status).toBe('success'))
-    expect(result.current.tokensInfo.all()).toEqual([
+    await waitFor(() => expect(result.current.tokenRepository).not.toBeNull())
+    expect(result.current.tokenRepository.all()).toEqual([
       {
         token: {
           name,
@@ -236,17 +250,18 @@ describe(useTokensInfo.name, () => {
       ],
       chain: gnosis,
       args: {
-        tokens: [
-          {
+        tokenConfigs: [
+          defineToken({
+            symbol: TokenSymbol(symbol),
             address: CheckedAddress.EEEE(),
             oracleType: 'fixed-usd',
-          },
+          }),
         ],
       },
     })
 
-    await waitFor(() => expect(result.current.status).toBe('success'))
-    expect(result.current.tokensInfo.all()).toEqual([
+    await waitFor(() => expect(result.current.tokenRepository).not.toBeNull())
+    expect(result.current.tokenRepository.all()).toEqual([
       {
         token: {
           name,
@@ -283,17 +298,18 @@ describe(useTokensInfo.name, () => {
       ],
       chain: gnosis,
       args: {
-        tokens: [
-          {
+        tokenConfigs: [
+          defineToken({
+            symbol: TokenSymbol(symbol),
             address: CheckedAddress.EEEE(),
             oracleType: 'fixed-usd',
-          },
+          }),
         ],
       },
     })
 
-    await waitFor(() => expect(result.current.status).toBe('success'))
-    expect(result.current.tokensInfo.all()).toEqual([
+    await waitFor(() => expect(result.current.tokenRepository).not.toBeNull())
+    expect(result.current.tokenRepository.all()).toEqual([
       {
         token: {
           name,

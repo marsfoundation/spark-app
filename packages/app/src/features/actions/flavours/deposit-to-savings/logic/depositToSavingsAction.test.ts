@@ -11,8 +11,8 @@ import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { EPOCH_LENGTH } from '@/domain/market-info/consts'
 import { PotSavingsConverter } from '@/domain/savings-converters/PotSavingsConverter'
 import { SavingsAccountRepository } from '@/domain/savings-converters/types'
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
 import { testAddresses, testTokens } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
@@ -33,7 +33,7 @@ const usds = testTokens.USDS
 const susds = testTokens.sUSDS
 const usdc = testTokens.USDC
 const susdc = testTokens.sUSDC
-const mockTokensInfo = new TokensInfo(
+const mockTokenRepository = new TokenRepository(
   [
     { token: dai, balance: NormalizedUnitNumber(100) },
     { token: sdai, balance: NormalizedUnitNumber(100) },
@@ -86,7 +86,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
       args: {
         action: { type: 'depositToSavings', token: dai, savingsToken: sdai, value: depositValue },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo },
+        context: { tokenRepository: mockTokenRepository },
       },
       chain: mainnet,
       extraHandlers: [
@@ -126,7 +126,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
       args: {
         action: { type: 'depositToSavings', token: usdc, savingsToken: sdai, value: depositValue },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo },
+        context: { tokenRepository: mockTokenRepository },
       },
       extraHandlers: [
         handlers.contractCall({
@@ -168,7 +168,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
       args: {
         action: { type: 'depositToSavings', token: dai, savingsToken: susds, value: depositValue },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo },
+        context: { tokenRepository: mockTokenRepository },
       },
       extraHandlers: [
         handlers.contractCall({
@@ -211,7 +211,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
       args: {
         action: { type: 'depositToSavings', token: usdc, savingsToken: susds, value: depositValue },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo },
+        context: { tokenRepository: mockTokenRepository },
       },
       extraHandlers: [
         handlers.contractCall({
@@ -258,7 +258,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
       args: {
         action: { type: 'depositToSavings', token: usdc, savingsToken: susdc, value: depositValue },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo, savingsAccounts: savingsAccountsWithSusdc },
+        context: { tokenRepository: mockTokenRepository, savingsAccounts: savingsAccountsWithSusdc },
       },
       extraHandlers: [
         handlers.contractCall({

@@ -28,7 +28,7 @@ export function createWithdrawFromSavingsActions(
   objective: WithdrawFromSavingsObjective,
   context: ActionContext,
 ): Action[] {
-  const tokensInfo = context.tokensInfo ?? raise('Tokens info is required for deposit to savings action')
+  const tokenRepository = context.tokenRepository ?? raise('Tokens info is required for deposit to savings action')
   const chainId = context.chainId
 
   const withdrawAction: WithdrawFromSavingsAction = {
@@ -53,7 +53,7 @@ export function createWithdrawFromSavingsActions(
   const actionPath = getSavingsWithdrawActionPath({
     token: objective.token,
     savingsToken: objective.savingsToken,
-    tokensInfo,
+    tokenRepository,
     chainId,
   })
 

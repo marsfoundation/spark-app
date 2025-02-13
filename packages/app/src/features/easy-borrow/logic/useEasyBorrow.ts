@@ -11,9 +11,9 @@ import { UserPositionSummary } from '@/domain/market-info/marketInfo'
 import { updatePositionSummary } from '@/domain/market-info/updatePositionSummary'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { useOpenDialog } from '@/domain/state/dialogs'
+import { useTokenRepositoryForFeature } from '@/domain/token-repository/useTokenRepositoryForFeature'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { useMarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
-import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { sandboxDialogConfig } from '@/features/dialogs/sandbox/SandboxDialog'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -72,16 +72,16 @@ export function useEasyBorrow(): UseEasyBorrowResults {
   const { aaveData } = useAaveDataLayer({ chainId })
   const { marketInfo } = useMarketInfo({ chainId })
   const { marketInfo: marketInfoIn1Epoch } = useMarketInfo({ timeAdvance: EPOCH_LENGTH, chainId })
-  const { extraTokens, daiSymbol, usdsSymbol, markets } = getChainConfigEntry(marketInfo.chainId)
+  const { daiSymbol, usdsSymbol, markets } = getChainConfigEntry(marketInfo.chainId)
   const { nativeAssetInfo, defaultAssetToBorrow } = markets ?? {}
   assert(
     nativeAssetInfo && defaultAssetToBorrow && daiSymbol,
     'Markets config and dai symbol are required for easy borrow',
   )
-  const { tokensInfo } = useTokensInfo({ tokens: extraTokens, chainId })
+  const { tokenRepository } = useTokenRepositoryForFeature({ chainId, featureGroup: 'borrow' })
   const walletInfo = useMarketWalletInfo({ chainId })
 
-  const upgradeOptions = useUpgradeOptions({ chainId, daiSymbol })
+  const upgradeOptions = useUpgradeOptions({ chainId, daiSymbol, tokenRepository })
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')
 
@@ -184,7 +184,8 @@ export function useEasyBorrow(): UseEasyBorrowResults {
   const borrowDetails = {
     dai: daiSymbol,
     usds: usdsSymbol,
-    borrowRate: marketInfo.findOneReserveBySymbol(defaultAssetToBorrow).variableBorrowApy ?? raise('No borrow rate'),
+    borrowRate:
+      marketInfo.findOneReserveBySymbol(defaultAssetToBorrow.symbol).variableBorrowApy ?? raise('No borrow rate'),
     isUpgradingToUsds: formValues.borrows[0]?.token.symbol === usdsSymbol,
   }
 
@@ -247,7 +248,7 @@ export function useEasyBorrow(): UseEasyBorrowResults {
     riskAcknowledgement,
     actionsContext: {
       marketInfo,
-      tokensInfo,
+      tokenRepository,
     },
   }
 }

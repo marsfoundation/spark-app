@@ -9,8 +9,8 @@ import { UnstakeAction, UnstakeObjective } from '../types'
 import { getUnstakeActionPath } from './getUnstakeActionPath'
 
 export function createUnstakeActions(objective: UnstakeObjective, context: ActionContext): Action[] {
-  const { farmsInfo, chainId, tokensInfo } = context
-  assert(farmsInfo && tokensInfo, 'Farms info and tokens info are required for stake action')
+  const { farmsInfo, chainId, tokenRepository } = context
+  assert(farmsInfo && tokenRepository, 'Farms info and tokens info are required for stake action')
 
   const { stakingToken, rewardToken } = farmsInfo.findOneFarmByAddress(objective.farm)
 
@@ -25,7 +25,7 @@ export function createUnstakeActions(objective: UnstakeObjective, context: Actio
 
   const actionPath = getUnstakeActionPath({
     token: objective.token,
-    tokensInfo,
+    tokenRepository,
     stakingToken,
   })
 
@@ -61,7 +61,7 @@ export function createUnstakeActions(objective: UnstakeObjective, context: Actio
 
       const convertToUsdcAction: PsmConvertAction = {
         type: 'psmConvert',
-        inToken: tokensInfo.USDS ?? raise('USDS token is required for usds psm convert action'),
+        inToken: tokenRepository.USDS ?? raise('USDS token is required for usds psm convert action'),
         outToken: objective.token,
         amount: objective.amount,
       }

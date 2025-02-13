@@ -8,8 +8,8 @@ import {
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { PotSavingsConverter } from '@/domain/savings-converters/PotSavingsConverter'
 import { SavingsAccountRepository } from '@/domain/savings-converters/types'
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
 import { testAddresses, testTokens } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
@@ -31,7 +31,7 @@ const usds = testTokens.USDS
 const susds = testTokens.sUSDS
 const susdc = testTokens.sUSDC
 const usdc = testTokens.USDC
-const mockTokensInfo = new TokensInfo(
+const mockTokenRepository = new TokenRepository(
   [
     { token: dai, balance: NormalizedUnitNumber(100) },
     { token: sdai, balance: NormalizedUnitNumber(100) },
@@ -108,7 +108,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           mode: 'withdraw',
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo },
+        context: { tokenRepository: mockTokenRepository },
       },
       chain: mainnet,
       extraHandlers: [
@@ -152,7 +152,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           mode: 'withdraw',
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo },
+        context: { tokenRepository: mockTokenRepository },
       },
       chain: mainnet,
       extraHandlers: [
@@ -197,7 +197,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           receiver,
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo },
+        context: { tokenRepository: mockTokenRepository },
       },
       chain: mainnet,
       extraHandlers: [
@@ -242,7 +242,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           receiver,
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo },
+        context: { tokenRepository: mockTokenRepository },
       },
       chain: mainnet,
       extraHandlers: [
@@ -286,7 +286,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           mode: 'withdraw',
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo, savingsAccounts: savingsAccountsWithSdai },
+        context: { tokenRepository: mockTokenRepository, savingsAccounts: savingsAccountsWithSdai },
       },
       extraHandlers: [
         handlers.contractCall({
@@ -331,7 +331,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           mode: 'withdraw',
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo, savingsAccounts: savingsAccountsWithSdai },
+        context: { tokenRepository: mockTokenRepository, savingsAccounts: savingsAccountsWithSdai },
       },
       extraHandlers: [
         handlers.contractCall({
@@ -381,7 +381,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           receiver,
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo, savingsAccounts: savingsAccountsWithSdai },
+        context: { tokenRepository: mockTokenRepository, savingsAccounts: savingsAccountsWithSdai },
       },
       extraHandlers: [
         handlers.contractCall({
@@ -427,7 +427,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           receiver,
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo, savingsAccounts: savingsAccountsWithSdai },
+        context: { tokenRepository: mockTokenRepository, savingsAccounts: savingsAccountsWithSdai },
       },
       extraHandlers: [
         handlers.contractCall({
@@ -476,7 +476,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           mode: 'withdraw',
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo, savingsAccounts: savingsAccountsWithSusds },
+        context: { tokenRepository: mockTokenRepository, savingsAccounts: savingsAccountsWithSusds },
       },
       extraHandlers: [
         handlers.contractCall({
@@ -526,7 +526,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           mode: 'withdraw',
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo, savingsAccounts: savingsAccountsWithSusds },
+        context: { tokenRepository: mockTokenRepository, savingsAccounts: savingsAccountsWithSusds },
       },
       extraHandlers: [
         handlers.contractCall({
@@ -581,7 +581,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           receiver,
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo, savingsAccounts: savingsAccountsWithSusds },
+        context: { tokenRepository: mockTokenRepository, savingsAccounts: savingsAccountsWithSusds },
       },
       extraHandlers: [
         handlers.contractCall({
@@ -632,7 +632,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           receiver,
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo, savingsAccounts: savingsAccountsWithSusds },
+        context: { tokenRepository: mockTokenRepository, savingsAccounts: savingsAccountsWithSusds },
       },
       extraHandlers: [
         handlers.contractCall({
@@ -686,7 +686,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           mode: 'withdraw',
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo },
+        context: { tokenRepository: mockTokenRepository },
       },
       chain: mainnet,
       extraHandlers: [
@@ -738,7 +738,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           mode: 'withdraw',
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo },
+        context: { tokenRepository: mockTokenRepository },
       },
       chain: mainnet,
       extraHandlers: [
@@ -790,7 +790,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           mode: 'withdraw',
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo, savingsAccounts: savingsAccountsWithSusdc },
+        context: { tokenRepository: mockTokenRepository, savingsAccounts: savingsAccountsWithSusdc },
       },
       chain: mainnet,
       extraHandlers: [
@@ -839,7 +839,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           mode: 'withdraw',
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo, savingsAccounts: savingsAccountsWithSusdc },
+        context: { tokenRepository: mockTokenRepository, savingsAccounts: savingsAccountsWithSusdc },
       },
       chain: mainnet,
       extraHandlers: [
@@ -889,7 +889,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           receiver,
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo, savingsAccounts: savingsAccountsWithSusdc },
+        context: { tokenRepository: mockTokenRepository, savingsAccounts: savingsAccountsWithSusdc },
       },
       chain: mainnet,
       extraHandlers: [
@@ -939,7 +939,7 @@ describe(createWithdrawFromSavingsActionConfig.name, () => {
           receiver,
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo, savingsAccounts: savingsAccountsWithSusdc },
+        context: { tokenRepository: mockTokenRepository, savingsAccounts: savingsAccountsWithSusdc },
       },
       chain: mainnet,
       extraHandlers: [
