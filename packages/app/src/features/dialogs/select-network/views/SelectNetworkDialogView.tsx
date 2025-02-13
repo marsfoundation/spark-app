@@ -42,7 +42,7 @@ export function SelectNetworkDialogView({ chains }: SelectNetworkDialogViewProps
                 <NetworkStatusBadge status="pending" />
               ) : undefined}
             </div>
-            <div className="typography-label-4 p-4">
+            <div className="typography-label-4 p-4 text-left">
               <span className="text-secondary">Network available for:</span> {chain.supportedPages.join(', ')}
             </div>
           </button>
