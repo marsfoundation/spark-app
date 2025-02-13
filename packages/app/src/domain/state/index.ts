@@ -27,7 +27,6 @@ import {
   persistSandboxSlice,
   unPersistSandboxSlice,
 } from './sandbox'
-import { PersistedSavingsSlice, SavingsSlice, initSavingsSlice, persistSavingsSlice } from './savings'
 
 export type StoreState = {
   appConfig: AppConfig
@@ -36,11 +35,10 @@ export type StoreState = {
   ActionsSettingsSlice &
   ComplianceSlice &
   AnalyticsSlice &
-  SavingsSlice &
   BannersVisibilitySlice
 
 export type PersistedState = Serializable<
-  PersistedSandboxSlice & PersistedActionsSettingsSlice & PersistedComplianceSlice & PersistedSavingsSlice
+  PersistedSandboxSlice & PersistedActionsSettingsSlice & PersistedComplianceSlice
 >
 
 export const storeImplementation = persist<StoreState, [], [], PersistedState>(
@@ -51,7 +49,6 @@ export const storeImplementation = persist<StoreState, [], [], PersistedState>(
       ...initComplianceSlice(...a),
       ...initAnalyticsSlice(...a),
       ...initSandboxSlice(...a),
-      ...initSavingsSlice(...a),
       ...initBannersVisibilitySlice(...a),
       appConfig: getAppConfig(),
     }
@@ -64,7 +61,6 @@ export const storeImplementation = persist<StoreState, [], [], PersistedState>(
       ...persistActionsSettingsSlice(state),
       ...persistComplianceSlice(state),
       ...persistAnalyticsSlice(state),
-      ...persistSavingsSlice(state),
       ...persistBannersVisibilitySlice(state),
     }),
     merge: (_persistedState, currentState) => {
