@@ -1,9 +1,9 @@
 import { TokenWithBalance } from '@/domain/common/types'
 import { Token } from '@/domain/types/Token'
-import { links } from '@/ui/constants/links'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { MigrationInfo } from '../../logic/makeMigrationInfo'
 import { ChartsData, InterestData, SavingsAccountSupportedStablecoin } from '../../logic/useSavings'
+import { AccountMetadata } from '../../types'
 import { AccountMainPanelGroup } from '../account-main-panel-group/AccountMainPanelGroup'
 import { DepositCTAPanel } from '../deposit-cta-panel/DepositCTAPanel'
 import { EntryAssetsPanel } from '../entry-assets-panel/EntryAssetsPanel'
@@ -28,6 +28,7 @@ export interface SavingsAccountProps {
   guestMode: boolean
   isInSandbox: boolean
   migrationInfo?: MigrationInfo
+  metadata: AccountMetadata
 }
 
 export function SavingsAccount({
@@ -48,6 +49,7 @@ export function SavingsAccount({
   guestMode,
   isInSandbox,
   migrationInfo,
+  metadata,
 }: SavingsAccountProps) {
   const displayDepositCallToAction = guestMode || savingsTokenBalance.eq(0)
   const displayUpgradeBanner = migrationInfo !== undefined && savingsTokenBalance.gt(0)
@@ -63,12 +65,14 @@ export function SavingsAccount({
       {displayDepositCallToAction ? (
         <DepositCTAPanel
           savingsRate={interestData.APY}
+          apyExplainer={metadata.apyExplainer}
+          apyExplainerDocsLink={metadata.apyExplainerDocsLink}
           entryTokens={supportedStablecoins.map((asset) => asset.token)}
           savingsToken={savingsToken}
           isInSandbox={isInSandbox}
           description={{
-            text: `Deposit to Savings ${underlyingToken.symbol} to tap into the most predictable savings rate at scale! Learn more about it `,
-            docsLink: links.docs.earningSavings,
+            text: metadata.description,
+            docsLink: metadata.descriptionDocsLink,
           }}
           actions={{
             primary: primaryAction,
@@ -88,6 +92,8 @@ export function SavingsAccount({
           openWithdrawDialog={openWithdrawDialog}
           oneYearProjection={interestData.oneYearProjection}
           apy={interestData.APY}
+          apyExplainer={metadata.apyExplainer}
+          apyExplainerDocsLink={metadata.apyExplainerDocsLink}
           className="min-h-[352px]"
         />
       )}

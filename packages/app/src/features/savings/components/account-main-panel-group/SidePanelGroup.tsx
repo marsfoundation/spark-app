@@ -1,5 +1,6 @@
 import { formatPercentage } from '@/domain/common/format'
 import { Token } from '@/domain/types/Token'
+import { Link } from '@/ui/atoms/link/Link'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 import { testIds } from '@/ui/utils/testIds'
@@ -12,6 +13,8 @@ export interface SidePanelGroupProps {
   savingsTokenBalance: NormalizedUnitNumber
   oneYearProjection: NormalizedUnitNumber
   apy: Percentage
+  apyExplainer: string
+  apyExplainerDocsLink: string
   className?: string
 }
 export function SidePanelGroup({
@@ -20,13 +23,24 @@ export function SidePanelGroup({
   savingsTokenBalance,
   oneYearProjection,
   apy,
+  apyExplainer,
+  apyExplainerDocsLink,
   className,
 }: SidePanelGroupProps) {
   return (
     <div className={className}>
       <div className="grid grid-rows-3 gap-2">
         <SidePanel>
-          <AdditionalInfo.Label tooltipText="Current annual interest rate. It is determined on-chain by the Sky Ecosystem Governance.">
+          <AdditionalInfo.Label
+            tooltipContent={
+              <>
+                {apyExplainer}{' '}
+                <Link to={apyExplainerDocsLink} external>
+                  Learn more
+                </Link>
+              </>
+            }
+          >
             APY
           </AdditionalInfo.Label>
           <AdditionalInfo.Content>
@@ -39,7 +53,7 @@ export function SidePanelGroup({
           </AdditionalInfo.Content>
         </SidePanel>
         <SidePanel>
-          <AdditionalInfo.Label tooltipText="This is an estimate of what you could earn in 1 year.">
+          <AdditionalInfo.Label tooltipContent="This is an estimate of what you could earn in 1 year.">
             1-year Projection
           </AdditionalInfo.Label>
           <AdditionalInfo.Content>

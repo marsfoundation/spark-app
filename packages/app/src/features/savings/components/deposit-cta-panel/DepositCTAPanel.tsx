@@ -17,6 +17,8 @@ export interface DepositCTAPanelProps {
     text: string
     docsLink: string
   }
+  apyExplainer: string
+  apyExplainerDocsLink: string
   actions: {
     primary: {
       title: 'Connect Wallet' | 'Deposit'
@@ -36,6 +38,8 @@ export function DepositCTAPanel({
   entryTokens,
   savingsToken,
   description,
+  apyExplainer,
+  apyExplainerDocsLink,
   actions,
   isInSandbox,
   className,
@@ -51,7 +55,13 @@ export function DepositCTAPanel({
       data-testid={testIds.savings.account.depositCTA.panel}
     >
       <div className="flex flex-col gap-4 md:justify-between">
-        <Header savingsRate={savingsRate} savingsToken={savingsToken} inputTokens={entryTokens} />
+        <Header
+          savingsRate={savingsRate}
+          savingsToken={savingsToken}
+          inputTokens={entryTokens}
+          apyExplainer={apyExplainer}
+          apyExplainerDocsLink={apyExplainerDocsLink}
+        />
         <Details entryTokens={entryTokens} savingsToken={savingsToken} description={description} />
       </div>
       <Actions actions={actions} isInSandbox={isInSandbox} className="mt-auto" />

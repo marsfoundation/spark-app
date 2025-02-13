@@ -2,7 +2,7 @@ import { getTokenImage } from '@/ui/assets'
 import { Link } from '@/ui/atoms/link/Link'
 import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
 import { cva } from 'class-variance-authority'
-import { ChevronsRight } from 'lucide-react'
+import { ChevronsRight, ExternalLinkIcon } from 'lucide-react'
 import { savingsTokenToAccountType } from '../../common/utils'
 import { DepositCTAPanelProps } from '../DepositCTAPanel'
 
@@ -22,12 +22,11 @@ export function Details({ description, entryTokens, savingsToken }: DetailsProps
           iconBorder={{ borderColorClass: 'border-transparent' }}
         />
       </div>
-      <div className="typography-body-3 max-w-96 text-tertiary">
+      <div className="typography-body-3 flex max-w-[48ch] flex-col text-tertiary">
         {description.text}{' '}
-        <Link to={description.docsLink} className="text-savings" external>
-          here
+        <Link to={description.docsLink} className="flex items-center gap-1 text-savings" external>
+          Learn more <ExternalLinkIcon className="icon-xxs" />
         </Link>
-        .
       </div>
     </div>
   )

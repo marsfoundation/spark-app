@@ -1,5 +1,7 @@
 import { formatPercentage } from '@/domain/common/format'
 import { Token } from '@/domain/types/Token'
+import { Link } from '@/ui/atoms/link/Link'
+import { Info } from '@/ui/molecules/info/Info'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { Percentage } from '@marsfoundation/common-universal'
@@ -9,10 +11,12 @@ import { savingsTokenToAccountType } from '../../common/utils'
 export interface HeaderProps {
   savingsToken: Token
   savingsRate: Percentage
+  apyExplainer: string
+  apyExplainerDocsLink: string
   inputTokens: Token[]
 }
 
-export function Header({ savingsToken, savingsRate, inputTokens }: HeaderProps) {
+export function Header({ savingsToken, savingsRate, inputTokens, apyExplainer, apyExplainerDocsLink }: HeaderProps) {
   return (
     <div
       className={cn(
@@ -28,6 +32,14 @@ export function Header({ savingsToken, savingsRate, inputTokens }: HeaderProps) 
           {formatPercentage(savingsRate, { minimumFractionDigits: 0 })}
         </span>{' '}
         APY!
+        <Info className="mb-2 ml-1 inline text-tertiary">
+          <>
+            {apyExplainer}{' '}
+            <Link to={apyExplainerDocsLink} external>
+              Learn more
+            </Link>
+          </>
+        </Info>
       </div>
     </div>
   )
