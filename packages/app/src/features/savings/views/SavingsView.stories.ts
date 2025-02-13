@@ -266,6 +266,18 @@ export const Dai: Story = {
 export const DaiMobile = getMobileStory(Dai)
 export const DaiTablet = getTabletStory(Dai)
 
+export const DaiNoDeposit: Story = {
+  args: {
+    ...savingsViewSusdsArgs,
+    selectedAccount: {
+      ...savingsDaiAccountDefinition,
+      savingsTokenBalance: NormalizedUnitNumber(0),
+    },
+  } satisfies SavingsViewProps,
+}
+export const DaiNoDepositMobile = getMobileStory(DaiNoDeposit)
+export const DaiNoDepositTablet = getTabletStory(DaiNoDeposit)
+
 export const Usdc: Story = {
   args: {
     ...savingsViewSusdsArgs,
