@@ -4,7 +4,8 @@ import { WithClassname } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
-import { useConvertStablesForm } from '../../logic/form/useConvertStablesForm'
+import { useForm } from 'react-hook-form'
+import { getConvertStablesFormFields } from '../../logic/form/getConvertStablesFormFields'
 import { ConvertStablesForm } from './ConvertStablesForm'
 
 const dai = tokens.DAI
@@ -26,7 +27,9 @@ const psmStables = [tokens.DAI.symbol, tokens.USDC.symbol, tokens.USDS.symbol]
 const meta: Meta<typeof ConvertStablesForm> = {
   title: 'Features/Dialogs/ConvertStables/Components/Form',
   component: () => {
-    const { form, formFields } = useConvertStablesForm({
+    const form = useForm() as any
+    const formFields = getConvertStablesFormFields({
+      form,
       tokenRepository: mockTokenRepository,
       psmStables,
     })

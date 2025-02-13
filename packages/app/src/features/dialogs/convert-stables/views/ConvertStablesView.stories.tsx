@@ -4,7 +4,8 @@ import { WithClassname, WithTooltipProvider, ZeroAllowanceWagmiDecorator } from 
 import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
-import { useConvertStablesForm } from '../logic/form/useConvertStablesForm'
+import { useForm } from 'react-hook-form'
+import { getConvertStablesFormFields } from '../logic/form/getConvertStablesFormFields'
 import { ConvertStablesView } from './ConvertStablesView'
 
 const dai = tokens.DAI
@@ -27,7 +28,9 @@ const meta: Meta<typeof ConvertStablesView> = {
   title: 'Features/Dialogs/Views/ConvertStables/ConvertStablesView',
   decorators: [ZeroAllowanceWagmiDecorator(), WithClassname('max-w-xl'), WithTooltipProvider()],
   component: (args) => {
-    const { form, formFields } = useConvertStablesForm({
+    const form = useForm() as any
+    const formFields = getConvertStablesFormFields({
+      form,
       tokenRepository: mockTokenRepository,
       psmStables,
     })
