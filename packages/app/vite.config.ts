@@ -1,6 +1,7 @@
 import { execSync } from 'node:child_process'
 import { sentryVitePlugin } from '@sentry/vite-plugin'
 import react from '@vitejs/plugin-react-swc'
+import { nodePolyfills } from 'vite-plugin-node-polyfills'
 import svgr from 'vite-plugin-svgr'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import { defineConfig } from 'vitest/config'
@@ -24,6 +25,11 @@ export default defineConfig({
   },
 
   plugins: [
+    // nodePolyfills needs to be first
+    nodePolyfills({
+      // buffer is needed when connecting with a coinbase wallet installed on a phone
+      include: ['buffer'],
+    }),
     react(),
     tsconfigPaths(),
     svgr(),
