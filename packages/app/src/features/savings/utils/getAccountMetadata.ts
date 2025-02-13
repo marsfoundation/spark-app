@@ -21,6 +21,9 @@ function getAccountDescription({ underlyingToken, chainId }: GetAccountMetadataA
   if (chainId === gnosis.id) {
     return 'Deposit your stablecoins into Savings XDAI to tap into the DAI Savings Rate, which grants you a predictable APY in XDAI.'
   }
+  if (underlyingToken === TokenSymbol('DAI')) {
+    return 'Deposit your stablecoins into Savings DAI to tap into the DAI Savings Rate, which grants you a predictable APY in DAI.'
+  }
   return `Deposit your stablecoins into Savings ${underlyingToken} to tap into the Sky Savings Rate, which grants you a predictable APY in ${underlyingToken}.`
 }
 
