@@ -35,7 +35,7 @@ export const usds: Story = {
     entryTokens: [tokens.USDS, tokens.DAI, tokens.USDC],
     savingsToken: tokens.sUSDS,
     description: {
-      text: 'Deposit to Savings USDS to tap into the most predictable savings rate at scale! Learn more about it ',
+      text: 'Deposit your stablecoins into Savings USDS to tap into the Sky Savings Rate, which grants you a predictable APY in USDS.',
       docsLink: links.docs.savings.susds,
     },
     apyExplainer:
