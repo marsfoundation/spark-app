@@ -1,17 +1,19 @@
 import { psm3Address } from '@/config/contracts-generated'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { ARBITRUM_DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
-import { setup } from '@/test/e2e/setup'
+import { ARBITRUM_DEFAULT_BLOCK_NUMBER, TOKENS_ON_FORK } from '@/test/e2e/constants'
+import { TestContext, setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { arbitrum } from 'viem/chains'
 import { ConvertStablesDialogPageObject } from '../../ConvertStablesDialog.PageObject'
+import { convertStablesValidationIssueToMessage } from '../../logic/form/validator'
 
 test.describe('Convert USDC to USDS', () => {
   let savingsPage: SavingsPageObject
   let convertStablesDialog: ConvertStablesDialogPageObject
+  let testContext: TestContext
 
   test.beforeEach(async ({ page }) => {
-    const testContext = await setup(page, {
+    testContext = await setup(page, {
       blockchain: {
         blockNumber: ARBITRUM_DEFAULT_BLOCK_NUMBER,
         chain: arbitrum,
@@ -72,5 +74,25 @@ test.describe('Convert USDC to USDS', () => {
     await convertStablesDialog.clickBackToSavingsButton()
     await savingsPage.expectSupportedStablecoinBalance('USDC', '-')
     await savingsPage.expectSupportedStablecoinBalance('USDS', '10,000.00')
+  })
+
+  test('fails validation if psm3 usds balance is too low', async ({ page }) => {
+    await testContext.testnetController.client.setErc20Balance(
+      TOKENS_ON_FORK[arbitrum.id].USDS.address,
+      psm3Address[arbitrum.id],
+      0n,
+    )
+    await testContext.testnetController.progressSimulation(5)
+    await page.reload()
+
+    await savingsPage.clickConvertStablesButtonAction()
+    convertStablesDialog = new ConvertStablesDialogPageObject(testContext)
+    await convertStablesDialog.selectAssetInAction('USDC')
+    await convertStablesDialog.selectAssetOutAction('USDS')
+    await convertStablesDialog.fillAmountInAction(10_000)
+
+    await convertStablesDialog.expectAssetInputError(
+      convertStablesValidationIssueToMessage['usds-withdraw-cap-reached'],
+    )
   })
 })
