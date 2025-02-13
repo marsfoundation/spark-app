@@ -112,6 +112,7 @@ export function SavingsAccount({
         openDepositDialog={openDepositDialog}
         openConvertStablesDialog={openConvertStablesDialog}
         showConvertDialogButton={showConvertDialogButton}
+        guestMode={guestMode}
       />
     </div>
   )

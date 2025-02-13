@@ -15,6 +15,7 @@ export interface EntryAssetsPanelProps {
   openDepositDialog: (tokenToDeposit: Token) => void
   openConvertStablesDialog: () => void
   showConvertDialogButton: boolean
+  guestMode: boolean
 }
 
 export function EntryAssetsPanel({
@@ -22,6 +23,7 @@ export function EntryAssetsPanel({
   openDepositDialog,
   openConvertStablesDialog,
   showConvertDialogButton,
+  guestMode,
 }: EntryAssetsPanelProps) {
   const columnDef: DataTableColumnDefinitions<SavingsAccountSupportedStablecoin> = useMemo(
     () => ({
@@ -66,7 +68,10 @@ export function EntryAssetsPanel({
         />
       </div>
       {showConvertDialogButton && (
-        <div className="w-full gap-6 border-primary border-t p-4 md:px-8 md:py-6">
+        <div
+          className="w-full gap-6 border-primary border-t p-4 md:px-8 md:py-6"
+          data-testid={testIds.component.ConvertStablesPanel}
+        >
           <div className="grid grid-cols-[1fr_auto] items-center gap-3">
             <div className="flex items-center gap-3">
               <img src={uiAssets.token.sky} className="h-8 w-8 rounded-full border-2 border-[#DBCAF4]" />
@@ -82,6 +87,7 @@ export function EntryAssetsPanel({
               variant="secondary"
               onClick={openConvertStablesDialog}
               data-testid={testIds.component.ConvertStablesButton}
+              disabled={guestMode}
             >
               Convert
             </Button>

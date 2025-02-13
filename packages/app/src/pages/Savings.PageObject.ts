@@ -132,5 +132,17 @@ export class SavingsPageObject extends BasePageObject {
     await expect(this.locateUpgradeSDaiBanner()).toBeHidden()
   }
 
+  async expectConvertStablesButtonToBeDisabled(): Promise<void> {
+    await expect(this.locateConvertStablesButton()).toBeDisabled()
+  }
+
+  async expectConvertStablesPanelToBeHidden(): Promise<void> {
+    await expect(this.page.getByTestId(testIds.component.ConvertStablesPanel)).toBeHidden()
+  }
+
+  async expectConvertStablesButtonToBeEnabled(): Promise<void> {
+    await expect(this.locateConvertStablesButton()).toBeEnabled()
+  }
+
   // #endregion
 }

@@ -40,6 +40,7 @@ export const testIds = makeTestIds({
       input: true,
       error: true,
     },
+    ConvertStablesPanel: true,
     ConvertStablesButton: true,
     SwitchNotSupportedNetworkButton: true,
     ConnectOrSandboxCTAPanel: true,
