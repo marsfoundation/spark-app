@@ -1,5 +1,6 @@
 import { formatPercentage } from '@/domain/common/format'
 import { Token } from '@/domain/types/Token'
+import { Link } from '@/ui/atoms/link/Link'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 import { cn } from '@/ui/utils/style'
@@ -12,6 +13,8 @@ export interface BottomPanelProps {
   savingsToken: Token
   savingsTokenBalance: NormalizedUnitNumber
   apy: Percentage
+  apyExplainer: string
+  apyExplainerDocsLink: string
   oneYearProjection: NormalizedUnitNumber
   className?: string
 }
@@ -21,13 +24,24 @@ export function BottomPanel({
   savingsToken,
   savingsTokenBalance,
   apy,
+  apyExplainer,
+  apyExplainerDocsLink,
   oneYearProjection,
   className,
 }: BottomPanelProps) {
   return (
     <Panel variant="secondary" className={cn('flex flex-col gap-3', className)}>
       <BottomPanelItem>
-        <AdditionalInfo.Label tooltipText="Current annual interest rate. It is determined on-chain by the Sky Ecosystem Governance.">
+        <AdditionalInfo.Label
+          tooltipContent={
+            <>
+              {apyExplainer}{' '}
+              <Link to={apyExplainerDocsLink} external>
+                Learn more
+              </Link>
+            </>
+          }
+        >
           APY
         </AdditionalInfo.Label>
         <AdditionalInfo.Content>
@@ -37,7 +51,7 @@ export function BottomPanel({
         </AdditionalInfo.Content>
       </BottomPanelItem>
       <BottomPanelItem>
-        <AdditionalInfo.Label tooltipText="This is an estimate of what you could earn in 1 year.">
+        <AdditionalInfo.Label tooltipContent="This is an estimate of what you could earn in 1 year.">
           1-year projection
         </AdditionalInfo.Label>
         <AdditionalInfo.Content>

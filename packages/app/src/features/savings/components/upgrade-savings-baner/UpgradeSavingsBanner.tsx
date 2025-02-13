@@ -53,7 +53,7 @@ export function UpgradeSavingsBanner({ onUpgradeSavingsClick, apyImprovement }: 
           <Button variant="secondary" size="m" onClick={onUpgradeSavingsClick}>
             Upgrade now
           </Button>
-          <LinkButton to={links.docs.upgradeSdai} external variant="tertiary" size="m">
+          <LinkButton to={links.docs.savings.upgradeSdai} external variant="tertiary" size="m">
             Learn more
           </LinkButton>
         </div>

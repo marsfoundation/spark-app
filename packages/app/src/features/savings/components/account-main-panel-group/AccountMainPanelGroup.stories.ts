@@ -1,3 +1,4 @@
+import { links } from '@/ui/constants/links'
 import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { WithClassname, WithTooltipProvider } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
@@ -22,6 +23,9 @@ const meta: Meta<typeof AccountMainPanelGroup> = {
     openWithdrawDialog: () => {},
     oneYearProjection: NormalizedUnitNumber(3125.0),
     apy: Percentage(0.125),
+    apyExplainer:
+      'Current annual interest in the Sky Savings Module. It is determined on-chain by the Sky Ecosystem Governance. Please note that these protocol mechanisms are subject to change.',
+    apyExplainerDocsLink: links.docs.savings.susds,
   },
 }
 

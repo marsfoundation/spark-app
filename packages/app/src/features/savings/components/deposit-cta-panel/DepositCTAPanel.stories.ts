@@ -36,8 +36,11 @@ export const usds: Story = {
     savingsToken: tokens.sUSDS,
     description: {
       text: 'Deposit to Savings USDS to tap into the most predictable savings rate at scale! Learn more about it ',
-      docsLink: links.docs.earningSavings,
+      docsLink: links.docs.savings.susds,
     },
+    apyExplainer:
+      'Current annual interest in the Sky Savings Module. It is determined on-chain by the Sky Ecosystem Governance. Please note that these protocol mechanisms are subject to change.',
+    apyExplainerDocsLink: links.docs.savings.susds,
   },
 }
 export const usdsMobile = getMobileStory(usds)
@@ -48,8 +51,8 @@ export const usdsDisconnected: Story = {
     entryTokens: [tokens.USDS, tokens.DAI, tokens.USDC],
     savingsToken: tokens.sUSDS,
     description: {
-      text: 'Deposit to Savings USDS to tap into the most predictable savings rate at scale! Learn more about it ',
-      docsLink: links.docs.earningSavings,
+      text: 'Deposit your stablecoins into Savings USDS to tap into the Sky Savings Rate, which grants you a predictable APY in USDS.',
+      docsLink: links.docs.savings.susds,
     },
     actions: {
       primary: {
@@ -61,6 +64,9 @@ export const usdsDisconnected: Story = {
         action: () => {},
       },
     },
+    apyExplainer:
+      'Current annual interest in the Sky Savings Module. It is determined on-chain by the Sky Ecosystem Governance. Please note that these protocol mechanisms are subject to change.',
+    apyExplainerDocsLink: links.docs.savings.susds,
   },
 }
 
@@ -69,9 +75,12 @@ export const usdc: Story = {
     entryTokens: [tokens.USDC],
     savingsToken: tokens.sUSDC,
     description: {
-      text: 'Deposit to Savings USDC to tap into the most predictable savings rate at scale! Learn more about it ',
-      docsLink: links.docs.earningSavings,
+      text: 'Deposit your stablecoins into Savings USDC to tap into the Sky Savings Rate, which grants you a predictable APY in USDC.',
+      docsLink: links.docs.savings.susds,
     },
+    apyExplainer:
+      'Current annual interest in the Sky Savings Module. It is determined on-chain by the Sky Ecosystem Governance. Please note that these protocol mechanisms are subject to change.',
+    apyExplainerDocsLink: links.docs.savings.susds,
   },
 }
 export const usdcMobile = getMobileStory(usdc)
@@ -82,9 +91,12 @@ export const dai: Story = {
     entryTokens: [tokens.USDS, tokens.DAI, tokens.USDC],
     savingsToken: tokens.sDAI,
     description: {
-      text: 'Deposit to Savings DAI to tap into the most predictable savings rate at scale! Learn more about it ',
-      docsLink: links.docs.earningSavings,
+      text: 'Deposit your stablecoins into Savings DAI to tap into the Sky Savings Rate, which grants you a predictable APY in DAI.',
+      docsLink: links.docs.savings.sdai,
     },
+    apyExplainer:
+      'Current annual interest rate for DAI deposited into the Sky Savings Module. It is determined on-chain by the Sky Ecosystem Governance. Please note that these protocol mechanisms are subject to change.',
+    apyExplainerDocsLink: links.docs.savings.sdai,
   },
 }
 export const daiMobile = getMobileStory(dai)

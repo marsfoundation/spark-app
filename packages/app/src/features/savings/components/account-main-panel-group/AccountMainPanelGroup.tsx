@@ -22,6 +22,8 @@ export interface AccountMainPanelGroupProps {
   openWithdrawDialog: () => void
   oneYearProjection: NormalizedUnitNumber
   apy: Percentage
+  apyExplainer: string
+  apyExplainerDocsLink: string
   className?: string
 }
 
@@ -36,6 +38,8 @@ export function AccountMainPanelGroup({
   openWithdrawDialog,
   calculateUnderlyingTokenBalance,
   balanceRefreshIntervalInMs,
+  apyExplainer,
+  apyExplainerDocsLink,
   className,
 }: AccountMainPanelGroupProps) {
   return (
@@ -77,6 +81,8 @@ export function AccountMainPanelGroup({
         savingsToken={savingsToken}
         savingsTokenBalance={savingsTokenBalance}
         apy={apy}
+        apyExplainer={apyExplainer}
+        apyExplainerDocsLink={apyExplainerDocsLink}
         oneYearProjection={oneYearProjection}
         className="hidden lg:block"
       />
@@ -85,6 +91,8 @@ export function AccountMainPanelGroup({
         savingsToken={savingsToken}
         savingsTokenBalance={savingsTokenBalance}
         apy={apy}
+        apyExplainer={apyExplainer}
+        apyExplainerDocsLink={apyExplainerDocsLink}
         oneYearProjection={oneYearProjection}
         className="lg:hidden"
       />

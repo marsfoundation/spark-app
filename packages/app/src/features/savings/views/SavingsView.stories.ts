@@ -2,6 +2,7 @@ import { MY_EARNINGS_TIMEFRAMES } from '@/domain/savings-charts/useMyEarningsInf
 import { UseMyEarningsInfoResult } from '@/domain/savings-charts/useMyEarningsInfo/useMyEarningsInfo'
 import { SAVINGS_RATE_TIMEFRAMES } from '@/domain/savings-charts/useSavingsRateInfo/common'
 import { UseSavingsRateInfoResult } from '@/domain/savings-charts/useSavingsRateInfo/useSavingsRateInfo'
+import { links } from '@/ui/constants/links'
 import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { WithTooltipProvider } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
@@ -114,6 +115,14 @@ const savingsUsdsAccountDefinition = {
   chartsData,
   showConvertDialogButton: true,
   interestData,
+  metadata: {
+    description:
+      'Deposit your stablecoins into Savings USDS to tap into the Sky Savings Rate, which grants you a predictable APY in USDS.',
+    apyExplainer:
+      'Current annual interest in the Sky Savings Module. It is determined on-chain by the Sky Ecosystem Governance. Please note that these protocol mechanisms are subject to change.',
+    apyExplainerDocsLink: links.docs.savings.susds,
+    descriptionDocsLink: links.docs.savings.susds,
+  },
 } satisfies AccountDefinition
 
 const shortSavingsUsdsAccountDefinition = {
@@ -137,6 +146,14 @@ const savingsUsdcAccountDefinition = {
   chartsData,
   showConvertDialogButton: true,
   interestData,
+  metadata: {
+    description:
+      'Deposit your stablecoins into Savings USDC to tap into the Sky Savings Rate, which grants you a predictable APY in USDC.',
+    apyExplainer:
+      'Current annual interest in the Sky Savings Module. It is determined on-chain by the Sky Ecosystem Governance. Please note that these protocol mechanisms are subject to change.',
+    apyExplainerDocsLink: links.docs.savings.susds,
+    descriptionDocsLink: links.docs.savings.susds,
+  },
 } satisfies AccountDefinition
 
 const shortSavingsUsdcAccountDefinition = {
@@ -174,6 +191,14 @@ const savingsDaiAccountDefinition = {
   showConvertDialogButton: true,
   migrationInfo,
   interestData,
+  metadata: {
+    description:
+      'Deposit your stablecoins into Savings DAI to tap into the Sky Savings Rate, which grants you a predictable APY in DAI.',
+    apyExplainer:
+      'Current annual interest rate for DAI deposited into the Sky Savings Module. It is determined on-chain by the Sky Ecosystem Governance. Please note that these protocol mechanisms are subject to change.',
+    apyExplainerDocsLink: links.docs.savings.sdai,
+    descriptionDocsLink: links.docs.savings.sdai,
+  },
 } satisfies AccountDefinition
 
 const shortSavingsDaiAccountDefinition = {
