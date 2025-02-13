@@ -5,6 +5,7 @@ import { MigrationInfo } from '../../logic/makeMigrationInfo'
 import { ChartsData, InterestData, SavingsAccountSupportedStablecoin } from '../../logic/useSavings'
 import { AccountMetadata } from '../../types'
 import { AccountMainPanelGroup } from '../account-main-panel-group/AccountMainPanelGroup'
+import { DaiLegacyAccountBanner } from '../dai-legacy-account-banner/DaiLegacyAccountBanner'
 import { DepositCTAPanel } from '../deposit-cta-panel/DepositCTAPanel'
 import { EntryAssetsPanel } from '../entry-assets-panel/EntryAssetsPanel'
 import { SavingsCharts } from '../savings-charts/SavingsCharts'
@@ -53,6 +54,7 @@ export function SavingsAccount({
 }: SavingsAccountProps) {
   const displayDepositCallToAction = guestMode || savingsTokenBalance.eq(0)
   const displayUpgradeBanner = migrationInfo !== undefined && savingsTokenBalance.gt(0)
+  const displayDaiLegacyBanner = migrationInfo !== undefined && savingsTokenBalance.eq(0)
   const primaryAction = guestMode
     ? { title: 'Connect Wallet' as const, action: openConnectModal }
     : {
@@ -97,6 +99,7 @@ export function SavingsAccount({
           className="min-h-[352px]"
         />
       )}
+      {displayDaiLegacyBanner && <DaiLegacyAccountBanner apyImprovement={migrationInfo.apyImprovement} />}
       {displayUpgradeBanner && (
         <UpgradeSavingsBanner
           onUpgradeSavingsClick={migrationInfo.openSDaiToSUsdsUpgradeDialog}
