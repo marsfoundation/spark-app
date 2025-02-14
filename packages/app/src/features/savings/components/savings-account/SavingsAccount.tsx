@@ -80,7 +80,7 @@ export function SavingsAccount({
             primary: primaryAction,
             secondary: { title: 'Try in Sandbox', action: openSandboxModal },
           }}
-          className="min-h-[352px]"
+          className="min-h-[320px]"
         />
       ) : (
         <AccountMainPanelGroup
@@ -96,7 +96,7 @@ export function SavingsAccount({
           apy={interestData.APY}
           apyExplainer={metadata.apyExplainer}
           apyExplainerDocsLink={metadata.apyExplainerDocsLink}
-          className="min-h-[352px]"
+          className="min-h-[320px]"
         />
       )}
       {displayDaiLegacyBanner && <DaiLegacyAccountBanner apyImprovement={migrationInfo.apyImprovement} />}
