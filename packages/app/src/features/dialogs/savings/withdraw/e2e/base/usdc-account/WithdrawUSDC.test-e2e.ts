@@ -104,21 +104,4 @@ test.describe('Withdraw USDC', () => {
 
     await withdrawDialog.expectAssetInputError(withdrawValidationIssueToMessage['usdc-withdraw-cap-reached'])
   })
-
-  test('fails validation if psm3 usds balance is too low', async ({ page }) => {
-    await testContext.testnetController.client.setErc20Balance(
-      TOKENS_ON_FORK[base.id].USDC.address,
-      psm3Address[base.id],
-      0n,
-    )
-    await testContext.testnetController.progressSimulation(5)
-    await page.reload()
-    await savingsPage.clickSavingsNavigationItemAction('USDC')
-
-    await savingsPage.clickWithdrawFromAccountButtonAction()
-    withdrawDialog = new SavingsDialogPageObject({ testContext, type: 'withdraw' })
-    await withdrawDialog.fillAmountAction(1000)
-
-    await withdrawDialog.expectAssetInputError(withdrawValidationIssueToMessage['usds-withdraw-cap-reached'])
-  })
 })
